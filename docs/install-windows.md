@@ -7,7 +7,7 @@ This document obeys ASD-STE100 Simplified Technical English.
 
 - A computer with Windows 10 or Windows 11.
 - Chrome or Edge, in a current version.
-- The app address. The default address is `https://billndd.github.io/CVCFame/`.
+- The app address. The default address is `https://billndd.github.io/CVCGame/`.
 
 ## Install the app
 
