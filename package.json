@@ -12,9 +12,13 @@
     "test:mutants": "node tools/extract-engine.mjs && node tools/mutants.mjs",
     "gen:acceptance": "node tools/gherkin-parse.mjs && node tools/gen-acceptance.mjs",
     "check:acceptance": "npm run gen:acceptance && git diff --exit-code -- tests/generated",
-    "test:acceptance-mutants": "node tools/extract-engine.mjs && node tools/acceptance-mutants.mjs"
+    "test:acceptance-mutants": "node tools/extract-engine.mjs && node tools/acceptance-mutants.mjs",
+    "test:coverage": "node tools/extract-engine.mjs && vitest run --coverage",
+    "lint:quality": "node tools/extract-engine.mjs && eslint . && node tools/dep-cycles.mjs && node tools/quality-control.mjs"
   },
   "devDependencies": {
+    "@vitest/coverage-v8": "^2.1.9",
+    "eslint": "^9.39.5",
     "fast-check": "^4.9.0",
     "vitest": "^2.1.0"
   }

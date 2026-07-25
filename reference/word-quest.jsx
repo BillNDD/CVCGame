@@ -156,9 +156,16 @@ async function saveState(s) {
   return false;
 }
 /* F7 — guarantee the document shape. Valid JSON is not a valid save. */
-function heal(s) {
-  if (!s || typeof s !== "object") s = {};
+function healWords(s) {
   if (!s.words || typeof s.words !== "object" || Array.isArray(s.words)) s.words = {};
+  for (const [w, ws] of Object.entries(s.words)) {
+    if (!ws || typeof ws !== "object" || typeof ws.box !== "number" || !isFinite(ws.box)) { delete s.words[w]; continue; }
+    ws.box = Math.min(5, Math.max(0, Math.round(ws.box)));
+    for (const k of ["attempts", "correct", "close", "wrong", "dueAt", "lastSession"])
+      if (typeof ws[k] !== "number" || !isFinite(ws[k])) ws[k] = 0;
+  }
+}
+function healLog(s) {
   if (!Array.isArray(s.log)) s.log = [];
   // repair the rows too — a hostile log row must not crash migrate or the export
   s.log = s.log.filter(r => r && typeof r === "object" && !Array.isArray(r));
@@ -166,20 +173,20 @@ function heal(s) {
     r.items = Array.isArray(r.items) ? r.items.filter(i => i && typeof i === "object") : [];
     if (typeof r.level !== "number" || !isFinite(r.level)) r.level = 0;
   }
+}
+function healSettings(s) {
   if (!s.settings || typeof s.settings !== "object") s.settings = {};
   const d = newState().settings;
   for (const k of Object.keys(d)) if (s.settings[k] === undefined) s.settings[k] = d[k];
+}
+function heal(s) {
+  if (!s || typeof s !== "object") s = {};
+  healWords(s); healLog(s); healSettings(s);
   if (typeof s.sessionsCompleted !== "number" || !isFinite(s.sessionsCompleted) || s.sessionsCompleted < 0) s.sessionsCompleted = 0;
   // a non-numeric level reads as absent; a fractional one is rounded — migrate clamps the range
   if (typeof s.level !== "number" || !isFinite(s.level)) delete s.level; else s.level = Math.round(s.level);
   // a version that is not a number reads as absent — a hostile value must not crash the migration check
   if (typeof s.version !== "number" || !isFinite(s.version)) delete s.version;
-  for (const [w, ws] of Object.entries(s.words)) {
-    if (!ws || typeof ws !== "object" || typeof ws.box !== "number" || !isFinite(ws.box)) { delete s.words[w]; continue; }
-    ws.box = Math.min(5, Math.max(0, Math.round(ws.box)));
-    for (const k of ["attempts", "correct", "close", "wrong", "dueAt", "lastSession"])
-      if (typeof ws[k] !== "number" || !isFinite(ws[k])) ws[k] = 0;
-  }
   return s;
 }
 

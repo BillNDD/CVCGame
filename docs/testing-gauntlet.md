@@ -109,6 +109,8 @@ side with the engine and the migration paragraph. The owner decides if SPEC gets
     That file must stay one file, so it can run as a chat artifact.
   - Dependency cycles in `app/src` and `src`: exactly 0. The checker must resolve the `@engine`
     alias, or the check is empty for those edges.
+  - Tools: `eslint.config.mjs` at the root, `tools/dep-cycles.mjs` for cycles, and
+    `tools/quality-control.mjs` for the negative controls.
 
 ## G7. Interface measurements
 
