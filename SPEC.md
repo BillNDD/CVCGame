@@ -125,7 +125,7 @@ A session can have fewer than 20 words. Example: the first session has the 12 Le
 
 Promotion. Do this check at the end of a full session. Count the current-level words that have
 box 3 or more. If the count is 80 percent or more, increase the level by 1. Example: Level 1 has 12 words, so
-the threshold is 10 words. The maximum level is 6. The adult can also set the level
+the threshold is 10 words. The maximum level is 7. The adult can also set the level
 in the "Grown-ups corner".
 
 Early exit. If the adult stops a session early, the app shows two options:
@@ -216,7 +216,7 @@ control is larger.
 One state object:
 
 ```
-{ version, level: 1..6, sessionsCompleted,
+{ version, level: 1..7, sessionsCompleted,
   settings: { mode: "mic"|"parent", sound, childName, lang },
   words: Record<string, WordState>,
   log: [ { n, date, level, c, k, w, acc, items:[{ w, r, retries }], partial } ] }

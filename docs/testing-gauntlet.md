@@ -60,9 +60,7 @@ The ten initial properties:
 | P9 | For any valid state with a non-empty queue: the first word's box is the maximum box in the queue. A word with no stored state counts as box 0. |
 | P10 | For arbitrary JSON-shaped input, including hostile values under the real key names: `migrate` never throws, is idempotent, and its output survives `buildSession`, `applyResult`, and `buildMarkdown` without a throw. Every healed box is 0 to 5; the level is 1 to 7. |
 
-Note on the level range: SPEC section 7 writes `level: 1..6` in the schema, and section 4 says
-the maximum is 6. The engine, and SPEC's own migration paragraph, clamp to 1 to 7. The gates
-side with the engine and the migration paragraph. The owner decides if SPEC gets corrected.
+The level range is 1 to 7. SPEC and the engine agree; the owner corrected SPEC on 2026-07-25.
 
 ## G3. Acceptance scenarios (Gherkin)
 
