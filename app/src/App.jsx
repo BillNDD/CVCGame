@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useMemo, useCallback } from "react";
 /* All game logic comes from the generated engine module. The components in
-   this app never re-implement it (HANDOFF W1). */
+   this app never re-implement it (work item W1). */
 import {
   LEVELS, HOMOPHONES, SESSION_SIZE, PROMPT_CAP, ADVANCE_GUARD_MS, SPLASH_TIMEOUT_MS,
   C, SR, freshWordState, applyResult, buildSession, checkPromotion,
@@ -178,7 +178,7 @@ export default function App() {
     setExitAsk(false);
   }
 
-  /* ---------- microphone (P1-3 honest state, HANDOFF W4) ---------- */
+  /* ---------- microphone (P1-3 honest state, work item W4) ---------- */
   function startRec() {
     if (!SR) { fallbackToParent("This browser can’t listen — switched to grown-up mode."); return; }
     try {

@@ -1,4 +1,4 @@
-# Builds the standalone app and publishes it with GitHub Pages (HANDOFF W7).
+# Builds the standalone app and publishes it with GitHub Pages (work item W7).
 # The test suite runs first. A failed test stops the deploy.
 name: Deploy to GitHub Pages
 

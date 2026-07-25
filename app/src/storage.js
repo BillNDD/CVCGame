@@ -1,4 +1,4 @@
-/* IndexedDB storage adapter (HANDOFF W3). Same one-object schema and the same
+/* IndexedDB storage adapter (work item W3). Same one-object schema and the same
    contract as the reference adapter:
    - the stored value is one JSON string at STORE_KEY;
    - a value that is not valid JSON is copied to `${STORE_KEY}:corrupt` and the

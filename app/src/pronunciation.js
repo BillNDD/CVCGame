@@ -1,4 +1,4 @@
-/* Pronunciation-score service — INTERFACE STUB ONLY (SPEC §8 item 4, HANDOFF §6).
+/* Pronunciation-score service — INTERFACE STUB ONLY (SPEC §8, item 4).
    The real service is out of scope. Do not build it without a proposal.
 
    The contract, when a future build adds the service behind a server proxy:
@@ -19,5 +19,5 @@
  */
 export async function assessPronunciation(audio, target) {
   void audio; void target;
-  throw new Error("assessPronunciation is a stub. The service is out of scope (HANDOFF section 6).");
+  throw new Error("assessPronunciation is a stub. The service is out of scope (SPEC section 8, item 4).");
 }

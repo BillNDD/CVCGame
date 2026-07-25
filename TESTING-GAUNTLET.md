@@ -100,7 +100,7 @@ side with the engine and the migration paragraph. The owner decides if SPEC gets
   - Cyclomatic complexity per function: 15 or less, in `src/engine.js` and `app/src/**`. The
     counter is the ESLint `complexity` rule with its default counting.
   - File length: 600 lines or less for every source file. `reference/word-quest.jsx` is exempt.
-    The handoff requires that file to stay one file.
+    That file must stay one file, so it can run as a chat artifact.
   - Dependency cycles in `app/src` and `src`: exactly 0. The checker must resolve the `@engine`
     alias, or the check is empty for those edges.
 
@@ -181,6 +181,15 @@ side with the engine and the migration paragraph. The owner decides if SPEC gets
 - Location: `docs/qa-procedure.md`. A numbered manual script for a person with a device.
 - Each step has an action and an "Expected:" line. The gauntlet checks the structure: 20 steps
   or more, every step with an expected result. Key: `g12_qa_steps`.
+- The script covers this device matrix:
+
+| Device | Test |
+|---|---|
+| iPad Safari, iPadOS 15.4 or later | Install, offline start, microphone permission, hold gesture |
+| iPhone Safari | Layout in portrait and landscape, home-indicator area |
+| Windows Chrome or Edge | Install to desktop, icon quality, own window |
+| Any browser, 200 percent text | The stage scrolls. No content is cut off |
+| Any browser, reduced motion | No animation |
 
 ## Aggregation
 
