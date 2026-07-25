@@ -1,0 +1,279 @@
+/* Word Quest — engine test suite.
+   Run: npm test  (vitest). Regenerate the module first: node tools/extract-engine.mjs
+   Every assertion uses literal expected values, never the constant under test. */
+import { describe, it, expect } from "vitest";
+import {
+  LEVELS, DIGRAPHS, TRICKY, HOMOPHONES, INTERVALS, SESSION_SIZE, PROMPT_CAP, WORD_LEVEL,
+  chunkWord, dashed, freshWordState, applyResult, buildSession, checkPromotion,
+  heal, migrate, newState, buildMarkdown,
+} from "../src/engine.js";
+
+const clone = (o) => JSON.parse(JSON.stringify(o));
+const seeded = (words, patch) => { const s = newState(); words.forEach(w => { s.words[w] = { ...freshWordState(), ...patch }; }); return s; };
+
+/* ---------------- bank ---------------- */
+describe("word bank", () => {
+  it("has 132 unique words across 7 levels", () => {
+    const all = LEVELS.flatMap(l => l.words);
+    expect(all.length).toBe(132);
+    expect(new Set(all).size).toBe(132);
+    expect(LEVELS.map(l => l.n)).toEqual([1, 2, 3, 4, 5, 6, 7]);
+  });
+  it("starts with the 12-word VC level", () => {
+    expect(LEVELS[0].words).toEqual(["at","an","am","ax","in","it","if","is","on","ox","up","us"]);
+  });
+  it("maps every word to its level", () => {
+    expect(Object.keys(WORD_LEVEL).length).toBe(132);
+    expect(WORD_LEVEL.at).toBe(1); expect(WORD_LEVEL.cat).toBe(2); expect(WORD_LEVEL.was).toBe(7);
+  });
+  it("flags both tricky words", () => { expect(Object.keys(TRICKY).sort()).toEqual(["is","was"]); });
+});
+
+/* ---------------- phonics (S5) ---------------- */
+describe("chunkWord and dashed", () => {
+  it("fuses every digraph", () => {
+    expect(chunkWord("ship")).toEqual(["sh","i","p"]);
+    expect(chunkWord("duck")).toEqual(["d","u","ck"]);
+    expect(chunkWord("sing")).toEqual(["s","i","ng"]);
+    expect(chunkWord("when")).toEqual(["wh","e","n"]);
+    expect(chunkWord("this")).toEqual(["th","i","s"]);
+    expect(chunkWord("chat")).toEqual(["ch","a","t"]);
+    expect(DIGRAPHS).toEqual(["sh","ch","th","wh","ck","ng"]);
+  });
+  it("splits VC and plain CVC words", () => {
+    expect(chunkWord("ax")).toEqual(["a","x"]);
+    expect(chunkWord("is")).toEqual(["i","s"]);
+    expect(chunkWord("cat")).toEqual(["c","a","t"]);
+  });
+  it("renders hyphenated feedback text", () => {   // S5 — the text a child sees
+    expect(dashed("cat")).toBe("c-a-t");
+    expect(dashed("ship")).toBe("sh-i-p");
+    expect(dashed("at")).toBe("a-t");
+  });
+  it("round-trips any input", () => {
+    for (const w of LEVELS.flatMap(l => l.words)) expect(chunkWord(w).join("")).toBe(w);
+  });
+});
+
+/* ---------------- grading table (S1, S2) ---------------- */
+describe("applyResult", () => {
+  it("fast-tracks a first-sight correct to box 3", () => {
+    const ws = freshWordState(); applyResult(ws, "correct", 1);
+    expect(ws.box).toBe(3); expect(ws.attempts).toBe(1); expect(ws.correct).toBe(1);
+    expect(ws.dueAt).toBe(5);                       // literal: 1 + 4
+  });
+  it("increments a known word by exactly one box", () => {
+    const ws = { ...freshWordState(), box: 1, attempts: 2 }; applyResult(ws, "correct", 10);
+    expect(ws.box).toBe(2); expect(ws.dueAt).toBe(12);   // literal: 10 + 2
+  });
+  it("caps the box at 5", () => {
+    const ws = { ...freshWordState(), box: 5, attempts: 9 }; applyResult(ws, "correct", 10);
+    expect(ws.box).toBe(5); expect(ws.dueAt).toBe(22);   // literal: 10 + 12
+  });
+  it("never lets close demote below 1 and never promotes", () => {
+    const low = { ...freshWordState(), box: 0, attempts: 1 }; applyResult(low, "close", 5);
+    expect(low.box).toBe(1); expect(low.dueAt).toBe(6);  // literal: 5 + 1
+    const high = { ...freshWordState(), box: 4, attempts: 4 }; applyResult(high, "close", 5);
+    expect(high.box).toBe(4);
+  });
+  it("drops exactly two boxes on wrong, with a floor of 0", () => {
+    const ws = { ...freshWordState(), box: 4, attempts: 3 }; applyResult(ws, "wrong", 7);
+    expect(ws.box).toBe(2); expect(ws.dueAt).toBe(9);    // literal: 7 + 2
+    const floor = { ...freshWordState(), box: 1, attempts: 3 }; applyResult(floor, "wrong", 7);
+    expect(floor.box).toBe(0); expect(floor.dueAt).toBe(8);
+  });
+  it("counts one attempt per call and records the session", () => {
+    const ws = freshWordState();
+    applyResult(ws, "correct", 3); applyResult(ws, "wrong", 4); applyResult(ws, "close", 5);
+    expect(ws.attempts).toBe(3);
+    expect([ws.correct, ws.wrong, ws.close]).toEqual([1, 1, 1]);
+    expect(ws.lastSession).toBe(5);
+  });
+  it("uses the published interval ladder", () => {   // S2 — literals, not the constant
+    expect(INTERVALS).toEqual([1, 1, 2, 4, 7, 12]);
+    const due = [0,1,2,3,4,5].map(b => { const ws={...freshWordState(),box:b,attempts:2}; applyResult(ws,"close",100); return ws.dueAt; });
+    expect(due).toEqual([101, 101, 102, 104, 107, 112]);
+  });
+});
+
+/* ---------------- promotion (S3) ---------------- */
+describe("checkPromotion", () => {
+  it("promotes at exactly 80 percent on a 20-word level", () => {   // S3 — reachable boundary
+    const at16 = seeded(LEVELS[1].words.slice(0, 16), { box: 3, attempts: 1 }); at16.level = 2;
+    expect(checkPromotion(at16)).toBe(true); expect(at16.level).toBe(3);
+    const at15 = seeded(LEVELS[1].words.slice(0, 15), { box: 3, attempts: 1 }); at15.level = 2;
+    expect(checkPromotion(at15)).toBe(false); expect(at15.level).toBe(2);
+  });
+  it("uses box 3 as the solid threshold, not box 2", () => {   // S3 — kills the >= 2 mutant
+    const box2 = seeded(LEVELS[0].words, { box: 2, attempts: 2 });
+    expect(checkPromotion(box2)).toBe(false);
+    const box3 = seeded(LEVELS[0].words, { box: 3, attempts: 2 });
+    expect(checkPromotion(box3)).toBe(true);
+  });
+  it("needs 10 of 12 on the VC level", () => {
+    const nine = seeded(LEVELS[0].words.slice(0, 9), { box: 3, attempts: 1 });
+    expect(checkPromotion(nine)).toBe(false);
+    const ten = seeded(LEVELS[0].words.slice(0, 10), { box: 3, attempts: 1 });
+    expect(checkPromotion(ten)).toBe(true); expect(ten.level).toBe(2);
+  });
+  it("never promotes past the last level", () => {
+    const top = seeded(LEVELS[6].words, { box: 5, attempts: 5 }); top.level = 7;
+    expect(checkPromotion(top)).toBe(false); expect(top.level).toBe(7);
+  });
+});
+
+/* ---------------- session builder (S4) ---------------- */
+describe("buildSession", () => {
+  it("serves the 12 VC words and nothing else on a fresh install", () => {
+    const q = buildSession(newState());
+    expect(q.length).toBe(12);
+    expect(new Set(q)).toEqual(new Set(LEVELS[0].words));
+  });
+  it("targets 20 words on a full level", () => {
+    const s = newState(); s.level = 2;
+    LEVELS[0].words.forEach(w => { s.words[w] = { ...freshWordState(), box: 5, attempts: 3, dueAt: 99 }; });
+    expect(buildSession(s).length).toBe(20);
+    expect(SESSION_SIZE).toBe(20);
+  });
+  it("never repeats a word", () => {
+    const s = newState(); s.level = 4; s.sessionsCompleted = 12;
+    LEVELS.slice(0, 4).flatMap(l => l.words).forEach(w => { s.words[w] = { ...freshWordState(), box: 2, attempts: 4, dueAt: 1 }; });
+    const q = buildSession(s);
+    expect(new Set(q).size).toBe(q.length);
+  });
+  it("caps lower-level reviews at 5", () => {                        // S4
+    const s = newState(); s.level = 3; s.sessionsCompleted = 9;
+    LEVELS[0].words.concat(LEVELS[1].words).forEach(w => { s.words[w] = { ...freshWordState(), box: 1, attempts: 4, dueAt: 1 }; });
+    const q = buildSession(s);
+    const below = q.filter(w => WORD_LEVEL[w] < 3 && s.words[w].box < 4);
+    expect(below.length).toBeLessThanOrEqual(5);
+    expect(below.length).toBe(5);
+  });
+  it("adds at most 2 confidence words, and none before session 3", () => {   // S4
+    const mk = (done) => { const s = newState(); s.level = 3; s.sessionsCompleted = done;
+      LEVELS[0].words.concat(LEVELS[1].words).forEach(w => { s.words[w] = { ...freshWordState(), box: 5, attempts: 6, dueAt: 999 }; });
+      return s; };
+    const early = mk(1), later = mk(5);
+    const countMastered = (s, q) => q.filter(w => s.words[w] && s.words[w].box >= 4).length;
+    expect(countMastered(early, buildSession(early))).toBe(0);
+    expect(countMastered(later, buildSession(later))).toBe(2);
+  });
+  it("opens every session with the most secure word", () => {        // S4 — a design rule
+    const s = newState(); s.level = 2; s.sessionsCompleted = 6;
+    LEVELS[0].words.forEach(w => { s.words[w] = { ...freshWordState(), box: 1, attempts: 3, dueAt: 1 }; });
+    s.words.at = { ...freshWordState(), box: 5, attempts: 9, dueAt: 1 };
+    for (let i = 0; i < 12; i++) {
+      const q = buildSession(s);
+      const firstBox = s.words[q[0]] ? s.words[q[0]].box : 0;
+      expect(firstBox).toBe(5);
+    }
+  });
+  it("does not peek at the next level while fresh words remain", () => {
+    const s = newState(); s.sessionsCompleted = 3;
+    LEVELS[0].words.slice(0, 11).forEach(w => { s.words[w] = { ...freshWordState(), box: 5, attempts: 4, dueAt: 99 }; });
+    expect(buildSession(s).every(w => WORD_LEVEL[w] === 1)).toBe(true);
+  });
+  it("peeks once the level has been fully seen", () => {
+    const s = newState(); s.sessionsCompleted = 3;
+    LEVELS[0].words.forEach(w => { s.words[w] = { ...freshWordState(), box: 5, attempts: 4, dueAt: 99 }; });
+    expect(buildSession(s).some(w => WORD_LEVEL[w] === 2)).toBe(true);
+  });
+  it("never serves content more than one level ahead", () => {
+    const s = newState(); s.level = 3; s.sessionsCompleted = 8;
+    LEVELS.slice(0, 3).flatMap(l => l.words).forEach(w => { s.words[w] = { ...freshWordState(), box: 5, attempts: 4, dueAt: 999 }; });
+    expect(buildSession(s).every(w => WORD_LEVEL[w] <= 4)).toBe(true);
+  });
+  it("publishes a prompt cap above the session size", () => {
+    expect(PROMPT_CAP).toBe(26);
+    expect(PROMPT_CAP).toBeGreaterThan(SESSION_SIZE);
+  });
+});
+
+/* ---------------- heal + migrate ---------------- */
+describe("heal", () => {
+  it("gives an empty object a usable shape", () => {
+    const s = heal({});
+    expect(s.words).toEqual({}); expect(s.log).toEqual([]);
+    expect(s.settings.lang).toBe("en-US"); expect(s.sessionsCompleted).toBe(0);
+  });
+  it("repairs wrong types and clamps word data", () => {
+    const s = heal({ words: "nope", log: 5, settings: null, sessionsCompleted: -4 });
+    expect(s.words).toEqual({}); expect(s.log).toEqual([]); expect(s.sessionsCompleted).toBe(0);
+    const t = heal({ words: { cat: { box: 99, attempts: "x" }, bad: null } });
+    expect(t.words.cat.box).toBe(5); expect(t.words.cat.attempts).toBe(0);
+    expect(t.words.bad).toBeUndefined();
+  });
+  it("lets a healed document build a session", () => {
+    expect(() => buildSession(migrate({ version: 3, level: 4 }))).not.toThrow();
+  });
+});
+
+describe("migrate", () => {
+  const v2 = () => ({ version: 2, level: 3, sessionsCompleted: 9,
+    settings: { mode: "parent", sound: true, childName: "", lang: "en-US" },
+    words: { cat: { box: 5, attempts: 9, correct: 8, close: 1, wrong: 0, dueAt: 20, lastSession: 8 } },
+    log: [{ n: 1, level: 1, c: 18, k: 1, w: 1, acc: 90, items: [], partial: false }] });
+
+  it("shifts the level and the log by one", () => {
+    const m = migrate(v2());
+    expect(m.version).toBe(3); expect(m.level).toBe(4); expect(m.log[0].level).toBe(2);
+  });
+  it("leaves word data untouched", () => {
+    const before = JSON.stringify(v2().words);
+    expect(JSON.stringify(migrate(v2()).words)).toBe(before);
+  });
+  it("is idempotent", () => {
+    const once = migrate(v2()); const twice = migrate(clone(once));
+    expect(twice).toEqual(once);
+  });
+  it("maps old level 6 to new level 7 and clamps out-of-range input", () => {
+    expect(migrate({ ...v2(), level: 6 }).level).toBe(7);
+    expect(migrate({ version: 3, level: 99 }).level).toBe(7);
+    expect(migrate({ version: 3, level: -5 }).level).toBe(1);
+  });
+  it("survives hostile documents", () => {
+    for (const bad of [{}, null, undefined, { version: "2" }, { log: null }, { words: [] }])
+      expect(() => migrate(clone(bad === undefined ? {} : bad) || {})).not.toThrow();
+  });
+});
+
+/* ---------------- export ---------------- */
+describe("buildMarkdown", () => {
+  it("reports the 132-word denominator and seven level rows", () => {
+    const md = buildMarkdown(newState());
+    expect(md).toContain("0/132");
+    expect(md.match(/\*\*Level \d+ .+ \(/g).length).toBe(7);
+  });
+  it("counts a word as mastered only from box 4", () => {
+    const three = seeded(["cat", "dog"], { box: 3, attempts: 2 });
+    expect(buildMarkdown(three)).toContain("0/132");
+    const four = seeded(["cat", "dog"], { box: 4, attempts: 2 });
+    expect(buildMarkdown(four)).toContain("2/132");
+  });
+  it("keeps a grapheme-safe name intact in the header", () => {
+    // lone surrogate = an unpaired HIGH surrogate, or a LOW surrogate with no high before it
+    const LONE = /[\uD800-\uDBFF](?![\uDC00-\uDFFF])|(?<![\uD800-\uDBFF])[\uDC00-\uDFFF]/;
+    const raw = "N".repeat(19) + "\u{1F423}";
+    // negative control: the old byte-wise truncation must trip the detector
+    const naive = newState(); naive.settings.childName = raw.slice(0, 20);
+    expect(LONE.test(buildMarkdown(naive))).toBe(true);
+    // the shipped truncation must not
+    const safe = newState(); safe.settings.childName = Array.from(raw).slice(0, 20).join("");
+    expect(safe.settings.childName).toContain("\u{1F423}");
+    expect(LONE.test(buildMarkdown(safe))).toBe(false);
+  });
+  it("marks a partial session", () => {
+    const s = newState();
+    s.log = [{ n: 1, date: "2026-07-25", level: 1, c: 5, k: 1, w: 0, acc: 83, items: [{ w: "at", r: "correct", retries: 0 }], partial: true }];
+    expect(buildMarkdown(s)).toContain("partial");
+  });
+});
+
+/* ---------------- homophones ---------------- */
+describe("ASR tolerance list", () => {
+  it("accepts the VC near-misses", () => {
+    expect(HOMOPHONES.in).toContain("inn");
+    expect(HOMOPHONES.ax).toContain("axe");
+    expect(HOMOPHONES.an).toContain("ann");
+  });
+});

@@ -1,0 +1,12 @@
+@import "tailwindcss";
+
+/* The game's own stylesheet is injected by the Frame component (wq-css.js).
+   It is generated from the same color constants the engine exports, so the
+   reference build stays the single source of truth for the visual identity. */
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+}

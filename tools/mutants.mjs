@@ -1,0 +1,60 @@
+/* Mutation gate. Applies each mutation to the reference build, regenerates the engine,
+   and runs the test suite. A mutant that survives means the suite cannot see that bug.
+   Run: npm run test:mutants   Requirement: 0 survivors. */
+import { readFileSync, writeFileSync, copyFileSync, existsSync } from "node:fs";
+import { execFileSync } from "node:child_process";
+
+const REF = "reference/word-quest.jsx";
+const TMP = "reference/.mutant.jsx";
+const original = readFileSync(REF, "utf8");
+
+const MUTANTS = [
+  ["fast-track box 3 to 2", "ws.box = firstEver ? 3 :", "ws.box = firstEver ? 2 :"],
+  ["correct step +1 to +2", "Math.min(5, ws.box + 1)", "Math.min(5, ws.box + 2)"],
+  ["box ceiling 5 to 4", "Math.min(5, ws.box + 1)", "Math.min(4, ws.box + 1)"],
+  ["close floor 1 to 0", "ws.box = Math.max(1, ws.box);", "ws.box = Math.max(0, ws.box);"],
+  ["wrong penalty -2 to -1", "Math.max(0, ws.box - 2)", "Math.max(0, ws.box - 1)"],
+  ["attempts step +1 to +2", "ws.attempts += 1; ws.lastSession = sessionNumber;", "ws.attempts += 2; ws.lastSession = sessionNumber;"],
+  ["INTERVALS[3] 4 to 5", "const INTERVALS = [1, 1, 2, 4, 7, 12];", "const INTERVALS = [1, 1, 2, 5, 7, 12];"],
+  ["INTERVALS[0] 1 to 2", "const INTERVALS = [1, 1, 2, 4, 7, 12];", "const INTERVALS = [2, 1, 2, 4, 7, 12];"],
+  ["dueAt plus to minus", "ws.dueAt = sessionNumber + INTERVALS[ws.box];", "ws.dueAt = sessionNumber - INTERVALS[ws.box];"],
+  ["promotion >= to >", ">= 0.8) { state.level += 1;", "> 0.8) { state.level += 1;"],
+  ["promotion 0.8 to 0.75", ">= 0.8) { state.level += 1;", ">= 0.75) { state.level += 1;"],
+  ["promotion box >=3 to >=2", "state.words[w] && state.words[w].box >= 3).length", "state.words[w] && state.words[w].box >= 2).length"],
+  ["lower-level cap 5 to 4", "list.push(...take(dueBelow, 5));", "list.push(...take(dueBelow, 4));"],
+  ["confidence cap 2 to 3", "list.push(...take(confidence, 2));", "list.push(...take(confidence, 3));"],
+  ["confidence gate 2 to 1", "if (state.sessionsCompleted >= 2)", "if (state.sessionsCompleted >= 1)"],
+  ["peek guard removed", "&& freshCur.length === 0) {", ") {"],
+  ["SESSION_SIZE 20 to 19", "const SESSION_SIZE = 20;", "const SESSION_SIZE = 19;"],
+  ["friendliest-first inverted", "if (b > bb) best = i;", "if (b < bb) best = i;"],
+  ["take() off by one", "if (got.length >= k) break;", "if (got.length > k) break;"],
+  ["PROMPT_CAP 26 to 25", "const PROMPT_CAP = 26;", "const PROMPT_CAP = 25;"],
+  ["dashed join removed", 'const dashed = (w) => chunkWord(w).join("-");', 'const dashed = (w) => chunkWord(w).join("");'],
+  ["digraph ck dropped", '"wh","ck","ng"]', '"wh","ng"]'],
+  ["migrate +1 to +2", "s.level = (s.level || 1) + 1;", "s.level = (s.level || 1) + 2;"],
+  ["migrate log shift dropped", "(s.log || []).forEach(r => { r.level += 1; });", ""],
+  ["migrate clamp removed", "Math.min(Math.max(1, s.level || 1), LEVELS.length)", "Math.max(1, s.level || 1)"],
+  ["mastered >=4 to >=3", "filter(ws => ws.box >= 4).length;", "filter(ws => ws.box >= 3).length;"],
+  ["heal box clamp removed", "ws.box = Math.min(5, Math.max(0, Math.round(ws.box)));", ""],
+  ["heal words guard removed", 'if (!s.words || typeof s.words !== "object" || Array.isArray(s.words)) s.words = {};', ""],
+];
+
+const run = (cmd, args) => { try { execFileSync(cmd, args, { stdio: "pipe" }); return true; } catch { return false; } };
+const survivors = [];
+let missing = 0;
+
+for (const [name, from, to] of MUTANTS) {
+  if (!original.includes(from)) { console.log("  SKIP (anchor moved): " + name); missing++; continue; }
+  writeFileSync(TMP, original.replace(from, to));
+  run("node", ["tools/extract-engine.mjs", TMP, "src/engine.js"]);
+  const passed = run("npx", ["vitest", "run", "--reporter=dot"]);
+  if (passed) survivors.push(name);
+}
+run("node", ["tools/extract-engine.mjs"]);
+if (existsSync(TMP)) copyFileSync(REF, TMP);
+
+const killed = MUTANTS.length - survivors.length - missing;
+console.log(`\nMutation gate: ${MUTANTS.length} mutants, ${killed} killed, ${survivors.length} survived, ${missing} skipped`);
+survivors.forEach(s => console.log("  SURVIVED: " + s));
+if (missing) console.log("  Anchors that moved must be re-pointed, not deleted.");
+process.exit(survivors.length || missing ? 1 : 0);

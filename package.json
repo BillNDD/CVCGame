@@ -1,0 +1,17 @@
+{
+  "name": "word-quest",
+  "version": "5.0.0",
+  "description": "A phonics game with spaced repetition for early readers.",
+  "license": "MIT",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "pretest": "node tools/extract-engine.mjs",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:mutants": "node tools/extract-engine.mjs && node tools/mutants.mjs"
+  },
+  "devDependencies": {
+    "vitest": "^2.1.0"
+  }
+}
