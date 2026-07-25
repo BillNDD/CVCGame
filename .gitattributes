@@ -1,0 +1,5 @@
+# Line endings are LF everywhere. The G3 regenerate-and-diff check depends on
+# byte-identical generated files on every platform.
+* text=auto eol=lf
+*.png binary
+*.ico binary

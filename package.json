@@ -9,7 +9,9 @@
     "pretest": "node tools/extract-engine.mjs",
     "test": "vitest run",
     "test:watch": "vitest",
-    "test:mutants": "node tools/extract-engine.mjs && node tools/mutants.mjs"
+    "test:mutants": "node tools/extract-engine.mjs && node tools/mutants.mjs",
+    "gen:acceptance": "node tools/gherkin-parse.mjs && node tools/gen-acceptance.mjs",
+    "check:acceptance": "npm run gen:acceptance && git diff --exit-code -- tests/generated"
   },
   "devDependencies": {
     "fast-check": "^4.9.0",
