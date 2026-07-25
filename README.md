@@ -43,6 +43,9 @@ greetings on the screen.
 The standalone app is a progressive web app in `app/`. The app operates offline after the first
 load. To install the app, read `docs/install-windows.md` or `docs/install-ios.md`.
 
+The app is a beta build. Updates come regularly until version 1.0 is ready. The `main` branch is
+the live version. Each push to `main` publishes the app again.
+
 To start the app on your own computer:
 
 ```

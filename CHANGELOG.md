@@ -5,6 +5,7 @@ This document obeys ASD-STE100 Simplified Technical English.
 ## Version 6
 
 Version 6 adds the standalone progressive web app. The reference build does not change.
+The first app version is 1.0.0-beta.1. The app stays in beta until version 1.0 is ready.
 
 - New: a Vite, React, and Tailwind app in `app/`. The app imports the game logic from the
   generated module `src/engine.js`. The components do not copy the logic.

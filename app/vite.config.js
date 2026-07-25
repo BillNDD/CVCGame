@@ -12,6 +12,7 @@ import { fileURLToPath } from "node:url";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ICONS_DIR = path.resolve(__dirname, "../icons");
 const DIST_DIR = path.resolve(__dirname, "dist");
+const APP_VERSION = JSON.parse(readFileSync(path.resolve(__dirname, "package.json"), "utf8")).version;
 
 /* Walk a directory and return every file path relative to that directory. */
 function walk(dir, prefix = "") {
@@ -134,6 +135,7 @@ export default defineConfig({
   /* Relative base: the built app works from any path, including a GitHub
      Pages project path. */
   base: "./",
+  define: { __APP_VERSION__: JSON.stringify(APP_VERSION) },
   plugins: [react(), tailwindcss(), wqPwa()],
   resolve: {
     alias: { "@engine": path.resolve(__dirname, "../src/engine.js") },

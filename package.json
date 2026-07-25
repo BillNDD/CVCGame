@@ -1,6 +1,6 @@
 {
   "name": "word-quest",
-  "version": "5.0.0",
+  "version": "6.0.0",
   "description": "A phonics game with spaced repetition for early readers.",
   "license": "MIT",
   "type": "module",
