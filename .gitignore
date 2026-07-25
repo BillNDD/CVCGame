@@ -1,0 +1,71 @@
+# ============================================================
+# Word Quest .gitignore
+# Rule 1: commit only the game and its documents.
+# Rule 2: do not commit personal data.
+# Note: do not write a child's name in this file. The file is public.
+# ============================================================
+
+# ---- Dependencies ----
+node_modules/
+.pnp
+.pnp.*
+
+# ---- Generated code ----
+src/engine.js
+reference/.mutant.jsx
+
+# ---- Build output ----
+dist/
+build/
+out/
+.vite/
+.cache/
+coverage/
+*.tsbuildinfo
+
+# ---- Secrets and environment files ----
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# ---- Logs and debug files ----
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# ---- Operating system files ----
+.DS_Store
+.DS_Store?
+._*
+Thumbs.db
+desktop.ini
+
+# ---- Editor files ----
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# ---- Test output ----
+test-results/
+playwright-report/
+
+# ---- Personal data: never commit these ----
+# The app can export a reading log. Keep all exports out of the repository.
+*reading-log*
+*progress*.json
+*.export.json
+*.export.md
+# Keep personal copies, notes, and local builds out of the repository.
+personal/
+private/
+notes/
+*personal*
+*-local.*
+*.local.*
