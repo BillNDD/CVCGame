@@ -138,7 +138,9 @@ export default function ParentScreen({
                 </div>}
           </section>
 
-          <p className="wq-help" style={{ textAlign: "center", margin: "0 0 4px" }}>Word Quest app {__APP_VERSION__}</p>
+          <p style={{ textAlign: "center", margin: "0 0 4px" }}>
+            <span className="wq-chip" style={{ fontSize: 11.5 }}>Word Quest app {__APP_VERSION__}</span>
+          </p>
         </div>
       </Zone.Stage>
       {toast && <Toast>{toast}</Toast>}

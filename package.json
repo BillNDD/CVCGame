@@ -15,10 +15,12 @@
     "test:acceptance-mutants": "node tools/extract-engine.mjs && node tools/acceptance-mutants.mjs",
     "test:coverage": "node tools/extract-engine.mjs && vitest run --coverage",
     "lint:quality": "node tools/extract-engine.mjs && eslint . && node tools/dep-cycles.mjs && node tools/quality-control.mjs",
-    "test:ui": "node tools/extract-engine.mjs && node tests/ui/interface.mjs"
+    "test:ui": "node tools/extract-engine.mjs && node tests/ui/interface.mjs",
+    "test:a11y": "node tools/extract-engine.mjs && node tests/ui/a11y.mjs"
   },
   "devDependencies": {
     "@vitest/coverage-v8": "^2.1.9",
+    "axe-core": "^4.12.1",
     "eslint": "^9.39.5",
     "fast-check": "^4.9.0",
     "playwright": "^1.62.0",
