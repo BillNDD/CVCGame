@@ -1,4 +1,4 @@
-/* Word Quest — property tests (gate G2, TESTING-GAUNTLET.md).
+/* Word Quest — property tests (gate G2, docs/testing-gauntlet.md).
    Ten properties, 1000+ generated cases each, via fast-check.
    Every assertion uses literal expected values, never the constant under test. */
 import { describe, it, expect } from "vitest";
