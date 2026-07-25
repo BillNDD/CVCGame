@@ -1,0 +1,23 @@
+{
+  "comment": "Floors for the testing gauntlet. Gates fail below these values. Raise floors when counts grow; never lower them (CLAUDE.md E6).",
+  "g1_unit_tests": 42,
+  "g2_properties": 0,
+  "g2_cases_per_property": 1000,
+  "g3_scenarios": 0,
+  "g4_acceptance_mutants": 0,
+  "g4_survivors_max": 0,
+  "g5_source_mutants": 28,
+  "g5_survivors_max": 0,
+  "g6_lines_min": 95,
+  "g6_branches_min": 90,
+  "g6_complexity_max": 15,
+  "g6_file_lines_max": 600,
+  "g6_dependency_cycles_max": 0,
+  "g7_interface_checks": 0,
+  "g8_checks": 0,
+  "g8_axe_violations_max": 0,
+  "g9_fault_tests": 0,
+  "g10_safety_tests": 0,
+  "g11_copy_rules": 0,
+  "g12_qa_steps": 0
+}

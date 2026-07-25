@@ -1,0 +1,35 @@
+# Rules for this repository
+
+These rules bind every change, human or agent. `TESTING-GAUNTLET.md` defines the gates that
+enforce them. SPEC.md is the master source for behavior.
+
+This document obeys ASD-STE100 Simplified Technical English.
+
+## Safety rules (child-facing)
+
+- S1. The app never records a wrong or close result by itself. Only an adult action can record
+  one. Speech recognition can only confirm a correct reading.
+- S2. The app never speaks the target word before the attempt ends. The replay control operates
+  only in the feedback phase.
+- S3. Feedback uses the exact SPEC section 5 sentences. A miss is an invitation to try again,
+  never a failure message.
+- S4. Speech output says full words only. It never says letter names.
+- S5. Adult result controls need a 450 ms pointer hold. A keyboard operates them directly.
+- S6. The app makes no network calls after load, has no accounts, and has no analytics. All data
+  stays on the device.
+- S7. Child controls are 56 px or more. Adult controls are 44 px or more.
+- S8. Digraphs (sh, ch, th, wh, ck, ng) always show as one tile.
+- S9. No file in the repository contains a personal name. The child's name is a device-local
+  setting only.
+
+## Engineering rules
+
+- E1. Do not edit `src/engine.js` or any file in `tests/generated/` by hand. They are generated.
+- E2. The reference build stays one file. The extractor makes the engine module from it.
+- E3. Never delete a test or a mutant. Never lower a threshold or add a skip to pass a build.
+- E4. Every assertion uses literal expected values, never the constant under test.
+- E5. Every detector ships with a negative control that proves it catches its target fault.
+- E6. Raise the floors in `.claude/gate-baseline.json` when counts grow. Never lower them.
+- E7. Run `npm run gauntlet` before every push. A red gauntlet blocks the change.
+- E8. Do not change game behavior, the word bank, the feedback text, or the layout in a testing
+  task.
