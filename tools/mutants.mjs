@@ -37,6 +37,10 @@ const MUTANTS = [
   ["mastered >=4 to >=3", "filter(ws => ws.box >= 4).length;", "filter(ws => ws.box >= 3).length;"],
   ["heal box clamp removed", "ws.box = Math.min(5, Math.max(0, Math.round(ws.box)));", ""],
   ["heal words guard removed", 'if (!s.words || typeof s.words !== "object" || Array.isArray(s.words)) s.words = {};', ""],
+  ["heal log row guard removed", 's.log = s.log.filter(r => r && typeof r === "object" && !Array.isArray(r));', ""],
+  ["heal items filter removed", 'r.items = Array.isArray(r.items) ? r.items.filter(i => i && typeof i === "object") : [];', "r.items = Array.isArray(r.items) ? r.items : [];"],
+  ["heal level guard removed", 'if (typeof s.level !== "number" || !isFinite(s.level)) delete s.level; else s.level = Math.round(s.level);', ""],
+  ["heal log level guard removed", 'if (typeof r.level !== "number" || !isFinite(r.level)) r.level = 0;', ""],
 ];
 
 const run = (cmd, args) => { try { execFileSync(cmd, args, { stdio: "pipe" }); return true; } catch { return false; } };

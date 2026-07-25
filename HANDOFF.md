@@ -91,7 +91,8 @@ These limits are mandatory. `SPEC.md`, section 1 gives the full list.
 
 All gates must pass before you publish:
 
-1. `npm test` gives 42 tests passed.
+1. `npm test` gives 42 or more tests passed. The current floor is in
+   `.claude/gate-baseline.json`.
 2. `npm run test:mutants` gives 0 survivors. If you change the engine, add tests until the gate
    is clean again. Do not delete a mutant.
 3. Each item in `SPEC.md`, section 10 is complete.
