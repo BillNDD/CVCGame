@@ -137,6 +137,8 @@ export default function ParentScreen({
                   <button className="wq-sbtn" style={{ borderColor: C.red, color: C.red, justifySelf: "start" }} onClick={doReset}>Yes, erase everything</button>
                 </div>}
           </section>
+
+          <p className="wq-help" style={{ textAlign: "center", margin: "0 0 4px" }}>Word Quest app {__APP_VERSION__}</p>
         </div>
       </Zone.Stage>
       {toast && <Toast>{toast}</Toast>}

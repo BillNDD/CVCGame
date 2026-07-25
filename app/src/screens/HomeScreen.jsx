@@ -8,6 +8,7 @@ export default function HomeScreen({ state, L, kid, masteredCount, persistent, r
     <Frame>
       <Zone.Header>
         <span style={{ fontWeight: 800, color: C.ink, fontSize: 15 }}>Word Quest</span>
+        <span className="wq-chip" style={{ fontSize: 10.5, padding: "5px 8px" }}>beta</span>
         <button className="wq-btn-plain" onClick={onParent} aria-label="Grown-ups corner">⚙️ Grown-ups</button>
       </Zone.Header>
 
