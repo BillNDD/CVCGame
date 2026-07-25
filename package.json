@@ -14,12 +14,14 @@
     "check:acceptance": "npm run gen:acceptance && git diff --exit-code -- tests/generated",
     "test:acceptance-mutants": "node tools/extract-engine.mjs && node tools/acceptance-mutants.mjs",
     "test:coverage": "node tools/extract-engine.mjs && vitest run --coverage",
-    "lint:quality": "node tools/extract-engine.mjs && eslint . && node tools/dep-cycles.mjs && node tools/quality-control.mjs"
+    "lint:quality": "node tools/extract-engine.mjs && eslint . && node tools/dep-cycles.mjs && node tools/quality-control.mjs",
+    "test:ui": "node tools/extract-engine.mjs && node tests/ui/interface.mjs"
   },
   "devDependencies": {
     "@vitest/coverage-v8": "^2.1.9",
     "eslint": "^9.39.5",
     "fast-check": "^4.9.0",
+    "playwright": "^1.62.0",
     "vitest": "^2.1.0"
   }
 }
