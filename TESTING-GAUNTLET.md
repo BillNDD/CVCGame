@@ -13,6 +13,8 @@ This document obeys ASD-STE100 Simplified Technical English.
 - The gates test the engine (`src/engine.js`, generated from `reference/word-quest.jsx`) and the
   standalone app (`app/`).
 - The gates never change game behavior, the word bank, the feedback text, or the layout.
+- The gates add no PWA work. G7 tests the offline capability that already exists; it does not
+  build it.
 
 ## Non-negotiable rules
 
@@ -21,8 +23,9 @@ This document obeys ASD-STE100 Simplified Technical English.
    fault that it targets.
 3. Never delete a test. Never delete a mutant. Never lower a threshold. Never add a skip to make
    a build pass.
-4. `.claude/gate-baseline.json` holds the floor for each count. Raise a floor when a count
-   grows. A gate fails if a count goes below its floor.
+4. `.claude/gate-baseline.json` holds the limit for each metric. Keys without a suffix are
+   floors: raise one when its count grows; never lower it. Keys that end in `_max` are
+   ceilings: lower one when quality improves; never raise it.
 5. If a gate fails, fix the code. If the gate itself looks wrong, stop and tell the owner.
 6. Do not edit generated files by hand. This applies to `src/engine.js` and to every file in
    `tests/generated/`.
@@ -36,23 +39,30 @@ This document obeys ASD-STE100 Simplified Technical English.
 ## G2. Property tests
 
 - Location: `tests/properties.test.js`. Tool: Vitest with `fast-check`.
-- Each property runs 1000 or more generated cases. Key: `g2_properties`, floor 10.
+- Each property runs 1000 or more generated cases. Keys: `g2_properties` (floor 10) and
+  `g2_cases_per_property` (floor 1000).
 - Command: `npm test` (the file is part of the Vitest run).
+- A valid word state means: `box` 0 to 5, and every counter a finite number. This is the shape
+  the repair function guarantees.
 
 The ten initial properties:
 
 | # | Property |
 |---|---|
 | P1 | For every bank word and every lowercase a–z string: `chunkWord(w).join("")` equals `w`. |
-| P2 | Every chunk is one letter, or is one of exactly: sh, ch, th, wh, ck, ng. No chunk has another length. |
-| P3 | For any word state and any result sequence: `box` stays in the range 0 to 5 after every step. |
-| P4 | After any single `applyResult` at session `n`: `dueAt` equals `n` plus the interval for the new box, and `dueAt > n`. |
-| P5 | `attempts` grows by exactly 1 per call, and `correct + close + wrong` always equals `attempts`. |
+| P2 | For the same domain as P1: every chunk is one letter, or is one of exactly sh, ch, th, wh, ck, ng. No chunk has another length. |
+| P3 | For any valid word state and any result sequence: `box` stays in the range 0 to 5 after every step. |
+| P4 | After any single `applyResult` on a valid word state at session `n`: `dueAt` equals `n` plus the interval for the new box, and `dueAt > n`. |
+| P5 | Starting from a fresh word state: `attempts` grows by exactly 1 per call, and `correct + close + wrong` equals `attempts` after every call. |
 | P6 | A first-ever correct result always sets `box` to exactly 3, from any starting state with `attempts` 0. |
 | P7 | For any valid state: `buildSession` returns no duplicate words, and 20 words or fewer. |
-| P8 | `buildSession` never serves a word more than one level above the current level. It serves next-level words only when no fresh current-level word remains. |
-| P9 | For any valid state with a non-empty queue: the first word's box is the maximum box in the queue. |
-| P10 | For arbitrary JSON-shaped input: `migrate` never throws, is idempotent, and its output survives `buildSession`, `applyResult`, and `buildMarkdown` without a throw. Every healed box is 0 to 5; the level is 1 to 7. |
+| P8 | `buildSession` never serves a word more than one level above the current level. A next-level word in the session implies that no fresh current-level word remains. The converse is not required. |
+| P9 | For any valid state with a non-empty queue: the first word's box is the maximum box in the queue. A word with no stored state counts as box 0. |
+| P10 | For arbitrary JSON-shaped input, including hostile values under the real key names: `migrate` never throws, is idempotent, and its output survives `buildSession`, `applyResult`, and `buildMarkdown` without a throw. Every healed box is 0 to 5; the level is 1 to 7. |
+
+Note on the level range: SPEC section 7 writes `level: 1..6` in the schema, and section 4 says
+the maximum is 6. The engine, and SPEC's own migration paragraph, clamp to 1 to 7. The gates
+side with the engine and the migration paragraph. The owner decides if SPEC gets corrected.
 
 ## G3. Acceptance scenarios (Gherkin)
 
@@ -64,6 +74,8 @@ The ten initial properties:
 - No person writes the executable tests by hand. The generator writes them from the IR.
 - The gauntlet regenerates the IR and the tests, and fails if the output differs from the
   committed files. Key: `g3_scenarios`.
+- The generator output is deterministic: stable ordering, LF line endings, no timestamps, and
+  no absolute paths. A `.gitattributes` file pins the line endings.
 
 ## G4. Acceptance mutation
 
@@ -83,11 +95,14 @@ The ten initial properties:
 - Tool: Vitest coverage (v8 provider). Command: `npm run test:coverage`.
 - Floors on `src/engine.js`: 95 percent lines, 90 percent branches. Coverage is a floor, not a
   goal. Keys: `g6_lines_min`, `g6_branches_min`.
-- Quality checks, command `npm run lint:quality`:
-  - Cyclomatic complexity per function: 15 or less, in `src/engine.js` and `app/src/**`.
+- Quality checks, command `npm run lint:quality`. Keys: `g6_complexity_max`,
+  `g6_file_lines_max`, `g6_dependency_cycles_max`.
+  - Cyclomatic complexity per function: 15 or less, in `src/engine.js` and `app/src/**`. The
+    counter is the ESLint `complexity` rule with its default counting.
   - File length: 600 lines or less for every source file. `reference/word-quest.jsx` is exempt.
     The handoff requires that file to stay one file.
-  - Dependency cycles in `app/src` and `src`: exactly 0.
+  - Dependency cycles in `app/src` and `src`: exactly 0. The checker must resolve the `@engine`
+    alias, or the check is empty for those edges.
 
 ## G7. Interface measurements
 
@@ -98,15 +113,20 @@ The ten initial properties:
     `scrollHeight <= clientHeight` on the document at default text size.
   - The word's bounding box is identical across the ready, feedback, and retry phases.
   - The advance control rejects activation for 400 ms after feedback starts, then accepts it.
-  - An adult result control does not fire at a 300 ms hold. It fires at a 550 ms hold.
+  - An adult result control does not fire at a 150 ms hold. It fires at a 700 ms hold. The wide
+    margins absorb CI timing jitter in the safe direction.
   - The Enter key and the Space key fire an adult control directly, with no hold.
-  - The exported timing constants equal 400 and 450 (literal values, checked as numbers).
-  - The app serves a session offline after one online load.
+  - The exported `ADVANCE_GUARD_MS` equals the number 400. The `HoldButton` source contains the
+    literal hold delay 450. Both are literal checks; neither reads a constant as its own
+    expected value.
+  - The app serves a session offline after one online load. This tests the offline capability
+    that already exists.
 
 ## G8. Accessibility
 
 - Tool: Playwright with `axe-core`. Command: `npm run test:a11y`. Key: `g8_checks`.
-- Zero axe violations on the home, session, feedback, done, and grown-ups screens.
+- Zero axe violations on the home, session, feedback, done, and grown-ups screens. Key:
+  `g8_axe_violations_max`, ceiling 0.
 - Contrast: compute the ratio from the rendered colors. Every text node is 4.5:1 or more against
   its background. Do not eyeball colors.
 - At 200 percent text size, the stage scrolls and no content is clipped: every element's visible
@@ -145,11 +165,13 @@ The ten initial properties:
 ## G11. Copy gate
 
 - Tool: `tools/copy-lint.mjs`. Command: `npm run lint:copy`. Key: `g11_copy_rules`.
+- This gate is new in this repository. The task brief listed it as present; it was not.
 - The gate reads the child-facing strings from the generated engine and the app screens:
   1. The three feedback sentences equal the SPEC section 5 text, character for character.
   2. Child-facing copy never contains: wrong, bad, fail, failure, incorrect, error, oops, try
      harder. Adult-facing strip and settings copy is out of scope.
-  3. The two tricky-word notes are present and exact.
+  3. The two tricky-word notes are present and exact. The canonical strings are:
+     `Tricky word! The a sounds like “uh” — wuz.` and `Tricky word! The s sounds like “z” — iz.`
   4. Speech strings never spell letter names and never contain single-letter tokens.
 - Negative control: `node tools/copy-lint.mjs --self-test` injects one banned word and one
   changed sentence into a memory copy, and must report both.
@@ -162,7 +184,13 @@ The ten initial properties:
 
 ## Aggregation
 
-- `npm run gauntlet` runs, in order: G11, G1+G2+G9+G10 (one Vitest run), G3 regeneration check,
+- `npm run gauntlet` first regenerates `src/engine.js` with the extractor. Every new script
+  that needs the engine chains the extractor itself; the npm `pretest` hook covers `npm test`
+  only.
+- It then runs, in order: G11, G1+G2+G9+G10 (one Vitest run), G3 regeneration check,
   G4, G5, G6, build, G7, G8, G12 structure check, and the baseline comparison.
+- G12's document and the CI workflow do not exist yet. They land in build steps 9 and 10.
 - CI: `.github/workflows/gauntlet.yml` runs the same command on every push and pull request.
 - The gauntlet prints one line per gate: name, command, pass or fail, and the counts.
+- Bootstrap: the floor for a gate that is not built yet starts at 0. Raise it in the same
+  commit that lands the gate. A landed gate never keeps a 0 floor.

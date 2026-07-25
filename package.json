@@ -12,6 +12,7 @@
     "test:mutants": "node tools/extract-engine.mjs && node tools/mutants.mjs"
   },
   "devDependencies": {
+    "fast-check": "^4.9.0",
     "vitest": "^2.1.0"
   }
 }

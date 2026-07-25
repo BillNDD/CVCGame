@@ -160,10 +160,18 @@ function heal(s) {
   if (!s || typeof s !== "object") s = {};
   if (!s.words || typeof s.words !== "object" || Array.isArray(s.words)) s.words = {};
   if (!Array.isArray(s.log)) s.log = [];
+  // repair the rows too — a hostile log row must not crash migrate or the export
+  s.log = s.log.filter(r => r && typeof r === "object" && !Array.isArray(r));
+  for (const r of s.log) {
+    r.items = Array.isArray(r.items) ? r.items.filter(i => i && typeof i === "object") : [];
+    if (typeof r.level !== "number" || !isFinite(r.level)) r.level = 0;
+  }
   if (!s.settings || typeof s.settings !== "object") s.settings = {};
   const d = newState().settings;
   for (const k of Object.keys(d)) if (s.settings[k] === undefined) s.settings[k] = d[k];
   if (typeof s.sessionsCompleted !== "number" || !isFinite(s.sessionsCompleted) || s.sessionsCompleted < 0) s.sessionsCompleted = 0;
+  // a non-numeric level reads as absent; a fractional one is rounded — migrate clamps the range
+  if (typeof s.level !== "number" || !isFinite(s.level)) delete s.level; else s.level = Math.round(s.level);
   for (const [w, ws] of Object.entries(s.words)) {
     if (!ws || typeof ws !== "object" || typeof ws.box !== "number" || !isFinite(ws.box)) { delete s.words[w]; continue; }
     ws.box = Math.min(5, Math.max(0, Math.round(ws.box)));

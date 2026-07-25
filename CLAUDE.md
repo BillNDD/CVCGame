@@ -29,7 +29,8 @@ This document obeys ASD-STE100 Simplified Technical English.
 - E3. Never delete a test or a mutant. Never lower a threshold or add a skip to pass a build.
 - E4. Every assertion uses literal expected values, never the constant under test.
 - E5. Every detector ships with a negative control that proves it catches its target fault.
-- E6. Raise the floors in `.claude/gate-baseline.json` when counts grow. Never lower them.
+- E6. Raise the floors in `.claude/gate-baseline.json` when counts grow; never lower a floor.
+  Keys that end in `_max` are ceilings: never raise one.
 - E7. Run `npm run gauntlet` before every push. A red gauntlet blocks the change.
 - E8. Do not change game behavior, the word bank, the feedback text, or the layout in a testing
-  task.
+  task. Do not add PWA work in a testing task.

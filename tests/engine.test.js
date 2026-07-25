@@ -206,6 +206,24 @@ describe("heal", () => {
   it("lets a healed document build a session", () => {
     expect(() => buildSession(migrate({ version: 3, level: 4 }))).not.toThrow();
   });
+  it("drops hostile log rows and repairs their items and level", () => {
+    const s = heal({ log: [null, 7, [], { n: 1 }, { items: null }] });
+    expect(s.log.length).toBe(2);
+    expect(s.log[0]).toEqual({ n: 1, items: [], level: 0 });
+    expect(s.log[1]).toEqual({ items: [], level: 0 });
+    const t = heal({ log: [{ items: [null, { w: "at", r: "correct" }, 5] }] });
+    expect(t.log[0].items).toEqual([{ w: "at", r: "correct" }]);
+    expect(heal({ log: [{ level: "9" }] }).log[0].level).toBe(0);
+    expect(heal({ log: [{ level: 4 }] }).log[0].level).toBe(4);
+    expect(() => migrate({ log: [null] })).not.toThrow();
+  });
+  it("repairs a hostile or fractional level so the engine cannot crash", () => {
+    expect(migrate({ version: 3, level: "abc" }).level).toBe(1);
+    expect(migrate({ version: 3, level: {} }).level).toBe(1);
+    expect(migrate({ version: 3, level: 3.7 }).level).toBe(4);
+    expect(() => buildSession(migrate({ version: 3, level: 3.7 }))).not.toThrow();
+    expect(() => buildMarkdown(migrate({ version: 3, level: "abc" }))).not.toThrow();
+  });
 });
 
 describe("migrate", () => {
