@@ -1,11 +1,11 @@
 /* Word Quest — engine test suite.
    Run: npm test  (vitest). Regenerate the module first: node tools/extract-engine.mjs
    Every assertion uses literal expected values, never the constant under test. */
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, vi, afterEach } from "vitest";
 import {
   LEVELS, DIGRAPHS, TRICKY, HOMOPHONES, INTERVALS, SESSION_SIZE, PROMPT_CAP, WORD_LEVEL,
   chunkWord, dashed, freshWordState, applyResult, buildSession, checkPromotion,
-  heal, migrate, newState, buildMarkdown,
+  heal, migrate, newState, buildMarkdown, loadState, saveState, speak, buzz, feedbackSpeech,
 } from "../src/engine.js";
 
 const clone = (o) => JSON.parse(JSON.stringify(o));
@@ -290,6 +290,89 @@ describe("buildMarkdown", () => {
     const s = newState();
     s.log = [{ n: 1, date: "2026-07-25", level: 1, c: 5, k: 1, w: 0, acc: 83, items: [{ w: "at", r: "correct", retries: 0 }], partial: true }];
     expect(buildMarkdown(s)).toContain("partial");
+  });
+});
+
+/* ---------------- speech output (S4) ---------------- */
+describe("speech helpers", () => {
+  afterEach(() => vi.unstubAllGlobals());
+
+  it("says full words only, never letter names", () => {
+    expect(feedbackSpeech("correct", "cat")).toBe("Great job! cat!");
+    expect(feedbackSpeech("close", "ship")).toBe("Good try! The word is ship.");
+    expect(feedbackSpeech("wrong", "sun")).toBe("Let’s try again. The word is sun.");
+  });
+  it("stays silent when sound is off or no engine exists", () => {
+    expect(() => speak("cat", false, "en-US")).not.toThrow();
+    vi.stubGlobal("window", {});
+    expect(() => speak("cat", true, "en-US")).not.toThrow();
+  });
+  it("configures the utterance: rate 0.9, pitch 1.1, locale, cancel first", () => {
+    const calls = [];
+    const cancel = vi.fn();
+    vi.stubGlobal("window", { speechSynthesis: { cancel, speak: (u) => calls.push(u) } });
+    vi.stubGlobal("SpeechSynthesisUtterance", class { constructor(t) { this.text = t; } });
+    speak("Great job! cat!", true, "en-GB");
+    expect(cancel).toHaveBeenCalledTimes(1);
+    expect(calls.length).toBe(1);
+    expect(calls[0].text).toBe("Great job! cat!");
+    expect(calls[0].rate).toBe(0.9);
+    expect(calls[0].pitch).toBe(1.1);
+    expect(calls[0].lang).toBe("en-GB");
+  });
+  it("survives a throwing speech service", () => {
+    vi.stubGlobal("window", { speechSynthesis: { cancel: () => { throw new Error("boom"); }, speak: () => {} } });
+    expect(() => speak("cat", true, "en-US")).not.toThrow();
+  });
+  it("vibrates only when the device can, and never throws", () => {
+    const vibrate = vi.fn();
+    vi.stubGlobal("navigator", { vibrate });
+    buzz(28);
+    expect(vibrate).toHaveBeenCalledWith(28);
+    vi.stubGlobal("navigator", {});
+    expect(() => buzz(28)).not.toThrow();
+    vi.stubGlobal("navigator", { vibrate: () => { throw new Error("boom"); } });
+    expect(() => buzz(28)).not.toThrow();
+  });
+});
+
+/* ---------------- reference storage adapter ---------------- */
+describe("reference storage adapter", () => {
+  afterEach(() => vi.unstubAllGlobals());
+
+  it("reads nothing when no storage exists at all", async () => {
+    expect(await loadState()).toBe(null);
+  });
+  it("reads a saved document from the host storage", async () => {
+    const get = vi.fn(async () => ({ value: '{"version":3,"level":2}' }));
+    vi.stubGlobal("window", { storage: { get, set: vi.fn() } });
+    expect(await loadState()).toEqual({ version: 3, level: 2 });
+    expect(get).toHaveBeenCalledWith("wordquest:progress:v2");
+  });
+  it("keeps a copy of damaged data and reports it, even if the copy write fails", async () => {
+    const set = vi.fn(async () => {});
+    vi.stubGlobal("window", { storage: { get: async () => ({ value: "{broken" }), set } });
+    expect(await loadState()).toEqual({ __corrupt: true });
+    expect(set).toHaveBeenCalledWith("wordquest:progress:v2:corrupt", "{broken");
+    vi.stubGlobal("window", { storage: { get: async () => ({ value: "{broken" }), set: async () => { throw new Error("full"); } } });
+    expect(await loadState()).toEqual({ __corrupt: true });
+  });
+  it("saves to the host and answers from memory when the host disappears", async () => {
+    const set = vi.fn(async () => {});
+    vi.stubGlobal("window", { storage: { get: async () => null, set } });
+    expect(await saveState({ version: 3, level: 4 })).toBe(true);
+    expect(set).toHaveBeenCalledWith("wordquest:progress:v2", '{"version":3,"level":4}');
+    expect(await loadState()).toEqual({ version: 3, level: 4 }); // host empty -> memory
+    vi.unstubAllGlobals();
+    expect(await loadState()).toEqual({ version: 3, level: 4 }); // no host -> memory
+  });
+  it("reports an unsaved visit when the host write fails", async () => {
+    vi.stubGlobal("window", { storage: { get: async () => null, set: async () => { throw new Error("denied"); } } });
+    expect(await saveState({ version: 3, level: 5 })).toBe(false);
+  });
+  it("falls back to memory when the host read throws", async () => {
+    vi.stubGlobal("window", { storage: { get: async () => { throw new Error("locked"); }, set: async () => {} } });
+    expect(await loadState()).toEqual({ version: 3, level: 5 }); // memory kept the last save
   });
 });
 
