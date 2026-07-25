@@ -4,7 +4,7 @@
   "g2_properties": 10,
   "g2_cases_per_property": 1000,
   "g3_scenarios": 37,
-  "g4_acceptance_mutants": 0,
+  "g4_acceptance_mutants": 77,
   "g4_survivors_max": 0,
   "g5_source_mutants": 32,
   "g5_survivors_max": 0,

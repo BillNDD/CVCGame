@@ -1,0 +1,96 @@
+/* Acceptance mutation gate (G4). Corrupts one expected value in the JSON IR at
+   a time, regenerates the acceptance tests, and requires the run to FAIL. A
+   scenario that still passes is not reading that value: a survivor.
+   Scope: values in Then steps, and Examples cells that Then steps read. Setup
+   values in Given/When are exercised through the assertions they feed.
+   Operators: numbers step up by one; bounded checks (at most / above) step
+   down by one, so the mutation always tightens; strings gain one letter.
+   Negative control: --self-test applies one mutant WITHOUT regenerating. The
+   stale test must pass, which proves the gate can see a survivor.
+   Run: npm run test:acceptance-mutants   Requirement: 0 survivors. */
+import { readFileSync, writeFileSync } from "node:fs";
+import { execFileSync } from "node:child_process";
+
+const IR = "tests/generated/acceptance-ir.json";
+const TEST = "tests/generated/acceptance.test.js";
+const TIGHTEN = [/^at most /, /^no word is above /];
+const selfTest = process.argv.includes("--self-test");
+
+const run = (cmd, args) => {
+  try { execFileSync(cmd, args, { stdio: "pipe" }); return true; } catch { return false; }
+};
+
+run("node", ["tools/gherkin-parse.mjs"]); // fresh IR from the feature files
+const pristine = readFileSync(IR, "utf8");
+
+function collectSites(ir) {
+  const sites = [];
+  ir.features.forEach((f, fi) =>
+    f.scenarios.forEach((sc, si) =>
+      sc.steps.forEach((st, ti) => {
+        if (st.kind !== "Then") return;
+        const at = (what) => `${f.file} :: ${sc.name} :: ${what}`;
+        for (const m of st.text.matchAll(/\d+/g))
+          sites.push({ fi, si, ti, kind: "num", pos: m.index, len: m[0].length,
+            desc: at(`"${st.text}" number ${m[0]}`) });
+        for (const m of st.text.matchAll(/"([^"]*)"/g))
+          sites.push({ fi, si, ti, kind: "str", pos: m.index, len: m[0].length,
+            desc: at(`"${st.text}" string ${m[0]}`) });
+        if (sc.outline)
+          for (const m of st.text.matchAll(/<([^>]+)>/g))
+            sc.examples.forEach((row, ri) =>
+              sites.push({ fi, si, kind: "cell", name: m[1], ri,
+                desc: at(`example row ${ri + 1} cell <${m[1]}> = ${row[m[1]]}`) }));
+      })
+    )
+  );
+  return sites;
+}
+
+function applyMutant(site) {
+  const ir = JSON.parse(pristine);
+  const sc = ir.features[site.fi].scenarios[site.si];
+  if (site.kind === "cell") {
+    const v = sc.examples[site.ri][site.name];
+    sc.examples[site.ri][site.name] = /^\d+$/.test(v) ? String(Number(v) + 1) : v + "x";
+  } else {
+    const st = sc.steps[site.ti];
+    const t = st.text;
+    if (site.kind === "num") {
+      const n = Number(t.slice(site.pos, site.pos + site.len));
+      const nv = TIGHTEN.some((re) => re.test(t)) ? n - 1 : n + 1;
+      st.text = t.slice(0, site.pos) + String(nv) + t.slice(site.pos + site.len);
+    } else {
+      st.text = t.slice(0, site.pos + site.len - 1) + "x" + t.slice(site.pos + site.len - 1);
+    }
+  }
+  writeFileSync(IR, JSON.stringify(ir, null, 2) + "\n");
+}
+
+const restore = () => { writeFileSync(IR, pristine); run("node", ["tools/gen-acceptance.mjs"]); };
+const sites = collectSites(JSON.parse(pristine));
+
+if (selfTest) {
+  applyMutant(sites[0]);
+  const stalePassed = run("npx", ["vitest", "run", TEST, "--reporter=dot"]);
+  restore();
+  if (stalePassed) {
+    console.log("self-test OK: an unregenerated mutant survives, and this gate would report it");
+    process.exit(0);
+  }
+  console.error("self-test FAILED: the stale test did not pass; the control is broken");
+  process.exit(1);
+}
+
+const survivors = [];
+for (const site of sites) {
+  applyMutant(site);
+  const generated = run("node", ["tools/gen-acceptance.mjs"]);
+  const passed = generated && run("npx", ["vitest", "run", TEST, "--reporter=dot"]);
+  if (passed) survivors.push(site.desc);
+}
+restore();
+
+console.log(`Acceptance mutation gate: ${sites.length} mutants, ${sites.length - survivors.length} killed, ${survivors.length} survived`);
+survivors.forEach((s) => console.log("  SURVIVED: " + s));
+process.exit(survivors.length ? 1 : 0);

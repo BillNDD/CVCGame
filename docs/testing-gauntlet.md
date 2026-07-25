@@ -80,8 +80,14 @@ side with the engine and the migration paragraph. The owner decides if SPEC gets
 ## G4. Acceptance mutation
 
 - Tool: `tools/acceptance-mutants.mjs`. Command: `npm run test:acceptance-mutants`.
-- The tool changes one example value in the IR, regenerates the tests, and runs them. The run
+- The tool changes one expected value in the IR, regenerates the tests, and runs them. The run
   must fail. A scenario that still passes does not read that value: it is a survivor.
+- Scope: every number and quoted string in a Then step, and every Examples cell that a Then
+  step reads. Setup values in Given and When feed the assertions and are checked through them.
+- Operators: numbers step up by one. Bounded checks ("at most", "above") step down by one, so
+  the change always tightens. Strings gain one letter.
+- Negative control: `node tools/acceptance-mutants.mjs --self-test` applies one mutant without
+  regeneration. The stale test passes, and the gate must report that survivor.
 - Floor: 0 survivors. Keys: `g4_acceptance_mutants`, `g4_survivors_max`.
 
 ## G5. Source mutation
