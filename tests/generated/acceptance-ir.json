@@ -1,0 +1,856 @@
+{
+  "features": [
+    {
+      "file": "features/export.feature",
+      "name": "The reading log export",
+      "scenarios": [
+        {
+          "name": "Box 3 does not count as mastered",
+          "outline": false,
+          "steps": [
+            {
+              "kind": "Given",
+              "text": "a fresh player whose words \"cat\" and \"dog\" sit in box 3"
+            },
+            {
+              "kind": "When",
+              "text": "the log is exported"
+            },
+            {
+              "kind": "Then",
+              "text": "the export contains \"0/132\""
+            }
+          ],
+          "examples": []
+        },
+        {
+          "name": "Box 4 counts as mastered",
+          "outline": false,
+          "steps": [
+            {
+              "kind": "Given",
+              "text": "a fresh player whose words \"cat\" and \"dog\" sit in box 4"
+            },
+            {
+              "kind": "When",
+              "text": "the log is exported"
+            },
+            {
+              "kind": "Then",
+              "text": "the export contains \"2/132\""
+            }
+          ],
+          "examples": []
+        },
+        {
+          "name": "A short session is marked",
+          "outline": false,
+          "steps": [
+            {
+              "kind": "Given",
+              "text": "a fresh player with one logged session marked as partial"
+            },
+            {
+              "kind": "When",
+              "text": "the log is exported"
+            },
+            {
+              "kind": "Then",
+              "text": "the export contains \"partial\""
+            }
+          ],
+          "examples": []
+        },
+        {
+          "name": "A name with an emoji at the limit stays whole",
+          "outline": false,
+          "steps": [
+            {
+              "kind": "Given",
+              "text": "the reader's name is 19 letters followed by the chick emoji"
+            },
+            {
+              "kind": "When",
+              "text": "the log is exported"
+            },
+            {
+              "kind": "Then",
+              "text": "the export contains the chick emoji"
+            },
+            {
+              "kind": "Then",
+              "text": "the export contains no broken character"
+            }
+          ],
+          "examples": []
+        }
+      ]
+    },
+    {
+      "file": "features/grading.feature",
+      "name": "Grading a reading attempt",
+      "scenarios": [
+        {
+          "name": "A new word read correctly at first sight moves fast",
+          "outline": false,
+          "steps": [
+            {
+              "kind": "Given",
+              "text": "a word the child has never attempted"
+            },
+            {
+              "kind": "When",
+              "text": "the child reads it correctly in session 1"
+            },
+            {
+              "kind": "Then",
+              "text": "the word is in box 3"
+            },
+            {
+              "kind": "Then",
+              "text": "the word is due again in session 5"
+            }
+          ],
+          "examples": []
+        },
+        {
+          "name": "A known word read correctly moves up one box",
+          "outline": false,
+          "steps": [
+            {
+              "kind": "Given",
+              "text": "a word in box 1 with 2 attempts"
+            },
+            {
+              "kind": "When",
+              "text": "the child reads it correctly in session 10"
+            },
+            {
+              "kind": "Then",
+              "text": "the word is in box 2"
+            },
+            {
+              "kind": "Then",
+              "text": "the word is due again in session 12"
+            }
+          ],
+          "examples": []
+        },
+        {
+          "name": "A word at the top box stays at the top",
+          "outline": false,
+          "steps": [
+            {
+              "kind": "Given",
+              "text": "a word in box 5 with 9 attempts"
+            },
+            {
+              "kind": "When",
+              "text": "the child reads it correctly in session 10"
+            },
+            {
+              "kind": "Then",
+              "text": "the word is in box 5"
+            },
+            {
+              "kind": "Then",
+              "text": "the word is due again in session 22"
+            }
+          ],
+          "examples": []
+        },
+        {
+          "name": "A close attempt lifts a word out of the bottom box",
+          "outline": false,
+          "steps": [
+            {
+              "kind": "Given",
+              "text": "a word in box 0 with 1 attempts"
+            },
+            {
+              "kind": "When",
+              "text": "the child is close in session 5"
+            },
+            {
+              "kind": "Then",
+              "text": "the word is in box 1"
+            },
+            {
+              "kind": "Then",
+              "text": "the word is due again in session 6"
+            }
+          ],
+          "examples": []
+        },
+        {
+          "name": "A close attempt never demotes a strong word",
+          "outline": false,
+          "steps": [
+            {
+              "kind": "Given",
+              "text": "a word in box 4 with 4 attempts"
+            },
+            {
+              "kind": "When",
+              "text": "the child is close in session 5"
+            },
+            {
+              "kind": "Then",
+              "text": "the word is in box 4"
+            }
+          ],
+          "examples": []
+        },
+        {
+          "name": "A miss drops the word two boxes",
+          "outline": false,
+          "steps": [
+            {
+              "kind": "Given",
+              "text": "a word in box 4 with 3 attempts"
+            },
+            {
+              "kind": "When",
+              "text": "the child misses it in session 7"
+            },
+            {
+              "kind": "Then",
+              "text": "the word is in box 2"
+            },
+            {
+              "kind": "Then",
+              "text": "the word is due again in session 9"
+            }
+          ],
+          "examples": []
+        },
+        {
+          "name": "A miss never drops below the bottom box",
+          "outline": false,
+          "steps": [
+            {
+              "kind": "Given",
+              "text": "a word in box 1 with 3 attempts"
+            },
+            {
+              "kind": "When",
+              "text": "the child misses it in session 7"
+            },
+            {
+              "kind": "Then",
+              "text": "the word is in box 0"
+            },
+            {
+              "kind": "Then",
+              "text": "the word is due again in session 8"
+            }
+          ],
+          "examples": []
+        },
+        {
+          "name": "The review ladder by box",
+          "outline": true,
+          "steps": [
+            {
+              "kind": "Given",
+              "text": "a word in box <box> with 2 attempts"
+            },
+            {
+              "kind": "When",
+              "text": "the child is close in session 100"
+            },
+            {
+              "kind": "Then",
+              "text": "the word is due again in session <due>"
+            }
+          ],
+          "examples": [
+            {
+              "box": "0",
+              "due": "101"
+            },
+            {
+              "box": "1",
+              "due": "101"
+            },
+            {
+              "box": "2",
+              "due": "102"
+            },
+            {
+              "box": "3",
+              "due": "104"
+            },
+            {
+              "box": "4",
+              "due": "107"
+            },
+            {
+              "box": "5",
+              "due": "112"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "file": "features/phonics.feature",
+      "name": "Sound units and feedback text",
+      "scenarios": [
+        {
+          "name": "A word splits into sound units",
+          "outline": true,
+          "steps": [
+            {
+              "kind": "When",
+              "text": "the app shows the sound tiles for \"<word>\""
+            },
+            {
+              "kind": "Then",
+              "text": "the tiles read \"<tiles>\""
+            },
+            {
+              "kind": "Then",
+              "text": "the dashed form is \"<dashed>\""
+            }
+          ],
+          "examples": [
+            {
+              "word": "cat",
+              "tiles": "c,a,t",
+              "dashed": "c-a-t"
+            },
+            {
+              "word": "ship",
+              "tiles": "sh,i,p",
+              "dashed": "sh-i-p"
+            },
+            {
+              "word": "duck",
+              "tiles": "d,u,ck",
+              "dashed": "d-u-ck"
+            },
+            {
+              "word": "sing",
+              "tiles": "s,i,ng",
+              "dashed": "s-i-ng"
+            },
+            {
+              "word": "when",
+              "tiles": "wh,e,n",
+              "dashed": "wh-e-n"
+            },
+            {
+              "word": "this",
+              "tiles": "th,i,s",
+              "dashed": "th-i-s"
+            },
+            {
+              "word": "ax",
+              "tiles": "a,x",
+              "dashed": "a-x"
+            }
+          ]
+        },
+        {
+          "name": "Feedback for a correct reading",
+          "outline": false,
+          "steps": [
+            {
+              "kind": "When",
+              "text": "the app gives feedback for a \"correct\" reading of \"cat\""
+            },
+            {
+              "kind": "Then",
+              "text": "the feedback lead is \"Great job! That is \""
+            },
+            {
+              "kind": "Then",
+              "text": "the feedback shows \"c-a-t\" and the word \"cat\""
+            }
+          ],
+          "examples": []
+        },
+        {
+          "name": "Feedback for a close reading",
+          "outline": false,
+          "steps": [
+            {
+              "kind": "When",
+              "text": "the app gives feedback for a \"close\" reading of \"ship\""
+            },
+            {
+              "kind": "Then",
+              "text": "the feedback lead is \"Good try! The correct pronunciation is \""
+            },
+            {
+              "kind": "Then",
+              "text": "the feedback shows \"sh-i-p\" and the word \"ship\""
+            }
+          ],
+          "examples": []
+        },
+        {
+          "name": "Feedback for a missed reading",
+          "outline": false,
+          "steps": [
+            {
+              "kind": "When",
+              "text": "the app gives feedback for a \"wrong\" reading of \"sun\""
+            },
+            {
+              "kind": "Then",
+              "text": "the feedback lead is \"Let’s try that again. The correct pronunciation is \""
+            },
+            {
+              "kind": "Then",
+              "text": "the feedback shows \"s-u-n\" and the word \"sun\""
+            }
+          ],
+          "examples": []
+        },
+        {
+          "name": "The tricky word \"was\" carries its note",
+          "outline": false,
+          "steps": [
+            {
+              "kind": "Then",
+              "text": "the word \"was\" carries the note \"Tricky word! The a sounds like “uh” — wuz.\""
+            }
+          ],
+          "examples": []
+        },
+        {
+          "name": "The tricky word \"is\" carries its note",
+          "outline": false,
+          "steps": [
+            {
+              "kind": "Then",
+              "text": "the word \"is\" carries the note \"Tricky word! The s sounds like “z” — iz.\""
+            }
+          ],
+          "examples": []
+        }
+      ]
+    },
+    {
+      "file": "features/promotion.feature",
+      "name": "Level promotion",
+      "scenarios": [
+        {
+          "name": "Exactly 80 percent promotes",
+          "outline": false,
+          "steps": [
+            {
+              "kind": "Given",
+              "text": "a player on Level 2 with 16 of the 20 words at box 3"
+            },
+            {
+              "kind": "When",
+              "text": "the session ends"
+            },
+            {
+              "kind": "Then",
+              "text": "the player is promoted to Level 3"
+            }
+          ],
+          "examples": []
+        },
+        {
+          "name": "Just under 80 percent does not promote",
+          "outline": false,
+          "steps": [
+            {
+              "kind": "Given",
+              "text": "a player on Level 2 with 15 of the 20 words at box 3"
+            },
+            {
+              "kind": "When",
+              "text": "the session ends"
+            },
+            {
+              "kind": "Then",
+              "text": "the player stays on Level 2"
+            }
+          ],
+          "examples": []
+        },
+        {
+          "name": "Box 2 words are not solid",
+          "outline": false,
+          "steps": [
+            {
+              "kind": "Given",
+              "text": "a player on Level 1 with 12 of the 12 words at box 2"
+            },
+            {
+              "kind": "When",
+              "text": "the session ends"
+            },
+            {
+              "kind": "Then",
+              "text": "the player stays on Level 1"
+            }
+          ],
+          "examples": []
+        },
+        {
+          "name": "The starter level needs 10 of its 12 words",
+          "outline": false,
+          "steps": [
+            {
+              "kind": "Given",
+              "text": "a player on Level 1 with 10 of the 12 words at box 3"
+            },
+            {
+              "kind": "When",
+              "text": "the session ends"
+            },
+            {
+              "kind": "Then",
+              "text": "the player is promoted to Level 2"
+            }
+          ],
+          "examples": []
+        },
+        {
+          "name": "The last level has no promotion",
+          "outline": false,
+          "steps": [
+            {
+              "kind": "Given",
+              "text": "a player on Level 7 with 20 of the 20 words at box 5"
+            },
+            {
+              "kind": "When",
+              "text": "the session ends"
+            },
+            {
+              "kind": "Then",
+              "text": "the player stays on Level 7"
+            }
+          ],
+          "examples": []
+        }
+      ]
+    },
+    {
+      "file": "features/saves.feature",
+      "name": "Saved data survives anything",
+      "scenarios": [
+        {
+          "name": "A version 2 save opens one level up",
+          "outline": false,
+          "steps": [
+            {
+              "kind": "Given",
+              "text": "a version 2 save at level 3 with a log row at level 1"
+            },
+            {
+              "kind": "When",
+              "text": "the save loads"
+            },
+            {
+              "kind": "Then",
+              "text": "the player is on level 4"
+            },
+            {
+              "kind": "Then",
+              "text": "the log row shows level 2"
+            },
+            {
+              "kind": "Then",
+              "text": "the word data is unchanged"
+            }
+          ],
+          "examples": []
+        },
+        {
+          "name": "Migration runs only once",
+          "outline": false,
+          "steps": [
+            {
+              "kind": "Given",
+              "text": "a version 2 save at level 3"
+            },
+            {
+              "kind": "When",
+              "text": "the save loads twice"
+            },
+            {
+              "kind": "Then",
+              "text": "both results are identical"
+            }
+          ],
+          "examples": []
+        },
+        {
+          "name": "A hostile level heals to the start",
+          "outline": false,
+          "steps": [
+            {
+              "kind": "Given",
+              "text": "a version 3 save with level \"abc\""
+            },
+            {
+              "kind": "When",
+              "text": "the save loads"
+            },
+            {
+              "kind": "Then",
+              "text": "the player is on level 1"
+            }
+          ],
+          "examples": []
+        },
+        {
+          "name": "An out-of-range level clamps to the top",
+          "outline": false,
+          "steps": [
+            {
+              "kind": "Given",
+              "text": "a version 3 save with level 99"
+            },
+            {
+              "kind": "When",
+              "text": "the save loads"
+            },
+            {
+              "kind": "Then",
+              "text": "the player is on level 7"
+            }
+          ],
+          "examples": []
+        },
+        {
+          "name": "An out-of-range box clamps",
+          "outline": false,
+          "steps": [
+            {
+              "kind": "Given",
+              "text": "a save where the word \"cat\" sits in box 99"
+            },
+            {
+              "kind": "When",
+              "text": "the save loads"
+            },
+            {
+              "kind": "Then",
+              "text": "the word \"cat\" sits in box 5"
+            }
+          ],
+          "examples": []
+        },
+        {
+          "name": "A broken log row is dropped",
+          "outline": false,
+          "steps": [
+            {
+              "kind": "Given",
+              "text": "a save whose log contains one null row"
+            },
+            {
+              "kind": "When",
+              "text": "the save loads"
+            },
+            {
+              "kind": "Then",
+              "text": "the load does not fail"
+            },
+            {
+              "kind": "Then",
+              "text": "the log has 0 rows"
+            }
+          ],
+          "examples": []
+        }
+      ]
+    },
+    {
+      "file": "features/session.feature",
+      "name": "Building a session",
+      "scenarios": [
+        {
+          "name": "The first session serves the whole starter level",
+          "outline": false,
+          "steps": [
+            {
+              "kind": "Given",
+              "text": "a brand-new player"
+            },
+            {
+              "kind": "When",
+              "text": "a session is built"
+            },
+            {
+              "kind": "Then",
+              "text": "it has exactly 12 words"
+            },
+            {
+              "kind": "Then",
+              "text": "every word is a Level 1 word"
+            },
+            {
+              "kind": "Then",
+              "text": "no word repeats"
+            }
+          ],
+          "examples": []
+        },
+        {
+          "name": "A full level fills the target",
+          "outline": false,
+          "steps": [
+            {
+              "kind": "Given",
+              "text": "a player on Level 2 who has mastered every Level 1 word"
+            },
+            {
+              "kind": "When",
+              "text": "a session is built"
+            },
+            {
+              "kind": "Then",
+              "text": "it has exactly 20 words"
+            },
+            {
+              "kind": "Then",
+              "text": "no word repeats"
+            }
+          ],
+          "examples": []
+        },
+        {
+          "name": "Overdue reviews from lower levels are capped",
+          "outline": false,
+          "steps": [
+            {
+              "kind": "Given",
+              "text": "a player on Level 3 in session 10 with all 32 lower-level words overdue in box 1"
+            },
+            {
+              "kind": "When",
+              "text": "a session is built"
+            },
+            {
+              "kind": "Then",
+              "text": "at most 5 words come from lower levels"
+            }
+          ],
+          "examples": []
+        },
+        {
+          "name": "No mastered words return before the third session",
+          "outline": false,
+          "steps": [
+            {
+              "kind": "Given",
+              "text": "a player on Level 3 with every lower-level word mastered and none due"
+            },
+            {
+              "kind": "Given",
+              "text": "the player has completed 1 sessions"
+            },
+            {
+              "kind": "When",
+              "text": "a session is built"
+            },
+            {
+              "kind": "Then",
+              "text": "it contains exactly 0 mastered words"
+            }
+          ],
+          "examples": []
+        },
+        {
+          "name": "At most two mastered words return for confidence",
+          "outline": false,
+          "steps": [
+            {
+              "kind": "Given",
+              "text": "a player on Level 3 with every lower-level word mastered and none due"
+            },
+            {
+              "kind": "Given",
+              "text": "the player has completed 5 sessions"
+            },
+            {
+              "kind": "When",
+              "text": "a session is built"
+            },
+            {
+              "kind": "Then",
+              "text": "it contains exactly 2 mastered words"
+            }
+          ],
+          "examples": []
+        },
+        {
+          "name": "The session opens with the most secure word",
+          "outline": false,
+          "steps": [
+            {
+              "kind": "Given",
+              "text": "a player on Level 2 whose Level 1 words are all due in box 1"
+            },
+            {
+              "kind": "Given",
+              "text": "the word \"at\" is due in box 5"
+            },
+            {
+              "kind": "When",
+              "text": "a session is built"
+            },
+            {
+              "kind": "Then",
+              "text": "the first word is \"at\""
+            }
+          ],
+          "examples": []
+        },
+        {
+          "name": "No peeking while fresh words remain",
+          "outline": false,
+          "steps": [
+            {
+              "kind": "Given",
+              "text": "a player on Level 1 who has seen 11 of the 12 words"
+            },
+            {
+              "kind": "When",
+              "text": "a session is built"
+            },
+            {
+              "kind": "Then",
+              "text": "every word is a Level 1 word"
+            }
+          ],
+          "examples": []
+        },
+        {
+          "name": "Peeking starts when the level is fully seen",
+          "outline": false,
+          "steps": [
+            {
+              "kind": "Given",
+              "text": "a player on Level 1 who has seen all 12 words"
+            },
+            {
+              "kind": "When",
+              "text": "a session is built"
+            },
+            {
+              "kind": "Then",
+              "text": "at least one word is a Level 2 word"
+            },
+            {
+              "kind": "Then",
+              "text": "no word is above Level 2"
+            }
+          ],
+          "examples": []
+        }
+      ]
+    }
+  ]
+}
