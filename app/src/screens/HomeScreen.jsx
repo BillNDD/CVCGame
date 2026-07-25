@@ -17,7 +17,7 @@ export default function HomeScreen({ state, L, kid, masteredCount, persistent, r
           <h1 className="wq-display" style={{ margin: 0, color: C.ink, fontSize: "clamp(2rem,7dvh,3rem)", lineHeight: 1.1 }}>
             Word Quest
           </h1>
-          <p style={{ margin: "8px 0 0", color: C.ink2, fontWeight: 700, fontSize: 16 }}>
+          <p style={{ margin: "8px 0 0", color: C.ink, fontWeight: 700, fontSize: 16 }}>
             {kid ? "Hi " + kid + "! Ready to read? 📖" : "Ready to read? 📖"}
           </p>
           <div className="wq-card" style={{ marginTop: 18, padding: 16 }}>
@@ -26,7 +26,8 @@ export default function HomeScreen({ state, L, kid, masteredCount, persistent, r
               <span>🗓️ {state.sessionsCompleted} sessions</span><span>🌟 {masteredCount} mastered</span>
             </div>
           </div>
-          {(!persistent || readOnly) && <p style={{ marginTop: 14, fontSize: 12.5, fontWeight: 700, color: C.red }}>
+          {/* #96261d: warning red dark enough for 4.5:1 on the gradient */}
+          {(!persistent || readOnly) && <p style={{ marginTop: 14, fontSize: 12.5, fontWeight: 700, color: "#96261d" }}>
             ⚠️ {readOnly ? "Saved progress could not be read. Nothing is being saved." : "Saving unavailable — progress lasts this visit only."}</p>}
         </div>
       </Zone.Stage>

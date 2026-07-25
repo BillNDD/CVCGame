@@ -159,9 +159,13 @@ await audit("grown-ups");
   else fail("200 percent text on grown-ups", JSON.stringify(g));
   await page.evaluate(() => { document.documentElement.style.zoom = ""; });
 
+  /* adult mode: the rail prompt replaces the mic control — audit it too */
+  await page.getByRole("button", { name: "👍 You judge" }).click();
   await page.getByRole("button", { name: "← Back" }).click();
   await page.getByRole("button", { name: "Begin Session" }).click();
   await page.locator(".wq-word").waitFor();
+  await page.getByText("Say the word out loud!").waitFor();
+  await audit("session (adult mode)");
   await page.evaluate(() => { document.documentElement.style.zoom = "2"; });
   const s = await page.evaluate(() => {
     const stage = document.querySelector(".wq-stage");
