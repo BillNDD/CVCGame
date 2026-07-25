@@ -217,6 +217,12 @@ describe("heal", () => {
     expect(heal({ log: [{ level: 4 }] }).log[0].level).toBe(4);
     expect(() => migrate({ log: [null] })).not.toThrow();
   });
+  it("repairs a hostile version so the migration check cannot crash", () => {
+    expect(() => migrate({ version: { toString: null } })).not.toThrow();
+    const m = migrate({ version: { toString: null }, level: 2 });
+    expect(m.version).toBe(3);
+    expect(m.level).toBe(3);
+  });
   it("repairs a hostile or fractional level so the engine cannot crash", () => {
     expect(migrate({ version: 3, level: "abc" }).level).toBe(1);
     expect(migrate({ version: 3, level: {} }).level).toBe(1);

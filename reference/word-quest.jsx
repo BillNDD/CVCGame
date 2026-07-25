@@ -172,6 +172,8 @@ function heal(s) {
   if (typeof s.sessionsCompleted !== "number" || !isFinite(s.sessionsCompleted) || s.sessionsCompleted < 0) s.sessionsCompleted = 0;
   // a non-numeric level reads as absent; a fractional one is rounded — migrate clamps the range
   if (typeof s.level !== "number" || !isFinite(s.level)) delete s.level; else s.level = Math.round(s.level);
+  // a version that is not a number reads as absent — a hostile value must not crash the migration check
+  if (typeof s.version !== "number" || !isFinite(s.version)) delete s.version;
   for (const [w, ws] of Object.entries(s.words)) {
     if (!ws || typeof ws !== "object" || typeof ws.box !== "number" || !isFinite(ws.box)) { delete s.words[w]; continue; }
     ws.box = Math.min(5, Math.max(0, Math.round(ws.box)));

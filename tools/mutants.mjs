@@ -41,6 +41,7 @@ const MUTANTS = [
   ["heal items filter removed", 'r.items = Array.isArray(r.items) ? r.items.filter(i => i && typeof i === "object") : [];', "r.items = Array.isArray(r.items) ? r.items : [];"],
   ["heal level guard removed", 'if (typeof s.level !== "number" || !isFinite(s.level)) delete s.level; else s.level = Math.round(s.level);', ""],
   ["heal log level guard removed", 'if (typeof r.level !== "number" || !isFinite(r.level)) r.level = 0;', ""],
+  ["heal version guard removed", 'if (typeof s.version !== "number" || !isFinite(s.version)) delete s.version;', ""],
 ];
 
 const run = (cmd, args) => { try { execFileSync(cmd, args, { stdio: "pipe" }); return true; } catch { return false; } };
