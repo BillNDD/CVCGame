@@ -81,8 +81,9 @@ reference/    the single-file artifact build
 
 ## How to test
 
-Run `npm test` for the 42-test suite. Run `npm run test:mutants` for the mutation gate. The gate
-must show 0 survivors.
+Run `npm test` for the unit, property, acceptance, fault, and safety suites. Run
+`npm run gauntlet` for every quality gate. A red gauntlet blocks a change.
+`docs/testing-gauntlet.md` defines each gate.
 
 ## Design rules
 
