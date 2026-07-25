@@ -17,6 +17,8 @@ The first app version is 1.0.0-beta.1. The app stays in beta until version 1.0 i
 - New: JSON export and import of the full state, in the "Grown-ups corner".
 - New: install documents for Windows and for iOS, in `docs/`.
 - New: a GitHub Pages workflow. The app makes no network calls after the first load.
+- Changed: four texts on the gradient background become darker for WCAG AA contrast. The
+  greeting, the "Read this word" label, the adult-mode prompt, and the storage warning.
 
 ## Version 5
 

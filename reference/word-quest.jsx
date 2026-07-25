@@ -518,7 +518,7 @@ export default function WordQuest() {
             <h1 className="wq-display" style={{ margin: 0, color: C.ink, fontSize: "clamp(2rem,7dvh,3rem)", lineHeight: 1.1 }}>
               Word Quest
             </h1>
-            <p style={{ margin: "8px 0 0", color: C.ink2, fontWeight: 700, fontSize: 16 }}>
+            <p style={{ margin: "8px 0 0", color: C.ink, fontWeight: 700, fontSize: 16 }}>
               {kid ? "Hi " + kid + "! Ready to read? 📖" : "Ready to read? 📖"}
             </p>
             <div className="wq-card" style={{ marginTop: 18, padding: 16 }}>
@@ -527,7 +527,8 @@ export default function WordQuest() {
                 <span>🗓️ {state.sessionsCompleted} sessions</span><span>🌟 {masteredCount} mastered</span>
               </div>
             </div>
-            {(!persistent || readOnly) && <p style={{ marginTop: 14, fontSize: 12.5, fontWeight: 700, color: C.red }}>
+            {/* #96261d: warning red dark enough for 4.5:1 on the gradient */}
+            {(!persistent || readOnly) && <p style={{ marginTop: 14, fontSize: 12.5, fontWeight: 700, color: "#96261d" }}>
               ⚠️ {readOnly ? "Saved progress could not be read. Nothing is being saved." : "Saving unavailable — progress lasts this visit only."}</p>}
           </div>
         </Zone.Stage>
@@ -565,7 +566,7 @@ export default function WordQuest() {
           <div className="wq-stagegrid">
             <div style={{ textAlign: "center" }}>
               <p style={{ margin: 0, fontSize: 11.5, fontWeight: 800, letterSpacing: ".14em",
-                textTransform: "uppercase", color: C.muted }}>Read this word</p>
+                textTransform: "uppercase", color: C.ink }}>Read this word</p>
               {/* P0-2 — word baseline is fixed; everything else lives in reserved slots below */}
               <div className="wq-display wq-word" aria-live="off">{currentWord}</div>
 
@@ -960,7 +961,7 @@ const CSS = `
   font:800 clamp(1rem,2.4dvh,1.25rem)/1.1 inherit;padding:16px 18px;cursor:pointer;
   box-shadow:0 3px 10px rgba(23,53,107,.18);min-height:56px}
 .wq-cta:disabled{cursor:default;box-shadow:none}
-.wq-prompt{text-align:center;font-weight:800;color:${C.ink2};font-size:clamp(.95rem,2.2dvh,1.1rem);padding:16px 0;min-height:56px}
+.wq-prompt{text-align:center;font-weight:800;color:${C.ink};font-size:clamp(.95rem,2.2dvh,1.1rem);padding:16px 0;min-height:56px}
 .wq-btn-plain{border:0;background:rgba(255,255,255,.85);color:${C.ink};font:700 13px/1 inherit;
   padding:11px 13px;border-radius:999px;cursor:pointer;min-height:40px}
 .wq-chip{background:rgba(255,255,255,.85);color:${C.ink};font:800 12.5px/1 inherit;padding:7px 10px;border-radius:999px;display:inline-block}

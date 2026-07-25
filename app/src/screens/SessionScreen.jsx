@@ -15,7 +15,7 @@ function SessionStage({ state, currentWord, phase, fb, liveRef }) {
       <div className="wq-stagegrid">
         <div style={{ textAlign: "center" }}>
           <p style={{ margin: 0, fontSize: 11.5, fontWeight: 800, letterSpacing: ".14em",
-            textTransform: "uppercase", color: C.muted }}>Read this word</p>
+            textTransform: "uppercase", color: C.ink }}>Read this word</p>
           {/* P0-2 — word baseline is fixed; everything else lives in reserved slots below */}
           <div className="wq-display wq-word" aria-live="off">{currentWord}</div>
 
