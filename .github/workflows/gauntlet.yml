@@ -1,0 +1,28 @@
+# Runs the full testing gauntlet on every change (docs/testing-gauntlet.md).
+# A red gauntlet blocks the change.
+name: Gauntlet
+
+on:
+  push:
+  pull_request:
+
+concurrency:
+  group: gauntlet-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  gauntlet:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install dependencies
+        run: |
+          npm ci
+          npm ci --prefix app
+      - name: Install the gate browser
+        run: npx playwright install --with-deps chromium
+      - name: Run the gauntlet
+        run: npm run gauntlet

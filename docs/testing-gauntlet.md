@@ -206,7 +206,7 @@ side with the engine and the migration paragraph. The owner decides if SPEC gets
   only.
 - It then runs, in order: G11, G1+G2+G9+G10 (one Vitest run), G3 regeneration check,
   G4, G5, G6, build, G7, G8, G12 structure check, and the baseline comparison.
-- G12's document and the CI workflow do not exist yet. They land in build steps 9 and 10.
+- The runner is `tools/gauntlet.mjs`. Run `npm run gauntlet`.
 - CI: `.github/workflows/gauntlet.yml` runs the same command on every push and pull request.
 - The gauntlet prints one line per gate: name, command, pass or fail, and the counts.
 - Bootstrap: the floor for a gate that is not built yet starts at 0. Raise it in the same

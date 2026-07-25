@@ -18,7 +18,8 @@
     "test:ui": "node tools/extract-engine.mjs && node tests/ui/interface.mjs",
     "test:a11y": "node tools/extract-engine.mjs && node tests/ui/a11y.mjs",
     "lint:copy": "node tools/extract-engine.mjs && node tools/copy-lint.mjs && node tools/copy-lint.mjs --self-test",
-    "check:qa": "node tools/qa-check.mjs && node tools/qa-check.mjs --self-test"
+    "check:qa": "node tools/qa-check.mjs && node tools/qa-check.mjs --self-test",
+    "gauntlet": "node tools/gauntlet.mjs"
   },
   "devDependencies": {
     "@testing-library/dom": "^10.4.1",
