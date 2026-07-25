@@ -7,7 +7,7 @@ This document obeys ASD-STE100 Simplified Technical English.
 
 - An iPad with iPadOS 15.4 or later, or an iPhone with iOS 15.4 or later.
 - Safari. Other browsers on iOS cannot add an app to the home screen.
-- The app address. The default address is `https://billndd.github.io/CVCFame/`.
+- The app address. The default address is `https://billndd.github.io/CVCGame/`.
 
 ## Install the app
 
