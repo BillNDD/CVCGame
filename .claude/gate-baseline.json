@@ -16,7 +16,7 @@
   "g7_interface_checks": 12,
   "g8_checks": 15,
   "g8_axe_violations_max": 0,
-  "g9_fault_tests": 0,
+  "g9_fault_tests": 8,
   "g10_safety_tests": 0,
   "g11_copy_rules": 0,
   "g12_qa_steps": 0
