@@ -31,6 +31,7 @@ function idbGet(key) {
         rq.onsuccess = () => resolve(rq.result);
         rq.onerror = () => reject(rq.error);
         tx.oncomplete = () => db.close();
+        tx.onabort = () => { db.close(); reject(tx.error); };
       })
   );
 }
@@ -45,14 +46,23 @@ function idbSet(key, value) {
           db.close();
           resolve(true);
         };
-        tx.onerror = () => reject(tx.error);
-        tx.onabort = () => reject(tx.error);
+        tx.onerror = () => { db.close(); reject(tx.error); };
+        tx.onabort = () => { db.close(); reject(tx.error); };
       })
   );
 }
 
 export async function loadState() {
-  const raw = await idbGet(STORE_KEY);
+  let raw;
+  try {
+    raw = await idbGet(STORE_KEY);
+  } catch {
+    /* A broken storage backend reads as "no save", exactly like the reference
+       adapter: boot finishes fast with a fresh, writable state, and the softer
+       "saving unavailable" warning appears when the first save fails. The
+       read-only lock stays reserved for the boot timeout (SPEC §7). */
+    return null;
+  }
   if (raw === undefined || raw === null) return null;
   try {
     return JSON.parse(raw);

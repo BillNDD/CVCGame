@@ -1,7 +1,10 @@
-/* The game stylesheet, moved verbatim from reference/word-quest.jsx.
+/* The game stylesheet, moved from reference/word-quest.jsx.
    The color values come from the engine's C constant, so the palette has one
    source of truth. The P/N/F markers refer to the design-review findings the
-   rules resolve — see CHANGELOG.md. */
+   rules resolve — see CHANGELOG.md.
+   One deliberate divergence from the reference: .wq-btn-plain, .wq-segbtn and
+   .wq-rowbtn are 44px tall, not 40px — SPEC rule 7 sets a 44px minimum for
+   every adult control, and section 10 gates on it. */
 import { C } from "@engine";
 
 const CSS = `
@@ -45,7 +48,7 @@ const CSS = `
 .wq-cta:disabled{cursor:default;box-shadow:none}
 .wq-prompt{text-align:center;font-weight:800;color:${C.ink2};font-size:clamp(.95rem,2.2dvh,1.1rem);padding:16px 0;min-height:56px}
 .wq-btn-plain{border:0;background:rgba(255,255,255,.85);color:${C.ink};font:700 13px/1 inherit;
-  padding:11px 13px;border-radius:999px;cursor:pointer;min-height:40px}
+  padding:11px 13px;border-radius:999px;cursor:pointer;min-height:44px}
 .wq-chip{background:rgba(255,255,255,.85);color:${C.ink};font:800 12.5px/1 inherit;padding:7px 10px;border-radius:999px;display:inline-block}
 .wq-striplabel{font:800 9.5px/1 inherit;letter-spacing:.12em;text-transform:uppercase;color:${C.strip};opacity:.85}
 .wq-sbtn{background:#fff;border:1.5px solid ${C.line};border-radius:9px;color:${C.strip};
@@ -72,11 +75,11 @@ const CSS = `
   font:600 15px/1.3 inherit;color:${C.ink};background:#fff;min-height:44px}
 .wq-fieldrow{margin-top:14px}
 .wq-seggroup{display:flex;gap:4px;background:${C.chip};border-radius:11px;padding:3px;flex-wrap:wrap}
-.wq-segbtn{flex:1 1 auto;min-width:44px;min-height:40px;border:0;background:transparent;border-radius:8px;
+.wq-segbtn{flex:1 1 auto;min-width:44px;min-height:44px;border:0;background:transparent;border-radius:8px;
   color:${C.strip};font:800 13px/1 inherit;cursor:pointer}
 .wq-segbtn.on{background:#fff;color:${C.ink};box-shadow:0 1px 3px rgba(23,53,107,.2)}
 .wq-segbtn:disabled{opacity:.4;cursor:default}
-.wq-rowbtn{display:flex;align-items:center;width:100%;border:0;background:transparent;padding:4px 0;cursor:pointer;min-height:40px}
+.wq-rowbtn{display:flex;align-items:center;width:100%;border:0;background:transparent;padding:4px 0;cursor:pointer;min-height:44px}
 .wq-meter{display:flex;height:6px;border-radius:3px;background:${C.chip};overflow:hidden;margin-top:6px}
 .wq-trophy{display:inline-flex;align-items:center;justify-content:center;border:4px solid transparent;
   border-radius:999px;padding:10px 18px}
