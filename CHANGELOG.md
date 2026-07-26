@@ -21,6 +21,8 @@ The first app version is 1.0.0-beta.1. The app stays in beta until version 1.0 i
   greeting, the "Read this word" label, the adult-mode prompt, and the storage warning.
 - Fixed: the grown-up strip reserves one line for its markers. The "second look" and "heard"
   notes no longer change the strip height, so the word never moves between phases.
+- Changed: the display font is now the rounded system font instead of a children's-print
+  font. The letter shapes match everyday book print, including the double-storey "a".
 
 ## Version 5
 

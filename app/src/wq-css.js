@@ -15,7 +15,7 @@ const CSS = `
   color:${C.ink};
 }
 .wq-shell{height:100%;max-width:640px;margin:0 auto;display:flex;flex-direction:column;min-height:0}
-.wq-display{font-family:'Comic Sans MS','Comic Sans','Chalkboard SE','Marker Felt','Comic Neue',cursive;letter-spacing:.02em}
+.wq-display{font-family:ui-rounded,'SF Pro Rounded',system-ui,-apple-system,'Segoe UI',sans-serif;letter-spacing:.02em}
 .wq-mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-variant-numeric:tabular-nums}
 
 /* zones — P0-1 / P1-8: fixed three-zone shell, page never scrolls in a session */
