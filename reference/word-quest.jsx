@@ -146,17 +146,19 @@ function buildSession(state) {
 
 /* Two paths to promotion (SPEC §"Promotion"): 80 percent of the level at
    box 3+, or a streak of two perfect completed sessions. `session` is
-   { partial, perfect } from the session that just ended; omit it to check
-   the box rule alone (a partial session never changes the streak). */
+   { partial, perfect } from the session that just ended. Without a session
+   the box rule alone decides — a stored streak never promotes on its own.
+   A partial session never changes the streak; any promotion resets it; the
+   stored streak caps at 2, so nothing banks up at the top level. */
 function checkPromotion(state, session) {
   const prior = typeof state.perfectStreak === "number" && isFinite(state.perfectStreak) && state.perfectStreak > 0
-    ? Math.round(state.perfectStreak) : 0;
+    ? Math.min(2, Math.round(state.perfectStreak)) : 0;
   if (session && session.partial) return false;
-  if (session) state.perfectStreak = session.perfect ? prior + 1 : 0;
+  if (session) state.perfectStreak = session.perfect ? Math.min(2, prior + 1) : 0;
   if (state.level >= LEVELS.length) return false;
   const words = LEVELS[state.level - 1].words;
   const secure = words.filter(w => state.words[w] && state.words[w].box >= 3).length / words.length >= 0.8;
-  if (secure || state.perfectStreak >= 2) { state.level += 1; state.perfectStreak = 0; return true; }
+  if (secure || (session && state.perfectStreak >= 2)) { state.level += 1; state.perfectStreak = 0; return true; }
   return false;
 }
 
@@ -212,7 +214,7 @@ function heal(s) {
   healWords(s); healLog(s); healSettings(s);
   if (typeof s.sessionsCompleted !== "number" || !isFinite(s.sessionsCompleted) || s.sessionsCompleted < 0) s.sessionsCompleted = 0;
   if (typeof s.perfectStreak !== "number" || !isFinite(s.perfectStreak) || s.perfectStreak < 0) s.perfectStreak = 0;
-  else s.perfectStreak = Math.round(s.perfectStreak);
+  else s.perfectStreak = Math.min(2, Math.round(s.perfectStreak));
   // a non-numeric level reads as absent; a fractional one is rounded — migrate clamps the range
   if (typeof s.level !== "number" || !isFinite(s.level)) delete s.level; else s.level = Math.round(s.level);
   // a version that is not a number reads as absent — a hostile value must not crash the migration check
@@ -533,7 +535,7 @@ export default function WordQuest() {
   const setMode = (mode) => mutate(s => { s.settings.mode = mode; });
   const setSound = (on) => mutate(s => { s.settings.sound = on; });
   const setLang = (code) => mutate(s => { s.settings.lang = code; });
-  const jumpLevel = (n) => { mutate(s => { s.level = n; }); setToast("Level set to " + n + " " + LEVELS[n - 1].emoji); };
+  const jumpLevel = (n) => { mutate(s => { s.level = n; s.perfectStreak = 0; }); setToast("Level set to " + n + " " + LEVELS[n - 1].emoji); };
   function commitName() {
     const clean = Array.from(nameDraft.trim()).slice(0, 20).join("");   // P7 — never bisect a surrogate pair
     mutate(s => { s.settings.childName = clean; });

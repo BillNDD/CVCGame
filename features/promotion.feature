@@ -53,3 +53,23 @@ Feature: Level promotion
     When the session stops early
     Then the player stays on Level 2
     And the perfect-session streak is 1
+
+  Scenario: A session stopped early with a miss also leaves the streak unchanged
+    Given a player on Level 2 with 5 of the 39 words at box 3
+    And a perfect-session streak of 1
+    When the session stops early with a missed word
+    Then the player stays on Level 2
+    And the perfect-session streak is 1
+
+  Scenario: A box promotion on a perfect session still resets the streak
+    Given a player on Level 1 with 10 of the 12 words at box 3
+    And a perfect-session streak of 1
+    When the session ends with every word correct
+    Then the player is promoted to Level 2
+    And the perfect-session streak is 0
+
+  Scenario: A stored streak alone never promotes without a completed session
+    Given a player on Level 2 with 5 of the 39 words at box 3
+    And a perfect-session streak of 2
+    When the session ends
+    Then the player stays on Level 2

@@ -47,10 +47,13 @@ const MUTANTS = [
   ["praise ignores its index", "{ text: PRAISE[praise] || PRAISE[0], rate: 0.9 }", "{ text: PRAISE[0], rate: 0.9 }"],
   ["praise option reworded", '"You sounded that one out beautifully!",', '"You sounded that one out!",'],
   ["hush does nothing", 'function hush() { try { if ("speechSynthesis" in window) window.speechSynthesis.cancel(); } catch (e) {} }', "function hush() {}"],
-  ["streak threshold 2 to 3", "secure || state.perfectStreak >= 2", "secure || state.perfectStreak >= 3"],
+  ["streak threshold 2 to 3", "(session && state.perfectStreak >= 2)", "(session && state.perfectStreak >= 3)"],
   ["streak reset after promotion dropped", "{ state.level += 1; state.perfectStreak = 0; return true; }", "{ state.level += 1; return true; }"],
   ["partial guard dropped", "if (session && session.partial) return false;", ""],
-  ["imperfect session keeps the streak", "state.perfectStreak = session.perfect ? prior + 1 : 0;", "state.perfectStreak = session.perfect ? prior + 1 : prior;"],
+  ["imperfect session keeps the streak", "state.perfectStreak = session.perfect ? Math.min(2, prior + 1) : 0;", "state.perfectStreak = session.perfect ? Math.min(2, prior + 1) : prior;"],
+  ["streak cap dropped", "state.perfectStreak = session.perfect ? Math.min(2, prior + 1) : 0;", "state.perfectStreak = session.perfect ? prior + 1 : 0;"],
+  ["session-less call uses the stored streak", "(session && state.perfectStreak >= 2)", "state.perfectStreak >= 2"],
+  ["heal streak cap dropped", "else s.perfectStreak = Math.min(2, Math.round(s.perfectStreak));", "else s.perfectStreak = Math.round(s.perfectStreak);"],
 ];
 
 const run = (cmd, args) => { try { execFileSync(cmd, args, { stdio: "pipe" }); return true; } catch { return false; } };

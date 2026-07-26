@@ -2,6 +2,7 @@
    Run: npm test  (vitest). Regenerate the module first: node tools/extract-engine.mjs
    Every assertion uses literal expected values, never the constant under test. */
 import { describe, it, expect, vi, afterEach } from "vitest";
+import { readFileSync } from "node:fs";
 import {
   LEVELS, DIGRAPHS, TRICKY, HOMOPHONES, INTERVALS, SESSION_SIZE, PROMPT_CAP, WORD_LEVEL,
   chunkWord, dashed, freshWordState, applyResult, buildSession, checkPromotion,
@@ -145,15 +146,33 @@ describe("checkPromotion", () => {
     expect(checkPromotion(s, { partial: false, perfect: false })).toBe(false);
     expect(s.perfectStreak).toBe(0);
   });
-  it("the streak never promotes past the last level", () => {
+  it("the streak never promotes past the last level, and never banks above 2", () => {
     const s = newState(); s.level = 7; s.perfectStreak = 5;
     expect(checkPromotion(s, { partial: false, perfect: true })).toBe(false);
     expect(s.level).toBe(7);
+    expect(s.perfectStreak).toBe(2);                        // capped, not 6
+  });
+  it("a partial session with a miss also leaves the streak unchanged", () => {
+    const s = newState(); s.level = 2; s.perfectStreak = 1;
+    expect(checkPromotion(s, { partial: true, perfect: false })).toBe(false);
+    expect(s.perfectStreak).toBe(1);
+  });
+  it("a stored streak alone never promotes on a session-less check", () => {
+    const s = newState(); s.level = 2; s.perfectStreak = 2;
+    expect(checkPromotion(s)).toBe(false);
+    expect(s.level).toBe(2);
+  });
+  it("a manual level change resets the streak (source tripwire)", () => {
+    for (const f of ["reference/word-quest.jsx", "app/src/App.jsx"])
+      expect(readFileSync(f, "utf8").includes("s.level = n; s.perfectStreak = 0;")).toBe(true);
+    // fixture control: the tripwire fails on the bare setter
+    expect("mutate(s => { s.level = n; })".includes("s.perfectStreak = 0;")).toBe(false);
   });
   it("heal repairs a hostile perfectStreak", () => {
     expect(heal({ perfectStreak: -4 }).perfectStreak).toBe(0);
     expect(heal({ perfectStreak: "abc" }).perfectStreak).toBe(0);
-    expect(heal({ perfectStreak: 2.6 }).perfectStreak).toBe(3);
+    expect(heal({ perfectStreak: 2.6 }).perfectStreak).toBe(2);   // rounded, then capped at 2
+    expect(heal({ perfectStreak: 999 }).perfectStreak).toBe(2);
     expect(heal({}).perfectStreak).toBe(0);
   });
 });

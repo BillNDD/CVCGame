@@ -258,6 +258,35 @@ describe("Feature: Level promotion", () => {
     expect(s.level).toBe(2);
     expect(s.perfectStreak).toBe(1);
   });
+  it("A session stopped early with a miss also leaves the streak unchanged", () => {
+    const s = newState(); s.level = 2;
+    expect(LEVELS[2 - 1].words.length).toBe(39);
+    LEVELS[2 - 1].words.slice(0, 5).forEach((w) => { s.words[w] = { ...freshWordState(), box: 3, attempts: 1 }; });
+    s.perfectStreak = 1;
+    const promoted = checkPromotion(s, { partial: true, perfect: false });
+    expect(promoted).toBe(false);
+    expect(s.level).toBe(2);
+    expect(s.perfectStreak).toBe(1);
+  });
+  it("A box promotion on a perfect session still resets the streak", () => {
+    const s = newState(); s.level = 1;
+    expect(LEVELS[1 - 1].words.length).toBe(12);
+    LEVELS[1 - 1].words.slice(0, 10).forEach((w) => { s.words[w] = { ...freshWordState(), box: 3, attempts: 1 }; });
+    s.perfectStreak = 1;
+    const promoted = checkPromotion(s, { partial: false, perfect: true });
+    expect(promoted).toBe(true);
+    expect(s.level).toBe(2);
+    expect(s.perfectStreak).toBe(0);
+  });
+  it("A stored streak alone never promotes without a completed session", () => {
+    const s = newState(); s.level = 2;
+    expect(LEVELS[2 - 1].words.length).toBe(39);
+    LEVELS[2 - 1].words.slice(0, 5).forEach((w) => { s.words[w] = { ...freshWordState(), box: 3, attempts: 1 }; });
+    s.perfectStreak = 2;
+    const promoted = checkPromotion(s);
+    expect(promoted).toBe(false);
+    expect(s.level).toBe(2);
+  });
 });
 
 describe("Feature: Saved data survives anything", () => {
