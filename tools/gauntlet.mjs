@@ -17,6 +17,22 @@ try {
 process.on("exit", () => { try { rmdirSync(".gauntlet.lock"); } catch {} });
 
 const baseline = JSON.parse(readFileSync(".claude/gate-baseline.json", "utf8"));
+
+/* Vitest and friends color their output when the CI variable is set, and the
+   color codes hide the counts from the regexes below (every count reads "?").
+   Ask child processes for plain output, and strip any codes that arrive
+   anyway. The control proves colored text defeats the raw regex and the
+   cleaner recovers it (E5). */
+const ANSI = /\u001b\[[0-9;]*[A-Za-z]/g;
+{
+  const colored = "engine.test.js \u001b[2m(\u001b[22m\u001b[2m56 tests\u001b[22m\u001b[2m)\u001b[22m";
+  const probe = /engine\.test\.js\s+\((\d+) tests\)/;
+  if (probe.test(colored) || !probe.test(colored.replace(ANSI, ""))) {
+    console.error("control FAILED: the ANSI cleaner does not recover a count that color codes hide");
+    process.exit(1);
+  }
+}
+
 let failures = 0;
 const summary = [];
 
@@ -29,11 +45,12 @@ function report(gate, command, ok, counts) {
 function step(gate, command, counts = [], env = {}) {
   let out = "", ok = true;
   try {
-    out = execSync(command, { stdio: "pipe", encoding: "utf8", env: { ...process.env, ...env } });
+    out = execSync(command, { stdio: "pipe", encoding: "utf8", env: { ...process.env, NO_COLOR: "1", ...env } });
   } catch (e) {
     out = String(e.stdout || "") + String(e.stderr || "");
     ok = false;
   }
+  out = out.replace(ANSI, "");
   const parts = [];
   for (const c of counts) {
     const m = out.match(c.regex);
