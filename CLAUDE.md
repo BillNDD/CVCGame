@@ -39,4 +39,5 @@ This document follows the Microsoft Writing Style Guide.
   task. Do not add PWA work in a testing task.
 - E9. Before launching a multi-agent workflow, agree the plan with the owner: how many agents
   and how many antagonists (adversarial checkers) the problem needs. Default to three of each
-  or fewer.
+  or fewer. Verifiers work in batches: give each antagonist one lens and the whole finding
+  list, never one agent per finding. Review agents only read; they never edit files.
