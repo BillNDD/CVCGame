@@ -34,3 +34,6 @@ This document follows the Microsoft Writing Style Guide.
 - E7. Run `npm run gauntlet` before every push. A red gauntlet blocks the change.
 - E8. Do not change game behavior, the word bank, the feedback text, or the layout in a testing
   task. Do not add PWA work in a testing task.
+- E9. Before launching a multi-agent workflow, agree the plan with the owner: how many agents
+  and how many antagonists (adversarial checkers) the problem needs. Default to three of each
+  or fewer.
