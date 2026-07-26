@@ -8,7 +8,7 @@
      reference build. */
 import { STORE_KEY } from "@engine";
 
-const DB_NAME = "word-quest";
+const DB_NAME = "phonics-game";
 const DB_STORE = "kv";
 
 function openDB() {

@@ -1,4 +1,4 @@
-/* Word Quest — safety gate (G10). Every rule here is a CLAUDE.md safety rule.
+/* Phonics Game — safety gate (G10). Every rule here is a CLAUDE.md safety rule.
    The two critical ones:
    S1 — no code path records a wrong or close result without an adult action;
         speech recognition can only confirm a correct reading.

@@ -1,6 +1,6 @@
 # Testing gauntlet — gate specification (G1–G12)
 
-This document defines the quality gates for Word Quest. The owner reviews this document, not
+This document defines the quality gates for Phonics Game. The owner reviews this document, not
 every line of code. The gates are the contract. `npm run gauntlet` runs every automatic gate.
 A change is complete only when the gauntlet is green.
 

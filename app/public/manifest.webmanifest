@@ -1,6 +1,6 @@
 {
-  "name": "Word Quest",
-  "short_name": "Word Quest",
+  "name": "Phonics Game",
+  "short_name": "Phonics Game",
   "description": "A phonics game with spaced repetition for early readers.",
   "start_url": "./",
   "scope": "./",

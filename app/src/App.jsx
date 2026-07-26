@@ -249,7 +249,7 @@ export default function App() {
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = "word-quest-backup-" + new Date().toISOString().slice(0, 10) + ".json";
+    a.download = "phonics-game-backup-" + new Date().toISOString().slice(0, 10) + ".json";
     document.body.appendChild(a); a.click(); a.remove();
     setTimeout(() => URL.revokeObjectURL(url), 1000);
     setToast("Backup file saved.");
@@ -264,7 +264,7 @@ export default function App() {
       persist(s);
       setToast("Backup loaded.");
     } catch (e) {
-      setToast("That file is not a Word Quest backup.");
+      setToast("That file is not a Phonics Game backup.");
     }
   }
 
@@ -274,7 +274,7 @@ export default function App() {
 
   if (screen === "splash" || !state) {
     return <Frame><div className="wq-center"><div className="wq-float" style={{ fontSize: 56 }}>🚀</div>
-      <p style={{ marginTop: 12, fontWeight: 800, color: C.ink }}>Loading Word Quest…</p></div></Frame>;
+      <p style={{ marginTop: 12, fontWeight: 800, color: C.ink }}>Loading Phonics Game…</p></div></Frame>;
   }
 
   const L = LEVELS[state.level - 1];

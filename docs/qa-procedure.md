@@ -11,9 +11,9 @@ This document follows the Microsoft Writing Style Guide.
 ## iPad — Safari, iPadOS 15.4 or later
 
 1. Open the app address in Safari.
-   Expected: The home screen shows "Word Quest", the beta chip, and the "Begin Session" control.
+   Expected: The home screen shows "Phonics Game", the beta chip, and the "Begin Session" control.
 2. Tap the share control, then "Add to Home Screen", then "Add".
-   Expected: The "Word Quest" symbol appears on the home screen.
+   Expected: The "Phonics Game" symbol appears on the home screen.
 3. Open the app from the home screen symbol.
    Expected: The app opens in its own window, without the Safari controls.
 4. Turn on Airplane Mode. Close the app fully. Open it again.
@@ -56,7 +56,7 @@ This document follows the Microsoft Writing Style Guide.
 ## Windows — Chrome or Edge
 
 18. Open the app address. Find the install control in the address bar. Install.
-    Expected: The app opens in its own window. "Word Quest" appears in the Start menu.
+    Expected: The app opens in its own window. "Phonics Game" appears in the Start menu.
 19. Look at the Start menu entry and the taskbar icon.
     Expected: The icon is sharp, not blurred, at every size.
 20. Disconnect the network. Open the installed app.

@@ -1,4 +1,4 @@
-# Install Word Quest on an iPad or an iPhone
+# Install Phonics Game on an iPad or an iPhone
 
 This document tells you how to put the app on an iOS home screen. The steps use Safari.
 This document follows the Microsoft Writing Style Guide.
@@ -17,10 +17,10 @@ This document follows the Microsoft Writing Style Guide.
 4. Tap the share control. The control shows a square with an arrow that points up.
 5. Scroll down in the share list.
 6. Tap "Add to Home Screen".
-7. Keep the name "Word Quest".
+7. Keep the name "Phonics Game".
 8. Tap "Add" at the top right.
 
-The Word Quest symbol appears on the home screen. The app opens in its own window, without the Safari controls.
+The Phonics Game symbol appears on the home screen. The app opens in its own window, without the Safari controls.
 
 ## Use the app offline
 
@@ -39,7 +39,7 @@ If you tap "Don't Allow", the app changes to adult mode. In adult mode, you give
 
 ## Remove the app
 
-1. Hold the Word Quest symbol on the home screen.
+1. Hold the Phonics Game symbol on the home screen.
 2. Tap "Remove App".
 3. Tap "Delete App".
 

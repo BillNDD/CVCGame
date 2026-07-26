@@ -1,4 +1,4 @@
-/* Word Quest — engine test suite.
+/* Phonics Game — engine test suite.
    Run: npm test  (vitest). Regenerate the module first: node tools/extract-engine.mjs
    Every assertion uses literal expected values, never the constant under test. */
 import { describe, it, expect, vi, afterEach } from "vitest";
@@ -456,13 +456,13 @@ describe("reference storage adapter", () => {
     const get = vi.fn(async () => ({ value: '{"version":3,"level":2}' }));
     vi.stubGlobal("window", { storage: { get, set: vi.fn() } });
     expect(await loadState()).toEqual({ version: 3, level: 2 });
-    expect(get).toHaveBeenCalledWith("wordquest:progress:v2");
+    expect(get).toHaveBeenCalledWith("phonicsgame:progress:v1");
   });
   it("keeps a copy of damaged data and reports it, even if the copy write fails", async () => {
     const set = vi.fn(async () => {});
     vi.stubGlobal("window", { storage: { get: async () => ({ value: "{broken" }), set } });
     expect(await loadState()).toEqual({ __corrupt: true });
-    expect(set).toHaveBeenCalledWith("wordquest:progress:v2:corrupt", "{broken");
+    expect(set).toHaveBeenCalledWith("phonicsgame:progress:v1:corrupt", "{broken");
     vi.stubGlobal("window", { storage: { get: async () => ({ value: "{broken" }), set: async () => { throw new Error("full"); } } });
     expect(await loadState()).toEqual({ __corrupt: true });
   });
@@ -470,7 +470,7 @@ describe("reference storage adapter", () => {
     const set = vi.fn(async () => {});
     vi.stubGlobal("window", { storage: { get: async () => null, set } });
     expect(await saveState({ version: 3, level: 4 })).toBe(true);
-    expect(set).toHaveBeenCalledWith("wordquest:progress:v2", '{"version":3,"level":4}');
+    expect(set).toHaveBeenCalledWith("phonicsgame:progress:v1", '{"version":3,"level":4}');
     expect(await loadState()).toEqual({ version: 3, level: 4 }); // host empty -> memory
     vi.unstubAllGlobals();
     expect(await loadState()).toEqual({ version: 3, level: 4 }); // no host -> memory
