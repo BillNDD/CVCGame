@@ -22,7 +22,7 @@ This document follows the Microsoft Writing Style Guide.
   sight, the engine moves that word forward quickly.
 - The app keeps a record for the adult: a mastery map, a session log, and an export function.
 
-The word bank has 132 words in seven levels:
+The word bank has 260 words in seven levels:
 
 - Two-sound VC words.
 - Short a.

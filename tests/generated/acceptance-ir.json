@@ -18,7 +18,7 @@
             },
             {
               "kind": "Then",
-              "text": "the export contains \"0/132\""
+              "text": "the export contains \"0/260\""
             }
           ],
           "examples": []
@@ -37,7 +37,7 @@
             },
             {
               "kind": "Then",
-              "text": "the export contains \"2/132\""
+              "text": "the export contains \"2/260\""
             }
           ],
           "examples": []
@@ -443,7 +443,7 @@
           "steps": [
             {
               "kind": "Given",
-              "text": "a player on Level 2 with 16 of the 20 words at box 3"
+              "text": "a player on Level 4 with 32 of the 40 words at box 3"
             },
             {
               "kind": "When",
@@ -451,7 +451,7 @@
             },
             {
               "kind": "Then",
-              "text": "the player is promoted to Level 3"
+              "text": "the player is promoted to Level 5"
             }
           ],
           "examples": []
@@ -462,7 +462,7 @@
           "steps": [
             {
               "kind": "Given",
-              "text": "a player on Level 2 with 15 of the 20 words at box 3"
+              "text": "a player on Level 4 with 31 of the 40 words at box 3"
             },
             {
               "kind": "When",
@@ -470,7 +470,7 @@
             },
             {
               "kind": "Then",
-              "text": "the player stays on Level 2"
+              "text": "the player stays on Level 4"
             }
           ],
           "examples": []
@@ -519,7 +519,7 @@
           "steps": [
             {
               "kind": "Given",
-              "text": "a player on Level 7 with 20 of the 20 words at box 5"
+              "text": "a player on Level 7 with 53 of the 53 words at box 5"
             },
             {
               "kind": "When",
@@ -538,7 +538,7 @@
           "steps": [
             {
               "kind": "Given",
-              "text": "a player on Level 2 with 5 of the 20 words at box 3"
+              "text": "a player on Level 2 with 5 of the 39 words at box 3"
             },
             {
               "kind": "Given",
@@ -565,7 +565,7 @@
           "steps": [
             {
               "kind": "Given",
-              "text": "a player on Level 2 with 5 of the 20 words at box 3"
+              "text": "a player on Level 2 with 5 of the 39 words at box 3"
             },
             {
               "kind": "Given",
@@ -592,7 +592,7 @@
           "steps": [
             {
               "kind": "Given",
-              "text": "a player on Level 2 with 5 of the 20 words at box 3"
+              "text": "a player on Level 2 with 5 of the 39 words at box 3"
             },
             {
               "kind": "Given",
@@ -619,7 +619,7 @@
           "steps": [
             {
               "kind": "Given",
-              "text": "a player on Level 2 with 5 of the 20 words at box 3"
+              "text": "a player on Level 2 with 5 of the 39 words at box 3"
             },
             {
               "kind": "Given",
@@ -834,7 +834,7 @@
           "steps": [
             {
               "kind": "Given",
-              "text": "a player on Level 3 in session 10 with all 32 lower-level words overdue in box 1"
+              "text": "a player on Level 3 in session 10 with all 51 lower-level words overdue in box 1"
             },
             {
               "kind": "When",

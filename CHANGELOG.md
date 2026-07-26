@@ -34,6 +34,10 @@ The first app version is 1.0.0-beta.1. The app stays in beta until version 1.0 i
 - New: a second path to level promotion. Two completed sessions in a row with every word
   read correctly move the child up one level. A session that stops early does not affect
   the streak.
+- New: the word bank grows from 132 words to 260. Levels 2 to 7 gain 128 new decodable
+  words, seven new tricky words with notes (has, wash, push, bush, she, the, what), and
+  fourteen new same-sound entries so the microphone stays fair. Level 1 keeps its gentle
+  12 words.
 
 ## Version 5
 
