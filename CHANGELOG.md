@@ -1,6 +1,6 @@
 # Changelog
 
-This document obeys ASD-STE100 Simplified Technical English.
+This document follows the Microsoft Writing Style Guide.
 
 ## Version 6
 

@@ -4,7 +4,7 @@ Word Quest is a phonics game for children who learn to read their first words. T
 word at a time. A session has approximately 20 words and takes approximately five minutes. An
 adult stays with the child during each session.
 
-This document obeys ASD-STE100 Simplified Technical English.
+This document follows the Microsoft Writing Style Guide.
 
 ## What the game does
 

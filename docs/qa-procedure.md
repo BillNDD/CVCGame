@@ -6,7 +6,7 @@ on real hardware before each release. The robots cannot judge these steps.
 Each step has an action and an expected result. Mark each step pass or fail. A failed step
 blocks the release.
 
-This document obeys ASD-STE100 Simplified Technical English.
+This document follows the Microsoft Writing Style Guide.
 
 ## iPad — Safari, iPadOS 15.4 or later
 

@@ -3,7 +3,7 @@
 These rules bind every change, human or agent. `docs/testing-gauntlet.md` defines the gates that
 enforce them. SPEC.md is the master source for behavior.
 
-This document obeys ASD-STE100 Simplified Technical English.
+This document follows the Microsoft Writing Style Guide.
 
 ## Safety rules (child-facing)
 

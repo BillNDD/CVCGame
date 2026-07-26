@@ -1,7 +1,7 @@
 # Install Word Quest on a Windows desktop
 
 This document tells you how to install the app on Windows. The steps use Chrome or Edge.
-This document obeys ASD-STE100 Simplified Technical English.
+This document follows the Microsoft Writing Style Guide.
 
 ## What you need
 

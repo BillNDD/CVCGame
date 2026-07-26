@@ -1,7 +1,7 @@
 # Install Word Quest on an iPad or an iPhone
 
 This document tells you how to put the app on an iOS home screen. The steps use Safari.
-This document obeys ASD-STE100 Simplified Technical English.
+This document follows the Microsoft Writing Style Guide.
 
 ## What you need
 
