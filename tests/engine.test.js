@@ -5,7 +5,7 @@ import { describe, it, expect, vi, afterEach } from "vitest";
 import {
   LEVELS, DIGRAPHS, TRICKY, HOMOPHONES, INTERVALS, SESSION_SIZE, PROMPT_CAP, WORD_LEVEL,
   chunkWord, dashed, freshWordState, applyResult, buildSession, checkPromotion,
-  heal, migrate, newState, buildMarkdown, loadState, saveState, speak, buzz, feedbackSpeech,
+  heal, migrate, newState, buildMarkdown, loadState, saveState, speak, buzz, feedbackSpeech, PRAISE,
 } from "../src/engine.js";
 
 const clone = (o) => JSON.parse(JSON.stringify(o));
@@ -328,6 +328,26 @@ describe("speech helpers", () => {
     expect(calls[0].rate).toBe(0.9);
     expect(calls[0].pitch).toBe(1.1);
     expect(calls[0].lang).toBe("en-GB");
+  });
+  it("pins the ten praise sentences, character for character", () => {
+    expect(PRAISE).toEqual([
+      "Great job!",
+      "You did it!",
+      "You read that word all by yourself!",
+      "How do you feel about saying that word correctly?",
+      "You worked that out on your own!",
+      "Your reading is getting stronger every day!",
+      "You should feel proud of that one!",
+      "That was tricky, and you got it!",
+      "You sounded that one out beautifully!",
+      "What careful reading that was!",
+    ]);
+  });
+  it("selects the praise by index, and falls back to the first for a bad index", () => {
+    expect(feedbackSpeech("correct", "cat", 3)[0].text).toBe("How do you feel about saying that word correctly?");
+    expect(feedbackSpeech("correct", "cat", 9)[0].text).toBe("What careful reading that was!");
+    expect(feedbackSpeech("correct", "cat", 42)[0].text).toBe("Great job!");
+    expect(feedbackSpeech("correct", "cat")[0].text).toBe("Great job!");
   });
   it("queues reveal parts: one cancel, the lead at 0.9, the word sentence at 0.7", () => {
     const calls = [];

@@ -117,8 +117,11 @@ describe("G10 safety — S2: the word is never spoken before the attempt ends", 
 
   it("5 (control): after the attempt, speech says the full word and replay works", async () => {
     const word = await startListening();
+    /* Pin the praise draw: 0.95 -> index 9, so the assertion stays literal. */
+    const draw = vi.spyOn(Math, "random").mockReturnValue(0.95);
     await hear(word);                                       // attempt ends, correct
-    expect(utterances.at(-2)).toBe("Great job!");           // the lead, after the attempt
+    draw.mockRestore();
+    expect(utterances.at(-2)).toBe("What careful reading that was!"); // praise, after the attempt
     expect(utterances.at(-1)).toBe(`The word was ${word}.`); // full word, its own sentence
     expect(rates.at(-1)).toBe(0.7);                         // the reveal is slow and clear
     await flush(500);

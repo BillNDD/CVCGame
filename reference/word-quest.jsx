@@ -233,9 +233,23 @@ function feedbackParts(result, word) {
   if (result === "close") return { lead: "Good try! The correct pronunciation is ", d, word, icon: "💪" };
   return { lead: "Let\u2019s try that again. The correct pronunciation is ", d, word, icon: "🔁" };
 }
+/* Ten praise sentences for a correct reading (SPEC \u00a75). Most point to the
+   child\u2019s own effort. The caller picks the index; 0 is the fallback. */
+const PRAISE = [
+  "Great job!",
+  "You did it!",
+  "You read that word all by yourself!",
+  "How do you feel about saying that word correctly?",
+  "You worked that out on your own!",
+  "Your reading is getting stronger every day!",
+  "You should feel proud of that one!",
+  "That was tricky, and you got it!",
+  "You sounded that one out beautifully!",
+  "What careful reading that was!",
+];
 /* The reveal sentence is its own slow utterance, so the word never sounds rushed. */
-const feedbackSpeech = (r, w) =>
-  r === "correct" ? [{ text: "Great job!", rate: 0.9 }, { text: "The word was " + w + ".", rate: 0.7 }]
+const feedbackSpeech = (r, w, praise = 0) =>
+  r === "correct" ? [{ text: PRAISE[praise] || PRAISE[0], rate: 0.9 }, { text: "The word was " + w + ".", rate: 0.7 }]
   : r === "close" ? [{ text: "Good try!", rate: 0.9 }, { text: "The word is " + w + ".", rate: 0.7 }]
   : [{ text: "Let\u2019s try again.", rate: 0.9 }, { text: "The word is " + w + ".", rate: 0.7 }];
 
@@ -378,7 +392,7 @@ export default function WordQuest() {
     setAdvanceReady(false);
     setTimeout(() => setAdvanceReady(true), ADVANCE_GUARD_MS);   // P0-3
     if (result === "correct") buzz(28);           // N-11: no error rumble
-    speak(feedbackSpeech(result, word), s.settings.sound, s.settings.lang);
+    speak(feedbackSpeech(result, word, Math.floor(Math.random() * PRAISE.length)), s.settings.sound, s.settings.lang);
     requestAnimationFrame(() => { if (advanceRef.current) advanceRef.current.focus(); }); // P1-7
   }
 

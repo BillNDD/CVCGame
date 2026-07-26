@@ -44,6 +44,8 @@ const MUTANTS = [
   ["heal version guard removed", 'if (typeof s.version !== "number" || !isFinite(s.version)) delete s.version;', ""],
   ["reveal rate not slow", '{ text: "The word was " + w + ".", rate: 0.7 }', '{ text: "The word was " + w + ".", rate: 0.9 }'],
   ["reveal loses its sentence", '{ text: "The word was " + w + ".", rate: 0.7 }', '{ text: "" + w, rate: 0.7 }'],
+  ["praise ignores its index", "{ text: PRAISE[praise] || PRAISE[0], rate: 0.9 }", "{ text: PRAISE[0], rate: 0.9 }"],
+  ["praise option reworded", '"You sounded that one out beautifully!",', '"You sounded that one out!",'],
 ];
 
 const run = (cmd, args) => { try { execFileSync(cmd, args, { stdio: "pipe" }); return true; } catch { return false; } };

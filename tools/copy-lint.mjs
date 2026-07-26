@@ -15,7 +15,7 @@
    Run: npm run lint:copy */
 import { readFileSync } from "node:fs";
 import { execSync } from "node:child_process";
-import { LEVELS, TRICKY, feedbackParts, feedbackSpeech, newState } from "../src/engine.js";
+import { LEVELS, TRICKY, feedbackParts, feedbackSpeech, newState, PRAISE } from "../src/engine.js";
 
 const problems = [];
 const rule = (okay, name, detail) => {
@@ -46,7 +46,7 @@ function childCopy() {
   return texts;
 }
 
-function run({ leads, notes, corpus, tracked }) {
+function run({ leads, notes, corpus, tracked, praise }) {
   const found = [];
   const rules = new Set();
   const check = (okay, name, detail) => { if (!okay) found.push(name + " — " + detail); };
@@ -59,10 +59,24 @@ function run({ leads, notes, corpus, tracked }) {
   check(leads.sCorrect === "Great job! The word was cat.", "speech (correct)", leads.sCorrect);
   check(leads.sClose === "Good try! The word is cat.", "speech (close)", leads.sClose);
   check(leads.sWrong === "Let’s try again. The word is cat.", "speech (wrong)", leads.sWrong);
+  const PRAISE_EXPECTED = [
+    "Great job!",
+    "You did it!",
+    "You read that word all by yourself!",
+    "How do you feel about saying that word correctly?",
+    "You worked that out on your own!",
+    "Your reading is getting stronger every day!",
+    "You should feel proud of that one!",
+    "That was tricky, and you got it!",
+    "You sounded that one out beautifully!",
+    "What careful reading that was!",
+  ];
+  check(JSON.stringify(praise) === JSON.stringify(PRAISE_EXPECTED), "praise list", JSON.stringify(praise));
 
   // 2. no banned word in child-facing copy
   rules.add("banned-words");
   for (const { f, t } of corpus) check(!BANNED.test(t), "banned word in child copy", `${f}: "${t.trim()}"`);
+  for (const p of praise) check(!BANNED.test(p), "banned word in praise", p);
 
   // 3. the tricky-word notes, exact
   rules.add("tricky-notes");
@@ -77,6 +91,7 @@ function run({ leads, notes, corpus, tracked }) {
     for (const r of ["correct", "close", "wrong"])
       check(!LETTER_NAME.test(feedbackSpeech(r, w).map((p) => p.text).join(" ")), "letter name in speech", `${r}/${w}`);
   }
+  for (const p of praise) check(!LETTER_NAME.test(p), "letter name in praise", p);
 
   // 5. no personal data in the repository (safety rule S9)
   rules.add("no-personal-data");
@@ -110,23 +125,27 @@ const real = {
   notes: { was: TRICKY.was, is: TRICKY.is },
   corpus: childCopy(),
   tracked: trackedTextFiles(),
+  praise: PRAISE,
 };
 
 if (process.argv.includes("--self-test")) {
   const corrupted = structuredClone(real);
   corrupted.leads.correct = "Great job! That was ";
   corrupted.corpus = [...real.corpus, { f: "fixture", t: "You are wrong, try harder" }];
+  corrupted.praise = [...real.praise];
+  corrupted.praise[2] = "Not bad, you got it right!";
   // built at runtime so this file's own source never contains a matchable email
   corrupted.tracked = [...real.tracked, { f: "fixture.md", t: "Contact firstname.lastname" + "@" + "some-personal-mail.net for help" }];
   const { found } = run(corrupted);
   const sawLead = found.some((p) => p.startsWith("feedback lead (correct)"));
   const sawBanned = found.some((p) => p.startsWith("banned word"));
   const sawEmail = found.some((p) => p.startsWith("email address"));
-  if (sawLead && sawBanned && sawEmail) {
-    console.log("self-test OK: a changed sentence, a banned word, and a planted email are all caught");
+  const sawPraise = found.some((p) => p.startsWith("praise list")) && found.some((p) => p.startsWith("banned word in praise"));
+  if (sawLead && sawBanned && sawEmail && sawPraise) {
+    console.log("self-test OK: a changed sentence, a banned word, a planted email, and a reworded praise are all caught");
     process.exit(0);
   }
-  console.error("self-test FAILED: " + JSON.stringify({ sawLead, sawBanned, sawEmail }));
+  console.error("self-test FAILED: " + JSON.stringify({ sawLead, sawBanned, sawEmail, sawPraise }));
   process.exit(1);
 }
 
