@@ -22,7 +22,8 @@ This document follows the Microsoft Writing Style Guide.
    Expected: iPadOS asks for microphone permission, one time only.
 6. Tap "Allow". Say the word on the screen, clearly.
    Expected: The app shows "Great job! That is ...", and says one praise sentence, then,
-   slowly, "The word was ...". Different words get different praise.
+   slowly, "The word was ...". Praise varies over several words. The same sentence can
+   repeat by chance.
 7. On the next word, say a different word on purpose.
    Expected: The app shows "Nice try! Grown-up will check." and records no result.
 8. On a fresh install, tap "Don't Allow" for the microphone.

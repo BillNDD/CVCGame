@@ -5,7 +5,7 @@ import { describe, it, expect, vi, afterEach } from "vitest";
 import {
   LEVELS, DIGRAPHS, TRICKY, HOMOPHONES, INTERVALS, SESSION_SIZE, PROMPT_CAP, WORD_LEVEL,
   chunkWord, dashed, freshWordState, applyResult, buildSession, checkPromotion,
-  heal, migrate, newState, buildMarkdown, loadState, saveState, speak, buzz, feedbackSpeech, PRAISE,
+  heal, migrate, newState, buildMarkdown, loadState, saveState, speak, hush, buzz, feedbackSpeech, PRAISE,
 } from "../src/engine.js";
 
 const clone = (o) => JSON.parse(JSON.stringify(o));
@@ -367,6 +367,16 @@ describe("speech helpers", () => {
   it("survives a throwing speech service", () => {
     vi.stubGlobal("window", { speechSynthesis: { cancel: () => { throw new Error("boom"); }, speak: () => {} } });
     expect(() => speak("cat", true, "en-US")).not.toThrow();
+    expect(() => hush()).not.toThrow();
+  });
+  it("hush stops speech, and survives a missing engine", () => {
+    const cancel = vi.fn();
+    vi.stubGlobal("window", { speechSynthesis: { cancel, speak: () => {} } });
+    hush();
+    expect(cancel).toHaveBeenCalledTimes(1);
+    vi.stubGlobal("window", {});
+    expect(() => hush()).not.toThrow();
+    expect(() => speak(null, true, "en-US")).not.toThrow();
   });
   it("vibrates only when the device can, and never throws", () => {
     const vibrate = vi.fn();

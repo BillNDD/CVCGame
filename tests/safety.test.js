@@ -29,10 +29,11 @@ class FakeRecognition {
 window.webkitSpeechRecognition = FakeRecognition;
 const utterances = [];
 const rates = [];
+const cancels = { n: 0 };
 window.SpeechSynthesisUtterance = class { constructor(t) { this.text = t; } };
 Object.defineProperty(window, "speechSynthesis", {
   configurable: true,
-  value: { cancel: () => {}, speak: (u) => { utterances.push(u.text); rates.push(u.rate); } },
+  value: { cancel: () => { cancels.n += 1; }, speak: (u) => { utterances.push(u.text); rates.push(u.rate); } },
 });
 const { default: App } = await import("../app/src/App.jsx");
 
@@ -56,6 +57,7 @@ beforeEach(() => {
   mockSave.mockClear();
   utterances.length = 0;
   rates.length = 0;
+  cancels.n = 0;
   recInstances.length = 0;
 });
 afterEach(() => { cleanup(); vi.useRealTimers(); });
@@ -115,12 +117,26 @@ describe("G10 safety — S2: the word is never spoken before the attempt ends", 
     expect('function replay() { speak(currentWord); }'.includes('if (phase !== "feedback") return;')).toBe(false);
   });
 
+  it("4b: advancing to the next word silences any queued reveal", async () => {
+    const word = await startListening();
+    const draw = vi.spyOn(Math, "random").mockReturnValue(0);
+    try { await hear(word); } finally { draw.mockRestore(); } // attempt ends; reveal is queued
+    await flush(500);                                       // past the 400 ms advance guard
+    const before = cancels.n;
+    fireEvent.click(screen.getByText(/Next word|Finish!/));
+    await flush(0);
+    expect(cancels.n).toBeGreaterThan(before);              // hush() ran on advance
+    // source tripwire for the call site, with its fixture control
+    const app = readFileSync("app/src/App.jsx", "utf8");
+    expect(app.includes("function next() {\n    hush();")).toBe(true);
+    expect("function next() {\n    const word = queue[qi];".includes("hush();")).toBe(false);
+  });
+
   it("5 (control): after the attempt, speech says the full word and replay works", async () => {
     const word = await startListening();
     /* Pin the praise draw: 0.95 -> index 9, so the assertion stays literal. */
     const draw = vi.spyOn(Math, "random").mockReturnValue(0.95);
-    await hear(word);                                       // attempt ends, correct
-    draw.mockRestore();
+    try { await hear(word); } finally { draw.mockRestore(); } // attempt ends, correct
     expect(utterances.at(-2)).toBe("What careful reading that was!"); // praise, after the attempt
     expect(utterances.at(-1)).toBe(`The word was ${word}.`); // full word, its own sentence
     expect(rates.at(-1)).toBe(0.7);                         // the reveal is slow and clear
@@ -130,7 +146,7 @@ describe("G10 safety — S2: the word is never spoken before the attempt ends", 
     fireEvent.click(replay);
     expect(utterances.at(-1)).toBe(word);                   // replay says the whole word
     expect(rates.at(-1)).toBe(0.7);                         // at the slow rate
-    for (const t of utterances) expect(/(^| )[a-z]([ .!]|$)/.test(t)).toBe(false); // no letter names
+    for (const t of utterances) expect(/(^| )[a-z]([ .,!?]|$)/.test(t)).toBe(false); // no letter names
   });
 });
 

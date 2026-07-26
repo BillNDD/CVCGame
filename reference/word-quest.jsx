@@ -216,7 +216,7 @@ function speak(input, enabled, lang) {
   try {
     if (!("speechSynthesis" in window)) return;
     window.speechSynthesis.cancel();
-    const parts = typeof input === "string" ? [{ text: input, rate: 0.9 }] : input;
+    const parts = typeof input === "string" ? [{ text: input, rate: 0.9 }] : Array.isArray(input) ? input : [];
     for (const p of parts) {
       const u = new SpeechSynthesisUtterance(p.text);
       u.rate = p.rate; u.pitch = 1.1; if (lang) u.lang = lang;
@@ -224,6 +224,8 @@ function speak(input, enabled, lang) {
     }
   } catch (e) {}
 }
+/* S2 — the queued slow reveal must never bleed into the next attempt. */
+function hush() { try { if ("speechSynthesis" in window) window.speechSynthesis.cancel(); } catch (e) {} }
 function buzz(ms) { try { if (navigator.vibrate) navigator.vibrate(ms); } catch (e) {} } // P2-8
 const SR = typeof window !== "undefined" ? (window.SpeechRecognition || window.webkitSpeechRecognition) : null;
 
@@ -397,6 +399,7 @@ export default function WordQuest() {
   }
 
   function next() {
+    hush();                                          // S2 — silence the last reveal before the next attempt
     const word = queue[qi];
     let q = queue;
     const isFirstPass = (retries[word] || 0) === 0 && firstResults[word] !== undefined;
@@ -446,7 +449,7 @@ export default function WordQuest() {
   function handleExit(choice) {
     hardStopRec();
     if (choice === "save") { finishSession(true); return; }
-    if (choice === "discard") { discardSession(); setExitAsk(false); setScreen("home"); return; }
+    if (choice === "discard") { hush(); discardSession(); setExitAsk(false); setScreen("home"); return; }
     setExitAsk(false);
   }
 

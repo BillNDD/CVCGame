@@ -4,7 +4,7 @@ import { useState, useEffect, useRef, useMemo, useCallback } from "react";
 import {
   LEVELS, HOMOPHONES, SESSION_SIZE, PROMPT_CAP, ADVANCE_GUARD_MS, SPLASH_TIMEOUT_MS,
   C, SR, freshWordState, applyResult, buildSession, checkPromotion,
-  migrate, newState, buildMarkdown, feedbackSpeech, PRAISE, speak, buzz,
+  migrate, newState, buildMarkdown, feedbackSpeech, PRAISE, speak, hush, buzz,
 } from "@engine";
 /* W3 — the storage adapter is IndexedDB in the standalone app. */
 import { loadState, saveState } from "./storage.js";
@@ -125,6 +125,7 @@ export default function App() {
   }
 
   function next() {
+    hush();                                          // S2 — silence the last reveal before the next attempt
     const word = queue[qi];
     let q = queue;
     const isFirstPass = (retries[word] || 0) === 0 && firstResults[word] !== undefined;
@@ -174,7 +175,7 @@ export default function App() {
   function handleExit(choice) {
     hardStopRec();
     if (choice === "save") { finishSession(true); return; }
-    if (choice === "discard") { discardSession(); setExitAsk(false); setScreen("home"); return; }
+    if (choice === "discard") { hush(); discardSession(); setExitAsk(false); setScreen("home"); return; }
     setExitAsk(false);
   }
 
