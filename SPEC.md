@@ -187,6 +187,10 @@ The ten praise sentences. Each one is exact. Most point to the child’s own eff
 9. `"You sounded that one out beautifully!"`
 10. `"What careful reading that was!"`
 
+Sentence 4 is a question by design, reviewed and kept by the owner: it invites the child to
+reflect aloud to the adult beside them. The app does not need to hear the answer — an adult
+stays with the child in every session.
+
 The lead and the word reveal are two utterances. The reveal sentence plays at a slower rate, so
 the child hears the word slowly and clearly, never rushed. The replay control says the word at
 the same slow rate. Lead rate approximately 0.9. Reveal rate approximately 0.7. Pitch
