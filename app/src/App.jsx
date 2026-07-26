@@ -8,7 +8,7 @@ import {
 } from "@engine";
 /* W3 — the storage adapter is IndexedDB in the standalone app. */
 import { loadState, saveState } from "./storage.js";
-import { initVoicePacks, trySpeakClips, stopClips } from "./voicepacks.js";
+import { initVoicePacks, speakVoice, stopClips, unlockVoice } from "./voicepacks.js";
 import Frame from "./components/Frame.jsx";
 import HomeScreen from "./screens/HomeScreen.jsx";
 import SessionScreen from "./screens/SessionScreen.jsx";
@@ -89,6 +89,7 @@ export default function App() {
 
   /* ---------- session ---------- */
   function beginSession() {
+    unlockVoice();                 // a real tap: the audio engine may play from here on
     const s = structuredClone(state);
     const q = buildSession(s);
     setState(s); setQueue(q); setQi(0);
@@ -122,10 +123,10 @@ export default function App() {
     setAdvanceReady(false);
     setTimeout(() => setAdvanceReady(true), ADVANCE_GUARD_MS);   // P0-3
     if (result === "correct") buzz(28);           // N-11: no error rumble
+    unlockVoice();
     const praiseIdx = Math.floor(Math.random() * PRAISE.length);
-    if (!trySpeakClips(result, word, praiseIdx, s.settings.sound))
-      speak(feedbackSpeech(result, word, praiseIdx), s.settings.sound, s.settings.lang);
-    else hush();                               // one voice at a time: clips silence any speech
+    speakVoice(result, word, praiseIdx, s.settings.sound,
+      () => speak(feedbackSpeech(result, word, praiseIdx), true, s.settings.lang));
     requestAnimationFrame(() => { if (advanceRef.current) advanceRef.current.focus(); }); // P1-7
   }
 
@@ -174,9 +175,8 @@ export default function App() {
     const stats = commitSession(partial);
     setDoneStats(stats); setScreen("done"); setExitAsk(false);
     if (stats.promoted) buzz([30, 60, 30]);
-    if (!trySpeakClips(stats.promoted ? "levelup" : "done", "", 0, stateRef.current.settings.sound))
-      speak(stats.promoted ? "Amazing! Level up!" : "All done! Great reading today!", stateRef.current.settings.sound, stateRef.current.settings.lang);
-    else hush();
+    speakVoice(stats.promoted ? "levelup" : "done", "", 0, stateRef.current.settings.sound,
+      () => speak(stats.promoted ? "Amazing! Level up!" : "All done! Great reading today!", true, stateRef.current.settings.lang));
   }
 
   function handleExit(choice) {
@@ -188,6 +188,7 @@ export default function App() {
 
   /* ---------- microphone (P1-3 honest state, work item W4) ---------- */
   function startRec() {
+    unlockVoice();
     if (!SR) { fallbackToParent("This browser can’t listen — switched to grown-up mode."); return; }
     try {
       const rec = new SR();
@@ -228,9 +229,9 @@ export default function App() {
   /* P1-1 + N-1 — replay exists only AFTER feedback; the word is never spoken pre-attempt */
   function replay() {
     if (phase !== "feedback") return;
-    if (!trySpeakClips("replay", currentWord, 0, stateRef.current.settings.sound))
-      speak([{ text: currentWord, rate: 0.7 }], stateRef.current.settings.sound, stateRef.current.settings.lang);
-    else hush();
+    unlockVoice();
+    speakVoice("replay", currentWord, 0, stateRef.current.settings.sound,
+      () => speak([{ text: currentWord, rate: 0.7 }], true, stateRef.current.settings.lang));
   }
 
   /* ---------- settings ---------- */

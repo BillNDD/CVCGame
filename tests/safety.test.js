@@ -126,10 +126,11 @@ describe("G10 safety — S2: the word is never spoken before the attempt ends", 
     fireEvent.click(screen.getByText(/Next word|Finish!/));
     await flush(0);
     expect(cancels.n).toBeGreaterThan(before);              // hush() ran on advance
-    // source tripwire for the call site, with its fixture control
+    // source tripwire for the call site, with its fixture control: advancing
+    // must silence system speech AND any clip chain (S2 for clips)
     const app = readFileSync("app/src/App.jsx", "utf8");
-    expect(app.includes("function next() {\n    hush();")).toBe(true);
-    expect("function next() {\n    const word = queue[qi];".includes("hush();")).toBe(false);
+    expect(app.includes("function next() {\n    hush(); stopClips();")).toBe(true);
+    expect("function next() {\n    hush();".includes("stopClips();")).toBe(false);
   });
 
   it("5 (control): after the attempt, speech says the full word and replay works", async () => {
@@ -156,10 +157,17 @@ describe("G10 safety — S6 and S7: no network, big controls", () => {
       "app/src/App.jsx", "app/src/main.jsx", "app/src/storage.js", "app/src/wq-css.js",
       "app/src/screens/HomeScreen.jsx", "app/src/screens/SessionScreen.jsx",
       "app/src/screens/DoneScreen.jsx", "app/src/screens/ParentScreen.jsx",
+      "app/src/voicepacks.js",
     ];
     const NET = /\bfetch\s*\(|XMLHttpRequest|new WebSocket|sendBeacon|gtag\(|analytics/;
-    for (const f of files) expect(NET.test(readFileSync(f, "utf8"))).toBe(false);
+    for (const f of files) {
+      // the voice-pack adapter may fetch its own same-origin clips, nothing else
+      const src = readFileSync(f, "utf8").replaceAll('fetch("voice/', 'LOCAL_CLIP("voice/');
+      expect(NET.test(src)).toBe(false);
+    }
     expect(NET.test('const r = await fetch("https://api.example.com");')).toBe(true); // control
+    expect(NET.test('fetch("voice/manifest.json")'.replaceAll('fetch("voice/', 'LOCAL_CLIP("voice/'))).toBe(false);
+    expect(NET.test('fetch("https://x.test/voice/a.mp3")')).toBe(true); // a remote clip URL still trips
   });
 
   it("7: the stylesheet keeps child controls at 56 px and adult controls at 44 px", () => {

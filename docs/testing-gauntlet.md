@@ -1,4 +1,4 @@
-# Testing gauntlet — gate specification (G1–G12)
+# Testing gauntlet — gate specification (G1–G13)
 
 This document defines the quality gates for Word Quest. The owner reviews this document, not
 every line of code. The gates are the contract. `npm run gauntlet` runs every automatic gate.
@@ -205,13 +205,32 @@ The level range is 1 to 7. SPEC and the engine agree; the owner corrected SPEC o
 | Any browser, 200 percent text | The stage scrolls. No content is cut off |
 | Any browser, reduced motion | No animation |
 
+## G13. Voice pack
+
+The shipped default voice pack must cover the engine's whole clip inventory (SPEC section
+5a): one clip for every bank word and fixed sentence, from `voiceScript()` in the live
+engine, never a hand-kept list.
+
+- `tools/voice-check.mjs` verifies: every inventory id has a manifest entry and a file; no
+  orphan clips; every declared duration is inside 300–8,000 ms (400 ms floor for slow word
+  clips); and the file size matches the declared duration at the pack's 48 kbps bit rate
+  (5–8 bytes per millisecond), so a manifest cannot lie about a truncated or wrong clip.
+- The clip engine has its own Vitest suite (`tests/voicepacks.test.js`): scheduling order,
+  literal 700 ms seams, stop-on-advance, all-or-nothing fallback to system speech, and
+  family-pack preference.
+- Negative control: `--self-test` removes a word clip, plants an orphan, and doubles one
+  declared duration; the detector must report all three.
+- Baseline floors: `g13_clips` (276) and `g13_engine_tests` (6).
+- To re-render the pack after the bank grows: `docs/voice-pack.md`.
+
 ## Aggregation
 
 - `npm run gauntlet` first regenerates `src/engine.js` with the extractor. Every new script
   that needs the engine chains the extractor itself; the npm `pretest` hook covers `npm test`
   only.
 - It then runs, in order: G11, G1+G2+G9+G10 (one Vitest run), G3 regeneration check,
-  G4, G5, G6, build, G7, G8, G12 structure check, and the baseline comparison.
+  G4, G5, G6, build, G7, G8, G12 structure check, G13 voice pack, and the baseline
+  comparison.
 - The runner is `tools/gauntlet.mjs`. Run `npm run gauntlet`. The runner takes a lock, so two
   gauntlets cannot race each other over the generated files.
 - CI: `.github/workflows/gauntlet.yml` runs the same command on every push and pull request.
