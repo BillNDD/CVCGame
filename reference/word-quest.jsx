@@ -125,10 +125,19 @@ function buildSession(state) {
   return q;
 }
 
-function checkPromotion(state) {
+/* Two paths to promotion (SPEC §"Promotion"): 80 percent of the level at
+   box 3+, or a streak of two perfect completed sessions. `session` is
+   { partial, perfect } from the session that just ended; omit it to check
+   the box rule alone (a partial session never changes the streak). */
+function checkPromotion(state, session) {
+  const prior = typeof state.perfectStreak === "number" && isFinite(state.perfectStreak) && state.perfectStreak > 0
+    ? Math.round(state.perfectStreak) : 0;
+  if (session && session.partial) return false;
+  if (session) state.perfectStreak = session.perfect ? prior + 1 : 0;
   if (state.level >= LEVELS.length) return false;
   const words = LEVELS[state.level - 1].words;
-  if (words.filter(w => state.words[w] && state.words[w].box >= 3).length / words.length >= 0.8) { state.level += 1; return true; }
+  const secure = words.filter(w => state.words[w] && state.words[w].box >= 3).length / words.length >= 0.8;
+  if (secure || state.perfectStreak >= 2) { state.level += 1; state.perfectStreak = 0; return true; }
   return false;
 }
 
@@ -183,6 +192,8 @@ function heal(s) {
   if (!s || typeof s !== "object") s = {};
   healWords(s); healLog(s); healSettings(s);
   if (typeof s.sessionsCompleted !== "number" || !isFinite(s.sessionsCompleted) || s.sessionsCompleted < 0) s.sessionsCompleted = 0;
+  if (typeof s.perfectStreak !== "number" || !isFinite(s.perfectStreak) || s.perfectStreak < 0) s.perfectStreak = 0;
+  else s.perfectStreak = Math.round(s.perfectStreak);
   // a non-numeric level reads as absent; a fractional one is rounded — migrate clamps the range
   if (typeof s.level !== "number" || !isFinite(s.level)) delete s.level; else s.level = Math.round(s.level);
   // a version that is not a number reads as absent — a hostile value must not crash the migration check
@@ -203,7 +214,7 @@ function migrate(s) {
 }
 
 const newState = () => ({
-  version: 3, level: 1, sessionsCompleted: 0,
+  version: 3, level: 1, sessionsCompleted: 0, perfectStreak: 0,
   settings: { mode: "mic", sound: true, childName: "", lang: "en-US" },
   words: {}, log: [],
 });
@@ -425,7 +436,7 @@ export default function WordQuest() {
     const k = items.filter(i => i.r === "close").length;
     const w = items.filter(i => i.r === "wrong").length;
     const acc = items.length ? Math.round((c / items.length) * 100) : 0;
-    const promoted = partial ? false : checkPromotion(s);
+    const promoted = checkPromotion(s, { partial, perfect: items.length > 0 && w === 0 && k === 0 });
     s.log.push({ n: s.log.length + 1, date: new Date().toISOString().slice(0, 10),
       level: promoted ? s.level - 1 : s.level, c, k, w, acc, items, partial });
     setState(s); persist(s);

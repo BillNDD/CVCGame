@@ -18,8 +18,8 @@ const MUTANTS = [
   ["INTERVALS[3] 4 to 5", "const INTERVALS = [1, 1, 2, 4, 7, 12];", "const INTERVALS = [1, 1, 2, 5, 7, 12];"],
   ["INTERVALS[0] 1 to 2", "const INTERVALS = [1, 1, 2, 4, 7, 12];", "const INTERVALS = [2, 1, 2, 4, 7, 12];"],
   ["dueAt plus to minus", "ws.dueAt = sessionNumber + INTERVALS[ws.box];", "ws.dueAt = sessionNumber - INTERVALS[ws.box];"],
-  ["promotion >= to >", ">= 0.8) { state.level += 1;", "> 0.8) { state.level += 1;"],
-  ["promotion 0.8 to 0.75", ">= 0.8) { state.level += 1;", ">= 0.75) { state.level += 1;"],
+  ["promotion >= to >", "words.length >= 0.8;", "words.length > 0.8;"],
+  ["promotion 0.8 to 0.75", "words.length >= 0.8;", "words.length >= 0.75;"],
   ["promotion box >=3 to >=2", "state.words[w] && state.words[w].box >= 3).length", "state.words[w] && state.words[w].box >= 2).length"],
   ["lower-level cap 5 to 4", "list.push(...take(dueBelow, 5));", "list.push(...take(dueBelow, 4));"],
   ["confidence cap 2 to 3", "list.push(...take(confidence, 2));", "list.push(...take(confidence, 3));"],
@@ -47,6 +47,10 @@ const MUTANTS = [
   ["praise ignores its index", "{ text: PRAISE[praise] || PRAISE[0], rate: 0.9 }", "{ text: PRAISE[0], rate: 0.9 }"],
   ["praise option reworded", '"You sounded that one out beautifully!",', '"You sounded that one out!",'],
   ["hush does nothing", 'function hush() { try { if ("speechSynthesis" in window) window.speechSynthesis.cancel(); } catch (e) {} }', "function hush() {}"],
+  ["streak threshold 2 to 3", "secure || state.perfectStreak >= 2", "secure || state.perfectStreak >= 3"],
+  ["streak reset after promotion dropped", "{ state.level += 1; state.perfectStreak = 0; return true; }", "{ state.level += 1; return true; }"],
+  ["partial guard dropped", "if (session && session.partial) return false;", ""],
+  ["imperfect session keeps the streak", "state.perfectStreak = session.perfect ? prior + 1 : 0;", "state.perfectStreak = session.perfect ? prior + 1 : prior;"],
 ];
 
 const run = (cmd, args) => { try { execFileSync(cmd, args, { stdio: "pipe" }); return true; } catch { return false; } };

@@ -151,7 +151,7 @@ export default function App() {
     const k = items.filter(i => i.r === "close").length;
     const w = items.filter(i => i.r === "wrong").length;
     const acc = items.length ? Math.round((c / items.length) * 100) : 0;
-    const promoted = partial ? false : checkPromotion(s);
+    const promoted = checkPromotion(s, { partial, perfect: items.length > 0 && w === 0 && k === 0 });
     s.log.push({ n: s.log.length + 1, date: new Date().toISOString().slice(0, 10),
       level: promoted ? s.level - 1 : s.level, c, k, w, acc, items, partial });
     setState(s); persist(s);

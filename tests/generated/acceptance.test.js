@@ -218,6 +218,46 @@ describe("Feature: Level promotion", () => {
     expect(promoted).toBe(false);
     expect(s.level).toBe(7);
   });
+  it("Two perfect sessions in a row promote", () => {
+    const s = newState(); s.level = 2;
+    expect(LEVELS[2 - 1].words.length).toBe(20);
+    LEVELS[2 - 1].words.slice(0, 5).forEach((w) => { s.words[w] = { ...freshWordState(), box: 3, attempts: 1 }; });
+    s.perfectStreak = 1;
+    const promoted = checkPromotion(s, { partial: false, perfect: true });
+    expect(promoted).toBe(true);
+    expect(s.level).toBe(3);
+    expect(s.perfectStreak).toBe(0);
+  });
+  it("One perfect session is not enough", () => {
+    const s = newState(); s.level = 2;
+    expect(LEVELS[2 - 1].words.length).toBe(20);
+    LEVELS[2 - 1].words.slice(0, 5).forEach((w) => { s.words[w] = { ...freshWordState(), box: 3, attempts: 1 }; });
+    s.perfectStreak = 0;
+    const promoted = checkPromotion(s, { partial: false, perfect: true });
+    expect(promoted).toBe(false);
+    expect(s.level).toBe(2);
+    expect(s.perfectStreak).toBe(1);
+  });
+  it("An imperfect session resets the streak", () => {
+    const s = newState(); s.level = 2;
+    expect(LEVELS[2 - 1].words.length).toBe(20);
+    LEVELS[2 - 1].words.slice(0, 5).forEach((w) => { s.words[w] = { ...freshWordState(), box: 3, attempts: 1 }; });
+    s.perfectStreak = 1;
+    const promoted = checkPromotion(s, { partial: false, perfect: false });
+    expect(promoted).toBe(false);
+    expect(s.level).toBe(2);
+    expect(s.perfectStreak).toBe(0);
+  });
+  it("A session stopped early leaves the streak unchanged", () => {
+    const s = newState(); s.level = 2;
+    expect(LEVELS[2 - 1].words.length).toBe(20);
+    LEVELS[2 - 1].words.slice(0, 5).forEach((w) => { s.words[w] = { ...freshWordState(), box: 3, attempts: 1 }; });
+    s.perfectStreak = 1;
+    const promoted = checkPromotion(s, { partial: true, perfect: true });
+    expect(promoted).toBe(false);
+    expect(s.level).toBe(2);
+    expect(s.perfectStreak).toBe(1);
+  });
 });
 
 describe("Feature: Saved data survives anything", () => {

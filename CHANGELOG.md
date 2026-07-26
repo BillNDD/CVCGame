@@ -31,6 +31,9 @@ The first app version is 1.0.0-beta.1. The app stays in beta until version 1.0 i
 - Fixed: the checks on GitHub failed on every push because the check runner could not read
   test counts from colored output. The tests themselves passed. The runner now strips the
   color codes, and the emails about failed runs stop.
+- New: a second path to level promotion. Two completed sessions in a row with every word
+  read correctly move the child up one level. A session that stops early does not affect
+  the streak.
 
 ## Version 5
 
