@@ -31,6 +31,11 @@ The first app version is 1.0.0-beta.1. The app stays in beta until version 1.0 i
 - Fixed: the checks on GitHub failed on every push because the check runner could not read
   test counts from colored output. The tests themselves passed. The runner now strips the
   color codes, and the emails about failed runs stop.
+- New: the app speaks with a warm recorded voice instead of the robotic system voice. A
+  default voice pack ships with the app: one clip for every word and sentence, rendered
+  from an open-source voice the owner chose by ear. Words play slowly with a clear pause
+  after "The word was". The system voice remains the fallback, and everything still works
+  offline with no network calls.
 - New: a second path to level promotion. Two completed sessions in a row with every word
   read correctly move the child up one level. A session that stops early does not affect
   the streak. Any promotion, and a manual level change, resets the streak: it never

@@ -89,3 +89,12 @@ This document follows the Microsoft Writing Style Guide.
 29. In grown-up mode, complete two sessions in a row and mark every word "✓ got it".
     Expected: After the second session, the app says "Amazing! Level up!" and the level
     increases by 1.
+
+## Voice
+
+30. With sound on, grade a word correct and listen to the whole feedback.
+    Expected: A warm recorded voice speaks, not the robotic system voice. The praise, a
+    clear pause, "The word was", another clear pause, then the word, slowly. The words
+    never crush together.
+31. Turn on Airplane Mode and repeat the previous step.
+    Expected: The same recorded voice speaks. Offline changes nothing.

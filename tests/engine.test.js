@@ -7,6 +7,7 @@ import {
   LEVELS, DIGRAPHS, TRICKY, HOMOPHONES, INTERVALS, SESSION_SIZE, PROMPT_CAP, WORD_LEVEL,
   chunkWord, dashed, freshWordState, applyResult, buildSession, checkPromotion,
   heal, migrate, newState, buildMarkdown, loadState, saveState, speak, hush, buzz, feedbackSpeech, PRAISE,
+  SEAM_MS, voiceScript, clipPlan, resolvePack,
 } from "../src/engine.js";
 
 const clone = (o) => JSON.parse(JSON.stringify(o));
@@ -345,6 +346,37 @@ describe("buildMarkdown", () => {
     const s = newState();
     s.log = [{ n: 1, date: "2026-07-25", level: 1, c: 5, k: 1, w: 0, acc: 83, items: [{ w: "at", r: "correct", retries: 0 }], partial: true }];
     expect(buildMarkdown(s)).toContain("partial");
+  });
+});
+
+/* ---------------- voice packs (SPEC §5a) ---------------- */
+describe("voice packs", () => {
+  it("inventories one clip per word plus the fixed sentences", () => {
+    const script = voiceScript();
+    expect(script.length).toBe(276);                       // 6 sentences + 10 praise + 260 words
+    expect(script.filter((c) => c.slow).length).toBe(260);
+    expect(new Set(script.map((c) => c.id)).size).toBe(276);
+    expect(script.find((c) => c.id === "s:was").text).toBe("The word was");
+    expect(script.find((c) => c.id === "l:wrong").text).toBe("Let’s try again.");
+    expect(script.find((c) => c.id === "p:0").text).toBe("Great job!");
+    expect(script.find((c) => c.id === "w:cat")).toEqual({ id: "w:cat", text: "cat", slow: true });
+  });
+  it("plans each utterance with seams, at the literal 700 ms", () => {
+    expect(SEAM_MS).toBe(700);
+    expect(clipPlan("correct", "cat", 3)).toEqual(["p:3", "seam", "s:was", "seam", "w:cat"]);
+    expect(clipPlan("correct", "cat", 42)).toEqual(["p:0", "seam", "s:was", "seam", "w:cat"]);
+    expect(clipPlan("close", "ship")).toEqual(["l:close", "seam", "s:is", "seam", "w:ship"]);
+    expect(clipPlan("wrong", "sun")).toEqual(["l:wrong", "seam", "s:is", "seam", "w:sun"]);
+    expect(clipPlan("replay", "cat")).toEqual(["w:cat"]);
+    expect(clipPlan("levelup")).toEqual(["e:levelup"]);
+    expect(clipPlan("done")).toEqual(["e:done"]);
+  });
+  it("resolves one source per utterance: family, then default, then none", () => {
+    const plan = ["l:close", "seam", "s:is", "seam", "w:ship"];
+    expect(resolvePack(plan, () => true)).toBe("family");
+    expect(resolvePack(plan, (t) => t === "default")).toBe("default");
+    expect(resolvePack(plan, (t, id) => t === "default" || id !== "w:ship")).toBe("default"); // family lacks one clip
+    expect(resolvePack(plan, () => false)).toBe(null);
   });
 });
 

@@ -1,0 +1,1106 @@
+{
+ "s:was": {
+  "file": "s-was.mp3",
+  "ms": 981
+ },
+ "s:is": {
+  "file": "s-is.mp3",
+  "ms": 917
+ },
+ "l:close": {
+  "file": "l-close.mp3",
+  "ms": 917
+ },
+ "l:wrong": {
+  "file": "l-wrong.mp3",
+  "ms": 1130
+ },
+ "e:done": {
+  "file": "e-done.mp3",
+  "ms": 1877
+ },
+ "e:levelup": {
+  "file": "e-levelup.mp3",
+  "ms": 1450
+ },
+ "p:0": {
+  "file": "p-0.mp3",
+  "ms": 960
+ },
+ "p:1": {
+  "file": "p-1.mp3",
+  "ms": 874
+ },
+ "p:2": {
+  "file": "p-2.mp3",
+  "ms": 1813
+ },
+ "p:3": {
+  "file": "p-3.mp3",
+  "ms": 2453
+ },
+ "p:4": {
+  "file": "p-4.mp3",
+  "ms": 1493
+ },
+ "p:5": {
+  "file": "p-5.mp3",
+  "ms": 2261
+ },
+ "p:6": {
+  "file": "p-6.mp3",
+  "ms": 1642
+ },
+ "p:7": {
+  "file": "p-7.mp3",
+  "ms": 1792
+ },
+ "p:8": {
+  "file": "p-8.mp3",
+  "ms": 1877
+ },
+ "p:9": {
+  "file": "p-9.mp3",
+  "ms": 1600
+ },
+ "w:at": {
+  "file": "w-at.mp3",
+  "ms": 746
+ },
+ "w:an": {
+  "file": "w-an.mp3",
+  "ms": 896
+ },
+ "w:am": {
+  "file": "w-am.mp3",
+  "ms": 874
+ },
+ "w:ax": {
+  "file": "w-ax.mp3",
+  "ms": 1024
+ },
+ "w:in": {
+  "file": "w-in.mp3",
+  "ms": 981
+ },
+ "w:it": {
+  "file": "w-it.mp3",
+  "ms": 746
+ },
+ "w:if": {
+  "file": "w-if.mp3",
+  "ms": 576
+ },
+ "w:is": {
+  "file": "w-is.mp3",
+  "ms": 960
+ },
+ "w:on": {
+  "file": "w-on.mp3",
+  "ms": 1109
+ },
+ "w:ox": {
+  "file": "w-ox.mp3",
+  "ms": 1109
+ },
+ "w:up": {
+  "file": "w-up.mp3",
+  "ms": 917
+ },
+ "w:us": {
+  "file": "w-us.mp3",
+  "ms": 1045
+ },
+ "w:cat": {
+  "file": "w-cat.mp3",
+  "ms": 1024
+ },
+ "w:hat": {
+  "file": "w-hat.mp3",
+  "ms": 1002
+ },
+ "w:mat": {
+  "file": "w-mat.mp3",
+  "ms": 1024
+ },
+ "w:sat": {
+  "file": "w-sat.mp3",
+  "ms": 1024
+ },
+ "w:man": {
+  "file": "w-man.mp3",
+  "ms": 1152
+ },
+ "w:can": {
+  "file": "w-can.mp3",
+  "ms": 1130
+ },
+ "w:ran": {
+  "file": "w-ran.mp3",
+  "ms": 1109
+ },
+ "w:bat": {
+  "file": "w-bat.mp3",
+  "ms": 1002
+ },
+ "w:cap": {
+  "file": "w-cap.mp3",
+  "ms": 1024
+ },
+ "w:map": {
+  "file": "w-map.mp3",
+  "ms": 1024
+ },
+ "w:tap": {
+  "file": "w-tap.mp3",
+  "ms": 1045
+ },
+ "w:nap": {
+  "file": "w-nap.mp3",
+  "ms": 1066
+ },
+ "w:bag": {
+  "file": "w-bag.mp3",
+  "ms": 1130
+ },
+ "w:dad": {
+  "file": "w-dad.mp3",
+  "ms": 1109
+ },
+ "w:jam": {
+  "file": "w-jam.mp3",
+  "ms": 1237
+ },
+ "w:pan": {
+  "file": "w-pan.mp3",
+  "ms": 1088
+ },
+ "w:rat": {
+  "file": "w-rat.mp3",
+  "ms": 1045
+ },
+ "w:sad": {
+  "file": "w-sad.mp3",
+  "ms": 1109
+ },
+ "w:wag": {
+  "file": "w-wag.mp3",
+  "ms": 1109
+ },
+ "w:van": {
+  "file": "w-van.mp3",
+  "ms": 1088
+ },
+ "w:fan": {
+  "file": "w-fan.mp3",
+  "ms": 1152
+ },
+ "w:ham": {
+  "file": "w-ham.mp3",
+  "ms": 1152
+ },
+ "w:lap": {
+  "file": "w-lap.mp3",
+  "ms": 1088
+ },
+ "w:tag": {
+  "file": "w-tag.mp3",
+  "ms": 1109
+ },
+ "w:had": {
+  "file": "w-had.mp3",
+  "ms": 1024
+ },
+ "w:tan": {
+  "file": "w-tan.mp3",
+  "ms": 1130
+ },
+ "w:pad": {
+  "file": "w-pad.mp3",
+  "ms": 1088
+ },
+ "w:rag": {
+  "file": "w-rag.mp3",
+  "ms": 1152
+ },
+ "w:zap": {
+  "file": "w-zap.mp3",
+  "ms": 1002
+ },
+ "w:yam": {
+  "file": "w-yam.mp3",
+  "ms": 1173
+ },
+ "w:pal": {
+  "file": "w-pal.mp3",
+  "ms": 1045
+ },
+ "w:cab": {
+  "file": "w-cab.mp3",
+  "ms": 1088
+ },
+ "w:ram": {
+  "file": "w-ram.mp3",
+  "ms": 1194
+ },
+ "w:dab": {
+  "file": "w-dab.mp3",
+  "ms": 874
+ },
+ "w:yap": {
+  "file": "w-yap.mp3",
+  "ms": 1066
+ },
+ "w:mad": {
+  "file": "w-mad.mp3",
+  "ms": 1152
+ },
+ "w:bad": {
+  "file": "w-bad.mp3",
+  "ms": 1088
+ },
+ "w:rap": {
+  "file": "w-rap.mp3",
+  "ms": 1066
+ },
+ "w:has": {
+  "file": "w-has.mp3",
+  "ms": 1237
+ },
+ "w:sit": {
+  "file": "w-sit.mp3",
+  "ms": 1066
+ },
+ "w:pig": {
+  "file": "w-pig.mp3",
+  "ms": 1109
+ },
+ "w:big": {
+  "file": "w-big.mp3",
+  "ms": 1109
+ },
+ "w:dig": {
+  "file": "w-dig.mp3",
+  "ms": 1109
+ },
+ "w:win": {
+  "file": "w-win.mp3",
+  "ms": 1088
+ },
+ "w:lip": {
+  "file": "w-lip.mp3",
+  "ms": 1024
+ },
+ "w:hit": {
+  "file": "w-hit.mp3",
+  "ms": 1045
+ },
+ "w:six": {
+  "file": "w-six.mp3",
+  "ms": 1130
+ },
+ "w:fin": {
+  "file": "w-fin.mp3",
+  "ms": 1045
+ },
+ "w:bin": {
+  "file": "w-bin.mp3",
+  "ms": 1109
+ },
+ "w:dog": {
+  "file": "w-dog.mp3",
+  "ms": 1088
+ },
+ "w:hot": {
+  "file": "w-hot.mp3",
+  "ms": 1066
+ },
+ "w:top": {
+  "file": "w-top.mp3",
+  "ms": 981
+ },
+ "w:pot": {
+  "file": "w-pot.mp3",
+  "ms": 1002
+ },
+ "w:mop": {
+  "file": "w-mop.mp3",
+  "ms": 1045
+ },
+ "w:log": {
+  "file": "w-log.mp3",
+  "ms": 1173
+ },
+ "w:box": {
+  "file": "w-box.mp3",
+  "ms": 1109
+ },
+ "w:fox": {
+  "file": "w-fox.mp3",
+  "ms": 1173
+ },
+ "w:hop": {
+  "file": "w-hop.mp3",
+  "ms": 917
+ },
+ "w:cot": {
+  "file": "w-cot.mp3",
+  "ms": 1045
+ },
+ "w:mom": {
+  "file": "w-mom.mp3",
+  "ms": 1130
+ },
+ "w:pop": {
+  "file": "w-pop.mp3",
+  "ms": 917
+ },
+ "w:not": {
+  "file": "w-not.mp3",
+  "ms": 1130
+ },
+ "w:got": {
+  "file": "w-got.mp3",
+  "ms": 1045
+ },
+ "w:did": {
+  "file": "w-did.mp3",
+  "ms": 1045
+ },
+ "w:him": {
+  "file": "w-him.mp3",
+  "ms": 1045
+ },
+ "w:pin": {
+  "file": "w-pin.mp3",
+  "ms": 1088
+ },
+ "w:tip": {
+  "file": "w-tip.mp3",
+  "ms": 960
+ },
+ "w:sip": {
+  "file": "w-sip.mp3",
+  "ms": 1002
+ },
+ "w:dip": {
+  "file": "w-dip.mp3",
+  "ms": 938
+ },
+ "w:hip": {
+  "file": "w-hip.mp3",
+  "ms": 938
+ },
+ "w:rip": {
+  "file": "w-rip.mp3",
+  "ms": 938
+ },
+ "w:bit": {
+  "file": "w-bit.mp3",
+  "ms": 1045
+ },
+ "w:fit": {
+  "file": "w-fit.mp3",
+  "ms": 1024
+ },
+ "w:pit": {
+  "file": "w-pit.mp3",
+  "ms": 1088
+ },
+ "w:bib": {
+  "file": "w-bib.mp3",
+  "ms": 1024
+ },
+ "w:wig": {
+  "file": "w-wig.mp3",
+  "ms": 1045
+ },
+ "w:fix": {
+  "file": "w-fix.mp3",
+  "ms": 1152
+ },
+ "w:job": {
+  "file": "w-job.mp3",
+  "ms": 960
+ },
+ "w:lot": {
+  "file": "w-lot.mp3",
+  "ms": 1088
+ },
+ "w:nod": {
+  "file": "w-nod.mp3",
+  "ms": 1109
+ },
+ "w:hog": {
+  "file": "w-hog.mp3",
+  "ms": 1109
+ },
+ "w:bed": {
+  "file": "w-bed.mp3",
+  "ms": 682
+ },
+ "w:red": {
+  "file": "w-red.mp3",
+  "ms": 960
+ },
+ "w:hen": {
+  "file": "w-hen.mp3",
+  "ms": 1088
+ },
+ "w:pen": {
+  "file": "w-pen.mp3",
+  "ms": 1045
+ },
+ "w:ten": {
+  "file": "w-ten.mp3",
+  "ms": 1066
+ },
+ "w:net": {
+  "file": "w-net.mp3",
+  "ms": 1002
+ },
+ "w:leg": {
+  "file": "w-leg.mp3",
+  "ms": 1130
+ },
+ "w:wet": {
+  "file": "w-wet.mp3",
+  "ms": 1045
+ },
+ "w:jet": {
+  "file": "w-jet.mp3",
+  "ms": 1130
+ },
+ "w:men": {
+  "file": "w-men.mp3",
+  "ms": 1130
+ },
+ "w:bus": {
+  "file": "w-bus.mp3",
+  "ms": 1088
+ },
+ "w:cup": {
+  "file": "w-cup.mp3",
+  "ms": 1002
+ },
+ "w:sun": {
+  "file": "w-sun.mp3",
+  "ms": 1109
+ },
+ "w:run": {
+  "file": "w-run.mp3",
+  "ms": 1045
+ },
+ "w:fun": {
+  "file": "w-fun.mp3",
+  "ms": 1066
+ },
+ "w:mud": {
+  "file": "w-mud.mp3",
+  "ms": 1109
+ },
+ "w:bug": {
+  "file": "w-bug.mp3",
+  "ms": 1045
+ },
+ "w:hug": {
+  "file": "w-hug.mp3",
+  "ms": 1066
+ },
+ "w:nut": {
+  "file": "w-nut.mp3",
+  "ms": 1088
+ },
+ "w:tub": {
+  "file": "w-tub.mp3",
+  "ms": 981
+ },
+ "w:pet": {
+  "file": "w-pet.mp3",
+  "ms": 981
+ },
+ "w:get": {
+  "file": "w-get.mp3",
+  "ms": 1066
+ },
+ "w:let": {
+  "file": "w-let.mp3",
+  "ms": 1088
+ },
+ "w:set": {
+  "file": "w-set.mp3",
+  "ms": 1024
+ },
+ "w:cut": {
+  "file": "w-cut.mp3",
+  "ms": 1066
+ },
+ "w:pup": {
+  "file": "w-pup.mp3",
+  "ms": 896
+ },
+ "w:web": {
+  "file": "w-web.mp3",
+  "ms": 1066
+ },
+ "w:bun": {
+  "file": "w-bun.mp3",
+  "ms": 896
+ },
+ "w:rug": {
+  "file": "w-rug.mp3",
+  "ms": 1088
+ },
+ "w:mug": {
+  "file": "w-mug.mp3",
+  "ms": 1066
+ },
+ "w:vet": {
+  "file": "w-vet.mp3",
+  "ms": 1002
+ },
+ "w:tug": {
+  "file": "w-tug.mp3",
+  "ms": 1130
+ },
+ "w:jug": {
+  "file": "w-jug.mp3",
+  "ms": 1045
+ },
+ "w:hum": {
+  "file": "w-hum.mp3",
+  "ms": 1088
+ },
+ "w:rub": {
+  "file": "w-rub.mp3",
+  "ms": 1045
+ },
+ "w:dug": {
+  "file": "w-dug.mp3",
+  "ms": 1088
+ },
+ "w:bud": {
+  "file": "w-bud.mp3",
+  "ms": 1066
+ },
+ "w:peg": {
+  "file": "w-peg.mp3",
+  "ms": 1066
+ },
+ "w:met": {
+  "file": "w-met.mp3",
+  "ms": 1045
+ },
+ "w:yet": {
+  "file": "w-yet.mp3",
+  "ms": 1066
+ },
+ "w:yes": {
+  "file": "w-yes.mp3",
+  "ms": 1173
+ },
+ "w:zip": {
+  "file": "w-zip.mp3",
+  "ms": 1024
+ },
+ "w:gum": {
+  "file": "w-gum.mp3",
+  "ms": 1088
+ },
+ "w:gas": {
+  "file": "w-gas.mp3",
+  "ms": 1173
+ },
+ "w:kid": {
+  "file": "w-kid.mp3",
+  "ms": 1109
+ },
+ "w:cub": {
+  "file": "w-cub.mp3",
+  "ms": 1045
+ },
+ "w:den": {
+  "file": "w-den.mp3",
+  "ms": 1066
+ },
+ "w:dot": {
+  "file": "w-dot.mp3",
+  "ms": 1066
+ },
+ "w:fed": {
+  "file": "w-fed.mp3",
+  "ms": 896
+ },
+ "w:fig": {
+  "file": "w-fig.mp3",
+  "ms": 1130
+ },
+ "w:fog": {
+  "file": "w-fog.mp3",
+  "ms": 1088
+ },
+ "w:gap": {
+  "file": "w-gap.mp3",
+  "ms": 1045
+ },
+ "w:hid": {
+  "file": "w-hid.mp3",
+  "ms": 1045
+ },
+ "w:hut": {
+  "file": "w-hut.mp3",
+  "ms": 938
+ },
+ "w:jog": {
+  "file": "w-jog.mp3",
+  "ms": 1237
+ },
+ "w:kit": {
+  "file": "w-kit.mp3",
+  "ms": 1024
+ },
+ "w:lid": {
+  "file": "w-lid.mp3",
+  "ms": 1130
+ },
+ "w:mix": {
+  "file": "w-mix.mp3",
+  "ms": 1173
+ },
+ "w:wax": {
+  "file": "w-wax.mp3",
+  "ms": 1130
+ },
+ "w:yak": {
+  "file": "w-yak.mp3",
+  "ms": 1109
+ },
+ "w:jig": {
+  "file": "w-jig.mp3",
+  "ms": 1066
+ },
+ "w:jab": {
+  "file": "w-jab.mp3",
+  "ms": 1045
+ },
+ "w:jot": {
+  "file": "w-jot.mp3",
+  "ms": 1109
+ },
+ "w:lab": {
+  "file": "w-lab.mp3",
+  "ms": 1109
+ },
+ "w:lad": {
+  "file": "w-lad.mp3",
+  "ms": 1152
+ },
+ "w:led": {
+  "file": "w-led.mp3",
+  "ms": 981
+ },
+ "w:lit": {
+  "file": "w-lit.mp3",
+  "ms": 1024
+ },
+ "w:lug": {
+  "file": "w-lug.mp3",
+  "ms": 1173
+ },
+ "w:nab": {
+  "file": "w-nab.mp3",
+  "ms": 1066
+ },
+ "w:pep": {
+  "file": "w-pep.mp3",
+  "ms": 960
+ },
+ "w:pod": {
+  "file": "w-pod.mp3",
+  "ms": 1024
+ },
+ "w:rib": {
+  "file": "w-rib.mp3",
+  "ms": 1066
+ },
+ "w:rim": {
+  "file": "w-rim.mp3",
+  "ms": 1109
+ },
+ "w:rod": {
+  "file": "w-rod.mp3",
+  "ms": 1109
+ },
+ "w:rot": {
+  "file": "w-rot.mp3",
+  "ms": 1088
+ },
+ "w:sag": {
+  "file": "w-sag.mp3",
+  "ms": 1152
+ },
+ "w:sub": {
+  "file": "w-sub.mp3",
+  "ms": 1045
+ },
+ "w:sum": {
+  "file": "w-sum.mp3",
+  "ms": 1066
+ },
+ "w:tab": {
+  "file": "w-tab.mp3",
+  "ms": 1066
+ },
+ "w:tot": {
+  "file": "w-tot.mp3",
+  "ms": 1066
+ },
+ "w:wed": {
+  "file": "w-wed.mp3",
+  "ms": 1045
+ },
+ "w:wit": {
+  "file": "w-wit.mp3",
+  "ms": 1045
+ },
+ "w:zig": {
+  "file": "w-zig.mp3",
+  "ms": 1130
+ },
+ "w:zag": {
+  "file": "w-zag.mp3",
+  "ms": 1152
+ },
+ "w:ship": {
+  "file": "w-ship.mp3",
+  "ms": 1002
+ },
+ "w:shop": {
+  "file": "w-shop.mp3",
+  "ms": 1066
+ },
+ "w:shut": {
+  "file": "w-shut.mp3",
+  "ms": 1088
+ },
+ "w:fish": {
+  "file": "w-fish.mp3",
+  "ms": 1194
+ },
+ "w:dish": {
+  "file": "w-dish.mp3",
+  "ms": 1152
+ },
+ "w:wish": {
+  "file": "w-wish.mp3",
+  "ms": 1152
+ },
+ "w:cash": {
+  "file": "w-cash.mp3",
+  "ms": 1173
+ },
+ "w:chat": {
+  "file": "w-chat.mp3",
+  "ms": 1024
+ },
+ "w:chip": {
+  "file": "w-chip.mp3",
+  "ms": 1024
+ },
+ "w:chop": {
+  "file": "w-chop.mp3",
+  "ms": 1109
+ },
+ "w:rich": {
+  "file": "w-rich.mp3",
+  "ms": 1109
+ },
+ "w:much": {
+  "file": "w-much.mp3",
+  "ms": 1109
+ },
+ "w:such": {
+  "file": "w-such.mp3",
+  "ms": 1066
+ },
+ "w:chin": {
+  "file": "w-chin.mp3",
+  "ms": 1130
+ },
+ "w:shed": {
+  "file": "w-shed.mp3",
+  "ms": 1109
+ },
+ "w:shin": {
+  "file": "w-shin.mp3",
+  "ms": 1066
+ },
+ "w:mash": {
+  "file": "w-mash.mp3",
+  "ms": 1237
+ },
+ "w:rash": {
+  "file": "w-rash.mp3",
+  "ms": 1173
+ },
+ "w:chug": {
+  "file": "w-chug.mp3",
+  "ms": 810
+ },
+ "w:chum": {
+  "file": "w-chum.mp3",
+  "ms": 1173
+ },
+ "w:dash": {
+  "file": "w-dash.mp3",
+  "ms": 1173
+ },
+ "w:sash": {
+  "file": "w-sash.mp3",
+  "ms": 1216
+ },
+ "w:hush": {
+  "file": "w-hush.mp3",
+  "ms": 896
+ },
+ "w:rush": {
+  "file": "w-rush.mp3",
+  "ms": 1130
+ },
+ "w:mush": {
+  "file": "w-mush.mp3",
+  "ms": 1216
+ },
+ "w:chap": {
+  "file": "w-chap.mp3",
+  "ms": 1045
+ },
+ "w:wash": {
+  "file": "w-wash.mp3",
+  "ms": 1130
+ },
+ "w:push": {
+  "file": "w-push.mp3",
+  "ms": 1130
+ },
+ "w:bush": {
+  "file": "w-bush.mp3",
+  "ms": 1152
+ },
+ "w:she": {
+  "file": "w-she.mp3",
+  "ms": 1088
+ },
+ "w:thin": {
+  "file": "w-thin.mp3",
+  "ms": 1109
+ },
+ "w:this": {
+  "file": "w-this.mp3",
+  "ms": 1088
+ },
+ "w:that": {
+  "file": "w-that.mp3",
+  "ms": 1002
+ },
+ "w:then": {
+  "file": "w-then.mp3",
+  "ms": 1109
+ },
+ "w:them": {
+  "file": "w-them.mp3",
+  "ms": 1045
+ },
+ "w:bath": {
+  "file": "w-bath.mp3",
+  "ms": 1045
+ },
+ "w:math": {
+  "file": "w-math.mp3",
+  "ms": 1130
+ },
+ "w:with": {
+  "file": "w-with.mp3",
+  "ms": 1088
+ },
+ "w:when": {
+  "file": "w-when.mp3",
+  "ms": 1002
+ },
+ "w:whip": {
+  "file": "w-whip.mp3",
+  "ms": 938
+ },
+ "w:duck": {
+  "file": "w-duck.mp3",
+  "ms": 1024
+ },
+ "w:sock": {
+  "file": "w-sock.mp3",
+  "ms": 1066
+ },
+ "w:kick": {
+  "file": "w-kick.mp3",
+  "ms": 1002
+ },
+ "w:back": {
+  "file": "w-back.mp3",
+  "ms": 1088
+ },
+ "w:ring": {
+  "file": "w-ring.mp3",
+  "ms": 1130
+ },
+ "w:sing": {
+  "file": "w-sing.mp3",
+  "ms": 1130
+ },
+ "w:king": {
+  "file": "w-king.mp3",
+  "ms": 1109
+ },
+ "w:long": {
+  "file": "w-long.mp3",
+  "ms": 1194
+ },
+ "w:song": {
+  "file": "w-song.mp3",
+  "ms": 1173
+ },
+ "w:was": {
+  "file": "w-was.mp3",
+  "ms": 1088
+ },
+ "w:buck": {
+  "file": "w-buck.mp3",
+  "ms": 1002
+ },
+ "w:sung": {
+  "file": "w-sung.mp3",
+  "ms": 1130
+ },
+ "w:gong": {
+  "file": "w-gong.mp3",
+  "ms": 1216
+ },
+ "w:lung": {
+  "file": "w-lung.mp3",
+  "ms": 1109
+ },
+ "w:puck": {
+  "file": "w-puck.mp3",
+  "ms": 1002
+ },
+ "w:wick": {
+  "file": "w-wick.mp3",
+  "ms": 981
+ },
+ "w:rung": {
+  "file": "w-rung.mp3",
+  "ms": 1066
+ },
+ "w:muck": {
+  "file": "w-muck.mp3",
+  "ms": 1045
+ },
+ "w:pack": {
+  "file": "w-pack.mp3",
+  "ms": 1066
+ },
+ "w:path": {
+  "file": "w-path.mp3",
+  "ms": 1088
+ },
+ "w:sack": {
+  "file": "w-sack.mp3",
+  "ms": 1109
+ },
+ "w:tack": {
+  "file": "w-tack.mp3",
+  "ms": 1066
+ },
+ "w:neck": {
+  "file": "w-neck.mp3",
+  "ms": 1088
+ },
+ "w:luck": {
+  "file": "w-luck.mp3",
+  "ms": 1045
+ },
+ "w:tuck": {
+  "file": "w-tuck.mp3",
+  "ms": 1024
+ },
+ "w:peck": {
+  "file": "w-peck.mp3",
+  "ms": 1024
+ },
+ "w:deck": {
+  "file": "w-deck.mp3",
+  "ms": 1045
+ },
+ "w:thud": {
+  "file": "w-thud.mp3",
+  "ms": 1066
+ },
+ "w:rock": {
+  "file": "w-rock.mp3",
+  "ms": 1109
+ },
+ "w:lock": {
+  "file": "w-lock.mp3",
+  "ms": 1152
+ },
+ "w:pick": {
+  "file": "w-pick.mp3",
+  "ms": 1024
+ },
+ "w:lick": {
+  "file": "w-lick.mp3",
+  "ms": 1045
+ },
+ "w:wing": {
+  "file": "w-wing.mp3",
+  "ms": 1130
+ },
+ "w:tick": {
+  "file": "w-tick.mp3",
+  "ms": 938
+ },
+ "w:dock": {
+  "file": "w-dock.mp3",
+  "ms": 1024
+ },
+ "w:moth": {
+  "file": "w-moth.mp3",
+  "ms": 1152
+ },
+ "w:hang": {
+  "file": "w-hang.mp3",
+  "ms": 1088
+ },
+ "w:sang": {
+  "file": "w-sang.mp3",
+  "ms": 1152
+ },
+ "w:rang": {
+  "file": "w-rang.mp3",
+  "ms": 1109
+ },
+ "w:sick": {
+  "file": "w-sick.mp3",
+  "ms": 1045
+ },
+ "w:fang": {
+  "file": "w-fang.mp3",
+  "ms": 1109
+ },
+ "w:the": {
+  "file": "w-the.mp3",
+  "ms": 661
+ },
+ "w:what": {
+  "file": "w-what.mp3",
+  "ms": 1002
+ }
+}

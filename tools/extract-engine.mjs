@@ -16,7 +16,8 @@ const body = src.slice(0, cut).replace(/^import .*from "react";$/m, "");
 const EXPORTS = ["LEVELS","TRICKY","DIGRAPHS","HOMOPHONES","INTERVALS","SESSION_SIZE","PROMPT_CAP",
   "WORD_LEVEL","chunkWord","dashed","freshWordState","applyResult","shuffle","buildSession",
   "checkPromotion","heal","migrate","newState","buildMarkdown","loadState","saveState","feedbackParts",
-  "ADVANCE_GUARD_MS","SPLASH_TIMEOUT_MS","STORE_KEY","C","LANGS","speak","hush","buzz","SR","feedbackSpeech","PRAISE"];
+  "ADVANCE_GUARD_MS","SPLASH_TIMEOUT_MS","STORE_KEY","C","LANGS","speak","hush","buzz","SR","feedbackSpeech","PRAISE",
+  "SEAM_MS","VOICE_SENTENCES","voiceScript","clipPlan","resolvePack"];
 
 mkdirSync(dirname(resolve(OUT)), { recursive: true });
 writeFileSync(resolve(OUT),

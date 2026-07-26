@@ -288,6 +288,43 @@ const feedbackSpeech = (r, w, praise = 0) =>
   : r === "close" ? [{ text: "Good try!", rate: 0.9 }, { text: "The word is " + w + ".", rate: 0.7 }]
   : [{ text: "Let\u2019s try again.", rate: 0.9 }, { text: "The word is " + w + ".", rate: 0.7 }];
 
+/* ---------- voice packs (SPEC §5a) ---------- */
+const SEAM_MS = 700;   // the pause between clips in one utterance, so words never crush together
+const VOICE_SENTENCES = {
+  "s:was": "The word was",
+  "s:is": "The word is",
+  "l:close": "Good try!",
+  "l:wrong": "Let’s try again.",
+  "e:done": "All done! Great reading today!",
+  "e:levelup": "Amazing! Level up!",
+};
+/* The canonical clip inventory: every id a pack must cover, with its text and
+   whether it is spoken slowly. Drives the renderer, the recorder, and the gate. */
+function voiceScript() {
+  const clips = [];
+  for (const [id, text] of Object.entries(VOICE_SENTENCES)) clips.push({ id, text, slow: false });
+  PRAISE.forEach((text, i) => clips.push({ id: "p:" + i, text, slow: false }));
+  for (const l of LEVELS) for (const w of l.words) clips.push({ id: "w:" + w, text: w, slow: true });
+  return clips;
+}
+/* The play order for one utterance. "seam" is a SEAM_MS pause. */
+function clipPlan(kind, word, praise) {
+  if (kind === "correct") return ["p:" + (PRAISE[praise] ? praise : 0), "seam", "s:was", "seam", "w:" + word];
+  if (kind === "close") return ["l:close", "seam", "s:is", "seam", "w:" + word];
+  if (kind === "wrong") return ["l:wrong", "seam", "s:is", "seam", "w:" + word];
+  if (kind === "replay") return ["w:" + word];
+  if (kind === "levelup") return ["e:levelup"];
+  return ["e:done"];
+}
+/* One source per utterance (SPEC §5a): family if it has every clip, else the
+   default pack, else null and the caller uses system speech. */
+function resolvePack(plan, has) {
+  for (const tier of ["family", "default"]) {
+    if (plan.every((id) => id === "seam" || has(tier, id))) return tier;
+  }
+  return null;
+}
+
 /* ---------- export ---------- */
 function buildMarkdown(state) {
   const today = new Date().toISOString().slice(0, 10);
