@@ -172,6 +172,9 @@ the child hears the word slowly and clearly, never rushed. The replay control sa
 the same slow rate. Lead rate approximately 0.9. Reveal rate approximately 0.7. Pitch
 approximately 1.1. Stop the previous utterance first. Use the locale from the settings.
 
+When the next attempt starts, or a session ends without finishing, the app stops any speech
+that is still playing. The reveal of one word never plays into the attempt on the next word.
+
 The replay control (a speaker symbol in the "grown-up" strip) operates only in the feedback
 phase. The app never says the word before the attempt.
 

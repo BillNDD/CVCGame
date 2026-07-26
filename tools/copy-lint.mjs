@@ -24,7 +24,7 @@ const rule = (okay, name, detail) => {
 };
 
 const BANNED = /\b(wrong|bad|fail|failure|incorrect|error|oops|try harder)\b/i;
-const LETTER_NAME = /(^| )[a-z]([ .!]|$)/;
+const LETTER_NAME = /(^| )[a-z]([ .,!?]|$)/;
 
 /* Child-facing copy corpus: JSX text and multi-word strings from the child
    screens, comments stripped. ParentScreen is adult-facing (out of scope). */
@@ -134,18 +134,20 @@ if (process.argv.includes("--self-test")) {
   corrupted.corpus = [...real.corpus, { f: "fixture", t: "You are wrong, try harder" }];
   corrupted.praise = [...real.praise];
   corrupted.praise[2] = "Not bad, you got it right!";
+  corrupted.praise[5] = "Can you say b?";
   // built at runtime so this file's own source never contains a matchable email
   corrupted.tracked = [...real.tracked, { f: "fixture.md", t: "Contact firstname.lastname" + "@" + "some-personal-mail.net for help" }];
   const { found } = run(corrupted);
   const sawLead = found.some((p) => p.startsWith("feedback lead (correct)"));
-  const sawBanned = found.some((p) => p.startsWith("banned word"));
+  const sawBanned = found.some((p) => p.startsWith("banned word in child copy"));
   const sawEmail = found.some((p) => p.startsWith("email address"));
   const sawPraise = found.some((p) => p.startsWith("praise list")) && found.some((p) => p.startsWith("banned word in praise"));
-  if (sawLead && sawBanned && sawEmail && sawPraise) {
-    console.log("self-test OK: a changed sentence, a banned word, a planted email, and a reworded praise are all caught");
+  const sawLetter = found.some((p) => p.startsWith("letter name in praise"));
+  if (sawLead && sawBanned && sawEmail && sawPraise && sawLetter) {
+    console.log("self-test OK: a changed sentence, a banned word, a planted email, a reworded praise, and a letter-name praise are all caught");
     process.exit(0);
   }
-  console.error("self-test FAILED: " + JSON.stringify({ sawLead, sawBanned, sawEmail, sawPraise }));
+  console.error("self-test FAILED: " + JSON.stringify({ sawLead, sawBanned, sawEmail, sawPraise, sawLetter }));
   process.exit(1);
 }
 

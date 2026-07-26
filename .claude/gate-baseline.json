@@ -1,13 +1,13 @@
 {
   "comment": "Limits for the testing gauntlet. Plain keys are floors: raise when counts grow, never lower. Keys ending in _max are ceilings: lower when quality improves, never raise (CLAUDE.md E6).",
-  "g1_unit_tests": 59,
+  "g1_unit_tests": 60,
   "g2_properties": 10,
   "g2_cases_per_property": 1000,
   "g3_scenarios": 37,
   "g3_generated_tests": 48,
   "g4_acceptance_mutants": 77,
   "g4_survivors_max": 0,
-  "g5_source_mutants": 37,
+  "g5_source_mutants": 38,
   "g5_survivors_max": 0,
   "g6_lines_min": 95,
   "g6_branches_min": 90,
@@ -18,7 +18,7 @@
   "g8_checks": 15,
   "g8_axe_violations_max": 0,
   "g9_fault_tests": 8,
-  "g10_safety_tests": 7,
+  "g10_safety_tests": 8,
   "g11_copy_rules": 5,
   "g12_qa_steps": 28
 }
