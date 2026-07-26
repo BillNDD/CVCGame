@@ -4,7 +4,17 @@
    name, command, pass or fail, counts. A red gauntlet blocks the change (E7).
    Run: npm run gauntlet */
 import { execSync } from "node:child_process";
-import { readFileSync } from "node:fs";
+import { readFileSync, mkdirSync, rmdirSync } from "node:fs";
+
+/* One gauntlet at a time: G4 mutates tests/generated mid-run, so a second
+   concurrent run sees mutant residue and fails for the wrong reason. */
+try {
+  mkdirSync(".gauntlet.lock");
+} catch {
+  console.error("Another gauntlet appears to be running. Remove .gauntlet.lock if it is stale.");
+  process.exit(1);
+}
+process.on("exit", () => { try { rmdirSync(".gauntlet.lock"); } catch {} });
 
 const baseline = JSON.parse(readFileSync(".claude/gate-baseline.json", "utf8"));
 let failures = 0;
@@ -33,6 +43,7 @@ function step(gate, command, counts = [], env = {}) {
     if (c.floorKey) { pass = pass && n >= baseline[c.floorKey]; bound = ` (floor ${baseline[c.floorKey]})`; }
     if (c.maxKey) { pass = pass && n <= baseline[c.maxKey]; bound = ` (max ${baseline[c.maxKey]})`; }
     if (c.min !== undefined) { pass = pass && n >= c.min; bound = ` (min ${c.min})`; }
+    if (c.max !== undefined) { pass = pass && n <= c.max; bound = ` (max ${c.max})`; }
     if (!pass) ok = false;
     parts.push(`${c.label}=${Number.isNaN(n) ? "?" : n}${bound}${pass ? "" : " <-- FAIL"}`);
   }
@@ -45,7 +56,7 @@ step("extract engine", "node tools/extract-engine.mjs");
 
 step("G11 copy", "node tools/copy-lint.mjs && node tools/copy-lint.mjs --self-test", [
   { label: "rules", regex: /Copy gate: (\d+) rules/, floorKey: "g11_copy_rules" },
-  { label: "problems", regex: /(\d+) problems/, maxKey: "g4_survivors_max" },
+  { label: "problems", regex: /(\d+) problems/, max: 0 },
 ]);
 
 step("G1+G2+G9+G10 tests", "npx vitest run", [
@@ -53,18 +64,29 @@ step("G1+G2+G9+G10 tests", "npx vitest run", [
   { label: "properties", regex: /properties\.test\.js\s+\((\d+) tests\)/, floorKey: "g2_properties" },
   { label: "faults", regex: /faults\.test\.js\s+\((\d+) tests\)/, floorKey: "g9_fault_tests" },
   { label: "safety", regex: /safety\.test\.js\s+\((\d+) tests\)/, floorKey: "g10_safety_tests" },
-  { label: "failed", regex: /(\d+) failed/, maxKey: "g4_survivors_max", default: 0 },
+  { label: "acceptance", regex: /acceptance\.test\.js\s+\((\d+) tests\)/, floorKey: "g3_generated_tests" },
+  { label: "failed", regex: /(\d+) failed/, max: 0, default: 0 },
 ]);
 
-/* G2 structural check: 1000 or more generated cases per property. */
+/* G2 structural check: every property runs through the shared RUNS constant,
+   and RUNS carries at least the baseline case count. */
 {
   const src = readFileSync("tests/properties.test.js", "utf8");
-  const ok = /numRuns:\s*1000/.test(src);
-  report("G2 cases", "grep numRuns tests/properties.test.js", ok, `cases_per_property=${ok ? 1000 : "?"} (floor ${baseline.g2_cases_per_property})`);
+  const def = src.match(/const RUNS = \{ numRuns: (\d+) \}/);
+  const cases = def ? Number(def[1]) : 0;
+  const asserts = (src.match(/fc\.assert\(/g) || []).length;
+  const runsUses = (src.match(/\bRUNS\b/g) || []).length - 1;
+  const single = (src.match(/numRuns/g) || []).length === 1;
+  const ok = cases >= baseline.g2_cases_per_property && asserts > 0 && runsUses === asserts && single;
+  report("G2 cases", "structural check of tests/properties.test.js", ok,
+    `cases_per_property=${cases} (floor ${baseline.g2_cases_per_property}), asserts=${asserts}, via_RUNS=${runsUses}`);
 }
 
-step("G3 regeneration", "npm run gen:acceptance && git diff --exit-code -- tests/generated", [
-  { label: "scenarios", regex: /(\d+) scenarios\)/, floorKey: "g3_scenarios" },
+/* The porcelain check also catches a committed deletion of a generated file:
+   git diff alone cannot see the regenerated file arriving as untracked. */
+step("G3 regeneration", 'npm run gen:acceptance && git diff --exit-code -- tests/generated && test -z "$(git status --porcelain -- tests/generated)"', [
+  { label: "scenarios", regex: /(\d+) scenarios[,)]/, floorKey: "g3_scenarios" },
+  { label: "generated", regex: /(\d+) tests\)/, floorKey: "g3_generated_tests" },
 ]);
 
 step("G4 acceptance-mutants", "node tools/acceptance-mutants.mjs --self-test && node tools/acceptance-mutants.mjs", [
@@ -90,7 +112,7 @@ step("app build", "npm --prefix app run build");
 
 step("G7 interface", "node tests/ui/interface.mjs", [
   { label: "checks", regex: /(\d+) checks passed/, floorKey: "g7_interface_checks" },
-  { label: "failed", regex: /(\d+) failed/, maxKey: "g4_survivors_max" },
+  { label: "failed", regex: /(\d+) failed/, max: 0 },
 ], { WQ_SKIP_BUILD: "1" });
 
 step("G8 accessibility", "node tests/ui/a11y.mjs", [

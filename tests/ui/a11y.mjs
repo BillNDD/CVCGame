@@ -195,17 +195,25 @@ await audit("grown-ups");
   const rmContext = await browser.newContext({ reducedMotion: "reduce" });
   const rmPage = await rmContext.newPage();
   await rmPage.goto(URL, { waitUntil: "load" });
+  const rmHome = await rmPage.evaluate(() => document.getAnimations().length);
   await rmPage.getByRole("button", { name: "Begin Session" }).click();
   await rmPage.locator(".wq-word").waitFor();
+  const rmSession = await rmPage.evaluate(() => document.getAnimations().length);
   const rmHold = rmPage.getByRole("button", { name: "~ close (hold)" });
   const rmBox = await rmHold.boundingBox();
   await rmPage.mouse.move(rmBox.x + rmBox.width / 2, rmBox.y + rmBox.height / 2);
   await rmPage.mouse.down();
   await rmPage.waitForTimeout(200);
-  const rmAnims = await rmPage.evaluate(() => document.getAnimations().length);
+  const rmMidHold = await rmPage.evaluate(() => document.getAnimations().length);
   await rmPage.mouse.up();
-  if (rmAnims === 0) ok("reduced motion: zero animations, even mid-hold");
-  else fail("reduced motion left animations running", String(rmAnims));
+  await rmPage.waitForTimeout(400);
+  await rmHold.focus();
+  await rmHold.press("Enter");
+  await rmPage.locator(".wq-tile").first().waitFor();
+  const rmFeedback = await rmPage.evaluate(() => document.getAnimations().length);
+  if (rmHome + rmSession + rmMidHold + rmFeedback === 0)
+    ok("reduced motion: zero animations on home, session, mid-hold, and feedback");
+  else fail("reduced motion left animations running", JSON.stringify({ rmHome, rmSession, rmMidHold, rmFeedback }));
   await rmContext.close();
 }
 

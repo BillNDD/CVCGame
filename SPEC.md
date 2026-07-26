@@ -142,7 +142,7 @@ Early exit. If the adult stops a session early, the app shows two options:
 
 - correct: `Great job! That is **{d}**, {word}.`
 - close: `Good try! The correct pronunciation is **{d}**, {word}.`
-- wrong: `Let's try that again. The correct pronunciation is **{d}**, {word}.`
+- wrong: `Let’s try that again. The correct pronunciation is **{d}**, {word}.`
 
 The feedback shows below a row of yellow sound tiles, one tile for each unit. If the word is in
 `TRICKY`, add the note on a second line.
@@ -151,7 +151,7 @@ Speech output, when sound is on:
 
 - correct: `"Great job! {word}!"`
 - close: `"Good try! The word is {word}."`
-- wrong: `"Let's try again. The word is {word}."`
+- wrong: `"Let’s try again. The word is {word}."`
 
 Rate approximately 0.9. Pitch approximately 1.1. Stop the previous utterance first. Use the
 locale from the settings.
@@ -277,7 +277,7 @@ The reference build runs in a chat host. A standalone build changes four items:
    Make this function opt-in. Do not transmit audio without an explicit adult choice.
 
 The repository has a test suite. Run `npm test`. The command first extracts the engine to
-`src/engine.js` with `tools/extract-engine.mjs`, then runs Vitest. The suite has 42 tests. All
+`src/engine.js` with `tools/extract-engine.mjs`, then runs Vitest. `docs/testing-gauntlet.md` defines the full gate set. All
 values in the tests are literal values. A test never reads the constant that it checks.
 
 Tests (Vitest), minimum list:

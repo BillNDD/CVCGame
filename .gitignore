@@ -69,3 +69,6 @@ notes/
 *personal*
 *-local.*
 *.local.*
+
+# ---- Gauntlet run lock ----
+.gauntlet.lock/

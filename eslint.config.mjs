@@ -23,7 +23,7 @@ export default [
     },
   },
   {
-    files: ["tools/**/*.mjs", "tests/**/*.js", "app/vite.config.js", "app/src/main.jsx"],
+    files: ["tools/**/*.mjs", "tests/**/*.{js,mjs}", "app/vite.config.js", "app/src/main.jsx", "*.mjs"],
     languageOptions: { ecmaVersion: 2024, sourceType: "module" },
     rules: {
       "max-lines": ["error", 600],

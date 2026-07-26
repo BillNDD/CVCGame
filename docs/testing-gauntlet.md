@@ -33,7 +33,7 @@ This document follows the Microsoft Writing Style Guide.
 ## G1. Unit tests
 
 - Location: `tests/engine.test.js`. Tool: Vitest. Command: `npm test`.
-- Floor: 42 tests, all green. Key: `g1_unit_tests`.
+- The floor lives in the baseline file (key `g1_unit_tests`); it started at 42 tests.
 - These tests exist. Extend them; do not rebuild them.
 
 ## G2. Property tests
@@ -71,7 +71,8 @@ The level range is 1 to 7. SPEC and the engine agree; the owner corrected SPEC o
   `tests/generated/acceptance.test.js`. Vitest runs the generated file.
 - No person writes the executable tests by hand. The generator writes them from the IR.
 - The gauntlet regenerates the IR and the tests, and fails if the output differs from the
-  committed files. Key: `g3_scenarios`.
+  committed files, or if a committed generated file was deleted (the regenerated file would
+  arrive untracked). Keys: `g3_scenarios`, `g3_generated_tests`.
 - The generator output is deterministic: stable ordering, LF line endings, no timestamps, and
   no absolute paths. A `.gitattributes` file pins the line endings.
 
@@ -91,7 +92,10 @@ The level range is 1 to 7. SPEC and the engine agree; the owner corrected SPEC o
 ## G5. Source mutation
 
 - Tool: `tools/mutants.mjs`. Command: `npm run test:mutants`.
-- Floor: 28 mutants, 0 survivors. Keys: `g5_source_mutants`, `g5_survivors_max`.
+- The floor lives in the baseline file (key `g5_source_mutants`); it started at 28 mutants.
+  Ceiling: 0 survivors (`g5_survivors_max`).
+- Runner control: before any mutant runs, the pristine suite must pass. A broken test
+  environment therefore fails loudly instead of reading as "every mutant killed".
 - This gate exists. Add mutants for new invariants; re-point moved anchors; never delete one.
 
 ## G6. Coverage and quality metrics
@@ -135,8 +139,8 @@ The level range is 1 to 7. SPEC and the engine agree; the owner corrected SPEC o
   `g8_axe_violations_max`, ceiling 0.
 - Contrast: compute the ratio from the rendered colors. Every text node is 4.5:1 or more against
   its background. Do not eyeball colors.
-- At 200 percent text size, the stage scrolls and no content is clipped: every element's visible
-  box stays inside the viewport or inside a scroll container.
+- At 200 percent text size: the grown-ups stage scrolls, its last element is reachable, and no
+  horizontal scroll appears; the session stage stays scrollable with no horizontal cut.
 - With reduced motion emulated: zero running animations and zero transitions on every screen.
 
 ## G9. Fault injection
@@ -179,6 +183,10 @@ The level range is 1 to 7. SPEC and the engine agree; the owner corrected SPEC o
   3. The two tricky-word notes are present and exact. The canonical strings are:
      `Tricky word! The a sounds like “uh” — wuz.` and `Tricky word! The s sounds like “z” — iz.`
   4. Speech strings never spell letter names and never contain single-letter tokens.
+  5. No tracked file contains an email address, and the default child name is empty (safety
+     rule S9). Lockfiles are exempt: they carry npm authors' public emails, not personal data.
+- The reported rule count is computed from the rule families that actually ran, so a deleted
+  rule cannot keep reporting itself.
 - Negative control: `node tools/copy-lint.mjs --self-test` injects one banned word and one
   changed sentence into a memory copy, and must report both.
 
@@ -204,7 +212,8 @@ The level range is 1 to 7. SPEC and the engine agree; the owner corrected SPEC o
   only.
 - It then runs, in order: G11, G1+G2+G9+G10 (one Vitest run), G3 regeneration check,
   G4, G5, G6, build, G7, G8, G12 structure check, and the baseline comparison.
-- The runner is `tools/gauntlet.mjs`. Run `npm run gauntlet`.
+- The runner is `tools/gauntlet.mjs`. Run `npm run gauntlet`. The runner takes a lock, so two
+  gauntlets cannot race each other over the generated files.
 - CI: `.github/workflows/gauntlet.yml` runs the same command on every push and pull request.
 - The gauntlet prints one line per gate: name, command, pass or fail, and the counts.
 - Bootstrap: the floor for a gate that is not built yet starts at 0. Raise it in the same
