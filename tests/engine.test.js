@@ -13,20 +13,30 @@ const seeded = (words, patch) => { const s = newState(); words.forEach(w => { s.
 
 /* ---------------- bank ---------------- */
 describe("word bank", () => {
-  it("has 132 unique words across 7 levels", () => {
+  it("has 260 unique words across 7 levels", () => {
     const all = LEVELS.flatMap(l => l.words);
-    expect(all.length).toBe(132);
-    expect(new Set(all).size).toBe(132);
+    expect(all.length).toBe(260);
+    expect(new Set(all).size).toBe(260);
     expect(LEVELS.map(l => l.n)).toEqual([1, 2, 3, 4, 5, 6, 7]);
+    expect(LEVELS.map(l => l.words.length)).toEqual([12, 39, 42, 40, 44, 30, 53]);
   });
   it("starts with the 12-word VC level", () => {
     expect(LEVELS[0].words).toEqual(["at","an","am","ax","in","it","if","is","on","ox","up","us"]);
   });
   it("maps every word to its level", () => {
-    expect(Object.keys(WORD_LEVEL).length).toBe(132);
+    expect(Object.keys(WORD_LEVEL).length).toBe(260);
     expect(WORD_LEVEL.at).toBe(1); expect(WORD_LEVEL.cat).toBe(2); expect(WORD_LEVEL.was).toBe(7);
+    expect(WORD_LEVEL.has).toBe(2); expect(WORD_LEVEL.she).toBe(6); expect(WORD_LEVEL.the).toBe(7);
   });
-  it("flags both tricky words", () => { expect(Object.keys(TRICKY).sort()).toEqual(["is","was"]); });
+  it("flags the nine tricky words", () => {
+    expect(Object.keys(TRICKY).sort()).toEqual(["bush","has","is","push","she","the","was","wash","what"]);
+  });
+  it("keeps every word at 2 or 3 sound units and at most 4 letters", () => {
+    for (const w of LEVELS.flatMap(l => l.words)) {
+      expect(w.length).toBeLessThanOrEqual(4);
+      expect([2, 3]).toContain(chunkWord(w).length);
+    }
+  });
 });
 
 /* ---------------- phonics (S5) ---------------- */
@@ -98,11 +108,11 @@ describe("applyResult", () => {
 
 /* ---------------- promotion (S3) ---------------- */
 describe("checkPromotion", () => {
-  it("promotes at exactly 80 percent on a 20-word level", () => {   // S3 — reachable boundary
-    const at16 = seeded(LEVELS[1].words.slice(0, 16), { box: 3, attempts: 1 }); at16.level = 2;
-    expect(checkPromotion(at16)).toBe(true); expect(at16.level).toBe(3);
-    const at15 = seeded(LEVELS[1].words.slice(0, 15), { box: 3, attempts: 1 }); at15.level = 2;
-    expect(checkPromotion(at15)).toBe(false); expect(at15.level).toBe(2);
+  it("promotes at exactly 80 percent on the 40-word level", () => {   // S3 — reachable boundary
+    const at32 = seeded(LEVELS[3].words.slice(0, 32), { box: 3, attempts: 1 }); at32.level = 4;
+    expect(checkPromotion(at32)).toBe(true); expect(at32.level).toBe(5);
+    const at31 = seeded(LEVELS[3].words.slice(0, 31), { box: 3, attempts: 1 }); at31.level = 4;
+    expect(checkPromotion(at31)).toBe(false); expect(at31.level).toBe(4);
   });
   it("uses box 3 as the solid threshold, not box 2", () => {   // S3 — kills the >= 2 mutant
     const box2 = seeded(LEVELS[0].words, { box: 2, attempts: 2 });
@@ -289,16 +299,16 @@ describe("migrate", () => {
 
 /* ---------------- export ---------------- */
 describe("buildMarkdown", () => {
-  it("reports the 132-word denominator and seven level rows", () => {
+  it("reports the 260-word denominator and seven level rows", () => {
     const md = buildMarkdown(newState());
-    expect(md).toContain("0/132");
+    expect(md).toContain("0/260");
     expect(md.match(/\*\*Level \d+ .+ \(/g).length).toBe(7);
   });
   it("counts a word as mastered only from box 4", () => {
     const three = seeded(["cat", "dog"], { box: 3, attempts: 2 });
-    expect(buildMarkdown(three)).toContain("0/132");
+    expect(buildMarkdown(three)).toContain("0/260");
     const four = seeded(["cat", "dog"], { box: 4, attempts: 2 });
-    expect(buildMarkdown(four)).toContain("2/132");
+    expect(buildMarkdown(four)).toContain("2/260");
   });
   it("keeps a grapheme-safe name intact in the header", () => {
     // lone surrogate = an unpaired HIGH surrogate, or a LOW surrogate with no high before it

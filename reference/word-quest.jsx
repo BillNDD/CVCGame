@@ -9,25 +9,44 @@ const LEVELS = [
   { n: 1, name: "Hatchlings", emoji: "🐣", focus: "two sounds (VC)",
     words: ["at","an","am","ax","in","it","if","is","on","ox","up","us"] },
   { n: 2, name: "Sunny Start", emoji: "☀️", focus: "short a",
-    words: ["cat","hat","mat","sat","man","can","ran","bat","cap","map","tap","nap","bag","dad","jam","pan","rat","sad","wag","van"] },
+    words: ["cat","hat","mat","sat","man","can","ran","bat","cap","map","tap","nap","bag","dad","jam","pan","rat","sad","wag","van",
+      "fan","ham","lap","tag","had","tan","pad","rag","zap","yam","pal","cab","ram","dab","yap","mad","bad","rap","has"] },
   { n: 3, name: "Busy Bees", emoji: "🐝", focus: "short i & o",
-    words: ["sit","pig","big","dig","win","lip","hit","six","fin","bin","dog","hot","top","pot","mop","log","box","fox","hop","cot"] },
+    words: ["sit","pig","big","dig","win","lip","hit","six","fin","bin","dog","hot","top","pot","mop","log","box","fox","hop","cot",
+      "mom","pop","not","got","did","him","pin","tip","sip","dip","hip","rip","bit","fit","pit","bib","wig","fix","job","lot","nod","hog"] },
   { n: 4, name: "Rocket Words", emoji: "🚀", focus: "short e & u",
-    words: ["bed","red","hen","pen","ten","net","leg","wet","jet","men","bus","cup","sun","run","fun","mud","bug","hug","nut","tub"] },
+    words: ["bed","red","hen","pen","ten","net","leg","wet","jet","men","bus","cup","sun","run","fun","mud","bug","hug","nut","tub",
+      "pet","get","let","set","cut","pup","web","bun","rug","mug","vet","tug","jug","hum","rub","dug","bud","peg","met","yet"] },
   { n: 5, name: "Explorer", emoji: "🧭", focus: "all five vowels",
-    words: ["yes","zip","gum","gas","kid","cub","den","dot","fed","fig","fog","gap","hid","hut","jog","kit","lid","mix","wax","yak"] },
+    words: ["yes","zip","gum","gas","kid","cub","den","dot","fed","fig","fog","gap","hid","hut","jog","kit","lid","mix","wax","yak",
+      "jig","jab","jot","lab","lad","led","lit","lug","nab","pep","pod","rib","rim","rod","rot","sag","sub","sum","tab","tot","wed","wit","zig","zag"] },
   { n: 6, name: "Super Sounds", emoji: "🦸", focus: "sh & ch",
-    words: ["ship","shop","shut","fish","dish","wish","cash","chat","chip","chop","rich","much","such","chin","shed","shin","mash","rash","chug","chum"] },
+    words: ["ship","shop","shut","fish","dish","wish","cash","chat","chip","chop","rich","much","such","chin","shed","shin","mash","rash","chug","chum",
+      "dash","sash","hush","rush","mush","chap","wash","push","bush","she"] },
   { n: 7, name: "Word Wizard", emoji: "🧙", focus: "th, wh, ck, ng + tricky words",
-    words: ["thin","this","that","then","them","bath","math","with","when","whip","duck","sock","kick","back","ring","sing","king","long","song","was"] },
+    words: ["thin","this","that","then","them","bath","math","with","when","whip","duck","sock","kick","back","ring","sing","king","long","song","was",
+      "buck","sung","gong","lung","puck","wick","rung","muck","pack","path","sack","tack","neck","luck","tuck","peck","deck","thud",
+      "rock","lock","pick","lick","wing","tick","dock","moth","hang","sang","rang","sick","fang","the","what"] },
 ];
 
 const TRICKY = {
   was: "Tricky word! The a sounds like \u201Cuh\u201D \u2014 wuz.",
   is: "Tricky word! The s sounds like \u201Cz\u201D \u2014 iz.",
+  has: "Tricky word! The s sounds like \u201Cz\u201D \u2014 haz.",
+  wash: "Tricky word! The a sounds like \u201Co\u201D \u2014 wosh.",
+  push: "Tricky word! The u sounds like \u201Coo\u201D \u2014 poosh.",
+  bush: "Tricky word! The u sounds like \u201Coo\u201D \u2014 boosh.",
+  she: "Tricky word! The e sounds like \u201Cee\u201D \u2014 shee.",
+  the: "Tricky word! The e sounds like \u201Cuh\u201D \u2014 thuh.",
+  what: "Tricky word! The a sounds like \u201Co\u201D \u2014 wot.",
 };
 const DIGRAPHS = ["sh","ch","th","wh","ck","ng"];
-const HOMOPHONES = { sun: ["son"], red: ["read"], mat: ["matt"], in: ["inn"], an: ["ann","anne"], ax: ["axe"] };
+const HOMOPHONES = {
+  sun: ["son"], red: ["read"], mat: ["matt"], in: ["inn"], an: ["ann","anne"], ax: ["axe"],
+  not: ["knot"], him: ["hymn"], rap: ["wrap"], dug: ["doug"], fin: ["finn"], bin: ["been"],
+  cot: ["caught"], ring: ["wring"], rung: ["wrung"], sack: ["sac"], pick: ["pic"],
+  tick: ["tic"], dock: ["doc"], what: ["watt"],
+};
 const INTERVALS = [1, 1, 2, 4, 7, 12];
 const SESSION_SIZE = 20;
 const PROMPT_CAP = 26;

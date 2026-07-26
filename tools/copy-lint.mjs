@@ -5,7 +5,7 @@
       settings copy (ParentScreen) is out of scope.
    3. The two tricky-word notes are present and exact.
    4. Speech strings never contain a single-letter token, for every one of
-      the 132 bank words: speech says full words, never letter names.
+      the 260 bank words: speech says full words, never letter names.
    5. No tracked file contains an email address, and the default child name
       is empty (safety rule S9: no personal data in the repository).
    The reported rule count is computed from the rule families that actually
@@ -82,6 +82,14 @@ function run({ leads, notes, corpus, tracked, praise }) {
   rules.add("tricky-notes");
   check(notes.was === "Tricky word! The a sounds like “uh” — wuz.", "tricky note (was)", notes.was);
   check(notes.is === "Tricky word! The s sounds like “z” — iz.", "tricky note (is)", notes.is);
+  check(notes.has === "Tricky word! The s sounds like “z” — haz.", "tricky note (has)", notes.has);
+  check(notes.wash === "Tricky word! The a sounds like “o” — wosh.", "tricky note (wash)", notes.wash);
+  check(notes.push === "Tricky word! The u sounds like “oo” — poosh.", "tricky note (push)", notes.push);
+  check(notes.bush === "Tricky word! The u sounds like “oo” — boosh.", "tricky note (bush)", notes.bush);
+  check(notes.she === "Tricky word! The e sounds like “ee” — shee.", "tricky note (she)", notes.she);
+  check(notes.the === "Tricky word! The e sounds like “uh” — thuh.", "tricky note (the)", notes.the);
+  check(notes.what === "Tricky word! The a sounds like “o” — wot.", "tricky note (what)", notes.what);
+  check(Object.keys(notes).length === 9, "tricky note count", String(Object.keys(notes).length));
 
   // 4. no letter names in speech, for every bank word
   rules.add("letter-names");
@@ -122,7 +130,7 @@ const real = {
     sClose: feedbackSpeech("close", "cat").map((p) => p.text).join(" "),
     sWrong: feedbackSpeech("wrong", "cat").map((p) => p.text).join(" "),
   },
-  notes: { was: TRICKY.was, is: TRICKY.is },
+  notes: { ...TRICKY },
   corpus: childCopy(),
   tracked: trackedTextFiles(),
   praise: PRAISE,
