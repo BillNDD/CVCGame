@@ -1,4 +1,4 @@
-# Install Word Quest on a Windows desktop
+# Install Phonics Game on a Windows desktop
 
 This document tells you how to install the app on Windows. The steps use Chrome or Edge.
 This document follows the Microsoft Writing Style Guide.
@@ -18,18 +18,18 @@ This document follows the Microsoft Writing Style Guide.
 5. Click the install control.
 6. Click "Install" in the small window.
 
-The app opens in its own window. Windows adds "Word Quest" to the Start menu.
+The app opens in its own window. Windows adds "Phonics Game" to the Start menu.
 
 If the address bar does not show the install control, do this:
 
 1. Click the menu control (⋮ or …) at the top right of the browser.
 2. Click "Cast, save and share" or "Apps".
-3. Click "Install page as app" or "Install Word Quest".
+3. Click "Install page as app" or "Install Phonics Game".
 
 ## Make a desktop shortcut
 
 1. Open the Start menu.
-2. Find "Word Quest" in the list of apps.
+2. Find "Phonics Game" in the list of apps.
 3. Hold the left mouse button on the entry.
 4. Pull the entry to the desktop and release the button.
 
@@ -46,6 +46,6 @@ The app stores all progress on the computer. The app makes no network calls afte
 
 1. Open the app.
 2. Click the menu control (⋮) at the top of the app window.
-3. Click "Uninstall Word Quest".
+3. Click "Uninstall Phonics Game".
 
 Windows keeps the saved progress in the browser storage. To remove the progress, use the reset control in the "Grown-ups corner".

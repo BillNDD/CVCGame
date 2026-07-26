@@ -7,7 +7,7 @@ export default function HomeScreen({ state, L, kid, masteredCount, persistent, r
   return (
     <Frame>
       <Zone.Header>
-        <span style={{ fontWeight: 800, color: C.ink, fontSize: 15 }}>Word Quest</span>
+        <span style={{ fontWeight: 800, color: C.ink, fontSize: 15 }}>Phonics Game</span>
         <span className="wq-chip" style={{ fontSize: 10.5, padding: "5px 8px" }}>beta</span>
         <button className="wq-btn-plain" onClick={onParent} aria-label="Grown-ups corner">⚙️ Grown-ups</button>
       </Zone.Header>
@@ -15,7 +15,7 @@ export default function HomeScreen({ state, L, kid, masteredCount, persistent, r
       <Zone.Stage>
         <div style={{ textAlign: "center", maxWidth: 420, width: "100%" }}>
           <h1 className="wq-display" style={{ margin: 0, color: C.ink, fontSize: "clamp(2rem,7dvh,3rem)", lineHeight: 1.1 }}>
-            Word Quest
+            Phonics Game
           </h1>
           <p style={{ margin: "8px 0 0", color: C.ink, fontWeight: 700, fontSize: 16 }}>
             {kid ? "Hi " + kid + "! Ready to read? 📖" : "Ready to read? 📖"}

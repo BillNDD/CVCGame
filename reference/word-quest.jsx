@@ -52,7 +52,7 @@ const SESSION_SIZE = 20;
 const PROMPT_CAP = 26;
 const ADVANCE_GUARD_MS = 400;   // P0-3
 const SPLASH_TIMEOUT_MS = 3000; // P2-6
-const STORE_KEY = "wordquest:progress:v2";
+const STORE_KEY = "phonicsgame:progress:v1";
 
 /* P0-5 — every value below measured against its background at ≥4.5:1 */
 const C = {
@@ -293,7 +293,7 @@ function buildMarkdown(state) {
   const total = Object.keys(WORD_LEVEL).length;
   const mastered = Object.values(state.words).filter(ws => ws.box >= 4).length;
   const who = state.settings.childName ? state.settings.childName + "\u2019s " : "";
-  let md = "# " + who + "Word Quest \u2014 Reading Log\n\n";
+  let md = "# " + who + "Phonics Game \u2014 Reading Log\n\n";
   md += "_Exported " + today + "_ \u00B7 **Level " + state.level + " " + LEVELS[state.level - 1].emoji + "** \u00B7 Sessions: "
      + state.sessionsCompleted + " \u00B7 Mastered: " + mastered + "/" + total + "\n\n";
   md += "| # | Date | Level | \u2705 | \uD83D\uDFE1 | \uD83D\uDD01 | Accuracy | |\n|--:|---|--:|--:|--:|--:|--:|---|\n";
@@ -555,7 +555,7 @@ export default function WordQuest() {
 
   if (screen === "splash" || !state) {
     return <Frame><div className="wq-center"><div className="wq-float" style={{ fontSize: 56 }}>🚀</div>
-      <p style={{ marginTop: 12, fontWeight: 800, color: C.ink }}>Loading Word Quest…</p></div></Frame>;
+      <p style={{ marginTop: 12, fontWeight: 800, color: C.ink }}>Loading Phonics Game…</p></div></Frame>;
   }
 
   const L = LEVELS[state.level - 1];
@@ -566,14 +566,14 @@ export default function WordQuest() {
     return (
       <Frame>
         <Zone.Header>
-          <span style={{ fontWeight: 800, color: C.ink, fontSize: 15 }}>Word Quest</span>
+          <span style={{ fontWeight: 800, color: C.ink, fontSize: 15 }}>Phonics Game</span>
           <button className="wq-btn-plain" onClick={() => setScreen("parent")} aria-label="Grown-ups corner">⚙️ Grown-ups</button>
         </Zone.Header>
 
         <Zone.Stage>
           <div style={{ textAlign: "center", maxWidth: 420, width: "100%" }}>
             <h1 className="wq-display" style={{ margin: 0, color: C.ink, fontSize: "clamp(2rem,7dvh,3rem)", lineHeight: 1.1 }}>
-              Word Quest
+              Phonics Game
             </h1>
             <p style={{ margin: "8px 0 0", color: C.ink, fontWeight: 700, fontSize: 16 }}>
               {kid ? "Hi " + kid + "! Ready to read? 📖" : "Ready to read? 📖"}

@@ -1,7 +1,8 @@
-# Word Quest
+# Phonics Game
 
-Word Quest is a phonics game for children who learn to read their first words. The game shows one
-word at a time. A session has approximately 20 words and takes approximately five minutes. An
+Phonics Game is a parent-and-child phonics tutorial for children who learn to read their first
+words. It grows from Word Quest (github.com/BillNDD/CVCGame) and inherits its engine, its
+safety rules, and its testing gauntlet. The game shows one word at a time. A session has approximately 20 words and takes approximately five minutes. An
 adult stays with the child during each session.
 
 This document follows the Microsoft Writing Style Guide.
@@ -107,7 +108,7 @@ Add tests for each engine change. `SPEC.md`, section 8 gives the minimum test li
 
 ## Scope
 
-Word Quest gives practice and review. Word Quest is not a phonics curriculum. Use the game
+Phonics Game gives practice and review. Phonics Game is not a phonics curriculum. Use the game
 together with a structured reading program. A person must teach each letter-sound pattern first.
 
 ## License

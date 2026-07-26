@@ -1,7 +1,7 @@
 {
-  "name": "word-quest-app",
-  "version": "1.0.0-beta.2",
-  "description": "Word Quest standalone progressive web app.",
+  "name": "phonics-game-app",
+  "version": "0.1.0",
+  "description": "Phonics Game standalone progressive web app.",
   "license": "MIT",
   "type": "module",
   "private": true,

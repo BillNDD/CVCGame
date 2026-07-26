@@ -2,6 +2,18 @@
 
 This document follows the Microsoft Writing Style Guide.
 
+## Phonics Game 0.1.0
+
+Phonics Game begins as a private copy of Word Quest 1.0.0-beta.2, with its own name and its
+own storage. Progress saved in one game never touches the other. The Word Quest sections
+below are the inherited history.
+
+- Changed: the app name is Phonics Game. The manifest, the home screen, the loading screen,
+  the adult screen, and the backup file name all carry the new name.
+- Changed: the storage key is `phonicsgame:progress:v1` and the offline cache prefix is
+  `pg-`, so the two games never share saved data on one device.
+- Changed: the GitHub Pages workflow is parked while the repository is private.
+
 ## Version 6
 
 Version 6 adds the standalone progressive web app. The reference build does not change.

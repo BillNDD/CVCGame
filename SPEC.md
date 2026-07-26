@@ -1,6 +1,6 @@
-# Word Quest — product and build specification
+# Phonics Game — product and build specification
 
-This document is the full specification for Word Quest, an open-source phonics game with spaced
+This document is the full specification for Phonics Game, an open-source phonics game with spaced
 repetition for early readers. The document describes the reference build: `reference/word-quest.jsx`, version 3. The document
 gives a developer or an AI coding agent all the data necessary to build, extend, or port the
 game.
@@ -10,7 +10,7 @@ interface text stay in their exact form.
 
 ## 0. Description
 
-Word Quest is a daily phonics game for children of approximately 4 to 6 years. One session has a
+Phonics Game is a daily phonics game for children of approximately 4 to 6 years. One session has a
 target of 20 words and takes approximately 5 to 8 minutes. An adult stays with the child. The app
 shows one word. The child reads the word aloud. The app or the adult gives the result. The app
 gives positive feedback. A schedule engine selects the words for the next session.

@@ -1,4 +1,4 @@
-/* Word Quest — fault-injection suite (gate G9, docs/testing-gauntlet.md).
+/* Phonics Game — fault-injection suite (gate G9, docs/testing-gauntlet.md).
    The six destructive scenarios, permanent:
      1  damaged save            -> copy kept at :corrupt, fresh start, message
      2  storage timeout (3 s)   -> fresh start, read-only, zero writes
@@ -116,7 +116,7 @@ describe("G9 faults — the real IndexedDB adapter", () => {
   it("1a: a non-JSON value is copied to :corrupt and reported, never repaired in place", async () => {
     const real = await vi.importActual("../app/src/storage.js");
     const put = (key, value) => new Promise((res, rej) => {
-      const rq = indexedDB.open("word-quest", 1);
+      const rq = indexedDB.open("phonics-game", 1);
       rq.onupgradeneeded = () => rq.result.createObjectStore("kv");
       rq.onsuccess = () => {
         const tx = rq.result.transaction("kv", "readwrite");
@@ -126,17 +126,17 @@ describe("G9 faults — the real IndexedDB adapter", () => {
       };
     });
     const get = (key) => new Promise((res) => {
-      const rq = indexedDB.open("word-quest", 1);
+      const rq = indexedDB.open("phonics-game", 1);
       rq.onsuccess = () => {
         const tx = rq.result.transaction("kv", "readonly");
         const g = tx.objectStore("kv").get(key);
         g.onsuccess = () => { rq.result.close(); res(g.result); };
       };
     });
-    await put("wordquest:progress:v2", "{not json at all");
+    await put("phonicsgame:progress:v1", "{not json at all");
     expect(await real.loadState()).toEqual({ __corrupt: true });
-    expect(await get("wordquest:progress:v2:corrupt")).toBe("{not json at all");
-    expect(await get("wordquest:progress:v2")).toBe("{not json at all"); // untouched
+    expect(await get("phonicsgame:progress:v1:corrupt")).toBe("{not json at all");
+    expect(await get("phonicsgame:progress:v1")).toBe("{not json at all"); // untouched
   });
 
   it("2a: a broken storage backend reads as no save, exactly like the reference", async () => {
