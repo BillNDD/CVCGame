@@ -99,12 +99,19 @@ This document follows the Microsoft Writing Style Guide.
 31. Turn on Airplane Mode and repeat the previous step.
     Expected: The same recorded voice speaks. Offline changes nothing.
 
+## Microphone resilience
+
+32. Open the game link from a Messages chat, so it opens in the in-app browser. Start a session and tap "Start Recording".
+    Expected: Within about 8 seconds the app returns to ready with a friendly message, or
+    switches to grown-up grading for this visit. Nothing freezes. Opening the game later in
+    Safari brings the microphone back.
+
 ## Updates
 
-32. While online with the latest version, open the "Grown-ups corner" and tap "Check for updates".
+33. While online with the latest version, open the "Grown-ups corner" and tap "Check for updates".
     Expected: "You have the latest version." Nothing else changes.
-33. Turn on Airplane Mode and tap "Check for updates".
+34. Turn on Airplane Mode and tap "Check for updates".
     Expected: "Couldn’t check. Are you online?" Nothing else changes.
-34. After the next release, tap "Check for updates", then "Update now", and let the app restart.
+35. After the next release, tap "Check for updates", then "Update now", and let the app restart.
     Expected: The new version number shows, and all progress and settings are exactly as
     before the update.

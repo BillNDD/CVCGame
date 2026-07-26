@@ -151,6 +151,37 @@ describe("G10 safety — S2: the word is never spoken before the attempt ends", 
   });
 });
 
+describe("G10 safety — W4b: a broken microphone never traps the child", () => {
+  it("8: a recognizer that never answers times out to ready, records nothing, keeps mic mode", async () => {
+    await startListening();                                  // the double never fires any event
+    const writesAfterBoot = mockSave.mock.calls.length;
+    await flush(8000);                                       // the watchdog window
+    expect(screen.getByText(/Record again/)).toBeTruthy();     // back to ready, mic still offered
+    expect(screen.getByText("Didn’t catch that — tap to try again.")).toBeTruthy();
+    expect(mockSave.mock.calls.length).toBe(writesAfterBoot);  // S1: nothing recorded
+    for (const call of mockSave.mock.calls) expect(call[0].settings.mode).toBe("mic");
+  });
+
+  it("9: the Stop control recovers even when the recognizer is dead", async () => {
+    await startListening();
+    const rec = recInstances.at(-1);
+    rec.stop = () => { throw new Error("dead recognizer"); }; // stop() cannot help
+    fireEvent.click(screen.getByText(/Stop/));
+    await flush(0);
+    expect(screen.getByText(/Record again/)).toBeTruthy();    // N-8: a visible change, always
+  });
+
+  it("10: a mic failure that is not a denial blocks the mic for this visit only", async () => {
+    await startListening();
+    const rec = recInstances.at(-1);
+    await act(async () => { rec.onerror({ error: "service-not-allowed" }); });
+    expect(screen.queryByText(/Start Recording|Record again/)).toBeNull(); // grown-up grading this visit
+    expect(screen.getByText(/grown-up grading for this visit/)).toBeTruthy();
+    // the saved setting never changes: no write may carry mode "parent"
+    for (const call of mockSave.mock.calls) expect(call[0].settings.mode).toBe("mic");
+  });
+});
+
 describe("G10 safety — S6 and S7: no network, big controls", () => {
   it("6: no app source makes a network call", () => {
     const files = [
