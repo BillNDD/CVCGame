@@ -4,7 +4,7 @@ This document defines the quality gates for Word Quest. The owner reviews this d
 every line of code. The gates are the contract. `npm run gauntlet` runs every automatic gate.
 A change is complete only when the gauntlet is green.
 
-This document obeys ASD-STE100 Simplified Technical English.
+This document follows the Microsoft Writing Style Guide.
 
 ## Method
 

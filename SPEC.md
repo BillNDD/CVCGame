@@ -1,11 +1,11 @@
-# Word Quest — Product and Build Specification
+# Word Quest — product and build specification
 
 This document is the full specification for Word Quest, an open-source phonics game with spaced
 repetition for early readers. The document describes the reference build: `reference/word-quest.jsx`, version 3. The document
 gives a developer or an AI coding agent all the data necessary to build, extend, or port the
 game.
 
-This document obeys ASD-STE100 Simplified Technical English. Code, constants, and quoted
+This document follows the Microsoft Writing Style Guide. Code, constants, and quoted
 interface text stay in their exact form.
 
 ## 0. Description
