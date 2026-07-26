@@ -297,10 +297,19 @@ describe("buildMarkdown", () => {
 describe("speech helpers", () => {
   afterEach(() => vi.unstubAllGlobals());
 
-  it("says full words only, never letter names", () => {
-    expect(feedbackSpeech("correct", "cat")).toBe("Great job! cat!");
-    expect(feedbackSpeech("close", "ship")).toBe("Good try! The word is ship.");
-    expect(feedbackSpeech("wrong", "sun")).toBe("Let’s try again. The word is sun.");
+  it("says full words only, never letter names, with a slow reveal sentence", () => {
+    expect(feedbackSpeech("correct", "cat")).toEqual([
+      { text: "Great job!", rate: 0.9 },
+      { text: "The word was cat.", rate: 0.7 },
+    ]);
+    expect(feedbackSpeech("close", "ship")).toEqual([
+      { text: "Good try!", rate: 0.9 },
+      { text: "The word is ship.", rate: 0.7 },
+    ]);
+    expect(feedbackSpeech("wrong", "sun")).toEqual([
+      { text: "Let’s try again.", rate: 0.9 },
+      { text: "The word is sun.", rate: 0.7 },
+    ]);
   });
   it("stays silent when sound is off or no engine exists", () => {
     expect(() => speak("cat", false, "en-US")).not.toThrow();
@@ -319,6 +328,21 @@ describe("speech helpers", () => {
     expect(calls[0].rate).toBe(0.9);
     expect(calls[0].pitch).toBe(1.1);
     expect(calls[0].lang).toBe("en-GB");
+  });
+  it("queues reveal parts: one cancel, the lead at 0.9, the word sentence at 0.7", () => {
+    const calls = [];
+    const cancel = vi.fn();
+    vi.stubGlobal("window", { speechSynthesis: { cancel, speak: (u) => calls.push(u) } });
+    vi.stubGlobal("SpeechSynthesisUtterance", class { constructor(t) { this.text = t; } });
+    speak(feedbackSpeech("correct", "on"), true, "en-GB");
+    expect(cancel).toHaveBeenCalledTimes(1);
+    expect(calls.length).toBe(2);
+    expect(calls[0].text).toBe("Great job!");
+    expect(calls[0].rate).toBe(0.9);
+    expect(calls[1].text).toBe("The word was on.");
+    expect(calls[1].rate).toBe(0.7);
+    expect(calls[1].pitch).toBe(1.1);
+    expect(calls[1].lang).toBe("en-GB");
   });
   it("survives a throwing speech service", () => {
     vi.stubGlobal("window", { speechSynthesis: { cancel: () => { throw new Error("boom"); }, speak: () => {} } });

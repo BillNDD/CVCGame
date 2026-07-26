@@ -28,10 +28,11 @@ class FakeRecognition {
 }
 window.webkitSpeechRecognition = FakeRecognition;
 const utterances = [];
+const rates = [];
 window.SpeechSynthesisUtterance = class { constructor(t) { this.text = t; } };
 Object.defineProperty(window, "speechSynthesis", {
   configurable: true,
-  value: { cancel: () => {}, speak: (u) => utterances.push(u.text) },
+  value: { cancel: () => {}, speak: (u) => { utterances.push(u.text); rates.push(u.rate); } },
 });
 const { default: App } = await import("../app/src/App.jsx");
 
@@ -54,6 +55,7 @@ beforeEach(() => {
   vi.useFakeTimers();
   mockSave.mockClear();
   utterances.length = 0;
+  rates.length = 0;
   recInstances.length = 0;
 });
 afterEach(() => { cleanup(); vi.useRealTimers(); });
@@ -116,12 +118,15 @@ describe("G10 safety — S2: the word is never spoken before the attempt ends", 
   it("5 (control): after the attempt, speech says the full word and replay works", async () => {
     const word = await startListening();
     await hear(word);                                       // attempt ends, correct
-    expect(utterances.at(-1)).toBe(`Great job! ${word}!`);  // full word, after the attempt
+    expect(utterances.at(-2)).toBe("Great job!");           // the lead, after the attempt
+    expect(utterances.at(-1)).toBe(`The word was ${word}.`); // full word, its own sentence
+    expect(rates.at(-1)).toBe(0.7);                         // the reveal is slow and clear
     await flush(500);
     const replay = screen.getByRole("button", { name: "Hear the word again" });
     expect(replay.disabled).toBe(false);
     fireEvent.click(replay);
     expect(utterances.at(-1)).toBe(word);                   // replay says the whole word
+    expect(rates.at(-1)).toBe(0.7);                         // at the slow rate
     for (const t of utterances) expect(/(^| )[a-z]([ .!]|$)/.test(t)).toBe(false); // no letter names
   });
 });
