@@ -31,6 +31,10 @@ The first app version is 1.0.0-beta.1. The app stays in beta until version 1.0 i
 - Fixed: the checks on GitHub failed on every push because the check runner could not read
   test counts from colored output. The tests themselves passed. The runner now strips the
   color codes, and the emails about failed runs stop.
+- New: updates now wait for a grown-up. The "Grown-ups corner" shows the installed version,
+  a "Check for updates" control asks the app's own host for the latest version, and "Update
+  now" applies it. The app never changes itself without consent, and an update never touches
+  saved progress. Self-hosters get `docs/self-hosting.md`.
 - New: the app speaks with a warm recorded voice instead of the robotic system voice. A
   default voice pack ships with the app: one clip for every word and sentence, rendered
   from an open-source voice the owner chose by ear. Words play slowly with a clear pause

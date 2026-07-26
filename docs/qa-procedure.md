@@ -98,3 +98,13 @@ This document follows the Microsoft Writing Style Guide.
     never crush together.
 31. Turn on Airplane Mode and repeat the previous step.
     Expected: The same recorded voice speaks. Offline changes nothing.
+
+## Updates
+
+32. While online with the latest version, open the "Grown-ups corner" and tap "Check for updates".
+    Expected: "You have the latest version." Nothing else changes.
+33. Turn on Airplane Mode and tap "Check for updates".
+    Expected: "Couldn’t check. Are you online?" Nothing else changes.
+34. After the next release, tap "Check for updates", then "Update now", and let the app restart.
+    Expected: The new version number shows, and all progress and settings are exactly as
+    before the update.

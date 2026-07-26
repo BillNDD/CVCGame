@@ -332,6 +332,22 @@ The Markdown export has four parts:
 - The last session, in detail.
 - A mastery list for each level.
 
+## 7a. Updates
+
+The app updates only when an adult chooses. The "Grown-ups corner" shows the installed
+version. A "Check for updates" control asks the app's own host for the latest version number
+and shows the result: "You have the latest version." or "Version {n} is available.", with an
+"Update now" control. Updating swaps in the new version and reloads the app. The child's
+progress and any family recordings live in on-device storage that an update never touches. A
+downloaded newer version waits until the adult applies it; the app never changes itself
+mid-session or without consent. The version check is the one network request safety rule S6
+permits after load: adult-initiated, same host, no data carried. When the check cannot reach
+the host, the app says so and changes nothing.
+
+Self-hosters who run the game from a clone of the repository update with `git pull` and a
+rebuild; `docs/self-hosting.md` gives the steps. The in-app check works for them too, against
+their own host.
+
 ## 8. Build steps for a standalone app
 
 The reference build runs in a chat host. A standalone build changes four items:

@@ -157,12 +157,15 @@ describe("G10 safety — S6 and S7: no network, big controls", () => {
       "app/src/App.jsx", "app/src/main.jsx", "app/src/storage.js", "app/src/wq-css.js",
       "app/src/screens/HomeScreen.jsx", "app/src/screens/SessionScreen.jsx",
       "app/src/screens/DoneScreen.jsx", "app/src/screens/ParentScreen.jsx",
-      "app/src/voicepacks.js",
+      "app/src/voicepacks.js", "app/src/updates.js",
     ];
     const NET = /\bfetch\s*\(|XMLHttpRequest|new WebSocket|sendBeacon|gtag\(|analytics/;
     for (const f of files) {
-      // the voice-pack adapter may fetch its own same-origin clips, nothing else
-      const src = readFileSync(f, "utf8").replaceAll('fetch("voice/', 'LOCAL_CLIP("voice/');
+      // two same-origin allowances only: the voice pack's own clips, and the
+      // adult-initiated version check (the S6 exception, SPEC section 7a)
+      const src = readFileSync(f, "utf8")
+        .replaceAll('fetch("voice/', 'LOCAL_CLIP("voice/')
+        .replaceAll('fetch("version.json"', 'LOCAL_UPDATE("version.json"');
       expect(NET.test(src)).toBe(false);
     }
     expect(NET.test('const r = await fetch("https://api.example.com");')).toBe(true); // control
