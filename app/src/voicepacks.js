@@ -86,7 +86,9 @@ export function unlockVoice() {
     const AC = window.AudioContext || window.webkitAudioContext;
     if (!AC) return;
     if (!ctx) ctx = new AC();
-    if (ctx.state === "suspended") ctx.resume();
+    /* Safari can leave the context "interrupted" after microphone capture,
+       not just "suspended" — resume from any non-running state. */
+    if (ctx.state !== "running") ctx.resume().catch(() => {});
   } catch { /* stays locked; system speech covers it */ }
 }
 
