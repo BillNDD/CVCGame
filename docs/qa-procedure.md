@@ -102,6 +102,7 @@ This document follows the Microsoft Writing Style Guide.
 ## Microphone resilience
 
 32. Open the game link from a Messages chat, so it opens in the in-app browser. Start a session and tap "Start Recording".
-    Expected: Within about 8 seconds the app returns to ready with a friendly message, or
-    switches to grown-up grading for this visit. Nothing freezes. Opening the game later in
+    Expected: Within about 10 seconds the message "Didn’t catch that — tap to try again."
+    appears and stays on screen. A second silent attempt switches to grown-up grading for
+    this visit, with the reason on screen. Nothing freezes. Opening the game later in
     Safari brings the microphone back.

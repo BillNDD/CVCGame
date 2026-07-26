@@ -340,12 +340,20 @@ The reference build runs in a chat host. A standalone build changes four items:
    The app must operate offline. The primary target is iPad Safari. Also test desktop Chrome.
 2. Microphone: use the standard permission flow. Use `webkitSpeechRecognition` where necessary.
    If speech recognition is not available, use adult mode. Design rule 1 stays in all modes.
-   Listening never traps the child: if recognition starts and nothing arrives within 8
-   seconds, the app stops listening, returns to ready, and invites another try. The "Stop"
-   control always works, even when the recognizer is dead. Only an explicit permission
-   denial changes the saved answer mode. Every other microphone failure — an in-app browser
-   view above all — switches to grown-up grading for that visit only; the saved setting does
-   not change, and the microphone returns on the next open in a browser that can listen.
+   Listening never traps the child, and a failure is never silent. A recognizer that shows
+   no sign of life for 8 seconds is stopped; while the engine reports sound or speech, the
+   timer re-arms, so a slow reader is never cut off. After any stop, a 2-second grace
+   window still accepts the finalized result — iOS often delivers it only after the stop.
+   An event from an abandoned attempt never reaches the screen: the feedback phase cannot
+   be torn down by a tardy error, and one reading can never record twice. A failure leaves
+   its message in the message slot until the next action, not only in a passing toast. An
+   attempt that produces no event at all invites one retry; a second switches to grown-up
+   grading for that visit only. The "Stop" control always works, even when the recognizer
+   is dead. Only an explicit permission denial changes the saved answer mode; the saved
+   setting does not change otherwise, and the microphone returns on the next open in a
+   browser that can listen. A mode saved as grown-up by an app version that predates this
+   rule heals back to microphone one time, on the next start in a browser that can listen,
+   unless an adult chose grown-up mode.
 3. Storage: change the storage adapter to IndexedDB with the same one-object schema. Add JSON
    export and import of the full state.
 4. Optional, later: a cloud pronunciation-score API behind a small server proxy. Keep the API key
