@@ -21,7 +21,8 @@ This document follows the Microsoft Writing Style Guide.
 5. Turn Airplane Mode off. Start a session. Tap "Start Recording".
    Expected: iPadOS asks for microphone permission, one time only.
 6. Tap "Allow". Say the word on the screen, clearly.
-   Expected: The app shows "Great job! That is ...", with the sound tiles.
+   Expected: The app shows "Great job! That is ...", and says "Great job!" then, slowly,
+   "The word was ...".
 7. On the next word, say a different word on purpose.
    Expected: The app shows "Nice try! Grown-up will check." and records no result.
 8. On a fresh install, tap "Don't Allow" for the microphone.
@@ -36,7 +37,7 @@ This document follows the Microsoft Writing Style Guide.
 11. Before an attempt ends, look at the speaker control in the strip.
     Expected: The speaker control is dimmed, and a tap makes no sound.
 12. During feedback, tap the speaker control.
-    Expected: The app says the full word only, never letter names.
+    Expected: The app says the full word, slowly and clearly, never letter names.
 13. With a keyboard attached, press Tab to a result control, then Enter.
     Expected: The result records at once, with no hold.
 

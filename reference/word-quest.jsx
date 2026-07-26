@@ -209,14 +209,19 @@ const newState = () => ({
 });
 
 /* ---------- speech ---------- */
-function speak(text, enabled, lang) {
+/* speak takes one sentence or a list of { text, rate } parts. Parts queue as
+   separate utterances, so the word reveal can play at the slower SPEC §5 rate. */
+function speak(input, enabled, lang) {
   if (!enabled) return;
   try {
     if (!("speechSynthesis" in window)) return;
     window.speechSynthesis.cancel();
-    const u = new SpeechSynthesisUtterance(text);
-    u.rate = 0.9; u.pitch = 1.1; if (lang) u.lang = lang;
-    window.speechSynthesis.speak(u);
+    const parts = typeof input === "string" ? [{ text: input, rate: 0.9 }] : input;
+    for (const p of parts) {
+      const u = new SpeechSynthesisUtterance(p.text);
+      u.rate = p.rate; u.pitch = 1.1; if (lang) u.lang = lang;
+      window.speechSynthesis.speak(u);
+    }
   } catch (e) {}
 }
 function buzz(ms) { try { if (navigator.vibrate) navigator.vibrate(ms); } catch (e) {} } // P2-8
@@ -228,8 +233,11 @@ function feedbackParts(result, word) {
   if (result === "close") return { lead: "Good try! The correct pronunciation is ", d, word, icon: "💪" };
   return { lead: "Let\u2019s try that again. The correct pronunciation is ", d, word, icon: "🔁" };
 }
+/* The reveal sentence is its own slow utterance, so the word never sounds rushed. */
 const feedbackSpeech = (r, w) =>
-  r === "correct" ? "Great job! " + w + "!" : r === "close" ? "Good try! The word is " + w + "." : "Let\u2019s try again. The word is " + w + ".";
+  r === "correct" ? [{ text: "Great job!", rate: 0.9 }, { text: "The word was " + w + ".", rate: 0.7 }]
+  : r === "close" ? [{ text: "Good try!", rate: 0.9 }, { text: "The word is " + w + ".", rate: 0.7 }]
+  : [{ text: "Let\u2019s try again.", rate: 0.9 }, { text: "The word is " + w + ".", rate: 0.7 }];
 
 /* ---------- export ---------- */
 function buildMarkdown(state) {
@@ -470,7 +478,7 @@ export default function WordQuest() {
   /* P1-1 + N-1 — replay exists only AFTER feedback; the word is never spoken pre-attempt */
   function replay() {
     if (phase !== "feedback") return;
-    speak(currentWord, stateRef.current.settings.sound, stateRef.current.settings.lang);
+    speak([{ text: currentWord, rate: 0.7 }], stateRef.current.settings.sound, stateRef.current.settings.lang);
   }
 
   /* ---------- settings ---------- */

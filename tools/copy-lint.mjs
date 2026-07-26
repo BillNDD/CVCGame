@@ -56,7 +56,7 @@ function run({ leads, notes, corpus, tracked }) {
   check(leads.correct === "Great job! That is ", "feedback lead (correct)", leads.correct);
   check(leads.close === "Good try! The correct pronunciation is ", "feedback lead (close)", leads.close);
   check(leads.wrong === "Let’s try that again. The correct pronunciation is ", "feedback lead (wrong)", leads.wrong);
-  check(leads.sCorrect === "Great job! cat!", "speech (correct)", leads.sCorrect);
+  check(leads.sCorrect === "Great job! The word was cat.", "speech (correct)", leads.sCorrect);
   check(leads.sClose === "Good try! The word is cat.", "speech (close)", leads.sClose);
   check(leads.sWrong === "Let’s try again. The word is cat.", "speech (wrong)", leads.sWrong);
 
@@ -75,7 +75,7 @@ function run({ leads, notes, corpus, tracked }) {
   for (const w of LEVELS.flatMap((l) => l.words)) {
     words += 1;
     for (const r of ["correct", "close", "wrong"])
-      check(!LETTER_NAME.test(feedbackSpeech(r, w)), "letter name in speech", `${r}/${w}`);
+      check(!LETTER_NAME.test(feedbackSpeech(r, w).map((p) => p.text).join(" ")), "letter name in speech", `${r}/${w}`);
   }
 
   // 5. no personal data in the repository (safety rule S9)
@@ -103,9 +103,9 @@ const real = {
     correct: feedbackParts("correct", "cat").lead,
     close: feedbackParts("close", "cat").lead,
     wrong: feedbackParts("wrong", "cat").lead,
-    sCorrect: feedbackSpeech("correct", "cat"),
-    sClose: feedbackSpeech("close", "cat"),
-    sWrong: feedbackSpeech("wrong", "cat"),
+    sCorrect: feedbackSpeech("correct", "cat").map((p) => p.text).join(" "),
+    sClose: feedbackSpeech("close", "cat").map((p) => p.text).join(" "),
+    sWrong: feedbackSpeech("wrong", "cat").map((p) => p.text).join(" "),
   },
   notes: { was: TRICKY.was, is: TRICKY.is },
   corpus: childCopy(),

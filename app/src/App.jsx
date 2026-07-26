@@ -220,7 +220,7 @@ export default function App() {
   /* P1-1 + N-1 — replay exists only AFTER feedback; the word is never spoken pre-attempt */
   function replay() {
     if (phase !== "feedback") return;
-    speak(currentWord, stateRef.current.settings.sound, stateRef.current.settings.lang);
+    speak([{ text: currentWord, rate: 0.7 }], stateRef.current.settings.sound, stateRef.current.settings.lang);
   }
 
   /* ---------- settings ---------- */

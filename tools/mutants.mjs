@@ -42,6 +42,8 @@ const MUTANTS = [
   ["heal level guard removed", 'if (typeof s.level !== "number" || !isFinite(s.level)) delete s.level; else s.level = Math.round(s.level);', ""],
   ["heal log level guard removed", 'if (typeof r.level !== "number" || !isFinite(r.level)) r.level = 0;', ""],
   ["heal version guard removed", 'if (typeof s.version !== "number" || !isFinite(s.version)) delete s.version;', ""],
+  ["reveal rate not slow", '{ text: "The word was " + w + ".", rate: 0.7 }', '{ text: "The word was " + w + ".", rate: 0.9 }'],
+  ["reveal loses its sentence", '{ text: "The word was " + w + ".", rate: 0.7 }', '{ text: "" + w, rate: 0.7 }'],
 ];
 
 const run = (cmd, args) => { try { execFileSync(cmd, args, { stdio: "pipe" }); return true; } catch { return false; } };

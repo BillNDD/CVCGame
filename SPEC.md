@@ -149,12 +149,14 @@ The feedback shows below a row of yellow sound tiles, one tile for each unit. If
 
 Speech output, when sound is on:
 
-- correct: `"Great job! {word}!"`
-- close: `"Good try! The word is {word}."`
-- wrong: `"Let’s try again. The word is {word}."`
+- correct: `"Great job!"` then `"The word was {word}."`
+- close: `"Good try!"` then `"The word is {word}."`
+- wrong: `"Let’s try again."` then `"The word is {word}."`
 
-Rate approximately 0.9. Pitch approximately 1.1. Stop the previous utterance first. Use the
-locale from the settings.
+The lead and the word reveal are two utterances. The reveal sentence plays at a slower rate, so
+the child hears the word slowly and clearly, never rushed. The replay control says the word at
+the same slow rate. Lead rate approximately 0.9. Reveal rate approximately 0.7. Pitch
+approximately 1.1. Stop the previous utterance first. Use the locale from the settings.
 
 The replay control (a speaker symbol in the "grown-up" strip) operates only in the feedback
 phase. The app never says the word before the attempt.
