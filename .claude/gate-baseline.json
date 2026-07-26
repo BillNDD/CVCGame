@@ -20,7 +20,8 @@
   "g9_fault_tests": 8,
   "g10_safety_tests": 8,
   "g11_copy_rules": 5,
-  "g12_qa_steps": 31,
+  "g12_qa_steps": 34,
   "g13_clips": 276,
-  "g13_engine_tests": 6
+  "g13_engine_tests": 6,
+  "g14_update_tests": 9
 }

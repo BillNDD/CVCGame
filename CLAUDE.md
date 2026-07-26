@@ -16,7 +16,9 @@ This document follows the Microsoft Writing Style Guide.
 - S4. Speech output says full words only. It never says letter names.
 - S5. Adult result controls need a 450 ms pointer hold. A keyboard operates them directly.
 - S6. The app makes no network calls after load, has no accounts, and has no analytics. All data
-  stays on the device.
+  stays on the device. One exception: when an adult taps "Check for updates" in the
+  "Grown-ups corner", the app makes one request to its own host to compare versions. The
+  request carries no data, and nothing else may use it.
 - S7. Child controls are 56 px or more. Adult controls are 44 px or more.
 - S8. Digraphs (sh, ch, th, wh, ck, ng) always show as one tile.
 - S9. No file in the repository contains a personal name. The child's name is a device-local
