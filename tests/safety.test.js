@@ -160,17 +160,28 @@ describe("G10 safety — S6 and S7: no network, big controls", () => {
       "app/src/voicepacks.js", "app/src/updates.js",
     ];
     const NET = /\bfetch\s*\(|XMLHttpRequest|new WebSocket|sendBeacon|gtag\(|analytics/;
+    /* Each allowance is scoped to the ONE file entitled to it: the voice-pack
+       adapter may fetch its own clips, and the update module may fetch the
+       version check (the S6 exception, SPEC section 7a). The same string in
+       any other file — a child screen above all — must trip the scan. */
+    const ALLOWED = {
+      "app/src/voicepacks.js": [['fetch("voice/', 'LOCAL_CLIP("voice/']],
+      "app/src/updates.js": [['fetch("version.json"', 'LOCAL_UPDATE("version.json"']],
+    };
     for (const f of files) {
-      // two same-origin allowances only: the voice pack's own clips, and the
-      // adult-initiated version check (the S6 exception, SPEC section 7a)
-      const src = readFileSync(f, "utf8")
-        .replaceAll('fetch("voice/', 'LOCAL_CLIP("voice/')
-        .replaceAll('fetch("version.json"', 'LOCAL_UPDATE("version.json"');
+      let src = readFileSync(f, "utf8");
+      for (const [from, to] of ALLOWED[f] || []) src = src.replaceAll(from, to);
       expect(NET.test(src)).toBe(false);
     }
     expect(NET.test('const r = await fetch("https://api.example.com");')).toBe(true); // control
     expect(NET.test('fetch("voice/manifest.json")'.replaceAll('fetch("voice/', 'LOCAL_CLIP("voice/'))).toBe(false);
     expect(NET.test('fetch("https://x.test/voice/a.mp3")')).toBe(true); // a remote clip URL still trips
+    // control replaying a real incident: an allowed-elsewhere fetch planted in
+    // a child screen gets no strip there, so it must trip the scan
+    const planted = 'fetch("version.json", { cache: "no-store" }).then((r) => r.json());';
+    let strippedAsHomeScreen = planted;
+    for (const [from, to] of ALLOWED["app/src/screens/HomeScreen.jsx"] || []) strippedAsHomeScreen = strippedAsHomeScreen.replaceAll(from, to);
+    expect(NET.test(strippedAsHomeScreen)).toBe(true);
   });
 
   it("7: the stylesheet keeps child controls at 56 px and adult controls at 44 px", () => {
