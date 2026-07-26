@@ -32,7 +32,8 @@ This document follows the Microsoft Writing Style Guide.
 - E4. Every assertion uses literal expected values, never the constant under test.
 - E5. Every detector ships with a negative control that proves it catches its target fault.
 - E6. Raise the floors in `.claude/gate-baseline.json` when counts grow; never lower a floor.
-  Keys that end in `_max` are ceilings: never raise one.
+  Keys that end in `_max` are ceilings: never raise one. E6 governs the baseline file only;
+  the 600-line limit is one of the G6 ceilings the file protects, not the meaning of E6.
 - E7. Run `npm run gauntlet` before every push. A red gauntlet blocks the change.
 - E8. Do not change game behavior, the word bank, the feedback text, or the layout in a testing
   task. Do not add PWA work in a testing task.
