@@ -338,22 +338,42 @@ The reference build runs in a chat host. A standalone build changes four items:
 
 1. Scaffold: Vite, React, and Tailwind. Make a PWA with a manifest, icons, and a service worker.
    The app must operate offline. The primary target is iPad Safari. Also test desktop Chrome.
+   An installed app never keeps running a superseded version: when a new version takes
+   control, the app refreshes itself once. It waits for a safe moment to do so. A refresh
+   never happens during a session, because it would take the screen away from the child and
+   drop the words already read from that session's total.
 2. Microphone: use the standard permission flow. Use `webkitSpeechRecognition` where necessary.
    If speech recognition is not available, use adult mode. Design rule 1 stays in all modes.
    Listening never traps the child, and a failure is never silent. A recognizer that shows
-   no sign of life for 8 seconds is stopped; while the engine reports sound or speech, the
-   timer re-arms, so a slow reader is never cut off. After any stop, a 2-second grace
-   window still accepts the finalized result — iOS often delivers it only after the stop.
-   An event from an abandoned attempt never reaches the screen: the feedback phase cannot
-   be torn down by a tardy error, and one reading can never record twice. A failure leaves
-   its message in the message slot until the next action, not only in a passing toast. An
-   attempt that produces no event at all invites one retry; a second switches to grown-up
-   grading for that visit only. The "Stop" control always works, even when the recognizer
-   is dead. Only an explicit permission denial changes the saved answer mode; the saved
-   setting does not change otherwise, and the microphone returns on the next open in a
-   browser that can listen. A mode saved as grown-up by an app version that predates this
-   rule heals back to microphone one time, on the next start in a browser that can listen,
-   unless an adult chose grown-up mode.
+   no sign of life for 8 seconds is stopped; each time the engine reports sound or speech
+   the timer starts again, so a child who takes time to begin is not cut off. After any
+   stop, a 2-second grace window still accepts the finalized result — iOS often delivers it
+   only after the stop — so a reading confirmed late still counts. An event from an
+   abandoned attempt never reaches the screen: the feedback phase cannot be torn down by a
+   tardy error, and one reading can never record twice. A failure leaves its message in the
+   message slot until the next action, not only in a passing toast. These are the exact
+   sentences:
+
+   ```
+   retry     "Didn’t catch that — tap to try again."
+   no mic    "The microphone isn’t available here — grown-up grading for this visit."
+   offline   "Can’t listen without the internet — a grown-up can check instead."
+   denied    "Microphone permission is off — switched to grown-up mode."
+   ```
+
+   Only an attempt that produces no event at all counts against the microphone: one invites
+   a retry, a second switches to grown-up grading for that visit only. A "Stop" the child
+   chooses ends the attempt in silence and counts nothing. The "Stop" control always works,
+   even when the recognizer is dead. A missing or unavailable microphone switches to
+   grown-up grading for the visit at once.
+
+   The saved answer mode belongs to the child, not to the browser. Only an explicit
+   permission denial or an adult's choice in the "Grown-ups corner" changes it. A visit that
+   cannot listen shows grown-up grading without writing anything, so the microphone returns
+   on the next open in a browser that can listen. A mode saved as grown-up by an app version
+   that predates this rule heals back to microphone one time. Those versions did not record
+   who chose the mode, so this one-time heal can also undo a grown-up's own earlier choice;
+   the corner toggle sets it back, and every choice from this version on is remembered.
 3. Storage: change the storage adapter to IndexedDB with the same one-object schema. Add JSON
    export and import of the full state.
 4. Optional, later: a cloud pronunciation-score API behind a small server proxy. Keep the API key
