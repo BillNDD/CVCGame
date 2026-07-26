@@ -44,6 +44,8 @@ export default function App() {
   const recRef = useRef(null);
   const snapRef = useRef(null);            // N-3: word-state snapshot for lossless discard
   const advanceRef = useRef(null);
+  const watchdogRef = useRef(0);           // W4b: a dead recognizer must never trap the child
+  const [micVisitBlock, setMicVisitBlock] = useState(false); // W4b: this-visit-only fallback
   const stateRef = useRef(null);
   stateRef.current = state;
 
@@ -188,32 +190,64 @@ export default function App() {
 
   /* ---------- microphone (P1-3 honest state, work item W4) ---------- */
   function startRec() {
-    unlockVoice();
-    if (!SR) { fallbackToParent("This browser can’t listen — switched to grown-up mode."); return; }
+    if (!SR) { visitFallback("This browser can’t listen — grown-up grading for this visit."); return; }
     try {
       const rec = new SR();
       rec.lang = (stateRef.current && stateRef.current.settings.lang) || "en-US";
       rec.interimResults = false; rec.maxAlternatives = 5;
       rec.onresult = (ev) => {
+        clearTimeout(watchdogRef.current);
         const alts = []; const res = ev.results[0];
         for (let i = 0; i < res.length; i++) alts.push(res[i].transcript.toLowerCase().trim());
         handleTranscripts(alts);
       };
       rec.onerror = (ev) => {
-        if (["not-allowed", "service-not-allowed", "audio-capture"].includes(ev.error)) fallbackToParent("Microphone isn’t available — switched to grown-up mode.");
+        clearTimeout(watchdogRef.current);
+        /* Only an explicit permission denial changes the saved setting (SPEC §8,
+           QA step 8). Every other failure is treated as this environment being
+           unable to listen right now — grown-up grading for the visit only. */
+        if (ev.error === "not-allowed") fallbackToParent("Microphone permission is off — switched to grown-up mode.");
+        else if (["service-not-allowed", "audio-capture"].includes(ev.error)) visitFallback("The microphone isn’t available here — grown-up grading for this visit.");
         else if (ev.error === "no-speech") { setPhase("ready"); setMicTried(true); setToast("Didn’t catch that — tap to try again."); }
         else { setPhase("ready"); setMicTried(true); }
       };
-      rec.onend = () => { recRef.current = null; setPhase(p => (p === "listening" ? "ready" : p)); setMicTried(true); };
+      rec.onend = () => { clearTimeout(watchdogRef.current); recRef.current = null; setPhase(p => (p === "listening" ? "ready" : p)); setMicTried(true); };
       recRef.current = rec; rec.start(); setPhase("listening");
-    } catch (e) { fallbackToParent("Microphone isn’t available — switched to grown-up mode."); }
+      /* W4b — the watchdog: some environments (in-app browser views above
+         all) start recognition and then never deliver any event. The child
+         must never sit in "Listening…" forever. */
+      clearTimeout(watchdogRef.current);
+      watchdogRef.current = setTimeout(() => {
+        if (recRef.current === rec) {
+          hardStopRec(); setPhase("ready"); setMicTried(true);
+          setToast("Didn’t catch that — tap to try again.");
+        }
+      }, 8000);
+    } catch (e) { visitFallback("The microphone isn’t available here — grown-up grading for this visit."); }
   }
   const listening = phase === "listening" && !!recRef.current;
-  function softStop() { try { if (recRef.current) recRef.current.stop(); else setPhase("ready"); } catch (e) { setPhase("ready"); } }
-  function hardStopRec() { try { if (recRef.current) { recRef.current.onend = null; recRef.current.stop(); } } catch (e) {} recRef.current = null; }
+  function softStop() {
+    /* N-8 — Stop always causes a visible change, even when the recognizer is
+       dead and onend never arrives. */
+    clearTimeout(watchdogRef.current);
+    try { if (recRef.current) recRef.current.stop(); } catch (e) { /* dead recognizer */ }
+    recRef.current = null;
+    setPhase("ready"); setMicTried(true);
+  }
+  function hardStopRec() {
+    clearTimeout(watchdogRef.current);
+    try { if (recRef.current) { recRef.current.onend = null; recRef.current.stop(); } } catch (e) {}
+    recRef.current = null;
+  }
   function fallbackToParent(msg) {
     const s = structuredClone(stateRef.current); s.settings.mode = "parent";
     setState(s); persist(s); setPhase("ready"); setToast(msg);
+  }
+  /* W4b — grown-up grading for THIS VISIT only: the saved setting never
+     changes, so the microphone comes back on the next open in a browser
+     that can listen. */
+  function visitFallback(msg) {
+    setMicVisitBlock(true); setPhase("ready"); setToast(msg);
   }
   function handleTranscripts(alts) {
     const word = queue[qi];
@@ -297,7 +331,7 @@ export default function App() {
   }
 
   if (screen === "session" && currentWord) {
-    return <SessionScreen state={state} L={L} kid={kid} currentWord={currentWord}
+    return <SessionScreen state={micVisitBlock ? { ...state, settings: { ...state.settings, mode: "parent" } } : state} L={L} kid={kid} currentWord={currentWord}
       phase={phase} lastGrade={lastGrade} queue={queue} qi={qi} order={order}
       firstResults={firstResults} answered={answered} totalQ={totalQ}
       advanceReady={advanceReady} micTried={micTried} listening={listening}

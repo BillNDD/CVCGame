@@ -98,3 +98,10 @@ This document follows the Microsoft Writing Style Guide.
     never crush together.
 31. Turn on Airplane Mode and repeat the previous step.
     Expected: The same recorded voice speaks. Offline changes nothing.
+
+## Microphone resilience
+
+32. Open the game link from a Messages chat, so it opens in the in-app browser. Start a session and tap "Start Recording".
+    Expected: Within about 8 seconds the app returns to ready with a friendly message, or
+    switches to grown-up grading for this visit. Nothing freezes. Opening the game later in
+    Safari brings the microphone back.
