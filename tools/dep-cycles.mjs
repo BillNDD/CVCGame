@@ -35,8 +35,8 @@ function buildGraph() {
     for (const file of walk(root)) {
       const src = readFileSync(file, "utf8");
       const deps = [];
-      for (const m of src.matchAll(/import\s[^"']*["']([^"']+)["']/g)) {
-        const dep = resolveImport(file, m[1]);
+      for (const m of src.matchAll(/(?:import|export)\s[^"'\n]*from\s*["']([^"']+)["']|import\s*["']([^"']+)["']/g)) {
+        const dep = resolveImport(file, m[1] || m[2]);
         if (dep) deps.push(dep);
       }
       graph[file] = deps;

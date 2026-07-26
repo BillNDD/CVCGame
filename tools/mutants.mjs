@@ -48,11 +48,21 @@ const run = (cmd, args) => { try { execFileSync(cmd, args, { stdio: "pipe" }); r
 const survivors = [];
 let missing = 0;
 
+/* Negative control for the runner itself: the pristine suite must PASS before
+   any mutant runs. Without this, a broken environment (a crashing vitest)
+   reads as "every mutant killed" while no mutation testing happened. */
+run("node", ["tools/extract-engine.mjs"]);
+if (!run("npx", ["vitest", "run", "--reporter=dot"])) {
+  console.error("Runner control FAILED: the pristine suite does not pass; mutation results would be meaningless.");
+  process.exit(1);
+}
+
 for (const [name, from, to] of MUTANTS) {
   if (!original.includes(from)) { console.log("  SKIP (anchor moved): " + name); missing++; continue; }
   writeFileSync(TMP, original.replace(from, to));
-  run("node", ["tools/extract-engine.mjs", TMP, "src/engine.js"]);
-  const passed = run("npx", ["vitest", "run", "--reporter=dot"]);
+  const built = run("node", ["tools/extract-engine.mjs", TMP, "src/engine.js"]);
+  // a mutant that breaks extraction is caught by the build; never test stale code
+  const passed = built && run("npx", ["vitest", "run", "--reporter=dot"]);
   if (passed) survivors.push(name);
 }
 run("node", ["tools/extract-engine.mjs"]);

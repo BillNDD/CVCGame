@@ -73,9 +73,9 @@ gates.
 app/          the Vite project (the progressive web app)
 src/          the generated engine module (do not edit)
 tests/        the test suite
-tools/        the extractor and the mutation gate
+tools/        the extractor, the generators, and the gate runners
 icons/        the icon set
-docs/         the install documents
+docs/         the install, testing, and QA documents
 reference/    the single-file artifact build
 ```
 

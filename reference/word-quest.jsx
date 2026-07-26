@@ -617,8 +617,12 @@ export default function WordQuest() {
             <HoldButton onFire={() => grade("close")} disabled={phase === "feedback"} color={C.amber} label="~ close" />
             <HoldButton onFire={() => grade("wrong")} disabled={phase === "feedback"} color={C.red} label="↻ not yet" />
           </div>
-          {/* N-12 */}{seenTwice[currentWord] && phase !== "feedback" && <span className="wq-heard wq-mono">second look at this word</span>}
-          {phase === "heard" && heard && <span className="wq-heard wq-mono">heard “{heard}”</span>}
+          {/* N-12 + P0-2: one reserved marker line, so the strip height never changes
+              and the word never moves between phases */}
+          <span className="wq-heard wq-mono">
+            {phase === "heard" && heard ? "heard “" + heard + "”"
+              : seenTwice[currentWord] && phase !== "feedback" ? "second look at this word" : " "}
+          </span>
         </Zone.Strip>
 
         {exitAsk && (
@@ -954,7 +958,7 @@ const CSS = `
 .wq-slot-tiles{min-height:52px;display:flex;align-items:center;justify-content:center;gap:6px;margin-top:8px}
 .wq-tile{background:${C.sun};color:${C.ink};border-radius:12px;padding:5px 12px;
   font-size:clamp(1.1rem,3.2dvh,1.6rem);font-weight:700;box-shadow:0 1px 3px rgba(23,53,107,.18)}
-.wq-slot-msg{min-height:52px;display:flex;flex-direction:column;align-items:center;justify-content:center;margin-top:4px}
+.wq-slot-msg{height:52px;min-height:52px;display:flex;flex-direction:column;align-items:center;justify-content:center;margin-top:4px}
 
 /* controls */
 .wq-cta{display:block;width:100%;border:0;border-radius:999px;background:${C.action};color:#fff;

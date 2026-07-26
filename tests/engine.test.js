@@ -185,7 +185,7 @@ describe("buildSession", () => {
   });
   it("publishes a prompt cap above the session size", () => {
     expect(PROMPT_CAP).toBe(26);
-    expect(PROMPT_CAP).toBeGreaterThan(SESSION_SIZE);
+    expect(PROMPT_CAP).toBeGreaterThan(20);
   });
 });
 

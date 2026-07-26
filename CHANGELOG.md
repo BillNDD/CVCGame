@@ -19,6 +19,8 @@ The first app version is 1.0.0-beta.1. The app stays in beta until version 1.0 i
 - New: a GitHub Pages workflow. The app makes no network calls after the first load.
 - Changed: four texts on the gradient background become darker for WCAG AA contrast. The
   greeting, the "Read this word" label, the adult-mode prompt, and the storage warning.
+- Fixed: the grown-up strip reserves one line for its markers. The "second look" and "heard"
+  notes no longer change the strip height, so the word never moves between phases.
 
 ## Version 5
 

@@ -139,9 +139,12 @@ describe("G10 safety — S6 and S7: no network, big controls", () => {
   });
 
   it("7: the stylesheet keeps child controls at 56 px and adult controls at 44 px", () => {
-    const css = readFileSync("app/src/wq-css.js", "utf8");
-    expect(css.includes("min-height:56px")).toBe(true);                       // .wq-cta
-    expect(css.includes("min-height:44px;min-width:44px")).toBe(true);        // .wq-sbtn
-    expect((css.match(/min-height:44px/g) || []).length).toBeGreaterThanOrEqual(4);
+    const sized = (css) =>
+      css.includes("min-height:56px") &&
+      css.includes("min-height:44px;min-width:44px") &&
+      (css.match(/min-height:44px/g) || []).length >= 4;
+    expect(sized(readFileSync("app/src/wq-css.js", "utf8"))).toBe(true);
+    // fixture control: a stylesheet with shrunken controls must fail this check
+    expect(sized(".wq-cta{min-height:40px}.wq-sbtn{min-height:40px;min-width:40px}")).toBe(false);
   });
 });

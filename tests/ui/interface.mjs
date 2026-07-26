@@ -77,8 +77,23 @@ for (const height of [430, 555, 720, 950]) {
   await word.waitFor();
   const b3 = await word.boundingBox();
   const same = (a, b) => a.x === b.x && a.y === b.y && a.width === b.width && a.height === b.height;
-  if (same(b1, b2) && same(b1, b3)) ok(`word box fixed across phases (${b1.x},${b1.y} ${b1.width}x${b1.height})`);
-  else fail("word box moved between phases", JSON.stringify({ b1, b2, b3 }));
+  // the retry path: a wrong grade re-queues this word three positions later
+  const retriedWord = await word.textContent();
+  await gradeByKey(page, "↻ not yet (hold)", "Enter");
+  await page.locator(".wq-tile").first().waitFor();
+  const bWrong = await word.boundingBox();
+  let bRetry = null;
+  for (let hop = 0; hop < 6; hop++) {
+    await page.waitForTimeout(500);
+    await page.locator(".wq-rail .wq-cta").click();
+    await word.waitFor();
+    if ((await word.textContent()) === retriedWord) { bRetry = await word.boundingBox(); break; }
+    await gradeByKey(page, "✓ got it (hold)", "Enter");
+    await page.locator(".wq-tile").first().waitFor();
+  }
+  if (same(b1, b2) && same(b1, b3) && same(b1, bWrong) && bRetry && same(b1, bRetry))
+    ok(`word box fixed across ready, feedback, wrong, and retry (${b1.x},${b1.y} ${b1.width}x${b1.height})`);
+  else fail("word box moved between phases", JSON.stringify({ b1, b2, b3, bWrong, bRetry }));
 
   /* 6 — advance inert during the 400 ms guard, active after */
   await gradeByKey(page, "✓ got it (hold)", "Enter");

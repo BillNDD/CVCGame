@@ -117,8 +117,12 @@ export default function SessionScreen({
           <HoldButton onFire={() => grade("close")} disabled={phase === "feedback"} color={C.amber} label="~ close" />
           <HoldButton onFire={() => grade("wrong")} disabled={phase === "feedback"} color={C.red} label="↻ not yet" />
         </div>
-        {/* N-12 */}{seenTwice[currentWord] && phase !== "feedback" && <span className="wq-heard wq-mono">second look at this word</span>}
-        {phase === "heard" && heard && <span className="wq-heard wq-mono">heard “{heard}”</span>}
+        {/* N-12 + P0-2: one reserved marker line, so the strip height never changes
+            and the word never moves between phases */}
+        <span className="wq-heard wq-mono">
+          {phase === "heard" && heard ? "heard “" + heard + "”"
+            : seenTwice[currentWord] && phase !== "feedback" ? "second look at this word" : " "}
+        </span>
       </Zone.Strip>
 
       {exitAsk && <ExitDialog answered={answered} handleExit={handleExit} />}
