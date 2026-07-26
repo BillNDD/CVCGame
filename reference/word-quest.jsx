@@ -63,6 +63,7 @@ const C = {
   action:  "#c9402f",   // 4.93:1 with white
   green:   "#0f7a4f",   // 5.36:1 with white
   amber:   "#8a5a00",   // amber text/fill, dark enough for white
+  amberInk:"#6b4600",   // amber TEXT on the gradient: 4.9:1 on the worst stop
   red:     "#c8342f",   // 5.27:1 with white
   purple:  "#6b4bbf",   // 6.21:1 with white
   sun:     "#ffd166",   // navy on it = 8.28:1
@@ -640,7 +641,7 @@ export default function WordQuest() {
                     <p style={{ margin: 0, fontSize: 15.5, fontWeight: 600, color: C.ink, lineHeight: 1.35 }}>
                       {fb.icon} {fb.lead}<strong>{fb.d}</strong>, {fb.word}.
                     </p>
-                    {TRICKY[currentWord] && <p style={{ margin: "2px 0 0", fontSize: 12.5, fontWeight: 800, color: C.amber }}>⭐ {TRICKY[currentWord]}</p>}
+                    {TRICKY[currentWord] && <p style={{ margin: "2px 0 0", fontSize: 12.5, fontWeight: 800, color: C.amberInk }}>⭐ {TRICKY[currentWord]}</p>}
                   </>
                 )}
                 {phase === "listening" && <p style={{ margin: 0, fontSize: 15, fontWeight: 800, color: C.action }}>🎙️ Listening…</p>}
