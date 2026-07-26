@@ -177,6 +177,7 @@ describe("G2 properties", () => {
         version: fc.oneof(fc.constant(3), fc.constant(2), hostile),
         level: hostile,
         sessionsCompleted: hostile,
+        perfectStreak: hostile,
         settings: hostile,
         words: fc.oneof(hostile, fc.dictionary(fc.string(), hostile, { maxKeys: 6 })),
         log: fc.oneof(hostile, fc.array(hostile, { maxLength: 6 })),

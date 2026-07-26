@@ -531,6 +531,114 @@
             }
           ],
           "examples": []
+        },
+        {
+          "name": "Two perfect sessions in a row promote",
+          "outline": false,
+          "steps": [
+            {
+              "kind": "Given",
+              "text": "a player on Level 2 with 5 of the 20 words at box 3"
+            },
+            {
+              "kind": "Given",
+              "text": "a perfect-session streak of 1"
+            },
+            {
+              "kind": "When",
+              "text": "the session ends with every word correct"
+            },
+            {
+              "kind": "Then",
+              "text": "the player is promoted to Level 3"
+            },
+            {
+              "kind": "Then",
+              "text": "the perfect-session streak is 0"
+            }
+          ],
+          "examples": []
+        },
+        {
+          "name": "One perfect session is not enough",
+          "outline": false,
+          "steps": [
+            {
+              "kind": "Given",
+              "text": "a player on Level 2 with 5 of the 20 words at box 3"
+            },
+            {
+              "kind": "Given",
+              "text": "a perfect-session streak of 0"
+            },
+            {
+              "kind": "When",
+              "text": "the session ends with every word correct"
+            },
+            {
+              "kind": "Then",
+              "text": "the player stays on Level 2"
+            },
+            {
+              "kind": "Then",
+              "text": "the perfect-session streak is 1"
+            }
+          ],
+          "examples": []
+        },
+        {
+          "name": "An imperfect session resets the streak",
+          "outline": false,
+          "steps": [
+            {
+              "kind": "Given",
+              "text": "a player on Level 2 with 5 of the 20 words at box 3"
+            },
+            {
+              "kind": "Given",
+              "text": "a perfect-session streak of 1"
+            },
+            {
+              "kind": "When",
+              "text": "the session ends with a missed word"
+            },
+            {
+              "kind": "Then",
+              "text": "the player stays on Level 2"
+            },
+            {
+              "kind": "Then",
+              "text": "the perfect-session streak is 0"
+            }
+          ],
+          "examples": []
+        },
+        {
+          "name": "A session stopped early leaves the streak unchanged",
+          "outline": false,
+          "steps": [
+            {
+              "kind": "Given",
+              "text": "a player on Level 2 with 5 of the 20 words at box 3"
+            },
+            {
+              "kind": "Given",
+              "text": "a perfect-session streak of 1"
+            },
+            {
+              "kind": "When",
+              "text": "the session stops early"
+            },
+            {
+              "kind": "Then",
+              "text": "the player stays on Level 2"
+            },
+            {
+              "kind": "Then",
+              "text": "the perfect-session streak is 1"
+            }
+          ],
+          "examples": []
         }
       ]
     },

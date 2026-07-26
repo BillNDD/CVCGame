@@ -120,6 +120,32 @@ describe("checkPromotion", () => {
     const top = seeded(LEVELS[6].words, { box: 5, attempts: 5 }); top.level = 7;
     expect(checkPromotion(top)).toBe(false); expect(top.level).toBe(7);
   });
+  it("promotes after two perfect sessions; a partial session never moves the streak", () => {
+    const s = newState(); s.level = 2;
+    expect(checkPromotion(s, { partial: false, perfect: true })).toBe(false);
+    expect(s.perfectStreak).toBe(1);
+    expect(checkPromotion(s, { partial: true, perfect: true })).toBe(false);
+    expect(s.perfectStreak).toBe(1);
+    expect(checkPromotion(s, { partial: false, perfect: true })).toBe(true);
+    expect(s.level).toBe(3);
+    expect(s.perfectStreak).toBe(0);
+  });
+  it("an imperfect completed session resets the streak to zero", () => {
+    const s = newState(); s.level = 2; s.perfectStreak = 1;
+    expect(checkPromotion(s, { partial: false, perfect: false })).toBe(false);
+    expect(s.perfectStreak).toBe(0);
+  });
+  it("the streak never promotes past the last level", () => {
+    const s = newState(); s.level = 7; s.perfectStreak = 5;
+    expect(checkPromotion(s, { partial: false, perfect: true })).toBe(false);
+    expect(s.level).toBe(7);
+  });
+  it("heal repairs a hostile perfectStreak", () => {
+    expect(heal({ perfectStreak: -4 }).perfectStreak).toBe(0);
+    expect(heal({ perfectStreak: "abc" }).perfectStreak).toBe(0);
+    expect(heal({ perfectStreak: 2.6 }).perfectStreak).toBe(3);
+    expect(heal({}).perfectStreak).toBe(0);
+  });
 });
 
 /* ---------------- session builder (S4) ---------------- */

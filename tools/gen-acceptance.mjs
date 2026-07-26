@@ -101,6 +101,16 @@ const STEPS = [
     `LEVELS[${N(m[1])} - 1].words.slice(0, ${N(m[2])}).forEach((w) => { s.words[w] = { ...freshWordState(), box: ${N(m[4])}, attempts: 1 }; });`]],
   [/^the session ends$/, () => [
     `const promoted = checkPromotion(s);`]],
+  [/^a perfect-session streak of (\d+)$/, (m) => [
+    `s.perfectStreak = ${N(m[1])};`]],
+  [/^the session ends with every word correct$/, () => [
+    `const promoted = checkPromotion(s, { partial: false, perfect: true });`]],
+  [/^the session ends with a missed word$/, () => [
+    `const promoted = checkPromotion(s, { partial: false, perfect: false });`]],
+  [/^the session stops early$/, () => [
+    `const promoted = checkPromotion(s, { partial: true, perfect: true });`]],
+  [/^the perfect-session streak is (\d+)$/, (m) => [
+    `expect(s.perfectStreak).toBe(${N(m[1])});`]],
   [/^the player is promoted to Level (\d+)$/, (m) => [
     `expect(promoted).toBe(true);`,
     `expect(s.level).toBe(${N(m[1])});`]],

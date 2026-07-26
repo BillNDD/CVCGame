@@ -83,3 +83,9 @@ This document follows the Microsoft Writing Style Guide.
     Expected: The progress returns exactly as before the reset.
 28. With sound on, grade a miss in adult mode.
     Expected: The app says "Let's try again. The word is ...", with no letter names.
+
+## Promotion
+
+29. In grown-up mode, complete two sessions in a row and mark every word "✓ got it".
+    Expected: After the second session, the app says "Amazing! Level up!" and the level
+    increases by 1.

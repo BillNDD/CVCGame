@@ -128,6 +128,13 @@ box 3 or more. If the count is 80 percent or more, increase the level by 1. Exam
 the threshold is 10 words. The maximum level is 7. The adult can also set the level
 in the "Grown-ups corner".
 
+A second path to promotion: two perfect sessions in a row. A completed session is perfect when
+every word in it was read correctly. The state keeps a `perfectStreak` counter: a perfect
+completed session adds 1, any other completed session resets it to 0, and a session that stops
+early does not change it. When the streak reaches 2, the player is promoted and the streak
+resets to 0. This path exists so a child who is clearly ready does not wait for the box
+schedule on a large level. The maximum level stays 7.
+
 Early exit. If the adult stops a session early, the app shows two options:
 
 - Save: the app writes a log row with a "partial" mark. The session counter does not increase.
@@ -235,7 +242,7 @@ control is larger.
 One state object:
 
 ```
-{ version, level: 1..7, sessionsCompleted,
+{ version, level: 1..7, sessionsCompleted, perfectStreak,
   settings: { mode: "mic"|"parent", sound, childName, lang },
   words: Record<string, WordState>,
   log: [ { n, date, level, c, k, w, acc, items:[{ w, r, retries }], partial } ] }
