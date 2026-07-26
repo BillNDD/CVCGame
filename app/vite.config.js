@@ -72,15 +72,16 @@ function wqPwa() {
    Cache-first service worker. After the first load the app is fully cached
    and makes no network calls, except the adult-initiated version check
    (SPEC section 7a), which this worker never intercepts. A new version
-   installs but WAITS: it activates only when the adult applies the update
-   (the "wq-activate" message), never on its own. */
+   installs but WAITS: it never activates while the app is open. The adult
+   applies it at once (the "wq-activate" message), or the browser applies
+   it when the app next starts fresh. */
 const CACHE = "wq-${version}";
 const ASSETS = ${JSON.stringify(assets, null, 2)};
 
 self.addEventListener("install", (e) => {
   /* cache: "reload" bypasses the HTTP cache, so a new service worker never
      precaches a stale copy served under the host's max-age. No skipWaiting
-     here: updates apply only with adult consent. */
+     here: a new version never takes over while the app is open. */
   e.waitUntil(
     caches.open(CACHE)
       .then((c) => c.addAll(ASSETS.map((u) => new Request(u, { cache: "reload" }))))
