@@ -23,6 +23,14 @@ The first app version is 1.0.0-beta.1. The app stays in beta until version 1.0 i
   notes no longer change the strip height, so the word never moves between phases.
 - Changed: the display font is now the rounded system font instead of a children's-print
   font. The letter shapes match everyday book print, including the double-storey "a".
+- Changed: after an attempt, the app speaks the word as its own slow, clear sentence:
+  "The word was ...". The replay control uses the same slow rate. The word never sounds
+  rushed.
+- Changed: a correct reading now gets one of ten praise sentences, chosen at random. Most
+  point to the child's own effort. The exact list is in SPEC section 5.
+- Fixed: the checks on GitHub failed on every push because the check runner could not read
+  test counts from colored output. The tests themselves passed. The runner now strips the
+  color codes, and the emails about failed runs stop.
 - Changed: after an attempt, the app speaks the word as its own slow, clear sentence. After a
   correct reading, the app says "Great job!" and then "The word was ...". The replay control
   also says the word at the slow rate. The word never sounds rushed.

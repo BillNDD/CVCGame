@@ -149,9 +149,23 @@ The feedback shows below a row of yellow sound tiles, one tile for each unit. If
 
 Speech output, when sound is on:
 
-- correct: `"Great job!"` then `"The word was {word}."`
+- correct: one praise sentence, chosen at random from the list below, then
+  `"The word was {word}."`
 - close: `"Good try!"` then `"The word is {word}."`
 - wrong: `"Let’s try again."` then `"The word is {word}."`
+
+The ten praise sentences. Each one is exact. Most point to the child’s own effort:
+
+1. `"Great job!"`
+2. `"You did it!"`
+3. `"You read that word all by yourself!"`
+4. `"How do you feel about saying that word correctly?"`
+5. `"You worked that out on your own!"`
+6. `"Your reading is getting stronger every day!"`
+7. `"You should feel proud of that one!"`
+8. `"That was tricky, and you got it!"`
+9. `"You sounded that one out beautifully!"`
+10. `"What careful reading that was!"`
 
 The lead and the word reveal are two utterances. The reveal sentence plays at a slower rate, so
 the child hears the word slowly and clearly, never rushed. The replay control says the word at

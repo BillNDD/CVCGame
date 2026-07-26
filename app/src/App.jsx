@@ -4,7 +4,7 @@ import { useState, useEffect, useRef, useMemo, useCallback } from "react";
 import {
   LEVELS, HOMOPHONES, SESSION_SIZE, PROMPT_CAP, ADVANCE_GUARD_MS, SPLASH_TIMEOUT_MS,
   C, SR, freshWordState, applyResult, buildSession, checkPromotion,
-  migrate, newState, buildMarkdown, feedbackSpeech, speak, buzz,
+  migrate, newState, buildMarkdown, feedbackSpeech, PRAISE, speak, buzz,
 } from "@engine";
 /* W3 — the storage adapter is IndexedDB in the standalone app. */
 import { loadState, saveState } from "./storage.js";
@@ -120,7 +120,7 @@ export default function App() {
     setAdvanceReady(false);
     setTimeout(() => setAdvanceReady(true), ADVANCE_GUARD_MS);   // P0-3
     if (result === "correct") buzz(28);           // N-11: no error rumble
-    speak(feedbackSpeech(result, word), s.settings.sound, s.settings.lang);
+    speak(feedbackSpeech(result, word, Math.floor(Math.random() * PRAISE.length)), s.settings.sound, s.settings.lang);
     requestAnimationFrame(() => { if (advanceRef.current) advanceRef.current.focus(); }); // P1-7
   }
 
