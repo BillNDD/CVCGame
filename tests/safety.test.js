@@ -16,7 +16,7 @@ vi.mock("../app/src/storage.js", () => ({
   loadState: vi.fn(async () => null),
   saveState: vi.fn(async () => true),
 }));
-import { saveState as mockSave } from "../app/src/storage.js";
+import { saveState as mockSave, loadState as mockLoad } from "../app/src/storage.js";
 
 /* The recognition double must exist BEFORE the engine module loads, because
    the engine binds SR once at import time. */
@@ -36,6 +36,7 @@ Object.defineProperty(window, "speechSynthesis", {
   value: { cancel: () => { cancels.n += 1; }, speak: (u) => { utterances.push(u.text); rates.push(u.rate); } },
 });
 const { default: App } = await import("../app/src/App.jsx");
+const { newState } = await import("../src/engine.js");
 
 const flush = async (ms = 0) => act(async () => { await vi.advanceTimersByTimeAsync(ms); });
 const startListening = async () => {
@@ -59,6 +60,7 @@ beforeEach(() => {
   rates.length = 0;
   cancels.n = 0;
   recInstances.length = 0;
+  localStorage.clear();                       // W4b: device markers must not leak between tests
 });
 afterEach(() => { cleanup(); vi.useRealTimers(); });
 
@@ -152,12 +154,18 @@ describe("G10 safety — S2: the word is never spoken before the attempt ends", 
 });
 
 describe("G10 safety — W4b: a broken microphone never traps the child", () => {
-  it("8: a recognizer that never answers times out to ready, records nothing, keeps mic mode", async () => {
+  it("8: a recognizer that never answers strikes once with a lasting message, twice into visit-only grown-up grading", async () => {
     await startListening();                                  // the double never fires any event
     const writesAfterBoot = mockSave.mock.calls.length;
     await flush(8000);                                       // the watchdog window
     expect(screen.getByText(/Record again/)).toBeTruthy();     // back to ready, mic still offered
-    expect(screen.getByText("Didn’t catch that — tap to try again.")).toBeTruthy();
+    expect(screen.getAllByText("Didn’t catch that — tap to try again.").length).toBeGreaterThan(0);
+    await flush(4000);                                       // the toast expires at 3200 ms…
+    expect(screen.getAllByText("Didn’t catch that — tap to try again.").length).toBeGreaterThan(0); // …the slot message stays
+    fireEvent.click(screen.getByText(/Record again/));       // second silent attempt
+    await flush(8000);
+    expect(screen.queryByText(/Start Recording|Record again/)).toBeNull(); // grown-up grading this visit
+    expect(screen.getAllByText(/grown-up grading for this visit/).length).toBeGreaterThan(0);
     expect(mockSave.mock.calls.length).toBe(writesAfterBoot);  // S1: nothing recorded
     for (const call of mockSave.mock.calls) expect(call[0].settings.mode).toBe("mic");
   });
@@ -176,9 +184,83 @@ describe("G10 safety — W4b: a broken microphone never traps the child", () => 
     const rec = recInstances.at(-1);
     await act(async () => { rec.onerror({ error: "service-not-allowed" }); });
     expect(screen.queryByText(/Start Recording|Record again/)).toBeNull(); // grown-up grading this visit
-    expect(screen.getByText(/grown-up grading for this visit/)).toBeTruthy();
+    expect(screen.getAllByText(/grown-up grading for this visit/).length).toBeGreaterThan(0);
     // the saved setting never changes: no write may carry mode "parent"
     for (const call of mockSave.mock.calls) expect(call[0].settings.mode).toBe("mic");
+  });
+
+  it("11: an instant silent end is never a wordless no-op — message first, visit fallback second", async () => {
+    await startListening();
+    await act(async () => { recInstances.at(-1).onend(); }); // start -> end, no result, no error
+    expect(screen.getByText(/Record again/)).toBeTruthy();
+    expect(screen.getAllByText("Didn’t catch that — tap to try again.").length).toBeGreaterThan(0);
+    fireEvent.click(screen.getByText(/Record again/));
+    await flush(0);
+    await act(async () => { recInstances.at(-1).onend(); }); // the environment is dead: escalate
+    expect(screen.queryByText(/Start Recording|Record again/)).toBeNull();
+    expect(screen.getAllByText(/grown-up grading for this visit/).length).toBeGreaterThan(0);
+    for (const call of mockSave.mock.calls) expect(call[0].settings.mode).toBe("mic");
+  });
+
+  it("12: a result that arrives after Stop still confirms a correct reading (iOS delivers after stop)", async () => {
+    const word = await startListening();
+    const rec = recInstances.at(-1);
+    rec.stop = () => {};                                     // iOS: stop() returns, the result follows
+    fireEvent.click(screen.getByText(/Stop/));
+    await flush(0);
+    expect(screen.getByText(/Record again/)).toBeTruthy();   // N-8: Stop changed the screen at once
+    await hear(word);                                        // the finalized result, inside the grace window
+    expect(screen.getAllByText(/Great job! That is/).length).toBeGreaterThan(0);
+    const saved = mockSave.mock.calls.at(-1)[0].words[word];
+    expect(saved.correct).toBe(1);                           // S1: recognition confirmed correct, once
+  });
+
+  it("13: a tardy error from a stopped recognizer can never tear down the feedback phase", async () => {
+    const word = await startListening();
+    const rec = recInstances.at(-1);
+    const lateError = rec.onerror;                           // keep the handler a real browser would fire
+    await hear(word);                                        // attempt ends, feedback begins
+    await act(async () => { lateError({ error: "no-speech" }); });
+    expect(screen.getAllByText(/Great job! That is/).length).toBeGreaterThan(0); // feedback intact
+    expect(screen.queryByText("Didn’t catch that — tap to try again.")).toBeNull();
+    expect(screen.queryByText(/Record again|Start Recording/)).toBeNull();       // still in feedback
+  });
+
+  it("14: a pending result after a grade can never record the word twice", async () => {
+    const word = await startListening();
+    const lateResult = recInstances.at(-1).onresult;
+    await hear(word);                                        // grades correct, once
+    const writes = mockSave.mock.calls.length;
+    await act(async () => { lateResult({ results: [[{ transcript: word }]] }); });
+    expect(mockSave.mock.calls.length).toBe(writes);         // S1: no second record
+  });
+
+  it("15: the watchdog re-arms while the engine shows life, so a slow reader is never cut off", async () => {
+    const word = await startListening();
+    const rec = recInstances.at(-1);
+    await flush(7000);                                       // the child is still thinking
+    await act(async () => { rec.onaudiostart(); });          // the engine reports sound
+    await flush(7000);                                       // 14 s total: past the fixed 8 s window
+    expect(screen.getByText(/Stop/)).toBeTruthy();           // still listening — not cut off
+    expect(screen.queryByText("Didn’t catch that — tap to try again.")).toBeNull();
+    await hear(word);                                        // the slow, correct reading still lands
+    expect(screen.getAllByText(/Great job! That is/).length).toBeGreaterThan(0);
+  });
+
+  it("16: a mode wrongly saved as grown-up by an old version heals back to microphone, one time", async () => {
+    const poisoned = newState(); poisoned.settings.mode = "parent";
+    mockLoad.mockResolvedValueOnce(structuredClone(poisoned));
+    render(createElement(App));
+    await flush(0);
+    expect(screen.getByText(/microphone is switched back on/)).toBeTruthy();
+    expect(mockSave.mock.calls.at(-1)[0].settings.mode).toBe("mic");
+    cleanup();
+    // control: an explicit adult choice is never overridden
+    localStorage.clear(); localStorage.setItem("wq-mode-chosen", "1");
+    mockLoad.mockResolvedValueOnce(structuredClone(poisoned));
+    render(createElement(App));
+    await flush(0);
+    expect(screen.queryByText(/microphone is switched back on/)).toBeNull();
   });
 });
 

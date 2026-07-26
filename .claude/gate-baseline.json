@@ -18,7 +18,7 @@
   "g8_checks": 16,
   "g8_axe_violations_max": 0,
   "g9_fault_tests": 8,
-  "g10_safety_tests": 11,
+  "g10_safety_tests": 17,
   "g11_copy_rules": 5,
   "g12_qa_steps": 32,
   "g13_clips": 276,
