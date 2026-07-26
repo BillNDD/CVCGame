@@ -203,7 +203,8 @@ first available source:
 1. The family pack — recordings made in this app by an adult in the "Grown-ups corner".
 2. The default pack — clips that ship with the app.
 3. System speech — the Web Speech behavior above, unchanged, for any utterance a pack cannot
-   cover.
+   cover or cannot play. A first tap unlocks the audio engine; every failure before sound
+   falls back to system speech, so the child never hears a truncated utterance.
 
 A whole utterance comes from one source. Voices never mix inside a sentence.
 

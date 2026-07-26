@@ -33,6 +33,15 @@ The renderer writes a review sheet (`app/public/voice-review.csv`) and flags any
 suspicious duration. Listen to flagged clips before committing. Run `npm run gauntlet` — G13
 verifies the result.
 
+## How playback works
+
+The app plays clips through one Web Audio context that the first real tap unlocks (Begin
+Session, Start Recording, a result control, or replay). Clips load with `fetch` and decode
+before any sound: if any part of an utterance cannot decode or play, the whole utterance
+falls back to system speech, so the child never hears praise without its word. Media
+elements are never used, which keeps iPadOS autoplay rules and service-worker caching out
+of the picture.
+
 ## Licensing
 
 Kokoro's weights are Apache-2.0 and its training data is permissively sourced, so the
