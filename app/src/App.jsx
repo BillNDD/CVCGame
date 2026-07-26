@@ -8,6 +8,7 @@ import {
 } from "@engine";
 /* W3 — the storage adapter is IndexedDB in the standalone app. */
 import { loadState, saveState } from "./storage.js";
+import { initVoicePacks, trySpeakClips, stopClips } from "./voicepacks.js";
 import Frame from "./components/Frame.jsx";
 import HomeScreen from "./screens/HomeScreen.jsx";
 import SessionScreen from "./screens/SessionScreen.jsx";
@@ -62,6 +63,7 @@ export default function App() {
       setToast("Couldn’t read saved progress. Nothing will be saved this visit.");
     }, SPLASH_TIMEOUT_MS);
     (async () => {
+      initVoicePacks();                        // SPEC §5a — never blocks the boot
       const d = await loadState();
       clearTimeout(timer);
       if (settled || !alive) {                 // F3 — late data must not render or write
@@ -120,12 +122,15 @@ export default function App() {
     setAdvanceReady(false);
     setTimeout(() => setAdvanceReady(true), ADVANCE_GUARD_MS);   // P0-3
     if (result === "correct") buzz(28);           // N-11: no error rumble
-    speak(feedbackSpeech(result, word, Math.floor(Math.random() * PRAISE.length)), s.settings.sound, s.settings.lang);
+    const praiseIdx = Math.floor(Math.random() * PRAISE.length);
+    if (!trySpeakClips(result, word, praiseIdx, s.settings.sound))
+      speak(feedbackSpeech(result, word, praiseIdx), s.settings.sound, s.settings.lang);
+    else hush();                               // one voice at a time: clips silence any speech
     requestAnimationFrame(() => { if (advanceRef.current) advanceRef.current.focus(); }); // P1-7
   }
 
   function next() {
-    hush();                                          // S2 — silence the last reveal before the next attempt
+    hush(); stopClips();                             // S2 — silence the last reveal before the next attempt
     const word = queue[qi];
     let q = queue;
     const isFirstPass = (retries[word] || 0) === 0 && firstResults[word] !== undefined;
@@ -169,13 +174,15 @@ export default function App() {
     const stats = commitSession(partial);
     setDoneStats(stats); setScreen("done"); setExitAsk(false);
     if (stats.promoted) buzz([30, 60, 30]);
-    speak(stats.promoted ? "Amazing! Level up!" : "All done! Great reading today!", stateRef.current.settings.sound, stateRef.current.settings.lang);
+    if (!trySpeakClips(stats.promoted ? "levelup" : "done", "", 0, stateRef.current.settings.sound))
+      speak(stats.promoted ? "Amazing! Level up!" : "All done! Great reading today!", stateRef.current.settings.sound, stateRef.current.settings.lang);
+    else hush();
   }
 
   function handleExit(choice) {
     hardStopRec();
     if (choice === "save") { finishSession(true); return; }
-    if (choice === "discard") { hush(); discardSession(); setExitAsk(false); setScreen("home"); return; }
+    if (choice === "discard") { hush(); stopClips(); discardSession(); setExitAsk(false); setScreen("home"); return; }
     setExitAsk(false);
   }
 
@@ -221,7 +228,9 @@ export default function App() {
   /* P1-1 + N-1 — replay exists only AFTER feedback; the word is never spoken pre-attempt */
   function replay() {
     if (phase !== "feedback") return;
-    speak([{ text: currentWord, rate: 0.7 }], stateRef.current.settings.sound, stateRef.current.settings.lang);
+    if (!trySpeakClips("replay", currentWord, 0, stateRef.current.settings.sound))
+      speak([{ text: currentWord, rate: 0.7 }], stateRef.current.settings.sound, stateRef.current.settings.lang);
+    else hush();
   }
 
   /* ---------- settings ---------- */

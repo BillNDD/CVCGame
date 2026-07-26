@@ -195,6 +195,40 @@ approximately 1.1. Stop the previous utterance first. Use the locale from the se
 When the next attempt starts, or a session ends without finishing, the app stops any speech
 that is still playing. The reveal of one word never plays into the attempt on the next word.
 
+### Voice packs
+
+The app speaks through voice packs of recorded clips. For every utterance, the app plays the
+first available source:
+
+1. The family pack — recordings made in this app by an adult in the "Grown-ups corner".
+2. The default pack — clips that ship with the app.
+3. System speech — the Web Speech behavior above, unchanged, for any utterance a pack cannot
+   cover.
+
+A whole utterance comes from one source. Voices never mix inside a sentence.
+
+A pack holds one clip for each bank word (spoken slowly and clearly), the two carrier stems
+("The word was" and "The word is"), the ten praise sentences, the two invitation leads
+("Good try!" and "Let’s try again."), and the two session-end lines. The reveal plays as the
+lead or praise clip, a 700 ms pause, the stem clip, a 700 ms pause, then the word clip. The
+replay control plays the word clip alone. Advancing to the next word, or leaving a session,
+stops any clip that is still playing: safety rule S2 applies to clips exactly as it applies
+to speech.
+
+The default pack is rendered at build time from the open-source Kokoro model (Apache-2.0
+weights), voice `af_heart`, with word clips at speed 0.7 and sentence clips at 1.0. The
+model is a build tool. The app ships only ordinary audio files and a manifest. A gate fails
+the build if any bank word or sentence lacks a clip, so the bank can never grow past its
+voice.
+
+The family pack is recorded inside the installed app behind the adult gate, in level-sized
+chunks with pause and resume, with listen-back and re-record for every clip. Recordings stay
+on the device. An adult can export the family pack as a backup file and restore it on any
+device, like the progress backup. A partial family pack is fine: an utterance the family
+pack cannot fully cover falls back to the default pack. When the word bank grows, the
+"Grown-ups corner" offers a short top-up session. The app never records the child, and no
+pack contains personal data beyond the recorded voice itself.
+
 The replay control (a speaker symbol in the "grown-up" strip) operates only in the feedback
 phase. The app never says the word before the attempt.
 

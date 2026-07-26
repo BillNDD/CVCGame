@@ -82,6 +82,7 @@ step("G1+G2+G9+G10 tests", "npx vitest run", [
   { label: "faults", regex: /faults\.test\.js\s+\((\d+) tests\)/, floorKey: "g9_fault_tests" },
   { label: "safety", regex: /safety\.test\.js\s+\((\d+) tests\)/, floorKey: "g10_safety_tests" },
   { label: "acceptance", regex: /acceptance\.test\.js\s+\((\d+) tests\)/, floorKey: "g3_generated_tests" },
+  { label: "voice", regex: /voicepacks\.test\.js\s+\((\d+) tests\)/, floorKey: "g13_engine_tests" },
   { label: "failed", regex: /(\d+) failed/, max: 0, default: 0 },
 ]);
 
@@ -139,6 +140,11 @@ step("G8 accessibility", "node tests/ui/a11y.mjs", [
 
 step("G12 qa-procedure", "node tools/qa-check.mjs && node tools/qa-check.mjs --self-test", [
   { label: "steps", regex: /(\d+) steps/, floorKey: "g12_qa_steps" },
+]);
+
+step("G13 voice-pack", "node tools/voice-check.mjs && node tools/voice-check.mjs --self-test", [
+  { label: "clips", regex: /(\d+) clips required/, floorKey: "g13_clips" },
+  { label: "problems", regex: /(\d+) problems/, max: 0 },
 ]);
 
 console.log("\n================ GAUNTLET ================");

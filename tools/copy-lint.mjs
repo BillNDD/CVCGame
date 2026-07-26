@@ -15,7 +15,7 @@
    Run: npm run lint:copy */
 import { readFileSync } from "node:fs";
 import { execSync } from "node:child_process";
-import { LEVELS, TRICKY, feedbackParts, feedbackSpeech, newState, PRAISE } from "../src/engine.js";
+import { LEVELS, TRICKY, feedbackParts, feedbackSpeech, newState, PRAISE, VOICE_SENTENCES } from "../src/engine.js";
 
 const problems = [];
 const rule = (okay, name, detail) => {
@@ -46,7 +46,7 @@ function childCopy() {
   return texts;
 }
 
-function run({ leads, notes, corpus, tracked, praise }) {
+function run({ leads, notes, corpus, tracked, praise, voice }) {
   const found = [];
   const rules = new Set();
   const check = (okay, name, detail) => { if (!okay) found.push(name + " — " + detail); };
@@ -72,6 +72,15 @@ function run({ leads, notes, corpus, tracked, praise }) {
     "What careful reading that was!",
   ];
   check(JSON.stringify(praise) === JSON.stringify(PRAISE_EXPECTED), "praise list", JSON.stringify(praise));
+  const VOICE_EXPECTED = {
+    "s:was": "The word was",
+    "s:is": "The word is",
+    "l:close": "Good try!",
+    "l:wrong": "Let’s try again.",
+    "e:done": "All done! Great reading today!",
+    "e:levelup": "Amazing! Level up!",
+  };
+  check(JSON.stringify(voice) === JSON.stringify(VOICE_EXPECTED), "voice sentences", JSON.stringify(voice));
 
   // 2. no banned word in child-facing copy
   rules.add("banned-words");
@@ -134,6 +143,7 @@ const real = {
   corpus: childCopy(),
   tracked: trackedTextFiles(),
   praise: PRAISE,
+  voice: VOICE_SENTENCES,
 };
 
 if (process.argv.includes("--self-test")) {
@@ -143,6 +153,7 @@ if (process.argv.includes("--self-test")) {
   corrupted.praise = [...real.praise];
   corrupted.praise[2] = "Not bad, you got it right!";
   corrupted.praise[5] = "Can you say b?";
+  corrupted.voice = { ...real.voice, "s:was": "The word is" };
   // built at runtime so this file's own source never contains a matchable email
   corrupted.tracked = [...real.tracked, { f: "fixture.md", t: "Contact firstname.lastname" + "@" + "some-personal-mail.net for help" }];
   const { found } = run(corrupted);
@@ -151,11 +162,12 @@ if (process.argv.includes("--self-test")) {
   const sawEmail = found.some((p) => p.startsWith("email address"));
   const sawPraise = found.some((p) => p.startsWith("praise list")) && found.some((p) => p.startsWith("banned word in praise"));
   const sawLetter = found.some((p) => p.startsWith("letter name in praise"));
-  if (sawLead && sawBanned && sawEmail && sawPraise && sawLetter) {
-    console.log("self-test OK: a changed sentence, a banned word, a planted email, a reworded praise, and a letter-name praise are all caught");
+  const sawVoice = found.some((p) => p.startsWith("voice sentences"));
+  if (sawLead && sawBanned && sawEmail && sawPraise && sawLetter && sawVoice) {
+    console.log("self-test OK: a changed sentence, a banned word, a planted email, a reworded praise, a letter-name praise, and a swapped voice stem are all caught");
     process.exit(0);
   }
-  console.error("self-test FAILED: " + JSON.stringify({ sawLead, sawBanned, sawEmail, sawPraise, sawLetter }));
+  console.error("self-test FAILED: " + JSON.stringify({ sawLead, sawBanned, sawEmail, sawPraise, sawLetter, sawVoice }));
   process.exit(1);
 }
 
