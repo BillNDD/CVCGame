@@ -302,9 +302,9 @@ The minimum platform is iPadOS 15.4 or later, or an equivalent browser. The app 
 - Action `#c9402f`. Green `#0f7a4f`. Red `#c8342f`. Purple `#6b4bbf`. Sun tiles `#ffd166` with
   navy text.
 - All text and control colors pass WCAG AA at 4.5:1 or more against their backgrounds.
-- Word font: `'Comic Sans MS','Chalkboard SE','Comic Neue', cursive`. This font has a
-  single-storey "a" and open letter forms. Children learn to print letters in this form.
-  Interface font: `ui-rounded / system-ui`.
+- Word and interface font: `ui-rounded / system-ui` (SF Pro Rounded on Apple devices). The
+  rounded forms stay friendly for children, and the letter shapes match everyday print,
+  including the double-storey "a" that children see in books.
 - White cards, large corner radius, soft shadows. Small motion only. The app obeys the
   reduced-motion setting.
 
