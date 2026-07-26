@@ -40,13 +40,20 @@ The first app version is 1.0.0-beta.1. The app stays in beta until version 1.0 i
 - Fixed: the record control could fail without a word of feedback, and a correct reading
   could go unconfirmed. A recognizer that dies silently now leaves "Didn’t catch that —
   tap to try again." on screen until the next tap, and a second silent attempt switches to
-  grown-up grading for that visit, with the reason on screen. A slow reader is no longer
-  cut off at 8 seconds: the timer re-arms while the engine hears sound, and a 2-second
-  grace window accepts a result that arrives after a stop — so a reading confirmed late
-  still counts. A tardy event from an abandoned attempt can no longer wipe the feedback
-  screen or record a word twice. A device that an older version wrongly locked into
-  grown-up grading heals back to the microphone one time. An installed app now refreshes
-  itself once when a new version takes control, so fixes arrive without a double relaunch.
+  grown-up grading for that visit, with the reason on screen. A child who takes time to
+  begin is no longer cut off at 8 seconds: the timer starts again whenever the engine
+  hears sound, and a 2-second grace window accepts a result that arrives after a stop — so
+  a reading confirmed late still counts. A "Stop" the child chooses now ends the attempt in
+  silence and counts nothing against the microphone. A tardy event from an abandoned
+  attempt can no longer wipe the feedback screen, strand the app on "Listening…", or record
+  a word twice.
+- Fixed: the saved answer mode belongs to the child, not to the browser. A visit that can't
+  listen now shows grown-up grading without writing it to the save, so the microphone comes
+  back on the next open in a browser that can. A device that an older version wrongly
+  locked into grown-up grading heals back to the microphone one time.
+- New: an installed app refreshes itself once when a new version takes control, so fixes
+  arrive without a double relaunch. It waits for a safe moment: a refresh never happens
+  during a session.
 - New: the app speaks with a warm recorded voice instead of the robotic system voice. A
   default voice pack ships with the app: one clip for every word and sentence, rendered
   from an open-source voice the owner chose by ear. Words play slowly with a clear pause

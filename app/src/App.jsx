@@ -24,11 +24,19 @@ const GRACE_MS = 2000;
 const RETRY_MSG = "Didn’t catch that — tap to try again.";
 const MIC_GONE_MSG = "The microphone isn’t available here — grown-up grading for this visit.";
 const NET_MSG = "Can’t listen without the internet — a grown-up can check instead.";
+const DENIED_MSG = "Microphone permission is off — switched to grown-up mode.";
 
 /* Device-local adult-facing markers (never child data). localStorage keeps
    them out of the one-object save document; private modes just skip them. */
 const mark = (k) => { try { localStorage.setItem(k, "1"); } catch { /* private mode */ } };
 const marked = (k) => { try { return localStorage.getItem(k) === "1"; } catch { return false; } };
+
+/* W4b heal, one time per device: app versions before this one saved mode
+   "parent" on ANY microphone failure. Where no adult ever chose that mode,
+   give the microphone back. An explicit choice — the corner toggle, or a
+   permission denial — sets the marker and is never overridden. */
+const shouldHealMode = (s) =>
+  !!SR && s.settings.mode === "parent" && !marked("wq-mode-chosen") && !marked("wq-mic-heal-1");
 
 export default function App() {
   const [screen, setScreen] = useState("splash");
@@ -74,7 +82,6 @@ export default function App() {
       if (!alive || settled) return; settled = true;
       if (!s.settings.lang) s.settings.lang = "en-US";
       if (s.settings.childName === undefined) s.settings.childName = "";
-      if (!SR) s.settings.mode = "parent";
       setState(s); setNameDraft(s.settings.childName || ""); setScreen("home");
     };
     const timer = setTimeout(() => {
@@ -90,28 +97,35 @@ export default function App() {
         if (d && !d.__corrupt) setToast("Saved progress found. Reload to continue it.");
         return;
       }
-      let s, changed = false;
+      let s, changed = false, healed = false;
       if (d && d.__corrupt) { s = newState(); setToast("Saved progress was damaged. A copy was kept; starting fresh."); }
       else if (d) {
         const before = d.version; s = migrate(d); changed = before !== s.version;
-        /* W4b heal, one time per device: app versions before this one saved
-           mode "parent" on ANY microphone failure. Where no adult ever chose
-           that mode, give the microphone back. An explicit choice (the
-           corner toggle, or a permission denial) sets the marker and is
-           never overridden. */
-        if (SR && s.settings.mode === "parent" && !marked("wq-mode-chosen") && !marked("wq-mic-heal-1")) {
-          mark("wq-mic-heal-1"); s.settings.mode = "mic"; changed = true;
+        if (shouldHealMode(s)) {                 // W4b — see shouldHealMode
+          healed = true; s.settings.mode = "mic"; changed = true;
           setToast("The microphone is switched back on. Change it any time in the Grown-ups corner.");
         }
       }
       else s = newState();
       finish(s);
-      if (!d || changed) setPersistent(await saveState(s));
+      if (!d || changed) {
+        const saved = await saveState(s);
+        setPersistent(saved);
+        /* Spend the one-time heal only when the healed save actually landed:
+           a failed write must leave the device eligible to heal again. */
+        if (healed && saved) mark("wq-mic-heal-1");
+      }
     })();
     return () => { alive = false; clearTimeout(timer); };
   }, []);
 
   useEffect(() => { if (!toast) return; const t = setTimeout(() => setToast(""), 3200); return () => clearTimeout(t); }, [toast]);
+
+  /* An update must never reload the page under a child mid-session
+     (app/src/swrefresh.js decides when it is safe). */
+  useEffect(() => {
+    try { window.dispatchEvent(new CustomEvent("wq-screen", { detail: screen })); } catch (e) { /* no window */ }
+  }, [screen]);
 
   const persist = useCallback(async (s) => {
     if (readOnly) return;                     // F3 — a timed-out boot never overwrites
@@ -126,7 +140,9 @@ export default function App() {
     setState(s); setQueue(q); setQi(0);
     setFirstResults({}); setOrder([]); setRetries({}); setSeenTwice({});
     setPromptCount(0); setPhase("ready"); setHeard(""); setLastGrade(null);
-    setMicTried(false); setAdvanceReady(true); setExitAsk(false); setMicNote("");
+    setMicTried(false); setAdvanceReady(true); setExitAsk(false);
+    deadStrikesRef.current = 0;                        // a new session judges the microphone afresh
+    setMicNote(micVisitBlock ? MIC_GONE_MSG : "");     // a blocked visit keeps its reason on screen
     snapRef.current = structuredClone(s.words);   // N-3
     setScreen("session");
   }
@@ -236,19 +252,25 @@ export default function App() {
   const clearNote = () => { if (!micVisitBlock) setMicNote(""); };
   function retire(rec) {
     clearTimeout(watchdogRef.current); clearTimeout(graceRef.current);
-    rec.onresult = rec.onerror = rec.onend = rec.onnomatch = null;
+    rec.onresult = rec.onend = rec.onnomatch = null;
     rec.onaudiostart = rec.onsoundstart = rec.onspeechstart = null;
+    /* A permission answer can arrive after the attempt was abandoned. It is
+       the one late event still worth hearing, and it never moves the phase,
+       so it cannot tear down a feedback screen. */
+    rec.onerror = (ev) => { if (ev && ev.error === "not-allowed") persistDenial(DENIED_MSG); };
     if (recRef.current === rec) recRef.current = null;
   }
-  function strike(msg = RETRY_MSG) {
+  /* Only an attempt that produced NO event at all counts as a strike: not a
+     Stop the child chose, and not a failure that named its own cause. */
+  function strike(msg, visitMsg) {
     deadStrikesRef.current += 1;
-    if (deadStrikesRef.current >= 2) visitFallback(MIC_GONE_MSG);
+    if (deadStrikesRef.current >= 2) visitFallback(visitMsg);
     else note(msg);
   }
   function startRec() {
     unlockVoice();                 // a real tap: reclaim the audio engine before the mic takes it
     if (!SR) { visitFallback("This browser can’t listen — grown-up grading for this visit."); return; }
-    clearTimeout(watchdogRef.current); clearTimeout(graceRef.current);
+    if (recRef.current) hardStopRec();   // never start a second engine over a live one
     setMicNote("");
     try {
       const rec = new SR();
@@ -259,10 +281,11 @@ export default function App() {
         clearTimeout(watchdogRef.current);
         watchdogRef.current = setTimeout(() => {
           if (!mine()) return;
+          rec.judging = true;      // the watchdog owns this ending; Stop must not take it over
           graceRef.current = setTimeout(() => {
             if (!mine()) return;
             retire(rec); toReady();
-            if (rec.sawLife) note(RETRY_MSG); else strike();
+            if (rec.sawLife) note(RETRY_MSG); else strike(RETRY_MSG, MIC_GONE_MSG);
           }, GRACE_MS);
           try { rec.stop(); } catch (e) { /* dead recognizer: the grace timer judges it */ }
         }, WATCHDOG_MS);
@@ -290,19 +313,22 @@ export default function App() {
         if (!mine()) return;
         rec.sawError = true;
         retire(rec); toReady();
-        if (ev.error === "not-allowed") fallbackToParent("Microphone permission is off — switched to grown-up mode.");
-        else if (ev.error === "service-not-allowed") visitFallback(MIC_GONE_MSG);
+        if (ev.error === "not-allowed") fallbackToParent(DENIED_MSG);
+        else if (["service-not-allowed", "audio-capture"].includes(ev.error)) visitFallback(MIC_GONE_MSG);
         else if (ev.error === "no-speech") { deadStrikesRef.current = 0; note(RETRY_MSG); }
-        else if (ev.error === "network") strike(NET_MSG);
-        else if (ev.error !== "aborted") strike();
+        else if (ev.error === "network") strike(NET_MSG, NET_MSG);
+        else if (ev.error !== "aborted") note(RETRY_MSG);
       };
       rec.onend = () => {
         if (!mine()) return;
         const quiet = !rec.sawResult && !rec.sawError;
         retire(rec); toReady();
-        if (quiet) { if (rec.sawLife) note(RETRY_MSG); else strike(); }
+        /* A Stop the child chose is not a fault: it ends the attempt in
+           silence, with nothing counted against the microphone. */
+        if (!quiet || rec.userStopped) return;
+        if (rec.sawLife) note(RETRY_MSG); else strike(RETRY_MSG, MIC_GONE_MSG);
       };
-      recRef.current = rec; rec.start(); setPhase("listening");
+      rec.start(); recRef.current = rec; setPhase("listening");
       arm();
     } catch (e) { visitFallback(MIC_GONE_MSG); }
   }
@@ -310,10 +336,12 @@ export default function App() {
   function softStop() {
     /* N-8 — Stop always causes a visible change at once. The recognizer gets
        the grace window: iOS often delivers the result only after stop(). */
-    clearTimeout(watchdogRef.current);
     const rec = recRef.current;
     toReady();
     if (!rec) return;
+    if (rec.judging) return;       // the watchdog already owns this ending
+    clearTimeout(watchdogRef.current);
+    rec.userStopped = true;
     try { rec.stop(); } catch (e) { retire(rec); return; }
     clearTimeout(graceRef.current);
     graceRef.current = setTimeout(() => { if (recRef.current === rec) retire(rec); }, GRACE_MS);
@@ -322,14 +350,17 @@ export default function App() {
     clearTimeout(watchdogRef.current); clearTimeout(graceRef.current);
     const rec = recRef.current;
     if (!rec) return;
-    retire(rec);
+    retire(rec); toReady();        // an ended attempt never leaves "Listening…" on screen
     try { (rec.abort || rec.stop).call(rec); } catch (e) { /* dead recognizer */ }
   }
-  function fallbackToParent(msg) {
+  /* A denial is an answer about permission, not about this attempt: it never
+     moves the phase, so it cannot interrupt feedback. */
+  function persistDenial(msg) {
     mark("wq-mode-chosen");        // a denial is a choice: the heal never overrides it
     const s = structuredClone(stateRef.current); s.settings.mode = "parent";
-    setState(s); persist(s); setPhase("ready"); note(msg);
+    setState(s); persist(s); note(msg);
   }
+  function fallbackToParent(msg) { persistDenial(msg); setPhase("ready"); }
   /* W4b — grown-up grading for THIS VISIT only: the saved setting never
      changes, so the microphone comes back on the next open in a browser
      that can listen. */
@@ -370,7 +401,7 @@ export default function App() {
     try { await navigator.clipboard.writeText(md); setToast("Log copied ✓"); } catch (e) { setCopyBox(md); }
   }
   function doReset() {
-    const s = newState(); if (!SR) s.settings.mode = "parent";
+    const s = newState();
     setState(s); persist(s); setNameDraft(""); setResetStage(0); setToast("All progress cleared.");
   }
 
@@ -390,7 +421,6 @@ export default function App() {
       const parsed = JSON.parse(await file.text());
       if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) throw new Error("shape");
       const s = migrate(parsed);          // heal runs first inside migrate (SPEC §7)
-      if (!SR) s.settings.mode = "parent";
       setState(s); setNameDraft(s.settings.childName || "");
       persist(s);
       setToast("Backup loaded.");
@@ -411,6 +441,13 @@ export default function App() {
   const L = LEVELS[state.level - 1];
   const kid = state.settings.childName;
 
+  /* W4b — grown-up grading is a DISPLAY state when this visit cannot listen.
+     The saved setting is never rewritten, so the microphone returns on the
+     next open in a browser that can. */
+  const shown = (!SR || micVisitBlock)
+    ? { ...state, settings: { ...state.settings, mode: "parent" } }
+    : state;
+
   if (screen === "home") {
     return <HomeScreen state={state} L={L} kid={kid} masteredCount={masteredCount}
       persistent={persistent} readOnly={readOnly}
@@ -418,7 +455,7 @@ export default function App() {
   }
 
   if (screen === "session" && currentWord) {
-    return <SessionScreen state={micVisitBlock ? { ...state, settings: { ...state.settings, mode: "parent" } } : state} L={L} kid={kid} currentWord={currentWord}
+    return <SessionScreen state={shown} L={L} kid={kid} currentWord={currentWord}
       micNote={micNote} phase={phase} lastGrade={lastGrade} queue={queue} qi={qi} order={order}
       firstResults={firstResults} answered={answered} totalQ={totalQ}
       advanceReady={advanceReady} micTried={micTried} listening={listening}
@@ -432,7 +469,7 @@ export default function App() {
     return <DoneScreen doneStats={doneStats} kid={kid} onHome={() => setScreen("home")} toast={toast} />;
   }
 
-  return <ParentScreen state={state} nameDraft={nameDraft} setNameDraft={setNameDraft}
+  return <ParentScreen state={shown} nameDraft={nameDraft} setNameDraft={setNameDraft}
     commitName={commitName} setMode={setMode} setSound={setSound} setLang={setLang}
     jumpLevel={jumpLevel} openLevels={openLevels} setOpenLevels={setOpenLevels}
     copyLog={copyLog} copyBox={copyBox} resetStage={resetStage} setResetStage={setResetStage}

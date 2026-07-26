@@ -37,6 +37,8 @@ Object.defineProperty(window, "speechSynthesis", {
 });
 const { default: App } = await import("../app/src/App.jsx");
 const { newState } = await import("../src/engine.js");
+const { installRefresh } = await import("../app/src/swrefresh.js");
+const GRACE_MS = 2000;                        // literal, per rule E4
 
 const flush = async (ms = 0) => act(async () => { await vi.advanceTimersByTimeAsync(ms); });
 const startListening = async () => {
@@ -154,10 +156,10 @@ describe("G10 safety — S2: the word is never spoken before the attempt ends", 
 });
 
 describe("G10 safety — W4b: a broken microphone never traps the child", () => {
-  it("8: a recognizer that never answers strikes once with a lasting message, twice into visit-only grown-up grading", async () => {
+  it("8: a recognizer whose stop() answers with end strikes once with a lasting message, twice into visit-only grown-up grading", async () => {
     await startListening();                                  // the double never fires any event
     const writesAfterBoot = mockSave.mock.calls.length;
-    await flush(8000);                                       // the watchdog window
+    await flush(8000);                                       // the watchdog window; stop() -> onend
     expect(screen.getByText(/Record again/)).toBeTruthy();     // back to ready, mic still offered
     expect(screen.getAllByText("Didn’t catch that — tap to try again.").length).toBeGreaterThan(0);
     await flush(4000);                                       // the toast expires at 3200 ms…
@@ -168,6 +170,34 @@ describe("G10 safety — W4b: a broken microphone never traps the child", () => 
     expect(screen.getAllByText(/grown-up grading for this visit/).length).toBeGreaterThan(0);
     expect(mockSave.mock.calls.length).toBe(writesAfterBoot);  // S1: nothing recorded
     for (const call of mockSave.mock.calls) expect(call[0].settings.mode).toBe("mic");
+  });
+
+  it("8b: the true in-app-browser trap — no event ever, and stop() does nothing — is rescued by the grace window", async () => {
+    /* The original child-trapping freeze. The default double is too polite:
+       its stop() fires onend, so test 8 never reaches the grace path that
+       docs/qa-procedure.md step 32 promises. This recognizer answers
+       nothing at all, which is what an in-app browser view really does. */
+    await startListening();
+    recInstances.at(-1).stop = () => {};                     // stop() cannot end it either
+    await flush(8000);                                       // the watchdog fires and asks it to stop
+    expect(screen.queryByText("Didn’t catch that — tap to try again.")).toBeNull(); // still judging
+    await flush(GRACE_MS);                                   // the grace expires: nothing came
+    expect(screen.getByText(/Record again/)).toBeTruthy();     // ~10 s: the child is free
+    expect(screen.getAllByText("Didn’t catch that — tap to try again.").length).toBeGreaterThan(0);
+    fireEvent.click(screen.getByText(/Record again/));
+    await flush(0);
+    recInstances.at(-1).stop = () => {};
+    await flush(8000 + GRACE_MS);                            // a second dead attempt escalates
+    expect(screen.queryByText(/Start Recording|Record again/)).toBeNull();
+    expect(screen.getAllByText(/grown-up grading for this visit/).length).toBeGreaterThan(0);
+  });
+
+  it("8c: a dead recognizer whose stop() throws is rescued by the same grace window", async () => {
+    await startListening();
+    recInstances.at(-1).stop = () => { throw new Error("dead recognizer"); };
+    await flush(8000 + GRACE_MS);
+    expect(screen.getByText(/Record again/)).toBeTruthy();
+    expect(screen.getAllByText("Didn’t catch that — tap to try again.").length).toBeGreaterThan(0);
   });
 
   it("9: the Stop control recovers even when the recognizer is dead", async () => {
@@ -247,6 +277,59 @@ describe("G10 safety — W4b: a broken microphone never traps the child", () => 
     expect(screen.getAllByText(/Great job! That is/).length).toBeGreaterThan(0);
   });
 
+  it("15b: a Stop the child chose is never counted against the microphone", async () => {
+    /* The default double's stop() fires onend — a healthy engine's shape.
+       Two deliberate Stops must leave a healthy microphone on offer. */
+    await startListening();
+    fireEvent.click(screen.getByText(/Stop/));
+    await flush(0);
+    expect(screen.getByText(/Record again/)).toBeTruthy();
+    expect(screen.queryByText("Didn’t catch that — tap to try again.")).toBeNull(); // not a fault
+    fireEvent.click(screen.getByText(/Record again/));
+    await flush(0);
+    fireEvent.click(screen.getByText(/Stop/));
+    await flush(0);
+    expect(screen.getByText(/Record again/)).toBeTruthy();       // still offered, not blocked
+    expect(screen.queryByText(/grown-up grading for this visit/)).toBeNull();
+  });
+
+  it("15c: tapping Record again over a live attempt starts cleanly, with no visit lockout", async () => {
+    await startListening();
+    fireEvent.click(screen.getByText(/Stop/));                   // inside the grace window
+    await flush(0);
+    fireEvent.click(screen.getByText(/Record again/));           // the natural double tap
+    await flush(0);
+    expect(screen.getByText(/Stop/)).toBeTruthy();               // listening again
+    expect(screen.queryByText(/grown-up grading for this visit/)).toBeNull();
+  });
+
+  it("15d: 'Keep reading' after a mid-listen exit never leaves the screen claiming to listen", async () => {
+    await startListening();
+    fireEvent.click(screen.getByLabelText("Leave session"));
+    await flush(0);
+    fireEvent.click(screen.getByText(/Keep reading/));
+    await flush(0);
+    expect(screen.queryByText("🎙️ Listening…")).toBeNull();     // honest state
+    expect(screen.getByText(/Record again/)).toBeTruthy();
+  });
+
+  it("15e: a browser that cannot listen never writes grown-up mode into the save", async () => {
+    /* The saved setting is the child's, not the browser's: a visit without
+       speech recognition shows grown-up grading but stores nothing. */
+    const realSR = window.webkitSpeechRecognition;
+    try {
+      window.webkitSpeechRecognition = undefined;
+      vi.resetModules();
+      const { default: NoSR } = await import("../app/src/App.jsx");
+      render(createElement(NoSR));
+      await flush(0);
+      fireEvent.click(screen.getByText("▶️ Begin Session"));
+      await flush(0);
+      expect(screen.queryByText(/Start Recording|Record again/)).toBeNull(); // grown-up grading shown
+      for (const call of mockSave.mock.calls) expect(call[0].settings.mode).toBe("mic");
+    } finally { window.webkitSpeechRecognition = realSR; vi.resetModules(); }
+  });
+
   it("16: a mode wrongly saved as grown-up by an old version heals back to microphone, one time", async () => {
     const poisoned = newState(); poisoned.settings.mode = "parent";
     mockLoad.mockResolvedValueOnce(structuredClone(poisoned));
@@ -261,6 +344,46 @@ describe("G10 safety — W4b: a broken microphone never traps the child", () => 
     render(createElement(App));
     await flush(0);
     expect(screen.queryByText(/microphone is switched back on/)).toBeNull();
+  });
+});
+
+describe("G10 safety — W4c: an update never reloads under a child", () => {
+  /* A new version taking control must not take the screen away mid-session:
+     the words already read would leave the session total, and the child
+     would lose an attempt in progress. */
+  function refreshDouble({ controller = {}, screen = "home" } = {}) {
+    const out = { reloads: 0 };
+    let fire = () => {}, tell = () => {};
+    installRefresh({
+      nav: {
+        controller,
+        addEventListener: (ev, fn) => { if (ev === "controllerchange") fire = fn; },
+      },
+      reload: () => { out.reloads += 1; },
+      onScreen: (fn) => { tell = fn; fn(screen); },
+    });
+    out.takeover = () => fire();
+    out.goTo = (s) => tell(s);
+    return out;
+  }
+
+  it("17: a new version mid-session waits for the session to end, then refreshes once", async () => {
+    const sw = refreshDouble({ screen: "session" });
+    sw.takeover();
+    expect(sw.reloads).toBe(0);              // the child keeps playing
+    sw.goTo("done");
+    expect(sw.reloads).toBe(1);              // safe moment: the new code takes over
+    sw.goTo("home"); sw.takeover();
+    expect(sw.reloads).toBe(1);              // and only ever once
+  });
+
+  it("18 (control): with no session running the refresh is immediate, and a first install never reloads", () => {
+    const idle = refreshDouble({ screen: "home" });
+    idle.takeover();
+    expect(idle.reloads).toBe(1);
+    const first = refreshDouble({ controller: null, screen: "home" });
+    first.takeover();
+    expect(first.reloads).toBe(0);           // nothing is stale on the first load
   });
 });
 
