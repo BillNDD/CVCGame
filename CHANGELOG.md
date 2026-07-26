@@ -31,6 +31,12 @@ The first app version is 1.0.0-beta.1. The app stays in beta until version 1.0 i
 - Fixed: the checks on GitHub failed on every push because the check runner could not read
   test counts from colored output. The tests themselves passed. The runner now strips the
   color codes, and the emails about failed runs stop.
+- Fixed: a microphone that never answers — in-app browser views above all — could leave the
+  game stuck on "Listening…" forever, and any microphone problem silently switched the
+  saved mode to grown-up grading, hiding the microphone button from then on. Listening now
+  times out after 8 seconds and invites another try, the "Stop" control always works, and
+  only an explicit permission denial changes the saved setting; any other failure switches
+  to grown-up grading for that visit only.
 - New: the app speaks with a warm recorded voice instead of the robotic system voice. A
   default voice pack ships with the app: one clip for every word and sentence, rendered
   from an open-source voice the owner chose by ear. Words play slowly with a clear pause
