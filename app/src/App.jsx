@@ -229,7 +229,7 @@ export default function App() {
   const setMode = (mode) => mutate(s => { s.settings.mode = mode; });
   const setSound = (on) => mutate(s => { s.settings.sound = on; });
   const setLang = (code) => mutate(s => { s.settings.lang = code; });
-  const jumpLevel = (n) => { mutate(s => { s.level = n; }); setToast("Level set to " + n + " " + LEVELS[n - 1].emoji); };
+  const jumpLevel = (n) => { mutate(s => { s.level = n; s.perfectStreak = 0; }); setToast("Level set to " + n + " " + LEVELS[n - 1].emoji); };
   function commitName() {
     const clean = Array.from(nameDraft.trim()).slice(0, 20).join("");   // P7 — never bisect a surrogate pair
     mutate(s => { s.settings.childName = clean; });

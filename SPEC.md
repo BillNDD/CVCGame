@@ -141,9 +141,12 @@ in the "Grown-ups corner".
 A second path to promotion: two perfect sessions in a row. A completed session is perfect when
 every word in it was read correctly. The state keeps a `perfectStreak` counter: a perfect
 completed session adds 1, any other completed session resets it to 0, and a session that stops
-early does not change it. When the streak reaches 2, the player is promoted and the streak
-resets to 0. This path exists so a child who is clearly ready does not wait for the box
-schedule on a large level. The maximum level stays 7.
+early does not change it. When the streak reaches 2 on the session that just ended, the player
+is promoted. Any promotion — on either path — resets the streak to 0, and a manual level
+change in the "Grown-ups corner" also resets it: the streak is evidence at the level being
+played, and it never carries across levels. The stored streak never exceeds 2, and a stored
+streak alone never promotes outside a completed session. This path exists so a child who is
+clearly ready does not wait for the box schedule on a large level. The maximum level stays 7.
 
 Early exit. If the adult stops a session early, the app shows two options:
 

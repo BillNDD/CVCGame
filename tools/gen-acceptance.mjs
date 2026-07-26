@@ -109,6 +109,8 @@ const STEPS = [
     `const promoted = checkPromotion(s, { partial: false, perfect: false });`]],
   [/^the session stops early$/, () => [
     `const promoted = checkPromotion(s, { partial: true, perfect: true });`]],
+  [/^the session stops early with a missed word$/, () => [
+    `const promoted = checkPromotion(s, { partial: true, perfect: false });`]],
   [/^the perfect-session streak is (\d+)$/, (m) => [
     `expect(s.perfectStreak).toBe(${N(m[1])});`]],
   [/^the player is promoted to Level (\d+)$/, (m) => [

@@ -190,6 +190,7 @@ describe("G2 properties", () => {
         const m2 = migrate(clone(m1));
         expect(m2).toEqual(m1);
         if (m1.level < 1 || m1.level > 7) return false;
+        if (!Number.isInteger(m1.perfectStreak) || m1.perfectStreak < 0 || m1.perfectStreak > 2) return false;
         if (!Object.values(m1.words).every((ws) => ws.box >= 0 && ws.box <= 5)) return false;
         const q = buildSession(m1);
         if (q[0]) {

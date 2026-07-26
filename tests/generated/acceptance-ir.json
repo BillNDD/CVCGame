@@ -639,6 +639,83 @@
             }
           ],
           "examples": []
+        },
+        {
+          "name": "A session stopped early with a miss also leaves the streak unchanged",
+          "outline": false,
+          "steps": [
+            {
+              "kind": "Given",
+              "text": "a player on Level 2 with 5 of the 39 words at box 3"
+            },
+            {
+              "kind": "Given",
+              "text": "a perfect-session streak of 1"
+            },
+            {
+              "kind": "When",
+              "text": "the session stops early with a missed word"
+            },
+            {
+              "kind": "Then",
+              "text": "the player stays on Level 2"
+            },
+            {
+              "kind": "Then",
+              "text": "the perfect-session streak is 1"
+            }
+          ],
+          "examples": []
+        },
+        {
+          "name": "A box promotion on a perfect session still resets the streak",
+          "outline": false,
+          "steps": [
+            {
+              "kind": "Given",
+              "text": "a player on Level 1 with 10 of the 12 words at box 3"
+            },
+            {
+              "kind": "Given",
+              "text": "a perfect-session streak of 1"
+            },
+            {
+              "kind": "When",
+              "text": "the session ends with every word correct"
+            },
+            {
+              "kind": "Then",
+              "text": "the player is promoted to Level 2"
+            },
+            {
+              "kind": "Then",
+              "text": "the perfect-session streak is 0"
+            }
+          ],
+          "examples": []
+        },
+        {
+          "name": "A stored streak alone never promotes without a completed session",
+          "outline": false,
+          "steps": [
+            {
+              "kind": "Given",
+              "text": "a player on Level 2 with 5 of the 39 words at box 3"
+            },
+            {
+              "kind": "Given",
+              "text": "a perfect-session streak of 2"
+            },
+            {
+              "kind": "When",
+              "text": "the session ends"
+            },
+            {
+              "kind": "Then",
+              "text": "the player stays on Level 2"
+            }
+          ],
+          "examples": []
         }
       ]
     },
