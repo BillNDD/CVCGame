@@ -36,11 +36,21 @@ describe("checkForUpdate", () => {
 describe("applyUpdate", () => {
   function swDouble(reg) {
     const listeners = {};
+    const removed = [];
     vi.stubGlobal("navigator", { serviceWorker: {
       addEventListener: (ev, fn) => { listeners[ev] = fn; },
+      removeEventListener: (ev, fn) => { removed.push(ev); if (listeners[ev] === fn) delete listeners[ev]; },
       getRegistration: async () => reg,
     } });
-    return { fireControllerChange: () => listeners.controllerchange && listeners.controllerchange() };
+    return { removed, fireControllerChange: () => listeners.controllerchange && listeners.controllerchange() };
+  }
+  function installingDouble() {
+    const d = { onState: null, removed: [] };
+    d.worker = {
+      addEventListener: (ev, fn) => { d.onState = fn; },
+      removeEventListener: (ev) => { d.removed.push(ev); },
+    };
+    return d;
   }
 
   it("activates a waiting worker with the consent message, and resolves on takeover", async () => {
@@ -60,6 +70,51 @@ describe("applyUpdate", () => {
   it("resolves false without a registration", async () => {
     swDouble(null);
     expect(await applyUpdate()).toBe(false);
+  });
+  it("cleans up after itself: takeover removes the controllerchange listener", async () => {
+    const reg = { update: async () => {}, waiting: { postMessage: () => {} }, installing: null };
+    const sw = swDouble(reg);
+    const p = applyUpdate();
+    await new Promise((r) => setTimeout(r, 10));
+    sw.fireControllerChange();
+    expect(await p).toBe(true);
+    expect(sw.removed).toEqual(["controllerchange"]);
+  });
+  it("an installing worker that reaches waiting gets the consent message, once", async () => {
+    const posted = [];
+    const ins = installingDouble();
+    const reg = { update: async () => {}, waiting: null, installing: ins.worker };
+    const sw = swDouble(reg);
+    const p = applyUpdate();
+    await new Promise((r) => setTimeout(r, 10));
+    expect(posted).toEqual([]);                      // nothing waiting yet: no message
+    reg.waiting = { postMessage: (m) => posted.push(m) };
+    ins.onState();                                   // the worker just reached "waiting"
+    expect(posted).toEqual(["wq-activate"]);
+    expect(ins.removed).toEqual(["statechange"]);    // the listener retires with its job done
+    sw.fireControllerChange();
+    expect(await p).toBe(true);
+  });
+  it("a statechange after the timeout answers can never activate the worker", async () => {
+    /* The blocker from the adversarial review: the adult hears "still
+       downloading", walks away, a child plays on - and the download
+       finishes. The late statechange must not swap the app mid-session.
+       The test above is the control: before the answer, the same
+       statechange does activate. */
+    vi.useFakeTimers();
+    try {
+      const posted = [];
+      const ins = installingDouble();
+      const reg = { update: async () => {}, waiting: null, installing: ins.worker };
+      swDouble(reg);
+      const p = applyUpdate();
+      await vi.advanceTimersByTimeAsync(15000);
+      expect(await p).toBe(false);                   // the adult heard "still downloading"
+      reg.waiting = { postMessage: (m) => posted.push(m) };
+      ins.onState();                                 // the download finishes late
+      expect(posted).toEqual([]);                    // no consent message: no mid-session swap
+      expect(ins.removed).toEqual(["statechange"]);  // and the dead listener retires
+    } finally { vi.useRealTimers(); }
   });
 });
 

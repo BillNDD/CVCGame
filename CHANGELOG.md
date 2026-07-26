@@ -31,10 +31,11 @@ The first app version is 1.0.0-beta.1. The app stays in beta until version 1.0 i
 - Fixed: the checks on GitHub failed on every push because the check runner could not read
   test counts from colored output. The tests themselves passed. The runner now strips the
   color codes, and the emails about failed runs stop.
-- New: updates now wait for a grown-up. The "Grown-ups corner" shows the installed version,
+- New: updates never interrupt play. The "Grown-ups corner" shows the installed version,
   a "Check for updates" control asks the app's own host for the latest version, and "Update
-  now" applies it. The app never changes itself without consent, and an update never touches
-  saved progress. Self-hosters get `docs/self-hosting.md`.
+  now" applies it at once. A version the grown-up does not apply waits for the app's next
+  fresh start, and an update never touches saved progress. Self-hosters get
+  `docs/self-hosting.md`.
 - Fixed: a microphone that never answers — in-app browser views above all — could leave the
   game stuck on "Listening…" forever, and any microphone problem silently switched the
   saved mode to grown-up grading, hiding the microphone button from then on. Listening now
