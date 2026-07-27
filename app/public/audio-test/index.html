@@ -27,6 +27,9 @@
 phone. This page tells them apart. Turn the ringer switch on, use the built-in speaker at a
 normal volume, and do the steps in order.</p>
 
+<p><button class="wide" id="start">Start — wake the sound engine</button></p>
+<p class="note" id="state">the engine is asleep until you tap</p>
+
 <div class="step">
   <h2>Step 1 — before the microphone</h2>
   <p>Play all four. Do any sound thin, harsh or fuzzy compared with the others?</p>
@@ -70,13 +73,36 @@ const SOURCES = [
   { id: "el",  label: "96 kbps, plain player", url: (w) => `${w}-96.mp3`, path: "element" },
 ];
 let ctx = null, word = 0;
+const decoded = new Map();          // url -> AudioBuffer, so playing is instant
 const log = (m) => { document.getElementById("log").textContent += m + "\n"; };
+const say = (m) => { document.getElementById("state").textContent = m; };
 
-function unlock() {
+/* iOS starts an audio engine asleep and only wakes it inside a tap. Waking it
+   and then waiting for a download in the same tap is too late: the tap is over
+   by the time the sound would start, and nothing plays — silently. So the
+   first tap wakes the engine, plays a moment of silence through it to prove it
+   is awake, and loads every clip. Every later tap plays immediately. */
+async function warm() {
   const AC = window.AudioContext || window.webkitAudioContext;
-  if (!ctx || ctx.state === "closed") ctx = new AC();
-  if (ctx.state !== "running") ctx.resume().catch(() => {});
-  return ctx;
+  if (!ctx || ctx.state === "closed") { ctx = new AC(); decoded.clear(); }
+  if (ctx.state !== "running") { try { await ctx.resume(); } catch (e) { log("resume refused: " + e); } }
+  const silence = ctx.createBufferSource();
+  silence.buffer = ctx.createBuffer(1, 1, ctx.sampleRate);
+  silence.connect(ctx.destination);
+  silence.start();
+  if (decoded.size) return;
+  say("loading the clips…");
+  for (const w of WORDS) {
+    for (const src of SOURCES) {
+      const url = src.url(w);
+      if (src.path !== "webaudio" || decoded.has(url)) continue;
+      try {
+        const bytes = await (await fetch(url)).arrayBuffer();
+        decoded.set(url, await ctx.decodeAudioData(bytes));
+      } catch (e) { log(`could not decode ${url}: ${e}`); }
+    }
+  }
+  say(`engine ${ctx.sampleRate} Hz, ${ctx.state}, ${decoded.size} clips ready`);
 }
 
 async function play(src) {
@@ -87,14 +113,15 @@ async function play(src) {
     el.play().then(() => log(`${w} — ${src.label}`)).catch((e) => log("player refused: " + e));
     return;
   }
-  const c = unlock();
-  const bytes = await (await fetch(url)).arrayBuffer();
-  const buf = await c.decodeAudioData(bytes);
-  const node = c.createBufferSource();
+  await warm();
+  const buf = decoded.get(url);
+  if (!buf) { log(`${w} — ${src.label}: nothing decoded, see above`); return; }
+  if (ctx.state !== "running") { log(`engine is ${ctx.state}: tap again`); return; }
+  const node = ctx.createBufferSource();
   node.buffer = buf;
-  node.connect(c.destination);
+  node.connect(ctx.destination);
   node.start();
-  log(`${w} — ${src.label} (engine ${c.sampleRate} Hz, ${c.state})`);
+  log(`${w} — ${src.label} (engine ${ctx.sampleRate} Hz, ${ctx.state})`);
 }
 
 function buttons(into) {
@@ -111,6 +138,8 @@ function buttons(into) {
   box.appendChild(next);
 }
 ["before", "after", "fixed"].forEach(buttons);
+
+document.getElementById("start").onclick = () => warm().catch((e) => say("could not start: " + e));
 
 document.getElementById("mic").onclick = () => {
   const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
