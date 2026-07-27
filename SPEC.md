@@ -403,6 +403,16 @@ The reference build runs in a chat host. A standalone build changes four items:
    denied    "Microphone permission is off — switched to grown-up mode."
    ```
 
+   A microphone that is absent says why, on the page, for as long as it stays absent. An
+   adult who chose grown-up mode sees none of these: that is a choice, not a fault. The
+   device-wide reason wins over the per-word one, because it is true of every word:
+
+   ```
+   no speech "Parent: this browser can’t listen. Chrome, Edge or Safari can use the microphone."
+   denied standing "Parent: microphone permission is off. Allow it, then choose the microphone in the Grown-ups corner."
+   corner    "This browser can’t listen. Chrome, Edge or Safari can use the microphone."
+   ```
+
    Only an attempt that produces no event at all counts against the microphone: one invites
    a retry, a second switches to grown-up grading for that visit only. A "Stop" the child
    chooses ends the attempt in silence and counts nothing. The "Stop" control always works,

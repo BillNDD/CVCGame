@@ -12,6 +12,10 @@ const p = (rel) => fileURLToPath(new URL(rel, import.meta.url));
 
 export default defineConfig({
   esbuild: { jsx: "automatic" },
+  /* The app's Vite build injects this; without it the "Grown-ups corner"
+     cannot be rendered in a test at all, which is how that screen came to
+     have almost no coverage. */
+  define: { __APP_VERSION__: JSON.stringify("0.0.0-test") },
   resolve: {
     alias: { "@engine": p("./src/engine.js") },
     /* One React instance for the app sources and the test renderer. */

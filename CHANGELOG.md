@@ -59,6 +59,13 @@ The first app version is 1.0.0-beta.1. The app stays in beta until version 1.0 i
 - New: an installed app refreshes itself once when a new version takes control, so fixes
   arrive without a double relaunch. It waits for a safe moment: a refresh never happens
   during a session.
+- Fixed: when the microphone is missing, the app now says why, on the page, for as long as it
+  stays missing. A browser that cannot listen — Firefox has never supported it — showed
+  grown-up grading silently on every word, and the sentence explaining that was unreachable:
+  it could only appear from a button that is never drawn in that browser. A permission denial
+  explained itself for one word and was then wiped by advancing to the next. Both now hold
+  their explanation, and the "Grown-ups corner" says why its microphone option is greyed out.
+  An adult who chose grown-up mode is never nagged about it.
 - New: five Level 1 words no longer offer the microphone, because speech recognition cannot
   judge them fairly. "am" sounds like the name of the letter M, and a child who reads it
   perfectly is transcribed as "m" — so the app used to answer a correct reading with "Nice
