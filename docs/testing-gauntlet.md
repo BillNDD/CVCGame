@@ -241,10 +241,13 @@ engine, never a hand-kept list.
   word all by yourself!" was spoken with "read" as in "reed", which teaches the wrong sound.
   The word list is checked against the sentences in the live engine, so a new sentence is
   covered from the moment it is written.
+- The gate pins the result of every listening round, not just the global settings: which words
+  render as a sentence, which has its onset trimmed, which has its opening brightened, and by
+  how much. A pack that quietly widens a treatment to a word nobody heard fails.
 - Negative control: `--self-test` removes a word clip, plants an orphan, doubles one declared
   duration, drifts the recipe, leaves a two-letter word to its spelling, strips the recipe
-  altogether, trims a word nobody heard, and puts the "read" sentence back to spelling; the
-  detector must report all eight.
+  altogether, trims a word nobody heard, puts the "read" sentence back to spelling, and
+  changes a listening round's result; the detector must report all nine.
 - Baseline floors: `g13_clips` (276) and `g13_engine_tests` (6).
 - To re-render the pack after the bank grows: `docs/voice-pack.md`.
 

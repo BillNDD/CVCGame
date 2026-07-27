@@ -153,7 +153,7 @@
  },
  "w:tap": {
   "file": "w-tap.mp3",
-  "ms": 1190
+  "ms": 1160
  },
  "w:nap": {
   "file": "w-nap.mp3",
@@ -341,7 +341,7 @@
  },
  "w:hop": {
   "file": "w-hop.mp3",
-  "ms": 1105
+  "ms": 1169
  },
  "w:cot": {
   "file": "w-cot.mp3",
@@ -353,7 +353,7 @@
  },
  "w:pop": {
   "file": "w-pop.mp3",
-  "ms": 1105
+  "ms": 1254
  },
  "w:not": {
   "file": "w-not.mp3",
@@ -565,7 +565,7 @@
  },
  "w:jug": {
   "file": "w-jug.mp3",
-  "ms": 1148
+  "ms": 1297
  },
  "w:hum": {
   "file": "w-hum.mp3",
@@ -1132,6 +1132,19 @@
   },
   "phoneme_sentences": [
    "p:2"
-  ]
+  ],
+  "period_words": [
+   "cup",
+   "hop",
+   "jug",
+   "pop",
+   "rub"
+  ],
+  "onset_trim_words": [
+   "tap"
+  ],
+  "bright_head_ms": {
+   "sip": 70
+  }
  }
 }

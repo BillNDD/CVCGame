@@ -52,6 +52,15 @@ function check(manifest, verifyFiles) {
      how much to cut from each. A pack that trims a different amount, or trims
      a word nobody listened to, has not been approved. */
   const APPROVED_TRIM = { cub: 130, hip: 130, dish: 120 };
+  /* The blind round of 2026-07-27. Five words are rendered as a sentence,
+     with a full stop, because standing alone they ended in a trailing vowel
+     or a burst of noise. One has what precedes its first burst removed, and
+     one has the low frequencies taken out of its first 70 ms so its s cannot
+     read as a z. Each won a numbered, shuffled round in which today's build
+     was one of the candidates. */
+  const APPROVED_PERIOD = ["cup", "hop", "jug", "pop", "rub"];
+  const APPROVED_ONSET = ["tap"];
+  const APPROVED_BRIGHT = { sip: 70 };
   const r = manifest.__recipe;
   if (!r) problems.push("the pack declares no recipe: it cannot be shown to be the approved render");
   else {
@@ -62,6 +71,17 @@ function check(manifest, verifyFiles) {
       if (trim[w] !== want) problems.push(`recipe trims ${w} by ${JSON.stringify(trim[w])} ms, approved is ${want} ms`);
     for (const w of Object.keys(trim))
       if (!(w in APPROVED_TRIM)) problems.push(`recipe trims a word nobody approved: ${w}`);
+    const list = (name, want, got) => {
+      const have = [...(got || [])].sort().join(" ");
+      if (have !== want.join(" ")) problems.push(`recipe ${name} is [${have}], approved is [${want.join(" ")}]`);
+    };
+    list("period_words", APPROVED_PERIOD, r.period_words);
+    list("onset_trim_words", APPROVED_ONSET, r.onset_trim_words);
+    const bright = r.bright_head_ms || {};
+    for (const [w, want] of Object.entries(APPROVED_BRIGHT))
+      if (bright[w] !== want) problems.push(`recipe brightens ${w} over ${JSON.stringify(bright[w])} ms, approved is ${want} ms`);
+    for (const w of Object.keys(bright))
+      if (!(w in APPROVED_BRIGHT)) problems.push(`recipe brightens a word nobody approved: ${w}`);
     /* Two-letter words are read wrongly from spelling. Every one of them must
        be rendered from an approved pronunciation instead. */
     const short = script.filter((c) => c.id.startsWith("w:") && c.id.length === 4).map((c) => c.id.slice(2));
@@ -115,14 +135,22 @@ if (process.argv.includes("--self-test")) {
      again: the exact fault, replayed. */
   const reed = { ...manifest, __recipe: { ...manifest.__recipe, phoneme_sentences: [] } };
   const sawReed = check(reed, false).problems.some((p) => p.startsWith('sentence left to spelling though "read"'));
+  /* The blind round's winners, quietly dropped or quietly widened: a word
+     that stops being rendered as a sentence, and a word nobody heard given
+     the same treatment. */
+  const unheard = { ...manifest, __recipe: { ...manifest.__recipe, period_words: ["cup", "hop", "jug", "pop", "sun"], onset_trim_words: [], bright_head_ms: { sip: 200 } } };
+  const up = check(unheard, false).problems;
+  const sawRound9 = up.some((p) => p.startsWith("recipe period_words is")) &&
+    up.some((p) => p.startsWith("recipe onset_trim_words is")) &&
+    up.some((p) => p.startsWith("recipe brightens sip over 200"));
   const noRecipe = { ...manifest };
   delete noRecipe.__recipe;
   const sawNoRecipe = check(noRecipe, false).problems.some((p) => p.startsWith("the pack declares no recipe"));
-  if (sawMissing && sawOrphan && sawLie && sawRecipe && sawSpelling && sawNoRecipe && sawTrim && sawReed) {
-    console.log("self-test OK: a removed word clip, a planted orphan, a lying duration, a drifted recipe, a two-letter word left to spelling, a pack with no recipe at all, a trim nobody heard, and a sentence with 'read' left to spelling are caught");
+  if (sawMissing && sawOrphan && sawLie && sawRecipe && sawSpelling && sawNoRecipe && sawTrim && sawReed && sawRound9) {
+    console.log("self-test OK: a removed word clip, a planted orphan, a lying duration, a drifted recipe, a two-letter word left to spelling, a pack with no recipe at all, a trim nobody heard, a sentence with 'read' left to spelling, and a listening round's result quietly changed are caught");
     process.exit(0);
   }
-  console.error("self-test FAILED: " + JSON.stringify({ sawMissing, sawOrphan, sawLie, sawRecipe, sawSpelling, sawNoRecipe, sawTrim, sawReed }));
+  console.error("self-test FAILED: " + JSON.stringify({ sawMissing, sawOrphan, sawLie, sawRecipe, sawSpelling, sawNoRecipe, sawTrim, sawReed, sawRound9 }));
   process.exit(1);
 }
 
