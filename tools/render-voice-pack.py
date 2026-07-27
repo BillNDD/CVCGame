@@ -59,17 +59,21 @@ LEAD_MS = 80
 TAIL_MS = 300
 FADE_MS = 10
 
-# Owner-approved pronunciations, given as phonemes instead of spelling.
-# The two-letter words are here because a synthesiser reads them as letter
-# names. "tap" and "sip" are here for a different reason: read from spelling
-# they arrived as "uh tap" and "zip". Giving the sounds directly skips the
-# text normalisation that produced those, and a listener approved the result
-# on 2026-07-27.
+# Owner-approved pronunciations, given as phonemes instead of spelling,
+# because a synthesiser reads two-letter words as letter names.
+#
+# NOT a lever for anything else. Measured on 2026-07-27: for a three-letter
+# word the phonemiser produces exactly the string written here, and rendering
+# from that string gives a sample-for-sample identical result to rendering
+# from the spelling. "tap" and "sip" were briefly listed here to fix "uh tap"
+# and "zip"; the two renders were byte-identical files, so nothing changed and
+# the entries were removed. Only a pronunciation that DIFFERS from the
+# phonemiser's own output can change a word - as with the two-letter words,
+# where it reads "am" as the letter M, and with the praise sentence below.
 PHONEMES = {
     "at": "æt", "an": "æn", "am": "æm", "ax": "æks",
     "in": "ɪn", "it": "ɪt", "if": "ɪf", "is": "ɪz",
     "on": "ɑn", "ox": "ɑks", "up": "ʌp", "us": "ʌs",
-    "tap": "tˈæp", "sip": "sˈɪp",
 }
 
 # A sentence can be mis-read too, and one of them taught the wrong sound.
