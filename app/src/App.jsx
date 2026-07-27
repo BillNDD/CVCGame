@@ -25,16 +25,35 @@ const RETRY_MSG = "Didn’t catch that — tap to try again.";
 const MIC_GONE_MSG = "The microphone isn’t available here — grown-up grading for this visit.";
 const NET_MSG = "Can’t listen without the internet — a grown-up can check instead.";
 const DENIED_MSG = "Microphone permission is off — switched to grown-up mode.";
+/* Standing explanations. A microphone that is absent must say why, on the page,
+   for as long as it stays absent — not once, and not only in a settings screen.
+   An adult who CHOSE grown-up mode gets none of these: that is a choice, not a
+   fault, and the app does not nag about it. */
+const NO_SR_MSG = "Parent: this browser can’t listen. Chrome, Edge or Safari can use the microphone.";
+const DENIED_STANDING_MSG = "Parent: microphone permission is off. Allow it, then choose the microphone in the Grown-ups corner.";
+const CORNER_NO_SR_MSG = "This browser can’t listen. Chrome, Edge or Safari can use the microphone.";
 
 /* Device-local adult-facing markers (never child data). localStorage keeps
    them out of the one-object save document; private modes just skip them. */
 const mark = (k) => { try { localStorage.setItem(k, "1"); } catch { /* private mode */ } };
 const marked = (k) => { try { return localStorage.getItem(k) === "1"; } catch { return false; } };
+const unmark = (k) => { try { localStorage.removeItem(k); } catch { /* private mode */ } };
 
 /* W4b heal, one time per device: app versions before this one saved mode
    "parent" on ANY microphone failure. Where no adult ever chose that mode,
    give the microphone back. An explicit choice — the corner toggle, or a
    permission denial — sets the marker and is never overridden. */
+/* Why the microphone is absent, as a pure function so the reason cannot be
+   stored, cleared, or wiped by advancing a word. An adult who CHOSE grown-up
+   mode gets no message: that is a choice, not a fault. */
+const micAbsenceReason = (mode) =>
+  !SR ? NO_SR_MSG
+  : (mode === "parent" && marked("wq-mode-denied")) ? DENIED_STANDING_MSG
+  : "";
+const CORNER_HINT = SR ? "" : CORNER_NO_SR_MSG;
+const asParent = (s) => ({ ...s, settings: { ...s.settings, mode: "parent" } });
+const displayState = (s, blocked) => (blocked ? asParent(s) : s);
+
 const shouldHealMode = (s) =>
   !!SR && s.settings.mode === "parent" && !marked("wq-mode-chosen") && !marked("wq-mic-heal-1");
 
@@ -357,8 +376,9 @@ export default function App() {
      moves the phase, so it cannot interrupt feedback. */
   function persistDenial(msg) {
     mark("wq-mode-chosen");        // a denial is a choice: the heal never overrides it
+    mark("wq-mode-denied");        // ...and it is the reason the microphone is gone
     const s = structuredClone(stateRef.current); s.settings.mode = "parent";
-    setState(s); persist(s); note(msg);
+    setState(s); persist(s); setToast(msg);
   }
   function fallbackToParent(msg) { persistDenial(msg); setPhase("ready"); }
   /* W4b — grown-up grading for THIS VISIT only: the saved setting never
@@ -388,7 +408,7 @@ export default function App() {
 
   /* ---------- settings ---------- */
   const mutate = (fn) => { const s = structuredClone(stateRef.current); fn(s); setState(s); persist(s); };
-  const setMode = (mode) => { mark("wq-mode-chosen"); mutate(s => { s.settings.mode = mode; }); };
+  const setMode = (mode) => { mark("wq-mode-chosen"); unmark("wq-mode-denied"); mutate(s => { s.settings.mode = mode; }); };
   const setSound = (on) => mutate(s => { s.settings.sound = on; });
   const setLang = (code) => mutate(s => { s.settings.lang = code; });
   const jumpLevel = (n) => { mutate(s => { s.level = n; s.perfectStreak = 0; }); setToast("Level set to " + n + " " + LEVELS[n - 1].emoji); };
@@ -444,14 +464,16 @@ export default function App() {
   /* W4b — grown-up grading is a DISPLAY state when this visit cannot listen.
      The saved setting is never rewritten, so the microphone returns on the
      next open in a browser that can. */
-  const asParent = (s) => ({ ...s, settings: { ...s.settings, mode: "parent" } });
   const micBlocked = !SR || micVisitBlock;
   /* SPEC section 3 — this ONE word cannot be judged fairly by recognition, so
      the adult judges it. The whole-visit block above is a different thing, and
      the corner must keep showing the saved setting either way. */
-  const parentNote = adultNote(currentWord);
-  const shown = micBlocked ? asParent(state) : state;
-  const shownSession = (micBlocked || parentNote) ? asParent(state) : state;
+  /* Why the microphone is absent, derived rather than stored, so advancing to
+     the next word can never clear it. The device-wide reason wins over the
+     per-word one: it is true of every word, not just this one. */
+  const parentNote = micAbsenceReason(state.settings.mode) || adultNote(currentWord);
+  const shown = displayState(state, micBlocked);
+  const shownSession = displayState(state, micBlocked || !!parentNote);
 
   if (screen === "home") {
     return <HomeScreen state={state} L={L} kid={kid} masteredCount={masteredCount}
@@ -479,5 +501,5 @@ export default function App() {
     jumpLevel={jumpLevel} openLevels={openLevels} setOpenLevels={setOpenLevels}
     copyLog={copyLog} copyBox={copyBox} resetStage={resetStage} setResetStage={setResetStage}
     doReset={doReset} onBack={() => { setResetStage(0); setCopyBox(""); setScreen("home"); }}
-    srAvailable={!!SR} onExportJSON={exportJSON} onImportJSON={importJSON} toast={toast} />;
+    srAvailable={!!SR} micHint={CORNER_HINT} onExportJSON={exportJSON} onImportJSON={importJSON} toast={toast} />;
 }

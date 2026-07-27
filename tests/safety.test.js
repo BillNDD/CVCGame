@@ -347,6 +347,79 @@ describe("G10 safety — W4b: a broken microphone never traps the child", () => 
     } finally { window.webkitSpeechRecognition = realSR; vi.resetModules(); }
   });
 
+  it("15f: a browser that cannot listen SAYS SO on the page, on every word", async () => {
+    /* The fault this pins: the sentence existed, but only inside startRec —
+       which runs from a button that is never rendered when the browser cannot
+       listen. It was unreachable code, and a Firefox tester saw a game that
+       had silently lost its microphone with no explanation anywhere. */
+    const realSR = window.webkitSpeechRecognition;
+    try {
+      window.webkitSpeechRecognition = undefined;
+      vi.resetModules();
+      const { default: NoSR } = await import("../app/src/App.jsx");
+      render(createElement(NoSR));
+      await flush(0);
+      fireEvent.click(screen.getByText("▶️ Begin Session"));
+      await flush(0);
+      expect(screen.getByText(
+        "Parent: this browser can’t listen. Chrome, Edge or Safari can use the microphone."
+      )).toBeTruthy();
+      // and it survives advancing: it is true of the next word too
+      fireEvent.keyDown(screen.getByLabelText("✓ got it (hold)"), { key: "Enter" });
+      await flush(500);
+      fireEvent.click(screen.getByText(/Next word|Finish!/));
+      await flush(0);
+      expect(screen.getByText(
+        "Parent: this browser can’t listen. Chrome, Edge or Safari can use the microphone."
+      )).toBeTruthy();
+    } finally { window.webkitSpeechRecognition = realSR; vi.resetModules(); }
+  });
+
+  it("15g: a permission denial explains itself for as long as it lasts", async () => {
+    await startListening();
+    const rec = recInstances.at(-1);
+    await act(async () => { rec.onerror({ error: "not-allowed" }); });
+    /* The reported fault: the reason appeared for one word and was wiped on
+       the next, leaving a permanently changed app with no explanation. */
+    fireEvent.keyDown(screen.getByLabelText("✓ got it (hold)"), { key: "Enter" });
+    await flush(500);
+    fireEvent.click(screen.getByText(/Next word|Finish!/));
+    await flush(4000);                                    // past the 3200 ms toast
+    expect(screen.getByText(
+      "Parent: microphone permission is off. Allow it, then choose the microphone in the Grown-ups corner."
+    )).toBeTruthy();
+  });
+
+  it("15h: an adult who CHOSE grown-up mode is never nagged about it", async () => {
+    render(createElement(App));
+    await flush(0);
+    fireEvent.click(screen.getByLabelText("Grown-ups corner"));
+    await flush(0);
+    fireEvent.click(screen.getByText("👍 You judge"));
+    await flush(0);
+    fireEvent.click(screen.getByText("← Back"));
+    await flush(0);
+    fireEvent.click(screen.getByText("▶️ Begin Session"));
+    await flush(0);
+    expect(screen.queryByText(/this browser can’t listen|permission is off/)).toBeNull();
+  });
+
+  it("15i: the Grown-ups corner explains its own disabled microphone option", async () => {
+    const realSR = window.webkitSpeechRecognition;
+    try {
+      window.webkitSpeechRecognition = undefined;
+      vi.resetModules();
+      const { default: NoSR } = await import("../app/src/App.jsx");
+      render(createElement(NoSR));
+      await flush(0);
+      fireEvent.click(screen.getByLabelText("Grown-ups corner"));
+      await flush(0);
+      expect(screen.getByText(
+        "This browser can’t listen. Chrome, Edge or Safari can use the microphone."
+      )).toBeTruthy();
+    } finally { window.webkitSpeechRecognition = realSR; vi.resetModules(); }
+  });
+
   it("16: a mode wrongly saved as grown-up by an old version heals back to microphone, one time", async () => {
     const poisoned = newState(); poisoned.settings.mode = "parent";
     mockLoad.mockResolvedValueOnce(structuredClone(poisoned));

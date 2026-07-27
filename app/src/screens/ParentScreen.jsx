@@ -10,7 +10,7 @@ import Seg from "../components/Seg.jsx";
 export default function ParentScreen({
   state, nameDraft, setNameDraft, commitName, setMode, setSound, setLang, jumpLevel,
   openLevels, setOpenLevels, copyLog, copyBox, resetStage, setResetStage, doReset,
-  onBack, srAvailable, onExportJSON, onImportJSON, toast,
+  onBack, srAvailable, micHint, onExportJSON, onImportJSON, toast,
 }) {
   return (
     <Frame>
@@ -35,6 +35,8 @@ export default function ParentScreen({
               <span className="wq-lbl">Answer mode</span>
               <Seg options={[["mic", "🎙️ Mic"], ["parent", "👍 You judge"]]} value={state.settings.mode}
                 onChange={setMode} disabled={!srAvailable ? ["mic"] : []} />
+              {/* A disabled control must explain itself, or it just looks broken. */}
+              {micHint && <p style={{ margin: "6px 0 0", fontSize: 12, color: C.ink2 }}>{micHint}</p>}
             </div>
             <p className="wq-help">The app only ever auto-confirms a <em>correct</em> reading. Anything else comes to you — recognition is unreliable for small voices.</p>
 
