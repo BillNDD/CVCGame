@@ -26,9 +26,9 @@
   "g10_adult_control_tests": 5,
   "g10_reveal_tests": 3,
   "g11_copy_rules": 6,
-  "g12_qa_steps": 36,
+  "g12_qa_steps": 37,
   "g13_clips": 276,
-  "g13_engine_tests": 6,
+  "g13_engine_tests": 8,
   "g14_update_tests": 12,
   "g15_recognizer_tests": 49,
   "g16_doc_rules": 5

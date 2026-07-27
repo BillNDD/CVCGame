@@ -10,9 +10,11 @@ import "fake-indexeddb/auto";
 
 const scheduled = [];   // { start, stopped } per created source, in creation order
 let decodeFail = false;
+const contexts = [];    // every AudioContext ever built, in order
 class FakeCtx {
-  constructor() { this.state = "suspended"; this.currentTime = 100; this.destination = {}; }
+  constructor() { this.state = "suspended"; this.currentTime = 100; this.destination = {}; contexts.push(this); }
   resume() { this.state = "running"; }
+  close() { this.closed = true; this.state = "closed"; }
   async decodeAudioData() {
     if (decodeFail) throw new Error("bad bytes");
     return { duration: 1 };                    // every clip decodes to exactly 1 s
@@ -40,7 +42,7 @@ vi.stubGlobal("fetch", vi.fn(async (url) => {
   return { ok: true, arrayBuffer: async () => new ArrayBuffer(8) };
 }));
 const pack = await import("../app/src/voicepacks.js");
-const { initVoicePacks, speakVoice, stopClips, unlockVoice, idbPutClip, idbDeleteClip } = pack;
+const { initVoicePacks, speakVoice, stopClips, unlockVoice, idbPutClip, idbDeleteClip, microphoneUsed } = pack;
 
 const settle = () => new Promise((r) => setTimeout(r, 0));
 const fb = vi.fn();
@@ -109,10 +111,47 @@ describe("voice-pack clip engine", () => {
     }
   });
 
+  /* Reported from an iPhone: words that sounded right on a laptop sounded
+     terrible after the child tapped Record. iOS moves the audio session to
+     "play and record" when the microphone opens and leaves playback on the
+     narrow route it wants for a call. The playback side must take the session
+     back before the reveal — by telling Safari the session is playback again,
+     and by rebuilding the audio context, which is what moves the route on
+     versions with no such setting. */
+  it("takes the audio session back from the microphone before the next reveal", async () => {
+    const session = {};
+    Object.defineProperty(navigator, "audioSession", { configurable: true, get: () => session });
+    try {
+      const before = contexts.at(-1);
+      microphoneUsed();
+      speakVoice("correct", "cat", 0, true, fb);
+      await settle(); await settle();
+      expect(session.type).toBe("playback");             // Safari 17 and later
+      expect(before.closed).toBe(true);                  // and the route moves on older ones
+      expect(contexts.at(-1)).not.toBe(before);
+      expect(scheduled.length).toBe(3);                  // the reveal still plays, in full
+      expect(fb).not.toHaveBeenCalled();
+    } finally {
+      delete navigator.audioSession;
+      stopClips();
+    }
+  });
+
+  it("(control): with no microphone use the context is left alone", async () => {
+    const before = contexts.at(-1);
+    speakVoice("correct", "cat", 0, true, fb);
+    await settle(); await settle();
+    expect(before.closed).toBeUndefined();
+    expect(contexts.at(-1)).toBe(before);
+    expect(scheduled.length).toBe(3);
+    stopClips();
+  });
+
   it("App.jsx wires the packs at every speech site (source tripwire with control)", () => {
     const app = readFileSync("app/src/App.jsx", "utf8");
     expect((app.match(/speakVoice\(/g) || []).length).toBe(3);   // grade, session end, replay
     expect((app.match(/unlockVoice\(\)/g) || []).length).toBeGreaterThanOrEqual(3);
+    expect((app.match(/microphoneUsed\(\)/g) || []).length).toBe(1);   // exactly where the mic opens
     expect("speak(feedbackSpeech(result, word, praiseIdx))".includes("speakVoice(")).toBe(false);
   });
 });

@@ -76,6 +76,14 @@ The first app version is 1.0.0-beta.1. The app stays in beta until version 1.0 i
   the one fault that cannot wait, so this release exists for it. The sentence now carries its
   pronunciation explicitly, and the build refuses any pack that leaves a sentence with a
   two-pronunciation word to the synthesiser.
+- Fixed: on an iPhone or iPad, every word after the child's first recording sounded wrong.
+  iOS hands the whole audio session to the microphone the moment it opens, and leaves
+  playback on the narrow route it keeps for a phone call — so the recorded voice, judged
+  word by word on a laptop, arrived thin and tinny on the device that matters most. The app
+  now takes the session back before each reveal, both by telling Safari the session is for
+  playback and by rebuilding its audio engine, which is what moves the route on older
+  versions. This also explains the "fuzziness" reported on iOS earlier and never accounted
+  for.
 - Changed: seven words are spoken better, chosen in a blind listening round. Five of them —
   cup, rub, jug, pop and hop — ended in a small extra vowel or a burst of noise. A word
   rendered on its own gets no sentence shape, so the voice never properly finishes the last

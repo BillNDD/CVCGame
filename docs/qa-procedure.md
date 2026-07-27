@@ -117,6 +117,11 @@ This document follows the Microsoft Writing Style Guide.
     Expected: The new version number shows, and all progress and settings are exactly as
     before the update.
 
+## Audio after the microphone
+
+37. On the iPhone or iPad, grade a word with sound on and listen. Then tap "Start Recording" on the next word, let it finish, and listen to that reveal.
+    Expected: Both reveals sound the same. The second is not quieter, thinner, or tinny. Repeat once more: the third reveal still sounds the same as the first.
+
 ## Assistive technology
 
 36. On the iPad, turn VoiceOver on. Start a session, swipe to the "✓ got it" control, double-tap it, then repeat with "✗ not yet".
