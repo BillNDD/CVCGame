@@ -112,8 +112,7 @@ function run(d) {
     found.push(`QA says the rescue takes about ${qaTotal ? qaTotal[1] : "?"} s, the code takes ${(watchdog + grace) / 1000} s`);
 
   rules += 1;
-  const holdMatch = /onFire\(\); \}, (\d+)\)/.exec(d.hold);
-  const holdCode = holdMatch ? Number(holdMatch[1]) : NaN;
+  const holdCode = num(d.hold, "HOLD_MS");
   const specHold = /hold an adult result control for\s*\n?\s*(\d+) ms/.exec(d.spec);
   if (!specHold || Number(specHold[1]) !== holdCode)
     found.push(`SPEC hold says ${specHold ? specHold[1] : "nothing"} ms, the control waits ${holdCode} ms`);
@@ -145,7 +144,7 @@ if (process.argv.includes("--self-test")) {
   const timingCorrupt = { ...real, qa: real.qa.replace(/Within about \d+ seconds/, "Within about 3 seconds") };
   seen.timing = run(timingCorrupt).found.some((p) => p.startsWith("QA says the rescue takes"));
 
-  const holdCorrupt = { ...real, hold: real.hold.replace(/onFire\(\); \}, \d+\)/, "onFire(); }, 120)") };
+  const holdCorrupt = { ...real, hold: real.hold.replace(/const HOLD_MS = \d+/, "const HOLD_MS = 120") };
   seen.hold = run(holdCorrupt).found.some((p) => p.startsWith("SPEC hold says"));
 
   /* Exactly the fault this rule was written from: the document keeps a number

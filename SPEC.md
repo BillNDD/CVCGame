@@ -44,7 +44,9 @@ These rules are mandatory.
 9. Privacy is built in. The app has no accounts, no analytics, and no network calls. All data
    stays on the device. The name field is optional.
 10. Adult controls need a deliberate gesture. A pointer must hold an adult result control for
-    450 ms. A keyboard operates the control directly.
+    450 ms. A keyboard operates the control directly, and so does an activation from assistive
+    technology, such as a screen reader's double-tap. Focusing a control and then activating it
+    is as deliberate as a hold, and for some grown-ups it is the only way to answer at all.
 
 ## 2. Core requirements
 
@@ -303,8 +305,10 @@ Session, adult mode. The stage asks the child to say the word aloud. The adult g
 with the strip controls.
 
 The strip controls. Three result controls: got it, close, not yet. A pointer must hold a control
-for 450 ms. A fill shows the hold progress. A keyboard operates the controls directly. The
-controls are muted in color and small in appearance, with a minimum target of 44 px.
+for 450 ms. A fill shows the hold progress. A keyboard operates the controls directly, and so
+does a screen reader or any other assistive technology: an activation that carries no pointer
+behind it counts as a keyboard press, never as a touch. The controls are muted in color and
+small in appearance, with a minimum target of 44 px.
 
 Feedback phase. The tiles and the feedback sentence appear in their reserved rows. The advance
 control ("Next word" or "Finish!") is not active for the first 400 ms. The advance control is the
@@ -503,7 +507,8 @@ The minimum platform is iPadOS 15.4 or later, or an equivalent browser. The app 
       restores the exact word data.
 - [ ] Stop the app in a session. Start the app again. No result is lost.
 - [ ] The adult result controls need a 450 ms hold with a pointer. A keyboard operates them
-      directly.
+      directly, and so does a screen reader: with VoiceOver on, a double-tap records the
+      result.
 - [ ] The dialog window holds keyboard focus and closes with the Escape key.
 - [ ] With no name set, no personal data shows in the interface or in the export.
 - [ ] Damaged data: the app keeps a copy, gives a message, and starts fresh.

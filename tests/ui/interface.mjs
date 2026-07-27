@@ -110,7 +110,7 @@ for (const height of [430, 555, 720, 950]) {
 
   /* 7 — the timing constants are the literal numbers */
   const holdSource = readFileSync("app/src/components/HoldButton.jsx", "utf8");
-  if (ADVANCE_GUARD_MS === 400 && holdSource.includes("}, 450)"))
+  if (ADVANCE_GUARD_MS === 400 && holdSource.includes("const HOLD_MS = 450"))
     ok("timing constants literal: ADVANCE_GUARD_MS 400, hold delay 450");
   else fail("timing constants wrong", `guard=${ADVANCE_GUARD_MS}`);
 
