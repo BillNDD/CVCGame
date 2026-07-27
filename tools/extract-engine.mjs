@@ -13,7 +13,7 @@ const cut = src.indexOf(MARK);
 if (cut < 0) { console.error("Component banner not found in " + SRC); process.exit(1); }
 
 const body = src.slice(0, cut).replace(/^import .*from "react";$/m, "");
-const EXPORTS = ["LEVELS","TRICKY","DIGRAPHS","HOMOPHONES","INTERVALS","SESSION_SIZE","PROMPT_CAP",
+const EXPORTS = ["LEVELS","TRICKY","DIGRAPHS","HOMOPHONES","ADULT_JUDGED","adultNote","INTERVALS","SESSION_SIZE","PROMPT_CAP",
   "WORD_LEVEL","chunkWord","dashed","freshWordState","applyResult","shuffle","buildSession",
   "checkPromotion","heal","migrate","newState","buildMarkdown","loadState","saveState","feedbackParts",
   "ADVANCE_GUARD_MS","SPLASH_TIMEOUT_MS","STORE_KEY","C","LANGS","speak","hush","buzz","SR","feedbackSpeech","PRAISE",

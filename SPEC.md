@@ -93,6 +93,21 @@ INTERVALS    = [1,1,2,4,7,12]   // sessions until due, by box 0..5
 
 `chunkWord("ship")` gives `["sh","i","p"]`. The dashed form is `sh-i-p`.
 
+Some words cannot be judged fairly by speech recognition. A two-sound word whose consonant
+carries a letter name that sounds like the whole word is one: a child who reads "am" correctly
+is transcribed as "m", the name of the letter M. The app never offers the microphone for these
+words, so a correct reading can never be reported as a miss. `ADULT_JUDGED` names them and the
+sound each one collides with:
+
+```
+ADULT_JUDGED = { am: "m", an: "n", ax: "x", if: "f", us: "s" }
+```
+
+A word joins this list only when the microphone cannot represent it, never when the child might
+say it wrongly. Vowel pairs like "pin" and "pen" stay on the microphone: a recogniser that
+returns "pen" may be reporting exactly what the child said, and catching that is the purpose of
+the game.
+
 To extend the bank, add words to a level's list or add a level object:
 `{ n, name, emoji, focus, words }`. Level sizes can differ; the session builder serves 20
 words at a time regardless. Level 1 stays at 12 words — English has only a small set of clean
@@ -240,6 +255,17 @@ phase. The app never says the word before the attempt.
 ## 6. Screens and modes
 
 The screens are: home, session, done, and "Grown-ups corner".
+
+For a word in `ADULT_JUDGED`, a session in microphone mode shows the prompt used in grown-up
+mode instead of the record control, and the message slot carries one note for the adult:
+
+```
+Parent: "am" and "m" are nearly indistinguishable, please act as judge here
+```
+
+The note names the word and the sound it collides with. It appears at 11.5 px, so the longest
+note stays inside the fixed message slot and the word above never moves. The app never speaks
+this note: design rule 8 keeps letter names out of speech.
 
 Layout. Each screen has three fixed zones in a `100dvh` shell: a header, a stage, and an action
 rail with the "grown-up" strip below it. The word position in the stage does not move. The tile

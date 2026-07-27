@@ -47,6 +47,7 @@ Object.defineProperty(window, "speechSynthesis", {
   configurable: true, value: { cancel: () => {}, speak: () => {} },
 });
 const { default: App } = await import("../app/src/App.jsx");
+const { ADULT_JUDGED } = await import("../src/engine.js");
 
 /* The full event alphabet of the Web Speech API. The eight error codes are
    the complete set the specification defines; the rest are the lifecycle
@@ -58,12 +59,21 @@ const ERRORS = [
 const LIFECYCLE = ["end", "nomatch", "result-miss", "result-hit"];
 
 const flush = async (ms = 0) => act(async () => { await vi.advanceTimersByTimeAsync(ms); });
+/* Five Level 1 words offer no microphone at all (SPEC section 3), and the
+   session order is shuffled. Walk past them with the adult's keyboard grade
+   to reach a word that actually records. */
 const startListening = async () => {
   render(createElement(App));
   await flush(0);
   fireEvent.click(screen.getByText("▶️ Begin Session"));
   await flush(0);
-  fireEvent.click(screen.getByText(/Start Recording/));
+  for (let i = 0; i < 12 && ADULT_JUDGED[document.querySelector(".wq-word").textContent]; i++) {
+    fireEvent.keyDown(screen.getByLabelText("✓ got it (hold)"), { key: "Enter" });
+    await flush(500);
+    fireEvent.click(screen.getByText(/Next word|Finish!/));
+    await flush(0);
+  }
+  fireEvent.click(screen.getByText(/Start Recording|Record again/));
   await flush(0);
   return document.querySelector(".wq-word").textContent;
 };
