@@ -30,6 +30,7 @@
   "g13_clips": 276,
   "g13_engine_tests": 8,
   "g14_update_tests": 12,
+  "g14_worker_tests": 5,
   "g15_recognizer_tests": 49,
   "g16_doc_rules": 5
 }

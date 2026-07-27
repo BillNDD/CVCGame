@@ -119,7 +119,7 @@ describe("applyUpdate", () => {
 });
 
 describe("update-system tripwires (source, with controls)", () => {
-  const cfg = readFileSync("app/vite.config.js", "utf8");
+  const cfg = readFileSync("app/vite.config.js", "utf8") + readFileSync("app/sw-template.js", "utf8");
   const mod = readFileSync("app/src/updates.js", "utf8");
 
   it("the service worker never activates itself: no skipWaiting at install, consent message only", () => {

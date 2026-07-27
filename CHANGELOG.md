@@ -76,6 +76,11 @@ The first app version is 1.0.0-beta.1. The app stays in beta until version 1.0 i
   the one fault that cannot wait, so this release exists for it. The sentence now carries its
   pronunciation explicitly, and the build refuses any pack that leaves a sentence with a
   two-pronunciation word to the synthesiser.
+- Fixed: any page other than the app itself, served from the app's own address, came up
+  blank. The offline worker answered every page request in its folder with the app's own
+  page, and the app addresses its files relative to the page, so from a different folder
+  nothing loaded and nothing said why. The worker now answers for the app's page only, and
+  lets every other page through. Found when a diagnostic page would not open on a phone.
 - Fixed: on an iPhone or iPad, every word after the child's first recording sounded wrong.
   iOS hands the whole audio session to the microphone the moment it opens, and leaves
   playback on the narrow route it keeps for a phone call — so the recorded voice, judged
