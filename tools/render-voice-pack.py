@@ -2,9 +2,34 @@
 # inventory. This is a BUILD TOOL: it runs on a developer machine, and only its
 # output (mp3 clips and a manifest) ships with the app. The model never ships.
 #
-# Owner decisions encoded here: voice af_heart, every clip at the voice's
-# natural speed (samples approved 2026-07-26; the 0.7 word slow-down was
-# removed on 2026-07-27 because stretching a word distorts its sound).
+# THE RECIPE BELOW IS OWNER-APPROVED AUDIO. Do not change a number without a
+# person listening to the result. Every value was chosen by ear over five
+# rounds on 2026-07-27, and each one fixes a fault a human heard:
+#
+#   LEAD_MS   80  The fault that forced this rebuild. Clips rendered without
+#                 leading silence lost their first fraction of a second
+#                 somewhere between the file and the speaker: "cat" said "at",
+#                 "duck" said "uck", "ship" said "ip", "an" said "n". The audio
+#                 is measurably PRESENT in every file - the loss happens at
+#                 decode or playback - so silence in front moves the onset out
+#                 of the danger zone. 150 ms was tested and is worse for most
+#                 words: it adds an audible "uh" before the word. Two words are
+#                 the exception; see LEAD_OVERRIDE.
+#   TAIL_MS  300  Lets a final consonant release. Without it the p in "up" and
+#                 the t in "it" sounded swallowed.
+#   FADE_MS   10  Removes the scratch heard at the end of "up" and "us", and
+#                 any click at the start.
+#   WORD_SPEED 0.85  The floor. 0.80 introduces an audible click; 0.75 and
+#                 below distort the vowel ("it" becomes "eee-it", "up" becomes
+#                 "uhh-p"). Slower is NOT clearer. Space is clearer, which is
+#                 what LEAD_MS and TAIL_MS buy.
+#   SENTENCE_SPEED 1.0  Sentences and praise were judged natural as they were.
+#
+# PHONEMES: two-letter words are the ones a synthesiser mis-reads from
+# spelling - it said "m" for "am" and "n" for "an". Giving the pronunciation
+# directly fixes that, and for a phonics app it is the honest way round: we
+# teach a sound, so we specify the sound. Three-letter words were verified
+# correct from spelling and are rendered from spelling.
 #
 # Usage:
 #   node -e "import('./src/engine.js').then(m => console.log(JSON.stringify(m.voiceScript())))" > script.json
@@ -21,21 +46,67 @@ from kokoro_onnx import Kokoro
 
 script_path, model_path, voices_path, out_dir = sys.argv[1:5]
 VOICE = "af_heart"
+BITRATE = 48
+WORD_SPEED = 0.85
+SENTENCE_SPEED = 1.0
+LEAD_MS = 80
+TAIL_MS = 300
+FADE_MS = 10
+
+# Owner-approved pronunciations, given as phonemes instead of spelling.
+PHONEMES = {
+    "at": "æt", "an": "æn", "am": "æm", "ax": "æks",
+    "in": "ɪn", "it": "ɪt", "if": "ɪf", "is": "ɪz",
+    "on": "ɑn", "ox": "ɑks", "up": "ʌp", "us": "ʌs",
+}
+# The two words that needed more room in front, by ear.
+LEAD_OVERRIDE = {"am": 150, "an": 150}
+
+# Heard and NOT yet right, from the owner's spot-check of 2026-07-27. Shipped
+# anyway, because the build they replaced said "at" for "cat" and every one of
+# these is an improvement on that. Each needs an explicit pronunciation, the
+# way "am" and "an" got one:
+#   dish  the sh slurs
+#   cub   sounds like "cub + e"
+#   hip   sounds like "hip-uh"
+# Anything else a listener reports joins this list until it is fixed.
+
 OUT = pathlib.Path(out_dir)
 OUT.mkdir(parents=True, exist_ok=True)
 
 k = Kokoro(model_path, voices_path)
 script = json.load(open(script_path))
 
+
+def shape(audio, lead_ms, sr):
+    """Protect the onset, release the ending, remove clicks at both edges."""
+    a = np.clip(np.asarray(audio, dtype=np.float32), -1.0, 1.0).copy()
+    n = int(FADE_MS / 1000 * sr)
+    if len(a) > 2 * n:
+        a[:n] *= np.linspace(0, 1, n)
+        a[-n:] *= np.linspace(1, 0, n)
+    lead = np.zeros(int(lead_ms / 1000 * sr), dtype=np.float32)
+    tail = np.zeros(int(TAIL_MS / 1000 * sr), dtype=np.float32)
+    return np.concatenate([lead, a, tail])
+
+
 manifest = {}
-review = ["id,text,ms,flag"]
+review = ["id,text,ms,source,flag"]
 for clip in script:
     cid, text = clip["id"], clip["text"]
-    audio, sr = k.create(text, voice=VOICE, speed=1.0, lang="en-us")
-    pcm = np.clip(audio, -1.0, 1.0)
-    pcm16 = (pcm * 32767).astype(np.int16)
+    is_word = cid.startswith("w:")
+    word = cid[2:] if is_word else None
+    phoneme = PHONEMES.get(word) if is_word else None
+    audio, sr = k.create(
+        phoneme or text,
+        voice=VOICE,
+        speed=WORD_SPEED if is_word else SENTENCE_SPEED,
+        lang="en-us",
+        is_phonemes=bool(phoneme),
+    )
+    pcm16 = (shape(audio, LEAD_OVERRIDE.get(word, LEAD_MS), sr) * 32767).astype(np.int16)
     enc = lameenc.Encoder()
-    enc.set_bit_rate(48)
+    enc.set_bit_rate(BITRATE)
     enc.set_in_sample_rate(sr)
     enc.set_channels(1)
     enc.set_quality(2)
@@ -51,11 +122,18 @@ for clip in script:
     if ms > 6000:
         flag = "LONG"
     manifest[cid] = {"file": fname, "ms": ms}
-    review.append(f'{cid},"{text}",{ms},{flag}')
+    review.append(f'{cid},"{text}",{ms},{"phonemes" if phoneme else "spelling"},{flag}')
 
+# The recipe travels WITH the pack, so the gate can prove which settings
+# produced these clips and refuse a re-render nobody listened to.
+manifest["__recipe"] = {
+    "voice": VOICE, "bitrate": BITRATE, "word_speed": WORD_SPEED,
+    "sentence_speed": SENTENCE_SPEED, "lead_ms": LEAD_MS, "tail_ms": TAIL_MS,
+    "fade_ms": FADE_MS, "phoneme_words": sorted(PHONEMES),
+}
 (OUT / "manifest.json").write_text(json.dumps(manifest, indent=1) + "\n")
 pathlib.Path(out_dir + "-review.csv").write_text("\n".join(review) + "\n")
 flags = [r for r in review[1:] if r.rstrip().endswith(("SHORT", "LONG"))]
-print(f"rendered {len(manifest)} clips to {OUT}; {len(flags)} flagged for review")
+print(f"rendered {len(manifest) - 1} clips to {OUT}; {len(flags)} flagged for review")
 for f in flags:
     print("  FLAG", f)

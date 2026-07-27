@@ -3,8 +3,13 @@
    with a sane duration, and the pack holds no orphan clips. The inventory
    comes from the live engine, so a bank that grows past its voice fails the
    build (SPEC section 5a).
-   Negative control: --self-test removes one word from a copy of the manifest
-   and plants an orphan; the detector must report both. */
+   The pack also carries the RECIPE that produced it, and this gate pins it.
+   Audio quality is the one thing no automated check can judge, so what a
+   machine can do instead is refuse a pack rendered with settings no person
+   ever heard. Every number below was set by a listener on 2026-07-27 after
+   clips were found saying "at" for "cat" and "n" for "an".
+   Negative control: --self-test removes one word from a copy of the manifest,
+   plants an orphan, and alters the recipe; the detector must report all. */
 import { readFileSync, existsSync, statSync } from "node:fs";
 import { voiceScript } from "../src/engine.js";
 
@@ -33,9 +38,28 @@ function check(manifest, verifyFiles) {
       if (ratio < 5 || ratio > 8) problems.push(`size does not match duration: ${clip.id} (${size} bytes for ${m.ms} ms)`);
     }
   }
+  /* The approved recipe, as literal values (rule E4). A pack rendered with
+     anything else has not been listened to. */
+  const APPROVED = {
+    voice: "af_heart", bitrate: 48, word_speed: 0.85, sentence_speed: 1,
+    lead_ms: 80, tail_ms: 300, fade_ms: 10,
+  };
+  const r = manifest.__recipe;
+  if (!r) problems.push("the pack declares no recipe: it cannot be shown to be the approved render");
+  else {
+    for (const [k, want] of Object.entries(APPROVED))
+      if (r[k] !== want) problems.push(`recipe ${k} is ${JSON.stringify(r[k])}, approved is ${JSON.stringify(want)}`);
+    /* Two-letter words are read wrongly from spelling. Every one of them must
+       be rendered from an approved pronunciation instead. */
+    const short = script.filter((c) => c.id.startsWith("w:") && c.id.length === 4).map((c) => c.id.slice(2));
+    const covered = new Set(r.phoneme_words || []);
+    for (const w of short) if (!covered.has(w)) problems.push(`two-letter word rendered from spelling: ${w}`);
+  }
+
   const ids = new Set(script.map((c) => c.id));
-  for (const id of Object.keys(manifest)) if (!ids.has(id)) problems.push(`orphan clip: ${id}`);
-  return { required: script.length, shipped: Object.keys(manifest).length, problems };
+  for (const id of Object.keys(manifest))
+    if (id !== "__recipe" && !ids.has(id)) problems.push(`orphan clip: ${id}`);
+  return { required: script.length, shipped: Object.keys(manifest).length - 1, problems };
 }
 
 const manifest = JSON.parse(readFileSync(`${DIR}/manifest.json`, "utf8"));
@@ -48,11 +72,21 @@ if (process.argv.includes("--self-test")) {
   const sawMissing = r.problems.some((p) => p.startsWith("missing clip: w:cat"));
   const sawOrphan = r.problems.some((p) => p.startsWith("orphan clip: x:orphan"));
   const sawLie = r.problems.some((p) => p.startsWith("size does not match duration: w:sun"));
-  if (sawMissing && sawOrphan && sawLie) {
-    console.log("self-test OK: a removed word clip, a planted orphan, and a lying duration are all caught");
+  /* An unheard re-render: the settings drift, every file is still present and
+     the right size, and nothing else in this gate would notice. */
+  const drifted = { ...manifest, __recipe: { ...manifest.__recipe, lead_ms: 0, word_speed: 1.0 } };
+  const dr = check(drifted, false).problems;
+  const sawRecipe = dr.some((p) => p.startsWith("recipe lead_ms")) && dr.some((p) => p.startsWith("recipe word_speed"));
+  const spelled = { ...manifest, __recipe: { ...manifest.__recipe, phoneme_words: [] } };
+  const sawSpelling = check(spelled, false).problems.some((p) => p.startsWith("two-letter word rendered from spelling: an"));
+  const noRecipe = { ...manifest };
+  delete noRecipe.__recipe;
+  const sawNoRecipe = check(noRecipe, false).problems.some((p) => p.startsWith("the pack declares no recipe"));
+  if (sawMissing && sawOrphan && sawLie && sawRecipe && sawSpelling && sawNoRecipe) {
+    console.log("self-test OK: a removed word clip, a planted orphan, a lying duration, a drifted recipe, a two-letter word left to spelling, and a pack with no recipe at all are caught");
     process.exit(0);
   }
-  console.error("self-test FAILED: " + JSON.stringify({ sawMissing, sawOrphan, sawLie }));
+  console.error("self-test FAILED: " + JSON.stringify({ sawMissing, sawOrphan, sawLie, sawRecipe, sawSpelling, sawNoRecipe }));
   process.exit(1);
 }
 

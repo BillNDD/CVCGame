@@ -227,6 +227,15 @@ first available source:
 
 A whole utterance comes from one source. Voices never mix inside a sentence.
 
+Recorded words are rendered from an approved recipe, not from whatever a synthesiser makes of
+the spelling. Every clip carries a moment of silence before the word, because a clip that
+begins on its first sound loses that sound between the file and the speaker: "cat" became
+"at" and "an" became "n". Two-letter words carry an explicit pronunciation, since a
+synthesiser reads them wrongly from spelling. The recipe ships inside the pack and the build
+gate compares it with the approved values; a pack rendered with different settings fails the
+build, because no automatic check can hear whether a word is right. Only a person can approve
+new audio.
+
 A pack holds one clip for each bank word (spoken at the voice's natural speed), the two carrier stems
 ("The word was" and "The word is"), the ten praise sentences, the two invitation leads
 ("Good try!" and "Let’s try again."), and the two session-end lines. The reveal plays as the

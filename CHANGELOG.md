@@ -59,6 +59,17 @@ The first app version is 1.0.0-beta.1. The app stays in beta until version 1.0 i
 - New: an installed app refreshes itself once when a new version takes control, so fixes
   arrive without a double relaunch. It waits for a safe moment: a refresh never happens
   during a session.
+- Fixed: the app was teaching the wrong words. Every recorded word lost its first
+  fraction of a second somewhere between the file and the speaker, so "cat" said "at",
+  "duck" said "uck", "ship" said "ip", and the two-letter words lost their vowel entirely:
+  "am" said "m" and "an" said "n". A phonics game modelling the very omission a child is
+  learning to avoid is worse than no model at all. All 260 words were rebuilt: the twelve
+  two-letter words now carry an explicit pronunciation instead of being read from spelling,
+  every clip gets a moment of silence in front to protect its first sound, a slower and
+  steadier pace, and a clean fade at each end. The recipe was chosen by ear over five
+  rounds of listening, it now travels inside the voice pack, and the build refuses any pack
+  whose recipe differs from the approved one. Three words — dish, cub and hip — are known
+  to be imperfect and are queued for the same treatment.
 - Fixed: a child's progress can no longer be destroyed by a storage hiccup or a stray file.
   A failed read of the saved progress was reported as "no save", after which the app built a
   fresh state and wrote it over the save it had merely failed to read. An unreadable save is
