@@ -116,3 +116,10 @@ This document follows the Microsoft Writing Style Guide.
 35. After the next release, tap "Check for updates", then "Update now", and let the app restart.
     Expected: The new version number shows, and all progress and settings are exactly as
     before the update.
+
+## Assistive technology
+
+36. On the iPad, turn VoiceOver on. Start a session, swipe to the "✓ got it" control, double-tap it, then repeat with "✗ not yet".
+    Expected: Each double-tap records the result once and starts the feedback phase, exactly
+    as a 450 ms hold does. Turn VoiceOver off: a stray single tap on a result control still
+    records nothing.

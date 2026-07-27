@@ -171,8 +171,14 @@ The level range is 1 to 7. SPEC and the engine agree; the owner corrected SPEC o
 
 ## G10. Safety gates
 
-- Location: `tests/safety.test.js` and Playwright checks inside `npm run test:ui`.
-- Each rule in `CLAUDE.md` becomes at least one failing-by-default test. Key: `g10_safety_tests`.
+- Location: `tests/safety.test.js`, `tests/adult-controls.test.js`, and Playwright checks inside
+  `npm run test:ui`.
+- Each rule in `CLAUDE.md` becomes at least one failing-by-default test. Keys:
+  `g10_safety_tests` and `g10_adult_control_tests`.
+- S5 has its own file because the safety file reached the 600-line ceiling (G6). It holds one
+  subject: a result reaches the save only through a deliberate adult act, and every grown-up
+  has a way to perform one — a 450 ms hold, a keypress, or an activation from assistive
+  technology, which the control could not see at all until an audit found it.
 - The two critical rules:
   1. No code path records a wrong or close result without an adult action. A transcript that
      does not match the target changes no word state.

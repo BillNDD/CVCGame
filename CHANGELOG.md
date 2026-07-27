@@ -70,6 +70,12 @@ The first app version is 1.0.0-beta.1. The app stays in beta until version 1.0 i
   rounds of listening, it now travels inside the voice pack, and the build refuses any pack
   whose recipe differs from the approved one. Three words — dish, cub and hip — are known
   to be imperfect and are queued for the same treatment.
+- Fixed: a grown-up who uses a screen reader can now record results. The result controls
+  listened for a finger and for a keyboard only, so VoiceOver's double-tap, Narrator and
+  Voice Control all did nothing at all — and on a tablet there is no keyboard to fall back
+  to, which left the app unusable. An activation from assistive technology now counts the
+  way a keyboard press counts: it is just as deliberate, because the control has to be
+  focused first. A stray touch still records nothing, and no gesture can grade a word twice.
 - Fixed: the three words a listener reported as wrong after the last rebuild. "hip" ended
   with a small extra syllable — "hip-uh" — and so did "cub". Measured every 20 milliseconds,
   the fault was plain: after the p in "hip" the voice adds a tenth of a second of voiced
