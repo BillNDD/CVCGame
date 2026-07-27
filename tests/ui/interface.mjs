@@ -154,30 +154,38 @@ for (const height of [430, 555, 720, 950]) {
      control, and the adult's note must fit the fixed message slot without
      moving the word. Measured, never eyeballed. */
   {
-    const wordBoxBefore = await page.locator(".wq-word").boundingBox();
+    /* A FRESH session, because this check walks until it meets one of the five
+       adult-judged words and the session order is shuffled. Reusing the page
+       above left only a partial queue: on a run where no flagged word remained,
+       the walk graded to the end, clicked "Finish!", and then waited thirty
+       seconds for a word that no longer existed. A gate that fails on the
+       luck of a shuffle is worse than no gate at all. */
+    const fresh = await startSession(context, { width: 390, height: 844 });
+    const wordBoxBefore = await fresh.locator(".wq-word").boundingBox();
     let reached = false;
     for (let i = 0; i < 12 && !reached; i += 1) {
-      if (await page.locator(".wq-prompt").count()) { reached = true; break; }
-      await gradeByKey(page, "✓ got it (hold)", "Enter");
-      await page.waitForTimeout(500);
-      const next = page.getByRole("button", { name: /Next word|Finish!/ });
+      if (await fresh.locator(".wq-prompt").count()) { reached = true; break; }
+      if (!(await fresh.locator(".wq-word").count())) break;   // session over: stop, never wait
+      await gradeByKey(fresh, "✓ got it (hold)", "Enter");
+      await fresh.waitForTimeout(500);
+      const next = fresh.getByRole("button", { name: /Next word|Finish!/ });
       if (!(await next.count())) break;
       await next.click();
-      await page.locator(".wq-word").waitFor();
+      await fresh.waitForTimeout(200);
     }
     if (!reached) fail("no adult-judged word appeared", "walked a whole Level 1 session");
     else {
-      const rec = await page.getByRole("button", { name: /Record/ }).count();
+      const rec = await fresh.getByRole("button", { name: /Record/ }).count();
       if (rec === 0) ok("an adult-judged word offers no record control");
       else fail("adult-judged word still offered recording", `${rec} controls`);
 
-      const fits = await page.evaluate(() => {
+      const fits = await fresh.evaluate(() => {
         const slot = document.querySelector(".wq-slot-msg");
         const note = document.querySelector(".wq-parentnote");
         if (!slot || !note) return null;
         return { noteH: note.scrollHeight, slotH: slot.clientHeight, size: getComputedStyle(note).fontSize };
       });
-      const wordBoxAfter = await page.locator(".wq-word").boundingBox();
+      const wordBoxAfter = await fresh.locator(".wq-word").boundingBox();
       const moved = !wordBoxAfter || !wordBoxBefore ||
         Math.abs(wordBoxAfter.y - wordBoxBefore.y) > 0.5 || Math.abs(wordBoxAfter.height - wordBoxBefore.height) > 0.5;
       if (!fits) fail("the adult note is missing", "no .wq-parentnote in the slot");
@@ -186,6 +194,7 @@ for (const height of [430, 555, 720, 950]) {
       else if (moved) fail("the word moved on an adult-judged word", JSON.stringify({ wordBoxBefore, wordBoxAfter }));
       else ok(`the adult note fits the slot (${fits.noteH}px in ${fits.slotH}px at ${fits.size}) and the word does not move`);
     }
+    await fresh.close();
   }
 
   /* 12 — a session starts offline after one online load */
