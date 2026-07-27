@@ -22,9 +22,14 @@ app carries only the audio files.
   values. A pack rendered with different settings fails the build, because nothing automatic
   can hear whether a word is right.
 - Two-letter words render from an explicit pronunciation, not from their spelling: the
-  synthesiser read "am" as the letter M. Three words — cub, hip and dish — have the end of
-  their speech trimmed, because the synthesiser adds a small extra syllable after a final
-  plosive.
+  synthesiser read "am" as the letter M. So do "tap" and "sip", which arrived as "uh tap"
+  and "zip". Three words — cub, hip and dish — have the end of their speech trimmed, because
+  the synthesiser adds a small extra syllable after a final plosive.
+- One praise sentence renders from an explicit pronunciation for the same reason: "You read
+  that word all by yourself!" was spoken with "read" as in "reed". G13 fails the build if a
+  sentence containing a word with two pronunciations is left to the synthesiser.
+- Known imperfect, waiting for the next listening round: cup, rub, jug, pop, hop, hen. Each
+  ends with an extra sound a listener can hear and no automatic check can.
 - The clip list comes from the live engine, never from a hand-kept list.
 
 ## To re-render (after the word bank grows)

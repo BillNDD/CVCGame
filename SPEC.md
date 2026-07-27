@@ -235,9 +235,12 @@ begins on its first sound loses that sound between the file and the speaker: "ca
 "at" and "an" became "n". Two-letter words carry an explicit pronunciation, since a
 synthesiser reads them wrongly from spelling. A few words carry an approved trim of their
 ending, because the synthesiser adds a small extra syllable after a final plosive: "hip"
-became "hip-uh". The recipe ships inside the pack and the build gate compares it with the
-approved values; a pack rendered with different settings fails the build, because no
-automatic check can hear whether a word is right. Only a person can approve new audio.
+became "hip-uh". A sentence carries an explicit pronunciation when its spelling allows two:
+"You read that word all by yourself!" was spoken with "read" as in "reed", which teaches the
+wrong sound to a child who has just read the word. The recipe ships inside the pack and the
+build gate compares it with the approved values; a pack rendered with different settings
+fails the build, because no automatic check can hear whether a word is right. Only a person
+can approve new audio.
 
 A pack holds one clip for each bank word (spoken at the voice's natural speed), the two carrier stems
 ("The word was" and "The word is"), the ten praise sentences, the two invitation leads

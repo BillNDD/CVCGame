@@ -236,9 +236,15 @@ engine, never a hand-kept list.
 - The clip engine has its own Vitest suite (`tests/voicepacks.test.js`): scheduling order,
   literal 700 ms seams, stop-on-advance, all-or-nothing fallback to system speech, and
   family-pack preference.
+- The gate also refuses a pack that leaves a sentence to spelling when the sentence contains a
+  word with two pronunciations. It comes from a real fault: the praise sentence "You read that
+  word all by yourself!" was spoken with "read" as in "reed", which teaches the wrong sound.
+  The word list is checked against the sentences in the live engine, so a new sentence is
+  covered from the moment it is written.
 - Negative control: `--self-test` removes a word clip, plants an orphan, doubles one declared
   duration, drifts the recipe, leaves a two-letter word to its spelling, strips the recipe
-  altogether, and trims a word nobody heard; the detector must report all seven.
+  altogether, trims a word nobody heard, and puts the "read" sentence back to spelling; the
+  detector must report all eight.
 - Baseline floors: `g13_clips` (276) and `g13_engine_tests` (6).
 - To re-render the pack after the bank grows: `docs/voice-pack.md`.
 

@@ -60,10 +60,26 @@ TAIL_MS = 300
 FADE_MS = 10
 
 # Owner-approved pronunciations, given as phonemes instead of spelling.
+# The two-letter words are here because a synthesiser reads them as letter
+# names. "tap" and "sip" are here for a different reason: read from spelling
+# they arrived as "uh tap" and "zip". Giving the sounds directly skips the
+# text normalisation that produced those, and a listener approved the result
+# on 2026-07-27.
 PHONEMES = {
     "at": "æt", "an": "æn", "am": "æm", "ax": "æks",
     "in": "ɪn", "it": "ɪt", "if": "ɪf", "is": "ɪz",
     "on": "ɑn", "ox": "ɑks", "up": "ʌp", "us": "ʌs",
+    "tap": "tˈæp", "sip": "sˈɪp",
+}
+
+# A sentence can be mis-read too, and one of them taught the wrong sound.
+# "You read that word all by yourself!" was spoken with "read" in the present
+# tense - "reed" - to a child who had just read the word. In a phonics app
+# that is not a rough edge: it models the wrong pronunciation of a word the
+# child is learning. The whole sentence is given as sounds, with that one word
+# in the past tense.
+SENTENCE_PHONEMES = {
+    "p:2": "juː ɹˈɛd ðæt wˈɜːd ˈɔːl baɪ jɔːɹsˈɛlf!",
 }
 # The two words that needed more room in front, by ear.
 LEAD_OVERRIDE = {"am": 150, "an": 150}
@@ -121,7 +137,7 @@ for clip in script:
     cid, text = clip["id"], clip["text"]
     is_word = cid.startswith("w:")
     word = cid[2:] if is_word else None
-    phoneme = PHONEMES.get(word) if is_word else None
+    phoneme = PHONEMES.get(word) if is_word else SENTENCE_PHONEMES.get(cid)
     audio, sr = k.create(
         phoneme or text,
         voice=VOICE,
@@ -157,6 +173,7 @@ manifest["__recipe"] = {
     "voice": VOICE, "bitrate": BITRATE, "word_speed": WORD_SPEED,
     "sentence_speed": SENTENCE_SPEED, "lead_ms": LEAD_MS, "tail_ms": TAIL_MS,
     "fade_ms": FADE_MS, "phoneme_words": sorted(PHONEMES), "trim_ms": TRIM_MS,
+    "phoneme_sentences": sorted(SENTENCE_PHONEMES),
 }
 (OUT / "manifest.json").write_text(json.dumps(manifest, indent=1) + "\n")
 pathlib.Path(out_dir + "-review.csv").write_text("\n".join(review) + "\n")
