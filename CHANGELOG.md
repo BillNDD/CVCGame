@@ -76,9 +76,14 @@ The first app version is 1.0.0-beta.1. The app stays in beta until version 1.0 i
   the one fault that cannot wait, so this release exists for it. The sentence now carries its
   pronunciation explicitly, and the build refuses any pack that leaves a sentence with a
   two-pronunciation word to the synthesiser.
-- Fixed: "tap" was spoken as "uh tap" and "sip" as "zip". Both now carry an explicit
-  pronunciation, like the two-letter words. Six more words a listener reported — cup, rub,
-  jug, pop, hop and hen — are known to be imperfect and are queued for the next round.
+- Correction to 1.0.0-beta.6, which claimed "tap" and "sip" were fixed: they were not. Giving
+  a three-letter word its pronunciation directly turns out to produce a sample-for-sample
+  identical recording, because the synthesiser derives the same pronunciation from the
+  spelling anyway. The two candidates a listener compared were the same file. Eight words a
+  listener has reported — tap, sip, cup, rub, jug, pop, hop and hen — remain imperfect and
+  are the next round's work. Explicit pronunciation stays a real fix only where it differs
+  from what the synthesiser would choose: the two-letter words, and the praise sentence
+  above.
 - Changed: "Next word" now waits until the child has heard the word. The reveal takes five to
   seven seconds — praise, a pause, "The word was", a pause, then the word — and advancing
   silences it, but the control came alive after 0.4 seconds. A child who tapped straight away

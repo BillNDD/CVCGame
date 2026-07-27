@@ -22,14 +22,30 @@ app carries only the audio files.
   values. A pack rendered with different settings fails the build, because nothing automatic
   can hear whether a word is right.
 - Two-letter words render from an explicit pronunciation, not from their spelling: the
-  synthesiser read "am" as the letter M. So do "tap" and "sip", which arrived as "uh tap"
-  and "zip". Three words — cub, hip and dish — have the end of their speech trimmed, because
-  the synthesiser adds a small extra syllable after a final plosive.
+  synthesiser read "am" as the letter M. Three words — cub, hip and dish — have the end of
+  their speech trimmed, because the synthesiser adds a small extra syllable after a final
+  plosive.
 - One praise sentence renders from an explicit pronunciation for the same reason: "You read
   that word all by yourself!" was spoken with "read" as in "reed". G13 fails the build if a
   sentence containing a word with two pronunciations is left to the synthesiser.
-- Known imperfect, waiting for the next listening round: cup, rub, jug, pop, hop, hen. Each
-  ends with an extra sound a listener can hear and no automatic check can.
+- An explicit pronunciation only changes a recording where it differs from the one the
+  phonemiser derives from the spelling. For every three-letter word tested it does not: the
+  two renders are byte-identical. This was learned the expensive way, by shipping a "fix"
+  for "tap" and "sip" that changed nothing.
+- Known imperfect, waiting for the next listening round: tap, sip, cup, rub, jug, pop, hop,
+  hen. Each carries an extra sound a listener can hear and no automatic check can.
+
+## How to run a listening round
+
+1. Build the candidates so that no two are the same file. A round that offers a listener two
+   identical recordings can only produce a false result, and it has: in round 8, three of the
+   pairs were byte-identical, and the same audio came back marked "unacceptable" as A and
+   "perfect" as B.
+2. Blind the labels. Name the candidates 1 to N in a shuffled order and keep the key out of
+   the folder, so a listener cannot tell which one is the current build.
+3. Include the current build as one of the numbered candidates, so "no better than today" is
+   a result the round can produce.
+4. Report back by number. Only then match the numbers to the recipe.
 - The clip list comes from the live engine, never from a hand-kept list.
 
 ## To re-render (after the word bank grows)
