@@ -93,3 +93,28 @@ describe("G10 safety — S5: every grown-up can give a result, and only a grown-
     expect(fired.n).toBe(0);
   });
 });
+
+describe("G10 safety — S5: one attempt, one result", () => {
+  /* CVC-INPUT-001 from the external audit. Both result controls can be held
+     at once — two fingers, or a palm across the strip. Each hold matures on
+     its own timer, and the controls only become disabled when React commits
+     the feedback phase, which happens after the first grade returns. A
+     second grade arriving inside that window counted the word twice: the
+     "words read" total ran ahead of the words the child had actually read,
+     which is the number the grown-up is asked to save on an early exit. */
+  it("24: two controls held at once record one result, not two", async () => {
+    render(createElement(App));
+    await flush(0);
+    fireEvent.click(screen.getByText("▶️ Begin Session"));
+    await flush(0);
+    const yes = screen.getByLabelText("✓ got it (hold)");
+    const no = screen.getByLabelText("↻ not yet (hold)");
+    fireEvent.pointerDown(yes);
+    await flush(10);                              // the second finger lands
+    fireEvent.pointerDown(no);
+    await flush(700);                             // both holds mature
+    fireEvent.click(screen.getByLabelText("Leave session"));
+    await flush(0);
+    expect(screen.getByText(/1 word has been read/)).toBeTruthy();
+  });
+});

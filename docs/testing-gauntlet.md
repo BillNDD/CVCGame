@@ -178,7 +178,8 @@ The level range is 1 to 7. SPEC and the engine agree; the owner corrected SPEC o
 - S5 has its own file because the safety file reached the 600-line ceiling (G6). It holds one
   subject: a result reaches the save only through a deliberate adult act, and every grown-up
   has a way to perform one — a 450 ms hold, a keypress, or an activation from assistive
-  technology, which the control could not see at all until an audit found it.
+  technology, which the control could not see at all until an audit found it. One act records
+  one result: two controls held at once count the word once, not twice.
 - The two critical rules:
   1. No code path records a wrong or close result without an adult action. A transcript that
      does not match the target changes no word state.

@@ -508,7 +508,7 @@ The minimum platform is iPadOS 15.4 or later, or an equivalent browser. The app 
 - [ ] Stop the app in a session. Start the app again. No result is lost.
 - [ ] The adult result controls need a 450 ms hold with a pointer. A keyboard operates them
       directly, and so does a screen reader: with VoiceOver on, a double-tap records the
-      result.
+      result. Two controls held at once record one result, not two.
 - [ ] The dialog window holds keyboard focus and closes with the Escape key.
 - [ ] With no name set, no personal data shows in the interface or in the export.
 - [ ] Damaged data: the app keeps a copy, gives a message, and starts fresh.
