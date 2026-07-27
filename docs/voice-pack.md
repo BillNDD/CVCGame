@@ -32,8 +32,15 @@ app carries only the audio files.
   phonemiser derives from the spelling. For every three-letter word tested it does not: the
   two renders are byte-identical. This was learned the expensive way, by shipping a "fix"
   for "tap" and "sip" that changed nothing.
-- Known imperfect, waiting for the next listening round: tap, sip, cup, rub, jug, pop, hop,
-  hen. Each carries an extra sound a listener can hear and no automatic check can.
+- Five words — cup, rub, jug, pop and hop — render as a sentence, with a full stop after the
+  word, because a word alone gets no sentence shape and the voice never finishes its last
+  consonant. "tap" has whatever precedes its first burst removed, and "sip" has the low
+  frequencies taken out of its first 70 ms so its s cannot read as a z. All three treatments
+  won a blind round against the build of the day.
+- Known imperfect, waiting for the next listening round: cup, rub, jug, pop, hop (better, but
+  the listener rates them "almost" and "marginally" acceptable), and hen, where nothing tried
+  has beaten the current build. Each carries an extra sound a listener can hear and no
+  automatic check can.
 
 ## How to run a listening round
 
@@ -45,7 +52,13 @@ app carries only the audio files.
    the folder, so a listener cannot tell which one is the current build.
 3. Include the current build as one of the numbered candidates, so "no better than today" is
    a result the round can produce.
-4. Report back by number. Only then match the numbers to the recipe.
+4. Build every candidate through the same code the pack uses. In round 9 the candidate
+   builder faded out over a different curve, so the winning candidates could not be
+   reproduced byte for byte by the renderer. The difference was 10 ms long and almost
+   certainly inaudible, which is the problem: nobody can tell by listening whether what ships
+   is what was approved. Check it instead — a candidate built from today's recipe must be
+   byte-identical to the file in the pack.
+5. Report back by number. Only then match the numbers to the recipe.
 - The clip list comes from the live engine, never from a hand-kept list.
 
 ## To re-render (after the word bank grows)

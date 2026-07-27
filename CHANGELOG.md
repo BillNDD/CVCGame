@@ -76,6 +76,14 @@ The first app version is 1.0.0-beta.1. The app stays in beta until version 1.0 i
   the one fault that cannot wait, so this release exists for it. The sentence now carries its
   pronunciation explicitly, and the build refuses any pack that leaves a sentence with a
   two-pronunciation word to the synthesiser.
+- Changed: seven words are spoken better, chosen in a blind listening round. Five of them —
+  cup, rub, jug, pop and hop — ended in a small extra vowel or a burst of noise. A word
+  rendered on its own gets no sentence shape, so the voice never properly finishes the last
+  consonant; rendered as a sentence, with a full stop, it does. That beat the current build
+  for all five, and beat a slower pace, a natural pace, and a long fade, none of which won
+  anywhere. "tap" no longer starts with a stray "uh", and the s in "sip" no longer sounds
+  like a z. The listener rates the five as better rather than right, so they stay on the
+  list. "hen" is unchanged: nothing tried beat it.
 - Correction to 1.0.0-beta.6, which claimed "tap" and "sip" were fixed: they were not. Giving
   a three-letter word its pronunciation directly turns out to produce a sample-for-sample
   identical recording, because the synthesiser derives the same pronunciation from the

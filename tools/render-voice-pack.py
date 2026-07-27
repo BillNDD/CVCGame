@@ -104,6 +104,25 @@ LEAD_OVERRIDE = {"am": 150, "an": 150}
 TRIM_MS = {"cub": 130, "hip": 130, "dish": 120}
 SILENCE_FLOOR_DB = -45  # what counts as the end of the speech, before trimming
 
+# From the blind round of 2026-07-27 (round 9). Every candidate was numbered
+# and shuffled, today's build was among them, and no two were the same file.
+#
+# PERIOD_WORDS: rendering the word as a SENTENCE - with a full stop after it -
+# beat the current build for five words out of five with the trailing-sound
+# fault: cup, rub, jug, pop and hop. A word standing alone gets no sentence
+# prosody, and the model ends it with a trailing vowel or a burst of noise; as
+# a sentence it releases the final consonant and stops. Neither a slower pace,
+# a natural pace, nor a long fade beat it for any of the five. The listener
+# rates these "marginally" or "almost" acceptable, not right, so they stay on
+# the list - but they are the best any listener has heard.
+# ONSET_TRIM: "tap" arrived as "uh tap". Removing what precedes the first
+# burst won its round.
+# BRIGHT_HEAD_MS: "sip" arrived as "zip". Taking the low frequencies out of
+# the first 70 ms, so the s cannot read as voiced, won its round.
+PERIOD_WORDS = {"cup", "rub", "jug", "pop", "hop"}
+ONSET_TRIM = {"tap"}
+BRIGHT_HEAD_MS = {"sip": 70}
+
 OUT = pathlib.Path(out_dir)
 OUT.mkdir(parents=True, exist_ok=True)
 
@@ -121,6 +140,30 @@ def trim(audio, ms, sr):
     loud = np.nonzero(db > SILENCE_FLOOR_DB)[0]
     end = (int(loud.max()) + 1) * n if len(loud) else len(a)
     return a[: max(0, end - int(ms / 1000 * sr))]
+
+
+def onset_trim(audio, sr):
+    """Remove whatever precedes the word's first burst: the "uh" in "uh tap"."""
+    a = np.asarray(audio, dtype=np.float32)
+    n = int(0.01 * sr)
+    frames = [a[i:i + n] for i in range(0, len(a) - n, n)]
+    rms = np.array([np.sqrt(np.mean(f.astype(np.float64) ** 2)) for f in frames])
+    db = 20 * np.log10(np.maximum(rms, 1e-9) / (rms.max() or 1.0))
+    loud = np.nonzero(db > -20)[0]
+    return a[max(0, (int(loud.min()) - 1) * n):] if len(loud) else a
+
+
+def brighten_head(audio, sr, ms):
+    """Take the low frequencies out of the first ms, so an s at the start
+    cannot read as a z. One-pole difference filter, head only."""
+    a = np.asarray(audio, dtype=np.float32).copy()
+    n = min(int(ms / 1000 * sr), len(a))
+    head = a[:n]
+    filtered = np.empty_like(head)
+    filtered[0] = head[0]
+    filtered[1:] = head[1:] - 0.97 * head[:-1]
+    a[:n] = filtered
+    return a
 
 
 def shape(audio, lead_ms, sr):
@@ -142,13 +185,18 @@ for clip in script:
     is_word = cid.startswith("w:")
     word = cid[2:] if is_word else None
     phoneme = PHONEMES.get(word) if is_word else SENTENCE_PHONEMES.get(cid)
+    spoken = phoneme or (text + "." if word in PERIOD_WORDS else text)
     audio, sr = k.create(
-        phoneme or text,
+        spoken,
         voice=VOICE,
         speed=WORD_SPEED if is_word else SENTENCE_SPEED,
         lang="en-us",
         is_phonemes=bool(phoneme),
     )
+    if word in ONSET_TRIM:
+        audio = onset_trim(audio, sr)
+    if word in BRIGHT_HEAD_MS:
+        audio = brighten_head(audio, sr, BRIGHT_HEAD_MS[word])
     if word in TRIM_MS:
         audio = trim(audio, TRIM_MS[word], sr)
     pcm16 = (shape(audio, LEAD_OVERRIDE.get(word, LEAD_MS), sr) * 32767).astype(np.int16)
@@ -178,6 +226,8 @@ manifest["__recipe"] = {
     "sentence_speed": SENTENCE_SPEED, "lead_ms": LEAD_MS, "tail_ms": TAIL_MS,
     "fade_ms": FADE_MS, "phoneme_words": sorted(PHONEMES), "trim_ms": TRIM_MS,
     "phoneme_sentences": sorted(SENTENCE_PHONEMES),
+    "period_words": sorted(PERIOD_WORDS), "onset_trim_words": sorted(ONSET_TRIM),
+    "bright_head_ms": BRIGHT_HEAD_MS,
 }
 (OUT / "manifest.json").write_text(json.dumps(manifest, indent=1) + "\n")
 pathlib.Path(out_dir + "-review.csv").write_text("\n".join(review) + "\n")
