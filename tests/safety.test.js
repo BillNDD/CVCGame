@@ -144,13 +144,13 @@ describe("G10 safety — S2: the word is never spoken before the attempt ends", 
     try { await hear(word); } finally { draw.mockRestore(); } // attempt ends, correct
     expect(utterances.at(-2)).toBe("What careful reading that was!"); // praise, after the attempt
     expect(utterances.at(-1)).toBe(`The word was ${word}.`); // full word, its own sentence
-    expect(rates.at(-1)).toBe(0.7);                         // the reveal is slow and clear
+    expect(rates.at(-1)).toBe(0.9);                         // the reveal is clear, never stretched
     await flush(500);
     const replay = screen.getByRole("button", { name: "Hear the word again" });
     expect(replay.disabled).toBe(false);
     fireEvent.click(replay);
     expect(utterances.at(-1)).toBe(word);                   // replay says the whole word
-    expect(rates.at(-1)).toBe(0.7);                         // at the slow rate
+    expect(rates.at(-1)).toBe(0.9);                         // the same rate as the reveal
     for (const t of utterances) expect(/(^| )[a-z]([ .,!?]|$)/.test(t)).toBe(false); // no letter names
   });
 });

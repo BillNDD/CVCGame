@@ -221,8 +221,8 @@ The shipped default voice pack must cover the engine's whole clip inventory (SPE
 engine, never a hand-kept list.
 
 - `tools/voice-check.mjs` verifies: every inventory id has a manifest entry and a file; no
-  orphan clips; every declared duration is inside 300–8,000 ms (400 ms floor for slow word
-  clips); and the file size matches the declared duration at the pack's 48 kbps bit rate
+  orphan clips; every declared duration is inside 400–8,000 ms (the shortest real clip is
+  448 ms, so anything shorter is a truncation); and the file size matches the declared duration at the pack's 48 kbps bit rate
   (5–8 bytes per millisecond), so a manifest cannot lie about a truncated or wrong clip.
 - The clip engine has its own Vitest suite (`tests/voicepacks.test.js`): scheduling order,
   literal 700 ms seams, stop-on-advance, all-or-nothing fallback to system speech, and

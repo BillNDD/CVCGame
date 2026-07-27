@@ -383,7 +383,7 @@ export default function App() {
     if (phase !== "feedback") return;
     unlockVoice();
     speakVoice("replay", currentWord, 0, stateRef.current.settings.sound,
-      () => speak([{ text: currentWord, rate: 0.7 }], true, stateRef.current.settings.lang));
+      () => speak([{ text: currentWord, rate: 0.9 }], true, stateRef.current.settings.lang));
   }
 
   /* ---------- settings ---------- */
