@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Word Quest — device audio test</title>
+<style>
+  :root { color-scheme: light dark; }
+  body { margin: 0; padding: 18px 16px 60px; font: 16px/1.5 ui-rounded, system-ui, -apple-system, sans-serif;
+         max-width: 640px; margin-inline: auto; }
+  h1 { font-size: 1.35rem; margin: 0 0 4px; }
+  h2 { font-size: 1.05rem; margin: 28px 0 6px; }
+  p, li { margin: 6px 0; }
+  .step { border: 2px solid currentColor; border-radius: 14px; padding: 14px; margin: 14px 0; opacity: .95; }
+  button { font: inherit; font-weight: 700; min-height: 56px; min-width: 56px; padding: 12px 16px;
+           margin: 6px 6px 0 0; border-radius: 12px; border: 2px solid currentColor; background: transparent;
+           color: inherit; }
+  button.wide { width: 100%; }
+  .row { display: flex; flex-wrap: wrap; gap: 6px; }
+  .note { font-size: .9rem; opacity: .75; }
+  #log { white-space: pre-wrap; font: 13px/1.45 ui-monospace, monospace; opacity: .8; margin-top: 10px; }
+</style>
+</head>
+<body>
+<h1>Device audio test</h1>
+<p class="note">Two explanations for words that sound right on a laptop and wrong on this
+phone. This page tells them apart. Turn the ringer switch on, use the built-in speaker at a
+normal volume, and do the steps in order.</p>
+
+<div class="step">
+  <h2>Step 1 — before the microphone</h2>
+  <p>Play all four. Do any sound thin, harsh or fuzzy compared with the others?</p>
+  <div class="row" id="before"></div>
+  <p class="note">If the 96 kbps one is worse than the others right now, the format is the
+  problem, not the microphone.</p>
+</div>
+
+<div class="step">
+  <h2>Step 2 — open the microphone</h2>
+  <p>Tap this, allow the microphone if asked, and say anything. It stops on its own.</p>
+  <button class="wide" id="mic">Use the microphone</button>
+  <p class="note" id="micstate">not used yet</p>
+</div>
+
+<div class="step">
+  <h2>Step 3 — after the microphone</h2>
+  <p>Play the same four again. Compare each with how it sounded in step 1.</p>
+  <div class="row" id="after"></div>
+  <p class="note">If all four are now worse, the microphone took the audio route — and the
+  format was never the problem.</p>
+</div>
+
+<div class="step">
+  <h2>Step 4 — the fix</h2>
+  <p>This applies what the app now does before every reveal: it declares the session to be
+  for playback and rebuilds the audio engine.</p>
+  <button class="wide" id="fix">Take the audio session back</button>
+  <div class="row" id="fixed"></div>
+  <p class="note">If these sound like step 1 again, the fix works on this device.</p>
+</div>
+
+<div id="log"></div>
+
+<script>
+const WORDS = ["cat", "cup", "ship"];
+const SOURCES = [
+  { id: "96",  label: "96 kbps (today)", url: (w) => `${w}-96.mp3`,  path: "webaudio" },
+  { id: "192", label: "192 kbps",        url: (w) => `${w}-192.mp3`, path: "webaudio" },
+  { id: "wav", label: "uncompressed",    url: (w) => `${w}.wav`,     path: "webaudio" },
+  { id: "el",  label: "96 kbps, plain player", url: (w) => `${w}-96.mp3`, path: "element" },
+];
+let ctx = null, word = 0;
+const log = (m) => { document.getElementById("log").textContent += m + "\n"; };
+
+function unlock() {
+  const AC = window.AudioContext || window.webkitAudioContext;
+  if (!ctx || ctx.state === "closed") ctx = new AC();
+  if (ctx.state !== "running") ctx.resume().catch(() => {});
+  return ctx;
+}
+
+async function play(src) {
+  const w = WORDS[word % WORDS.length];
+  const url = src.url(w);
+  if (src.path === "element") {
+    const el = new Audio(url);
+    el.play().then(() => log(`${w} — ${src.label}`)).catch((e) => log("player refused: " + e));
+    return;
+  }
+  const c = unlock();
+  const bytes = await (await fetch(url)).arrayBuffer();
+  const buf = await c.decodeAudioData(bytes);
+  const node = c.createBufferSource();
+  node.buffer = buf;
+  node.connect(c.destination);
+  node.start();
+  log(`${w} — ${src.label} (engine ${c.sampleRate} Hz, ${c.state})`);
+}
+
+function buttons(into) {
+  const box = document.getElementById(into);
+  for (const src of SOURCES) {
+    const b = document.createElement("button");
+    b.textContent = src.label;
+    b.onclick = () => play(src);
+    box.appendChild(b);
+  }
+  const next = document.createElement("button");
+  next.textContent = "next word";
+  next.onclick = () => { word += 1; log(`— now playing "${WORDS[word % WORDS.length]}" —`); };
+  box.appendChild(next);
+}
+["before", "after", "fixed"].forEach(buttons);
+
+document.getElementById("mic").onclick = () => {
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  const state = document.getElementById("micstate");
+  if (!SR) { state.textContent = "this browser cannot listen — try the app's Record button instead"; return; }
+  const rec = new SR();
+  rec.lang = "en-US";
+  rec.onstart = () => { state.textContent = "listening…"; };
+  rec.onend = () => { state.textContent = "microphone used — now do step 3"; log("microphone closed"); };
+  rec.onerror = (e) => { state.textContent = "microphone error: " + e.error; };
+  try { rec.start(); } catch (e) { state.textContent = "could not start: " + e; }
+  setTimeout(() => { try { rec.stop(); } catch (e) { /* already stopped */ } }, 4000);
+};
+
+document.getElementById("fix").onclick = () => {
+  try { if (navigator.audioSession) { navigator.audioSession.type = "playback"; log("session declared: playback"); } }
+  catch (e) { log("audioSession not supported: " + e); }
+  const old = ctx;
+  ctx = null;
+  try { if (old) old.close(); } catch (e) { /* already closed */ }
+  unlock();
+  log("audio engine rebuilt");
+};
+
+log(`audioSession API: ${"audioSession" in navigator ? "supported" : "not supported"}`);
+</script>
+</body>
+</html>
