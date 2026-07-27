@@ -70,6 +70,11 @@ The first app version is 1.0.0-beta.1. The app stays in beta until version 1.0 i
   rounds of listening, it now travels inside the voice pack, and the build refuses any pack
   whose recipe differs from the approved one. Three words — dish, cub and hip — are known
   to be imperfect and are queued for the same treatment.
+- Changed: "Next word" now waits until the child has heard the word. The reveal takes five to
+  seven seconds — praise, a pause, "The word was", a pause, then the word — and advancing
+  silences it, but the control came alive after 0.4 seconds. A child who tapped straight away
+  never heard the word said properly, which is the one thing the reveal exists for. With sound
+  off, or where the recorded voice cannot play, the short guard applies as before.
 - Fixed: one attempt now records one result. Both result controls can be held at the same
   time — two fingers, or a palm across the strip — and a second hold that matured a moment
   after the first counted the word twice. Leaving a session early then offered to save

@@ -117,11 +117,12 @@ async function bufferFor(tier, id) {
   return buf;
 }
 
-async function playPlan(plan, tier, my, fallback) {
+async function playPlan(plan, tier, my, fallback, onScheduled) {
   try {
     const decoded = await Promise.all(plan.map((id) => (id === "seam" ? null : bufferFor(tier, id))));
     if (my !== token) return;                    // a newer utterance took over
-    let at = ctx.currentTime + 0.05;
+    const start = ctx.currentTime + 0.05;
+    let at = start;
     plan.forEach((id, i) => {
       if (id === "seam") { at += SEAM_MS / 1000; return; }
       const s = ctx.createBufferSource();
@@ -131,6 +132,10 @@ async function playPlan(plan, tier, my, fallback) {
       at += decoded[i].duration;
       live.push(s);
     });
+    /* The caller needs to know how long the child will be listening: the
+       advance control waits for the word rather than cutting it off. This is
+       the scheduled length, measured from the clips themselves. */
+    onScheduled(Math.round((at - ctx.currentTime) * 1000));
   } catch {
     if (my === token) fallback();                // nothing has played yet: speech instead
   }
@@ -138,8 +143,10 @@ async function playPlan(plan, tier, my, fallback) {
 
 /* Speak one utterance through the packs, or hand it to `fallback` (system
    speech) when the packs cannot cover it or cannot play it. Always silences
-   whatever was playing first, on every path. */
-export function speakVoice(kind, word, praiseIdx, enabled, fallback) {
+   whatever was playing first, on every path. `onScheduled` reports the length
+   of the utterance in milliseconds once the clips are scheduled; it never
+   runs on a path that falls back, where no length can be known. */
+export function speakVoice(kind, word, praiseIdx, enabled, fallback, onScheduled = () => {}) {
   stopClips();
   hush();
   if (!enabled) return;
@@ -147,5 +154,5 @@ export function speakVoice(kind, word, praiseIdx, enabled, fallback) {
   const plan = clipPlan(kind, word, praiseIdx);
   const tier = resolvePack(plan, (t, id) => (t === "family" ? familyIds.has(id) : !!defaultManifest[id]));
   if (!tier) { fallback(); return; }
-  playPlan(plan, tier, token, fallback);
+  playPlan(plan, tier, token, fallback, onScheduled);
 }
