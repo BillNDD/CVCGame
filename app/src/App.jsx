@@ -99,6 +99,7 @@ export default function App() {
   const watchdogRef = useRef(0);           // W4b: a dead recognizer must never trap the child
   const graceRef = useRef(0);              // W4b: the after-stop window for a finalized result
   const deadStrikesRef = useRef(0);        // W4b: attempts that produced no event at all
+  const gradedRef = useRef(null);          // the queue position this attempt has already graded
   const [micVisitBlock, setMicVisitBlock] = useState(false); // W4b: this-visit-only fallback
   const [micNote, setMicNote] = useState(""); // W4b: mic status that stays in the message slot
   const stateRef = useRef(null);
@@ -179,6 +180,7 @@ export default function App() {
     setPromptCount(0); setPhase("ready"); setHeard(""); setLastGrade(null);
     setMicTried(false); setAdvanceReady(true); setExitAsk(false);
     deadStrikesRef.current = 0;                        // a new session judges the microphone afresh
+    gradedRef.current = null;                          // and grades its first word afresh
     setMicNote(micVisitBlock ? MIC_GONE_MSG : "");     // a blocked visit keeps its reason on screen
     snapRef.current = structuredClone(s.words);   // N-3
     setScreen("session");
@@ -189,6 +191,14 @@ export default function App() {
   const totalQ = queue.length || SESSION_SIZE;  // P1-5
 
   function grade(result) {
+    /* One attempt, one result. Both result controls can be held at once — two
+       fingers, or a palm across the strip — and each hold matures on its own
+       timer. The controls turn themselves off with the feedback phase, but
+       that only takes effect once React has committed the render, and a
+       second hold maturing inside that window used to count the word twice.
+       The grown-up was then offered "2 words have been read" for one word. */
+    if (gradedRef.current === qi) return;
+    gradedRef.current = qi;
     hardStopRec();
     clearNote();
     const s = structuredClone(stateRef.current);

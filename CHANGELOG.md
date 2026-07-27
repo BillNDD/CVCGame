@@ -70,6 +70,10 @@ The first app version is 1.0.0-beta.1. The app stays in beta until version 1.0 i
   rounds of listening, it now travels inside the voice pack, and the build refuses any pack
   whose recipe differs from the approved one. Three words — dish, cub and hip — are known
   to be imperfect and are queued for the same treatment.
+- Fixed: one attempt now records one result. Both result controls can be held at the same
+  time — two fingers, or a palm across the strip — and a second hold that matured a moment
+  after the first counted the word twice. Leaving a session early then offered to save
+  "2 words" for one word the child had read.
 - Fixed: a grown-up who uses a screen reader can now record results. The result controls
   listened for a finger and for a keyboard only, so VoiceOver's double-tap, Narrator and
   Voice Control all did nothing at all — and on a tablet there is no keyboard to fall back

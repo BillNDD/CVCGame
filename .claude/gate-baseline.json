@@ -23,7 +23,7 @@
   "g8_axe_violations_max": 0,
   "g9_fault_tests": 16,
   "g10_safety_tests": 31,
-  "g10_adult_control_tests": 4,
+  "g10_adult_control_tests": 5,
   "g11_copy_rules": 6,
   "g12_qa_steps": 36,
   "g13_clips": 276,
