@@ -223,9 +223,16 @@ function healLog(s) {
   }
 }
 function healSettings(s) {
-  if (!s.settings || typeof s.settings !== "object") s.settings = {};
+  if (!s.settings || typeof s.settings !== "object" || Array.isArray(s.settings)) s.settings = {};
   const d = newState().settings;
   for (const k of Object.keys(d)) if (s.settings[k] === undefined) s.settings[k] = d[k];
+  /* Types, not just presence. A hostile document once carried a NUMBER as the
+     child's name; it survived migrate and crashed the settings screen on the
+     first .trim(). Every setting is healed to the type the app expects. */
+  if (typeof s.settings.childName !== "string") s.settings.childName = String(s.settings.childName ?? "").slice(0, 20);
+  if (s.settings.mode !== "mic" && s.settings.mode !== "parent") s.settings.mode = d.mode;
+  if (typeof s.settings.sound !== "boolean") s.settings.sound = d.sound;
+  if (typeof s.settings.lang !== "string" || !s.settings.lang) s.settings.lang = d.lang;
 }
 function heal(s) {
   if (!s || typeof s !== "object") s = {};

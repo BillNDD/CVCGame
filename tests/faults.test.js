@@ -139,13 +139,79 @@ describe("G9 faults — the real IndexedDB adapter", () => {
     expect(await get("wordquest:progress:v2")).toBe("{not json at all"); // untouched
   });
 
-  it("2a: a broken storage backend reads as no save, exactly like the reference", async () => {
+  it("2a: a broken storage backend reports SILENCE, not absence", async () => {
+    /* Rewritten after the audit of 2026-07-27. This test used to assert that
+       an unreadable backend "reads as no save". That was the defect: boot
+       believed the save was absent, built a fresh state, and wrote it over a
+       save it had merely failed to read. Absence and silence must differ. */
     const real = await vi.importActual("../app/src/storage.js");
     const saved = globalThis.indexedDB;
     vi.stubGlobal("indexedDB", undefined);
-    expect(await real.loadState()).toBe(null);
+    expect(await real.loadState()).toEqual({ __unreadable: true });
     expect(await real.saveState({ version: 3 })).toBe(false);
     vi.stubGlobal("indexedDB", saved);
+  });
+});
+
+describe("G9 faults — an unreadable save, and backups that must look like one", () => {
+  beforeEach(() => vi.useFakeTimers());
+  afterEach(() => { cleanup(); vi.useRealTimers(); });
+
+  it("2b: an unreadable save is never overwritten, and the visit stays read-only", async () => {
+    mockLoad.mockResolvedValueOnce({ __unreadable: true });
+    render(createElement(App));
+    await flush(0);
+    expect(screen.getByText(/Couldn’t read saved progress/)).toBeTruthy();
+    expect(mockSave.mock.calls.length).toBe(0);          // the old save is left alone
+    fireEvent.click(screen.getByText("▶️ Begin Session"));
+    await flush(0);
+    fireEvent.keyDown(screen.getByLabelText("✓ got it (hold)"), { key: "Enter" });
+    await flush(500);
+    expect(mockSave.mock.calls.length).toBe(0);          // and playing writes nothing either
+  });
+
+  it("2c (control): a genuinely absent save DOES initialise and write", async () => {
+    /* Proves 2b tests the unreadable case specifically, not a dead spy. */
+    mockLoad.mockResolvedValueOnce(null);
+    render(createElement(App));
+    await flush(0);
+    expect(mockSave.mock.calls.length).toBeGreaterThan(0);
+  });
+
+  const importFile = async (text) => {
+    render(createElement(App));
+    await flush(0);
+    fireEvent.click(screen.getByLabelText("Grown-ups corner"));
+    await flush(0);
+    const input = document.querySelector('input[type="file"]');
+    const file = new File([text], "b.json", { type: "application/json" });
+    Object.defineProperty(file, "text", { value: async () => text });
+    await act(async () => { fireEvent.change(input, { target: { files: [file] } }); });
+    await flush(0);
+  };
+
+  for (const [label, text] of [
+    ["an empty object", "{}"],
+    ["an array", "[]"],
+    ["a bare null", "null"],
+    ["unrelated JSON", '{"hello":"world"}'],
+    ["not JSON at all", "<html>"],
+  ]) {
+    it(`7: ${label} is refused, and nothing is written`, async () => {
+      mockLoad.mockResolvedValueOnce({ ...newState(), level: 5 });
+      await importFile(text);
+      expect(screen.getByText("That file is not a Word Quest backup.")).toBeTruthy();
+      const wrote = mockSave.mock.calls.some((c) => c[0].level !== 5);
+      expect(wrote).toBe(false);                        // the real progress survives
+    });
+  }
+
+  it("7a (control): a genuine backup still restores", async () => {
+    mockLoad.mockResolvedValueOnce(newState());
+    const backup = JSON.stringify({ ...newState(), level: 4, version: 3 });
+    await importFile(backup);
+    expect(screen.getByText("Backup loaded.")).toBeTruthy();
+    expect(mockSave.mock.calls.at(-1)[0].level).toBe(4);
   });
 });
 

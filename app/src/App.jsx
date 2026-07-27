@@ -51,6 +51,16 @@ const micAbsenceReason = (mode) =>
   : (mode === "parent" && marked("wq-mode-denied")) ? DENIED_STANDING_MSG
   : "";
 const CORNER_HINT = SR ? "" : CORNER_NO_SR_MSG;
+/* What a Word Quest backup must look like before it may replace progress.
+   Files written from this version carry a marker; older backups are still
+   accepted on their shape, so a family's existing file keeps working. */
+const isBackup = (b) =>
+  !!b && typeof b === "object" && !Array.isArray(b) &&
+  (b.application === "word-quest-backup" ||
+    (typeof b.level === "number" && isFinite(b.level) &&
+     !!b.words && typeof b.words === "object" && !Array.isArray(b.words) &&
+     !!b.settings && typeof b.settings === "object" && !Array.isArray(b.settings)));
+
 const asParent = (s) => ({ ...s, settings: { ...s.settings, mode: "parent" } });
 const displayState = (s, blocked) => (blocked ? asParent(s) : s);
 
@@ -117,6 +127,14 @@ export default function App() {
         return;
       }
       let s, changed = false, healed = false;
+      /* An unreadable save is not an absent one. Play this visit, write
+         nothing, and leave the save on disk for the next attempt. */
+      if (d && d.__unreadable) {
+        setReadOnly(true);                     // exactly like a timed-out boot: play, never write
+        finish(newState());
+        setToast("Couldn’t read saved progress. Nothing will be saved this visit.");
+        return;
+      }
       if (d && d.__corrupt) { s = newState(); setToast("Saved progress was damaged. A copy was kept; starting fresh."); }
       else if (d) {
         const before = d.version; s = migrate(d); changed = before !== s.version;
@@ -427,7 +445,8 @@ export default function App() {
 
   /* ---------- backup (W3: JSON export and import of the full state) ---------- */
   function exportJSON() {
-    const blob = new Blob([JSON.stringify(stateRef.current, null, 2)], { type: "application/json" });
+    const doc = { application: "word-quest-backup", ...stateRef.current };
+    const blob = new Blob([JSON.stringify(doc, null, 2)], { type: "application/json" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
@@ -439,7 +458,11 @@ export default function App() {
   async function importJSON(file) {
     try {
       const parsed = JSON.parse(await file.text());
-      if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) throw new Error("shape");
+      /* "An object" is not a backup. migrate() is total by design, so it
+         happily turned {} into a valid empty Level 2 state and the app
+         reported "Backup loaded." over a child's real progress. A file must
+         LOOK like a Word Quest save before anything is replaced. */
+      if (!isBackup(parsed)) throw new Error("shape");
       const s = migrate(parsed);          // heal runs first inside migrate (SPEC §7)
       setState(s); setNameDraft(s.settings.childName || "");
       persist(s);

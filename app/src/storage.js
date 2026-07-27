@@ -57,11 +57,11 @@ export async function loadState() {
   try {
     raw = await idbGet(STORE_KEY);
   } catch {
-    /* A broken storage backend reads as "no save", exactly like the reference
-       adapter: boot finishes fast with a fresh, writable state, and the softer
-       "saving unavailable" warning appears when the first save fails. The
-       read-only lock stays reserved for the boot timeout (SPEC §7). */
-    return null;
+    /* A failed read is NOT an empty one. Reporting it as "no save" made boot
+       build a fresh state and write it OVER a save it had simply failed to
+       read: one transient error, and a child's progress was gone. The caller
+       must be able to tell absence from silence. */
+    return { __unreadable: true };
   }
   if (raw === undefined || raw === null) return null;
   try {

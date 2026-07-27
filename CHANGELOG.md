@@ -59,6 +59,17 @@ The first app version is 1.0.0-beta.1. The app stays in beta until version 1.0 i
 - New: an installed app refreshes itself once when a new version takes control, so fixes
   arrive without a double relaunch. It waits for a safe moment: a refresh never happens
   during a session.
+- Fixed: a child's progress can no longer be destroyed by a storage hiccup or a stray file.
+  A failed read of the saved progress was reported as "no save", after which the app built a
+  fresh state and wrote it over the save it had merely failed to read. An unreadable save is
+  now told apart from an absent one: the visit plays normally, writes nothing, and leaves the
+  save on the device for next time. Separately, loading a backup accepted any JSON object at
+  all — an empty file reported "Backup loaded." and replaced real progress with an empty
+  Level 2. A file must now look like a Word Quest save before anything is replaced, and
+  backups written from this version carry a marker. Older backup files still load.
+- Fixed: a saved setting of the wrong type no longer crashes the "Grown-ups corner". A name
+  stored as a number survived repair and broke the name field on first use; every setting is
+  now repaired to the type the app expects.
 - Fixed: when the microphone is missing, the app now says why, on the page, for as long as it
   stays missing. A browser that cannot listen — Firefox has never supported it — showed
   grown-up grading silently on every word, and the sentence explaining that was unreachable:
