@@ -17,6 +17,7 @@ const BUFFER_CAP = 64;             // decoded-clip cache; praise and stems stay 
 let defaultManifest = null;        // { id: { file, ms } }; {} when the pack is absent
 let familyIds = new Set();
 let ctx = null;                    // AudioContext, created and resumed by unlockVoice()
+let micUsed = false;               // the microphone has taken the audio session since the last reveal
 let token = 0;
 let live = [];
 const buffers = new Map();         // "tier:id" -> AudioBuffer
@@ -92,6 +93,30 @@ export function unlockVoice() {
   } catch { /* stays locked; system speech covers it */ }
 }
 
+/* iOS moves the whole audio session to "play and record" the moment the
+   microphone opens, and playback drops to the narrow, tinny route meant for
+   a phone call. It stays there after listening ends, so on an iPhone every
+   word after the child's first recording sounded wrong, while the same clip
+   on a laptop was fine. Reported from a device, and it explains the
+   "fuzziness" heard on iOS earlier the same day.
+   Two remedies, applied together because they cover different versions:
+   Safari 17 and later take navigator.audioSession.type, and older versions
+   only move the route back when the audio context is rebuilt. The rebuild
+   drops the decoded-clip cache with it — an AudioBuffer belongs to the
+   context that decoded it. */
+export function microphoneUsed() { micUsed = true; }
+
+function reclaimOutput() {
+  if (!micUsed) return;
+  micUsed = false;
+  try { if (navigator.audioSession) navigator.audioSession.type = "playback"; } catch { /* not supported */ }
+  const old = ctx;
+  ctx = null;
+  buffers.clear();
+  try { if (old) old.close(); } catch { /* already closed */ }
+  unlockVoice();
+}
+
 export function stopClips() {
   token += 1;
   for (const s of live) { try { s.stop(); } catch { /* not started yet */ } }
@@ -121,6 +146,10 @@ async function playPlan(plan, tier, my, fallback, onScheduled) {
   try {
     const decoded = await Promise.all(plan.map((id) => (id === "seam" ? null : bufferFor(tier, id))));
     if (my !== token) return;                    // a newer utterance took over
+    /* A context rebuilt a moment ago may still be starting. Decoding gave it
+       time; if it is still not running, nothing would be heard, so hand the
+       utterance to system speech instead of playing into silence. */
+    if (ctx.state !== "running") { fallback(); return; }
     const start = ctx.currentTime + 0.05;
     let at = start;
     plan.forEach((id, i) => {
@@ -150,7 +179,12 @@ export function speakVoice(kind, word, praiseIdx, enabled, fallback, onScheduled
   stopClips();
   hush();
   if (!enabled) return;
-  if (!ctx || ctx.state !== "running" || defaultManifest === null) { fallback(); return; }
+  /* Take the audio session back from the microphone before the reveal. This
+     runs inside the grown-up's tap or keypress, which is when a browser will
+     let an audio context start. */
+  reclaimOutput();
+  if (ctx && ctx.state !== "running") ctx.resume().catch(() => {});
+  if (!ctx || defaultManifest === null) { fallback(); return; }
   const plan = clipPlan(kind, word, praiseIdx);
   const tier = resolvePack(plan, (t, id) => (t === "family" ? familyIds.has(id) : !!defaultManifest[id]));
   if (!tier) { fallback(); return; }

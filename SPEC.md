@@ -229,6 +229,13 @@ first available source:
 
 A whole utterance comes from one source. Voices never mix inside a sentence.
 
+The app takes the audio session back from the microphone before every reveal. A device that
+gives the microphone the whole session — iOS does — leaves playback on a narrow route meant
+for a phone call, and every word after the child's first recording sounds thin. The app
+declares the session to be for playback and rebuilds its audio engine, which is what moves
+the route on versions that have no such setting. If the engine cannot be running in time,
+system speech covers the utterance, as it does for any other playback failure.
+
 Recorded words are rendered from an approved recipe, not from whatever a synthesiser makes of
 the spelling. Every clip carries a moment of silence before the word, because a clip that
 begins on its first sound loses that sound between the file and the speaker: "cat" became

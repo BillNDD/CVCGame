@@ -8,7 +8,7 @@ import {
 } from "@engine";
 /* W3 — the storage adapter is IndexedDB in the standalone app. */
 import { loadState, saveState } from "./storage.js";
-import { initVoicePacks, speakVoice, stopClips, unlockVoice } from "./voicepacks.js";
+import { initVoicePacks, speakVoice, stopClips, unlockVoice, microphoneUsed } from "./voicepacks.js";
 import Frame from "./components/Frame.jsx";
 import HomeScreen from "./screens/HomeScreen.jsx";
 import SessionScreen from "./screens/SessionScreen.jsx";
@@ -336,6 +336,10 @@ export default function App() {
   function startRec() {
     unlockVoice();                 // a real tap: reclaim the audio engine before the mic takes it
     if (!SR) { visitFallback("This browser can’t listen — grown-up grading for this visit."); return; }
+    /* iOS hands the whole audio session to the microphone here, and playback
+       stays on the narrow route it leaves behind. The playback side takes it
+       back before the next reveal. */
+    microphoneUsed();
     if (recRef.current) hardStopRec();   // never start a second engine over a live one
     setMicNote("");
     try {
