@@ -70,6 +70,15 @@ The first app version is 1.0.0-beta.1. The app stays in beta until version 1.0 i
   rounds of listening, it now travels inside the voice pack, and the build refuses any pack
   whose recipe differs from the approved one. Three words — dish, cub and hip — are known
   to be imperfect and are queued for the same treatment.
+- Fixed: the app said one praise sentence with the wrong word in it. "You read that word all
+  by yourself!" was spoken with "read" as in "reed" — the present tense — to a child who had
+  just read the word. A phonics game teaching the wrong sound for a word on the screen is
+  the one fault that cannot wait, so this release exists for it. The sentence now carries its
+  pronunciation explicitly, and the build refuses any pack that leaves a sentence with a
+  two-pronunciation word to the synthesiser.
+- Fixed: "tap" was spoken as "uh tap" and "sip" as "zip". Both now carry an explicit
+  pronunciation, like the two-letter words. Six more words a listener reported — cup, rub,
+  jug, pop, hop and hen — are known to be imperfect and are queued for the next round.
 - Changed: "Next word" now waits until the child has heard the word. The reveal takes five to
   seven seconds — praise, a pause, "The word was", a pause, then the word — and advancing
   silences it, but the control came alive after 0.4 seconds. A child who tapped straight away

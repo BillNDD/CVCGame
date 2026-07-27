@@ -10,8 +10,9 @@
    after clips were found saying "at" for "cat" and "n" for "an", then after a
    spot-check heard "hip-uh" for "hip" and a slurred sh in "dish".
    Negative control: --self-test removes one word from a copy of the manifest,
-   plants an orphan, alters the recipe, and trims a word nobody heard; the
-   detector must report all. */
+   plants an orphan, alters the recipe, trims a word nobody heard, and puts the
+   praise sentence containing "read" back to spelling; the detector must report
+   all of them. */
 import { readFileSync, existsSync, statSync } from "node:fs";
 import { voiceScript } from "../src/engine.js";
 
@@ -66,6 +67,20 @@ function check(manifest, verifyFiles) {
     const short = script.filter((c) => c.id.startsWith("w:") && c.id.length === 4).map((c) => c.id.slice(2));
     const covered = new Set(r.phoneme_words || []);
     for (const w of short) if (!covered.has(w)) problems.push(`two-letter word rendered from spelling: ${w}`);
+    /* A sentence can teach the wrong sound too. "You read that word all by
+       yourself!" was spoken with "read" in the present tense, to a child who
+       had just read the word. Any sentence containing a word whose spelling
+       carries two pronunciations must be given as sounds, never left to the
+       synthesiser. The list of such words is read from the sentences
+       themselves, so a new sentence is covered from the moment it is added. */
+    const AMBIGUOUS = ["read", "live", "wind", "tear", "lead", "bow", "row", "close"];
+    const spoken = new Set(r.phoneme_sentences || []);
+    for (const c of script) {
+      if (c.id.startsWith("w:")) continue;
+      const word = AMBIGUOUS.find((a) => new RegExp(`\\b${a}\\b`, "i").test(c.text));
+      if (word && !spoken.has(c.id))
+        problems.push(`sentence left to spelling though "${word}" has two pronunciations: ${c.id} ("${c.text}")`);
+    }
   }
 
   const ids = new Set(script.map((c) => c.id));
@@ -96,14 +111,18 @@ if (process.argv.includes("--self-test")) {
   const trimmed = { ...manifest, __recipe: { ...manifest.__recipe, trim_ms: { cub: 260, hip: 130, dish: 120, sun: 90 } } };
   const tp = check(trimmed, false).problems;
   const sawTrim = tp.some((p) => p.startsWith("recipe trims cub by 260")) && tp.some((p) => p.startsWith("recipe trims a word nobody approved: sun"));
+  /* The praise sentence that once said "reed" for "read", left to spelling
+     again: the exact fault, replayed. */
+  const reed = { ...manifest, __recipe: { ...manifest.__recipe, phoneme_sentences: [] } };
+  const sawReed = check(reed, false).problems.some((p) => p.startsWith('sentence left to spelling though "read"'));
   const noRecipe = { ...manifest };
   delete noRecipe.__recipe;
   const sawNoRecipe = check(noRecipe, false).problems.some((p) => p.startsWith("the pack declares no recipe"));
-  if (sawMissing && sawOrphan && sawLie && sawRecipe && sawSpelling && sawNoRecipe && sawTrim) {
-    console.log("self-test OK: a removed word clip, a planted orphan, a lying duration, a drifted recipe, a two-letter word left to spelling, a pack with no recipe at all, and a trim nobody heard are caught");
+  if (sawMissing && sawOrphan && sawLie && sawRecipe && sawSpelling && sawNoRecipe && sawTrim && sawReed) {
+    console.log("self-test OK: a removed word clip, a planted orphan, a lying duration, a drifted recipe, a two-letter word left to spelling, a pack with no recipe at all, a trim nobody heard, and a sentence with 'read' left to spelling are caught");
     process.exit(0);
   }
-  console.error("self-test FAILED: " + JSON.stringify({ sawMissing, sawOrphan, sawLie, sawRecipe, sawSpelling, sawNoRecipe, sawTrim }));
+  console.error("self-test FAILED: " + JSON.stringify({ sawMissing, sawOrphan, sawLie, sawRecipe, sawSpelling, sawNoRecipe, sawTrim, sawReed }));
   process.exit(1);
 }
 
