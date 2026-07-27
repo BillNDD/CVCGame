@@ -2,8 +2,9 @@
 # inventory. This is a BUILD TOOL: it runs on a developer machine, and only its
 # output (mp3 clips and a manifest) ships with the app. The model never ships.
 #
-# Owner decisions encoded here: voice af_heart, word clips at speed 0.7,
-# sentence clips at 1.0 (samples approved 2026-07-26).
+# Owner decisions encoded here: voice af_heart, every clip at the voice's
+# natural speed (samples approved 2026-07-26; the 0.7 word slow-down was
+# removed on 2026-07-27 because stretching a word distorts its sound).
 #
 # Usage:
 #   node -e "import('./src/engine.js').then(m => console.log(JSON.stringify(m.voiceScript())))" > script.json
@@ -20,7 +21,6 @@ from kokoro_onnx import Kokoro
 
 script_path, model_path, voices_path, out_dir = sys.argv[1:5]
 VOICE = "af_heart"
-SLOW = 0.7
 OUT = pathlib.Path(out_dir)
 OUT.mkdir(parents=True, exist_ok=True)
 
@@ -30,8 +30,8 @@ script = json.load(open(script_path))
 manifest = {}
 review = ["id,text,ms,flag"]
 for clip in script:
-    cid, text, slow = clip["id"], clip["text"], clip["slow"]
-    audio, sr = k.create(text, voice=VOICE, speed=SLOW if slow else 1.0, lang="en-us")
+    cid, text = clip["id"], clip["text"]
+    audio, sr = k.create(text, voice=VOICE, speed=1.0, lang="en-us")
     pcm = np.clip(audio, -1.0, 1.0)
     pcm16 = (pcm * 32767).astype(np.int16)
     enc = lameenc.Encoder()
@@ -43,10 +43,10 @@ for clip in script:
     fname = cid.replace(":", "-") + ".mp3"
     (OUT / fname).write_bytes(mp3)
     ms = int(len(pcm16) * 1000 / sr)
-    # review flags: a slow word under 500 ms is probably crushed; anything
-    # over 6 s probably hallucinated a tail
+    # review flags: a clip under 250 ms is probably crushed; anything over
+    # 6 s probably hallucinated a tail
     flag = ""
-    if slow and ms < 500:
+    if ms < 250:
         flag = "SHORT"
     if ms > 6000:
         flag = "LONG"

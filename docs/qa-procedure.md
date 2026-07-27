@@ -22,7 +22,7 @@ This document follows the Microsoft Writing Style Guide.
    Expected: iPadOS asks for microphone permission, one time only.
 6. Tap "Allow". Say the word on the screen, clearly.
    Expected: The app shows "Great job! That is ...", and says one praise sentence, then,
-   slowly, "The word was ...". Praise varies over several words. The same sentence can
+   "The word was ...". Praise varies over several words. The same sentence can
    repeat by chance.
 7. On the next word, say a different word on purpose.
    Expected: The app shows "Nice try! Grown-up will check." and records no result.
@@ -38,7 +38,7 @@ This document follows the Microsoft Writing Style Guide.
 11. Before an attempt ends, look at the speaker control in the strip.
     Expected: The speaker control is dimmed, and a tap makes no sound.
 12. During feedback, tap the speaker control.
-    Expected: The app says the full word, slowly and clearly, never letter names.
+    Expected: The app says the full word clearly, at a natural speed, never letter names.
 13. With a keyboard attached, press Tab to a result control, then Enter.
     Expected: The result records at once, with no hold.
 
@@ -94,7 +94,7 @@ This document follows the Microsoft Writing Style Guide.
 
 30. With sound on, grade a word correct and listen to the whole feedback.
     Expected: A warm recorded voice speaks, not the robotic system voice. The praise, a
-    clear pause, "The word was", another clear pause, then the word, slowly. The words
+    clear pause, "The word was", another clear pause, then the word. The words
     never crush together.
 31. Turn on Airplane Mode and repeat the previous step.
     Expected: The same recorded voice speaks. Offline changes nothing.
@@ -106,3 +106,13 @@ This document follows the Microsoft Writing Style Guide.
     appears and stays on screen. A second silent attempt switches to grown-up grading for
     this visit, with the reason on screen. Nothing freezes. Opening the game later in
     Safari brings the microphone back.
+
+## Updates
+
+33. While online with the latest version, open the "Grown-ups corner" and tap "Check for updates".
+    Expected: "You have the latest version." Nothing else changes.
+34. Turn on Airplane Mode and tap "Check for updates".
+    Expected: "Couldn’t check. Are you online?" Nothing else changes.
+35. After the next release, tap "Check for updates", then "Update now", and let the app restart.
+    Expected: The new version number shows, and all progress and settings are exactly as
+    before the update.

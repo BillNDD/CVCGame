@@ -15,7 +15,7 @@
    Run: npm run lint:copy */
 import { readFileSync } from "node:fs";
 import { execSync } from "node:child_process";
-import { LEVELS, TRICKY, feedbackParts, feedbackSpeech, newState, PRAISE, VOICE_SENTENCES } from "../src/engine.js";
+import { LEVELS, TRICKY, feedbackParts, feedbackSpeech, newState, PRAISE, VOICE_SENTENCES, ADULT_JUDGED, adultNote } from "../src/engine.js";
 
 const problems = [];
 const rule = (okay, name, detail) => {
@@ -46,7 +46,8 @@ function childCopy() {
   return texts;
 }
 
-function run({ leads, notes, corpus, tracked, praise, voice }) {
+function run(d) {
+  const { leads, notes, corpus, tracked, praise, voice } = d;
   const found = [];
   const rules = new Set();
   const check = (okay, name, detail) => { if (!okay) found.push(name + " — " + detail); };
@@ -100,6 +101,18 @@ function run({ leads, notes, corpus, tracked, praise, voice }) {
   check(notes.what === "Tricky word! The a sounds like “o” — wot.", "tricky note (what)", notes.what);
   check(Object.keys(notes).length === 9, "tricky note count", String(Object.keys(notes).length));
 
+  // 3b. the adult's note for a word recognition cannot judge, exact
+  rules.add("adult-notes");
+  const NOTE_EXPECTED = {
+    am: 'Parent: "am" and "m" are nearly indistinguishable, please act as judge here',
+    an: 'Parent: "an" and "n" are nearly indistinguishable, please act as judge here',
+    ax: 'Parent: "ax" and "x" are nearly indistinguishable, please act as judge here',
+    if: 'Parent: "if" and "f" are nearly indistinguishable, please act as judge here',
+    us: 'Parent: "us" and "s" are nearly indistinguishable, please act as judge here',
+  };
+  const notesGiven = Object.fromEntries(Object.keys(d.judged).map((w) => [w, d.note(w)]));
+  check(JSON.stringify(notesGiven) === JSON.stringify(NOTE_EXPECTED), "adult notes", JSON.stringify(notesGiven));
+
   // 4. no letter names in speech, for every bank word
   rules.add("letter-names");
   let words = 0;
@@ -144,10 +157,14 @@ const real = {
   tracked: trackedTextFiles(),
   praise: PRAISE,
   voice: VOICE_SENTENCES,
+  judged: { ...ADULT_JUDGED },
+  note: adultNote,
 };
 
 if (process.argv.includes("--self-test")) {
-  const corrupted = structuredClone(real);
+  /* structuredClone cannot carry a function, and the note composer is one. */
+  const { note: realNote, ...cloneable } = real;
+  const corrupted = { ...structuredClone(cloneable), note: realNote };
   corrupted.leads.correct = "Great job! That was ";
   corrupted.corpus = [...real.corpus, { f: "fixture", t: "You are wrong, try harder" }];
   corrupted.praise = [...real.praise];
@@ -156,6 +173,8 @@ if (process.argv.includes("--self-test")) {
   corrupted.voice = { ...real.voice, "s:was": "The word is" };
   // built at runtime so this file's own source never contains a matchable email
   corrupted.tracked = [...real.tracked, { f: "fixture.md", t: "Contact firstname.lastname" + "@" + "some-personal-mail.net for help" }];
+  corrupted.judged = { ...real.judged };
+  corrupted.note = (w) => (w === "am" ? "Parent: please judge this one" : realNote(w));
   const { found } = run(corrupted);
   const sawLead = found.some((p) => p.startsWith("feedback lead (correct)"));
   const sawBanned = found.some((p) => p.startsWith("banned word in child copy"));
@@ -163,11 +182,12 @@ if (process.argv.includes("--self-test")) {
   const sawPraise = found.some((p) => p.startsWith("praise list")) && found.some((p) => p.startsWith("banned word in praise"));
   const sawLetter = found.some((p) => p.startsWith("letter name in praise"));
   const sawVoice = found.some((p) => p.startsWith("voice sentences"));
-  if (sawLead && sawBanned && sawEmail && sawPraise && sawLetter && sawVoice) {
-    console.log("self-test OK: a changed sentence, a banned word, a planted email, a reworded praise, a letter-name praise, and a swapped voice stem are all caught");
+  const sawNote = found.some((p) => p.startsWith("adult notes"));
+  if (sawLead && sawBanned && sawEmail && sawPraise && sawLetter && sawVoice && sawNote) {
+    console.log("self-test OK: a changed sentence, a banned word, a planted email, a reworded praise, a letter-name praise, a swapped voice stem, and a reworded adult note are all caught");
     process.exit(0);
   }
-  console.error("self-test FAILED: " + JSON.stringify({ sawLead, sawBanned, sawEmail, sawPraise, sawLetter, sawVoice }));
+  console.error("self-test FAILED: " + JSON.stringify({ sawLead, sawBanned, sawEmail, sawPraise, sawLetter, sawVoice, sawNote }));
   process.exit(1);
 }
 

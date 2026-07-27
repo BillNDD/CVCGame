@@ -93,6 +93,21 @@ INTERVALS    = [1,1,2,4,7,12]   // sessions until due, by box 0..5
 
 `chunkWord("ship")` gives `["sh","i","p"]`. The dashed form is `sh-i-p`.
 
+Some words cannot be judged fairly by speech recognition. A two-sound word whose consonant
+carries a letter name that sounds like the whole word is one: a child who reads "am" correctly
+is transcribed as "m", the name of the letter M. The app never offers the microphone for these
+words, so a correct reading can never be reported as a miss. `ADULT_JUDGED` names them and the
+sound each one collides with:
+
+```
+ADULT_JUDGED = { am: "m", an: "n", ax: "x", if: "f", us: "s" }
+```
+
+A word joins this list only when the microphone cannot represent it, never when the child might
+say it wrongly. Vowel pairs like "pin" and "pen" stay on the microphone: a recogniser that
+returns "pen" may be reporting exactly what the child said, and catching that is the purpose of
+the game.
+
 To extend the bank, add words to a level's list or add a level object:
 `{ n, name, emoji, focus, words }`. Level sizes can differ; the session builder serves 20
 words at a time regardless. Level 1 stays at 12 words — English has only a small set of clean
@@ -191,9 +206,9 @@ Sentence 4 is a question by design, reviewed and kept by the owner: it invites t
 reflect aloud to the adult beside them. The app does not need to hear the answer — an adult
 stays with the child in every session.
 
-The lead and the word reveal are two utterances. The reveal sentence plays at a slower rate, so
-the child hears the word slowly and clearly, never rushed. The replay control says the word at
-the same slow rate. Lead rate approximately 0.9. Reveal rate approximately 0.7. Pitch
+The lead and the word reveal are two utterances. The pause between them, not a slower rate, is
+what keeps the word clear: a stretched word stops sounding like the word the child is learning.
+Every utterance uses one calm rate, approximately 0.9, including the replay control. Pitch
 approximately 1.1. Stop the previous utterance first. Use the locale from the settings.
 
 When the next attempt starts, or a session ends without finishing, the app stops any speech
@@ -212,7 +227,7 @@ first available source:
 
 A whole utterance comes from one source. Voices never mix inside a sentence.
 
-A pack holds one clip for each bank word (spoken slowly and clearly), the two carrier stems
+A pack holds one clip for each bank word (spoken at the voice's natural speed), the two carrier stems
 ("The word was" and "The word is"), the ten praise sentences, the two invitation leads
 ("Good try!" and "Let’s try again."), and the two session-end lines. The reveal plays as the
 lead or praise clip, a 700 ms pause, the stem clip, a 700 ms pause, then the word clip. The
@@ -240,6 +255,17 @@ phase. The app never says the word before the attempt.
 ## 6. Screens and modes
 
 The screens are: home, session, done, and "Grown-ups corner".
+
+For a word in `ADULT_JUDGED`, a session in microphone mode shows the prompt used in grown-up
+mode instead of the record control, and the message slot carries one note for the adult:
+
+```
+Parent: "am" and "m" are nearly indistinguishable, please act as judge here
+```
+
+The note names the word and the sound it collides with. It appears at 11.5 px, so the longest
+note stays inside the fixed message slot and the word above never moves. The app never speaks
+this note: design rule 8 keeps letter names out of speech.
 
 Layout. Each screen has three fixed zones in a `100dvh` shell: a header, a stage, and an action
 rail with the "grown-up" strip below it. The word position in the stage does not move. The tile
@@ -331,6 +357,22 @@ The Markdown export has four parts:
 - A session table. A "partial" mark shows where applicable.
 - The last session, in detail.
 - A mastery list for each level.
+
+## 7a. Updates
+
+An update never interrupts play. The "Grown-ups corner" shows the installed version. A
+"Check for updates" control asks the app's own host for the latest version number and shows
+the result: "You have the latest version." or "Version {n} is available.", with an "Update
+now" control. Updating swaps in the new version and reloads the app. The child's progress
+and any family recordings live in on-device storage that an update never touches. A
+downloaded newer version never applies while the app is open: the adult applies it at once
+with "Update now", or it applies the next time the app starts fresh. The version check is
+the one network request safety rule S6 permits after load: adult-initiated, same host, no
+data carried. When the check cannot reach the host, the app says so and changes nothing.
+
+Self-hosters who run the game from a clone of the repository update with `git pull` and a
+rebuild; `docs/self-hosting.md` gives the steps. The in-app check works for them too, against
+their own host.
 
 ## 8. Build steps for a standalone app
 

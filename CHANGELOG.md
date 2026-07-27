@@ -31,6 +31,11 @@ The first app version is 1.0.0-beta.1. The app stays in beta until version 1.0 i
 - Fixed: the checks on GitHub failed on every push because the check runner could not read
   test counts from colored output. The tests themselves passed. The runner now strips the
   color codes, and the emails about failed runs stop.
+- New: updates never interrupt play. The "Grown-ups corner" shows the installed version,
+  a "Check for updates" control asks the app's own host for the latest version, and "Update
+  now" applies it at once. A version the grown-up does not apply waits for the app's next
+  fresh start, and an update never touches saved progress. Self-hosters get
+  `docs/self-hosting.md`.
 - Fixed: a microphone that never answers — in-app browser views above all — could leave the
   game stuck on "Listening…" forever, and any microphone problem silently switched the
   saved mode to grown-up grading, hiding the microphone button from then on. Listening now
@@ -54,6 +59,18 @@ The first app version is 1.0.0-beta.1. The app stays in beta until version 1.0 i
 - New: an installed app refreshes itself once when a new version takes control, so fixes
   arrive without a double relaunch. It waits for a safe moment: a refresh never happens
   during a session.
+- New: five Level 1 words no longer offer the microphone, because speech recognition cannot
+  judge them fairly. "am" sounds like the name of the letter M, and a child who reads it
+  perfectly is transcribed as "m" — so the app used to answer a correct reading with "Nice
+  try". Those words now go straight to the grown-up, with a note on screen explaining why:
+  am, an, ax, if and us. Words a child might genuinely misread, like "pin" and "pen", keep
+  the microphone: catching those is the point of the game.
+- Changed: the app no longer stretches the word when it says it. Slowing a word distorts
+  the very sound a child is learning — "was" suffered most. The clear pause before the
+  reveal does the work instead, so the shape stays the same: praise, a pause, "The word
+  was", another pause, then the word at a natural speed. The recorded voice pack was
+  re-rendered, and the replay control and the system fallback voice now use the same calm
+  rate as the praise.
 - New: the app speaks with a warm recorded voice instead of the robotic system voice. A
   default voice pack ships with the app: one clip for every word and sentence, rendered
   from an open-source voice the owner chose by ear. Words play slowly with a clear pause

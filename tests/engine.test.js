@@ -8,6 +8,7 @@ import {
   chunkWord, dashed, freshWordState, applyResult, buildSession, checkPromotion,
   heal, migrate, newState, buildMarkdown, loadState, saveState, speak, hush, buzz, feedbackSpeech, PRAISE,
   SEAM_MS, voiceScript, clipPlan, resolvePack,
+  ADULT_JUDGED, adultNote,
 } from "../src/engine.js";
 
 const clone = (o) => JSON.parse(JSON.stringify(o));
@@ -354,12 +355,12 @@ describe("voice packs", () => {
   it("inventories one clip per word plus the fixed sentences", () => {
     const script = voiceScript();
     expect(script.length).toBe(276);                       // 6 sentences + 10 praise + 260 words
-    expect(script.filter((c) => c.slow).length).toBe(260);
+    expect(script.filter((c) => c.id.startsWith("w:")).length).toBe(260);
     expect(new Set(script.map((c) => c.id)).size).toBe(276);
     expect(script.find((c) => c.id === "s:was").text).toBe("The word was");
     expect(script.find((c) => c.id === "l:wrong").text).toBe("Let’s try again.");
     expect(script.find((c) => c.id === "p:0").text).toBe("Great job!");
-    expect(script.find((c) => c.id === "w:cat")).toEqual({ id: "w:cat", text: "cat", slow: true });
+    expect(script.find((c) => c.id === "w:cat")).toEqual({ id: "w:cat", text: "cat" });
   });
   it("plans each utterance with seams, at the literal 700 ms", () => {
     expect(SEAM_MS).toBe(700);
@@ -384,18 +385,18 @@ describe("voice packs", () => {
 describe("speech helpers", () => {
   afterEach(() => vi.unstubAllGlobals());
 
-  it("says full words only, never letter names, with a slow reveal sentence", () => {
+  it("says full words only, never letter names, and never stretches the reveal", () => {
     expect(feedbackSpeech("correct", "cat")).toEqual([
       { text: "Great job!", rate: 0.9 },
-      { text: "The word was cat.", rate: 0.7 },
+      { text: "The word was cat.", rate: 0.9 },
     ]);
     expect(feedbackSpeech("close", "ship")).toEqual([
       { text: "Good try!", rate: 0.9 },
-      { text: "The word is ship.", rate: 0.7 },
+      { text: "The word is ship.", rate: 0.9 },
     ]);
     expect(feedbackSpeech("wrong", "sun")).toEqual([
       { text: "Let’s try again.", rate: 0.9 },
-      { text: "The word is sun.", rate: 0.7 },
+      { text: "The word is sun.", rate: 0.9 },
     ]);
   });
   it("stays silent when sound is off or no engine exists", () => {
@@ -436,7 +437,7 @@ describe("speech helpers", () => {
     expect(feedbackSpeech("correct", "cat", 42)[0].text).toBe("Great job!");
     expect(feedbackSpeech("correct", "cat")[0].text).toBe("Great job!");
   });
-  it("queues reveal parts: one cancel, the lead at 0.9, the word sentence at 0.7", () => {
+  it("queues reveal parts: one cancel, and both the lead and the word sentence at 0.9", () => {
     const calls = [];
     const cancel = vi.fn();
     vi.stubGlobal("window", { speechSynthesis: { cancel, speak: (u) => calls.push(u) } });
@@ -447,7 +448,7 @@ describe("speech helpers", () => {
     expect(calls[0].text).toBe("Great job!");
     expect(calls[0].rate).toBe(0.9);
     expect(calls[1].text).toBe("The word was on.");
-    expect(calls[1].rate).toBe(0.7);
+    expect(calls[1].rate).toBe(0.9);
     expect(calls[1].pitch).toBe(1.1);
     expect(calls[1].lang).toBe("en-GB");
   });
@@ -523,5 +524,26 @@ describe("ASR tolerance list", () => {
     expect(HOMOPHONES.in).toContain("inn");
     expect(HOMOPHONES.ax).toContain("axe");
     expect(HOMOPHONES.an).toContain("ann");
+  });
+})
+
+describe("ADULT_JUDGED — words recognition cannot judge fairly (SPEC section 3)", () => {
+  it("names exactly the five letter-name collisions, and the sound each one clashes with", () => {
+    expect(ADULT_JUDGED).toEqual({ am: "m", an: "n", ax: "x", if: "f", us: "s" });
+  });
+
+  it("composes the adult's note from one template, and nothing for any other word", () => {
+    expect(adultNote("am")).toBe('Parent: "am" and "m" are nearly indistinguishable, please act as judge here');
+    expect(adultNote("us")).toBe('Parent: "us" and "s" are nearly indistinguishable, please act as judge here');
+    expect(adultNote("cat")).toBe("");
+    expect(adultNote("")).toBe("");
+  });
+
+  it("every flagged word is a real bank word, and no vowel pair was flagged", () => {
+    const bank = new Set(LEVELS.flatMap((l) => l.words));
+    for (const w of Object.keys(ADULT_JUDGED)) expect(bank.has(w)).toBe(true);
+    // a recogniser returning "pen" for "pin" may be reporting the child correctly:
+    // that is a reading error to catch, never a reason to remove the microphone
+    for (const w of ["pin", "pen", "bad", "bed", "cap", "cup"]) expect(ADULT_JUDGED[w]).toBe(undefined);
   });
 });

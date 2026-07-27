@@ -1,4 +1,6 @@
+import { useState } from "react";
 import { C, LANGS, LEVELS } from "@engine";
+import { checkForUpdate, applyUpdate } from "../updates.js";
 import Frame from "../components/Frame.jsx";
 import Zone from "../components/Zone.jsx";
 import Toast from "../components/Toast.jsx";
@@ -138,12 +140,51 @@ export default function ParentScreen({
                 </div>}
           </section>
 
-          <p style={{ textAlign: "center", margin: "0 0 4px" }}>
-            <span className="wq-chip" style={{ fontSize: 11.5 }}>Word Quest app {__APP_VERSION__}</span>
-          </p>
+          <UpdateSection />
         </div>
       </Zone.Stage>
       {toast && <Toast>{toast}</Toast>}
     </Frame>
+  );
+}
+
+/* SPEC §7a — the version chip, the one S6-permitted network request, and the
+   adult-consented apply. An update never touches saved progress. */
+function UpdateSection() {
+  const [status, setStatus] = useState("");
+  const [available, setAvailable] = useState(false);
+  const [busy, setBusy] = useState(false);
+
+  async function onCheck() {
+    setBusy(true); setStatus("Checking…"); setAvailable(false);
+    const r = await checkForUpdate(__APP_VERSION__);
+    setBusy(false);
+    if (r.state === "current") setStatus("You have the latest version.");
+    else if (r.state === "available") { setStatus(`Version ${r.latest} is available.`); setAvailable(true); }
+    else if (r.state === "offline") setStatus("Couldn’t check. Are you online?");
+    else setStatus("The version check didn’t work. Try again later.");
+  }
+
+  async function onApply() {
+    setBusy(true); setStatus("Updating…");
+    const ok = await applyUpdate();
+    if (ok) { setStatus("Restarting…"); window.location.reload(); }
+    else { setBusy(false); setStatus("The update is still downloading. Try again in a moment."); }
+  }
+
+  return (
+    <section style={{ textAlign: "center", margin: "0 0 4px" }}>
+      <p style={{ margin: "0 0 6px" }}>
+        <span className="wq-chip" style={{ fontSize: 11.5 }}>Word Quest app {__APP_VERSION__}</span>
+      </p>
+      <div style={{ display: "flex", gap: 8, justifyContent: "center", flexWrap: "wrap" }}>
+        <button className="wq-btn-plain" onClick={onCheck} disabled={busy}>Check for updates</button>
+        {available && <button className="wq-btn-plain" onClick={onApply} disabled={busy}>Update now</button>}
+      </div>
+      {status && <p style={{ margin: "6px 0 0", fontSize: 12.5, color: C.strip }} role="status">{status}</p>}
+      <p style={{ margin: "4px 0 0", fontSize: 11.5, color: C.strip }}>
+        An update never touches saved progress.
+      </p>
+    </section>
   );
 }

@@ -4,7 +4,7 @@ import { useState, useEffect, useRef, useMemo, useCallback } from "react";
 import {
   LEVELS, HOMOPHONES, SESSION_SIZE, PROMPT_CAP, ADVANCE_GUARD_MS, SPLASH_TIMEOUT_MS,
   C, SR, freshWordState, applyResult, buildSession, checkPromotion,
-  migrate, newState, buildMarkdown, feedbackSpeech, PRAISE, speak, hush, buzz,
+  migrate, newState, buildMarkdown, feedbackSpeech, PRAISE, speak, hush, buzz, adultNote,
 } from "@engine";
 /* W3 — the storage adapter is IndexedDB in the standalone app. */
 import { loadState, saveState } from "./storage.js";
@@ -383,7 +383,7 @@ export default function App() {
     if (phase !== "feedback") return;
     unlockVoice();
     speakVoice("replay", currentWord, 0, stateRef.current.settings.sound,
-      () => speak([{ text: currentWord, rate: 0.7 }], true, stateRef.current.settings.lang));
+      () => speak([{ text: currentWord, rate: 0.9 }], true, stateRef.current.settings.lang));
   }
 
   /* ---------- settings ---------- */
@@ -444,9 +444,14 @@ export default function App() {
   /* W4b — grown-up grading is a DISPLAY state when this visit cannot listen.
      The saved setting is never rewritten, so the microphone returns on the
      next open in a browser that can. */
-  const shown = (!SR || micVisitBlock)
-    ? { ...state, settings: { ...state.settings, mode: "parent" } }
-    : state;
+  const asParent = (s) => ({ ...s, settings: { ...s.settings, mode: "parent" } });
+  const micBlocked = !SR || micVisitBlock;
+  /* SPEC section 3 — this ONE word cannot be judged fairly by recognition, so
+     the adult judges it. The whole-visit block above is a different thing, and
+     the corner must keep showing the saved setting either way. */
+  const parentNote = adultNote(currentWord);
+  const shown = micBlocked ? asParent(state) : state;
+  const shownSession = (micBlocked || parentNote) ? asParent(state) : state;
 
   if (screen === "home") {
     return <HomeScreen state={state} L={L} kid={kid} masteredCount={masteredCount}
@@ -455,8 +460,8 @@ export default function App() {
   }
 
   if (screen === "session" && currentWord) {
-    return <SessionScreen state={shown} L={L} kid={kid} currentWord={currentWord}
-      micNote={micNote} phase={phase} lastGrade={lastGrade} queue={queue} qi={qi} order={order}
+    return <SessionScreen state={shownSession} L={L} kid={kid} currentWord={currentWord}
+      micNote={micNote} adultNote={parentNote} phase={phase} lastGrade={lastGrade} queue={queue} qi={qi} order={order}
       firstResults={firstResults} answered={answered} totalQ={totalQ}
       advanceReady={advanceReady} micTried={micTried} listening={listening}
       seenTwice={seenTwice} heard={heard} exitAsk={exitAsk}
