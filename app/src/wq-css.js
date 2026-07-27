@@ -46,7 +46,11 @@ const CSS = `
   font:800 clamp(1rem,2.4dvh,1.25rem)/1.1 inherit;padding:16px 18px;cursor:pointer;
   box-shadow:0 3px 10px rgba(23,53,107,.18);min-height:56px}
 .wq-cta:disabled{cursor:default;box-shadow:none}
-.wq-prompt{text-align:center;font-weight:800;color:${C.ink};font-size:clamp(.95rem,2.2dvh,1.1rem);padding:16px 0;min-height:56px}
+/* line-height matches .wq-cta exactly: the prompt REPLACES the record control,
+   so any difference in its box moves the word above it. It measured 58.39px
+   against the control's 56px, which shifted the word by 1.19px between an
+   ordinary word and an adult-judged one. */
+.wq-prompt{text-align:center;font-weight:800;color:${C.ink};font:800 clamp(.95rem,2.2dvh,1.1rem)/1.1 inherit;padding:16px 0;min-height:56px}
 .wq-btn-plain{border:0;background:rgba(255,255,255,.85);color:${C.ink};font:700 13px/1 inherit;
   padding:11px 13px;border-radius:999px;cursor:pointer;min-height:44px}
 .wq-chip{background:rgba(255,255,255,.85);color:${C.ink};font:800 12.5px/1 inherit;padding:7px 10px;border-radius:999px;display:inline-block}
