@@ -10,6 +10,10 @@
   "g5_source_mutants": 48,
   "g5_survivors_max": 0,
   "g6_lines_min": 95,
+  "g6_app_lines_min": 81,
+  "g6_app_branches_min": 82,
+  "g6_appjsx_lines_min": 88,
+  "g6_appjsx_branches_min": 80,
   "g6_branches_min": 90,
   "g6_complexity_max": 15,
   "g6_file_lines_max": 600,
@@ -23,5 +27,7 @@
   "g12_qa_steps": 35,
   "g13_clips": 276,
   "g13_engine_tests": 6,
-  "g14_update_tests": 12
+  "g14_update_tests": 12,
+  "g15_recognizer_tests": 49,
+  "g16_doc_rules": 4
 }
