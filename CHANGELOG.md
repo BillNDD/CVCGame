@@ -70,6 +70,19 @@ The first app version is 1.0.0-beta.1. The app stays in beta until version 1.0 i
   rounds of listening, it now travels inside the voice pack, and the build refuses any pack
   whose recipe differs from the approved one. Three words — dish, cub and hip — are known
   to be imperfect and are queued for the same treatment.
+- Fixed: the three words a listener reported as wrong after the last rebuild. "hip" ended
+  with a small extra syllable — "hip-uh" — and so did "cub". Measured every 20 milliseconds,
+  the fault was plain: after the p in "hip" the voice adds a tenth of a second of voiced
+  sound, which is a syllable, not the release of a p. The end of the speech is now trimmed
+  by the amount a listener approved, chosen as the smallest that works so the consonant
+  stays safe. The sh in "dish" ran longer than any other and is now shorter. The pack also
+  moves from 48 to 96 kbps: a fricative is noise across the whole frequency range, the
+  hardest sound for a low bit rate to carry. The download grows from 2.4 MB to 4.6 MB, once.
+- New: the build now refuses a document that has drifted from the pack. The specification
+  claimed the voice pack was rendered at speed 0.7 for weeks after it moved to 0.85, and no
+  gate could see it: a reader cannot hear a manifest, and the pack gate cannot read prose.
+  The doc-truth gate now binds the voice, the speed, and the bit rate the documents name to
+  the recipe inside the shipped pack.
 - Fixed: a child's progress can no longer be destroyed by a storage hiccup or a stray file.
   A failed read of the saved progress was reported as "no save", after which the app built a
   fresh state and wrote it over the save it had merely failed to read. An unreadable save is
