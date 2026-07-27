@@ -59,6 +59,12 @@ The first app version is 1.0.0-beta.1. The app stays in beta until version 1.0 i
 - New: an installed app refreshes itself once when a new version takes control, so fixes
   arrive without a double relaunch. It waits for a safe moment: a refresh never happens
   during a session.
+- Changed: the app no longer stretches the word when it says it. Slowing a word distorts
+  the very sound a child is learning — "was" suffered most. The clear pause before the
+  reveal does the work instead, so the shape stays the same: praise, a pause, "The word
+  was", another pause, then the word at a natural speed. The recorded voice pack was
+  re-rendered, and the replay control and the system fallback voice now use the same calm
+  rate as the praise.
 - New: the app speaks with a warm recorded voice instead of the robotic system voice. A
   default voice pack ships with the app: one clip for every word and sentence, rendered
   from an open-source voice the owner chose by ear. Words play slowly with a clear pause

@@ -191,9 +191,9 @@ Sentence 4 is a question by design, reviewed and kept by the owner: it invites t
 reflect aloud to the adult beside them. The app does not need to hear the answer — an adult
 stays with the child in every session.
 
-The lead and the word reveal are two utterances. The reveal sentence plays at a slower rate, so
-the child hears the word slowly and clearly, never rushed. The replay control says the word at
-the same slow rate. Lead rate approximately 0.9. Reveal rate approximately 0.7. Pitch
+The lead and the word reveal are two utterances. The pause between them, not a slower rate, is
+what keeps the word clear: a stretched word stops sounding like the word the child is learning.
+Every utterance uses one calm rate, approximately 0.9, including the replay control. Pitch
 approximately 1.1. Stop the previous utterance first. Use the locale from the settings.
 
 When the next attempt starts, or a session ends without finishing, the app stops any speech
@@ -212,7 +212,7 @@ first available source:
 
 A whole utterance comes from one source. Voices never mix inside a sentence.
 
-A pack holds one clip for each bank word (spoken slowly and clearly), the two carrier stems
+A pack holds one clip for each bank word (spoken at the voice's natural speed), the two carrier stems
 ("The word was" and "The word is"), the ten praise sentences, the two invitation leads
 ("Good try!" and "Let’s try again."), and the two session-end lines. The reveal plays as the
 lead or praise clip, a 700 ms pause, the stem clip, a 700 ms pause, then the word clip. The

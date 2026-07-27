@@ -14,8 +14,11 @@ The clips are rendered by a build tool on a developer machine. The model never s
 app carries only the audio files.
 
 - Model: Kokoro-82M (Apache-2.0 weights), full-precision ONNX, voice `af_heart`.
-- Word clips render at speed 0.7. Sentence clips render at speed 1.0. The owner approved the
-  voice and the speeds by listening to samples (2026-07-26).
+- Every clip renders at speed 1.0, the voice's natural speed. The owner approved the voice by
+  listening to samples (2026-07-26). Word clips first rendered at 0.7; the owner heard the
+  result in the beta and had the slow-down removed (2026-07-27), because stretching a word
+  distorts the sound the child is learning. The clear pause before the reveal, not a slower
+  rate, is what keeps the word distinct.
 - The clip list comes from the live engine, never from a hand-kept list.
 
 ## To re-render (after the word bank grows)
