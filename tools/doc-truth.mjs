@@ -18,6 +18,10 @@
       8-second watchdog and 2-second grace, and the QA script's "about 10
       seconds" total.
    4. The hold gesture the documents name matches the hold control's timer.
+   5. The recipe SPEC names for the voice pack — the voice, the word speed and
+      the bitrate — matches the recipe inside the shipped pack. SPEC claimed
+      speed 0.7 for months after the pack moved to 0.85, and nothing noticed:
+      a reader cannot hear a manifest, and the pack gate cannot read prose.
 
    Negative control: --self-test corrupts each document in memory and
    requires every detector to fire.
@@ -42,6 +46,7 @@ const SOURCES = [
 const real = {
   spec: readFileSync("SPEC.md", "utf8"),
   qa: readFileSync("docs/qa-procedure.md", "utf8"),
+  pack: readFileSync("app/public/voice/manifest.json", "utf8"),
   app: readFileSync("app/src/App.jsx", "utf8"),
   engine: readFileSync("src/engine.js", "utf8"),
   hold: readFileSync("app/src/components/HoldButton.jsx", "utf8"),
@@ -113,11 +118,23 @@ function run(d) {
   if (!specHold || Number(specHold[1]) !== holdCode)
     found.push(`SPEC hold says ${specHold ? specHold[1] : "nothing"} ms, the control waits ${holdCode} ms`);
 
+  rules += 1;
+  const recipe = JSON.parse(d.pack).__recipe || {};
+  const specVoice = /voice `([a-z_]+)`/.exec(d.spec);
+  const specSpeed = /word clips at speed ([\d.]+)/.exec(d.spec);
+  const specBitrate = /encoded\s*\n?\s*at (\d+) kbps/.exec(d.spec);
+  if (!specVoice || specVoice[1] !== recipe.voice)
+    found.push(`SPEC names voice ${specVoice ? specVoice[1] : "nothing"}, the pack was rendered with ${recipe.voice}`);
+  if (!specSpeed || Number(specSpeed[1]) !== recipe.word_speed)
+    found.push(`SPEC says word speed ${specSpeed ? specSpeed[1] : "nothing"}, the pack says ${recipe.word_speed}`);
+  if (!specBitrate || Number(specBitrate[1]) !== recipe.bitrate)
+    found.push(`SPEC says ${specBitrate ? specBitrate[1] : "no"} kbps, the pack says ${recipe.bitrate}`);
+
   return { found, rules };
 }
 
 if (process.argv.includes("--self-test")) {
-  const seen = { spec: false, qa: false, timing: false, hold: false };
+  const seen = { spec: false, qa: false, timing: false, hold: false, recipe: false };
 
   const specCorrupt = { ...real, spec: real.spec.replace(/^(\s{3}retry\s+)"[^"]+"$/m, '$1"A sentence the app never says."') };
   seen.spec = run(specCorrupt).found.some((p) => p.startsWith("SPEC sentence missing"));
@@ -131,8 +148,13 @@ if (process.argv.includes("--self-test")) {
   const holdCorrupt = { ...real, hold: real.hold.replace(/onFire\(\); \}, \d+\)/, "onFire(); }, 120)") };
   seen.hold = run(holdCorrupt).found.some((p) => p.startsWith("SPEC hold says"));
 
+  /* Exactly the fault this rule was written from: the document keeps a number
+     the pack no longer uses. */
+  const recipeCorrupt = { ...real, spec: real.spec.replace(/word clips at speed [\d.]+/, "word clips at speed 0.7") };
+  seen.recipe = run(recipeCorrupt).found.some((p) => p.startsWith("SPEC says word speed 0.7"));
+
   if (Object.values(seen).every(Boolean)) {
-    console.log("self-test OK: a reworded SPEC sentence, a reworded QA promise, a wrong timing, and a changed hold constant are all caught");
+    console.log("self-test OK: a reworded SPEC sentence, a reworded QA promise, a wrong timing, a changed hold constant, and a stale recipe number in the document are all caught");
     process.exit(0);
   }
   console.error("self-test FAILED: " + JSON.stringify(seen));

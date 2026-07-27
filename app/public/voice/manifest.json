@@ -389,7 +389,7 @@
  },
  "w:hip": {
   "file": "w-hip.mp3",
-  "ms": 1084
+  "ms": 780
  },
  "w:rip": {
   "file": "w-rip.mp3",
@@ -617,7 +617,7 @@
  },
  "w:cub": {
   "file": "w-cub.mp3",
-  "ms": 1169
+  "ms": 840
  },
  "w:den": {
   "file": "w-den.mp3",
@@ -789,7 +789,7 @@
  },
  "w:dish": {
   "file": "w-dish.mp3",
-  "ms": 1233
+  "ms": 840
  },
  "w:wish": {
   "file": "w-wish.mp3",
@@ -1105,7 +1105,7 @@
  },
  "__recipe": {
   "voice": "af_heart",
-  "bitrate": 48,
+  "bitrate": 96,
   "word_speed": 0.85,
   "sentence_speed": 1.0,
   "lead_ms": 80,
@@ -1124,6 +1124,11 @@
    "ox",
    "up",
    "us"
-  ]
+  ],
+  "trim_ms": {
+   "cub": 130,
+   "hip": 130,
+   "dish": 120
+  }
  }
 }

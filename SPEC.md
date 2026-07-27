@@ -231,10 +231,11 @@ Recorded words are rendered from an approved recipe, not from whatever a synthes
 the spelling. Every clip carries a moment of silence before the word, because a clip that
 begins on its first sound loses that sound between the file and the speaker: "cat" became
 "at" and "an" became "n". Two-letter words carry an explicit pronunciation, since a
-synthesiser reads them wrongly from spelling. The recipe ships inside the pack and the build
-gate compares it with the approved values; a pack rendered with different settings fails the
-build, because no automatic check can hear whether a word is right. Only a person can approve
-new audio.
+synthesiser reads them wrongly from spelling. A few words carry an approved trim of their
+ending, because the synthesiser adds a small extra syllable after a final plosive: "hip"
+became "hip-uh". The recipe ships inside the pack and the build gate compares it with the
+approved values; a pack rendered with different settings fails the build, because no
+automatic check can hear whether a word is right. Only a person can approve new audio.
 
 A pack holds one clip for each bank word (spoken at the voice's natural speed), the two carrier stems
 ("The word was" and "The word is"), the ten praise sentences, the two invitation leads
@@ -245,7 +246,8 @@ stops any clip that is still playing: safety rule S2 applies to clips exactly as
 to speech.
 
 The default pack is rendered at build time from the open-source Kokoro model (Apache-2.0
-weights), voice `af_heart`, with word clips at speed 0.7 and sentence clips at 1.0. The
+weights), voice `af_heart`, with word clips at speed 0.85 and sentence clips at 1.0, encoded
+at 96 kbps because a lower bitrate slurred the fricatives. The
 model is a build tool. The app ships only ordinary audio files and a manifest. A gate fails
 the build if any bank word or sentence lacks a clip, so the bank can never grow past its
 voice.

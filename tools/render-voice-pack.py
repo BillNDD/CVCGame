@@ -19,6 +19,12 @@
 #                 the t in "it" sounded swallowed.
 #   FADE_MS   10  Removes the scratch heard at the end of "up" and "us", and
 #                 any click at the start.
+#   BITRATE   96  Raised from 48 on 2026-07-27 (round 7). A fricative is noise
+#                 across the whole frequency range, which is the hardest thing
+#                 for a low bitrate to carry: the sh in "dish" arrived slurred.
+#                 The listener compared the same clip at both bitrates and chose
+#                 96. It doubles the pack, from about 2.4 MB to about 5 MB,
+#                 downloaded once.
 #   WORD_SPEED 0.85  The floor. 0.80 introduces an audible click; 0.75 and
 #                 below distort the vowel ("it" becomes "eee-it", "up" becomes
 #                 "uhh-p"). Slower is NOT clearer. Space is clearer, which is
@@ -46,7 +52,7 @@ from kokoro_onnx import Kokoro
 
 script_path, model_path, voices_path, out_dir = sys.argv[1:5]
 VOICE = "af_heart"
-BITRATE = 48
+BITRATE = 96
 WORD_SPEED = 0.85
 SENTENCE_SPEED = 1.0
 LEAD_MS = 80
@@ -62,20 +68,39 @@ PHONEMES = {
 # The two words that needed more room in front, by ear.
 LEAD_OVERRIDE = {"am": 150, "an": 150}
 
-# Heard and NOT yet right, from the owner's spot-check of 2026-07-27. Shipped
-# anyway, because the build they replaced said "at" for "cat" and every one of
-# these is an improvement on that. Each needs an explicit pronunciation, the
-# way "am" and "an" got one:
-#   dish  the sh slurs
-#   cub   sounds like "cub + e"
-#   hip   sounds like "hip-uh"
-# Anything else a listener reports joins this list until it is fixed.
+# The three words from the spot-check of 2026-07-27, each with the last part of
+# its speech removed. The synthesiser ends a word-final plosive with a small
+# extra syllable: after the p in "hip" it adds 100 ms of VOICED sound at a
+# third of full loudness, which is not a release burst - a listener hears
+# "hip-uh". "cub" gets the same, heard as "cub + e". Measured every 20 ms, the
+# closure and the release sit at 280-375 ms in "hip" and 340-430 ms in "cub",
+# so cutting 130 ms from the end of the speech leaves the consonant and removes
+# the syllable. The listener compared cuts of 130, 160 and 185 ms and chose the
+# shortest that worked, which is the one that puts the consonant at least risk.
+# "dish" is a different fault: its sh runs 260 ms, longer than the sh in "mush",
+# and 120 ms shorter was judged right. Nothing else is trimmed - the pace and
+# the pronunciation were both ruled out by measurement, and every other word in
+# the bank was approved as it is.
+TRIM_MS = {"cub": 130, "hip": 130, "dish": 120}
+SILENCE_FLOOR_DB = -45  # what counts as the end of the speech, before trimming
 
 OUT = pathlib.Path(out_dir)
 OUT.mkdir(parents=True, exist_ok=True)
 
 k = Kokoro(model_path, voices_path)
 script = json.load(open(script_path))
+
+
+def trim(audio, ms, sr):
+    """Remove the last ms of speech, ignoring the silence the model appends."""
+    a = np.asarray(audio, dtype=np.float32)
+    n = int(0.01 * sr)
+    frames = [a[i:i + n] for i in range(0, len(a) - n, n)]
+    rms = np.array([np.sqrt(np.mean(f.astype(np.float64) ** 2)) for f in frames])
+    db = 20 * np.log10(np.maximum(rms, 1e-9) / (rms.max() or 1.0))
+    loud = np.nonzero(db > SILENCE_FLOOR_DB)[0]
+    end = (int(loud.max()) + 1) * n if len(loud) else len(a)
+    return a[: max(0, end - int(ms / 1000 * sr))]
 
 
 def shape(audio, lead_ms, sr):
@@ -104,6 +129,8 @@ for clip in script:
         lang="en-us",
         is_phonemes=bool(phoneme),
     )
+    if word in TRIM_MS:
+        audio = trim(audio, TRIM_MS[word], sr)
     pcm16 = (shape(audio, LEAD_OVERRIDE.get(word, LEAD_MS), sr) * 32767).astype(np.int16)
     enc = lameenc.Encoder()
     enc.set_bit_rate(BITRATE)
@@ -129,7 +156,7 @@ for clip in script:
 manifest["__recipe"] = {
     "voice": VOICE, "bitrate": BITRATE, "word_speed": WORD_SPEED,
     "sentence_speed": SENTENCE_SPEED, "lead_ms": LEAD_MS, "tail_ms": TAIL_MS,
-    "fade_ms": FADE_MS, "phoneme_words": sorted(PHONEMES),
+    "fade_ms": FADE_MS, "phoneme_words": sorted(PHONEMES), "trim_ms": TRIM_MS,
 }
 (OUT / "manifest.json").write_text(json.dumps(manifest, indent=1) + "\n")
 pathlib.Path(out_dir + "-review.csv").write_text("\n".join(review) + "\n")

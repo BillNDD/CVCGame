@@ -222,13 +222,16 @@ engine, never a hand-kept list.
 
 - `tools/voice-check.mjs` verifies: every inventory id has a manifest entry and a file; no
   orphan clips; every declared duration is inside 400–8,000 ms (the shortest real clip is
-  448 ms, so anything shorter is a truncation); and the file size matches the declared duration at the pack's 48 kbps bit rate
-  (5–8 bytes per millisecond), so a manifest cannot lie about a truncated or wrong clip.
+  448 ms, so anything shorter is a truncation); the file size matches the declared duration at
+  the pack's 96 kbps bit rate (10–15 bytes per millisecond), so a manifest cannot lie about a
+  truncated or wrong clip; and the recipe inside the pack matches the approved values, down to
+  the trim applied to each of the three words that needed one.
 - The clip engine has its own Vitest suite (`tests/voicepacks.test.js`): scheduling order,
   literal 700 ms seams, stop-on-advance, all-or-nothing fallback to system speech, and
   family-pack preference.
-- Negative control: `--self-test` removes a word clip, plants an orphan, and doubles one
-  declared duration; the detector must report all three.
+- Negative control: `--self-test` removes a word clip, plants an orphan, doubles one declared
+  duration, drifts the recipe, leaves a two-letter word to its spelling, strips the recipe
+  altogether, and trims a word nobody heard; the detector must report all seven.
 - Baseline floors: `g13_clips` (276) and `g13_engine_tests` (6).
 - To re-render the pack after the bank grows: `docs/voice-pack.md`.
 
@@ -273,17 +276,21 @@ beta.2 while every gate stayed green. Two invariants, in `tests/recognizer.test.
 A document that promises behaviour the code does not have is a defect. QA step 32 once
 promised a fallback the code never performed; G12 counted the step and saw nothing wrong.
 
-- `tools/doc-truth.mjs` binds words to code with four rules: every child-facing sentence
+- `tools/doc-truth.mjs` binds words to code with five rules: every child-facing sentence
   quoted in SPEC section 8 exists verbatim in the app; every quoted sentence in the manual QA
   script exists verbatim in the app or the engine; the timings the documents name in words
   match the constants (the 8-second watchdog, the 2-second grace, and the "about 10 seconds"
-  a tester is told to expect); and the hold gesture the documents name matches the control's
-  timer.
+  a tester is told to expect); the hold gesture the documents name matches the control's
+  timer; and the voice-pack recipe SPEC names — the voice, the word speed, and the bit rate —
+  matches the recipe inside the shipped pack.
+- The fifth rule comes from a real drift: SPEC named speed 0.7 for weeks after the pack moved
+  to 0.85. A reader cannot hear a manifest, and G13 cannot read prose.
 - Expected values are read out of the documents, never hard-coded here, so a sentence added
   to SPEC is checked from the moment it is written.
 - Negative control: `--self-test` rewords a SPEC sentence, rewords a QA promise, changes a
-  timing, and changes the hold constant; every detector must fire.
-- Baseline floor: `g16_doc_rules` (4).
+  timing, changes the hold constant, and leaves a stale speed in SPEC; every detector must
+  fire.
+- Baseline floor: `g16_doc_rules` (5).
 
 ## Aggregation
 

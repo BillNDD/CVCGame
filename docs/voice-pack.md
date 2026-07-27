@@ -14,11 +14,17 @@ The clips are rendered by a build tool on a developer machine. The model never s
 app carries only the audio files.
 
 - Model: Kokoro-82M (Apache-2.0 weights), full-precision ONNX, voice `af_heart`.
-- Every clip renders at speed 1.0, the voice's natural speed. The owner approved the voice by
-  listening to samples (2026-07-26). Word clips first rendered at 0.7; the owner heard the
-  result in the beta and had the slow-down removed (2026-07-27), because stretching a word
-  distorts the sound the child is learning. The clear pause before the reveal, not a slower
-  rate, is what keeps the word distinct.
+- The recipe lives at the top of `tools/render-voice-pack.py`, with the reason for every
+  number. Sentences render at speed 1.0 and words at 0.85, each clip gets 80 ms of silence
+  in front and 300 ms behind, and the mp3s are 96 kbps. Every value was set by a person
+  listening, over seven rounds on 26 and 27 July 2026.
+- The recipe travels inside `manifest.json`, and gate G13 compares it with the approved
+  values. A pack rendered with different settings fails the build, because nothing automatic
+  can hear whether a word is right.
+- Two-letter words render from an explicit pronunciation, not from their spelling: the
+  synthesiser read "am" as the letter M. Three words — cub, hip and dish — have the end of
+  their speech trimmed, because the synthesiser adds a small extra syllable after a final
+  plosive.
 - The clip list comes from the live engine, never from a hand-kept list.
 
 ## To re-render (after the word bank grows)
