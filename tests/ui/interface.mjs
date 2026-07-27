@@ -95,15 +95,32 @@ for (const height of [430, 555, 720, 950]) {
     ok(`word box fixed across ready, feedback, wrong, and retry (${b1.x},${b1.y} ${b1.width}x${b1.height})`);
   else fail("word box moved between phases", JSON.stringify({ b1, b2, b3, bWrong, bRetry }));
 
-  /* 6 — advance inert during the 400 ms guard, active after */
+  /* 6-7 — the advance control waits for the reveal, then comes alive.
+     Which rule applies depends on what this browser can actually play, and
+     that is measured here rather than assumed: with the recorded pack the
+     control waits for the whole reveal (about 5 to 7 seconds), and where the
+     pack cannot play — no audio device, a locked context — the app falls back
+     to the short guard, whose length nothing can know in advance. Both are
+     asserted strictly; the check reports which path ran. Guessing one would
+     make this gate flaky on a machine that differs from the last one. */
   await gradeByKey(page, "✓ got it (hold)", "Enter");
   await page.locator(".wq-tile").first().waitFor();
   const advance = page.locator(".wq-rail .wq-cta");
   const duringGuard = await advance.isDisabled();
-  await page.waitForTimeout(600);
-  const afterGuard = await advance.isEnabled();
-  if (duringGuard && afterGuard) ok("advance control inert during the 400 ms guard, active after");
-  else fail("advance guard wrong", `during=${duringGuard} after=${afterGuard}`);
+  await page.waitForTimeout(1500);                 // a word is still being spoken here
+  const revealPath = await advance.isDisabled();
+  const t0 = Date.now();
+  await page.waitForFunction(
+    () => { const b = document.querySelector(".wq-rail .wq-cta"); return !!b && !b.disabled; },
+    null, { timeout: 12000 },
+  ).catch(() => {});
+  const waited = 1500 + (Date.now() - t0);
+  const live = await advance.isEnabled();
+  if (duringGuard && live) ok(`advance control inert while the reveal plays, alive after (${waited} ms, ${revealPath ? "recorded pack" : "fallback guard"})`);
+  else fail("advance guard wrong", `during=${duringGuard} live=${live} waited=${waited}`);
+  if (revealPath ? waited >= 3000 && waited <= 9000 : waited <= 1600)
+    ok(`advance timing matches the path that ran: ${revealPath ? "waited for the word" : "short guard"} at ${waited} ms`);
+  else fail("advance timing wrong for the path", `revealPath=${revealPath} waited=${waited}`);
   /* negative control: the same disabled-probe must FAIL now that the guard passed */
   if (await advance.isDisabled()) fail("negative control broken", "disabled-probe still true after the guard");
   else console.log("control OK: the guard probe reads live state (disabled-assert fails after the window)");

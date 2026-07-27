@@ -311,8 +311,10 @@ behind it counts as a keyboard press, never as a touch. The controls are muted i
 small in appearance, with a minimum target of 44 px.
 
 Feedback phase. The tiles and the feedback sentence appear in their reserved rows. The advance
-control ("Next word" or "Finish!") is not active for the first 400 ms. The advance control is the
-only control in the action rail.
+control ("Next word" or "Finish!") waits for the reveal to finish speaking, because advancing
+silences it and the word itself is the last thing the child hears. Where there is no recorded
+reveal to wait for — sound off, or a pack that cannot play — the control is not active for the
+first 400 ms. The advance control is the only control in the action rail.
 
 Done. This screen shows a trophy, the three counters, and the accuracy. A praise line has three
 steps: 90 percent or more, 70 percent or more, and below 70 percent. A level-up shows in the trophy zone, not as an

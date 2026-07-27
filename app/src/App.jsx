@@ -100,6 +100,8 @@ export default function App() {
   const graceRef = useRef(0);              // W4b: the after-stop window for a finalized result
   const deadStrikesRef = useRef(0);        // W4b: attempts that produced no event at all
   const gradedRef = useRef(null);          // the queue position this attempt has already graded
+  const advanceTimer = useRef(null);       // P0-3: when the advance control comes alive
+  const advanceLive = useRef(true);        // the same fact, readable inside a handler
   const [micVisitBlock, setMicVisitBlock] = useState(false); // W4b: this-visit-only fallback
   const [micNote, setMicNote] = useState(""); // W4b: mic status that stays in the message slot
   const stateRef = useRef(null);
@@ -178,12 +180,21 @@ export default function App() {
     setState(s); setQueue(q); setQi(0);
     setFirstResults({}); setOrder([]); setRetries({}); setSeenTwice({});
     setPromptCount(0); setPhase("ready"); setHeard(""); setLastGrade(null);
-    setMicTried(false); setAdvanceReady(true); setExitAsk(false);
+    setMicTried(false); setAdvanceReady(true); advanceLive.current = true; setExitAsk(false);
     deadStrikesRef.current = 0;                        // a new session judges the microphone afresh
     gradedRef.current = null;                          // and grades its first word afresh
     setMicNote(micVisitBlock ? MIC_GONE_MSG : "");     // a blocked visit keeps its reason on screen
     snapRef.current = structuredClone(s.words);   // N-3
     setScreen("session");
+  }
+
+  /* Bring the advance control alive after `ms`. A later call can push the
+     moment further out — the reveal turns out to be longer than the short
+     guard — but never takes a control back once the child can see it live. */
+  function armAdvance(ms) {
+    if (advanceLive.current) return;
+    clearTimeout(advanceTimer.current);
+    advanceTimer.current = setTimeout(() => { advanceLive.current = true; setAdvanceReady(true); }, ms);
   }
 
   const currentWord = queue[qi];
@@ -215,13 +226,21 @@ export default function App() {
     }
     setState(s); persist(s);
     setLastGrade(result); setPhase("feedback");
-    setAdvanceReady(false);
-    setTimeout(() => setAdvanceReady(true), ADVANCE_GUARD_MS);   // P0-3
+    setAdvanceReady(false); advanceLive.current = false;
+    /* P0-3, and CVC-UX-001: the reveal runs about five to seven seconds —
+       praise, a pause, "The word was", a pause, then the word — and advancing
+       silences it. A child who taps at once never hears the word said
+       properly, which is the one thing the reveal exists for. So the control
+       waits for the word. When there is no recorded reveal to wait for —
+       sound off, or the pack cannot play and system speech takes over, whose
+       length nothing here can know — it falls back to the short guard. */
+    armAdvance(ADVANCE_GUARD_MS);
     if (result === "correct") buzz(28);           // N-11: no error rumble
     unlockVoice();
     const praiseIdx = Math.floor(Math.random() * PRAISE.length);
     speakVoice(result, word, praiseIdx, s.settings.sound,
-      () => speak(feedbackSpeech(result, word, praiseIdx), true, s.settings.lang));
+      () => speak(feedbackSpeech(result, word, praiseIdx), true, s.settings.lang),
+      (ms) => armAdvance(ms));
     requestAnimationFrame(() => { if (advanceRef.current) advanceRef.current.focus(); }); // P1-7
   }
 
