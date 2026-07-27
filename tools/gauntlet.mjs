@@ -83,6 +83,8 @@ step("G1+G2+G9+G10 tests", "npx vitest run", [
   { label: "safety", regex: /safety\.test\.js\s+\((\d+) tests\)/, floorKey: "g10_safety_tests" },
   { label: "acceptance", regex: /acceptance\.test\.js\s+\((\d+) tests\)/, floorKey: "g3_generated_tests" },
   { label: "voice", regex: /voicepacks\.test\.js\s+\((\d+) tests\)/, floorKey: "g13_engine_tests" },
+  { label: "updates", regex: /updates\.test\.js\s+\((\d+) tests\)/, floorKey: "g14_update_tests" },
+  { label: "recognizer", regex: /recognizer\.test\.js\s+\((\d+) tests\)/, floorKey: "g15_recognizer_tests" },
   { label: "failed", regex: /(\d+) failed/, max: 0, default: 0 },
 ]);
 
@@ -117,9 +119,14 @@ step("G5 source-mutants", "node tools/mutants.mjs", [
   { label: "survived", regex: /(\d+) survived/, maxKey: "g5_survivors_max" },
 ]);
 
+/* Coverage watches the engine AND the app sources. vitest itself enforces the
+   app-wide floors (vitest.config.mjs); these counts pin the engine and App.jsx,
+   the file every beta.2 microphone fault lived in. */
 step("G6 coverage", "npx vitest run --coverage", [
   { label: "branches", regex: /engine\.js\s*\|\s*[\d.]+\s*\|\s*([\d.]+)/, floorKey: "g6_branches_min" },
   { label: "lines", regex: /engine\.js\s*\|\s*[\d.]+\s*\|\s*[\d.]+\s*\|\s*[\d.]+\s*\|\s*([\d.]+)/, floorKey: "g6_lines_min" },
+  { label: "app_branches", regex: /App\.jsx\s*\|\s*[\d.]+\s*\|\s*([\d.]+)/, floorKey: "g6_appjsx_branches_min" },
+  { label: "app_lines", regex: /App\.jsx\s*\|\s*[\d.]+\s*\|\s*[\d.]+\s*\|\s*[\d.]+\s*\|\s*([\d.]+)/, floorKey: "g6_appjsx_lines_min" },
 ]);
 
 step("G6 quality", "npx eslint . && node tools/dep-cycles.mjs && node tools/quality-control.mjs", [
@@ -137,6 +144,11 @@ step("G8 accessibility", "node tests/ui/a11y.mjs", [
   { label: "checks", regex: /(\d+) checks passed/, floorKey: "g8_checks" },
   { label: "failed", regex: /(\d+) failed/, maxKey: "g8_axe_violations_max" },
 ], { WQ_SKIP_BUILD: "1" });
+
+step("G16 doc-truth", "node tools/doc-truth.mjs && node tools/doc-truth.mjs --self-test", [
+  { label: "rules", regex: /Doc-truth gate: (\d+) rules/, floorKey: "g16_doc_rules" },
+  { label: "problems", regex: /(\d+) problems/, max: 0 },
+]);
 
 step("G12 qa-procedure", "node tools/qa-check.mjs && node tools/qa-check.mjs --self-test", [
   { label: "steps", regex: /(\d+) steps/, floorKey: "g12_qa_steps" },

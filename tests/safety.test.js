@@ -38,15 +38,32 @@ Object.defineProperty(window, "speechSynthesis", {
 const { default: App } = await import("../app/src/App.jsx");
 const { newState } = await import("../src/engine.js");
 const { installRefresh } = await import("../app/src/swrefresh.js");
+const { ADULT_JUDGED } = await import("../src/engine.js");
 const GRACE_MS = 2000;                        // literal, per rule E4
 
 const flush = async (ms = 0) => act(async () => { await vi.advanceTimersByTimeAsync(ms); });
+/* SPEC section 3 flags five Level 1 words that offer no microphone, and the
+   session order is shuffled. Any test about recording must first reach a word
+   that actually offers the control. The adult's keyboard grade advances past
+   a flagged word without touching recognition. */
+const skipAdultJudgedWords = async () => {
+  for (let i = 0; i < 12 && ADULT_JUDGED[document.querySelector(".wq-word").textContent]; i++) {
+    fireEvent.keyDown(screen.getByLabelText("✓ got it (hold)"), { key: "Enter" });
+    await flush(500);
+    fireEvent.click(screen.getByText(/Next word|Finish!/));
+    await flush(0);
+  }
+};
 const startListening = async () => {
   render(createElement(App));
   await flush(0);
   fireEvent.click(screen.getByText("▶️ Begin Session"));
   await flush(0);
-  fireEvent.click(screen.getByText(/Start Recording/));
+  await skipAdultJudgedWords();
+  /* Skipping is setup, not subject: a grade spoken on the way must not count
+     as speech during the attempt under test. */
+  utterances.length = 0; rates.length = 0; cancels.n = 0;
+  fireEvent.click(screen.getByText(/Start Recording|Record again/));
   await flush(0);
   return document.querySelector(".wq-word").textContent;
 };
@@ -144,13 +161,13 @@ describe("G10 safety — S2: the word is never spoken before the attempt ends", 
     try { await hear(word); } finally { draw.mockRestore(); } // attempt ends, correct
     expect(utterances.at(-2)).toBe("What careful reading that was!"); // praise, after the attempt
     expect(utterances.at(-1)).toBe(`The word was ${word}.`); // full word, its own sentence
-    expect(rates.at(-1)).toBe(0.7);                         // the reveal is slow and clear
+    expect(rates.at(-1)).toBe(0.9);                         // the reveal is clear, never stretched
     await flush(500);
     const replay = screen.getByRole("button", { name: "Hear the word again" });
     expect(replay.disabled).toBe(false);
     fireEvent.click(replay);
     expect(utterances.at(-1)).toBe(word);                   // replay says the whole word
-    expect(rates.at(-1)).toBe(0.7);                         // at the slow rate
+    expect(rates.at(-1)).toBe(0.9);                         // the same rate as the reveal
     for (const t of utterances) expect(/(^| )[a-z]([ .,!?]|$)/.test(t)).toBe(false); // no letter names
   });
 });
@@ -387,23 +404,79 @@ describe("G10 safety — W4c: an update never reloads under a child", () => {
   });
 });
 
+describe("G10 safety — S4: a word the microphone cannot judge fairly", () => {
+  it("19: the note is never spoken — letter names must not reach speech", () => {
+    const app = readFileSync("app/src/App.jsx", "utf8");
+    const session = readFileSync("app/src/screens/SessionScreen.jsx", "utf8");
+    const spoken = (src) =>
+      [...src.matchAll(/^.*\b(speak|speakVoice)\s*\(.*$/gm)].filter((m) => m[0].includes("adultNote"));
+    expect(spoken(app).length).toBe(0);
+    expect(spoken(session).length).toBe(0);
+    // fixture control: a call site that speaks the note must trip the scan
+    expect(spoken('speak([{ text: adultNote(word) }], true, lang);').length).toBe(1);
+  });
+
+  it("20: such a word offers no microphone and tells the adult why", async () => {
+    render(createElement(App));
+    await flush(0);
+    fireEvent.click(screen.getByText("▶️ Begin Session"));
+    await flush(0);
+    /* Level 1's first session serves all twelve words, five of them flagged.
+       Walk until one arrives; every ordinary word on the way must still
+       offer the microphone. */
+    for (let i = 0; i < 12; i++) {
+      const word = document.querySelector(".wq-word").textContent;
+      if (ADULT_JUDGED[word]) {
+        expect(screen.queryByText(/Start Recording|Record again/)).toBeNull();
+        expect(screen.getByText(
+          new RegExp(`^Parent: "${word}" and ".+" are nearly indistinguishable, please act as judge here$`)
+        )).toBeTruthy();
+        expect(screen.getByText(/say the word out loud/i)).toBeTruthy();  // the grown-up prompt
+        return;
+      }
+      expect(screen.getByText(/Start Recording|Record again/)).toBeTruthy();
+      fireEvent.click(screen.getByText(/Start Recording|Record again/));
+      await flush(0);
+      await hear(word);
+      await flush(500);
+      fireEvent.click(screen.getByText(/Next word|Finish!/));
+      await flush(0);
+    }
+    throw new Error("no flagged word appeared in a Level 1 session");
+  });
+});
+
 describe("G10 safety — S6 and S7: no network, big controls", () => {
   it("6: no app source makes a network call", () => {
     const files = [
       "app/src/App.jsx", "app/src/main.jsx", "app/src/storage.js", "app/src/wq-css.js",
       "app/src/screens/HomeScreen.jsx", "app/src/screens/SessionScreen.jsx",
       "app/src/screens/DoneScreen.jsx", "app/src/screens/ParentScreen.jsx",
-      "app/src/voicepacks.js",
+      "app/src/voicepacks.js", "app/src/updates.js",
     ];
     const NET = /\bfetch\s*\(|XMLHttpRequest|new WebSocket|sendBeacon|gtag\(|analytics/;
+    /* Each allowance is scoped to the ONE file entitled to it: the voice-pack
+       adapter may fetch its own clips, and the update module may fetch the
+       version check (the S6 exception, SPEC section 7a). The same string in
+       any other file — a child screen above all — must trip the scan. */
+    const ALLOWED = {
+      "app/src/voicepacks.js": [['fetch("voice/', 'LOCAL_CLIP("voice/']],
+      "app/src/updates.js": [['fetch("version.json"', 'LOCAL_UPDATE("version.json"']],
+    };
     for (const f of files) {
-      // the voice-pack adapter may fetch its own same-origin clips, nothing else
-      const src = readFileSync(f, "utf8").replaceAll('fetch("voice/', 'LOCAL_CLIP("voice/');
+      let src = readFileSync(f, "utf8");
+      for (const [from, to] of ALLOWED[f] || []) src = src.replaceAll(from, to);
       expect(NET.test(src)).toBe(false);
     }
     expect(NET.test('const r = await fetch("https://api.example.com");')).toBe(true); // control
     expect(NET.test('fetch("voice/manifest.json")'.replaceAll('fetch("voice/', 'LOCAL_CLIP("voice/'))).toBe(false);
     expect(NET.test('fetch("https://x.test/voice/a.mp3")')).toBe(true); // a remote clip URL still trips
+    // control replaying a real incident: an allowed-elsewhere fetch planted in
+    // a child screen gets no strip there, so it must trip the scan
+    const planted = 'fetch("version.json", { cache: "no-store" }).then((r) => r.json());';
+    let strippedAsHomeScreen = planted;
+    for (const [from, to] of ALLOWED["app/src/screens/HomeScreen.jsx"] || []) strippedAsHomeScreen = strippedAsHomeScreen.replaceAll(from, to);
+    expect(NET.test(strippedAsHomeScreen)).toBe(true);
   });
 
   it("7: the stylesheet keeps child controls at 56 px and adult controls at 44 px", () => {

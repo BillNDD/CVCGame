@@ -9,7 +9,7 @@ import HoldButton from "../components/HoldButton.jsx";
 
 /* The stage: word, tile slot, message slot. Split from the screen shell so no
    function passes the G6 complexity ceiling; the rendered output is identical. */
-function SessionStage({ state, currentWord, phase, fb, liveRef, micNote }) {
+function SessionStage({ state, currentWord, phase, fb, liveRef, micNote, adultNote }) {
   return (
     <Zone.Stage>
       <div className="wq-stagegrid">
@@ -40,6 +40,11 @@ function SessionStage({ state, currentWord, phase, fb, liveRef, micNote }) {
             {/* W4b — a microphone problem stays on screen until the next action,
                 never only in a passing toast */}
             {phase === "ready" && micNote && <p style={{ margin: 0, fontSize: 14, fontWeight: 700, color: C.ink2 }}>{micNote}</p>}
+            {/* SPEC section 6 — a word recognition cannot judge fairly. The note
+                is for the adult, at 11.5 px so the longest one stays inside the
+                fixed slot and the word above never moves. Never spoken (S4). */}
+            {phase !== "feedback" && adultNote &&
+              <p className="wq-parentnote" style={{ margin: 0, fontSize: 11.5, fontWeight: 700, color: C.ink2, lineHeight: 1.35 }}>{adultNote}</p>}
           </div>
         </div>
       </div>
@@ -86,7 +91,7 @@ function ExitDialog({ answered, handleExit }) {
 }
 
 export default function SessionScreen({
-  state, L, kid, currentWord, micNote, phase, lastGrade, queue, qi, order, firstResults,
+  state, L, kid, currentWord, micNote, adultNote, phase, lastGrade, queue, qi, order, firstResults,
   answered, totalQ, advanceReady, micTried, listening, seenTwice, heard, exitAsk,
   onExitAsk, grade, next, startRec, softStop, replay, handleExit, advanceRef, toast,
 }) {
@@ -105,7 +110,7 @@ export default function SessionScreen({
         <span className="wq-chip" style={{ marginLeft: 8 }}>{state.level} {L.emoji}</span>
       </Zone.Header>
 
-      <SessionStage state={state} currentWord={currentWord} phase={phase} fb={fb} liveRef={liveRef} micNote={micNote} />
+      <SessionStage state={state} currentWord={currentWord} phase={phase} fb={fb} liveRef={liveRef} micNote={micNote} adultNote={adultNote} />
 
       <SessionRail state={state} kid={kid} phase={phase} advanceReady={advanceReady}
         queue={queue} qi={qi} next={next} advanceRef={advanceRef}

@@ -16,7 +16,9 @@ This document follows the Microsoft Writing Style Guide.
 - S4. Speech output says full words only. It never says letter names.
 - S5. Adult result controls need a 450 ms pointer hold. A keyboard operates them directly.
 - S6. The app makes no network calls after load, has no accounts, and has no analytics. All data
-  stays on the device.
+  stays on the device. One exception: when an adult taps "Check for updates" in the
+  "Grown-ups corner", the app makes one request to its own host to compare versions. The
+  request carries no data, and nothing else may use it.
 - S7. Child controls are 56 px or more. Adult controls are 44 px or more.
 - S8. Digraphs (sh, ch, th, wh, ck, ng) always show as one tile.
 - S9. No file in the repository contains a personal name. The child's name is a device-local
@@ -30,10 +32,12 @@ This document follows the Microsoft Writing Style Guide.
 - E4. Every assertion uses literal expected values, never the constant under test.
 - E5. Every detector ships with a negative control that proves it catches its target fault.
 - E6. Raise the floors in `.claude/gate-baseline.json` when counts grow; never lower a floor.
-  Keys that end in `_max` are ceilings: never raise one.
+  Keys that end in `_max` are ceilings: never raise one. E6 governs the baseline file only;
+  the 600-line limit is one of the G6 ceilings the file protects, not the meaning of E6.
 - E7. Run `npm run gauntlet` before every push. A red gauntlet blocks the change.
 - E8. Do not change game behavior, the word bank, the feedback text, or the layout in a testing
   task. Do not add PWA work in a testing task.
 - E9. Before launching a multi-agent workflow, agree the plan with the owner: how many agents
   and how many antagonists (adversarial checkers) the problem needs. Default to three of each
-  or fewer.
+  or fewer. Verifiers work in batches: give each antagonist one lens and the whole finding
+  list, never one agent per finding. Review agents only read; they never edit files.

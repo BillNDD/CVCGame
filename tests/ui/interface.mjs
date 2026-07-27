@@ -150,6 +150,44 @@ for (const height of [430, 555, 720, 950]) {
   if (viaSpace) ok("Space grades directly");
   else fail("Space did not grade", "no tiles");
 
+  /* 13-14 — a word recognition cannot judge fairly (SPEC section 3): no record
+     control, and the adult's note must fit the fixed message slot without
+     moving the word. Measured, never eyeballed. */
+  {
+    const wordBoxBefore = await page.locator(".wq-word").boundingBox();
+    let reached = false;
+    for (let i = 0; i < 12 && !reached; i += 1) {
+      if (await page.locator(".wq-prompt").count()) { reached = true; break; }
+      await gradeByKey(page, "✓ got it (hold)", "Enter");
+      await page.waitForTimeout(500);
+      const next = page.getByRole("button", { name: /Next word|Finish!/ });
+      if (!(await next.count())) break;
+      await next.click();
+      await page.locator(".wq-word").waitFor();
+    }
+    if (!reached) fail("no adult-judged word appeared", "walked a whole Level 1 session");
+    else {
+      const rec = await page.getByRole("button", { name: /Record/ }).count();
+      if (rec === 0) ok("an adult-judged word offers no record control");
+      else fail("adult-judged word still offered recording", `${rec} controls`);
+
+      const fits = await page.evaluate(() => {
+        const slot = document.querySelector(".wq-slot-msg");
+        const note = document.querySelector(".wq-parentnote");
+        if (!slot || !note) return null;
+        return { noteH: note.scrollHeight, slotH: slot.clientHeight, size: getComputedStyle(note).fontSize };
+      });
+      const wordBoxAfter = await page.locator(".wq-word").boundingBox();
+      const moved = !wordBoxAfter || !wordBoxBefore ||
+        Math.abs(wordBoxAfter.y - wordBoxBefore.y) > 0.5 || Math.abs(wordBoxAfter.height - wordBoxBefore.height) > 0.5;
+      if (!fits) fail("the adult note is missing", "no .wq-parentnote in the slot");
+      else if (fits.noteH > fits.slotH) fail("the adult note overflows its slot", `${fits.noteH}px in ${fits.slotH}px`);
+      else if (fits.size !== "11.5px") fail("the adult note is not 11.5px", fits.size);
+      else if (moved) fail("the word moved on an adult-judged word", JSON.stringify({ wordBoxBefore, wordBoxAfter }));
+      else ok(`the adult note fits the slot (${fits.noteH}px in ${fits.slotH}px at ${fits.size}) and the word does not move`);
+    }
+  }
+
   /* 12 — a session starts offline after one online load */
   await page.evaluate(() => navigator.serviceWorker.ready.then(() => undefined));
   await page.reload({ waitUntil: "load" }); // online reload -> the page is SW-controlled

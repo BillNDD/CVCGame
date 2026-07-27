@@ -16,7 +16,10 @@ function check(manifest, verifyFiles) {
   for (const clip of script) {
     const m = manifest[clip.id];
     if (!m) { problems.push(`missing clip: ${clip.id} ("${clip.text}")`); continue; }
-    if (typeof m.ms !== "number" || m.ms < (clip.slow ? 400 : 300) || m.ms > 8000)
+    /* One floor for every clip now that nothing is stretched: the shortest
+       real clip in the pack is 448 ms, so anything under 400 ms is a
+       truncation, not a short word. */
+    if (typeof m.ms !== "number" || m.ms < 400 || m.ms > 8000)
       problems.push(`duration out of range: ${clip.id} at ${m.ms} ms`);
     if (verifyFiles) {
       const p = `${DIR}/${m.file}`;

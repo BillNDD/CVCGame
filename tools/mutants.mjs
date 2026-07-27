@@ -42,8 +42,11 @@ const MUTANTS = [
   ["heal level guard removed", 'if (typeof s.level !== "number" || !isFinite(s.level)) delete s.level; else s.level = Math.round(s.level);', ""],
   ["heal log level guard removed", 'if (typeof r.level !== "number" || !isFinite(r.level)) r.level = 0;', ""],
   ["heal version guard removed", 'if (typeof s.version !== "number" || !isFinite(s.version)) delete s.version;', ""],
-  ["reveal rate not slow", '{ text: "The word was " + w + ".", rate: 0.7 }', '{ text: "The word was " + w + ".", rate: 0.9 }'],
-  ["reveal loses its sentence", '{ text: "The word was " + w + ".", rate: 0.7 }', '{ text: "" + w, rate: 0.7 }'],
+  /* Re-pointed 2026-07-27, when the owner had the 0.7 slow-down removed: the
+     old "not slow" mutant now describes the shipped behaviour, so it hunts
+     the opposite fault — a reveal rushed past the calm rate. */
+  ["reveal rate rushed", '{ text: "The word was " + w + ".", rate: 0.9 }', '{ text: "The word was " + w + ".", rate: 1.4 }'],
+  ["reveal loses its sentence", '{ text: "The word was " + w + ".", rate: 0.9 }', '{ text: "" + w, rate: 0.9 }'],
   ["praise ignores its index", "{ text: PRAISE[praise] || PRAISE[0], rate: 0.9 }", "{ text: PRAISE[0], rate: 0.9 }"],
   ["praise option reworded", '"You sounded that one out beautifully!",', '"You sounded that one out!",'],
   ["hush does nothing", 'function hush() { try { if ("speechSynthesis" in window) window.speechSynthesis.cancel(); } catch (e) {} }', "function hush() {}"],

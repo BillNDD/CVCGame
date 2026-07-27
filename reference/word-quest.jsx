@@ -47,6 +47,23 @@ const HOMOPHONES = {
   cot: ["caught"], ring: ["wring"], rung: ["wrung"], sack: ["sac"], pick: ["pic"],
   tick: ["tic"], dock: ["doc"], what: ["watt"],
 };
+/* Words speech recognition cannot judge fairly: the word sounds like the NAME
+   of the letter beside it, so a child who reads "am" perfectly is transcribed
+   as "m". The app never offers the microphone for these, because a correct
+   reading must never be reported as a miss. A word joins this list only when
+   the machine cannot represent it — never when the child might say it wrongly.
+   Vowel pairs like "pin" and "pen" stay on the microphone: a recogniser that
+   returns "pen" may be reporting exactly what the child said, and catching
+   that is the purpose of the game. */
+const ADULT_JUDGED = { am: "m", an: "n", ax: "x", if: "f", us: "s" };
+/* The adult's note for such a word. Composed from one template so the notes
+   can never drift apart, and never spoken: design rule 8 keeps letter names
+   out of speech. */
+const adultNote = (w) =>
+  ADULT_JUDGED[w]
+    ? `Parent: "${w}" and "${ADULT_JUDGED[w]}" are nearly indistinguishable, please act as judge here`
+    : "";
+
 const INTERVALS = [1, 1, 2, 4, 7, 12];
 const SESSION_SIZE = 20;
 const PROMPT_CAP = 26;
@@ -243,7 +260,9 @@ const newState = () => ({
 
 /* ---------- speech ---------- */
 /* speak takes one sentence or a list of { text, rate } parts. Parts queue as
-   separate utterances, so the word reveal can play at the slower SPEC §5 rate. */
+   separate utterances, so a clear pause separates the praise from the reveal
+   (SPEC §5). Every part speaks at one calm rate: stretching a word distorts
+   the very sound the child is learning. */
 function speak(input, enabled, lang) {
   if (!enabled) return;
   try {
@@ -257,7 +276,7 @@ function speak(input, enabled, lang) {
     }
   } catch (e) {}
 }
-/* S2 — the queued slow reveal must never bleed into the next attempt. */
+/* S2 — the queued reveal must never bleed into the next attempt. */
 function hush() { try { if ("speechSynthesis" in window) window.speechSynthesis.cancel(); } catch (e) {} }
 function buzz(ms) { try { if (navigator.vibrate) navigator.vibrate(ms); } catch (e) {} } // P2-8
 const SR = typeof window !== "undefined" ? (window.SpeechRecognition || window.webkitSpeechRecognition) : null;
@@ -282,11 +301,12 @@ const PRAISE = [
   "You sounded that one out beautifully!",
   "What careful reading that was!",
 ];
-/* The reveal sentence is its own slow utterance, so the word never sounds rushed. */
+/* The reveal is its own utterance, so the pause before it does the work that
+   slowing the word used to do badly. */
 const feedbackSpeech = (r, w, praise = 0) =>
-  r === "correct" ? [{ text: PRAISE[praise] || PRAISE[0], rate: 0.9 }, { text: "The word was " + w + ".", rate: 0.7 }]
-  : r === "close" ? [{ text: "Good try!", rate: 0.9 }, { text: "The word is " + w + ".", rate: 0.7 }]
-  : [{ text: "Let\u2019s try again.", rate: 0.9 }, { text: "The word is " + w + ".", rate: 0.7 }];
+  r === "correct" ? [{ text: PRAISE[praise] || PRAISE[0], rate: 0.9 }, { text: "The word was " + w + ".", rate: 0.9 }]
+  : r === "close" ? [{ text: "Good try!", rate: 0.9 }, { text: "The word is " + w + ".", rate: 0.9 }]
+  : [{ text: "Let\u2019s try again.", rate: 0.9 }, { text: "The word is " + w + ".", rate: 0.9 }];
 
 /* ---------- voice packs (SPEC §5a) ---------- */
 const SEAM_MS = 700;   // the pause between clips in one utterance, so words never crush together
@@ -298,13 +318,14 @@ const VOICE_SENTENCES = {
   "e:done": "All done! Great reading today!",
   "e:levelup": "Amazing! Level up!",
 };
-/* The canonical clip inventory: every id a pack must cover, with its text and
-   whether it is spoken slowly. Drives the renderer, the recorder, and the gate. */
+/* The canonical clip inventory: every id a pack must cover, with its text.
+   Drives the renderer, the recorder, and the gate. Every clip is spoken at
+   the voice's natural speed — a stretched word stops sounding like the word. */
 function voiceScript() {
   const clips = [];
-  for (const [id, text] of Object.entries(VOICE_SENTENCES)) clips.push({ id, text, slow: false });
-  PRAISE.forEach((text, i) => clips.push({ id: "p:" + i, text, slow: false }));
-  for (const l of LEVELS) for (const w of l.words) clips.push({ id: "w:" + w, text: w, slow: true });
+  for (const [id, text] of Object.entries(VOICE_SENTENCES)) clips.push({ id, text });
+  PRAISE.forEach((text, i) => clips.push({ id: "p:" + i, text }));
+  for (const l of LEVELS) for (const w of l.words) clips.push({ id: "w:" + w, text: w });
   return clips;
 }
 /* The play order for one utterance. "seam" is a SEAM_MS pause. */
@@ -565,7 +586,7 @@ export default function WordQuest() {
   /* P1-1 + N-1 — replay exists only AFTER feedback; the word is never spoken pre-attempt */
   function replay() {
     if (phase !== "feedback") return;
-    speak([{ text: currentWord, rate: 0.7 }], stateRef.current.settings.sound, stateRef.current.settings.lang);
+    speak([{ text: currentWord, rate: 0.9 }], stateRef.current.settings.sound, stateRef.current.settings.lang);
   }
 
   /* ---------- settings ---------- */

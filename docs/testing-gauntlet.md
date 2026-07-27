@@ -1,4 +1,4 @@
-# Testing gauntlet — gate specification (G1–G13)
+# Testing gauntlet — gate specification (G1–G16)
 
 This document defines the quality gates for Word Quest. The owner reviews this document, not
 every line of code. The gates are the contract. `npm run gauntlet` runs every automatic gate.
@@ -103,6 +103,15 @@ The level range is 1 to 7. SPEC and the engine agree; the owner corrected SPEC o
 - Tool: Vitest coverage (v8 provider). Command: `npm run test:coverage`.
 - Floors on `src/engine.js`: 95 percent lines, 90 percent branches. Coverage is a floor, not a
   goal. Keys: `g6_lines_min`, `g6_branches_min`.
+- Floors on `app/src/**`: 81 percent lines, 82 percent branches, enforced by Vitest itself, and
+  `App.jsx` is pinned separately by the gauntlet. Keys: `g6_app_lines_min`,
+  `g6_app_branches_min`, `g6_appjsx_lines_min`, `g6_appjsx_branches_min`. The app was measured
+  only after beta.2, where every microphone fault lived in an app file no floor watched.
+- Two files are excluded, both named in `vitest.config.mjs`: `main.jsx`, entry wiring whose
+  decision now lives in the measured `swrefresh.js`, and `pronunciation.js`, an interface stub
+  for a service that is out of scope (SPEC section 8, item 4). Nothing else may be excluded.
+- Coverage proves a line ran, not that anyone checked its result. The mutation gates (G4, G5)
+  are the teeth; this is the floor that shows where no test has ever looked.
 - Quality checks, command `npm run lint:quality`. Keys: `g6_complexity_max`,
   `g6_file_lines_max`, `g6_dependency_cycles_max`.
   - Cyclomatic complexity per function: 15 or less, in `src/engine.js` and `app/src/**`. The
@@ -212,8 +221,8 @@ The shipped default voice pack must cover the engine's whole clip inventory (SPE
 engine, never a hand-kept list.
 
 - `tools/voice-check.mjs` verifies: every inventory id has a manifest entry and a file; no
-  orphan clips; every declared duration is inside 300–8,000 ms (400 ms floor for slow word
-  clips); and the file size matches the declared duration at the pack's 48 kbps bit rate
+  orphan clips; every declared duration is inside 400–8,000 ms (the shortest real clip is
+  448 ms, so anything shorter is a truncation); and the file size matches the declared duration at the pack's 48 kbps bit rate
   (5–8 bytes per millisecond), so a manifest cannot lie about a truncated or wrong clip.
 - The clip engine has its own Vitest suite (`tests/voicepacks.test.js`): scheduling order,
   literal 700 ms seams, stop-on-advance, all-or-nothing fallback to system speech, and
@@ -223,14 +232,67 @@ engine, never a hand-kept list.
 - Baseline floors: `g13_clips` (276) and `g13_engine_tests` (6).
 - To re-render the pack after the bank grows: `docs/voice-pack.md`.
 
+## G14. Update system
+
+The app must never change itself while a child is playing, and must never keep running a
+version it has already replaced (SPEC section 7a).
+
+- `tests/updates.test.js` drives the real update module against a scripted service-worker
+  registration: the version check makes exactly one same-origin, cache-bypassing request and
+  reports honest states; applying activates only a WAITING worker, and only through the
+  consent message; a late state change after the answer can never activate anything; and the
+  module can never touch saved progress.
+- Source tripwires pin the generated worker: no `skipWaiting` at install, the consent
+  message only, and the version file excluded from the precache and never intercepted.
+- Negative control: each tripwire is asserted against a fixture carrying the fault.
+- Baseline floor: `g14_update_tests` (12).
+
+## G15. Recognizer contract
+
+Speech recognition is the one part of the app a browser drives, and the part that broke in
+beta.2 while every gate stayed green. Two invariants, in `tests/recognizer.test.js`:
+
+- The ALPHABET. Every event a recognizer can emit — the eight error codes the specification
+  defines, plus result, no-match and end — is fired at a live attempt, and each one must
+  leave a visibly different, honest screen. A screen that never changes is what "the record
+  button does nothing" looks like to a child.
+- The STALE ACTOR. After every way an attempt can end — the child stops it and the grace
+  window closes, an adult grades, the session is discarded — the whole alphabet is fired at
+  the abandoned recognizer, and none of it may touch the screen or record anything. One
+  deliberate exception, tested by name: a late permission denial is still heard, because it
+  answers a question about the microphone rather than about that attempt.
+- The suite uses a recognizer that answers nothing unless a test says so. The polite double
+  in the safety suite, whose `stop()` fires `onend`, hid the in-app-browser rescue path for a
+  whole release.
+- Negative control: a fired event with no handler must leave the screen identical, and the
+  same event on the CURRENT attempt must change it.
+- Baseline floor: `g15_recognizer_tests` (49).
+
+## G16. Doc truth
+
+A document that promises behaviour the code does not have is a defect. QA step 32 once
+promised a fallback the code never performed; G12 counted the step and saw nothing wrong.
+
+- `tools/doc-truth.mjs` binds words to code with four rules: every child-facing sentence
+  quoted in SPEC section 8 exists verbatim in the app; every quoted sentence in the manual QA
+  script exists verbatim in the app or the engine; the timings the documents name in words
+  match the constants (the 8-second watchdog, the 2-second grace, and the "about 10 seconds"
+  a tester is told to expect); and the hold gesture the documents name matches the control's
+  timer.
+- Expected values are read out of the documents, never hard-coded here, so a sentence added
+  to SPEC is checked from the moment it is written.
+- Negative control: `--self-test` rewords a SPEC sentence, rewords a QA promise, changes a
+  timing, and changes the hold constant; every detector must fire.
+- Baseline floor: `g16_doc_rules` (4).
+
 ## Aggregation
 
 - `npm run gauntlet` first regenerates `src/engine.js` with the extractor. Every new script
   that needs the engine chains the extractor itself; the npm `pretest` hook covers `npm test`
   only.
-- It then runs, in order: G11, G1+G2+G9+G10 (one Vitest run), G3 regeneration check,
-  G4, G5, G6, build, G7, G8, G12 structure check, G13 voice pack, and the baseline
-  comparison.
+- It then runs, in order: G11, G1+G2+G9+G10+G14+G15 (one Vitest run), G3 regeneration check,
+  G4, G5, G6 coverage and quality, build, G7, G8, G16 doc truth, G12 structure check,
+  G13 voice pack, and the baseline comparison.
 - The runner is `tools/gauntlet.mjs`. Run `npm run gauntlet`. The runner takes a lock, so two
   gauntlets cannot race each other over the generated files.
 - CI: `.github/workflows/gauntlet.yml` runs the same command on every push and pull request.
