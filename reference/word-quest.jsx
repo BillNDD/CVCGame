@@ -47,6 +47,23 @@ const HOMOPHONES = {
   cot: ["caught"], ring: ["wring"], rung: ["wrung"], sack: ["sac"], pick: ["pic"],
   tick: ["tic"], dock: ["doc"], what: ["watt"],
 };
+/* Words speech recognition cannot judge fairly: the word sounds like the NAME
+   of the letter beside it, so a child who reads "am" perfectly is transcribed
+   as "m". The app never offers the microphone for these, because a correct
+   reading must never be reported as a miss. A word joins this list only when
+   the machine cannot represent it — never when the child might say it wrongly.
+   Vowel pairs like "pin" and "pen" stay on the microphone: a recogniser that
+   returns "pen" may be reporting exactly what the child said, and catching
+   that is the purpose of the game. */
+const ADULT_JUDGED = { am: "m", an: "n", ax: "x", if: "f", us: "s" };
+/* The adult's note for such a word. Composed from one template so the notes
+   can never drift apart, and never spoken: design rule 8 keeps letter names
+   out of speech. */
+const adultNote = (w) =>
+  ADULT_JUDGED[w]
+    ? `Parent: "${w}" and "${ADULT_JUDGED[w]}" are nearly indistinguishable, please act as judge here`
+    : "";
+
 const INTERVALS = [1, 1, 2, 4, 7, 12];
 const SESSION_SIZE = 20;
 const PROMPT_CAP = 26;

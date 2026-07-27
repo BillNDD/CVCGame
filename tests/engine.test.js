@@ -8,6 +8,7 @@ import {
   chunkWord, dashed, freshWordState, applyResult, buildSession, checkPromotion,
   heal, migrate, newState, buildMarkdown, loadState, saveState, speak, hush, buzz, feedbackSpeech, PRAISE,
   SEAM_MS, voiceScript, clipPlan, resolvePack,
+  ADULT_JUDGED, adultNote,
 } from "../src/engine.js";
 
 const clone = (o) => JSON.parse(JSON.stringify(o));
@@ -523,5 +524,26 @@ describe("ASR tolerance list", () => {
     expect(HOMOPHONES.in).toContain("inn");
     expect(HOMOPHONES.ax).toContain("axe");
     expect(HOMOPHONES.an).toContain("ann");
+  });
+})
+
+describe("ADULT_JUDGED — words recognition cannot judge fairly (SPEC section 3)", () => {
+  it("names exactly the five letter-name collisions, and the sound each one clashes with", () => {
+    expect(ADULT_JUDGED).toEqual({ am: "m", an: "n", ax: "x", if: "f", us: "s" });
+  });
+
+  it("composes the adult's note from one template, and nothing for any other word", () => {
+    expect(adultNote("am")).toBe('Parent: "am" and "m" are nearly indistinguishable, please act as judge here');
+    expect(adultNote("us")).toBe('Parent: "us" and "s" are nearly indistinguishable, please act as judge here');
+    expect(adultNote("cat")).toBe("");
+    expect(adultNote("")).toBe("");
+  });
+
+  it("every flagged word is a real bank word, and no vowel pair was flagged", () => {
+    const bank = new Set(LEVELS.flatMap((l) => l.words));
+    for (const w of Object.keys(ADULT_JUDGED)) expect(bank.has(w)).toBe(true);
+    // a recogniser returning "pen" for "pin" may be reporting the child correctly:
+    // that is a reading error to catch, never a reason to remove the microphone
+    for (const w of ["pin", "pen", "bad", "bed", "cap", "cup"]) expect(ADULT_JUDGED[w]).toBe(undefined);
   });
 });
