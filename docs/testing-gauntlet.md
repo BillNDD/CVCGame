@@ -263,8 +263,19 @@ version it has already replaced (SPEC section 7a).
   module can never touch saved progress.
 - Source tripwires pin the generated worker: no `skipWaiting` at install, the consent
   message only, and the version file excluded from the precache and never intercepted.
-- Negative control: each tripwire is asserted against a fixture carrying the fault.
-- Baseline floor: `g14_update_tests` (12).
+- `tests/serviceworker.test.js` drives the worker itself. Its source is `app/sw-template.js`;
+  the build fills in the cache name and the precache list and writes `dist/sw.js`, so the
+  shipped worker is a file a test can load. The tests install doubles for `caches` and
+  `fetch` and dispatch real fetch events: the app's own page comes from the cache and opens
+  offline, any OTHER page in the same folder goes to the network and is never given the app's
+  page, that page falls back offline to its own cached copy, clips are served from the cache
+  with a miss going to the network, and the version check is never intercepted.
+- The second of those comes from a reported fault: a diagnostic page served from the app's
+  folder came up blank on a phone, because the worker answered every navigation in its scope
+  with the app's `index.html`, whose assets are addressed relative to the page.
+- Negative control: each tripwire is asserted against a fixture carrying the fault, and
+  removing the scope check makes the navigation tests fail.
+- Baseline floors: `g14_update_tests` (12) and `g14_worker_tests` (5).
 
 ## G15. Recognizer contract
 
