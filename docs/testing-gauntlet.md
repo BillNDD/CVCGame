@@ -229,7 +229,10 @@ engine, never a hand-kept list.
 
 - `tools/voice-check.mjs` verifies: every inventory id has a manifest entry and a file; no
   orphan clips; every declared duration is inside 400–8,000 ms (the shortest real clip is
-  448 ms, so anything shorter is a truncation); the file size matches the declared duration at
+  448 ms, so anything shorter is a truncation, and a WORD clip may not exceed 1,500 ms — the
+  longest word in the pack runs 1,340 ms, and a word clip beyond that is carrying something
+  which is not the word, as one did when an attempt to give six words the prosody of a
+  sentence produced clips holding the whole sentence); the file size matches the declared duration at
   the pack's 96 kbps bit rate (10–15 bytes per millisecond), so a manifest cannot lie about a
   truncated or wrong clip; and the recipe inside the pack matches the approved values, down to
   the trim applied to each of the three words that needed one.
