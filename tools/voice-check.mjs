@@ -27,8 +27,16 @@ function check(manifest, verifyFiles) {
     /* One floor for every clip now that nothing is stretched: the shortest
        real clip in the pack is 448 ms, so anything under 400 ms is a
        truncation, not a short word. */
-    if (typeof m.ms !== "number" || m.ms < 400 || m.ms > 8000)
-      problems.push(`duration out of range: ${clip.id} at ${m.ms} ms`);
+    /* A WORD clip has a word in it and nothing else. The longest word in the
+       pack runs 1318 ms with its silences, so 1500 is a generous ceiling and a
+       clip beyond it is carrying something that is not the word. This comes
+       from a real defect: an attempt to give six words the prosody of a
+       sentence shipped the whole sentence - "Here is the word cup." - at
+       1640 to 1800 ms, and no other check would have noticed.
+       Sentences and praise keep the wide ceiling. */
+    const ceiling = clip.id.startsWith("w:") ? 1500 : 8000;
+    if (typeof m.ms !== "number" || m.ms < 400 || m.ms > ceiling)
+      problems.push(`duration out of range: ${clip.id} at ${m.ms} ms (limit ${ceiling})`);
     if (verifyFiles) {
       const p = `${DIR}/${m.file}`;
       if (!existsSync(p)) { problems.push(`missing file: ${p}`); continue; }
@@ -52,12 +60,14 @@ function check(manifest, verifyFiles) {
      how much to cut from each. A pack that trims a different amount, or trims
      a word nobody listened to, has not been approved. */
   const APPROVED_TRIM = { cub: 130, hip: 130, dish: 120 };
-  /* The blind round of 2026-07-27. Five words are rendered as a sentence,
-     with a full stop, because standing alone they ended in a trailing vowel
-     or a burst of noise. One has what precedes its first burst removed, and
-     one has the low frequencies taken out of its first 70 ms so its s cannot
-     read as a z. Each won a numbered, shuffled round in which today's build
-     was one of the candidates. */
+  /* Two blind rounds, 2026-07-27 and 2026-07-28. Six words are rendered inside
+     a carrier sentence and cut back out, because standing alone they ended in
+     a trailing vowel or a burst of noise. One has what precedes its first
+     burst removed, and one has the low frequencies taken out of its first
+     70 ms so its s cannot read as a z. Each won a numbered, shuffled round in
+     which the build of the day was one of the candidates — and the same
+     treatment was REFUSED for the bank at large, because four of five words
+     already judged perfect came back worse. */
   const APPROVED_PERIOD = ["cup", "hop", "jug", "pop", "rub"];
   const APPROVED_ONSET = ["tap"];
   const APPROVED_BRIGHT = { sip: 70 };
@@ -119,6 +129,12 @@ if (process.argv.includes("--self-test")) {
   const sawMissing = r.problems.some((p) => p.startsWith("missing clip: w:cat"));
   const sawOrphan = r.problems.some((p) => p.startsWith("orphan clip: x:orphan"));
   const sawLie = r.problems.some((p) => p.startsWith("size does not match duration: w:sun"));
+  /* A word clip carrying a whole sentence, the exact fault: 1700 ms is inside
+     the old limit and outside a word's. */
+  const wordy = { ...manifest, "w:cup": { ...manifest["w:cup"], ms: 1700 } };
+  const sawWordy = check(wordy, false).problems.some((p) => p.startsWith("duration out of range: w:cup"));
+  const sentenceOk = check({ ...manifest, "p:3": { ...manifest["p:3"], ms: 2900 } }, false)
+    .problems.every((p) => !p.startsWith("duration out of range: p:3"));   // control: a sentence may be long
   /* An unheard re-render: the settings drift, every file is still present and
      the right size, and nothing else in this gate would notice. */
   const drifted = { ...manifest, __recipe: { ...manifest.__recipe, lead_ms: 0, word_speed: 1.0 } };
@@ -146,11 +162,11 @@ if (process.argv.includes("--self-test")) {
   const noRecipe = { ...manifest };
   delete noRecipe.__recipe;
   const sawNoRecipe = check(noRecipe, false).problems.some((p) => p.startsWith("the pack declares no recipe"));
-  if (sawMissing && sawOrphan && sawLie && sawRecipe && sawSpelling && sawNoRecipe && sawTrim && sawReed && sawRound9) {
-    console.log("self-test OK: a removed word clip, a planted orphan, a lying duration, a drifted recipe, a two-letter word left to spelling, a pack with no recipe at all, a trim nobody heard, a sentence with 'read' left to spelling, and a listening round's result quietly changed are caught");
+  if (sawMissing && sawOrphan && sawLie && sawRecipe && sawSpelling && sawNoRecipe && sawTrim && sawReed && sawRound9 && sawWordy && sentenceOk) {
+    console.log("self-test OK: a removed word clip, a planted orphan, a lying duration, a drifted recipe, a two-letter word left to spelling, a pack with no recipe at all, a trim nobody heard, a sentence with 'read' left to spelling, a listening round's result quietly changed, and a word clip long enough to hold a sentence are caught");
     process.exit(0);
   }
-  console.error("self-test FAILED: " + JSON.stringify({ sawMissing, sawOrphan, sawLie, sawRecipe, sawSpelling, sawNoRecipe, sawTrim, sawReed, sawRound9 }));
+  console.error("self-test FAILED: " + JSON.stringify({ sawMissing, sawOrphan, sawLie, sawRecipe, sawSpelling, sawNoRecipe, sawTrim, sawReed, sawRound9, sawWordy, sentenceOk }));
   process.exit(1);
 }
 

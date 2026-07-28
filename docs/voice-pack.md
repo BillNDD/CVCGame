@@ -37,10 +37,25 @@ app carries only the audio files.
   consonant. "tap" has whatever precedes its first burst removed, and "sip" has the low
   frequencies taken out of its first 70 ms so its s cannot read as a z. All three treatments
   won a blind round against the build of the day.
+- The clip list comes from the live engine, never from a hand-kept list.
 - Known imperfect, waiting for the next listening round: cup, rub, jug, pop, hop (better, but
   the listener rates them "almost" and "marginally" acceptable), and hen, where nothing tried
   has beaten the current build. Each carries an extra sound a listener can hear and no
   automatic check can.
+
+## A result that could not be used, 2026-07-28
+
+Round 10 offered each of six words as "cut out of a whole sentence", and the listener
+preferred it for all six — the first thing ever to improve "hen". It could not be used: the
+cut never cut. "Here is the word cup." contains no silence — the quietest moment between its
+words is -26 dB and the cut looked for -35 dB — so every candidate was the whole sentence,
+and the listener was judging the word inside it. Their notes said exactly that: "almost
+perfect when in a sentence".
+
+Two things came out of it. The finding is real and worth pursuing: a word carries a proper
+ending when it is spoken as part of a sentence. And a candidate must be checked for length
+before a person is asked to judge it — a word of this bank runs 350 to 700 ms of speech, so
+anything outside that band is a fragment or a carrier and is never offered.
 
 ## How to run a listening round
 
@@ -58,8 +73,10 @@ app carries only the audio files.
    certainly inaudible, which is the problem: nobody can tell by listening whether what ships
    is what was approved. Check it instead — a candidate built from today's recipe must be
    byte-identical to the file in the pack.
-5. Report back by number. Only then match the numbers to the recipe.
-- The clip list comes from the live engine, never from a hand-kept list.
+5. Check the length of every candidate. A word clip that runs longer than a word is carrying
+   the carrier; one that runs shorter is a fragment. Both waste a listening round, and both
+   have been produced by a cut in this session.
+6. Report back by number. Only then match the numbers to the recipe.
 
 ## To re-render (after the word bank grows)
 

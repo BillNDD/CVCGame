@@ -104,17 +104,27 @@ LEAD_OVERRIDE = {"am": 150, "an": 150}
 TRIM_MS = {"cub": 130, "hip": 130, "dish": 120}
 SILENCE_FLOOR_DB = -45  # what counts as the end of the speech, before trimming
 
-# From the blind round of 2026-07-27 (round 9). Every candidate was numbered
-# and shuffled, today's build was among them, and no two were the same file.
+# From two blind rounds on 2026-07-27 and 2026-07-28. Every candidate was
+# numbered and shuffled, the build of the day was among them, and no two were
+# the same file.
 #
-# PERIOD_WORDS: rendering the word as a SENTENCE - with a full stop after it -
-# beat the current build for five words out of five with the trailing-sound
-# fault: cup, rub, jug, pop and hop. A word standing alone gets no sentence
-# prosody, and the model ends it with a trailing vowel or a burst of noise; as
-# a sentence it releases the final consonant and stops. Neither a slower pace,
-# a natural pace, nor a long fade beat it for any of the five. The listener
-# rates these "marginally" or "almost" acceptable, not right, so they stay on
-# the list - but they are the best any listener has heard.
+# PERIOD_WORDS: six words ended in a small extra vowel or a burst of noise.
+# A word rendered alone gets no sentence shape and the voice never finishes
+# its last consonant; rendered as a sentence, with a full stop after it, it
+# does. That beat the current build for five words out of five in round 9.
+# The treatment is NOT bank-wide, and that was measured, not assumed: in
+# round 10, five words already judged perfect were offered the same way and
+# four of the five came back worse. A word that is already right is left alone.
+#
+# Round 10 also tried cutting the word out of a whole carrier sentence, and
+# the listener preferred it for all six. That result CANNOT BE USED as it
+# stands: the cut never isolated the word. "Here is the word cup." has no
+# silence in it - the quietest moment between words is -26 dB, not the -35 dB
+# the cut looks for - so every "cut" candidate was the whole sentence, and the
+# listener was judging the word inside it. Their notes said as much ("almost
+# perfect when in a sentence"). What it proves is that sentence prosody fixes
+# the ending; isolating the word from that sentence is the open problem, and
+# no isolation ships until a person has heard it.
 # ONSET_TRIM: "tap" arrived as "uh tap". Removing what precedes the first
 # burst won its round.
 # BRIGHT_HEAD_MS: "sip" arrived as "zip". Taking the low frequencies out of
