@@ -137,6 +137,19 @@ describe("voice-pack clip engine", () => {
     }
   });
 
+  /* The ring/silent switch: Safari silences an "ambient" Web Audio session and
+     leaves a media element alone, so a tablet on silent played nothing while
+     appearing to work. The app declares a playback session before it ever
+     sounds. */
+  it("declares a playback session before anything sounds, so the silent switch cannot mute the words", async () => {
+    const session = {};
+    Object.defineProperty(navigator, "audioSession", { configurable: true, get: () => session });
+    try {
+      unlockVoice();
+      expect(session.type).toBe("playback");
+    } finally { delete navigator.audioSession; }
+  });
+
   it("(control): with no microphone use the context is left alone", async () => {
     const before = contexts.at(-1);
     speakVoice("correct", "cat", 0, true, fb);

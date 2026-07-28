@@ -84,6 +84,15 @@ export function familyClipIds() { return new Set(familyIds); }
    unlocked context to play at any later time, with or without a gesture. */
 export function unlockVoice() {
   try {
+    /* Declare a PLAYBACK session before anything sounds. Left alone, Safari
+       treats Web Audio as an "ambient" session, which the ring/silent switch
+       silences — while a plain media element is not silenced. A tablet on
+       silent would show the game working, count the words, and say nothing.
+       Found on a phone: a page playing the same clip both ways was audible
+       through the media element and silent through Web Audio. */
+    if (navigator.audioSession) navigator.audioSession.type = "playback";
+  } catch { /* not supported: nothing to declare */ }
+  try {
     const AC = window.AudioContext || window.webkitAudioContext;
     if (!AC) return;
     if (!ctx) ctx = new AC();

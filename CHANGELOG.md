@@ -76,6 +76,12 @@ The first app version is 1.0.0-beta.1. The app stays in beta until version 1.0 i
   the one fault that cannot wait, so this release exists for it. The sentence now carries its
   pronunciation explicitly, and the build refuses any pack that leaves a sentence with a
   two-pronunciation word to the synthesiser.
+- Fixed: with the ring switch on silent, an iPhone or iPad played no recorded voice at all,
+  while the app carried on as though it had spoken. Safari treats a page's Web Audio as
+  background sound unless the page says otherwise, and background sound is what the silent
+  switch silences. The app now declares itself a playback session before anything sounds, so
+  the words are heard whatever the switch says. Found on a phone: the same clip played
+  through a plain player was audible and through the app's engine was silent.
 - Fixed: any page other than the app itself, served from the app's own address, came up
   blank. The offline worker answered every page request in its folder with the app's own
   page, and the app addresses its files relative to the page, so from a different folder
