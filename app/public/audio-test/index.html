@@ -31,6 +31,16 @@ normal volume, and do the steps in order.</p>
 <p class="note" id="state">the engine is asleep until you tap</p>
 
 <div class="step">
+  <h2>Step 0 — the ring switch</h2>
+  <p>Safari treats Web Audio as background sound unless a page says otherwise, and the
+  ring/silent switch silences background sound. A plain player is never silenced, which is
+  why one button can work while the others do not.</p>
+  <button class="wide" id="declare">Declare this a playback session</button>
+  <p class="note">If the buttons below were silent and now play, that was it — and the app
+  needs the same declaration, which it now makes.</p>
+</div>
+
+<div class="step">
   <h2>Step 1 — before the microphone</h2>
   <p>Play all four. Do any sound thin, harsh or fuzzy compared with the others?</p>
   <div class="row" id="before"></div>
@@ -85,6 +95,7 @@ const say = (m) => { document.getElementById("state").textContent = m; };
 async function warm() {
   const AC = window.AudioContext || window.webkitAudioContext;
   if (!ctx || ctx.state === "closed") { ctx = new AC(); decoded.clear(); }
+  log(`session type: ${navigator.audioSession ? navigator.audioSession.type : "not supported"}`);
   if (ctx.state !== "running") { try { await ctx.resume(); } catch (e) { log("resume refused: " + e); } }
   const silence = ctx.createBufferSource();
   silence.buffer = ctx.createBuffer(1, 1, ctx.sampleRate);
@@ -140,6 +151,14 @@ function buttons(into) {
 ["before", "after", "fixed"].forEach(buttons);
 
 document.getElementById("start").onclick = () => warm().catch((e) => say("could not start: " + e));
+
+document.getElementById("declare").onclick = () => {
+  try {
+    if (!navigator.audioSession) { log("this Safari has no session control — try the ring switch itself"); return; }
+    navigator.audioSession.type = "playback";
+    log(`session type now: ${navigator.audioSession.type}`);
+  } catch (e) { log("could not declare: " + e); }
+};
 
 document.getElementById("mic").onclick = () => {
   const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
