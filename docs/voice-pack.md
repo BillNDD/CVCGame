@@ -85,6 +85,28 @@ falls back to system speech, so the child never hears praise without its word. M
 elements are never used, which keeps iPadOS autoplay rules and service-worker caching out
 of the picture.
 
+## What a device test settled, 2026-07-27
+
+Words judged right on a laptop sounded wrong on an iPhone, which raised the question of
+whether the pack needs a second format for Apple devices. A page at `/audio-test/` played the
+same words as they ship (24 kHz mono, 96 kbps), at double the bitrate, uncompressed, and
+through a plain media element instead of Web Audio.
+
+All four sounded the same. **The format is not the problem and one pack serves every device.**
+Keeping a second pack per platform would double what a listener has to approve and it would
+buy nothing.
+
+What was wrong was the audio session, twice:
+
+- Safari treats a page's Web Audio as background sound, which the ring/silent switch mutes,
+  while a media element is never muted. A tablet on silent played nothing at all.
+- The microphone takes the whole session and leaves playback on the narrow route kept for a
+  phone call, so every word after a recording was thin.
+
+Both are fixed in `app/src/voicepacks.js`, which declares a playback session before anything
+sounds and takes the session back before each reveal. Neither is visible on a laptop, and
+neither can be heard by any automatic check — only on a device.
+
 ## Licensing
 
 Kokoro's weights are Apache-2.0 and its training data is permissively sourced, so the
