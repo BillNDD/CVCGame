@@ -37,4 +37,24 @@ if (complexity !== baseline.g6_complexity_max || maxLines !== baseline.g6_file_l
   process.exit(1);
 }
 
-console.log("quality controls OK: complexity fixture rejected, planted cycle found, config matches the baseline ceilings");
+/* A `font:` shorthand ending in `inherit` is invalid CSS: `inherit` is not a
+   font-family, so the browser throws the whole declaration away and the rule
+   silently does nothing. Ten of them lived in the stylesheet, and every button
+   label in the product rendered at the browser default because of it. Nothing
+   in the build could see it — the file parsed, the app looked finished, and
+   only reading computed styles in a browser revealed it. */
+const DEAD_FONT = /font\s*:[^;{}]*\binherit\b/;
+/* Comments explain the fault and would otherwise trip the detector, so they
+   come out before the scan. */
+const css = readFileSync("app/src/wq-css.js", "utf8").replace(/\/\*[\s\S]*?\*\//g, "");
+if (DEAD_FONT.test(css)) {
+  console.error("control FAILED: a `font:` shorthand ending in `inherit` is back in wq-css.js; " +
+    "it is invalid CSS and the browser will discard the whole declaration");
+  process.exit(1);
+}
+if (!DEAD_FONT.test(".wq-cta{font:800 12px/1 inherit;padding:0}")) {   // control
+  console.error("control FAILED: the dead-font detector does not catch its own fixture");
+  process.exit(1);
+}
+
+console.log("quality controls OK: complexity fixture rejected, planted cycle found, config matches the baseline ceilings, no dead font shorthand");

@@ -8,6 +8,15 @@
 import { C } from "@engine";
 
 const CSS = `
+/* No rule here uses the CSS \`font:\` shorthand. Ten of them once did, each
+   ending in \`inherit\` — which is not a legal font-family, so every one of
+   those declarations was invalid and the browser discarded the lot. The app
+   has always rendered those labels at the inherited weight and size, which is
+   the look the owner has approved throughout. The dead declarations are gone
+   rather than repaired, so the sheet states what it does. Anything that wants
+   a weight or a size states it as a longhand, and tools/quality-control.mjs
+   fails the build if a \`font:\` shorthand ending in \`inherit\` appears again.
+   Found by an audit of the running build, 2026-07-29. */
 .wq-root{
   height:100vh; height:100dvh; width:100%; overflow:hidden;
   background:linear-gradient(160deg,#8fd0fa 0%,#b9c3fb 55%,#d9c6fb 100%);
@@ -49,21 +58,19 @@ const CSS = `
 .wq-slot-msg{height:52px;min-height:52px;display:flex;flex-direction:column;align-items:center;justify-content:center;margin-top:4px}
 
 /* controls */
-.wq-cta{display:block;width:100%;border:0;border-radius:999px;background:${C.action};color:#fff;
-  font:800 clamp(1rem,2.4dvh,1.25rem)/1.1 inherit;padding:16px 18px;cursor:pointer;
+.wq-cta{display:block;width:100%;border:0;border-radius:999px;background:${C.action};color:#fff;padding:16px 18px;cursor:pointer;
   box-shadow:0 3px 10px rgba(23,53,107,.18);min-height:56px}
 .wq-cta:disabled{cursor:default;box-shadow:none}
 /* line-height matches .wq-cta exactly: the prompt REPLACES the record control,
    so any difference in its box moves the word above it. It measured 58.39px
    against the control's 56px, which shifted the word by 1.19px between an
    ordinary word and an adult-judged one. */
-.wq-prompt{text-align:center;font-weight:800;color:${C.ink};font:800 clamp(.95rem,2.2dvh,1.1rem)/1.1 inherit;padding:16px 0;min-height:56px}
-.wq-btn-plain{border:0;background:rgba(255,255,255,.85);color:${C.ink};font:700 13px/1 inherit;
+.wq-prompt{text-align:center;font-weight:800;color:${C.ink};padding:16px 0;min-height:56px}
+.wq-btn-plain{border:0;background:rgba(255,255,255,.85);color:${C.ink};
   padding:11px 13px;border-radius:999px;cursor:pointer;min-height:44px}
-.wq-chip{background:rgba(255,255,255,.85);color:${C.ink};font:800 12.5px/1 inherit;padding:7px 10px;border-radius:999px;display:inline-block}
-.wq-striplabel{font:800 9.5px/1 inherit;letter-spacing:.12em;text-transform:uppercase;color:${C.strip};opacity:.85}
-.wq-sbtn{background:#fff;border:1.5px solid ${C.line};border-radius:9px;color:${C.strip};
-  font:700 12.5px/1 inherit;padding:0 12px;min-height:44px;min-width:44px;cursor:pointer} /* N-6 */
+.wq-chip{background:rgba(255,255,255,.85);color:${C.ink};padding:7px 10px;border-radius:999px;display:inline-block}
+.wq-striplabel{letter-spacing:.12em;text-transform:uppercase;color:${C.strip};opacity:.85}
+.wq-sbtn{background:#fff;border:1.5px solid ${C.line};border-radius:9px;color:${C.strip};padding:0 12px;min-height:44px;min-width:44px;cursor:pointer} /* N-6 */
 .wq-hold{position:relative;overflow:hidden;touch-action:none}
 .wq-holdfill{position:absolute;inset:0;width:0;opacity:.22}
 .wq-hold.holding .wq-holdfill{width:100%;transition:width .45s linear}
@@ -80,14 +87,13 @@ const CSS = `
 
 /* cards / forms */
 .wq-card{background:#fff;border-radius:18px;box-shadow:0 2px 10px rgba(23,53,107,.12);text-align:center}
-.wq-lbl{display:block;font:800 11px/1.3 inherit;letter-spacing:.06em;text-transform:uppercase;color:${C.muted};margin-bottom:5px}
+.wq-lbl{display:block;letter-spacing:.06em;text-transform:uppercase;color:${C.muted};margin-bottom:5px}
 .wq-help{margin:6px 0 0;font-size:12.5px;line-height:1.45;color:${C.muted}}
-.wq-input{width:100%;border:1.5px solid ${C.line};border-radius:10px;padding:11px 12px;
-  font:600 15px/1.3 inherit;color:${C.ink};background:#fff;min-height:44px}
+.wq-input{width:100%;border:1.5px solid ${C.line};border-radius:10px;padding:11px 12px;color:${C.ink};background:#fff;min-height:44px}
 .wq-fieldrow{margin-top:14px}
 .wq-seggroup{display:flex;gap:4px;background:${C.chip};border-radius:11px;padding:3px;flex-wrap:wrap}
 .wq-segbtn{flex:1 1 auto;min-width:44px;min-height:44px;border:0;background:transparent;border-radius:8px;
-  color:${C.strip};font:800 13px/1 inherit;cursor:pointer}
+  color:${C.strip};cursor:pointer}
 .wq-segbtn.on{background:#fff;color:${C.ink};box-shadow:0 1px 3px rgba(23,53,107,.2)}
 .wq-segbtn:disabled{opacity:.4;cursor:default}
 .wq-rowbtn{display:flex;align-items:center;width:100%;border:0;background:transparent;padding:4px 0;cursor:pointer;min-height:44px}
@@ -98,7 +104,7 @@ const CSS = `
 /* overlays */
 /* P2-2: toast sits above the action rail, never over the header */
 .wq-toast{position:absolute;left:50%;transform:translateX(-50%);bottom:calc(112px + env(safe-area-inset-bottom));
-  background:${C.ink};color:#fff;padding:10px 16px;border-radius:999px;font:700 13px/1.3 inherit;
+  background:${C.ink};color:#fff;padding:10px 16px;border-radius:999px;
   max-width:88%;text-align:center;z-index:70}
 .wq-modalwrap{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:18px;z-index:80}
 .wq-scrim{position:absolute;inset:0;background:rgba(23,53,107,.42);border:0;order:-1}
