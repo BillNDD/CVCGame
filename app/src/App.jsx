@@ -54,12 +54,17 @@ const CORNER_HINT = SR ? "" : CORNER_NO_SR_MSG;
 /* What a Word Quest backup must look like before it may replace progress.
    Files written from this version carry a marker; older backups are still
    accepted on their shape, so a family's existing file keeps working. */
+/* Every file must LOOK like a save before anything is replaced. The marker is
+   an extra signal, never a substitute for the shape: a file whose entire
+   content was {"application":"word-quest-backup"} used to be accepted, and the
+   app answered "Backup loaded." while replacing a family's whole history with
+   an empty state. An adult reaches for a backup exactly when something has
+   already gone wrong, so a truncated or hand-edited file is the likely one. */
 const isBackup = (b) =>
   !!b && typeof b === "object" && !Array.isArray(b) &&
-  (b.application === "word-quest-backup" ||
-    (typeof b.level === "number" && isFinite(b.level) &&
-     !!b.words && typeof b.words === "object" && !Array.isArray(b.words) &&
-     !!b.settings && typeof b.settings === "object" && !Array.isArray(b.settings)));
+  typeof b.level === "number" && isFinite(b.level) &&
+  !!b.words && typeof b.words === "object" && !Array.isArray(b.words) &&
+  !!b.settings && typeof b.settings === "object" && !Array.isArray(b.settings);
 
 const asParent = (s) => ({ ...s, settings: { ...s.settings, mode: "parent" } });
 const displayState = (s, blocked) => (blocked ? asParent(s) : s);
@@ -438,12 +443,23 @@ export default function App() {
   function visitFallback(msg) {
     setMicVisitBlock(true); setPhase("ready"); setToast(msg); setMicNote(msg);
   }
+  /* S1 — recognition may only ever CONFIRM a correct reading, so a false
+     accept is the one error that matters here. The old rule accepted the
+     attempt when any word inside the transcript matched, and a microphone
+     hears the room: "come on you know this one it is in" confirmed "in", and
+     eight of the twelve first-session words are among the commonest words in
+     English. An adult prompting aloud was enough to mark a word read.
+     A reading is now the whole transcript, or a reading with one word of
+     filler beside it — a repeat, an "um", a "mummy". Anything longer goes to
+     the grown-up, who can see who spoke. */
+  const MAX_HEARD_WORDS = 2;
   function handleTranscripts(alts) {
     const word = queue[qi];
     const ok = alts.some(a => {
-      const clean = a.replace(/[^a-z\s]/g, ""); const toks = clean.split(/\s+/).filter(Boolean);
+      const clean = a.replace(/[^a-z\s]/g, "").trim();
+      const toks = clean.split(/\s+/).filter(Boolean);
       const m = t => t === word || (HOMOPHONES[word] || []).includes(t);
-      return m(clean) || toks.some(m);
+      return m(clean) || (toks.length <= MAX_HEARD_WORDS && toks.some(m));
     });
     setHeard(alts[0] || "");
     if (ok) grade("correct"); else setPhase("heard");

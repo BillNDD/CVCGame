@@ -305,7 +305,11 @@ Session, microphone mode:
 - The child taps "Start Recording". The app listens. The child taps "Stop".
 - Configuration: the locale from the settings, `interimResults: false`, `maxAlternatives: 5`.
 - If one alternative is equal to the target word, the app records a correct result. The match
-  test removes non-letters, examines the full string and each token, and accepts the homophones.
+  test removes non-letters, accepts the homophones, and compares the whole transcript. A
+  transcript of two words or fewer also matches on either word, which allows a repeat or one
+  word of filler beside the reading. A longer transcript never matches, whichever words it
+  contains: a microphone hears the room, and a word found inside a sentence is not evidence
+  that the child read it. The adult judges those.
 - If the app does not identify the word, the stage shows a neutral message. The transcript shows
   only in the strip, in small text. The adult gives the result.
 - If the app hears no speech, the app shows a short message and goes back to the ready state.

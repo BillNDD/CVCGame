@@ -104,6 +104,35 @@ describe("G10 safety — S1: only an adult can record a miss", () => {
     expect(savedWord.wrong).toBe(0);
   });
 
+  /* A microphone hears the room, not only the child. The old rule accepted the
+     attempt when ANY word inside the transcript matched, so an adult prompting
+     aloud — "come on, you know this one, it is in" — marked the word read, and
+     eight of the twelve first-session words are among the commonest words in
+     English. A reading is the word, or the word with one piece of filler
+     beside it. Found by an audit of the running build, 2026-07-29. */
+  it("2a: a word buried in a sentence is NOT a reading, and records nothing", async () => {
+    const word = await startListening();
+    const writes = mockSave.mock.calls.length;
+    await hear(`come on you know this one it is ${word}`);
+    expect(screen.getByText("Nice try! Grown-up will check. 👇")).toBeTruthy();
+    expect(mockSave.mock.calls.length).toBe(writes);
+  });
+
+  it("2b: a reading with one word of filler beside it still counts", async () => {
+    const word = await startListening();
+    await hear(`${word} mummy`);
+    expect(screen.getAllByText(/Great job! That is/).length).toBeGreaterThan(0);
+    expect(mockSave.mock.calls.at(-1)[0].words[word].correct).toBe(1);
+  });
+
+  it("2c: three words is a sentence, not a reading", async () => {
+    const word = await startListening();
+    const writes = mockSave.mock.calls.length;
+    await hear(`is it ${word}`);
+    expect(screen.getByText("Nice try! Grown-up will check. 👇")).toBeTruthy();
+    expect(mockSave.mock.calls.length).toBe(writes);
+  });
+
   it("3: source tripwire — wrong and close fire only from the adult hold controls", () => {
     const app = readFileSync("app/src/App.jsx", "utf8");
     const sessionScreen = readFileSync("app/src/screens/SessionScreen.jsx", "utf8");
