@@ -76,6 +76,12 @@ The first app version is 1.0.0-beta.1. The app stays in beta until version 1.0 i
   the one fault that cannot wait, so this release exists for it. The sentence now carries its
   pronunciation explicitly, and the build refuses any pack that leaves a sentence with a
   two-pronunciation word to the synthesiser.
+- Fixed: ten rules in the stylesheet had never applied. Each ended with a `font:` shorthand
+  naming `inherit` as the type family, which is not legal, so the browser discarded the whole
+  declaration and every button label in the app rendered at the browser's own weight and size.
+  The look never changed, because it was never applied — so the dead rules are gone rather
+  than repaired, and the stylesheet now states what it does. The build refuses the same
+  mistake if it returns.
 - Fixed: a backup file could destroy a family's progress while reporting success. A file whose
   entire content was the marker `{"application":"word-quest-backup"}` was accepted, the app said
   "Backup loaded.", and the level, every word record, the whole log and the child's name were
