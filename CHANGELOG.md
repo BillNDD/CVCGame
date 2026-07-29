@@ -76,6 +76,12 @@ The first app version is 1.0.0-beta.1. The app stays in beta until version 1.0 i
   the one fault that cannot wait, so this release exists for it. The sentence now carries its
   pronunciation explicitly, and the build refuses any pack that leaves a sentence with a
   two-pronunciation word to the synthesiser.
+- Fixed: on a landscape tablet or laptop, the tiles that break a word into its sounds sat far to
+  the left of the word they explain — measured at 191 px away — and the second column they made
+  room for held nothing at all, because the controls it was meant to hold live in the rail and the
+  "grown-up" strip instead. A child who reads "ship" has to see sh-i-p directly underneath it. A
+  landscape screen now stacks the word, the tiles and the sentence in one centred column, exactly
+  as a portrait screen does, and keeps the larger word the extra width allows.
 - Fixed: ten rules in the stylesheet had never applied. Each ended with a `font:` shorthand
   naming `inherit` as the type family, which is not legal, so the browser discarded the whole
   declaration and every button label in the app rendered at the browser's own weight and size.

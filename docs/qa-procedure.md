@@ -51,7 +51,8 @@ This document follows the Microsoft Writing Style Guide.
 16. Rotate to landscape on a small phone.
     Expected: The single-column layout stays. Nothing overlaps or is cut off.
 17. Rotate to landscape on an iPad or a large screen, 640 by 420 px or more.
-    Expected: Two columns show. The word is left; the controls are right.
+    Expected: One centred column stays, with a larger word. The tiles and the message sit
+    directly under the word. Nothing sits off to one side.
 
 ## Windows — Chrome or Edge
 

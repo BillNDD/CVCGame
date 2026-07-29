@@ -294,8 +294,9 @@ Layout. Each screen has three fixed zones in a `100dvh` shell: a header, a stage
 rail with the "grown-up" strip below it. The word position in the stage does not move. The tile
 row and the message row have reserved space. The stage can scroll only when the user sets a very
 large text size. The strip has extra bottom padding. This keeps the controls out of the iOS
-gesture area. The two-column landscape layout operates only at a width of 640 px or more and a
-height of 420 px or more.
+gesture area. A landscape screen 640 px or more wide and 420 px or more high shows the same
+single centred column as a portrait screen, with a larger word. The tile row and the message row
+stay directly under the word, because they explain it.
 
 Home. The title, an optional greeting with the name, the level, the counters, and the "Begin
 Session" control. Adult text shows in the strip, not below the child's control.
