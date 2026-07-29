@@ -59,8 +59,22 @@ const CSS = `
 
 /* controls */
 .wq-cta{display:block;width:100%;border:0;border-radius:999px;background:${C.action};color:#fff;padding:16px 18px;cursor:pointer;
-  box-shadow:0 3px 10px rgba(23,53,107,.18);min-height:56px}
+  box-shadow:0 3px 10px rgba(23,53,107,.18);min-height:56px;position:relative;overflow:hidden;isolation:isolate}
 .wq-cta:disabled{cursor:default;box-shadow:none}
+/* A1-004 — the wait made visible. The advance control is inert while the reveal
+   plays, about six seconds: praise, a pause, "The word was", a pause, then the
+   word. It used to be a grey box with nothing happening in it, so a child had
+   no way to know whether anything was coming. A fill now crosses the control
+   over the reveal's own scheduled length, which the app already knows, and
+   reaches the far edge as the control comes alive. No words: a beginning reader
+   should not have to decode anything to understand a wait.
+   The fill sits at z-index -1 inside the control's own stacking context, so it
+   paints over the control's background and under its label without wrapping
+   the label in anything — the label stays the control's own text.
+   Found by an audit of the running build, 2026-07-29. */
+.wq-ctafill{position:absolute;inset:0;z-index:-1;width:0;background:rgba(23,53,107,.2);
+  animation:wqfill var(--wqfill,400ms) linear forwards}
+@keyframes wqfill{from{width:0}to{width:100%}}
 /* line-height matches .wq-cta exactly: the prompt REPLACES the record control,
    so any difference in its box moves the word above it. It measured 58.39px
    against the control's 56px, which shifted the word by 1.19px between an
@@ -115,7 +129,13 @@ const CSS = `
 button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid ${C.ink};outline-offset:2px}
 .wq-float{animation:wqf 2s ease-in-out infinite}
 @keyframes wqf{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
-@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}
+  /* One exception, and only one: the fill on the advance control is not
+     decoration. It is the only thing that says how much of the word is still
+     to come, and without it a grown-up who asks for less motion gets the
+     six-second grey box back. It is a single bar crossing at a steady rate,
+     which is what a progress indicator is allowed to be. */
+  .wq-ctafill{animation:wqfill var(--wqfill,400ms) linear forwards!important}}
 
 /* landscape: one centred column, the same stack as portrait (P2-1, A1-003).
    This query used to divide the stage into a 1.1fr column for the word and a

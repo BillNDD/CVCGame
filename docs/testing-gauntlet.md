@@ -159,7 +159,9 @@ The level range is 1 to 7. SPEC and the engine agree; the owner corrected SPEC o
   its background. Do not eyeball colors.
 - At 200 percent text size: the grown-ups stage scrolls, its last element is reachable, and no
   horizontal scroll appears; the session stage stays scrollable with no horizontal cut.
-- With reduced motion emulated: zero running animations and zero transitions on every screen.
+- With reduced motion emulated: zero running animations and zero transitions on every screen, with
+  one named exception that is asserted both ways — the fill on the advance control must still run,
+  because it is the only thing that says how much of the reveal is left, and nothing else may.
 
 ## G9. Fault injection
 
@@ -229,7 +231,7 @@ The level range is 1 to 7. SPEC and the engine agree; the owner corrected SPEC o
 | iPhone Safari | Layout in portrait and landscape, home-indicator area |
 | Windows Chrome or Edge | Install to desktop, icon quality, own window |
 | Any browser, 200 percent text | The stage scrolls. No content is cut off |
-| Any browser, reduced motion | No animation |
+| Any browser, reduced motion | No animation except the fill on the advance control |
 
 ## G13. Voice pack
 

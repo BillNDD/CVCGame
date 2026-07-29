@@ -245,10 +245,21 @@ await audit("grown-ups");
   await rmHold.focus();
   await rmHold.press("Enter");
   await rmPage.locator(".wq-tile").first().waitFor();
-  const rmFeedback = await rmPage.evaluate(() => document.getAnimations().length);
-  if (rmHome + rmSession + rmMidHold + rmFeedback === 0)
-    ok("reduced motion: zero animations on home, session, mid-hold, and feedback");
-  else fail("reduced motion left animations running", JSON.stringify({ rmHome, rmSession, rmMidHold, rmFeedback }));
+  /* The feedback screen carries exactly one animation under reduced motion, and
+     this check names it rather than counting to zero: the fill that crosses the
+     advance control is the only thing that says how much of the word is still
+     to come, so switching it off returns the child to a grey box with no
+     information in it (A1-004). Everything else must still be gone, and the
+     fill must still be there — both are asserted. */
+  const rmFeedbackAnims = await rmPage.evaluate(() => document.getAnimations()
+    .map((a) => (a.effect && a.effect.target ? String(a.effect.target.className) : "?")));
+  const rmFill = rmFeedbackAnims.filter((c) => c.includes("wq-ctafill")).length;
+  const rmFeedbackOther = rmFeedbackAnims.length - rmFill;
+  if (rmHome + rmSession + rmMidHold + rmFeedbackOther === 0)
+    ok("reduced motion: no animation on home, session, mid-hold, or feedback beyond the advance fill");
+  else fail("reduced motion left animations running", JSON.stringify({ rmHome, rmSession, rmMidHold, rmFeedbackOther, rmFeedbackAnims }));
+  if (rmFill === 1) ok("reduced motion keeps the one animation that carries information: the advance fill");
+  else fail("the advance fill does not survive reduced motion", JSON.stringify({ rmFill, rmFeedbackAnims }));
   await rmContext.close();
 }
 

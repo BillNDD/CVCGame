@@ -69,8 +69,10 @@ This document follows the Microsoft Writing Style Guide.
     Expected: The stage scrolls. No content is cut off. No horizontal scroll appears.
 22. Keep 200 percent. Run a session.
     Expected: The word stays fully visible. The stage can scroll if needed.
-23. Turn on the reduced-motion system setting. Reload the app.
-    Expected: No animation plays anywhere. The hold fill jumps instead of sweeping.
+23. Turn on the reduced-motion system setting. Reload the app. Grade one word.
+    Expected: No animation plays anywhere, and the hold fill jumps instead of sweeping. One
+    exception: the fill on "Next word" still crosses the control while the word is spoken. It
+    tells the child how much of the word is left, so it is information, not decoration.
 
 ## Data safety
 

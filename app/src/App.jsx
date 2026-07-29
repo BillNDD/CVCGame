@@ -89,6 +89,10 @@ export default function App() {
   const [heard, setHeard] = useState("");
   const [lastGrade, setLastGrade] = useState(null);
   const [advanceReady, setAdvanceReady] = useState(true); // P0-3
+  /* How long the child is being asked to wait, so the control can show it
+     (A1-004). The reveal's real length arrives a moment after the wait starts,
+     so this is the last length armAdvance was given, never a guess. */
+  const [waitMs, setWaitMs] = useState(ADVANCE_GUARD_MS);
   const [micTried, setMicTried] = useState(false);        // N-8: label only — never gates replay
   const [exitAsk, setExitAsk] = useState(false);          // P1-4
   const [doneStats, setDoneStats] = useState(null);
@@ -199,6 +203,7 @@ export default function App() {
   function armAdvance(ms) {
     if (advanceLive.current) return;
     clearTimeout(advanceTimer.current);
+    setWaitMs(ms);
     advanceTimer.current = setTimeout(() => { advanceLive.current = true; setAdvanceReady(true); }, ms);
   }
 
@@ -557,7 +562,7 @@ export default function App() {
     return <SessionScreen state={shownSession} L={L} kid={kid} currentWord={currentWord}
       micNote={micNote} adultNote={parentNote} phase={phase} lastGrade={lastGrade} queue={queue} qi={qi} order={order}
       firstResults={firstResults} answered={answered} totalQ={totalQ}
-      advanceReady={advanceReady} micTried={micTried} listening={listening}
+      advanceReady={advanceReady} waitMs={waitMs} micTried={micTried} listening={listening}
       seenTwice={seenTwice} heard={heard} exitAsk={exitAsk}
       onExitAsk={() => setExitAsk(true)} grade={grade} next={next}
       startRec={startRec} softStop={softStop} replay={replay}

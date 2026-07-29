@@ -214,6 +214,49 @@ for (const height of [430, 555, 720, 950]) {
     await fresh.close();
   }
 
+  /* 18 — the wait is visible. While the advance control is inert a fill crosses
+     it, and the fill's width has to be measurably further along later in the
+     wait than earlier. The width is read from the running animation in the
+     browser, which is the only place this can be checked at all. A negative
+     control follows: with the animation switched off, the same probe must
+     report no growth. */
+  {
+    const context = await browser.newContext();
+    const page = await startSession(context, { width: 390, height: 844 });
+    const readFill = () => page.evaluate(() => {
+      const f = document.querySelector(".wq-rail .wq-ctafill");
+      if (!f) return null;
+      const b = document.querySelector(".wq-rail .wq-cta").getBoundingClientRect();
+      return { w: f.getBoundingClientRect().width, full: b.width, ms: getComputedStyle(f).animationDuration };
+    });
+    await gradeByKey(page, "✓ got it (hold)", "Enter");
+    await page.locator(".wq-tile").first().waitFor();
+    await page.waitForTimeout(400);
+    const early = await readFill();
+    await page.waitForTimeout(1200);
+    const later = await readFill();
+    if (!early || !later) fail("no fill on the inert advance control", JSON.stringify({ early, later }));
+    else if (!(later.w > early.w + 5)) fail("the fill does not move during the wait", JSON.stringify({ early, later }));
+    else if (later.w > later.full) fail("the fill runs past the control", JSON.stringify(later));
+    else ok(`the wait shows a fill that moves (${early.w.toFixed(0)}px then ${later.w.toFixed(0)}px of ${later.full.toFixed(0)}px, over ${later.ms})`);
+
+    /* negative control: no animation, so the probe must see a still fill */
+    await page.addStyleTag({ content: ".wq-root .wq-ctafill{animation:none!important}" });
+    await page.waitForFunction(() => { const b = document.querySelector(".wq-rail .wq-cta"); return !!b && !b.disabled; }, null, { timeout: 12000 }).catch(() => {});
+    await page.locator(".wq-rail .wq-cta").click();
+    await page.locator(".wq-word").waitFor();
+    await gradeByKey(page, "✓ got it (hold)", "Enter");
+    await page.locator(".wq-tile").first().waitFor();
+    await page.waitForTimeout(400);
+    const stillEarly = await readFill();
+    await page.waitForTimeout(1200);
+    const stillLater = await readFill();
+    if (stillEarly && stillLater && stillLater.w > stillEarly.w + 5)
+      fail("negative control broken", `the fill moved with its animation switched off: ${JSON.stringify({ stillEarly, stillLater })}`);
+    else console.log("control OK: the probe reads the running animation (a fill with no animation does not move)");
+    await context.close();
+  }
+
   /* 15-16 — landscape keeps one centred column. The tile row explains the word
      above it, so its centre has to be the word's centre; the same goes for the
      feedback sentence. The tiles are measured by their OWN extent, from the left
