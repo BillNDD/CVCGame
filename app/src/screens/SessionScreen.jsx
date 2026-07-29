@@ -53,12 +53,19 @@ function SessionStage({ state, currentWord, phase, fb, liveRef, micNote, adultNo
 }
 
 /* The action rail: advance control in feedback, otherwise mic or prompt. */
-function SessionRail({ state, kid, phase, advanceReady, queue, qi, next, advanceRef, listening, micTried, startRec, softStop }) {
+function SessionRail({ state, kid, phase, advanceReady, waitMs, queue, qi, next, advanceRef, listening, micTried, startRec, softStop }) {
   return (
     <Zone.Rail>
       {phase === "feedback" ? (
         <button ref={advanceRef} className="wq-cta" onClick={next} disabled={!advanceReady}
           style={{ background: advanceReady ? C.green : "#9fb4c4" }}>
+          {/* A1-004 — the wait is visible: a fill crosses the control over the
+              reveal's own length and lands as the control comes alive. The key
+              restarts it when the real length replaces the short guard, a
+              moment after the wait begins. It carries no text and no role: the
+              feedback already speaks for itself through one channel (N-9). */}
+          {!advanceReady && <span key={waitMs} className="wq-ctafill" aria-hidden="true"
+            style={{ "--wqfill": waitMs + "ms" }} />}
           {qi + 1 >= queue.length ? "🏁 Finish!" : "Next word ➡️"}
         </button>
       ) : state.settings.mode === "mic" ? (
@@ -92,7 +99,7 @@ function ExitDialog({ answered, handleExit }) {
 
 export default function SessionScreen({
   state, L, kid, currentWord, micNote, adultNote, phase, lastGrade, queue, qi, order, firstResults,
-  answered, totalQ, advanceReady, micTried, listening, seenTwice, heard, exitAsk,
+  answered, totalQ, advanceReady, waitMs, micTried, listening, seenTwice, heard, exitAsk,
   onExitAsk, grade, next, startRec, softStop, replay, handleExit, advanceRef, toast,
 }) {
   const liveRef = useRef(null);
@@ -112,7 +119,7 @@ export default function SessionScreen({
 
       <SessionStage state={state} currentWord={currentWord} phase={phase} fb={fb} liveRef={liveRef} micNote={micNote} adultNote={adultNote} />
 
-      <SessionRail state={state} kid={kid} phase={phase} advanceReady={advanceReady}
+      <SessionRail state={state} kid={kid} phase={phase} advanceReady={advanceReady} waitMs={waitMs}
         queue={queue} qi={qi} next={next} advanceRef={advanceRef}
         listening={listening} micTried={micTried} startRec={startRec} softStop={softStop} />
 

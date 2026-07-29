@@ -344,6 +344,12 @@ silences it and the word itself is the last thing the child hears. Where there i
 reveal to wait for — sound off, or a pack that cannot play — the control is not active for the
 first 400 ms. The advance control is the only control in the action rail.
 
+While the control waits, a fill crosses it at a steady rate and reaches the far edge as the
+control becomes active. The fill lasts exactly as long as the wait it shows, whether that is the
+reveal or the 400 ms guard. It carries no text, because a child who is learning to read must not
+have to read anything to understand a wait. The fill is information, not decoration, so it still
+runs when the device asks for reduced motion.
+
 Done. This screen shows a trophy, the three counters, and the accuracy. A praise line has three
 steps: 90 percent or more, 70 percent or more, and below 70 percent. A level-up shows in the trophy zone, not as an
 extra row.

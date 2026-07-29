@@ -76,6 +76,13 @@ The first app version is 1.0.0-beta.1. The app stays in beta until version 1.0 i
   the one fault that cannot wait, so this release exists for it. The sentence now carries its
   pronunciation explicitly, and the build refuses any pack that leaves a sentence with a
   two-pronunciation word to the synthesiser.
+- Changed: the wait before "Next word" now shows itself. The reveal runs about six seconds and
+  the control stays inert until the child has heard the word, which is right — but it was a grey
+  box with nothing happening in it, so nothing on screen said a wait was even under way, or how
+  much of it was left. A fill now crosses the control at a steady rate and lands as the control
+  comes alive, lasting exactly as long as the wait it shows. It carries no words: a child who is
+  learning to read should not have to read anything to understand a pause. It keeps running when
+  the device asks for reduced motion, because it is information rather than decoration.
 - Fixed: a child who was finding a level hard was given the next level anyway. The app looked
   ahead once every word at the current level had been "seen", and a child who has read all 12
   starter words and got all 12 wrong satisfies that: from the second session they were served
