@@ -140,10 +140,23 @@ Session builder. Target 20 words, no duplicates, in this priority order:
 
 1. Due words from lower levels, lowest box first, maximum 5.
 2. Known words with box 4 or more, maximum 2, only after two completed sessions.
-3. Due words at the current level, lowest box first.
-4. New current-level words, in list order.
-5. If short: other eligible words, lowest box first.
-6. If short, and the current level has no new words: new words from the next level.
+3. Due words from the next level, lowest box first, maximum 2.
+4. Due words at the current level, lowest box first.
+5. New current-level words, in list order.
+6. If short: other eligible words at or below the current level, lowest box first.
+7. If short, the current level has no new words, and the current level is learned: new words from
+   the next level.
+
+The current level is learned when 80 percent or more of its words are in box 2 or more. A box of 2
+or more means the child has read the word correctly at least once and has not since forgotten it
+twice: the box rises only on a correct reading, and a first correct reading sets it to 3. Rule 7
+tests learning, not exposure. A child who has read every word at the level and got every one of
+them wrong stays at that level and gets more practice there.
+
+Rule 3 makes review reach the words rule 7 served. A next-level word the app has graded comes back
+for review instead of being read once and then parked until promotion. The maximum of 2 keeps the
+child's own level as the body of the session. No rule ever serves a word more than one level above
+the current one.
 
 Mix the list. Move the word with the highest box to position 1. Each session starts with a
 probable success.

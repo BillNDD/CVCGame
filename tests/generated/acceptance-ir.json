@@ -1034,6 +1034,129 @@
             }
           ],
           "examples": []
+        },
+        {
+          "name": "A level seen but not learned keeps the next level closed",
+          "outline": false,
+          "steps": [
+            {
+              "kind": "Given",
+              "text": "a player on Level 1 who has seen all 12 words and read none correctly"
+            },
+            {
+              "kind": "When",
+              "text": "a session is built"
+            },
+            {
+              "kind": "Then",
+              "text": "it has exactly 12 words"
+            },
+            {
+              "kind": "Then",
+              "text": "every word is a Level 1 word"
+            }
+          ],
+          "examples": []
+        },
+        {
+          "name": "The next level opens at 10 of the 12 words read correctly",
+          "outline": false,
+          "steps": [
+            {
+              "kind": "Given",
+              "text": "a player on Level 1 who has read 10 of the 12 words correctly"
+            },
+            {
+              "kind": "When",
+              "text": "a session is built"
+            },
+            {
+              "kind": "Then",
+              "text": "at least one word is a Level 2 word"
+            },
+            {
+              "kind": "Then",
+              "text": "it has exactly 20 words"
+            }
+          ],
+          "examples": []
+        },
+        {
+          "name": "Nine of the 12 words does not open the next level",
+          "outline": false,
+          "steps": [
+            {
+              "kind": "Given",
+              "text": "a player on Level 1 who has read 9 of the 12 words correctly"
+            },
+            {
+              "kind": "When",
+              "text": "a session is built"
+            },
+            {
+              "kind": "Then",
+              "text": "every word is a Level 1 word"
+            },
+            {
+              "kind": "Then",
+              "text": "it has exactly 12 words"
+            }
+          ],
+          "examples": []
+        },
+        {
+          "name": "A word the child has already read comes back, whatever its level",
+          "outline": false,
+          "steps": [
+            {
+              "kind": "Given",
+              "text": "a player on Level 1 who has seen all 12 words and read none correctly"
+            },
+            {
+              "kind": "Given",
+              "text": "the Level 2 word \"cat\" was read wrong in an earlier session"
+            },
+            {
+              "kind": "When",
+              "text": "a session is built"
+            },
+            {
+              "kind": "Then",
+              "text": "the session contains the word \"cat\""
+            },
+            {
+              "kind": "Then",
+              "text": "it has exactly 13 words"
+            }
+          ],
+          "examples": []
+        },
+        {
+          "name": "Above-level review never takes over the session",
+          "outline": false,
+          "steps": [
+            {
+              "kind": "Given",
+              "text": "a player on Level 1 who has seen all 12 words and read none correctly"
+            },
+            {
+              "kind": "Given",
+              "text": "5 Level 2 words were read wrong in earlier sessions"
+            },
+            {
+              "kind": "When",
+              "text": "a session is built"
+            },
+            {
+              "kind": "Then",
+              "text": "exactly 2 words come from higher levels"
+            },
+            {
+              "kind": "Then",
+              "text": "it has exactly 14 words"
+            }
+          ],
+          "examples": []
         }
       ]
     }

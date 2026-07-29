@@ -76,6 +76,18 @@ The first app version is 1.0.0-beta.1. The app stays in beta until version 1.0 i
   the one fault that cannot wait, so this release exists for it. The sentence now carries its
   pronunciation explicitly, and the build refuses any pack that leaves a sentence with a
   two-pronunciation word to the synthesiser.
+- Fixed: a child who was finding a level hard was given the next level anyway. The app looked
+  ahead once every word at the current level had been "seen", and a child who has read all 12
+  starter words and got all 12 wrong satisfies that: from the second session they were served
+  eight Level 2 words a session until all 39 were spent. A word served that way could then never
+  come back, because review reached only the child's own level and below — so each of those 39
+  words was read once and parked for good, and sessions shrank to 12 words permanently. The app
+  now looks ahead only once 80 percent of the current level has been read correctly at least
+  once, and a next-level word the app has graded comes back for review, two a session at most,
+  so nothing the child has read is parked out of reach any more. A child
+  who is struggling gets a full session of practice at their own level instead. A save that
+  already holds parked words starts reviewing them. Nothing is ever served more than one level
+  ahead, as before.
 - Fixed: on a landscape tablet or laptop, the tiles that break a word into its sounds sat far to
   the left of the word they explain — measured at 191 px away — and the second column they made
   room for held nothing at all, because the controls it was meant to hold live in the rail and the

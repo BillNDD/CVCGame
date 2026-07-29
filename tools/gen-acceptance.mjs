@@ -75,6 +75,23 @@ const STEPS = [
   [/^a player on Level 1 who has seen all 12 words$/, () => [
     `const s = newState(); s.sessionsCompleted = 3;`,
     `LEVELS[0].words.forEach((w) => { s.words[w] = { ...freshWordState(), box: 5, attempts: 4, dueAt: 99 }; });`]],
+  /* A3-002 — "seen" and "learned" are different things. A box of 0 is a word
+     the child has read and got wrong; the box only rises on a correct reading,
+     and a first correct reading sets it to 3. */
+  [/^a player on Level 1 who has seen all 12 words and read none correctly$/, () => [
+    `const s = newState(); s.sessionsCompleted = 3;`,
+    `expect(LEVELS[0].words.length).toBe(12);`,
+    `LEVELS[0].words.forEach((w) => { s.words[w] = { ...freshWordState(), box: 0, attempts: 2, dueAt: 1 }; });`]],
+  [/^a player on Level 1 who has read (\d+) of the 12 words correctly$/, (m) => [
+    `const s = newState(); s.sessionsCompleted = 3;`,
+    `expect(LEVELS[0].words.length).toBe(12);`,
+    `LEVELS[0].words.forEach((w) => { s.words[w] = { ...freshWordState(), box: 0, attempts: 2, dueAt: 1 }; });`,
+    `LEVELS[0].words.slice(0, ${N(m[1])}).forEach((w) => { s.words[w] = { ...freshWordState(), box: 3, attempts: 2, dueAt: 1 }; });`]],
+  [/^the Level 2 word "([a-z]+)" was read wrong in an earlier session$/, (m) => [
+    `expect(WORD_LEVEL[${S(m[1])}]).toBe(2);`,
+    `s.words[${S(m[1])}] = { ...freshWordState(), box: 0, attempts: 1, dueAt: 1 };`]],
+  [/^(\d+) Level 2 words were read wrong in earlier sessions$/, (m) => [
+    `LEVELS[1].words.slice(0, ${N(m[1])}).forEach((w) => { s.words[w] = { ...freshWordState(), box: 0, attempts: 1, dueAt: 1 }; });`]],
   [/^a session is built$/, () => [
     `const q = buildSession(s);`]],
   [/^it has exactly (\d+) words$/, (m) => [
@@ -93,6 +110,10 @@ const STEPS = [
     `expect(q.some((w) => WORD_LEVEL[w] === ${N(m[1])})).toBe(true);`]],
   [/^no word is above Level (\d+)$/, (m) => [
     `expect(q.every((w) => WORD_LEVEL[w] <= ${N(m[1])})).toBe(true);`]],
+  [/^the session contains the word "([a-z]+)"$/, (m) => [
+    `expect(q).toContain(${S(m[1])});`]],
+  [/^exactly (\d+) words come from higher levels$/, (m) => [
+    `expect(q.filter((w) => WORD_LEVEL[w] > s.level).length).toBe(${N(m[1])});`]],
 
   // ---- promotion ----
   [/^a player on Level (\d+) with (\d+) of the (\d+) words at box (\d+)$/, (m) => [

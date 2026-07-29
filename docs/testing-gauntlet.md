@@ -35,6 +35,10 @@ This document follows the Microsoft Writing Style Guide.
 - Location: `tests/engine.test.js`. Tool: Vitest. Command: `npm test`.
 - The floor lives in the baseline file (key `g1_unit_tests`); it started at 42 tests.
 - These tests exist. Extend them; do not rebuild them.
+- `tests/scheduler.test.js` holds the session builder's two level rules, with its own floor
+  (key `g1_scheduler_tests`). It keeps the session-builder rules together and keeps
+  `tests/engine.test.js` clear of the G6 file-length ceiling. Both files count, and neither
+  floor may fall.
 
 ## G2. Property tests
 
@@ -56,7 +60,7 @@ The ten initial properties:
 | P5 | Starting from a fresh word state: `attempts` grows by exactly 1 per call, and `correct + close + wrong` equals `attempts` after every call. |
 | P6 | A first-ever correct result always sets `box` to exactly 3, from any starting state with `attempts` 0. |
 | P7 | For any valid state: `buildSession` returns no duplicate words, and 20 words or fewer. |
-| P8 | `buildSession` never serves a word more than one level above the current level. A next-level word in the session implies that no fresh current-level word remains. The converse is not required. |
+| P8 | `buildSession` never serves a word more than one level above the current level. A next-level word the child has never attempted implies that no fresh current-level word remains and that 80 percent of the current level sits in box 2 or more. Next-level words the child has already read may come back for review, at most 2 in a session. The converse is not required. |
 | P9 | For any valid state with a non-empty queue: the first word's box is the maximum box in the queue. A word with no stored state counts as box 0. |
 | P10 | For arbitrary JSON-shaped input, including hostile values under the real key names: `migrate` never throws, is idempotent, and its output survives `buildSession`, `applyResult`, and `buildMarkdown` without a throw. Every healed box is 0 to 5; the level is 1 to 7. |
 
@@ -97,6 +101,9 @@ The level range is 1 to 7. SPEC and the engine agree; the owner corrected SPEC o
 - Runner control: before any mutant runs, the pristine suite must pass. A broken test
   environment therefore fails loudly instead of reading as "every mutant killed".
 - This gate exists. Add mutants for new invariants; re-point moved anchors; never delete one.
+- Run G4 and G5 one after the other, never at the same time. Each rewrites files the other
+  reads — G4 regenerates `tests/generated`, G5 regenerates `src/engine.js` — so a parallel run
+  reports a broken environment instead of a result. The gauntlet runs every gate in sequence.
 
 ## G6. Coverage and quality metrics
 
@@ -116,8 +123,10 @@ The level range is 1 to 7. SPEC and the engine agree; the owner corrected SPEC o
   `g6_file_lines_max`, `g6_dependency_cycles_max`.
   - Cyclomatic complexity per function: 15 or less, in `src/engine.js` and `app/src/**`. The
     counter is the ESLint `complexity` rule with its default counting.
-  - File length: 600 lines or less for every source file. `reference/word-quest.jsx` is exempt.
-    That file must stay one file, so it can run as a chat artifact.
+  - File length: 900 lines or less for every source file. `reference/word-quest.jsx` is exempt.
+    That file must stay one file, so it can run as a chat artifact. The ceiling was 600 lines
+    until 2026-07-29, when the owner raised it to 900. It is still a ceiling: no change may
+    raise it again, and a file near it should be split rather than allowed to grow.
   - Dependency cycles in `app/src` and `src`: exactly 0. The checker must resolve the `@engine`
     alias, or the check is empty for those edges.
   - Tools: `eslint.config.mjs` at the root, `tools/dep-cycles.mjs` for cycles, and
@@ -175,7 +184,8 @@ The level range is 1 to 7. SPEC and the engine agree; the owner corrected SPEC o
   `npm run test:ui`.
 - Each rule in `CLAUDE.md` becomes at least one failing-by-default test. Keys:
   `g10_safety_tests` and `g10_adult_control_tests`.
-- S5 has its own file because the safety file reached the 600-line ceiling (G6). It holds one
+- S5 has its own file because the safety file reached the file-length ceiling, 600 lines at the
+  time (G6). It holds one
   subject: a result reaches the save only through a deliberate adult act, and every grown-up
   has a way to perform one — a 450 ms hold, a keypress, or an activation from assistive
   technology, which the control could not see at all until an audit found it. One act records

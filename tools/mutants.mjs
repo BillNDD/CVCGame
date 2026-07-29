@@ -24,7 +24,19 @@ const MUTANTS = [
   ["lower-level cap 5 to 4", "list.push(...take(dueBelow, 5));", "list.push(...take(dueBelow, 4));"],
   ["confidence cap 2 to 3", "list.push(...take(confidence, 2));", "list.push(...take(confidence, 3));"],
   ["confidence gate 2 to 1", "if (state.sessionsCompleted >= 2)", "if (state.sessionsCompleted >= 1)"],
-  ["peek guard removed", "&& freshCur.length === 0) {", ") {"],
+  /* Re-pointed 2026-07-29, when the peek gained its learning condition: the
+     old anchor no longer exists, so the mutant now removes the fresh-words
+     guard alone and leaves the learning one in place. */
+  ["peek guard removed", "&& freshCur.length === 0 && learned) {", "&& learned) {"],
+  /* A3-002 — the peek and above-level review. */
+  ["peek ignores whether the level was learned", "&& freshCur.length === 0 && learned) {", "&& freshCur.length === 0) {"],
+  ["peek learning bar box 2 to box 1", "state.words[w].box >= 2).length / curLevelWords.length", "state.words[w].box >= 1).length / curLevelWords.length"],
+  ["peek learning bar box 2 to box 3", "state.words[w].box >= 2).length / curLevelWords.length", "state.words[w].box >= 3).length / curLevelWords.length"],
+  ["peek learning share 0.8 to 0.75", "curLevelWords.length >= 0.8", "curLevelWords.length >= 0.75"],
+  ["above-level review dropped", "  list.push(...take(dueAbove, 2));\n", ""],
+  ["above-level review cap 2 to 5", "list.push(...take(dueAbove, 2));", "list.push(...take(dueAbove, 5));"],
+  ["above-level review looks below instead", "ws.box < 5 && WORD_LEVEL[w] === level + 1)", "ws.box < 5 && WORD_LEVEL[w] === level - 1)"],
+  ["above-level review reaches two levels up", "ws.box < 5 && WORD_LEVEL[w] === level + 1)", "ws.box < 5 && WORD_LEVEL[w] >= level + 1)"],
   ["SESSION_SIZE 20 to 19", "const SESSION_SIZE = 20;", "const SESSION_SIZE = 19;"],
   ["friendliest-first inverted", "if (b > bb) best = i;", "if (b < bb) best = i;"],
   ["take() off by one", "if (got.length >= k) break;", "if (got.length > k) break;"],
