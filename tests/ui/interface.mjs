@@ -214,6 +214,58 @@ for (const height of [430, 555, 720, 950]) {
     await fresh.close();
   }
 
+  /* 15-16 — landscape keeps one centred column. The tile row explains the word
+     above it, so its centre has to be the word's centre; the same goes for the
+     feedback sentence. The tiles are measured by their OWN extent, from the left
+     edge of the first to the right edge of the last, because the row that holds
+     them is full width and its centre stays put even when the tiles inside it
+     are pushed to one side — which is exactly the fault this check exists for.
+     A negative control follows: the old two-column rules are injected and the
+     same probe must report the tiles off centre. */
+  for (const vp of [{ width: 1280, height: 800 }, { width: 1080, height: 810 }]) {
+    const context = await browser.newContext();
+    const page = await startSession(context, vp);
+    const wordBefore = await page.locator(".wq-word").boundingBox();
+    await gradeByKey(page, "✓ got it (hold)", "Enter");
+    await page.locator(".wq-tile").first().waitFor();
+    const probe = () => page.evaluate(() => {
+      const mid = (el) => { const r = el.getBoundingClientRect(); return r.left + r.width / 2; };
+      const tiles = [...document.querySelectorAll(".wq-tile")];
+      const msg = document.querySelector(".wq-slot-msg p");
+      const first = tiles[0].getBoundingClientRect();
+      const last = tiles[tiles.length - 1].getBoundingClientRect();
+      return {
+        word: mid(document.querySelector(".wq-word")),
+        tiles: (first.left + last.right) / 2,
+        msg: msg ? mid(msg) : null,
+        stage: getComputedStyle(document.querySelector(".wq-stagegrid")).display,
+      };
+    });
+    const m = await probe();
+    const wordAfter = await page.locator(".wq-word").boundingBox();
+    const dTiles = Math.abs(m.tiles - m.word), dMsg = m.msg === null ? Infinity : Math.abs(m.msg - m.word);
+    const still = Math.abs(wordAfter.x - wordBefore.x) <= 0.5 && Math.abs(wordAfter.y - wordBefore.y) <= 0.5;
+    if (m.stage === "grid") fail(`landscape stage is a grid at ${vp.width}x${vp.height}`, m.stage);
+    else if (dTiles > 1) fail(`landscape tiles off the word's centre at ${vp.width}x${vp.height}`, `${dTiles.toFixed(1)}px`);
+    else if (dMsg > 1) fail(`landscape sentence off the word's centre at ${vp.width}x${vp.height}`, `${dMsg}`);
+    else if (!still) fail(`the word moved between phases in landscape at ${vp.width}x${vp.height}`, JSON.stringify({ wordBefore, wordAfter }));
+    else ok(`landscape ${vp.width}x${vp.height}: word, tiles and sentence share one centre (${dTiles.toFixed(1)}px, ${dMsg.toFixed(1)}px apart) and the word holds still`);
+
+    /* negative control: the rules this change removed, put back for one probe.
+       Each selector carries a .wq-root prefix it did not need in the stylesheet.
+       The app renders its sheet inside the page body, so a tag appended to the
+       head loses every tie — max-width and justify-content silently kept the
+       app's values and the control passed while measuring nothing. The extra
+       ancestor makes the injected rules win on specificity instead of order. */
+    await page.addStyleTag({ content: `@media (orientation:landscape) and (min-width:640px) and (min-height:420px){
+      .wq-root .wq-stagegrid{max-width:820px;display:grid;grid-template-columns:1.1fr 1fr;gap:26px}
+      .wq-root .wq-slot-tiles,.wq-root .wq-slot-msg{justify-content:flex-start;align-items:flex-start;text-align:left}}` });
+    const bad = await probe();
+    if (Math.abs(bad.tiles - bad.word) > 1) console.log(`control OK: the probe reads real geometry (the old grid puts the tiles ${Math.abs(bad.tiles - bad.word).toFixed(0)}px off centre)`);
+    else fail("negative control broken", `the old two-column rules measured as centred: ${JSON.stringify(bad)}`);
+    await context.close();
+  }
+
   /* 12 — a session starts offline after one online load */
   await page.evaluate(() => navigator.serviceWorker.ready.then(() => undefined));
   await page.reload({ waitUntil: "load" }); // online reload -> the page is SW-controlled

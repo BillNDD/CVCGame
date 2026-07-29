@@ -117,14 +117,20 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 @keyframes wqf{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 
-/* landscape: word left, controls right (P2-1) */
+/* landscape: one centred column, the same stack as portrait (P2-1, A1-003).
+   This query used to divide the stage into a 1.1fr column for the word and a
+   1fr column for "the controls". The controls are not in the stage — the record
+   button sits in the rail and the grading buttons in the grown-up strip — so
+   the second column never held anything: it measured 378 px of empty space
+   beside a 26 px gap, and the rules that left-aligned the first column put the
+   tile row's centre 191 px away from the centre of the word it explains. A
+   child who reads "ship" now sees sh-i-p directly underneath it, in landscape
+   as in portrait. The one landscape difference left is a larger word.
+   Found by an audit of the running build, 2026-07-29. */
 @media (orientation:landscape) and (min-width:640px) and (min-height:420px){ /* N-7 */
   .wq-shell{max-width:960px}
   .wq-stage{padding:6px 22px}
-  .wq-stagegrid{max-width:820px;display:grid;grid-template-columns:1.1fr 1fr;gap:26px;align-items:center}
-  .wq-stagegrid>div{text-align:left}
   .wq-word{font-size:clamp(3rem,17dvh,7rem)}
-  .wq-slot-tiles,.wq-slot-msg{justify-content:flex-start;align-items:flex-start;text-align:left}
 }
 
 /* A short stage, which is what 200% text size leaves behind: the word, the
