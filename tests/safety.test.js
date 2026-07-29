@@ -24,7 +24,7 @@ const recInstances = [];
 class FakeRecognition {
   constructor() { recInstances.push(this); }
   start() { this.started = true; }
-  stop() { if (this.onend) this.onend(); }
+  stop() { this.stopped = true; if (this.onend) this.onend(); }
 }
 window.webkitSpeechRecognition = FakeRecognition;
 const utterances = [];
@@ -357,6 +357,66 @@ describe("G10 safety — W4b: a broken microphone never traps the child", () => 
     await flush(0);
     expect(screen.queryByText("🎙️ Listening…")).toBeNull();     // honest state
     expect(screen.getByText(/Record again/)).toBeTruthy();
+  });
+
+  /* A2-002 / A2-013 — the exit dialog is an ending, not a pause. It used to
+     open over a live recognizer: the stage still claimed to listen, a reading
+     that arrived behind it was recorded, and recording it made the dialog's
+     own controls move. */
+  it("15f: opening the exit dialog ends the attempt instead of listening behind it", async () => {
+    await startListening();
+    const rec = recInstances[recInstances.length - 1];
+    expect(rec.started).toBe(true);
+    fireEvent.click(screen.getByLabelText("Leave session"));
+    await flush(0);
+    expect(screen.getByText("Finish early?")).toBeTruthy();       // the dialog is open
+    expect(rec.stopped).toBe(true);                               // and the attempt is over
+    expect(screen.queryByText("🎙️ Listening…")).toBeNull();
+  });
+
+  it("15g: a reading cannot reach the app once the exit dialog is open", async () => {
+    await startListening();
+    const rec = recInstances[recInstances.length - 1];
+    fireEvent.click(screen.getByLabelText("Leave session"));
+    await flush(0);
+    expect(rec.onresult).toBeNull();                              // detached, not merely ignored
+    /* The dialog's own sentence counts what has been read, so an unchanged
+       sentence across the whole grace window is an unchanged count. */
+    const said = document.querySelector(".wq-modal p").textContent;
+    await flush(GRACE_MS);
+    expect(document.querySelector(".wq-modal p").textContent).toBe(said);
+  });
+
+  it("15h: the exit dialog's controls hold their places whether or not a word has been read", async () => {
+    const labels = () => [...document.querySelectorAll(".wq-modal button")]
+      .map(b => [b.textContent, b.disabled]);
+    /* A fresh session, not startListening: skipping the words that offer no
+       microphone grades them, and this test needs a session with nothing
+       recorded yet whatever order the shuffle produced. */
+    render(createElement(App));
+    await flush(0);
+    fireEvent.click(screen.getByText("▶️ Begin Session"));
+    await flush(0);
+    fireEvent.click(screen.getByLabelText("Leave session"));
+    await flush(0);
+    expect(labels()).toEqual([
+      ["Save as a short session", true],
+      ["Discard and go home", false],
+      ["Keep reading", false],
+    ]);
+    fireEvent.click(screen.getByText(/Keep reading/));
+    await flush(0);
+    fireEvent.keyDown(screen.getByLabelText("✓ got it (hold)"), { key: "Enter" });
+    await flush(500);
+    fireEvent.click(screen.getByText(/Next word|Finish!/));
+    await flush(0);
+    fireEvent.click(screen.getByLabelText("Leave session"));
+    await flush(0);
+    expect(labels()).toEqual([
+      ["Save 1 as a short session", false],
+      ["Discard and go home", false],
+      ["Keep reading", false],
+    ]);
   });
 
   it("15e: a browser that cannot listen never writes grown-up mode into the save", async () => {

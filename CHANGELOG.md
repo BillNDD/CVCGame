@@ -76,6 +76,15 @@ The first app version is 1.0.0-beta.1. The app stays in beta until version 1.0 i
   the one fault that cannot wait, so this release exists for it. The sentence now carries its
   pronunciation explicitly, and the build refuses any pack that leaves a sentence with a
   two-pronunciation word to the synthesiser.
+- Fixed: opening "Finish early?" left the microphone listening behind the dialog. The stage went
+  on saying "Listening…", and a reading that arrived while the grown-up was deciding whether to
+  stop was recorded — an attempt nobody was watching any more. That recording is also what moved
+  the dialog: the Save control only appeared once something had been read, so it arrived mid-tap
+  and pushed the other controls down about 53 px, and a tap meant for "Keep reading" discarded
+  the session instead. Opening the dialog now ends the attempt, the same as every choice inside
+  it does, and the dialog reserves a place for all three of its controls, so nothing can move
+  under a finger. A dialog also no longer tries to give the keyboard to a control it has
+  deliberately made inert.
 - Changed: the wait before "Next word" now shows itself. The reveal runs about six seconds and
   the control stays inert until the child has heard the word, which is right — but it was a grey
   box with nothing happening in it, so nothing on screen said a wait was even under way, or how

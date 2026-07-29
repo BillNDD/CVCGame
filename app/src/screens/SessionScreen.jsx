@@ -89,7 +89,18 @@ function ExitDialog({ answered, handleExit }) {
           : answered + (answered === 1 ? " word has" : " words have") + " been read. Save them as a short session, or discard so the schedule stays clean?"}
       </p>
       <div style={{ display: "grid", gap: 8 }}>
-        {answered > 0 && <button className="wq-cta" style={{ background: C.green }} onClick={() => handleExit("save")}>Save {answered} as a short session</button>}
+        {/* A2-002 — the Save slot is reserved, never conditional. With the
+            dialog open on the first word and the microphone still listening
+            behind it, a reading made this control appear and pushed everything
+            below it down about 53 px: a tap meant for "Keep reading" discarded
+            the session instead. Opening the dialog now ends the attempt, so
+            nothing should be able to change this dialog while it is on screen —
+            and the slot stays reserved regardless, so nothing can move if
+            something ever does. */}
+        <button className="wq-cta" disabled={answered === 0} onClick={() => handleExit("save")}
+          style={{ background: answered === 0 ? "#9fb4c4" : C.green }}>
+          {answered === 0 ? "Save as a short session" : "Save " + answered + " as a short session"}
+        </button>
         <button className="wq-cta" style={{ background: "#fff", color: C.red, border: "2px solid " + C.red }} onClick={() => handleExit("discard")}>Discard and go home</button>
         <button className="wq-btn-plain" onClick={() => handleExit("cancel")} style={{ justifySelf: "center" }}>Keep reading</button>
       </div>
