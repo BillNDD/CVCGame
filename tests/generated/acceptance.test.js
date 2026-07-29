@@ -389,4 +389,49 @@ describe("Feature: Building a session", () => {
     expect(q.some((w) => WORD_LEVEL[w] === 2)).toBe(true);
     expect(q.every((w) => WORD_LEVEL[w] <= 2)).toBe(true);
   });
+  it("A level seen but not learned keeps the next level closed", () => {
+    const s = newState(); s.sessionsCompleted = 3;
+    expect(LEVELS[0].words.length).toBe(12);
+    LEVELS[0].words.forEach((w) => { s.words[w] = { ...freshWordState(), box: 0, attempts: 2, dueAt: 1 }; });
+    const q = buildSession(s);
+    expect(q.length).toBe(12);
+    expect(q.every((w) => WORD_LEVEL[w] === 1)).toBe(true);
+  });
+  it("The next level opens at 10 of the 12 words read correctly", () => {
+    const s = newState(); s.sessionsCompleted = 3;
+    expect(LEVELS[0].words.length).toBe(12);
+    LEVELS[0].words.forEach((w) => { s.words[w] = { ...freshWordState(), box: 0, attempts: 2, dueAt: 1 }; });
+    LEVELS[0].words.slice(0, 10).forEach((w) => { s.words[w] = { ...freshWordState(), box: 3, attempts: 2, dueAt: 1 }; });
+    const q = buildSession(s);
+    expect(q.some((w) => WORD_LEVEL[w] === 2)).toBe(true);
+    expect(q.length).toBe(20);
+  });
+  it("Nine of the 12 words does not open the next level", () => {
+    const s = newState(); s.sessionsCompleted = 3;
+    expect(LEVELS[0].words.length).toBe(12);
+    LEVELS[0].words.forEach((w) => { s.words[w] = { ...freshWordState(), box: 0, attempts: 2, dueAt: 1 }; });
+    LEVELS[0].words.slice(0, 9).forEach((w) => { s.words[w] = { ...freshWordState(), box: 3, attempts: 2, dueAt: 1 }; });
+    const q = buildSession(s);
+    expect(q.every((w) => WORD_LEVEL[w] === 1)).toBe(true);
+    expect(q.length).toBe(12);
+  });
+  it("A word the child has already read comes back, whatever its level", () => {
+    const s = newState(); s.sessionsCompleted = 3;
+    expect(LEVELS[0].words.length).toBe(12);
+    LEVELS[0].words.forEach((w) => { s.words[w] = { ...freshWordState(), box: 0, attempts: 2, dueAt: 1 }; });
+    expect(WORD_LEVEL["cat"]).toBe(2);
+    s.words["cat"] = { ...freshWordState(), box: 0, attempts: 1, dueAt: 1 };
+    const q = buildSession(s);
+    expect(q).toContain("cat");
+    expect(q.length).toBe(13);
+  });
+  it("Above-level review never takes over the session", () => {
+    const s = newState(); s.sessionsCompleted = 3;
+    expect(LEVELS[0].words.length).toBe(12);
+    LEVELS[0].words.forEach((w) => { s.words[w] = { ...freshWordState(), box: 0, attempts: 2, dueAt: 1 }; });
+    LEVELS[1].words.slice(0, 5).forEach((w) => { s.words[w] = { ...freshWordState(), box: 0, attempts: 1, dueAt: 1 }; });
+    const q = buildSession(s);
+    expect(q.filter((w) => WORD_LEVEL[w] > s.level).length).toBe(2);
+    expect(q.length).toBe(14);
+  });
 });

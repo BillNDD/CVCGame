@@ -3,7 +3,8 @@
    1. ESLint with the complexity rule must reject the over-complex fixture.
    2. The cycle detector must find a planted cycle (its own --self-test).
    3. The live ESLint config must carry exactly the baseline ceilings, so a
-      loosened config cannot pass while the baseline still claims 15/600. */
+      loosened config cannot pass while the baseline claims something tighter.
+      Both numbers come from the baseline file, never from this source. */
 import { execFileSync, execSync } from "node:child_process";
 import { readFileSync } from "node:fs";
 

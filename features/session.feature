@@ -47,3 +47,35 @@ Feature: Building a session
     When a session is built
     Then at least one word is a Level 2 word
     And no word is above Level 2
+
+  Scenario: A level seen but not learned keeps the next level closed
+    Given a player on Level 1 who has seen all 12 words and read none correctly
+    When a session is built
+    Then it has exactly 12 words
+    And every word is a Level 1 word
+
+  Scenario: The next level opens at 10 of the 12 words read correctly
+    Given a player on Level 1 who has read 10 of the 12 words correctly
+    When a session is built
+    Then at least one word is a Level 2 word
+    And it has exactly 20 words
+
+  Scenario: Nine of the 12 words does not open the next level
+    Given a player on Level 1 who has read 9 of the 12 words correctly
+    When a session is built
+    Then every word is a Level 1 word
+    And it has exactly 12 words
+
+  Scenario: A word the child has already read comes back, whatever its level
+    Given a player on Level 1 who has seen all 12 words and read none correctly
+    And the Level 2 word "cat" was read wrong in an earlier session
+    When a session is built
+    Then the session contains the word "cat"
+    And it has exactly 13 words
+
+  Scenario: Above-level review never takes over the session
+    Given a player on Level 1 who has seen all 12 words and read none correctly
+    And 5 Level 2 words were read wrong in earlier sessions
+    When a session is built
+    Then exactly 2 words come from higher levels
+    And it has exactly 14 words

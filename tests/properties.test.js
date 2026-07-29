@@ -139,16 +139,26 @@ describe("G2 properties", () => {
     );
   });
 
-  it("P8: never more than one level ahead, and peeking only when nothing fresh remains", () => {
+  /* A next-level word has two lawful sources, and this property tells them
+     apart. A word the child has never attempted can only come from the peek,
+     which now needs the level both seen and learned; a word the child has
+     already read can come back for review, at most two a session. Nothing is
+     ever more than one level ahead. The share and the box are written here as
+     literals, so the property never agrees with the engine by importing it. */
+  it("P8: never more than one level ahead; new next-level words only when the level is seen and learned; reviews capped at 2", () => {
     fc.assert(
       fc.property(stateArb, (s) => {
         const q = buildSession(s);
         if (!q.every((w) => WORD_LEVEL[w] <= s.level + 1)) return false;
-        if (q.some((w) => WORD_LEVEL[w] === s.level + 1)) {
-          const fresh = LEVELS[s.level - 1].words.filter(
-            (w) => !s.words[w] || s.words[w].attempts === 0
-          );
-          return fresh.length === 0;
+        const attempted = (w) => !!s.words[w] && s.words[w].attempts > 0;
+        const ahead = q.filter((w) => WORD_LEVEL[w] === s.level + 1);
+        if (ahead.filter(attempted).length > 2) return false;
+        if (ahead.some((w) => !attempted(w))) {
+          const cur = LEVELS[s.level - 1].words;
+          const fresh = cur.filter((w) => !s.words[w] || s.words[w].attempts === 0);
+          const learned =
+            cur.filter((w) => s.words[w] && s.words[w].box >= 2).length / cur.length >= 0.8;
+          return fresh.length === 0 && learned;
         }
         return true;
       }),

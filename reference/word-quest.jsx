@@ -137,18 +137,38 @@ function buildSession(state) {
   const confidence = shuffle(entries.filter(([w, ws]) => ws.box >= 4 && WORD_LEVEL[w] <= level).map(([w]) => w));
   const curDue = entries.filter(([w, ws]) => ws.attempts > 0 && ws.dueAt <= sNum && ws.box < 5 && WORD_LEVEL[w] === level)
     .sort((a, b) => a[1].box - b[1].box).map(([w]) => w);
+  /* A3-002 — review is not capped by the child's level. A word the app has
+     graded can come back whatever level it belongs to. A next-level word served
+     by the peek below used to fall outside every selector here, so it was read
+     once and then parked for good: a Level 1 child who read nothing correctly
+     collected all 39 Level 2 words that way, and none of the 39 was ever served
+     again. Two slots at most, so the child's own level still IS the session,
+     and one level ahead at most, which the peek is the only source of: nothing
+     further ahead is ever served, whatever a save happens to hold.
+     Found by an audit of the running build, 2026-07-29. */
+  const dueAbove = entries.filter(([w, ws]) => ws.attempts > 0 && ws.dueAt <= sNum && ws.box < 5 && WORD_LEVEL[w] === level + 1)
+    .sort((a, b) => a[1].box - b[1].box || a[1].dueAt - b[1].dueAt).map(([w]) => w);
   const freshCur = LEVELS[level - 1].words.filter(w => !state.words[w] || state.words[w].attempts === 0);
+  /* A3-002 — the peek needs evidence of learning, not evidence of exposure.
+     A box of 2 or more means the word has been read correctly at least once
+     and not since forgotten twice: the box only ever rises on a correct
+     reading, and a first correct reading sets it to 3. The share matches the
+     promotion rule, one box lower. */
+  const curLevelWords = LEVELS[level - 1].words;
+  const learned = curLevelWords.filter(w => state.words[w] && state.words[w].box >= 2).length / curLevelWords.length >= 0.8;
   const list = [];
   list.push(...take(dueBelow, 5));
   if (state.sessionsCompleted >= 2) list.push(...take(confidence, 2));
+  list.push(...take(dueAbove, 2));
   list.push(...take(curDue, SESSION_SIZE - list.length));
   list.push(...take(freshCur, SESSION_SIZE - list.length));
   if (list.length < SESSION_SIZE) {
     const anyLow = entries.filter(([w, ws]) => WORD_LEVEL[w] <= level).sort((a, b) => a[1].box - b[1].box).map(([w]) => w);
     list.push(...take(anyLow, SESSION_SIZE - list.length));
   }
-  if (list.length < SESSION_SIZE && level < LEVELS.length && freshCur.length === 0) {
+  if (list.length < SESSION_SIZE && level < LEVELS.length && freshCur.length === 0 && learned) {
     // D2: next-level peek only after every current-level word has been seen
+    // A3-002: and only once 80 percent of this level has been read correctly
     const peek = LEVELS[level].words.filter(w => !state.words[w] || state.words[w].attempts === 0);
     list.push(...take(peek, SESSION_SIZE - list.length));
   }
