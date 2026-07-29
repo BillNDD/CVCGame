@@ -190,12 +190,19 @@ describe("G9 faults — an unreadable save, and backups that must look like one"
     await flush(0);
   };
 
+  /* The marker is a signal, not a password. A file carrying it and nothing
+     else used to be accepted, and the app reported "Backup loaded." while
+     replacing every word record, the log, the level and the child's name with
+     an empty state. Found by an audit of the running build, 2026-07-29. */
   for (const [label, text] of [
     ["an empty object", "{}"],
     ["an array", "[]"],
     ["a bare null", "null"],
     ["unrelated JSON", '{"hello":"world"}'],
     ["not JSON at all", "<html>"],
+    ["the marker and nothing else", '{"application":"word-quest-backup"}'],
+    ["the marker with a wrong-typed level", '{"application":"word-quest-backup","level":"seven","words":"oops","settings":null}'],
+    ["the marker with no words map", '{"application":"word-quest-backup","version":3,"level":5}'],
   ]) {
     it(`7: ${label} is refused, and nothing is written`, async () => {
       mockLoad.mockResolvedValueOnce({ ...newState(), level: 5 });

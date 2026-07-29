@@ -76,6 +76,23 @@ The first app version is 1.0.0-beta.1. The app stays in beta until version 1.0 i
   the one fault that cannot wait, so this release exists for it. The sentence now carries its
   pronunciation explicitly, and the build refuses any pack that leaves a sentence with a
   two-pronunciation word to the synthesiser.
+- Fixed: a backup file could destroy a family's progress while reporting success. A file whose
+  entire content was the marker `{"application":"word-quest-backup"}` was accepted, the app said
+  "Backup loaded.", and the level, every word record, the whole log and the child's name were
+  replaced with an empty state. The marker was treated as an alternative to checking the file's
+  shape; it is now an extra signal on top of it, and a file must look like a save before
+  anything is replaced.
+- Fixed: the microphone could mark a word as read when nobody read it. A word found anywhere
+  inside what the microphone heard counted as a reading, so "come on, you know this one, it is
+  in" confirmed "in" — and eight of the twelve first-session words are among the commonest
+  words in English, which makes a prompting grown-up enough to score a point the child never
+  earned. A reading is now the word itself, or the word with one other word beside it: a
+  repeat, or an "um". Anything longer goes to the grown-up, who can see who spoke.
+- Fixed: at 200 percent text size the feedback sentence was rendered below the visible stage
+  and cut off, and on a phone most of the word went with it. A grown-up who raises the text
+  size for a child with low vision got a game that shows a word and never shows the sounds it
+  breaks into. The stage now shrinks its word, tiles and sentence so the whole reveal fits, and
+  centres content in a way that cannot push it out of reach.
 - Fixed: with the ring switch on silent, an iPhone or iPad played no recorded voice at all,
   while the app carried on as though it had spoken. Safari treats a page's Web Audio as
   background sound unless the page says otherwise, and background sound is what the silent

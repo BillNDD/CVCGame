@@ -21,9 +21,16 @@ const CSS = `
 /* zones — P0-1 / P1-8: fixed three-zone shell, page never scrolls in a session */
 .wq-header{flex:0 0 auto;min-height:52px;display:flex;align-items:center;gap:6px;padding:8px 12px}
 /* N-4: overflow-y auto never engages at default text sizes, but gives 200% text a way out */
-.wq-stage{flex:1 1 auto;min-height:0;display:flex;justify-content:center;padding:6px 14px;
-  overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
-.wq-stage>*{margin:auto}
+.wq-stage{flex:1 1 auto;min-height:0;display:flex;flex-direction:column;align-items:center;
+  padding:6px 14px;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
+/* The stage centres its content with two flexible spacers rather than with auto
+   margins. Auto margins centre tall content by pushing half of it outside the
+   scroll area, where it cannot be reached: at 200% zoom the feedback sentence
+   was rendered entirely below the stage and clipped away, with no scrollbar and
+   nothing to say it was there. Spacers collapse instead, so tall content stays
+   reachable. Found by an audit of the running build, 2026-07-29. */
+.wq-stage::before,.wq-stage::after{content:"";flex:1 1 auto;min-height:0}
+.wq-stage>*{margin:0 auto;flex:0 0 auto}
 .wq-stage.wq-scroll>*{margin:10px auto}
 .wq-rail{flex:0 0 auto;padding:8px 14px 6px}
 /* N-5: extra bottom padding keeps controls out of the home-indicator swipe band */
@@ -112,6 +119,24 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
   .wq-stagegrid>div{text-align:left}
   .wq-word{font-size:clamp(3rem,17dvh,7rem)}
   .wq-slot-tiles,.wq-slot-msg{justify-content:flex-start;align-items:flex-start;text-align:left}
+}
+
+/* A short stage, which is what 200% text size leaves behind: the word, the
+   tiles and the sentence all shrink so the whole teaching payload still FITS
+   rather than merely being reachable by a scroll a child will not think to
+   make. At 200% on a laptop the sentence used to render 68 px below the stage;
+   at 200% on a phone only a sliver of the word survived. The reserved rows
+   stay equal in both phases, so the word still does not move (SPEC section 6). */
+@media (max-height:520px){
+  .wq-stage{padding:2px 10px}
+  .wq-word{font-size:clamp(1.5rem,13dvh,2.4rem);margin:0}
+  .wq-tile{padding:2px 7px;border-radius:8px;font-size:clamp(.85rem,4dvh,1.1rem)}
+  .wq-slot-tiles{min-height:30px;margin-top:3px;gap:4px}
+  .wq-slot-msg{height:34px;min-height:34px;margin-top:2px}
+  .wq-msg{font-size:.95rem;line-height:1.2}
+  .wq-note{font-size:.8rem}
+  .wq-rail{padding:4px 14px 4px}
+  .wq-strip{padding-top:2px}
 }
 `;
 
