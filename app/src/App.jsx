@@ -304,6 +304,16 @@ export default function App() {
       () => speak(stats.promoted ? "Amazing! Level up!" : "All done! Great reading today!", true, stateRef.current.settings.lang));
   }
 
+  /* A2-002 / A2-013 — opening the dialog ends the attempt, exactly as every
+     choice inside it does. The recognizer used to keep listening behind the
+     dialog: the stage still read "Listening…", and a reading that arrived
+     while the grown-up was deciding whether to stop was recorded, which also
+     made the dialog's own controls move under their finger. */
+  function askExit() {
+    hardStopRec();
+    setExitAsk(true);
+  }
+
   function handleExit(choice) {
     hardStopRec();
     if (choice === "save") { finishSession(true); return; }
@@ -564,7 +574,7 @@ export default function App() {
       firstResults={firstResults} answered={answered} totalQ={totalQ}
       advanceReady={advanceReady} waitMs={waitMs} micTried={micTried} listening={listening}
       seenTwice={seenTwice} heard={heard} exitAsk={exitAsk}
-      onExitAsk={() => setExitAsk(true)} grade={grade} next={next}
+      onExitAsk={askExit} grade={grade} next={next}
       startRec={startRec} softStop={softStop} replay={replay}
       handleExit={handleExit} advanceRef={advanceRef} toast={toast} />;
   }

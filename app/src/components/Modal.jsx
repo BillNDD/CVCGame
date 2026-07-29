@@ -9,7 +9,12 @@ export default function Modal({ title, children, onClose }) {
   useEffect(() => {
     returnRef.current = document.activeElement;
     const box = boxRef.current;
-    const focusables = () => box.querySelectorAll("button, [href], input, select, textarea");
+    /* Inert controls are skipped. A dialog may reserve a control it cannot
+       offer yet — the exit dialog reserves its Save slot so nothing moves
+       under a finger — and focusing a disabled button silently leaves focus
+       on the page body, which drops the dialog's keyboard trap. */
+    const focusables = () => box.querySelectorAll(
+      "button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled])");
     const first = focusables()[0];
     if (first) first.focus();
     const onKey = (e) => {

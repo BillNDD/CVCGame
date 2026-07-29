@@ -178,7 +178,14 @@ played, and it never carries across levels. The stored streak never exceeds 2, a
 streak alone never promotes outside a completed session. This path exists so a child who is
 clearly ready does not wait for the box schedule on a large level. The maximum level stays 7.
 
-Early exit. If the adult stops a session early, the app shows two options:
+Early exit. Opening the dialog ends the attempt in progress, exactly as each choice inside it
+does: the microphone stops, and the stage no longer says the app is listening. Nothing can be
+recorded while the dialog is on screen.
+
+The dialog reserves a place for each of its three controls, so no control ever moves while the
+dialog is open. With nothing read yet, the Save control is present but inert.
+
+If the adult stops a session early, the app shows two options:
 
 - Save: the app writes a log row with a "partial" mark. The session counter does not increase.
   The app decreases `dueAt` by 1 for each graded word. The schedule of all other words does not

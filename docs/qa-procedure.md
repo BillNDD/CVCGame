@@ -125,6 +125,13 @@ This document follows the Microsoft Writing Style Guide.
 37. On the iPhone or iPad, grade a word with sound on and listen. Then tap "Start Recording" on the next word, let it finish, and listen to that reveal.
     Expected: Both reveals sound the same. The second is not quieter, thinner, or tinny. Repeat once more: the third reveal still sounds the same as the first.
 
+## Leaving a session early
+
+38. In microphone mode, tap "Start Recording", tap the home control while the app is still listening, then read the word out loud after the dialog appears.
+    Expected: "🎙️ Listening…" disappears the moment the dialog opens. The dialog shows three
+    controls: an inert "Save as a short session", "Discard and go home", and "Keep reading".
+    Nothing you say is recorded, and no control moves. "Keep reading" returns to the same word.
+
 ## Assistive technology
 
 36. On the iPad, turn VoiceOver on. Start a session, swipe to the "✓ got it" control, double-tap it, then repeat with "✗ not yet".
