@@ -21,6 +21,7 @@ vi.mock("../app/src/storage.js", () => ({
   loadState: vi.fn(async () => null),
   saveState: vi.fn(async () => true),
 }));
+import { loadState as mockLoad } from "../app/src/storage.js";
 
 window.SpeechSynthesisUtterance = class { constructor(t) { this.text = t; } };
 Object.defineProperty(window, "speechSynthesis", {
@@ -158,5 +159,34 @@ describe("G10 safety — S5: one attempt, one result", () => {
     fireEvent.click(screen.getByLabelText("Leave session"));
     await flush(0);
     expect(screen.getByText(/1 word has been read/)).toBeTruthy();
+  });
+});
+
+/* A1-014 / A2-014 — text a grown-up reads over the child's shoulder still has
+   to be right, because the child reads it too. "1 sessions" was the first
+   thing a child saw after their first session, on a screen that teaches
+   reading. Counted the way the exit dialog above counts words. */
+describe("G10 — the text a grown-up reads on the child's screen", () => {
+  const saved = (over) => ({
+    version: 3, level: 1, sessionsCompleted: 0, perfectStreak: 0,
+    settings: { mode: "mic", sound: true, childName: "", lang: "en-US" },
+    words: {}, log: [], ...over,
+  });
+  const openHome = async (state) => {
+    mockLoad.mockResolvedValueOnce(state);
+    render(createElement(App));
+    await flush(0);
+  };
+
+  it("27: one completed session counts as '1 session', not '1 sessions'", async () => {
+    await openHome(saved({ sessionsCompleted: 1 }));
+    expect(screen.getByText("🗓️ 1 session")).toBeTruthy();
+    expect(screen.queryByText("🗓️ 1 sessions")).toBe(null);
+  });
+
+  it("28 (control): two sessions still count as '2 sessions'", async () => {
+    await openHome(saved({ sessionsCompleted: 2 }));
+    expect(screen.getByText("🗓️ 2 sessions")).toBeTruthy();
+    expect(screen.queryByText("🗓️ 2 session")).toBe(null);
   });
 });

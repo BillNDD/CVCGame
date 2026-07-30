@@ -82,6 +82,24 @@ The first app version is 1.0.0-beta.1. The app stays in beta until version 1.0 i
   places. The label turns white as the control comes alive, so the change of colour is itself a
   sign that the control is ready. The same applies to the inert "Save as a short session" in the
   early-exit dialog.
+- Fixed: a passing message could cover the child's own control. The toast was placed a fixed
+  112 px above the bottom of the screen, which is not the height of anything: on an iPhone it
+  covered the record control by 27 px and hid its label, on iPad portrait by 3 px, and on a
+  desktop it touched the edge. The rail and the strip are a different height on every screen,
+  and the safe area moves them again. The shell now measures what is actually below the stage
+  and the toast is placed against that, so it clears the control by the same margin everywhere.
+- Fixed: "🗓️ 1 sessions" on the home screen, which is the first thing a child sees after their
+  first session, on a screen that teaches reading. It now reads "1 session", counted the way the
+  early-exit dialog already counts words.
+- Changed: the note that says the microphone can't judge a word — "Parent: 'an' and 'n' are
+  nearly indistinguishable" — no longer appears in sessions where the grown-up is grading every
+  word anyway. It was telling them something they already knew, on the one line the stage
+  reserves for adult text. It still appears in microphone sessions, where it is the reason the
+  record control is missing for that word.
+- Fixed: the dashed form in the feedback sentence could break across a line, so "sh-i-" sat on
+  one row and "p, ship." on the next. The part of the sentence that shows a word split into its
+  sounds is the part a child is meant to read, and split again it reads as two fragments. It now
+  moves to the next line whole. The sentence itself is unchanged.
 - Changed: the marker that tells a grown-up a word has come round again now says who it is for.
   It read "second look at this word", the one adult line in the app that did not name its reader
   — the microphone messages and the tricky-word notes all open with "Parent:". It sits in the

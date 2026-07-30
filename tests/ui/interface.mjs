@@ -14,7 +14,7 @@
 import { chromium } from "playwright";
 import { spawn, execSync } from "node:child_process";
 import { existsSync, readFileSync } from "node:fs";
-import { ADVANCE_GUARD_MS } from "../../src/engine.js";
+import { ADVANCE_GUARD_MS, STORE_KEY } from "../../src/engine.js";
 
 const PORT = 4183;
 const URL = `http://localhost:${PORT}/`;
@@ -324,6 +324,80 @@ for (const height of [430, 555, 720, 950]) {
     if (offlineWord) ok("a session starts offline after one online load");
     else fail("offline session failed", "word not visible");
   }
+  await context.close();
+}
+
+/* 13-15 (A1-005) — a toast must clear the child's own control. The offset was
+   a magic 112 px, which is not the height of anything: on a phone the toast
+   covered the record control by 27 px and hid its label, and on iPad portrait
+   by 3 px. The toast is raised by a real boot here — a stored value that is
+   not valid JSON is read as damaged, and the app says so — and measured
+   against the live rail control at three real device sizes. */
+{
+  const storageSrc = readFileSync("app/src/storage.js", "utf8");
+  const dbName = storageSrc.match(/DB_NAME = "([^"]+)"/)[1];
+  const dbStore = storageSrc.match(/DB_STORE = "([^"]+)"/)[1];
+  const SIZES = [{ width: 390, height: 844 }, { width: 810, height: 1080 }, { width: 1280, height: 800 }];
+  for (const vp of SIZES) {
+    const context = await browser.newContext();
+    const page = await context.newPage();
+    await page.setViewportSize(vp);
+    await page.goto(URL, { waitUntil: "load" });
+    /* Let the boot finish before seeding: the app writes a fresh save of its
+       own on first load, and that write lands on top of an early seed. */
+    await page.getByRole("button", { name: "Begin Session" }).waitFor();
+    await page.evaluate(([db, store, key]) => new Promise((resolve, reject) => {
+      const rq = indexedDB.open(db, 1);
+      rq.onupgradeneeded = () => rq.result.createObjectStore(store);
+      rq.onsuccess = () => {
+        const tx = rq.result.transaction(store, "readwrite");
+        tx.objectStore(store).put("{not json at all", key);
+        tx.oncomplete = () => resolve(true);
+        tx.onerror = () => reject(tx.error);
+      };
+      rq.onerror = () => reject(rq.error);
+    }), [dbName, dbStore, STORE_KEY]);
+    await page.reload({ waitUntil: "load" });
+    const shown = await page.locator(".wq-toast").waitFor({ timeout: 3000 }).then(() => true).catch(() => false);
+    if (!shown) { fail(`no toast at ${vp.width}x${vp.height}`, "the damaged-save boot raised none"); await context.close(); continue; }
+    const t = await page.locator(".wq-toast").boundingBox();
+    const c = await page.locator(".wq-rail .wq-cta").boundingBox();
+    const overlap = Math.min(t.y + t.height, c.y + c.height) - Math.max(t.y, c.y);
+    if (overlap <= 0) ok(`the toast clears the child's control at ${vp.width}x${vp.height} (gap ${Math.round(-overlap)}px)`);
+    else fail(`the toast covers the child's control at ${vp.width}x${vp.height}`, `overlap ${Math.round(overlap)}px`);
+    await context.close();
+  }
+}
+
+/* 16-17 (A3-014) — the dashed form is the teaching payload of the feedback
+   sentence and never breaks across a line: "sh-i-" on one row and "p, ship."
+   on the next reads as two fragments, not one word split into its sounds.
+   Check the rule reaches the element in the BUILT sheet — ten rules in this
+   stylesheet once did not — then a negative control proving the measurement
+   can see a wrap at all. */
+{
+  const context = await browser.newContext();
+  const page = await startSession(context, { width: 390, height: 720 });
+  await gradeByKey(page, "✓ got it (hold)", "Enter");
+  await page.locator(".wq-dashed").waitFor();
+  const dashed = page.locator(".wq-dashed");
+  const ws = await dashed.evaluate((el) => getComputedStyle(el).whiteSpace);
+  if (ws === "nowrap") ok("the dashed form computes white-space: nowrap in the built app");
+  else fail("the dashed form may break across lines", `white-space: ${ws}`);
+  const probe = await dashed.evaluate((el) => {
+    const copy = el.cloneNode(true);
+    copy.textContent = "sh-i-p-sh-i-p-sh-i-p-sh-i-p-sh-i-p";
+    copy.style.whiteSpace = "normal";
+    el.parentNode.appendChild(copy);
+    const wrapped = copy.getClientRects().length;
+    copy.style.whiteSpace = "nowrap";
+    const held = copy.getClientRects().length;
+    copy.remove();
+    return { wrapped, held };
+  });
+  if (probe.wrapped > 1 && probe.held === 1)
+    ok(`negative control: the same text takes ${probe.wrapped} rows without the rule and 1 with it`);
+  else fail("the wrap measurement is blind", JSON.stringify(probe));
   await context.close();
 }
 

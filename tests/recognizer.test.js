@@ -29,7 +29,7 @@ vi.mock("../app/src/storage.js", () => ({
   loadState: vi.fn(async () => null),
   saveState: vi.fn(async () => true),
 }));
-import { saveState as mockSave } from "../app/src/storage.js";
+import { saveState as mockSave, loadState as mockLoad } from "../app/src/storage.js";
 
 /* A recognizer that does NOTHING unless a test makes it. start() and stop()
    are inert on purpose: the polite double in the safety suite, whose stop()
@@ -215,5 +215,42 @@ describe("G15 recognizer — R2: an abandoned attempt can never touch the app", 
     await flush(0);
     expect(visible()).not.toBe(before);
     expect(mockSave.mock.calls.length).toBeGreaterThan(0);
+  });
+});
+
+/* A2-015 — the per-word note exists to tell the adult that recognition cannot
+   judge THIS word fairly, so it is worth saying only where recognition is
+   doing the judging. When the grown-up is already grading every word, the note
+   tells them what they know, on the one line the stage reserves for adult text
+   above the child's own control. */
+describe("G15 recognizer — R3: the 'you judge' note belongs to the microphone", () => {
+  /* The most secure word is served first, so seeding one adult-judged word at
+     the top box puts it on the opening prompt. */
+  const openOn = async (word, mode) => {
+    /* A saved "parent" that nobody chose is healed back to the microphone once
+       (shouldHealMode), so a deliberate choice is what this marker means. */
+    if (mode === "parent") localStorage.setItem("wq-mode-chosen", "1");
+    mockLoad.mockResolvedValueOnce({
+      version: 3, level: 1, sessionsCompleted: 0, perfectStreak: 0,
+      settings: { mode, sound: true, childName: "", lang: "en-US" },
+      words: { [word]: { box: 5, attempts: 3, correct: 3, close: 0, wrong: 0, dueAt: 1, lastSession: 0 } },
+      log: [],
+    });
+    render(createElement(App));
+    await flush(0);
+    fireEvent.click(screen.getByText("\u25b6\ufe0f Begin Session"));
+    await flush(0);
+    return document.querySelector(".wq-word").textContent;
+  };
+
+  it("50: no per-word note when the grown-up is grading every word anyway", async () => {
+    expect(await openOn("an", "parent")).toBe("an");
+    expect(document.querySelector(".wq-parentnote")).toBe(null);
+  });
+
+  it("51 (control): the note is there when the microphone is doing the judging", async () => {
+    expect(await openOn("an", "mic")).toBe("an");
+    expect(document.querySelector(".wq-parentnote").textContent)
+      .toBe('Parent: "an" and "n" are nearly indistinguishable, please act as judge here');
   });
 });

@@ -56,6 +56,13 @@ const CSS = `
 .wq-tile{background:${C.sun};color:${C.ink};border-radius:12px;padding:5px 12px;
   font-size:clamp(1.1rem,3.2dvh,1.6rem);font-weight:700;box-shadow:0 1px 3px rgba(23,53,107,.18)}
 .wq-slot-msg{height:52px;min-height:52px;display:flex;flex-direction:column;align-items:center;justify-content:center;margin-top:4px}
+/* A3-014 — the dashed form is the teaching payload of the feedback sentence,
+   so it never breaks across a line: "sh-i-" on one row and "p, ship." on the
+   next reads as two fragments rather than one word split into its sounds.
+   It moves to the next line whole instead. The text itself does not change,
+   so SPEC section 5 is untouched.
+   Found by an audit of the running build, 2026-07-29. */
+.wq-dashed{white-space:nowrap}
 
 /* controls */
 .wq-cta{display:block;width:100%;border:0;border-radius:999px;background:${C.action};color:#fff;padding:16px 18px;cursor:pointer;
@@ -122,8 +129,15 @@ const CSS = `
   border-radius:999px;padding:10px 18px}
 
 /* overlays */
-/* P2-2: toast sits above the action rail, never over the header */
-.wq-toast{position:absolute;left:50%;transform:translateX(-50%);bottom:calc(112px + env(safe-area-inset-bottom));
+/* P2-2 / A1-005: the toast sits above the action rail, never over the header.
+   The offset it needs is measured, not guessed — Frame publishes the real
+   height of the rail and the strip as --wq-bottomzones, because that height
+   differs on every screen and moves with the device's safe area. The 112px
+   fallback is the old constant, kept only for a first paint before the
+   measurement lands; the safe-area term below it covers the "Grown-ups corner",
+   which has neither zone and so measures zero. */
+.wq-toast{position:absolute;left:50%;transform:translateX(-50%);
+  bottom:calc(var(--wq-bottomzones,112px) + 12px + env(safe-area-inset-bottom));
   background:${C.ink};color:#fff;padding:10px 16px;border-radius:999px;
   max-width:88%;text-align:center;z-index:70}
 .wq-modalwrap{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:18px;z-index:80}

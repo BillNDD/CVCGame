@@ -313,11 +313,19 @@ The note names the word and the sound it collides with. It appears at 11.5 px, s
 note stays inside the fixed message slot and the word above never moves. The app never speaks
 this note: design rule 8 keeps letter names out of speech.
 
+The note belongs to microphone mode only. It exists to say that recognition cannot judge this
+one word, so it has nothing to tell an adult who is already judging every word — whether they
+chose grown-up grading in the corner or this visit cannot listen. In those sessions the slot
+carries no per-word note. A device-wide reason, such as a browser that cannot listen at all, is
+a different message and still appears.
+
 Layout. Each screen has three fixed zones in a `100dvh` shell: a header, a stage, and an action
 rail with the "grown-up" strip below it. The word position in the stage does not move. The tile
 row and the message row have reserved space. The stage can scroll only when the user sets a very
 large text size. The strip has extra bottom padding. This keeps the controls out of the iOS
-gesture area. A landscape screen 640 px or more wide and 420 px or more high shows the same
+gesture area. A toast never covers the child's own control. The gap it must leave is measured
+from the rail and the strip as they are rendered, because that height differs from screen to
+screen and moves with the device's safe area; it is never a fixed number of pixels. A landscape screen 640 px or more wide and 420 px or more high shows the same
 single centred column as a portrait screen, with a larger word. The tile row and the message row
 stay directly under the word, because they explain it.
 
