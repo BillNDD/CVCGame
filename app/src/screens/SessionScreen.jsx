@@ -53,7 +53,7 @@ function SessionStage({ state, currentWord, phase, fb, liveRef, micNote, adultNo
 }
 
 /* The action rail: advance control in feedback, otherwise mic or prompt. */
-function SessionRail({ state, kid, phase, advanceReady, waitMs, queue, qi, next, advanceRef, listening, micTried, startRec, softStop }) {
+function SessionRail({ state, kid, phase, advanceReady, waitMs, finishes, next, advanceRef, listening, micTried, startRec, softStop }) {
   return (
     <Zone.Rail>
       {phase === "feedback" ? (
@@ -66,7 +66,11 @@ function SessionRail({ state, kid, phase, advanceReady, waitMs, queue, qi, next,
               feedback already speaks for itself through one channel (N-9). */}
           {!advanceReady && <span key={waitMs} className="wq-ctafill" aria-hidden="true"
             style={{ "--wqfill": waitMs + "ms" }} />}
-          {qi + 1 >= queue.length ? "🏁 Finish!" : "Next word ➡️"}
+          {/* A2-003 — the label says what the press will do, and the app works
+              that out rather than reading it off the queue as it stands: a
+              missed word is put back three places later, so the last slot of
+              the queue is often not the last word of the session. */}
+          {finishes ? "🏁 Finish!" : "Next word ➡️"}
         </button>
       ) : state.settings.mode === "mic" ? (
         listening
@@ -109,8 +113,8 @@ function ExitDialog({ answered, handleExit }) {
 }
 
 export default function SessionScreen({
-  state, L, kid, currentWord, micNote, adultNote, phase, lastGrade, queue, qi, order, firstResults,
-  answered, totalQ, advanceReady, waitMs, micTried, listening, seenTwice, heard, exitAsk,
+  state, L, kid, currentWord, micNote, adultNote, phase, lastGrade, order, firstResults,
+  answered, totalQ, advanceReady, waitMs, finishes, micTried, listening, seenTwice, heard, exitAsk,
   onExitAsk, grade, next, startRec, softStop, replay, handleExit, advanceRef, toast,
 }) {
   const liveRef = useRef(null);
@@ -131,7 +135,7 @@ export default function SessionScreen({
       <SessionStage state={state} currentWord={currentWord} phase={phase} fb={fb} liveRef={liveRef} micNote={micNote} adultNote={adultNote} />
 
       <SessionRail state={state} kid={kid} phase={phase} advanceReady={advanceReady} waitMs={waitMs}
-        queue={queue} qi={qi} next={next} advanceRef={advanceRef}
+        finishes={finishes} next={next} advanceRef={advanceRef}
         listening={listening} micTried={micTried} startRec={startRec} softStop={softStop} />
 
       {/* P0-4 / P1-2 / P2-10 — grown-up strip: muted, bottom edge, small */}

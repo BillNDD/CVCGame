@@ -135,6 +135,9 @@ Result rules. Apply a result only to the first attempt of a word in a session:
 Retry rule. A first-attempt wrong puts the same word back in the queue, three positions later,
 one time. A retry does not change the box. A correct retry sets `dueAt` to the next session.
 A close result does not get a retry, because the app already gave the correct pronunciation.
+A retry is decided when the result is recorded, not when the adult advances, so the advance
+control can name what its press will do. The control reads "Finish!" only when the press ends
+the session, and "Next word" whenever another prompt follows, a second look included.
 
 Session builder. Target 20 words, no duplicates, in this priority order:
 

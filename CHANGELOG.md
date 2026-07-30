@@ -76,6 +76,12 @@ The first app version is 1.0.0-beta.1. The app stays in beta until version 1.0 i
   the one fault that cannot wait, so this release exists for it. The sentence now carries its
   pronunciation explicitly, and the build refuses any pack that leaves a sentence with a
   two-pronunciation word to the synthesiser.
+- Fixed: "🏁 Finish!" did not always finish. A word missed on the last prompt goes back in the
+  queue for a second look, but the control took its label from the queue as it stood, so it
+  promised an ending and then served a thirteenth word. A child was told the session was over
+  and it was not. The label now comes from what the press will actually do: "Next word ➡️"
+  whenever another prompt follows, "🏁 Finish!" only when pressing it ends the session. The
+  retry itself, and every count, are unchanged.
 - Fixed: opening "Finish early?" left the microphone listening behind the dialog. The stage went
   on saying "Listening…", and a reading that arrived while the grown-up was deciding whether to
   stop was recorded — an attempt nobody was watching any more. That recording is also what moved

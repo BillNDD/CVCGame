@@ -72,6 +72,20 @@ const displayState = (s, blocked) => (blocked ? asParent(s) : s);
 const shouldHealMode = (s) =>
   !!SR && s.settings.mode === "parent" && !marked("wq-mode-chosen") && !marked("wq-mic-heal-1");
 
+/* A2-003 — the two facts the advance control turns on, decided in one place so
+   its label and the press it triggers can never disagree: is a second look
+   coming, and does this press end the session? The retry rule is SPEC section 4:
+   a first-attempt miss goes back in the queue once, if the prompt cap allows.
+   The control used to read "Finish!" straight off the queue as it stands, so a
+   miss on the last slot promised an ending and then served a thirteenth prompt.
+   Pure, and reads only what the rule needs. */
+function advanceDecision({ lastGrade, retries, firstResults, word, promptCount, queue, qi }) {
+  const retry = lastGrade === "wrong"
+    && (retries[word] || 0) === 0 && firstResults[word] !== undefined
+    && promptCount + (queue.length - qi) < PROMPT_CAP;
+  return { retry, finishes: !retry && (qi + 1 >= queue.length || promptCount + 1 >= PROMPT_CAP) };
+}
+
 export default function App() {
   const [screen, setScreen] = useState("splash");
   const [state, setState] = useState(null);
@@ -211,6 +225,11 @@ export default function App() {
   const answered = order.length;
   const totalQ = queue.length || SESSION_SIZE;  // P1-5
 
+  /* Everything advanceDecision needs is already known in this render, so the
+     label the child reads and the queue next() builds come from one value. */
+  const { retry: retryComing, finishes } = advanceDecision({
+    lastGrade, retries, firstResults, word: currentWord, promptCount, queue, qi });
+
   function grade(result) {
     /* One attempt, one result. Both result controls can be held at once — two
        fingers, or a palm across the strip — and each hold matures on its own
@@ -259,8 +278,7 @@ export default function App() {
     clearNote();
     const word = queue[qi];
     let q = queue;
-    const isFirstPass = (retries[word] || 0) === 0 && firstResults[word] !== undefined;
-    if (lastGrade === "wrong" && isFirstPass && promptCount + (queue.length - qi) < PROMPT_CAP) {
+    if (retryComing) {                               // A2-003 — the same value the label was drawn from
       q = queue.slice();
       q.splice(Math.min(qi + 3, q.length), 0, word);
       setQueue(q);
@@ -570,9 +588,9 @@ export default function App() {
 
   if (screen === "session" && currentWord) {
     return <SessionScreen state={shownSession} L={L} kid={kid} currentWord={currentWord}
-      micNote={micNote} adultNote={parentNote} phase={phase} lastGrade={lastGrade} queue={queue} qi={qi} order={order}
+      micNote={micNote} adultNote={parentNote} phase={phase} lastGrade={lastGrade} order={order}
       firstResults={firstResults} answered={answered} totalQ={totalQ}
-      advanceReady={advanceReady} waitMs={waitMs} micTried={micTried} listening={listening}
+      advanceReady={advanceReady} waitMs={waitMs} finishes={finishes} micTried={micTried} listening={listening}
       seenTwice={seenTwice} heard={heard} exitAsk={exitAsk}
       onExitAsk={askExit} grade={grade} next={next}
       startRec={startRec} softStop={softStop} replay={replay}
