@@ -370,7 +370,14 @@ export default function App() {
      - a failure leaves its message in the message slot until the next
        action, not only in a passing toast. */
   const toReady = () => { setPhase(p => (p === "listening" ? "ready" : p)); setMicTried(true); };
-  const note = (msg) => { setToast(msg); setMicNote(msg); };
+  /* A2-010 — one message, one home. This used to raise a toast as well, so
+     every microphone message appeared twice at once, in the slot and in a pill
+     above the rail, and a screen reader announced it twice: the slot is a live
+     region when sound is off, and the toast is one always. The slot is the
+     better of the two — it keeps the message until the next action, where the
+     toast dropped it after 3.2 seconds — so the toast is now for adult
+     confirmations that have no slot of their own. */
+  const note = (msg) => { setMicNote(msg); };
   const clearNote = () => { if (!micVisitBlock) setMicNote(""); };
   function retire(rec) {
     clearTimeout(watchdogRef.current); clearTimeout(graceRef.current);
@@ -485,14 +492,21 @@ export default function App() {
     mark("wq-mode-chosen");        // a denial is a choice: the heal never overrides it
     mark("wq-mode-denied");        // ...and it is the reason the microphone is gone
     const s = structuredClone(stateRef.current); s.settings.mode = "parent";
-    setState(s); persist(s); setToast(msg);
+    setState(s); persist(s);
+    /* A2-010 — a denial keeps its message, and only one of them. The standing
+       reason (SPEC section 8) appears the moment the mode changes, stays for as
+       long as the microphone is gone, and adds how to get it back, so it says
+       everything this sentence says. It needs the marker to have been stored,
+       though, and a device in private mode can refuse that — there the slot
+       carries the momentary sentence, so a denial is never silent. */
+    setMicNote(micAbsenceReason(s.settings.mode) ? "" : msg);
   }
   function fallbackToParent(msg) { persistDenial(msg); setPhase("ready"); }
   /* W4b — grown-up grading for THIS VISIT only: the saved setting never
      changes, so the microphone comes back on the next open in a browser
      that can listen. */
   function visitFallback(msg) {
-    setMicVisitBlock(true); setPhase("ready"); setToast(msg); setMicNote(msg);
+    setMicVisitBlock(true); setPhase("ready"); setMicNote(msg);   // A2-010 — the slot, not the slot and a toast
   }
   /* S1 — recognition may only ever CONFIRM a correct reading, so a false
      accept is the one error that matters here. The old rule accepted the

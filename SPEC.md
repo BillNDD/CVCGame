@@ -459,8 +459,9 @@ The reference build runs in a chat host. A standalone build changes four items:
    only after the stop — so a reading confirmed late still counts. An event from an
    abandoned attempt never reaches the screen: the feedback phase cannot be torn down by a
    tardy error, and one reading can never record twice. A failure leaves its message in the
-   message slot until the next action, not only in a passing toast. These are the exact
-   sentences:
+   message slot until the next action. It is written once: the slot is its home, never the
+   slot and a passing toast at the same time. A toast carries a grown-up confirmation that
+   has no slot of its own, such as "Backup file saved." These are the exact sentences:
 
    ```
    retry     "Didn’t catch that — tap to try again."
@@ -470,7 +471,10 @@ The reference build runs in a chat host. A standalone build changes four items:
    ```
 
    A microphone that is absent says why, on the page, for as long as it stays absent. An
-   adult who chose grown-up mode sees none of these: that is a choice, not a fault. The
+   adult who chose grown-up mode sees none of these: that is a choice, not a fault. A denial
+   shows the standing sentence below, which lasts as long as the denial does and says how to
+   undo it, so the momentary sentence above appears only where the standing one cannot: a
+   device that refuses to store the marker, such as a browser in private mode. The
    device-wide reason wins over the per-word one, because it is true of every word:
 
    ```
