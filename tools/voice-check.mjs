@@ -60,17 +60,33 @@ function check(manifest, verifyFiles) {
      how much to cut from each. A pack that trims a different amount, or trims
      a word nobody listened to, has not been approved. */
   const APPROVED_TRIM = { cub: 130, hip: 130, dish: 120 };
-  /* Two blind rounds, 2026-07-27 and 2026-07-28. Six words are rendered inside
-     a carrier sentence and cut back out, because standing alone they ended in
-     a trailing vowel or a burst of noise. One has what precedes its first
-     burst removed, and one has the low frequencies taken out of its first
+  /* Two blind rounds, 2026-07-27 and 2026-07-28. Four words are spoken with a
+     full stop after them, because a word standing alone gets no sentence shape
+     and the voice never finishes its last consonant. One has what precedes its
+     first burst removed, and one has the low frequencies taken out of its first
      70 ms so its s cannot read as a z. Each won a numbered, shuffled round in
      which the build of the day was one of the candidates — and the same
      treatment was REFUSED for the bank at large, because four of five words
-     already judged perfect came back worse. */
-  const APPROVED_PERIOD = ["cup", "hop", "jug", "pop", "rub"];
+     already judged perfect came back worse.
+     This is NOT the carrier cut below: a full stop is appended to the word and
+     the whole utterance ships. "hop" left this list for that treatment when a
+     listener failed its full-stop rendering outright. */
+  const APPROVED_PERIOD = ["cup", "jug", "pop", "rub"];
   const APPROVED_ONSET = ["tap"];
   const APPROVED_BRIGHT = { sip: 70 };
+  /* Round 13, 2026-07-29, judged 2026-07-30. Two words are spoken inside a
+     carrier sentence and cut back out of it — the isolation round 10 could not
+     perform, because it searched for a gap the carrier never contains. Each
+     entry is [carrier, margin ms, gap floor dB, gap length ms], and every one
+     of those numbers is a thing a listener heard and chose between.
+     "hop" moved here OUT of period_words: its full-stop rendering was offered
+     blind as one of four candidates and came back "unacceptable, still saying
+     hop + uh". "hen" ships untrimmed — trimming its tail by 60 ms lost it, and
+     by 100 ms clipped the n. */
+  const APPROVED_CARRIER = {
+    hop: ["Here is the word, hop.", 150, -20, 20],
+    hen: ["hen, hen.", 150, -30, 40],
+  };
   const r = manifest.__recipe;
   if (!r) problems.push("the pack declares no recipe: it cannot be shown to be the approved render");
   else {
@@ -92,6 +108,14 @@ function check(manifest, verifyFiles) {
       if (bright[w] !== want) problems.push(`recipe brightens ${w} over ${JSON.stringify(bright[w])} ms, approved is ${want} ms`);
     for (const w of Object.keys(bright))
       if (!(w in APPROVED_BRIGHT)) problems.push(`recipe brightens a word nobody approved: ${w}`);
+    const carrier = r.carrier_cut || {};
+    for (const [w, want] of Object.entries(APPROVED_CARRIER)) {
+      const got = carrier[w];
+      if (JSON.stringify(got) !== JSON.stringify(want))
+        problems.push(`recipe cuts ${w} from ${JSON.stringify(got)}, approved is ${JSON.stringify(want)}`);
+    }
+    for (const w of Object.keys(carrier))
+      if (!(w in APPROVED_CARRIER)) problems.push(`recipe cuts a word out of a carrier nobody approved: ${w}`);
     /* Two-letter words are read wrongly from spelling. Every one of them must
        be rendered from an approved pronunciation instead. */
     const short = script.filter((c) => c.id.startsWith("w:") && c.id.length === 4).map((c) => c.id.slice(2));
@@ -159,14 +183,26 @@ if (process.argv.includes("--self-test")) {
   const sawRound9 = up.some((p) => p.startsWith("recipe period_words is")) &&
     up.some((p) => p.startsWith("recipe onset_trim_words is")) &&
     up.some((p) => p.startsWith("recipe brightens sip over 200"));
+  /* Round 13's result, quietly altered: a margin a listener never heard, a
+     tail trim they explicitly rejected for hen, and a word given the carrier
+     treatment nobody offered them. Each is a way an approved cut could drift
+     while every clip stayed present and the right length. */
+  const recut = { ...manifest, __recipe: { ...manifest.__recipe, carrier_cut: {
+    hop: ["Here is the word, hop.", 60, -20, 20],
+    hen: ["hen, hen.", 150, -30, 40],
+    sun: ["Here is the word, sun.", 150, -20, 20],
+  } } };
+  const cp = check(recut, false).problems;
+  const sawCarrier = cp.some((p) => p.startsWith("recipe cuts hop from")) &&
+    cp.some((p) => p.startsWith("recipe cuts a word out of a carrier nobody approved: sun"));
   const noRecipe = { ...manifest };
   delete noRecipe.__recipe;
   const sawNoRecipe = check(noRecipe, false).problems.some((p) => p.startsWith("the pack declares no recipe"));
-  if (sawMissing && sawOrphan && sawLie && sawRecipe && sawSpelling && sawNoRecipe && sawTrim && sawReed && sawRound9 && sawWordy && sentenceOk) {
-    console.log("self-test OK: a removed word clip, a planted orphan, a lying duration, a drifted recipe, a two-letter word left to spelling, a pack with no recipe at all, a trim nobody heard, a sentence with 'read' left to spelling, a listening round's result quietly changed, and a word clip long enough to hold a sentence are caught");
+  if (sawMissing && sawOrphan && sawLie && sawRecipe && sawSpelling && sawNoRecipe && sawTrim && sawReed && sawRound9 && sawCarrier && sawWordy && sentenceOk) {
+    console.log("self-test OK: a removed word clip, a planted orphan, a lying duration, a drifted recipe, a two-letter word left to spelling, a pack with no recipe at all, a trim nobody heard, a sentence with 'read' left to spelling, a listening round's result quietly changed, an approved carrier cut re-cut at a margin nobody heard, and a word clip long enough to hold a sentence are caught");
     process.exit(0);
   }
-  console.error("self-test FAILED: " + JSON.stringify({ sawMissing, sawOrphan, sawLie, sawRecipe, sawSpelling, sawNoRecipe, sawTrim, sawReed, sawRound9, sawWordy, sentenceOk }));
+  console.error("self-test FAILED: " + JSON.stringify({ sawMissing, sawOrphan, sawLie, sawRecipe, sawSpelling, sawNoRecipe, sawTrim, sawReed, sawRound9, sawCarrier, sawWordy, sentenceOk }));
   process.exit(1);
 }
 

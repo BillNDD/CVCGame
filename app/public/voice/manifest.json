@@ -341,7 +341,7 @@
  },
  "w:hop": {
   "file": "w-hop.mp3",
-  "ms": 1169
+  "ms": 910
  },
  "w:cot": {
   "file": "w-cot.mp3",
@@ -445,7 +445,7 @@
  },
  "w:hen": {
   "file": "w-hen.mp3",
-  "ms": 1212
+  "ms": 990
  },
  "w:pen": {
   "file": "w-pen.mp3",
@@ -1135,7 +1135,6 @@
   ],
   "period_words": [
    "cup",
-   "hop",
    "jug",
    "pop",
    "rub"
@@ -1145,6 +1144,20 @@
   ],
   "bright_head_ms": {
    "sip": 70
+  },
+  "carrier_cut": {
+   "hen": [
+    "hen, hen.",
+    150,
+    -30,
+    40
+   ],
+   "hop": [
+    "Here is the word, hop.",
+    150,
+    -20,
+    20
+   ]
   }
  }
 }

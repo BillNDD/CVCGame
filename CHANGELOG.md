@@ -82,6 +82,15 @@ The first app version is 1.0.0-beta.1. The app stays in beta until version 1.0 i
   places. The label turns white as the control comes alive, so the change of colour is itself a
   sign that the control is ready. The same applies to the inert "Save as a short session" in the
   early-exit dialog.
+- Fixed: "hop" and "hen" are spoken properly at last. Both ended in an extra sound — "hop"
+  arrived as "hop + uh" and "hen" carried a fuzz after the n — and both now come from a
+  carrier sentence, cut back out of it, which is what gives a word's last consonant a proper
+  release. A listener judged them "very good" and "almost perfect" against the build of the
+  day, blind. "hop" had been rendered with a full stop after it since beta.7; offered as one
+  of four unlabelled candidates it came back unacceptable, so that treatment is gone rather
+  than added to. Trimming the fuzz off "hen" was tried and rejected: 60 ms made it worse and
+  100 ms cut into the n itself, so it ships untrimmed. Two clips of 276 changed, and each is
+  the same file, byte for byte, that the listener approved.
 - Fixed: a passing message could cover the child's own control. The toast was placed a fixed
   112 px above the bottom of the screen, which is not the height of anything: on an iPhone it
   covered the record control by 27 px and hid its label, on iPad portrait by 3 px, and on a

@@ -32,16 +32,51 @@ app carries only the audio files.
   phonemiser derives from the spelling. For every three-letter word tested it does not: the
   two renders are byte-identical. This was learned the expensive way, by shipping a "fix"
   for "tap" and "sip" that changed nothing.
-- Five words — cup, rub, jug, pop and hop — render as a sentence, with a full stop after the
-  word, because a word alone gets no sentence shape and the voice never finishes its last
-  consonant. "tap" has whatever precedes its first burst removed, and "sip" has the low
-  frequencies taken out of its first 70 ms so its s cannot read as a z. All three treatments
-  won a blind round against the build of the day.
+- Four words — cup, rub, jug and pop — render as a sentence, with a full stop after the word,
+  because a word alone gets no sentence shape and the voice never finishes its last
+  consonant. ("hop" was a fifth until round 13, where that rendering was failed outright.)
+  "tap" has whatever precedes its first burst removed, and "sip" has the low frequencies
+  taken out of its first 70 ms so its s cannot read as a z. All three treatments won a blind
+  round against the build of the day.
 - The clip list comes from the live engine, never from a hand-kept list.
-- Known imperfect, waiting for the next listening round: cup, rub, jug, pop, hop (better, but
-  the listener rates them "almost" and "marginally" acceptable), and hen, where nothing tried
-  has beaten the current build. Each carries an extra sound a listener can hear and no
-  automatic check can.
+- Two words — hop and hen — are spoken inside a carrier sentence and cut back out of it, at
+  the per-word thresholds in `carrier_cut`. This is the isolation round 10 could not do; see
+  below.
+- Approved by a listener and NOT YET IN THE PACK: cup and pop. See "Approved and unshipped".
+  That entry exists because the result was lost once already: it was won on 28 July, held
+  back while an audit ran, and never picked back up — beta.9 shipped the rendering it was
+  meant to replace.
+
+## Round 13, judged 2026-07-30
+
+hop and hen are now in the pack, as the exact files the listener approved: a re-render
+reproduces `hop__1` and `hen__2` byte for byte, and 2 clips of 276 changed.
+
+| Word | Verdict | Treatment now shipping |
+|---|---|---|
+| hop | "very good" | carrier `Here is the word, hop.` — 150 ms lead, gap 20 ms at −20 dB |
+| hen | "almost perfect" | carrier `hen, hen.` — 150 ms lead, floor −30 dB, gap 40 ms, no trim |
+
+Two findings that constrain any further work on these words:
+
+- **The full-stop rendering of "hop" was unacceptable.** It was offered blind as one of four
+  candidates and came back "unacceptable, still saying hop + uh". So hop LEFT `period_words`
+  rather than gaining a second treatment, and beta.9 and every build before it shipped a hop
+  a listener has now failed outright.
+- **Trimming hen's tail takes something real.** The approved clip trimmed by 60 ms fell to
+  "marginally acceptable" and by 100 ms to "clipped at the end, too quick". The fuzz at the
+  end of hen is not separable from the n by a tail trim. Do not spend another round on it.
+
+## Approved and unshipped: cup and pop
+
+Both won the comma carrier in round 12 — "perfect" and "very good" — and neither is in the
+pack. They are not shipped because the record does not say WHICH MARGIN WENT WITH WHICH WORD.
+Two contemporaneous notes say only "the comma carrier at 150 and 100 ms came back 'perfect'
+and 'very good'". Reading the two lists in parallel gives cup 150 and pop 100, and that is a
+guess about audio, which this file exists to forbid. A two-word round settles it.
+
+Applying them needs the renderer, and a re-render must be checked byte for byte against the
+approved candidate before it ships (see the rule above, and round 9).
 
 ## A result that could not be used, 2026-07-28
 
