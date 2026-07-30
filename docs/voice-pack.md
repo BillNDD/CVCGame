@@ -47,6 +47,52 @@ app carries only the audio files.
   back while an audit ran, and never picked back up — beta.9 shipped the rendering it was
   meant to replace.
 
+## Listening sweep, pack 1 of 10 — judged 2026-07-30
+
+25 Level 2 words, named not blind, as they ship. 20 judged, 5 not reached
+(lap, mad, man, map, mat — they carry over to pack 2).
+
+| Verdict | Words |
+|---|---|
+| perfect | bad, cab, dab, dad, nap, pad, pan, rag |
+| very good / good | fan, has, bag, cap |
+| marginal pass | bat, cat — both "a little metallic" |
+| **unacceptable** | **can, had, ham, hat, jam, pal** |
+
+Six of twenty failed. That is a far higher rate than the treated words suggested,
+and the failures are not spread at random.
+
+**Two classes account for almost all of it.**
+
+- **Every -t word in the pack was marginal or worse**: bat and cat "a little
+  metallic", hat "too metallic and static at end". 3 of 3. The bank holds 43
+  words ending in -t.
+- **Three of four h- words were unacceptable**: had "too metallic, too quick",
+  ham "too much static at front", hat "metallic and static at end". Only has
+  passed, and it is the only one of the four ending in a fricative. The bank
+  holds 17 words starting with h-.
+
+"hat" is in both classes and drew the worst description of the four h- words.
+
+**A third fault, already known:** jam has an "uh" before the j — the same onset
+fault as tap, which is why tap is in `onset_trim_words`. jam was the only
+j- word in the pack.
+
+**And one that is neither:** pal, "too quick and static at end". It is the only
+word in the pack ending in -l.
+
+**"Metallic" and "static" are a new fault class.** Everything found before this
+pack was an extra SOUND — a vowel, a burst, a fuzz — that a trim or a carrier
+could remove. These descriptions are about timbre, not about an extra segment,
+so no treatment now in the recipe would address them. Bitrate was ruled out for
+other words by a device test on 2026-07-28, so that is not the first place to
+look.
+
+**Duration does not predict any of it.** With 20 labelled words the two groups
+are indistinguishable: failures run 768-960 ms of speech, passes 789-960 ms,
+and both have a median of 832 ms. This is the second time a measurable proxy
+has been tried and failed. Listening is the only detector this project has.
+
 ## Round 13, judged 2026-07-30
 
 hop and hen are now in the pack, as the exact files the listener approved: a re-render
