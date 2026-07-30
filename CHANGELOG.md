@@ -76,6 +76,12 @@ The first app version is 1.0.0-beta.1. The app stays in beta until version 1.0 i
   the one fault that cannot wait, so this release exists for it. The sentence now carries its
   pronunciation explicitly, and the build refuses any pack that leaves a sentence with a
   two-pronunciation word to the synthesiser.
+- Changed: while "Next word ➡️" waits for the reveal, its label is now dark ink instead of white.
+  White on the waiting colour measured 2.14:1, and 2.88:1 where the progress fill had crossed it,
+  which is hard to read at arm's length; the ink measures 5.57:1 and 4.14:1 in the same two
+  places. The label turns white as the control comes alive, so the change of colour is itself a
+  sign that the control is ready. The same applies to the inert "Save as a short session" in the
+  early-exit dialog.
 - Fixed: every microphone message was written twice at once — once in the message slot under
   the word, and once in a dark pill above the buttons — so a grown-up read the same sentence
   twice and looked for the difference, and a screen reader announced it twice over. Each message
