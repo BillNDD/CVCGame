@@ -608,7 +608,15 @@ export default function App() {
   /* Why the microphone is absent, derived rather than stored, so advancing to
      the next word can never clear it. The device-wide reason wins over the
      per-word one: it is true of every word, not just this one. */
-  const parentNote = micAbsenceReason(state.settings.mode) || adultNote(currentWord);
+  /* A2-015 — the per-word note tells the adult that recognition cannot judge
+     THIS word, so it is worth saying only where recognition is doing the
+     judging. When the adult is already grading every word — by their own
+     choice in the corner, or because this visit cannot listen — the note tells
+     them something they know, on the one line the stage reserves for adult
+     text. The device-wide reason above it is a different message and stays. */
+  const adultJudgesEveryWord = micBlocked || state.settings.mode === "parent";
+  const parentNote = micAbsenceReason(state.settings.mode)
+    || (adultJudgesEveryWord ? "" : adultNote(currentWord));
   const shown = displayState(state, micBlocked);
   const shownSession = displayState(state, micBlocked || !!parentNote);
 

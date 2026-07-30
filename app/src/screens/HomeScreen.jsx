@@ -23,7 +23,10 @@ export default function HomeScreen({ state, L, kid, masteredCount, persistent, r
           <div className="wq-card" style={{ marginTop: 18, padding: 16 }}>
             <div style={{ fontWeight: 800, color: C.ink, fontSize: 18 }}>Level {state.level} {L.emoji} {L.name}</div>
             <div style={{ marginTop: 8, display: "flex", justifyContent: "center", gap: 18, color: C.ink2, fontSize: 13.5, fontWeight: 700 }}>
-              <span>🗓️ {state.sessionsCompleted} sessions</span><span>🌟 {masteredCount} mastered</span>
+              {/* A1-014 / A2-014 — "1 sessions" was the first thing a child saw
+                  after their first session, on a screen that teaches reading.
+                  Counted the way the exit dialog counts words. */}
+              <span>🗓️ {state.sessionsCompleted} {state.sessionsCompleted === 1 ? "session" : "sessions"}</span><span>🌟 {masteredCount} mastered</span>
             </div>
           </div>
           {/* #96261d: warning red dark enough for 4.5:1 on the gradient */}
