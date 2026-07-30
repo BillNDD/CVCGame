@@ -82,6 +82,12 @@ The first app version is 1.0.0-beta.1. The app stays in beta until version 1.0 i
   places. The label turns white as the control comes alive, so the change of colour is itself a
   sign that the control is ready. The same applies to the inert "Save as a short session" in the
   early-exit dialog.
+- Changed: the marker that tells a grown-up a word has come round again now says who it is for.
+  It read "second look at this word", the one adult line in the app that did not name its reader
+  — the microphone messages and the tricky-word notes all open with "Parent:". It sits in the
+  "grown-up" strip, which a child can see, so a child who can read it read a verdict on the
+  attempt they had just made. It now reads "Parent: second look", which keeps the grown-up's cue
+  for why the word returned and is shorter on a line that has little room.
 - Fixed: every microphone message was written twice at once — once in the message slot under
   the word, and once in a dark pill above the buttons — so a grown-up read the same sentence
   twice and looked for the difference, and a screen reader announced it twice over. Each message

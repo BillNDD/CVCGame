@@ -114,7 +114,7 @@ describe("G10 — the child hears the word before the app lets them move on", ()
     fireEvent.click(advance());
     await flush(0);
     expect(document.querySelector(".wq-word").textContent).toBe(word);
-    expect(screen.getByText("second look at this word")).toBeTruthy();
+    expect(screen.getByText("Parent: second look")).toBeTruthy();
   });
 
   it("6 (pair): a correct last word says \"Finish!\", and the press ends the session", async () => {
