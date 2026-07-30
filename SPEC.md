@@ -360,6 +360,11 @@ reveal or the 400 ms guard. It carries no text, because a child who is learning 
 have to read anything to understand a wait. The fill is information, not decoration, so it still
 runs when the device asks for reduced motion.
 
+The advance control takes the keyboard when it becomes active, not when the result is recorded,
+because a disabled control cannot hold focus. So the next key press moves the session on, and a
+screen reader announces the control as soon as it can be used. If the grown-up has moved to
+another control while the wait ran, or the early-exit dialog is open, their choice stands.
+
 Done. This screen shows a trophy, the three counters, and the accuracy. A praise line has three
 steps: 90 percent or more, 70 percent or more, and below 70 percent. A level-up shows in the trophy zone, not as an
 extra row.

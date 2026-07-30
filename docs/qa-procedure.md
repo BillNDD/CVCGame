@@ -132,6 +132,12 @@ This document follows the Microsoft Writing Style Guide.
     controls: an inert "Save as a short session", "Discard and go home", and "Keep reading".
     Nothing you say is recorded, and no control moves. "Keep reading" returns to the same word.
 
+## Keyboard
+
+39. On the Windows laptop, start a session, hold or press a result control, and wait for the reveal to finish without touching the mouse. Then press Enter.
+    Expected: "Next word ➡️" gains the focus ring the moment it becomes active, and Enter moves
+    to the next word. No Tab press is needed.
+
 ## Assistive technology
 
 36. On the iPad, turn VoiceOver on. Start a session, swipe to the "✓ got it" control, double-tap it, then repeat with "✗ not yet".

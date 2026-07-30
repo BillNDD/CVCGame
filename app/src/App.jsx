@@ -221,6 +221,23 @@ export default function App() {
     advanceTimer.current = setTimeout(() => { advanceLive.current = true; setAdvanceReady(true); }, ms);
   }
 
+  /* A1-007 / A2-005 — P1-7, the keyboard's place in the session. The grade used
+     to hand focus to the advance control straight away, but the control is
+     disabled for the whole reveal, and focusing a disabled button does nothing:
+     focus fell to the page body, so Enter did nothing and VoiceOver lost the
+     session on every word. An effect can wait for the control to come alive.
+     Focus is only taken from the page body or from the result control the
+     grown-up just used — if they have moved to another control, or the exit
+     dialog is open, their choice stands. */
+  useEffect(() => {
+    if (!advanceReady || phase !== "feedback" || exitAsk) return;
+    const el = advanceRef.current;
+    if (!el || el.disabled) return;
+    const from = document.activeElement;
+    if (from && from !== document.body && !from.classList.contains("wq-hold")) return;
+    el.focus();
+  }, [advanceReady, phase, exitAsk]);
+
   const currentWord = queue[qi];
   const answered = order.length;
   const totalQ = queue.length || SESSION_SIZE;  // P1-5
@@ -270,7 +287,8 @@ export default function App() {
     speakVoice(result, word, praiseIdx, s.settings.sound,
       () => speak(feedbackSpeech(result, word, praiseIdx), true, s.settings.lang),
       (ms) => armAdvance(ms));
-    requestAnimationFrame(() => { if (advanceRef.current) advanceRef.current.focus(); }); // P1-7
+    /* P1-7 lives in the effect below: this is the moment the control is
+       disabled, so focusing it from here does nothing at all. */
   }
 
   function next() {
