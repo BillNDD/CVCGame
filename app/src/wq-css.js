@@ -60,7 +60,13 @@ const CSS = `
 /* controls */
 .wq-cta{display:block;width:100%;border:0;border-radius:999px;background:${C.action};color:#fff;padding:16px 18px;cursor:pointer;
   box-shadow:0 3px 10px rgba(23,53,107,.18);min-height:56px;position:relative;overflow:hidden;isolation:isolate}
-.wq-cta:disabled{cursor:default;box-shadow:none}
+/* A2-011 — an inert control keeps a readable label. White on the pale grey
+   measured 2.14:1, and 2.87:1 where the fill band crosses it; the ink reads
+   5.57:1 and 4.14:1 in the same two places. WCAG exempts an inactive control,
+   which is why the contrast walker skips it, but this control waits about six
+   seconds on every word and it is the one the grown-up is watching. The label
+   turning white as the control wakes is one more sign that it is now live. */
+.wq-cta:disabled{cursor:default;box-shadow:none;color:${C.ink}}
 /* A1-004 — the wait made visible. The advance control is inert while the reveal
    plays, about six seconds: praise, a pause, "The word was", a pause, then the
    word. It used to be a grey box with nothing happening in it, so a child had

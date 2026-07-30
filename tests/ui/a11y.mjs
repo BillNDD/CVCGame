@@ -159,6 +159,32 @@ await audit("session");
   await b.focus(); await b.press("Enter");
   await page.locator(".wq-tile").first().waitFor();
   await page.waitForTimeout(500);
+  /* A2-011 — the inert advance control, measured on purpose. WCAG exempts an
+     inactive component and the walker above skips it by design, but this one
+     waits about six seconds on every word and it is the control the grown-up
+     is watching. Two backgrounds: the control's own, and the part the fill
+     band has already crossed, which is the control's colour darkened by the
+     band's own alpha. */
+  {
+    const m = await page.evaluate(() => {
+      const toLin = (c) => { c /= 255; return c <= 0.04045 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4); };
+      const lum = (p) => 0.2126 * toLin(p[0]) + 0.7152 * toLin(p[1]) + 0.0722 * toLin(p[2]);
+      const ratio = (a, b) => { const x = lum(a) + 0.05, y = lum(b) + 0.05; return x > y ? x / y : y / x; };
+      const parse = (s) => { const q = s.match(/rgba?\(([\d.]+),\s*([\d.]+),\s*([\d.]+)(?:,\s*([\d.]+))?\)/);
+        return q ? { rgb: [+q[1], +q[2], +q[3]], a: q[4] === undefined ? 1 : +q[4] } : null; };
+      const btn = document.querySelector(".wq-rail button.wq-cta");
+      if (!btn || !btn.disabled) return { inert: false };
+      const cs = getComputedStyle(btn);
+      const fg = parse(cs.color).rgb, bg = parse(cs.backgroundColor).rgb;
+      const fillEl = btn.querySelector(".wq-ctafill");
+      const fill = fillEl ? parse(getComputedStyle(fillEl).backgroundColor) : null;
+      const band = fill ? [0, 1, 2].map((i) => fill.rgb[i] * fill.a + bg[i] * (1 - fill.a)) : bg;
+      return { inert: true, bare: ratio(fg, bg), band: ratio(fg, band) };
+    });
+    if (m.inert && m.bare >= 4.5 && m.band >= 4) {
+      ok(`inert advance control: label ${m.bare.toFixed(2)}:1 on its own colour, ${m.band.toFixed(2)}:1 under the fill`);
+    } else fail("inert advance control label", JSON.stringify(m));
+  }
   const note = page.locator("text=Tricky word!");
   if (await note.count() > 0) ok("the tricky-word note is on the audited feedback screen");
   else fail("tricky-word note missing", "the seeded tricky word did not show its note");
