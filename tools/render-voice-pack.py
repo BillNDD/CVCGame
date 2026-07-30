@@ -129,9 +129,37 @@ SILENCE_FLOOR_DB = -45  # what counts as the end of the speech, before trimming
 # burst won its round.
 # BRIGHT_HEAD_MS: "sip" arrived as "zip". Taking the low frequencies out of
 # the first 70 ms, so the s cannot read as voiced, won its round.
-PERIOD_WORDS = {"cup", "rub", "jug", "pop", "hop"}
+PERIOD_WORDS = {"cup", "rub", "jug", "pop"}
 ONSET_TRIM = {"tap"}
 BRIGHT_HEAD_MS = {"sip": 70}
+
+# CARRIER_CUT, from round 13 on 2026-07-29, judged 2026-07-30. This is the
+# isolation that round 10 could not do and left as the open problem above: the
+# word is spoken inside a carrier sentence, which is what gives its ending a
+# proper release, and is then cut back out of that sentence.
+#
+# What makes it work now is the gap search. Round 10 looked for 40 ms below
+# -35 dB and "Here is the word cup." never goes that quiet, so the cut never
+# cut and the listener was rating whole sentences. These thresholds are per
+# word, found by offering a listener candidates at several depths:
+#   (carrier sentence, margin kept in front, gap floor dB, gap length ms)
+#
+# hop: the full stop it used to carry was offered blind as one of four and
+# came back "unacceptable, still saying hop + uh" — so PERIOD_WORDS lost that
+# word rather than gained a sibling. The comma carrier at 150 ms won at "very
+# good"; the same carrier at 100 ms was only "marginally acceptable", and the
+# full-stop carrier "ok". The "said twice" carrier is out for hop entirely:
+# every version began with the release of the FIRST hop, heard as "an s then
+# hop".
+# hen: "hen, hen." at 150 ms is the round 12 winner, unchanged, at "almost
+# perfect". Round 13 asked whether its remaining fuzz could be trimmed off the
+# end. It cannot: trimmed by 60 ms it fell to "marginally acceptable" and by
+# 100 ms to "clipped at the end, too quick". The fuzz is not separable from
+# the n, so hen ships untrimmed. Do not add a trim here.
+CARRIER_CUT = {
+    "hop": ("Here is the word, hop.", 150, -20, 20),
+    "hen": ("hen, hen.", 150, -30, 40),
+}
 
 OUT = pathlib.Path(out_dir)
 OUT.mkdir(parents=True, exist_ok=True)
@@ -176,6 +204,32 @@ def brighten_head(audio, sr, ms):
     return a
 
 
+def carrier_cut(k, text, margin_ms, floor_db, gap_ms):
+    """Say the carrier sentence, then keep what follows its last gap, backed
+    off by margin_ms so the word's first consonant is not clipped.
+
+    The frame walk here must stay exactly as it is: it reproduces the clips a
+    listener approved, and this file's own rule is that a re-render is
+    byte-identical to what was heard. The window ends at len(a) - n + 1, not
+    len(a) - n as in trim() and onset_trim() above — one frame's difference,
+    but it moves the cut."""
+    a, sr = k.create(text, voice=VOICE, speed=WORD_SPEED, lang="en-us")
+    a = np.asarray(a, dtype=np.float32)
+    n = int(0.01 * sr)
+    frames = [a[i:i + n] for i in range(0, len(a) - n + 1, n)]
+    rms = np.array([np.sqrt(np.mean(f.astype(np.float64) ** 2)) for f in frames])
+    db = 20 * np.log10(np.maximum(rms, 1e-9) / rms.max())
+    end = int(np.max(np.nonzero(db > -45)))
+    run, start = 0, 0
+    for i in range(end):
+        run = run + 1 if db[i] < floor_db else 0
+        # a gap only counts if at least 200 ms of speech follows it, so the
+        # search cannot settle on a pause inside the word itself
+        if run >= max(1, gap_ms // 10) and (end - i) * 10 >= 200:
+            start = i + 1
+    return a[max(0, start - margin_ms // 10) * n:(end + 1) * n], sr
+
+
 def shape(audio, lead_ms, sr):
     """Protect the onset, release the ending, remove clicks at both edges."""
     a = np.clip(np.asarray(audio, dtype=np.float32), -1.0, 1.0).copy()
@@ -196,13 +250,16 @@ for clip in script:
     word = cid[2:] if is_word else None
     phoneme = PHONEMES.get(word) if is_word else SENTENCE_PHONEMES.get(cid)
     spoken = phoneme or (text + "." if word in PERIOD_WORDS else text)
-    audio, sr = k.create(
-        spoken,
-        voice=VOICE,
-        speed=WORD_SPEED if is_word else SENTENCE_SPEED,
-        lang="en-us",
-        is_phonemes=bool(phoneme),
-    )
+    if word in CARRIER_CUT:
+        audio, sr = carrier_cut(k, *CARRIER_CUT[word])
+    else:
+        audio, sr = k.create(
+            spoken,
+            voice=VOICE,
+            speed=WORD_SPEED if is_word else SENTENCE_SPEED,
+            lang="en-us",
+            is_phonemes=bool(phoneme),
+        )
     if word in ONSET_TRIM:
         audio = onset_trim(audio, sr)
     if word in BRIGHT_HEAD_MS:
@@ -238,6 +295,8 @@ manifest["__recipe"] = {
     "phoneme_sentences": sorted(SENTENCE_PHONEMES),
     "period_words": sorted(PERIOD_WORDS), "onset_trim_words": sorted(ONSET_TRIM),
     "bright_head_ms": BRIGHT_HEAD_MS,
+    # every number a listener judged, so a re-render that changes one fails G13
+    "carrier_cut": {w: list(v) for w, v in sorted(CARRIER_CUT.items())},
 }
 (OUT / "manifest.json").write_text(json.dumps(manifest, indent=1) + "\n")
 pathlib.Path(out_dir + "-review.csv").write_text("\n".join(review) + "\n")

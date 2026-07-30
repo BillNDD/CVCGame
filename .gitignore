@@ -72,3 +72,11 @@ notes/
 
 # ---- Gauntlet run lock ----
 .gauntlet.lock/
+
+# Voice renderer inputs, fetched on demand (docs/voice-pack.md). Hundreds of MB;
+# never committed. The pack itself is committed, the model that renders it is not.
+kokoro-v1.0.onnx
+voices-v1.0.bin
+kokoro-env/
+# the clip list the renderer reads, regenerated from the engine each time
+script.json
