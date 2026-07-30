@@ -76,6 +76,13 @@ The first app version is 1.0.0-beta.1. The app stays in beta until version 1.0 i
   the one fault that cannot wait, so this release exists for it. The sentence now carries its
   pronunciation explicitly, and the build refuses any pack that leaves a sentence with a
   two-pronunciation word to the synthesiser.
+- Fixed: the keyboard lost the session on every word. Recording a result was supposed to hand
+  focus to "Next word ➡️", but that control is deliberately dead while the reveal plays, and
+  focusing a dead control does nothing — so focus fell to the page, Enter did nothing, and a
+  grown-up using VoiceOver had to hunt for the control again on every word. Focus now arrives the
+  moment the control comes alive, which is also the moment a screen reader can usefully announce
+  it. If the grown-up has moved to another control during the wait, or the early-exit dialog is
+  open, nothing is taken from them.
 - Fixed: "🏁 Finish!" did not always finish. A word missed on the last prompt goes back in the
   queue for a second look, but the control took its label from the queue as it stood, so it
   promised an ending and then served a thirteenth word. A child was told the session was over

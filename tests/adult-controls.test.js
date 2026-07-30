@@ -94,6 +94,48 @@ describe("G10 safety — S5: every grown-up can give a result, and only a grown-
   });
 });
 
+describe("G10 — P1-7: the keyboard keeps its place in the session", () => {
+  /* A1-007 / A2-005 from the external audit. The grade handed focus to the
+     advance control at once, but that control is disabled for the whole
+     reveal, and focusing a disabled button does nothing: focus fell to the
+     page body. Enter did nothing, and a grown-up using VoiceOver had to hunt
+     for "Next word" again on every single word. */
+  const gradeAndWait = async () => {
+    render(createElement(App));
+    await flush(0);
+    fireEvent.click(screen.getByText("▶️ Begin Session"));
+    await flush(0);
+    fireEvent.keyDown(screen.getByLabelText("✓ got it (hold)"), { key: "Enter" });
+    await flush(0);
+    expect(document.activeElement).toBe(document.body);   // the control is not live yet
+    await flush(500);                                     // the reveal wait passes
+  };
+
+  it("25: focus reaches the advance control the moment it comes alive", async () => {
+    await gradeAndWait();
+    const advance = screen.getByText(/Next word|Finish!/);
+    expect(advance.disabled).toBe(false);
+    expect(document.activeElement).toBe(advance);
+    fireEvent.click(document.activeElement);               // what Enter does in a browser
+    await flush(0);
+    expect(screen.getByLabelText("✓ got it (hold)").disabled).toBe(false);  // the next word is ready
+  });
+
+  it("26 (control): a grown-up who moves focus during the wait keeps it", async () => {
+    render(createElement(App));
+    await flush(0);
+    fireEvent.click(screen.getByText("▶️ Begin Session"));
+    await flush(0);
+    fireEvent.keyDown(screen.getByLabelText("✓ got it (hold)"), { key: "Enter" });
+    await flush(100);                                     // inside the wait
+    const leave = screen.getByLabelText("Leave session");
+    leave.focus();
+    await flush(500);                                     // the control comes alive
+    expect(screen.getByText(/Next word|Finish!/).disabled).toBe(false);
+    expect(document.activeElement).toBe(leave);           // their choice stands
+  });
+});
+
 describe("G10 safety — S5: one attempt, one result", () => {
   /* CVC-INPUT-001 from the external audit. Both result controls can be held
      at once — two fingers, or a palm across the strip. Each hold matures on
