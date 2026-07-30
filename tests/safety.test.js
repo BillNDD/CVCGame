@@ -363,7 +363,7 @@ describe("G10 safety — W4b: a broken microphone never traps the child", () => 
      open over a live recognizer: the stage still claimed to listen, a reading
      that arrived behind it was recorded, and recording it made the dialog's
      own controls move. */
-  it("15f: opening the exit dialog ends the attempt instead of listening behind it", async () => {
+  it("15j: opening the exit dialog ends the attempt instead of listening behind it", async () => {
     await startListening();
     const rec = recInstances[recInstances.length - 1];
     expect(rec.started).toBe(true);
@@ -374,7 +374,7 @@ describe("G10 safety — W4b: a broken microphone never traps the child", () => 
     expect(screen.queryByText("🎙️ Listening…")).toBeNull();
   });
 
-  it("15g: a reading cannot reach the app once the exit dialog is open", async () => {
+  it("15k: a reading cannot reach the app once the exit dialog is open", async () => {
     await startListening();
     const rec = recInstances[recInstances.length - 1];
     fireEvent.click(screen.getByLabelText("Leave session"));
@@ -387,7 +387,7 @@ describe("G10 safety — W4b: a broken microphone never traps the child", () => 
     expect(document.querySelector(".wq-modal p").textContent).toBe(said);
   });
 
-  it("15h: the exit dialog's controls hold their places whether or not a word has been read", async () => {
+  it("15l: the exit dialog's controls hold their places whether or not a word has been read", async () => {
     const labels = () => [...document.querySelectorAll(".wq-modal button")]
       .map(b => [b.textContent, b.disabled]);
     /* A fresh session, not startListening: skipping the words that offer no
@@ -417,6 +417,32 @@ describe("G10 safety — W4b: a broken microphone never traps the child", () => 
       ["Discard and go home", false],
       ["Keep reading", false],
     ]);
+  });
+
+  /* A2-010 — one message, one home. Every microphone message used to be set as
+     both a slot note and a toast, so it appeared twice at once and was
+     announced twice: the slot is a live region when sound is off, the toast is
+     one always. The slot keeps the message until the next action; the toast
+     dropped it after 3200 ms. */
+  it("15m: a microphone failure is written once, and does not fade", async () => {
+    await startListening();
+    const rec = recInstances.at(-1);
+    await act(async () => { rec.onerror({ error: "no-speech" }); });
+    expect(screen.getAllByText("Didn’t catch that — tap to try again.").length).toBe(1);
+    expect(document.querySelector(".wq-toast")).toBeNull();
+    await flush(4000);                            // past the 3200 ms a toast lived
+    expect(screen.getAllByText("Didn’t catch that — tap to try again.").length).toBe(1);
+  });
+
+  it("15n (control): a grown-up confirmation with no slot of its own still toasts", async () => {
+    render(createElement(App));
+    await flush(0);
+    fireEvent.click(screen.getByLabelText("Grown-ups corner"));
+    await flush(0);
+    const levels = screen.getByText("Jump to level").parentElement.querySelectorAll(".wq-segbtn");
+    fireEvent.click(levels[1]);                   // level 2
+    await flush(0);
+    expect(document.querySelector(".wq-toast").textContent).toContain("Level set to 2");
   });
 
   it("15e: a browser that cannot listen never writes grown-up mode into the save", async () => {

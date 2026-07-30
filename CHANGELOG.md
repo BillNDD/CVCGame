@@ -76,6 +76,13 @@ The first app version is 1.0.0-beta.1. The app stays in beta until version 1.0 i
   the one fault that cannot wait, so this release exists for it. The sentence now carries its
   pronunciation explicitly, and the build refuses any pack that leaves a sentence with a
   two-pronunciation word to the synthesiser.
+- Fixed: every microphone message was written twice at once — once in the message slot under
+  the word, and once in a dark pill above the buttons — so a grown-up read the same sentence
+  twice and looked for the difference, and a screen reader announced it twice over. Each message
+  now has one home. Microphone messages use the slot, which keeps them until the next action
+  instead of dropping them after three seconds, and the pill is left to grown-up confirmations
+  that have nowhere else to go, such as "Backup file saved." A denied microphone keeps the
+  standing explanation that says how to turn it back on.
 - Fixed: the keyboard lost the session on every word. Recording a result was supposed to hand
   focus to "Next word ➡️", but that control is deliberately dead while the reveal plays, and
   focusing a dead control does nothing — so focus fell to the page, Enter did nothing, and a
