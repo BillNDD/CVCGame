@@ -348,6 +348,14 @@ does a screen reader or any other assistive technology: an activation that carri
 behind it counts as a keyboard press, never as a touch. The controls are muted in color and
 small in appearance, with a minimum target of 44 px.
 
+The strip marker line. The strip keeps one line below its controls, whether or not there is
+anything to show, so the strip height never changes and the word never moves between phases.
+The line shows what the microphone heard during the heard phase. Outside the feedback phase, a
+word the child is seeing again shows "Parent: second look". Every marker on this line names the
+adult as its reader, the same as the microphone messages and the tricky-word notes. A child can
+see this line, so a marker that reads as a verdict on the child's own attempt does not belong
+here: the words say who they are for.
+
 Feedback phase. The tiles and the feedback sentence appear in their reserved rows. The advance
 control ("Next word" or "Finish!") waits for the reveal to finish speaking, because advancing
 silences it and the word itself is the last thing the child hears. Where there is no recorded

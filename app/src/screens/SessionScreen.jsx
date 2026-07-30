@@ -151,7 +151,7 @@ export default function SessionScreen({
             and the word never moves between phases */}
         <span className="wq-heard wq-mono">
           {phase === "heard" && heard ? "heard “" + heard + "”"
-            : seenTwice[currentWord] && phase !== "feedback" ? "second look at this word" : " "}
+            : seenTwice[currentWord] && phase !== "feedback" ? "Parent: second look" : " "}
         </span>
       </Zone.Strip>
 
