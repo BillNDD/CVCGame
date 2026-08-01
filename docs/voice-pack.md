@@ -8,15 +8,25 @@ sentences, the invitation leads, and the session-end lines, plus `manifest.json`
 clip's file and duration. Gate G13 fails the build when the pack does not cover the engine's
 clip inventory, so the bank can never grow past its voice.
 
-## The lock file
+## The word table — the file a person edits
 
-**`tools/voice-lock.json` is the one file that captures every knob behind every
-locked-in word** — the global recipe, the per-word treatments with their ASR
-guards, the phoneme strings, the encoder settings byte identity depends on, the
-byte pins, and who approved each word, when, with their ear notes. It is
-generated (`node tools/gen-voice-lock.mjs`), never edited by hand, and G13
-fails the build if any gated section disagrees with the shipped pack — so it
-cannot quietly drift from reality the way a hand-kept list would.
+**`tools/voice-words.csv` is the permanent repository of the voice.** One row
+per bank word — all 260, so the empty verdict cells double as the listening
+queue — and one column for every knob and decision that can apply to a word:
+speed, voice, lead, tail, fade, explicit phoneme, period, onset trim, tail
+trim, bright-head, head trim, carrier sentence, cut mode and its thresholds,
+ASR pins with both guards, byte-pin sha, and the decision fields (locked,
+verdict, ear notes, round, whether it was judged as a bare clip or in the app).
+Every cell is explicit, so any row alone reproduces its clip.
+
+After a listening round, edit the row and run `node tools/gen-voice-lock.mjs`.
+That derives `keepers-treatments.json` (what the renderer and G13 read),
+`keeper-bytes.json`, and `tools/voice-lock.json` — the machine-readable
+aggregate that also carries the phoneme strings, encoder settings and
+environment. G13 re-derives from the CSV on every run and fails the build on a
+missing row, a derived file that was not regenerated, a shipped pack that
+disagrees, or an unlocked word whose knobs deviate from the defaults — a
+deviation nobody approved is exactly what this system exists to refuse.
 
 The shipped pack also declares its own full recipe in `manifest.json`
 (`__recipe`), including the per-word ASR guards whose absence from the keeper
