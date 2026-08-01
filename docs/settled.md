@@ -63,6 +63,21 @@ updated whenever a round lands.
   praise line containing a word with two pronunciations, add its index to
   `TTS_UNSAFE_PRAISE` in `reference/word-quest.jsx`.
 
+## The 57 keepers (2026-08-01) — closed, do not re-open
+
+- **hat is solved**: `carrier@0.82`, "very good". This file previously said hat
+  had no live candidate and needed a new mechanism. It has one.
+- **can, pal, had, ham, jam are solved** — the rest of the pack-1 failures.
+- **man is NOT superseded.** The handoff's own man is graded "marginal"; round
+  14's is "almost perfect". Round 14 stands.
+- **The ASR guard is not in the handoff.** It is 40 ms for most keepers and
+  80 ms for sip and six, recovered by sweeping for a byte-identical re-render.
+  It is now pinned in `tools/keepers-treatments.json`. Anyone re-deriving these
+  clips without it will be one or two mp3 frames off and will not know why.
+- **sad and sat cannot be re-rendered at all.** Their carrier family
+  (`asr_carrier_1`) is not recorded anywhere in the handoff. They ship as bytes,
+  pinned by hash. Do not attempt to "fix" them by re-rendering.
+
 ## The trap this project keeps falling into
 
 A fix that is approved but not applied is worse than no fix: it reads as done.

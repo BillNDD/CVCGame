@@ -14,9 +14,17 @@
    praise sentence containing "read" back to spelling; the detector must report
    all of them. */
 import { readFileSync, existsSync, statSync } from "node:fs";
+import { createHash } from "node:crypto";
+import { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
 import { voiceScript } from "../src/engine.js";
 
 const DIR = "app/public/voice";
+const HERE = dirname(fileURLToPath(import.meta.url));
+const TREAT_PATH = join(HERE, "keepers-treatments.json");
+const TREATMENTS = existsSync(TREAT_PATH)
+  ? JSON.parse(readFileSync(TREAT_PATH, "utf8"))
+  : {};
 
 function check(manifest, verifyFiles) {
   const problems = [];
@@ -59,7 +67,7 @@ function check(manifest, verifyFiles) {
      plosive, and one has a fricative that runs too long. The listener chose
      how much to cut from each. A pack that trims a different amount, or trims
      a word nobody listened to, has not been approved. */
-  const APPROVED_TRIM = { cub: 130, hip: 130, dish: 120 };
+  let APPROVED_TRIM = { cub: 130, hip: 130, dish: 120 };
   /* Two blind rounds, 2026-07-27 and 2026-07-28. Four words are spoken with a
      full stop after them, because a word standing alone gets no sentence shape
      and the voice never finishes its last consonant. One has what precedes its
@@ -71,23 +79,65 @@ function check(manifest, verifyFiles) {
      This is NOT the carrier cut below: a full stop is appended to the word and
      the whole utterance ships. "hop" left this list for that treatment when a
      listener failed its full-stop rendering outright. */
-  const APPROVED_PERIOD = ["cup", "jug", "pop", "rub"];
-  const APPROVED_ONSET = ["tap"];
-  const APPROVED_BRIGHT = { sip: 70 };
-  /* Round 13, 2026-07-29, judged 2026-07-30. Two words are spoken inside a
-     carrier sentence and cut back out of it — the isolation round 10 could not
-     perform, because it searched for a gap the carrier never contains. Each
-     entry is [carrier, margin ms, gap floor dB, gap length ms], and every one
-     of those numbers is a thing a listener heard and chose between.
-     "hop" moved here OUT of period_words: its full-stop rendering was offered
-     blind as one of four candidates and came back "unacceptable, still saying
-     hop + uh". "hen" ships untrimmed — trimming its tail by 60 ms lost it, and
-     by 100 ms clipped the n. */
+  const APPROVED_PERIOD = new Set(["cup", "had", "jug", "pop", "rub"]);
+  const APPROVED_ONSET = new Set(["ham", "tap"]);
+  const APPROVED_BRIGHT = { sip: 70, jam: 40 };
+  const APPROVED_LEAD_OVERRIDE = { am: 150, an: 150, had: 150 };
+  const APPROVED_WORD_SPEED_OVERRIDE = { hat: 0.82 };
+  const APPROVED_HEAD_TRIM = {};
+  /* Round 13 bank: hen stays energy-gap. Remediation hop moved to ASR+head_trim
+     (packs 2–3). Energy carriers and ASR pins merge from keepers-treatments.json. */
   const APPROVED_CARRIER = {
-    man: ["Here is the word, man.", 150, -20, 20],
-    hop: ["Here is the word, hop.", 150, -20, 20],
     hen: ["hen, hen.", 150, -30, 40],
+    /* man is NOT one of the 57 keepers. The handoff grades its own man
+       "marginal pass, accept if best of 6"; this clip was heard the same day
+       as "almost perfect" in round 14 and stands. 250 ms was tried in that
+       round and reaches into the carrier - "word man". */
+    man: ["Here is the word, man.", 150, -20, 20],
   };
+  const APPROVED_ASR = {};
+  for (const [w, t] of Object.entries(TREATMENTS)) {
+    if (Math.abs((t.speed ?? 0.85) - 0.85) > 1e-9) APPROVED_WORD_SPEED_OVERRIDE[w] = t.speed;
+    if ((t.lead_ms ?? 80) !== 80) APPROVED_LEAD_OVERRIDE[w] = t.lead_ms;
+    if (t.period) APPROVED_PERIOD.add(w);
+    if (t.onset_trim) APPROVED_ONSET.add(w);
+    if ((t.bright_head_ms ?? 0) > 0) APPROVED_BRIGHT[w] = t.bright_head_ms;
+    if ((t.head_trim_ms ?? 0) > 0) APPROVED_HEAD_TRIM[w] = t.head_trim_ms;
+    /* and a treatment REMOVES what it does not ask for, so the gate and the
+       renderer read the pins the same way: sip's 70 ms brighten, tap's onset
+       trim and hip's 130 ms trim all predate these keepers. */
+    if (!t.period) APPROVED_PERIOD.delete(w);
+    if (!t.onset_trim) APPROVED_ONSET.delete(w);
+    if (!(t.bright_head_ms ?? 0)) delete APPROVED_BRIGHT[w];
+    if (!(t.head_trim_ms ?? 0)) delete APPROVED_HEAD_TRIM[w];
+    if ((t.trim_ms ?? 0) > 0) APPROVED_TRIM[w] = t.trim_ms;
+    else delete APPROVED_TRIM[w];
+    const mode = (t.carrier_cut_mode || "energy").toLowerCase();
+    const carrier = t.carrier;
+    if (carrier && (mode === "asr" || mode === "asr_pinned") && t.asr_start != null) {
+      APPROVED_ASR[w] = [String(carrier[0]).replaceAll("{w}", w), t.asr_start, t.asr_end];
+    } else if (carrier && mode === "energy") {
+      APPROVED_CARRIER[w] = [
+        String(carrier[0]).replaceAll("{w}", w),
+        carrier[1], carrier[2], carrier[3],
+      ];
+    }
+  }
+  const APPROVED_PERIOD_LIST = [...APPROVED_PERIOD].sort();
+  const APPROVED_ONSET_LIST = [...APPROVED_ONSET].sort();
+  /* Two keepers cannot be reproduced from their pins: sad and sat come from a
+     carrier family ("asr_carrier_1") whose sentence the handoff never records.
+     For those the approved BYTES are the source of truth, pinned here by hash,
+     so a routine re-render cannot silently replace audio a person accepted. */
+  const KEEPER_BYTES = JSON.parse(readFileSync("tools/keeper-bytes.json", "utf8"));
+  if (verifyFiles) {
+    for (const [w, want] of Object.entries(KEEPER_BYTES)) {
+      const f = `${DIR}/w-${w}.mp3`;
+      if (!existsSync(f)) { problems.push(`keeper clip missing: ${f}`); continue; }
+      const got = createHash("sha256").update(readFileSync(f)).digest("hex");
+      if (got !== want) problems.push(`keeper ${w} is not the accepted audio (sha ${got.slice(0,12)}, approved ${want.slice(0,12)})`);
+    }
+  }
   const r = manifest.__recipe;
   if (!r) problems.push("the pack declares no recipe: it cannot be shown to be the approved render");
   else {
@@ -102,13 +152,28 @@ function check(manifest, verifyFiles) {
       const have = [...(got || [])].sort().join(" ");
       if (have !== want.join(" ")) problems.push(`recipe ${name} is [${have}], approved is [${want.join(" ")}]`);
     };
-    list("period_words", APPROVED_PERIOD, r.period_words);
-    list("onset_trim_words", APPROVED_ONSET, r.onset_trim_words);
+    list("period_words", APPROVED_PERIOD_LIST, r.period_words);
+    list("onset_trim_words", APPROVED_ONSET_LIST, r.onset_trim_words);
     const bright = r.bright_head_ms || {};
     for (const [w, want] of Object.entries(APPROVED_BRIGHT))
       if (bright[w] !== want) problems.push(`recipe brightens ${w} over ${JSON.stringify(bright[w])} ms, approved is ${want} ms`);
     for (const w of Object.keys(bright))
       if (!(w in APPROVED_BRIGHT)) problems.push(`recipe brightens a word nobody approved: ${w}`);
+    const leadOv = r.lead_override || {};
+    for (const [w, want] of Object.entries(APPROVED_LEAD_OVERRIDE))
+      if (leadOv[w] !== want) problems.push(`recipe lead_override ${w} is ${JSON.stringify(leadOv[w])}, approved is ${want}`);
+    for (const w of Object.keys(leadOv))
+      if (!(w in APPROVED_LEAD_OVERRIDE)) problems.push(`recipe lead_override for a word nobody approved: ${w}`);
+    const speedOv = r.word_speed_override || {};
+    for (const [w, want] of Object.entries(APPROVED_WORD_SPEED_OVERRIDE))
+      if (speedOv[w] !== want) problems.push(`recipe word_speed_override ${w} is ${JSON.stringify(speedOv[w])}, approved is ${want}`);
+    for (const w of Object.keys(speedOv))
+      if (!(w in APPROVED_WORD_SPEED_OVERRIDE)) problems.push(`recipe word_speed_override for a word nobody approved: ${w}`);
+    const headTrim = r.head_trim_ms || {};
+    for (const [w, want] of Object.entries(APPROVED_HEAD_TRIM))
+      if (headTrim[w] !== want) problems.push(`recipe head_trim ${w} is ${JSON.stringify(headTrim[w])}, approved is ${want}`);
+    for (const w of Object.keys(headTrim))
+      if (!(w in APPROVED_HEAD_TRIM)) problems.push(`recipe head_trim for a word nobody approved: ${w}`);
     const carrier = r.carrier_cut || {};
     for (const [w, want] of Object.entries(APPROVED_CARRIER)) {
       const got = carrier[w];
@@ -117,6 +182,13 @@ function check(manifest, verifyFiles) {
     }
     for (const w of Object.keys(carrier))
       if (!(w in APPROVED_CARRIER)) problems.push(`recipe cuts a word out of a carrier nobody approved: ${w}`);
+    const asr = r.asr_pinned || {};
+    for (const [w, want] of Object.entries(APPROVED_ASR)) {
+      if (JSON.stringify(asr[w]) !== JSON.stringify(want))
+        problems.push(`recipe asr_pinned ${w} is ${JSON.stringify(asr[w])}, approved is ${JSON.stringify(want)}`);
+    }
+    for (const w of Object.keys(asr))
+      if (!(w in APPROVED_ASR)) problems.push(`recipe asr_pinned a word nobody approved: ${w}`);
     /* Two-letter words are read wrongly from spelling. Every one of them must
        be rendered from an approved pronunciation instead. */
     const short = script.filter((c) => c.id.startsWith("w:") && c.id.length === 4).map((c) => c.id.slice(2));
@@ -179,31 +251,35 @@ if (process.argv.includes("--self-test")) {
   /* The blind round's winners, quietly dropped or quietly widened: a word
      that stops being rendered as a sentence, and a word nobody heard given
      the same treatment. */
-  const unheard = { ...manifest, __recipe: { ...manifest.__recipe, period_words: ["cup", "hop", "jug", "pop", "sun"], onset_trim_words: [], bright_head_ms: { sip: 200 } } };
+  const unheard = { ...manifest, __recipe: { ...manifest.__recipe, period_words: ["cup", "hop", "jug", "pop", "sun"], onset_trim_words: [], bright_head_ms: { jam: 200 } } };
   const up = check(unheard, false).problems;
   const sawRound9 = up.some((p) => p.startsWith("recipe period_words is")) &&
     up.some((p) => p.startsWith("recipe onset_trim_words is")) &&
-    up.some((p) => p.startsWith("recipe brightens sip over 200"));
-  /* Round 13's result, quietly altered: a margin a listener never heard, a
-     tail trim they explicitly rejected for hen, and a word given the carrier
-     treatment nobody offered them. Each is a way an approved cut could drift
-     while every clip stayed present and the right length. */
+    up.some((p) => p.startsWith("recipe brightens jam over 200"));
+  /* Round 13 / remediation: alter hen's energy cut, plant an unheard energy
+     carrier, and drift an ASR pin. */
   const recut = { ...manifest, __recipe: { ...manifest.__recipe, carrier_cut: {
-    hop: ["Here is the word, hop.", 60, -20, 20],
-    hen: ["hen, hen.", 150, -30, 40],
+    hen: ["hen, hen.", 60, -30, 40],
     sun: ["Here is the word, sun.", 150, -20, 20],
+  }, asr_pinned: {
+    ...(manifest.__recipe.asr_pinned || {}),
+    ...(manifest.__recipe.asr_pinned?.hop
+      ? { hop: ["Say hop.", 0.1, 0.2] }
+      : { hop: ["Say hop.", 0.1, 0.2] }),
   } } };
   const cp = check(recut, false).problems;
-  const sawCarrier = cp.some((p) => p.startsWith("recipe cuts hop from")) &&
+  const sawCarrier = cp.some((p) => p.startsWith("recipe cuts hen from")) &&
     cp.some((p) => p.startsWith("recipe cuts a word out of a carrier nobody approved: sun"));
+  const sawAsr = Object.keys(TREATMENTS).length === 0
+    || cp.some((p) => p.startsWith("recipe asr_pinned hop"));
   const noRecipe = { ...manifest };
   delete noRecipe.__recipe;
   const sawNoRecipe = check(noRecipe, false).problems.some((p) => p.startsWith("the pack declares no recipe"));
-  if (sawMissing && sawOrphan && sawLie && sawRecipe && sawSpelling && sawNoRecipe && sawTrim && sawReed && sawRound9 && sawCarrier && sawWordy && sentenceOk) {
-    console.log("self-test OK: a removed word clip, a planted orphan, a lying duration, a drifted recipe, a two-letter word left to spelling, a pack with no recipe at all, a trim nobody heard, a sentence with 'read' left to spelling, a listening round's result quietly changed, an approved carrier cut re-cut at a margin nobody heard, and a word clip long enough to hold a sentence are caught");
+  if (sawMissing && sawOrphan && sawLie && sawRecipe && sawSpelling && sawNoRecipe && sawTrim && sawReed && sawRound9 && sawCarrier && sawAsr && sawWordy && sentenceOk) {
+    console.log("self-test OK: a removed word clip, a planted orphan, a lying duration, a drifted recipe, a two-letter word left to spelling, a pack with no recipe at all, a trim nobody heard, a sentence with 'read' left to spelling, a listening round's result quietly changed, an approved carrier/ASR cut re-cut at values nobody heard, and a word clip long enough to hold a sentence are caught");
     process.exit(0);
   }
-  console.error("self-test FAILED: " + JSON.stringify({ sawMissing, sawOrphan, sawLie, sawRecipe, sawSpelling, sawNoRecipe, sawTrim, sawReed, sawRound9, sawCarrier, sawWordy, sentenceOk }));
+  console.error("self-test FAILED: " + JSON.stringify({ sawMissing, sawOrphan, sawLie, sawRecipe, sawSpelling, sawNoRecipe, sawTrim, sawReed, sawRound9, sawCarrier, sawAsr, sawWordy, sentenceOk }));
   process.exit(1);
 }
 
