@@ -38,7 +38,12 @@ This document follows the Microsoft Writing Style Guide.
   the file-length limit is one of the G6 ceilings the file protects, not the meaning of E6.
   That limit is 900 lines. The owner raised it from 600 on 2026-07-29; only the owner can move
   a ceiling, and a file approaching one should be split instead.
-- E7. Run `npm run gauntlet` before every push. A red gauntlet blocks the change.
+- E7. Run `npm run check` before every push: the full test suite plus the sub-minute gates
+  (copy, doc-truth, QA count, voice pack), about a minute. A red check blocks the change.
+  The full `npm run gauntlet` — mutants, coverage, the build and the browser gates — runs
+  when the owner asks for a beta or a version release, and a release is cut only from a
+  green gauntlet. CI still runs the full gauntlet on every push as the safety net; a red CI
+  run is fixed before any further change, not left standing.
 - E8. Do not change game behavior, the word bank, the feedback text, or the layout in a testing
   task. Do not add PWA work in a testing task.
 - E10. Read `docs/settled.md` before any change to the voice, the audio pipeline, or the word
