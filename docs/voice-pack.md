@@ -129,20 +129,52 @@ re-derives this work.
   130 ms trim from earlier rounds, none of which their keepers ask for. Both the
   renderer and G13 now remove what a treatment does not ask for.
 
-### The two that cannot be reproduced
+### sad and sat — a wrong diagnosis, corrected
 
-`sad` and `sat` carry the label `asr_carrier_1_spd0.82`, and that carrier
-sentence appears nowhere in the handoff — only `Say {w}.`, which produces
-different audio. Their approved BYTES ship as given, and G13 pins them by
-sha256 in `tools/keeper-bytes.json`. Without that pin the next routine
-re-render would replace two accepted words with something nobody has heard,
-and no gate would notice.
+An earlier version of this file said their carrier sentence was missing from
+the handoff. **That was wrong**, and the correction matters because it points
+at the real hazard.
 
-### man is not a keeper
+`asr_carrier_1` is a search INDEX, not a mystery carrier: index 1 is exactly
+`Say {w}.`, which is what the treatments already recorded and what this
+renderer was already using. The audio differed for a different reason — the
+guard around the pinned times is ASYMMETRIC. sad and sat keep 80 ms before the
+pinned start and 40 ms after the pinned end, and the original
+`carrier_cut_asr_pinned` derived both sides from a single `guard_ms`
+(`lead_g = min(0.08, g)`), so no value of one guard could ever express 80/40.
+Sweeping one number found nothing; holding the carrier render fixed and
+sweeping both edges independently found it at once.
 
-The handoff grades its own man "marginal pass, accept if best of 6". The clip
-shipped from round 14 was heard the same day as "almost perfect", so it stands
-and man is excluded from the keeper treatments. Its carrier pin is unchanged.
+The guard is now a lead/tail pair per word, and **all 56 keepers re-render
+byte for byte**. Nothing in the pack is opaque audio. The sha256 pins in
+`tools/keeper-bytes.json` stay as a second lock: they cost nothing and they
+guarantee the exact accepted audio even if the renderer changes.
+
+### Two owner overrides: man and hop
+
+**man.** The handoff grades its own man "marginal pass, accept if best of 6".
+The clip shipped from round 14 was heard the same day as "almost perfect", so
+it stands and man is excluded from the keeper treatments.
+
+**hop.** The keeper was graded "perfect" and shipped byte-identical to the
+golden — and on hearing it in the pack the owner said it sounds like "op". It
+does: the recipe removes the word's own /h/. hop's ASR cut already begins
+exactly at speech onset, and `head_trim 40` then takes the first 40 ms OF THE
+WORD. Measured, that slice is 0.39x the rms of the 60 ms after it — the
+profile of an /h/. The kit's note says the trim "cleared uh/static", but with
+the cut already on the onset there is no leading uh left to clear.
+
+The owner chose the same recipe with `head_trim` removed. hop therefore does
+NOT match the keeper golden, deliberately.
+
+**This is the fault a byte-only handoff could not have fixed.** The bytes were
+approved and were still wrong; only the recipe made the cause visible and the
+repair possible in minutes.
+
+**Watch for it elsewhere.** Any keeper whose ASR cut lands on the onset AND
+carries a head_trim is exposed to the same thing. In this set that is hop
+(fixed), lip (80 ms, re-approved by ear) and van (40 ms, unheard since the
+apply).
 
 ### What this closed
 
