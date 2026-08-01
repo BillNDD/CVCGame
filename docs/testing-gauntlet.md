@@ -30,6 +30,17 @@ This document follows the Microsoft Writing Style Guide.
 6. Do not edit generated files by hand. This applies to `src/engine.js` and to every file in
    `tests/generated/`.
 
+
+## When the gates run
+
+`npm run check` runs before every push: the whole Vitest suite and the sub-minute gates
+(G11 copy, G16 doc-truth, G12 QA count, G13 voice pack), each with its negative controls.
+The full gauntlet — mutants, coverage, the build, and the browser gates — runs when the
+owner asks for a beta or a version release, and CI runs it on every push to main as the
+safety net. A release is cut only from a green full gauntlet, and a red CI run is fixed
+before any further change. The owner chose this cadence on 2026-08-02; the gates
+themselves never weaken (E3), only the moment the expensive ones fire.
+
 ## G1. Unit tests
 
 - Location: `tests/engine.test.js`. Tool: Vitest. Command: `npm test`.
