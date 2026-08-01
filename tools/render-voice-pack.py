@@ -238,6 +238,17 @@ for _w, _t in TREATMENTS.items():
 OUT = pathlib.Path(out_dir)
 OUT.mkdir(parents=True, exist_ok=True)
 
+# Words whose ACCEPTED BYTES are the source of truth (tools/keeper-bytes.json).
+# The renderer must never overwrite one: it keeps the file exactly as it is and
+# carries its manifest entry forward. A missing or altered file is a hard stop,
+# because rendering a substitute would ship audio nobody accepted - G13 would
+# catch it later, but later is after the accepted bytes are gone from the tree.
+_PIN_PATH = pathlib.Path(__file__).resolve().parent / "keeper-bytes.json"
+KEEPER_BYTES = json.loads(_PIN_PATH.read_text()) if _PIN_PATH.exists() else {}
+_OLD_MANIFEST = {}
+if (OUT / "manifest.json").exists():
+    _OLD_MANIFEST = json.loads((OUT / "manifest.json").read_text())
+
 k = Kokoro(model_path, voices_path)
 script = json.load(open(script_path))
 
@@ -354,6 +365,21 @@ for clip in script:
     cid, text = clip["id"], clip["text"]
     is_word = cid.startswith("w:")
     word = cid[2:] if is_word else None
+    if is_word and word in KEEPER_BYTES:
+        import hashlib
+        fname = cid.replace(":", "-") + ".mp3"
+        f = OUT / fname
+        if not f.exists():
+            raise SystemExit(f"byte-pinned {word}: {f} is missing - restore the accepted mp3 first")
+        got = hashlib.sha256(f.read_bytes()).hexdigest()
+        if got != KEEPER_BYTES[word]:
+            raise SystemExit(f"byte-pinned {word}: {f} is not the accepted audio (sha {got[:12]}) - restore it first")
+        prior = _OLD_MANIFEST.get(cid)
+        if not prior or "ms" not in prior:
+            raise SystemExit(f"byte-pinned {word}: no prior manifest entry to carry its duration forward")
+        manifest[cid] = {"file": fname, "ms": prior["ms"]}
+        review.append(f'{cid},"{text}",{prior["ms"]},byte-pinned,')
+        continue
     phoneme = PHONEMES.get(word) if is_word else SENTENCE_PHONEMES.get(cid)
     spoken = phoneme or (text + "." if word in PERIOD_WORDS else text)
     word_speed = WORD_SPEED_OVERRIDE.get(word, WORD_SPEED) if is_word else SENTENCE_SPEED
@@ -417,6 +443,10 @@ manifest["__recipe"] = {
     "asr_pinned": {
         w: [text, t0, t1] for w, (text, t0, t1) in sorted(ASR_PINNED.items())
     },
+    # The guard is part of the cut, not a detail of it: [asr_start, asr_end]
+    # without the guard reproduces nothing, which is how 31 accepted clips
+    # came to need a brute-force sweep. The pack declares the whole recipe.
+    "asr_guard_ms": {w: [l, t] for w, (l, t) in sorted(ASR_GUARD_MS.items())},
     "keepers_treatments": sorted(TREATMENTS),
 }
 (OUT / "manifest.json").write_text(json.dumps(manifest, indent=1) + "\n")

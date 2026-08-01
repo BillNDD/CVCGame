@@ -19,6 +19,21 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { voiceScript } from "../src/engine.js";
 
+const RENDER_SRC = readFileSync("tools/render-voice-pack.py", "utf8");
+const LOCK = existsSync("tools/voice-lock.json")
+  ? JSON.parse(readFileSync("tools/voice-lock.json", "utf8")) : null;
+
+/* Order-independent deep equality, so two honest serialisations never differ. */
+const stable = (v) => Array.isArray(v) ? "[" + v.map(stable).join(",") + "]"
+  : v && typeof v === "object" ? "{" + Object.keys(v).sort().map((k) => JSON.stringify(k) + ":" + stable(v[k])).join(",") + "}"
+  : JSON.stringify(v);
+const pyDict = (name) => {
+  const m = RENDER_SRC.match(new RegExp("^" + name + " = \\{([\\s\\S]*?)^\\}", "m"));
+  const out = {};
+  if (m) for (const [, k, v] of m[1].matchAll(/"([^"]+)":\s*"([^"]+)"/g)) out[k] = v;
+  return out;
+};
+
 const DIR = "app/public/voice";
 const HERE = dirname(fileURLToPath(import.meta.url));
 const TREAT_PATH = join(HERE, "keepers-treatments.json");
@@ -26,7 +41,7 @@ const TREATMENTS = existsSync(TREAT_PATH)
   ? JSON.parse(readFileSync(TREAT_PATH, "utf8"))
   : {};
 
-function check(manifest, verifyFiles) {
+function check(manifest, verifyFiles, lock = LOCK) {
   const problems = [];
   const script = voiceScript();
   for (const clip of script) {
@@ -189,6 +204,47 @@ function check(manifest, verifyFiles) {
     }
     for (const w of Object.keys(asr))
       if (!(w in APPROVED_ASR)) problems.push(`recipe asr_pinned a word nobody approved: ${w}`);
+    /* The guard is part of the cut. [asr_start, asr_end] alone reproduces
+       nothing - learned by sweeping 31 accepted clips to byte identity - so a
+       pack that declares different guards, or none, was not rendered from the
+       accepted recipe. */
+    const guards = r.asr_guard_ms || {};
+    for (const [w, t] of Object.entries(TREATMENTS)) {
+      if (t.asr_guard_lead_ms == null) continue;
+      const want = [t.asr_guard_lead_ms, t.asr_guard_tail_ms];
+      if (JSON.stringify(guards[w]) !== JSON.stringify(want))
+        problems.push(`recipe asr guard for ${w} is ${JSON.stringify(guards[w])}, approved is ${JSON.stringify(want)}`);
+    }
+    for (const w of Object.keys(guards))
+      if (!(TREATMENTS[w] && TREATMENTS[w].asr_guard_lead_ms != null))
+        problems.push(`recipe declares an asr guard nobody approved: ${w}`);
+    /* The lock file (tools/voice-lock.json): the ONE document that states
+       every knob behind every locked word. It is only trustworthy if it
+       cannot drift from the pack, so every gated section is compared here. */
+    if (!lock) problems.push("tools/voice-lock.json is missing: the locked words are not captured");
+    else {
+      if (stable(lock.recipe) !== stable(r))
+        problems.push("voice-lock recipe disagrees with the shipped pack - regenerate: node tools/gen-voice-lock.mjs");
+      if (stable(lock.byte_pins || {}) !== stable(KEEPER_BYTES))
+        problems.push("voice-lock byte pins disagree with tools/keeper-bytes.json");
+      const ph = lock.phoneme_strings || {};
+      if (stable(ph.words || {}) !== stable(pyDict("PHONEMES")))
+        problems.push("voice-lock phoneme strings disagree with the renderer");
+      if (stable(ph.sentences || {}) !== stable(pyDict("SENTENCE_PHONEMES")))
+        problems.push("voice-lock sentence phonemes disagree with the renderer");
+      const q = RENDER_SRC.match(/enc\.set_quality\((\d+)\)/);
+      if (!lock.encoder || lock.encoder.quality !== Number(q && q[1]))
+        problems.push("voice-lock encoder settings disagree with the renderer");
+      const treatedWords = new Set([
+        ...(r.phoneme_words || []), ...(r.period_words || []), ...(r.onset_trim_words || []),
+        ...Object.keys(r.trim_ms || {}), ...Object.keys(r.bright_head_ms || {}),
+        ...Object.keys(r.lead_override || {}), ...Object.keys(r.word_speed_override || {}),
+        ...Object.keys(r.head_trim_ms || {}), ...Object.keys(r.carrier_cut || {}),
+        ...Object.keys(r.asr_pinned || {}), ...Object.keys(KEEPER_BYTES),
+      ]);
+      for (const w of treatedWords)
+        if (!(lock.words && lock.words[w])) problems.push(`voice-lock is missing word: ${w}`);
+    }
     /* Two-letter words are read wrongly from spelling. Every one of them must
        be rendered from an approved pronunciation instead. */
     const short = script.filter((c) => c.id.startsWith("w:") && c.id.length === 4).map((c) => c.id.slice(2));
@@ -272,14 +328,28 @@ if (process.argv.includes("--self-test")) {
     cp.some((p) => p.startsWith("recipe cuts a word out of a carrier nobody approved: sun"));
   const sawAsr = Object.keys(TREATMENTS).length === 0
     || cp.some((p) => p.startsWith("recipe asr_pinned hop"));
+  /* The guard quietly changed, or handed to a word with no round behind it. */
+  const gdrift = { ...manifest, __recipe: { ...manifest.__recipe,
+    asr_guard_ms: { ...manifest.__recipe.asr_guard_ms, bib: [10, 10], sun: [40, 40] } } };
+  const gp2 = check(gdrift, false).problems;
+  const sawGuard = gp2.some((p) => p.startsWith("recipe asr guard for bib is [10,10]")) &&
+    gp2.some((p) => p.startsWith("recipe declares an asr guard nobody approved: sun"));
+  /* The lock file drifts from the pack, or quietly loses a word. */
+  const driftedLock = structuredClone(LOCK);
+  driftedLock.recipe.word_speed = 1.0;
+  const holedLock = structuredClone(LOCK);
+  delete holedLock.words.hen;
+  const sawLock = check(manifest, false, driftedLock).problems.some((p) => p.startsWith("voice-lock recipe disagrees")) &&
+    check(manifest, false, holedLock).problems.some((p) => p === "voice-lock is missing word: hen") &&
+    check(manifest, false, null).problems.some((p) => p.startsWith("tools/voice-lock.json is missing"));
   const noRecipe = { ...manifest };
   delete noRecipe.__recipe;
   const sawNoRecipe = check(noRecipe, false).problems.some((p) => p.startsWith("the pack declares no recipe"));
-  if (sawMissing && sawOrphan && sawLie && sawRecipe && sawSpelling && sawNoRecipe && sawTrim && sawReed && sawRound9 && sawCarrier && sawAsr && sawWordy && sentenceOk) {
-    console.log("self-test OK: a removed word clip, a planted orphan, a lying duration, a drifted recipe, a two-letter word left to spelling, a pack with no recipe at all, a trim nobody heard, a sentence with 'read' left to spelling, a listening round's result quietly changed, an approved carrier/ASR cut re-cut at values nobody heard, and a word clip long enough to hold a sentence are caught");
+  if (sawMissing && sawOrphan && sawLie && sawRecipe && sawSpelling && sawNoRecipe && sawTrim && sawReed && sawRound9 && sawCarrier && sawAsr && sawGuard && sawLock && sawWordy && sentenceOk) {
+    console.log("self-test OK: a removed word clip, a planted orphan, a lying duration, a drifted recipe, a two-letter word left to spelling, a pack with no recipe at all, a trim nobody heard, a sentence with 'read' left to spelling, a listening round's result quietly changed, an approved carrier/ASR cut re-cut at values nobody heard, a guard changed or granted with no round behind it, a lock file that drifts or loses a word, and a word clip long enough to hold a sentence are caught");
     process.exit(0);
   }
-  console.error("self-test FAILED: " + JSON.stringify({ sawMissing, sawOrphan, sawLie, sawRecipe, sawSpelling, sawNoRecipe, sawTrim, sawReed, sawRound9, sawCarrier, sawAsr, sawWordy, sentenceOk }));
+  console.error("self-test FAILED: " + JSON.stringify({ sawMissing, sawOrphan, sawLie, sawRecipe, sawSpelling, sawNoRecipe, sawTrim, sawReed, sawRound9, sawCarrier, sawAsr, sawGuard, sawLock, sawWordy, sentenceOk }));
   process.exit(1);
 }
 
