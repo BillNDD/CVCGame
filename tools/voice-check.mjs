@@ -18,10 +18,13 @@ import { createHash } from "node:crypto";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { voiceScript } from "../src/engine.js";
+import { derive } from "./gen-voice-lock.mjs";
 
 const RENDER_SRC = readFileSync("tools/render-voice-pack.py", "utf8");
 const LOCK = existsSync("tools/voice-lock.json")
   ? JSON.parse(readFileSync("tools/voice-lock.json", "utf8")) : null;
+const CSV_TEXT = existsSync("tools/voice-words.csv")
+  ? readFileSync("tools/voice-words.csv", "utf8") : null;
 
 /* Order-independent deep equality, so two honest serialisations never differ. */
 const stable = (v) => Array.isArray(v) ? "[" + v.map(stable).join(",") + "]"
@@ -41,7 +44,7 @@ const TREATMENTS = existsSync(TREAT_PATH)
   ? JSON.parse(readFileSync(TREAT_PATH, "utf8"))
   : {};
 
-function check(manifest, verifyFiles, lock = LOCK) {
+function check(manifest, verifyFiles, lock = LOCK, csvText = CSV_TEXT) {
   const problems = [];
   const script = voiceScript();
   for (const clip of script) {
@@ -221,6 +224,23 @@ function check(manifest, verifyFiles, lock = LOCK) {
     /* The lock file (tools/voice-lock.json): the ONE document that states
        every knob behind every locked word. It is only trustworthy if it
        cannot drift from the pack, so every gated section is compared here. */
+    /* The word table (tools/voice-words.csv): the permanent repository a
+       person edits. Everything else derives from it, so the gate re-derives
+       and compares - a hand edit that skipped regeneration, a missing row, or
+       an unlocked word quietly tuned all fail here. */
+    if (!csvText) problems.push("tools/voice-words.csv is missing: the repository of record is gone");
+    else {
+      const d = derive(csvText);
+      problems.push(...d.problems);
+      const bank = new Set(script.filter((c) => c.id.startsWith("w:")).map((c) => c.id.slice(2)));
+      const rowWords = new Set(d.rows.map((x) => x.word));
+      for (const w of bank) if (!rowWords.has(w)) problems.push(`voice-words.csv has no row for bank word: ${w}`);
+      for (const w of rowWords) if (!bank.has(w)) problems.push(`voice-words.csv has a row for a word not in the bank: ${w}`);
+      if (stable(d.treatments) !== stable(TREATMENTS))
+        problems.push("keepers-treatments.json disagrees with voice-words.csv - regenerate: node tools/gen-voice-lock.mjs");
+      if (stable(d.pins) !== stable(KEEPER_BYTES))
+        problems.push("keeper-bytes.json disagrees with voice-words.csv - regenerate: node tools/gen-voice-lock.mjs");
+    }
     if (!lock) problems.push("tools/voice-lock.json is missing: the locked words are not captured");
     else {
       if (stable(lock.recipe) !== stable(r))
@@ -342,14 +362,24 @@ if (process.argv.includes("--self-test")) {
   const sawLock = check(manifest, false, driftedLock).problems.some((p) => p.startsWith("voice-lock recipe disagrees")) &&
     check(manifest, false, holedLock).problems.some((p) => p === "voice-lock is missing word: hen") &&
     check(manifest, false, null).problems.some((p) => p.startsWith("tools/voice-lock.json is missing"));
+  /* The word table loses a row, an unlocked word gets quietly tuned, and a
+     derived file that no longer matches the table. */
+  const holed = CSV_TEXT.split("\n").filter((l) => !l.startsWith("hen,")).join("\n");
+  const tuned = CSV_TEXT.replace(/^(zig,[^,]*,no,[^,]*,[^,]*,[^,]*,[^,]*,af_heart,en-us,)0\.85,/m, "$10.7,");
+  if (tuned === CSV_TEXT) throw new Error("self-test fixture: could not tune the unlocked row for zig");
+  const recut2 = CSV_TEXT.replace("40,40,", "45,40,");
+  const sawCsv = check(manifest, false, LOCK, holed).problems.some((p) => p === "voice-words.csv has no row for bank word: hen") &&
+    check(manifest, false, LOCK, tuned).problems.some((p) => p.startsWith("unlocked word zig deviates")) &&
+    check(manifest, false, LOCK, recut2).problems.some((p) => p.startsWith("keepers-treatments.json disagrees with voice-words.csv")) &&
+    check(manifest, false, LOCK, null).problems.some((p) => p.startsWith("tools/voice-words.csv is missing"));
   const noRecipe = { ...manifest };
   delete noRecipe.__recipe;
   const sawNoRecipe = check(noRecipe, false).problems.some((p) => p.startsWith("the pack declares no recipe"));
-  if (sawMissing && sawOrphan && sawLie && sawRecipe && sawSpelling && sawNoRecipe && sawTrim && sawReed && sawRound9 && sawCarrier && sawAsr && sawGuard && sawLock && sawWordy && sentenceOk) {
-    console.log("self-test OK: a removed word clip, a planted orphan, a lying duration, a drifted recipe, a two-letter word left to spelling, a pack with no recipe at all, a trim nobody heard, a sentence with 'read' left to spelling, a listening round's result quietly changed, an approved carrier/ASR cut re-cut at values nobody heard, a guard changed or granted with no round behind it, a lock file that drifts or loses a word, and a word clip long enough to hold a sentence are caught");
+  if (sawMissing && sawOrphan && sawLie && sawRecipe && sawSpelling && sawNoRecipe && sawTrim && sawReed && sawRound9 && sawCarrier && sawAsr && sawGuard && sawLock && sawCsv && sawWordy && sentenceOk) {
+    console.log("self-test OK: a removed word clip, a planted orphan, a lying duration, a drifted recipe, a two-letter word left to spelling, a pack with no recipe at all, a trim nobody heard, a sentence with 'read' left to spelling, a listening round's result quietly changed, an approved carrier/ASR cut re-cut at values nobody heard, a guard changed or granted with no round behind it, a lock file that drifts or loses a word, a word-table row lost or an unlocked word quietly tuned, and a word clip long enough to hold a sentence are caught");
     process.exit(0);
   }
-  console.error("self-test FAILED: " + JSON.stringify({ sawMissing, sawOrphan, sawLie, sawRecipe, sawSpelling, sawNoRecipe, sawTrim, sawReed, sawRound9, sawCarrier, sawAsr, sawGuard, sawLock, sawWordy, sentenceOk }));
+  console.error("self-test FAILED: " + JSON.stringify({ sawMissing, sawOrphan, sawLie, sawRecipe, sawSpelling, sawNoRecipe, sawTrim, sawReed, sawRound9, sawCarrier, sawAsr, sawGuard, sawLock, sawCsv, sawWordy, sentenceOk }));
   process.exit(1);
 }
 

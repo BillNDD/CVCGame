@@ -181,6 +181,12 @@ for _w, _t in TREATMENTS.items():
         HEAD_TRIM_MS.pop(_w, None)
     if not int(_t.get("trim_ms") or 0):
         TRIM_MS.pop(_w, None)
+    # the explicit pronunciation, when the word table carries one; the table
+    # is authoritative here as everywhere else
+    if _t.get("phoneme"):
+        PHONEMES[_w] = _t["phoneme"]
+    elif _w in PHONEMES:
+        del PHONEMES[_w]
     mode = (_t.get("carrier_cut_mode") or "energy").lower()
     carrier = _t.get("carrier")
     if carrier and mode in {"asr", "asr_pinned"} and _t.get("asr_start") is not None:
