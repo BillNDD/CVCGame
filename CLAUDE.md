@@ -42,8 +42,11 @@ This document follows the Microsoft Writing Style Guide.
   (copy, doc-truth, QA count, voice pack), about a minute. A red check blocks the change.
   The full `npm run gauntlet` — mutants, coverage, the build and the browser gates — runs
   when the owner asks for a beta or a version release, and a release is cut only from a
-  green gauntlet. CI still runs the full gauntlet on every push as the safety net; a red CI
-  run is fixed before any further change, not left standing.
+  green gauntlet. CI runs the full gauntlet only at that same occasion - the release's v* tag
+  triggers it, a recorded second opinion on the exact released commit - and on demand from
+  the Actions tab. A red there is fixed before anything else moves. Between releases, a push
+  is covered by the check and by the deploy workflow's test suite, nothing more: that is the
+  owner's chosen trade, dated 2026-08-02.
 - E8. Do not change game behavior, the word bank, the feedback text, or the layout in a testing
   task. Do not add PWA work in a testing task.
 - E10. Read `docs/settled.md` before any change to the voice, the audio pipeline, or the word

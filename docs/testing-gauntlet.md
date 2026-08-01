@@ -35,11 +35,13 @@ This document follows the Microsoft Writing Style Guide.
 
 `npm run check` runs before every push: the whole Vitest suite and the sub-minute gates
 (G11 copy, G16 doc-truth, G12 QA count, G13 voice pack), each with its negative controls.
-The full gauntlet — mutants, coverage, the build, and the browser gates — runs when the
-owner asks for a beta or a version release, and CI runs it on every push to main as the
-safety net. A release is cut only from a green full gauntlet, and a red CI run is fixed
-before any further change. The owner chose this cadence on 2026-08-02; the gates
-themselves never weaken (E3), only the moment the expensive ones fire.
+The full gauntlet — mutants, coverage, the build, and the browser gates — runs at release
+time only: locally when the owner asks for a beta or a version release, and on CI when the
+release's v* tag is published, as a recorded second opinion on the exact released commit.
+A release is cut only from a green full gauntlet. Between releases the deploy workflow runs
+the test suite before publishing, and nothing runs the expensive gates — that is the owner's
+chosen trade, dated 2026-08-02. The gates themselves never weaken (E3), only the moment the
+expensive ones fire.
 
 ## G1. Unit tests
 

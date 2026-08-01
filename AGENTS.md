@@ -55,8 +55,9 @@ lives only in a chat log is one this project loses.
 ## Before you push
 
 - `npm run check` — the test suite and the sub-minute gates, about a minute. A red check
-  blocks the change (E7). The full `npm run gauntlet` runs when the owner asks for a
-  release, and CI runs it on every push; fix a red CI run before any further change.
+  blocks the change (E7). The full `npm run gauntlet` runs at release time only: locally
+  when the owner asks for a beta or version release, and on CI when the release's v* tag
+  lands. Fix a red release gauntlet before anything else moves.
 - Raise the floors in `.claude/gate-baseline.json` when counts grow. Never
   lower one. Keys ending in `_max` are ceilings; never raise one (E6).
 - `src/engine.js` and `tests/generated/` are generated. Edit
