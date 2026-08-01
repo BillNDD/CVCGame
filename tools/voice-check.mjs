@@ -43,6 +43,8 @@ const TREAT_PATH = join(HERE, "keepers-treatments.json");
 const TREATMENTS = existsSync(TREAT_PATH)
   ? JSON.parse(readFileSync(TREAT_PATH, "utf8"))
   : {};
+/* the marker that tells a human the file is generated is not a word */
+for (const k of Object.keys(TREATMENTS)) if (k.startsWith("_")) delete TREATMENTS[k];
 
 function check(manifest, verifyFiles, lock = LOCK, csvText = CSV_TEXT) {
   const problems = [];
@@ -148,6 +150,7 @@ function check(manifest, verifyFiles, lock = LOCK, csvText = CSV_TEXT) {
      For those the approved BYTES are the source of truth, pinned here by hash,
      so a routine re-render cannot silently replace audio a person accepted. */
   const KEEPER_BYTES = JSON.parse(readFileSync("tools/keeper-bytes.json", "utf8"));
+  for (const k of Object.keys(KEEPER_BYTES)) if (k.startsWith("_")) delete KEEPER_BYTES[k];
   if (verifyFiles) {
     for (const [w, want] of Object.entries(KEEPER_BYTES)) {
       const f = `${DIR}/w-${w}.mp3`;

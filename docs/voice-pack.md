@@ -39,17 +39,17 @@ The clips are rendered by a build tool on a developer machine. The model never s
 app carries only the audio files.
 
 - Model: Kokoro-82M (Apache-2.0 weights), full-precision ONNX, voice `af_heart`.
-- The recipe lives at the top of `tools/render-voice-pack.py`, with the reason for every
-  number. Sentences render at speed 1.0 and words at 0.85, each clip gets 80 ms of silence
+- The global defaults live at the top of `tools/render-voice-pack.py`, with the reason for
+  every number; every per-word value flows in from `tools/voice-words.csv`. Sentences render at speed 1.0 and words at 0.85, each clip gets 80 ms of silence
   in front and 300 ms behind, and the mp3s are 96 kbps. Every value was set by a person
   listening, over seven rounds on 26 and 27 July 2026.
 - The recipe travels inside `manifest.json`, and gate G13 compares it with the approved
   values. A pack rendered with different settings fails the build, because nothing automatic
   can hear whether a word is right.
 - Two-letter words render from an explicit pronunciation, not from their spelling: the
-  synthesiser read "am" as the letter M. Three words — cub, hip and dish — have the end of
-  their speech trimmed, because the synthesiser adds a small extra syllable after a final
-  plosive.
+  synthesiser read "am" as the letter M. Two words — cub and dish — have the end of their
+  speech trimmed, because the synthesiser adds a small extra syllable after a final plosive.
+  (hip carried the same trim until its keeper replaced it with a carrier cut.)
 - One praise sentence renders from an explicit pronunciation for the same reason: "You read
   that word all by yourself!" was spoken with "read" as in "reed". G13 fails the build if a
   sentence containing a word with two pronunciations is left to the synthesiser.
@@ -57,18 +57,18 @@ app carries only the audio files.
   phonemiser derives from the spelling. For every three-letter word tested it does not: the
   two renders are byte-identical. This was learned the expensive way, by shipping a "fix"
   for "tap" and "sip" that changed nothing.
-- Four words — cup, rub, jug and pop — render as a sentence, with a full stop after the word,
-  because a word alone gets no sentence shape and the voice never finishes its last
-  consonant. ("hop" was a fifth until round 13, where that rendering was failed outright.)
-  "tap" has whatever precedes its first burst removed, and "sip" has the low frequencies
-  taken out of its first 70 ms so its s cannot read as a z. All three treatments won a blind
-  round against the build of the day.
+- Which words render as a sentence, carry a trim, a brighten, an onset cut or a carrier is
+  stated per word in `tools/voice-words.csv` (currently cup, had, jug and rub take the full
+  stop; pop left that list for an ASR carrier in the keeper handoff). "tap" has whatever
+  precedes its first burst removed, and "sip" ships plain — its 70 ms brighten ended with its
+  keeper. Each value won a listening round against the build of the day.
 - The clip list comes from the live engine, never from a hand-kept list.
 - Three words — man, hop and hen — are spoken inside a carrier sentence and cut back out of it,
   at the per-word thresholds in `carrier_cut`. This is the isolation round 10 could not do; see
   below. The treatment is NOT general: the gap search settles differently for every word, and it
   could not be built at all for hat.
-- Approved by a listener and NOT YET IN THE PACK: cup and pop. See "Approved and unshipped".
+- Approved by a listener and NOT YET IN THE PACK: cup, alone. See "Approved and unshipped".
+  (pop was in the same position until the keeper handoff shipped it, "perfect", 2026-08-01.)
   That entry exists because the result was lost once already: it was won on 28 July, held
   back while an audit ran, and never picked back up — beta.9 shipped the rendering it was
   meant to replace.
@@ -255,10 +255,12 @@ Two findings that constrain any further work on these words:
   "marginally acceptable" and by 100 ms to "clipped at the end, too quick". The fuzz at the
   end of hen is not separable from the n by a tail trim. Do not spend another round on it.
 
-## Approved and unshipped: cup and pop
+## Approved and unshipped: cup
 
-Both won the comma carrier in round 12 — "perfect" and "very good" — and neither is in the
-pack. They are not shipped because the record does not say WHICH MARGIN WENT WITH WHICH WORD.
+cup and pop both won the comma carrier in round 12 — "perfect" and "very good". pop has
+since shipped through the keeper handoff (an ASR carrier, "perfect", 2026-08-01), so only
+cup still waits. It is not shipped because the round-12 record does not say WHICH MARGIN
+WENT WITH WHICH WORD.
 Two contemporaneous notes say only "the comma carrier at 150 and 100 ms came back 'perfect'
 and 'very good'". Reading the two lists in parallel gives cup 150 and pop 100, and that is a
 guess about audio, which this file exists to forbid. A two-word round settles it.

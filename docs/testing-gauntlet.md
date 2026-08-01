@@ -256,13 +256,21 @@ engine, never a hand-kept list.
   word all by yourself!" was spoken with "read" as in "reed", which teaches the wrong sound.
   The word list is checked against the sentences in the live engine, so a new sentence is
   covered from the moment it is written.
-- The gate pins the result of every listening round, not just the global settings: which words
-  render as a sentence, which has its onset trimmed, which has its opening brightened, and by
-  how much. A pack that quietly widens a treatment to a word nobody heard fails.
+- The gate pins the result of every listening round, not just the global settings, and it
+  verifies the whole chain of record: `tools/voice-words.csv` (the file a person edits) must
+  cover every bank word, the derived `keepers-treatments.json` and `keeper-bytes.json` must
+  match a fresh derivation from the CSV, the shipped `__recipe` — including each ASR cut's
+  lead/tail guard — must match the approved values, byte-pinned words must carry exactly
+  their accepted sha256, `tools/voice-lock.json` must agree with all of it, and an UNLOCKED
+  row may not deviate from the bank defaults. A pack that quietly widens a treatment to a
+  word nobody heard fails.
 - Negative control: `--self-test` removes a word clip, plants an orphan, doubles one declared
   duration, drifts the recipe, leaves a two-letter word to its spelling, strips the recipe
-  altogether, trims a word nobody heard, puts the "read" sentence back to spelling, and
-  changes a listening round's result; the detector must report all nine.
+  altogether, trims a word nobody heard, puts the "read" sentence back to spelling, changes a
+  listening round's result, re-cuts an approved carrier and an ASR pin at values nobody
+  heard, alters a guard and grants one to an unheard word, drifts the lock file and deletes a
+  word from it, deletes a word-table row, and quietly tunes an unlocked word; the detector
+  must report every one.
 - Baseline floors: `g13_clips` (276) and `g13_engine_tests` (6).
 - To re-render the pack after the bank grows: `docs/voice-pack.md`.
 

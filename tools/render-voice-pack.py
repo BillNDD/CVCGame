@@ -152,6 +152,8 @@ ASR_GUARD_MS = {}   # word -> (lead ms, tail ms)
 _TREAT_PATH = pathlib.Path(__file__).resolve().parent / "keepers-treatments.json"
 TREATMENTS = json.loads(_TREAT_PATH.read_text()) if _TREAT_PATH.exists() else {}
 for _w, _t in TREATMENTS.items():
+    if _w.startswith("_"):
+        continue
     if abs(float(_t.get("speed") or WORD_SPEED) - WORD_SPEED) > 1e-9:
         WORD_SPEED_OVERRIDE[_w] = float(_t["speed"])
     if int(_t.get("lead_ms") or LEAD_MS) != LEAD_MS:
@@ -235,6 +237,8 @@ CARRIER_CUT = {
 # Energy-gap carrier cuts from keepers-treatments.json (ASR words go to ASR_PINNED).
 # hop's remediation keeper is ASR+head_trim — do not keep the old energy cut here.
 for _w, _t in TREATMENTS.items():
+    if _w.startswith("_"):
+        continue
     carrier = _t.get("carrier")
     mode = (_t.get("carrier_cut_mode") or "energy").lower()
     if carrier and mode == "energy" and _w not in ASR_PINNED:
@@ -250,7 +254,7 @@ OUT.mkdir(parents=True, exist_ok=True)
 # because rendering a substitute would ship audio nobody accepted - G13 would
 # catch it later, but later is after the accepted bytes are gone from the tree.
 _PIN_PATH = pathlib.Path(__file__).resolve().parent / "keeper-bytes.json"
-KEEPER_BYTES = json.loads(_PIN_PATH.read_text()) if _PIN_PATH.exists() else {}
+KEEPER_BYTES = {k: v for k, v in (json.loads(_PIN_PATH.read_text()) if _PIN_PATH.exists() else {}).items() if not k.startswith("_")}
 _OLD_MANIFEST = {}
 if (OUT / "manifest.json").exists():
     _OLD_MANIFEST = json.loads((OUT / "manifest.json").read_text())
@@ -453,7 +457,7 @@ manifest["__recipe"] = {
     # without the guard reproduces nothing, which is how 31 accepted clips
     # came to need a brute-force sweep. The pack declares the whole recipe.
     "asr_guard_ms": {w: [l, t] for w, (l, t) in sorted(ASR_GUARD_MS.items())},
-    "keepers_treatments": sorted(TREATMENTS),
+    "keepers_treatments": sorted(w for w in TREATMENTS if not w.startswith("_")),
 }
 (OUT / "manifest.json").write_text(json.dumps(manifest, indent=1) + "\n")
 pathlib.Path(out_dir + "-review.csv").write_text("\n".join(review) + "\n")

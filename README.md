@@ -64,7 +64,9 @@ component as an artifact in a chat host that supplies a `window.storage` API. Th
 `tools/extract-engine.mjs` makes the shared engine module `src/engine.js` from the reference
 build. The app and the test suite both use the generated module.
 
-To understand the build, read `SPEC.md`, section 8. `docs/testing-gauntlet.md` defines the quality
+To understand the build, read `SPEC.md`, section 8. The recorded voice is governed by
+`tools/voice-words.csv` — one row per word, every knob and verdict; see `docs/voice-pack.md`.
+`docs/testing-gauntlet.md` defines the quality
 gates.
 
 ## Repository structure

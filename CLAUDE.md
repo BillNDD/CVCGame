@@ -44,8 +44,9 @@ This document follows the Microsoft Writing Style Guide.
 - E10. Read `docs/settled.md` before any change to the voice, the audio pipeline, or the word
   bank, and before designing a listening round. It lists what a listener or a measurement has
   already closed, so a settled question is never re-opened at the cost of a round. When a round
-  lands, record its result the same day — in `docs/voice-pack.md` for what shipped, and in
-  `docs/settled.md` for what is now closed. An approved fix that is not applied must be named
+  lands, record its result the same day — in the word's row in `tools/voice-words.csv`
+  (regenerate with `node tools/gen-voice-lock.mjs`), in `docs/voice-pack.md` for what
+  shipped, and in `docs/settled.md` for what is now closed. An approved fix that is not applied must be named
   in "Approved and unshipped" with the reason it is waiting. A verdict that lives only in a
   chat log is a verdict this project will lose, and has.
 - E9. Before launching a multi-agent workflow, agree the plan with the owner: how many agents

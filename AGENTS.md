@@ -15,6 +15,13 @@ Read these four, in this order, before you change anything:
    listening round. This file exists because this project has twice re-opened a
    settled question and once lost an approved fix for two days.
 4. **`docs/testing-gauntlet.md`** — the 15 gates and what each one is for.
+5. **`tools/voice-words.csv`** — for voice work only: the permanent repository
+   of the voice. One row per bank word, one column per knob and decision. It is
+   the ONLY file a person edits after a listening round; everything else —
+   `keepers-treatments.json`, `keeper-bytes.json`, `voice-lock.json` — is
+   generated from it by `node tools/gen-voice-lock.mjs`, and G13 fails the
+   build if the chain disagrees. Editing a derived file by hand is always
+   wrong.
 
 ## The two failures this repository is built around
 
@@ -24,9 +31,11 @@ listening, one word at a time, and by nothing else. Two attempts to find a
 measurable proxy have failed and are recorded in `docs/settled.md`.
 
 **A fix that is approved but not applied reads as done.** Record every verdict
-the day it arrives: `docs/voice-pack.md` for what shipped, `docs/settled.md`
-for what is now closed, and "Approved and unshipped" for anything waiting, with
-the reason. A verdict that lives only in a chat log is one this project loses.
+the day it arrives, in this order: the word's row in `tools/voice-words.csv`
+(then regenerate: `node tools/gen-voice-lock.mjs`), `docs/voice-pack.md` for
+the story of what shipped, `docs/settled.md` for what is now closed, and
+"Approved and unshipped" for anything waiting, with the reason. A verdict that
+lives only in a chat log is one this project loses.
 
 ## Before you push
 
