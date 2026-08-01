@@ -62,12 +62,13 @@ function SessionRail({ state, kid, phase, advanceReady, waitMs, waitFrom, finish
           {/* A1-004 — the wait is visible: a fill crosses the control over the
               reveal's own length and lands as the control comes alive. The
               wait is armed twice — the 400 ms guard first, the reveal's real
-              length a moment later — so the fill is told the WHOLE wait and how
-              much has already gone, and continues instead of jumping back to
-              the start. It carries no text and no role: the feedback already
-              speaks for itself through one channel (N-9). */}
-          {!advanceReady && <span key={waitMs} className="wq-ctafill" aria-hidden="true"
-            style={{ "--wqfill": waitMs + "ms", "--wqfillfrom": "-" + waitFrom + "ms" }} />}
+              length a moment later — and on the second arm the fill continues
+              from its own position (--wqfillfrom, a percent) over the
+              remaining wait, so it never moves backwards. It carries no text
+              and no role: the feedback already speaks for itself through one
+              channel (N-9). */}
+          {!advanceReady && <span key={waitMs + "-" + waitFrom} className="wq-ctafill" aria-hidden="true"
+            style={{ "--wqfill": waitMs + "ms", "--wqfillfrom": waitFrom + "%" }} />}
           {/* A2-003 — the label says what the press will do, and the app works
               that out rather than reading it off the queue as it stands: a
               missed word is put back three places later, so the last slot of
