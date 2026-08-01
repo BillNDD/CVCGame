@@ -4,7 +4,7 @@ import { useState, useEffect, useRef, useMemo, useCallback } from "react";
 import {
   LEVELS, HOMOPHONES, SESSION_SIZE, PROMPT_CAP, ADVANCE_GUARD_MS, SPLASH_TIMEOUT_MS,
   C, SR, freshWordState, applyResult, buildSession, checkPromotion,
-  migrate, newState, buildMarkdown, feedbackSpeech, PRAISE, speak, hush, buzz, adultNote,
+  migrate, newState, buildMarkdown, feedbackSpeech, PRAISE, speak, hush, buzz, adultNote, ttsSafePraise,
 } from "@engine";
 /* W3 — the storage adapter is IndexedDB in the standalone app. */
 import { loadState, saveState } from "./storage.js";
@@ -285,7 +285,9 @@ export default function App() {
     unlockVoice();
     const praiseIdx = Math.floor(Math.random() * PRAISE.length);
     speakVoice(result, word, praiseIdx, s.settings.sound,
-      () => speak(feedbackSpeech(result, word, praiseIdx), true, s.settings.lang),
+      /* The system voice says "reed" for "read". The recorded clip does not,
+         so only this fallback is remapped to a praise line it can say. */
+      () => speak(feedbackSpeech(result, word, ttsSafePraise(praiseIdx)), true, s.settings.lang),
       (ms) => armAdvance(ms));
     /* P1-7 lives in the effect below: this is the moment the control is
        disabled, so focusing it from here does nothing at all. */
