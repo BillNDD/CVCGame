@@ -84,6 +84,7 @@ function check(manifest, verifyFiles) {
      hop + uh". "hen" ships untrimmed — trimming its tail by 60 ms lost it, and
      by 100 ms clipped the n. */
   const APPROVED_CARRIER = {
+    man: ["Here is the word, man.", 150, -20, 20],
     hop: ["Here is the word, hop.", 150, -20, 20],
     hen: ["hen, hen.", 150, -30, 40],
   };

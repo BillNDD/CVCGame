@@ -86,7 +86,7 @@ const CSS = `
    the label in anything — the label stays the control's own text.
    Found by an audit of the running build, 2026-07-29. */
 .wq-ctafill{position:absolute;inset:0;z-index:-1;width:0;background:rgba(23,53,107,.2);
-  animation:wqfill var(--wqfill,400ms) linear forwards}
+  animation:wqfill var(--wqfill,400ms) linear forwards;animation-delay:var(--wqfillfrom,0ms)}
 @keyframes wqfill{from{width:0}to{width:100%}}
 /* line-height matches .wq-cta exactly: the prompt REPLACES the record control,
    so any difference in its box moves the word above it. It measured 58.39px
@@ -155,7 +155,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
      to come, and without it a grown-up who asks for less motion gets the
      six-second grey box back. It is a single bar crossing at a steady rate,
      which is what a progress indicator is allowed to be. */
-  .wq-ctafill{animation:wqfill var(--wqfill,400ms) linear forwards!important}}
+  .wq-ctafill{animation:wqfill var(--wqfill,400ms) linear forwards!important;animation-delay:var(--wqfillfrom,0ms)!important}}
 
 /* landscape: one centred column, the same stack as portrait (P2-1, A1-003).
    This query used to divide the stage into a 1.1fr column for the word and a

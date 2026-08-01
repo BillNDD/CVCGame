@@ -157,6 +157,12 @@ BRIGHT_HEAD_MS = {"sip": 70}
 # 100 ms to "clipped at the end, too quick". The fuzz is not separable from
 # the n, so hen ships untrimmed. Do not add a trim here.
 CARRIER_CUT = {
+    # Round 14, 2026-07-31. "man" shipped as "uh an" - a word missing its first
+    # sound is not the word the child is being asked to read. The comma carrier
+    # at 150 ms came back "almost perfect". 250 ms was tried in the same round
+    # and reaches back into the carrier: a listener heard "word man". Do not
+    # widen this margin without a round.
+    "man": ("Here is the word, man.", 150, -20, 20),
     "hop": ("Here is the word, hop.", 150, -20, 20),
     "hen": ("hen, hen.", 150, -30, 40),
 }

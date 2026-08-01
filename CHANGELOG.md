@@ -91,6 +91,11 @@ The first app version is 1.0.0-beta.1. The app stays in beta until version 1.0 i
   than added to. Trimming the fuzz off "hen" was tried and rejected: 60 ms made it worse and
   100 ms cut into the n itself, so it ships untrimmed. Two clips of 276 changed, and each is
   the same file, byte for byte, that the listener approved.
+- Fixed: the fill on "Next word" ran backwards. The wait is set twice on every word — a short
+  guard the moment the result is recorded, then the reveal's real length once its clips are
+  scheduled — and the fill was given only the new length, so it restarted from zero. On screen
+  it raced along at the fast rate, then snapped back to the start and crawled. SPEC says the
+  fill lasts exactly as long as the wait it shows. It now carries on from where it is.
 - Fixed: a passing message could cover the child's own control. The toast was placed a fixed
   112 px above the bottom of the screen, which is not the height of anything: on an iPhone it
   covered the record control by 27 px and hid its label, on iPad portrait by 3 px, and on a
