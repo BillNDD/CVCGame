@@ -8,6 +8,21 @@ sentences, the invitation leads, and the session-end lines, plus `manifest.json`
 clip's file and duration. Gate G13 fails the build when the pack does not cover the engine's
 clip inventory, so the bank can never grow past its voice.
 
+## The lock file
+
+**`tools/voice-lock.json` is the one file that captures every knob behind every
+locked-in word** — the global recipe, the per-word treatments with their ASR
+guards, the phoneme strings, the encoder settings byte identity depends on, the
+byte pins, and who approved each word, when, with their ear notes. It is
+generated (`node tools/gen-voice-lock.mjs`), never edited by hand, and G13
+fails the build if any gated section disagrees with the shipped pack — so it
+cannot quietly drift from reality the way a hand-kept list would.
+
+The shipped pack also declares its own full recipe in `manifest.json`
+(`__recipe`), including the per-word ASR guards whose absence from the keeper
+handoff once cost a brute-force sweep, and the renderer refuses to overwrite a
+byte-pinned word rather than replacing accepted audio with a render.
+
 ## How the pack was made
 
 The clips are rendered by a build tool on a developer machine. The model never ships; the

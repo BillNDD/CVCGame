@@ -1,0 +1,2338 @@
+{
+ "rule": "Every knob behind every locked-in word. G13 fails the build if this file disagrees with the shipped pack. Regenerate: node tools/gen-voice-lock.mjs. Never edit by hand.",
+ "generated_from": "app/public/voice/manifest.json + tools/keepers-treatments.json + tools/keeper-bytes.json + docs/voice-goldens-packs1-3.json + tools/render-voice-pack.py",
+ "recipe": {
+  "voice": "af_heart",
+  "bitrate": 96,
+  "word_speed": 0.85,
+  "sentence_speed": 1,
+  "lead_ms": 80,
+  "tail_ms": 300,
+  "fade_ms": 10,
+  "phoneme_words": [
+   "am",
+   "an",
+   "at",
+   "ax",
+   "if",
+   "in",
+   "is",
+   "it",
+   "on",
+   "ox",
+   "up",
+   "us"
+  ],
+  "trim_ms": {
+   "cub": 130,
+   "dish": 120
+  },
+  "phoneme_sentences": [
+   "p:2"
+  ],
+  "period_words": [
+   "cup",
+   "had",
+   "jug",
+   "rub"
+  ],
+  "onset_trim_words": [
+   "fin",
+   "ham",
+   "hot"
+  ],
+  "bright_head_ms": {
+   "jam": 40,
+   "rat": 40
+  },
+  "lead_override": {
+   "am": 150,
+   "an": 150,
+   "bit": 180,
+   "had": 150,
+   "pin": 180,
+   "rat": 120
+  },
+  "word_speed_override": {
+   "bib": 0.82,
+   "big": 0.82,
+   "bin": 0.8,
+   "bit": 0.82,
+   "box": 0.82,
+   "did": 0.82,
+   "dig": 0.82,
+   "dip": 0.82,
+   "dog": 0.82,
+   "fit": 0.82,
+   "fox": 0.82,
+   "got": 0.82,
+   "hat": 0.82,
+   "him": 0.82,
+   "hip": 0.82,
+   "hit": 0.8,
+   "hop": 0.78,
+   "lip": 0.82,
+   "log": 0.82,
+   "mom": 0.82,
+   "mop": 0.82,
+   "not": 0.82,
+   "pig": 0.82,
+   "pin": 0.82,
+   "pit": 0.82,
+   "pop": 0.82,
+   "pot": 0.8,
+   "ram": 0.82,
+   "ran": 0.88,
+   "rap": 0.82,
+   "rat": 0.82,
+   "rip": 0.82,
+   "sad": 0.82,
+   "sat": 0.82,
+   "sip": 0.82,
+   "sit": 0.82,
+   "six": 0.82,
+   "tag": 0.82,
+   "tan": 0.82,
+   "tap": 0.83,
+   "tip": 0.82,
+   "top": 0.82,
+   "van": 0.82,
+   "wag": 0.82,
+   "win": 0.82,
+   "yam": 0.82,
+   "yap": 0.82,
+   "zap": 0.82
+  },
+  "head_trim_ms": {
+   "lip": 80,
+   "van": 40
+  },
+  "carrier_cut": {
+   "bin": [
+    "Here is the word, bin.",
+    100,
+    -20,
+    20
+   ],
+   "can": [
+    "Here is the word, can.",
+    150,
+    -20,
+    20
+   ],
+   "cot": [
+    "Here is the word cot.",
+    100,
+    -20,
+    20
+   ],
+   "did": [
+    "Say did.",
+    80,
+    -20,
+    20
+   ],
+   "dip": [
+    "Here is the word, dip.",
+    120,
+    -20,
+    20
+   ],
+   "got": [
+    "got. got.",
+    80,
+    -30,
+    40
+   ],
+   "hat": [
+    "Here is the word, hat.",
+    100,
+    -20,
+    20
+   ],
+   "hen": [
+    "hen, hen.",
+    150,
+    -30,
+    40
+   ],
+   "hip": [
+    "Here is the word, hip.",
+    120,
+    -20,
+    20
+   ],
+   "hit": [
+    "Here is the word hit.",
+    100,
+    -20,
+    20
+   ],
+   "man": [
+    "Here is the word, man.",
+    150,
+    -20,
+    20
+   ],
+   "pal": [
+    "Here is the word pal.",
+    100,
+    -20,
+    20
+   ],
+   "pot": [
+    "Here is the word, pot.",
+    100,
+    -20,
+    20
+   ],
+   "sit": [
+    "sit. sit.",
+    80,
+    -30,
+    40
+   ],
+   "tap": [
+    "Here is the word tap.",
+    100,
+    -20,
+    20
+   ],
+   "zap": [
+    "zap. zap.",
+    80,
+    -30,
+    40
+   ]
+  },
+  "asr_pinned": {
+   "bib": [
+    "Say bib.",
+    0.46,
+    0.92
+   ],
+   "big": [
+    "Say big.",
+    0.46,
+    0.96
+   ],
+   "box": [
+    "Say box.",
+    0.46,
+    0.92
+   ],
+   "dig": [
+    "Say dig.",
+    0.46,
+    0.96
+   ],
+   "dog": [
+    "Say dog.",
+    0.46,
+    1
+   ],
+   "fit": [
+    "Say fit.",
+    0.48,
+    0.92
+   ],
+   "fox": [
+    "Say fox.",
+    0.46,
+    0.94
+   ],
+   "him": [
+    "Say him.",
+    0.46,
+    0.88
+   ],
+   "hop": [
+    "Say hop.",
+    0.58,
+    1.04
+   ],
+   "log": [
+    "Say log.",
+    0.44,
+    0.9
+   ],
+   "mom": [
+    "Say mom.",
+    0.46,
+    0.86
+   ],
+   "mop": [
+    "Say mop.",
+    0.5,
+    0.88
+   ],
+   "not": [
+    "Say not.",
+    0.4,
+    0.88
+   ],
+   "pig": [
+    "Say pig.",
+    0.46,
+    0.88
+   ],
+   "pit": [
+    "Say pit.",
+    0.48,
+    0.96
+   ],
+   "pop": [
+    "Say pop.",
+    0.46,
+    0.9
+   ],
+   "ram": [
+    "Say ram.",
+    0.44,
+    0.96
+   ],
+   "rap": [
+    "Say rap.",
+    0.48,
+    0.92
+   ],
+   "rip": [
+    "Say rip.",
+    0.46,
+    0.86
+   ],
+   "sad": [
+    "Say sad.",
+    0.44,
+    0.92
+   ],
+   "sat": [
+    "Say sat.",
+    0.46,
+    0.98
+   ],
+   "sip": [
+    "Say sip.",
+    0.52,
+    1.12
+   ],
+   "six": [
+    "Say six.",
+    0.48,
+    1.18
+   ],
+   "tag": [
+    "Say tag.",
+    0.42,
+    0.98
+   ],
+   "tan": [
+    "Say tan.",
+    0.42,
+    0.88
+   ],
+   "tip": [
+    "Say tip.",
+    0.46,
+    0.94
+   ],
+   "top": [
+    "Say top.",
+    0.42,
+    0.9
+   ],
+   "wag": [
+    "Say wag.",
+    0.42,
+    0.88
+   ],
+   "win": [
+    "Say win.",
+    0.42,
+    0.86
+   ],
+   "yam": [
+    "Say yam.",
+    0.44,
+    1.1
+   ],
+   "yap": [
+    "Say yap.",
+    0.48,
+    1.02
+   ]
+  },
+  "asr_guard_ms": {
+   "bib": [
+    40,
+    40
+   ],
+   "big": [
+    40,
+    40
+   ],
+   "box": [
+    40,
+    40
+   ],
+   "dig": [
+    40,
+    40
+   ],
+   "dog": [
+    40,
+    40
+   ],
+   "fit": [
+    40,
+    40
+   ],
+   "fox": [
+    40,
+    40
+   ],
+   "him": [
+    40,
+    40
+   ],
+   "hop": [
+    40,
+    40
+   ],
+   "log": [
+    40,
+    40
+   ],
+   "mom": [
+    40,
+    40
+   ],
+   "mop": [
+    40,
+    40
+   ],
+   "not": [
+    40,
+    40
+   ],
+   "pig": [
+    40,
+    40
+   ],
+   "pit": [
+    40,
+    40
+   ],
+   "pop": [
+    40,
+    40
+   ],
+   "ram": [
+    40,
+    40
+   ],
+   "rap": [
+    40,
+    40
+   ],
+   "rip": [
+    40,
+    40
+   ],
+   "sad": [
+    80,
+    40
+   ],
+   "sat": [
+    80,
+    40
+   ],
+   "sip": [
+    80,
+    80
+   ],
+   "six": [
+    80,
+    80
+   ],
+   "tag": [
+    40,
+    40
+   ],
+   "tan": [
+    40,
+    40
+   ],
+   "tip": [
+    40,
+    40
+   ],
+   "top": [
+    40,
+    40
+   ],
+   "wag": [
+    40,
+    40
+   ],
+   "win": [
+    40,
+    40
+   ],
+   "yam": [
+    40,
+    40
+   ],
+   "yap": [
+    40,
+    40
+   ]
+  },
+  "keepers_treatments": [
+   "bib",
+   "big",
+   "bin",
+   "bit",
+   "box",
+   "can",
+   "cot",
+   "did",
+   "dig",
+   "dip",
+   "dog",
+   "fin",
+   "fit",
+   "fox",
+   "got",
+   "had",
+   "ham",
+   "hat",
+   "him",
+   "hip",
+   "hit",
+   "hop",
+   "hot",
+   "jam",
+   "lip",
+   "log",
+   "mom",
+   "mop",
+   "not",
+   "pal",
+   "pig",
+   "pin",
+   "pit",
+   "pop",
+   "pot",
+   "ram",
+   "ran",
+   "rap",
+   "rat",
+   "rip",
+   "sad",
+   "sat",
+   "sip",
+   "sit",
+   "six",
+   "tag",
+   "tan",
+   "tap",
+   "tip",
+   "top",
+   "van",
+   "wag",
+   "win",
+   "yam",
+   "yap",
+   "zap"
+  ]
+ },
+ "phoneme_strings": {
+  "words": {
+   "at": "æt",
+   "an": "æn",
+   "am": "æm",
+   "ax": "æks",
+   "in": "ɪn",
+   "it": "ɪt",
+   "if": "ɪf",
+   "is": "ɪz",
+   "on": "ɑn",
+   "ox": "ɑks",
+   "up": "ʌp",
+   "us": "ʌs"
+  },
+  "sentences": {
+   "p:2": "juː ɹˈɛd ðæt wˈɜːd ˈɔːl baɪ jɔːɹsˈɛlf!"
+  }
+ },
+ "encoder": {
+  "library": "lameenc",
+  "quality": 2,
+  "channels": 1,
+  "sample_rate_hz": 24000,
+  "note": "byte identity depends on these; 24000 is Kokoro's output rate"
+ },
+ "byte_pins": {
+  "sad": "3556e5d6f527747fe2932750c3e9ed23c1811fc09ea422ba3e7e513eae5c3ed2",
+  "sat": "961d0e369cd1524fe25ef8c87ced0089d7e3e60e908b9ae94a343529f1cefb90"
+ },
+ "words": {
+  "am": {
+   "source": "phoneme + lead rebuild, 2026-07-27",
+   "verdict": "accepted",
+   "note": "spelling read it as the letter M; explicit pronunciation and 150 ms lead"
+  },
+  "an": {
+   "source": "phoneme + lead rebuild, 2026-07-27",
+   "verdict": "accepted",
+   "note": "same fault and fix as am"
+  },
+  "at": {
+   "treatment": {
+    "phoneme": true
+   },
+   "source": "phoneme rebuild, 2026-07-27",
+   "verdict": "accepted"
+  },
+  "ax": {
+   "treatment": {
+    "phoneme": true
+   },
+   "source": "phoneme rebuild, 2026-07-27",
+   "verdict": "accepted"
+  },
+  "bib": {
+   "treatment": {
+    "word": "bib",
+    "verdict": "perfect",
+    "speed": 0.82,
+    "lead_ms": 80,
+    "period": false,
+    "onset_trim": false,
+    "trim_ms": 0,
+    "bright_head_ms": 0,
+    "head_trim_ms": 0,
+    "skip_burst": false,
+    "carrier": [
+     "Say {w}.",
+     80,
+     -20,
+     20
+    ],
+    "carrier_cut_mode": "asr",
+    "asr_start": 0.46,
+    "asr_end": 0.92,
+    "asr_word": "bib",
+    "label": "xfer_say_asr_spd0.82",
+    "discovery_only": true,
+    "asr_guard_lead_ms": 40,
+    "asr_guard_tail_ms": 40
+   },
+   "source": "keeper handoff, packs 1-3, accepted 2026-08-01",
+   "verdict": "perfect",
+   "ear_notes": "accept, perfect pronunciation, no need to hear other versions [pack3 r1]"
+  },
+  "big": {
+   "treatment": {
+    "word": "big",
+    "verdict": "perfect",
+    "speed": 0.82,
+    "lead_ms": 80,
+    "period": false,
+    "onset_trim": false,
+    "trim_ms": 0,
+    "bright_head_ms": 0,
+    "head_trim_ms": 0,
+    "skip_burst": false,
+    "carrier": [
+     "Say {w}.",
+     80,
+     -20,
+     20
+    ],
+    "carrier_cut_mode": "asr",
+    "asr_start": 0.46,
+    "asr_end": 0.96,
+    "asr_word": "big",
+    "label": "xfer_say_asr_spd0.82",
+    "discovery_only": true,
+    "asr_guard_lead_ms": 40,
+    "asr_guard_tail_ms": 40
+   },
+   "source": "keeper handoff, packs 1-3, accepted 2026-08-01",
+   "verdict": "perfect",
+   "ear_notes": "accept, perfect pronunciation, no need to hear others [pack2 r5]"
+  },
+  "bin": {
+   "treatment": {
+    "word": "bin",
+    "verdict": "good",
+    "speed": 0.8,
+    "lead_ms": 80,
+    "period": false,
+    "onset_trim": false,
+    "trim_ms": 0,
+    "bright_head_ms": 0,
+    "head_trim_ms": 0,
+    "skip_burst": false,
+    "carrier": [
+     "Here is the word, {w}.",
+     100,
+     -20,
+     20
+    ],
+    "carrier_cut_mode": "energy",
+    "asr_start": null,
+    "asr_end": null,
+    "asr_word": null,
+    "label": "prior_3_prior_0_carrier_1_spd0.8",
+    "discovery_only": true
+   },
+   "source": "keeper handoff, packs 1-3, accepted 2026-08-01",
+   "verdict": "good",
+   "ear_notes": "good, a little fast, no static (accept) [pack2 r1]"
+  },
+  "bit": {
+   "treatment": {
+    "word": "bit",
+    "verdict": "perfect",
+    "speed": 0.82,
+    "lead_ms": 180,
+    "period": false,
+    "onset_trim": false,
+    "trim_ms": 0,
+    "bright_head_ms": 0,
+    "head_trim_ms": 0,
+    "skip_burst": false,
+    "carrier": null,
+    "carrier_cut_mode": "energy",
+    "asr_start": null,
+    "asr_end": null,
+    "asr_word": null,
+    "label": "lead180_spd0.82",
+    "discovery_only": true
+   },
+   "source": "keeper handoff, packs 1-3, accepted 2026-08-01",
+   "verdict": "perfect",
+   "ear_notes": "accept, perfect pronunciation, no need to hear other versions [pack3 r1]"
+  },
+  "box": {
+   "treatment": {
+    "word": "box",
+    "verdict": "perfect",
+    "speed": 0.82,
+    "lead_ms": 80,
+    "period": false,
+    "onset_trim": false,
+    "trim_ms": 0,
+    "bright_head_ms": 0,
+    "head_trim_ms": 0,
+    "skip_burst": false,
+    "carrier": [
+     "Say {w}.",
+     80,
+     -20,
+     20
+    ],
+    "carrier_cut_mode": "asr",
+    "asr_start": 0.46,
+    "asr_end": 0.92,
+    "asr_word": "box",
+    "label": "xfer_say_asr_spd0.82",
+    "discovery_only": true,
+    "asr_guard_lead_ms": 40,
+    "asr_guard_tail_ms": 40
+   },
+   "source": "keeper handoff, packs 1-3, accepted 2026-08-01",
+   "verdict": "perfect",
+   "ear_notes": "accept, perfect pronunciation, no need to hear other versions [pack3 r1]"
+  },
+  "can": {
+   "treatment": {
+    "word": "can",
+    "verdict": "perfect",
+    "speed": 0.85,
+    "lead_ms": 80,
+    "period": false,
+    "onset_trim": false,
+    "trim_ms": 0,
+    "bright_head_ms": 0,
+    "head_trim_ms": 0,
+    "skip_burst": false,
+    "carrier": [
+     "Here is the word, {w}.",
+     150,
+     -20,
+     20
+    ],
+    "carrier_cut_mode": "energy",
+    "asr_start": null,
+    "asr_end": null,
+    "asr_word": null,
+    "label": "combo_carrier_comma150",
+    "discovery_only": false
+   },
+   "source": "keeper handoff, packs 1-3, accepted 2026-08-01",
+   "verdict": "perfect",
+   "ear_notes": "absolutely perfect (accept), no need to listen to others"
+  },
+  "cot": {
+   "treatment": {
+    "word": "cot",
+    "verdict": "good",
+    "speed": 0.85,
+    "lead_ms": 80,
+    "period": false,
+    "onset_trim": false,
+    "trim_ms": 0,
+    "bright_head_ms": 0,
+    "head_trim_ms": 0,
+    "skip_burst": false,
+    "carrier": [
+     "Here is the word {w}.",
+     100,
+     -20,
+     20
+    ],
+    "carrier_cut_mode": "energy",
+    "asr_start": null,
+    "asr_end": null,
+    "asr_word": null,
+    "label": "xfer_keeper_6_carrier_06_m100_f20_g20",
+    "discovery_only": false
+   },
+   "source": "keeper handoff, packs 1-3, accepted 2026-08-01",
+   "verdict": "good",
+   "ear_notes": "accept, good pronunciation, no need to hear others [pack3 r1]"
+  },
+  "cub": {
+   "source": "spot-check trims, 2026-07-27",
+   "verdict": "accepted",
+   "note": "tail trim 130 ms removes an added syllable after the final plosive"
+  },
+  "cup": {
+   "source": "blind rounds 8-9, 2026-07-27/28",
+   "verdict": "accepted",
+   "note": "full stop appended; round-12 comma-carrier result is approved and unshipped (margin ambiguity, see docs/voice-pack.md)"
+  },
+  "did": {
+   "treatment": {
+    "word": "did",
+    "verdict": "good",
+    "speed": 0.82,
+    "lead_ms": 80,
+    "period": false,
+    "onset_trim": false,
+    "trim_ms": 0,
+    "bright_head_ms": 0,
+    "head_trim_ms": 0,
+    "skip_burst": false,
+    "carrier": [
+     "Say {w}.",
+     80,
+     -20,
+     20
+    ],
+    "carrier_cut_mode": "energy",
+    "asr_start": null,
+    "asr_end": null,
+    "asr_word": null,
+    "label": "xfer_say_asr_spd0.82",
+    "discovery_only": true
+   },
+   "source": "keeper handoff, packs 1-3, accepted 2026-08-01",
+   "verdict": "good",
+   "ear_notes": "accept, better pronunciation than other 2 [pack3 r2]"
+  },
+  "dig": {
+   "treatment": {
+    "word": "dig",
+    "verdict": "perfect",
+    "speed": 0.82,
+    "lead_ms": 80,
+    "period": false,
+    "onset_trim": false,
+    "trim_ms": 0,
+    "bright_head_ms": 0,
+    "head_trim_ms": 0,
+    "skip_burst": false,
+    "carrier": [
+     "Say {w}.",
+     80,
+     -20,
+     20
+    ],
+    "carrier_cut_mode": "asr",
+    "asr_start": 0.46,
+    "asr_end": 0.96,
+    "asr_word": "dig",
+    "label": "xfer_say_asr_spd0.82",
+    "discovery_only": true,
+    "asr_guard_lead_ms": 40,
+    "asr_guard_tail_ms": 40
+   },
+   "source": "keeper handoff, packs 1-3, accepted 2026-08-01",
+   "verdict": "perfect",
+   "ear_notes": "accept, perfect pronunciation, no need to hear others [pack2 r5]"
+  },
+  "dip": {
+   "treatment": {
+    "word": "dip",
+    "verdict": "perfect",
+    "speed": 0.82,
+    "lead_ms": 80,
+    "period": false,
+    "onset_trim": false,
+    "trim_ms": 0,
+    "bright_head_ms": 0,
+    "head_trim_ms": 0,
+    "skip_burst": false,
+    "carrier": [
+     "Here is the word, {w}.",
+     120,
+     -20,
+     20
+    ],
+    "carrier_cut_mode": "energy",
+    "asr_start": null,
+    "asr_end": null,
+    "asr_word": null,
+    "label": "xfer_can_asr_comma120_spd0.82",
+    "discovery_only": true
+   },
+   "source": "keeper handoff, packs 1-3, accepted 2026-08-01",
+   "verdict": "perfect",
+   "ear_notes": "accept, perfect pronunciation, ignore others [pack3 r2]"
+  },
+  "dish": {
+   "source": "spot-check trims, 2026-07-27",
+   "verdict": "accepted",
+   "note": "tail trim 120 ms; the sh ran longer than in mush"
+  },
+  "dog": {
+   "treatment": {
+    "word": "dog",
+    "verdict": "perfect",
+    "speed": 0.82,
+    "lead_ms": 80,
+    "period": false,
+    "onset_trim": false,
+    "trim_ms": 0,
+    "bright_head_ms": 0,
+    "head_trim_ms": 0,
+    "skip_burst": false,
+    "carrier": [
+     "Say {w}.",
+     80,
+     -20,
+     20
+    ],
+    "carrier_cut_mode": "asr",
+    "asr_start": 0.46,
+    "asr_end": 1,
+    "asr_word": "dog",
+    "label": "xfer_say_asr_spd0.82",
+    "discovery_only": true,
+    "asr_guard_lead_ms": 40,
+    "asr_guard_tail_ms": 40
+   },
+   "source": "keeper handoff, packs 1-3, accepted 2026-08-01",
+   "verdict": "perfect",
+   "ear_notes": "accept, perfect pronunciation, no need to hear others [pack2 r5]"
+  },
+  "fin": {
+   "treatment": {
+    "word": "fin",
+    "verdict": "good",
+    "speed": 0.85,
+    "lead_ms": 80,
+    "period": false,
+    "onset_trim": true,
+    "trim_ms": 0,
+    "bright_head_ms": 0,
+    "head_trim_ms": 0,
+    "skip_burst": false,
+    "carrier": null,
+    "carrier_cut_mode": "energy",
+    "asr_start": null,
+    "asr_end": null,
+    "asr_word": null,
+    "label": "xfer_keeper_2_onset_trim",
+    "discovery_only": false
+   },
+   "source": "keeper handoff, packs 1-3, accepted 2026-08-01",
+   "verdict": "good",
+   "ear_notes": "accept, good enough [pack2 r5]"
+  },
+  "fit": {
+   "treatment": {
+    "word": "fit",
+    "verdict": "perfect",
+    "speed": 0.82,
+    "lead_ms": 80,
+    "period": false,
+    "onset_trim": false,
+    "trim_ms": 0,
+    "bright_head_ms": 0,
+    "head_trim_ms": 0,
+    "skip_burst": false,
+    "carrier": [
+     "Say {w}.",
+     80,
+     -20,
+     20
+    ],
+    "carrier_cut_mode": "asr",
+    "asr_start": 0.48,
+    "asr_end": 0.92,
+    "asr_word": "fit",
+    "label": "xfer_say_asr_spd0.82",
+    "discovery_only": true,
+    "asr_guard_lead_ms": 40,
+    "asr_guard_tail_ms": 40
+   },
+   "source": "keeper handoff, packs 1-3, accepted 2026-08-01",
+   "verdict": "perfect",
+   "ear_notes": "accept, perfect pronunciation, no need to hear other versions [pack3 r1]"
+  },
+  "fox": {
+   "treatment": {
+    "word": "fox",
+    "verdict": "perfect",
+    "speed": 0.82,
+    "lead_ms": 80,
+    "period": false,
+    "onset_trim": false,
+    "trim_ms": 0,
+    "bright_head_ms": 0,
+    "head_trim_ms": 0,
+    "skip_burst": false,
+    "carrier": [
+     "Say {w}.",
+     80,
+     -20,
+     20
+    ],
+    "carrier_cut_mode": "asr",
+    "asr_start": 0.46,
+    "asr_end": 0.94,
+    "asr_word": "fox",
+    "label": "xfer_say_asr_spd0.82",
+    "discovery_only": true,
+    "asr_guard_lead_ms": 40,
+    "asr_guard_tail_ms": 40
+   },
+   "source": "keeper handoff, packs 1-3, accepted 2026-08-01",
+   "verdict": "perfect",
+   "ear_notes": "accept, perfect pronunciation, no need to hear other versions [pack3 r1]"
+  },
+  "got": {
+   "treatment": {
+    "word": "got",
+    "verdict": "perfect",
+    "speed": 0.82,
+    "lead_ms": 80,
+    "period": false,
+    "onset_trim": false,
+    "trim_ms": 0,
+    "bright_head_ms": 0,
+    "head_trim_ms": 0,
+    "skip_burst": false,
+    "carrier": [
+     "{w}. {w}.",
+     80,
+     -30,
+     40
+    ],
+    "carrier_cut_mode": "energy",
+    "asr_start": null,
+    "asr_end": null,
+    "asr_word": null,
+    "label": "xfer_double_energy_spd0.82",
+    "discovery_only": true
+   },
+   "source": "keeper handoff, packs 1-3, accepted 2026-08-01",
+   "verdict": "perfect",
+   "ear_notes": "accept, perfect pronunciation, ignore others [pack3 r2]"
+  },
+  "had": {
+   "treatment": {
+    "word": "had",
+    "verdict": "very_good",
+    "speed": 0.85,
+    "lead_ms": 150,
+    "period": true,
+    "onset_trim": false,
+    "trim_ms": 0,
+    "bright_head_ms": 0,
+    "head_trim_ms": 0,
+    "skip_burst": false,
+    "carrier": null,
+    "carrier_cut_mode": "energy",
+    "asr_start": null,
+    "asr_end": null,
+    "asr_word": null,
+    "label": "combo_period_lead150",
+    "discovery_only": false
+   },
+   "source": "keeper handoff, packs 1-3, accepted 2026-08-01",
+   "verdict": "very_good",
+   "ear_notes": "very good"
+  },
+  "ham": {
+   "treatment": {
+    "word": "ham",
+    "verdict": "very_good",
+    "speed": 0.85,
+    "lead_ms": 80,
+    "period": false,
+    "onset_trim": true,
+    "trim_ms": 0,
+    "bright_head_ms": 0,
+    "head_trim_ms": 0,
+    "skip_burst": false,
+    "carrier": null,
+    "carrier_cut_mode": "energy",
+    "asr_start": null,
+    "asr_end": null,
+    "asr_word": null,
+    "label": "onset_trim",
+    "discovery_only": false
+   },
+   "source": "keeper handoff, packs 1-3, accepted 2026-08-01",
+   "verdict": "very_good",
+   "ear_notes": "very good - clear (accept if best)"
+  },
+  "hat": {
+   "treatment": {
+    "word": "hat",
+    "verdict": "very_good",
+    "speed": 0.82,
+    "lead_ms": 80,
+    "period": false,
+    "onset_trim": false,
+    "trim_ms": 0,
+    "bright_head_ms": 0,
+    "head_trim_ms": 0,
+    "skip_burst": false,
+    "carrier": [
+     "Here is the word, {w}.",
+     100,
+     -20,
+     20
+    ],
+    "carrier_cut_mode": "energy",
+    "asr_start": null,
+    "asr_end": null,
+    "asr_word": null,
+    "label": "prior_0_prior_1_carrier_1_spd0.82",
+    "discovery_only": true
+   },
+   "source": "keeper handoff, packs 1-3, accepted 2026-08-01",
+   "verdict": "very_good",
+   "ear_notes": "very good (accept) [hat R2]"
+  },
+  "hen": {
+   "source": "rounds 12-13, judged 2026-07-30",
+   "verdict": "almost perfect",
+   "note": "carrier 'hen, hen.', 150 ms, floor -30 dB, gap 40 ms, NO tail trim - trims were rejected by ear"
+  },
+  "him": {
+   "treatment": {
+    "word": "him",
+    "verdict": "perfect",
+    "speed": 0.82,
+    "lead_ms": 80,
+    "period": false,
+    "onset_trim": false,
+    "trim_ms": 0,
+    "bright_head_ms": 0,
+    "head_trim_ms": 0,
+    "skip_burst": false,
+    "carrier": [
+     "Say {w}.",
+     80,
+     -20,
+     20
+    ],
+    "carrier_cut_mode": "asr",
+    "asr_start": 0.46,
+    "asr_end": 0.88,
+    "asr_word": "him",
+    "label": "xfer_say_asr_spd0.82",
+    "discovery_only": true,
+    "asr_guard_lead_ms": 40,
+    "asr_guard_tail_ms": 40
+   },
+   "source": "keeper handoff, packs 1-3, accepted 2026-08-01",
+   "verdict": "perfect",
+   "ear_notes": "accept, perfect pronunciation, no need to hear other versions [pack3 r1]"
+  },
+  "hip": {
+   "treatment": {
+    "word": "hip",
+    "verdict": "perfect",
+    "speed": 0.82,
+    "lead_ms": 80,
+    "period": false,
+    "onset_trim": false,
+    "trim_ms": 0,
+    "bright_head_ms": 0,
+    "head_trim_ms": 0,
+    "skip_burst": false,
+    "carrier": [
+     "Here is the word, {w}.",
+     120,
+     -20,
+     20
+    ],
+    "carrier_cut_mode": "energy",
+    "asr_start": null,
+    "asr_end": null,
+    "asr_word": null,
+    "label": "xfer_can_asr_comma120_spd0.82",
+    "discovery_only": true
+   },
+   "source": "keeper handoff, packs 1-3, accepted 2026-08-01",
+   "verdict": "perfect",
+   "ear_notes": "accept, perfect pronunciation, no need to hear other versions [pack3 r1]"
+  },
+  "hit": {
+   "treatment": {
+    "word": "hit",
+    "verdict": "marginal",
+    "speed": 0.8,
+    "lead_ms": 80,
+    "period": false,
+    "onset_trim": false,
+    "trim_ms": 0,
+    "bright_head_ms": 0,
+    "head_trim_ms": 0,
+    "skip_burst": false,
+    "carrier": [
+     "Here is the word {w}.",
+     100,
+     -20,
+     20
+    ],
+    "carrier_cut_mode": "energy",
+    "asr_start": null,
+    "asr_end": null,
+    "asr_word": null,
+    "label": "prior_2_prior_2_carrier_2_spd0.8",
+    "discovery_only": true
+   },
+   "source": "keeper handoff, packs 1-3, accepted 2026-08-01",
+   "verdict": "marginal",
+   "ear_notes": "marginal pass (accept) [pack2 r1]"
+  },
+  "hop": {
+   "treatment": {
+    "word": "hop",
+    "verdict": "perfect",
+    "speed": 0.78,
+    "lead_ms": 80,
+    "period": false,
+    "onset_trim": false,
+    "trim_ms": 0,
+    "bright_head_ms": 0,
+    "head_trim_ms": 0,
+    "skip_burst": false,
+    "carrier": [
+     "Say {w}.",
+     80,
+     -20,
+     20
+    ],
+    "carrier_cut_mode": "asr",
+    "asr_start": 0.58,
+    "asr_end": 1.04,
+    "asr_word": "hop",
+    "label": "say_asr_spd0.78_nohead_trim",
+    "discovery_only": true,
+    "asr_guard_lead_ms": 40,
+    "asr_guard_tail_ms": 40,
+    "owner_override": "head_trim 40 removed by owner listen 2026-08-01: the ASR cut already begins at speech onset, so the trim took the word's own /h/ and hop was heard as 'op'. Keeper bytes are NOT shipped for hop."
+   },
+   "source": "keeper recipe, owner-amended 2026-08-01",
+   "verdict": "perfect (version 2)",
+   "ear_notes": "accept this one [pack3 r3]",
+   "note": "keeper's head_trim 40 removed the /h/; owner chose the same recipe with head_trim 0, later adopted upstream as the corrected golden"
+  },
+  "hot": {
+   "treatment": {
+    "word": "hot",
+    "verdict": "good",
+    "speed": 0.85,
+    "lead_ms": 80,
+    "period": false,
+    "onset_trim": true,
+    "trim_ms": 0,
+    "bright_head_ms": 0,
+    "head_trim_ms": 0,
+    "skip_burst": false,
+    "carrier": null,
+    "carrier_cut_mode": "energy",
+    "asr_start": null,
+    "asr_end": null,
+    "asr_word": null,
+    "label": "xfer_keeper_2_onset_trim",
+    "discovery_only": false
+   },
+   "source": "keeper handoff, packs 1-3, accepted 2026-08-01",
+   "verdict": "good",
+   "ear_notes": "accept, better than other 2 and good enough [pack3 r2]"
+  },
+  "if": {
+   "treatment": {
+    "phoneme": true
+   },
+   "source": "phoneme rebuild, 2026-07-27",
+   "verdict": "accepted"
+  },
+  "in": {
+   "treatment": {
+    "phoneme": true
+   },
+   "source": "phoneme rebuild, 2026-07-27",
+   "verdict": "accepted"
+  },
+  "is": {
+   "treatment": {
+    "phoneme": true
+   },
+   "source": "phoneme rebuild, 2026-07-27",
+   "verdict": "accepted"
+  },
+  "it": {
+   "treatment": {
+    "phoneme": true
+   },
+   "source": "phoneme rebuild, 2026-07-27",
+   "verdict": "accepted"
+  },
+  "jam": {
+   "treatment": {
+    "word": "jam",
+    "verdict": "very_good",
+    "speed": 0.85,
+    "lead_ms": 80,
+    "period": false,
+    "onset_trim": false,
+    "trim_ms": 0,
+    "bright_head_ms": 40,
+    "head_trim_ms": 0,
+    "skip_burst": false,
+    "carrier": null,
+    "carrier_cut_mode": "energy",
+    "asr_start": null,
+    "asr_end": null,
+    "asr_word": null,
+    "label": "bright_head_40",
+    "discovery_only": false
+   },
+   "source": "keeper handoff, packs 1-3, accepted 2026-08-01",
+   "verdict": "very_good",
+   "ear_notes": "near perfect, accept if best"
+  },
+  "jug": {
+   "source": "blind rounds 8-9, 2026-07-27/28",
+   "verdict": "very good (beta.8)",
+   "note": "full stop appended"
+  },
+  "lip": {
+   "treatment": {
+    "word": "lip",
+    "verdict": "perfect",
+    "speed": 0.82,
+    "lead_ms": 80,
+    "period": false,
+    "onset_trim": false,
+    "trim_ms": 0,
+    "bright_head_ms": 0,
+    "head_trim_ms": 80,
+    "skip_burst": false,
+    "carrier": null,
+    "carrier_cut_mode": "energy",
+    "asr_start": null,
+    "asr_end": null,
+    "asr_word": null,
+    "label": "head_trim_80_spd0.82",
+    "discovery_only": true
+   },
+   "source": "keeper handoff, packs 1-3, accepted 2026-08-01",
+   "verdict": "perfect",
+   "ear_notes": "accept, perfect pronunciation, no need to listen to others [pack2 r7 uh-cut]"
+  },
+  "log": {
+   "treatment": {
+    "word": "log",
+    "verdict": "perfect",
+    "speed": 0.82,
+    "lead_ms": 80,
+    "period": false,
+    "onset_trim": false,
+    "trim_ms": 0,
+    "bright_head_ms": 0,
+    "head_trim_ms": 0,
+    "skip_burst": false,
+    "carrier": [
+     "Say {w}.",
+     80,
+     -20,
+     20
+    ],
+    "carrier_cut_mode": "asr",
+    "asr_start": 0.44,
+    "asr_end": 0.9,
+    "asr_word": "log",
+    "label": "xfer_say_asr_spd0.82",
+    "discovery_only": true,
+    "asr_guard_lead_ms": 40,
+    "asr_guard_tail_ms": 40
+   },
+   "source": "keeper handoff, packs 1-3, accepted 2026-08-01",
+   "verdict": "perfect",
+   "ear_notes": "accept, perfect pronunciation, ignore others [pack3 r2]"
+  },
+  "man": {
+   "source": "round 14, judged 2026-08-01",
+   "verdict": "almost perfect",
+   "ear_notes": "marginal pass, accept if best of 6 [user: accept-if-best overrules]",
+   "note": "carrier at 150 ms; keeper man ('marginal') deliberately not adopted; 250 ms reaches into the carrier"
+  },
+  "mom": {
+   "treatment": {
+    "word": "mom",
+    "verdict": "perfect",
+    "speed": 0.82,
+    "lead_ms": 80,
+    "period": false,
+    "onset_trim": false,
+    "trim_ms": 0,
+    "bright_head_ms": 0,
+    "head_trim_ms": 0,
+    "skip_burst": false,
+    "carrier": [
+     "Say {w}.",
+     80,
+     -20,
+     20
+    ],
+    "carrier_cut_mode": "asr",
+    "asr_start": 0.46,
+    "asr_end": 0.86,
+    "asr_word": "mom",
+    "label": "xfer_say_asr_spd0.82",
+    "discovery_only": true,
+    "asr_guard_lead_ms": 40,
+    "asr_guard_tail_ms": 40
+   },
+   "source": "keeper handoff, packs 1-3, accepted 2026-08-01",
+   "verdict": "perfect",
+   "ear_notes": "accept, perfect pronunciation, no need to hear other versions [pack3 r1]"
+  },
+  "mop": {
+   "treatment": {
+    "word": "mop",
+    "verdict": "perfect",
+    "speed": 0.82,
+    "lead_ms": 80,
+    "period": false,
+    "onset_trim": false,
+    "trim_ms": 0,
+    "bright_head_ms": 0,
+    "head_trim_ms": 0,
+    "skip_burst": false,
+    "carrier": [
+     "Say {w}.",
+     80,
+     -20,
+     20
+    ],
+    "carrier_cut_mode": "asr",
+    "asr_start": 0.5,
+    "asr_end": 0.88,
+    "asr_word": "mop",
+    "label": "xfer_say_asr_spd0.82",
+    "discovery_only": true,
+    "asr_guard_lead_ms": 40,
+    "asr_guard_tail_ms": 40
+   },
+   "source": "keeper handoff, packs 1-3, accepted 2026-08-01",
+   "verdict": "perfect",
+   "ear_notes": "accept, perfect pronunciation, no need to hear other versions [pack3 r1]"
+  },
+  "not": {
+   "treatment": {
+    "word": "not",
+    "verdict": "perfect",
+    "speed": 0.82,
+    "lead_ms": 80,
+    "period": false,
+    "onset_trim": false,
+    "trim_ms": 0,
+    "bright_head_ms": 0,
+    "head_trim_ms": 0,
+    "skip_burst": false,
+    "carrier": [
+     "Say {w}.",
+     80,
+     -20,
+     20
+    ],
+    "carrier_cut_mode": "asr",
+    "asr_start": 0.4,
+    "asr_end": 0.88,
+    "asr_word": "not",
+    "label": "xfer_say_asr_spd0.82",
+    "discovery_only": true,
+    "asr_guard_lead_ms": 40,
+    "asr_guard_tail_ms": 40
+   },
+   "source": "keeper handoff, packs 1-3, accepted 2026-08-01",
+   "verdict": "perfect",
+   "ear_notes": "accept, perfect pronunciation, no need to hear other versions [pack3 r1]"
+  },
+  "on": {
+   "treatment": {
+    "phoneme": true
+   },
+   "source": "phoneme rebuild, 2026-07-27",
+   "verdict": "accepted"
+  },
+  "ox": {
+   "treatment": {
+    "phoneme": true
+   },
+   "source": "phoneme rebuild, 2026-07-27",
+   "verdict": "accepted"
+  },
+  "pal": {
+   "treatment": {
+    "word": "pal",
+    "verdict": "perfect",
+    "speed": 0.85,
+    "lead_ms": 80,
+    "period": false,
+    "onset_trim": false,
+    "trim_ms": 0,
+    "bright_head_ms": 0,
+    "head_trim_ms": 0,
+    "skip_burst": false,
+    "carrier": [
+     "Here is the word {w}.",
+     100,
+     -20,
+     20
+    ],
+    "carrier_cut_mode": "energy",
+    "asr_start": null,
+    "asr_end": null,
+    "asr_word": null,
+    "label": "carrier_06_m100_f20_g20",
+    "discovery_only": false
+   },
+   "source": "keeper handoff, packs 1-3, accepted 2026-08-01",
+   "verdict": "perfect",
+   "ear_notes": "absolutely perfect (accept), no need to listen to others"
+  },
+  "pig": {
+   "treatment": {
+    "word": "pig",
+    "verdict": "perfect",
+    "speed": 0.82,
+    "lead_ms": 80,
+    "period": false,
+    "onset_trim": false,
+    "trim_ms": 0,
+    "bright_head_ms": 0,
+    "head_trim_ms": 0,
+    "skip_burst": false,
+    "carrier": [
+     "Say {w}.",
+     80,
+     -20,
+     20
+    ],
+    "carrier_cut_mode": "asr",
+    "asr_start": 0.46,
+    "asr_end": 0.88,
+    "asr_word": "pig",
+    "label": "xfer_say_asr_spd0.82",
+    "discovery_only": true,
+    "asr_guard_lead_ms": 40,
+    "asr_guard_tail_ms": 40
+   },
+   "source": "keeper handoff, packs 1-3, accepted 2026-08-01",
+   "verdict": "perfect",
+   "ear_notes": "perfect, accept, no need to listen to other pigs [pack2 r4]"
+  },
+  "pin": {
+   "treatment": {
+    "word": "pin",
+    "verdict": "perfect",
+    "speed": 0.82,
+    "lead_ms": 180,
+    "period": false,
+    "onset_trim": false,
+    "trim_ms": 0,
+    "bright_head_ms": 0,
+    "head_trim_ms": 0,
+    "skip_burst": false,
+    "carrier": null,
+    "carrier_cut_mode": "energy",
+    "asr_start": null,
+    "asr_end": null,
+    "asr_word": null,
+    "label": "lead180_spd0.82",
+    "discovery_only": true
+   },
+   "source": "keeper handoff, packs 1-3, accepted 2026-08-01",
+   "verdict": "perfect",
+   "ear_notes": "accept, perfect pronunciation, no need to hear other versions [pack3 r1]"
+  },
+  "pit": {
+   "treatment": {
+    "word": "pit",
+    "verdict": "perfect",
+    "speed": 0.82,
+    "lead_ms": 80,
+    "period": false,
+    "onset_trim": false,
+    "trim_ms": 0,
+    "bright_head_ms": 0,
+    "head_trim_ms": 0,
+    "skip_burst": false,
+    "carrier": [
+     "Say {w}.",
+     80,
+     -20,
+     20
+    ],
+    "carrier_cut_mode": "asr",
+    "asr_start": 0.48,
+    "asr_end": 0.96,
+    "asr_word": "pit",
+    "label": "xfer_say_asr_spd0.82",
+    "discovery_only": true,
+    "asr_guard_lead_ms": 40,
+    "asr_guard_tail_ms": 40
+   },
+   "source": "keeper handoff, packs 1-3, accepted 2026-08-01",
+   "verdict": "perfect",
+   "ear_notes": "accept, perfect pronunciation, no need to hear other versions [pack3 r1]"
+  },
+  "pop": {
+   "treatment": {
+    "word": "pop",
+    "verdict": "perfect",
+    "speed": 0.82,
+    "lead_ms": 80,
+    "period": false,
+    "onset_trim": false,
+    "trim_ms": 0,
+    "bright_head_ms": 0,
+    "head_trim_ms": 0,
+    "skip_burst": false,
+    "carrier": [
+     "Say {w}.",
+     80,
+     -20,
+     20
+    ],
+    "carrier_cut_mode": "asr",
+    "asr_start": 0.46,
+    "asr_end": 0.9,
+    "asr_word": "pop",
+    "label": "xfer_say_asr_spd0.82",
+    "discovery_only": true,
+    "asr_guard_lead_ms": 40,
+    "asr_guard_tail_ms": 40
+   },
+   "source": "keeper handoff, packs 1-3, accepted 2026-08-01",
+   "verdict": "perfect",
+   "ear_notes": "accept, perfect pronunciation, no need to hear other versions [pack3 r1]"
+  },
+  "pot": {
+   "treatment": {
+    "word": "pot",
+    "verdict": "perfect",
+    "speed": 0.8,
+    "lead_ms": 80,
+    "period": false,
+    "onset_trim": false,
+    "trim_ms": 0,
+    "bright_head_ms": 0,
+    "head_trim_ms": 0,
+    "skip_burst": false,
+    "carrier": [
+     "Here is the word, {w}.",
+     100,
+     -20,
+     20
+    ],
+    "carrier_cut_mode": "energy",
+    "asr_start": null,
+    "asr_end": null,
+    "asr_word": null,
+    "label": "xfer_keeper_7_prior_3_prior_0_carrier_1_spd0.8",
+    "discovery_only": true
+   },
+   "source": "keeper handoff, packs 1-3, accepted 2026-08-01",
+   "verdict": "perfect",
+   "ear_notes": "accept, perfect pronunciation, no need to hear other versions [pack3 r1]"
+  },
+  "ram": {
+   "treatment": {
+    "word": "ram",
+    "verdict": "perfect",
+    "speed": 0.82,
+    "lead_ms": 80,
+    "period": false,
+    "onset_trim": false,
+    "trim_ms": 0,
+    "bright_head_ms": 0,
+    "head_trim_ms": 0,
+    "skip_burst": false,
+    "carrier": [
+     "Say {w}.",
+     80,
+     -20,
+     20
+    ],
+    "carrier_cut_mode": "asr",
+    "asr_start": 0.44,
+    "asr_end": 0.96,
+    "asr_word": "ram",
+    "label": "xfer_say_asr_spd0.82",
+    "discovery_only": true,
+    "asr_guard_lead_ms": 40,
+    "asr_guard_tail_ms": 40
+   },
+   "source": "keeper handoff, packs 1-3, accepted 2026-08-01",
+   "verdict": "perfect",
+   "ear_notes": "accept, perfect, no need to listen to other rams [pack2 r5]"
+  },
+  "ran": {
+   "treatment": {
+    "word": "ran",
+    "verdict": "perfect",
+    "speed": 0.88,
+    "lead_ms": 80,
+    "period": false,
+    "onset_trim": false,
+    "trim_ms": 0,
+    "bright_head_ms": 0,
+    "head_trim_ms": 0,
+    "skip_burst": false,
+    "carrier": null,
+    "carrier_cut_mode": "energy",
+    "asr_start": null,
+    "asr_end": null,
+    "asr_word": null,
+    "label": "xfer_keeper_25_speed_0.88",
+    "discovery_only": true
+   },
+   "source": "keeper handoff, packs 1-3, accepted 2026-08-01",
+   "verdict": "perfect",
+   "ear_notes": "accept, perfect pronunciation, no need to listen to other rans [pack2 r5]"
+  },
+  "rap": {
+   "treatment": {
+    "word": "rap",
+    "verdict": "very_good",
+    "speed": 0.82,
+    "lead_ms": 80,
+    "period": false,
+    "onset_trim": false,
+    "trim_ms": 0,
+    "bright_head_ms": 0,
+    "head_trim_ms": 0,
+    "skip_burst": false,
+    "carrier": [
+     "Say {w}.",
+     80,
+     -20,
+     20
+    ],
+    "carrier_cut_mode": "asr",
+    "asr_start": 0.48,
+    "asr_end": 0.92,
+    "asr_word": "rap",
+    "label": "xfer_say_asr_spd0.82",
+    "discovery_only": true,
+    "asr_guard_lead_ms": 40,
+    "asr_guard_tail_ms": 40
+   },
+   "source": "keeper handoff, packs 1-3, accepted 2026-08-01",
+   "verdict": "very_good",
+   "ear_notes": "accept, near perfect [pack2 r5]"
+  },
+  "rat": {
+   "treatment": {
+    "word": "rat",
+    "verdict": "perfect",
+    "speed": 0.82,
+    "lead_ms": 120,
+    "period": false,
+    "onset_trim": false,
+    "trim_ms": 0,
+    "bright_head_ms": 40,
+    "head_trim_ms": 0,
+    "skip_burst": false,
+    "carrier": null,
+    "carrier_cut_mode": "energy",
+    "asr_start": null,
+    "asr_end": null,
+    "asr_word": null,
+    "label": "prior_2_prior_3_bright40_lead120_spd0.82",
+    "discovery_only": true
+   },
+   "source": "keeper handoff, packs 1-3, accepted 2026-08-01",
+   "verdict": "perfect",
+   "ear_notes": "perfect, accept [pack2 r2]"
+  },
+  "rip": {
+   "treatment": {
+    "word": "rip",
+    "verdict": "good",
+    "speed": 0.82,
+    "lead_ms": 80,
+    "period": false,
+    "onset_trim": false,
+    "trim_ms": 0,
+    "bright_head_ms": 0,
+    "head_trim_ms": 0,
+    "skip_burst": false,
+    "carrier": [
+     "Say {w}.",
+     80,
+     -20,
+     20
+    ],
+    "carrier_cut_mode": "asr",
+    "asr_start": 0.46,
+    "asr_end": 0.86,
+    "asr_word": "rip",
+    "label": "xfer_say_asr_spd0.82",
+    "discovery_only": true,
+    "asr_guard_lead_ms": 40,
+    "asr_guard_tail_ms": 40
+   },
+   "source": "keeper handoff, packs 1-3, accepted 2026-08-01",
+   "verdict": "good",
+   "ear_notes": "accept, better than other 2 and good enough [pack3 r2]"
+  },
+  "rub": {
+   "source": "blind rounds 8-9, 2026-07-27/28",
+   "verdict": "very good (beta.8)",
+   "note": "full stop appended"
+  },
+  "sad": {
+   "treatment": {
+    "word": "sad",
+    "verdict": "perfect",
+    "speed": 0.82,
+    "lead_ms": 80,
+    "period": false,
+    "onset_trim": false,
+    "trim_ms": 0,
+    "bright_head_ms": 0,
+    "head_trim_ms": 0,
+    "skip_burst": false,
+    "carrier": [
+     "Say {w}.",
+     80,
+     -20,
+     20
+    ],
+    "carrier_cut_mode": "asr",
+    "asr_start": 0.44,
+    "asr_end": 0.92,
+    "asr_word": "sad",
+    "label": "asr_carrier_1_spd0.82",
+    "discovery_only": true,
+    "asr_guard_lead_ms": 80,
+    "asr_guard_tail_ms": 40
+   },
+   "byte_pin_sha256": "3556e5d6f527747fe2932750c3e9ed23c1811fc09ea422ba3e7e513eae5c3ed2",
+   "source": "keeper handoff, packs 1-3, accepted 2026-08-01",
+   "verdict": "perfect",
+   "ear_notes": "perfect, accept this, no need to review other sads [pack2 r3]"
+  },
+  "sat": {
+   "treatment": {
+    "word": "sat",
+    "verdict": "perfect",
+    "speed": 0.82,
+    "lead_ms": 80,
+    "period": false,
+    "onset_trim": false,
+    "trim_ms": 0,
+    "bright_head_ms": 0,
+    "head_trim_ms": 0,
+    "skip_burst": false,
+    "carrier": [
+     "Say {w}.",
+     80,
+     -20,
+     20
+    ],
+    "carrier_cut_mode": "asr",
+    "asr_start": 0.46,
+    "asr_end": 0.98,
+    "asr_word": "sat",
+    "label": "asr_carrier_1_spd0.82",
+    "discovery_only": true,
+    "asr_guard_lead_ms": 80,
+    "asr_guard_tail_ms": 40
+   },
+   "byte_pin_sha256": "961d0e369cd1524fe25ef8c87ced0089d7e3e60e908b9ae94a343529f1cefb90",
+   "source": "keeper handoff, packs 1-3, accepted 2026-08-01",
+   "verdict": "perfect",
+   "ear_notes": "perfect, accept this, no need to review other sats [pack2 r3]"
+  },
+  "sip": {
+   "treatment": {
+    "word": "sip",
+    "verdict": "perfect",
+    "speed": 0.82,
+    "lead_ms": 80,
+    "period": false,
+    "onset_trim": false,
+    "trim_ms": 0,
+    "bright_head_ms": 0,
+    "head_trim_ms": 0,
+    "skip_burst": false,
+    "carrier": [
+     "Say {w}.",
+     80,
+     -20,
+     20
+    ],
+    "carrier_cut_mode": "asr",
+    "asr_start": 0.52,
+    "asr_end": 1.12,
+    "asr_word": "sip",
+    "label": "xfer_say_asr_spd0.82",
+    "discovery_only": true,
+    "asr_guard_lead_ms": 80,
+    "asr_guard_tail_ms": 80
+   },
+   "source": "keeper handoff, packs 1-3, accepted 2026-08-01",
+   "verdict": "perfect",
+   "ear_notes": "accept, perfect pronunciation, no need to hear other versions [pack3 r1]"
+  },
+  "sit": {
+   "treatment": {
+    "word": "sit",
+    "verdict": "perfect",
+    "speed": 0.82,
+    "lead_ms": 80,
+    "period": false,
+    "onset_trim": false,
+    "trim_ms": 0,
+    "bright_head_ms": 0,
+    "head_trim_ms": 0,
+    "skip_burst": false,
+    "carrier": [
+     "{w}. {w}.",
+     80,
+     -30,
+     40
+    ],
+    "carrier_cut_mode": "energy",
+    "asr_start": null,
+    "asr_end": null,
+    "asr_word": null,
+    "label": "asr_carrier_2_spd0.82",
+    "discovery_only": true
+   },
+   "source": "keeper handoff, packs 1-3, accepted 2026-08-01",
+   "verdict": "perfect",
+   "ear_notes": "perfect, accept this, no need to review other sits [pack2 r3]"
+  },
+  "six": {
+   "treatment": {
+    "word": "six",
+    "verdict": "perfect",
+    "speed": 0.82,
+    "lead_ms": 80,
+    "period": false,
+    "onset_trim": false,
+    "trim_ms": 0,
+    "bright_head_ms": 0,
+    "head_trim_ms": 0,
+    "skip_burst": false,
+    "carrier": [
+     "Say {w}.",
+     80,
+     -20,
+     20
+    ],
+    "carrier_cut_mode": "asr",
+    "asr_start": 0.48,
+    "asr_end": 1.18,
+    "asr_word": "six",
+    "label": "asr_carrier_1_spd0.82",
+    "discovery_only": true,
+    "asr_guard_lead_ms": 80,
+    "asr_guard_tail_ms": 80
+   },
+   "source": "keeper handoff, packs 1-3, accepted 2026-08-01",
+   "verdict": "perfect",
+   "ear_notes": "perfect, accept this, no need to review other six's [pack2 r3]"
+  },
+  "tag": {
+   "treatment": {
+    "word": "tag",
+    "verdict": "perfect",
+    "speed": 0.82,
+    "lead_ms": 80,
+    "period": false,
+    "onset_trim": false,
+    "trim_ms": 0,
+    "bright_head_ms": 0,
+    "head_trim_ms": 0,
+    "skip_burst": false,
+    "carrier": [
+     "Say {w}.",
+     80,
+     -20,
+     20
+    ],
+    "carrier_cut_mode": "asr",
+    "asr_start": 0.42,
+    "asr_end": 0.98,
+    "asr_word": "tag",
+    "label": "xfer_say_asr_spd0.82",
+    "discovery_only": true,
+    "asr_guard_lead_ms": 40,
+    "asr_guard_tail_ms": 40
+   },
+   "source": "keeper handoff, packs 1-3, accepted 2026-08-01",
+   "verdict": "perfect",
+   "ear_notes": "accept, perfect pronunciation, no need to hear others [pack2 r5]"
+  },
+  "tan": {
+   "treatment": {
+    "word": "tan",
+    "verdict": "perfect",
+    "speed": 0.82,
+    "lead_ms": 80,
+    "period": false,
+    "onset_trim": false,
+    "trim_ms": 0,
+    "bright_head_ms": 0,
+    "head_trim_ms": 0,
+    "skip_burst": false,
+    "carrier": [
+     "Say {w}.",
+     80,
+     -20,
+     20
+    ],
+    "carrier_cut_mode": "asr",
+    "asr_start": 0.42,
+    "asr_end": 0.88,
+    "asr_word": "tan",
+    "label": "xfer_say_asr_spd0.82",
+    "discovery_only": true,
+    "asr_guard_lead_ms": 40,
+    "asr_guard_tail_ms": 40
+   },
+   "source": "keeper handoff, packs 1-3, accepted 2026-08-01",
+   "verdict": "perfect",
+   "ear_notes": "accept, perfect, no need to listen to other tans [pack2 r5]"
+  },
+  "tap": {
+   "treatment": {
+    "word": "tap",
+    "verdict": "perfect",
+    "speed": 0.83,
+    "lead_ms": 80,
+    "period": false,
+    "onset_trim": false,
+    "trim_ms": 0,
+    "bright_head_ms": 0,
+    "head_trim_ms": 0,
+    "skip_burst": false,
+    "carrier": [
+     "Here is the word {w}.",
+     100,
+     -20,
+     20
+    ],
+    "carrier_cut_mode": "energy",
+    "asr_start": null,
+    "asr_end": null,
+    "asr_word": null,
+    "label": "prior_0_prior_2_carrier_2_spd0.83",
+    "discovery_only": true
+   },
+   "source": "keeper handoff, packs 1-3, accepted 2026-08-01",
+   "verdict": "perfect",
+   "ear_notes": "perfect (accept) [pack2 r1]"
+  },
+  "tip": {
+   "treatment": {
+    "word": "tip",
+    "verdict": "perfect",
+    "speed": 0.82,
+    "lead_ms": 80,
+    "period": false,
+    "onset_trim": false,
+    "trim_ms": 0,
+    "bright_head_ms": 0,
+    "head_trim_ms": 0,
+    "skip_burst": false,
+    "carrier": [
+     "Say {w}.",
+     80,
+     -20,
+     20
+    ],
+    "carrier_cut_mode": "asr",
+    "asr_start": 0.46,
+    "asr_end": 0.94,
+    "asr_word": "tip",
+    "label": "xfer_say_asr_spd0.82",
+    "discovery_only": true,
+    "asr_guard_lead_ms": 40,
+    "asr_guard_tail_ms": 40
+   },
+   "source": "keeper handoff, packs 1-3, accepted 2026-08-01",
+   "verdict": "perfect",
+   "ear_notes": "accept, perfect pronunciation, no need to hear other versions [pack3 r1]"
+  },
+  "top": {
+   "treatment": {
+    "word": "top",
+    "verdict": "perfect",
+    "speed": 0.82,
+    "lead_ms": 80,
+    "period": false,
+    "onset_trim": false,
+    "trim_ms": 0,
+    "bright_head_ms": 0,
+    "head_trim_ms": 0,
+    "skip_burst": false,
+    "carrier": [
+     "Say {w}.",
+     80,
+     -20,
+     20
+    ],
+    "carrier_cut_mode": "asr",
+    "asr_start": 0.42,
+    "asr_end": 0.9,
+    "asr_word": "top",
+    "label": "xfer_say_asr_spd0.82",
+    "discovery_only": true,
+    "asr_guard_lead_ms": 40,
+    "asr_guard_tail_ms": 40
+   },
+   "source": "keeper handoff, packs 1-3, accepted 2026-08-01",
+   "verdict": "perfect",
+   "ear_notes": "accept, perfect pronunciation [pack3 r1]"
+  },
+  "up": {
+   "treatment": {
+    "phoneme": true
+   },
+   "source": "phoneme rebuild, 2026-07-27",
+   "verdict": "accepted"
+  },
+  "us": {
+   "treatment": {
+    "phoneme": true
+   },
+   "source": "phoneme rebuild, 2026-07-27",
+   "verdict": "accepted"
+  },
+  "van": {
+   "treatment": {
+    "word": "van",
+    "verdict": "perfect",
+    "speed": 0.82,
+    "lead_ms": 80,
+    "period": false,
+    "onset_trim": false,
+    "trim_ms": 0,
+    "bright_head_ms": 0,
+    "head_trim_ms": 40,
+    "skip_burst": false,
+    "carrier": null,
+    "carrier_cut_mode": "energy",
+    "asr_start": null,
+    "asr_end": null,
+    "asr_word": null,
+    "label": "head_trim_40_spd0.82",
+    "discovery_only": true
+   },
+   "source": "keeper handoff, packs 1-3, accepted 2026-08-01",
+   "verdict": "perfect",
+   "ear_notes": "accept, perfect pronunciation, no need to listen to others [pack2 r7 uh-cut]"
+  },
+  "wag": {
+   "treatment": {
+    "word": "wag",
+    "verdict": "perfect",
+    "speed": 0.82,
+    "lead_ms": 80,
+    "period": false,
+    "onset_trim": false,
+    "trim_ms": 0,
+    "bright_head_ms": 0,
+    "head_trim_ms": 0,
+    "skip_burst": false,
+    "carrier": [
+     "Say {w}.",
+     80,
+     -20,
+     20
+    ],
+    "carrier_cut_mode": "asr",
+    "asr_start": 0.42,
+    "asr_end": 0.88,
+    "asr_word": "wag",
+    "label": "xfer_say_asr_spd0.82",
+    "discovery_only": true,
+    "asr_guard_lead_ms": 40,
+    "asr_guard_tail_ms": 40
+   },
+   "source": "keeper handoff, packs 1-3, accepted 2026-08-01",
+   "verdict": "perfect",
+   "ear_notes": "perfect pronunciation [pack2 r6]"
+  },
+  "win": {
+   "treatment": {
+    "word": "win",
+    "verdict": "perfect",
+    "speed": 0.82,
+    "lead_ms": 80,
+    "period": false,
+    "onset_trim": false,
+    "trim_ms": 0,
+    "bright_head_ms": 0,
+    "head_trim_ms": 0,
+    "skip_burst": false,
+    "carrier": [
+     "Say {w}.",
+     80,
+     -20,
+     20
+    ],
+    "carrier_cut_mode": "asr",
+    "asr_start": 0.42,
+    "asr_end": 0.86,
+    "asr_word": "win",
+    "label": "xfer_say_asr_spd0.82",
+    "discovery_only": true,
+    "asr_guard_lead_ms": 40,
+    "asr_guard_tail_ms": 40
+   },
+   "source": "keeper handoff, packs 1-3, accepted 2026-08-01",
+   "verdict": "perfect",
+   "ear_notes": "accept, best pronunciation of two wins, warmer [pack2 r5]"
+  },
+  "yam": {
+   "treatment": {
+    "word": "yam",
+    "verdict": "very_good",
+    "speed": 0.82,
+    "lead_ms": 80,
+    "period": false,
+    "onset_trim": false,
+    "trim_ms": 0,
+    "bright_head_ms": 0,
+    "head_trim_ms": 0,
+    "skip_burst": false,
+    "carrier": [
+     "Say {w}.",
+     80,
+     -20,
+     20
+    ],
+    "carrier_cut_mode": "asr",
+    "asr_start": 0.44,
+    "asr_end": 1.1,
+    "asr_word": "yam",
+    "label": "xfer_say_asr_spd0.82",
+    "discovery_only": true,
+    "asr_guard_lead_ms": 40,
+    "asr_guard_tail_ms": 40
+   },
+   "source": "keeper handoff, packs 1-3, accepted 2026-08-01",
+   "verdict": "very_good",
+   "ear_notes": "accept, very good [pack2 r5]"
+  },
+  "yap": {
+   "treatment": {
+    "word": "yap",
+    "verdict": "perfect",
+    "speed": 0.82,
+    "lead_ms": 80,
+    "period": false,
+    "onset_trim": false,
+    "trim_ms": 0,
+    "bright_head_ms": 0,
+    "head_trim_ms": 0,
+    "skip_burst": false,
+    "carrier": [
+     "Say {w}.",
+     80,
+     -20,
+     20
+    ],
+    "carrier_cut_mode": "asr",
+    "asr_start": 0.48,
+    "asr_end": 1.02,
+    "asr_word": "yap",
+    "label": "xfer_say_asr_spd0.82",
+    "discovery_only": true,
+    "asr_guard_lead_ms": 40,
+    "asr_guard_tail_ms": 40
+   },
+   "source": "keeper handoff, packs 1-3, accepted 2026-08-01",
+   "verdict": "perfect",
+   "ear_notes": "perfect, accept, no need to listen to other yaps [pack2 r4]"
+  },
+  "zap": {
+   "treatment": {
+    "word": "zap",
+    "verdict": "perfect",
+    "speed": 0.82,
+    "lead_ms": 80,
+    "period": false,
+    "onset_trim": false,
+    "trim_ms": 0,
+    "bright_head_ms": 0,
+    "head_trim_ms": 0,
+    "skip_burst": false,
+    "carrier": [
+     "{w}. {w}.",
+     80,
+     -30,
+     40
+    ],
+    "carrier_cut_mode": "energy",
+    "asr_start": null,
+    "asr_end": null,
+    "asr_word": null,
+    "label": "xfer_double_energy_spd0.82",
+    "discovery_only": true
+   },
+   "source": "keeper handoff, packs 1-3, accepted 2026-08-01",
+   "verdict": "perfect",
+   "ear_notes": "double perfect, best word pronunciation yet, no need to listen to other zaps [pack2 r4]"
+  }
+ },
+ "environment": {
+  "model": "kokoro-v1.0.onnx",
+  "voices": "voices-v1.0.bin",
+  "libs": "kokoro-onnx==0.5.0, lameenc==1.8.4, numpy==2.4.6, onnxruntime==1.28.0"
+ }
+}
