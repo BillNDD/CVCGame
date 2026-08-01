@@ -1,11 +1,16 @@
-# Runs the full testing gauntlet on every change (docs/testing-gauntlet.md).
-# A red gauntlet blocks the change.
+# Runs the full testing gauntlet (docs/testing-gauntlet.md) at RELEASE time:
+# publishing a release creates its v* tag, and that tag triggers this run - a
+# recorded second opinion on the exact commit the release points at, after the
+# owner's local gauntlet already came up green. It can also be started by hand
+# from the Actions tab. Ordinary pushes run `npm run check` locally and the
+# deploy workflow's test suite instead; the owner set this cadence on
+# 2026-08-02 ("only at that occasion").
 name: Gauntlet
 
 on:
   push:
-    branches: [main]
-  pull_request:
+    tags: ['v*']
+  workflow_dispatch:
 
 concurrency:
   group: gauntlet-${{ github.ref }}
