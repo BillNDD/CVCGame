@@ -341,7 +341,7 @@
  },
  "w:hop": {
   "file": "w-hop.mp3",
-  "ms": 880
+  "ms": 920
  },
  "w:cot": {
   "file": "w-cot.mp3",
@@ -1206,7 +1206,6 @@
    "zap": 0.82
   },
   "head_trim_ms": {
-   "hop": 40,
    "lip": 80,
    "van": 40
   },
