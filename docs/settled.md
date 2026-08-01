@@ -74,8 +74,9 @@ updated whenever a round lands.
   lead/tail pair: 40/40 for most keepers, 80/80 for sip and six, and 80/40 for
   sad and sat. Recovered by holding the carrier render fixed and sweeping both
   edges to byte identity — sweeping a single symmetric guard finds nothing for
-  the 80/40 words. Now pinned as `asr_guard_lead_ms` / `asr_guard_tail_ms` in
-  `tools/keepers-treatments.json`. All 56 keepers re-render byte for byte.
+  the 80/40 words. Now pinned as `asr_guard_lead_ms` / `asr_guard_tail_ms` in each
+  word's row of `tools/voice-words.csv`, from which `keepers-treatments.json`
+  is generated. All 56 keepers re-render byte for byte.
 - **`asr_carrier_N` is a search index, not a carrier name.** 0 is
   "Here is the word, {w}.", 1 is "Say {w}.", 2 is "{w}. {w}.", 3 is
   "The word is {w}.". An earlier note in this repo wrongly recorded index 1 as

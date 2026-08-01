@@ -98,8 +98,9 @@ if (isMain) {
     problems.forEach((p) => console.error("PROBLEM: " + p));
     process.exit(1);
   }
-  writeFileSync("tools/keepers-treatments.json", JSON.stringify(treatments, null, 2) + "\n");
-  writeFileSync("tools/keeper-bytes.json", JSON.stringify(pins, null, 2) + "\n");
+  const RULE = "GENERATED from tools/voice-words.csv - do not edit by hand; edit the word's row and run: node tools/gen-voice-lock.mjs";
+  writeFileSync("tools/keepers-treatments.json", JSON.stringify({ _rule: RULE, ...treatments }, null, 2) + "\n");
+  writeFileSync("tools/keeper-bytes.json", JSON.stringify({ _rule: RULE, ...pins }, null, 2) + "\n");
 
   const recipe = JSON.parse(readFileSync("app/public/voice/manifest.json", "utf8")).__recipe;
   const rendererSrc = readFileSync("tools/render-voice-pack.py", "utf8");

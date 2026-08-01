@@ -1,4 +1,5 @@
 {
+  "_rule": "GENERATED from tools/voice-words.csv - do not edit by hand; edit the word's row and run: node tools/gen-voice-lock.mjs",
   "am": {
     "word": "am",
     "verdict": "accepted",

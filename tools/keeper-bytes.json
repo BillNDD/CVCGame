@@ -1,4 +1,5 @@
 {
+  "_rule": "GENERATED from tools/voice-words.csv - do not edit by hand; edit the word's row and run: node tools/gen-voice-lock.mjs",
   "sad": "3556e5d6f527747fe2932750c3e9ed23c1811fc09ea422ba3e7e513eae5c3ed2",
   "sat": "961d0e369cd1524fe25ef8c87ced0089d7e3e60e908b9ae94a343529f1cefb90"
 }
