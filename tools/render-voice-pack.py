@@ -85,8 +85,7 @@ PHONEMES = {
 SENTENCE_PHONEMES = {
     "p:2": "juː ɹˈɛd ðæt wˈɜːd ˈɔːl baɪ jɔːɹsˈɛlf!",
 }
-# The two words that needed more room in front, by ear.
-LEAD_OVERRIDE = {"am": 150, "an": 150}
+# LEAD_OVERRIDE is defined with the remediation keepers above (am/an/had).
 
 # The three words from the spot-check of 2026-07-27, each with the last part of
 # its speech removed. The synthesiser ends a word-final plosive with a small
@@ -129,9 +128,68 @@ SILENCE_FLOOR_DB = -45  # what counts as the end of the speech, before trimming
 # burst won its round.
 # BRIGHT_HEAD_MS: "sip" arrived as "zip". Taking the low frequencies out of
 # the first 70 ms, so the s cannot read as voiced, won its round.
-PERIOD_WORDS = {"cup", "rub", "jug", "pop"}
-ONSET_TRIM = {"tap"}
-BRIGHT_HEAD_MS = {"sip": 70}
+PERIOD_WORDS = {"cup", "rub", "jug", "pop", "had"}
+ONSET_TRIM = {"tap", "ham"}
+BRIGHT_HEAD_MS = {"sip": 70, "jam": 40}
+# Pack-1 remediation keepers (human spot-listen, 2026-07-31). Per-word
+# speed is new: hat's approved carrier only won at 0.82, not the bank default.
+WORD_SPEED_OVERRIDE = {"hat": 0.82}
+# had's period treatment also needs the longer lead used for am/an.
+LEAD_OVERRIDE = {"am": 150, "an": 150, "had": 150}
+# Discovery keepers (packs 1–3): head_trim cuts leading uh/schwa after speech starts.
+HEAD_TRIM_MS = {}
+# ASR-pinned carrier cuts: {word: (carrier_text, asr_start, asr_end)} — times from
+# the accepted keeper so re-renders stay byte-identical without re-running Whisper.
+ASR_PINNED = {}
+# Per-word ASR guard, derived by reproducing each accepted keeper byte for byte.
+# The handoff pinned asr_start/asr_end but not the guard the bake used, and it is
+# not one value: 40 ms for most, 80 ms for sip and six. Without it 31 of 31 ASR
+# clips re-render one or two mp3 frames off the approved audio.
+ASR_GUARD_MS = {}
+# Full per-word treatments from bake_all_keepers.py (overrides maps above).
+_TREAT_PATH = pathlib.Path(__file__).resolve().parent / "keepers-treatments.json"
+TREATMENTS = json.loads(_TREAT_PATH.read_text()) if _TREAT_PATH.exists() else {}
+for _w, _t in TREATMENTS.items():
+    if abs(float(_t.get("speed") or WORD_SPEED) - WORD_SPEED) > 1e-9:
+        WORD_SPEED_OVERRIDE[_w] = float(_t["speed"])
+    if int(_t.get("lead_ms") or LEAD_MS) != LEAD_MS:
+        LEAD_OVERRIDE[_w] = int(_t["lead_ms"])
+    if _t.get("period"):
+        PERIOD_WORDS.add(_w)
+    if _t.get("onset_trim"):
+        ONSET_TRIM.add(_w)
+    if int(_t.get("bright_head_ms") or 0) > 0:
+        BRIGHT_HEAD_MS[_w] = int(_t["bright_head_ms"])
+    if int(_t.get("head_trim_ms") or 0) > 0:
+        HEAD_TRIM_MS[_w] = int(_t["head_trim_ms"])
+    if int(_t.get("trim_ms") or 0) > 0:
+        TRIM_MS[_w] = int(_t["trim_ms"])
+    # A treatment is the WHOLE truth for its word, not an addition to the maps
+    # above. Those maps carry earlier rounds' winners, and a keeper that says
+    # onset_trim false or bright_head 0 means the accepted clip does NOT have
+    # it: sip kept a 70 ms brighten, tap an onset trim and hip a 130 ms trim
+    # from before, and each re-rendered a frame or two off the approved audio.
+    if not _t.get("period"):
+        PERIOD_WORDS.discard(_w)
+    if not _t.get("onset_trim"):
+        ONSET_TRIM.discard(_w)
+    if not int(_t.get("bright_head_ms") or 0):
+        BRIGHT_HEAD_MS.pop(_w, None)
+    if not int(_t.get("head_trim_ms") or 0):
+        HEAD_TRIM_MS.pop(_w, None)
+    if not int(_t.get("trim_ms") or 0):
+        TRIM_MS.pop(_w, None)
+    mode = (_t.get("carrier_cut_mode") or "energy").lower()
+    carrier = _t.get("carrier")
+    if carrier and mode in {"asr", "asr_pinned"} and _t.get("asr_start") is not None:
+        text = str(carrier[0]).replace("{w}", _w)
+        ASR_PINNED[_w] = (text, float(_t["asr_start"]), float(_t["asr_end"]))
+        if _t.get("asr_guard_ms") is not None:
+            ASR_GUARD_MS[_w] = int(_t["asr_guard_ms"])
+    elif carrier and mode == "energy":
+        text = str(carrier[0]).replace("{w}", _w)
+        # filled into CARRIER_CUT after the baseline dict below
+        pass
 
 # CARRIER_CUT, from round 13 on 2026-07-29, judged 2026-07-30. This is the
 # isolation that round 10 could not do and left as the open problem above: the
@@ -157,15 +215,23 @@ BRIGHT_HEAD_MS = {"sip": 70}
 # 100 ms to "clipped at the end, too quick". The fuzz is not separable from
 # the n, so hen ships untrimmed. Do not add a trim here.
 CARRIER_CUT = {
-    # Round 14, 2026-07-31. "man" shipped as "uh an" - a word missing its first
-    # sound is not the word the child is being asked to read. The comma carrier
-    # at 150 ms came back "almost perfect". 250 ms was tried in the same round
-    # and reaches back into the carrier: a listener heard "word man". Do not
-    # widen this margin without a round.
-    "man": ("Here is the word, man.", 150, -20, 20),
-    "hop": ("Here is the word, hop.", 150, -20, 20),
+    # hen: round-12/13 bank winner (not in pack 1–3 remediation keepers).
     "hen": ("hen, hen.", 150, -30, 40),
+    # man: round 14, 2026-08-01. The keeper pack grades its own man "marginal
+    # pass, accept if best of 6"; this one was heard the same day as "almost
+    # perfect", so it stands and man is excluded from the keeper treatments.
+    # 250 ms was tried in that round and reaches into the carrier - a listener
+    # heard "word man". Do not widen without a round.
+    "man": ("Here is the word, man.", 150, -20, 20),
 }
+# Energy-gap carrier cuts from keepers-treatments.json (ASR words go to ASR_PINNED).
+# hop's remediation keeper is ASR+head_trim — do not keep the old energy cut here.
+for _w, _t in TREATMENTS.items():
+    carrier = _t.get("carrier")
+    mode = (_t.get("carrier_cut_mode") or "energy").lower()
+    if carrier and mode == "energy" and _w not in ASR_PINNED:
+        text = str(carrier[0]).replace("{w}", _w)
+        CARRIER_CUT[_w] = (text, int(carrier[1]), int(carrier[2]), int(carrier[3]))
 
 OUT = pathlib.Path(out_dir)
 OUT.mkdir(parents=True, exist_ok=True)
@@ -210,7 +276,41 @@ def brighten_head(audio, sr, ms):
     return a
 
 
-def carrier_cut(k, text, margin_ms, floor_db, gap_ms):
+def head_trim(audio, sr, ms):
+    """Remove first ms of speech after leading silence — cuts leading schwa/uh."""
+    if ms <= 0:
+        return np.asarray(audio, dtype=np.float32)
+    a = np.asarray(audio, dtype=np.float32)
+    n = int(0.01 * sr)
+    if n <= 0 or len(a) < 2 * n:
+        return a
+    frames = [a[i:i + n] for i in range(0, len(a) - n, n)]
+    rms = np.array([np.sqrt(np.mean(f.astype(np.float64) ** 2)) for f in frames])
+    db = 20 * np.log10(np.maximum(rms, 1e-9) / (rms.max() or 1.0))
+    loud = np.nonzero(db > -40)[0]
+    if len(loud) == 0:
+        return a
+    speech0 = int(loud.min()) * n
+    cut = speech0 + int(ms / 1000 * sr)
+    if cut >= len(a) - int(0.12 * sr):
+        cut = min(cut, max(speech0, len(a) // 3))
+    return a[cut:]
+
+
+def carrier_cut_asr_pinned(k, text, asr_start, asr_end, speed, guard_ms=60):
+    """Cut a carrier using timestamps pinned on an accepted keeper (no Whisper)."""
+    a, sr = k.create(text, voice=VOICE, speed=speed, lang="en-us")
+    a = np.asarray(a, dtype=np.float32)
+    g = guard_ms / 1000.0
+    lead_g = min(0.08, g)
+    start = max(0, int((float(asr_start) - lead_g) * sr))
+    end = min(len(a), int((float(asr_end) + g) * sr))
+    if end <= start + int(0.08 * sr):
+        end = min(len(a), start + int(0.35 * sr))
+    return a[start:end], sr
+
+
+def carrier_cut(k, text, margin_ms, floor_db, gap_ms, speed=None):
     """Say the carrier sentence, then keep what follows its last gap, backed
     off by margin_ms so the word's first consonant is not clipped.
 
@@ -219,7 +319,7 @@ def carrier_cut(k, text, margin_ms, floor_db, gap_ms):
     byte-identical to what was heard. The window ends at len(a) - n + 1, not
     len(a) - n as in trim() and onset_trim() above — one frame's difference,
     but it moves the cut."""
-    a, sr = k.create(text, voice=VOICE, speed=WORD_SPEED, lang="en-us")
+    a, sr = k.create(text, voice=VOICE, speed=WORD_SPEED if speed is None else speed, lang="en-us")
     a = np.asarray(a, dtype=np.float32)
     n = int(0.01 * sr)
     frames = [a[i:i + n] for i in range(0, len(a) - n + 1, n)]
@@ -256,18 +356,25 @@ for clip in script:
     word = cid[2:] if is_word else None
     phoneme = PHONEMES.get(word) if is_word else SENTENCE_PHONEMES.get(cid)
     spoken = phoneme or (text + "." if word in PERIOD_WORDS else text)
-    if word in CARRIER_CUT:
-        audio, sr = carrier_cut(k, *CARRIER_CUT[word])
+    word_speed = WORD_SPEED_OVERRIDE.get(word, WORD_SPEED) if is_word else SENTENCE_SPEED
+    if word in ASR_PINNED:
+        text, t0, t1 = ASR_PINNED[word]
+        audio, sr = carrier_cut_asr_pinned(k, text, t0, t1, word_speed,
+                                           guard_ms=ASR_GUARD_MS.get(word, 60))
+    elif word in CARRIER_CUT:
+        audio, sr = carrier_cut(k, *CARRIER_CUT[word], speed=word_speed)
     else:
         audio, sr = k.create(
             spoken,
             voice=VOICE,
-            speed=WORD_SPEED if is_word else SENTENCE_SPEED,
+            speed=word_speed,
             lang="en-us",
             is_phonemes=bool(phoneme),
         )
     if word in ONSET_TRIM:
         audio = onset_trim(audio, sr)
+    if word in HEAD_TRIM_MS:
+        audio = head_trim(audio, sr, HEAD_TRIM_MS[word])
     if word in BRIGHT_HEAD_MS:
         audio = brighten_head(audio, sr, BRIGHT_HEAD_MS[word])
     if word in TRIM_MS:
@@ -301,8 +408,15 @@ manifest["__recipe"] = {
     "phoneme_sentences": sorted(SENTENCE_PHONEMES),
     "period_words": sorted(PERIOD_WORDS), "onset_trim_words": sorted(ONSET_TRIM),
     "bright_head_ms": BRIGHT_HEAD_MS,
+    "lead_override": dict(sorted(LEAD_OVERRIDE.items())),
+    "word_speed_override": dict(sorted(WORD_SPEED_OVERRIDE.items())),
+    "head_trim_ms": dict(sorted(HEAD_TRIM_MS.items())),
     # every number a listener judged, so a re-render that changes one fails G13
     "carrier_cut": {w: list(v) for w, v in sorted(CARRIER_CUT.items())},
+    "asr_pinned": {
+        w: [text, t0, t1] for w, (text, t0, t1) in sorted(ASR_PINNED.items())
+    },
+    "keepers_treatments": sorted(TREATMENTS),
 }
 (OUT / "manifest.json").write_text(json.dumps(manifest, indent=1) + "\n")
 pathlib.Path(out_dir + "-review.csv").write_text("\n".join(review) + "\n")

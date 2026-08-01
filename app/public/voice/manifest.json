@@ -117,7 +117,7 @@
  },
  "w:hat": {
   "file": "w-hat.mp3",
-  "ms": 1169
+  "ms": 910
  },
  "w:mat": {
   "file": "w-mat.mp3",
@@ -125,7 +125,7 @@
  },
  "w:sat": {
   "file": "w-sat.mp3",
-  "ms": 1190
+  "ms": 1080
  },
  "w:man": {
   "file": "w-man.mp3",
@@ -133,11 +133,11 @@
  },
  "w:can": {
   "file": "w-can.mp3",
-  "ms": 1212
+  "ms": 940
  },
  "w:ran": {
   "file": "w-ran.mp3",
-  "ms": 1254
+  "ms": 1233
  },
  "w:bat": {
   "file": "w-bat.mp3",
@@ -153,7 +153,7 @@
  },
  "w:tap": {
   "file": "w-tap.mp3",
-  "ms": 1160
+  "ms": 910
  },
  "w:nap": {
   "file": "w-nap.mp3",
@@ -177,19 +177,19 @@
  },
  "w:rat": {
   "file": "w-rat.mp3",
-  "ms": 1169
+  "ms": 1252
  },
  "w:sad": {
   "file": "w-sad.mp3",
-  "ms": 1233
+  "ms": 1032
  },
  "w:wag": {
   "file": "w-wag.mp3",
-  "ms": 1233
+  "ms": 920
  },
  "w:van": {
   "file": "w-van.mp3",
-  "ms": 1212
+  "ms": 1238
  },
  "w:fan": {
   "file": "w-fan.mp3",
@@ -197,7 +197,7 @@
  },
  "w:ham": {
   "file": "w-ham.mp3",
-  "ms": 1297
+  "ms": 1267
  },
  "w:lap": {
   "file": "w-lap.mp3",
@@ -205,15 +205,15 @@
  },
  "w:tag": {
   "file": "w-tag.mp3",
-  "ms": 1276
+  "ms": 1020
  },
  "w:had": {
   "file": "w-had.mp3",
-  "ms": 1148
+  "ms": 1239
  },
  "w:tan": {
   "file": "w-tan.mp3",
-  "ms": 1233
+  "ms": 920
  },
  "w:pad": {
   "file": "w-pad.mp3",
@@ -225,15 +225,15 @@
  },
  "w:zap": {
   "file": "w-zap.mp3",
-  "ms": 1190
+  "ms": 960
  },
  "w:yam": {
   "file": "w-yam.mp3",
-  "ms": 1276
+  "ms": 1025
  },
  "w:pal": {
   "file": "w-pal.mp3",
-  "ms": 1190
+  "ms": 910
  },
  "w:cab": {
   "file": "w-cab.mp3",
@@ -241,7 +241,7 @@
  },
  "w:ram": {
   "file": "w-ram.mp3",
-  "ms": 1297
+  "ms": 980
  },
  "w:dab": {
   "file": "w-dab.mp3",
@@ -249,7 +249,7 @@
  },
  "w:yap": {
   "file": "w-yap.mp3",
-  "ms": 1212
+  "ms": 964
  },
  "w:mad": {
   "file": "w-mad.mp3",
@@ -261,7 +261,7 @@
  },
  "w:rap": {
   "file": "w-rap.mp3",
-  "ms": 1190
+  "ms": 900
  },
  "w:has": {
   "file": "w-has.mp3",
@@ -269,147 +269,147 @@
  },
  "w:sit": {
   "file": "w-sit.mp3",
-  "ms": 1190
+  "ms": 940
  },
  "w:pig": {
   "file": "w-pig.mp3",
-  "ms": 1212
+  "ms": 880
  },
  "w:big": {
   "file": "w-big.mp3",
-  "ms": 1212
+  "ms": 960
  },
  "w:dig": {
   "file": "w-dig.mp3",
-  "ms": 1212
+  "ms": 960
  },
  "w:win": {
   "file": "w-win.mp3",
-  "ms": 1169
+  "ms": 900
  },
  "w:lip": {
   "file": "w-lip.mp3",
-  "ms": 1169
+  "ms": 1069
  },
  "w:hit": {
   "file": "w-hit.mp3",
-  "ms": 1148
+  "ms": 870
  },
  "w:six": {
   "file": "w-six.mp3",
-  "ms": 1297
+  "ms": 1174
  },
  "w:fin": {
   "file": "w-fin.mp3",
-  "ms": 1148
+  "ms": 1118
  },
  "w:bin": {
   "file": "w-bin.mp3",
-  "ms": 1212
+  "ms": 880
  },
  "w:dog": {
   "file": "w-dog.mp3",
-  "ms": 1233
+  "ms": 1000
  },
  "w:hot": {
   "file": "w-hot.mp3",
-  "ms": 1190
+  "ms": 1140
  },
  "w:top": {
   "file": "w-top.mp3",
-  "ms": 1105
+  "ms": 940
  },
  "w:pot": {
   "file": "w-pot.mp3",
-  "ms": 1148
+  "ms": 880
  },
  "w:mop": {
   "file": "w-mop.mp3",
-  "ms": 1190
+  "ms": 840
  },
  "w:log": {
   "file": "w-log.mp3",
-  "ms": 1233
+  "ms": 920
  },
  "w:box": {
   "file": "w-box.mp3",
-  "ms": 1276
+  "ms": 920
  },
  "w:fox": {
   "file": "w-fox.mp3",
-  "ms": 1318
+  "ms": 940
  },
  "w:hop": {
   "file": "w-hop.mp3",
-  "ms": 910
+  "ms": 880
  },
  "w:cot": {
   "file": "w-cot.mp3",
-  "ms": 1148
+  "ms": 910
  },
  "w:mom": {
   "file": "w-mom.mp3",
-  "ms": 1212
+  "ms": 860
  },
  "w:pop": {
   "file": "w-pop.mp3",
-  "ms": 1254
+  "ms": 900
  },
  "w:not": {
   "file": "w-not.mp3",
-  "ms": 1276
+  "ms": 940
  },
  "w:got": {
   "file": "w-got.mp3",
-  "ms": 1169
+  "ms": 970
  },
  "w:did": {
   "file": "w-did.mp3",
-  "ms": 1190
+  "ms": 850
  },
  "w:him": {
   "file": "w-him.mp3",
-  "ms": 1169
+  "ms": 880
  },
  "w:pin": {
   "file": "w-pin.mp3",
-  "ms": 1190
+  "ms": 1312
  },
  "w:tip": {
   "file": "w-tip.mp3",
-  "ms": 1105
+  "ms": 940
  },
  "w:sip": {
   "file": "w-sip.mp3",
-  "ms": 1148
+  "ms": 985
  },
  "w:dip": {
   "file": "w-dip.mp3",
-  "ms": 1105
+  "ms": 900
  },
  "w:hip": {
   "file": "w-hip.mp3",
-  "ms": 780
+  "ms": 850
  },
  "w:rip": {
   "file": "w-rip.mp3",
-  "ms": 1126
+  "ms": 860
  },
  "w:bit": {
   "file": "w-bit.mp3",
-  "ms": 1169
+  "ms": 1333
  },
  "w:fit": {
   "file": "w-fit.mp3",
-  "ms": 1148
+  "ms": 900
  },
  "w:pit": {
   "file": "w-pit.mp3",
-  "ms": 1233
+  "ms": 940
  },
  "w:bib": {
   "file": "w-bib.mp3",
-  "ms": 1169
+  "ms": 920
  },
  "w:wig": {
   "file": "w-wig.mp3",
@@ -1127,7 +1127,6 @@
   ],
   "trim_ms": {
    "cub": 130,
-   "hip": 130,
    "dish": 120
   },
   "phoneme_sentences": [
@@ -1135,26 +1134,140 @@
   ],
   "period_words": [
    "cup",
+   "had",
    "jug",
-   "pop",
    "rub"
   ],
   "onset_trim_words": [
-   "tap"
+   "fin",
+   "ham",
+   "hot"
   ],
   "bright_head_ms": {
-   "sip": 70
+   "jam": 40,
+   "rat": 40
+  },
+  "lead_override": {
+   "am": 150,
+   "an": 150,
+   "bit": 180,
+   "had": 150,
+   "pin": 180,
+   "rat": 120
+  },
+  "word_speed_override": {
+   "bib": 0.82,
+   "big": 0.82,
+   "bin": 0.8,
+   "bit": 0.82,
+   "box": 0.82,
+   "did": 0.82,
+   "dig": 0.82,
+   "dip": 0.82,
+   "dog": 0.82,
+   "fit": 0.82,
+   "fox": 0.82,
+   "got": 0.82,
+   "hat": 0.82,
+   "him": 0.82,
+   "hip": 0.82,
+   "hit": 0.8,
+   "hop": 0.78,
+   "lip": 0.82,
+   "log": 0.82,
+   "mom": 0.82,
+   "mop": 0.82,
+   "not": 0.82,
+   "pig": 0.82,
+   "pin": 0.82,
+   "pit": 0.82,
+   "pop": 0.82,
+   "pot": 0.8,
+   "ram": 0.82,
+   "ran": 0.88,
+   "rap": 0.82,
+   "rat": 0.82,
+   "rip": 0.82,
+   "sad": 0.82,
+   "sat": 0.82,
+   "sip": 0.82,
+   "sit": 0.82,
+   "six": 0.82,
+   "tag": 0.82,
+   "tan": 0.82,
+   "tap": 0.83,
+   "tip": 0.82,
+   "top": 0.82,
+   "van": 0.82,
+   "wag": 0.82,
+   "win": 0.82,
+   "yam": 0.82,
+   "yap": 0.82,
+   "zap": 0.82
+  },
+  "head_trim_ms": {
+   "hop": 40,
+   "lip": 80,
+   "van": 40
   },
   "carrier_cut": {
+   "bin": [
+    "Here is the word, bin.",
+    100,
+    -20,
+    20
+   ],
+   "can": [
+    "Here is the word, can.",
+    150,
+    -20,
+    20
+   ],
+   "cot": [
+    "Here is the word cot.",
+    100,
+    -20,
+    20
+   ],
+   "did": [
+    "Say did.",
+    80,
+    -20,
+    20
+   ],
+   "dip": [
+    "Here is the word, dip.",
+    120,
+    -20,
+    20
+   ],
+   "got": [
+    "got. got.",
+    80,
+    -30,
+    40
+   ],
+   "hat": [
+    "Here is the word, hat.",
+    100,
+    -20,
+    20
+   ],
    "hen": [
     "hen, hen.",
     150,
     -30,
     40
    ],
-   "hop": [
-    "Here is the word, hop.",
-    150,
+   "hip": [
+    "Here is the word, hip.",
+    120,
+    -20,
+    20
+   ],
+   "hit": [
+    "Here is the word hit.",
+    100,
     -20,
     20
    ],
@@ -1163,7 +1276,252 @@
     150,
     -20,
     20
+   ],
+   "pal": [
+    "Here is the word pal.",
+    100,
+    -20,
+    20
+   ],
+   "pot": [
+    "Here is the word, pot.",
+    100,
+    -20,
+    20
+   ],
+   "sit": [
+    "sit. sit.",
+    80,
+    -30,
+    40
+   ],
+   "tap": [
+    "Here is the word tap.",
+    100,
+    -20,
+    20
+   ],
+   "zap": [
+    "zap. zap.",
+    80,
+    -30,
+    40
    ]
-  }
+  },
+  "asr_pinned": {
+   "bib": [
+    "Say bib.",
+    0.46,
+    0.92
+   ],
+   "big": [
+    "Say big.",
+    0.46,
+    0.96
+   ],
+   "box": [
+    "Say box.",
+    0.46,
+    0.92
+   ],
+   "dig": [
+    "Say dig.",
+    0.46,
+    0.96
+   ],
+   "dog": [
+    "Say dog.",
+    0.46,
+    1.0
+   ],
+   "fit": [
+    "Say fit.",
+    0.48,
+    0.92
+   ],
+   "fox": [
+    "Say fox.",
+    0.46,
+    0.94
+   ],
+   "him": [
+    "Say him.",
+    0.46,
+    0.88
+   ],
+   "hop": [
+    "Say hop.",
+    0.58,
+    1.04
+   ],
+   "log": [
+    "Say log.",
+    0.44,
+    0.9
+   ],
+   "mom": [
+    "Say mom.",
+    0.46,
+    0.86
+   ],
+   "mop": [
+    "Say mop.",
+    0.5,
+    0.88
+   ],
+   "not": [
+    "Say not.",
+    0.4,
+    0.88
+   ],
+   "pig": [
+    "Say pig.",
+    0.46,
+    0.88
+   ],
+   "pit": [
+    "Say pit.",
+    0.48,
+    0.96
+   ],
+   "pop": [
+    "Say pop.",
+    0.46,
+    0.9
+   ],
+   "ram": [
+    "Say ram.",
+    0.44,
+    0.96
+   ],
+   "rap": [
+    "Say rap.",
+    0.48,
+    0.92
+   ],
+   "rip": [
+    "Say rip.",
+    0.46,
+    0.86
+   ],
+   "sad": [
+    "Say sad.",
+    0.44,
+    0.92
+   ],
+   "sat": [
+    "Say sat.",
+    0.46,
+    0.98
+   ],
+   "sip": [
+    "Say sip.",
+    0.52,
+    1.12
+   ],
+   "six": [
+    "Say six.",
+    0.48,
+    1.18
+   ],
+   "tag": [
+    "Say tag.",
+    0.42,
+    0.98
+   ],
+   "tan": [
+    "Say tan.",
+    0.42,
+    0.88
+   ],
+   "tip": [
+    "Say tip.",
+    0.46,
+    0.94
+   ],
+   "top": [
+    "Say top.",
+    0.42,
+    0.9
+   ],
+   "wag": [
+    "Say wag.",
+    0.42,
+    0.88
+   ],
+   "win": [
+    "Say win.",
+    0.42,
+    0.86
+   ],
+   "yam": [
+    "Say yam.",
+    0.44,
+    1.1
+   ],
+   "yap": [
+    "Say yap.",
+    0.48,
+    1.02
+   ]
+  },
+  "keepers_treatments": [
+   "bib",
+   "big",
+   "bin",
+   "bit",
+   "box",
+   "can",
+   "cot",
+   "did",
+   "dig",
+   "dip",
+   "dog",
+   "fin",
+   "fit",
+   "fox",
+   "got",
+   "had",
+   "ham",
+   "hat",
+   "him",
+   "hip",
+   "hit",
+   "hop",
+   "hot",
+   "jam",
+   "lip",
+   "log",
+   "mom",
+   "mop",
+   "not",
+   "pal",
+   "pig",
+   "pin",
+   "pit",
+   "pop",
+   "pot",
+   "ram",
+   "ran",
+   "rap",
+   "rat",
+   "rip",
+   "sad",
+   "sat",
+   "sip",
+   "sit",
+   "six",
+   "tag",
+   "tan",
+   "tap",
+   "tip",
+   "top",
+   "van",
+   "wag",
+   "win",
+   "yam",
+   "yap",
+   "zap"
+  ]
  }
 }

@@ -100,6 +100,58 @@ test on 2026-07-28, so that is not the first place to look.
 occupy the same range with the same median. That is the second measurable
 stand-in for listening to be tried and fail.
 
+## The 57 keepers, applied 2026-08-01
+
+A maintainer handoff supplied 57 human-accepted clips for packs 1-3, each with a
+recipe, ASR pins and ear notes. 56 were applied; `man` was not (below). The full
+catalog — per-word verdicts, ear notes, recipes and labels — is committed at
+`docs/voice-goldens-packs1-3.json`, so the decisions survive this container.
+
+After the apply, the owner re-listened to a five-word sample pulled from the
+LIVE pack — can, sad, hop, lip, had, every one byte-identical to its golden —
+and re-approved all five the same day.
+
+**54 of the 56 are reproduced by this renderer byte for byte.** They are not
+opaque audio: the pins in `tools/keepers-treatments.json` regenerate them, and
+G13 checks the recipe as it does for every other treatment.
+
+Getting there needed two fixes, and both are worth knowing before anyone
+re-derives this work.
+
+- **The handoff does not record the ASR guard.** `carrier_cut_asr_pinned` takes a
+  `guard_ms` either side of the pinned word, defaulting to 60, and the bake did
+  not use 60 for everything. All 31 ASR clips re-rendered one or two mp3 frames
+  off the approved audio. The value was recovered per word by sweeping until the
+  re-render matched the golden exactly: **40 ms for most, 80 ms for sip and
+  six**. It now lives in `asr_guard_ms` in the treatments file.
+- **A treatment is the whole truth for its word.** The drop-in loader only ADDED
+  to the baseline maps, so sip kept a 70 ms brighten, tap an onset trim and hip a
+  130 ms trim from earlier rounds, none of which their keepers ask for. Both the
+  renderer and G13 now remove what a treatment does not ask for.
+
+### The two that cannot be reproduced
+
+`sad` and `sat` carry the label `asr_carrier_1_spd0.82`, and that carrier
+sentence appears nowhere in the handoff — only `Say {w}.`, which produces
+different audio. Their approved BYTES ship as given, and G13 pins them by
+sha256 in `tools/keeper-bytes.json`. Without that pin the next routine
+re-render would replace two accepted words with something nobody has heard,
+and no gate would notice.
+
+### man is not a keeper
+
+The handoff grades its own man "marginal pass, accept if best of 6". The clip
+shipped from round 14 was heard the same day as "almost perfect", so it stands
+and man is excluded from the keeper treatments. Its carrier pin is unchanged.
+
+### What this closed
+
+Every one of the six failures from the pack-1 sweep is now answered: can and pal
+"absolutely perfect", had, hat and ham "very good", jam "near perfect". **hat in
+particular** had no live candidate and was recorded here as needing a new
+mechanism — the keeper found one, `carrier@0.82`, and its note explains that
+period+lead150 at a slower speed fails with "uh-hat".
+
 ## Round 14, diagnostic, judged 2026-07-31
 
 Six candidates, blind. Built to ask WHY a word loses its first sound, not which
