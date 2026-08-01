@@ -7,7 +7,7 @@ import {
   LEVELS, DIGRAPHS, TRICKY, HOMOPHONES, INTERVALS, SESSION_SIZE, PROMPT_CAP, WORD_LEVEL,
   chunkWord, dashed, freshWordState, applyResult, buildSession, checkPromotion,
   heal, migrate, newState, buildMarkdown, loadState, saveState, speak, hush, buzz, feedbackSpeech, PRAISE,
-  SEAM_MS, voiceScript, clipPlan, resolvePack,
+  SEAM_MS, voiceScript, clipPlan, resolvePack, TTS_UNSAFE_PRAISE, ttsSafePraise,
   ADULT_JUDGED, adultNote,
 } from "../src/engine.js";
 
@@ -545,5 +545,36 @@ describe("ADULT_JUDGED — words recognition cannot judge fairly (SPEC section 3
     // a recogniser returning "pen" for "pin" may be reporting the child correctly:
     // that is a reading error to catch, never a reason to remove the microphone
     for (const w of ["pin", "pen", "bad", "bed", "cap", "cup"]) expect(ADULT_JUDGED[w]).toBe(undefined);
+  });
+});
+
+/* The system voice says "reed" for "read". The recorded pack does not: its
+   praise clip is rendered from an explicit past-tense pronunciation, and G13
+   fails the build if that override is dropped. But the pack is not the only
+   thing that speaks. Whenever it cannot play — a locked audio context, a clip
+   that will not decode, a device that has taken the audio session — the app
+   hands the same sentence to the system voice, which has no such instruction
+   and says "reed" to a child who has just read the word.
+   That is the fault beta.6 was published for, returning through a path no
+   gate watched: G13 checks the pack, and nothing checked the fallback. */
+describe("G1 — the system voice is never given a word it says wrongly", () => {
+  it("75: the praise line with 'read' in it never reaches the system voice", () => {
+    expect(TTS_UNSAFE_PRAISE).toEqual([2]);
+    expect(PRAISE[2]).toBe("You read that word all by yourself!");
+    expect(ttsSafePraise(2)).toBe(0);
+    const spoken = feedbackSpeech("correct", "cat", ttsSafePraise(2)).map((p) => p.text).join(" ");
+    expect(spoken).toBe("Great job! The word was cat.");
+    expect(spoken.includes("read")).toBe(false);
+  });
+
+  it("76 (control): every other praise line reaches the system voice unchanged", () => {
+    for (const i of [0, 1, 3, 4, 5, 6, 7, 8, 9]) expect(ttsSafePraise(i)).toBe(i);
+    expect(feedbackSpeech("correct", "cat", ttsSafePraise(5)).map((p) => p.text).join(" "))
+      .toBe("Your reading is getting stronger every day! The word was cat.");
+  });
+
+  it("77 (control): the recorded pack still gets the real praise line", () => {
+    expect(feedbackSpeech("correct", "cat", 2).map((p) => p.text).join(" "))
+      .toBe("You read that word all by yourself! The word was cat.");
   });
 });

@@ -1,7 +1,9 @@
 # Rules for this repository
 
 These rules bind every change, human or agent. `docs/testing-gauntlet.md` defines the gates that
-enforce them. SPEC.md is the master source for behavior.
+enforce them. SPEC.md is the master source for behavior. `docs/settled.md` is the standing record
+of questions a listener or a measurement has already closed — read it before voice, audio or
+word-bank work, and before designing a listening round (E10).
 
 This document follows the Microsoft Writing Style Guide.
 
@@ -39,6 +41,13 @@ This document follows the Microsoft Writing Style Guide.
 - E7. Run `npm run gauntlet` before every push. A red gauntlet blocks the change.
 - E8. Do not change game behavior, the word bank, the feedback text, or the layout in a testing
   task. Do not add PWA work in a testing task.
+- E10. Read `docs/settled.md` before any change to the voice, the audio pipeline, or the word
+  bank, and before designing a listening round. It lists what a listener or a measurement has
+  already closed, so a settled question is never re-opened at the cost of a round. When a round
+  lands, record its result the same day — in `docs/voice-pack.md` for what shipped, and in
+  `docs/settled.md` for what is now closed. An approved fix that is not applied must be named
+  in "Approved and unshipped" with the reason it is waiting. A verdict that lives only in a
+  chat log is a verdict this project will lose, and has.
 - E9. Before launching a multi-agent workflow, agree the plan with the owner: how many agents
   and how many antagonists (adversarial checkers) the problem needs. Default to three of each
   or fewer. Verifiers work in batches: give each antagonist one lens and the whole finding
