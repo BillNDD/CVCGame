@@ -37,6 +37,21 @@ the story of what shipped, `docs/settled.md` for what is now closed, and
 "Approved and unshipped" for anything waiting, with the reason. A verdict that
 lives only in a chat log is one this project loses.
 
+## Dependencies and custom code
+
+- **Prefer the standard library and the project's existing dependencies.** When
+  those fall short, prefer an established, well-maintained open-source library
+  over a substantial custom implementation.
+- **Always ask the owner before adding a new dependency or building a
+  substantial custom solution**, and bring a brief justification with the ask.
+- Small local glue is fine without asking, where a library would be
+  disproportionate or a project convention requires hand-rolled code: the
+  reference build stays one dependency-free file (E2), and anything the app
+  ships must hold to S6 — no network calls after load and no analytics, no
+  matter what the library offers.
+- If a reasonable search finds no suitable open-source option, propose a custom
+  approach and wait for approval; do not build the substantial version first.
+
 ## Before you push
 
 - `npm run gauntlet` — 15 gates. A red gauntlet blocks the change (E7).
