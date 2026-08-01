@@ -107,8 +107,8 @@ export default function App() {
      (A1-004). The reveal's real length arrives a moment after the wait starts,
      so this is the last length armAdvance was given, never a guess. */
   const [waitMs, setWaitMs] = useState(ADVANCE_GUARD_MS);
-  /* How much of the wait had already passed when the fill was last given a
-     length, so a re-arm continues the sweep instead of restarting it. */
+  /* Where the fill already stands, as a percent, when the wait is re-armed —
+     so the sweep continues from its own position instead of restarting. */
   const [waitFrom, setWaitFrom] = useState(0);
   const [micTried, setMicTried] = useState(false);        // N-8: label only — never gates replay
   const [exitAsk, setExitAsk] = useState(false);          // P1-4
@@ -127,7 +127,7 @@ export default function App() {
   const deadStrikesRef = useRef(0);        // W4b: attempts that produced no event at all
   const gradedRef = useRef(null);          // the queue position this attempt has already graded
   const advanceTimer = useRef(null);       // P0-3: when the advance control comes alive
-  const waitStart = useRef(0);             // when this word's wait began, for a continuous fill
+  const fillTrack = useRef(null);          // the fill's live segment {from, ms, t0}, so a re-arm continues it
   const advanceLive = useRef(true);        // the same fact, readable inside a handler
   const [micVisitBlock, setMicVisitBlock] = useState(false); // W4b: this-visit-only fallback
   const [micNote, setMicNote] = useState(""); // W4b: mic status that stays in the message slot
@@ -218,23 +218,31 @@ export default function App() {
   /* Bring the advance control alive after `ms`. A later call can push the
      moment further out — the reveal turns out to be longer than the short
      guard — but never takes a control back once the child can see it live. */
-  /* The wait is armed twice on every word: once with the 400 ms guard the
-     moment the result is recorded, and again with the reveal's real length as
-     soon as the clips are scheduled. The timer is right both times — the
-     reveal ends `ms` after ITS clips start — but the fill used to be given the
-     new length alone, so it restarted from zero and jumped BACKWARDS on screen,
-     from a fast 400 ms sweep to the start of a six-second one. SPEC section 6
-     says the fill lasts exactly as long as the wait it shows, and a bar that
-     runs backwards is not information.
-     The fill is now told the whole wait and how much of it has already gone,
-     so it carries on from where it is and still lands as the control wakes. */
+  /* The wait is armed twice on every word: the 400 ms guard the moment the
+     result is recorded, then the reveal's real length once its clips are
+     scheduled. The timer is right both times, but the fill has to survive the
+     handover without moving backwards, and it has failed at that twice. First
+     it was given the new length alone, restarted from zero, and snapped back
+     from a fast sweep to the start of a six-second one. The second attempt
+     carried the elapsed TIME across (a negative animation-delay), but the new
+     animation maps that time onto the longer track, so the drawn POSITION
+     still stepped back a few pixels at the handover — G7 caught it under
+     load. What must be continuous is the position. On a re-arm the fill now
+     starts from wherever it is and sweeps to the far edge over exactly the
+     remaining wait: never backwards, and it still lands as the control
+     wakes. */
   function armAdvance(ms) {
     if (advanceLive.current) return;
     clearTimeout(advanceTimer.current);
-    const gone = waitStart.current ? Date.now() - waitStart.current : 0;
-    if (!waitStart.current) waitStart.current = Date.now();
-    setWaitMs(gone + ms);
-    setWaitFrom(gone);
+    const now = Date.now();
+    let from = 0;
+    if (fillTrack.current) {
+      const f = fillTrack.current;
+      from = Math.min(1, f.from + (1 - f.from) * Math.max(0, (now - f.t0) / f.ms));
+    }
+    fillTrack.current = { from, ms, t0: now };
+    setWaitMs(ms);
+    setWaitFrom(Math.round(from * 1000) / 10);
     advanceTimer.current = setTimeout(() => { advanceLive.current = true; setAdvanceReady(true); }, ms);
   }
 
@@ -289,7 +297,7 @@ export default function App() {
     }
     setState(s); persist(s);
     setLastGrade(result); setPhase("feedback");
-    setAdvanceReady(false); advanceLive.current = false; waitStart.current = 0; setWaitFrom(0);
+    setAdvanceReady(false); advanceLive.current = false; fillTrack.current = null; setWaitFrom(0);
     /* P0-3, and CVC-UX-001: the reveal runs about five to seven seconds —
        praise, a pause, "The word was", a pause, then the word — and advancing
        silences it. A child who taps at once never hears the word said
