@@ -141,11 +141,13 @@ HEAD_TRIM_MS = {}
 # ASR-pinned carrier cuts: {word: (carrier_text, asr_start, asr_end)} — times from
 # the accepted keeper so re-renders stay byte-identical without re-running Whisper.
 ASR_PINNED = {}
-# Per-word ASR guard, derived by reproducing each accepted keeper byte for byte.
+# Per-word ASR guard, LEAD and TAIL, derived by reproducing each accepted
+# keeper byte for byte. It is asymmetric: sad and sat keep 80 ms before the
+# pinned start and 40 ms after the pinned end, which one guard cannot express.
 # The handoff pinned asr_start/asr_end but not the guard the bake used, and it is
 # not one value: 40 ms for most, 80 ms for sip and six. Without it 31 of 31 ASR
 # clips re-render one or two mp3 frames off the approved audio.
-ASR_GUARD_MS = {}
+ASR_GUARD_MS = {}   # word -> (lead ms, tail ms)
 # Full per-word treatments from bake_all_keepers.py (overrides maps above).
 _TREAT_PATH = pathlib.Path(__file__).resolve().parent / "keepers-treatments.json"
 TREATMENTS = json.loads(_TREAT_PATH.read_text()) if _TREAT_PATH.exists() else {}
@@ -184,8 +186,8 @@ for _w, _t in TREATMENTS.items():
     if carrier and mode in {"asr", "asr_pinned"} and _t.get("asr_start") is not None:
         text = str(carrier[0]).replace("{w}", _w)
         ASR_PINNED[_w] = (text, float(_t["asr_start"]), float(_t["asr_end"]))
-        if _t.get("asr_guard_ms") is not None:
-            ASR_GUARD_MS[_w] = int(_t["asr_guard_ms"])
+        if _t.get("asr_guard_lead_ms") is not None:
+            ASR_GUARD_MS[_w] = (int(_t["asr_guard_lead_ms"]), int(_t["asr_guard_tail_ms"]))
     elif carrier and mode == "energy":
         text = str(carrier[0]).replace("{w}", _w)
         # filled into CARRIER_CUT after the baseline dict below
@@ -297,14 +299,12 @@ def head_trim(audio, sr, ms):
     return a[cut:]
 
 
-def carrier_cut_asr_pinned(k, text, asr_start, asr_end, speed, guard_ms=60):
+def carrier_cut_asr_pinned(k, text, asr_start, asr_end, speed, lead_ms=60, tail_ms=60):
     """Cut a carrier using timestamps pinned on an accepted keeper (no Whisper)."""
     a, sr = k.create(text, voice=VOICE, speed=speed, lang="en-us")
     a = np.asarray(a, dtype=np.float32)
-    g = guard_ms / 1000.0
-    lead_g = min(0.08, g)
-    start = max(0, int((float(asr_start) - lead_g) * sr))
-    end = min(len(a), int((float(asr_end) + g) * sr))
+    start = max(0, int((float(asr_start) - lead_ms / 1000.0) * sr))
+    end = min(len(a), int((float(asr_end) + tail_ms / 1000.0) * sr))
     if end <= start + int(0.08 * sr):
         end = min(len(a), start + int(0.35 * sr))
     return a[start:end], sr
@@ -359,8 +359,9 @@ for clip in script:
     word_speed = WORD_SPEED_OVERRIDE.get(word, WORD_SPEED) if is_word else SENTENCE_SPEED
     if word in ASR_PINNED:
         text, t0, t1 = ASR_PINNED[word]
+        _lead, _tail = ASR_GUARD_MS.get(word, (60, 60))
         audio, sr = carrier_cut_asr_pinned(k, text, t0, t1, word_speed,
-                                           guard_ms=ASR_GUARD_MS.get(word, 60))
+                                           lead_ms=_lead, tail_ms=_tail)
     elif word in CARRIER_CUT:
         audio, sr = carrier_cut(k, *CARRIER_CUT[word], speed=word_speed)
     else:

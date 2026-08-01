@@ -70,13 +70,20 @@ updated whenever a round lands.
 - **can, pal, had, ham, jam are solved** — the rest of the pack-1 failures.
 - **man is NOT superseded.** The handoff's own man is graded "marginal"; round
   14's is "almost perfect". Round 14 stands.
-- **The ASR guard is not in the handoff.** It is 40 ms for most keepers and
-  80 ms for sip and six, recovered by sweeping for a byte-identical re-render.
-  It is now pinned in `tools/keepers-treatments.json`. Anyone re-deriving these
-  clips without it will be one or two mp3 frames off and will not know why.
-- **sad and sat cannot be re-rendered at all.** Their carrier family
-  (`asr_carrier_1`) is not recorded anywhere in the handoff. They ship as bytes,
-  pinned by hash. Do not attempt to "fix" them by re-rendering.
+- **The ASR guard is not in the handoff, and it is ASYMMETRIC.** It is a
+  lead/tail pair: 40/40 for most keepers, 80/80 for sip and six, and 80/40 for
+  sad and sat. Recovered by holding the carrier render fixed and sweeping both
+  edges to byte identity — sweeping a single symmetric guard finds nothing for
+  the 80/40 words. Now pinned as `asr_guard_lead_ms` / `asr_guard_tail_ms` in
+  `tools/keepers-treatments.json`. All 56 keepers re-render byte for byte.
+- **`asr_carrier_N` is a search index, not a carrier name.** 0 is
+  "Here is the word, {w}.", 1 is "Say {w}.", 2 is "{w}. {w}.", 3 is
+  "The word is {w}.". An earlier note in this repo wrongly recorded index 1 as
+  a missing sentence; it was never missing.
+- **head_trim after an onset-landing ASR cut eats the word's first sound.**
+  hop shipped as "op" from an approved golden because of this: the cut already
+  began at speech onset and head_trim 40 removed the /h/. Do not combine the
+  two without an ear. lip (80 ms) and van (40 ms) carry the same combination.
 
 ## The trap this project keeps falling into
 
