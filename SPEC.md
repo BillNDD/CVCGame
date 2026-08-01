@@ -374,7 +374,10 @@ While the control waits, a fill crosses it at a steady rate and reaches the far 
 control becomes active. The fill lasts exactly as long as the wait it shows, whether that is the
 reveal or the 400 ms guard. It carries no text, because a child who is learning to read must not
 have to read anything to understand a wait. The fill is information, not decoration, so it still
-runs when the device asks for reduced motion. While the control waits, its label is the app's
+runs when the device asks for reduced motion. The wait is set twice on every word — a short
+guard when the result is recorded, then the reveal's real length once its clips are scheduled —
+and the fill carries on from where it is rather than restarting, because a bar that jumps
+backwards is not information. While the control waits, its label is the app's
 ink, not white: white on the waiting colour measures 2.14:1, and the ink 5.57:1. An inactive
 control has no contrast duty under WCAG, but this one waits about six seconds on every word.
 The label turns white as the control comes alive, which is one more sign that it is ready.

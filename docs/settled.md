@@ -34,7 +34,13 @@ updated whenever a round lands.
 - **The full-stop rendering of hop was rejected outright** — "unacceptable,
   still saying hop + uh". hop left `period_words` for the carrier cut.
 - **Word speed 1.0 does not fix a weak onset.** "man" at 1.0 still sounds like
-  "an", and "hat" at 1.0 is worse than what ships.
+  "an", and "hat" at 1.0 is worse than what ships. Speed is closed for both.
+- **"man" is solved** by the comma carrier at 150 ms — "almost perfect", shipped
+  2026-07-31. Do not re-open it.
+- **"hat" is not solved and has no live candidate.** Speed is ruled out, every
+  carrier candidate failed validation, and "metallic" is not an extra sound that
+  a trim removes. Anything offered for hat must be a new mechanism, not another
+  margin.
 
 ## Known broken, and why
 
@@ -46,6 +52,16 @@ updated whenever a round lands.
 - **A margin of 250 ms reaches into the preceding word.** A listener heard
   "word man" from a candidate that passed a 60%-of-carrier check. That check is
   necessary and not sufficient; 150 ms is the only margin with a clean result.
+
+## Watched by a gate, so it cannot regress
+
+- **The system voice must never be handed a praise line containing "read".** The
+  recorded clip is correct; the FALLBACK was not. Whenever the pack cannot play,
+  the app used to give the system voice "You read that word all by yourself!",
+  which it says as "reed". G13 watches the pack and could not see this. The rule
+  now lives in the engine as `ttsSafePraise`, with three tests. If you add a
+  praise line containing a word with two pronunciations, add its index to
+  `TTS_UNSAFE_PRAISE` in `reference/word-quest.jsx`.
 
 ## The trap this project keeps falling into
 

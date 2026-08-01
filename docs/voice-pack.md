@@ -39,9 +39,10 @@ app carries only the audio files.
   taken out of its first 70 ms so its s cannot read as a z. All three treatments won a blind
   round against the build of the day.
 - The clip list comes from the live engine, never from a hand-kept list.
-- Two words — hop and hen — are spoken inside a carrier sentence and cut back out of it, at
-  the per-word thresholds in `carrier_cut`. This is the isolation round 10 could not do; see
-  below.
+- Three words — man, hop and hen — are spoken inside a carrier sentence and cut back out of it,
+  at the per-word thresholds in `carrier_cut`. This is the isolation round 10 could not do; see
+  below. The treatment is NOT general: the gap search settles differently for every word, and it
+  could not be built at all for hat.
 - Approved by a listener and NOT YET IN THE PACK: cup and pop. See "Approved and unshipped".
   That entry exists because the result was lost once already: it was won on 28 July, held
   back while an audit ran, and never picked back up — beta.9 shipped the rendering it was
@@ -98,6 +99,32 @@ test on 2026-07-28, so that is not the first place to look.
 **Duration predicts nothing.** Against all 25 verdicts, failures and passes
 occupy the same range with the same median. That is the second measurable
 stand-in for listening to be tried and fail.
+
+## Round 14, diagnostic, judged 2026-07-31
+
+Six candidates, blind. Built to ask WHY a word loses its first sound, not which
+version is prettiest.
+
+| Candidate | Verdict |
+|---|---|
+| man, comma carrier 150 ms | **"almost perfect" — now shipping** |
+| man, as it shipped | "horrible, sounds like uh an" |
+| man, comma carrier 250 ms | "unusable, says word man" |
+| man, word speed 1.0 | "sounds like an" |
+| hat, as it shipped | "a little better" |
+| hat, word speed 1.0 | "metallic, a is too quick" |
+
+**man is fixed** at the same margin that fixed hop. `w-man.mp3` is byte-identical
+to the approved candidate; 1 clip of 276 changed.
+
+**A margin of 250 ms is not a bigger version of 150 ms.** It reaches back past
+the comma into the carrier, and the listener heard "word man". The 60%-of-carrier
+validation passed that candidate: the check is necessary and not sufficient.
+
+**hat remains unsolved.** Speed is ruled out — 1.0 is worse than what ships —
+and every carrier candidate for it failed validation. "Metallic" is not an extra
+sound that a trim or a cut can remove, so no treatment in this recipe addresses
+it. It needs a new idea, not another round.
 
 ## Round 13, judged 2026-07-30
 

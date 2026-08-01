@@ -227,13 +227,20 @@ for (const height of [430, 555, 720, 950]) {
       const f = document.querySelector(".wq-rail .wq-ctafill");
       if (!f) return null;
       const b = document.querySelector(".wq-rail .wq-cta").getBoundingClientRect();
-      return { w: f.getBoundingClientRect().width, full: b.width, ms: getComputedStyle(f).animationDuration };
+      const d = getComputedStyle(f).animationDuration;
+      return { w: f.getBoundingClientRect().width, full: b.width, ms: d,
+               msNum: d.endsWith("ms") ? parseFloat(d) : parseFloat(d) * 1000 };
     });
+    /* Sample INSIDE the wait, whatever the wait turns out to be. The wait is
+       the reveal's own length where a recorded reveal plays, and the 400 ms
+       guard where none can. Fixed 400/1200 ms sleeps assumed the long case and
+       read past the end of the short one, so this check failed under load and
+       passed on a re-run — a gate nobody could trust. */
     await gradeByKey(page, "✓ got it (hold)", "Enter");
     await page.locator(".wq-tile").first().waitFor();
-    await page.waitForTimeout(400);
+    await page.locator(".wq-rail .wq-ctafill").waitFor({ timeout: 5000 });
     const early = await readFill();
-    await page.waitForTimeout(1200);
+    await page.waitForTimeout(Math.max(120, Math.min(1200, (early?.msNum || 400) * 0.5)));
     const later = await readFill();
     if (!early || !later) fail("no fill on the inert advance control", JSON.stringify({ early, later }));
     else if (!(later.w > early.w + 5)) fail("the fill does not move during the wait", JSON.stringify({ early, later }));
@@ -247,9 +254,9 @@ for (const height of [430, 555, 720, 950]) {
     await page.locator(".wq-word").waitFor();
     await gradeByKey(page, "✓ got it (hold)", "Enter");
     await page.locator(".wq-tile").first().waitFor();
-    await page.waitForTimeout(400);
+    await page.locator(".wq-rail .wq-ctafill").waitFor({ timeout: 5000 }).catch(() => {});
     const stillEarly = await readFill();
-    await page.waitForTimeout(1200);
+    await page.waitForTimeout(Math.max(120, Math.min(1200, (stillEarly?.msNum || 400) * 0.5)));
     const stillLater = await readFill();
     if (stillEarly && stillLater && stillLater.w > stillEarly.w + 5)
       fail("negative control broken", `the fill moved with its animation switched off: ${JSON.stringify({ stillEarly, stillLater })}`);

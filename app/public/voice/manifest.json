@@ -129,7 +129,7 @@
  },
  "w:man": {
   "file": "w-man.mp3",
-  "ms": 1276
+  "ms": 1040
  },
  "w:can": {
   "file": "w-can.mp3",
@@ -1154,6 +1154,12 @@
    ],
    "hop": [
     "Here is the word, hop.",
+    150,
+    -20,
+    20
+   ],
+   "man": [
+    "Here is the word, man.",
     150,
     -20,
     20

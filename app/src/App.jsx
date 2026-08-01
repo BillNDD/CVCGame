@@ -107,6 +107,9 @@ export default function App() {
      (A1-004). The reveal's real length arrives a moment after the wait starts,
      so this is the last length armAdvance was given, never a guess. */
   const [waitMs, setWaitMs] = useState(ADVANCE_GUARD_MS);
+  /* How much of the wait had already passed when the fill was last given a
+     length, so a re-arm continues the sweep instead of restarting it. */
+  const [waitFrom, setWaitFrom] = useState(0);
   const [micTried, setMicTried] = useState(false);        // N-8: label only — never gates replay
   const [exitAsk, setExitAsk] = useState(false);          // P1-4
   const [doneStats, setDoneStats] = useState(null);
@@ -124,6 +127,7 @@ export default function App() {
   const deadStrikesRef = useRef(0);        // W4b: attempts that produced no event at all
   const gradedRef = useRef(null);          // the queue position this attempt has already graded
   const advanceTimer = useRef(null);       // P0-3: when the advance control comes alive
+  const waitStart = useRef(0);             // when this word's wait began, for a continuous fill
   const advanceLive = useRef(true);        // the same fact, readable inside a handler
   const [micVisitBlock, setMicVisitBlock] = useState(false); // W4b: this-visit-only fallback
   const [micNote, setMicNote] = useState(""); // W4b: mic status that stays in the message slot
@@ -214,10 +218,23 @@ export default function App() {
   /* Bring the advance control alive after `ms`. A later call can push the
      moment further out — the reveal turns out to be longer than the short
      guard — but never takes a control back once the child can see it live. */
+  /* The wait is armed twice on every word: once with the 400 ms guard the
+     moment the result is recorded, and again with the reveal's real length as
+     soon as the clips are scheduled. The timer is right both times — the
+     reveal ends `ms` after ITS clips start — but the fill used to be given the
+     new length alone, so it restarted from zero and jumped BACKWARDS on screen,
+     from a fast 400 ms sweep to the start of a six-second one. SPEC section 6
+     says the fill lasts exactly as long as the wait it shows, and a bar that
+     runs backwards is not information.
+     The fill is now told the whole wait and how much of it has already gone,
+     so it carries on from where it is and still lands as the control wakes. */
   function armAdvance(ms) {
     if (advanceLive.current) return;
     clearTimeout(advanceTimer.current);
-    setWaitMs(ms);
+    const gone = waitStart.current ? Date.now() - waitStart.current : 0;
+    if (!waitStart.current) waitStart.current = Date.now();
+    setWaitMs(gone + ms);
+    setWaitFrom(gone);
     advanceTimer.current = setTimeout(() => { advanceLive.current = true; setAdvanceReady(true); }, ms);
   }
 
@@ -272,7 +289,7 @@ export default function App() {
     }
     setState(s); persist(s);
     setLastGrade(result); setPhase("feedback");
-    setAdvanceReady(false); advanceLive.current = false;
+    setAdvanceReady(false); advanceLive.current = false; waitStart.current = 0; setWaitFrom(0);
     /* P0-3, and CVC-UX-001: the reveal runs about five to seven seconds —
        praise, a pause, "The word was", a pause, then the word — and advancing
        silences it. A child who taps at once never hears the word said
@@ -632,7 +649,7 @@ export default function App() {
     return <SessionScreen state={shownSession} L={L} kid={kid} currentWord={currentWord}
       micNote={micNote} adultNote={parentNote} phase={phase} lastGrade={lastGrade} order={order}
       firstResults={firstResults} answered={answered} totalQ={totalQ}
-      advanceReady={advanceReady} waitMs={waitMs} finishes={finishes} micTried={micTried} listening={listening}
+      advanceReady={advanceReady} waitMs={waitMs} waitFrom={waitFrom} finishes={finishes} micTried={micTried} listening={listening}
       seenTwice={seenTwice} heard={heard} exitAsk={exitAsk}
       onExitAsk={askExit} grade={grade} next={next}
       startRec={startRec} softStop={softStop} replay={replay}
