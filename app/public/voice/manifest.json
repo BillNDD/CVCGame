@@ -267,6 +267,26 @@
   "file": "w-has.mp3",
   "ms": 1340
  },
+ "w:pat": {
+  "file": "w-pat.mp3",
+  "ms": 1190
+ },
+ "w:dam": {
+  "file": "w-dam.mp3",
+  "ms": 1276
+ },
+ "w:nag": {
+  "file": "w-nag.mp3",
+  "ms": 1318
+ },
+ "w:sap": {
+  "file": "w-sap.mp3",
+  "ms": 1169
+ },
+ "w:vat": {
+  "file": "w-vat.mp3",
+  "ms": 1169
+ },
  "w:sit": {
   "file": "w-sit.mp3",
   "ms": 940
@@ -435,6 +455,34 @@
   "file": "w-hog.mp3",
   "ms": 1190
  },
+ "w:tin": {
+  "file": "w-tin.mp3",
+  "ms": 1212
+ },
+ "w:rig": {
+  "file": "w-rig.mp3",
+  "ms": 1190
+ },
+ "w:rob": {
+  "file": "w-rob.mp3",
+  "ms": 956
+ },
+ "w:sob": {
+  "file": "w-sob.mp3",
+  "ms": 913
+ },
+ "w:mob": {
+  "file": "w-mob.mp3",
+  "ms": 956
+ },
+ "w:cop": {
+  "file": "w-cop.mp3",
+  "ms": 1169
+ },
+ "w:dim": {
+  "file": "w-dim.mp3",
+  "ms": 1212
+ },
  "w:bed": {
   "file": "w-bed.mp3",
   "ms": 892
@@ -594,6 +642,38 @@
  "w:yet": {
   "file": "w-yet.mp3",
   "ms": 1169
+ },
+ "w:bet": {
+  "file": "w-bet.mp3",
+  "ms": 1169
+ },
+ "w:keg": {
+  "file": "w-keg.mp3",
+  "ms": 1190
+ },
+ "w:hem": {
+  "file": "w-hem.mp3",
+  "ms": 1190
+ },
+ "w:nun": {
+  "file": "w-nun.mp3",
+  "ms": 1254
+ },
+ "w:pun": {
+  "file": "w-pun.mp3",
+  "ms": 1254
+ },
+ "w:jut": {
+  "file": "w-jut.mp3",
+  "ms": 1190
+ },
+ "w:gut": {
+  "file": "w-gut.mp3",
+  "ms": 1212
+ },
+ "w:hub": {
+  "file": "w-hub.mp3",
+  "ms": 1190
  },
  "w:yes": {
   "file": "w-yes.mp3",
@@ -771,6 +851,30 @@
   "file": "w-zag.mp3",
   "ms": 1254
  },
+ "w:fax": {
+  "file": "w-fax.mp3",
+  "ms": 1318
+ },
+ "w:nix": {
+  "file": "w-nix.mp3",
+  "ms": 1254
+ },
+ "w:vex": {
+  "file": "w-vex.mp3",
+  "ms": 1254
+ },
+ "w:sax": {
+  "file": "w-sax.mp3",
+  "ms": 1297
+ },
+ "w:cod": {
+  "file": "w-cod.mp3",
+  "ms": 1148
+ },
+ "w:gob": {
+  "file": "w-gob.mp3",
+  "ms": 913
+ },
  "w:ship": {
   "file": "w-ship.mp3",
   "ms": 1126
@@ -889,6 +993,38 @@
  },
  "w:she": {
   "file": "w-she.mp3",
+  "ms": 1233
+ },
+ "w:bash": {
+  "file": "w-bash.mp3",
+  "ms": 1297
+ },
+ "w:gash": {
+  "file": "w-gash.mp3",
+  "ms": 1276
+ },
+ "w:gush": {
+  "file": "w-gush.mp3",
+  "ms": 1297
+ },
+ "w:lash": {
+  "file": "w-lash.mp3",
+  "ms": 1318
+ },
+ "w:lush": {
+  "file": "w-lush.mp3",
+  "ms": 1318
+ },
+ "w:posh": {
+  "file": "w-posh.mp3",
+  "ms": 1190
+ },
+ "w:sham": {
+  "file": "w-sham.mp3",
+  "ms": 1254
+ },
+ "w:shun": {
+  "file": "w-shun.mp3",
   "ms": 1233
  },
  "w:thin": {
@@ -1102,6 +1238,30 @@
  "w:what": {
   "file": "w-what.mp3",
   "ms": 1105
+ },
+ "w:whim": {
+  "file": "w-whim.mp3",
+  "ms": 1276
+ },
+ "w:wham": {
+  "file": "w-wham.mp3",
+  "ms": 1318
+ },
+ "w:bang": {
+  "file": "w-bang.mp3",
+  "ms": 1212
+ },
+ "w:hung": {
+  "file": "w-hung.mp3",
+  "ms": 1212
+ },
+ "w:ding": {
+  "file": "w-ding.mp3",
+  "ms": 1190
+ },
+ "w:ping": {
+  "file": "w-ping.mp3",
+  "ms": 1212
  },
  "__recipe": {
   "voice": "af_heart",

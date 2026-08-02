@@ -10,13 +10,13 @@ describe("Feature: The reading log export", () => {
     const s = newState();
     for (const w of ["cat", "dog"]) s.words[w] = { ...freshWordState(), box: 3, attempts: 2 };
     const md = buildMarkdown(s);
-    expect(md).toContain("0/260");
+    expect(md).toContain("0/300");
   });
   it("Box 4 counts as mastered", () => {
     const s = newState();
     for (const w of ["cat", "dog"]) s.words[w] = { ...freshWordState(), box: 4, attempts: 2 };
     const md = buildMarkdown(s);
-    expect(md).toContain("2/260");
+    expect(md).toContain("2/300");
   });
   it("A short session is marked", () => {
     const s = newState();
@@ -179,20 +179,20 @@ describe("Feature: Sound units and feedback text", () => {
 
 describe("Feature: Level promotion", () => {
   it("Exactly 80 percent promotes", () => {
-    const s = newState(); s.level = 4;
-    expect(LEVELS[4 - 1].words.length).toBe(40);
-    LEVELS[4 - 1].words.slice(0, 32).forEach((w) => { s.words[w] = { ...freshWordState(), box: 3, attempts: 1 }; });
+    const s = newState(); s.level = 5;
+    expect(LEVELS[5 - 1].words.length).toBe(50);
+    LEVELS[5 - 1].words.slice(0, 40).forEach((w) => { s.words[w] = { ...freshWordState(), box: 3, attempts: 1 }; });
     const promoted = checkPromotion(s);
     expect(promoted).toBe(true);
-    expect(s.level).toBe(5);
+    expect(s.level).toBe(6);
   });
   it("Just under 80 percent does not promote", () => {
-    const s = newState(); s.level = 4;
-    expect(LEVELS[4 - 1].words.length).toBe(40);
-    LEVELS[4 - 1].words.slice(0, 31).forEach((w) => { s.words[w] = { ...freshWordState(), box: 3, attempts: 1 }; });
+    const s = newState(); s.level = 5;
+    expect(LEVELS[5 - 1].words.length).toBe(50);
+    LEVELS[5 - 1].words.slice(0, 39).forEach((w) => { s.words[w] = { ...freshWordState(), box: 3, attempts: 1 }; });
     const promoted = checkPromotion(s);
     expect(promoted).toBe(false);
-    expect(s.level).toBe(4);
+    expect(s.level).toBe(5);
   });
   it("Box 2 words are not solid", () => {
     const s = newState(); s.level = 1;
@@ -212,15 +212,15 @@ describe("Feature: Level promotion", () => {
   });
   it("The last level has no promotion", () => {
     const s = newState(); s.level = 7;
-    expect(LEVELS[7 - 1].words.length).toBe(53);
-    LEVELS[7 - 1].words.slice(0, 53).forEach((w) => { s.words[w] = { ...freshWordState(), box: 5, attempts: 1 }; });
+    expect(LEVELS[7 - 1].words.length).toBe(59);
+    LEVELS[7 - 1].words.slice(0, 59).forEach((w) => { s.words[w] = { ...freshWordState(), box: 5, attempts: 1 }; });
     const promoted = checkPromotion(s);
     expect(promoted).toBe(false);
     expect(s.level).toBe(7);
   });
   it("Two perfect sessions in a row promote", () => {
     const s = newState(); s.level = 2;
-    expect(LEVELS[2 - 1].words.length).toBe(39);
+    expect(LEVELS[2 - 1].words.length).toBe(44);
     LEVELS[2 - 1].words.slice(0, 5).forEach((w) => { s.words[w] = { ...freshWordState(), box: 3, attempts: 1 }; });
     s.perfectStreak = 1;
     const promoted = checkPromotion(s, { partial: false, perfect: true });
@@ -230,7 +230,7 @@ describe("Feature: Level promotion", () => {
   });
   it("One perfect session is not enough", () => {
     const s = newState(); s.level = 2;
-    expect(LEVELS[2 - 1].words.length).toBe(39);
+    expect(LEVELS[2 - 1].words.length).toBe(44);
     LEVELS[2 - 1].words.slice(0, 5).forEach((w) => { s.words[w] = { ...freshWordState(), box: 3, attempts: 1 }; });
     s.perfectStreak = 0;
     const promoted = checkPromotion(s, { partial: false, perfect: true });
@@ -240,7 +240,7 @@ describe("Feature: Level promotion", () => {
   });
   it("An imperfect session resets the streak", () => {
     const s = newState(); s.level = 2;
-    expect(LEVELS[2 - 1].words.length).toBe(39);
+    expect(LEVELS[2 - 1].words.length).toBe(44);
     LEVELS[2 - 1].words.slice(0, 5).forEach((w) => { s.words[w] = { ...freshWordState(), box: 3, attempts: 1 }; });
     s.perfectStreak = 1;
     const promoted = checkPromotion(s, { partial: false, perfect: false });
@@ -250,7 +250,7 @@ describe("Feature: Level promotion", () => {
   });
   it("A session stopped early leaves the streak unchanged", () => {
     const s = newState(); s.level = 2;
-    expect(LEVELS[2 - 1].words.length).toBe(39);
+    expect(LEVELS[2 - 1].words.length).toBe(44);
     LEVELS[2 - 1].words.slice(0, 5).forEach((w) => { s.words[w] = { ...freshWordState(), box: 3, attempts: 1 }; });
     s.perfectStreak = 1;
     const promoted = checkPromotion(s, { partial: true, perfect: true });
@@ -260,7 +260,7 @@ describe("Feature: Level promotion", () => {
   });
   it("A session stopped early with a miss also leaves the streak unchanged", () => {
     const s = newState(); s.level = 2;
-    expect(LEVELS[2 - 1].words.length).toBe(39);
+    expect(LEVELS[2 - 1].words.length).toBe(44);
     LEVELS[2 - 1].words.slice(0, 5).forEach((w) => { s.words[w] = { ...freshWordState(), box: 3, attempts: 1 }; });
     s.perfectStreak = 1;
     const promoted = checkPromotion(s, { partial: true, perfect: false });
@@ -280,7 +280,7 @@ describe("Feature: Level promotion", () => {
   });
   it("A stored streak alone never promotes without a completed session", () => {
     const s = newState(); s.level = 2;
-    expect(LEVELS[2 - 1].words.length).toBe(39);
+    expect(LEVELS[2 - 1].words.length).toBe(44);
     LEVELS[2 - 1].words.slice(0, 5).forEach((w) => { s.words[w] = { ...freshWordState(), box: 3, attempts: 1 }; });
     s.perfectStreak = 2;
     const promoted = checkPromotion(s);
@@ -350,7 +350,7 @@ describe("Feature: Building a session", () => {
   it("Overdue reviews from lower levels are capped", () => {
     const s = newState(); s.level = 3; s.sessionsCompleted = 10 - 1;
     const lower = LEVELS.slice(0, 3 - 1).flatMap((l) => l.words);
-    expect(lower.length).toBe(51);
+    expect(lower.length).toBe(56);
     lower.forEach((w) => { s.words[w] = { ...freshWordState(), box: 1, attempts: 4, dueAt: 1 }; });
     const q = buildSession(s);
     expect(q.filter((w) => WORD_LEVEL[w] < s.level).length).toBeLessThanOrEqual(5);
