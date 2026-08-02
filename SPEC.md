@@ -321,7 +321,10 @@ carries no per-word note. A device-wide reason, such as a browser that cannot li
 a different message and still appears.
 
 Layout. Each screen has three fixed zones in a `100dvh` shell: a header, a stage, and an action
-rail with the "grown-up" strip below it. The word position in the stage does not move. The tile
+rail with the "grown-up" strip below it. The word position in the stage does not move, and
+the word sits at the visual centre of the stage: the stage's top spacer carries the reserved
+rows' worth of extra basis, so the word's midline meets the stage's midline on a phone and
+degrades gracefully on very short screens. The tile
 row and the message row have reserved space. The stage can scroll only when the user sets a very
 large text size. The strip has extra bottom padding. This keeps the controls out of the iOS
 gesture area. A toast never covers the child's own control. The gap it must leave is measured

@@ -334,6 +334,23 @@ for (const height of [430, 555, 720, 950]) {
   await context.close();
 }
 
+/* The word sits at the stage's visual centre — the owner's pick from four
+   measured candidates (2026-08-03). On a phone-sized stage the midline lands
+   within a point of 50 percent; short stages degrade gracefully and are
+   covered by the no-scroll checks above. Phase stability is check 5's job. */
+{
+  const context = await browser.newContext();
+  const page = await startSession(context, { width: 390, height: 844 });
+  const pct = await page.evaluate(() => {
+    const st = document.querySelector(".wq-stage").getBoundingClientRect();
+    const w = document.querySelector(".wq-word").getBoundingClientRect();
+    return (w.top + w.height / 2 - st.top) / st.height * 100;
+  });
+  if (pct >= 48 && pct <= 52) ok(`the word sits at the stage centre (midline ${pct.toFixed(1)}% at 390x844)`);
+  else fail("the word is off the stage centre", `midline at ${pct.toFixed(1)}% (want 48-52)`);
+  await context.close();
+}
+
 /* 13-15 (A1-005) — a toast must clear the child's own control. The offset was
    a magic 112 px, which is not the height of anything: on a phone the toast
    covered the record control by 27 px and hid its label, and on iPad portrait

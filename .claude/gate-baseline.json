@@ -19,7 +19,7 @@
   "g6_complexity_max": 15,
   "g6_file_lines_max": 900,
   "g6_dependency_cycles_max": 0,
-  "g7_interface_checks": 23,
+  "g7_interface_checks": 24,
   "g8_checks": 18,
   "g8_axe_violations_max": 0,
   "g9_fault_tests": 19,
