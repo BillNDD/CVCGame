@@ -91,6 +91,12 @@ The first app version is 1.0.0-beta.1. The app stays in beta until version 1.0 i
   than added to. Trimming the fuzz off "hen" was tried and rejected: 60 ms made it worse and
   100 ms cut into the n itself, so it ships untrimmed. Two clips of 276 changed, and each is
   the same file, byte for byte, that the listener approved.
+- New: the word bank grows from 260 to 300 words. Levels 2 to 7 gain 40 new decodable
+  words chosen inside the bank's own rules — at most 4 letters, 2 or 3 sound units, no
+  blends, no vowel teams — with five new same-sound entries (dam, fax, nix, nun, sax) so
+  the microphone stays fair. No new tricky words and no new two-letter words. The 40 new
+  recordings ship on the approved default recipe and have not yet been heard one at a
+  time; they join the listening sweep, and their rows in `tools/voice-words.csv` say so.
 - Fixed: the fill on "Next word" ran backwards. The wait is set twice on every word — a short
   guard the moment the result is recorded, then the reveal's real length once its clips are
   scheduled — and the fill was given only the new length, so it restarted from zero. On screen

@@ -16,18 +16,18 @@ const seeded = (words, patch) => { const s = newState(); words.forEach(w => { s.
 
 /* ---------------- bank ---------------- */
 describe("word bank", () => {
-  it("has 260 unique words across 7 levels", () => {
+  it("has 300 unique words across 7 levels", () => {
     const all = LEVELS.flatMap(l => l.words);
-    expect(all.length).toBe(260);
-    expect(new Set(all).size).toBe(260);
+    expect(all.length).toBe(300);
+    expect(new Set(all).size).toBe(300);
     expect(LEVELS.map(l => l.n)).toEqual([1, 2, 3, 4, 5, 6, 7]);
-    expect(LEVELS.map(l => l.words.length)).toEqual([12, 39, 42, 40, 44, 30, 53]);
+    expect(LEVELS.map(l => l.words.length)).toEqual([12, 44, 49, 48, 50, 38, 59]);
   });
   it("starts with the 12-word VC level", () => {
     expect(LEVELS[0].words).toEqual(["at","an","am","ax","in","it","if","is","on","ox","up","us"]);
   });
   it("maps every word to its level", () => {
-    expect(Object.keys(WORD_LEVEL).length).toBe(260);
+    expect(Object.keys(WORD_LEVEL).length).toBe(300);
     expect(WORD_LEVEL.at).toBe(1); expect(WORD_LEVEL.cat).toBe(2); expect(WORD_LEVEL.was).toBe(7);
     expect(WORD_LEVEL.has).toBe(2); expect(WORD_LEVEL.she).toBe(6); expect(WORD_LEVEL.the).toBe(7);
   });
@@ -111,11 +111,14 @@ describe("applyResult", () => {
 
 /* ---------------- promotion (S3) ---------------- */
 describe("checkPromotion", () => {
-  it("promotes at exactly 80 percent on the 40-word level", () => {   // S3 — reachable boundary
-    const at32 = seeded(LEVELS[3].words.slice(0, 32), { box: 3, attempts: 1 }); at32.level = 4;
-    expect(checkPromotion(at32)).toBe(true); expect(at32.level).toBe(5);
-    const at31 = seeded(LEVELS[3].words.slice(0, 31), { box: 3, attempts: 1 }); at31.level = 4;
-    expect(checkPromotion(at31)).toBe(false); expect(at31.level).toBe(4);
+  it("promotes at exactly 80 percent on the 50-word level", () => {   // S3 — reachable boundary
+    // 40/50 is EXACTLY 0.8 — the one case where >= and > differ. The 48-word
+    // level cannot reach the boundary (38.4), and a test that sits off it let
+    // the "promotion >= to >" mutant survive G5 on 2026-08-03.
+    const at40 = seeded(LEVELS[4].words.slice(0, 40), { box: 3, attempts: 1 }); at40.level = 5;
+    expect(checkPromotion(at40)).toBe(true); expect(at40.level).toBe(6);
+    const at39 = seeded(LEVELS[4].words.slice(0, 39), { box: 3, attempts: 1 }); at39.level = 5;
+    expect(checkPromotion(at39)).toBe(false); expect(at39.level).toBe(5);
   });
   it("uses box 3 as the solid threshold, not box 2", () => {   // S3 — kills the >= 2 mutant
     const box2 = seeded(LEVELS[0].words, { box: 2, attempts: 2 });
@@ -320,16 +323,16 @@ describe("migrate", () => {
 
 /* ---------------- export ---------------- */
 describe("buildMarkdown", () => {
-  it("reports the 260-word denominator and seven level rows", () => {
+  it("reports the 300-word denominator and seven level rows", () => {
     const md = buildMarkdown(newState());
-    expect(md).toContain("0/260");
+    expect(md).toContain("0/300");
     expect(md.match(/\*\*Level \d+ .+ \(/g).length).toBe(7);
   });
   it("counts a word as mastered only from box 4", () => {
     const three = seeded(["cat", "dog"], { box: 3, attempts: 2 });
-    expect(buildMarkdown(three)).toContain("0/260");
+    expect(buildMarkdown(three)).toContain("0/300");
     const four = seeded(["cat", "dog"], { box: 4, attempts: 2 });
-    expect(buildMarkdown(four)).toContain("2/260");
+    expect(buildMarkdown(four)).toContain("2/300");
   });
   it("keeps a grapheme-safe name intact in the header", () => {
     // lone surrogate = an unpaired HIGH surrogate, or a LOW surrogate with no high before it
@@ -354,9 +357,9 @@ describe("buildMarkdown", () => {
 describe("voice packs", () => {
   it("inventories one clip per word plus the fixed sentences", () => {
     const script = voiceScript();
-    expect(script.length).toBe(276);                       // 6 sentences + 10 praise + 260 words
-    expect(script.filter((c) => c.id.startsWith("w:")).length).toBe(260);
-    expect(new Set(script.map((c) => c.id)).size).toBe(276);
+    expect(script.length).toBe(316);                       // 6 sentences + 10 praise + 300 words
+    expect(script.filter((c) => c.id.startsWith("w:")).length).toBe(300);
+    expect(new Set(script.map((c) => c.id)).size).toBe(316);
     expect(script.find((c) => c.id === "s:was").text).toBe("The word was");
     expect(script.find((c) => c.id === "l:wrong").text).toBe("Let’s try again.");
     expect(script.find((c) => c.id === "p:0").text).toBe("Great job!");

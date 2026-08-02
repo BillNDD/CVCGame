@@ -62,7 +62,7 @@ These rules are mandatory.
 
 ## 3. Word bank
 
-The bank has 260 words in seven levels. The word order in a level is the introduction order.
+The bank has 300 words in seven levels. The word order in a level is the introduction order.
 Every word has at most 4 letters and 2 or 3 sound units. The bank holds no consonant blends
 and no vowel teams: outside the six digraphs, every letter is one sound. The nine words in
 `TRICKY` are the only exceptions, each with a note.
@@ -70,14 +70,14 @@ and no vowel teams: outside the six digraphs, every letter is one sound. The nin
 | Level | Name | Focus | Words |
 |------:|------|-------|-------|
 | 1 | Hatchlings | two sounds (VC) | at an am ax in it if is on ox up us |
-| 2 | Sunny Start | short a | cat hat mat sat man can ran bat cap map tap nap bag dad jam pan rat sad wag van fan ham lap tag had tan pad rag zap yam pal cab ram dab yap mad bad rap has |
-| 3 | Busy Bees | short i and o | sit pig big dig win lip hit six fin bin dog hot top pot mop log box fox hop cot mom pop not got did him pin tip sip dip hip rip bit fit pit bib wig fix job lot nod hog |
-| 4 | Rocket Words | short e and u | bed red hen pen ten net leg wet jet men bus cup sun run fun mud bug hug nut tub pet get let set cut pup web bun rug mug vet tug jug hum rub dug bud peg met yet |
-| 5 | Explorer | all five vowels | yes zip gum gas kid cub den dot fed fig fog gap hid hut jog kit lid mix wax yak jig jab jot lab lad led lit lug nab pep pod rib rim rod rot sag sub sum tab tot wed wit zig zag |
-| 6 | Super Sounds | sh and ch | ship shop shut fish dish wish cash chat chip chop rich much such chin shed shin mash rash chug chum dash sash hush rush mush chap wash push bush she |
-| 7 | Word Wizard | th, wh, ck, ng, tricky | thin this that then them bath math with when whip duck sock kick back ring sing king long song was buck sung gong lung puck wick rung muck pack path sack tack neck luck tuck peck deck thud rock lock pick lick wing tick dock moth hang sang rang sick fang the what |
+| 2 | Sunny Start | short a | cat hat mat sat man can ran bat cap map tap nap bag dad jam pan rat sad wag van fan ham lap tag had tan pad rag zap yam pal cab ram dab yap mad bad rap has pat dam nag sap vat |
+| 3 | Busy Bees | short i and o | sit pig big dig win lip hit six fin bin dog hot top pot mop log box fox hop cot mom pop not got did him pin tip sip dip hip rip bit fit pit bib wig fix job lot nod hog tin rig rob sob mob cop dim |
+| 4 | Rocket Words | short e and u | bed red hen pen ten net leg wet jet men bus cup sun run fun mud bug hug nut tub pet get let set cut pup web bun rug mug vet tug jug hum rub dug bud peg met yet bet keg hem nun pun jut gut hub |
+| 5 | Explorer | all five vowels | yes zip gum gas kid cub den dot fed fig fog gap hid hut jog kit lid mix wax yak jig jab jot lab lad led lit lug nab pep pod rib rim rod rot sag sub sum tab tot wed wit zig zag fax nix vex sax cod gob |
+| 6 | Super Sounds | sh and ch | ship shop shut fish dish wish cash chat chip chop rich much such chin shed shin mash rash chug chum dash sash hush rush mush chap wash push bush she bash gash gush lash lush posh sham shun |
+| 7 | Word Wizard | th, wh, ck, ng, tricky | thin this that then them bath math with when whip duck sock kick back ring sing king long song was buck sung gong lung puck wick rung muck pack path sack tack neck luck tuck peck deck thud rock lock pick lick wing tick dock moth hang sang rang sick fang the what whim wham bang hung ding ping |
 
-Level word counts: 12, 39, 42, 40, 44, 30, 53.
+Level word counts: 12, 44, 49, 48, 50, 38, 59.
 
 Constants:
 
@@ -87,7 +87,8 @@ TRICKY     = { was, is, has, wash, push, bush, she, the, what }   // exact notes
 HOMOPHONES = { sun:["son"], red:["read"], mat:["matt"], in:["inn"], an:["ann","anne"], ax:["axe"],
                not:["knot"], him:["hymn"], rap:["wrap"], dug:["doug"], fin:["finn"], bin:["been"],
                cot:["caught"], ring:["wring"], rung:["wrung"], sack:["sac"], pick:["pic"],
-               tick:["tic"], dock:["doc"], what:["watt"] }
+               tick:["tic"], dock:["doc"], what:["watt"],
+               dam:["damn"], fax:["facts"], nix:["nicks"], nun:["none"], sax:["sacks"] }
 SESSION_SIZE = 20
 PROMPT_CAP   = 26
 INTERVALS    = [1,1,2,4,7,12]   // sessions until due, by box 0..5

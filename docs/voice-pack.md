@@ -11,7 +11,7 @@ clip inventory, so the bank can never grow past its voice.
 ## The word table — the file a person edits
 
 **`tools/voice-words.csv` is the permanent repository of the voice.** One row
-per bank word — all 260, so the empty verdict cells double as the listening
+per bank word — all 300, so the empty verdict cells double as the listening
 queue — and one column for every knob and decision that can apply to a word:
 speed, voice, lead, tail, fade, explicit phoneme, period, onset trim, tail
 trim, bright-head, head trim, carrier sentence, cut mode and its thresholds,
