@@ -163,6 +163,11 @@ step("G13 voice-pack", "node tools/voice-check.mjs && node tools/voice-check.mjs
   { label: "problems", regex: /(\d+) problems/, max: 0 },
 ]);
 
+step("G17 governing", "node tools/check-governing.mjs && node tools/check-governing.mjs --self-test", [
+  { label: "files", regex: /(\d+) governing files/, floorKey: "g17_governing_files" },
+  { label: "strays", regex: /(\d+) strays/, max: 0 },
+]);
+
 console.log("\n================ GAUNTLET ================");
 summary.forEach((l) => console.log(l));
 console.log(`\nGauntlet: ${summary.length} gates, ${failures} failed`);

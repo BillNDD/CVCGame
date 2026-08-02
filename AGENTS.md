@@ -4,7 +4,8 @@ This document follows the Microsoft Writing Style Guide.
 
 Read these four, in this order, before you change anything:
 
-1. **`CLAUDE.md`** — the rules that bind every change. S1-S9 are child-safety
+1. **`CLAUDE.md`** — the rules that bind every change, and "What counts as
+   finished work", which defines what may be called done. S1-S9 are child-safety
    rules and are not negotiable. E1-E10 are engineering rules; E7 (run
    `npm run gauntlet` before every push) and E3 (never delete a test, never
    lower a floor) are the ones most often forgotten under time pressure.
@@ -14,7 +15,7 @@ Read these four, in this order, before you change anything:
    Read it before any voice, audio or word-bank work, and before designing a
    listening round. This file exists because this project has twice re-opened a
    settled question and once lost an approved fix for two days.
-4. **`docs/testing-gauntlet.md`** — the 15 gates and what each one is for.
+4. **`docs/testing-gauntlet.md`** — the 16 gates and what each one is for.
 5. **`tools/voice-words.csv`** — for voice work only: the permanent repository
    of the voice. One row per bank word, one column per knob and decision. It is
    the ONLY file a person edits after a listening round; everything else —
