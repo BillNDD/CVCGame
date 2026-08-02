@@ -20,7 +20,7 @@
   "lint:copy": "node tools/extract-engine.mjs && node tools/copy-lint.mjs && node tools/copy-lint.mjs --self-test",
   "check:qa": "node tools/qa-check.mjs && node tools/qa-check.mjs --self-test",
   "gauntlet": "node tools/gauntlet.mjs",
-  "check": "node tools/extract-engine.mjs && vitest run && node tools/copy-lint.mjs && node tools/copy-lint.mjs --self-test && node tools/doc-truth.mjs && node tools/doc-truth.mjs --self-test && node tools/qa-check.mjs && node tools/qa-check.mjs --self-test && node tools/voice-check.mjs && node tools/voice-check.mjs --self-test"
+  "check": "node tools/extract-engine.mjs && vitest run && node tools/copy-lint.mjs && node tools/copy-lint.mjs --self-test && node tools/doc-truth.mjs && node tools/doc-truth.mjs --self-test && node tools/qa-check.mjs && node tools/qa-check.mjs --self-test && node tools/voice-check.mjs && node tools/voice-check.mjs --self-test && node tools/check-governing.mjs && node tools/check-governing.mjs --self-test"
  },
  "devDependencies": {
   "@testing-library/dom": "^10.4.1",

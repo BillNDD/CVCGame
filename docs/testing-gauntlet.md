@@ -34,7 +34,8 @@ This document follows the Microsoft Writing Style Guide.
 ## When the gates run
 
 `npm run check` runs before every push: the whole Vitest suite and the sub-minute gates
-(G11 copy, G16 doc-truth, G12 QA count, G13 voice pack), each with its negative controls.
+(G11 copy, G16 doc-truth, G12 QA count, G13 voice pack, G17 governing files), each with its
+negative controls.
 The full gauntlet — mutants, coverage, the build, and the browser gates — runs at release
 time only: locally when the owner asks for a beta or a version release, and on CI when the
 release's v* tag is published, as a recorded second opinion on the exact released commit.
@@ -286,6 +287,19 @@ engine, never a hand-kept list.
   must report every one.
 - Baseline floors: `g13_clips` (276) and `g13_engine_tests` (6).
 - To re-render the pack after the bank grows: `docs/voice-pack.md`.
+
+## G17. Governing files
+
+- "What counts as finished work" (CLAUDE.md) bans new status files, progress logs and
+  session summaries: every fact has one owning document. This gate makes the ban
+  mechanical: every tracked `.md`, `.json` and `.csv` must be a named governing file or
+  product machinery matched by an allowed pattern; anything else fails the build until the
+  owner approves it into the owned set — an owner-visible diff, the same shape as the
+  dependency rule.
+- Negative control: `--self-test` plants a `PROGRESS.md` and a stray `status.json`; the
+  detector must report both and still accept the real tree.
+- Baseline floor: `g17_governing_files` (19).
+- Run: `node tools/check-governing.mjs`
 
 ## G14. Update system
 
