@@ -91,6 +91,13 @@ The first app version is 1.0.0-beta.1. The app stays in beta until version 1.0 i
   than added to. Trimming the fuzz off "hen" was tried and rejected: 60 ms made it worse and
   100 ms cut into the n itself, so it ships untrimmed. Two clips of 276 changed, and each is
   the same file, byte for byte, that the listener approved.
+- New: free play. A second control on the home screen starts an endless practice mode for a
+  child and a grown-up together: the same words a session would serve, the same microphone
+  and grading and praise, but against a throwaway copy of the progress — rights and wrongs
+  in free play never touch the boxes, the schedule, the log or the session count, and four
+  tests prove nothing is ever written. The header says "FREE PLAY" with a count of words
+  read instead of a progress bar, blocks roll seamlessly into the next, nothing ever says
+  "Finish!", and leaving needs no save-or-discard because there is nothing to save.
 - Changed: the word now sits at the visual centre of the stage. The stage centres its whole
   block, but the block carries two reserved rows below the word — the tiles and the sentence,
   116 px of them outside the feedback phase — so the word itself rode at 42 percent of the

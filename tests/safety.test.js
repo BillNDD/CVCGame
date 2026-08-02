@@ -677,3 +677,75 @@ describe("G10 safety — S6 and S7: no network, big controls", () => {
     expect(sized(".wq-cta{min-height:40px}.wq-sbtn{min-height:40px;min-width:40px}")).toBe(false);
   });
 });
+
+/* Free play (SPEC section 6): the same loop, endless, against a throwaway
+   clone - and NOTHING is ever written. This is the mode's whole promise to
+   the parent, so it gets the same treatment as a safety rule: the tests
+   below prove no grade, no exit, and no amount of play reaches the save,
+   with a real session as the control proving the probe can see a write. */
+describe("G10 — free play never touches the save", () => {
+  const enterFreePlay = async () => {
+    render(createElement(App));
+    await flush(0);
+    fireEvent.click(screen.getByText("🎈 Free play"));
+    await flush(0);
+  };
+  const gradeOne = async (label) => {
+    fireEvent.keyDown(screen.getByLabelText(label), { key: "Enter" });
+    await flush(500);
+    fireEvent.click(screen.getByText(/Next word/));
+    await flush(0);
+  };
+
+  it("40: rights, wrongs and leaving write nothing at all", async () => {
+    await enterFreePlay();
+    const before = mockSave.mock.calls.length;
+    await gradeOne("✓ got it (hold)");
+    await gradeOne("↻ not yet (hold)");
+    await gradeOne("~ close (hold)");
+    expect(mockSave.mock.calls.length).toBe(before);
+    fireEvent.click(screen.getByLabelText("Leave session"));
+    await flush(0);
+    expect(mockSave.mock.calls.length).toBe(before);
+    /* straight home - no save/discard dialog, because there is nothing to save */
+    expect(screen.getByText("▶️ Begin Session")).toBeTruthy();
+    expect(screen.queryByText("Finish early?")).toBeNull();
+  });
+
+  it("41 (control): the same grades in a real session DO reach the save", async () => {
+    render(createElement(App));
+    await flush(0);
+    fireEvent.click(screen.getByText("▶️ Begin Session"));
+    await flush(0);
+    const before = mockSave.mock.calls.length;
+    fireEvent.keyDown(screen.getByLabelText("✓ got it (hold)"), { key: "Enter" });
+    await flush(500);
+    expect(mockSave.mock.calls.length).toBeGreaterThan(before);
+  });
+
+  it("42: free play never says Finish and rolls into a new block", async () => {
+    await enterFreePlay();
+    /* a fresh save on Level 1 builds a 12-word block; walk it to the end */
+    for (let i = 0; i < 11; i++) await gradeOne("✓ got it (hold)");
+    fireEvent.keyDown(screen.getByLabelText("✓ got it (hold)"), { key: "Enter" });
+    await flush(500);
+    /* the last slot of the block still says Next word - free play has no end */
+    expect(screen.getByText("Next word ➡️")).toBeTruthy();
+    expect(screen.queryByText(/Finish!/)).toBeNull();
+    fireEvent.click(screen.getByText("Next word ➡️"));
+    await flush(0);
+    /* a new block began seamlessly: still in the session, no Done screen */
+    expect(document.querySelector(".wq-word")).toBeTruthy();
+    expect(screen.queryByText(/Great reading today/)).toBeNull();
+    expect(screen.getByText("12 words")).toBeTruthy();
+  });
+
+  it("43: the header says FREE PLAY with a count-up, never x of 20", async () => {
+    await enterFreePlay();
+    expect(screen.getByText("FREE PLAY")).toBeTruthy();
+    expect(screen.getByText("0 words")).toBeTruthy();
+    await gradeOne("✓ got it (hold)");
+    expect(screen.getByText("1 word")).toBeTruthy();
+    expect(screen.queryByText(/\/12|\/20/)).toBeNull();
+  });
+});
