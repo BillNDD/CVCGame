@@ -118,6 +118,14 @@ export default function App() {
   const [resetStage, setResetStage] = useState(0);
   const [openLevels, setOpenLevels] = useState({});       // P2-4
   const [nameDraft, setNameDraft] = useState("");
+  /* Free play (SPEC section 6): the same loop against a THROWAWAY clone.
+     Results land in fpState.current so the mix keeps evolving, and the real
+     save is never written - not the boxes, the schedule, the log, or the
+     session count. Promotion is pinned off for the visit: a level-up that is
+     not real must never be celebrated. */
+  const [freePlay, setFreePlay] = useState(false);
+  const [fpCount, setFpCount] = useState(0);
+  const fpState = useRef(null);
 
   const recRef = useRef(null);
   const snapRef = useRef(null);            // N-3: word-state snapshot for lossless discard
@@ -215,6 +223,21 @@ export default function App() {
     setScreen("session");
   }
 
+  function beginFreePlay() {
+    unlockVoice();
+    fpState.current = structuredClone(stateRef.current);
+    const q = buildSession(fpState.current);
+    setFreePlay(true); setFpCount(0);
+    setQueue(q); setQi(0);
+    setFirstResults({}); setOrder([]); setRetries({}); setSeenTwice({});
+    setPromptCount(0); setPhase("ready"); setHeard(""); setLastGrade(null);
+    setMicTried(false); setAdvanceReady(true); advanceLive.current = true; setExitAsk(false);
+    deadStrikesRef.current = 0;
+    gradedRef.current = null;
+    setMicNote(micVisitBlock ? MIC_GONE_MSG : "");
+    setScreen("session");
+  }
+
   /* Bring the advance control alive after `ms`. A later call can push the
      moment further out — the reveal turns out to be longer than the short
      guard — but never takes a control back once the child can see it live. */
@@ -269,8 +292,10 @@ export default function App() {
 
   /* Everything advanceDecision needs is already known in this render, so the
      label the child reads and the queue next() builds come from one value. */
-  const { retry: retryComing, finishes } = advanceDecision({
-    lastGrade, retries, firstResults, word: currentWord, promptCount, queue, qi });
+  const { retry: retryComing, finishes } = freePlay
+    ? { retry: lastGrade === "wrong" && (retries[currentWord] || 0) === 0 && firstResults[currentWord] !== undefined,
+        finishes: false }
+    : advanceDecision({ lastGrade, retries, firstResults, word: currentWord, promptCount, queue, qi });
 
   function grade(result) {
     /* One attempt, one result. Both result controls can be held at once — two
@@ -283,7 +308,9 @@ export default function App() {
     gradedRef.current = qi;
     hardStopRec();
     clearNote();
-    const s = structuredClone(stateRef.current);
+    /* Free play grades the throwaway clone, so the mix evolves but the real
+       save is untouched - setState and persist are never reached. */
+    const s = freePlay ? fpState.current : structuredClone(stateRef.current);
     const word = queue[qi];
     const isRetry = firstResults[word] !== undefined;
     if (!isRetry) {
@@ -291,11 +318,12 @@ export default function App() {
       applyResult(s.words[word], result, s.sessionsCompleted + 1);
       setFirstResults(fr => ({ ...fr, [word]: result }));
       setOrder(o => [...o, word]);
+      if (freePlay) setFpCount(c => c + 1);
     } else {
       setRetries(r => ({ ...r, [word]: (r[word] || 0) + 1 }));
       if (result === "correct" && s.words[word]) s.words[word].dueAt = s.sessionsCompleted + 2;
     }
-    setState(s); persist(s);
+    if (!freePlay) { setState(s); persist(s); }
     setLastGrade(result); setPhase("feedback");
     setAdvanceReady(false); advanceLive.current = false; fillTrack.current = null; setWaitFrom(0);
     /* P0-3, and CVC-UX-001: the reveal runs about five to seven seconds —
@@ -331,6 +359,20 @@ export default function App() {
     }
     const np = promptCount + 1;
     setPromptCount(np); setHeard(""); setLastGrade(null); setMicTried(false);
+    if (freePlay) {
+      /* Endless: a spent block is rebuilt from the clone the results landed
+         in, so a word read well recedes and a missed word returns - as-if
+         progress that is thrown away on exit. No Done screen, no cap. */
+      if (qi + 1 >= q.length) {
+        fpState.current.sessionsCompleted += 1;      // the clone's clock, so reviews come due
+        const q2 = buildSession(fpState.current);
+        setQueue(q2); setQi(0);
+        setFirstResults({}); setOrder([]); setRetries({}); setSeenTwice({});
+        gradedRef.current = null;
+        setPhase("ready");
+      } else { setQi(qi + 1); setPhase("ready"); }
+      return;
+    }
     if (qi + 1 >= q.length || np >= PROMPT_CAP) finishSession(false);
     else { setQi(qi + 1); setPhase("ready"); }
   }
@@ -374,6 +416,12 @@ export default function App() {
      made the dialog's own controls move under their finger. */
   function askExit() {
     hardStopRec();
+    if (freePlay) {                       // nothing to save, nothing to ask
+      hush(); stopClips();
+      setFreePlay(false); fpState.current = null;
+      setScreen("home");
+      return;
+    }
     setExitAsk(true);
   }
 
@@ -650,7 +698,7 @@ export default function App() {
   if (screen === "home") {
     return <HomeScreen state={state} L={L} kid={kid} masteredCount={masteredCount}
       persistent={persistent} readOnly={readOnly}
-      onBegin={beginSession} onParent={() => setScreen("parent")} toast={toast} />;
+      onBegin={beginSession} onFreePlay={beginFreePlay} onParent={() => setScreen("parent")} toast={toast} />;
   }
 
   if (screen === "session" && currentWord) {
@@ -658,6 +706,7 @@ export default function App() {
       micNote={micNote} adultNote={parentNote} phase={phase} lastGrade={lastGrade} order={order}
       firstResults={firstResults} answered={answered} totalQ={totalQ}
       advanceReady={advanceReady} waitMs={waitMs} waitFrom={waitFrom} finishes={finishes} micTried={micTried} listening={listening}
+      freePlay={freePlay} fpCount={fpCount}
       seenTwice={seenTwice} heard={heard} exitAsk={exitAsk}
       onExitAsk={askExit} grade={grade} next={next}
       startRec={startRec} softStop={softStop} replay={replay}

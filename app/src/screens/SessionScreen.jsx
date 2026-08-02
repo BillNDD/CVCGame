@@ -118,6 +118,7 @@ function ExitDialog({ answered, handleExit }) {
 export default function SessionScreen({
   state, L, kid, currentWord, micNote, adultNote, phase, lastGrade, order, firstResults,
   answered, totalQ, advanceReady, waitMs, waitFrom, finishes, micTried, listening, seenTwice, heard, exitAsk,
+  freePlay, fpCount,
   onExitAsk, grade, next, startRec, softStop, replay, handleExit, advanceRef, toast,
 }) {
   const liveRef = useRef(null);
@@ -127,11 +128,17 @@ export default function SessionScreen({
     <Frame>
       <Zone.Header>
         <button className="wq-btn-plain" onClick={onExitAsk} aria-label="Leave session">🏠</button>
-        <div style={{ flex: 1, minWidth: 0, padding: "0 10px" }}>
-          <ProgressBar order={order} firstResults={firstResults} total={totalQ} />
+        <div style={{ flex: 1, minWidth: 0, padding: "0 10px", textAlign: "center" }}>
+          {/* Free play replaces the bar and the x/20: both promise an ending
+              this mode does not have. A label says what mode this is, and a
+              count-up says how far the play has come. */}
+          {freePlay
+            ? <span className="wq-chip" style={{ fontSize: 10.5, letterSpacing: ".12em" }}>FREE PLAY</span>
+            : <ProgressBar order={order} firstResults={firstResults} total={totalQ} />}
         </div>
         {/* P2-9 — precise count, promoted into the header at tabular mono */}
-        <span className="wq-mono" style={{ fontSize: 14, fontWeight: 800, color: C.ink }}>{answered}/{totalQ}</span>
+        <span className="wq-mono" style={{ fontSize: 14, fontWeight: 800, color: C.ink }}>
+          {freePlay ? fpCount + (fpCount === 1 ? " word" : " words") : answered + "/" + totalQ}</span>
         <span className="wq-chip" style={{ marginLeft: 8 }}>{state.level} {L.emoji}</span>
       </Zone.Header>
 

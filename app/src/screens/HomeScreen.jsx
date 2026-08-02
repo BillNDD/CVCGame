@@ -3,7 +3,7 @@ import Frame from "../components/Frame.jsx";
 import Zone from "../components/Zone.jsx";
 import Toast from "../components/Toast.jsx";
 
-export default function HomeScreen({ state, L, kid, masteredCount, persistent, readOnly, onBegin, onParent, toast }) {
+export default function HomeScreen({ state, L, kid, masteredCount, persistent, readOnly, onBegin, onFreePlay, onParent, toast }) {
   return (
     <Frame>
       <Zone.Header>
@@ -37,6 +37,13 @@ export default function HomeScreen({ state, L, kid, masteredCount, persistent, r
 
       <Zone.Rail>
         <button className="wq-cta" onClick={onBegin}>▶️ Begin Session</button>
+        {/* Free play: the same loop, endless, and nothing is ever written.
+            A full 56 px child control (S7), styled quieter than the one
+            session control so the main path stays unmistakable. */}
+        <button className="wq-cta" onClick={onFreePlay}
+          style={{ marginTop: 10, background: "rgba(255,255,255,.85)", color: C.ink, boxShadow: "none" }}>
+          🎈 Free play
+        </button>
       </Zone.Rail>
       {/* P2-7 — parent-facing copy lives in the grown-up strip, not under the child's button */}
       <Zone.Strip>
