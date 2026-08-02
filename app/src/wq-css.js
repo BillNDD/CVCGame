@@ -39,6 +39,16 @@ const CSS = `
    nothing to say it was there. Spacers collapse instead, so tall content stays
    reachable. Found by an audit of the running build, 2026-07-29. */
 .wq-stage::before,.wq-stage::after{content:"";flex:1 1 auto;min-height:0}
+/* The word sits at the stage's visual centre, not the block's. The block
+   carries two reserved rows BELOW the word (tiles 52+8, message 52+4 = 116px)
+   and only the small label above it (~22px), so centring the block leaves the
+   word riding high - measured at 42 percent of the stage. The top spacer takes
+   the difference (116 - 22 = 94px) as extra basis, which drops the word's
+   midline onto the stage's midline. On a short stage the basis shrinks with
+   the spacer, so nothing is ever pushed out of reach; the shift is constant
+   within a session, so the word still never moves between phases (P0-2).
+   Chosen by the owner from measured candidates, 2026-08-03. */
+.wq-stage::before{flex-basis:94px}
 .wq-stage>*{margin:0 auto;flex:0 0 auto}
 .wq-stage.wq-scroll>*{margin:10px auto}
 .wq-rail{flex:0 0 auto;padding:8px 14px 6px}

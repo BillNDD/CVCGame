@@ -91,6 +91,13 @@ The first app version is 1.0.0-beta.1. The app stays in beta until version 1.0 i
   than added to. Trimming the fuzz off "hen" was tried and rejected: 60 ms made it worse and
   100 ms cut into the n itself, so it ships untrimmed. Two clips of 276 changed, and each is
   the same file, byte for byte, that the listener approved.
+- Changed: the word now sits at the visual centre of the stage. The stage centres its whole
+  block, but the block carries two reserved rows below the word — the tiles and the sentence,
+  116 px of them outside the feedback phase — so the word itself rode at 42 percent of the
+  stage's height. The top spacer now carries that difference, putting the word's midline on
+  the stage's midline on a phone (measured 49.9 percent) and degrading gracefully on very
+  short screens. The word still never moves between phases. Chosen by the owner from four
+  measured candidates.
 - New: the word bank grows from 260 to 300 words. Levels 2 to 7 gain 40 new decodable
   words chosen inside the bank's own rules — at most 4 letters, 2 or 3 sound units, no
   blends, no vowel teams — with five new same-sound entries (dam, fax, nix, nun, sax) so
