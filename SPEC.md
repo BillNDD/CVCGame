@@ -59,11 +59,12 @@ These rules are mandatory.
 - Use a spaced-repetition engine. Mix current-level words, due reviews, and known words. Add
   digraph words step by step.
 - Start a session only with the "Begin Session" control.
-- Free play: an endless practice mode a parent can start from the home screen. It serves the
-  same mix a session would, against a throwaway copy of the child's progress, and writes
-  nothing: no boxes, no schedule, no log, no session count. Promotion never fires in free
-  play, and no level-up is ever celebrated there, because a level-up that is not real must
-  not be shown.
+- Free play: an endless practice mode a parent can start from the home screen. The tap opens
+  a chooser first: truly random play, which serves any word from the whole bank with every
+  level in the draw, or the child's level, which serves the same mix a session would. Both
+  run against a throwaway copy of the child's progress and write nothing: no boxes, no
+  schedule, no log, no session count. Promotion never fires in free play, and no level-up is
+  ever celebrated there, because a level-up that is not real must not be shown.
 
 ## 3. Word bank
 
@@ -360,14 +361,21 @@ Session, adult mode. The stage asks the child to say the word aloud. The adult g
 with the strip controls.
 
 Session, free play. Entered from the second control on the home screen ("Free play", a full
-child-size control styled quieter than "Begin Session"). The loop is the session loop — the
-same phases, microphone rules, feedback sentences, praise, reveal and wait — but it runs
-against a throwaway copy of the progress and never writes. The header shows a "FREE PLAY"
-label and a count of words read instead of the progress bar and the x-of-20 count, both of
-which promise an ending this mode does not have; the level chip stays. When a block of words
-runs out the next is built from the copy, so a word read well recedes and a missed word
-returns, and the advance control never reads "Finish!". The home control leaves at once —
-no save-or-discard dialog, because there is nothing to save — and the copy is thrown away.
+child-size control styled quieter than "Begin Session"). The tap opens a chooser before any
+word is shown, addressed to the grown-up, with two full child-size choices and a "Back"
+control that starts nothing: "Truly random", any word from the whole bank, and the child's
+level, the same mix a session would serve. The loop in both is the session loop — the same
+phases, microphone rules, feedback sentences, praise, reveal and wait — but it runs against
+a throwaway copy of the progress and never writes. The header shows a "FREE PLAY" label and
+a count of words read instead of the progress bar and the x-of-20 count, both of which
+promise an ending this mode does not have. In level play the level chip stays; in truly
+random play a dice mark replaces it, because a level number would claim a level the mode is
+not serving. When a block of words runs out the next is built: in level play from the copy,
+so a word read well recedes and a missed word returns; in truly random play as a fresh
+uniform draw from all levels at once, without repeats inside the block and never opening on
+the word just read. The advance control never reads "Finish!". The home control leaves at
+once — no save-or-discard dialog, because there is nothing to save — and the copy is thrown
+away.
 
 The strip controls. Three result controls: got it, close, not yet. A pointer must hold a control
 for 450 ms. A fill shows the hold progress. A keyboard operates the controls directly, and so

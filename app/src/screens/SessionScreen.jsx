@@ -118,7 +118,7 @@ function ExitDialog({ answered, handleExit }) {
 export default function SessionScreen({
   state, L, kid, currentWord, micNote, adultNote, phase, lastGrade, order, firstResults,
   answered, totalQ, advanceReady, waitMs, waitFrom, finishes, micTried, listening, seenTwice, heard, exitAsk,
-  freePlay, fpCount,
+  freePlay, fpCount, fpMode,
   onExitAsk, grade, next, startRec, softStop, replay, handleExit, advanceRef, toast,
 }) {
   const liveRef = useRef(null);
@@ -139,7 +139,10 @@ export default function SessionScreen({
         {/* P2-9 — precise count, promoted into the header at tabular mono */}
         <span className="wq-mono" style={{ fontSize: 14, fontWeight: 800, color: C.ink }}>
           {freePlay ? fpCount + (fpCount === 1 ? " word" : " words") : answered + "/" + totalQ}</span>
-        <span className="wq-chip" style={{ marginLeft: 8 }}>{state.level} {L.emoji}</span>
+        {/* Truly random free play serves every level at once, so the level
+            chip would be a false statement there. The dice says what is true. */}
+        <span className="wq-chip" style={{ marginLeft: 8 }}>
+          {freePlay && fpMode === "random" ? "🎲" : state.level + " " + L.emoji}</span>
       </Zone.Header>
 
       <SessionStage state={state} currentWord={currentWord} phase={phase} fb={fb} liveRef={liveRef} micNote={micNote} adultNote={adultNote} />

@@ -94,10 +94,16 @@ The first app version is 1.0.0-beta.1. The app stays in beta until version 1.0 i
 - New: free play. A second control on the home screen starts an endless practice mode for a
   child and a grown-up together: the same words a session would serve, the same microphone
   and grading and praise, but against a throwaway copy of the progress — rights and wrongs
-  in free play never touch the boxes, the schedule, the log or the session count, and four
+  in free play never touch the boxes, the schedule, the log or the session count, and seven
   tests prove nothing is ever written. The header says "FREE PLAY" with a count of words
   read instead of a progress bar, blocks roll seamlessly into the next, nothing ever says
   "Finish!", and leaving needs no save-or-discard because there is nothing to save.
+- New: the free-play chooser. The tap opens a question before any word is shown: truly
+  random play — any word from all 300, every level in the draw, no repeats inside a block
+  and never the same word twice in a row — or the child's level, the same mix a session
+  would serve. In truly random play a dice mark replaces the level chip in the header,
+  because a level number would claim a level the mode is not serving. A "Back" control
+  starts nothing.
 - Changed: the word now sits at the visual centre of the stage. The stage centres its whole
   block, but the block carries two reserved rows below the word — the tiles and the sentence,
   116 px of them outside the feedback phase — so the word itself rode at 42 percent of the

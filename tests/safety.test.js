@@ -684,10 +684,16 @@ describe("G10 safety — S6 and S7: no network, big controls", () => {
    below prove no grade, no exit, and no amount of play reaches the save,
    with a real session as the control proving the probe can see a write. */
 describe("G10 — free play never touches the save", () => {
-  const enterFreePlay = async () => {
+  /* The tap opens a chooser first (SPEC section 6): truly random, or the
+     child's level. Tests that only care about free play itself enter through
+     the level choice, matched by its emoji because the home card also says
+     "Level 1". */
+  const enterFreePlay = async (choice = /🎯 Level/) => {
     render(createElement(App));
     await flush(0);
     fireEvent.click(screen.getByText("🎈 Free play"));
+    await flush(0);
+    fireEvent.click(screen.getByText(choice));
     await flush(0);
   };
   const gradeOne = async (label) => {
@@ -747,5 +753,53 @@ describe("G10 — free play never touches the save", () => {
     await gradeOne("✓ got it (hold)");
     expect(screen.getByText("1 word")).toBeTruthy();
     expect(screen.queryByText(/\/12|\/20/)).toBeNull();
+  });
+
+  it("44: a chooser stands between the tap and the game, and Back starts nothing", async () => {
+    render(createElement(App));
+    await flush(0);
+    const before = mockSave.mock.calls.length;
+    fireEvent.click(screen.getByText("🎈 Free play"));
+    await flush(0);
+    /* no word yet - the grown-up's choice comes first */
+    expect(document.querySelector(".wq-word")).toBeNull();
+    expect(screen.getByText("🎲 Truly random")).toBeTruthy();
+    expect(screen.getByText(/🎯 Level 1/)).toBeTruthy();
+    fireEvent.click(screen.getByText("Back"));
+    await flush(0);
+    expect(screen.getByText("▶️ Begin Session")).toBeTruthy();
+    expect(screen.queryByText("🎲 Truly random")).toBeNull();
+    expect(document.querySelector(".wq-word")).toBeNull();
+    expect(mockSave.mock.calls.length).toBe(before);
+  });
+
+  it("45: truly random draws from the whole bank, not the child's level", async () => {
+    /* Math.random pinned high makes every draw take the end of the pool, so
+       the first word served is the bank's LAST word - "ping", deep in
+       Level 7. A fresh Level 1 save can never see it in a session or in
+       level free play: buildSession serves Level 1 plus review only. The
+       expected word is a literal on purpose (E4). */
+    const spy = vi.spyOn(Math, "random").mockReturnValue(0.9999999);
+    try {
+      await enterFreePlay("🎲 Truly random");
+      expect(document.querySelector(".wq-word").textContent).toBe("ping");
+    } finally { spy.mockRestore(); }
+  });
+
+  it("46: random play writes nothing and says what it is", async () => {
+    await enterFreePlay("🎲 Truly random");
+    expect(screen.getByText("FREE PLAY")).toBeTruthy();
+    /* the dice chip: the level chip would claim a level this mode is not serving */
+    expect(screen.getByText("🎲")).toBeTruthy();
+    expect(screen.queryByText(/1 🦊/)).toBeNull();
+    const before = mockSave.mock.calls.length;
+    await gradeOne("✓ got it (hold)");
+    await gradeOne("↻ not yet (hold)");
+    expect(mockSave.mock.calls.length).toBe(before);
+    fireEvent.click(screen.getByLabelText("Leave session"));
+    await flush(0);
+    expect(mockSave.mock.calls.length).toBe(before);
+    expect(screen.getByText("▶️ Begin Session")).toBeTruthy();
+    expect(screen.queryByText("Finish early?")).toBeNull();
   });
 });

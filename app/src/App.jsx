@@ -86,6 +86,35 @@ function advanceDecision({ lastGrade, retries, firstResults, word, promptCount, 
   return { retry, finishes: !retry && (qi + 1 >= queue.length || promptCount + 1 >= PROMPT_CAP) };
 }
 
+/* Free play never finishes and has no prompt cap, so only the retry rule
+   survives the fork. Decided out here so the App body stays under the G6
+   complexity ceiling. */
+function advanceFork(freePlay, args) {
+  if (!freePlay) return advanceDecision(args);
+  return {
+    retry: args.lastGrade === "wrong" && (args.retries[args.word] || 0) === 0
+      && args.firstResults[args.word] !== undefined,
+    finishes: false,
+  };
+}
+
+/* Truly random free play (SPEC section 6): every block is a uniform draw from
+   the WHOLE bank, all levels at once. Draws inside a block are without
+   replacement — a natural repeat would collide with its own first result and
+   be graded as a retry, silently skipping the count-up — and the first draw
+   never equals the word the child just read, so a block boundary can never
+   show the same word twice in a row. */
+const ALL_WORDS = LEVELS.flatMap((l) => l.words);
+function buildRandomBlock(prevWord) {
+  const pool = ALL_WORDS.filter((w) => w !== prevWord);
+  const block = [pool.splice(Math.floor(Math.random() * pool.length), 1)[0]];
+  if (prevWord) pool.push(prevWord);
+  while (block.length < SESSION_SIZE) {
+    block.push(pool.splice(Math.floor(Math.random() * pool.length), 1)[0]);
+  }
+  return block;
+}
+
 export default function App() {
   const [screen, setScreen] = useState("splash");
   const [state, setState] = useState(null);
@@ -126,6 +155,10 @@ export default function App() {
   const [freePlay, setFreePlay] = useState(false);
   const [fpCount, setFpCount] = useState(0);
   const fpState = useRef(null);
+  /* The chooser between the tap and the game: truly random, or the child's
+     level. The mode lives in a ref because only begin and next read it. */
+  const [fpChooser, setFpChooser] = useState(false);
+  const fpMode = useRef("level");
 
   const recRef = useRef(null);
   const snapRef = useRef(null);            // N-3: word-state snapshot for lossless discard
@@ -223,10 +256,12 @@ export default function App() {
     setScreen("session");
   }
 
-  function beginFreePlay() {
+  function beginFreePlay(mode) {
     unlockVoice();
+    fpMode.current = mode;
     fpState.current = structuredClone(stateRef.current);
-    const q = buildSession(fpState.current);
+    const q = mode === "random" ? buildRandomBlock("") : buildSession(fpState.current);
+    setFpChooser(false);
     setFreePlay(true); setFpCount(0);
     setQueue(q); setQi(0);
     setFirstResults({}); setOrder([]); setRetries({}); setSeenTwice({});
@@ -292,10 +327,8 @@ export default function App() {
 
   /* Everything advanceDecision needs is already known in this render, so the
      label the child reads and the queue next() builds come from one value. */
-  const { retry: retryComing, finishes } = freePlay
-    ? { retry: lastGrade === "wrong" && (retries[currentWord] || 0) === 0 && firstResults[currentWord] !== undefined,
-        finishes: false }
-    : advanceDecision({ lastGrade, retries, firstResults, word: currentWord, promptCount, queue, qi });
+  const { retry: retryComing, finishes } =
+    advanceFork(freePlay, { lastGrade, retries, firstResults, word: currentWord, promptCount, queue, qi });
 
   function grade(result) {
     /* One attempt, one result. Both result controls can be held at once — two
@@ -360,12 +393,18 @@ export default function App() {
     const np = promptCount + 1;
     setPromptCount(np); setHeard(""); setLastGrade(null); setMicTried(false);
     if (freePlay) {
-      /* Endless: a spent block is rebuilt from the clone the results landed
-         in, so a word read well recedes and a missed word returns - as-if
-         progress that is thrown away on exit. No Done screen, no cap. */
+      /* Endless: a spent block is rebuilt. In level mode it comes from the
+         clone the results landed in, so a word read well recedes and a missed
+         word returns - as-if progress that is thrown away on exit. In random
+         mode it is a fresh uniform draw that never opens on the word just
+         read. No Done screen, no cap. */
       if (qi + 1 >= q.length) {
-        fpState.current.sessionsCompleted += 1;      // the clone's clock, so reviews come due
-        const q2 = buildSession(fpState.current);
+        let q2;
+        if (fpMode.current === "random") q2 = buildRandomBlock(word);
+        else {
+          fpState.current.sessionsCompleted += 1;    // the clone's clock, so reviews come due
+          q2 = buildSession(fpState.current);
+        }
         setQueue(q2); setQi(0);
         setFirstResults({}); setOrder([]); setRetries({}); setSeenTwice({});
         gradedRef.current = null;
@@ -698,7 +737,8 @@ export default function App() {
   if (screen === "home") {
     return <HomeScreen state={state} L={L} kid={kid} masteredCount={masteredCount}
       persistent={persistent} readOnly={readOnly}
-      onBegin={beginSession} onFreePlay={beginFreePlay} onParent={() => setScreen("parent")} toast={toast} />;
+      onBegin={beginSession} onFreePlay={() => setFpChooser(true)} onParent={() => setScreen("parent")}
+      fpChooser={fpChooser} onFreePlayChoose={beginFreePlay} onFreePlayCancel={() => setFpChooser(false)} toast={toast} />;
   }
 
   if (screen === "session" && currentWord) {
@@ -706,7 +746,7 @@ export default function App() {
       micNote={micNote} adultNote={parentNote} phase={phase} lastGrade={lastGrade} order={order}
       firstResults={firstResults} answered={answered} totalQ={totalQ}
       advanceReady={advanceReady} waitMs={waitMs} waitFrom={waitFrom} finishes={finishes} micTried={micTried} listening={listening}
-      freePlay={freePlay} fpCount={fpCount}
+      freePlay={freePlay} fpCount={fpCount} fpMode={fpMode.current}
       seenTwice={seenTwice} heard={heard} exitAsk={exitAsk}
       onExitAsk={askExit} grade={grade} next={next}
       startRec={startRec} softStop={softStop} replay={replay}
