@@ -778,11 +778,18 @@ describe("G10 — free play never touches the save", () => {
        the first word served is the bank's LAST word - "ping", deep in
        Level 7. A fresh Level 1 save can never see it in a session or in
        level free play: buildSession serves Level 1 plus review only. The
-       expected word is a literal on purpose (E4). */
+       expected word is a literal on purpose (E4); if the bank ever gains a
+       new last word, this is the line to update. */
     const spy = vi.spyOn(Math, "random").mockReturnValue(0.9999999);
     try {
       await enterFreePlay("🎲 Truly random");
       expect(document.querySelector(".wq-word").textContent).toBe("ping");
+      /* control: the SAME pin through the level door serves a Level 1 word -
+         the pin alone cannot conjure "ping"; only the random door can. */
+      cleanup();
+      await enterFreePlay();
+      expect(["at", "an", "am", "ax", "in", "it", "if", "is", "on", "ox", "up", "us"])
+        .toContain(document.querySelector(".wq-word").textContent);
     } finally { spy.mockRestore(); }
   });
 
@@ -791,7 +798,7 @@ describe("G10 — free play never touches the save", () => {
     expect(screen.getByText("FREE PLAY")).toBeTruthy();
     /* the dice chip: the level chip would claim a level this mode is not serving */
     expect(screen.getByText("🎲")).toBeTruthy();
-    expect(screen.queryByText(/1 🦊/)).toBeNull();
+    expect(screen.queryByText(/1 🐣/)).toBeNull();
     const before = mockSave.mock.calls.length;
     await gradeOne("✓ got it (hold)");
     await gradeOne("↻ not yet (hold)");
@@ -801,5 +808,36 @@ describe("G10 — free play never touches the save", () => {
     expect(mockSave.mock.calls.length).toBe(before);
     expect(screen.getByText("▶️ Begin Session")).toBeTruthy();
     expect(screen.queryByText("Finish early?")).toBeNull();
+  });
+
+  it("47: a spent random block rolls into a fresh draw that never repeats the boundary word", async () => {
+    /* Pinned at the top of the pool, the first block is the bank's last 20
+       words in reverse - "ping" first, "lock" last - with no repeats, since
+       a repeat inside a block would collide with its own first result and be
+       graded as a retry. At the boundary the pin moves to 0.935, the value
+       that would land EXACTLY on "lock" in an unguarded 300-word pool: the
+       guard steps over it to "rock", and the word the child just read never
+       opens the next block. "pick" then proves "lock" was pushed back into
+       the pool - excluded from the first slot only, not from the game. All
+       literals (E4). */
+    const spy = vi.spyOn(Math, "random").mockReturnValue(0.9999999);
+    try {
+      await enterFreePlay("🎲 Truly random");
+      const seen = [];
+      for (let i = 0; i < 19; i++) {
+        seen.push(document.querySelector(".wq-word").textContent);
+        await gradeOne("✓ got it (hold)");
+      }
+      seen.push(document.querySelector(".wq-word").textContent);
+      expect(seen[0]).toBe("ping");
+      expect(seen[19]).toBe("lock");
+      expect(new Set(seen).size).toBe(20);
+      spy.mockReturnValue(0.935);
+      await gradeOne("✓ got it (hold)");
+      expect(screen.getByText("20 words")).toBeTruthy();
+      expect(document.querySelector(".wq-word").textContent).toBe("rock");
+      await gradeOne("✓ got it (hold)");
+      expect(document.querySelector(".wq-word").textContent).toBe("pick");
+    } finally { spy.mockRestore(); }
   });
 });

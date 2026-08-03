@@ -386,14 +386,19 @@ for (const height of [430, 555, 720, 950]) {
     if (!shown) { fail(`no toast at ${vp.width}x${vp.height}`, "the damaged-save boot raised none"); await context.close(); continue; }
     const t = await page.locator(".wq-toast").boundingBox();
     /* The home rail holds two child controls — Begin Session and Free play —
-       and the toast must clear them BOTH, so the worst overlap is the verdict. */
-    let overlap = -Infinity;
-    for (const btn of await page.locator(".wq-rail .wq-cta").all()) {
-      const c = await btn.boundingBox();
-      overlap = Math.max(overlap, Math.min(t.y + t.height, c.y + c.height) - Math.max(t.y, c.y));
+       and the toast must clear them BOTH, so the worst overlap is the verdict.
+       An empty or unmeasurable rail must FAIL, never pass vacuously: a
+       measurement of zero controls proves nothing about the toast. */
+    const boxes = [];
+    for (const btn of await page.locator(".wq-rail .wq-cta").all()) boxes.push(await btn.boundingBox());
+    if (boxes.length !== 2 || boxes.some((b) => !b)) {
+      fail(`the home rail did not offer two measurable child controls at ${vp.width}x${vp.height}`, `measured ${boxes.length}`);
+    } else {
+      let overlap = -Infinity;
+      for (const c of boxes) overlap = Math.max(overlap, Math.min(t.y + t.height, c.y + c.height) - Math.max(t.y, c.y));
+      if (overlap <= 0) ok(`the toast clears both child controls at ${vp.width}x${vp.height} (gap ${Math.round(-overlap)}px)`);
+      else fail(`the toast covers a child control at ${vp.width}x${vp.height}`, `overlap ${Math.round(overlap)}px`);
     }
-    if (overlap <= 0) ok(`the toast clears both child controls at ${vp.width}x${vp.height} (gap ${Math.round(-overlap)}px)`);
-    else fail(`the toast covers a child control at ${vp.width}x${vp.height}`, `overlap ${Math.round(overlap)}px`);
     await context.close();
   }
 }
@@ -447,6 +452,22 @@ for (const height of [430, 555, 720, 950]) {
   if (rand && lvl && rand.height >= 56 && lvl.height >= 56)
     ok(`both free-play choices are child-sized (${Math.round(rand.height)}px and ${Math.round(lvl.height)}px)`);
   else fail("a free-play choice is under 56 px", JSON.stringify({ rand, lvl }));
+  /* A choice must LOOK like a control on the white card. The first cut of the
+     level choice was white on white with no border and no shadow — a line of
+     floating text — and nothing measured it. Now something does: each choice
+     needs a background that differs from the card, a border of 2 px or more,
+     or a real shadow. */
+  const bounded = await page.evaluate(() => {
+    const card = document.querySelector(".wq-modal");
+    const cardBg = getComputedStyle(card).backgroundColor;
+    return [...card.querySelectorAll(".wq-cta")].map((b) => {
+      const s = getComputedStyle(b);
+      return { bg: s.backgroundColor, border: parseFloat(s.borderTopWidth) || 0, shadow: s.boxShadow, cardBg };
+    });
+  });
+  if (bounded.length === 2 && bounded.every((d) => d.bg !== d.cardBg || d.border >= 2 || d.shadow !== "none"))
+    ok("both free-play choices are visibly bounded on the card");
+  else fail("a free-play choice melts into the card", JSON.stringify(bounded));
   await page.getByRole("button", { name: "Back" }).click();
   const home = await page.getByRole("button", { name: "Begin Session" }).isVisible();
   const modals = await page.locator(".wq-modal").count();

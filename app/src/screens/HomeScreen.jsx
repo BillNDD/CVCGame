@@ -16,8 +16,11 @@ function FreePlayChooser({ level, L, onChoose, onCancel }) {
       </p>
       <div style={{ display: "grid", gap: 8 }}>
         <button className="wq-cta" onClick={() => onChoose("random")}>🎲 Truly random</button>
+        {/* The quiet styling the home rail uses would melt into this WHITE
+            card - white on white, no edge at all - so the second choice takes
+            the exit dialog's outlined pattern instead. */}
         <button className="wq-cta" onClick={() => onChoose("level")}
-          style={{ background: "rgba(255,255,255,.9)", color: C.ink, boxShadow: "none" }}>
+          style={{ background: "#fff", color: C.ink, border: "2px solid " + C.ink2, boxShadow: "none" }}>
           🎯 Level {level} {L.emoji} words
         </button>
         <button className="wq-btn-plain" onClick={onCancel} style={{ justifySelf: "center" }}>Back</button>

@@ -8,7 +8,7 @@
    had no way to tell which was wrong. Counting steps (G12) cannot catch it;
    only binding the words to the code can.
 
-   Four rules, every expected value read from the document and checked
+   Six rules, every expected value read from the document and checked
    against the source, never the other way round:
    1. Every child-facing sentence quoted in SPEC section 8 exists verbatim in
       the app source.
@@ -22,11 +22,16 @@
       the bitrate — matches the recipe inside the shipped pack. SPEC claimed
       speed 0.7 for months after the pack moved to 0.85, and nothing noticed:
       a reader cannot hear a manifest, and the pack gate cannot read prose.
+   6. The bank count the free-play chooser tells the grown-up ("any word from
+      all 300") matches the bank. The bank grew from 260 to 300 in one
+      commit; the next growth must not leave a parent-facing sentence lying.
 
    Negative control: --self-test corrupts each document in memory and
    requires every detector to fire.
    Run: node tools/doc-truth.mjs */
 import { readFileSync } from "node:fs";
+
+const { LEVELS } = await import("../src/engine.js");
 
 const problems = [];
 const rule = (okay, name, detail) => {
@@ -50,6 +55,8 @@ const real = {
   app: readFileSync("app/src/App.jsx", "utf8"),
   engine: readFileSync("src/engine.js", "utf8"),
   hold: readFileSync("app/src/components/HoldButton.jsx", "utf8"),
+  home: readFileSync("app/src/screens/HomeScreen.jsx", "utf8"),
+  bankSize: LEVELS.flatMap((l) => l.words).length,
   corpus: SOURCES.map((f) => readFileSync(f, "utf8")).join("\n"),
 };
 
@@ -129,11 +136,16 @@ function run(d) {
   if (!specBitrate || Number(specBitrate[1]) !== recipe.bitrate)
     found.push(`SPEC says ${specBitrate ? specBitrate[1] : "no"} kbps, the pack says ${recipe.bitrate}`);
 
+  rules += 1;
+  const homeCount = /any word from all (\d+)/.exec(d.home);
+  if (!homeCount || Number(homeCount[1]) !== d.bankSize)
+    found.push(`the chooser copy says all ${homeCount ? homeCount[1] : "?"} words, the bank holds ${d.bankSize}`);
+
   return { found, rules };
 }
 
 if (process.argv.includes("--self-test")) {
-  const seen = { spec: false, qa: false, timing: false, hold: false, recipe: false };
+  const seen = { spec: false, qa: false, timing: false, hold: false, recipe: false, bank: false };
 
   const specCorrupt = { ...real, spec: real.spec.replace(/^(\s{3}retry\s+)"[^"]+"$/m, '$1"A sentence the app never says."') };
   seen.spec = run(specCorrupt).found.some((p) => p.startsWith("SPEC sentence missing"));
@@ -152,8 +164,13 @@ if (process.argv.includes("--self-test")) {
   const recipeCorrupt = { ...real, spec: real.spec.replace(/word clips at speed [\d.]+/, "word clips at speed 0.7") };
   seen.recipe = run(recipeCorrupt).found.some((p) => p.startsWith("SPEC says word speed 0.7"));
 
+  /* The stale-count fault: the chooser keeps telling parents a bank size the
+     bank has outgrown. */
+  const bankCorrupt = { ...real, home: real.home.replace(/any word from all \d+/, "any word from all 250") };
+  seen.bank = run(bankCorrupt).found.some((p) => p.startsWith("the chooser copy says all 250"));
+
   if (Object.values(seen).every(Boolean)) {
-    console.log("self-test OK: a reworded SPEC sentence, a reworded QA promise, a wrong timing, a changed hold constant, and a stale recipe number in the document are all caught");
+    console.log("self-test OK: a reworded SPEC sentence, a reworded QA promise, a wrong timing, a changed hold constant, a stale recipe number in the document, and a stale bank count in the chooser are all caught");
     process.exit(0);
   }
   console.error("self-test FAILED: " + JSON.stringify(seen));

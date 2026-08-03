@@ -19,11 +19,11 @@
   "g6_complexity_max": 15,
   "g6_file_lines_max": 900,
   "g6_dependency_cycles_max": 0,
-  "g7_interface_checks": 27,
+  "g7_interface_checks": 28,
   "g8_checks": 18,
   "g8_axe_violations_max": 0,
   "g9_fault_tests": 19,
-  "g10_safety_tests": 46,
+  "g10_safety_tests": 47,
   "g10_adult_control_tests": 9,
   "g10_reveal_tests": 6,
   "g11_copy_rules": 6,
@@ -33,6 +33,6 @@
   "g14_update_tests": 12,
   "g14_worker_tests": 5,
   "g15_recognizer_tests": 51,
-  "g16_doc_rules": 5,
+  "g16_doc_rules": 6,
   "g17_governing_files": 19
 }
