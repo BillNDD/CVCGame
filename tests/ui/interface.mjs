@@ -385,10 +385,15 @@ for (const height of [430, 555, 720, 950]) {
     const shown = await page.locator(".wq-toast").waitFor({ timeout: 3000 }).then(() => true).catch(() => false);
     if (!shown) { fail(`no toast at ${vp.width}x${vp.height}`, "the damaged-save boot raised none"); await context.close(); continue; }
     const t = await page.locator(".wq-toast").boundingBox();
-    const c = await page.locator(".wq-rail .wq-cta").boundingBox();
-    const overlap = Math.min(t.y + t.height, c.y + c.height) - Math.max(t.y, c.y);
-    if (overlap <= 0) ok(`the toast clears the child's control at ${vp.width}x${vp.height} (gap ${Math.round(-overlap)}px)`);
-    else fail(`the toast covers the child's control at ${vp.width}x${vp.height}`, `overlap ${Math.round(overlap)}px`);
+    /* The home rail holds two child controls — Begin Session and Free play —
+       and the toast must clear them BOTH, so the worst overlap is the verdict. */
+    let overlap = -Infinity;
+    for (const btn of await page.locator(".wq-rail .wq-cta").all()) {
+      const c = await btn.boundingBox();
+      overlap = Math.max(overlap, Math.min(t.y + t.height, c.y + c.height) - Math.max(t.y, c.y));
+    }
+    if (overlap <= 0) ok(`the toast clears both child controls at ${vp.width}x${vp.height} (gap ${Math.round(-overlap)}px)`);
+    else fail(`the toast covers a child control at ${vp.width}x${vp.height}`, `overlap ${Math.round(overlap)}px`);
     await context.close();
   }
 }
@@ -422,6 +427,38 @@ for (const height of [430, 555, 720, 950]) {
   if (probe.wrapped > 1 && probe.held === 1)
     ok(`negative control: the same text takes ${probe.wrapped} rows without the rule and 1 with it`);
   else fail("the wrap measurement is blind", JSON.stringify(probe));
+  await context.close();
+}
+
+/* The free-play chooser: between the tap and the game, a grown-up chooses
+   truly random or the child's level. Both choices are child-sized (S7), Back
+   starts nothing, and truly random enters an endless session that says what
+   it is — FREE PLAY with the dice chip, never a level number it is not
+   serving. */
+{
+  const context = await browser.newContext();
+  const page = await context.newPage();
+  await page.setViewportSize({ width: 390, height: 720 });
+  await page.goto(URL, { waitUntil: "load" });
+  await page.getByRole("button", { name: "Free play" }).click();
+  await page.locator(".wq-modal").waitFor();
+  const rand = await page.getByRole("button", { name: "Truly random" }).boundingBox();
+  const lvl = await page.getByRole("button", { name: /Level \d+ .+ words/ }).boundingBox();
+  if (rand && lvl && rand.height >= 56 && lvl.height >= 56)
+    ok(`both free-play choices are child-sized (${Math.round(rand.height)}px and ${Math.round(lvl.height)}px)`);
+  else fail("a free-play choice is under 56 px", JSON.stringify({ rand, lvl }));
+  await page.getByRole("button", { name: "Back" }).click();
+  const home = await page.getByRole("button", { name: "Begin Session" }).isVisible();
+  const modals = await page.locator(".wq-modal").count();
+  if (home && modals === 0) ok("Back closes the chooser and starts nothing");
+  else fail("Back did not return cleanly to home", `home=${home} modals=${modals}`);
+  await page.getByRole("button", { name: "Free play" }).click();
+  await page.getByRole("button", { name: "Truly random" }).click();
+  await page.locator(".wq-word").waitFor();
+  const label = await page.locator(".wq-chip", { hasText: "FREE PLAY" }).count();
+  const dice = await page.locator(".wq-chip", { hasText: "🎲" }).count();
+  if (label === 1 && dice === 1) ok("truly random play is labeled FREE PLAY with the dice chip");
+  else fail("random free play mislabels itself", `freeplay=${label} dice=${dice}`);
   await context.close();
 }
 

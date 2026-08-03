@@ -2,8 +2,32 @@ import { C } from "@engine";
 import Frame from "../components/Frame.jsx";
 import Zone from "../components/Zone.jsx";
 import Toast from "../components/Toast.jsx";
+import Modal from "../components/Modal.jsx";
 
-export default function HomeScreen({ state, L, kid, masteredCount, persistent, readOnly, onBegin, onFreePlay, onParent, toast }) {
+/* The free-play chooser (SPEC section 6): between the tap and the game, the
+   grown-up picks which words free play serves. Both choices are full 56 px
+   controls (S7) because the finger on them may be the child's. */
+function FreePlayChooser({ level, L, onChoose, onCancel }) {
+  return (
+    <Modal title="Free play" onClose={onCancel}>
+      <p style={{ margin: "0 0 14px", fontSize: 14.5, color: C.ink2, lineHeight: 1.5 }}>
+        Grown-up: which words? Truly random serves any word from all 300 — easy and
+        hard alike. Nothing is saved in free play either way.
+      </p>
+      <div style={{ display: "grid", gap: 8 }}>
+        <button className="wq-cta" onClick={() => onChoose("random")}>🎲 Truly random</button>
+        <button className="wq-cta" onClick={() => onChoose("level")}
+          style={{ background: "rgba(255,255,255,.9)", color: C.ink, boxShadow: "none" }}>
+          🎯 Level {level} {L.emoji} words
+        </button>
+        <button className="wq-btn-plain" onClick={onCancel} style={{ justifySelf: "center" }}>Back</button>
+      </div>
+    </Modal>
+  );
+}
+
+export default function HomeScreen({ state, L, kid, masteredCount, persistent, readOnly, onBegin, onFreePlay, onParent,
+  fpChooser, onFreePlayChoose, onFreePlayCancel, toast }) {
   return (
     <Frame>
       <Zone.Header>
@@ -50,6 +74,7 @@ export default function HomeScreen({ state, L, kid, masteredCount, persistent, r
         <span className="wq-striplabel">grown-up</span>
         <span style={{ fontSize: 12, color: C.strip }}>~20 words · about 5 minutes · {state.settings.mode === "mic" ? "microphone" : "you judge"}</span>
       </Zone.Strip>
+      {fpChooser && <FreePlayChooser level={state.level} L={L} onChoose={onFreePlayChoose} onCancel={onFreePlayCancel} />}
       {toast && <Toast>{toast}</Toast>}
     </Frame>
   );
