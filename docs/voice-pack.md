@@ -54,9 +54,11 @@ app carries only the audio files.
   by yourself!" was spoken with "read" as in "reed" and carried a past-tense pronunciation
   until 2026-08-03, when the owner replaced the line with "You knew just what to do with
   that word!" — chosen from candidates precisely because every word has a single reading.
-  The new clip (p:2) rendered on the approved recipe and has not yet had an individual
-  listen. G13 still fails the build if a sentence containing a word with two pronunciations
-  is left to the synthesiser.
+  The new clip (p:2, 2342 ms, sha256 a5d647683557650b6911ad7c2693af984c0eaf4598f544acc2b97
+  ac3c725c381) rendered on the approved recipe and the owner listened the same day:
+  "perfect" (2026-08-03). The shipped file is the one the owner heard, byte for byte. G13
+  still fails the build if a sentence containing a word with two pronunciations is left to
+  the synthesiser.
 - An explicit pronunciation only changes a recording where it differs from the one the
   phonemiser derives from the spelling. For every three-letter word tested it does not: the
   two renders are byte-identical. This was learned the expensive way, by shipping a "fix"

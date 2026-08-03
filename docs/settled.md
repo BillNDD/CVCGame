@@ -67,6 +67,10 @@ updated whenever a round lands.
   `reference/word-quest.jsx`, or better, do not add such a line. G13 still
   refuses any SENTENCE with a two-pronunciation word left to spelling, and
   engine test 75 sweeps the praise list for the same roster of words.
+  The replacement clip is settled: the owner listened to p:2 ("You knew just
+  what to do with that word!") on 2026-08-03 and judged it "perfect". The
+  shipped file is the one the owner heard. Do not re-render or re-open it
+  without a new listen.
 
 ## The 57 keepers (2026-08-01) — closed, do not re-open
 
