@@ -33,7 +33,7 @@
  },
  "p:2": {
   "file": "p-2.mp3",
-  "ms": 2214
+  "ms": 2342
  },
  "p:3": {
   "file": "p-3.mp3",
@@ -1289,9 +1289,7 @@
    "cub": 130,
    "dish": 120
   },
-  "phoneme_sentences": [
-   "p:2"
-  ],
+  "phoneme_sentences": [],
   "period_words": [
    "cup",
    "had",

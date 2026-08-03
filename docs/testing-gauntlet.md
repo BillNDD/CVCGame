@@ -268,8 +268,10 @@ engine, never a hand-kept list.
 - The gate also refuses a pack that leaves a sentence to spelling when the sentence contains a
   word with two pronunciations. It comes from a real fault: the praise sentence "You read that
   word all by yourself!" was spoken with "read" as in "reed", which teaches the wrong sound.
-  The word list is checked against the sentences in the live engine, so a new sentence is
-  covered from the moment it is written.
+  That line was replaced on 2026-08-03, so no current sentence trips the rule — the self-test
+  plants an ambiguous sentence to prove the detector still fires. The word list is checked
+  against the sentences in the live engine, so a new sentence is covered from the moment it
+  is written.
 - The gate pins the result of every listening round, not just the global settings, and it
   verifies the whole chain of record: `tools/voice-words.csv` (the file a person edits) must
   cover every bank word, the derived `keepers-treatments.json` and `keeper-bytes.json` must

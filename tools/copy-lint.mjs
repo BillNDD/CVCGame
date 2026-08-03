@@ -63,7 +63,7 @@ function run(d) {
   const PRAISE_EXPECTED = [
     "Great job!",
     "You did it!",
-    "You read that word all by yourself!",
+    "You knew just what to do with that word!",
     "How do you feel about saying that word correctly?",
     "You worked that out on your own!",
     "Your reading is getting stronger every day!",

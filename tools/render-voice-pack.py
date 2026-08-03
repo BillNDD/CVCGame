@@ -78,13 +78,11 @@ PHONEMES = {
 
 # A sentence can be mis-read too, and one of them taught the wrong sound.
 # "You read that word all by yourself!" was spoken with "read" in the present
-# tense - "reed" - to a child who had just read the word. In a phonics app
-# that is not a rough edge: it models the wrong pronunciation of a word the
-# child is learning. The whole sentence is given as sounds, with that one word
-# in the past tense.
-SENTENCE_PHONEMES = {
-    "p:2": "juː ɹˈɛd ðæt wˈɜːd ˈɔːl baɪ jɔːɹsˈɛlf!",
-}
+# tense - "reed" - to a child who had just read the word, and carried an
+# explicit past-tense pronunciation here until the owner replaced the line
+# on 2026-08-03 with one whose every word has a single reading. The dict
+# stays: the next two-pronunciation sentence goes here, as sounds.
+SENTENCE_PHONEMES = {}
 # LEAD_OVERRIDE is defined with the remediation keepers above (am/an/had).
 
 # The three words from the spot-check of 2026-07-27, each with the last part of

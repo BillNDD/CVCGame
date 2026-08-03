@@ -56,12 +56,17 @@ updated whenever a round lands.
 ## Watched by a gate, so it cannot regress
 
 - **The system voice must never be handed a praise line containing "read".** The
-  recorded clip is correct; the FALLBACK was not. Whenever the pack cannot play,
-  the app used to give the system voice "You read that word all by yourself!",
-  which it says as "reed". G13 watches the pack and could not see this. The rule
-  now lives in the engine as `ttsSafePraise`, with three tests. If you add a
-  praise line containing a word with two pronunciations, add its index to
-  `TTS_UNSAFE_PRAISE` in `reference/word-quest.jsx`.
+  recorded clip was correct; the FALLBACK was not. Whenever the pack could not
+  play, the app used to give the system voice "You read that word all by
+  yourself!", which it says as "reed". G13 watches the pack and could not see
+  this. On 2026-08-03 the owner removed the line entirely — it is now "You knew
+  just what to do with that word!", every word single-pronunciation — so
+  `TTS_UNSAFE_PRAISE` is empty today. The mechanism (`ttsSafePraise`) and its
+  tests stay: if you ever add a praise line containing a word with two
+  pronunciations, add its index to `TTS_UNSAFE_PRAISE` in
+  `reference/word-quest.jsx`, or better, do not add such a line. G13 still
+  refuses any SENTENCE with a two-pronunciation word left to spelling, and
+  engine test 75 sweeps the praise list for the same roster of words.
 
 ## The 57 keepers (2026-08-01) — closed, do not re-open
 

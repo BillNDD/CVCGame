@@ -225,7 +225,7 @@ The ten praise sentences. Each one is exact. Most point to the child’s own eff
 
 1. `"Great job!"`
 2. `"You did it!"`
-3. `"You read that word all by yourself!"`
+3. `"You knew just what to do with that word!"`
 4. `"How do you feel about saying that word correctly?"`
 5. `"You worked that out on your own!"`
 6. `"Your reading is getting stronger every day!"`
@@ -272,9 +272,12 @@ begins on its first sound loses that sound between the file and the speaker: "ca
 "at" and "an" became "n". Two-letter words carry an explicit pronunciation, since a
 synthesiser reads them wrongly from spelling. A few words carry an approved trim of their
 ending, because the synthesiser adds a small extra syllable after a final plosive: "hip"
-became "hip-uh". A sentence carries an explicit pronunciation when its spelling allows two:
-"You read that word all by yourself!" was spoken with "read" as in "reed", which teaches the
-wrong sound to a child who has just read the word. The recipe ships inside the pack and the
+became "hip-uh". A sentence must carry an explicit pronunciation when its spelling allows
+two: "You read that word all by yourself!" was spoken with "read" as in "reed", which
+teaches the wrong sound to a child who has just read the word. That line was replaced on
+2026-08-03 with "You knew just what to do with that word!", so no current sentence needs a
+pronunciation — but the build gate still refuses any sentence that leaves a
+two-pronunciation word to spelling. The recipe ships inside the pack and the
 build gate compares it with the approved values; a pack rendered with different settings
 fails the build, because no automatic check can hear whether a word is right. Only a person
 can approve new audio.
