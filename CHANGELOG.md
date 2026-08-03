@@ -104,6 +104,17 @@ The first app version is 1.0.0-beta.1. The app stays in beta until version 1.0 i
   would serve. In truly random play a dice mark replaces the level chip in the header,
   because a level number would claim a level the mode is not serving. A "Back" control
   starts nothing.
+- New: the app now notices new versions on its own. A page kept alive for weeks — a Safari
+  tab that never closes, a home-screen app resumed from memory — never reloads, so it never
+  discovered an update and could play an old build indefinitely; the fault was seen in the
+  wild on a long-lived page. Now, each time the app returns to the foreground, it asks the
+  browser to look for a newer service worker on the app's own host. The request carries no
+  data, and a newer version still only installs and waits — it applies at "Update now" or
+  the next fresh start, never over an open page. This is the second network call safety
+  rule S6 permits, approved by the owner on 2026-08-03 on two conditions, both honored in
+  the "Grown-ups corner": the check is described in plain words, and an "Automatic update
+  check" switch turns it off — Off means zero requests, proven by a test that drives the
+  real app.
 - Changed: the word now sits at the visual centre of the stage. The stage centres its whole
   block, but the block carries two reserved rows below the word — the tiles and the sentence,
   116 px of them outside the feedback phase — so the word itself rode at 42 percent of the

@@ -482,8 +482,20 @@ now" control. Updating swaps in the new version and reloads the app. The child's
 and any family recordings live in on-device storage that an update never touches. A
 downloaded newer version never applies while the app is open: the adult applies it at once
 with "Update now", or it applies the next time the app starts fresh. The version check is
-the one network request safety rule S6 permits after load: adult-initiated, same host, no
-data carried. When the check cannot reach the host, the app says so and changes nothing.
+one of the two network requests safety rule S6 permits after load: adult-initiated, same
+host, no data carried. When the check cannot reach the host, the app says so and changes
+nothing.
+
+The foreground check is the second S6-permitted request, approved by the owner on
+2026-08-03. A page that lives for a long time without a reload — a Safari tab kept open, a
+home-screen app resumed from memory — never discovers a new version on its own, because
+the browser only looks on page loads and this app never navigates. So each time the app
+returns to the foreground, it asks the browser to look for a newer service worker on the
+app's own host. The request carries no data, and a newer version found this way still only
+installs and waits. The "Grown-ups corner" states this in plain words beside an "Automatic
+update check" switch; Off means the app makes zero requests on its own and only checks
+when the adult taps "Check for updates". The setting is on by default, saved with the
+other settings, and an update never changes it.
 
 Self-hosters who run the game from a clone of the repository update with `git pull` and a
 rebuild; `docs/self-hosting.md` gives the steps. The in-app check works for them too, against

@@ -1,6 +1,6 @@
 /* The update system (SPEC section 7a). An update never applies while the
-   app is open. checkForUpdate makes the ONE network call safety rule S6
-   permits after load - an adult-initiated fetch of the app's own
+   app is open. checkForUpdate makes one of the TWO network calls safety
+   rule S6 permits after load - an adult-initiated fetch of the app's own
    version.json, carrying no data. applyUpdate activates a downloaded,
    waiting version at the adult's tap and resolves true when the new version
    has taken control; the caller reloads. A version the adult does not apply
@@ -17,6 +17,27 @@ export async function checkForUpdate(current) {
   } catch {
     return { state: "offline" };
   }
+}
+
+/* The foreground check (SPEC section 7a) - S6's second permitted call,
+   approved by the owner on 2026-08-03. A page that lives for months without
+   a reload never discovers a new version by itself: the browser only looks
+   on navigations, and this app never navigates. So when the app returns to
+   the foreground, ask the browser to look for a newer service worker. The
+   request goes to the app's own host and carries no data; a newer version
+   still only installs and WAITS - it applies at the adult's "Update now" or
+   the app's next fresh start, never over an open page. The grown-up can
+   switch this off in the corner: isOn is read at each event, so the choice
+   takes effect at once, and off means zero requests. Returns the remover. */
+export function installForegroundCheck({ doc, getRegistration, isOn }) {
+  const onVisible = () => {
+    if (doc.visibilityState !== "visible" || !isOn()) return;
+    getRegistration()
+      .then((reg) => { if (reg) reg.update().catch(() => { /* offline: next return tries again */ }); })
+      .catch(() => { /* no registration surface: nothing to do */ });
+  };
+  doc.addEventListener("visibilitychange", onVisible);
+  return () => doc.removeEventListener("visibilitychange", onVisible);
 }
 
 export function applyUpdate() {

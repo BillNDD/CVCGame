@@ -8,7 +8,7 @@ import H3 from "../components/H3.jsx";
 import Seg from "../components/Seg.jsx";
 
 export default function ParentScreen({
-  state, nameDraft, setNameDraft, commitName, setMode, setSound, setLang, jumpLevel,
+  state, nameDraft, setNameDraft, commitName, setMode, setSound, setLang, setUpdateCheck, jumpLevel,
   openLevels, setOpenLevels, copyLog, copyBox, resetStage, setResetStage, doReset,
   onBack, srAvailable, micHint, onExportJSON, onImportJSON, toast,
 }) {
@@ -142,7 +142,7 @@ export default function ParentScreen({
                 </div>}
           </section>
 
-          <UpdateSection />
+          <UpdateSection updateCheck={state.settings.updateCheck} setUpdateCheck={setUpdateCheck} />
         </div>
       </Zone.Stage>
       {toast && <Toast>{toast}</Toast>}
@@ -150,9 +150,12 @@ export default function ParentScreen({
   );
 }
 
-/* SPEC §7a — the version chip, the one S6-permitted network request, and the
-   adult-consented apply. An update never touches saved progress. */
-function UpdateSection() {
+/* SPEC §7a — the version chip, the two S6-permitted network requests, and
+   the adult-consented apply. An update never touches saved progress. The
+   automatic-check switch is the owner's condition on the second request
+   (2026-08-03): the words below it say exactly what the app asks and when,
+   and Off means zero requests. */
+function UpdateSection({ updateCheck, setUpdateCheck }) {
   const [status, setStatus] = useState("");
   const [available, setAvailable] = useState(false);
   const [busy, setBusy] = useState(false);
@@ -186,6 +189,16 @@ function UpdateSection() {
       {status && <p style={{ margin: "6px 0 0", fontSize: 12.5, color: C.strip }} role="status">{status}</p>}
       <p style={{ margin: "4px 0 0", fontSize: 11.5, color: C.strip }}>
         An update never touches saved progress.
+      </p>
+      <div style={{ marginTop: 10, display: "flex", gap: 10, justifyContent: "center", alignItems: "center", flexWrap: "wrap" }}>
+        <span className="wq-lbl" style={{ margin: 0 }}>Automatic update check</span>
+        <Seg options={[[true, "On"], [false, "Off"]]} value={updateCheck} onChange={setUpdateCheck} />
+      </div>
+      <p style={{ margin: "6px 0 0", fontSize: 11.5, color: C.strip }}>
+        When this is on, each time you come back to the app it asks its own website
+        whether a newer version exists. The question carries nothing about you or your
+        child. A new version still waits for your &quot;Update now&quot;, or the app&#39;s next
+        fresh start. Off means the app only checks when you tap &quot;Check for updates&quot;.
       </p>
     </section>
   );

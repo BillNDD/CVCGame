@@ -6,7 +6,7 @@
    @vitest-environment jsdom */
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { readFileSync } from "node:fs";
-import { checkForUpdate, applyUpdate } from "../app/src/updates.js";
+import { checkForUpdate, applyUpdate, installForegroundCheck } from "../app/src/updates.js";
 
 const fetchMock = vi.fn();
 vi.stubGlobal("fetch", fetchMock);
@@ -115,6 +115,70 @@ describe("applyUpdate", () => {
       expect(posted).toEqual([]);                    // no consent message: no mid-session swap
       expect(ins.removed).toEqual(["statechange"]);  // and the dead listener retires
     } finally { vi.useRealTimers(); }
+  });
+});
+
+describe("installForegroundCheck (SPEC section 7a — S6's second call)", () => {
+  function docDouble(state = "visible") {
+    const d = { listeners: {}, removed: [] };
+    d.doc = {
+      visibilityState: state,
+      addEventListener: (ev, fn) => { d.listeners[ev] = fn; },
+      removeEventListener: (ev, fn) => { d.removed.push(ev); if (d.listeners[ev] === fn) delete d.listeners[ev]; },
+    };
+    d.fire = () => d.listeners.visibilitychange && d.listeners.visibilitychange();
+    return d;
+  }
+  const microtasks = () => new Promise((r) => setTimeout(r, 0));
+
+  it("a return to the foreground with the switch on asks for a newer worker", async () => {
+    const d = docDouble();
+    const update = vi.fn(async () => {});
+    installForegroundCheck({ doc: d.doc, getRegistration: async () => ({ update }), isOn: () => true });
+    d.fire();
+    await microtasks();
+    expect(update).toHaveBeenCalledTimes(1);
+  });
+
+  it("Off means zero requests, and the switch is read at the event, not at install", async () => {
+    const d = docDouble();
+    const update = vi.fn(async () => {});
+    let on = false;
+    installForegroundCheck({ doc: d.doc, getRegistration: async () => ({ update }), isOn: () => on });
+    d.fire();
+    await microtasks();
+    expect(update).not.toHaveBeenCalled();       // off: zero requests
+    on = true;                                   // the adult flips the switch — no re-install needed
+    d.fire();
+    await microtasks();
+    expect(update).toHaveBeenCalledTimes(1);     // the very next return asks
+  });
+
+  it("going to the background never asks", async () => {
+    const d = docDouble("hidden");
+    const update = vi.fn(async () => {});
+    installForegroundCheck({ doc: d.doc, getRegistration: async () => ({ update }), isOn: () => true });
+    d.fire();
+    await microtasks();
+    expect(update).not.toHaveBeenCalled();
+  });
+
+  it("survives a missing registration and a failing update, and the remover removes", async () => {
+    const d = docDouble();
+    const remove = installForegroundCheck({ doc: d.doc, getRegistration: async () => null, isOn: () => true });
+    d.fire();
+    await microtasks();                          // no registration: nothing thrown
+    const d2 = docDouble();
+    installForegroundCheck({
+      doc: d2.doc,
+      getRegistration: async () => ({ update: async () => { throw new Error("offline"); } }),
+      isOn: () => true,
+    });
+    d2.fire();
+    await microtasks();                          // a rejected update is swallowed
+    remove();
+    expect(d.removed).toEqual(["visibilitychange"]);
+    expect(d.listeners.visibilitychange).toBeUndefined();
   });
 });
 

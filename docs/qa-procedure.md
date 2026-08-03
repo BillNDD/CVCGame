@@ -119,6 +119,9 @@ This document follows the Microsoft Writing Style Guide.
 35. After the next release, tap "Check for updates", then "Update now", and let the app restart.
     Expected: The new version number shows, and all progress and settings are exactly as
     before the update.
+40. In the "Grown-ups corner", switch "Automatic update check" to Off, fully close and reopen the app, and return to the corner.
+    Expected: The switch is still Off. "Check for updates" still answers when tapped, and
+    nothing else about the corner changed.
 
 ## Audio after the microphone
 

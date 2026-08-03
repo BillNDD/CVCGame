@@ -841,3 +841,32 @@ describe("G10 — free play never touches the save", () => {
     } finally { spy.mockRestore(); }
   });
 });
+
+/* S6's second network call (SPEC section 7a), owner-approved 2026-08-03 on
+   two conditions: plain words in the corner, and an Off that means ZERO
+   requests. The test drives the real app, not the module. */
+describe("G10 safety — S6: the foreground check obeys the corner's switch", () => {
+  it("48: the check asks on a return to the foreground, and Off silences it at once", async () => {
+    const update = vi.fn(async () => {});
+    Object.defineProperty(navigator, "serviceWorker", {
+      configurable: true,
+      value: { getRegistration: async () => ({ update }) },
+    });
+    try {
+      render(createElement(App));
+      await flush(0);
+      document.dispatchEvent(new Event("visibilitychange"));
+      await flush(0);
+      expect(update).toHaveBeenCalledTimes(1);            // on by default: the return asks once
+      fireEvent.click(screen.getByLabelText("Grown-ups corner"));
+      await flush(0);
+      fireEvent.click(screen.getByText("Off"));           // the update switch: the only bare "Off"
+      await flush(0);
+      document.dispatchEvent(new Event("visibilitychange"));
+      await flush(0);
+      expect(update).toHaveBeenCalledTimes(1);            // off means zero further requests
+    } finally {
+      delete navigator.serviceWorker;
+    }
+  });
+});
