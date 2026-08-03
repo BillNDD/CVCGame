@@ -191,7 +191,11 @@ function UpdateSection({ updateCheck, setUpdateCheck }) {
         An update never touches saved progress.
       </p>
       <div style={{ marginTop: 10, display: "flex", gap: 10, justifyContent: "center", alignItems: "center", flexWrap: "wrap" }}>
-        <span className="wq-lbl" style={{ margin: 0 }}>Automatic update check</span>
+        {/* Not wq-lbl: that class is C.muted for white cards, and this section
+            sits on the gradient, where it measured 2.99:1 (G8). C.strip is the
+            color the section's other text already passes with. */}
+        <span style={{ fontSize: 12, fontWeight: 800, letterSpacing: ".06em", textTransform: "uppercase", color: C.strip }}>
+          Automatic update check</span>
         <Seg options={[[true, "On"], [false, "Off"]]} value={updateCheck} onChange={setUpdateCheck} />
       </div>
       <p style={{ margin: "6px 0 0", fontSize: 11.5, color: C.strip }}>
