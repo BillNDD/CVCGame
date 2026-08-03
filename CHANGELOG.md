@@ -110,8 +110,9 @@ The first app version is 1.0.0-beta.1. The app stays in beta until version 1.0 i
   fallback voice, a fault that was remapped around but kept finding new paths; the word is
   now simply gone from the praise list, the guard (`ttsSafePraise`) stays for any future
   two-pronunciation line, and both the engine tests and the voice gate sweep sentences for
-  ambiguous words. The replacement clip rendered on the approved recipe; it has not yet had
-  an individual listen.
+  ambiguous words. The replacement clip rendered on the approved recipe, and the owner
+  listened the same day: "perfect". The shipped file is the one the owner heard, byte for
+  byte.
 - New: the app now notices new versions on its own. A page kept alive for weeks — a Safari
   tab that never closes, a home-screen app resumed from memory — never reloads, so it never
   discovered an update and could play an old build indefinitely; the fault was seen in the
