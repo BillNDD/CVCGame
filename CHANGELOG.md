@@ -104,6 +104,14 @@ The first app version is 1.0.0-beta.1. The app stays in beta until version 1.0 i
   would serve. In truly random play a dice mark replaces the level chip in the header,
   because a level number would claim a level the mode is not serving. A "Back" control
   starts nothing.
+- Changed: the praise sentence "You read that word all by yourself!" is retired, replaced by
+  "You knew just what to do with that word!" — picked by the owner from candidates whose
+  every word has a single reading. The old line's "read" was spoken as "reed" by the
+  fallback voice, a fault that was remapped around but kept finding new paths; the word is
+  now simply gone from the praise list, the guard (`ttsSafePraise`) stays for any future
+  two-pronunciation line, and both the engine tests and the voice gate sweep sentences for
+  ambiguous words. The replacement clip rendered on the approved recipe; it has not yet had
+  an individual listen.
 - New: the app now notices new versions on its own. A page kept alive for weeks — a Safari
   tab that never closes, a home-screen app resumed from memory — never reloads, so it never
   discovered an update and could play an old build indefinitely; the fault was seen in the

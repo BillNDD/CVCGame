@@ -46,9 +46,12 @@ const TREATMENTS = existsSync(TREAT_PATH)
 /* the marker that tells a human the file is generated is not a word */
 for (const k of Object.keys(TREATMENTS)) if (k.startsWith("_")) delete TREATMENTS[k];
 
-function check(manifest, verifyFiles, lock = LOCK, csvText = CSV_TEXT) {
+function check(manifest, verifyFiles, lock = LOCK, csvText = CSV_TEXT, scriptOverride = null) {
   const problems = [];
-  const script = voiceScript();
+  /* scriptOverride exists for the self-test alone: since the praise line
+     containing "read" was replaced (2026-08-03), no real sentence carries a
+     two-pronunciation word, so the replay of that fault must plant one. */
+  const script = scriptOverride || voiceScript();
   for (const clip of script) {
     const m = manifest[clip.id];
     if (!m) { problems.push(`missing clip: ${clip.id} ("${clip.text}")`); continue; }
@@ -324,9 +327,13 @@ if (process.argv.includes("--self-test")) {
   const tp = check(trimmed, false).problems;
   const sawTrim = tp.some((p) => p.startsWith("recipe trims cub by 260")) && tp.some((p) => p.startsWith("recipe trims a word nobody approved: sun"));
   /* The praise sentence that once said "reed" for "read", left to spelling
-     again: the exact fault, replayed. */
-  const reed = { ...manifest, __recipe: { ...manifest.__recipe, phoneme_sentences: [] } };
-  const sawReed = check(reed, false).problems.some((p) => p.startsWith('sentence left to spelling though "read"'));
+     again: the exact fault, replayed. The line itself was replaced on
+     2026-08-03, so the replay plants an ambiguous sentence into the script —
+     the detector must still catch the next one the moment it is written. */
+  const reedScript = [...voiceScript(), { id: "p:99", text: "You read that word!" }];
+  const reedManifest = { ...manifest, "p:99": { file: "p99.mp3", ms: 1500 } };
+  const sawReed = check(reedManifest, false, LOCK, CSV_TEXT, reedScript)
+    .problems.some((p) => p.startsWith('sentence left to spelling though "read"'));
   /* The blind round's winners, quietly dropped or quietly widened: a word
      that stops being rendered as a sentence, and a word nobody heard given
      the same treatment. */

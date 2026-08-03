@@ -320,7 +320,7 @@ function feedbackParts(result, word) {
 const PRAISE = [
   "Great job!",
   "You did it!",
-  "You read that word all by yourself!",
+  "You knew just what to do with that word!",
   "How do you feel about saying that word correctly?",
   "You worked that out on your own!",
   "Your reading is getting stronger every day!",
@@ -329,16 +329,16 @@ const PRAISE = [
   "You sounded that one out beautifully!",
   "What careful reading that was!",
 ];
-/* Praise lines the SYSTEM voice must never be given. The recorded pack says
-   "You read that word all by yourself!" correctly, because its clip is
-   rendered from an explicit pronunciation - past tense, rhyming with "red".
-   The system voice has no such instruction and says "reed", present tense, to
-   a child who has just read the word. That is the fault beta.6 was published
-   for, and it returns whenever the pack cannot play: a locked audio context, a
-   clip that will not decode, or a device that has taken the audio session.
-   The pack path keeps the index it was given; only the fallback is remapped,
+/* Praise lines the SYSTEM voice must never be given. "You read that word all
+   by yourself!" was spoken by the fallback voice with "read" as "reed",
+   present tense, to a child who had just read the word - the fault beta.6
+   was published for, returning whenever the pack could not play. The owner
+   replaced that line entirely on 2026-08-03, so the list is empty today; the
+   mechanism stays, because the next two-pronunciation praise line would
+   bring the fault straight back. If you add one, add its index here. The
+   pack path keeps the index it was given; only the fallback is remapped,
    and praise is spoken never shown, so nothing on screen disagrees. */
-const TTS_UNSAFE_PRAISE = [2];
+const TTS_UNSAFE_PRAISE = [];
 const ttsSafePraise = (i) => (TTS_UNSAFE_PRAISE.includes(i) ? 0 : i);
 /* The reveal is its own utterance, so the pause before it does the work that
    slowing the word used to do badly. */

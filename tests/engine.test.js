@@ -424,7 +424,7 @@ describe("speech helpers", () => {
     expect(PRAISE).toEqual([
       "Great job!",
       "You did it!",
-      "You read that word all by yourself!",
+      "You knew just what to do with that word!",
       "How do you feel about saying that word correctly?",
       "You worked that out on your own!",
       "Your reading is getting stronger every day!",
@@ -561,23 +561,32 @@ describe("ADULT_JUDGED — words recognition cannot judge fairly (SPEC section 3
    That is the fault beta.6 was published for, returning through a path no
    gate watched: G13 checks the pack, and nothing checked the fallback. */
 describe("G1 — the system voice is never given a word it says wrongly", () => {
-  it("75: the praise line with 'read' in it never reaches the system voice", () => {
-    expect(TTS_UNSAFE_PRAISE).toEqual([2]);
-    expect(PRAISE[2]).toBe("You read that word all by yourself!");
-    expect(ttsSafePraise(2)).toBe(0);
-    const spoken = feedbackSpeech("correct", "cat", ttsSafePraise(2)).map((p) => p.text).join(" ");
-    expect(spoken).toBe("Great job! The word was cat.");
-    expect(spoken.includes("read")).toBe(false);
+  it("75: no praise line contains a word with two pronunciations", () => {
+    /* "You read that word all by yourself!" said "reed" through the fallback
+       voice — the fault beta.6 was published for. The owner replaced the
+       line on 2026-08-03; this pins its successor and sweeps the whole list,
+       with the same ambiguous-word roster the voice gate uses, so the fault
+       class cannot return unnoticed. */
+    expect(PRAISE[2]).toBe("You knew just what to do with that word!");
+    const AMBIGUOUS = ["read", "live", "wind", "tear", "lead", "bow", "row", "close"];
+    for (const line of PRAISE)
+      for (const a of AMBIGUOUS)
+        expect(new RegExp("\\b" + a + "\\b", "i").test(line)).toBe(false);
   });
 
-  it("76 (control): every other praise line reaches the system voice unchanged", () => {
-    for (const i of [0, 1, 3, 4, 5, 6, 7, 8, 9]) expect(ttsSafePraise(i)).toBe(i);
-    expect(feedbackSpeech("correct", "cat", ttsSafePraise(5)).map((p) => p.text).join(" "))
-      .toBe("Your reading is getting stronger every day! The word was cat.");
+  it("76: with no unsafe line listed, every praise index reaches the system voice unchanged", () => {
+    expect(TTS_UNSAFE_PRAISE).toEqual([]);
+    for (const i of [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]) expect(ttsSafePraise(i)).toBe(i);
+    expect(feedbackSpeech("correct", "cat", ttsSafePraise(2)).map((p) => p.text).join(" "))
+      .toBe("You knew just what to do with that word! The word was cat.");
   });
 
-  it("77 (control): the recorded pack still gets the real praise line", () => {
-    expect(feedbackSpeech("correct", "cat", 2).map((p) => p.text).join(" "))
-      .toBe("You read that word all by yourself! The word was cat.");
+  it("77: the clip plan carries the new line to the pack", () => {
+    /* The pack renders from voiceScript, so this is the text the recorded
+       voice will actually say. If TTS_UNSAFE_PRAISE ever gains an entry
+       again, test 76 fails and forces the guard's remap to be re-pinned
+       against the new truth — the mechanism stays for exactly that day. */
+    const p2 = voiceScript().find((c) => c.id === "p:2");
+    expect(p2.text).toBe("You knew just what to do with that word!");
   });
 });

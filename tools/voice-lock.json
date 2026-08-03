@@ -27,9 +27,7 @@
    "cub": 130,
    "dish": 120
   },
-  "phoneme_sentences": [
-   "p:2"
-  ],
+  "phoneme_sentences": [],
   "period_words": [
    "cup",
    "had",
@@ -581,9 +579,7 @@
    "up": "ʌp",
    "us": "ʌs"
   },
-  "sentences": {
-   "p:2": "juː ɹˈɛd ðæt wˈɜːd ˈɔːl baɪ jɔːɹsˈɛlf!"
-  }
+  "sentences": {}
  },
  "encoder": {
   "library": "lameenc",
