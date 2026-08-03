@@ -16,8 +16,9 @@ the stricter one and ask the owner before proceeding.
 
 The product is the working game. Deliver a game a child can play, that teaches the right
 thing correctly, and that keeps working offline with all data on the device. The only
-network use is the kind a parent can see and understand: today that is the single
-"Check for updates" request to the app's own host (S6). Any future exception must be
+network use is the kind a parent can see and understand: today that is the
+"Check for updates" request and the switchable foreground look for a newer version,
+both to the app's own host (S6). Any future exception must be
 equally narrow, carry no child data, be shown to parents in plain words in the
 "Grown-ups corner", and be approved by the owner before it ships. Tests, checklists, and
 documents exist only to protect that game. They are never the goal by themselves.
@@ -86,9 +87,13 @@ that definition.
 - S4. Speech output says full words only. It never says letter names.
 - S5. Adult result controls need a 450 ms pointer hold. A keyboard operates them directly.
 - S6. The app makes no network calls after load, has no accounts, and has no analytics. All data
-  stays on the device. One exception: when an adult taps "Check for updates" in the
-  "Grown-ups corner", the app makes one request to its own host to compare versions. The
-  request carries no data, and nothing else may use it.
+  stays on the device. Two exceptions, each a request to the app's own host that carries no
+  data, and nothing else may use them: when an adult taps "Check for updates" in the
+  "Grown-ups corner", the app makes one request to compare versions; and when the app
+  returns to the foreground, it may ask the browser to look for a newer service worker —
+  approved by the owner on 2026-08-03 on the condition that the "Grown-ups corner" states
+  it in plain words and offers a switch that turns it off, and Off means zero requests. A
+  newer version found either way installs and waits; it never applies over an open page.
 - S7. Child controls are 56 px or more. Adult controls are 44 px or more.
 - S8. Digraphs (sh, ch, th, wh, ck, ng) always show as one tile.
 - S9. No file in the repository contains a personal name. The child's name is a device-local

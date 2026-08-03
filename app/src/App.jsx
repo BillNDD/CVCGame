@@ -8,6 +8,7 @@ import {
 } from "@engine";
 /* W3 — the storage adapter is IndexedDB in the standalone app. */
 import { loadState, saveState } from "./storage.js";
+import { installForegroundCheck } from "./updates.js";
 import { initVoicePacks, speakVoice, stopClips, unlockVoice, microphoneUsed } from "./voicepacks.js";
 import Frame from "./components/Frame.jsx";
 import HomeScreen from "./screens/HomeScreen.jsx";
@@ -186,6 +187,9 @@ export default function App() {
       if (!alive || settled) return; settled = true;
       if (!s.settings.lang) s.settings.lang = "en-US";
       if (s.settings.childName === undefined) s.settings.childName = "";
+      /* S6's second call (owner-approved 2026-08-03) defaults on; the corner
+         holds the off switch, and old saves heal to the default here. */
+      if (s.settings.updateCheck === undefined) s.settings.updateCheck = true;
       setState(s); setNameDraft(s.settings.childName || ""); setScreen("home");
     };
     const timer = setTimeout(() => {
@@ -232,6 +236,17 @@ export default function App() {
   }, []);
 
   useEffect(() => { if (!toast) return; const t = setTimeout(() => setToast(""), 3200); return () => clearTimeout(t); }, [toast]);
+
+  /* SPEC section 7a - the foreground check, S6's second permitted call
+     (owner-approved 2026-08-03). The setting is read per event through the
+     ref, so the corner's off switch applies at once. */
+  useEffect(() => installForegroundCheck({
+    doc: document,
+    getRegistration: () => ("serviceWorker" in navigator
+      ? navigator.serviceWorker.getRegistration()
+      : Promise.resolve(null)),
+    isOn: () => !!(stateRef.current && stateRef.current.settings.updateCheck),
+  }), []);
 
   /* An update must never reload the page under a child mid-session
      (app/src/swrefresh.js decides when it is safe). */
@@ -660,6 +675,7 @@ export default function App() {
   const mutate = (fn) => { const s = structuredClone(stateRef.current); fn(s); setState(s); persist(s); };
   const setMode = (mode) => { mark("wq-mode-chosen"); unmark("wq-mode-denied"); mutate(s => { s.settings.mode = mode; }); };
   const setSound = (on) => mutate(s => { s.settings.sound = on; });
+  const setUpdateCheck = (on) => mutate(s => { s.settings.updateCheck = on; });
   const setLang = (code) => mutate(s => { s.settings.lang = code; });
   const jumpLevel = (n) => { mutate(s => { s.level = n; s.perfectStreak = 0; }); setToast("Level set to " + n + " " + LEVELS[n - 1].emoji); };
   function commitName() {
@@ -762,7 +778,7 @@ export default function App() {
   }
 
   return <ParentScreen state={shown} nameDraft={nameDraft} setNameDraft={setNameDraft}
-    commitName={commitName} setMode={setMode} setSound={setSound} setLang={setLang}
+    commitName={commitName} setMode={setMode} setSound={setSound} setLang={setLang} setUpdateCheck={setUpdateCheck}
     jumpLevel={jumpLevel} openLevels={openLevels} setOpenLevels={setOpenLevels}
     copyLog={copyLog} copyBox={copyBox} resetStage={resetStage} setResetStage={setResetStage}
     doReset={doReset} onBack={() => { setResetStage(0); setCopyBox(""); setScreen("home"); }}
