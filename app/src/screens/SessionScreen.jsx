@@ -140,8 +140,10 @@ export default function SessionScreen({
         <span className="wq-mono" style={{ fontSize: 14, fontWeight: 800, color: C.ink }}>
           {freePlay ? fpCount + (fpCount === 1 ? " word" : " words") : answered + "/" + totalQ}</span>
         {/* Truly random free play serves every level at once, so the level
-            chip would be a false statement there. The dice says what is true. */}
-        <span className="wq-chip" style={{ marginLeft: 8 }}>
+            chip would be a false statement there. The dice says what is true,
+            and carries a name a screen reader can say. */}
+        <span className="wq-chip" style={{ marginLeft: 8 }}
+          {...(freePlay && fpMode === "random" ? { role: "img", "aria-label": "random words" } : {})}>
           {freePlay && fpMode === "random" ? "🎲" : state.level + " " + L.emoji}</span>
       </Zone.Header>
 

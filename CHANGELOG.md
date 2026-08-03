@@ -94,7 +94,7 @@ The first app version is 1.0.0-beta.1. The app stays in beta until version 1.0 i
 - New: free play. A second control on the home screen starts an endless practice mode for a
   child and a grown-up together: the same words a session would serve, the same microphone
   and grading and praise, but against a throwaway copy of the progress — rights and wrongs
-  in free play never touch the boxes, the schedule, the log or the session count, and seven
+  in free play never touch the boxes, the schedule, the log or the session count, and eight
   tests prove nothing is ever written. The header says "FREE PLAY" with a count of words
   read instead of a progress bar, blocks roll seamlessly into the next, nothing ever says
   "Finish!", and leaving needs no save-or-discard because there is nothing to save.

@@ -159,6 +159,10 @@ export default function App() {
      level. The mode lives in a ref because only begin and next read it. */
   const [fpChooser, setFpChooser] = useState(false);
   const fpMode = useRef("level");
+  /* Stable, because Modal re-takes focus whenever its onClose identity
+     changes: an inline closure here would snap the grown-up's focus back to
+     the first choice every time a toast expired behind the dialog. */
+  const cancelFpChooser = useCallback(() => setFpChooser(false), []);
 
   const recRef = useRef(null);
   const snapRef = useRef(null);            // N-3: word-state snapshot for lossless discard
@@ -738,7 +742,7 @@ export default function App() {
     return <HomeScreen state={state} L={L} kid={kid} masteredCount={masteredCount}
       persistent={persistent} readOnly={readOnly}
       onBegin={beginSession} onFreePlay={() => setFpChooser(true)} onParent={() => setScreen("parent")}
-      fpChooser={fpChooser} onFreePlayChoose={beginFreePlay} onFreePlayCancel={() => setFpChooser(false)} toast={toast} />;
+      fpChooser={fpChooser} onFreePlayChoose={beginFreePlay} onFreePlayCancel={cancelFpChooser} toast={toast} />;
   }
 
   if (screen === "session" && currentWord) {
