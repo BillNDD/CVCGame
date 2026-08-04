@@ -32,83 +32,336 @@
    "cup",
    "had",
    "jug",
-   "rub"
+   "mob",
+   "net",
+   "nut",
+   "rub",
+   "run",
+   "web"
   ],
   "onset_trim_words": [
    "fin",
    "ham",
-   "hot"
+   "hot",
+   "whip"
   ],
   "bright_head_ms": {
    "jam": 40,
-   "rat": 40
+   "rat": 40,
+   "thin": 40
   },
   "lead_override": {
    "am": 150,
    "an": 150,
    "bit": 180,
    "had": 150,
+   "nix": 220,
    "pin": 180,
-   "rat": 120
+   "rat": 120,
+   "wet": 180,
+   "what": 220,
+   "wick": 220
   },
   "word_speed_override": {
+   "back": 0.82,
+   "bang": 0.82,
+   "bash": 0.82,
+   "bath": 0.82,
+   "bed": 0.82,
+   "bell": 0.82,
+   "bet": 0.82,
    "bib": 0.82,
    "big": 0.82,
    "bin": 0.8,
    "bit": 0.82,
+   "boss": 0.82,
    "box": 0.82,
+   "buck": 0.82,
+   "bud": 0.82,
+   "bug": 0.82,
+   "bun": 0.82,
+   "bus": 0.82,
+   "bush": 0.82,
+   "buzz": 0.82,
+   "cash": 0.82,
+   "chap": 0.82,
+   "chat": 0.82,
+   "chin": 0.82,
+   "chip": 0.82,
+   "chop": 0.82,
+   "chug": 0.82,
+   "chum": 0.82,
+   "cod": 0.82,
+   "cuff": 0.82,
+   "cut": 0.82,
+   "dam": 0.82,
+   "dash": 0.82,
+   "deck": 0.82,
+   "den": 0.82,
    "did": 0.82,
    "dig": 0.82,
+   "dim": 0.82,
+   "ding": 0.82,
    "dip": 0.82,
+   "dock": 0.82,
    "dog": 0.82,
+   "doll": 0.82,
+   "dot": 0.82,
+   "duck": 0.82,
+   "dug": 0.82,
+   "fang": 0.82,
+   "fax": 0.82,
+   "fed": 0.82,
+   "fell": 0.82,
+   "fig": 0.82,
    "fit": 0.82,
+   "fix": 0.82,
+   "fizz": 0.82,
+   "fog": 0.82,
    "fox": 0.82,
+   "fun": 0.82,
+   "fuss": 0.82,
+   "fuzz": 0.82,
+   "gap": 0.82,
+   "gas": 0.82,
+   "gash": 0.82,
+   "get": 0.82,
+   "gob": 0.82,
+   "gong": 0.82,
    "got": 0.82,
+   "gum": 0.82,
+   "gush": 0.82,
+   "gut": 0.82,
+   "hang": 0.82,
    "hat": 0.82,
+   "hem": 0.82,
+   "hid": 0.82,
+   "hill": 0.82,
    "him": 0.82,
    "hip": 0.82,
    "hit": 0.8,
+   "hog": 0.82,
    "hop": 0.78,
+   "hug": 0.82,
+   "hum": 0.82,
+   "hung": 0.82,
+   "hush": 0.82,
+   "hut": 0.82,
+   "jab": 0.82,
+   "jazz": 0.82,
+   "jet": 0.82,
+   "jig": 0.82,
+   "job": 0.82,
+   "jog": 0.82,
+   "jot": 0.82,
+   "jut": 0.82,
+   "keg": 0.82,
+   "kick": 0.82,
+   "kid": 0.82,
+   "king": 0.82,
+   "kiss": 0.82,
+   "kit": 0.82,
+   "knob": 0.82,
+   "knot": 0.82,
+   "lab": 0.82,
+   "lad": 0.82,
+   "lamb": 0.82,
+   "lash": 0.82,
+   "led": 0.82,
+   "leg": 0.82,
+   "let": 0.82,
+   "lick": 0.82,
+   "lid": 0.82,
    "lip": 0.82,
+   "lit": 0.82,
+   "lock": 0.82,
    "log": 0.82,
+   "long": 0.82,
+   "loss": 0.82,
+   "lot": 0.82,
+   "luck": 0.82,
+   "lug": 0.82,
+   "lung": 0.82,
+   "mash": 0.82,
+   "math": 0.82,
+   "men": 0.82,
+   "mess": 0.82,
+   "met": 0.82,
+   "mill": 0.82,
+   "mix": 0.82,
    "mom": 0.82,
    "mop": 0.82,
+   "moth": 0.82,
+   "muck": 0.82,
+   "mush": 0.82,
+   "nab": 0.82,
+   "nix": 0.82,
+   "nod": 0.82,
    "not": 0.82,
+   "nun": 0.82,
+   "pack": 0.82,
+   "pat": 0.82,
+   "path": 0.82,
+   "peck": 0.82,
+   "peg": 0.82,
+   "pen": 0.82,
+   "pet": 0.82,
+   "pick": 0.82,
    "pig": 0.82,
    "pin": 0.82,
+   "ping": 0.82,
    "pit": 0.82,
+   "pod": 0.82,
    "pop": 0.82,
+   "posh": 0.82,
    "pot": 0.8,
+   "puck": 0.82,
+   "puff": 0.82,
+   "pun": 0.82,
+   "pup": 0.82,
+   "push": 0.82,
+   "quip": 0.82,
+   "quit": 0.82,
+   "quiz": 0.82,
    "ram": 0.82,
    "ran": 0.88,
+   "rang": 0.82,
    "rap": 0.82,
+   "rash": 0.82,
    "rat": 0.82,
+   "red": 0.82,
+   "rib": 0.82,
+   "rig": 0.82,
+   "rim": 0.82,
+   "ring": 0.82,
    "rip": 0.82,
+   "rob": 0.82,
+   "rock": 0.82,
+   "rod": 0.82,
+   "rot": 0.75,
+   "rug": 0.82,
+   "rung": 0.82,
+   "sack": 0.82,
    "sad": 0.82,
+   "sag": 0.82,
+   "sang": 0.82,
+   "sap": 0.82,
+   "sash": 0.82,
    "sat": 0.82,
+   "sax": 0.82,
+   "set": 0.82,
+   "sham": 0.82,
+   "she": 0.82,
+   "shed": 0.82,
+   "shin": 0.82,
+   "shun": 0.82,
+   "shut": 0.75,
+   "sing": 0.82,
    "sip": 0.82,
    "sit": 0.82,
    "six": 0.82,
+   "sob": 0.82,
+   "sock": 0.75,
+   "song": 0.82,
+   "sub": 0.75,
+   "such": 0.82,
+   "sum": 0.82,
+   "sun": 0.82,
+   "sung": 0.82,
+   "tab": 0.82,
+   "tack": 0.82,
    "tag": 0.82,
    "tan": 0.82,
    "tap": 0.83,
+   "tell": 0.82,
+   "ten": 0.82,
+   "that": 0.82,
+   "them": 0.82,
+   "thin": 0.82,
+   "this": 0.82,
+   "thud": 0.82,
+   "tick": 0.82,
+   "tin": 0.82,
    "tip": 0.82,
    "top": 0.82,
+   "tot": 0.82,
+   "tub": 0.82,
+   "tug": 0.82,
    "van": 0.82,
+   "vat": 0.82,
+   "vet": 0.82,
+   "vex": 0.82,
    "wag": 0.82,
+   "was": 0.82,
+   "wash": 0.82,
+   "wax": 0.82,
+   "wed": 0.82,
+   "well": 0.82,
+   "wet": 0.82,
+   "wham": 0.82,
+   "what": 0.82,
+   "when": 0.82,
+   "whim": 0.82,
+   "wick": 0.82,
    "win": 0.82,
+   "wing": 0.82,
+   "wish": 0.82,
+   "wit": 0.82,
+   "with": 0.82,
+   "yak": 0.82,
    "yam": 0.82,
    "yap": 0.82,
-   "zap": 0.82
+   "yes": 0.82,
+   "yet": 0.82,
+   "zag": 0.82,
+   "zap": 0.82,
+   "zig": 0.82,
+   "zip": 0.82
   },
   "head_trim_ms": {
    "lip": 80,
    "van": 40
   },
   "carrier_cut": {
+   "bed": [
+    "Here is the word, bed.",
+    120,
+    -20,
+    20
+   ],
    "bin": [
     "Here is the word, bin.",
     100,
+    -20,
+    20
+   ],
+   "bud": [
+    "Here is the word, bud.",
+    120,
+    -20,
+    20
+   ],
+   "bug": [
+    "Here is the word, bug.",
+    120,
+    -20,
+    20
+   ],
+   "bun": [
+    "Here is the word, bun.",
+    120,
+    -20,
+    20
+   ],
+   "bus": [
+    "Here is the word, bus.",
+    120,
+    -20,
+    20
+   ],
+   "buzz": [
+    "buzz. buzz.",
+    120,
     -20,
     20
    ],
@@ -118,9 +371,33 @@
     -20,
     20
    ],
+   "chum": [
+    "Here is the word, chum.",
+    180,
+    -20,
+    20
+   ],
+   "cod": [
+    "cod. cod.",
+    120,
+    -20,
+    20
+   ],
    "cot": [
     "Here is the word cot.",
     100,
+    -20,
+    20
+   ],
+   "dam": [
+    "Here is the word, dam.",
+    120,
+    -20,
+    20
+   ],
+   "den": [
+    "den. den.",
+    120,
     -20,
     20
    ],
@@ -130,8 +407,92 @@
     -20,
     20
    ],
+   "dim": [
+    "Here is the word, dim.",
+    120,
+    -20,
+    20
+   ],
    "dip": [
     "Here is the word, dip.",
+    120,
+    -20,
+    20
+   ],
+   "dot": [
+    "Here is the word, dot.",
+    100,
+    -20,
+    20
+   ],
+   "dug": [
+    "Here is the word, dug.",
+    120,
+    -20,
+    20
+   ],
+   "fang": [
+    "fang. fang.",
+    120,
+    -20,
+    20
+   ],
+   "fed": [
+    "Here is the word, fed.",
+    180,
+    -20,
+    20
+   ],
+   "fig": [
+    "Here is the word, fig.",
+    180,
+    -20,
+    20
+   ],
+   "fog": [
+    "fog. fog.",
+    120,
+    -20,
+    20
+   ],
+   "fun": [
+    "Here is the word, fun.",
+    120,
+    -20,
+    20
+   ],
+   "fuss": [
+    "fuss. fuss.",
+    120,
+    -20,
+    20
+   ],
+   "fuzz": [
+    "fuzz. fuzz.",
+    120,
+    -20,
+    20
+   ],
+   "gap": [
+    "gap. gap.",
+    120,
+    -20,
+    20
+   ],
+   "gash": [
+    "gash. gash.",
+    120,
+    -20,
+    20
+   ],
+   "get": [
+    "Here is the word, get.",
+    180,
+    -20,
+    20
+   ],
+   "gob": [
+    "gob. gob.",
     120,
     -20,
     20
@@ -142,9 +503,39 @@
     -30,
     40
    ],
+   "gum": [
+    "gum. gum.",
+    120,
+    -20,
+    20
+   ],
+   "gush": [
+    "gush. gush.",
+    120,
+    -20,
+    20
+   ],
+   "gut": [
+    "gut. gut.",
+    120,
+    -20,
+    20
+   ],
+   "hang": [
+    "hang. hang.",
+    120,
+    -20,
+    20
+   ],
    "hat": [
     "Here is the word, hat.",
     100,
+    -20,
+    20
+   ],
+   "hem": [
+    "hem. hem.",
+    120,
     -20,
     20
    ],
@@ -153,6 +544,12 @@
     150,
     -30,
     40
+   ],
+   "hid": [
+    "hid. hid.",
+    120,
+    -20,
+    20
    ],
    "hip": [
     "Here is the word, hip.",
@@ -166,9 +563,165 @@
     -20,
     20
    ],
+   "hog": [
+    "Here is the word, hog.",
+    120,
+    -20,
+    20
+   ],
+   "hug": [
+    "hug. hug.",
+    120,
+    -20,
+    20
+   ],
+   "hum": [
+    "Here is the word, hum.",
+    120,
+    -20,
+    20
+   ],
+   "hung": [
+    "hung. hung.",
+    120,
+    -20,
+    20
+   ],
+   "hut": [
+    "Here is the word, hut.",
+    180,
+    -20,
+    20
+   ],
+   "jab": [
+    "jab. jab.",
+    120,
+    -20,
+    20
+   ],
+   "jazz": [
+    "jazz. jazz.",
+    120,
+    -20,
+    20
+   ],
+   "jet": [
+    "jet. jet.",
+    120,
+    -20,
+    20
+   ],
+   "job": [
+    "Here is the word, job.",
+    120,
+    -20,
+    20
+   ],
+   "keg": [
+    "keg. keg.",
+    120,
+    -20,
+    20
+   ],
+   "kid": [
+    "kid. kid.",
+    120,
+    -20,
+    20
+   ],
+   "kit": [
+    "kit. kit.",
+    120,
+    -20,
+    20
+   ],
+   "knob": [
+    "knob. knob.",
+    120,
+    -20,
+    20
+   ],
+   "lab": [
+    "lab. lab.",
+    120,
+    -20,
+    20
+   ],
+   "lad": [
+    "lad. lad.",
+    120,
+    -20,
+    20
+   ],
+   "lamb": [
+    "lamb. lamb.",
+    120,
+    -20,
+    20
+   ],
+   "led": [
+    "led. led.",
+    120,
+    -20,
+    20
+   ],
+   "leg": [
+    "leg. leg.",
+    120,
+    -20,
+    20
+   ],
+   "lit": [
+    "lit. lit.",
+    120,
+    -20,
+    20
+   ],
+   "long": [
+    "long. long.",
+    120,
+    -20,
+    20
+   ],
+   "lot": [
+    "Here is the word, lot.",
+    180,
+    -20,
+    20
+   ],
+   "lug": [
+    "lug. lug.",
+    120,
+    -20,
+    20
+   ],
+   "lung": [
+    "lung. lung.",
+    120,
+    -20,
+    20
+   ],
    "man": [
     "Here is the word, man.",
     150,
+    -20,
+    20
+   ],
+   "men": [
+    "men. men.",
+    120,
+    -20,
+    20
+   ],
+   "met": [
+    "met. met.",
+    120,
+    -20,
+    20
+   ],
+   "mill": [
+    "mill. mill.",
+    120,
     -20,
     20
    ],
@@ -178,9 +731,117 @@
     -20,
     20
    ],
+   "pat": [
+    "Here is the word, pat.",
+    120,
+    -20,
+    20
+   ],
+   "peg": [
+    "peg. peg.",
+    120,
+    -20,
+    20
+   ],
+   "pet": [
+    "Here is the word, pet.",
+    180,
+    -20,
+    20
+   ],
+   "ping": [
+    "ping. ping.",
+    120,
+    -20,
+    20
+   ],
+   "pod": [
+    "Here is the word, pod.",
+    180,
+    -20,
+    20
+   ],
    "pot": [
     "Here is the word, pot.",
     100,
+    -20,
+    20
+   ],
+   "pup": [
+    "Here is the word, pup.",
+    120,
+    -20,
+    20
+   ],
+   "quiz": [
+    "quiz. quiz.",
+    120,
+    -20,
+    20
+   ],
+   "rang": [
+    "rang. rang.",
+    120,
+    -20,
+    20
+   ],
+   "rash": [
+    "rash. rash.",
+    120,
+    -20,
+    20
+   ],
+   "red": [
+    "red. red.",
+    120,
+    -20,
+    20
+   ],
+   "rig": [
+    "Here is the word, rig.",
+    120,
+    -20,
+    20
+   ],
+   "rod": [
+    "rod. rod.",
+    120,
+    -20,
+    20
+   ],
+   "rot": [
+    "rot. rot.",
+    120,
+    -20,
+    20
+   ],
+   "sang": [
+    "sang. sang.",
+    120,
+    -20,
+    20
+   ],
+   "shed": [
+    "shed. shed.",
+    120,
+    -20,
+    20
+   ],
+   "shin": [
+    "shin. shin.",
+    120,
+    -20,
+    20
+   ],
+   "shut": [
+    "shut. shut.",
+    120,
+    -20,
+    20
+   ],
+   "sing": [
+    "sing. sing.",
+    120,
     -20,
     20
    ],
@@ -190,9 +851,123 @@
     -30,
     40
    ],
+   "sock": [
+    "sock. sock.",
+    120,
+    -20,
+    20
+   ],
+   "song": [
+    "song. song.",
+    120,
+    -20,
+    20
+   ],
+   "sub": [
+    "sub. sub.",
+    120,
+    -20,
+    20
+   ],
+   "sum": [
+    "sum. sum.",
+    120,
+    -20,
+    20
+   ],
+   "sun": [
+    "sun. sun.",
+    120,
+    -20,
+    20
+   ],
+   "sung": [
+    "sung. sung.",
+    120,
+    -20,
+    20
+   ],
    "tap": [
     "Here is the word tap.",
     100,
+    -20,
+    20
+   ],
+   "ten": [
+    "Here is the word, ten.",
+    120,
+    -20,
+    20
+   ],
+   "them": [
+    "them. them.",
+    120,
+    -20,
+    20
+   ],
+   "this": [
+    "this. this.",
+    120,
+    -20,
+    20
+   ],
+   "tin": [
+    "Here is the word, tin.",
+    120,
+    -20,
+    20
+   ],
+   "tot": [
+    "tot. tot.",
+    120,
+    -20,
+    20
+   ],
+   "tug": [
+    "tug. tug.",
+    120,
+    -20,
+    20
+   ],
+   "vat": [
+    "Here is the word, vat.",
+    120,
+    -20,
+    20
+   ],
+   "vet": [
+    "Here is the word, vet.",
+    180,
+    -20,
+    20
+   ],
+   "wed": [
+    "wed. wed.",
+    120,
+    -20,
+    20
+   ],
+   "wham": [
+    "wham. wham.",
+    120,
+    -20,
+    20
+   ],
+   "wit": [
+    "Here is the word, wit.",
+    180,
+    -20,
+    20
+   ],
+   "yet": [
+    "yet. yet.",
+    120,
+    -20,
+    20
+   ],
+   "zag": [
+    "zag. zag.",
+    120,
     -20,
     20
    ],
@@ -201,9 +976,51 @@
     80,
     -30,
     40
+   ],
+   "zig": [
+    "zig. zig.",
+    120,
+    -20,
+    20
+   ],
+   "zip": [
+    "zip. zip.",
+    120,
+    -20,
+    20
    ]
   },
   "asr_pinned": {
+   "back": [
+    "Here is the word, back.",
+    0.969,
+    1.58
+   ],
+   "bang": [
+    "Here is the word, bang.",
+    0.948,
+    1.54
+   ],
+   "bash": [
+    "Here is the word, bash.",
+    0.991,
+    1.72
+   ],
+   "bath": [
+    "Here is the word, bath.",
+    0.969,
+    1.58
+   ],
+   "bell": [
+    "Here is the word, bell.",
+    0.991,
+    1.62
+   ],
+   "bet": [
+    "Here is the word, bet.",
+    1.055,
+    1.7
+   ],
    "bib": [
     "Say bib.",
     0.46,
@@ -214,30 +1031,155 @@
     0.46,
     0.96
    ],
+   "boss": [
+    "Here is the word, boss.",
+    0.969,
+    1.56
+   ],
    "box": [
     "Say box.",
     0.46,
     0.92
+   ],
+   "buck": [
+    "Here is the word, buck.",
+    0.991,
+    1.62
+   ],
+   "bush": [
+    "Here is the word, bush.",
+    0.991,
+    1.58
+   ],
+   "cash": [
+    "Here is the word, cash.",
+    0.969,
+    1.7
+   ],
+   "chap": [
+    "Here is the word, chap.",
+    0.841,
+    1.7
+   ],
+   "chat": [
+    "Here is the word, chat.",
+    0.884,
+    1.52
+   ],
+   "chin": [
+    "Here is the word, chin.",
+    0.905,
+    1.72
+   ],
+   "chip": [
+    "Here is the word, chip.",
+    0.927,
+    1.76
+   ],
+   "chop": [
+    "Here is the word, chop.",
+    0.927,
+    1.82
+   ],
+   "chug": [
+    "Here is the word, chug.",
+    0.905,
+    1.75
+   ],
+   "cuff": [
+    "Here is the word, cuff.",
+    0.969,
+    1.64
+   ],
+   "cut": [
+    "Say cut.",
+    0.5,
+    0.74
+   ],
+   "dash": [
+    "Here is the word, dash.",
+    0.948,
+    1.6
+   ],
+   "deck": [
+    "Here is the word, deck.",
+    0.927,
+    1.64
    ],
    "dig": [
     "Say dig.",
     0.46,
     0.96
    ],
+   "ding": [
+    "Here is the word, ding.",
+    0.969,
+    1.62
+   ],
+   "dock": [
+    "Here is the word, dock.",
+    0.969,
+    1.6
+   ],
    "dog": [
     "Say dog.",
     0.46,
     1
+   ],
+   "doll": [
+    "Here is the word, doll.",
+    0.905,
+    1.58
+   ],
+   "duck": [
+    "Here is the word, duck.",
+    0.948,
+    1.66
+   ],
+   "fax": [
+    "Here it is, fax.",
+    0.735,
+    1.26
+   ],
+   "fell": [
+    "Here is the word, fell.",
+    1.012,
+    1.6
    ],
    "fit": [
     "Say fit.",
     0.48,
     0.92
    ],
+   "fix": [
+    "Say fix.",
+    0.52,
+    0.82
+   ],
+   "fizz": [
+    "Here is the word, fizz.",
+    0.991,
+    1.68
+   ],
    "fox": [
     "Say fox.",
     0.46,
     0.94
+   ],
+   "gas": [
+    "Here is the word, gas.",
+    0.969,
+    1.6
+   ],
+   "gong": [
+    "Here is the word, gong.",
+    0.948,
+    1.7
+   ],
+   "hill": [
+    "Here is the word, hill.",
+    1.033,
+    1.64
    ],
    "him": [
     "Say him.",
@@ -249,10 +1191,110 @@
     0.58,
     1.04
    ],
+   "hush": [
+    "Here is the word, hush.",
+    1.033,
+    1.72
+   ],
+   "jig": [
+    "Here is the word, jig.",
+    0.969,
+    1.82
+   ],
+   "jog": [
+    "Here is the word, jog.",
+    0.841,
+    1.61
+   ],
+   "jot": [
+    "Here is the word, jot.",
+    0.905,
+    1.65
+   ],
+   "jut": [
+    "Here is the word, jut.",
+    0.927,
+    1.67
+   ],
+   "kick": [
+    "Here is the word, kick.",
+    0.969,
+    1.64
+   ],
+   "king": [
+    "Here is the word, king.",
+    0.969,
+    1.6
+   ],
+   "kiss": [
+    "Here is the word, kiss.",
+    0.948,
+    1.68
+   ],
+   "knot": [
+    "Here is the word, knot.",
+    0.948,
+    1.64
+   ],
+   "lash": [
+    "Here is the word, lash.",
+    0.969,
+    1.78
+   ],
+   "let": [
+    "Here it is, let.",
+    0.799,
+    1.257
+   ],
+   "lick": [
+    "Here is the word, lick.",
+    1.097,
+    1.74
+   ],
+   "lid": [
+    "Here is the word, lid.",
+    1.033,
+    1.7
+   ],
+   "lock": [
+    "Here is the word, lock.",
+    0.991,
+    1.58
+   ],
    "log": [
     "Say log.",
     0.44,
     0.9
+   ],
+   "loss": [
+    "Here is the word, loss.",
+    0.991,
+    1.6
+   ],
+   "luck": [
+    "Here is the word, luck.",
+    1.012,
+    1.7
+   ],
+   "mash": [
+    "Here is the word, mash.",
+    0.927,
+    1.62
+   ],
+   "math": [
+    "Here is the word, math.",
+    0.884,
+    1.52
+   ],
+   "mess": [
+    "Here is the word, mess.",
+    0.948,
+    1.6
+   ],
+   "mix": [
+    "Here is the word, mix.",
+    1.012,
+    1.66
    ],
    "mom": [
     "Say mom.",
@@ -264,10 +1306,65 @@
     0.5,
     0.88
    ],
+   "moth": [
+    "Here is the word, moth.",
+    0.884,
+    1.52
+   ],
+   "muck": [
+    "Here is the word, muck.",
+    0.948,
+    1.58
+   ],
+   "mush": [
+    "Here is the word, mush.",
+    0.948,
+    1.6
+   ],
+   "nab": [
+    "Here it is, nab.",
+    0.756,
+    1.28
+   ],
+   "nod": [
+    "Say nod.",
+    0.4,
+    0.88
+   ],
    "not": [
     "Say not.",
     0.4,
     0.88
+   ],
+   "nun": [
+    "Here is the word, nun.",
+    0.948,
+    1.54
+   ],
+   "pack": [
+    "Here is the word, pack.",
+    0.969,
+    1.64
+   ],
+   "path": [
+    "Here is the word, path.",
+    0.927,
+    1.58
+   ],
+   "peck": [
+    "Here is the word, peck.",
+    0.991,
+    1.76
+   ],
+   "pen": [
+    "Here is the word, pen.",
+    0.948,
+    1.6
+   ],
+   "pick": [
+    "Here is the word, pick.",
+    1.033,
+    1.8
    ],
    "pig": [
     "Say pig.",
@@ -284,6 +1381,41 @@
     0.46,
     0.9
    ],
+   "posh": [
+    "Here is the word, posh.",
+    0.948,
+    1.72
+   ],
+   "puck": [
+    "Here is the word, puck.",
+    0.991,
+    1.74
+   ],
+   "puff": [
+    "Here is the word, puff.",
+    0.948,
+    1.72
+   ],
+   "pun": [
+    "Here is the word, pun.",
+    0.927,
+    1.62
+   ],
+   "push": [
+    "Here is the word, push.",
+    0.969,
+    1.38
+   ],
+   "quip": [
+    "Here is the word, quip.",
+    1.012,
+    1.8
+   ],
+   "quit": [
+    "Here is the word, quit.",
+    1.012,
+    1.44
+   ],
    "ram": [
     "Say ram.",
     0.44,
@@ -294,20 +1426,100 @@
     0.48,
     0.92
    ],
+   "rib": [
+    "Here is the word, rib.",
+    1.012,
+    1.66
+   ],
+   "rim": [
+    "Here is the word, rim.",
+    0.991,
+    1.64
+   ],
+   "ring": [
+    "Here is the word, ring.",
+    0.991,
+    1.62
+   ],
    "rip": [
     "Say rip.",
     0.46,
     0.86
+   ],
+   "rob": [
+    "Say rob.",
+    0.5,
+    0.72
+   ],
+   "rock": [
+    "Here is the word, rock.",
+    1.012,
+    1.66
+   ],
+   "rug": [
+    "Say rug.",
+    0.46,
+    0.7
+   ],
+   "rung": [
+    "Here it is, rung.",
+    0.756,
+    1.297
+   ],
+   "sack": [
+    "Here is the word, sack.",
+    0.991,
+    1.7
    ],
    "sad": [
     "Say sad.",
     0.44,
     0.92
    ],
+   "sag": [
+    "Here is the word, sag.",
+    0.82,
+    1.63
+   ],
+   "sap": [
+    "Say sap.",
+    0.52,
+    0.82
+   ],
+   "sash": [
+    "Here is the word, sash.",
+    0.884,
+    1.72
+   ],
    "sat": [
     "Say sat.",
     0.46,
     0.98
+   ],
+   "sax": [
+    "Here it is, sax.",
+    0.777,
+    1.44
+   ],
+   "set": [
+    "Say set.",
+    0.466,
+    0.96
+   ],
+   "sham": [
+    "Here is the word, sham.",
+    0.969,
+    1.6
+   ],
+   "she": [
+    "Here is the word, she.",
+    0.863,
+    1.56
+   ],
+   "shun": [
+    "Here is the word, shun.",
+    1.012,
+    1.6
    ],
    "sip": [
     "Say sip.",
@@ -319,6 +1531,26 @@
     0.48,
     1.18
    ],
+   "sob": [
+    "Say sob.",
+    0.48,
+    0.74
+   ],
+   "such": [
+    "Listen, such.",
+    0.737,
+    1.28
+   ],
+   "tab": [
+    "Here is the word, tab.",
+    0.884,
+    1.54
+   ],
+   "tack": [
+    "Here is the word, tack.",
+    0.905,
+    1.74
+   ],
    "tag": [
     "Say tag.",
     0.42,
@@ -328,6 +1560,26 @@
     "Say tan.",
     0.42,
     0.88
+   ],
+   "tell": [
+    "Here is the word, tell.",
+    0.905,
+    1.5
+   ],
+   "that": [
+    "Here it is, that.",
+    0.756,
+    1.28
+   ],
+   "thud": [
+    "Here is the word, thud.",
+    1.055,
+    1.8
+   ],
+   "tick": [
+    "Here is the word, tick.",
+    0.927,
+    1.64
    ],
    "tip": [
     "Say tip.",
@@ -339,15 +1591,75 @@
     0.42,
     0.9
    ],
+   "tub": [
+    "Here is the word, tub.",
+    0.884,
+    1.54
+   ],
+   "vex": [
+    "Here is the word, vex.",
+    0.969,
+    1.74
+   ],
    "wag": [
     "Say wag.",
     0.42,
     0.88
    ],
+   "was": [
+    "Here is the word, was.",
+    0.991,
+    1.64
+   ],
+   "wash": [
+    "Here is the word, wash.",
+    1.033,
+    1.78
+   ],
+   "wax": [
+    "Here is the word, wax.",
+    0.969,
+    1.58
+   ],
+   "well": [
+    "Here it is, well.",
+    0.735,
+    1.26
+   ],
+   "when": [
+    "Listen, when.",
+    0.715,
+    1.28
+   ],
+   "whim": [
+    "Here is the word, whim.",
+    1.033,
+    1.7
+   ],
    "win": [
     "Say win.",
     0.42,
     0.86
+   ],
+   "wing": [
+    "Here is the word, wing.",
+    0.969,
+    1.6
+   ],
+   "wish": [
+    "Here it is, wish.",
+    0.756,
+    1.28
+   ],
+   "with": [
+    "Here it is, with.",
+    0.756,
+    1.28
+   ],
+   "yak": [
+    "Here is the word, yak.",
+    0.969,
+    1.56
    ],
    "yam": [
     "Say yam.",
@@ -358,9 +1670,38 @@
     "Say yap.",
     0.48,
     1.02
+   ],
+   "yes": [
+    "Here is the word, yes.",
+    0.969,
+    1.58
    ]
   },
   "asr_guard_ms": {
+   "back": [
+    30,
+    40
+   ],
+   "bang": [
+    30,
+    40
+   ],
+   "bash": [
+    30,
+    40
+   ],
+   "bath": [
+    30,
+    40
+   ],
+   "bell": [
+    30,
+    40
+   ],
+   "bet": [
+    30,
+    40
+   ],
    "bib": [
     40,
     40
@@ -369,24 +1710,124 @@
     40,
     40
    ],
+   "boss": [
+    30,
+    40
+   ],
    "box": [
     40,
+    40
+   ],
+   "buck": [
+    30,
+    40
+   ],
+   "bush": [
+    30,
+    40
+   ],
+   "cash": [
+    30,
+    40
+   ],
+   "chap": [
+    30,
+    40
+   ],
+   "chat": [
+    30,
+    40
+   ],
+   "chin": [
+    30,
+    40
+   ],
+   "chip": [
+    30,
+    40
+   ],
+   "chop": [
+    30,
+    40
+   ],
+   "chug": [
+    30,
+    40
+   ],
+   "cuff": [
+    30,
+    40
+   ],
+   "cut": [
+    80,
+    40
+   ],
+   "dash": [
+    30,
+    40
+   ],
+   "deck": [
+    30,
     40
    ],
    "dig": [
     40,
     40
    ],
+   "ding": [
+    30,
+    40
+   ],
+   "dock": [
+    30,
+    40
+   ],
    "dog": [
     40,
+    40
+   ],
+   "doll": [
+    30,
+    40
+   ],
+   "duck": [
+    30,
+    40
+   ],
+   "fax": [
+    30,
+    40
+   ],
+   "fell": [
+    30,
     40
    ],
    "fit": [
     40,
     40
    ],
+   "fix": [
+    40,
+    40
+   ],
+   "fizz": [
+    30,
+    40
+   ],
    "fox": [
     40,
+    40
+   ],
+   "gas": [
+    30,
+    40
+   ],
+   "gong": [
+    30,
+    40
+   ],
+   "hill": [
+    30,
     40
    ],
    "him": [
@@ -397,8 +1838,88 @@
     40,
     40
    ],
+   "hush": [
+    30,
+    40
+   ],
+   "jig": [
+    30,
+    40
+   ],
+   "jog": [
+    30,
+    40
+   ],
+   "jot": [
+    30,
+    40
+   ],
+   "jut": [
+    30,
+    40
+   ],
+   "kick": [
+    30,
+    40
+   ],
+   "king": [
+    30,
+    40
+   ],
+   "kiss": [
+    30,
+    40
+   ],
+   "knot": [
+    30,
+    40
+   ],
+   "lash": [
+    30,
+    40
+   ],
+   "let": [
+    30,
+    40
+   ],
+   "lick": [
+    30,
+    40
+   ],
+   "lid": [
+    30,
+    40
+   ],
+   "lock": [
+    30,
+    40
+   ],
    "log": [
     40,
+    40
+   ],
+   "loss": [
+    30,
+    40
+   ],
+   "luck": [
+    30,
+    40
+   ],
+   "mash": [
+    30,
+    40
+   ],
+   "math": [
+    30,
+    40
+   ],
+   "mess": [
+    30,
+    40
+   ],
+   "mix": [
+    30,
     40
    ],
    "mom": [
@@ -409,8 +1930,52 @@
     40,
     40
    ],
+   "moth": [
+    30,
+    40
+   ],
+   "muck": [
+    30,
+    40
+   ],
+   "mush": [
+    30,
+    40
+   ],
+   "nab": [
+    30,
+    40
+   ],
+   "nod": [
+    40,
+    40
+   ],
    "not": [
     40,
+    40
+   ],
+   "nun": [
+    30,
+    40
+   ],
+   "pack": [
+    30,
+    40
+   ],
+   "path": [
+    30,
+    40
+   ],
+   "peck": [
+    30,
+    40
+   ],
+   "pen": [
+    30,
+    40
+   ],
+   "pick": [
+    30,
     40
    ],
    "pig": [
@@ -425,6 +1990,34 @@
     40,
     40
    ],
+   "posh": [
+    30,
+    40
+   ],
+   "puck": [
+    30,
+    40
+   ],
+   "puff": [
+    30,
+    40
+   ],
+   "pun": [
+    30,
+    40
+   ],
+   "push": [
+    30,
+    40
+   ],
+   "quip": [
+    30,
+    40
+   ],
+   "quit": [
+    30,
+    40
+   ],
    "ram": [
     40,
     40
@@ -433,16 +2026,80 @@
     40,
     40
    ],
+   "rib": [
+    30,
+    40
+   ],
+   "rim": [
+    30,
+    40
+   ],
+   "ring": [
+    30,
+    40
+   ],
    "rip": [
     40,
+    40
+   ],
+   "rob": [
+    40,
+    40
+   ],
+   "rock": [
+    30,
+    40
+   ],
+   "rug": [
+    80,
+    40
+   ],
+   "rung": [
+    30,
+    40
+   ],
+   "sack": [
+    30,
     40
    ],
    "sad": [
     80,
     40
    ],
+   "sag": [
+    30,
+    40
+   ],
+   "sap": [
+    80,
+    40
+   ],
+   "sash": [
+    30,
+    40
+   ],
    "sat": [
     80,
+    40
+   ],
+   "sax": [
+    30,
+    40
+   ],
+   "set": [
+    100,
+    40
+   ],
+   "sham": [
+    30,
+    40
+   ],
+   "she": [
+    30,
+    40
+   ],
+   "shun": [
+    30,
     40
    ],
    "sip": [
@@ -453,12 +2110,44 @@
     80,
     80
    ],
+   "sob": [
+    80,
+    40
+   ],
+   "such": [
+    25,
+    40
+   ],
+   "tab": [
+    30,
+    40
+   ],
+   "tack": [
+    30,
+    40
+   ],
    "tag": [
     40,
     40
    ],
    "tan": [
     40,
+    40
+   ],
+   "tell": [
+    30,
+    40
+   ],
+   "that": [
+    30,
+    40
+   ],
+   "thud": [
+    30,
+    40
+   ],
+   "tick": [
+    30,
     40
    ],
    "tip": [
@@ -469,12 +2158,60 @@
     40,
     40
    ],
+   "tub": [
+    30,
+    40
+   ],
+   "vex": [
+    30,
+    40
+   ],
    "wag": [
     40,
     40
    ],
+   "was": [
+    30,
+    40
+   ],
+   "wash": [
+    30,
+    40
+   ],
+   "wax": [
+    30,
+    40
+   ],
+   "well": [
+    30,
+    40
+   ],
+   "when": [
+    25,
+    40
+   ],
+   "whim": [
+    30,
+    40
+   ],
    "win": [
     40,
+    40
+   ],
+   "wing": [
+    30,
+    40
+   ],
+   "wish": [
+    30,
+    40
+   ],
+   "with": [
+    30,
+    40
+   ],
+   "yak": [
+    30,
     40
    ],
    "yam": [
@@ -484,6 +2221,10 @@
    "yap": [
     40,
     40
+   ],
+   "yes": [
+    30,
+    40
    ]
   },
   "keepers_treatments": [
@@ -491,77 +2232,289 @@
    "an",
    "at",
    "ax",
+   "back",
+   "bang",
+   "bash",
+   "bath",
+   "bed",
+   "bell",
+   "bet",
    "bib",
    "big",
    "bin",
    "bit",
+   "boss",
    "box",
+   "buck",
+   "bud",
+   "bug",
+   "bun",
+   "bus",
+   "bush",
+   "buzz",
    "can",
+   "cash",
+   "chap",
+   "chat",
+   "chin",
+   "chip",
+   "chop",
+   "chug",
+   "chum",
+   "cod",
    "cot",
    "cub",
+   "cuff",
    "cup",
+   "cut",
+   "dam",
+   "dash",
+   "deck",
+   "den",
    "did",
    "dig",
+   "dim",
+   "ding",
    "dip",
    "dish",
+   "dock",
    "dog",
+   "doll",
+   "dot",
+   "duck",
+   "dug",
+   "fang",
+   "fax",
+   "fed",
+   "fell",
+   "fig",
    "fin",
    "fit",
+   "fix",
+   "fizz",
+   "fog",
    "fox",
+   "fun",
+   "fuss",
+   "fuzz",
+   "gap",
+   "gas",
+   "gash",
+   "get",
+   "gob",
+   "gong",
    "got",
+   "gum",
+   "gush",
+   "gut",
    "had",
    "ham",
+   "hang",
    "hat",
+   "hem",
    "hen",
+   "hid",
+   "hill",
    "him",
    "hip",
    "hit",
+   "hog",
    "hop",
    "hot",
+   "hug",
+   "hum",
+   "hung",
+   "hush",
+   "hut",
    "if",
    "in",
    "is",
    "it",
+   "jab",
    "jam",
+   "jazz",
+   "jet",
+   "jig",
+   "job",
+   "jog",
+   "jot",
    "jug",
+   "jut",
+   "keg",
+   "kick",
+   "kid",
+   "king",
+   "kiss",
+   "kit",
+   "knob",
+   "knot",
+   "lab",
+   "lad",
+   "lamb",
+   "lash",
+   "led",
+   "leg",
+   "let",
+   "lick",
+   "lid",
    "lip",
+   "lit",
+   "lock",
    "log",
+   "long",
+   "loss",
+   "lot",
+   "luck",
+   "lug",
+   "lung",
    "man",
+   "mash",
+   "math",
+   "men",
+   "mess",
+   "met",
+   "mill",
+   "mix",
+   "mob",
    "mom",
    "mop",
+   "moth",
+   "muck",
+   "mush",
+   "nab",
+   "net",
+   "nix",
+   "nod",
    "not",
+   "nun",
+   "nut",
    "on",
    "ox",
+   "pack",
    "pal",
+   "pat",
+   "path",
+   "peck",
+   "peg",
+   "pen",
+   "pet",
+   "pick",
    "pig",
    "pin",
+   "ping",
    "pit",
+   "pod",
    "pop",
+   "posh",
    "pot",
+   "puck",
+   "puff",
+   "pun",
+   "pup",
+   "push",
+   "quip",
+   "quit",
+   "quiz",
    "ram",
    "ran",
+   "rang",
    "rap",
+   "rash",
    "rat",
+   "red",
+   "rib",
+   "rig",
+   "rim",
+   "ring",
    "rip",
+   "rob",
+   "rock",
+   "rod",
+   "rot",
    "rub",
+   "rug",
+   "run",
+   "rung",
+   "sack",
    "sad",
+   "sag",
+   "sang",
+   "sap",
+   "sash",
    "sat",
+   "sax",
+   "set",
+   "sham",
+   "she",
+   "shed",
+   "shin",
+   "shun",
+   "shut",
+   "sing",
    "sip",
    "sit",
    "six",
+   "sob",
+   "sock",
+   "song",
+   "sub",
+   "such",
+   "sum",
+   "sun",
+   "sung",
+   "tab",
+   "tack",
    "tag",
    "tan",
    "tap",
+   "tell",
+   "ten",
+   "that",
+   "them",
+   "thin",
+   "this",
+   "thud",
+   "tick",
+   "tin",
    "tip",
    "top",
+   "tot",
+   "tub",
+   "tug",
    "up",
    "us",
    "van",
+   "vat",
+   "vet",
+   "vex",
    "wag",
+   "was",
+   "wash",
+   "wax",
+   "web",
+   "wed",
+   "well",
+   "wet",
+   "wham",
+   "what",
+   "when",
+   "whim",
+   "whip",
+   "wick",
    "win",
+   "wing",
+   "wish",
+   "wit",
+   "with",
+   "yak",
    "yam",
    "yap",
-   "zap"
+   "yes",
+   "yet",
+   "zag",
+   "zap",
+   "zig",
+   "zip"
   ]
  },
  "phoneme_strings": {
@@ -590,7 +2543,196 @@
  },
  "byte_pins": {
   "sad": "3556e5d6f527747fe2932750c3e9ed23c1811fc09ea422ba3e7e513eae5c3ed2",
-  "sat": "961d0e369cd1524fe25ef8c87ced0089d7e3e60e908b9ae94a343529f1cefb90"
+  "sat": "961d0e369cd1524fe25ef8c87ced0089d7e3e60e908b9ae94a343529f1cefb90",
+  "cut": "bd516a3c860923bdb349b73603a28cff03fbc1d7971bd8f27785a907fbf0dbe3",
+  "get": "9b984be1b5fa3bc75d6cea1107e62b01b77f94eb9e5c50c6b2509e662024a129",
+  "hug": "d7bd0a087e248faaf382a9a2c6fb3ab31e643070353abe21fdfbef9df7f3599f",
+  "jet": "be0e37d95491ec892f9c0538c4e05ee82f8da350adf58941c2399b967e5a8624",
+  "leg": "217c2a6ef7339d9f536b426afe3f1bbca0b7638cb793b3a8342b47eabc5907be",
+  "let": "77a9e26c9a7aa19ff94f6af37da09617d79da2da0269666698e01bcd7bc069d2",
+  "men": "16865119434a6fccf2d21adf623bd72ca2ec3665cc25b90836a7feac08be09a6",
+  "met": "e23693c96f6a7663e5c1f74ebcff6694b48972d8357caffed6fa96fd02f6d02c",
+  "net": "ed7329a10e711d02bea9ea74876ae22d81fbcfef53a2fe369d3306c902c7d393",
+  "nut": "e5c2795d7e01d5da0f8fa0531c3cf0467d2c5526339f34cd4de9e747521427b6",
+  "peg": "15a7bd98317a539c2012f54076260f60cdc2bf5379ea2c63531317582767d062",
+  "pen": "17d09ab986409162489547e54c96dc9bb112e98713e783cd1f8b5cfb9485035a",
+  "pet": "3ed806d8a837de7feaa5e4b3bd84b7121c296cc699ff190dc7617b6b16715682",
+  "pup": "150f40d220a8b9c7d32ec76a5459b58221a8c47cab580a032fe2b864ed1f672a",
+  "red": "b599d45ad0626f549b03e20dc69b542150ccdd0e0a127d56ab2c1cb1eece3195",
+  "rug": "c0b95ecf44942b94bdfb20ebfa2b6fca704cb732af8157bac8b6aa0ad97b2e5a",
+  "run": "dc070d29d6d1e5127c521ee7d75e2873a2f3b7a58c3b99513138a003a7503df2",
+  "set": "6724be7887e9cff6bef34e1142e14e85e0a72c6270a338bf956e0622627397bc",
+  "sun": "10e289ed3f1e6738d3c38af97e11ad23fc8bee66d87e7de852ec30e2440cc259",
+  "ten": "6d05e9cb5009b8bb5e8cb4fe5222b987fa2bb054e56c40f169c63dd0507f8aea",
+  "tub": "1645785587d1ffdf229667e4adaa50241c63a5da80266fa9582b1c224b3cc3b8",
+  "tug": "46b9c2acfae5bdd41bb9c5e0643dd268fe199bcda6d9992036e2c1cd398bc482",
+  "vet": "0740d77d511fd816f64229dd6ab7eea6714c8287e50a97ba58a667db7d43c09b",
+  "web": "9e142f2b068b3f3fc364aec254b7359a3053d18eb0222b1920c93e87595be6d8",
+  "wet": "e68d7979eea69042e1282b1ecd87311ec21343d0bc5795168390bd4083423221",
+  "yet": "4392327b8c24d9f81ddd7ac5455a222d22a57e31fa4b9323ec37e3abcdf52212",
+  "den": "41afc621e6cf8e517da6146ca041433a187bad282cc7e7291588a01323c5eb91",
+  "dot": "2ee043d833e0dbc9e1ee34d3a05172123c55746b7b76ab3f288bbdacc895b57c",
+  "fed": "4107db4bbb7a106b3e0b303246f3dbe6d8e05e087d785732356190170f2339e7",
+  "fig": "7a7fd6cfc38e8cab3e343a0dd46052a0d6b2259188df7a8cf428a65d6a36011a",
+  "fog": "d44930b21c39ea632ef6d5eded2302486e287f5a993af982a818f92901aef73a",
+  "gap": "2cbda7f220a30e3c24b42af0fef4ebae1cdea2a2d386b1d81f34cc795d28b3d5",
+  "gas": "8e10bd4ff801022afa1ebd953855ffbd53d8dedd159a338e706d19155dc14f81",
+  "gum": "6a2def535bd023063828420c0b0f14ec5f5b17de1ad01f66da7b8562cb6e77ce",
+  "hid": "586463ff5b697e2700cc95200a8d9744b5deac252952addd5b7856de691f33e2",
+  "hut": "e12c24183ada326b2d3e5789839b0b16034ce0b84e4b3ac6d2cfa79b0f510fd5",
+  "jab": "fb61f9e6168eec425d80d68f443275055d416c9eaa54f1f7153d0e1ca8d08b92",
+  "jig": "80aa4a1327cab3d785340ef0afb4a2c682b58ba54791bfb594a664f17613e6ff",
+  "jog": "35f01fb09860bf076410efe94a867cab2d010d1eaea5265cac22ce300e3a9acf",
+  "jot": "c93cb44ead0bc44a4b83add6a2735b4ddd4d5babcaa1a40a4227c2cacf40854a",
+  "kid": "059d8f88c622c4f0fd52abea43cdb3211bcc0752af6ee06e7d1949fa09ce77fa",
+  "kit": "96f0f129e51d4f392b96b9a47e0c27ea61f764ebcc08c5123e931d3bcdcdca17",
+  "lab": "50b74bfb972e949eb67d3c5acc3f0e9c0401ccbf213dfae8f8a6775f60d460dc",
+  "lad": "f88ff867ea3fb79b0de66d9d2fa76e2e7abb37419be7e2be62099a4765438aee",
+  "led": "36170d5f9e0b8e73ba53baceddc76f68f888604820f605b10879352b47218038",
+  "lid": "9d3e5e8000d898d323fe59b9a5cdfddaf7a9570ddd568f8f313d680fef540d3f",
+  "lit": "6d7df2d72d9fa8fb630db6f5fc183e8abe5231f0b1f39ad2eac2ba39217931b4",
+  "lug": "40f8ccd1e87b83195671c2afa6fc441d9e60c075dfd7ff580a5efd84233f3804",
+  "mix": "2e5a74985ef29815a41c48b5fe5b537dc8b9531d3a75647921d2cda0757fb61e",
+  "nab": "06651bc38c6e6fa2d7fec43626e2bd8bfc7e4bf3d1cb511a887b4167b5131c64",
+  "pod": "4803b1f9e97a1552ce474f8fa732c08d728cd366b9e652f5051736bb4c420203",
+  "rib": "3bff9355b4f78b50ac643fed2a500233b3f83e2d2428247610a74fcf136ba444",
+  "rim": "df9fb0d11acbb470345a4d317d85ca58778cc3e94c5beb2867ae99f37233e68d",
+  "rod": "a63ccdfef759c8a8c594a1b820e0fab9a3cbfb754cb021a02e2b20df20c82c16",
+  "rot": "e4a6b2d49457a23212294dc84fd519e28be6f0553c27deab893c8b5def06a58f",
+  "sag": "e6c9f8f4c5ddb8e884db047c8ff0686fee39350fa050a56cdff6a54eedc367af",
+  "sub": "9d4b6c7f7da59679d1b59efefb583682d0c980c2ab6f763ef4416cdccef71786",
+  "sum": "b55f998c436f069741cb637c3faa38260d111301aa8a8e8ae67db99b932d3c5e",
+  "tab": "a77da452ddc31c4690af67091197b7bf92518658a3219af8dfbc374ff7118597",
+  "tot": "61df9557feba647ca2cf6b6e5ceef6d444aa49cbb33323b755698bfba247fd1c",
+  "wax": "2487252e7e7362400bfa5938a972d78bba69caaede27a273ea8b49efbd121fc8",
+  "wed": "ef61f9ae55955f88061a235752302d54c50af5a5f1e037c5e49d1ada82618eaf",
+  "wit": "a80399faa447926e4c5016f5e58f9ea47da4c793349823dd33878f6b1444a5be",
+  "yak": "421c02f07c80d4977d9ebd24afa80da2fcc184f0bba52721457cc888a7b2ab3c",
+  "yes": "04c83de39bc4a31fc30d27695979b9128869697d1e168a3733ccbcaeedee1387",
+  "zag": "67cee144e91649c9dbf896c8b3d7a2cc11db76301f9ad1f3ce95625bfdcb325c",
+  "zig": "3cba0509bf7d8860af43c3df7e1d813de82a915014eb84b988d638ccc047ad63",
+  "zip": "51b5865c19660e06e9f28ebc558b9fcb682f77dd5ff8327a2eca2f689198a11c",
+  "bush": "30f79930c3ae8be22adfda8af50c4d9fb4cbef8df7cd4bb734455efc873fe1ec",
+  "cash": "68935393e104f61eb046cffa9d2b81b7bed387e429727e9f8b136453395d93c9",
+  "chap": "fa50189a7461693d235725764feafeac4f9149dc119c384aa7caefdc419bf785",
+  "chat": "55f5919eec136935ef9ffd73bc292024daa7034d60306526e78cb4db294bc084",
+  "chin": "ab03cfd2cdea6da1f6346fd0399d15ecc8644ab360b1bf9251faeccb014a4979",
+  "chip": "b9af89c3198b7beb137fdc0f5e8011cc2e6d2f3ee7a811c586d478e02cc08b6e",
+  "chop": "0beeeb0066968eb210c66e7a9bb0b870bfae9f69f6c06d6a04128ce2e6e98566",
+  "chug": "f1d7e9007b813a462fbc421b7ddafaa1d9b852b85f9b9f2c5203196fd057d35f",
+  "chum": "16cbe5c333a1f20144ada4b458aa7d2ea691a685d17f95bb127e830df52b51fb",
+  "dash": "9f3d9db49d56f7fb78bb1731fb7731843f32b71cfaa9e5374d193e15082d4cb9",
+  "hush": "07e48077b4a0f4028a1e18f78f42c1b36babb9ee7fce197abb1f7ef7d6bb067f",
+  "mash": "683c3f98f04efe371c8634b7b7d17d76e7f21bf41b59e8d87889226ae6f0d937",
+  "mush": "ae4b5e0ab4517d8af4367658c578f0c458240d2f1b65313d4a1deb7bc58111f8",
+  "push": "01f546cc0d7e7f079ae8f993d21f9dccd881ebe7582cb97402a7e3c330372775",
+  "rash": "965c980731b7d13f4a0f3377a0cdf036c801cc1ae9077113712242b5fe914686",
+  "sash": "5d0b885c846123b666d728b79df1db00c155ba8b4db27699d372bb9e98589924",
+  "she": "263cef4d9541178e66cb6e468ee91a6f3270a1529742d2c9038290e92e2d573d",
+  "shed": "29d87b87df4934a15221506dff4744e20f13b5dd6f27bba9b7921afaec9ead47",
+  "shin": "f53a38ae9c1d4f9d7f34e8412cd2feeb49def32e80ac86dc78cfa83174b96e5d",
+  "shut": "d7b43a6840c38bfc598024d32ace6568dfb1d14e94c07f4273398ec34869521e",
+  "such": "a22fec3b9df4a55b5f98919bcf65634572cdce18bf519f6b0b7e45a9853cc273",
+  "wash": "f2ed88fc9bd4cf4600402ac1c9a0f2a9f3f7c52199ed443c337c089b76600bd1",
+  "wish": "b1898bc1412952a972e786265d0c05530cdb7e39b1772f110e09d2ac9faf3ef8",
+  "back": "b6cc441abb376c0c49f86541ebd271867d97547dfd51abb22a6b17c88134a0cf",
+  "bath": "9e9834caeb59b546b2991447a514386b5db49bcfc7786512a70a120b2c81a37e",
+  "buck": "f7f40bb51b287633d36f4ff1db69fdb63951d3757b45749d91a1a347430f3e3c",
+  "deck": "15bc190f5a382a2e3feee53d930da51c4250d1f92c8a28ebcd1869c0d3e4b025",
+  "dock": "2904c35fee1214378269a107fd31e44789a306d5238c615d9218cde91195ace4",
+  "duck": "b4953a5936322f665f4bc535ee8c79f3ec8a01bfbbe5544e801dda18b1a31e19",
+  "fang": "0ba80f7ce805962067d8f9293d06c76dafb8f3745017fc58ab63aea844c2e338",
+  "gong": "bb18b59d6663b818b942d91fc14b4e81e8d615855ef53d8e92802fbf01d2a512",
+  "hang": "eedc47590433084233d1652d9eb57b1fcfd6987a230e2f64b92ea7f91951b8b0",
+  "kick": "87e2046b09c3427d1dc97d05b0c701987aaf353b5292c46814b0161b8a70045f",
+  "king": "98d1f267008f305868aaba62c1cc23ba40aa0295cf49a1a2da2a9ae69c987119",
+  "lick": "8dff7d4535eacad4d727be4001ced4bf8ac5c004120fe248b793220e1ca71f4e",
+  "lock": "c00e5077e36c13aaf3278fb3a5688723dd657bde57b5c60a3acd54895efb66a8",
+  "long": "fb5b99e80f43b8ce7ce7a356b6a67d69b95301f395edd8c1fdaab12ba552ff2a",
+  "luck": "0fa600edb8e30ea64387167b30017053e4af6c2a71a11adc01cfb430752c0d6d",
+  "lung": "66d7f186820b240749bf0a0cbc67d0b7c07a52f9de2569474b5bc72993446701",
+  "math": "e52fb406a3b8dd7f596f14fd8cdd9a08f5f88d9a9000e993ac51335d11ecf361",
+  "moth": "156e78ea307a9011895bad1351d9c783377247d00b02fcb54b1de0c27dbfa605",
+  "muck": "9c65719294da99d922d3bb3cd6987f1bf77262a45349ef7771c0bb1c8d6973d8",
+  "pack": "faf447c8c49316b976b74355a1b7f0f9e42f40c300f70a4d2fcc841d714954b1",
+  "path": "265f833dce650366ed79b3ca7218fabb48d2a3ddd7f4888deff1f48a3b38761c",
+  "peck": "e738bbe24bc5e4655627f40445e795916771e8846c6a3bed761a6d14ea796d5d",
+  "pick": "083f153792bed18a369cb33952b737f2526d8a9dec398822497a8967cba30a35",
+  "puck": "6b24b5e74953e9e3e52f513d7ee7a4bae2fafaa7139857c7cd9b264a6bb89ad7",
+  "rang": "90b1f141ffb9fc63472ef6a5c06e6492d69e73d18fd32cdb6cc640589bb40391",
+  "ring": "0234af55d3a3a3eb0b45b21d0659eb71c9222d867314e79f317283aa1354ec04",
+  "rock": "7de9304a9ebbd5dea93efb2f942035c5312cf1228009481833d2e3719d6a67d1",
+  "rung": "c4512e2b7305dcd195195f9062e57716ad27d5ead9b31108083505f28edc7600",
+  "sack": "64c3d64c9df7990749d68abc38504581f4eba8f5a2691af3856327cd9ef65436",
+  "sang": "e975b2d04461e913c0d20c720f91ddf099e010e39cf0dee829d63feb955b59ea",
+  "sing": "cce7127a5759fd05906557f469de985eccadc8f8beee94ede0e7ca3305263478",
+  "sock": "8b33a5cbc4ab897538c55ed286b6eda82214ed296a932ab29dc2b6c938ca347e",
+  "song": "6cab620d3144a5dba424dab4558915f0fbdaeaa7710b12699f8b6de214f51a5e",
+  "sung": "af75ac70b8b669b789fc40ef35f3b0196cc40b2b364ea81ac80cc587b6804883",
+  "tack": "e03fa198f20eaf954e8920574802562593ec30b1e9de6063b4d639abfbde54d0",
+  "that": "d47a0789dbb374d9bba26076071a130d01ada15e456a529e92d4c4263a45fb1d",
+  "them": "c6d84204324e7aa5c8d616d329d530d3c68dfc5ee13e91293bbe7644a186e67b",
+  "thin": "c7af2d8addcb1e489f841db5fcf6f5170046b9b588c20361f3b02e13452edb61",
+  "this": "f311cb75f9062c81308522d46ace7ce01510905ec4300860329688850827b099",
+  "thud": "b4478441a50f347294546ebf2388edc1bd9494be5267c9925773442b9621c0ef",
+  "tick": "f09acdfbd74b63dc294633c95489719f5cd10be4ea6a42e5f38f571d0f8c3fd2",
+  "was": "8fd1de18191dd7c65e131fe9b74ebbbdff44e2f07ee70bf554f8ac030ae656cd",
+  "what": "c399a39a5b59bc38cb3db1c98dbf559c274c4ce49efde423a8595f0b57055f48",
+  "when": "e73fc259a1ba1574fe47ce342053da2dbf10fd19a6c30f2b28a8266ac49bdc32",
+  "whip": "e7bdebaba31e7ae53e1391f1c520ef5231577e37fc9e79ae91e057a805c16b2f",
+  "wick": "841f748ce61a7b797bad12e8c0a8829f2dedfb6d1f16759f6557c0745d8c7648",
+  "wing": "0429fae06c70a5aeb5d55b482811b42c23bb46a1a0b8427a2f4e9b097def6aa2",
+  "with": "0c0feaf59e668983f4db00c30002fd93160243375b2098dfaf82904dbc02058f",
+  "bet": "f4229747280fb14e828eb1a3c8ce12b72be93b21b11ba8bb89fc02854914a266",
+  "keg": "242579e11bbf24bd58fad97ef5296ae88034cfa70aa8447e17af0406feee3512",
+  "hem": "47253a6dc49c78f0bedeb096cfe7dc10cfb9d1aa5ccb018d9579644861f86c9b",
+  "nun": "bfe04d4d29d00dc98be13e5ec3cd207156d5251a605d2be9fff3dcc1667667dc",
+  "pun": "aace925f55a6149fc34544ec8d4eb450db46b236289bb0d1c023c5a740b0328b",
+  "jut": "5a3baa36d847cf03db4ad61928977f3f5604776a34dd7f3ddfb4bfe181314ea9",
+  "gut": "3d3535126e69135629f5ea6814bf779a260584247d313d3db53267bd1328723d",
+  "fax": "a2228965b813b8ef4047298efc0bb909c1b2f5937422e586c5ea3db27f3647e9",
+  "nix": "18b1d236567760e3e07dd7fb254f573cbf68e6761fd71b6ddac3cefcbd029e08",
+  "vex": "9e4b6172ae2b4975f015231e86800e01acc36075531a1432261bef8c784d8a02",
+  "sax": "a60ba1b1082368a23b51cbe304c590584ef1352461db7821cae08dd7aa1274e0",
+  "cod": "04dfcf06d60608908b6f8ee20ccc7fa075a5a82c15ebee41f3a67559adb8889d",
+  "gob": "1d103eaffe51e942ef0b48c0637a4b2f1813d29c8700eefb74b697103a061b8e",
+  "bash": "8309f292b2fe4c47cfdd1c162f9737f0c7a6ec4ddfdf18e90c1803f53c1115ed",
+  "gash": "50c6b8022363fba5e31e358844ad7be5a12dc3e0c5bd188b033f3589b7675052",
+  "gush": "da0ef7be1858c126677ed34b900a8ac4fad55fce53b5e8aecd38d20d2052c871",
+  "lash": "59a514d74e3742fedcfafbc66cc6ca0434bcef2639b383adde9205d7a792cb2a",
+  "posh": "7dfc02d741dbd30ae223c981f0b78a4fcc8c725f8d4c6b872acbdc047676b014",
+  "sham": "b664fa08c8c6da648d1dbffefba445749437fc99c28fc9abdfa6272f70490d73",
+  "shun": "6de2617d45a617e3c1f23c6a57fc175b2678ba46bead37c1b5da0d7de52e5174",
+  "whim": "1d87c1f0a8de1d401d8e9e4c7da37c72233fa870cdb996a6e99a9499bf144027",
+  "wham": "6a15d6993e91704d7654546303f6b25ebff1e1a8a008dae4acf0eb9fd84aa4a9",
+  "bang": "cd0a346b929a5a7f17c807616d1a3d535f12cc50f830f72f3c7442c44e777a54",
+  "hung": "451b0f4004e876aef95819d5b159926f856208c37cbc4345523a3e71d852a82f",
+  "ding": "501c5aa6e5f8f6e9a64deec66cde4fe76d886f98a5d56ba68eb2f5f5ed44d191",
+  "ping": "d6f227c1caf63ab5641bfcdae4e774a8ebcffa23d4065dca922d7237d60945a2",
+  "bell": "336902754e7c7f733b10c9072692d657d13f5bd984a475d258e87e784dd0e96e",
+  "tell": "23a4d54c05a6c404f8c6f032b3a31400282dcea49d50ceb3070496806f6b8718",
+  "well": "78ccb535535f153d92d8bd98d93736ea0af16f1d2f3161881ca07f0add659028",
+  "fell": "60a897127fbed61b6f47afd7d6fc9234e9f5c5cad25e369a6e16c34a42da3798",
+  "hill": "44c56c45d62a196e69c1d976a86d9adabf3f87229e46a62226b4235bb36118df",
+  "mill": "7fbb5d80bc3a8fc821a41bc70bbbaf16aee8d3223f1aca2f56cad114a797f0e2",
+  "doll": "3f13c9d88ad96427d3252a926dda77ea81f467ff3a6d5a989268fcd6bd07aa03",
+  "mess": "73bde18c0451739ffdca356b56db37e7b604f7c4e743976a0fd38566174d3eab",
+  "boss": "36936290db6316888157003d090791a1ba3fbfb48a4c4ad64e2aab851434ce72",
+  "kiss": "fd40cc63dcf706689249bcef52dab990a63fe0584a48d8bfa7b23e8b3852a4d7",
+  "loss": "0e7a535dfdf5c960e1c2b47cc70d77a7bff5fb4fb280577b553c8d3528238875",
+  "fuss": "839b1902a611b6e5a9cc79a218cd5861a1bf4226819abc9dc5ccc55f106ca5e3",
+  "puff": "3e27047a67c6b3556a74c2e5cc2199543c3989c0a423b0df2a18cceda8e005a7",
+  "cuff": "11c0bc379c46606b6ace671ffd3465a0e1ba2429fbe2f89c6b6e3cfce79b0ec5",
+  "buzz": "6e428e3aa6c4ba8d0051cd7bb0eafc14471bda6837ac674eccd21a5c17285e4f",
+  "fuzz": "754f000dcf172fb0501ef130b4b6f1d356b3a4ee7b70b45a4b38c2e14eea28c5",
+  "jazz": "5c442b56317472ca750ce3a22aa7d1880f2c1a2d1437be74f9a80f0fb01164f5",
+  "fizz": "dfe67a886640bff0226fbacd65aba5e5cae9c520a9d9e47939db110d51b7c777",
+  "quiz": "6840a54f26a6c70f84f94eec597adb2581d03fad55450a05e3556457028350b7",
+  "quit": "613b12d4e474ea6ce785ae4aa21240fb3e8304e7d7deae70af8d3db853926cea",
+  "quip": "bf6336b6cddd3ec8c0ac5e102ad5cf69bd7ab2f357e4eaa6ca061d3ebed49914",
+  "knob": "4ee113c578e67999e75e0eade39f01e77da37481431a9033bf3b30594cd32e65",
+  "knot": "2dda953d4e0c50631031c082453b54d58f7c7188b5eea11b16f095749e1982e5",
+  "lamb": "8c6ac8ef911e7ed3b6d433cc62f42516d7b67c1b97f66a966ad03684766b44ad"
  },
  "words": {
   "am": {
@@ -973,6 +3115,12 @@
    "round": "keeper handoff, packs 1-3, accepted 2026-08-01",
    "listen_context": "clip"
   },
+  "fix": {
+   "verdict": "very good",
+   "ear_notes": "accept, very good",
+   "round": "round 15, 2026-08-04",
+   "listen_context": "clip"
+  },
   "fox": {
    "verdict": "perfect",
    "ear_notes": "accept, perfect pronunciation, no need to hear other versions [pack3 r1]",
@@ -1003,6 +3151,12 @@
    "round": "keeper handoff, packs 1-3, accepted 2026-08-01",
    "listen_context": "clip"
   },
+  "hog": {
+   "verdict": "perfect",
+   "ear_notes": "accept, perfect",
+   "round": "round 15, 2026-08-04",
+   "listen_context": "clip"
+  },
   "hop": {
    "verdict": "perfect (version 2)",
    "ear_notes": "accept this one [pack3 r3]",
@@ -1013,6 +3167,12 @@
    "verdict": "good",
    "ear_notes": "accept, better than other 2 and good enough [pack3 r2]",
    "round": "keeper handoff, packs 1-3, accepted 2026-08-01",
+   "listen_context": "clip"
+  },
+  "job": {
+   "verdict": "perfect",
+   "ear_notes": "accept, perfect",
+   "round": "round 15, 2026-08-04",
    "listen_context": "clip"
   },
   "lip": {
@@ -1027,6 +3187,12 @@
    "round": "keeper handoff, packs 1-3, accepted 2026-08-01",
    "listen_context": "clip"
   },
+  "lot": {
+   "verdict": "very good",
+   "ear_notes": "accept, very good [round 17]",
+   "round": "round 17, 2026-08-04",
+   "listen_context": "clip"
+  },
   "mom": {
    "verdict": "perfect",
    "ear_notes": "accept, perfect pronunciation, no need to hear other versions [pack3 r1]",
@@ -1037,6 +3203,12 @@
    "verdict": "perfect",
    "ear_notes": "accept, perfect pronunciation, no need to hear other versions [pack3 r1]",
    "round": "keeper handoff, packs 1-3, accepted 2026-08-01",
+   "listen_context": "clip"
+  },
+  "nod": {
+   "verdict": "perfect",
+   "ear_notes": "accept, perfect [round 16b]",
+   "round": "round 16b, 2026-08-04",
    "listen_context": "clip"
   },
   "not": {
@@ -1111,10 +3283,46 @@
    "round": "keeper handoff, packs 1-3, accepted 2026-08-01",
    "listen_context": "clip"
   },
+  "wig": {
+   "verdict": "perfect",
+   "ear_notes": "accept, perfect",
+   "round": "round 15, 2026-08-04",
+   "listen_context": "clip"
+  },
   "win": {
    "verdict": "perfect",
    "ear_notes": "accept, best pronunciation of two wins, warmer [pack2 r5]",
    "round": "keeper handoff, packs 1-3, accepted 2026-08-01",
+   "listen_context": "clip"
+  },
+  "bed": {
+   "verdict": "perfect",
+   "ear_notes": "accept, perfect",
+   "round": "round 15, 2026-08-04",
+   "listen_context": "clip"
+  },
+  "bud": {
+   "verdict": "perfect",
+   "ear_notes": "accept, perfect",
+   "round": "round 15, 2026-08-04",
+   "listen_context": "clip"
+  },
+  "bug": {
+   "verdict": "perfect",
+   "ear_notes": "accept, perfect [round 18]",
+   "round": "round 18, 2026-08-04",
+   "listen_context": "clip"
+  },
+  "bun": {
+   "verdict": "perfect",
+   "ear_notes": "accept, perfect [round 18]",
+   "round": "round 18, 2026-08-04",
+   "listen_context": "clip"
+  },
+  "bus": {
+   "verdict": "ok",
+   "ear_notes": "accept, ok [round 18]",
+   "round": "round 18, 2026-08-04",
    "listen_context": "clip"
   },
   "cup": {
@@ -1123,11 +3331,57 @@
    "round": "blind rounds 8-9, 2026-07-27/28",
    "listen_context": "clip"
   },
+  "cut": {
+   "verdict": "good enough",
+   "ear_notes": "good enough",
+   "round": "19",
+   "listen_context": "round19 cut_3 (say_asr_lead80) owner ear accept",
+   "byte_pin_sha256": "bd516a3c860923bdb349b73603a28cff03fbc1d7971bd8f27785a907fbf0dbe3"
+  },
+  "dug": {
+   "verdict": "ok",
+   "ear_notes": "accept, ok [round 18]",
+   "round": "round 18, 2026-08-04",
+   "listen_context": "clip"
+  },
+  "fun": {
+   "verdict": "perfect",
+   "ear_notes": "accept, perfect [round 18]",
+   "round": "round 18, 2026-08-04",
+   "listen_context": "clip"
+  },
+  "get": {
+   "verdict": "good enough",
+   "ear_notes": "good enough",
+   "round": "19",
+   "listen_context": "round19 get_1 (comma_energy_180) owner ear accept",
+   "byte_pin_sha256": "9b984be1b5fa3bc75d6cea1107e62b01b77f94eb9e5c50c6b2509e662024a129"
+  },
   "hen": {
    "verdict": "almost perfect",
    "ear_notes": "carrier 'hen, hen.', 150 ms, floor -30 dB, gap 40 ms, NO tail trim - trims were rejected by ear",
    "round": "rounds 12-13, judged 2026-07-30",
    "listen_context": "clip"
+  },
+  "hug": {
+   "verdict": "ok",
+   "ear_notes": "ok",
+   "round": "20",
+   "listen_context": "round20 hug_3 (double_energy_120)",
+   "byte_pin_sha256": "d7bd0a087e248faaf382a9a2c6fb3ab31e643070353abe21fdfbef9df7f3599f"
+  },
+  "hum": {
+   "verdict": "perfect",
+   "ear_notes": "accept, perfect [round 18]",
+   "round": "round 18, 2026-08-04",
+   "listen_context": "clip"
+  },
+  "jet": {
+   "verdict": "ok",
+   "ear_notes": "ok",
+   "round": "21",
+   "listen_context": "round21 jet_1 (double_energy_120)",
+   "byte_pin_sha256": "be0e37d95491ec892f9c0538c4e05ee82f8da350adf58941c2399b967e5a8624"
   },
   "jug": {
    "verdict": "very good (beta.8)",
@@ -1135,11 +3389,177 @@
    "round": "blind rounds 8-9, 2026-07-27/28",
    "listen_context": "clip"
   },
+  "leg": {
+   "verdict": "perfect",
+   "ear_notes": "perfect",
+   "round": "21",
+   "listen_context": "round21 leg_1 (double_energy_120)",
+   "byte_pin_sha256": "217c2a6ef7339d9f536b426afe3f1bbca0b7638cb793b3a8342b47eabc5907be"
+  },
+  "let": {
+   "verdict": "ok",
+   "ear_notes": "ok; customs 2026-08-04: recipe does not rebake to the pin (audio diverges at 0.126s); the pinned bytes the owner heard govern",
+   "round": "24",
+   "listen_context": "round24 let_3 (here_it_is_asr_g30_40)",
+   "byte_pin_sha256": "77a9e26c9a7aa19ff94f6af37da09617d79da2da0269666698e01bcd7bc069d2"
+  },
+  "men": {
+   "verdict": "ok",
+   "ear_notes": "ok",
+   "round": "21",
+   "listen_context": "round21 men_2 (double_energy_120)",
+   "byte_pin_sha256": "16865119434a6fccf2d21adf623bd72ca2ec3665cc25b90836a7feac08be09a6"
+  },
+  "met": {
+   "verdict": "perfect",
+   "ear_notes": "perfect",
+   "round": "22",
+   "listen_context": "round22 met_1 (double_energy_120)",
+   "byte_pin_sha256": "e23693c96f6a7663e5c1f74ebcff6694b48972d8357caffed6fa96fd02f6d02c"
+  },
+  "mud": {
+   "verdict": "ok",
+   "ear_notes": "accept, ok [round 18]",
+   "round": "round 18, 2026-08-04",
+   "listen_context": "clip"
+  },
+  "mug": {
+   "verdict": "ok",
+   "ear_notes": "accept, ok [round 18]",
+   "round": "round 18, 2026-08-04",
+   "listen_context": "clip"
+  },
+  "net": {
+   "verdict": "ok",
+   "ear_notes": "ok",
+   "round": "20",
+   "listen_context": "round20 net_3 (period)",
+   "byte_pin_sha256": "ed7329a10e711d02bea9ea74876ae22d81fbcfef53a2fe369d3306c902c7d393"
+  },
+  "nut": {
+   "verdict": "ok",
+   "ear_notes": "ok",
+   "round": "20",
+   "listen_context": "round20 nut_2 (period)",
+   "byte_pin_sha256": "e5c2795d7e01d5da0f8fa0531c3cf0467d2c5526339f34cd4de9e747521427b6"
+  },
+  "peg": {
+   "verdict": "ok",
+   "ear_notes": "ok",
+   "round": "22",
+   "listen_context": "round22 peg_3 (double_energy_120)",
+   "byte_pin_sha256": "15a7bd98317a539c2012f54076260f60cdc2bf5379ea2c63531317582767d062"
+  },
+  "pen": {
+   "verdict": "perfect",
+   "ear_notes": "perfect",
+   "round": "23",
+   "listen_context": "round23 pen_2 (comma_asr_g30_40)",
+   "byte_pin_sha256": "17d09ab986409162489547e54c96dc9bb112e98713e783cd1f8b5cfb9485035a"
+  },
+  "pet": {
+   "verdict": "perfect",
+   "ear_notes": "perfect",
+   "round": "22",
+   "listen_context": "round22 pet_3 (comma_energy_180)",
+   "byte_pin_sha256": "3ed806d8a837de7feaa5e4b3bd84b7121c296cc699ff190dc7617b6b16715682"
+  },
+  "pup": {
+   "verdict": "very good",
+   "ear_notes": "very good",
+   "round": "20",
+   "listen_context": "round20 pup_2 (comma_energy_120)",
+   "byte_pin_sha256": "150f40d220a8b9c7d32ec76a5459b58221a8c47cab580a032fe2b864ed1f672a"
+  },
+  "red": {
+   "verdict": "very good",
+   "ear_notes": "very good",
+   "round": "22",
+   "listen_context": "round22 red_3 (double_energy_120)",
+   "byte_pin_sha256": "b599d45ad0626f549b03e20dc69b542150ccdd0e0a127d56ab2c1cb1eece3195"
+  },
   "rub": {
    "verdict": "very good (beta.8)",
    "ear_notes": "full stop appended",
    "round": "blind rounds 8-9, 2026-07-27/28",
    "listen_context": "clip"
+  },
+  "rug": {
+   "verdict": "ok",
+   "ear_notes": "ok",
+   "round": "20",
+   "listen_context": "round20 rug_1 (say_asr_g80)",
+   "byte_pin_sha256": "c0b95ecf44942b94bdfb20ebfa2b6fca704cb732af8157bac8b6aa0ad97b2e5a"
+  },
+  "run": {
+   "verdict": "ok",
+   "ear_notes": "ok",
+   "round": "20",
+   "listen_context": "round20 run_2 (period)",
+   "byte_pin_sha256": "dc070d29d6d1e5127c521ee7d75e2873a2f3b7a58c3b99513138a003a7503df2"
+  },
+  "set": {
+   "verdict": "ok",
+   "ear_notes": "ok",
+   "round": "21",
+   "listen_context": "round21 set_3 (say_asr_st_g100_40)",
+   "byte_pin_sha256": "6724be7887e9cff6bef34e1142e14e85e0a72c6270a338bf956e0622627397bc"
+  },
+  "sun": {
+   "verdict": "perfect",
+   "ear_notes": "perfect",
+   "round": "21",
+   "listen_context": "round21 sun_2 (double_energy_120)",
+   "byte_pin_sha256": "10e289ed3f1e6738d3c38af97e11ad23fc8bee66d87e7de852ec30e2440cc259"
+  },
+  "ten": {
+   "verdict": "perfect",
+   "ear_notes": "perfect",
+   "round": "20",
+   "listen_context": "round20 ten_1 (comma_energy_120)",
+   "byte_pin_sha256": "6d05e9cb5009b8bb5e8cb4fe5222b987fa2bb054e56c40f169c63dd0507f8aea"
+  },
+  "tub": {
+   "verdict": "very good",
+   "ear_notes": "very good",
+   "round": "23",
+   "listen_context": "round23 tub_3 (comma_asr_g30_40)",
+   "byte_pin_sha256": "1645785587d1ffdf229667e4adaa50241c63a5da80266fa9582b1c224b3cc3b8"
+  },
+  "tug": {
+   "verdict": "ok",
+   "ear_notes": "ok",
+   "round": "22",
+   "listen_context": "round22 tug_1 (double_energy_120)",
+   "byte_pin_sha256": "46b9c2acfae5bdd41bb9c5e0643dd268fe199bcda6d9992036e2c1cd398bc482"
+  },
+  "vet": {
+   "verdict": "perfect",
+   "ear_notes": "perfect",
+   "round": "22",
+   "listen_context": "round22 vet_3 (comma_energy_180)",
+   "byte_pin_sha256": "0740d77d511fd816f64229dd6ab7eea6714c8287e50a97ba58a667db7d43c09b"
+  },
+  "web": {
+   "verdict": "ok",
+   "ear_notes": "ok",
+   "round": "21",
+   "listen_context": "round21 web_2 (period)",
+   "byte_pin_sha256": "9e142f2b068b3f3fc364aec254b7359a3053d18eb0222b1920c93e87595be6d8"
+  },
+  "wet": {
+   "verdict": "good",
+   "ear_notes": "good",
+   "round": "22",
+   "listen_context": "round22 wet_2 (lead180_spd0.82)",
+   "byte_pin_sha256": "e68d7979eea69042e1282b1ecd87311ec21343d0bc5795168390bd4083423221"
+  },
+  "yet": {
+   "verdict": "ok",
+   "ear_notes": "ok",
+   "round": "23",
+   "listen_context": "round23 yet_2 (double_energy_120)",
+   "byte_pin_sha256": "4392327b8c24d9f81ddd7ac5455a222d22a57e31fa4b9323ec37e3abcdf52212"
   },
   "cub": {
    "verdict": "accepted",
@@ -1147,11 +3567,1218 @@
    "round": "spot-check trims, 2026-07-27",
    "listen_context": "clip"
   },
+  "den": {
+   "verdict": "perfect",
+   "ear_notes": "perfect",
+   "round": "22",
+   "listen_context": "round22 den_1 (double_energy_120)",
+   "byte_pin_sha256": "41afc621e6cf8e517da6146ca041433a187bad282cc7e7291588a01323c5eb91"
+  },
+  "dot": {
+   "verdict": "perfect",
+   "ear_notes": "perfect",
+   "round": "23",
+   "listen_context": "round23 dot_3 (comma_energy_100)",
+   "byte_pin_sha256": "2ee043d833e0dbc9e1ee34d3a05172123c55746b7b76ab3f288bbdacc895b57c"
+  },
+  "fed": {
+   "verdict": "perfect",
+   "ear_notes": "perfect",
+   "round": "22",
+   "listen_context": "round22 fed_3 (comma_energy_180)",
+   "byte_pin_sha256": "4107db4bbb7a106b3e0b303246f3dbe6d8e05e087d785732356190170f2339e7"
+  },
+  "fig": {
+   "verdict": "perfect",
+   "ear_notes": "perfect",
+   "round": "22",
+   "listen_context": "round22 fig_3 (comma_energy_180)",
+   "byte_pin_sha256": "7a7fd6cfc38e8cab3e343a0dd46052a0d6b2259188df7a8cf428a65d6a36011a"
+  },
+  "fog": {
+   "verdict": "very good",
+   "ear_notes": "very good",
+   "round": "22",
+   "listen_context": "round22 fog_1 (double_energy_120)",
+   "byte_pin_sha256": "d44930b21c39ea632ef6d5eded2302486e287f5a993af982a818f92901aef73a"
+  },
+  "gap": {
+   "verdict": "very good",
+   "ear_notes": "very good",
+   "round": "22",
+   "listen_context": "round22 gap_3 (double_energy_120)",
+   "byte_pin_sha256": "2cbda7f220a30e3c24b42af0fef4ebae1cdea2a2d386b1d81f34cc795d28b3d5"
+  },
+  "gas": {
+   "verdict": "perfect",
+   "ear_notes": "perfect",
+   "round": "23",
+   "listen_context": "round23 gas_2 (comma_asr_g30_40)",
+   "byte_pin_sha256": "8e10bd4ff801022afa1ebd953855ffbd53d8dedd159a338e706d19155dc14f81"
+  },
+  "gum": {
+   "verdict": "very good",
+   "ear_notes": "very good",
+   "round": "22",
+   "listen_context": "round22 gum_1 (double_energy_120)",
+   "byte_pin_sha256": "6a2def535bd023063828420c0b0f14ec5f5b17de1ad01f66da7b8562cb6e77ce"
+  },
+  "hid": {
+   "verdict": "ok",
+   "ear_notes": "ok",
+   "round": "23",
+   "listen_context": "round23 hid_2 (double_energy_120)",
+   "byte_pin_sha256": "586463ff5b697e2700cc95200a8d9744b5deac252952addd5b7856de691f33e2"
+  },
+  "hut": {
+   "verdict": "ok",
+   "ear_notes": "ok",
+   "round": "23",
+   "listen_context": "round23 hut_2 (comma_energy_180)",
+   "byte_pin_sha256": "e12c24183ada326b2d3e5789839b0b16034ce0b84e4b3ac6d2cfa79b0f510fd5"
+  },
+  "jab": {
+   "verdict": "perfect",
+   "ear_notes": "perfect",
+   "round": "23",
+   "listen_context": "round23 jab_2 (double_energy_120)",
+   "byte_pin_sha256": "fb61f9e6168eec425d80d68f443275055d416c9eaa54f1f7153d0e1ca8d08b92"
+  },
+  "jig": {
+   "verdict": "perfect",
+   "ear_notes": "perfect",
+   "round": "23",
+   "listen_context": "round23 jig_2 (comma_asr_g30_40)",
+   "byte_pin_sha256": "80aa4a1327cab3d785340ef0afb4a2c682b58ba54791bfb594a664f17613e6ff"
+  },
+  "jog": {
+   "verdict": "very good",
+   "ear_notes": "very good (owner wrote job_2; mapped to jog_2)",
+   "round": "23",
+   "listen_context": "round23 jog_2 (comma_asr_g30_40)",
+   "byte_pin_sha256": "35f01fb09860bf076410efe94a867cab2d010d1eaea5265cac22ce300e3a9acf"
+  },
+  "jot": {
+   "verdict": "perfect",
+   "ear_notes": "perfect",
+   "round": "23",
+   "listen_context": "round23 jot_2 (comma_asr_g30_40)",
+   "byte_pin_sha256": "c93cb44ead0bc44a4b83add6a2735b4ddd4d5babcaa1a40a4227c2cacf40854a"
+  },
+  "kid": {
+   "verdict": "perfect",
+   "ear_notes": "perfect",
+   "round": "23",
+   "listen_context": "round23 kid_1 (double_energy_120)",
+   "byte_pin_sha256": "059d8f88c622c4f0fd52abea43cdb3211bcc0752af6ee06e7d1949fa09ce77fa"
+  },
+  "kit": {
+   "verdict": "ok",
+   "ear_notes": "ok",
+   "round": "23",
+   "listen_context": "round23 kit_2 (double_energy_120)",
+   "byte_pin_sha256": "96f0f129e51d4f392b96b9a47e0c27ea61f764ebcc08c5123e931d3bcdcdca17"
+  },
+  "lab": {
+   "verdict": "perfect",
+   "ear_notes": "perfect",
+   "round": "23",
+   "listen_context": "round23 lab_2 (double_energy_120)",
+   "byte_pin_sha256": "50b74bfb972e949eb67d3c5acc3f0e9c0401ccbf213dfae8f8a6775f60d460dc"
+  },
+  "lad": {
+   "verdict": "perfect",
+   "ear_notes": "perfect",
+   "round": "23",
+   "listen_context": "round23 lad_3 (double_energy_120)",
+   "byte_pin_sha256": "f88ff867ea3fb79b0de66d9d2fa76e2e7abb37419be7e2be62099a4765438aee"
+  },
+  "led": {
+   "verdict": "perfect",
+   "ear_notes": "perfect",
+   "round": "23",
+   "listen_context": "round23 led_2 (double_energy_120)",
+   "byte_pin_sha256": "36170d5f9e0b8e73ba53baceddc76f68f888604820f605b10879352b47218038"
+  },
+  "lid": {
+   "verdict": "perfect",
+   "ear_notes": "perfect",
+   "round": "23",
+   "listen_context": "round23 lid_3 (comma_asr_g30_40)",
+   "byte_pin_sha256": "9d3e5e8000d898d323fe59b9a5cdfddaf7a9570ddd568f8f313d680fef540d3f"
+  },
+  "lit": {
+   "verdict": "ok",
+   "ear_notes": "ok",
+   "round": "23",
+   "listen_context": "round23 lit_3 (double_energy_120)",
+   "byte_pin_sha256": "6d7df2d72d9fa8fb630db6f5fc183e8abe5231f0b1f39ad2eac2ba39217931b4"
+  },
+  "lug": {
+   "verdict": "ok",
+   "ear_notes": "ok",
+   "round": "24",
+   "listen_context": "round24 lug_1 (double_energy_120)",
+   "byte_pin_sha256": "40f8ccd1e87b83195671c2afa6fc441d9e60c075dfd7ff580a5efd84233f3804"
+  },
+  "mix": {
+   "verdict": "perfect",
+   "ear_notes": "perfect",
+   "round": "24",
+   "listen_context": "round24 mix_1 (comma_asr_g30_40)",
+   "byte_pin_sha256": "2e5a74985ef29815a41c48b5fe5b537dc8b9531d3a75647921d2cda0757fb61e"
+  },
+  "nab": {
+   "verdict": "good",
+   "ear_notes": "good",
+   "round": "25",
+   "listen_context": "round25 nab_3 (here_it_is_asr_g30_40)",
+   "byte_pin_sha256": "06651bc38c6e6fa2d7fec43626e2bd8bfc7e4bf3d1cb511a887b4167b5131c64"
+  },
+  "pod": {
+   "verdict": "perfect",
+   "ear_notes": "perfect",
+   "round": "24",
+   "listen_context": "round24 pod_2 (comma_energy_180)",
+   "byte_pin_sha256": "4803b1f9e97a1552ce474f8fa732c08d728cd366b9e652f5051736bb4c420203"
+  },
+  "rib": {
+   "verdict": "ok",
+   "ear_notes": "ok",
+   "round": "24",
+   "listen_context": "round24 rib_2 (comma_asr_g30_40)",
+   "byte_pin_sha256": "3bff9355b4f78b50ac643fed2a500233b3f83e2d2428247610a74fcf136ba444"
+  },
+  "rim": {
+   "verdict": "ok",
+   "ear_notes": "ok",
+   "round": "24",
+   "listen_context": "round24 rim_3 (comma_asr_g30_40)",
+   "byte_pin_sha256": "df9fb0d11acbb470345a4d317d85ca58778cc3e94c5beb2867ae99f37233e68d"
+  },
+  "rod": {
+   "verdict": "very good",
+   "ear_notes": "very good",
+   "round": "24",
+   "listen_context": "round24 rod_2 (double_energy_120)",
+   "byte_pin_sha256": "a63ccdfef759c8a8c594a1b820e0fab9a3cbfb754cb021a02e2b20df20c82c16"
+  },
+  "rot": {
+   "verdict": "ok",
+   "ear_notes": "ok",
+   "round": "27",
+   "listen_context": "round27 rot_1 (slow_double_energy_120_spd0.75)",
+   "byte_pin_sha256": "e4a6b2d49457a23212294dc84fd519e28be6f0553c27deab893c8b5def06a58f"
+  },
+  "sag": {
+   "verdict": "ok",
+   "ear_notes": "ok",
+   "round": "25",
+   "listen_context": "round25 sag_3 (comma_asr_g30_40)",
+   "byte_pin_sha256": "e6c9f8f4c5ddb8e884db047c8ff0686fee39350fa050a56cdff6a54eedc367af"
+  },
+  "sub": {
+   "verdict": "marginal",
+   "ear_notes": "marginal",
+   "round": "26",
+   "listen_context": "round26 sub_1 (slow_double_energy_120_spd0.75)",
+   "byte_pin_sha256": "9d4b6c7f7da59679d1b59efefb583682d0c980c2ab6f763ef4416cdccef71786"
+  },
+  "sum": {
+   "verdict": "perfect",
+   "ear_notes": "perfect",
+   "round": "24",
+   "listen_context": "round24 sum_2 (double_energy_120)",
+   "byte_pin_sha256": "b55f998c436f069741cb637c3faa38260d111301aa8a8e8ae67db99b932d3c5e"
+  },
+  "tab": {
+   "verdict": "perfect",
+   "ear_notes": "perfect",
+   "round": "24",
+   "listen_context": "round24 tab_3 (comma_asr_g30_40)",
+   "byte_pin_sha256": "a77da452ddc31c4690af67091197b7bf92518658a3219af8dfbc374ff7118597"
+  },
+  "tot": {
+   "verdict": "ok",
+   "ear_notes": "ok",
+   "round": "24",
+   "listen_context": "round24 tot_2 (double_energy_120)",
+   "byte_pin_sha256": "61df9557feba647ca2cf6b6e5ceef6d444aa49cbb33323b755698bfba247fd1c"
+  },
+  "wax": {
+   "verdict": "perfect",
+   "ear_notes": "perfect",
+   "round": "24",
+   "listen_context": "round24 wax_2 (comma_asr_g30_40)",
+   "byte_pin_sha256": "2487252e7e7362400bfa5938a972d78bba69caaede27a273ea8b49efbd121fc8"
+  },
+  "wed": {
+   "verdict": "ok",
+   "ear_notes": "ok",
+   "round": "24",
+   "listen_context": "round24 wed_3 (double_energy_120)",
+   "byte_pin_sha256": "ef61f9ae55955f88061a235752302d54c50af5a5f1e037c5e49d1ada82618eaf"
+  },
+  "wit": {
+   "verdict": "perfect",
+   "ear_notes": "perfect",
+   "round": "24",
+   "listen_context": "round24 wit_2 (comma_energy_180)",
+   "byte_pin_sha256": "a80399faa447926e4c5016f5e58f9ea47da4c793349823dd33878f6b1444a5be"
+  },
+  "yak": {
+   "verdict": "perfect",
+   "ear_notes": "perfect",
+   "round": "24",
+   "listen_context": "round24 yak_3 (comma_asr_g30_40)",
+   "byte_pin_sha256": "421c02f07c80d4977d9ebd24afa80da2fcc184f0bba52721457cc888a7b2ab3c"
+  },
+  "yes": {
+   "verdict": "perfect",
+   "ear_notes": "perfect — almost beyond perfection; more human than human pronunciation",
+   "round": "25",
+   "listen_context": "round25 yes_1 (comma_asr_g30_40)",
+   "byte_pin_sha256": "04c83de39bc4a31fc30d27695979b9128869697d1e168a3733ccbcaeedee1387"
+  },
+  "zag": {
+   "verdict": "perfect",
+   "ear_notes": "perfect",
+   "round": "25",
+   "listen_context": "round25 zag_3 (double_energy_120)",
+   "byte_pin_sha256": "67cee144e91649c9dbf896c8b3d7a2cc11db76301f9ad1f3ce95625bfdcb325c"
+  },
+  "zig": {
+   "verdict": "perfect",
+   "ear_notes": "perfect",
+   "round": "25",
+   "listen_context": "round25 zig_3 (double_energy_120)",
+   "byte_pin_sha256": "3cba0509bf7d8860af43c3df7e1d813de82a915014eb84b988d638ccc047ad63"
+  },
+  "zip": {
+   "verdict": "ok",
+   "ear_notes": "ok",
+   "round": "25",
+   "listen_context": "round25 zip_2 (double_energy_120)",
+   "byte_pin_sha256": "51b5865c19660e06e9f28ebc558b9fcb682f77dd5ff8327a2eca2f689198a11c"
+  },
+  "bush": {
+   "verdict": "perfect",
+   "ear_notes": "perfect",
+   "round": "26",
+   "listen_context": "round26 bush_1 (comma_asr_g30_40)",
+   "byte_pin_sha256": "30f79930c3ae8be22adfda8af50c4d9fb4cbef8df7cd4bb734455efc873fe1ec"
+  },
+  "cash": {
+   "verdict": "perfect",
+   "ear_notes": "perfect",
+   "round": "26",
+   "listen_context": "round26 cash_3 (comma_asr_g30_40)",
+   "byte_pin_sha256": "68935393e104f61eb046cffa9d2b81b7bed387e429727e9f8b136453395d93c9"
+  },
+  "chap": {
+   "verdict": "perfect",
+   "ear_notes": "perfect",
+   "round": "26",
+   "listen_context": "round26 chap_2 (comma_asr_g30_40)",
+   "byte_pin_sha256": "fa50189a7461693d235725764feafeac4f9149dc119c384aa7caefdc419bf785"
+  },
+  "chat": {
+   "verdict": "perfect",
+   "ear_notes": "perfect",
+   "round": "26",
+   "listen_context": "round26 chat_1 (comma_asr_g30_40)",
+   "byte_pin_sha256": "55f5919eec136935ef9ffd73bc292024daa7034d60306526e78cb4db294bc084"
+  },
+  "chin": {
+   "verdict": "perfect",
+   "ear_notes": "perfect",
+   "round": "26",
+   "listen_context": "round26 chin_1 (comma_asr_g30_40)",
+   "byte_pin_sha256": "ab03cfd2cdea6da1f6346fd0399d15ecc8644ab360b1bf9251faeccb014a4979"
+  },
+  "chip": {
+   "verdict": "ok",
+   "ear_notes": "ok",
+   "round": "26",
+   "listen_context": "round26 chip_1 (comma_asr_g30_40)",
+   "byte_pin_sha256": "b9af89c3198b7beb137fdc0f5e8011cc2e6d2f3ee7a811c586d478e02cc08b6e"
+  },
+  "chop": {
+   "verdict": "perfect",
+   "ear_notes": "perfect",
+   "round": "26",
+   "listen_context": "round26 chop_2 (comma_asr_g30_40)",
+   "byte_pin_sha256": "0beeeb0066968eb210c66e7a9bb0b870bfae9f69f6c06d6a04128ce2e6e98566"
+  },
+  "chug": {
+   "verdict": "perfect",
+   "ear_notes": "perfect",
+   "round": "26",
+   "listen_context": "round26 chug_3 (comma_asr_g30_40)",
+   "byte_pin_sha256": "f1d7e9007b813a462fbc421b7ddafaa1d9b852b85f9b9f2c5203196fd057d35f"
+  },
+  "chum": {
+   "verdict": "ok",
+   "ear_notes": "ok",
+   "round": "26",
+   "listen_context": "round26 chum_2 (comma_energy_180)",
+   "byte_pin_sha256": "16cbe5c333a1f20144ada4b458aa7d2ea691a685d17f95bb127e830df52b51fb"
+  },
+  "dash": {
+   "verdict": "perfect",
+   "ear_notes": "perfect",
+   "round": "26",
+   "listen_context": "round26 dash_3 (comma_asr_g30_40)",
+   "byte_pin_sha256": "9f3d9db49d56f7fb78bb1731fb7731843f32b71cfaa9e5374d193e15082d4cb9"
+  },
   "dish": {
    "verdict": "accepted",
    "ear_notes": "tail trim 120 ms; the sh ran longer than in mush",
    "round": "spot-check trims, 2026-07-27",
    "listen_context": "clip"
+  },
+  "hush": {
+   "verdict": "ok",
+   "ear_notes": "ok",
+   "round": "26",
+   "listen_context": "round26 hush_2 (comma_asr_g30_40)",
+   "byte_pin_sha256": "07e48077b4a0f4028a1e18f78f42c1b36babb9ee7fce197abb1f7ef7d6bb067f"
+  },
+  "mash": {
+   "verdict": "perfect",
+   "ear_notes": "perfect",
+   "round": "26",
+   "listen_context": "round26 mash_1 (comma_asr_g30_40)",
+   "byte_pin_sha256": "683c3f98f04efe371c8634b7b7d17d76e7f21bf41b59e8d87889226ae6f0d937"
+  },
+  "mush": {
+   "verdict": "perfect",
+   "ear_notes": "perfect",
+   "round": "27",
+   "listen_context": "round27 mush_1 (comma_asr_g30_40)",
+   "byte_pin_sha256": "ae4b5e0ab4517d8af4367658c578f0c458240d2f1b65313d4a1deb7bc58111f8"
+  },
+  "push": {
+   "verdict": "ok",
+   "ear_notes": "ok",
+   "round": "27",
+   "listen_context": "round27 push_1 (comma_asr_g30_40)",
+   "byte_pin_sha256": "01f546cc0d7e7f079ae8f993d21f9dccd881ebe7582cb97402a7e3c330372775"
+  },
+  "rash": {
+   "verdict": "ok",
+   "ear_notes": "ok",
+   "round": "28",
+   "listen_context": "round28 rash_3 (double_energy_120_endpad80_spd0.82)",
+   "byte_pin_sha256": "965c980731b7d13f4a0f3377a0cdf036c801cc1ae9077113712242b5fe914686"
+  },
+  "sash": {
+   "verdict": "ok",
+   "ear_notes": "ok",
+   "round": "27",
+   "listen_context": "round27 sash_3 (comma_asr_g30_40)",
+   "byte_pin_sha256": "5d0b885c846123b666d728b79df1db00c155ba8b4db27699d372bb9e98589924"
+  },
+  "she": {
+   "verdict": "marginal",
+   "ear_notes": "marginal",
+   "round": "27",
+   "listen_context": "round27 she_1 (comma_asr_g30_40)",
+   "byte_pin_sha256": "263cef4d9541178e66cb6e468ee91a6f3270a1529742d2c9038290e92e2d573d"
+  },
+  "shed": {
+   "verdict": "ok",
+   "ear_notes": "ok",
+   "round": "27",
+   "listen_context": "round27 shed_2 (double_energy_120)",
+   "byte_pin_sha256": "29d87b87df4934a15221506dff4744e20f13b5dd6f27bba9b7921afaec9ead47"
+  },
+  "shin": {
+   "verdict": "good",
+   "ear_notes": "good",
+   "round": "27",
+   "listen_context": "round27 shin_3 (double_energy_120)",
+   "byte_pin_sha256": "f53a38ae9c1d4f9d7f34e8412cd2feeb49def32e80ac86dc78cfa83174b96e5d"
+  },
+  "shut": {
+   "verdict": "marginal",
+   "ear_notes": "marginal",
+   "round": "28",
+   "listen_context": "round28 shut_3 (slow_double_energy_120_spd0.75)",
+   "byte_pin_sha256": "d7b43a6840c38bfc598024d32ace6568dfb1d14e94c07f4273398ec34869521e"
+  },
+  "such": {
+   "verdict": "ok",
+   "ear_notes": "ok",
+   "round": "28",
+   "listen_context": "round28 such_3 (listen_asr_g25_40)",
+   "byte_pin_sha256": "a22fec3b9df4a55b5f98919bcf65634572cdce18bf519f6b0b7e45a9853cc273"
+  },
+  "wash": {
+   "verdict": "ok",
+   "ear_notes": "ok",
+   "round": "27",
+   "listen_context": "round27 wash_3 (comma_asr_g30_40)",
+   "byte_pin_sha256": "f2ed88fc9bd4cf4600402ac1c9a0f2a9f3f7c52199ed443c337c089b76600bd1"
+  },
+  "wish": {
+   "verdict": "very good",
+   "ear_notes": "very good",
+   "round": "28",
+   "listen_context": "round28 wish_3 (here_it_is_asr_g30_40)",
+   "byte_pin_sha256": "b1898bc1412952a972e786265d0c05530cdb7e39b1772f110e09d2ac9faf3ef8"
+  },
+  "back": {
+   "verdict": "perfect",
+   "ear_notes": "perfect",
+   "round": "28",
+   "listen_context": "round28 back_1 (comma_asr_g30_40)",
+   "byte_pin_sha256": "b6cc441abb376c0c49f86541ebd271867d97547dfd51abb22a6b17c88134a0cf"
+  },
+  "bath": {
+   "verdict": "very good",
+   "ear_notes": "very good",
+   "round": "28",
+   "listen_context": "round28 bath_3 (comma_asr_g30_40)",
+   "byte_pin_sha256": "9e9834caeb59b546b2991447a514386b5db49bcfc7786512a70a120b2c81a37e"
+  },
+  "buck": {
+   "verdict": "ok",
+   "ear_notes": "ok",
+   "round": "28",
+   "listen_context": "round28 buck_2 (comma_asr_g30_40)",
+   "byte_pin_sha256": "f7f40bb51b287633d36f4ff1db69fdb63951d3757b45749d91a1a347430f3e3c"
+  },
+  "deck": {
+   "verdict": "very good",
+   "ear_notes": "very good",
+   "round": "28",
+   "listen_context": "round28 deck_3 (comma_asr_g30_40)",
+   "byte_pin_sha256": "15bc190f5a382a2e3feee53d930da51c4250d1f92c8a28ebcd1869c0d3e4b025"
+  },
+  "dock": {
+   "verdict": "perfect",
+   "ear_notes": "perfect",
+   "round": "28",
+   "listen_context": "round28 dock_3 (comma_asr_g30_40)",
+   "byte_pin_sha256": "2904c35fee1214378269a107fd31e44789a306d5238c615d9218cde91195ace4"
+  },
+  "duck": {
+   "verdict": "perfect",
+   "ear_notes": "perfect",
+   "round": "28",
+   "listen_context": "round28 duck_1 (comma_asr_g30_40)",
+   "byte_pin_sha256": "b4953a5936322f665f4bc535ee8c79f3ec8a01bfbbe5544e801dda18b1a31e19"
+  },
+  "fang": {
+   "verdict": "very good",
+   "ear_notes": "very good",
+   "round": "28",
+   "listen_context": "round28 fang_1 (double_energy_120)",
+   "byte_pin_sha256": "0ba80f7ce805962067d8f9293d06c76dafb8f3745017fc58ab63aea844c2e338"
+  },
+  "gong": {
+   "verdict": "perfect",
+   "ear_notes": "perfect",
+   "round": "29",
+   "listen_context": "round29 gong_3 (comma_asr_g30_40)",
+   "byte_pin_sha256": "bb18b59d6663b818b942d91fc14b4e81e8d615855ef53d8e92802fbf01d2a512"
+  },
+  "hang": {
+   "verdict": "very good",
+   "ear_notes": "very good",
+   "round": "29",
+   "listen_context": "round29 hang_1 (double_energy_120)",
+   "byte_pin_sha256": "eedc47590433084233d1652d9eb57b1fcfd6987a230e2f64b92ea7f91951b8b0"
+  },
+  "kick": {
+   "verdict": "very good",
+   "ear_notes": "very good",
+   "round": "29",
+   "listen_context": "round29 kick_2 (comma_asr_g30_40)",
+   "byte_pin_sha256": "87e2046b09c3427d1dc97d05b0c701987aaf353b5292c46814b0161b8a70045f"
+  },
+  "king": {
+   "verdict": "very good",
+   "ear_notes": "very good",
+   "round": "29",
+   "listen_context": "round29 king_3 (comma_asr_g30_40)",
+   "byte_pin_sha256": "98d1f267008f305868aaba62c1cc23ba40aa0295cf49a1a2da2a9ae69c987119"
+  },
+  "lick": {
+   "verdict": "very good",
+   "ear_notes": "very good",
+   "round": "29",
+   "listen_context": "round29 lick_2 (comma_asr_g30_40)",
+   "byte_pin_sha256": "8dff7d4535eacad4d727be4001ced4bf8ac5c004120fe248b793220e1ca71f4e"
+  },
+  "lock": {
+   "verdict": "good",
+   "ear_notes": "good",
+   "round": "29",
+   "listen_context": "round29 lock_3 (comma_asr_g30_40)",
+   "byte_pin_sha256": "c00e5077e36c13aaf3278fb3a5688723dd657bde57b5c60a3acd54895efb66a8"
+  },
+  "long": {
+   "verdict": "good",
+   "ear_notes": "good",
+   "round": "29",
+   "listen_context": "round29 long_2 (double_energy_120)",
+   "byte_pin_sha256": "fb5b99e80f43b8ce7ce7a356b6a67d69b95301f395edd8c1fdaab12ba552ff2a"
+  },
+  "luck": {
+   "verdict": "ok",
+   "ear_notes": "ok",
+   "round": "29",
+   "listen_context": "round29 luck_3 (comma_asr_g30_40)",
+   "byte_pin_sha256": "0fa600edb8e30ea64387167b30017053e4af6c2a71a11adc01cfb430752c0d6d"
+  },
+  "lung": {
+   "verdict": "ok",
+   "ear_notes": "ok",
+   "round": "29",
+   "listen_context": "round29 lung_1 (double_energy_120)",
+   "byte_pin_sha256": "66d7f186820b240749bf0a0cbc67d0b7c07a52f9de2569474b5bc72993446701"
+  },
+  "math": {
+   "verdict": "good",
+   "ear_notes": "good",
+   "round": "29",
+   "listen_context": "round29 math_3 (comma_asr_g30_40)",
+   "byte_pin_sha256": "e52fb406a3b8dd7f596f14fd8cdd9a08f5f88d9a9000e993ac51335d11ecf361"
+  },
+  "moth": {
+   "verdict": "perfect",
+   "ear_notes": "perfect",
+   "round": "29",
+   "listen_context": "round29 moth_2 (comma_asr_g30_40)",
+   "byte_pin_sha256": "156e78ea307a9011895bad1351d9c783377247d00b02fcb54b1de0c27dbfa605"
+  },
+  "muck": {
+   "verdict": "perfect",
+   "ear_notes": "perfect",
+   "round": "29",
+   "listen_context": "round29 muck_3 (comma_asr_g30_40)",
+   "byte_pin_sha256": "9c65719294da99d922d3bb3cd6987f1bf77262a45349ef7771c0bb1c8d6973d8"
+  },
+  "pack": {
+   "verdict": "very good",
+   "ear_notes": "very good",
+   "round": "29",
+   "listen_context": "round29 pack_2 (comma_asr_g30_40)",
+   "byte_pin_sha256": "faf447c8c49316b976b74355a1b7f0f9e42f40c300f70a4d2fcc841d714954b1"
+  },
+  "path": {
+   "verdict": "ok",
+   "ear_notes": "ok",
+   "round": "29",
+   "listen_context": "round29 path_2 (comma_asr_g30_40)",
+   "byte_pin_sha256": "265f833dce650366ed79b3ca7218fabb48d2a3ddd7f4888deff1f48a3b38761c"
+  },
+  "peck": {
+   "verdict": "near perfect",
+   "ear_notes": "near perfect",
+   "round": "29",
+   "listen_context": "round29 peck_2 (comma_asr_g30_40)",
+   "byte_pin_sha256": "e738bbe24bc5e4655627f40445e795916771e8846c6a3bed761a6d14ea796d5d"
+  },
+  "pick": {
+   "verdict": "ok",
+   "ear_notes": "ok",
+   "round": "29",
+   "listen_context": "round29 pick_3 (comma_asr_g30_40)",
+   "byte_pin_sha256": "083f153792bed18a369cb33952b737f2526d8a9dec398822497a8967cba30a35"
+  },
+  "puck": {
+   "verdict": "good",
+   "ear_notes": "good",
+   "round": "29",
+   "listen_context": "round29 puck_2 (comma_asr_g30_40)",
+   "byte_pin_sha256": "6b24b5e74953e9e3e52f513d7ee7a4bae2fafaa7139857c7cd9b264a6bb89ad7"
+  },
+  "rang": {
+   "verdict": "perfect",
+   "ear_notes": "perfect",
+   "round": "29",
+   "listen_context": "round29 rang_3 (double_energy_120)",
+   "byte_pin_sha256": "90b1f141ffb9fc63472ef6a5c06e6492d69e73d18fd32cdb6cc640589bb40391"
+  },
+  "ring": {
+   "verdict": "very good",
+   "ear_notes": "very good",
+   "round": "30",
+   "listen_context": "round30 ring_1 (comma_asr_g30_40)",
+   "byte_pin_sha256": "0234af55d3a3a3eb0b45b21d0659eb71c9222d867314e79f317283aa1354ec04"
+  },
+  "rock": {
+   "verdict": "perfect",
+   "ear_notes": "perfect",
+   "round": "30",
+   "listen_context": "round30 rock_2 (comma_asr_g30_40)",
+   "byte_pin_sha256": "7de9304a9ebbd5dea93efb2f942035c5312cf1228009481833d2e3719d6a67d1"
+  },
+  "rung": {
+   "verdict": "perfect",
+   "ear_notes": "perfect",
+   "round": "30",
+   "listen_context": "round30 rung_1 (here_it_is_asr_g30_40)",
+   "byte_pin_sha256": "c4512e2b7305dcd195195f9062e57716ad27d5ead9b31108083505f28edc7600"
+  },
+  "sack": {
+   "verdict": "ok",
+   "ear_notes": "ok",
+   "round": "30",
+   "listen_context": "round30 sack_3 (comma_asr_g30_40)",
+   "byte_pin_sha256": "64c3d64c9df7990749d68abc38504581f4eba8f5a2691af3856327cd9ef65436"
+  },
+  "sang": {
+   "verdict": "very good",
+   "ear_notes": "very good",
+   "round": "30",
+   "listen_context": "round30 sang_1 (double_energy_120)",
+   "byte_pin_sha256": "e975b2d04461e913c0d20c720f91ddf099e010e39cf0dee829d63feb955b59ea"
+  },
+  "sing": {
+   "verdict": "good",
+   "ear_notes": "good",
+   "round": "30",
+   "listen_context": "round30 sing_3 (double_energy_120)",
+   "byte_pin_sha256": "cce7127a5759fd05906557f469de985eccadc8f8beee94ede0e7ca3305263478"
+  },
+  "sock": {
+   "verdict": "ok",
+   "ear_notes": "ok",
+   "round": "32",
+   "listen_context": "round32 sock_2 (slow_double_energy_120_spd0.75)",
+   "byte_pin_sha256": "8b33a5cbc4ab897538c55ed286b6eda82214ed296a932ab29dc2b6c938ca347e"
+  },
+  "song": {
+   "verdict": "perfect",
+   "ear_notes": "perfect",
+   "round": "30",
+   "listen_context": "round30 song_2 (double_energy_120)",
+   "byte_pin_sha256": "6cab620d3144a5dba424dab4558915f0fbdaeaa7710b12699f8b6de214f51a5e"
+  },
+  "sung": {
+   "verdict": "good",
+   "ear_notes": "good",
+   "round": "30",
+   "listen_context": "round30 sung_1 (double_energy_120)",
+   "byte_pin_sha256": "af75ac70b8b669b789fc40ef35f3b0196cc40b2b364ea81ac80cc587b6804883"
+  },
+  "tack": {
+   "verdict": "good",
+   "ear_notes": "good",
+   "round": "30",
+   "listen_context": "round30 tack_2 (comma_asr_g30_40)",
+   "byte_pin_sha256": "e03fa198f20eaf954e8920574802562593ec30b1e9de6063b4d639abfbde54d0"
+  },
+  "that": {
+   "verdict": "ok",
+   "ear_notes": "ok",
+   "round": "30",
+   "listen_context": "round30 that_2 (here_it_is_asr_g30_40)",
+   "byte_pin_sha256": "d47a0789dbb374d9bba26076071a130d01ada15e456a529e92d4c4263a45fb1d"
+  },
+  "them": {
+   "verdict": "good",
+   "ear_notes": "good",
+   "round": "30",
+   "listen_context": "round30 them_3 (double_energy_120)",
+   "byte_pin_sha256": "c6d84204324e7aa5c8d616d329d530d3c68dfc5ee13e91293bbe7644a186e67b"
+  },
+  "thin": {
+   "verdict": "marginal",
+   "ear_notes": "marginal",
+   "round": "32",
+   "listen_context": "round32 thin_3 (bright_head_40)",
+   "byte_pin_sha256": "c7af2d8addcb1e489f841db5fcf6f5170046b9b588c20361f3b02e13452edb61"
+  },
+  "this": {
+   "verdict": "ok",
+   "ear_notes": "ok",
+   "round": "30",
+   "listen_context": "round30 this_2 (double_energy_120)",
+   "byte_pin_sha256": "f311cb75f9062c81308522d46ace7ce01510905ec4300860329688850827b099"
+  },
+  "thud": {
+   "verdict": "perfect",
+   "ear_notes": "perfect",
+   "round": "30",
+   "listen_context": "round30 thud_3 (comma_asr_g30_40)",
+   "byte_pin_sha256": "b4478441a50f347294546ebf2388edc1bd9494be5267c9925773442b9621c0ef"
+  },
+  "tick": {
+   "verdict": "good",
+   "ear_notes": "good",
+   "round": "30",
+   "listen_context": "round30 tick_2 (comma_asr_g30_40)",
+   "byte_pin_sha256": "f09acdfbd74b63dc294633c95489719f5cd10be4ea6a42e5f38f571d0f8c3fd2"
+  },
+  "was": {
+   "verdict": "perfect",
+   "ear_notes": "perfect",
+   "round": "25",
+   "listen_context": "round25 was_3 (comma_asr_g30_40)",
+   "byte_pin_sha256": "8fd1de18191dd7c65e131fe9b74ebbbdff44e2f07ee70bf554f8ac030ae656cd"
+  },
+  "what": {
+   "verdict": "ok",
+   "ear_notes": "ok",
+   "round": "33",
+   "listen_context": "round33 what_3 (soft_bare_lead220_spd0.82)",
+   "byte_pin_sha256": "c399a39a5b59bc38cb3db1c98dbf559c274c4ce49efde423a8595f0b57055f48"
+  },
+  "when": {
+   "verdict": "ok",
+   "ear_notes": "ok",
+   "round": "33",
+   "listen_context": "round33 when_2 (listen_asr_g25_40)",
+   "byte_pin_sha256": "e73fc259a1ba1574fe47ce342053da2dbf10fd19a6c30f2b28a8266ac49bdc32"
+  },
+  "whip": {
+   "verdict": "marginal",
+   "ear_notes": "marginal",
+   "round": "33",
+   "listen_context": "round33 whip_3 (onset_trim)",
+   "byte_pin_sha256": "e7bdebaba31e7ae53e1391f1c520ef5231577e37fc9e79ae91e057a805c16b2f"
+  },
+  "wick": {
+   "verdict": "ok",
+   "ear_notes": "ok",
+   "round": "33",
+   "listen_context": "round33 wick_3 (soft_bare_lead220_spd0.82)",
+   "byte_pin_sha256": "841f748ce61a7b797bad12e8c0a8829f2dedfb6d1f16759f6557c0745d8c7648"
+  },
+  "wing": {
+   "verdict": "perfect",
+   "ear_notes": "perfect",
+   "round": "31",
+   "listen_context": "round31 wing_2 (comma_asr_g30_40)",
+   "byte_pin_sha256": "0429fae06c70a5aeb5d55b482811b42c23bb46a1a0b8427a2f4e9b097def6aa2"
+  },
+  "with": {
+   "verdict": "ok",
+   "ear_notes": "ok",
+   "round": "31",
+   "listen_context": "round31 with_1 (here_it_is_asr_g30_40)",
+   "byte_pin_sha256": "0c0feaf59e668983f4db00c30002fd93160243375b2098dfaf82904dbc02058f"
+  },
+  "pat": {
+   "verdict": "perfect",
+   "ear_notes": "accept, perfect",
+   "round": "round 15, 2026-08-04",
+   "listen_context": "clip"
+  },
+  "dam": {
+   "verdict": "perfect",
+   "ear_notes": "accept, perfect",
+   "round": "round 15, 2026-08-04",
+   "listen_context": "clip"
+  },
+  "nag": {
+   "verdict": "perfect",
+   "ear_notes": "accept, perfect",
+   "round": "round 15, 2026-08-04",
+   "listen_context": "clip"
+  },
+  "sap": {
+   "verdict": "ok",
+   "ear_notes": "accept, ok [round 16b]",
+   "round": "round 16b, 2026-08-04",
+   "listen_context": "clip"
+  },
+  "vat": {
+   "verdict": "perfect",
+   "ear_notes": "accept, perfect",
+   "round": "round 15, 2026-08-04",
+   "listen_context": "clip"
+  },
+  "tin": {
+   "verdict": "perfect",
+   "ear_notes": "accept, perfect",
+   "round": "round 15, 2026-08-04",
+   "listen_context": "clip"
+  },
+  "rig": {
+   "verdict": "very good",
+   "ear_notes": "accept, very good",
+   "round": "round 15, 2026-08-04",
+   "listen_context": "clip"
+  },
+  "rob": {
+   "verdict": "ok",
+   "ear_notes": "accept, ok",
+   "round": "round 15, 2026-08-04",
+   "listen_context": "clip"
+  },
+  "sob": {
+   "verdict": "ok",
+   "ear_notes": "accept, ok",
+   "round": "round 15, 2026-08-04",
+   "listen_context": "clip"
+  },
+  "mob": {
+   "verdict": "very good",
+   "ear_notes": "accept, very good [round 16b]",
+   "round": "round 16b, 2026-08-04",
+   "listen_context": "clip"
+  },
+  "dim": {
+   "verdict": "perfect",
+   "ear_notes": "accept, perfect",
+   "round": "round 15, 2026-08-04",
+   "listen_context": "clip"
+  },
+  "bet": {
+   "verdict": "perfect",
+   "ear_notes": "perfect",
+   "round": "25",
+   "listen_context": "round25 bet_2 (comma_asr_g30_40)",
+   "byte_pin_sha256": "f4229747280fb14e828eb1a3c8ce12b72be93b21b11ba8bb89fc02854914a266"
+  },
+  "keg": {
+   "verdict": "ok",
+   "ear_notes": "ok",
+   "round": "25",
+   "listen_context": "round25 keg_1 (double_energy_120)",
+   "byte_pin_sha256": "242579e11bbf24bd58fad97ef5296ae88034cfa70aa8447e17af0406feee3512"
+  },
+  "hem": {
+   "verdict": "ok",
+   "ear_notes": "ok",
+   "round": "25",
+   "listen_context": "round25 hem_1 (double_energy_120)",
+   "byte_pin_sha256": "47253a6dc49c78f0bedeb096cfe7dc10cfb9d1aa5ccb018d9579644861f86c9b"
+  },
+  "nun": {
+   "verdict": "ok",
+   "ear_notes": "ok",
+   "round": "25",
+   "listen_context": "round25 nun_3 (comma_asr_g30_40)",
+   "byte_pin_sha256": "bfe04d4d29d00dc98be13e5ec3cd207156d5251a605d2be9fff3dcc1667667dc"
+  },
+  "pun": {
+   "verdict": "perfect",
+   "ear_notes": "perfect",
+   "round": "25",
+   "listen_context": "round25 pun_3 (comma_asr_g30_40)",
+   "byte_pin_sha256": "aace925f55a6149fc34544ec8d4eb450db46b236289bb0d1c023c5a740b0328b"
+  },
+  "jut": {
+   "verdict": "ok",
+   "ear_notes": "ok",
+   "round": "25",
+   "listen_context": "round25 jut_1 (comma_asr_g30_40)",
+   "byte_pin_sha256": "5a3baa36d847cf03db4ad61928977f3f5604776a34dd7f3ddfb4bfe181314ea9"
+  },
+  "gut": {
+   "verdict": "ok",
+   "ear_notes": "ok",
+   "round": "26",
+   "listen_context": "round26 gut_2 (double_energy_120)",
+   "byte_pin_sha256": "3d3535126e69135629f5ea6814bf779a260584247d313d3db53267bd1328723d"
+  },
+  "fax": {
+   "verdict": "ok",
+   "ear_notes": "ok",
+   "round": "31",
+   "listen_context": "round31 fax_1 (here_it_is_asr_g30_40)",
+   "byte_pin_sha256": "a2228965b813b8ef4047298efc0bb909c1b2f5937422e586c5ea3db27f3647e9"
+  },
+  "nix": {
+   "verdict": "ok",
+   "ear_notes": "ok",
+   "round": "32",
+   "listen_context": "round32 nix_1 (soft_bare_lead220_spd0.82)",
+   "byte_pin_sha256": "18b1d236567760e3e07dd7fb254f573cbf68e6761fd71b6ddac3cefcbd029e08"
+  },
+  "vex": {
+   "verdict": "very good",
+   "ear_notes": "very good",
+   "round": "31",
+   "listen_context": "round31 vex_3 (comma_asr_g30_40)",
+   "byte_pin_sha256": "9e4b6172ae2b4975f015231e86800e01acc36075531a1432261bef8c784d8a02"
+  },
+  "sax": {
+   "verdict": "ok",
+   "ear_notes": "ok",
+   "round": "31",
+   "listen_context": "round31 sax_2 (here_it_is_asr_g30_40)",
+   "byte_pin_sha256": "a60ba1b1082368a23b51cbe304c590584ef1352461db7821cae08dd7aa1274e0"
+  },
+  "cod": {
+   "verdict": "very good",
+   "ear_notes": "very good",
+   "round": "31",
+   "listen_context": "round31 cod_3 (double_energy_120)",
+   "byte_pin_sha256": "04dfcf06d60608908b6f8ee20ccc7fa075a5a82c15ebee41f3a67559adb8889d"
+  },
+  "gob": {
+   "verdict": "ok",
+   "ear_notes": "ok",
+   "round": "32",
+   "listen_context": "round32 gob_3 (double_energy_120)",
+   "byte_pin_sha256": "1d103eaffe51e942ef0b48c0637a4b2f1813d29c8700eefb74b697103a061b8e"
+  },
+  "bash": {
+   "verdict": "perfect",
+   "ear_notes": "perfect",
+   "round": "31",
+   "listen_context": "round31 bash_3 (comma_asr_g30_40)",
+   "byte_pin_sha256": "8309f292b2fe4c47cfdd1c162f9737f0c7a6ec4ddfdf18e90c1803f53c1115ed"
+  },
+  "gash": {
+   "verdict": "ok",
+   "ear_notes": "ok",
+   "round": "32",
+   "listen_context": "round32 gash_1 (double_energy_120)",
+   "byte_pin_sha256": "50c6b8022363fba5e31e358844ad7be5a12dc3e0c5bd188b033f3589b7675052"
+  },
+  "gush": {
+   "verdict": "ok",
+   "ear_notes": "ok",
+   "round": "32",
+   "listen_context": "round32 gush_3 (double_energy_120)",
+   "byte_pin_sha256": "da0ef7be1858c126677ed34b900a8ac4fad55fce53b5e8aecd38d20d2052c871"
+  },
+  "lash": {
+   "verdict": "ok",
+   "ear_notes": "ok",
+   "round": "32",
+   "listen_context": "round32 lash_3 (comma_asr_g30_40)",
+   "byte_pin_sha256": "59a514d74e3742fedcfafbc66cc6ca0434bcef2639b383adde9205d7a792cb2a"
+  },
+  "posh": {
+   "verdict": "perfect",
+   "ear_notes": "perfect",
+   "round": "32",
+   "listen_context": "round32 posh_1 (comma_asr_g30_40)",
+   "byte_pin_sha256": "7dfc02d741dbd30ae223c981f0b78a4fcc8c725f8d4c6b872acbdc047676b014"
+  },
+  "sham": {
+   "verdict": "marginal",
+   "ear_notes": "marginal",
+   "round": "32",
+   "listen_context": "round32 sham_1 (comma_asr_g30_40)",
+   "byte_pin_sha256": "b664fa08c8c6da648d1dbffefba445749437fc99c28fc9abdfa6272f70490d73"
+  },
+  "shun": {
+   "verdict": "ok",
+   "ear_notes": "ok",
+   "round": "32",
+   "listen_context": "round32 shun_1 (comma_asr_g30_40)",
+   "byte_pin_sha256": "6de2617d45a617e3c1f23c6a57fc175b2678ba46bead37c1b5da0d7de52e5174"
+  },
+  "whim": {
+   "verdict": "perfect",
+   "ear_notes": "perfect",
+   "round": "32",
+   "listen_context": "round32 whim_2 (comma_asr_g30_40)",
+   "byte_pin_sha256": "1d87c1f0a8de1d401d8e9e4c7da37c72233fa870cdb996a6e99a9499bf144027"
+  },
+  "wham": {
+   "verdict": "perfect",
+   "ear_notes": "perfect",
+   "round": "33",
+   "listen_context": "round33 wham_2 (double_energy_120)",
+   "byte_pin_sha256": "6a15d6993e91704d7654546303f6b25ebff1e1a8a008dae4acf0eb9fd84aa4a9"
+  },
+  "bang": {
+   "verdict": "almost perfect",
+   "ear_notes": "near perfect",
+   "round": "33",
+   "listen_context": "round33 bang_1 (comma_asr_g30_40)",
+   "byte_pin_sha256": "cd0a346b929a5a7f17c807616d1a3d535f12cc50f830f72f3c7442c44e777a54"
+  },
+  "hung": {
+   "verdict": "very good",
+   "ear_notes": "very good",
+   "round": "33",
+   "listen_context": "round33 hung_1 (double_energy_120)",
+   "byte_pin_sha256": "451b0f4004e876aef95819d5b159926f856208c37cbc4345523a3e71d852a82f"
+  },
+  "ding": {
+   "verdict": "perfect",
+   "ear_notes": "perfect",
+   "round": "33",
+   "listen_context": "round33 ding_1 (comma_asr_g30_40)",
+   "byte_pin_sha256": "501c5aa6e5f8f6e9a64deec66cde4fe76d886f98a5d56ba68eb2f5f5ed44d191"
+  },
+  "ping": {
+   "verdict": "ok",
+   "ear_notes": "ok",
+   "round": "33",
+   "listen_context": "round33 ping_1 (double_energy_120)",
+   "byte_pin_sha256": "d6f227c1caf63ab5641bfcdae4e774a8ebcffa23d4065dca922d7237d60945a2"
+  },
+  "bell": {
+   "verdict": "perfect",
+   "ear_notes": "perfect",
+   "round": "34",
+   "listen_context": "round34 bell_2 (comma_asr_g30_40)",
+   "byte_pin_sha256": "336902754e7c7f733b10c9072692d657d13f5bd984a475d258e87e784dd0e96e"
+  },
+  "tell": {
+   "verdict": "perfect",
+   "ear_notes": "perfect",
+   "round": "34",
+   "listen_context": "round34 tell_2 (comma_asr_g30_40)",
+   "byte_pin_sha256": "23a4d54c05a6c404f8c6f032b3a31400282dcea49d50ceb3070496806f6b8718"
+  },
+  "well": {
+   "verdict": "perfect",
+   "ear_notes": "perfect",
+   "round": "34",
+   "listen_context": "round34 well_2 (here_it_is_asr_g30_40)",
+   "byte_pin_sha256": "78ccb535535f153d92d8bd98d93736ea0af16f1d2f3161881ca07f0add659028"
+  },
+  "fell": {
+   "verdict": "good",
+   "ear_notes": "good",
+   "round": "33",
+   "listen_context": "round33 fell_3 (comma_asr_g30_40)",
+   "byte_pin_sha256": "60a897127fbed61b6f47afd7d6fc9234e9f5c5cad25e369a6e16c34a42da3798"
+  },
+  "hill": {
+   "verdict": "good",
+   "ear_notes": "good",
+   "round": "34",
+   "listen_context": "round34 hill_2 (comma_asr_g30_40)",
+   "byte_pin_sha256": "44c56c45d62a196e69c1d976a86d9adabf3f87229e46a62226b4235bb36118df"
+  },
+  "mill": {
+   "verdict": "ok",
+   "ear_notes": "ok",
+   "round": "34",
+   "listen_context": "round34 mill_1 (double_energy_120)",
+   "byte_pin_sha256": "7fbb5d80bc3a8fc821a41bc70bbbaf16aee8d3223f1aca2f56cad114a797f0e2"
+  },
+  "doll": {
+   "verdict": "ok",
+   "ear_notes": "ok",
+   "round": "33",
+   "listen_context": "round33 doll_2 (comma_asr_g30_40)",
+   "byte_pin_sha256": "3f13c9d88ad96427d3252a926dda77ea81f467ff3a6d5a989268fcd6bd07aa03"
+  },
+  "mess": {
+   "verdict": "good",
+   "ear_notes": "good",
+   "round": "34",
+   "listen_context": "round34 mess_1 (comma_asr_g30_40)",
+   "byte_pin_sha256": "73bde18c0451739ffdca356b56db37e7b604f7c4e743976a0fd38566174d3eab"
+  },
+  "boss": {
+   "verdict": "perfect",
+   "ear_notes": "perfect",
+   "round": "34",
+   "listen_context": "round34 boss_3 (comma_asr_g30_40)",
+   "byte_pin_sha256": "36936290db6316888157003d090791a1ba3fbfb48a4c4ad64e2aab851434ce72"
+  },
+  "kiss": {
+   "verdict": "good",
+   "ear_notes": "good",
+   "round": "33",
+   "listen_context": "round33 kiss_1 (comma_asr_g30_40)",
+   "byte_pin_sha256": "fd40cc63dcf706689249bcef52dab990a63fe0584a48d8bfa7b23e8b3852a4d7"
+  },
+  "loss": {
+   "verdict": "good",
+   "ear_notes": "good",
+   "round": "33",
+   "listen_context": "round33 loss_3 (comma_asr_g30_40)",
+   "byte_pin_sha256": "0e7a535dfdf5c960e1c2b47cc70d77a7bff5fb4fb280577b553c8d3528238875"
+  },
+  "fuss": {
+   "verdict": "marginal",
+   "ear_notes": "marginal",
+   "round": "34",
+   "listen_context": "round34 fuss_1 (double_energy_120)",
+   "byte_pin_sha256": "839b1902a611b6e5a9cc79a218cd5861a1bf4226819abc9dc5ccc55f106ca5e3"
+  },
+  "puff": {
+   "verdict": "very good",
+   "ear_notes": "very good",
+   "round": "33",
+   "listen_context": "round33 puff_2 (comma_asr_g30_40)",
+   "byte_pin_sha256": "3e27047a67c6b3556a74c2e5cc2199543c3989c0a423b0df2a18cceda8e005a7"
+  },
+  "cuff": {
+   "verdict": "very good",
+   "ear_notes": "very good",
+   "round": "33",
+   "listen_context": "round33 cuff_2 (comma_asr_g30_40)",
+   "byte_pin_sha256": "11c0bc379c46606b6ace671ffd3465a0e1ba2429fbe2f89c6b6e3cfce79b0ec5"
+  },
+  "buzz": {
+   "verdict": "good",
+   "ear_notes": "good",
+   "round": "34",
+   "listen_context": "round34 buzz_3 (double_energy_120)",
+   "byte_pin_sha256": "6e428e3aa6c4ba8d0051cd7bb0eafc14471bda6837ac674eccd21a5c17285e4f"
+  },
+  "fuzz": {
+   "verdict": "good",
+   "ear_notes": "good",
+   "round": "34",
+   "listen_context": "round34 fuzz_2 (double_energy_120)",
+   "byte_pin_sha256": "754f000dcf172fb0501ef130b4b6f1d356b3a4ee7b70b45a4b38c2e14eea28c5"
+  },
+  "jazz": {
+   "verdict": "good",
+   "ear_notes": "good",
+   "round": "33",
+   "listen_context": "round33 jazz_1 (double_energy_120)",
+   "byte_pin_sha256": "5c442b56317472ca750ce3a22aa7d1880f2c1a2d1437be74f9a80f0fb01164f5"
+  },
+  "fizz": {
+   "verdict": "ok",
+   "ear_notes": "ok",
+   "round": "34",
+   "listen_context": "round34 fizz_1 (comma_asr_g30_40)",
+   "byte_pin_sha256": "dfe67a886640bff0226fbacd65aba5e5cae9c520a9d9e47939db110d51b7c777"
+  },
+  "quiz": {
+   "verdict": "good",
+   "ear_notes": "good",
+   "round": "34",
+   "listen_context": "round34 quiz_3 (double_energy_120)",
+   "byte_pin_sha256": "6840a54f26a6c70f84f94eec597adb2581d03fad55450a05e3556457028350b7"
+  },
+  "quit": {
+   "verdict": "very good",
+   "ear_notes": "very good",
+   "round": "34",
+   "listen_context": "round34 quit_2 (comma_asr_g30_40)",
+   "byte_pin_sha256": "613b12d4e474ea6ce785ae4aa21240fb3e8304e7d7deae70af8d3db853926cea"
+  },
+  "quip": {
+   "verdict": "good",
+   "ear_notes": "good",
+   "round": "33",
+   "listen_context": "round33 quip_3 (comma_asr_g30_40)",
+   "byte_pin_sha256": "bf6336b6cddd3ec8c0ac5e102ad5cf69bd7ab2f357e4eaa6ca061d3ebed49914"
+  },
+  "knob": {
+   "verdict": "good",
+   "ear_notes": "good",
+   "round": "34",
+   "listen_context": "round34 knob_3 (double_energy_120)",
+   "byte_pin_sha256": "4ee113c578e67999e75e0eade39f01e77da37481431a9033bf3b30594cd32e65"
+  },
+  "knot": {
+   "verdict": "good",
+   "ear_notes": "good",
+   "round": "34",
+   "listen_context": "round34 knot_2 (comma_asr_g30_40)",
+   "byte_pin_sha256": "2dda953d4e0c50631031c082453b54d58f7c7188b5eea11b16f095749e1982e5"
+  },
+  "lamb": {
+   "verdict": "perfect",
+   "ear_notes": "perfect",
+   "round": "33",
+   "listen_context": "round33 lamb_3 (double_energy_120)",
+   "byte_pin_sha256": "8c6ac8ef911e7ed3b6d433cc62f42516d7b67c1b97f66a966ad03684766b44ad"
   }
  },
  "environment": {

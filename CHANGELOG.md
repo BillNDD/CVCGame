@@ -104,6 +104,16 @@ The first app version is 1.0.0-beta.1. The app stays in beta until version 1.0 i
   would serve. In truly random play a dice mark replaces the level chip in the header,
   because a level number would claim a level the mode is not serving. A "Back" control
   starts nothing.
+- Changed: 216 more words are now individually heard and locked. A sidecar assistant ran
+  twenty blind listening rounds with the owner in one day (rounds 15 to 34), tuning speed,
+  carrier sentences, energy and ASR cuts per word, and returned every verdict as a complete
+  recipe row plus the exact approved bytes, SHA-256 pinned. Customs upstream verified all
+  189 pins, re-rendered the 27 recipe-only rows to byte identity, and found one row ("let")
+  whose recipe does not reproduce its pin — the pinned bytes the owner heard govern, and
+  the row says so. cup, approved on 28 July and lost to an ambiguous closing record, is
+  finally shipped: the sidecar recovered the winning bytes from its archive. The listening
+  ledger stands at 309 of 349 words individually approved; the 40 still unheard are named
+  in the word table.
 - New: Levels 8 and 9 — the bank grows from 300 to 349. Level 8, "Bells" 🔔, holds 27
   four-letter words: the doubled endings (bell, mess, huff, buzz and kin), the first qu
   words (quiz, quit, quip), and the first silent letters (knit, knob, knot, lamb). Level 9,
