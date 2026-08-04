@@ -62,22 +62,22 @@ dip,3,yes,perfect,"accept, perfect pronunciation, ignore others [pack3 r2]","kee
 dog,3,yes,perfect,"accept, perfect pronunciation, no need to hear others [pack2 r5]","keeper handoff, packs 1-3, accepted 2026-08-01",clip,af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,Say dog.,asr,,,,0.46,1.0,40,40,
 fin,3,yes,good,"accept, good enough [pack2 r5]","keeper handoff, packs 1-3, accepted 2026-08-01",clip,af_heart,en-us,0.85,80,300,10,,no,yes,0,0,0,no,,none,,,,,,,,
 fit,3,yes,perfect,"accept, perfect pronunciation, no need to hear other versions [pack3 r1]","keeper handoff, packs 1-3, accepted 2026-08-01",clip,af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,Say fit.,asr,,,,0.48,0.92,40,40,
-fix,3,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
+fix,3,yes,very good,"accept, very good","round 15, 2026-08-04",clip,af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,Say fix.,asr,,,,0.52,0.82,40,40,
 fox,3,yes,perfect,"accept, perfect pronunciation, no need to hear other versions [pack3 r1]","keeper handoff, packs 1-3, accepted 2026-08-01",clip,af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,Say fox.,asr,,,,0.46,0.94,40,40,
 got,3,yes,perfect,"accept, perfect pronunciation, ignore others [pack3 r2]","keeper handoff, packs 1-3, accepted 2026-08-01",clip,af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,got. got.,energy,80,-30,40,,,,,
 him,3,yes,perfect,"accept, perfect pronunciation, no need to hear other versions [pack3 r1]","keeper handoff, packs 1-3, accepted 2026-08-01",clip,af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,Say him.,asr,,,,0.46,0.88,40,40,
 hip,3,yes,perfect,"accept, perfect pronunciation, no need to hear other versions [pack3 r1]","keeper handoff, packs 1-3, accepted 2026-08-01",clip,af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,"Here is the word, hip.",energy,120,-20,20,,,,,
 hit,3,yes,marginal,marginal pass (accept) [pack2 r1],"keeper handoff, packs 1-3, accepted 2026-08-01",clip,af_heart,en-us,0.8,80,300,10,,no,no,0,0,0,no,Here is the word hit.,energy,100,-20,20,,,,,
-hog,3,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
+hog,3,yes,perfect,"accept, perfect","round 15, 2026-08-04",clip,af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,"Here is the word, hog.",energy,120,-20,20,,,,,
 hop,3,yes,perfect (version 2),accept this one [pack3 r3],"keeper recipe, owner-amended 2026-08-01",clip+app,af_heart,en-us,0.78,80,300,10,,no,no,0,0,0,no,Say hop.,asr,,,,0.58,1.04,40,40,
 hot,3,yes,good,"accept, better than other 2 and good enough [pack3 r2]","keeper handoff, packs 1-3, accepted 2026-08-01",clip,af_heart,en-us,0.85,80,300,10,,no,yes,0,0,0,no,,none,,,,,,,,
-job,3,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
+job,3,yes,perfect,"accept, perfect","round 15, 2026-08-04",clip,af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,"Here is the word, job.",energy,120,-20,20,,,,,
 lip,3,yes,perfect,"accept, perfect pronunciation, no need to listen to others [pack2 r7 uh-cut]","keeper handoff, packs 1-3, accepted 2026-08-01",clip+app,af_heart,en-us,0.82,80,300,10,,no,no,0,0,80,no,,none,,,,,,,,
 log,3,yes,perfect,"accept, perfect pronunciation, ignore others [pack3 r2]","keeper handoff, packs 1-3, accepted 2026-08-01",clip,af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,Say log.,asr,,,,0.44,0.9,40,40,
-lot,3,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
+lot,3,yes,very good,"accept, very good [round 17]","round 17, 2026-08-04",clip,af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,"Here is the word, lot.",energy,180,-20,20,,,,,
 mom,3,yes,perfect,"accept, perfect pronunciation, no need to hear other versions [pack3 r1]","keeper handoff, packs 1-3, accepted 2026-08-01",clip,af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,Say mom.,asr,,,,0.46,0.86,40,40,
 mop,3,yes,perfect,"accept, perfect pronunciation, no need to hear other versions [pack3 r1]","keeper handoff, packs 1-3, accepted 2026-08-01",clip,af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,Say mop.,asr,,,,0.5,0.88,40,40,
-nod,3,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
+nod,3,yes,perfect,"accept, perfect [round 16b]","round 16b, 2026-08-04",clip,af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,Say nod.,asr,,,,0.4,0.88,40,40,
 not,3,yes,perfect,"accept, perfect pronunciation, no need to hear other versions [pack3 r1]","keeper handoff, packs 1-3, accepted 2026-08-01",clip,af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,Say not.,asr,,,,0.4,0.88,40,40,
 pig,3,yes,perfect,"perfect, accept, no need to listen to other pigs [pack2 r4]","keeper handoff, packs 1-3, accepted 2026-08-01",clip,af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,Say pig.,asr,,,,0.46,0.88,40,40,
 pin,3,yes,perfect,"accept, perfect pronunciation, no need to hear other versions [pack3 r1]","keeper handoff, packs 1-3, accepted 2026-08-01",clip,af_heart,en-us,0.82,180,300,10,,no,no,0,0,0,no,,none,,,,,,,,
@@ -90,242 +90,242 @@ sit,3,yes,perfect,"perfect, accept this, no need to review other sits [pack2 r3]
 six,3,yes,perfect,"perfect, accept this, no need to review other six's [pack2 r3]","keeper handoff, packs 1-3, accepted 2026-08-01",clip,af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,Say six.,asr,,,,0.48,1.18,80,80,
 tip,3,yes,perfect,"accept, perfect pronunciation, no need to hear other versions [pack3 r1]","keeper handoff, packs 1-3, accepted 2026-08-01",clip,af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,Say tip.,asr,,,,0.46,0.94,40,40,
 top,3,yes,perfect,"accept, perfect pronunciation [pack3 r1]","keeper handoff, packs 1-3, accepted 2026-08-01",clip,af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,Say top.,asr,,,,0.42,0.9,40,40,
-wig,3,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
+wig,3,yes,perfect,"accept, perfect","round 15, 2026-08-04",clip,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
 win,3,yes,perfect,"accept, best pronunciation of two wins, warmer [pack2 r5]","keeper handoff, packs 1-3, accepted 2026-08-01",clip,af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,Say win.,asr,,,,0.42,0.86,40,40,
-bed,4,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-bud,4,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-bug,4,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-bun,4,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-bus,4,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
+bed,4,yes,perfect,"accept, perfect","round 15, 2026-08-04",clip,af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,"Here is the word, bed.",energy,120,-20,20,,,,,
+bud,4,yes,perfect,"accept, perfect","round 15, 2026-08-04",clip,af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,"Here is the word, bud.",energy,120,-20,20,,,,,
+bug,4,yes,perfect,"accept, perfect [round 18]","round 18, 2026-08-04",clip,af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,"Here is the word, bug.",energy,120,-20,20,,,,,
+bun,4,yes,perfect,"accept, perfect [round 18]","round 18, 2026-08-04",clip,af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,"Here is the word, bun.",energy,120,-20,20,,,,,
+bus,4,yes,ok,"accept, ok [round 18]","round 18, 2026-08-04",clip,af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,"Here is the word, bus.",energy,120,-20,20,,,,,
 cup,4,yes,accepted,"full stop appended; round-12 comma-carrier result is approved and unshipped (margin ambiguity, see docs/voice-pack.md)","blind rounds 8-9, 2026-07-27/28",clip,af_heart,en-us,0.85,80,300,10,,yes,no,0,0,0,no,,none,,,,,,,,
-cut,4,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-dug,4,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-fun,4,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-get,4,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
+cut,4,yes,good enough,good enough,19,round19 cut_3 (say_asr_lead80) owner ear accept,af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,Say cut.,asr,,,,0.5,0.74,80,40,bd516a3c860923bdb349b73603a28cff03fbc1d7971bd8f27785a907fbf0dbe3
+dug,4,yes,ok,"accept, ok [round 18]","round 18, 2026-08-04",clip,af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,"Here is the word, dug.",energy,120,-20,20,,,,,
+fun,4,yes,perfect,"accept, perfect [round 18]","round 18, 2026-08-04",clip,af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,"Here is the word, fun.",energy,120,-20,20,,,,,
+get,4,yes,good enough,good enough,19,round19 get_1 (comma_energy_180) owner ear accept,af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,"Here is the word, get.",energy,180,-20,20,,,,,9b984be1b5fa3bc75d6cea1107e62b01b77f94eb9e5c50c6b2509e662024a129
 hen,4,yes,almost perfect,"carrier 'hen, hen.', 150 ms, floor -30 dB, gap 40 ms, NO tail trim - trims were rejected by ear","rounds 12-13, judged 2026-07-30",clip,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,"hen, hen.",energy,150,-30,40,,,,,
-hug,4,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-hum,4,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-jet,4,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
+hug,4,yes,ok,ok,20,round20 hug_3 (double_energy_120),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,hug. hug.,energy,120,-20,20,,,,,d7bd0a087e248faaf382a9a2c6fb3ab31e643070353abe21fdfbef9df7f3599f
+hum,4,yes,perfect,"accept, perfect [round 18]","round 18, 2026-08-04",clip,af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,"Here is the word, hum.",energy,120,-20,20,,,,,
+jet,4,yes,ok,ok,21,round21 jet_1 (double_energy_120),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,jet. jet.,energy,120,-20,20,,,,,be0e37d95491ec892f9c0538c4e05ee82f8da350adf58941c2399b967e5a8624
 jug,4,yes,very good (beta.8),full stop appended,"blind rounds 8-9, 2026-07-27/28",clip,af_heart,en-us,0.85,80,300,10,,yes,no,0,0,0,no,,none,,,,,,,,
-leg,4,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-let,4,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-men,4,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-met,4,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-mud,4,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-mug,4,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-net,4,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-nut,4,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-peg,4,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-pen,4,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-pet,4,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-pup,4,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-red,4,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
+leg,4,yes,perfect,perfect,21,round21 leg_1 (double_energy_120),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,leg. leg.,energy,120,-20,20,,,,,217c2a6ef7339d9f536b426afe3f1bbca0b7638cb793b3a8342b47eabc5907be
+let,4,yes,ok,ok; customs 2026-08-04: recipe does not rebake to the pin (audio diverges at 0.126s); the pinned bytes the owner heard govern,24,round24 let_3 (here_it_is_asr_g30_40),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,"Here it is, let.",asr,,,,0.799,1.257,30,40,77a9e26c9a7aa19ff94f6af37da09617d79da2da0269666698e01bcd7bc069d2
+men,4,yes,ok,ok,21,round21 men_2 (double_energy_120),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,men. men.,energy,120,-20,20,,,,,16865119434a6fccf2d21adf623bd72ca2ec3665cc25b90836a7feac08be09a6
+met,4,yes,perfect,perfect,22,round22 met_1 (double_energy_120),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,met. met.,energy,120,-20,20,,,,,e23693c96f6a7663e5c1f74ebcff6694b48972d8357caffed6fa96fd02f6d02c
+mud,4,yes,ok,"accept, ok [round 18]","round 18, 2026-08-04",clip,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
+mug,4,yes,ok,"accept, ok [round 18]","round 18, 2026-08-04",clip,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
+net,4,yes,ok,ok,20,round20 net_3 (period),af_heart,en-us,0.85,80,300,10,,yes,no,0,0,0,no,,none,,,,,,,,ed7329a10e711d02bea9ea74876ae22d81fbcfef53a2fe369d3306c902c7d393
+nut,4,yes,ok,ok,20,round20 nut_2 (period),af_heart,en-us,0.85,80,300,10,,yes,no,0,0,0,no,,none,,,,,,,,e5c2795d7e01d5da0f8fa0531c3cf0467d2c5526339f34cd4de9e747521427b6
+peg,4,yes,ok,ok,22,round22 peg_3 (double_energy_120),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,peg. peg.,energy,120,-20,20,,,,,15a7bd98317a539c2012f54076260f60cdc2bf5379ea2c63531317582767d062
+pen,4,yes,perfect,perfect,23,round23 pen_2 (comma_asr_g30_40),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,"Here is the word, pen.",asr,,,,0.948,1.6,30,40,17d09ab986409162489547e54c96dc9bb112e98713e783cd1f8b5cfb9485035a
+pet,4,yes,perfect,perfect,22,round22 pet_3 (comma_energy_180),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,"Here is the word, pet.",energy,180,-20,20,,,,,3ed806d8a837de7feaa5e4b3bd84b7121c296cc699ff190dc7617b6b16715682
+pup,4,yes,very good,very good,20,round20 pup_2 (comma_energy_120),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,"Here is the word, pup.",energy,120,-20,20,,,,,150f40d220a8b9c7d32ec76a5459b58221a8c47cab580a032fe2b864ed1f672a
+red,4,yes,very good,very good,22,round22 red_3 (double_energy_120),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,red. red.,energy,120,-20,20,,,,,b599d45ad0626f549b03e20dc69b542150ccdd0e0a127d56ab2c1cb1eece3195
 rub,4,yes,very good (beta.8),full stop appended,"blind rounds 8-9, 2026-07-27/28",clip,af_heart,en-us,0.85,80,300,10,,yes,no,0,0,0,no,,none,,,,,,,,
-rug,4,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-run,4,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-set,4,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-sun,4,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-ten,4,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-tub,4,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-tug,4,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-vet,4,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-web,4,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-wet,4,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-yet,4,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
+rug,4,yes,ok,ok,20,round20 rug_1 (say_asr_g80),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,Say rug.,asr,,,,0.46,0.7,80,40,c0b95ecf44942b94bdfb20ebfa2b6fca704cb732af8157bac8b6aa0ad97b2e5a
+run,4,yes,ok,ok,20,round20 run_2 (period),af_heart,en-us,0.85,80,300,10,,yes,no,0,0,0,no,,none,,,,,,,,dc070d29d6d1e5127c521ee7d75e2873a2f3b7a58c3b99513138a003a7503df2
+set,4,yes,ok,ok,21,round21 set_3 (say_asr_st_g100_40),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,Say set.,asr,,,,0.466,0.96,100,40,6724be7887e9cff6bef34e1142e14e85e0a72c6270a338bf956e0622627397bc
+sun,4,yes,perfect,perfect,21,round21 sun_2 (double_energy_120),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,sun. sun.,energy,120,-20,20,,,,,10e289ed3f1e6738d3c38af97e11ad23fc8bee66d87e7de852ec30e2440cc259
+ten,4,yes,perfect,perfect,20,round20 ten_1 (comma_energy_120),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,"Here is the word, ten.",energy,120,-20,20,,,,,6d05e9cb5009b8bb5e8cb4fe5222b987fa2bb054e56c40f169c63dd0507f8aea
+tub,4,yes,very good,very good,23,round23 tub_3 (comma_asr_g30_40),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,"Here is the word, tub.",asr,,,,0.884,1.54,30,40,1645785587d1ffdf229667e4adaa50241c63a5da80266fa9582b1c224b3cc3b8
+tug,4,yes,ok,ok,22,round22 tug_1 (double_energy_120),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,tug. tug.,energy,120,-20,20,,,,,46b9c2acfae5bdd41bb9c5e0643dd268fe199bcda6d9992036e2c1cd398bc482
+vet,4,yes,perfect,perfect,22,round22 vet_3 (comma_energy_180),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,"Here is the word, vet.",energy,180,-20,20,,,,,0740d77d511fd816f64229dd6ab7eea6714c8287e50a97ba58a667db7d43c09b
+web,4,yes,ok,ok,21,round21 web_2 (period),af_heart,en-us,0.85,80,300,10,,yes,no,0,0,0,no,,none,,,,,,,,9e142f2b068b3f3fc364aec254b7359a3053d18eb0222b1920c93e87595be6d8
+wet,4,yes,good,good,22,round22 wet_2 (lead180_spd0.82),af_heart,en-us,0.82,180,300,10,,no,no,0,0,0,no,,none,,,,,,,,e68d7979eea69042e1282b1ecd87311ec21343d0bc5795168390bd4083423221
+yet,4,yes,ok,ok,23,round23 yet_2 (double_energy_120),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,yet. yet.,energy,120,-20,20,,,,,4392327b8c24d9f81ddd7ac5455a222d22a57e31fa4b9323ec37e3abcdf52212
 cub,5,yes,accepted,tail trim 130 ms removes an added syllable after the final plosive,"spot-check trims, 2026-07-27",clip,af_heart,en-us,0.85,80,300,10,,no,no,130,0,0,no,,none,,,,,,,,
-den,5,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-dot,5,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-fed,5,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-fig,5,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-fog,5,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-gap,5,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-gas,5,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-gum,5,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-hid,5,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-hut,5,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-jab,5,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-jig,5,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-jog,5,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-jot,5,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-kid,5,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-kit,5,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-lab,5,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-lad,5,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-led,5,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-lid,5,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-lit,5,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-lug,5,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-mix,5,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-nab,5,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
+den,5,yes,perfect,perfect,22,round22 den_1 (double_energy_120),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,den. den.,energy,120,-20,20,,,,,41afc621e6cf8e517da6146ca041433a187bad282cc7e7291588a01323c5eb91
+dot,5,yes,perfect,perfect,23,round23 dot_3 (comma_energy_100),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,"Here is the word, dot.",energy,100,-20,20,,,,,2ee043d833e0dbc9e1ee34d3a05172123c55746b7b76ab3f288bbdacc895b57c
+fed,5,yes,perfect,perfect,22,round22 fed_3 (comma_energy_180),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,"Here is the word, fed.",energy,180,-20,20,,,,,4107db4bbb7a106b3e0b303246f3dbe6d8e05e087d785732356190170f2339e7
+fig,5,yes,perfect,perfect,22,round22 fig_3 (comma_energy_180),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,"Here is the word, fig.",energy,180,-20,20,,,,,7a7fd6cfc38e8cab3e343a0dd46052a0d6b2259188df7a8cf428a65d6a36011a
+fog,5,yes,very good,very good,22,round22 fog_1 (double_energy_120),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,fog. fog.,energy,120,-20,20,,,,,d44930b21c39ea632ef6d5eded2302486e287f5a993af982a818f92901aef73a
+gap,5,yes,very good,very good,22,round22 gap_3 (double_energy_120),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,gap. gap.,energy,120,-20,20,,,,,2cbda7f220a30e3c24b42af0fef4ebae1cdea2a2d386b1d81f34cc795d28b3d5
+gas,5,yes,perfect,perfect,23,round23 gas_2 (comma_asr_g30_40),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,"Here is the word, gas.",asr,,,,0.969,1.6,30,40,8e10bd4ff801022afa1ebd953855ffbd53d8dedd159a338e706d19155dc14f81
+gum,5,yes,very good,very good,22,round22 gum_1 (double_energy_120),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,gum. gum.,energy,120,-20,20,,,,,6a2def535bd023063828420c0b0f14ec5f5b17de1ad01f66da7b8562cb6e77ce
+hid,5,yes,ok,ok,23,round23 hid_2 (double_energy_120),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,hid. hid.,energy,120,-20,20,,,,,586463ff5b697e2700cc95200a8d9744b5deac252952addd5b7856de691f33e2
+hut,5,yes,ok,ok,23,round23 hut_2 (comma_energy_180),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,"Here is the word, hut.",energy,180,-20,20,,,,,e12c24183ada326b2d3e5789839b0b16034ce0b84e4b3ac6d2cfa79b0f510fd5
+jab,5,yes,perfect,perfect,23,round23 jab_2 (double_energy_120),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,jab. jab.,energy,120,-20,20,,,,,fb61f9e6168eec425d80d68f443275055d416c9eaa54f1f7153d0e1ca8d08b92
+jig,5,yes,perfect,perfect,23,round23 jig_2 (comma_asr_g30_40),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,"Here is the word, jig.",asr,,,,0.969,1.82,30,40,80aa4a1327cab3d785340ef0afb4a2c682b58ba54791bfb594a664f17613e6ff
+jog,5,yes,very good,very good (owner wrote job_2; mapped to jog_2),23,round23 jog_2 (comma_asr_g30_40),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,"Here is the word, jog.",asr,,,,0.841,1.61,30,40,35f01fb09860bf076410efe94a867cab2d010d1eaea5265cac22ce300e3a9acf
+jot,5,yes,perfect,perfect,23,round23 jot_2 (comma_asr_g30_40),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,"Here is the word, jot.",asr,,,,0.905,1.65,30,40,c93cb44ead0bc44a4b83add6a2735b4ddd4d5babcaa1a40a4227c2cacf40854a
+kid,5,yes,perfect,perfect,23,round23 kid_1 (double_energy_120),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,kid. kid.,energy,120,-20,20,,,,,059d8f88c622c4f0fd52abea43cdb3211bcc0752af6ee06e7d1949fa09ce77fa
+kit,5,yes,ok,ok,23,round23 kit_2 (double_energy_120),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,kit. kit.,energy,120,-20,20,,,,,96f0f129e51d4f392b96b9a47e0c27ea61f764ebcc08c5123e931d3bcdcdca17
+lab,5,yes,perfect,perfect,23,round23 lab_2 (double_energy_120),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,lab. lab.,energy,120,-20,20,,,,,50b74bfb972e949eb67d3c5acc3f0e9c0401ccbf213dfae8f8a6775f60d460dc
+lad,5,yes,perfect,perfect,23,round23 lad_3 (double_energy_120),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,lad. lad.,energy,120,-20,20,,,,,f88ff867ea3fb79b0de66d9d2fa76e2e7abb37419be7e2be62099a4765438aee
+led,5,yes,perfect,perfect,23,round23 led_2 (double_energy_120),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,led. led.,energy,120,-20,20,,,,,36170d5f9e0b8e73ba53baceddc76f68f888604820f605b10879352b47218038
+lid,5,yes,perfect,perfect,23,round23 lid_3 (comma_asr_g30_40),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,"Here is the word, lid.",asr,,,,1.033,1.7,30,40,9d3e5e8000d898d323fe59b9a5cdfddaf7a9570ddd568f8f313d680fef540d3f
+lit,5,yes,ok,ok,23,round23 lit_3 (double_energy_120),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,lit. lit.,energy,120,-20,20,,,,,6d7df2d72d9fa8fb630db6f5fc183e8abe5231f0b1f39ad2eac2ba39217931b4
+lug,5,yes,ok,ok,24,round24 lug_1 (double_energy_120),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,lug. lug.,energy,120,-20,20,,,,,40f8ccd1e87b83195671c2afa6fc441d9e60c075dfd7ff580a5efd84233f3804
+mix,5,yes,perfect,perfect,24,round24 mix_1 (comma_asr_g30_40),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,"Here is the word, mix.",asr,,,,1.012,1.66,30,40,2e5a74985ef29815a41c48b5fe5b537dc8b9531d3a75647921d2cda0757fb61e
+nab,5,yes,good,good,25,round25 nab_3 (here_it_is_asr_g30_40),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,"Here it is, nab.",asr,,,,0.756,1.28,30,40,06651bc38c6e6fa2d7fec43626e2bd8bfc7e4bf3d1cb511a887b4167b5131c64
 pep,5,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-pod,5,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-rib,5,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-rim,5,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-rod,5,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-rot,5,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-sag,5,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-sub,5,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-sum,5,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-tab,5,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-tot,5,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-wax,5,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-wed,5,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-wit,5,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-yak,5,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-yes,5,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-zag,5,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-zig,5,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-zip,5,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-bush,6,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-cash,6,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-chap,6,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-chat,6,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-chin,6,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-chip,6,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-chop,6,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-chug,6,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-chum,6,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-dash,6,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
+pod,5,yes,perfect,perfect,24,round24 pod_2 (comma_energy_180),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,"Here is the word, pod.",energy,180,-20,20,,,,,4803b1f9e97a1552ce474f8fa732c08d728cd366b9e652f5051736bb4c420203
+rib,5,yes,ok,ok,24,round24 rib_2 (comma_asr_g30_40),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,"Here is the word, rib.",asr,,,,1.012,1.66,30,40,3bff9355b4f78b50ac643fed2a500233b3f83e2d2428247610a74fcf136ba444
+rim,5,yes,ok,ok,24,round24 rim_3 (comma_asr_g30_40),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,"Here is the word, rim.",asr,,,,0.991,1.64,30,40,df9fb0d11acbb470345a4d317d85ca58778cc3e94c5beb2867ae99f37233e68d
+rod,5,yes,very good,very good,24,round24 rod_2 (double_energy_120),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,rod. rod.,energy,120,-20,20,,,,,a63ccdfef759c8a8c594a1b820e0fab9a3cbfb754cb021a02e2b20df20c82c16
+rot,5,yes,ok,ok,27,round27 rot_1 (slow_double_energy_120_spd0.75),af_heart,en-us,0.75,80,300,10,,no,no,0,0,0,no,rot. rot.,energy,120,-20,20,,,,,e4a6b2d49457a23212294dc84fd519e28be6f0553c27deab893c8b5def06a58f
+sag,5,yes,ok,ok,25,round25 sag_3 (comma_asr_g30_40),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,"Here is the word, sag.",asr,,,,0.82,1.63,30,40,e6c9f8f4c5ddb8e884db047c8ff0686fee39350fa050a56cdff6a54eedc367af
+sub,5,yes,marginal,marginal,26,round26 sub_1 (slow_double_energy_120_spd0.75),af_heart,en-us,0.75,80,300,10,,no,no,0,0,0,no,sub. sub.,energy,120,-20,20,,,,,9d4b6c7f7da59679d1b59efefb583682d0c980c2ab6f763ef4416cdccef71786
+sum,5,yes,perfect,perfect,24,round24 sum_2 (double_energy_120),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,sum. sum.,energy,120,-20,20,,,,,b55f998c436f069741cb637c3faa38260d111301aa8a8e8ae67db99b932d3c5e
+tab,5,yes,perfect,perfect,24,round24 tab_3 (comma_asr_g30_40),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,"Here is the word, tab.",asr,,,,0.884,1.54,30,40,a77da452ddc31c4690af67091197b7bf92518658a3219af8dfbc374ff7118597
+tot,5,yes,ok,ok,24,round24 tot_2 (double_energy_120),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,tot. tot.,energy,120,-20,20,,,,,61df9557feba647ca2cf6b6e5ceef6d444aa49cbb33323b755698bfba247fd1c
+wax,5,yes,perfect,perfect,24,round24 wax_2 (comma_asr_g30_40),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,"Here is the word, wax.",asr,,,,0.969,1.58,30,40,2487252e7e7362400bfa5938a972d78bba69caaede27a273ea8b49efbd121fc8
+wed,5,yes,ok,ok,24,round24 wed_3 (double_energy_120),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,wed. wed.,energy,120,-20,20,,,,,ef61f9ae55955f88061a235752302d54c50af5a5f1e037c5e49d1ada82618eaf
+wit,5,yes,perfect,perfect,24,round24 wit_2 (comma_energy_180),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,"Here is the word, wit.",energy,180,-20,20,,,,,a80399faa447926e4c5016f5e58f9ea47da4c793349823dd33878f6b1444a5be
+yak,5,yes,perfect,perfect,24,round24 yak_3 (comma_asr_g30_40),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,"Here is the word, yak.",asr,,,,0.969,1.56,30,40,421c02f07c80d4977d9ebd24afa80da2fcc184f0bba52721457cc888a7b2ab3c
+yes,5,yes,perfect,perfect — almost beyond perfection; more human than human pronunciation,25,round25 yes_1 (comma_asr_g30_40),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,"Here is the word, yes.",asr,,,,0.969,1.58,30,40,04c83de39bc4a31fc30d27695979b9128869697d1e168a3733ccbcaeedee1387
+zag,5,yes,perfect,perfect,25,round25 zag_3 (double_energy_120),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,zag. zag.,energy,120,-20,20,,,,,67cee144e91649c9dbf896c8b3d7a2cc11db76301f9ad1f3ce95625bfdcb325c
+zig,5,yes,perfect,perfect,25,round25 zig_3 (double_energy_120),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,zig. zig.,energy,120,-20,20,,,,,3cba0509bf7d8860af43c3df7e1d813de82a915014eb84b988d638ccc047ad63
+zip,5,yes,ok,ok,25,round25 zip_2 (double_energy_120),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,zip. zip.,energy,120,-20,20,,,,,51b5865c19660e06e9f28ebc558b9fcb682f77dd5ff8327a2eca2f689198a11c
+bush,6,yes,perfect,perfect,26,round26 bush_1 (comma_asr_g30_40),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,"Here is the word, bush.",asr,,,,0.991,1.58,30,40,30f79930c3ae8be22adfda8af50c4d9fb4cbef8df7cd4bb734455efc873fe1ec
+cash,6,yes,perfect,perfect,26,round26 cash_3 (comma_asr_g30_40),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,"Here is the word, cash.",asr,,,,0.969,1.7,30,40,68935393e104f61eb046cffa9d2b81b7bed387e429727e9f8b136453395d93c9
+chap,6,yes,perfect,perfect,26,round26 chap_2 (comma_asr_g30_40),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,"Here is the word, chap.",asr,,,,0.841,1.7,30,40,fa50189a7461693d235725764feafeac4f9149dc119c384aa7caefdc419bf785
+chat,6,yes,perfect,perfect,26,round26 chat_1 (comma_asr_g30_40),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,"Here is the word, chat.",asr,,,,0.884,1.52,30,40,55f5919eec136935ef9ffd73bc292024daa7034d60306526e78cb4db294bc084
+chin,6,yes,perfect,perfect,26,round26 chin_1 (comma_asr_g30_40),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,"Here is the word, chin.",asr,,,,0.905,1.72,30,40,ab03cfd2cdea6da1f6346fd0399d15ecc8644ab360b1bf9251faeccb014a4979
+chip,6,yes,ok,ok,26,round26 chip_1 (comma_asr_g30_40),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,"Here is the word, chip.",asr,,,,0.927,1.76,30,40,b9af89c3198b7beb137fdc0f5e8011cc2e6d2f3ee7a811c586d478e02cc08b6e
+chop,6,yes,perfect,perfect,26,round26 chop_2 (comma_asr_g30_40),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,"Here is the word, chop.",asr,,,,0.927,1.82,30,40,0beeeb0066968eb210c66e7a9bb0b870bfae9f69f6c06d6a04128ce2e6e98566
+chug,6,yes,perfect,perfect,26,round26 chug_3 (comma_asr_g30_40),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,"Here is the word, chug.",asr,,,,0.905,1.75,30,40,f1d7e9007b813a462fbc421b7ddafaa1d9b852b85f9b9f2c5203196fd057d35f
+chum,6,yes,ok,ok,26,round26 chum_2 (comma_energy_180),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,"Here is the word, chum.",energy,180,-20,20,,,,,16cbe5c333a1f20144ada4b458aa7d2ea691a685d17f95bb127e830df52b51fb
+dash,6,yes,perfect,perfect,26,round26 dash_3 (comma_asr_g30_40),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,"Here is the word, dash.",asr,,,,0.948,1.6,30,40,9f3d9db49d56f7fb78bb1731fb7731843f32b71cfaa9e5374d193e15082d4cb9
 dish,6,yes,accepted,tail trim 120 ms; the sh ran longer than in mush,"spot-check trims, 2026-07-27",clip,af_heart,en-us,0.85,80,300,10,,no,no,120,0,0,no,,none,,,,,,,,
 fish,6,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-hush,6,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-mash,6,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
+hush,6,yes,ok,ok,26,round26 hush_2 (comma_asr_g30_40),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,"Here is the word, hush.",asr,,,,1.033,1.72,30,40,07e48077b4a0f4028a1e18f78f42c1b36babb9ee7fce197abb1f7ef7d6bb067f
+mash,6,yes,perfect,perfect,26,round26 mash_1 (comma_asr_g30_40),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,"Here is the word, mash.",asr,,,,0.927,1.62,30,40,683c3f98f04efe371c8634b7b7d17d76e7f21bf41b59e8d87889226ae6f0d937
 much,6,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-mush,6,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-push,6,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-rash,6,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
+mush,6,yes,perfect,perfect,27,round27 mush_1 (comma_asr_g30_40),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,"Here is the word, mush.",asr,,,,0.948,1.6,30,40,ae4b5e0ab4517d8af4367658c578f0c458240d2f1b65313d4a1deb7bc58111f8
+push,6,yes,ok,ok,27,round27 push_1 (comma_asr_g30_40),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,"Here is the word, push.",asr,,,,0.969,1.38,30,40,01f546cc0d7e7f079ae8f993d21f9dccd881ebe7582cb97402a7e3c330372775
+rash,6,yes,ok,ok,28,round28 rash_3 (double_energy_120_endpad80_spd0.82),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,rash. rash.,energy,120,-20,20,,,,,965c980731b7d13f4a0f3377a0cdf036c801cc1ae9077113712242b5fe914686
 rich,6,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
 rush,6,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-sash,6,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-she,6,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-shed,6,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-shin,6,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
+sash,6,yes,ok,ok,27,round27 sash_3 (comma_asr_g30_40),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,"Here is the word, sash.",asr,,,,0.884,1.72,30,40,5d0b885c846123b666d728b79df1db00c155ba8b4db27699d372bb9e98589924
+she,6,yes,marginal,marginal,27,round27 she_1 (comma_asr_g30_40),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,"Here is the word, she.",asr,,,,0.863,1.56,30,40,263cef4d9541178e66cb6e468ee91a6f3270a1529742d2c9038290e92e2d573d
+shed,6,yes,ok,ok,27,round27 shed_2 (double_energy_120),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,shed. shed.,energy,120,-20,20,,,,,29d87b87df4934a15221506dff4744e20f13b5dd6f27bba9b7921afaec9ead47
+shin,6,yes,good,good,27,round27 shin_3 (double_energy_120),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,shin. shin.,energy,120,-20,20,,,,,f53a38ae9c1d4f9d7f34e8412cd2feeb49def32e80ac86dc78cfa83174b96e5d
 ship,6,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
 shop,6,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-shut,6,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-such,6,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-wash,6,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-wish,6,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-back,7,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-bath,7,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-buck,7,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-deck,7,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-dock,7,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-duck,7,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-fang,7,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-gong,7,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-hang,7,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-kick,7,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-king,7,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-lick,7,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-lock,7,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-long,7,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-luck,7,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-lung,7,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-math,7,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-moth,7,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-muck,7,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
+shut,6,yes,marginal,marginal,28,round28 shut_3 (slow_double_energy_120_spd0.75),af_heart,en-us,0.75,80,300,10,,no,no,0,0,0,no,shut. shut.,energy,120,-20,20,,,,,d7b43a6840c38bfc598024d32ace6568dfb1d14e94c07f4273398ec34869521e
+such,6,yes,ok,ok,28,round28 such_3 (listen_asr_g25_40),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,"Listen, such.",asr,,,,0.737,1.28,25,40,a22fec3b9df4a55b5f98919bcf65634572cdce18bf519f6b0b7e45a9853cc273
+wash,6,yes,ok,ok,27,round27 wash_3 (comma_asr_g30_40),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,"Here is the word, wash.",asr,,,,1.033,1.78,30,40,f2ed88fc9bd4cf4600402ac1c9a0f2a9f3f7c52199ed443c337c089b76600bd1
+wish,6,yes,very good,very good,28,round28 wish_3 (here_it_is_asr_g30_40),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,"Here it is, wish.",asr,,,,0.756,1.28,30,40,b1898bc1412952a972e786265d0c05530cdb7e39b1772f110e09d2ac9faf3ef8
+back,7,yes,perfect,perfect,28,round28 back_1 (comma_asr_g30_40),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,"Here is the word, back.",asr,,,,0.969,1.58,30,40,b6cc441abb376c0c49f86541ebd271867d97547dfd51abb22a6b17c88134a0cf
+bath,7,yes,very good,very good,28,round28 bath_3 (comma_asr_g30_40),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,"Here is the word, bath.",asr,,,,0.969,1.58,30,40,9e9834caeb59b546b2991447a514386b5db49bcfc7786512a70a120b2c81a37e
+buck,7,yes,ok,ok,28,round28 buck_2 (comma_asr_g30_40),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,"Here is the word, buck.",asr,,,,0.991,1.62,30,40,f7f40bb51b287633d36f4ff1db69fdb63951d3757b45749d91a1a347430f3e3c
+deck,7,yes,very good,very good,28,round28 deck_3 (comma_asr_g30_40),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,"Here is the word, deck.",asr,,,,0.927,1.64,30,40,15bc190f5a382a2e3feee53d930da51c4250d1f92c8a28ebcd1869c0d3e4b025
+dock,7,yes,perfect,perfect,28,round28 dock_3 (comma_asr_g30_40),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,"Here is the word, dock.",asr,,,,0.969,1.6,30,40,2904c35fee1214378269a107fd31e44789a306d5238c615d9218cde91195ace4
+duck,7,yes,perfect,perfect,28,round28 duck_1 (comma_asr_g30_40),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,"Here is the word, duck.",asr,,,,0.948,1.66,30,40,b4953a5936322f665f4bc535ee8c79f3ec8a01bfbbe5544e801dda18b1a31e19
+fang,7,yes,very good,very good,28,round28 fang_1 (double_energy_120),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,fang. fang.,energy,120,-20,20,,,,,0ba80f7ce805962067d8f9293d06c76dafb8f3745017fc58ab63aea844c2e338
+gong,7,yes,perfect,perfect,29,round29 gong_3 (comma_asr_g30_40),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,"Here is the word, gong.",asr,,,,0.948,1.7,30,40,bb18b59d6663b818b942d91fc14b4e81e8d615855ef53d8e92802fbf01d2a512
+hang,7,yes,very good,very good,29,round29 hang_1 (double_energy_120),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,hang. hang.,energy,120,-20,20,,,,,eedc47590433084233d1652d9eb57b1fcfd6987a230e2f64b92ea7f91951b8b0
+kick,7,yes,very good,very good,29,round29 kick_2 (comma_asr_g30_40),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,"Here is the word, kick.",asr,,,,0.969,1.64,30,40,87e2046b09c3427d1dc97d05b0c701987aaf353b5292c46814b0161b8a70045f
+king,7,yes,very good,very good,29,round29 king_3 (comma_asr_g30_40),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,"Here is the word, king.",asr,,,,0.969,1.6,30,40,98d1f267008f305868aaba62c1cc23ba40aa0295cf49a1a2da2a9ae69c987119
+lick,7,yes,very good,very good,29,round29 lick_2 (comma_asr_g30_40),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,"Here is the word, lick.",asr,,,,1.097,1.74,30,40,8dff7d4535eacad4d727be4001ced4bf8ac5c004120fe248b793220e1ca71f4e
+lock,7,yes,good,good,29,round29 lock_3 (comma_asr_g30_40),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,"Here is the word, lock.",asr,,,,0.991,1.58,30,40,c00e5077e36c13aaf3278fb3a5688723dd657bde57b5c60a3acd54895efb66a8
+long,7,yes,good,good,29,round29 long_2 (double_energy_120),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,long. long.,energy,120,-20,20,,,,,fb5b99e80f43b8ce7ce7a356b6a67d69b95301f395edd8c1fdaab12ba552ff2a
+luck,7,yes,ok,ok,29,round29 luck_3 (comma_asr_g30_40),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,"Here is the word, luck.",asr,,,,1.012,1.7,30,40,0fa600edb8e30ea64387167b30017053e4af6c2a71a11adc01cfb430752c0d6d
+lung,7,yes,ok,ok,29,round29 lung_1 (double_energy_120),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,lung. lung.,energy,120,-20,20,,,,,66d7f186820b240749bf0a0cbc67d0b7c07a52f9de2569474b5bc72993446701
+math,7,yes,good,good,29,round29 math_3 (comma_asr_g30_40),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,"Here is the word, math.",asr,,,,0.884,1.52,30,40,e52fb406a3b8dd7f596f14fd8cdd9a08f5f88d9a9000e993ac51335d11ecf361
+moth,7,yes,perfect,perfect,29,round29 moth_2 (comma_asr_g30_40),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,"Here is the word, moth.",asr,,,,0.884,1.52,30,40,156e78ea307a9011895bad1351d9c783377247d00b02fcb54b1de0c27dbfa605
+muck,7,yes,perfect,perfect,29,round29 muck_3 (comma_asr_g30_40),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,"Here is the word, muck.",asr,,,,0.948,1.58,30,40,9c65719294da99d922d3bb3cd6987f1bf77262a45349ef7771c0bb1c8d6973d8
 neck,7,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-pack,7,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-path,7,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-peck,7,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-pick,7,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-puck,7,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-rang,7,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-ring,7,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-rock,7,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-rung,7,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-sack,7,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-sang,7,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
+pack,7,yes,very good,very good,29,round29 pack_2 (comma_asr_g30_40),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,"Here is the word, pack.",asr,,,,0.969,1.64,30,40,faf447c8c49316b976b74355a1b7f0f9e42f40c300f70a4d2fcc841d714954b1
+path,7,yes,ok,ok,29,round29 path_2 (comma_asr_g30_40),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,"Here is the word, path.",asr,,,,0.927,1.58,30,40,265f833dce650366ed79b3ca7218fabb48d2a3ddd7f4888deff1f48a3b38761c
+peck,7,yes,near perfect,near perfect,29,round29 peck_2 (comma_asr_g30_40),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,"Here is the word, peck.",asr,,,,0.991,1.76,30,40,e738bbe24bc5e4655627f40445e795916771e8846c6a3bed761a6d14ea796d5d
+pick,7,yes,ok,ok,29,round29 pick_3 (comma_asr_g30_40),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,"Here is the word, pick.",asr,,,,1.033,1.8,30,40,083f153792bed18a369cb33952b737f2526d8a9dec398822497a8967cba30a35
+puck,7,yes,good,good,29,round29 puck_2 (comma_asr_g30_40),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,"Here is the word, puck.",asr,,,,0.991,1.74,30,40,6b24b5e74953e9e3e52f513d7ee7a4bae2fafaa7139857c7cd9b264a6bb89ad7
+rang,7,yes,perfect,perfect,29,round29 rang_3 (double_energy_120),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,rang. rang.,energy,120,-20,20,,,,,90b1f141ffb9fc63472ef6a5c06e6492d69e73d18fd32cdb6cc640589bb40391
+ring,7,yes,very good,very good,30,round30 ring_1 (comma_asr_g30_40),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,"Here is the word, ring.",asr,,,,0.991,1.62,30,40,0234af55d3a3a3eb0b45b21d0659eb71c9222d867314e79f317283aa1354ec04
+rock,7,yes,perfect,perfect,30,round30 rock_2 (comma_asr_g30_40),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,"Here is the word, rock.",asr,,,,1.012,1.66,30,40,7de9304a9ebbd5dea93efb2f942035c5312cf1228009481833d2e3719d6a67d1
+rung,7,yes,perfect,perfect,30,round30 rung_1 (here_it_is_asr_g30_40),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,"Here it is, rung.",asr,,,,0.756,1.297,30,40,c4512e2b7305dcd195195f9062e57716ad27d5ead9b31108083505f28edc7600
+sack,7,yes,ok,ok,30,round30 sack_3 (comma_asr_g30_40),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,"Here is the word, sack.",asr,,,,0.991,1.7,30,40,64c3d64c9df7990749d68abc38504581f4eba8f5a2691af3856327cd9ef65436
+sang,7,yes,very good,very good,30,round30 sang_1 (double_energy_120),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,sang. sang.,energy,120,-20,20,,,,,e975b2d04461e913c0d20c720f91ddf099e010e39cf0dee829d63feb955b59ea
 sick,7,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-sing,7,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-sock,7,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-song,7,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-sung,7,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-tack,7,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-that,7,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
+sing,7,yes,good,good,30,round30 sing_3 (double_energy_120),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,sing. sing.,energy,120,-20,20,,,,,cce7127a5759fd05906557f469de985eccadc8f8beee94ede0e7ca3305263478
+sock,7,yes,ok,ok,32,round32 sock_2 (slow_double_energy_120_spd0.75),af_heart,en-us,0.75,80,300,10,,no,no,0,0,0,no,sock. sock.,energy,120,-20,20,,,,,8b33a5cbc4ab897538c55ed286b6eda82214ed296a932ab29dc2b6c938ca347e
+song,7,yes,perfect,perfect,30,round30 song_2 (double_energy_120),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,song. song.,energy,120,-20,20,,,,,6cab620d3144a5dba424dab4558915f0fbdaeaa7710b12699f8b6de214f51a5e
+sung,7,yes,good,good,30,round30 sung_1 (double_energy_120),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,sung. sung.,energy,120,-20,20,,,,,af75ac70b8b669b789fc40ef35f3b0196cc40b2b364ea81ac80cc587b6804883
+tack,7,yes,good,good,30,round30 tack_2 (comma_asr_g30_40),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,"Here is the word, tack.",asr,,,,0.905,1.74,30,40,e03fa198f20eaf954e8920574802562593ec30b1e9de6063b4d639abfbde54d0
+that,7,yes,ok,ok,30,round30 that_2 (here_it_is_asr_g30_40),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,"Here it is, that.",asr,,,,0.756,1.28,30,40,d47a0789dbb374d9bba26076071a130d01ada15e456a529e92d4c4263a45fb1d
 the,7,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-them,7,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
+them,7,yes,good,good,30,round30 them_3 (double_energy_120),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,them. them.,energy,120,-20,20,,,,,c6d84204324e7aa5c8d616d329d530d3c68dfc5ee13e91293bbe7644a186e67b
 then,7,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-thin,7,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-this,7,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-thud,7,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-tick,7,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
+thin,7,yes,marginal,marginal,32,round32 thin_3 (bright_head_40),af_heart,en-us,0.82,80,300,10,,no,no,0,40,0,no,,none,,,,,,,,c7af2d8addcb1e489f841db5fcf6f5170046b9b588c20361f3b02e13452edb61
+this,7,yes,ok,ok,30,round30 this_2 (double_energy_120),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,this. this.,energy,120,-20,20,,,,,f311cb75f9062c81308522d46ace7ce01510905ec4300860329688850827b099
+thud,7,yes,perfect,perfect,30,round30 thud_3 (comma_asr_g30_40),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,"Here is the word, thud.",asr,,,,1.055,1.8,30,40,b4478441a50f347294546ebf2388edc1bd9494be5267c9925773442b9621c0ef
+tick,7,yes,good,good,30,round30 tick_2 (comma_asr_g30_40),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,"Here is the word, tick.",asr,,,,0.927,1.64,30,40,f09acdfbd74b63dc294633c95489719f5cd10be4ea6a42e5f38f571d0f8c3fd2
 tuck,7,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-was,7,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-what,7,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-when,7,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-whip,7,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-wick,7,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-wing,7,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-with,7,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-pat,2,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-dam,2,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-nag,2,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-sap,2,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-vat,2,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-tin,3,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-rig,3,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-rob,3,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-sob,3,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-mob,3,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
+was,7,yes,perfect,perfect,25,round25 was_3 (comma_asr_g30_40),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,"Here is the word, was.",asr,,,,0.991,1.64,30,40,8fd1de18191dd7c65e131fe9b74ebbbdff44e2f07ee70bf554f8ac030ae656cd
+what,7,yes,ok,ok,33,round33 what_3 (soft_bare_lead220_spd0.82),af_heart,en-us,0.82,220,300,10,,no,no,0,0,0,no,,none,,,,,,,,c399a39a5b59bc38cb3db1c98dbf559c274c4ce49efde423a8595f0b57055f48
+when,7,yes,ok,ok,33,round33 when_2 (listen_asr_g25_40),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,"Listen, when.",asr,,,,0.715,1.28,25,40,e73fc259a1ba1574fe47ce342053da2dbf10fd19a6c30f2b28a8266ac49bdc32
+whip,7,yes,marginal,marginal,33,round33 whip_3 (onset_trim),af_heart,en-us,0.85,80,300,10,,no,yes,0,0,0,no,,none,,,,,,,,e7bdebaba31e7ae53e1391f1c520ef5231577e37fc9e79ae91e057a805c16b2f
+wick,7,yes,ok,ok,33,round33 wick_3 (soft_bare_lead220_spd0.82),af_heart,en-us,0.82,220,300,10,,no,no,0,0,0,no,,none,,,,,,,,841f748ce61a7b797bad12e8c0a8829f2dedfb6d1f16759f6557c0745d8c7648
+wing,7,yes,perfect,perfect,31,round31 wing_2 (comma_asr_g30_40),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,"Here is the word, wing.",asr,,,,0.969,1.6,30,40,0429fae06c70a5aeb5d55b482811b42c23bb46a1a0b8427a2f4e9b097def6aa2
+with,7,yes,ok,ok,31,round31 with_1 (here_it_is_asr_g30_40),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,"Here it is, with.",asr,,,,0.756,1.28,30,40,0c0feaf59e668983f4db00c30002fd93160243375b2098dfaf82904dbc02058f
+pat,2,yes,perfect,"accept, perfect","round 15, 2026-08-04",clip,af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,"Here is the word, pat.",energy,120,-20,20,,,,,
+dam,2,yes,perfect,"accept, perfect","round 15, 2026-08-04",clip,af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,"Here is the word, dam.",energy,120,-20,20,,,,,
+nag,2,yes,perfect,"accept, perfect","round 15, 2026-08-04",clip,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
+sap,2,yes,ok,"accept, ok [round 16b]","round 16b, 2026-08-04",clip,af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,Say sap.,asr,,,,0.52,0.82,80,40,
+vat,2,yes,perfect,"accept, perfect","round 15, 2026-08-04",clip,af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,"Here is the word, vat.",energy,120,-20,20,,,,,
+tin,3,yes,perfect,"accept, perfect","round 15, 2026-08-04",clip,af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,"Here is the word, tin.",energy,120,-20,20,,,,,
+rig,3,yes,very good,"accept, very good","round 15, 2026-08-04",clip,af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,"Here is the word, rig.",energy,120,-20,20,,,,,
+rob,3,yes,ok,"accept, ok","round 15, 2026-08-04",clip,af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,Say rob.,asr,,,,0.5,0.72,40,40,
+sob,3,yes,ok,"accept, ok","round 15, 2026-08-04",clip,af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,Say sob.,asr,,,,0.48,0.74,80,40,
+mob,3,yes,very good,"accept, very good [round 16b]","round 16b, 2026-08-04",clip,af_heart,en-us,0.85,80,300,10,,yes,no,0,0,0,no,,none,,,,,,,,
 cop,3,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-dim,3,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-bet,4,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-keg,4,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-hem,4,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-nun,4,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-pun,4,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-jut,4,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-gut,4,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
+dim,3,yes,perfect,"accept, perfect","round 15, 2026-08-04",clip,af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,"Here is the word, dim.",energy,120,-20,20,,,,,
+bet,4,yes,perfect,perfect,25,round25 bet_2 (comma_asr_g30_40),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,"Here is the word, bet.",asr,,,,1.055,1.7,30,40,f4229747280fb14e828eb1a3c8ce12b72be93b21b11ba8bb89fc02854914a266
+keg,4,yes,ok,ok,25,round25 keg_1 (double_energy_120),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,keg. keg.,energy,120,-20,20,,,,,242579e11bbf24bd58fad97ef5296ae88034cfa70aa8447e17af0406feee3512
+hem,4,yes,ok,ok,25,round25 hem_1 (double_energy_120),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,hem. hem.,energy,120,-20,20,,,,,47253a6dc49c78f0bedeb096cfe7dc10cfb9d1aa5ccb018d9579644861f86c9b
+nun,4,yes,ok,ok,25,round25 nun_3 (comma_asr_g30_40),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,"Here is the word, nun.",asr,,,,0.948,1.54,30,40,bfe04d4d29d00dc98be13e5ec3cd207156d5251a605d2be9fff3dcc1667667dc
+pun,4,yes,perfect,perfect,25,round25 pun_3 (comma_asr_g30_40),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,"Here is the word, pun.",asr,,,,0.927,1.62,30,40,aace925f55a6149fc34544ec8d4eb450db46b236289bb0d1c023c5a740b0328b
+jut,4,yes,ok,ok,25,round25 jut_1 (comma_asr_g30_40),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,"Here is the word, jut.",asr,,,,0.927,1.67,30,40,5a3baa36d847cf03db4ad61928977f3f5604776a34dd7f3ddfb4bfe181314ea9
+gut,4,yes,ok,ok,26,round26 gut_2 (double_energy_120),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,gut. gut.,energy,120,-20,20,,,,,3d3535126e69135629f5ea6814bf779a260584247d313d3db53267bd1328723d
 hub,4,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-fax,5,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-nix,5,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-vex,5,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-sax,5,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-cod,5,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-gob,5,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-bash,6,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-gash,6,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-gush,6,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-lash,6,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
+fax,5,yes,ok,ok,31,round31 fax_1 (here_it_is_asr_g30_40),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,"Here it is, fax.",asr,,,,0.735,1.26,30,40,a2228965b813b8ef4047298efc0bb909c1b2f5937422e586c5ea3db27f3647e9
+nix,5,yes,ok,ok,32,round32 nix_1 (soft_bare_lead220_spd0.82),af_heart,en-us,0.82,220,300,10,,no,no,0,0,0,no,,none,,,,,,,,18b1d236567760e3e07dd7fb254f573cbf68e6761fd71b6ddac3cefcbd029e08
+vex,5,yes,very good,very good,31,round31 vex_3 (comma_asr_g30_40),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,"Here is the word, vex.",asr,,,,0.969,1.74,30,40,9e4b6172ae2b4975f015231e86800e01acc36075531a1432261bef8c784d8a02
+sax,5,yes,ok,ok,31,round31 sax_2 (here_it_is_asr_g30_40),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,"Here it is, sax.",asr,,,,0.777,1.44,30,40,a60ba1b1082368a23b51cbe304c590584ef1352461db7821cae08dd7aa1274e0
+cod,5,yes,very good,very good,31,round31 cod_3 (double_energy_120),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,cod. cod.,energy,120,-20,20,,,,,04dfcf06d60608908b6f8ee20ccc7fa075a5a82c15ebee41f3a67559adb8889d
+gob,5,yes,ok,ok,32,round32 gob_3 (double_energy_120),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,gob. gob.,energy,120,-20,20,,,,,1d103eaffe51e942ef0b48c0637a4b2f1813d29c8700eefb74b697103a061b8e
+bash,6,yes,perfect,perfect,31,round31 bash_3 (comma_asr_g30_40),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,"Here is the word, bash.",asr,,,,0.991,1.72,30,40,8309f292b2fe4c47cfdd1c162f9737f0c7a6ec4ddfdf18e90c1803f53c1115ed
+gash,6,yes,ok,ok,32,round32 gash_1 (double_energy_120),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,gash. gash.,energy,120,-20,20,,,,,50c6b8022363fba5e31e358844ad7be5a12dc3e0c5bd188b033f3589b7675052
+gush,6,yes,ok,ok,32,round32 gush_3 (double_energy_120),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,gush. gush.,energy,120,-20,20,,,,,da0ef7be1858c126677ed34b900a8ac4fad55fce53b5e8aecd38d20d2052c871
+lash,6,yes,ok,ok,32,round32 lash_3 (comma_asr_g30_40),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,"Here is the word, lash.",asr,,,,0.969,1.78,30,40,59a514d74e3742fedcfafbc66cc6ca0434bcef2639b383adde9205d7a792cb2a
 lush,6,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-posh,6,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-sham,6,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-shun,6,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-whim,7,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-wham,7,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-bang,7,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-hung,7,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-ding,7,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-ping,7,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-bell,8,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-tell,8,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-well,8,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-fell,8,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-hill,8,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-mill,8,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-doll,8,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-mess,8,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-boss,8,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-kiss,8,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
+posh,6,yes,perfect,perfect,32,round32 posh_1 (comma_asr_g30_40),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,"Here is the word, posh.",asr,,,,0.948,1.72,30,40,7dfc02d741dbd30ae223c981f0b78a4fcc8c725f8d4c6b872acbdc047676b014
+sham,6,yes,marginal,marginal,32,round32 sham_1 (comma_asr_g30_40),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,"Here is the word, sham.",asr,,,,0.969,1.6,30,40,b664fa08c8c6da648d1dbffefba445749437fc99c28fc9abdfa6272f70490d73
+shun,6,yes,ok,ok,32,round32 shun_1 (comma_asr_g30_40),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,"Here is the word, shun.",asr,,,,1.012,1.6,30,40,6de2617d45a617e3c1f23c6a57fc175b2678ba46bead37c1b5da0d7de52e5174
+whim,7,yes,perfect,perfect,32,round32 whim_2 (comma_asr_g30_40),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,"Here is the word, whim.",asr,,,,1.033,1.7,30,40,1d87c1f0a8de1d401d8e9e4c7da37c72233fa870cdb996a6e99a9499bf144027
+wham,7,yes,perfect,perfect,33,round33 wham_2 (double_energy_120),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,wham. wham.,energy,120,-20,20,,,,,6a15d6993e91704d7654546303f6b25ebff1e1a8a008dae4acf0eb9fd84aa4a9
+bang,7,yes,almost perfect,near perfect,33,round33 bang_1 (comma_asr_g30_40),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,"Here is the word, bang.",asr,,,,0.948,1.54,30,40,cd0a346b929a5a7f17c807616d1a3d535f12cc50f830f72f3c7442c44e777a54
+hung,7,yes,very good,very good,33,round33 hung_1 (double_energy_120),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,hung. hung.,energy,120,-20,20,,,,,451b0f4004e876aef95819d5b159926f856208c37cbc4345523a3e71d852a82f
+ding,7,yes,perfect,perfect,33,round33 ding_1 (comma_asr_g30_40),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,"Here is the word, ding.",asr,,,,0.969,1.62,30,40,501c5aa6e5f8f6e9a64deec66cde4fe76d886f98a5d56ba68eb2f5f5ed44d191
+ping,7,yes,ok,ok,33,round33 ping_1 (double_energy_120),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,ping. ping.,energy,120,-20,20,,,,,d6f227c1caf63ab5641bfcdae4e774a8ebcffa23d4065dca922d7237d60945a2
+bell,8,yes,perfect,perfect,34,round34 bell_2 (comma_asr_g30_40),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,"Here is the word, bell.",asr,,,,0.991,1.62,30,40,336902754e7c7f733b10c9072692d657d13f5bd984a475d258e87e784dd0e96e
+tell,8,yes,perfect,perfect,34,round34 tell_2 (comma_asr_g30_40),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,"Here is the word, tell.",asr,,,,0.905,1.5,30,40,23a4d54c05a6c404f8c6f032b3a31400282dcea49d50ceb3070496806f6b8718
+well,8,yes,perfect,perfect,34,round34 well_2 (here_it_is_asr_g30_40),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,"Here it is, well.",asr,,,,0.735,1.26,30,40,78ccb535535f153d92d8bd98d93736ea0af16f1d2f3161881ca07f0add659028
+fell,8,yes,good,good,33,round33 fell_3 (comma_asr_g30_40),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,"Here is the word, fell.",asr,,,,1.012,1.6,30,40,60a897127fbed61b6f47afd7d6fc9234e9f5c5cad25e369a6e16c34a42da3798
+hill,8,yes,good,good,34,round34 hill_2 (comma_asr_g30_40),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,"Here is the word, hill.",asr,,,,1.033,1.64,30,40,44c56c45d62a196e69c1d976a86d9adabf3f87229e46a62226b4235bb36118df
+mill,8,yes,ok,ok,34,round34 mill_1 (double_energy_120),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,mill. mill.,energy,120,-20,20,,,,,7fbb5d80bc3a8fc821a41bc70bbbaf16aee8d3223f1aca2f56cad114a797f0e2
+doll,8,yes,ok,ok,33,round33 doll_2 (comma_asr_g30_40),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,"Here is the word, doll.",asr,,,,0.905,1.58,30,40,3f13c9d88ad96427d3252a926dda77ea81f467ff3a6d5a989268fcd6bd07aa03
+mess,8,yes,good,good,34,round34 mess_1 (comma_asr_g30_40),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,"Here is the word, mess.",asr,,,,0.948,1.6,30,40,73bde18c0451739ffdca356b56db37e7b604f7c4e743976a0fd38566174d3eab
+boss,8,yes,perfect,perfect,34,round34 boss_3 (comma_asr_g30_40),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,"Here is the word, boss.",asr,,,,0.969,1.56,30,40,36936290db6316888157003d090791a1ba3fbfb48a4c4ad64e2aab851434ce72
+kiss,8,yes,good,good,33,round33 kiss_1 (comma_asr_g30_40),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,"Here is the word, kiss.",asr,,,,0.948,1.68,30,40,fd40cc63dcf706689249bcef52dab990a63fe0584a48d8bfa7b23e8b3852a4d7
 miss,8,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-loss,8,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-fuss,8,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
+loss,8,yes,good,good,33,round33 loss_3 (comma_asr_g30_40),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,"Here is the word, loss.",asr,,,,0.991,1.6,30,40,0e7a535dfdf5c960e1c2b47cc70d77a7bff5fb4fb280577b553c8d3528238875
+fuss,8,yes,marginal,marginal,34,round34 fuss_1 (double_energy_120),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,fuss. fuss.,energy,120,-20,20,,,,,839b1902a611b6e5a9cc79a218cd5861a1bf4226819abc9dc5ccc55f106ca5e3
 huff,8,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-puff,8,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-cuff,8,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-buzz,8,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-fuzz,8,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-jazz,8,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-fizz,8,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-quiz,8,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-quit,8,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-quip,8,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
+puff,8,yes,very good,very good,33,round33 puff_2 (comma_asr_g30_40),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,"Here is the word, puff.",asr,,,,0.948,1.72,30,40,3e27047a67c6b3556a74c2e5cc2199543c3989c0a423b0df2a18cceda8e005a7
+cuff,8,yes,very good,very good,33,round33 cuff_2 (comma_asr_g30_40),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,"Here is the word, cuff.",asr,,,,0.969,1.64,30,40,11c0bc379c46606b6ace671ffd3465a0e1ba2429fbe2f89c6b6e3cfce79b0ec5
+buzz,8,yes,good,good,34,round34 buzz_3 (double_energy_120),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,buzz. buzz.,energy,120,-20,20,,,,,6e428e3aa6c4ba8d0051cd7bb0eafc14471bda6837ac674eccd21a5c17285e4f
+fuzz,8,yes,good,good,34,round34 fuzz_2 (double_energy_120),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,fuzz. fuzz.,energy,120,-20,20,,,,,754f000dcf172fb0501ef130b4b6f1d356b3a4ee7b70b45a4b38c2e14eea28c5
+jazz,8,yes,good,good,33,round33 jazz_1 (double_energy_120),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,jazz. jazz.,energy,120,-20,20,,,,,5c442b56317472ca750ce3a22aa7d1880f2c1a2d1437be74f9a80f0fb01164f5
+fizz,8,yes,ok,ok,34,round34 fizz_1 (comma_asr_g30_40),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,"Here is the word, fizz.",asr,,,,0.991,1.68,30,40,dfe67a886640bff0226fbacd65aba5e5cae9c520a9d9e47939db110d51b7c777
+quiz,8,yes,good,good,34,round34 quiz_3 (double_energy_120),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,quiz. quiz.,energy,120,-20,20,,,,,6840a54f26a6c70f84f94eec597adb2581d03fad55450a05e3556457028350b7
+quit,8,yes,very good,very good,34,round34 quit_2 (comma_asr_g30_40),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,"Here is the word, quit.",asr,,,,1.012,1.44,30,40,613b12d4e474ea6ce785ae4aa21240fb3e8304e7d7deae70af8d3db853926cea
+quip,8,yes,good,good,33,round33 quip_3 (comma_asr_g30_40),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,"Here is the word, quip.",asr,,,,1.012,1.8,30,40,bf6336b6cddd3ec8c0ac5e102ad5cf69bd7ab2f357e4eaa6ca061d3ebed49914
 knit,8,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-knob,8,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-knot,8,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
-lamb,8,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
+knob,8,yes,good,good,34,round34 knob_3 (double_energy_120),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,knob. knob.,energy,120,-20,20,,,,,4ee113c578e67999e75e0eade39f01e77da37481431a9033bf3b30594cd32e65
+knot,8,yes,good,good,34,round34 knot_2 (comma_asr_g30_40),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,"Here is the word, knot.",asr,,,,0.948,1.64,30,40,2dda953d4e0c50631031c082453b54d58f7c7188b5eea11b16f095749e1982e5
+lamb,8,yes,perfect,perfect,33,round33 lamb_3 (double_energy_120),af_heart,en-us,0.82,80,300,10,,no,no,0,0,0,no,lamb. lamb.,energy,120,-20,20,,,,,8c6ac8ef911e7ed3b6d433cc62f42516d7b67c1b97f66a966ad03684766b44ad
 chick,9,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
 check,9,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,
 chuck,9,no,,,,,af_heart,en-us,0.85,80,300,10,,no,no,0,0,0,no,,none,,,,,,,,

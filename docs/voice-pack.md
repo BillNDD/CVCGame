@@ -73,7 +73,9 @@ app carries only the audio files.
   at the per-word thresholds in `carrier_cut`. This is the isolation round 10 could not do; see
   below. The treatment is NOT general: the gap search settles differently for every word, and it
   could not be built at all for hat.
-- Approved by a listener and NOT YET IN THE PACK: cup, alone. See "Approved and unshipped".
+- Nothing stands approved-and-unshipped. cup, the last such entry, shipped on 2026-08-04:
+  the sidecar recovered the round 8-9 winning bytes from its archive and pinned them; the
+  shipped file verifies against the pin.
   (pop was in the same position until the keeper handoff shipped it, "perfect", 2026-08-01.)
   That entry exists because the result was lost once already: it was won on 28 July, held
   back while an audit ran, and never picked back up — beta.9 shipped the rendering it was
@@ -261,7 +263,7 @@ Two findings that constrain any further work on these words:
   "marginally acceptable" and by 100 ms to "clipped at the end, too quick". The fuzz at the
   end of hen is not separable from the n by a tail trim. Do not spend another round on it.
 
-## Approved and unshipped: cup
+## Approved and unshipped: cup — RESOLVED 2026-08-04 (recovered and pinned by the sidecar; the section below is the historical record)
 
 cup and pop both won the comma carrier in round 12 — "perfect" and "very good". pop has
 since shipped through the keeper handoff (an ASR carrier, "perfect", 2026-08-01), so only
