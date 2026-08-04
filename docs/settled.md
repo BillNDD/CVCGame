@@ -72,6 +72,21 @@ updated whenever a round lands.
   shipped file is the one the owner heard. Do not re-render or re-open it
   without a new listen.
 
+## The sound-out reveal's visual treatment (2026-08-04) — closed
+
+- For the coming sound-it-out reveal, the owner viewed three motion treatments
+  as finished videos of "rat" with the real audio sequence — lift-and-glow,
+  star-wipe, and bounce-and-shine — then an amended fourth. The ruling:
+  **bounce-and-shine on the tile as each sound plays** (a spring hop with a
+  white flash and an outward ring), **plus a thin shiny silver lining on the
+  word's letters with a traveling glint at the word's first spoken pop**, is
+  the standard for all words. Demo C2 is the reference recording of the
+  approved look. The spoken shape is also settled: praise, the word,
+  "Pronounced:", each sound with its tile's moment, the word again — on every
+  reveal outcome, falling back to today's short sentence when the recorded
+  pack cannot play. Reduced-motion users get a motionless highlight; that
+  variant still needs its own design pass at build time.
+
 ## The nine owner-recorded sounds (round 1, 2026-08-04) — closed, do not re-open
 
 - For the coming sound-it-out reveal, the sounds a cut word cannot supply — the
