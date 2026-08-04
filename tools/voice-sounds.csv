@@ -1,30 +1,30 @@
-sound,ipa,graphemes,as_in,family,source,source_word,locked,verdict,ear_notes,round,listen_context,cut_start_s,cut_end_s,guard_lead_ms,guard_tail_ms,fade_ms,gain_db,pitch_shift_semitones,byte_pin_sha256,notes
-a,æ,a,at,vowel,cut,ax,no,,,,,,,,,10,0,0,,word-initial vowel: cut before the x
-e,ɛ,e,hen,vowel,cut,hen,no,,,,,,,,,10,0,0,,"h before it is only breath, so the vowel starts clean"
-i,ɪ,i,in,vowel,cut,in,no,,,,,,,,,10,0,0,,word-initial vowel
-o,ɒ,o,ox,vowel,cut,ox,no,,,,,,,,,10,0,0,,word-initial vowel
-u,ʌ,u,up,vowel,cut,up,no,,,,,,,,,10,0,0,,word-initial vowel
-b,b,b,bat,burst,owner_recording,B_sound.m4a,yes,accepted,"owner picked full cut, blind, played twice","round 1, 2026-08-04","blind html player, padded 150/400ms, peak -3dBFS",0.38,0.76,20,0,12,-3,0,,source sha256 c12ff54cc5bb503f8c11c963dd6f60cb4f7d52a67795d6e094a49d86fb8a9ccf; cut times are in the 24kHz mono decode; gain is peak target dBFS
-ch,tʃ,ch,much,affricate,cut,much,no,,,,,,,,,10,0,0,,word-final: the fricative tail carries the cut
-d,d,d,dog,burst,owner_recording,D_sound.m4a,yes,accepted,"owner picked full cut, blind, played twice","round 1, 2026-08-04","blind html player, padded 150/400ms, peak -3dBFS",0.04,0.37,20,0,12,-3,0,,source sha256 32801b04cb57ca39447a830bee82467e98ee026e20ed192420a6f1b7ec4ffa94; cut times are in the 24kHz mono decode; gain is peak target dBFS
-f,f,f,if,continuous,cut,if,no,,,,,,,,,10,0,0,,word-final fricative sustains
-g,g,g,gum,burst,owner_recording,G_sound.m4a,yes,accepted,"owner picked full cut, blind, played twice","round 1, 2026-08-04","blind html player, padded 150/400ms, peak -3dBFS",0.11,0.55,20,0,12,-3,0,,source sha256 9791ea2a52e51ff9b6b90056ad6da45dcbf65ce457d4ffc3ff7ed56b48a9cc97; cut times are in the 24kHz mono decode; gain is peak target dBFS
-h,h,h,hop,breath,owner_recording,H_sound.m4a,yes,accepted,"owner picked full cut, blind, played twice","round 1, 2026-08-04","blind html player, padded 150/400ms, peak -3dBFS",0.14,0.3,20,0,12,-3,0,,source sha256 237996517dadbf8ccd8c8133e8cf2e9a8bc8c8a906aa8e41fc3fa968a665a438; cut times are in the 24kHz mono decode; gain is peak target dBFS
-j,dʒ,j,jam,affricate,cut,jam,no,,,,,,,,,10,0,0,,"word-initial: try the cut first, owner voice if it fails"
-k,k,c k ck,cat duck,burst,owner_recording,K_sound.m4a,yes,accepted,"owner picked full cut, blind, played twice","round 1, 2026-08-04","blind html player, padded 150/400ms, peak -3dBFS",0.35,0.58,20,0,12,-3,0,,source sha256 f426c223401ae5a4cf207ed784a8abfa17af8f05d9a9e7c70b78558afc9aea75; cut times are in the 24kHz mono decode; gain is peak target dBFS
-l,l,l,lap,continuous,cut,lap,no,,,,,,,,,10,0,0,,word-initial liquid sustains
-m,m,m,am,continuous,cut,am,no,,,,,,,,,10,0,0,,word-final nasal sustains
-n,n,n,an,continuous,cut,an,no,,,,,,,,,10,0,0,,word-final nasal sustains
-ng,ŋ,ng,ping,continuous,cut,ping,no,,,,,,,,,10,0,0,,word-final nasal sustains
-p,p,p,map,burst,owner_recording,P_sound.m4a,yes,accepted,"owner picked 100ms cut, blind, played twice","round 1, 2026-08-04","blind html player, padded 150/400ms, peak -3dBFS",0.25,0.37,20,0,12,-3,0,,source sha256 a686baac35a7372e9f14ef56e32fccbc7d66002cfe9934af1e5693b80928b204; cut times are in the 24kHz mono decode; gain is peak target dBFS
-r,ɹ,r,rat,continuous,cut,rat,no,,,,,,,,,10,0,0,,word-initial liquid sustains
-s,s,s,us,continuous,cut,us,no,,,,,,,,,10,0,0,,word-final fricative sustains
-sh,ʃ,sh,bash,continuous,cut,bash,no,,,,,,,,,10,0,0,,word-final fricative sustains
-t,t,t,rat,burst,owner_recording,T_sound.m4a,yes,accepted,"owner picked full cut, blind, played twice","round 1, 2026-08-04","blind html player, padded 150/400ms, peak -3dBFS",0.31,0.47,20,0,12,-3,0,,source sha256 c13552a4fa0f0d27f1420ca26558e60f2e2060daa2fbb6f82a7973357656dfb2; cut times are in the 24kHz mono decode; gain is peak target dBFS
-th_thin,θ,th,math,continuous,cut,math,no,,,,,,,,,10,0,0,,"the quiet th: bath, math, thin, thud, moth"
-th_this,ð,th,this,continuous,cut,this,no,,,,,,,,,10,0,0,,"the buzzing th: this, that, then, them"
-v,v,v,vex,continuous,cut,vex,no,,,,,,,,,10,0,0,,word-initial fricative sustains
-w,w,w wh,web when,glide,owner_recording,W_sound.m4a,yes,accepted,"owner picked full cut, blind, played twice","round 1, 2026-08-04","blind html player, padded 150/400ms, peak -3dBFS",0.0,0.17,20,0,12,-3,0,,source sha256 caf9d2e69828f45465bed8ce94e2b569003e4204dc2a1aa8e32a76f16c422679; cut times are in the 24kHz mono decode; gain is peak target dBFS
-x,ks,x,ax,composite,cut,ax,no,,,,,,,,,10,0,0,,a k click into s; the s carries it
-y,j,y,yes,glide,owner_recording,Y_sound.m4a,yes,accepted,"owner picked full cut, blind, played twice","round 1, 2026-08-04","blind html player, padded 150/400ms, peak -3dBFS",0.17,0.47,20,0,12,-3,0,,source sha256 4144c70cce45119131cce257f6a16c268b5d2fbc8b003f7d45fa28203dd95951; cut times are in the 24kHz mono decode; gain is peak target dBFS
-z,z,z s,zip is,continuous,cut,zip,no,,,,,,,,,10,0,0,,also the sound s makes in is and has
+sound,ipa,graphemes,as_in,family,source,source_word,locked,verdict,ear_notes,round,listen_context,cut_start_s,cut_end_s,guard_lead_ms,guard_tail_ms,fade_ms,gain_db,pitch_shift_semitones,formant_ratio,byte_pin_sha256,notes
+a,æ,a,at,vowel,cut,ax,no,,,,,,,,,10,0,0,,,word-initial vowel: cut before the x
+e,ɛ,e,hen,vowel,cut,hen,no,,,,,,,,,10,0,0,,,"h before it is only breath, so the vowel starts clean"
+i,ɪ,i,in,vowel,cut,in,no,,,,,,,,,10,0,0,,,word-initial vowel
+o,ɒ,o,ox,vowel,cut,ox,no,,,,,,,,,10,0,0,,,word-initial vowel
+u,ʌ,u,up,vowel,cut,up,no,,,,,,,,,10,0,0,,,word-initial vowel
+b,b,b,bat,burst,owner_recording,B_sound.m4a,yes,round 1 accepted; REOPENED by owner round 3,"original beat both blends blind, but still far too masculine; stronger candidates in round 4","rounds 1+3, 2026-08-04","blind html player, padded 150/400ms, peak -3dBFS",0.38,0.76,20,0,12,-3,0,,,source sha256 c12ff54cc5bb503f8c11c963dd6f60cb4f7d52a67795d6e094a49d86fb8a9ccf; cut times are in the 24kHz mono decode; gain is peak target dBFS
+ch,tʃ,ch,much,affricate,cut,much,no,,,,,,,,,10,0,0,,,word-final: the fricative tail carries the cut
+d,d,d,dog,burst,owner_recording,D_sound.m4a,yes,accepted (half blend),"round 1 take accepted; round 3: half blend toward af_heart chosen blind, judged in sequence","rounds 1+3, 2026-08-04","blind html player, padded 150/400ms, peak -3dBFS",0.04,0.37,20,0,12,-3,4.94,1.09,,"source sha256 32801b04cb57ca39447a830bee82467e98ee026e20ed192420a6f1b7ec4ffa94; cut times are in the 24kHz mono decode; gain is peak target dBFS; blend: pyworld WORLD harvest/cheaptrick/d4c/synthesize frame 5ms, f0 x sqrt(200/measured), envelope warp 1.09"
+f,f,f,if,continuous,cut,if,no,,,,,,,,,10,0,0,,,word-final fricative sustains
+g,g,g,gum,burst,owner_recording,G_sound.m4a,yes,accepted (half blend),"round 1 take accepted; round 3: half blend toward af_heart chosen blind, judged in sequence","rounds 1+3, 2026-08-04","blind html player, padded 150/400ms, peak -3dBFS",0.11,0.55,20,0,12,-3,5.25,1.09,,"source sha256 9791ea2a52e51ff9b6b90056ad6da45dcbf65ce457d4ffc3ff7ed56b48a9cc97; cut times are in the 24kHz mono decode; gain is peak target dBFS; blend: pyworld WORLD harvest/cheaptrick/d4c/synthesize frame 5ms, f0 x sqrt(200/measured), envelope warp 1.09"
+h,h,h,hop,breath,owner_recording,H_sound.m4a,yes,accepted (half blend),"round 1 take accepted; round 3: half blend toward af_heart chosen blind, judged in sequence","rounds 1+3, 2026-08-04","blind html player, padded 150/400ms, peak -3dBFS",0.14,0.3,20,0,12,-3,4.64,1.09,,"source sha256 237996517dadbf8ccd8c8133e8cf2e9a8bc8c8a906aa8e41fc3fa968a665a438; cut times are in the 24kHz mono decode; gain is peak target dBFS; blend: pyworld WORLD harvest/cheaptrick/d4c/synthesize frame 5ms, f0 x sqrt(200/measured), envelope warp 1.09"
+j,dʒ,j,jam,affricate,cut,jam,no,,,,,,,,,10,0,0,,,"word-initial: try the cut first, owner voice if it fails"
+k,k,c k ck,cat duck,burst,owner_recording,K_sound.m4a,yes,accepted,"owner picked full cut, blind, played twice","round 1, 2026-08-04","blind html player, padded 150/400ms, peak -3dBFS",0.35,0.58,20,0,12,-3,0,,,source sha256 f426c223401ae5a4cf207ed784a8abfa17af8f05d9a9e7c70b78558afc9aea75; cut times are in the 24kHz mono decode; gain is peak target dBFS
+l,l,l,lap,continuous,cut,lap,no,,,,,,,,,10,0,0,,,word-initial liquid sustains
+m,m,m,am,continuous,cut,am,no,,,,,,,,,10,0,0,,,word-final nasal sustains
+n,n,n,an,continuous,cut,an,no,,,,,,,,,10,0,0,,,word-final nasal sustains
+ng,ŋ,ng,ping,continuous,cut,ping,no,,,,,,,,,10,0,0,,,word-final nasal sustains
+p,p,p,map,burst,owner_recording,P_sound.m4a,yes,accepted,"owner picked 100ms cut, blind, played twice","round 1, 2026-08-04","blind html player, padded 150/400ms, peak -3dBFS",0.25,0.37,20,0,12,-3,0,,,source sha256 a686baac35a7372e9f14ef56e32fccbc7d66002cfe9934af1e5693b80928b204; cut times are in the 24kHz mono decode; gain is peak target dBFS
+r,ɹ,r,rat,continuous,cut,rat,no,,,,,,,,,10,0,0,,,word-initial liquid sustains
+s,s,s,us,continuous,cut,us,no,,,,,,,,,10,0,0,,,word-final fricative sustains
+sh,ʃ,sh,bash,continuous,cut,bash,no,,,,,,,,,10,0,0,,,word-final fricative sustains
+t,t,t,rat,burst,owner_recording,T_sound.m4a,yes,accepted,"owner picked full cut, blind, played twice","round 1, 2026-08-04","blind html player, padded 150/400ms, peak -3dBFS",0.31,0.47,20,0,12,-3,0,,,source sha256 c13552a4fa0f0d27f1420ca26558e60f2e2060daa2fbb6f82a7973357656dfb2; cut times are in the 24kHz mono decode; gain is peak target dBFS
+th_thin,θ,th,math,continuous,cut,math,no,,,,,,,,,10,0,0,,,"the quiet th: bath, math, thin, thud, moth"
+th_this,ð,th,this,continuous,cut,this,no,,,,,,,,,10,0,0,,,"the buzzing th: this, that, then, them"
+v,v,v,vex,continuous,cut,vex,no,,,,,,,,,10,0,0,,,word-initial fricative sustains
+w,w,w wh,web when,glide,owner_recording,W_sound.m4a,yes,round 1 accepted; REOPENED by owner round 3,"original beat both blends blind, but still far too masculine; stronger candidates in round 4","rounds 1+3, 2026-08-04","blind html player, padded 150/400ms, peak -3dBFS",0.0,0.17,20,0,12,-3,0,,,source sha256 caf9d2e69828f45465bed8ce94e2b569003e4204dc2a1aa8e32a76f16c422679; cut times are in the 24kHz mono decode; gain is peak target dBFS
+x,ks,x,ax,composite,cut,ax,no,,,,,,,,,10,0,0,,,a k click into s; the s carries it
+y,j,y,yes,glide,owner_recording,Y_sound.m4a,yes,accepted (half blend),"round 1 take accepted; round 3: half blend toward af_heart chosen blind, judged in sequence","rounds 1+3, 2026-08-04","blind html player, padded 150/400ms, peak -3dBFS",0.17,0.47,20,0,12,-3,5.17,1.09,,"source sha256 4144c70cce45119131cce257f6a16c268b5d2fbc8b003f7d45fa28203dd95951; cut times are in the 24kHz mono decode; gain is peak target dBFS; blend: pyworld WORLD harvest/cheaptrick/d4c/synthesize frame 5ms, f0 x sqrt(200/measured), envelope warp 1.09"
+z,z,z s,zip is,continuous,cut,zip,no,,,,,,,,,10,0,0,,,also the sound s makes in is and has
