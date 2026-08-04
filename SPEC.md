@@ -31,8 +31,9 @@ These rules are mandatory.
    try again. A miss is not a failure message.
 3. The child reads first. The word appears with no help. The sound tiles appear only after the
    attempt, in the feedback phase.
-4. Digraphs are one sound. The units sh, ch, th, wh, ck, and ng always show as one tile.
-   Example: "ship" shows as sh-i-p.
+4. Multi-letter units are one tile. The spoken digraphs sh, ch, th, wh, ck, and ng, the
+   unit qu, the silent-letter pairs kn, wr, and mb, and the doubled endings ll, ss, ff,
+   and zz always show as one tile. Example: "ship" shows as sh-i-p; "knock" as kn-o-ck.
 5. Sessions are short. One session has a target of 20 words and a maximum of 26 prompts.
 6. Known words move fast. If the child reads a new word correctly at first sight, the engine sets
    the word to a high box. A child who knows the easy levels completes them in one or two
@@ -41,8 +42,10 @@ These rules are mandatory.
    size of 44 px. The app obeys the reduced-motion setting.
 8. Speech output says full words only. Speech output never says letter names. The dashed spelling
    on the screen is for the adult.
-9. Privacy is built in. The app has no accounts, no analytics, and no network calls. All data
-   stays on the device. The name field is optional.
+9. Privacy is built in. The app has no accounts and no analytics, and after load it makes
+   only the two update requests section 7a describes, both to the app's own host, both
+   carrying no data, one of them switchable off. All data stays on the device. The name
+   field is optional.
 10. Adult controls need a deliberate gesture. A pointer must hold an adult result control for
     450 ms. A keyboard operates the control directly, and so does an activation from assistive
     technology, such as a screen reader's double-tap. Focusing a control and then activating it
@@ -68,10 +71,15 @@ These rules are mandatory.
 
 ## 3. Word bank
 
-The bank has 300 words in seven levels. The word order in a level is the introduction order.
-Every word has at most 4 letters and 2 or 3 sound units. The bank holds no consonant blends
-and no vowel teams: outside the six digraphs, every letter is one sound. The nine words in
-`TRICKY` are the only exceptions, each with a note.
+The bank has 349 words in nine levels. The word order in a level is the introduction order.
+Every word has 2 or 3 sound units. Words have at most 4 letters through Level 7; Levels 8
+and 9 may reach 5. The bank holds no consonant blends and no vowel teams: outside the
+multi-letter units, every letter is one sound. The units are the six spoken digraphs (sh,
+ch, th, wh, ck, ng), qu (one tile, says "kw"), the silent-letter pairs kn, wr and mb (each
+says its surviving letter), and the doubled endings ll, ss, ff and zz (each says its
+single) — adopted with Levels 8 and 9 on 2026-08-04; ph was considered and left out
+because no word obeys the bank's rules. The nine words in `TRICKY` are the only
+exceptions, each with a note.
 
 | Level | Name | Focus | Words |
 |------:|------|-------|-------|
@@ -82,19 +90,22 @@ and no vowel teams: outside the six digraphs, every letter is one sound. The nin
 | 5 | Explorer | all five vowels | yes zip gum gas kid cub den dot fed fig fog gap hid hut jog kit lid mix wax yak jig jab jot lab lad led lit lug nab pep pod rib rim rod rot sag sub sum tab tot wed wit zig zag fax nix vex sax cod gob |
 | 6 | Super Sounds | sh and ch | ship shop shut fish dish wish cash chat chip chop rich much such chin shed shin mash rash chug chum dash sash hush rush mush chap wash push bush she bash gash gush lash lush posh sham shun |
 | 7 | Word Wizard | th, wh, ck, ng, tricky | thin this that then them bath math with when whip duck sock kick back ring sing king long song was buck sung gong lung puck wick rung muck pack path sack tack neck luck tuck peck deck thud rock lock pick lick wing tick dock moth hang sang rang sick fang the what whim wham bang hung ding ping |
+| 8 | Bells | ll ss ff zz, qu, silent letters | bell tell well fell hill mill doll mess boss kiss miss loss fuss huff puff cuff buzz fuzz jazz fizz quiz quit quip knit knob knot lamb |
+| 9 | Chicks | five-letter words | chick check chuck chess chill shack shock shell thick whack whiff whizz quick quack quill knock wreck wrong thumb wrap wren limb |
 
-Level word counts: 12, 44, 49, 48, 50, 38, 59.
+Level word counts: 12, 44, 49, 48, 50, 38, 59, 27, 22.
 
 Constants:
 
 ```
-DIGRAPHS   = ["sh","ch","th","wh","ck","ng"]      // two-character scan, left to right
+DIGRAPHS   = ["sh","ch","th","wh","ck","ng","qu","kn","wr","mb","ll","ss","ff","zz"]   // two-character scan, left to right
 TRICKY     = { was, is, has, wash, push, bush, she, the, what }   // exact notes in the reference
 HOMOPHONES = { sun:["son"], red:["read"], mat:["matt"], in:["inn"], an:["ann","anne"], ax:["axe"],
                not:["knot"], him:["hymn"], rap:["wrap"], dug:["doug"], fin:["finn"], bin:["been"],
                cot:["caught"], ring:["wring"], rung:["wrung"], sack:["sac"], pick:["pic"],
                tick:["tic"], dock:["doc"], what:["watt"],
-               dam:["damn"], fax:["facts"], nix:["nicks"], nun:["none"], sax:["sacks"] }
+               dam:["damn"], fax:["facts"], nix:["nicks"], nun:["none"], sax:["sacks"],
+               knot:["not"], knit:["nit"], wrap:["rap"], lamb:["lam"] }
 SESSION_SIZE = 20
 PROMPT_CAP   = 26
 INTERVALS    = [1,1,2,4,7,12]   // sessions until due, by box 0..5

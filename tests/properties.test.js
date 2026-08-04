@@ -35,7 +35,7 @@ const wordStateArb = fc.record({
    real word bank with arbitrary (but well-typed) word states. */
 const stateArb = fc
   .tuple(
-    fc.integer({ min: 1, max: 7 }),
+    fc.integer({ min: 1, max: 9 }),
     fc.integer({ min: 0, max: 40 }),
     fc.array(fc.tuple(fc.constantFrom(...ALL_WORDS), wordStateArb), { maxLength: 90 })
   )
@@ -53,8 +53,8 @@ describe("G2 properties", () => {
     fc.assert(fc.property(lowerWord, (w) => chunkWord(w).join("") === w), RUNS);
   });
 
-  it("P2: every chunk is one letter or one of the six digraphs", () => {
-    const DIGRAPH_LITERALS = ["sh", "ch", "th", "wh", "ck", "ng"];
+  it("P2: every chunk is one letter or one of the fourteen multi-letter units", () => {
+    const DIGRAPH_LITERALS = ["sh", "ch", "th", "wh", "ck", "ng", "qu", "kn", "wr", "mb", "ll", "ss", "ff", "zz"];
     fc.assert(
       fc.property(lowerWord, (w) =>
         chunkWord(w).every(
@@ -199,7 +199,7 @@ describe("G2 properties", () => {
         const m1 = migrate(clone(x));
         const m2 = migrate(clone(m1));
         expect(m2).toEqual(m1);
-        if (m1.level < 1 || m1.level > 7) return false;
+        if (m1.level < 1 || m1.level > 9) return false;
         if (!Number.isInteger(m1.perfectStreak) || m1.perfectStreak < 0 || m1.perfectStreak > 2) return false;
         if (!Object.values(m1.words).every((ws) => ws.box >= 0 && ws.box <= 5)) return false;
         const q = buildSession(m1);

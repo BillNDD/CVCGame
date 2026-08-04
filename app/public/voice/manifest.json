@@ -1263,6 +1263,202 @@
   "file": "w-ping.mp3",
   "ms": 1212
  },
+ "w:bell": {
+  "file": "w-bell.mp3",
+  "ms": 1169
+ },
+ "w:tell": {
+  "file": "w-tell.mp3",
+  "ms": 1148
+ },
+ "w:well": {
+  "file": "w-well.mp3",
+  "ms": 1126
+ },
+ "w:fell": {
+  "file": "w-fell.mp3",
+  "ms": 1190
+ },
+ "w:hill": {
+  "file": "w-hill.mp3",
+  "ms": 1233
+ },
+ "w:mill": {
+  "file": "w-mill.mp3",
+  "ms": 1212
+ },
+ "w:doll": {
+  "file": "w-doll.mp3",
+  "ms": 1212
+ },
+ "w:mess": {
+  "file": "w-mess.mp3",
+  "ms": 1318
+ },
+ "w:boss": {
+  "file": "w-boss.mp3",
+  "ms": 1276
+ },
+ "w:kiss": {
+  "file": "w-kiss.mp3",
+  "ms": 1276
+ },
+ "w:miss": {
+  "file": "w-miss.mp3",
+  "ms": 1276
+ },
+ "w:loss": {
+  "file": "w-loss.mp3",
+  "ms": 1361
+ },
+ "w:fuss": {
+  "file": "w-fuss.mp3",
+  "ms": 1297
+ },
+ "w:huff": {
+  "file": "w-huff.mp3",
+  "ms": 1126
+ },
+ "w:puff": {
+  "file": "w-puff.mp3",
+  "ms": 1169
+ },
+ "w:cuff": {
+  "file": "w-cuff.mp3",
+  "ms": 1212
+ },
+ "w:buzz": {
+  "file": "w-buzz.mp3",
+  "ms": 1361
+ },
+ "w:fuzz": {
+  "file": "w-fuzz.mp3",
+  "ms": 1382
+ },
+ "w:jazz": {
+  "file": "w-jazz.mp3",
+  "ms": 1361
+ },
+ "w:fizz": {
+  "file": "w-fizz.mp3",
+  "ms": 1276
+ },
+ "w:quiz": {
+  "file": "w-quiz.mp3",
+  "ms": 1276
+ },
+ "w:quit": {
+  "file": "w-quit.mp3",
+  "ms": 1190
+ },
+ "w:quip": {
+  "file": "w-quip.mp3",
+  "ms": 1126
+ },
+ "w:knit": {
+  "file": "w-knit.mp3",
+  "ms": 1148
+ },
+ "w:knob": {
+  "file": "w-knob.mp3",
+  "ms": 934
+ },
+ "w:knot": {
+  "file": "w-knot.mp3",
+  "ms": 1276
+ },
+ "w:lamb": {
+  "file": "w-lamb.mp3",
+  "ms": 1297
+ },
+ "w:chick": {
+  "file": "w-chick.mp3",
+  "ms": 1233
+ },
+ "w:check": {
+  "file": "w-check.mp3",
+  "ms": 1148
+ },
+ "w:chuck": {
+  "file": "w-chuck.mp3",
+  "ms": 1212
+ },
+ "w:chess": {
+  "file": "w-chess.mp3",
+  "ms": 1276
+ },
+ "w:chill": {
+  "file": "w-chill.mp3",
+  "ms": 1212
+ },
+ "w:shack": {
+  "file": "w-shack.mp3",
+  "ms": 1190
+ },
+ "w:shock": {
+  "file": "w-shock.mp3",
+  "ms": 1233
+ },
+ "w:shell": {
+  "file": "w-shell.mp3",
+  "ms": 1190
+ },
+ "w:thick": {
+  "file": "w-thick.mp3",
+  "ms": 1212
+ },
+ "w:whack": {
+  "file": "w-whack.mp3",
+  "ms": 1190
+ },
+ "w:whiff": {
+  "file": "w-whiff.mp3",
+  "ms": 1190
+ },
+ "w:whizz": {
+  "file": "w-whizz.mp3",
+  "ms": 1276
+ },
+ "w:quick": {
+  "file": "w-quick.mp3",
+  "ms": 1126
+ },
+ "w:quack": {
+  "file": "w-quack.mp3",
+  "ms": 1190
+ },
+ "w:quill": {
+  "file": "w-quill.mp3",
+  "ms": 1190
+ },
+ "w:knock": {
+  "file": "w-knock.mp3",
+  "ms": 1233
+ },
+ "w:wreck": {
+  "file": "w-wreck.mp3",
+  "ms": 1169
+ },
+ "w:wrong": {
+  "file": "w-wrong.mp3",
+  "ms": 1297
+ },
+ "w:thumb": {
+  "file": "w-thumb.mp3",
+  "ms": 1212
+ },
+ "w:wrap": {
+  "file": "w-wrap.mp3",
+  "ms": 1190
+ },
+ "w:wren": {
+  "file": "w-wren.mp3",
+  "ms": 1190
+ },
+ "w:limb": {
+  "file": "w-limb.mp3",
+  "ms": 1233
+ },
  "__recipe": {
   "voice": "af_heart",
   "bitrate": 96,

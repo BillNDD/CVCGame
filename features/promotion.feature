@@ -22,9 +22,9 @@ Feature: Level promotion
     Then the player is promoted to Level 2
 
   Scenario: The last level has no promotion
-    Given a player on Level 7 with 59 of the 59 words at box 5
+    Given a player on Level 9 with 22 of the 22 words at box 5
     When the session ends
-    Then the player stays on Level 7
+    Then the player stays on Level 9
 
   Scenario: Two perfect sessions in a row promote
     Given a player on Level 2 with 5 of the 44 words at box 3
