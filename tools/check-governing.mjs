@@ -35,6 +35,7 @@ const GOVERNING = [
   "tools/keeper-bytes.json",
   "tools/keepers-treatments.json",
   "tools/voice-lock.json",
+  "tools/voice-sounds.csv",
   "tools/voice-words.csv",
 ];
 

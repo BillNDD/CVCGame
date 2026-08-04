@@ -72,6 +72,21 @@ updated whenever a round lands.
   shipped file is the one the owner heard. Do not re-render or re-open it
   without a new listen.
 
+## The nine owner-recorded sounds (round 1, 2026-08-04) — closed, do not re-open
+
+- For the coming sound-it-out reveal, the sounds a cut word cannot supply — the
+  six stop bursts p b t d k g, the glides w y, and the breath h — were recorded
+  by the owner and judged blind, each take offered as two or three unlabeled
+  cuts, played twice, padded and peak-boosted for audibility. The owner
+  accepted all nine: the full take for eight sounds, the 100 ms cut for p, no
+  pitch alteration anywhere. `tools/voice-sounds.csv` holds every cut point,
+  the source-file hashes, and the listening context; the owner keeps the
+  original recordings. Do not re-cut, re-trim, or re-level an accepted sound
+  without a new listen. Two lessons are settled with it: sub-second clips
+  need padding and a peak lift to be judged at all (and will need the same in
+  the shipped reveal), and no listening round ships again without a measured
+  audit that its clips are audible.
+
 ## The 57 keepers (2026-08-01) — closed, do not re-open
 
 - **hat is solved**: `carrier@0.82`, "very good". This file previously said hat
