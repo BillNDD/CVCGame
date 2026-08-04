@@ -42,7 +42,7 @@ const MUTANTS = [
   ["take() off by one", "if (got.length >= k) break;", "if (got.length > k) break;"],
   ["PROMPT_CAP 26 to 25", "const PROMPT_CAP = 26;", "const PROMPT_CAP = 25;"],
   ["dashed join removed", 'const dashed = (w) => chunkWord(w).join("-");', 'const dashed = (w) => chunkWord(w).join("");'],
-  ["digraph ck dropped", '"wh","ck","ng"]', '"wh","ng"]'],
+  ["digraph ck dropped", '"wh","ck","ng","qu"', '"wh","ng","qu"'],
   ["migrate +1 to +2", "s.level = (s.level || 1) + 1;", "s.level = (s.level || 1) + 2;"],
   ["migrate log shift dropped", "(s.log || []).forEach(r => { r.level += 1; });", ""],
   ["migrate clamp removed", "Math.min(Math.max(1, s.level || 1), LEVELS.length)", "Math.max(1, s.level || 1)"],
