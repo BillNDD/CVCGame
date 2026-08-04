@@ -95,7 +95,10 @@ that definition.
   it in plain words and offers a switch that turns it off, and Off means zero requests. A
   newer version found either way installs and waits; it never applies over an open page.
 - S7. Child controls are 56 px or more. Adult controls are 44 px or more.
-- S8. Digraphs (sh, ch, th, wh, ck, ng) always show as one tile.
+- S8. Multi-letter units always show as one tile: the spoken digraphs (sh, ch, th, wh, ck,
+  ng), qu, the silent-letter pairs (kn, wr, mb), and the doubled endings (ll, ss, ff, zz).
+  Owner-approved 2026-08-04 with Levels 8 and 9; ph was considered and left out because no
+  word obeys the bank's own rules.
 - S9. No file in the repository contains a personal name. The child's name is a device-local
   setting only.
 

@@ -27,6 +27,12 @@ const LEVELS = [
     words: ["thin","this","that","then","them","bath","math","with","when","whip","duck","sock","kick","back","ring","sing","king","long","song","was",
       "buck","sung","gong","lung","puck","wick","rung","muck","pack","path","sack","tack","neck","luck","tuck","peck","deck","thud",
       "rock","lock","pick","lick","wing","tick","dock","moth","hang","sang","rang","sick","fang","the","what","whim","wham","bang","hung","ding","ping"] },
+  { n: 8, name: "Bells", emoji: "🔔", focus: "ll, ss, ff, zz + qu + silent letters",
+    words: ["bell","tell","well","fell","hill","mill","doll","mess","boss","kiss","miss","loss","fuss","huff","puff","cuff","buzz","fuzz","jazz","fizz",
+      "quiz","quit","quip","knit","knob","knot","lamb"] },
+  { n: 9, name: "Chicks", emoji: "🐔", focus: "five-letter words",
+    words: ["chick","check","chuck","chess","chill","shack","shock","shell","thick","whack","whiff","whizz",
+      "quick","quack","quill","knock","wreck","wrong","thumb","wrap","wren","limb"] },
 ];
 
 const TRICKY = {
@@ -40,13 +46,19 @@ const TRICKY = {
   the: "Tricky word! The e sounds like \u201Cuh\u201D \u2014 thuh.",
   what: "Tricky word! The a sounds like \u201Co\u201D \u2014 wot.",
 };
-const DIGRAPHS = ["sh","ch","th","wh","ck","ng"];
+/* One tile per unit (S8). Beyond the six spoken digraphs: qu says kw, the
+   silent-letter pairs kn wr mb say their surviving letter, and the doubled
+   endings ll ss ff zz say their single. Owner-approved 2026-08-04 with
+   Levels 8 and 9; ph was considered and left out - no word obeys the bank's
+   own rules. */
+const DIGRAPHS = ["sh","ch","th","wh","ck","ng","qu","kn","wr","mb","ll","ss","ff","zz"];
 const HOMOPHONES = {
   sun: ["son"], red: ["read"], mat: ["matt"], in: ["inn"], an: ["ann","anne"], ax: ["axe"],
   not: ["knot"], him: ["hymn"], rap: ["wrap"], dug: ["doug"], fin: ["finn"], bin: ["been"],
   cot: ["caught"], ring: ["wring"], rung: ["wrung"], sack: ["sac"], pick: ["pic"],
   dam: ["damn"], fax: ["facts"], nix: ["nicks"], nun: ["none"], sax: ["sacks"],
   tick: ["tic"], dock: ["doc"], what: ["watt"],
+  knot: ["not"], knit: ["nit"], wrap: ["rap"], lamb: ["lam"],
 };
 /* Words speech recognition cannot judge fairly: the word sounds like the NAME
    of the letter beside it, so a child who reads "am" perfectly is transcribed

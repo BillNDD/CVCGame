@@ -16,28 +16,31 @@ const seeded = (words, patch) => { const s = newState(); words.forEach(w => { s.
 
 /* ---------------- bank ---------------- */
 describe("word bank", () => {
-  it("has 300 unique words across 7 levels", () => {
+  it("has 349 unique words across 9 levels", () => {
     const all = LEVELS.flatMap(l => l.words);
-    expect(all.length).toBe(300);
-    expect(new Set(all).size).toBe(300);
-    expect(LEVELS.map(l => l.n)).toEqual([1, 2, 3, 4, 5, 6, 7]);
-    expect(LEVELS.map(l => l.words.length)).toEqual([12, 44, 49, 48, 50, 38, 59]);
+    expect(all.length).toBe(349);
+    expect(new Set(all).size).toBe(349);
+    expect(LEVELS.map(l => l.n)).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 9]);
+    expect(LEVELS.map(l => l.words.length)).toEqual([12, 44, 49, 48, 50, 38, 59, 27, 22]);
   });
   it("starts with the 12-word VC level", () => {
     expect(LEVELS[0].words).toEqual(["at","an","am","ax","in","it","if","is","on","ox","up","us"]);
   });
   it("maps every word to its level", () => {
-    expect(Object.keys(WORD_LEVEL).length).toBe(300);
+    expect(Object.keys(WORD_LEVEL).length).toBe(349);
     expect(WORD_LEVEL.at).toBe(1); expect(WORD_LEVEL.cat).toBe(2); expect(WORD_LEVEL.was).toBe(7);
     expect(WORD_LEVEL.has).toBe(2); expect(WORD_LEVEL.she).toBe(6); expect(WORD_LEVEL.the).toBe(7);
+    expect(WORD_LEVEL.bell).toBe(8); expect(WORD_LEVEL.chick).toBe(9);
   });
   it("flags the nine tricky words", () => {
     expect(Object.keys(TRICKY).sort()).toEqual(["bush","has","is","push","she","the","was","wash","what"]);
   });
-  it("keeps every word at 2 or 3 sound units and at most 4 letters", () => {
-    for (const w of LEVELS.flatMap(l => l.words)) {
-      expect(w.length).toBeLessThanOrEqual(4);
-      expect([2, 3]).toContain(chunkWord(w).length);
+  it("keeps every word at 2 or 3 sound units; 4 letters through Level 7, 5 at Levels 8 and 9", () => {
+    for (const l of LEVELS) {
+      for (const w of l.words) {
+        expect(w.length).toBeLessThanOrEqual(l.n <= 7 ? 4 : 5);
+        expect([2, 3]).toContain(chunkWord(w).length);
+      }
     }
   });
 });
@@ -51,7 +54,13 @@ describe("chunkWord and dashed", () => {
     expect(chunkWord("when")).toEqual(["wh","e","n"]);
     expect(chunkWord("this")).toEqual(["th","i","s"]);
     expect(chunkWord("chat")).toEqual(["ch","a","t"]);
-    expect(DIGRAPHS).toEqual(["sh","ch","th","wh","ck","ng"]);
+    expect(chunkWord("quiz")).toEqual(["qu","i","z"]);
+    expect(chunkWord("knock")).toEqual(["kn","o","ck"]);
+    expect(chunkWord("wreck")).toEqual(["wr","e","ck"]);
+    expect(chunkWord("thumb")).toEqual(["th","u","mb"]);
+    expect(chunkWord("bell")).toEqual(["b","e","ll"]);
+    expect(chunkWord("whizz")).toEqual(["wh","i","zz"]);
+    expect(DIGRAPHS).toEqual(["sh","ch","th","wh","ck","ng","qu","kn","wr","mb","ll","ss","ff","zz"]);
   });
   it("splits VC and plain CVC words", () => {
     expect(chunkWord("ax")).toEqual(["a","x"]);
@@ -133,8 +142,8 @@ describe("checkPromotion", () => {
     expect(checkPromotion(ten)).toBe(true); expect(ten.level).toBe(2);
   });
   it("never promotes past the last level", () => {
-    const top = seeded(LEVELS[6].words, { box: 5, attempts: 5 }); top.level = 7;
-    expect(checkPromotion(top)).toBe(false); expect(top.level).toBe(7);
+    const top = seeded(LEVELS[8].words, { box: 5, attempts: 5 }); top.level = 9;
+    expect(checkPromotion(top)).toBe(false); expect(top.level).toBe(9);
   });
   it("promotes after two perfect sessions; a partial session never moves the streak", () => {
     const s = newState(); s.level = 2;
@@ -152,9 +161,9 @@ describe("checkPromotion", () => {
     expect(s.perfectStreak).toBe(0);
   });
   it("the streak never promotes past the last level, and never banks above 2", () => {
-    const s = newState(); s.level = 7; s.perfectStreak = 5;
+    const s = newState(); s.level = 9; s.perfectStreak = 5;
     expect(checkPromotion(s, { partial: false, perfect: true })).toBe(false);
-    expect(s.level).toBe(7);
+    expect(s.level).toBe(9);
     expect(s.perfectStreak).toBe(2);                        // capped, not 6
   });
   it("a partial session with a miss also leaves the streak unchanged", () => {
@@ -312,7 +321,7 @@ describe("migrate", () => {
   });
   it("maps old level 6 to new level 7 and clamps out-of-range input", () => {
     expect(migrate({ ...v2(), level: 6 }).level).toBe(7);
-    expect(migrate({ version: 3, level: 99 }).level).toBe(7);
+    expect(migrate({ version: 3, level: 99 }).level).toBe(9);
     expect(migrate({ version: 3, level: -5 }).level).toBe(1);
   });
   it("survives hostile documents", () => {
@@ -323,16 +332,16 @@ describe("migrate", () => {
 
 /* ---------------- export ---------------- */
 describe("buildMarkdown", () => {
-  it("reports the 300-word denominator and seven level rows", () => {
+  it("reports the 349-word denominator and nine level rows", () => {
     const md = buildMarkdown(newState());
-    expect(md).toContain("0/300");
-    expect(md.match(/\*\*Level \d+ .+ \(/g).length).toBe(7);
+    expect(md).toContain("0/349");
+    expect(md.match(/\*\*Level \d+ .+ \(/g).length).toBe(9);
   });
   it("counts a word as mastered only from box 4", () => {
     const three = seeded(["cat", "dog"], { box: 3, attempts: 2 });
-    expect(buildMarkdown(three)).toContain("0/300");
+    expect(buildMarkdown(three)).toContain("0/349");
     const four = seeded(["cat", "dog"], { box: 4, attempts: 2 });
-    expect(buildMarkdown(four)).toContain("2/300");
+    expect(buildMarkdown(four)).toContain("2/349");
   });
   it("keeps a grapheme-safe name intact in the header", () => {
     // lone surrogate = an unpaired HIGH surrogate, or a LOW surrogate with no high before it
@@ -357,9 +366,9 @@ describe("buildMarkdown", () => {
 describe("voice packs", () => {
   it("inventories one clip per word plus the fixed sentences", () => {
     const script = voiceScript();
-    expect(script.length).toBe(316);                       // 6 sentences + 10 praise + 300 words
-    expect(script.filter((c) => c.id.startsWith("w:")).length).toBe(300);
-    expect(new Set(script.map((c) => c.id)).size).toBe(316);
+    expect(script.length).toBe(365);                       // 6 sentences + 10 praise + 349 words
+    expect(script.filter((c) => c.id.startsWith("w:")).length).toBe(349);
+    expect(new Set(script.map((c) => c.id)).size).toBe(365);
     expect(script.find((c) => c.id === "s:was").text).toBe("The word was");
     expect(script.find((c) => c.id === "l:wrong").text).toBe("Let’s try again.");
     expect(script.find((c) => c.id === "p:0").text).toBe("Great job!");

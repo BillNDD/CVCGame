@@ -28,3 +28,4 @@ w,w,w wh,web when,glide,owner_recording,W_sound.m4a,yes,accepted (three-quarter 
 x,ks,x,ax,composite,cut,ax,no,,,,,,,,,10,0,0,,,a k click into s; the s carries it
 y,j,y,yes,glide,owner_recording,Y_sound.m4a,yes,accepted (half blend),"round 1 take accepted; round 3: half blend toward af_heart chosen blind, judged in sequence","rounds 1+3, 2026-08-04","blind html player, padded 150/400ms, peak -3dBFS",0.17,0.47,20,0,12,-3,5.17,1.09,,"source sha256 4144c70cce45119131cce257f6a16c268b5d2fbc8b003f7d45fa28203dd95951; cut times are in the 24kHz mono decode; gain is peak target dBFS; blend: pyworld WORLD harvest/cheaptrick/d4c/synthesize frame 5ms, f0 x sqrt(200/measured), envelope warp 1.09"
 z,z,z s,zip is,continuous,cut,zip,no,,,,,,,,,10,0,0,,,also the sound s makes in is and has
+qu,kw,qu,quiz,composite,cut,quiz,no,,,,,,,,,10,0,0,,,a k click into a w glide; cut from her quiz once rendered

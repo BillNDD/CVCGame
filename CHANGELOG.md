@@ -104,6 +104,17 @@ The first app version is 1.0.0-beta.1. The app stays in beta until version 1.0 i
   would serve. In truly random play a dice mark replaces the level chip in the header,
   because a level number would claim a level the mode is not serving. A "Back" control
   starts nothing.
+- New: Levels 8 and 9 — the bank grows from 300 to 349. Level 8, "Bells" 🔔, holds 27
+  four-letter words: the doubled endings (bell, mess, huff, buzz and kin), the first qu
+  words (quiz, quit, quip), and the first silent letters (knit, knob, knot, lamb). Level 9,
+  "Chicks" 🐔, holds 22 five-letter words: digraph sandwiches (chick, shell, thick), qu at
+  five letters (quick, quack, quill), and more silent letters (knock, wreck, wrong, thumb,
+  wrap, wren, limb). The tile rule grows with them: qu, kn, wr, mb, ll, ss, ff and zz each
+  show as one tile, and the length rule becomes four letters through Level 7, five at
+  Levels 8 and 9. ph was considered and left out — no word obeys the bank's rules. Four
+  same-sound entries keep the microphone fair (knot, knit, wrap, lamb). Stated plainly:
+  the 49 new recordings ship on the approved default recipe and have not yet been heard
+  one at a time; their rows in the word table say so.
 - Changed: the praise sentence "You read that word all by yourself!" is retired, replaced by
   "You knew just what to do with that word!" — picked by the owner from candidates whose
   every word has a single reading. The old line's "read" was spoken as "reed" by the

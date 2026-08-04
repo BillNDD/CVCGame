@@ -775,15 +775,15 @@ describe("G10 — free play never touches the save", () => {
 
   it("45: truly random draws from the whole bank, not the child's level", async () => {
     /* Math.random pinned high makes every draw take the end of the pool, so
-       the first word served is the bank's LAST word - "ping", deep in
-       Level 7. A fresh Level 1 save can never see it in a session or in
+       the first word served is the bank's LAST word - "limb", deep in
+       Level 9. A fresh Level 1 save can never see it in a session or in
        level free play: buildSession serves Level 1 plus review only. The
        expected word is a literal on purpose (E4); if the bank ever gains a
        new last word, this is the line to update. */
     const spy = vi.spyOn(Math, "random").mockReturnValue(0.9999999);
     try {
       await enterFreePlay("🎲 Truly random");
-      expect(document.querySelector(".wq-word").textContent).toBe("ping");
+      expect(document.querySelector(".wq-word").textContent).toBe("limb");
       /* control: the SAME pin through the level door serves a Level 1 word -
          the pin alone cannot conjure "ping"; only the random door can. */
       cleanup();
@@ -812,14 +812,13 @@ describe("G10 — free play never touches the save", () => {
 
   it("47: a spent random block rolls into a fresh draw that never repeats the boundary word", async () => {
     /* Pinned at the top of the pool, the first block is the bank's last 20
-       words in reverse - "ping" first, "lock" last - with no repeats, since
+       words in reverse - "limb" first, "chuck" last - with no repeats, since
        a repeat inside a block would collide with its own first result and be
-       graded as a retry. At the boundary the pin moves to 0.935, the value
-       that would land EXACTLY on "lock" in an unguarded 300-word pool: the
-       guard steps over it to "rock", and the word the child just read never
-       opens the next block. "pick" then proves "lock" was pushed back into
-       the pool - excluded from the first slot only, not from the game. All
-       literals (E4). */
+       graded as a retry. At the boundary the pin moves to 0.935: the guard
+       keeps the word the child just read ("chuck") out of the next block's
+       first slot, which opens on "knot"; "lamb" second proves "chuck" was
+       pushed back into the pool - excluded from the first slot only, not
+       from the game. All literals (E4), recomputed for the 349-word bank. */
     const spy = vi.spyOn(Math, "random").mockReturnValue(0.9999999);
     try {
       await enterFreePlay("🎲 Truly random");
@@ -829,15 +828,15 @@ describe("G10 — free play never touches the save", () => {
         await gradeOne("✓ got it (hold)");
       }
       seen.push(document.querySelector(".wq-word").textContent);
-      expect(seen[0]).toBe("ping");
-      expect(seen[19]).toBe("lock");
+      expect(seen[0]).toBe("limb");
+      expect(seen[19]).toBe("chuck");
       expect(new Set(seen).size).toBe(20);
       spy.mockReturnValue(0.935);
       await gradeOne("✓ got it (hold)");
       expect(screen.getByText("20 words")).toBeTruthy();
-      expect(document.querySelector(".wq-word").textContent).toBe("rock");
+      expect(document.querySelector(".wq-word").textContent).toBe("knot");
       await gradeOne("✓ got it (hold)");
-      expect(document.querySelector(".wq-word").textContent).toBe("pick");
+      expect(document.querySelector(".wq-word").textContent).toBe("lamb");
     } finally { spy.mockRestore(); }
   });
 });
