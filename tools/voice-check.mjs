@@ -346,7 +346,7 @@ if (process.argv.includes("--self-test")) {
      carrier, and drift an ASR pin. */
   const recut = { ...manifest, __recipe: { ...manifest.__recipe, carrier_cut: {
     hen: ["hen, hen.", 60, -30, 40],
-    sun: ["Here is the word, sun.", 150, -20, 20],
+    cop: ["Here is the word, cop.", 150, -20, 20],
   }, asr_pinned: {
     ...(manifest.__recipe.asr_pinned || {}),
     ...(manifest.__recipe.asr_pinned?.hop
@@ -355,7 +355,7 @@ if (process.argv.includes("--self-test")) {
   } } };
   const cp = check(recut, false).problems;
   const sawCarrier = cp.some((p) => p.startsWith("recipe cuts hen from")) &&
-    cp.some((p) => p.startsWith("recipe cuts a word out of a carrier nobody approved: sun"));
+    cp.some((p) => p.startsWith("recipe cuts a word out of a carrier nobody approved: cop"));
   const sawAsr = Object.keys(TREATMENTS).length === 0
     || cp.some((p) => p.startsWith("recipe asr_pinned hop"));
   /* The guard quietly changed, or handed to a word with no round behind it. */
@@ -375,11 +375,11 @@ if (process.argv.includes("--self-test")) {
   /* The word table loses a row, an unlocked word gets quietly tuned, and a
      derived file that no longer matches the table. */
   const holed = CSV_TEXT.split("\n").filter((l) => !l.startsWith("hen,")).join("\n");
-  const tuned = CSV_TEXT.replace(/^(zig,[^,]*,no,[^,]*,[^,]*,[^,]*,[^,]*,af_heart,en-us,)0\.85,/m, "$10.7,");
-  if (tuned === CSV_TEXT) throw new Error("self-test fixture: could not tune the unlocked row for zig");
+  const tuned = CSV_TEXT.replace(/^(cop,[^,]*,no,[^,]*,[^,]*,[^,]*,[^,]*,af_heart,en-us,)0\.85,/m, "$10.7,");
+  if (tuned === CSV_TEXT) throw new Error("self-test fixture: could not tune the unlocked row for cop");
   const recut2 = CSV_TEXT.replace("40,40,", "45,40,");
   const sawCsv = check(manifest, false, LOCK, holed).problems.some((p) => p === "voice-words.csv has no row for bank word: hen") &&
-    check(manifest, false, LOCK, tuned).problems.some((p) => p.startsWith("unlocked word zig deviates")) &&
+    check(manifest, false, LOCK, tuned).problems.some((p) => p.startsWith("unlocked word cop deviates")) &&
     check(manifest, false, LOCK, recut2).problems.some((p) => p.startsWith("keepers-treatments.json disagrees with voice-words.csv")) &&
     check(manifest, false, LOCK, null).problems.some((p) => p.startsWith("tools/voice-words.csv is missing"));
   const noRecipe = { ...manifest };
