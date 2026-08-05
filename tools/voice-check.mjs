@@ -346,7 +346,11 @@ if (process.argv.includes("--self-test")) {
      carrier, and drift an ASR pin. */
   const recut = { ...manifest, __recipe: { ...manifest.__recipe, carrier_cut: {
     hen: ["hen, hen.", 60, -30, 40],
-    cop: ["Here is the word, cop.", 150, -20, 20],
+    /* "at" is locked with a phoneme treatment and no carrier - a carrier
+       for it is by construction one nobody approved. (This fixture has been
+       re-pointed twice as its former anchors earned real approvals; if "at"
+       ever wins a carrier round, point it at another carrier-free word.) */
+    at: ["Here is the word, at.", 150, -20, 20],
   }, asr_pinned: {
     ...(manifest.__recipe.asr_pinned || {}),
     ...(manifest.__recipe.asr_pinned?.hop
@@ -355,7 +359,7 @@ if (process.argv.includes("--self-test")) {
   } } };
   const cp = check(recut, false).problems;
   const sawCarrier = cp.some((p) => p.startsWith("recipe cuts hen from")) &&
-    cp.some((p) => p.startsWith("recipe cuts a word out of a carrier nobody approved: cop"));
+    cp.some((p) => p.startsWith("recipe cuts a word out of a carrier nobody approved: at"));
   const sawAsr = Object.keys(TREATMENTS).length === 0
     || cp.some((p) => p.startsWith("recipe asr_pinned hop"));
   /* The guard quietly changed, or handed to a word with no round behind it. */
@@ -375,8 +379,11 @@ if (process.argv.includes("--self-test")) {
   /* The word table loses a row, an unlocked word gets quietly tuned, and a
      derived file that no longer matches the table. */
   const holed = CSV_TEXT.split("\n").filter((l) => !l.startsWith("hen,")).join("\n");
-  const tuned = CSV_TEXT.replace(/^(cop,[^,]*,no,[^,]*,[^,]*,[^,]*,[^,]*,af_heart,en-us,)0\.85,/m, "$10.7,");
-  if (tuned === CSV_TEXT) throw new Error("self-test fixture: could not tune the unlocked row for cop");
+  /* The sweep completed on 2026-08-05: every word row is locked, so there is
+     no unlocked row left to tune. The same fault - an unlocked word carrying
+     knobs nobody approved - is planted by UNLOCKING a tuned row instead. */
+  const tuned = CSV_TEXT.replace(/^(cop,[^,]*,)yes,/m, "$1no,");
+  if (tuned === CSV_TEXT) throw new Error("self-test fixture: could not unlock the tuned row for cop");
   const recut2 = CSV_TEXT.replace("40,40,", "45,40,");
   const sawCsv = check(manifest, false, LOCK, holed).problems.some((p) => p === "voice-words.csv has no row for bank word: hen") &&
     check(manifest, false, LOCK, tuned).problems.some((p) => p.startsWith("unlocked word cop deviates")) &&

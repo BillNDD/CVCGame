@@ -104,6 +104,13 @@ The first app version is 1.0.0-beta.1. The app stays in beta until version 1.0 i
   would serve. In truly random play a dice mark replaces the level chip in the header,
   because a level number would claim a level the mode is not serving. A "Back" control
   starts nothing.
+- Changed: the listening sweep is COMPLETE. The final 40 words came home in rounds 35 to
+  38: every one of the 349 bank words now carries a verdict from the owner's ear, locked in
+  the word table with its full recipe and a byte pin verified against the exact file the
+  owner heard. The shipped pack was checked file by file against those pins. The sound
+  library for the coming sound-out reveal also advanced to 28 of 30: the five vowels, the
+  continuous consonants, x and qu all accepted, their owner-heard masters preserved in the
+  repository; only ch and the quiet th remain open.
 - Changed: 216 more words are now individually heard and locked. A sidecar assistant ran
   twenty blind listening rounds with the owner in one day (rounds 15 to 34), tuning speed,
   carrier sentences, energy and ASR cuts per word, and returned every verdict as a complete
