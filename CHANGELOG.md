@@ -104,6 +104,11 @@ The first app version is 1.0.0-beta.1. The app stays in beta until version 1.0 i
   would serve. In truly random play a dice mark replaces the level chip in the header,
   because a level number would claim a level the mode is not serving. A "Back" control
   starts nothing.
+- New: seven more praise sentences, chosen by the owner from sixteen candidates - the pool
+  grows from ten to seventeen, so a twenty-word session repeats itself far less. Every new
+  sentence points at the child's own doing, and every word in them has a single
+  pronunciation, the lesson the retired "read" line taught. The seven clips rendered on the
+  approved recipe and went to the owner's ear the same day.
 - Changed: the listening sweep is COMPLETE. The final 40 words came home in rounds 35 to
   38: every one of the 349 bank words now carries a verdict from the owner's ear, locked in
   the word table with its full recipe and a byte pin verified against the exact file the

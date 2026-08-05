@@ -188,7 +188,7 @@ describe("G10 safety — S2: the word is never spoken before the attempt ends", 
     /* Pin the praise draw: 0.95 -> index 9, so the assertion stays literal. */
     const draw = vi.spyOn(Math, "random").mockReturnValue(0.95);
     try { await hear(word); } finally { draw.mockRestore(); } // attempt ends, correct
-    expect(utterances.at(-2)).toBe("What careful reading that was!"); // praise, after the attempt
+    expect(utterances.at(-2)).toBe("Every sound in its place — wonderful!"); // praise, after the attempt
     expect(utterances.at(-1)).toBe(`The word was ${word}.`); // full word, its own sentence
     expect(rates.at(-1)).toBe(0.9);                         // the reveal is clear, never stretched
     await flush(500);

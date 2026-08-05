@@ -232,7 +232,7 @@ Speech output, when sound is on:
 - close: `"Good try!"` then `"The word is {word}."`
 - wrong: `"Let’s try again."` then `"The word is {word}."`
 
-The ten praise sentences. Each one is exact. Most point to the child’s own effort:
+The seventeen praise sentences. Each one is exact. Most point to the child’s own effort:
 
 1. `"Great job!"`
 2. `"You did it!"`
@@ -244,6 +244,13 @@ The ten praise sentences. Each one is exact. Most point to the child’s own eff
 8. `"That was tricky, and you got it!"`
 9. `"You sounded that one out beautifully!"`
 10. `"What careful reading that was!"`
+11. `"Sound by sound, you built the whole word!"`
+12. `"You took your time and got it just right!"`
+13. `"That word had no chance against you!"`
+14. `"You stuck with it, and it paid off!"`
+15. `"You made that look easy!"`
+16. `"High five! You earned that one!"`
+17. `"Every sound in its place — wonderful!"`
 
 Sentence 4 is a question by design, reviewed and kept by the owner: it invites the child to
 reflect aloud to the adult beside them. The app does not need to hear the answer — an adult

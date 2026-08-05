@@ -366,9 +366,9 @@ describe("buildMarkdown", () => {
 describe("voice packs", () => {
   it("inventories one clip per word plus the fixed sentences", () => {
     const script = voiceScript();
-    expect(script.length).toBe(365);                       // 6 sentences + 10 praise + 349 words
+    expect(script.length).toBe(372);                       // 6 sentences + 17 praise + 349 words
     expect(script.filter((c) => c.id.startsWith("w:")).length).toBe(349);
-    expect(new Set(script.map((c) => c.id)).size).toBe(365);
+    expect(new Set(script.map((c) => c.id)).size).toBe(372);
     expect(script.find((c) => c.id === "s:was").text).toBe("The word was");
     expect(script.find((c) => c.id === "l:wrong").text).toBe("Let’s try again.");
     expect(script.find((c) => c.id === "p:0").text).toBe("Great job!");
@@ -429,7 +429,7 @@ describe("speech helpers", () => {
     expect(calls[0].pitch).toBe(1.1);
     expect(calls[0].lang).toBe("en-GB");
   });
-  it("pins the ten praise sentences, character for character", () => {
+  it("pins the seventeen praise sentences, character for character", () => {
     expect(PRAISE).toEqual([
       "Great job!",
       "You did it!",
@@ -441,6 +441,13 @@ describe("speech helpers", () => {
       "That was tricky, and you got it!",
       "You sounded that one out beautifully!",
       "What careful reading that was!",
+      "Sound by sound, you built the whole word!",
+      "You took your time and got it just right!",
+      "That word had no chance against you!",
+      "You stuck with it, and it paid off!",
+      "You made that look easy!",
+      "High five! You earned that one!",
+      "Every sound in its place — wonderful!",
     ]);
   });
   it("selects the praise by index, and falls back to the first for a bad index", () => {
@@ -585,7 +592,7 @@ describe("G1 — the system voice is never given a word it says wrongly", () => 
 
   it("76: with no unsafe line listed, every praise index reaches the system voice unchanged", () => {
     expect(TTS_UNSAFE_PRAISE).toEqual([]);
-    for (const i of [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]) expect(ttsSafePraise(i)).toBe(i);
+    for (let i = 0; i < 17; i++) expect(ttsSafePraise(i)).toBe(i);
     expect(feedbackSpeech("correct", "cat", ttsSafePraise(2)).map((p) => p.text).join(" "))
       .toBe("You knew just what to do with that word! The word was cat.");
   });
