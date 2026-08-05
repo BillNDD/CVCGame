@@ -87,6 +87,18 @@ updated whenever a round lands.
   pack cannot play. Reduced-motion users get a motionless highlight; that
   variant still needs its own design pass at build time.
 
+## Tricky words sound out fully, and the letter-name vowels join (2026-08-06)
+
+- The owner ruled: when the sound-out reveal reaches a tricky word, the bent
+  letter plays its TRUE sound — long e in she, schwa in the, the book-oo in
+  push and bush, the o-sound in was/what/wash (reusing the o clip), the
+  z-sound in is/has (reusing z). No tricky-word exemption. The sound library
+  grows by seven rows: the five letter-name vowels (against the day magic-e
+  words arrive) and the two tricky sounds with no existing clip (schwa,
+  book-oo). Three of the seven cut from already-approved word clips (she,
+  the, push); the four unheard letter names render as candidates for the
+  ear. `tools/voice-sounds.csv` carries all seven, open, awaiting rounds.
+
 ## The nine owner-recorded sounds (round 1, 2026-08-04) — closed, do not re-open
 
 - For the coming sound-it-out reveal, the sounds a cut word cannot supply — the
