@@ -327,7 +327,7 @@ function feedbackParts(result, word) {
   if (result === "close") return { lead: "Good try! The correct pronunciation is ", d, word, icon: "💪" };
   return { lead: "Let\u2019s try that again. The correct pronunciation is ", d, word, icon: "🔁" };
 }
-/* Ten praise sentences for a correct reading (SPEC \u00a75). Most point to the
+/* Seventeen praise sentences for a correct reading (SPEC \u00a75). Most point to the
    child\u2019s own effort. The caller picks the index; 0 is the fallback. */
 const PRAISE = [
   "Great job!",
@@ -340,6 +340,13 @@ const PRAISE = [
   "That was tricky, and you got it!",
   "You sounded that one out beautifully!",
   "What careful reading that was!",
+  "Sound by sound, you built the whole word!",
+  "You took your time and got it just right!",
+  "That word had no chance against you!",
+  "You stuck with it, and it paid off!",
+  "You made that look easy!",
+  "High five! You earned that one!",
+  "Every sound in its place — wonderful!",
 ];
 /* Praise lines the SYSTEM voice must never be given. "You read that word all
    by yourself!" was spoken by the fallback voice with "read" as "reed",

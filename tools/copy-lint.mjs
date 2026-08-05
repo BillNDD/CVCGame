@@ -71,6 +71,13 @@ function run(d) {
     "That was tricky, and you got it!",
     "You sounded that one out beautifully!",
     "What careful reading that was!",
+    "Sound by sound, you built the whole word!",
+    "You took your time and got it just right!",
+    "That word had no chance against you!",
+    "You stuck with it, and it paid off!",
+    "You made that look easy!",
+    "High five! You earned that one!",
+    "Every sound in its place — wonderful!",
   ];
   check(JSON.stringify(praise) === JSON.stringify(PRAISE_EXPECTED), "praise list", JSON.stringify(praise));
   const VOICE_EXPECTED = {
