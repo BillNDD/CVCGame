@@ -2683,6 +2683,27 @@
     "asr_guard_lead_ms": 30,
     "asr_guard_tail_ms": 40
   },
+  "pep": {
+    "word": "pep",
+    "verdict": "ok",
+    "speed": 0.82,
+    "lead_ms": 80,
+    "period": false,
+    "onset_trim": false,
+    "trim_ms": 0,
+    "bright_head_ms": 0,
+    "head_trim_ms": 0,
+    "skip_burst": false,
+    "carrier": [
+      "pep. pep.",
+      70,
+      -20,
+      20
+    ],
+    "carrier_cut_mode": "energy",
+    "asr_start": null,
+    "asr_end": null
+  },
   "pod": {
     "word": "pod",
     "verdict": "perfect",
@@ -3271,6 +3292,27 @@
     "asr_start": null,
     "asr_end": null
   },
+  "fish": {
+    "word": "fish",
+    "verdict": "ok",
+    "speed": 0.82,
+    "lead_ms": 80,
+    "period": false,
+    "onset_trim": false,
+    "trim_ms": 0,
+    "bright_head_ms": 0,
+    "head_trim_ms": 0,
+    "skip_burst": false,
+    "carrier": [
+      "Say fish.",
+      220,
+      -20,
+      20
+    ],
+    "carrier_cut_mode": "energy",
+    "asr_start": null,
+    "asr_end": null
+  },
   "hush": {
     "word": "hush",
     "verdict": "ok",
@@ -3310,6 +3352,27 @@
     "asr_end": 1.62,
     "asr_guard_lead_ms": 30,
     "asr_guard_tail_ms": 40
+  },
+  "much": {
+    "word": "much",
+    "verdict": "ok",
+    "speed": 0.82,
+    "lead_ms": 80,
+    "period": false,
+    "onset_trim": false,
+    "trim_ms": 0,
+    "bright_head_ms": 0,
+    "head_trim_ms": 0,
+    "skip_burst": false,
+    "carrier": [
+      "Say much.",
+      200,
+      -20,
+      20
+    ],
+    "carrier_cut_mode": "energy",
+    "asr_start": null,
+    "asr_end": null
   },
   "mush": {
     "word": "mush",
@@ -3369,6 +3432,38 @@
       20
     ],
     "carrier_cut_mode": "energy",
+    "asr_start": null,
+    "asr_end": null
+  },
+  "rich": {
+    "word": "rich",
+    "verdict": "ok",
+    "speed": 0.8,
+    "lead_ms": 80,
+    "period": true,
+    "onset_trim": false,
+    "trim_ms": 0,
+    "bright_head_ms": 0,
+    "head_trim_ms": 0,
+    "skip_burst": false,
+    "carrier": null,
+    "carrier_cut_mode": "none",
+    "asr_start": null,
+    "asr_end": null
+  },
+  "rush": {
+    "word": "rush",
+    "verdict": "ok",
+    "speed": 0.82,
+    "lead_ms": 130,
+    "period": false,
+    "onset_trim": true,
+    "trim_ms": 0,
+    "bright_head_ms": 0,
+    "head_trim_ms": 0,
+    "skip_burst": false,
+    "carrier": null,
+    "carrier_cut_mode": "none",
     "asr_start": null,
     "asr_end": null
   },
@@ -3447,6 +3542,48 @@
     "carrier": [
       "shin. shin.",
       120,
+      -20,
+      20
+    ],
+    "carrier_cut_mode": "energy",
+    "asr_start": null,
+    "asr_end": null
+  },
+  "ship": {
+    "word": "ship",
+    "verdict": "marginal",
+    "speed": 0.82,
+    "lead_ms": 80,
+    "period": false,
+    "onset_trim": false,
+    "trim_ms": 0,
+    "bright_head_ms": 0,
+    "head_trim_ms": 0,
+    "skip_burst": false,
+    "carrier": [
+      "ship. ship.",
+      70,
+      -20,
+      20
+    ],
+    "carrier_cut_mode": "energy",
+    "asr_start": null,
+    "asr_end": null
+  },
+  "shop": {
+    "word": "shop",
+    "verdict": "very good",
+    "speed": 0.82,
+    "lead_ms": 80,
+    "period": false,
+    "onset_trim": false,
+    "trim_ms": 0,
+    "bright_head_ms": 0,
+    "head_trim_ms": 0,
+    "skip_burst": false,
+    "carrier": [
+      "shop. shop.",
+      70,
       -20,
       20
     ],
@@ -3919,6 +4056,22 @@
     "asr_guard_lead_ms": 30,
     "asr_guard_tail_ms": 40
   },
+  "neck": {
+    "word": "neck",
+    "verdict": "ok",
+    "speed": 0.82,
+    "lead_ms": 100,
+    "period": false,
+    "onset_trim": false,
+    "trim_ms": 0,
+    "bright_head_ms": 0,
+    "head_trim_ms": 0,
+    "skip_burst": false,
+    "carrier": null,
+    "carrier_cut_mode": "none",
+    "asr_start": null,
+    "asr_end": null
+  },
   "pack": {
     "word": "pack",
     "verdict": "very good",
@@ -4141,6 +4294,27 @@
     "asr_start": null,
     "asr_end": null
   },
+  "sick": {
+    "word": "sick",
+    "verdict": "good",
+    "speed": 0.82,
+    "lead_ms": 80,
+    "period": false,
+    "onset_trim": true,
+    "trim_ms": 0,
+    "bright_head_ms": 0,
+    "head_trim_ms": 0,
+    "skip_burst": false,
+    "carrier": [
+      "sick. sick.",
+      40,
+      -20,
+      20
+    ],
+    "carrier_cut_mode": "energy",
+    "asr_start": null,
+    "asr_end": null
+  },
   "sing": {
     "word": "sing",
     "verdict": "good",
@@ -4265,6 +4439,23 @@
     "asr_guard_lead_ms": 30,
     "asr_guard_tail_ms": 40
   },
+  "the": {
+    "word": "the",
+    "verdict": "ok",
+    "speed": 0.82,
+    "lead_ms": 50,
+    "period": false,
+    "onset_trim": true,
+    "trim_ms": 90,
+    "bright_head_ms": 0,
+    "head_trim_ms": 50,
+    "skip_burst": false,
+    "carrier": null,
+    "carrier_cut_mode": "none",
+    "asr_start": null,
+    "asr_end": null,
+    "phoneme": "ðə"
+  },
   "them": {
     "word": "them",
     "verdict": "good",
@@ -4279,6 +4470,27 @@
     "carrier": [
       "them. them.",
       120,
+      -20,
+      20
+    ],
+    "carrier_cut_mode": "energy",
+    "asr_start": null,
+    "asr_end": null
+  },
+  "then": {
+    "word": "then",
+    "verdict": "ok",
+    "speed": 0.82,
+    "lead_ms": 80,
+    "period": false,
+    "onset_trim": false,
+    "trim_ms": 100,
+    "bright_head_ms": 0,
+    "head_trim_ms": 0,
+    "skip_burst": false,
+    "carrier": [
+      "then. then.",
+      100,
       -20,
       20
     ],
@@ -4362,6 +4574,27 @@
     "asr_end": 1.64,
     "asr_guard_lead_ms": 30,
     "asr_guard_tail_ms": 40
+  },
+  "tuck": {
+    "word": "tuck",
+    "verdict": "ok",
+    "speed": 0.82,
+    "lead_ms": 80,
+    "period": false,
+    "onset_trim": false,
+    "trim_ms": 100,
+    "bright_head_ms": 0,
+    "head_trim_ms": 0,
+    "skip_burst": false,
+    "carrier": [
+      "tuck. tuck.",
+      100,
+      -20,
+      20
+    ],
+    "carrier_cut_mode": "energy",
+    "asr_start": null,
+    "asr_end": null
   },
   "was": {
     "word": "was",
@@ -4672,6 +4905,27 @@
     "asr_start": null,
     "asr_end": null
   },
+  "cop": {
+    "word": "cop",
+    "verdict": "ok",
+    "speed": 0.82,
+    "lead_ms": 80,
+    "period": false,
+    "onset_trim": true,
+    "trim_ms": 0,
+    "bright_head_ms": 0,
+    "head_trim_ms": 28,
+    "skip_burst": false,
+    "carrier": [
+      "cop. cop.",
+      28,
+      -20,
+      20
+    ],
+    "carrier_cut_mode": "energy",
+    "asr_start": null,
+    "asr_end": null
+  },
   "dim": {
     "word": "dim",
     "verdict": "perfect",
@@ -4829,6 +5083,27 @@
     "carrier": [
       "gut. gut.",
       120,
+      -20,
+      20
+    ],
+    "carrier_cut_mode": "energy",
+    "asr_start": null,
+    "asr_end": null
+  },
+  "hub": {
+    "word": "hub",
+    "verdict": "ok",
+    "speed": 0.82,
+    "lead_ms": 80,
+    "period": false,
+    "onset_trim": false,
+    "trim_ms": 160,
+    "bright_head_ms": 0,
+    "head_trim_ms": 0,
+    "skip_burst": false,
+    "carrier": [
+      "hub. hub.",
+      80,
       -20,
       20
     ],
@@ -5035,6 +5310,22 @@
     "asr_end": 1.78,
     "asr_guard_lead_ms": 30,
     "asr_guard_tail_ms": 40
+  },
+  "lush": {
+    "word": "lush",
+    "verdict": "ok",
+    "speed": 0.82,
+    "lead_ms": 70,
+    "period": false,
+    "onset_trim": true,
+    "trim_ms": 0,
+    "bright_head_ms": 0,
+    "head_trim_ms": 30,
+    "skip_burst": false,
+    "carrier": null,
+    "carrier_cut_mode": "none",
+    "asr_start": null,
+    "asr_end": null
   },
   "posh": {
     "word": "posh",
@@ -5420,6 +5711,27 @@
     "asr_guard_lead_ms": 30,
     "asr_guard_tail_ms": 40
   },
+  "miss": {
+    "word": "miss",
+    "verdict": "perfect",
+    "speed": 0.82,
+    "lead_ms": 80,
+    "period": false,
+    "onset_trim": false,
+    "trim_ms": 0,
+    "bright_head_ms": 0,
+    "head_trim_ms": 0,
+    "skip_burst": false,
+    "carrier": [
+      "Say miss.",
+      200,
+      -20,
+      20
+    ],
+    "carrier_cut_mode": "energy",
+    "asr_start": null,
+    "asr_end": null
+  },
   "loss": {
     "word": "loss",
     "verdict": "good",
@@ -5454,6 +5766,27 @@
     "carrier": [
       "fuss. fuss.",
       120,
+      -20,
+      20
+    ],
+    "carrier_cut_mode": "energy",
+    "asr_start": null,
+    "asr_end": null
+  },
+  "huff": {
+    "word": "huff",
+    "verdict": "marginal",
+    "speed": 0.82,
+    "lead_ms": 80,
+    "period": false,
+    "onset_trim": false,
+    "trim_ms": 0,
+    "bright_head_ms": 0,
+    "head_trim_ms": 0,
+    "skip_burst": false,
+    "carrier": [
+      "Here is the word, huff.",
+      150,
       -20,
       20
     ],
@@ -5645,6 +5978,27 @@
     "asr_guard_lead_ms": 30,
     "asr_guard_tail_ms": 40
   },
+  "knit": {
+    "word": "knit",
+    "verdict": "perfect",
+    "speed": 0.82,
+    "lead_ms": 80,
+    "period": false,
+    "onset_trim": false,
+    "trim_ms": 0,
+    "bright_head_ms": 0,
+    "head_trim_ms": 0,
+    "skip_burst": false,
+    "carrier": [
+      "Say knit.",
+      200,
+      -20,
+      20
+    ],
+    "carrier_cut_mode": "energy",
+    "asr_start": null,
+    "asr_end": null
+  },
   "knob": {
     "word": "knob",
     "verdict": "good",
@@ -5699,6 +6053,448 @@
     "skip_burst": false,
     "carrier": [
       "lamb. lamb.",
+      120,
+      -20,
+      20
+    ],
+    "carrier_cut_mode": "energy",
+    "asr_start": null,
+    "asr_end": null
+  },
+  "chick": {
+    "word": "chick",
+    "verdict": "ok",
+    "speed": 0.82,
+    "lead_ms": 80,
+    "period": false,
+    "onset_trim": false,
+    "trim_ms": 0,
+    "bright_head_ms": 0,
+    "head_trim_ms": 80,
+    "skip_burst": false,
+    "carrier": [
+      "Say chick.",
+      250,
+      -20,
+      20
+    ],
+    "carrier_cut_mode": "energy",
+    "asr_start": null,
+    "asr_end": null
+  },
+  "check": {
+    "word": "check",
+    "verdict": "good",
+    "speed": 0.82,
+    "lead_ms": 80,
+    "period": false,
+    "onset_trim": false,
+    "trim_ms": 0,
+    "bright_head_ms": 0,
+    "head_trim_ms": 0,
+    "skip_burst": false,
+    "carrier": [
+      "Say check.",
+      80,
+      -20,
+      20
+    ],
+    "carrier_cut_mode": "energy",
+    "asr_start": null,
+    "asr_end": null
+  },
+  "chuck": {
+    "word": "chuck",
+    "verdict": "good",
+    "speed": 0.82,
+    "lead_ms": 80,
+    "period": false,
+    "onset_trim": false,
+    "trim_ms": 0,
+    "bright_head_ms": 0,
+    "head_trim_ms": 0,
+    "skip_burst": false,
+    "carrier": [
+      "Say chuck.",
+      80,
+      -20,
+      20
+    ],
+    "carrier_cut_mode": "energy",
+    "asr_start": null,
+    "asr_end": null
+  },
+  "chess": {
+    "word": "chess",
+    "verdict": "perfect",
+    "speed": 0.82,
+    "lead_ms": 80,
+    "period": false,
+    "onset_trim": false,
+    "trim_ms": 0,
+    "bright_head_ms": 0,
+    "head_trim_ms": 0,
+    "skip_burst": false,
+    "carrier": [
+      "Say chess.",
+      80,
+      -20,
+      20
+    ],
+    "carrier_cut_mode": "energy",
+    "asr_start": null,
+    "asr_end": null
+  },
+  "chill": {
+    "word": "chill",
+    "verdict": "perfect",
+    "speed": 0.82,
+    "lead_ms": 80,
+    "period": false,
+    "onset_trim": false,
+    "trim_ms": 0,
+    "bright_head_ms": 0,
+    "head_trim_ms": 0,
+    "skip_burst": false,
+    "carrier": [
+      "Here is the word, chill.",
+      150,
+      -20,
+      20
+    ],
+    "carrier_cut_mode": "energy",
+    "asr_start": null,
+    "asr_end": null
+  },
+  "shack": {
+    "word": "shack",
+    "verdict": "marginal",
+    "speed": 0.82,
+    "lead_ms": 80,
+    "period": false,
+    "onset_trim": false,
+    "trim_ms": 0,
+    "bright_head_ms": 0,
+    "head_trim_ms": 0,
+    "skip_burst": false,
+    "carrier": [
+      "shack. shack.",
+      50,
+      -20,
+      20
+    ],
+    "carrier_cut_mode": "energy",
+    "asr_start": null,
+    "asr_end": null
+  },
+  "shock": {
+    "word": "shock",
+    "verdict": "marginal",
+    "speed": 0.82,
+    "lead_ms": 80,
+    "period": false,
+    "onset_trim": true,
+    "trim_ms": 0,
+    "bright_head_ms": 0,
+    "head_trim_ms": 0,
+    "skip_burst": false,
+    "carrier": [
+      "shock. shock.",
+      40,
+      -20,
+      20
+    ],
+    "carrier_cut_mode": "energy",
+    "asr_start": null,
+    "asr_end": null
+  },
+  "shell": {
+    "word": "shell",
+    "verdict": "marginal",
+    "speed": 0.82,
+    "lead_ms": 80,
+    "period": false,
+    "onset_trim": true,
+    "trim_ms": 0,
+    "bright_head_ms": 0,
+    "head_trim_ms": 0,
+    "skip_burst": false,
+    "carrier": [
+      "shell. shell.",
+      40,
+      -20,
+      20
+    ],
+    "carrier_cut_mode": "energy",
+    "asr_start": null,
+    "asr_end": null
+  },
+  "thick": {
+    "word": "thick",
+    "verdict": "ok",
+    "speed": 0.82,
+    "lead_ms": 80,
+    "period": false,
+    "onset_trim": false,
+    "trim_ms": 0,
+    "bright_head_ms": 0,
+    "head_trim_ms": 0,
+    "skip_burst": false,
+    "carrier": [
+      "Say thick.",
+      200,
+      -20,
+      20
+    ],
+    "carrier_cut_mode": "energy",
+    "asr_start": null,
+    "asr_end": null
+  },
+  "whack": {
+    "word": "whack",
+    "verdict": "good",
+    "speed": 0.82,
+    "lead_ms": 120,
+    "period": false,
+    "onset_trim": true,
+    "trim_ms": 0,
+    "bright_head_ms": 0,
+    "head_trim_ms": 0,
+    "skip_burst": false,
+    "carrier": null,
+    "carrier_cut_mode": "none",
+    "asr_start": null,
+    "asr_end": null
+  },
+  "whiff": {
+    "word": "whiff",
+    "verdict": "ok",
+    "speed": 0.82,
+    "lead_ms": 120,
+    "period": false,
+    "onset_trim": true,
+    "trim_ms": 0,
+    "bright_head_ms": 0,
+    "head_trim_ms": 0,
+    "skip_burst": false,
+    "carrier": null,
+    "carrier_cut_mode": "none",
+    "asr_start": null,
+    "asr_end": null
+  },
+  "whizz": {
+    "word": "whizz",
+    "verdict": "ok",
+    "speed": 0.82,
+    "lead_ms": 80,
+    "period": false,
+    "onset_trim": false,
+    "trim_ms": 0,
+    "bright_head_ms": 0,
+    "head_trim_ms": 0,
+    "skip_burst": false,
+    "carrier": [
+      "whizz. whizz.",
+      120,
+      -20,
+      20
+    ],
+    "carrier_cut_mode": "energy",
+    "asr_start": null,
+    "asr_end": null
+  },
+  "quick": {
+    "word": "quick",
+    "verdict": "ok",
+    "speed": 0.72,
+    "lead_ms": 130,
+    "period": false,
+    "onset_trim": false,
+    "trim_ms": 0,
+    "bright_head_ms": 0,
+    "head_trim_ms": 0,
+    "skip_burst": false,
+    "carrier": [
+      "Say quick.",
+      260,
+      -20,
+      20
+    ],
+    "carrier_cut_mode": "energy",
+    "asr_start": null,
+    "asr_end": null
+  },
+  "quack": {
+    "word": "quack",
+    "verdict": "perfect",
+    "speed": 0.82,
+    "lead_ms": 80,
+    "period": false,
+    "onset_trim": false,
+    "trim_ms": 0,
+    "bright_head_ms": 0,
+    "head_trim_ms": 0,
+    "skip_burst": false,
+    "carrier": [
+      "Here is the word, quack.",
+      150,
+      -20,
+      20
+    ],
+    "carrier_cut_mode": "energy",
+    "asr_start": null,
+    "asr_end": null
+  },
+  "quill": {
+    "word": "quill",
+    "verdict": "very good",
+    "speed": 0.82,
+    "lead_ms": 80,
+    "period": false,
+    "onset_trim": false,
+    "trim_ms": 0,
+    "bright_head_ms": 0,
+    "head_trim_ms": 0,
+    "skip_burst": false,
+    "carrier": [
+      "Say quill.",
+      80,
+      -20,
+      20
+    ],
+    "carrier_cut_mode": "energy",
+    "asr_start": null,
+    "asr_end": null
+  },
+  "knock": {
+    "word": "knock",
+    "verdict": "good",
+    "speed": 0.82,
+    "lead_ms": 80,
+    "period": true,
+    "onset_trim": false,
+    "trim_ms": 0,
+    "bright_head_ms": 0,
+    "head_trim_ms": 0,
+    "skip_burst": false,
+    "carrier": null,
+    "carrier_cut_mode": "none",
+    "asr_start": null,
+    "asr_end": null
+  },
+  "wreck": {
+    "word": "wreck",
+    "verdict": "good",
+    "speed": 0.82,
+    "lead_ms": 80,
+    "period": false,
+    "onset_trim": false,
+    "trim_ms": 0,
+    "bright_head_ms": 0,
+    "head_trim_ms": 0,
+    "skip_burst": false,
+    "carrier": [
+      "wreck. wreck.",
+      120,
+      -20,
+      20
+    ],
+    "carrier_cut_mode": "energy",
+    "asr_start": null,
+    "asr_end": null
+  },
+  "wrong": {
+    "word": "wrong",
+    "verdict": "ok",
+    "speed": 0.82,
+    "lead_ms": 80,
+    "period": false,
+    "onset_trim": false,
+    "trim_ms": 0,
+    "bright_head_ms": 0,
+    "head_trim_ms": 0,
+    "skip_burst": false,
+    "carrier": [
+      "wrong. wrong.",
+      60,
+      -20,
+      20
+    ],
+    "carrier_cut_mode": "energy",
+    "asr_start": null,
+    "asr_end": null
+  },
+  "thumb": {
+    "word": "thumb",
+    "verdict": "perfect",
+    "speed": 0.82,
+    "lead_ms": 80,
+    "period": false,
+    "onset_trim": false,
+    "trim_ms": 0,
+    "bright_head_ms": 0,
+    "head_trim_ms": 0,
+    "skip_burst": false,
+    "carrier": [
+      "Say thumb.",
+      80,
+      -20,
+      20
+    ],
+    "carrier_cut_mode": "energy",
+    "asr_start": null,
+    "asr_end": null
+  },
+  "wrap": {
+    "word": "wrap",
+    "verdict": "good",
+    "speed": 0.82,
+    "lead_ms": 80,
+    "period": false,
+    "onset_trim": false,
+    "trim_ms": 0,
+    "bright_head_ms": 0,
+    "head_trim_ms": 0,
+    "skip_burst": false,
+    "carrier": [
+      "wrap. wrap.",
+      120,
+      -20,
+      20
+    ],
+    "carrier_cut_mode": "energy",
+    "asr_start": null,
+    "asr_end": null
+  },
+  "wren": {
+    "word": "wren",
+    "verdict": "marginal",
+    "speed": 0.82,
+    "lead_ms": 100,
+    "period": false,
+    "onset_trim": false,
+    "trim_ms": 0,
+    "bright_head_ms": 0,
+    "head_trim_ms": 0,
+    "skip_burst": false,
+    "carrier": null,
+    "carrier_cut_mode": "none",
+    "asr_start": null,
+    "asr_end": null
+  },
+  "limb": {
+    "word": "limb",
+    "verdict": "very good",
+    "speed": 0.82,
+    "lead_ms": 80,
+    "period": false,
+    "onset_trim": false,
+    "trim_ms": 0,
+    "bright_head_ms": 0,
+    "head_trim_ms": 0,
+    "skip_burst": false,
+    "carrier": [
+      "limb. limb.",
       120,
       -20,
       20
