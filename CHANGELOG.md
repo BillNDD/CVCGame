@@ -116,7 +116,8 @@ The first app version is 1.0.0-beta.1. The app stays in beta until version 1.0 i
   grows from ten to seventeen, so a twenty-word session repeats itself far less. Every new
   sentence points at the child's own doing, and every word in them has a single
   pronunciation, the lesson the retired "read" line taught. The seven clips rendered on the
-  approved recipe and went to the owner's ear the same day.
+  approved recipe, went to the owner's ear, and all seven were approved on 2026-08-07 —
+  the shipped files are the ones the owner heard.
 - Changed: the listening sweep is COMPLETE. The final 40 words came home in rounds 35 to
   38: every one of the 349 bank words now carries a verdict from the owner's ear, locked in
   the word table with its full recipe and a byte pin verified against the exact file the
