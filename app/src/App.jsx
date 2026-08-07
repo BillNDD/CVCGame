@@ -435,6 +435,21 @@ export default function App() {
     else { setQi(qi + 1); setPhase("ready"); }
   }
 
+  /* The grown-up's skip (SPEC section 6): ends the reveal early when the
+     adult judges the child does not need the rest of it — streaks of correct
+     words above all. An adult hold only: the wait exists so the child hears
+     the word (CVC-UX-001), so the child's tap stays dead and the strip
+     control takes the same 450 ms hold as the graders. Everything advancing
+     already does — the silence, the retry queue, the finish — happens
+     through the same next(). */
+  function skipReveal() {
+    if (phase !== "feedback") return;
+    clearTimeout(advanceTimer.current);
+    advanceLive.current = true;
+    setAdvanceReady(true);
+    next();
+  }
+
   /* P1-4 — explicit, honest exit semantics */
   function commitSession(partial) {
     const s = structuredClone(stateRef.current);
@@ -768,7 +783,7 @@ export default function App() {
       advanceReady={advanceReady} waitMs={waitMs} waitFrom={waitFrom} finishes={finishes} micTried={micTried} listening={listening}
       freePlay={freePlay} fpCount={fpCount} fpMode={fpMode.current}
       seenTwice={seenTwice} heard={heard} exitAsk={exitAsk}
-      onExitAsk={askExit} grade={grade} next={next}
+      onExitAsk={askExit} grade={grade} next={next} skipReveal={skipReveal}
       startRec={startRec} softStop={softStop} replay={replay}
       handleExit={handleExit} advanceRef={advanceRef} toast={toast} />;
   }

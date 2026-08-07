@@ -130,6 +130,32 @@ describe("G10 — the child hears the word before the app lets them move on", ()
     expect(document.querySelector(".wq-word")).toBeNull();
   });
 
+  /* The grown-up's skip (owner-approved 2026-08-07): the reveal can be ended
+     early, but only by the adult gesture — the wait exists so the child hears
+     the word, so the child's tap must stay dead. */
+  it("7: a tap on the grown-up skip does nothing — the reveal keeps its wait", async () => {
+    await gradeOneWord();
+    const word = document.querySelector(".wq-word").textContent;
+    await flush(1000);
+    fireEvent.click(screen.getByLabelText("⏭ skip (hold)"), { detail: 1 });   // the child's tap
+    await flush(600);
+    expect(advance().disabled).toBe(true);            // still mid-reveal
+    expect(document.querySelector(".wq-word").textContent).toBe(word);
+  });
+
+  it("8: the adult's skip advances early and silences the reveal at once", async () => {
+    const { stopClips } = await import("../app/src/voicepacks.js");
+    await gradeOneWord();
+    const word = document.querySelector(".wq-word").textContent;
+    await flush(1000);                                // the praise is still playing
+    stopClips.mockClear();
+    fireEvent.keyDown(screen.getByLabelText("⏭ skip (hold)"), { key: "Enter" });
+    await flush(0);
+    expect(stopClips).toHaveBeenCalled();             // the reveal falls silent (S2)
+    expect(document.querySelector(".wq-word").textContent).not.toBe(word);
+    expect(screen.queryByText(/Next word|Finish!/)).toBeNull();   // back in the ready phase
+  });
+
   /* A1-004 — the wait says how long it is. The fill's length is the reveal's
      own scheduled length, not a guess, and it exists only while the control is
      inert. The literals here are the mocked reveal and the short guard. */

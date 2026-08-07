@@ -119,7 +119,7 @@ export default function SessionScreen({
   state, L, kid, currentWord, micNote, adultNote, phase, lastGrade, order, firstResults,
   answered, totalQ, advanceReady, waitMs, waitFrom, finishes, micTried, listening, seenTwice, heard, exitAsk,
   freePlay, fpCount, fpMode,
-  onExitAsk, grade, next, startRec, softStop, replay, handleExit, advanceRef, toast,
+  onExitAsk, grade, next, skipReveal, startRec, softStop, replay, handleExit, advanceRef, toast,
 }) {
   const liveRef = useRef(null);
   const fb = lastGrade ? feedbackParts(lastGrade, currentWord) : null;
@@ -157,6 +157,12 @@ export default function SessionScreen({
       <Zone.Strip>
         <span className="wq-striplabel">grown-up · hold to grade</span>
         <button className="wq-sbtn" onClick={replay} disabled={!canReplay} aria-label="Hear the word again">🔊</button>
+        {/* The reveal's second adult control: hear it again, or move on
+            (owner-approved 2026-08-07). A 450 ms hold, because a tap here
+            would be the child skipping their own teaching moment; the slot
+            is reserved in every phase so no control moves under a finger
+            (A2-002). */}
+        <HoldButton onFire={skipReveal} disabled={phase !== "feedback"} color={C.ink2} label="⏭ skip" />
         <div style={{ display: "flex", gap: 6, marginLeft: "auto" }}>
           <HoldButton onFire={() => grade("correct")} disabled={phase === "feedback"} color={C.green} label="✓ got it" />
           <HoldButton onFire={() => grade("close")} disabled={phase === "feedback"} color={C.amber} label="~ close" />
