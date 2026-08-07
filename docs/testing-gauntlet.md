@@ -196,10 +196,15 @@ The level range is 1 to 7. SPEC and the engine agree; the owner corrected SPEC o
 
 ## G10. Safety gates
 
-- Location: `tests/safety.test.js`, `tests/adult-controls.test.js`, and Playwright checks inside
-  `npm run test:ui`.
+- Location: `tests/safety.test.js`, `tests/safety-splash.test.js`, `tests/adult-controls.test.js`,
+  and Playwright checks inside `npm run test:ui`.
 - Each rule in `CLAUDE.md` becomes at least one failing-by-default test. Keys:
-  `g10_safety_tests` and `g10_adult_control_tests`.
+  `g10_safety_tests` (the SUM of `safety.test.js` and `safety-splash.test.js`, so a test
+  cannot vanish from either file; the gauntlet's summed counter refuses a missing file
+  outright) and `g10_adult_control_tests`.
+- The splash update controls (SPEC section 7a) have their own file because the safety file
+  reached the 900-line file-length ceiling on 2026-08-07: `safety-splash.test.js` proves a
+  child's tap never reaches the network and only the adult hold applies an update.
 - S5 has its own file because the safety file reached the file-length ceiling, 600 lines at the
   time (G6). It holds one
   subject: a result reaches the save only through a deliberate adult act, and every grown-up
