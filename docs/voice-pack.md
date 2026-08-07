@@ -59,6 +59,18 @@ app carries only the audio files.
   "perfect" (2026-08-03). The shipped file is the one the owner heard, byte for byte. G13
   still fails the build if a sentence containing a word with two pronunciations is left to
   the synthesiser.
+- The seven praise sentences added 2026-08-06 (p:10 to p:16, "Sound by sound, you built
+  the whole word!" through "Every sound in its place — wonderful!") rendered on the
+  approved sentence recipe and the owner listened to all seven on 2026-08-07: approved,
+  no line sent to a round. The shipped files are the ones the owner heard, byte for byte —
+  sha256 p-10 37a66fb7b34356b8505a37d8fcfefa48e090585024fbc836c98db38949e74f3d,
+  p-11 01afb24a3b0f764d1793cf35cd7ecb5a786b96e27c6048f464a4cd43d88c8b73,
+  p-12 5f2a42d277d3c0e0ca9f1dae81e5505c1b5697f81cbd39bb24c1586e26ecf0d4,
+  p-13 007ff921de25b1c6548a7c6ee755490f63b584b8f50ae82dcd0918433db961a0,
+  p-14 4c57a6ea2e1ae1f8f5ddf65d7197fd7fc24fef612575adac75ac705e90758a67,
+  p-15 332a8a4c1175ed53851c3af6603333cbbed2e593f5e055c9335e517ea3d536db,
+  p-16 c5f056c3f82b3e6b7b0f0fcd33491c75491f709a391aec4c1c760a7fb282a211.
+  Do not re-render one without a new listen.
 - An explicit pronunciation only changes a recording where it differs from the one the
   phonemiser derives from the spelling. For every three-letter word tested it does not: the
   two renders are byte-identical. This was learned the expensive way, by shipping a "fix"

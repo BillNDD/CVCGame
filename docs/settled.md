@@ -71,6 +71,10 @@ updated whenever a round lands.
   what to do with that word!") on 2026-08-03 and judged it "perfect". The
   shipped file is the one the owner heard. Do not re-render or re-open it
   without a new listen.
+- **The seven praise clips added with the pool's growth to seventeen are
+  settled.** The owner listened to all seven (p:10 to p:16) on 2026-08-07 and
+  approved them; no line needed a round. Their hashes are in
+  `docs/voice-pack.md`. Do not re-render one without a new listen.
 
 ## The sound-out reveal's visual treatment (2026-08-04) — closed
 
