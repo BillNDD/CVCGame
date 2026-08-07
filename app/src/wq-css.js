@@ -147,11 +147,22 @@ const CSS = `
   .wq-home-hi{margin-top:2px;font-size:14px}
   .wq-home-card{margin-top:8px;padding:10px 16px}
 }
-/* Shorter still, the big title goes: the header already says Word Quest, and
-   the level card is what a hand needs. The stage scrolls past what even this
-   cannot fit (N-4). */
-@media (max-height:420px){
+/* Shorter still, the decoration goes in tiers: first the big title (the
+   header already says Word Quest), then the greeting, while the level card
+   compacts - it is the one thing a hand needs. With the header, two 56 px
+   child controls (S7) and the strip, the chrome alone stands about 250 px,
+   so below roughly 330 px nothing can make the screen fit; there the stage
+   still scrolls, the same honest fallback the 200% text size uses (N-4). */
+@media (max-height:460px){
   .wq-home-title{display:none}
+}
+@media (max-height:400px){
+  .wq-home-hi{display:none}
+  .wq-home-card{margin-top:4px;padding:8px 12px}
+  /* The 18 px base under the strip clears a phone's swipe band (N-5); a
+     400 px-short window is a desktop or a notch phone, and a notch phone
+     brings its own env() inset. */
+  .wq-strip{padding-bottom:calc(8px + env(safe-area-inset-bottom))}
 }
 
 /* cards / forms */
