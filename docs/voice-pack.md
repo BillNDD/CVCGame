@@ -17,7 +17,11 @@ speed, voice, lead, tail, fade, explicit phoneme, period, onset trim, tail
 trim, bright-head, head trim, carrier sentence, cut mode and its thresholds,
 ASR pins with both guards, byte-pin sha, and the decision fields (locked,
 verdict, ear notes, round, whether it was judged as a bare clip or in the app).
-Every cell is explicit, so any row alone reproduces its clip.
+Every cell is explicit. For a row with no byte pin, the row alone reproduces
+its clip through this repository's renderer. For a pinned row the pin is the
+authority: the uplift rows (see below) were baked on the sidecar's own
+environment and do not reproduce byte-for-byte here, so the pinned bytes the
+owner heard are what ships, and G13 verifies each file against its pin.
 
 After a listening round, edit the row and run `node tools/gen-voice-lock.mjs`.
 That derives `keepers-treatments.json` (what the renderer and G13 read),
@@ -33,6 +37,34 @@ The shipped pack also declares its own full recipe in `manifest.json`
 handoff once cost a brute-force sweep, and the renderer refuses to overwrite a
 byte-pinned word rather than replacing accepted audio with a render.
 
+## The uplift pass (2026-08-06 to 2026-08-07) — every word now owner-perfect
+
+- The owner and the sound sidecar re-ran blind listening rounds against every
+  word that had shipped below "perfect": 212 words across five round families
+  (UPLIFT-SWEEP 114, UPLIFT-EXPERIMENT 46, UPLIFT-HARD 35, UPLIFT-TONE 14,
+  CARRIER-SPELL-PHASE 3), the owner's ear final on every one, and a word
+  superseded only on a "perfect" verdict. All 349 words now carry "perfect".
+- 209 words shipped new bytes. Three — check, limb and rich — kept their
+  shipped bytes with the verdict upgraded on a fresh listen. 54 words gained
+  their first byte pin; the table now pins 285 of 349.
+- Customs, 2026-08-07: all 283 winner files in the handoff verified sha256
+  against their rows' pins; the 87 winners shipped for untouched rows were
+  byte-identical to the pack already shipped; sad and sat (pinned, no file in
+  the handoff) matched the pack; every one of the 212 new winners decodes
+  cleanly at word-scale durations (744 to 1488 ms). The 137 words already
+  "perfect" were untouched, byte for byte.
+- The uplift recipes do NOT rebake byte-for-byte through this repository's
+  renderer: 0 of 212 reproduced. Probed words rebake to the same duration to
+  the millisecond, so the drift is encoder- and runtime-level on the sidecar's
+  bake environment, not different audio — and some winners' full recipes carry
+  knobs (for example second_island) that exist only in the sidecar's recipe
+  sidecars, not in the CSV columns. As with "let" before the uplift: the
+  pinned bytes the owner heard govern, G13 verifies each file against its pin,
+  and the CSV rows document provenance — verdict, round, family, date — not a
+  build this repository can reproduce. The full sidecar recipes live in the
+  sidecar workspace archive on the owner's PC
+  (handoff `word-quest-uplift-handoff-2026-08-07T1438Z`).
+
 ## How the pack was made
 
 The clips are rendered by a build tool on a developer machine. The model never ships; the
@@ -46,10 +78,12 @@ app carries only the audio files.
 - The recipe travels inside `manifest.json`, and gate G13 compares it with the approved
   values. A pack rendered with different settings fails the build, because nothing automatic
   can hear whether a word is right.
-- Two-letter words render from an explicit pronunciation, not from their spelling: the
-  synthesiser read "am" as the letter M. Two words — cub and dish — have the end of their
-  speech trimmed, because the synthesiser adds a small extra syllable after a final plosive.
-  (hip carried the same trim until its keeper replaced it with a carrier cut.)
+- A two-letter word never renders from its spelling: the synthesiser read "am" as the
+  letter M. They rendered from explicit pronunciations until the uplift pass; all twelve
+  now ship as owner-heard carrier cuts or pinned bytes, and G13 refuses any future
+  two-letter word with neither a pronunciation, a carrier, nor a pin. The end trims cub
+  and dish once carried (an extra syllable after a final plosive; hip had it too) retired
+  with the uplift — no word carries a trim today.
 - No current sentence needs an explicit pronunciation. One used to: "You read that word all
   by yourself!" was spoken with "read" as in "reed" and carried a past-tense pronunciation
   until 2026-08-03, when the owner replaced the line with "You knew just what to do with
@@ -75,16 +109,17 @@ app carries only the audio files.
   phonemiser derives from the spelling. For every three-letter word tested it does not: the
   two renders are byte-identical. This was learned the expensive way, by shipping a "fix"
   for "tap" and "sip" that changed nothing.
-- Which words render as a sentence, carry a trim, a brighten, an onset cut or a carrier is
-  stated per word in `tools/voice-words.csv` (currently cup, had, jug and rub take the full
-  stop; pop left that list for an ASR carrier in the keeper handoff). "tap" has whatever
-  precedes its first burst removed, and "sip" ships plain — its 70 ms brighten ended with its
-  keeper. Each value won a listening round against the build of the day.
+- Which words render as a sentence, carry a brighten, or come from a carrier is stated per
+  word in `tools/voice-words.csv`. After the uplift only rich takes the full stop and only
+  rat keeps a brighten; the trims and onset cuts of earlier rounds all retired as their
+  words won cleaner uplift renders. Each value won a listening round against the build of
+  the day.
 - The clip list comes from the live engine, never from a hand-kept list.
-- Three words — man, hop and hen — are spoken inside a carrier sentence and cut back out of it,
-  at the per-word thresholds in `carrier_cut`. This is the isolation round 10 could not do; see
-  below. The treatment is NOT general: the gap search settles differently for every word, and it
-  could not be built at all for hat.
+- Most words are now spoken inside a carrier sentence and cut back out of it — 239 energy
+  cuts and 89 ASR cuts after the uplift pass, at the per-word values in the word table.
+  The treatment became this general only through per-word rounds on the sidecar: the gap
+  search still settles differently for every word (it began as three words — man, hop and
+  hen — and could not be built at all for hat until hat's own keeper round).
 - Nothing stands approved-and-unshipped. cup, the last such entry, shipped on 2026-08-04:
   the sidecar recovered the round 8-9 winning bytes from its archive and pinned them; the
   shipped file verifies against the pin.

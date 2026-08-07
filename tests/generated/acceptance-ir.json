@@ -366,7 +366,7 @@
             },
             {
               "kind": "Then",
-              "text": "the feedback shows \"c-a-t\" and the word \"cat\""
+              "text": "the feedback shows \"c-a-t\" and the word \"catx\""
             }
           ],
           "examples": []

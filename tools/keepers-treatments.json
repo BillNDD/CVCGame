@@ -2,42 +2,50 @@
   "_rule": "GENERATED from tools/voice-words.csv - do not edit by hand; edit the word's row and run: node tools/gen-voice-lock.mjs",
   "am": {
     "word": "am",
-    "verdict": "accepted",
-    "speed": 0.85,
-    "lead_ms": 150,
+    "verdict": "perfect",
+    "speed": 0.82,
+    "lead_ms": 80,
     "period": false,
     "onset_trim": false,
     "trim_ms": 0,
     "bright_head_ms": 0,
     "head_trim_ms": 0,
     "skip_burst": false,
-    "carrier": null,
-    "carrier_cut_mode": "none",
+    "carrier": [
+      "The printed word is \"am\".",
+      80,
+      -20,
+      20
+    ],
+    "carrier_cut_mode": "energy",
     "asr_start": null,
-    "asr_end": null,
-    "phoneme": "æm"
+    "asr_end": null
   },
   "an": {
     "word": "an",
-    "verdict": "accepted",
-    "speed": 0.85,
-    "lead_ms": 150,
+    "verdict": "perfect",
+    "speed": 0.82,
+    "lead_ms": 80,
     "period": false,
     "onset_trim": false,
     "trim_ms": 0,
     "bright_head_ms": 0,
     "head_trim_ms": 0,
     "skip_burst": false,
-    "carrier": null,
-    "carrier_cut_mode": "none",
+    "carrier": [
+      "The printed word is \"an\".",
+      80,
+      -20,
+      20
+    ],
+    "carrier_cut_mode": "energy",
     "asr_start": null,
-    "asr_end": null,
-    "phoneme": "æn"
+    "asr_end": null
   },
   "at": {
     "word": "at",
-    "verdict": "accepted",
-    "speed": 0.85,
+    "verdict": "perfect",
+    "speed": 0.82,
     "lead_ms": 80,
     "period": false,
     "onset_trim": false,
@@ -45,16 +53,20 @@
     "bright_head_ms": 0,
     "head_trim_ms": 0,
     "skip_burst": false,
-    "carrier": null,
-    "carrier_cut_mode": "none",
+    "carrier": [
+      "Spell it: A T. at.",
+      80,
+      -20,
+      20
+    ],
+    "carrier_cut_mode": "energy",
     "asr_start": null,
-    "asr_end": null,
-    "phoneme": "æt"
+    "asr_end": null
   },
   "ax": {
     "word": "ax",
-    "verdict": "accepted",
-    "speed": 0.85,
+    "verdict": "perfect",
+    "speed": 0.82,
     "lead_ms": 80,
     "period": false,
     "onset_trim": false,
@@ -62,33 +74,41 @@
     "bright_head_ms": 0,
     "head_trim_ms": 0,
     "skip_burst": false,
-    "carrier": null,
-    "carrier_cut_mode": "none",
+    "carrier": [
+      "Spell it: A X. ax.",
+      160,
+      -32,
+      40
+    ],
+    "carrier_cut_mode": "energy",
     "asr_start": null,
-    "asr_end": null,
-    "phoneme": "æks"
+    "asr_end": null
   },
   "if": {
     "word": "if",
-    "verdict": "accepted",
-    "speed": 0.85,
+    "verdict": "perfect",
+    "speed": 1,
     "lead_ms": 80,
     "period": false,
     "onset_trim": false,
     "trim_ms": 0,
     "bright_head_ms": 0,
-    "head_trim_ms": 0,
+    "head_trim_ms": 25,
     "skip_burst": false,
-    "carrier": null,
-    "carrier_cut_mode": "none",
+    "carrier": [
+      "The printed word is \"if\".",
+      80,
+      -20,
+      20
+    ],
+    "carrier_cut_mode": "energy",
     "asr_start": null,
-    "asr_end": null,
-    "phoneme": "ɪf"
+    "asr_end": null
   },
   "in": {
     "word": "in",
-    "verdict": "accepted",
-    "speed": 0.85,
+    "verdict": "perfect",
+    "speed": 0.82,
     "lead_ms": 80,
     "period": false,
     "onset_trim": false,
@@ -96,16 +116,20 @@
     "bright_head_ms": 0,
     "head_trim_ms": 0,
     "skip_burst": false,
-    "carrier": null,
-    "carrier_cut_mode": "none",
+    "carrier": [
+      "Listen—in.",
+      80,
+      -20,
+      20
+    ],
+    "carrier_cut_mode": "energy",
     "asr_start": null,
-    "asr_end": null,
-    "phoneme": "ɪn"
+    "asr_end": null
   },
   "is": {
     "word": "is",
-    "verdict": "accepted",
-    "speed": 0.85,
+    "verdict": "perfect",
+    "speed": 0.82,
     "lead_ms": 80,
     "period": false,
     "onset_trim": false,
@@ -113,16 +137,20 @@
     "bright_head_ms": 0,
     "head_trim_ms": 0,
     "skip_burst": false,
-    "carrier": null,
-    "carrier_cut_mode": "none",
+    "carrier": [
+      "Listen—is.",
+      80,
+      -20,
+      20
+    ],
+    "carrier_cut_mode": "energy",
     "asr_start": null,
-    "asr_end": null,
-    "phoneme": "ɪz"
+    "asr_end": null
   },
   "it": {
     "word": "it",
-    "verdict": "accepted",
-    "speed": 0.85,
+    "verdict": "perfect",
+    "speed": 0.82,
     "lead_ms": 80,
     "period": false,
     "onset_trim": false,
@@ -130,16 +158,20 @@
     "bright_head_ms": 0,
     "head_trim_ms": 0,
     "skip_burst": false,
-    "carrier": null,
-    "carrier_cut_mode": "none",
+    "carrier": [
+      "Spell it: I T. it.",
+      80,
+      -20,
+      20
+    ],
+    "carrier_cut_mode": "energy",
     "asr_start": null,
-    "asr_end": null,
-    "phoneme": "ɪt"
+    "asr_end": null
   },
   "on": {
     "word": "on",
-    "verdict": "accepted",
-    "speed": 0.85,
+    "verdict": "perfect",
+    "speed": 0.82,
     "lead_ms": 80,
     "period": false,
     "onset_trim": false,
@@ -147,16 +179,20 @@
     "bright_head_ms": 0,
     "head_trim_ms": 0,
     "skip_burst": false,
-    "carrier": null,
-    "carrier_cut_mode": "none",
+    "carrier": [
+      "Spell it: O N. on.",
+      80,
+      -20,
+      20
+    ],
+    "carrier_cut_mode": "energy",
     "asr_start": null,
-    "asr_end": null,
-    "phoneme": "ɑn"
+    "asr_end": null
   },
   "ox": {
     "word": "ox",
-    "verdict": "accepted",
-    "speed": 0.85,
+    "verdict": "perfect",
+    "speed": 0.82,
     "lead_ms": 80,
     "period": false,
     "onset_trim": false,
@@ -165,15 +201,14 @@
     "head_trim_ms": 0,
     "skip_burst": false,
     "carrier": null,
-    "carrier_cut_mode": "none",
+    "carrier_cut_mode": "assembly",
     "asr_start": null,
-    "asr_end": null,
-    "phoneme": "ɑks"
+    "asr_end": null
   },
   "up": {
     "word": "up",
-    "verdict": "accepted",
-    "speed": 0.85,
+    "verdict": "perfect",
+    "speed": 0.82,
     "lead_ms": 80,
     "period": false,
     "onset_trim": false,
@@ -181,16 +216,20 @@
     "bright_head_ms": 0,
     "head_trim_ms": 0,
     "skip_burst": false,
-    "carrier": null,
-    "carrier_cut_mode": "none",
+    "carrier": [
+      "Listen—up.",
+      80,
+      -20,
+      20
+    ],
+    "carrier_cut_mode": "energy",
     "asr_start": null,
-    "asr_end": null,
-    "phoneme": "ʌp"
+    "asr_end": null
   },
   "us": {
     "word": "us",
-    "verdict": "accepted",
-    "speed": 0.85,
+    "verdict": "perfect",
+    "speed": 0.82,
     "lead_ms": 80,
     "period": false,
     "onset_trim": false,
@@ -198,11 +237,57 @@
     "bright_head_ms": 0,
     "head_trim_ms": 0,
     "skip_burst": false,
-    "carrier": null,
-    "carrier_cut_mode": "none",
+    "carrier": [
+      "us. us.",
+      80,
+      -20,
+      20
+    ],
+    "carrier_cut_mode": "energy",
     "asr_start": null,
-    "asr_end": null,
-    "phoneme": "ʌs"
+    "asr_end": null
+  },
+  "bag": {
+    "word": "bag",
+    "verdict": "perfect",
+    "speed": 0.82,
+    "lead_ms": 80,
+    "period": false,
+    "onset_trim": false,
+    "trim_ms": 0,
+    "bright_head_ms": 0,
+    "head_trim_ms": 0,
+    "skip_burst": false,
+    "carrier": [
+      "Spell it: B A G. bag.",
+      80,
+      -20,
+      20
+    ],
+    "carrier_cut_mode": "energy",
+    "asr_start": null,
+    "asr_end": null
+  },
+  "bat": {
+    "word": "bat",
+    "verdict": "perfect",
+    "speed": 0.82,
+    "lead_ms": 80,
+    "period": false,
+    "onset_trim": false,
+    "trim_ms": 0,
+    "bright_head_ms": 0,
+    "head_trim_ms": 0,
+    "skip_burst": false,
+    "carrier": [
+      "Spell it: B A T. bat.",
+      80,
+      -20,
+      20
+    ],
+    "carrier_cut_mode": "energy",
+    "asr_start": null,
+    "asr_end": null
   },
   "can": {
     "word": "can",
@@ -225,41 +310,30 @@
     "asr_start": null,
     "asr_end": null
   },
-  "had": {
-    "word": "had",
-    "verdict": "very_good",
-    "speed": 0.85,
-    "lead_ms": 150,
-    "period": true,
+  "cap": {
+    "word": "cap",
+    "verdict": "perfect",
+    "speed": 1,
+    "lead_ms": 80,
+    "period": false,
     "onset_trim": false,
     "trim_ms": 0,
     "bright_head_ms": 0,
     "head_trim_ms": 0,
     "skip_burst": false,
-    "carrier": null,
-    "carrier_cut_mode": "none",
+    "carrier": [
+      "Spell it: C A P. cap.",
+      80,
+      -20,
+      20
+    ],
+    "carrier_cut_mode": "energy",
     "asr_start": null,
     "asr_end": null
   },
-  "ham": {
-    "word": "ham",
-    "verdict": "very_good",
-    "speed": 0.85,
-    "lead_ms": 80,
-    "period": false,
-    "onset_trim": true,
-    "trim_ms": 0,
-    "bright_head_ms": 0,
-    "head_trim_ms": 0,
-    "skip_burst": false,
-    "carrier": null,
-    "carrier_cut_mode": "none",
-    "asr_start": null,
-    "asr_end": null
-  },
-  "hat": {
-    "word": "hat",
-    "verdict": "very_good",
+  "cat": {
+    "word": "cat",
+    "verdict": "perfect",
     "speed": 0.82,
     "lead_ms": 80,
     "period": false,
@@ -269,8 +343,113 @@
     "head_trim_ms": 0,
     "skip_burst": false,
     "carrier": [
-      "Here is the word, hat.",
-      100,
+      "The printed word is \"cat\".",
+      80,
+      -20,
+      20
+    ],
+    "carrier_cut_mode": "energy",
+    "asr_start": null,
+    "asr_end": null
+  },
+  "fan": {
+    "word": "fan",
+    "verdict": "perfect",
+    "speed": 0.82,
+    "lead_ms": 80,
+    "period": false,
+    "onset_trim": false,
+    "trim_ms": 0,
+    "bright_head_ms": 0,
+    "head_trim_ms": 0,
+    "skip_burst": false,
+    "carrier": [
+      "Listen, fan.",
+      80,
+      -20,
+      20
+    ],
+    "carrier_cut_mode": "energy",
+    "asr_start": null,
+    "asr_end": null
+  },
+  "had": {
+    "word": "had",
+    "verdict": "perfect",
+    "speed": 0.82,
+    "lead_ms": 80,
+    "period": false,
+    "onset_trim": false,
+    "trim_ms": 0,
+    "bright_head_ms": 0,
+    "head_trim_ms": 0,
+    "skip_burst": false,
+    "carrier": [
+      "Spell it: H A D. had.",
+      80,
+      -20,
+      20
+    ],
+    "carrier_cut_mode": "energy",
+    "asr_start": null,
+    "asr_end": null
+  },
+  "ham": {
+    "word": "ham",
+    "verdict": "perfect",
+    "speed": 0.82,
+    "lead_ms": 80,
+    "period": false,
+    "onset_trim": false,
+    "trim_ms": 0,
+    "bright_head_ms": 0,
+    "head_trim_ms": 0,
+    "skip_burst": false,
+    "carrier": [
+      "The printed word is \"ham\".",
+      80,
+      -20,
+      20
+    ],
+    "carrier_cut_mode": "energy",
+    "asr_start": null,
+    "asr_end": null
+  },
+  "has": {
+    "word": "has",
+    "verdict": "perfect",
+    "speed": 0.82,
+    "lead_ms": 80,
+    "period": false,
+    "onset_trim": false,
+    "trim_ms": 0,
+    "bright_head_ms": 0,
+    "head_trim_ms": 0,
+    "skip_burst": false,
+    "carrier": [
+      "Spell it: H A S. has.",
+      80,
+      -20,
+      20
+    ],
+    "carrier_cut_mode": "energy",
+    "asr_start": null,
+    "asr_end": null
+  },
+  "hat": {
+    "word": "hat",
+    "verdict": "perfect",
+    "speed": 0.82,
+    "lead_ms": 80,
+    "period": false,
+    "onset_trim": false,
+    "trim_ms": 0,
+    "bright_head_ms": 0,
+    "head_trim_ms": 0,
+    "skip_burst": false,
+    "carrier": [
+      "Spell it: H A T. hat.",
+      80,
       -20,
       20
     ],
@@ -280,24 +459,8 @@
   },
   "jam": {
     "word": "jam",
-    "verdict": "very_good",
-    "speed": 0.85,
-    "lead_ms": 80,
-    "period": false,
-    "onset_trim": false,
-    "trim_ms": 0,
-    "bright_head_ms": 40,
-    "head_trim_ms": 0,
-    "skip_burst": false,
-    "carrier": null,
-    "carrier_cut_mode": "none",
-    "asr_start": null,
-    "asr_end": null
-  },
-  "man": {
-    "word": "man",
-    "verdict": "almost perfect",
-    "speed": 0.85,
+    "verdict": "perfect",
+    "speed": 0.82,
     "lead_ms": 80,
     "period": false,
     "onset_trim": false,
@@ -306,8 +469,113 @@
     "head_trim_ms": 0,
     "skip_burst": false,
     "carrier": [
-      "Here is the word, man.",
-      150,
+      "The printed word is \"jam\".",
+      80,
+      -20,
+      20
+    ],
+    "carrier_cut_mode": "energy",
+    "asr_start": null,
+    "asr_end": null
+  },
+  "lap": {
+    "word": "lap",
+    "verdict": "perfect",
+    "speed": 0.82,
+    "lead_ms": 80,
+    "period": false,
+    "onset_trim": false,
+    "trim_ms": 0,
+    "bright_head_ms": 0,
+    "head_trim_ms": 0,
+    "skip_burst": false,
+    "carrier": [
+      "Spell it: L A P. lap.",
+      80,
+      -20,
+      20
+    ],
+    "carrier_cut_mode": "energy",
+    "asr_start": null,
+    "asr_end": null
+  },
+  "mad": {
+    "word": "mad",
+    "verdict": "perfect",
+    "speed": 0.82,
+    "lead_ms": 80,
+    "period": false,
+    "onset_trim": false,
+    "trim_ms": 0,
+    "bright_head_ms": 0,
+    "head_trim_ms": 0,
+    "skip_burst": false,
+    "carrier": [
+      "Spell it: M A D. mad.",
+      80,
+      -20,
+      20
+    ],
+    "carrier_cut_mode": "energy",
+    "asr_start": null,
+    "asr_end": null
+  },
+  "man": {
+    "word": "man",
+    "verdict": "perfect",
+    "speed": 0.82,
+    "lead_ms": 80,
+    "period": false,
+    "onset_trim": false,
+    "trim_ms": 0,
+    "bright_head_ms": 0,
+    "head_trim_ms": 0,
+    "skip_burst": false,
+    "carrier": [
+      "man. man.",
+      80,
+      -20,
+      20
+    ],
+    "carrier_cut_mode": "energy",
+    "asr_start": null,
+    "asr_end": null
+  },
+  "map": {
+    "word": "map",
+    "verdict": "perfect",
+    "speed": 0.82,
+    "lead_ms": 80,
+    "period": false,
+    "onset_trim": false,
+    "trim_ms": 0,
+    "bright_head_ms": 0,
+    "head_trim_ms": 0,
+    "skip_burst": false,
+    "carrier": [
+      "Spell it: M A P. map.",
+      80,
+      -20,
+      20
+    ],
+    "carrier_cut_mode": "energy",
+    "asr_start": null,
+    "asr_end": null
+  },
+  "mat": {
+    "word": "mat",
+    "verdict": "perfect",
+    "speed": 0.82,
+    "lead_ms": 80,
+    "period": false,
+    "onset_trim": false,
+    "trim_ms": 0,
+    "bright_head_ms": 0,
+    "head_trim_ms": 0,
+    "skip_burst": false,
+    "carrier": [
+      "mat. mat.",
+      80,
       -20,
       20
     ],
@@ -374,7 +642,7 @@
   },
   "rap": {
     "word": "rap",
-    "verdict": "very_good",
+    "verdict": "perfect",
     "speed": 0.82,
     "lead_ms": 80,
     "period": false,
@@ -384,13 +652,14 @@
     "head_trim_ms": 0,
     "skip_burst": false,
     "carrier": [
-      "Say rap."
+      "Spell it: R A P. rap.",
+      80,
+      -20,
+      20
     ],
-    "carrier_cut_mode": "asr",
-    "asr_start": 0.48,
-    "asr_end": 0.92,
-    "asr_guard_lead_ms": 40,
-    "asr_guard_tail_ms": 40
+    "carrier_cut_mode": "energy",
+    "asr_start": null,
+    "asr_end": null
   },
   "rat": {
     "word": "rat",
@@ -547,7 +816,7 @@
   },
   "yam": {
     "word": "yam",
-    "verdict": "very_good",
+    "verdict": "perfect",
     "speed": 0.82,
     "lead_ms": 80,
     "period": false,
@@ -557,13 +826,14 @@
     "head_trim_ms": 0,
     "skip_burst": false,
     "carrier": [
-      "Say yam."
+      "Spell it: Y A M. yam.",
+      80,
+      -20,
+      20
     ],
-    "carrier_cut_mode": "asr",
-    "asr_start": 0.44,
-    "asr_end": 1.1,
-    "asr_guard_lead_ms": 40,
-    "asr_guard_tail_ms": 40
+    "carrier_cut_mode": "energy",
+    "asr_start": null,
+    "asr_end": null
   },
   "yap": {
     "word": "yap",
@@ -648,8 +918,8 @@
   },
   "bin": {
     "word": "bin",
-    "verdict": "good",
-    "speed": 0.8,
+    "verdict": "perfect",
+    "speed": 0.82,
     "lead_ms": 80,
     "period": false,
     "onset_trim": false,
@@ -658,8 +928,8 @@
     "head_trim_ms": 0,
     "skip_burst": false,
     "carrier": [
-      "Here is the word, bin.",
-      100,
+      "Listen—bin.",
+      80,
       -20,
       20
     ],
@@ -705,8 +975,8 @@
   },
   "cot": {
     "word": "cot",
-    "verdict": "good",
-    "speed": 0.85,
+    "verdict": "perfect",
+    "speed": 1,
     "lead_ms": 80,
     "period": false,
     "onset_trim": false,
@@ -715,8 +985,8 @@
     "head_trim_ms": 0,
     "skip_burst": false,
     "carrier": [
-      "Here is the word cot.",
-      100,
+      "Spell it: C O T. cot.",
+      80,
       -20,
       20
     ],
@@ -726,8 +996,8 @@
   },
   "did": {
     "word": "did",
-    "verdict": "good",
-    "speed": 0.82,
+    "verdict": "perfect",
+    "speed": 1,
     "lead_ms": 80,
     "period": false,
     "onset_trim": false,
@@ -736,7 +1006,7 @@
     "head_trim_ms": 0,
     "skip_burst": false,
     "carrier": [
-      "Say did.",
+      "Spell it: D I D. did.",
       80,
       -20,
       20
@@ -808,17 +1078,22 @@
   },
   "fin": {
     "word": "fin",
-    "verdict": "good",
-    "speed": 0.85,
+    "verdict": "perfect",
+    "speed": 0.82,
     "lead_ms": 80,
     "period": false,
-    "onset_trim": true,
+    "onset_trim": false,
     "trim_ms": 0,
     "bright_head_ms": 0,
     "head_trim_ms": 0,
     "skip_burst": false,
-    "carrier": null,
-    "carrier_cut_mode": "none",
+    "carrier": [
+      "Spell it: F I N. fin.",
+      80,
+      -20,
+      20
+    ],
+    "carrier_cut_mode": "energy",
     "asr_start": null,
     "asr_end": null
   },
@@ -844,7 +1119,7 @@
   },
   "fix": {
     "word": "fix",
-    "verdict": "very good",
+    "verdict": "perfect",
     "speed": 0.82,
     "lead_ms": 80,
     "period": false,
@@ -946,8 +1221,8 @@
   },
   "hit": {
     "word": "hit",
-    "verdict": "marginal",
-    "speed": 0.8,
+    "verdict": "perfect",
+    "speed": 1,
     "lead_ms": 80,
     "period": false,
     "onset_trim": false,
@@ -956,8 +1231,8 @@
     "head_trim_ms": 0,
     "skip_burst": false,
     "carrier": [
-      "Here is the word hit.",
-      100,
+      "Spell it: H I T. hit.",
+      80,
       -20,
       20
     ],
@@ -988,8 +1263,8 @@
   },
   "hop": {
     "word": "hop",
-    "verdict": "perfect (version 2)",
-    "speed": 0.78,
+    "verdict": "perfect",
+    "speed": 0.82,
     "lead_ms": 80,
     "period": false,
     "onset_trim": false,
@@ -998,27 +1273,33 @@
     "head_trim_ms": 0,
     "skip_burst": false,
     "carrier": [
-      "Say hop."
+      "Spell it: H O P. hop.",
+      80,
+      -20,
+      20
     ],
-    "carrier_cut_mode": "asr",
-    "asr_start": 0.58,
-    "asr_end": 1.04,
-    "asr_guard_lead_ms": 40,
-    "asr_guard_tail_ms": 40
+    "carrier_cut_mode": "energy",
+    "asr_start": null,
+    "asr_end": null
   },
   "hot": {
     "word": "hot",
-    "verdict": "good",
-    "speed": 0.85,
+    "verdict": "perfect",
+    "speed": 0.82,
     "lead_ms": 80,
     "period": false,
-    "onset_trim": true,
+    "onset_trim": false,
     "trim_ms": 0,
     "bright_head_ms": 0,
     "head_trim_ms": 0,
     "skip_burst": false,
-    "carrier": null,
-    "carrier_cut_mode": "none",
+    "carrier": [
+      "Spell it: H O T. hot.",
+      80,
+      -20,
+      20
+    ],
+    "carrier_cut_mode": "energy",
     "asr_start": null,
     "asr_end": null
   },
@@ -1081,7 +1362,7 @@
   },
   "lot": {
     "word": "lot",
-    "verdict": "very good",
+    "verdict": "perfect",
     "speed": 0.82,
     "lead_ms": 80,
     "period": false,
@@ -1091,8 +1372,8 @@
     "head_trim_ms": 0,
     "skip_burst": false,
     "carrier": [
-      "Here is the word, lot.",
-      180,
+      "Spell it: L O T. lot.",
+      80,
       -20,
       20
     ],
@@ -1279,7 +1560,7 @@
   },
   "rip": {
     "word": "rip",
-    "verdict": "good",
+    "verdict": "perfect",
     "speed": 0.82,
     "lead_ms": 80,
     "period": false,
@@ -1289,13 +1570,14 @@
     "head_trim_ms": 0,
     "skip_burst": false,
     "carrier": [
-      "Say rip."
+      "Listen—rip.",
+      80,
+      -20,
+      20
     ],
-    "carrier_cut_mode": "asr",
-    "asr_start": 0.46,
-    "asr_end": 0.86,
-    "asr_guard_lead_ms": 40,
-    "asr_guard_tail_ms": 40
+    "carrier_cut_mode": "energy",
+    "asr_start": null,
+    "asr_end": null
   },
   "sip": {
     "word": "sip",
@@ -1504,7 +1786,7 @@
   },
   "bus": {
     "word": "bus",
-    "verdict": "ok",
+    "verdict": "perfect",
     "speed": 0.82,
     "lead_ms": 80,
     "period": false,
@@ -1514,8 +1796,8 @@
     "head_trim_ms": 0,
     "skip_burst": false,
     "carrier": [
-      "Here is the word, bus.",
-      120,
+      "Not bun—bus.",
+      80,
       -20,
       20
     ],
@@ -1525,23 +1807,28 @@
   },
   "cup": {
     "word": "cup",
-    "verdict": "accepted",
-    "speed": 0.85,
+    "verdict": "perfect",
+    "speed": 0.82,
     "lead_ms": 80,
-    "period": true,
+    "period": false,
     "onset_trim": false,
     "trim_ms": 0,
     "bright_head_ms": 0,
     "head_trim_ms": 0,
     "skip_burst": false,
-    "carrier": null,
-    "carrier_cut_mode": "none",
+    "carrier": [
+      "Spell it: C U P. cup.",
+      80,
+      -20,
+      20
+    ],
+    "carrier_cut_mode": "energy",
     "asr_start": null,
     "asr_end": null
   },
   "cut": {
     "word": "cut",
-    "verdict": "good enough",
+    "verdict": "perfect",
     "speed": 0.82,
     "lead_ms": 80,
     "period": false,
@@ -1551,18 +1838,19 @@
     "head_trim_ms": 0,
     "skip_burst": false,
     "carrier": [
-      "Say cut."
+      "Listen, cut.",
+      80,
+      -20,
+      20
     ],
-    "carrier_cut_mode": "asr",
-    "asr_start": 0.5,
-    "asr_end": 0.74,
-    "asr_guard_lead_ms": 80,
-    "asr_guard_tail_ms": 40
+    "carrier_cut_mode": "energy",
+    "asr_start": null,
+    "asr_end": null
   },
   "dug": {
     "word": "dug",
-    "verdict": "ok",
-    "speed": 0.82,
+    "verdict": "perfect",
+    "speed": 1,
     "lead_ms": 80,
     "period": false,
     "onset_trim": false,
@@ -1571,8 +1859,8 @@
     "head_trim_ms": 0,
     "skip_burst": false,
     "carrier": [
-      "Here is the word, dug.",
-      120,
+      "Spell it: D U G. dug.",
+      80,
       -20,
       20
     ],
@@ -1603,7 +1891,7 @@
   },
   "get": {
     "word": "get",
-    "verdict": "good enough",
+    "verdict": "perfect",
     "speed": 0.82,
     "lead_ms": 80,
     "period": false,
@@ -1613,8 +1901,8 @@
     "head_trim_ms": 0,
     "skip_burst": false,
     "carrier": [
-      "Here is the word, get.",
-      180,
+      "Listen—get.",
+      80,
       -20,
       20
     ],
@@ -1624,28 +1912,7 @@
   },
   "hen": {
     "word": "hen",
-    "verdict": "almost perfect",
-    "speed": 0.85,
-    "lead_ms": 80,
-    "period": false,
-    "onset_trim": false,
-    "trim_ms": 0,
-    "bright_head_ms": 0,
-    "head_trim_ms": 0,
-    "skip_burst": false,
-    "carrier": [
-      "hen, hen.",
-      150,
-      -30,
-      40
-    ],
-    "carrier_cut_mode": "energy",
-    "asr_start": null,
-    "asr_end": null
-  },
-  "hug": {
-    "word": "hug",
-    "verdict": "ok",
+    "verdict": "perfect",
     "speed": 0.82,
     "lead_ms": 80,
     "period": false,
@@ -1655,8 +1922,29 @@
     "head_trim_ms": 0,
     "skip_burst": false,
     "carrier": [
-      "hug. hug.",
-      120,
+      "Spell it: H E N. hen.",
+      80,
+      -20,
+      20
+    ],
+    "carrier_cut_mode": "energy",
+    "asr_start": null,
+    "asr_end": null
+  },
+  "hug": {
+    "word": "hug",
+    "verdict": "perfect",
+    "speed": 1,
+    "lead_ms": 80,
+    "period": false,
+    "onset_trim": false,
+    "trim_ms": 0,
+    "bright_head_ms": 0,
+    "head_trim_ms": 0,
+    "skip_burst": false,
+    "carrier": [
+      "Spell it: H U G. hug.",
+      80,
       -20,
       20
     ],
@@ -1687,7 +1975,7 @@
   },
   "jet": {
     "word": "jet",
-    "verdict": "ok",
+    "verdict": "perfect",
     "speed": 0.82,
     "lead_ms": 80,
     "period": false,
@@ -1697,8 +1985,8 @@
     "head_trim_ms": 0,
     "skip_burst": false,
     "carrier": [
-      "jet. jet.",
-      120,
+      "Spell it: J E T. jet.",
+      80,
       -20,
       20
     ],
@@ -1708,17 +1996,22 @@
   },
   "jug": {
     "word": "jug",
-    "verdict": "very good (beta.8)",
-    "speed": 0.85,
+    "verdict": "perfect",
+    "speed": 0.82,
     "lead_ms": 80,
-    "period": true,
+    "period": false,
     "onset_trim": false,
     "trim_ms": 0,
     "bright_head_ms": 0,
     "head_trim_ms": 0,
     "skip_burst": false,
-    "carrier": null,
-    "carrier_cut_mode": "none",
+    "carrier": [
+      "Spell it: J U G. jug.",
+      80,
+      -20,
+      20
+    ],
+    "carrier_cut_mode": "energy",
     "asr_start": null,
     "asr_end": null
   },
@@ -1745,8 +2038,8 @@
   },
   "let": {
     "word": "let",
-    "verdict": "ok",
-    "speed": 0.82,
+    "verdict": "perfect",
+    "speed": 1,
     "lead_ms": 80,
     "period": false,
     "onset_trim": false,
@@ -1755,17 +2048,18 @@
     "head_trim_ms": 0,
     "skip_burst": false,
     "carrier": [
-      "Here it is, let."
+      "Spell it: L E T. let.",
+      80,
+      -20,
+      20
     ],
-    "carrier_cut_mode": "asr",
-    "asr_start": 0.799,
-    "asr_end": 1.257,
-    "asr_guard_lead_ms": 30,
-    "asr_guard_tail_ms": 40
+    "carrier_cut_mode": "energy",
+    "asr_start": null,
+    "asr_end": null
   },
   "men": {
     "word": "men",
-    "verdict": "ok",
+    "verdict": "perfect",
     "speed": 0.82,
     "lead_ms": 80,
     "period": false,
@@ -1775,8 +2069,8 @@
     "head_trim_ms": 0,
     "skip_burst": false,
     "carrier": [
-      "men. men.",
-      120,
+      "Listen—men.",
+      80,
       -20,
       20
     ],
@@ -1805,41 +2099,9 @@
     "asr_start": null,
     "asr_end": null
   },
-  "net": {
-    "word": "net",
-    "verdict": "ok",
-    "speed": 0.85,
-    "lead_ms": 80,
-    "period": true,
-    "onset_trim": false,
-    "trim_ms": 0,
-    "bright_head_ms": 0,
-    "head_trim_ms": 0,
-    "skip_burst": false,
-    "carrier": null,
-    "carrier_cut_mode": "none",
-    "asr_start": null,
-    "asr_end": null
-  },
-  "nut": {
-    "word": "nut",
-    "verdict": "ok",
-    "speed": 0.85,
-    "lead_ms": 80,
-    "period": true,
-    "onset_trim": false,
-    "trim_ms": 0,
-    "bright_head_ms": 0,
-    "head_trim_ms": 0,
-    "skip_burst": false,
-    "carrier": null,
-    "carrier_cut_mode": "none",
-    "asr_start": null,
-    "asr_end": null
-  },
-  "peg": {
-    "word": "peg",
-    "verdict": "ok",
+  "mud": {
+    "word": "mud",
+    "verdict": "perfect",
     "speed": 0.82,
     "lead_ms": 80,
     "period": false,
@@ -1849,8 +2111,92 @@
     "head_trim_ms": 0,
     "skip_burst": false,
     "carrier": [
-      "peg. peg.",
-      120,
+      "mud. mud.",
+      80,
+      -20,
+      20
+    ],
+    "carrier_cut_mode": "energy",
+    "asr_start": null,
+    "asr_end": null
+  },
+  "mug": {
+    "word": "mug",
+    "verdict": "perfect",
+    "speed": 1,
+    "lead_ms": 80,
+    "period": false,
+    "onset_trim": false,
+    "trim_ms": 0,
+    "bright_head_ms": 0,
+    "head_trim_ms": 0,
+    "skip_burst": false,
+    "carrier": [
+      "Softly: mug.",
+      80,
+      -20,
+      20
+    ],
+    "carrier_cut_mode": "energy",
+    "asr_start": null,
+    "asr_end": null
+  },
+  "net": {
+    "word": "net",
+    "verdict": "perfect",
+    "speed": 1,
+    "lead_ms": 80,
+    "period": false,
+    "onset_trim": false,
+    "trim_ms": 0,
+    "bright_head_ms": 0,
+    "head_trim_ms": 0,
+    "skip_burst": false,
+    "carrier": [
+      "Spell it: N E T. net.",
+      80,
+      -20,
+      20
+    ],
+    "carrier_cut_mode": "energy",
+    "asr_start": null,
+    "asr_end": null
+  },
+  "nut": {
+    "word": "nut",
+    "verdict": "perfect",
+    "speed": 1,
+    "lead_ms": 80,
+    "period": false,
+    "onset_trim": false,
+    "trim_ms": 0,
+    "bright_head_ms": 0,
+    "head_trim_ms": 0,
+    "skip_burst": false,
+    "carrier": [
+      "Spell it: N U T. nut.",
+      80,
+      -20,
+      20
+    ],
+    "carrier_cut_mode": "energy",
+    "asr_start": null,
+    "asr_end": null
+  },
+  "peg": {
+    "word": "peg",
+    "verdict": "perfect",
+    "speed": 0.82,
+    "lead_ms": 80,
+    "period": false,
+    "onset_trim": false,
+    "trim_ms": 0,
+    "bright_head_ms": 0,
+    "head_trim_ms": 0,
+    "skip_burst": false,
+    "carrier": [
+      "Listen—peg.",
+      80,
       -20,
       20
     ],
@@ -1901,7 +2247,7 @@
   },
   "pup": {
     "word": "pup",
-    "verdict": "very good",
+    "verdict": "perfect",
     "speed": 0.82,
     "lead_ms": 80,
     "period": false,
@@ -1911,8 +2257,8 @@
     "head_trim_ms": 0,
     "skip_burst": false,
     "carrier": [
-      "Here is the word, pup.",
-      120,
+      "Spell it: P U P. pup.",
+      80,
       -20,
       20
     ],
@@ -1922,7 +2268,7 @@
   },
   "red": {
     "word": "red",
-    "verdict": "very good",
+    "verdict": "perfect",
     "speed": 0.82,
     "lead_ms": 80,
     "period": false,
@@ -1932,8 +2278,8 @@
     "head_trim_ms": 0,
     "skip_burst": false,
     "carrier": [
-      "red. red.",
-      120,
+      "Spell it: R E D. red.",
+      80,
       -20,
       20
     ],
@@ -1943,23 +2289,49 @@
   },
   "rub": {
     "word": "rub",
-    "verdict": "very good (beta.8)",
-    "speed": 0.85,
+    "verdict": "perfect",
+    "speed": 1,
     "lead_ms": 80,
-    "period": true,
+    "period": false,
     "onset_trim": false,
     "trim_ms": 0,
     "bright_head_ms": 0,
     "head_trim_ms": 0,
     "skip_burst": false,
-    "carrier": null,
-    "carrier_cut_mode": "none",
+    "carrier": [
+      "Spell it: R U B. rub.",
+      80,
+      -20,
+      20
+    ],
+    "carrier_cut_mode": "energy",
     "asr_start": null,
     "asr_end": null
   },
   "rug": {
     "word": "rug",
-    "verdict": "ok",
+    "verdict": "perfect",
+    "speed": 1,
+    "lead_ms": 80,
+    "period": false,
+    "onset_trim": false,
+    "trim_ms": 0,
+    "bright_head_ms": 0,
+    "head_trim_ms": 0,
+    "skip_burst": false,
+    "carrier": [
+      "Spell it: R U G. rug.",
+      80,
+      -20,
+      20
+    ],
+    "carrier_cut_mode": "energy",
+    "asr_start": null,
+    "asr_end": null
+  },
+  "run": {
+    "word": "run",
+    "verdict": "perfect",
     "speed": 0.82,
     "lead_ms": 80,
     "period": false,
@@ -1969,33 +2341,18 @@
     "head_trim_ms": 0,
     "skip_burst": false,
     "carrier": [
-      "Say rug."
+      "Softly: run.",
+      80,
+      -20,
+      20
     ],
-    "carrier_cut_mode": "asr",
-    "asr_start": 0.46,
-    "asr_end": 0.7,
-    "asr_guard_lead_ms": 80,
-    "asr_guard_tail_ms": 40
-  },
-  "run": {
-    "word": "run",
-    "verdict": "ok",
-    "speed": 0.85,
-    "lead_ms": 80,
-    "period": true,
-    "onset_trim": false,
-    "trim_ms": 0,
-    "bright_head_ms": 0,
-    "head_trim_ms": 0,
-    "skip_burst": false,
-    "carrier": null,
-    "carrier_cut_mode": "none",
+    "carrier_cut_mode": "energy",
     "asr_start": null,
     "asr_end": null
   },
   "set": {
     "word": "set",
-    "verdict": "ok",
+    "verdict": "perfect",
     "speed": 0.82,
     "lead_ms": 80,
     "period": false,
@@ -2005,13 +2362,14 @@
     "head_trim_ms": 0,
     "skip_burst": false,
     "carrier": [
-      "Say set."
+      "Spell it: S E T. set.",
+      80,
+      -20,
+      20
     ],
-    "carrier_cut_mode": "asr",
-    "asr_start": 0.466,
-    "asr_end": 0.96,
-    "asr_guard_lead_ms": 100,
-    "asr_guard_tail_ms": 40
+    "carrier_cut_mode": "energy",
+    "asr_start": null,
+    "asr_end": null
   },
   "sun": {
     "word": "sun",
@@ -2057,8 +2415,8 @@
   },
   "tub": {
     "word": "tub",
-    "verdict": "very good",
-    "speed": 0.82,
+    "verdict": "perfect",
+    "speed": 1,
     "lead_ms": 80,
     "period": false,
     "onset_trim": false,
@@ -2067,18 +2425,19 @@
     "head_trim_ms": 0,
     "skip_burst": false,
     "carrier": [
-      "Here is the word, tub."
+      "Spell it: T U B. tub.",
+      80,
+      -20,
+      20
     ],
-    "carrier_cut_mode": "asr",
-    "asr_start": 0.884,
-    "asr_end": 1.54,
-    "asr_guard_lead_ms": 30,
-    "asr_guard_tail_ms": 40
+    "carrier_cut_mode": "energy",
+    "asr_start": null,
+    "asr_end": null
   },
   "tug": {
     "word": "tug",
-    "verdict": "ok",
-    "speed": 0.82,
+    "verdict": "perfect",
+    "speed": 1,
     "lead_ms": 80,
     "period": false,
     "onset_trim": false,
@@ -2087,8 +2446,8 @@
     "head_trim_ms": 0,
     "skip_burst": false,
     "carrier": [
-      "tug. tug.",
-      120,
+      "Spell it: T U G. tug.",
+      80,
       -20,
       20
     ],
@@ -2119,39 +2478,49 @@
   },
   "web": {
     "word": "web",
-    "verdict": "ok",
-    "speed": 0.85,
+    "verdict": "perfect",
+    "speed": 1,
     "lead_ms": 80,
-    "period": true,
-    "onset_trim": false,
-    "trim_ms": 0,
-    "bright_head_ms": 0,
-    "head_trim_ms": 0,
-    "skip_burst": false,
-    "carrier": null,
-    "carrier_cut_mode": "none",
-    "asr_start": null,
-    "asr_end": null
-  },
-  "wet": {
-    "word": "wet",
-    "verdict": "good",
-    "speed": 0.82,
-    "lead_ms": 180,
     "period": false,
     "onset_trim": false,
     "trim_ms": 0,
     "bright_head_ms": 0,
     "head_trim_ms": 0,
     "skip_burst": false,
-    "carrier": null,
-    "carrier_cut_mode": "none",
+    "carrier": [
+      "Spell it: W E B. web.",
+      80,
+      -20,
+      20
+    ],
+    "carrier_cut_mode": "energy",
+    "asr_start": null,
+    "asr_end": null
+  },
+  "wet": {
+    "word": "wet",
+    "verdict": "perfect",
+    "speed": 1,
+    "lead_ms": 80,
+    "period": false,
+    "onset_trim": false,
+    "trim_ms": 0,
+    "bright_head_ms": 0,
+    "head_trim_ms": 0,
+    "skip_burst": false,
+    "carrier": [
+      "Spell it: W E T. wet.",
+      80,
+      -20,
+      20
+    ],
+    "carrier_cut_mode": "energy",
     "asr_start": null,
     "asr_end": null
   },
   "yet": {
     "word": "yet",
-    "verdict": "ok",
+    "verdict": "perfect",
     "speed": 0.82,
     "lead_ms": 80,
     "period": false,
@@ -2161,8 +2530,8 @@
     "head_trim_ms": 0,
     "skip_burst": false,
     "carrier": [
-      "yet. yet.",
-      120,
+      "Listen—yet.",
+      80,
       -20,
       20
     ],
@@ -2172,17 +2541,22 @@
   },
   "cub": {
     "word": "cub",
-    "verdict": "accepted",
-    "speed": 0.85,
+    "verdict": "perfect",
+    "speed": 1,
     "lead_ms": 80,
     "period": false,
     "onset_trim": false,
-    "trim_ms": 130,
+    "trim_ms": 0,
     "bright_head_ms": 0,
     "head_trim_ms": 0,
     "skip_burst": false,
-    "carrier": null,
-    "carrier_cut_mode": "none",
+    "carrier": [
+      "Spell it: C U B. cub.",
+      80,
+      -20,
+      20
+    ],
+    "carrier_cut_mode": "energy",
     "asr_start": null,
     "asr_end": null
   },
@@ -2272,7 +2646,7 @@
   },
   "fog": {
     "word": "fog",
-    "verdict": "very good",
+    "verdict": "perfect",
     "speed": 0.82,
     "lead_ms": 80,
     "period": false,
@@ -2282,8 +2656,8 @@
     "head_trim_ms": 0,
     "skip_burst": false,
     "carrier": [
-      "fog. fog.",
-      120,
+      "Spell it: F O G. fog.",
+      80,
       -20,
       20
     ],
@@ -2293,7 +2667,7 @@
   },
   "gap": {
     "word": "gap",
-    "verdict": "very good",
+    "verdict": "perfect",
     "speed": 0.82,
     "lead_ms": 80,
     "period": false,
@@ -2303,8 +2677,8 @@
     "head_trim_ms": 0,
     "skip_burst": false,
     "carrier": [
-      "gap. gap.",
-      120,
+      "Listen, gap.",
+      80,
       -20,
       20
     ],
@@ -2334,7 +2708,7 @@
   },
   "gum": {
     "word": "gum",
-    "verdict": "very good",
+    "verdict": "perfect",
     "speed": 0.82,
     "lead_ms": 80,
     "period": false,
@@ -2344,8 +2718,8 @@
     "head_trim_ms": 0,
     "skip_burst": false,
     "carrier": [
-      "gum. gum.",
-      120,
+      "This spells G-U-M: gum.",
+      80,
       -20,
       20
     ],
@@ -2355,8 +2729,8 @@
   },
   "hid": {
     "word": "hid",
-    "verdict": "ok",
-    "speed": 0.82,
+    "verdict": "perfect",
+    "speed": 1,
     "lead_ms": 80,
     "period": false,
     "onset_trim": false,
@@ -2365,8 +2739,8 @@
     "head_trim_ms": 0,
     "skip_burst": false,
     "carrier": [
-      "hid. hid.",
-      120,
+      "Spell it: H I D. hid.",
+      80,
       -20,
       20
     ],
@@ -2376,8 +2750,8 @@
   },
   "hut": {
     "word": "hut",
-    "verdict": "ok",
-    "speed": 0.82,
+    "verdict": "perfect",
+    "speed": 1,
     "lead_ms": 80,
     "period": false,
     "onset_trim": false,
@@ -2386,8 +2760,8 @@
     "head_trim_ms": 0,
     "skip_burst": false,
     "carrier": [
-      "Here is the word, hut.",
-      180,
+      "Spell it: H U T. hut.",
+      80,
       -20,
       20
     ],
@@ -2438,7 +2812,7 @@
   },
   "jog": {
     "word": "jog",
-    "verdict": "very good",
+    "verdict": "perfect",
     "speed": 0.82,
     "lead_ms": 80,
     "period": false,
@@ -2448,13 +2822,14 @@
     "head_trim_ms": 0,
     "skip_burst": false,
     "carrier": [
-      "Here is the word, jog."
+      "Spell it: J O G. jog.",
+      80,
+      -20,
+      20
     ],
-    "carrier_cut_mode": "asr",
-    "asr_start": 0.841,
-    "asr_end": 1.61,
-    "asr_guard_lead_ms": 30,
-    "asr_guard_tail_ms": 40
+    "carrier_cut_mode": "energy",
+    "asr_start": null,
+    "asr_end": null
   },
   "jot": {
     "word": "jot",
@@ -2499,8 +2874,8 @@
   },
   "kit": {
     "word": "kit",
-    "verdict": "ok",
-    "speed": 0.82,
+    "verdict": "perfect",
+    "speed": 1,
     "lead_ms": 80,
     "period": false,
     "onset_trim": false,
@@ -2509,8 +2884,8 @@
     "head_trim_ms": 0,
     "skip_burst": false,
     "carrier": [
-      "kit. kit.",
-      120,
+      "Spell it: K I T. kit.",
+      80,
       -20,
       20
     ],
@@ -2603,8 +2978,8 @@
   },
   "lit": {
     "word": "lit",
-    "verdict": "ok",
-    "speed": 0.82,
+    "verdict": "perfect",
+    "speed": 1,
     "lead_ms": 80,
     "period": false,
     "onset_trim": false,
@@ -2613,8 +2988,8 @@
     "head_trim_ms": 0,
     "skip_burst": false,
     "carrier": [
-      "lit. lit.",
-      120,
+      "Spell it: L I T. lit.",
+      80,
       -20,
       20
     ],
@@ -2624,8 +2999,8 @@
   },
   "lug": {
     "word": "lug",
-    "verdict": "ok",
-    "speed": 0.82,
+    "verdict": "perfect",
+    "speed": 1,
     "lead_ms": 80,
     "period": false,
     "onset_trim": false,
@@ -2634,8 +3009,8 @@
     "head_trim_ms": 0,
     "skip_burst": false,
     "carrier": [
-      "lug. lug.",
-      120,
+      "Softly: lug.",
+      80,
       -20,
       20
     ],
@@ -2665,7 +3040,7 @@
   },
   "nab": {
     "word": "nab",
-    "verdict": "good",
+    "verdict": "perfect",
     "speed": 0.82,
     "lead_ms": 80,
     "period": false,
@@ -2685,7 +3060,7 @@
   },
   "pep": {
     "word": "pep",
-    "verdict": "ok",
+    "verdict": "perfect",
     "speed": 0.82,
     "lead_ms": 80,
     "period": false,
@@ -2695,8 +3070,8 @@
     "head_trim_ms": 0,
     "skip_burst": false,
     "carrier": [
-      "pep. pep.",
-      70,
+      "Spell it: P E P. pep.",
+      80,
       -20,
       20
     ],
@@ -2727,7 +3102,7 @@
   },
   "rib": {
     "word": "rib",
-    "verdict": "ok",
+    "verdict": "perfect",
     "speed": 0.82,
     "lead_ms": 80,
     "period": false,
@@ -2747,8 +3122,8 @@
   },
   "rim": {
     "word": "rim",
-    "verdict": "ok",
-    "speed": 0.82,
+    "verdict": "perfect",
+    "speed": 1,
     "lead_ms": 80,
     "period": false,
     "onset_trim": false,
@@ -2757,17 +3132,18 @@
     "head_trim_ms": 0,
     "skip_burst": false,
     "carrier": [
-      "Here is the word, rim."
+      "Spell it: R I M. rim.",
+      80,
+      -20,
+      20
     ],
-    "carrier_cut_mode": "asr",
-    "asr_start": 0.991,
-    "asr_end": 1.64,
-    "asr_guard_lead_ms": 30,
-    "asr_guard_tail_ms": 40
+    "carrier_cut_mode": "energy",
+    "asr_start": null,
+    "asr_end": null
   },
   "rod": {
     "word": "rod",
-    "verdict": "very good",
+    "verdict": "perfect",
     "speed": 0.82,
     "lead_ms": 80,
     "period": false,
@@ -2777,8 +3153,8 @@
     "head_trim_ms": 0,
     "skip_burst": false,
     "carrier": [
-      "rod. rod.",
-      120,
+      "Spell it: R O D. rod.",
+      80,
       -20,
       20
     ],
@@ -2788,8 +3164,8 @@
   },
   "rot": {
     "word": "rot",
-    "verdict": "ok",
-    "speed": 0.75,
+    "verdict": "perfect",
+    "speed": 1,
     "lead_ms": 80,
     "period": false,
     "onset_trim": false,
@@ -2798,8 +3174,8 @@
     "head_trim_ms": 0,
     "skip_burst": false,
     "carrier": [
-      "rot. rot.",
-      120,
+      "Spell it: R O T. rot.",
+      80,
       -20,
       20
     ],
@@ -2809,7 +3185,7 @@
   },
   "sag": {
     "word": "sag",
-    "verdict": "ok",
+    "verdict": "perfect",
     "speed": 0.82,
     "lead_ms": 80,
     "period": false,
@@ -2819,18 +3195,19 @@
     "head_trim_ms": 0,
     "skip_burst": false,
     "carrier": [
-      "Here is the word, sag."
+      "Spell it: S A G. sag.",
+      80,
+      -20,
+      20
     ],
-    "carrier_cut_mode": "asr",
-    "asr_start": 0.82,
-    "asr_end": 1.63,
-    "asr_guard_lead_ms": 30,
-    "asr_guard_tail_ms": 40
+    "carrier_cut_mode": "energy",
+    "asr_start": null,
+    "asr_end": null
   },
   "sub": {
     "word": "sub",
-    "verdict": "marginal",
-    "speed": 0.75,
+    "verdict": "perfect",
+    "speed": 1,
     "lead_ms": 80,
     "period": false,
     "onset_trim": false,
@@ -2839,8 +3216,8 @@
     "head_trim_ms": 0,
     "skip_burst": false,
     "carrier": [
-      "sub. sub.",
-      120,
+      "Spell it: S U B. sub.",
+      80,
       -20,
       20
     ],
@@ -2891,7 +3268,7 @@
   },
   "tot": {
     "word": "tot",
-    "verdict": "ok",
+    "verdict": "perfect",
     "speed": 0.82,
     "lead_ms": 80,
     "period": false,
@@ -2901,8 +3278,8 @@
     "head_trim_ms": 0,
     "skip_burst": false,
     "carrier": [
-      "tot. tot.",
-      120,
+      "Spell it: T O T. tot.",
+      80,
       -20,
       20
     ],
@@ -2932,8 +3309,8 @@
   },
   "wed": {
     "word": "wed",
-    "verdict": "ok",
-    "speed": 0.82,
+    "verdict": "perfect",
+    "speed": 1,
     "lead_ms": 80,
     "period": false,
     "onset_trim": false,
@@ -2942,8 +3319,8 @@
     "head_trim_ms": 0,
     "skip_burst": false,
     "carrier": [
-      "wed. wed.",
-      120,
+      "Spell it: W E D. wed.",
+      80,
       -20,
       20
     ],
@@ -3056,7 +3433,7 @@
   },
   "zip": {
     "word": "zip",
-    "verdict": "ok",
+    "verdict": "perfect",
     "speed": 0.82,
     "lead_ms": 80,
     "period": false,
@@ -3177,7 +3554,7 @@
   },
   "chip": {
     "word": "chip",
-    "verdict": "ok",
+    "verdict": "perfect",
     "speed": 0.82,
     "lead_ms": 80,
     "period": false,
@@ -3237,8 +3614,8 @@
   },
   "chum": {
     "word": "chum",
-    "verdict": "ok",
-    "speed": 0.82,
+    "verdict": "perfect",
+    "speed": 1,
     "lead_ms": 80,
     "period": false,
     "onset_trim": false,
@@ -3247,8 +3624,8 @@
     "head_trim_ms": 0,
     "skip_burst": false,
     "carrier": [
-      "Here is the word, chum.",
-      180,
+      "Spell it: C H U M. chum.",
+      80,
       -20,
       20
     ],
@@ -3278,23 +3655,28 @@
   },
   "dish": {
     "word": "dish",
-    "verdict": "accepted",
-    "speed": 0.85,
+    "verdict": "perfect",
+    "speed": 1,
     "lead_ms": 80,
     "period": false,
     "onset_trim": false,
-    "trim_ms": 120,
+    "trim_ms": 0,
     "bright_head_ms": 0,
     "head_trim_ms": 0,
     "skip_burst": false,
-    "carrier": null,
-    "carrier_cut_mode": "none",
+    "carrier": [
+      "Spell it: D I S H. dish.",
+      80,
+      -20,
+      20
+    ],
+    "carrier_cut_mode": "energy",
     "asr_start": null,
     "asr_end": null
   },
   "fish": {
     "word": "fish",
-    "verdict": "ok",
+    "verdict": "perfect",
     "speed": 0.82,
     "lead_ms": 80,
     "period": false,
@@ -3304,8 +3686,8 @@
     "head_trim_ms": 0,
     "skip_burst": false,
     "carrier": [
-      "Say fish.",
-      220,
+      "fish is spelled F-I-S-H. fish.",
+      80,
       -20,
       20
     ],
@@ -3315,7 +3697,7 @@
   },
   "hush": {
     "word": "hush",
-    "verdict": "ok",
+    "verdict": "perfect",
     "speed": 0.82,
     "lead_ms": 80,
     "period": false,
@@ -3355,8 +3737,8 @@
   },
   "much": {
     "word": "much",
-    "verdict": "ok",
-    "speed": 0.82,
+    "verdict": "perfect",
+    "speed": 1,
     "lead_ms": 80,
     "period": false,
     "onset_trim": false,
@@ -3365,8 +3747,8 @@
     "head_trim_ms": 0,
     "skip_burst": false,
     "carrier": [
-      "Say much.",
-      200,
+      "Spell it: M U C H. much.",
+      80,
       -20,
       20
     ],
@@ -3396,8 +3778,8 @@
   },
   "push": {
     "word": "push",
-    "verdict": "ok",
-    "speed": 0.82,
+    "verdict": "perfect",
+    "speed": 1,
     "lead_ms": 80,
     "period": false,
     "onset_trim": false,
@@ -3406,17 +3788,18 @@
     "head_trim_ms": 0,
     "skip_burst": false,
     "carrier": [
-      "Here is the word, push."
+      "Spell it: P U S H. push.",
+      80,
+      -20,
+      20
     ],
-    "carrier_cut_mode": "asr",
-    "asr_start": 0.969,
-    "asr_end": 1.38,
-    "asr_guard_lead_ms": 30,
-    "asr_guard_tail_ms": 40
+    "carrier_cut_mode": "energy",
+    "asr_start": null,
+    "asr_end": null
   },
   "rash": {
     "word": "rash",
-    "verdict": "ok",
+    "verdict": "perfect",
     "speed": 0.82,
     "lead_ms": 80,
     "period": false,
@@ -3426,8 +3809,8 @@
     "head_trim_ms": 0,
     "skip_burst": false,
     "carrier": [
-      "rash. rash.",
-      120,
+      "Listen—rash.",
+      80,
       -20,
       20
     ],
@@ -3437,7 +3820,7 @@
   },
   "rich": {
     "word": "rich",
-    "verdict": "ok",
+    "verdict": "perfect",
     "speed": 0.8,
     "lead_ms": 80,
     "period": true,
@@ -3453,23 +3836,28 @@
   },
   "rush": {
     "word": "rush",
-    "verdict": "ok",
-    "speed": 0.82,
-    "lead_ms": 130,
+    "verdict": "perfect",
+    "speed": 1,
+    "lead_ms": 80,
     "period": false,
-    "onset_trim": true,
+    "onset_trim": false,
     "trim_ms": 0,
     "bright_head_ms": 0,
     "head_trim_ms": 0,
     "skip_burst": false,
-    "carrier": null,
-    "carrier_cut_mode": "none",
+    "carrier": [
+      "Spell it: R U S H. rush.",
+      80,
+      -20,
+      20
+    ],
+    "carrier_cut_mode": "energy",
     "asr_start": null,
     "asr_end": null
   },
   "sash": {
     "word": "sash",
-    "verdict": "ok",
+    "verdict": "perfect",
     "speed": 0.82,
     "lead_ms": 80,
     "period": false,
@@ -3479,17 +3867,18 @@
     "head_trim_ms": 0,
     "skip_burst": false,
     "carrier": [
-      "Here is the word, sash."
+      "Spell it: S A S H. sash.",
+      80,
+      -20,
+      20
     ],
-    "carrier_cut_mode": "asr",
-    "asr_start": 0.884,
-    "asr_end": 1.72,
-    "asr_guard_lead_ms": 30,
-    "asr_guard_tail_ms": 40
+    "carrier_cut_mode": "energy",
+    "asr_start": null,
+    "asr_end": null
   },
   "she": {
     "word": "she",
-    "verdict": "marginal",
+    "verdict": "perfect",
     "speed": 0.82,
     "lead_ms": 80,
     "period": false,
@@ -3509,8 +3898,8 @@
   },
   "shed": {
     "word": "shed",
-    "verdict": "ok",
-    "speed": 0.82,
+    "verdict": "perfect",
+    "speed": 1,
     "lead_ms": 80,
     "period": false,
     "onset_trim": false,
@@ -3519,8 +3908,8 @@
     "head_trim_ms": 0,
     "skip_burst": false,
     "carrier": [
-      "shed. shed.",
-      120,
+      "Spell it: S H E D. shed.",
+      80,
       -20,
       20
     ],
@@ -3530,7 +3919,7 @@
   },
   "shin": {
     "word": "shin",
-    "verdict": "good",
+    "verdict": "perfect",
     "speed": 0.82,
     "lead_ms": 80,
     "period": false,
@@ -3540,8 +3929,8 @@
     "head_trim_ms": 0,
     "skip_burst": false,
     "carrier": [
-      "shin. shin.",
-      120,
+      "Spell it: S H I N. shin.",
+      80,
       -20,
       20
     ],
@@ -3551,7 +3940,7 @@
   },
   "ship": {
     "word": "ship",
-    "verdict": "marginal",
+    "verdict": "perfect",
     "speed": 0.82,
     "lead_ms": 80,
     "period": false,
@@ -3561,8 +3950,8 @@
     "head_trim_ms": 0,
     "skip_burst": false,
     "carrier": [
-      "ship. ship.",
-      70,
+      "Spell it: S H I P. ship.",
+      80,
       -20,
       20
     ],
@@ -3572,7 +3961,7 @@
   },
   "shop": {
     "word": "shop",
-    "verdict": "very good",
+    "verdict": "perfect",
     "speed": 0.82,
     "lead_ms": 80,
     "period": false,
@@ -3582,8 +3971,8 @@
     "head_trim_ms": 0,
     "skip_burst": false,
     "carrier": [
-      "shop. shop.",
-      70,
+      "Spell it: S H O P. shop.",
+      80,
       -20,
       20
     ],
@@ -3593,28 +3982,7 @@
   },
   "shut": {
     "word": "shut",
-    "verdict": "marginal",
-    "speed": 0.75,
-    "lead_ms": 80,
-    "period": false,
-    "onset_trim": false,
-    "trim_ms": 0,
-    "bright_head_ms": 0,
-    "head_trim_ms": 0,
-    "skip_burst": false,
-    "carrier": [
-      "shut. shut.",
-      120,
-      -20,
-      20
-    ],
-    "carrier_cut_mode": "energy",
-    "asr_start": null,
-    "asr_end": null
-  },
-  "such": {
-    "word": "such",
-    "verdict": "ok",
+    "verdict": "perfect",
     "speed": 0.82,
     "lead_ms": 80,
     "period": false,
@@ -3624,17 +3992,39 @@
     "head_trim_ms": 0,
     "skip_burst": false,
     "carrier": [
-      "Listen, such."
+      "Not shot—shut.",
+      80,
+      -20,
+      20
     ],
-    "carrier_cut_mode": "asr",
-    "asr_start": 0.737,
-    "asr_end": 1.28,
-    "asr_guard_lead_ms": 25,
-    "asr_guard_tail_ms": 40
+    "carrier_cut_mode": "energy",
+    "asr_start": null,
+    "asr_end": null
+  },
+  "such": {
+    "word": "such",
+    "verdict": "perfect",
+    "speed": 1,
+    "lead_ms": 80,
+    "period": false,
+    "onset_trim": false,
+    "trim_ms": 0,
+    "bright_head_ms": 0,
+    "head_trim_ms": 0,
+    "skip_burst": false,
+    "carrier": [
+      "Spell it: S U C H. such.",
+      80,
+      -20,
+      20
+    ],
+    "carrier_cut_mode": "energy",
+    "asr_start": null,
+    "asr_end": null
   },
   "wash": {
     "word": "wash",
-    "verdict": "ok",
+    "verdict": "perfect",
     "speed": 0.82,
     "lead_ms": 80,
     "period": false,
@@ -3654,7 +4044,7 @@
   },
   "wish": {
     "word": "wish",
-    "verdict": "very good",
+    "verdict": "perfect",
     "speed": 0.82,
     "lead_ms": 80,
     "period": false,
@@ -3694,7 +4084,7 @@
   },
   "bath": {
     "word": "bath",
-    "verdict": "very good",
+    "verdict": "perfect",
     "speed": 0.82,
     "lead_ms": 80,
     "period": false,
@@ -3704,17 +4094,18 @@
     "head_trim_ms": 0,
     "skip_burst": false,
     "carrier": [
-      "Here is the word, bath."
+      "Spell it: B A T H. bath.",
+      80,
+      -20,
+      20
     ],
-    "carrier_cut_mode": "asr",
-    "asr_start": 0.969,
-    "asr_end": 1.58,
-    "asr_guard_lead_ms": 30,
-    "asr_guard_tail_ms": 40
+    "carrier_cut_mode": "energy",
+    "asr_start": null,
+    "asr_end": null
   },
   "buck": {
     "word": "buck",
-    "verdict": "ok",
+    "verdict": "perfect",
     "speed": 0.82,
     "lead_ms": 80,
     "period": false,
@@ -3724,17 +4115,18 @@
     "head_trim_ms": 0,
     "skip_burst": false,
     "carrier": [
-      "Here is the word, buck."
+      "Listen—buck.",
+      80,
+      -20,
+      20
     ],
-    "carrier_cut_mode": "asr",
-    "asr_start": 0.991,
-    "asr_end": 1.62,
-    "asr_guard_lead_ms": 30,
-    "asr_guard_tail_ms": 40
+    "carrier_cut_mode": "energy",
+    "asr_start": null,
+    "asr_end": null
   },
   "deck": {
     "word": "deck",
-    "verdict": "very good",
+    "verdict": "perfect",
     "speed": 0.82,
     "lead_ms": 80,
     "period": false,
@@ -3794,7 +4186,7 @@
   },
   "fang": {
     "word": "fang",
-    "verdict": "very good",
+    "verdict": "perfect",
     "speed": 0.82,
     "lead_ms": 80,
     "period": false,
@@ -3804,8 +4196,8 @@
     "head_trim_ms": 0,
     "skip_burst": false,
     "carrier": [
-      "fang. fang.",
-      120,
+      "Listen—fang.",
+      80,
       -20,
       20
     ],
@@ -3835,7 +4227,7 @@
   },
   "hang": {
     "word": "hang",
-    "verdict": "very good",
+    "verdict": "perfect",
     "speed": 0.82,
     "lead_ms": 80,
     "period": false,
@@ -3845,8 +4237,8 @@
     "head_trim_ms": 0,
     "skip_burst": false,
     "carrier": [
-      "hang. hang.",
-      120,
+      "The printed word is \"hang\".",
+      80,
       -20,
       20
     ],
@@ -3856,7 +4248,7 @@
   },
   "kick": {
     "word": "kick",
-    "verdict": "very good",
+    "verdict": "perfect",
     "speed": 0.82,
     "lead_ms": 80,
     "period": false,
@@ -3866,17 +4258,18 @@
     "head_trim_ms": 0,
     "skip_burst": false,
     "carrier": [
-      "Here is the word, kick."
+      "Listen, kick.",
+      80,
+      -20,
+      20
     ],
-    "carrier_cut_mode": "asr",
-    "asr_start": 0.969,
-    "asr_end": 1.64,
-    "asr_guard_lead_ms": 30,
-    "asr_guard_tail_ms": 40
+    "carrier_cut_mode": "energy",
+    "asr_start": null,
+    "asr_end": null
   },
   "king": {
     "word": "king",
-    "verdict": "very good",
+    "verdict": "perfect",
     "speed": 0.82,
     "lead_ms": 80,
     "period": false,
@@ -3896,8 +4289,8 @@
   },
   "lick": {
     "word": "lick",
-    "verdict": "very good",
-    "speed": 0.82,
+    "verdict": "perfect",
+    "speed": 1,
     "lead_ms": 80,
     "period": false,
     "onset_trim": false,
@@ -3906,18 +4299,19 @@
     "head_trim_ms": 0,
     "skip_burst": false,
     "carrier": [
-      "Here is the word, lick."
+      "Spell it: L I C K. lick.",
+      80,
+      -20,
+      20
     ],
-    "carrier_cut_mode": "asr",
-    "asr_start": 1.097,
-    "asr_end": 1.74,
-    "asr_guard_lead_ms": 30,
-    "asr_guard_tail_ms": 40
+    "carrier_cut_mode": "energy",
+    "asr_start": null,
+    "asr_end": null
   },
   "lock": {
     "word": "lock",
-    "verdict": "good",
-    "speed": 0.82,
+    "verdict": "perfect",
+    "speed": 1,
     "lead_ms": 80,
     "period": false,
     "onset_trim": false,
@@ -3926,18 +4320,19 @@
     "head_trim_ms": 0,
     "skip_burst": false,
     "carrier": [
-      "Here is the word, lock."
+      "Spell it: L O C K. lock.",
+      80,
+      -20,
+      20
     ],
-    "carrier_cut_mode": "asr",
-    "asr_start": 0.991,
-    "asr_end": 1.58,
-    "asr_guard_lead_ms": 30,
-    "asr_guard_tail_ms": 40
+    "carrier_cut_mode": "energy",
+    "asr_start": null,
+    "asr_end": null
   },
   "long": {
     "word": "long",
-    "verdict": "good",
-    "speed": 0.82,
+    "verdict": "perfect",
+    "speed": 1,
     "lead_ms": 80,
     "period": false,
     "onset_trim": false,
@@ -3946,8 +4341,8 @@
     "head_trim_ms": 0,
     "skip_burst": false,
     "carrier": [
-      "long. long.",
-      120,
+      "Spell it: L O N G. long.",
+      80,
       -20,
       20
     ],
@@ -3957,8 +4352,8 @@
   },
   "luck": {
     "word": "luck",
-    "verdict": "ok",
-    "speed": 0.82,
+    "verdict": "perfect",
+    "speed": 1,
     "lead_ms": 80,
     "period": false,
     "onset_trim": false,
@@ -3967,17 +4362,18 @@
     "head_trim_ms": 0,
     "skip_burst": false,
     "carrier": [
-      "Here is the word, luck."
+      "Spell it: L U C K. luck.",
+      80,
+      -20,
+      20
     ],
-    "carrier_cut_mode": "asr",
-    "asr_start": 1.012,
-    "asr_end": 1.7,
-    "asr_guard_lead_ms": 30,
-    "asr_guard_tail_ms": 40
+    "carrier_cut_mode": "energy",
+    "asr_start": null,
+    "asr_end": null
   },
   "lung": {
     "word": "lung",
-    "verdict": "ok",
+    "verdict": "perfect",
     "speed": 0.82,
     "lead_ms": 80,
     "period": false,
@@ -3987,8 +4383,8 @@
     "head_trim_ms": 0,
     "skip_burst": false,
     "carrier": [
-      "lung. lung.",
-      120,
+      "Softly: lung.",
+      80,
       -20,
       20
     ],
@@ -3998,7 +4394,7 @@
   },
   "math": {
     "word": "math",
-    "verdict": "good",
+    "verdict": "perfect",
     "speed": 0.82,
     "lead_ms": 80,
     "period": false,
@@ -4008,13 +4404,14 @@
     "head_trim_ms": 0,
     "skip_burst": false,
     "carrier": [
-      "Here is the word, math."
+      "Spell it: M A T H. math.",
+      80,
+      -20,
+      20
     ],
-    "carrier_cut_mode": "asr",
-    "asr_start": 0.884,
-    "asr_end": 1.52,
-    "asr_guard_lead_ms": 30,
-    "asr_guard_tail_ms": 40
+    "carrier_cut_mode": "energy",
+    "asr_start": null,
+    "asr_end": null
   },
   "moth": {
     "word": "moth",
@@ -4058,23 +4455,28 @@
   },
   "neck": {
     "word": "neck",
-    "verdict": "ok",
-    "speed": 0.82,
-    "lead_ms": 100,
+    "verdict": "perfect",
+    "speed": 1,
+    "lead_ms": 80,
     "period": false,
     "onset_trim": false,
     "trim_ms": 0,
     "bright_head_ms": 0,
     "head_trim_ms": 0,
     "skip_burst": false,
-    "carrier": null,
-    "carrier_cut_mode": "none",
+    "carrier": [
+      "Spell it: N E C K. neck.",
+      80,
+      -20,
+      20
+    ],
+    "carrier_cut_mode": "energy",
     "asr_start": null,
     "asr_end": null
   },
   "pack": {
     "word": "pack",
-    "verdict": "very good",
+    "verdict": "perfect",
     "speed": 0.82,
     "lead_ms": 80,
     "period": false,
@@ -4084,18 +4486,19 @@
     "head_trim_ms": 0,
     "skip_burst": false,
     "carrier": [
-      "Here is the word, pack."
+      "Spell it: P A C K. pack.",
+      80,
+      -20,
+      20
     ],
-    "carrier_cut_mode": "asr",
-    "asr_start": 0.969,
-    "asr_end": 1.64,
-    "asr_guard_lead_ms": 30,
-    "asr_guard_tail_ms": 40
+    "carrier_cut_mode": "energy",
+    "asr_start": null,
+    "asr_end": null
   },
   "path": {
     "word": "path",
-    "verdict": "ok",
-    "speed": 0.82,
+    "verdict": "perfect",
+    "speed": 1,
     "lead_ms": 80,
     "period": false,
     "onset_trim": false,
@@ -4104,17 +4507,18 @@
     "head_trim_ms": 0,
     "skip_burst": false,
     "carrier": [
-      "Here is the word, path."
+      "Spell it: P A T H. path.",
+      80,
+      -20,
+      20
     ],
-    "carrier_cut_mode": "asr",
-    "asr_start": 0.927,
-    "asr_end": 1.58,
-    "asr_guard_lead_ms": 30,
-    "asr_guard_tail_ms": 40
+    "carrier_cut_mode": "energy",
+    "asr_start": null,
+    "asr_end": null
   },
   "peck": {
     "word": "peck",
-    "verdict": "near perfect",
+    "verdict": "perfect",
     "speed": 0.82,
     "lead_ms": 80,
     "period": false,
@@ -4134,8 +4538,8 @@
   },
   "pick": {
     "word": "pick",
-    "verdict": "ok",
-    "speed": 0.82,
+    "verdict": "perfect",
+    "speed": 1,
     "lead_ms": 80,
     "period": false,
     "onset_trim": false,
@@ -4144,18 +4548,19 @@
     "head_trim_ms": 0,
     "skip_burst": false,
     "carrier": [
-      "Here is the word, pick."
+      "Spell it: P I C K. pick.",
+      80,
+      -20,
+      20
     ],
-    "carrier_cut_mode": "asr",
-    "asr_start": 1.033,
-    "asr_end": 1.8,
-    "asr_guard_lead_ms": 30,
-    "asr_guard_tail_ms": 40
+    "carrier_cut_mode": "energy",
+    "asr_start": null,
+    "asr_end": null
   },
   "puck": {
     "word": "puck",
-    "verdict": "good",
-    "speed": 0.82,
+    "verdict": "perfect",
+    "speed": 1,
     "lead_ms": 80,
     "period": false,
     "onset_trim": false,
@@ -4164,13 +4569,14 @@
     "head_trim_ms": 0,
     "skip_burst": false,
     "carrier": [
-      "Here is the word, puck."
+      "Spell it: P U C K. puck.",
+      80,
+      -20,
+      20
     ],
-    "carrier_cut_mode": "asr",
-    "asr_start": 0.991,
-    "asr_end": 1.74,
-    "asr_guard_lead_ms": 30,
-    "asr_guard_tail_ms": 40
+    "carrier_cut_mode": "energy",
+    "asr_start": null,
+    "asr_end": null
   },
   "rang": {
     "word": "rang",
@@ -4195,7 +4601,7 @@
   },
   "ring": {
     "word": "ring",
-    "verdict": "very good",
+    "verdict": "perfect",
     "speed": 0.82,
     "lead_ms": 80,
     "period": false,
@@ -4205,13 +4611,14 @@
     "head_trim_ms": 0,
     "skip_burst": false,
     "carrier": [
-      "Here is the word, ring."
+      "Spell it: R I N G. ring.",
+      80,
+      -20,
+      20
     ],
-    "carrier_cut_mode": "asr",
-    "asr_start": 0.991,
-    "asr_end": 1.62,
-    "asr_guard_lead_ms": 30,
-    "asr_guard_tail_ms": 40
+    "carrier_cut_mode": "energy",
+    "asr_start": null,
+    "asr_end": null
   },
   "rock": {
     "word": "rock",
@@ -4255,7 +4662,7 @@
   },
   "sack": {
     "word": "sack",
-    "verdict": "ok",
+    "verdict": "perfect",
     "speed": 0.82,
     "lead_ms": 80,
     "period": false,
@@ -4265,17 +4672,18 @@
     "head_trim_ms": 0,
     "skip_burst": false,
     "carrier": [
-      "Here is the word, sack."
+      "Spell it: S A C K. sack.",
+      80,
+      -20,
+      20
     ],
-    "carrier_cut_mode": "asr",
-    "asr_start": 0.991,
-    "asr_end": 1.7,
-    "asr_guard_lead_ms": 30,
-    "asr_guard_tail_ms": 40
+    "carrier_cut_mode": "energy",
+    "asr_start": null,
+    "asr_end": null
   },
   "sang": {
     "word": "sang",
-    "verdict": "very good",
+    "verdict": "perfect",
     "speed": 0.82,
     "lead_ms": 80,
     "period": false,
@@ -4285,8 +4693,8 @@
     "head_trim_ms": 0,
     "skip_burst": false,
     "carrier": [
-      "sang. sang.",
-      120,
+      "The printed word is \"sang\".",
+      80,
       -20,
       20
     ],
@@ -4296,18 +4704,18 @@
   },
   "sick": {
     "word": "sick",
-    "verdict": "good",
-    "speed": 0.82,
+    "verdict": "perfect",
+    "speed": 1,
     "lead_ms": 80,
     "period": false,
-    "onset_trim": true,
+    "onset_trim": false,
     "trim_ms": 0,
     "bright_head_ms": 0,
     "head_trim_ms": 0,
     "skip_burst": false,
     "carrier": [
-      "sick. sick.",
-      40,
+      "Spell it: S I C K. sick.",
+      80,
       -20,
       20
     ],
@@ -4317,7 +4725,7 @@
   },
   "sing": {
     "word": "sing",
-    "verdict": "good",
+    "verdict": "perfect",
     "speed": 0.82,
     "lead_ms": 80,
     "period": false,
@@ -4327,8 +4735,8 @@
     "head_trim_ms": 0,
     "skip_burst": false,
     "carrier": [
-      "sing. sing.",
-      120,
+      "Spell it: S I N G. sing.",
+      80,
       -20,
       20
     ],
@@ -4338,8 +4746,8 @@
   },
   "sock": {
     "word": "sock",
-    "verdict": "ok",
-    "speed": 0.75,
+    "verdict": "perfect",
+    "speed": 1,
     "lead_ms": 80,
     "period": false,
     "onset_trim": false,
@@ -4348,8 +4756,8 @@
     "head_trim_ms": 0,
     "skip_burst": false,
     "carrier": [
-      "sock. sock.",
-      120,
+      "Spell it: S O C K. sock.",
+      80,
       -20,
       20
     ],
@@ -4380,8 +4788,8 @@
   },
   "sung": {
     "word": "sung",
-    "verdict": "good",
-    "speed": 0.82,
+    "verdict": "perfect",
+    "speed": 1,
     "lead_ms": 80,
     "period": false,
     "onset_trim": false,
@@ -4390,8 +4798,8 @@
     "head_trim_ms": 0,
     "skip_burst": false,
     "carrier": [
-      "sung. sung.",
-      120,
+      "Spell it: S U N G. sung.",
+      80,
       -20,
       20
     ],
@@ -4401,8 +4809,8 @@
   },
   "tack": {
     "word": "tack",
-    "verdict": "good",
-    "speed": 0.82,
+    "verdict": "perfect",
+    "speed": 1,
     "lead_ms": 80,
     "period": false,
     "onset_trim": false,
@@ -4411,17 +4819,18 @@
     "head_trim_ms": 0,
     "skip_burst": false,
     "carrier": [
-      "Here is the word, tack."
+      "Spell it: T A C K. tack.",
+      80,
+      -20,
+      20
     ],
-    "carrier_cut_mode": "asr",
-    "asr_start": 0.905,
-    "asr_end": 1.74,
-    "asr_guard_lead_ms": 30,
-    "asr_guard_tail_ms": 40
+    "carrier_cut_mode": "energy",
+    "asr_start": null,
+    "asr_end": null
   },
   "that": {
     "word": "that",
-    "verdict": "ok",
+    "verdict": "perfect",
     "speed": 0.82,
     "lead_ms": 80,
     "period": false,
@@ -4431,35 +4840,19 @@
     "head_trim_ms": 0,
     "skip_burst": false,
     "carrier": [
-      "Here it is, that."
+      "that. that.",
+      80,
+      -20,
+      20
     ],
-    "carrier_cut_mode": "asr",
-    "asr_start": 0.756,
-    "asr_end": 1.28,
-    "asr_guard_lead_ms": 30,
-    "asr_guard_tail_ms": 40
+    "carrier_cut_mode": "energy",
+    "asr_start": null,
+    "asr_end": null
   },
   "the": {
     "word": "the",
-    "verdict": "ok",
-    "speed": 0.82,
-    "lead_ms": 50,
-    "period": false,
-    "onset_trim": true,
-    "trim_ms": 90,
-    "bright_head_ms": 0,
-    "head_trim_ms": 50,
-    "skip_burst": false,
-    "carrier": null,
-    "carrier_cut_mode": "none",
-    "asr_start": null,
-    "asr_end": null,
-    "phoneme": "ðə"
-  },
-  "them": {
-    "word": "them",
-    "verdict": "good",
-    "speed": 0.82,
+    "verdict": "perfect",
+    "speed": 1,
     "lead_ms": 80,
     "period": false,
     "onset_trim": false,
@@ -4468,8 +4861,29 @@
     "head_trim_ms": 0,
     "skip_burst": false,
     "carrier": [
-      "them. them.",
-      120,
+      "Spell it: T H E. the.",
+      80,
+      -20,
+      20
+    ],
+    "carrier_cut_mode": "energy",
+    "asr_start": null,
+    "asr_end": null
+  },
+  "them": {
+    "word": "them",
+    "verdict": "perfect",
+    "speed": 1,
+    "lead_ms": 80,
+    "period": false,
+    "onset_trim": false,
+    "trim_ms": 0,
+    "bright_head_ms": 0,
+    "head_trim_ms": 0,
+    "skip_burst": false,
+    "carrier": [
+      "Spell it: T H E M. them.",
+      80,
       -20,
       20
     ],
@@ -4479,18 +4893,18 @@
   },
   "then": {
     "word": "then",
-    "verdict": "ok",
+    "verdict": "perfect",
     "speed": 0.82,
     "lead_ms": 80,
     "period": false,
     "onset_trim": false,
-    "trim_ms": 100,
+    "trim_ms": 0,
     "bright_head_ms": 0,
     "head_trim_ms": 0,
     "skip_burst": false,
     "carrier": [
-      "then. then.",
-      100,
+      "Spell it: T H E N. then.",
+      80,
       -20,
       20
     ],
@@ -4500,23 +4914,28 @@
   },
   "thin": {
     "word": "thin",
-    "verdict": "marginal",
+    "verdict": "perfect",
     "speed": 0.82,
     "lead_ms": 80,
     "period": false,
     "onset_trim": false,
     "trim_ms": 0,
-    "bright_head_ms": 40,
+    "bright_head_ms": 0,
     "head_trim_ms": 0,
     "skip_burst": false,
-    "carrier": null,
-    "carrier_cut_mode": "none",
+    "carrier": [
+      "Spell it: T H I N. thin.",
+      80,
+      -20,
+      20
+    ],
+    "carrier_cut_mode": "energy",
     "asr_start": null,
     "asr_end": null
   },
   "this": {
     "word": "this",
-    "verdict": "ok",
+    "verdict": "perfect",
     "speed": 0.82,
     "lead_ms": 80,
     "period": false,
@@ -4557,7 +4976,7 @@
   },
   "tick": {
     "word": "tick",
-    "verdict": "good",
+    "verdict": "perfect",
     "speed": 0.82,
     "lead_ms": 80,
     "period": false,
@@ -4577,18 +4996,18 @@
   },
   "tuck": {
     "word": "tuck",
-    "verdict": "ok",
-    "speed": 0.82,
+    "verdict": "perfect",
+    "speed": 1,
     "lead_ms": 80,
     "period": false,
     "onset_trim": false,
-    "trim_ms": 100,
+    "trim_ms": 0,
     "bright_head_ms": 0,
     "head_trim_ms": 0,
     "skip_burst": false,
     "carrier": [
-      "tuck. tuck.",
-      100,
+      "Spell it: T U C K. tuck.",
+      80,
       -20,
       20
     ],
@@ -4618,23 +5037,7 @@
   },
   "what": {
     "word": "what",
-    "verdict": "ok",
-    "speed": 0.82,
-    "lead_ms": 220,
-    "period": false,
-    "onset_trim": false,
-    "trim_ms": 0,
-    "bright_head_ms": 0,
-    "head_trim_ms": 0,
-    "skip_burst": false,
-    "carrier": null,
-    "carrier_cut_mode": "none",
-    "asr_start": null,
-    "asr_end": null
-  },
-  "when": {
-    "word": "when",
-    "verdict": "ok",
+    "verdict": "perfect",
     "speed": 0.82,
     "lead_ms": 80,
     "period": false,
@@ -4644,43 +5047,75 @@
     "head_trim_ms": 0,
     "skip_burst": false,
     "carrier": [
-      "Listen, when."
+      "Listen, what.",
+      80,
+      -20,
+      20
     ],
-    "carrier_cut_mode": "asr",
-    "asr_start": 0.715,
-    "asr_end": 1.28,
-    "asr_guard_lead_ms": 25,
-    "asr_guard_tail_ms": 40
-  },
-  "whip": {
-    "word": "whip",
-    "verdict": "marginal",
-    "speed": 0.85,
-    "lead_ms": 80,
-    "period": false,
-    "onset_trim": true,
-    "trim_ms": 0,
-    "bright_head_ms": 0,
-    "head_trim_ms": 0,
-    "skip_burst": false,
-    "carrier": null,
-    "carrier_cut_mode": "none",
+    "carrier_cut_mode": "energy",
     "asr_start": null,
     "asr_end": null
   },
-  "wick": {
-    "word": "wick",
-    "verdict": "ok",
+  "when": {
+    "word": "when",
+    "verdict": "perfect",
     "speed": 0.82,
-    "lead_ms": 220,
+    "lead_ms": 80,
     "period": false,
     "onset_trim": false,
     "trim_ms": 0,
     "bright_head_ms": 0,
     "head_trim_ms": 0,
     "skip_burst": false,
-    "carrier": null,
-    "carrier_cut_mode": "none",
+    "carrier": [
+      "when. when.",
+      80,
+      -20,
+      20
+    ],
+    "carrier_cut_mode": "energy",
+    "asr_start": null,
+    "asr_end": null
+  },
+  "whip": {
+    "word": "whip",
+    "verdict": "perfect",
+    "speed": 0.82,
+    "lead_ms": 80,
+    "period": false,
+    "onset_trim": false,
+    "trim_ms": 0,
+    "bright_head_ms": 0,
+    "head_trim_ms": 0,
+    "skip_burst": false,
+    "carrier": [
+      "Spell it: W H I P. whip.",
+      80,
+      -20,
+      20
+    ],
+    "carrier_cut_mode": "energy",
+    "asr_start": null,
+    "asr_end": null
+  },
+  "wick": {
+    "word": "wick",
+    "verdict": "perfect",
+    "speed": 1,
+    "lead_ms": 80,
+    "period": false,
+    "onset_trim": false,
+    "trim_ms": 0,
+    "bright_head_ms": 0,
+    "head_trim_ms": 0,
+    "skip_burst": false,
+    "carrier": [
+      "Spell it: W I C K. wick.",
+      80,
+      -20,
+      20
+    ],
+    "carrier_cut_mode": "energy",
     "asr_start": null,
     "asr_end": null
   },
@@ -4706,7 +5141,7 @@
   },
   "with": {
     "word": "with",
-    "verdict": "ok",
+    "verdict": "perfect",
     "speed": 0.82,
     "lead_ms": 80,
     "period": false,
@@ -4716,13 +5151,14 @@
     "head_trim_ms": 0,
     "skip_burst": false,
     "carrier": [
-      "Here it is, with."
+      "Spell it: W I T H. with.",
+      80,
+      -20,
+      20
     ],
-    "carrier_cut_mode": "asr",
-    "asr_start": 0.756,
-    "asr_end": 1.28,
-    "asr_guard_lead_ms": 30,
-    "asr_guard_tail_ms": 40
+    "carrier_cut_mode": "energy",
+    "asr_start": null,
+    "asr_end": null
   },
   "pat": {
     "word": "pat",
@@ -4768,7 +5204,7 @@
   },
   "sap": {
     "word": "sap",
-    "verdict": "ok",
+    "verdict": "perfect",
     "speed": 0.82,
     "lead_ms": 80,
     "period": false,
@@ -4778,13 +5214,14 @@
     "head_trim_ms": 0,
     "skip_burst": false,
     "carrier": [
-      "Say sap."
+      "Not lap—sap.",
+      80,
+      -20,
+      20
     ],
-    "carrier_cut_mode": "asr",
-    "asr_start": 0.52,
-    "asr_end": 0.82,
-    "asr_guard_lead_ms": 80,
-    "asr_guard_tail_ms": 40
+    "carrier_cut_mode": "energy",
+    "asr_start": null,
+    "asr_end": null
   },
   "vat": {
     "word": "vat",
@@ -4830,8 +5267,8 @@
   },
   "rig": {
     "word": "rig",
-    "verdict": "very good",
-    "speed": 0.82,
+    "verdict": "perfect",
+    "speed": 1,
     "lead_ms": 80,
     "period": false,
     "onset_trim": false,
@@ -4840,8 +5277,8 @@
     "head_trim_ms": 0,
     "skip_burst": false,
     "carrier": [
-      "Here is the word, rig.",
-      120,
+      "Spell it: R I G. rig.",
+      80,
       -20,
       20
     ],
@@ -4851,7 +5288,7 @@
   },
   "rob": {
     "word": "rob",
-    "verdict": "ok",
+    "verdict": "perfect",
     "speed": 0.82,
     "lead_ms": 80,
     "period": false,
@@ -4861,18 +5298,19 @@
     "head_trim_ms": 0,
     "skip_burst": false,
     "carrier": [
-      "Say rob."
+      "rob. rob.",
+      80,
+      -20,
+      20
     ],
-    "carrier_cut_mode": "asr",
-    "asr_start": 0.5,
-    "asr_end": 0.72,
-    "asr_guard_lead_ms": 40,
-    "asr_guard_tail_ms": 40
+    "carrier_cut_mode": "energy",
+    "asr_start": null,
+    "asr_end": null
   },
   "sob": {
     "word": "sob",
-    "verdict": "ok",
-    "speed": 0.82,
+    "verdict": "perfect",
+    "speed": 1,
     "lead_ms": 80,
     "period": false,
     "onset_trim": false,
@@ -4881,44 +5319,50 @@
     "head_trim_ms": 0,
     "skip_burst": false,
     "carrier": [
-      "Say sob."
+      "Spell it: S O B. sob.",
+      80,
+      -20,
+      20
     ],
-    "carrier_cut_mode": "asr",
-    "asr_start": 0.48,
-    "asr_end": 0.74,
-    "asr_guard_lead_ms": 80,
-    "asr_guard_tail_ms": 40
+    "carrier_cut_mode": "energy",
+    "asr_start": null,
+    "asr_end": null
   },
   "mob": {
     "word": "mob",
-    "verdict": "very good",
-    "speed": 0.85,
+    "verdict": "perfect",
+    "speed": 1,
     "lead_ms": 80,
-    "period": true,
+    "period": false,
     "onset_trim": false,
     "trim_ms": 0,
     "bright_head_ms": 0,
     "head_trim_ms": 0,
     "skip_burst": false,
-    "carrier": null,
-    "carrier_cut_mode": "none",
+    "carrier": [
+      "Spell it: M O B. mob.",
+      80,
+      -20,
+      20
+    ],
+    "carrier_cut_mode": "energy",
     "asr_start": null,
     "asr_end": null
   },
   "cop": {
     "word": "cop",
-    "verdict": "ok",
+    "verdict": "perfect",
     "speed": 0.82,
     "lead_ms": 80,
     "period": false,
-    "onset_trim": true,
+    "onset_trim": false,
     "trim_ms": 0,
     "bright_head_ms": 0,
-    "head_trim_ms": 28,
+    "head_trim_ms": 0,
     "skip_burst": false,
     "carrier": [
-      "cop. cop.",
-      28,
+      "Spell it: C O P. cop.",
+      80,
       -20,
       20
     ],
@@ -4969,8 +5413,8 @@
   },
   "keg": {
     "word": "keg",
-    "verdict": "ok",
-    "speed": 0.82,
+    "verdict": "perfect",
+    "speed": 1,
     "lead_ms": 80,
     "period": false,
     "onset_trim": false,
@@ -4979,8 +5423,8 @@
     "head_trim_ms": 0,
     "skip_burst": false,
     "carrier": [
-      "keg. keg.",
-      120,
+      "Spell it: K E G. keg.",
+      80,
       -20,
       20
     ],
@@ -4990,8 +5434,8 @@
   },
   "hem": {
     "word": "hem",
-    "verdict": "ok",
-    "speed": 0.82,
+    "verdict": "perfect",
+    "speed": 1,
     "lead_ms": 80,
     "period": false,
     "onset_trim": false,
@@ -5000,8 +5444,8 @@
     "head_trim_ms": 0,
     "skip_burst": false,
     "carrier": [
-      "hem. hem.",
-      120,
+      "Spell it: H E M. hem.",
+      80,
       -20,
       20
     ],
@@ -5011,8 +5455,8 @@
   },
   "nun": {
     "word": "nun",
-    "verdict": "ok",
-    "speed": 0.82,
+    "verdict": "perfect",
+    "speed": 1,
     "lead_ms": 80,
     "period": false,
     "onset_trim": false,
@@ -5021,13 +5465,14 @@
     "head_trim_ms": 0,
     "skip_burst": false,
     "carrier": [
-      "Here is the word, nun."
+      "Spell it: N U N. nun.",
+      80,
+      -20,
+      20
     ],
-    "carrier_cut_mode": "asr",
-    "asr_start": 0.948,
-    "asr_end": 1.54,
-    "asr_guard_lead_ms": 30,
-    "asr_guard_tail_ms": 40
+    "carrier_cut_mode": "energy",
+    "asr_start": null,
+    "asr_end": null
   },
   "pun": {
     "word": "pun",
@@ -5051,8 +5496,8 @@
   },
   "jut": {
     "word": "jut",
-    "verdict": "ok",
-    "speed": 0.82,
+    "verdict": "perfect",
+    "speed": 1,
     "lead_ms": 80,
     "period": false,
     "onset_trim": false,
@@ -5061,18 +5506,19 @@
     "head_trim_ms": 0,
     "skip_burst": false,
     "carrier": [
-      "Here is the word, jut."
+      "Spell it: J U T. jut.",
+      80,
+      -20,
+      20
     ],
-    "carrier_cut_mode": "asr",
-    "asr_start": 0.927,
-    "asr_end": 1.67,
-    "asr_guard_lead_ms": 30,
-    "asr_guard_tail_ms": 40
+    "carrier_cut_mode": "energy",
+    "asr_start": null,
+    "asr_end": null
   },
   "gut": {
     "word": "gut",
-    "verdict": "ok",
-    "speed": 0.82,
+    "verdict": "perfect",
+    "speed": 1,
     "lead_ms": 80,
     "period": false,
     "onset_trim": false,
@@ -5081,8 +5527,8 @@
     "head_trim_ms": 0,
     "skip_burst": false,
     "carrier": [
-      "gut. gut.",
-      120,
+      "Spell it: G U T. gut.",
+      80,
       -20,
       20
     ],
@@ -5092,17 +5538,17 @@
   },
   "hub": {
     "word": "hub",
-    "verdict": "ok",
-    "speed": 0.82,
+    "verdict": "perfect",
+    "speed": 1,
     "lead_ms": 80,
     "period": false,
     "onset_trim": false,
-    "trim_ms": 160,
+    "trim_ms": 0,
     "bright_head_ms": 0,
     "head_trim_ms": 0,
     "skip_burst": false,
     "carrier": [
-      "hub. hub.",
+      "Spell it: H U B. hub.",
       80,
       -20,
       20
@@ -5113,7 +5559,7 @@
   },
   "fax": {
     "word": "fax",
-    "verdict": "ok",
+    "verdict": "perfect",
     "speed": 0.82,
     "lead_ms": 80,
     "period": false,
@@ -5133,7 +5579,7 @@
   },
   "nix": {
     "word": "nix",
-    "verdict": "ok",
+    "verdict": "perfect",
     "speed": 0.82,
     "lead_ms": 220,
     "period": false,
@@ -5149,7 +5595,7 @@
   },
   "vex": {
     "word": "vex",
-    "verdict": "very good",
+    "verdict": "perfect",
     "speed": 0.82,
     "lead_ms": 80,
     "period": false,
@@ -5169,7 +5615,7 @@
   },
   "sax": {
     "word": "sax",
-    "verdict": "ok",
+    "verdict": "perfect",
     "speed": 0.82,
     "lead_ms": 80,
     "period": false,
@@ -5189,7 +5635,7 @@
   },
   "cod": {
     "word": "cod",
-    "verdict": "very good",
+    "verdict": "perfect",
     "speed": 0.82,
     "lead_ms": 80,
     "period": false,
@@ -5199,8 +5645,8 @@
     "head_trim_ms": 0,
     "skip_burst": false,
     "carrier": [
-      "cod. cod.",
-      120,
+      "Spell it: C O D. cod.",
+      80,
       -20,
       20
     ],
@@ -5210,8 +5656,8 @@
   },
   "gob": {
     "word": "gob",
-    "verdict": "ok",
-    "speed": 0.82,
+    "verdict": "perfect",
+    "speed": 1,
     "lead_ms": 80,
     "period": false,
     "onset_trim": false,
@@ -5220,8 +5666,8 @@
     "head_trim_ms": 0,
     "skip_burst": false,
     "carrier": [
-      "gob. gob.",
-      120,
+      "Spell it: G O B. gob.",
+      80,
       -20,
       20
     ],
@@ -5251,7 +5697,7 @@
   },
   "gash": {
     "word": "gash",
-    "verdict": "ok",
+    "verdict": "perfect",
     "speed": 0.82,
     "lead_ms": 80,
     "period": false,
@@ -5261,8 +5707,8 @@
     "head_trim_ms": 0,
     "skip_burst": false,
     "carrier": [
-      "gash. gash.",
-      120,
+      "Listen—gash.",
+      80,
       -20,
       20
     ],
@@ -5272,8 +5718,8 @@
   },
   "gush": {
     "word": "gush",
-    "verdict": "ok",
-    "speed": 0.82,
+    "verdict": "perfect",
+    "speed": 1,
     "lead_ms": 80,
     "period": false,
     "onset_trim": false,
@@ -5282,8 +5728,8 @@
     "head_trim_ms": 0,
     "skip_burst": false,
     "carrier": [
-      "gush. gush.",
-      120,
+      "Spell it: G U S H. gush.",
+      80,
       -20,
       20
     ],
@@ -5293,7 +5739,7 @@
   },
   "lash": {
     "word": "lash",
-    "verdict": "ok",
+    "verdict": "perfect",
     "speed": 0.82,
     "lead_ms": 80,
     "period": false,
@@ -5313,17 +5759,22 @@
   },
   "lush": {
     "word": "lush",
-    "verdict": "ok",
-    "speed": 0.82,
-    "lead_ms": 70,
+    "verdict": "perfect",
+    "speed": 1,
+    "lead_ms": 80,
     "period": false,
-    "onset_trim": true,
+    "onset_trim": false,
     "trim_ms": 0,
     "bright_head_ms": 0,
-    "head_trim_ms": 30,
+    "head_trim_ms": 0,
     "skip_burst": false,
-    "carrier": null,
-    "carrier_cut_mode": "none",
+    "carrier": [
+      "Spell it: L U S H. lush.",
+      80,
+      -20,
+      20
+    ],
+    "carrier_cut_mode": "energy",
     "asr_start": null,
     "asr_end": null
   },
@@ -5349,7 +5800,7 @@
   },
   "sham": {
     "word": "sham",
-    "verdict": "marginal",
+    "verdict": "perfect",
     "speed": 0.82,
     "lead_ms": 80,
     "period": false,
@@ -5369,8 +5820,8 @@
   },
   "shun": {
     "word": "shun",
-    "verdict": "ok",
-    "speed": 0.82,
+    "verdict": "perfect",
+    "speed": 1,
     "lead_ms": 80,
     "period": false,
     "onset_trim": false,
@@ -5379,13 +5830,14 @@
     "head_trim_ms": 0,
     "skip_burst": false,
     "carrier": [
-      "Here is the word, shun."
+      "Spell it: S H U N. shun.",
+      80,
+      -20,
+      20
     ],
-    "carrier_cut_mode": "asr",
-    "asr_start": 1.012,
-    "asr_end": 1.6,
-    "asr_guard_lead_ms": 30,
-    "asr_guard_tail_ms": 40
+    "carrier_cut_mode": "energy",
+    "asr_start": null,
+    "asr_end": null
   },
   "whim": {
     "word": "whim",
@@ -5430,7 +5882,7 @@
   },
   "bang": {
     "word": "bang",
-    "verdict": "almost perfect",
+    "verdict": "perfect",
     "speed": 0.82,
     "lead_ms": 80,
     "period": false,
@@ -5440,18 +5892,19 @@
     "head_trim_ms": 0,
     "skip_burst": false,
     "carrier": [
-      "Here is the word, bang."
+      "Listen, bang.",
+      80,
+      -20,
+      20
     ],
-    "carrier_cut_mode": "asr",
-    "asr_start": 0.948,
-    "asr_end": 1.54,
-    "asr_guard_lead_ms": 30,
-    "asr_guard_tail_ms": 40
+    "carrier_cut_mode": "energy",
+    "asr_start": null,
+    "asr_end": null
   },
   "hung": {
     "word": "hung",
-    "verdict": "very good",
-    "speed": 0.82,
+    "verdict": "perfect",
+    "speed": 1,
     "lead_ms": 80,
     "period": false,
     "onset_trim": false,
@@ -5460,8 +5913,8 @@
     "head_trim_ms": 0,
     "skip_burst": false,
     "carrier": [
-      "hung. hung.",
-      120,
+      "Spell it: H U N G. hung.",
+      80,
       -20,
       20
     ],
@@ -5491,8 +5944,8 @@
   },
   "ping": {
     "word": "ping",
-    "verdict": "ok",
-    "speed": 0.82,
+    "verdict": "perfect",
+    "speed": 1,
     "lead_ms": 80,
     "period": false,
     "onset_trim": false,
@@ -5501,8 +5954,8 @@
     "head_trim_ms": 0,
     "skip_burst": false,
     "carrier": [
-      "ping. ping.",
-      120,
+      "Spell it: P I N G. ping.",
+      80,
       -20,
       20
     ],
@@ -5572,7 +6025,7 @@
   },
   "fell": {
     "word": "fell",
-    "verdict": "good",
+    "verdict": "perfect",
     "speed": 0.82,
     "lead_ms": 80,
     "period": false,
@@ -5582,18 +6035,19 @@
     "head_trim_ms": 0,
     "skip_burst": false,
     "carrier": [
-      "Here is the word, fell."
+      "fell. fell.",
+      80,
+      -20,
+      20
     ],
-    "carrier_cut_mode": "asr",
-    "asr_start": 1.012,
-    "asr_end": 1.6,
-    "asr_guard_lead_ms": 30,
-    "asr_guard_tail_ms": 40
+    "carrier_cut_mode": "energy",
+    "asr_start": null,
+    "asr_end": null
   },
   "hill": {
     "word": "hill",
-    "verdict": "good",
-    "speed": 0.82,
+    "verdict": "perfect",
+    "speed": 1,
     "lead_ms": 80,
     "period": false,
     "onset_trim": false,
@@ -5602,17 +6056,18 @@
     "head_trim_ms": 0,
     "skip_burst": false,
     "carrier": [
-      "Here is the word, hill."
+      "Spell it: H I L L. hill.",
+      80,
+      -20,
+      20
     ],
-    "carrier_cut_mode": "asr",
-    "asr_start": 1.033,
-    "asr_end": 1.64,
-    "asr_guard_lead_ms": 30,
-    "asr_guard_tail_ms": 40
+    "carrier_cut_mode": "energy",
+    "asr_start": null,
+    "asr_end": null
   },
   "mill": {
     "word": "mill",
-    "verdict": "ok",
+    "verdict": "perfect",
     "speed": 0.82,
     "lead_ms": 80,
     "period": false,
@@ -5633,7 +6088,7 @@
   },
   "doll": {
     "word": "doll",
-    "verdict": "ok",
+    "verdict": "perfect",
     "speed": 0.82,
     "lead_ms": 80,
     "period": false,
@@ -5643,17 +6098,18 @@
     "head_trim_ms": 0,
     "skip_burst": false,
     "carrier": [
-      "Here is the word, doll."
+      "Softly: doll.",
+      80,
+      -20,
+      20
     ],
-    "carrier_cut_mode": "asr",
-    "asr_start": 0.905,
-    "asr_end": 1.58,
-    "asr_guard_lead_ms": 30,
-    "asr_guard_tail_ms": 40
+    "carrier_cut_mode": "energy",
+    "asr_start": null,
+    "asr_end": null
   },
   "mess": {
     "word": "mess",
-    "verdict": "good",
+    "verdict": "perfect",
     "speed": 0.82,
     "lead_ms": 80,
     "period": false,
@@ -5693,7 +6149,7 @@
   },
   "kiss": {
     "word": "kiss",
-    "verdict": "good",
+    "verdict": "perfect",
     "speed": 0.82,
     "lead_ms": 80,
     "period": false,
@@ -5734,8 +6190,8 @@
   },
   "loss": {
     "word": "loss",
-    "verdict": "good",
-    "speed": 0.82,
+    "verdict": "perfect",
+    "speed": 1,
     "lead_ms": 80,
     "period": false,
     "onset_trim": false,
@@ -5744,17 +6200,18 @@
     "head_trim_ms": 0,
     "skip_burst": false,
     "carrier": [
-      "Here is the word, loss."
+      "Spell it: L O S S. loss.",
+      80,
+      -20,
+      20
     ],
-    "carrier_cut_mode": "asr",
-    "asr_start": 0.991,
-    "asr_end": 1.6,
-    "asr_guard_lead_ms": 30,
-    "asr_guard_tail_ms": 40
+    "carrier_cut_mode": "energy",
+    "asr_start": null,
+    "asr_end": null
   },
   "fuss": {
     "word": "fuss",
-    "verdict": "marginal",
+    "verdict": "perfect",
     "speed": 0.82,
     "lead_ms": 80,
     "period": false,
@@ -5764,8 +6221,8 @@
     "head_trim_ms": 0,
     "skip_burst": false,
     "carrier": [
-      "fuss. fuss.",
-      120,
+      "Listen—fuss.",
+      80,
       -20,
       20
     ],
@@ -5775,8 +6232,8 @@
   },
   "huff": {
     "word": "huff",
-    "verdict": "marginal",
-    "speed": 0.82,
+    "verdict": "perfect",
+    "speed": 1,
     "lead_ms": 80,
     "period": false,
     "onset_trim": false,
@@ -5785,8 +6242,8 @@
     "head_trim_ms": 0,
     "skip_burst": false,
     "carrier": [
-      "Here is the word, huff.",
-      150,
+      "Spell it: H U F F. huff.",
+      80,
       -20,
       20
     ],
@@ -5796,8 +6253,8 @@
   },
   "puff": {
     "word": "puff",
-    "verdict": "very good",
-    "speed": 0.82,
+    "verdict": "perfect",
+    "speed": 1,
     "lead_ms": 80,
     "period": false,
     "onset_trim": false,
@@ -5806,17 +6263,18 @@
     "head_trim_ms": 0,
     "skip_burst": false,
     "carrier": [
-      "Here is the word, puff."
+      "Spell it: P U F F. puff.",
+      80,
+      -20,
+      20
     ],
-    "carrier_cut_mode": "asr",
-    "asr_start": 0.948,
-    "asr_end": 1.72,
-    "asr_guard_lead_ms": 30,
-    "asr_guard_tail_ms": 40
+    "carrier_cut_mode": "energy",
+    "asr_start": null,
+    "asr_end": null
   },
   "cuff": {
     "word": "cuff",
-    "verdict": "very good",
+    "verdict": "perfect",
     "speed": 0.82,
     "lead_ms": 80,
     "period": false,
@@ -5836,8 +6294,8 @@
   },
   "buzz": {
     "word": "buzz",
-    "verdict": "good",
-    "speed": 0.82,
+    "verdict": "perfect",
+    "speed": 1,
     "lead_ms": 80,
     "period": false,
     "onset_trim": false,
@@ -5846,8 +6304,8 @@
     "head_trim_ms": 0,
     "skip_burst": false,
     "carrier": [
-      "buzz. buzz.",
-      120,
+      "Spell it: B U Z Z. buzz.",
+      80,
       -20,
       20
     ],
@@ -5857,8 +6315,8 @@
   },
   "fuzz": {
     "word": "fuzz",
-    "verdict": "good",
-    "speed": 0.82,
+    "verdict": "perfect",
+    "speed": 1,
     "lead_ms": 80,
     "period": false,
     "onset_trim": false,
@@ -5867,8 +6325,8 @@
     "head_trim_ms": 0,
     "skip_burst": false,
     "carrier": [
-      "fuzz. fuzz.",
-      120,
+      "Spell it: F U Z Z. fuzz.",
+      80,
       -20,
       20
     ],
@@ -5878,8 +6336,8 @@
   },
   "jazz": {
     "word": "jazz",
-    "verdict": "good",
-    "speed": 0.82,
+    "verdict": "perfect",
+    "speed": 1,
     "lead_ms": 80,
     "period": false,
     "onset_trim": false,
@@ -5888,8 +6346,8 @@
     "head_trim_ms": 0,
     "skip_burst": false,
     "carrier": [
-      "jazz. jazz.",
-      120,
+      "Spell it: J A Z Z. jazz.",
+      80,
       -20,
       20
     ],
@@ -5899,8 +6357,8 @@
   },
   "fizz": {
     "word": "fizz",
-    "verdict": "ok",
-    "speed": 0.82,
+    "verdict": "perfect",
+    "speed": 1,
     "lead_ms": 80,
     "period": false,
     "onset_trim": false,
@@ -5909,18 +6367,19 @@
     "head_trim_ms": 0,
     "skip_burst": false,
     "carrier": [
-      "Here is the word, fizz."
+      "Spell it: F I Z Z. fizz.",
+      80,
+      -20,
+      20
     ],
-    "carrier_cut_mode": "asr",
-    "asr_start": 0.991,
-    "asr_end": 1.68,
-    "asr_guard_lead_ms": 30,
-    "asr_guard_tail_ms": 40
+    "carrier_cut_mode": "energy",
+    "asr_start": null,
+    "asr_end": null
   },
   "quiz": {
     "word": "quiz",
-    "verdict": "good",
-    "speed": 0.82,
+    "verdict": "perfect",
+    "speed": 1,
     "lead_ms": 80,
     "period": false,
     "onset_trim": false,
@@ -5929,8 +6388,8 @@
     "head_trim_ms": 0,
     "skip_burst": false,
     "carrier": [
-      "quiz. quiz.",
-      120,
+      "Spell it: Q U I Z. quiz.",
+      80,
       -20,
       20
     ],
@@ -5940,7 +6399,7 @@
   },
   "quit": {
     "word": "quit",
-    "verdict": "very good",
+    "verdict": "perfect",
     "speed": 0.82,
     "lead_ms": 80,
     "period": false,
@@ -5960,8 +6419,8 @@
   },
   "quip": {
     "word": "quip",
-    "verdict": "good",
-    "speed": 0.82,
+    "verdict": "perfect",
+    "speed": 1,
     "lead_ms": 80,
     "period": false,
     "onset_trim": false,
@@ -5970,13 +6429,14 @@
     "head_trim_ms": 0,
     "skip_burst": false,
     "carrier": [
-      "Here is the word, quip."
+      "Spell it: Q U I P. quip.",
+      80,
+      -20,
+      20
     ],
-    "carrier_cut_mode": "asr",
-    "asr_start": 1.012,
-    "asr_end": 1.8,
-    "asr_guard_lead_ms": 30,
-    "asr_guard_tail_ms": 40
+    "carrier_cut_mode": "energy",
+    "asr_start": null,
+    "asr_end": null
   },
   "knit": {
     "word": "knit",
@@ -6001,8 +6461,8 @@
   },
   "knob": {
     "word": "knob",
-    "verdict": "good",
-    "speed": 0.82,
+    "verdict": "perfect",
+    "speed": 1,
     "lead_ms": 80,
     "period": false,
     "onset_trim": false,
@@ -6011,8 +6471,8 @@
     "head_trim_ms": 0,
     "skip_burst": false,
     "carrier": [
-      "knob. knob.",
-      120,
+      "Spell it: K N O B. knob.",
+      80,
       -20,
       20
     ],
@@ -6022,8 +6482,8 @@
   },
   "knot": {
     "word": "knot",
-    "verdict": "good",
-    "speed": 0.82,
+    "verdict": "perfect",
+    "speed": 1,
     "lead_ms": 80,
     "period": false,
     "onset_trim": false,
@@ -6032,13 +6492,14 @@
     "head_trim_ms": 0,
     "skip_burst": false,
     "carrier": [
-      "Here is the word, knot."
+      "Spell it: K N O T. knot.",
+      80,
+      -20,
+      20
     ],
-    "carrier_cut_mode": "asr",
-    "asr_start": 0.948,
-    "asr_end": 1.64,
-    "asr_guard_lead_ms": 30,
-    "asr_guard_tail_ms": 40
+    "carrier_cut_mode": "energy",
+    "asr_start": null,
+    "asr_end": null
   },
   "lamb": {
     "word": "lamb",
@@ -6063,18 +6524,18 @@
   },
   "chick": {
     "word": "chick",
-    "verdict": "ok",
-    "speed": 0.82,
+    "verdict": "perfect",
+    "speed": 1,
     "lead_ms": 80,
     "period": false,
     "onset_trim": false,
     "trim_ms": 0,
     "bright_head_ms": 0,
-    "head_trim_ms": 80,
+    "head_trim_ms": 0,
     "skip_burst": false,
     "carrier": [
-      "Say chick.",
-      250,
+      "Spell it: C H I C K. chick.",
+      80,
       -20,
       20
     ],
@@ -6084,7 +6545,7 @@
   },
   "check": {
     "word": "check",
-    "verdict": "good",
+    "verdict": "perfect",
     "speed": 0.82,
     "lead_ms": 80,
     "period": false,
@@ -6105,8 +6566,8 @@
   },
   "chuck": {
     "word": "chuck",
-    "verdict": "good",
-    "speed": 0.82,
+    "verdict": "perfect",
+    "speed": 1,
     "lead_ms": 80,
     "period": false,
     "onset_trim": false,
@@ -6115,7 +6576,7 @@
     "head_trim_ms": 0,
     "skip_burst": false,
     "carrier": [
-      "Say chuck.",
+      "Spell it: C H U C K. chuck.",
       80,
       -20,
       20
@@ -6168,8 +6629,8 @@
   },
   "shack": {
     "word": "shack",
-    "verdict": "marginal",
-    "speed": 0.82,
+    "verdict": "perfect",
+    "speed": 1,
     "lead_ms": 80,
     "period": false,
     "onset_trim": false,
@@ -6178,8 +6639,8 @@
     "head_trim_ms": 0,
     "skip_burst": false,
     "carrier": [
-      "shack. shack.",
-      50,
+      "Spell it: S H A C K. shack.",
+      80,
       -20,
       20
     ],
@@ -6189,18 +6650,18 @@
   },
   "shock": {
     "word": "shock",
-    "verdict": "marginal",
-    "speed": 0.82,
+    "verdict": "perfect",
+    "speed": 1,
     "lead_ms": 80,
     "period": false,
-    "onset_trim": true,
+    "onset_trim": false,
     "trim_ms": 0,
     "bright_head_ms": 0,
     "head_trim_ms": 0,
     "skip_burst": false,
     "carrier": [
-      "shock. shock.",
-      40,
+      "Spell it: S H O C K. shock.",
+      80,
       -20,
       20
     ],
@@ -6210,18 +6671,18 @@
   },
   "shell": {
     "word": "shell",
-    "verdict": "marginal",
+    "verdict": "perfect",
     "speed": 0.82,
     "lead_ms": 80,
     "period": false,
-    "onset_trim": true,
+    "onset_trim": false,
     "trim_ms": 0,
     "bright_head_ms": 0,
     "head_trim_ms": 0,
     "skip_burst": false,
     "carrier": [
-      "shell. shell.",
-      40,
+      "Spell it: S H E L L. shell.",
+      80,
       -20,
       20
     ],
@@ -6231,8 +6692,8 @@
   },
   "thick": {
     "word": "thick",
-    "verdict": "ok",
-    "speed": 0.82,
+    "verdict": "perfect",
+    "speed": 1,
     "lead_ms": 80,
     "period": false,
     "onset_trim": false,
@@ -6241,8 +6702,8 @@
     "head_trim_ms": 0,
     "skip_burst": false,
     "carrier": [
-      "Say thick.",
-      200,
+      "Spell it: T H I C K. thick.",
+      80,
       -20,
       20
     ],
@@ -6252,40 +6713,8 @@
   },
   "whack": {
     "word": "whack",
-    "verdict": "good",
-    "speed": 0.82,
-    "lead_ms": 120,
-    "period": false,
-    "onset_trim": true,
-    "trim_ms": 0,
-    "bright_head_ms": 0,
-    "head_trim_ms": 0,
-    "skip_burst": false,
-    "carrier": null,
-    "carrier_cut_mode": "none",
-    "asr_start": null,
-    "asr_end": null
-  },
-  "whiff": {
-    "word": "whiff",
-    "verdict": "ok",
-    "speed": 0.82,
-    "lead_ms": 120,
-    "period": false,
-    "onset_trim": true,
-    "trim_ms": 0,
-    "bright_head_ms": 0,
-    "head_trim_ms": 0,
-    "skip_burst": false,
-    "carrier": null,
-    "carrier_cut_mode": "none",
-    "asr_start": null,
-    "asr_end": null
-  },
-  "whizz": {
-    "word": "whizz",
-    "verdict": "ok",
-    "speed": 0.82,
+    "verdict": "perfect",
+    "speed": 1,
     "lead_ms": 80,
     "period": false,
     "onset_trim": false,
@@ -6294,8 +6723,8 @@
     "head_trim_ms": 0,
     "skip_burst": false,
     "carrier": [
-      "whizz. whizz.",
-      120,
+      "Spell it: W H A C K. whack.",
+      80,
       -20,
       20
     ],
@@ -6303,11 +6732,11 @@
     "asr_start": null,
     "asr_end": null
   },
-  "quick": {
-    "word": "quick",
-    "verdict": "ok",
-    "speed": 0.72,
-    "lead_ms": 130,
+  "whiff": {
+    "word": "whiff",
+    "verdict": "perfect",
+    "speed": 1,
+    "lead_ms": 80,
     "period": false,
     "onset_trim": false,
     "trim_ms": 0,
@@ -6315,8 +6744,45 @@
     "head_trim_ms": 0,
     "skip_burst": false,
     "carrier": [
-      "Say quick.",
-      260,
+      "Spell it: W H I F F. whiff.",
+      80,
+      -20,
+      20
+    ],
+    "carrier_cut_mode": "energy",
+    "asr_start": null,
+    "asr_end": null
+  },
+  "whizz": {
+    "word": "whizz",
+    "verdict": "perfect",
+    "speed": 0.82,
+    "lead_ms": 80,
+    "period": false,
+    "onset_trim": false,
+    "trim_ms": 0,
+    "bright_head_ms": 0,
+    "head_trim_ms": 0,
+    "skip_burst": false,
+    "carrier": null,
+    "carrier_cut_mode": "assembly",
+    "asr_start": null,
+    "asr_end": null
+  },
+  "quick": {
+    "word": "quick",
+    "verdict": "perfect",
+    "speed": 1,
+    "lead_ms": 80,
+    "period": false,
+    "onset_trim": false,
+    "trim_ms": 0,
+    "bright_head_ms": 0,
+    "head_trim_ms": 0,
+    "skip_burst": false,
+    "carrier": [
+      "Spell it: Q U I C K. quick.",
+      80,
       -20,
       20
     ],
@@ -6347,8 +6813,8 @@
   },
   "quill": {
     "word": "quill",
-    "verdict": "very good",
-    "speed": 0.82,
+    "verdict": "perfect",
+    "speed": 1,
     "lead_ms": 80,
     "period": false,
     "onset_trim": false,
@@ -6357,7 +6823,7 @@
     "head_trim_ms": 0,
     "skip_burst": false,
     "carrier": [
-      "Say quill.",
+      "Spell it: Q U I L L. quill.",
       80,
       -20,
       20
@@ -6368,23 +6834,7 @@
   },
   "knock": {
     "word": "knock",
-    "verdict": "good",
-    "speed": 0.82,
-    "lead_ms": 80,
-    "period": true,
-    "onset_trim": false,
-    "trim_ms": 0,
-    "bright_head_ms": 0,
-    "head_trim_ms": 0,
-    "skip_burst": false,
-    "carrier": null,
-    "carrier_cut_mode": "none",
-    "asr_start": null,
-    "asr_end": null
-  },
-  "wreck": {
-    "word": "wreck",
-    "verdict": "good",
+    "verdict": "perfect",
     "speed": 0.82,
     "lead_ms": 80,
     "period": false,
@@ -6394,8 +6844,29 @@
     "head_trim_ms": 0,
     "skip_burst": false,
     "carrier": [
-      "wreck. wreck.",
-      120,
+      "Spell it: K N O C K. knock.",
+      80,
+      -20,
+      20
+    ],
+    "carrier_cut_mode": "energy",
+    "asr_start": null,
+    "asr_end": null
+  },
+  "wreck": {
+    "word": "wreck",
+    "verdict": "perfect",
+    "speed": 1,
+    "lead_ms": 80,
+    "period": false,
+    "onset_trim": false,
+    "trim_ms": 0,
+    "bright_head_ms": 0,
+    "head_trim_ms": 0,
+    "skip_burst": false,
+    "carrier": [
+      "Spell it: W R E C K. wreck.",
+      80,
       -20,
       20
     ],
@@ -6405,8 +6876,8 @@
   },
   "wrong": {
     "word": "wrong",
-    "verdict": "ok",
-    "speed": 0.82,
+    "verdict": "perfect",
+    "speed": 1,
     "lead_ms": 80,
     "period": false,
     "onset_trim": false,
@@ -6415,8 +6886,8 @@
     "head_trim_ms": 0,
     "skip_burst": false,
     "carrier": [
-      "wrong. wrong.",
-      60,
+      "Spell it: W R O N G. wrong.",
+      80,
       -20,
       20
     ],
@@ -6447,7 +6918,7 @@
   },
   "wrap": {
     "word": "wrap",
-    "verdict": "good",
+    "verdict": "perfect",
     "speed": 0.82,
     "lead_ms": 80,
     "period": false,
@@ -6457,8 +6928,8 @@
     "head_trim_ms": 0,
     "skip_burst": false,
     "carrier": [
-      "wrap. wrap.",
-      120,
+      "Listen—wrap.",
+      80,
       -20,
       20
     ],
@@ -6468,23 +6939,28 @@
   },
   "wren": {
     "word": "wren",
-    "verdict": "marginal",
+    "verdict": "perfect",
     "speed": 0.82,
-    "lead_ms": 100,
+    "lead_ms": 80,
     "period": false,
     "onset_trim": false,
     "trim_ms": 0,
     "bright_head_ms": 0,
     "head_trim_ms": 0,
     "skip_burst": false,
-    "carrier": null,
-    "carrier_cut_mode": "none",
+    "carrier": [
+      "Spell it: W R E N. wren.",
+      80,
+      -20,
+      20
+    ],
+    "carrier_cut_mode": "energy",
     "asr_start": null,
     "asr_end": null
   },
   "limb": {
     "word": "limb",
-    "verdict": "very good",
+    "verdict": "perfect",
     "speed": 0.82,
     "lead_ms": 80,
     "period": false,

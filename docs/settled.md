@@ -36,7 +36,7 @@ updated whenever a round lands.
 - **Word speed 1.0 does not fix a weak onset.** "man" at 1.0 still sounds like
   "an", and "hat" at 1.0 is worse than what ships. Speed is closed for both.
 - **"man" is solved** by the comma carrier at 150 ms — "almost perfect", shipped
-  2026-07-31. Do not re-open it.
+  2026-07-31. (Superseded by the uplift pass, 2026-08-07 — see below.)
 - **"hat" is not solved and has no live candidate.** Speed is ruled out, every
   carrier candidate failed validation, and "metallic" is not an extra sound that
   a trim removes. Anything offered for hat must be a new mechanism, not another
@@ -118,10 +118,32 @@ updated whenever a round lands.
   the shipped reveal), and no listening round ships again without a measured
   audit that its clips are audible.
 
+## The uplift pass (2026-08-06 and 07) — 212 words superseded on fresh listens, closed
+
+- Every word that shipped below "perfect" was re-offered to the owner in new
+  blind rounds by the sound sidecar, and won: all 349 words now carry
+  "perfect", each row in `tools/voice-words.csv` naming its round, family and
+  date. A word was superseded only on a "perfect" verdict from the owner's
+  ear; nothing was replaced on a measurement. 209 words shipped new bytes;
+  check, limb and rich kept their bytes with the verdict upgraded.
+- This supersedes the per-word rulings elsewhere in this file wherever a row
+  now carries an UPLIFT round: man's comma carrier, hat's `carrier@0.82`,
+  hen shipping untrimmed, the trims on cub and dish, hop's ASR cut, and the
+  whole marginal tier are all replaced by newer owner-heard winners. The
+  LESSONS stand unchanged: the carrier cut is still not general, a 250 ms
+  margin still reaches into the preceding word, ASR + head_trim still eats a
+  first sound, and listening is still the only detector this project has.
+- The uplift winners do not rebake byte-identically through this repository's
+  renderer (0 of 212; encoder-level drift, durations identical to the
+  millisecond). The pinned owner-heard bytes govern, G13 verifies every file
+  against its pin, and `docs/voice-pack.md` holds the full customs record.
+  Do not re-render an uplift word without a new listen.
+
 ## The 57 keepers (2026-08-01) — closed, do not re-open
 
 - **hat is solved**: `carrier@0.82`, "very good". This file previously said hat
   had no live candidate and needed a new mechanism. It has one.
+  (Superseded by the uplift pass, 2026-08-07 — see above.)
 - **can, pal, had, ham, jam are solved** — the rest of the pack-1 failures.
 - **man is NOT superseded.** The handoff's own man is graded "marginal"; round
   14's is "almost perfect". Round 14 stands.
