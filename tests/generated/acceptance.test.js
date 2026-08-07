@@ -155,7 +155,7 @@ describe("Feature: Sound units and feedback text", () => {
     const fb = feedbackParts("correct", "cat");
     expect(fb.lead).toBe("Great job! That is ");
     expect(fb.d).toBe("c-a-t");
-    expect(fb.word).toBe("catx");
+    expect(fb.word).toBe("cat");
   });
   it("Feedback for a close reading", () => {
     const fb = feedbackParts("close", "ship");
