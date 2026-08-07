@@ -88,8 +88,9 @@ that definition.
 - S5. Adult result controls need a 450 ms pointer hold. A keyboard operates them directly.
 - S6. The app makes no network calls after load, has no accounts, and has no analytics. All data
   stays on the device. Two exceptions, each a request to the app's own host that carries no
-  data, and nothing else may use them: when an adult taps "Check for updates" in the
-  "Grown-ups corner", the app makes one request to compare versions; and when the app
+  data, and nothing else may use them: when an adult presses and holds "Check for updates"
+  in the home screen's grown-up strip (moved there from the "Grown-ups corner",
+  owner-approved 2026-08-07), the app makes one request to compare versions; and when the app
   returns to the foreground, it may ask the browser to look for a newer service worker —
   approved by the owner on 2026-08-03 on the condition that the "Grown-ups corner" states
   it in plain words and offers a switch that turns it off, and Off means zero requests. A

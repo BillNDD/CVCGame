@@ -112,16 +112,17 @@ This document follows the Microsoft Writing Style Guide.
 
 ## Updates
 
-33. While online with the latest version, open the "Grown-ups corner" and tap "Check for updates".
-    Expected: "You have the latest version." Nothing else changes.
-34. Turn on Airplane Mode and tap "Check for updates".
+33. While online with the latest version, on the first screen give "Check for updates" in the grown-up strip a quick tap, then press and hold it.
+    Expected: The quick tap does nothing at all. The held press fills the control, then
+    "You have the latest version." appears in the strip. Nothing else changes.
+34. Turn on Airplane Mode and press and hold "Check for updates".
     Expected: "Couldn’t check. Are you online?" Nothing else changes.
-35. After the next release, tap "Check for updates", then "Update now", and let the app restart.
-    Expected: The new version number shows, and all progress and settings are exactly as
-    before the update.
+35. After the next release, press and hold "Check for updates", then press and hold "Update now", and let the app restart.
+    Expected: The new version number shows in the strip, and all progress and settings are
+    exactly as before the update.
 40. In the "Grown-ups corner", switch "Automatic update check" to Off, fully close and reopen the app, and return to the corner.
-    Expected: The switch is still Off. "Check for updates" still answers when tapped, and
-    nothing else about the corner changed.
+    Expected: The switch is still Off. "Check for updates" on the first screen still
+    answers when held, and nothing else about the corner changed.
 
 ## Audio after the microphone
 
