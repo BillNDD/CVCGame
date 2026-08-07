@@ -33,6 +33,23 @@ const ANSI = /\u001b\[[0-9;]*[A-Za-z]/g;
   }
 }
 
+/* A counter summed across files (a gated suite split at the file-length
+   ceiling): every part must match, so a file that vanishes from the run can
+   never pass silently. The control proves a missing file reads "?", not a
+   smaller number. */
+const sumCounts = (out, regexes) => {
+  const ms = regexes.map((rx) => out.match(rx));
+  return ms.every(Boolean) ? ms.reduce((a, m) => a + Number(m[1]), 0) : NaN;
+};
+{
+  const both = "a.test.js (3 tests)\nb.test.js (2 tests)";
+  const rxs = [/a\.test\.js\s+\((\d+) tests\)/, /b\.test\.js\s+\((\d+) tests\)/];
+  if (sumCounts(both, rxs) !== 5 || !Number.isNaN(sumCounts("a.test.js (3 tests)", rxs))) {
+    console.error("control FAILED: a summed counter must total every file and refuse a missing one");
+    process.exit(1);
+  }
+}
+
 let failures = 0;
 const summary = [];
 
@@ -53,8 +70,12 @@ function step(gate, command, counts = [], env = {}) {
   out = out.replace(ANSI, "");
   const parts = [];
   for (const c of counts) {
-    const m = out.match(c.regex);
-    const n = m ? Number(m[1]) : c.default !== undefined ? c.default : NaN;
+    let n;
+    if (c.regexes) n = sumCounts(out, c.regexes);
+    else {
+      const m = out.match(c.regex);
+      n = m ? Number(m[1]) : c.default !== undefined ? c.default : NaN;
+    }
     let pass = !Number.isNaN(n);
     let bound = "";
     if (c.floorKey) { pass = pass && n >= baseline[c.floorKey]; bound = ` (floor ${baseline[c.floorKey]})`; }
@@ -81,7 +102,11 @@ step("G1+G2+G9+G10 tests", "npx vitest run", [
   { label: "scheduler", regex: /scheduler\.test\.js\s+\((\d+) tests\)/, floorKey: "g1_scheduler_tests" },
   { label: "properties", regex: /properties\.test\.js\s+\((\d+) tests\)/, floorKey: "g2_properties" },
   { label: "faults", regex: /faults\.test\.js\s+\((\d+) tests\)/, floorKey: "g9_fault_tests" },
-  { label: "safety", regex: /safety\.test\.js\s+\((\d+) tests\)/, floorKey: "g10_safety_tests" },
+  /* safety.test.js reached the G6 file-length ceiling and split; the floor
+     covers the SUM, so no test can vanish from either file. The first regex
+     must not also match the second file's name — "safety-splash" does not
+     contain the literal "safety.test.js". */
+  { label: "safety", regexes: [/safety\.test\.js\s+\((\d+) tests\)/, /safety-splash\.test\.js\s+\((\d+) tests\)/], floorKey: "g10_safety_tests" },
   { label: "adult_controls", regex: /adult-controls\.test\.js\s+\((\d+) tests\)/, floorKey: "g10_adult_control_tests" },
   { label: "reveal", regex: /reveal\.test\.js\s+\((\d+) tests\)/, floorKey: "g10_reveal_tests" },
   { label: "acceptance", regex: /acceptance\.test\.js\s+\((\d+) tests\)/, floorKey: "g3_generated_tests" },
