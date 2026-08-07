@@ -104,6 +104,14 @@ The first app version is 1.0.0-beta.1. The app stays in beta until version 1.0 i
   would serve. In truly random play a dice mark replaces the level chip in the header,
   because a level number would claim a level the mode is not serving. A "Back" control
   starts nothing.
+- New: a grown-up can skip the rest of a reveal. When a child reads several words correctly
+  in a row, sitting through every full praise sentence gets slow for both of them — so a
+  "⏭ skip" control now sits in the grown-up strip beside the replay control, active during
+  the reveal. It takes the same 450 ms press-and-hold as the grading controls, because the
+  wait exists so the child hears the word: a child's tap does nothing, a keyboard or a
+  screen reader operates it directly, and the held press silences the reveal at once and
+  moves to the next word. The slot is reserved in every phase, so no control moves under a
+  finger.
 - Changed: every one of the 349 words now carries the owner's "perfect" — the uplift pass.
   Working with the sound sidecar on 2026-08-06 and 07, the owner re-judged every word that
   had shipped below "perfect" in fresh blind rounds: 212 words won new verdicts, 209 of

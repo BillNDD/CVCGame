@@ -435,6 +435,14 @@ because a disabled control cannot hold focus. So the next key press moves the se
 screen reader announces the control as soon as it can be used. If the grown-up has moved to
 another control while the wait ran, or the early-exit dialog is open, their choice stands.
 
+The grown-up can end the reveal early. A "⏭ skip" control sits in the grown-up strip beside
+the replay control, active only in the feedback phase, and takes the same 450 ms pointer hold
+as the grading controls; a keyboard or assistive technology operates it directly. The wait
+exists so the child hears the word, so a child's tap on the skip does nothing. The held press
+does exactly what the advance control does when it comes alive: the reveal falls silent at
+once and the next word — or the session end — follows. The slot is reserved in every phase,
+disabled outside feedback, so no control moves under a finger.
+
 Done. This screen shows a trophy, the three counters, and the accuracy. A praise line has three
 steps: 90 percent or more, 70 percent or more, and below 70 percent. A level-up shows in the trophy zone, not as an
 extra row.

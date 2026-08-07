@@ -136,6 +136,13 @@ This document follows the Microsoft Writing Style Guide.
     controls: an inert "Save as a short session", "Discard and go home", and "Keep reading".
     Nothing you say is recorded, and no control moves. "Keep reading" returns to the same word.
 
+## Skipping a reveal
+
+41. Grade a word correct, and while the praise is still speaking give the "⏭ skip" control in the grown-up strip a quick tap, then press and hold it.
+    Expected: The tap does nothing — the voice keeps speaking and the "Next word" control
+    keeps its fill. The held press fills the skip control, the voice stops at once, and the
+    next word appears with no sound carrying over.
+
 ## Keyboard
 
 39. On the Windows laptop, start a session, hold or press a result control, and wait for the reveal to finish without touching the mouse. Then press Enter.
