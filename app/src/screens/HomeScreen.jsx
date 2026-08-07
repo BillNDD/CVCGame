@@ -3,6 +3,7 @@ import Frame from "../components/Frame.jsx";
 import Zone from "../components/Zone.jsx";
 import Toast from "../components/Toast.jsx";
 import Modal from "../components/Modal.jsx";
+import UpdateRow from "../components/UpdateRow.jsx";
 
 /* The free-play chooser (SPEC section 6): between the tap and the game, the
    grown-up picks which words free play serves. Both choices are full 56 px
@@ -72,10 +73,12 @@ export default function HomeScreen({ state, L, kid, masteredCount, persistent, r
           🎈 Free play
         </button>
       </Zone.Rail>
-      {/* P2-7 — parent-facing copy lives in the grown-up strip, not under the child's button */}
+      {/* P2-7 — parent-facing copy lives in the grown-up strip, not under the child's button.
+          The update row (SPEC section 7a) wraps onto the strip's second line. */}
       <Zone.Strip>
         <span className="wq-striplabel">grown-up</span>
         <span style={{ fontSize: 12, color: C.strip }}>~20 words · about 5 minutes · {state.settings.mode === "mic" ? "microphone" : "you judge"}</span>
+        <UpdateRow />
       </Zone.Strip>
       {fpChooser && <FreePlayChooser level={state.level} L={L} onChoose={onFreePlayChoose} onCancel={onFreePlayCancel} />}
       {toast && <Toast>{toast}</Toast>}

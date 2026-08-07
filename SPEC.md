@@ -496,9 +496,14 @@ The Markdown export has four parts:
 
 ## 7a. Updates
 
-An update never interrupts play. The "Grown-ups corner" shows the installed version. A
-"Check for updates" control asks the app's own host for the latest version number and shows
-the result: "You have the latest version." or "Version {n} is available.", with an "Update
+An update never interrupts play. The home screen's grown-up strip shows the installed
+version beside a "Check for updates" control, and the "Grown-ups corner" shows the version
+too (the manual controls moved from the corner to the strip, owner-approved 2026-08-07).
+Both update controls take the same 450 ms pointer hold as the adult result controls,
+because they sit on the child's first screen: a child's tap does nothing, and a keyboard
+or assistive technology operates them directly. "Check for updates" asks the app's own
+host for the latest version number and shows the result in the strip: "You have the
+latest version.", or that the newer version is ready, with an "Update
 now" control. Updating swaps in the new version and reloads the app. The child's progress
 and any family recordings live in on-device storage that an update never touches. A
 downloaded newer version never applies while the app is open: the adult applies it at once
@@ -515,8 +520,8 @@ returns to the foreground, it asks the browser to look for a newer service worke
 app's own host. The request carries no data, and a newer version found this way still only
 installs and waits. The "Grown-ups corner" states this in plain words beside an "Automatic
 update check" switch; Off means the app makes zero requests on its own and only checks
-when the adult taps "Check for updates". The setting is on by default, saved with the
-other settings, and an update never changes it.
+when the adult presses and holds "Check for updates" on the home screen. The setting is on
+by default, saved with the other settings, and an update never changes it.
 
 Self-hosters who run the game from a clone of the repository update with `git pull` and a
 rebuild; `docs/self-hosting.md` gives the steps. The in-app check works for them too, against

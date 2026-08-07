@@ -29,10 +29,10 @@ npm --prefix app run build
 ```
 
 Then serve the new `app/dist`. Devices with your copy installed update the same way the
-official copy does: an adult opens the "Grown-ups corner", taps "Check for updates", and
-applies the new version. The check compares against your host's `version.json`, so it works
-for a self-hosted copy too. Saved progress lives on each device and is never touched by an
-update.
+official copy does: an adult presses and holds "Check for updates" in the first screen's
+grown-up strip, and applies the new version. The check compares against your host's
+`version.json`, so it works for a self-hosted copy too. Saved progress lives on each device
+and is never touched by an update.
 
 ## Good practice
 

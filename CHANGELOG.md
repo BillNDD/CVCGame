@@ -104,6 +104,14 @@ The first app version is 1.0.0-beta.1. The app stays in beta until version 1.0 i
   would serve. In truly random play a dice mark replaces the level chip in the header,
   because a level number would claim a level the mode is not serving. A "Back" control
   starts nothing.
+- Changed: the "Check for updates" control moved from the bottom of the "Grown-ups corner"
+  to the home screen's grown-up strip, beside the installed version number, so an adult
+  finds it without hunting (owner-approved 2026-08-07). Both it and the "Update now" that
+  appears when a newer version answers now take the same 450 ms press-and-hold as the
+  adult grading controls — the strip sits on the child's first screen, and a child's tap
+  must never touch the network or restart the app. A keyboard and assistive technology
+  operate them directly. The corner keeps the version chip, the "Automatic update check"
+  switch and its plain words, which now point at the first screen.
 - New: seven more praise sentences, chosen by the owner from sixteen candidates - the pool
   grows from ten to seventeen, so a twenty-word session repeats itself far less. Every new
   sentence points at the child's own doing, and every word in them has a single

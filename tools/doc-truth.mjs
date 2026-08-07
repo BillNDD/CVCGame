@@ -46,7 +46,7 @@ const SOURCES = [
   "app/src/App.jsx", "app/src/storage.js", "app/src/voicepacks.js", "app/src/swrefresh.js",
   "app/src/updates.js", "app/src/screens/HomeScreen.jsx", "app/src/screens/SessionScreen.jsx",
   "app/src/screens/DoneScreen.jsx", "app/src/screens/ParentScreen.jsx",
-  "app/src/components/HoldButton.jsx", "src/engine.js",
+  "app/src/components/HoldButton.jsx", "app/src/components/UpdateRow.jsx", "src/engine.js",
 ];
 const real = {
   spec: readFileSync("SPEC.md", "utf8"),
