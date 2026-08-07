@@ -37,7 +37,7 @@ export default function UpdateRow() {
   }
 
   return (
-    <span style={{ flexBasis: "100%", display: "flex", alignItems: "center", gap: 8 }}>
+    <span className="wq-updrow">
       {status
         ? <span role="status" style={{ fontSize: 11.5, color: C.strip }}>{status}</span>
         : <span className="wq-mono" style={{ fontSize: 11, color: C.strip, opacity: 0.9 }}>{"v" + __APP_VERSION__}</span>}

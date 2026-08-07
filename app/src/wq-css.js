@@ -122,6 +122,38 @@ const CSS = `
 .wq-seg-mid{background:repeating-linear-gradient(135deg,${C.sun} 0 3px,#fff 3px 6px)}
 .wq-seg-bad{background:repeating-linear-gradient(90deg,${C.red} 0 2px,#fff 2px 4px)}
 
+/* home stage sizing lives here, not inline, so the short-screen rules below
+   can reach it */
+.wq-home-title{font-size:clamp(2rem,7dvh,3rem);line-height:1.1;margin:0}
+.wq-home-hi{margin:8px 0 0;font-weight:700;font-size:16px}
+.wq-home-card{margin-top:18px;padding:16px}
+/* The update row: a second strip line on a phone; inline on a wide screen,
+   where the strip has room on one line and the home stage needs the height
+   back. */
+.wq-updrow{flex-basis:100%;display:flex;align-items:center;gap:8px}
+@media (min-width:640px){.wq-updrow{flex-basis:auto;margin-left:auto}}
+/* A short HOME stage: a desktop window half-snapped, or a heavy zoom. The
+   session stage shrinks to FIT at 520 rather than asking for a scroll; the
+   home stage clips earlier, because two 56 px child controls and the strip
+   sit under it - measured: the level card overflowed a 920x410 window by
+   53 px and cleared a 1280x560 one by 6. So the home furniture starts
+   shrinking at 620, decoration first: the big title repeats what the header
+   already says. Below what fitting can save, the stage still scrolls (N-4). */
+/* The 94 px word-centering offset belongs to the session's reserved slots;
+   on the home stage it only pushed the level card toward the action rail. */
+.wq-stage-home::before{flex-basis:0}
+@media (max-height:620px){
+  .wq-home-title{font-size:clamp(1.4rem,6dvh,2rem)}
+  .wq-home-hi{margin-top:2px;font-size:14px}
+  .wq-home-card{margin-top:8px;padding:10px 16px}
+}
+/* Shorter still, the big title goes: the header already says Word Quest, and
+   the level card is what a hand needs. The stage scrolls past what even this
+   cannot fit (N-4). */
+@media (max-height:420px){
+  .wq-home-title{display:none}
+}
+
 /* cards / forms */
 .wq-card{background:#fff;border-radius:18px;box-shadow:0 2px 10px rgba(23,53,107,.12);text-align:center}
 .wq-lbl{display:block;letter-spacing:.06em;text-transform:uppercase;color:${C.muted};margin-bottom:5px}

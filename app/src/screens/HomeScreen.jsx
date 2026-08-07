@@ -40,15 +40,18 @@ export default function HomeScreen({ state, L, kid, masteredCount, persistent, r
         <button className="wq-btn-plain" onClick={onParent} aria-label="Grown-ups corner">⚙️ Grown-ups</button>
       </Zone.Header>
 
-      <Zone.Stage>
+      <Zone.Stage home>
         <div style={{ textAlign: "center", maxWidth: 420, width: "100%" }}>
-          <h1 className="wq-display" style={{ margin: 0, color: C.ink, fontSize: "clamp(2rem,7dvh,3rem)", lineHeight: 1.1 }}>
+          {/* Geometry lives in the stylesheet (wq-home-*) so the short-screen
+              rules can shrink the home furniture to fit: the level card used
+              to slide under the action rail on a half-height desktop window. */}
+          <h1 className="wq-display wq-home-title" style={{ color: C.ink }}>
             Word Quest
           </h1>
-          <p style={{ margin: "8px 0 0", color: C.ink, fontWeight: 700, fontSize: 16 }}>
+          <p className="wq-home-hi" style={{ color: C.ink }}>
             {kid ? "Hi " + kid + "! Ready to read? 📖" : "Ready to read? 📖"}
           </p>
-          <div className="wq-card" style={{ marginTop: 18, padding: 16 }}>
+          <div className="wq-card wq-home-card">
             <div style={{ fontWeight: 800, color: C.ink, fontSize: 18 }}>Level {state.level} {L.emoji} {L.name}</div>
             <div style={{ marginTop: 8, display: "flex", justifyContent: "center", gap: 18, color: C.ink2, fontSize: 13.5, fontWeight: 700 }}>
               {/* A1-014 / A2-014 — "1 sessions" was the first thing a child saw
