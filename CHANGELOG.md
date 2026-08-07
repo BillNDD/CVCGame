@@ -104,6 +104,15 @@ The first app version is 1.0.0-beta.1. The app stays in beta until version 1.0 i
   would serve. In truly random play a dice mark replaces the level chip in the header,
   because a level number would claim a level the mode is not serving. A "Back" control
   starts nothing.
+- Changed: every one of the 349 words now carries the owner's "perfect" — the uplift pass.
+  Working with the sound sidecar on 2026-08-06 and 07, the owner re-judged every word that
+  had shipped below "perfect" in fresh blind rounds: 212 words won new verdicts, 209 of
+  them with new audio, and three kept their shipped bytes with the verdict upgraded. The
+  marginal tier is gone — no word ships below "perfect" — and the word table now pins 285
+  of 349 words to the exact approved bytes, every shipped file verified against its pin at
+  customs. The 137 words already "perfect" were untouched, byte for byte. The uplift
+  recipes bake on the sidecar's own environment and do not reproduce byte-for-byte here,
+  so the pinned owner-heard bytes are the authority, as the word-table document records.
 - Changed: the "Check for updates" control moved from the bottom of the "Grown-ups corner"
   to the home screen's grown-up strip, beside the installed version number, so an adult
   finds it without hunting (owner-approved 2026-08-07). Both it and the "Update now" that

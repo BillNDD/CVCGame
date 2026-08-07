@@ -272,9 +272,16 @@ function check(manifest, verifyFiles, lock = LOCK, csvText = CSV_TEXT, scriptOve
         if (!(lock.words && lock.words[w])) problems.push(`voice-lock is missing word: ${w}`);
     }
     /* Two-letter words are read wrongly from spelling. Every one of them must
-       be rendered from an approved pronunciation instead. */
+       be rendered from an approved pronunciation, cut out of an approved
+       carrier sentence (which never reads the bare spelling), or byte-pinned
+       to audio a person heard - a pinned clip is never re-rendered, and the
+       renderer hard-stops if it goes missing. The uplift pass (2026-08-07)
+       moved all twelve to carrier cuts or pins; a future two-letter word
+       with none of the three still trips this. */
     const short = script.filter((c) => c.id.startsWith("w:") && c.id.length === 4).map((c) => c.id.slice(2));
-    const covered = new Set(r.phoneme_words || []);
+    const covered = new Set([...(r.phoneme_words || []),
+      ...Object.keys(r.carrier_cut || {}), ...Object.keys(r.asr_pinned || {}),
+      ...Object.keys(KEEPER_BYTES)]);
     for (const w of short) if (!covered.has(w)) problems.push(`two-letter word rendered from spelling: ${w}`);
     /* A sentence can teach the wrong sound too. "You read that word all by
        yourself!" was spoken with "read" in the present tense, to a child who
@@ -319,13 +326,21 @@ if (process.argv.includes("--self-test")) {
   const drifted = { ...manifest, __recipe: { ...manifest.__recipe, lead_ms: 0, word_speed: 1.0 } };
   const dr = check(drifted, false).problems;
   const sawRecipe = dr.some((p) => p.startsWith("recipe lead_ms")) && dr.some((p) => p.startsWith("recipe word_speed"));
-  const spelled = { ...manifest, __recipe: { ...manifest.__recipe, phoneme_words: [] } };
-  const sawSpelling = check(spelled, false).problems.some((p) => p.startsWith("two-letter word rendered from spelling: an"));
-  /* A trim nobody heard: one approved word cut by a different amount, and one
-     word cut that was never in front of a listener. */
-  const trimmed = { ...manifest, __recipe: { ...manifest.__recipe, trim_ms: { cub: 260, hip: 130, dish: 120, sun: 90 } } };
+  /* Since the uplift every real two-letter word is carried or pinned, so the
+     plant adds a NEW one with no pronunciation, no carrier and no pin -
+     exactly the future fault this rule still guards. */
+  const spelledScript = [...voiceScript(), { id: "w:qq", text: "qq" }];
+  const spelledManifest = { ...manifest, "w:qq": { file: "w-qq.mp3", ms: 900 } };
+  const sawSpelling = check(spelledManifest, false, LOCK, CSV_TEXT, spelledScript)
+    .problems.some((p) => p.startsWith("two-letter word rendered from spelling: qq"));
+  /* A trim nobody heard. Before the uplift pass cub, hip and dish carried
+     approved trims and this plant checked a changed value; the uplift re-won
+     all three without a trim, so the same plant is now an unapproved trim on
+     each, and the changed-value detector is proven on the one surviving
+     brighten (rat, in the round-9 plant below). */
+  const trimmed = { ...manifest, __recipe: { ...manifest.__recipe, trim_ms: { cub: 260, sun: 90 } } };
   const tp = check(trimmed, false).problems;
-  const sawTrim = tp.some((p) => p.startsWith("recipe trims cub by 260")) && tp.some((p) => p.startsWith("recipe trims a word nobody approved: sun"));
+  const sawTrim = tp.some((p) => p === "recipe trims a word nobody approved: cub") && tp.some((p) => p === "recipe trims a word nobody approved: sun");
   /* The praise sentence that once said "reed" for "read", left to spelling
      again: the exact fault, replayed. The line itself was replaced on
      2026-08-03, so the replay plants an ambiguous sentence into the script —
@@ -337,31 +352,37 @@ if (process.argv.includes("--self-test")) {
   /* The blind round's winners, quietly dropped or quietly widened: a word
      that stops being rendered as a sentence, and a word nobody heard given
      the same treatment. */
-  const unheard = { ...manifest, __recipe: { ...manifest.__recipe, period_words: ["cup", "hop", "jug", "pop", "sun"], onset_trim_words: [], bright_head_ms: { jam: 200 } } };
+  /* Re-pointed for the uplift landscape: the approved period list is now
+     ["rich"], the approved onset list is empty (so the plant must be
+     non-empty to drift), and rat carries the one surviving brighten - its
+     changed value proves the detector arm the trim plant lost. */
+  const unheard = { ...manifest, __recipe: { ...manifest.__recipe, period_words: ["cup", "hop", "jug", "pop", "sun"], onset_trim_words: ["sun"], bright_head_ms: { rat: 200, jam: 200 } } };
   const up = check(unheard, false).problems;
   const sawRound9 = up.some((p) => p.startsWith("recipe period_words is")) &&
     up.some((p) => p.startsWith("recipe onset_trim_words is")) &&
-    up.some((p) => p.startsWith("recipe brightens jam over 200"));
+    up.some((p) => p.startsWith("recipe brightens rat over 200")) &&
+    up.some((p) => p === "recipe brightens a word nobody approved: jam");
   /* Round 13 / remediation: alter hen's energy cut, plant an unheard energy
      carrier, and drift an ASR pin. */
   const recut = { ...manifest, __recipe: { ...manifest.__recipe, carrier_cut: {
     hen: ["hen, hen.", 60, -30, 40],
-    /* "at" is locked with a phoneme treatment and no carrier - a carrier
-       for it is by construction one nobody approved. (This fixture has been
-       re-pointed twice as its former anchors earned real approvals; if "at"
-       ever wins a carrier round, point it at another carrier-free word.) */
-    at: ["Here is the word, at.", 150, -20, 20],
+    /* "dad" is locked with no carrier - a carrier for it is by construction
+       one nobody approved. (This fixture has been re-pointed three times as
+       former anchors earned real approvals - "at" won a carrier in the
+       uplift pass; if "dad" ever wins one, point this at another
+       carrier-free word.) */
+    dad: ["Here is the word, dad.", 150, -20, 20],
   }, asr_pinned: {
     ...(manifest.__recipe.asr_pinned || {}),
-    ...(manifest.__recipe.asr_pinned?.hop
-      ? { hop: ["Say hop.", 0.1, 0.2] }
-      : { hop: ["Say hop.", 0.1, 0.2] }),
+    /* pop's approved pin is ["Say pop.", 0.46, 0.9]: this is a drift.
+       (Re-pointed from hop, whose ASR pin retired with the uplift.) */
+    pop: ["Say pop.", 0.1, 0.2],
   } } };
   const cp = check(recut, false).problems;
   const sawCarrier = cp.some((p) => p.startsWith("recipe cuts hen from")) &&
-    cp.some((p) => p.startsWith("recipe cuts a word out of a carrier nobody approved: at"));
+    cp.some((p) => p === "recipe cuts a word out of a carrier nobody approved: dad");
   const sawAsr = Object.keys(TREATMENTS).length === 0
-    || cp.some((p) => p.startsWith("recipe asr_pinned hop"));
+    || cp.some((p) => p.startsWith("recipe asr_pinned pop"));
   /* The guard quietly changed, or handed to a word with no round behind it. */
   const gdrift = { ...manifest, __recipe: { ...manifest.__recipe,
     asr_guard_ms: { ...manifest.__recipe.asr_guard_ms, bib: [10, 10], sun: [40, 40] } } };

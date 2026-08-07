@@ -9,94 +9,42 @@
   "lead_ms": 80,
   "tail_ms": 300,
   "fade_ms": 10,
-  "phoneme_words": [
-   "am",
-   "an",
-   "at",
-   "ax",
-   "if",
-   "in",
-   "is",
-   "it",
-   "on",
-   "ox",
-   "the",
-   "up",
-   "us"
-  ],
-  "trim_ms": {
-   "cub": 130,
-   "dish": 120,
-   "the": 90,
-   "then": 100,
-   "tuck": 100,
-   "hub": 160
-  },
+  "phoneme_words": [],
+  "trim_ms": {},
   "phoneme_sentences": [],
   "period_words": [
-   "cup",
-   "had",
-   "jug",
-   "knock",
-   "mob",
-   "net",
-   "nut",
-   "rich",
-   "rub",
-   "run",
-   "web"
+   "rich"
   ],
-  "onset_trim_words": [
-   "cop",
-   "fin",
-   "ham",
-   "hot",
-   "lush",
-   "rush",
-   "shell",
-   "shock",
-   "sick",
-   "the",
-   "whack",
-   "whiff",
-   "whip"
-  ],
+  "onset_trim_words": [],
   "bright_head_ms": {
-   "jam": 40,
-   "rat": 40,
-   "thin": 40
+   "rat": 40
   },
   "lead_override": {
    "am": 150,
    "an": 150,
    "bit": 180,
    "had": 150,
-   "lush": 70,
-   "neck": 100,
    "nix": 220,
    "pin": 180,
-   "quick": 130,
-   "rat": 120,
-   "rush": 130,
-   "the": 50,
-   "wet": 180,
-   "whack": 120,
-   "what": 220,
-   "whiff": 120,
-   "wick": 220,
-   "wren": 100
+   "rat": 120
   },
   "word_speed_override": {
+   "am": 0.82,
+   "an": 0.82,
+   "at": 0.82,
+   "ax": 0.82,
    "back": 0.82,
+   "bag": 0.82,
    "bang": 0.82,
    "bash": 0.82,
+   "bat": 0.82,
    "bath": 0.82,
    "bed": 0.82,
    "bell": 0.82,
    "bet": 0.82,
    "bib": 0.82,
    "big": 0.82,
-   "bin": 0.8,
+   "bin": 0.82,
    "bit": 0.82,
    "boss": 0.82,
    "box": 0.82,
@@ -106,120 +54,144 @@
    "bun": 0.82,
    "bus": 0.82,
    "bush": 0.82,
-   "buzz": 0.82,
+   "buzz": 1,
+   "cap": 1,
    "cash": 0.82,
+   "cat": 0.82,
    "chap": 0.82,
    "chat": 0.82,
    "check": 0.82,
    "chess": 0.82,
-   "chick": 0.82,
+   "chick": 1,
    "chill": 0.82,
    "chin": 0.82,
    "chip": 0.82,
    "chop": 0.82,
-   "chuck": 0.82,
+   "chuck": 1,
    "chug": 0.82,
-   "chum": 0.82,
+   "chum": 1,
    "cod": 0.82,
    "cop": 0.82,
+   "cot": 1,
+   "cub": 1,
    "cuff": 0.82,
+   "cup": 0.82,
    "cut": 0.82,
    "dam": 0.82,
    "dash": 0.82,
    "deck": 0.82,
    "den": 0.82,
-   "did": 0.82,
+   "did": 1,
    "dig": 0.82,
    "dim": 0.82,
    "ding": 0.82,
    "dip": 0.82,
+   "dish": 1,
    "dock": 0.82,
    "dog": 0.82,
    "doll": 0.82,
    "dot": 0.82,
    "duck": 0.82,
-   "dug": 0.82,
+   "dug": 1,
+   "fan": 0.82,
    "fang": 0.82,
    "fax": 0.82,
    "fed": 0.82,
    "fell": 0.82,
    "fig": 0.82,
+   "fin": 0.82,
    "fish": 0.82,
    "fit": 0.82,
    "fix": 0.82,
-   "fizz": 0.82,
+   "fizz": 1,
    "fog": 0.82,
    "fox": 0.82,
    "fun": 0.82,
    "fuss": 0.82,
-   "fuzz": 0.82,
+   "fuzz": 1,
    "gap": 0.82,
    "gas": 0.82,
    "gash": 0.82,
    "get": 0.82,
-   "gob": 0.82,
+   "gob": 1,
    "gong": 0.82,
    "got": 0.82,
    "gum": 0.82,
-   "gush": 0.82,
-   "gut": 0.82,
+   "gush": 1,
+   "gut": 1,
+   "had": 0.82,
+   "ham": 0.82,
    "hang": 0.82,
+   "has": 0.82,
    "hat": 0.82,
-   "hem": 0.82,
-   "hid": 0.82,
-   "hill": 0.82,
+   "hem": 1,
+   "hen": 0.82,
+   "hid": 1,
+   "hill": 1,
    "him": 0.82,
    "hip": 0.82,
-   "hit": 0.8,
+   "hit": 1,
    "hog": 0.82,
-   "hop": 0.78,
-   "hub": 0.82,
-   "huff": 0.82,
-   "hug": 0.82,
+   "hop": 0.82,
+   "hot": 0.82,
+   "hub": 1,
+   "huff": 1,
+   "hug": 1,
    "hum": 0.82,
-   "hung": 0.82,
+   "hung": 1,
    "hush": 0.82,
-   "hut": 0.82,
+   "hut": 1,
+   "if": 1,
+   "in": 0.82,
+   "is": 0.82,
+   "it": 0.82,
    "jab": 0.82,
-   "jazz": 0.82,
+   "jam": 0.82,
+   "jazz": 1,
    "jet": 0.82,
    "jig": 0.82,
    "job": 0.82,
    "jog": 0.82,
    "jot": 0.82,
-   "jut": 0.82,
-   "keg": 0.82,
+   "jug": 0.82,
+   "jut": 1,
+   "keg": 1,
    "kick": 0.82,
    "kid": 0.82,
    "king": 0.82,
    "kiss": 0.82,
-   "kit": 0.82,
+   "kit": 1,
    "knit": 0.82,
-   "knob": 0.82,
+   "knob": 1,
    "knock": 0.82,
-   "knot": 0.82,
+   "knot": 1,
    "lab": 0.82,
    "lad": 0.82,
    "lamb": 0.82,
+   "lap": 0.82,
    "lash": 0.82,
    "led": 0.82,
    "leg": 0.82,
-   "let": 0.82,
-   "lick": 0.82,
+   "let": 1,
+   "lick": 1,
    "lid": 0.82,
    "limb": 0.82,
    "lip": 0.82,
-   "lit": 0.82,
-   "lock": 0.82,
+   "lit": 1,
+   "lock": 1,
    "log": 0.82,
-   "long": 0.82,
-   "loss": 0.82,
+   "long": 1,
+   "loss": 1,
    "lot": 0.82,
-   "luck": 0.82,
-   "lug": 0.82,
+   "luck": 1,
+   "lug": 1,
    "lung": 0.82,
-   "lush": 0.82,
+   "lush": 1,
+   "mad": 0.82,
+   "man": 0.82,
+   "map": 0.82,
    "mash": 0.82,
+   "mat": 0.82,
    "math": 0.82,
    "men": 0.82,
    "mess": 0.82,
@@ -227,46 +199,53 @@
    "mill": 0.82,
    "miss": 0.82,
    "mix": 0.82,
+   "mob": 1,
    "mom": 0.82,
    "mop": 0.82,
    "moth": 0.82,
-   "much": 0.82,
+   "much": 1,
    "muck": 0.82,
+   "mud": 0.82,
+   "mug": 1,
    "mush": 0.82,
    "nab": 0.82,
-   "neck": 0.82,
+   "neck": 1,
+   "net": 1,
    "nix": 0.82,
    "nod": 0.82,
    "not": 0.82,
-   "nun": 0.82,
+   "nun": 1,
+   "nut": 1,
+   "on": 0.82,
+   "ox": 0.82,
    "pack": 0.82,
    "pat": 0.82,
-   "path": 0.82,
+   "path": 1,
    "peck": 0.82,
    "peg": 0.82,
    "pen": 0.82,
    "pep": 0.82,
    "pet": 0.82,
-   "pick": 0.82,
+   "pick": 1,
    "pig": 0.82,
    "pin": 0.82,
-   "ping": 0.82,
+   "ping": 1,
    "pit": 0.82,
    "pod": 0.82,
    "pop": 0.82,
    "posh": 0.82,
    "pot": 0.8,
-   "puck": 0.82,
-   "puff": 0.82,
+   "puck": 1,
+   "puff": 1,
    "pun": 0.82,
    "pup": 0.82,
-   "push": 0.82,
+   "push": 1,
    "quack": 0.82,
-   "quick": 0.72,
-   "quill": 0.82,
-   "quip": 0.82,
+   "quick": 1,
+   "quill": 1,
+   "quip": 1,
    "quit": 0.82,
-   "quiz": 0.82,
+   "quiz": 1,
    "ram": 0.82,
    "ran": 0.88,
    "rang": 0.82,
@@ -276,17 +255,19 @@
    "red": 0.82,
    "rib": 0.82,
    "rich": 0.8,
-   "rig": 0.82,
-   "rim": 0.82,
+   "rig": 1,
+   "rim": 1,
    "ring": 0.82,
    "rip": 0.82,
    "rob": 0.82,
    "rock": 0.82,
    "rod": 0.82,
-   "rot": 0.75,
-   "rug": 0.82,
+   "rot": 1,
+   "rub": 1,
+   "rug": 1,
+   "run": 0.82,
    "rung": 0.82,
-   "rush": 0.82,
+   "rush": 1,
    "sack": 0.82,
    "sad": 0.82,
    "sag": 0.82,
@@ -296,42 +277,42 @@
    "sat": 0.82,
    "sax": 0.82,
    "set": 0.82,
-   "shack": 0.82,
+   "shack": 1,
    "sham": 0.82,
    "she": 0.82,
-   "shed": 0.82,
+   "shed": 1,
    "shell": 0.82,
    "shin": 0.82,
    "ship": 0.82,
-   "shock": 0.82,
+   "shock": 1,
    "shop": 0.82,
-   "shun": 0.82,
-   "shut": 0.75,
-   "sick": 0.82,
+   "shun": 1,
+   "shut": 0.82,
+   "sick": 1,
    "sing": 0.82,
    "sip": 0.82,
    "sit": 0.82,
    "six": 0.82,
-   "sob": 0.82,
-   "sock": 0.75,
+   "sob": 1,
+   "sock": 1,
    "song": 0.82,
-   "sub": 0.75,
-   "such": 0.82,
+   "sub": 1,
+   "such": 1,
    "sum": 0.82,
    "sun": 0.82,
-   "sung": 0.82,
+   "sung": 1,
    "tab": 0.82,
-   "tack": 0.82,
+   "tack": 1,
    "tag": 0.82,
    "tan": 0.82,
    "tap": 0.83,
    "tell": 0.82,
    "ten": 0.82,
    "that": 0.82,
-   "the": 0.82,
-   "them": 0.82,
+   "the": 1,
+   "them": 1,
    "then": 0.82,
-   "thick": 0.82,
+   "thick": 1,
    "thin": 0.82,
    "this": 0.82,
    "thud": 0.82,
@@ -341,9 +322,11 @@
    "tip": 0.82,
    "top": 0.82,
    "tot": 0.82,
-   "tub": 0.82,
-   "tuck": 0.82,
-   "tug": 0.82,
+   "tub": 1,
+   "tuck": 1,
+   "tug": 1,
+   "up": 0.82,
+   "us": 0.82,
    "van": 0.82,
    "vat": 0.82,
    "vet": 0.82,
@@ -352,26 +335,28 @@
    "was": 0.82,
    "wash": 0.82,
    "wax": 0.82,
-   "wed": 0.82,
+   "web": 1,
+   "wed": 1,
    "well": 0.82,
-   "wet": 0.82,
-   "whack": 0.82,
+   "wet": 1,
+   "whack": 1,
    "wham": 0.82,
    "what": 0.82,
    "when": 0.82,
-   "whiff": 0.82,
+   "whiff": 1,
    "whim": 0.82,
+   "whip": 0.82,
    "whizz": 0.82,
-   "wick": 0.82,
+   "wick": 1,
    "win": 0.82,
    "wing": 0.82,
    "wish": 0.82,
    "wit": 0.82,
    "with": 0.82,
    "wrap": 0.82,
-   "wreck": 0.82,
+   "wreck": 1,
    "wren": 0.82,
-   "wrong": 0.82,
+   "wrong": 1,
    "yak": 0.82,
    "yam": 0.82,
    "yap": 0.82,
@@ -383,14 +368,59 @@
    "zip": 0.82
   },
   "head_trim_ms": {
-   "chick": 80,
-   "cop": 28,
+   "if": 25,
    "lip": 80,
-   "lush": 30,
-   "the": 50,
    "van": 40
   },
   "carrier_cut": {
+   "am": [
+    "The printed word is \"am\".",
+    80,
+    -20,
+    20
+   ],
+   "an": [
+    "The printed word is \"an\".",
+    80,
+    -20,
+    20
+   ],
+   "at": [
+    "Spell it: A T. at.",
+    80,
+    -20,
+    20
+   ],
+   "ax": [
+    "Spell it: A X. ax.",
+    160,
+    -32,
+    40
+   ],
+   "bag": [
+    "Spell it: B A G. bag.",
+    80,
+    -20,
+    20
+   ],
+   "bang": [
+    "Listen, bang.",
+    80,
+    -20,
+    20
+   ],
+   "bat": [
+    "Spell it: B A T. bat.",
+    80,
+    -20,
+    20
+   ],
+   "bath": [
+    "Spell it: B A T H. bath.",
+    80,
+    -20,
+    20
+   ],
    "bed": [
     "Here is the word, bed.",
     120,
@@ -398,8 +428,14 @@
     20
    ],
    "bin": [
-    "Here is the word, bin.",
-    100,
+    "Listen—bin.",
+    80,
+    -20,
+    20
+   ],
+   "buck": [
+    "Listen—buck.",
+    80,
     -20,
     20
    ],
@@ -422,20 +458,32 @@
     20
    ],
    "bus": [
-    "Here is the word, bus.",
-    120,
+    "Not bun—bus.",
+    80,
     -20,
     20
    ],
    "buzz": [
-    "buzz. buzz.",
-    120,
+    "Spell it: B U Z Z. buzz.",
+    80,
     -20,
     20
    ],
    "can": [
     "Here is the word, can.",
     150,
+    -20,
+    20
+   ],
+   "cap": [
+    "Spell it: C A P. cap.",
+    80,
+    -20,
+    20
+   ],
+   "cat": [
+    "The printed word is \"cat\".",
+    80,
     -20,
     20
    ],
@@ -452,8 +500,8 @@
     20
    ],
    "chick": [
-    "Say chick.",
-    250,
+    "Spell it: C H I C K. chick.",
+    80,
     -20,
     20
    ],
@@ -464,32 +512,50 @@
     20
    ],
    "chuck": [
-    "Say chuck.",
+    "Spell it: C H U C K. chuck.",
     80,
     -20,
     20
    ],
    "chum": [
-    "Here is the word, chum.",
-    180,
+    "Spell it: C H U M. chum.",
+    80,
     -20,
     20
    ],
    "cod": [
-    "cod. cod.",
-    120,
+    "Spell it: C O D. cod.",
+    80,
     -20,
     20
    ],
    "cop": [
-    "cop. cop.",
-    28,
+    "Spell it: C O P. cop.",
+    80,
     -20,
     20
    ],
    "cot": [
-    "Here is the word cot.",
-    100,
+    "Spell it: C O T. cot.",
+    80,
+    -20,
+    20
+   ],
+   "cub": [
+    "Spell it: C U B. cub.",
+    80,
+    -20,
+    20
+   ],
+   "cup": [
+    "Spell it: C U P. cup.",
+    80,
+    -20,
+    20
+   ],
+   "cut": [
+    "Listen, cut.",
+    80,
     -20,
     20
    ],
@@ -506,7 +572,7 @@
     20
    ],
    "did": [
-    "Say did.",
+    "Spell it: D I D. did.",
     80,
     -20,
     20
@@ -523,6 +589,18 @@
     -20,
     20
    ],
+   "dish": [
+    "Spell it: D I S H. dish.",
+    80,
+    -20,
+    20
+   ],
+   "doll": [
+    "Softly: doll.",
+    80,
+    -20,
+    20
+   ],
    "dot": [
     "Here is the word, dot.",
     100,
@@ -530,14 +608,20 @@
     20
    ],
    "dug": [
-    "Here is the word, dug.",
-    120,
+    "Spell it: D U G. dug.",
+    80,
+    -20,
+    20
+   ],
+   "fan": [
+    "Listen, fan.",
+    80,
     -20,
     20
    ],
    "fang": [
-    "fang. fang.",
-    120,
+    "Listen—fang.",
+    80,
     -20,
     20
    ],
@@ -547,21 +631,39 @@
     -20,
     20
    ],
+   "fell": [
+    "fell. fell.",
+    80,
+    -20,
+    20
+   ],
    "fig": [
     "Here is the word, fig.",
     180,
     -20,
     20
    ],
+   "fin": [
+    "Spell it: F I N. fin.",
+    80,
+    -20,
+    20
+   ],
    "fish": [
-    "Say fish.",
-    220,
+    "fish is spelled F-I-S-H. fish.",
+    80,
+    -20,
+    20
+   ],
+   "fizz": [
+    "Spell it: F I Z Z. fizz.",
+    80,
     -20,
     20
    ],
    "fog": [
-    "fog. fog.",
-    120,
+    "Spell it: F O G. fog.",
+    80,
     -20,
     20
    ],
@@ -572,38 +674,38 @@
     20
    ],
    "fuss": [
-    "fuss. fuss.",
-    120,
+    "Listen—fuss.",
+    80,
     -20,
     20
    ],
    "fuzz": [
-    "fuzz. fuzz.",
-    120,
+    "Spell it: F U Z Z. fuzz.",
+    80,
     -20,
     20
    ],
    "gap": [
-    "gap. gap.",
-    120,
+    "Listen, gap.",
+    80,
     -20,
     20
    ],
    "gash": [
-    "gash. gash.",
-    120,
+    "Listen—gash.",
+    80,
     -20,
     20
    ],
    "get": [
-    "Here is the word, get.",
-    180,
+    "Listen—get.",
+    80,
     -20,
     20
    ],
    "gob": [
-    "gob. gob.",
-    120,
+    "Spell it: G O B. gob.",
+    80,
     -20,
     20
    ],
@@ -614,50 +716,74 @@
     40
    ],
    "gum": [
-    "gum. gum.",
-    120,
+    "This spells G-U-M: gum.",
+    80,
     -20,
     20
    ],
    "gush": [
-    "gush. gush.",
-    120,
+    "Spell it: G U S H. gush.",
+    80,
     -20,
     20
    ],
    "gut": [
-    "gut. gut.",
-    120,
+    "Spell it: G U T. gut.",
+    80,
+    -20,
+    20
+   ],
+   "had": [
+    "Spell it: H A D. had.",
+    80,
+    -20,
+    20
+   ],
+   "ham": [
+    "The printed word is \"ham\".",
+    80,
     -20,
     20
    ],
    "hang": [
-    "hang. hang.",
-    120,
+    "The printed word is \"hang\".",
+    80,
+    -20,
+    20
+   ],
+   "has": [
+    "Spell it: H A S. has.",
+    80,
     -20,
     20
    ],
    "hat": [
-    "Here is the word, hat.",
-    100,
+    "Spell it: H A T. hat.",
+    80,
     -20,
     20
    ],
    "hem": [
-    "hem. hem.",
-    120,
+    "Spell it: H E M. hem.",
+    80,
     -20,
     20
    ],
    "hen": [
-    "hen, hen.",
-    150,
-    -30,
-    40
+    "Spell it: H E N. hen.",
+    80,
+    -20,
+    20
    ],
    "hid": [
-    "hid. hid.",
-    120,
+    "Spell it: H I D. hid.",
+    80,
+    -20,
+    20
+   ],
+   "hill": [
+    "Spell it: H I L L. hill.",
+    80,
     -20,
     20
    ],
@@ -668,8 +794,8 @@
     20
    ],
    "hit": [
-    "Here is the word hit.",
-    100,
+    "Spell it: H I T. hit.",
+    80,
     -20,
     20
    ],
@@ -679,21 +805,33 @@
     -20,
     20
    ],
+   "hop": [
+    "Spell it: H O P. hop.",
+    80,
+    -20,
+    20
+   ],
+   "hot": [
+    "Spell it: H O T. hot.",
+    80,
+    -20,
+    20
+   ],
    "hub": [
-    "hub. hub.",
+    "Spell it: H U B. hub.",
     80,
     -20,
     20
    ],
    "huff": [
-    "Here is the word, huff.",
-    150,
+    "Spell it: H U F F. huff.",
+    80,
     -20,
     20
    ],
    "hug": [
-    "hug. hug.",
-    120,
+    "Spell it: H U G. hug.",
+    80,
     -20,
     20
    ],
@@ -704,14 +842,38 @@
     20
    ],
    "hung": [
-    "hung. hung.",
-    120,
+    "Spell it: H U N G. hung.",
+    80,
     -20,
     20
    ],
    "hut": [
-    "Here is the word, hut.",
-    180,
+    "Spell it: H U T. hut.",
+    80,
+    -20,
+    20
+   ],
+   "if": [
+    "The printed word is \"if\".",
+    80,
+    -20,
+    20
+   ],
+   "in": [
+    "Listen—in.",
+    80,
+    -20,
+    20
+   ],
+   "is": [
+    "Listen—is.",
+    80,
+    -20,
+    20
+   ],
+   "it": [
+    "Spell it: I T. it.",
+    80,
     -20,
     20
    ],
@@ -721,15 +883,21 @@
     -20,
     20
    ],
+   "jam": [
+    "The printed word is \"jam\".",
+    80,
+    -20,
+    20
+   ],
    "jazz": [
-    "jazz. jazz.",
-    120,
+    "Spell it: J A Z Z. jazz.",
+    80,
     -20,
     20
    ],
    "jet": [
-    "jet. jet.",
-    120,
+    "Spell it: J E T. jet.",
+    80,
     -20,
     20
    ],
@@ -739,9 +907,33 @@
     -20,
     20
    ],
+   "jog": [
+    "Spell it: J O G. jog.",
+    80,
+    -20,
+    20
+   ],
+   "jug": [
+    "Spell it: J U G. jug.",
+    80,
+    -20,
+    20
+   ],
+   "jut": [
+    "Spell it: J U T. jut.",
+    80,
+    -20,
+    20
+   ],
    "keg": [
-    "keg. keg.",
-    120,
+    "Spell it: K E G. keg.",
+    80,
+    -20,
+    20
+   ],
+   "kick": [
+    "Listen, kick.",
+    80,
     -20,
     20
    ],
@@ -752,8 +944,8 @@
     20
    ],
    "kit": [
-    "kit. kit.",
-    120,
+    "Spell it: K I T. kit.",
+    80,
     -20,
     20
    ],
@@ -764,8 +956,20 @@
     20
    ],
    "knob": [
-    "knob. knob.",
-    120,
+    "Spell it: K N O B. knob.",
+    80,
+    -20,
+    20
+   ],
+   "knock": [
+    "Spell it: K N O C K. knock.",
+    80,
+    -20,
+    20
+   ],
+   "knot": [
+    "Spell it: K N O T. knot.",
+    80,
     -20,
     20
    ],
@@ -787,6 +991,12 @@
     -20,
     20
    ],
+   "lap": [
+    "Spell it: L A P. lap.",
+    80,
+    -20,
+    20
+   ],
    "led": [
     "led. led.",
     120,
@@ -799,6 +1009,18 @@
     -20,
     20
    ],
+   "let": [
+    "Spell it: L E T. let.",
+    80,
+    -20,
+    20
+   ],
+   "lick": [
+    "Spell it: L I C K. lick.",
+    80,
+    -20,
+    20
+   ],
    "limb": [
     "limb. limb.",
     120,
@@ -806,44 +1028,92 @@
     20
    ],
    "lit": [
-    "lit. lit.",
-    120,
+    "Spell it: L I T. lit.",
+    80,
+    -20,
+    20
+   ],
+   "lock": [
+    "Spell it: L O C K. lock.",
+    80,
     -20,
     20
    ],
    "long": [
-    "long. long.",
-    120,
+    "Spell it: L O N G. long.",
+    80,
+    -20,
+    20
+   ],
+   "loss": [
+    "Spell it: L O S S. loss.",
+    80,
     -20,
     20
    ],
    "lot": [
-    "Here is the word, lot.",
-    180,
+    "Spell it: L O T. lot.",
+    80,
+    -20,
+    20
+   ],
+   "luck": [
+    "Spell it: L U C K. luck.",
+    80,
     -20,
     20
    ],
    "lug": [
-    "lug. lug.",
-    120,
+    "Softly: lug.",
+    80,
     -20,
     20
    ],
    "lung": [
-    "lung. lung.",
-    120,
+    "Softly: lung.",
+    80,
+    -20,
+    20
+   ],
+   "lush": [
+    "Spell it: L U S H. lush.",
+    80,
+    -20,
+    20
+   ],
+   "mad": [
+    "Spell it: M A D. mad.",
+    80,
     -20,
     20
    ],
    "man": [
-    "Here is the word, man.",
-    150,
+    "man. man.",
+    80,
+    -20,
+    20
+   ],
+   "map": [
+    "Spell it: M A P. map.",
+    80,
+    -20,
+    20
+   ],
+   "mat": [
+    "mat. mat.",
+    80,
+    -20,
+    20
+   ],
+   "math": [
+    "Spell it: M A T H. math.",
+    80,
     -20,
     20
    ],
    "men": [
-    "men. men.",
-    120,
+    "Listen—men.",
+    80,
     -20,
     20
    ],
@@ -865,9 +1135,63 @@
     -20,
     20
    ],
+   "mob": [
+    "Spell it: M O B. mob.",
+    80,
+    -20,
+    20
+   ],
    "much": [
-    "Say much.",
-    200,
+    "Spell it: M U C H. much.",
+    80,
+    -20,
+    20
+   ],
+   "mud": [
+    "mud. mud.",
+    80,
+    -20,
+    20
+   ],
+   "mug": [
+    "Softly: mug.",
+    80,
+    -20,
+    20
+   ],
+   "neck": [
+    "Spell it: N E C K. neck.",
+    80,
+    -20,
+    20
+   ],
+   "net": [
+    "Spell it: N E T. net.",
+    80,
+    -20,
+    20
+   ],
+   "nun": [
+    "Spell it: N U N. nun.",
+    80,
+    -20,
+    20
+   ],
+   "nut": [
+    "Spell it: N U T. nut.",
+    80,
+    -20,
+    20
+   ],
+   "on": [
+    "Spell it: O N. on.",
+    80,
+    -20,
+    20
+   ],
+   "pack": [
+    "Spell it: P A C K. pack.",
+    80,
     -20,
     20
    ],
@@ -883,15 +1207,21 @@
     -20,
     20
    ],
+   "path": [
+    "Spell it: P A T H. path.",
+    80,
+    -20,
+    20
+   ],
    "peg": [
-    "peg. peg.",
-    120,
+    "Listen—peg.",
+    80,
     -20,
     20
    ],
    "pep": [
-    "pep. pep.",
-    70,
+    "Spell it: P E P. pep.",
+    80,
     -20,
     20
    ],
@@ -901,9 +1231,15 @@
     -20,
     20
    ],
+   "pick": [
+    "Spell it: P I C K. pick.",
+    80,
+    -20,
+    20
+   ],
    "ping": [
-    "ping. ping.",
-    120,
+    "Spell it: P I N G. ping.",
+    80,
     -20,
     20
    ],
@@ -919,9 +1255,27 @@
     -20,
     20
    ],
+   "puck": [
+    "Spell it: P U C K. puck.",
+    80,
+    -20,
+    20
+   ],
+   "puff": [
+    "Spell it: P U F F. puff.",
+    80,
+    -20,
+    20
+   ],
    "pup": [
-    "Here is the word, pup.",
-    120,
+    "Spell it: P U P. pup.",
+    80,
+    -20,
+    20
+   ],
+   "push": [
+    "Spell it: P U S H. push.",
+    80,
     -20,
     20
    ],
@@ -932,20 +1286,26 @@
     20
    ],
    "quick": [
-    "Say quick.",
-    260,
+    "Spell it: Q U I C K. quick.",
+    80,
     -20,
     20
    ],
    "quill": [
-    "Say quill.",
+    "Spell it: Q U I L L. quill.",
+    80,
+    -20,
+    20
+   ],
+   "quip": [
+    "Spell it: Q U I P. quip.",
     80,
     -20,
     20
    ],
    "quiz": [
-    "quiz. quiz.",
-    120,
+    "Spell it: Q U I Z. quiz.",
+    80,
     -20,
     20
    ],
@@ -955,99 +1315,189 @@
     -20,
     20
    ],
+   "rap": [
+    "Spell it: R A P. rap.",
+    80,
+    -20,
+    20
+   ],
    "rash": [
-    "rash. rash.",
-    120,
+    "Listen—rash.",
+    80,
     -20,
     20
    ],
    "red": [
-    "red. red.",
-    120,
+    "Spell it: R E D. red.",
+    80,
     -20,
     20
    ],
    "rig": [
-    "Here is the word, rig.",
-    120,
+    "Spell it: R I G. rig.",
+    80,
+    -20,
+    20
+   ],
+   "rim": [
+    "Spell it: R I M. rim.",
+    80,
+    -20,
+    20
+   ],
+   "ring": [
+    "Spell it: R I N G. ring.",
+    80,
+    -20,
+    20
+   ],
+   "rip": [
+    "Listen—rip.",
+    80,
+    -20,
+    20
+   ],
+   "rob": [
+    "rob. rob.",
+    80,
     -20,
     20
    ],
    "rod": [
-    "rod. rod.",
-    120,
+    "Spell it: R O D. rod.",
+    80,
     -20,
     20
    ],
    "rot": [
-    "rot. rot.",
-    120,
+    "Spell it: R O T. rot.",
+    80,
+    -20,
+    20
+   ],
+   "rub": [
+    "Spell it: R U B. rub.",
+    80,
+    -20,
+    20
+   ],
+   "rug": [
+    "Spell it: R U G. rug.",
+    80,
+    -20,
+    20
+   ],
+   "run": [
+    "Softly: run.",
+    80,
+    -20,
+    20
+   ],
+   "rush": [
+    "Spell it: R U S H. rush.",
+    80,
+    -20,
+    20
+   ],
+   "sack": [
+    "Spell it: S A C K. sack.",
+    80,
+    -20,
+    20
+   ],
+   "sag": [
+    "Spell it: S A G. sag.",
+    80,
     -20,
     20
    ],
    "sang": [
-    "sang. sang.",
-    120,
+    "The printed word is \"sang\".",
+    80,
+    -20,
+    20
+   ],
+   "sap": [
+    "Not lap—sap.",
+    80,
+    -20,
+    20
+   ],
+   "sash": [
+    "Spell it: S A S H. sash.",
+    80,
+    -20,
+    20
+   ],
+   "set": [
+    "Spell it: S E T. set.",
+    80,
     -20,
     20
    ],
    "shack": [
-    "shack. shack.",
-    50,
+    "Spell it: S H A C K. shack.",
+    80,
     -20,
     20
    ],
    "shed": [
-    "shed. shed.",
-    120,
+    "Spell it: S H E D. shed.",
+    80,
     -20,
     20
    ],
    "shell": [
-    "shell. shell.",
-    40,
+    "Spell it: S H E L L. shell.",
+    80,
     -20,
     20
    ],
    "shin": [
-    "shin. shin.",
-    120,
+    "Spell it: S H I N. shin.",
+    80,
     -20,
     20
    ],
    "ship": [
-    "ship. ship.",
-    70,
+    "Spell it: S H I P. ship.",
+    80,
     -20,
     20
    ],
    "shock": [
-    "shock. shock.",
-    40,
+    "Spell it: S H O C K. shock.",
+    80,
     -20,
     20
    ],
    "shop": [
-    "shop. shop.",
-    70,
+    "Spell it: S H O P. shop.",
+    80,
+    -20,
+    20
+   ],
+   "shun": [
+    "Spell it: S H U N. shun.",
+    80,
     -20,
     20
    ],
    "shut": [
-    "shut. shut.",
-    120,
+    "Not shot—shut.",
+    80,
     -20,
     20
    ],
    "sick": [
-    "sick. sick.",
-    40,
+    "Spell it: S I C K. sick.",
+    80,
     -20,
     20
    ],
    "sing": [
-    "sing. sing.",
-    120,
+    "Spell it: S I N G. sing.",
+    80,
     -20,
     20
    ],
@@ -1057,9 +1507,15 @@
     -30,
     40
    ],
+   "sob": [
+    "Spell it: S O B. sob.",
+    80,
+    -20,
+    20
+   ],
    "sock": [
-    "sock. sock.",
-    120,
+    "Spell it: S O C K. sock.",
+    80,
     -20,
     20
    ],
@@ -1070,8 +1526,14 @@
     20
    ],
    "sub": [
-    "sub. sub.",
-    120,
+    "Spell it: S U B. sub.",
+    80,
+    -20,
+    20
+   ],
+   "such": [
+    "Spell it: S U C H. such.",
+    80,
     -20,
     20
    ],
@@ -1088,8 +1550,14 @@
     20
    ],
    "sung": [
-    "sung. sung.",
-    120,
+    "Spell it: S U N G. sung.",
+    80,
+    -20,
+    20
+   ],
+   "tack": [
+    "Spell it: T A C K. tack.",
+    80,
     -20,
     20
    ],
@@ -1105,21 +1573,39 @@
     -20,
     20
    ],
+   "that": [
+    "that. that.",
+    80,
+    -20,
+    20
+   ],
+   "the": [
+    "Spell it: T H E. the.",
+    80,
+    -20,
+    20
+   ],
    "them": [
-    "them. them.",
-    120,
+    "Spell it: T H E M. them.",
+    80,
     -20,
     20
    ],
    "then": [
-    "then. then.",
-    100,
+    "Spell it: T H E N. then.",
+    80,
     -20,
     20
    ],
    "thick": [
-    "Say thick.",
-    200,
+    "Spell it: T H I C K. thick.",
+    80,
+    -20,
+    20
+   ],
+   "thin": [
+    "Spell it: T H I N. thin.",
+    80,
     -20,
     20
    ],
@@ -1142,20 +1628,38 @@
     20
    ],
    "tot": [
-    "tot. tot.",
-    120,
+    "Spell it: T O T. tot.",
+    80,
+    -20,
+    20
+   ],
+   "tub": [
+    "Spell it: T U B. tub.",
+    80,
     -20,
     20
    ],
    "tuck": [
-    "tuck. tuck.",
-    100,
+    "Spell it: T U C K. tuck.",
+    80,
     -20,
     20
    ],
    "tug": [
-    "tug. tug.",
-    120,
+    "Spell it: T U G. tug.",
+    80,
+    -20,
+    20
+   ],
+   "up": [
+    "Listen—up.",
+    80,
+    -20,
+    20
+   ],
+   "us": [
+    "us. us.",
+    80,
     -20,
     20
    ],
@@ -1171,9 +1675,27 @@
     -20,
     20
    ],
+   "web": [
+    "Spell it: W E B. web.",
+    80,
+    -20,
+    20
+   ],
    "wed": [
-    "wed. wed.",
-    120,
+    "Spell it: W E D. wed.",
+    80,
+    -20,
+    20
+   ],
+   "wet": [
+    "Spell it: W E T. wet.",
+    80,
+    -20,
+    20
+   ],
+   "whack": [
+    "Spell it: W H A C K. whack.",
+    80,
     -20,
     20
    ],
@@ -1183,9 +1705,33 @@
     -20,
     20
    ],
-   "whizz": [
-    "whizz. whizz.",
-    120,
+   "what": [
+    "Listen, what.",
+    80,
+    -20,
+    20
+   ],
+   "when": [
+    "when. when.",
+    80,
+    -20,
+    20
+   ],
+   "whiff": [
+    "Spell it: W H I F F. whiff.",
+    80,
+    -20,
+    20
+   ],
+   "whip": [
+    "Spell it: W H I P. whip.",
+    80,
+    -20,
+    20
+   ],
+   "wick": [
+    "Spell it: W I C K. wick.",
+    80,
     -20,
     20
    ],
@@ -1195,27 +1741,45 @@
     -20,
     20
    ],
+   "with": [
+    "Spell it: W I T H. with.",
+    80,
+    -20,
+    20
+   ],
    "wrap": [
-    "wrap. wrap.",
-    120,
+    "Listen—wrap.",
+    80,
     -20,
     20
    ],
    "wreck": [
-    "wreck. wreck.",
-    120,
+    "Spell it: W R E C K. wreck.",
+    80,
+    -20,
+    20
+   ],
+   "wren": [
+    "Spell it: W R E N. wren.",
+    80,
     -20,
     20
    ],
    "wrong": [
-    "wrong. wrong.",
-    60,
+    "Spell it: W R O N G. wrong.",
+    80,
+    -20,
+    20
+   ],
+   "yam": [
+    "Spell it: Y A M. yam.",
+    80,
     -20,
     20
    ],
    "yet": [
-    "yet. yet.",
-    120,
+    "Listen—yet.",
+    80,
     -20,
     20
    ],
@@ -1250,20 +1814,10 @@
     0.969,
     1.58
    ],
-   "bang": [
-    "Here is the word, bang.",
-    0.948,
-    1.54
-   ],
    "bash": [
     "Here is the word, bash.",
     0.991,
     1.72
-   ],
-   "bath": [
-    "Here is the word, bath.",
-    0.969,
-    1.58
    ],
    "bell": [
     "Here is the word, bell.",
@@ -1294,11 +1848,6 @@
     "Say box.",
     0.46,
     0.92
-   ],
-   "buck": [
-    "Here is the word, buck.",
-    0.991,
-    1.62
    ],
    "bush": [
     "Here is the word, bush.",
@@ -1345,11 +1894,6 @@
     0.969,
     1.64
    ],
-   "cut": [
-    "Say cut.",
-    0.5,
-    0.74
-   ],
    "dash": [
     "Here is the word, dash.",
     0.948,
@@ -1380,11 +1924,6 @@
     0.46,
     1
    ],
-   "doll": [
-    "Here is the word, doll.",
-    0.905,
-    1.58
-   ],
    "duck": [
     "Here is the word, duck.",
     0.948,
@@ -1395,11 +1934,6 @@
     0.735,
     1.26
    ],
-   "fell": [
-    "Here is the word, fell.",
-    1.012,
-    1.6
-   ],
    "fit": [
     "Say fit.",
     0.48,
@@ -1409,11 +1943,6 @@
     "Say fix.",
     0.52,
     0.82
-   ],
-   "fizz": [
-    "Here is the word, fizz.",
-    0.991,
-    1.68
    ],
    "fox": [
     "Say fox.",
@@ -1430,20 +1959,10 @@
     0.948,
     1.7
    ],
-   "hill": [
-    "Here is the word, hill.",
-    1.033,
-    1.64
-   ],
    "him": [
     "Say him.",
     0.46,
     0.88
-   ],
-   "hop": [
-    "Say hop.",
-    0.58,
-    1.04
    ],
    "hush": [
     "Here is the word, hush.",
@@ -1455,25 +1974,10 @@
     0.969,
     1.82
    ],
-   "jog": [
-    "Here is the word, jog.",
-    0.841,
-    1.61
-   ],
    "jot": [
     "Here is the word, jot.",
     0.905,
     1.65
-   ],
-   "jut": [
-    "Here is the word, jut.",
-    0.927,
-    1.67
-   ],
-   "kick": [
-    "Here is the word, kick.",
-    0.969,
-    1.64
    ],
    "king": [
     "Here is the word, king.",
@@ -1485,60 +1989,25 @@
     0.948,
     1.68
    ],
-   "knot": [
-    "Here is the word, knot.",
-    0.948,
-    1.64
-   ],
    "lash": [
     "Here is the word, lash.",
     0.969,
     1.78
-   ],
-   "let": [
-    "Here it is, let.",
-    0.799,
-    1.257
-   ],
-   "lick": [
-    "Here is the word, lick.",
-    1.097,
-    1.74
    ],
    "lid": [
     "Here is the word, lid.",
     1.033,
     1.7
    ],
-   "lock": [
-    "Here is the word, lock.",
-    0.991,
-    1.58
-   ],
    "log": [
     "Say log.",
     0.44,
     0.9
    ],
-   "loss": [
-    "Here is the word, loss.",
-    0.991,
-    1.6
-   ],
-   "luck": [
-    "Here is the word, luck.",
-    1.012,
-    1.7
-   ],
    "mash": [
     "Here is the word, mash.",
     0.927,
     1.62
-   ],
-   "math": [
-    "Here is the word, math.",
-    0.884,
-    1.52
    ],
    "mess": [
     "Here is the word, mess.",
@@ -1590,21 +2059,6 @@
     0.4,
     0.88
    ],
-   "nun": [
-    "Here is the word, nun.",
-    0.948,
-    1.54
-   ],
-   "pack": [
-    "Here is the word, pack.",
-    0.969,
-    1.64
-   ],
-   "path": [
-    "Here is the word, path.",
-    0.927,
-    1.58
-   ],
    "peck": [
     "Here is the word, peck.",
     0.991,
@@ -1614,11 +2068,6 @@
     "Here is the word, pen.",
     0.948,
     1.6
-   ],
-   "pick": [
-    "Here is the word, pick.",
-    1.033,
-    1.8
    ],
    "pig": [
     "Say pig.",
@@ -1640,30 +2089,10 @@
     0.948,
     1.72
    ],
-   "puck": [
-    "Here is the word, puck.",
-    0.991,
-    1.74
-   ],
-   "puff": [
-    "Here is the word, puff.",
-    0.948,
-    1.72
-   ],
    "pun": [
     "Here is the word, pun.",
     0.927,
     1.62
-   ],
-   "push": [
-    "Here is the word, push.",
-    0.969,
-    1.38
-   ],
-   "quip": [
-    "Here is the word, quip.",
-    1.012,
-    1.8
    ],
    "quit": [
     "Here is the word, quit.",
@@ -1675,75 +2104,25 @@
     0.44,
     0.96
    ],
-   "rap": [
-    "Say rap.",
-    0.48,
-    0.92
-   ],
    "rib": [
     "Here is the word, rib.",
     1.012,
     1.66
-   ],
-   "rim": [
-    "Here is the word, rim.",
-    0.991,
-    1.64
-   ],
-   "ring": [
-    "Here is the word, ring.",
-    0.991,
-    1.62
-   ],
-   "rip": [
-    "Say rip.",
-    0.46,
-    0.86
-   ],
-   "rob": [
-    "Say rob.",
-    0.5,
-    0.72
    ],
    "rock": [
     "Here is the word, rock.",
     1.012,
     1.66
    ],
-   "rug": [
-    "Say rug.",
-    0.46,
-    0.7
-   ],
    "rung": [
     "Here it is, rung.",
     0.756,
     1.297
    ],
-   "sack": [
-    "Here is the word, sack.",
-    0.991,
-    1.7
-   ],
    "sad": [
     "Say sad.",
     0.44,
     0.92
-   ],
-   "sag": [
-    "Here is the word, sag.",
-    0.82,
-    1.63
-   ],
-   "sap": [
-    "Say sap.",
-    0.52,
-    0.82
-   ],
-   "sash": [
-    "Here is the word, sash.",
-    0.884,
-    1.72
    ],
    "sat": [
     "Say sat.",
@@ -1755,11 +2134,6 @@
     0.777,
     1.44
    ],
-   "set": [
-    "Say set.",
-    0.466,
-    0.96
-   ],
    "sham": [
     "Here is the word, sham.",
     0.969,
@@ -1769,11 +2143,6 @@
     "Here is the word, she.",
     0.863,
     1.56
-   ],
-   "shun": [
-    "Here is the word, shun.",
-    1.012,
-    1.6
    ],
    "sip": [
     "Say sip.",
@@ -1785,25 +2154,10 @@
     0.48,
     1.18
    ],
-   "sob": [
-    "Say sob.",
-    0.48,
-    0.74
-   ],
-   "such": [
-    "Listen, such.",
-    0.737,
-    1.28
-   ],
    "tab": [
     "Here is the word, tab.",
     0.884,
     1.54
-   ],
-   "tack": [
-    "Here is the word, tack.",
-    0.905,
-    1.74
    ],
    "tag": [
     "Say tag.",
@@ -1819,11 +2173,6 @@
     "Here is the word, tell.",
     0.905,
     1.5
-   ],
-   "that": [
-    "Here it is, that.",
-    0.756,
-    1.28
    ],
    "thud": [
     "Here is the word, thud.",
@@ -1844,11 +2193,6 @@
     "Say top.",
     0.42,
     0.9
-   ],
-   "tub": [
-    "Here is the word, tub.",
-    0.884,
-    1.54
    ],
    "vex": [
     "Here is the word, vex.",
@@ -1880,11 +2224,6 @@
     0.735,
     1.26
    ],
-   "when": [
-    "Listen, when.",
-    0.715,
-    1.28
-   ],
    "whim": [
     "Here is the word, whim.",
     1.033,
@@ -1905,20 +2244,10 @@
     0.756,
     1.28
    ],
-   "with": [
-    "Here it is, with.",
-    0.756,
-    1.28
-   ],
    "yak": [
     "Here is the word, yak.",
     0.969,
     1.56
-   ],
-   "yam": [
-    "Say yam.",
-    0.44,
-    1.1
    ],
    "yap": [
     "Say yap.",
@@ -1936,15 +2265,7 @@
     30,
     40
    ],
-   "bang": [
-    30,
-    40
-   ],
    "bash": [
-    30,
-    40
-   ],
-   "bath": [
     30,
     40
    ],
@@ -1970,10 +2291,6 @@
    ],
    "box": [
     40,
-    40
-   ],
-   "buck": [
-    30,
     40
    ],
    "bush": [
@@ -2012,10 +2329,6 @@
     30,
     40
    ],
-   "cut": [
-    80,
-    40
-   ],
    "dash": [
     30,
     40
@@ -2040,19 +2353,11 @@
     40,
     40
    ],
-   "doll": [
-    30,
-    40
-   ],
    "duck": [
     30,
     40
    ],
    "fax": [
-    30,
-    40
-   ],
-   "fell": [
     30,
     40
    ],
@@ -2062,10 +2367,6 @@
    ],
    "fix": [
     40,
-    40
-   ],
-   "fizz": [
-    30,
     40
    ],
    "fox": [
@@ -2080,15 +2381,7 @@
     30,
     40
    ],
-   "hill": [
-    30,
-    40
-   ],
    "him": [
-    40,
-    40
-   ],
-   "hop": [
     40,
     40
    ],
@@ -2100,19 +2393,7 @@
     30,
     40
    ],
-   "jog": [
-    30,
-    40
-   ],
    "jot": [
-    30,
-    40
-   ],
-   "jut": [
-    30,
-    40
-   ],
-   "kick": [
     30,
     40
    ],
@@ -2124,19 +2405,7 @@
     30,
     40
    ],
-   "knot": [
-    30,
-    40
-   ],
    "lash": [
-    30,
-    40
-   ],
-   "let": [
-    30,
-    40
-   ],
-   "lick": [
     30,
     40
    ],
@@ -2144,27 +2413,11 @@
     30,
     40
    ],
-   "lock": [
-    30,
-    40
-   ],
    "log": [
     40,
     40
    ],
-   "loss": [
-    30,
-    40
-   ],
-   "luck": [
-    30,
-    40
-   ],
    "mash": [
-    30,
-    40
-   ],
-   "math": [
     30,
     40
    ],
@@ -2208,27 +2461,11 @@
     40,
     40
    ],
-   "nun": [
-    30,
-    40
-   ],
-   "pack": [
-    30,
-    40
-   ],
-   "path": [
-    30,
-    40
-   ],
    "peck": [
     30,
     40
    ],
    "pen": [
-    30,
-    40
-   ],
-   "pick": [
     30,
     40
    ],
@@ -2248,23 +2485,7 @@
     30,
     40
    ],
-   "puck": [
-    30,
-    40
-   ],
-   "puff": [
-    30,
-    40
-   ],
    "pun": [
-    30,
-    40
-   ],
-   "push": [
-    30,
-    40
-   ],
-   "quip": [
     30,
     40
    ],
@@ -2276,60 +2497,20 @@
     40,
     40
    ],
-   "rap": [
-    40,
-    40
-   ],
    "rib": [
     30,
-    40
-   ],
-   "rim": [
-    30,
-    40
-   ],
-   "ring": [
-    30,
-    40
-   ],
-   "rip": [
-    40,
-    40
-   ],
-   "rob": [
-    40,
     40
    ],
    "rock": [
     30,
     40
    ],
-   "rug": [
-    80,
-    40
-   ],
    "rung": [
-    30,
-    40
-   ],
-   "sack": [
     30,
     40
    ],
    "sad": [
     80,
-    40
-   ],
-   "sag": [
-    30,
-    40
-   ],
-   "sap": [
-    80,
-    40
-   ],
-   "sash": [
-    30,
     40
    ],
    "sat": [
@@ -2340,19 +2521,11 @@
     30,
     40
    ],
-   "set": [
-    100,
-    40
-   ],
    "sham": [
     30,
     40
    ],
    "she": [
-    30,
-    40
-   ],
-   "shun": [
     30,
     40
    ],
@@ -2364,19 +2537,7 @@
     80,
     80
    ],
-   "sob": [
-    80,
-    40
-   ],
-   "such": [
-    25,
-    40
-   ],
    "tab": [
-    30,
-    40
-   ],
-   "tack": [
     30,
     40
    ],
@@ -2389,10 +2550,6 @@
     40
    ],
    "tell": [
-    30,
-    40
-   ],
-   "that": [
     30,
     40
    ],
@@ -2410,10 +2567,6 @@
    ],
    "top": [
     40,
-    40
-   ],
-   "tub": [
-    30,
     40
    ],
    "vex": [
@@ -2440,10 +2593,6 @@
     30,
     40
    ],
-   "when": [
-    25,
-    40
-   ],
    "whim": [
     30,
     40
@@ -2460,16 +2609,8 @@
     30,
     40
    ],
-   "with": [
-    30,
-    40
-   ],
    "yak": [
     30,
-    40
-   ],
-   "yam": [
-    40,
     40
    ],
    "yap": [
@@ -2487,8 +2628,10 @@
    "at",
    "ax",
    "back",
+   "bag",
    "bang",
    "bash",
+   "bat",
    "bath",
    "bed",
    "bell",
@@ -2507,7 +2650,9 @@
    "bush",
    "buzz",
    "can",
+   "cap",
    "cash",
+   "cat",
    "chap",
    "chat",
    "check",
@@ -2543,6 +2688,7 @@
    "dot",
    "duck",
    "dug",
+   "fan",
    "fang",
    "fax",
    "fed",
@@ -2571,6 +2717,7 @@
    "had",
    "ham",
    "hang",
+   "has",
    "hat",
    "hem",
    "hen",
@@ -2616,6 +2763,7 @@
    "lab",
    "lad",
    "lamb",
+   "lap",
    "lash",
    "led",
    "leg",
@@ -2634,8 +2782,11 @@
    "lug",
    "lung",
    "lush",
+   "mad",
    "man",
+   "map",
    "mash",
+   "mat",
    "math",
    "men",
    "mess",
@@ -2649,6 +2800,8 @@
    "moth",
    "much",
    "muck",
+   "mud",
+   "mug",
    "mush",
    "nab",
    "neck",
@@ -2836,310 +2989,376 @@
   "note": "byte identity depends on these; 24000 is Kokoro's output rate"
  },
  "byte_pins": {
+  "am": "615f9e04f0384794df053db5d2b090737a3dac8c467fb01b193d225bbcf4a11f",
+  "an": "7ca9412cc5f2e31d27c649b85dd2a7104da7d3cc6473f6cf6281328b0e2aef52",
+  "at": "c181d7db486b5c44a72444740cd25a7f10a16f93c135ce4785cb89b880bede4c",
+  "ax": "1dfa308dd31df42575d76ff737a2de9a64ba9f6141bec10bf4dc6d9c1070654b",
+  "if": "cdcad40f55af074f896bc976b0c16ad4e799f96cb2ff92e98a44754fd4b3f99c",
+  "in": "302c1c957203e9b53f0172f20c81a0cb4b470c35d5a965d37447123a018515dd",
+  "is": "c88854e3de57ce91f51d91aeee77fc8f560e1afb6dae66f78c06529705118468",
+  "it": "c2998d36edff636f32bd221f017d5025c3ccc25b38be22129c9ab2c1e39cdf66",
+  "on": "8e977001df7db9b8906d56b6c11ad0cac6f7883b8504aeaf181979123d7b1b8c",
+  "ox": "143ef441a84eb9c8b1f6267735775e29fed0ede0fc358cd17d23ccaa2dd2c428",
+  "up": "962904dd56bc792fefad3e028759fefff5990bbcdab52725a707972159cdb16d",
+  "us": "0be218a1b0bd73ecb4da805bd19a08aa2e7198e3f37316213725938af3d256fb",
+  "bag": "0f211be3d9c9c54c6c69ea98727c63dd422d48f25de43e75771d8915ef6da41b",
+  "bat": "ea8f8bd9e57665d4ba1504e1464b72f4b46b3ed734e5f4f4503c6a883f2b897c",
+  "cap": "e735e3eebb54356900eed4b0ed9e62f5bb520a15a2f59d2c5cff1d6d1b71e8d5",
+  "cat": "66b8182cbfbb9c733b805f308c06268982624ad48a58a5b6280e867edd9b318e",
+  "fan": "642c278f1881f8168261ef129824f867076fc100548219547de48237c82a1b3b",
+  "had": "6ca520842e1947bd559a53d6295db8dff376291215cbf8cea3acb679e9375f3c",
+  "ham": "98941dc38f201d05a65bb8b36f8f443bf8baa1f1d58b00269d4d028f28b3b43d",
+  "has": "1a1f2ddc12ba8835e42b35422e28b56be25c0c70f8892f836da16d6fdb52106a",
+  "hat": "45ed1242a8d4447fe82b9bfb2e06d0d6edd12c97b5e838936db7f3ac37daa82d",
+  "jam": "49ff191f0293ed1cb6350dad852cf611bb7b63eafd8eeb5872bcce8997552221",
+  "lap": "25dcd6413afaa2aa84afdeee4a61ecec8b18b6962e7a78fd97dcdcbb028d2300",
+  "mad": "429a9a16a0d48d2e689e84e57bd792dfbfe433971353dcf45a7fa80e18512102",
+  "man": "5edc286d1039cad67d1d3f3b626c41b0aa9bced8879bdd4c301c52181028bdc1",
+  "map": "bbc63586112637cb7261f14c6d6c4cdb1c1e8cb2d44fb98c5caaeb80ca138706",
+  "mat": "af4e59b148a5b7f18be59c2c79f4452829b5e9eae5b832fdbf3409c7ad0ff01f",
+  "rap": "73ff3e11aa6e9d4a22c33dc550a83f7210a8dd244610c605f65287127c8dfcf8",
   "sad": "3556e5d6f527747fe2932750c3e9ed23c1811fc09ea422ba3e7e513eae5c3ed2",
   "sat": "961d0e369cd1524fe25ef8c87ced0089d7e3e60e908b9ae94a343529f1cefb90",
-  "cut": "bd516a3c860923bdb349b73603a28cff03fbc1d7971bd8f27785a907fbf0dbe3",
-  "get": "9b984be1b5fa3bc75d6cea1107e62b01b77f94eb9e5c50c6b2509e662024a129",
-  "hug": "d7bd0a087e248faaf382a9a2c6fb3ab31e643070353abe21fdfbef9df7f3599f",
-  "jet": "be0e37d95491ec892f9c0538c4e05ee82f8da350adf58941c2399b967e5a8624",
+  "yam": "e41a331f3e6adb20001b6946db0682dc373b089b711f44d0a565be158930bc7c",
+  "bin": "2060c815f54330259e8e2312bd573457890b135fcb2541559426292d7e937712",
+  "cot": "3bb8ba323202cfcef29b326abc827f64ad16e822f9442140f666f67c91b952ee",
+  "did": "fbd6b073956dad2935802fc25668dd4078538a3ace5f3349be3b748087122f52",
+  "fin": "eddf77e93d882a5bb6a95bb0cca2846b32badfa7e6cb2b9dcae99215255c5f68",
+  "fix": "6ac0e5fefd7e148c61e6433e9a724b8079112a075cf3a39690514cefae0e0830",
+  "hit": "ce4b7aeb085aca622ac8cd936664179d13c7467d1913ab69477e2f8c712e004a",
+  "hop": "4f6e5608a34d89d569c069e1740edfa783ce5538c4e81e384e2345e4faf2fdf5",
+  "hot": "9c3955200cc14258673e9abe0ed13be19181873457d7c981a7e73c7646ed7c1f",
+  "lot": "0239a08b27af3eb67e14eae980b3306dfbb87a22b571740e86f3315a994ab9e5",
+  "rip": "2cc6d8d8bc2a8832fb8df6fb30d16b4a2d273fd71d556aacbd257bde7cdfbf7a",
+  "bus": "c791ae53c08283cbd8d4272f22a36f3896a9c55626e565f704e7b74c4276d774",
+  "cup": "fac8af98544eeeb5b1de7a27b5a119f95612ffe3910596f773d606128272abae",
+  "cut": "55a663904d14a9ad25350aeb2fffb60126a86df56a06b676f36295208ed2870e",
+  "dug": "8cd17e4b7f4406fb58a7aa5be4ce05e3b502e76b33a3ea9b0cb595bfcd533e5c",
+  "get": "29a35046cee912372d4aaf12f95cb46248f6f1ab7f0fff70d0bab42577153531",
+  "hen": "709b6c600c8217f2f2e52d48143af253a04db9e3b82ea0ba1be80b6102b9c061",
+  "hug": "33978a6fe8eb65b9b6a1a9234334101870e7402573f179e4e1b35040a663815b",
+  "jet": "159ddcbf88513a0b7296ac3f51d3ef5dd7a05585fe8767ef72ff4d06ab258688",
+  "jug": "6f4b3db8ee98264370ed657a931eb2157b9ae4df28eab16f478890fed05b9838",
   "leg": "217c2a6ef7339d9f536b426afe3f1bbca0b7638cb793b3a8342b47eabc5907be",
-  "let": "77a9e26c9a7aa19ff94f6af37da09617d79da2da0269666698e01bcd7bc069d2",
-  "men": "16865119434a6fccf2d21adf623bd72ca2ec3665cc25b90836a7feac08be09a6",
+  "let": "bed3100d045861ab8341bf480b07d40f8f6132ad96127755e8cfb3c26a9e09c7",
+  "men": "bda09d45affc6a31cecdd047b36df21cab7d0c28d417c159ce1eddb4e023da32",
   "met": "e23693c96f6a7663e5c1f74ebcff6694b48972d8357caffed6fa96fd02f6d02c",
-  "net": "ed7329a10e711d02bea9ea74876ae22d81fbcfef53a2fe369d3306c902c7d393",
-  "nut": "e5c2795d7e01d5da0f8fa0531c3cf0467d2c5526339f34cd4de9e747521427b6",
-  "peg": "15a7bd98317a539c2012f54076260f60cdc2bf5379ea2c63531317582767d062",
+  "mud": "de66e4b3c250871b71b42206bf0941f73140bee0271a217cfd9c1170bd355708",
+  "mug": "fa558da63753c45c1a3b5b89d74e72e88dc996915be63d1d29160c9600d6bf57",
+  "net": "a25a27dffabe4e2e59bd57c3754e25c522726766689dbaae87075d099c7482b3",
+  "nut": "c8d8eda0ecee4dd7c66947a8a93731df3b1b9af3981c03f5850905f816c42137",
+  "peg": "b54bd8e0ea07d5e69b0490aaaefcaa94f02eb3dcba43cc41646bb92126984f16",
   "pen": "17d09ab986409162489547e54c96dc9bb112e98713e783cd1f8b5cfb9485035a",
   "pet": "3ed806d8a837de7feaa5e4b3bd84b7121c296cc699ff190dc7617b6b16715682",
-  "pup": "150f40d220a8b9c7d32ec76a5459b58221a8c47cab580a032fe2b864ed1f672a",
-  "red": "b599d45ad0626f549b03e20dc69b542150ccdd0e0a127d56ab2c1cb1eece3195",
-  "rug": "c0b95ecf44942b94bdfb20ebfa2b6fca704cb732af8157bac8b6aa0ad97b2e5a",
-  "run": "dc070d29d6d1e5127c521ee7d75e2873a2f3b7a58c3b99513138a003a7503df2",
-  "set": "6724be7887e9cff6bef34e1142e14e85e0a72c6270a338bf956e0622627397bc",
+  "pup": "5ac94265e345c70db9912236251f510053c18d70b54e2983fb1925fe3f95e49f",
+  "red": "38fba7adecec288f25ca2425e195da4044a97d5f5eee5d6b5c8c29a742e6b256",
+  "rub": "0a6ec57b8ba5131c2567730cbd3e5370a8a4ca9ecaace345da3fcdf6cb022504",
+  "rug": "23b525270b7f899eb5aadffdd1ac7c8c91908685aeeb7a1709a12ab0b42126d2",
+  "run": "a977045fe3836c8e7bb72d2a5c18447f550850c9ce154710c5172bfc1199fb6b",
+  "set": "eb10840214525dae2b114103129f990e54cb879cd64d0dc0b4e2902707269416",
   "sun": "10e289ed3f1e6738d3c38af97e11ad23fc8bee66d87e7de852ec30e2440cc259",
   "ten": "6d05e9cb5009b8bb5e8cb4fe5222b987fa2bb054e56c40f169c63dd0507f8aea",
-  "tub": "1645785587d1ffdf229667e4adaa50241c63a5da80266fa9582b1c224b3cc3b8",
-  "tug": "46b9c2acfae5bdd41bb9c5e0643dd268fe199bcda6d9992036e2c1cd398bc482",
+  "tub": "708991b4fdea1517ff05fca5d9f68bb0d7afcaa5ac0777c7c0f9d67c4c3da69d",
+  "tug": "cbc26dea8c8723b462ca4fb7bcfcf61a0cab5858fb4351df5d4b7d38740f885a",
   "vet": "0740d77d511fd816f64229dd6ab7eea6714c8287e50a97ba58a667db7d43c09b",
-  "web": "9e142f2b068b3f3fc364aec254b7359a3053d18eb0222b1920c93e87595be6d8",
-  "wet": "e68d7979eea69042e1282b1ecd87311ec21343d0bc5795168390bd4083423221",
-  "yet": "4392327b8c24d9f81ddd7ac5455a222d22a57e31fa4b9323ec37e3abcdf52212",
+  "web": "36139009b394a3d50880c01ede17cb6fe74ae1e78f3e9dc8795c80473898cf3b",
+  "wet": "33816474244ff20ab0a588ed4fe25ba2e00fe04d34d98e60ee8fa4c55ba1115f",
+  "yet": "9aebe1aa33c9d128d563602efcaa1e84e7f659683f5586ec8393bdfcad1d6456",
+  "cub": "021d81b3830996b877758edfeb5df90a337495ef8fd9dd311a9eb9c56d9c5464",
   "den": "41afc621e6cf8e517da6146ca041433a187bad282cc7e7291588a01323c5eb91",
   "dot": "2ee043d833e0dbc9e1ee34d3a05172123c55746b7b76ab3f288bbdacc895b57c",
   "fed": "4107db4bbb7a106b3e0b303246f3dbe6d8e05e087d785732356190170f2339e7",
   "fig": "7a7fd6cfc38e8cab3e343a0dd46052a0d6b2259188df7a8cf428a65d6a36011a",
-  "fog": "d44930b21c39ea632ef6d5eded2302486e287f5a993af982a818f92901aef73a",
-  "gap": "2cbda7f220a30e3c24b42af0fef4ebae1cdea2a2d386b1d81f34cc795d28b3d5",
+  "fog": "5d0e057c792690b6e9ad86c96b4ccce2f837e77ff3be8ba700a4374d2584ef30",
+  "gap": "47692c95cc325d5889d235c43636a9f22caf048f82110f9b34674f498afdfe95",
   "gas": "8e10bd4ff801022afa1ebd953855ffbd53d8dedd159a338e706d19155dc14f81",
-  "gum": "6a2def535bd023063828420c0b0f14ec5f5b17de1ad01f66da7b8562cb6e77ce",
-  "hid": "586463ff5b697e2700cc95200a8d9744b5deac252952addd5b7856de691f33e2",
-  "hut": "e12c24183ada326b2d3e5789839b0b16034ce0b84e4b3ac6d2cfa79b0f510fd5",
+  "gum": "c514fe63670177ed52657b67090fa693160e5bea5d9e934994d608d30d7e7232",
+  "hid": "072ffcb7029cf814f4038af0b7bf5c12c8b9eecfed2d8fdc635c062f323d2afe",
+  "hut": "1eccb3bb21afe8e30f9b36c9833a5e43113e7059f78ab2f1efe270cf4cfe52eb",
   "jab": "fb61f9e6168eec425d80d68f443275055d416c9eaa54f1f7153d0e1ca8d08b92",
   "jig": "80aa4a1327cab3d785340ef0afb4a2c682b58ba54791bfb594a664f17613e6ff",
-  "jog": "35f01fb09860bf076410efe94a867cab2d010d1eaea5265cac22ce300e3a9acf",
+  "jog": "5a0fa2fd5d3ad1638a01e1ebd104e74de1ecbba971f1bb426679e33b7ab360b5",
   "jot": "c93cb44ead0bc44a4b83add6a2735b4ddd4d5babcaa1a40a4227c2cacf40854a",
   "kid": "059d8f88c622c4f0fd52abea43cdb3211bcc0752af6ee06e7d1949fa09ce77fa",
-  "kit": "96f0f129e51d4f392b96b9a47e0c27ea61f764ebcc08c5123e931d3bcdcdca17",
+  "kit": "f04315d72c672ae5a61a25a188c3769be2a1ba8bc6e83d215268042837c0b46a",
   "lab": "50b74bfb972e949eb67d3c5acc3f0e9c0401ccbf213dfae8f8a6775f60d460dc",
   "lad": "f88ff867ea3fb79b0de66d9d2fa76e2e7abb37419be7e2be62099a4765438aee",
   "led": "36170d5f9e0b8e73ba53baceddc76f68f888604820f605b10879352b47218038",
   "lid": "9d3e5e8000d898d323fe59b9a5cdfddaf7a9570ddd568f8f313d680fef540d3f",
-  "lit": "6d7df2d72d9fa8fb630db6f5fc183e8abe5231f0b1f39ad2eac2ba39217931b4",
-  "lug": "40f8ccd1e87b83195671c2afa6fc441d9e60c075dfd7ff580a5efd84233f3804",
+  "lit": "f390aae43d2bd3326b38379d79587e33bc46595da560bcbaeaa4b3c96c5ac6f7",
+  "lug": "704446b998eb8e1992a1291e520fac2c4b91fbe3170d1025d32311ca4c6cf0a9",
   "mix": "2e5a74985ef29815a41c48b5fe5b537dc8b9531d3a75647921d2cda0757fb61e",
-  "nab": "06651bc38c6e6fa2d7fec43626e2bd8bfc7e4bf3d1cb511a887b4167b5131c64",
-  "pep": "14b33d8e41035c553050cdf44b52fa4d0352c3519abaaa619b50a14edc5e8419",
+  "nab": "88958d64714530004ecd7ceb3d530c22491624da9a06e7ec16b55fe742c97eb6",
+  "pep": "34833fd6bbbe32a6ee774912d2ef71200b859d339116a95e715d075304345bf8",
   "pod": "4803b1f9e97a1552ce474f8fa732c08d728cd366b9e652f5051736bb4c420203",
-  "rib": "3bff9355b4f78b50ac643fed2a500233b3f83e2d2428247610a74fcf136ba444",
-  "rim": "df9fb0d11acbb470345a4d317d85ca58778cc3e94c5beb2867ae99f37233e68d",
-  "rod": "a63ccdfef759c8a8c594a1b820e0fab9a3cbfb754cb021a02e2b20df20c82c16",
-  "rot": "e4a6b2d49457a23212294dc84fd519e28be6f0553c27deab893c8b5def06a58f",
-  "sag": "e6c9f8f4c5ddb8e884db047c8ff0686fee39350fa050a56cdff6a54eedc367af",
-  "sub": "9d4b6c7f7da59679d1b59efefb583682d0c980c2ab6f763ef4416cdccef71786",
+  "rib": "8d0e9d4988be162327ac9463bc82fa46626f4d90877f6943aa422f4021d6d220",
+  "rim": "f3a25fe97cfba5ba73807332796043148596f2a517819ebdec0c656b7267cb48",
+  "rod": "f4bb2589769777dec53abb2d0d0d65a9d974809bc204d3bb3f436dffe0d42eee",
+  "rot": "d06a2943ded13b880630e7f5af418ef9fa0bf59e8a13f398191522bffaa8efdd",
+  "sag": "593f7c79652ef9da28fad2cc3c14ae2a3475fef56600ce0ddd6e8cb547573dfe",
+  "sub": "e12a25e2ceaa96ac6612d65853f88076fad68ad24a74956bc82a45f7a41ea7ce",
   "sum": "b55f998c436f069741cb637c3faa38260d111301aa8a8e8ae67db99b932d3c5e",
   "tab": "a77da452ddc31c4690af67091197b7bf92518658a3219af8dfbc374ff7118597",
-  "tot": "61df9557feba647ca2cf6b6e5ceef6d444aa49cbb33323b755698bfba247fd1c",
+  "tot": "fdf3998f053bc85bd569053b2dc2f7ef9f5490339a15fafddec268e8f6836815",
   "wax": "2487252e7e7362400bfa5938a972d78bba69caaede27a273ea8b49efbd121fc8",
-  "wed": "ef61f9ae55955f88061a235752302d54c50af5a5f1e037c5e49d1ada82618eaf",
+  "wed": "70fe1c425760c0b0c5ff04569a96c26af363449cef2af7df3478b5e0604a5fa5",
   "wit": "a80399faa447926e4c5016f5e58f9ea47da4c793349823dd33878f6b1444a5be",
   "yak": "421c02f07c80d4977d9ebd24afa80da2fcc184f0bba52721457cc888a7b2ab3c",
   "yes": "04c83de39bc4a31fc30d27695979b9128869697d1e168a3733ccbcaeedee1387",
   "zag": "67cee144e91649c9dbf896c8b3d7a2cc11db76301f9ad1f3ce95625bfdcb325c",
   "zig": "3cba0509bf7d8860af43c3df7e1d813de82a915014eb84b988d638ccc047ad63",
-  "zip": "51b5865c19660e06e9f28ebc558b9fcb682f77dd5ff8327a2eca2f689198a11c",
+  "zip": "a68ba80aafd67c3285311f4060d78c285aad008f7be28589bc5eb42ead5c1593",
   "bush": "30f79930c3ae8be22adfda8af50c4d9fb4cbef8df7cd4bb734455efc873fe1ec",
   "cash": "68935393e104f61eb046cffa9d2b81b7bed387e429727e9f8b136453395d93c9",
   "chap": "fa50189a7461693d235725764feafeac4f9149dc119c384aa7caefdc419bf785",
   "chat": "55f5919eec136935ef9ffd73bc292024daa7034d60306526e78cb4db294bc084",
   "chin": "ab03cfd2cdea6da1f6346fd0399d15ecc8644ab360b1bf9251faeccb014a4979",
-  "chip": "b9af89c3198b7beb137fdc0f5e8011cc2e6d2f3ee7a811c586d478e02cc08b6e",
+  "chip": "faa387aaf123fb33a2842e5d0d74f2e99aad7b23c11514ce838b0290c02a258d",
   "chop": "0beeeb0066968eb210c66e7a9bb0b870bfae9f69f6c06d6a04128ce2e6e98566",
   "chug": "f1d7e9007b813a462fbc421b7ddafaa1d9b852b85f9b9f2c5203196fd057d35f",
-  "chum": "16cbe5c333a1f20144ada4b458aa7d2ea691a685d17f95bb127e830df52b51fb",
+  "chum": "85c8e94205d2c1c27a764fd35c61fc024aeb8322a57636926f3c988faff7f4c0",
   "dash": "9f3d9db49d56f7fb78bb1731fb7731843f32b71cfaa9e5374d193e15082d4cb9",
-  "fish": "fa28fe9435f613cf09bd6c600715cccad37eef4dd0e803e0c184178b782ed474",
-  "hush": "07e48077b4a0f4028a1e18f78f42c1b36babb9ee7fce197abb1f7ef7d6bb067f",
+  "dish": "51e601f0ea6e770e08299e9642333b2a10fa39c93d922b8186ed144512754a2c",
+  "fish": "3de2ba0f8d05b9607279dd4932c22274a7658ddc8b402c3b210a1bfae026d126",
+  "hush": "58bb6aee40d29d2e32eb4c9450a3f29aa4e1a2459b1a35cf765b45b64348d8d0",
   "mash": "683c3f98f04efe371c8634b7b7d17d76e7f21bf41b59e8d87889226ae6f0d937",
-  "much": "356b0f9699dca449e347ce511570624bd9f642db1198b5fa63d911bfb8565693",
+  "much": "8a2da8f6dba9b277fed20fcde781a7b021bf3ad365a25d3bacdb02602ab63a1e",
   "mush": "ae4b5e0ab4517d8af4367658c578f0c458240d2f1b65313d4a1deb7bc58111f8",
-  "push": "01f546cc0d7e7f079ae8f993d21f9dccd881ebe7582cb97402a7e3c330372775",
-  "rash": "965c980731b7d13f4a0f3377a0cdf036c801cc1ae9077113712242b5fe914686",
+  "push": "59d62d1d284574dca8c7c4a05adee5dd0d1a03b46d6d9ed17adc76e02ce82b31",
+  "rash": "1d417b9f2b2ee3b1f2822e6d494e24d6316280ee13cec30060db44cb32b54f6b",
   "rich": "a4e82b0cb40be8bf241911a48fdc66ce1743f68e697e5404219f64a9e13d0cda",
-  "rush": "a5611b33921ab00040329f22fb179a4c4ce199043d06d8da9b19ccab47d9d9b0",
-  "sash": "5d0b885c846123b666d728b79df1db00c155ba8b4db27699d372bb9e98589924",
-  "she": "263cef4d9541178e66cb6e468ee91a6f3270a1529742d2c9038290e92e2d573d",
-  "shed": "29d87b87df4934a15221506dff4744e20f13b5dd6f27bba9b7921afaec9ead47",
-  "shin": "f53a38ae9c1d4f9d7f34e8412cd2feeb49def32e80ac86dc78cfa83174b96e5d",
-  "ship": "ceb383c65fb4d88b108a22be538d9f80e3cb03e444bca8b67ea157c014920d71",
-  "shop": "88edb78f8efd20d0b63d9f869c2f0aa2532247a8ce7daf6b50aa6236b70f4d86",
-  "shut": "d7b43a6840c38bfc598024d32ace6568dfb1d14e94c07f4273398ec34869521e",
-  "such": "a22fec3b9df4a55b5f98919bcf65634572cdce18bf519f6b0b7e45a9853cc273",
-  "wash": "f2ed88fc9bd4cf4600402ac1c9a0f2a9f3f7c52199ed443c337c089b76600bd1",
-  "wish": "b1898bc1412952a972e786265d0c05530cdb7e39b1772f110e09d2ac9faf3ef8",
+  "rush": "f3b8c76d1d9e643059fb0bce81257b61f8bd57c31f02a50a662db37e86bc4390",
+  "sash": "ec387c17e79bd93147ee9254146a8d28f1e8935362288c826f1a0252352c581d",
+  "she": "e18b3a7c9341f4504070e9203a6be470f90b6a82711cdc1c59e040a6a17d6439",
+  "shed": "d36a926a41c4b8ef1ec655abf86ebb7dbc692148d4cef42c3e362ee224af84d1",
+  "shin": "0fce72b654cb60aff68fc18e7e8dbfabe88c72571707d73051046e2d7cd0ac85",
+  "ship": "9db7d712b7bd86b4e5fa74f999a5b31901e7ddd28917843409a1c1535ef877eb",
+  "shop": "43d1eb92cd5d9bae96656adcbb76c196198db515e59e8b9dfde13d38a68eeda4",
+  "shut": "f0f5195b7b9451d563891db6e08315fff884c0283291a8f6cb6a6ddf4915e3c5",
+  "such": "eba8ced0c8ce9bed4fe2f6a5480999f2c3af02d07dcadabd3d290ae636f39fa5",
+  "wash": "94f9b37601c3a7ed4001b92bd6889153dcf94610591cd61dfdfc5ed96789ce5e",
+  "wish": "12f5285bae6e837006ec1b3c5a4c6e550e8732f26fe65702d4e9c1b45096c9d5",
   "back": "b6cc441abb376c0c49f86541ebd271867d97547dfd51abb22a6b17c88134a0cf",
-  "bath": "9e9834caeb59b546b2991447a514386b5db49bcfc7786512a70a120b2c81a37e",
-  "buck": "f7f40bb51b287633d36f4ff1db69fdb63951d3757b45749d91a1a347430f3e3c",
-  "deck": "15bc190f5a382a2e3feee53d930da51c4250d1f92c8a28ebcd1869c0d3e4b025",
+  "bath": "6d8a220fa107b2c7de29814c21758c358cdcb7ef7fe0de66d1d7ee82c8f75550",
+  "buck": "68ca206d68958a6040120d68b4fee7a224cc7921a77fe55f3758550f53f40622",
+  "deck": "dd85daf23694a99baf85fe5d036584dd5a9cb30ce689d317b335dd7917dc8975",
   "dock": "2904c35fee1214378269a107fd31e44789a306d5238c615d9218cde91195ace4",
   "duck": "b4953a5936322f665f4bc535ee8c79f3ec8a01bfbbe5544e801dda18b1a31e19",
-  "fang": "0ba80f7ce805962067d8f9293d06c76dafb8f3745017fc58ab63aea844c2e338",
+  "fang": "c75051191ae9351f054b06c8034e4076936b26a7c06da0f94f82441798772d3f",
   "gong": "bb18b59d6663b818b942d91fc14b4e81e8d615855ef53d8e92802fbf01d2a512",
-  "hang": "eedc47590433084233d1652d9eb57b1fcfd6987a230e2f64b92ea7f91951b8b0",
-  "kick": "87e2046b09c3427d1dc97d05b0c701987aaf353b5292c46814b0161b8a70045f",
-  "king": "98d1f267008f305868aaba62c1cc23ba40aa0295cf49a1a2da2a9ae69c987119",
-  "lick": "8dff7d4535eacad4d727be4001ced4bf8ac5c004120fe248b793220e1ca71f4e",
-  "lock": "c00e5077e36c13aaf3278fb3a5688723dd657bde57b5c60a3acd54895efb66a8",
-  "long": "fb5b99e80f43b8ce7ce7a356b6a67d69b95301f395edd8c1fdaab12ba552ff2a",
-  "luck": "0fa600edb8e30ea64387167b30017053e4af6c2a71a11adc01cfb430752c0d6d",
-  "lung": "66d7f186820b240749bf0a0cbc67d0b7c07a52f9de2569474b5bc72993446701",
-  "math": "e52fb406a3b8dd7f596f14fd8cdd9a08f5f88d9a9000e993ac51335d11ecf361",
+  "hang": "68b57f996118d2ac6de8dfa8e2f43109d2fdc3504bca73fe8f0fc6cbaa61bfed",
+  "kick": "783e1931502782796872ed7cbbf03179902a89ddd7714c989db2bff431cb0c78",
+  "king": "d1f25f4574906ca1dcf57d47b1a61487f8122ae3ea2f539f37453acfecdd398d",
+  "lick": "34b123b56c95efc13d959188168aa0f93ccc8182abda64b74b5004cae92937b4",
+  "lock": "b2266b1e7d49a191b50456df91a5d9332ddb7b65a525338b78252cf125e249fc",
+  "long": "3d3c5c6886d3da346d39c88e86cc886126a38351dd5d22cfa9b22318981cdebd",
+  "luck": "380ae11d1fa06594c31bac1e8611aa10c8a299f28e4f185da6babac9476fecfd",
+  "lung": "2fe7cfdcd7d24a19a528d148d956e012bf3119d2d7c7039cf8f3dd85336b16f2",
+  "math": "33dab58ba9af7aec780ea4973d5efda8c878f7ff0fa8218922576d6f51817092",
   "moth": "156e78ea307a9011895bad1351d9c783377247d00b02fcb54b1de0c27dbfa605",
   "muck": "9c65719294da99d922d3bb3cd6987f1bf77262a45349ef7771c0bb1c8d6973d8",
-  "neck": "d898e93a90c15e870f33b6c5520fb7d4adbef705508fb60bb3ee3d800e5b9239",
-  "pack": "faf447c8c49316b976b74355a1b7f0f9e42f40c300f70a4d2fcc841d714954b1",
-  "path": "265f833dce650366ed79b3ca7218fabb48d2a3ddd7f4888deff1f48a3b38761c",
-  "peck": "e738bbe24bc5e4655627f40445e795916771e8846c6a3bed761a6d14ea796d5d",
-  "pick": "083f153792bed18a369cb33952b737f2526d8a9dec398822497a8967cba30a35",
-  "puck": "6b24b5e74953e9e3e52f513d7ee7a4bae2fafaa7139857c7cd9b264a6bb89ad7",
+  "neck": "481e2a2b3a1e8a259b9449d0679a6a78e4e5ca292d2aa37ce582f55c7eb731fb",
+  "pack": "2eedaef2ba0f4073a51fc3aa9fd96369ddc67d022532d888f0f4cb449c5d68b9",
+  "path": "cf46e7eb6450d981a485e0b24379c8979955e11d39530287c3825ecabd5fc977",
+  "peck": "d62e6699b2bac354f813fc83cbc3ce0505df55b5c20013b5549365e2534368b4",
+  "pick": "da1f112ebb748076d29409f8a924b946e134aaf7a146e69a47ccec8905d8c87e",
+  "puck": "700e8afe1313c6f8fb3823fbd82eadab2be1adef5673f1e416b7be5754a39460",
   "rang": "90b1f141ffb9fc63472ef6a5c06e6492d69e73d18fd32cdb6cc640589bb40391",
-  "ring": "0234af55d3a3a3eb0b45b21d0659eb71c9222d867314e79f317283aa1354ec04",
+  "ring": "996416c859466aac0bcce4ac1b75c03dbdb562c554d4a319b813d7f29840326c",
   "rock": "7de9304a9ebbd5dea93efb2f942035c5312cf1228009481833d2e3719d6a67d1",
   "rung": "c4512e2b7305dcd195195f9062e57716ad27d5ead9b31108083505f28edc7600",
-  "sack": "64c3d64c9df7990749d68abc38504581f4eba8f5a2691af3856327cd9ef65436",
-  "sang": "e975b2d04461e913c0d20c720f91ddf099e010e39cf0dee829d63feb955b59ea",
-  "sick": "e7b6216135439e68807dd6bc1dfcd9a9d23bcad7715a42b99882853e92a9e482",
-  "sing": "cce7127a5759fd05906557f469de985eccadc8f8beee94ede0e7ca3305263478",
-  "sock": "8b33a5cbc4ab897538c55ed286b6eda82214ed296a932ab29dc2b6c938ca347e",
+  "sack": "360bb6057d28797b9d02aff245a5d7761a915836f8aa45a483cb5490e2d19fc8",
+  "sang": "385f13e230049c67eefdf4d607da2e4bb6c8373e00f3b4009e28d7ea2bba2c1b",
+  "sick": "e12bf579db449ce116467e309d912f21ab8604cad3f0abaad7189ba633228a01",
+  "sing": "94696b07466287235461c08d9362f5f793314e7d1584d4aa958c062eab1993ea",
+  "sock": "7d128af921e077a04e1bdbc83c8d2b4631034e71f83b4af8198983d4947e5192",
   "song": "6cab620d3144a5dba424dab4558915f0fbdaeaa7710b12699f8b6de214f51a5e",
-  "sung": "af75ac70b8b669b789fc40ef35f3b0196cc40b2b364ea81ac80cc587b6804883",
-  "tack": "e03fa198f20eaf954e8920574802562593ec30b1e9de6063b4d639abfbde54d0",
-  "that": "d47a0789dbb374d9bba26076071a130d01ada15e456a529e92d4c4263a45fb1d",
-  "the": "9f4ba5c1224924db8f7f8c40cd5ebc63a791a7703540a620629036320d17a03d",
-  "them": "c6d84204324e7aa5c8d616d329d530d3c68dfc5ee13e91293bbe7644a186e67b",
-  "then": "b43f8bd63a46c5f1e9bd36102765caebb8637b6687df80849d3a9b89fcbb5d87",
-  "thin": "c7af2d8addcb1e489f841db5fcf6f5170046b9b588c20361f3b02e13452edb61",
-  "this": "f311cb75f9062c81308522d46ace7ce01510905ec4300860329688850827b099",
+  "sung": "7cf6937c7461fe84d811a46bc0292d645c5eac551cafaca1622b34faae67f81e",
+  "tack": "818d224d9b6a7a233aaebcb7c47e5b6ca7050c628c8adaabe0125ad3f86e2b05",
+  "that": "f0b0036dc7ec35395d3866b457f7d4ac49314cf174ed7f4d142ff57db1ff4c72",
+  "the": "df2b4d730f815e3648d0a82dc98b72f8f93336ebc1d62cfa517c931a9407d6e3",
+  "them": "4eabdf3fde6fa91ba2b81df3b3558cab8413a5ffe7c9118405ffb99be075916f",
+  "then": "5bdb0b81a6ec4cd8963f7be272f35f55c67e6bb6cff140c1d03521ce63b4cb67",
+  "thin": "5e1716f4da2170f7cbe8af9e8e1ad3db84203212257c9b62e062658917fbe856",
+  "this": "4ce18141616da42c1e33ce855d2f398a2fd3b6242e7b7920ba3c0046ef44659f",
   "thud": "b4478441a50f347294546ebf2388edc1bd9494be5267c9925773442b9621c0ef",
-  "tick": "f09acdfbd74b63dc294633c95489719f5cd10be4ea6a42e5f38f571d0f8c3fd2",
-  "tuck": "081dbdc9c9df507f77181179b0402b21f1224d127a38e4bac2973c89ecbf284e",
+  "tick": "2b2d4422e7baa041d240f21e50508e489f17270ba1c604d4ba95711b2338f017",
+  "tuck": "0ba0e331aea2260db64d66748c51d6a50df4874a90acd5cb0f4a236e8decf708",
   "was": "8fd1de18191dd7c65e131fe9b74ebbbdff44e2f07ee70bf554f8ac030ae656cd",
-  "what": "c399a39a5b59bc38cb3db1c98dbf559c274c4ce49efde423a8595f0b57055f48",
-  "when": "e73fc259a1ba1574fe47ce342053da2dbf10fd19a6c30f2b28a8266ac49bdc32",
-  "whip": "e7bdebaba31e7ae53e1391f1c520ef5231577e37fc9e79ae91e057a805c16b2f",
-  "wick": "841f748ce61a7b797bad12e8c0a8829f2dedfb6d1f16759f6557c0745d8c7648",
+  "what": "11e88f1b6f5af77a5c59c99803dc2adae77f7b8b3283500382b0a04506c12e1d",
+  "when": "6eb2d01465101fccb4b8cb3f1dc6ae49e4927a0d2915a90e4d574b1d5f51760b",
+  "whip": "4041de161316312c32d90c5b02758085e5988d140eea7779ab092ab4345bdb43",
+  "wick": "56321c7c1cf8a1926df4db6b2174e78c45b8febf7f61d91d20961c927bf5f262",
   "wing": "0429fae06c70a5aeb5d55b482811b42c23bb46a1a0b8427a2f4e9b097def6aa2",
-  "with": "0c0feaf59e668983f4db00c30002fd93160243375b2098dfaf82904dbc02058f",
-  "cop": "186bdeea4b1b8716a48693668e64df7fc2a84de748f4d38e6194996785fa9754",
+  "with": "780858e0bc76e9efa6b3dbed60fa678c4745b55a3011b179b47632776a0cda09",
+  "sap": "84e22cae4cb0ad377bfd4d619e9a7841286dbb1da155f7f162d0ded665fc4232",
+  "rig": "49637e972a4dc43f37412e9b8c1a9f870db58fa5909d469104f3c67b8e0536f8",
+  "rob": "ccae4697bc37f6335ff4d8d2e6845bc81bec7e58c92b6fd21779cc4d17b25908",
+  "sob": "26d4ebb3f64e5dfdc8020e29ee0c91fac8ad49ac4174f22a606c8099826c1e05",
+  "mob": "0b89f320296e1ff3cb612fa20f04a6ab486ac4934f205866b832a8a9953fd917",
+  "cop": "a20dfba4b715850d1d4dfc40667a23a953696019c6123aed243a43c9c6a77be2",
   "bet": "f4229747280fb14e828eb1a3c8ce12b72be93b21b11ba8bb89fc02854914a266",
-  "keg": "242579e11bbf24bd58fad97ef5296ae88034cfa70aa8447e17af0406feee3512",
-  "hem": "47253a6dc49c78f0bedeb096cfe7dc10cfb9d1aa5ccb018d9579644861f86c9b",
-  "nun": "bfe04d4d29d00dc98be13e5ec3cd207156d5251a605d2be9fff3dcc1667667dc",
+  "keg": "9059fd10aa16f57ba5a2b216eb499e4a5dd848905c738c45561d20cf3063abc9",
+  "hem": "fbcf35af0fd3fa738e4a0c302ac2ac9fd32e981cd1ac83beae77ffb3661a9858",
+  "nun": "668f9ba95dc487aa586ef6ef15fde6124f0d12e7b0894de9bd2891984a557ec2",
   "pun": "aace925f55a6149fc34544ec8d4eb450db46b236289bb0d1c023c5a740b0328b",
-  "jut": "5a3baa36d847cf03db4ad61928977f3f5604776a34dd7f3ddfb4bfe181314ea9",
-  "gut": "3d3535126e69135629f5ea6814bf779a260584247d313d3db53267bd1328723d",
-  "hub": "4cc57c4a1d9d999911c29bb5dee6b5cca9f212c322708261eb02621181c6f56b",
-  "fax": "a2228965b813b8ef4047298efc0bb909c1b2f5937422e586c5ea3db27f3647e9",
-  "nix": "18b1d236567760e3e07dd7fb254f573cbf68e6761fd71b6ddac3cefcbd029e08",
-  "vex": "9e4b6172ae2b4975f015231e86800e01acc36075531a1432261bef8c784d8a02",
-  "sax": "a60ba1b1082368a23b51cbe304c590584ef1352461db7821cae08dd7aa1274e0",
-  "cod": "04dfcf06d60608908b6f8ee20ccc7fa075a5a82c15ebee41f3a67559adb8889d",
-  "gob": "1d103eaffe51e942ef0b48c0637a4b2f1813d29c8700eefb74b697103a061b8e",
+  "jut": "ceee896e630830bcaf74d7b52647196aebec2c5829e1a08db51c97f31434e52c",
+  "gut": "9ca477876141444709061a153b127f61fa1b40e22e7737d11d11270476750c5f",
+  "hub": "9b7bc8a05fd1af3378485e1f597f59374f79c1a55b37d272a3e5e7411e4ad260",
+  "fax": "358bb0bd2cbfd8026887f78e27e6f98879f90ece59748831b09da4ccd0f389cf",
+  "nix": "59de024a04279d02ed756ac160d190763861620c714ac363afd80528c443b8e0",
+  "vex": "b6f285e992baca991755daac38c34c375ed45f0c549a948ad5b23b3034723fd7",
+  "sax": "793c7939975e9f8eee7021ebcfdd8f966148ca49f72bd104b58ae3d3ce723146",
+  "cod": "83ce9c436831920c18e8238df9c9326989d8e5dc54918a433617d624943c6ac8",
+  "gob": "ba39a275448337064b7e36e7d65fa3690db8b24a4f85dbaf6879b8a2448b12a0",
   "bash": "8309f292b2fe4c47cfdd1c162f9737f0c7a6ec4ddfdf18e90c1803f53c1115ed",
-  "gash": "50c6b8022363fba5e31e358844ad7be5a12dc3e0c5bd188b033f3589b7675052",
-  "gush": "da0ef7be1858c126677ed34b900a8ac4fad55fce53b5e8aecd38d20d2052c871",
-  "lash": "59a514d74e3742fedcfafbc66cc6ca0434bcef2639b383adde9205d7a792cb2a",
-  "lush": "298b8da5fdd1a007b71e254a46467f20a26a7bb246c99fae8ff172239574b9af",
+  "gash": "a2164ddef074c906a13a0324303ea40377599b41cc60092d58a980f1c8fcb3b1",
+  "gush": "397eaa85b43cf706de355c380e23d0df09217e4a84dd73f128ad4bfd51e0830b",
+  "lash": "9e74052384931d600c158f960719ff11a12f3b4cda7ae1f62243cb5ff4bc69a9",
+  "lush": "c346b1819b96973ff42c54d4aed2c92f17e16779b62ed7219a62cdbc6e9a335d",
   "posh": "7dfc02d741dbd30ae223c981f0b78a4fcc8c725f8d4c6b872acbdc047676b014",
-  "sham": "b664fa08c8c6da648d1dbffefba445749437fc99c28fc9abdfa6272f70490d73",
-  "shun": "6de2617d45a617e3c1f23c6a57fc175b2678ba46bead37c1b5da0d7de52e5174",
+  "sham": "35de7eeed34adaf301270d56f869f3bee970fea6459b744b840f2f5d769ba5e7",
+  "shun": "4ad30a903e850f16828a35933d8c24a6022c2cddd8d4883816dfe9e023aaa1eb",
   "whim": "1d87c1f0a8de1d401d8e9e4c7da37c72233fa870cdb996a6e99a9499bf144027",
   "wham": "6a15d6993e91704d7654546303f6b25ebff1e1a8a008dae4acf0eb9fd84aa4a9",
-  "bang": "cd0a346b929a5a7f17c807616d1a3d535f12cc50f830f72f3c7442c44e777a54",
-  "hung": "451b0f4004e876aef95819d5b159926f856208c37cbc4345523a3e71d852a82f",
+  "bang": "8c8cf6c5305b328bc5809c40c2f0526fe800b78a7e2eced47ceb59b254574de7",
+  "hung": "f0debb301fa1381670a3a44a96d8d6ba4c5065f0d8c3e0e7afb8decd1714f608",
   "ding": "501c5aa6e5f8f6e9a64deec66cde4fe76d886f98a5d56ba68eb2f5f5ed44d191",
-  "ping": "d6f227c1caf63ab5641bfcdae4e774a8ebcffa23d4065dca922d7237d60945a2",
+  "ping": "098bbbd2bd5c039a815762040cc68bf47fe4b8aac40f0b950e47e98ac59bdb5d",
   "bell": "336902754e7c7f733b10c9072692d657d13f5bd984a475d258e87e784dd0e96e",
   "tell": "23a4d54c05a6c404f8c6f032b3a31400282dcea49d50ceb3070496806f6b8718",
   "well": "78ccb535535f153d92d8bd98d93736ea0af16f1d2f3161881ca07f0add659028",
-  "fell": "60a897127fbed61b6f47afd7d6fc9234e9f5c5cad25e369a6e16c34a42da3798",
-  "hill": "44c56c45d62a196e69c1d976a86d9adabf3f87229e46a62226b4235bb36118df",
-  "mill": "7fbb5d80bc3a8fc821a41bc70bbbaf16aee8d3223f1aca2f56cad114a797f0e2",
-  "doll": "3f13c9d88ad96427d3252a926dda77ea81f467ff3a6d5a989268fcd6bd07aa03",
-  "mess": "73bde18c0451739ffdca356b56db37e7b604f7c4e743976a0fd38566174d3eab",
+  "fell": "7bd8ecc945b3e0a366db27a6acca5b65e778b22611199c57c561f52f745e4071",
+  "hill": "70763c908ac079596ea0badb1d4d4fc4df497bdab3dd2dcedb0ba77aa4a8c2f8",
+  "mill": "0e4866862803393864058b625534ad72c6474270cb6715dd0424895c88d65de3",
+  "doll": "95e02afee147b71f54c2eba65933f5ec385fcced3649bfb1b9a84183e7832406",
+  "mess": "8f81879494203680f76a4a7ee70693ad032d65eb4ec9452b290b897fc8c9e5bc",
   "boss": "36936290db6316888157003d090791a1ba3fbfb48a4c4ad64e2aab851434ce72",
-  "kiss": "fd40cc63dcf706689249bcef52dab990a63fe0584a48d8bfa7b23e8b3852a4d7",
+  "kiss": "070373587cd4300fc3bb1239ad9ed6337efdb6ed94c38c5f012fb76940448d0d",
   "miss": "5fd1d315c12c622b3c661bd82e99f83f254c25f572bc620a12562be122d5a09e",
-  "loss": "0e7a535dfdf5c960e1c2b47cc70d77a7bff5fb4fb280577b553c8d3528238875",
-  "fuss": "839b1902a611b6e5a9cc79a218cd5861a1bf4226819abc9dc5ccc55f106ca5e3",
-  "huff": "2bed8f47f8fff96ab242ce35539a36fd65cbea37a2d8d0f29da19fca8bc6987c",
-  "puff": "3e27047a67c6b3556a74c2e5cc2199543c3989c0a423b0df2a18cceda8e005a7",
-  "cuff": "11c0bc379c46606b6ace671ffd3465a0e1ba2429fbe2f89c6b6e3cfce79b0ec5",
-  "buzz": "6e428e3aa6c4ba8d0051cd7bb0eafc14471bda6837ac674eccd21a5c17285e4f",
-  "fuzz": "754f000dcf172fb0501ef130b4b6f1d356b3a4ee7b70b45a4b38c2e14eea28c5",
-  "jazz": "5c442b56317472ca750ce3a22aa7d1880f2c1a2d1437be74f9a80f0fb01164f5",
-  "fizz": "dfe67a886640bff0226fbacd65aba5e5cae9c520a9d9e47939db110d51b7c777",
-  "quiz": "6840a54f26a6c70f84f94eec597adb2581d03fad55450a05e3556457028350b7",
-  "quit": "613b12d4e474ea6ce785ae4aa21240fb3e8304e7d7deae70af8d3db853926cea",
-  "quip": "bf6336b6cddd3ec8c0ac5e102ad5cf69bd7ab2f357e4eaa6ca061d3ebed49914",
+  "loss": "a55ea5a533f7cb78f485f63e1448e60fdc0400be34395a5ae1242e80cfe6d23d",
+  "fuss": "9dcdb5c9c1e32e9f2dc3a258e62257096130e9b897a8a79676d663e6a36c56db",
+  "huff": "b0b6644ffb9338353b826faef76e049c2202a7784fb457e023a8c5f0677476ef",
+  "puff": "973b09e6619ea69fbc67edaaca052b671221a260c78e62acdf75dbd40e09dada",
+  "cuff": "0946897c9c2a43301ec57e335e80b806e97ce3edf2a2e5506f49bb8d384721cb",
+  "buzz": "60492ddc4ff72e7e8c13e5753f9f9c8a18d6124f9d0a8ec31d39c53e732b92c0",
+  "fuzz": "7819500932fd8defb8fe966afa7fa6356033c66d183c53d49823e766a3d1dbd2",
+  "jazz": "5e954c3622dd5ed4832e13ae9c6422d37f486d9fbbc339d63ea12605789dc076",
+  "fizz": "ecea642a234d45d5ec7e8e1f46b74dfaf93f9f87ae15e6ce3b93750b1eb03dc9",
+  "quiz": "1e3e7e4259156c8d86724809c4b22cab32df8607e74a2edb3b4aa927c69d8d7d",
+  "quit": "ead4d4bd02989671832dd58235014e6ad8b1cf6b7aac83476d8f113f2566c76c",
+  "quip": "72f8b64e9415ca6ca9a889f3b37c198d5f7b7bf4f2789cbbb9f3af381263be48",
   "knit": "d65fe569d276f608bc5eafc57bc80e7abbf0ef3e00866ec68317171048ac67d9",
-  "knob": "4ee113c578e67999e75e0eade39f01e77da37481431a9033bf3b30594cd32e65",
-  "knot": "2dda953d4e0c50631031c082453b54d58f7c7188b5eea11b16f095749e1982e5",
+  "knob": "9435b3f34aa681301ad5e310d79d54fa91fbb5281f79b5682af91eb1bfe51adb",
+  "knot": "595ec4a328b27bb14383c6e12e7c182e4eada923c54882a8701357e955430adc",
   "lamb": "8c6ac8ef911e7ed3b6d433cc62f42516d7b67c1b97f66a966ad03684766b44ad",
-  "chick": "16414e8460f37e13f55097dd9678826f1042234b5f975e85a2124590820076d7",
+  "chick": "6b93c8beca6d600ebf80a7b296fb08d1e1beafc28c3e38443d4cb46930175463",
   "check": "12f5089deed95515ea7c9458b978887626ed85522289b48607aada3159221fcc",
-  "chuck": "fbe19074408b0eef3cf5f0fc3f1ee951290d8740a6a9757fc6de6c70b8d2ba5c",
+  "chuck": "65e46bf12aa1f40a605927d7586b2287e7a549735c5e70bab1060273afc2f3d2",
   "chess": "eba5b95b95ddda9ff536722a2f2ef12061565d7e58dbf5d4b38a5da0a99ada97",
   "chill": "74b4ff7c5d6c739c845bc3586bceda69e4a638cf07c2a571423950114719bf4a",
-  "shack": "882564a4c24ae74a4dc81ff9d49ad52fab472b0aaf5bd242117083b103830394",
-  "shock": "6d26c56fa3589f9c7dbb2f8d156470d2ba0638e0ea4011d546134b059183ef6a",
-  "shell": "a52df8ecf58a542c739de19f613d51092af2efd66ef125c2275a40ae1f91204a",
-  "thick": "a0476737fb949b79f6d70bf87218e463dd8da6e73af9b614e3b5c7e06f7fbcee",
-  "whack": "968c74fe64d482aa594c11a2a5e54919cc9f495e32bbc9ea0f9efb50e32709ab",
-  "whiff": "5936b9d7637dfe7fa606faff5060140ab83e35891d4d79742765585d1e5a3e51",
-  "whizz": "69e3107532751407c8e3c2ddb281b26437016fbe7aa34dbadceb613a09fe8e7d",
-  "quick": "9fde3a1c5299ed1e031134f9b1dd6859a7ad117c6c9731d08fffa3e07f145819",
+  "shack": "c427d5e8a428fb59a8d5a553a2509845799b4330c01c345402fe32faa42dcdf5",
+  "shock": "b50429e03a0291242ddd513fa80c76520a378944f1f11100659f6a1394e90ae6",
+  "shell": "d0cede000347fb6f0b1010f116bcabc9c51a089b753e5e941c39178bbfc43f74",
+  "thick": "4194000e17994684b055048502e635f56cedb945a63e7d0a77952b6922a51df0",
+  "whack": "995161a2d6e415caa9871d3582c337118439214a968ff2056e3d969b1d0d5e38",
+  "whiff": "cf87a7aaccd61390553b0bfdf129b8f258427e39b3d2e19f51b03fa7d552930a",
+  "whizz": "6bf4e914cc7afc11dc16f8fc354014928c0ef255424f4ddf995f00a7d2f61d05",
+  "quick": "155255629463a4bc1c15facc2c0b9626079ea79b3a97d68b1672c4b54ece01af",
   "quack": "efce063a404a2c93f00a69060712862e408334ef0e11f2c3bdba1932bf054054",
-  "quill": "6e5eac6f49259a4454158a45d07d37688d6c8ec48eb598a8b5217b4fc1a5eb91",
-  "knock": "27f5f4131334a0ab4f1420003f0399dc9e6111024d0810b0d822fcc3bb5bba70",
-  "wreck": "c86797553383915e734304be0be8980711cd9b31c65925a1fd84ee48091efeae",
-  "wrong": "94a8498197873959510db8fff0dbc4cadc60401e1cf8bced1989e2a7d554ad68",
+  "quill": "3cf843b1c979eb91d0071aa5ca06d8b9f6bf48709a81334286fac7a2c2b9ef19",
+  "knock": "88a25367984f3dc4d75cb4ed0835c4efad625b721301990930ec7f93a4da82b4",
+  "wreck": "db5062716a529dda8d92afe70dc07123d1cccddf2be6affe780235695cb1a14f",
+  "wrong": "54083eb57b5086ac2c52753c992511833b8226e68167ebf9fc7f125c73483c7c",
   "thumb": "889b1d07ea70c163b39de32a998aa3bbd23a53e0205d566494e307f1295c7430",
-  "wrap": "ec0385647c14d04a80d39dd792454061582456b2b495032225ddede9fac5d3b7",
-  "wren": "18fd58e749fce9b4a9eddc0fb7300819a9fbbb1f0e62501c76ab3dd89da0585e",
+  "wrap": "6c0d714783bd88ec8d256c15391fdbd43f725a04f06291e1a50571ead84d9823",
+  "wren": "4b1d649b21295c2ea571969e2b9765973a2536e6afabd86d6d5fedcf48655550",
   "limb": "dc7e570cadb44f4ed8994e52de19feeea20a52732bda7c222062284ef92f8cea"
  },
  "words": {
   "am": {
-   "verdict": "accepted",
-   "ear_notes": "spelling read it as the letter M; explicit pronunciation and 150 ms lead",
-   "round": "phoneme + lead rebuild, 2026-07-27",
-   "listen_context": "clip"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect am_8 [UP0]; family carrier_quoted",
+   "round": "UPLIFT-EXPERIMENT-0 / 2026-08-06",
+   "listen_context": "clip",
+   "byte_pin_sha256": "615f9e04f0384794df053db5d2b090737a3dac8c467fb01b193d225bbcf4a11f"
   },
   "an": {
-   "verdict": "accepted",
-   "ear_notes": "same fault and fix as am",
-   "round": "phoneme + lead rebuild, 2026-07-27",
-   "listen_context": "clip"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect an_7 [UT1]; family carrier_quoted",
+   "round": "UPLIFT-TONE-1 / 2026-08-06",
+   "listen_context": "clip",
+   "byte_pin_sha256": "7ca9412cc5f2e31d27c649b85dd2a7104da7d3cc6473f6cf6281328b0e2aef52"
   },
   "at": {
-   "verdict": "accepted",
-   "ear_notes": "",
-   "round": "phoneme rebuild, 2026-07-27",
-   "listen_context": "clip"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect at_4 [US6]; family carrier_spell_CS00; spell control CS00 (rollup → carrier_spell)",
+   "round": "UPLIFT-SWEEP-6 / 2026-08-07",
+   "listen_context": "clip",
+   "byte_pin_sha256": "c181d7db486b5c44a72444740cd25a7f10a16f93c135ce4785cb89b880bede4c"
   },
   "ax": {
-   "verdict": "accepted",
-   "ear_notes": "",
-   "round": "phoneme rebuild, 2026-07-27",
-   "listen_context": "clip"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect ax_5 [UH1]; family prior_ax2_extract_loose; prior UT1 ax_2 extract_loose recreate (loose energy 160/-32/40)",
+   "round": "UPLIFT-HARD-1 / 2026-08-06",
+   "listen_context": "clip",
+   "byte_pin_sha256": "1dfa308dd31df42575d76ff737a2de9a64ba9f6141bec10bf4dc6d9c1070654b"
   },
   "if": {
-   "verdict": "accepted",
-   "ear_notes": "",
-   "round": "phoneme rebuild, 2026-07-27",
-   "listen_context": "clip"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect if_1 [UH2]; family cut_energy_head_trim; energy + head_trim (hop-defect safe; never ASR+head_trim)",
+   "round": "UPLIFT-HARD-2 / 2026-08-06",
+   "listen_context": "clip",
+   "byte_pin_sha256": "cdcad40f55af074f896bc976b0c16ad4e799f96cb2ff92e98a44754fd4b3f99c"
   },
   "in": {
-   "verdict": "accepted",
-   "ear_notes": "",
-   "round": "phoneme rebuild, 2026-07-27",
-   "listen_context": "clip"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect in_2 [US6]; family carrier_listen_em; Listen—{word}. energy cut",
+   "round": "UPLIFT-SWEEP-6 / 2026-08-07",
+   "listen_context": "clip",
+   "byte_pin_sha256": "302c1c957203e9b53f0172f20c81a0cb4b470c35d5a965d37447123a018515dd"
   },
   "is": {
-   "verdict": "accepted",
-   "ear_notes": "",
-   "round": "phoneme rebuild, 2026-07-27",
-   "listen_context": "clip"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect is_4 [US6]; family carrier_listen_em; Listen—{word}. energy cut",
+   "round": "UPLIFT-SWEEP-6 / 2026-08-07",
+   "listen_context": "clip",
+   "byte_pin_sha256": "c88854e3de57ce91f51d91aeee77fc8f560e1afb6dae66f78c06529705118468"
   },
   "it": {
-   "verdict": "accepted",
-   "ear_notes": "",
-   "round": "phoneme rebuild, 2026-07-27",
-   "listen_context": "clip"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect it_2 [US6]; family carrier_spell_CS00; spell control CS00 (rollup → carrier_spell)",
+   "round": "UPLIFT-SWEEP-6 / 2026-08-07",
+   "listen_context": "clip",
+   "byte_pin_sha256": "c2998d36edff636f32bd221f017d5025c3ccc25b38be22129c9ab2c1e39cdf66"
   },
   "on": {
-   "verdict": "accepted",
-   "ear_notes": "",
-   "round": "phoneme rebuild, 2026-07-27",
-   "listen_context": "clip"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect on_2 [UT1]; family carrier_spell_CS00; spell control CS00 (rollup → carrier_spell)",
+   "round": "UPLIFT-TONE-1 / 2026-08-06",
+   "listen_context": "clip",
+   "byte_pin_sha256": "8e977001df7db9b8906d56b6c11ad0cac6f7883b8504aeaf181979123d7b1b8c"
   },
   "ox": {
-   "verdict": "accepted",
-   "ear_notes": "",
-   "round": "phoneme rebuild, 2026-07-27",
-   "listen_context": "clip"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect ox_6 [UH4]; family peer_carve_fox; peer carve fox coda; assembly in sidecar; byte_pin authoritative; assembly/peer carve; sidecar recipe authoritative + byte_pin",
+   "round": "UPLIFT-HARD-4 / 2026-08-07",
+   "listen_context": "clip",
+   "byte_pin_sha256": "143ef441a84eb9c8b1f6267735775e29fed0ede0fc358cd17d23ccaa2dd2c428"
   },
   "up": {
-   "verdict": "accepted",
-   "ear_notes": "",
-   "round": "phoneme rebuild, 2026-07-27",
-   "listen_context": "clip"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect up_1 [UP3]; family carrier_listen_em; NEW family carrier_listen_em",
+   "round": "UPLIFT-EXPERIMENT-3 / 2026-08-06",
+   "listen_context": "clip",
+   "byte_pin_sha256": "962904dd56bc792fefad3e028759fefff5990bbcdab52725a707972159cdb16d"
   },
   "us": {
-   "verdict": "accepted",
-   "ear_notes": "",
-   "round": "phoneme rebuild, 2026-07-27",
-   "listen_context": "clip"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect us_2 [US6]; family carrier_double_say; double_say second island; cut=second_island; CSV mode energy + pin",
+   "round": "UPLIFT-SWEEP-6 / 2026-08-07",
+   "listen_context": "clip",
+   "byte_pin_sha256": "0be218a1b0bd73ecb4da805bd19a08aa2e7198e3f37316213725938af3d256fb"
   },
   "bad": {
    "verdict": "perfect",
@@ -3148,16 +3367,18 @@
    "listen_context": "clip"
   },
   "bag": {
-   "verdict": "good",
-   "ear_notes": "",
-   "round": "pack-1 sweep, judged 2026-07-30",
-   "listen_context": "clip"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect bag_4 [US1]; family carrier_spell_CS00; spell control CS00 (rollup → carrier_spell)",
+   "round": "UPLIFT-SWEEP-1 / 2026-08-06",
+   "listen_context": "clip",
+   "byte_pin_sha256": "0f211be3d9c9c54c6c69ea98727c63dd422d48f25de43e75771d8915ef6da41b"
   },
   "bat": {
-   "verdict": "marginal pass",
-   "ear_notes": "",
-   "round": "pack-1 sweep, judged 2026-07-30",
-   "listen_context": "clip"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect bat_6 [UP0]; family carrier_spell",
+   "round": "UPLIFT-EXPERIMENT-0 / 2026-08-06",
+   "listen_context": "clip",
+   "byte_pin_sha256": "ea8f8bd9e57665d4ba1504e1464b72f4b46b3ed734e5f4f4503c6a883f2b897c"
   },
   "cab": {
    "verdict": "perfect",
@@ -3172,16 +3393,18 @@
    "listen_context": "clip+app"
   },
   "cap": {
-   "verdict": "good",
-   "ear_notes": "",
-   "round": "pack-1 sweep, judged 2026-07-30",
-   "listen_context": "clip"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect cap_3 [US1]; family spell_speed1; spell_speed1 (CS00 text @ speed 1.0)",
+   "round": "UPLIFT-SWEEP-1 / 2026-08-06",
+   "listen_context": "clip",
+   "byte_pin_sha256": "e735e3eebb54356900eed4b0ed9e62f5bb520a15a2f59d2c5cff1d6d1b71e8d5"
   },
   "cat": {
-   "verdict": "marginal pass",
-   "ear_notes": "",
-   "round": "pack-1 sweep, judged 2026-07-30",
-   "listen_context": "clip"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect cat_3 [US6]; family carrier_quoted; quoted carrier",
+   "round": "UPLIFT-SWEEP-6 / 2026-08-07",
+   "listen_context": "clip",
+   "byte_pin_sha256": "66b8182cbfbb9c733b805f308c06268982624ad48a58a5b6280e867edd9b318e"
   },
   "dab": {
    "verdict": "perfect",
@@ -3196,70 +3419,81 @@
    "listen_context": "clip"
   },
   "fan": {
-   "verdict": "very good",
-   "ear_notes": "",
-   "round": "pack-1 sweep, judged 2026-07-30",
-   "listen_context": "clip"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect fan_2 [UP1]; family carrier_phrase",
+   "round": "UPLIFT-EXPERIMENT-1 / 2026-08-06",
+   "listen_context": "clip",
+   "byte_pin_sha256": "642c278f1881f8168261ef129824f867076fc100548219547de48237c82a1b3b"
   },
   "had": {
-   "verdict": "very_good",
-   "ear_notes": "very good",
-   "round": "keeper handoff, packs 1-3, accepted 2026-08-01",
-   "listen_context": "clip+app"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect had_3 [UP1]; family carrier_spell; owner wrote hand_3 → had_3",
+   "round": "UPLIFT-EXPERIMENT-1 / 2026-08-06",
+   "listen_context": "clip",
+   "byte_pin_sha256": "6ca520842e1947bd559a53d6295db8dff376291215cbf8cea3acb679e9375f3c"
   },
   "ham": {
-   "verdict": "very_good",
-   "ear_notes": "very good - clear (accept if best)",
-   "round": "keeper handoff, packs 1-3, accepted 2026-08-01",
-   "listen_context": "clip"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect ham_3 [UP1]; family carrier_quoted",
+   "round": "UPLIFT-EXPERIMENT-1 / 2026-08-06",
+   "listen_context": "clip",
+   "byte_pin_sha256": "98941dc38f201d05a65bb8b36f8f443bf8baa1f1d58b00269d4d028f28b3b43d"
   },
   "has": {
-   "verdict": "very good",
-   "ear_notes": "",
-   "round": "pack-1 sweep, judged 2026-07-30",
-   "listen_context": "clip"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect has_4 [UP1]; family carrier_spell",
+   "round": "UPLIFT-EXPERIMENT-1 / 2026-08-06",
+   "listen_context": "clip",
+   "byte_pin_sha256": "1a1f2ddc12ba8835e42b35422e28b56be25c0c70f8892f836da16d6fdb52106a"
   },
   "hat": {
-   "verdict": "very_good",
-   "ear_notes": "very good (accept) [hat R2]",
-   "round": "keeper handoff, packs 1-3, accepted 2026-08-01",
-   "listen_context": "clip"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect hat_7 [UP1]; family carrier_spell",
+   "round": "UPLIFT-EXPERIMENT-1 / 2026-08-06",
+   "listen_context": "clip",
+   "byte_pin_sha256": "45ed1242a8d4447fe82b9bfb2e06d0d6edd12c97b5e838936db7f3ac37daa82d"
   },
   "jam": {
-   "verdict": "very_good",
-   "ear_notes": "near perfect, accept if best",
-   "round": "keeper handoff, packs 1-3, accepted 2026-08-01",
-   "listen_context": "clip"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect jam_2 [UP1]; family carrier_quoted",
+   "round": "UPLIFT-EXPERIMENT-1 / 2026-08-06",
+   "listen_context": "clip",
+   "byte_pin_sha256": "49ff191f0293ed1cb6350dad852cf611bb7b63eafd8eeb5872bcce8997552221"
   },
   "lap": {
-   "verdict": "good",
-   "ear_notes": "",
-   "round": "pack-1 sweep, judged 2026-07-30",
-   "listen_context": "clip"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect lap_2 [US2]; family carrier_spell_CS00; spell control CS00 (rollup → carrier_spell)",
+   "round": "UPLIFT-SWEEP-2 / 2026-08-06",
+   "listen_context": "clip",
+   "byte_pin_sha256": "25dcd6413afaa2aa84afdeee4a61ecec8b18b6962e7a78fd97dcdcbb028d2300"
   },
   "mad": {
-   "verdict": "good",
-   "ear_notes": "",
-   "round": "pack-1 sweep, judged 2026-07-30",
-   "listen_context": "clip"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect mad_3 [US2]; family carrier_spell_CS00; spell control CS00 (rollup → carrier_spell)",
+   "round": "UPLIFT-SWEEP-2 / 2026-08-06",
+   "listen_context": "clip",
+   "byte_pin_sha256": "429a9a16a0d48d2e689e84e57bd792dfbfe433971353dcf45a7fa80e18512102"
   },
   "man": {
-   "verdict": "almost perfect",
-   "ear_notes": "marginal pass, accept if best of 6 [user: accept-if-best overrules]",
-   "round": "round 14, judged 2026-08-01",
-   "listen_context": "clip"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect man_9 [UP3]; family carrier_double_say; cut=second_island; CSV mode energy + pin; NEW family carrier_double_say",
+   "round": "UPLIFT-EXPERIMENT-3 / 2026-08-06",
+   "listen_context": "clip",
+   "byte_pin_sha256": "5edc286d1039cad67d1d3f3b626c41b0aa9bced8879bdd4c301c52181028bdc1"
   },
   "map": {
-   "verdict": "very good",
-   "ear_notes": "",
-   "round": "pack-1 sweep, judged 2026-07-30",
-   "listen_context": "clip"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect map_10 [UP1]; family carrier_spell",
+   "round": "UPLIFT-EXPERIMENT-1 / 2026-08-06",
+   "listen_context": "clip",
+   "byte_pin_sha256": "bbc63586112637cb7261f14c6d6c4cdb1c1e8cb2d44fb98c5caaeb80ca138706"
   },
   "mat": {
-   "verdict": "good",
-   "ear_notes": "",
-   "round": "pack-1 sweep, judged 2026-07-30",
-   "listen_context": "clip"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect mat_6 [US2]; family carrier_double_say; double_say second island; cut=second_island; CSV mode energy + pin",
+   "round": "UPLIFT-SWEEP-2 / 2026-08-06",
+   "listen_context": "clip",
+   "byte_pin_sha256": "af4e59b148a5b7f18be59c2c79f4452829b5e9eae5b832fdbf3409c7ad0ff01f"
   },
   "nap": {
    "verdict": "perfect",
@@ -3304,10 +3538,11 @@
    "listen_context": "clip"
   },
   "rap": {
-   "verdict": "very_good",
-   "ear_notes": "accept, near perfect [pack2 r5]",
-   "round": "keeper handoff, packs 1-3, accepted 2026-08-01",
-   "listen_context": "clip"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect rap_6 [UP1]; family carrier_spell",
+   "round": "UPLIFT-EXPERIMENT-1 / 2026-08-06",
+   "listen_context": "clip",
+   "byte_pin_sha256": "73ff3e11aa6e9d4a22c33dc550a83f7210a8dd244610c605f65287127c8dfcf8"
   },
   "rat": {
    "verdict": "perfect",
@@ -3360,10 +3595,11 @@
    "listen_context": "clip"
   },
   "yam": {
-   "verdict": "very_good",
-   "ear_notes": "accept, very good [pack2 r5]",
-   "round": "keeper handoff, packs 1-3, accepted 2026-08-01",
-   "listen_context": "clip"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect yam_7 [UP1]; family carrier_spell",
+   "round": "UPLIFT-EXPERIMENT-1 / 2026-08-06",
+   "listen_context": "clip",
+   "byte_pin_sha256": "e41a331f3e6adb20001b6946db0682dc373b089b711f44d0a565be158930bc7c"
   },
   "yap": {
    "verdict": "perfect",
@@ -3390,10 +3626,11 @@
    "listen_context": "clip"
   },
   "bin": {
-   "verdict": "good",
-   "ear_notes": "good, a little fast, no static (accept) [pack2 r1]",
-   "round": "keeper handoff, packs 1-3, accepted 2026-08-01",
-   "listen_context": "clip"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect bin_2 [US1]; family carrier_listen_em; Listen—{word}. energy cut",
+   "round": "UPLIFT-SWEEP-1 / 2026-08-06",
+   "listen_context": "clip",
+   "byte_pin_sha256": "2060c815f54330259e8e2312bd573457890b135fcb2541559426292d7e937712"
   },
   "bit": {
    "verdict": "perfect",
@@ -3408,16 +3645,18 @@
    "listen_context": "clip"
   },
   "cot": {
-   "verdict": "good",
-   "ear_notes": "accept, good pronunciation, no need to hear others [pack3 r1]",
-   "round": "keeper handoff, packs 1-3, accepted 2026-08-01",
-   "listen_context": "clip"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect cot_6 [US1]; family spell_speed1; spell_speed1 (CS00 text @ speed 1.0)",
+   "round": "UPLIFT-SWEEP-1 / 2026-08-06",
+   "listen_context": "clip",
+   "byte_pin_sha256": "3bb8ba323202cfcef29b326abc827f64ad16e822f9442140f666f67c91b952ee"
   },
   "did": {
-   "verdict": "good",
-   "ear_notes": "accept, better pronunciation than other 2 [pack3 r2]",
-   "round": "keeper handoff, packs 1-3, accepted 2026-08-01",
-   "listen_context": "clip"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect did_4 [US1]; family spell_speed1; spell_speed1 (CS00 text @ speed 1.0)",
+   "round": "UPLIFT-SWEEP-1 / 2026-08-06",
+   "listen_context": "clip",
+   "byte_pin_sha256": "fbd6b073956dad2935802fc25668dd4078538a3ace5f3349be3b748087122f52"
   },
   "dig": {
    "verdict": "perfect",
@@ -3438,10 +3677,11 @@
    "listen_context": "clip"
   },
   "fin": {
-   "verdict": "good",
-   "ear_notes": "accept, good enough [pack2 r5]",
-   "round": "keeper handoff, packs 1-3, accepted 2026-08-01",
-   "listen_context": "clip"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect fin_2 [US2]; family carrier_spell_CS00; spell control CS00 (rollup → carrier_spell)",
+   "round": "UPLIFT-SWEEP-2 / 2026-08-06",
+   "listen_context": "clip",
+   "byte_pin_sha256": "eddf77e93d882a5bb6a95bb0cca2846b32badfa7e6cb2b9dcae99215255c5f68"
   },
   "fit": {
    "verdict": "perfect",
@@ -3450,10 +3690,11 @@
    "listen_context": "clip"
   },
   "fix": {
-   "verdict": "very good",
-   "ear_notes": "accept, very good",
-   "round": "round 15, 2026-08-04",
-   "listen_context": "clip"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect fix_6 [UH1]; family baseline; baseline control — recipe knobs unchanged except verdict+pin",
+   "round": "UPLIFT-HARD-1 / 2026-08-06",
+   "listen_context": "clip",
+   "byte_pin_sha256": "6ac0e5fefd7e148c61e6433e9a724b8079112a075cf3a39690514cefae0e0830"
   },
   "fox": {
    "verdict": "perfect",
@@ -3480,10 +3721,11 @@
    "listen_context": "clip"
   },
   "hit": {
-   "verdict": "marginal",
-   "ear_notes": "marginal pass (accept) [pack2 r1]",
-   "round": "keeper handoff, packs 1-3, accepted 2026-08-01",
-   "listen_context": "clip"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect hit_4 [UT1]; family spell_speed1; NEW family spell_speed1 (CS00 text @ speed 1.0)",
+   "round": "UPLIFT-TONE-1 / 2026-08-06",
+   "listen_context": "clip",
+   "byte_pin_sha256": "ce4b7aeb085aca622ac8cd936664179d13c7467d1913ab69477e2f8c712e004a"
   },
   "hog": {
    "verdict": "perfect",
@@ -3492,16 +3734,18 @@
    "listen_context": "clip"
   },
   "hop": {
-   "verdict": "perfect (version 2)",
-   "ear_notes": "accept this one [pack3 r3]",
-   "round": "keeper recipe, owner-amended 2026-08-01",
-   "listen_context": "clip+app"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect hop_2 [US6]; family carrier_spell_CS00; spell control CS00 (rollup → carrier_spell)",
+   "round": "UPLIFT-SWEEP-6 / 2026-08-07",
+   "listen_context": "clip",
+   "byte_pin_sha256": "4f6e5608a34d89d569c069e1740edfa783ce5538c4e81e384e2345e4faf2fdf5"
   },
   "hot": {
-   "verdict": "good",
-   "ear_notes": "accept, better than other 2 and good enough [pack3 r2]",
-   "round": "keeper handoff, packs 1-3, accepted 2026-08-01",
-   "listen_context": "clip"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect hot_10 [UP0]; family carrier_spell",
+   "round": "UPLIFT-EXPERIMENT-0 / 2026-08-06",
+   "listen_context": "clip",
+   "byte_pin_sha256": "9c3955200cc14258673e9abe0ed13be19181873457d7c981a7e73c7646ed7c1f"
   },
   "job": {
    "verdict": "perfect",
@@ -3522,10 +3766,11 @@
    "listen_context": "clip"
   },
   "lot": {
-   "verdict": "very good",
-   "ear_notes": "accept, very good [round 17]",
-   "round": "round 17, 2026-08-04",
-   "listen_context": "clip"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect lot_2 [UP1]; family carrier_spell",
+   "round": "UPLIFT-EXPERIMENT-1 / 2026-08-06",
+   "listen_context": "clip",
+   "byte_pin_sha256": "0239a08b27af3eb67e14eae980b3306dfbb87a22b571740e86f3315a994ab9e5"
   },
   "mom": {
    "verdict": "perfect",
@@ -3582,10 +3827,11 @@
    "listen_context": "clip"
   },
   "rip": {
-   "verdict": "good",
-   "ear_notes": "accept, better than other 2 and good enough [pack3 r2]",
-   "round": "keeper handoff, packs 1-3, accepted 2026-08-01",
-   "listen_context": "clip"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect rip_2 [UH3]; family listen_em; Listen—rip. energy cut; rollup→carrier_listen_em",
+   "round": "UPLIFT-HARD-3 / 2026-08-06",
+   "listen_context": "clip",
+   "byte_pin_sha256": "2cc6d8d8bc2a8832fb8df6fb30d16b4a2d273fd71d556aacbd257bde7cdfbf7a"
   },
   "sip": {
    "verdict": "perfect",
@@ -3654,29 +3900,32 @@
    "listen_context": "clip"
   },
   "bus": {
-   "verdict": "ok",
-   "ear_notes": "accept, ok [round 18]",
-   "round": "round 18, 2026-08-04",
-   "listen_context": "clip"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect bus_5 [UH4]; family foil_not_bun; Not bun—bus.; cut=second_island; CSV mode energy + pin; cut=second_island; CSV mode energy + pin",
+   "round": "UPLIFT-HARD-4 / 2026-08-07",
+   "listen_context": "clip",
+   "byte_pin_sha256": "c791ae53c08283cbd8d4272f22a36f3896a9c55626e565f704e7b74c4276d774"
   },
   "cup": {
-   "verdict": "accepted",
-   "ear_notes": "full stop appended; round-12 comma-carrier result is approved and unshipped (margin ambiguity, see docs/voice-pack.md)",
-   "round": "blind rounds 8-9, 2026-07-27/28",
-   "listen_context": "clip"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect cup_4 [UT1]; family carrier_spell_CS00; spell control CS00 (rollup → carrier_spell)",
+   "round": "UPLIFT-TONE-1 / 2026-08-06",
+   "listen_context": "clip",
+   "byte_pin_sha256": "fac8af98544eeeb5b1de7a27b5a119f95612ffe3910596f773d606128272abae"
   },
   "cut": {
-   "verdict": "good enough",
-   "ear_notes": "good enough",
-   "round": "19",
-   "listen_context": "round19 cut_3 (say_asr_lead80) owner ear accept",
-   "byte_pin_sha256": "bd516a3c860923bdb349b73603a28cff03fbc1d7971bd8f27785a907fbf0dbe3"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect cut_8 [UP0]; family carrier_phrase",
+   "round": "UPLIFT-EXPERIMENT-0 / 2026-08-06",
+   "listen_context": "clip",
+   "byte_pin_sha256": "55a663904d14a9ad25350aeb2fffb60126a86df56a06b676f36295208ed2870e"
   },
   "dug": {
-   "verdict": "ok",
-   "ear_notes": "accept, ok [round 18]",
-   "round": "round 18, 2026-08-04",
-   "listen_context": "clip"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect dug_6 [US3]; family spell_speed1; spell_speed1 (CS00 text @ speed 1.0)",
+   "round": "UPLIFT-SWEEP-3 / 2026-08-06",
+   "listen_context": "clip",
+   "byte_pin_sha256": "8cd17e4b7f4406fb58a7aa5be4ce05e3b502e76b33a3ea9b0cb595bfcd533e5c"
   },
   "fun": {
    "verdict": "perfect",
@@ -3685,24 +3934,25 @@
    "listen_context": "clip"
   },
   "get": {
-   "verdict": "good enough",
-   "ear_notes": "good enough",
-   "round": "19",
-   "listen_context": "round19 get_1 (comma_energy_180) owner ear accept",
-   "byte_pin_sha256": "9b984be1b5fa3bc75d6cea1107e62b01b77f94eb9e5c50c6b2509e662024a129"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect get_3 [US4]; family carrier_listen_em; Listen—{word}. energy cut",
+   "round": "UPLIFT-SWEEP-4 / 2026-08-07",
+   "listen_context": "clip",
+   "byte_pin_sha256": "29a35046cee912372d4aaf12f95cb46248f6f1ab7f0fff70d0bab42577153531"
   },
   "hen": {
-   "verdict": "almost perfect",
-   "ear_notes": "carrier 'hen, hen.', 150 ms, floor -30 dB, gap 40 ms, NO tail trim - trims were rejected by ear",
-   "round": "rounds 12-13, judged 2026-07-30",
-   "listen_context": "clip"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect hen_8 [UP1]; family carrier_spell",
+   "round": "UPLIFT-EXPERIMENT-1 / 2026-08-06",
+   "listen_context": "clip",
+   "byte_pin_sha256": "709b6c600c8217f2f2e52d48143af253a04db9e3b82ea0ba1be80b6102b9c061"
   },
   "hug": {
-   "verdict": "ok",
-   "ear_notes": "ok",
-   "round": "20",
-   "listen_context": "round20 hug_3 (double_energy_120)",
-   "byte_pin_sha256": "d7bd0a087e248faaf382a9a2c6fb3ab31e643070353abe21fdfbef9df7f3599f"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect hug_2 [US3]; family spell_speed1; spell_speed1 (CS00 text @ speed 1.0)",
+   "round": "UPLIFT-SWEEP-3 / 2026-08-06",
+   "listen_context": "clip",
+   "byte_pin_sha256": "33978a6fe8eb65b9b6a1a9234334101870e7402573f179e4e1b35040a663815b"
   },
   "hum": {
    "verdict": "perfect",
@@ -3711,17 +3961,18 @@
    "listen_context": "clip"
   },
   "jet": {
-   "verdict": "ok",
-   "ear_notes": "ok",
-   "round": "21",
-   "listen_context": "round21 jet_1 (double_energy_120)",
-   "byte_pin_sha256": "be0e37d95491ec892f9c0538c4e05ee82f8da350adf58941c2399b967e5a8624"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect jet_3 [UT1]; family carrier_spell_CS00; spell control CS00 (rollup → carrier_spell)",
+   "round": "UPLIFT-TONE-1 / 2026-08-06",
+   "listen_context": "clip",
+   "byte_pin_sha256": "159ddcbf88513a0b7296ac3f51d3ef5dd7a05585fe8767ef72ff4d06ab258688"
   },
   "jug": {
-   "verdict": "very good (beta.8)",
-   "ear_notes": "full stop appended",
-   "round": "blind rounds 8-9, 2026-07-27/28",
-   "listen_context": "clip"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect jug_2 [UP3]; family carrier_spell",
+   "round": "UPLIFT-EXPERIMENT-3 / 2026-08-06",
+   "listen_context": "clip",
+   "byte_pin_sha256": "6f4b3db8ee98264370ed657a931eb2157b9ae4df28eab16f478890fed05b9838"
   },
   "leg": {
    "verdict": "perfect",
@@ -3731,18 +3982,18 @@
    "byte_pin_sha256": "217c2a6ef7339d9f536b426afe3f1bbca0b7638cb793b3a8342b47eabc5907be"
   },
   "let": {
-   "verdict": "ok",
-   "ear_notes": "ok; customs 2026-08-04: recipe does not rebake to the pin (audio diverges at 0.126s); the pinned bytes the owner heard govern",
-   "round": "24",
-   "listen_context": "round24 let_3 (here_it_is_asr_g30_40)",
-   "byte_pin_sha256": "77a9e26c9a7aa19ff94f6af37da09617d79da2da0269666698e01bcd7bc069d2"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect let_5 [US3]; family spell_speed1; spell_speed1 (CS00 text @ speed 1.0)",
+   "round": "UPLIFT-SWEEP-3 / 2026-08-06",
+   "listen_context": "clip",
+   "byte_pin_sha256": "bed3100d045861ab8341bf480b07d40f8f6132ad96127755e8cfb3c26a9e09c7"
   },
   "men": {
-   "verdict": "ok",
-   "ear_notes": "ok",
-   "round": "21",
-   "listen_context": "round21 men_2 (double_energy_120)",
-   "byte_pin_sha256": "16865119434a6fccf2d21adf623bd72ca2ec3665cc25b90836a7feac08be09a6"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect men_6 [UH2]; family listen_em; Listen—men. / second_island; CSV mode energy + pin; cut=second_island; CSV mode energy + pin",
+   "round": "UPLIFT-HARD-2 / 2026-08-06",
+   "listen_context": "clip",
+   "byte_pin_sha256": "bda09d45affc6a31cecdd047b36df21cab7d0c28d417c159ce1eddb4e023da32"
   },
   "met": {
    "verdict": "perfect",
@@ -3752,37 +4003,39 @@
    "byte_pin_sha256": "e23693c96f6a7663e5c1f74ebcff6694b48972d8357caffed6fa96fd02f6d02c"
   },
   "mud": {
-   "verdict": "ok",
-   "ear_notes": "accept, ok [round 18]",
-   "round": "round 18, 2026-08-04",
-   "listen_context": "clip"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect mud_3 [US3]; family carrier_double_say; double_say second island; cut=second_island; CSV mode energy + pin",
+   "round": "UPLIFT-SWEEP-3 / 2026-08-06",
+   "listen_context": "clip",
+   "byte_pin_sha256": "de66e4b3c250871b71b42206bf0941f73140bee0271a217cfd9c1170bd355708"
   },
   "mug": {
-   "verdict": "ok",
-   "ear_notes": "accept, ok [round 18]",
-   "round": "round 18, 2026-08-04",
-   "listen_context": "clip"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect mug_4 [UH10]; family soft_cue_speed1; soft_cue @ speed 1.0 second_island; cut=second_island; CSV mode energy + pin",
+   "round": "UPLIFT-HARD-10 / 2026-08-07",
+   "listen_context": "clip",
+   "byte_pin_sha256": "fa558da63753c45c1a3b5b89d74e72e88dc996915be63d1d29160c9600d6bf57"
   },
   "net": {
-   "verdict": "ok",
-   "ear_notes": "ok",
-   "round": "20",
-   "listen_context": "round20 net_3 (period)",
-   "byte_pin_sha256": "ed7329a10e711d02bea9ea74876ae22d81fbcfef53a2fe369d3306c902c7d393"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect net_5 [US3]; family spell_speed1; spell_speed1 (CS00 text @ speed 1.0)",
+   "round": "UPLIFT-SWEEP-3 / 2026-08-06",
+   "listen_context": "clip",
+   "byte_pin_sha256": "a25a27dffabe4e2e59bd57c3754e25c522726766689dbaae87075d099c7482b3"
   },
   "nut": {
-   "verdict": "ok",
-   "ear_notes": "ok",
-   "round": "20",
-   "listen_context": "round20 nut_2 (period)",
-   "byte_pin_sha256": "e5c2795d7e01d5da0f8fa0531c3cf0467d2c5526339f34cd4de9e747521427b6"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect nut_2 [US3]; family spell_speed1; spell_speed1 (CS00 text @ speed 1.0)",
+   "round": "UPLIFT-SWEEP-3 / 2026-08-06",
+   "listen_context": "clip",
+   "byte_pin_sha256": "c8d8eda0ecee4dd7c66947a8a93731df3b1b9af3981c03f5850905f816c42137"
   },
   "peg": {
-   "verdict": "ok",
-   "ear_notes": "ok",
-   "round": "22",
-   "listen_context": "round22 peg_3 (double_energy_120)",
-   "byte_pin_sha256": "15a7bd98317a539c2012f54076260f60cdc2bf5379ea2c63531317582767d062"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect peg_2 [UH6]; family carrier_listen_em; Listen—{word}. energy cut",
+   "round": "UPLIFT-HARD-6 / 2026-08-07",
+   "listen_context": "clip",
+   "byte_pin_sha256": "b54bd8e0ea07d5e69b0490aaaefcaa94f02eb3dcba43cc41646bb92126984f16"
   },
   "pen": {
    "verdict": "perfect",
@@ -3799,45 +4052,46 @@
    "byte_pin_sha256": "3ed806d8a837de7feaa5e4b3bd84b7121c296cc699ff190dc7617b6b16715682"
   },
   "pup": {
-   "verdict": "very good",
-   "ear_notes": "very good",
-   "round": "20",
-   "listen_context": "round20 pup_2 (comma_energy_120)",
-   "byte_pin_sha256": "150f40d220a8b9c7d32ec76a5459b58221a8c47cab580a032fe2b864ed1f672a"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect pup_3 [UP3]; family carrier_spell",
+   "round": "UPLIFT-EXPERIMENT-3 / 2026-08-06",
+   "listen_context": "clip",
+   "byte_pin_sha256": "5ac94265e345c70db9912236251f510053c18d70b54e2983fb1925fe3f95e49f"
   },
   "red": {
-   "verdict": "very good",
-   "ear_notes": "very good",
-   "round": "22",
-   "listen_context": "round22 red_3 (double_energy_120)",
-   "byte_pin_sha256": "b599d45ad0626f549b03e20dc69b542150ccdd0e0a127d56ab2c1cb1eece3195"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect red_2 [UP3]; family carrier_spell",
+   "round": "UPLIFT-EXPERIMENT-3 / 2026-08-06",
+   "listen_context": "clip",
+   "byte_pin_sha256": "38fba7adecec288f25ca2425e195da4044a97d5f5eee5d6b5c8c29a742e6b256"
   },
   "rub": {
-   "verdict": "very good (beta.8)",
-   "ear_notes": "full stop appended",
-   "round": "blind rounds 8-9, 2026-07-27/28",
-   "listen_context": "clip"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect rub_5 [US1]; family spell_speed1; spell_speed1 (CS00 text @ speed 1.0)",
+   "round": "UPLIFT-SWEEP-1 / 2026-08-06",
+   "listen_context": "clip",
+   "byte_pin_sha256": "0a6ec57b8ba5131c2567730cbd3e5370a8a4ca9ecaace345da3fcdf6cb022504"
   },
   "rug": {
-   "verdict": "ok",
-   "ear_notes": "ok",
-   "round": "20",
-   "listen_context": "round20 rug_1 (say_asr_g80)",
-   "byte_pin_sha256": "c0b95ecf44942b94bdfb20ebfa2b6fca704cb732af8157bac8b6aa0ad97b2e5a"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect rug_4 [US3]; family spell_speed1; spell_speed1 (CS00 text @ speed 1.0)",
+   "round": "UPLIFT-SWEEP-3 / 2026-08-06",
+   "listen_context": "clip",
+   "byte_pin_sha256": "23b525270b7f899eb5aadffdd1ac7c8c91908685aeeb7a1709a12ab0b42126d2"
   },
   "run": {
-   "verdict": "ok",
-   "ear_notes": "ok",
-   "round": "20",
-   "listen_context": "round20 run_2 (period)",
-   "byte_pin_sha256": "dc070d29d6d1e5127c521ee7d75e2873a2f3b7a58c3b99513138a003a7503df2"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect run_5 [UH4]; family soft_cue; Softly: run.; cut=second_island; CSV mode energy + pin; cut=second_island; CSV mode energy + pin",
+   "round": "UPLIFT-HARD-4 / 2026-08-07",
+   "listen_context": "clip",
+   "byte_pin_sha256": "a977045fe3836c8e7bb72d2a5c18447f550850c9ce154710c5172bfc1199fb6b"
   },
   "set": {
-   "verdict": "ok",
-   "ear_notes": "ok",
-   "round": "21",
-   "listen_context": "round21 set_3 (say_asr_st_g100_40)",
-   "byte_pin_sha256": "6724be7887e9cff6bef34e1142e14e85e0a72c6270a338bf956e0622627397bc"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect set_5 [US3]; family carrier_spell_CS00; spell control CS00 (rollup → carrier_spell)",
+   "round": "UPLIFT-SWEEP-3 / 2026-08-06",
+   "listen_context": "clip",
+   "byte_pin_sha256": "eb10840214525dae2b114103129f990e54cb879cd64d0dc0b4e2902707269416"
   },
   "sun": {
    "verdict": "perfect",
@@ -3854,18 +4108,18 @@
    "byte_pin_sha256": "6d05e9cb5009b8bb5e8cb4fe5222b987fa2bb054e56c40f169c63dd0507f8aea"
   },
   "tub": {
-   "verdict": "very good",
-   "ear_notes": "very good",
-   "round": "23",
-   "listen_context": "round23 tub_3 (comma_asr_g30_40)",
-   "byte_pin_sha256": "1645785587d1ffdf229667e4adaa50241c63a5da80266fa9582b1c224b3cc3b8"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect tub_5 [US1]; family spell_speed1; spell_speed1 (CS00 text @ speed 1.0)",
+   "round": "UPLIFT-SWEEP-1 / 2026-08-06",
+   "listen_context": "clip",
+   "byte_pin_sha256": "708991b4fdea1517ff05fca5d9f68bb0d7afcaa5ac0777c7c0f9d67c4c3da69d"
   },
   "tug": {
-   "verdict": "ok",
-   "ear_notes": "ok",
-   "round": "22",
-   "listen_context": "round22 tug_1 (double_energy_120)",
-   "byte_pin_sha256": "46b9c2acfae5bdd41bb9c5e0643dd268fe199bcda6d9992036e2c1cd398bc482"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect tug_3 [US4]; family spell_speed1; spell_speed1 (CS00 text @ speed 1.0)",
+   "round": "UPLIFT-SWEEP-4 / 2026-08-07",
+   "listen_context": "clip",
+   "byte_pin_sha256": "cbc26dea8c8723b462ca4fb7bcfcf61a0cab5858fb4351df5d4b7d38740f885a"
   },
   "vet": {
    "verdict": "perfect",
@@ -3875,31 +4129,32 @@
    "byte_pin_sha256": "0740d77d511fd816f64229dd6ab7eea6714c8287e50a97ba58a667db7d43c09b"
   },
   "web": {
-   "verdict": "ok",
-   "ear_notes": "ok",
-   "round": "21",
-   "listen_context": "round21 web_2 (period)",
-   "byte_pin_sha256": "9e142f2b068b3f3fc364aec254b7359a3053d18eb0222b1920c93e87595be6d8"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect web_1 [UH6]; family spell_speed1; spell_speed1 (CS00 text @ speed 1.0)",
+   "round": "UPLIFT-HARD-6 / 2026-08-07",
+   "listen_context": "clip",
+   "byte_pin_sha256": "36139009b394a3d50880c01ede17cb6fe74ae1e78f3e9dc8795c80473898cf3b"
   },
   "wet": {
-   "verdict": "good",
-   "ear_notes": "good",
-   "round": "22",
-   "listen_context": "round22 wet_2 (lead180_spd0.82)",
-   "byte_pin_sha256": "e68d7979eea69042e1282b1ecd87311ec21343d0bc5795168390bd4083423221"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect wet_4 [US3]; family spell_speed1; spell_speed1 (CS00 text @ speed 1.0)",
+   "round": "UPLIFT-SWEEP-3 / 2026-08-06",
+   "listen_context": "clip",
+   "byte_pin_sha256": "33816474244ff20ab0a588ed4fe25ba2e00fe04d34d98e60ee8fa4c55ba1115f"
   },
   "yet": {
-   "verdict": "ok",
-   "ear_notes": "ok",
-   "round": "23",
-   "listen_context": "round23 yet_2 (double_energy_120)",
-   "byte_pin_sha256": "4392327b8c24d9f81ddd7ac5455a222d22a57e31fa4b9323ec37e3abcdf52212"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect yet_6 [US4]; family carrier_listen_em; Listen—{word}. energy cut",
+   "round": "UPLIFT-SWEEP-4 / 2026-08-07",
+   "listen_context": "clip",
+   "byte_pin_sha256": "9aebe1aa33c9d128d563602efcaa1e84e7f659683f5586ec8393bdfcad1d6456"
   },
   "cub": {
-   "verdict": "accepted",
-   "ear_notes": "tail trim 130 ms removes an added syllable after the final plosive",
-   "round": "spot-check trims, 2026-07-27",
-   "listen_context": "clip"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect cub_3 [UH10]; family spell_speed1; spell_speed1 (CS00 text @ speed 1.0)",
+   "round": "UPLIFT-HARD-10 / 2026-08-07",
+   "listen_context": "clip",
+   "byte_pin_sha256": "021d81b3830996b877758edfeb5df90a337495ef8fd9dd311a9eb9c56d9c5464"
   },
   "den": {
    "verdict": "perfect",
@@ -3930,18 +4185,18 @@
    "byte_pin_sha256": "7a7fd6cfc38e8cab3e343a0dd46052a0d6b2259188df7a8cf428a65d6a36011a"
   },
   "fog": {
-   "verdict": "very good",
-   "ear_notes": "very good",
-   "round": "22",
-   "listen_context": "round22 fog_1 (double_energy_120)",
-   "byte_pin_sha256": "d44930b21c39ea632ef6d5eded2302486e287f5a993af982a818f92901aef73a"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect fog_6 [UP2]; family carrier_spell",
+   "round": "UPLIFT-EXPERIMENT-2 / 2026-08-06",
+   "listen_context": "clip",
+   "byte_pin_sha256": "5d0e057c792690b6e9ad86c96b4ccce2f837e77ff3be8ba700a4374d2584ef30"
   },
   "gap": {
-   "verdict": "very good",
-   "ear_notes": "very good",
-   "round": "22",
-   "listen_context": "round22 gap_3 (double_energy_120)",
-   "byte_pin_sha256": "2cbda7f220a30e3c24b42af0fef4ebae1cdea2a2d386b1d81f34cc795d28b3d5"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect gap_8 [UP2]; family carrier_phrase",
+   "round": "UPLIFT-EXPERIMENT-2 / 2026-08-06",
+   "listen_context": "clip",
+   "byte_pin_sha256": "47692c95cc325d5889d235c43636a9f22caf048f82110f9b34674f498afdfe95"
   },
   "gas": {
    "verdict": "perfect",
@@ -3951,25 +4206,25 @@
    "byte_pin_sha256": "8e10bd4ff801022afa1ebd953855ffbd53d8dedd159a338e706d19155dc14f81"
   },
   "gum": {
-   "verdict": "very good",
-   "ear_notes": "very good",
-   "round": "22",
-   "listen_context": "round22 gum_1 (double_energy_120)",
-   "byte_pin_sha256": "6a2def535bd023063828420c0b0f14ec5f5b17de1ad01f66da7b8562cb6e77ce"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect gum_2 [CSP1]; strategy CS04 carrier_spell_CS04",
+   "round": "CARRIER-SPELL-PHASE1 / 2026-08-06",
+   "listen_context": "clip",
+   "byte_pin_sha256": "c514fe63670177ed52657b67090fa693160e5bea5d9e934994d608d30d7e7232"
   },
   "hid": {
-   "verdict": "ok",
-   "ear_notes": "ok",
-   "round": "23",
-   "listen_context": "round23 hid_2 (double_energy_120)",
-   "byte_pin_sha256": "586463ff5b697e2700cc95200a8d9744b5deac252952addd5b7856de691f33e2"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect hid_2 [US4]; family spell_speed1; spell_speed1 (CS00 text @ speed 1.0)",
+   "round": "UPLIFT-SWEEP-4 / 2026-08-07",
+   "listen_context": "clip",
+   "byte_pin_sha256": "072ffcb7029cf814f4038af0b7bf5c12c8b9eecfed2d8fdc635c062f323d2afe"
   },
   "hut": {
-   "verdict": "ok",
-   "ear_notes": "ok",
-   "round": "23",
-   "listen_context": "round23 hut_2 (comma_energy_180)",
-   "byte_pin_sha256": "e12c24183ada326b2d3e5789839b0b16034ce0b84e4b3ac6d2cfa79b0f510fd5"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect hut_3 [US4]; family spell_speed1; spell_speed1 (CS00 text @ speed 1.0)",
+   "round": "UPLIFT-SWEEP-4 / 2026-08-07",
+   "listen_context": "clip",
+   "byte_pin_sha256": "1eccb3bb21afe8e30f9b36c9833a5e43113e7059f78ab2f1efe270cf4cfe52eb"
   },
   "jab": {
    "verdict": "perfect",
@@ -3986,11 +4241,11 @@
    "byte_pin_sha256": "80aa4a1327cab3d785340ef0afb4a2c682b58ba54791bfb594a664f17613e6ff"
   },
   "jog": {
-   "verdict": "very good",
-   "ear_notes": "very good (owner wrote job_2; mapped to jog_2)",
-   "round": "23",
-   "listen_context": "round23 jog_2 (comma_asr_g30_40)",
-   "byte_pin_sha256": "35f01fb09860bf076410efe94a867cab2d010d1eaea5265cac22ce300e3a9acf"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect jog_1 [UP2]; family carrier_spell; owner wrote job_1 → jog_1",
+   "round": "UPLIFT-EXPERIMENT-2 / 2026-08-06",
+   "listen_context": "clip",
+   "byte_pin_sha256": "5a0fa2fd5d3ad1638a01e1ebd104e74de1ecbba971f1bb426679e33b7ab360b5"
   },
   "jot": {
    "verdict": "perfect",
@@ -4007,11 +4262,11 @@
    "byte_pin_sha256": "059d8f88c622c4f0fd52abea43cdb3211bcc0752af6ee06e7d1949fa09ce77fa"
   },
   "kit": {
-   "verdict": "ok",
-   "ear_notes": "ok",
-   "round": "23",
-   "listen_context": "round23 kit_2 (double_energy_120)",
-   "byte_pin_sha256": "96f0f129e51d4f392b96b9a47e0c27ea61f764ebcc08c5123e931d3bcdcdca17"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect kit_4 [US4]; family spell_speed1; spell_speed1 (CS00 text @ speed 1.0)",
+   "round": "UPLIFT-SWEEP-4 / 2026-08-07",
+   "listen_context": "clip",
+   "byte_pin_sha256": "f04315d72c672ae5a61a25a188c3769be2a1ba8bc6e83d215268042837c0b46a"
   },
   "lab": {
    "verdict": "perfect",
@@ -4042,18 +4297,18 @@
    "byte_pin_sha256": "9d3e5e8000d898d323fe59b9a5cdfddaf7a9570ddd568f8f313d680fef540d3f"
   },
   "lit": {
-   "verdict": "ok",
-   "ear_notes": "ok",
-   "round": "23",
-   "listen_context": "round23 lit_3 (double_energy_120)",
-   "byte_pin_sha256": "6d7df2d72d9fa8fb630db6f5fc183e8abe5231f0b1f39ad2eac2ba39217931b4"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect lit_5 [US4]; family spell_speed1; spell_speed1 (CS00 text @ speed 1.0)",
+   "round": "UPLIFT-SWEEP-4 / 2026-08-07",
+   "listen_context": "clip",
+   "byte_pin_sha256": "f390aae43d2bd3326b38379d79587e33bc46595da560bcbaeaa4b3c96c5ac6f7"
   },
   "lug": {
-   "verdict": "ok",
-   "ear_notes": "ok",
-   "round": "24",
-   "listen_context": "round24 lug_1 (double_energy_120)",
-   "byte_pin_sha256": "40f8ccd1e87b83195671c2afa6fc441d9e60c075dfd7ff580a5efd84233f3804"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect lug_13 [UH11]; family soft_cue_speed1; soft_cue @ speed 1.0 second_island; cut=second_island; CSV mode energy + pin",
+   "round": "UPLIFT-HARD-11 / 2026-08-07",
+   "listen_context": "clip",
+   "byte_pin_sha256": "704446b998eb8e1992a1291e520fac2c4b91fbe3170d1025d32311ca4c6cf0a9"
   },
   "mix": {
    "verdict": "perfect",
@@ -4063,18 +4318,18 @@
    "byte_pin_sha256": "2e5a74985ef29815a41c48b5fe5b537dc8b9531d3a75647921d2cda0757fb61e"
   },
   "nab": {
-   "verdict": "good",
-   "ear_notes": "good",
-   "round": "25",
-   "listen_context": "round25 nab_3 (here_it_is_asr_g30_40)",
-   "byte_pin_sha256": "06651bc38c6e6fa2d7fec43626e2bd8bfc7e4bf3d1cb511a887b4167b5131c64"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect nab_9 [UP0]; family baseline",
+   "round": "UPLIFT-EXPERIMENT-0 / 2026-08-06",
+   "listen_context": "clip",
+   "byte_pin_sha256": "88958d64714530004ecd7ceb3d530c22491624da9a06e7ec16b55fe742c97eb6"
   },
   "pep": {
-   "verdict": "ok",
-   "ear_notes": "owner accept pep_3 ok [R37]",
-   "round": "37 / 2026-08-05",
+   "verdict": "perfect",
+   "ear_notes": "owner perfect pep_5 [US4]; family carrier_spell_CS00; spell control CS00 (rollup → carrier_spell)",
+   "round": "UPLIFT-SWEEP-4 / 2026-08-07",
    "listen_context": "clip",
-   "byte_pin_sha256": "14b33d8e41035c553050cdf44b52fa4d0352c3519abaaa619b50a14edc5e8419"
+   "byte_pin_sha256": "34833fd6bbbe32a6ee774912d2ef71200b859d339116a95e715d075304345bf8"
   },
   "pod": {
    "verdict": "perfect",
@@ -4084,46 +4339,46 @@
    "byte_pin_sha256": "4803b1f9e97a1552ce474f8fa732c08d728cd366b9e652f5051736bb4c420203"
   },
   "rib": {
-   "verdict": "ok",
-   "ear_notes": "ok",
-   "round": "24",
-   "listen_context": "round24 rib_2 (comma_asr_g30_40)",
-   "byte_pin_sha256": "3bff9355b4f78b50ac643fed2a500233b3f83e2d2428247610a74fcf136ba444"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect rib_2 [US4]; family baseline; baseline control — recipe unchanged except verdict+pin",
+   "round": "UPLIFT-SWEEP-4 / 2026-08-07",
+   "listen_context": "clip",
+   "byte_pin_sha256": "8d0e9d4988be162327ac9463bc82fa46626f4d90877f6943aa422f4021d6d220"
   },
   "rim": {
-   "verdict": "ok",
-   "ear_notes": "ok",
-   "round": "24",
-   "listen_context": "round24 rim_3 (comma_asr_g30_40)",
-   "byte_pin_sha256": "df9fb0d11acbb470345a4d317d85ca58778cc3e94c5beb2867ae99f37233e68d"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect rim_6 [US4]; family spell_speed1; spell_speed1 (CS00 text @ speed 1.0)",
+   "round": "UPLIFT-SWEEP-4 / 2026-08-07",
+   "listen_context": "clip",
+   "byte_pin_sha256": "f3a25fe97cfba5ba73807332796043148596f2a517819ebdec0c656b7267cb48"
   },
   "rod": {
-   "verdict": "very good",
-   "ear_notes": "very good",
-   "round": "24",
-   "listen_context": "round24 rod_2 (double_energy_120)",
-   "byte_pin_sha256": "a63ccdfef759c8a8c594a1b820e0fab9a3cbfb754cb021a02e2b20df20c82c16"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect rod_7 [UP3]; family carrier_spell",
+   "round": "UPLIFT-EXPERIMENT-3 / 2026-08-06",
+   "listen_context": "clip",
+   "byte_pin_sha256": "f4bb2589769777dec53abb2d0d0d65a9d974809bc204d3bb3f436dffe0d42eee"
   },
   "rot": {
-   "verdict": "ok",
-   "ear_notes": "ok",
-   "round": "27",
-   "listen_context": "round27 rot_1 (slow_double_energy_120_spd0.75)",
-   "byte_pin_sha256": "e4a6b2d49457a23212294dc84fd519e28be6f0553c27deab893c8b5def06a58f"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect rot_4 [UT1]; family spell_speed1; NEW family spell_speed1 (CS00 text @ speed 1.0)",
+   "round": "UPLIFT-TONE-1 / 2026-08-06",
+   "listen_context": "clip",
+   "byte_pin_sha256": "d06a2943ded13b880630e7f5af418ef9fa0bf59e8a13f398191522bffaa8efdd"
   },
   "sag": {
-   "verdict": "ok",
-   "ear_notes": "ok",
-   "round": "25",
-   "listen_context": "round25 sag_3 (comma_asr_g30_40)",
-   "byte_pin_sha256": "e6c9f8f4c5ddb8e884db047c8ff0686fee39350fa050a56cdff6a54eedc367af"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect sag_4 [US4]; family carrier_spell_CS00; spell control CS00 (rollup → carrier_spell)",
+   "round": "UPLIFT-SWEEP-4 / 2026-08-07",
+   "listen_context": "clip",
+   "byte_pin_sha256": "593f7c79652ef9da28fad2cc3c14ae2a3475fef56600ce0ddd6e8cb547573dfe"
   },
   "sub": {
-   "verdict": "marginal",
-   "ear_notes": "marginal",
-   "round": "26",
-   "listen_context": "round26 sub_1 (slow_double_energy_120_spd0.75)",
-   "byte_pin_sha256": "9d4b6c7f7da59679d1b59efefb583682d0c980c2ab6f763ef4416cdccef71786"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect sub_6 [US6]; family spell_speed1; spell_speed1 (CS00 text @ speed 1.0)",
+   "round": "UPLIFT-SWEEP-6 / 2026-08-07",
+   "listen_context": "clip",
+   "byte_pin_sha256": "e12a25e2ceaa96ac6612d65853f88076fad68ad24a74956bc82a45f7a41ea7ce"
   },
   "sum": {
    "verdict": "perfect",
@@ -4140,11 +4395,11 @@
    "byte_pin_sha256": "a77da452ddc31c4690af67091197b7bf92518658a3219af8dfbc374ff7118597"
   },
   "tot": {
-   "verdict": "ok",
-   "ear_notes": "ok",
-   "round": "24",
-   "listen_context": "round24 tot_2 (double_energy_120)",
-   "byte_pin_sha256": "61df9557feba647ca2cf6b6e5ceef6d444aa49cbb33323b755698bfba247fd1c"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect tot_5 [US4]; family carrier_spell_CS00; spell control CS00 (rollup → carrier_spell)",
+   "round": "UPLIFT-SWEEP-4 / 2026-08-07",
+   "listen_context": "clip",
+   "byte_pin_sha256": "fdf3998f053bc85bd569053b2dc2f7ef9f5490339a15fafddec268e8f6836815"
   },
   "wax": {
    "verdict": "perfect",
@@ -4154,11 +4409,11 @@
    "byte_pin_sha256": "2487252e7e7362400bfa5938a972d78bba69caaede27a273ea8b49efbd121fc8"
   },
   "wed": {
-   "verdict": "ok",
-   "ear_notes": "ok",
-   "round": "24",
-   "listen_context": "round24 wed_3 (double_energy_120)",
-   "byte_pin_sha256": "ef61f9ae55955f88061a235752302d54c50af5a5f1e037c5e49d1ada82618eaf"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect wed_6 [UH5]; family spell_speed1; spell_speed1 (CS00 text @ speed 1.0)",
+   "round": "UPLIFT-HARD-5 / 2026-08-07",
+   "listen_context": "clip",
+   "byte_pin_sha256": "70fe1c425760c0b0c5ff04569a96c26af363449cef2af7df3478b5e0604a5fa5"
   },
   "wit": {
    "verdict": "perfect",
@@ -4196,11 +4451,11 @@
    "byte_pin_sha256": "3cba0509bf7d8860af43c3df7e1d813de82a915014eb84b988d638ccc047ad63"
   },
   "zip": {
-   "verdict": "ok",
-   "ear_notes": "ok",
-   "round": "25",
-   "listen_context": "round25 zip_2 (double_energy_120)",
-   "byte_pin_sha256": "51b5865c19660e06e9f28ebc558b9fcb682f77dd5ff8327a2eca2f689198a11c"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect zip_2 [CSP1]; strategy baseline",
+   "round": "CARRIER-SPELL-PHASE1 / 2026-08-06",
+   "listen_context": "clip",
+   "byte_pin_sha256": "a68ba80aafd67c3285311f4060d78c285aad008f7be28589bc5eb42ead5c1593"
   },
   "bush": {
    "verdict": "perfect",
@@ -4238,11 +4493,11 @@
    "byte_pin_sha256": "ab03cfd2cdea6da1f6346fd0399d15ecc8644ab360b1bf9251faeccb014a4979"
   },
   "chip": {
-   "verdict": "ok",
-   "ear_notes": "ok",
-   "round": "26",
-   "listen_context": "round26 chip_1 (comma_asr_g30_40)",
-   "byte_pin_sha256": "b9af89c3198b7beb137fdc0f5e8011cc2e6d2f3ee7a811c586d478e02cc08b6e"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect chip_3 [US5]; family baseline; baseline control — recipe unchanged except verdict+pin",
+   "round": "UPLIFT-SWEEP-5 / 2026-08-07",
+   "listen_context": "clip",
+   "byte_pin_sha256": "faa387aaf123fb33a2842e5d0d74f2e99aad7b23c11514ce838b0290c02a258d"
   },
   "chop": {
    "verdict": "perfect",
@@ -4259,11 +4514,11 @@
    "byte_pin_sha256": "f1d7e9007b813a462fbc421b7ddafaa1d9b852b85f9b9f2c5203196fd057d35f"
   },
   "chum": {
-   "verdict": "ok",
-   "ear_notes": "ok",
-   "round": "26",
-   "listen_context": "round26 chum_2 (comma_energy_180)",
-   "byte_pin_sha256": "16cbe5c333a1f20144ada4b458aa7d2ea691a685d17f95bb127e830df52b51fb"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect chum_6 [US5]; family spell_speed1; spell_speed1 (CS00 text @ speed 1.0)",
+   "round": "UPLIFT-SWEEP-5 / 2026-08-07",
+   "listen_context": "clip",
+   "byte_pin_sha256": "85c8e94205d2c1c27a764fd35c61fc024aeb8322a57636926f3c988faff7f4c0"
   },
   "dash": {
    "verdict": "perfect",
@@ -4273,24 +4528,25 @@
    "byte_pin_sha256": "9f3d9db49d56f7fb78bb1731fb7731843f32b71cfaa9e5374d193e15082d4cb9"
   },
   "dish": {
-   "verdict": "accepted",
-   "ear_notes": "tail trim 120 ms; the sh ran longer than in mush",
-   "round": "spot-check trims, 2026-07-27",
-   "listen_context": "clip"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect dish_6 [US6]; family spell_speed1; spell_speed1 (CS00 text @ speed 1.0)",
+   "round": "UPLIFT-SWEEP-6 / 2026-08-07",
+   "listen_context": "clip",
+   "byte_pin_sha256": "51e601f0ea6e770e08299e9642333b2a10fa39c93d922b8186ed144512754a2c"
   },
   "fish": {
-   "verdict": "ok",
-   "ear_notes": "owner accept fish_1 ok [R38]; R38 family say_fat_220 (≠ R37)",
-   "round": "38 / 2026-08-05",
+   "verdict": "perfect",
+   "ear_notes": "owner perfect fish_5 [CSP1]; strategy CS07 carrier_spell_CS07",
+   "round": "CARRIER-SPELL-PHASE1 / 2026-08-06",
    "listen_context": "clip",
-   "byte_pin_sha256": "fa28fe9435f613cf09bd6c600715cccad37eef4dd0e803e0c184178b782ed474"
+   "byte_pin_sha256": "3de2ba0f8d05b9607279dd4932c22274a7658ddc8b402c3b210a1bfae026d126"
   },
   "hush": {
-   "verdict": "ok",
-   "ear_notes": "ok",
-   "round": "26",
-   "listen_context": "round26 hush_2 (comma_asr_g30_40)",
-   "byte_pin_sha256": "07e48077b4a0f4028a1e18f78f42c1b36babb9ee7fce197abb1f7ef7d6bb067f"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect hush_9 [UP1]; family baseline",
+   "round": "UPLIFT-EXPERIMENT-1 / 2026-08-06",
+   "listen_context": "clip",
+   "byte_pin_sha256": "58bb6aee40d29d2e32eb4c9450a3f29aa4e1a2459b1a35cf765b45b64348d8d0"
   },
   "mash": {
    "verdict": "perfect",
@@ -4300,11 +4556,11 @@
    "byte_pin_sha256": "683c3f98f04efe371c8634b7b7d17d76e7f21bf41b59e8d87889226ae6f0d937"
   },
   "much": {
-   "verdict": "ok",
-   "ear_notes": "owner accept much_2 ok [R37]",
-   "round": "37 / 2026-08-05",
+   "verdict": "perfect",
+   "ear_notes": "owner perfect much_4 [US6]; family spell_speed1; spell_speed1 (CS00 text @ speed 1.0)",
+   "round": "UPLIFT-SWEEP-6 / 2026-08-07",
    "listen_context": "clip",
-   "byte_pin_sha256": "356b0f9699dca449e347ce511570624bd9f642db1198b5fa63d911bfb8565693"
+   "byte_pin_sha256": "8a2da8f6dba9b277fed20fcde781a7b021bf3ad365a25d3bacdb02602ab63a1e"
   },
   "mush": {
    "verdict": "perfect",
@@ -4314,102 +4570,102 @@
    "byte_pin_sha256": "ae4b5e0ab4517d8af4367658c578f0c458240d2f1b65313d4a1deb7bc58111f8"
   },
   "push": {
-   "verdict": "ok",
-   "ear_notes": "ok",
-   "round": "27",
-   "listen_context": "round27 push_1 (comma_asr_g30_40)",
-   "byte_pin_sha256": "01f546cc0d7e7f079ae8f993d21f9dccd881ebe7582cb97402a7e3c330372775"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect push_1 [US6]; family spell_speed1; spell_speed1 (CS00 text @ speed 1.0)",
+   "round": "UPLIFT-SWEEP-6 / 2026-08-07",
+   "listen_context": "clip",
+   "byte_pin_sha256": "59d62d1d284574dca8c7c4a05adee5dd0d1a03b46d6d9ed17adc76e02ce82b31"
   },
   "rash": {
-   "verdict": "ok",
-   "ear_notes": "ok",
-   "round": "28",
-   "listen_context": "round28 rash_3 (double_energy_120_endpad80_spd0.82)",
-   "byte_pin_sha256": "965c980731b7d13f4a0f3377a0cdf036c801cc1ae9077113712242b5fe914686"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect rash_2 [US6]; family carrier_listen_em; Listen—{word}. energy cut",
+   "round": "UPLIFT-SWEEP-6 / 2026-08-07",
+   "listen_context": "clip",
+   "byte_pin_sha256": "1d417b9f2b2ee3b1f2822e6d494e24d6316280ee13cec30060db44cb32b54f6b"
   },
   "rich": {
-   "verdict": "ok",
-   "ear_notes": "owner accept rich_2 ok [R37]",
-   "round": "37 / 2026-08-05",
+   "verdict": "perfect",
+   "ear_notes": "owner perfect rich_3 [UH11]; family baseline; baseline current_csv_rebake (knobs unchanged; pin from listen)",
+   "round": "UPLIFT-HARD-11 / 2026-08-07",
    "listen_context": "clip",
    "byte_pin_sha256": "a4e82b0cb40be8bf241911a48fdc66ce1743f68e697e5404219f64a9e13d0cda"
   },
   "rush": {
-   "verdict": "ok",
-   "ear_notes": "owner accept rush_1 ok [R37]",
-   "round": "37 / 2026-08-05",
+   "verdict": "perfect",
+   "ear_notes": "owner perfect rush_3 [US6]; family spell_speed1; spell_speed1 (CS00 text @ speed 1.0)",
+   "round": "UPLIFT-SWEEP-6 / 2026-08-07",
    "listen_context": "clip",
-   "byte_pin_sha256": "a5611b33921ab00040329f22fb179a4c4ce199043d06d8da9b19ccab47d9d9b0"
+   "byte_pin_sha256": "f3b8c76d1d9e643059fb0bce81257b61f8bd57c31f02a50a662db37e86bc4390"
   },
   "sash": {
-   "verdict": "ok",
-   "ear_notes": "ok",
-   "round": "27",
-   "listen_context": "round27 sash_3 (comma_asr_g30_40)",
-   "byte_pin_sha256": "5d0b885c846123b666d728b79df1db00c155ba8b4db27699d372bb9e98589924"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect sash_6 [US6]; family carrier_spell_CS00; spell control CS00 (rollup → carrier_spell)",
+   "round": "UPLIFT-SWEEP-6 / 2026-08-07",
+   "listen_context": "clip",
+   "byte_pin_sha256": "ec387c17e79bd93147ee9254146a8d28f1e8935362288c826f1a0252352c581d"
   },
   "she": {
-   "verdict": "marginal",
-   "ear_notes": "marginal",
-   "round": "27",
-   "listen_context": "round27 she_1 (comma_asr_g30_40)",
-   "byte_pin_sha256": "263cef4d9541178e66cb6e468ee91a6f3270a1529742d2c9038290e92e2d573d"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect she_6 [UH2]; family baseline; baseline control — recipe knobs unchanged except verdict+pin; owner typed pefect → perfect",
+   "round": "UPLIFT-HARD-2 / 2026-08-06",
+   "listen_context": "clip",
+   "byte_pin_sha256": "e18b3a7c9341f4504070e9203a6be470f90b6a82711cdc1c59e040a6a17d6439"
   },
   "shed": {
-   "verdict": "ok",
-   "ear_notes": "ok",
-   "round": "27",
-   "listen_context": "round27 shed_2 (double_energy_120)",
-   "byte_pin_sha256": "29d87b87df4934a15221506dff4744e20f13b5dd6f27bba9b7921afaec9ead47"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect shed_4 [US6]; family spell_speed1; spell_speed1 (CS00 text @ speed 1.0)",
+   "round": "UPLIFT-SWEEP-6 / 2026-08-07",
+   "listen_context": "clip",
+   "byte_pin_sha256": "d36a926a41c4b8ef1ec655abf86ebb7dbc692148d4cef42c3e362ee224af84d1"
   },
   "shin": {
-   "verdict": "good",
-   "ear_notes": "good",
-   "round": "27",
-   "listen_context": "round27 shin_3 (double_energy_120)",
-   "byte_pin_sha256": "f53a38ae9c1d4f9d7f34e8412cd2feeb49def32e80ac86dc78cfa83174b96e5d"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect shin_6 [US2]; family carrier_spell_CS00; spell control CS00 (rollup → carrier_spell)",
+   "round": "UPLIFT-SWEEP-2 / 2026-08-06",
+   "listen_context": "clip",
+   "byte_pin_sha256": "0fce72b654cb60aff68fc18e7e8dbfabe88c72571707d73051046e2d7cd0ac85"
   },
   "ship": {
-   "verdict": "marginal",
-   "ear_notes": "owner accept ship_3 marginal [R37]",
-   "round": "37 / 2026-08-05",
+   "verdict": "perfect",
+   "ear_notes": "owner perfect ship_1 [UT1]; family carrier_spell_CS00; spell control CS00 (rollup → carrier_spell)",
+   "round": "UPLIFT-TONE-1 / 2026-08-06",
    "listen_context": "clip",
-   "byte_pin_sha256": "ceb383c65fb4d88b108a22be538d9f80e3cb03e444bca8b67ea157c014920d71"
+   "byte_pin_sha256": "9db7d712b7bd86b4e5fa74f999a5b31901e7ddd28917843409a1c1535ef877eb"
   },
   "shop": {
-   "verdict": "very good",
-   "ear_notes": "owner accept shop_3 very good [R37]",
-   "round": "37 / 2026-08-05",
+   "verdict": "perfect",
+   "ear_notes": "owner perfect shop_6 [UP3]; family carrier_spell",
+   "round": "UPLIFT-EXPERIMENT-3 / 2026-08-06",
    "listen_context": "clip",
-   "byte_pin_sha256": "88edb78f8efd20d0b63d9f869c2f0aa2532247a8ce7daf6b50aa6236b70f4d86"
+   "byte_pin_sha256": "43d1eb92cd5d9bae96656adcbb76c196198db515e59e8b9dfde13d38a68eeda4"
   },
   "shut": {
-   "verdict": "marginal",
-   "ear_notes": "marginal",
-   "round": "28",
-   "listen_context": "round28 shut_3 (slow_double_energy_120_spd0.75)",
-   "byte_pin_sha256": "d7b43a6840c38bfc598024d32ace6568dfb1d14e94c07f4273398ec34869521e"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect shut_2 [UH1]; family foil_not_shot; foil Not shot—shut.; cut=second_island; CSV mode energy + pin; cut=second_island; CSV mode energy + pin",
+   "round": "UPLIFT-HARD-1 / 2026-08-06",
+   "listen_context": "clip",
+   "byte_pin_sha256": "f0f5195b7b9451d563891db6e08315fff884c0283291a8f6cb6a6ddf4915e3c5"
   },
   "such": {
-   "verdict": "ok",
-   "ear_notes": "ok",
-   "round": "28",
-   "listen_context": "round28 such_3 (listen_asr_g25_40)",
-   "byte_pin_sha256": "a22fec3b9df4a55b5f98919bcf65634572cdce18bf519f6b0b7e45a9853cc273"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect such_3 [UH7]; family spell_speed1; spell_speed1 (CS00 text @ speed 1.0)",
+   "round": "UPLIFT-HARD-7 / 2026-08-07",
+   "listen_context": "clip",
+   "byte_pin_sha256": "eba8ced0c8ce9bed4fe2f6a5480999f2c3af02d07dcadabd3d290ae636f39fa5"
   },
   "wash": {
-   "verdict": "ok",
-   "ear_notes": "ok",
-   "round": "27",
-   "listen_context": "round27 wash_3 (comma_asr_g30_40)",
-   "byte_pin_sha256": "f2ed88fc9bd4cf4600402ac1c9a0f2a9f3f7c52199ed443c337c089b76600bd1"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect wash_2 [UT1]; family baseline; baseline control — recipe unchanged except verdict+pin",
+   "round": "UPLIFT-TONE-1 / 2026-08-06",
+   "listen_context": "clip",
+   "byte_pin_sha256": "94f9b37601c3a7ed4001b92bd6889153dcf94610591cd61dfdfc5ed96789ce5e"
   },
   "wish": {
-   "verdict": "very good",
-   "ear_notes": "very good",
-   "round": "28",
-   "listen_context": "round28 wish_3 (here_it_is_asr_g30_40)",
-   "byte_pin_sha256": "b1898bc1412952a972e786265d0c05530cdb7e39b1772f110e09d2ac9faf3ef8"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect wish_6 [UP3]; family baseline",
+   "round": "UPLIFT-EXPERIMENT-3 / 2026-08-06",
+   "listen_context": "clip",
+   "byte_pin_sha256": "12f5285bae6e837006ec1b3c5a4c6e550e8732f26fe65702d4e9c1b45096c9d5"
   },
   "back": {
    "verdict": "perfect",
@@ -4419,25 +4675,25 @@
    "byte_pin_sha256": "b6cc441abb376c0c49f86541ebd271867d97547dfd51abb22a6b17c88134a0cf"
   },
   "bath": {
-   "verdict": "very good",
-   "ear_notes": "very good",
-   "round": "28",
-   "listen_context": "round28 bath_3 (comma_asr_g30_40)",
-   "byte_pin_sha256": "9e9834caeb59b546b2991447a514386b5db49bcfc7786512a70a120b2c81a37e"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect bath_6 [UP2]; family carrier_spell",
+   "round": "UPLIFT-EXPERIMENT-2 / 2026-08-06",
+   "listen_context": "clip",
+   "byte_pin_sha256": "6d8a220fa107b2c7de29814c21758c358cdcb7ef7fe0de66d1d7ee82c8f75550"
   },
   "buck": {
-   "verdict": "ok",
-   "ear_notes": "ok",
-   "round": "28",
-   "listen_context": "round28 buck_2 (comma_asr_g30_40)",
-   "byte_pin_sha256": "f7f40bb51b287633d36f4ff1db69fdb63951d3757b45749d91a1a347430f3e3c"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect buck_5 [US4]; family carrier_listen_em; Listen—{word}. energy cut",
+   "round": "UPLIFT-SWEEP-4 / 2026-08-07",
+   "listen_context": "clip",
+   "byte_pin_sha256": "68ca206d68958a6040120d68b4fee7a224cc7921a77fe55f3758550f53f40622"
   },
   "deck": {
-   "verdict": "very good",
-   "ear_notes": "very good",
-   "round": "28",
-   "listen_context": "round28 deck_3 (comma_asr_g30_40)",
-   "byte_pin_sha256": "15bc190f5a382a2e3feee53d930da51c4250d1f92c8a28ebcd1869c0d3e4b025"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect deck_7 [UP2]; family baseline",
+   "round": "UPLIFT-EXPERIMENT-2 / 2026-08-06",
+   "listen_context": "clip",
+   "byte_pin_sha256": "dd85daf23694a99baf85fe5d036584dd5a9cb30ce689d317b335dd7917dc8975"
   },
   "dock": {
    "verdict": "perfect",
@@ -4454,11 +4710,11 @@
    "byte_pin_sha256": "b4953a5936322f665f4bc535ee8c79f3ec8a01bfbbe5544e801dda18b1a31e19"
   },
   "fang": {
-   "verdict": "very good",
-   "ear_notes": "very good",
-   "round": "28",
-   "listen_context": "round28 fang_1 (double_energy_120)",
-   "byte_pin_sha256": "0ba80f7ce805962067d8f9293d06c76dafb8f3745017fc58ab63aea844c2e338"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect fang_2 [UP3]; family carrier_listen_em; NEW family carrier_listen_em",
+   "round": "UPLIFT-EXPERIMENT-3 / 2026-08-06",
+   "listen_context": "clip",
+   "byte_pin_sha256": "c75051191ae9351f054b06c8034e4076936b26a7c06da0f94f82441798772d3f"
   },
   "gong": {
    "verdict": "perfect",
@@ -4468,67 +4724,67 @@
    "byte_pin_sha256": "bb18b59d6663b818b942d91fc14b4e81e8d615855ef53d8e92802fbf01d2a512"
   },
   "hang": {
-   "verdict": "very good",
-   "ear_notes": "very good",
-   "round": "29",
-   "listen_context": "round29 hang_1 (double_energy_120)",
-   "byte_pin_sha256": "eedc47590433084233d1652d9eb57b1fcfd6987a230e2f64b92ea7f91951b8b0"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect hang_2 [UP3]; family carrier_quoted",
+   "round": "UPLIFT-EXPERIMENT-3 / 2026-08-06",
+   "listen_context": "clip",
+   "byte_pin_sha256": "68b57f996118d2ac6de8dfa8e2f43109d2fdc3504bca73fe8f0fc6cbaa61bfed"
   },
   "kick": {
-   "verdict": "very good",
-   "ear_notes": "very good",
-   "round": "29",
-   "listen_context": "round29 kick_2 (comma_asr_g30_40)",
-   "byte_pin_sha256": "87e2046b09c3427d1dc97d05b0c701987aaf353b5292c46814b0161b8a70045f"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect kick_3 [UP2]; family carrier_phrase",
+   "round": "UPLIFT-EXPERIMENT-2 / 2026-08-06",
+   "listen_context": "clip",
+   "byte_pin_sha256": "783e1931502782796872ed7cbbf03179902a89ddd7714c989db2bff431cb0c78"
   },
   "king": {
-   "verdict": "very good",
-   "ear_notes": "very good",
-   "round": "29",
-   "listen_context": "round29 king_3 (comma_asr_g30_40)",
-   "byte_pin_sha256": "98d1f267008f305868aaba62c1cc23ba40aa0295cf49a1a2da2a9ae69c987119"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect king_3 [UP3]; family baseline",
+   "round": "UPLIFT-EXPERIMENT-3 / 2026-08-06",
+   "listen_context": "clip",
+   "byte_pin_sha256": "d1f25f4574906ca1dcf57d47b1a61487f8122ae3ea2f539f37453acfecdd398d"
   },
   "lick": {
-   "verdict": "very good",
-   "ear_notes": "very good",
-   "round": "29",
-   "listen_context": "round29 lick_2 (comma_asr_g30_40)",
-   "byte_pin_sha256": "8dff7d4535eacad4d727be4001ced4bf8ac5c004120fe248b793220e1ca71f4e"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect lick_2 [US1]; family spell_speed1; spell_speed1 (CS00 text @ speed 1.0)",
+   "round": "UPLIFT-SWEEP-1 / 2026-08-06",
+   "listen_context": "clip",
+   "byte_pin_sha256": "34b123b56c95efc13d959188168aa0f93ccc8182abda64b74b5004cae92937b4"
   },
   "lock": {
-   "verdict": "good",
-   "ear_notes": "good",
-   "round": "29",
-   "listen_context": "round29 lock_3 (comma_asr_g30_40)",
-   "byte_pin_sha256": "c00e5077e36c13aaf3278fb3a5688723dd657bde57b5c60a3acd54895efb66a8"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect lock_2 [US2]; family spell_speed1; spell_speed1 (CS00 text @ speed 1.0)",
+   "round": "UPLIFT-SWEEP-2 / 2026-08-06",
+   "listen_context": "clip",
+   "byte_pin_sha256": "b2266b1e7d49a191b50456df91a5d9332ddb7b65a525338b78252cf125e249fc"
   },
   "long": {
-   "verdict": "good",
-   "ear_notes": "good",
-   "round": "29",
-   "listen_context": "round29 long_2 (double_energy_120)",
-   "byte_pin_sha256": "fb5b99e80f43b8ce7ce7a356b6a67d69b95301f395edd8c1fdaab12ba552ff2a"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect long_8 [UT1]; family spell_speed1; NEW family spell_speed1 (CS00 text @ speed 1.0)",
+   "round": "UPLIFT-TONE-1 / 2026-08-06",
+   "listen_context": "clip",
+   "byte_pin_sha256": "3d3c5c6886d3da346d39c88e86cc886126a38351dd5d22cfa9b22318981cdebd"
   },
   "luck": {
-   "verdict": "ok",
-   "ear_notes": "ok",
-   "round": "29",
-   "listen_context": "round29 luck_3 (comma_asr_g30_40)",
-   "byte_pin_sha256": "0fa600edb8e30ea64387167b30017053e4af6c2a71a11adc01cfb430752c0d6d"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect luck_5 [US4]; family spell_speed1; spell_speed1 (CS00 text @ speed 1.0)",
+   "round": "UPLIFT-SWEEP-4 / 2026-08-07",
+   "listen_context": "clip",
+   "byte_pin_sha256": "380ae11d1fa06594c31bac1e8611aa10c8a299f28e4f185da6babac9476fecfd"
   },
   "lung": {
-   "verdict": "ok",
-   "ear_notes": "ok",
-   "round": "29",
-   "listen_context": "round29 lung_1 (double_energy_120)",
-   "byte_pin_sha256": "66d7f186820b240749bf0a0cbc67d0b7c07a52f9de2569474b5bc72993446701"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect lung_5 [UH6]; family soft_cue; soft_cue warmth; cut=second_island; CSV mode energy + pin",
+   "round": "UPLIFT-HARD-6 / 2026-08-07",
+   "listen_context": "clip",
+   "byte_pin_sha256": "2fe7cfdcd7d24a19a528d148d956e012bf3119d2d7c7039cf8f3dd85336b16f2"
   },
   "math": {
-   "verdict": "good",
-   "ear_notes": "good",
-   "round": "29",
-   "listen_context": "round29 math_3 (comma_asr_g30_40)",
-   "byte_pin_sha256": "e52fb406a3b8dd7f596f14fd8cdd9a08f5f88d9a9000e993ac51335d11ecf361"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect math_2 [US2]; family carrier_spell_CS00; spell control CS00 (rollup → carrier_spell)",
+   "round": "UPLIFT-SWEEP-2 / 2026-08-06",
+   "listen_context": "clip",
+   "byte_pin_sha256": "33dab58ba9af7aec780ea4973d5efda8c878f7ff0fa8218922576d6f51817092"
   },
   "moth": {
    "verdict": "perfect",
@@ -4545,46 +4801,46 @@
    "byte_pin_sha256": "9c65719294da99d922d3bb3cd6987f1bf77262a45349ef7771c0bb1c8d6973d8"
   },
   "neck": {
-   "verdict": "ok",
-   "ear_notes": "owner accept neck_1 ok [R37]",
-   "round": "37 / 2026-08-05",
+   "verdict": "perfect",
+   "ear_notes": "owner perfect neck_5 [US4]; family spell_speed1; spell_speed1 (CS00 text @ speed 1.0)",
+   "round": "UPLIFT-SWEEP-4 / 2026-08-07",
    "listen_context": "clip",
-   "byte_pin_sha256": "d898e93a90c15e870f33b6c5520fb7d4adbef705508fb60bb3ee3d800e5b9239"
+   "byte_pin_sha256": "481e2a2b3a1e8a259b9449d0679a6a78e4e5ca292d2aa37ce582f55c7eb731fb"
   },
   "pack": {
-   "verdict": "very good",
-   "ear_notes": "very good",
-   "round": "29",
-   "listen_context": "round29 pack_2 (comma_asr_g30_40)",
-   "byte_pin_sha256": "faf447c8c49316b976b74355a1b7f0f9e42f40c300f70a4d2fcc841d714954b1"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect pack_2 [UP3]; family carrier_spell",
+   "round": "UPLIFT-EXPERIMENT-3 / 2026-08-06",
+   "listen_context": "clip",
+   "byte_pin_sha256": "2eedaef2ba0f4073a51fc3aa9fd96369ddc67d022532d888f0f4cb449c5d68b9"
   },
   "path": {
-   "verdict": "ok",
-   "ear_notes": "ok",
-   "round": "29",
-   "listen_context": "round29 path_2 (comma_asr_g30_40)",
-   "byte_pin_sha256": "265f833dce650366ed79b3ca7218fabb48d2a3ddd7f4888deff1f48a3b38761c"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect path_5 [US5]; family spell_speed1; spell_speed1 (CS00 text @ speed 1.0)",
+   "round": "UPLIFT-SWEEP-5 / 2026-08-07",
+   "listen_context": "clip",
+   "byte_pin_sha256": "cf46e7eb6450d981a485e0b24379c8979955e11d39530287c3825ecabd5fc977"
   },
   "peck": {
-   "verdict": "near perfect",
-   "ear_notes": "near perfect",
-   "round": "29",
-   "listen_context": "round29 peck_2 (comma_asr_g30_40)",
-   "byte_pin_sha256": "e738bbe24bc5e4655627f40445e795916771e8846c6a3bed761a6d14ea796d5d"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect peck_2 [UP0]; family baseline",
+   "round": "UPLIFT-EXPERIMENT-0 / 2026-08-06",
+   "listen_context": "clip",
+   "byte_pin_sha256": "d62e6699b2bac354f813fc83cbc3ce0505df55b5c20013b5549365e2534368b4"
   },
   "pick": {
-   "verdict": "ok",
-   "ear_notes": "ok",
-   "round": "29",
-   "listen_context": "round29 pick_3 (comma_asr_g30_40)",
-   "byte_pin_sha256": "083f153792bed18a369cb33952b737f2526d8a9dec398822497a8967cba30a35"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect pick_2 [US4]; family spell_speed1; spell_speed1 (CS00 text @ speed 1.0)",
+   "round": "UPLIFT-SWEEP-4 / 2026-08-07",
+   "listen_context": "clip",
+   "byte_pin_sha256": "da1f112ebb748076d29409f8a924b946e134aaf7a146e69a47ccec8905d8c87e"
   },
   "puck": {
-   "verdict": "good",
-   "ear_notes": "good",
-   "round": "29",
-   "listen_context": "round29 puck_2 (comma_asr_g30_40)",
-   "byte_pin_sha256": "6b24b5e74953e9e3e52f513d7ee7a4bae2fafaa7139857c7cd9b264a6bb89ad7"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect puck_2 [US2]; family spell_speed1; spell_speed1 (CS00 text @ speed 1.0)",
+   "round": "UPLIFT-SWEEP-2 / 2026-08-06",
+   "listen_context": "clip",
+   "byte_pin_sha256": "700e8afe1313c6f8fb3823fbd82eadab2be1adef5673f1e416b7be5754a39460"
   },
   "rang": {
    "verdict": "perfect",
@@ -4594,11 +4850,11 @@
    "byte_pin_sha256": "90b1f141ffb9fc63472ef6a5c06e6492d69e73d18fd32cdb6cc640589bb40391"
   },
   "ring": {
-   "verdict": "very good",
-   "ear_notes": "very good",
-   "round": "30",
-   "listen_context": "round30 ring_1 (comma_asr_g30_40)",
-   "byte_pin_sha256": "0234af55d3a3a3eb0b45b21d0659eb71c9222d867314e79f317283aa1354ec04"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect ring_8 [UP3]; family carrier_spell",
+   "round": "UPLIFT-EXPERIMENT-3 / 2026-08-06",
+   "listen_context": "clip",
+   "byte_pin_sha256": "996416c859466aac0bcce4ac1b75c03dbdb562c554d4a319b813d7f29840326c"
   },
   "rock": {
    "verdict": "perfect",
@@ -4615,39 +4871,39 @@
    "byte_pin_sha256": "c4512e2b7305dcd195195f9062e57716ad27d5ead9b31108083505f28edc7600"
   },
   "sack": {
-   "verdict": "ok",
-   "ear_notes": "ok",
-   "round": "30",
-   "listen_context": "round30 sack_3 (comma_asr_g30_40)",
-   "byte_pin_sha256": "64c3d64c9df7990749d68abc38504581f4eba8f5a2691af3856327cd9ef65436"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect sack_3 [US6]; family carrier_spell_CS00; spell control CS00 (rollup → carrier_spell)",
+   "round": "UPLIFT-SWEEP-6 / 2026-08-07",
+   "listen_context": "clip",
+   "byte_pin_sha256": "360bb6057d28797b9d02aff245a5d7761a915836f8aa45a483cb5490e2d19fc8"
   },
   "sang": {
-   "verdict": "very good",
-   "ear_notes": "very good",
-   "round": "30",
-   "listen_context": "round30 sang_1 (double_energy_120)",
-   "byte_pin_sha256": "e975b2d04461e913c0d20c720f91ddf099e010e39cf0dee829d63feb955b59ea"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect sang_1 [US1]; family carrier_quoted; quoted carrier",
+   "round": "UPLIFT-SWEEP-1 / 2026-08-06",
+   "listen_context": "clip",
+   "byte_pin_sha256": "385f13e230049c67eefdf4d607da2e4bb6c8373e00f3b4009e28d7ea2bba2c1b"
   },
   "sick": {
-   "verdict": "good",
-   "ear_notes": "owner accept sick_3 good [R38]; R38 family double_tight_onset (≠ R37)",
-   "round": "38 / 2026-08-05",
+   "verdict": "perfect",
+   "ear_notes": "owner perfect sick_1 [US3]; family spell_speed1; spell_speed1 (CS00 text @ speed 1.0)",
+   "round": "UPLIFT-SWEEP-3 / 2026-08-06",
    "listen_context": "clip",
-   "byte_pin_sha256": "e7b6216135439e68807dd6bc1dfcd9a9d23bcad7715a42b99882853e92a9e482"
+   "byte_pin_sha256": "e12bf579db449ce116467e309d912f21ab8604cad3f0abaad7189ba633228a01"
   },
   "sing": {
-   "verdict": "good",
-   "ear_notes": "good",
-   "round": "30",
-   "listen_context": "round30 sing_3 (double_energy_120)",
-   "byte_pin_sha256": "cce7127a5759fd05906557f469de985eccadc8f8beee94ede0e7ca3305263478"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect sing_1 [UP0]; family carrier_spell",
+   "round": "UPLIFT-EXPERIMENT-0 / 2026-08-06",
+   "listen_context": "clip",
+   "byte_pin_sha256": "94696b07466287235461c08d9362f5f793314e7d1584d4aa958c062eab1993ea"
   },
   "sock": {
-   "verdict": "ok",
-   "ear_notes": "ok",
-   "round": "32",
-   "listen_context": "round32 sock_2 (slow_double_energy_120_spd0.75)",
-   "byte_pin_sha256": "8b33a5cbc4ab897538c55ed286b6eda82214ed296a932ab29dc2b6c938ca347e"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect sock_6 [US6]; family spell_speed1; spell_speed1 (CS00 text @ speed 1.0)",
+   "round": "UPLIFT-SWEEP-6 / 2026-08-07",
+   "listen_context": "clip",
+   "byte_pin_sha256": "7d128af921e077a04e1bdbc83c8d2b4631034e71f83b4af8198983d4947e5192"
   },
   "song": {
    "verdict": "perfect",
@@ -4657,60 +4913,60 @@
    "byte_pin_sha256": "6cab620d3144a5dba424dab4558915f0fbdaeaa7710b12699f8b6de214f51a5e"
   },
   "sung": {
-   "verdict": "good",
-   "ear_notes": "good",
-   "round": "30",
-   "listen_context": "round30 sung_1 (double_energy_120)",
-   "byte_pin_sha256": "af75ac70b8b669b789fc40ef35f3b0196cc40b2b364ea81ac80cc587b6804883"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect sung_2 [UT1]; family spell_speed1; NEW family spell_speed1 (CS00 text @ speed 1.0)",
+   "round": "UPLIFT-TONE-1 / 2026-08-06",
+   "listen_context": "clip",
+   "byte_pin_sha256": "7cf6937c7461fe84d811a46bc0292d645c5eac551cafaca1622b34faae67f81e"
   },
   "tack": {
-   "verdict": "good",
-   "ear_notes": "good",
-   "round": "30",
-   "listen_context": "round30 tack_2 (comma_asr_g30_40)",
-   "byte_pin_sha256": "e03fa198f20eaf954e8920574802562593ec30b1e9de6063b4d639abfbde54d0"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect tack_5 [US3]; family spell_speed1; spell_speed1 (CS00 text @ speed 1.0)",
+   "round": "UPLIFT-SWEEP-3 / 2026-08-06",
+   "listen_context": "clip",
+   "byte_pin_sha256": "818d224d9b6a7a233aaebcb7c47e5b6ca7050c628c8adaabe0125ad3f86e2b05"
   },
   "that": {
-   "verdict": "ok",
-   "ear_notes": "ok",
-   "round": "30",
-   "listen_context": "round30 that_2 (here_it_is_asr_g30_40)",
-   "byte_pin_sha256": "d47a0789dbb374d9bba26076071a130d01ada15e456a529e92d4c4263a45fb1d"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect that_8 [UT1]; family carrier_double_say; cut=second_island; CSV mode energy + pin",
+   "round": "UPLIFT-TONE-1 / 2026-08-06",
+   "listen_context": "clip",
+   "byte_pin_sha256": "f0b0036dc7ec35395d3866b457f7d4ac49314cf174ed7f4d142ff57db1ff4c72"
   },
   "the": {
-   "verdict": "ok",
-   "ear_notes": "owner accept the_1 ok [R41]; family phoneme_schwa_cut (ðə + head/tail cut)",
-   "round": "41 / 2026-08-05",
+   "verdict": "perfect",
+   "ear_notes": "owner perfect the_1 [UT1]; family spell_speed1; NEW family spell_speed1 (CS00 text @ speed 1.0)",
+   "round": "UPLIFT-TONE-1 / 2026-08-06",
    "listen_context": "clip",
-   "byte_pin_sha256": "9f4ba5c1224924db8f7f8c40cd5ebc63a791a7703540a620629036320d17a03d"
+   "byte_pin_sha256": "df2b4d730f815e3648d0a82dc98b72f8f93336ebc1d62cfa517c931a9407d6e3"
   },
   "them": {
-   "verdict": "good",
-   "ear_notes": "good",
-   "round": "30",
-   "listen_context": "round30 them_3 (double_energy_120)",
-   "byte_pin_sha256": "c6d84204324e7aa5c8d616d329d530d3c68dfc5ee13e91293bbe7644a186e67b"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect them_6 [US3]; family spell_speed1; spell_speed1 (CS00 text @ speed 1.0)",
+   "round": "UPLIFT-SWEEP-3 / 2026-08-06",
+   "listen_context": "clip",
+   "byte_pin_sha256": "4eabdf3fde6fa91ba2b81df3b3558cab8413a5ffe7c9118405ffb99be075916f"
   },
   "then": {
-   "verdict": "ok",
-   "ear_notes": "owner accept then_3 ok [R37]",
-   "round": "37 / 2026-08-05",
+   "verdict": "perfect",
+   "ear_notes": "owner perfect then_2 [US7]; family carrier_spell_CS00; spell control CS00 (rollup → carrier_spell)",
+   "round": "UPLIFT-SWEEP-7 / 2026-08-07",
    "listen_context": "clip",
-   "byte_pin_sha256": "b43f8bd63a46c5f1e9bd36102765caebb8637b6687df80849d3a9b89fcbb5d87"
+   "byte_pin_sha256": "5bdb0b81a6ec4cd8963f7be272f35f55c67e6bb6cff140c1d03521ce63b4cb67"
   },
   "thin": {
-   "verdict": "marginal",
-   "ear_notes": "marginal",
-   "round": "32",
-   "listen_context": "round32 thin_3 (bright_head_40)",
-   "byte_pin_sha256": "c7af2d8addcb1e489f841db5fcf6f5170046b9b588c20361f3b02e13452edb61"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect thin_4 [UP0]; family carrier_spell",
+   "round": "UPLIFT-EXPERIMENT-0 / 2026-08-06",
+   "listen_context": "clip",
+   "byte_pin_sha256": "5e1716f4da2170f7cbe8af9e8e1ad3db84203212257c9b62e062658917fbe856"
   },
   "this": {
-   "verdict": "ok",
-   "ear_notes": "ok",
-   "round": "30",
-   "listen_context": "round30 this_2 (double_energy_120)",
-   "byte_pin_sha256": "f311cb75f9062c81308522d46ace7ce01510905ec4300860329688850827b099"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect this_2 [UH1]; family baseline; baseline control — recipe knobs unchanged except verdict+pin",
+   "round": "UPLIFT-HARD-1 / 2026-08-06",
+   "listen_context": "clip",
+   "byte_pin_sha256": "4ce18141616da42c1e33ce855d2f398a2fd3b6242e7b7920ba3c0046ef44659f"
   },
   "thud": {
    "verdict": "perfect",
@@ -4720,18 +4976,18 @@
    "byte_pin_sha256": "b4478441a50f347294546ebf2388edc1bd9494be5267c9925773442b9621c0ef"
   },
   "tick": {
-   "verdict": "good",
-   "ear_notes": "good",
-   "round": "30",
-   "listen_context": "round30 tick_2 (comma_asr_g30_40)",
-   "byte_pin_sha256": "f09acdfbd74b63dc294633c95489719f5cd10be4ea6a42e5f38f571d0f8c3fd2"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect tick_4 [US3]; family baseline; baseline control — recipe unchanged except verdict+pin",
+   "round": "UPLIFT-SWEEP-3 / 2026-08-06",
+   "listen_context": "clip",
+   "byte_pin_sha256": "2b2d4422e7baa041d240f21e50508e489f17270ba1c604d4ba95711b2338f017"
   },
   "tuck": {
-   "verdict": "ok",
-   "ear_notes": "owner accept tuck_3 ok [R37]",
-   "round": "37 / 2026-08-05",
+   "verdict": "perfect",
+   "ear_notes": "owner perfect tuck_5 [US4]; family spell_speed1; spell_speed1 (CS00 text @ speed 1.0)",
+   "round": "UPLIFT-SWEEP-4 / 2026-08-07",
    "listen_context": "clip",
-   "byte_pin_sha256": "081dbdc9c9df507f77181179b0402b21f1224d127a38e4bac2973c89ecbf284e"
+   "byte_pin_sha256": "0ba0e331aea2260db64d66748c51d6a50df4874a90acd5cb0f4a236e8decf708"
   },
   "was": {
    "verdict": "perfect",
@@ -4741,32 +4997,32 @@
    "byte_pin_sha256": "8fd1de18191dd7c65e131fe9b74ebbbdff44e2f07ee70bf554f8ac030ae656cd"
   },
   "what": {
-   "verdict": "ok",
-   "ear_notes": "ok",
-   "round": "33",
-   "listen_context": "round33 what_3 (soft_bare_lead220_spd0.82)",
-   "byte_pin_sha256": "c399a39a5b59bc38cb3db1c98dbf559c274c4ce49efde423a8595f0b57055f48"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect what_1 [UP0]; family carrier_phrase",
+   "round": "UPLIFT-EXPERIMENT-0 / 2026-08-06",
+   "listen_context": "clip",
+   "byte_pin_sha256": "11e88f1b6f5af77a5c59c99803dc2adae77f7b8b3283500382b0a04506c12e1d"
   },
   "when": {
-   "verdict": "ok",
-   "ear_notes": "ok",
-   "round": "33",
-   "listen_context": "round33 when_2 (listen_asr_g25_40)",
-   "byte_pin_sha256": "e73fc259a1ba1574fe47ce342053da2dbf10fd19a6c30f2b28a8266ac49bdc32"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect when_2 [US7]; family carrier_double_say; double_say second island; cut=second_island; CSV mode energy + pin",
+   "round": "UPLIFT-SWEEP-7 / 2026-08-07",
+   "listen_context": "clip",
+   "byte_pin_sha256": "6eb2d01465101fccb4b8cb3f1dc6ae49e4927a0d2915a90e4d574b1d5f51760b"
   },
   "whip": {
-   "verdict": "marginal",
-   "ear_notes": "marginal",
-   "round": "33",
-   "listen_context": "round33 whip_3 (onset_trim)",
-   "byte_pin_sha256": "e7bdebaba31e7ae53e1391f1c520ef5231577e37fc9e79ae91e057a805c16b2f"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect whip_3 [UP1]; family carrier_spell",
+   "round": "UPLIFT-EXPERIMENT-1 / 2026-08-06",
+   "listen_context": "clip",
+   "byte_pin_sha256": "4041de161316312c32d90c5b02758085e5988d140eea7779ab092ab4345bdb43"
   },
   "wick": {
-   "verdict": "ok",
-   "ear_notes": "ok",
-   "round": "33",
-   "listen_context": "round33 wick_3 (soft_bare_lead220_spd0.82)",
-   "byte_pin_sha256": "841f748ce61a7b797bad12e8c0a8829f2dedfb6d1f16759f6557c0745d8c7648"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect wick_5 [US7]; family spell_speed1; spell_speed1 (CS00 text @ speed 1.0)",
+   "round": "UPLIFT-SWEEP-7 / 2026-08-07",
+   "listen_context": "clip",
+   "byte_pin_sha256": "56321c7c1cf8a1926df4db6b2174e78c45b8febf7f61d91d20961c927bf5f262"
   },
   "wing": {
    "verdict": "perfect",
@@ -4776,11 +5032,11 @@
    "byte_pin_sha256": "0429fae06c70a5aeb5d55b482811b42c23bb46a1a0b8427a2f4e9b097def6aa2"
   },
   "with": {
-   "verdict": "ok",
-   "ear_notes": "ok",
-   "round": "31",
-   "listen_context": "round31 with_1 (here_it_is_asr_g30_40)",
-   "byte_pin_sha256": "0c0feaf59e668983f4db00c30002fd93160243375b2098dfaf82904dbc02058f"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect with_6 [US7]; family carrier_spell_CS00; spell control CS00 (rollup → carrier_spell)",
+   "round": "UPLIFT-SWEEP-7 / 2026-08-07",
+   "listen_context": "clip",
+   "byte_pin_sha256": "780858e0bc76e9efa6b3dbed60fa678c4745b55a3011b179b47632776a0cda09"
   },
   "pat": {
    "verdict": "perfect",
@@ -4801,10 +5057,11 @@
    "listen_context": "clip"
   },
   "sap": {
-   "verdict": "ok",
-   "ear_notes": "accept, ok [round 16b]",
-   "round": "round 16b, 2026-08-04",
-   "listen_context": "clip"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect sap_3 [UH10]; family foil_not_lap; foil_not_lap; cut=second_island; CSV mode energy + pin",
+   "round": "UPLIFT-HARD-10 / 2026-08-07",
+   "listen_context": "clip",
+   "byte_pin_sha256": "84e22cae4cb0ad377bfd4d619e9a7841286dbb1da155f7f162d0ded665fc4232"
   },
   "vat": {
    "verdict": "perfect",
@@ -4819,35 +5076,39 @@
    "listen_context": "clip"
   },
   "rig": {
-   "verdict": "very good",
-   "ear_notes": "accept, very good",
-   "round": "round 15, 2026-08-04",
-   "listen_context": "clip"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect rig_6 [US1]; family spell_speed1; spell_speed1 (CS00 text @ speed 1.0)",
+   "round": "UPLIFT-SWEEP-1 / 2026-08-06",
+   "listen_context": "clip",
+   "byte_pin_sha256": "49637e972a4dc43f37412e9b8c1a9f870db58fa5909d469104f3c67b8e0536f8"
   },
   "rob": {
-   "verdict": "ok",
-   "ear_notes": "accept, ok",
-   "round": "round 15, 2026-08-04",
-   "listen_context": "clip"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect rob_2 [UT1]; family carrier_double_say; cut=second_island; CSV mode energy + pin",
+   "round": "UPLIFT-TONE-1 / 2026-08-06",
+   "listen_context": "clip",
+   "byte_pin_sha256": "ccae4697bc37f6335ff4d8d2e6845bc81bec7e58c92b6fd21779cc4d17b25908"
   },
   "sob": {
-   "verdict": "ok",
-   "ear_notes": "accept, ok",
-   "round": "round 15, 2026-08-04",
-   "listen_context": "clip"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect sob_1 [US5]; family spell_speed1; spell_speed1 (CS00 text @ speed 1.0)",
+   "round": "UPLIFT-SWEEP-5 / 2026-08-07",
+   "listen_context": "clip",
+   "byte_pin_sha256": "26d4ebb3f64e5dfdc8020e29ee0c91fac8ad49ac4174f22a606c8099826c1e05"
   },
   "mob": {
-   "verdict": "very good",
-   "ear_notes": "accept, very good [round 16b]",
-   "round": "round 16b, 2026-08-04",
-   "listen_context": "clip"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect mob_6 [US1]; family spell_speed1; spell_speed1 (CS00 text @ speed 1.0)",
+   "round": "UPLIFT-SWEEP-1 / 2026-08-06",
+   "listen_context": "clip",
+   "byte_pin_sha256": "0b89f320296e1ff3cb612fa20f04a6ab486ac4934f205866b832a8a9953fd917"
   },
   "cop": {
-   "verdict": "ok",
-   "ear_notes": "owner accept cop_1 ok [R39]; R39 family double_tight_onset_v2 (iterate R38 _3)",
-   "round": "39 / 2026-08-05",
+   "verdict": "perfect",
+   "ear_notes": "owner perfect cop_4 [UP0]; family carrier_spell",
+   "round": "UPLIFT-EXPERIMENT-0 / 2026-08-06",
    "listen_context": "clip",
-   "byte_pin_sha256": "186bdeea4b1b8716a48693668e64df7fc2a84de748f4d38e6194996785fa9754"
+   "byte_pin_sha256": "a20dfba4b715850d1d4dfc40667a23a953696019c6123aed243a43c9c6a77be2"
   },
   "dim": {
    "verdict": "perfect",
@@ -4863,25 +5124,25 @@
    "byte_pin_sha256": "f4229747280fb14e828eb1a3c8ce12b72be93b21b11ba8bb89fc02854914a266"
   },
   "keg": {
-   "verdict": "ok",
-   "ear_notes": "ok",
-   "round": "25",
-   "listen_context": "round25 keg_1 (double_energy_120)",
-   "byte_pin_sha256": "242579e11bbf24bd58fad97ef5296ae88034cfa70aa8447e17af0406feee3512"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect keg_4 [US5]; family spell_speed1; spell_speed1 (CS00 text @ speed 1.0)",
+   "round": "UPLIFT-SWEEP-5 / 2026-08-07",
+   "listen_context": "clip",
+   "byte_pin_sha256": "9059fd10aa16f57ba5a2b216eb499e4a5dd848905c738c45561d20cf3063abc9"
   },
   "hem": {
-   "verdict": "ok",
-   "ear_notes": "ok",
-   "round": "25",
-   "listen_context": "round25 hem_1 (double_energy_120)",
-   "byte_pin_sha256": "47253a6dc49c78f0bedeb096cfe7dc10cfb9d1aa5ccb018d9579644861f86c9b"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect hem_5 [UH1]; family spell_speed1; spell_speed1 (CS00 text @ speed 1.0)",
+   "round": "UPLIFT-HARD-1 / 2026-08-06",
+   "listen_context": "clip",
+   "byte_pin_sha256": "fbcf35af0fd3fa738e4a0c302ac2ac9fd32e981cd1ac83beae77ffb3661a9858"
   },
   "nun": {
-   "verdict": "ok",
-   "ear_notes": "ok",
-   "round": "25",
-   "listen_context": "round25 nun_3 (comma_asr_g30_40)",
-   "byte_pin_sha256": "bfe04d4d29d00dc98be13e5ec3cd207156d5251a605d2be9fff3dcc1667667dc"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect nun_7 [UH6]; family spell_speed1; spell_speed1 (CS00 text @ speed 1.0)",
+   "round": "UPLIFT-HARD-6 / 2026-08-07",
+   "listen_context": "clip",
+   "byte_pin_sha256": "668f9ba95dc487aa586ef6ef15fde6124f0d12e7b0894de9bd2891984a557ec2"
   },
   "pun": {
    "verdict": "perfect",
@@ -4891,67 +5152,67 @@
    "byte_pin_sha256": "aace925f55a6149fc34544ec8d4eb450db46b236289bb0d1c023c5a740b0328b"
   },
   "jut": {
-   "verdict": "ok",
-   "ear_notes": "ok",
-   "round": "25",
-   "listen_context": "round25 jut_1 (comma_asr_g30_40)",
-   "byte_pin_sha256": "5a3baa36d847cf03db4ad61928977f3f5604776a34dd7f3ddfb4bfe181314ea9"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect jut_3 [US5]; family spell_speed1; spell_speed1 (CS00 text @ speed 1.0)",
+   "round": "UPLIFT-SWEEP-5 / 2026-08-07",
+   "listen_context": "clip",
+   "byte_pin_sha256": "ceee896e630830bcaf74d7b52647196aebec2c5829e1a08db51c97f31434e52c"
   },
   "gut": {
-   "verdict": "ok",
-   "ear_notes": "ok",
-   "round": "26",
-   "listen_context": "round26 gut_2 (double_energy_120)",
-   "byte_pin_sha256": "3d3535126e69135629f5ea6814bf779a260584247d313d3db53267bd1328723d"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect gut_3 [US5]; family spell_speed1; spell_speed1 (CS00 text @ speed 1.0)",
+   "round": "UPLIFT-SWEEP-5 / 2026-08-07",
+   "listen_context": "clip",
+   "byte_pin_sha256": "9ca477876141444709061a153b127f61fa1b40e22e7737d11d11270476750c5f"
   },
   "hub": {
-   "verdict": "ok",
-   "ear_notes": "owner accept hub_3 ok [R38]; R38 family double_trim160 (≠ R37)",
-   "round": "38 / 2026-08-05",
+   "verdict": "perfect",
+   "ear_notes": "owner perfect hub_6 [UH8]; family spell_speed1; spell_speed1 (CS00 text @ speed 1.0)",
+   "round": "UPLIFT-HARD-8 / 2026-08-07",
    "listen_context": "clip",
-   "byte_pin_sha256": "4cc57c4a1d9d999911c29bb5dee6b5cca9f212c322708261eb02621181c6f56b"
+   "byte_pin_sha256": "9b7bc8a05fd1af3378485e1f597f59374f79c1a55b37d272a3e5e7411e4ad260"
   },
   "fax": {
-   "verdict": "ok",
-   "ear_notes": "ok",
-   "round": "31",
-   "listen_context": "round31 fax_1 (here_it_is_asr_g30_40)",
-   "byte_pin_sha256": "a2228965b813b8ef4047298efc0bb909c1b2f5937422e586c5ea3db27f3647e9"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect fax_7 [UH6]; family baseline; baseline control — recipe unchanged except verdict+pin",
+   "round": "UPLIFT-HARD-6 / 2026-08-07",
+   "listen_context": "clip",
+   "byte_pin_sha256": "358bb0bd2cbfd8026887f78e27e6f98879f90ece59748831b09da4ccd0f389cf"
   },
   "nix": {
-   "verdict": "ok",
-   "ear_notes": "ok",
-   "round": "32",
-   "listen_context": "round32 nix_1 (soft_bare_lead220_spd0.82)",
-   "byte_pin_sha256": "18b1d236567760e3e07dd7fb254f573cbf68e6761fd71b6ddac3cefcbd029e08"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect nix_13 [UH11]; family baseline; baseline current_csv_rebake (knobs unchanged; pin from listen)",
+   "round": "UPLIFT-HARD-11 / 2026-08-07",
+   "listen_context": "clip",
+   "byte_pin_sha256": "59de024a04279d02ed756ac160d190763861620c714ac363afd80528c443b8e0"
   },
   "vex": {
-   "verdict": "very good",
-   "ear_notes": "very good",
-   "round": "31",
-   "listen_context": "round31 vex_3 (comma_asr_g30_40)",
-   "byte_pin_sha256": "9e4b6172ae2b4975f015231e86800e01acc36075531a1432261bef8c784d8a02"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect vex_2 [UH1]; family baseline; baseline control — recipe knobs unchanged except verdict+pin; OVERLAP RESOLVED: HARD-1 vex_2 bytes IDENTICAL to US1/SWEEP-1 pin b6f285e992baca99… — keep US1 lock; no recipe change",
+   "round": "UPLIFT-SWEEP-1 + UPLIFT-HARD-1 confirm / 2026-08-06",
+   "listen_context": "clip",
+   "byte_pin_sha256": "b6f285e992baca991755daac38c34c375ed45f0c549a948ad5b23b3034723fd7"
   },
   "sax": {
-   "verdict": "ok",
-   "ear_notes": "ok",
-   "round": "31",
-   "listen_context": "round31 sax_2 (here_it_is_asr_g30_40)",
-   "byte_pin_sha256": "a60ba1b1082368a23b51cbe304c590584ef1352461db7821cae08dd7aa1274e0"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect sax_4 [UH6]; family baseline; baseline control — recipe unchanged except verdict+pin",
+   "round": "UPLIFT-HARD-6 / 2026-08-07",
+   "listen_context": "clip",
+   "byte_pin_sha256": "793c7939975e9f8eee7021ebcfdd8f966148ca49f72bd104b58ae3d3ce723146"
   },
   "cod": {
-   "verdict": "very good",
-   "ear_notes": "very good",
-   "round": "31",
-   "listen_context": "round31 cod_3 (double_energy_120)",
-   "byte_pin_sha256": "04dfcf06d60608908b6f8ee20ccc7fa075a5a82c15ebee41f3a67559adb8889d"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect cod_7 [UP2]; family carrier_spell",
+   "round": "UPLIFT-EXPERIMENT-2 / 2026-08-06",
+   "listen_context": "clip",
+   "byte_pin_sha256": "83ce9c436831920c18e8238df9c9326989d8e5dc54918a433617d624943c6ac8"
   },
   "gob": {
-   "verdict": "ok",
-   "ear_notes": "ok",
-   "round": "32",
-   "listen_context": "round32 gob_3 (double_energy_120)",
-   "byte_pin_sha256": "1d103eaffe51e942ef0b48c0637a4b2f1813d29c8700eefb74b697103a061b8e"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect gob_1 [US5]; family spell_speed1; spell_speed1 (CS00 text @ speed 1.0)",
+   "round": "UPLIFT-SWEEP-5 / 2026-08-07",
+   "listen_context": "clip",
+   "byte_pin_sha256": "ba39a275448337064b7e36e7d65fa3690db8b24a4f85dbaf6879b8a2448b12a0"
   },
   "bash": {
    "verdict": "perfect",
@@ -4961,32 +5222,32 @@
    "byte_pin_sha256": "8309f292b2fe4c47cfdd1c162f9737f0c7a6ec4ddfdf18e90c1803f53c1115ed"
   },
   "gash": {
-   "verdict": "ok",
-   "ear_notes": "ok",
-   "round": "32",
-   "listen_context": "round32 gash_1 (double_energy_120)",
-   "byte_pin_sha256": "50c6b8022363fba5e31e358844ad7be5a12dc3e0c5bd188b033f3589b7675052"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect gash_3 [US5]; family carrier_listen_em; Listen—{word}. energy cut",
+   "round": "UPLIFT-SWEEP-5 / 2026-08-07",
+   "listen_context": "clip",
+   "byte_pin_sha256": "a2164ddef074c906a13a0324303ea40377599b41cc60092d58a980f1c8fcb3b1"
   },
   "gush": {
-   "verdict": "ok",
-   "ear_notes": "ok",
-   "round": "32",
-   "listen_context": "round32 gush_3 (double_energy_120)",
-   "byte_pin_sha256": "da0ef7be1858c126677ed34b900a8ac4fad55fce53b5e8aecd38d20d2052c871"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect gush_1 [US5]; family spell_speed1; spell_speed1 (CS00 text @ speed 1.0)",
+   "round": "UPLIFT-SWEEP-5 / 2026-08-07",
+   "listen_context": "clip",
+   "byte_pin_sha256": "397eaa85b43cf706de355c380e23d0df09217e4a84dd73f128ad4bfd51e0830b"
   },
   "lash": {
-   "verdict": "ok",
-   "ear_notes": "ok",
-   "round": "32",
-   "listen_context": "round32 lash_3 (comma_asr_g30_40)",
-   "byte_pin_sha256": "59a514d74e3742fedcfafbc66cc6ca0434bcef2639b383adde9205d7a792cb2a"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect lash_4 [US5]; family baseline; baseline control — recipe unchanged except verdict+pin",
+   "round": "UPLIFT-SWEEP-5 / 2026-08-07",
+   "listen_context": "clip",
+   "byte_pin_sha256": "9e74052384931d600c158f960719ff11a12f3b4cda7ae1f62243cb5ff4bc69a9"
   },
   "lush": {
-   "verdict": "ok",
-   "ear_notes": "owner accept lush_1 ok [R38]; R38 family bare_onset_head30 (≠ R37)",
-   "round": "38 / 2026-08-05",
+   "verdict": "perfect",
+   "ear_notes": "owner perfect lush_6 [US7]; family spell_speed1; spell_speed1 (CS00 text @ speed 1.0)",
+   "round": "UPLIFT-SWEEP-7 / 2026-08-07",
    "listen_context": "clip",
-   "byte_pin_sha256": "298b8da5fdd1a007b71e254a46467f20a26a7bb246c99fae8ff172239574b9af"
+   "byte_pin_sha256": "c346b1819b96973ff42c54d4aed2c92f17e16779b62ed7219a62cdbc6e9a335d"
   },
   "posh": {
    "verdict": "perfect",
@@ -4996,18 +5257,18 @@
    "byte_pin_sha256": "7dfc02d741dbd30ae223c981f0b78a4fcc8c725f8d4c6b872acbdc047676b014"
   },
   "sham": {
-   "verdict": "marginal",
-   "ear_notes": "marginal",
-   "round": "32",
-   "listen_context": "round32 sham_1 (comma_asr_g30_40)",
-   "byte_pin_sha256": "b664fa08c8c6da648d1dbffefba445749437fc99c28fc9abdfa6272f70490d73"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect sham_5 [US8]; family baseline; baseline control — recipe unchanged except verdict+pin",
+   "round": "UPLIFT-SWEEP-8 / 2026-08-07",
+   "listen_context": "clip",
+   "byte_pin_sha256": "35de7eeed34adaf301270d56f869f3bee970fea6459b744b840f2f5d769ba5e7"
   },
   "shun": {
-   "verdict": "ok",
-   "ear_notes": "ok",
-   "round": "32",
-   "listen_context": "round32 shun_1 (comma_asr_g30_40)",
-   "byte_pin_sha256": "6de2617d45a617e3c1f23c6a57fc175b2678ba46bead37c1b5da0d7de52e5174"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect shun_6 [US7]; family spell_speed1; spell_speed1 (CS00 text @ speed 1.0)",
+   "round": "UPLIFT-SWEEP-7 / 2026-08-07",
+   "listen_context": "clip",
+   "byte_pin_sha256": "4ad30a903e850f16828a35933d8c24a6022c2cddd8d4883816dfe9e023aaa1eb"
   },
   "whim": {
    "verdict": "perfect",
@@ -5024,18 +5285,18 @@
    "byte_pin_sha256": "6a15d6993e91704d7654546303f6b25ebff1e1a8a008dae4acf0eb9fd84aa4a9"
   },
   "bang": {
-   "verdict": "almost perfect",
-   "ear_notes": "near perfect",
-   "round": "33",
-   "listen_context": "round33 bang_1 (comma_asr_g30_40)",
-   "byte_pin_sha256": "cd0a346b929a5a7f17c807616d1a3d535f12cc50f830f72f3c7442c44e777a54"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect bang_7 [UP1]; family carrier_phrase",
+   "round": "UPLIFT-EXPERIMENT-1 / 2026-08-06",
+   "listen_context": "clip",
+   "byte_pin_sha256": "8c8cf6c5305b328bc5809c40c2f0526fe800b78a7e2eced47ceb59b254574de7"
   },
   "hung": {
-   "verdict": "very good",
-   "ear_notes": "very good",
-   "round": "33",
-   "listen_context": "round33 hung_1 (double_energy_120)",
-   "byte_pin_sha256": "451b0f4004e876aef95819d5b159926f856208c37cbc4345523a3e71d852a82f"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect hung_8 [UT1]; family spell_speed1; NEW family spell_speed1 (CS00 text @ speed 1.0)",
+   "round": "UPLIFT-TONE-1 / 2026-08-06",
+   "listen_context": "clip",
+   "byte_pin_sha256": "f0debb301fa1381670a3a44a96d8d6ba4c5065f0d8c3e0e7afb8decd1714f608"
   },
   "ding": {
    "verdict": "perfect",
@@ -5045,11 +5306,11 @@
    "byte_pin_sha256": "501c5aa6e5f8f6e9a64deec66cde4fe76d886f98a5d56ba68eb2f5f5ed44d191"
   },
   "ping": {
-   "verdict": "ok",
-   "ear_notes": "ok",
-   "round": "33",
-   "listen_context": "round33 ping_1 (double_energy_120)",
-   "byte_pin_sha256": "d6f227c1caf63ab5641bfcdae4e774a8ebcffa23d4065dca922d7237d60945a2"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect ping_2 [UH8]; family spell_speed1; spell_speed1 (CS00 text @ speed 1.0)",
+   "round": "UPLIFT-HARD-8 / 2026-08-07",
+   "listen_context": "clip",
+   "byte_pin_sha256": "098bbbd2bd5c039a815762040cc68bf47fe4b8aac40f0b950e47e98ac59bdb5d"
   },
   "bell": {
    "verdict": "perfect",
@@ -5073,39 +5334,39 @@
    "byte_pin_sha256": "78ccb535535f153d92d8bd98d93736ea0af16f1d2f3161881ca07f0add659028"
   },
   "fell": {
-   "verdict": "good",
-   "ear_notes": "good",
-   "round": "33",
-   "listen_context": "round33 fell_3 (comma_asr_g30_40)",
-   "byte_pin_sha256": "60a897127fbed61b6f47afd7d6fc9234e9f5c5cad25e369a6e16c34a42da3798"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect fell_1 [US1]; family carrier_double_say; double_say second island; cut=second_island; CSV mode energy + pin",
+   "round": "UPLIFT-SWEEP-1 / 2026-08-06",
+   "listen_context": "clip",
+   "byte_pin_sha256": "7bd8ecc945b3e0a366db27a6acca5b65e778b22611199c57c561f52f745e4071"
   },
   "hill": {
-   "verdict": "good",
-   "ear_notes": "good",
-   "round": "34",
-   "listen_context": "round34 hill_2 (comma_asr_g30_40)",
-   "byte_pin_sha256": "44c56c45d62a196e69c1d976a86d9adabf3f87229e46a62226b4235bb36118df"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect hill_1 [US2]; family spell_speed1; spell_speed1 (CS00 text @ speed 1.0)",
+   "round": "UPLIFT-SWEEP-2 / 2026-08-06",
+   "listen_context": "clip",
+   "byte_pin_sha256": "70763c908ac079596ea0badb1d4d4fc4df497bdab3dd2dcedb0ba77aa4a8c2f8"
   },
   "mill": {
-   "verdict": "ok",
-   "ear_notes": "ok",
-   "round": "34",
-   "listen_context": "round34 mill_1 (double_energy_120)",
-   "byte_pin_sha256": "7fbb5d80bc3a8fc821a41bc70bbbaf16aee8d3223f1aca2f56cad114a797f0e2"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect mill_6 [UH6]; family baseline; baseline control — recipe unchanged except verdict+pin",
+   "round": "UPLIFT-HARD-6 / 2026-08-07",
+   "listen_context": "clip",
+   "byte_pin_sha256": "0e4866862803393864058b625534ad72c6474270cb6715dd0424895c88d65de3"
   },
   "doll": {
-   "verdict": "ok",
-   "ear_notes": "ok",
-   "round": "33",
-   "listen_context": "round33 doll_2 (comma_asr_g30_40)",
-   "byte_pin_sha256": "3f13c9d88ad96427d3252a926dda77ea81f467ff3a6d5a989268fcd6bd07aa03"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect doll_1 [UH7]; family soft_cue; soft_cue warmth; cut=second_island; CSV mode energy + pin",
+   "round": "UPLIFT-HARD-7 / 2026-08-07",
+   "listen_context": "clip",
+   "byte_pin_sha256": "95e02afee147b71f54c2eba65933f5ec385fcced3649bfb1b9a84183e7832406"
   },
   "mess": {
-   "verdict": "good",
-   "ear_notes": "good",
-   "round": "34",
-   "listen_context": "round34 mess_1 (comma_asr_g30_40)",
-   "byte_pin_sha256": "73bde18c0451739ffdca356b56db37e7b604f7c4e743976a0fd38566174d3eab"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect mess_4 [US2]; family baseline; baseline control — recipe unchanged except verdict+pin",
+   "round": "UPLIFT-SWEEP-2 / 2026-08-06",
+   "listen_context": "clip",
+   "byte_pin_sha256": "8f81879494203680f76a4a7ee70693ad032d65eb4ec9452b290b897fc8c9e5bc"
   },
   "boss": {
    "verdict": "perfect",
@@ -5115,11 +5376,11 @@
    "byte_pin_sha256": "36936290db6316888157003d090791a1ba3fbfb48a4c4ad64e2aab851434ce72"
   },
   "kiss": {
-   "verdict": "good",
-   "ear_notes": "good",
-   "round": "33",
-   "listen_context": "round33 kiss_1 (comma_asr_g30_40)",
-   "byte_pin_sha256": "fd40cc63dcf706689249bcef52dab990a63fe0584a48d8bfa7b23e8b3852a4d7"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect kiss_5 [US2]; family baseline; baseline control — recipe unchanged except verdict+pin",
+   "round": "UPLIFT-SWEEP-2 / 2026-08-06",
+   "listen_context": "clip",
+   "byte_pin_sha256": "070373587cd4300fc3bb1239ad9ed6337efdb6ed94c38c5f012fb76940448d0d"
   },
   "miss": {
    "verdict": "perfect",
@@ -5129,88 +5390,88 @@
    "byte_pin_sha256": "5fd1d315c12c622b3c661bd82e99f83f254c25f572bc620a12562be122d5a09e"
   },
   "loss": {
-   "verdict": "good",
-   "ear_notes": "good",
-   "round": "33",
-   "listen_context": "round33 loss_3 (comma_asr_g30_40)",
-   "byte_pin_sha256": "0e7a535dfdf5c960e1c2b47cc70d77a7bff5fb4fb280577b553c8d3528238875"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect loss_5 [US2]; family spell_speed1; spell_speed1 (CS00 text @ speed 1.0)",
+   "round": "UPLIFT-SWEEP-2 / 2026-08-06",
+   "listen_context": "clip",
+   "byte_pin_sha256": "a55ea5a533f7cb78f485f63e1448e60fdc0400be34395a5ae1242e80cfe6d23d"
   },
   "fuss": {
-   "verdict": "marginal",
-   "ear_notes": "marginal",
-   "round": "34",
-   "listen_context": "round34 fuss_1 (double_energy_120)",
-   "byte_pin_sha256": "839b1902a611b6e5a9cc79a218cd5861a1bf4226819abc9dc5ccc55f106ca5e3"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect fuss_6 [US7]; family carrier_listen_em; Listen—{word}. energy cut",
+   "round": "UPLIFT-SWEEP-7 / 2026-08-07",
+   "listen_context": "clip",
+   "byte_pin_sha256": "9dcdb5c9c1e32e9f2dc3a258e62257096130e9b897a8a79676d663e6a36c56db"
   },
   "huff": {
-   "verdict": "marginal",
-   "ear_notes": "owner accept huff_3 marginal [R35]",
-   "round": "35 / 2026-08-05",
+   "verdict": "perfect",
+   "ear_notes": "owner perfect huff_1 [US7]; family spell_speed1; spell_speed1 (CS00 text @ speed 1.0)",
+   "round": "UPLIFT-SWEEP-7 / 2026-08-07",
    "listen_context": "clip",
-   "byte_pin_sha256": "2bed8f47f8fff96ab242ce35539a36fd65cbea37a2d8d0f29da19fca8bc6987c"
+   "byte_pin_sha256": "b0b6644ffb9338353b826faef76e049c2202a7784fb457e023a8c5f0677476ef"
   },
   "puff": {
-   "verdict": "very good",
-   "ear_notes": "very good",
-   "round": "33",
-   "listen_context": "round33 puff_2 (comma_asr_g30_40)",
-   "byte_pin_sha256": "3e27047a67c6b3556a74c2e5cc2199543c3989c0a423b0df2a18cceda8e005a7"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect puff_2 [US1]; family spell_speed1; spell_speed1 (CS00 text @ speed 1.0)",
+   "round": "UPLIFT-SWEEP-1 / 2026-08-06",
+   "listen_context": "clip",
+   "byte_pin_sha256": "973b09e6619ea69fbc67edaaca052b671221a260c78e62acdf75dbd40e09dada"
   },
   "cuff": {
-   "verdict": "very good",
-   "ear_notes": "very good",
-   "round": "33",
-   "listen_context": "round33 cuff_2 (comma_asr_g30_40)",
-   "byte_pin_sha256": "11c0bc379c46606b6ace671ffd3465a0e1ba2429fbe2f89c6b6e3cfce79b0ec5"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect cuff_3 [UP2]; family baseline",
+   "round": "UPLIFT-EXPERIMENT-2 / 2026-08-06",
+   "listen_context": "clip",
+   "byte_pin_sha256": "0946897c9c2a43301ec57e335e80b806e97ce3edf2a2e5506f49bb8d384721cb"
   },
   "buzz": {
-   "verdict": "good",
-   "ear_notes": "good",
-   "round": "34",
-   "listen_context": "round34 buzz_3 (double_energy_120)",
-   "byte_pin_sha256": "6e428e3aa6c4ba8d0051cd7bb0eafc14471bda6837ac674eccd21a5c17285e4f"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect buzz_2 [US1]; family spell_speed1; spell_speed1 (CS00 text @ speed 1.0)",
+   "round": "UPLIFT-SWEEP-1 / 2026-08-06",
+   "listen_context": "clip",
+   "byte_pin_sha256": "60492ddc4ff72e7e8c13e5753f9f9c8a18d6124f9d0a8ec31d39c53e732b92c0"
   },
   "fuzz": {
-   "verdict": "good",
-   "ear_notes": "good",
-   "round": "34",
-   "listen_context": "round34 fuzz_2 (double_energy_120)",
-   "byte_pin_sha256": "754f000dcf172fb0501ef130b4b6f1d356b3a4ee7b70b45a4b38c2e14eea28c5"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect fuzz_3 [US2]; family spell_speed1; spell_speed1 (CS00 text @ speed 1.0); owner typed pefect → perfect",
+   "round": "UPLIFT-SWEEP-2 / 2026-08-06",
+   "listen_context": "clip",
+   "byte_pin_sha256": "7819500932fd8defb8fe966afa7fa6356033c66d183c53d49823e766a3d1dbd2"
   },
   "jazz": {
-   "verdict": "good",
-   "ear_notes": "good",
-   "round": "33",
-   "listen_context": "round33 jazz_1 (double_energy_120)",
-   "byte_pin_sha256": "5c442b56317472ca750ce3a22aa7d1880f2c1a2d1437be74f9a80f0fb01164f5"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect jazz_2 [US2]; family spell_speed1; spell_speed1 (CS00 text @ speed 1.0)",
+   "round": "UPLIFT-SWEEP-2 / 2026-08-06",
+   "listen_context": "clip",
+   "byte_pin_sha256": "5e954c3622dd5ed4832e13ae9c6422d37f486d9fbbc339d63ea12605789dc076"
   },
   "fizz": {
-   "verdict": "ok",
-   "ear_notes": "ok",
-   "round": "34",
-   "listen_context": "round34 fizz_1 (comma_asr_g30_40)",
-   "byte_pin_sha256": "dfe67a886640bff0226fbacd65aba5e5cae9c520a9d9e47939db110d51b7c777"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect fizz_2 [US5]; family spell_speed1; spell_speed1 (CS00 text @ speed 1.0)",
+   "round": "UPLIFT-SWEEP-5 / 2026-08-07",
+   "listen_context": "clip",
+   "byte_pin_sha256": "ecea642a234d45d5ec7e8e1f46b74dfaf93f9f87ae15e6ce3b93750b1eb03dc9"
   },
   "quiz": {
-   "verdict": "good",
-   "ear_notes": "good",
-   "round": "34",
-   "listen_context": "round34 quiz_3 (double_energy_120)",
-   "byte_pin_sha256": "6840a54f26a6c70f84f94eec597adb2581d03fad55450a05e3556457028350b7"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect quiz_3 [US2]; family spell_speed1; spell_speed1 (CS00 text @ speed 1.0)",
+   "round": "UPLIFT-SWEEP-2 / 2026-08-06",
+   "listen_context": "clip",
+   "byte_pin_sha256": "1e3e7e4259156c8d86724809c4b22cab32df8607e74a2edb3b4aa927c69d8d7d"
   },
   "quit": {
-   "verdict": "very good",
-   "ear_notes": "very good",
-   "round": "34",
-   "listen_context": "round34 quit_2 (comma_asr_g30_40)",
-   "byte_pin_sha256": "613b12d4e474ea6ce785ae4aa21240fb3e8304e7d7deae70af8d3db853926cea"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect quit_6 [UH2]; family baseline; baseline control — recipe knobs unchanged except verdict+pin",
+   "round": "UPLIFT-HARD-2 / 2026-08-06",
+   "listen_context": "clip",
+   "byte_pin_sha256": "ead4d4bd02989671832dd58235014e6ad8b1cf6b7aac83476d8f113f2566c76c"
   },
   "quip": {
-   "verdict": "good",
-   "ear_notes": "good",
-   "round": "33",
-   "listen_context": "round33 quip_3 (comma_asr_g30_40)",
-   "byte_pin_sha256": "bf6336b6cddd3ec8c0ac5e102ad5cf69bd7ab2f357e4eaa6ca061d3ebed49914"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect quip_1 [US2]; family spell_speed1; spell_speed1 (CS00 text @ speed 1.0)",
+   "round": "UPLIFT-SWEEP-2 / 2026-08-06",
+   "listen_context": "clip",
+   "byte_pin_sha256": "72f8b64e9415ca6ca9a889f3b37c198d5f7b7bf4f2789cbbb9f3af381263be48"
   },
   "knit": {
    "verdict": "perfect",
@@ -5220,18 +5481,18 @@
    "byte_pin_sha256": "d65fe569d276f608bc5eafc57bc80e7abbf0ef3e00866ec68317171048ac67d9"
   },
   "knob": {
-   "verdict": "good",
-   "ear_notes": "good",
-   "round": "34",
-   "listen_context": "round34 knob_3 (double_energy_120)",
-   "byte_pin_sha256": "4ee113c578e67999e75e0eade39f01e77da37481431a9033bf3b30594cd32e65"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect knob_4 [US2]; family spell_speed1; spell_speed1 (CS00 text @ speed 1.0)",
+   "round": "UPLIFT-SWEEP-2 / 2026-08-06",
+   "listen_context": "clip",
+   "byte_pin_sha256": "9435b3f34aa681301ad5e310d79d54fa91fbb5281f79b5682af91eb1bfe51adb"
   },
   "knot": {
-   "verdict": "good",
-   "ear_notes": "good",
-   "round": "34",
-   "listen_context": "round34 knot_2 (comma_asr_g30_40)",
-   "byte_pin_sha256": "2dda953d4e0c50631031c082453b54d58f7c7188b5eea11b16f095749e1982e5"
+   "verdict": "perfect",
+   "ear_notes": "owner perfect knot_1 [US2]; family spell_speed1; spell_speed1 (CS00 text @ speed 1.0)",
+   "round": "UPLIFT-SWEEP-2 / 2026-08-06",
+   "listen_context": "clip",
+   "byte_pin_sha256": "595ec4a328b27bb14383c6e12e7c182e4eada923c54882a8701357e955430adc"
   },
   "lamb": {
    "verdict": "perfect",
@@ -5241,25 +5502,25 @@
    "byte_pin_sha256": "8c6ac8ef911e7ed3b6d433cc62f42516d7b67c1b97f66a966ad03684766b44ad"
   },
   "chick": {
-   "verdict": "ok",
-   "ear_notes": "owner accept chick_3 [R43] article-cut iter; family c3_energy250_head80",
-   "round": "43 / 2026-08-05",
+   "verdict": "perfect",
+   "ear_notes": "owner perfect chick_3 [UH8]; family spell_speed1; spell_speed1 (CS00 text @ speed 1.0)",
+   "round": "UPLIFT-HARD-8 / 2026-08-07",
    "listen_context": "clip",
-   "byte_pin_sha256": "16414e8460f37e13f55097dd9678826f1042234b5f975e85a2124590820076d7"
+   "byte_pin_sha256": "6b93c8beca6d600ebf80a7b296fb08d1e1beafc28c3e38443d4cb46930175463"
   },
   "check": {
-   "verdict": "good",
-   "ear_notes": "owner accept check_2 good [R35]; supersedes check_1 very good",
-   "round": "35 / 2026-08-05",
+   "verdict": "perfect",
+   "ear_notes": "owner perfect check_6 [UH2]; family baseline; baseline control — recipe knobs unchanged except verdict+pin",
+   "round": "UPLIFT-HARD-2 / 2026-08-06",
    "listen_context": "clip",
    "byte_pin_sha256": "12f5089deed95515ea7c9458b978887626ed85522289b48607aada3159221fcc"
   },
   "chuck": {
-   "verdict": "good",
-   "ear_notes": "owner accept chuck_2 good [R35]",
-   "round": "35 / 2026-08-05",
+   "verdict": "perfect",
+   "ear_notes": "owner perfect chuck_4 [US1]; family spell_speed1; spell_speed1 (CS00 text @ speed 1.0)",
+   "round": "UPLIFT-SWEEP-1 / 2026-08-06",
    "listen_context": "clip",
-   "byte_pin_sha256": "fbe19074408b0eef3cf5f0fc3f1ee951290d8740a6a9757fc6de6c70b8d2ba5c"
+   "byte_pin_sha256": "65e46bf12aa1f40a605927d7586b2287e7a549735c5e70bab1060273afc2f3d2"
   },
   "chess": {
    "verdict": "perfect",
@@ -5276,60 +5537,60 @@
    "byte_pin_sha256": "74b4ff7c5d6c739c845bc3586bceda69e4a638cf07c2a571423950114719bf4a"
   },
   "shack": {
-   "verdict": "marginal",
-   "ear_notes": "owner accept shack_3 marginal [R37]",
-   "round": "37 / 2026-08-05",
+   "verdict": "perfect",
+   "ear_notes": "owner perfect shack_5 [US7]; family spell_speed1; spell_speed1 (CS00 text @ speed 1.0)",
+   "round": "UPLIFT-SWEEP-7 / 2026-08-07",
    "listen_context": "clip",
-   "byte_pin_sha256": "882564a4c24ae74a4dc81ff9d49ad52fab472b0aaf5bd242117083b103830394"
+   "byte_pin_sha256": "c427d5e8a428fb59a8d5a553a2509845799b4330c01c345402fe32faa42dcdf5"
   },
   "shock": {
-   "verdict": "marginal",
-   "ear_notes": "owner accept shock_3 marginal [R38]; R38 family double_tight_onset (≠ R37)",
-   "round": "38 / 2026-08-05",
+   "verdict": "perfect",
+   "ear_notes": "owner perfect shock_4 [US7]; family spell_speed1; spell_speed1 (CS00 text @ speed 1.0)",
+   "round": "UPLIFT-SWEEP-7 / 2026-08-07",
    "listen_context": "clip",
-   "byte_pin_sha256": "6d26c56fa3589f9c7dbb2f8d156470d2ba0638e0ea4011d546134b059183ef6a"
+   "byte_pin_sha256": "b50429e03a0291242ddd513fa80c76520a378944f1f11100659f6a1394e90ae6"
   },
   "shell": {
-   "verdict": "marginal",
-   "ear_notes": "owner accept shell_3 marginal [R38]; R38 family double_tight_onset (≠ R37)",
-   "round": "38 / 2026-08-05",
+   "verdict": "perfect",
+   "ear_notes": "owner perfect shell_2 [US7]; family carrier_spell_CS00; spell control CS00 (rollup → carrier_spell)",
+   "round": "UPLIFT-SWEEP-7 / 2026-08-07",
    "listen_context": "clip",
-   "byte_pin_sha256": "a52df8ecf58a542c739de19f613d51092af2efd66ef125c2275a40ae1f91204a"
+   "byte_pin_sha256": "d0cede000347fb6f0b1010f116bcabc9c51a089b753e5e941c39178bbfc43f74"
   },
   "thick": {
-   "verdict": "ok",
-   "ear_notes": "owner accept thick_3 ok [R36]",
-   "round": "36 / 2026-08-05",
+   "verdict": "perfect",
+   "ear_notes": "owner perfect thick_8 [UH8]; family spell_speed1; spell_speed1 (CS00 text @ speed 1.0)",
+   "round": "UPLIFT-HARD-8 / 2026-08-07",
    "listen_context": "clip",
-   "byte_pin_sha256": "a0476737fb949b79f6d70bf87218e463dd8da6e73af9b614e3b5c7e06f7fbcee"
+   "byte_pin_sha256": "4194000e17994684b055048502e635f56cedb945a63e7d0a77952b6922a51df0"
   },
   "whack": {
-   "verdict": "good",
-   "ear_notes": "owner accept whack_1 good [R36]",
-   "round": "36 / 2026-08-05",
+   "verdict": "perfect",
+   "ear_notes": "owner perfect whack_6 [US3]; family spell_speed1; spell_speed1 (CS00 text @ speed 1.0)",
+   "round": "UPLIFT-SWEEP-3 / 2026-08-06",
    "listen_context": "clip",
-   "byte_pin_sha256": "968c74fe64d482aa594c11a2a5e54919cc9f495e32bbc9ea0f9efb50e32709ab"
+   "byte_pin_sha256": "995161a2d6e415caa9871d3582c337118439214a968ff2056e3d969b1d0d5e38"
   },
   "whiff": {
-   "verdict": "ok",
-   "ear_notes": "owner accept whiff_1 ok [R36]",
-   "round": "36 / 2026-08-05",
+   "verdict": "perfect",
+   "ear_notes": "owner perfect whiff_4 [US7]; family spell_speed1; spell_speed1 (CS00 text @ speed 1.0)",
+   "round": "UPLIFT-SWEEP-7 / 2026-08-07",
    "listen_context": "clip",
-   "byte_pin_sha256": "5936b9d7637dfe7fa606faff5060140ab83e35891d4d79742765585d1e5a3e51"
+   "byte_pin_sha256": "cf87a7aaccd61390553b0bfdf129b8f258427e39b3d2e19f51b03fa7d552930a"
   },
   "whizz": {
-   "verdict": "ok",
-   "ear_notes": "owner accept whizz_1 ok [R36]",
-   "round": "36 / 2026-08-05",
+   "verdict": "perfect",
+   "ear_notes": "owner perfect whizz_6 [UH8]; family peer_carve_quiz; peer_carve_quiz; assembly pin (CSV carrier_cut_mode=assembly)",
+   "round": "UPLIFT-HARD-8 / 2026-08-07",
    "listen_context": "clip",
-   "byte_pin_sha256": "69e3107532751407c8e3c2ddb281b26437016fbe7aa34dbadceb613a09fe8e7d"
+   "byte_pin_sha256": "6bf4e914cc7afc11dc16f8fc354014928c0ef255424f4ddf995f00a7d2f61d05"
   },
   "quick": {
-   "verdict": "ok",
-   "ear_notes": "owner accept quick_1 ok [R41]; family quick2_fat_more_lead (Say+fat margin 260)",
-   "round": "41 / 2026-08-05",
+   "verdict": "perfect",
+   "ear_notes": "owner perfect quick_3 [US7]; family spell_speed1; spell_speed1 (CS00 text @ speed 1.0)",
+   "round": "UPLIFT-SWEEP-7 / 2026-08-07",
    "listen_context": "clip",
-   "byte_pin_sha256": "9fde3a1c5299ed1e031134f9b1dd6859a7ad117c6c9731d08fffa3e07f145819"
+   "byte_pin_sha256": "155255629463a4bc1c15facc2c0b9626079ea79b3a97d68b1672c4b54ece01af"
   },
   "quack": {
    "verdict": "perfect",
@@ -5339,32 +5600,32 @@
    "byte_pin_sha256": "efce063a404a2c93f00a69060712862e408334ef0e11f2c3bdba1932bf054054"
   },
   "quill": {
-   "verdict": "very good",
-   "ear_notes": "owner accept quill_3 very good [R36]",
-   "round": "36 / 2026-08-05",
+   "verdict": "perfect",
+   "ear_notes": "owner perfect quill_4 [US1]; family spell_speed1; spell_speed1 (CS00 text @ speed 1.0)",
+   "round": "UPLIFT-SWEEP-1 / 2026-08-06",
    "listen_context": "clip",
-   "byte_pin_sha256": "6e5eac6f49259a4454158a45d07d37688d6c8ec48eb598a8b5217b4fc1a5eb91"
+   "byte_pin_sha256": "3cf843b1c979eb91d0071aa5ca06d8b9f6bf48709a81334286fac7a2c2b9ef19"
   },
   "knock": {
-   "verdict": "good",
-   "ear_notes": "owner accept knock_1 good [R36]",
-   "round": "36 / 2026-08-05",
+   "verdict": "perfect",
+   "ear_notes": "owner perfect knock_5 [US2]; family carrier_spell_CS00; spell control CS00 (rollup → carrier_spell)",
+   "round": "UPLIFT-SWEEP-2 / 2026-08-06",
    "listen_context": "clip",
-   "byte_pin_sha256": "27f5f4131334a0ab4f1420003f0399dc9e6111024d0810b0d822fcc3bb5bba70"
+   "byte_pin_sha256": "88a25367984f3dc4d75cb4ed0835c4efad625b721301990930ec7f93a4da82b4"
   },
   "wreck": {
-   "verdict": "good",
-   "ear_notes": "owner accept wreck_1 good [R35]",
-   "round": "35 / 2026-08-05",
+   "verdict": "perfect",
+   "ear_notes": "owner perfect wreck_2 [US3]; family spell_speed1; spell_speed1 (CS00 text @ speed 1.0)",
+   "round": "UPLIFT-SWEEP-3 / 2026-08-06",
    "listen_context": "clip",
-   "byte_pin_sha256": "c86797553383915e734304be0be8980711cd9b31c65925a1fd84ee48091efeae"
+   "byte_pin_sha256": "db5062716a529dda8d92afe70dc07123d1cccddf2be6affe780235695cb1a14f"
   },
   "wrong": {
-   "verdict": "ok",
-   "ear_notes": "owner accept wrong_3 ok [R37]",
-   "round": "37 / 2026-08-05",
+   "verdict": "perfect",
+   "ear_notes": "owner perfect wrong_6 [US7]; family spell_speed1; spell_speed1 (CS00 text @ speed 1.0)",
+   "round": "UPLIFT-SWEEP-7 / 2026-08-07",
    "listen_context": "clip",
-   "byte_pin_sha256": "94a8498197873959510db8fff0dbc4cadc60401e1cf8bced1989e2a7d554ad68"
+   "byte_pin_sha256": "54083eb57b5086ac2c52753c992511833b8226e68167ebf9fc7f125c73483c7c"
   },
   "thumb": {
    "verdict": "perfect",
@@ -5374,23 +5635,23 @@
    "byte_pin_sha256": "889b1d07ea70c163b39de32a998aa3bbd23a53e0205d566494e307f1295c7430"
   },
   "wrap": {
-   "verdict": "good",
-   "ear_notes": "owner accept wrap_1 good enough [R35]",
-   "round": "35 / 2026-08-05",
+   "verdict": "perfect",
+   "ear_notes": "owner perfect wrap_5 [US3]; family carrier_listen_em; Listen—{word}. energy cut",
+   "round": "UPLIFT-SWEEP-3 / 2026-08-06",
    "listen_context": "clip",
-   "byte_pin_sha256": "ec0385647c14d04a80d39dd792454061582456b2b495032225ddede9fac5d3b7"
+   "byte_pin_sha256": "6c0d714783bd88ec8d256c15391fdbd43f725a04f06291e1a50571ead84d9823"
   },
   "wren": {
-   "verdict": "marginal",
-   "ear_notes": "owner accept wren_1 marginal [R37]",
-   "round": "37 / 2026-08-05",
+   "verdict": "perfect",
+   "ear_notes": "owner perfect wren_5 [UP0]; family carrier_spell",
+   "round": "UPLIFT-EXPERIMENT-0 / 2026-08-06",
    "listen_context": "clip",
-   "byte_pin_sha256": "18fd58e749fce9b4a9eddc0fb7300819a9fbbb1f0e62501c76ab3dd89da0585e"
+   "byte_pin_sha256": "4b1d649b21295c2ea571969e2b9765973a2536e6afabd86d6d5fedcf48655550"
   },
   "limb": {
-   "verdict": "very good",
-   "ear_notes": "owner accept limb_1 very good [R36]",
-   "round": "36 / 2026-08-05",
+   "verdict": "perfect",
+   "ear_notes": "owner perfect limb_5 [US1]; family baseline; baseline control — recipe unchanged except verdict+pin",
+   "round": "UPLIFT-SWEEP-1 / 2026-08-06",
    "listen_context": "clip",
    "byte_pin_sha256": "dc7e570cadb44f4ed8994e52de19feeea20a52732bda7c222062284ef92f8cea"
   }

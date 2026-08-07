@@ -93,63 +93,63 @@
  },
  "w:at": {
   "file": "w-at.mp3",
-  "ms": 977
+  "ms": 888
  },
  "w:an": {
   "file": "w-an.mp3",
-  "ms": 1154
+  "ms": 960
  },
  "w:am": {
   "file": "w-am.mp3",
-  "ms": 1111
+  "ms": 984
  },
  "w:ax": {
   "file": "w-ax.mp3",
-  "ms": 1084
+  "ms": 816
  },
  "w:in": {
   "file": "w-in.mp3",
-  "ms": 998
+  "ms": 888
  },
  "w:it": {
   "file": "w-it.mp3",
-  "ms": 977
+  "ms": 840
  },
  "w:if": {
   "file": "w-if.mp3",
-  "ms": 913
+  "ms": 816
  },
  "w:is": {
   "file": "w-is.mp3",
-  "ms": 1126
+  "ms": 912
  },
  "w:on": {
   "file": "w-on.mp3",
-  "ms": 1062
+  "ms": 936
  },
  "w:ox": {
   "file": "w-ox.mp3",
-  "ms": 1084
+  "ms": 936
  },
  "w:up": {
   "file": "w-up.mp3",
-  "ms": 892
+  "ms": 864
  },
  "w:us": {
   "file": "w-us.mp3",
-  "ms": 998
+  "ms": 888
  },
  "w:cat": {
   "file": "w-cat.mp3",
-  "ms": 1169
+  "ms": 984
  },
  "w:hat": {
   "file": "w-hat.mp3",
-  "ms": 910
+  "ms": 960
  },
  "w:mat": {
   "file": "w-mat.mp3",
-  "ms": 1148
+  "ms": 840
  },
  "w:sat": {
   "file": "w-sat.mp3",
@@ -157,7 +157,7 @@
  },
  "w:man": {
   "file": "w-man.mp3",
-  "ms": 1040
+  "ms": 960
  },
  "w:can": {
   "file": "w-can.mp3",
@@ -169,15 +169,15 @@
  },
  "w:bat": {
   "file": "w-bat.mp3",
-  "ms": 1148
+  "ms": 960
  },
  "w:cap": {
   "file": "w-cap.mp3",
-  "ms": 1169
+  "ms": 840
  },
  "w:map": {
   "file": "w-map.mp3",
-  "ms": 1148
+  "ms": 984
  },
  "w:tap": {
   "file": "w-tap.mp3",
@@ -189,7 +189,7 @@
  },
  "w:bag": {
   "file": "w-bag.mp3",
-  "ms": 1254
+  "ms": 984
  },
  "w:dad": {
   "file": "w-dad.mp3",
@@ -197,7 +197,7 @@
  },
  "w:jam": {
   "file": "w-jam.mp3",
-  "ms": 1340
+  "ms": 1104
  },
  "w:pan": {
   "file": "w-pan.mp3",
@@ -221,15 +221,15 @@
  },
  "w:fan": {
   "file": "w-fan.mp3",
-  "ms": 1254
+  "ms": 888
  },
  "w:ham": {
   "file": "w-ham.mp3",
-  "ms": 1267
+  "ms": 960
  },
  "w:lap": {
   "file": "w-lap.mp3",
-  "ms": 1212
+  "ms": 1008
  },
  "w:tag": {
   "file": "w-tag.mp3",
@@ -237,7 +237,7 @@
  },
  "w:had": {
   "file": "w-had.mp3",
-  "ms": 1239
+  "ms": 960
  },
  "w:tan": {
   "file": "w-tan.mp3",
@@ -257,7 +257,7 @@
  },
  "w:yam": {
   "file": "w-yam.mp3",
-  "ms": 1025
+  "ms": 1080
  },
  "w:pal": {
   "file": "w-pal.mp3",
@@ -281,7 +281,7 @@
  },
  "w:mad": {
   "file": "w-mad.mp3",
-  "ms": 1276
+  "ms": 1032
  },
  "w:bad": {
   "file": "w-bad.mp3",
@@ -289,11 +289,11 @@
  },
  "w:rap": {
   "file": "w-rap.mp3",
-  "ms": 900
+  "ms": 984
  },
  "w:has": {
   "file": "w-has.mp3",
-  "ms": 1340
+  "ms": 1008
  },
  "w:pat": {
   "file": "w-pat.mp3",
@@ -309,7 +309,7 @@
  },
  "w:sap": {
   "file": "w-sap.mp3",
-  "ms": 800
+  "ms": 912
  },
  "w:vat": {
   "file": "w-vat.mp3",
@@ -341,7 +341,7 @@
  },
  "w:hit": {
   "file": "w-hit.mp3",
-  "ms": 870
+  "ms": 840
  },
  "w:six": {
   "file": "w-six.mp3",
@@ -349,11 +349,11 @@
  },
  "w:fin": {
   "file": "w-fin.mp3",
-  "ms": 1118
+  "ms": 888
  },
  "w:bin": {
   "file": "w-bin.mp3",
-  "ms": 880
+  "ms": 888
  },
  "w:dog": {
   "file": "w-dog.mp3",
@@ -361,7 +361,7 @@
  },
  "w:hot": {
   "file": "w-hot.mp3",
-  "ms": 1140
+  "ms": 960
  },
  "w:top": {
   "file": "w-top.mp3",
@@ -389,11 +389,11 @@
  },
  "w:hop": {
   "file": "w-hop.mp3",
-  "ms": 920
+  "ms": 912
  },
  "w:cot": {
   "file": "w-cot.mp3",
-  "ms": 910
+  "ms": 888
  },
  "w:mom": {
   "file": "w-mom.mp3",
@@ -413,7 +413,7 @@
  },
  "w:did": {
   "file": "w-did.mp3",
-  "ms": 850
+  "ms": 864
  },
  "w:him": {
   "file": "w-him.mp3",
@@ -441,7 +441,7 @@
  },
  "w:rip": {
   "file": "w-rip.mp3",
-  "ms": 860
+  "ms": 936
  },
  "w:bit": {
   "file": "w-bit.mp3",
@@ -465,7 +465,7 @@
  },
  "w:fix": {
   "file": "w-fix.mp3",
-  "ms": 760
+  "ms": 816
  },
  "w:job": {
   "file": "w-job.mp3",
@@ -473,7 +473,7 @@
  },
  "w:lot": {
   "file": "w-lot.mp3",
-  "ms": 760
+  "ms": 1056
  },
  "w:nod": {
   "file": "w-nod.mp3",
@@ -489,23 +489,23 @@
  },
  "w:rig": {
   "file": "w-rig.mp3",
-  "ms": 910
+  "ms": 864
  },
  "w:rob": {
   "file": "w-rob.mp3",
-  "ms": 680
+  "ms": 936
  },
  "w:sob": {
   "file": "w-sob.mp3",
-  "ms": 760
+  "ms": 984
  },
  "w:mob": {
   "file": "w-mob.mp3",
-  "ms": 1212
+  "ms": 936
  },
  "w:cop": {
   "file": "w-cop.mp3",
-  "ms": 936
+  "ms": 984
  },
  "w:dim": {
   "file": "w-dim.mp3",
@@ -517,11 +517,11 @@
  },
  "w:red": {
   "file": "w-red.mp3",
-  "ms": 1008
+  "ms": 960
  },
  "w:hen": {
   "file": "w-hen.mp3",
-  "ms": 990
+  "ms": 936
  },
  "w:pen": {
   "file": "w-pen.mp3",
@@ -533,7 +533,7 @@
  },
  "w:net": {
   "file": "w-net.mp3",
-  "ms": 1272
+  "ms": 912
  },
  "w:leg": {
   "file": "w-leg.mp3",
@@ -541,23 +541,23 @@
  },
  "w:wet": {
   "file": "w-wet.mp3",
-  "ms": 1416
+  "ms": 912
  },
  "w:jet": {
   "file": "w-jet.mp3",
-  "ms": 1080
+  "ms": 936
  },
  "w:men": {
   "file": "w-men.mp3",
-  "ms": 1056
+  "ms": 984
  },
  "w:bus": {
   "file": "w-bus.mp3",
-  "ms": 710
+  "ms": 960
  },
  "w:cup": {
   "file": "w-cup.mp3",
-  "ms": 1126
+  "ms": 912
  },
  "w:sun": {
   "file": "w-sun.mp3",
@@ -565,7 +565,7 @@
  },
  "w:run": {
   "file": "w-run.mp3",
-  "ms": 1248
+  "ms": 960
  },
  "w:fun": {
   "file": "w-fun.mp3",
@@ -573,7 +573,7 @@
  },
  "w:mud": {
   "file": "w-mud.mp3",
-  "ms": 1190
+  "ms": 960
  },
  "w:bug": {
   "file": "w-bug.mp3",
@@ -581,15 +581,15 @@
  },
  "w:hug": {
   "file": "w-hug.mp3",
-  "ms": 1008
+  "ms": 888
  },
  "w:nut": {
   "file": "w-nut.mp3",
-  "ms": 1224
+  "ms": 936
  },
  "w:tub": {
   "file": "w-tub.mp3",
-  "ms": 1080
+  "ms": 888
  },
  "w:pet": {
   "file": "w-pet.mp3",
@@ -597,27 +597,27 @@
  },
  "w:get": {
   "file": "w-get.mp3",
-  "ms": 816
+  "ms": 912
  },
  "w:let": {
   "file": "w-let.mp3",
-  "ms": 960
+  "ms": 840
  },
  "w:set": {
   "file": "w-set.mp3",
-  "ms": 1080
+  "ms": 960
  },
  "w:cut": {
   "file": "w-cut.mp3",
-  "ms": 792
+  "ms": 888
  },
  "w:pup": {
   "file": "w-pup.mp3",
-  "ms": 960
+  "ms": 888
  },
  "w:web": {
   "file": "w-web.mp3",
-  "ms": 1248
+  "ms": 912
  },
  "w:bun": {
   "file": "w-bun.mp3",
@@ -625,11 +625,11 @@
  },
  "w:rug": {
   "file": "w-rug.mp3",
-  "ms": 792
+  "ms": 888
  },
  "w:mug": {
   "file": "w-mug.mp3",
-  "ms": 1212
+  "ms": 912
  },
  "w:vet": {
   "file": "w-vet.mp3",
@@ -637,11 +637,11 @@
  },
  "w:tug": {
   "file": "w-tug.mp3",
-  "ms": 1032
+  "ms": 840
  },
  "w:jug": {
   "file": "w-jug.mp3",
-  "ms": 1297
+  "ms": 960
  },
  "w:hum": {
   "file": "w-hum.mp3",
@@ -649,11 +649,11 @@
  },
  "w:rub": {
   "file": "w-rub.mp3",
-  "ms": 1190
+  "ms": 888
  },
  "w:dug": {
   "file": "w-dug.mp3",
-  "ms": 930
+  "ms": 840
  },
  "w:bud": {
   "file": "w-bud.mp3",
@@ -661,7 +661,7 @@
  },
  "w:peg": {
   "file": "w-peg.mp3",
-  "ms": 1056
+  "ms": 936
  },
  "w:met": {
   "file": "w-met.mp3",
@@ -669,7 +669,7 @@
  },
  "w:yet": {
   "file": "w-yet.mp3",
-  "ms": 1008
+  "ms": 960
  },
  "w:bet": {
   "file": "w-bet.mp3",
@@ -677,15 +677,15 @@
  },
  "w:keg": {
   "file": "w-keg.mp3",
-  "ms": 1032
+  "ms": 816
  },
  "w:hem": {
   "file": "w-hem.mp3",
-  "ms": 984
+  "ms": 840
  },
  "w:nun": {
   "file": "w-nun.mp3",
-  "ms": 1008
+  "ms": 936
  },
  "w:pun": {
   "file": "w-pun.mp3",
@@ -693,15 +693,15 @@
  },
  "w:jut": {
   "file": "w-jut.mp3",
-  "ms": 1080
+  "ms": 864
  },
  "w:gut": {
   "file": "w-gut.mp3",
-  "ms": 1008
+  "ms": 864
  },
  "w:hub": {
   "file": "w-hub.mp3",
-  "ms": 720
+  "ms": 864
  },
  "w:yes": {
   "file": "w-yes.mp3",
@@ -745,27 +745,27 @@
  },
  "w:fog": {
   "file": "w-fog.mp3",
-  "ms": 1008
+  "ms": 984
  },
  "w:gap": {
   "file": "w-gap.mp3",
-  "ms": 1008
+  "ms": 960
  },
  "w:hid": {
   "file": "w-hid.mp3",
-  "ms": 960
+  "ms": 840
  },
  "w:hut": {
   "file": "w-hut.mp3",
-  "ms": 816
+  "ms": 840
  },
  "w:jog": {
   "file": "w-jog.mp3",
-  "ms": 1176
+  "ms": 1080
  },
  "w:kit": {
   "file": "w-kit.mp3",
-  "ms": 960
+  "ms": 840
  },
  "w:lid": {
   "file": "w-lid.mp3",
@@ -809,11 +809,11 @@
  },
  "w:lit": {
   "file": "w-lit.mp3",
-  "ms": 1056
+  "ms": 912
  },
  "w:lug": {
   "file": "w-lug.mp3",
-  "ms": 1056
+  "ms": 912
  },
  "w:nab": {
   "file": "w-nab.mp3",
@@ -821,7 +821,7 @@
  },
  "w:pep": {
   "file": "w-pep.mp3",
-  "ms": 984
+  "ms": 888
  },
  "w:pod": {
   "file": "w-pod.mp3",
@@ -833,23 +833,23 @@
  },
  "w:rim": {
   "file": "w-rim.mp3",
-  "ms": 1032
+  "ms": 912
  },
  "w:rod": {
   "file": "w-rod.mp3",
-  "ms": 1080
+  "ms": 1032
  },
  "w:rot": {
   "file": "w-rot.mp3",
-  "ms": 1128
+  "ms": 936
  },
  "w:sag": {
   "file": "w-sag.mp3",
-  "ms": 1176
+  "ms": 1032
  },
  "w:sub": {
   "file": "w-sub.mp3",
-  "ms": 1104
+  "ms": 888
  },
  "w:sum": {
   "file": "w-sum.mp3",
@@ -861,11 +861,11 @@
  },
  "w:tot": {
   "file": "w-tot.mp3",
-  "ms": 1104
+  "ms": 1008
  },
  "w:wed": {
   "file": "w-wed.mp3",
-  "ms": 1056
+  "ms": 912
  },
  "w:wit": {
   "file": "w-wit.mp3",
@@ -897,11 +897,11 @@
  },
  "w:cod": {
   "file": "w-cod.mp3",
-  "ms": 1104
+  "ms": 1008
  },
  "w:gob": {
   "file": "w-gob.mp3",
-  "ms": 1032
+  "ms": 936
  },
  "w:ship": {
   "file": "w-ship.mp3",
@@ -909,19 +909,19 @@
  },
  "w:shop": {
   "file": "w-shop.mp3",
-  "ms": 1008
+  "ms": 1056
  },
  "w:shut": {
   "file": "w-shut.mp3",
-  "ms": 1104
+  "ms": 840
  },
  "w:fish": {
   "file": "w-fish.mp3",
-  "ms": 864
+  "ms": 888
  },
  "w:dish": {
   "file": "w-dish.mp3",
-  "ms": 840
+  "ms": 864
  },
  "w:wish": {
   "file": "w-wish.mp3",
@@ -949,11 +949,11 @@
  },
  "w:much": {
   "file": "w-much.mp3",
-  "ms": 840
+  "ms": 888
  },
  "w:such": {
   "file": "w-such.mp3",
-  "ms": 1032
+  "ms": 888
  },
  "w:chin": {
   "file": "w-chin.mp3",
@@ -961,11 +961,11 @@
  },
  "w:shed": {
   "file": "w-shed.mp3",
-  "ms": 1056
+  "ms": 912
  },
  "w:shin": {
   "file": "w-shin.mp3",
-  "ms": 1032
+  "ms": 984
  },
  "w:mash": {
   "file": "w-mash.mp3",
@@ -973,7 +973,7 @@
  },
  "w:rash": {
   "file": "w-rash.mp3",
-  "ms": 1176
+  "ms": 1032
  },
  "w:chug": {
   "file": "w-chug.mp3",
@@ -981,7 +981,7 @@
  },
  "w:chum": {
   "file": "w-chum.mp3",
-  "ms": 984
+  "ms": 792
  },
  "w:dash": {
   "file": "w-dash.mp3",
@@ -989,7 +989,7 @@
  },
  "w:sash": {
   "file": "w-sash.mp3",
-  "ms": 1200
+  "ms": 1056
  },
  "w:hush": {
   "file": "w-hush.mp3",
@@ -997,7 +997,7 @@
  },
  "w:rush": {
   "file": "w-rush.mp3",
-  "ms": 1416
+  "ms": 960
  },
  "w:mush": {
   "file": "w-mush.mp3",
@@ -1009,11 +1009,11 @@
  },
  "w:wash": {
   "file": "w-wash.mp3",
-  "ms": 1080
+  "ms": 1056
  },
  "w:push": {
   "file": "w-push.mp3",
-  "ms": 912
+  "ms": 840
  },
  "w:bush": {
   "file": "w-bush.mp3",
@@ -1029,11 +1029,11 @@
  },
  "w:gash": {
   "file": "w-gash.mp3",
-  "ms": 1056
+  "ms": 1008
  },
  "w:gush": {
   "file": "w-gush.mp3",
-  "ms": 1008
+  "ms": 912
  },
  "w:lash": {
   "file": "w-lash.mp3",
@@ -1041,7 +1041,7 @@
  },
  "w:lush": {
   "file": "w-lush.mp3",
-  "ms": 1392
+  "ms": 960
  },
  "w:posh": {
   "file": "w-posh.mp3",
@@ -1053,11 +1053,11 @@
  },
  "w:shun": {
   "file": "w-shun.mp3",
-  "ms": 1008
+  "ms": 936
  },
  "w:thin": {
   "file": "w-thin.mp3",
-  "ms": 1368
+  "ms": 888
  },
  "w:this": {
   "file": "w-this.mp3",
@@ -1065,35 +1065,35 @@
  },
  "w:that": {
   "file": "w-that.mp3",
-  "ms": 1008
+  "ms": 792
  },
  "w:then": {
   "file": "w-then.mp3",
-  "ms": 840
+  "ms": 960
  },
  "w:them": {
   "file": "w-them.mp3",
-  "ms": 984
+  "ms": 816
  },
  "w:bath": {
   "file": "w-bath.mp3",
-  "ms": 1008
+  "ms": 960
  },
  "w:math": {
   "file": "w-math.mp3",
-  "ms": 1080
+  "ms": 1056
  },
  "w:with": {
   "file": "w-with.mp3",
-  "ms": 1008
+  "ms": 912
  },
  "w:when": {
   "file": "w-when.mp3",
-  "ms": 1056
+  "ms": 888
  },
  "w:whip": {
   "file": "w-whip.mp3",
-  "ms": 1128
+  "ms": 960
  },
  "w:duck": {
   "file": "w-duck.mp3",
@@ -1101,11 +1101,11 @@
  },
  "w:sock": {
   "file": "w-sock.mp3",
-  "ms": 1128
+  "ms": 960
  },
  "w:kick": {
   "file": "w-kick.mp3",
-  "ms": 1056
+  "ms": 864
  },
  "w:back": {
   "file": "w-back.mp3",
@@ -1113,11 +1113,11 @@
  },
  "w:ring": {
   "file": "w-ring.mp3",
-  "ms": 1032
+  "ms": 1008
  },
  "w:sing": {
   "file": "w-sing.mp3",
-  "ms": 1056
+  "ms": 984
  },
  "w:king": {
   "file": "w-king.mp3",
@@ -1125,7 +1125,7 @@
  },
  "w:long": {
   "file": "w-long.mp3",
-  "ms": 1056
+  "ms": 960
  },
  "w:song": {
   "file": "w-song.mp3",
@@ -1137,11 +1137,11 @@
  },
  "w:buck": {
   "file": "w-buck.mp3",
-  "ms": 1008
+  "ms": 936
  },
  "w:sung": {
   "file": "w-sung.mp3",
-  "ms": 1032
+  "ms": 888
  },
  "w:gong": {
   "file": "w-gong.mp3",
@@ -1149,15 +1149,15 @@
  },
  "w:lung": {
   "file": "w-lung.mp3",
-  "ms": 1056
+  "ms": 1008
  },
  "w:puck": {
   "file": "w-puck.mp3",
-  "ms": 1056
+  "ms": 888
  },
  "w:wick": {
   "file": "w-wick.mp3",
-  "ms": 1368
+  "ms": 888
  },
  "w:rung": {
   "file": "w-rung.mp3",
@@ -1169,11 +1169,11 @@
  },
  "w:pack": {
   "file": "w-pack.mp3",
-  "ms": 1056
+  "ms": 1008
  },
  "w:path": {
   "file": "w-path.mp3",
-  "ms": 1080
+  "ms": 936
  },
  "w:sack": {
   "file": "w-sack.mp3",
@@ -1181,19 +1181,19 @@
  },
  "w:tack": {
   "file": "w-tack.mp3",
-  "ms": 1104
+  "ms": 888
  },
  "w:neck": {
   "file": "w-neck.mp3",
-  "ms": 1320
+  "ms": 960
  },
  "w:luck": {
   "file": "w-luck.mp3",
-  "ms": 1056
+  "ms": 960
  },
  "w:tuck": {
   "file": "w-tuck.mp3",
-  "ms": 888
+  "ms": 864
  },
  "w:peck": {
   "file": "w-peck.mp3",
@@ -1213,15 +1213,15 @@
  },
  "w:lock": {
   "file": "w-lock.mp3",
-  "ms": 1032
+  "ms": 960
  },
  "w:pick": {
   "file": "w-pick.mp3",
-  "ms": 1056
+  "ms": 816
  },
  "w:lick": {
   "file": "w-lick.mp3",
-  "ms": 984
+  "ms": 888
  },
  "w:wing": {
   "file": "w-wing.mp3",
@@ -1241,11 +1241,11 @@
  },
  "w:hang": {
   "file": "w-hang.mp3",
-  "ms": 1008
+  "ms": 936
  },
  "w:sang": {
   "file": "w-sang.mp3",
-  "ms": 1080
+  "ms": 984
  },
  "w:rang": {
   "file": "w-rang.mp3",
@@ -1253,19 +1253,19 @@
  },
  "w:sick": {
   "file": "w-sick.mp3",
-  "ms": 960
+  "ms": 888
  },
  "w:fang": {
   "file": "w-fang.mp3",
-  "ms": 960
+  "ms": 936
  },
  "w:the": {
   "file": "w-the.mp3",
-  "ms": 648
+  "ms": 744
  },
  "w:what": {
   "file": "w-what.mp3",
-  "ms": 1344
+  "ms": 888
  },
  "w:whim": {
   "file": "w-whim.mp3",
@@ -1277,11 +1277,11 @@
  },
  "w:bang": {
   "file": "w-bang.mp3",
-  "ms": 1056
+  "ms": 936
  },
  "w:hung": {
   "file": "w-hung.mp3",
-  "ms": 1008
+  "ms": 864
  },
  "w:ding": {
   "file": "w-ding.mp3",
@@ -1289,7 +1289,7 @@
  },
  "w:ping": {
   "file": "w-ping.mp3",
-  "ms": 1080
+  "ms": 888
  },
  "w:bell": {
   "file": "w-bell.mp3",
@@ -1305,11 +1305,11 @@
  },
  "w:fell": {
   "file": "w-fell.mp3",
-  "ms": 984
+  "ms": 960
  },
  "w:hill": {
   "file": "w-hill.mp3",
-  "ms": 1008
+  "ms": 840
  },
  "w:mill": {
   "file": "w-mill.mp3",
@@ -1317,7 +1317,7 @@
  },
  "w:doll": {
   "file": "w-doll.mp3",
-  "ms": 1104
+  "ms": 960
  },
  "w:mess": {
   "file": "w-mess.mp3",
@@ -1337,19 +1337,19 @@
  },
  "w:loss": {
   "file": "w-loss.mp3",
-  "ms": 1080
+  "ms": 984
  },
  "w:fuss": {
   "file": "w-fuss.mp3",
-  "ms": 984
+  "ms": 936
  },
  "w:huff": {
   "file": "w-huff.mp3",
-  "ms": 792
+  "ms": 888
  },
  "w:puff": {
   "file": "w-puff.mp3",
-  "ms": 1128
+  "ms": 864
  },
  "w:cuff": {
   "file": "w-cuff.mp3",
@@ -1357,23 +1357,23 @@
  },
  "w:buzz": {
   "file": "w-buzz.mp3",
-  "ms": 1008
+  "ms": 912
  },
  "w:fuzz": {
   "file": "w-fuzz.mp3",
-  "ms": 1032
+  "ms": 888
  },
  "w:jazz": {
   "file": "w-jazz.mp3",
-  "ms": 1128
+  "ms": 960
  },
  "w:fizz": {
   "file": "w-fizz.mp3",
-  "ms": 1032
+  "ms": 888
  },
  "w:quiz": {
   "file": "w-quiz.mp3",
-  "ms": 1008
+  "ms": 864
  },
  "w:quit": {
   "file": "w-quit.mp3",
@@ -1381,7 +1381,7 @@
  },
  "w:quip": {
   "file": "w-quip.mp3",
-  "ms": 1032
+  "ms": 768
  },
  "w:knit": {
   "file": "w-knit.mp3",
@@ -1389,11 +1389,11 @@
  },
  "w:knob": {
   "file": "w-knob.mp3",
-  "ms": 1056
+  "ms": 936
  },
  "w:knot": {
   "file": "w-knot.mp3",
-  "ms": 1128
+  "ms": 888
  },
  "w:lamb": {
   "file": "w-lamb.mp3",
@@ -1401,7 +1401,7 @@
  },
  "w:chick": {
   "file": "w-chick.mp3",
-  "ms": 984
+  "ms": 936
  },
  "w:check": {
   "file": "w-check.mp3",
@@ -1409,7 +1409,7 @@
  },
  "w:chuck": {
   "file": "w-chuck.mp3",
-  "ms": 912
+  "ms": 888
  },
  "w:chess": {
   "file": "w-chess.mp3",
@@ -1421,35 +1421,35 @@
  },
  "w:shack": {
   "file": "w-shack.mp3",
-  "ms": 1008
+  "ms": 936
  },
  "w:shock": {
   "file": "w-shock.mp3",
-  "ms": 1032
+  "ms": 960
  },
  "w:shell": {
   "file": "w-shell.mp3",
-  "ms": 960
+  "ms": 1008
  },
  "w:thick": {
   "file": "w-thick.mp3",
-  "ms": 840
+  "ms": 816
  },
  "w:whack": {
   "file": "w-whack.mp3",
-  "ms": 1272
+  "ms": 936
  },
  "w:whiff": {
   "file": "w-whiff.mp3",
-  "ms": 1296
+  "ms": 936
  },
  "w:whizz": {
   "file": "w-whizz.mp3",
-  "ms": 1032
+  "ms": 768
  },
  "w:quick": {
   "file": "w-quick.mp3",
-  "ms": 864
+  "ms": 792
  },
  "w:quack": {
   "file": "w-quack.mp3",
@@ -1457,19 +1457,19 @@
  },
  "w:quill": {
   "file": "w-quill.mp3",
-  "ms": 888
+  "ms": 768
  },
  "w:knock": {
   "file": "w-knock.mp3",
-  "ms": 1392
+  "ms": 1080
  },
  "w:wreck": {
   "file": "w-wreck.mp3",
-  "ms": 1032
+  "ms": 912
  },
  "w:wrong": {
   "file": "w-wrong.mp3",
-  "ms": 984
+  "ms": 936
  },
  "w:thumb": {
   "file": "w-thumb.mp3",
@@ -1477,11 +1477,11 @@
  },
  "w:wrap": {
   "file": "w-wrap.mp3",
-  "ms": 1032
+  "ms": 960
  },
  "w:wren": {
   "file": "w-wren.mp3",
-  "ms": 1344
+  "ms": 1008
  },
  "w:limb": {
   "file": "w-limb.mp3",
@@ -1495,94 +1495,42 @@
   "lead_ms": 80,
   "tail_ms": 300,
   "fade_ms": 10,
-  "phoneme_words": [
-   "am",
-   "an",
-   "at",
-   "ax",
-   "if",
-   "in",
-   "is",
-   "it",
-   "on",
-   "ox",
-   "the",
-   "up",
-   "us"
-  ],
-  "trim_ms": {
-   "cub": 130,
-   "dish": 120,
-   "the": 90,
-   "then": 100,
-   "tuck": 100,
-   "hub": 160
-  },
+  "phoneme_words": [],
+  "trim_ms": {},
   "phoneme_sentences": [],
   "period_words": [
-   "cup",
-   "had",
-   "jug",
-   "knock",
-   "mob",
-   "net",
-   "nut",
-   "rich",
-   "rub",
-   "run",
-   "web"
+   "rich"
   ],
-  "onset_trim_words": [
-   "cop",
-   "fin",
-   "ham",
-   "hot",
-   "lush",
-   "rush",
-   "shell",
-   "shock",
-   "sick",
-   "the",
-   "whack",
-   "whiff",
-   "whip"
-  ],
+  "onset_trim_words": [],
   "bright_head_ms": {
-   "jam": 40,
-   "rat": 40,
-   "thin": 40
+   "rat": 40
   },
   "lead_override": {
    "am": 150,
    "an": 150,
    "bit": 180,
    "had": 150,
-   "lush": 70,
-   "neck": 100,
    "nix": 220,
    "pin": 180,
-   "quick": 130,
-   "rat": 120,
-   "rush": 130,
-   "the": 50,
-   "wet": 180,
-   "whack": 120,
-   "what": 220,
-   "whiff": 120,
-   "wick": 220,
-   "wren": 100
+   "rat": 120
   },
   "word_speed_override": {
+   "am": 0.82,
+   "an": 0.82,
+   "at": 0.82,
+   "ax": 0.82,
    "back": 0.82,
+   "bag": 0.82,
    "bang": 0.82,
    "bash": 0.82,
+   "bat": 0.82,
    "bath": 0.82,
    "bed": 0.82,
    "bell": 0.82,
    "bet": 0.82,
    "bib": 0.82,
    "big": 0.82,
-   "bin": 0.8,
+   "bin": 0.82,
    "bit": 0.82,
    "boss": 0.82,
    "box": 0.82,
@@ -1592,120 +1540,144 @@
    "bun": 0.82,
    "bus": 0.82,
    "bush": 0.82,
-   "buzz": 0.82,
+   "buzz": 1.0,
+   "cap": 1.0,
    "cash": 0.82,
+   "cat": 0.82,
    "chap": 0.82,
    "chat": 0.82,
    "check": 0.82,
    "chess": 0.82,
-   "chick": 0.82,
+   "chick": 1.0,
    "chill": 0.82,
    "chin": 0.82,
    "chip": 0.82,
    "chop": 0.82,
-   "chuck": 0.82,
+   "chuck": 1.0,
    "chug": 0.82,
-   "chum": 0.82,
+   "chum": 1.0,
    "cod": 0.82,
    "cop": 0.82,
+   "cot": 1.0,
+   "cub": 1.0,
    "cuff": 0.82,
+   "cup": 0.82,
    "cut": 0.82,
    "dam": 0.82,
    "dash": 0.82,
    "deck": 0.82,
    "den": 0.82,
-   "did": 0.82,
+   "did": 1.0,
    "dig": 0.82,
    "dim": 0.82,
    "ding": 0.82,
    "dip": 0.82,
+   "dish": 1.0,
    "dock": 0.82,
    "dog": 0.82,
    "doll": 0.82,
    "dot": 0.82,
    "duck": 0.82,
-   "dug": 0.82,
+   "dug": 1.0,
+   "fan": 0.82,
    "fang": 0.82,
    "fax": 0.82,
    "fed": 0.82,
    "fell": 0.82,
    "fig": 0.82,
+   "fin": 0.82,
    "fish": 0.82,
    "fit": 0.82,
    "fix": 0.82,
-   "fizz": 0.82,
+   "fizz": 1.0,
    "fog": 0.82,
    "fox": 0.82,
    "fun": 0.82,
    "fuss": 0.82,
-   "fuzz": 0.82,
+   "fuzz": 1.0,
    "gap": 0.82,
    "gas": 0.82,
    "gash": 0.82,
    "get": 0.82,
-   "gob": 0.82,
+   "gob": 1.0,
    "gong": 0.82,
    "got": 0.82,
    "gum": 0.82,
-   "gush": 0.82,
-   "gut": 0.82,
+   "gush": 1.0,
+   "gut": 1.0,
+   "had": 0.82,
+   "ham": 0.82,
    "hang": 0.82,
+   "has": 0.82,
    "hat": 0.82,
-   "hem": 0.82,
-   "hid": 0.82,
-   "hill": 0.82,
+   "hem": 1.0,
+   "hen": 0.82,
+   "hid": 1.0,
+   "hill": 1.0,
    "him": 0.82,
    "hip": 0.82,
-   "hit": 0.8,
+   "hit": 1.0,
    "hog": 0.82,
-   "hop": 0.78,
-   "hub": 0.82,
-   "huff": 0.82,
-   "hug": 0.82,
+   "hop": 0.82,
+   "hot": 0.82,
+   "hub": 1.0,
+   "huff": 1.0,
+   "hug": 1.0,
    "hum": 0.82,
-   "hung": 0.82,
+   "hung": 1.0,
    "hush": 0.82,
-   "hut": 0.82,
+   "hut": 1.0,
+   "if": 1.0,
+   "in": 0.82,
+   "is": 0.82,
+   "it": 0.82,
    "jab": 0.82,
-   "jazz": 0.82,
+   "jam": 0.82,
+   "jazz": 1.0,
    "jet": 0.82,
    "jig": 0.82,
    "job": 0.82,
    "jog": 0.82,
    "jot": 0.82,
-   "jut": 0.82,
-   "keg": 0.82,
+   "jug": 0.82,
+   "jut": 1.0,
+   "keg": 1.0,
    "kick": 0.82,
    "kid": 0.82,
    "king": 0.82,
    "kiss": 0.82,
-   "kit": 0.82,
+   "kit": 1.0,
    "knit": 0.82,
-   "knob": 0.82,
+   "knob": 1.0,
    "knock": 0.82,
-   "knot": 0.82,
+   "knot": 1.0,
    "lab": 0.82,
    "lad": 0.82,
    "lamb": 0.82,
+   "lap": 0.82,
    "lash": 0.82,
    "led": 0.82,
    "leg": 0.82,
-   "let": 0.82,
-   "lick": 0.82,
+   "let": 1.0,
+   "lick": 1.0,
    "lid": 0.82,
    "limb": 0.82,
    "lip": 0.82,
-   "lit": 0.82,
-   "lock": 0.82,
+   "lit": 1.0,
+   "lock": 1.0,
    "log": 0.82,
-   "long": 0.82,
-   "loss": 0.82,
+   "long": 1.0,
+   "loss": 1.0,
    "lot": 0.82,
-   "luck": 0.82,
-   "lug": 0.82,
+   "luck": 1.0,
+   "lug": 1.0,
    "lung": 0.82,
-   "lush": 0.82,
+   "lush": 1.0,
+   "mad": 0.82,
+   "man": 0.82,
+   "map": 0.82,
    "mash": 0.82,
+   "mat": 0.82,
    "math": 0.82,
    "men": 0.82,
    "mess": 0.82,
@@ -1713,46 +1685,53 @@
    "mill": 0.82,
    "miss": 0.82,
    "mix": 0.82,
+   "mob": 1.0,
    "mom": 0.82,
    "mop": 0.82,
    "moth": 0.82,
-   "much": 0.82,
+   "much": 1.0,
    "muck": 0.82,
+   "mud": 0.82,
+   "mug": 1.0,
    "mush": 0.82,
    "nab": 0.82,
-   "neck": 0.82,
+   "neck": 1.0,
+   "net": 1.0,
    "nix": 0.82,
    "nod": 0.82,
    "not": 0.82,
-   "nun": 0.82,
+   "nun": 1.0,
+   "nut": 1.0,
+   "on": 0.82,
+   "ox": 0.82,
    "pack": 0.82,
    "pat": 0.82,
-   "path": 0.82,
+   "path": 1.0,
    "peck": 0.82,
    "peg": 0.82,
    "pen": 0.82,
    "pep": 0.82,
    "pet": 0.82,
-   "pick": 0.82,
+   "pick": 1.0,
    "pig": 0.82,
    "pin": 0.82,
-   "ping": 0.82,
+   "ping": 1.0,
    "pit": 0.82,
    "pod": 0.82,
    "pop": 0.82,
    "posh": 0.82,
    "pot": 0.8,
-   "puck": 0.82,
-   "puff": 0.82,
+   "puck": 1.0,
+   "puff": 1.0,
    "pun": 0.82,
    "pup": 0.82,
-   "push": 0.82,
+   "push": 1.0,
    "quack": 0.82,
-   "quick": 0.72,
-   "quill": 0.82,
-   "quip": 0.82,
+   "quick": 1.0,
+   "quill": 1.0,
+   "quip": 1.0,
    "quit": 0.82,
-   "quiz": 0.82,
+   "quiz": 1.0,
    "ram": 0.82,
    "ran": 0.88,
    "rang": 0.82,
@@ -1762,17 +1741,19 @@
    "red": 0.82,
    "rib": 0.82,
    "rich": 0.8,
-   "rig": 0.82,
-   "rim": 0.82,
+   "rig": 1.0,
+   "rim": 1.0,
    "ring": 0.82,
    "rip": 0.82,
    "rob": 0.82,
    "rock": 0.82,
    "rod": 0.82,
-   "rot": 0.75,
-   "rug": 0.82,
+   "rot": 1.0,
+   "rub": 1.0,
+   "rug": 1.0,
+   "run": 0.82,
    "rung": 0.82,
-   "rush": 0.82,
+   "rush": 1.0,
    "sack": 0.82,
    "sad": 0.82,
    "sag": 0.82,
@@ -1782,42 +1763,42 @@
    "sat": 0.82,
    "sax": 0.82,
    "set": 0.82,
-   "shack": 0.82,
+   "shack": 1.0,
    "sham": 0.82,
    "she": 0.82,
-   "shed": 0.82,
+   "shed": 1.0,
    "shell": 0.82,
    "shin": 0.82,
    "ship": 0.82,
-   "shock": 0.82,
+   "shock": 1.0,
    "shop": 0.82,
-   "shun": 0.82,
-   "shut": 0.75,
-   "sick": 0.82,
+   "shun": 1.0,
+   "shut": 0.82,
+   "sick": 1.0,
    "sing": 0.82,
    "sip": 0.82,
    "sit": 0.82,
    "six": 0.82,
-   "sob": 0.82,
-   "sock": 0.75,
+   "sob": 1.0,
+   "sock": 1.0,
    "song": 0.82,
-   "sub": 0.75,
-   "such": 0.82,
+   "sub": 1.0,
+   "such": 1.0,
    "sum": 0.82,
    "sun": 0.82,
-   "sung": 0.82,
+   "sung": 1.0,
    "tab": 0.82,
-   "tack": 0.82,
+   "tack": 1.0,
    "tag": 0.82,
    "tan": 0.82,
    "tap": 0.83,
    "tell": 0.82,
    "ten": 0.82,
    "that": 0.82,
-   "the": 0.82,
-   "them": 0.82,
+   "the": 1.0,
+   "them": 1.0,
    "then": 0.82,
-   "thick": 0.82,
+   "thick": 1.0,
    "thin": 0.82,
    "this": 0.82,
    "thud": 0.82,
@@ -1827,9 +1808,11 @@
    "tip": 0.82,
    "top": 0.82,
    "tot": 0.82,
-   "tub": 0.82,
-   "tuck": 0.82,
-   "tug": 0.82,
+   "tub": 1.0,
+   "tuck": 1.0,
+   "tug": 1.0,
+   "up": 0.82,
+   "us": 0.82,
    "van": 0.82,
    "vat": 0.82,
    "vet": 0.82,
@@ -1838,26 +1821,28 @@
    "was": 0.82,
    "wash": 0.82,
    "wax": 0.82,
-   "wed": 0.82,
+   "web": 1.0,
+   "wed": 1.0,
    "well": 0.82,
-   "wet": 0.82,
-   "whack": 0.82,
+   "wet": 1.0,
+   "whack": 1.0,
    "wham": 0.82,
    "what": 0.82,
    "when": 0.82,
-   "whiff": 0.82,
+   "whiff": 1.0,
    "whim": 0.82,
+   "whip": 0.82,
    "whizz": 0.82,
-   "wick": 0.82,
+   "wick": 1.0,
    "win": 0.82,
    "wing": 0.82,
    "wish": 0.82,
    "wit": 0.82,
    "with": 0.82,
    "wrap": 0.82,
-   "wreck": 0.82,
+   "wreck": 1.0,
    "wren": 0.82,
-   "wrong": 0.82,
+   "wrong": 1.0,
    "yak": 0.82,
    "yam": 0.82,
    "yap": 0.82,
@@ -1869,14 +1854,59 @@
    "zip": 0.82
   },
   "head_trim_ms": {
-   "chick": 80,
-   "cop": 28,
+   "if": 25,
    "lip": 80,
-   "lush": 30,
-   "the": 50,
    "van": 40
   },
   "carrier_cut": {
+   "am": [
+    "The printed word is \"am\".",
+    80,
+    -20,
+    20
+   ],
+   "an": [
+    "The printed word is \"an\".",
+    80,
+    -20,
+    20
+   ],
+   "at": [
+    "Spell it: A T. at.",
+    80,
+    -20,
+    20
+   ],
+   "ax": [
+    "Spell it: A X. ax.",
+    160,
+    -32,
+    40
+   ],
+   "bag": [
+    "Spell it: B A G. bag.",
+    80,
+    -20,
+    20
+   ],
+   "bang": [
+    "Listen, bang.",
+    80,
+    -20,
+    20
+   ],
+   "bat": [
+    "Spell it: B A T. bat.",
+    80,
+    -20,
+    20
+   ],
+   "bath": [
+    "Spell it: B A T H. bath.",
+    80,
+    -20,
+    20
+   ],
    "bed": [
     "Here is the word, bed.",
     120,
@@ -1884,8 +1914,14 @@
     20
    ],
    "bin": [
-    "Here is the word, bin.",
-    100,
+    "Listen\u2014bin.",
+    80,
+    -20,
+    20
+   ],
+   "buck": [
+    "Listen\u2014buck.",
+    80,
     -20,
     20
    ],
@@ -1908,20 +1944,32 @@
     20
    ],
    "bus": [
-    "Here is the word, bus.",
-    120,
+    "Not bun\u2014bus.",
+    80,
     -20,
     20
    ],
    "buzz": [
-    "buzz. buzz.",
-    120,
+    "Spell it: B U Z Z. buzz.",
+    80,
     -20,
     20
    ],
    "can": [
     "Here is the word, can.",
     150,
+    -20,
+    20
+   ],
+   "cap": [
+    "Spell it: C A P. cap.",
+    80,
+    -20,
+    20
+   ],
+   "cat": [
+    "The printed word is \"cat\".",
+    80,
     -20,
     20
    ],
@@ -1938,8 +1986,8 @@
     20
    ],
    "chick": [
-    "Say chick.",
-    250,
+    "Spell it: C H I C K. chick.",
+    80,
     -20,
     20
    ],
@@ -1950,32 +1998,50 @@
     20
    ],
    "chuck": [
-    "Say chuck.",
+    "Spell it: C H U C K. chuck.",
     80,
     -20,
     20
    ],
    "chum": [
-    "Here is the word, chum.",
-    180,
+    "Spell it: C H U M. chum.",
+    80,
     -20,
     20
    ],
    "cod": [
-    "cod. cod.",
-    120,
+    "Spell it: C O D. cod.",
+    80,
     -20,
     20
    ],
    "cop": [
-    "cop. cop.",
-    28,
+    "Spell it: C O P. cop.",
+    80,
     -20,
     20
    ],
    "cot": [
-    "Here is the word cot.",
-    100,
+    "Spell it: C O T. cot.",
+    80,
+    -20,
+    20
+   ],
+   "cub": [
+    "Spell it: C U B. cub.",
+    80,
+    -20,
+    20
+   ],
+   "cup": [
+    "Spell it: C U P. cup.",
+    80,
+    -20,
+    20
+   ],
+   "cut": [
+    "Listen, cut.",
+    80,
     -20,
     20
    ],
@@ -1992,7 +2058,7 @@
     20
    ],
    "did": [
-    "Say did.",
+    "Spell it: D I D. did.",
     80,
     -20,
     20
@@ -2009,6 +2075,18 @@
     -20,
     20
    ],
+   "dish": [
+    "Spell it: D I S H. dish.",
+    80,
+    -20,
+    20
+   ],
+   "doll": [
+    "Softly: doll.",
+    80,
+    -20,
+    20
+   ],
    "dot": [
     "Here is the word, dot.",
     100,
@@ -2016,14 +2094,20 @@
     20
    ],
    "dug": [
-    "Here is the word, dug.",
-    120,
+    "Spell it: D U G. dug.",
+    80,
+    -20,
+    20
+   ],
+   "fan": [
+    "Listen, fan.",
+    80,
     -20,
     20
    ],
    "fang": [
-    "fang. fang.",
-    120,
+    "Listen\u2014fang.",
+    80,
     -20,
     20
    ],
@@ -2033,21 +2117,39 @@
     -20,
     20
    ],
+   "fell": [
+    "fell. fell.",
+    80,
+    -20,
+    20
+   ],
    "fig": [
     "Here is the word, fig.",
     180,
     -20,
     20
    ],
+   "fin": [
+    "Spell it: F I N. fin.",
+    80,
+    -20,
+    20
+   ],
    "fish": [
-    "Say fish.",
-    220,
+    "fish is spelled F-I-S-H. fish.",
+    80,
+    -20,
+    20
+   ],
+   "fizz": [
+    "Spell it: F I Z Z. fizz.",
+    80,
     -20,
     20
    ],
    "fog": [
-    "fog. fog.",
-    120,
+    "Spell it: F O G. fog.",
+    80,
     -20,
     20
    ],
@@ -2058,38 +2160,38 @@
     20
    ],
    "fuss": [
-    "fuss. fuss.",
-    120,
+    "Listen\u2014fuss.",
+    80,
     -20,
     20
    ],
    "fuzz": [
-    "fuzz. fuzz.",
-    120,
+    "Spell it: F U Z Z. fuzz.",
+    80,
     -20,
     20
    ],
    "gap": [
-    "gap. gap.",
-    120,
+    "Listen, gap.",
+    80,
     -20,
     20
    ],
    "gash": [
-    "gash. gash.",
-    120,
+    "Listen\u2014gash.",
+    80,
     -20,
     20
    ],
    "get": [
-    "Here is the word, get.",
-    180,
+    "Listen\u2014get.",
+    80,
     -20,
     20
    ],
    "gob": [
-    "gob. gob.",
-    120,
+    "Spell it: G O B. gob.",
+    80,
     -20,
     20
    ],
@@ -2100,50 +2202,74 @@
     40
    ],
    "gum": [
-    "gum. gum.",
-    120,
+    "This spells G-U-M: gum.",
+    80,
     -20,
     20
    ],
    "gush": [
-    "gush. gush.",
-    120,
+    "Spell it: G U S H. gush.",
+    80,
     -20,
     20
    ],
    "gut": [
-    "gut. gut.",
-    120,
+    "Spell it: G U T. gut.",
+    80,
+    -20,
+    20
+   ],
+   "had": [
+    "Spell it: H A D. had.",
+    80,
+    -20,
+    20
+   ],
+   "ham": [
+    "The printed word is \"ham\".",
+    80,
     -20,
     20
    ],
    "hang": [
-    "hang. hang.",
-    120,
+    "The printed word is \"hang\".",
+    80,
+    -20,
+    20
+   ],
+   "has": [
+    "Spell it: H A S. has.",
+    80,
     -20,
     20
    ],
    "hat": [
-    "Here is the word, hat.",
-    100,
+    "Spell it: H A T. hat.",
+    80,
     -20,
     20
    ],
    "hem": [
-    "hem. hem.",
-    120,
+    "Spell it: H E M. hem.",
+    80,
     -20,
     20
    ],
    "hen": [
-    "hen, hen.",
-    150,
-    -30,
-    40
+    "Spell it: H E N. hen.",
+    80,
+    -20,
+    20
    ],
    "hid": [
-    "hid. hid.",
-    120,
+    "Spell it: H I D. hid.",
+    80,
+    -20,
+    20
+   ],
+   "hill": [
+    "Spell it: H I L L. hill.",
+    80,
     -20,
     20
    ],
@@ -2154,8 +2280,8 @@
     20
    ],
    "hit": [
-    "Here is the word hit.",
-    100,
+    "Spell it: H I T. hit.",
+    80,
     -20,
     20
    ],
@@ -2165,21 +2291,33 @@
     -20,
     20
    ],
+   "hop": [
+    "Spell it: H O P. hop.",
+    80,
+    -20,
+    20
+   ],
+   "hot": [
+    "Spell it: H O T. hot.",
+    80,
+    -20,
+    20
+   ],
    "hub": [
-    "hub. hub.",
+    "Spell it: H U B. hub.",
     80,
     -20,
     20
    ],
    "huff": [
-    "Here is the word, huff.",
-    150,
+    "Spell it: H U F F. huff.",
+    80,
     -20,
     20
    ],
    "hug": [
-    "hug. hug.",
-    120,
+    "Spell it: H U G. hug.",
+    80,
     -20,
     20
    ],
@@ -2190,14 +2328,38 @@
     20
    ],
    "hung": [
-    "hung. hung.",
-    120,
+    "Spell it: H U N G. hung.",
+    80,
     -20,
     20
    ],
    "hut": [
-    "Here is the word, hut.",
-    180,
+    "Spell it: H U T. hut.",
+    80,
+    -20,
+    20
+   ],
+   "if": [
+    "The printed word is \"if\".",
+    80,
+    -20,
+    20
+   ],
+   "in": [
+    "Listen\u2014in.",
+    80,
+    -20,
+    20
+   ],
+   "is": [
+    "Listen\u2014is.",
+    80,
+    -20,
+    20
+   ],
+   "it": [
+    "Spell it: I T. it.",
+    80,
     -20,
     20
    ],
@@ -2207,15 +2369,21 @@
     -20,
     20
    ],
+   "jam": [
+    "The printed word is \"jam\".",
+    80,
+    -20,
+    20
+   ],
    "jazz": [
-    "jazz. jazz.",
-    120,
+    "Spell it: J A Z Z. jazz.",
+    80,
     -20,
     20
    ],
    "jet": [
-    "jet. jet.",
-    120,
+    "Spell it: J E T. jet.",
+    80,
     -20,
     20
    ],
@@ -2225,9 +2393,33 @@
     -20,
     20
    ],
+   "jog": [
+    "Spell it: J O G. jog.",
+    80,
+    -20,
+    20
+   ],
+   "jug": [
+    "Spell it: J U G. jug.",
+    80,
+    -20,
+    20
+   ],
+   "jut": [
+    "Spell it: J U T. jut.",
+    80,
+    -20,
+    20
+   ],
    "keg": [
-    "keg. keg.",
-    120,
+    "Spell it: K E G. keg.",
+    80,
+    -20,
+    20
+   ],
+   "kick": [
+    "Listen, kick.",
+    80,
     -20,
     20
    ],
@@ -2238,8 +2430,8 @@
     20
    ],
    "kit": [
-    "kit. kit.",
-    120,
+    "Spell it: K I T. kit.",
+    80,
     -20,
     20
    ],
@@ -2250,8 +2442,20 @@
     20
    ],
    "knob": [
-    "knob. knob.",
-    120,
+    "Spell it: K N O B. knob.",
+    80,
+    -20,
+    20
+   ],
+   "knock": [
+    "Spell it: K N O C K. knock.",
+    80,
+    -20,
+    20
+   ],
+   "knot": [
+    "Spell it: K N O T. knot.",
+    80,
     -20,
     20
    ],
@@ -2273,6 +2477,12 @@
     -20,
     20
    ],
+   "lap": [
+    "Spell it: L A P. lap.",
+    80,
+    -20,
+    20
+   ],
    "led": [
     "led. led.",
     120,
@@ -2285,6 +2495,18 @@
     -20,
     20
    ],
+   "let": [
+    "Spell it: L E T. let.",
+    80,
+    -20,
+    20
+   ],
+   "lick": [
+    "Spell it: L I C K. lick.",
+    80,
+    -20,
+    20
+   ],
    "limb": [
     "limb. limb.",
     120,
@@ -2292,44 +2514,92 @@
     20
    ],
    "lit": [
-    "lit. lit.",
-    120,
+    "Spell it: L I T. lit.",
+    80,
+    -20,
+    20
+   ],
+   "lock": [
+    "Spell it: L O C K. lock.",
+    80,
     -20,
     20
    ],
    "long": [
-    "long. long.",
-    120,
+    "Spell it: L O N G. long.",
+    80,
+    -20,
+    20
+   ],
+   "loss": [
+    "Spell it: L O S S. loss.",
+    80,
     -20,
     20
    ],
    "lot": [
-    "Here is the word, lot.",
-    180,
+    "Spell it: L O T. lot.",
+    80,
+    -20,
+    20
+   ],
+   "luck": [
+    "Spell it: L U C K. luck.",
+    80,
     -20,
     20
    ],
    "lug": [
-    "lug. lug.",
-    120,
+    "Softly: lug.",
+    80,
     -20,
     20
    ],
    "lung": [
-    "lung. lung.",
-    120,
+    "Softly: lung.",
+    80,
+    -20,
+    20
+   ],
+   "lush": [
+    "Spell it: L U S H. lush.",
+    80,
+    -20,
+    20
+   ],
+   "mad": [
+    "Spell it: M A D. mad.",
+    80,
     -20,
     20
    ],
    "man": [
-    "Here is the word, man.",
-    150,
+    "man. man.",
+    80,
+    -20,
+    20
+   ],
+   "map": [
+    "Spell it: M A P. map.",
+    80,
+    -20,
+    20
+   ],
+   "mat": [
+    "mat. mat.",
+    80,
+    -20,
+    20
+   ],
+   "math": [
+    "Spell it: M A T H. math.",
+    80,
     -20,
     20
    ],
    "men": [
-    "men. men.",
-    120,
+    "Listen\u2014men.",
+    80,
     -20,
     20
    ],
@@ -2351,9 +2621,63 @@
     -20,
     20
    ],
+   "mob": [
+    "Spell it: M O B. mob.",
+    80,
+    -20,
+    20
+   ],
    "much": [
-    "Say much.",
-    200,
+    "Spell it: M U C H. much.",
+    80,
+    -20,
+    20
+   ],
+   "mud": [
+    "mud. mud.",
+    80,
+    -20,
+    20
+   ],
+   "mug": [
+    "Softly: mug.",
+    80,
+    -20,
+    20
+   ],
+   "neck": [
+    "Spell it: N E C K. neck.",
+    80,
+    -20,
+    20
+   ],
+   "net": [
+    "Spell it: N E T. net.",
+    80,
+    -20,
+    20
+   ],
+   "nun": [
+    "Spell it: N U N. nun.",
+    80,
+    -20,
+    20
+   ],
+   "nut": [
+    "Spell it: N U T. nut.",
+    80,
+    -20,
+    20
+   ],
+   "on": [
+    "Spell it: O N. on.",
+    80,
+    -20,
+    20
+   ],
+   "pack": [
+    "Spell it: P A C K. pack.",
+    80,
     -20,
     20
    ],
@@ -2369,15 +2693,21 @@
     -20,
     20
    ],
+   "path": [
+    "Spell it: P A T H. path.",
+    80,
+    -20,
+    20
+   ],
    "peg": [
-    "peg. peg.",
-    120,
+    "Listen\u2014peg.",
+    80,
     -20,
     20
    ],
    "pep": [
-    "pep. pep.",
-    70,
+    "Spell it: P E P. pep.",
+    80,
     -20,
     20
    ],
@@ -2387,9 +2717,15 @@
     -20,
     20
    ],
+   "pick": [
+    "Spell it: P I C K. pick.",
+    80,
+    -20,
+    20
+   ],
    "ping": [
-    "ping. ping.",
-    120,
+    "Spell it: P I N G. ping.",
+    80,
     -20,
     20
    ],
@@ -2405,9 +2741,27 @@
     -20,
     20
    ],
+   "puck": [
+    "Spell it: P U C K. puck.",
+    80,
+    -20,
+    20
+   ],
+   "puff": [
+    "Spell it: P U F F. puff.",
+    80,
+    -20,
+    20
+   ],
    "pup": [
-    "Here is the word, pup.",
-    120,
+    "Spell it: P U P. pup.",
+    80,
+    -20,
+    20
+   ],
+   "push": [
+    "Spell it: P U S H. push.",
+    80,
     -20,
     20
    ],
@@ -2418,20 +2772,26 @@
     20
    ],
    "quick": [
-    "Say quick.",
-    260,
+    "Spell it: Q U I C K. quick.",
+    80,
     -20,
     20
    ],
    "quill": [
-    "Say quill.",
+    "Spell it: Q U I L L. quill.",
+    80,
+    -20,
+    20
+   ],
+   "quip": [
+    "Spell it: Q U I P. quip.",
     80,
     -20,
     20
    ],
    "quiz": [
-    "quiz. quiz.",
-    120,
+    "Spell it: Q U I Z. quiz.",
+    80,
     -20,
     20
    ],
@@ -2441,99 +2801,189 @@
     -20,
     20
    ],
+   "rap": [
+    "Spell it: R A P. rap.",
+    80,
+    -20,
+    20
+   ],
    "rash": [
-    "rash. rash.",
-    120,
+    "Listen\u2014rash.",
+    80,
     -20,
     20
    ],
    "red": [
-    "red. red.",
-    120,
+    "Spell it: R E D. red.",
+    80,
     -20,
     20
    ],
    "rig": [
-    "Here is the word, rig.",
-    120,
+    "Spell it: R I G. rig.",
+    80,
+    -20,
+    20
+   ],
+   "rim": [
+    "Spell it: R I M. rim.",
+    80,
+    -20,
+    20
+   ],
+   "ring": [
+    "Spell it: R I N G. ring.",
+    80,
+    -20,
+    20
+   ],
+   "rip": [
+    "Listen\u2014rip.",
+    80,
+    -20,
+    20
+   ],
+   "rob": [
+    "rob. rob.",
+    80,
     -20,
     20
    ],
    "rod": [
-    "rod. rod.",
-    120,
+    "Spell it: R O D. rod.",
+    80,
     -20,
     20
    ],
    "rot": [
-    "rot. rot.",
-    120,
+    "Spell it: R O T. rot.",
+    80,
+    -20,
+    20
+   ],
+   "rub": [
+    "Spell it: R U B. rub.",
+    80,
+    -20,
+    20
+   ],
+   "rug": [
+    "Spell it: R U G. rug.",
+    80,
+    -20,
+    20
+   ],
+   "run": [
+    "Softly: run.",
+    80,
+    -20,
+    20
+   ],
+   "rush": [
+    "Spell it: R U S H. rush.",
+    80,
+    -20,
+    20
+   ],
+   "sack": [
+    "Spell it: S A C K. sack.",
+    80,
+    -20,
+    20
+   ],
+   "sag": [
+    "Spell it: S A G. sag.",
+    80,
     -20,
     20
    ],
    "sang": [
-    "sang. sang.",
-    120,
+    "The printed word is \"sang\".",
+    80,
+    -20,
+    20
+   ],
+   "sap": [
+    "Not lap\u2014sap.",
+    80,
+    -20,
+    20
+   ],
+   "sash": [
+    "Spell it: S A S H. sash.",
+    80,
+    -20,
+    20
+   ],
+   "set": [
+    "Spell it: S E T. set.",
+    80,
     -20,
     20
    ],
    "shack": [
-    "shack. shack.",
-    50,
+    "Spell it: S H A C K. shack.",
+    80,
     -20,
     20
    ],
    "shed": [
-    "shed. shed.",
-    120,
+    "Spell it: S H E D. shed.",
+    80,
     -20,
     20
    ],
    "shell": [
-    "shell. shell.",
-    40,
+    "Spell it: S H E L L. shell.",
+    80,
     -20,
     20
    ],
    "shin": [
-    "shin. shin.",
-    120,
+    "Spell it: S H I N. shin.",
+    80,
     -20,
     20
    ],
    "ship": [
-    "ship. ship.",
-    70,
+    "Spell it: S H I P. ship.",
+    80,
     -20,
     20
    ],
    "shock": [
-    "shock. shock.",
-    40,
+    "Spell it: S H O C K. shock.",
+    80,
     -20,
     20
    ],
    "shop": [
-    "shop. shop.",
-    70,
+    "Spell it: S H O P. shop.",
+    80,
+    -20,
+    20
+   ],
+   "shun": [
+    "Spell it: S H U N. shun.",
+    80,
     -20,
     20
    ],
    "shut": [
-    "shut. shut.",
-    120,
+    "Not shot\u2014shut.",
+    80,
     -20,
     20
    ],
    "sick": [
-    "sick. sick.",
-    40,
+    "Spell it: S I C K. sick.",
+    80,
     -20,
     20
    ],
    "sing": [
-    "sing. sing.",
-    120,
+    "Spell it: S I N G. sing.",
+    80,
     -20,
     20
    ],
@@ -2543,9 +2993,15 @@
     -30,
     40
    ],
+   "sob": [
+    "Spell it: S O B. sob.",
+    80,
+    -20,
+    20
+   ],
    "sock": [
-    "sock. sock.",
-    120,
+    "Spell it: S O C K. sock.",
+    80,
     -20,
     20
    ],
@@ -2556,8 +3012,14 @@
     20
    ],
    "sub": [
-    "sub. sub.",
-    120,
+    "Spell it: S U B. sub.",
+    80,
+    -20,
+    20
+   ],
+   "such": [
+    "Spell it: S U C H. such.",
+    80,
     -20,
     20
    ],
@@ -2574,8 +3036,14 @@
     20
    ],
    "sung": [
-    "sung. sung.",
-    120,
+    "Spell it: S U N G. sung.",
+    80,
+    -20,
+    20
+   ],
+   "tack": [
+    "Spell it: T A C K. tack.",
+    80,
     -20,
     20
    ],
@@ -2591,21 +3059,39 @@
     -20,
     20
    ],
+   "that": [
+    "that. that.",
+    80,
+    -20,
+    20
+   ],
+   "the": [
+    "Spell it: T H E. the.",
+    80,
+    -20,
+    20
+   ],
    "them": [
-    "them. them.",
-    120,
+    "Spell it: T H E M. them.",
+    80,
     -20,
     20
    ],
    "then": [
-    "then. then.",
-    100,
+    "Spell it: T H E N. then.",
+    80,
     -20,
     20
    ],
    "thick": [
-    "Say thick.",
-    200,
+    "Spell it: T H I C K. thick.",
+    80,
+    -20,
+    20
+   ],
+   "thin": [
+    "Spell it: T H I N. thin.",
+    80,
     -20,
     20
    ],
@@ -2628,20 +3114,38 @@
     20
    ],
    "tot": [
-    "tot. tot.",
-    120,
+    "Spell it: T O T. tot.",
+    80,
+    -20,
+    20
+   ],
+   "tub": [
+    "Spell it: T U B. tub.",
+    80,
     -20,
     20
    ],
    "tuck": [
-    "tuck. tuck.",
-    100,
+    "Spell it: T U C K. tuck.",
+    80,
     -20,
     20
    ],
    "tug": [
-    "tug. tug.",
-    120,
+    "Spell it: T U G. tug.",
+    80,
+    -20,
+    20
+   ],
+   "up": [
+    "Listen\u2014up.",
+    80,
+    -20,
+    20
+   ],
+   "us": [
+    "us. us.",
+    80,
     -20,
     20
    ],
@@ -2657,9 +3161,27 @@
     -20,
     20
    ],
+   "web": [
+    "Spell it: W E B. web.",
+    80,
+    -20,
+    20
+   ],
    "wed": [
-    "wed. wed.",
-    120,
+    "Spell it: W E D. wed.",
+    80,
+    -20,
+    20
+   ],
+   "wet": [
+    "Spell it: W E T. wet.",
+    80,
+    -20,
+    20
+   ],
+   "whack": [
+    "Spell it: W H A C K. whack.",
+    80,
     -20,
     20
    ],
@@ -2669,9 +3191,33 @@
     -20,
     20
    ],
-   "whizz": [
-    "whizz. whizz.",
-    120,
+   "what": [
+    "Listen, what.",
+    80,
+    -20,
+    20
+   ],
+   "when": [
+    "when. when.",
+    80,
+    -20,
+    20
+   ],
+   "whiff": [
+    "Spell it: W H I F F. whiff.",
+    80,
+    -20,
+    20
+   ],
+   "whip": [
+    "Spell it: W H I P. whip.",
+    80,
+    -20,
+    20
+   ],
+   "wick": [
+    "Spell it: W I C K. wick.",
+    80,
     -20,
     20
    ],
@@ -2681,27 +3227,45 @@
     -20,
     20
    ],
+   "with": [
+    "Spell it: W I T H. with.",
+    80,
+    -20,
+    20
+   ],
    "wrap": [
-    "wrap. wrap.",
-    120,
+    "Listen\u2014wrap.",
+    80,
     -20,
     20
    ],
    "wreck": [
-    "wreck. wreck.",
-    120,
+    "Spell it: W R E C K. wreck.",
+    80,
+    -20,
+    20
+   ],
+   "wren": [
+    "Spell it: W R E N. wren.",
+    80,
     -20,
     20
    ],
    "wrong": [
-    "wrong. wrong.",
-    60,
+    "Spell it: W R O N G. wrong.",
+    80,
+    -20,
+    20
+   ],
+   "yam": [
+    "Spell it: Y A M. yam.",
+    80,
     -20,
     20
    ],
    "yet": [
-    "yet. yet.",
-    120,
+    "Listen\u2014yet.",
+    80,
     -20,
     20
    ],
@@ -2736,20 +3300,10 @@
     0.969,
     1.58
    ],
-   "bang": [
-    "Here is the word, bang.",
-    0.948,
-    1.54
-   ],
    "bash": [
     "Here is the word, bash.",
     0.991,
     1.72
-   ],
-   "bath": [
-    "Here is the word, bath.",
-    0.969,
-    1.58
    ],
    "bell": [
     "Here is the word, bell.",
@@ -2780,11 +3334,6 @@
     "Say box.",
     0.46,
     0.92
-   ],
-   "buck": [
-    "Here is the word, buck.",
-    0.991,
-    1.62
    ],
    "bush": [
     "Here is the word, bush.",
@@ -2831,11 +3380,6 @@
     0.969,
     1.64
    ],
-   "cut": [
-    "Say cut.",
-    0.5,
-    0.74
-   ],
    "dash": [
     "Here is the word, dash.",
     0.948,
@@ -2866,11 +3410,6 @@
     0.46,
     1.0
    ],
-   "doll": [
-    "Here is the word, doll.",
-    0.905,
-    1.58
-   ],
    "duck": [
     "Here is the word, duck.",
     0.948,
@@ -2881,11 +3420,6 @@
     0.735,
     1.26
    ],
-   "fell": [
-    "Here is the word, fell.",
-    1.012,
-    1.6
-   ],
    "fit": [
     "Say fit.",
     0.48,
@@ -2895,11 +3429,6 @@
     "Say fix.",
     0.52,
     0.82
-   ],
-   "fizz": [
-    "Here is the word, fizz.",
-    0.991,
-    1.68
    ],
    "fox": [
     "Say fox.",
@@ -2916,20 +3445,10 @@
     0.948,
     1.7
    ],
-   "hill": [
-    "Here is the word, hill.",
-    1.033,
-    1.64
-   ],
    "him": [
     "Say him.",
     0.46,
     0.88
-   ],
-   "hop": [
-    "Say hop.",
-    0.58,
-    1.04
    ],
    "hush": [
     "Here is the word, hush.",
@@ -2941,25 +3460,10 @@
     0.969,
     1.82
    ],
-   "jog": [
-    "Here is the word, jog.",
-    0.841,
-    1.61
-   ],
    "jot": [
     "Here is the word, jot.",
     0.905,
     1.65
-   ],
-   "jut": [
-    "Here is the word, jut.",
-    0.927,
-    1.67
-   ],
-   "kick": [
-    "Here is the word, kick.",
-    0.969,
-    1.64
    ],
    "king": [
     "Here is the word, king.",
@@ -2971,60 +3475,25 @@
     0.948,
     1.68
    ],
-   "knot": [
-    "Here is the word, knot.",
-    0.948,
-    1.64
-   ],
    "lash": [
     "Here is the word, lash.",
     0.969,
     1.78
-   ],
-   "let": [
-    "Here it is, let.",
-    0.799,
-    1.257
-   ],
-   "lick": [
-    "Here is the word, lick.",
-    1.097,
-    1.74
    ],
    "lid": [
     "Here is the word, lid.",
     1.033,
     1.7
    ],
-   "lock": [
-    "Here is the word, lock.",
-    0.991,
-    1.58
-   ],
    "log": [
     "Say log.",
     0.44,
     0.9
    ],
-   "loss": [
-    "Here is the word, loss.",
-    0.991,
-    1.6
-   ],
-   "luck": [
-    "Here is the word, luck.",
-    1.012,
-    1.7
-   ],
    "mash": [
     "Here is the word, mash.",
     0.927,
     1.62
-   ],
-   "math": [
-    "Here is the word, math.",
-    0.884,
-    1.52
    ],
    "mess": [
     "Here is the word, mess.",
@@ -3076,21 +3545,6 @@
     0.4,
     0.88
    ],
-   "nun": [
-    "Here is the word, nun.",
-    0.948,
-    1.54
-   ],
-   "pack": [
-    "Here is the word, pack.",
-    0.969,
-    1.64
-   ],
-   "path": [
-    "Here is the word, path.",
-    0.927,
-    1.58
-   ],
    "peck": [
     "Here is the word, peck.",
     0.991,
@@ -3100,11 +3554,6 @@
     "Here is the word, pen.",
     0.948,
     1.6
-   ],
-   "pick": [
-    "Here is the word, pick.",
-    1.033,
-    1.8
    ],
    "pig": [
     "Say pig.",
@@ -3126,30 +3575,10 @@
     0.948,
     1.72
    ],
-   "puck": [
-    "Here is the word, puck.",
-    0.991,
-    1.74
-   ],
-   "puff": [
-    "Here is the word, puff.",
-    0.948,
-    1.72
-   ],
    "pun": [
     "Here is the word, pun.",
     0.927,
     1.62
-   ],
-   "push": [
-    "Here is the word, push.",
-    0.969,
-    1.38
-   ],
-   "quip": [
-    "Here is the word, quip.",
-    1.012,
-    1.8
    ],
    "quit": [
     "Here is the word, quit.",
@@ -3161,75 +3590,25 @@
     0.44,
     0.96
    ],
-   "rap": [
-    "Say rap.",
-    0.48,
-    0.92
-   ],
    "rib": [
     "Here is the word, rib.",
     1.012,
     1.66
-   ],
-   "rim": [
-    "Here is the word, rim.",
-    0.991,
-    1.64
-   ],
-   "ring": [
-    "Here is the word, ring.",
-    0.991,
-    1.62
-   ],
-   "rip": [
-    "Say rip.",
-    0.46,
-    0.86
-   ],
-   "rob": [
-    "Say rob.",
-    0.5,
-    0.72
    ],
    "rock": [
     "Here is the word, rock.",
     1.012,
     1.66
    ],
-   "rug": [
-    "Say rug.",
-    0.46,
-    0.7
-   ],
    "rung": [
     "Here it is, rung.",
     0.756,
     1.297
    ],
-   "sack": [
-    "Here is the word, sack.",
-    0.991,
-    1.7
-   ],
    "sad": [
     "Say sad.",
     0.44,
     0.92
-   ],
-   "sag": [
-    "Here is the word, sag.",
-    0.82,
-    1.63
-   ],
-   "sap": [
-    "Say sap.",
-    0.52,
-    0.82
-   ],
-   "sash": [
-    "Here is the word, sash.",
-    0.884,
-    1.72
    ],
    "sat": [
     "Say sat.",
@@ -3241,11 +3620,6 @@
     0.777,
     1.44
    ],
-   "set": [
-    "Say set.",
-    0.466,
-    0.96
-   ],
    "sham": [
     "Here is the word, sham.",
     0.969,
@@ -3255,11 +3629,6 @@
     "Here is the word, she.",
     0.863,
     1.56
-   ],
-   "shun": [
-    "Here is the word, shun.",
-    1.012,
-    1.6
    ],
    "sip": [
     "Say sip.",
@@ -3271,25 +3640,10 @@
     0.48,
     1.18
    ],
-   "sob": [
-    "Say sob.",
-    0.48,
-    0.74
-   ],
-   "such": [
-    "Listen, such.",
-    0.737,
-    1.28
-   ],
    "tab": [
     "Here is the word, tab.",
     0.884,
     1.54
-   ],
-   "tack": [
-    "Here is the word, tack.",
-    0.905,
-    1.74
    ],
    "tag": [
     "Say tag.",
@@ -3305,11 +3659,6 @@
     "Here is the word, tell.",
     0.905,
     1.5
-   ],
-   "that": [
-    "Here it is, that.",
-    0.756,
-    1.28
    ],
    "thud": [
     "Here is the word, thud.",
@@ -3330,11 +3679,6 @@
     "Say top.",
     0.42,
     0.9
-   ],
-   "tub": [
-    "Here is the word, tub.",
-    0.884,
-    1.54
    ],
    "vex": [
     "Here is the word, vex.",
@@ -3366,11 +3710,6 @@
     0.735,
     1.26
    ],
-   "when": [
-    "Listen, when.",
-    0.715,
-    1.28
-   ],
    "whim": [
     "Here is the word, whim.",
     1.033,
@@ -3391,20 +3730,10 @@
     0.756,
     1.28
    ],
-   "with": [
-    "Here it is, with.",
-    0.756,
-    1.28
-   ],
    "yak": [
     "Here is the word, yak.",
     0.969,
     1.56
-   ],
-   "yam": [
-    "Say yam.",
-    0.44,
-    1.1
    ],
    "yap": [
     "Say yap.",
@@ -3422,15 +3751,7 @@
     30,
     40
    ],
-   "bang": [
-    30,
-    40
-   ],
    "bash": [
-    30,
-    40
-   ],
-   "bath": [
     30,
     40
    ],
@@ -3456,10 +3777,6 @@
    ],
    "box": [
     40,
-    40
-   ],
-   "buck": [
-    30,
     40
    ],
    "bush": [
@@ -3498,10 +3815,6 @@
     30,
     40
    ],
-   "cut": [
-    80,
-    40
-   ],
    "dash": [
     30,
     40
@@ -3526,19 +3839,11 @@
     40,
     40
    ],
-   "doll": [
-    30,
-    40
-   ],
    "duck": [
     30,
     40
    ],
    "fax": [
-    30,
-    40
-   ],
-   "fell": [
     30,
     40
    ],
@@ -3548,10 +3853,6 @@
    ],
    "fix": [
     40,
-    40
-   ],
-   "fizz": [
-    30,
     40
    ],
    "fox": [
@@ -3566,15 +3867,7 @@
     30,
     40
    ],
-   "hill": [
-    30,
-    40
-   ],
    "him": [
-    40,
-    40
-   ],
-   "hop": [
     40,
     40
    ],
@@ -3586,19 +3879,7 @@
     30,
     40
    ],
-   "jog": [
-    30,
-    40
-   ],
    "jot": [
-    30,
-    40
-   ],
-   "jut": [
-    30,
-    40
-   ],
-   "kick": [
     30,
     40
    ],
@@ -3610,19 +3891,7 @@
     30,
     40
    ],
-   "knot": [
-    30,
-    40
-   ],
    "lash": [
-    30,
-    40
-   ],
-   "let": [
-    30,
-    40
-   ],
-   "lick": [
     30,
     40
    ],
@@ -3630,27 +3899,11 @@
     30,
     40
    ],
-   "lock": [
-    30,
-    40
-   ],
    "log": [
     40,
     40
    ],
-   "loss": [
-    30,
-    40
-   ],
-   "luck": [
-    30,
-    40
-   ],
    "mash": [
-    30,
-    40
-   ],
-   "math": [
     30,
     40
    ],
@@ -3694,27 +3947,11 @@
     40,
     40
    ],
-   "nun": [
-    30,
-    40
-   ],
-   "pack": [
-    30,
-    40
-   ],
-   "path": [
-    30,
-    40
-   ],
    "peck": [
     30,
     40
    ],
    "pen": [
-    30,
-    40
-   ],
-   "pick": [
     30,
     40
    ],
@@ -3734,23 +3971,7 @@
     30,
     40
    ],
-   "puck": [
-    30,
-    40
-   ],
-   "puff": [
-    30,
-    40
-   ],
    "pun": [
-    30,
-    40
-   ],
-   "push": [
-    30,
-    40
-   ],
-   "quip": [
     30,
     40
    ],
@@ -3762,60 +3983,20 @@
     40,
     40
    ],
-   "rap": [
-    40,
-    40
-   ],
    "rib": [
     30,
-    40
-   ],
-   "rim": [
-    30,
-    40
-   ],
-   "ring": [
-    30,
-    40
-   ],
-   "rip": [
-    40,
-    40
-   ],
-   "rob": [
-    40,
     40
    ],
    "rock": [
     30,
     40
    ],
-   "rug": [
-    80,
-    40
-   ],
    "rung": [
-    30,
-    40
-   ],
-   "sack": [
     30,
     40
    ],
    "sad": [
     80,
-    40
-   ],
-   "sag": [
-    30,
-    40
-   ],
-   "sap": [
-    80,
-    40
-   ],
-   "sash": [
-    30,
     40
    ],
    "sat": [
@@ -3826,19 +4007,11 @@
     30,
     40
    ],
-   "set": [
-    100,
-    40
-   ],
    "sham": [
     30,
     40
    ],
    "she": [
-    30,
-    40
-   ],
-   "shun": [
     30,
     40
    ],
@@ -3850,19 +4023,7 @@
     80,
     80
    ],
-   "sob": [
-    80,
-    40
-   ],
-   "such": [
-    25,
-    40
-   ],
    "tab": [
-    30,
-    40
-   ],
-   "tack": [
     30,
     40
    ],
@@ -3875,10 +4036,6 @@
     40
    ],
    "tell": [
-    30,
-    40
-   ],
-   "that": [
     30,
     40
    ],
@@ -3896,10 +4053,6 @@
    ],
    "top": [
     40,
-    40
-   ],
-   "tub": [
-    30,
     40
    ],
    "vex": [
@@ -3926,10 +4079,6 @@
     30,
     40
    ],
-   "when": [
-    25,
-    40
-   ],
    "whim": [
     30,
     40
@@ -3946,16 +4095,8 @@
     30,
     40
    ],
-   "with": [
-    30,
-    40
-   ],
    "yak": [
     30,
-    40
-   ],
-   "yam": [
-    40,
     40
    ],
    "yap": [
@@ -3973,8 +4114,10 @@
    "at",
    "ax",
    "back",
+   "bag",
    "bang",
    "bash",
+   "bat",
    "bath",
    "bed",
    "bell",
@@ -3993,7 +4136,9 @@
    "bush",
    "buzz",
    "can",
+   "cap",
    "cash",
+   "cat",
    "chap",
    "chat",
    "check",
@@ -4029,6 +4174,7 @@
    "dot",
    "duck",
    "dug",
+   "fan",
    "fang",
    "fax",
    "fed",
@@ -4057,6 +4203,7 @@
    "had",
    "ham",
    "hang",
+   "has",
    "hat",
    "hem",
    "hen",
@@ -4102,6 +4249,7 @@
    "lab",
    "lad",
    "lamb",
+   "lap",
    "lash",
    "led",
    "leg",
@@ -4120,8 +4268,11 @@
    "lug",
    "lung",
    "lush",
+   "mad",
    "man",
+   "map",
    "mash",
+   "mat",
    "math",
    "men",
    "mess",
@@ -4135,6 +4286,8 @@
    "moth",
    "much",
    "muck",
+   "mud",
+   "mug",
    "mush",
    "nab",
    "neck",
