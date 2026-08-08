@@ -7,13 +7,23 @@
    waits, and applies only when the app next starts fresh. Neither function
    touches saved progress: updates swap code and caches, never IndexedDB. */
 
-export async function checkForUpdate(current) {
+export async function checkForUpdate(current, currentBuild) {
   try {
     const r = await fetch("version.json", { cache: "no-store" });
     if (!r.ok) return { state: "error" };
     const data = await r.json();
     if (!data || typeof data.version !== "string" || !data.version) return { state: "error" };
-    return { state: data.version === current ? "current" : "available", latest: data.version };
+    /* The build stamp (owner-approved 2026-08-07): a fix shipped between
+       named versions changes the stamp but not the version, and the check
+       used to answer "You have the latest version." over it. Both sides must
+       carry a stamp for it to count - a host built before stamps existed
+       says nothing either way, so only the version speaks there. */
+    const sameBuild = typeof data.build !== "string" || !currentBuild || data.build === currentBuild;
+    return {
+      state: data.version === current && sameBuild ? "current" : "available",
+      latest: data.version,
+      latestBuild: typeof data.build === "string" ? data.build : "",
+    };
   } catch {
     return { state: "offline" };
   }

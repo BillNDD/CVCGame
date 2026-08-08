@@ -14,22 +14,35 @@ vi.stubGlobal("fetch", fetchMock);
 beforeEach(() => fetchMock.mockReset());
 
 describe("checkForUpdate", () => {
-  it("reports current when the host matches, bypassing every cache", async () => {
-    fetchMock.mockResolvedValue({ ok: true, json: async () => ({ version: "1.0.0" }) });
-    expect(await checkForUpdate("1.0.0")).toEqual({ state: "current", latest: "1.0.0" });
+  it("reports current when version and build both match, bypassing every cache", async () => {
+    fetchMock.mockResolvedValue({ ok: true, json: async () => ({ version: "1.0.0", build: "abc1234" }) });
+    expect(await checkForUpdate("1.0.0", "abc1234")).toEqual({ state: "current", latest: "1.0.0", latestBuild: "abc1234" });
     expect(fetchMock).toHaveBeenCalledWith("version.json", { cache: "no-store" });
   });
   it("reports available when the host is newer", async () => {
+    fetchMock.mockResolvedValue({ ok: true, json: async () => ({ version: "1.0.1", build: "abc1234" }) });
+    expect(await checkForUpdate("1.0.0", "abc1234")).toEqual({ state: "available", latest: "1.0.1", latestBuild: "abc1234" });
+  });
+  it("a fix between named versions is an update too: same version, different build", async () => {
+    /* The blind spot this stamp exists for (owner-approved 2026-08-07): the
+       check answered "You have the latest version." while a newer build of
+       the same beta sat on the host. */
+    fetchMock.mockResolvedValue({ ok: true, json: async () => ({ version: "1.0.0", build: "def5678" }) });
+    expect(await checkForUpdate("1.0.0", "abc1234")).toEqual({ state: "available", latest: "1.0.0", latestBuild: "def5678" });
+  });
+  it("a host without a stamp can only speak to the version (legacy self-hosts)", async () => {
+    fetchMock.mockResolvedValue({ ok: true, json: async () => ({ version: "1.0.0" }) });
+    expect((await checkForUpdate("1.0.0", "abc1234")).state).toBe("current");
     fetchMock.mockResolvedValue({ ok: true, json: async () => ({ version: "1.0.1" }) });
-    expect(await checkForUpdate("1.0.0")).toEqual({ state: "available", latest: "1.0.1" });
+    expect((await checkForUpdate("1.0.0", "abc1234")).state).toBe("available");
   });
   it("reports offline when the request fails, and error on a bad answer", async () => {
     fetchMock.mockRejectedValue(new Error("no network"));
-    expect((await checkForUpdate("1.0.0")).state).toBe("offline");
+    expect((await checkForUpdate("1.0.0", "abc1234")).state).toBe("offline");
     fetchMock.mockResolvedValue({ ok: false });
-    expect((await checkForUpdate("1.0.0")).state).toBe("error");
+    expect((await checkForUpdate("1.0.0", "abc1234")).state).toBe("error");
     fetchMock.mockResolvedValue({ ok: true, json: async () => ({ version: 7 }) });
-    expect((await checkForUpdate("1.0.0")).state).toBe("error");
+    expect((await checkForUpdate("1.0.0", "abc1234")).state).toBe("error");
   });
 });
 

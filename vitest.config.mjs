@@ -15,7 +15,7 @@ export default defineConfig({
   /* The app's Vite build injects this; without it the "Grown-ups corner"
      cannot be rendered in a test at all, which is how that screen came to
      have almost no coverage. */
-  define: { __APP_VERSION__: JSON.stringify("0.0.0-test") },
+  define: { __APP_VERSION__: JSON.stringify("0.0.0-test"), __APP_BUILD__: JSON.stringify("test-build") },
   resolve: {
     alias: { "@engine": p("./src/engine.js") },
     /* One React instance for the app sources and the test renderer. */

@@ -21,10 +21,17 @@ export default function UpdateRow() {
 
   async function onCheck() {
     setBusy(true); setStatus("Checking…"); setAvailable(false);
-    const r = await checkForUpdate(__APP_VERSION__);
+    const r = await checkForUpdate(__APP_VERSION__, __APP_BUILD__);
     setBusy(false);
     if (r.state === "current") setStatus("You have the latest version.");
-    else if (r.state === "available") { setStatus(`Version ${r.latest} is ready — press and hold.`); setAvailable(true); }
+    else if (r.state === "available") {
+      /* A newer build of the SAME version reads oddly as "Version x is
+         ready" when the strip already says x - so it gets plain words. */
+      setStatus(r.latest === __APP_VERSION__
+        ? "An update is ready — press and hold."
+        : `Version ${r.latest} is ready — press and hold.`);
+      setAvailable(true);
+    }
     else if (r.state === "offline") setStatus("Couldn’t check. Are you online?");
     else setStatus("The version check didn’t work. Try again later.");
   }
@@ -40,7 +47,7 @@ export default function UpdateRow() {
     <span className="wq-updrow">
       {status
         ? <span role="status" style={{ fontSize: 11.5, color: C.strip }}>{status}</span>
-        : <span className="wq-mono" style={{ fontSize: 11, color: C.strip, opacity: 0.9 }}>{"v" + __APP_VERSION__}</span>}
+        : <span className="wq-mono" style={{ fontSize: 11, color: C.strip, opacity: 0.9 }}>{"v" + __APP_VERSION__ + " · " + __APP_BUILD__}</span>}
       <span style={{ flex: 1 }} aria-hidden="true" />
       {available
         ? <HoldButton onFire={onApply} disabled={busy} color={C.green} label="⬆️ Update now" />

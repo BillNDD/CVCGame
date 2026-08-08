@@ -158,7 +158,7 @@ function UpdateSection({ updateCheck, setUpdateCheck }) {
   return (
     <section style={{ textAlign: "center", margin: "0 0 4px" }}>
       <p style={{ margin: "0 0 6px" }}>
-        <span className="wq-chip" style={{ fontSize: 11.5 }}>Word Quest app {__APP_VERSION__}</span>
+        <span className="wq-chip" style={{ fontSize: 11.5 }}>Word Quest app {__APP_VERSION__} · {__APP_BUILD__}</span>
       </p>
       <p style={{ margin: "4px 0 0", fontSize: 11.5, color: C.strip }}>
         An update never touches saved progress.

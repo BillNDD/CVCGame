@@ -104,6 +104,13 @@ The first app version is 1.0.0-beta.1. The app stays in beta until version 1.0 i
   would serve. In truly random play a dice mark replaces the level chip in the header,
   because a level number would claim a level the mode is not serving. A "Back" control
   starts nothing.
+- Changed: "Check for updates" now sees every update, not only a version-number change.
+  Each build carries a stamp (the short id of the commit it came from) in `version.json`
+  and beside the version number in the strip and the corner. The check compares both, so a
+  fix shipped between named versions is offered too — before this, the button answered
+  "You have the latest version." while a newer build of the same beta sat on the host. A
+  newer build of the same version is offered in plain words: "An update is ready — press
+  and hold."
 - New: a grown-up can skip the rest of a reveal. When a child reads several words correctly
   in a row, sitting through every full praise sentence gets slow for both of them — so a
   "⏭ skip" control now sits in the grown-up strip beside the replay control, active during
