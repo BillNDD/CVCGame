@@ -520,6 +520,14 @@ one of the two network requests safety rule S6 permits after load: adult-initiat
 host, no data carried. When the check cannot reach the host, the app says so and changes
 nothing.
 
+`version.json` carries the version and a build stamp — the short id of the commit the build
+came from — and the check compares both, so a fix shipped between named versions is offered
+as an update too (owner-approved 2026-08-07, after "You have the latest version." stood over
+a newer build of the same beta). A `version.json` without a stamp, such as an older
+self-host, speaks only to the version. A newer build of the same version is offered in
+plain words ("An update is ready"), and the strip and the corner show the stamp beside the
+version number.
+
 The foreground check is the second S6-permitted request, approved by the owner on
 2026-08-03. A page that lives for a long time without a reload — a Safari tab kept open, a
 home-screen app resumed from memory — never discovers a new version on its own, because

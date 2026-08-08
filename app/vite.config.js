@@ -5,6 +5,7 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
 import { readdirSync, readFileSync, writeFileSync } from "node:fs";
+import { execSync } from "node:child_process";
 import { createHash } from "node:crypto";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -13,6 +14,15 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ICONS_DIR = path.resolve(__dirname, "../icons");
 const DIST_DIR = path.resolve(__dirname, "dist");
 const APP_VERSION = JSON.parse(readFileSync(path.resolve(__dirname, "package.json"), "utf8")).version;
+/* The build stamp (SPEC section 7a, owner-approved 2026-08-07): the short
+   commit id, so a fix shipped between named versions is still a visible,
+   offerable update. The version number alone cannot see one - "Check for
+   updates" answered "You have the latest version." while a newer build of
+   the same beta sat on the host. */
+const APP_BUILD = (() => {
+  try { return execSync("git rev-parse --short HEAD", { cwd: __dirname, encoding: "utf8" }).trim(); }
+  catch { return "local"; }
+})();
 
 /* Walk a directory and return every file path relative to that directory. */
 function walk(dir, prefix = "") {
@@ -59,7 +69,7 @@ function wqPwa() {
       /* version.json is the update check's target (SPEC section 7a). It is
          never precached and the service worker never intercepts it, so the
          check always sees the live host. */
-      writeFileSync(path.join(DIST_DIR, "version.json"), JSON.stringify({ version: APP_VERSION }) + "\n");
+      writeFileSync(path.join(DIST_DIR, "version.json"), JSON.stringify({ version: APP_VERSION, build: APP_BUILD }) + "\n");
       const files = walk(DIST_DIR).filter((f) => f !== "sw.js" && f !== "version.json").sort();
       const assets = files.map((f) => "./" + f);
       /* Version by file CONTENTS, not names: index.html, the manifest, and the
@@ -84,7 +94,7 @@ export default defineConfig({
   /* Relative base: the built app works from any path, including a GitHub
      Pages project path. */
   base: "./",
-  define: { __APP_VERSION__: JSON.stringify(APP_VERSION) },
+  define: { __APP_VERSION__: JSON.stringify(APP_VERSION), __APP_BUILD__: JSON.stringify(APP_BUILD) },
   plugins: [react(), tailwindcss(), wqPwa()],
   resolve: {
     alias: { "@engine": path.resolve(__dirname, "../src/engine.js") },

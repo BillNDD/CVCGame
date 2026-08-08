@@ -30,7 +30,7 @@ afterEach(() => { cleanup(); vi.useRealTimers(); });
 
 describe("G10 safety — S6: the splash update controls are adult holds", () => {
   it("49: a child's tap asks nothing; the adult's activation asks once, the app's own host", async () => {
-    const fetchSpy = vi.fn(async () => ({ ok: true, json: async () => ({ version: "0.0.0-test" }) }));
+    const fetchSpy = vi.fn(async () => ({ ok: true, json: async () => ({ version: "0.0.0-test", build: "test-build" }) }));
     vi.stubGlobal("fetch", fetchSpy);
     /* The boot's own local fetch of the voice-pack manifest is not the
        subject here: the property is that no VERSION request ever leaves
@@ -85,5 +85,21 @@ describe("G10 safety — S6: the splash update controls are adult holds", () => 
       vi.unstubAllGlobals();
       delete navigator.serviceWorker;
     }
+  });
+
+  it("51: a newer build of the same version is offered in plain words", async () => {
+    /* The stamp's whole point (owner-approved 2026-08-07): a fix between
+       named versions is an update the check can see - and it must not read
+       "Version x is ready" when the strip already says x. */
+    const fetchSpy = vi.fn(async () => ({ ok: true, json: async () => ({ version: "0.0.0-test", build: "newer-build" }) }));
+    vi.stubGlobal("fetch", fetchSpy);
+    try {
+      render(createElement(App));
+      await flush(0);
+      fireEvent.keyDown(screen.getByLabelText("↻ Check for updates (hold)"), { key: "Enter" });
+      await flush(0);
+      screen.getByText("An update is ready — press and hold.");
+      expect(screen.queryByLabelText("⬆️ Update now (hold)")).not.toBeNull();
+    } finally { vi.unstubAllGlobals(); }
   });
 });
