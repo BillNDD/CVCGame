@@ -68,8 +68,9 @@ round, recorded in the word's row of `tools/voice-words.csv`), microphone fairne
 pre-reader can use the screen (judged in the app beside the printed word, never only as a
 bare clip), a green script is not enough. G13 is this rule's gate for the voice — it
 refuses any recipe no person heard — and the QA script owns device proof. This game
-teaches CVC reading and will never contain math; an earlier draft of this rule mentioned
-"math grading" in error.
+teaches phonics reading — CVC today, growing slowly toward a full phonics training game
+along the owner-ruled road in SPEC section 12 — and will never contain math; an earlier
+draft of this rule mentioned "math grading" in error.
 
 State the finish line when you start. Before implementing, write what done means for the
 task — the real behavior the child gets, and the specific check or evidence that will
