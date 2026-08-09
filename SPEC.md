@@ -18,6 +18,12 @@ gives positive feedback. A schedule engine selects the words for the next sessio
 The game gives practice and review. The game is not a curriculum. Use the game together with a
 structured phonics program.
 
+The owner's goal (stated 2026-08-07): grow Word Quest slowly into a full phonics training
+game. The bank starts at CVC words and expands level by level along the sequence the field's
+scope-and-sequences agree on, at the pace the voice pipeline allows — every new word and
+sound goes through the same listening rounds as the first 349, and every new mode obeys the
+same safety rules. Section 12 records the approved road.
+
 The reference build is the master source for interface text, layout, and colors. This document is
 the master source for behavior, data, and the build steps.
 
@@ -684,3 +690,54 @@ The minimum platform is iPadOS 15.4 or later, or an equivalent browser. The app 
 > (section 8, item 3). Use the standard microphone permission flow (section 8, item 2) with
 > design rule 1. Then check each item in section 10. Do not build section 8, item 4. Make the
 > interface stub only.
+
+## 12. The road ahead — approved and unbuilt
+
+The owner's goal is a full phonics training game, grown slowly. Everything in this section
+was researched against the field's scope-and-sequences and ruled by the owner on
+2026-08-07. Nothing here is built, and nothing here is behavior yet: each item ships only
+after its word list is culled by the owner, every new word and sound passes the same
+listening rounds as the shipped bank, and every gate grows to cover it. An item leaves
+this section for the body of the specification when it ships.
+
+Levels, in order:
+
+1. Level 10, final blends (CVCC: hand, jump, milk). Research: final blends are easier than
+   initial ones, so they come first.
+2. Level 11, initial blends (CCVC: stop, flag, swim).
+3. Level 12, plural and ending -s, a small level of its own (cats, hens, cups). The s says
+   /s/ after a quiet ending and /z/ after a voiced one; both clips exist.
+4. Level 13, compound words (CVC+CVC: sunset, catnip, laptop) — the first two-syllable
+   step, each half a word the child owns. Needs a ruling on how a word past five letters
+   displays; the current tile row caps at five.
+5. Level 14, open syllables, a seven-word mini-level (he, we, me, be, go, no, so) — the
+   vowel says its name because nothing closes it.
+6. Level 15, magic-e (CVCe: cake, dime, home, cube). The five letter-name vowel sounds are
+   already in the sound library against this day. Vowel teams stay OUT of this level:
+   teaching both at once confuses children.
+7. Beyond, unscheduled: r-controlled vowels (ar and or first, then er/ir/ur), then vowel
+   teams. The eight sounds these need (ar, or, er, moon-oo, aw, oi, ow, zh) are in the
+   voice actor's recording script so no second studio session is needed.
+
+Modes, each designed for the owner's pick before any build:
+
+- Sentence mode — decodable sentences built only from taught words plus the tricky roster;
+  the owner ruled its design comes next, alongside the blend levels, because its audio
+  path (whole recorded sentences) must be solved early.
+- Build-it — encoding: the app speaks a word and the child assembles it from sound tiles.
+  Practice-only, like free play: nothing is ever written to the record, so design rule 1
+  and safety rule S1 stand untouched.
+- Speedy words — a third free-play choice: short timed re-reads over mastered words only
+  (box 4 and up), racing the child's own best, nothing recorded. Its copy must obey S3:
+  a slow run is never a failure.
+
+The heart-word roster grows now, ahead of sentence mode: of, to, do, you, said join
+Levels 6 and 7 beside the existing tricky words, and my joins the open-syllable level,
+each with a tricky note and an owner-heard clip. "I" waits for a capitalization ruling —
+the bank is lowercase everywhere. Words ruled out of the drafts for child-appropriateness
+(2026-08-07): hunt, fist, limp, bone, buns, dump; catfish swapped out; and the plurals of
+jug and crab may never join Level 12.
+
+Ruled out for good, with reasons on the record: nonsense words (better for assessment
+than instruction, and they rob the child of set-for-variability practice); ph (no word
+obeys the bank's rules, S8); vowel teams taught alongside magic-e.
