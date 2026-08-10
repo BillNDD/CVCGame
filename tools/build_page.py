@@ -99,6 +99,7 @@ html = f'''<!doctype html><meta charset="utf8">
 </style>
 <header>
   <h1>{data["title"]}</h1>
+  {f'<p class="lede"><b>Where we are:</b> {data["tally"]}</p>' if data.get("tally") else ""}
   <p class="lede">Words: click each option to hear it, then mark ONE <b>accept, perfect</b> — or <b>closest, but not right</b> plus a comment, or <b>none are right</b>. Sentences: play, then <b>perfect</b> or <b>needs work</b>. Nothing is saved to the game until you send these back.</p>
 </header>
 <main>{"".join(cards)}</main>

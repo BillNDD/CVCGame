@@ -20,7 +20,6 @@
   "ng",
   "long_i",
   "long_o",
-  "long_u",
   "schwa",
   "oo_book",
   "oi",
@@ -130,7 +129,7 @@
  "long_a": {
   "sha256": "125c1831e828ce5b5109c819d202715834f28c8019628b494511a0952a1afdbf",
   "round": "P45-B04",
-  "verdict": "ok (owner ship review); sound round 2, 2026-08-10: closest of its field - owner ruled iterate on this clip, better arms owed",
+  "verdict": "ok (owner ship review); sound round 2, 2026-08-10: closest of its field - owner ruled iterate on this clip, better arms owed; sound round 3, 2026-08-10: perfect - the accepted clip beat its own iterate field, closed",
   "how": "letter-name \"ay\" · as in cake, name (long-vowel exception)",
   "as_in": "cake, name"
  },
@@ -161,7 +160,7 @@
  "aw": {
   "sha256": "ad0f4d413141d854a52460ab7397a183558bf168fa0696fb4878061ecfcceb87",
   "round": "P45-B04",
-  "verdict": "ok (owner ship review); sound round 2, 2026-08-10: closest of its field - owner ruled iterate on this clip, better arms owed",
+  "verdict": "ok (owner ship review); sound round 2, 2026-08-10: closest of its field - owner ruled iterate on this clip, better arms owed; sound round 3, 2026-08-10: perfect - the accepted clip beat its own iterate field, closed",
   "how": "open \"aw\" · as in saw, paw, law",
   "as_in": "saw, paw, law"
  },
@@ -185,5 +184,15 @@
   "verdict": "ok (owner ship review); re-confirmed perfect blind, sound round 2, 2026-08-10",
   "how": "r-controlled \"er\" · as in her, bird",
   "as_in": "her, bird"
+ },
+ "long_u": {
+  "sha256": "567b6372008ba28d726a1fb60f798ca595827a032e8910b304f6c77a504ebb05",
+  "round": "SND3 (sound round 3, 2026-08-10)",
+  "verdict": "perfect (owner)",
+  "family": "you_asis",
+  "ms": 970,
+  "how": "letter-name “you” · as in use, cube (long-vowel exception)",
+  "as_in": "use, cube",
+  "note": "the core of the owner-accepted pending word 'you' - the word IS the sound"
  }
 }
