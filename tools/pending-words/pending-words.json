@@ -551,5 +551,167 @@
   "verdict": "perfect",
   "level": "sound-out reveal lead-in",
   "note": "the word spoken inside a natural sentence and cut out - beat 11 styled ideas"
+ },
+ "slip": {
+  "arm": "slip_3",
+  "sha256": "9071c28232521776a7eb6a14ab152ae8768ac45eb71fffe3ece04da51e2223dc",
+  "family": "listen_sp0.95",
+  "ms": 840,
+  "round": "batch 9 (2026-08-10)",
+  "verdict": "perfect",
+  "level": "initial blends (SPEC section 12)"
+ },
+ "slam": {
+  "arm": "slam_1",
+  "sha256": "a208cef05e004e8c710938f8ae429eff481ea6ad3cfc6086cc502e8f76cd4481",
+  "family": "listen_sp0.85",
+  "ms": 990,
+  "round": "batch 9 (2026-08-10)",
+  "verdict": "perfect",
+  "level": "initial blends (SPEC section 12)"
+ },
+ "sled": {
+  "arm": "sled_2",
+  "sha256": "3b24a949236103bf65ce71d20cf577c800a7a0b5058371558c8e846852989743",
+  "family": "listen_sp0.8",
+  "ms": 1000,
+  "round": "batch 9 (2026-08-10)",
+  "verdict": "perfect",
+  "level": "initial blends (SPEC section 12)"
+ },
+ "snap": {
+  "arm": "snap_2",
+  "sha256": "1d8c0cba456b7a588f28606abacdedbbf7b76ea35305e363e1afbd67593f8f03",
+  "family": "listen_sp0.95",
+  "ms": 910,
+  "round": "batch 9 (2026-08-10)",
+  "verdict": "perfect",
+  "level": "initial blends (SPEC section 12)"
+ },
+ "swim": {
+  "arm": "swim_1",
+  "sha256": "99ea1f985c3b2fd0e682f3b305bcf4c8ce9b1594a3c3a50968ed0417d4027163",
+  "family": "listen_sp0.8",
+  "ms": 980,
+  "round": "batch 9 (2026-08-10)",
+  "verdict": "perfect",
+  "level": "initial blends (SPEC section 12)"
+ },
+ "spin": {
+  "arm": "spin_2",
+  "sha256": "39753bd2f62fa61500e57057d3ab99abf03fd54a4cbd2c062063f47f3a150b04",
+  "family": "listen_sp0.85",
+  "ms": 960,
+  "round": "batch 9 (2026-08-10)",
+  "verdict": "perfect",
+  "level": "initial blends (SPEC section 12)"
+ },
+ "stop": {
+  "arm": "stop_1",
+  "sha256": "6e9659e2fafac05ad3980c26199af5f5942f89669f7628ef8445c8f35c6f4d4b",
+  "family": "listen_sp0.95",
+  "ms": 930,
+  "round": "batch 9 (2026-08-10)",
+  "verdict": "perfect",
+  "level": "initial blends (SPEC section 12)"
+ },
+ "step": {
+  "arm": "step_2",
+  "sha256": "413c2d023fba90b8cd6e694b404772840782d87f2229f61447349c3d10c35513",
+  "family": "listen_sp0.85",
+  "ms": 890,
+  "round": "batch 9 (2026-08-10)",
+  "verdict": "perfect",
+  "level": "initial blends (SPEC section 12)"
+ },
+ "flat": {
+  "arm": "flat_3",
+  "sha256": "b69038e79d87d2cb009a19c070c41a6d3e579460b05e09734927506f39f71911",
+  "family": "listen_sp0.95",
+  "ms": 850,
+  "round": "batch 9 (2026-08-10)",
+  "verdict": "perfect",
+  "level": "initial blends (SPEC section 12)"
+ },
+ "plan": {
+  "arm": "plan_4",
+  "sha256": "d79dbc063cd0387f2abbf2d6e39c7fb80d90671e6aebf81c3ca16344342c980b",
+  "family": "listen_sp0.85",
+  "ms": 890,
+  "round": "batch 9 (2026-08-10)",
+  "verdict": "perfect",
+  "level": "initial blends (SPEC section 12)"
+ },
+ "glad": {
+  "arm": "glad_1",
+  "sha256": "4662d211d8d9f246d0c510bbfb5d1a6cdac7faccf27e690b41c7f172ffc7cecb",
+  "family": "listen_sp0.8",
+  "ms": 910,
+  "round": "batch 9 (2026-08-10)",
+  "verdict": "perfect",
+  "level": "initial blends (SPEC section 12)"
+ },
+ "grin": {
+  "arm": "grin_2",
+  "sha256": "bb04cff5d6fd0b81d06d1b258c7de70a770dc3862d085aa2fcd45252d22a130a",
+  "family": "say_sp0.8_breath",
+  "ms": 880,
+  "round": "batch 9 (2026-08-10)",
+  "verdict": "perfect",
+  "level": "initial blends (SPEC section 12)"
+ },
+ "drop": {
+  "arm": "drop_4",
+  "sha256": "106f59dc06c0330d24209abff90d733fa6d59c3348eec172fcc2e58f6efe24c8",
+  "family": "say_sp0.8",
+  "ms": 850,
+  "round": "batch 9 (2026-08-10)",
+  "verdict": "perfect",
+  "level": "initial blends (SPEC section 12)"
+ },
+ "trap": {
+  "arm": "trap_1",
+  "sha256": "13e6e76f5fee494dce17cbdf34f9ffb4b21cfa29c49295d6b39d684800891386",
+  "family": "listen_sp0.8",
+  "ms": 910,
+  "round": "batch 9 (2026-08-10)",
+  "verdict": "perfect",
+  "level": "initial blends (SPEC section 12)"
+ },
+ "twin": {
+  "arm": "twin_8",
+  "sha256": "56a0dab87cab273c44488110e32470464eade7a2b8e4120bba780c6b0cfc7cd6",
+  "family": "listen_sp0.95",
+  "ms": 830,
+  "round": "batch 9 (2026-08-10)",
+  "verdict": "perfect",
+  "level": "initial blends (SPEC section 12)"
+ },
+ "clap": {
+  "arm": "clap_1",
+  "sha256": "5e93a96b6b975b96da05316d33cc4384fbc24727c2aaaca627c4dd06cbc75d97",
+  "family": "listen_sp0.8",
+  "ms": 870,
+  "round": "batch 9 (2026-08-10)",
+  "verdict": "perfect",
+  "level": "initial blends (SPEC section 12)"
+ },
+ "silk": {
+  "arm": "silk_1",
+  "sha256": "763eb5d69373b689a3d9b941e38c2e94c79239201484846c1e50c34a90d3ce20",
+  "family": "listen_sp0.8",
+  "ms": 960,
+  "round": "batch 9 (2026-08-10)",
+  "verdict": "perfect",
+  "level": "initial blends (SPEC section 12)"
+ },
+ "mend": {
+  "arm": "mend_5",
+  "sha256": "12884014d6c663d90fa6d4d79027a2ba9e6cf9ce3aad7ffc4020d8f9ea09a077",
+  "family": "listen_sp0.8",
+  "ms": 880,
+  "round": "batch 9 (2026-08-10)",
+  "verdict": "perfect",
+  "level": "initial blends (SPEC section 12)"
  }
 }

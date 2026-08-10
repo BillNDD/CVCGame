@@ -15,7 +15,6 @@
   "w",
   "y_sound",
   "sh",
-  "th_quiet",
   "th_buzzing",
   "ng",
   "long_i",
@@ -194,5 +193,15 @@
   "how": "letter-name “you” · as in use, cube (long-vowel exception)",
   "as_in": "use, cube",
   "note": "the core of the owner-accepted pending word 'you' - the word IS the sound"
+ },
+ "th_quiet": {
+  "sha256": "0a85af4ca84d0fcb98f1751a7280e175dcab8ae9cd39f487cd6e957065eeb620",
+  "round": "SND4 (sound round 4, 2026-08-10)",
+  "verdict": "perfect (owner)",
+  "family": "puff_moth_110ms",
+  "ms": 660,
+  "how": "a soft short puff of air between the teeth, no voice · as in thin, math",
+  "as_in": "thin, math",
+  "note": "the frication run of the approved pack word moth, shaped: cut to 110 ms, 15 ms attack, 45 ms decay, peak -9 dBFS. Held flat frication reads as hiss; the shaping is what won."
  }
 }

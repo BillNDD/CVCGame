@@ -203,6 +203,40 @@ cleaned templates with the onset check, with warmth as the declared goal
 ("none have any human warmth" — slip's field): natural-sentence families
 beside the teacher frames, an unhurried 0.8, and a breathy WORLD variant.
 
+## Batch 9 — judged 2026-08-10: the blob fix held
+
+Eighteen of nineteen words perfect in one round — slip, slam, sled, snap,
+swim, spin, stop, step, flat, plan, glad, grin, drop, trap, twin, clap,
+silk, mend — after three rounds in which the same words could not win at
+all. The clean-template cutter and onset gate did exactly what the
+calibration promised. Every winner's bytes are in `tools/pending-words/`
+(77 words + 2 sentences now wait). **flag** returned none (its field was
+three arms of one family) and rides again in batch 10 with a full field.
+The owner's verdict on direction: "words batches feels like we are in the
+right direction with last batch."
+
+## Sound rounds 4 and 5 — 2026-08-10
+
+Round 4 closed the hardest sound: **th (quiet) is DONE.** The winner is the
+moth frication run SHAPED — cut to 110 ms, 15 ms attack, 45 ms decay, peak
+−9 dBFS. Held flat frication reads as a hissing snake at any level; the
+shaping is what won. Bytes preserved in `tools/pending-sounds/`.
+
+Round 4's vowel cards all failed the same way — "you failed to isolate the
+sound itself again. Every option." — and the failure named a blind spot now
+recorded in `docs/settled.md`: a voiced vowel flanked by voiced speech
+fuses seamlessly, and no voicing or island measure can see the join. The
+gate passed arms the ear correctly refused.
+
+Round 5 is built on the cure: only cuts whose SOURCE shows measured silence
+on both flanks (40 ms+ under −32 dB) may become arms — a cut flanked by
+silence cannot contain a neighbour. The sounds ride in their own pure
+words (eye, oh, ow, oy, uh) in repeat and sandwich frames. **oo (book)**
+has no pure word, so no synthesis cut of it can be proven isolated: the
+recommendation to the owner is their own recording, the nine-sound
+precedent. Sound tally: **39 of 45 closed**, 6 open — long_i, long_o,
+schwa, oo_book, oi, ow (five of them in round 5).
+
 ## Sound round 3 — judged 2026-08-10
 
 The first fully gated sound round (every arm located and content-verified,
