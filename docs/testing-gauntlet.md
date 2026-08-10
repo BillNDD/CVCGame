@@ -114,6 +114,11 @@ The level range is 1 to 7. SPEC and the engine agree; the owner corrected SPEC o
   Ceiling: 0 survivors (`g5_survivors_max`).
 - Runner control: before any mutant runs, the pristine suite must pass. A broken test
   environment therefore fails loudly instead of reading as "every mutant killed".
+- A mutant is KILLED only when a TEST FAILED, and the count of failing tests is printed
+  beside it. A non-zero exit alone is not proof: a mutant that crashes the runner or breaks
+  the environment exits non-zero too, and scoring that as a kill claims protection the suite
+  never demonstrated. There are three outcomes — killed, survived, and ERRORED — and an
+  errored mutant fails the gate rather than passing as a kill. G19 works the same way.
 - This gate exists. Add mutants for new invariants; re-point moved anchors; never delete one.
 - Run G4 and G5 one after the other, never at the same time. Each rewrites files the other
   reads — G4 regenerates `tests/generated`, G5 regenerates `src/engine.js` — so a parallel run
@@ -124,10 +129,27 @@ The level range is 1 to 7. SPEC and the engine agree; the owner corrected SPEC o
 - Tool: Vitest coverage (v8 provider). Command: `npm run test:coverage`.
 - Floors on `src/engine.js`: 95 percent lines, 90 percent branches. Coverage is a floor, not a
   goal. Keys: `g6_lines_min`, `g6_branches_min`.
-- Floors on `app/src/**`: 81 percent lines, 82 percent branches, enforced by Vitest itself, and
-  `App.jsx` is pinned separately by the gauntlet. Keys: `g6_app_lines_min`,
-  `g6_app_branches_min`, `g6_appjsx_lines_min`, `g6_appjsx_branches_min`. The app was measured
-  only after beta.2, where every microphone fault lived in an app file no floor watched.
+- Floors on `app/src/**`: 82 percent lines, 84 percent branches, enforced in BOTH places on the
+  same pair of numbers — by Vitest itself through `vitest.config.mjs`, and by the gauntlet
+  against `g6_app_lines_min` and `g6_app_branches_min`. `App.jsx` is pinned separately
+  (`g6_appjsx_lines_min`, `g6_appjsx_branches_min`). The app was measured only after beta.2,
+  where every microphone fault lived in an app file no floor watched.
+  - Until 2026-08-10 those two baseline keys were read by NO tool while sitting in the
+    baseline file reading as protection, and they disagreed with the 81/82 the config
+    actually enforced — which is how an audit came to believe the app floors were in
+    conflict. A floor that guards nothing is worse than no floor. They are wired now, and
+    both places carry one pair of numbers.
+- Calibration (rule E5): `node tools/coverage-control.mjs`, a gate of its own in the run.
+  Every other detector here ships a control that proves it catches its target fault; coverage
+  was the exception, reporting a number that the floors compared with nothing proving the
+  meter measured at all. A drifted include glob, a stale generated engine, or a provider that
+  quietly stopped instrumenting would still print a healthy table and still clear every
+  floor. So the meter is checked against fixtures whose true coverage is known by
+  construction, the way a scale is checked with a known weight: a fully exercised file must
+  report 100 percent lines and branches, a file with one untaken branch must report below 100
+  and above 0, and a file no test touches must report 0. The fixtures live in a throwaway
+  `.cov-control` directory, gitignored, deleted on the way out, and scoped by their own config
+  so they can never reach the real run's numbers.
 - Two files are excluded, both named in `vitest.config.mjs`: `main.jsx`, entry wiring whose
   decision now lives in the measured `swrefresh.js`, and `pronunciation.js`, an interface stub
   for a service that is out of scope (SPEC section 8, item 4). Nothing else may be excluded.
