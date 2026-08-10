@@ -82,6 +82,22 @@ between the "Listen—{word}." and "The printed word is {word}." families at
 both speeds. Seven words did not settle (of, to, do, said, my, milk, melt)
 and went to a second round.
 
+## Two more words settled, and the cutter rebuilt (batch 2 and 3, 2026-08-07)
+
+Batch 2 closed **to** and **do** — "to" on the end-carrier at speed 1.0, "do"
+on the same carrier with its creaky tail trimmed by 90 ms, which is the creak
+repair below, chosen by ear. Both wait in `tools/pending-words/`.
+
+Batch 2 also failed, usefully. The owner rejected the rest for two reasons,
+and both are now rules. The cuts were wrong — "I can hear 'of red'" — because
+a silence search cannot know where a word ends; `tools/wordcut.py` replaces it
+with a template match (render the word alone, slide it over the carrier on
+log-mel features, then walk at most 40 ms to a quiet edge) and every cut is
+length-checked against the solo render. And the register was wrong: the owner
+asked for a word spoken "in the style of a school teacher educating a
+classroom", so every frame now addresses a class — which also keeps the word
+away from the phrase-final position where the creak lives.
+
 ## The crackle at the end of a word — diagnosed 2026-08-07
 
 The owner rejected several round-1 candidates for "crackling at the end", a
