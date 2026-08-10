@@ -45,6 +45,21 @@ updated whenever a round lands.
   screen would have refused two clips the owner called perfect. Measurement
   may refuse an inaudible clip or a phrase-masquerading-as-a-word. Nothing
   else. This is the third failed proxy; do not look for a fourth.
+- **A voiced sound flanked by voiced speech cannot be proven isolated**
+  (2026-08-10, sound round 4). A vowel fuses seamlessly into a voiced
+  neighbour: no island, voicing, or DTW measure can see the join, so the
+  gate passed every arm and the owner heard neighbour material in all of
+  them. The only verifiable isolation is positional: a cut whose SOURCE
+  carrier shows measured silence on both flanks (40 ms+ under −32 dB)
+  cannot contain a neighbour. Sound round 5 ships nothing without that
+  measurement, and a sound with no pure word to put between pauses
+  (oo as in book) has no honest synthesis path — it goes to the owner's
+  voice, the nine-sound precedent.
+- **Flat held frication reads as hiss; a shaped puff reads as th**
+  (2026-08-10, sound round 4). The th that won is the moth frication run
+  cut to 110 ms with a 15 ms attack, 45 ms decay, and a −9 dBFS peak, after
+  three rounds of "static" and "hissing snake" verdicts on longer, louder,
+  flatter cuts. Level was never the whole problem; shape was.
 - **The creak repair works: to and do are settled** (batch 2, 2026-08-07).
   "to" won on the end-carrier at speed 1.0, "do" on the same carrier with the
   creaky tail trimmed by 90 ms — the direct repair, chosen by the ear.
