@@ -738,7 +738,10 @@ the bank is lowercase everywhere. Words ruled out for child-appropriateness (202
 dump, and milt; catfish swapped out; and the plurals of jug and crab may never join
 Level 12. "milt" is the reason CLAUDE.md now requires the WHOLE bank to be re-screened
 before every beta: the first draft lists were screened, a later backfill was not, and the
-word reached a listening round before the owner caught it.
+word reached a listening round before the owner caught it. Ruled FINE by the owner on the
+same day, so a later screen does not raise them again: **knob** and **pot** — ordinary
+words (a door knob, a cooking pot) that carry adult slang in some dialects, and standard
+in phonics word lists.
 
 Ruled out for good, with reasons on the record: nonsense words (better for assessment
 than instruction, and they rob the child of set-for-variability practice); ph (no word
