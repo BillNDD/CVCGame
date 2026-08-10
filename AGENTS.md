@@ -24,6 +24,17 @@ Read these four, in this order, before you change anything:
    build if the chain disagrees. Editing a derived file by hand is always
    wrong.
 
+## Writing to the owner
+
+Every message to the owner — chat replies, round-delivery notes, the
+instructions on a listening page, reports — follows Zinsser's four principles
+(owner-ruled 2026-08-10): **simplicity** (plain words, no jargon or clutter),
+**brevity** (say it once, cut what the reader does not need), **clarity** (one
+readable point at a time, numbers where numbers answer), and **humanity**
+(write like a person, own mistakes plainly). This governs how agents write to
+the owner. It says nothing about how the game speaks to children or parents —
+SPEC owns that voice.
+
 ## The two failures this repository is built around
 
 **A machine cannot hear a word.** Every automated check passed while the pack
