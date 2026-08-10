@@ -65,6 +65,44 @@ byte-pinned word rather than replacing accepted audio with a render.
   sidecar workspace archive on the owner's PC
   (handoff `word-quest-uplift-handoff-2026-08-07T1438Z`).
 
+## Approved and unshipped: 13 words with no level yet (2026-08-07)
+
+Batch 1 of the new-word rounds went to the owner on 2026-08-07 and closed
+thirteen words: **you, and, hand, land, sand, band, bend, pond, jump, lamp,
+camp, bump, belt** — every one "perfect". They are unshipped for one reason
+only: their levels do not exist yet (SPEC section 12). The exact bytes the
+owner heard, their families and their hashes are in `tools/pending-words/`,
+so the day each word joins the bank it ships the clip that was approved, not
+a re-render. This entry exists because an approved result that lives nowhere
+is a result this project loses — cup was lost that way for two days.
+
+What the round also settled about the method: every one of the thirteen came
+from a **carrier sentence**, none from a plain render, and the winners split
+between the "Listen—{word}." and "The printed word is {word}." families at
+both speeds. Seven words did not settle (of, to, do, said, my, milk, melt)
+and went to a second round.
+
+## The crackle at the end of a word — diagnosed 2026-08-07
+
+The owner rejected several round-1 candidates for "crackling at the end", a
+"zzzz" at the end, "a small crackle at the end". Measured against the clips
+the same ear called perfect, the rejected ones carry irregular, widely spaced
+glottal pulses in their last 120 ms. That is **utterance-final creak**: at the
+end of a breath group the subglottal pressure falls and phonation turns
+creaky. It is in the human speech the model was trained on, so the model
+reproduces it — and every round-1 carrier put the target word LAST, so every
+candidate inherited it. The repair is positional: a bracketed frame
+("up—{word}—up.") leaves the word mid-phrase, where phonation stays modal,
+and a throwaway word takes the creak. Trimming the creaky tail off a
+known-good end-carrier clip is the second repair. Round 2 offers both.
+
+A creak SCREEN was written and withdrawn the same hour: measured on round 1's
+own results it would have refused sand_3 and and_6, which the owner called
+perfect. That is this project's oldest lesson in its third form — duration
+failed as a proxy twice, and irregularity fails as a third. Measurement may
+refuse a clip that is inaudible or that is really a phrase; nothing else.
+Listening is the only detector.
+
 ## How a listening round is presented — the standard (2026-08-07)
 
 Every round, for a word, a sentence or a sound, goes to the owner as one
