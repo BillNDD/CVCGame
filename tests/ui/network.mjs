@@ -45,6 +45,9 @@ for (let i = 0; i < 50; i++) {
 
 const executablePath = existsSync("/opt/pw-browsers/chromium") ? "/opt/pw-browsers/chromium" : undefined;
 const browser = await chromium.launch({ executablePath, args: ["--no-sandbox"] });
+/* The gauntlet's evidence file records WHICH browser saw this, so a report
+   can never be read as covering a platform it never ran on. */
+console.log(`browser: Chromium/${browser.version()}`);
 
 /* Every request the context makes, from any page, worker or service worker.
    Recorded as {url, resourceType, from} so a failure names the offender. */

@@ -81,3 +81,4 @@ kokoro-env/
 # the clip list the renderer reads, regenerated from the engine each time
 script.json
 tools/__pycache__/
+.gauntlet-evidence.json

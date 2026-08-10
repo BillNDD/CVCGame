@@ -1,4 +1,4 @@
-# Testing gauntlet — gate specification (G1–G19)
+# Testing gauntlet — gate specification (G1–G20)
 
 This document defines the quality gates for Word Quest. The owner reviews this document, not
 every line of code. The gates are the contract. `npm run gauntlet` runs every automatic gate.
@@ -431,11 +431,57 @@ promised a fallback the code never performed; G12 counted the step and saw nothi
   that needs the engine chains the extractor itself; the npm `pretest` hook covers `npm test`
   only.
 - It then runs, in order: G11, G1+G2+G9+G10+G14+G15 (one Vitest run), G3 regeneration check,
-  G4, G5, G6 coverage and quality, build, G7, G8, G16 doc truth, G12 structure check,
-  G13 voice pack, and the baseline comparison.
+  G4, G5, G19 app mutation, G6 coverage and quality, build, G7, G8, G18 network, G16 doc
+  truth, G12 structure check, G13 voice pack, G20 effect map, G17 governing files, and the
+  baseline comparison.
 - The runner is `tools/gauntlet.mjs`. Run `npm run gauntlet`. The runner takes a lock, so two
   gauntlets cannot race each other over the generated files.
 - CI: `.github/workflows/gauntlet.yml` runs the same command on every push and pull request.
 - The gauntlet prints one line per gate: name, command, pass or fail, and the counts.
 - Bootstrap: the floor for a gate that is not built yet starts at 0. Raise it in the same
   commit that lands the gate. A landed gate never keeps a 0 floor.
+
+### Named checks, and the gates that must run
+
+- The floors COUNT results. A count cannot tell a deletion from a swap: remove one check,
+  add an easier one, and the total is unchanged while the protection is gone. So a gate may
+  also declare the checks it must produce BY NAME, and a name that stops appearing fails the
+  build even when every number still passes. G7, G18 and G19 carry named lists today.
+- `REQUIRED_GATES` in the runner is the same idea one level up: every gate that must have
+  run. A gauntlet that skipped one reports INCOMPLETE instead of a smaller, greener total.
+- Both mechanisms carry inline controls: a missing name must be caught and a present one
+  must pass; the required-gate list must notice an absent gate.
+
+### Release evidence
+
+- The gauntlet writes `.gauntlet-evidence.json` (untracked — it is evidence of one run, not
+  a source file). It records the commit, whether the working tree was dirty when the gates
+  ran, a hash over the built payload in `app/dist`, the node and browser identity, every
+  gate with its counts and bounds, the gates that did not run, and an overall status of
+  PASS, FAIL or INCOMPLETE.
+- Why: a printed summary is read once and then gone, so "publish only what was certified"
+  rested on memory. The payload hash and commit bind a green result to the exact bytes it
+  certified; `dirty: true` marks a run whose tree did not match its commit, which certifies
+  nothing. A change to production code, content or the built payload after a green run
+  invalidates it — cut a fresh one.
+- The file also carries the residual risks no gate can close: device proof and spoken-word
+  quality are human (G12, G13).
+
+## G20. Effect map
+
+- Tool: `tools/effect-map.mjs`. Writes `docs/effect-map.md`. Keys: `g20_tests_mapped` (273).
+- One row per executable test: its identifier, file, suite, and the test's own sentence —
+  which in this project IS the Given/When/Then effect, because tests are named as behaviour.
+  Per FILE it records the requirement protected, the independent oracle, the platform, the
+  mutant family that attacks it, the evidence produced, and the known limits: what these
+  tests do NOT prove.
+- It is GENERATED, never hand-kept. A hand-written map of 273 tests starts lying the first
+  time a test is renamed, and a document that lies is worse than none — "What counts as
+  finished work" bans paperwork that guards nothing. The generator reads the real test
+  files; `--check` fails when the committed map and the tree disagree, so a test with no row
+  or a row for a test that no longer exists blocks the build.
+- Negative control: `--self-test` proves an undeclared test file is reported and that the
+  rendered map contains only real tests.
+- The owner ruled for the full map on 2026-08-10, over a recommendation for a leaner
+  version; generating it is how it stays true.
+- Run: `node tools/effect-map.mjs` (write), `--check` (verify), `--self-test` (control).
