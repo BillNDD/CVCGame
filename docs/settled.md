@@ -80,6 +80,32 @@ updated whenever a round lands.
   a trim removes. Anything offered for hat must be a new mechanism, not another
   margin.
 
+## Mistakes this project has made, and must not repeat
+
+- **Never offer a cut clip without verifying its CONTENT** (2026-08-07, batch
+  3). Every candidate was checked for length and none for what it contained.
+  A 600 ms window that starts 200 ms late is still 600 ms, so clips holding
+  half of the next word passed the check and went to the owner, who had to sit
+  through them: "every option contains other words, other sounds etc". Length,
+  duration, energy and every other cheap measure say nothing about whether the
+  audio is the word. `tools/verify.py` is the check that was missing — DTW
+  distance to the word's own solo render, a syllable-island count, and a
+  length ratio — and it is proven both ways before use: it passes 6 of 6 clips
+  the owner called perfect and refuses 14 of 18 "of" arms from the round it
+  was written for. Run it on every candidate. A round that skips it is a round
+  that wastes the only listener this project has.
+- **Do not send a round without checking it yourself first, by every means
+  available.** The ear is the only judge of quality, but "is this even the
+  right word" is a question a machine can answer, and answering it is not
+  optional. Three rounds in one day cost the owner's patience because this
+  step was skipped twice.
+- **A validation that is not run against its own controls is not a
+  validation.** Both the creak screen (withdrawn) and the content gate (kept)
+  were tested against clips the owner had already judged. The first failed its
+  controls and was deleted; the second passed and shipped. Never trust a new
+  check that has not been shown to accept what a person accepted and refuse
+  what a person refused.
+
 ## Known broken, and why
 
 - **The carrier cut is not general.** It is the treatment that fixed hop, hen
