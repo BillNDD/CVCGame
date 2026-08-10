@@ -45,6 +45,25 @@ updated whenever a round lands.
   screen would have refused two clips the owner called perfect. Measurement
   may refuse an inaudible clip or a phrase-masquerading-as-a-word. Nothing
   else. This is the third failed proxy; do not look for a fourth.
+- **The creak repair works: to and do are settled** (batch 2, 2026-08-07).
+  "to" won on the end-carrier at speed 1.0, "do" on the same carrier with the
+  creaky tail trimmed by 90 ms — the direct repair, chosen by the ear.
+- **A cut must be LOCATED, never guessed from silence.** The gap search only
+  knows where sound dips, so it ran past the word and shipped "of red" to the
+  owner. `tools/wordcut.py` renders the word alone and slides that template
+  over the carrier on log-mel features to find where the word actually is,
+  then walks at most 40 ms to a quiet frame so a neighbour can never be
+  swallowed. Every cut is length-checked against the solo render. Do not go
+  back to threshold cutting.
+- **The register is a teacher's, not a narrator's** (owner, 2026-08-07): a
+  word is spoken as a teacher speaks it to a class. The frames that carry it —
+  "{Word}, everybody.", "Say {word}, everybody.", "Class, the word {word} is
+  next." — also solve the creak, because in each one the word is followed by a
+  comma and more speech and so is never phrase-final.
+- **Phoneme renders are robotic and are not offered again.** The owner named
+  the two phoneme arms as "terribly robotic" in batch 2. Explicit phonemes
+  keep their one settled job — the two-letter words the phonemiser misreads —
+  and are never a candidate family for naturalness.
 
 ## Closed by a listener — do not re-offer
 
