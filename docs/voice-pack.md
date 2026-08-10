@@ -215,6 +215,21 @@ three arms of one family) and rides again in batch 10 with a full field.
 The owner's verdict on direction: "words batches feels like we are in the
 right direction with last batch."
 
+## Sound round 6 — judged 2026-08-10: three perfect, two sounds left
+
+**ow, air and ear all closed in one round.** ow's winner is `ow_2` — the
+WORLD-warmed treatment of the owner's own round-5 "closest", which is the
+iterate loop working as designed: closest, warmed, perfect. air and ear —
+the r-controlled pair added on the owner's fill-in instruction — closed on
+their FIRST round, both by the silence-flank recipe. Bytes preserved in
+`tools/pending-sounds/`; the ledger's revisit list is now scoped to the
+only two open sounds. **The synthesis campaign is complete: every sound
+with an honest synthesis path is closed.** What remains is **schwa** (five
+failed rounds) and **oo (book)** (no pure word) — both standing on the
+recommendation for the owner's own voice, the nine-sound precedent, and a
+blind cut round like the stops got. Sound tally: **45 of 47 closed**
+(43 of the original 45, plus air and ear).
+
 ## Sound round 5 — judged 2026-08-10: the silence-flank recipe wins
 
 Three closed in one round: **long_i** (perfect), **long_o** (perfect),

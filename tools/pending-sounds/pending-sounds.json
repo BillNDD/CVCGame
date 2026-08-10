@@ -2,24 +2,8 @@
  "_comment": "Sounds the owner accepted in the sidecar's P45 ship review. The bytes here are the exact clips the owner marked ok; they are option 1 in any round for that sound, and become the row in tools/voice-sounds.csv when the sound-out reveal is built. Sounds on the revisit list are not here - they are still open.",
  "_source": "P45-OK-SHIP-HANDOFF, owner ship-review export 2026-08-10T15:41:39.154Z",
  "_revisit": [
-  "z",
-  "n",
-  "h",
-  "short_u",
-  "g",
-  "j_sound",
-  "short_e",
-  "b",
-  "d",
-  "v",
-  "w",
-  "y_sound",
-  "sh",
-  "th_buzzing",
-  "ng",
   "schwa",
-  "oo_book",
-  "ow"
+  "oo_book"
  ],
  "short_o": {
   "sha256": "820a5025f119a235bc4ec02549f53286e946218d01228b0474023cc07afcd463",
@@ -230,5 +214,33 @@
   "how": "the glide of coin and boy · as in coin, boy",
   "as_in": "coin, boy",
   "note": "cut from the sound's own pure word between measured silences"
- }
+ },
+ "ow": {
+  "sha256": "90164b117464629c924d3480cf4a3ef1834bb5dce04f46b9bbd93503e3657020",
+  "round": "SND6 (sound round 6, 2026-08-10)",
+  "verdict": "perfect (owner)",
+  "family": "seed_warm",
+  "ms": 990,
+  "how": "the glide of cow and out · as in cow, out",
+  "as_in": "cow, out"
+ },
+ "air": {
+  "sha256": "00c067dec3a9602eb361c3c131690e75fe51b058088c9a70ebce0e25443596f6",
+  "round": "SND6 (sound round 6, 2026-08-10)",
+  "verdict": "perfect (owner)",
+  "family": "rep_sp0.8_q240-180",
+  "ms": 990,
+  "how": "r-controlled 'air' · as in chair, bear, hair",
+  "as_in": "chair, bear"
+ },
+ "ear": {
+  "sha256": "03b5cc97b216e4f86b07fdef2a32fbea3a547c1a53223c39948c733647ceafbd",
+  "round": "SND6 (sound round 6, 2026-08-10)",
+  "verdict": "perfect (owner)",
+  "family": "rep_sp0.8_q40-120",
+  "ms": 970,
+  "how": "r-controlled 'ear' · as in ear, deer, near",
+  "as_in": "ear, deer"
+ },
+ "_revisit_note": "Only these two remain open, both recommended for the owner's own voice (2026-08-10). The P45 handoff's longer revisit list named the sidecar's own alternate bakes for sounds tools/voice-sounds.csv had already closed with owner-accepted recordings; those entries were removed 2026-08-10 so no future round re-opens a settled sound (E10)."
 }
