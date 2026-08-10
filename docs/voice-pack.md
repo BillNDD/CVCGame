@@ -65,6 +65,44 @@ byte-pinned word rather than replacing accepted audio with a render.
   sidecar workspace archive on the owner's PC
   (handoff `word-quest-uplift-handoff-2026-08-07T1438Z`).
 
+## How a listening round is presented — the standard (2026-08-07)
+
+Every round, for a word, a sentence or a sound, goes to the owner as one
+self-contained HTML page with the audio embedded, so it works offline and from
+any folder. The tools are `render_batch.py` and `build_page.py` in the round
+workspace; the page is the only thing the owner ever has to open.
+
+- **Twenty items to a batch.** More than that and a round stops being a
+  sitting. The batch is named in the page's heading and repeated in the export,
+  so an answer can never be filed against the wrong round.
+- **A word gets several candidates, a sentence gets one clip.** Words are the
+  hard problem, so each is offered as up to eight arms — the plain render at
+  both speeds and the carrier-cut families the bank actually won on — with
+  blind labels (`hand_1`, `hand_2`), one click to a play. Sentences are usually
+  right, so each gets a single play and a **perfect / needs work** pair.
+- **Every card takes exactly one verdict**, and the page shows what it recorded
+  under each card: for a word, **accept, perfect** on one arm, or **closest,
+  but not right** on the nearest arm (which seeds the next round), or **none
+  are right**; for a sentence, **perfect** or **needs work**. Every card has an
+  optional comment box for what is wrong in the owner's own words.
+- **A copy-all button at the foot** writes one line per item —
+  `item | verdict | arm | comment` — to the clipboard and to a visible box as a
+  fallback, so the whole round comes back as one paste.
+- **The audio rules are settled ones, not preferences.** Clips play through one
+  shared WebAudio context with pre-decoded buffers, because a per-tap `Audio`
+  element is throttled in embedded viewers — that cost this project two rounds.
+  Sub-second clips are padded and peak-lifted. And the renderer refuses to
+  build a round at all if any clip measures under 250 ms or too quiet to judge:
+  no round ships without that audit.
+- **A carrier candidate that keeps more than 60 percent of its carrier is
+  dropped before the owner sees it**, because it is a phrase, not a word. Round
+  8 offered a listener two identical files and round 10 offered whole
+  sentences; neither may recur.
+
+The owner's ear is final, and the page is only the way the ear is asked. A
+winner becomes a row in `tools/voice-words.csv` — with its family, round and
+byte pin — only after the answer comes back.
+
 ## How the pack was made
 
 The clips are rendered by a build tool on a developer machine. The model never ships; the
