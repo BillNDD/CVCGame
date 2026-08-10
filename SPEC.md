@@ -734,9 +734,11 @@ Modes, each designed for the owner's pick before any build:
 The heart-word roster grows now, ahead of sentence mode: of, to, do, you, said join
 Levels 6 and 7 beside the existing tricky words, and my joins the open-syllable level,
 each with a tricky note and an owner-heard clip. "I" waits for a capitalization ruling —
-the bank is lowercase everywhere. Words ruled out of the drafts for child-appropriateness
-(2026-08-07): hunt, fist, limp, bone, buns, dump; catfish swapped out; and the plurals of
-jug and crab may never join Level 12.
+the bank is lowercase everywhere. Words ruled out for child-appropriateness (2026-08-07): hunt, fist, limp, bone, buns,
+dump, and milt; catfish swapped out; and the plurals of jug and crab may never join
+Level 12. "milt" is the reason CLAUDE.md now requires the WHOLE bank to be re-screened
+before every beta: the first draft lists were screened, a later backfill was not, and the
+word reached a listening round before the owner caught it.
 
 Ruled out for good, with reasons on the record: nonsense words (better for assessment
 than instruction, and they rob the child of set-for-variability practice); ph (no word

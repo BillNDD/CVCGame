@@ -1,0 +1,108 @@
+{
+ "title": "Batch 8 \u2014 Pronounced: (new ideas) + 2 iterations + 17 initial blends",
+ "items": [
+  {
+   "kind": "sentence",
+   "id": "s:pronounced",
+   "text": "Pronounced:",
+   "note": "rounds 6-7: all too alike and inhuman \u2014 this time each option is a DIFFERENT idea",
+   "ideas": true
+  },
+  {
+   "kind": "word",
+   "text": "mend",
+   "seed": "quoted_sp0.9",
+   "note": "round 7: mend_6 closest \u2014 iterate"
+  },
+  {
+   "kind": "word",
+   "text": "silk",
+   "note": "round 7: every version had extra sounds at the front"
+  },
+  {
+   "kind": "word",
+   "text": "slip",
+   "note": "new \u2014 L11 initial blend"
+  },
+  {
+   "kind": "word",
+   "text": "slam",
+   "note": "new \u2014 L11 initial blend"
+  },
+  {
+   "kind": "word",
+   "text": "sled",
+   "note": "new \u2014 L11 initial blend"
+  },
+  {
+   "kind": "word",
+   "text": "snap",
+   "note": "new \u2014 L11 initial blend"
+  },
+  {
+   "kind": "word",
+   "text": "swim",
+   "note": "new \u2014 L11 initial blend"
+  },
+  {
+   "kind": "word",
+   "text": "spin",
+   "note": "new \u2014 L11 initial blend"
+  },
+  {
+   "kind": "word",
+   "text": "stop",
+   "note": "new \u2014 L11 initial blend"
+  },
+  {
+   "kind": "word",
+   "text": "step",
+   "note": "new \u2014 L11 initial blend"
+  },
+  {
+   "kind": "word",
+   "text": "flag",
+   "note": "new \u2014 L11 initial blend"
+  },
+  {
+   "kind": "word",
+   "text": "flat",
+   "note": "new \u2014 L11 initial blend"
+  },
+  {
+   "kind": "word",
+   "text": "plan",
+   "note": "new \u2014 L11 initial blend"
+  },
+  {
+   "kind": "word",
+   "text": "glad",
+   "note": "new \u2014 L11 initial blend"
+  },
+  {
+   "kind": "word",
+   "text": "grin",
+   "note": "new \u2014 L11 initial blend"
+  },
+  {
+   "kind": "word",
+   "text": "drop",
+   "note": "new \u2014 L11 initial blend"
+  },
+  {
+   "kind": "word",
+   "text": "trap",
+   "note": "new \u2014 L11 initial blend"
+  },
+  {
+   "kind": "word",
+   "text": "twin",
+   "note": "new \u2014 L11 initial blend"
+  },
+  {
+   "kind": "word",
+   "text": "clap",
+   "note": "new \u2014 L11 initial blend"
+  }
+ ]
+}
