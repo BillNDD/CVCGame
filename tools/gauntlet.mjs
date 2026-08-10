@@ -332,7 +332,7 @@ const report_ = {
   /* The RESOLVED tool versions, not the caret ranges in package.json: two
      runs of the same commit can otherwise use different vitest, playwright or
      axe builds with nothing recording which one produced the evidence. */
-  suites: Object.fromEntries(["vitest", "playwright", "@axe-core/playwright", "fast-check"].map((n) => {
+  suites: Object.fromEntries(["vitest", "playwright", "axe-core", "fast-check"].map((n) => {
     const v = sh(`node -p "require('./node_modules/${n}/package.json').version" 2>/dev/null`);
     return [n, v || null];
   })),
