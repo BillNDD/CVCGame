@@ -118,6 +118,15 @@ updated whenever a round lands.
   they were, and never asked whether they were the word. `verify()` now
   documents that its template is the canonical render, always. A check that
   compares a thing to itself proves nothing.
+- **The content gate applies to EVERY round type, not the round type it was
+  written for** (2026-08-10, sound round 2). The word rounds verified every
+  cut; the sound-round tool was written beside them WITHOUT the gate and cut
+  donor sentences at blind fractions — so the owner got "the sound + a long
+  piece of a sentence" on card after card and gave up marking. The same
+  mistake in its fourth form, committed while its settled entry sat two
+  bullets above. A new round tool must not render its first candidate until
+  it can verify one; the check is part of the round, not a feature of one
+  script.
 - **The last card on a listening page must clear the sticky footer**
   (2026-08-07, batch 5). The one sentence in the batch was rendered behind the
   copy-all bar, so the owner never saw it and reported no sentences at all.
