@@ -99,7 +99,8 @@ Run `npm test` for the unit, property, acceptance, fault, and safety suites. Run
 4. Digraphs always show as one sound unit.
 5. A session has a maximum of 26 prompts.
 6. The adult controls are quiet, small in appearance, and operate on a hold gesture.
-7. Speech output says full words only. Speech output never says letter names.
+7. Speech output says full words, and the single sounds a level teaches. Speech output never
+   says letter names.
 
 ## How to contribute
 
