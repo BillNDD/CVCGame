@@ -61,7 +61,13 @@ const CORNER_HINT = SR ? "" : CORNER_NO_SR_MSG;
    app answered "Backup loaded." while replacing a family's whole history with
    an empty state. An adult reaches for a backup exactly when something has
    already gone wrong, so a truncated or hand-edited file is the likely one. */
-const isBackup = (b) =>
+/* Exported for the app-mutation gate (G19): a JSON file can never be an array
+   that also carries named properties, so the Array.isArray clause cannot be
+   reached through the import path and its mutant could not be killed there.
+   The clause still guards a real shape — an array with properties is trivial
+   to build in JavaScript — so the predicate is tested directly rather than
+   the guard being dropped as unreachable. */
+export const isBackup = (b) =>
   !!b && typeof b === "object" && !Array.isArray(b) &&
   typeof b.level === "number" && isFinite(b.level) &&
   !!b.words && typeof b.words === "object" && !Array.isArray(b.words) &&
