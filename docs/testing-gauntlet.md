@@ -131,7 +131,10 @@ The level range is 1 to 7. SPEC and the engine agree; the owner corrected SPEC o
   goal. Keys: `g6_lines_min`, `g6_branches_min`.
 - Floors on `app/src/**`: 82 percent lines, 84 percent branches, enforced in BOTH places on the
   same pair of numbers — by Vitest itself through `vitest.config.mjs`, and by the gauntlet
-  against `g6_app_lines_min` and `g6_app_branches_min`. `App.jsx` is pinned separately
+  against `g6_app_lines_min` and `g6_app_branches_min`, read from the `app/src` row of the
+  coverage table. That row is the top-level files of `app/src`, not the whole tree: the
+  screens sit in their own `app/src/screens` row and are floored by Vitest's `app/src/**`
+  threshold rather than by the gauntlet's parse. `App.jsx` is pinned separately
   (`g6_appjsx_lines_min`, `g6_appjsx_branches_min`). The app was measured only after beta.2,
   where every microphone fault lived in an app file no floor watched.
   - Until 2026-08-10 those two baseline keys were read by NO tool while sitting in the
@@ -186,8 +189,12 @@ The level range is 1 to 7. SPEC and the engine agree; the owner corrected SPEC o
   - The app serves a session offline after one online load. This tests the offline capability
     that already exists.
   - Every rendered control meets its S7 floor, MEASURED with `boundingBox()` — child
-    controls (`.wq-cta`) 56 px and adult controls (`.wq-sbtn`) 44 px in both directions —
-    across the home, ready and feedback screens at 390x844, 768x1024 and 1280x800. The
+    controls (`.wq-cta`) 56 px tall and adult controls (`.wq-sbtn`) 44 px in both directions —
+    across the home, ready and feedback screens at 390x844, 768x1024 and 1280x800. Child
+    controls are full-width buttons, so only their height can be short; adult controls are
+    small in both directions and are measured both ways. The counts are checked PER CLASS,
+    because a single total let eleven adult controls satisfy a guard while the 56 px child
+    floor measured nothing at all. The
     stylesheet check in G10 is a pre-filter for the fast suite: a control can carry
     `min-height:56px` and still render shorter inside a shrinking flex parent, under a
     transform, or below a later rule that wins. Negative control: injected rules that
@@ -325,7 +332,7 @@ engine, never a hand-kept list.
   heard, alters a guard and grants one to an unheard word, drifts the lock file and deletes a
   word from it, deletes a word-table row, and quietly tunes an unlocked word; the detector
   must report every one.
-- Baseline floors: `g13_clips` (316) and `g13_engine_tests` (6).
+- Baseline floors: `g13_clips` (372) and `g13_engine_tests` (9).
 - To re-render the pack after the bank grows: `docs/voice-pack.md`.
 
 ## G19. App mutation
@@ -355,15 +362,20 @@ engine, never a hand-kept list.
   instant and has its own controls, but it can only see the code it is pointed at — never
   a request from a dependency, an `<img src>`, a stylesheet `url()`, or a path its
   allowlist strips before scanning. G18 watches the browser instead.
-- Playwright drives the built app through a child's whole visit, the grown-up strip's
-  update check, and a return to the foreground, recording every request from every page
-  and worker. The allowlist is the whole of S6 and has no exceptions: same-origin only.
+- Playwright drives the built app and records every request from every page, worker and
+  WebSocket: one word graded and its WHOLE reveal waited out (until the advance control
+  comes alive, not a fixed sleep), then the Grown-ups corner — which owns the backup
+  export, the reset flow and the update switch — then the grown-up strip's update check,
+  then a return to the foreground. It does NOT reach the done screen: a session is about
+  twenty words, and grading them all would add minutes for a screen with no network path
+  of its own. Requests are judged by comparing ORIGINS, not string prefixes, so a
+  different port or a userinfo host cannot read as same-origin. The allowlist is the whole of S6 and has no exceptions: same-origin only.
   `version.json` is same-origin too, so the approved update check needs no special case —
   a rule with no exceptions cannot be quietly widened.
 - Negative control: a cross-origin `fetch` and a cross-origin `<img src>` are planted in
   the live page and the recorder must catch both. Without it, a recorder that saw nothing
   would look exactly like an app that asked for nothing.
-- Baseline floor: `g18_network_checks` (3).
+- Baseline floor: `g18_network_checks` (4).
 - Run: `npm run test:network`
 
 ## G17. Governing files
@@ -376,7 +388,7 @@ engine, never a hand-kept list.
   dependency rule.
 - Negative control: `--self-test` plants a `PROGRESS.md` and a stray `status.json`; the
   detector must report both and still accept the real tree.
-- Baseline floor: `g17_governing_files` (20).
+- Baseline floor: `g17_governing_files` (23).
 - Run: `node tools/check-governing.mjs`
 
 ## G14. Update system
@@ -403,7 +415,7 @@ version it has already replaced (SPEC section 7a).
   with the app's `index.html`, whose assets are addressed relative to the page.
 - Negative control: each tripwire is asserted against a fixture carrying the fault, and
   removing the scope check makes the navigation tests fail.
-- Baseline floors: `g14_update_tests` (12) and `g14_worker_tests` (5).
+- Baseline floors: `g14_update_tests` (18) and `g14_worker_tests` (5).
 
 ## G15. Recognizer contract
 
@@ -424,7 +436,7 @@ beta.2 while every gate stayed green. Two invariants, in `tests/recognizer.test.
   whole release.
 - Negative control: a fired event with no handler must leave the screen identical, and the
   same event on the CURRENT attempt must change it.
-- Baseline floor: `g15_recognizer_tests` (49).
+- Baseline floor: `g15_recognizer_tests` (51).
 
 ## G16. Doc truth
 
@@ -445,7 +457,7 @@ promised a fallback the code never performed; G12 counted the step and saw nothi
 - Negative control: `--self-test` rewords a SPEC sentence, rewords a QA promise, changes a
   timing, changes the hold constant, and leaves a stale speed in SPEC; every detector must
   fire.
-- Baseline floor: `g16_doc_rules` (5).
+- Baseline floor: `g16_doc_rules` (7).
 
 ## Aggregation
 
@@ -492,8 +504,12 @@ promised a fallback the code never performed; G12 counted the step and saw nothi
 ## G20. Effect map
 
 - Tool: `tools/effect-map.mjs`. Writes `docs/effect-map.md`. Keys: `g20_tests_mapped` (273).
-- One row per executable test: its identifier, file, suite, and the test's own sentence —
-  which in this project IS the Given/When/Then effect, because tests are named as behaviour.
+- One row per `it()` SITE — its file, suite, and the test's own sentence, which in this
+  project IS the Given/When/Then effect, because tests are named as behaviour. A site inside
+  a loop or a table runs many times, so the 273 rows describe the 330 tests Vitest executes;
+  the map counts the places behaviour is asserted, not the executions. `--check` reconciles
+  the rows against the `it()` sites in each file, so a call the parser cannot read fails the
+  build instead of silently going unmapped.
   Per FILE it records the requirement protected, the independent oracle, the platform, the
   mutant family that attacks it, the evidence produced, and the known limits: what these
   tests do NOT prove.

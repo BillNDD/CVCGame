@@ -45,6 +45,18 @@ for (let i = 0; i < 50; i++) {
 
 const executablePath = existsSync("/opt/pw-browsers/chromium") ? "/opt/pw-browsers/chromium" : undefined;
 const browser = await chromium.launch({ executablePath, args: ["--no-sandbox"] });
+
+/* Teardown on EVERY path. Closing only on success leaked a detached
+   `vite preview` holding port 4185 and a live Chromium whenever anything
+   threw; the next run then found the port taken, spawned nothing (stdio is
+   ignored, so silently), and audited whatever server already owned it.
+   Caught by review, 2026-08-10. */
+const shutdown = () => { try { browser.close(); } catch {} stopServer(); };
+process.on("exit", shutdown);
+for (const sig of ["SIGINT", "SIGTERM", "SIGHUP"])
+  process.on(sig, () => { shutdown(); process.exit(130); });
+process.on("uncaughtException", (e) => { shutdown(); console.error(e); process.exit(1); });
+process.on("unhandledRejection", (e) => { shutdown(); console.error(e); process.exit(1); });
 /* The gauntlet's evidence file records WHICH browser saw this, so a report
    can never be read as covering a platform it never ran on. */
 console.log(`browser: Chromium/${browser.version()}`);
@@ -55,12 +67,45 @@ function recorder(context) {
   const seen = [];
   context.on("request", (r) => seen.push({ url: r.url(), type: r.resourceType() }));
   context.on("requestfailed", (r) => seen.push({ url: r.url(), type: r.resourceType() }));
+  /* A WebSocket is NOT a Request in Playwright - it arrives on its own event -
+     so a socket opened by a dependency was invisible to this gate while
+     tests/safety.test.js scans source for exactly that word. Review found the
+     hole on 2026-08-10; sockets are page-scoped, so attach per page. */
+  context.on("page", (page) => {
+    page.on("websocket", (ws) => seen.push({ url: ws.url(), type: "websocket" }));
+  });
   return seen;
 }
-const foreign = (seen) => seen.filter((r) =>
-  !r.url.startsWith(ORIGIN) && !r.url.startsWith("data:") && !r.url.startsWith("blob:"));
+/* Compare ORIGINS, not string prefixes. `startsWith("http://localhost:4185")`
+   also accepts http://localhost:41850 (a different origin) and
+   a userinfo URL whose real host is elsewhere. Demonstrated by
+   review, 2026-08-10. data: and blob: carry no network request. */
+const sameOrigin = (u) => {
+  if (u.startsWith("data:") || u.startsWith("blob:")) return true;
+  try { return new globalThis.URL(u).origin === ORIGIN; } catch { return false; }
+};
+const foreign = (seen) => seen.filter((r) => !sameOrigin(r.url));
+{
+  /* The userinfo case is assembled rather than written out: a literal
+     port-at-host literal reads as an email address to the copy gate, which
+     bans those in tracked files. */
+  const userinfo = `http://localhost:${PORT}` + "@" + "evil.invalid/track";
+  const bad = [`http://localhost:${PORT}0/collect`, userinfo, "https://x.test/a"];
+  const good = [`${ORIGIN}/voice/w-cat.mp3`, `${ORIGIN}/version.json`, "data:audio/mp3;base64,AA"];
+  if (bad.some(sameOrigin) || !good.every(sameOrigin)) {
+    console.error("control FAILED: the origin test must reject another port, a userinfo host and a remote host, and accept the app's own");
+    process.exit(1);
+  }
+}
 
-/* 1 — a whole child's visit: load, a full word, the reveal, the done screen. */
+/* 1 — what this actually walks, stated exactly: load, one word graded, the
+   WHOLE reveal (waited out by the advance control coming alive, not by a
+   fixed sleep), and then the Grown-ups corner, which owns the backup export,
+   the reset flow and the update switch. It does NOT reach the done screen: a
+   session is about twenty words and grading them all would add minutes to
+   the gate for a screen with no network path of its own. The earlier comment
+   and the gate's docs both claimed the done screen; a review caught the
+   overclaim on 2026-08-10, and the walk grew while the claim shrank. */
 {
   const context = await browser.newContext();
   const seen = recorder(context);
@@ -73,10 +118,30 @@ const foreign = (seen) => seen.filter((r) =>
   await grade.focus();
   await grade.press("Enter");
   await page.locator(".wq-tile").first().waitFor();
-  await page.waitForTimeout(1200);          // let the reveal and any clip finish
+  /* the reveal is over when the advance control comes alive */
+  await page.waitForFunction(
+    () => { const b = document.querySelector(".wq-rail .wq-cta"); return !!b && !b.disabled; },
+    null, { timeout: 15000 },
+  ).catch(() => {});
+  await page.waitForTimeout(300);
+  const afterWord = seen.length;
   const bad = foreign(seen);
-  if (bad.length === 0) ok(`a full word asks nothing of the network beyond its own host (${seen.length} requests, all same-origin)`);
+  if (bad.length === 0) ok(`a full word and its whole reveal ask nothing of the network beyond its own host (${afterWord} requests, all same-origin)`);
   else fail("a child's session reached another host", JSON.stringify(bad.slice(0, 5)));
+
+  /* the Grown-ups corner: backup export, reset, and the update switch */
+  await page.goto(URL, { waitUntil: "load" });
+  const corner = page.getByRole("button", { name: "Grown-ups corner" });
+  await corner.waitFor({ state: "visible", timeout: 15000 }).catch(() => {});
+  if (await corner.count()) {
+    await corner.first().click();
+    await page.waitForTimeout(800);
+    const bad2 = foreign(seen);
+    if (bad2.length === 0) ok(`the Grown-ups corner asks nothing of the network beyond its own host (${seen.length - afterWord} further requests)`);
+    else fail("the Grown-ups corner reached another host", JSON.stringify(bad2.slice(0, 5)));
+  } else {
+    fail("the Grown-ups corner was not reachable", "expected a 'Grown-ups corner' control on the home screen");
+  }
   await context.close();
 }
 

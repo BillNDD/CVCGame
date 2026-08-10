@@ -82,15 +82,35 @@ const run = (cmd, args) => { try { execFileSync(cmd, args, { stdio: "pipe" }); r
    demonstrated. Three outcomes — killed, survived, errored — and an error
    fails the gate rather than passing as a kill. */
 const ANSI = /\[[0-9;]*[A-Za-z]/g;
+/* Read the TESTS row, not the TEST FILES row. Vitest prints both, file first:
+       Test Files  1 failed | 1 passed (2)
+             Tests  2 passed (2)
+   A file that throws at import fails as a FILE while zero tests fail, so a
+   loose /(\d+) failed/ read the file row and announced a crashed suite as a
+   kill - the exact false kill this distinction exists to prevent. Caught by
+   review, reproduced against vitest 2.1.9 on 2026-08-10. */
+const testsFailed = (out) => {
+  const m = out.match(/\bTests\s+(\d+) failed/);
+  return m ? Number(m[1]) : 0;
+};
+{
+  const crashed = "Test Files  1 failed | 1 passed (2)\n      Tests  2 passed (2)\n";
+  const real = "Test Files  1 failed (13)\n      Tests  3 failed | 327 passed (330)\n";
+  if (testsFailed(crashed) !== 0 || testsFailed(real) !== 3) {
+    console.error("control FAILED: the failure parser must read the Tests row, not Test Files");
+    process.exit(1);
+  }
+}
+
 function runTests() {
   try {
     execFileSync("npx", ["vitest", "run", "--reporter=dot"],
-      { stdio: "pipe", encoding: "utf8", env: { ...process.env, NO_COLOR: "1" } });
+      { stdio: "pipe", encoding: "utf8", maxBuffer: 64 * 1024 * 1024,
+        env: { ...process.env, NO_COLOR: "1" } });
     return { passed: true, failed: 0 };
   } catch (e) {
     const out = (String(e.stdout || "") + String(e.stderr || "")).replace(ANSI, "");
-    const m = out.match(/(\d+) failed/);
-    return { passed: false, failed: m ? Number(m[1]) : 0 };
+    return { passed: false, failed: testsFailed(out) };
   }
 }
 
