@@ -159,6 +159,12 @@ workspace; the page is the only thing the owner ever has to open.
 - **A copy-all button at the foot** writes one line per item —
   `item | verdict | arm | comment` — to the clipboard and to a visible box as a
   fallback, so the whole round comes back as one paste.
+- **A SOUND card states its criteria before its options.** Every sound in a
+  round shows, above the arms, how it should sound and what disqualifies a
+  candidate ("Should sound like: a t-click snapping into shush, one sound" /
+  "Reject if: it splits into t + sh, a letter name, an uh-tail"). A listener
+  must not have to hold the standard in their head while judging twelve clips
+  against it. The wording comes from the sound's own recipe where one exists.
 - **The audio rules are settled ones, not preferences.** Clips play through one
   shared WebAudio context with pre-decoded buffers, because a per-tap `Audio`
   element is throttled in embedded viewers — that cost this project two rounds.
