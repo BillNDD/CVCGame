@@ -296,5 +296,123 @@
   "round": "batch 5 / 2026-08-07",
   "verdict": "perfect",
   "level": "L10 final blends"
+ },
+ "s:sound-it-out": {
+  "arm": "s:sound-it-out",
+  "family": "sentence",
+  "ms": 1510,
+  "sha256": "716abf41ac1dc892bb24132f20220e7a6e3e0171f888c07b0d2038903459e453",
+  "round": "batch 6 / 2026-08-07",
+  "verdict": "perfect",
+  "level": "reveal lead-in (planned)",
+  "text": "Let\u2019s sound it out."
+ },
+ "of": {
+  "arm": "of_6",
+  "family": "listen_sp0.9_front130",
+  "ms": 760,
+  "sha256": "7560e3f01143d518d00bb45410bcf65e64000808f3b26790ab746b06e792bd94",
+  "round": "batch 6 / 2026-08-07",
+  "verdict": "perfect",
+  "level": "heart word"
+ },
+ "soft": {
+  "arm": "soft_12",
+  "family": "spell_sp1.05_front30",
+  "ms": 960,
+  "sha256": "f70e46ab9b255c4849f2d644ce2bf608eb485d7db27dad572bc0b9426290a5fd",
+  "round": "batch 6 / 2026-08-07",
+  "verdict": "perfect",
+  "level": "L10 final blends"
+ },
+ "raft": {
+  "arm": "raft_1",
+  "family": "spell_sp0.85_front90",
+  "ms": 1040,
+  "sha256": "b64a6d6437ab4022bbd6b1015176f7a0f5b3942e0afcfcd66f835570d2a4e451",
+  "round": "batch 6 / 2026-08-07",
+  "verdict": "perfect",
+  "level": "L10 final blends"
+ },
+ "task": {
+  "arm": "task_3",
+  "family": "listen_sp0.85_front30",
+  "ms": 1050,
+  "sha256": "7164c19c0433c76a6f04f7f22436ac59aac557fbfa7e448483ce315fc8ed419a",
+  "round": "batch 6 / 2026-08-07",
+  "verdict": "perfect",
+  "level": "L10 final blends"
+ },
+ "fast": {
+  "arm": "fast_2",
+  "family": "twice_sp0.95_front90",
+  "ms": 950,
+  "sha256": "6cf8672e3f49f711581fc7e8dc91e03abb12bd1e55e2ae5947dbca0926f141bd",
+  "round": "batch 6 / 2026-08-07",
+  "verdict": "perfect",
+  "level": "L10 final blends"
+ },
+ "just": {
+  "arm": "just_4",
+  "family": "again_sp0.85_front90",
+  "ms": 900,
+  "sha256": "9094bbe95f05a9a53a7b3a45dc3fa6b430490c9040108e80c909fcd0bcdb7f07",
+  "round": "batch 6 / 2026-08-07",
+  "verdict": "perfect",
+  "level": "L10 final blends"
+ },
+ "hint": {
+  "arm": "hint_3",
+  "family": "spell_sp0.85_front90",
+  "ms": 880,
+  "sha256": "3dfe017f5f1f2fefce46da92317367bd92bdd2f2c817fb450e996c9076a16c99",
+  "round": "batch 6 / 2026-08-07",
+  "verdict": "perfect",
+  "level": "L10 final blends"
+ },
+ "pump": {
+  "arm": "pump_7",
+  "family": "spell_sp0.95_front90",
+  "ms": 840,
+  "sha256": "d8bbb11f50739d0ffd202154ce5be4ee6f9121af8b97b004352cb5a84c243a46",
+  "round": "batch 6 / 2026-08-07",
+  "verdict": "perfect",
+  "level": "L10 final blends"
+ },
+ "romp": {
+  "arm": "romp_2",
+  "family": "again_sp0.85_front90",
+  "ms": 920,
+  "sha256": "b833af3b3bbfe4832cbeba8af5cc6595900dc583ee898f097fd259b90b55db6c",
+  "round": "batch 6 / 2026-08-07",
+  "verdict": "perfect",
+  "level": "L10 final blends"
+ },
+ "sift": {
+  "arm": "sift_3",
+  "family": "again_sp0.85_front90",
+  "ms": 1020,
+  "sha256": "79ac4f6136f362fd1e75ecc66b87cdd44092c7d81e129ac22ac364aa1605e8fd",
+  "round": "batch 6 / 2026-08-07",
+  "verdict": "perfect",
+  "level": "L10 final blends"
+ },
+ "gulp": {
+  "arm": "gulp_5",
+  "family": "spell_sp0.85_front60",
+  "ms": 930,
+  "sha256": "a41ad0838b84d0363d03f44124bf49485006f64695a3da570dfab5b5d53bbbdd",
+  "round": "batch 6 / 2026-08-07",
+  "verdict": "perfect",
+  "level": "L10 final blends"
+ },
+ "cost": {
+  "arm": "cost_6",
+  "family": "quoted_sp0.85_front90",
+  "ms": 990,
+  "sha256": "417177655c3fa744c22aca79848c697c5746d5cf758bd78f270602172d3d2015",
+  "round": "batch 6 / 2026-08-07",
+  "verdict": "perfect",
+  "level": "L10 final blends"
  }
 }
