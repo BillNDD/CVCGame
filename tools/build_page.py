@@ -30,6 +30,8 @@ for n, item in enumerate(ordered, start=1):
     <span class="spacer"></span>
     <button class="none" data-item="{item["text"]}">none are right</button>
   </div>
+  {(f'<div class="crit"><div class="how"><b>Should sound like:</b> {item["how"]}</div>'
+     f'<div class="rej"><b>Reject if:</b> {item["reject"]}</div></div>') if item.get("how") else ""}
   <div class="arms">{arms}</div>
   <label class="cmt">comment (optional)<input type="text" data-item="{item["text"]}" placeholder="what is wrong with it"></label>
   <div class="state" data-state="{item["text"]}">unmarked</div>
@@ -72,6 +74,9 @@ html = f'''<!doctype html><meta charset="utf8">
  .sentence{{border-color:#8a5a00;background:#fffdf7}}
  .kindtag{{font-size:11px;letter-spacing:.10em;text-transform:uppercase;color:#8a5a00;font-weight:700;margin-bottom:6px}}
  .note{{font-size:12.5px;color:#6b6b58;font-style:italic}}
+ .crit{{margin:8px 0 2px;padding:8px 10px;background:#f4f6fb;border-left:3px solid #4a3f8f;border-radius:0 6px 6px 0}}
+ .how{{font-size:13px;color:#1a1a2e}}
+ .rej{{font-size:13px;color:#8a2b1f;margin-top:2px}}
  .spacer{{flex:1}}
  .arms{{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 6px}}
  .arm{{display:flex;flex-direction:column;gap:4px;min-width:150px}}
