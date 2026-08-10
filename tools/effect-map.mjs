@@ -168,8 +168,36 @@ for (const f of files) {
   }
 }
 
-const undeclared = files.filter((f) => !DECLARED[f]);
-const orphanDeclarations = Object.keys(DECLARED).filter((f) => !files.includes(f));
+/* The three detectors, named once and called by BOTH --check and
+   --self-test. When the self-test re-implemented them inline it could pass
+   while the shipped path was broken, which is the fault a control exists to
+   prevent - and the first fix repeated it. Stub any function here and the
+   self-test fails. */
+const detectUndeclared = (fileList, declared) => fileList.filter((f) => !declared[f]);
+const detectOrphans = (fileList, declared) => Object.keys(declared).filter((f) => !fileList.includes(f));
+const detectShortfall = (counts) => counts.filter((x) => x.rows !== x.sites);
+
+const undeclared = detectUndeclared(files, DECLARED);
+const orphanDeclarations = detectOrphans(files, DECLARED);
+
+/* Reconcile the rows against the real it() SITES in each file. The parser is
+   line-based, so a call it cannot read - a template literal, an it.each, a
+   name split over two lines - would silently produce no row, and the map
+   would understate the suite while --check still reported zero problems. A
+   review found 57 running tests with no row on 2026-08-10. Counting sites
+   independently of the parser turns that class of gap into a build failure.
+   One site can run many times (a loop over a table), so rows count SITES,
+   which is why the total here is smaller than the number of tests Vitest
+   runs. */
+/* Anchored to the start of a line: a bare /it\s*\(/ also matches the words
+   "got it (hold)" inside a button label, which counted 17 phantom sites the
+   first time this check ran. */
+const SITE = /^\s*(it|test)(\.\w+)?\s*\(/gm;
+const siteCount = (file) => (readFileSync(file, "utf8").match(SITE) || []).length;
+const siteCounts = files.map((f) => ({
+  file: f, sites: siteCount(f), rows: rows.filter((r) => r.file === f).length,
+}));
+const shortfall = detectShortfall(siteCounts);
 
 function render() {
   const L = [];
@@ -183,7 +211,9 @@ function render() {
   L.push("Given/When/Then effect. The requirement, oracle, platform, mutant family, evidence");
   L.push("and known limits are declared per FILE, in the tool, where they stay true.");
   L.push("");
-  L.push(`Totals: ${rows.length} executable tests across ${files.length} files, plus ${NON_TEST_GATES.length} gates that are not test files.`);
+  L.push(`Totals: ${rows.length} it() SITES across ${files.length} files, plus ${NON_TEST_GATES.length} gates that are not test files.`);
+  L.push("");
+  L.push("A site inside a loop or a table runs many times, so these rows describe more tests than they number: Vitest executes 330. The rows count the places behaviour is asserted.");
   L.push("");
   for (const f of files) {
     const m = DECLARED[f];
@@ -219,17 +249,27 @@ function render() {
 const OUT = "docs/effect-map.md";
 
 if (process.argv.includes("--self-test")) {
-  /* The map must notice a test that has no row. A planted file name with a
-     test in it must be reported as undeclared and unmapped. */
+  /* Planted inputs through the SHIPPED detectors. The first version of this
+     control asked whether an absent file was absent - true however the tool
+     behaves - and printed "self-test OK" with the detector gone. A review
+     caught it on 2026-08-10. Every check below calls the same function
+     --check calls, so breaking one breaks this. */
   const fake = "tests/planted.test.js";
-  const sawUndeclared = !DECLARED[fake];
-  const before = render();
-  const withExtra = before.includes("planted");
-  if (sawUndeclared && !withExtra) {
-    console.log("self-test OK: an undeclared test file is reported, and the rendered map contains only real tests");
+  const real = files[0];
+  const checks = {
+    undeclaredCaught: detectUndeclared([...files, fake], DECLARED).length === 1,
+    orphanCaught: detectOrphans(files, { ...DECLARED, [fake]: {} }).length === 1,
+    shortfallCaught: detectShortfall([{ file: real, sites: 99, rows: 1 }]).length === 1,
+    cleanAccepted: detectUndeclared(files, DECLARED).length === 0
+      && detectOrphans(files, DECLARED).length === 0
+      && detectShortfall(siteCounts).length === 0,
+    staleCaught: existsSync(OUT) && readFileSync(OUT, "utf8").replace(/\n\| 1 \|[^\n]*/, "") !== render(),
+  };
+  if (Object.values(checks).every(Boolean)) {
+    console.log("self-test OK: an undeclared test file is reported, a declaration for a vanished file is reported, a missed it() site is reported, a stale map is detected, and the real tree is accepted");
     process.exit(0);
   }
-  console.error("self-test FAILED: " + JSON.stringify({ sawUndeclared, withExtra }));
+  console.error("self-test FAILED: " + JSON.stringify(checks));
   process.exit(1);
 }
 
@@ -237,6 +277,7 @@ const text = render();
 let problems = 0;
 for (const f of undeclared) { console.error(`  PROBLEM: ${f} has no declaration in tools/effect-map.mjs`); problems++; }
 for (const f of orphanDeclarations) { console.error(`  PROBLEM: tools/effect-map.mjs declares ${f}, which is not a test file any more`); problems++; }
+for (const x of shortfall) { console.error(`  PROBLEM: ${x.file} has ${x.sites} it() sites but ${x.rows} rows - the parser missed ${x.sites - x.rows}`); problems++; }
 
 if (process.argv.includes("--check")) {
   const current = existsSync(OUT) ? readFileSync(OUT, "utf8") : "";

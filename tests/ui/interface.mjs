@@ -358,16 +358,29 @@ for (const height of [430, 555, 720, 950]) {
       await page.locator(".wq-tile").first().waitFor();
       seen.push(...await measure(page));                        // session, feedback phase
       const tooSmall = short(seen);
-      if (seen.length < 6) fail(`too few controls measured at ${vp.width}x${vp.height}`, `${seen.length}`);
+      /* PER CLASS, not a total. A single total let the 56 px child floor
+         measure NOTHING while eleven adult controls cleared the guard: if
+         .wq-cta stopped matching after a rename, the gate still printed
+         "all render at or above their floor". Caught by review 2026-08-10.
+         Real counts across the three screens are 4 child and 11 adult. */
+      const nChild = seen.filter((c) => c.who === "child").length;
+      const nAdult = seen.filter((c) => c.who === "adult").length;
+      if (nChild < 3 || nAdult < 6)
+        fail(`too few controls measured at ${vp.width}x${vp.height}`, `child=${nChild} adult=${nAdult} (need 3 and 6)`);
       else if (tooSmall.length) fail(`a control renders under its floor at ${vp.width}x${vp.height}`, JSON.stringify(tooSmall.slice(0, 4)));
-      else ok(`${vp.width}x${vp.height}: ${seen.length} controls all render at or above their floor (smallest ${Math.min(...seen.map((c) => c.h))}px tall)`);
+      else ok(`${vp.width}x${vp.height}: ${nChild} child and ${nAdult} adult controls all render at or above their floor (smallest ${Math.min(...seen.map((c) => c.h))}px tall)`);
 
       /* negative control: shrink both control classes and re-measure */
       await page.addStyleTag({ content: ".wq-root .wq-cta{min-height:40px!important;padding:2px!important}"
         + ".wq-root .wq-sbtn{min-height:30px!important;min-width:30px!important;padding:0!important}" });
       const shrunk = short(await measure(page));
-      if (shrunk.length) console.log(`control OK: the probe reads rendered size (${shrunk.length} controls fall under the floor when the CSS shrinks them)`);
-      else fail("negative control broken", `shrunken controls still measured at or above the floor at ${vp.width}x${vp.height}`);
+      /* BOTH classes must be caught: a control that only ever proved the
+         adult rule would leave the child rule unproven. */
+      const shrunkChild = shrunk.filter((c) => c.who === "child").length;
+      const shrunkAdult = shrunk.filter((c) => c.who === "adult").length;
+      if (shrunkChild > 0 && shrunkAdult > 0)
+        console.log(`control OK: the probe reads rendered size (${shrunkChild} child and ${shrunkAdult} adult controls fall under the floor when the CSS shrinks them)`);
+      else fail("negative control broken", `shrunken controls still measured at or above the floor at ${vp.width}x${vp.height} (child=${shrunkChild} adult=${shrunkAdult})`);
       await context.close();
     }
   }

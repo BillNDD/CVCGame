@@ -8,7 +8,9 @@ Per-test rows carry the test's own sentence, which in this project IS the
 Given/When/Then effect. The requirement, oracle, platform, mutant family, evidence
 and known limits are declared per FILE, in the tool, where they stay true.
 
-Totals: 273 executable tests across 13 files, plus 10 gates that are not test files.
+Totals: 273 it() SITES across 13 files, plus 10 gates that are not test files.
+
+A site inside a loop or a table runs many times, so these rows describe more tests than they number: Vitest executes 330. The rows count the places behaviour is asserted.
 
 ## tests/adult-controls.test.js — 9 tests (G10)
 

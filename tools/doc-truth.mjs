@@ -58,6 +58,8 @@ const real = {
   home: readFileSync("app/src/screens/HomeScreen.jsx", "utf8"),
   bankSize: LEVELS.flatMap((l) => l.words).length,
   corpus: SOURCES.map((f) => readFileSync(f, "utf8")).join("\n"),
+  gauntletDoc: readFileSync("docs/testing-gauntlet.md", "utf8"),
+  baseline: readFileSync(".claude/gate-baseline.json", "utf8"),
 };
 
 /* The sentences SPEC section 8 pins in its microphone block, as a fenced
@@ -141,11 +143,25 @@ function run(d) {
   if (!homeCount || Number(homeCount[1]) !== d.bankSize)
     found.push(`the chooser copy says all ${homeCount ? homeCount[1] : "?"} words, the bank holds ${d.bankSize}`);
 
+  /* Every floor the gate specification quotes must be the floor the gauntlet
+     actually enforces. Seven of them had drifted by 2026-08-10 - the numbers
+     were written once and never moved when the floors rose - so the document
+     told a reader the suite was smaller and weaker than it is. A review found
+     it; this rule means no one has to find it again. */
+  rules += 1;
+  const baseline = JSON.parse(d.baseline);
+  for (const m of d.gauntletDoc.matchAll(/`(g\d+[a-z0-9_]*)`\s*\((\d+)\)/g)) {
+    const [, key, stated] = m;
+    if (!(key in baseline)) found.push(`the gate specification quotes ${key}, which is not a baseline key`);
+    else if (Number(stated) !== baseline[key])
+      found.push(`the gate specification says ${key} is ${stated}, the baseline enforces ${baseline[key]}`);
+  }
+
   return { found, rules };
 }
 
 if (process.argv.includes("--self-test")) {
-  const seen = { spec: false, qa: false, timing: false, hold: false, recipe: false, bank: false };
+  const seen = { spec: false, qa: false, timing: false, hold: false, recipe: false, bank: false, floor: false };
 
   const specCorrupt = { ...real, spec: real.spec.replace(/^(\s{3}retry\s+)"[^"]+"$/m, '$1"A sentence the app never says."') };
   seen.spec = run(specCorrupt).found.some((p) => p.startsWith("SPEC sentence missing"));
@@ -169,8 +185,13 @@ if (process.argv.includes("--self-test")) {
   const bankCorrupt = { ...real, home: real.home.replace(/any word from all \d+/, "any word from all 250") };
   seen.bank = run(bankCorrupt).found.some((p) => p.startsWith("the chooser copy says all 250"));
 
+  /* A floor quoted in the gate specification that no longer matches the
+     baseline: the exact drift found on 2026-08-10. */
+  const floorCorrupt = { ...real, gauntletDoc: real.gauntletDoc.replace(/`g20_tests_mapped` \(\d+\)/, "`g20_tests_mapped` (1)") };
+  seen.floor = run(floorCorrupt).found.some((p) => p.includes("g20_tests_mapped"));
+
   if (Object.values(seen).every(Boolean)) {
-    console.log("self-test OK: a reworded SPEC sentence, a reworded QA promise, a wrong timing, a changed hold constant, a stale recipe number in the document, and a stale bank count in the chooser are all caught");
+    console.log("self-test OK: a reworded SPEC sentence, a reworded QA promise, a wrong timing, a changed hold constant, a stale recipe number in the document, a stale bank count in the chooser, and a drifted gate floor are all caught");
     process.exit(0);
   }
   console.error("self-test FAILED: " + JSON.stringify(seen));

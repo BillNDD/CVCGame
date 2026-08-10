@@ -247,7 +247,8 @@ const netOut = step("G18 network", "node tests/ui/network.mjs", [
   { label: "checks", regex: /(\d+) checks passed/, floorKey: "g18_network_checks" },
   { label: "failed", regex: /(\d+) failed/, max: 0 },
 ], { WQ_SKIP_BUILD: "1" }, [
-  "asks nothing of the network beyond its own host",
+  "a full word and its whole reveal ask nothing of the network",
+  "the Grown-ups corner asks nothing of the network",
   "the update check asks its own host only",
   "returning to the foreground stays on the app's own host",
   "control OK: the recorder catches a planted fetch",
@@ -286,14 +287,26 @@ const REQUIRED_GATES = [
   "G11 copy", "G1+G2+G9+G10 tests", "G3 regeneration", "G4 acceptance-mutants",
   "G5 source-mutants", "G19 app-mutants", "G6 coverage", "G6 quality",
   "G7 interface", "G8 accessibility", "G18 network", "G16 doc-truth",
-  "G12 qa-procedure", "G13 voice-pack", "G20 effect-map", "G17 governing", "G6 coverage-control",
+  "G12 qa-procedure", "G13 voice-pack", "G20 effect-map", "G17 governing", "G6 coverage-control", "app build",
 ];
+const sh = (cmd) => { try { return execSync(cmd, { encoding: "utf8", stdio: "pipe" }).trim(); } catch { return null; } };
+
+const missingGates = (ranSet, required) => required.filter((g) => !ranSet.has(g));
 const ran = new Set(results.map((r) => r.gate));
-const skipped = REQUIRED_GATES.filter((g) => !ran.has(g));
+const skipped = missingGates(ran, REQUIRED_GATES);
+/* The control calls the SAME function the check above calls, in both
+   directions: every gate present must report nothing missing, and one gate
+   removed must report exactly that one. The first version asked whether
+   filtering 17 names against a 1-name set left anything - true however the
+   detector behaves - so it passed with the mechanism gone. Caught by review,
+   2026-08-10. */
 {
-  const probe = new Set(["G7 interface"]);
-  if (REQUIRED_GATES.filter((g) => !probe.has(g)).length === 0) {
-    console.error("control FAILED: the required-gate list must notice absent gates");
+  const all = new Set(REQUIRED_GATES);
+  const oneShort = new Set(REQUIRED_GATES.slice(1));
+  if (missingGates(all, REQUIRED_GATES).length !== 0
+      || missingGates(oneShort, REQUIRED_GATES).length !== 1
+      || missingGates(oneShort, REQUIRED_GATES)[0] !== REQUIRED_GATES[0]) {
+    console.error("control FAILED: the required-gate list must accept a complete run and name an absent gate");
     process.exit(1);
   }
 }
@@ -308,7 +321,7 @@ if (skipped.length) {
    built payload, the commit covers the source, and `dirty` records whether
    the working tree matched the commit when the gates ran — a green report
    from a modified tree certifies nothing. */
-const sh = (cmd) => { try { return execSync(cmd, { encoding: "utf8", stdio: "pipe" }).trim(); } catch { return null; } };
+
 const payloadHash = (() => {
   const files = (sh("find app/dist -type f | LC_ALL=C sort") || "").split("\n").filter(Boolean);
   if (!files.length) return null;
@@ -316,13 +329,19 @@ const payloadHash = (() => {
   for (const f of files) { h.update(f); h.update(createHash("sha256").update(readFileSync(f)).digest("hex")); }
   return `sha256:${h.digest("hex")}`;
 })();
-const status = failures ? "FAIL" : skipped.length ? "INCOMPLETE" : "PASS";
+/* A run over a modified tree certifies nothing: the gates measured files
+   that are not the commit. docs/testing-gauntlet.md promised this and the
+   status ignored it until a review pointed it out, 2026-08-10. Exit code
+   still follows real failures, so ordinary work in a dirty tree is not
+   blocked - but the evidence never claims PASS for bytes it did not test. */
+const dirtyTree = sh("git status --porcelain") !== "";
+const status = failures ? "FAIL" : (skipped.length || dirtyTree) ? "INCOMPLETE" : "PASS";
 const report_ = {
   schema: "word-quest-gauntlet-evidence/1",
   status,
   commit: sh("git rev-parse HEAD"),
   commit_short: sh("git rev-parse --short HEAD"),
-  dirty: sh("git status --porcelain") !== "",
+  dirty: dirtyTree,
   payload: { path: "app/dist", hash: payloadHash },
   platform: {
     node: process.version,
@@ -336,7 +355,11 @@ const report_ = {
     const v = sh(`node -p "require('./node_modules/${n}/package.json').version" 2>/dev/null`);
     return [n, v || null];
   })),
-  gates: { expected: REQUIRED_GATES.length, ran: results.length, failed: failures, skipped },
+  /* required = the closed list that must run; ran = every step executed,
+     which is larger because helpers like "extract engine" and "app build"
+     are steps but not gates. They counted different things under names that
+     read as a mismatch. */
+  gates: { required: REQUIRED_GATES.length, steps_run: results.length, failed: failures, skipped },
   results,
   residual_risks: [
     "Device proof is human: the QA procedure on a real iPad or phone is not automated (G12).",

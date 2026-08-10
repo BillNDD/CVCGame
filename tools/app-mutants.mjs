@@ -85,20 +85,54 @@ const run = (cmd, args) => { try { execFileSync(cmd, args, { stdio: "pipe" }); r
    killed, survived, and errored — and an error fails the gate rather than
    passing as a kill. */
 const ANSI = /\[[0-9;]*[A-Za-z]/g;
+/* Read the TESTS row, not the TEST FILES row. Vitest prints both, file first:
+       Test Files  1 failed | 1 passed (2)
+             Tests  2 passed (2)
+   A file that throws at import fails as a FILE while zero tests fail, so a
+   loose /(\d+) failed/ matched the file row and announced a crashed suite as
+   "killed (1 test failed)" - the exact false kill this function exists to
+   prevent. Caught by review and reproduced against vitest 2.1.9 on
+   2026-08-10. "Tests" plus whitespace cannot match "Test Files": there is no
+   "s" after "Test" there. The control below pins both shapes. */
+const testsFailed = (out) => {
+  const m = out.match(/\bTests\s+(\d+) failed/);
+  return m ? Number(m[1]) : 0;
+};
+{
+  const crashed = "Test Files  1 failed | 1 passed (2)\n      Tests  2 passed (2)\n";
+  const real = "Test Files  1 failed (13)\n      Tests  3 failed | 327 passed (330)\n";
+  if (testsFailed(crashed) !== 0 || testsFailed(real) !== 3) {
+    console.error("control FAILED: the failure parser must read the Tests row, not Test Files");
+    process.exit(1);
+  }
+}
+
 function runTests() {
   try {
     execFileSync("npx", ["vitest", "run", "--reporter=dot"],
-      { stdio: "pipe", encoding: "utf8", env: { ...process.env, NO_COLOR: "1" } });
+      { stdio: "pipe", encoding: "utf8", maxBuffer: 64 * 1024 * 1024,
+        env: { ...process.env, NO_COLOR: "1" } });
     return { passed: true, failed: 0 };
   } catch (e) {
     const out = (String(e.stdout || "") + String(e.stderr || "")).replace(ANSI, "");
-    const m = out.match(/(\d+) failed/);
-    return { passed: false, failed: m ? Number(m[1]) : 0 };
+    return { passed: false, failed: testsFailed(out) };
   }
 }
 const originals = new Map();
 for (const f of new Set(MUTANTS.map((m) => m[1]))) originals.set(f, readFileSync(f, "utf8"));
 const restore = () => { for (const [f, src] of originals) writeFileSync(f, src); };
+
+/* THIS TOOL EDITS TRACKED PRODUCTION FILES IN PLACE. If it dies between
+   writing a mutant and restoring it - an exception, Ctrl-C, a killed
+   container - it leaves app/src mutated in the working tree, where the next
+   commit would sweep it up. Restore on every exit path, not only the happy
+   one. */
+let restored = false;
+const restoreOnce = () => { if (!restored) { restored = true; restore(); } };
+process.on("exit", restoreOnce);
+for (const sig of ["SIGINT", "SIGTERM", "SIGHUP"])
+  process.on(sig, () => { restoreOnce(); process.exit(130); });
+process.on("uncaughtException", (e) => { restoreOnce(); console.error(e); process.exit(1); });
 
 run("node", ["tools/extract-engine.mjs"]);
 if (!run("npx", ["vitest", "run", "--reporter=dot"])) {
