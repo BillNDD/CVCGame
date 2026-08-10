@@ -27,6 +27,25 @@ updated whenever a round lands.
   both with a median of 832. Two attempts at a measurable proxy have now failed.
   Listening is the only detector this project has.
 
+## The new-word rounds (2026-08-07) — closed, do not re-offer
+
+- **Thirteen new words are approved: you, and, hand, land, sand, band, bend,
+  pond, jump, lamp, camp, bump, belt.** Every one "perfect" on the owner's
+  ear. Their approved bytes wait in `tools/pending-words/` until their levels
+  exist; do not re-render one. Named in "Approved and unshipped" in
+  `docs/voice-pack.md`.
+- **A new word is cut from a carrier, never rendered plain.** All thirteen
+  winners came from a carrier sentence; not one plain render was accepted.
+  Do not spend an arm on a bare render again.
+- **The "crackle at the end" is utterance-final creak, and it is positional.**
+  A word taken from the END of a carrier inherits the creaky phonation a
+  breath group ends with. Cut the word from MID-phrase instead, or trim the
+  creaky tail. Full diagnosis in `docs/voice-pack.md`.
+- **Irregularity fails as a quality proxy, like duration before it.** A creak
+  screen would have refused two clips the owner called perfect. Measurement
+  may refuse an inaudible clip or a phrase-masquerading-as-a-word. Nothing
+  else. This is the third failed proxy; do not look for a fourth.
+
 ## Closed by a listener — do not re-offer
 
 - **hen ships untrimmed.** Trimming its tail by 60 ms made it worse, 100 ms cut

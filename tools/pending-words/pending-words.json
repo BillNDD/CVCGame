@@ -1,0 +1,120 @@
+{
+ "_comment": "Words the owner approved by ear that have no level yet (SPEC section 12). The bytes here are the exact clips the owner heard; when the word joins the bank its row in voice-words.csv carries this recipe and this pin, and the pack ships these bytes. docs/voice-pack.md names them under Approved and unshipped.",
+ "you": {
+  "arm": "you_5",
+  "family": "carrier_listen_s1",
+  "ms": 800,
+  "sha256": "af076a43f3209ba8450a8c2e2d899d8c89f410f719ddc77d0a78f2f1f4ddcb82",
+  "round": "batch 1 / 2026-08-07",
+  "verdict": "perfect",
+  "level": "heart word"
+ },
+ "and": {
+  "arm": "and_6",
+  "family": "carrier_listen_s1",
+  "ms": 810,
+  "sha256": "cbf80da916ca9090d84e442dc40a4d7d3538b2be5f0460af6b8d7ed2b23d1976",
+  "round": "batch 1 / 2026-08-07",
+  "verdict": "perfect",
+  "level": "L10 final blends"
+ },
+ "hand": {
+  "arm": "hand_3",
+  "family": "carrier_listen",
+  "ms": 940,
+  "sha256": "ec77de140a9d0a2ff4df79df4c03c7c518345b2acac5d8c5bd389e63b0dbeff4",
+  "round": "batch 1 / 2026-08-07",
+  "verdict": "perfect",
+  "level": "L10 final blends"
+ },
+ "land": {
+  "arm": "land_6",
+  "family": "carrier_listen_s1",
+  "ms": 890,
+  "sha256": "aaeeba92e10cb26474010efadb1f62a2b4451bf234a87a09c7a116dea99b5ce2",
+  "round": "batch 1 / 2026-08-07",
+  "verdict": "perfect",
+  "level": "L10 final blends"
+ },
+ "sand": {
+  "arm": "sand_3",
+  "family": "carrier_listen",
+  "ms": 1010,
+  "sha256": "2e7a4936364fd27df2bcb0fc211938cc665b22b6002334c20903bd18fb2c51bd",
+  "round": "batch 1 / 2026-08-07",
+  "verdict": "perfect",
+  "level": "L10 final blends"
+ },
+ "band": {
+  "arm": "band_4",
+  "family": "carrier_spell",
+  "ms": 960,
+  "sha256": "98492b51cd672f2631b4910e553c335ae8652569286db9ac9e65399584f76e76",
+  "round": "batch 1 / 2026-08-07",
+  "verdict": "perfect",
+  "level": "L10 final blends"
+ },
+ "bend": {
+  "arm": "bend_4",
+  "family": "carrier_spell",
+  "ms": 940,
+  "sha256": "d967d947b37cabd05281a38357ffde0c59f30137a1388b63d20937764a6699da",
+  "round": "batch 1 / 2026-08-07",
+  "verdict": "perfect",
+  "level": "L10 final blends"
+ },
+ "pond": {
+  "arm": "pond_3",
+  "family": "carrier_listen",
+  "ms": 970,
+  "sha256": "febce739ebccccd55887d6db4690af764bdeda9ad34c9bae63f0e4703050d718",
+  "round": "batch 1 / 2026-08-07",
+  "verdict": "perfect",
+  "level": "L10 final blends"
+ },
+ "jump": {
+  "arm": "jump_4",
+  "family": "carrier_spell",
+  "ms": 1030,
+  "sha256": "e6f96eee9867431f9e27106829db59de0665331e149f5c56326e45aa9b7d7bdb",
+  "round": "batch 1 / 2026-08-07",
+  "verdict": "perfect",
+  "level": "L10 final blends"
+ },
+ "lamp": {
+  "arm": "lamp_4",
+  "family": "carrier_spell",
+  "ms": 1020,
+  "sha256": "0aa682dd0b628c8b102d7e23f6632db3da9b6d4ea90d19e981751d8247b008e3",
+  "round": "batch 1 / 2026-08-07",
+  "verdict": "perfect",
+  "level": "L10 final blends"
+ },
+ "camp": {
+  "arm": "camp_3",
+  "family": "carrier_listen",
+  "ms": 930,
+  "sha256": "803c480bf0bc488f551537018a61e77dc1b7fcb013cda867ffa8699c6d9a74e6",
+  "round": "batch 1 / 2026-08-07",
+  "verdict": "perfect",
+  "level": "L10 final blends"
+ },
+ "bump": {
+  "arm": "bump_5",
+  "family": "carrier_spell_s1",
+  "ms": 820,
+  "sha256": "7168f79484eefac0c23409e062c7b46b0846e694ab1257d2cc12c80b46c20115",
+  "round": "batch 1 / 2026-08-07",
+  "verdict": "perfect",
+  "level": "L10 final blends"
+ },
+ "belt": {
+  "arm": "belt_4",
+  "family": "carrier_spell",
+  "ms": 960,
+  "sha256": "f3aa5b8e58a1fff7eb69379ee9853a0627ca4febcb13f3a324c87aee817863e2",
+  "round": "batch 1 / 2026-08-07",
+  "verdict": "perfect",
+  "level": "L10 final blends"
+ }
+}
