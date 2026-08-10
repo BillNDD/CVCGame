@@ -125,6 +125,32 @@ def unvoiced_run(a, sr):
     return a[best[0] * hop:best[1] * hop]
 
 
+def voiced_run(a, sr):
+    """The longest contiguous VOICED energetic run - the dual of
+    unvoiced_run, and the round-5 silence-flank principle generalised: a
+    voiced sound is verifiably isolated when its flanks are unvoiced or
+    silent, because the join is measurable either way. This is how a vowel
+    is pulled out of a word whose consonants are unvoiced (cup: k-ʌ-p,
+    push: p-ʊ-ʃ) - including owner-approved pack words, so the vowel comes
+    from audio an ear already accepted. Returns None when no run is long
+    enough to be a sound."""
+    lf, db = _frame_power(a, sr)
+    hop = int(sr * 0.005)
+    best, cur = None, None
+    for i, (v, e) in enumerate(zip(lf, db)):
+        if v > 0.20 and e > -30:
+            cur = [i, i + 1] if cur is None else [cur[0], i + 1]
+        else:
+            if cur and (best is None or cur[1] - cur[0] > best[1] - best[0]):
+                best = cur
+            cur = None
+    if cur and (best is None or cur[1] - cur[0] > best[1] - best[0]):
+        best = cur
+    if best is None or (best[1] - best[0]) * hop < 0.06 * sr:
+        return None
+    return a[best[0] * hop:best[1] * hop]
+
+
 def low_band_fraction(a, sr):
     """Energy below ~1 kHz over total energy: near zero for unvoiced
     frication, high for anything carrying a vowel."""
