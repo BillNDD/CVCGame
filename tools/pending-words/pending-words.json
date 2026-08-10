@@ -170,5 +170,131 @@
   "round": "batch 4 / 2026-08-07",
   "verdict": "perfect",
   "level": "L10 final blends"
+ },
+ "ant": {
+  "arm": "ant_4",
+  "family": "spell_sp0.95_f90",
+  "ms": 850,
+  "sha256": "7d0745310d33194f284b77f0f9e2edca7dd5d19621e2e91fffdc91e68681d5fe",
+  "round": "batch 5 / 2026-08-07",
+  "verdict": "perfect",
+  "level": "L10 final blends"
+ },
+ "ask": {
+  "arm": "ask_4",
+  "family": "spell_sp0.95_f30",
+  "ms": 890,
+  "sha256": "14f860ac7e5d655b34eba0a566da3e15ebc7c434bbd06e2719f3ad328ba730c0",
+  "round": "batch 5 / 2026-08-07",
+  "verdict": "perfect",
+  "level": "L10 final blends"
+ },
+ "end": {
+  "arm": "end_2",
+  "family": "listen_sp0.95_f30",
+  "ms": 790,
+  "sha256": "e1a7c6cfb9f1e699470100ef69d79c0e0388d393ad3dd9082c2050daad17e96c",
+  "round": "batch 5 / 2026-08-07",
+  "verdict": "perfect",
+  "level": "L10 final blends"
+ },
+ "mint": {
+  "arm": "mint_2",
+  "family": "twice_sp0.85_f90",
+  "ms": 920,
+  "sha256": "d3620c0a3743f6cdb78606f87041a1161210c6e9d66ae1b6da13220c9d2f290a",
+  "round": "batch 5 / 2026-08-07",
+  "verdict": "perfect",
+  "level": "L10 final blends"
+ },
+ "tent": {
+  "arm": "tent_4",
+  "family": "spell_sp0.85_f30",
+  "ms": 960,
+  "sha256": "628b1b46fa91cfd3fd9d3bd44a000939628afb1c6e456f297df29e3c218679de",
+  "round": "batch 5 / 2026-08-07",
+  "verdict": "perfect",
+  "level": "L10 final blends"
+ },
+ "dent": {
+  "arm": "dent_2",
+  "family": "listen_sp0.95_f90",
+  "ms": 880,
+  "sha256": "ba0db3f7050040a294e8ffd7c6811f05b9574f9ddf31bf217df394e64d8627e2",
+  "round": "batch 5 / 2026-08-07",
+  "verdict": "perfect",
+  "level": "L10 final blends"
+ },
+ "nest": {
+  "arm": "nest_6",
+  "family": "spell_sp0.85_f60",
+  "ms": 970,
+  "sha256": "8607839bdd128f5a786874824f204f91d7d09964e47374a79018384b282dbcb3",
+  "round": "batch 5 / 2026-08-07",
+  "verdict": "perfect",
+  "level": "L10 final blends"
+ },
+ "best": {
+  "arm": "best_4",
+  "family": "listen_sp0.95_f30",
+  "ms": 900,
+  "sha256": "847a687c51ba3c3f74192900730e5d9aad327a071f97f07ea68798cdef43213b",
+  "round": "batch 5 / 2026-08-07",
+  "verdict": "perfect",
+  "level": "L10 final blends"
+ },
+ "rest": {
+  "arm": "rest_2",
+  "family": "again_sp0.95_f90",
+  "ms": 870,
+  "sha256": "1069ebceb6ff99a1ef6936964dd9c4b5065b43eef07b2984fe896f7616931c57",
+  "round": "batch 5 / 2026-08-07",
+  "verdict": "perfect",
+  "level": "L10 final blends"
+ },
+ "list": {
+  "arm": "list_6",
+  "family": "spell_sp0.95_f60",
+  "ms": 880,
+  "sha256": "d0833505105d2e36f664a9930f254a4e7d64d7d607b1a44009f6d2530be08a14",
+  "round": "batch 5 / 2026-08-07",
+  "verdict": "perfect",
+  "level": "L10 final blends"
+ },
+ "gift": {
+  "arm": "gift_3",
+  "family": "spell_sp0.85_f30",
+  "ms": 1010,
+  "sha256": "69027dd06e7634dbca263147cada20fa2e5e18b73b9169059b7982efbd5aec32",
+  "round": "batch 5 / 2026-08-07",
+  "verdict": "perfect",
+  "level": "L10 final blends"
+ },
+ "lift": {
+  "arm": "lift_2",
+  "family": "spell_sp0.85_f0",
+  "ms": 1020,
+  "sha256": "0525391cc52f89155a71c3d3315307cf0f271185873df7ba81dedfdcecfbe9ae",
+  "round": "batch 5 / 2026-08-07",
+  "verdict": "perfect",
+  "level": "L10 final blends"
+ },
+ "left": {
+  "arm": "left_6",
+  "family": "spell_sp0.85_f90",
+  "ms": 930,
+  "sha256": "44114829d0489bb29112001f8bacd4496664977a14be1e6067b9e71b08481481",
+  "round": "batch 5 / 2026-08-07",
+  "verdict": "perfect",
+  "level": "L10 final blends"
+ },
+ "help": {
+  "arm": "help_5",
+  "family": "spell_sp0.95_f30",
+  "ms": 850,
+  "sha256": "6fe9e62e125b8c6d0ee269d04d84facd203743b4a00353c6e4aa90e97de8621f",
+  "round": "batch 5 / 2026-08-07",
+  "verdict": "perfect",
+  "level": "L10 final blends"
  }
 }

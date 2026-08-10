@@ -32,7 +32,13 @@ def syllable_nuclei(a, sr):
     return len(runs)
 
 def verify(cut, solo, sr):
-    """Returns (ok, reason, dist). solo is the word rendered alone, trimmed."""
+    """Returns (ok, reason, dist).
+
+    `solo` MUST be the CANONICAL word rendered alone - never a variant's own
+    render. Batch 5 shipped clips saying "u v" because alternate spellings
+    (uv, ov, uhv) were each verified against themselves: the gate proved they
+    were self-consistent, which they were, and never asked whether they were
+    the word. A gate that compares a thing to itself proves nothing."""
     if len(cut) < 0.15 * sr:
         return False, "too short", 9.9
     A = wc.logmel(cut, sr); B = wc.logmel(solo, sr)
