@@ -80,3 +80,4 @@ voices-v1.0.bin
 kokoro-env/
 # the clip list the renderer reads, regenerated from the engine each time
 script.json
+tools/__pycache__/
