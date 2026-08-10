@@ -65,16 +65,17 @@ byte-pinned word rather than replacing accepted audio with a render.
   sidecar workspace archive on the owner's PC
   (handoff `word-quest-uplift-handoff-2026-08-07T1438Z`).
 
-## Approved and unshipped: 19 words with no level yet (2026-08-07)
+## Approved and unshipped: 60 items with no level yet (through 2026-08-10)
 
-Nineteen new words are now closed by the owner's ear across four batches and
-wait in `tools/pending-words/` for the levels that will hold them: **you, and,
-hand, land, sand, band, bend, pond, jump, lamp, camp, bump, belt** (batch 1),
-**to, do** (batch 2), and **said, my, milk, melt** (batch 4). Each is stored as
-the exact bytes the owner heard, with its family and hash, so the day a word
-joins the bank it ships that clip and not a re-render.
+Sixty items are now closed by the owner's ear across seven word batches and
+wait in `tools/pending-words/` for the levels that will hold them: the heart
+words **you, to, do, of, said, my**, the reveal sentence **"Let's sound it
+out."**, and fifty-three final-blend words for Levels 10 and 11 — the ledger
+names each with its round. Each is stored as the exact bytes the owner heard,
+with its family and hash, so the day a word joins the bank it ships that clip
+and not a re-render.
 
-What the four batches taught, in order: a new word is always cut from a
+What the first batches taught, in order: a new word is always cut from a
 carrier, never rendered plain; the crackle at the end is utterance-final creak
 and is cured by position or by trimming the tail; a cut must be LOCATED by
 template match, never guessed from a silence threshold; a candidate's CONTENT
@@ -176,9 +177,50 @@ workspace; the page is the only thing the owner ever has to open.
   8 offered a listener two identical files and round 10 offered whole
   sentences; neither may recur.
 
+- **Every delivery carries the running tally** (owner's instruction,
+  2026-08-10): when a batch goes to the owner, state done and left-to-do as
+  plain numbers for sounds, words, and sentences, so one glance shows how far
+  the campaign is. The owning files are the source — `tools/voice-sounds.csv`
+  plus `tools/pending-sounds/` for sounds, `tools/voice-words.csv` plus
+  `tools/pending-words/` for words and sentences.
+
 The owner's ear is final, and the page is only the way the ear is asked. A
 winner becomes a row in `tools/voice-words.csv` — with its family, round and
 byte pin — only after the answer comes back.
+
+## Sound round 2 — judged 2026-08-10
+
+The sidecar's P45 ship review closed 22 sounds; those exact bytes sit in
+`tools/pending-sounds/` and ride as option 1 in any round for their sound
+(owner's instruction, 2026-08-10), with iteration welcome beside them. Round
+2 was the first marked sound round. Its verdicts:
+
+- **ch** and **long e** have new winners: `ch_8` (the tail of the approved
+  pack word "such") and `long_e_2` (the back of the approved "she") each beat
+  the P45 clip in a blind field. The ledger now holds the new bytes and names
+  the superseded hashes.
+- **ar, or, er, zh**: the P45 clips re-confirmed perfect blind.
+- **long a** and **aw**: the P45 clips were the closest in their fields; the
+  owner ruled iterate on those clips — colour and trim variants of the
+  accepted bytes, not a fresh hunt.
+- **th (quiet)**: none, and the best candidates "contained a lot of static."
+  The suspect is the round's own polish: every clip is peak-lifted to
+  −3 dBFS, and /θ/ is quiet frication by nature, so the lift turns it into
+  loud hiss. The next round offers gentler levels and band-limited variants.
+- **long i, long o, long u, schwa, oo (book)**: none — but these fields were
+  cut by the ungated generator that kept long stretches of whole sentences
+  (`docs/settled.md`, "the content gate applies to EVERY round type"), so the
+  verdicts condemn the round, not the sounds.
+- **oi, ow, oo (moon)** came back unmarked: the owner stopped marking when the
+  clipping fault kept repeating. oo (moon) keeps its P45 acceptance; oi and ow
+  are re-offered, not counted.
+
+Sound tally after this round: **35 of 45 closed** (28 in
+`tools/voice-sounds.csv`, 7 by P45 plus this round), **10 open** — th_quiet,
+long_a, aw, long_i, long_o, long_u, schwa, oo_book, oi, ow — exactly the
+round 3 card list. The generator that built round 2 is retired; round 3 comes
+from a gated generator that must pass known-good and known-bad controls
+before it renders a single candidate.
 
 ## How the pack was made
 
