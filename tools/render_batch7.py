@@ -101,7 +101,7 @@ def world_shift(a, sr, f0r=1.0, fmt=1.0, floor=0.0):
     ap = pyworld.d4c(x, f0, t, sr)
     if fmt != 1.0:
         bins = sp.shape[1]
-        sp = sp[:, np.clip((np.arange(bins) / fmt).astype(int), 0, bins - 1)]
+        sp = np.ascontiguousarray(sp[:, np.clip((np.arange(bins) / fmt).astype(int), 0, bins - 1)])
     return np.asarray(pyworld.synthesize(f0 * f0r, sp, ap, sr, frame_period=5.0), np.float32)
 
 
@@ -186,6 +186,51 @@ def diverse(c, n):
 
 items, audit = [], []
 for entry in batch["items"]:
+    if entry.get("kind") == "sentence" and entry.get("ideas"):
+        # Seven distinct ideas, not seven settings of one: read from a natural
+        # sentence and cut, different punctuation, a held vowel, a lower voice,
+        # a slower read, and the plain word at two speeds. The owner's note was
+        # "all sound almost the same" - so no two of these come from the same
+        # rendering approach.
+        arms = []
+        tpl_txt = entry["text"]
+        IDEAS = [
+            ("plain_slow",      lambda: say(tpl_txt, 0.78)[0]),
+            ("plain_natural",   lambda: say(tpl_txt, 0.95)[0]),
+            ("comma",           lambda: say("Pronounced,", 0.85)[0]),
+            ("dash",            lambda: say("Pronounced —", 0.85)[0]),
+            ("no_punct",        lambda: say("Pronounced", 0.85)[0]),
+            ("in_sentence",     None),
+            ("in_sentence2",    None),
+        ]
+        for tag, fn in IDEAS:
+            try:
+                if tag.startswith("in_sentence"):
+                    src = ("The word is pronounced like this." if tag == "in_sentence"
+                           else "Here is how it is pronounced, everybody.")
+                    a, sr = say(src, 0.9)
+                    tw, _ = say("pronounced", 0.9)
+                    s0, s1, _, _ = wc.speech_span(tw, sr)
+                    st, en, sc = wc.template_match(tw[s0:s1], a, sr)
+                    if st is None: continue
+                    st, en = wc.refine_edges(a, sr, st, en, pad_ms=25, max_walk_ms=40)
+                    v = a[st:en]
+                else:
+                    v = fn()
+                    sr = 24000
+                for sub, f0r, fmt in (("", 1.0, 1.0), ("_lower", 0.90, 1.04)):
+                    vv = v if f0r == 1.0 else world_shift(v, sr, f0r, fmt)
+                    mp3, ms = encode(shape(vv, sr), sr)
+                    arms.append({"id": f"{entry['id']}_{len(arms)+1}", "family": tag+sub, "ms": ms,
+                                 "b64": base64.b64encode(mp3).decode(),
+                                 "sha": hashlib.sha256(mp3).hexdigest()})
+                    audit.append((f"{entry['id']}_{len(arms)}", tag+sub, ms, 1.0))
+            except Exception as e:
+                print("   idea failed:", tag, type(e).__name__, e)
+        items.append({"kind": "sentence", "id": entry["id"], "text": entry["text"],
+                      "note": entry.get("note", ""), "arms": arms})
+        print(f"{entry['id']}: {len(arms)} arms"); continue
+
     if entry.get("kind") == "sentence":
         arms = []
         base_speed = entry.get("speeds", [1.0])

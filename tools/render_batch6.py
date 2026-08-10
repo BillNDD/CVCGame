@@ -80,7 +80,7 @@ def world_shift(a, sr, f0r, fmt):
     ap = pyworld.d4c(x, f0, t, sr)
     if fmt != 1.0:
         bins = sp.shape[1]
-        sp = sp[:, np.clip((np.arange(bins) / fmt).astype(int), 0, bins - 1)]
+        sp = np.ascontiguousarray(sp[:, np.clip((np.arange(bins) / fmt).astype(int), 0, bins - 1)])
     return np.asarray(pyworld.synthesize(f0 * f0r, sp, ap, sr, frame_period=5.0), np.float32)
 
 
