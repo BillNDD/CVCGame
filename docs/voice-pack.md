@@ -215,6 +215,20 @@ three arms of one family) and rides again in batch 10 with a full field.
 The owner's verdict on direction: "words batches feels like we are in the
 right direction with last batch."
 
+## Sound round 5 — judged 2026-08-10: the silence-flank recipe wins
+
+Three closed in one round: **long_i** (perfect), **long_o** (perfect),
+**oi** (perfect) — every winner a cut of the sound's own pure word (eye,
+oh, oy) from a 0.7-speed repeat frame, kept only because its source showed
+measured silence on both flanks. Slow plus silence-flanked is the recipe.
+Bytes preserved in `tools/pending-sounds/`. **ow** came back closest
+(`ow_1`, the iterate seed for round 6). **schwa: none — its fifth failed
+round.** The recommendation to the owner is now their own voice for schwa
+AND oo (book), the nine-sound precedent. Round 6 carries the ow iteration
+plus the owner-requested backfill: **air** and **ear**, the next
+r-controlled sounds, each its own pure word. Sound tally: **42 of 45
+closed**; open: ow, schwa, oo_book (+ air and ear newly under test).
+
 ## Sound rounds 4 and 5 — 2026-08-10
 
 Round 4 closed the hardest sound: **th (quiet) is DONE.** The winner is the

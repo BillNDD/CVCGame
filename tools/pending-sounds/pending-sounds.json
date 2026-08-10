@@ -17,11 +17,8 @@
   "sh",
   "th_buzzing",
   "ng",
-  "long_i",
-  "long_o",
   "schwa",
   "oo_book",
-  "oi",
   "ow"
  ],
  "short_o": {
@@ -203,5 +200,35 @@
   "how": "a soft short puff of air between the teeth, no voice · as in thin, math",
   "as_in": "thin, math",
   "note": "the frication run of the approved pack word moth, shaped: cut to 110 ms, 15 ms attack, 45 ms decay, peak -9 dBFS. Held flat frication reads as hiss; the shaping is what won."
+ },
+ "long_i": {
+  "sha256": "18d1afc5c7560502a95724c4a9a59214c3246e50f29a14c2cb06905a86e0dcad",
+  "round": "SND5 (sound round 5, 2026-08-10)",
+  "verdict": "perfect (owner)",
+  "family": "rep_sp0.7_q180-50",
+  "ms": 910,
+  "how": "letter-name “eye” · as in time, my (long-vowel exception)",
+  "as_in": "time, my",
+  "note": "cut from the sound's own pure word between measured silences"
+ },
+ "long_o": {
+  "sha256": "5e1b89da28905355de809209a1a34a622ebbde94920755343fa510742a17e48b",
+  "round": "SND5 (sound round 5, 2026-08-10)",
+  "verdict": "perfect (owner)",
+  "family": "rep_sp0.7_q100-170",
+  "ms": 1010,
+  "how": "letter-name “oh” · as in go, home (long-vowel exception)",
+  "as_in": "go, home",
+  "note": "cut from the sound's own pure word between measured silences"
+ },
+ "oi": {
+  "sha256": "fe3a1a3282ae17039478b5e3bc5d1ecc58aa6ea987dad53c1b4fc2d1b19b3cd1",
+  "round": "SND5 (sound round 5, 2026-08-10)",
+  "verdict": "perfect (owner)",
+  "family": "rep_sp0.7_q40-160_warm",
+  "ms": 980,
+  "how": "the glide of coin and boy · as in coin, boy",
+  "as_in": "coin, boy",
+  "note": "cut from the sound's own pure word between measured silences"
  }
 }
