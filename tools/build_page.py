@@ -35,21 +35,23 @@ for n, item in enumerate(ordered, start=1):
   <div class="state" data-state="{item["text"]}">unmarked</div>
 </section>''')
     else:
-        a = item["arms"][0]
+        many = len(item["arms"]) > 1
+        arms = "".join(
+            f'<div class="arm"><button class="play" data-b64="{a["b64"]}" data-id="{a["id"]}">'
+            f'{a["id"] if many else "▶ play"}</button>'
+            f'<button class="mark perfect" data-item="{item["id"]}" data-id="{a["id"]}">perfect</button>'
+            f'<button class="mark close" data-item="{item["id"]}" data-id="{a["id"]}">needs work</button></div>'
+            for a in item["arms"])
         cards.append(f'''
 <section class="card sentence" data-item="{item["id"]}">
-  <div class="kindtag">SENTENCE — play it, then mark perfect or needs work</div>
+  <div class="kindtag">SENTENCE — play, then mark perfect or needs work</div>
   <div class="head">
     <h2>“{item["text"]}”</h2>
     <span class="note">{item["note"]}</span>
+    <span class="spacer"></span>
+    <button class="none" data-item="{item["id"]}">none are right</button>
   </div>
-  <div class="arms">
-    <div class="arm">
-      <button class="play" data-b64="{a["b64"]}" data-id="{a["id"]}">▶ play</button>
-      <button class="mark perfect" data-item="{item["id"]}" data-id="{a["id"]}">perfect</button>
-      <button class="mark close" data-item="{item["id"]}" data-id="{a["id"]}">needs work</button>
-    </div>
-  </div>
+  <div class="arms">{arms}</div>
   <label class="cmt">comment (optional)<input type="text" data-item="{item["id"]}" placeholder="what is wrong with it"></label>
   <div class="state" data-state="{item["id"]}">unmarked</div>
 </section>''')
