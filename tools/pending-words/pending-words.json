@@ -134,5 +134,41 @@
   "round": "batch 2 / 2026-08-07",
   "verdict": "perfect",
   "level": "heart word"
+ },
+ "said": {
+  "arm": "said_8",
+  "family": "listen_s1_m25_front60",
+  "ms": 800,
+  "sha256": "745c26a1d0bec518f75bec3f45653d8e979a3b918472671e31efd5c061aee5d1",
+  "round": "batch 4 / 2026-08-07",
+  "verdict": "perfect",
+  "level": "heart word"
+ },
+ "my": {
+  "arm": "my_6",
+  "family": "listen_s95_m25_front90",
+  "ms": 830,
+  "sha256": "006858b6ab0c677fc0fb0206ca65f97e6fa4d804de74416357c82067505fd711",
+  "round": "batch 4 / 2026-08-07",
+  "verdict": "perfect",
+  "level": "heart word / open syllable"
+ },
+ "milk": {
+  "arm": "milk_10",
+  "family": "spell_m10_front90",
+  "ms": 930,
+  "sha256": "48e41df7b1f57ede5262b31fde167a5b683ba0326d7e835dd71f600866245af0",
+  "round": "batch 4 / 2026-08-07",
+  "verdict": "perfect",
+  "level": "L10 final blends"
+ },
+ "melt": {
+  "arm": "melt_2",
+  "family": "twice_m25_front60",
+  "ms": 930,
+  "sha256": "4fa4687f111a012be0c698fa33850b0521e518f7dd0c18115d629bd976c74b90",
+  "round": "batch 4 / 2026-08-07",
+  "verdict": "perfect",
+  "level": "L10 final blends"
  }
 }

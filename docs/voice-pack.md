@@ -65,7 +65,24 @@ byte-pinned word rather than replacing accepted audio with a render.
   sidecar workspace archive on the owner's PC
   (handoff `word-quest-uplift-handoff-2026-08-07T1438Z`).
 
-## Approved and unshipped: 13 words with no level yet (2026-08-07)
+## Approved and unshipped: 19 words with no level yet (2026-08-07)
+
+Nineteen new words are now closed by the owner's ear across four batches and
+wait in `tools/pending-words/` for the levels that will hold them: **you, and,
+hand, land, sand, band, bend, pond, jump, lamp, camp, bump, belt** (batch 1),
+**to, do** (batch 2), and **said, my, milk, melt** (batch 4). Each is stored as
+the exact bytes the owner heard, with its family and hash, so the day a word
+joins the bank it ships that clip and not a re-render.
+
+What the four batches taught, in order: a new word is always cut from a
+carrier, never rendered plain; the crackle at the end is utterance-final creak
+and is cured by position or by trimming the tail; a cut must be LOCATED by
+template match, never guessed from a silence threshold; a candidate's CONTENT
+must be verified before a person is asked to listen to it; and the front-trim
+matters more than expected — all four of batch 4's winners were front-trimmed
+clips. The register is a teacher's, addressing a class.
+
+## The first thirteen (batch 1, historical)
 
 Batch 1 of the new-word rounds went to the owner on 2026-08-07 and closed
 thirteen words: **you, and, hand, land, sand, band, bend, pond, jump, lamp,
