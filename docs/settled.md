@@ -105,6 +105,25 @@ updated whenever a round lands.
   controls and was deleted; the second passed and shipped. Never trust a new
   check that has not been shown to accept what a person accepted and refuse
   what a person refused.
+- **Never feed the synthesiser a spelling that is not the word** (2026-08-07,
+  batch 5). Alternate spellings of "of" — uv, ov, uhv — were offered as a way
+  to get different renditions of the same sound. The model read them as
+  LETTER NAMES, so most of that word's arms said "u v" to the owner. This is
+  the same fault as "am" read as the letter M, which the two-letter
+  pronunciations exist to prevent, re-introduced by hand. Explicit phonemes
+  are the only safe way to ask for a sound that spelling does not give.
+- **A gate must compare a candidate to the CANONICAL word, never to itself.**
+  The content gate did not catch the "u v" clips because each variant was
+  verified against its own render: it proved they were self-consistent, which
+  they were, and never asked whether they were the word. `verify()` now
+  documents that its template is the canonical render, always. A check that
+  compares a thing to itself proves nothing.
+- **The last card on a listening page must clear the sticky footer**
+  (2026-08-07, batch 5). The one sentence in the batch was rendered behind the
+  copy-all bar, so the owner never saw it and reported no sentences at all.
+  Sentences are now placed FIRST on the page, marked as sentences, and the
+  page reserves space below the last card. A round item a person cannot see is
+  a round item that did not happen.
 
 ## Known broken, and why
 

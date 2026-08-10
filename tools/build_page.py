@@ -13,7 +13,9 @@ data = json.loads((OUT / "batch-data.json").read_text())
 page = pathlib.Path(sys.argv[2])
 
 cards = []
-for n, item in enumerate(data["items"], start=1):
+ordered = [i for i in data["items"] if i["kind"] == "sentence"] + \
+          [i for i in data["items"] if i["kind"] != "sentence"]
+for n, item in enumerate(ordered, start=1):
     if item["kind"] == "word":
         arms = "".join(
             f'<div class="arm"><button class="play" data-b64="{a["b64"]}" data-id="{a["id"]}">{a["id"]}</button>'
@@ -36,6 +38,7 @@ for n, item in enumerate(data["items"], start=1):
         a = item["arms"][0]
         cards.append(f'''
 <section class="card sentence" data-item="{item["id"]}">
+  <div class="kindtag">SENTENCE — play it, then mark perfect or needs work</div>
   <div class="head">
     <h2>“{item["text"]}”</h2>
     <span class="note">{item["note"]}</span>
@@ -58,12 +61,14 @@ html = f'''<!doctype html><meta charset="utf8">
  header{{position:sticky;top:0;background:#fff;border-bottom:1px solid #d8d4c8;padding:12px 18px;z-index:5}}
  h1{{margin:0 0 4px;font-size:19px}}
  .lede{{font-size:13px;color:#5a5a4a;margin:0}}
- main{{padding:16px;max-width:1180px;margin:0 auto}}
+ main{{padding:16px 16px 140px;max-width:1180px;margin:0 auto}}
  .card{{background:#fff;border:1px solid #e2ded2;border-radius:10px;padding:14px 16px;margin:0 0 14px}}
  .card.done{{border-color:#0f7a4f;background:#f6fbf8}}
  .head{{display:flex;align-items:baseline;gap:12px}}
  h2{{margin:0;font-size:22px}}
  .sentence h2{{font-size:17px;font-weight:600}}
+ .sentence{{border-color:#8a5a00;background:#fffdf7}}
+ .kindtag{{font-size:11px;letter-spacing:.10em;text-transform:uppercase;color:#8a5a00;font-weight:700;margin-bottom:6px}}
  .note{{font-size:12.5px;color:#6b6b58;font-style:italic}}
  .spacer{{flex:1}}
  .arms{{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 6px}}
