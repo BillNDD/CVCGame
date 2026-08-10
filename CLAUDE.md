@@ -77,6 +77,17 @@ task — the real behavior the child gets, and the specific check or evidence th
 prove it — in the commit message or the task entry, never in a new file. Hold the task to
 that definition.
 
+## Before any beta is pushed
+
+Re-check every word the child can meet for child-appropriateness — the whole bank plus
+every newly accepted word, not only the words added since the last check. A word is
+refused if it carries a sexual, crude, violent or otherwise adult meaning or slang, and
+the check covers plurals and near-misspellings a child could produce: "jug" is fine and
+its plural is not, "crab" is fine and its plural is not. Owner-ruled 2026-08-07 after
+"milt" reached a listening round: the first draft lists were screened, a later backfill
+was not, and the owner caught it. Screening a list once is not screening the bank. The
+exclusions are recorded in SPEC section 12.
+
 ## Safety rules (child-facing)
 
 - S1. The app never records a wrong or close result by itself. Only an adult action can record
