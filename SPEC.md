@@ -46,8 +46,13 @@ These rules are mandatory.
    sessions.
 7. Controls are large. Child controls have a minimum size of 56 px. Adult controls have a minimum
    size of 44 px. The app obeys the reduced-motion setting.
-8. Speech output says full words only. Speech output never says letter names. The dashed spelling
-   on the screen is for the adult.
+8. Speech output says full words, and the single sounds of the approved sound library. Speech
+   output never says letter names. The dashed spelling on the screen is for the adult. The
+   sounds were added by the owner on 2026-08-10, for the level introduction of section 12 and
+   the sound-it-out reveal: a sound is what this game teaches, and a letter name is what
+   confuses a beginner, so the ban stays exactly where it always meant to be. During a reading
+   attempt nothing is spoken at all (rule 3 and rule 9), so this permission reaches only the
+   teaching screens.
 9. Privacy is built in. The app has no accounts and no analytics, and after load it makes
    only the two update requests section 7a describes, both to the app's own host, both
    carrying no data, one of them switchable off. All data stays on the device. The name
@@ -730,6 +735,46 @@ Modes, each designed for the owner's pick before any build:
 - Speedy words — a third free-play choice: short timed re-reads over mastered words only
   (box 4 and up), racing the child's own best, nothing recorded. Its copy must obey S3:
   a slow run is never a failure.
+
+### The level introduction — approved 2026-08-10, unbuilt
+
+A child meets a level's new sounds before meeting them inside words, and is reminded of the
+sounds they have been missing. The owner ruled the four open questions on 2026-08-10:
+
+1. **Speech.** Design rule 8 is amended, above: the app may speak the single sounds of the
+   approved sound library, and still never a letter name.
+2. **Cadence.** The new-sound introduction plays on the FIRST session at a level. The
+   trouble-sound review runs before every session, short, and a skip in the grown-up strip
+   ends it on the same 450 ms hold as the reveal's skip. Level 1 has no review part, and no
+   level shows the introduction twice.
+3. **The review list.** A sound is "one this child has trouble with" when the grown-up
+   marked words containing it "close" or "try again". Only an adult judgement feeds it, so
+   safety rule S1 is untouched, and the list is empty rather than guessed when no adult has
+   marked anything. At most three sounds, most-missed first.
+4. **Interaction.** Each sound plays once in turn with its tile lit, then every tile stays
+   tappable so the child can hear one again, and one child-sized control starts the session.
+
+The introduction never appears in free play, because free play shows no level moment
+(section 4). It is a teaching screen, not help with a word: rule 3 keeps the sound tiles of
+the WORD IN FRONT OF THE CHILD out of sight until the attempt ends, and that rule is
+untouched — the introduction is over before the first word appears.
+
+What this needs before it can be built, each item real work and none of it done:
+
+- **The sound clips must ship.** The pack ships bank words, praise, the two invitation leads
+  and the two session-end lines, and no individual sounds. Every sound the levels teach is
+  owner-approved but waits in `tools/pending-sounds/` or the sidecar's bake package.
+- **A grapheme-to-sound map in app code.** `chunkWord` splits a word into GRAPHEMES, not
+  sounds: c, k and ck all say /k/, and s says /s/ or /z/. The map from grapheme to sound
+  exists only in `tools/voice-sounds.csv`, which the app never imports. It must be generated
+  into the app the way `voice-lock.json` is, so the two can never drift.
+- **A per-level sound inventory.** A level object carries `{ n, name, emoji, focus, words }`
+  and `focus` is a prose label for a person, not a list a screen can iterate.
+- **A place to remember it was shown.** The saved document has no field for it; adding one
+  is a version bump and a migration.
+- **A screen beyond the four in section 6, and its gates.** Section 10 has no acceptance
+  criterion for a screen between the home screen and the first word, and the gauntlet's
+  floors grow rather than shrink (E6).
 
 The heart-word roster grows now, ahead of sentence mode: of, to, do, you, said join
 Levels 6 and 7 beside the existing tricky words, and my joins the open-syllable level,

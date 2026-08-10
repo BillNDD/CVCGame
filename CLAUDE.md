@@ -96,7 +96,9 @@ exclusions are recorded in SPEC section 12.
   only in the feedback phase.
 - S3. Feedback uses the exact SPEC section 5 sentences. A miss is an invitation to try again,
   never a failure message.
-- S4. Speech output says full words only. It never says letter names.
+- S4. Speech output says full words, and the single sounds of the approved sound library
+  (owner-approved 2026-08-10, for the level introduction and the sound-it-out reveal). It
+  never says letter names.
 - S5. Adult result controls need a 450 ms pointer hold. A keyboard operates them directly.
 - S6. The app makes no network calls after load, has no accounts, and has no analytics. All data
   stays on the device. Two exceptions, each a request to the app's own host that carries no
