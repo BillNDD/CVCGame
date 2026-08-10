@@ -1,4 +1,4 @@
-# Testing gauntlet — gate specification (G1–G18)
+# Testing gauntlet — gate specification (G1–G19)
 
 This document defines the quality gates for Word Quest. The owner reviews this document, not
 every line of code. The gates are the contract. `npm run gauntlet` runs every automatic gate.
@@ -305,6 +305,25 @@ engine, never a hand-kept list.
   must report every one.
 - Baseline floors: `g13_clips` (316) and `g13_engine_tests` (6).
 - To re-render the pack after the bank grows: `docs/voice-pack.md`.
+
+## G19. App mutation
+
+- Tool: `tools/app-mutants.mjs`. Command: `npm run test:app-mutants`. Requirement: 0
+  survivors. Keys: `g19_app_mutants` (13), `g19_survivors_max` (0).
+- G5 mutates the engine. Nothing mutated the half of the product the child actually
+  touches, so the app's tests were known to PASS and not known to BITE. G19 breaks one
+  rule at a time in the files the engine never sees: the transcript acceptance rule (what
+  the app may call a reading), the 450 ms adult hold, the update comparison's build stamp,
+  the backup validator's shape checks, and free play's promise to write nothing.
+- Runner control: the pristine suite must pass before any mutant runs, so a broken
+  environment fails loudly instead of reading as "every mutant killed".
+- What it caught on the day it was written (2026-08-10): three survivors in the backup
+  validator. Every existing malformed-backup case was refused by several clauses at once,
+  so removing any single clause changed nothing. `tests/faults.test.js` gained seven files
+  that are valid saves in every respect but one, and a direct test of the predicate for
+  the array clause — which the file input cannot reach, because a JSON array carries no
+  named properties. The mutants were kept and the tests were strengthened, never the
+  reverse.
 
 ## G18. Network audit
 

@@ -151,6 +151,14 @@ step("G5 source-mutants", "node tools/mutants.mjs", [
 /* Coverage watches the engine AND the app sources. vitest itself enforces the
    app-wide floors (vitest.config.mjs); these counts pin the engine and App.jsx,
    the file every beta.2 microphone fault lived in. */
+/* G5 mutates the engine; G19 mutates the half the child touches — the
+   transcript rule, the adult hold, the update comparison, the backup
+   validator and the free-play write guard. */
+step("G19 app-mutants", "node tools/app-mutants.mjs", [
+  { label: "mutants", regex: /gate: (\d+) mutants/, floorKey: "g19_app_mutants" },
+  { label: "survived", regex: /(\d+) survived/, maxKey: "g19_survivors_max" },
+]);
+
 step("G6 coverage", "npx vitest run --coverage", [
   { label: "branches", regex: /engine\.js\s*\|\s*[\d.]+\s*\|\s*([\d.]+)/, floorKey: "g6_branches_min" },
   { label: "lines", regex: /engine\.js\s*\|\s*[\d.]+\s*\|\s*[\d.]+\s*\|\s*[\d.]+\s*\|\s*([\d.]+)/, floorKey: "g6_lines_min" },

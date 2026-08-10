@@ -35,5 +35,7 @@
   "g15_recognizer_tests": 51,
   "g16_doc_rules": 6,
   "g17_governing_files": 20,
-  "g18_network_checks": 3
+  "g18_network_checks": 3,
+  "g19_app_mutants": 13,
+  "g19_survivors_max": 0
 }

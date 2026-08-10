@@ -203,6 +203,18 @@ describe("G9 faults — an unreadable save, and backups that must look like one"
     ["the marker and nothing else", '{"application":"word-quest-backup"}'],
     ["the marker with a wrong-typed level", '{"application":"word-quest-backup","level":"seven","words":"oops","settings":null}'],
     ["the marker with no words map", '{"application":"word-quest-backup","version":3,"level":5}'],
+    /* One clause at a time. Every case above is refused by SEVERAL of the
+       validator's clauses at once, so removing any single clause changed
+       nothing and the app-mutation gate reported three survivors on
+       2026-08-10. Each file below is a valid save in every respect but one,
+       so it can only be refused by the clause it targets. */
+    ["a save with no words map at all", '{"version":3,"level":5,"settings":{"mode":"parent"}}'],
+    ["a save whose words map is an array", '{"version":3,"level":5,"words":[],"settings":{"mode":"parent"}}'],
+    ["a save with no settings", '{"version":3,"level":5,"words":{}}'],
+    ["a save whose settings are an array", '{"version":3,"level":5,"words":{},"settings":[]}'],
+    ["a save whose level is missing", '{"version":3,"words":{},"settings":{"mode":"parent"}}'],
+    ["a save whose level is not finite", '{"version":3,"level":null,"words":{},"settings":{"mode":"parent"}}'],
+    ["an array carrying every field a save has", '[{"version":3,"level":5,"words":{},"settings":{}}]'],
   ]) {
     it(`7: ${label} is refused, and nothing is written`, async () => {
       mockLoad.mockResolvedValueOnce({ ...newState(), level: 5 });
@@ -212,6 +224,19 @@ describe("G9 faults — an unreadable save, and backups that must look like one"
       expect(wrote).toBe(false);                        // the real progress survives
     });
   }
+
+  /* The Array clause, tested where it can be reached. Through the file input
+     the clause is redundant — a JSON array carries no named properties, so
+     the level check refuses it first — but an array WITH properties is one
+     line of JavaScript, and the predicate is the thing that decides whether a
+     family's history is replaced. Tested directly so the guard is real rather
+     than assumed. */
+  it("7b: a save-shaped ARRAY is not a backup", async () => {
+    const { isBackup } = await import("../app/src/App.jsx");
+    const shaped = Object.assign([], { version: 3, level: 5, words: {}, settings: { mode: "parent" } });
+    expect(isBackup(shaped)).toBe(false);
+    expect(isBackup({ version: 3, level: 5, words: {}, settings: { mode: "parent" } })).toBe(true); // control
+  });
 
   it("7a (control): a genuine backup still restores", async () => {
     mockLoad.mockResolvedValueOnce(newState());
