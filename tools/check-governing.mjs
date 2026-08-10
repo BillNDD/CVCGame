@@ -34,6 +34,14 @@ const GOVERNING = [
   "docs/voice-goldens-packs1-3.json",
   "tools/keeper-bytes.json",
   "tools/keepers-treatments.json",
+  /* The two pending ledgers are E10's "Approved and unshipped" mechanism:
+     owner-accepted bytes with their verdicts, waiting for the level or the
+     reveal that will ship them. Created on the owner's instructions (batch 1
+     preservation, 2026-08-10; P45 "option 1 for all their sounds",
+     2026-08-10) but pushed before this entry existed — that gap is recorded
+     in docs/settled.md. */
+  "tools/pending-sounds/pending-sounds.json",
+  "tools/pending-words/pending-words.json",
   "tools/voice-lock.json",
   "tools/voice-sounds.csv",
   "tools/voice-words.csv",

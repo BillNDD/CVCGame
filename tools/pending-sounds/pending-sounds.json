@@ -30,154 +30,160 @@
   "sha256": "820a5025f119a235bc4ec02549f53286e946218d01228b0474023cc07afcd463",
   "round": "P45-JOT-LUCK-APPROVED",
   "verdict": "ok (owner ship review)",
-  "how": "short o \u00b7 as in hot, ox",
+  "how": "short o · as in hot, ox",
   "as_in": "hot, ox"
  },
  "t": {
   "sha256": "3b4673e25419570c3868388e115fd54eb32172e5bf31346c4462dae2f3a8e3bd",
   "round": "P45-JOT-LUCK-APPROVED",
   "verdict": "ok (owner ship review)",
-  "how": "a tongue tick behind the teeth, air only \u00b7 as in tip, rat",
+  "how": "a tongue tick behind the teeth, air only · as in tip, rat",
   "as_in": "tip, rat"
  },
  "l": {
   "sha256": "2c545700cdf3b146d9ca5c97c5ac6a3a3eb3d51948f23c705df011ad32936bb6",
   "round": "P45-JOT-LUCK-APPROVED",
   "verdict": "ok (owner ship review)",
-  "how": "tongue up, a singable \"l\" \u00b7 as in lap, bell",
+  "how": "tongue up, a singable \"l\" · as in lap, bell",
   "as_in": "lap, bell"
  },
  "k": {
   "sha256": "94b7923374608db811b061363bd4b1a2c889ed03b0dfa0f1e36a9ba6e0654322",
   "round": "P45-JOT-LUCK-APPROVED",
   "verdict": "ok (owner ship review)",
-  "how": "a click at the back of the mouth, air only \u00b7 as in cat, duck",
+  "how": "a click at the back of the mouth, air only · as in cat, duck",
   "as_in": "cat, duck"
  },
  "short_a": {
   "sha256": "f4b85b8bb74a215dba001910e7958ce16394576470a0f3cad761a401bf5753af",
   "round": "P45-B01",
   "verdict": "ok (owner ship review)",
-  "how": "mouth open and wide, a bright flat \"a\" \u00b7 as in cat, at",
+  "how": "mouth open and wide, a bright flat \"a\" · as in cat, at",
   "as_in": "cat, at"
  },
  "short_i": {
   "sha256": "702660fa5ec9c211b7ca6c9cdf5e3828244453903c7b08263559ab508cd4574b",
   "round": "P45-HARD-SOL1",
   "verdict": "ok (owner ship review)",
-  "how": "the short \"i\" sound \u00b7 as in sit, in",
+  "how": "the short \"i\" sound · as in sit, in",
   "as_in": "sit, in"
  },
  "f": {
   "sha256": "f14bfbf4a6339aa969afbe3dc505d279eb5bc74434d95dacad17b827e83de39f",
   "round": "P45-HARD-SOL1",
   "verdict": "ok (owner ship review)",
-  "how": "a clean lip-and-teeth hiss, no voice \u00b7 as in fan, if",
+  "how": "a clean lip-and-teeth hiss, no voice · as in fan, if",
   "as_in": "fan, if"
  },
  "m": {
   "sha256": "b53c6b07e418f00ef8bd2eca0332143cc7348f3bcee814b1e19a85c1bf992085",
   "round": "P45-HARD-SOL1",
   "verdict": "ok (owner ship review)",
-  "how": "a closed-lip hum \u00b7 as in man, am",
+  "how": "a closed-lip hum · as in man, am",
   "as_in": "man, am"
  },
  "p": {
   "sha256": "e56f01ae2f52c0264b2dc34375bdfb50c3e63ccd37c40406dcfbd469dbc87720",
   "round": "P45-HARD-SOL1",
   "verdict": "ok (owner ship review)",
-  "how": "a crisp lip pop, air only \u00b7 as in map, pin",
+  "how": "a crisp lip pop, air only · as in map, pin",
   "as_in": "map, pin"
  },
  "r": {
   "sha256": "aed072c89af163fc6634bd470d6a2a24a8e0da1f80a2642964c730f5fe458d16",
   "round": "P45-HARD-SOL1",
   "verdict": "ok (owner ship review)",
-  "how": "the curled-tongue growl \u00b7 as in rat",
+  "how": "the curled-tongue growl · as in rat",
   "as_in": "rat"
  },
  "s": {
   "sha256": "15f90594896da99484b8103151aa7bb9e5439b02411fa0095885003b0fe5a506",
   "round": "P45-B01-IT1",
   "verdict": "ok (owner ship review)",
-  "how": "a clean snake-hiss \u00b7 as in sun, us",
+  "how": "a clean snake-hiss · as in sun, us",
   "as_in": "sun, us"
  },
  "x": {
   "sha256": "ceac622cb423f463f9b78f333769d4d4360aa11f8b807b43347498bcad6a5092",
   "round": "P45-B03",
   "verdict": "ok (owner ship review)",
-  "how": "a k-click sliding into s: \"ks\" \u00b7 as in ax, fox",
+  "how": "a k-click sliding into s: \"ks\" · as in ax, fox",
   "as_in": "ax, fox"
  },
  "ch": {
-  "sha256": "a8cd7d22b5c2a230e8fce6ecf90fe52a38130492d0f1a58c1794a20c97435642",
-  "round": "P45-B02",
-  "verdict": "ok (owner ship review)",
-  "how": "a t-click snapping into shush \u2014 one sound \u00b7 as in chat, much",
+  "sha256": "3d57d3626fc8c49b3d7c1b1127ae0a9e0b029c3cec9b04f413943b9c39ea44b2",
+  "round": "SND2 (sound round 2, 2026-08-10)",
+  "verdict": "perfect (owner, blind field that included the P45 clip)",
+  "family": "pack_such_tail150",
+  "ms": 700,
+  "supersedes_sha256": "a8cd7d22b5c2a230e8fce6ecf90fe52a38130492d0f1a58c1794a20c97435642",
+  "how": "a t-click snapping into shush — one sound · as in chat, much",
   "as_in": "chat, much"
  },
  "qu": {
   "sha256": "38f7f9df40156abc97fdb5ebd1983ebab425c1fc5526d79f2d30fea3626c65c7",
   "round": "P45-HARD-GROK1",
   "verdict": "ok (owner ship review)",
-  "how": "a k-click sliding into w: \"kw\" \u00b7 as in quiz, quick",
+  "how": "a k-click sliding into w: \"kw\" · as in quiz, quick",
   "as_in": "quiz, quick"
  },
  "long_a": {
   "sha256": "125c1831e828ce5b5109c819d202715834f28c8019628b494511a0952a1afdbf",
   "round": "P45-B04",
-  "verdict": "ok (owner ship review)",
-  "how": "letter-name \"ay\" \u00b7 as in cake, name (long-vowel exception)",
+  "verdict": "ok (owner ship review); sound round 2, 2026-08-10: closest of its field - owner ruled iterate on this clip, better arms owed",
+  "how": "letter-name \"ay\" · as in cake, name (long-vowel exception)",
   "as_in": "cake, name"
  },
  "long_e": {
-  "sha256": "36dddcbd6a420a18342e45499c6fcf06559c1958c5144d0131dabfed0415e32d",
-  "round": "P45-HARD-GROK1",
-  "verdict": "ok (owner ship review)",
-  "how": "letter-name \"ee\" \u00b7 as in me, see (long-vowel exception)",
+  "sha256": "e7d3a3fe69d770113bfc5a6d0f8fc1221045daceefcf65861c62f5964c57cd10",
+  "round": "SND2 (sound round 2, 2026-08-10)",
+  "verdict": "perfect (owner, blind field that included the P45 clip)",
+  "family": "pack_she_45",
+  "ms": 847,
+  "supersedes_sha256": "36dddcbd6a420a18342e45499c6fcf06559c1958c5144d0131dabfed0415e32d",
+  "how": "letter-name \"ee\" · as in me, see (long-vowel exception)",
   "as_in": "me, see"
  },
  "zh": {
   "sha256": "a004d3d1a1e442bc9b593c919e0cd24b63be0549ab8b13690ab9698081359b3c",
   "round": "P45-HARD-GROK1",
-  "verdict": "ok (owner ship review)",
-  "how": "voiced \"zh\" (buzzing shush) \u00b7 as in measure, treasure",
+  "verdict": "ok (owner ship review); re-confirmed perfect blind, sound round 2, 2026-08-10",
+  "how": "voiced \"zh\" (buzzing shush) · as in measure, treasure",
   "as_in": "measure, treasure"
  },
  "oo_moon": {
   "sha256": "3a4c9e0e7ccf664999e05c049769e911019243fff039fe209dd660f6e5d5afe5",
   "round": "P45-B04",
   "verdict": "ok (owner ship review)",
-  "how": "long oo \u00b7 as in moon, food, boot",
+  "how": "long oo · as in moon, food, boot",
   "as_in": "moon, food, boot"
  },
  "aw": {
   "sha256": "ad0f4d413141d854a52460ab7397a183558bf168fa0696fb4878061ecfcceb87",
   "round": "P45-B04",
-  "verdict": "ok (owner ship review)",
-  "how": "open \"aw\" \u00b7 as in saw, paw, law",
+  "verdict": "ok (owner ship review); sound round 2, 2026-08-10: closest of its field - owner ruled iterate on this clip, better arms owed",
+  "how": "open \"aw\" · as in saw, paw, law",
   "as_in": "saw, paw, law"
  },
  "ar": {
   "sha256": "5bbf0fa449f94db9cc197272b78672770b5b8160f418e977b2e2e6a9937fc408",
   "round": "P45-B05",
-  "verdict": "ok (owner ship review)",
-  "how": "r-controlled \"ar\" \u00b7 as in car, star",
+  "verdict": "ok (owner ship review); re-confirmed perfect blind, sound round 2, 2026-08-10",
+  "how": "r-controlled \"ar\" · as in car, star",
   "as_in": "car, star"
  },
  "or": {
   "sha256": "f97d26c2a80aae6fd76f2e8c9e1fcd434b9b37891bedce81343e059d87c34925",
   "round": "P45-B05",
-  "verdict": "ok (owner ship review)",
-  "how": "r-controlled \"or\" \u00b7 as in for, corn",
+  "verdict": "ok (owner ship review); re-confirmed perfect blind, sound round 2, 2026-08-10",
+  "how": "r-controlled \"or\" · as in for, corn",
   "as_in": "for, corn"
  },
  "er": {
   "sha256": "08536b707195d895901055639cb996a38ce74b492a7a0c2c9a45c113011db5ea",
   "round": "P45-B05",
-  "verdict": "ok (owner ship review)",
-  "how": "r-controlled \"er\" \u00b7 as in her, bird",
+  "verdict": "ok (owner ship review); re-confirmed perfect blind, sound round 2, 2026-08-10",
+  "how": "r-controlled \"er\" · as in her, bird",
   "as_in": "her, bird"
  }
 }

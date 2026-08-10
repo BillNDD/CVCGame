@@ -127,6 +127,13 @@ updated whenever a round lands.
   bullets above. A new round tool must not render its first candidate until
   it can verify one; the check is part of the round, not a feature of one
   script.
+- **A red gate blocks the push, even mid-campaign** (2026-08-10). Four pushes
+  went out during the listening rounds while the governing-files gate (G17)
+  was red: the two pending ledgers were tracked before they were named in the
+  owned set. The ledgers themselves are legitimate — they are E10's "Approved
+  and unshipped" mechanism, created on the owner's instructions — but the red
+  check was the system asking for exactly this owner-visible entry, and it
+  was not consulted. E7 has no fast-lane exception.
 - **The last card on a listening page must clear the sticky footer**
   (2026-08-07, batch 5). The one sentence in the batch was rendered behind the
   copy-all bar, so the owner never saw it and reported no sentences at all.
