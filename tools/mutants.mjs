@@ -75,7 +75,26 @@ const MUTANTS = [
 ];
 
 const run = (cmd, args) => { try { execFileSync(cmd, args, { stdio: "pipe" }); return true; } catch { return false; } };
-const survivors = [];
+
+/* A mutant is KILLED only when a TEST FAILED. A non-zero exit alone is not
+   proof: a mutant that crashes the runner or breaks the environment exits
+   non-zero too, and scoring that as a kill claims protection the suite never
+   demonstrated. Three outcomes — killed, survived, errored — and an error
+   fails the gate rather than passing as a kill. */
+const ANSI = /\[[0-9;]*[A-Za-z]/g;
+function runTests() {
+  try {
+    execFileSync("npx", ["vitest", "run", "--reporter=dot"],
+      { stdio: "pipe", encoding: "utf8", env: { ...process.env, NO_COLOR: "1" } });
+    return { passed: true, failed: 0 };
+  } catch (e) {
+    const out = (String(e.stdout || "") + String(e.stderr || "")).replace(ANSI, "");
+    const m = out.match(/(\d+) failed/);
+    return { passed: false, failed: m ? Number(m[1]) : 0 };
+  }
+}
+
+const survivors = [], errored = [];
 let missing = 0;
 
 /* Negative control for the runner itself: the pristine suite must PASS before
@@ -92,14 +111,18 @@ for (const [name, from, to] of MUTANTS) {
   writeFileSync(TMP, original.replace(from, to));
   const built = run("node", ["tools/extract-engine.mjs", TMP, "src/engine.js"]);
   // a mutant that breaks extraction is caught by the build; never test stale code
-  const passed = built && run("npx", ["vitest", "run", "--reporter=dot"]);
-  if (passed) survivors.push(name);
+  if (!built) { console.log("  killed: " + name + " (the mutated build does not extract)"); continue; }
+  const r = runTests();
+  if (r.passed) survivors.push(name);
+  else if (r.failed > 0) console.log(`  killed: ${name} (${r.failed} test${r.failed === 1 ? "" : "s"} failed)`);
+  else errored.push(name);
 }
 run("node", ["tools/extract-engine.mjs"]);
 if (existsSync(TMP)) copyFileSync(REF, TMP);
 
-const killed = MUTANTS.length - survivors.length - missing;
-console.log(`\nMutation gate: ${MUTANTS.length} mutants, ${killed} killed, ${survivors.length} survived, ${missing} skipped`);
+const killed = MUTANTS.length - survivors.length - missing - errored.length;
+console.log(`\nMutation gate: ${MUTANTS.length} mutants, ${killed} killed, ${survivors.length} survived, ${errored.length} errored, ${missing} skipped`);
 survivors.forEach(s => console.log("  SURVIVED: " + s));
+errored.forEach(s => console.log("  ERRORED (the run died without a test failure, so nothing was proven): " + s));
 if (missing) console.log("  Anchors that moved must be re-pointed, not deleted.");
-process.exit(survivors.length || missing ? 1 : 0);
+process.exit(survivors.length || missing || errored.length ? 1 : 0);

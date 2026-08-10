@@ -82,3 +82,4 @@ kokoro-env/
 script.json
 tools/__pycache__/
 .gauntlet-evidence.json
+.cov-control/

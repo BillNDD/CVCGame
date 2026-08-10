@@ -200,7 +200,23 @@ step("G6 coverage", "npx vitest run --coverage", [
   { label: "lines", regex: /engine\.js\s*\|\s*[\d.]+\s*\|\s*[\d.]+\s*\|\s*[\d.]+\s*\|\s*([\d.]+)/, floorKey: "g6_lines_min" },
   { label: "app_branches", regex: /App\.jsx\s*\|\s*[\d.]+\s*\|\s*([\d.]+)/, floorKey: "g6_appjsx_branches_min" },
   { label: "app_lines", regex: /App\.jsx\s*\|\s*[\d.]+\s*\|\s*[\d.]+\s*\|\s*[\d.]+\s*\|\s*([\d.]+)/, floorKey: "g6_appjsx_lines_min" },
+  /* The app-wide row. These two floors sat in the baseline reading as
+     protection while NO tool consulted them, and they disagreed with the
+     numbers vitest.config.mjs actually enforced — which is how an audit came
+     to believe the app floors were in conflict. A floor that guards nothing
+     is worse than no floor. Both places now carry the same numbers, and this
+     is where they bite. The pattern stops at "app/src" followed by
+     whitespace, so the app/src/screens row cannot answer for it. */
+  { label: "appdir_branches", regex: /\n\s*app\/src\s+\|\s*[\d.]+\s*\|\s*([\d.]+)/, floorKey: "g6_app_branches_min" },
+  { label: "appdir_lines", regex: /\n\s*app\/src\s+\|\s*[\d.]+\s*\|\s*[\d.]+\s*\|\s*[\d.]+\s*\|\s*([\d.]+)/, floorKey: "g6_app_lines_min" },
 ]);
+
+/* G6's calibration: the meter itself, checked against fixtures whose true
+   coverage is known by construction. Every other detector here ships a
+   control (E5); coverage was the exception. */
+step("G6 coverage-control", "node tools/coverage-control.mjs", [
+  { label: "problems", regex: /calibration: \d+ fixtures, (\d+) problems/, max: 0 },
+], {}, ["control OK: the meter reports 100 for a fully exercised file"]);
 
 step("G6 quality", "npx eslint . && node tools/dep-cycles.mjs && node tools/quality-control.mjs", [
   { label: "cycles", regex: /Dependency cycles: (\d+)/, maxKey: "g6_dependency_cycles_max" },
@@ -270,7 +286,7 @@ const REQUIRED_GATES = [
   "G11 copy", "G1+G2+G9+G10 tests", "G3 regeneration", "G4 acceptance-mutants",
   "G5 source-mutants", "G19 app-mutants", "G6 coverage", "G6 quality",
   "G7 interface", "G8 accessibility", "G18 network", "G16 doc-truth",
-  "G12 qa-procedure", "G13 voice-pack", "G20 effect-map", "G17 governing",
+  "G12 qa-procedure", "G13 voice-pack", "G20 effect-map", "G17 governing", "G6 coverage-control",
 ];
 const ran = new Set(results.map((r) => r.gate));
 const skipped = REQUIRED_GATES.filter((g) => !ran.has(g));

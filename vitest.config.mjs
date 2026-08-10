@@ -36,7 +36,7 @@ export default defineConfig({
          from there (E6). They never fall. */
       thresholds: {
         "src/engine.js": { lines: 95, branches: 90 },
-        "app/src/**": { lines: 81, branches: 82 },
+        "app/src/**": { lines: 82, branches: 84 },   /* same numbers as g6_app_lines_min and g6_app_branches_min in .claude/gate-baseline.json, which the gauntlet gates on: two places, one pair of numbers */
       },
     },
   },
