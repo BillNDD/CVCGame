@@ -174,6 +174,14 @@ step("G8 accessibility", "node tests/ui/a11y.mjs", [
   { label: "failed", regex: /(\d+) failed/, maxKey: "g8_axe_violations_max" },
 ], { WQ_SKIP_BUILD: "1" });
 
+/* S6 watched rather than read: the source scan in tests/safety.test.js stays
+   as the fast pre-filter, and this records what the browser actually asks
+   for. A gate that can see a request from a dependency or a stylesheet. */
+step("G18 network", "node tests/ui/network.mjs", [
+  { label: "checks", regex: /(\d+) checks passed/, floorKey: "g18_network_checks" },
+  { label: "failed", regex: /(\d+) failed/, max: 0 },
+], { WQ_SKIP_BUILD: "1" });
+
 step("G16 doc-truth", "node tools/doc-truth.mjs && node tools/doc-truth.mjs --self-test", [
   { label: "rules", regex: /Doc-truth gate: (\d+) rules/, floorKey: "g16_doc_rules" },
   { label: "problems", regex: /(\d+) problems/, max: 0 },

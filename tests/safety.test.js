@@ -634,6 +634,10 @@ describe("G10 safety — S4: a word the microphone cannot judge fairly", () => {
   });
 });
 
+/* S6's source scan below is a PRE-FILTER too: G18 (tests/ui/network.mjs)
+   records every request the built app actually makes in a real browser and
+   fails on any host but its own, which is the only way to see a request made
+   by a dependency, an <img src>, or a stylesheet url(). */
 describe("G10 safety — S6 and S7: no network, big controls", () => {
   it("6: no app source makes a network call", () => {
     const files = [
@@ -667,6 +671,12 @@ describe("G10 safety — S6 and S7: no network, big controls", () => {
     expect(NET.test(strippedAsHomeScreen)).toBe(true);
   });
 
+  /* A PRE-FILTER, not the proof. This reads the stylesheet; G7 check 18-20
+     measures what a thumb actually meets, with boundingBox() in a real
+     browser at three viewport shapes, because a control can carry
+     min-height:56px and still render shorter inside a shrinking flex parent,
+     under a transform, or below a later rule that wins. Kept because it is
+     instant and runs in the fast suite, where G7 does not. */
   it("7: the stylesheet keeps child controls at 56 px and adult controls at 44 px", () => {
     const sized = (css) =>
       css.includes("min-height:56px") &&

@@ -1,4 +1,4 @@
-# Testing gauntlet — gate specification (G1–G16)
+# Testing gauntlet — gate specification (G1–G18)
 
 This document defines the quality gates for Word Quest. The owner reviews this document, not
 every line of code. The gates are the contract. `npm run gauntlet` runs every automatic gate.
@@ -163,6 +163,17 @@ The level range is 1 to 7. SPEC and the engine agree; the owner corrected SPEC o
     expected value.
   - The app serves a session offline after one online load. This tests the offline capability
     that already exists.
+  - Every rendered control meets its S7 floor, MEASURED with `boundingBox()` — child
+    controls (`.wq-cta`) 56 px and adult controls (`.wq-sbtn`) 44 px in both directions —
+    across the home, ready and feedback screens at 390x844, 768x1024 and 1280x800. The
+    stylesheet check in G10 is a pre-filter for the fast suite: a control can carry
+    `min-height:56px` and still render shorter inside a shrinking flex parent, under a
+    transform, or below a later rule that wins. Negative control: injected rules that
+    shrink both classes must make the same probe report controls under the floor.
+  - Tablet portrait, 768x1024: one centred column with the tiles and the feedback sentence
+    on the word's centre, no page scroll, no sideways overflow, and the word's box
+    unmoved between phases. This shape sits between the 390-wide phone checks and the
+    1280/1080 landscape checks, and nothing measured it before.
 
 ## G8. Accessibility
 
@@ -295,6 +306,25 @@ engine, never a hand-kept list.
 - Baseline floors: `g13_clips` (316) and `g13_engine_tests` (6).
 - To re-render the pack after the bank grows: `docs/voice-pack.md`.
 
+## G18. Network audit
+
+- Safety rule S6 promises no network calls after load, with two exceptions to the app's
+  own host. G10 proves that by READING the source: a scan for `fetch`, `XMLHttpRequest`,
+  `WebSocket`, `sendBeacon` and `analytics` across every shipped file. That scan is
+  instant and has its own controls, but it can only see the code it is pointed at — never
+  a request from a dependency, an `<img src>`, a stylesheet `url()`, or a path its
+  allowlist strips before scanning. G18 watches the browser instead.
+- Playwright drives the built app through a child's whole visit, the grown-up strip's
+  update check, and a return to the foreground, recording every request from every page
+  and worker. The allowlist is the whole of S6 and has no exceptions: same-origin only.
+  `version.json` is same-origin too, so the approved update check needs no special case —
+  a rule with no exceptions cannot be quietly widened.
+- Negative control: a cross-origin `fetch` and a cross-origin `<img src>` are planted in
+  the live page and the recorder must catch both. Without it, a recorder that saw nothing
+  would look exactly like an app that asked for nothing.
+- Baseline floor: `g18_network_checks` (3).
+- Run: `npm run test:network`
+
 ## G17. Governing files
 
 - "What counts as finished work" (CLAUDE.md) bans new status files, progress logs and
@@ -305,7 +335,7 @@ engine, never a hand-kept list.
   dependency rule.
 - Negative control: `--self-test` plants a `PROGRESS.md` and a stray `status.json`; the
   detector must report both and still accept the real tree.
-- Baseline floor: `g17_governing_files` (19).
+- Baseline floor: `g17_governing_files` (20).
 - Run: `node tools/check-governing.mjs`
 
 ## G14. Update system
