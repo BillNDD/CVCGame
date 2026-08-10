@@ -136,19 +136,6 @@ CARDS = [
          reject="a g or other consonant, robotic flatness, or a chopped glide",
          pure=[("oh", "Oh, I see it now."), ("oh", "Oh, that was fun.")],
          inside=[("go", "We go home now.")]),
-    dict(name="schwa", ph="ə", kind="voiced",
-         note="cut from a natural 'uh' — short and lazy, never stressed",
-         how="the lazy little 'uh' of 'the' and 'about' — soft, short, relaxed",
-         reject="too long, stressed like 'UH!', or carrying other sounds",
-         pure=[("uh", "I, uh, forgot it."), ("uh", "It was, uh, big.")],
-         inside=[]),
-    dict(name="oo_book", ph="ʊ", kind="voiced",
-         note="cut from good and book — no English word is this sound alone",
-         how="the short 'oo' of book, good and push — quick and rounded",
-         reject="the long 'oo' of moon instead, or consonants left on it",
-         pure=[],
-         inside=[("good", "A good book helps."), ("book", "The book is open."),
-                 ("push", "We push it gently.")]),
     dict(name="oi", ph="ɔɪ", kind="voiced",
          note="cut from boy and toy",
          how="the glide of coin and boy — 'aw' rolling into 'ee' as one sound",
@@ -276,9 +263,11 @@ if thin:
 
 (OUT / "batch-data.json").write_text(json.dumps({
     "title": "Sound round 4 — sounds cut from real words, warmth first",
-    "tally": ("Sounds: 38 of 45 done — these 7 are what's left. "
-              "Words: 349 shipped + 59 approved and waiting; the 19 rebuilt blends are in batch 9. "
-              "Sentences: 21 shipped + 2 approved."),
+    "tally": ("Sounds: 38 of 45 done — 7 left; 5 offered here. schwa and "
+              "oo (book) fielded nothing honest this round (every cut kept a "
+              "neighbour sound) and return next round or as owner recordings. "
+              "Words: 349 shipped + 59 approved and waiting; the 19 rebuilt "
+              "blends are in batch 9. Sentences: 21 shipped + 2 approved."),
     "items": items}))
 print("wrote", OUT / "batch-data.json")
 
