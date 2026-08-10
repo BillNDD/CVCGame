@@ -64,6 +64,56 @@ updated whenever a round lands.
   the two phoneme arms as "terribly robotic" in batch 2. Explicit phonemes
   keep their one settled job — the two-letter words the phonemiser misreads —
   and are never a candidate family for naturalness.
+- **af_heart opens every ISOLATED word render with an 85–115 ms voiced blob**
+  (measured 2026-08-10 across silk, slip, sit, snap, stop — even words whose
+  accepted pack clips start clean, 0–30 ms). It is an utterance-initial
+  artifact, the same phenomenon in a fourth position: initial blob, final
+  creak. Everything the pipeline derives from a solo render inherits it: a
+  template built from one aligns its blob onto the preceding carrier word and
+  drags "a big sound or a word in front" into every located cut (batch 8).
+  `verify.clean_onset()` strips it from the canonical before it locates or
+  judges anything, and `verify.lead_voiced_ms()` refuses a candidate carrying
+  more than 40 ms of voiced material before an unvoiced-initial word's onset.
+  Kokoro also cannot render a lone UNVOICED phoneme at all — its θ is a
+  voiced "thuh" (raw low-band 0.80 vs 0.02–0.12 for real frication) — so
+  unvoiced sound templates and arms are pulled from context renders with
+  `soundgate.unvoiced_run()`.
+
+## What makes a cut word sound human — the standing knowledge
+
+Kept here because the owner has had to re-teach this twice after context
+loss. These are the knobs, each with its evidence. Published perception
+research agrees with what the owner's ear found: synthetic speech reads as
+robotic when it lacks lexical-stress contrast, pitch movement, natural
+pauses, and warm spectral tilt (attenuated low harmonics read as cold).
+
+- **Position in phrase is the master knob.** A word rendered alone gets the
+  initial blob; a word rendered phrase-final gets creak. The human-sounding
+  render of a word is MID-PHRASE, where the model gives it a real accent, a
+  live pitch contour, and clean modal phonation at both edges. Every winner
+  in `tools/pending-words/` is a carrier cut; zero are plain renders.
+- **The carrier's register shapes the word.** Teacher frames ("{Word},
+  everybody.") won 59 items. A natural sentence frame won "Pronounced:"
+  (in_sentence2, batch 8) after eleven teacher-style ideas failed — when a
+  clip keeps sounding inhuman, move it into an utterance a person would
+  actually say, and cut from there.
+- **The front matters more than the tail.** All four batch-4 winners were
+  front-trimmed; the "uh" at the front of every rejected "soft" and the blob
+  above are the same lesson. After the cut, the onset must start ON the
+  word.
+- **Speed: 0.85 for words is the shipped default; 1.0 fixes nothing** (hen,
+  man, hat — closed above). "Slightly too quick" was a real complaint at
+  0.95+ for a sentence-styled item; unhurried 0.8 belongs in a field.
+- **WORLD colour is the fine knob**: f0 ×0.94–1.06, formant warp 0.97–1.03.
+  "Warm" (f0 0.97, formants 1.03) matches what the research calls warm
+  spectral tilt. Raised aperiodicity (breathiness ×1.25) is the newest knob,
+  first fielded in batch 9. Arrays passed to pyworld must be
+  np.ascontiguousarray — a silent except around WORLD once ate a word's best
+  options twice.
+- **What does NOT work**: phoneme renders for naturalness (settled above);
+  alternate spellings (read as letter names); speed changes as a repair;
+  any measurement as a quality judge beyond audibility and
+  phrase-masquerade. The ear is the only judge of warmth.
 
 ## Closed by a listener — do not re-offer
 
@@ -118,6 +168,17 @@ updated whenever a round lands.
   they were, and never asked whether they were the word. `verify()` now
   documents that its template is the canonical render, always. A check that
   compares a thing to itself proves nothing.
+- **A canonical reference must itself be proven clean before it judges
+  anything** (2026-08-10, batch 8). The word gate compared every candidate to
+  the word's solo render — but af_heart pollutes solo renders with an
+  initial voiced blob, so the template aligned its blob onto the preceding
+  carrier word, every cut carried "a big sound or a word in front", and
+  verify() passed them all at dtw 0.04 because reference and candidate
+  shared the same junk. Nineteen words wasted a round; the owner stopped
+  marking at card three. A reference is not canonical because of where it
+  came from; it is canonical when its own cleanliness has been measured
+  (`verify.clean_onset`, calibrated against the refused silk/slip arms and
+  the accepted pack words).
 - **The content gate applies to EVERY round type, not the round type it was
   written for** (2026-08-10, sound round 2). The word rounds verified every
   cut; the sound-round tool was written beside them WITHOUT the gate and cut

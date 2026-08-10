@@ -188,6 +188,49 @@ The owner's ear is final, and the page is only the way the ear is asked. A
 winner becomes a row in `tools/voice-words.csv` — with its family, round and
 byte pin — only after the answer comes back.
 
+## Batch 8 — judged 2026-08-10, and the blob it exposed
+
+One verdict landed: **"Pronounced:" is perfect** (arm `s:pronounced_10`,
+family in_sentence2 — the word inside a natural sentence, cut out; eleven
+styled ideas lost to it). Its exact bytes wait in `tools/pending-words/`.
+Everything else failed one way: "every single version of silk has a big
+sound or a word in front", and the owner stopped marking. The diagnosis and
+its fix are in `docs/settled.md` — af_heart opens every isolated render with
+an 85–115 ms voiced blob, which poisoned the canonical template and through
+it the cutter and the gate. mend and silk stay open; the 17 initial blends
+were never really judged. All 19 went back out as batch 9, rebuilt on
+cleaned templates with the onset check, with warmth as the declared goal
+("none have any human warmth" — slip's field): natural-sentence families
+beside the teacher frames, an unhurried 0.8, and a breathy WORLD variant.
+
+## Sound round 3 — judged 2026-08-10
+
+The first fully gated sound round (every arm located and content-verified,
+the build self-refusing until every shipped arm passed). Verdicts:
+
+- **long_a and aw: CLOSED.** Offered beside their own iterate fields (trims,
+  colour), the accepted P45 clips won outright — "perfect" on both. The
+  round-2 "iterate" ruling is answered: nothing beat the original.
+- **long_u: CLOSED.** `long_u_1` — the core of the owner-accepted pending
+  word "you", where the word IS the sound — perfect. Bytes preserved in
+  `tools/pending-sounds/`.
+- **ow: closest = `ow_4`** (the plain phoneme render): "the 'right' sound,
+  but no human would say it this way" — the humanising seed for round 4.
+- **th_quiet: none.** "All are full of static and sound like a hissing
+  snake" — even at −6 to −12 dB. An isolated frication clip reads as hiss at
+  any level; round 4 offers shaped short puffs, and the owner-records-it
+  fallback (the nine-sound precedent) is formally on the table.
+- **long_i, long_o, schwa, oo_book, oi: none**, with the theme named on
+  long_o: "none sound human or have any warmth." Clean is not enough.
+  Round 4's design: cut the vowel sounds from real interjection WORDS that
+  consist of the sound alone — eye (long i), oh (long o), uh (schwa),
+  oy/boy (oi), ow (ow) — spoken mid-phrase in a natural sentence, so the
+  model gives them human prosody, plus warmth treatments (WORLD colour,
+  breathiness) on the best cuts.
+
+Sound tally after this round: **38 of 45 closed**, 7 open — th_quiet,
+long_i, long_o, schwa, oo_book, oi, ow.
+
 ## Sound round 2 — judged 2026-08-10
 
 The sidecar's P45 ship review closed 22 sounds; those exact bytes sit in

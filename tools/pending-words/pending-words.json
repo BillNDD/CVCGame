@@ -305,7 +305,7 @@
   "round": "batch 6 / 2026-08-07",
   "verdict": "perfect",
   "level": "reveal lead-in (planned)",
-  "text": "Let\u2019s sound it out."
+  "text": "Let’s sound it out."
  },
  "of": {
   "arm": "of_6",
@@ -540,5 +540,16 @@
   "round": "batch 7 / 2026-08-07",
   "verdict": "perfect",
   "level": "L10 final blends"
+ },
+ "s:pronounced": {
+  "file": "s-pronounced.mp3",
+  "sha256": "5aa773d469753ca1df19cf9f7cf469aec7845a6915dcd44e56d64328b617c874",
+  "arm": "s:pronounced_10",
+  "family": "in_sentence2",
+  "ms": 1050,
+  "round": "batch 8 (2026-08-10)",
+  "verdict": "perfect",
+  "level": "sound-out reveal lead-in",
+  "note": "the word spoken inside a natural sentence and cut out - beat 11 styled ideas"
  }
 }
