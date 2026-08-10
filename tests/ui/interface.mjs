@@ -316,6 +316,99 @@ for (const height of [430, 555, 720, 950]) {
     await context.close();
   }
 
+  /* 17 — the control floors, MEASURED. Safety rule S7 says child controls are
+     56 px or more and adult controls 44 px or more. tests/safety.test.js
+     proves the stylesheet CONTAINS those rules, which is a different claim: a
+     control can carry min-height:56px and still render shorter inside a flex
+     parent that shrinks it, under a transform, or below a later rule that
+     wins. This measures what a thumb actually meets, on every screen the
+     child and the grown-up can reach, at three shapes.
+     A negative control follows: a rule that shrinks the controls is injected
+     and the same probe must report them under the floor. */
+  {
+    const measure = (page) => page.evaluate(() => {
+      const out = [];
+      for (const [sel, floor, who] of [[".wq-cta", 56, "child"], [".wq-sbtn", 44, "adult"]]) {
+        for (const el of document.querySelectorAll(sel)) {
+          const r = el.getBoundingClientRect();
+          if (r.width === 0 && r.height === 0) continue;      // not rendered
+          const cs = getComputedStyle(el);
+          if (cs.display === "none" || cs.visibility === "hidden") continue;
+          out.push({ who, floor, h: Math.round(r.height * 10) / 10, w: Math.round(r.width * 10) / 10,
+                     name: (el.getAttribute("aria-label") || el.textContent || "").trim().slice(0, 28) });
+        }
+      }
+      return out;
+    });
+    const short = (list) => list.filter((c) =>
+      c.h + 0.5 < c.floor || (c.who === "adult" && c.w + 0.5 < c.floor));
+
+    for (const vp of [{ width: 390, height: 844 }, { width: 768, height: 1024 }, { width: 1280, height: 800 }]) {
+      const context = await browser.newContext();
+      const page = await context.newPage();
+      await page.setViewportSize(vp);
+      await page.goto(URL, { waitUntil: "load" });
+      await page.getByRole("button", { name: "▶️ Begin Session" }).waitFor();
+      const seen = [];
+      seen.push(...await measure(page));                        // home, with the grown-up strip
+      await page.getByRole("button", { name: "▶️ Begin Session" }).click();
+      await page.locator(".wq-word").waitFor();
+      seen.push(...await measure(page));                        // session, ready phase
+      await gradeByKey(page, "✓ got it (hold)", "Enter");
+      await page.locator(".wq-tile").first().waitFor();
+      seen.push(...await measure(page));                        // session, feedback phase
+      const tooSmall = short(seen);
+      if (seen.length < 6) fail(`too few controls measured at ${vp.width}x${vp.height}`, `${seen.length}`);
+      else if (tooSmall.length) fail(`a control renders under its floor at ${vp.width}x${vp.height}`, JSON.stringify(tooSmall.slice(0, 4)));
+      else ok(`${vp.width}x${vp.height}: ${seen.length} controls all render at or above their floor (smallest ${Math.min(...seen.map((c) => c.h))}px tall)`);
+
+      /* negative control: shrink both control classes and re-measure */
+      await page.addStyleTag({ content: ".wq-root .wq-cta{min-height:40px!important;padding:2px!important}"
+        + ".wq-root .wq-sbtn{min-height:30px!important;min-width:30px!important;padding:0!important}" });
+      const shrunk = short(await measure(page));
+      if (shrunk.length) console.log(`control OK: the probe reads rendered size (${shrunk.length} controls fall under the floor when the CSS shrinks them)`);
+      else fail("negative control broken", `shrunken controls still measured at or above the floor at ${vp.width}x${vp.height}`);
+      await context.close();
+    }
+  }
+
+  /* 18 — tablet portrait. A 768-wide portrait screen is the one common shape
+     nothing measured: the phone checks run at 390 and the landscape checks at
+     1280 and 1080 wide. The layout is one centred column at every size, so the
+     tablet must show the tiles and the sentence on the word's centre, must not
+     scroll the page, and must not overflow sideways. */
+  {
+    const context = await browser.newContext();
+    const page = await startSession(context, { width: 768, height: 1024 });
+    const before = await page.locator(".wq-word").boundingBox();
+    await gradeByKey(page, "✓ got it (hold)", "Enter");
+    await page.locator(".wq-tile").first().waitFor();
+    const m = await page.evaluate(() => {
+      const mid = (el) => { const r = el.getBoundingClientRect(); return r.left + r.width / 2; };
+      const tiles = [...document.querySelectorAll(".wq-tile")];
+      const msg = document.querySelector(".wq-slot-msg p");
+      const first = tiles[0].getBoundingClientRect(), last = tiles[tiles.length - 1].getBoundingClientRect();
+      const d = document.documentElement;
+      return {
+        word: mid(document.querySelector(".wq-word")),
+        tiles: (first.left + last.right) / 2,
+        msg: msg ? mid(msg) : null,
+        vScroll: d.scrollHeight - d.clientHeight,
+        hScroll: d.scrollWidth - d.clientWidth,
+      };
+    });
+    const after = await page.locator(".wq-word").boundingBox();
+    const dTiles = Math.abs(m.tiles - m.word), dMsg = m.msg === null ? Infinity : Math.abs(m.msg - m.word);
+    const still = Math.abs(after.x - before.x) <= 0.5 && Math.abs(after.y - before.y) <= 0.5;
+    if (m.hScroll > 0) fail("tablet portrait overflows sideways", `${m.hScroll}px`);
+    else if (m.vScroll > 0) fail("tablet portrait scrolls the page", `${m.vScroll}px`);
+    else if (dTiles > 1) fail("tablet portrait tiles off the word's centre", `${dTiles.toFixed(1)}px`);
+    else if (dMsg > 1) fail("tablet portrait sentence off the word's centre", `${dMsg}`);
+    else if (!still) fail("the word moved between phases on tablet portrait", JSON.stringify({ before, after }));
+    else ok(`tablet portrait 768x1024: one centred column, no page scroll, the word holds still (${dTiles.toFixed(1)}px, ${dMsg.toFixed(1)}px apart)`);
+    await context.close();
+  }
+
   /* 12 — a session starts offline after one online load */
   await page.evaluate(() => navigator.serviceWorker.ready.then(() => undefined));
   await page.reload({ waitUntil: "load" }); // online reload -> the page is SW-controlled
