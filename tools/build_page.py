@@ -75,7 +75,8 @@ html = f'''<!doctype html><meta charset="utf8">
  .arm{{display:flex;flex-direction:column;gap:4px;min-width:150px}}
  button{{font:inherit;cursor:pointer;border-radius:7px;padding:7px 10px;background:#fff;border:1px solid #c9c4b4}}
  .play{{font-weight:700;border-color:#1a1a2e}}
- .play.played{{background:#eef2fb}}
+ .play.playing{{background:#1a1a2e;color:#fff}}
+ .play:active{{transform:translateY(1px)}}
  .mark{{font-size:12px;color:#4a4a3a;border-style:dashed}}
  .mark.chosen{{background:#0f7a4f;color:#fff;border-style:solid;border-color:#0f7a4f}}
  .close.chosen{{background:#8a5a00;border-color:#8a5a00}}
@@ -111,11 +112,13 @@ async function play(btn) {{
   if (AC.state === "suspended") await AC.resume();
   const id = btn.dataset.id;
   if (!buffers.has(id)) buffers.set(id, await AC.decodeAudioData(bytes(btn.dataset.b64)));
+  document.querySelectorAll(".play.playing").forEach((b) => b.classList.remove("playing"));
   const src = AC.createBufferSource();
   src.buffer = buffers.get(id);
   src.connect(AC.destination);
+  src.onended = () => btn.classList.remove("playing");
   src.start();
-  btn.classList.add("played");
+  btn.classList.add("playing");
 }}
 const answers = {{}};
 function refresh(item) {{
