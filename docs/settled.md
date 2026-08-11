@@ -151,6 +151,23 @@ pauses, and warm spectral tilt (attenuated low harmonics read as cold).
   first fielded in batch 9. Arrays passed to pyworld must be
   np.ascontiguousarray — a silent except around WORLD once ate a word's best
   options twice.
+- **A sound is cut from an approved WORD CLIP, not from a fresh render.**
+  long_e closed as family `pack_she_45` and ch as `pack_such_tail150`: both
+  were cut out of an already-shipped clip the owner had heard and called
+  perfect. A sound taken from approved audio starts with the warmth that was
+  already accepted; a sound built out of a fresh render has to earn it from
+  nothing. This was in the record the whole time and went unused for seven
+  sound rounds. Look at the pack first, always.
+- **Processing moves a sound away from a person, not toward one.** Round 8
+  offered forty options across six mechanisms, five of which processed the
+  audio — time-stretch, formant warp, cross-faded loop, medoid of a synthetic
+  field, a second voice. The owner's verdict on all forty: "truly outlandish
+  and unreasonable." Warmth is not a transform. When a sound is wrong, change
+  where it was CUT FROM, not what was done to it afterwards. The one honest
+  exception is a natural amplitude envelope: a vowel excised from mid-word
+  begins and ends at full amplitude, because its own rise and fall belong to
+  the consonants either side, and giving it back a quick rise and a slower
+  fall restores the shape a spoken sound has rather than adding anything.
 - **The closure frame belongs in every field, for whole words too.** "Stop.
   {Word}. Stop." sets a full word mid-phrase between real neighbours with
   measured silence on both flanks. Built for the two-letter words, it won

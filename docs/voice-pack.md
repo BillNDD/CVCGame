@@ -256,6 +256,41 @@ the phonemiser misreads them; the same shortness makes them unlocatable by templ
 They move to the recipe that closed the vowel SOUNDS — the word in a repeat frame, cut only
 where the source shows measured silence on both flanks.
 
+## Sound round 8 — judged 2026-08-11: forty options, all refused, and why
+
+"All the options here for both sounds are truly outlandish and unreasonable." The verdict
+is right and the reason is legible. Round 8 ran six mechanisms and five of them PROCESSED
+the audio — time-stretching, formant warping, cross-faded loops, a medoid of a synthetic
+field, a second voice. Every one moved further from a person saying a sound. Cleverness was
+the fault, not the sound.
+
+One idea from it survives on its merits and is worth keeping: a stop consonant's closure IS
+silence, so the /U/ in "book" is bracketed by real silence from the /b/ and /k/ closures.
+The silence-flank recipe that closed every other vowel had only ever been read as "silence
+between WORDS", which is why it never reached these two — they have no pure word. It works
+one level down, inside a word. That is a true finding even though the round it rode in on
+was refused.
+
+## Sound round 9 — sent 2026-08-11: back to basics
+
+The record already holds the recipe that works, and it was not being used. long_e closed as
+family `pack_she_45`, and ch as `pack_such_tail150`. Those names mean the sound was cut out
+of an ALREADY-SHIPPED word clip — one of the 349 the owner has heard and called perfect —
+not out of a fresh render. A sound cut from an approved clip starts with the warmth the
+owner already accepted.
+
+Round 9 does only that, and nothing else. No stretching, no warping, no loops, no medoid,
+no second voice. There are just four source clips in the whole bank: **the** and **was**
+for schwa, **push** and **bush** for oo (book). Each is cut at many positions and hold
+lengths, and each cut is offered twice — once bare and once with a natural envelope, a
+quick rise and a slower fall, because a vowel excised from mid-word begins and ends at full
+amplitude, its own rise and fall belonging to the consonants either side. Played alone that
+reads as a blip rather than a voice, which is a fair description of "outlandish".
+
+That scarcity is itself what this round tests. If the sound cannot be had from the clips
+that DO carry it, no cleverness elsewhere will produce it, and the owner's own voice is the
+answer — which is what rounds 5, 6 and 7 already recommended.
+
 ## Batch 14 — judged 2026-08-11: both perfect, on material never offered before
 
 lids (`lids_4`, `stop_sp0.6`) and be (`be_2`, `listen_sp0.65`), both perfect. These
