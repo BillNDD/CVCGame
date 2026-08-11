@@ -3,14 +3,12 @@
  "_source": "P45-OK-SHIP-HANDOFF, owner ship-review export 2026-08-10T15:41:39.154Z",
  "_revisit": [
   "g",
-  "j",
   "n",
   "v",
   "w",
   "z",
   "h",
-  "ng",
-  "sh"
+  "ng"
  ],
  "short_o": {
   "sha256": "820a5025f119a235bc4ec02549f53286e946218d01228b0474023cc07afcd463",
@@ -249,7 +247,7 @@
   "how": "r-controlled 'ear' · as in ear, deer, near",
   "as_in": "ear, deer"
  },
- "_revisit_note": "Nine sounds open (2026-08-11). Faults named by the owner on round 14: g/j/n TOO QUICK; v/z TOO STATIC FILLED; w LACKS WARMTH; h INHUMAN (\"exhalation of a vampire\"); ng MECHANICAL DISTORTION; sh never produced a gateable arm. And the round-wide fault: ten edge treatments of one clip is not a field. Each sound needs genuinely different mechanisms aimed at ITS fault.",
+ "_revisit_note": "Seven sounds open (2026-08-11). g and n are CLOSEST; n has \"weird crackling or electric sound in middle and end\" and ng \"a lot of static and sounds muffled\" - both are artefacts of MY resynthesis, so those two need less processing, not more. v, w, z and h all returned none, and the owner supplied human reference recordings for exactly those four.",
  "schwa": {
   "sha256": "2a06ec741130e76a669ee247c3bafab6537a1d1c124be3f2538ec3131d6c7cd5",
   "round": "SND9 (sound round 9, 2026-08-11)",
@@ -319,5 +317,25 @@
   "how": "the short u · as in bus, cup",
   "as_in": "bus, cup",
   "note": "cut by the bake's carrier-sentence method, then its edges rounded with the accepted /h/ \"feathered human edges\" parameters. No owner recording involved."
+ },
+ "j": {
+  "sha256": "759ecd13eb72a8e515915c993edf67bf1a1635de0b63f4f7111f284592461a57",
+  "round": "SND15 (sound round 15, 2026-08-11)",
+  "verdict": "perfect (owner)",
+  "family": "longcut-jug-240",
+  "ms": 790,
+  "how": "a soft j-push · as in jam",
+  "as_in": "jam, jet",
+  "note": "synthesised; no owner recording involved."
+ },
+ "sh": {
+  "sha256": "a23764c564269ebc44a4fa5a0d5dd0ddd9ff8d23786d884dc74660138579dec9",
+  "round": "SND15 (sound round 15, 2026-08-11)",
+  "verdict": "perfect (owner)",
+  "family": "fadeonly-tight",
+  "ms": 730,
+  "how": "a quiet shush · as in ship",
+  "as_in": "ship, shop",
+  "note": "synthesised; no owner recording involved."
  }
 }
