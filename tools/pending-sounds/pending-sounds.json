@@ -1,7 +1,17 @@
 {
  "_comment": "Sounds the owner accepted in the sidecar's P45 ship review. The bytes here are the exact clips the owner marked ok; they are option 1 in any round for that sound, and become the row in tools/voice-sounds.csv when the sound-out reveal is built. Sounds on the revisit list are not here - they are still open.",
  "_source": "P45-OK-SHIP-HANDOFF, owner ship-review export 2026-08-10T15:41:39.154Z",
- "_revisit": [],
+ "_revisit": [
+  "g",
+  "j",
+  "n",
+  "v",
+  "w",
+  "z",
+  "h",
+  "ng",
+  "sh"
+ ],
  "short_o": {
   "sha256": "820a5025f119a235bc4ec02549f53286e946218d01228b0474023cc07afcd463",
   "round": "P45-JOT-LUCK-APPROVED",
@@ -239,7 +249,7 @@
   "how": "r-controlled 'ear' · as in ear, deer, near",
   "as_in": "ear, deer"
  },
- "_revisit_note": "No sounds are open. The inventory is complete at 47 of 47 (2026-08-11). schwa closed in round 9 and oo (book) in round 11.",
+ "_revisit_note": "Nine sounds open (2026-08-11). Faults named by the owner on round 14: g/j/n TOO QUICK; v/z TOO STATIC FILLED; w LACKS WARMTH; h INHUMAN (\"exhalation of a vampire\"); ng MECHANICAL DISTORTION; sh never produced a gateable arm. And the round-wide fault: ten edge treatments of one clip is not a field. Each sound needs genuinely different mechanisms aimed at ITS fault.",
  "schwa": {
   "sha256": "2a06ec741130e76a669ee247c3bafab6537a1d1c124be3f2538ec3131d6c7cd5",
   "round": "SND9 (sound round 9, 2026-08-11)",
@@ -259,5 +269,55 @@
   "how": "the short 'oo' of book, push, took — quick, rounded, relaxed",
   "as_in": "push, bush, book",
   "note": "cut from the shipped, owner-approved 'bush' clip, then formant-warped toward F1 520 / F2 1140 — measured by LPC from a human recording the owner supplied. Closed on its fourth round after three failed; the shipped bytes measure F1 625, F2 1117."
+ },
+ "b": {
+  "sha256": "4485272881047b7396c6766c21c30edc5ee996146855822b7123925986408827",
+  "round": "SND14 (sound round 14, 2026-08-11)",
+  "verdict": "perfect (owner)",
+  "family": "bake-g-decay-shallow",
+  "ms": 670,
+  "how": "a quick b-push · as in bus",
+  "as_in": "bus, bib",
+  "note": "cut by the bake's carrier-sentence method, then its edges rounded with the accepted /h/ \"feathered human edges\" parameters. No owner recording involved."
+ },
+ "d": {
+  "sha256": "089e7416b223c10a5783f6c0096f85854e2dc3bd434e60f9aa5000273eb07d93",
+  "round": "SND14 (sound round 14, 2026-08-11)",
+  "verdict": "perfect (owner)",
+  "family": "bake-g-full-chain",
+  "ms": 700,
+  "how": "a quick d-tap · as in dad",
+  "as_in": "dad, did",
+  "note": "cut by the bake's carrier-sentence method, then its edges rounded with the accepted /h/ \"feathered human edges\" parameters. No owner recording involved."
+ },
+ "y": {
+  "sha256": "239a545a83cf39e38a5ab6a31861df30b926945f9b855e75ea3b8ca4cd125935",
+  "round": "SND14 (sound round 14, 2026-08-11)",
+  "verdict": "perfect (owner)",
+  "family": "softest",
+  "ms": 700,
+  "how": "a y-glide · as in yes",
+  "as_in": "yes, yak",
+  "note": "cut by the bake's carrier-sentence method, then its edges rounded with the accepted /h/ \"feathered human edges\" parameters. No owner recording involved."
+ },
+ "short_e": {
+  "sha256": "ec2b11c0ac3203e41e8e5b24cedce53fca39b562e0fa2dc0830c7d938b4dc8be",
+  "round": "SND14 (sound round 14, 2026-08-11)",
+  "verdict": "perfect (owner)",
+  "family": "bake-n-envelope",
+  "ms": 800,
+  "how": "the short e · as in hen, bed",
+  "as_in": "hen, bed",
+  "note": "cut by the bake's carrier-sentence method, then its edges rounded with the accepted /h/ \"feathered human edges\" parameters. No owner recording involved."
+ },
+ "short_u": {
+  "sha256": "d6d6863b0ee89d718fd53e0756ca6a415bc0dedff7c45c8a89205b37bc384489",
+  "round": "SND14 (sound round 14, 2026-08-11)",
+  "verdict": "perfect (owner)",
+  "family": "bake-g-naturaldecay",
+  "ms": 830,
+  "how": "the short u · as in bus, cup",
+  "as_in": "bus, cup",
+  "note": "cut by the bake's carrier-sentence method, then its edges rounded with the accepted /h/ \"feathered human edges\" parameters. No owner recording involved."
  }
 }
