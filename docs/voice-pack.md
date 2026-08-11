@@ -203,6 +203,57 @@ cleaned templates with the onset check, with warmth as the declared goal
 ("none have any human warmth" — slip's field): natural-sentence families
 beside the teacher frames, an unhurried 0.8, and a breathy WORLD variant.
 
+## Sentence batch 1 — judged 2026-08-11: twenty of twenty perfect
+
+Sentence mode's audio path is solved on its first round. Every one of the twenty decodable
+sentences came back perfect, rendered whole at the pack's sentence speed with no cutting
+involved — which is the lesson: a sentence is spoken, not assembled, so none of the
+machinery that makes single words hard applies to it. Every word was machine-validated
+against the shipped bank plus the approved heart words before the batch was built, and the
+generator refuses to render a sentence containing an untaught word. The bytes wait in
+`tools/pending-words/` as `s-mode-s01.mp3` through `s-mode-s20.mp3`.
+
+## Batch 10 — judged 2026-08-11: the frame is the whole story
+
+Nine of eighteen perfect (trip, trim, twig, grab, drum, plum, spot, stem, brag), snug
+closest, and the eight failures split into two causes worth separating.
+
+**Every winner came from one frame.** Across batches 9 and 10, 25 of 27 winners are
+`listen` — "Listen—{word}." — and 2 are `say`. Not one came from `everybody` or from a
+natural sentence. The words that failed for sounding "inhuman and robotic" are exactly the
+words whose `listen` arms never reached the page: flag and slid were offered three
+`everybody` arms each, he only `natural`, we only `say` and `natural`. The pipeline spread
+its candidates evenly across frames while only one frame has ever won, so a word whose
+`listen` cuts were refused went to the owner carrying nothing but families the ear had
+already rejected twenty-seven times. The fix is not more variety; it is more of the one
+thing that works, and recovering a refused `listen` cut by trimming it to its own onset
+rather than discarding it. Measured afterwards: `listen` at speed 0.85 verifies clean for
+both flag and slid, so the arm the owner needed existed and never made the page.
+
+**Two-letter words need a different mechanism.** he, we, me, go, no and so all failed, and
+"we" failed hardest: its clips said "body" and "song", because a two-letter template matches
+almost anywhere — "-body" inside "everybody" scores as well as the word does. "he" kept its
+neighbours: "and he ran". SPEC already knows two-letter words need explicit phonemes because
+the phonemiser misreads them; the same shortness makes them unlocatable by template match.
+They move to the recipe that closed the vowel SOUNDS — the word in a repeat frame, cut only
+where the source shows measured silence on both flanks.
+
+## Sound round 7 — judged 2026-08-11: synthesis is exhausted for the last two
+
+**schwa and oo (book): none, again.** That is schwa's sixth failed round and oo (book)'s
+third, and round 7 was not a repeat of anything: it tried four mechanisms never used on
+them — the vowel lifted by voiced-run extraction out of the owner's OWN approved cup, cut,
+push and bush clips; the natural word-final schwa of sofa, pasta and papa; phoneme
+sandwiches between unvoiced consonants; and the accepted oo (moon) shortened and laxed.
+Twelve options each, every one located and content-verified.
+
+Every other sound in the inventory is closed — 45 of 47 — so the failure is specific rather
+than general, and it is now well characterised. A lazy uh and a short book-oo are the two
+sounds this voice will not produce in isolation: unstressed by definition, they lose their
+identity the moment they are separated from a word. The recommendation is unchanged and now
+exhausted of alternatives: **the owner records these two**, exactly as the nine stop sounds
+were recorded on 2026-08-04, and the same blind cut round follows.
+
 ## Batch 9 — judged 2026-08-10: the blob fix held
 
 Eighteen of nineteen words perfect in one round — slip, slam, sled, snap,

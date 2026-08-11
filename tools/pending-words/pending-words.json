@@ -713,5 +713,266 @@
   "round": "batch 9 (2026-08-10)",
   "verdict": "perfect",
   "level": "initial blends (SPEC section 12)"
+ },
+ "trip": {
+  "arm": "trip_6",
+  "family": "listen_sp0.95",
+  "ms": 840,
+  "sha256": "32b5336efe51fd7b4c196d873e4b63a9a46252f331f327a6cc042243981ca998",
+  "round": "batch 10 (2026-08-11)",
+  "verdict": "perfect",
+  "level": "initial blends (SPEC section 12)"
+ },
+ "trim": {
+  "arm": "trim_1",
+  "family": "listen_sp0.85",
+  "ms": 880,
+  "sha256": "5b59ef391b0d64b660d566f50b9c3325684734bc26a3c47f046dcc58a11f07af",
+  "round": "batch 10 (2026-08-11)",
+  "verdict": "perfect",
+  "level": "initial blends (SPEC section 12)"
+ },
+ "twig": {
+  "arm": "twig_1",
+  "family": "listen_sp0.8",
+  "ms": 870,
+  "sha256": "746fb4ee79bf26116dbb9f58a65e6ec2ea25b0b6d5a2eb57f7ee278216ae73ac",
+  "round": "batch 10 (2026-08-11)",
+  "verdict": "perfect",
+  "level": "initial blends (SPEC section 12)"
+ },
+ "grab": {
+  "arm": "grab_7",
+  "family": "listen_sp0.95",
+  "ms": 840,
+  "sha256": "52ef3964c919e254f622ece3d8cd9fcbd5fef1073f0d85c1fbf57e77664d4d3d",
+  "round": "batch 10 (2026-08-11)",
+  "verdict": "perfect",
+  "level": "initial blends (SPEC section 12)"
+ },
+ "drum": {
+  "arm": "drum_5",
+  "family": "listen_sp0.8",
+  "ms": 900,
+  "sha256": "072fb47ad28dbef682e1afb1ad01e0132ccefa7288320ce70630d3967544f459",
+  "round": "batch 10 (2026-08-11)",
+  "verdict": "perfect",
+  "level": "initial blends (SPEC section 12)"
+ },
+ "plum": {
+  "arm": "plum_1",
+  "family": "listen_sp0.85",
+  "ms": 860,
+  "sha256": "9a1bae73b26c48cff66e8a9617a3f894ef20a5bcbf290c8a53c5c7c570bdd947",
+  "round": "batch 10 (2026-08-11)",
+  "verdict": "perfect",
+  "level": "initial blends (SPEC section 12)"
+ },
+ "spot": {
+  "arm": "spot_2",
+  "family": "listen_sp0.8",
+  "ms": 1030,
+  "sha256": "d67fa5bc217852dd0f19de37fad7086d44cc820aec6d7c2044c6b5dbfdd69eca",
+  "round": "batch 10 (2026-08-11)",
+  "verdict": "perfect",
+  "level": "initial blends (SPEC section 12)"
+ },
+ "stem": {
+  "arm": "stem_1",
+  "family": "listen_sp0.85",
+  "ms": 930,
+  "sha256": "c79106a0c395ca91f72f61dcd433c67c63e9df89f214aa047c0ef03022db7aa0",
+  "round": "batch 10 (2026-08-11)",
+  "verdict": "perfect",
+  "level": "initial blends (SPEC section 12)"
+ },
+ "brag": {
+  "arm": "brag_4",
+  "family": "listen_sp0.85",
+  "ms": 890,
+  "sha256": "b0eba03b89cfddab3863407fcd85649f142eb65343e6805c7a9da6bb39ce92ed",
+  "round": "batch 10 (2026-08-11)",
+  "verdict": "perfect",
+  "level": "initial blends (SPEC section 12)"
+ },
+ "s:mode-s01": {
+  "file": "s-mode-s01.mp3",
+  "text": "The cat sat on the mat.",
+  "ms": 1638,
+  "sha256": "8ade175191159aef42251c6f6117b3db07ed84e31f2e118d720bd616859b6c76",
+  "round": "sentence batch 1 (2026-08-11)",
+  "verdict": "perfect",
+  "level": "sentence mode (SPEC section 12)"
+ },
+ "s:mode-s02": {
+  "file": "s-mode-s02.mp3",
+  "text": "My dog can run.",
+  "ms": 1574,
+  "sha256": "db4fdbf040d5444b3e2099f8ffcf0327aa9ce18f6c8c44f650ec858e6f880c63",
+  "round": "sentence batch 1 (2026-08-11)",
+  "verdict": "perfect",
+  "level": "sentence mode (SPEC section 12)"
+ },
+ "s:mode-s03": {
+  "file": "s-mode-s03.mp3",
+  "text": "The hen is in the pen.",
+  "ms": 1745,
+  "sha256": "bd38b322947eb5f1a03e2176ffc154420f7cc219f0eb316e540ebc8be841307a",
+  "round": "sentence batch 1 (2026-08-11)",
+  "verdict": "perfect",
+  "level": "sentence mode (SPEC section 12)"
+ },
+ "s:mode-s04": {
+  "file": "s-mode-s04.mp3",
+  "text": "You can dig in the mud.",
+  "ms": 1745,
+  "sha256": "6d9d63ffa2f55182a2d2ba61738e2183a04aaef5531a0d3ad928b0b754a38683",
+  "round": "sentence batch 1 (2026-08-11)",
+  "verdict": "perfect",
+  "level": "sentence mode (SPEC section 12)"
+ },
+ "s:mode-s05": {
+  "file": "s-mode-s05.mp3",
+  "text": "The pig sat in the sun.",
+  "ms": 1681,
+  "sha256": "fec73770f683ff53551f2259691ebd2d501a61afb226ee81e4ada1994e36a20d",
+  "round": "sentence batch 1 (2026-08-11)",
+  "verdict": "perfect",
+  "level": "sentence mode (SPEC section 12)"
+ },
+ "s:mode-s06": {
+  "file": "s-mode-s06.mp3",
+  "text": "Dad had ham and jam.",
+  "ms": 1724,
+  "sha256": "32b5d6644fda110b024eca5ff9facf2028620ab691a65da53769b2154217fa70",
+  "round": "sentence batch 1 (2026-08-11)",
+  "verdict": "perfect",
+  "level": "sentence mode (SPEC section 12)"
+ },
+ "s:mode-s07": {
+  "file": "s-mode-s07.mp3",
+  "text": "The sun is hot.",
+  "ms": 1489,
+  "sha256": "2b7cfea9a5ae66dcc361ef518567fd7cb5e3ce5cbc75369531c668b43abd80b4",
+  "round": "sentence batch 1 (2026-08-11)",
+  "verdict": "perfect",
+  "level": "sentence mode (SPEC section 12)"
+ },
+ "s:mode-s08": {
+  "file": "s-mode-s08.mp3",
+  "text": "You can hop to the top.",
+  "ms": 1724,
+  "sha256": "b56a37b555fb17ba0854d0c95c72ed9e8b15cca1f5d780a247aa9f02348caad1",
+  "round": "sentence batch 1 (2026-08-11)",
+  "verdict": "perfect",
+  "level": "sentence mode (SPEC section 12)"
+ },
+ "s:mode-s09": {
+  "file": "s-mode-s09.mp3",
+  "text": "The fish is in the net.",
+  "ms": 1724,
+  "sha256": "719993031ba87cf1c485de807bc49c9174f47686573d603e6e4acde2e33527a0",
+  "round": "sentence batch 1 (2026-08-11)",
+  "verdict": "perfect",
+  "level": "sentence mode (SPEC section 12)"
+ },
+ "s:mode-s10": {
+  "file": "s-mode-s10.mp3",
+  "text": "Mom said yes to you.",
+  "ms": 1638,
+  "sha256": "ab12773c722cc3eab0ffd2c64f1586394238c0a55fb65c209471603eec80b2b9",
+  "round": "sentence batch 1 (2026-08-11)",
+  "verdict": "perfect",
+  "level": "sentence mode (SPEC section 12)"
+ },
+ "s:mode-s11": {
+  "file": "s-mode-s11.mp3",
+  "text": "The duck is wet.",
+  "ms": 1446,
+  "sha256": "c4da42bd3ac44f2ae7086b421ca7c946f6efdba456375c5d44ae4fcb6facb486",
+  "round": "sentence batch 1 (2026-08-11)",
+  "verdict": "perfect",
+  "level": "sentence mode (SPEC section 12)"
+ },
+ "s:mode-s12": {
+  "file": "s-mode-s12.mp3",
+  "text": "Can you get the box?",
+  "ms": 1574,
+  "sha256": "69a523494efba116c006bcd2404f322fe55814b8e3067cb3566fa3ac45336084",
+  "round": "sentence batch 1 (2026-08-11)",
+  "verdict": "perfect",
+  "level": "sentence mode (SPEC section 12)"
+ },
+ "s:mode-s13": {
+  "file": "s-mode-s13.mp3",
+  "text": "The king can sing.",
+  "ms": 1510,
+  "sha256": "4b9dd33284d82f852ed8899d33f0428b277c733ed07666494b8bd71619dc6913",
+  "round": "sentence batch 1 (2026-08-11)",
+  "verdict": "perfect",
+  "level": "sentence mode (SPEC section 12)"
+ },
+ "s:mode-s14": {
+  "file": "s-mode-s14.mp3",
+  "text": "This bug is big.",
+  "ms": 1532,
+  "sha256": "116f45cbbe2f70c31b0695331b7076cf8afaf1f7081f93f21c0a690f2f2d4e5b",
+  "round": "sentence batch 1 (2026-08-11)",
+  "verdict": "perfect",
+  "level": "sentence mode (SPEC section 12)"
+ },
+ "s:mode-s15": {
+  "file": "s-mode-s15.mp3",
+  "text": "That cup is red.",
+  "ms": 1510,
+  "sha256": "7916ddce444375600241cff640528335198867d6fe18a0da0c6ad3f45d639eaf",
+  "round": "sentence batch 1 (2026-08-11)",
+  "verdict": "perfect",
+  "level": "sentence mode (SPEC section 12)"
+ },
+ "s:mode-s16": {
+  "file": "s-mode-s16.mp3",
+  "text": "The kid can zip and run.",
+  "ms": 1788,
+  "sha256": "22a93f19d6bee512ed6b7ad855bea4b45b3e1c95f7aeb021adb545c040f3f824",
+  "round": "sentence batch 1 (2026-08-11)",
+  "verdict": "perfect",
+  "level": "sentence mode (SPEC section 12)"
+ },
+ "s:mode-s17": {
+  "file": "s-mode-s17.mp3",
+  "text": "Dad can pack the bag.",
+  "ms": 1681,
+  "sha256": "05e3c71ec410dfc2923a29860bb1b26e7a1f04011cd31a7ba70d5d43f4bdd337",
+  "round": "sentence batch 1 (2026-08-11)",
+  "verdict": "perfect",
+  "level": "sentence mode (SPEC section 12)"
+ },
+ "s:mode-s18": {
+  "file": "s-mode-s18.mp3",
+  "text": "The moth is on the rock.",
+  "ms": 1788,
+  "sha256": "c99f873f01226141a1b46814b44f554c50cd94d2694a237b69ca95c7a1424205",
+  "round": "sentence batch 1 (2026-08-11)",
+  "verdict": "perfect",
+  "level": "sentence mode (SPEC section 12)"
+ },
+ "s:mode-s19": {
+  "file": "s-mode-s19.mp3",
+  "text": "When can you nap?",
+  "ms": 1446,
+  "sha256": "8465c1141215476b77d8e4e14e4ffe474bd90d6a1610cbde436b4503a616e523",
+  "round": "sentence batch 1 (2026-08-11)",
+  "verdict": "perfect",
+  "level": "sentence mode (SPEC section 12)"
+ },
+ "s:mode-s20": {
+  "file": "s-mode-s20.mp3",
+  "text": "The doll is on the bed.",
+  "ms": 1724,
+  "sha256": "479613cddecc098c6d43b2b9c28b8e2177d9e3d30836a46c0a57c520382b1517",
+  "round": "sentence batch 1 (2026-08-11)",
+  "verdict": "perfect",
+  "level": "sentence mode (SPEC section 12)"
  }
 }
