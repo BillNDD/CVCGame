@@ -599,6 +599,38 @@ pauses, and warm spectral tilt (attenuated low harmonics read as cold).
   which is American as well as northern British; the CLOTH words dog, log, fog,
   long, song, moth, boss and loss keep short_o, standard in both.
 
+## Canadian pronunciation: not a voice, but already the pronunciation (2026-08-11) — closed
+
+- The owner said they would prefer Canadian, and assumed it was not on offer.
+  Half right, and the useful half is the other one.
+- **There is no Canadian voice.** The model carries 54, checked rather than
+  recalled: eleven American female, nine American male, four British female,
+  four British male, and the rest Spanish, French, Hindi, Italian, Japanese,
+  Portuguese and Chinese. Nothing Canadian. Of what exists, the American voices
+  are the closest to Canadian by a wide margin, so af_heart is already the best
+  available answer to the owner's preference.
+- **But the pronunciation is already Canadian**, because a phonics game only
+  expresses which SOUND a letter makes, and for this bank every point where
+  Canadian and American diverge is either unreachable or already matches.
+  Checked word by word against all 349:
+  - Canadian raising of /aɪ/ and /aʊ/ before a voiceless consonant — the bank
+    is all short vowels, so no word can reach it.
+  - The cot-caught merger — Canadian is fully merged, which is short_o. That is
+    what hot, dog, long, song, fog, boss and loss already ship.
+  - `was` is /wʌz/ in Canadian, "wuz". The ruling of this evening.
+  - `with` is /wɪθ/ in Canadian, the quiet th. The ruling of this evening.
+  - sorry/borrow, pasta/drama, the -ile words, roof/root: no bank word reaches
+    any of them.
+  - **`math` and `mom` are Canadian forms**, not merely American. The flag
+    raised against them earlier today is withdrawn: Canadian says math and mom,
+    and only British says maths and mum. Nothing to change.
+  - The one difference everybody names — **"zed" against "zee"** — cannot arise
+    at all. Safety rule S4 forbids the app from ever speaking a letter name.
+    The z tile says the SOUND, /z/ as in zip, which is the same in both.
+- **What is irreducibly American is the accent colour of the voice**, and only
+  that. Changing it means a different voice and 406 clips that no one has
+  listened to. Not proposed, and not a small thing to propose.
+
 ## Every other grapheme was swept, and th is the only wrong sound (2026-08-11) — closed
 
 - Four independent sweeps went through the whole tile map against all 349 bank
