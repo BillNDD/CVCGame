@@ -874,3 +874,46 @@ is claimed under; how a passage is voiced, given the pack's clips are per word a
 sentence; and how the tap-to-hear reading of an untaught word is spoken without breaking
 design rule 8, which permits full words and the approved single sounds and never letter
 names. None of these is blocked by the ruling above; none may be assumed.
+
+### The parent tutorial — approved 2026-08-11, unbuilt, FOR THE NEXT BETA
+
+A grown-up opening Word Quest for the first time is handed a game with no instructions.
+The controls are deliberately unusual — every result takes a 450 ms hold, the advance
+control refuses to work for seven seconds, and the app will not mark a word wrong by itself
+— and each of those is a safety rule doing its job. To a parent who has not been told, they
+read as the app being broken. So the game explains itself, to the grown-up, from the home
+screen.
+
+The owner ruled the shape on 2026-08-11.
+
+1. **It teaches both the controls and the phonics.** How to hold to grade, when to choose
+   the microphone and when to judge by ear, what replay and skip do, where backups live —
+   and the teaching behind them: what a sound-out is, why the app never says a letter name,
+   what a tricky word is, and why the app waits before it will let anyone move on. A parent
+   who knows only the buttons cannot tell a good session from a bad one.
+2. **It is a guided walkthrough of the real game, not a slideshow.** It drives the actual
+   screens and marks the control it is talking about, so the grown-up learns the app by
+   using it. This is the expensive choice and was made with that understood: a walkthrough
+   that points at real controls breaks whenever a control moves, so it ships with a browser
+   gate that fails when a step's target is missing, exactly as gate G7 already fails when a
+   control is the wrong size.
+3. **It opens from the home screen's grown-up strip, behind the 450 ms hold.** Beside
+   "Check for updates", on the same rule and for the same reason: it is adult-facing, and a
+   child's wandering tap must not open it. Design rule 7's 44 px minimum applies.
+4. **It appears once by itself, and can always be re-opened.** The first time the app is
+   opened on a device, the walkthrough offers itself and can be dismissed in one tap. The
+   marker that it has been shown is device-local, in the same place as the other adult
+   markers — never in the saved document, so this costs no version bump and no migration.
+
+Two safety rules bind the walkthrough and neither may be bent. Design rule 1: a walkthrough
+that demonstrates the grading holds must not record a result. Design rule 2: it must never
+speak a word before an attempt ends. A tutorial that changes a child's schedule, or that
+says the word first, has broken the two rules the whole design exists to protect.
+
+Before it can be built, three things must be settled and are not: what the walkthrough runs
+ON, given that a demonstration must record nothing and free play's throwaway clone still
+evolves as it is played; whether the grown-up performs the 450 ms hold themselves during
+the walkthrough, which teaches the feel of it but must then record nothing, or only watches
+it demonstrated, which teaches less; and how a step marks its control for a grown-up who
+has asked for reduced motion, where the answer will be a motionless one, as the sound-out's
+outline ring already is. None of these is blocked by the ruling above; none may be assumed.
