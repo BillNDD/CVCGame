@@ -168,6 +168,18 @@ pauses, and warm spectral tilt (attenuated low harmonics read as cold).
   begins and ends at full amplitude, because its own rise and fall belong to
   the consonants either side, and giving it back a quick rise and a slower
   fall restores the shape a spoken sound has rather than adding anything.
+- **English /h/ before a vowel is breathy-VOICED, not frication.** Measured
+  2026-08-11 across hat, hum, hen and hop in the shipped pack: every /h/ runs
+  a voiced-frame ratio of 0.74 to 1.00 and a low-band fraction of 0.20 to
+  0.22, against unvoiced ceilings of 0.35 and 0.19. Classifying it "unvoiced"
+  in the gate was a category error that no audio could ever pass, whatever it
+  sounded like, and it cost h every arm in two rounds. It is judged as voiced.
+- **Ten treatments of one clip is not a field.** Round 14 offered ten edge
+  treatments of a single base per sound, and the owner's verdict was "all
+  these options in all letters didn't have much variety between the ten
+  options". Correct, and it was the design. A field needs different
+  MECHANISMS, chosen for the fault that was named; shades of one thing read as
+  one thing. This is the thin-field fault again, in its fifth disguise.
 - **A sound is spoken in a PHONEME CARRIER SENTENCE, and lifted out of its
   last energy island.** Found 2026-08-11 in the P45 bake the owner supplied:
   not one of its 22 approved sounds is a bare render or a cut from a word
