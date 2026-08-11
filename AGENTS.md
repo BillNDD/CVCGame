@@ -15,8 +15,17 @@ Read these four, in this order, before you change anything:
    Read it before any voice, audio or word-bank work, and before designing a
    listening round. This file exists because this project has twice re-opened a
    settled question and once lost an approved fix for two days.
-4. **`docs/testing-gauntlet.md`** — the 16 gates and what each one is for.
-5. **`tools/voice-words.csv`** — for voice work only: the permanent repository
+4. **`docs/open-faults.md`** — everything KNOWN to be wrong, missing or
+   undecided right now, with where it lives and what done means. Read it before
+   you start, so you neither re-discover a fault that is already written down
+   nor build on top of one. It is the counterpart to `docs/settled.md`: settled
+   holds what is closed, open-faults holds what is not. An entry leaves it only
+   by being fixed, and its result is then recorded in whichever document owns
+   the fact. If you find a fault and do not fix it in the same change, it goes
+   in here — a fault that lives only in a chat log is a fault this project will
+   lose, and has.
+5. **`docs/testing-gauntlet.md`** — the 16 gates and what each one is for.
+6. **`tools/voice-words.csv`** — for voice work only: the permanent repository
    of the voice. One row per bank word, one column per knob and decision. It is
    the ONLY file a person edits after a listening round; everything else —
    `keepers-treatments.json`, `keeper-bytes.json`, `voice-lock.json` — is

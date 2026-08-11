@@ -183,3 +183,56 @@ The ceiling is not the kind of number that moves (E6). A file approaching one is
 Features the owner has ruled on that are not built are **not** in this file. They live in
 SPEC section 12, "The road ahead", with their boundaries and their named prerequisites:
 the level introduction, passages from real books, and the parent tutorial.
+
+---
+
+## E. The documents and data files themselves
+
+Owner-instructed 2026-08-11. Fifteen tracked `.md` files and eleven `.json` files (excluding
+lockfiles) have grown one decision at a time over three weeks. Nobody has ever read them as a
+set and asked whether they are still the right set.
+
+### E1. The prose documents overlap and nobody has drawn the boundaries
+
+- **Where** `docs/voice-pack.md` (946 lines), `SPEC.md` (923), `docs/settled.md` (741),
+  `docs/testing-gauntlet.md` (587), `CHANGELOG.md` (521), plus `AGENTS.md`, `CLAUDE.md`,
+  `README.md`, `docs/qa-procedure.md`, `docs/self-hosting.md`, the two install guides,
+  `docs/phonics-handoff-defects.md`, `docs/open-faults.md`, and the generated
+  `docs/effect-map.md`.
+- **The fault** Three of them are long enough that a reader cannot hold them, and the rule
+  that every fact has ONE owning document is asserted but has never been checked. A round's
+  result is currently written into `voice-pack.md`, `settled.md` and a CSV; whether that is
+  three owners or one owner and two summaries has never been decided. `voice-pack.md` in
+  particular reads as an accreted log of twenty-two rounds rather than a document.
+- **Not a cosmetic job.** Duplication is how a fact drifts: the "was" note said one thing on
+  screen and another in the sound for weeks, and the 2026-08-04 visual ruling sat in
+  `settled.md` marked "closed" while the opposite shipped.
+- **Done** Each document has one sentence at its head saying what it owns and what it does
+  not. Anything duplicated is moved to its owner and replaced by a pointer. Anything that is
+  a log rather than a document is split from the part that is standing truth. Nothing is
+  deleted without the owner seeing what goes.
+
+### E2. The data files have no stated shape and three of them overlap
+
+- **Where** `tools/voice-lock.json` (5,664 lines), `tools/keepers-treatments.json` (6,982),
+  `tools/keeper-bytes.json`, `tools/pending-sounds/pending-sounds.json`,
+  `tools/pending-words/pending-words.json` (1,438), `docs/voice-goldens-packs1-3.json`
+  (3,647), `app/public/voice/manifest.json` (5,401), `.claude/gate-baseline.json`.
+- **The fault** Several are derived from `tools/voice-words.csv` or from each other, and
+  which is source and which is derived is knowable only by reading the tools that write
+  them. `voice-goldens-packs1-3.json` is named for packs that no longer exist as a concept.
+  `pending-words.json` holds sentences under `s:` keys alongside words, which is two kinds
+  of thing in one file.
+- **Done** Each file states, in the file or in its writer, whether it is source or generated
+  and from what. Anything generated is regenerable by a named command, and the check proves
+  it. Anything genuinely dead is removed with the owner's sight of it.
+
+### E3. Nothing gates a document going stale
+
+- **Where** G16 doc-truth covers seven rules; G17 covers which files may exist.
+- **The fault** G16 checks a small number of specific claims — gate floors, a few timings,
+  the recipe numbers. It cannot see a paragraph that describes an old behaviour, which is
+  how SPEC section 5 came to describe the pre-reveal utterance until it was rewritten by
+  hand on 2026-08-11.
+- **Done** More of what the documents assert is derived from the code rather than typed
+  beside it, so the gap cannot open silently.

@@ -50,7 +50,8 @@ change something a child or grown-up can see, hear, or do: game behavior, teachi
 engine logic, layout, sound, or a test that proves one of those is correct. Do not create
 new status files, progress logs, roadmaps, session summaries, or "what I did" write-ups.
 Update the single document that already owns the fact. The owned set is named and gated
-(G17): SPEC.md, CLAUDE.md, AGENTS.md, README.md, CHANGELOG.md, the documents in `docs/`,
+(G17): SPEC.md, CLAUDE.md, AGENTS.md, README.md, CHANGELOG.md, the documents in `docs/`
+including `docs/open-faults.md`,
 `tools/voice-words.csv` and the files generated from it. A new governing or status file
 needs the owner's approval, the same way a new dependency does. Do not add a test or
 document that guards nothing real. Reorganizing paperwork, or choosing easy documentation
@@ -69,6 +70,14 @@ them:
 - weaken or remove an assertion, add a skip, or hard-code an expected answer (E3, E4);
 - call a work item done, or a build ready, while any part is unfinished, unverified, or
   only works in a way a real child could not use.
+
+A fault you find and do not fix in the same change goes in `docs/open-faults.md`, with
+where it lives, what a child or a grown-up experiences today, and what done means. Not in a
+chat reply, not in a commit message alone, and not in a new file of its own. That document
+is the counterpart to `docs/settled.md` — settled holds what is closed, open-faults holds
+what is not — and it exists because a fault that lives only in a chat log is a fault this
+project will lose, and has. An entry leaves it only by being fixed, and the result is then
+recorded in whichever document owns the fact. Read it before you start.
 
 If work was closed but was not actually finished, reopen it, state what is missing, and
 record when and how it was wrongly closed. That is the cup lesson: a result approved on
@@ -169,7 +178,8 @@ exclusions are recorded in SPEC section 12.
 - E8. Do not change game behavior, the word bank, the feedback text, or the layout in a testing
   task. Do not add PWA work in a testing task.
 - E10. Read `docs/settled.md` before any change to the voice, the audio pipeline, or the word
-  bank, and before designing a listening round. It lists what a listener or a measurement has
+  bank, and before designing a listening round, and read `docs/open-faults.md` before any
+  change at all, so a known fault is neither re-discovered nor built upon. It lists what a listener or a measurement has
   already closed, so a settled question is never re-opened at the cost of a round. When a round
   lands, record its result the same day — in the word's row in `tools/voice-words.csv`
   (regenerate with `node tools/gen-voice-lock.mjs`), in `docs/voice-pack.md` for what
