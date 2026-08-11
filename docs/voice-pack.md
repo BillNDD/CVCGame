@@ -256,6 +256,23 @@ the phonemiser misreads them; the same shortness makes them unlocatable by templ
 They move to the recipe that closed the vowel SOUNDS — the word in a repeat frame, cut only
 where the source shows measured silence on both flanks.
 
+## Batch 14 — judged 2026-08-11: both perfect, on material never offered before
+
+lids (`lids_4`, `stop_sp0.6`) and be (`be_2`, `listen_sp0.65`), both perfect. These
+supersede the batch 13 entries, which were bytes the owner had already marked closest in
+batch 12 — the round that made the hash guard necessary. Every one of batch 14's 18 arms
+was checked against all 1883 arms of the 23 earlier rounds before it could be offered, the
+guard blocked 8 repeats, and the result was verified independently afterwards. Both words
+now rest on fresh material judged on its own, so the "closest, then perfect on the same
+bytes" question that hung over batch 13 is closed rather than argued.
+
+**The closure frame works for whole words, not only two-letter ones.** lids won on
+`stop_sp0.6` — "Stop. Lids. Stop." — a full word set mid-phrase between real neighbours
+with measured silence on both flanks. That treatment was built for the two-letter words and
+had never been applied to a word before this round. It belongs in every future field.
+
+The word backlog is now zero: 349 shipped and 115 approved and waiting, nothing in flight.
+
 ## Sound round 7 — judged 2026-08-11: synthesis is exhausted for the last two
 
 **schwa and oo (book): none, again.** That is schwa's sixth failed round and oo (book)'s
