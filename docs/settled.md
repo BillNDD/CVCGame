@@ -26,6 +26,14 @@ updated whenever a round lands.
   listener had labelled, failures ran 768-960 ms of speech and passes 789-960 ms,
   both with a median of 832. Two attempts at a measurable proxy have now failed.
   Listening is the only detector this project has.
+- **Tail jitter and harmonic-to-noise ratio do not predict a verdict either.**
+  The third failed proxy, measured 2026-08-11 against batch 12's two-letter
+  field, after the owner named "weird crackling at end of e" (me) and "weird
+  trilling at end of e" (be) — a fault that sounds like it should be
+  measurable. It is not: `me_2` and `me_5` carry the LOWEST tail jitter of the
+  whole set (0.046, 0.044) and both were refused, while accepted arms ran
+  0.096 to 0.169. Do not build a creak detector; it has now been tried. Offer
+  a wider field and let the ear decide.
 - **A word's own inside dip is not a second word.** Counting loud frames reads
   "dog" as two islands (the vowel, then the /g/ release) and "bell" as two (the
   vowel, then the held /l/), so the word gate refused every located cut of them
@@ -153,6 +161,23 @@ pauses, and warm spectral tilt (attenuated low harmonics read as cold).
   arms to 7-9. The template's only remaining job is the content check. Two
   rules come with it: never offer the FIRST island of an utterance (it carries
   af_heart's 85-115 ms blob), and require 60 ms of silence on both flanks.
+- **Never order a candidate field by distance to the solo template.** The dtw
+  distance a cut scores is its similarity to the word rendered ALONE — and the
+  lone render is the creaky, phrase-final, blob-fronted thing the owner has
+  refused in every round since batch 3. Sorting a field by it therefore puts
+  the arms most like the bad reference at the top, and any per-family cap then
+  starves the families that actually win. Measured 2026-08-11: in batch 12,
+  `me` and `be` were never offered a `sit` arm at all, and `sit` is the family
+  that won `we` and `so` in that same batch. Order a field round-robin across
+  families — best of each, then second of each. Distance may order WITHIN a
+  family, where it means what it should. This is the thin-field fault in a new
+  disguise, and it is the fourth time a thin field has cost a round.
+- **A thin field is the fault, whatever family it is drawn from.** `dogs` won
+  on `say_sp0.8` in batch 12 — the very family whose arms the owner had called
+  "all sound robotic" one batch earlier. Nothing about `say` changed; dogs was
+  finally offered a full field instead of three treatments of one cut. The
+  frame rule (47 winners `listen`, 4 `say`, 2 `sit` across batches 9 to 12) is
+  a strong tendency for what to offer MORE of, never a reason to offer less.
 - **What does NOT work**: phoneme renders for naturalness (settled above);
   alternate spellings (read as letter names); speed changes as a repair;
   any measurement as a quality judge beyond audibility and
