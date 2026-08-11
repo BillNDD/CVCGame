@@ -161,15 +161,43 @@ def low_band_fraction(a, sr):
     return float(E[:, :5].sum() / (E.sum() + 1e-9))
 
 
-def verify_sound(cut, tpl, sr, kind="voiced"):
+def verify_sound(cut, tpl, sr, kind="voiced", form="in_word"):
     """Returns (ok, reason, dist). `cut` is a candidate, `tpl` the canonical
     phoneme render of the sound, both already stripped to speech. `kind` is
     "voiced" for vowels, glide-vowels, r-vowels and voiced frication, and
-    "unvoiced" for pure frication and affricates."""
+    "unvoiced" for pure frication and affricates.
+
+    `form` says what the candidate is meant to BE, because the length rules
+    differ and using the wrong one refuses good audio:
+
+    "in_word"  - the sound as it occurs inside a word. Its length is checked as
+                 a RATIO to the canonical phoneme render, which is the right
+                 comparison when both are the same kind of thing.
+
+    "citation" - the sound said on its own, as a teacher says it: the last
+                 island of a carrier like "Here is the sound: b." A citation
+                 sound is legitimately two to five times longer than the same
+                 sound inside a word, so the ratio test is not just strict, it
+                 is measuring the wrong thing - it refused candidates whose
+                 CONTENT matched at dtw 0.11 to 0.16 (2026-08-11, the bake's
+                 own recipes). The ratio is therefore replaced, not removed, by
+                 an ABSOLUTE band on how long a spoken sound can be: 110 to
+                 620 ms. That is a tighter window than the 60-800 ms every
+                 candidate already faces, and unlike the ratio it does not
+                 depend on a reference this project has recorded as
+                 unreliable. Every other check - content, isolation, and the
+                 voicing tests for an unvoiced sound - is unchanged.
+    """
     if len(cut) < 0.06 * sr:
         return False, "too short", 9.9
     if len(cut) > 0.80 * sr:
         return False, f"too long for one sound ({len(cut) / sr:.2f}s)", 9.9
+    if form == "citation":
+        ms = len(cut) / sr * 1000
+        if ms < 110:
+            return False, f"too short for a spoken sound ({ms:.0f}ms)", 9.9
+        if ms > 620:
+            return False, f"too long for a spoken sound ({ms:.0f}ms)", 9.9
     A = wc.logmel(cut, sr)
     B = wc.logmel(tpl, sr)
     if len(A) < 3 or len(B) < 3:
@@ -179,7 +207,7 @@ def verify_sound(cut, tpl, sr, kind="voiced"):
     if kind == "unvoiced":
         # frication is elastic in length, so the ratio cap is looser; the
         # voicing checks carry the verdict
-        if ratio > 3.5:
+        if form != "citation" and ratio > 3.5:
             return False, f"too long vs sound ({ratio:.2f}x)", d
         lb = low_band_fraction(cut, sr)
         if lb > 0.19:
@@ -192,10 +220,11 @@ def verify_sound(cut, tpl, sr, kind="voiced"):
         if major_islands(cut, sr) > 1:
             return False, "extra speech around the sound", d
         return True, "ok", d
-    if ratio > 2.1:
-        return False, f"too long vs sound ({ratio:.2f}x)", d
-    if ratio < 0.40:
-        return False, f"clipped ({ratio:.2f}x)", d
+    if form != "citation":
+        if ratio > 2.1:
+            return False, f"too long vs sound ({ratio:.2f}x)", d
+        if ratio < 0.40:
+            return False, f"clipped ({ratio:.2f}x)", d
     if d > 0.32:
         return False, f"content differs (dtw {d:.2f})", d
     nuc = major_islands(cut, sr)
