@@ -127,7 +127,10 @@ exclusions are recorded in SPEC section 12.
   Owner-approved 2026-08-04 with Levels 8 and 9; ph was considered and left out because no
   word obeys the bank's own rules.
 - S9. No file in the repository contains a personal name. The child's name is a device-local
-  setting only.
+  setting only. One exception, owner-approved 2026-08-11: the name of a published author may
+  appear, and be spoken, in the book credit of the passage stage (SPEC section 12). S9 exists
+  to keep a real child's and family's data off the device and out of the repository, and a
+  book's author is neither.
 
 ## Engineering rules
 

@@ -1262,5 +1262,145 @@
   "round": "sentence batch 2 (2026-08-11)",
   "verdict": "perfect",
   "level": "sentence mode (SPEC section 12)"
+ },
+ "flag": {
+  "file": "w-flag.mp3",
+  "word": "flag",
+  "ms": 1000,
+  "sha256": "6866261e084bbed60be562b1d35ce83167bf261e4e0430b3af8537fbe0f21147",
+  "family": "listen_sp0.75",
+  "round": "batch 12 (2026-08-11)",
+  "verdict": "perfect",
+  "level": "Level 11, initial blends"
+ },
+ "slid": {
+  "file": "w-slid.mp3",
+  "word": "slid",
+  "ms": 1030,
+  "sha256": "2ddf9aec86eb12435f1027a9799b73f6a57adc51842948e7e8ff501f87311095",
+  "family": "listen_sp0.75",
+  "round": "batch 12 (2026-08-11)",
+  "verdict": "perfect",
+  "level": "Level 11, initial blends"
+ },
+ "dogs": {
+  "file": "w-dogs.mp3",
+  "word": "dogs",
+  "ms": 990,
+  "sha256": "efe3c0de50d03a2e236d6cdc7d91294b6251135ae478df25808def59917b533e",
+  "family": "say_sp0.8",
+  "round": "batch 12 (2026-08-11)",
+  "verdict": "perfect",
+  "level": "Level 12, plural -s"
+ },
+ "beds": {
+  "file": "w-beds.mp3",
+  "word": "beds",
+  "ms": 920,
+  "sha256": "3ee45d632eac3328e64e1d162a873c6d103c5d794d593442711788bcc7ea79f4",
+  "family": "listen_sp0.8",
+  "round": "batch 12 (2026-08-11)",
+  "verdict": "perfect",
+  "level": "Level 12, plural -s"
+ },
+ "tops": {
+  "file": "w-tops.mp3",
+  "word": "tops",
+  "ms": 990,
+  "sha256": "e8998f2bd93723a21e76ce064ab729629258e13fc90ecdb10dfa583aa2328463",
+  "family": "listen_sp0.8",
+  "round": "batch 12 (2026-08-11)",
+  "verdict": "perfect",
+  "level": "Level 12, plural -s"
+ },
+ "swam": {
+  "file": "w-swam.mp3",
+  "word": "swam",
+  "ms": 1070,
+  "sha256": "b8ba2f010a29c76176218580802d6cb0c46d78510f04c7ab53ce273aa39c2756",
+  "family": "listen_sp0.75",
+  "round": "batch 12 (2026-08-11)",
+  "verdict": "perfect",
+  "level": "Level 11, initial blends"
+ },
+ "snug": {
+  "file": "w-snug.mp3",
+  "word": "snug",
+  "ms": 1010,
+  "sha256": "fd95311bbb4cf8808c8f43d2f89ec3814ed6382a562ad6a421d230b0f205e11a",
+  "family": "listen_sp0.75",
+  "round": "batch 12 (2026-08-11)",
+  "verdict": "perfect",
+  "level": "Level 11, initial blends"
+ },
+ "sunset": {
+  "file": "w-sunset.mp3",
+  "word": "sunset",
+  "ms": 1110,
+  "sha256": "48e45e5da53b15c55685459caca8071ba9c88030727cc301177c60285facf603",
+  "family": "say_sp0.8",
+  "round": "batch 12 (2026-08-11)",
+  "verdict": "perfect",
+  "level": "Level 13, compounds"
+ },
+ "laptop": {
+  "file": "w-laptop.mp3",
+  "word": "laptop",
+  "ms": 1080,
+  "sha256": "e000cc85f573d34602797f0acda3cabc7e38916f23add348859f6ee3ca85b52f",
+  "family": "listen_sp0.9",
+  "round": "batch 12 (2026-08-11)",
+  "verdict": "perfect",
+  "level": "Level 13, compounds"
+ },
+ "he": {
+  "file": "w-he.mp3",
+  "word": "he",
+  "ms": 880,
+  "sha256": "c8ec5e0bfb347b5fa1f715966c115ecd01e6d243d3be4eacf25bd811642c7f19",
+  "family": "listen_sp0.6",
+  "round": "batch 12 (2026-08-11)",
+  "verdict": "perfect",
+  "level": "Level 14, open syllables"
+ },
+ "we": {
+  "file": "w-we.mp3",
+  "word": "we",
+  "ms": 780,
+  "sha256": "9872dbfd5ff1ccc73aaaf21f6b2aa3734f5ea61349d6a13657374dc59f7dfd7e",
+  "family": "sit_sp0.6",
+  "round": "batch 12 (2026-08-11)",
+  "verdict": "perfect",
+  "level": "Level 14, open syllables"
+ },
+ "go": {
+  "file": "w-go.mp3",
+  "word": "go",
+  "ms": 870,
+  "sha256": "67a88a57ab20c746982544fddea07204d4fc4093ba7076dff581d6cfc6f38b09",
+  "family": "listen_sp0.6",
+  "round": "batch 12 (2026-08-11)",
+  "verdict": "perfect",
+  "level": "Level 14, open syllables"
+ },
+ "no": {
+  "file": "w-no.mp3",
+  "word": "no",
+  "ms": 860,
+  "sha256": "5a8921e2428b17334cb0858b57c01efec3157d9dbe0faae2bd06c51aeeb78d88",
+  "family": "listen_sp0.7",
+  "round": "batch 12 (2026-08-11)",
+  "verdict": "perfect",
+  "level": "Level 14, open syllables"
+ },
+ "so": {
+  "file": "w-so.mp3",
+  "word": "so",
+  "ms": 920,
+  "sha256": "30ca49b878aa4f0a632ae0c04e7b4f201e5c6b63f42ce0d11575b19ba40247ed",
+  "family": "sit_sp0.6",
+  "round": "batch 12 (2026-08-11)",
+  "verdict": "perfect",
+  "level": "Level 14, open syllables"
  }
 }

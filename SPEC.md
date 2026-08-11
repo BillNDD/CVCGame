@@ -728,7 +728,8 @@ Modes, each designed for the owner's pick before any build:
 
 - Sentence mode — decodable sentences built only from taught words plus the tricky roster;
   the owner ruled its design comes next, alongside the blend levels, because its audio
-  path (whole recorded sentences) must be solved early.
+  path (whole recorded sentences) must be solved early. Its late stage is passages from
+  real books; see "Passages from real books" below.
 - Build-it — encoding: the app speaks a word and the child assembles it from sound tiles.
   Practice-only, like free play: nothing is ever written to the record, so design rule 1
   and safety rule S1 stand untouched.
@@ -791,3 +792,51 @@ in phonics word lists.
 Ruled out for good, with reasons on the record: nonsense words (better for assessment
 than instruction, and they rob the child of set-for-variability practice); ph (no word
 obeys the bank's rules, S8); vowel teams taught alongside magic-e.
+
+### Passages from real books — approved 2026-08-11, unbuilt
+
+As the child's confidence grows, sentence mode grows with it: one sentence, then several,
+then a paragraph. Its final stage is not written for the game at all. It is a passage from
+a real book, and when the grown-up marks it read, part of the congratulations tells the
+child what book it came from — "That was from The Tale of Peter Rabbit, by Beatrix Potter."
+The owner's purpose is plain: a child who has just read Beatrix Potter should be told they
+have just read Beatrix Potter.
+
+The owner ruled the boundaries on 2026-08-11.
+
+1. **The text is verbatim, and the stage unlocks late.** A passage is the author's own
+   words, never rewritten or simplified. That is only honest if the child can mostly read
+   it, so this stage unlocks well after Level 15 — once vowel teams are taught and the bank
+   is large enough that a passage carries only a few unknown words. Any word may be tapped
+   to hear it read, which is the reveal machinery the game already has. An adapted or
+   simplified text was considered and refused: the credit is the point, and a credit for
+   words the author did not write is not a credit.
+2. **It is sentence mode, not a new mode.** The same mode carries the whole ramp, so a
+   child moves from a sentence to a paragraph without changing screens. This bends sentence
+   mode's own all-decodable rule, and the bend is deliberate and bounded: the strict rule
+   governs every generated sentence, and only the passage stage may carry untaught words,
+   only from a real source, only with tap-to-hear available.
+3. **A result is recorded, and only an adult can record it.** The grown-up marks the
+   passage read on the same 450 ms hold as every other result. Safety rule S1 is untouched:
+   the app never marks a passage read by itself, and speech recognition may still only
+   confirm, never refuse.
+4. **The credit names the book and the author, spoken.** Safety rule S9 is amended for
+   this and nothing else: the name of a published author may appear in the repository and
+   be spoken. S9 exists to keep a real child's and family's data off the device and out of
+   the repository, and a book's author is neither. No other personal name is permitted, the
+   child's name stays a device-local setting, and the copy gate's ban on email addresses
+   and a non-empty default child name is unchanged.
+5. **The whole work must be sound, not only the extract.** A clean passage from a book the
+   owner would not hand a child is refused. Children's classics carry racist caricature,
+   cruelty and period attitudes, often far from an otherwise lovely page, and the credit
+   actively invites a parent to go and find the book. A source that would embarrass that
+   parent at the library has failed, whatever the extract says. This sits on top of the
+   existing rule that every word a child can meet is screened for child-appropriateness
+   before a beta, and does not replace it.
+
+Before this stage can be built, three things must be settled and are not: how a passage's
+public-domain status is established and recorded per source, including the jurisdiction it
+is claimed under; how a passage is voiced, given the pack's clips are per word and per
+sentence; and how the tap-to-hear reading of an untaught word is spoken without breaking
+design rule 8, which permits full words and the approved single sounds and never letter
+names. None of these is blocked by the ruling above; none may be assumed.
