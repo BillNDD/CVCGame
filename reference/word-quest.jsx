@@ -36,7 +36,7 @@ const LEVELS = [
 ];
 
 const TRICKY = {
-  was: "Tricky word! The a sounds like \u201Cuh\u201D \u2014 wuz.",
+  was: "Tricky word! The a sounds like \u201Co\u201D \u2014 woz.",
   is: "Tricky word! The s sounds like \u201Cz\u201D \u2014 iz.",
   has: "Tricky word! The s sounds like \u201Cz\u201D \u2014 haz.",
   wash: "Tricky word! The a sounds like \u201Co\u201D \u2014 wosh.",

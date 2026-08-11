@@ -272,7 +272,7 @@ The level range is 1 to 7. SPEC and the engine agree; the owner corrected SPEC o
   2. Child-facing copy never contains: wrong, bad, fail, failure, incorrect, error, oops, try
      harder. Adult-facing strip and settings copy is out of scope.
   3. The two tricky-word notes are present and exact. The canonical strings are:
-     `Tricky word! The a sounds like “uh” — wuz.` and `Tricky word! The s sounds like “z” — iz.`
+     `Tricky word! The a sounds like “o” — woz.` and `Tricky word! The s sounds like “z” — iz.`
   4. Speech strings never spell letter names and never contain single-letter tokens.
   5. No tracked file contains an email address, and the default child name is empty (safety
      rule S9). Lockfiles are exempt: they carry npm authors' public emails, not personal data.
