@@ -213,6 +213,18 @@ against the shipped bank plus the approved heart words before the batch was buil
 generator refuses to render a sentence containing an untaught word. The bytes wait in
 `tools/pending-words/` as `s-mode-s01.mp3` through `s-mode-s20.mp3`.
 
+## Sentence batch 2 — in flight, sent 2026-08-11: longer lines and questions
+
+Twenty more decodable sentences, on the same settled path — rendered whole at speed 1.0,
+never cut. Batch 1 closed the audio question, so this batch tests the WRITING: longer
+sentences, two questions, and the digraph and blend words the later levels teach.
+
+Writing it found a gap for the owner to rule on: **the article "a" is not taught and is
+not on the approved heart roster**, so no sentence may use it. Six drafts had to be bent
+into "the" or "my" — "Dad has the job in the shop" instead of "a job". Natural English for
+a five-year-old needs "a", and it is one letter carrying a schwa. Adding it is a word-bank
+decision, so it stays out until ruled.
+
 ## Batch 10 — judged 2026-08-11: the frame is the whole story
 
 Nine of eighteen perfect (trip, trim, twig, grab, drum, plum, spot, stem, brag), snug
@@ -253,6 +265,31 @@ sounds this voice will not produce in isolation: unstressed by definition, they 
 identity the moment they are separated from a word. The recommendation is unchanged and now
 exhausted of alternatives: **the owner records these two**, exactly as the nine stop sounds
 were recorded on 2026-08-04, and the same blind cut round follows.
+
+## Batch 12 — in flight, sent 2026-08-11: two gate faults found and fixed
+
+Seventeen words: the eight batch-10 and batch-11 retries, the two compounds, and the seven
+two-letter words. Building it found two faults in this project's own machinery, both of
+which had been shaping what the owner was offered.
+
+- **The word gate counted a word's own inside dip as a second word.** "dogs" is a vowel
+  and then a /z/, "beds" a vowel and then /dz/, and a plain loud-frame count reads each as
+  two islands — so every located `listen` cut of dogs, beds and lids was refused, and the
+  owner was offered only the leftover `say` and `everybody` families that the frame rule
+  says never win. That is the whole of batch 11's first failure group, and it was the gate
+  doing it, not the cutter. `word_islands()` merges dips shorter than 90 ms.
+  Calibrated against the owner's own verdicts: batch 8's refused silk and slip arms stay
+  refused, 8 of 8 and 8 of 8, while dog and bell go from refused to accepted. All three
+  words now offer nine arms each.
+- **A two-letter word cannot be located by template match.** A solo "he" is 530 ms of
+  speech; the same word inside a fast frame is about half that, so every matched window
+  overran into its neighbour — the first build refused all seven words with "flanks
+  0/120", and batch 10's verdict on he was "they all said 'and he ran'". Cutting between
+  the carrier's own measured silences took the seven from 0-3 arms to 7-9.
+
+`tops` starts its cut inside the /t/ closure now, which is the repair its verdict named.
+Both fixes carry controls: `python3 tools/verify.py --self-test` runs in `npm run check`
+and four planted mutants each turn it red.
 
 ## Batch 11 — judged 2026-08-11: the frame finding, confirmed
 

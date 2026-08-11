@@ -254,6 +254,21 @@ const netOut = step("G18 network", "node tests/ui/network.mjs", [
   "control OK: the recorder catches a planted fetch",
 ]);
 
+/* G21: the round page is how every listening verdict reaches this project. On
+   2026-08-11 a whole round's marks were lost to a copy button that could not
+   work inside an embedded viewer, and nothing here noticed because nothing
+   drove the page. This drives it, with the clipboard denied. */
+step("G21 listening-page", "node tests/ui/listening-page.mjs", [
+  { label: "checks", regex: /(\d+) checks passed/, floorKey: "g21_listening_checks" },
+  { label: "failed", regex: /(\d+) failed/, max: 0 },
+], {}, [
+  "the answers appear on screen where the reader is standing",
+  "the export carries the word verdict, the chosen arm and the comment",
+  "marks survive the tab being reloaded",
+  "control OK: a page whose export box is parked off screen is caught",
+  "control OK: a page that does not save marks is caught",
+]);
+
 step("G16 doc-truth", "node tools/doc-truth.mjs && node tools/doc-truth.mjs --self-test", [
   { label: "rules", regex: /Doc-truth gate: (\d+) rules/, floorKey: "g16_doc_rules" },
   { label: "problems", regex: /(\d+) problems/, max: 0 },
@@ -287,7 +302,8 @@ const REQUIRED_GATES = [
   "G11 copy", "G1+G2+G9+G10 tests", "G3 regeneration", "G4 acceptance-mutants",
   "G5 source-mutants", "G19 app-mutants", "G6 coverage", "G6 quality",
   "G7 interface", "G8 accessibility", "G18 network", "G16 doc-truth",
-  "G12 qa-procedure", "G13 voice-pack", "G20 effect-map", "G17 governing", "G6 coverage-control", "app build",
+  "G12 qa-procedure", "G13 voice-pack", "G20 effect-map", "G17 governing", "G6 coverage-control",
+  "G21 listening-page", "app build",
 ];
 const sh = (cmd) => { try { return execSync(cmd, { encoding: "utf8", stdio: "pipe" }).trim(); } catch { return null; } };
 

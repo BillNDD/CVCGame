@@ -92,10 +92,19 @@ html = f'''<!doctype html><meta charset="utf8">
  .cmt{{display:block;font-size:12px;color:#6b6b58;margin-top:6px}}
  .cmt input{{display:block;width:100%;max-width:520px;font:inherit;padding:6px 8px;border:1px solid #d8d4c8;border-radius:6px;margin-top:3px}}
  .state{{font-size:12px;color:#6b6b58;margin-top:6px}}
- footer{{position:sticky;bottom:0;background:#fff;border-top:1px solid #d8d4c8;padding:12px 18px;display:flex;gap:12px;align-items:center}}
+ footer{{position:sticky;bottom:0;background:#fff;border-top:1px solid #d8d4c8;padding:12px 18px;display:flex;gap:12px;align-items:center;flex-wrap:wrap;z-index:6}}
  #copy{{background:#0f7a4f;color:#fff;border-color:#0f7a4f;font-weight:700;padding:10px 16px}}
  #tally{{font-size:13px;color:#5a5a4a}}
- textarea{{width:100%;height:150px;font:12px/1.4 ui-monospace,Menlo,monospace;margin-top:10px;display:none}}
+ #status{{font-size:13px;color:#8a5a00;flex-basis:100%}}
+ /* The export box lives INSIDE the sticky footer. It used to sit at the very
+    bottom of the document, hidden, and be revealed by the copy button - which
+    on a 2400 KB page is below the fold and invisible from the footer. On
+    2026-08-11 the owner listened to a whole round, pressed copy, and lost
+    every mark: the clipboard call failed in the viewer's frame and the
+    fallback pointed at a box that could not be seen. Never hide the answers. */
+ #out{{width:100%;height:132px;font:12px/1.4 ui-monospace,Menlo,monospace;flex-basis:100%;
+   border:1px solid #d8d4c8;border-radius:6px;padding:6px 8px;background:#fbfaf7;color:#1a1a2e}}
+ #out[hidden]{{display:none}}
 </style>
 <header>
   <h1>{data["title"]}</h1>
@@ -104,10 +113,11 @@ html = f'''<!doctype html><meta charset="utf8">
 </header>
 <main>{"".join(cards)}</main>
 <footer>
-  <button id="copy">Copy all answers</button>
+  <button id="copy">Show and copy all answers</button>
   <span id="tally">0 of {len(data["items"])} marked</span>
+  <span id="status"></span>
+  <textarea id="out" hidden spellcheck="false"></textarea>
 </footer>
-<textarea id="out" readonly></textarea>
 <script>
 /* One shared WebAudio context with pre-decoded buffers: a per-tap Audio
    element is throttled in embedded viewers, which cost this project two
@@ -128,7 +138,15 @@ async function play(btn) {{
   src.start();
   btn.classList.add("playing");
 }}
-const answers = {{}};
+/* Marks survive a closed tab. The owner lost a whole round's listening on
+   2026-08-11 because the answers lived only in this object. Saving is
+   best-effort - an embedded viewer can refuse storage - so it is guarded, and
+   the always-visible export box below is the real guarantee, not this. */
+const KEY = "wq-round:" + document.title;
+const answers = (() => {{
+  try {{ return JSON.parse(localStorage.getItem(KEY) || "{{}}"); }} catch {{ return {{}}; }}
+}})();
+function save() {{ try {{ localStorage.setItem(KEY, JSON.stringify(answers)); }} catch {{}} }}
 function refresh(item) {{
   const a = answers[item] || {{}};
   const card = document.querySelector(`.card[data-item="${{item}}"]`);
@@ -140,6 +158,20 @@ function refresh(item) {{
   const done = Object.values(answers).filter((x) => x.verdict).length;
   document.getElementById("tally").textContent =
     done + " of " + document.querySelectorAll(".card").length + " marked";
+  save();
+  const box = document.getElementById("out");
+  if (!box.hidden) box.value = exportText();
+}}
+function exportText() {{
+  const lines = ["BATCH: {data["title"]}"];
+  document.querySelectorAll(".card").forEach((card) => {{
+    const item = card.dataset.item;
+    const a = answers[item];
+    lines.push(a && a.verdict
+      ? `${{item}} | ${{a.verdict}} | ${{a.id}} | ${{a.comment || ""}}`
+      : `${{item}} | UNMARKED | | `);
+  }});
+  return lines.join("\\n");
 }}
 document.addEventListener("click", (e) => {{
   const t = e.target;
@@ -168,19 +200,45 @@ document.addEventListener("input", (e) => {{
   const item = e.target.dataset.item;
   if (answers[item]) answers[item].comment = e.target.value.trim();
 }});
+/* Show first, copy second. The clipboard call is a convenience that can and
+   does fail inside an embedded viewer; the visible, selected text in the
+   sticky footer is what actually gets the answers back, and it needs no
+   permission from anybody. alert() is never used - it steals the selection it
+   just told the reader to copy, and a blocked alert looks like a dead button. */
 document.getElementById("copy").addEventListener("click", async () => {{
-  const lines = ["BATCH: {data["title"]}"];
-  document.querySelectorAll(".card").forEach((card) => {{
-    const item = card.dataset.item;
-    const a = answers[item];
-    lines.push(a ? `${{item}} | ${{a.verdict}} | ${{a.id}} | ${{a.comment || ""}}`
-                 : `${{item}} | UNMARKED | | `);
-  }});
-  const text = lines.join("\\n");
+  const text = exportText();
   const box = document.getElementById("out");
-  box.value = text; box.style.display = "block";
-  try {{ await navigator.clipboard.writeText(text); alert("Copied. Paste it back in the chat."); }}
-  catch {{ box.select(); alert("Select the text below and copy it."); }}
+  const status = document.getElementById("status");
+  box.hidden = false;
+  box.value = text;
+  box.focus();
+  box.setSelectionRange(0, text.length);
+  let copied = false;
+  try {{ await navigator.clipboard.writeText(text); copied = true; }} catch {{}}
+  if (!copied) {{ try {{ copied = document.execCommand("copy"); }} catch {{}} }}
+  status.textContent = copied
+    ? "Copied to the clipboard — paste it back in the chat. The text is also below, already selected."
+    : "The clipboard is blocked here. The text below is selected: press Ctrl+C (or Cmd+C) and paste it back in the chat.";
+}});
+
+/* Restore a previous sitting, and say so. */
+window.addEventListener("DOMContentLoaded", () => {{
+  const marked = Object.keys(answers).filter((k) => answers[k] && answers[k].verdict);
+  marked.forEach((item) => {{
+    const card = document.querySelector(`.card[data-item="${{CSS.escape(item)}}"]`);
+    if (!card) return;
+    const a = answers[item];
+    const sel = a.verdict === "none"
+      ? card.querySelector(".none")
+      : card.querySelector(`.mark[data-id="${{CSS.escape(a.id)}}"].` + (a.verdict === "perfect" ? "perfect" : "close"));
+    if (sel) sel.classList.add("chosen");
+    if (a.comment) {{ const c = card.querySelector(".cmt input"); if (c) c.value = a.comment; }}
+    refresh(item);
+  }});
+  if (marked.length) {{
+    document.getElementById("status").textContent =
+      marked.length + " mark(s) restored from your last sitting on this device.";
+  }}
 }});
 </script>'''
 page.write_text(html)

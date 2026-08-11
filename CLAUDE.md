@@ -144,7 +144,8 @@ exclusions are recorded in SPEC section 12.
   That limit is 900 lines. The owner raised it from 600 on 2026-07-29; only the owner can move
   a ceiling, and a file approaching one should be split instead.
 - E7. Run `npm run check` before every push: the full test suite plus the sub-minute gates
-  (copy, doc-truth, QA count, voice pack, governing files), about a minute. A red check blocks the change.
+  (copy, doc-truth, QA count, voice pack, governing files, effect map, and the word-gate
+  island control), about a minute. A red check blocks the change.
   The full `npm run gauntlet` — mutants, coverage, the build and the browser gates — runs
   when the owner asks for a beta or a version release, and a release is cut only from a
   green gauntlet. CI runs the full gauntlet only at that same occasion - the release's v* tag

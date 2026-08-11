@@ -26,6 +26,24 @@ updated whenever a round lands.
   listener had labelled, failures ran 768-960 ms of speech and passes 789-960 ms,
   both with a median of 832. Two attempts at a measurable proxy have now failed.
   Listening is the only detector this project has.
+- **A word's own inside dip is not a second word.** Counting loud frames reads
+  "dog" as two islands (the vowel, then the /g/ release) and "bell" as two (the
+  vowel, then the held /l/), so the word gate refused every located cut of them
+  and the owner was offered only the leftovers — which is why dogs, beds and
+  lids all came back "robotic" in batch 11. `word_islands()` in
+  `tools/verify.py` merges dips shorter than 90 ms and ignores runs shorter
+  than 80 ms. Measured 2026-08-11 against the owner's own verdicts: the refused
+  silk and slip arms of batch 8 stay refused, 8 of 8 and 8 of 8, and dog and
+  bell go from refused to accepted. A word's internal dip runs 20-60 ms; a
+  neighbouring word is separated by 150 ms or more. That margin is the rule.
+  `python3 tools/verify.py --self-test` holds it, and four planted mutants
+  (no merging, a 5 ms minimum run, a -60 dB loudness floor, a 400 ms merge)
+  each turn it red.
+- **A padded pack clip cannot be compared against a bare template.** A shipped
+  file carries `shape()`'s 80 ms lead and 300 ms tail; a located cut carries
+  neither. Comparing the two measures the padding — every word reads "too long
+  (about 2x)". Take the clip's `speech_span` first. This wasted an evening on
+  2026-08-11 chasing a length failure on "bed" that was never in the audio.
 
 ## The new-word rounds (2026-08-07) — closed, do not re-offer
 
@@ -125,6 +143,16 @@ pauses, and warm spectral tilt (attenuated low harmonics read as cold).
   first fielded in batch 9. Arrays passed to pyworld must be
   np.ascontiguousarray — a silent except around WORLD once ate a word's best
   options twice.
+- **A short word is located by the carrier's silence, never by template match.**
+  A solo "he" is 530 ms of speech because the render trails a long creak, but
+  the same word inside a frame runs about half that, so a matched window always
+  overran into the neighbour: batch 12's first build refused all seven
+  two-letter words with "flanks 0/120", and batch 10's verdict on he was "they
+  all said 'and he ran'". Cutting between measured silences cannot have that
+  fault — the boundaries ARE the gaps — and it took the seven words from 0-3
+  arms to 7-9. The template's only remaining job is the content check. Two
+  rules come with it: never offer the FIRST island of an utterance (it carries
+  af_heart's 85-115 ms blob), and require 60 ms of silence on both flanks.
 - **What does NOT work**: phoneme renders for naturalness (settled above);
   alternate spellings (read as letter names); speed changes as a repair;
   any measurement as a quality judge beyond audibility and
@@ -147,6 +175,23 @@ pauses, and warm spectral tilt (attenuated low harmonics read as cold).
 
 ## Mistakes this project has made, and must not repeat
 
+- **A round page must never be able to lose a listener's marks** (2026-08-11,
+  batch 12). The owner listened to all seventeen words, pressed "Copy all
+  answers", and lost every one. Two faults compounded: `navigator.clipboard`
+  is blocked inside an embedded viewer, so the write rejected; and the fallback
+  revealed a textarea that lived at the very BOTTOM of a 2400 KB document,
+  below the fold and invisible from the sticky footer the reader was standing
+  on. The button looked dead. The listening was the expensive part and it was
+  the part that was thrown away. Three rules now, all gated by G21
+  (`npm run test:listening`, which drives a real page in a real browser with
+  the clipboard denied): every mark is written to storage the instant it is
+  made and restored on load; the export box lives INSIDE the sticky footer and
+  is never hidden behind a control that can fail; and `alert()` is never used
+  — it steals the selection it just told the reader to copy, and a blocked
+  alert is indistinguishable from a dead button. The wider lesson is the one
+  this file keeps repeating in other forms: an evening of the owner's ear is
+  the scarcest thing this project spends, and the machinery around it must be
+  proven, not assumed.
 - **Never offer a cut clip without verifying its CONTENT** (2026-08-07, batch
   3). Every candidate was checked for length and none for what it contained.
   A 600 ms window that starts 200 ms late is still 600 ms, so clips holding

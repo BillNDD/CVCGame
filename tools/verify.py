@@ -115,6 +115,41 @@ def clean_onset(solo, sr, word):
     return core[int(0.1 * sr):]
 
 
+def word_islands(a, sr, min_ms=80, merge_ms=90):
+    """Loud runs of min_ms or more, merging dips shorter than merge_ms.
+
+    A word is one island even when its own inside dips: "dogs" is a vowel and
+    then a /z/, "beds" a vowel and then /dz/, and a plain loud-frame count
+    reads each as two. That made the gate refuse every located cut of those
+    words while their TEMPLATES - front-trimmed by clean_onset - read as one,
+    so the owner was offered only the frames that never win (batch 11: dogs,
+    beds, lids). A neighbouring WORD is separated by a longer gap than a
+    word's own internal dip, so merging short dips refuses neighbours and
+    accepts words. Same rule the sound gate already uses.
+    """
+    _, _, db, n = wc.speech_span(a, sr)
+    hop_ms = 1000 * n / sr
+    need = max(1, int(min_ms / hop_ms))
+    loud = db > -22
+    runs, start = [], None
+    for i, v in enumerate(loud):
+        if v and start is None:
+            start = i
+        elif not v and start is not None:
+            if i - start >= need:
+                runs.append([start, i])
+            start = None
+    if start is not None and len(loud) - start >= need:
+        runs.append([start, len(loud)])
+    merged = []
+    for r in runs:
+        if merged and (r[0] - merged[-1][1]) * hop_ms < merge_ms:
+            merged[-1][1] = r[1]
+        else:
+            merged.append(r)
+    return len(merged)
+
+
 def verify(cut, solo, sr):
     """Returns (ok, reason, dist).
 
@@ -129,11 +164,74 @@ def verify(cut, solo, sr):
     if len(A) < 4 or len(B) < 4:
         return False, "no features", 9.9
     d = dtw_distance(A, B)
-    nuc = syllable_nuclei(cut, sr)
-    solo_nuc = max(1, syllable_nuclei(solo, sr))
+    nuc = word_islands(cut, sr)
+    solo_nuc = max(1, word_islands(solo, sr))
     ratio = (len(cut) / sr) / max(1e-6, len(solo) / sr)
     if d > 0.34:  return False, f"content differs (dtw {d:.2f})", d
     if nuc > solo_nuc: return False, f"extra syllable island ({nuc} vs {solo_nuc})", d
     if ratio > 1.45: return False, f"too long ({ratio:.2f}x)", d
     if ratio < 0.72: return False, f"clipped ({ratio:.2f}x)", d
     return True, "ok", d
+
+
+def _self_test():
+    """Controls for word_islands, on synthetic audio so anyone can run them.
+
+    E5: a counter that is only ever shown clean input looks identical to a
+    counter that always answers 1. Each case names the fault it catches.
+    The real-audio calibration is recorded in docs/settled.md: against the
+    owner-refused silk and slip arms of batch 8 this counter refuses 8 of 8
+    and 8 of 8, and it un-refuses dog and bell, whose own internal dip the
+    old loud-frame count read as a second word.
+    """
+    sr = 24000
+    def tone(ms):
+        t = np.arange(int(sr * ms / 1000)) / sr
+        return (0.5 * np.sin(2 * np.pi * 200 * t)).astype(np.float32)
+    def gap(ms):
+        return np.zeros(int(sr * ms / 1000), np.float32)
+    cases = [
+        ("one plain word", np.concatenate([gap(50), tone(250), gap(50)]), 1,
+         "a single loud run is one island"),
+        ("a word with its own dip", np.concatenate(
+            [gap(50), tone(200), gap(50), tone(150), gap(50)]), 1,
+         "dog's /g/ closure and bell's held /l/ must not read as a second word"),
+        ("a neighbouring word", np.concatenate(
+            [gap(50), tone(200), gap(150), tone(200), gap(50)]), 2,
+         "the fault the gate exists for: a smuggled second word must still be seen"),
+        ("two neighbours", np.concatenate(
+            [gap(50), tone(150), gap(150), tone(150), gap(150), tone(150)]), 3,
+         "counting does not saturate at two"),
+        ("a click is not a word", np.concatenate(
+            [gap(50), tone(20), gap(150), tone(250)]), 1,
+         "a run shorter than 80 ms is noise, not an island"),
+        ("a quiet gap is still a gap", np.concatenate(
+            [gap(50), tone(200), 0.01 * tone(150), tone(200), gap(50)]), 2,
+         "room tone between two words is quiet, not silent: a loudness floor "
+         "loose enough to call it speech joins every neighbour to its word"),
+    ]
+    bad = 0
+    for name, a, want, why in cases:
+        got = word_islands(a, sr)
+        mark = "ok  " if got == want else "FAIL"
+        if got != want:
+            bad += 1
+        print(f"{mark} {name}: {got} island(s), expected {want} — {why}")
+    # The counter must be able to fail. If a stub that always answers 1 also
+    # passes these cases, they prove nothing about the shipped counter.
+    stub = lambda a, sr, **k: 1
+    stub_passes = all(stub(a, sr) == want for _, a, want, _ in cases)
+    if stub_passes:
+        print("FAIL control: an always-1 stub passes every case, so they test nothing")
+        bad += 1
+    else:
+        print("ok   control: an always-1 stub fails these cases")
+    print(f"\nverify.py word_islands controls: {len(cases) + 1 - bad} passed, {bad} failed")
+    return 1 if bad else 0
+
+
+if __name__ == "__main__":
+    import sys
+    if "--self-test" in sys.argv:
+        raise SystemExit(_self_test())
+    raise SystemExit("usage: python3 tools/verify.py --self-test")
