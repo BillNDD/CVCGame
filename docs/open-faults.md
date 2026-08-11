@@ -16,21 +16,65 @@ This document follows the Microsoft Writing Style Guide.
 
 Written against `v1.0.0-beta.17`, commit `fd7c894`. The full gauntlet passed on `c87ed44`
 with a clean tree: 22 gates, 0 failed, 66 source mutants killed, 341 tests, 406 clips.
-**Nothing in this file makes a wrong sound play today.** Every item is either a missing
-guard, an undecided preference, or a gap in the audit trail.
+Section A is the exception to everything else here: it is wrong TODAY, it is child-facing,
+and it is on by default. Everything after it is a missing guard, an undecided preference, or
+a gap in the audit trail, and **nothing after section A makes a wrong sound play today.**
 
 ---
 
-## A. The default sounds — the whole class of fault that let `th` ship wrong
+## A. Remove microphone mode — decided 2026-08-11, to be done first
 
-This is the group the owner asked to be put first, on 2026-08-11.
+**This is the most serious item in this file, and the only one that is wrong today rather
+than unguarded.** The owner ruled on 2026-08-11: microphone mode is removed from the game
+entirely. Their words: "I don't think it's safe or appropriate the more I think about it."
+
+### A1. A child's voice is sent to a third party, on the default setting
+
+- **Where** `app/src/App.jsx`, `startRec()` and the `SR` recogniser from
+  `reference/word-quest.jsx`; the mode toggle in `app/src/screens/ParentScreen.jsx`; the
+  four microphone messages in `App.jsx`; `tests/recognizer.test.js` (51 tests, 8 blocks).
+- **What happens today** `newState()` sets `settings.mode` to `"mic"`, so every family that
+  installs the app gets microphone mode unless a grown-up changes it. When the child taps
+  "Start Recording", the browser's speech recogniser listens and, on the browsers this app
+  supports, sends that audio away to be transcribed. The app's own code is the proof: it
+  handles `ev.error === "network"` and shows "Can't listen without the internet." A thing
+  that runs on the device does not need the internet.
+- **Why it is a fault and not a trade-off** Safety rule S6 says the app makes no network
+  calls after load and all data stays on the device, with exactly two exceptions, both
+  requests to the app's own host carrying no data. A child's recorded voice going to a
+  transcription service is neither of them. The rule and the shipped default contradict each
+  other, and the rule is the one that is right.
+- **What was NOT the reason** Speech recognition never records a wrong answer — safety rule
+  S1 holds, and it only ever confirms a correct reading. The fault is not that it judges
+  badly. It is where the audio goes.
+- **Done** Microphone mode does not exist. A grown-up judges every word, and that is the
+  only mode. The recogniser, the mode toggle, the four microphone messages and the
+  recogniser tests are deleted rather than disabled — a feature that is only turned off is a
+  feature someone turns back on. SPEC sections 5, 6 and 10 lose the mode, `ADULT_JUDGED` and
+  the adult-note logic are re-read in a world with one mode, and the gate floors move down
+  only where a whole gate has gone away, with the reason written beside each (E6 forbids
+  lowering a floor to pass a build; it does not forbid retiring a gate whose subject was
+  deleted, and that distinction must be argued in the commit, not assumed).
+- **Not to be confused with the family voice pack.** The owner ruled the same evening that
+  the parent voice-pack recorder STAYS. It records a grown-up reading the word list, into
+  storage on their own device, and sends nothing anywhere. Different in kind. See D1.
+- **Timing** The owner chose to do this tomorrow with the rest of the list rather than cut a
+  release tonight, knowing that v1.0.0-beta.17 is public with the mode on by default. Until
+  it ships, a grown-up can switch to "you judge" in the Grown-ups corner.
+
+---
+
+## B. The default sounds — the whole class of fault that let `th` ship wrong
+
+The owner asked for this group to be put first, on 2026-08-11. Section A arrived later
+the same evening and is child-facing, so it goes above it.
 
 A default is not a decision. It is the absence of one that still produces audio: a grapheme
 with no ruling still returns a valid clip id, `resolvePack` still resolves, the voice gate
 still passes, and a child is still taught something. That is exactly how `th` played the
 wrong sound for months without a single gate noticing.
 
-### A1. The grapheme fallback returns a clip for a grapheme nobody ruled on
+### B1. The grapheme fallback returns a clip for a grapheme nobody ruled on
 
 - **Where** `reference/word-quest.jsx`, `soundIdFor = (g) => "d:" + (TILE_SOUND[g] || g)`.
 - **Scale** 16 of the bank's 39 graphemes are named in `TILE_SOUND`. The other 23 take the
@@ -42,7 +86,7 @@ wrong sound for months without a single gate noticing.
 - **Done** Each of the 39 either appears in `TILE_SOUND` as a stated decision, or the
   fallback refuses rather than guesses. A new grapheme with no ruling must fail the build.
 
-### A2. 336 words take the general mapping with no per-word check
+### B2. 336 words take the general mapping with no per-word check
 
 - **Where** `WORD_SOUND` in `reference/word-quest.jsx` covers 13 words: she, the, push, bush,
   was, what, wash, is, has, this, that, then, them.
@@ -53,7 +97,7 @@ wrong sound for months without a single gate noticing.
 - **Done** A gate, not another sweep. Adding a word that needs an exception must fail until
   someone rules on it.
 
-### A3. `what` plays a vowel nobody chose
+### B3. `what` plays a vowel nobody chose
 
 - **Where** `WORD_SOUND.what = { 1: "short_o" }`, inherited from the ruling of 2026-08-06,
   which was made before the accent was settled.
@@ -63,7 +107,7 @@ wrong sound for months without a single gate noticing.
   did not, because nobody ruled on it. It is a variant chosen by inheritance.
 - **Done** The owner listens once and rules. One line either way.
 
-### A4. A sound with no text falls back to its own file name
+### B4. A sound with no text falls back to its own file name
 
 - **Where** `voiceScript()`, `SOUND_TEXT[id.slice(2)] || id.slice(2)`.
 - **Today** No consumer reads that text at run time, so nothing is spoken wrongly.
@@ -73,7 +117,7 @@ wrong sound for months without a single gate noticing.
 - **Done** Every sound in the inventory has human text, and a sound without one fails the
   voice gate rather than falling back.
 
-### A5. The tile ring falls back to a fixed length
+### B5. The tile ring falls back to a fixed length
 
 - **Where** `app/src/wq-css.js`, `animation: wqpop var(--wqpop, 700ms)`.
 - **Today** Unreachable. The default pack declares every clip's speech length, so the ring
@@ -83,7 +127,7 @@ wrong sound for months without a single gate noticing.
   a length gets that fault back.
 - **Done** A tier that cannot report a length shows no ring at all, rather than a wrong one.
 
-### A6. A family pack gets no speech-to-speech spacing
+### B6. A family pack gets no speech-to-speech spacing
 
 - **Where** `app/src/voicepacks.js`, `edge()` returns 0 for any tier that is not `default`.
 - **Today** Unreachable. No screen calls `idbPutClip`, so no family pack can exist.
@@ -91,7 +135,7 @@ wrong sound for months without a single gate noticing.
   over a second — with nothing to say it had.
 - **Done** Family clips are measured on the way in, or the sound-out declines to use them.
 
-### A7. Falling through to system speech leaves no trace
+### B7. Falling through to system speech leaves no trace
 
 - **Where** `resolvePack` returns `null` and the caller uses system speech.
 - **Today** Not active. Every reveal, across all three outcomes and every word tried,
@@ -101,7 +145,7 @@ wrong sound for months without a single gate noticing.
   saying the recorded voice was unavailable.
 - **Done** The grown-up's side of the app can tell that the recorded voice did not play.
 
-### A8. Fourteen approved sounds are parked, unchecked against the current bank
+### B8. Fourteen approved sounds are parked, unchecked against the current bank
 
 - **Where** `tools/pending-sounds/`: air, ar, aw, ear, er, long_a, long_i, long_o, long_u,
   oi, oo_moon, ow, or, zh. 47 approved, 33 shipped.
@@ -110,7 +154,7 @@ wrong sound for months without a single gate noticing.
   a default, it is being sounded out wrongly now.
 - **Done** Each of the 14 is confirmed as future work, or shipped because a word needs it.
 
-### A9. `soundInventory()` walks `LEVELS` only
+### B9. `soundInventory()` walks `LEVELS` only
 
 - **Where** `reference/word-quest.jsx`, `soundInventory()`.
 - **Today** Safe. Every tricky word is also in a level, so coverage is complete.
@@ -121,9 +165,9 @@ wrong sound for months without a single gate noticing.
 
 ---
 
-## B. The audit trail
+## C. The audit trail
 
-### B1. Sixty-four word rows carry no byte pin
+### C1. Sixty-four word rows carry no byte pin
 
 - **Where** `tools/voice-words.csv`. 285 of 349 rows have a `byte_pin_sha256`; 64 do not,
   all from the earliest rounds, before pinning began: bad, cab, can, dab, dad, nap, pad,
@@ -135,7 +179,7 @@ wrong sound for months without a single gate noticing.
 - **Done** Every row carries a pin, or the 64 are named in the file as deliberately unpinned
   with the reason.
 
-### B2. Staging during a gauntlet run has put a mutant into a commit twice
+### C2. Staging during a gauntlet run has put a mutant into a commit twice
 
 - **Where** Process, not code. Recorded in the commit message of `c87ed44`.
 - **Today** Both incidents are cleaned up. `c87ed44` is verified mutant-free, and so is every
@@ -150,12 +194,18 @@ wrong sound for months without a single gate noticing.
 
 ---
 
-## C. Known limits, carried deliberately
+## D. Known limits, carried deliberately
 
 These are not defects to fix on a schedule. They are written down so nobody rediscovers them
 as if they were news.
 
-### C1. A family pack cannot cover a reveal
+### D1. A family pack cannot cover a reveal
+
+The owner ruled on 2026-08-11 that the parent voice-pack recorder STAYS when microphone mode
+goes (section A). It records a grown-up reading the word list, into storage on their own
+device, and sends nothing anywhere — a different thing from a child's voice going to a
+transcription service, and it should not be swept away with it.
+
 
 `resolvePack` requires one tier to hold every clip in the plan, which now includes
 `s:pronounced` and the per-tile sounds. No adult recording will have those, so a family that
@@ -163,7 +213,7 @@ recorded every word still hears the default voice for the whole reveal, and thei
 only in the replay control. Latent while no recorder screen exists. It becomes real the day
 one ships, and the family-pack design has to answer it.
 
-### C2. The voice is American and stays that way
+### D2. The voice is American and stays that way
 
 `af_heart` is an American voice and all 406 clips are in it, each listened to and accepted.
 The owner ruled for American pronunciation on 2026-08-11 for exactly this reason. Canadian,
@@ -171,14 +221,14 @@ which the owner would prefer, is not among the model's 54 voices — and for thi
 Canadian-American divergence is either unreachable or already matched, so the pronunciation
 already is Canadian. See `docs/settled.md`.
 
-### C3. Two files are close to the G6 length ceiling
+### D3. Two files are close to the G6 length ceiling
 
 `tests/safety.test.js` is 886 lines and `app/src/App.jsx` is 836, against a ceiling of 900.
 The ceiling is not the kind of number that moves (E6). A file approaching one is split.
 
 ---
 
-## D. Approved and unbuilt
+## E. Approved and unbuilt
 
 Features the owner has ruled on that are not built are **not** in this file. They live in
 SPEC section 12, "The road ahead", with their boundaries and their named prerequisites:
@@ -186,13 +236,13 @@ the level introduction, passages from real books, and the parent tutorial.
 
 ---
 
-## E. The documents and data files themselves
+## F. The documents and data files themselves
 
 Owner-instructed 2026-08-11. Fifteen tracked `.md` files and eleven `.json` files (excluding
 lockfiles) have grown one decision at a time over three weeks. Nobody has ever read them as a
 set and asked whether they are still the right set.
 
-### E1. The prose documents overlap and nobody has drawn the boundaries
+### F1. The prose documents overlap and nobody has drawn the boundaries
 
 - **Where** `docs/voice-pack.md` (946 lines), `SPEC.md` (923), `docs/settled.md` (741),
   `docs/testing-gauntlet.md` (587), `CHANGELOG.md` (521), plus `AGENTS.md`, `CLAUDE.md`,
@@ -212,7 +262,7 @@ set and asked whether they are still the right set.
   a log rather than a document is split from the part that is standing truth. Nothing is
   deleted without the owner seeing what goes.
 
-### E2. The data files have no stated shape and three of them overlap
+### F2. The data files have no stated shape and three of them overlap
 
 - **Where** `tools/voice-lock.json` (5,664 lines), `tools/keepers-treatments.json` (6,982),
   `tools/keeper-bytes.json`, `tools/pending-sounds/pending-sounds.json`,
@@ -227,7 +277,7 @@ set and asked whether they are still the right set.
   and from what. Anything generated is regenerable by a named command, and the check proves
   it. Anything genuinely dead is removed with the owner's sight of it.
 
-### E3. Nothing gates a document going stale
+### F3. Nothing gates a document going stale
 
 - **Where** G16 doc-truth covers seven rules; G17 covers which files may exist.
 - **The fault** G16 checks a small number of specific claims — gate floors, a few timings,
