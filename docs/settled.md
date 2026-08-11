@@ -168,6 +168,31 @@ pauses, and warm spectral tilt (attenuated low harmonics read as cold).
   begins and ends at full amplitude, because its own rise and fall belong to
   the consonants either side, and giving it back a quick rise and a slower
   fall restores the shape a spoken sound has rather than adding anything.
+- **A sound is spoken in a PHONEME CARRIER SENTENCE, and lifted out of its
+  last energy island.** Found 2026-08-11 in the P45 bake the owner supplied:
+  not one of its 22 approved sounds is a bare render or a cut from a word
+  clip. Every winner is a carrier — "hˈɪɹ ɪz ðə sˈaʊnd: ˈɔ." (citation),
+  "spˈɛl ɪt: … ðə sˈaʊnd ɪz ʧ." (spelling), "vvv? nˈoʊ. fff."
+  (contrastive), "bin, pin, tin." (minimal pair, which is how the bake got
+  its STOP), "The letter sound E." in plain English (instructional) — rendered
+  at speed 1.0 with is_phonemes true and cut by `energy_island_last`, then
+  polished at a 12 ms fade and -3 dB. Try these before anything invented.
+- **A lone consonant renders if you ask for it THREE TIMES.** `fff`, `sss`,
+  `ɹɹɹ`, and by extension `nnn`, `zzz`, `ʃʃʃ`, `ŋŋŋ`. This project had
+  recorded that kokoro cannot render a lone consonant phoneme — true of a
+  single one, false of a tripled one, which comes out as real sustained
+  frication or hum. That one trick reopened every continuant that had been
+  waiting on the owner's voice.
+- **A citation sound is not measured against an in-word reference.** A sound
+  said on its own runs two to five times longer than the same sound inside a
+  word, so `verify_sound`'s length RATIO refused the bake's own method at dtw
+  0.11 to 0.16 — the content matched almost perfectly and the gate threw it
+  away on length. The ratio is replaced for citation candidates, never
+  removed, by an absolute 110-620 ms band, which is tighter than the 60-800 ms
+  every candidate already faces and does not lean on a reference this file
+  already calls unreliable. `form="citation"` in `tools/soundgate.py`; every
+  other check is untouched, and controls prove the band still refuses 80 ms
+  and 700 ms while `in_word` still refuses a 3.3x stretch.
 - **No recording of the owner's own voice ships in the game** (owner-ruled
   2026-08-11). Nineteen owner-recorded WAVs sat in `app/public/sounds/`, used
   by nothing, and 26 rows of `tools/voice-sounds.csv` were sourced
