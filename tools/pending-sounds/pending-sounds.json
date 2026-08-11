@@ -2,7 +2,6 @@
  "_comment": "Sounds the owner accepted in the sidecar's P45 ship review. The bytes here are the exact clips the owner marked ok; they are option 1 in any round for that sound, and become the row in tools/voice-sounds.csv when the sound-out reveal is built. Sounds on the revisit list are not here - they are still open.",
  "_source": "P45-OK-SHIP-HANDOFF, owner ship-review export 2026-08-10T15:41:39.154Z",
  "_revisit": [
-  "schwa",
   "oo_book"
  ],
  "short_o": {
@@ -242,5 +241,15 @@
   "how": "r-controlled 'ear' · as in ear, deer, near",
   "as_in": "ear, deer"
  },
- "_revisit_note": "schwa and oo_book are the only two sounds left, and both are now OWNER-RECORDING items, not synthesis items (2026-08-11). Six rounds for schwa and three for oo (book) have failed, the last of them trying four mechanisms never used before, including extraction from the owner's own approved cup/cut/push/bush clips. Do not open another synthesis round for these two: record them, as the nine stop sounds were recorded on 2026-08-04, and run the same blind cut round (E10)."
+ "_revisit_note": "oo (book) is the last sound. Round 9 got it to CLOSEST (oo_book_3, cut from the shipped 'push' clip) with one named fault: \"not rounded enough\". schwa closed in the same round by the same recipe — cutting from an owner-approved word clip — after six rounds of synthesis had failed, so that recipe is the one to iterate, not replace (2026-08-11).",
+ "schwa": {
+  "sha256": "2a06ec741130e76a669ee247c3bafab6537a1d1c124be3f2538ec3131d6c7cd5",
+  "round": "SND9 (sound round 9, 2026-08-11)",
+  "verdict": "perfect (owner)",
+  "family": "pack-the-40-150-shaped",
+  "ms": 520,
+  "how": "the lazy little 'uh' of 'the', 'a', 'about' · as in the",
+  "as_in": "the, about",
+  "note": "cut from the SHIPPED, owner-approved word clip, the recipe that closed long_e and ch. Closed on its seventh round after six synthesis rounds failed."
+ }
 }

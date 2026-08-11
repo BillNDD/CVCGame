@@ -271,7 +271,7 @@ between WORDS", which is why it never reached these two — they have no pure wo
 one level down, inside a word. That is a true finding even though the round it rode in on
 was refused.
 
-## Sound round 9 — sent 2026-08-11: back to basics
+## Sound round 9 — judged 2026-08-11: schwa CLOSED, on its seventh round
 
 The record already holds the recipe that works, and it was not being used. long_e closed as
 family `pack_she_45`, and ch as `pack_such_tail150`. Those names mean the sound was cut out
@@ -287,9 +287,29 @@ quick rise and a slower fall, because a vowel excised from mid-word begins and e
 amplitude, its own rise and fall belonging to the consonants either side. Played alone that
 reads as a blip rather than a voice, which is a fair description of "outlandish".
 
-That scarcity is itself what this round tests. If the sound cannot be had from the clips
-that DO carry it, no cleverness elsewhere will produce it, and the owner's own voice is the
-answer — which is what rounds 5, 6 and 7 already recommended.
+**schwa is closed.** `schwa_6` = `pack-the-40-150-shaped`: the vowel taken 40% into the
+shipped clip for "the", held 150 ms, with the natural rise and fall. Six rounds of
+invention failed and the seventh succeeded by copying what the record already knew. The
+envelope earned its place too — the winner is a shaped arm.
+
+**oo (book) came back CLOSEST** on `oo_book_3` = `pack-bush-25-130-shaped`, with one named
+fault: "not rounded enough". That is an acoustic direction rather than a vague one — lip
+rounding is a lowered second formant — and round 10 answers it.
+
+The scarcity was the test, and it passed for schwa: the sound WAS there in the clips that
+carry it, and the earlier rounds had simply never looked. The recommendation to record
+these two, standing since round 5, is withdrawn for schwa and now rests on oo alone.
+
+## Sound round 10 — sent 2026-08-11: oo (book), more rounded
+
+Twenty options, all iterating round 9's recipe rather than replacing it, in four equal
+families. **Cuts taken earlier** (8-24% into the word, where the lips have just parted from
+the /b/ or /p/ and rounding is at its strongest; round 9 swept 20-60% and never reached
+here). **Blends toward the already-approved oo (moon)**, a fully rounded vowel, at a
+quarter, a half and three quarters — the technique a, e, i, o, u, l, m, n, r, v and ng all
+ship with. **The formant lowered directly** by a small named amount, the one processing
+family, present because the owner asked for one specific quality rather than "better".
+And **the closest arm's own siblings**, unprocessed, so the field is not all treatment.
 
 ## Batch 14 — judged 2026-08-11: both perfect, on material never offered before
 
