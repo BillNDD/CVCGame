@@ -67,7 +67,8 @@ lives only in a chat log is one this project loses.
 ## Before you push
 
 - `npm run check` — the test suite and the sub-minute gates, about a minute. A red check
-  blocks the change (E7). The full `npm run gauntlet` runs at release time only: locally
+  blocks the change (E7). It needs Python and NumPy for the word-gate island control; that
+  is the voice toolchain's own requirement, and the control is not in the gauntlet. The full `npm run gauntlet` runs at release time only: locally
   when the owner asks for a beta or version release, and on CI when the release's v* tag
   lands. Fix a red release gauntlet before anything else moves.
 - Raise the floors in `.claude/gate-baseline.json` when counts grow. Never

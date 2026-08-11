@@ -38,5 +38,6 @@
   "g18_network_checks": 4,
   "g19_app_mutants": 13,
   "g19_survivors_max": 0,
-  "g20_tests_mapped": 273
+  "g20_tests_mapped": 273,
+  "g21_listening_checks": 5
 }

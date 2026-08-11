@@ -1,4 +1,4 @@
-# Testing gauntlet — gate specification (G1–G20)
+# Testing gauntlet — gate specification (G1–G21)
 
 This document defines the quality gates for Word Quest. The owner reviews this document, not
 every line of code. The gates are the contract. `npm run gauntlet` runs every automatic gate.
@@ -34,8 +34,12 @@ This document follows the Microsoft Writing Style Guide.
 ## When the gates run
 
 `npm run check` runs before every push: the whole Vitest suite and the sub-minute gates
-(G11 copy, G16 doc-truth, G12 QA count, G13 voice pack, G17 governing files), each with its
-negative controls.
+(G11 copy, G16 doc-truth, G12 QA count, G13 voice pack, G17 governing files, G20 effect
+map), each with its negative controls. It also runs the word-gate island control
+(`python3 tools/verify.py --self-test`), which needs Python and NumPy — the voice
+toolchain's own requirements. That control is deliberately NOT in the gauntlet: putting it
+there would make the release gate depend on a Python runtime in CI, and a new dependency is
+the owner's call. Until the owner rules, it is proven at every push and not at release.
 The full gauntlet — mutants, coverage, the build, and the browser gates — runs at release
 time only: locally when the owner asks for a beta or a version release, and on CI when the
 release's v* tag is published, as a recorded second opinion on the exact released commit.
@@ -465,7 +469,8 @@ promised a fallback the code never performed; G12 counted the step and saw nothi
   that needs the engine chains the extractor itself; the npm `pretest` hook covers `npm test`
   only.
 - It then runs, in order: G11, G1+G2+G9+G10+G14+G15 (one Vitest run), G3 regeneration check,
-  G4, G5, G19 app mutation, G6 coverage and quality, build, G7, G8, G18 network, G16 doc
+  G4, G5, G19 app mutation, G6 coverage and quality, build, G7, G8, G18 network, G21
+  listening page, G16 doc
   truth, G12 structure check, G13 voice pack, G20 effect map, G17 governing files, and the
   baseline comparison.
 - The runner is `tools/gauntlet.mjs`. Run `npm run gauntlet`. The runner takes a lock, so two
@@ -523,3 +528,26 @@ promised a fallback the code never performed; G12 counted the step and saw nothi
 - The owner ruled for the full map on 2026-08-10, over a recommendation for a leaner
   version; generating it is how it stays true.
 - Run: `node tools/effect-map.mjs` (write), `--check` (verify), `--self-test` (control).
+
+## G21. Listening page
+
+- Tool: `tests/ui/listening-page.mjs`. Keys: `g21_listening_checks` (5), failures max 0.
+- Every listening verdict this project owns reached it through a round page, and on
+  2026-08-11 a page threw one away: the owner marked all seventeen words of batch 12,
+  pressed "Copy all answers", and lost the lot. `navigator.clipboard` is blocked inside an
+  embedded viewer so the write rejected, and the fallback revealed a textarea parked at the
+  bottom of a 2400 KB document — below the fold, invisible from the sticky footer. Nothing
+  in the gauntlet noticed, because nothing drove the page.
+- This gate builds a real page from a real batch with `tools/build_page.py`, drives it in
+  Chromium with the clipboard DENIED and `alert()` made to throw, and proves the answers
+  come back anyway: shown ON SCREEN where the reader is standing (measured against the
+  viewport, not merely `display: block`), carrying the verdict, the chosen arm and the
+  comment, for a word card and a sentence card alike — and still there after the tab is
+  reloaded.
+- Negative controls (E5): one page has its export box parked off screen and must be caught
+  by the viewport check; another has saving removed and must be caught by the reload check.
+  Without them a gate that only ever meets the fixed page proves nothing.
+- What it does NOT prove: that the audio sounds right, or that a candidate is the word.
+  That is G13 and the owner's ear. This gate only promises that what the ear decides
+  survives the trip back.
+- Run: `npm run test:listening`.
