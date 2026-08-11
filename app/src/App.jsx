@@ -152,7 +152,6 @@ export default function App() {
      stay plain rather than ringing against the wrong sound. */
   const [pops, setPops] = useState([]);
   const popTimers = useRef([]);
-  const gradeAt = useRef(0);          // when this reveal began, for the honest fill
   const [micTried, setMicTried] = useState(false);        // N-8: label only — never gates replay
   const [exitAsk, setExitAsk] = useState(false);          // P1-4
   const [doneStats, setDoneStats] = useState(null);
@@ -355,15 +354,19 @@ export default function App() {
     clearTimeout(advanceTimer.current);
     const now = Date.now();
     let from = 0;
-    if (real) {
-      /* The guard may already have run out and woken the control. Undo that:
-         the true wait is the one the child is actually living through, and the
-         fill is redrawn at the honest fraction of it rather than continuing a
-         track that was measuring the wrong thing. */
-      advanceLive.current = false;
-      setAdvanceReady(false);
-      from = Math.min(1, Math.max(0, (now - (gradeAt.current || now)) / Math.max(ms, 1)));
-    } else if (fillTrack.current) {
+    /* The guard may already have run out and woken the control. Take it back:
+       the true wait is the one the child is actually living through, and the
+       word is the thing the wait exists to protect. */
+    if (real) { advanceLive.current = false; setAdvanceReady(false); }
+    if (fillTrack.current) {
+      /* The fill continues from where it is, on the longer track, exactly as
+         it always has. Redrawing it at the true wait's honest fraction was
+         tried and is wrong: it sent the bar backwards, from 12 per cent to 4,
+         and A1-004's whole point is that a bar which jumps backwards is not
+         information. G7 caught it. Where the guard has already finished, the
+         bar therefore sits full while the control is held — which is a fair
+         reading of "you are waiting", and the alternative is a live control
+         that lets the first tap kill the sounding-out. */
       const f = fillTrack.current;
       from = Math.min(1, f.from + (1 - f.from) * Math.max(0, (now - f.t0) / f.ms));
     }
@@ -429,7 +432,6 @@ export default function App() {
     setLastGrade(result); setPhase("feedback");
     setAdvanceReady(false); advanceLive.current = false; fillTrack.current = null; setWaitFrom(0);
     clearPops();
-    gradeAt.current = Date.now();
     /* P0-3, and CVC-UX-001: the reveal runs about five to seven seconds —
        praise, a pause, "The word was", a pause, then the word — and advancing
        silences it. A child who taps at once never hears the word said

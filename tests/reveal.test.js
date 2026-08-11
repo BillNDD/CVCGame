@@ -246,11 +246,24 @@ describe("G10 — the child hears the word before the app lets them move on", ()
   it("13: a reveal length that arrives late still holds the control", async () => {
     voiceMode = "slow";
     await gradeOneWord();
-    await flush(600);                                  // past the 400 ms guard
+    /* The bar is only drawn while the control is held, so its last visible
+       position is read before the guard runs out. */
+    const fillAt = () => {
+      const el = document.querySelector(".wq-ctafill");
+      return el ? parseFloat(el.style.getPropertyValue("--wqfillfrom")) : null;
+    };
+    await flush(300);
+    const before = fillAt();
+    expect(before).not.toBeNull();
+    await flush(300);                                  // past the 400 ms guard
     expect(advance().disabled).toBe(false);            // the guard woke it, as it must
     act(() => { lateReveal(REVEAL_MS); });
     await flush(0);
     expect(advance().disabled).toBe(true);             // and the truth takes it back
+    /* A1-004 — and the bar does not jump backwards while it does. Redrawing
+       it at the true wait's honest fraction sent it from 12 per cent to 4,
+       and G7 caught that in the browser. */
+    expect(fillAt()).toBeGreaterThanOrEqual(before);
     await flush(REVEAL_MS - 600);
     expect(advance().disabled).toBe(true);
     await flush(700);
