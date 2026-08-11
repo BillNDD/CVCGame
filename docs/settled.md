@@ -168,6 +168,14 @@ pauses, and warm spectral tilt (attenuated low harmonics read as cold).
   begins and ends at full amplitude, because its own rise and fall belong to
   the consonants either side, and giving it back a quick rise and a slower
   fall restores the shape a spoken sound has rather than adding anything.
+- **A demonstration /h/ and a prevocalic /h/ are different sounds.** Measured
+  2026-08-11 against a human recording the owner supplied: a /h/ said on its
+  own runs 0.13 voiced with a spectral centroid of 1426 Hz — nearly pure
+  breath, and bright. Prevocalic /h/, taken from hat, hum, hen or hop, runs
+  0.74 to 1.00 voiced. Every source this project used for two rounds was the
+  prevocalic one, so no amount of edge or length work could ever have produced
+  what the owner was asking for. The demonstration form is reached by
+  DEVOICING: WORLD resynthesis with the periodic component removed.
 - **English /h/ before a vowel is breathy-VOICED, not frication.** Measured
   2026-08-11 across hat, hum, hen and hop in the shipped pack: every /h/ runs
   a voiced-frame ratio of 0.74 to 1.00 and a low-band fraction of 0.20 to
