@@ -1,10 +1,7 @@
 {
  "_comment": "Sounds the owner accepted in the sidecar's P45 ship review. The bytes here are the exact clips the owner marked ok; they are option 1 in any round for that sound, and become the row in tools/voice-sounds.csv when the sound-out reveal is built. Sounds on the revisit list are not here - they are still open.",
  "_source": "P45-OK-SHIP-HANDOFF, owner ship-review export 2026-08-10T15:41:39.154Z",
- "_revisit": [
-  "w",
-  "h"
- ],
+ "_revisit": [],
  "short_o": {
   "sha256": "820a5025f119a235bc4ec02549f53286e946218d01228b0474023cc07afcd463",
   "round": "P45-JOT-LUCK-APPROVED",
@@ -242,7 +239,7 @@
   "how": "r-controlled 'ear' · as in ear, deer, near",
   "as_in": "ear, deer"
  },
- "_revisit_note": "Two sounds open (2026-08-11), and for a reason worth stating plainly: on round 16 the owner chose w_2 and h_2, which were the REFERENCE arms — the cuts from their own recording, included so they could confirm the right piece had been found. They are not candidates: no recording of the owner's voice ships (owner-ruled 2026-08-11), so they were NOT stored. The choice is still useful information: it says the af_heart arms for w and h were not close enough, and it names the exact target. A blind label must show when an arm is a reference — `w_2` gave the owner no way to tell.",
+ "_revisit_note": "No sounds are open. The inventory is complete and entirely synthesised: all 14 sounds that had stood on the owner's own recordings were replaced between rounds 12 and 19 (2026-08-11), on the owner's ruling that no recording of their voice ships.",
  "schwa": {
   "sha256": "2a06ec741130e76a669ee247c3bafab6537a1d1c124be3f2538ec3131d6c7cd5",
   "round": "SND9 (sound round 9, 2026-08-11)",
@@ -382,5 +379,25 @@
   "how": "a g-catch · as in gap",
   "as_in": "gap, got",
   "note": "af_heart only — no owner recording. v and z were bent to formants measured from the owner's reference; n, ng and g are straight cuts from approved word clips with no resynthesis."
+ },
+ "w": {
+  "sha256": "8553acab8e97e6d8c47e678e1e0d8c95e3fbd6d870180ac6dc7b43ca83bf8507",
+  "round": "SND19 (sound round 19, 2026-08-11)",
+  "verdict": "perfect (owner)",
+  "family": "word-was120-m1.0-d0.111",
+  "ms": 880,
+  "how": "a rounded w · as in web",
+  "as_in": "web, win",
+  "note": "af_heart, chosen by an objective distance to the owner's reference then matched on duration, pitch and frame-median formants. No owner recording involved."
+ },
+ "h": {
+  "sha256": "84feb6f224c76ea1c2c9f5ebf45f3790f3f6f89f9489fd20b31b593af181303f",
+  "round": "SND19 (sound round 19, 2026-08-11)",
+  "verdict": "perfect (owner)",
+  "family": "word-hug120-m1.0-d0.356",
+  "ms": 760,
+  "how": "a light quick breath · as in hat",
+  "as_in": "hat, hop",
+  "note": "af_heart, chosen by an objective distance to the owner's reference then matched on duration, pitch and frame-median formants. No owner recording involved."
  }
 }

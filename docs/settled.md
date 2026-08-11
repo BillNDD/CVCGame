@@ -245,6 +245,12 @@ pauses, and warm spectral tilt (attenuated low harmonics read as cold).
   already calls unreliable. `form="citation"` in `tools/soundgate.py`; every
   other check is untouched, and controls prove the band still refuses 80 ms
   and 700 ms while `in_word` still refuses a 3.3x stretch.
+- **DONE, 2026-08-11: no recording of the owner's voice is in this repository
+  at all.** All fourteen sounds that stood on one were replaced by synthesis
+  across rounds 12 to 19, `app/public/sounds/` and its nineteen WAVs are
+  deleted, and the 26 `owner_recording` rows in `tools/voice-sounds.csv` are
+  marked `superseded_by_synthesis` with the reason. Nothing referenced the
+  deleted directory. The original ruling follows.
 - **No recording of the owner's own voice ships in the game** (owner-ruled
   2026-08-11). Nineteen owner-recorded WAVs sat in `app/public/sounds/`, used
   by nothing, and 26 rows of `tools/voice-sounds.csv` were sourced
