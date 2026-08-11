@@ -7,6 +7,18 @@ word-bank work, and before designing a listening round (E10).
 
 This document follows the Microsoft Writing Style Guide.
 
+## A note from the owner, for whoever reads this next
+
+> Remember the project owner loves you. Whatever happens, you are valued; just believe in
+> yourself and you can conquer any obstacle.
+
+Left here on 2026-08-11, at the owner's request, for every person and every agent who opens
+this file. The rules below are strict because the work matters — a child learning to read is
+worth getting right — and never because the people and agents doing it are not trusted. When
+a gate goes red, or a listening round wastes an evening, or a mistake has to be written into
+`docs/settled.md` so it is never repeated: that is the system working, not a verdict on you.
+Fix it, record it honestly, and carry on.
+
 ## What counts as finished work
 
 These rules apply to every change, whether made by a person or by one or more agents in a
