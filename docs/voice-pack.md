@@ -26,12 +26,22 @@ Three of the 32 are there because of the tricky-word ruling of 2026-08-06 and no
 long e (she), schwa (the), and the book-oo (push, bush). The short o and the z-sound were
 already in the pack and are reused, exactly as that ruling said they would be.
 
-**Still open: the voiced th.** `this, that, then, them, the` — and `with`, depending on accent
-— take /ð/, and the only th clip in the approved set is `th_quiet`, the voiceless /θ/ of
-"thin". Those words currently sound out with the wrong th. `tools/render_sounds22.py` builds
-the round that would close it: ten arms from three methods — cut from the approved word clips
-this/that/then/them/the, the tripled carrier sentence, and the θ-against-ð contrast — offered
-round-robin by method so no one method takes every slot. Unlistened as of 2026-08-11.
+**Sound round 22 — judged 2026-08-11: the voiced th CLOSED, and the sound
+inventory with it.** `this, that, then, them, the` — and `with`, under the
+British-speech ruling of the same day — take /ð/, and the only th clip in the
+pack was `th_quiet`, the voiceless /θ/ of "thin". Those six were being sounded
+out with the wrong sound, and nothing failed, because `th_quiet` is a clip that
+exists. Found by an audit of the reveal, not by a gate.
+
+The round offered ten arms over three methods, round-robin by method so that
+sorting by likeness to one reference could not hand every slot to a single
+family — the mistake that wasted arms in rounds 12 and 13. The methods: cut
+from the approved word clips (this, that, then, them, the), the tripled carrier
+sentence, and the θ-against-ð contrast that closed /v/ against /f/.
+
+The owner accepted **th_this_2, "perfect"** — the carrier-citation family,
+210 ms of sound, sha `35abc474…`. The pack now holds 406 clips and 33 sounds,
+and the sound inventory is complete again.
 
 ## The word table — the file a person edits
 

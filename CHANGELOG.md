@@ -13,11 +13,16 @@ The first app version is 1.0.0-beta.1. The app stays in beta until version 1.0 i
   The pause between sounds is 500 ms and a low hum plays underneath, so a gap never reads as
   the app having stopped. The owner chose the spacing, the hum and the outline by ear and eye
   against the real audio.
-- New: 32 sound clips in the voice pack, one for every unit the word bank's tiles can show.
-  The pack now holds 405 clips. Every sound was approved in a listening round, and none of
+- New: 33 sound clips in the voice pack, one for every sound the word bank's tiles can ask
+  for. The pack now holds 406 clips. Every sound was approved in a listening round, and none of
   them is a recording of a family member's voice.
 - Changed: a tricky word sounds out with the sounds it really makes, not its letters. "was" is
   /w/ + short o + /z/, "she" is /sh/ + long e, "push" and "bush" take the short oo of "book".
+- Changed: "th" now says the right one of its two sounds. It is the buzzing th of "this" in
+  this, that, then, them, the and with, and the quiet th of "thin" in thin, thick, thumb,
+  thud, bath, math, path and moth. All fourteen used to play the quiet one.
+- Fixed: the note on "was" said the a sounds like "uh" while the game played "woz". It now
+  says "o", which is what a child hears and what its neighbours "wot" and "wosh" already said.
 - Changed: the pause between clips is measured from the end of one sound to the start of the
   next. Each clip carries a different amount of its own silence, so a pause measured between
   files ran from half a second to over a second and the rhythm was uneven.

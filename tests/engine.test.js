@@ -367,10 +367,10 @@ describe("buildMarkdown", () => {
 describe("voice packs", () => {
   it("inventories one clip per word, the fixed sentences, and every sound a tile can ask for", () => {
     const script = voiceScript();
-    expect(script.length).toBe(405);                       // 6 sentences + 17 praise + 349 words + "Pronounced:" + 32 sounds
+    expect(script.length).toBe(406);                       // 6 sentences + 17 praise + 349 words + "Pronounced:" + 33 sounds
     expect(script.filter((c) => c.id.startsWith("w:")).length).toBe(349);
-    expect(script.filter((c) => c.id.startsWith("d:")).length).toBe(32);
-    expect(new Set(script.map((c) => c.id)).size).toBe(405);
+    expect(script.filter((c) => c.id.startsWith("d:")).length).toBe(33);
+    expect(new Set(script.map((c) => c.id)).size).toBe(406);
     expect(script.find((c) => c.id === "s:was").text).toBe("The word was");
     expect(script.find((c) => c.id === "l:wrong").text).toBe("Let’s try again.");
     expect(script.find((c) => c.id === "p:0").text).toBe("Great job!");
@@ -379,6 +379,7 @@ describe("voice packs", () => {
     /* S4 — a sound's text says what the sound IS. Never a file name, and
        never the letter, which would invite the letter name. */
     expect(script.find((c) => c.id === "d:th_quiet").text).toBe("the quiet sound at the start of thin");
+    expect(script.find((c) => c.id === "d:th_this").text).toBe("the buzzy sound at the start of this");
     expect(script.find((c) => c.id === "d:short_a").text).toBe("the sound in the middle of cat");
     expect(script.filter((c) => c.id.startsWith("d:") && !c.text.startsWith("the ")).length).toBe(0);
   });
@@ -405,7 +406,7 @@ describe("voice packs", () => {
      beside it. */
   it("gives every tricky word its true sounds, not its letters", () => {
     expect(soundIdsFor("she")).toEqual(["d:sh", "d:long_e"]);
-    expect(soundIdsFor("the")).toEqual(["d:th_quiet", "d:schwa"]);
+    expect(soundIdsFor("the")).toEqual(["d:th_this", "d:schwa"]);
     expect(soundIdsFor("push")).toEqual(["d:p", "d:oo_book", "d:sh"]);
     expect(soundIdsFor("bush")).toEqual(["d:b", "d:oo_book", "d:sh"]);
     expect(soundIdsFor("was")).toEqual(["d:w", "d:short_o", "d:z"]);
@@ -417,6 +418,31 @@ describe("voice packs", () => {
        the sound they really make. */
     expect(soundIdsFor("cash")).toEqual(["d:k", "d:short_a", "d:sh"]);
     expect(soundIdsFor("hat")).toEqual(["d:h", "d:short_a", "d:t"]);
+  });
+
+  /* "th" spells TWO sounds, and until 2026-08-11 the tile map sent both to
+     th_quiet — the voiceless th of "thin". Six bank words take the voiced one
+     and were sounded out wrongly: a child reading "the" heard "th(in)-uh".
+     Nothing failed, because th_quiet is a clip that exists, which is why this
+     is asserted word by word over the WHOLE bank rather than spot-checked. */
+  it("splits th into its two sounds, across every th word in the bank", () => {
+    for (const w of ["this", "that", "then", "them", "the"])
+      expect(soundIdsFor(w)[0]).toBe("d:th_this");
+    /* British speech, owner-ruled 2026-08-11: "with" ends voiced. It is the
+       only one of the six where the two accents disagree. */
+    expect(soundIdsFor("with")).toEqual(["d:w", "d:short_i", "d:th_this"]);
+
+    for (const w of ["thin", "thick", "thumb", "thud"])
+      expect(soundIdsFor(w)[0]).toBe("d:th_quiet");
+    for (const w of ["bath", "math", "path", "moth"])
+      expect(soundIdsFor(w).at(-1)).toBe("d:th_quiet");
+
+    /* No th word in the bank is left unaccounted for, so a word added later
+       cannot quietly inherit the wrong one. */
+    const thWords = LEVELS.flatMap((l) => l.words).filter((w) => w.includes("th"));
+    expect(thWords.length).toBe(14);
+    const voiced = thWords.filter((w) => soundIdsFor(w).includes("d:th_this"));
+    expect(voiced.sort()).toEqual(["that", "the", "them", "then", "this", "with"]);
   });
   /* The sound-out reveal, owner-ruled 2026-08-04 and recorded in
      docs/settled.md: praise, the word, "Pronounced:", each sound on its own

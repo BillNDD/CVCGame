@@ -84,6 +84,12 @@ const MUTANTS = [
   ["a seam is read as a clip", 'const isSeam = (id) => id === "seam" || id === "seam2";', 'const isSeam = (id) => id === "seam";'],
   ["tile slots lose their order", "if (String(plan[i]).startsWith(\"d:\")) slots.push({ index: i, tile: t++ });", "if (String(plan[i]).startsWith(\"d:\")) slots.push({ index: i, tile: 0 });"],
   ["tricky words lose their true sound", "const bent = WORD_SOUND[word] || {};", "const bent = {};"],
+  /* The voiced th, collapsed back into the quiet one. "th" spells two sounds
+     and the map sent both to th_quiet until 2026-08-11, so this is the exact
+     fault replayed: it costs six bank words their sound and nothing else in
+     the build would notice, because th_quiet is a clip that exists. */
+  ["the voiced th collapses into the quiet one", 'this: { 0: "th_this" }, that: { 0: "th_this" },', 'this: { 0: "th_quiet" }, that: { 0: "th_quiet" },'],
+  ["with loses its British voiced th", 'with: { 2: "th_this" },', ""],
   ["a digraph loses its single sound", 'ck: "k", ff: "f", ll: "l", ss: "s", zz: "z",', 'ff: "f", ll: "l", ss: "s", zz: "z",'],
 ];
 

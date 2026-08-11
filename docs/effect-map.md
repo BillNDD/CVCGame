@@ -8,7 +8,7 @@ Per-test rows carry the test's own sentence, which in this project IS the
 Given/When/Then effect. The requirement, oracle, platform, mutant family, evidence
 and known limits are declared per FILE, in the tool, where they stay true.
 
-Totals: 283 it() SITES across 13 files, plus 10 gates that are not test files.
+Totals: 284 it() SITES across 13 files, plus 10 gates that are not test files.
 
 A site inside a loop or a table runs many times, so these rows describe more tests than they number: Vitest executes 330. The rows count the places behaviour is asserted.
 
@@ -33,7 +33,7 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 8 | G10 — the text a grown-up reads on the child | 27: one completed session counts as  |
 | 9 | G10 — the text a grown-up reads on the child | 28 (control): two sessions still count as  |
 
-## tests/engine.test.js — 81 tests (G1)
+## tests/engine.test.js — 82 tests (G1)
 
 - **Requirement protected:** SPEC sections 3-4: the word bank, levels, chunking, the Leitner ladder, session shape and the reveal plan
 - **Independent oracle:** Literal expected values written from SPEC by hand (E4). Never the constant under test.
@@ -99,32 +99,33 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 53 | voice packs | inventories one clip per word, the fixed sentences, and every sound a tile can ask for |
 | 54 | voice packs | covers every grapheme the whole bank can produce |
 | 55 | voice packs | gives every tricky word its true sounds, not its letters |
-| 56 | voice packs | plans the sound-out reveal on every outcome, at the literal 500 ms seam |
-| 57 | voice packs | knows a seam from a clip, and how long each one lasts |
-| 58 | voice packs | maps each tile sound to its own tile, in order |
-| 59 | voice packs | resolves one source per utterance: family, then default, then none |
-| 60 | speech helpers | says full words only, never letter names, and never stretches the reveal |
-| 61 | speech helpers | stays silent when sound is off or no engine exists |
-| 62 | speech helpers | configures the utterance: rate 0.9, pitch 1.1, locale, cancel first |
-| 63 | speech helpers | pins the seventeen praise sentences, character for character |
-| 64 | speech helpers | selects the praise by index, and falls back to the first for a bad index |
-| 65 | speech helpers | queues reveal parts: one cancel, and both the lead and the word sentence at 0.9 |
-| 66 | speech helpers | survives a throwing speech service |
-| 67 | speech helpers | hush stops speech, and survives a missing engine |
-| 68 | speech helpers | vibrates only when the device can, and never throws |
-| 69 | reference storage adapter | reads nothing when no storage exists at all |
-| 70 | reference storage adapter | reads a saved document from the host storage |
-| 71 | reference storage adapter | keeps a copy of damaged data and reports it, even if the copy write fails |
-| 72 | reference storage adapter | saves to the host and answers from memory when the host disappears |
-| 73 | reference storage adapter | reports an unsaved visit when the host write fails |
-| 74 | reference storage adapter | falls back to memory when the host read throws |
-| 75 | ASR tolerance list | accepts the VC near-misses |
-| 76 | ADULT_JUDGED — words recognition cannot judge fairly (SPEC section 3) | names exactly the five letter-name collisions, and the sound each one clashes with |
-| 77 | ADULT_JUDGED — words recognition cannot judge fairly (SPEC section 3) | composes the adult |
-| 78 | ADULT_JUDGED — words recognition cannot judge fairly (SPEC section 3) | every flagged word is a real bank word, and no vowel pair was flagged |
-| 79 | G1 — the system voice is never given a word it says wrongly | 75: no praise line contains a word with two pronunciations |
-| 80 | G1 — the system voice is never given a word it says wrongly | 76: with no unsafe line listed, every praise index reaches the system voice unchanged |
-| 81 | G1 — the system voice is never given a word it says wrongly | 77: the clip plan carries the new line to the pack |
+| 56 | voice packs | splits th into its two sounds, across every th word in the bank |
+| 57 | voice packs | plans the sound-out reveal on every outcome, at the literal 500 ms seam |
+| 58 | voice packs | knows a seam from a clip, and how long each one lasts |
+| 59 | voice packs | maps each tile sound to its own tile, in order |
+| 60 | voice packs | resolves one source per utterance: family, then default, then none |
+| 61 | speech helpers | says full words only, never letter names, and never stretches the reveal |
+| 62 | speech helpers | stays silent when sound is off or no engine exists |
+| 63 | speech helpers | configures the utterance: rate 0.9, pitch 1.1, locale, cancel first |
+| 64 | speech helpers | pins the seventeen praise sentences, character for character |
+| 65 | speech helpers | selects the praise by index, and falls back to the first for a bad index |
+| 66 | speech helpers | queues reveal parts: one cancel, and both the lead and the word sentence at 0.9 |
+| 67 | speech helpers | survives a throwing speech service |
+| 68 | speech helpers | hush stops speech, and survives a missing engine |
+| 69 | speech helpers | vibrates only when the device can, and never throws |
+| 70 | reference storage adapter | reads nothing when no storage exists at all |
+| 71 | reference storage adapter | reads a saved document from the host storage |
+| 72 | reference storage adapter | keeps a copy of damaged data and reports it, even if the copy write fails |
+| 73 | reference storage adapter | saves to the host and answers from memory when the host disappears |
+| 74 | reference storage adapter | reports an unsaved visit when the host write fails |
+| 75 | reference storage adapter | falls back to memory when the host read throws |
+| 76 | ASR tolerance list | accepts the VC near-misses |
+| 77 | ADULT_JUDGED — words recognition cannot judge fairly (SPEC section 3) | names exactly the five letter-name collisions, and the sound each one clashes with |
+| 78 | ADULT_JUDGED — words recognition cannot judge fairly (SPEC section 3) | composes the adult |
+| 79 | ADULT_JUDGED — words recognition cannot judge fairly (SPEC section 3) | every flagged word is a real bank word, and no vowel pair was flagged |
+| 80 | G1 — the system voice is never given a word it says wrongly | 75: no praise line contains a word with two pronunciations |
+| 81 | G1 — the system voice is never given a word it says wrongly | 76: with no unsafe line listed, every praise index reaches the system voice unchanged |
+| 82 | G1 — the system voice is never given a word it says wrongly | 77: the clip plan carries the new line to the pack |
 
 ## tests/faults.test.js — 13 tests (G9)
 
