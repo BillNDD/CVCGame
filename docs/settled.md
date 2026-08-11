@@ -168,6 +168,24 @@ pauses, and warm spectral tilt (attenuated low harmonics read as cold).
   begins and ends at full amplitude, because its own rise and fall belong to
   the consonants either side, and giving it back a quick rise and a slower
   fall restores the shape a spoken sound has rather than adding anything.
+- **When the owner names an acoustic quality, MEASURE it before changing
+  anything.** The owner refused oo (book) twice for "not rounded enough".
+  Rounding reads as a lowered second formant, so round 10 lowered every formant
+  uniformly and all twenty options were refused. The owner then supplied a
+  recording of a person saying the sound, and LPC formant tracking settled it
+  in one pass: her /U/ is F1 ~520, F2 ~1140; af_heart's cut is F1 771, F2 1220.
+  The error was the FIRST formant, about 250 Hz too high — a jaw too open, the
+  vowel drifting toward /A/ — while F2 was already close. A uniform shift moves
+  the formant that was right and barely touches the one that was wrong. The
+  target numbers are in `tools/render_sounds11.py`; the fix is a monotonic
+  piecewise warp that pins each formant independently, and the shipped bytes of
+  the best arm re-measure at F1 528, F2 1114.
+- **A hash guard must never read its own output directory.** Re-running a
+  generator into the same directory made the previous run's arms read as
+  "already offered", and the best-matching options — which the owner had never
+  seen — were dropped. Found and fixed 2026-08-11 in
+  `tools/render_sounds11.py`. Any generator carrying the guard needs the same
+  exclusion.
 - **The closure frame belongs in every field, for whole words too.** "Stop.
   {Word}. Stop." sets a full word mid-phrase between real neighbours with
   measured silence on both flanks. Built for the two-letter words, it won
