@@ -168,6 +168,22 @@ pauses, and warm spectral tilt (attenuated low harmonics read as cold).
   begins and ends at full amplitude, because its own rise and fall belong to
   the consonants either side, and giving it back a quick rise and a slower
   fall restores the shape a spoken sound has rather than adding anything.
+- **Formants are POSITIONS; brightness is BALANCE, and they are different
+  measurements.** The owner recorded themselves clicking the reference and then
+  each option in one take, through one playback chain, which removed every
+  variable between us. It measured the fault in one pass: the reference /h/
+  sits at a spectral centroid of ~1470 Hz with 0.12-0.18 of its energy in
+  2-6 kHz; every option this project had built sat at ~1960 Hz with 0.48-0.59.
+  Three to four times too bright - the "bright snake-hiss character" the bake's
+  own /h/ recipe names as rejected. Formant tracking cannot see this: two
+  sounds can put F1, F2 and F3 in the same places and differ completely in
+  tilt and in the energy BETWEEN the peaks. The fix is a long-term average
+  spectrum match, which makes balance follow by construction rather than by
+  luck (`match_ltas()` in `tools/render_sounds21.py`).
+- **A recording of the owner's own playback is the best diagnostic this
+  project has.** Both sounds through one chain, in one file, so nothing about
+  encoding, level or speakers can be blamed or hidden. When a sound is refused
+  and the reason is not obvious, ask for that rather than guessing.
 - **Measure a formant as a frame-by-frame MEDIAN, never from one window.**
   Every formant target this project set came from the single "steadiest" 60 ms
   window of a reference, and for a glide that window is not the sound.
