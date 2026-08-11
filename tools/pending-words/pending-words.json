@@ -1406,13 +1406,13 @@
  "lids": {
   "file": "w-lids.mp3",
   "word": "lids",
-  "ms": 950,
-  "sha256": "b806753456a3416c8e59f435b7aa0ef7f56ebc2b1bc7b3e96e26a36122189314",
-  "family": "listen_sp0.8",
-  "round": "batch 13 (2026-08-11)",
+  "ms": 970,
+  "sha256": "64d56bc22a396c0124ed537dac29ff33705ecd3c828b1c63fe678564f4bca8ad",
+  "family": "stop_sp0.6",
+  "round": "batch 14 (2026-08-11)",
   "verdict": "perfect",
   "level": "Level 12, plural -s",
-  "note": "these exact bytes were offered in batch 12 as lids_1 and marked closest; the owner marked them perfect in batch 13, where the round-robin ordering put them first instead of late in the field. Recorded as heard, twice, with no edit between."
+  "note": "supersedes the batch 13 entry, which was bytes the owner had already marked closest in batch 12. This clip was never offered before: verified against all 1883 arms of the 23 earlier rounds."
  },
  "me": {
   "file": "w-me.mp3",
@@ -1427,12 +1427,12 @@
  "be": {
   "file": "w-be.mp3",
   "word": "be",
-  "ms": 810,
-  "sha256": "6cdc67555a90cc0ae27c2d489f5578bceeb7a3e601591a3be512869ca6d53f51",
-  "family": "listen_sp0.7",
-  "round": "batch 13 (2026-08-11)",
+  "ms": 820,
+  "sha256": "f35ab9ccb3ed545f8f12c7220608b931314e069559023e32164e18b8c276d6d9",
+  "family": "listen_sp0.65",
+  "round": "batch 14 (2026-08-11)",
   "verdict": "perfect",
   "level": "Level 14, open syllables",
-  "note": "these exact bytes were offered in batch 12 as be_7 and marked closest; the owner marked them perfect in batch 13, where the round-robin ordering put them first instead of late in the field. Recorded as heard, twice, with no edit between."
+  "note": "supersedes the batch 13 entry, which was bytes the owner had already marked closest in batch 12. This clip was never offered before: verified against all 1883 arms of the 23 earlier rounds."
  }
 }

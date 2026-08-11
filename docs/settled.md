@@ -151,6 +151,12 @@ pauses, and warm spectral tilt (attenuated low harmonics read as cold).
   first fielded in batch 9. Arrays passed to pyworld must be
   np.ascontiguousarray — a silent except around WORLD once ate a word's best
   options twice.
+- **The closure frame belongs in every field, for whole words too.** "Stop.
+  {Word}. Stop." sets a full word mid-phrase between real neighbours with
+  measured silence on both flanks. Built for the two-letter words, it won
+  `lids` in batch 14 on `stop_sp0.6` after three rounds in which lids could
+  not win at all — the first time the treatment was offered for a word rather
+  than a two-letter item. It costs one extra render per speed. Offer it.
 - **A short word is located by the carrier's silence, never by template match.**
   A solo "he" is 530 ms of speech because the render trails a long creak, but
   the same word inside a frame runs about half that, so a matched window always
