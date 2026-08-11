@@ -816,7 +816,12 @@ before every beta: the first draft lists were screened, a later backfill was not
 word reached a listening round before the owner caught it. Ruled FINE by the owner on the
 same day, so a later screen does not raise them again: **knob** and **pot** — ordinary
 words (a door knob, a cooking pot) that carry adult slang in some dialects, and standard
-in phonics word lists.
+in phonics word lists. Ruled FINE on 2026-08-11, on the same principle and by the same
+route — the pre-beta screen of the whole bank raised them, and the owner ruled: **gash,
+bush, bang, whack, hung, rod** and **puff**. A later screen does not raise these again.
+That screen covered all 349 bank words and the 115 approved words waiting for a level,
+and it found nothing else. Confirmed absent from both lists: shag, tit, muff, suck, bum,
+spunk, slag, and all seven words already ruled out above.
 
 Ruled out for good, with reasons on the record: nonsense words (better for assessment
 than instruction, and they rob the child of set-for-variability practice); ph (no word
