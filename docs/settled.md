@@ -168,9 +168,20 @@ pauses, and warm spectral tilt (attenuated low harmonics read as cold).
   begins and ends at full amplitude, because its own rise and fall belong to
   the consonants either side, and giving it back a quick rise and a slower
   fall restores the shape a spoken sound has rather than adding anything.
+- **No recording of the owner's own voice ships in the game** (owner-ruled
+  2026-08-11). Nineteen owner-recorded WAVs sat in `app/public/sounds/`, used
+  by nothing, and 26 rows of `tools/voice-sounds.csv` were sourced
+  `owner_recording`. The 349-word bank needs 29 sounds; 15 already had an
+  approved synthesised clip, and the other fourteen — b d e g h j n ng sh u v
+  w y z — went to sound round 12, cut from the owner's approved WORD clips by
+  the recipe that closed schwa and oo. The WAVs come out of the repository
+  once those fourteen are approved. Any future sound is synthesised.
 - **The sound inventory is complete: 47 of 47, closed 2026-08-11.** No sound
   is open, and `tools/pending-sounds/` holds every approved clip. Do not open
-  a sound round without a new sound to close. The last two took eleven rounds
+  a sound round without a new sound to close. AMENDED the same day: the
+  inventory is complete in the sense that every sound has an approved clip,
+  but fourteen of them were the owner's own recordings, which the owner then
+  ruled must not ship — see the entry above. The last two took eleven rounds
   and both closed on the same principle from opposite directions: stop
   inventing and go and measure. schwa came from copying the recipe already in
   the record; oo (book) came from turning the owner's ear-verdict into numbers.
