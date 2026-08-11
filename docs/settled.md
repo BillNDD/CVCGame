@@ -200,6 +200,23 @@ pauses, and warm spectral tilt (attenuated low harmonics read as cold).
 
 ## Mistakes this project has made, and must not repeat
 
+- **Never re-offer bytes a listener has already judged without saying so**
+  (2026-08-11, batches 12 and 13). Batch 13 was sent as "a wide field" for
+  lids. All six of its lids arms were byte-identical to batch 12's six, and
+  `lids_2` WAS `lids_1` — the arm the owner had marked "closest". `be_1` was
+  likewise `be_7`, the arm marked "closest, weird trilling at end of e". The
+  cause was narrow and worth naming: the round's new mechanisms (stop-closure
+  frames, tail trims) were added to the two-letter code path only, and lids
+  goes through the word path, which is deterministic — same seeds, same
+  speeds, same output. Only the labels changed, because the field had been
+  reordered. This is the round-8 fault (two identical files offered as
+  different candidates) in a cross-round form, and CLAUDE.md bans it.
+  Two rules follow. A generator must compare its arms against the previous
+  round's hashes and either drop a repeat or label it as a re-hearing. And the
+  fact that the SAME audio drew "closest" and then "perfect" from the same
+  listener, purely from where it sat in the field, is itself the finding: blind
+  position moves a verdict. Both rows carry a note saying the bytes are
+  unchanged, so neither is ever read as a repair that worked.
 - **A round page must never be able to lose a listener's marks** (2026-08-11,
   batch 12). The owner listened to all seventeen words, pressed "Copy all
   answers", and lost every one. Two faults compounded: `navigator.clipboard`
