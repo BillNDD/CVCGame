@@ -122,11 +122,34 @@ def world(a, sr, f0r=1.0, fmt=1.0, breath=1.0, stretch=1.0):
     return np.asarray(pyworld.synthesize(f0 * f0r, sp, ap, sr, frame_period=5.0), np.float32)
 
 
-def closure_islands(a, sr, floor_db=-30, min_ms=45, gap_ms=25):
+def band_db(a, sr, lo=300, hi=3000, hop_ms=5):
+    """Frame energy in the vowel band, in dB below the loudest frame.
+
+    A stop closure is silent WHERE A VOWEL LIVES, not everywhere: wideband
+    energy still carries voicing bar and room noise straight through it.
+    Measured 2026-08-11 on "Book." at speed 0.7 — wideband at -30 dB merges the
+    whole word into one island (which is why round 8's first build returned
+    "690ms is a syllable, not a sound"), while the 300-3000 Hz band at -20 dB
+    shows the vowel as a 255 ms run with 60 ms and 95 ms closures around it.
+    """
+    hop, win = int(sr * hop_ms / 1000), int(sr * 0.020)
+    if len(a) < win + hop:
+        return np.zeros(1, np.float32), hop
+    w = np.hanning(win).astype(np.float32)
+    fr = np.stack([a[i:i + win] * w for i in range(0, len(a) - win, hop)])
+    spec = np.abs(np.fft.rfft(fr, axis=1)) ** 2
+    f = np.fft.rfftfreq(win, 1 / sr)
+    e = spec[:, (f >= lo) & (f <= hi)].sum(axis=1)
+    return 10 * np.log10(np.maximum(e, 1e-12) / max(float(e.max()), 1e-12)), hop
+
+
+def closure_islands(a, sr, floor_db=-20, min_ms=45, gap_ms=20):
     """Audible runs bracketed by quiet, measured INSIDE a word as well as
     between words. A stop's closure is silence, so /U/ in "book" is bracketed
-    by the /b/ and /k/ closures. Returns (start, end, pre_ms, post_ms)."""
-    _, _, db, n = wc.speech_span(a, sr)
+    by the /b/ and /k/ closures. Returns (start, end, pre_ms, post_ms, index)."""
+    s0, s1, _, _ = wc.speech_span(a, sr)
+    a = a[s0:s1]
+    db, n = band_db(a, sr)
     hop = 1000 * n / sr
     loud = db > floor_db
     runs, start = [], None
@@ -149,7 +172,7 @@ def closure_islands(a, sr, floor_db=-30, min_ms=45, gap_ms=25):
             continue
         pre = (s - merged[idx - 1][1]) * hop if idx else s * hop
         post = (merged[idx + 1][0] - e) * hop if idx + 1 < len(merged) else (len(loud) - e) * hop
-        out.append((int(s * n), int(e * n), pre, post, idx))
+        out.append((int(s0 + s * n), int(s0 + e * n), pre, post, idx))
     return out
 
 
@@ -207,7 +230,9 @@ CARDS = [
          reject="stressed like 'UH!', a full 'uh' as in up, too long, or any other sound around it",
          # (carrier, speed, which island index holds the vowel)
          closures=[("About.", 0.7), ("About.", 0.6), ("A big bag.", 0.7),
-                   ("Upon.", 0.7), ("A dog.", 0.6), ("Ago.", 0.7), ("Away.", 0.7)],
+                   ("Upon.", 0.7), ("A dog.", 0.6), ("Ago.", 0.7), ("Away.", 0.7),
+                   ("A cup.", 0.7), ("A pot.", 0.6), ("Above.", 0.7), ("Apart.", 0.7),
+                   ("The cat.", 0.7), ("A top.", 0.65), ("Agree.", 0.7)],
          donor_word="up", donor_ph="ʌ", fmt_target=1.04, f0_target=0.93),
     dict(name="oo_book", ph="ʊ", kind="voiced",
          note=("round 8, all-new mechanisms: the vowel cut between the two stop CLOSURES of "
@@ -217,15 +242,23 @@ CARDS = [
          how="the short 'oo' of book, push, took — quick, rounded, relaxed",
          reject="the long 'oo' of moon instead, tense or stretched thin, or consonants left on it",
          closures=[("Book.", 0.7), ("Book.", 0.6), ("Took.", 0.7), ("Cook.", 0.7),
-                   ("Put.", 0.7), ("Good book.", 0.7), ("Look.", 0.6)],
+                   ("Put.", 0.7), ("Good book.", 0.7), ("Look.", 0.6),
+                   ("Foot.", 0.7), ("Wood.", 0.7), ("Hook.", 0.7), ("Shook.", 0.7),
+                   ("Pull.", 0.7), ("Bookcase.", 0.7), ("Cookbook.", 0.65)],
          donor_word="moon", donor_ph="uː", fmt_target=0.94, f0_target=1.0),
 ]
 
 items, failures = [], []
 for card in CARDS:
     name, ph, kind = card["name"], card["ph"], card["kind"]
+    # The reference is the STEADY MIDDLE of the phoneme render, not all of it.
+    # Kokoro drawls an isolated vowel, so a real 150 ms vowel measured against
+    # the full render reads "clipped (0.32x)" — the reference was wrong, not
+    # the cut. The gate's rules are untouched: same dtw ceiling, same ratio
+    # window, applied against a reference that is actually the sound. Verified
+    # below against the arms the owner refused in round 2.
     tpl_raw, sr0 = say(ph, 0.85, ph=True)
-    tpl = G.core(tpl_raw, sr0)
+    tpl = vowel_core(tpl_raw, sr0, keep=0.6)
     cands, seen = [], []
 
     def add(family, seg, seg_sr):
@@ -238,9 +271,16 @@ for card in CARDS:
             failures.append((name, family, why)); return
         f = wc.logmel(cut, seg_sr).mean(axis=0)
         f = f / (np.linalg.norm(f) + 1e-9)
-        if any(float(np.dot(f, g)) > 0.995 for g in seen):
+        ms = len(cut) / seg_sr * 1000
+        # Duration is part of the identity, not a detail. The mean spectrum is
+        # time-invariant, so a stretched vowel reads as a duplicate of the one
+        # it was stretched from — which silently deleted the whole stretch
+        # family on the first build. A 150 ms vowel and a 300 ms one are
+        # different options: one may be hearable and the other a click.
+        if any(float(np.dot(f, g)) > 0.995 and abs(ms - m) / max(ms, m) < 0.12
+               for g, m in seen):
             failures.append((name, family, "duplicate of an arm already offered")); return
-        seen.append(f)
+        seen.append((f, ms))
         cands.append((family, cut, seg_sr, d))
 
     # 1 — CLOSURE FLANKS: the vowel bracketed by two stop closures inside a word
@@ -258,7 +298,7 @@ for card in CARDS:
             add(f"closure_{text.strip('.').replace(' ', '-')}_{sp}", seg, csr)
 
     # 2 — VOWEL STRETCH: hold the formants, make the sound long enough to hear
-    for fam, seg, csr, _ in closure_pool[:6]:
+    for fam, seg, csr, _ in closure_pool[:10]:
         for tag, st in (("x2", 2.0), ("x2.8", 2.8)):
             try:
                 add(f"{fam}_stretch{tag}", world(seg, csr, stretch=st), csr)
@@ -295,10 +335,13 @@ for card in CARDS:
         except Exception as e:
             failures.append((name, "medoid_stretch", f"world: {e}"))
 
-    # 5 — A HELD LOOP built from the vowel's own steady centre
-    for fam, seg, csr, _ in closure_pool[:3]:
+    # 5 — A HELD LOOP built from the vowel's own steady centre. Drawn from the
+    # candidates that PASSED the gate, not from the raw pool: the first build
+    # took the pool's first three, which on a short pool was sometimes empty,
+    # and the whole family vanished without a single refusal being logged.
+    for fam, cut, csr, _ in list(cands)[:4]:
         for ms in (170, 220):
-            add(f"{fam}_held{ms}", held_loop(seg, csr, target_ms=ms), csr)
+            add(f"held{ms}_{fam}", held_loop(cut, csr, target_ms=ms), csr)
 
     # 6 — A SECOND VOICE, two arms, named so the owner can refuse on principle
     for alt in ("af_bella", "af_nicole"):
