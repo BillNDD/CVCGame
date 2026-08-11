@@ -19,10 +19,10 @@ The first app version is 1.0.0-beta.1. The app stays in beta until version 1.0 i
 - Changed: a tricky word sounds out with the sounds it really makes, not its letters. "was" is
   /w/ + short o + /z/, "she" is /sh/ + long e, "push" and "bush" take the short oo of "book".
 - Changed: "th" now says the right one of its two sounds. It is the buzzing th of "this" in
-  this, that, then, them, the and with, and the quiet th of "thin" in thin, thick, thumb,
-  thud, bath, math, path and moth. All fourteen used to play the quiet one.
-- Fixed: the note on "was" said the a sounds like "uh" while the game played "woz". It now
-  says "o", which is what a child hears and what its neighbours "wot" and "wosh" already said.
+  this, that, then, them and the, and the quiet th of "thin" in thin, thick, thumb, thud,
+  bath, math, path, moth and with. All fourteen used to play the quiet one.
+- Fixed: the note on "was" said "wuz" while the game played "woz". The game now says "wuz"
+  too. The app speaks with an American voice, so it uses American pronunciation throughout.
 - Changed: the pause between clips is measured from the end of one sound to the start of the
   next. Each clip carries a different amount of its own silence, so a pause measured between
   files ran from half a second to over a second and the rhythm was uneven.

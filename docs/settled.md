@@ -569,33 +569,35 @@ pauses, and warm spectral tilt (attenuated low harmonics read as cold).
   this file exists to stop, and it was caught by an audit rather than by a
   gate, so `tools/mutants.mjs` now carries "tricky words lose their true
   sound".
-## British speech is the preference (2026-08-11) — closed for the th, open elsewhere
+## American speech is the preference (2026-08-11) — closed. It reverses a ruling made hours earlier
 
-- The owner ruled: **prefer British speech**. Asked in the narrow case of
-  `with`, whose final th is /ð/ in British English and /θ/ in much of
-  American, so `with` joins this, that, then, them and the — **six** words
-  take the voiced th, not five.
-- The same ruling settles a contradiction the reveal exposed. `was` was told
-  to the child as "wuz" on screen while the sound-out played "woz": the owner
-  had ruled on 2026-08-06 that was, what and wash take the o-sound, the reveal
-  plays short_o accordingly, and the sibling notes already read "wot" and
-  "wosh". Only the `was` line still carried the American vowel. It now reads
-  "woz". The screen and the sound say the same thing.
-- **What this ruling does NOT reach, and must not be assumed to:**
-  - **The voice is American.** af_heart is an American voice and every one of
-    the 405 shipped clips is in it, each listened to and accepted. Changing
-    the voice would throw all of them away. The preference is about which
-    sound a letter makes, not about re-recording the pack.
-  - **`math` and `mom` are American forms.** British is "maths" and "mum". Both
-    are in the bank. Not changed, because swapping a bank word is the owner's
-    call and touches the levels, the clips and the word table.
-  - **bath, math, path split WITHIN Britain.** Southern British says /ɑː/, the
-    long "ah" of father; northern British, Scottish and Irish say /æ/, the same
-    short a as cat. "Prefer British" does not choose between them, no clip
-    exists for the long one, and the bank ships short_a. Left alone.
-  - **dog, log, fog, long, song, moth, boss, loss** were raised as the CLOTH
-    set, where some American speakers say the "aw" of saw. British says /ɒ/,
-    which IS short_o. The ruling makes the shipped sound correct. No change.
+- The owner first ruled **British**, then reversed it the same evening to
+  **American**, with the reason: the voice is af_heart, an American voice, and
+  all 406 shipped clips are in it. The game should agree with the voice that
+  speaks it. Both rulings are recorded because the reversal is the useful part:
+  an accent preference cannot be settled without asking which voice is
+  speaking, and the answer was already on disk.
+- **What it decides, and it is a short list.** Only two things in the whole
+  bank turn on the accent:
+  - **`with`** ends /wɪð/ in British and /wɪθ/ in most American, so it keeps
+    the QUIET th. Five words take the voiced th — this, that, then, them, the
+    — not six.
+  - **`was`** is "woz" in British and "wuz" in American. The screen has always
+    said "wuz"; the sound-out played short_o, "woz". They now agree on
+    **short_u**, the American vowel. `what` and `wash` keep the o-sound and
+    their notes "wot" and "wosh", which is standard American for both.
+- **Not settled by measurement, and it must not be claimed as such.** Two
+  attempts to settle `was` acoustically both FAILED THEIR OWN CONTROLS:
+  frame-median formants put "hot" at F2 1750 and "cat" at 1430, which is
+  backwards, and DTW on log-mel against the shipped vowel clips matched both
+  "hot" and "dog" — unambiguously short_o words — to short_u. An instrument
+  that cannot tell hot from dog cannot rule on was. The vowel was chosen by the
+  ruling and by making the screen and the sound agree, not by a number.
+- **What the ruling does NOT reach**, unchanged from the first version of this
+  entry: `math` and `mom` are American forms and stay (they now agree with the
+  ruling rather than sitting against it); bath, math and path keep short_a,
+  which is American as well as northern British; the CLOTH words dog, log, fog,
+  long, song, moth, boss and loss keep short_o, standard in both.
 
 ## Every other grapheme was swept, and th is the only wrong sound (2026-08-11) — closed
 
@@ -620,9 +622,9 @@ pauses, and warm spectral tilt (attenuated low harmonics read as cold).
   "hˈɪɹ ɪz ðə sˈaʊnd: ðððð." cut at its last energy island, 210 ms of sound.
   Pinned in `tools/voice-sounds.csv` and `tools/pending-sounds/`. Do not
   re-render it without a new listen.
-  Six bank words now take it — this, that, then, them, the, with — and the
-  other eight th words (thin, thick, thumb, thud, bath, math, path, moth) keep
-  th_quiet. The map is per word, not per grapheme, so a th word added later
+  Five bank words take it — this, that, then, them, the — and the other nine
+  th words (thin, thick, thumb, thud, bath, math, path, moth, with) keep
+  th_quiet; `with` is quiet under the American ruling of the same evening. The map is per word, not per grapheme, so a th word added later
   gets whichever is right rather than inheriting one silently; a test asserts
   all fourteen and two mutants guard the split.
 

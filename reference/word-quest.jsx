@@ -36,7 +36,7 @@ const LEVELS = [
 ];
 
 const TRICKY = {
-  was: "Tricky word! The a sounds like \u201Co\u201D \u2014 woz.",
+  was: "Tricky word! The a sounds like \u201Cuh\u201D \u2014 wuz.",
   is: "Tricky word! The s sounds like \u201Cz\u201D \u2014 iz.",
   has: "Tricky word! The s sounds like \u201Cz\u201D \u2014 haz.",
   wash: "Tricky word! The a sounds like \u201Co\u201D \u2014 wosh.",
@@ -402,22 +402,23 @@ const WORD_SOUND = {
   she: { 1: "long_e" },                    // e says its name
   the: { 0: "th_this", 1: "schwa" },       // the buzzy th, then the lazy uh
   push: { 1: "oo_book" }, bush: { 1: "oo_book" },
-  was: { 1: "short_o", 2: "z" },           // "woz"
+  was: { 1: "short_u", 2: "z" },           // "wuz"
   what: { 1: "short_o" },
   wash: { 1: "short_o" },
   is: { 1: "z" }, has: { 2: "z" },
   /* THE VOICED th. "th" spells two different sounds, and until 2026-08-11 the
      tile map sent both of them to th_quiet — the VOICELESS th of "thin", a
-     puff of air with no voice in it. These six take the buzzing one, /ð/, and
+     puff of air with no voice in it. These five take the buzzing one, /ð/, and
      were being sounded out wrongly: a child reading "the" heard "th(in)-uh".
-     The other eight — thin, thick, thumb, thud, bath, math, path, moth —
-     really are the quiet one and keep it.
-     "with" is here because the owner ruled for British speech on 2026-08-11:
-     it ends /ð/ in British English and /θ/ in much of American, and it is the
-     only word of the six where the two accents disagree. */
+     The other nine — thin, thick, thumb, thud, bath, math, path, moth and
+     with — really are the quiet one and keep it.
+     "with" is the one word where the two accents disagree: /wɪð/ in British
+     English, /wɪθ/ in most American. The owner ruled on 2026-08-11 for
+     AMERICAN pronunciation, because the voice itself is American — af_heart —
+     and all 406 clips are in it. So "with" keeps the quiet th, and the game
+     agrees with the voice that speaks it. */
   this: { 0: "th_this" }, that: { 0: "th_this" },
   then: { 0: "th_this" }, them: { 0: "th_this" },
-  with: { 2: "th_this" },
 };
 /* What each sound is, said as a person would say it. Used by the clip script,
    so anything that renders or records a pack is told the sound and not a file

@@ -252,9 +252,10 @@ of the next rather than between files, and a low hum plays under the whole revea
 word sounds out with its TRUE sounds, never its letters: `she` is /sh/ + long e, `was` is
 /w/ + short o + /z/ (ruled 2026-08-06). A multi-letter unit is one tile, one sound and one
 outline (safety rule S8) — and where one unit spells two sounds, the word decides which:
-`th` is the buzzing /ð/ in this, that, then, them, the and with, and the quiet /θ/ in thin,
-thick, thumb, thud, bath, math, path and moth. `with` takes the voiced one because the owner
-ruled for British speech on 2026-08-11.
+`th` is the buzzing /ð/ in this, that, then, them and the, and the quiet /θ/ in thin, thick,
+thumb, thud, bath, math, path, moth and with. `with` is the one word where the accents
+disagree, and it takes the quiet one because the owner ruled for American pronunciation on
+2026-08-11 — the voice is American, so the game agrees with the voice that speaks it.
 
 Where the recorded pack cannot play, system speech says the short form instead — the praise
 or invitation line, then `"The word was {word}."` (correct) or `"The word is {word}."` (close

@@ -409,7 +409,7 @@ describe("voice packs", () => {
     expect(soundIdsFor("the")).toEqual(["d:th_this", "d:schwa"]);
     expect(soundIdsFor("push")).toEqual(["d:p", "d:oo_book", "d:sh"]);
     expect(soundIdsFor("bush")).toEqual(["d:b", "d:oo_book", "d:sh"]);
-    expect(soundIdsFor("was")).toEqual(["d:w", "d:short_o", "d:z"]);
+    expect(soundIdsFor("was")).toEqual(["d:w", "d:short_u", "d:z"]);
     expect(soundIdsFor("what")).toEqual(["d:w", "d:short_o", "d:t"]);
     expect(soundIdsFor("wash")).toEqual(["d:w", "d:short_o", "d:sh"]);
     expect(soundIdsFor("is")).toEqual(["d:short_i", "d:z"]);
@@ -428,9 +428,10 @@ describe("voice packs", () => {
   it("splits th into its two sounds, across every th word in the bank", () => {
     for (const w of ["this", "that", "then", "them", "the"])
       expect(soundIdsFor(w)[0]).toBe("d:th_this");
-    /* British speech, owner-ruled 2026-08-11: "with" ends voiced. It is the
-       only one of the six where the two accents disagree. */
-    expect(soundIdsFor("with")).toEqual(["d:w", "d:short_i", "d:th_this"]);
+    /* "with" is the one word where the accents disagree — /wɪð/ in British,
+       /wɪθ/ in most American. The owner ruled for AMERICAN on 2026-08-11,
+       because the voice is American, so it keeps the quiet th. */
+    expect(soundIdsFor("with")).toEqual(["d:w", "d:short_i", "d:th_quiet"]);
 
     for (const w of ["thin", "thick", "thumb", "thud"])
       expect(soundIdsFor(w)[0]).toBe("d:th_quiet");
@@ -442,7 +443,9 @@ describe("voice packs", () => {
     const thWords = LEVELS.flatMap((l) => l.words).filter((w) => w.includes("th"));
     expect(thWords.length).toBe(14);
     const voiced = thWords.filter((w) => soundIdsFor(w).includes("d:th_this"));
-    expect(voiced.sort()).toEqual(["that", "the", "them", "then", "this", "with"]);
+    expect(voiced.sort()).toEqual(["that", "the", "them", "then", "this"]);
+    const quiet = thWords.filter((w) => soundIdsFor(w).includes("d:th_quiet"));
+    expect(quiet.sort()).toEqual(["bath", "math", "moth", "path", "thick", "thin", "thud", "thumb", "with"]);
   });
   /* The sound-out reveal, owner-ruled 2026-08-04 and recorded in
      docs/settled.md: praise, the word, "Pronounced:", each sound on its own
