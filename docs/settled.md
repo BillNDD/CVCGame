@@ -612,13 +612,19 @@ pauses, and warm spectral tilt (attenuated low harmonics read as cold).
   silent-letter pairs kn/wr/mb, and all five short vowels outside the nine
   tricky words the owner has already ruled on.
 
-- **OPEN, and the one part not built: the voiced th.** `this, that, then,
-  them, the` (and `with`, depending on accent) take /ð/, and the only th clip
-  in the approved set is `th_quiet`, which is the voiceless /θ/ of "thin".
-  Those words are currently sounded out with the wrong th. `with` joins them
-  under the British-speech ruling of 2026-08-11, so the count is six. `tools/voice-sounds.csv`
-  carries a `th_this` row from round S7 but no synthesised clip exists. This
-  needs one listening round before it can be called finished.
+- **CLOSED 2026-08-11, sound round 22: the voiced th.** Ten arms over three
+  methods — cut from the approved word clips this/that/then/them/the, the
+  tripled carrier sentence, and the θ-against-ð contrast — offered round-robin
+  by method so no method could take every slot. The owner accepted
+  **th_this_2, "perfect"**: the carrier-citation family, kokoro af_heart on
+  "hˈɪɹ ɪz ðə sˈaʊnd: ðððð." cut at its last energy island, 210 ms of sound.
+  Pinned in `tools/voice-sounds.csv` and `tools/pending-sounds/`. Do not
+  re-render it without a new listen.
+  Six bank words now take it — this, that, then, them, the, with — and the
+  other eight th words (thin, thick, thumb, thud, bath, math, path, moth) keep
+  th_quiet. The map is per word, not per grapheme, so a th word added later
+  gets whichever is right rather than inheriting one silently; a test asserts
+  all fourteen and two mutants guard the split.
 
 ## Tricky words sound out fully, and the letter-name vowels join (2026-08-06)
 

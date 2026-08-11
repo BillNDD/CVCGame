@@ -251,7 +251,10 @@ The pause between any two of these is 500 ms, measured from the end of one SOUND
 of the next rather than between files, and a low hum plays under the whole reveal. A tricky
 word sounds out with its TRUE sounds, never its letters: `she` is /sh/ + long e, `was` is
 /w/ + short o + /z/ (ruled 2026-08-06). A multi-letter unit is one tile, one sound and one
-outline (safety rule S8).
+outline (safety rule S8) — and where one unit spells two sounds, the word decides which:
+`th` is the buzzing /ð/ in this, that, then, them, the and with, and the quiet /θ/ in thin,
+thick, thumb, thud, bath, math, path and moth. `with` takes the voiced one because the owner
+ruled for British speech on 2026-08-11.
 
 Where the recorded pack cannot play, system speech says the short form instead — the praise
 or invitation line, then `"The word was {word}."` (correct) or `"The word is {word}."` (close

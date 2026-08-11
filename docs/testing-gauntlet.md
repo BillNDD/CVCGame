@@ -336,7 +336,7 @@ engine, never a hand-kept list.
   heard, alters a guard and grants one to an unheard word, drifts the lock file and deletes a
   word from it, deletes a word-table row, and quietly tunes an unlocked word; the detector
   must report every one.
-- Baseline floors: `g13_clips` (405) and `g13_engine_tests` (10).
+- Baseline floors: `g13_clips` (406) and `g13_engine_tests` (10).
 - To re-render the pack after the bank grows: `docs/voice-pack.md`.
 
 ## G19. App mutation
@@ -539,17 +539,17 @@ other direction: the real pack, unchanged, must pass.
 
 ## G20. Effect map
 
-- Tool: `tools/effect-map.mjs`. Writes `docs/effect-map.md`. Keys: `g20_tests_mapped` (283).
+- Tool: `tools/effect-map.mjs`. Writes `docs/effect-map.md`. Keys: `g20_tests_mapped` (284).
 - One row per `it()` SITE — its file, suite, and the test's own sentence, which in this
   project IS the Given/When/Then effect, because tests are named as behaviour. A site inside
-  a loop or a table runs many times, so the 283 rows describe the 340 tests Vitest executes;
+  a loop or a table runs many times, so the 284 rows describe the 341 tests Vitest executes;
   the map counts the places behaviour is asserted, not the executions. `--check` reconciles
   the rows against the `it()` sites in each file, so a call the parser cannot read fails the
   build instead of silently going unmapped.
   Per FILE it records the requirement protected, the independent oracle, the platform, the
   mutant family that attacks it, the evidence produced, and the known limits: what these
   tests do NOT prove.
-- It is GENERATED, never hand-kept. A hand-written map of 283 tests starts lying the first
+- It is GENERATED, never hand-kept. A hand-written map of 284 tests starts lying the first
   time a test is renamed, and a document that lies is worse than none — "What counts as
   finished work" bans paperwork that guards nothing. The generator reads the real test
   files; `--check` fails when the committed map and the tree disagree, so a test with no row

@@ -400,12 +400,24 @@ const soundIdFor = (g) => "d:" + (TILE_SOUND[g] || g);
    Every id here is a clip the owner has approved in a listening round. */
 const WORD_SOUND = {
   she: { 1: "long_e" },                    // e says its name
-  the: { 1: "schwa" },                     // the lazy uh
+  the: { 0: "th_this", 1: "schwa" },       // the buzzy th, then the lazy uh
   push: { 1: "oo_book" }, bush: { 1: "oo_book" },
-  was: { 1: "short_o", 2: "z" },           // "wozz"
+  was: { 1: "short_o", 2: "z" },           // "woz"
   what: { 1: "short_o" },
   wash: { 1: "short_o" },
   is: { 1: "z" }, has: { 2: "z" },
+  /* THE VOICED th. "th" spells two different sounds, and until 2026-08-11 the
+     tile map sent both of them to th_quiet — the VOICELESS th of "thin", a
+     puff of air with no voice in it. These six take the buzzing one, /ð/, and
+     were being sounded out wrongly: a child reading "the" heard "th(in)-uh".
+     The other eight — thin, thick, thumb, thud, bath, math, path, moth —
+     really are the quiet one and keep it.
+     "with" is here because the owner ruled for British speech on 2026-08-11:
+     it ends /ð/ in British English and /θ/ in much of American, and it is the
+     only word of the six where the two accents disagree. */
+  this: { 0: "th_this" }, that: { 0: "th_this" },
+  then: { 0: "th_this" }, them: { 0: "th_this" },
+  with: { 2: "th_this" },
 };
 /* What each sound is, said as a person would say it. Used by the clip script,
    so anything that renders or records a pack is told the sound and not a file
@@ -420,7 +432,8 @@ const SOUND_TEXT = {
   p: "the sound at the start of pig", qu: "the sound at the start of quick",
   r: "the sound at the start of run", s: "the sound at the start of sun",
   sh: "the sound at the start of ship", t: "the sound at the start of top",
-  th_quiet: "the quiet sound at the start of thin", v: "the sound at the start of van",
+  th_quiet: "the quiet sound at the start of thin",
+  th_this: "the buzzy sound at the start of this", v: "the sound at the start of van",
   w: "the sound at the start of win", x: "the sound at the end of box",
   y: "the sound at the start of yes", z: "the sound at the start of zip",
   short_a: "the sound in the middle of cat", short_e: "the sound in the middle of hen",
