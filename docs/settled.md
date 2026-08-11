@@ -168,6 +168,24 @@ pauses, and warm spectral tilt (attenuated low harmonics read as cold).
   begins and ends at full amplitude, because its own rise and fall belong to
   the consonants either side, and giving it back a quick rise and a slower
   fall restores the shape a spoken sound has rather than adding anything.
+- **Measure a formant as a frame-by-frame MEDIAN, never from one window.**
+  Every formant target this project set came from the single "steadiest" 60 ms
+  window of a reference, and for a glide that window is not the sound.
+  Measured properly across the whole span, the owner's /w/ has F3 1830, not
+  the 3161 a single window reported — so the pipeline was warping F3 UP by a
+  factor of 1.7 and F1 up by 200 Hz. Raising formants while holding pitch is
+  the textbook recipe for a chipmunk, and "sounds like a chipmunk speaking not
+  a human" is exactly what the owner heard (2026-08-11). The transform was
+  faithfully executing a wrong number. `formant_median()` in
+  `tools/render_sounds19.py` is the correct measurement.
+- **Sweep kokoro's own knobs before post-processing anything.** Until round 19
+  every candidate was one af_heart cut with treatments applied by hand. The
+  owner's instruction — "turn every knob in kokoro until you match it" — is
+  the better order: render across phoneme spellings, carrier frames and
+  speeds, score each against the reference by an objective distance, and only
+  then treat the best of them. For /w/ that search produced 151 gated
+  candidates and a best distance of 0.104, against 0.313 for /h/ — and the
+  numbers say plainly which sound is close and which is not.
 - **Match DURATION and F0, not just formants.** Round 17's verdict on w was
   "much more high pitched, and sound like they have been sped up", and "sped
   up" was literal: the reference runs 330 ms and every arm ran 140 ms, because
