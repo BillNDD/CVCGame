@@ -9,7 +9,7 @@ import HoldButton from "../components/HoldButton.jsx";
 
 /* The stage: word, tile slot, message slot. Split from the screen shell so no
    function passes the G6 complexity ceiling; the rendered output is identical. */
-function SessionStage({ state, currentWord, phase, fb, liveRef, micNote, adultNote, pops }) {
+function SessionStage({ state, currentWord, phase, fb, liveRef, micNote, adultNote, pops = [] }) {
   return (
     <Zone.Stage>
       <div className="wq-stagegrid">
@@ -125,7 +125,7 @@ function ExitDialog({ answered, handleExit }) {
 
 export default function SessionScreen({
   state, L, kid, currentWord, micNote, adultNote, phase, lastGrade, order, firstResults,
-  answered, totalQ, advanceReady, waitMs, waitFrom, finishes, micTried, listening, seenTwice, heard, exitAsk, pops = [],
+  answered, totalQ, advanceReady, waitMs, waitFrom, finishes, micTried, listening, seenTwice, heard, exitAsk, pops,
   freePlay, fpCount, fpMode,
   onExitAsk, grade, next, skipReveal, startRec, softStop, replay, handleExit, advanceRef, toast,
 }) {
