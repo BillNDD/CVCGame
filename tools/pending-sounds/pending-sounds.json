@@ -1,9 +1,7 @@
 {
  "_comment": "Sounds the owner accepted in the sidecar's P45 ship review. The bytes here are the exact clips the owner marked ok; they are option 1 in any round for that sound, and become the row in tools/voice-sounds.csv when the sound-out reveal is built. Sounds on the revisit list are not here - they are still open.",
  "_source": "P45-OK-SHIP-HANDOFF, owner ship-review export 2026-08-10T15:41:39.154Z",
- "_revisit": [
-  "oo_book"
- ],
+ "_revisit": [],
  "short_o": {
   "sha256": "820a5025f119a235bc4ec02549f53286e946218d01228b0474023cc07afcd463",
   "round": "P45-JOT-LUCK-APPROVED",
@@ -241,7 +239,7 @@
   "how": "r-controlled 'ear' · as in ear, deer, near",
   "as_in": "ear, deer"
  },
- "_revisit_note": "oo (book) is the last sound. Round 9 got it to CLOSEST (oo_book_3, cut from the shipped 'push' clip) with one named fault: \"not rounded enough\". schwa closed in the same round by the same recipe — cutting from an owner-approved word clip — after six rounds of synthesis had failed, so that recipe is the one to iterate, not replace (2026-08-11).",
+ "_revisit_note": "No sounds are open. The inventory is complete at 47 of 47 (2026-08-11). schwa closed in round 9 and oo (book) in round 11.",
  "schwa": {
   "sha256": "2a06ec741130e76a669ee247c3bafab6537a1d1c124be3f2538ec3131d6c7cd5",
   "round": "SND9 (sound round 9, 2026-08-11)",
@@ -251,5 +249,15 @@
   "how": "the lazy little 'uh' of 'the', 'a', 'about' · as in the",
   "as_in": "the, about",
   "note": "cut from the SHIPPED, owner-approved word clip, the recipe that closed long_e and ch. Closed on its seventh round after six synthesis rounds failed."
+ },
+ "oo_book": {
+  "sha256": "826ebdc7deafb8423ba5392f2ff98e2aefc846172dd4d83c98a58cc09afdf0fb",
+  "round": "SND11 (sound round 11, 2026-08-11)",
+  "verdict": "perfect (owner)",
+  "family": "warp_bush20-most-F617-1114",
+  "ms": 500,
+  "how": "the short 'oo' of book, push, took — quick, rounded, relaxed",
+  "as_in": "push, bush, book",
+  "note": "cut from the shipped, owner-approved 'bush' clip, then formant-warped toward F1 520 / F2 1140 — measured by LPC from a human recording the owner supplied. Closed on its fourth round after three failed; the shipped bytes measure F1 625, F2 1117."
  }
 }

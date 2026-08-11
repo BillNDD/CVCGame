@@ -168,6 +168,12 @@ pauses, and warm spectral tilt (attenuated low harmonics read as cold).
   begins and ends at full amplitude, because its own rise and fall belong to
   the consonants either side, and giving it back a quick rise and a slower
   fall restores the shape a spoken sound has rather than adding anything.
+- **The sound inventory is complete: 47 of 47, closed 2026-08-11.** No sound
+  is open, and `tools/pending-sounds/` holds every approved clip. Do not open
+  a sound round without a new sound to close. The last two took eleven rounds
+  and both closed on the same principle from opposite directions: stop
+  inventing and go and measure. schwa came from copying the recipe already in
+  the record; oo (book) came from turning the owner's ear-verdict into numbers.
 - **When the owner names an acoustic quality, MEASURE it before changing
   anything.** The owner refused oo (book) twice for "not rounded enough".
   Rounding reads as a lowered second formant, so round 10 lowered every formant

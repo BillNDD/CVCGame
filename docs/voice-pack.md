@@ -300,10 +300,45 @@ The scarcity was the test, and it passed for schwa: the sound WAS there in the c
 carry it, and the earlier rounds had simply never looked. The recommendation to record
 these two, standing since round 5, is withdrawn for schwa and now rests on oo alone.
 
-## Sound round 10 — sent 2026-08-11: oo (book), more rounded
+## The sound inventory is COMPLETE — 47 of 47, 2026-08-11
 
-Twenty options, all iterating round 9's recipe rather than replacing it, in four equal
-families. **Cuts taken earlier** (8-24% into the word, where the lips have just parted from
+Every sound the game teaches now has a clip the owner has heard and approved. The last two
+took eleven rounds between them and closed on the same principle from opposite directions:
+stop inventing, and go and measure.
+
+- **schwa** (round 9) closed by copying the recipe already in the record — cut from an
+  already-shipped, owner-approved word clip, the way long_e and ch had closed months of
+  work earlier. Six rounds of invention had failed first.
+- **oo (book)** (round 11) closed by turning the owner's ear-verdict into numbers. The
+  owner supplied a recording of a person saying the sound; LPC formant tracking gave the
+  target, and the cut was warped to hit it.
+
+## Sound round 11 — judged 2026-08-11: oo (book) CLOSED, and round 10 explained
+
+`oo_book_7` = `warp_bush20-most`: the vowel cut from the shipped "bush" clip, then bent
+toward the measured human target. Its shipped bytes measure F1 625, F2 1117.
+
+**The measurement settled what three rounds had guessed at.** Her /U/ measures F1 ~520,
+F2 ~1140, F3 ~2400; af_heart's cut measured F1 771, F2 1220. The error was the FIRST
+formant — about 250 Hz too high, a jaw too open, the vowel drifting toward /A/ — while F2
+was already close.
+
+**That is exactly why round 10 failed.** "Not rounded enough" reads as a lowered second
+formant, so round 10 lowered every formant uniformly at 0.97, 0.94 and 0.91. A scalar ratio
+cannot lower one formant while holding another, so it dragged an already-correct F2 down
+and barely moved the F1 that was wrong. All twenty were refused, correctly.
+
+The fix is a monotonic piecewise warp on frequency — 0, F1, F2, F3, Nyquist — applied to
+WORLD's spectral envelope, which pins each formant independently. Every arm was re-measured
+AFTER encoding, because a warp that survives analysis but not the encoder is not a warp the
+owner will hear, and each arm carried its achieved F1 and F2 in its own name. The round
+could therefore be checked rather than believed.
+
+## Sound round 10 — judged 2026-08-11: all twenty refused, and rightly
+
+All twenty refused. The four families were reasonable and the target was wrong: see round
+11 above. Twenty options, all iterating round 9's recipe rather than replacing it, in four
+equal families. **Cuts taken earlier** (8-24% into the word, where the lips have just parted from
 the /b/ or /p/ and rounding is at its strongest; round 9 swept 20-60% and never reached
 here). **Blends toward the already-approved oo (moon)**, a fully rounded vowel, at a
 quarter, a half and three quarters — the technique a, e, i, o, u, l, m, n, r, v and ng all
