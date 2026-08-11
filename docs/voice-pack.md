@@ -254,6 +254,25 @@ identity the moment they are separated from a word. The recommendation is unchan
 exhausted of alternatives: **the owner records these two**, exactly as the nine stop sounds
 were recorded on 2026-08-04, and the same blind cut round follows.
 
+## Batch 11 — judged 2026-08-11: the frame finding, confirmed
+
+Twelve of eighteen perfect — cats, hats, pots, maps, cups, hens, pigs, bugs, pens, cans,
+kids, catnip — and **all twelve came from `listen`**. Across batches 9, 10 and 11 that is
+37 winners of 39 from one frame. The finding is no longer a pattern; it is the rule.
+
+The six failures split three ways, and only the first is the frame bias:
+
+- **dogs, beds, lids** were offered no `listen` arm at all — `say` and `everybody` only,
+  and in two cases three treatments of a single cut. Exactly the flag and slid case.
+- **tops** carries a content fault the ear named precisely: "the first letter sounds like
+  an h instead of a t". That is a clipped stop burst. A /t/ begins with a silent closure
+  and a sharp release; cut a little late and the release is gone, leaving only the
+  aspiration that follows it — which is what /h/ is. The repair is to start the cut
+  EARLIER, inside the silent closure, where extra lead costs nothing.
+- **sunset and laptop** had `listen` arms and still failed for warmth. They are the first
+  two-syllable words offered, and the frame that carries a single syllable does not carry
+  a compound. Compounds need their own treatment rather than the blend recipe.
+
 ## Batch 9 — judged 2026-08-10: the blob fix held
 
 Eighteen of nineteen words perfect in one round — slip, slam, sled, snap,
