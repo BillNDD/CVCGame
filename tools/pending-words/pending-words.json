@@ -974,5 +974,113 @@
   "round": "sentence batch 1 (2026-08-11)",
   "verdict": "perfect",
   "level": "sentence mode (SPEC section 12)"
+ },
+ "cats": {
+  "arm": "cats_4",
+  "family": "listen_sp0.95",
+  "ms": 880,
+  "sha256": "429514704978a3476a47bf1aa6a35ad308ff0308b0b33f1ed226f9fec8512c81",
+  "round": "batch 11 (2026-08-11)",
+  "verdict": "perfect",
+  "level": "plural s (Level 12)"
+ },
+ "hats": {
+  "arm": "hats_2",
+  "family": "listen_sp0.85",
+  "ms": 880,
+  "sha256": "4a5458c9978a1b159529302c246ec9fa4b87a2b3b00dcb00aab082eee81e9760",
+  "round": "batch 11 (2026-08-11)",
+  "verdict": "perfect",
+  "level": "plural s (Level 12)"
+ },
+ "pots": {
+  "arm": "pots_4",
+  "family": "listen_sp0.95",
+  "ms": 920,
+  "sha256": "5daa74c2eff7d75eafe221c485137c8935eaa298c108eae609345e7b1687b4ad",
+  "round": "batch 11 (2026-08-11)",
+  "verdict": "perfect",
+  "level": "plural s (Level 12)"
+ },
+ "maps": {
+  "arm": "maps_4",
+  "family": "listen_sp0.85",
+  "ms": 940,
+  "sha256": "17bdf00334cb8f2791fb779aa300c7af0a0b0b7364af6d58c41fbdd6c650534e",
+  "round": "batch 11 (2026-08-11)",
+  "verdict": "perfect",
+  "level": "plural s (Level 12)"
+ },
+ "cups": {
+  "arm": "cups_8",
+  "family": "listen_sp0.85",
+  "ms": 870,
+  "sha256": "6ce92cb78d15c44b8e695b7b8869172e2f4935f4bbb405622708aa4e15cd0f6c",
+  "round": "batch 11 (2026-08-11)",
+  "verdict": "perfect",
+  "level": "plural s (Level 12)"
+ },
+ "hens": {
+  "arm": "hens_1",
+  "family": "listen_sp0.8",
+  "ms": 940,
+  "sha256": "c65796e0602edaf6dc1cdec06b69b0d70cffaa61890b00928488fae994e07ff6",
+  "round": "batch 11 (2026-08-11)",
+  "verdict": "perfect",
+  "level": "plural s (Level 12)"
+ },
+ "pigs": {
+  "arm": "pigs_6",
+  "family": "listen_sp0.85",
+  "ms": 930,
+  "sha256": "49587389a2d8dd5a2a28f234045e9119f0ab6311eb7583b6eb6952885e363631",
+  "round": "batch 11 (2026-08-11)",
+  "verdict": "perfect",
+  "level": "plural s (Level 12)"
+ },
+ "bugs": {
+  "arm": "bugs_1",
+  "family": "listen_sp0.8",
+  "ms": 920,
+  "sha256": "1ae9cdcd01fd3aa0bf7fcd1b523a7fd042b49e2972a5125137a6aa64587ab282",
+  "round": "batch 11 (2026-08-11)",
+  "verdict": "perfect",
+  "level": "plural s (Level 12)"
+ },
+ "pens": {
+  "arm": "pens_1",
+  "family": "listen_sp0.8",
+  "ms": 990,
+  "sha256": "2b7513cb89add6c53383d96cdc24299957a9b5bb4095a98b226e555938f5ef53",
+  "round": "batch 11 (2026-08-11)",
+  "verdict": "perfect",
+  "level": "plural s (Level 12)"
+ },
+ "cans": {
+  "arm": "cans_1",
+  "family": "listen_sp0.8",
+  "ms": 950,
+  "sha256": "8a12144bdb6c68acb19e5a5eb8037dd65910e78c902a7987eea73118cdb8beb5",
+  "round": "batch 11 (2026-08-11)",
+  "verdict": "perfect",
+  "level": "plural s (Level 12)"
+ },
+ "kids": {
+  "arm": "kids_1",
+  "family": "listen_sp0.8",
+  "ms": 910,
+  "sha256": "22c5da38e51c3602702b1d141aae5594ff973aab5efdfed83e90576fd6db14f7",
+  "round": "batch 11 (2026-08-11)",
+  "verdict": "perfect",
+  "level": "plural s (Level 12)"
+ },
+ "catnip": {
+  "arm": "catnip_1",
+  "family": "listen_sp0.8",
+  "ms": 1030,
+  "sha256": "000768c8b3b22edd3a1b7df6aa712d6919a198ff6727f9492d742d433b265c95",
+  "round": "batch 11 (2026-08-11)",
+  "verdict": "perfect",
+  "level": "compounds (Level 13)"
  }
 }
