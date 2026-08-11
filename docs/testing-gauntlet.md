@@ -392,7 +392,10 @@ engine, never a hand-kept list.
   dependency rule.
 - Negative control: `--self-test` plants a `PROGRESS.md` and a stray `status.json`; the
   detector must report both and still accept the real tree.
-- Baseline floor: `g17_governing_files` (23).
+- Baseline floor: `g17_governing_files` (24). It moved from 23 on 2026-08-11, when the
+  owner approved `docs/open-faults.md` into the owned set — the list of what is still
+  wrong, so that a fault cannot be lost to a context compaction. That is the approval
+  path this gate exists to force, working as intended.
 - Run: `node tools/check-governing.mjs`
 
 ## G14. Update system
