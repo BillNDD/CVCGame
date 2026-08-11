@@ -272,11 +272,28 @@ identity the moment they are separated from a word. The recommendation is unchan
 exhausted of alternatives: **the owner records these two**, exactly as the nine stop sounds
 were recorded on 2026-08-04, and the same blind cut round follows.
 
-## Batch 12 — in flight, sent 2026-08-11: two gate faults found and fixed
+## Batch 12 — judged 2026-08-11: fourteen of seventeen, and every earlier refusal solved
 
-Seventeen words: the eight batch-10 and batch-11 retries, the two compounds, and the seven
-two-letter words. Building it found two faults in this project's own machinery, both of
-which had been shaping what the owner was offered.
+Fourteen perfect — flag, slid, dogs, beds, tops, swam, snug, sunset, laptop, he, we, go,
+no, so — two closest (lids, be) and one none (me). Every word batch 10 and batch 11 had
+refused is now closed. Levels 11, 12 and 13 have their words; Level 14 has five of seven.
+
+**The frame rule is now a strong tendency, not a law.** Across batches 9 to 12 the count is
+47 winners from `listen`, 4 from `say`, and 2 from the new `sit` frame — and the exception
+is instructive. `dogs` won on `say_sp0.8`, the very family whose arms the owner had called
+"all sound robotic" in batch 11. Nothing about `say` changed; what changed is that dogs was
+finally offered a full field instead of three treatments of one cut. The lesson is not
+"prefer listen" but "offer the whole field and let the ear choose" — a thin field is the
+fault, whatever family it is drawn from. `sunset` also won on `say`, and `we` and `so` on
+`sit_sp0.6`, the frame introduced for the two-letter words.
+
+**What is left is one fault, named precisely.** me: "all have weird crackling at end of e".
+be: "weird trilling at end of e" (closest, `be_7`). Both are the long /iː/ tail, and both
+were accepted-adjacent, so this is a tail treatment problem and not a location problem —
+the cutting recipe is sound. lids came back closest (`lids_1`) with no comment.
+
+Building the batch found two faults in this project's own machinery, both of which had been
+shaping what the owner was offered.
 
 - **The word gate counted a word's own inside dip as a second word.** "dogs" is a vowel
   and then a /z/, "beds" a vowel and then /dz/, and a plain loud-frame count reads each as
