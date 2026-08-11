@@ -1402,5 +1402,37 @@
   "round": "batch 12 (2026-08-11)",
   "verdict": "perfect",
   "level": "Level 14, open syllables"
+ },
+ "lids": {
+  "file": "w-lids.mp3",
+  "word": "lids",
+  "ms": 950,
+  "sha256": "b806753456a3416c8e59f435b7aa0ef7f56ebc2b1bc7b3e96e26a36122189314",
+  "family": "listen_sp0.8",
+  "round": "batch 13 (2026-08-11)",
+  "verdict": "perfect",
+  "level": "Level 12, plural -s",
+  "note": "these exact bytes were offered in batch 12 as lids_1 and marked closest; the owner marked them perfect in batch 13, where the round-robin ordering put them first instead of late in the field. Recorded as heard, twice, with no edit between."
+ },
+ "me": {
+  "file": "w-me.mp3",
+  "word": "me",
+  "ms": 880,
+  "sha256": "82a95a9b75d93fc1f57c73645f6233af18ed2c42ed3354a4da4e7f05dda1fa60",
+  "family": "listen_sp0.6",
+  "round": "batch 13 (2026-08-11)",
+  "verdict": "perfect",
+  "level": "Level 14, open syllables"
+ },
+ "be": {
+  "file": "w-be.mp3",
+  "word": "be",
+  "ms": 810,
+  "sha256": "6cdc67555a90cc0ae27c2d489f5578bceeb7a3e601591a3be512869ca6d53f51",
+  "family": "listen_sp0.7",
+  "round": "batch 13 (2026-08-11)",
+  "verdict": "perfect",
+  "level": "Level 14, open syllables",
+  "note": "these exact bytes were offered in batch 12 as be_7 and marked closest; the owner marked them perfect in batch 13, where the round-robin ordering put them first instead of late in the field. Recorded as heard, twice, with no edit between."
  }
 }
