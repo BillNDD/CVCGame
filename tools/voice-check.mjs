@@ -55,19 +55,56 @@ function check(manifest, verifyFiles, lock = LOCK, csvText = CSV_TEXT, scriptOve
   for (const clip of script) {
     const m = manifest[clip.id];
     if (!m) { problems.push(`missing clip: ${clip.id} ("${clip.text}")`); continue; }
-    /* One floor for every clip now that nothing is stretched: the shortest
-       real clip in the pack is 448 ms, so anything under 400 ms is a
-       truncation, not a short word. */
-    /* A WORD clip has a word in it and nothing else. The longest word in the
-       pack runs 1318 ms with its silences, so 1500 is a generous ceiling and a
-       clip beyond it is carrying something that is not the word. This comes
-       from a real defect: an attempt to give six words the prosody of a
-       sentence shipped the whole sentence - "Here is the word cup." - at
-       1640 to 1800 ms, and no other check would have noticed.
-       Sentences and praise keep the wide ceiling. */
-    const ceiling = clip.id.startsWith("w:") ? 1500 : 8000;
-    if (typeof m.ms !== "number" || m.ms < 400 || m.ms > ceiling)
-      problems.push(`duration out of range: ${clip.id} at ${m.ms} ms (limit ${ceiling})`);
+    /* Every clip declares where its own speech starts and ends, because the
+       sound-out seam is a gap between SOUNDS and not between files - see
+       tools/voice-edges.py, which measures those edges from the audio and
+       re-checks them. A clip with no edges cannot be placed in a sound-out at
+       all, so a pack that forgot to record them fails here rather than
+       playing a rhythm nobody approved. */
+    const edged = typeof m.lead === "number" && typeof m.tail === "number";
+    if (!edged) problems.push(`clip declares no speech edges: ${clip.id}`);
+    /* A SOUND clip is measured on its SPEECH, not its file: the shipped
+       sounds carry between 0 and 422 ms of their own silence, so a file
+       length says almost nothing about the sound inside it.
+
+       The band is 60 to 620 ms, and the two ends have different histories.
+       The ceiling is the one the owner's ear set across twenty-one listening
+       rounds and that tools/soundgate.py enforces on every candidate: a
+       spoken sound longer than 620 ms is a word or a carrier, not a sound.
+       The floor is NOT soundgate's 85 ms, because the two files measure
+       different things. soundgate cuts a candidate at its energy islands;
+       tools/voice-edges.py reads the silence at -45 dB below the clip's own
+       peak, and a plosive burst has a peak so far above its release that this
+       method reads it short. Measured that way the shipped, owner-approved
+       pack runs /k/ 70 ms, /p/ 80 ms, /b/ and /t/ 110 ms - the four unvoiced
+       plosives, and every other sound at 120 ms or more. A number invented in
+       a gate does not outrank a sound a listener has accepted (the same
+       reasoning is recorded at tools/soundgate.py:186), so the floor sits
+       below the shortest approved sound with room to spare. It still catches
+       what it exists to catch: a truncation leaves 20 to 40 ms, and soundgate's
+       85 ms band is untouched at the gate that judges candidates BEFORE they
+       are approved. This band is in every case TIGHTER than the 8000 ms these
+       clips would otherwise share with sentences. */
+    const speech = edged ? m.ms - m.lead - m.tail : m.ms;
+    if (clip.id.startsWith("d:")) {
+      if (typeof m.ms !== "number" || speech < 60 || speech > 620)
+        problems.push(`duration out of range: ${clip.id} at ${speech} ms of speech (limits 60-620)`);
+    } else {
+      /* A WORD clip has a word in it and nothing else. The longest word in the
+         pack runs 1318 ms with its silences, so 1500 is a generous ceiling and
+         a clip beyond it is carrying something that is not the word. This comes
+         from a real defect: an attempt to give six words the prosody of a
+         sentence shipped the whole sentence - "Here is the word cup." - at
+         1640 to 1800 ms, and no other check would have noticed. Sentences and
+         praise keep the wide ceiling. The floor of 400 ms is the one every
+         clip used to share: the shortest real word clip is 448 ms, so anything
+         under 400 is a truncation. Both ends are still measured on the whole
+         FILE, as they always have been - these clips are pinned and listened
+         to as files, and nothing about them has changed. */
+      const ceiling = clip.id.startsWith("w:") ? 1500 : 8000;
+      if (typeof m.ms !== "number" || m.ms < 400 || m.ms > ceiling)
+        problems.push(`duration out of range: ${clip.id} at ${m.ms} ms (limit ${ceiling})`);
+    }
     if (verifyFiles) {
       const p = `${DIR}/${m.file}`;
       if (!existsSync(p)) { problems.push(`missing file: ${p}`); continue; }
@@ -321,6 +358,26 @@ if (process.argv.includes("--self-test")) {
   const sawWordy = check(wordy, false).problems.some((p) => p.startsWith("duration out of range: w:cup"));
   const sentenceOk = check({ ...manifest, "p:3": { ...manifest["p:3"], ms: 2900 } }, false)
     .problems.every((p) => !p.startsWith("duration out of range: p:3"));   // control: a sentence may be long
+  /* The sound band, both ends. A whole word dropped into a sound slot reads
+     as 900 ms and would have passed under the 8000 ms ceiling these clips
+     used to share with sentences; a truncated sound reads as 40 ms. Both are
+     faults a child would hear as a wrong sound-out, and neither shows up
+     anywhere else in this gate. */
+  const fatSound = check({ ...manifest, "d:k": { ...manifest["d:k"], ms: 900, lead: 0, tail: 0 } }, false)
+    .problems.some((p) => p.startsWith("duration out of range: d:k"));
+  const thinSound = check({ ...manifest, "d:k": { ...manifest["d:k"], ms: 30, lead: 0, tail: 0 } }, false)
+    .problems.some((p) => p.startsWith("duration out of range: d:k"));
+  /* Control, and the reason the word floor could not simply be reused: a real
+     approved sound is SHORTER than any word - the shipped /k/ holds 70 ms of
+     speech. Control also that the band reads SPEECH: /sh/ is a 792 ms file
+     with 170 ms of sound in it, and a band on file length would reject it. */
+  const shortSoundOk = check(manifest, false)
+    .problems.every((p) => !p.startsWith("duration out of range: d:"));
+  /* A pack that forgot to record its edges. Every sound-out gap is then a
+     guess, and nothing else here would notice. */
+  const noEdges = { ...manifest };
+  noEdges["d:k"] = { file: manifest["d:k"].file, ms: manifest["d:k"].ms };
+  const sawNoEdges = check(noEdges, false).problems.some((p) => p === "clip declares no speech edges: d:k");
   /* An unheard re-render: the settings drift, every file is still present and
      the right size, and nothing else in this gate would notice. */
   const drifted = { ...manifest, __recipe: { ...manifest.__recipe, lead_ms: 0, word_speed: 1.0 } };
@@ -413,11 +470,11 @@ if (process.argv.includes("--self-test")) {
   const noRecipe = { ...manifest };
   delete noRecipe.__recipe;
   const sawNoRecipe = check(noRecipe, false).problems.some((p) => p.startsWith("the pack declares no recipe"));
-  if (sawMissing && sawOrphan && sawLie && sawRecipe && sawSpelling && sawNoRecipe && sawTrim && sawReed && sawRound9 && sawCarrier && sawAsr && sawGuard && sawLock && sawCsv && sawWordy && sentenceOk) {
-    console.log("self-test OK: a removed word clip, a planted orphan, a lying duration, a drifted recipe, a two-letter word left to spelling, a pack with no recipe at all, a trim nobody heard, a sentence with 'read' left to spelling, a listening round's result quietly changed, an approved carrier/ASR cut re-cut at values nobody heard, a guard changed or granted with no round behind it, a lock file that drifts or loses a word, a word-table row lost or an unlocked word quietly tuned, and a word clip long enough to hold a sentence are caught");
+  if (sawMissing && sawOrphan && sawLie && sawRecipe && sawSpelling && sawNoRecipe && sawTrim && sawReed && sawRound9 && sawCarrier && sawAsr && sawGuard && sawLock && sawCsv && sawWordy && sentenceOk && fatSound && thinSound && shortSoundOk && sawNoEdges) {
+    console.log("self-test OK: a removed word clip, a planted orphan, a lying duration, a drifted recipe, a two-letter word left to spelling, a pack with no recipe at all, a trim nobody heard, a sentence with 'read' left to spelling, a listening round's result quietly changed, an approved carrier/ASR cut re-cut at values nobody heard, a guard changed or granted with no round behind it, a lock file that drifts or loses a word, a word-table row lost or an unlocked word quietly tuned, a word clip long enough to hold a sentence, a sound clip long enough to hold a word or short enough to be a truncation, and a pack that forgot to record its speech edges are caught");
     process.exit(0);
   }
-  console.error("self-test FAILED: " + JSON.stringify({ sawMissing, sawOrphan, sawLie, sawRecipe, sawSpelling, sawNoRecipe, sawTrim, sawReed, sawRound9, sawCarrier, sawAsr, sawGuard, sawLock, sawCsv, sawWordy, sentenceOk }));
+  console.error("self-test FAILED: " + JSON.stringify({ sawMissing, sawOrphan, sawLie, sawRecipe, sawSpelling, sawNoRecipe, sawTrim, sawReed, sawRound9, sawCarrier, sawAsr, sawGuard, sawLock, sawCsv, sawWordy, sentenceOk, fatSound, thinSound, shortSoundOk, sawNoEdges }));
   process.exit(1);
 }
 

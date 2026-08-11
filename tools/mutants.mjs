@@ -69,9 +69,22 @@ const MUTANTS = [
   ["streak cap dropped", "state.perfectStreak = session.perfect ? Math.min(2, prior + 1) : 0;", "state.perfectStreak = session.perfect ? prior + 1 : 0;"],
   ["session-less call uses the stored streak", "(session && state.perfectStreak >= 2)", "state.perfectStreak >= 2"],
   ["heal streak cap dropped", "else s.perfectStreak = Math.min(2, Math.round(s.perfectStreak));", "else s.perfectStreak = Math.round(s.perfectStreak);"],
-  ["seam dropped from the reveal plan", '["p:" + (PRAISE[praise] ? praise : 0), "seam", "s:was", "seam", "w:" + word]', '["p:" + (PRAISE[praise] ? praise : 0), "s:was", "w:" + word]'],
   ["pack order inverted", 'for (const tier of ["family", "default"])', 'for (const tier of ["default", "family"])'],
   ["seam 700 to 350", "const SEAM_MS = 700;", "const SEAM_MS = 350;"],
+  /* The sound-out reveal (owner-ruled 2026-08-04, built 2026-08-11). The
+     "seam dropped from the reveal plan" mutant used to sit here and anchored
+     on the old three-clip plan; the plan was rewritten and the anchor went
+     with it, so the mutant stopped testing anything while the gate stayed
+     green. These replace it, one for each way the reveal can be quietly
+     broken. */
+  ["sound-out seam dropped", 'for (const id of soundIdsFor(word)) out.push("seam2", id);', 'for (const id of soundIdsFor(word)) out.push(id);'],
+  ["sound-out loses its sounds", 'const out = [lead, "seam2", "w:" + word, "seam2", "s:pronounced"];\n    for (const id of soundIdsFor(word)) out.push("seam2", id);', 'const out = [lead, "seam2", "w:" + word];'],
+  ["sound-out never says the word again", 'out.push("seam2", "w:" + word);\n    return out;', "return out;"],
+  ["sound-out seam 500 to 900", "const SOUNDOUT_SEAM_MS = 500;", "const SOUNDOUT_SEAM_MS = 900;"],
+  ["a seam is read as a clip", 'const isSeam = (id) => id === "seam" || id === "seam2";', 'const isSeam = (id) => id === "seam";'],
+  ["tile slots lose their order", "if (String(plan[i]).startsWith(\"d:\")) slots.push({ index: i, tile: t++ });", "if (String(plan[i]).startsWith(\"d:\")) slots.push({ index: i, tile: 0 });"],
+  ["tricky words lose their true sound", "const bent = WORD_SOUND[word] || {};", "const bent = {};"],
+  ["a digraph loses its single sound", 'ck: "k", ff: "f", ll: "l", ss: "s", zz: "z",', 'ff: "f", ll: "l", ss: "s", zz: "z",'],
 ];
 
 const run = (cmd, args) => { try { execFileSync(cmd, args, { stdio: "pipe" }); return true; } catch { return false; } };

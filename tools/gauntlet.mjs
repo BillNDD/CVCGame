@@ -283,6 +283,16 @@ step("G13 voice-pack", "node tools/voice-check.mjs && node tools/voice-check.mjs
   { label: "problems", regex: /(\d+) problems/, max: 0 },
 ]);
 
+/* The manifest's speech edges, re-measured from the audio. The sound-out's
+   500 ms is a gap between SOUNDS, so a manifest that misstates where a clip's
+   speech begins plays a rhythm nobody approved — silently, since every file
+   is present and the right length. */
+step("G13 voice-edges", "python3 tools/voice-edges.py --check && python3 tools/voice-edges.py --self-test", [
+  { label: "clips", regex: /Voice edges: (\d+) clips measured/, floorKey: "g13_clips" },
+  { label: "problems", regex: /(\d+) problems/, max: 0 },
+  { label: "controls", regex: /voice-edges controls: (\d+) passed/, floorKey: "g13_edge_controls" },
+], {}, ["ok   caught: a lead that is 200 ms longer than the audio"]);
+
 step("G20 effect-map", "node tools/effect-map.mjs --check && node tools/effect-map.mjs --self-test", [
   { label: "tests_mapped", regex: /Effect map: (\d+) tests/, floorKey: "g20_tests_mapped" },
   { label: "problems", regex: /(\d+) problems/, max: 0 },
@@ -302,7 +312,7 @@ const REQUIRED_GATES = [
   "G11 copy", "G1+G2+G9+G10 tests", "G3 regeneration", "G4 acceptance-mutants",
   "G5 source-mutants", "G19 app-mutants", "G6 coverage", "G6 quality",
   "G7 interface", "G8 accessibility", "G18 network", "G16 doc-truth",
-  "G12 qa-procedure", "G13 voice-pack", "G20 effect-map", "G17 governing", "G6 coverage-control",
+  "G12 qa-procedure", "G13 voice-pack", "G13 voice-edges", "G20 effect-map", "G17 governing", "G6 coverage-control",
   "G21 listening-page", "app build",
 ];
 const sh = (cmd) => { try { return execSync(cmd, { encoding: "utf8", stdio: "pipe" }).trim(); } catch { return null; } };

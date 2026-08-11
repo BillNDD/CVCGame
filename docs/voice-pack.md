@@ -8,6 +8,31 @@ sentences, the invitation leads, and the session-end lines, plus `manifest.json`
 clip's file and duration. Gate G13 fails the build when the pack does not cover the engine's
 clip inventory, so the bank can never grow past its voice.
 
+## The 32 sounds are in the pack (2026-08-11)
+
+`tools/ship-sounds.py` puts the approved sounds into `app/public/voice/`. The engine decides
+which ones exist: `soundInventory()` walks the whole word bank, applies the tile map and the
+tricky-word overrides, and returns exactly the ids the sound-out can ask for. A sound the
+engine asks for and `tools/pending-sounds/` does not have is an error, never a silent
+omission — a missing sound drops the whole reveal to system speech with nothing on screen to
+say so.
+
+Nothing is re-encoded. The file that ships is byte-for-byte the file the owner listened to,
+checked against the sha in `tools/pending-sounds/pending-sounds.json` on every run, which is
+what makes that sha mean anything. The pack now holds 405 clips: 349 words, 17 praise lines,
+6 fixed sentences, "Pronounced:", and 32 sounds.
+
+Three of the 32 are there because of the tricky-word ruling of 2026-08-06 and nothing else:
+long e (she), schwa (the), and the book-oo (push, bush). The short o and the z-sound were
+already in the pack and are reused, exactly as that ruling said they would be.
+
+**Still open: the voiced th.** `this, that, then, them, the` — and `with`, depending on accent
+— take /ð/, and the only th clip in the approved set is `th_quiet`, the voiceless /θ/ of
+"thin". Those words currently sound out with the wrong th. `tools/render_sounds22.py` builds
+the round that would close it: ten arms from three methods — cut from the approved word clips
+this/that/then/them/the, the tripled carrier sentence, and the θ-against-ð contrast — offered
+round-robin by method so no one method takes every slot. Unlistened as of 2026-08-11.
+
 ## The word table — the file a person edits
 
 **`tools/voice-words.csv` is the permanent repository of the voice.** One row

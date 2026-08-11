@@ -9,7 +9,7 @@ import HoldButton from "../components/HoldButton.jsx";
 
 /* The stage: word, tile slot, message slot. Split from the screen shell so no
    function passes the G6 complexity ceiling; the rendered output is identical. */
-function SessionStage({ state, currentWord, phase, fb, liveRef, micNote, adultNote }) {
+function SessionStage({ state, currentWord, phase, fb, liveRef, micNote, adultNote, pops }) {
   return (
     <Zone.Stage>
       <div className="wq-stagegrid">
@@ -19,9 +19,17 @@ function SessionStage({ state, currentWord, phase, fb, liveRef, micNote, adultNo
           {/* P0-2 — word baseline is fixed; everything else lives in reserved slots below */}
           <div className="wq-display wq-word" aria-live="off">{currentWord}</div>
 
+          {/* The sound-out: a tile takes its ring as its own sound plays. The
+              key carries the tile's mark count, so the browser runs the
+              animation from its first frame each time rather than ignoring a
+              class it already has. `pops` is empty whenever no sound-out is
+              playing, so the tiles simply sit there — the reveal without
+              sound is the reveal it always was. */}
           <div className="wq-slot-tiles" aria-hidden={phase !== "feedback"}>
             {phase === "feedback" && chunkWord(currentWord).map((g, i) => (
-              <span key={i} className="wq-display wq-tile">{g}</span>
+              <span key={i + ":" + (pops[i]?.n || 0)}
+                className={"wq-display wq-tile" + (pops[i] ? " wq-pop" : "")}
+                style={pops[i]?.ms ? { "--wqpop": pops[i].ms + "ms" } : undefined}>{g}</span>
             ))}
           </div>
 
@@ -117,7 +125,7 @@ function ExitDialog({ answered, handleExit }) {
 
 export default function SessionScreen({
   state, L, kid, currentWord, micNote, adultNote, phase, lastGrade, order, firstResults,
-  answered, totalQ, advanceReady, waitMs, waitFrom, finishes, micTried, listening, seenTwice, heard, exitAsk,
+  answered, totalQ, advanceReady, waitMs, waitFrom, finishes, micTried, listening, seenTwice, heard, exitAsk, pops = [],
   freePlay, fpCount, fpMode,
   onExitAsk, grade, next, skipReveal, startRec, softStop, replay, handleExit, advanceRef, toast,
 }) {
@@ -147,7 +155,7 @@ export default function SessionScreen({
           {freePlay && fpMode === "random" ? "🎲" : state.level + " " + L.emoji}</span>
       </Zone.Header>
 
-      <SessionStage state={state} currentWord={currentWord} phase={phase} fb={fb} liveRef={liveRef} micNote={micNote} adultNote={adultNote} />
+      <SessionStage state={state} currentWord={currentWord} phase={phase} fb={fb} liveRef={liveRef} micNote={micNote} adultNote={adultNote} pops={pops} />
 
       <SessionRail state={state} kid={kid} phase={phase} advanceReady={advanceReady} waitMs={waitMs} waitFrom={waitFrom}
         finishes={finishes} next={next} advanceRef={advanceRef}

@@ -9,6 +9,7 @@ import { readFileSync } from "node:fs";
 import "fake-indexeddb/auto";
 
 const scheduled = [];   // { start, stopped } per created source, in creation order
+const oscillators = []; // the hum's own nodes, kept apart from the spoken clips
 let decodeFail = false;
 const contexts = [];    // every AudioContext ever built, in order
 class FakeCtx {
@@ -23,21 +24,42 @@ class FakeCtx {
     const s = { buffer: null, connect() {}, start(t) { s.start_at = t; scheduled.push(s); }, stop() { s.stopped = true; } };
     return s;
   }
+  /* The sound-out lays a hum under the whole utterance. It is built from
+     oscillators rather than a clip, so it never appears in `scheduled` —
+     which counts spoken clips — but it must be stoppable like everything
+     else, or a silenced reveal would leave a drone playing under the next
+     word. */
+  createOscillator() {
+    const o = { frequency: { value: 0 }, connect() {}, start(t) { o.start_at = t; oscillators.push(o); },
+      stop(t) { o.stop_at = t; o.stopped = true; } };
+    return o;
+  }
+  createGain() {
+    return { gain: { value: 0, setValueAtTime() {}, linearRampToValueAtTime() {} }, connect() {} };
+  }
 }
 vi.stubGlobal("AudioContext", FakeCtx);
 
 const fetchCalls = [];
 vi.stubGlobal("fetch", vi.fn(async (url) => {
   fetchCalls.push(url);
+  /* Every clip declares the silence it carries at each end, because the
+     sound-out places SPEECH 500 ms apart rather than files. The values here
+     are round numbers chosen so the schedule can be worked out by hand and
+     asserted as literals (rule E4); the real pack measures its own. */
   if (url.endsWith("manifest.json")) return { ok: true, json: async () => ({
-    "p:0": { file: "p-0.mp3", ms: 700 },
-    "s:was": { file: "s-was.mp3", ms: 900 },
-    "s:is": { file: "s-is.mp3", ms: 880 },
-    "l:close": { file: "l-close.mp3", ms: 700 },
-    "l:wrong": { file: "l-wrong.mp3", ms: 900 },
-    "e:done": { file: "e-done.mp3", ms: 1400 },
-    "e:levelup": { file: "e-levelup.mp3", ms: 1100 },
-    "w:cat": { file: "w-cat.mp3", ms: 800 },
+    "p:0": { file: "p-0.mp3", ms: 700, lead: 100, tail: 300 },
+    "s:was": { file: "s-was.mp3", ms: 900, lead: 100, tail: 300 },
+    "s:is": { file: "s-is.mp3", ms: 880, lead: 100, tail: 300 },
+    "s:pronounced": { file: "s-pronounced.mp3", ms: 900, lead: 100, tail: 350 },
+    "l:close": { file: "l-close.mp3", ms: 700, lead: 100, tail: 300 },
+    "l:wrong": { file: "l-wrong.mp3", ms: 900, lead: 100, tail: 300 },
+    "e:done": { file: "e-done.mp3", ms: 1400, lead: 100, tail: 300 },
+    "e:levelup": { file: "e-levelup.mp3", ms: 1100, lead: 100, tail: 300 },
+    "w:cat": { file: "w-cat.mp3", ms: 800, lead: 120, tail: 320 },
+    "d:k": { file: "d-k.mp3", ms: 200, lead: 50, tail: 50 },
+    "d:short_a": { file: "d-short_a.mp3", ms: 300, lead: 90, tail: 90 },
+    "d:t": { file: "d-t.mp3", ms: 200, lead: 60, tail: 40 },
   }) };
   return { ok: true, arrayBuffer: async () => new ArrayBuffer(8) };
 }));
@@ -49,6 +71,7 @@ const fb = vi.fn();
 
 beforeEach(async () => {
   scheduled.length = 0;
+  oscillators.length = 0;
   fetchCalls.length = 0;
   decodeFail = false;
   fb.mockClear();
@@ -57,13 +80,66 @@ beforeEach(async () => {
 });
 
 describe("voice-pack clip engine", () => {
-  it("schedules the reveal in order with literal 700 ms seams, and never calls the fallback", async () => {
+  /* The sound-out reveal (owner-ruled 2026-08-04, built 2026-08-11): praise,
+     the word, "Pronounced:", each sound on its tile's moment, the word again.
+     Seven clips for a three-tile word, and every gap between them measured
+     SPEECH to SPEECH.
+
+     The double decodes every clip to exactly 1 s, and the fixture declares
+     the silence each one carries, so the whole schedule can be worked out by
+     hand. p:0 ends its speech at 0.05 + 1 - 0.300 = 0.750; w:cat's speech
+     must start at 1.250, so its FILE starts at 1.250 - 0.120 = 1.130. */
+  it("places speech 500 ms apart through the sound-out, whatever silence the files carry", async () => {
+    let ms = null, tiles = null;
+    speakVoice("correct", "cat", 0, true, fb, (m, t) => { ms = m; tiles = t; });
+    await settle(); await settle();
+    expect(scheduled.length).toBe(7);                    // praise, word, "Pronounced:", 3 sounds, word
+    const at = scheduled.map((s) => s.start_at - 100);   // the fake clock starts at 100
+    expect(at.map((n) => Math.round(n * 1000)))
+      .toEqual([50, 1130, 2210, 3310, 4670, 6020, 7360]);
+
+    /* The gap the child actually hears, between the END of one sound and the
+       START of the next. Every one of them is the approved 500 ms. */
+    const M = { "p:0": [100, 300], "w:cat": [120, 320], "s:pronounced": [100, 350],
+      "d:k": [50, 50], "d:short_a": [90, 90], "d:t": [60, 40] };
+    const ids = ["p:0", "w:cat", "s:pronounced", "d:k", "d:short_a", "d:t", "w:cat"];
+    for (let i = 1; i < ids.length; i++) {
+      const endsAt = at[i - 1] + 1 - M[ids[i - 1]][1] / 1000;
+      const startsAt = at[i] + M[ids[i]][0] / 1000;
+      expect(Math.round((startsAt - endsAt) * 1000)).toBe(500);
+    }
+
+    /* Each tile is told when its own sound starts — the file's start plus the
+       silence in front of it — and how long that sound lasts, so the ring is
+       the length of the thing it marks. */
+    expect(tiles).toEqual([
+      { at: 3360, ms: 100 },      // d:k        file at 3310 + 50 ms lead; 200 - 50 - 50 of speech
+      { at: 4760, ms: 120 },      // d:short_a  file at 4670 + 90 ms lead; 300 - 90 - 90
+      { at: 6080, ms: 100 },      // d:t        file at 6020 + 60 ms lead; 200 - 60 - 40
+    ]);
+    expect(ms).toBe(8360);
+    expect(fb).not.toHaveBeenCalled();
+  });
+
+  /* The hum under the sound-out (owner-ruled 2026-08-11, chosen against
+     silence): half a second of dead air between two sounds reads as the app
+     having stopped. Three partials and one slow detune, under the whole
+     utterance and stoppable with it. A plan with no sound-out gets none. */
+  it("lays a hum under the sound-out only, and stops it with everything else", async () => {
     speakVoice("correct", "cat", 0, true, fb);
     await settle(); await settle();
-    expect(scheduled.length).toBe(3);
-    const [praise, stem, word] = scheduled.map((s) => s.start_at);
-    expect(stem - praise).toBeCloseTo(1 + 0.7, 5);       // clip length + one seam
-    expect(word - stem).toBeCloseTo(1 + 0.7, 5);
+    expect(oscillators.length).toBe(4);                  // 110 Hz, its fifth, its octave, and the drift
+    expect(oscillators.map((o) => o.frequency.value).sort((a, b) => a - b)).toEqual([0.7, 110, 165, 220]);
+    expect(oscillators.every((o) => o.start_at === 100.05)).toBe(true);
+    expect(oscillators.every((o) => Math.round((o.stop_at - 100) * 1000) === 8360)).toBe(true);
+    stopClips();
+    expect(oscillators.every((o) => o.stopped)).toBe(true);
+
+    oscillators.length = 0;
+    speakVoice("replay", "cat", 0, true, fb);            // one word, no sound-out
+    await settle(); await settle();
+    expect(scheduled.length).toBe(8);
+    expect(oscillators.length).toBe(0);
     expect(fb).not.toHaveBeenCalled();
   });
 
@@ -81,33 +157,35 @@ describe("voice-pack clip engine", () => {
     speakVoice("wrong", "cat", 0, true, fb);
     await settle(); await settle();
     expect(scheduled.length).toBe(0);                    // all-or-nothing: nothing played
+    expect(oscillators.length).toBe(0);                  // and no hum left playing alone
     expect(fb).toHaveBeenCalledTimes(1);
   });
 
   it("stopClips() halts a scheduled chain, and a new utterance silences the old one", async () => {
     speakVoice("wrong", "cat", 0, true, fb);
     await settle(); await settle();
-    expect(scheduled.length).toBe(3);
+    expect(scheduled.length).toBe(7);
     stopClips();
     expect(scheduled.every((s) => s.stopped)).toBe(true);
     speakVoice("replay", "cat", 0, true, fb);
     await settle(); await settle();
-    expect(scheduled.length).toBe(4);                    // the replay clip joined
+    expect(scheduled.length).toBe(8);                    // the replay clip joined
     expect(fb).not.toHaveBeenCalled();
   });
 
   it("prefers a complete family pack: family clips come from the device, not from fetch", async () => {
-    for (const id of ["p:0", "s:was", "w:cat"]) await idbPutClip(id, new ArrayBuffer(8));
+    const ids = ["p:0", "w:cat", "s:pronounced", "d:k", "d:short_a", "d:t"];
+    for (const id of ids) await idbPutClip(id, new ArrayBuffer(8));
     fetchCalls.length = 0;
     try {
       speakVoice("correct", "cat", 0, true, fb);
       await new Promise((r) => setTimeout(r, 100));      // IndexedDB reads take macrotasks
-      expect(scheduled.length).toBe(3);
+      expect(scheduled.length).toBe(7);
       expect(fetchCalls.length).toBe(0);                 // no default-pack file was fetched
       expect(fb).not.toHaveBeenCalled();
     } finally {
       stopClips();
-      for (const id of ["p:0", "s:was", "w:cat"]) await idbDeleteClip(id);
+      for (const id of ids) await idbDeleteClip(id);
     }
   });
 
@@ -129,7 +207,7 @@ describe("voice-pack clip engine", () => {
       expect(session.type).toBe("playback");             // Safari 17 and later
       expect(before.closed).toBe(true);                  // and the route moves on older ones
       expect(contexts.at(-1)).not.toBe(before);
-      expect(scheduled.length).toBe(3);                  // the reveal still plays, in full
+      expect(scheduled.length).toBe(7);                  // the reveal still plays, in full
       expect(fb).not.toHaveBeenCalled();
     } finally {
       delete navigator.audioSession;
@@ -156,7 +234,7 @@ describe("voice-pack clip engine", () => {
     await settle(); await settle();
     expect(before.closed).toBeUndefined();
     expect(contexts.at(-1)).toBe(before);
-    expect(scheduled.length).toBe(3);
+    expect(scheduled.length).toBe(7);
     stopClips();
   });
 

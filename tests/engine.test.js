@@ -7,7 +7,8 @@ import {
   LEVELS, DIGRAPHS, TRICKY, HOMOPHONES, INTERVALS, SESSION_SIZE, PROMPT_CAP, WORD_LEVEL,
   chunkWord, dashed, freshWordState, applyResult, buildSession, checkPromotion,
   heal, migrate, newState, buildMarkdown, loadState, saveState, speak, hush, buzz, feedbackSpeech, PRAISE,
-  SEAM_MS, voiceScript, clipPlan, resolvePack, TTS_UNSAFE_PRAISE, ttsSafePraise,
+  SEAM_MS, SOUNDOUT_SEAM_MS, voiceScript, clipPlan, resolvePack, TTS_UNSAFE_PRAISE, ttsSafePraise,
+  soundInventory, soundIdFor, soundIdsFor, tileSlots, isSeam, seamMs,
   ADULT_JUDGED, adultNote,
 } from "../src/engine.js";
 
@@ -364,25 +365,109 @@ describe("buildMarkdown", () => {
 
 /* ---------------- voice packs (SPEC §5a) ---------------- */
 describe("voice packs", () => {
-  it("inventories one clip per word plus the fixed sentences", () => {
+  it("inventories one clip per word, the fixed sentences, and every sound a tile can ask for", () => {
     const script = voiceScript();
-    expect(script.length).toBe(372);                       // 6 sentences + 17 praise + 349 words
+    expect(script.length).toBe(405);                       // 6 sentences + 17 praise + 349 words + "Pronounced:" + 32 sounds
     expect(script.filter((c) => c.id.startsWith("w:")).length).toBe(349);
-    expect(new Set(script.map((c) => c.id)).size).toBe(372);
+    expect(script.filter((c) => c.id.startsWith("d:")).length).toBe(32);
+    expect(new Set(script.map((c) => c.id)).size).toBe(405);
     expect(script.find((c) => c.id === "s:was").text).toBe("The word was");
     expect(script.find((c) => c.id === "l:wrong").text).toBe("Let’s try again.");
     expect(script.find((c) => c.id === "p:0").text).toBe("Great job!");
     expect(script.find((c) => c.id === "w:cat")).toEqual({ id: "w:cat", text: "cat" });
+    expect(script.find((c) => c.id === "s:pronounced").text).toBe("Pronounced:");
+    /* S4 — a sound's text says what the sound IS. Never a file name, and
+       never the letter, which would invite the letter name. */
+    expect(script.find((c) => c.id === "d:th_quiet").text).toBe("the quiet sound at the start of thin");
+    expect(script.find((c) => c.id === "d:short_a").text).toBe("the sound in the middle of cat");
+    expect(script.filter((c) => c.id.startsWith("d:") && !c.text.startsWith("the ")).length).toBe(0);
   });
-  it("plans each utterance with seams, at the literal 700 ms", () => {
+
+  /* Every tile the bank can draw has a sound behind it. A grapheme with no
+     clip does not fail loudly — resolvePack simply returns null and the whole
+     reveal drops to system speech — so the inventory is asserted against the
+     bank itself rather than against the map that feeds it. */
+  it("covers every grapheme the whole bank can produce", () => {
+    const graphemes = new Set();
+    for (const l of LEVELS) for (const w of l.words) for (const g of chunkWord(w)) graphemes.add(g);
+    expect(graphemes.size).toBe(39);
+    const inv = new Set(soundInventory());
+    for (const g of graphemes) expect(inv.has(soundIdFor(g))).toBe(true);
+    for (const l of LEVELS) for (const w of l.words) {
+      expect(soundIdsFor(w).length).toBe(chunkWord(w).length);   // S8 — one tile, one sound
+      for (const id of soundIdsFor(w)) expect(inv.has(id)).toBe(true);
+    }
+  });
+
+  /* Owner-ruled 2026-08-06, docs/settled.md: "the bent letter plays its TRUE
+     sound... No tricky-word exemption." A tricky word whose sound-out spells
+     out the letters it does not say teaches the opposite of the note printed
+     beside it. */
+  it("gives every tricky word its true sounds, not its letters", () => {
+    expect(soundIdsFor("she")).toEqual(["d:sh", "d:long_e"]);
+    expect(soundIdsFor("the")).toEqual(["d:th_quiet", "d:schwa"]);
+    expect(soundIdsFor("push")).toEqual(["d:p", "d:oo_book", "d:sh"]);
+    expect(soundIdsFor("bush")).toEqual(["d:b", "d:oo_book", "d:sh"]);
+    expect(soundIdsFor("was")).toEqual(["d:w", "d:short_o", "d:z"]);
+    expect(soundIdsFor("what")).toEqual(["d:w", "d:short_o", "d:t"]);
+    expect(soundIdsFor("wash")).toEqual(["d:w", "d:short_o", "d:sh"]);
+    expect(soundIdsFor("is")).toEqual(["d:short_i", "d:z"]);
+    expect(soundIdsFor("has")).toEqual(["d:h", "d:short_a", "d:z"]);
+    /* Control: the override is per WORD, so the same letters elsewhere keep
+       the sound they really make. */
+    expect(soundIdsFor("cash")).toEqual(["d:k", "d:short_a", "d:sh"]);
+    expect(soundIdsFor("hat")).toEqual(["d:h", "d:short_a", "d:t"]);
+  });
+  /* The sound-out reveal, owner-ruled 2026-08-04 and recorded in
+     docs/settled.md: praise, the word, "Pronounced:", each sound on its own
+     tile's moment, the word again — on EVERY reveal outcome. The order here
+     is the choreography: tileSlots reads the tile pops straight off it. */
+  it("plans the sound-out reveal on every outcome, at the literal 500 ms seam", () => {
     expect(SEAM_MS).toBe(700);
-    expect(clipPlan("correct", "cat", 3)).toEqual(["p:3", "seam", "s:was", "seam", "w:cat"]);
-    expect(clipPlan("correct", "cat", 42)).toEqual(["p:0", "seam", "s:was", "seam", "w:cat"]);
-    expect(clipPlan("close", "ship")).toEqual(["l:close", "seam", "s:is", "seam", "w:ship"]);
-    expect(clipPlan("wrong", "sun")).toEqual(["l:wrong", "seam", "s:is", "seam", "w:sun"]);
+    expect(SOUNDOUT_SEAM_MS).toBe(500);
+    expect(clipPlan("correct", "cat", 3)).toEqual(
+      ["p:3", "seam2", "w:cat", "seam2", "s:pronounced",
+        "seam2", "d:k", "seam2", "d:short_a", "seam2", "d:t", "seam2", "w:cat"]);
+    expect(clipPlan("correct", "cat", 42)[0]).toBe("p:0");   // an index off the end falls to the first line
+    expect(clipPlan("close", "ship")).toEqual(
+      ["l:close", "seam2", "w:ship", "seam2", "s:pronounced",
+        "seam2", "d:sh", "seam2", "d:short_i", "seam2", "d:p", "seam2", "w:ship"]);
+    expect(clipPlan("wrong", "sun")).toEqual(
+      ["l:wrong", "seam2", "w:sun", "seam2", "s:pronounced",
+        "seam2", "d:s", "seam2", "d:short_u", "seam2", "d:n", "seam2", "w:sun"]);
+    /* S8 — a digraph is one tile, so it takes one sound and one pop. */
+    expect(clipPlan("correct", "rock", 0).filter((id) => id.startsWith("d:")))
+      .toEqual(["d:r", "d:short_o", "d:k"]);
     expect(clipPlan("replay", "cat")).toEqual(["w:cat"]);
     expect(clipPlan("levelup")).toEqual(["e:levelup"]);
     expect(clipPlan("done")).toEqual(["e:done"]);
+  });
+
+  /* A seam is a pause, not a clip. Reading "seam2" as a clip id made every
+     sound-out resolve to no pack at all and fall silently to system speech,
+     with the whole approved voice sitting unused on disk. */
+  it("knows a seam from a clip, and how long each one lasts", () => {
+    expect(isSeam("seam")).toBe(true);
+    expect(isSeam("seam2")).toBe(true);
+    expect(isSeam("w:cat")).toBe(false);
+    expect(isSeam("d:k")).toBe(false);
+    expect(seamMs("seam")).toBe(700);
+    expect(seamMs("seam2")).toBe(500);
+    expect(resolvePack(clipPlan("correct", "cat", 0), () => true)).toBe("family");
+  });
+
+  /* Which entries of the plan are tile sounds, and which tile each belongs
+     to. The player reports the scheduled time of each, so a tile lights the
+     moment ITS sound starts rather than on a guessed delay. */
+  it("maps each tile sound to its own tile, in order", () => {
+    expect(tileSlots(clipPlan("correct", "cat", 0)))
+      .toEqual([{ index: 6, tile: 0 }, { index: 8, tile: 1 }, { index: 10, tile: 2 }]);
+    expect(tileSlots(clipPlan("correct", "rock", 0)))
+      .toEqual([{ index: 6, tile: 0 }, { index: 8, tile: 1 }, { index: 10, tile: 2 }]);
+    expect(tileSlots(clipPlan("correct", "she", 0)))
+      .toEqual([{ index: 6, tile: 0 }, { index: 8, tile: 1 }]);
+    expect(tileSlots(clipPlan("replay", "cat"))).toEqual([]);   // no sound-out, no pops
+    expect(tileSlots(clipPlan("done"))).toEqual([]);
   });
   it("resolves one source per utterance: family, then default, then none", () => {
     const plan = ["l:close", "seam", "s:is", "seam", "w:ship"];

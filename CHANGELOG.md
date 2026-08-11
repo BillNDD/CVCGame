@@ -7,6 +7,25 @@ This document follows the Microsoft Writing Style Guide.
 Version 6 adds the standalone progressive web app. The reference build does not change.
 The first app version is 1.0.0-beta.1. The app stays in beta until version 1.0 is ready.
 
+- New: the sound-out reveal. After every result the app says the praise or invitation line,
+  the word, "Pronounced:", each of the word's sounds in turn, then the word again. As each
+  sound plays, its own yellow tile takes an outline for exactly as long as that sound lasts.
+  The pause between sounds is 500 ms and a low hum plays underneath, so a gap never reads as
+  the app having stopped. The owner chose the spacing, the hum and the outline by ear and eye
+  against the real audio.
+- New: 32 sound clips in the voice pack, one for every unit the word bank's tiles can show.
+  The pack now holds 405 clips. Every sound was approved in a listening round, and none of
+  them is a recording of a family member's voice.
+- Changed: a tricky word sounds out with the sounds it really makes, not its letters. "was" is
+  /w/ + short o + /z/, "she" is /sh/ + long e, "push" and "bush" take the short oo of "book".
+- Changed: the pause between clips is measured from the end of one sound to the start of the
+  next. Each clip carries a different amount of its own silence, so a pause measured between
+  files ran from half a second to over a second and the rhythm was uneven.
+- Fixed: the advance control could come alive in the middle of a reveal when the clips took
+  longer than usual to load. The first tap then cut the sounding-out short, which is the one
+  thing the wait exists to protect.
+- Fixed: hearing the word again, or asking to finish early, now stops the reveal and clears
+  the tile outlines. The outlines used to keep firing against sound that was no longer playing.
 - New: a Vite, React, and Tailwind app in `app/`. The app imports the game logic from the
   generated module `src/engine.js`. The components do not copy the logic.
 - New: a manifest, a service worker, and the icon set. The app operates offline after the first

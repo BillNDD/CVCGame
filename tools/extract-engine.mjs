@@ -17,7 +17,7 @@ const EXPORTS = ["LEVELS","TRICKY","DIGRAPHS","HOMOPHONES","ADULT_JUDGED","adult
   "WORD_LEVEL","chunkWord","dashed","freshWordState","applyResult","shuffle","buildSession",
   "checkPromotion","heal","migrate","newState","buildMarkdown","loadState","saveState","feedbackParts",
   "ADVANCE_GUARD_MS","SPLASH_TIMEOUT_MS","STORE_KEY","C","LANGS","speak","hush","buzz","SR","feedbackSpeech","PRAISE",
-  "SEAM_MS","VOICE_SENTENCES","voiceScript","clipPlan","resolvePack","TTS_UNSAFE_PRAISE","ttsSafePraise"];
+  "SEAM_MS","SOUNDOUT_SEAM_MS","SOUNDOUT_POP_MS","TILE_SOUND","WORD_SOUND","SOUND_TEXT","soundIdFor","soundIdsFor","soundInventory","VOICE_SENTENCES","voiceScript","clipPlan","tileSlots","isSeam","seamMs","resolvePack","TTS_UNSAFE_PRAISE","ttsSafePraise"];
 
 mkdirSync(dirname(resolve(OUT)), { recursive: true });
 writeFileSync(resolve(OUT),
