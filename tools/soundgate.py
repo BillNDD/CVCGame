@@ -181,8 +181,12 @@ def verify_sound(cut, tpl, sr, kind="voiced", form="in_word"):
                  is measuring the wrong thing - it refused candidates whose
                  CONTENT matched at dtw 0.11 to 0.16 (2026-08-11, the bake's
                  own recipes). The ratio is therefore replaced, not removed, by
-                 an ABSOLUTE band on how long a spoken sound can be: 110 to
-                 620 ms. That is a tighter window than the 60-800 ms every
+                 an ABSOLUTE band on how long a spoken sound can be: 85 to
+                 620 ms. The floor was first set at 110 ms and was wrong: the
+                 owner's own picks for j, v, sh and h run 90 to 100 ms, and the
+                 bake's ACCEPTED /g/ is 97 ms. A floor invented in this file
+                 does not outrank an accepted sound and an ear, so it moved to
+                 sit below both (2026-08-11). That is a tighter window than the 60-800 ms every
                  candidate already faces, and unlike the ratio it does not
                  depend on a reference this project has recorded as
                  unreliable. Every other check - content, isolation, and the
@@ -194,7 +198,7 @@ def verify_sound(cut, tpl, sr, kind="voiced", form="in_word"):
         return False, f"too long for one sound ({len(cut) / sr:.2f}s)", 9.9
     if form == "citation":
         ms = len(cut) / sr * 1000
-        if ms < 110:
+        if ms < 85:
             return False, f"too short for a spoken sound ({ms:.0f}ms)", 9.9
         if ms > 620:
             return False, f"too long for a spoken sound ({ms:.0f}ms)", 9.9
