@@ -213,11 +213,17 @@ against the shipped bank plus the approved heart words before the batch was buil
 generator refuses to render a sentence containing an untaught word. The bytes wait in
 `tools/pending-words/` as `s-mode-s01.mp3` through `s-mode-s20.mp3`.
 
-## Sentence batch 2 — in flight, sent 2026-08-11: longer lines and questions
+## Sentence batch 2 — judged 2026-08-11: twenty of twenty perfect, again
 
-Twenty more decodable sentences, on the same settled path — rendered whole at speed 1.0,
-never cut. Batch 1 closed the audio question, so this batch tests the WRITING: longer
-sentences, two questions, and the digraph and blend words the later levels teach.
+Forty sentences over two batches, forty accepted, no round spent on a repair. Sentence
+mode's audio path is closed: a sentence is spoken whole at speed 1.0 and never cut, and
+none of the machinery that makes single words hard applies to it. What batch 2 added over
+batch 1 was longer lines, two questions, and the digraph and blend words the later levels
+teach — none of it cost anything. The bytes wait in `tools/pending-words/` as
+`s-mode-b2-s01.mp3` through `s-mode-b2-s20.mp3`.
+
+The remaining risk in sentence mode is no longer the voice. It is the WRITING, and the
+gap below is the first evidence of that.
 
 Writing it found a gap for the owner to rule on: **the article "a" is not taught and is
 not on the approved heart roster**, so no sentence may use it. Six drafts had to be bent
