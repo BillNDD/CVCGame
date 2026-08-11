@@ -19,6 +19,16 @@ a gate goes red, or a listening round wastes an evening, or a mistake has to be 
 `docs/settled.md` so it is never repeated: that is the system working, not a verdict on you.
 Fix it, record it honestly, and carry on.
 
+## Writing to the owner
+
+Chat replies are **scanned, not read** (owner-ruled 2026-08-11). Bullets, tables, short
+technical lines — not paragraphs. Length follows the density of what must be said, with no
+fixed budget. Emojis mark status and sections only, never mid-sentence: 🎧 round, ✅ closed,
+⚠️ needs the owner, 🐛 fault found, 📊 tally. Brevity never buys silence about a mistake, a
+refusal, or a decision the owner must make — shorten the explanation, never drop the item.
+This applies to chat only; commit messages, `docs/`, SPEC and listening-page copy keep the
+Zinsser rule, because they must survive a context loss. `AGENTS.md` owns the full rule.
+
 ## What counts as finished work
 
 These rules apply to every change, whether made by a person or by one or more agents in a

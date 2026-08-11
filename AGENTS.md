@@ -35,6 +35,28 @@ readable point at a time, numbers where numbers answer), and **humanity**
 the owner. It says nothing about how the game speaks to children or parents —
 SPEC owns that voice.
 
+**Chat replies are scanned, not read** (owner-ruled 2026-08-11: "I can't read
+so many paragraphs of detail"). In chat only — commit messages, `docs/`, SPEC
+and listening-page copy keep the rule above unchanged, because those are the
+durable record and must survive a context loss:
+
+- **Bullets, tables and short lines.** Not paragraphs. Be technical: a number,
+  a family name or a threshold beats a sentence describing it.
+- **Length follows the content.** The owner ruled against a fixed budget —
+  "whatever is reasonable given the context and the density of detail". A dense
+  finding earns length; a routine delivery does not. Never pad, never truncate
+  something the owner needs.
+- **Emojis mark status and sections, never mid-sentence.** One leading emoji
+  per line or heading: 🎧 a round, ✅ closed, ⚠️ needs the owner, 🐛 a fault
+  found, 📊 the tally. Enough to find the relevant line at a glance; never
+  decoration.
+- **A round delivery carries, at least:** the link, the tally, what is NEW this
+  round, why the last round failed if it did, and any fault found in this
+  project's own tooling. The owner reads for whatever is relevant at the time,
+  so lead with those and keep them findable rather than deciding for them.
+- Brevity never buys silence about a mistake, a refusal, or a thing the owner
+  must decide. Shorten the explanation, never drop the item.
+
 ## The two failures this repository is built around
 
 **A machine cannot hear a word.** Every automated check passed while the pack
