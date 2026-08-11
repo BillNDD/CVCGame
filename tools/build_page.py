@@ -12,13 +12,21 @@ OUT = pathlib.Path(sys.argv[1])
 data = json.loads((OUT / "batch-data.json").read_text())
 page = pathlib.Path(sys.argv[2])
 
+REF_TAG = " \u2014 REFERENCE, not a candidate"
 cards = []
 ordered = [i for i in data["items"] if i["kind"] == "sentence"] + \
           [i for i in data["items"] if i["kind"] != "sentence"]
 for n, item in enumerate(ordered, start=1):
     if item["kind"] == "word":
         arms = "".join(
-            f'<div class="arm"><button class="play" data-b64="{a["b64"]}" data-id="{a["id"]}">{a["id"]}</button>'
+            # A REFERENCE arm is not a candidate and must say so on its own
+            # face. On round 16 the owner chose w_2 and h_2 — both cuts of
+            # their OWN recording, included only so they could confirm the
+            # right piece had been found — because the blind label gave them
+            # no way to tell. Blind labels hide the method, never the fact
+            # that an arm cannot be shipped.
+            f'<div class="arm"><button class="play" data-b64="{a["b64"]}" data-id="{a["id"]}">'
+            f'{a["id"]}{REF_TAG if str(a.get("family", "")).startswith("REFERENCE") else ""}</button>'
             f'<button class="mark perfect" data-item="{item["text"]}" data-id="{a["id"]}">accept, perfect</button>'
             f'<button class="mark close" data-item="{item["text"]}" data-id="{a["id"]}">closest, but not right</button></div>'
             for a in item["arms"])

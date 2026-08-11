@@ -320,6 +320,16 @@ pauses, and warm spectral tilt (attenuated low harmonics read as cold).
   listener, purely from where it sat in the field, is itself the finding: blind
   position moves a verdict. Both rows carry a note saying the bytes are
   unchanged, so neither is ever read as a repair that worked.
+- **A blind label may hide the method, never the fact that an arm cannot
+  ship** (2026-08-11, sound round 16). Four cards carried a REFERENCE arm — a
+  cut of the owner's OWN recording, included only so they could confirm the
+  right piece had been found — and the owner chose it for two of them, w and
+  h, because the button just said `w_2`. The owner has ruled that no recording
+  of their voice ships, so neither was stored, and both rounds' work on those
+  two was spent. `tools/build_page.py` now prints "— REFERENCE, not a
+  candidate" on the button itself. The hash guard also exempts a reference,
+  because a reference is the TARGET and hearing it beside the attempts is the
+  point of a matching round.
 - **A round page must never be able to lose a listener's marks** (2026-08-11,
   batch 12). The owner listened to all seventeen words, pressed "Copy all
   answers", and lost every one. Two faults compounded: `navigator.clipboard`

@@ -2,13 +2,8 @@
  "_comment": "Sounds the owner accepted in the sidecar's P45 ship review. The bytes here are the exact clips the owner marked ok; they are option 1 in any round for that sound, and become the row in tools/voice-sounds.csv when the sound-out reveal is built. Sounds on the revisit list are not here - they are still open.",
  "_source": "P45-OK-SHIP-HANDOFF, owner ship-review export 2026-08-10T15:41:39.154Z",
  "_revisit": [
-  "g",
-  "n",
-  "v",
   "w",
-  "z",
-  "h",
-  "ng"
+  "h"
  ],
  "short_o": {
   "sha256": "820a5025f119a235bc4ec02549f53286e946218d01228b0474023cc07afcd463",
@@ -247,7 +242,7 @@
   "how": "r-controlled 'ear' · as in ear, deer, near",
   "as_in": "ear, deer"
  },
- "_revisit_note": "Seven sounds open (2026-08-11). g and n are CLOSEST; n has \"weird crackling or electric sound in middle and end\" and ng \"a lot of static and sounds muffled\" - both are artefacts of MY resynthesis, so those two need less processing, not more. v, w, z and h all returned none, and the owner supplied human reference recordings for exactly those four.",
+ "_revisit_note": "Two sounds open (2026-08-11), and for a reason worth stating plainly: on round 16 the owner chose w_2 and h_2, which were the REFERENCE arms — the cuts from their own recording, included so they could confirm the right piece had been found. They are not candidates: no recording of the owner's voice ships (owner-ruled 2026-08-11), so they were NOT stored. The choice is still useful information: it says the af_heart arms for w and h were not close enough, and it names the exact target. A blind label must show when an arm is a reference — `w_2` gave the owner no way to tell.",
  "schwa": {
   "sha256": "2a06ec741130e76a669ee247c3bafab6537a1d1c124be3f2538ec3131d6c7cd5",
   "round": "SND9 (sound round 9, 2026-08-11)",
@@ -337,5 +332,55 @@
   "how": "a quiet shush · as in ship",
   "as_in": "ship, shop",
   "note": "synthesised; no owner recording involved."
+ },
+ "v": {
+  "sha256": "7a650b4bf6f4b1c45bfa68f2e50d59164cd59a03cb5856a63ec8b8d0635dda63",
+  "round": "SND16 (sound round 16, 2026-08-11)",
+  "verdict": "perfect (owner)",
+  "family": "match-vex260-most1",
+  "ms": 800,
+  "how": "a buzzing v · as in van",
+  "as_in": "van, vet",
+  "note": "af_heart only — no owner recording. v and z were bent to formants measured from the owner's reference; n, ng and g are straight cuts from approved word clips with no resynthesis."
+ },
+ "z": {
+  "sha256": "4b37cac91454bfca3f8a772c41e3dd3024b7a1adc138d43b7f86736a69cdf43a",
+  "round": "SND16 (sound round 16, 2026-08-11)",
+  "verdict": "perfect (owner)",
+  "family": "match-zig260-most1",
+  "ms": 810,
+  "how": "a buzzing z · as in zip",
+  "as_in": "zip, zag",
+  "note": "af_heart only — no owner recording. v and z were bent to formants measured from the owner's reference; n, ng and g are straight cuts from approved word clips with no resynthesis."
+ },
+ "n": {
+  "sha256": "7dd38ae8471e52a42d0b9f52c7111829da1ed9966d191f2552bb51cd42d06e59",
+  "round": "SND16 (sound round 16, 2026-08-11)",
+  "verdict": "perfect (owner)",
+  "family": "cut-nut-200",
+  "ms": 740,
+  "how": "a humming n · as in net",
+  "as_in": "net, nut",
+  "note": "af_heart only — no owner recording. v and z were bent to formants measured from the owner's reference; n, ng and g are straight cuts from approved word clips with no resynthesis."
+ },
+ "ng": {
+  "sha256": "135b56c418fa7aec0e04f4b93a6dce261e482060242b58b9c3704590b0ac4adf",
+  "round": "SND16 (sound round 16, 2026-08-11)",
+  "verdict": "perfect (owner)",
+  "family": "cut-sing-270",
+  "ms": 810,
+  "how": "a humming ng · as in ring",
+  "as_in": "ring, sing",
+  "note": "af_heart only — no owner recording. v and z were bent to formants measured from the owner's reference; n, ng and g are straight cuts from approved word clips with no resynthesis."
+ },
+ "g": {
+  "sha256": "d020af7d3ca83625c06bca8db625c28b436458f1d4d2739f4f3ac4f6047b203a",
+  "round": "SND16 (sound round 16, 2026-08-11)",
+  "verdict": "perfect (owner)",
+  "family": "cut-got-250",
+  "ms": 760,
+  "how": "a g-catch · as in gap",
+  "as_in": "gap, got",
+  "note": "af_heart only — no owner recording. v and z were bent to formants measured from the owner's reference; n, ng and g are straight cuts from approved word clips with no resynthesis."
  }
 }
