@@ -97,13 +97,13 @@ function run(d) {
 
   // 3. the tricky-word notes, exact
   rules.add("tricky-notes");
-  /* "woz", not "wuz". The screen said one thing and the sound-out played
-     another: the owner ruled on 2026-08-06 that was, what and wash take the
-     o-sound, the reveal plays short_o accordingly, and its two siblings here
-     already read "wot" and "wosh". Only this line still carried the American
-     vowel, so a child was told "wuz" while being played "woz". The owner
-     ruled for British speech on 2026-08-11, which settles it the same way. */
-  check(notes.was === "Tricky word! The a sounds like “o” — woz.", "tricky note (was)", notes.was);
+  /* The screen and the sound-out must say the same vowel. They disagreed:
+     this note read "wuz" while the reveal played short_o, "woz". The owner
+     ruled on 2026-08-11 for AMERICAN pronunciation, since the voice itself is
+     American, so the note stands and the SOUND moved to short_u to meet it.
+     "what" and "wash" keep the o-sound and their own notes, which is standard
+     American for both. */
+  check(notes.was === "Tricky word! The a sounds like “uh” — wuz.", "tricky note (was)", notes.was);
   check(notes.is === "Tricky word! The s sounds like “z” — iz.", "tricky note (is)", notes.is);
   check(notes.has === "Tricky word! The s sounds like “z” — haz.", "tricky note (has)", notes.has);
   check(notes.wash === "Tricky word! The a sounds like “o” — wosh.", "tricky note (wash)", notes.wash);
