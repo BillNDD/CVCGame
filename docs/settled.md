@@ -168,6 +168,20 @@ pauses, and warm spectral tilt (attenuated low harmonics read as cold).
   begins and ends at full amplitude, because its own rise and fall belong to
   the consonants either side, and giving it back a quick rise and a slower
   fall restores the shape a spoken sound has rather than adding anything.
+- **Match DURATION and F0, not just formants.** Round 17's verdict on w was
+  "much more high pitched, and sound like they have been sped up", and "sped
+  up" was literal: the reference runs 330 ms and every arm ran 140 ms, because
+  the formant warp does not touch length. Measured 2026-08-11. A three-axis
+  match - duration, median f0, and the piecewise formant map together - lands
+  a candidate at 340 ms and 216 Hz against a reference of 320 ms and 220 Hz.
+  Matching one axis and leaving the others is how a clip ends up right in
+  timbre and wrong in every other way.
+- **When the owner supplies the target, the target is the gate's template.**
+  The content check had been comparing candidates against kokoro's isolated
+  phoneme render, a reference this file already calls unreliable, and it
+  refused a correctly devoiced /h/ at dtw 0.32. With the owner's own reference
+  as the template the same thresholds mean something. Nothing is loosened;
+  the reference is simply better.
 - **A demonstration /h/ and a prevocalic /h/ are different sounds.** Measured
   2026-08-11 against a human recording the owner supplied: a /h/ said on its
   own runs 0.13 voiced with a spectral centroid of 1426 Hz — nearly pure
