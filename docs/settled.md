@@ -569,10 +569,54 @@ pauses, and warm spectral tilt (attenuated low harmonics read as cold).
   this file exists to stop, and it was caught by an audit rather than by a
   gate, so `tools/mutants.mjs` now carries "tricky words lose their true
   sound".
+## British speech is the preference (2026-08-11) — closed for the th, open elsewhere
+
+- The owner ruled: **prefer British speech**. Asked in the narrow case of
+  `with`, whose final th is /ð/ in British English and /θ/ in much of
+  American, so `with` joins this, that, then, them and the — **six** words
+  take the voiced th, not five.
+- The same ruling settles a contradiction the reveal exposed. `was` was told
+  to the child as "wuz" on screen while the sound-out played "woz": the owner
+  had ruled on 2026-08-06 that was, what and wash take the o-sound, the reveal
+  plays short_o accordingly, and the sibling notes already read "wot" and
+  "wosh". Only the `was` line still carried the American vowel. It now reads
+  "woz". The screen and the sound say the same thing.
+- **What this ruling does NOT reach, and must not be assumed to:**
+  - **The voice is American.** af_heart is an American voice and every one of
+    the 405 shipped clips is in it, each listened to and accepted. Changing
+    the voice would throw all of them away. The preference is about which
+    sound a letter makes, not about re-recording the pack.
+  - **`math` and `mom` are American forms.** British is "maths" and "mum". Both
+    are in the bank. Not changed, because swapping a bank word is the owner's
+    call and touches the levels, the clips and the word table.
+  - **bath, math, path split WITHIN Britain.** Southern British says /ɑː/, the
+    long "ah" of father; northern British, Scottish and Irish say /æ/, the same
+    short a as cat. "Prefer British" does not choose between them, no clip
+    exists for the long one, and the bank ships short_a. Left alone.
+  - **dog, log, fog, long, song, moth, boss, loss** were raised as the CLOTH
+    set, where some American speakers say the "aw" of saw. British says /ɒ/,
+    which IS short_o. The ruling makes the shipped sound correct. No change.
+
+## Every other grapheme was swept, and th is the only wrong sound (2026-08-11) — closed
+
+- Four independent sweeps went through the whole tile map against all 349 bank
+  words — the single consonants, the multi-letter units, the vowels, and a
+  word-by-word pass from the other direction — and every claim was then given
+  to an adversarial verifier told to refuse it. Do not re-run this sweep
+  without a reason: it is a day's compute and it came back clean.
+- **One wrong phoneme survived: the voiced th.** Everything else was either
+  refuted or is accent-dependent and correct for British speech (see above).
+- Specifically CLEARED, so none of these costs a round: `s` (the z-sound in is,
+  has and was is already handled by WORD_SOUND, and no other bank word needs
+  it), `c`, `g`, `x`, `y`, `ch`, `wh`, `ng`, `ss`, `ll`, `ff`, `zz`, `qu`, the
+  silent-letter pairs kn/wr/mb, and all five short vowels outside the nine
+  tricky words the owner has already ruled on.
+
 - **OPEN, and the one part not built: the voiced th.** `this, that, then,
   them, the` (and `with`, depending on accent) take /ð/, and the only th clip
   in the approved set is `th_quiet`, which is the voiceless /θ/ of "thin".
-  Those words are currently sounded out with the wrong th. `tools/voice-sounds.csv`
+  Those words are currently sounded out with the wrong th. `with` joins them
+  under the British-speech ruling of 2026-08-11, so the count is six. `tools/voice-sounds.csv`
   carries a `th_this` row from round S7 but no synthesised clip exists. This
   needs one listening round before it can be called finished.
 

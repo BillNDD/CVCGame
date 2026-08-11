@@ -415,7 +415,7 @@
           "steps": [
             {
               "kind": "Then",
-              "text": "the word \"was\" carries the note \"Tricky word! The a sounds like “uh” — wuz.\""
+              "text": "the word \"was\" carries the note \"Tricky word! The a sounds like “o” — woz.\""
             }
           ],
           "examples": []

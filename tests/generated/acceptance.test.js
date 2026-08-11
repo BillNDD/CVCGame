@@ -170,7 +170,7 @@ describe("Feature: Sound units and feedback text", () => {
     expect(fb.word).toBe("sun");
   });
   it("The tricky word \"was\" carries its note", () => {
-    expect(TRICKY["was"]).toBe("Tricky word! The a sounds like “uh” — wuz.");
+    expect(TRICKY["was"]).toBe("Tricky word! The a sounds like “o” — woz.");
   });
   it("The tricky word \"is\" carries its note", () => {
     expect(TRICKY["is"]).toBe("Tricky word! The s sounds like “z” — iz.");

@@ -32,7 +32,7 @@ Feature: Sound units and feedback text
     And the feedback shows "s-u-n" and the word "sun"
 
   Scenario: The tricky word "was" carries its note
-    Then the word "was" carries the note "Tricky word! The a sounds like “uh” — wuz."
+    Then the word "was" carries the note "Tricky word! The a sounds like “o” — woz."
 
   Scenario: The tricky word "is" carries its note
     Then the word "is" carries the note "Tricky word! The s sounds like “z” — iz."
