@@ -1,6 +1,6 @@
 {
   "comment": "Limits for the testing gauntlet. Plain keys are floors: raise when counts grow, never lower. Keys ending in _max are ceilings: lower when quality improves, never raise (CLAUDE.md E6). 'What counts as finished work' (CLAUDE.md) governs every change.",
-  "g1_unit_tests": 77,
+  "g1_unit_tests": 81,
   "g1_scheduler_tests": 5,
   "g2_properties": 10,
   "g2_cases_per_property": 1000,
@@ -8,7 +8,7 @@
   "g3_generated_tests": 60,
   "g4_acceptance_mutants": 100,
   "g4_survivors_max": 0,
-  "g5_source_mutants": 56,
+  "g5_source_mutants": 63,
   "g5_survivors_max": 0,
   "g6_lines_min": 95,
   "g6_app_lines_min": 82,
@@ -25,11 +25,11 @@
   "g9_fault_tests": 19,
   "g10_safety_tests": 51,
   "g10_adult_control_tests": 9,
-  "g10_reveal_tests": 8,
+  "g10_reveal_tests": 13,
   "g11_copy_rules": 6,
   "g12_qa_steps": 41,
-  "g13_clips": 372,
-  "g13_engine_tests": 9,
+  "g13_clips": 405,
+  "g13_engine_tests": 10,
   "g14_update_tests": 18,
   "g14_worker_tests": 5,
   "g15_recognizer_tests": 51,
@@ -38,6 +38,7 @@
   "g18_network_checks": 4,
   "g19_app_mutants": 13,
   "g19_survivors_max": 0,
-  "g20_tests_mapped": 273,
-  "g21_listening_checks": 5
+  "g20_tests_mapped": 283,
+  "g21_listening_checks": 5,
+  "g13_edge_controls": 5
 }

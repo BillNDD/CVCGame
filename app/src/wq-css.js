@@ -5,7 +5,7 @@
    One deliberate divergence from the reference: .wq-btn-plain, .wq-segbtn and
    .wq-rowbtn are 44px tall, not 40px — SPEC rule 7 sets a 44px minimum for
    every adult control, and section 10 gates on it. */
-import { C } from "@engine";
+import { C, SOUNDOUT_POP_MS } from "@engine";
 
 const CSS = `
 /* No rule here uses the CSS \`font:\` shorthand. Ten of them once did, each
@@ -65,6 +65,23 @@ const CSS = `
 .wq-slot-tiles{min-height:52px;display:flex;align-items:center;justify-content:center;gap:6px;margin-top:8px}
 .wq-tile{background:${C.sun};color:${C.ink};border-radius:12px;padding:5px 12px;
   font-size:clamp(1.1rem,3.2dvh,1.6rem);font-weight:700;box-shadow:0 1px 3px rgba(23,53,107,.18)}
+/* The sound-out pop (owner-ruled 2026-08-04, shape chosen 2026-08-11 from four
+   treatments heard against the real audio). A tile takes a hard outline for as
+   long as its own sound plays, then drops it — no movement, no flash, no
+   scaling. The owner chose this over a spring hop and a glow: the ring says
+   "this piece, now" without pulling the eye off the letters, which are the
+   thing being taught. steps(1,end) means the outline appears and disappears
+   whole rather than fading, so the edge of the sound is the edge of the mark.
+   The outline sits OUTSIDE the box, so nothing on the row moves or reflows
+   when it appears (P0-2).
+   --wqpop is that sound's own measured speech length, handed down by the
+   player. A fixed length was wrong in both directions: it outlived the four
+   short plosives, leaving two tiles ringed at once, and it ran out 236 ms
+   before /w/ finished in "win". SOUNDOUT_POP_MS is only the fallback for a
+   pack whose lengths are unknown. */
+.wq-tile.wq-pop{animation:wqpop var(--wqpop,${SOUNDOUT_POP_MS}ms) steps(1,end)}
+@keyframes wqpop{0%,99%{outline:4px solid ${C.ink};outline-offset:3px}
+  100%{outline:0 solid transparent}}
 .wq-slot-msg{height:52px;min-height:52px;display:flex;flex-direction:column;align-items:center;justify-content:center;margin-top:4px}
 /* A3-014 — the dashed form is the teaching payload of the feedback sentence,
    so it never breaks across a line: "sh-i-" on one row and "p, ship." on the
@@ -208,7 +225,14 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
      to come, and without it a grown-up who asks for less motion gets the
      six-second grey box back. It is a single bar crossing at a steady rate,
      which is what a progress indicator is allowed to be. */
-  .wq-ctafill{animation:wqfill var(--wqfill,400ms) linear forwards!important}}
+  .wq-ctafill{animation:wqfill var(--wqfill,400ms) linear forwards!important}
+  /* And the sound-out ring, for the same reason: it is the teaching, not
+     decoration. It is what tells a child which piece of the word the sound
+     they are hearing belongs to, and a reduced-motion setting that removed it
+     would leave the sounds attached to nothing. It is already the calmest
+     form there is — a static outline, no movement of any kind — which is why
+     the owner chose it over the hop and the glow. */
+  .wq-tile.wq-pop{animation:wqpop ${SOUNDOUT_POP_MS}ms steps(1,end)!important}}
 
 /* landscape: one centred column, the same stack as portrait (P2-1, A1-003).
    This query used to divide the stage into a 1.1fr column for the word and a

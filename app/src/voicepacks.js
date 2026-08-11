@@ -8,7 +8,7 @@
    child never hears praise without its word. stopClips() silences the chain
    the moment the next attempt starts: S2 applies to clips exactly as to
    speech. */
-import { SEAM_MS, clipPlan, resolvePack, hush } from "@engine";
+import { clipPlan, isSeam, seamMs, resolvePack, tileSlots, hush } from "@engine";
 
 const DB_NAME = "word-quest-voice";
 const DB_STORE = "clips";
@@ -151,29 +151,121 @@ async function bufferFor(tier, id) {
   return buf;
 }
 
+/* The hum under the sound-out (owner-ruled 2026-08-11, chosen against silence
+   in the same sitting as the 500 ms seam). Half a second of dead air between
+   two sounds reads as the app having stopped; a warm drone says it is still
+   speaking. A fundamental, its fifth and its octave, detuned by a slow
+   breath — never a bare mains sine, which reads as broken equipment. It is
+   quiet on purpose: -42 dBFS, far under the voice, and it fades at both ends
+   so it never starts or stops with a click. */
+const HUM_PEAK = 0.00794;            // -42 dBFS
+const HUM_PARTIALS = [[110, 1], [165, 0.5], [220, 0.25]];
+const HUM_FADE_S = 0.25;
+const HUM_DRIFT_HZ = 0.7;
+const HUM_DRIFT = 0.004;
+
+function startHum(from, until) {
+  const bus = ctx.createGain();
+  const sum = HUM_PARTIALS.reduce((t, [, a]) => t + a, 0);
+  bus.gain.setValueAtTime(0, from);
+  bus.gain.linearRampToValueAtTime(HUM_PEAK / sum, from + HUM_FADE_S);
+  bus.gain.setValueAtTime(HUM_PEAK / sum, Math.max(from + HUM_FADE_S, until - HUM_FADE_S));
+  bus.gain.linearRampToValueAtTime(0, until);
+  bus.connect(ctx.destination);
+  const lfo = ctx.createOscillator();
+  lfo.frequency.value = HUM_DRIFT_HZ;
+  for (const [hz, amp] of HUM_PARTIALS) {
+    const o = ctx.createOscillator();
+    o.frequency.value = hz;
+    const depth = ctx.createGain();
+    depth.gain.value = hz * HUM_DRIFT;
+    lfo.connect(depth); depth.connect(o.frequency);
+    const g = ctx.createGain();
+    g.gain.value = amp;
+    o.connect(g); g.connect(bus);
+    o.start(from); o.stop(until);
+    live.push(o);
+  }
+  lfo.start(from); lfo.stop(until);
+  live.push(lfo);
+}
+
+/* How much silence a clip carries at one end, in milliseconds. The default
+   pack measures it and records it (tools/voice-edges.py). A family recording
+   has never been measured, so it reports none and its utterance keeps the
+   plain file-to-file spacing — the rhythm the packs had before the sound-out,
+   rather than a compensation applied against a number nobody has. */
+function edge(tier, id, which) {
+  if (tier !== "default") return 0;
+  const m = defaultManifest[id];
+  return m && typeof m[which] === "number" ? m[which] : 0;
+}
+
 async function playPlan(plan, tier, my, fallback, onScheduled) {
   try {
-    const decoded = await Promise.all(plan.map((id) => (id === "seam" ? null : bufferFor(tier, id))));
+    const decoded = await Promise.all(plan.map((id) => (isSeam(id) ? null : bufferFor(tier, id))));
     if (my !== token) return;                    // a newer utterance took over
     /* A context rebuilt a moment ago may still be starting. Decoding gave it
        time; if it is still not running, nothing would be heard, so hand the
        utterance to system speech instead of playing into silence. */
     if (ctx.state !== "running") { fallback(); return; }
-    const start = ctx.currentTime + 0.05;
+    const now = ctx.currentTime;
+    const start = now + 0.05;
     let at = start;
+    const startedAt = [];                        // absolute start time of every entry
     plan.forEach((id, i) => {
-      if (id === "seam") { at += SEAM_MS / 1000; return; }
+      startedAt[i] = at;
+      if (isSeam(id)) { at += seamMs(id) / 1000; return; }
       const s = ctx.createBufferSource();
       s.buffer = decoded[i];
       s.connect(ctx.destination);
       s.start(at);
       at += decoded[i].duration;
       live.push(s);
+      /* The sound-out's seam is a gap between SOUNDS, not between files.
+         Every clip carries its own silence and no two carry the same amount —
+         across the pack the lead runs 40 to 290 ms and the tail 0 to 608 ms —
+         so waiting 500 ms after a file ends gives gaps from 540 ms to over a
+         second. The owner chose 500 ms on 2026-08-11 from a demo that trimmed
+         every clip first, which is the rhythm this restores: pull the next
+         entry back over this clip's trailing silence and the next one's
+         leading silence, so what the child hears between two sounds is the
+         500 ms that was approved. The edges are measured from the audio and
+         re-checked by tools/voice-edges.py, never guessed.
+         The long seam is deliberately left alone: 700 ms was set against the
+         pack as it plays today, and the owner has approved how that sounds. */
+      if (plan[i + 1] === "seam2") {
+        at -= (edge(tier, id, "tail") + edge(tier, plan[i + 2], "lead")) / 1000;
+        /* A wrong edge must never schedule a clip into the past, where it
+           would play at once and land on top of the one before it. */
+        at = Math.max(at, startedAt[i] + 0.02);
+      }
     });
+    /* A tile lights the moment ITS OWN sound begins. The times come from the
+       clips' real decoded lengths, on the same clock that schedules them —
+       never a guessed delay, which would drift apart from the sound as the
+       word grows a tile. */
+    const slots = tileSlots(plan);
+    if (slots.length) startHum(start, at);
     /* The caller needs to know how long the child will be listening: the
        advance control waits for the word rather than cutting it off. This is
        the scheduled length, measured from the clips themselves. */
-    onScheduled(Math.round((at - ctx.currentTime) * 1000));
+    /* Each tile gets the moment its sound starts and how long that sound
+       lasts, so the ring is the length of the thing it marks. The clip's own
+       leading silence is added to the moment, so the ring appears with the
+       SOUND and not with the file: /sh/ carries 200 ms of silence in front of
+       it, which is a fifth of a second of a tile marked before anything is
+       audible. The length is the SPEECH, not the file, for the same reason —
+       /sh/ is a 792 ms file holding 170 ms of sound. */
+    onScheduled(Math.round((at - now) * 1000), slots.map((s) => {
+      const id = plan[s.index];
+      const lead = edge(tier, id, "lead");
+      const ms = defaultManifest[id] ? defaultManifest[id].ms : 0;
+      return {
+        at: Math.round((startedAt[s.index] - now) * 1000) + lead,
+        ms: tier === "default" ? ms - lead - edge(tier, id, "tail") : 0,
+      };
+    }));
   } catch {
     if (my === token) fallback();                // nothing has played yet: speech instead
   }
@@ -182,8 +274,10 @@ async function playPlan(plan, tier, my, fallback, onScheduled) {
 /* Speak one utterance through the packs, or hand it to `fallback` (system
    speech) when the packs cannot cover it or cannot play it. Always silences
    whatever was playing first, on every path. `onScheduled` reports the length
-   of the utterance in milliseconds once the clips are scheduled; it never
-   runs on a path that falls back, where no length can be known. */
+   of the utterance in milliseconds once the clips are scheduled, and the
+   millisecond each tile's sound starts; it never runs on a path that falls
+   back, where no length and no tile time can be known — so a fallback reveal
+   shows no pops rather than pops against the wrong sound. */
 export function speakVoice(kind, word, praiseIdx, enabled, fallback, onScheduled = () => {}) {
   stopClips();
   hush();

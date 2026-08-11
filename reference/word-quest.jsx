@@ -368,6 +368,78 @@ const feedbackSpeech = (r, w, praise = 0) =>
 
 /* ---------- voice packs (SPEC §5a) ---------- */
 const SEAM_MS = 700;   // the pause between clips in one utterance, so words never crush together
+/* The sound-out reveal has its own, shorter seam. The owner heard four
+   spacings on 2026-08-11 and chose 500 ms: 700 was set for whole words in a
+   sentence, and a sound-out is a different rhythm. At 700 the whole reveal
+   runs 8.2 seconds, which is a long wait between words for a four-year-old. */
+const SOUNDOUT_SEAM_MS = 500;
+/* How long a tile keeps its ring. It must outlast the sound it marks — the
+   longest approved single sound runs 620 ms — or the mark would leave the
+   screen while the child is still hearing it. It must also not outlast the
+   whole gap to the next tile, which is at minimum the shortest sound (85 ms)
+   plus one seam: 585 ms. Those two demands cross, so a brief overlap of two
+   rings is unavoidable on the fastest pair, and 700 ms takes the side of the
+   sound being fully marked. */
+const SOUNDOUT_POP_MS = 700;
+/* Which SOUND each tile speaks. A tile is one unit (safety rule S8), so a
+   digraph gets one sound and one pop: ck says /k/, wh says /w/, kn says /n/.
+   Every id here is a clip the owner has approved, and none of them is a
+   recording of the owner's voice (owner-ruled 2026-08-11). */
+const TILE_SOUND = {
+  a: "short_a", e: "short_e", i: "short_i", o: "short_o", u: "short_u",
+  c: "k", ck: "k", ff: "f", ll: "l", ss: "s", zz: "z",
+  kn: "n", wr: "r", mb: "m", th: "th_quiet", wh: "w",
+};
+const soundIdFor = (g) => "d:" + (TILE_SOUND[g] || g);
+/* A tricky word is tricky because one of its letters is not saying what the
+   letter usually says. The owner ruled on 2026-08-06 that the sound-out tells
+   the truth about it anyway — "the bent letter plays its TRUE sound... No
+   tricky-word exemption" — so these words override the letter's usual sound
+   at the tile that bends. Keyed by word, then by tile position, because it is
+   one tile of the word that lies and not the letter everywhere it appears.
+   Every id here is a clip the owner has approved in a listening round. */
+const WORD_SOUND = {
+  she: { 1: "long_e" },                    // e says its name
+  the: { 1: "schwa" },                     // the lazy uh
+  push: { 1: "oo_book" }, bush: { 1: "oo_book" },
+  was: { 1: "short_o", 2: "z" },           // "wozz"
+  what: { 1: "short_o" },
+  wash: { 1: "short_o" },
+  is: { 1: "z" }, has: { 2: "z" },
+};
+/* What each sound is, said as a person would say it. Used by the clip script,
+   so anything that renders or records a pack is told the sound and not a file
+   name or a letter (safety rule S4). */
+const SOUND_TEXT = {
+  b: "the sound at the start of bat", ch: "the sound at the start of chip",
+  d: "the sound at the start of dog", f: "the sound at the start of fan",
+  g: "the sound at the start of got", h: "the sound at the start of hat",
+  j: "the sound at the start of jam", k: "the sound at the start of cat",
+  l: "the sound at the start of leg", m: "the sound at the start of map",
+  n: "the sound at the start of net", ng: "the sound at the end of ring",
+  p: "the sound at the start of pig", qu: "the sound at the start of quick",
+  r: "the sound at the start of run", s: "the sound at the start of sun",
+  sh: "the sound at the start of ship", t: "the sound at the start of top",
+  th_quiet: "the quiet sound at the start of thin", v: "the sound at the start of van",
+  w: "the sound at the start of win", x: "the sound at the end of box",
+  y: "the sound at the start of yes", z: "the sound at the start of zip",
+  short_a: "the sound in the middle of cat", short_e: "the sound in the middle of hen",
+  short_i: "the sound in the middle of pig", short_o: "the sound in the middle of hot",
+  short_u: "the sound in the middle of cup", long_e: "the sound at the end of she",
+  schwa: "the lazy sound in the middle of the", oo_book: "the short oo sound in book",
+};
+/* The sound each of a word's tiles speaks, in order. */
+function soundIdsFor(word) {
+  const bent = WORD_SOUND[word] || {};
+  return chunkWord(word).map((g, i) => (bent[i] ? "d:" + bent[i] : soundIdFor(g)));
+}
+/* Every sound the bank's tiles can ask for, derived from the bank rather than
+   listed by hand, so a new word can never outrun its sounds. */
+function soundInventory() {
+  const ids = new Set();
+  for (const l of LEVELS) for (const w of l.words) for (const id of soundIdsFor(w)) ids.add(id);
+  return [...ids].sort();
+}
 const VOICE_SENTENCES = {
   "s:was": "The word was",
   "s:is": "The word is",
@@ -384,22 +456,56 @@ function voiceScript() {
   for (const [id, text] of Object.entries(VOICE_SENTENCES)) clips.push({ id, text });
   PRAISE.forEach((text, i) => clips.push({ id: "p:" + i, text }));
   for (const l of LEVELS) for (const w of l.words) clips.push({ id: "w:" + w, text: w });
+  clips.push({ id: "s:pronounced", text: "Pronounced:" });
+  /* A sound clip's text says what the sound IS, in words a grown-up can act
+     on — "the sound at the start of ship". It is never the id and never the
+     letter: a script that read "th_quiet" back would prompt whoever renders
+     or records it to say a file name, and one that read "s" would invite the
+     letter name, which the app must never speak (safety rule S4). */
+  for (const id of soundInventory()) clips.push({ id, text: SOUND_TEXT[id.slice(2)] || id.slice(2) });
   return clips;
 }
-/* The play order for one utterance. "seam" is a SEAM_MS pause. */
+/* The play order for one utterance. "seam" is a SEAM_MS pause, "seam2" the
+   shorter sound-out one.
+
+   THE SOUND-OUT REVEAL, owner-ruled 2026-08-04 and unbuilt until now: praise,
+   the word, "Pronounced:", each sound on its own tile's moment, then the word
+   again — on every reveal outcome. The tile animation is driven by where each
+   sound falls in this plan, so the order here IS the choreography. */
 function clipPlan(kind, word, praise) {
-  if (kind === "correct") return ["p:" + (PRAISE[praise] ? praise : 0), "seam", "s:was", "seam", "w:" + word];
-  if (kind === "close") return ["l:close", "seam", "s:is", "seam", "w:" + word];
-  if (kind === "wrong") return ["l:wrong", "seam", "s:is", "seam", "w:" + word];
+  const soundOut = (lead) => {
+    const out = [lead, "seam2", "w:" + word, "seam2", "s:pronounced"];
+    for (const id of soundIdsFor(word)) out.push("seam2", id);
+    out.push("seam2", "w:" + word);
+    return out;
+  };
+  if (kind === "correct") return soundOut("p:" + (PRAISE[praise] ? praise : 0));
+  if (kind === "close") return soundOut("l:close");
+  if (kind === "wrong") return soundOut("l:wrong");
   if (kind === "replay") return ["w:" + word];
   if (kind === "levelup") return ["e:levelup"];
   return ["e:done"];
 }
+/* Which entries of a plan are tile sounds, and which tile each belongs to.
+   The player reports the scheduled time of each, so a tile lights the moment
+   ITS sound starts rather than on a guessed delay. */
+function tileSlots(plan) {
+  const slots = [];
+  let t = 0;
+  for (let i = 0; i < plan.length; i++) if (String(plan[i]).startsWith("d:")) slots.push({ index: i, tile: t++ });
+  return slots;
+}
+/* A plan entry that is a pause rather than a clip. Both seams live here, so a
+   pause can never be mistaken for a missing clip: reading "seam2" as a clip id
+   made every sound-out reveal resolve to no pack at all and fall to system
+   speech, silently, with the whole approved voice sitting unused on disk. */
+const isSeam = (id) => id === "seam" || id === "seam2";
+const seamMs = (id) => (id === "seam2" ? SOUNDOUT_SEAM_MS : SEAM_MS);
 /* One source per utterance (SPEC §5a): family if it has every clip, else the
    default pack, else null and the caller uses system speech. */
 function resolvePack(plan, has) {
   for (const tier of ["family", "default"]) {
-    if (plan.every((id) => id === "seam" || has(tier, id))) return tier;
+    if (plan.every((id) => isSeam(id) || has(tier, id))) return tier;
   }
   return null;
 }

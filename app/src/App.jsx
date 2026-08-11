@@ -146,6 +146,13 @@ export default function App() {
   /* Where the fill already stands, as a percent, when the wait is re-armed —
      so the sweep continues from its own position instead of restarting. */
   const [waitFrom, setWaitFrom] = useState(0);
+  /* One entry per tile: how many times that tile has been marked this reveal.
+     Empty whenever no sound-out is playing — sound off, or system speech took
+     the utterance and its timings cannot be known, in which case the tiles
+     stay plain rather than ringing against the wrong sound. */
+  const [pops, setPops] = useState([]);
+  const popTimers = useRef([]);
+  const gradeAt = useRef(0);          // when this reveal began, for the honest fill
   const [micTried, setMicTried] = useState(false);        // N-8: label only — never gates replay
   const [exitAsk, setExitAsk] = useState(false);          // P1-4
   const [doneStats, setDoneStats] = useState(null);
@@ -314,12 +321,49 @@ export default function App() {
      starts from wherever it is and sweeps to the far edge over exactly the
      remaining wait: never backwards, and it still lands as the control
      wakes. */
-  function armAdvance(ms) {
-    if (advanceLive.current) return;
+  /* The sound-out reveal's choreography. Each tile takes its ring the moment
+     its OWN sound starts, on times the player measured off the clips it has
+     just scheduled — never a guessed delay, which would drift apart from the
+     sound the first time a word grew a tile or a sound was re-recorded a few
+     milliseconds longer. A tile carries a count rather than a flag, so the
+     ring restarts cleanly if the same tile is ever marked twice in one
+     reveal; React remounts the span on the new key and the animation runs
+     from its first frame. Nothing here can fire outside the feedback phase:
+     grade() clears the timers before it arms new ones, and next() clears them
+     with the reveal's sound. */
+  function clearPops() {
+    popTimers.current.forEach(clearTimeout);
+    popTimers.current = [];
+    setPops([]);
+  }
+  function schedulePops(tiles = []) {
+    popTimers.current.forEach(clearTimeout);
+    popTimers.current = tiles.map((t, i) => setTimeout(
+      () => setPops(p => { const n = p.slice(); n[i] = { n: (n[i]?.n || 0) + 1, ms: t.ms }; return n; }), t.at));
+  }
+
+  /* `real` marks the reveal's own measured length, which always wins. Without
+     it the 400 ms guard could reach its end first — six clips have to be
+     fetched and decoded before a length is known, and after a recording the
+     audio context is rebuilt and the decoded-clip cache dropped, so every
+     reveal in microphone mode decodes cold — and the guard's early arrival
+     would leave the control live for the whole seven-second reveal with the
+     fill sitting full. The first tap then kills the sound-out, which is the
+     one thing the wait exists to protect (CVC-UX-001). */
+  function armAdvance(ms, real = false) {
+    if (advanceLive.current && !real) return;
     clearTimeout(advanceTimer.current);
     const now = Date.now();
     let from = 0;
-    if (fillTrack.current) {
+    if (real) {
+      /* The guard may already have run out and woken the control. Undo that:
+         the true wait is the one the child is actually living through, and the
+         fill is redrawn at the honest fraction of it rather than continuing a
+         track that was measuring the wrong thing. */
+      advanceLive.current = false;
+      setAdvanceReady(false);
+      from = Math.min(1, Math.max(0, (now - (gradeAt.current || now)) / Math.max(ms, 1)));
+    } else if (fillTrack.current) {
       const f = fillTrack.current;
       from = Math.min(1, f.from + (1 - f.from) * Math.max(0, (now - f.t0) / f.ms));
     }
@@ -384,6 +428,8 @@ export default function App() {
     if (!freePlay) { setState(s); persist(s); }
     setLastGrade(result); setPhase("feedback");
     setAdvanceReady(false); advanceLive.current = false; fillTrack.current = null; setWaitFrom(0);
+    clearPops();
+    gradeAt.current = Date.now();
     /* P0-3, and CVC-UX-001: the reveal runs about five to seven seconds —
        praise, a pause, "The word was", a pause, then the word — and advancing
        silences it. A child who taps at once never hears the word said
@@ -399,13 +445,13 @@ export default function App() {
       /* The system voice says "reed" for "read". The recorded clip does not,
          so only this fallback is remapped to a praise line it can say. */
       () => speak(feedbackSpeech(result, word, ttsSafePraise(praiseIdx)), true, s.settings.lang),
-      (ms) => armAdvance(ms));
+      (ms, tiles) => { armAdvance(ms, true); schedulePops(tiles); });
     /* P1-7 lives in the effect below: this is the moment the control is
        disabled, so focusing it from here does nothing at all. */
   }
 
   function next() {
-    hush(); stopClips();                             // S2 — silence the last reveal before the next attempt
+    hush(); stopClips(); clearPops();                // S2 — silence the last reveal before the next attempt, and unmark its tiles
     clearNote();
     const word = queue[qi];
     let q = queue;
@@ -495,8 +541,11 @@ export default function App() {
      made the dialog's own controls move under their finger. */
   function askExit() {
     hardStopRec();
+    /* The reveal stops with the question. A seven-second sound-out playing on
+       behind the dialog, with the tiles still ringing, talks over the
+       grown-up while they read their options and decide. */
+    hush(); stopClips(); clearPops();
     if (freePlay) {                       // nothing to save, nothing to ask
-      hush(); stopClips();
       setFreePlay(false); fpState.current = null;
       setScreen("home");
       return;
@@ -507,7 +556,7 @@ export default function App() {
   function handleExit(choice) {
     hardStopRec();
     if (choice === "save") { finishSession(true); return; }
-    if (choice === "discard") { hush(); stopClips(); discardSession(); setExitAsk(false); setScreen("home"); return; }
+    if (choice === "discard") { hush(); stopClips(); clearPops(); discardSession(); setExitAsk(false); setScreen("home"); return; }
     setExitAsk(false);
   }
 
@@ -687,6 +736,11 @@ export default function App() {
   /* P1-1 + N-1 — replay exists only AFTER feedback; the word is never spoken pre-attempt */
   function replay() {
     if (phase !== "feedback") return;
+    /* speakVoice silences the sound-out on its way in. The rings were
+       scheduled against that sound, so they go with it: without this the
+       tiles kept lighting on the dead schedule while the child heard only the
+       bare word. */
+    clearPops();
     unlockVoice();
     speakVoice("replay", currentWord, 0, stateRef.current.settings.sound,
       () => speak([{ text: currentWord, rate: 0.9 }], true, stateRef.current.settings.lang));
@@ -787,6 +841,7 @@ export default function App() {
       micNote={micNote} adultNote={parentNote} phase={phase} lastGrade={lastGrade} order={order}
       firstResults={firstResults} answered={answered} totalQ={totalQ}
       advanceReady={advanceReady} waitMs={waitMs} waitFrom={waitFrom} finishes={finishes} micTried={micTried} listening={listening}
+      pops={pops}
       freePlay={freePlay} fpCount={fpCount} fpMode={fpMode.current}
       seenTwice={seenTwice} heard={heard} exitAsk={exitAsk}
       onExitAsk={askExit} grade={grade} next={next} skipReveal={skipReveal}

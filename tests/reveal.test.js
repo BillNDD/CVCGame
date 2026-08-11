@@ -13,12 +13,26 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { render, screen, fireEvent, act, cleanup } from "@testing-library/react";
 import { createElement } from "react";
+import { chunkWord } from "../src/engine.js";
 
 const REVEAL_MS = 5200;                       // a real reveal, measured from the pack
+/* The shape the real player reports: one entry per tile of THIS word, each
+   with the moment its own sound starts and how long that sound lasts. The
+   lengths differ on purpose — a real /k/ is 70 ms and a real /r/ is 430 —
+   because a fixed ring length was the fault this replaced. */
+const tileAt = (i) => 2400 + i * 700;
+const TILE_MS = [280, 190, 70, 430];
+const tilesFor = (word) => chunkWord(word).map((g, i) => ({ at: tileAt(i), ms: TILE_MS[i % 4] }));
 /* "pack" schedules clips and reports their length; "fallback" cannot play and
    hands the utterance to system speech; "silent" is sound turned off, where
    the module returns without a word to either side. */
 let voiceMode = "pack";
+/* "slow" is the reveal whose length arrives after the short guard has already
+   run out — six cold clips to fetch and decode. The double holds the callback
+   so a test can deliver the length whenever it likes. */
+let pendingScheduled = null;
+let lateWord = "";
+const lateReveal = (ms) => { if (pendingScheduled) pendingScheduled(ms, tilesFor(lateWord)); };
 
 vi.mock("../app/src/storage.js", () => ({
   loadState: vi.fn(async () => null),
@@ -33,9 +47,18 @@ vi.mock("../app/src/voicepacks.js", () => ({
   idbDeleteClip: vi.fn(async () => true),
   /* onScheduled is optional in the real module — the done and level-up lines
      have nothing to wait for — so the double must not insist on it. */
+  /* The sound-out reports the tile times with the length, so the double does
+     too: three tiles, each ringing as its own sound starts. The done and
+     level-up lines have no tiles and report none, which is why the caller
+     must survive being handed nothing. */
   speakVoice: (kind, word, praiseIdx, enabled, fallback, onScheduled) => {
-    if (voiceMode === "pack") { if (onScheduled) onScheduled(REVEAL_MS); }
-    else if (voiceMode === "fallback") fallback();
+    if (voiceMode === "slow") { pendingScheduled = onScheduled || null; lateWord = word; return; }
+    if (voiceMode === "pack") {
+      if (!onScheduled) return;
+      const tiles = kind === "correct" || kind === "close" || kind === "wrong"
+        ? tilesFor(word) : undefined;
+      onScheduled(REVEAL_MS, tiles);
+    } else if (voiceMode === "fallback") fallback();
   },
 }));
 
@@ -74,7 +97,7 @@ const walkToLastSlot = async () => {
   return document.querySelector(".wq-word").textContent;
 };
 
-beforeEach(() => { vi.useFakeTimers(); localStorage.clear(); voiceMode = "pack"; });
+beforeEach(() => { vi.useFakeTimers(); localStorage.clear(); voiceMode = "pack"; pendingScheduled = null; });
 afterEach(() => { cleanup(); vi.useRealTimers(); });
 
 describe("G10 — the child hears the word before the app lets them move on", () => {
@@ -159,6 +182,81 @@ describe("G10 — the child hears the word before the app lets them move on", ()
   /* A1-004 — the wait says how long it is. The fill's length is the reveal's
      own scheduled length, not a guess, and it exists only while the control is
      inert. The literals here are the mocked reveal and the short guard. */
+  /* The sound-out's teaching: each tile takes its ring as its OWN sound
+     plays. A ring on the wrong tile, or at the wrong moment, attaches the
+     sound to the wrong piece of the word, which is worse than no ring. */
+  it("9: each tile takes its ring as its own sound plays, for as long as that sound lasts", async () => {
+    await gradeOneWord();
+    const tiles = () => [...document.querySelectorAll(".wq-tile")];
+    const word = document.querySelector(".wq-word").textContent;
+    const n = chunkWord(word).length;
+    expect(tiles().length).toBe(n);
+    expect(tiles().filter((t) => t.classList.contains("wq-pop")).length).toBe(0);
+
+    for (let i = 0; i < n; i += 1) {
+      await flush(i === 0 ? tileAt(0) : tileAt(i) - tileAt(i - 1));
+      /* Every tile up to this one is ringed, and no tile beyond it: the
+         sound-out marks the word left to right, one piece at a time. */
+      expect(tiles().map((t) => t.classList.contains("wq-pop")))
+        .toEqual(tiles().map((_, j) => j <= i));
+      expect(tiles()[i].style.getPropertyValue("--wqpop")).toBe(TILE_MS[i % 4] + "ms");
+    }
+  });
+
+  it("10 (control): with no recorded reveal, no tile is ever ringed", async () => {
+    voiceMode = "fallback";
+    await gradeOneWord();
+    const n = chunkWord(document.querySelector(".wq-word").textContent).length;
+    await flush(REVEAL_MS + 50);
+    expect(document.querySelectorAll(".wq-tile.wq-pop").length).toBe(0);
+    expect(document.querySelectorAll(".wq-tile").length).toBe(n);   // the tiles are still shown
+  });
+
+  /* Replay silences the sound-out on its way in. The rings were scheduled
+     against that sound, so they must go with it: without this the tiles kept
+     lighting on a dead schedule while the child heard only the bare word. */
+  it("11: replay clears the rings it silenced", async () => {
+    await gradeOneWord();
+    await flush(tileAt(0));
+    expect(document.querySelectorAll(".wq-tile.wq-pop").length).toBe(1);
+    fireEvent.click(screen.getByLabelText("Hear the word again"));
+    await flush(0);
+    expect(document.querySelectorAll(".wq-tile.wq-pop").length).toBe(0);
+    await flush(REVEAL_MS);
+    expect(document.querySelectorAll(".wq-tile.wq-pop").length).toBe(0);
+  });
+
+  /* A seven-second reveal playing on behind the exit dialog talks over the
+     grown-up while they read their options. */
+  it("12: asking to finish early stops the reveal and its rings", async () => {
+    await gradeOneWord();
+    await flush(tileAt(0));
+    fireEvent.click(screen.getByLabelText("Leave session"));
+    await flush(0);
+    expect(screen.getByText("Finish early?")).toBeTruthy();
+    await flush(REVEAL_MS);
+    expect(document.querySelectorAll(".wq-tile.wq-pop").length).toBe(0);
+  });
+
+  /* The reveal's real length always wins over the 400 ms guard. Six clips
+     have to be fetched and decoded before a length is known, and in
+     microphone mode the decoded-clip cache is dropped before every reveal, so
+     the guard reaching its end first is an ordinary event, not a rare one. A
+     control left live for the rest of the reveal loses the child the word. */
+  it("13: a reveal length that arrives late still holds the control", async () => {
+    voiceMode = "slow";
+    await gradeOneWord();
+    await flush(600);                                  // past the 400 ms guard
+    expect(advance().disabled).toBe(false);            // the guard woke it, as it must
+    act(() => { lateReveal(REVEAL_MS); });
+    await flush(0);
+    expect(advance().disabled).toBe(true);             // and the truth takes it back
+    await flush(REVEAL_MS - 600);
+    expect(advance().disabled).toBe(true);
+    await flush(700);
+    expect(advance().disabled).toBe(false);
+  });
+
   it("4: the wait carries a fill for exactly as long as the reveal", async () => {
     await gradeOneWord();
     const fill = () => advance().querySelector(".wq-ctafill");

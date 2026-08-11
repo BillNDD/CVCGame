@@ -336,7 +336,7 @@ engine, never a hand-kept list.
   heard, alters a guard and grants one to an unheard word, drifts the lock file and deletes a
   word from it, deletes a word-table row, and quietly tunes an unlocked word; the detector
   must report every one.
-- Baseline floors: `g13_clips` (372) and `g13_engine_tests` (9).
+- Baseline floors: `g13_clips` (405) and `g13_engine_tests` (10).
 - To re-render the pack after the bank grows: `docs/voice-pack.md`.
 
 ## G19. App mutation
@@ -506,19 +506,50 @@ promised a fallback the code never performed; G12 counted the step and saw nothi
 - The file also carries the residual risks no gate can close: device proof and spoken-word
   quality are human (G12, G13).
 
+## G13b. Voice-pack speech edges
+
+### What it protects
+
+The sound-out reveal's 500 ms pause is a gap between one SOUND and the next, not between two
+files. Every clip carries a different amount of its own silence — the shipped pack runs 40 to
+290 ms in front and 0 to 608 ms behind — so a pause measured file to file would give gaps from
+540 ms to over a second, and the rhythm a child hears would not be the one the owner approved.
+The player therefore reads each clip's speech edges out of the manifest, and outlines each tile
+at the instant its sound starts rather than when its file starts.
+
+A manifest can state those edges wrongly and nothing else would notice: every file is present,
+the right size, and the right length. The reveal would simply play to a rhythm nobody chose.
+
+### How it works
+
+- Tool: `tools/voice-edges.py`. `--write` measures every clip in the pack and records the
+  result; `--check` re-measures from the audio and fails on any disagreement beyond one frame.
+- The measurement is the same one the demo used: the silence before and after the run of audio
+  louder than -45 dB relative to the clip's own peak, on 10 ms frames.
+- It also refuses edges that leave no speech between them, which is how a clip of pure silence
+  would otherwise satisfy every arithmetic check.
+- Baseline floors: `g13_clips` and `g13_edge_controls` (5).
+
+### Negative control
+
+`--self-test` plants four faults into a copy of the manifest — a lead 200 ms longer than the
+audio, a tail 200 ms shorter, a clip with no edges declared at all, and edges that leave no
+speech between them — and the check must report every one. A fifth case is the control in the
+other direction: the real pack, unchanged, must pass.
+
 ## G20. Effect map
 
-- Tool: `tools/effect-map.mjs`. Writes `docs/effect-map.md`. Keys: `g20_tests_mapped` (273).
+- Tool: `tools/effect-map.mjs`. Writes `docs/effect-map.md`. Keys: `g20_tests_mapped` (283).
 - One row per `it()` SITE — its file, suite, and the test's own sentence, which in this
   project IS the Given/When/Then effect, because tests are named as behaviour. A site inside
-  a loop or a table runs many times, so the 273 rows describe the 330 tests Vitest executes;
+  a loop or a table runs many times, so the 283 rows describe the 340 tests Vitest executes;
   the map counts the places behaviour is asserted, not the executions. `--check` reconciles
   the rows against the `it()` sites in each file, so a call the parser cannot read fails the
   build instead of silently going unmapped.
   Per FILE it records the requirement protected, the independent oracle, the platform, the
   mutant family that attacks it, the evidence produced, and the known limits: what these
   tests do NOT prove.
-- It is GENERATED, never hand-kept. A hand-written map of 273 tests starts lying the first
+- It is GENERATED, never hand-kept. A hand-written map of 283 tests starts lying the first
   time a test is renamed, and a document that lies is worse than none — "What counts as
   finished work" bans paperwork that guards nothing. The generator reads the real test
   files; `--check` fails when the committed map and the tree disagree, so a test with no row
