@@ -8,7 +8,7 @@ Per-test rows carry the test's own sentence, which in this project IS the
 Given/When/Then effect. The requirement, oracle, platform, mutant family, evidence
 and known limits are declared per FILE, in the tool, where they stay true.
 
-Totals: 255 it() SITES across 12 files, plus 10 gates that are not test files.
+Totals: 256 it() SITES across 12 files, plus 10 gates that are not test files.
 
 A site inside a loop or a table runs many times, so these rows describe more tests than they number: Vitest executes 330. The rows count the places behaviour is asserted.
 
@@ -33,7 +33,7 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 8 | G10 — the text a grown-up reads on the child | 27: one completed session counts as  |
 | 9 | G10 — the text a grown-up reads on the child | 28 (control): two sessions still count as  |
 
-## tests/engine.test.js — 79 tests (G1)
+## tests/engine.test.js — 80 tests (G1)
 
 - **Requirement protected:** SPEC sections 3-4: the word bank, levels, chunking, the Leitner ladder, session shape and the reveal plan
 - **Independent oracle:** Literal expected values written from SPEC by hand (E4). Never the constant under test.
@@ -44,7 +44,7 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 
 | # | Suite | Effect (the test's own sentence) |
 |---|---|---|
-| 1 | word bank | has 432 unique words across 11 levels |
+| 1 | word bank | has 436 unique words across 11 levels |
 | 2 | word bank | starts with the 12-word VC level |
 | 3 | word bank | maps every word to its level |
 | 4 | word bank | flags the nine tricky words |
@@ -92,37 +92,38 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 46 | migrate | is idempotent |
 | 47 | migrate | maps old level 6 to new level 7 and clamps out-of-range input |
 | 48 | migrate | survives hostile documents |
-| 49 | buildMarkdown | reports the 432-word denominator and eleven level rows |
+| 49 | buildMarkdown | reports the 436-word denominator and eleven level rows |
 | 50 | buildMarkdown | counts a word as mastered only from box 4 |
 | 51 | buildMarkdown | keeps a grapheme-safe name intact in the header |
 | 52 | buildMarkdown | marks a partial session |
 | 53 | voice packs | inventories one clip per word, the fixed sentences, and every sound a tile can ask for |
 | 54 | voice packs | covers every grapheme the whole bank can produce |
 | 55 | voice packs | bankWords covers every word the app names, not only the levels |
-| 56 | voice packs | gives every tricky word its true sounds, not its letters |
-| 57 | voice packs | splits th into its two sounds, across every th word in the bank |
-| 58 | voice packs | plans the sound-out reveal on every outcome, at the literal 500 ms seam |
-| 59 | voice packs | knows a seam from a clip, and how long each one lasts |
-| 60 | voice packs | maps each tile sound to its own tile, in order |
-| 61 | voice packs | resolves one source per utterance: family, then default, then none |
-| 62 | speech helpers | says full words only, never letter names, and never stretches the reveal |
-| 63 | speech helpers | stays silent when sound is off or no engine exists |
-| 64 | speech helpers | configures the utterance: rate 0.9, pitch 1.1, locale, cancel first |
-| 65 | speech helpers | pins the seventeen praise sentences, character for character |
-| 66 | speech helpers | selects the praise by index, and falls back to the first for a bad index |
-| 67 | speech helpers | queues reveal parts: one cancel, and both the lead and the word sentence at 0.9 |
-| 68 | speech helpers | survives a throwing speech service |
-| 69 | speech helpers | hush stops speech, and survives a missing engine |
-| 70 | speech helpers | vibrates only when the device can, and never throws |
-| 71 | reference storage adapter | reads nothing when no storage exists at all |
-| 72 | reference storage adapter | reads a saved document from the host storage |
-| 73 | reference storage adapter | keeps a copy of damaged data and reports it, even if the copy write fails |
-| 74 | reference storage adapter | saves to the host and answers from memory when the host disappears |
-| 75 | reference storage adapter | reports an unsaved visit when the host write fails |
-| 76 | reference storage adapter | falls back to memory when the host read throws |
-| 77 | G1 — the system voice is never given a word it says wrongly | 75: no praise line contains a word with two pronunciations |
-| 78 | G1 — the system voice is never given a word it says wrongly | 76: with no unsafe line listed, every praise index reaches the system voice unchanged |
-| 79 | G1 — the system voice is never given a word it says wrongly | 77: the clip plan carries the new line to the pack |
+| 56 | voice packs | no word uses ai or ou without a decided sound |
+| 57 | voice packs | gives every tricky word its true sounds, not its letters |
+| 58 | voice packs | splits th into its two sounds, across every th word in the bank |
+| 59 | voice packs | plans the sound-out reveal on every outcome, at the literal 500 ms seam |
+| 60 | voice packs | knows a seam from a clip, and how long each one lasts |
+| 61 | voice packs | maps each tile sound to its own tile, in order |
+| 62 | voice packs | resolves one source per utterance: family, then default, then none |
+| 63 | speech helpers | says full words only, never letter names, and never stretches the reveal |
+| 64 | speech helpers | stays silent when sound is off or no engine exists |
+| 65 | speech helpers | configures the utterance: rate 0.9, pitch 1.1, locale, cancel first |
+| 66 | speech helpers | pins the seventeen praise sentences, character for character |
+| 67 | speech helpers | selects the praise by index, and falls back to the first for a bad index |
+| 68 | speech helpers | queues reveal parts: one cancel, and both the lead and the word sentence at 0.9 |
+| 69 | speech helpers | survives a throwing speech service |
+| 70 | speech helpers | hush stops speech, and survives a missing engine |
+| 71 | speech helpers | vibrates only when the device can, and never throws |
+| 72 | reference storage adapter | reads nothing when no storage exists at all |
+| 73 | reference storage adapter | reads a saved document from the host storage |
+| 74 | reference storage adapter | keeps a copy of damaged data and reports it, even if the copy write fails |
+| 75 | reference storage adapter | saves to the host and answers from memory when the host disappears |
+| 76 | reference storage adapter | reports an unsaved visit when the host write fails |
+| 77 | reference storage adapter | falls back to memory when the host read throws |
+| 78 | G1 — the system voice is never given a word it says wrongly | 75: no praise line contains a word with two pronunciations |
+| 79 | G1 — the system voice is never given a word it says wrongly | 76: with no unsafe line listed, every praise index reaches the system voice unchanged |
+| 80 | G1 — the system voice is never given a word it says wrongly | 77: the clip plan carries the new line to the pack |
 
 ## tests/faults.test.js — 13 tests (G9)
 
@@ -233,7 +234,7 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | # | Suite | Effect (the test's own sentence) |
 |---|---|---|
 | 1 | G2 properties | P1: chunkWord round-trips every input |
-| 2 | G2 properties | P2: every chunk is one letter or one of the fourteen multi-letter units |
+| 2 | G2 properties | P2: every chunk is one letter or one of the sixteen multi-letter units |
 | 3 | G2 properties | P3: box stays in 0..5 through any result sequence |
 | 4 | G2 properties | P4: dueAt is the session plus the ladder value for the new box, and is in the future |
 | 5 | G2 properties | P5: attempts grows by exactly 1 per call and equals correct+close+wrong from fresh |

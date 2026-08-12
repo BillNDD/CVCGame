@@ -142,9 +142,17 @@ exclusions are recorded in SPEC section 12.
   newer version found either way installs and waits; it never applies over an open page.
 - S7. Child controls are 56 px or more. Adult controls are 44 px or more.
 - S8. Multi-letter units always show as one tile: the spoken digraphs (sh, ch, th, wh, ck,
-  ng), qu, the silent-letter pairs (kn, wr, mb), and the doubled endings (ll, ss, ff, zz).
-  Owner-approved 2026-08-04 with Levels 8 and 9; ph was considered and left out because no
-  word obeys the bank's own rules.
+  ng), qu, the silent-letter pairs (kn, wr, mb), the doubled endings (ll, ss, ff, zz), and
+  the two vowel teams inside heart words (ai, ou). Owner-approved 2026-08-04 with Levels 8
+  and 9; ph was considered and left out because no word obeys the bank's own rules. ai and
+  ou joined on 2026-08-12, approved by ear in the heart-word sound-out round: without them
+  "said" tiles as s-a-i-d and "you" as y-o-u, and the tiles would spell words no child will
+  ever hear. Neither has a ruled default sound — in the wider language ai says the long a of
+  rain and ou the /aʊ/ of out, and the pack holds neither — so every word using one must
+  bend it per word. A test enforces exactly that, with a control, because a unit with no
+  decided sound is the "default sound" fault (open-faults section B) waiting to happen.
+  These two are units for TILING only; teaching vowel teams as code stays ruled out
+  (SPEC section 12).
 - S9. No file in the repository contains a personal name. The child's name is a device-local
   setting only. One exception, owner-approved 2026-08-11: the name of a published author may
   appear, and be spoken, in the book credit of the passage stage (SPEC section 12). S9 exists

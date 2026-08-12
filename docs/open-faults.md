@@ -367,6 +367,66 @@ Both moved to meet the voice, ruled by the owner after hearing each sound-out bo
 The sweep is now at **0 disagreements across 432 words**. 46 remain unalignable (tile count and
 phoneme count differ) and are evidence of nothing either way.
 
+## H. The heart words that did not ship on 2026-08-12
+
+Four shipped — to, do, you, said. These three did not, and none of them is waiting on the
+owner's ear.
+
+### H1. `my` is ready in every way except a seat
+
+- **Where** `tools/pending-words/` holds `w-my.mp3`, graded perfect and byte-pinned since
+  2026-08-07. `tools/pending-sounds/s-long_i.mp3` is graded perfect (2026-08-12, heard alone
+  and inside the word). `tools/voice-sounds.csv` records both.
+- **Today** Not in the game. `d:long_i` was shipped and then un-shipped the same hour,
+  because with `my` seated nowhere it became an orphan clip and the voice gate said so.
+- **The fault** SPEC section 12 seats `my` in the open-syllable level, which is not built —
+  a placement made when `my` was thought of as an open-syllable phonics word. But a heart
+  word is by definition taught AHEAD of the code that would decode it, so seating it at its
+  phonics level is arguably the one thing a heart word must not do. Of the 40 approved
+  sentences, `my` unblocks **eight** — more than any word except `you`.
+- **Done** The owner rules where `my` sits. Then it ships in one command; nothing else is
+  needed.
+
+### H2. `of` — the sounds got "iterate on this", and the next arm is not the obvious one
+
+- **Where** `w-of.mp3` is approved and pinned. The proposed sound-out was o→short_u, f→v,
+  both shipped, both arguably right for the citation form /ʌv/.
+- **Today** Not in the game. Of the 40 approved sentences it unblocks **zero**, so nothing
+  waits on it.
+- **The fault** Unknown, and that is the point of the next round. Do NOT reach for
+  `o→schwa` first: B12 measures `d:schwa` and `d:short_u` as the same vowel, so the two arms
+  may be indistinguishable — the round-8 mistake. The stronger suspicion is `d:v`, a
+  formant-bent synthetic graded perfect ALONE and never heard in company, which is precisely
+  what B11 says produced the two poor sounds. There is also a cheap hypothesis worth testing
+  before any ear: settled.md records that this synthesiser cannot render a lone unvoiced
+  phoneme and gave θ a vowel release. If `d:v` is really "vuh", the sound-out is "uh-vuh" —
+  two syllables for a one-syllable word.
+- **Done** `d:v`'s envelope and voiced release are measured against the top-five band
+  BEFORE a round is built; the arms are chosen from what that says; and whatever wins is
+  heard in company beside `to` and `do`, which the owner has already passed.
+
+### H3. What a heart word's SEAT means is answered two ways in two files
+
+- **Where** `reference/word-quest.jsx` seats `the` at Level 7, `to`/`do` at 6, `you`/`said`
+  at 7. `tools/decodable.mjs` `vocabularyUpTo()` treats every word in the engine's `HEART`
+  as available from **Level 1**.
+- **Today** Both are true at once, so the sentence leveller claims a level the child cannot
+  read at. Measured across the 40 approved sentences: 32 are levellable, and **12 of those
+  are claimed below where the child actually meets the words** — "The cat sat on the mat."
+  reads as Level 2 and needs Level 7.
+- **The fault** Not new, and not made worse by this change: the old sixteen-word roster in
+  `decodable.mjs` did the same for these five words and worse for seven others it named
+  that have no seat at all. But it was advertised as fixed when the rosters were merged,
+  and it is only narrowed. A tool that says "Level 2" for a sentence a Level 2 child cannot
+  read is the fault, whichever list it came from.
+- **Done** The owner rules what a seat means: the level where the child MEETS the word (so
+  heart words move early, `vocabularyUpTo` reads `WORD_LEVEL`, and a 4-year-old's early
+  sessions contain undecodable words as a deliberate trade), or the level where the phonics
+  falls (so `vocabularyUpTo` stops treating heart words as Level 1). Until then
+  `decodable.mjs` must refuse to level a sentence below the highest seat of the heart words
+  inside it, rather than claiming a level it cannot support. **This is the single ruling
+  that unblocks sentence mode.**
+
 ## C. The audit trail
 
 ### C1. Sixty-four word rows carried no byte pin — CLOSED 2026-08-12
@@ -466,7 +526,7 @@ the *design* — the boundaries, the prerequisites, what the feature is. This se
 |---|---|---|
 | 2026-08-07 | Levels 10 and 11: final and initial blends | **Built 2026-08-12.** 83 words shipped |
 | 2026-08-07 | Levels 12 to 15: plural s, compounds, open syllables, magic e | Open. 32 approved words wait on 12, 13 and 14 |
-| 2026-08-07 | Heart words grow now: said, of, you, to, do, my | Open. The engine has no notion of a word taught by sight; six approved clips wait on it, and 40 approved sentences cannot be levelled without it |
+| 2026-08-07 | Heart words grow now: said, of, you, to, do, my | **Partly built 2026-08-12.** to, do, you and said ship, with S8 gaining ai and ou and the engine gaining a HEART roster. `of` waits on an iterate round; `my` waits on a LEVEL SEAT, not a sound — see H1 |
 | 2026-08-07 | Sentence mode | Open. 41 sentences approved by ear, recorded, and unusable |
 | 2026-08-07 | Build-it encoding mode, practice only | Open. Not started |
 | 2026-08-07 | Speedy words fluency round in the free-play chooser | Open. Not started |

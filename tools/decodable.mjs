@@ -16,17 +16,21 @@
  *   node tools/decodable.mjs --self-test            prove the checker catches
  */
 import { readFileSync } from "node:fs";
-import { LEVELS, TRICKY } from "../src/engine.js";
+import { LEVELS, TRICKY, HEART } from "../src/engine.js";
 
-/* The sixteen heart words the owner ruled onto the roster (SPEC section 12).
-   Most are not decodable by the code the child has been taught, which is the
-   whole reason they are taught by sight — so a sentence may use them from
-   Level 1. Three of them are here for a different reason, owner-ruled
-   2026-08-11: "the", "a" and "and" are the words a child meets on page one of
-   every book, and leaving them where the phonics falls puts "the" at Level 7
-   (it needs th) and "and" at Level 10 (it needs a final blend), which gates
-   almost every sentence worth reading behind two thirds of the game. */
-export const HEART = ["a", "and", "be", "do", "go", "he", "me", "my", "no", "of", "said", "so", "the", "to", "we", "you"];
+/* THE SHIPPED ROSTER COMES FROM THE ENGINE, and this file no longer keeps one
+   of its own. It used to export a list of sixteen and treat every one of them
+   as available from Level 1 — which meant this tool would happily call a
+   sentence "Level 2" when it contained "he", a word no child has ever met in
+   this game. Two rosters, one of them wishful, is the drift section F of the
+   fault list is about, and an adversarial review found it on 2026-08-12.
+
+   What is left here is the WAITING list, named for what it is. These words are
+   ruled onto the roster and are not in the game: each needs a level seat, and
+   several need a sound the owner has not heard. A sentence levelled against
+   this list is levelled against a future, and `vocabularyUpTo` deliberately
+   does not read it. */
+export const HEART_WAITING = ["a", "be", "go", "he", "me", "my", "no", "of", "so", "we"];
 
 /* Levels beyond the eleven that ship today, as proposed. A sentence for a level
    may use every word up to and including it. Levels 10 and 11 left this map on
@@ -36,6 +40,9 @@ export const PROPOSED = {
   13: "catnip laptop sunset".split(" "),
 };
 
+/* What a child at this level has actually been taught. HEART is the engine's
+   own roster — the sight words that are really in the game — and never the
+   waiting list above. */
 export function vocabularyUpTo(level) {
   const v = new Set(HEART);
   for (const l of LEVELS) if (l.n <= level) for (const w of l.words) v.add(w);

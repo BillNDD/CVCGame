@@ -16,18 +16,18 @@ const seeded = (words, patch) => { const s = newState(); words.forEach(w => { s.
 
 /* ---------------- bank ---------------- */
 describe("word bank", () => {
-  it("has 432 unique words across 11 levels", () => {
+  it("has 436 unique words across 11 levels", () => {
     const all = LEVELS.flatMap(l => l.words);
-    expect(all.length).toBe(432);
-    expect(new Set(all).size).toBe(432);
+    expect(all.length).toBe(436);
+    expect(new Set(all).size).toBe(436);
     expect(LEVELS.map(l => l.n)).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]);
-    expect(LEVELS.map(l => l.words.length)).toEqual([12, 44, 49, 48, 50, 38, 59, 27, 22, 54, 29]);
+    expect(LEVELS.map(l => l.words.length)).toEqual([12, 44, 49, 48, 50, 40, 61, 27, 22, 54, 29]);
   });
   it("starts with the 12-word VC level", () => {
     expect(LEVELS[0].words).toEqual(["at","an","am","ax","in","it","if","is","on","ox","up","us"]);
   });
   it("maps every word to its level", () => {
-    expect(Object.keys(WORD_LEVEL).length).toBe(432);
+    expect(Object.keys(WORD_LEVEL).length).toBe(436);
     expect(WORD_LEVEL.at).toBe(1); expect(WORD_LEVEL.cat).toBe(2); expect(WORD_LEVEL.was).toBe(7);
     expect(WORD_LEVEL.has).toBe(2); expect(WORD_LEVEL.she).toBe(6); expect(WORD_LEVEL.the).toBe(7);
     expect(WORD_LEVEL.bell).toBe(8); expect(WORD_LEVEL.chick).toBe(9);
@@ -68,7 +68,12 @@ describe("chunkWord and dashed", () => {
     expect(chunkWord("thumb")).toEqual(["th","u","mb"]);
     expect(chunkWord("bell")).toEqual(["b","e","ll"]);
     expect(chunkWord("whizz")).toEqual(["wh","i","zz"]);
-    expect(DIGRAPHS).toEqual(["sh","ch","th","wh","ck","ng","qu","kn","wr","mb","ll","ss","ff","zz"]);
+    /* The two units the heart words needed, owner-approved 2026-08-12. Pinned
+       by the words that motivated them, not only by the list, so a unit that
+       stopped fusing would fail here even if the list still named it. */
+    expect(chunkWord("said")).toEqual(["s","ai","d"]);
+    expect(chunkWord("you")).toEqual(["y","ou"]);
+    expect(DIGRAPHS).toEqual(["sh","ch","th","wh","ck","ng","qu","kn","wr","mb","ll","ss","ff","zz","ai","ou"]);
   });
   it("splits VC and plain CVC words", () => {
     expect(chunkWord("ax")).toEqual(["a","x"]);
@@ -340,16 +345,16 @@ describe("migrate", () => {
 
 /* ---------------- export ---------------- */
 describe("buildMarkdown", () => {
-  it("reports the 432-word denominator and eleven level rows", () => {
+  it("reports the 436-word denominator and eleven level rows", () => {
     const md = buildMarkdown(newState());
-    expect(md).toContain("0/432");
+    expect(md).toContain("0/436");
     expect(md.match(/\*\*Level \d+ .+ \(/g).length).toBe(11);
   });
   it("counts a word as mastered only from box 4", () => {
     const three = seeded(["cat", "dog"], { box: 3, attempts: 2 });
-    expect(buildMarkdown(three)).toContain("0/432");
+    expect(buildMarkdown(three)).toContain("0/436");
     const four = seeded(["cat", "dog"], { box: 4, attempts: 2 });
-    expect(buildMarkdown(four)).toContain("2/432");
+    expect(buildMarkdown(four)).toContain("2/436");
   });
   it("keeps a grapheme-safe name intact in the header", () => {
     // lone surrogate = an unpaired HIGH surrogate, or a LOW surrogate with no high before it
@@ -374,10 +379,10 @@ describe("buildMarkdown", () => {
 describe("voice packs", () => {
   it("inventories one clip per word, the fixed sentences, and every sound a tile can ask for", () => {
     const script = voiceScript();
-    expect(script.length).toBe(489);                       // 6 sentences + 17 praise + 432 words + "Pronounced:" + 33 sounds
-    expect(script.filter((c) => c.id.startsWith("w:")).length).toBe(432);
-    expect(script.filter((c) => c.id.startsWith("d:")).length).toBe(33);
-    expect(new Set(script.map((c) => c.id)).size).toBe(489);
+    expect(script.length).toBe(494);                       // 6 sentences + 17 praise + 436 words + "Pronounced:" + 34 sounds
+    expect(script.filter((c) => c.id.startsWith("w:")).length).toBe(436);
+    expect(script.filter((c) => c.id.startsWith("d:")).length).toBe(34);
+    expect(new Set(script.map((c) => c.id)).size).toBe(494);
     expect(script.find((c) => c.id === "s:was").text).toBe("The word was");
     expect(script.find((c) => c.id === "l:wrong").text).toBe("Let’s try again.");
     expect(script.find((c) => c.id === "p:0").text).toBe("Great job!");
@@ -398,7 +403,7 @@ describe("voice packs", () => {
   it("covers every grapheme the whole bank can produce", () => {
     const graphemes = new Set();
     for (const l of LEVELS) for (const w of l.words) for (const g of chunkWord(w)) graphemes.add(g);
-    expect(graphemes.size).toBe(39);
+    expect(graphemes.size).toBe(41);
     /* B1, owner-ruled 2026-08-12: the ROSTER is pinned, not just its size.
        `soundIdFor` is `"d:" + (TILE_SOUND[g] || g)`, so a grapheme nobody has
        ruled on still returns a valid clip id, resolvePack still resolves, every
@@ -414,18 +419,33 @@ describe("voice packs", () => {
        person puts it in one list or the other, which is the moment the decision
        gets made. */
     expect([...graphemes].sort()).toEqual(
-      ["a", "b", "c", "ch", "ck", "d", "e", "f", "ff", "g", "h", "i", "j", "k", "kn", "l",
-       "ll", "m", "mb", "n", "ng", "o", "p", "qu", "r", "s", "sh", "ss", "t", "th", "u",
+      ["a", "ai", "b", "c", "ch", "ck", "d", "e", "f", "ff", "g", "h", "i", "j", "k", "kn", "l",
+       "ll", "m", "mb", "n", "ng", "o", "ou", "p", "qu", "r", "s", "sh", "ss", "t", "th", "u",
        "v", "w", "wh", "wr", "x", "y", "z", "zz"]);
     const named = [...graphemes].filter((g) => soundIdFor(g) !== "d:" + g).sort();
     const fallback = [...graphemes].filter((g) => soundIdFor(g) === "d:" + g).sort();
     expect(named).toEqual(
       ["a", "c", "ck", "e", "ff", "i", "kn", "ll", "mb", "o", "ss", "th", "u", "wh", "wr", "zz"]);
+    /* "ai" and "ou" arrived on 2026-08-12 for "said" and "you" and sit on the
+       FALLBACK side deliberately, which is the one place in this roster where
+       that is not a decision but a deferral — so it gets its own guard below.
+       Neither has a ruled default sound. In the wider language "ai" says long a
+       (rain, wait) and "ou" says the /aʊ/ of out, which the pack does not hold
+       at all. Both words that use them bend them per-word instead. */
     expect(fallback).toEqual(
-      ["b", "ch", "d", "f", "g", "h", "j", "k", "l", "m", "n", "ng", "p", "qu", "r", "s",
+      ["ai", "b", "ch", "d", "f", "g", "h", "j", "k", "l", "m", "n", "ng", "ou", "p", "qu", "r", "s",
        "sh", "t", "v", "w", "x", "y", "z"]);
     const inv = new Set(soundInventory());
-    for (const g of graphemes) expect(inv.has(soundIdFor(g))).toBe(true);
+    /* Every grapheme's DEFAULT sound must exist — except the two that have no
+       ruled default and are only ever used bent. Naming them here rather than
+       loosening the loop keeps the exception countable, and the test above
+       ("no word uses ai or ou without a decided sound") is what makes the
+       exception safe: the moment a word uses one unbent, that test fails. */
+    const NO_DEFAULT_YET = ["ai", "ou"];
+    for (const g of graphemes) {
+      if (NO_DEFAULT_YET.includes(g)) { expect(inv.has(soundIdFor(g))).toBe(false); continue; }
+      expect(inv.has(soundIdFor(g))).toBe(true);
+    }
     for (const w of bankWords()) {
       expect(soundIdsFor(w).length).toBe(chunkWord(w).length);   // S8 — one tile, one sound
       for (const id of soundIdsFor(w)) expect(inv.has(id)).toBe(true);
@@ -441,7 +461,7 @@ describe("voice packs", () => {
      will name words this way and must not be the thing that finds it. */
   it("bankWords covers every word the app names, not only the levels", () => {
     const words = bankWords();
-    expect(words.length).toBe(432);
+    expect(words.length).toBe(436);
     expect([...new Set(words)].length).toBe(words.length);       // no duplicates
     expect([...words].sort()).toEqual(words);                    // stable order
     const inLevels = new Set();
@@ -454,7 +474,7 @@ describe("voice packs", () => {
     for (const w of inLevels) expect(words.includes(w)).toBe(true);
     /* Today all three sets coincide, and recording that is the point: it is
        what made the old code look right. */
-    expect(inLevels.size).toBe(432);
+    expect(inLevels.size).toBe(436);
 
     /* Negative control. The old LEVELS-only derivation, run over a fixture
        where a word is named ONLY in a tricky note, must miss it — and the
@@ -466,6 +486,35 @@ describe("voice packs", () => {
     const newWay = new Set([...oldWay, ...Object.keys(fixtureTricky)]);
     expect(oldWay.has("said")).toBe(false);                      // the fault
     expect(newWay.has("said")).toBe(true);                       // the fix
+  });
+
+  /* The two units on the fallback with no ruled sound of their own. Every word
+     that uses one MUST bend it per-word, or the sound-out asks for d:ai or
+     d:ou — ids no clip exists for — and the whole reveal drops to system
+     speech for that word alone, silently. This is the same shape as B9 and the
+     same shape as th: a default nobody decided, producing audio anyway.
+     The guard exists because the roster test above records "ai" and "ou" as
+     deferred rather than decided, and a deferral with no guard is just a hole. */
+  it("no word uses ai or ou without a decided sound", () => {
+    const UNRULED = ["ai", "ou"];
+    const inv = new Set(soundInventory());
+    const offenders = [];
+    for (const w of bankWords()) {
+      const tiles = chunkWord(w), ids = soundIdsFor(w);
+      tiles.forEach((g, i) => {
+        if (UNRULED.includes(g) && ids[i] === "d:" + g) offenders.push(w + ":" + g);
+      });
+    }
+    expect(offenders).toEqual([]);
+    // and neither unruled id is in the inventory, so nothing can be asking for one
+    for (const g of UNRULED) expect(inv.has("d:" + g)).toBe(false);
+    /* Control: the check must catch a word that uses one unbent. "rain" is not
+       in the bank; if it were, with no WORD_SOUND entry, it would ask for
+       d:ai. Built from the same two functions the loop above uses. */
+    const rainTiles = chunkWord("rain"), rainIds = soundIdsFor("rain");
+    expect(rainTiles).toEqual(["r", "ai", "n"]);
+    expect(rainIds[1]).toBe("d:ai");                 // exactly the fault, on a word not in the bank
+    expect(inv.has(rainIds[1])).toBe(false);         // and no clip for it
   });
 
   /* Owner-ruled 2026-08-06, docs/settled.md: "the bent letter plays its TRUE

@@ -905,6 +905,52 @@ also worth remembering from the attempt: no screenshot or recording tells you th
 a green desktop reproduction does not clear a fault reported on a real device — but neither
 does it convict the code.
 
+## The heart-word sound-out round (2026-08-12) — closed
+
+Eight items, one page, one evening. The owner heard two sounds alone and six whole
+sound-outs assembled from the real clips at the app's own 500 ms spacing.
+
+| item | verdict |
+|---|---|
+| `oo_moon` alone | perfect |
+| `long_i` alone | perfect |
+| `to` — t, o→oo | perfect |
+| `do` — d, o→oo | perfect |
+| `my` — m, y→eye | perfect |
+| `you` — y, ou→oo | perfect |
+| `said` — s, ai→e, d | perfect |
+| `of` — o→u, f→v | **iterate on this** |
+
+**What the round was actually for.** All six word clips had been graded `perfect` since
+2026-08-07 and byte-pinned in `tools/pending-words/`. The ear was never the blocker. The
+blocker was the SOUND-OUT: left to the general mapping, measured against the model's own
+phoneme string, "of" would have taught /ɒ/ /f/ for a word that says /ʌv/, "to" and "do" a
+short o where they say /u/, "said" four sounds where it has three, and "you" three where it
+has two. Every id resolved, every clip existed, and no gate objected — the "default sound"
+fault of open-faults section B, which had just been closed as a class that morning.
+
+**What shipped.** `to` and `do` to Level 6, `you` and `said` to Level 7. `oo_moon` shipped;
+it had no row in `tools/voice-sounds.csv` at all before that day. Safety rule S8 gained
+`ai` and `ou` as tiling units, verified first against every bank word so nothing already
+shipped re-tiled underneath it.
+
+**What did NOT ship, and why — none of it about the audio.**
+- `my` and `long_i`: both perfect. SPEC seats `my` in the open-syllable level, which is not
+  built, so `long_i` was shipped and then un-shipped as an orphan clip and recorded as
+  approved-and-unshipped. **The blocker is a seat, not a sound.**
+- `of`: the only iterate. Do not reach for `o→schwa` as the next arm without measuring
+  first — B12 records `d:schwa` and `d:short_u` as the SAME vowel by formant (/ʌ/ and /ə/
+  differ by stress, not quality), so offering both risks the round-8 mistake of two arms a
+  listener cannot tell apart. The likelier axis is `d:v`: a formant-bent synthetic graded
+  perfect ALONE and never heard in company, which is exactly what B11 says produced the two
+  poor sounds. Measure its envelope and its voiced release before spending an ear.
+
+**A counting error of mine is on the record too.** I told the owner `my` needed a new tile
+unit. It did not: `tools/sound_agreement.py` splits a phoneme string into CHARACTERS, so
+the diphthong /aɪ/ came back as two entries against two tiles and I read it as a mismatch.
+The same error made `a` look like one. Only `you` and `said` were real mismatches. If that
+tool is used to judge a tile count again, count phonemes, not characters.
+
 ## The trap this project keeps falling into
 
 A fix that is approved but not applied is worse than no fix: it reads as done.

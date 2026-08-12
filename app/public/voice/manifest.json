@@ -83,6 +83,12 @@
   "ms": 552,
   "tail": 302
  },
+ "d:oo_moon": {
+  "file": "d-oo_moon.mp3",
+  "lead": 50,
+  "ms": 360,
+  "tail": 20
+ },
  "d:p": {
   "file": "d-p.mp3",
   "lead": 40,
@@ -820,6 +826,12 @@
   "lead": 120,
   "ms": 864,
   "tail": 314
+ },
+ "w:do": {
+  "file": "w-do.mp3",
+  "lead": 120,
+  "ms": 768,
+  "tail": 308
  },
  "w:dock": {
   "file": "w-dock.mp3",
@@ -2207,6 +2219,12 @@
   "ms": 1032,
   "tail": 322
  },
+ "w:said": {
+  "file": "w-said.mp3",
+  "lead": 120,
+  "ms": 864,
+  "tail": 324
+ },
  "w:sand": {
   "file": "w-sand.mp3",
   "lead": 130,
@@ -2615,6 +2633,12 @@
   "ms": 940,
   "tail": 438
  },
+ "w:to": {
+  "file": "w-to.mp3",
+  "lead": 200,
+  "ms": 840,
+  "tail": 310
+ },
  "w:top": {
   "file": "w-top.mp3",
   "lead": 120,
@@ -2909,6 +2933,12 @@
   "ms": 960,
   "tail": 320
  },
+ "w:you": {
+  "file": "w-you.mp3",
+  "lead": 120,
+  "ms": 864,
+  "tail": 324
+ },
  "w:zag": {
   "file": "w-zag.mp3",
   "lead": 230,
@@ -2934,417 +2964,823 @@
   "tail": 316
  },
  "__recipe": {
-  "voice": "af_heart",
+  "asr_guard_ms": {
+   "back": [
+    30,
+    40
+   ],
+   "bash": [
+    30,
+    40
+   ],
+   "bell": [
+    30,
+    40
+   ],
+   "bet": [
+    30,
+    40
+   ],
+   "bib": [
+    40,
+    40
+   ],
+   "big": [
+    40,
+    40
+   ],
+   "boss": [
+    30,
+    40
+   ],
+   "box": [
+    40,
+    40
+   ],
+   "bush": [
+    30,
+    40
+   ],
+   "cash": [
+    30,
+    40
+   ],
+   "chap": [
+    30,
+    40
+   ],
+   "chat": [
+    30,
+    40
+   ],
+   "chin": [
+    30,
+    40
+   ],
+   "chip": [
+    30,
+    40
+   ],
+   "chop": [
+    30,
+    40
+   ],
+   "chug": [
+    30,
+    40
+   ],
+   "cuff": [
+    30,
+    40
+   ],
+   "dash": [
+    30,
+    40
+   ],
+   "deck": [
+    30,
+    40
+   ],
+   "dig": [
+    40,
+    40
+   ],
+   "ding": [
+    30,
+    40
+   ],
+   "dock": [
+    30,
+    40
+   ],
+   "dog": [
+    40,
+    40
+   ],
+   "duck": [
+    30,
+    40
+   ],
+   "fax": [
+    30,
+    40
+   ],
+   "fit": [
+    40,
+    40
+   ],
+   "fix": [
+    40,
+    40
+   ],
+   "fox": [
+    40,
+    40
+   ],
+   "gas": [
+    30,
+    40
+   ],
+   "gong": [
+    30,
+    40
+   ],
+   "him": [
+    40,
+    40
+   ],
+   "hush": [
+    30,
+    40
+   ],
+   "jig": [
+    30,
+    40
+   ],
+   "jot": [
+    30,
+    40
+   ],
+   "king": [
+    30,
+    40
+   ],
+   "kiss": [
+    30,
+    40
+   ],
+   "lash": [
+    30,
+    40
+   ],
+   "lid": [
+    30,
+    40
+   ],
+   "log": [
+    40,
+    40
+   ],
+   "mash": [
+    30,
+    40
+   ],
+   "mess": [
+    30,
+    40
+   ],
+   "mix": [
+    30,
+    40
+   ],
+   "mom": [
+    40,
+    40
+   ],
+   "mop": [
+    40,
+    40
+   ],
+   "moth": [
+    30,
+    40
+   ],
+   "muck": [
+    30,
+    40
+   ],
+   "mush": [
+    30,
+    40
+   ],
+   "nab": [
+    30,
+    40
+   ],
+   "nod": [
+    40,
+    40
+   ],
+   "not": [
+    40,
+    40
+   ],
+   "peck": [
+    30,
+    40
+   ],
+   "pen": [
+    30,
+    40
+   ],
+   "pig": [
+    40,
+    40
+   ],
+   "pit": [
+    40,
+    40
+   ],
+   "pop": [
+    40,
+    40
+   ],
+   "posh": [
+    30,
+    40
+   ],
+   "pun": [
+    30,
+    40
+   ],
+   "quit": [
+    30,
+    40
+   ],
+   "ram": [
+    40,
+    40
+   ],
+   "rib": [
+    30,
+    40
+   ],
+   "rock": [
+    30,
+    40
+   ],
+   "rung": [
+    30,
+    40
+   ],
+   "sad": [
+    80,
+    40
+   ],
+   "sat": [
+    80,
+    40
+   ],
+   "sax": [
+    30,
+    40
+   ],
+   "sham": [
+    30,
+    40
+   ],
+   "she": [
+    30,
+    40
+   ],
+   "sip": [
+    80,
+    80
+   ],
+   "six": [
+    80,
+    80
+   ],
+   "tab": [
+    30,
+    40
+   ],
+   "tag": [
+    40,
+    40
+   ],
+   "tan": [
+    40,
+    40
+   ],
+   "tell": [
+    30,
+    40
+   ],
+   "thud": [
+    30,
+    40
+   ],
+   "tick": [
+    30,
+    40
+   ],
+   "tip": [
+    40,
+    40
+   ],
+   "top": [
+    40,
+    40
+   ],
+   "vex": [
+    30,
+    40
+   ],
+   "wag": [
+    40,
+    40
+   ],
+   "was": [
+    30,
+    40
+   ],
+   "wash": [
+    30,
+    40
+   ],
+   "wax": [
+    30,
+    40
+   ],
+   "well": [
+    30,
+    40
+   ],
+   "whim": [
+    30,
+    40
+   ],
+   "win": [
+    40,
+    40
+   ],
+   "wing": [
+    30,
+    40
+   ],
+   "wish": [
+    30,
+    40
+   ],
+   "yak": [
+    30,
+    40
+   ],
+   "yap": [
+    40,
+    40
+   ],
+   "yes": [
+    30,
+    40
+   ]
+  },
+  "asr_pinned": {
+   "back": [
+    "Here is the word, back.",
+    0.969,
+    1.58
+   ],
+   "bash": [
+    "Here is the word, bash.",
+    0.991,
+    1.72
+   ],
+   "bell": [
+    "Here is the word, bell.",
+    0.991,
+    1.62
+   ],
+   "bet": [
+    "Here is the word, bet.",
+    1.055,
+    1.7
+   ],
+   "bib": [
+    "Say bib.",
+    0.46,
+    0.92
+   ],
+   "big": [
+    "Say big.",
+    0.46,
+    0.96
+   ],
+   "boss": [
+    "Here is the word, boss.",
+    0.969,
+    1.56
+   ],
+   "box": [
+    "Say box.",
+    0.46,
+    0.92
+   ],
+   "bush": [
+    "Here is the word, bush.",
+    0.991,
+    1.58
+   ],
+   "cash": [
+    "Here is the word, cash.",
+    0.969,
+    1.7
+   ],
+   "chap": [
+    "Here is the word, chap.",
+    0.841,
+    1.7
+   ],
+   "chat": [
+    "Here is the word, chat.",
+    0.884,
+    1.52
+   ],
+   "chin": [
+    "Here is the word, chin.",
+    0.905,
+    1.72
+   ],
+   "chip": [
+    "Here is the word, chip.",
+    0.927,
+    1.76
+   ],
+   "chop": [
+    "Here is the word, chop.",
+    0.927,
+    1.82
+   ],
+   "chug": [
+    "Here is the word, chug.",
+    0.905,
+    1.75
+   ],
+   "cuff": [
+    "Here is the word, cuff.",
+    0.969,
+    1.64
+   ],
+   "dash": [
+    "Here is the word, dash.",
+    0.948,
+    1.6
+   ],
+   "deck": [
+    "Here is the word, deck.",
+    0.927,
+    1.64
+   ],
+   "dig": [
+    "Say dig.",
+    0.46,
+    0.96
+   ],
+   "ding": [
+    "Here is the word, ding.",
+    0.969,
+    1.62
+   ],
+   "dock": [
+    "Here is the word, dock.",
+    0.969,
+    1.6
+   ],
+   "dog": [
+    "Say dog.",
+    0.46,
+    1.0
+   ],
+   "duck": [
+    "Here is the word, duck.",
+    0.948,
+    1.66
+   ],
+   "fax": [
+    "Here it is, fax.",
+    0.735,
+    1.26
+   ],
+   "fit": [
+    "Say fit.",
+    0.48,
+    0.92
+   ],
+   "fix": [
+    "Say fix.",
+    0.52,
+    0.82
+   ],
+   "fox": [
+    "Say fox.",
+    0.46,
+    0.94
+   ],
+   "gas": [
+    "Here is the word, gas.",
+    0.969,
+    1.6
+   ],
+   "gong": [
+    "Here is the word, gong.",
+    0.948,
+    1.7
+   ],
+   "him": [
+    "Say him.",
+    0.46,
+    0.88
+   ],
+   "hush": [
+    "Here is the word, hush.",
+    1.033,
+    1.72
+   ],
+   "jig": [
+    "Here is the word, jig.",
+    0.969,
+    1.82
+   ],
+   "jot": [
+    "Here is the word, jot.",
+    0.905,
+    1.65
+   ],
+   "king": [
+    "Here is the word, king.",
+    0.969,
+    1.6
+   ],
+   "kiss": [
+    "Here is the word, kiss.",
+    0.948,
+    1.68
+   ],
+   "lash": [
+    "Here is the word, lash.",
+    0.969,
+    1.78
+   ],
+   "lid": [
+    "Here is the word, lid.",
+    1.033,
+    1.7
+   ],
+   "log": [
+    "Say log.",
+    0.44,
+    0.9
+   ],
+   "mash": [
+    "Here is the word, mash.",
+    0.927,
+    1.62
+   ],
+   "mess": [
+    "Here is the word, mess.",
+    0.948,
+    1.6
+   ],
+   "mix": [
+    "Here is the word, mix.",
+    1.012,
+    1.66
+   ],
+   "mom": [
+    "Say mom.",
+    0.46,
+    0.86
+   ],
+   "mop": [
+    "Say mop.",
+    0.5,
+    0.88
+   ],
+   "moth": [
+    "Here is the word, moth.",
+    0.884,
+    1.52
+   ],
+   "muck": [
+    "Here is the word, muck.",
+    0.948,
+    1.58
+   ],
+   "mush": [
+    "Here is the word, mush.",
+    0.948,
+    1.6
+   ],
+   "nab": [
+    "Here it is, nab.",
+    0.756,
+    1.28
+   ],
+   "nod": [
+    "Say nod.",
+    0.4,
+    0.88
+   ],
+   "not": [
+    "Say not.",
+    0.4,
+    0.88
+   ],
+   "peck": [
+    "Here is the word, peck.",
+    0.991,
+    1.76
+   ],
+   "pen": [
+    "Here is the word, pen.",
+    0.948,
+    1.6
+   ],
+   "pig": [
+    "Say pig.",
+    0.46,
+    0.88
+   ],
+   "pit": [
+    "Say pit.",
+    0.48,
+    0.96
+   ],
+   "pop": [
+    "Say pop.",
+    0.46,
+    0.9
+   ],
+   "posh": [
+    "Here is the word, posh.",
+    0.948,
+    1.72
+   ],
+   "pun": [
+    "Here is the word, pun.",
+    0.927,
+    1.62
+   ],
+   "quit": [
+    "Here is the word, quit.",
+    1.012,
+    1.44
+   ],
+   "ram": [
+    "Say ram.",
+    0.44,
+    0.96
+   ],
+   "rib": [
+    "Here is the word, rib.",
+    1.012,
+    1.66
+   ],
+   "rock": [
+    "Here is the word, rock.",
+    1.012,
+    1.66
+   ],
+   "rung": [
+    "Here it is, rung.",
+    0.756,
+    1.297
+   ],
+   "sad": [
+    "Say sad.",
+    0.44,
+    0.92
+   ],
+   "sat": [
+    "Say sat.",
+    0.46,
+    0.98
+   ],
+   "sax": [
+    "Here it is, sax.",
+    0.777,
+    1.44
+   ],
+   "sham": [
+    "Here is the word, sham.",
+    0.969,
+    1.6
+   ],
+   "she": [
+    "Here is the word, she.",
+    0.863,
+    1.56
+   ],
+   "sip": [
+    "Say sip.",
+    0.52,
+    1.12
+   ],
+   "six": [
+    "Say six.",
+    0.48,
+    1.18
+   ],
+   "tab": [
+    "Here is the word, tab.",
+    0.884,
+    1.54
+   ],
+   "tag": [
+    "Say tag.",
+    0.42,
+    0.98
+   ],
+   "tan": [
+    "Say tan.",
+    0.42,
+    0.88
+   ],
+   "tell": [
+    "Here is the word, tell.",
+    0.905,
+    1.5
+   ],
+   "thud": [
+    "Here is the word, thud.",
+    1.055,
+    1.8
+   ],
+   "tick": [
+    "Here is the word, tick.",
+    0.927,
+    1.64
+   ],
+   "tip": [
+    "Say tip.",
+    0.46,
+    0.94
+   ],
+   "top": [
+    "Say top.",
+    0.42,
+    0.9
+   ],
+   "vex": [
+    "Here is the word, vex.",
+    0.969,
+    1.74
+   ],
+   "wag": [
+    "Say wag.",
+    0.42,
+    0.88
+   ],
+   "was": [
+    "Here is the word, was.",
+    0.991,
+    1.64
+   ],
+   "wash": [
+    "Here is the word, wash.",
+    1.033,
+    1.78
+   ],
+   "wax": [
+    "Here is the word, wax.",
+    0.969,
+    1.58
+   ],
+   "well": [
+    "Here it is, well.",
+    0.735,
+    1.26
+   ],
+   "whim": [
+    "Here is the word, whim.",
+    1.033,
+    1.7
+   ],
+   "win": [
+    "Say win.",
+    0.42,
+    0.86
+   ],
+   "wing": [
+    "Here is the word, wing.",
+    0.969,
+    1.6
+   ],
+   "wish": [
+    "Here it is, wish.",
+    0.756,
+    1.28
+   ],
+   "yak": [
+    "Here is the word, yak.",
+    0.969,
+    1.56
+   ],
+   "yap": [
+    "Say yap.",
+    0.48,
+    1.02
+   ],
+   "yes": [
+    "Here is the word, yes.",
+    0.969,
+    1.58
+   ]
+  },
   "bitrate": 96,
-  "word_speed": 0.85,
-  "sentence_speed": 1.0,
-  "lead_ms": 80,
-  "tail_ms": 300,
-  "fade_ms": 10,
-  "phoneme_words": [],
-  "trim_ms": {},
-  "phoneme_sentences": [],
-  "period_words": [
-   "rich"
-  ],
-  "onset_trim_words": [],
   "bright_head_ms": {
    "rat": 40
-  },
-  "lead_override": {
-   "am": 150,
-   "an": 150,
-   "bit": 180,
-   "had": 150,
-   "nix": 220,
-   "pin": 180,
-   "rat": 120
-  },
-  "word_speed_override": {
-   "am": 0.82,
-   "an": 0.82,
-   "and": 1.0,
-   "ant": 0.95,
-   "ask": 0.95,
-   "at": 0.82,
-   "ax": 0.82,
-   "back": 0.82,
-   "bag": 0.82,
-   "bang": 0.82,
-   "bash": 0.82,
-   "bat": 0.82,
-   "bath": 0.82,
-   "bed": 0.82,
-   "bell": 0.82,
-   "best": 0.95,
-   "bet": 0.82,
-   "bib": 0.82,
-   "big": 0.82,
-   "bin": 0.82,
-   "bit": 0.82,
-   "bolt": 0.9,
-   "bond": 0.95,
-   "boss": 0.82,
-   "box": 0.82,
-   "buck": 0.82,
-   "bud": 0.82,
-   "bug": 0.82,
-   "bump": 1.0,
-   "bun": 0.82,
-   "bus": 0.82,
-   "bush": 0.82,
-   "buzz": 1.0,
-   "cap": 1.0,
-   "cash": 0.82,
-   "cat": 0.82,
-   "chap": 0.82,
-   "chat": 0.82,
-   "check": 0.82,
-   "chess": 0.82,
-   "chick": 1.0,
-   "chill": 0.82,
-   "chin": 0.82,
-   "chip": 0.82,
-   "chop": 0.82,
-   "chuck": 1.0,
-   "chug": 0.82,
-   "chum": 1.0,
-   "clap": 0.8,
-   "cod": 0.82,
-   "cop": 0.82,
-   "cot": 1.0,
-   "cub": 1.0,
-   "cuff": 0.82,
-   "cup": 0.82,
-   "cut": 0.82,
-   "dam": 0.82,
-   "damp": 0.95,
-   "dash": 0.82,
-   "deck": 0.82,
-   "den": 0.82,
-   "dent": 0.95,
-   "did": 1.0,
-   "dig": 0.82,
-   "dim": 0.82,
-   "ding": 0.82,
-   "dip": 0.82,
-   "dish": 1.0,
-   "dock": 0.82,
-   "dog": 0.82,
-   "doll": 0.82,
-   "dot": 0.82,
-   "drop": 0.8,
-   "drum": 0.8,
-   "duck": 0.82,
-   "dug": 1.0,
-   "end": 0.95,
-   "fan": 0.82,
-   "fang": 0.82,
-   "fast": 0.95,
-   "fax": 0.82,
-   "fed": 0.82,
-   "fell": 0.82,
-   "fig": 0.82,
-   "fin": 0.82,
-   "fish": 0.82,
-   "fit": 0.82,
-   "fix": 0.82,
-   "fizz": 1.0,
-   "flag": 0.75,
-   "flat": 0.95,
-   "fog": 0.82,
-   "fox": 0.82,
-   "fun": 0.82,
-   "fuss": 0.82,
-   "fuzz": 1.0,
-   "gap": 0.82,
-   "gas": 0.82,
-   "gash": 0.82,
-   "get": 0.82,
-   "glad": 0.8,
-   "gob": 1.0,
-   "gong": 0.82,
-   "got": 0.82,
-   "grab": 0.95,
-   "grin": 0.8,
-   "gum": 0.82,
-   "gush": 1.0,
-   "gut": 1.0,
-   "had": 0.82,
-   "ham": 0.82,
-   "hang": 0.82,
-   "has": 0.82,
-   "hat": 0.82,
-   "help": 0.95,
-   "hem": 1.0,
-   "hen": 0.82,
-   "hid": 1.0,
-   "hill": 1.0,
-   "him": 0.82,
-   "hip": 0.82,
-   "hit": 1.0,
-   "hog": 0.82,
-   "hop": 0.82,
-   "hot": 0.82,
-   "hub": 1.0,
-   "huff": 1.0,
-   "hug": 1.0,
-   "hum": 0.82,
-   "hung": 1.0,
-   "hush": 0.82,
-   "hut": 1.0,
-   "if": 1.0,
-   "in": 0.82,
-   "is": 0.82,
-   "it": 0.82,
-   "jab": 0.82,
-   "jam": 0.82,
-   "jazz": 1.0,
-   "jet": 0.82,
-   "jig": 0.82,
-   "job": 0.82,
-   "jog": 0.82,
-   "jot": 0.82,
-   "jug": 0.82,
-   "jut": 1.0,
-   "keg": 1.0,
-   "kick": 0.82,
-   "kid": 0.82,
-   "king": 0.82,
-   "kiss": 0.82,
-   "kit": 1.0,
-   "knit": 0.82,
-   "knob": 1.0,
-   "knock": 0.82,
-   "knot": 1.0,
-   "lab": 0.82,
-   "lad": 0.82,
-   "lamb": 0.82,
-   "land": 1.0,
-   "lap": 0.82,
-   "lash": 0.82,
-   "last": 0.9,
-   "led": 0.82,
-   "leg": 0.82,
-   "let": 1.0,
-   "lick": 1.0,
-   "lid": 0.82,
-   "limb": 0.82,
-   "lip": 0.82,
-   "list": 0.95,
-   "lit": 1.0,
-   "lock": 1.0,
-   "log": 0.82,
-   "long": 1.0,
-   "loss": 1.0,
-   "lot": 0.82,
-   "luck": 1.0,
-   "lug": 1.0,
-   "lung": 0.82,
-   "lush": 1.0,
-   "mad": 0.82,
-   "man": 0.82,
-   "map": 0.82,
-   "mash": 0.82,
-   "mat": 0.82,
-   "math": 0.82,
-   "men": 0.82,
-   "mend": 0.8,
-   "mess": 0.82,
-   "met": 0.82,
-   "mill": 0.82,
-   "miss": 0.82,
-   "mix": 0.82,
-   "mob": 1.0,
-   "mom": 0.82,
-   "mop": 0.82,
-   "moth": 0.82,
-   "much": 1.0,
-   "muck": 0.82,
-   "mud": 0.82,
-   "mug": 1.0,
-   "mush": 0.82,
-   "must": 0.9,
-   "nab": 0.82,
-   "neck": 1.0,
-   "net": 1.0,
-   "nix": 0.82,
-   "nod": 0.82,
-   "not": 0.82,
-   "nun": 1.0,
-   "nut": 1.0,
-   "on": 0.82,
-   "ox": 0.82,
-   "pack": 0.82,
-   "pat": 0.82,
-   "path": 1.0,
-   "peck": 0.82,
-   "peg": 0.82,
-   "pen": 0.82,
-   "pep": 0.82,
-   "pet": 0.82,
-   "pick": 1.0,
-   "pig": 0.82,
-   "pin": 0.82,
-   "ping": 1.0,
-   "pit": 0.82,
-   "pod": 0.82,
-   "pop": 0.82,
-   "posh": 0.82,
-   "pot": 0.8,
-   "puck": 1.0,
-   "puff": 1.0,
-   "pump": 0.95,
-   "pun": 0.82,
-   "pup": 0.82,
-   "push": 1.0,
-   "quack": 0.82,
-   "quick": 1.0,
-   "quill": 1.0,
-   "quip": 1.0,
-   "quit": 0.82,
-   "quiz": 1.0,
-   "ram": 0.82,
-   "ran": 0.88,
-   "rang": 0.82,
-   "rap": 0.82,
-   "rash": 0.82,
-   "rat": 0.82,
-   "red": 0.82,
-   "rest": 0.95,
-   "rib": 0.82,
-   "rich": 0.8,
-   "rig": 1.0,
-   "rim": 1.0,
-   "ring": 0.82,
-   "rip": 0.82,
-   "rob": 0.82,
-   "rock": 0.82,
-   "rod": 0.82,
-   "rot": 1.0,
-   "rub": 1.0,
-   "rug": 1.0,
-   "run": 0.82,
-   "rung": 0.82,
-   "rush": 1.0,
-   "sack": 0.82,
-   "sad": 0.82,
-   "sag": 0.82,
-   "sang": 0.82,
-   "sap": 0.82,
-   "sash": 0.82,
-   "sat": 0.82,
-   "sax": 0.82,
-   "set": 0.82,
-   "shack": 1.0,
-   "sham": 0.82,
-   "she": 0.82,
-   "shed": 1.0,
-   "shell": 0.82,
-   "shin": 0.82,
-   "ship": 0.82,
-   "shock": 1.0,
-   "shop": 0.82,
-   "shun": 1.0,
-   "shut": 0.82,
-   "sick": 1.0,
-   "silk": 0.8,
-   "sing": 0.82,
-   "sip": 0.82,
-   "sit": 0.82,
-   "six": 0.82,
-   "sled": 0.8,
-   "slid": 0.75,
-   "slip": 0.95,
-   "snap": 0.95,
-   "snug": 0.75,
-   "sob": 1.0,
-   "sock": 1.0,
-   "soft": 1.05,
-   "song": 0.82,
-   "spot": 0.8,
-   "stop": 0.95,
-   "sub": 1.0,
-   "such": 1.0,
-   "sum": 0.82,
-   "sun": 0.82,
-   "sung": 1.0,
-   "swam": 0.75,
-   "swim": 0.8,
-   "tab": 0.82,
-   "tack": 1.0,
-   "tag": 0.82,
-   "tan": 0.82,
-   "tap": 0.83,
-   "tell": 0.82,
-   "ten": 0.82,
-   "that": 0.82,
-   "the": 1.0,
-   "them": 1.0,
-   "then": 0.82,
-   "thick": 1.0,
-   "thin": 0.82,
-   "this": 0.82,
-   "thud": 0.82,
-   "thumb": 0.82,
-   "tick": 0.82,
-   "tin": 0.82,
-   "tip": 0.82,
-   "top": 0.82,
-   "tot": 0.82,
-   "trap": 0.8,
-   "trip": 0.95,
-   "tub": 1.0,
-   "tuck": 1.0,
-   "tug": 1.0,
-   "twig": 0.8,
-   "twin": 0.95,
-   "up": 0.82,
-   "us": 0.82,
-   "van": 0.82,
-   "vat": 0.82,
-   "vet": 0.82,
-   "vex": 0.82,
-   "wag": 0.82,
-   "was": 0.82,
-   "wash": 0.82,
-   "wax": 0.82,
-   "web": 1.0,
-   "wed": 1.0,
-   "well": 0.82,
-   "wet": 1.0,
-   "whack": 1.0,
-   "wham": 0.82,
-   "what": 0.82,
-   "when": 0.82,
-   "whiff": 1.0,
-   "whim": 0.82,
-   "whip": 0.82,
-   "whizz": 0.82,
-   "wick": 1.0,
-   "win": 0.82,
-   "wing": 0.82,
-   "wish": 0.82,
-   "wit": 0.82,
-   "with": 0.82,
-   "wrap": 0.82,
-   "wreck": 1.0,
-   "wren": 0.82,
-   "wrong": 1.0,
-   "yak": 0.82,
-   "yam": 0.82,
-   "yap": 0.82,
-   "yes": 0.82,
-   "yet": 0.82,
-   "zag": 0.82,
-   "zap": 0.82,
-   "zig": 0.82,
-   "zip": 0.82
-  },
-  "head_trim_ms": {
-   "if": 25,
-   "lip": 80,
-   "van": 40
   },
   "carrier_cut": {
    "am": [
@@ -4782,819 +5218,11 @@
     20
    ]
   },
-  "asr_pinned": {
-   "back": [
-    "Here is the word, back.",
-    0.969,
-    1.58
-   ],
-   "bash": [
-    "Here is the word, bash.",
-    0.991,
-    1.72
-   ],
-   "bell": [
-    "Here is the word, bell.",
-    0.991,
-    1.62
-   ],
-   "bet": [
-    "Here is the word, bet.",
-    1.055,
-    1.7
-   ],
-   "bib": [
-    "Say bib.",
-    0.46,
-    0.92
-   ],
-   "big": [
-    "Say big.",
-    0.46,
-    0.96
-   ],
-   "boss": [
-    "Here is the word, boss.",
-    0.969,
-    1.56
-   ],
-   "box": [
-    "Say box.",
-    0.46,
-    0.92
-   ],
-   "bush": [
-    "Here is the word, bush.",
-    0.991,
-    1.58
-   ],
-   "cash": [
-    "Here is the word, cash.",
-    0.969,
-    1.7
-   ],
-   "chap": [
-    "Here is the word, chap.",
-    0.841,
-    1.7
-   ],
-   "chat": [
-    "Here is the word, chat.",
-    0.884,
-    1.52
-   ],
-   "chin": [
-    "Here is the word, chin.",
-    0.905,
-    1.72
-   ],
-   "chip": [
-    "Here is the word, chip.",
-    0.927,
-    1.76
-   ],
-   "chop": [
-    "Here is the word, chop.",
-    0.927,
-    1.82
-   ],
-   "chug": [
-    "Here is the word, chug.",
-    0.905,
-    1.75
-   ],
-   "cuff": [
-    "Here is the word, cuff.",
-    0.969,
-    1.64
-   ],
-   "dash": [
-    "Here is the word, dash.",
-    0.948,
-    1.6
-   ],
-   "deck": [
-    "Here is the word, deck.",
-    0.927,
-    1.64
-   ],
-   "dig": [
-    "Say dig.",
-    0.46,
-    0.96
-   ],
-   "ding": [
-    "Here is the word, ding.",
-    0.969,
-    1.62
-   ],
-   "dock": [
-    "Here is the word, dock.",
-    0.969,
-    1.6
-   ],
-   "dog": [
-    "Say dog.",
-    0.46,
-    1.0
-   ],
-   "duck": [
-    "Here is the word, duck.",
-    0.948,
-    1.66
-   ],
-   "fax": [
-    "Here it is, fax.",
-    0.735,
-    1.26
-   ],
-   "fit": [
-    "Say fit.",
-    0.48,
-    0.92
-   ],
-   "fix": [
-    "Say fix.",
-    0.52,
-    0.82
-   ],
-   "fox": [
-    "Say fox.",
-    0.46,
-    0.94
-   ],
-   "gas": [
-    "Here is the word, gas.",
-    0.969,
-    1.6
-   ],
-   "gong": [
-    "Here is the word, gong.",
-    0.948,
-    1.7
-   ],
-   "him": [
-    "Say him.",
-    0.46,
-    0.88
-   ],
-   "hush": [
-    "Here is the word, hush.",
-    1.033,
-    1.72
-   ],
-   "jig": [
-    "Here is the word, jig.",
-    0.969,
-    1.82
-   ],
-   "jot": [
-    "Here is the word, jot.",
-    0.905,
-    1.65
-   ],
-   "king": [
-    "Here is the word, king.",
-    0.969,
-    1.6
-   ],
-   "kiss": [
-    "Here is the word, kiss.",
-    0.948,
-    1.68
-   ],
-   "lash": [
-    "Here is the word, lash.",
-    0.969,
-    1.78
-   ],
-   "lid": [
-    "Here is the word, lid.",
-    1.033,
-    1.7
-   ],
-   "log": [
-    "Say log.",
-    0.44,
-    0.9
-   ],
-   "mash": [
-    "Here is the word, mash.",
-    0.927,
-    1.62
-   ],
-   "mess": [
-    "Here is the word, mess.",
-    0.948,
-    1.6
-   ],
-   "mix": [
-    "Here is the word, mix.",
-    1.012,
-    1.66
-   ],
-   "mom": [
-    "Say mom.",
-    0.46,
-    0.86
-   ],
-   "mop": [
-    "Say mop.",
-    0.5,
-    0.88
-   ],
-   "moth": [
-    "Here is the word, moth.",
-    0.884,
-    1.52
-   ],
-   "muck": [
-    "Here is the word, muck.",
-    0.948,
-    1.58
-   ],
-   "mush": [
-    "Here is the word, mush.",
-    0.948,
-    1.6
-   ],
-   "nab": [
-    "Here it is, nab.",
-    0.756,
-    1.28
-   ],
-   "nod": [
-    "Say nod.",
-    0.4,
-    0.88
-   ],
-   "not": [
-    "Say not.",
-    0.4,
-    0.88
-   ],
-   "peck": [
-    "Here is the word, peck.",
-    0.991,
-    1.76
-   ],
-   "pen": [
-    "Here is the word, pen.",
-    0.948,
-    1.6
-   ],
-   "pig": [
-    "Say pig.",
-    0.46,
-    0.88
-   ],
-   "pit": [
-    "Say pit.",
-    0.48,
-    0.96
-   ],
-   "pop": [
-    "Say pop.",
-    0.46,
-    0.9
-   ],
-   "posh": [
-    "Here is the word, posh.",
-    0.948,
-    1.72
-   ],
-   "pun": [
-    "Here is the word, pun.",
-    0.927,
-    1.62
-   ],
-   "quit": [
-    "Here is the word, quit.",
-    1.012,
-    1.44
-   ],
-   "ram": [
-    "Say ram.",
-    0.44,
-    0.96
-   ],
-   "rib": [
-    "Here is the word, rib.",
-    1.012,
-    1.66
-   ],
-   "rock": [
-    "Here is the word, rock.",
-    1.012,
-    1.66
-   ],
-   "rung": [
-    "Here it is, rung.",
-    0.756,
-    1.297
-   ],
-   "sad": [
-    "Say sad.",
-    0.44,
-    0.92
-   ],
-   "sat": [
-    "Say sat.",
-    0.46,
-    0.98
-   ],
-   "sax": [
-    "Here it is, sax.",
-    0.777,
-    1.44
-   ],
-   "sham": [
-    "Here is the word, sham.",
-    0.969,
-    1.6
-   ],
-   "she": [
-    "Here is the word, she.",
-    0.863,
-    1.56
-   ],
-   "sip": [
-    "Say sip.",
-    0.52,
-    1.12
-   ],
-   "six": [
-    "Say six.",
-    0.48,
-    1.18
-   ],
-   "tab": [
-    "Here is the word, tab.",
-    0.884,
-    1.54
-   ],
-   "tag": [
-    "Say tag.",
-    0.42,
-    0.98
-   ],
-   "tan": [
-    "Say tan.",
-    0.42,
-    0.88
-   ],
-   "tell": [
-    "Here is the word, tell.",
-    0.905,
-    1.5
-   ],
-   "thud": [
-    "Here is the word, thud.",
-    1.055,
-    1.8
-   ],
-   "tick": [
-    "Here is the word, tick.",
-    0.927,
-    1.64
-   ],
-   "tip": [
-    "Say tip.",
-    0.46,
-    0.94
-   ],
-   "top": [
-    "Say top.",
-    0.42,
-    0.9
-   ],
-   "vex": [
-    "Here is the word, vex.",
-    0.969,
-    1.74
-   ],
-   "wag": [
-    "Say wag.",
-    0.42,
-    0.88
-   ],
-   "was": [
-    "Here is the word, was.",
-    0.991,
-    1.64
-   ],
-   "wash": [
-    "Here is the word, wash.",
-    1.033,
-    1.78
-   ],
-   "wax": [
-    "Here is the word, wax.",
-    0.969,
-    1.58
-   ],
-   "well": [
-    "Here it is, well.",
-    0.735,
-    1.26
-   ],
-   "whim": [
-    "Here is the word, whim.",
-    1.033,
-    1.7
-   ],
-   "win": [
-    "Say win.",
-    0.42,
-    0.86
-   ],
-   "wing": [
-    "Here is the word, wing.",
-    0.969,
-    1.6
-   ],
-   "wish": [
-    "Here it is, wish.",
-    0.756,
-    1.28
-   ],
-   "yak": [
-    "Here is the word, yak.",
-    0.969,
-    1.56
-   ],
-   "yap": [
-    "Say yap.",
-    0.48,
-    1.02
-   ],
-   "yes": [
-    "Here is the word, yes.",
-    0.969,
-    1.58
-   ]
-  },
-  "asr_guard_ms": {
-   "back": [
-    30,
-    40
-   ],
-   "bash": [
-    30,
-    40
-   ],
-   "bell": [
-    30,
-    40
-   ],
-   "bet": [
-    30,
-    40
-   ],
-   "bib": [
-    40,
-    40
-   ],
-   "big": [
-    40,
-    40
-   ],
-   "boss": [
-    30,
-    40
-   ],
-   "box": [
-    40,
-    40
-   ],
-   "bush": [
-    30,
-    40
-   ],
-   "cash": [
-    30,
-    40
-   ],
-   "chap": [
-    30,
-    40
-   ],
-   "chat": [
-    30,
-    40
-   ],
-   "chin": [
-    30,
-    40
-   ],
-   "chip": [
-    30,
-    40
-   ],
-   "chop": [
-    30,
-    40
-   ],
-   "chug": [
-    30,
-    40
-   ],
-   "cuff": [
-    30,
-    40
-   ],
-   "dash": [
-    30,
-    40
-   ],
-   "deck": [
-    30,
-    40
-   ],
-   "dig": [
-    40,
-    40
-   ],
-   "ding": [
-    30,
-    40
-   ],
-   "dock": [
-    30,
-    40
-   ],
-   "dog": [
-    40,
-    40
-   ],
-   "duck": [
-    30,
-    40
-   ],
-   "fax": [
-    30,
-    40
-   ],
-   "fit": [
-    40,
-    40
-   ],
-   "fix": [
-    40,
-    40
-   ],
-   "fox": [
-    40,
-    40
-   ],
-   "gas": [
-    30,
-    40
-   ],
-   "gong": [
-    30,
-    40
-   ],
-   "him": [
-    40,
-    40
-   ],
-   "hush": [
-    30,
-    40
-   ],
-   "jig": [
-    30,
-    40
-   ],
-   "jot": [
-    30,
-    40
-   ],
-   "king": [
-    30,
-    40
-   ],
-   "kiss": [
-    30,
-    40
-   ],
-   "lash": [
-    30,
-    40
-   ],
-   "lid": [
-    30,
-    40
-   ],
-   "log": [
-    40,
-    40
-   ],
-   "mash": [
-    30,
-    40
-   ],
-   "mess": [
-    30,
-    40
-   ],
-   "mix": [
-    30,
-    40
-   ],
-   "mom": [
-    40,
-    40
-   ],
-   "mop": [
-    40,
-    40
-   ],
-   "moth": [
-    30,
-    40
-   ],
-   "muck": [
-    30,
-    40
-   ],
-   "mush": [
-    30,
-    40
-   ],
-   "nab": [
-    30,
-    40
-   ],
-   "nod": [
-    40,
-    40
-   ],
-   "not": [
-    40,
-    40
-   ],
-   "peck": [
-    30,
-    40
-   ],
-   "pen": [
-    30,
-    40
-   ],
-   "pig": [
-    40,
-    40
-   ],
-   "pit": [
-    40,
-    40
-   ],
-   "pop": [
-    40,
-    40
-   ],
-   "posh": [
-    30,
-    40
-   ],
-   "pun": [
-    30,
-    40
-   ],
-   "quit": [
-    30,
-    40
-   ],
-   "ram": [
-    40,
-    40
-   ],
-   "rib": [
-    30,
-    40
-   ],
-   "rock": [
-    30,
-    40
-   ],
-   "rung": [
-    30,
-    40
-   ],
-   "sad": [
-    80,
-    40
-   ],
-   "sat": [
-    80,
-    40
-   ],
-   "sax": [
-    30,
-    40
-   ],
-   "sham": [
-    30,
-    40
-   ],
-   "she": [
-    30,
-    40
-   ],
-   "sip": [
-    80,
-    80
-   ],
-   "six": [
-    80,
-    80
-   ],
-   "tab": [
-    30,
-    40
-   ],
-   "tag": [
-    40,
-    40
-   ],
-   "tan": [
-    40,
-    40
-   ],
-   "tell": [
-    30,
-    40
-   ],
-   "thud": [
-    30,
-    40
-   ],
-   "tick": [
-    30,
-    40
-   ],
-   "tip": [
-    40,
-    40
-   ],
-   "top": [
-    40,
-    40
-   ],
-   "vex": [
-    30,
-    40
-   ],
-   "wag": [
-    40,
-    40
-   ],
-   "was": [
-    30,
-    40
-   ],
-   "wash": [
-    30,
-    40
-   ],
-   "wax": [
-    30,
-    40
-   ],
-   "well": [
-    30,
-    40
-   ],
-   "whim": [
-    30,
-    40
-   ],
-   "win": [
-    40,
-    40
-   ],
-   "wing": [
-    30,
-    40
-   ],
-   "wish": [
-    30,
-    40
-   ],
-   "yak": [
-    30,
-    40
-   ],
-   "yap": [
-    40,
-    40
-   ],
-   "yes": [
-    30,
-    40
-   ]
+  "fade_ms": 10,
+  "head_trim_ms": {
+   "if": 25,
+   "lip": 80,
+   "van": 40
   },
   "keepers_treatments": [
    "am",
@@ -6019,6 +5647,410 @@
    "zap",
    "zig",
    "zip"
-  ]
+  ],
+  "lead_ms": 80,
+  "lead_override": {
+   "am": 150,
+   "an": 150,
+   "bit": 180,
+   "had": 150,
+   "nix": 220,
+   "pin": 180,
+   "rat": 120
+  },
+  "onset_trim_words": [],
+  "period_words": [
+   "rich"
+  ],
+  "phoneme_sentences": [],
+  "phoneme_words": [],
+  "sentence_speed": 1.0,
+  "tail_ms": 300,
+  "trim_ms": {},
+  "voice": "af_heart",
+  "word_speed": 0.85,
+  "word_speed_override": {
+   "am": 0.82,
+   "an": 0.82,
+   "and": 1.0,
+   "ant": 0.95,
+   "ask": 0.95,
+   "at": 0.82,
+   "ax": 0.82,
+   "back": 0.82,
+   "bag": 0.82,
+   "bang": 0.82,
+   "bash": 0.82,
+   "bat": 0.82,
+   "bath": 0.82,
+   "bed": 0.82,
+   "bell": 0.82,
+   "best": 0.95,
+   "bet": 0.82,
+   "bib": 0.82,
+   "big": 0.82,
+   "bin": 0.82,
+   "bit": 0.82,
+   "bolt": 0.9,
+   "bond": 0.95,
+   "boss": 0.82,
+   "box": 0.82,
+   "buck": 0.82,
+   "bud": 0.82,
+   "bug": 0.82,
+   "bump": 1.0,
+   "bun": 0.82,
+   "bus": 0.82,
+   "bush": 0.82,
+   "buzz": 1.0,
+   "cap": 1.0,
+   "cash": 0.82,
+   "cat": 0.82,
+   "chap": 0.82,
+   "chat": 0.82,
+   "check": 0.82,
+   "chess": 0.82,
+   "chick": 1.0,
+   "chill": 0.82,
+   "chin": 0.82,
+   "chip": 0.82,
+   "chop": 0.82,
+   "chuck": 1.0,
+   "chug": 0.82,
+   "chum": 1.0,
+   "clap": 0.8,
+   "cod": 0.82,
+   "cop": 0.82,
+   "cot": 1.0,
+   "cub": 1.0,
+   "cuff": 0.82,
+   "cup": 0.82,
+   "cut": 0.82,
+   "dam": 0.82,
+   "damp": 0.95,
+   "dash": 0.82,
+   "deck": 0.82,
+   "den": 0.82,
+   "dent": 0.95,
+   "did": 1.0,
+   "dig": 0.82,
+   "dim": 0.82,
+   "ding": 0.82,
+   "dip": 0.82,
+   "dish": 1.0,
+   "dock": 0.82,
+   "dog": 0.82,
+   "doll": 0.82,
+   "dot": 0.82,
+   "drop": 0.8,
+   "drum": 0.8,
+   "duck": 0.82,
+   "dug": 1.0,
+   "end": 0.95,
+   "fan": 0.82,
+   "fang": 0.82,
+   "fast": 0.95,
+   "fax": 0.82,
+   "fed": 0.82,
+   "fell": 0.82,
+   "fig": 0.82,
+   "fin": 0.82,
+   "fish": 0.82,
+   "fit": 0.82,
+   "fix": 0.82,
+   "fizz": 1.0,
+   "flag": 0.75,
+   "flat": 0.95,
+   "fog": 0.82,
+   "fox": 0.82,
+   "fun": 0.82,
+   "fuss": 0.82,
+   "fuzz": 1.0,
+   "gap": 0.82,
+   "gas": 0.82,
+   "gash": 0.82,
+   "get": 0.82,
+   "glad": 0.8,
+   "gob": 1.0,
+   "gong": 0.82,
+   "got": 0.82,
+   "grab": 0.95,
+   "grin": 0.8,
+   "gum": 0.82,
+   "gush": 1.0,
+   "gut": 1.0,
+   "had": 0.82,
+   "ham": 0.82,
+   "hang": 0.82,
+   "has": 0.82,
+   "hat": 0.82,
+   "help": 0.95,
+   "hem": 1.0,
+   "hen": 0.82,
+   "hid": 1.0,
+   "hill": 1.0,
+   "him": 0.82,
+   "hip": 0.82,
+   "hit": 1.0,
+   "hog": 0.82,
+   "hop": 0.82,
+   "hot": 0.82,
+   "hub": 1.0,
+   "huff": 1.0,
+   "hug": 1.0,
+   "hum": 0.82,
+   "hung": 1.0,
+   "hush": 0.82,
+   "hut": 1.0,
+   "if": 1.0,
+   "in": 0.82,
+   "is": 0.82,
+   "it": 0.82,
+   "jab": 0.82,
+   "jam": 0.82,
+   "jazz": 1.0,
+   "jet": 0.82,
+   "jig": 0.82,
+   "job": 0.82,
+   "jog": 0.82,
+   "jot": 0.82,
+   "jug": 0.82,
+   "jut": 1.0,
+   "keg": 1.0,
+   "kick": 0.82,
+   "kid": 0.82,
+   "king": 0.82,
+   "kiss": 0.82,
+   "kit": 1.0,
+   "knit": 0.82,
+   "knob": 1.0,
+   "knock": 0.82,
+   "knot": 1.0,
+   "lab": 0.82,
+   "lad": 0.82,
+   "lamb": 0.82,
+   "land": 1.0,
+   "lap": 0.82,
+   "lash": 0.82,
+   "last": 0.9,
+   "led": 0.82,
+   "leg": 0.82,
+   "let": 1.0,
+   "lick": 1.0,
+   "lid": 0.82,
+   "limb": 0.82,
+   "lip": 0.82,
+   "list": 0.95,
+   "lit": 1.0,
+   "lock": 1.0,
+   "log": 0.82,
+   "long": 1.0,
+   "loss": 1.0,
+   "lot": 0.82,
+   "luck": 1.0,
+   "lug": 1.0,
+   "lung": 0.82,
+   "lush": 1.0,
+   "mad": 0.82,
+   "man": 0.82,
+   "map": 0.82,
+   "mash": 0.82,
+   "mat": 0.82,
+   "math": 0.82,
+   "men": 0.82,
+   "mend": 0.8,
+   "mess": 0.82,
+   "met": 0.82,
+   "mill": 0.82,
+   "miss": 0.82,
+   "mix": 0.82,
+   "mob": 1.0,
+   "mom": 0.82,
+   "mop": 0.82,
+   "moth": 0.82,
+   "much": 1.0,
+   "muck": 0.82,
+   "mud": 0.82,
+   "mug": 1.0,
+   "mush": 0.82,
+   "must": 0.9,
+   "nab": 0.82,
+   "neck": 1.0,
+   "net": 1.0,
+   "nix": 0.82,
+   "nod": 0.82,
+   "not": 0.82,
+   "nun": 1.0,
+   "nut": 1.0,
+   "on": 0.82,
+   "ox": 0.82,
+   "pack": 0.82,
+   "pat": 0.82,
+   "path": 1.0,
+   "peck": 0.82,
+   "peg": 0.82,
+   "pen": 0.82,
+   "pep": 0.82,
+   "pet": 0.82,
+   "pick": 1.0,
+   "pig": 0.82,
+   "pin": 0.82,
+   "ping": 1.0,
+   "pit": 0.82,
+   "pod": 0.82,
+   "pop": 0.82,
+   "posh": 0.82,
+   "pot": 0.8,
+   "puck": 1.0,
+   "puff": 1.0,
+   "pump": 0.95,
+   "pun": 0.82,
+   "pup": 0.82,
+   "push": 1.0,
+   "quack": 0.82,
+   "quick": 1.0,
+   "quill": 1.0,
+   "quip": 1.0,
+   "quit": 0.82,
+   "quiz": 1.0,
+   "ram": 0.82,
+   "ran": 0.88,
+   "rang": 0.82,
+   "rap": 0.82,
+   "rash": 0.82,
+   "rat": 0.82,
+   "red": 0.82,
+   "rest": 0.95,
+   "rib": 0.82,
+   "rich": 0.8,
+   "rig": 1.0,
+   "rim": 1.0,
+   "ring": 0.82,
+   "rip": 0.82,
+   "rob": 0.82,
+   "rock": 0.82,
+   "rod": 0.82,
+   "rot": 1.0,
+   "rub": 1.0,
+   "rug": 1.0,
+   "run": 0.82,
+   "rung": 0.82,
+   "rush": 1.0,
+   "sack": 0.82,
+   "sad": 0.82,
+   "sag": 0.82,
+   "sang": 0.82,
+   "sap": 0.82,
+   "sash": 0.82,
+   "sat": 0.82,
+   "sax": 0.82,
+   "set": 0.82,
+   "shack": 1.0,
+   "sham": 0.82,
+   "she": 0.82,
+   "shed": 1.0,
+   "shell": 0.82,
+   "shin": 0.82,
+   "ship": 0.82,
+   "shock": 1.0,
+   "shop": 0.82,
+   "shun": 1.0,
+   "shut": 0.82,
+   "sick": 1.0,
+   "silk": 0.8,
+   "sing": 0.82,
+   "sip": 0.82,
+   "sit": 0.82,
+   "six": 0.82,
+   "sled": 0.8,
+   "slid": 0.75,
+   "slip": 0.95,
+   "snap": 0.95,
+   "snug": 0.75,
+   "sob": 1.0,
+   "sock": 1.0,
+   "soft": 1.05,
+   "song": 0.82,
+   "spot": 0.8,
+   "stop": 0.95,
+   "sub": 1.0,
+   "such": 1.0,
+   "sum": 0.82,
+   "sun": 0.82,
+   "sung": 1.0,
+   "swam": 0.75,
+   "swim": 0.8,
+   "tab": 0.82,
+   "tack": 1.0,
+   "tag": 0.82,
+   "tan": 0.82,
+   "tap": 0.83,
+   "tell": 0.82,
+   "ten": 0.82,
+   "that": 0.82,
+   "the": 1.0,
+   "them": 1.0,
+   "then": 0.82,
+   "thick": 1.0,
+   "thin": 0.82,
+   "this": 0.82,
+   "thud": 0.82,
+   "thumb": 0.82,
+   "tick": 0.82,
+   "tin": 0.82,
+   "tip": 0.82,
+   "to": 1,
+   "top": 0.82,
+   "tot": 0.82,
+   "trap": 0.8,
+   "trip": 0.95,
+   "tub": 1.0,
+   "tuck": 1.0,
+   "tug": 1.0,
+   "twig": 0.8,
+   "twin": 0.95,
+   "up": 0.82,
+   "us": 0.82,
+   "van": 0.82,
+   "vat": 0.82,
+   "vet": 0.82,
+   "vex": 0.82,
+   "wag": 0.82,
+   "was": 0.82,
+   "wash": 0.82,
+   "wax": 0.82,
+   "web": 1.0,
+   "wed": 1.0,
+   "well": 0.82,
+   "wet": 1.0,
+   "whack": 1.0,
+   "wham": 0.82,
+   "what": 0.82,
+   "when": 0.82,
+   "whiff": 1.0,
+   "whim": 0.82,
+   "whip": 0.82,
+   "whizz": 0.82,
+   "wick": 1.0,
+   "win": 0.82,
+   "wing": 0.82,
+   "wish": 0.82,
+   "wit": 0.82,
+   "with": 0.82,
+   "wrap": 0.82,
+   "wreck": 1.0,
+   "wren": 0.82,
+   "wrong": 1.0,
+   "yak": 0.82,
+   "yam": 0.82,
+   "yap": 0.82,
+   "yes": 0.82,
+   "yet": 0.82,
+   "you": 1,
+   "zag": 0.82,
+   "zap": 0.82,
+   "zig": 0.82,
+   "zip": 0.82
+  }
  }
 }
