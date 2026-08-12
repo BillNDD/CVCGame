@@ -360,7 +360,21 @@ engine, never a hand-kept list.
   heard, alters a guard and grants one to an unheard word, drifts the lock file and deletes a
   word from it, deletes a word-table row, and quietly tunes an unlocked word; the detector
   must report every one.
-- Baseline floors: `g13_clips` (499) and `g13_engine_tests` (13).
+
+## The UX census — not a gate, and deliberately so
+
+`npm run census` renders every layout-risk class in the bank on seven viewports, in the
+prompt state and the reveal state, and reports every defect a measurement can see. It is an
+INVESTIGATION, not a gate: it never runs in `npm run check` and it is not one of the 22
+gauntlet gates. Vitest is told to leave `tests/census/` alone, because collecting a Playwright
+spec turns the fast check red for a reason that has nothing to do with the game.
+
+**Cadence: every other beta** (owner-ruled 2026-08-12). Its own negative controls —
+`npm run census:controls` — are the part that can be trusted at any time: four planted
+defects, each caught by the detector that exists for it, plus a clean-page control and a
+control proving a case that cannot be staged is refused rather than examined.
+
+- Baseline floors: `g13_clips` (500) and `g13_engine_tests` (13).
 - To re-render the pack after the bank grows: `docs/voice-pack.md`.
 
 ## G19. App mutation

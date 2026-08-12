@@ -756,7 +756,23 @@ sentences are made of the words that level teaches.
 4. **Words alone decide promotion.** The existing rule is untouched: 80 per cent of the
    level's words at box 3 or higher, or two perfect sessions. A sentence is practice and
    celebration, never a gate, and no child is held at a level by one sentence.
-5. **The presentation is undecided and is the owner's next call.** Four were built and shown
+5. **What happens after "got it" is decided: ONE word is sounded out, and the voice says
+   why.** Owner-ruled 2026-08-12 after hearing all three shapes built from approved clips at
+   the app's own seams. Sounding out every word of a nine-word sentence runs **65.5 seconds**;
+   one word runs **13.4**; no sound-out at all runs 6.5. The middle one won — the sentence,
+   then the reveal for the one word the sentence is teaching, then the sentence again.
+
+   The line that explains it is **"You read them all. Let's sound out this one."**, chosen
+   from four because it is the only candidate that is TRUE whichever word is chosen and
+   however many times the child has met it: it states a fact about the child, not a claim
+   about the word. "Here is the new word" was refused for exactly that reason — it would put
+   the game under a promise it must then keep.
+
+   **Three lines take turns**, owner-ruled the same evening, in the shape the seventeen praise
+   clips already use. The other two are drafted and none of the three is recorded yet; every
+   one must be equally true for every word, because a rotation is only as honest as its
+   weakest line. Nothing here is built, and no line has been heard.
+6. **The presentation is undecided and is the owner's next call.** Four were built and shown
    on 2026-08-11: tap a word to open its sound tiles silently; every word pre-split; one
    word lit at a time; and a plain sentence whose sounds appear only in the reveal. Design
    rule 2 is what separates them — a word may be shown split during an attempt, because that

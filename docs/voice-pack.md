@@ -23,6 +23,12 @@ the schwa inside "the" stays as it is.
 
 ## The `v` was re-cut, and every /v/ word changed with it (2026-08-12)
 
+**Corrected the same evening: the softened v is “of”'s alone.** The paragraph below described
+a bank-wide replacement, which is what shipped for about an hour. `d:v` is back to SND16's
+clip for van, vet, vat and vex — where it was graded perfect and sits within 0.7 dB of its
+neighbours — and the softened clip ships as `d:v_soft`, which only "of" asks for. What follows
+is the story of the round, which is unchanged.
+
 `of` ended a three-round chase, and what it changed was not only `of`. The shipped `d:v` —
 SND16's clip, graded **perfect (owner)** on 2026-08-11 but graded ALONE — measured
 **6.2 dB louder and 400 Hz brighter** than the vowel standing next to it in "of". The owner

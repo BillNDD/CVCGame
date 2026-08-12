@@ -982,6 +982,28 @@ its own listening round and its own byte pin, exactly as a word does — there i
 manufacture a sentence from words already approved. Anyone tempted to save rounds by
 stitching should read this entry first: it has been tried, heard, and refused unanimously.
 
+## Four rulings on the evening of 2026-08-12 — closed
+
+Given one at a time on a clickable page, which is itself now the rule (AGENTS.md).
+
+| question | ruling |
+|---|---|
+| the softened `v` | **split it** — `d:v` for van/vet/vat/vex, `d:v_soft` for "of" alone |
+| `th_this` and `h`, the two sounds graded poor | **after the beta**, as their own round |
+| the sentence lead-in line | **three lines that take turns**, not one fixed line |
+| the beta | **fix the census flake, run the census, act on what it finds, then cut** |
+| what the census is for afterwards | **run it every other beta** — the owner's own words |
+
+**"Three that take turns" is a commitment to three ROUNDS, not one.** Each line must be
+equally true for every word the sentence could be teaching, which is the constraint that
+killed "Here is the new word": a rotation is only as honest as its weakest line. The three
+are drafted in SPEC section 12 and none of them is recorded yet.
+
+**"Every other beta" is a cadence, and cadence is the owner's to set (2026-08-02).** It also
+answers the question the census raised about itself: it is too slow for `npm run check` and
+too noisy for a release gate, so it sits between them — a survey run often enough to catch
+drift and rarely enough to be read.
+
 ## The word "a" (2026-08-12) — closed, and it came from outside this repository
 
 The commonest word in English, missing from the game since the start, and missing for a
@@ -1070,6 +1092,14 @@ short_e in "vet" and "vex" and 9.6 dB below the n in "van"** — the same size o
 the owner called shouting, in the other direction, in three words nobody had heard. The old v
 sat within 0.7 dB of its neighbours in exactly those words. A clip tuned for one word's company
 is not tuned for another's.
+
+**So the sound was SPLIT, owner-ruled the same evening.** `d:v` is SND16's clip, untouched,
+and van, vet, vat and vex keep it. `d:v_soft` is the round-3 clip, and **"of" is the only word
+that takes it**. Every word now carries audio a person approved for that word. The cost is one
+extra clip in the pack and this paragraph; the alternative was either changing three words
+nobody had heard, or spending a listening round to re-approve a sound that was already
+approved. The general rule that came out of it: **a per-word sound override is cheaper than a
+listening round, and honest, whenever a treatment was judged in one word's company.**
 
 **What round 3 was really for.** The owner's round-2 words could be read two ways, and one
 reading was mine rather than theirs. So arm B was round 2's arm D **unchanged** — the same

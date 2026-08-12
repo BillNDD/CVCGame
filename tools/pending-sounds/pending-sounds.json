@@ -369,13 +369,13 @@
  },
  "v": {
   "as_in": "van, vet",
-  "family": "of3-quieter-rounder",
+  "family": "match-vex260-most1",
   "how": "a buzzing v \u00b7 as in van",
-  "ms": 630,
-  "note": "The SND16 v, re-cut after the owner called it \u201cshouting\u201d beside its neighbour: measured 6.2 dB louder and 400 Hz brighter than the vowel it stands next to. Recipe, from the shipped clip's own body: gain -7 dB, one-pole low-pass at 1800 Hz, re-peaked to -3.5 dBFS, 40 ms fades, then the pack's 80/300 ms padding. Reproduce with tools/build_of_round.py --ship, which refuses unless the bytes match. Every /v/ in the bank takes this clip, not only \u201cof\u201d.",
-  "round": "of round 3 (2026-08-12)",
-  "sha256": "0489d6c0e1bf964389f75b35f904e629794acf708831299a092d50d10412a85e",
-  "verdict": "perfect (owner), judged in company inside \u201cof\u201d"
+  "ms": 800,
+  "note": "af_heart only \u2014 no owner recording. v and z were bent to formants measured from the owner's reference; n, ng and g are straight cuts from approved word clips with no resynthesis. RESTORED 2026-08-12: this clip was briefly replaced across the whole bank by the softened v of the \"of\" round, on a false reading of its record. It was graded perfect (owner) here, and it sits within 0.7 dB of its neighbours in van, vet and vex, where the softened one sits 6.5 to 9.6 dB below them. Only \"of\" takes the softened clip, which is d:v_soft.",
+  "round": "SND16 (sound round 16, 2026-08-11)",
+  "sha256": "7a650b4bf6f4b1c45bfa68f2e50d59164cd59a03cb5856a63ec8b8d0635dda63",
+  "verdict": "perfect (owner)"
  },
  "w": {
   "as_in": "web, win",
@@ -431,5 +431,15 @@
   "round": "the word a / 2026-08-12",
   "sha256": "d3fc66ccc4ed23f493af51b368009b2325153aae9c1cddd23007825a47c7ecee",
   "verdict": "perfect (owner)"
+ },
+ "v_soft": {
+  "as_in": "of",
+  "family": "of3-quieter-rounder",
+  "how": "a buzzing v, quieter and rounder - the v of \u201cof\u201d only",
+  "ms": 696,
+  "round": "of round 3 (2026-08-12)",
+  "verdict": "perfect (owner), judged in company inside \u201cof\u201d",
+  "note": "SND16's v re-cut after the owner called it shouting beside the vowel in \u201cof\u201d: measured 6.2 dB louder and 400 Hz brighter than the sound next to it. Recipe, from the shipped d:v's own body: gain -7 dB, one-pole low-pass at 1800 Hz, re-peaked to -3.5 dBFS, 40 ms fades, then the pack's 80/300 ms padding. ONLY \u201cof\u201d takes it. van, vet, vat and vex keep d:v, which was graded perfect for them in SND16 and sits within 0.7 dB of its neighbours there. Reproduce with tools/build_of_round.py --ship, which refuses unless the source and the result both hash to the values recorded here.",
+  "sha256": "0489d6c0e1bf964389f75b35f904e629794acf708831299a092d50d10412a85e"
  }
 }
