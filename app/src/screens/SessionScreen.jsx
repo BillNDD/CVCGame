@@ -137,12 +137,10 @@ export default function SessionScreen({
       <Zone.Header>
         <button className="wq-btn-plain" onClick={onExitAsk} aria-label="Leave session">🏠</button>
         <div style={{ flex: 1, minWidth: 0, padding: "0 10px", textAlign: "center" }}>
-          {/* Free play replaces the bar and the x/20: both promise an ending
-              this mode does not have. A label says what mode this is, and a
-              count-up says how far the play has come. */}
-          {freePlay
-            ? <span className="wq-chip" style={{ fontSize: 10.5, letterSpacing: ".12em" }}>FREE PLAY</span>
-            : <ProgressBar order={order} firstResults={firstResults} total={totalQ} />}
+          {/* Free play keeps its chip here. It has no total, so the path below
+              would promise an ending this mode does not have — the same reason
+              the bar was never shown here either. */}
+          {freePlay && <span className="wq-chip" style={{ fontSize: 10.5, letterSpacing: ".12em" }}>FREE PLAY</span>}
         </div>
         {/* P2-9 — precise count, promoted into the header at tabular mono */}
         <span className="wq-mono" style={{ fontSize: 14, fontWeight: 800, color: C.ink }}>
@@ -154,6 +152,12 @@ export default function SessionScreen({
           {...(freePlay && fpMode === "random" ? { role: "img", "aria-label": "random words" } : {})}>
           {freePlay && fpMode === "random" ? "🎲" : state.level + " " + L.emoji}</span>
       </Zone.Header>
+
+      {/* The session path, on its own row beneath the header (owner-ruled
+          2026-08-12). It sits outside the header so the dots can WRAP to two or
+          three lines on a phone without pushing the home control or the level
+          chip off the edge — which is exactly what a single row did. */}
+      {!freePlay && <ProgressBar order={order} firstResults={firstResults} total={totalQ} at={answered} />}
 
       <SessionStage state={state} currentWord={currentWord} phase={phase} fb={fb} liveRef={liveRef} micNote={micNote} adultNote={adultNote} pops={pops} />
 

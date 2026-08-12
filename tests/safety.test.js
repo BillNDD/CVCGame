@@ -686,6 +686,20 @@ describe("G10 safety — S6 and S7: no network, big controls", () => {
     // fixture control: a stylesheet with shrunken controls must fail this check
     expect(sized(".wq-cta{min-height:40px}.wq-sbtn{min-height:40px;min-width:40px}")).toBe(false);
   });
+
+  /* The same PRE-FILTER treatment for the dead `font:` shorthand. tools/
+     quality-control.mjs has refused this since 2026-07-29, but that tool runs
+     only in the full gauntlet, so a rule written on 2026-08-12 —
+     `font:700 9px/1.45 inherit` on the session path's label — passed
+     `npm run check` and shipped a label at the inherited size instead of 9 px,
+     eating 127 px of a 320 px screen. The scan is textual and instant, so it
+     belongs in the fast suite as well; the gauntlet keeps its own copy. */
+  it("8: no `font:` shorthand ends in inherit, which would void the declaration", () => {
+    const dead = (css) => /font\s*:[^;{}]*\binherit\b/.test(css.replace(/\/\*[\s\S]*?\*\//g, ""));
+    expect(dead(readFileSync("app/src/wq-css.js", "utf8"))).toBe(false);
+    // fixture control: the exact shape that shipped must be caught
+    expect(dead(".wq-tracklbl{font:700 9px/1.45 inherit;color:#fff}")).toBe(true);
+  });
 });
 
 /* Free play (SPEC section 6): the same loop, endless, against a throwaway

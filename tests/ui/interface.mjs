@@ -663,6 +663,116 @@ for (const height of [430, 555, 720, 950]) {
   await context.close();
 }
 
+/* 38-48 — the session path fits every screen a family owns. The owner sent a
+   screenshot on 2026-08-12 of the dots running off the right edge of a phone,
+   and ruled: one line where the width allows, two or three where it does not,
+   never out of bounds, with "read so far" holding the start of the first line.
+   Measured at real device widths, on the WORST case — a twenty-word session,
+   which a fresh Level 1 never produces because that level holds twelve words.
+   The expected rows are literal, and so are the dots per row: the track is a
+   grid of fixed columns, so what each width does is a fact, not an estimate.
+   479 and 480 are here as a pair because they sit either side of the stated
+   breakpoint; if the rule moved, one of them would report the other's shape.
+   A negative control follows: the phone rule is overridden back to twenty
+   columns and the same probe must report the dots off the screen. */
+{
+  const storageSrc = readFileSync("app/src/storage.js", "utf8");
+  const dbName = storageSrc.match(/DB_NAME = "([^"]+)"/)[1];
+  const dbStore = storageSrc.match(/DB_STORE = "([^"]+)"/)[1];
+  const SAVE = JSON.stringify({ version: 3, level: 11, sessionsCompleted: 0,
+    perfectStreak: 0, words: {}, settings: { sound: true } });
+
+  const probe = (page) => page.evaluate(() => {
+    const lbl = document.querySelector(".wq-tracklbl");
+    const segs = [...document.querySelectorAll(".wq-seg")].map((s) => s.getBoundingClientRect());
+    const d = document.documentElement;
+    if (!lbl || !segs.length) return null;
+    const byRow = segs.reduce((a, r) => { const k = Math.round(r.y); (a[k] ||= []).push(r); return a; }, {});
+    const keys = Object.keys(byRow).map(Number).sort((a, b) => a - b);
+    const l = lbl.getBoundingClientRect();
+    return {
+      n: segs.length, rows: keys.length, perRow: keys.map((k) => byRow[k].length),
+      left: Math.min(...segs.map((r) => r.left)), right: Math.max(...segs.map((r) => r.right)),
+      cw: d.clientWidth, hScroll: d.scrollWidth - d.clientWidth, vScroll: d.scrollHeight - d.clientHeight,
+      lblSize: getComputedStyle(lbl).fontSize,
+      lblRight: l.right, lblTop: Math.round(l.top), firstRowTop: keys[0],
+      firstDotLeft: Math.min(...byRow[keys[0]].map((r) => r.left)),
+    };
+  });
+
+  const openAtWidth = async (vp) => {
+    const context = await browser.newContext();
+    const page = await context.newPage();
+    await page.setViewportSize({ width: vp.width, height: vp.height });
+    await page.goto(URL, { waitUntil: "load" });
+    await page.getByRole("button", { name: "Begin Session" }).waitFor();
+    await page.evaluate(([db, store, key, save]) => new Promise((resolve, reject) => {
+      const rq = indexedDB.open(db, 1);
+      rq.onupgradeneeded = () => rq.result.createObjectStore(store);
+      rq.onsuccess = () => {
+        const tx = rq.result.transaction(store, "readwrite");
+        tx.objectStore(store).put(save, key);
+        tx.oncomplete = () => resolve(true);
+        tx.onerror = () => reject(tx.error);
+      };
+      rq.onerror = () => reject(rq.error);
+    }), [dbName, dbStore, STORE_KEY, SAVE]);
+    await page.reload({ waitUntil: "load" });
+    await page.getByRole("button", { name: "Begin Session" }).click();
+    await page.locator(".wq-word").waitFor();
+    await page.locator(".wq-seg").first().waitFor();
+    return { context, page };
+  };
+
+  /* rows and perRow are the measured shape of the shipped stylesheet, written
+     out as literals so a change to the track has to change this list too */
+  const SCREENS = [
+    { width: 300, height: 600, rows: 3, perRow: [7, 7, 6], what: "narrower than any phone this app supports" },
+    { width: 320, height: 568, rows: 2, perRow: [10, 10], what: "iPhone SE" },
+    { width: 375, height: 812, rows: 2, perRow: [10, 10], what: "iPhone SE 2nd gen and iPhone 13 mini" },
+    { width: 390, height: 844, rows: 2, perRow: [10, 10], what: "iPhone 14" },
+    { width: 430, height: 932, rows: 2, perRow: [10, 10], what: "iPhone 15 Pro Max" },
+    { width: 479, height: 900, rows: 2, perRow: [10, 10], what: "one pixel inside the phone rule" },
+    { width: 480, height: 900, rows: 1, perRow: [20], what: "the first width that holds one row" },
+    { width: 768, height: 1024, rows: 1, perRow: [20], what: "iPad portrait" },
+    { width: 810, height: 1080, rows: 1, perRow: [20], what: "iPad Air portrait" },
+    { width: 1280, height: 800, rows: 1, perRow: [20], what: "desktop" },
+  ];
+  for (const vp of SCREENS) {
+    const { context, page } = await openAtWidth(vp);
+    const m = await probe(page);
+    const at = `${vp.width}x${vp.height} (${vp.what})`;
+    if (!m) fail(`no session path at ${at}`, "no label or no dots");
+    else if (m.n !== 20) fail(`the session path did not draw twenty dots at ${at}`, `${m.n} dots`);
+    else if (m.hScroll > 0) fail(`the page overflows sideways at ${at}`, `${m.hScroll}px`);
+    else if (m.vScroll > 0) fail(`the page scrolls at ${at}`, `${m.vScroll}px`);
+    else if (m.left < 0 || m.right > m.cw)
+      fail(`a dot sits outside the screen at ${at}`, `dots span ${m.left.toFixed(1)} to ${m.right.toFixed(1)} of ${m.cw}`);
+    else if (m.rows !== vp.rows) fail(`the session path took ${m.rows} rows at ${at}`, `expected ${vp.rows}`);
+    else if (JSON.stringify(m.perRow) !== JSON.stringify(vp.perRow))
+      fail(`the dots split unevenly at ${at}`, `${JSON.stringify(m.perRow)}, expected ${JSON.stringify(vp.perRow)}`);
+    else if (m.lblSize !== "9px") fail(`"read so far" is not 9px at ${at}`, m.lblSize);
+    else if (m.lblRight > m.firstDotLeft + 0.5)
+      fail(`"read so far" overlaps the dots at ${at}`, `label ends at ${m.lblRight.toFixed(1)}, first dot at ${m.firstDotLeft.toFixed(1)}`);
+    else if (Math.abs(m.lblTop - m.firstRowTop) > 4)
+      fail(`"read so far" left the first line at ${at}`, `label at ${m.lblTop}, first row at ${m.firstRowTop}`);
+    else ok(`${at}: twenty dots on ${m.rows} ${m.rows === 1 ? "line" : "lines"} ${JSON.stringify(m.perRow)}, inside the screen (${m.left.toFixed(0)}-${m.right.toFixed(0)} of ${m.cw}), "read so far" first`);
+    await context.close();
+  }
+
+  /* negative control: put the wide rule back on a phone, which is the fault
+     the owner photographed, and the same probe must refuse it */
+  {
+    const { context, page } = await openAtWidth(SCREENS[3]);   // 390x844
+    await page.addStyleTag({ content: ".wq-root .wq-prog{grid-template-columns:repeat(20,13px)!important}" });
+    const bad = await probe(page);
+    if (bad && bad.rows === 1 && bad.right > bad.cw)
+      console.log(`control OK: the probe reads real geometry (one row of twenty runs ${Math.round(bad.right - bad.cw)}px past the edge of a 390px screen)`);
+    else fail("negative control broken", `twenty columns on a phone measured as fitting: ${JSON.stringify(bad)}`);
+    await context.close();
+  }
+}
+
 /* 36-37 — the mastery map explains itself, and does not tell a parent their
    child failed. A user reported on 2026-08-12 that words their child had read
    correctly were "tracking as unmastered". Nothing was broken: a first correct
