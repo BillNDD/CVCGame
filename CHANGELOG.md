@@ -7,6 +7,28 @@ This document follows the Microsoft Writing Style Guide.
 Version 6 adds the standalone progressive web app. The reference build does not change.
 The first app version is 1.0.0-beta.1. The app stays in beta until version 1.0 is ready.
 
+- Removed: microphone mode. A grown-up marks every result, and the game is played by a child
+  and a grown-up together. Speech recognition could never judge a young child's reading
+  fairly, and the app is smaller and quieter without it: no permission prompt, no listening
+  state, and one less thing that can go wrong. Three separate checks now prove the microphone
+  is absent from the source, from the built app, and from the app while it runs.
+- New: nine heart words open Level 2 — the, and, to, do, you, said, my, of and a. A heart word
+  is one a child is taught by sight, ahead of the code that would sound it out, because the
+  commonest words in English do not follow the rules and a sentence cannot be written without
+  them. Each one sounds out with the sounds it really makes: "to" and "do" say the oo of moon,
+  "said" says the e of bed, "of" says the u of up and a /v/, and "a" says the lazy uh.
+- New: the word "a" has a voice. Until now the only pronunciation available was the letter's
+  name, which the app never says to a child learning that letters make sounds.
+- Fixed: every sound in a sound-out is now one a person chose. Where a letter had no decided
+  sound the app used to fall back to a general mapping, so a word could be sounded out with a
+  sound nobody had approved for it. Fourteen sounds that no word asks for were removed from
+  the pack at the same time.
+- Fixed: the progress bar wraps onto a second or third row on a narrow phone instead of
+  running off the screen. The rows stay even.
+- Fixed: the reading log told a grown-up their child had failed a level they had simply not
+  finished yet.
+- Fixed: a label on the session screen rendered at four times its intended size on every
+  screen, because of one invalid line in the stylesheet.
 - New: the sound-out reveal. After every result the app says the praise or invitation line,
   the word, "Pronounced:", each of the word's sounds in turn, then the word again. As each
   sound plays, its own yellow tile takes an outline for exactly as long as that sound lasts.
