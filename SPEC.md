@@ -762,13 +762,54 @@ Modes, each designed for the owner's pick before any build:
 - Sentence mode — decodable sentences built only from taught words plus the tricky roster;
   the owner ruled its design comes next, alongside the blend levels, because its audio
   path (whole recorded sentences) must be solved early. Its late stage is passages from
-  real books; see "Passages from real books" below.
+  real books; see "Passages from real books" below. **It is not a mode of its own — see
+  "Sentences live inside levels" below, which supersedes the word "mode" here.**
 - Build-it — encoding: the app speaks a word and the child assembles it from sound tiles.
   Practice-only, like free play: nothing is ever written to the record, so design rule 1
   and safety rule S1 stand untouched.
 - Speedy words — a third free-play choice: short timed re-reads over mastered words only
   (box 4 and up), racing the child's own best, nothing recorded. Its copy must obey S3:
   a slow run is never a failure.
+
+### Sentences live inside levels — approved 2026-08-11, unbuilt
+
+The owner ruled: a level teaches its new words, its sentences, and — from the levels that
+have them — its new sounds, all together. There is no sentence-only level and no separate
+sentence mode. A child at any level meets words and sentences in the same session, and the
+sentences are made of the words that level teaches.
+
+1. **Three function words join the heart roster, available from Level 1: `the`, `and`,
+   and `a`.** Without them a sentence in English cannot be written. `the` alone was gating
+   22 of the 40 approved sentences to Level 7, and `and` — a final blend, so otherwise a
+   Level 10 word — was holding "Dad had ham and jam." back to Level 10. With all three on
+   the roster the same 40 sentences spread across Levels 2 to 9 instead of piling up at 7,
+   and sentence practice can begin at Level 2. This is what the field does and why: the
+   highest-frequency function words are taught by sight early, ahead of the code that would
+   decode them, precisely so that reading a sentence is possible at all. `a` is taught
+   nowhere in the game today and is a genuine gap; it says the schwa, and that clip exists.
+2. **A session mixes words and sentences throughout.** Not words first and sentences at the
+   end. A sentence arrives every few items, so a child who is tiring does not meet every
+   sentence at once, and the level's teaching and its payoff are interleaved.
+3. **A sentence is never scheduled.** The grown-up marks it and the result is recorded, but
+   a sentence does not enter the spaced-repetition boxes. Re-reading one sentence teaches
+   that sentence; the words inside it are already being scheduled individually, which is
+   where the learning belongs. This costs no new field in the saved document, so no version
+   bump and no migration.
+4. **Words alone decide promotion.** The existing rule is untouched: 80 per cent of the
+   level's words at box 3 or higher, or two perfect sessions. A sentence is practice and
+   celebration, never a gate, and no child is held at a level by one sentence.
+5. **The presentation is undecided and is the owner's next call.** Four were built and shown
+   on 2026-08-11: tap a word to open its sound tiles silently; every word pre-split; one
+   word lit at a time; and a plain sentence whose sounds appear only in the reveal. Design
+   rule 2 is what separates them — a word may be shown split during an attempt, because that
+   is a scaffold, but it may not be SPOKEN, because that is the answer. Tap-to-hear stays
+   ruled for the passages stage alone, where the words are untaught on purpose.
+
+What this costs, and none of it is done: `a` needs a listening round, being a word the game
+has never spoken. `the` and `and` have approved clips already. Every level object grows a
+sentence list, which the level introduction and the session builder both read. And the 40
+approved sentences need re-checking against their new levels before they ship, by
+`tools/decodable.mjs`, which is the arbiter.
 
 ### The level introduction — approved 2026-08-10, unbuilt
 
