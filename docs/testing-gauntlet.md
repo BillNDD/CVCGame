@@ -33,9 +33,15 @@ This document follows the Microsoft Writing Style Guide.
 
 ## When the gates run
 
-`npm run check` runs before every push: the whole Vitest suite and the sub-minute gates
-(G11 copy, G16 doc-truth, G12 QA count, G13 voice pack, G17 governing files, G20 effect
-map), each with its negative controls. It also runs the word-gate island control
+`npm run check` runs before every push: the quality lint (`npm run lint:quality` — ESLint
+with the G6 complexity and file-length ceilings, the dependency-cycle scan, and the quality
+controls), the whole Vitest suite, and the sub-minute gates (G11 copy, G16 doc-truth, G12 QA
+count, G13 voice pack, G17 governing files, G20 effect map), each with its negative controls.
+The quality lint was gauntlet-only until 2026-08-12. It cost two defects in one day: a
+`font:` shorthand ending in `inherit`, which its own controls have refused since 2026-07-29,
+shipped a label at four times its intended size; and a file went one over the complexity
+ceiling and was pushed. Both were invisible to the check and would have waited for a release
+to be found. The owner ruled it in on the measured cost — about six seconds. It also runs the word-gate island control
 (`python3 tools/verify.py --self-test`), which needs Python and NumPy — the voice
 toolchain's own requirements. That control is deliberately NOT in the gauntlet: putting it
 there would make the release gate depend on a Python runtime in CI, and a new dependency is

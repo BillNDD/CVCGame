@@ -117,8 +117,11 @@ lives only in a chat log is one this project loses.
 
 ## Before you push
 
-- `npm run check` — the test suite and the sub-minute gates, about a minute. A red check
-  blocks the change (E7). It needs Python and NumPy for the word-gate island control; that
+- `npm run check` — the quality lint, the test suite and the sub-minute gates, about half a
+  minute. A red check blocks the change (E7). The quality lint runs first, because it is the
+  cheapest thing here and it is the one that refuses a file over the complexity or length
+  ceiling; it joined the check on 2026-08-12 after two defects reached a push in one day
+  behind the gap it left. It needs Python and NumPy for the word-gate island control; that
   is the voice toolchain's own requirement, and the control is not in the gauntlet. The full `npm run gauntlet` runs at release time only: locally
   when the owner asks for a beta or version release, and on CI when the release's v* tag
   lands. Fix a red release gauntlet before anything else moves.
