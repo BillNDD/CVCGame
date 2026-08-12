@@ -166,9 +166,15 @@ exclusions are recorded in SPEC section 12.
   That limit is 1200 lines. The owner raised it from 600 to 900 on 2026-07-29, and from 900 to
   1200 on 2026-08-12; only the owner can move a ceiling, and a file approaching one should be
   split instead.
-- E7. Run `npm run check` before every push: the full test suite plus the sub-minute gates
-  (copy, doc-truth, QA count, voice pack, governing files, effect map, and the word-gate
-  island control), about a minute. A red check blocks the change.
+- E7. Run `npm run check` before every push: the quality lint (ESLint with the complexity and
+  file-length ceilings, the dependency-cycle scan, and the quality controls) plus the full test
+  suite plus the sub-minute gates (copy, doc-truth, QA count, voice pack, governing files,
+  effect map, and the word-gate island control), about half a minute. A red check blocks the
+  change. The quality lint joined the check on 2026-08-12, owner-ruled, after the gap it left
+  cost two defects in one day: a `font:` shorthand the quality controls have refused since
+  2026-07-29 shipped a label at four times its intended size, and a file went over the
+  complexity ceiling and was pushed. Both were caught only by the gauntlet, which runs at a
+  release. Six seconds bought both back.
   The full `npm run gauntlet` — mutants, coverage, the build and the browser gates — runs
   when the owner asks for a beta or a version release, and a release is cut only from a
   green gauntlet. CI runs the full gauntlet only at that same occasion - the release's v* tag
