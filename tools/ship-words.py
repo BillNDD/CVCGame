@@ -156,6 +156,8 @@ def write(rows, manifest):
 def self_test():
     """Every refusal this tool must make. Without these it is a copier, and a
     copier would happily ship a re-render nobody heard."""
+    import csv
+    import shutil
     import tempfile
     ok = []
     d = pathlib.Path(tempfile.mkdtemp())
@@ -170,24 +172,45 @@ def self_test():
     ok.append(("a cell with a comma is quoted", csv_cell("a, b") == '"a, b"'))
     ok.append(("a cell with a quote doubles it", csv_cell('say "x"') == '"say ""x"""'))
     ok.append(("a plain cell is left alone", csv_cell("perfect") == "perfect"))
-    # The recipe override, both ways. Without the first control this tool ships
-    # a word at 0.9 and tells the pack nothing, which is the fault G13 caught on
-    # 2026-08-12; without the second it would clutter the recipe with every word
-    # that is simply at the default.
-    def override_for(family):
-        man = {"__recipe": {}}
-        speed = float(family_speed(family))
-        if abs(speed - float(DEFAULTS["speed"])) > 1e-9:
-            man["__recipe"].setdefault("word_speed_override", {})["w"] = (
-                int(speed) if speed.is_integer() else speed)
-        return man["__recipe"].get("word_speed_override", {})
+    # The recipe override, driven through the REAL write(). An earlier version of
+    # these three controls re-implemented the rule inside the test: delete the
+    # code in write() and all three still passed, which makes them decoration
+    # rather than controls (E5). This runs the actual function against a
+    # throwaway pack and CSV and reads what it wrote.
+    def ship_into_sandbox(family):
+        box = pathlib.Path(tempfile.mkdtemp())
+        (box / "pack").mkdir()
+        src = box / "w-zz.mp3"
+        src.write_bytes(b"pretend this is approved audio" * 40)
+        (box / "words.csv").write_text(",".join(CSV.read_text().split("\n")[0].split(",")) + "\n")
+        keep = (globals()["PACK"], globals()["CSV"], globals()["duration_ms"])
+        globals()["PACK"] = box / "pack"
+        globals()["CSV"] = box / "words.csv"
+        globals()["duration_ms"] = lambda p: 600          # no decoder in a sandbox
+        manifest = {"__recipe": {"voice": "af_heart"}}
+        try:
+            write([{"word": "zz", "level": 9, "src": src, "sha": sha(src),
+                    "rec": {"family": family, "verdict": "perfect", "round": "sandbox"}}],
+                  manifest)
+        finally:
+            globals()["PACK"], globals()["CSV"], globals()["duration_ms"] = keep
+        shipped = json.loads((box / "pack" / "manifest.json").read_text())
+        # Parsed as CSV, not split on commas: ear_notes carries commas inside
+        # its quotes, and a naive split reads the wrong column - which is how
+        # this control failed the first time it ran.
+        with open(box / "words.csv", newline="") as fh:
+            row = list(csv.DictReader(fh))[-1]
+        shutil.rmtree(box)
+        return shipped["__recipe"].get("word_speed_override", {}), row["speed"]
 
-    ok.append(("a word off the default speed is declared in the recipe",
-               override_for("listen_sp0.9_front130") == {"w": 0.9}))
-    ok.append(("a speed-1 family is declared as 1, not 1.0",
-               override_for("carrier_listen_s1") == {"w": 1}))
-    ok.append(("a word at the bank default adds nothing to the recipe",
-               override_for("carrier_listen") == {}))
+    ov, csv_speed = ship_into_sandbox("listen_sp0.9_front130")
+    ok.append(("a word off the default speed is declared in the recipe", ov == {"zz": 0.9}))
+    ok.append(("and the CSV row says the same speed the recipe does", csv_speed == "0.9"))
+    ov, _ = ship_into_sandbox("carrier_listen_s1")
+    ok.append(("a speed-1 family is declared as 1, not 1.0", ov == {"zz": 1}))
+    ov, csv_speed = ship_into_sandbox("carrier_listen")
+    ok.append(("a word at the bank default adds nothing to the recipe", ov == {}))
+    ok.append(("and that word's row carries the bank default", csv_speed == DEFAULTS["speed"]))
     rows, skipped, _, _ = plan()
     reasons = {r for _, r in skipped}
     ok.append(("a word with no level is refused a place in the pack",

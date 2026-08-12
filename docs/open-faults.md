@@ -382,14 +382,15 @@ was graded perfect the day it shipped. It was a seat, and the owner gave it one.
 
 Shipped to Level 2, sounded out **o → short_u, f → /v/**, graded `perfect` in round 3. The
 fault was in the `v`, not the vowel: it sat 6.2 dB louder and 400 Hz brighter than the sound
-beside it, because it was a synthetic pitched up six semitones — B11's story again. It was
+beside it, having been graded perfect ALONE in SND16 and never in company — B11's story
+again. It was
 re-cut −7 dB with the top rolled off at 1800 Hz and 40 ms fades, and **every /v/ in the bank
 now takes that clip**, not only "of". The full record, including the recipe and the two hash
 refusals that guard it, is in `docs/settled.md`.
 
 ### H3. What a heart word's SEAT means — CLOSED 2026-08-12
 
-Ruled: the level is where the CHILD MEETS the word. All seven heart words moved to Level 2,
+Ruled: the level is where the CHILD MEETS the word. All eight heart words sit at Level 2,
 `tools/decodable.mjs` now reads the same seats the engine does, and a guard throws if a heart
 word is ever seated later than Level 2. Every one of the 40 approved sentences is now
 levellable and none is claimed below where a child can read it — it was 32, 8 blocked and 12
@@ -494,7 +495,7 @@ the *design* — the boundaries, the prerequisites, what the feature is. This se
 |---|---|---|
 | 2026-08-07 | Levels 10 and 11: final and initial blends | **Built 2026-08-12.** 83 words shipped |
 | 2026-08-07 | Levels 12 to 15: plural s, compounds, open syllables, magic e | Open. 32 approved words wait on 12, 13 and 14 |
-| 2026-08-07 | Heart words grow now: said, of, you, to, do, my | **Partly built 2026-08-12.** to, do, you and said ship, with S8 gaining ai and ou and the engine gaining a HEART roster. `of` waits on an iterate round; `my` waits on a LEVEL SEAT, not a sound — see H1 |
+| 2026-08-07 | Heart words grow now: said, of, you, to, do, my | **Built 2026-08-12.** All eight heart words sit at Level 2 — the, and, to, do, you, said, my, of — with S8 gaining ai and ou and the engine gaining a HEART roster. `of` took three rounds of its own; `my` needed only a seat. `a` is the one left, and its clip arrived from the owner the same evening |
 | 2026-08-07 | Sentence mode | Open. 41 sentences approved by ear, recorded, and unusable |
 | 2026-08-07 | Build-it encoding mode, practice only | Open. Not started |
 | 2026-08-07 | Speedy words fluency round in the free-play chooser | Open. Not started |
@@ -569,6 +570,48 @@ lost the next time a context is condensed. An idea leaves this section by being 
 the result goes wherever it belongs — `docs/settled.md` if a measurement closed it, a round's
 row if an ear did. **Trying one is never a substitute for the game work it was meant to
 serve, and nothing here may be counted as progress until it has been tried.**
+
+### G3. A deep UX census — every content family, on every viewport, in every state
+
+Owner-requested 2026-08-12, from the same investigation they are running on their maths game.
+The 47 interface checks (G7) prove that specific measurements hold on specific screens. They
+do not prove that **every word in the bank renders correctly**, and no gate in this project
+does. A word is content, and content is where layout breaks: a five-letter word with four
+tiles, a heart word whose tile is two letters wide, a praise line that wraps to three rows on
+a small phone.
+
+**What brute force would cost, and why it is the wrong shape.** 438 words × 5 viewports ×
+roughly 8 states is about 17,000 renders — hours of laptop time and a pile of evidence nobody
+will read. The maths game's answer applies here: group the content into **equivalence
+families**, take every unique family and every extreme, and render those.
+
+**The families, measured from the bank rather than guessed:**
+
+| family | population | why it can break differently |
+|---|---|---|
+| 2 tiles | 19 words | the shortest tile row — centring, and the reveal ring on a lone pair |
+| 3 tiles | 340 words | the ordinary case, and the one every check already covers |
+| 4 tiles | 79 words | the widest row; where a phone runs out of horizontal space first |
+| multi-letter tiles | 16 units (`ai ch ck ff kn ll mb ng ou qu sh ss th wh wr zz`) | one tile twice as wide as its neighbours, S8's whole point |
+| longest string | `check` (5 letters, 4 tiles) | the extreme case for tile width |
+| 17 praise lines | longest is "How do you feel about saying that word correctly?" | the only child-facing text that wraps |
+| 11 level names | longest is "Rocket Words" | the strip, beside the emoji and the counter |
+| progress track | 7, 10 and 20 columns | already gated at 10 widths; the census re-checks it against every level length |
+
+**The states, per family:** the word on screen, the correct reveal with its tile ring, the
+close and the wrong reveals, the done screen, the home screen with the grown-up strip, the
+"Grown-ups corner", and the update row in each of its states.
+
+**Done means** a script that enumerates the families from the engine (never a hand-written
+list, which is how a bank grows past its own coverage), renders each on the five governed
+viewports, and reports every overflow, clipped tile, overlapping element and control under
+its size floor — with a negative control proving it catches a planted overflow. It runs on
+demand, not in the check: this is a census, not a gate.
+
+**What it would have caught already.** Two faults this project shipped and found by eye: the
+label rendered at four times its intended size by an invalid `font:` shorthand, and images on
+the home screen falling behind one another. Both were content-and-layout faults on a screen
+no measurement was watching.
 
 ### G0. Nothing enforces the reading of `docs/settled.md`
 

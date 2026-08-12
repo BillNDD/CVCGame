@@ -360,7 +360,7 @@ engine, never a hand-kept list.
   heard, alters a guard and grants one to an unheard word, drifts the lock file and deletes a
   word from it, deletes a word-table row, and quietly tunes an unlocked word; the detector
   must report every one.
-- Baseline floors: `g13_clips` (497) and `g13_engine_tests` (13).
+- Baseline floors: `g13_clips` (499) and `g13_engine_tests` (13).
 - To re-render the pack after the bank grows: `docs/voice-pack.md`.
 
 ## G19. App mutation
@@ -515,7 +515,7 @@ promised a fallback the code never performed; G12 counted the step and saw nothi
 - Negative control: `--self-test` rewords a SPEC sentence, rewords a QA promise, changes a
   timing, changes the hold constant, and leaves a stale speed in SPEC; every detector must
   fire.
-- Baseline floor: `g16_doc_rules` (7).
+- Baseline floor: `g16_doc_rules` (8).
 
 ## Aggregation
 
@@ -593,7 +593,7 @@ other direction: the real pack, unchanged, must pass.
 
 ## G20. Effect map
 
-- Tool: `tools/effect-map.mjs`. Writes `docs/effect-map.md`. Keys: `g20_tests_mapped` (257).
+- Tool: `tools/effect-map.mjs`. Writes `docs/effect-map.md`. Keys: `g20_tests_mapped` (258).
 - One row per `it()` SITE — its file, suite, and the test's own sentence, which in this
   project IS the Given/When/Then effect, because tests are named as behaviour. A site inside
   a loop or a table runs many times, so the 284 rows describe the 341 tests Vitest executes;

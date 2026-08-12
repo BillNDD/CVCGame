@@ -305,7 +305,7 @@
   "round": "batch 6 / 2026-08-07",
   "verdict": "perfect",
   "level": "reveal lead-in (planned)",
-  "text": "Let’s sound it out."
+  "text": "Let\u2019s sound it out."
  },
  "of": {
   "arm": "of_6",
@@ -1434,5 +1434,15 @@
   "verdict": "perfect",
   "level": "Level 14, open syllables",
   "note": "supersedes the batch 13 entry, which was bytes the owner had already marked closest in batch 12. This clip was never offered before: verified against all 1883 arms of the 23 earlier rounds."
+ },
+ "a": {
+  "arm": "2\u00b73 \u2014 matched to today's schwa",
+  "family": "owner-handoff-schwaD",
+  "ms": 743,
+  "sha256": "d3fc66ccc4ed23f493af51b368009b2325153aae9c1cddd23007825a47c7ecee",
+  "round": "the word a / 2026-08-12",
+  "verdict": "perfect",
+  "level": "heart word",
+  "note": "The owner's SCHWA_D_AF_HEART handoff, built outside this repo: an af_heart schwa, 363 ms of speech, accepted as option D. Shipped as the bytes they graded on the listening page - the accepted body at 80/300 ms padding, turned down 4.8 dB to the level of the schwa already in the game, encoded at the pack's 96 kbps. No re-bake: the handoff's own recipe says Praat's overlap-add cannot be reproduced sample for sample, so the accepted WAV is the authority. The human reference recording in that package is an amplitude-envelope target only and is not in this repository."
  }
 }

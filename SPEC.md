@@ -82,7 +82,7 @@ These rules are mandatory.
 
 ## 3. Word bank
 
-The bank has 438 words in eleven levels. The word order in a level is the introduction order.
+The bank has 439 words in eleven levels. The word order in a level is the introduction order.
 Words have 2 or 3 sound units through Level 9, and 3 or 4 at Levels 10 and 11, where a
 consonant blend adds a unit. Words have at most 4 letters through Level 7 and at Levels 10
 and 11; Levels 8 and 9 may reach 5. Four sound units is the ceiling, and it is a real one:
@@ -109,7 +109,7 @@ exceptions, each with a note.
 | Level | Name | Focus | Words |
 |------:|------|-------|-------|
 | 1 | Hatchlings | two sounds (VC) | at an am ax in it if is on ox up us |
-| 2 | Sunny Start | short a + heart words | the and to do you said my cat hat mat sat man can ran bat cap map tap nap bag dad jam pan rat sad wag van fan ham lap tag had tan pad rag zap yam pal cab ram dab yap mad bad rap has pat dam nag sap vat |
+| 2 | Sunny Start | short a + heart words | the and to do you said my of a cat hat mat sat man can ran bat cap map tap nap bag dad jam pan rat sad wag van fan ham lap tag had tan pad rag zap yam pal cab ram dab yap mad bad rap has pat dam nag sap vat |
 | 3 | Busy Bees | short i and o | sit pig big dig win lip hit six fin bin dog hot top pot mop log box fox hop cot mom pop not got did him pin tip sip dip hip rip bit fit pit bib wig fix job lot nod hog tin rig rob sob mob cop dim |
 | 4 | Rocket Words | short e and u | bed red hen pen ten net leg wet jet men bus cup sun run fun mud bug hug nut tub pet get let set cut pup web bun rug mug vet tug jug hum rub dug bud peg met yet bet keg hem nun pun jut gut hub |
 | 5 | Explorer | all five vowels | yes zip gum gas kid cub den dot fed fig fog gap hid hut jog kit lid mix wax yak jig jab jot lab lad led lit lug nab pep pod rib rim rod rot sag sub sum tab tot wed wit zig zag fax nix vex sax cod gob |
@@ -120,7 +120,7 @@ exceptions, each with a note.
 | 10 | Tent Camp | blends at the end | ant ask band belt bend best bolt bond bump camp cost damp dent desk dusk end fast fond gift gulf gulp hand help hint jump just kept lamp land last left lend lift list mask melt mend milk mint must nest pond pump raft rest risk sand sift silk soft task tent wilt |
 | 11 | Twin Drums | blends at the start | brag clap drop drum flag flat glad grab grin plan plum slam sled slid slip snap snug spin spot stem step stop swam swim trap trim trip twig twin |
 
-Level word counts: 12, 51, 49, 48, 50, 38, 58, 27, 22, 53, 29.
+Level word counts: 12, 53, 49, 48, 50, 38, 58, 27, 22, 53, 29.
 
 Levels 10 and 11 introduce NO new grapheme. Every letter in them is one the child already
 knows; what is new is running two consonants together without a vowel between. Letters and

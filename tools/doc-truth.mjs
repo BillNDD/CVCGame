@@ -28,6 +28,12 @@
    7. Every gate floor the gate specification quotes is the floor the gauntlet
       enforces. Seven had drifted by 2026-08-10, so the document told a reader
       the suite was weaker than it is.
+   9. SPEC's level table lists exactly the words each level holds, in order.
+      The table said Level 2 had 51 words for as long as it took a reviewer to
+      count them: "of" had shipped that morning and the row was never touched.
+      A parent or a teacher reading the master source would have seen a level
+      that no longer exists. Rules 6 and 8 count things; this one compares the
+      words themselves, which is the only way a wrong ROW is caught.
    8. The "Approved and unshipped" count in the voice-pack document matches the
       pending ledger. That heading said 60 while the ledger held 156 — fourteen
       listening rounds of the owner's own time, undercounted by a document
@@ -206,11 +212,28 @@ function run(d) {
   if (!stated || Number(stated[1]) !== waiting)
     found.push(`the voice-pack document says ${stated ? stated[1] : "no"} items are approved and unshipped, the ledger holds ${waiting}`);
 
+  /* SPEC's level table, word for word against the engine. The table is the
+     only place a reader can see what a level actually contains, so a row that
+     drifts is a document telling a grown-up about a level the game does not
+     have. Order matters: a level's word order IS its introduction order. */
+  rules += 1;
+  for (const l of LEVELS) {
+    const row = new RegExp(`^\\| ${l.n} \\|[^|]*\\|[^|]*\\| ([^|]*)\\|`, "m").exec(d.spec);
+    if (!row) { found.push(`SPEC's level table has no row for Level ${l.n}`); continue; }
+    const listed = row[1].trim().split(/\s+/).join(" ");
+    const actual = l.words.join(" ");
+    if (listed !== actual) {
+      const missing = l.words.filter((w) => !row[1].split(/\s+/).includes(w));
+      found.push(`SPEC's Level ${l.n} row lists ${listed.split(" ").length} words, the level holds ${l.words.length}`
+        + (missing.length ? ` (missing: ${missing.join(", ")})` : " (same words, different order)"));
+    }
+  }
+
   return { found, rules };
 }
 
 if (process.argv.includes("--self-test")) {
-  const seen = { spec: false, blind: false, qa: false, hold: false, recipe: false, bank: false, floor: false, unshipped: false };
+  const seen = { spec: false, blind: false, qa: false, hold: false, recipe: false, bank: false, floor: false, unshipped: false, table: false, tableOrder: false };
 
   const specCorrupt = { ...real, spec: real.spec.replace(/^(\s{3}heading\s+)"[^"]+"$/m, '$1"A sentence the app never says."') };
   seen.spec = run(specCorrupt).found.some((p) => p.startsWith("SPEC sentence missing"));
@@ -255,8 +278,23 @@ if (process.argv.includes("--self-test")) {
   seen.unshipped = run(behindDoc).found.some((p) => p.includes("says 60 items are approved and unshipped")) &&
     run(aheadDoc).found.some((p) => p.includes("says 900 items are approved and unshipped"));
 
+  /* Exactly the fault this rule was written from: a level grows and its row in
+     the table does not. Dropping the last word of the Level 2 row is the same
+     shape as "of" never being added to it. */
+  const lvl2 = LEVELS[1].words;
+  const tableCorrupt = { ...real, spec: real.spec.replace(` ${lvl2.join(" ")} |`, ` ${lvl2.slice(0, -1).join(" ")} |`) };
+  seen.table = run(tableCorrupt).found.some((p) => p.includes("SPEC's Level 2 row lists") && p.includes(lvl2[lvl2.length - 1]));
+
+  /* And the quieter half of the same fault: the right words in the wrong
+     order. A level's word order is its introduction order, so a row that
+     reshuffles it tells a reader the child meets the words in an order the
+     game never uses - and a length check alone would call that clean. */
+  const swapped = [lvl2[1], lvl2[0], ...lvl2.slice(2)];
+  const orderCorrupt = { ...real, spec: real.spec.replace(` ${lvl2.join(" ")} |`, ` ${swapped.join(" ")} |`) };
+  seen.tableOrder = run(orderCorrupt).found.some((p) => p.includes("same words, different order"));
+
   if (Object.values(seen).every(Boolean)) {
-    console.log("self-test OK: a reworded SPEC sentence, a SPEC block whose anchor moved so the rule would check nothing, a reworded QA promise, a changed hold constant, a stale recipe number in the document, a stale bank count in the chooser, a drifted gate floor, and an unshipped count that lags or runs ahead of the ledger are all caught");
+    console.log("self-test OK: a reworded SPEC sentence, a SPEC block whose anchor moved so the rule would check nothing, a reworded QA promise, a changed hold constant, a stale recipe number in the document, a stale bank count in the chooser, a drifted gate floor, an unshipped count that lags or runs ahead of the ledger, a level row that lost a word, and a level row in the wrong order are all caught");
     process.exit(0);
   }
   console.error("self-test FAILED: " + JSON.stringify(seen));

@@ -8,13 +8,20 @@
 #   d:short_u  speech 280 ms   - healthy, in the band the owner's top five sit in
 #   d:v        speech 250 ms   - length is fine, and the length is not the problem
 #
-# The problem is what tools/voice-sounds.csv records about d:v: source
-# "superseded_by_synthesis", pitch_shift_semitones 6.004, formant_ratio 1.09,
-# gain -3 dB, verdict "ok" - not "perfect". It is a synthetic pitched up SIX
-# SEMITONES and formant-stretched, accepted alone in round S1 on 2026-08-05 and
-# never heard beside another sound since. Open-faults B11 is exactly this
-# story: th_this and h were both graded perfect ALONE and turned out poor in
-# company. A sound six semitones above its neighbours will not sit in a word.
+# The problem is that d:v was never heard in company. Its ledger entry in
+# tools/pending-sounds/pending-sounds.json is family match-vex260-most1, round
+# SND16 on 2026-08-11, verdict "perfect (owner)": the first 260 ms of the
+# approved word "vex" with its formant envelope warped at the ORIGINAL pitch.
+# Graded on its own, and never once placed beside another sound. Open-faults
+# B11 is exactly this story: th_this and h were both graded perfect ALONE and
+# turned out poor in company.
+#
+# READ THE LEDGER, NOT THE CSV ROW. The first version of this file blamed a
+# six-semitone pitch shift, taken from tools/voice-sounds.csv's "v" row - which
+# is marked superseded_by_synthesis and describes the owner's own RECORDING,
+# deleted from the repository on 2026-08-11. Two rows, one sound id, and the
+# wrong one turned a clip the owner had passed into a clip they had tolerated.
+# The measurement below was made on the real shipped bytes and stands.
 #
 # WHY NOT THE OBVIOUS ARM. The tempting change is o->schwa, since "of" unstressed
 # is /ev/. It is offered here as arm D because the owner asked for it, but B12
@@ -273,8 +280,8 @@ ROUND2 = [
 
 ARMS_R1 = [
     ("A", "what ships today", "d:short_u + d:v",
-     "The control. d:v is a synthetic pitched up <b>6 semitones</b> and formant-stretched, "
-     "graded <i>ok</i> — not perfect — alone in round S1 and never heard beside another "
+     "The control. d:v is the first 260 ms of your approved “vex”, formant-warped at its "
+     "own pitch, graded <i>perfect</i> ALONE in round SND16 and never heard beside another "
      "sound since. This is what you said iterate on.", ["d:short_u", "V_CURRENT"]),
     ("B", "the v of a real word", "d:short_u + v cut from “van”",
      f"Cut from your approved “van” clip at the model's own boundary — {int(v_ms)} ms, which "
@@ -293,10 +300,9 @@ ARMS_R1 = [
 ]
 
 DIAG1 = """<div class="diag"><b>The diagnosis.</b> Both sounds are the right LENGTH — short_u carries
-280&nbsp;ms of speech, v carries 250, and your best sounds sit at 231–309. The problem is what
-the ledger says about <code>d:v</code>: a synthetic <b>pitched up 6 semitones</b> and
-formant-stretched 1.09, graded <i>ok</i> rather than perfect, accepted alone in round S1 and
-never heard next to another sound since.</div>"""
+280&nbsp;ms of speech, v carries 250, and your best sounds sit at 231–309. The problem is that
+<code>d:v</code> was accepted <b>alone</b> in round SND16 and never once heard next to another
+sound.</div>"""
 
 DIAG2 = """<div class="diag"><b>Round 2, and your words chose the arms.</b> You picked D — so the
 vowel is settled: <b>o says schwa</b>. The only complaint left was that the v “sounds like it
@@ -304,8 +310,8 @@ is shouting… needs more rounding and quieter”, and that turns out to be meas
 than a matter of taste.<br><br>
 The shipped v sits <b>6.2&nbsp;dB louder</b> than the schwa it stands beside (−16.6 against
 −22.8), and its energy sits at <b>1817&nbsp;Hz</b> against schwa's 1413 — louder and brighter,
-which is what shouting is. That also fits the ledger: it is a synthetic pitched up six
-semitones.<br><br>
+which is what shouting is. It was graded <b>perfect</b> in round SND16 — but alone, never
+beside the sound it now has to stand next to.<br><br>
 So these four are a gradient of exactly what you asked for — quieter, then rounder — with the
 measured gap as the middle of the range rather than a guess. Nothing else changes.</div>"""
 

@@ -16,18 +16,18 @@ const seeded = (words, patch) => { const s = newState(); words.forEach(w => { s.
 
 /* ---------------- bank ---------------- */
 describe("word bank", () => {
-  it("has 438 unique words across 11 levels", () => {
+  it("has 439 unique words across 11 levels", () => {
     const all = LEVELS.flatMap(l => l.words);
-    expect(all.length).toBe(438);
-    expect(new Set(all).size).toBe(438);
+    expect(all.length).toBe(439);
+    expect(new Set(all).size).toBe(439);
     expect(LEVELS.map(l => l.n)).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]);
-    expect(LEVELS.map(l => l.words.length)).toEqual([12, 52, 49, 48, 50, 38, 58, 27, 22, 53, 29]);
+    expect(LEVELS.map(l => l.words.length)).toEqual([12, 53, 49, 48, 50, 38, 58, 27, 22, 53, 29]);
   });
   it("starts with the 12-word VC level", () => {
     expect(LEVELS[0].words).toEqual(["at","an","am","ax","in","it","if","is","on","ox","up","us"]);
   });
   it("maps every word to its level", () => {
-    expect(Object.keys(WORD_LEVEL).length).toBe(438);
+    expect(Object.keys(WORD_LEVEL).length).toBe(439);
     expect(WORD_LEVEL.at).toBe(1); expect(WORD_LEVEL.cat).toBe(2); expect(WORD_LEVEL.was).toBe(7);
     expect(WORD_LEVEL.has).toBe(2); expect(WORD_LEVEL.she).toBe(6);
     /* "the" moved 7 -> 2 on 2026-08-12: a heart word's level is where the
@@ -46,10 +46,18 @@ describe("word bank", () => {
        row is a flexbox that does not wrap, so a fifth unit would push the word
        off a small screen. That the four fit is measured on a 320 px viewport
        by the G7 interface gate, which an assertion here cannot see. */
+    /* ONE tile is possible from 2026-08-12, and by exactly one word: the
+       article "a". It is named here rather than allowed by a loosened floor,
+       so a single-letter word arriving by accident still fails. A one-tile
+       reveal is also a shape nothing else in the bank produces — the word, the
+       sound and the word again are all the same recording — which is why the
+       owner heard it before it shipped. */
+    const single = LEVELS.flatMap((l) => l.words).filter((w) => chunkWord(w).length === 1);
+    expect(single).toEqual(["a"]);
     for (const l of LEVELS) {
       for (const w of l.words) {
         expect(w.length).toBeLessThanOrEqual(l.n <= 7 || l.n >= 10 ? 4 : 5);
-        expect(chunkWord(w).length).toBeGreaterThanOrEqual(2);
+        expect(chunkWord(w).length).toBeGreaterThanOrEqual(w === "a" ? 1 : 2);
         expect(chunkWord(w).length).toBeLessThanOrEqual(l.n <= 9 ? 3 : 4);
       }
     }
@@ -348,16 +356,16 @@ describe("migrate", () => {
 
 /* ---------------- export ---------------- */
 describe("buildMarkdown", () => {
-  it("reports the 438-word denominator and eleven level rows", () => {
+  it("reports the 439-word denominator and eleven level rows", () => {
     const md = buildMarkdown(newState());
-    expect(md).toContain("0/438");
+    expect(md).toContain("0/439");
     expect(md.match(/\*\*Level \d+ .+ \(/g).length).toBe(11);
   });
   it("counts a word as mastered only from box 4", () => {
     const three = seeded(["cat", "dog"], { box: 3, attempts: 2 });
-    expect(buildMarkdown(three)).toContain("0/438");
+    expect(buildMarkdown(three)).toContain("0/439");
     const four = seeded(["cat", "dog"], { box: 4, attempts: 2 });
-    expect(buildMarkdown(four)).toContain("2/438");
+    expect(buildMarkdown(four)).toContain("2/439");
   });
   it("keeps a grapheme-safe name intact in the header", () => {
     // lone surrogate = an unpaired HIGH surrogate, or a LOW surrogate with no high before it
@@ -382,10 +390,10 @@ describe("buildMarkdown", () => {
 describe("voice packs", () => {
   it("inventories one clip per word, the fixed sentences, and every sound a tile can ask for", () => {
     const script = voiceScript();
-    expect(script.length).toBe(497);                       // 6 sentences + 17 praise + 438 words + "Pronounced:" + 35 sounds
-    expect(script.filter((c) => c.id.startsWith("w:")).length).toBe(438);
-    expect(script.filter((c) => c.id.startsWith("d:")).length).toBe(35);
-    expect(new Set(script.map((c) => c.id)).size).toBe(497);
+    expect(script.length).toBe(499);                       // 6 sentences + 17 praise + 439 words + "Pronounced:" + 36 sounds
+    expect(script.filter((c) => c.id.startsWith("w:")).length).toBe(439);
+    expect(script.filter((c) => c.id.startsWith("d:")).length).toBe(36);
+    expect(new Set(script.map((c) => c.id)).size).toBe(499);
     expect(script.find((c) => c.id === "s:was").text).toBe("The word was");
     expect(script.find((c) => c.id === "l:wrong").text).toBe("Let’s try again.");
     expect(script.find((c) => c.id === "p:0").text).toBe("Great job!");
@@ -464,7 +472,7 @@ describe("voice packs", () => {
      will name words this way and must not be the thing that finds it. */
   it("bankWords covers every word the app names, not only the levels", () => {
     const words = bankWords();
-    expect(words.length).toBe(438);
+    expect(words.length).toBe(439);
     expect([...new Set(words)].length).toBe(words.length);       // no duplicates
     expect([...words].sort()).toEqual(words);                    // stable order
     const inLevels = new Set();
@@ -477,7 +485,7 @@ describe("voice packs", () => {
     for (const w of inLevels) expect(words.includes(w)).toBe(true);
     /* Today all three sets coincide, and recording that is the point: it is
        what made the old code look right. */
-    expect(inLevels.size).toBe(438);
+    expect(inLevels.size).toBe(439);
 
     /* Negative control. The old LEVELS-only derivation, run over a fixture
        where a word is named ONLY in a tricky note, must miss it — and the
@@ -682,6 +690,30 @@ describe("speech helpers", () => {
       { text: "Let’s try again.", rate: 0.9 },
       { text: "The word is sun.", rate: 0.9 },
     ]);
+  });
+  /* S4, on the one word where the fallback would break it. Every clip in this
+     game is recorded; system speech is reached only when the pack fails to
+     load. Handed the string "a", every system voice says the letter's NAME —
+     the one thing this app must never say to a child being taught that letters
+     make sounds. Caught by the copy gate the moment "a" entered the bank. */
+  it("hands system speech the SOUND of “a”, never the letter's name", () => {
+    expect(feedbackSpeech("correct", "a")).toEqual([
+      { text: "Great job!", rate: 0.9 },
+      { text: "The word was uh.", rate: 0.9 },
+    ]);
+    expect(feedbackSpeech("close", "a")[1].text).toBe("The word is uh.");
+    expect(feedbackSpeech("wrong", "a")[1].text).toBe("The word is uh.");
+    /* Control: the substitution is for this word alone. Every other word is
+       spoken as itself, so this cannot pass by mangling the whole bank. */
+    expect(feedbackSpeech("close", "cat")[1].text).toBe("The word is cat.");
+    expect(feedbackSpeech("close", "at")[1].text).toBe("The word is at.");
+    /* And the sweep the copy gate does, asserted here too: no bank word's
+       spoken feedback contains a bare single letter, in any of the three
+       results. */
+    const bareLetter = /(^| )[a-z]([ .,!?]|$)/;
+    for (const w of bankWords())
+      for (const r of ["correct", "close", "wrong"])
+        expect(bareLetter.test(feedbackSpeech(r, w).map((x) => x.text).join(" "))).toBe(false);
   });
   it("stays silent when sound is off or no engine exists", () => {
     expect(() => speak("cat", false, "en-US")).not.toThrow();
