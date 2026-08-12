@@ -17,18 +17,18 @@ const seeded = (words, patch) => { const s = newState(); words.forEach(w => { s.
 
 /* ---------------- bank ---------------- */
 describe("word bank", () => {
-  it("has 349 unique words across 9 levels", () => {
+  it("has 432 unique words across 11 levels", () => {
     const all = LEVELS.flatMap(l => l.words);
-    expect(all.length).toBe(349);
-    expect(new Set(all).size).toBe(349);
-    expect(LEVELS.map(l => l.n)).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 9]);
-    expect(LEVELS.map(l => l.words.length)).toEqual([12, 44, 49, 48, 50, 38, 59, 27, 22]);
+    expect(all.length).toBe(432);
+    expect(new Set(all).size).toBe(432);
+    expect(LEVELS.map(l => l.n)).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]);
+    expect(LEVELS.map(l => l.words.length)).toEqual([12, 44, 49, 48, 50, 38, 59, 27, 22, 54, 29]);
   });
   it("starts with the 12-word VC level", () => {
     expect(LEVELS[0].words).toEqual(["at","an","am","ax","in","it","if","is","on","ox","up","us"]);
   });
   it("maps every word to its level", () => {
-    expect(Object.keys(WORD_LEVEL).length).toBe(349);
+    expect(Object.keys(WORD_LEVEL).length).toBe(432);
     expect(WORD_LEVEL.at).toBe(1); expect(WORD_LEVEL.cat).toBe(2); expect(WORD_LEVEL.was).toBe(7);
     expect(WORD_LEVEL.has).toBe(2); expect(WORD_LEVEL.she).toBe(6); expect(WORD_LEVEL.the).toBe(7);
     expect(WORD_LEVEL.bell).toBe(8); expect(WORD_LEVEL.chick).toBe(9);
@@ -36,11 +36,19 @@ describe("word bank", () => {
   it("flags the nine tricky words", () => {
     expect(Object.keys(TRICKY).sort()).toEqual(["bush","has","is","push","she","the","was","wash","what"]);
   });
-  it("keeps every word at 2 or 3 sound units; 4 letters through Level 7, 5 at Levels 8 and 9", () => {
+  it("keeps every word inside what the tile row can hold: 4 units at most, 5 letters at most", () => {
+    /* Levels 1 to 9 break into two or three sound units. Levels 10 and 11 are
+       blends, and a blend is TWO sounds run together rather than one — "band"
+       is b-a-n-d and "step" is s-t-e-p — so a fourth unit appears for the
+       first time. Four is the ceiling, and it is a real one: the feedback tile
+       row is a flexbox that does not wrap, so a fifth unit would push the word
+       off a small screen. That the four fit is measured on a 320 px viewport
+       by the G7 interface gate, which an assertion here cannot see. */
     for (const l of LEVELS) {
       for (const w of l.words) {
-        expect(w.length).toBeLessThanOrEqual(l.n <= 7 ? 4 : 5);
-        expect([2, 3]).toContain(chunkWord(w).length);
+        expect(w.length).toBeLessThanOrEqual(l.n <= 7 || l.n >= 10 ? 4 : 5);
+        expect(chunkWord(w).length).toBeGreaterThanOrEqual(2);
+        expect(chunkWord(w).length).toBeLessThanOrEqual(l.n <= 9 ? 3 : 4);
       }
     }
   });
@@ -143,8 +151,8 @@ describe("checkPromotion", () => {
     expect(checkPromotion(ten)).toBe(true); expect(ten.level).toBe(2);
   });
   it("never promotes past the last level", () => {
-    const top = seeded(LEVELS[8].words, { box: 5, attempts: 5 }); top.level = 9;
-    expect(checkPromotion(top)).toBe(false); expect(top.level).toBe(9);
+    const top = seeded(LEVELS[10].words, { box: 5, attempts: 5 }); top.level = 11;
+    expect(checkPromotion(top)).toBe(false); expect(top.level).toBe(11);
   });
   it("promotes after two perfect sessions; a partial session never moves the streak", () => {
     const s = newState(); s.level = 2;
@@ -162,9 +170,9 @@ describe("checkPromotion", () => {
     expect(s.perfectStreak).toBe(0);
   });
   it("the streak never promotes past the last level, and never banks above 2", () => {
-    const s = newState(); s.level = 9; s.perfectStreak = 5;
+    const s = newState(); s.level = 11; s.perfectStreak = 5;
     expect(checkPromotion(s, { partial: false, perfect: true })).toBe(false);
-    expect(s.level).toBe(9);
+    expect(s.level).toBe(11);
     expect(s.perfectStreak).toBe(2);                        // capped, not 6
   });
   it("a partial session with a miss also leaves the streak unchanged", () => {
@@ -322,7 +330,7 @@ describe("migrate", () => {
   });
   it("maps old level 6 to new level 7 and clamps out-of-range input", () => {
     expect(migrate({ ...v2(), level: 6 }).level).toBe(7);
-    expect(migrate({ version: 3, level: 99 }).level).toBe(9);
+    expect(migrate({ version: 3, level: 99 }).level).toBe(11);
     expect(migrate({ version: 3, level: -5 }).level).toBe(1);
   });
   it("survives hostile documents", () => {
@@ -333,16 +341,16 @@ describe("migrate", () => {
 
 /* ---------------- export ---------------- */
 describe("buildMarkdown", () => {
-  it("reports the 349-word denominator and nine level rows", () => {
+  it("reports the 432-word denominator and eleven level rows", () => {
     const md = buildMarkdown(newState());
-    expect(md).toContain("0/349");
-    expect(md.match(/\*\*Level \d+ .+ \(/g).length).toBe(9);
+    expect(md).toContain("0/432");
+    expect(md.match(/\*\*Level \d+ .+ \(/g).length).toBe(11);
   });
   it("counts a word as mastered only from box 4", () => {
     const three = seeded(["cat", "dog"], { box: 3, attempts: 2 });
-    expect(buildMarkdown(three)).toContain("0/349");
+    expect(buildMarkdown(three)).toContain("0/432");
     const four = seeded(["cat", "dog"], { box: 4, attempts: 2 });
-    expect(buildMarkdown(four)).toContain("2/349");
+    expect(buildMarkdown(four)).toContain("2/432");
   });
   it("keeps a grapheme-safe name intact in the header", () => {
     // lone surrogate = an unpaired HIGH surrogate, or a LOW surrogate with no high before it
@@ -367,10 +375,10 @@ describe("buildMarkdown", () => {
 describe("voice packs", () => {
   it("inventories one clip per word, the fixed sentences, and every sound a tile can ask for", () => {
     const script = voiceScript();
-    expect(script.length).toBe(406);                       // 6 sentences + 17 praise + 349 words + "Pronounced:" + 33 sounds
-    expect(script.filter((c) => c.id.startsWith("w:")).length).toBe(349);
+    expect(script.length).toBe(489);                       // 6 sentences + 17 praise + 432 words + "Pronounced:" + 33 sounds
+    expect(script.filter((c) => c.id.startsWith("w:")).length).toBe(432);
     expect(script.filter((c) => c.id.startsWith("d:")).length).toBe(33);
-    expect(new Set(script.map((c) => c.id)).size).toBe(406);
+    expect(new Set(script.map((c) => c.id)).size).toBe(489);
     expect(script.find((c) => c.id === "s:was").text).toBe("The word was");
     expect(script.find((c) => c.id === "l:wrong").text).toBe("Let’s try again.");
     expect(script.find((c) => c.id === "p:0").text).toBe("Great job!");

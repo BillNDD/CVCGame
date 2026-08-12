@@ -33,6 +33,19 @@ const LEVELS = [
   { n: 9, name: "Chicks", emoji: "🐔", focus: "five-letter words",
     words: ["chick","check","chuck","chess","chill","shack","shock","shell","thick","whack","whiff","whizz",
       "quick","quack","quill","knock","wreck","wrong","thumb","wrap","wren","limb"] },
+  /* Levels 10 and 11 are blends, and a blend introduces NO new grapheme: the
+     child already knows every letter here and is learning to run two of them
+     together. That is why these levels need no new sound, only new words —
+     Letters and Sounds calls it a fluency step, not a new phase. Each cluster
+     stays two tiles in the reveal, because it is two sounds blended, unlike the
+     digraphs of S8 which are one sound and one tile. */
+  { n: 10, name: "Tent Camp", emoji: "⛺", focus: "blends at the end",
+    words: ["and","ant","ask","band","belt","bend","best","bolt","bond","bump","camp","cost","damp","dent","desk","dusk","end","fast",
+      "fond","gift","gulf","gulp","hand","help","hint","jump","just","kept","lamp","land","last","left","lend","lift","list","mask",
+      "melt","mend","milk","mint","must","nest","pond","pump","raft","rest","risk","sand","sift","silk","soft","task","tent","wilt"] },
+  { n: 11, name: "Twin Drums", emoji: "🥁", focus: "blends at the start",
+    words: ["brag","clap","drop","drum","flag","flat","glad","grab","grin","plan","plum","slam","sled","slid","slip","snap","snug",
+      "spin","spot","stem","step","stop","swam","swim","trap","trim","trip","twig","twin"] },
 ];
 
 const TRICKY = {
@@ -59,6 +72,7 @@ const HOMOPHONES = {
   dam: ["damn"], fax: ["facts"], nix: ["nicks"], nun: ["none"], sax: ["sacks"],
   tick: ["tic"], dock: ["doc"], what: ["watt"],
   knot: ["not"], knit: ["nit"], wrap: ["rap"], lamb: ["lam"],
+  band: ["banned"], plum: ["plumb"],
 };
 /* Words speech recognition cannot judge fairly: the word sounds like the NAME
    of the letter beside it, so a child who reads "am" perfectly is transcribed

@@ -589,6 +589,80 @@ for (const height of [430, 555, 720, 950]) {
   await context.close();
 }
 
+/* 21-22 — the four-tile row fits the narrowest phone, and stays on one line.
+   Every level up to 9 breaks into at most THREE sound units, so the tile row
+   had never been asked to hold four. Levels 10 and 11 are blends, and a blend
+   is two sounds run together, not one: "band" is b-a-n-d and "step" is
+   s-t-e-p, four tiles each. The row is a flexbox with no wrap, so a fourth
+   tile either fits or silently pushes the word off the side of a small
+   screen. An engine test cannot see that — it has no width. Measured on the
+   narrowest phone this app supports and on the tallest word the new levels
+   contain. */
+{
+  const storageSrc = readFileSync("app/src/storage.js", "utf8");
+  const dbName = storageSrc.match(/DB_NAME = "([^"]+)"/)[1];
+  const dbStore = storageSrc.match(/DB_STORE = "([^"]+)"/)[1];
+  const context = await browser.newContext();
+  const page = await context.newPage();
+  await page.setViewportSize({ width: 320, height: 568 });
+  await page.goto(URL, { waitUntil: "load" });
+  await page.getByRole("button", { name: "Begin Session" }).waitFor();
+  await page.evaluate(([db, store, key, save]) => new Promise((resolve, reject) => {
+    const rq = indexedDB.open(db, 1);
+    rq.onupgradeneeded = () => rq.result.createObjectStore(store);
+    rq.onsuccess = () => {
+      const tx = rq.result.transaction(store, "readwrite");
+      tx.objectStore(store).put(save, key);
+      tx.oncomplete = () => resolve(true);
+      tx.onerror = () => reject(tx.error);
+    };
+    rq.onerror = () => reject(rq.error);
+  }), [dbName, dbStore, STORE_KEY, JSON.stringify({ version: 3, level: 11, sessionsCompleted: 0, perfectStreak: 0, words: {}, settings: { sound: true } })]);
+  await page.reload({ waitUntil: "load" });
+  await page.getByRole("button", { name: "Begin Session" }).click();
+  await page.locator(".wq-word").waitFor();
+  await gradeByKey(page, "✓ got it (hold)", "Enter");
+  await page.locator(".wq-tile").first().waitFor();
+  const seen = await page.locator(".wq-word").textContent();
+  const tiles = await page.locator(".wq-tile").count();
+  const boxes = [];
+  for (const t of await page.locator(".wq-tile").all()) boxes.push(await t.boundingBox());
+  const doc = await page.evaluate(() => ({
+    w: document.documentElement.clientWidth,
+    over: document.documentElement.scrollWidth > document.documentElement.clientWidth,
+  }));
+  if (tiles !== 4 || boxes.some((b) => !b)) {
+    fail("a Level 11 word did not render four measurable tiles", `word=${seen} tiles=${tiles}`);
+  } else {
+    const left = Math.min(...boxes.map((b) => b.x));
+    const right = Math.max(...boxes.map((b) => b.x + b.width));
+    const oneLine = new Set(boxes.map((b) => Math.round(b.y))).size === 1;
+    if (left >= 0 && right <= doc.w && !doc.over)
+      ok(`four tiles fit 320 px wide ("${seen}" spans ${Math.round(right - left)} px of ${doc.w})`);
+    else fail("the four-tile row overflows a 320 px screen", JSON.stringify({ seen, left, right, doc }));
+    if (oneLine) ok(`the four tiles of "${seen}" sit on one line`);
+    else fail("the four-tile row wrapped", JSON.stringify(boxes.map((b) => Math.round(b.y))));
+
+    /* Negative control. A fit-check that cannot report a miss proves nothing,
+       and this one would pass on any screen if it were reading the wrong box.
+       The same probe is re-run with each tile forced far wider than the
+       viewport: it MUST report the row off the screen. */
+    await page.evaluate(() => {
+      for (const t of document.querySelectorAll(".wq-tile")) {
+        t.style.setProperty("padding-left", "200px", "important");
+        t.style.setProperty("padding-right", "200px", "important");
+      }
+    });
+    const wide = [];
+    for (const t of await page.locator(".wq-tile").all()) wide.push(await t.boundingBox());
+    const wideRight = Math.max(...wide.map((b) => b.x + b.width));
+    const wideLeft = Math.min(...wide.map((b) => b.x));
+    if (wideRight > doc.w || wideLeft < 0) ok("control: the fit probe reports an over-wide tile row off the screen");
+    else fail("the fit probe passed a row it should have refused", JSON.stringify({ wideLeft, wideRight, w: doc.w }));
+  }
+  await context.close();
+}
+
 await browser.close();
 stopServer();
 console.log(`\nG7 interface gate: ${checks} checks passed, ${failures} failed`);

@@ -80,9 +80,11 @@ The ten initial properties:
 | P7 | For any valid state: `buildSession` returns no duplicate words, and 20 words or fewer. |
 | P8 | `buildSession` never serves a word more than one level above the current level. A next-level word the child has never attempted implies that no fresh current-level word remains and that 80 percent of the current level sits in box 2 or more. Next-level words the child has already read may come back for review, at most 2 in a session. The converse is not required. |
 | P9 | For any valid state with a non-empty queue: the first word's box is the maximum box in the queue. A word with no stored state counts as box 0. |
-| P10 | For arbitrary JSON-shaped input, including hostile values under the real key names: `migrate` never throws, is idempotent, and its output survives `buildSession`, `applyResult`, and `buildMarkdown` without a throw. Every healed box is 0 to 5; the level is 1 to 7. |
+| P10 | For arbitrary JSON-shaped input, including hostile values under the real key names: `migrate` never throws, is idempotent, and its output survives `buildSession`, `applyResult`, and `buildMarkdown` without a throw. Every healed box is 0 to 5; the level is 1 to 11. |
 
-The level range is 1 to 7. SPEC and the engine agree; the owner corrected SPEC on 2026-07-25.
+The level range is 1 to 11. It was 1 to 7 until the bank grew to nine levels, and 1 to 9 until
+Levels 10 and 11 (the blends) were built on 2026-08-12. The engine never carries the number:
+every bound reads `LEVELS.length`, which is why adding a level needed no engine change.
 
 ## G3. Acceptance scenarios (Gherkin)
 
@@ -338,7 +340,7 @@ engine, never a hand-kept list.
   heard, alters a guard and grants one to an unheard word, drifts the lock file and deletes a
   word from it, deletes a word-table row, and quietly tunes an unlocked word; the detector
   must report every one.
-- Baseline floors: `g13_clips` (406) and `g13_engine_tests` (10).
+- Baseline floors: `g13_clips` (489) and `g13_engine_tests` (10).
 - To re-render the pack after the bank grows: `docs/voice-pack.md`.
 
 ## G19. App mutation

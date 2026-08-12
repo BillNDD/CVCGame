@@ -82,10 +82,14 @@ These rules are mandatory.
 
 ## 3. Word bank
 
-The bank has 349 words in nine levels. The word order in a level is the introduction order.
-Every word has 2 or 3 sound units. Words have at most 4 letters through Level 7; Levels 8
-and 9 may reach 5. The bank holds no consonant blends and no vowel teams: outside the
-multi-letter units, every letter is one sound. The units are the six spoken digraphs (sh,
+The bank has 432 words in eleven levels. The word order in a level is the introduction order.
+Words have 2 or 3 sound units through Level 9, and 3 or 4 at Levels 10 and 11, where a
+consonant blend adds a unit. Words have at most 4 letters through Level 7 and at Levels 10
+and 11; Levels 8 and 9 may reach 5. Four sound units is the ceiling, and it is a real one:
+the feedback tile row does not wrap, so a fifth unit would push the word off a small screen.
+Outside the multi-letter units, every letter is one sound. Levels 10 and 11 hold consonant
+blends, which are NOT multi-letter units: a blend is two sounds run together, so "band" is
+b-a-n-d on four tiles and "step" is s-t-e-p. The bank holds no vowel teams. The units are the six spoken digraphs (sh,
 ch, th, wh, ck, ng), qu (one tile, says "kw"), the silent-letter pairs kn, wr and mb (each
 says its surviving letter), and the doubled endings ll, ss, ff and zz (each says its
 single) — adopted with Levels 8 and 9 on 2026-08-04; ph was considered and left out
@@ -103,8 +107,18 @@ exceptions, each with a note.
 | 7 | Word Wizard | th, wh, ck, ng, tricky | thin this that then them bath math with when whip duck sock kick back ring sing king long song was buck sung gong lung puck wick rung muck pack path sack tack neck luck tuck peck deck thud rock lock pick lick wing tick dock moth hang sang rang sick fang the what whim wham bang hung ding ping |
 | 8 | Bells | ll ss ff zz, qu, silent letters | bell tell well fell hill mill doll mess boss kiss miss loss fuss huff puff cuff buzz fuzz jazz fizz quiz quit quip knit knob knot lamb |
 | 9 | Chicks | five-letter words | chick check chuck chess chill shack shock shell thick whack whiff whizz quick quack quill knock wreck wrong thumb wrap wren limb |
+| 10 | Tent Camp | blends at the end | and ant ask band belt bend best bolt bond bump camp cost damp dent desk dusk end fast fond gift gulf gulp hand help hint jump just kept lamp land last left lend lift list mask melt mend milk mint must nest pond pump raft rest risk sand sift silk soft task tent wilt |
+| 11 | Twin Drums | blends at the start | brag clap drop drum flag flat glad grab grin plan plum slam sled slid slip snap snug spin spot stem step stop swam swim trap trim trip twig twin |
 
-Level word counts: 12, 44, 49, 48, 50, 38, 59, 27, 22.
+Level word counts: 12, 44, 49, 48, 50, 38, 59, 27, 22, 54, 29.
+
+Levels 10 and 11 introduce NO new grapheme. Every letter in them is one the child already
+knows; what is new is running two consonants together without a vowel between. Letters and
+Sounds treats this as a fluency step rather than a new phase, which is why these levels
+needed new words and no new sound. Built 2026-08-12 from words the owner approved by ear
+between 2026-08-07 and 2026-08-11; the clips shipped are the exact bytes of those rounds.
+"romp" was approved by ear and is NOT in the bank: the whole-bank appropriateness screen
+refused it for its adult tabloid meaning.
 
 Constants:
 
@@ -116,7 +130,8 @@ HOMOPHONES = { sun:["son"], red:["read"], mat:["matt"], in:["inn"], an:["ann","a
                cot:["caught"], ring:["wring"], rung:["wrung"], sack:["sac"], pick:["pic"],
                tick:["tic"], dock:["doc"], what:["watt"],
                dam:["damn"], fax:["facts"], nix:["nicks"], nun:["none"], sax:["sacks"],
-               knot:["not"], knit:["nit"], wrap:["rap"], lamb:["lam"] }
+               knot:["not"], knit:["nit"], wrap:["rap"], lamb:["lam"],
+               band:["banned"], plum:["plumb"] }
 SESSION_SIZE = 20
 PROMPT_CAP   = 26
 INTERVALS    = [1,1,2,4,7,12]   // sessions until due, by box 0..5
@@ -525,7 +540,7 @@ The state version is 3. If the app loads a version 2 state, the app does a one-t
 - Set the version to 3.
 
 The migration does not change the word data. The migration runs one time only. The app always
-limits `level` to the range 1 to 7.
+limits `level` to the range 1 to the number of levels in the bank, which is 11.
 
 Before the migration, the app repairs the document. The repair function makes sure that `words`,
 `log`, and `settings` are present and have the correct type. The repair function limits each word

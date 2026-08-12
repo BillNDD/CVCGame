@@ -230,11 +230,31 @@ owner granted, not permission to grow into it. A file approaching one is split.
 
 ---
 
-## E. Approved and unbuilt
+## E. Ruled by the owner and not built
 
-Features the owner has ruled on that are not built are **not** in this file. They live in
-SPEC section 12, "The road ahead", with their boundaries and their named prerequisites:
-the level introduction, passages from real books, and the parent tutorial.
+Owner-instructed 2026-08-12. This section used to say the opposite — that an unbuilt ruling
+belongs in SPEC section 12 and not in this file — and that sentence is why Levels 10 and 11
+sat unbuilt for five days while 84 approved words waited for them. Nothing was blocking
+them. Nobody was counting them either. The faults list caught faults; a decision of the
+owner's that simply never got picked up had no list at all, and SPEC's "road ahead" reads
+as a plan rather than a debt.
+
+So it goes here now, with the same rule as every other entry: an item leaves only by being
+built, and the result is recorded in whichever document owns the fact. SPEC section 12 keeps
+the *design* — the boundaries, the prerequisites, what the feature is. This section keeps the
+*debt* — the date it was ruled, and what a child does not have today because of it.
+
+| Ruled | What | Status |
+|---|---|---|
+| 2026-08-07 | Levels 10 and 11: final and initial blends | **Built 2026-08-12.** 83 words shipped |
+| 2026-08-07 | Levels 12 to 15: plural s, compounds, open syllables, magic e | Open. 32 approved words wait on 12, 13 and 14 |
+| 2026-08-07 | Heart words grow now: said, of, you, to, do, my | Open. The engine has no notion of a word taught by sight; six approved clips wait on it, and 40 approved sentences cannot be levelled without it |
+| 2026-08-07 | Sentence mode | Open. 41 sentences approved by ear, recorded, and unusable |
+| 2026-08-07 | Build-it encoding mode, practice only | Open. Not started |
+| 2026-08-07 | Speedy words fluency round in the free-play chooser | Open. Not started |
+| 2026-08-10 | Level introduction: new sounds, and a review of trouble sounds | Open. Not started |
+| 2026-08-11 | Parent tutorial from the home screen | Open. Blocked behind section B, the default sounds |
+| 2026-08-11 | Remove microphone mode entirely | Open, and it is section A: the only item here that is wrong today rather than merely absent |
 
 ---
 

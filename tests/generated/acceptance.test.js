@@ -10,13 +10,13 @@ describe("Feature: The reading log export", () => {
     const s = newState();
     for (const w of ["cat", "dog"]) s.words[w] = { ...freshWordState(), box: 3, attempts: 2 };
     const md = buildMarkdown(s);
-    expect(md).toContain("0/349");
+    expect(md).toContain("0/432");
   });
   it("Box 4 counts as mastered", () => {
     const s = newState();
     for (const w of ["cat", "dog"]) s.words[w] = { ...freshWordState(), box: 4, attempts: 2 };
     const md = buildMarkdown(s);
-    expect(md).toContain("2/349");
+    expect(md).toContain("2/432");
   });
   it("A short session is marked", () => {
     const s = newState();
@@ -211,12 +211,12 @@ describe("Feature: Level promotion", () => {
     expect(s.level).toBe(2);
   });
   it("The last level has no promotion", () => {
-    const s = newState(); s.level = 9;
-    expect(LEVELS[9 - 1].words.length).toBe(22);
-    LEVELS[9 - 1].words.slice(0, 22).forEach((w) => { s.words[w] = { ...freshWordState(), box: 5, attempts: 1 }; });
+    const s = newState(); s.level = 11;
+    expect(LEVELS[11 - 1].words.length).toBe(29);
+    LEVELS[11 - 1].words.slice(0, 29).forEach((w) => { s.words[w] = { ...freshWordState(), box: 5, attempts: 1 }; });
     const promoted = checkPromotion(s);
     expect(promoted).toBe(false);
-    expect(s.level).toBe(9);
+    expect(s.level).toBe(11);
   });
   it("Two perfect sessions in a row promote", () => {
     const s = newState(); s.level = 2;
@@ -317,7 +317,7 @@ describe("Feature: Saved data survives anything", () => {
   it("An out-of-range level clamps to the top", () => {
     const doc = { version: 3, level: 99 };
     const m = migrate(doc);
-    expect(m.level).toBe(9);
+    expect(m.level).toBe(11);
   });
   it("An out-of-range box clamps", () => {
     const doc = { version: 3, words: { cat: { box: 99, attempts: 1 } } };

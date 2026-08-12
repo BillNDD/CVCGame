@@ -44,11 +44,11 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 
 | # | Suite | Effect (the test's own sentence) |
 |---|---|---|
-| 1 | word bank | has 349 unique words across 9 levels |
+| 1 | word bank | has 432 unique words across 11 levels |
 | 2 | word bank | starts with the 12-word VC level |
 | 3 | word bank | maps every word to its level |
 | 4 | word bank | flags the nine tricky words |
-| 5 | word bank | keeps every word at 2 or 3 sound units; 4 letters through Level 7, 5 at Levels 8 and 9 |
+| 5 | word bank | keeps every word inside what the tile row can hold: 4 units at most, 5 letters at most |
 | 6 | chunkWord and dashed | fuses every digraph |
 | 7 | chunkWord and dashed | splits VC and plain CVC words |
 | 8 | chunkWord and dashed | renders hyphenated feedback text |
@@ -92,7 +92,7 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 46 | migrate | is idempotent |
 | 47 | migrate | maps old level 6 to new level 7 and clamps out-of-range input |
 | 48 | migrate | survives hostile documents |
-| 49 | buildMarkdown | reports the 349-word denominator and nine level rows |
+| 49 | buildMarkdown | reports the 432-word denominator and eleven level rows |
 | 50 | buildMarkdown | counts a word as mastered only from box 4 |
 | 51 | buildMarkdown | keeps a grapheme-safe name intact in the header |
 | 52 | buildMarkdown | marks a partial session |
