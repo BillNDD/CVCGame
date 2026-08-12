@@ -137,10 +137,21 @@ sight, and the 41 sentences need sentence mode.
 
 The sentence recordings are **one natural recording per sentence**, owner-ruled
 2026-08-12 — not the sentence's word clips stitched together. A word said on its
-own is a citation form and runs about twice as long as the same word in
-connected speech, so a stitched sentence reads like a list. The cost of the
+own is a citation form, so a stitched sentence reads like a list. The cost of the
 ruling is that every new sentence needs its own round and its own pin, exactly
 as a word does.
+
+**Confirmed by ear the same day, 8 of 8.** The ruling was first made from a
+measurement, and the owner asked to hear it rather than read it — a ratio is not
+a rhythm. `tools/compare_sentences.py` built both versions of eight sentences
+from what the repository actually holds, and every one came back `natural`. The
+stitch was given the best case it could have: each word cut back to its own
+speech and butted straight together with no gap added, both sides carrying the
+pack's standard 80 ms lead and 300 ms tail. It still lost every time.
+
+The measured figure is **1.43 to 1.74 times the natural recording, median 1.72**.
+An earlier note in this project said "about twice as long", which overstated it;
+the direction was right and the number was not.
 
 What the first batches taught, in order: a new word is always cut from a
 carrier, never rendered plain; the crackle at the end is utterance-final creak
