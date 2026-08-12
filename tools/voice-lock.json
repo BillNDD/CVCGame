@@ -2,823 +2,417 @@
  "rule": "Derived from tools/voice-words.csv - the permanent repository a person edits. Regenerate: node tools/gen-voice-lock.mjs. G13 fails the build if any gated section disagrees with the CSV or the shipped pack. 'What counts as finished work' (CLAUDE.md) governs every change.",
  "generated_from": "tools/voice-words.csv + app/public/voice/manifest.json + tools/render-voice-pack.py",
  "recipe": {
-  "asr_guard_ms": {
-   "back": [
-    30,
-    40
-   ],
-   "bash": [
-    30,
-    40
-   ],
-   "bell": [
-    30,
-    40
-   ],
-   "bet": [
-    30,
-    40
-   ],
-   "bib": [
-    40,
-    40
-   ],
-   "big": [
-    40,
-    40
-   ],
-   "boss": [
-    30,
-    40
-   ],
-   "box": [
-    40,
-    40
-   ],
-   "bush": [
-    30,
-    40
-   ],
-   "cash": [
-    30,
-    40
-   ],
-   "chap": [
-    30,
-    40
-   ],
-   "chat": [
-    30,
-    40
-   ],
-   "chin": [
-    30,
-    40
-   ],
-   "chip": [
-    30,
-    40
-   ],
-   "chop": [
-    30,
-    40
-   ],
-   "chug": [
-    30,
-    40
-   ],
-   "cuff": [
-    30,
-    40
-   ],
-   "dash": [
-    30,
-    40
-   ],
-   "deck": [
-    30,
-    40
-   ],
-   "dig": [
-    40,
-    40
-   ],
-   "ding": [
-    30,
-    40
-   ],
-   "dock": [
-    30,
-    40
-   ],
-   "dog": [
-    40,
-    40
-   ],
-   "duck": [
-    30,
-    40
-   ],
-   "fax": [
-    30,
-    40
-   ],
-   "fit": [
-    40,
-    40
-   ],
-   "fix": [
-    40,
-    40
-   ],
-   "fox": [
-    40,
-    40
-   ],
-   "gas": [
-    30,
-    40
-   ],
-   "gong": [
-    30,
-    40
-   ],
-   "him": [
-    40,
-    40
-   ],
-   "hush": [
-    30,
-    40
-   ],
-   "jig": [
-    30,
-    40
-   ],
-   "jot": [
-    30,
-    40
-   ],
-   "king": [
-    30,
-    40
-   ],
-   "kiss": [
-    30,
-    40
-   ],
-   "lash": [
-    30,
-    40
-   ],
-   "lid": [
-    30,
-    40
-   ],
-   "log": [
-    40,
-    40
-   ],
-   "mash": [
-    30,
-    40
-   ],
-   "mess": [
-    30,
-    40
-   ],
-   "mix": [
-    30,
-    40
-   ],
-   "mom": [
-    40,
-    40
-   ],
-   "mop": [
-    40,
-    40
-   ],
-   "moth": [
-    30,
-    40
-   ],
-   "muck": [
-    30,
-    40
-   ],
-   "mush": [
-    30,
-    40
-   ],
-   "nab": [
-    30,
-    40
-   ],
-   "nod": [
-    40,
-    40
-   ],
-   "not": [
-    40,
-    40
-   ],
-   "peck": [
-    30,
-    40
-   ],
-   "pen": [
-    30,
-    40
-   ],
-   "pig": [
-    40,
-    40
-   ],
-   "pit": [
-    40,
-    40
-   ],
-   "pop": [
-    40,
-    40
-   ],
-   "posh": [
-    30,
-    40
-   ],
-   "pun": [
-    30,
-    40
-   ],
-   "quit": [
-    30,
-    40
-   ],
-   "ram": [
-    40,
-    40
-   ],
-   "rib": [
-    30,
-    40
-   ],
-   "rock": [
-    30,
-    40
-   ],
-   "rung": [
-    30,
-    40
-   ],
-   "sad": [
-    80,
-    40
-   ],
-   "sat": [
-    80,
-    40
-   ],
-   "sax": [
-    30,
-    40
-   ],
-   "sham": [
-    30,
-    40
-   ],
-   "she": [
-    30,
-    40
-   ],
-   "sip": [
-    80,
-    80
-   ],
-   "six": [
-    80,
-    80
-   ],
-   "tab": [
-    30,
-    40
-   ],
-   "tag": [
-    40,
-    40
-   ],
-   "tan": [
-    40,
-    40
-   ],
-   "tell": [
-    30,
-    40
-   ],
-   "thud": [
-    30,
-    40
-   ],
-   "tick": [
-    30,
-    40
-   ],
-   "tip": [
-    40,
-    40
-   ],
-   "top": [
-    40,
-    40
-   ],
-   "vex": [
-    30,
-    40
-   ],
-   "wag": [
-    40,
-    40
-   ],
-   "was": [
-    30,
-    40
-   ],
-   "wash": [
-    30,
-    40
-   ],
-   "wax": [
-    30,
-    40
-   ],
-   "well": [
-    30,
-    40
-   ],
-   "whim": [
-    30,
-    40
-   ],
-   "win": [
-    40,
-    40
-   ],
-   "wing": [
-    30,
-    40
-   ],
-   "wish": [
-    30,
-    40
-   ],
-   "yak": [
-    30,
-    40
-   ],
-   "yap": [
-    40,
-    40
-   ],
-   "yes": [
-    30,
-    40
-   ]
-  },
-  "asr_pinned": {
-   "back": [
-    "Here is the word, back.",
-    0.969,
-    1.58
-   ],
-   "bash": [
-    "Here is the word, bash.",
-    0.991,
-    1.72
-   ],
-   "bell": [
-    "Here is the word, bell.",
-    0.991,
-    1.62
-   ],
-   "bet": [
-    "Here is the word, bet.",
-    1.055,
-    1.7
-   ],
-   "bib": [
-    "Say bib.",
-    0.46,
-    0.92
-   ],
-   "big": [
-    "Say big.",
-    0.46,
-    0.96
-   ],
-   "boss": [
-    "Here is the word, boss.",
-    0.969,
-    1.56
-   ],
-   "box": [
-    "Say box.",
-    0.46,
-    0.92
-   ],
-   "bush": [
-    "Here is the word, bush.",
-    0.991,
-    1.58
-   ],
-   "cash": [
-    "Here is the word, cash.",
-    0.969,
-    1.7
-   ],
-   "chap": [
-    "Here is the word, chap.",
-    0.841,
-    1.7
-   ],
-   "chat": [
-    "Here is the word, chat.",
-    0.884,
-    1.52
-   ],
-   "chin": [
-    "Here is the word, chin.",
-    0.905,
-    1.72
-   ],
-   "chip": [
-    "Here is the word, chip.",
-    0.927,
-    1.76
-   ],
-   "chop": [
-    "Here is the word, chop.",
-    0.927,
-    1.82
-   ],
-   "chug": [
-    "Here is the word, chug.",
-    0.905,
-    1.75
-   ],
-   "cuff": [
-    "Here is the word, cuff.",
-    0.969,
-    1.64
-   ],
-   "dash": [
-    "Here is the word, dash.",
-    0.948,
-    1.6
-   ],
-   "deck": [
-    "Here is the word, deck.",
-    0.927,
-    1.64
-   ],
-   "dig": [
-    "Say dig.",
-    0.46,
-    0.96
-   ],
-   "ding": [
-    "Here is the word, ding.",
-    0.969,
-    1.62
-   ],
-   "dock": [
-    "Here is the word, dock.",
-    0.969,
-    1.6
-   ],
-   "dog": [
-    "Say dog.",
-    0.46,
-    1
-   ],
-   "duck": [
-    "Here is the word, duck.",
-    0.948,
-    1.66
-   ],
-   "fax": [
-    "Here it is, fax.",
-    0.735,
-    1.26
-   ],
-   "fit": [
-    "Say fit.",
-    0.48,
-    0.92
-   ],
-   "fix": [
-    "Say fix.",
-    0.52,
-    0.82
-   ],
-   "fox": [
-    "Say fox.",
-    0.46,
-    0.94
-   ],
-   "gas": [
-    "Here is the word, gas.",
-    0.969,
-    1.6
-   ],
-   "gong": [
-    "Here is the word, gong.",
-    0.948,
-    1.7
-   ],
-   "him": [
-    "Say him.",
-    0.46,
-    0.88
-   ],
-   "hush": [
-    "Here is the word, hush.",
-    1.033,
-    1.72
-   ],
-   "jig": [
-    "Here is the word, jig.",
-    0.969,
-    1.82
-   ],
-   "jot": [
-    "Here is the word, jot.",
-    0.905,
-    1.65
-   ],
-   "king": [
-    "Here is the word, king.",
-    0.969,
-    1.6
-   ],
-   "kiss": [
-    "Here is the word, kiss.",
-    0.948,
-    1.68
-   ],
-   "lash": [
-    "Here is the word, lash.",
-    0.969,
-    1.78
-   ],
-   "lid": [
-    "Here is the word, lid.",
-    1.033,
-    1.7
-   ],
-   "log": [
-    "Say log.",
-    0.44,
-    0.9
-   ],
-   "mash": [
-    "Here is the word, mash.",
-    0.927,
-    1.62
-   ],
-   "mess": [
-    "Here is the word, mess.",
-    0.948,
-    1.6
-   ],
-   "mix": [
-    "Here is the word, mix.",
-    1.012,
-    1.66
-   ],
-   "mom": [
-    "Say mom.",
-    0.46,
-    0.86
-   ],
-   "mop": [
-    "Say mop.",
-    0.5,
-    0.88
-   ],
-   "moth": [
-    "Here is the word, moth.",
-    0.884,
-    1.52
-   ],
-   "muck": [
-    "Here is the word, muck.",
-    0.948,
-    1.58
-   ],
-   "mush": [
-    "Here is the word, mush.",
-    0.948,
-    1.6
-   ],
-   "nab": [
-    "Here it is, nab.",
-    0.756,
-    1.28
-   ],
-   "nod": [
-    "Say nod.",
-    0.4,
-    0.88
-   ],
-   "not": [
-    "Say not.",
-    0.4,
-    0.88
-   ],
-   "peck": [
-    "Here is the word, peck.",
-    0.991,
-    1.76
-   ],
-   "pen": [
-    "Here is the word, pen.",
-    0.948,
-    1.6
-   ],
-   "pig": [
-    "Say pig.",
-    0.46,
-    0.88
-   ],
-   "pit": [
-    "Say pit.",
-    0.48,
-    0.96
-   ],
-   "pop": [
-    "Say pop.",
-    0.46,
-    0.9
-   ],
-   "posh": [
-    "Here is the word, posh.",
-    0.948,
-    1.72
-   ],
-   "pun": [
-    "Here is the word, pun.",
-    0.927,
-    1.62
-   ],
-   "quit": [
-    "Here is the word, quit.",
-    1.012,
-    1.44
-   ],
-   "ram": [
-    "Say ram.",
-    0.44,
-    0.96
-   ],
-   "rib": [
-    "Here is the word, rib.",
-    1.012,
-    1.66
-   ],
-   "rock": [
-    "Here is the word, rock.",
-    1.012,
-    1.66
-   ],
-   "rung": [
-    "Here it is, rung.",
-    0.756,
-    1.297
-   ],
-   "sad": [
-    "Say sad.",
-    0.44,
-    0.92
-   ],
-   "sat": [
-    "Say sat.",
-    0.46,
-    0.98
-   ],
-   "sax": [
-    "Here it is, sax.",
-    0.777,
-    1.44
-   ],
-   "sham": [
-    "Here is the word, sham.",
-    0.969,
-    1.6
-   ],
-   "she": [
-    "Here is the word, she.",
-    0.863,
-    1.56
-   ],
-   "sip": [
-    "Say sip.",
-    0.52,
-    1.12
-   ],
-   "six": [
-    "Say six.",
-    0.48,
-    1.18
-   ],
-   "tab": [
-    "Here is the word, tab.",
-    0.884,
-    1.54
-   ],
-   "tag": [
-    "Say tag.",
-    0.42,
-    0.98
-   ],
-   "tan": [
-    "Say tan.",
-    0.42,
-    0.88
-   ],
-   "tell": [
-    "Here is the word, tell.",
-    0.905,
-    1.5
-   ],
-   "thud": [
-    "Here is the word, thud.",
-    1.055,
-    1.8
-   ],
-   "tick": [
-    "Here is the word, tick.",
-    0.927,
-    1.64
-   ],
-   "tip": [
-    "Say tip.",
-    0.46,
-    0.94
-   ],
-   "top": [
-    "Say top.",
-    0.42,
-    0.9
-   ],
-   "vex": [
-    "Here is the word, vex.",
-    0.969,
-    1.74
-   ],
-   "wag": [
-    "Say wag.",
-    0.42,
-    0.88
-   ],
-   "was": [
-    "Here is the word, was.",
-    0.991,
-    1.64
-   ],
-   "wash": [
-    "Here is the word, wash.",
-    1.033,
-    1.78
-   ],
-   "wax": [
-    "Here is the word, wax.",
-    0.969,
-    1.58
-   ],
-   "well": [
-    "Here it is, well.",
-    0.735,
-    1.26
-   ],
-   "whim": [
-    "Here is the word, whim.",
-    1.033,
-    1.7
-   ],
-   "win": [
-    "Say win.",
-    0.42,
-    0.86
-   ],
-   "wing": [
-    "Here is the word, wing.",
-    0.969,
-    1.6
-   ],
-   "wish": [
-    "Here it is, wish.",
-    0.756,
-    1.28
-   ],
-   "yak": [
-    "Here is the word, yak.",
-    0.969,
-    1.56
-   ],
-   "yap": [
-    "Say yap.",
-    0.48,
-    1.02
-   ],
-   "yes": [
-    "Here is the word, yes.",
-    0.969,
-    1.58
-   ]
-  },
+  "voice": "af_heart",
   "bitrate": 96,
+  "word_speed": 0.85,
+  "sentence_speed": 1,
+  "lead_ms": 80,
+  "tail_ms": 300,
+  "fade_ms": 10,
+  "phoneme_words": [],
+  "trim_ms": {},
+  "phoneme_sentences": [],
+  "period_words": [
+   "rich"
+  ],
+  "onset_trim_words": [],
   "bright_head_ms": {
    "rat": 40
+  },
+  "lead_override": {
+   "am": 150,
+   "an": 150,
+   "bit": 180,
+   "had": 150,
+   "nix": 220,
+   "pin": 180,
+   "rat": 120
+  },
+  "word_speed_override": {
+   "am": 0.82,
+   "an": 0.82,
+   "and": 1,
+   "ant": 0.95,
+   "ask": 0.95,
+   "at": 0.82,
+   "ax": 0.82,
+   "back": 0.82,
+   "bag": 0.82,
+   "bang": 0.82,
+   "bash": 0.82,
+   "bat": 0.82,
+   "bath": 0.82,
+   "bed": 0.82,
+   "bell": 0.82,
+   "best": 0.95,
+   "bet": 0.82,
+   "bib": 0.82,
+   "big": 0.82,
+   "bin": 0.82,
+   "bit": 0.82,
+   "bolt": 0.9,
+   "bond": 0.95,
+   "boss": 0.82,
+   "box": 0.82,
+   "buck": 0.82,
+   "bud": 0.82,
+   "bug": 0.82,
+   "bump": 1,
+   "bun": 0.82,
+   "bus": 0.82,
+   "bush": 0.82,
+   "buzz": 1,
+   "cap": 1,
+   "cash": 0.82,
+   "cat": 0.82,
+   "chap": 0.82,
+   "chat": 0.82,
+   "check": 0.82,
+   "chess": 0.82,
+   "chick": 1,
+   "chill": 0.82,
+   "chin": 0.82,
+   "chip": 0.82,
+   "chop": 0.82,
+   "chuck": 1,
+   "chug": 0.82,
+   "chum": 1,
+   "clap": 0.8,
+   "cod": 0.82,
+   "cop": 0.82,
+   "cot": 1,
+   "cub": 1,
+   "cuff": 0.82,
+   "cup": 0.82,
+   "cut": 0.82,
+   "dam": 0.82,
+   "damp": 0.95,
+   "dash": 0.82,
+   "deck": 0.82,
+   "den": 0.82,
+   "dent": 0.95,
+   "did": 1,
+   "dig": 0.82,
+   "dim": 0.82,
+   "ding": 0.82,
+   "dip": 0.82,
+   "dish": 1,
+   "dock": 0.82,
+   "dog": 0.82,
+   "doll": 0.82,
+   "dot": 0.82,
+   "drop": 0.8,
+   "drum": 0.8,
+   "duck": 0.82,
+   "dug": 1,
+   "end": 0.95,
+   "fan": 0.82,
+   "fang": 0.82,
+   "fast": 0.95,
+   "fax": 0.82,
+   "fed": 0.82,
+   "fell": 0.82,
+   "fig": 0.82,
+   "fin": 0.82,
+   "fish": 0.82,
+   "fit": 0.82,
+   "fix": 0.82,
+   "fizz": 1,
+   "flag": 0.75,
+   "flat": 0.95,
+   "fog": 0.82,
+   "fox": 0.82,
+   "fun": 0.82,
+   "fuss": 0.82,
+   "fuzz": 1,
+   "gap": 0.82,
+   "gas": 0.82,
+   "gash": 0.82,
+   "get": 0.82,
+   "glad": 0.8,
+   "gob": 1,
+   "gong": 0.82,
+   "got": 0.82,
+   "grab": 0.95,
+   "grin": 0.8,
+   "gum": 0.82,
+   "gush": 1,
+   "gut": 1,
+   "had": 0.82,
+   "ham": 0.82,
+   "hang": 0.82,
+   "has": 0.82,
+   "hat": 0.82,
+   "help": 0.95,
+   "hem": 1,
+   "hen": 0.82,
+   "hid": 1,
+   "hill": 1,
+   "him": 0.82,
+   "hip": 0.82,
+   "hit": 1,
+   "hog": 0.82,
+   "hop": 0.82,
+   "hot": 0.82,
+   "hub": 1,
+   "huff": 1,
+   "hug": 1,
+   "hum": 0.82,
+   "hung": 1,
+   "hush": 0.82,
+   "hut": 1,
+   "if": 1,
+   "in": 0.82,
+   "is": 0.82,
+   "it": 0.82,
+   "jab": 0.82,
+   "jam": 0.82,
+   "jazz": 1,
+   "jet": 0.82,
+   "jig": 0.82,
+   "job": 0.82,
+   "jog": 0.82,
+   "jot": 0.82,
+   "jug": 0.82,
+   "jut": 1,
+   "keg": 1,
+   "kick": 0.82,
+   "kid": 0.82,
+   "king": 0.82,
+   "kiss": 0.82,
+   "kit": 1,
+   "knit": 0.82,
+   "knob": 1,
+   "knock": 0.82,
+   "knot": 1,
+   "lab": 0.82,
+   "lad": 0.82,
+   "lamb": 0.82,
+   "land": 1,
+   "lap": 0.82,
+   "lash": 0.82,
+   "last": 0.9,
+   "led": 0.82,
+   "leg": 0.82,
+   "let": 1,
+   "lick": 1,
+   "lid": 0.82,
+   "limb": 0.82,
+   "lip": 0.82,
+   "list": 0.95,
+   "lit": 1,
+   "lock": 1,
+   "log": 0.82,
+   "long": 1,
+   "loss": 1,
+   "lot": 0.82,
+   "luck": 1,
+   "lug": 1,
+   "lung": 0.82,
+   "lush": 1,
+   "mad": 0.82,
+   "man": 0.82,
+   "map": 0.82,
+   "mash": 0.82,
+   "mat": 0.82,
+   "math": 0.82,
+   "men": 0.82,
+   "mend": 0.8,
+   "mess": 0.82,
+   "met": 0.82,
+   "mill": 0.82,
+   "miss": 0.82,
+   "mix": 0.82,
+   "mob": 1,
+   "mom": 0.82,
+   "mop": 0.82,
+   "moth": 0.82,
+   "much": 1,
+   "muck": 0.82,
+   "mud": 0.82,
+   "mug": 1,
+   "mush": 0.82,
+   "must": 0.9,
+   "nab": 0.82,
+   "neck": 1,
+   "net": 1,
+   "nix": 0.82,
+   "nod": 0.82,
+   "not": 0.82,
+   "nun": 1,
+   "nut": 1,
+   "on": 0.82,
+   "ox": 0.82,
+   "pack": 0.82,
+   "pat": 0.82,
+   "path": 1,
+   "peck": 0.82,
+   "peg": 0.82,
+   "pen": 0.82,
+   "pep": 0.82,
+   "pet": 0.82,
+   "pick": 1,
+   "pig": 0.82,
+   "pin": 0.82,
+   "ping": 1,
+   "pit": 0.82,
+   "pod": 0.82,
+   "pop": 0.82,
+   "posh": 0.82,
+   "pot": 0.8,
+   "puck": 1,
+   "puff": 1,
+   "pump": 0.95,
+   "pun": 0.82,
+   "pup": 0.82,
+   "push": 1,
+   "quack": 0.82,
+   "quick": 1,
+   "quill": 1,
+   "quip": 1,
+   "quit": 0.82,
+   "quiz": 1,
+   "ram": 0.82,
+   "ran": 0.88,
+   "rang": 0.82,
+   "rap": 0.82,
+   "rash": 0.82,
+   "rat": 0.82,
+   "red": 0.82,
+   "rest": 0.95,
+   "rib": 0.82,
+   "rich": 0.8,
+   "rig": 1,
+   "rim": 1,
+   "ring": 0.82,
+   "rip": 0.82,
+   "rob": 0.82,
+   "rock": 0.82,
+   "rod": 0.82,
+   "rot": 1,
+   "rub": 1,
+   "rug": 1,
+   "run": 0.82,
+   "rung": 0.82,
+   "rush": 1,
+   "sack": 0.82,
+   "sad": 0.82,
+   "sag": 0.82,
+   "sang": 0.82,
+   "sap": 0.82,
+   "sash": 0.82,
+   "sat": 0.82,
+   "sax": 0.82,
+   "set": 0.82,
+   "shack": 1,
+   "sham": 0.82,
+   "she": 0.82,
+   "shed": 1,
+   "shell": 0.82,
+   "shin": 0.82,
+   "ship": 0.82,
+   "shock": 1,
+   "shop": 0.82,
+   "shun": 1,
+   "shut": 0.82,
+   "sick": 1,
+   "silk": 0.8,
+   "sing": 0.82,
+   "sip": 0.82,
+   "sit": 0.82,
+   "six": 0.82,
+   "sled": 0.8,
+   "slid": 0.75,
+   "slip": 0.95,
+   "snap": 0.95,
+   "snug": 0.75,
+   "sob": 1,
+   "sock": 1,
+   "soft": 1.05,
+   "song": 0.82,
+   "spot": 0.8,
+   "stop": 0.95,
+   "sub": 1,
+   "such": 1,
+   "sum": 0.82,
+   "sun": 0.82,
+   "sung": 1,
+   "swam": 0.75,
+   "swim": 0.8,
+   "tab": 0.82,
+   "tack": 1,
+   "tag": 0.82,
+   "tan": 0.82,
+   "tap": 0.83,
+   "tell": 0.82,
+   "ten": 0.82,
+   "that": 0.82,
+   "the": 1,
+   "them": 1,
+   "then": 0.82,
+   "thick": 1,
+   "thin": 0.82,
+   "this": 0.82,
+   "thud": 0.82,
+   "thumb": 0.82,
+   "tick": 0.82,
+   "tin": 0.82,
+   "tip": 0.82,
+   "top": 0.82,
+   "tot": 0.82,
+   "trap": 0.8,
+   "trip": 0.95,
+   "tub": 1,
+   "tuck": 1,
+   "tug": 1,
+   "twig": 0.8,
+   "twin": 0.95,
+   "up": 0.82,
+   "us": 0.82,
+   "van": 0.82,
+   "vat": 0.82,
+   "vet": 0.82,
+   "vex": 0.82,
+   "wag": 0.82,
+   "was": 0.82,
+   "wash": 0.82,
+   "wax": 0.82,
+   "web": 1,
+   "wed": 1,
+   "well": 0.82,
+   "wet": 1,
+   "whack": 1,
+   "wham": 0.82,
+   "what": 0.82,
+   "when": 0.82,
+   "whiff": 1,
+   "whim": 0.82,
+   "whip": 0.82,
+   "whizz": 0.82,
+   "wick": 1,
+   "win": 0.82,
+   "wing": 0.82,
+   "wish": 0.82,
+   "wit": 0.82,
+   "with": 0.82,
+   "wrap": 0.82,
+   "wreck": 1,
+   "wren": 0.82,
+   "wrong": 1,
+   "yak": 0.82,
+   "yam": 0.82,
+   "yap": 0.82,
+   "yes": 0.82,
+   "yet": 0.82,
+   "zag": 0.82,
+   "zap": 0.82,
+   "zig": 0.82,
+   "zip": 0.82
+  },
+  "head_trim_ms": {
+   "if": 25,
+   "lip": 80,
+   "van": 40
   },
   "carrier_cut": {
    "am": [
@@ -2256,39 +1850,859 @@
     20
    ]
   },
-  "fade_ms": 10,
-  "head_trim_ms": {
-   "if": 25,
-   "lip": 80,
-   "van": 40
+  "asr_pinned": {
+   "back": [
+    "Here is the word, back.",
+    0.969,
+    1.58
+   ],
+   "bash": [
+    "Here is the word, bash.",
+    0.991,
+    1.72
+   ],
+   "bell": [
+    "Here is the word, bell.",
+    0.991,
+    1.62
+   ],
+   "bet": [
+    "Here is the word, bet.",
+    1.055,
+    1.7
+   ],
+   "bib": [
+    "Say bib.",
+    0.46,
+    0.92
+   ],
+   "big": [
+    "Say big.",
+    0.46,
+    0.96
+   ],
+   "boss": [
+    "Here is the word, boss.",
+    0.969,
+    1.56
+   ],
+   "box": [
+    "Say box.",
+    0.46,
+    0.92
+   ],
+   "bush": [
+    "Here is the word, bush.",
+    0.991,
+    1.58
+   ],
+   "cash": [
+    "Here is the word, cash.",
+    0.969,
+    1.7
+   ],
+   "chap": [
+    "Here is the word, chap.",
+    0.841,
+    1.7
+   ],
+   "chat": [
+    "Here is the word, chat.",
+    0.884,
+    1.52
+   ],
+   "chin": [
+    "Here is the word, chin.",
+    0.905,
+    1.72
+   ],
+   "chip": [
+    "Here is the word, chip.",
+    0.927,
+    1.76
+   ],
+   "chop": [
+    "Here is the word, chop.",
+    0.927,
+    1.82
+   ],
+   "chug": [
+    "Here is the word, chug.",
+    0.905,
+    1.75
+   ],
+   "cuff": [
+    "Here is the word, cuff.",
+    0.969,
+    1.64
+   ],
+   "dash": [
+    "Here is the word, dash.",
+    0.948,
+    1.6
+   ],
+   "deck": [
+    "Here is the word, deck.",
+    0.927,
+    1.64
+   ],
+   "dig": [
+    "Say dig.",
+    0.46,
+    0.96
+   ],
+   "ding": [
+    "Here is the word, ding.",
+    0.969,
+    1.62
+   ],
+   "dock": [
+    "Here is the word, dock.",
+    0.969,
+    1.6
+   ],
+   "dog": [
+    "Say dog.",
+    0.46,
+    1
+   ],
+   "duck": [
+    "Here is the word, duck.",
+    0.948,
+    1.66
+   ],
+   "fax": [
+    "Here it is, fax.",
+    0.735,
+    1.26
+   ],
+   "fit": [
+    "Say fit.",
+    0.48,
+    0.92
+   ],
+   "fix": [
+    "Say fix.",
+    0.52,
+    0.82
+   ],
+   "fox": [
+    "Say fox.",
+    0.46,
+    0.94
+   ],
+   "gas": [
+    "Here is the word, gas.",
+    0.969,
+    1.6
+   ],
+   "gong": [
+    "Here is the word, gong.",
+    0.948,
+    1.7
+   ],
+   "him": [
+    "Say him.",
+    0.46,
+    0.88
+   ],
+   "hush": [
+    "Here is the word, hush.",
+    1.033,
+    1.72
+   ],
+   "jig": [
+    "Here is the word, jig.",
+    0.969,
+    1.82
+   ],
+   "jot": [
+    "Here is the word, jot.",
+    0.905,
+    1.65
+   ],
+   "king": [
+    "Here is the word, king.",
+    0.969,
+    1.6
+   ],
+   "kiss": [
+    "Here is the word, kiss.",
+    0.948,
+    1.68
+   ],
+   "lash": [
+    "Here is the word, lash.",
+    0.969,
+    1.78
+   ],
+   "lid": [
+    "Here is the word, lid.",
+    1.033,
+    1.7
+   ],
+   "log": [
+    "Say log.",
+    0.44,
+    0.9
+   ],
+   "mash": [
+    "Here is the word, mash.",
+    0.927,
+    1.62
+   ],
+   "mess": [
+    "Here is the word, mess.",
+    0.948,
+    1.6
+   ],
+   "mix": [
+    "Here is the word, mix.",
+    1.012,
+    1.66
+   ],
+   "mom": [
+    "Say mom.",
+    0.46,
+    0.86
+   ],
+   "mop": [
+    "Say mop.",
+    0.5,
+    0.88
+   ],
+   "moth": [
+    "Here is the word, moth.",
+    0.884,
+    1.52
+   ],
+   "muck": [
+    "Here is the word, muck.",
+    0.948,
+    1.58
+   ],
+   "mush": [
+    "Here is the word, mush.",
+    0.948,
+    1.6
+   ],
+   "nab": [
+    "Here it is, nab.",
+    0.756,
+    1.28
+   ],
+   "nod": [
+    "Say nod.",
+    0.4,
+    0.88
+   ],
+   "not": [
+    "Say not.",
+    0.4,
+    0.88
+   ],
+   "peck": [
+    "Here is the word, peck.",
+    0.991,
+    1.76
+   ],
+   "pen": [
+    "Here is the word, pen.",
+    0.948,
+    1.6
+   ],
+   "pig": [
+    "Say pig.",
+    0.46,
+    0.88
+   ],
+   "pit": [
+    "Say pit.",
+    0.48,
+    0.96
+   ],
+   "pop": [
+    "Say pop.",
+    0.46,
+    0.9
+   ],
+   "posh": [
+    "Here is the word, posh.",
+    0.948,
+    1.72
+   ],
+   "pun": [
+    "Here is the word, pun.",
+    0.927,
+    1.62
+   ],
+   "quit": [
+    "Here is the word, quit.",
+    1.012,
+    1.44
+   ],
+   "ram": [
+    "Say ram.",
+    0.44,
+    0.96
+   ],
+   "rib": [
+    "Here is the word, rib.",
+    1.012,
+    1.66
+   ],
+   "rock": [
+    "Here is the word, rock.",
+    1.012,
+    1.66
+   ],
+   "rung": [
+    "Here it is, rung.",
+    0.756,
+    1.297
+   ],
+   "sad": [
+    "Say sad.",
+    0.44,
+    0.92
+   ],
+   "sat": [
+    "Say sat.",
+    0.46,
+    0.98
+   ],
+   "sax": [
+    "Here it is, sax.",
+    0.777,
+    1.44
+   ],
+   "sham": [
+    "Here is the word, sham.",
+    0.969,
+    1.6
+   ],
+   "she": [
+    "Here is the word, she.",
+    0.863,
+    1.56
+   ],
+   "sip": [
+    "Say sip.",
+    0.52,
+    1.12
+   ],
+   "six": [
+    "Say six.",
+    0.48,
+    1.18
+   ],
+   "tab": [
+    "Here is the word, tab.",
+    0.884,
+    1.54
+   ],
+   "tag": [
+    "Say tag.",
+    0.42,
+    0.98
+   ],
+   "tan": [
+    "Say tan.",
+    0.42,
+    0.88
+   ],
+   "tell": [
+    "Here is the word, tell.",
+    0.905,
+    1.5
+   ],
+   "thud": [
+    "Here is the word, thud.",
+    1.055,
+    1.8
+   ],
+   "tick": [
+    "Here is the word, tick.",
+    0.927,
+    1.64
+   ],
+   "tip": [
+    "Say tip.",
+    0.46,
+    0.94
+   ],
+   "top": [
+    "Say top.",
+    0.42,
+    0.9
+   ],
+   "vex": [
+    "Here is the word, vex.",
+    0.969,
+    1.74
+   ],
+   "wag": [
+    "Say wag.",
+    0.42,
+    0.88
+   ],
+   "was": [
+    "Here is the word, was.",
+    0.991,
+    1.64
+   ],
+   "wash": [
+    "Here is the word, wash.",
+    1.033,
+    1.78
+   ],
+   "wax": [
+    "Here is the word, wax.",
+    0.969,
+    1.58
+   ],
+   "well": [
+    "Here it is, well.",
+    0.735,
+    1.26
+   ],
+   "whim": [
+    "Here is the word, whim.",
+    1.033,
+    1.7
+   ],
+   "win": [
+    "Say win.",
+    0.42,
+    0.86
+   ],
+   "wing": [
+    "Here is the word, wing.",
+    0.969,
+    1.6
+   ],
+   "wish": [
+    "Here it is, wish.",
+    0.756,
+    1.28
+   ],
+   "yak": [
+    "Here is the word, yak.",
+    0.969,
+    1.56
+   ],
+   "yap": [
+    "Say yap.",
+    0.48,
+    1.02
+   ],
+   "yes": [
+    "Here is the word, yes.",
+    0.969,
+    1.58
+   ]
+  },
+  "asr_guard_ms": {
+   "back": [
+    30,
+    40
+   ],
+   "bash": [
+    30,
+    40
+   ],
+   "bell": [
+    30,
+    40
+   ],
+   "bet": [
+    30,
+    40
+   ],
+   "bib": [
+    40,
+    40
+   ],
+   "big": [
+    40,
+    40
+   ],
+   "boss": [
+    30,
+    40
+   ],
+   "box": [
+    40,
+    40
+   ],
+   "bush": [
+    30,
+    40
+   ],
+   "cash": [
+    30,
+    40
+   ],
+   "chap": [
+    30,
+    40
+   ],
+   "chat": [
+    30,
+    40
+   ],
+   "chin": [
+    30,
+    40
+   ],
+   "chip": [
+    30,
+    40
+   ],
+   "chop": [
+    30,
+    40
+   ],
+   "chug": [
+    30,
+    40
+   ],
+   "cuff": [
+    30,
+    40
+   ],
+   "dash": [
+    30,
+    40
+   ],
+   "deck": [
+    30,
+    40
+   ],
+   "dig": [
+    40,
+    40
+   ],
+   "ding": [
+    30,
+    40
+   ],
+   "dock": [
+    30,
+    40
+   ],
+   "dog": [
+    40,
+    40
+   ],
+   "duck": [
+    30,
+    40
+   ],
+   "fax": [
+    30,
+    40
+   ],
+   "fit": [
+    40,
+    40
+   ],
+   "fix": [
+    40,
+    40
+   ],
+   "fox": [
+    40,
+    40
+   ],
+   "gas": [
+    30,
+    40
+   ],
+   "gong": [
+    30,
+    40
+   ],
+   "him": [
+    40,
+    40
+   ],
+   "hush": [
+    30,
+    40
+   ],
+   "jig": [
+    30,
+    40
+   ],
+   "jot": [
+    30,
+    40
+   ],
+   "king": [
+    30,
+    40
+   ],
+   "kiss": [
+    30,
+    40
+   ],
+   "lash": [
+    30,
+    40
+   ],
+   "lid": [
+    30,
+    40
+   ],
+   "log": [
+    40,
+    40
+   ],
+   "mash": [
+    30,
+    40
+   ],
+   "mess": [
+    30,
+    40
+   ],
+   "mix": [
+    30,
+    40
+   ],
+   "mom": [
+    40,
+    40
+   ],
+   "mop": [
+    40,
+    40
+   ],
+   "moth": [
+    30,
+    40
+   ],
+   "muck": [
+    30,
+    40
+   ],
+   "mush": [
+    30,
+    40
+   ],
+   "nab": [
+    30,
+    40
+   ],
+   "nod": [
+    40,
+    40
+   ],
+   "not": [
+    40,
+    40
+   ],
+   "peck": [
+    30,
+    40
+   ],
+   "pen": [
+    30,
+    40
+   ],
+   "pig": [
+    40,
+    40
+   ],
+   "pit": [
+    40,
+    40
+   ],
+   "pop": [
+    40,
+    40
+   ],
+   "posh": [
+    30,
+    40
+   ],
+   "pun": [
+    30,
+    40
+   ],
+   "quit": [
+    30,
+    40
+   ],
+   "ram": [
+    40,
+    40
+   ],
+   "rib": [
+    30,
+    40
+   ],
+   "rock": [
+    30,
+    40
+   ],
+   "rung": [
+    30,
+    40
+   ],
+   "sad": [
+    80,
+    40
+   ],
+   "sat": [
+    80,
+    40
+   ],
+   "sax": [
+    30,
+    40
+   ],
+   "sham": [
+    30,
+    40
+   ],
+   "she": [
+    30,
+    40
+   ],
+   "sip": [
+    80,
+    80
+   ],
+   "six": [
+    80,
+    80
+   ],
+   "tab": [
+    30,
+    40
+   ],
+   "tag": [
+    40,
+    40
+   ],
+   "tan": [
+    40,
+    40
+   ],
+   "tell": [
+    30,
+    40
+   ],
+   "thud": [
+    30,
+    40
+   ],
+   "tick": [
+    30,
+    40
+   ],
+   "tip": [
+    40,
+    40
+   ],
+   "top": [
+    40,
+    40
+   ],
+   "vex": [
+    30,
+    40
+   ],
+   "wag": [
+    40,
+    40
+   ],
+   "was": [
+    30,
+    40
+   ],
+   "wash": [
+    30,
+    40
+   ],
+   "wax": [
+    30,
+    40
+   ],
+   "well": [
+    30,
+    40
+   ],
+   "whim": [
+    30,
+    40
+   ],
+   "win": [
+    40,
+    40
+   ],
+   "wing": [
+    30,
+    40
+   ],
+   "wish": [
+    30,
+    40
+   ],
+   "yak": [
+    30,
+    40
+   ],
+   "yap": [
+    40,
+    40
+   ],
+   "yes": [
+    30,
+    40
+   ]
   },
   "keepers_treatments": [
    "am",
    "an",
+   "and",
+   "ant",
+   "ask",
    "at",
    "ax",
    "back",
    "bag",
+   "band",
    "bang",
    "bash",
    "bat",
    "bath",
    "bed",
    "bell",
+   "belt",
+   "bend",
+   "best",
    "bet",
    "bib",
    "big",
    "bin",
    "bit",
+   "bolt",
+   "bond",
    "boss",
    "box",
+   "brag",
    "buck",
    "bud",
    "bug",
+   "bump",
    "bun",
    "bus",
    "bush",
    "buzz",
+   "camp",
    "can",
    "cap",
    "cash",
@@ -2305,17 +2719,22 @@
    "chuck",
    "chug",
    "chum",
+   "clap",
    "cod",
    "cop",
+   "cost",
    "cot",
    "cub",
    "cuff",
    "cup",
    "cut",
    "dam",
+   "damp",
    "dash",
    "deck",
    "den",
+   "dent",
+   "desk",
    "did",
    "dig",
    "dim",
@@ -2326,10 +2745,15 @@
    "dog",
    "doll",
    "dot",
+   "drop",
+   "drum",
    "duck",
    "dug",
+   "dusk",
+   "end",
    "fan",
    "fang",
+   "fast",
    "fax",
    "fed",
    "fell",
@@ -2339,7 +2763,10 @@
    "fit",
    "fix",
    "fizz",
+   "flag",
+   "flat",
    "fog",
+   "fond",
    "fox",
    "fun",
    "fuss",
@@ -2348,22 +2775,31 @@
    "gas",
    "gash",
    "get",
+   "gift",
+   "glad",
    "gob",
    "gong",
    "got",
+   "grab",
+   "grin",
+   "gulf",
+   "gulp",
    "gum",
    "gush",
    "gut",
    "had",
    "ham",
+   "hand",
    "hang",
    "has",
    "hat",
+   "help",
    "hem",
    "hen",
    "hid",
    "hill",
    "him",
+   "hint",
    "hip",
    "hit",
    "hog",
@@ -2389,8 +2825,11 @@
    "jog",
    "jot",
    "jug",
+   "jump",
+   "just",
    "jut",
    "keg",
+   "kept",
    "kick",
    "kid",
    "king",
@@ -2403,15 +2842,22 @@
    "lab",
    "lad",
    "lamb",
+   "lamp",
+   "land",
    "lap",
    "lash",
+   "last",
    "led",
+   "left",
    "leg",
+   "lend",
    "let",
    "lick",
    "lid",
+   "lift",
    "limb",
    "lip",
+   "list",
    "lit",
    "lock",
    "log",
@@ -2426,12 +2872,17 @@
    "man",
    "map",
    "mash",
+   "mask",
    "mat",
    "math",
+   "melt",
    "men",
+   "mend",
    "mess",
    "met",
+   "milk",
    "mill",
+   "mint",
    "miss",
    "mix",
    "mob",
@@ -2443,8 +2894,10 @@
    "mud",
    "mug",
    "mush",
+   "must",
    "nab",
    "neck",
+   "nest",
    "net",
    "nix",
    "nod",
@@ -2467,12 +2920,16 @@
    "pin",
    "ping",
    "pit",
+   "plan",
+   "plum",
    "pod",
+   "pond",
    "pop",
    "posh",
    "pot",
    "puck",
    "puff",
+   "pump",
    "pun",
    "pup",
    "push",
@@ -2482,6 +2939,7 @@
    "quip",
    "quit",
    "quiz",
+   "raft",
    "ram",
    "ran",
    "rang",
@@ -2489,12 +2947,14 @@
    "rash",
    "rat",
    "red",
+   "rest",
    "rib",
    "rich",
    "rig",
    "rim",
    "ring",
    "rip",
+   "risk",
    "rob",
    "rock",
    "rod",
@@ -2507,6 +2967,7 @@
    "sack",
    "sad",
    "sag",
+   "sand",
    "sang",
    "sap",
    "sash",
@@ -2525,25 +2986,43 @@
    "shun",
    "shut",
    "sick",
+   "sift",
+   "silk",
    "sing",
    "sip",
    "sit",
    "six",
+   "slam",
+   "sled",
+   "slid",
+   "slip",
+   "snap",
+   "snug",
    "sob",
    "sock",
+   "soft",
    "song",
+   "spin",
+   "spot",
+   "stem",
+   "step",
+   "stop",
    "sub",
    "such",
    "sum",
    "sun",
    "sung",
+   "swam",
+   "swim",
    "tab",
    "tack",
    "tag",
    "tan",
    "tap",
+   "task",
    "tell",
    "ten",
+   "tent",
    "that",
    "the",
    "them",
@@ -2558,9 +3037,14 @@
    "tip",
    "top",
    "tot",
+   "trap",
+   "trim",
+   "trip",
    "tub",
    "tuck",
    "tug",
+   "twig",
+   "twin",
    "up",
    "us",
    "van",
@@ -2584,6 +3068,7 @@
    "whip",
    "whizz",
    "wick",
+   "wilt",
    "win",
    "wing",
    "wish",
@@ -2602,367 +3087,7 @@
    "zap",
    "zig",
    "zip"
-  ],
-  "lead_ms": 80,
-  "lead_override": {
-   "am": 150,
-   "an": 150,
-   "bit": 180,
-   "had": 150,
-   "nix": 220,
-   "pin": 180,
-   "rat": 120
-  },
-  "onset_trim_words": [],
-  "period_words": [
-   "rich"
-  ],
-  "phoneme_sentences": [],
-  "phoneme_words": [],
-  "sentence_speed": 1,
-  "tail_ms": 300,
-  "trim_ms": {},
-  "voice": "af_heart",
-  "word_speed": 0.85,
-  "word_speed_override": {
-   "am": 0.82,
-   "an": 0.82,
-   "at": 0.82,
-   "ax": 0.82,
-   "back": 0.82,
-   "bag": 0.82,
-   "bang": 0.82,
-   "bash": 0.82,
-   "bat": 0.82,
-   "bath": 0.82,
-   "bed": 0.82,
-   "bell": 0.82,
-   "bet": 0.82,
-   "bib": 0.82,
-   "big": 0.82,
-   "bin": 0.82,
-   "bit": 0.82,
-   "boss": 0.82,
-   "box": 0.82,
-   "buck": 0.82,
-   "bud": 0.82,
-   "bug": 0.82,
-   "bun": 0.82,
-   "bus": 0.82,
-   "bush": 0.82,
-   "buzz": 1,
-   "cap": 1,
-   "cash": 0.82,
-   "cat": 0.82,
-   "chap": 0.82,
-   "chat": 0.82,
-   "check": 0.82,
-   "chess": 0.82,
-   "chick": 1,
-   "chill": 0.82,
-   "chin": 0.82,
-   "chip": 0.82,
-   "chop": 0.82,
-   "chuck": 1,
-   "chug": 0.82,
-   "chum": 1,
-   "cod": 0.82,
-   "cop": 0.82,
-   "cot": 1,
-   "cub": 1,
-   "cuff": 0.82,
-   "cup": 0.82,
-   "cut": 0.82,
-   "dam": 0.82,
-   "dash": 0.82,
-   "deck": 0.82,
-   "den": 0.82,
-   "did": 1,
-   "dig": 0.82,
-   "dim": 0.82,
-   "ding": 0.82,
-   "dip": 0.82,
-   "dish": 1,
-   "dock": 0.82,
-   "dog": 0.82,
-   "doll": 0.82,
-   "dot": 0.82,
-   "duck": 0.82,
-   "dug": 1,
-   "fan": 0.82,
-   "fang": 0.82,
-   "fax": 0.82,
-   "fed": 0.82,
-   "fell": 0.82,
-   "fig": 0.82,
-   "fin": 0.82,
-   "fish": 0.82,
-   "fit": 0.82,
-   "fix": 0.82,
-   "fizz": 1,
-   "fog": 0.82,
-   "fox": 0.82,
-   "fun": 0.82,
-   "fuss": 0.82,
-   "fuzz": 1,
-   "gap": 0.82,
-   "gas": 0.82,
-   "gash": 0.82,
-   "get": 0.82,
-   "gob": 1,
-   "gong": 0.82,
-   "got": 0.82,
-   "gum": 0.82,
-   "gush": 1,
-   "gut": 1,
-   "had": 0.82,
-   "ham": 0.82,
-   "hang": 0.82,
-   "has": 0.82,
-   "hat": 0.82,
-   "hem": 1,
-   "hen": 0.82,
-   "hid": 1,
-   "hill": 1,
-   "him": 0.82,
-   "hip": 0.82,
-   "hit": 1,
-   "hog": 0.82,
-   "hop": 0.82,
-   "hot": 0.82,
-   "hub": 1,
-   "huff": 1,
-   "hug": 1,
-   "hum": 0.82,
-   "hung": 1,
-   "hush": 0.82,
-   "hut": 1,
-   "if": 1,
-   "in": 0.82,
-   "is": 0.82,
-   "it": 0.82,
-   "jab": 0.82,
-   "jam": 0.82,
-   "jazz": 1,
-   "jet": 0.82,
-   "jig": 0.82,
-   "job": 0.82,
-   "jog": 0.82,
-   "jot": 0.82,
-   "jug": 0.82,
-   "jut": 1,
-   "keg": 1,
-   "kick": 0.82,
-   "kid": 0.82,
-   "king": 0.82,
-   "kiss": 0.82,
-   "kit": 1,
-   "knit": 0.82,
-   "knob": 1,
-   "knock": 0.82,
-   "knot": 1,
-   "lab": 0.82,
-   "lad": 0.82,
-   "lamb": 0.82,
-   "lap": 0.82,
-   "lash": 0.82,
-   "led": 0.82,
-   "leg": 0.82,
-   "let": 1,
-   "lick": 1,
-   "lid": 0.82,
-   "limb": 0.82,
-   "lip": 0.82,
-   "lit": 1,
-   "lock": 1,
-   "log": 0.82,
-   "long": 1,
-   "loss": 1,
-   "lot": 0.82,
-   "luck": 1,
-   "lug": 1,
-   "lung": 0.82,
-   "lush": 1,
-   "mad": 0.82,
-   "man": 0.82,
-   "map": 0.82,
-   "mash": 0.82,
-   "mat": 0.82,
-   "math": 0.82,
-   "men": 0.82,
-   "mess": 0.82,
-   "met": 0.82,
-   "mill": 0.82,
-   "miss": 0.82,
-   "mix": 0.82,
-   "mob": 1,
-   "mom": 0.82,
-   "mop": 0.82,
-   "moth": 0.82,
-   "much": 1,
-   "muck": 0.82,
-   "mud": 0.82,
-   "mug": 1,
-   "mush": 0.82,
-   "nab": 0.82,
-   "neck": 1,
-   "net": 1,
-   "nix": 0.82,
-   "nod": 0.82,
-   "not": 0.82,
-   "nun": 1,
-   "nut": 1,
-   "on": 0.82,
-   "ox": 0.82,
-   "pack": 0.82,
-   "pat": 0.82,
-   "path": 1,
-   "peck": 0.82,
-   "peg": 0.82,
-   "pen": 0.82,
-   "pep": 0.82,
-   "pet": 0.82,
-   "pick": 1,
-   "pig": 0.82,
-   "pin": 0.82,
-   "ping": 1,
-   "pit": 0.82,
-   "pod": 0.82,
-   "pop": 0.82,
-   "posh": 0.82,
-   "pot": 0.8,
-   "puck": 1,
-   "puff": 1,
-   "pun": 0.82,
-   "pup": 0.82,
-   "push": 1,
-   "quack": 0.82,
-   "quick": 1,
-   "quill": 1,
-   "quip": 1,
-   "quit": 0.82,
-   "quiz": 1,
-   "ram": 0.82,
-   "ran": 0.88,
-   "rang": 0.82,
-   "rap": 0.82,
-   "rash": 0.82,
-   "rat": 0.82,
-   "red": 0.82,
-   "rib": 0.82,
-   "rich": 0.8,
-   "rig": 1,
-   "rim": 1,
-   "ring": 0.82,
-   "rip": 0.82,
-   "rob": 0.82,
-   "rock": 0.82,
-   "rod": 0.82,
-   "rot": 1,
-   "rub": 1,
-   "rug": 1,
-   "run": 0.82,
-   "rung": 0.82,
-   "rush": 1,
-   "sack": 0.82,
-   "sad": 0.82,
-   "sag": 0.82,
-   "sang": 0.82,
-   "sap": 0.82,
-   "sash": 0.82,
-   "sat": 0.82,
-   "sax": 0.82,
-   "set": 0.82,
-   "shack": 1,
-   "sham": 0.82,
-   "she": 0.82,
-   "shed": 1,
-   "shell": 0.82,
-   "shin": 0.82,
-   "ship": 0.82,
-   "shock": 1,
-   "shop": 0.82,
-   "shun": 1,
-   "shut": 0.82,
-   "sick": 1,
-   "sing": 0.82,
-   "sip": 0.82,
-   "sit": 0.82,
-   "six": 0.82,
-   "sob": 1,
-   "sock": 1,
-   "song": 0.82,
-   "sub": 1,
-   "such": 1,
-   "sum": 0.82,
-   "sun": 0.82,
-   "sung": 1,
-   "tab": 0.82,
-   "tack": 1,
-   "tag": 0.82,
-   "tan": 0.82,
-   "tap": 0.83,
-   "tell": 0.82,
-   "ten": 0.82,
-   "that": 0.82,
-   "the": 1,
-   "them": 1,
-   "then": 0.82,
-   "thick": 1,
-   "thin": 0.82,
-   "this": 0.82,
-   "thud": 0.82,
-   "thumb": 0.82,
-   "tick": 0.82,
-   "tin": 0.82,
-   "tip": 0.82,
-   "top": 0.82,
-   "tot": 0.82,
-   "tub": 1,
-   "tuck": 1,
-   "tug": 1,
-   "up": 0.82,
-   "us": 0.82,
-   "van": 0.82,
-   "vat": 0.82,
-   "vet": 0.82,
-   "vex": 0.82,
-   "wag": 0.82,
-   "was": 0.82,
-   "wash": 0.82,
-   "wax": 0.82,
-   "web": 1,
-   "wed": 1,
-   "well": 0.82,
-   "wet": 1,
-   "whack": 1,
-   "wham": 0.82,
-   "what": 0.82,
-   "when": 0.82,
-   "whiff": 1,
-   "whim": 0.82,
-   "whip": 0.82,
-   "whizz": 0.82,
-   "wick": 1,
-   "win": 0.82,
-   "wing": 0.82,
-   "wish": 0.82,
-   "wit": 0.82,
-   "with": 0.82,
-   "wrap": 0.82,
-   "wreck": 1,
-   "wren": 0.82,
-   "wrong": 1,
-   "yak": 0.82,
-   "yam": 0.82,
-   "yap": 0.82,
-   "yes": 0.82,
-   "yet": 0.82,
-   "zag": 0.82,
-   "zap": 0.82,
-   "zig": 0.82,
-   "zip": 0.82
-  }
+  ]
  },
  "phoneme_strings": {
   "words": {
@@ -3273,7 +3398,90 @@
   "thumb": "889b1d07ea70c163b39de32a998aa3bbd23a53e0205d566494e307f1295c7430",
   "wrap": "6c0d714783bd88ec8d256c15391fdbd43f725a04f06291e1a50571ead84d9823",
   "wren": "4b1d649b21295c2ea571969e2b9765973a2536e6afabd86d6d5fedcf48655550",
-  "limb": "dc7e570cadb44f4ed8994e52de19feeea20a52732bda7c222062284ef92f8cea"
+  "limb": "dc7e570cadb44f4ed8994e52de19feeea20a52732bda7c222062284ef92f8cea",
+  "and": "cbf80da916ca9090d84e442dc40a4d7d3538b2be5f0460af6b8d7ed2b23d1976",
+  "ant": "7d0745310d33194f284b77f0f9e2edca7dd5d19621e2e91fffdc91e68681d5fe",
+  "ask": "14f860ac7e5d655b34eba0a566da3e15ebc7c434bbd06e2719f3ad328ba730c0",
+  "band": "98492b51cd672f2631b4910e553c335ae8652569286db9ac9e65399584f76e76",
+  "belt": "f3aa5b8e58a1fff7eb69379ee9853a0627ca4febcb13f3a324c87aee817863e2",
+  "bend": "d967d947b37cabd05281a38357ffde0c59f30137a1388b63d20937764a6699da",
+  "best": "847a687c51ba3c3f74192900730e5d9aad327a071f97f07ea68798cdef43213b",
+  "bolt": "639b31e00a3f116a1a2536879c876ae88c02286b1411c93b584faf1b89fd2399",
+  "bond": "c1c7f665d1003c06a21a268f21792e69a2c5b41e1d7676121109521a175737d5",
+  "brag": "b0eba03b89cfddab3863407fcd85649f142eb65343e6805c7a9da6bb39ce92ed",
+  "bump": "7168f79484eefac0c23409e062c7b46b0846e694ab1257d2cc12c80b46c20115",
+  "camp": "803c480bf0bc488f551537018a61e77dc1b7fcb013cda867ffa8699c6d9a74e6",
+  "clap": "5e93a96b6b975b96da05316d33cc4384fbc24727c2aaaca627c4dd06cbc75d97",
+  "cost": "417177655c3fa744c22aca79848c697c5746d5cf758bd78f270602172d3d2015",
+  "damp": "bbd03272ffb2a725c80eca309fc88a438a809406b47c91da96f3efab0213b2dd",
+  "dent": "ba0db3f7050040a294e8ffd7c6811f05b9574f9ddf31bf217df394e64d8627e2",
+  "desk": "eaac7dc2ca91f837eb4f10a9ea3895e502eda30830a3ac4911c594a4aea8feea",
+  "drop": "106f59dc06c0330d24209abff90d733fa6d59c3348eec172fcc2e58f6efe24c8",
+  "drum": "072fb47ad28dbef682e1afb1ad01e0132ccefa7288320ce70630d3967544f459",
+  "dusk": "baf899e67de213fdc30b22ca3359fc3b68c33afc7d829a7df0b93898eabfadb6",
+  "end": "e1a7c6cfb9f1e699470100ef69d79c0e0388d393ad3dd9082c2050daad17e96c",
+  "fast": "6cf8672e3f49f711581fc7e8dc91e03abb12bd1e55e2ae5947dbca0926f141bd",
+  "flag": "6866261e084bbed60be562b1d35ce83167bf261e4e0430b3af8537fbe0f21147",
+  "flat": "b69038e79d87d2cb009a19c070c41a6d3e579460b05e09734927506f39f71911",
+  "fond": "825ae63d233d7f43d8fe0746690635d536ed5deb3dba287cb5318d8167529922",
+  "gift": "69027dd06e7634dbca263147cada20fa2e5e18b73b9169059b7982efbd5aec32",
+  "glad": "4662d211d8d9f246d0c510bbfb5d1a6cdac7faccf27e690b41c7f172ffc7cecb",
+  "grab": "52ef3964c919e254f622ece3d8cd9fcbd5fef1073f0d85c1fbf57e77664d4d3d",
+  "grin": "bb04cff5d6fd0b81d06d1b258c7de70a770dc3862d085aa2fcd45252d22a130a",
+  "gulf": "3e31aa0fa452157f953f45660735740ff1c14a08129bab2281fa1bd0386a7bcd",
+  "gulp": "a41ad0838b84d0363d03f44124bf49485006f64695a3da570dfab5b5d53bbbdd",
+  "hand": "ec77de140a9d0a2ff4df79df4c03c7c518345b2acac5d8c5bd389e63b0dbeff4",
+  "help": "6fe9e62e125b8c6d0ee269d04d84facd203743b4a00353c6e4aa90e97de8621f",
+  "hint": "3dfe017f5f1f2fefce46da92317367bd92bdd2f2c817fb450e996c9076a16c99",
+  "jump": "e6f96eee9867431f9e27106829db59de0665331e149f5c56326e45aa9b7d7bdb",
+  "just": "9094bbe95f05a9a53a7b3a45dc3fa6b430490c9040108e80c909fcd0bcdb7f07",
+  "kept": "25a7af51716f0f5e332474b65ef0734cd577019f3e15d0e81ee174dc186323af",
+  "lamp": "0aa682dd0b628c8b102d7e23f6632db3da9b6d4ea90d19e981751d8247b008e3",
+  "land": "aaeeba92e10cb26474010efadb1f62a2b4451bf234a87a09c7a116dea99b5ce2",
+  "last": "5a07c1da77c7cc64663a0854bce8fce842165e4a5c663a5324be9170fe053a10",
+  "left": "44114829d0489bb29112001f8bacd4496664977a14be1e6067b9e71b08481481",
+  "lend": "3b8d3a526c01f67cda57cfc29b36b1f38daa8118e6aa715673664616e054056e",
+  "lift": "0525391cc52f89155a71c3d3315307cf0f271185873df7ba81dedfdcecfbe9ae",
+  "list": "d0833505105d2e36f664a9930f254a4e7d64d7d607b1a44009f6d2530be08a14",
+  "mask": "28f257fcf9390b0b1217228d583d4592b9c98af96f85f4830726f47ecb7e98ff",
+  "melt": "4fa4687f111a012be0c698fa33850b0521e518f7dd0c18115d629bd976c74b90",
+  "mend": "12884014d6c663d90fa6d4d79027a2ba9e6cf9ce3aad7ffc4020d8f9ea09a077",
+  "milk": "48e41df7b1f57ede5262b31fde167a5b683ba0326d7e835dd71f600866245af0",
+  "mint": "d3620c0a3743f6cdb78606f87041a1161210c6e9d66ae1b6da13220c9d2f290a",
+  "must": "0ce1f2d1460d32ff64a5ec48b8fa2f420057d165884b01e2ad2a1337d9e92ac8",
+  "nest": "8607839bdd128f5a786874824f204f91d7d09964e47374a79018384b282dbcb3",
+  "plan": "d79dbc063cd0387f2abbf2d6e39c7fb80d90671e6aebf81c3ca16344342c980b",
+  "plum": "9a1bae73b26c48cff66e8a9617a3f894ef20a5bcbf290c8a53c5c7c570bdd947",
+  "pond": "febce739ebccccd55887d6db4690af764bdeda9ad34c9bae63f0e4703050d718",
+  "pump": "d8bbb11f50739d0ffd202154ce5be4ee6f9121af8b97b004352cb5a84c243a46",
+  "raft": "b64a6d6437ab4022bbd6b1015176f7a0f5b3942e0afcfcd66f835570d2a4e451",
+  "rest": "1069ebceb6ff99a1ef6936964dd9c4b5065b43eef07b2984fe896f7616931c57",
+  "risk": "1390540c675ef6c7d3ee993421e9f9739e0d0131455a750f2177562c169dd20e",
+  "sand": "2e7a4936364fd27df2bcb0fc211938cc665b22b6002334c20903bd18fb2c51bd",
+  "sift": "79ac4f6136f362fd1e75ecc66b87cdd44092c7d81e129ac22ac364aa1605e8fd",
+  "silk": "763eb5d69373b689a3d9b941e38c2e94c79239201484846c1e50c34a90d3ce20",
+  "slam": "a208cef05e004e8c710938f8ae429eff481ea6ad3cfc6086cc502e8f76cd4481",
+  "sled": "3b24a949236103bf65ce71d20cf577c800a7a0b5058371558c8e846852989743",
+  "slid": "2ddf9aec86eb12435f1027a9799b73f6a57adc51842948e7e8ff501f87311095",
+  "slip": "9071c28232521776a7eb6a14ab152ae8768ac45eb71fffe3ece04da51e2223dc",
+  "snap": "1d8c0cba456b7a588f28606abacdedbbf7b76ea35305e363e1afbd67593f8f03",
+  "snug": "fd95311bbb4cf8808c8f43d2f89ec3814ed6382a562ad6a421d230b0f205e11a",
+  "soft": "f70e46ab9b255c4849f2d644ce2bf608eb485d7db27dad572bc0b9426290a5fd",
+  "spin": "39753bd2f62fa61500e57057d3ab99abf03fd54a4cbd2c062063f47f3a150b04",
+  "spot": "d67fa5bc217852dd0f19de37fad7086d44cc820aec6d7c2044c6b5dbfdd69eca",
+  "stem": "c79106a0c395ca91f72f61dcd433c67c63e9df89f214aa047c0ef03022db7aa0",
+  "step": "413c2d023fba90b8cd6e694b404772840782d87f2229f61447349c3d10c35513",
+  "stop": "6e9659e2fafac05ad3980c26199af5f5942f89669f7628ef8445c8f35c6f4d4b",
+  "swam": "b8ba2f010a29c76176218580802d6cb0c46d78510f04c7ab53ce273aa39c2756",
+  "swim": "99ea1f985c3b2fd0e682f3b305bcf4c8ce9b1594a3c3a50968ed0417d4027163",
+  "task": "7164c19c0433c76a6f04f7f22436ac59aac557fbfa7e448483ce315fc8ed419a",
+  "tent": "628b1b46fa91cfd3fd9d3bd44a000939628afb1c6e456f297df29e3c218679de",
+  "trap": "13e6e76f5fee494dce17cbdf34f9ffb4b21cfa29c49295d6b39d684800891386",
+  "trim": "5b59ef391b0d64b660d566f50b9c3325684734bc26a3c47f046dcc58a11f07af",
+  "trip": "32b5336efe51fd7b4c196d873e4b63a9a46252f331f327a6cc042243981ca998",
+  "twig": "746fb4ee79bf26116dbb9f58a65e6ec2ea25b0b6d5a2eb57f7ee278216ae73ac",
+  "twin": "56a0dab87cab273c44488110e32470464eade7a2b8e4120bba780c6b0cfc7cd6",
+  "wilt": "b7753c638e1162051254ee13e17c6c8fefa2d5717687d0d913a27b33fed3d2ee"
  },
  "words": {
   "am": {
@@ -5654,6 +5862,587 @@
    "round": "UPLIFT-SWEEP-1 / 2026-08-06",
    "listen_context": "clip",
    "byte_pin_sha256": "dc7e570cadb44f4ed8994e52de19feeea20a52732bda7c222062284ef92f8cea"
+  },
+  "and": {
+   "verdict": "perfect",
+   "ear_notes": "owner perfect and_6; family carrier_listen_s1; recipe in the batch renderer, not in these columns",
+   "round": "batch 1 / 2026-08-07",
+   "listen_context": "clip",
+   "byte_pin_sha256": "cbf80da916ca9090d84e442dc40a4d7d3538b2be5f0460af6b8d7ed2b23d1976"
+  },
+  "ant": {
+   "verdict": "perfect",
+   "ear_notes": "owner perfect ant_4; family spell_sp0.95_f90; recipe in the batch renderer, not in these columns",
+   "round": "batch 5 / 2026-08-07",
+   "listen_context": "clip",
+   "byte_pin_sha256": "7d0745310d33194f284b77f0f9e2edca7dd5d19621e2e91fffdc91e68681d5fe"
+  },
+  "ask": {
+   "verdict": "perfect",
+   "ear_notes": "owner perfect ask_4; family spell_sp0.95_f30; recipe in the batch renderer, not in these columns",
+   "round": "batch 5 / 2026-08-07",
+   "listen_context": "clip",
+   "byte_pin_sha256": "14f860ac7e5d655b34eba0a566da3e15ebc7c434bbd06e2719f3ad328ba730c0"
+  },
+  "band": {
+   "verdict": "perfect",
+   "ear_notes": "owner perfect band_4; family carrier_spell; recipe in the batch renderer, not in these columns",
+   "round": "batch 1 / 2026-08-07",
+   "listen_context": "clip",
+   "byte_pin_sha256": "98492b51cd672f2631b4910e553c335ae8652569286db9ac9e65399584f76e76"
+  },
+  "belt": {
+   "verdict": "perfect",
+   "ear_notes": "owner perfect belt_4; family carrier_spell; recipe in the batch renderer, not in these columns",
+   "round": "batch 1 / 2026-08-07",
+   "listen_context": "clip",
+   "byte_pin_sha256": "f3aa5b8e58a1fff7eb69379ee9853a0627ca4febcb13f3a324c87aee817863e2"
+  },
+  "bend": {
+   "verdict": "perfect",
+   "ear_notes": "owner perfect bend_4; family carrier_spell; recipe in the batch renderer, not in these columns",
+   "round": "batch 1 / 2026-08-07",
+   "listen_context": "clip",
+   "byte_pin_sha256": "d967d947b37cabd05281a38357ffde0c59f30137a1388b63d20937764a6699da"
+  },
+  "best": {
+   "verdict": "perfect",
+   "ear_notes": "owner perfect best_4; family listen_sp0.95_f30; recipe in the batch renderer, not in these columns",
+   "round": "batch 5 / 2026-08-07",
+   "listen_context": "clip",
+   "byte_pin_sha256": "847a687c51ba3c3f74192900730e5d9aad327a071f97f07ea68798cdef43213b"
+  },
+  "bolt": {
+   "verdict": "perfect",
+   "ear_notes": "owner perfect bolt_4; family quoted_sp0.9_front90; recipe in the batch renderer, not in these columns",
+   "round": "batch 7 / 2026-08-07",
+   "listen_context": "clip",
+   "byte_pin_sha256": "639b31e00a3f116a1a2536879c876ae88c02286b1411c93b584faf1b89fd2399"
+  },
+  "bond": {
+   "verdict": "perfect",
+   "ear_notes": "owner perfect bond_4; family spell_sp0.95_front130; recipe in the batch renderer, not in these columns",
+   "round": "batch 7 / 2026-08-07",
+   "listen_context": "clip",
+   "byte_pin_sha256": "c1c7f665d1003c06a21a268f21792e69a2c5b41e1d7676121109521a175737d5"
+  },
+  "brag": {
+   "verdict": "perfect",
+   "ear_notes": "owner perfect brag_4; family listen_sp0.85; recipe in the batch renderer, not in these columns",
+   "round": "batch 10 (2026-08-11)",
+   "listen_context": "clip",
+   "byte_pin_sha256": "b0eba03b89cfddab3863407fcd85649f142eb65343e6805c7a9da6bb39ce92ed"
+  },
+  "bump": {
+   "verdict": "perfect",
+   "ear_notes": "owner perfect bump_5; family carrier_spell_s1; recipe in the batch renderer, not in these columns",
+   "round": "batch 1 / 2026-08-07",
+   "listen_context": "clip",
+   "byte_pin_sha256": "7168f79484eefac0c23409e062c7b46b0846e694ab1257d2cc12c80b46c20115"
+  },
+  "camp": {
+   "verdict": "perfect",
+   "ear_notes": "owner perfect camp_3; family carrier_listen; recipe in the batch renderer, not in these columns",
+   "round": "batch 1 / 2026-08-07",
+   "listen_context": "clip",
+   "byte_pin_sha256": "803c480bf0bc488f551537018a61e77dc1b7fcb013cda867ffa8699c6d9a74e6"
+  },
+  "clap": {
+   "verdict": "perfect",
+   "ear_notes": "owner perfect clap_1; family listen_sp0.8; recipe in the batch renderer, not in these columns",
+   "round": "batch 9 (2026-08-10)",
+   "listen_context": "clip",
+   "byte_pin_sha256": "5e93a96b6b975b96da05316d33cc4384fbc24727c2aaaca627c4dd06cbc75d97"
+  },
+  "cost": {
+   "verdict": "perfect",
+   "ear_notes": "owner perfect cost_6; family quoted_sp0.85_front90; recipe in the batch renderer, not in these columns",
+   "round": "batch 6 / 2026-08-07",
+   "listen_context": "clip",
+   "byte_pin_sha256": "417177655c3fa744c22aca79848c697c5746d5cf758bd78f270602172d3d2015"
+  },
+  "damp": {
+   "verdict": "perfect",
+   "ear_notes": "owner perfect damp_7; family spell_sp0.95_front130; recipe in the batch renderer, not in these columns",
+   "round": "batch 7 / 2026-08-07",
+   "listen_context": "clip",
+   "byte_pin_sha256": "bbd03272ffb2a725c80eca309fc88a438a809406b47c91da96f3efab0213b2dd"
+  },
+  "dent": {
+   "verdict": "perfect",
+   "ear_notes": "owner perfect dent_2; family listen_sp0.95_f90; recipe in the batch renderer, not in these columns",
+   "round": "batch 5 / 2026-08-07",
+   "listen_context": "clip",
+   "byte_pin_sha256": "ba0db3f7050040a294e8ffd7c6811f05b9574f9ddf31bf217df394e64d8627e2"
+  },
+  "desk": {
+   "verdict": "perfect",
+   "ear_notes": "owner perfect desk_5; family quoted_sp0.85_front130; recipe in the batch renderer, not in these columns",
+   "round": "batch 7 / 2026-08-07",
+   "listen_context": "clip",
+   "byte_pin_sha256": "eaac7dc2ca91f837eb4f10a9ea3895e502eda30830a3ac4911c594a4aea8feea"
+  },
+  "drop": {
+   "verdict": "perfect",
+   "ear_notes": "owner perfect drop_4; family say_sp0.8; recipe in the batch renderer, not in these columns",
+   "round": "batch 9 (2026-08-10)",
+   "listen_context": "clip",
+   "byte_pin_sha256": "106f59dc06c0330d24209abff90d733fa6d59c3348eec172fcc2e58f6efe24c8"
+  },
+  "drum": {
+   "verdict": "perfect",
+   "ear_notes": "owner perfect drum_5; family listen_sp0.8; recipe in the batch renderer, not in these columns",
+   "round": "batch 10 (2026-08-11)",
+   "listen_context": "clip",
+   "byte_pin_sha256": "072fb47ad28dbef682e1afb1ad01e0132ccefa7288320ce70630d3967544f459"
+  },
+  "dusk": {
+   "verdict": "perfect",
+   "ear_notes": "owner perfect dusk_3; family again_sp0.85_front90; recipe in the batch renderer, not in these columns",
+   "round": "batch 7 / 2026-08-07",
+   "listen_context": "clip",
+   "byte_pin_sha256": "baf899e67de213fdc30b22ca3359fc3b68c33afc7d829a7df0b93898eabfadb6"
+  },
+  "end": {
+   "verdict": "perfect",
+   "ear_notes": "owner perfect end_2; family listen_sp0.95_f30; recipe in the batch renderer, not in these columns",
+   "round": "batch 5 / 2026-08-07",
+   "listen_context": "clip",
+   "byte_pin_sha256": "e1a7c6cfb9f1e699470100ef69d79c0e0388d393ad3dd9082c2050daad17e96c"
+  },
+  "fast": {
+   "verdict": "perfect",
+   "ear_notes": "owner perfect fast_2; family twice_sp0.95_front90; recipe in the batch renderer, not in these columns",
+   "round": "batch 6 / 2026-08-07",
+   "listen_context": "clip",
+   "byte_pin_sha256": "6cf8672e3f49f711581fc7e8dc91e03abb12bd1e55e2ae5947dbca0926f141bd"
+  },
+  "flag": {
+   "verdict": "perfect",
+   "ear_notes": "owner perfect ; family listen_sp0.75; recipe in the batch renderer, not in these columns",
+   "round": "batch 12 (2026-08-11)",
+   "listen_context": "clip",
+   "byte_pin_sha256": "6866261e084bbed60be562b1d35ce83167bf261e4e0430b3af8537fbe0f21147"
+  },
+  "flat": {
+   "verdict": "perfect",
+   "ear_notes": "owner perfect flat_3; family listen_sp0.95; recipe in the batch renderer, not in these columns",
+   "round": "batch 9 (2026-08-10)",
+   "listen_context": "clip",
+   "byte_pin_sha256": "b69038e79d87d2cb009a19c070c41a6d3e579460b05e09734927506f39f71911"
+  },
+  "fond": {
+   "verdict": "perfect",
+   "ear_notes": "owner perfect fond_3; family again_sp0.85_front90; recipe in the batch renderer, not in these columns",
+   "round": "batch 7 / 2026-08-07",
+   "listen_context": "clip",
+   "byte_pin_sha256": "825ae63d233d7f43d8fe0746690635d536ed5deb3dba287cb5318d8167529922"
+  },
+  "gift": {
+   "verdict": "perfect",
+   "ear_notes": "owner perfect gift_3; family spell_sp0.85_f30; recipe in the batch renderer, not in these columns",
+   "round": "batch 5 / 2026-08-07",
+   "listen_context": "clip",
+   "byte_pin_sha256": "69027dd06e7634dbca263147cada20fa2e5e18b73b9169059b7982efbd5aec32"
+  },
+  "glad": {
+   "verdict": "perfect",
+   "ear_notes": "owner perfect glad_1; family listen_sp0.8; recipe in the batch renderer, not in these columns",
+   "round": "batch 9 (2026-08-10)",
+   "listen_context": "clip",
+   "byte_pin_sha256": "4662d211d8d9f246d0c510bbfb5d1a6cdac7faccf27e690b41c7f172ffc7cecb"
+  },
+  "grab": {
+   "verdict": "perfect",
+   "ear_notes": "owner perfect grab_7; family listen_sp0.95; recipe in the batch renderer, not in these columns",
+   "round": "batch 10 (2026-08-11)",
+   "listen_context": "clip",
+   "byte_pin_sha256": "52ef3964c919e254f622ece3d8cd9fcbd5fef1073f0d85c1fbf57e77664d4d3d"
+  },
+  "grin": {
+   "verdict": "perfect",
+   "ear_notes": "owner perfect grin_2; family say_sp0.8_breath; recipe in the batch renderer, not in these columns",
+   "round": "batch 9 (2026-08-10)",
+   "listen_context": "clip",
+   "byte_pin_sha256": "bb04cff5d6fd0b81d06d1b258c7de70a770dc3862d085aa2fcd45252d22a130a"
+  },
+  "gulf": {
+   "verdict": "perfect",
+   "ear_notes": "owner perfect gulf_1; family twice_sp0.85_front60; recipe in the batch renderer, not in these columns",
+   "round": "batch 7 / 2026-08-07",
+   "listen_context": "clip",
+   "byte_pin_sha256": "3e31aa0fa452157f953f45660735740ff1c14a08129bab2281fa1bd0386a7bcd"
+  },
+  "gulp": {
+   "verdict": "perfect",
+   "ear_notes": "owner perfect gulp_5; family spell_sp0.85_front60; recipe in the batch renderer, not in these columns",
+   "round": "batch 6 / 2026-08-07",
+   "listen_context": "clip",
+   "byte_pin_sha256": "a41ad0838b84d0363d03f44124bf49485006f64695a3da570dfab5b5d53bbbdd"
+  },
+  "hand": {
+   "verdict": "perfect",
+   "ear_notes": "owner perfect hand_3; family carrier_listen; recipe in the batch renderer, not in these columns",
+   "round": "batch 1 / 2026-08-07",
+   "listen_context": "clip",
+   "byte_pin_sha256": "ec77de140a9d0a2ff4df79df4c03c7c518345b2acac5d8c5bd389e63b0dbeff4"
+  },
+  "help": {
+   "verdict": "perfect",
+   "ear_notes": "owner perfect help_5; family spell_sp0.95_f30; recipe in the batch renderer, not in these columns",
+   "round": "batch 5 / 2026-08-07",
+   "listen_context": "clip",
+   "byte_pin_sha256": "6fe9e62e125b8c6d0ee269d04d84facd203743b4a00353c6e4aa90e97de8621f"
+  },
+  "hint": {
+   "verdict": "perfect",
+   "ear_notes": "owner perfect hint_3; family spell_sp0.85_front90; recipe in the batch renderer, not in these columns",
+   "round": "batch 6 / 2026-08-07",
+   "listen_context": "clip",
+   "byte_pin_sha256": "3dfe017f5f1f2fefce46da92317367bd92bdd2f2c817fb450e996c9076a16c99"
+  },
+  "jump": {
+   "verdict": "perfect",
+   "ear_notes": "owner perfect jump_4; family carrier_spell; recipe in the batch renderer, not in these columns",
+   "round": "batch 1 / 2026-08-07",
+   "listen_context": "clip",
+   "byte_pin_sha256": "e6f96eee9867431f9e27106829db59de0665331e149f5c56326e45aa9b7d7bdb"
+  },
+  "just": {
+   "verdict": "perfect",
+   "ear_notes": "owner perfect just_4; family again_sp0.85_front90; recipe in the batch renderer, not in these columns",
+   "round": "batch 6 / 2026-08-07",
+   "listen_context": "clip",
+   "byte_pin_sha256": "9094bbe95f05a9a53a7b3a45dc3fa6b430490c9040108e80c909fcd0bcdb7f07"
+  },
+  "kept": {
+   "verdict": "perfect",
+   "ear_notes": "owner perfect kept_6; family listen_sp0.85; recipe in the batch renderer, not in these columns",
+   "round": "batch 7 / 2026-08-07",
+   "listen_context": "clip",
+   "byte_pin_sha256": "25a7af51716f0f5e332474b65ef0734cd577019f3e15d0e81ee174dc186323af"
+  },
+  "lamp": {
+   "verdict": "perfect",
+   "ear_notes": "owner perfect lamp_4; family carrier_spell; recipe in the batch renderer, not in these columns",
+   "round": "batch 1 / 2026-08-07",
+   "listen_context": "clip",
+   "byte_pin_sha256": "0aa682dd0b628c8b102d7e23f6632db3da9b6d4ea90d19e981751d8247b008e3"
+  },
+  "land": {
+   "verdict": "perfect",
+   "ear_notes": "owner perfect land_6; family carrier_listen_s1; recipe in the batch renderer, not in these columns",
+   "round": "batch 1 / 2026-08-07",
+   "listen_context": "clip",
+   "byte_pin_sha256": "aaeeba92e10cb26474010efadb1f62a2b4451bf234a87a09c7a116dea99b5ce2"
+  },
+  "last": {
+   "verdict": "perfect",
+   "ear_notes": "owner perfect last_3; family spell_sp0.9_front130; recipe in the batch renderer, not in these columns",
+   "round": "batch 7 / 2026-08-07",
+   "listen_context": "clip",
+   "byte_pin_sha256": "5a07c1da77c7cc64663a0854bce8fce842165e4a5c663a5324be9170fe053a10"
+  },
+  "left": {
+   "verdict": "perfect",
+   "ear_notes": "owner perfect left_6; family spell_sp0.85_f90; recipe in the batch renderer, not in these columns",
+   "round": "batch 5 / 2026-08-07",
+   "listen_context": "clip",
+   "byte_pin_sha256": "44114829d0489bb29112001f8bacd4496664977a14be1e6067b9e71b08481481"
+  },
+  "lend": {
+   "verdict": "perfect",
+   "ear_notes": "owner perfect lend_5; family quoted_sp0.85_front90; recipe in the batch renderer, not in these columns",
+   "round": "batch 7 / 2026-08-07",
+   "listen_context": "clip",
+   "byte_pin_sha256": "3b8d3a526c01f67cda57cfc29b36b1f38daa8118e6aa715673664616e054056e"
+  },
+  "lift": {
+   "verdict": "perfect",
+   "ear_notes": "owner perfect lift_2; family spell_sp0.85_f0; recipe in the batch renderer, not in these columns",
+   "round": "batch 5 / 2026-08-07",
+   "listen_context": "clip",
+   "byte_pin_sha256": "0525391cc52f89155a71c3d3315307cf0f271185873df7ba81dedfdcecfbe9ae"
+  },
+  "list": {
+   "verdict": "perfect",
+   "ear_notes": "owner perfect list_6; family spell_sp0.95_f60; recipe in the batch renderer, not in these columns",
+   "round": "batch 5 / 2026-08-07",
+   "listen_context": "clip",
+   "byte_pin_sha256": "d0833505105d2e36f664a9930f254a4e7d64d7d607b1a44009f6d2530be08a14"
+  },
+  "mask": {
+   "verdict": "perfect",
+   "ear_notes": "owner perfect mask_3; family spell_sp0.85_front130; recipe in the batch renderer, not in these columns",
+   "round": "batch 7 / 2026-08-07",
+   "listen_context": "clip",
+   "byte_pin_sha256": "28f257fcf9390b0b1217228d583d4592b9c98af96f85f4830726f47ecb7e98ff"
+  },
+  "melt": {
+   "verdict": "perfect",
+   "ear_notes": "owner perfect melt_2; family twice_m25_front60; recipe in the batch renderer, not in these columns",
+   "round": "batch 4 / 2026-08-07",
+   "listen_context": "clip",
+   "byte_pin_sha256": "4fa4687f111a012be0c698fa33850b0521e518f7dd0c18115d629bd976c74b90"
+  },
+  "mend": {
+   "verdict": "perfect",
+   "ear_notes": "owner perfect mend_5; family listen_sp0.8; recipe in the batch renderer, not in these columns",
+   "round": "batch 9 (2026-08-10)",
+   "listen_context": "clip",
+   "byte_pin_sha256": "12884014d6c663d90fa6d4d79027a2ba9e6cf9ce3aad7ffc4020d8f9ea09a077"
+  },
+  "milk": {
+   "verdict": "perfect",
+   "ear_notes": "owner perfect milk_10; family spell_m10_front90; recipe in the batch renderer, not in these columns",
+   "round": "batch 4 / 2026-08-07",
+   "listen_context": "clip",
+   "byte_pin_sha256": "48e41df7b1f57ede5262b31fde167a5b683ba0326d7e835dd71f600866245af0"
+  },
+  "mint": {
+   "verdict": "perfect",
+   "ear_notes": "owner perfect mint_2; family twice_sp0.85_f90; recipe in the batch renderer, not in these columns",
+   "round": "batch 5 / 2026-08-07",
+   "listen_context": "clip",
+   "byte_pin_sha256": "d3620c0a3743f6cdb78606f87041a1161210c6e9d66ae1b6da13220c9d2f290a"
+  },
+  "must": {
+   "verdict": "perfect",
+   "ear_notes": "owner perfect must_5; family preboundary_sp0.9_front130; recipe in the batch renderer, not in these columns",
+   "round": "batch 7 / 2026-08-07",
+   "listen_context": "clip",
+   "byte_pin_sha256": "0ce1f2d1460d32ff64a5ec48b8fa2f420057d165884b01e2ad2a1337d9e92ac8"
+  },
+  "nest": {
+   "verdict": "perfect",
+   "ear_notes": "owner perfect nest_6; family spell_sp0.85_f60; recipe in the batch renderer, not in these columns",
+   "round": "batch 5 / 2026-08-07",
+   "listen_context": "clip",
+   "byte_pin_sha256": "8607839bdd128f5a786874824f204f91d7d09964e47374a79018384b282dbcb3"
+  },
+  "plan": {
+   "verdict": "perfect",
+   "ear_notes": "owner perfect plan_4; family listen_sp0.85; recipe in the batch renderer, not in these columns",
+   "round": "batch 9 (2026-08-10)",
+   "listen_context": "clip",
+   "byte_pin_sha256": "d79dbc063cd0387f2abbf2d6e39c7fb80d90671e6aebf81c3ca16344342c980b"
+  },
+  "plum": {
+   "verdict": "perfect",
+   "ear_notes": "owner perfect plum_1; family listen_sp0.85; recipe in the batch renderer, not in these columns",
+   "round": "batch 10 (2026-08-11)",
+   "listen_context": "clip",
+   "byte_pin_sha256": "9a1bae73b26c48cff66e8a9617a3f894ef20a5bcbf290c8a53c5c7c570bdd947"
+  },
+  "pond": {
+   "verdict": "perfect",
+   "ear_notes": "owner perfect pond_3; family carrier_listen; recipe in the batch renderer, not in these columns",
+   "round": "batch 1 / 2026-08-07",
+   "listen_context": "clip",
+   "byte_pin_sha256": "febce739ebccccd55887d6db4690af764bdeda9ad34c9bae63f0e4703050d718"
+  },
+  "pump": {
+   "verdict": "perfect",
+   "ear_notes": "owner perfect pump_7; family spell_sp0.95_front90; recipe in the batch renderer, not in these columns",
+   "round": "batch 6 / 2026-08-07",
+   "listen_context": "clip",
+   "byte_pin_sha256": "d8bbb11f50739d0ffd202154ce5be4ee6f9121af8b97b004352cb5a84c243a46"
+  },
+  "raft": {
+   "verdict": "perfect",
+   "ear_notes": "owner perfect raft_1; family spell_sp0.85_front90; recipe in the batch renderer, not in these columns",
+   "round": "batch 6 / 2026-08-07",
+   "listen_context": "clip",
+   "byte_pin_sha256": "b64a6d6437ab4022bbd6b1015176f7a0f5b3942e0afcfcd66f835570d2a4e451"
+  },
+  "rest": {
+   "verdict": "perfect",
+   "ear_notes": "owner perfect rest_2; family again_sp0.95_f90; recipe in the batch renderer, not in these columns",
+   "round": "batch 5 / 2026-08-07",
+   "listen_context": "clip",
+   "byte_pin_sha256": "1069ebceb6ff99a1ef6936964dd9c4b5065b43eef07b2984fe896f7616931c57"
+  },
+  "risk": {
+   "verdict": "perfect",
+   "ear_notes": "owner perfect risk_6; family long_sp0.85_front130; recipe in the batch renderer, not in these columns",
+   "round": "batch 7 / 2026-08-07",
+   "listen_context": "clip",
+   "byte_pin_sha256": "1390540c675ef6c7d3ee993421e9f9739e0d0131455a750f2177562c169dd20e"
+  },
+  "sand": {
+   "verdict": "perfect",
+   "ear_notes": "owner perfect sand_3; family carrier_listen; recipe in the batch renderer, not in these columns",
+   "round": "batch 1 / 2026-08-07",
+   "listen_context": "clip",
+   "byte_pin_sha256": "2e7a4936364fd27df2bcb0fc211938cc665b22b6002334c20903bd18fb2c51bd"
+  },
+  "sift": {
+   "verdict": "perfect",
+   "ear_notes": "owner perfect sift_3; family again_sp0.85_front90; recipe in the batch renderer, not in these columns",
+   "round": "batch 6 / 2026-08-07",
+   "listen_context": "clip",
+   "byte_pin_sha256": "79ac4f6136f362fd1e75ecc66b87cdd44092c7d81e129ac22ac364aa1605e8fd"
+  },
+  "silk": {
+   "verdict": "perfect",
+   "ear_notes": "owner perfect silk_1; family listen_sp0.8; recipe in the batch renderer, not in these columns",
+   "round": "batch 9 (2026-08-10)",
+   "listen_context": "clip",
+   "byte_pin_sha256": "763eb5d69373b689a3d9b941e38c2e94c79239201484846c1e50c34a90d3ce20"
+  },
+  "slam": {
+   "verdict": "perfect",
+   "ear_notes": "owner perfect slam_1; family listen_sp0.85; recipe in the batch renderer, not in these columns",
+   "round": "batch 9 (2026-08-10)",
+   "listen_context": "clip",
+   "byte_pin_sha256": "a208cef05e004e8c710938f8ae429eff481ea6ad3cfc6086cc502e8f76cd4481"
+  },
+  "sled": {
+   "verdict": "perfect",
+   "ear_notes": "owner perfect sled_2; family listen_sp0.8; recipe in the batch renderer, not in these columns",
+   "round": "batch 9 (2026-08-10)",
+   "listen_context": "clip",
+   "byte_pin_sha256": "3b24a949236103bf65ce71d20cf577c800a7a0b5058371558c8e846852989743"
+  },
+  "slid": {
+   "verdict": "perfect",
+   "ear_notes": "owner perfect ; family listen_sp0.75; recipe in the batch renderer, not in these columns",
+   "round": "batch 12 (2026-08-11)",
+   "listen_context": "clip",
+   "byte_pin_sha256": "2ddf9aec86eb12435f1027a9799b73f6a57adc51842948e7e8ff501f87311095"
+  },
+  "slip": {
+   "verdict": "perfect",
+   "ear_notes": "owner perfect slip_3; family listen_sp0.95; recipe in the batch renderer, not in these columns",
+   "round": "batch 9 (2026-08-10)",
+   "listen_context": "clip",
+   "byte_pin_sha256": "9071c28232521776a7eb6a14ab152ae8768ac45eb71fffe3ece04da51e2223dc"
+  },
+  "snap": {
+   "verdict": "perfect",
+   "ear_notes": "owner perfect snap_2; family listen_sp0.95; recipe in the batch renderer, not in these columns",
+   "round": "batch 9 (2026-08-10)",
+   "listen_context": "clip",
+   "byte_pin_sha256": "1d8c0cba456b7a588f28606abacdedbbf7b76ea35305e363e1afbd67593f8f03"
+  },
+  "snug": {
+   "verdict": "perfect",
+   "ear_notes": "owner perfect ; family listen_sp0.75; recipe in the batch renderer, not in these columns",
+   "round": "batch 12 (2026-08-11)",
+   "listen_context": "clip",
+   "byte_pin_sha256": "fd95311bbb4cf8808c8f43d2f89ec3814ed6382a562ad6a421d230b0f205e11a"
+  },
+  "soft": {
+   "verdict": "perfect",
+   "ear_notes": "owner perfect soft_12; family spell_sp1.05_front30; recipe in the batch renderer, not in these columns",
+   "round": "batch 6 / 2026-08-07",
+   "listen_context": "clip",
+   "byte_pin_sha256": "f70e46ab9b255c4849f2d644ce2bf608eb485d7db27dad572bc0b9426290a5fd"
+  },
+  "spin": {
+   "verdict": "perfect",
+   "ear_notes": "owner perfect spin_2; family listen_sp0.85; recipe in the batch renderer, not in these columns",
+   "round": "batch 9 (2026-08-10)",
+   "listen_context": "clip",
+   "byte_pin_sha256": "39753bd2f62fa61500e57057d3ab99abf03fd54a4cbd2c062063f47f3a150b04"
+  },
+  "spot": {
+   "verdict": "perfect",
+   "ear_notes": "owner perfect spot_2; family listen_sp0.8; recipe in the batch renderer, not in these columns",
+   "round": "batch 10 (2026-08-11)",
+   "listen_context": "clip",
+   "byte_pin_sha256": "d67fa5bc217852dd0f19de37fad7086d44cc820aec6d7c2044c6b5dbfdd69eca"
+  },
+  "stem": {
+   "verdict": "perfect",
+   "ear_notes": "owner perfect stem_1; family listen_sp0.85; recipe in the batch renderer, not in these columns",
+   "round": "batch 10 (2026-08-11)",
+   "listen_context": "clip",
+   "byte_pin_sha256": "c79106a0c395ca91f72f61dcd433c67c63e9df89f214aa047c0ef03022db7aa0"
+  },
+  "step": {
+   "verdict": "perfect",
+   "ear_notes": "owner perfect step_2; family listen_sp0.85; recipe in the batch renderer, not in these columns",
+   "round": "batch 9 (2026-08-10)",
+   "listen_context": "clip",
+   "byte_pin_sha256": "413c2d023fba90b8cd6e694b404772840782d87f2229f61447349c3d10c35513"
+  },
+  "stop": {
+   "verdict": "perfect",
+   "ear_notes": "owner perfect stop_1; family listen_sp0.95; recipe in the batch renderer, not in these columns",
+   "round": "batch 9 (2026-08-10)",
+   "listen_context": "clip",
+   "byte_pin_sha256": "6e9659e2fafac05ad3980c26199af5f5942f89669f7628ef8445c8f35c6f4d4b"
+  },
+  "swam": {
+   "verdict": "perfect",
+   "ear_notes": "owner perfect ; family listen_sp0.75; recipe in the batch renderer, not in these columns",
+   "round": "batch 12 (2026-08-11)",
+   "listen_context": "clip",
+   "byte_pin_sha256": "b8ba2f010a29c76176218580802d6cb0c46d78510f04c7ab53ce273aa39c2756"
+  },
+  "swim": {
+   "verdict": "perfect",
+   "ear_notes": "owner perfect swim_1; family listen_sp0.8; recipe in the batch renderer, not in these columns",
+   "round": "batch 9 (2026-08-10)",
+   "listen_context": "clip",
+   "byte_pin_sha256": "99ea1f985c3b2fd0e682f3b305bcf4c8ce9b1594a3c3a50968ed0417d4027163"
+  },
+  "task": {
+   "verdict": "perfect",
+   "ear_notes": "owner perfect task_3; family listen_sp0.85_front30; recipe in the batch renderer, not in these columns",
+   "round": "batch 6 / 2026-08-07",
+   "listen_context": "clip",
+   "byte_pin_sha256": "7164c19c0433c76a6f04f7f22436ac59aac557fbfa7e448483ce315fc8ed419a"
+  },
+  "tent": {
+   "verdict": "perfect",
+   "ear_notes": "owner perfect tent_4; family spell_sp0.85_f30; recipe in the batch renderer, not in these columns",
+   "round": "batch 5 / 2026-08-07",
+   "listen_context": "clip",
+   "byte_pin_sha256": "628b1b46fa91cfd3fd9d3bd44a000939628afb1c6e456f297df29e3c218679de"
+  },
+  "trap": {
+   "verdict": "perfect",
+   "ear_notes": "owner perfect trap_1; family listen_sp0.8; recipe in the batch renderer, not in these columns",
+   "round": "batch 9 (2026-08-10)",
+   "listen_context": "clip",
+   "byte_pin_sha256": "13e6e76f5fee494dce17cbdf34f9ffb4b21cfa29c49295d6b39d684800891386"
+  },
+  "trim": {
+   "verdict": "perfect",
+   "ear_notes": "owner perfect trim_1; family listen_sp0.85; recipe in the batch renderer, not in these columns",
+   "round": "batch 10 (2026-08-11)",
+   "listen_context": "clip",
+   "byte_pin_sha256": "5b59ef391b0d64b660d566f50b9c3325684734bc26a3c47f046dcc58a11f07af"
+  },
+  "trip": {
+   "verdict": "perfect",
+   "ear_notes": "owner perfect trip_6; family listen_sp0.95; recipe in the batch renderer, not in these columns",
+   "round": "batch 10 (2026-08-11)",
+   "listen_context": "clip",
+   "byte_pin_sha256": "32b5336efe51fd7b4c196d873e4b63a9a46252f331f327a6cc042243981ca998"
+  },
+  "twig": {
+   "verdict": "perfect",
+   "ear_notes": "owner perfect twig_1; family listen_sp0.8; recipe in the batch renderer, not in these columns",
+   "round": "batch 10 (2026-08-11)",
+   "listen_context": "clip",
+   "byte_pin_sha256": "746fb4ee79bf26116dbb9f58a65e6ec2ea25b0b6d5a2eb57f7ee278216ae73ac"
+  },
+  "twin": {
+   "verdict": "perfect",
+   "ear_notes": "owner perfect twin_8; family listen_sp0.95; recipe in the batch renderer, not in these columns",
+   "round": "batch 9 (2026-08-10)",
+   "listen_context": "clip",
+   "byte_pin_sha256": "56a0dab87cab273c44488110e32470464eade7a2b8e4120bba780c6b0cfc7cd6"
+  },
+  "wilt": {
+   "verdict": "perfect",
+   "ear_notes": "owner perfect wilt_7; family quoted_sp0.85_front90; recipe in the batch renderer, not in these columns",
+   "round": "batch 7 / 2026-08-07",
+   "listen_context": "clip",
+   "byte_pin_sha256": "b7753c638e1162051254ee13e17c6c8fefa2d5717687d0d913a27b33fed3d2ee"
   }
  },
  "environment": {

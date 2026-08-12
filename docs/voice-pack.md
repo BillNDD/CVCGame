@@ -100,25 +100,31 @@ byte-pinned word rather than replacing accepted audio with a render.
   sidecar workspace archive on the owner's PC
   (handoff `word-quest-uplift-handoff-2026-08-07T1438Z`).
 
-## Approved and unshipped: 156 items with no level yet (through 2026-08-11)
+## Approved and unshipped: 73 items with no level yet (through 2026-08-12)
 
-A hundred and fifty-six items are closed by the owner's ear and wait in
+Seventy-three items are closed by the owner's ear and wait in
 `tools/pending-words/` for the levels and the mode that will hold them:
-**115 words** across twelve word batches — the heart words **you, to, do, of,
-said, my, he, we, be, me, go, no, so**, the final-blend and initial-blend words
-for Levels 10 and 11, the plural-s words and the two-syllable compounds — and
-**41 sentences** across two sentence batches, plus the reveal lead-in
-**"Let's sound it out."**. Every one is graded `perfect`; the ledger names each
-with its round. Each is stored as the exact bytes the owner heard, with its
-family and hash, so the day a word joins the bank it ships that clip and not a
-re-render.
+**32 words** — the heart words **you, to, do, of, said, my, he, we, be, me, go,
+no, so**, the plural-s words and the two-syllable compounds — and **41
+sentences** across two sentence batches, plus the reveal lead-in **"Let's sound
+it out."**. Every one is graded `perfect`; the ledger names each with its round.
+Each is stored as the exact bytes the owner heard, with its family and hash, so
+the day a word joins the bank it ships that clip and not a re-render.
 
-**This number is the project's largest standing debt, and it is the trap
-`docs/settled.md` names.** Nothing here is waiting on the owner: it is waiting
-on Levels 10 and 11 to exist and on sentence mode to be built. The count is now
-bound to the ledger by the doc-truth gate (G16 rule 8), because this heading
-said "60" for a day after the ledger held 156, and a document that undercounts
-an approved backlog reads as if the work were smaller than it is.
+The backlog stood at 156 on the morning of 2026-08-12 and this heading said
+"60" — a number written once and never moved while the owner went on approving,
+which made fourteen listening rounds of their own time read as five. It is now
+bound to the ledger by the doc-truth gate (G16 rule 8) and cannot drift again.
+**Eighty-three of those items shipped the same day**, when Levels 10 and 11 were
+built to hold them: 54 final-blend words and 29 initial-blend words, each copied
+byte for byte from `tools/pending-words/` by `tools/ship-words.py`, which
+refuses any file that does not hash to the value recorded when the owner
+approved it.
+
+What is left is waiting on the levels and the mode that do not exist yet, not
+on the owner: the plural-s words need Level 12, the compounds Level 13, the open
+syllables Level 14, the heart words a place in the engine for a word taught by
+sight, and the 41 sentences need sentence mode.
 
 The sentence recordings are **one natural recording per sentence**, owner-ruled
 2026-08-12 — not the sentence's word clips stitched together. A word said on its

@@ -51,6 +51,16 @@ import numpy as np
 from kokoro_onnx import Kokoro
 
 script_path, model_path, voices_path, out_dir = sys.argv[1:5]
+# --recipe-only rewrites the manifest's __recipe block and NOTHING else: no
+# synthesiser is loaded, no clip is touched, every existing entry is carried
+# through byte for byte. It exists because the recipe is derived from
+# keepers-treatments.json, so it goes stale the moment a byte-pinned word joins
+# the pack from tools/pending-words — a word approved by ear months ago and
+# copied in, never rendered here. G13 compares the recipe against the word
+# table and fails on the gap. Deriving it a second time inside the shipping
+# tool would be a second copy of these rules, free to drift; this way the rules
+# below stay the only ones.
+RECIPE_ONLY = "--recipe-only" in sys.argv
 VOICE = "af_heart"
 BITRATE = 96
 WORD_SPEED = 0.85
@@ -257,7 +267,7 @@ _OLD_MANIFEST = {}
 if (OUT / "manifest.json").exists():
     _OLD_MANIFEST = json.loads((OUT / "manifest.json").read_text())
 
-k = Kokoro(model_path, voices_path)
+k = None if RECIPE_ONLY else Kokoro(model_path, voices_path)
 script = json.load(open(script_path))
 
 
@@ -367,9 +377,9 @@ def shape(audio, lead_ms, sr):
     return np.concatenate([lead, a, tail])
 
 
-manifest = {}
+manifest = {k2: v for k2, v in _OLD_MANIFEST.items() if k2 != "__recipe"} if RECIPE_ONLY else {}
 review = ["id,text,ms,source,flag"]
-for clip in script:
+for clip in [] if RECIPE_ONLY else script:
     cid, text = clip["id"], clip["text"]
     is_word = cid.startswith("w:")
     word = cid[2:] if is_word else None
@@ -458,8 +468,15 @@ manifest["__recipe"] = {
     "keepers_treatments": sorted(w for w in TREATMENTS if not w.startswith("_")),
 }
 (OUT / "manifest.json").write_text(json.dumps(manifest, indent=1) + "\n")
-pathlib.Path(out_dir + "-review.csv").write_text("\n".join(review) + "\n")
+# The review file is a record of a RENDER — one row per clip, with the flags a
+# person reads before listening. A recipe-only run renders nothing, so writing
+# it would replace 372 rows with a bare header and quietly destroy the record
+# of the render that actually produced the pack. It did exactly that once.
+if not RECIPE_ONLY:
+    pathlib.Path(out_dir + "-review.csv").write_text("\n".join(review) + "\n")
 flags = [r for r in review[1:] if r.rstrip().endswith(("SHORT", "LONG"))]
-print(f"rendered {len(manifest) - 1} clips to {OUT}; {len(flags)} flagged for review")
+print(f"rewrote the recipe only; {len(manifest) - 1} clips carried through untouched"
+      if RECIPE_ONLY else
+      f"rendered {len(manifest) - 1} clips to {OUT}; {len(flags)} flagged for review")
 for f in flags:
     print("  FLAG", f)

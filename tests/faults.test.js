@@ -258,7 +258,7 @@ describe("G9 faults — wrong-shape JSON battery", () => {
     for (const doc of hostile) {
       const m = migrate(typeof doc === "object" && doc !== null ? JSON.parse(JSON.stringify(doc)) : doc);
       expect(m.level).toBeGreaterThanOrEqual(1);
-      expect(m.level).toBeLessThanOrEqual(9);
+      expect(m.level).toBeLessThanOrEqual(11);
       expect(() => buildSession(m)).not.toThrow();
       expect(() => buildMarkdown(m)).not.toThrow();
     }

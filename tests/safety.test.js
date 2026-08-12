@@ -785,15 +785,15 @@ describe("G10 — free play never touches the save", () => {
 
   it("45: truly random draws from the whole bank, not the child's level", async () => {
     /* Math.random pinned high makes every draw take the end of the pool, so
-       the first word served is the bank's LAST word - "limb", deep in
-       Level 9. A fresh Level 1 save can never see it in a session or in
+       the first word served is the bank's LAST word - "twin", deep in
+       Level 11. A fresh Level 1 save can never see it in a session or in
        level free play: buildSession serves Level 1 plus review only. The
        expected word is a literal on purpose (E4); if the bank ever gains a
        new last word, this is the line to update. */
     const spy = vi.spyOn(Math, "random").mockReturnValue(0.9999999);
     try {
       await enterFreePlay("🎲 Truly random");
-      expect(document.querySelector(".wq-word").textContent).toBe("limb");
+      expect(document.querySelector(".wq-word").textContent).toBe("twin");
       /* control: the SAME pin through the level door serves a Level 1 word -
          the pin alone cannot conjure "ping"; only the random door can. */
       cleanup();
@@ -822,13 +822,24 @@ describe("G10 — free play never touches the save", () => {
 
   it("47: a spent random block rolls into a fresh draw that never repeats the boundary word", async () => {
     /* Pinned at the top of the pool, the first block is the bank's last 20
-       words in reverse - "limb" first, "chuck" last - with no repeats, since
+       words in reverse - "twin" first, "plan" last - with no repeats, since
        a repeat inside a block would collide with its own first result and be
-       graded as a retry. At the boundary the pin moves to 0.935: the guard
-       keeps the word the child just read ("chuck") out of the next block's
-       first slot, which opens on "knot"; "lamb" second proves "chuck" was
-       pushed back into the pool - excluded from the first slot only, not
-       from the game. All literals (E4), recomputed for the 349-word bank. */
+       graded as a retry.
+
+       At the boundary the pin moves to 0.955, and that number is chosen, not
+       inherited. "plan" sits at index 412 of the 432-word bank, so a pin
+       anywhere in [0.95370, 0.95602) makes the UNGUARDED draw land exactly on
+       the word the child just read. Only a pin in that window can tell the
+       guard apart from luck: the previous pin of 0.935 was in the window for
+       the 349-word bank and fell out of it when the bank grew, at which point
+       the test would still have passed while proving nothing. Both literals
+       below are derived from the algorithm, never read back from a run:
+         - the guard drops "plan" from the pool, so 431 words are left and
+           floor(0.955 x 431) = 411 opens the block on "grin", not "plan";
+         - "plan" is then pushed back, and floor(0.955 x 431) = 411 of the
+           refilled pool is "plum". Without the push-back it would be "grab",
+           so this line is what proves the word returns to the game rather
+           than leaving it. All literals (E4), for the 432-word bank. */
     const spy = vi.spyOn(Math, "random").mockReturnValue(0.9999999);
     try {
       await enterFreePlay("🎲 Truly random");
@@ -838,15 +849,15 @@ describe("G10 — free play never touches the save", () => {
         await gradeOne("✓ got it (hold)");
       }
       seen.push(document.querySelector(".wq-word").textContent);
-      expect(seen[0]).toBe("limb");
-      expect(seen[19]).toBe("chuck");
+      expect(seen[0]).toBe("twin");
+      expect(seen[19]).toBe("plan");
       expect(new Set(seen).size).toBe(20);
-      spy.mockReturnValue(0.935);
+      spy.mockReturnValue(0.955);
       await gradeOne("✓ got it (hold)");
       expect(screen.getByText("20 words")).toBeTruthy();
-      expect(document.querySelector(".wq-word").textContent).toBe("knot");
+      expect(document.querySelector(".wq-word").textContent).toBe("grin");
       await gradeOne("✓ got it (hold)");
-      expect(document.querySelector(".wq-word").textContent).toBe("lamb");
+      expect(document.querySelector(".wq-word").textContent).toBe("plum");
     } finally { spy.mockRestore(); }
   });
 });
