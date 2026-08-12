@@ -180,7 +180,14 @@ exclusions are recorded in SPEC section 12.
   task. Do not add PWA work in a testing task.
 - E10. Read `docs/settled.md` before any change to the voice, the audio pipeline, or the word
   bank, and before designing a listening round, and read `docs/open-faults.md` before any
-  change at all, so a known fault is neither re-discovered nor built upon. It lists what a listener or a measurement has
+  change at all, so a known fault is neither re-discovered nor built upon. Consulting what
+  does NOT work is a MUST before a round, not a courtesy afterwards, and the same goes for
+  `tools/voice-words.csv`, which holds for every bank word the family that actually won and
+  the round it won in — read the word's row before offering that word anything.
+  `tools/round_guard.py` enforces the mechanical part of both and refuses to run if
+  `docs/settled.md` has stopped backing one of its refusals; it does not replace reading them.
+  Owner-ruled 2026-08-12, after a round for the word "a" was built entirely from plain
+  phoneme renders that both records had already closed. It lists what a listener or a measurement has
   already closed, so a settled question is never re-opened at the cost of a round. When a round
   lands, record its result the same day — in the word's row in `tools/voice-words.csv`
   (regenerate with `node tools/gen-voice-lock.mjs`), in `docs/voice-pack.md` for what

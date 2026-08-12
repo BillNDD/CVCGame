@@ -252,8 +252,24 @@ if __name__ == "__main__":
     k = Kokoro(str(REPO / "kokoro-v1.0.onnx"), str(REPO / "voices-v1.0.bin"))
 
     import phonemizer                       # reachable only after Kokoro loads
+    def phonemise(t):
+        return phonemizer.phonemize([t], language="en-us", backend="espeak")[0]
     def says_letter_name(t):
-        return "eɪ" in phonemizer.phonemize([t], language="en-us", backend="espeak")[0]
+        return "eɪ" in phonemise(t)
+
+    # MUST, owner-ruled 2026-08-12: consult what does not work BEFORE the round,
+    # not after it comes back "none". tools/round_guard.py reads
+    # docs/settled.md and tools/voice-words.csv and refuses what they already
+    # closed, and it refuses to run at all if settled.md has stopped saying
+    # what a refusal claims it says.
+    import round_guard as guard
+    missing = guard.check_anchors()
+    if missing:
+        raise SystemExit("round refused - settled.md and the guard disagree:\n  " + "\n  ".join(missing))
+    seen = guard.history("a")
+    print(f'round history for "a": ' + (", ".join(f"{f} -> {v}" for f, v in seen.items()) if seen else "none"))
+    print(f"docs/settled.md holds {len(guard.closed_notes())} closed claims; "
+          "the ones that bear on this round are enforced below\n")
 
     # The control that gives the whole field its meaning: prove the phonemiser
     # really does split these two ways, so "excluded by construction" is a fact
@@ -266,7 +282,12 @@ if __name__ == "__main__":
     arms, rejected = [], []
     n_arm = 0
     for text, index, speed, why in CARRIERS:
-        expect = len(phonemizer.phonemize([text], language="en-us", backend="espeak")[0].split())
+        expect = len(phonemise(text).split())
+        # Every arm goes through the guard before it is rendered, not after.
+        stop = guard.screen([{"word": "a", "carrier": text, "index": index,
+                              "instances": expect, "family": why}], phonemise)[1]
+        if stop:
+            rejected.append((f'"{text}" #{index}', stop[0][1])); continue
         cut, sr, err = cut_instance(k, text, index, speed=speed, expect=expect)
         if cut is None:
             rejected.append((f'"{text}" #{index}', err)); continue

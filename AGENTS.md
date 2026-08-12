@@ -14,7 +14,15 @@ Read these four, in this order, before you change anything:
 3. **`docs/settled.md`** — what a listener or a measurement has ALREADY closed.
    Read it before any voice, audio or word-bank work, and before designing a
    listening round. This file exists because this project has twice re-opened a
-   settled question and once lost an approved fix for two days.
+   settled question and once lost an approved fix for two days — three times as
+   of 2026-08-12, when a round for the word "a" was built from plain phoneme
+   renders this file had already closed twice over.
+   **Consulting what does NOT work is a MUST before a round, not a courtesy
+   afterwards** (owner-ruled 2026-08-12). `tools/round_guard.py` enforces the
+   mechanical part: it reads this file and `tools/voice-words.csv`, refuses an
+   arm they have already closed, and refuses to run at all if this file has
+   stopped saying what one of its refusals claims. Reading it yourself is still
+   required — the guard covers the rules, not the judgements.
 4. **`docs/open-faults.md`** — everything KNOWN to be wrong, missing or
    undecided right now, with where it lives and what done means. Read it before
    you start, so you neither re-discover a fault that is already written down
