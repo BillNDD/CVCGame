@@ -652,6 +652,14 @@ including all 371 census cells, has run on an engine an iPad user never touches.
 environment is configured not to download browsers, so closing it needs a different machine:
 a CI runner, or the owner's own. It is the single largest hole in this project's evidence.
 
+**Owner-ruled 2026-08-12: all of it, and the other browsers first.** The census runs on
+Chromium, Firefox and WebKit before the next beta. Lighthouse and element-scoped screenshot
+baselines are in scope too, with the caveat that a baseline made on one machine is a statement
+about that machine — so baselines are stored per browser and per runner, and a mismatch on a
+different one is not a finding. What WebKit on Linux can and cannot stand in for is written
+into the census's own report: it is the same engine core as iOS Safari, not the same build,
+and it is much closer to an iPad than Chromium has ever been.
+
 **Its cadence is ruled: every other beta** (owner, 2026-08-12, in their own words). Not in
 `npm run check`, which is thirty seconds by the owner's own ruling and would be minutes with
 this in it; and not in the gauntlet, where a flaky cell would block a release rather than
