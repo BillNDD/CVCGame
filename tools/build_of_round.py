@@ -138,7 +138,64 @@ hl, ht, _ = edges(hx, held_sr)
 hx = hx[int(held_sr * hl / 1000): len(hx) - int(held_sr * ht / 1000)]
 v_held = shape(hx.copy(), held_sr)
 
-ARMS = [
+def gain_db(x, db):
+    return x * (10 ** (db / 20.0))
+
+
+def soften(x, sr, cutoff_hz):
+    """A gentle one-pole low-pass: takes the edge off without hollowing the
+    sound out. "Rounder" is the owner's word for what a lower centroid does."""
+    a = np.exp(-2.0 * np.pi * cutoff_hz / sr)
+    out = np.empty_like(x)
+    acc = 0.0
+    for i, v in enumerate(x):
+        acc = (1 - a) * v + a * acc
+        out[i] = acc
+    return out.astype(np.float32)
+
+
+def fades(x, sr, ms):
+    n = min(int(sr * ms / 1000), len(x) // 2)
+    if n < 2:
+        return x
+    y = x.copy()
+    y[:n] *= np.linspace(0, 1, n); y[-n:] *= np.linspace(1, 0, n)
+    return y
+
+
+def remake_v(db=0.0, cutoff=None, fade_ms=10):
+    """The shipped v, made quieter and rounder by measured amounts."""
+    x, sr = load(PACK / MANIFEST["d:v"]["file"])
+    lead, tail = MANIFEST["d:v"]["lead"], MANIFEST["d:v"]["tail"]
+    body = x[int(sr * lead / 1000): len(x) - int(sr * tail / 1000)].copy()
+    if cutoff:
+        body = soften(body, sr, cutoff)
+        peak = np.abs(body).max()
+        if peak > 0:
+            body = body / peak * 0.668            # back to the pack's -3.5 dBFS peak
+    body = gain_db(body, db)
+    return shape(fades(body, sr, fade_ms), sr), sr
+
+
+ROUND2 = [
+    ("A", "quieter", "d:schwa + v at −4 dB",
+     "The vowel is settled — you chose schwa. This is the same v, simply turned down 4 dB.",
+     -4.0, None, 10),
+    ("B", "quieter still", "d:schwa + v at −6 dB",
+     "Down 6 dB, which is the measured gap: the shipped v sits <b>6.2 dB louder</b> than the "
+     "schwa beside it. This makes the two sounds the same loudness.",
+     -6.0, None, 10),
+    ("C", "quieter and rounder", "d:schwa + v at −6 dB, softened",
+     "The same 6 dB, plus the brightness taken off. The v's energy sits at 1817 Hz against "
+     "schwa's 1413 — measurably harsher. This rolls the top off so the two match.",
+     -6.0, 2600, 20),
+    ("D", "roundest", "d:schwa + v at −7 dB, softened more, long fades",
+     "The furthest of the four: quieter again, more of the top rolled off, and 40 ms fades "
+     "at each end so the sound arrives and leaves gently rather than switching on.",
+     -7.0, 1800, 40),
+]
+
+ARMS_R1 = [
     ("A", "what ships today", "d:short_u + d:v",
      "The control. d:v is a synthetic pitched up <b>6 semitones</b> and formant-stretched, "
      "graded <i>ok</i> — not perfect — alone in round S1 and never heard beside another "
@@ -159,7 +216,37 @@ ARMS = [
      "measurement showing up, not your ears.", ["d:schwa", "V_CURRENT"]),
 ]
 
+DIAG1 = """<div class="diag"><b>The diagnosis.</b> Both sounds are the right LENGTH — short_u carries
+280&nbsp;ms of speech, v carries 250, and your best sounds sit at 231–309. The problem is what
+the ledger says about <code>d:v</code>: a synthetic <b>pitched up 6 semitones</b> and
+formant-stretched 1.09, graded <i>ok</i> rather than perfect, accepted alone in round S1 and
+never heard next to another sound since.</div>"""
+
+DIAG2 = """<div class="diag"><b>Round 2, and your words chose the arms.</b> You picked D — so the
+vowel is settled: <b>o says schwa</b>. The only complaint left was that the v “sounds like it
+is shouting… needs more rounding and quieter”, and that turns out to be measurable rather
+than a matter of taste.<br><br>
+The shipped v sits <b>6.2&nbsp;dB louder</b> than the schwa it stands beside (−16.6 against
+−22.8), and its energy sits at <b>1817&nbsp;Hz</b> against schwa's 1413 — louder and brighter,
+which is what shouting is. That also fits the ledger: it is a synthetic pitched up six
+semitones.<br><br>
+So these four are a gradient of exactly what you asked for — quieter, then rounder — with the
+measured gap as the middle of the range rather than a guess. Nothing else changes.</div>"""
+
+ROUND = 2 if "--round2" in sys.argv else 1
+if ROUND == 2:
+    ARMS = []
+    for key, name, recipe, note, db, cut, fm in ROUND2:
+        tag = "V_" + key
+        ARMS.append((key, name, recipe, note, ["d:schwa", tag]))
+else:
+    ARMS = ARMS_R1
+
 clips = {"V_CURRENT": pack_entry("d:v"), "V_VAN": entry(v_cut, van_sr), "V_HELD": entry(v_held, held_sr)}
+if ROUND == 2:
+    for key, _, _, _, db, cut, fm in ROUND2:
+        pcm, sr = remake_v(db=db, cutoff=cut, fade_ms=fm)
+        clips["V_" + key] = entry(pcm, sr)
 for cid in ["d:short_u", "d:schwa", "s:pronounced", "w:of"]:
     clips[cid] = pack_entry(cid) if cid in MANIFEST else None
 if clips["w:of"] is None:
@@ -200,15 +287,10 @@ html = """<!doctype html><meta charset="utf-8">
    border:1px solid var(--line);border-radius:10px;padding:10px;margin-top:10px}
  .ms{font-size:12.5px;color:var(--ink2);margin-top:7px}
 </style>
-<h1>“of” — four ways</h1>
+<h1>“of” — HEADLINE</h1>
 <p class="sub">You said <b>iterate on this</b>. Here is what the measurements found and the
 four arms it chose. Same spacing the game uses.</p>
-<div class="diag"><b>The diagnosis.</b> Both sounds are the right LENGTH — short_u carries
-280&nbsp;ms of speech, v carries 250, and your best sounds sit at 231–309. The problem is what
-the ledger says about <code>d:v</code>: a synthetic <b>pitched up 6 semitones</b> and
-formant-stretched 1.09, graded <i>ok</i> rather than perfect, accepted alone in round S1 and
-never heard next to another sound since. A sound six semitones above its neighbours will not
-sit inside a word.</div>
+DIAGBLOCK
 <div id="arms"></div>
 <script>
 const ARMS = ARMS_JSON, SEAM = SEAM_MS;
@@ -271,7 +353,9 @@ for arm in data:
     for e in arm["plan"]:
         e.setdefault("id", "cut")
 out = pathlib.Path(sys.argv[1])
-out.write_text(html.replace("ARMS_JSON", json.dumps(data)).replace("SEAM_MS", str(SEAM2_MS)))
+out.write_text(html.replace("ARMS_JSON", json.dumps(data)).replace("SEAM_MS", str(SEAM2_MS))
+           .replace("HEADLINE", "rounder and quieter" if ROUND == 2 else "four ways")
+           .replace("DIAGBLOCK", DIAG2 if ROUND == 2 else DIAG1))
 print(f"wrote {out} ({out.stat().st_size // 1024} KB)")
 for arm in data:
     print(f"  {arm['key']}  {arm['name']:22} v speech {arm['plan'][3]['speech']:4} ms")
