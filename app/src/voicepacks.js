@@ -207,8 +207,19 @@ async function playPlan(plan, tier, my, fallback, onScheduled) {
     if (my !== token) return;                    // a newer utterance took over
     /* A context rebuilt a moment ago may still be starting. Decoding gave it
        time; if it is still not running, nothing would be heard, so hand the
-       utterance to system speech instead of playing into silence. */
-    if (ctx.state !== "running") { fallback(); return; }
+       utterance to system speech instead of playing into silence.
+       B7 closed on 2026-08-12 claiming every fallback path names its reason.
+       There were FIVE paths and the claim was written against four: this one
+       called fallback() with nothing, so the single most likely fallback on an
+       iPhone or iPad — where the browser suspends the audio context and only a
+       fresh touch resumes it — left no trace at all. What a grown-up got was a
+       shorter spoken sentence, no tile rings, and nothing anywhere saying why.
+       Reopened and fixed the same day, from the owner's report of exactly that
+       on a real device. */
+    if (ctx.state !== "running") {
+      fallback(`the audio player was ${ctx.state} when the words were due, so this device did not play the recorded voice`);
+      return;
+    }
     const now = ctx.currentTime;
     const start = now + 0.05;
     let at = start;

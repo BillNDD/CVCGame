@@ -130,11 +130,24 @@ a refusal, not a proof. The sweep of 2026-08-12 raised two words — see B15.
   over a second — with nothing to say it had.
 - **Done** Family clips are measured on the way in, or the sound-out declines to use them.
 
-### B7. Falling through to system speech left no trace — CLOSED 2026-08-12
+### B7. Falling through to system speech left no trace — CLOSED, REOPENED, CLOSED AGAIN 2026-08-12
 
-Every fallback path now says WHY, and the reason reaches the Grown-ups corner. There were four
+**Wrongly closed the first time, the same day, and here is how.** The record below said "there
+were four and each carries its own words". There are **five**. The fifth, in `playPlan()` in
+`app/src/voicepacks.js`, called `fallback()` with no argument — the path taken when the audio
+context is not running at the moment the words are due. That is the most likely fallback of all
+on an iPhone or iPad, where the browser suspends the context and only a fresh touch resumes it.
+The one device family most likely to fall back was the one that recorded no reason for it.
+
+I counted the call sites that already passed a reason and wrote that total down as if it were
+the number of call sites. Found on 2026-08-12 while chasing the owner's report that the game
+was not saying the sounds after the word and no tile was ringing — which is exactly what this
+path produces. It now names the reason and the context's own state with it.
+
+Every fallback path now says WHY, and the reason reaches the Grown-ups corner. There are five
 and each carries its own words: no audio player on this device, the pack did not load, the pack
-has no clip for a named id, or playback threw. The message a grown-up reads says what still
+has no clip for a named id, the player was not running when the words were due, or playback
+threw. The message a grown-up reads says what still
 works — the words are spoken, results are saved — and what does not: the sound-out will not
 light up letter by letter.
 
@@ -303,6 +316,35 @@ Both moved to meet the voice, ruled by the owner after hearing each sound-out bo
 
 The sweep is now at **0 disagreements across 432 words**. 46 remain unalignable (tile count and
 phoneme count differ) and are evidence of nothing either way.
+
+### B16. The reveal is not saying the sounds after the word, and no tile rings
+
+- **Today** The owner reported on 2026-08-12, from a screen recording of the running game, that
+  the game "isn't reading the phonics sounds as we agreed after the word" and that there was
+  "no blue circle around the phonics sound as it was pronounced". Their words, kept verbatim
+  because they are the evidence.
+- **Not verified by me.** I cannot hear the recording, or any audio. What follows is measurement
+  and reading, not listening, and nobody should treat it as the verdict.
+- **The strongest candidate, and why.** Both symptoms together — no sounds, no tile rings — are
+  the exact signature of the recorded pack falling through to system speech. That was written
+  into `app/src/voicepacks.js` before this report as the description of a fallback: "what a
+  grown-up sees is a shorter spoken sentence and no tile rings". The fallback that fits an
+  iPhone or iPad is `playPlan()`'s audio-context check, and until today that one path recorded
+  no reason (see B7, reopened). The fix landed with this entry, so **the owner's own device can
+  now say what happened**: play a word, then open the Grown-ups corner and read the notice.
+- **What is ruled out.** Measured in a real browser against the built app: the pack resolves,
+  no fallback fires, no request fails, and both tiles carry the pop class. G13 passes at 489
+  clips required, 489 shipped, and `soundInventory()` derives its ids from the bank, so a
+  missing sound would be a missing FILE the gate would have caught. The clips are present and
+  the desktop path works, which is why this is very likely device-specific.
+- **The fault** A child hears the word and not the sounds it is made of. The sound-out reveal is
+  the teaching moment of the whole game — SPEC section 5a, owner-ruled 2026-08-04 — so this is
+  the product not doing its job, not a blemish.
+- **Done** The reason shown on the owner's device is read and acted on, the cause is fixed, a
+  person who can hear the game confirms the sounds play and the tiles ring with them, and a
+  check exists that would have caught it: the scheduled plan of a real reveal is read out of the
+  running app and compared against `clipPlan()`, with a negative control that drops one entry
+  and must be reported. Note what a check on this machine alone cannot do — it passes today.
 
 ## C. The audit trail
 
