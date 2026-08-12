@@ -982,6 +982,46 @@ its own listening round and its own byte pin, exactly as a word does — there i
 manufacture a sentence from words already approved. Anyone tempted to save rounds by
 stitching should read this entry first: it has been tried, heard, and refused unanimously.
 
+## The word "a" (2026-08-12) — closed, and it came from outside this repository
+
+The commonest word in English, missing from the game since the start, and missing for a
+safety reason rather than a technical one: handed the string "a", every voice this project
+has tried says the LETTER'S NAME, and S4 forbids the app to say a letter name to a child
+being taught that letters make sounds.
+
+The owner solved it outside the repo and handed over a complete package — an af_heart schwa,
+363 ms, option D, with its recipe, its inputs, and a SHA-256 for every file. All seven hashes
+verified on arrival.
+
+**Nothing was re-baked, and the package says why.** Praat's overlap-add produced
+sample-level differences between runs of the same recipe, so the accepted WAV is the
+authority and a rebake is not. That matches this project's own rule from the other side: a
+re-render is a different file, and a different file is one no person heard.
+
+**What still needed an ear, and it was not the sound.** Three things differed between what
+the owner accepted and what a child would get:
+
+| | measured | verdict |
+|---|---|---|
+| level | −18.0 dBFS against short_u's −20.5 and the shipped schwa's −22.8 | **arm 2·3** — matched to today's schwa, −4.8 dB |
+| format | accepted as lossless WAV; the pack is 96 kbps MP3 | judged in the shipping format |
+| shape | one letter, one sound: word and sound are the SAME recording, played three times | **full reveal**, graded perfect beside "to" |
+
+**Two schwas ship, on the owner's ruling.** "the schwa with the the should remain as we
+already have in game" — so `d:schwa` (150 ms) is untouched and `d:schwa_a` (360 ms) is new.
+Pointing "a" at the existing schwa would have made the word clip and the sound clip disagree
+inside one reveal, which is fault B15 by another route.
+
+**The one thing the round did not cover, and the gate caught it.** With "a" in the bank, the
+copy gate refused the build: system speech, which the app reaches only when the pack fails to
+load, would say "The word was a" — the letter name, S4 broken. The fallback now says "uh".
+That is `TTS_UNSAFE_WORD`, the same shape as `ttsSafePraise`, and it is pinned by a test with
+a control proving the substitution is for that word alone.
+
+**The human reference recording in the package is not in this repository and never will be.**
+The owner ruled on 2026-08-11 that no recording of their voice ships; the handoff's recipe
+confirms it was an amplitude-envelope target only, with no human samples in the output.
+
 ## "of", in three rounds (2026-08-12) — closed, and the `v` changed for every word
 
 The last heart word, and the only one that took more than one evening. It ends with
@@ -996,20 +1036,40 @@ The last heart word, and the only one that took more than one evening. It ends w
 
 **"Shouting" was measurable, and that is the lesson worth keeping.** The complaint sounded
 like taste. It was not: the shipped `d:v` sat **6.2 dB louder** (−16.6 against −22.8) and
-**400 Hz brighter** (1817 Hz against 1413) than the vowel standing next to it, and the
-ledger said why — a synthetic **pitched up six semitones** and formant-stretched, graded
-`ok` ALONE in round S1 and never once heard in company. B11's story exactly. When a listener
-says a sound is wrong beside another sound, measure the pair before offering new arms.
+**400 Hz brighter** (1817 Hz against 1413) than the vowel standing next to it. B11's story
+exactly — a clip graded alone, never heard in company. When a listener says a sound is wrong
+beside another sound, measure the pair before offering new arms.
+
+**A correction, because this entry got its own cause wrong first.** The first version of this
+record said the old `d:v` was "a synthetic pitched up six semitones, graded `ok` alone in
+round S1". That is the row for the owner's own RECORDING, marked `superseded_by_synthesis` in
+`tools/voice-sounds.csv` and deleted from the repository on 2026-08-11. The clip that actually
+shipped is the af_heart one in `tools/pending-sounds/`: family `match-vex260-most1`, round
+**SND16, 2026-08-11**, verdict **"perfect (owner)"**, made by warping the formant envelope of
+the first 260 ms of the approved word "vex" at its **original pitch** — no pitch shift at all.
+Two rows describe one sound id, and reading the wrong one turned a clip the owner had passed
+into a clip the owner had merely tolerated. An independent reviewer caught it the same day.
+When a sound has a superseded row, read the LEDGER for what ships and the CSV only for what
+it says it is.
 
 **The recipe that won**, from the shipped clip's own body: gain −7 dB, one-pole low-pass at
 1800 Hz, re-peaked to −3.5 dBFS, 40 ms fades, then the pack's 80/300 ms padding. Rebuild it
 with `kokoro-env/bin/python3 tools/build_of_round.py --ship`, which refuses unless the source
 hashes to the clip the round was built from AND the result hashes to the bytes the owner
-graded (`0489d6c0`).
+graded (`0489d6c0`). To rebuild from scratch, restore **both** `app/public/voice/d-v.mp3` and
+its manifest entry (lead 190, ms 864, tail 424) from commit `403b237` first: the recipe cuts
+the body using the edges the manifest declares, so restoring the file alone produces a
+different body and the result-hash guard refuses — correctly, and confusingly if you have not
+read this line.
 
-**Every /v/ in the bank now takes the new clip, not only "of".** van, vet, vat, vex and the
-rest were sounded out with the shouting v until today. That is deliberate: the old clip was
-never graded better than `ok`, and the new one was graded perfect in the company it keeps.
+**Every /v/ in the bank took the new clip at first, and that was wrong.** The change was
+argued from the false record above — "the old clip was never graded better than ok" — and the
+truth is that it was graded **perfect** in SND16. Measured afterwards, the new v sits −23.8
+dBFS: 3.3 dB below the vowel in "of", which the owner heard and passed, but **6.5 dB below
+short_e in "vet" and "vex" and 9.6 dB below the n in "van"** — the same size of gap as the one
+the owner called shouting, in the other direction, in three words nobody had heard. The old v
+sat within 0.7 dB of its neighbours in exactly those words. A clip tuned for one word's company
+is not tuned for another's.
 
 **What round 3 was really for.** The owner's round-2 words could be read two ways, and one
 reading was mine rather than theirs. So arm B was round 2's arm D **unchanged** — the same
@@ -1023,7 +1083,7 @@ Two files answered this differently, so both were true at once and the sentence 
 confused. The owner ruled: **a heart word's level is where the CHILD MEETS it, not where its
 spelling would fall.**
 
-Every heart word now opens Level 2 — the, and, to, do, you, said, my, in that order, FIRST
+Every heart word now opens Level 2 — the, and, to, do, you, said, my, of, in that order, FIRST
 in the list, because a level's word order is its introduction order and appending would have
 made a word that exists to be met early the last thing a child meets.
 
@@ -1041,7 +1101,7 @@ engine seated them at 6 and 7. It now reads the same seats every other part of t
 reads, so the two answers cannot drift apart because there is only one of them. A guard
 throws if a heart word has no seat, or a seat later than Level 2.
 
-**What it costs, and the owner took it deliberately.** A Level 2 child meets seven words
+**What it costs, and the owner took it deliberately.** A Level 2 child meets eight words
 they cannot sound out from the code they have been taught. That is what a heart word is, and
 it is standard in the field — the highest-frequency words are taught by sight ahead of the
 code, precisely so that reading a sentence is possible at all. **Level 1 is untouched**: a

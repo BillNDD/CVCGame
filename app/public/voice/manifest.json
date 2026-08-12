@@ -3216,6 +3216,12 @@
   "ms": 576,
   "tail": 306
  },
+ "d:schwa_a": {
+  "file": "d-schwa_a.mp3",
+  "lead": 120,
+  "ms": 792,
+  "tail": 302
+ },
  "d:sh": {
   "file": "d-sh.mp3",
   "lead": 200,
@@ -3273,7 +3279,7 @@
  "d:v": {
   "file": "d-v.mp3",
   "lead": 130,
-  "ms": 630,
+  "ms": 696,
   "tail": 326
  },
  "d:w": {
@@ -3443,6 +3449,12 @@
   "lead": 150,
   "ms": 1361,
   "tail": 506
+ },
+ "w:a": {
+  "file": "w-a.mp3",
+  "lead": 120,
+  "ms": 792,
+  "tail": 302
  },
  "w:am": {
   "file": "w-am.mp3",

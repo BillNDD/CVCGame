@@ -421,5 +421,15 @@
   "sha256": "a004d3d1a1e442bc9b593c919e0cd24b63be0549ab8b13690ab9698081359b3c",
   "verdict": "ok (owner ship review); re-confirmed perfect blind, sound round 2, 2026-08-10"
  },
- "_ship_review_2026_08_12": "Ten shipped sounds re-heard side by side, owner's verdicts. short_a BEST; short_e, short_i, short_o, short_u, schwa, long_e, oo_book good; th_this and h POOR. Two things this closed. First: a verdict does not survive a change of context. th_this and h were both graded 'perfect (owner)' in their own rounds and are poor when heard beside their neighbours, so a sound must be judged in the company it will keep, not alone. Second: the owner ruled the same day that schwa 'was the one I think we did the least well' and must not be used as the authority for making new sounds - it had been the target of three failed rounds for the word 'a'. short_a is the reference now, and its entry records no method at all, which is its own fault (docs/open-faults.md)."
+ "_ship_review_2026_08_12": "Ten shipped sounds re-heard side by side, owner's verdicts. short_a BEST; short_e, short_i, short_o, short_u, schwa, long_e, oo_book good; th_this and h POOR. Two things this closed. First: a verdict does not survive a change of context. th_this and h were both graded 'perfect (owner)' in their own rounds and are poor when heard beside their neighbours, so a sound must be judged in the company it will keep, not alone. Second: the owner ruled the same day that schwa 'was the one I think we did the least well' and must not be used as the authority for making new sounds - it had been the target of three failed rounds for the word 'a'. short_a is the reference now, and its entry records no method at all, which is its own fault (docs/open-faults.md).",
+ "schwa_a": {
+  "as_in": "a cat, a dog",
+  "family": "owner-handoff-schwaD",
+  "how": "the lazy uh of the word a",
+  "ms": 743,
+  "note": "The same bytes as the word clip w:a, and deliberately so: \"a\" is one letter and one sound, and the owner graded the full reveal - word, \"Pronounced:\", sound, word - as perfect with this clip in both roles. It is a SECOND schwa on the owner's ruling that the schwa inside \"the\" stays as it is; the two are different recordings, 360 ms against 150.",
+  "round": "the word a / 2026-08-12",
+  "sha256": "d3fc66ccc4ed23f493af51b368009b2325153aae9c1cddd23007825a47c7ecee",
+  "verdict": "perfect (owner)"
+ }
 }

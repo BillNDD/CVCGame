@@ -8,18 +8,35 @@ sentences, the invitation leads, and the session-end lines, plus `manifest.json`
 clip's file and duration. Gate G13 fails the build when the pack does not cover the engine's
 clip inventory, so the bank can never grow past its voice.
 
+## "a" ships, from the owner's own schwa package (2026-08-12)
+
+`w:a` and `d:schwa_a` are the same 743 ms file: 363 ms of af_heart schwa with the pack's
+80/300 ms padding, turned down 4.8 dB to the level of the schwa already in the game, encoded
+at 96 kbps. Hash `d3fc66cc`. The owner graded those exact bytes on the listening page
+(arm 2·3), and the reveal shape — word, "Pronounced:", the sound, the word again, all the
+same recording — beside "to" as a reference.
+
+It is the only word in the bank with ONE tile, and the only one whose system-speech fallback
+is not the word itself: `TTS_UNSAFE_WORD` sends "uh" instead, because a synthesiser handed
+"a" says the letter's name and S4 forbids that. `d:schwa` is untouched; the owner ruled that
+the schwa inside "the" stays as it is.
+
 ## The `v` was re-cut, and every /v/ word changed with it (2026-08-12)
 
 `of` ended a three-round chase, and what it changed was not only `of`. The shipped `d:v` —
-a synthetic pitched up six semitones, graded `ok` alone in round S1 on 2026-08-05 and never
-heard beside another sound since — measured **6.2 dB louder and 400 Hz brighter** than the
-vowel standing next to it. The owner heard that as shouting before any of it was measured.
+SND16's clip, graded **perfect (owner)** on 2026-08-11 but graded ALONE — measured
+**6.2 dB louder and 400 Hz brighter** than the vowel standing next to it in "of". The owner
+heard that as shouting before any of it was measured. (An earlier version of this paragraph
+said the clip was "pitched up six semitones, graded ok": that describes the owner's own
+recording, superseded and deleted on 2026-08-11, not the clip that shipped. Corrected the
+same day.)
 
 The clip now in the pack is that same clip made quieter and rounder by measured amounts:
 gain −7 dB, one-pole low-pass at 1800 Hz, re-peaked to −3.5 dBFS, 40 ms fades, then the
 pack's own 80/300 ms padding. Its hash is `0489d6c0`; `tools/build_of_round.py --ship`
 reproduces it and refuses to write anything unless the source and the result both hash to
-the values recorded there. **Every word with a /v/ in it — van, vet, vat, vex and the rest —
+the values recorded there. A rebuild needs the old clip **and its manifest edges** restored
+from `403b237`, because the recipe cuts the body at the edges the manifest declares. **Every word with a /v/ in it — van, vet, vat, vex and the rest —
 is sounded out with the new clip**, which is the point: a sound is judged in the company it
 keeps, and this one had never been.
 

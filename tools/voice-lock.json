@@ -3554,7 +3554,8 @@
   "to": "f90809e9a2e9e682755519237c092a7c3430c2f0056d755de2f087b77b6486d9",
   "you": "af076a43f3209ba8450a8c2e2d899d8c89f410f719ddc77d0a78f2f1f4ddcb82",
   "my": "006858b6ab0c677fc0fb0206ca65f97e6fa4d804de74416357c82067505fd711",
-  "of": "7560e3f01143d518d00bb45410bcf65e64000808f3b26790ab746b06e792bd94"
+  "of": "7560e3f01143d518d00bb45410bcf65e64000808f3b26790ab746b06e792bd94",
+  "a": "d3fc66ccc4ed23f493af51b368009b2325153aae9c1cddd23007825a47c7ecee"
  },
  "words": {
   "am": {
@@ -6622,6 +6623,13 @@
    "round": "batch 6 / 2026-08-07",
    "listen_context": "clip",
    "byte_pin_sha256": "7560e3f01143d518d00bb45410bcf65e64000808f3b26790ab746b06e792bd94"
+  },
+  "a": {
+   "verdict": "perfect",
+   "ear_notes": "owner perfect 2·3 — matched to today's schwa; family owner-handoff-schwaD; recipe in the batch renderer, not in these columns",
+   "round": "the word a / 2026-08-12",
+   "listen_context": "clip",
+   "byte_pin_sha256": "d3fc66ccc4ed23f493af51b368009b2325153aae9c1cddd23007825a47c7ecee"
   }
  },
  "environment": {

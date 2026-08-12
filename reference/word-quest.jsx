@@ -18,7 +18,7 @@ const LEVELS = [
      word on page one of every book. This is where sentence practice begins, so
      it is where the words a sentence cannot do without begin too. */
   { n: 2, name: "Sunny Start", emoji: "☀️", focus: "short a + heart words",
-    words: ["the","and","to","do","you","said","my","of",
+    words: ["the","and","to","do","you","said","my","of","a",
       "cat","hat","mat","sat","man","can","ran","bat","cap","map","tap","nap","bag","dad","jam","pan","rat","sad","wag","van",
       "fan","ham","lap","tag","had","tan","pad","rag","zap","yam","pal","cab","ram","dab","yap","mad","bad","rap","has","pat","dam","nag","sap","vat"] },
   { n: 3, name: "Busy Bees", emoji: "🐝", focus: "short i & o",
@@ -369,12 +369,26 @@ const PRAISE = [
    and praise is spoken never shown, so nothing on screen disagrees. */
 const TTS_UNSAFE_PRAISE = [];
 const ttsSafePraise = (i) => (TTS_UNSAFE_PRAISE.includes(i) ? 0 : i);
+/* THE ONE WORD SYSTEM SPEECH MUST NOT BE GIVEN RAW. Every clip in this game is
+   recorded, and the app only reaches system speech when the pack fails to
+   load. For 438 of the 439 words that fallback is merely worse. For "a" it
+   would break safety rule S4: handed the string "a", every system voice says
+   the LETTER'S NAME, which is the one thing this app must never say to a child
+   learning that letters make sounds. So the fallback says "uh" — the sound the
+   word actually makes, and the sound the recorded clip carries.
+
+   This is the same shape as ttsSafePraise above: the recorded path is the real
+   one, and the fallback is written down rather than left to a synthesiser's
+   judgement. The copy gate (rule 4) reads feedbackSpeech for every bank word
+   and refuses a letter name, which is exactly how this was caught. */
+const TTS_UNSAFE_WORD = { a: "uh" };
+const ttsSafeWord = (w) => TTS_UNSAFE_WORD[w] || w;
 /* The reveal is its own utterance, so the pause before it does the work that
    slowing the word used to do badly. */
 const feedbackSpeech = (r, w, praise = 0) =>
-  r === "correct" ? [{ text: PRAISE[praise] || PRAISE[0], rate: 0.9 }, { text: "The word was " + w + ".", rate: 0.9 }]
-  : r === "close" ? [{ text: "Good try!", rate: 0.9 }, { text: "The word is " + w + ".", rate: 0.9 }]
-  : [{ text: "Let\u2019s try again.", rate: 0.9 }, { text: "The word is " + w + ".", rate: 0.9 }];
+  r === "correct" ? [{ text: PRAISE[praise] || PRAISE[0], rate: 0.9 }, { text: "The word was " + ttsSafeWord(w) + ".", rate: 0.9 }]
+  : r === "close" ? [{ text: "Good try!", rate: 0.9 }, { text: "The word is " + ttsSafeWord(w) + ".", rate: 0.9 }]
+  : [{ text: "Let\u2019s try again.", rate: 0.9 }, { text: "The word is " + ttsSafeWord(w) + ".", rate: 0.9 }];
 
 /* ---------- voice packs (SPEC §5a) ---------- */
 const SEAM_MS = 700;   // the pause between clips in one utterance, so words never crush together
@@ -434,10 +448,24 @@ const WORD_SOUND = {
   /* "of" took three rounds, and both of its letters lie: o says the u of "up"
      and f says /v/. Round 1 was graded "iterate on this"; the fault was
      measured rather than guessed — the shipped v sat 6.2 dB louder and 400 Hz
-     brighter than the vowel beside it, because it was a synthetic pitched up
-     six semitones. Round 2 settled the v (quieter, rounder), round 3 settled
-     the vowel, and the owner graded the pair perfect on 2026-08-12. */
+     brighter than the vowel beside it, having been graded alone and never in
+     company. Round 2 settled the v (quieter, rounder), round 3 settled the
+     vowel, and the owner graded the pair perfect on 2026-08-12. */
   of: { 0: "short_u", 1: "v" },
+  /* "a" is the commonest word in English and was the last one missing, because
+     the only pronunciation the voice offered was /eɪ/ — the letter's NAME,
+     which S4 forbids the app to say. The owner solved it outside this repo and
+     handed over a complete package: an af_heart schwa, 363 ms, with its recipe,
+     its inputs and a hash for every file. Shipped as the exact bytes they
+     graded, turned down 4.8 dB to sit at the level of the schwa already in the
+     game (owner verdict, 2026-08-12, arm 2·3).
+
+     It gets its OWN sound id rather than reusing `schwa`, on the owner's
+     ruling that "the schwa with the the should remain as we already have in
+     game". The two are different recordings — 360 ms against 150 — so pointing
+     "a" at the shipped schwa would make the word clip and the sound clip
+     disagree inside one reveal, which is fault B15 by another route. */
+  a: { 0: "schwa_a" },
   wash: { 1: "short_o" },
   is: { 1: "z" }, has: { 2: "z" },
   /* THE VOICED th. "th" spells two different sounds, and until 2026-08-11 the
@@ -477,6 +505,8 @@ const SOUND_TEXT = {
   short_i: "the sound in the middle of pig", short_o: "the sound in the middle of hot",
   short_u: "the sound in the middle of cup", long_e: "the sound at the end of she",
   schwa: "the lazy sound in the middle of the", oo_book: "the short oo sound in book",
+  /* Never "the letter A's name" (S4). This is the article: the uh of "a cat". */
+  schwa_a: "the lazy uh sound of the word a",
   oo_moon: "the long oo sound in moon",
   /* Never "the letter I's name": this text is what a person is asked to
      say when the clip is recorded or rendered, and S4 bans letter names
@@ -519,9 +549,10 @@ function soundIdsFor(word) {
    where the CHILD MEETS it. That ruling replaced the SPEC section 12
    placement, which had put them where their spelling falls — to and do at
    Level 6, you and said at Level 7, my at the open-syllable level that is not
-   built. "a" is the one still absent: no word clip for it exists, and the
-   voice says the letter name, which S4 forbids. */
-const HEART = ["the", "and", "to", "do", "you", "said", "my", "of"];
+   built. "a" joined them on 2026-08-12, from a schwa package the owner made
+   outside this repo: until then no word clip existed, because the voice said
+   the letter's name, which S4 forbids. */
+const HEART = ["the", "and", "to", "do", "you", "said", "my", "of", "a"];
 
 function bankWords() {
   const words = new Set();

@@ -108,7 +108,12 @@ const shown = async () => (await page.locator(".wq-word").textContent());
    many draws as the bank is wide. 30 was enough to find any four-tile word and
    nowhere near enough to find a chosen one: asked for "of" it walked past 30
    words and recorded "mop" without a word of complaint, which is a tool
-   presenting something other than what was asked for. */
+   presenting something other than what was asked for.
+
+   1200 draws is a bound, not a guarantee: free play refills in blocks of 20
+   without repeats, so a named word is missed about 6% of the time and the run
+   costs two to three minutes of walking. A miss THROWS - see below - so the
+   cost of the bound is a re-run, never a recording of the wrong word. */
 const TRIES = WANT ? 1200 : 30;
 let found = !WANT;
 for (let i = 0; i < TRIES; i++) {
