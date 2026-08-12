@@ -56,7 +56,10 @@ const TERMS = [
   "startRec",                 // the child's record control
   "micTried",
   "MAX_HEARD_WORDS",
-  "assessPronunciation",      // the SPEC section 8 item 4 stub: takes the child's voice
+  /* The cloud scoring stub, deleted 2026-08-12 with SPEC section 8 item 4. The term stays in
+     this list precisely BECAUSE the code is gone: it is the tripwire against the idea coming
+     back without a fresh ruling. */
+  "assessPronunciation",
 ];
 
 /* Every file allowed to contain a term, each with the reason and the date it
@@ -69,12 +72,6 @@ const ALLOWED = {
   "tools/app-mutants.mjs":
     "the note recording the four transcript mutants retired on 2026-08-12 has to name what "
     + "they were — added 2026-08-12",
-  "app/src/pronunciation.js":
-    "AWAITING AN OWNER RULING, 2026-08-12. The SPEC section 8 item 4 stub takes a Blob of the "
-    + "child's voice. Nothing imports it and nothing can now produce that Blob. The owner ruled "
-    + "on the audio-test page, not on this; a cloud scoring API would face the same S6 objection "
-    + "as the recogniser did, and that ruling is not on record. Listed so the question is loud on "
-    + "every run instead of quietly blocking the gate.",
   // "app/src/recorder.js": "family voice-pack recorder, owner-kept (D1) — added YYYY-MM-DD",
 };
 

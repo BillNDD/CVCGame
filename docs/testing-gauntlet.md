@@ -167,9 +167,11 @@ every bound reads `LEVELS.length`, which is why adding a level needed no engine 
   and above 0, and a file no test touches must report 0. The fixtures live in a throwaway
   `.cov-control` directory, gitignored, deleted on the way out, and scoped by their own config
   so they can never reach the real run's numbers.
-- Two files are excluded, both named in `vitest.config.mjs`: `main.jsx`, entry wiring whose
-  decision now lives in the measured `swrefresh.js`, and `pronunciation.js`, an interface stub
-  for a service that is out of scope (SPEC section 8, item 4). Nothing else may be excluded.
+- ONE file is excluded, named in `vitest.config.mjs`: `main.jsx`, entry wiring whose decision
+  now lives in the measured `swrefresh.js`. `pronunciation.js` was the second until
+  2026-08-12, when the owner ruled the cloud scoring stub deleted with the microphone; an
+  excluded file is a file nothing measures, so the list getting shorter is the gate getting
+  stronger. Nothing else may be excluded.
 - Coverage proves a line ran, not that anyone checked its result. The mutation gates (G4, G5)
   are the teeth; this is the floor that shows where no test has ever looked.
 - Quality checks, command `npm run lint:quality`. Keys: `g6_complexity_max`,

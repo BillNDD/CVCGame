@@ -78,13 +78,14 @@ record" when ANY capture device opens, and the family voice-pack recorder — wh
 D1 — will open one. QA step 37 is parked for the same reason, with the reason written into
 the step.
 
-**Still open, and named so it is not lost:** `app/src/pronunciation.js`, the SPEC section 8
-item 4 scoring stub, takes a Blob of the child's voice. Nothing imports it and nothing can
-now produce that Blob. The owner ruled on the diagnostic page, not on this, and a cloud
-scoring API would meet the same S6 objection the recogniser did — a ruling that is not on
-record. It sits in the absence tool's allowlist, which prints on every run, so the question
-is loud rather than quietly blocking the gate. It needs an owner ruling: allowlist it
-permanently, or delete it.
+**The last loose end, ruled the same day.** `app/src/pronunciation.js` — the SPEC section 8
+item 4 cloud scoring stub — took a Blob of the child's voice and had shipped unused for
+months. It was deliberately NOT deleted with everything else, because the owner had ruled on
+the diagnostic page and not on this, and reading a ruling wider than it was given is its own
+kind of dishonesty. Put to the owner as its own question and ruled on 2026-08-12: delete it.
+Gone, with SPEC item 4 and its coverage exclusion. `assessPronunciation` stays in the absence
+tool's term list precisely because the code is gone — it is now the tripwire against the idea
+returning without a fresh ruling.
 
 ## B. The default sounds — the whole class of fault that let `th` ship wrong
 
