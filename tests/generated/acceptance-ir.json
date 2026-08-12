@@ -348,7 +348,7 @@
             {
               "word": "ax",
               "tiles": "a,x",
-              "dashed": "a-xx"
+              "dashed": "a-x"
             }
           ]
         },
