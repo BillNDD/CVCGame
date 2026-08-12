@@ -97,7 +97,8 @@
   "note": "af_heart, chosen by an objective distance to the owner's reference then matched on duration, pitch and frame-median formants. No owner recording involved.",
   "round": "SND19 (sound round 19, 2026-08-11)",
   "sha256": "84feb6f224c76ea1c2c9f5ebf45f3790f3f6f89f9489fd20b31b593af181303f",
-  "verdict": "perfect (owner)"
+  "verdict": "perfect (owner)",
+  "ship_review_2026_08_12": "poor"
  },
  "j": {
   "as_in": "jam, jet",
@@ -138,7 +139,8 @@
   "round": "SND2 (sound round 2, 2026-08-10)",
   "sha256": "e7d3a3fe69d770113bfc5a6d0f8fc1221045daceefcf65861c62f5964c57cd10",
   "supersedes_sha256": "36dddcbd6a420a18342e45499c6fcf06559c1958c5144d0131dabfed0415e32d",
-  "verdict": "perfect (owner, blind field that included the P45 clip)"
+  "verdict": "perfect (owner, blind field that included the P45 clip)",
+  "ship_review_2026_08_12": "good"
  },
  "long_i": {
   "as_in": "time, my",
@@ -215,7 +217,8 @@
   "note": "cut from the shipped, owner-approved 'bush' clip, then formant-warped toward F1 520 / F2 1140 \u2014 measured by LPC from a human recording the owner supplied. Closed on its fourth round after three failed; the shipped bytes measure F1 625, F2 1117.",
   "round": "SND11 (sound round 11, 2026-08-11)",
   "sha256": "826ebdc7deafb8423ba5392f2ff98e2aefc846172dd4d83c98a58cc09afdf0fb",
-  "verdict": "perfect (owner)"
+  "verdict": "perfect (owner)",
+  "ship_review_2026_08_12": "good"
  },
  "oo_moon": {
   "as_in": "moon, food, boot",
@@ -276,7 +279,8 @@
   "note": "cut from the SHIPPED, owner-approved word clip, the recipe that closed long_e and ch. Closed on its seventh round after six synthesis rounds failed.",
   "round": "SND9 (sound round 9, 2026-08-11)",
   "sha256": "2a06ec741130e76a669ee247c3bafab6537a1d1c124be3f2538ec3131d6c7cd5",
-  "verdict": "perfect (owner)"
+  "verdict": "perfect (owner)",
+  "ship_review_2026_08_12": "good"
  },
  "sh": {
   "as_in": "ship, shop",
@@ -293,7 +297,8 @@
   "how": "mouth open and wide, a bright flat \"a\" \u00b7 as in cat, at",
   "round": "P45-B01",
   "sha256": "f4b85b8bb74a215dba001910e7958ce16394576470a0f3cad761a401bf5753af",
-  "verdict": "ok (owner ship review)"
+  "verdict": "ok (owner ship review)",
+  "ship_review_2026_08_12": "best"
  },
  "short_e": {
   "as_in": "hen, bed",
@@ -303,21 +308,24 @@
   "note": "cut by the bake's carrier-sentence method, then its edges rounded with the accepted /h/ \"feathered human edges\" parameters. No owner recording involved.",
   "round": "SND14 (sound round 14, 2026-08-11)",
   "sha256": "ec2b11c0ac3203e41e8e5b24cedce53fca39b562e0fa2dc0830c7d938b4dc8be",
-  "verdict": "perfect (owner)"
+  "verdict": "perfect (owner)",
+  "ship_review_2026_08_12": "good"
  },
  "short_i": {
   "as_in": "sit, in",
   "how": "the short \"i\" sound \u00b7 as in sit, in",
   "round": "P45-HARD-SOL1",
   "sha256": "702660fa5ec9c211b7ca6c9cdf5e3828244453903c7b08263559ab508cd4574b",
-  "verdict": "ok (owner ship review)"
+  "verdict": "ok (owner ship review)",
+  "ship_review_2026_08_12": "good"
  },
  "short_o": {
   "as_in": "hot, ox",
   "how": "short o \u00b7 as in hot, ox",
   "round": "P45-JOT-LUCK-APPROVED",
   "sha256": "820a5025f119a235bc4ec02549f53286e946218d01228b0474023cc07afcd463",
-  "verdict": "ok (owner ship review)"
+  "verdict": "ok (owner ship review)",
+  "ship_review_2026_08_12": "good"
  },
  "short_u": {
   "as_in": "bus, cup",
@@ -327,7 +335,8 @@
   "note": "cut by the bake's carrier-sentence method, then its edges rounded with the accepted /h/ \"feathered human edges\" parameters. No owner recording involved.",
   "round": "SND14 (sound round 14, 2026-08-11)",
   "sha256": "d6d6863b0ee89d718fd53e0756ca6a415bc0dedff7c45c8a89205b37bc384489",
-  "verdict": "perfect (owner)"
+  "verdict": "perfect (owner)",
+  "ship_review_2026_08_12": "good"
  },
  "t": {
   "as_in": "tip, rat",
@@ -355,7 +364,8 @@
   "note": "The voiced /\u00f0/. Until this round every th tile played th_quiet, the VOICELESS th of \"thin\", so this, that, then, them, the and with were all sounded out with the wrong sound. Found by an audit of the reveal on 2026-08-11, not by a gate.",
   "round": "SND22 (sound round 22, 2026-08-11)",
   "sha256": "35abc47433f9bd0af8487be15cf3a6577ec917e4a5595a558b8b00a2d0177919",
-  "verdict": "perfect (owner)"
+  "verdict": "perfect (owner)",
+  "ship_review_2026_08_12": "poor"
  },
  "v": {
   "as_in": "van, vet",
@@ -410,5 +420,6 @@
   "round": "P45-HARD-GROK1",
   "sha256": "a004d3d1a1e442bc9b593c919e0cd24b63be0549ab8b13690ab9698081359b3c",
   "verdict": "ok (owner ship review); re-confirmed perfect blind, sound round 2, 2026-08-10"
- }
+ },
+ "_ship_review_2026_08_12": "Ten shipped sounds re-heard side by side, owner's verdicts. short_a BEST; short_e, short_i, short_o, short_u, schwa, long_e, oo_book good; th_this and h POOR. Two things this closed. First: a verdict does not survive a change of context. th_this and h were both graded 'perfect (owner)' in their own rounds and are poor when heard beside their neighbours, so a sound must be judged in the company it will keep, not alone. Second: the owner ruled the same day that schwa 'was the one I think we did the least well' and must not be used as the authority for making new sounds - it had been the target of three failed rounds for the word 'a'. short_a is the reference now, and its entry records no method at all, which is its own fault (docs/open-faults.md)."
 }
