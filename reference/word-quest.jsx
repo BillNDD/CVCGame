@@ -57,7 +57,7 @@ const TRICKY = {
   bush: "Tricky word! The u sounds like \u201Coo\u201D \u2014 boosh.",
   she: "Tricky word! The e sounds like \u201Cee\u201D \u2014 shee.",
   the: "Tricky word! The e sounds like \u201Cuh\u201D \u2014 thuh.",
-  what: "Tricky word! The a sounds like \u201Co\u201D \u2014 wot.",
+  what: "Tricky word! The a sounds like \u201Cuh\u201D \u2014 wut.",
 };
 /* One tile per unit (S8). Beyond the six spoken digraphs: qu says kw, the
    silent-letter pairs kn wr mb say their surviving letter, and the doubled
@@ -417,22 +417,33 @@ const WORD_SOUND = {
   the: { 0: "th_this", 1: "schwa" },       // the buzzy th, then the lazy uh
   push: { 1: "oo_book" }, bush: { 1: "oo_book" },
   was: { 1: "short_u", 2: "z" },           // "wuz"
-  what: { 1: "short_o" },
+  /* "wut", owner-ruled 2026-08-12 — and this reverses a ruling the owner made
+     the same morning, which is worth recording rather than tidying away. The
+     first ruling was made from the WORD clip alone and kept short_o. The
+     agreement check (tools/sound_agreement.py) then reported that every
+     phonemisation says /wʌt/, including the carrier this very clip was cut
+     from. Offered the whole sound-out both ways, the owner refused w-o-t and
+     chose w-u-t. The lesson is the one the ten-sound review taught the same
+     day: a clip judged ALONE is not the same question as the same clip judged
+     in the company it will keep. */
+  what: { 1: "short_u" },
   wash: { 1: "short_o" },
   is: { 1: "z" }, has: { 2: "z" },
   /* THE VOICED th. "th" spells two different sounds, and until 2026-08-11 the
      tile map sent both of them to th_quiet — the VOICELESS th of "thin", a
      puff of air with no voice in it. These five take the buzzing one, /ð/, and
      were being sounded out wrongly: a child reading "the" heard "th(in)-uh".
-     The other nine — thin, thick, thumb, thud, bath, math, path, moth and
-     with — really are the quiet one and keep it.
+     The other eight — thin, thick, thumb, thud, bath, math, path and moth —
+     really are the quiet one and keep it.
      "with" is the one word where the two accents disagree: /wɪð/ in British
-     English, /wɪθ/ in most American. The owner ruled on 2026-08-11 for
-     AMERICAN pronunciation, because the voice itself is American — af_heart —
-     and all 406 clips are in it. So "with" keeps the quiet th, and the game
-     agrees with the voice that speaks it. */
+     English, /wɪθ/ in most American. It was reasoned onto the quiet th on
+     2026-08-11, under the ruling for AMERICAN pronunciation. That reasoning
+     was sound and the answer was wrong: the af_heart clip this game actually
+     ships says /wɪð/, which tools/sound_agreement.py found by comparing the
+     tiles against the voice, and the owner chose the buzzy th on 2026-08-12
+     after hearing both. An accent argued from is not the accent in the file. */
   this: { 0: "th_this" }, that: { 0: "th_this" },
-  then: { 0: "th_this" }, them: { 0: "th_this" },
+  then: { 0: "th_this" }, them: { 0: "th_this" }, with: { 2: "th_this" },
 };
 /* What each sound is, said as a person would say it. Used by the clip script,
    so anything that renders or records a pack is told the sound and not a file

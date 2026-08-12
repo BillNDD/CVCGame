@@ -266,8 +266,9 @@ async function playPlan(plan, tier, my, fallback, onScheduled) {
         ms: tier === "default" ? ms - lead - edge(tier, id, "tail") : 0,
       };
     }));
-  } catch {
-    if (my === token) fallback();                // nothing has played yet: speech instead
+  } catch (e) {
+    // nothing has played yet: speech instead, and say why (B7)
+    if (my === token) fallback("the recorded voice failed to play: " + (e && e.message ? e.message : e));
   }
 }
 
@@ -287,9 +288,21 @@ export function speakVoice(kind, word, praiseIdx, enabled, fallback, onScheduled
      let an audio context start. */
   reclaimOutput();
   if (ctx && ctx.state !== "running") ctx.resume().catch(() => {});
-  if (!ctx || defaultManifest === null) { fallback(); return; }
+  /* B7 — every fallback says WHY. Falling through to system speech is correct
+     behaviour and used to leave no trace anywhere: a pack that quietly stopped
+     resolving looked like a design choice, because what a grown-up sees is a
+     shorter spoken sentence and no tile rings, with nothing saying the recorded
+     voice was unavailable. The reason is handed to the caller, which records it
+     for the Grown-ups corner. The child's experience is unchanged — the sentence
+     is still spoken, and nothing on the child's screen mentions it. */
+  if (!ctx) { fallback("this device would not start an audio player"); return; }
+  if (defaultManifest === null) { fallback("the recorded voice pack did not load"); return; }
   const plan = clipPlan(kind, word, praiseIdx);
   const tier = resolvePack(plan, (t, id) => (t === "family" ? familyIds.has(id) : !!defaultManifest[id]));
-  if (!tier) { fallback(); return; }
+  if (!tier) {
+    const missing = plan.filter((id) => !isSeam(id) && !defaultManifest[id]);
+    fallback(`the recorded voice has no clip for ${missing.join(", ") || "this utterance"}`);
+    return;
+  }
   playPlan(plan, tier, token, fallback, onScheduled);
 }

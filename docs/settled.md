@@ -12,16 +12,25 @@ updated whenever a round lands.
 
 ## Closed by measurement — do not spend a listening round
 
-- **"what" teaches SHORT O, and the ruling is now explicit** (owner, 2026-08-12).
-  The word says *wot*, the middle tile plays `short_o`, and the tricky-word note
-  reads "The a sounds like 'o' — wot." Screen and sound agree. This was correct
-  in the code but had never been decided: `was` moved to `short_u` under the
-  American ruling of 2026-08-11 and `what` did not, because nobody ruled, so it
-  was a variant held by inheritance. The owner heard the shipped word clip beside
-  both candidate vowels and both whole sound-outs, assembled from shipped audio
-  only, and ruled for the one already in place. No change to the code, and no
-  further round for this word.
-
+- **"what" teaches SHORT U, and "with" takes the BUZZY th** (owner, 2026-08-12).
+  Both are the tiles moving to meet the voice that actually ships.
+  "what" REVERSES a ruling the owner made the same morning, and the reversal is
+  the more useful record. The first ruling was made from the WORD clip alone and
+  kept short_o. `tools/sound_agreement.py` then reported that every phonemisation
+  says /wʌt/, including the carrier that very clip was cut from. Offered the
+  whole SOUND-OUT both ways, the owner refused w-o-t and chose w-u-t. The lesson
+  is the ten-sound review's, on the same day and in a second place: **a clip
+  judged alone is not the same question as the same clip judged in the company it
+  will keep.** The tricky note moved with it — "The a sounds like 'uh' — wut" —
+  because the screen and the sound-out saying different vowels is the fault the
+  copy gate exists to refuse.
+  "with" was reasoned onto the quiet th on 2026-08-11 under the ruling for
+  American pronunciation. The reasoning was sound and the answer was wrong: the
+  af_heart clip this game ships says /wɪð/. **An accent argued from is not the
+  accent in the file.** Six words now take the buzzy th, not five.
+  Both were found by a machine and settled by an ear, which is the division of
+  labour this project should keep: the check says where the screen and the voice
+  disagree, and a person says which one moves.
 - **The 83 words of Levels 10 and 11 are clean as a set, heard together**
   (owner ship review, 2026-08-12). Every one had been approved ALONE inside a
   batch, across fourteen batches between 7 and 11 August, and none had been

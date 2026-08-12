@@ -446,7 +446,7 @@ export default function App() {
     speakVoice(result, word, praiseIdx, s.settings.sound,
       /* The system voice says "reed" for "read". The recorded clip does not,
          so only this fallback is remapped to a praise line it can say. */
-      () => speak(feedbackSpeech(result, word, ttsSafePraise(praiseIdx)), true, s.settings.lang),
+      (why) => { noteFallback(why); speak(feedbackSpeech(result, word, ttsSafePraise(praiseIdx)), true, s.settings.lang); },
       (ms, tiles) => { armAdvance(ms, true); schedulePops(tiles); });
     /* P1-7 lives in the effect below: this is the moment the control is
        disabled, so focusing it from here does nothing at all. */
@@ -533,7 +533,7 @@ export default function App() {
     setDoneStats(stats); setScreen("done"); setExitAsk(false);
     if (stats.promoted) buzz([30, 60, 30]);
     speakVoice(stats.promoted ? "levelup" : "done", "", 0, stateRef.current.settings.sound,
-      () => speak(stats.promoted ? "Amazing! Level up!" : "All done! Great reading today!", true, stateRef.current.settings.lang));
+      (why) => { noteFallback(why); speak(stats.promoted ? "Amazing! Level up!" : "All done! Great reading today!", true, stateRef.current.settings.lang); });
   }
 
   /* A2-002 / A2-013 — opening the dialog ends the attempt, exactly as every
@@ -745,7 +745,7 @@ export default function App() {
     clearPops();
     unlockVoice();
     speakVoice("replay", currentWord, 0, stateRef.current.settings.sound,
-      () => speak([{ text: currentWord, rate: 0.9 }], true, stateRef.current.settings.lang));
+      (why) => { noteFallback(why); speak([{ text: currentWord, rate: 0.9 }], true, stateRef.current.settings.lang); });
   }
 
   /* ---------- settings ---------- */
@@ -796,6 +796,18 @@ export default function App() {
       setToast("That file is not a Word Quest backup.");
     }
   }
+
+  /* B7 — the last time the recorded voice could not play, and why. A fallback
+     is correct behaviour, but it used to leave no trace: a grown-up saw a
+     shorter sentence and no tile rings, with nothing saying the recorded voice
+     was unavailable, so a pack that had quietly stopped resolving looked like a
+     design choice. Kept out of the saved state on purpose — it describes this
+     device right now, not the child's progress, and nothing about it is worth
+     restoring tomorrow. */
+  const [voiceFallback, setVoiceFallback] = useState(null);
+  const noteFallback = useCallback((reason) => {
+    if (reason) setVoiceFallback(String(reason));
+  }, []);
 
   const masteredCount = useMemo(() => state ? Object.values(state.words).filter(ws => ws.box >= 4).length : 0, [state]);
 
@@ -860,5 +872,5 @@ export default function App() {
     jumpLevel={jumpLevel} openLevels={openLevels} setOpenLevels={setOpenLevels}
     copyLog={copyLog} copyBox={copyBox} resetStage={resetStage} setResetStage={setResetStage}
     doReset={doReset} onBack={() => { setResetStage(0); setCopyBox(""); setScreen("home"); }}
-    srAvailable={!!SR} micHint={CORNER_HINT} onExportJSON={exportJSON} onImportJSON={importJSON} toast={toast} />;
+    srAvailable={!!SR} micHint={CORNER_HINT} voiceFallback={voiceFallback} onExportJSON={exportJSON} onImportJSON={importJSON} toast={toast} />;
 }
