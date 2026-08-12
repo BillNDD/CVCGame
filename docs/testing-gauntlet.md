@@ -360,7 +360,7 @@ engine, never a hand-kept list.
   heard, alters a guard and grants one to an unheard word, drifts the lock file and deletes a
   word from it, deletes a word-table row, and quietly tunes an unlocked word; the detector
   must report every one.
-- Baseline floors: `g13_clips` (494) and `g13_engine_tests` (13).
+- Baseline floors: `g13_clips` (496) and `g13_engine_tests` (13).
 - To re-render the pack after the bank grows: `docs/voice-pack.md`.
 
 ## G19. App mutation

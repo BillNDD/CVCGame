@@ -59,6 +59,12 @@
   "ms": 912,
   "tail": 432
  },
+ "d:long_i": {
+  "file": "d-long_i.mp3",
+  "lead": 200,
+  "ms": 960,
+  "tail": 410
+ },
  "d:m": {
   "file": "d-m.mp3",
   "lead": 40,
@@ -1756,6 +1762,12 @@
   "lead": 120,
   "ms": 912,
   "tail": 312
+ },
+ "w:my": {
+  "file": "w-my.mp3",
+  "lead": 120,
+  "ms": 888,
+  "tail": 318
  },
  "w:nab": {
   "file": "w-nab.mp3",

@@ -82,7 +82,7 @@ These rules are mandatory.
 
 ## 3. Word bank
 
-The bank has 436 words in eleven levels. The word order in a level is the introduction order.
+The bank has 437 words in eleven levels. The word order in a level is the introduction order.
 Words have 2 or 3 sound units through Level 9, and 3 or 4 at Levels 10 and 11, where a
 consonant blend adds a unit. Words have at most 4 letters through Level 7 and at Levels 10
 and 11; Levels 8 and 9 may reach 5. Four sound units is the ceiling, and it is a real one:
@@ -109,18 +109,18 @@ exceptions, each with a note.
 | Level | Name | Focus | Words |
 |------:|------|-------|-------|
 | 1 | Hatchlings | two sounds (VC) | at an am ax in it if is on ox up us |
-| 2 | Sunny Start | short a | cat hat mat sat man can ran bat cap map tap nap bag dad jam pan rat sad wag van fan ham lap tag had tan pad rag zap yam pal cab ram dab yap mad bad rap has pat dam nag sap vat |
+| 2 | Sunny Start | short a + heart words | the and to do you said my cat hat mat sat man can ran bat cap map tap nap bag dad jam pan rat sad wag van fan ham lap tag had tan pad rag zap yam pal cab ram dab yap mad bad rap has pat dam nag sap vat |
 | 3 | Busy Bees | short i and o | sit pig big dig win lip hit six fin bin dog hot top pot mop log box fox hop cot mom pop not got did him pin tip sip dip hip rip bit fit pit bib wig fix job lot nod hog tin rig rob sob mob cop dim |
 | 4 | Rocket Words | short e and u | bed red hen pen ten net leg wet jet men bus cup sun run fun mud bug hug nut tub pet get let set cut pup web bun rug mug vet tug jug hum rub dug bud peg met yet bet keg hem nun pun jut gut hub |
 | 5 | Explorer | all five vowels | yes zip gum gas kid cub den dot fed fig fog gap hid hut jog kit lid mix wax yak jig jab jot lab lad led lit lug nab pep pod rib rim rod rot sag sub sum tab tot wed wit zig zag fax nix vex sax cod gob |
-| 6 | Super Sounds | sh and ch | ship shop shut fish dish wish cash chat chip chop rich much such chin shed shin mash rash chug chum dash sash hush rush mush chap wash push bush she bash gash gush lash lush posh sham shun to do |
-| 7 | Word Wizard | th, wh, ck, ng, tricky | thin this that then them bath math with when whip duck sock kick back ring sing king long song was buck sung gong lung puck wick rung muck pack path sack tack neck luck tuck peck deck thud rock lock pick lick wing tick dock moth hang sang rang sick fang the what whim wham bang hung ding ping you said |
+| 6 | Super Sounds | sh and ch | ship shop shut fish dish wish cash chat chip chop rich much such chin shed shin mash rash chug chum dash sash hush rush mush chap wash push bush she bash gash gush lash lush posh sham shun |
+| 7 | Word Wizard | th, wh, ck, ng, tricky | thin this that then them bath math with when whip duck sock kick back ring sing king long song was buck sung gong lung puck wick rung muck pack path sack tack neck luck tuck peck deck thud rock lock pick lick wing tick dock moth hang sang rang sick fang what whim wham bang hung ding ping |
 | 8 | Bells | ll ss ff zz, qu, silent letters | bell tell well fell hill mill doll mess boss kiss miss loss fuss huff puff cuff buzz fuzz jazz fizz quiz quit quip knit knob knot lamb |
 | 9 | Chicks | five-letter words | chick check chuck chess chill shack shock shell thick whack whiff whizz quick quack quill knock wreck wrong thumb wrap wren limb |
-| 10 | Tent Camp | blends at the end | and ant ask band belt bend best bolt bond bump camp cost damp dent desk dusk end fast fond gift gulf gulp hand help hint jump just kept lamp land last left lend lift list mask melt mend milk mint must nest pond pump raft rest risk sand sift silk soft task tent wilt |
+| 10 | Tent Camp | blends at the end | ant ask band belt bend best bolt bond bump camp cost damp dent desk dusk end fast fond gift gulf gulp hand help hint jump just kept lamp land last left lend lift list mask melt mend milk mint must nest pond pump raft rest risk sand sift silk soft task tent wilt |
 | 11 | Twin Drums | blends at the start | brag clap drop drum flag flat glad grab grin plan plum slam sled slid slip snap snug spin spot stem step stop swam swim trap trim trip twig twin |
 
-Level word counts: 12, 44, 49, 48, 50, 40, 61, 27, 22, 54, 29.
+Level word counts: 12, 51, 49, 48, 50, 38, 58, 27, 22, 53, 29.
 
 Levels 10 and 11 introduce NO new grapheme. Every letter in them is one the child already
 knows; what is new is running two consonants together without a vowel between. Letters and
@@ -809,9 +809,13 @@ What this needs before it can be built, each item real work and none of it done:
   criterion for a screen between the home screen and the first word, and the gauntlet's
   floors grow rather than shrink (E6).
 
-The heart-word roster grows now, ahead of sentence mode: of, to, do, you, said join
-Levels 6 and 7 beside the existing tricky words, and my joins the open-syllable level,
-each with a tricky note and an owner-heard clip. "I" waits for a capitalization ruling —
+The heart-word roster grows now, ahead of sentence mode: of, to, do, you, said and my were
+to join Levels 6 and 7, with my in the open-syllable level. **That placement was superseded
+on 2026-08-12**: the owner ruled that a heart word's level is where the CHILD MEETS it, not
+where its spelling would fall, and every heart word now opens **Level 2** — the, and, to,
+do, you, said, my, in that order, first in the list because a level's word order is its
+introduction order. Level 1 keeps its twelve clean two-sound words, so a child's very first
+session is unchanged. of is not among them yet. "I" waits for a capitalization ruling —
 the bank is lowercase everywhere. Words ruled out for child-appropriateness (2026-08-07): hunt, fist, limp, bone, buns,
 dump, and milt; catfish swapped out; and the plurals of jug and crab may never join
 Level 12. "milt" is the reason CLAUDE.md now requires the WHOLE bank to be re-screened

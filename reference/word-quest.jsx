@@ -8,8 +8,18 @@ import { useState, useEffect, useRef, useMemo, useCallback } from "react";
 const LEVELS = [
   { n: 1, name: "Hatchlings", emoji: "🐣", focus: "two sounds (VC)",
     words: ["at","an","am","ax","in","it","if","is","on","ox","up","us"] },
-  { n: 2, name: "Sunny Start", emoji: "☀️", focus: "short a",
-    words: ["cat","hat","mat","sat","man","can","ran","bat","cap","map","tap","nap","bag","dad","jam","pan","rat","sad","wag","van",
+  /* Level 2 opens with the HEART WORDS, and they are first rather than last on
+     purpose: a level's word order IS its introduction order, so appending
+     would have made a word that exists to be met early the last thing a child
+     meets. Owner-ruled 2026-08-12 — a heart word's level is where the CHILD
+     MEETS it, not where its spelling would fall. "the" would otherwise sit at
+     Level 7 for its th, "and" at Level 10 for its final blend, and "said" and
+     "you" at 7 for units the child has not been taught; every one of them is a
+     word on page one of every book. This is where sentence practice begins, so
+     it is where the words a sentence cannot do without begin too. */
+  { n: 2, name: "Sunny Start", emoji: "☀️", focus: "short a + heart words",
+    words: ["the","and","to","do","you","said","my",
+      "cat","hat","mat","sat","man","can","ran","bat","cap","map","tap","nap","bag","dad","jam","pan","rat","sad","wag","van",
       "fan","ham","lap","tag","had","tan","pad","rag","zap","yam","pal","cab","ram","dab","yap","mad","bad","rap","has","pat","dam","nag","sap","vat"] },
   { n: 3, name: "Busy Bees", emoji: "🐝", focus: "short i & o",
     words: ["sit","pig","big","dig","win","lip","hit","six","fin","bin","dog","hot","top","pot","mop","log","box","fox","hop","cot",
@@ -22,13 +32,11 @@ const LEVELS = [
       "jig","jab","jot","lab","lad","led","lit","lug","nab","pep","pod","rib","rim","rod","rot","sag","sub","sum","tab","tot","wed","wit","zig","zag","fax","nix","vex","sax","cod","gob"] },
   { n: 6, name: "Super Sounds", emoji: "🦸", focus: "sh & ch",
     words: ["ship","shop","shut","fish","dish","wish","cash","chat","chip","chop","rich","much","such","chin","shed","shin","mash","rash","chug","chum",
-      "dash","sash","hush","rush","mush","chap","wash","push","bush","she","bash","gash","gush","lash","lush","posh","sham","shun",
-      "to","do"] },
+      "dash","sash","hush","rush","mush","chap","wash","push","bush","she","bash","gash","gush","lash","lush","posh","sham","shun"] },
   { n: 7, name: "Word Wizard", emoji: "🧙", focus: "th, wh, ck, ng + tricky words",
     words: ["thin","this","that","then","them","bath","math","with","when","whip","duck","sock","kick","back","ring","sing","king","long","song","was",
       "buck","sung","gong","lung","puck","wick","rung","muck","pack","path","sack","tack","neck","luck","tuck","peck","deck","thud",
-      "rock","lock","pick","lick","wing","tick","dock","moth","hang","sang","rang","sick","fang","the","what","whim","wham","bang","hung","ding","ping",
-      "you","said"] },
+      "rock","lock","pick","lick","wing","tick","dock","moth","hang","sang","rang","sick","fang","what","whim","wham","bang","hung","ding","ping"] },
   { n: 8, name: "Bells", emoji: "🔔", focus: "ll, ss, ff, zz + qu + silent letters",
     words: ["bell","tell","well","fell","hill","mill","doll","mess","boss","kiss","miss","loss","fuss","huff","puff","cuff","buzz","fuzz","jazz","fizz",
       "quiz","quit","quip","knit","knob","knot","lamb"] },
@@ -42,7 +50,7 @@ const LEVELS = [
      stays two tiles in the reveal, because it is two sounds blended, unlike the
      digraphs of S8 which are one sound and one tile. */
   { n: 10, name: "Tent Camp", emoji: "⛺", focus: "blends at the end",
-    words: ["and","ant","ask","band","belt","bend","best","bolt","bond","bump","camp","cost","damp","dent","desk","dusk","end","fast",
+    words: ["ant","ask","band","belt","bend","best","bolt","bond","bump","camp","cost","damp","dent","desk","dusk","end","fast",
       "fond","gift","gulf","gulp","hand","help","hint","jump","just","kept","lamp","land","last","left","lend","lift","list","mask",
       "melt","mend","milk","mint","must","nest","pond","pump","raft","rest","risk","sand","sift","silk","soft","task","tent","wilt"] },
   { n: 11, name: "Twin Drums", emoji: "🥁", focus: "blends at the start",
@@ -422,13 +430,7 @@ const WORD_SOUND = {
   to: { 1: "oo_moon" }, do: { 1: "oo_moon" },   // o says oo
   you: { 1: "oo_moon" },                        // y-ou: the ou says oo
   said: { 1: "short_e" },                       // s-ai-d: the ai says e
-  /* "my" is NOT here, and its absence is deliberate. The owner graded both it
-     and long_i perfect on 2026-08-12, so the sound is settled — but SPEC
-     section 12 seats "my" in the open-syllable level, which is not built. A
-     word named in WORD_SOUND and seated in no level is a word bankWords()
-     requires a clip for and buildSession can never serve, and the voice gate
-     caught exactly that within a minute of it being written. The ruling it
-     needs is where "my" sits, not how it sounds. */
+  my: { 1: "long_i" },                          // y says the letter I's sound
   wash: { 1: "short_o" },
   is: { 1: "z" }, has: { 2: "z" },
   /* THE VOICED th. "th" spells two different sounds, and until 2026-08-11 the
@@ -469,6 +471,10 @@ const SOUND_TEXT = {
   short_u: "the sound in the middle of cup", long_e: "the sound at the end of she",
   schwa: "the lazy sound in the middle of the", oo_book: "the short oo sound in book",
   oo_moon: "the long oo sound in moon",
+  /* Never "the letter I's name": this text is what a person is asked to
+     say when the clip is recorded or rendered, and S4 bans letter names
+     from speech. It names the sound by a word that carries it. */
+  long_i: "the sound at the end of my",
 };
 /* The sound each of a word's tiles speaks, in order. */
 function soundIdsFor(word) {
@@ -507,7 +513,7 @@ function soundIdsFor(word) {
    sounds (2026-08-12); "my" is absent because SPEC puts it in the
    open-syllable level, which is not built; "a" is absent because no word clip
    for it exists and the voice says the letter name, which S4 forbids. */
-const HEART = ["the", "to", "do", "you", "said"];
+const HEART = ["the", "and", "to", "do", "you", "said", "my"];
 
 function bankWords() {
   const words = new Set();
