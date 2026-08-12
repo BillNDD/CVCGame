@@ -18,7 +18,7 @@ const LEVELS = [
      word on page one of every book. This is where sentence practice begins, so
      it is where the words a sentence cannot do without begin too. */
   { n: 2, name: "Sunny Start", emoji: "☀️", focus: "short a + heart words",
-    words: ["the","and","to","do","you","said","my",
+    words: ["the","and","to","do","you","said","my","of",
       "cat","hat","mat","sat","man","can","ran","bat","cap","map","tap","nap","bag","dad","jam","pan","rat","sad","wag","van",
       "fan","ham","lap","tag","had","tan","pad","rag","zap","yam","pal","cab","ram","dab","yap","mad","bad","rap","has","pat","dam","nag","sap","vat"] },
   { n: 3, name: "Busy Bees", emoji: "🐝", focus: "short i & o",
@@ -431,6 +431,13 @@ const WORD_SOUND = {
   you: { 1: "oo_moon" },                        // y-ou: the ou says oo
   said: { 1: "short_e" },                       // s-ai-d: the ai says e
   my: { 1: "long_i" },                          // y says the letter I's sound
+  /* "of" took three rounds, and both of its letters lie: o says the u of "up"
+     and f says /v/. Round 1 was graded "iterate on this"; the fault was
+     measured rather than guessed — the shipped v sat 6.2 dB louder and 400 Hz
+     brighter than the vowel beside it, because it was a synthetic pitched up
+     six semitones. Round 2 settled the v (quieter, rounder), round 3 settled
+     the vowel, and the owner graded the pair perfect on 2026-08-12. */
+  of: { 0: "short_u", 1: "v" },
   wash: { 1: "short_o" },
   is: { 1: "z" }, has: { 2: "z" },
   /* THE VOICED th. "th" spells two different sounds, and until 2026-08-11 the
@@ -508,12 +515,13 @@ function soundIdsFor(word) {
    which of the placed words are sight words, for the sentence leveller and for
    anyone reading the bank.
 
-   Placement follows SPEC section 12: to and do at Level 6, you and said at
-   Level 7. "of" is absent because the owner asked for another pass on its
-   sounds (2026-08-12); "my" is absent because SPEC puts it in the
-   open-syllable level, which is not built; "a" is absent because no word clip
-   for it exists and the voice says the letter name, which S4 forbids. */
-const HEART = ["the", "and", "to", "do", "you", "said", "my"];
+   All eight sit at Level 2, owner-ruled 2026-08-12: a heart word's level is
+   where the CHILD MEETS it. That ruling replaced the SPEC section 12
+   placement, which had put them where their spelling falls — to and do at
+   Level 6, you and said at Level 7, my at the open-syllable level that is not
+   built. "a" is the one still absent: no word clip for it exists, and the
+   voice says the letter name, which S4 forbids. */
+const HEART = ["the", "and", "to", "do", "you", "said", "my", "of"];
 
 function bankWords() {
   const words = new Set();

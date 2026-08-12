@@ -138,6 +138,15 @@ def write(rows, manifest):
             raise SystemExit(f"{r['word']}: the copy does not hash to the approved bytes")
         manifest["w:" + r["word"]] = {"file": dst.name, "ms": duration_ms(dst)}
         lines.append(csv_row(r, header))
+        # The pack's recipe must declare any word rendered off the bank default,
+        # or G13 refuses the pack: the CSV would say 0.9 and the recipe would say
+        # nothing, and a re-render would come out at the wrong speed. Found on
+        # 2026-08-12 when "of" shipped at 0.9 and the gate stopped the build.
+        speed = float(family_speed(r["rec"].get("family", "")))
+        if abs(speed - float(DEFAULTS["speed"])) > 1e-9:
+            ov = manifest["__recipe"].setdefault("word_speed_override", {})
+            ov[r["word"]] = int(speed) if speed.is_integer() else speed
+            manifest["__recipe"]["word_speed_override"] = dict(sorted(ov.items()))
     CSV.write_text("\n".join(lines) + "\n")
     ordered = {k: manifest[k] for k in sorted(manifest) if k != "__recipe"}
     ordered["__recipe"] = manifest["__recipe"]
@@ -161,6 +170,24 @@ def self_test():
     ok.append(("a cell with a comma is quoted", csv_cell("a, b") == '"a, b"'))
     ok.append(("a cell with a quote doubles it", csv_cell('say "x"') == '"say ""x"""'))
     ok.append(("a plain cell is left alone", csv_cell("perfect") == "perfect"))
+    # The recipe override, both ways. Without the first control this tool ships
+    # a word at 0.9 and tells the pack nothing, which is the fault G13 caught on
+    # 2026-08-12; without the second it would clutter the recipe with every word
+    # that is simply at the default.
+    def override_for(family):
+        man = {"__recipe": {}}
+        speed = float(family_speed(family))
+        if abs(speed - float(DEFAULTS["speed"])) > 1e-9:
+            man["__recipe"].setdefault("word_speed_override", {})["w"] = (
+                int(speed) if speed.is_integer() else speed)
+        return man["__recipe"].get("word_speed_override", {})
+
+    ok.append(("a word off the default speed is declared in the recipe",
+               override_for("listen_sp0.9_front130") == {"w": 0.9}))
+    ok.append(("a speed-1 family is declared as 1, not 1.0",
+               override_for("carrier_listen_s1") == {"w": 1}))
+    ok.append(("a word at the bank default adds nothing to the recipe",
+               override_for("carrier_listen") == {}))
     rows, skipped, _, _ = plan()
     reasons = {r for _, r in skipped}
     ok.append(("a word with no level is refused a place in the pack",

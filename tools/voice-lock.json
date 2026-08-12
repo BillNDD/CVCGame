@@ -2920,6 +2920,7 @@
    "not": 0.82,
    "nun": 1,
    "nut": 1,
+   "of": 0.9,
    "on": 0.82,
    "ox": 0.82,
    "pack": 0.82,
@@ -3552,7 +3553,8 @@
   "said": "745c26a1d0bec518f75bec3f45653d8e979a3b918472671e31efd5c061aee5d1",
   "to": "f90809e9a2e9e682755519237c092a7c3430c2f0056d755de2f087b77b6486d9",
   "you": "af076a43f3209ba8450a8c2e2d899d8c89f410f719ddc77d0a78f2f1f4ddcb82",
-  "my": "006858b6ab0c677fc0fb0206ca65f97e6fa4d804de74416357c82067505fd711"
+  "my": "006858b6ab0c677fc0fb0206ca65f97e6fa4d804de74416357c82067505fd711",
+  "of": "7560e3f01143d518d00bb45410bcf65e64000808f3b26790ab746b06e792bd94"
  },
  "words": {
   "am": {
@@ -6613,6 +6615,13 @@
    "round": "batch 4 / 2026-08-07",
    "listen_context": "clip",
    "byte_pin_sha256": "006858b6ab0c677fc0fb0206ca65f97e6fa4d804de74416357c82067505fd711"
+  },
+  "of": {
+   "verdict": "perfect",
+   "ear_notes": "owner perfect of_6; family listen_sp0.9_front130; recipe in the batch renderer, not in these columns",
+   "round": "batch 6 / 2026-08-07",
+   "listen_context": "clip",
+   "byte_pin_sha256": "7560e3f01143d518d00bb45410bcf65e64000808f3b26790ab746b06e792bd94"
   }
  },
  "environment": {

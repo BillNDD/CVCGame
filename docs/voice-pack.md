@@ -8,6 +8,21 @@ sentences, the invitation leads, and the session-end lines, plus `manifest.json`
 clip's file and duration. Gate G13 fails the build when the pack does not cover the engine's
 clip inventory, so the bank can never grow past its voice.
 
+## The `v` was re-cut, and every /v/ word changed with it (2026-08-12)
+
+`of` ended a three-round chase, and what it changed was not only `of`. The shipped `d:v` —
+a synthetic pitched up six semitones, graded `ok` alone in round S1 on 2026-08-05 and never
+heard beside another sound since — measured **6.2 dB louder and 400 Hz brighter** than the
+vowel standing next to it. The owner heard that as shouting before any of it was measured.
+
+The clip now in the pack is that same clip made quieter and rounder by measured amounts:
+gain −7 dB, one-pole low-pass at 1800 Hz, re-peaked to −3.5 dBFS, 40 ms fades, then the
+pack's own 80/300 ms padding. Its hash is `0489d6c0`; `tools/build_of_round.py --ship`
+reproduces it and refuses to write anything unless the source and the result both hash to
+the values recorded there. **Every word with a /v/ in it — van, vet, vat, vex and the rest —
+is sounded out with the new clip**, which is the point: a sound is judged in the company it
+keeps, and this one had never been.
+
 ## The 32 sounds are in the pack (2026-08-11)
 
 `tools/ship-sounds.py` puts the approved sounds into `app/public/voice/`. The engine decides
@@ -100,25 +115,25 @@ byte-pinned word rather than replacing accepted audio with a render.
   sidecar workspace archive on the owner's PC
   (handoff `word-quest-uplift-handoff-2026-08-07T1438Z`).
 
-## Approved and unshipped: 68 items with no level yet (through 2026-08-12)
+## Approved and unshipped: 67 items with no level yet (through 2026-08-12)
 
-Sixty-eight items are closed by the owner's ear and wait in
+Sixty-seven items are closed by the owner's ear and wait in
 `tools/pending-words/` for the levels and the mode that will hold them:
-**27 words** — the heart words **of, he, we, be, me, go, no, so**, the
+**26 words** — the heart words **he, we, be, me, go, no, so**, the
 plural-s words and the two-syllable compounds — and **41 sentences** across two
 sentence batches, plus the reveal lead-in **"Let's sound it out."**. Every one
 is graded `perfect`; the ledger names each with its round.
 
-**Five heart words left this list on 2026-08-12**, and `the` and `and` moved
+**Six heart words left this list on 2026-08-12**, and `the` and `and` moved
 with them: every heart word now sits at **Level 2**, where sentence practice
 begins, because the owner ruled that a heart word's level is where the CHILD
-MEETS it rather than where its spelling would fall. `to`, `do`, `you`, `said`
-and `my` shipped byte for byte by `tools/ship-words.py`. What had blocked them was never the owner's ear — every
+MEETS it rather than where its spelling would fall. `to`, `do`, `you`, `said`,
+`my` and `of` shipped byte for byte by `tools/ship-words.py`. What had blocked them was never the owner's ear — every
 clip had been graded `perfect` since 2026-08-07 — but the sound-out: left to
 the general mapping, "to" and "do" would have taught a short o and "said" would
 have taught four sounds. The owner heard each breakdown and passed it. `of`
-stays, because they asked for another pass on its sounds; `my` stays, because
-its sound is settled and its LEVEL is not.
+took three more rounds of its own, because its `v` was measurably shouting;
+see `docs/settled.md`.
 Each is stored as the exact bytes the owner heard, with its family and hash, so
 the day a word joins the bank it ships that clip and not a re-render.
 

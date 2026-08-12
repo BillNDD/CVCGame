@@ -82,7 +82,7 @@ These rules are mandatory.
 
 ## 3. Word bank
 
-The bank has 437 words in eleven levels. The word order in a level is the introduction order.
+The bank has 438 words in eleven levels. The word order in a level is the introduction order.
 Words have 2 or 3 sound units through Level 9, and 3 or 4 at Levels 10 and 11, where a
 consonant blend adds a unit. Words have at most 4 letters through Level 7 and at Levels 10
 and 11; Levels 8 and 9 may reach 5. Four sound units is the ceiling, and it is a real one:
@@ -813,9 +813,11 @@ The heart-word roster grows now, ahead of sentence mode: of, to, do, you, said a
 to join Levels 6 and 7, with my in the open-syllable level. **That placement was superseded
 on 2026-08-12**: the owner ruled that a heart word's level is where the CHILD MEETS it, not
 where its spelling would fall, and every heart word now opens **Level 2** — the, and, to,
-do, you, said, my, in that order, first in the list because a level's word order is its
+do, you, said, my, of, in that order, first in the list because a level's word order is its
 introduction order. Level 1 keeps its twelve clean two-sound words, so a child's very first
-session is unchanged. of is not among them yet. "I" waits for a capitalization ruling —
+session is unchanged. of joined them the same evening, after three listening rounds on its
+sound-out: o says the u of "up" and f says /v/, and the /v/ clip itself was re-cut for the
+whole bank (`docs/settled.md`). "I" waits for a capitalization ruling —
 the bank is lowercase everywhere. Words ruled out for child-appropriateness (2026-08-07): hunt, fist, limp, bone, buns,
 dump, and milt; catfish swapped out; and the plurals of jug and crab may never join
 Level 12. "milt" is the reason CLAUDE.md now requires the WHOLE bank to be re-screened

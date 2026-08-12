@@ -982,6 +982,41 @@ its own listening round and its own byte pin, exactly as a word does — there i
 manufacture a sentence from words already approved. Anyone tempted to save rounds by
 stitching should read this entry first: it has been tried, heard, and refused unanimously.
 
+## "of", in three rounds (2026-08-12) — closed, and the `v` changed for every word
+
+The last heart word, and the only one that took more than one evening. It ends with
+`of` in the game at Level 2, sounded out **o → the u of "up", f → /v/**, graded
+`perfect`.
+
+| round | arms | verdict |
+|---|---|---|
+| 1 | what ships · v cut from "van" · a held v · o→schwa | **iterate on this** — "the v part sounds like it is shouting. Needs more rounding and quieter" |
+| 2 | the same vowel, four v treatments | **D** — "the v sound is now perfect, I just want to bring back the o sound from the original rounds" |
+| 3 | the winning v with `short_u` · the same v with `schwa` | **A, perfect** |
+
+**"Shouting" was measurable, and that is the lesson worth keeping.** The complaint sounded
+like taste. It was not: the shipped `d:v` sat **6.2 dB louder** (−16.6 against −22.8) and
+**400 Hz brighter** (1817 Hz against 1413) than the vowel standing next to it, and the
+ledger said why — a synthetic **pitched up six semitones** and formant-stretched, graded
+`ok` ALONE in round S1 and never once heard in company. B11's story exactly. When a listener
+says a sound is wrong beside another sound, measure the pair before offering new arms.
+
+**The recipe that won**, from the shipped clip's own body: gain −7 dB, one-pole low-pass at
+1800 Hz, re-peaked to −3.5 dBFS, 40 ms fades, then the pack's 80/300 ms padding. Rebuild it
+with `kokoro-env/bin/python3 tools/build_of_round.py --ship`, which refuses unless the source
+hashes to the clip the round was built from AND the result hashes to the bytes the owner
+graded (`0489d6c0`).
+
+**Every /v/ in the bank now takes the new clip, not only "of".** van, vet, vat, vex and the
+rest were sounded out with the shouting v until today. That is deliberate: the old clip was
+never graded better than `ok`, and the new one was graded perfect in the company it keeps.
+
+**What round 3 was really for.** The owner's round-2 words could be read two ways, and one
+reading was mine rather than theirs. So arm B was round 2's arm D **unchanged** — the same
+v, byte for byte, with the vowel they had already chosen. If my reading had been wrong, B
+would have won and nothing would have been lost. Offer the unchanged option whenever a
+verdict has to be interpreted; it costs one arm and it settles the question.
+
 ## What a heart word's LEVEL means (2026-08-12) — closed
 
 Two files answered this differently, so both were true at once and the sentence leveller was

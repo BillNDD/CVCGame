@@ -104,9 +104,16 @@ await page.getByText("🎲 Truly random").click();
 await page.waitForTimeout(300);
 
 const shown = async () => (await page.locator(".wq-word").textContent());
-for (let i = 0; i < 30; i++) {
+/* Truly random draws from the whole bank, so reaching one NAMED word takes as
+   many draws as the bank is wide. 30 was enough to find any four-tile word and
+   nowhere near enough to find a chosen one: asked for "of" it walked past 30
+   words and recorded "mop" without a word of complaint, which is a tool
+   presenting something other than what was asked for. */
+const TRIES = WANT ? 1200 : 30;
+let found = !WANT;
+for (let i = 0; i < TRIES; i++) {
   const w = await shown();
-  if (WANT ? w === WANT : w.length >= 4) break;
+  if (WANT ? w === WANT : w.length >= 4) { found = true; break; }
   /* Free play never ends, so walking it forward costs nothing and records
      nothing: its results land in a throwaway clone. */
   await page.getByLabel("✓ got it (hold)").press("Enter");
@@ -114,6 +121,11 @@ for (let i = 0; i < 30; i++) {
   await page.waitForTimeout(120);
 }
 const word = await shown();
+if (!found) {
+  await browser.close();
+  throw new Error(`asked for "${WANT}" and it did not come up in ${TRIES} draws. `
+    + `Recording a different word would be a recording of the wrong thing.`);
+}
 
 /* Sample the tiles on the PAGE's own clock, every 25 ms. Timing taken from
    the driver instead lands wherever a screenshot happened to finish — a first

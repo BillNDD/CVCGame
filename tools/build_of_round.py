@@ -116,27 +116,35 @@ def pack_entry(cid):
     return e
 
 
-# --- B: the /v/ of "van", at the model's own boundary -----------------------
-rows = {r["word"]: r for r in csv.DictReader(open(REPO / "tools/voice-words.csv"))}
-van_speed = float(rows["van"]["speed"])
-_, _, tl = timings("van", speed=van_speed)
-v_ms = find(tl, "v")["ms"]                      # 75 ms, the model's own answer
-van_x, van_sr = load(PACK / MANIFEST["w:van"]["file"])
-van_lead = MANIFEST["w:van"].get("lead", 0)
-a = int(van_sr * van_lead / 1000)
-b = a + int(van_sr * v_ms / 1000)
-v_cut = shape(van_x[a:b].copy(), van_sr)
+SHIP = "--ship" in sys.argv
 
-# --- C: a held /v/, the only way to ask this synthesiser for one ------------
-# "vv" at 1.4 carries 280 ms of speech: dead centre of the 231-309 ms band the
-# owner's top five sit in, and the same length as d:short_u, which it has to
-# stand beside. Chosen by measuring six combinations, not by taste - "vvvvvv"
-# at 0.9 was the first try and ran 670 ms, more than twice the band.
-held_audio, held_sr, _ = timings("vv", speed=1.4, is_phonemes=True)
-hx = np.asarray(held_audio, np.float32).ravel()
-hl, ht, _ = edges(hx, held_sr)
-hx = hx[int(held_sr * hl / 1000): len(hx) - int(held_sr * ht / 1000)]
-v_held = shape(hx.copy(), held_sr)
+# --- B: the /v/ of "van", at the model's own boundary -----------------------
+# Skipped when shipping: arms B and C need the synthesiser, and the winning arm
+# does not. A ship must not depend on a model being installed.
+rows = {} if SHIP else {r["word"]: r for r in csv.DictReader(open(REPO / "tools/voice-words.csv"))}
+v_cut = v_held = None
+van_sr = held_sr = 24000
+v_ms = 75
+if not SHIP:
+    van_speed = float(rows["van"]["speed"])
+    _, _, tl = timings("van", speed=van_speed)
+    v_ms = find(tl, "v")["ms"]                  # 75 ms, the model's own answer
+    van_x, van_sr = load(PACK / MANIFEST["w:van"]["file"])
+    van_lead = MANIFEST["w:van"].get("lead", 0)
+    a = int(van_sr * van_lead / 1000)
+    b = a + int(van_sr * v_ms / 1000)
+    v_cut = shape(van_x[a:b].copy(), van_sr)
+
+    # --- C: a held /v/, the only way to ask this synthesiser for one --------
+    # "vv" at 1.4 carries 280 ms of speech: dead centre of the 231-309 ms band
+    # the owner's top five sit in, and the same length as d:short_u, which it
+    # has to stand beside. Chosen by measuring six combinations, not by taste -
+    # "vvvvvv" at 0.9 was the first try and ran 670 ms, twice the band.
+    held_audio, held_sr, _ = timings("vv", speed=1.4, is_phonemes=True)
+    hx = np.asarray(held_audio, np.float32).ravel()
+    hl, ht, _ = edges(hx, held_sr)
+    hx = hx[int(held_sr * hl / 1000): len(hx) - int(held_sr * ht / 1000)]
+    v_held = shape(hx.copy(), held_sr)
 
 def gain_db(x, db):
     return x * (10 ** (db / 20.0))
@@ -175,6 +183,74 @@ def remake_v(db=0.0, cutoff=None, fade_ms=10):
             body = body / peak * 0.668            # back to the pack's -3.5 dBFS peak
     body = gain_db(body, db)
     return shape(fades(body, sr, fade_ms), sr), sr
+
+
+# --- The ship: the arm the owner chose, written into the pack ---------------
+# Round 3 (2026-08-12) ended "A · the original o, the roundest v | perfect".
+# That arm is d:short_u beside the round-2 arm-D v, so the only audio that
+# changes is the v: quieter by 7 dB, the top rolled off at 1800 Hz, 40 ms
+# fades. Both shas below are literal (rule E4) and both are checked: the SOURCE
+# must still be the clip the round was built from, and the RESULT must be the
+# bytes the owner actually heard. If either fails, nothing is written - a
+# re-render nobody listened to is the trap this project keeps falling into.
+SOURCE_V_SHA = "7a650b4bf6f4b1c45bfa68f2e50d59164cd59a03cb5856a63ec8b8d0635dda63"
+APPROVED_V_SHA = "0489d6c0e1bf964389f75b35f904e629794acf708831299a092d50d10412a85e"
+V_TARGETS = [PACK / "d-v.mp3", REPO / "tools" / "pending-sounds" / "s-v.mp3"]
+
+
+def ship():
+    import hashlib
+    have = hashlib.sha256((PACK / "d-v.mp3").read_bytes()).hexdigest()
+    if have == APPROVED_V_SHA:
+        print("d:v is already the approved v. Nothing to do.")
+        return 0
+    if have != SOURCE_V_SHA:
+        print(f"REFUSED: d-v.mp3 hashes {have[:12]}, and this recipe was measured\n"
+              f"         against {SOURCE_V_SHA[:12]}. Re-cutting an unknown clip would\n"
+              f"         produce audio nobody has heard.")
+        return 2
+    pcm, sr = remake_v(db=-7.0, cutoff=1800, fade_ms=40)
+    mp3 = encode(pcm, sr)
+    got = hashlib.sha256(mp3).hexdigest()
+    if got != APPROVED_V_SHA:
+        print(f"REFUSED: the recipe produced {got[:12]}, not the approved\n"
+              f"         {APPROVED_V_SHA[:12]}. These are not the bytes the owner graded.")
+        return 3
+    for t in V_TARGETS:
+        t.write_bytes(mp3)
+    # Measured from the ENCODED file, not from the samples that went into it:
+    # that is what tools/voice-edges.py does for every other clip, and the
+    # sound-out spacing is computed from these numbers. Measuring the PCM
+    # instead reads 90/310 here, because the encoder's own delay and the 40 ms
+    # fades fall either side of the -45 dB floor.
+    lead, tail, ms = edges(*load(V_TARGETS[0]))
+    man = json.loads((PACK / "manifest.json").read_text())
+    man["d:v"] = {"file": "d-v.mp3", "lead": lead, "ms": ms, "tail": tail}
+    (PACK / "manifest.json").write_text(json.dumps(man, indent=1) + "\n")
+    led_path = REPO / "tools" / "pending-sounds" / "pending-sounds.json"
+    led = json.loads(led_path.read_text())
+    led["v"] = {**led["v"], "sha256": got, "ms": ms,
+                "family": "of3-quieter-rounder",
+                "round": "of round 3 (2026-08-12)",
+                "verdict": "perfect (owner), judged in company inside “of”",
+                "how": "a buzzing v · as in van",
+                "note": "The SND16 v, re-cut after the owner called it “shouting” beside its "
+                        "neighbour: measured 6.2 dB louder and 400 Hz brighter than the vowel it "
+                        "stands next to. Recipe, from the shipped clip's own body: gain -7 dB, "
+                        "one-pole low-pass at 1800 Hz, re-peaked to -3.5 dBFS, 40 ms fades, then "
+                        "the pack's 80/300 ms padding. Reproduce with "
+                        "tools/build_of_round.py --ship, which refuses unless the bytes match. "
+                        "Every /v/ in the bank takes this clip, not only “of”."}
+    led_path.write_text(json.dumps(led, indent=1) + "\n")
+    print(f"shipped d:v  {got[:12]}  {ms} ms file, {ms - lead - tail} ms of speech "
+          f"(lead {lead}, tail {tail})")
+    print("wrote: " + ", ".join(str(t.relative_to(REPO)) for t in V_TARGETS)
+          + ", app/public/voice/manifest.json, tools/pending-sounds/pending-sounds.json")
+    return 0
+
+
+if SHIP:
+    sys.exit(ship())
 
 
 ROUND2 = [
