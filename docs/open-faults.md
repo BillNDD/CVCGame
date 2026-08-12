@@ -80,28 +80,37 @@ with no ruling still returns a valid clip id, `resolvePack` still resolves, the 
 still passes, and a child is still taught something. That is exactly how `th` played the
 wrong sound for months without a single gate noticing.
 
-### B1. The grapheme fallback returns a clip for a grapheme nobody ruled on
+### B1. The grapheme fallback — CLOSED 2026-08-12, owner-ruled (option 2)
 
-- **Where** `reference/word-quest.jsx`, `soundIdFor = (g) => "d:" + (TILE_SOUND[g] || g)`.
-- **Scale** 16 of the bank's 39 graphemes are named in `TILE_SOUND`. The other 23 take the
-  `|| g` fallback: b, ch, d, f, g, h, j, k, l, m, n, ng, p, qu, r, s, sh, t, v, w, x, y, z.
-- **Today** All 23 are correct. They were swept against the whole bank on 2026-08-11 and
-  every claim was put to an adversarial verifier.
-- **The fault** Correct by luck of the naming, not by a recorded decision. A grapheme added
-  later inherits a clip named after itself and nothing fails.
-- **Done** Each of the 39 either appears in `TILE_SOUND` as a stated decision, or the
-  fallback refuses rather than guesses. A new grapheme with no ruling must fail the build.
+`soundIdFor` is still `"d:" + (TILE_SOUND[g] || g)`, and the 23 graphemes on the fallback are
+still correct — swept against the whole bank on 2026-08-11 and put to an adversarial verifier.
+What was missing was any way to notice GROWTH: a new grapheme inherited a clip named after
+itself and nothing failed.
 
-### B2. 336 words take the general mapping with no per-word check
+The roster is now pinned literally in `tests/engine.test.js`, in both halves: the 16 named in
+`TILE_SOUND` as stated decisions, and the 23 that take the fallback. A count alone would not
+have done it — swap one grapheme for another and the size is unchanged. Adding a grapheme now
+fails the test until a person puts it in one list or the other, and that is the moment the
+decision gets made.
 
-- **Where** `WORD_SOUND` in `reference/word-quest.jsx` covers 13 words: she, the, push, bush,
-  was, what, wash, is, has, this, that, then, them.
-- **Today** The other 336 are ordinary words where the general rule is right — cat is
-  /k/ /a/ /t/. Swept on 2026-08-11 and clean.
-- **The fault** A sweep is a point in time. The next word that needs an exception — the next
-  `was` — will take the general rule silently and be wrong, and no gate will see it.
-- **Done** A gate, not another sweep. Adding a word that needs an exception must fail until
-  someone rules on it.
+### B2. 419 words take the general mapping — CLOSED 2026-08-12, owner-ruled (option 3)
+
+Re-sweeping by ear costs days of the owner's listening, which is the wrong price for a guard.
+`tools/sound_agreement.py` derives the expectation instead. The synthesiser publishes the
+phoneme string it is about to speak, so for every word both sides of the comparison are
+available without a listener: what the sound-out CLAIMS (the tiles a child sees) against what
+the voice SAYS. A disagreement is a word where the screen and the sound teach different things —
+exactly the `was` fault.
+
+Three controls: a `was` restored to the general mapping is caught, the shipped `was` agrees, and
+a plain word raises nothing. Run with `npm run check:sounds-agree`; it stays out of `npm run
+check` because it needs the synthesiser environment, the same reason the word-gate island
+control stays out of the gauntlet.
+
+**Its limit, and it is load-bearing.** It compares the sound-out against what the SYNTHESISER
+says, not against correct English, and it phonemises the word rather than reading the shipped
+clip. If the model mispronounces a word consistently, both sides agree and both are wrong. It is
+a refusal, not a proof. The sweep of 2026-08-12 raised two words — see B15.
 
 ### B5. The tile ring falls back to a fixed length
 
@@ -275,6 +284,26 @@ exists only in the code is a legend nobody sees. Floor raised 35 to 37.
 Moving mastery to box 3 would also have made the screen look better and was deliberately NOT
 done: one reading is not mastery, `buildSession`'s confidence pool is defined on box 4, and a
 display fault is not a reason to change what the game teaches.
+
+### B15. Two words where the tiles and the voice disagree
+
+Found by `tools/sound_agreement.py` on 2026-08-12, over all 432 words. 46 words could not be
+aligned (tile count and phoneme count differ) and are evidence of nothing either way.
+
+- **`with`** — the tile plays `th_quiet`, the voiceless /θ/ of "thin". The voice says **/wɪð/**,
+  voiced. `docs/voice-pack.md` records that sound round 22 ruled `with` takes /ð/ along with
+  this, that, then, them and the; those five went into `WORD_SOUND` and `with` did not. An
+  approved ruling that was never applied, found mechanically rather than by an ear.
+- **`what`** — the tile plays `short_o`. Every phonemisation says **/wʌt/**, including the
+  actual carrier the shipped clip was cut from, "Listen, what." **This contradicts the owner's
+  ruling of the same day**, made after hearing the shipped clip beside both candidate vowels,
+  that `short_o` is correct. The owner's ear is the authority and the tool is not: it reads the
+  word's phonemisation, not the audio, and /ʌ/ against /ɒ/ is exactly the contrast the reviewer
+  measured this project's formant metric as unable to resolve. Recorded as a conflict, not as a
+  fault in either direction.
+- **Done** The owner rules on both. `with` is a one-line change to `WORD_SOUND` if they want the
+  tile to follow the voice. `what` needs them to say whether the ruling stands, and if it does,
+  whether the tool should carry a recorded exception so it stops reporting it.
 
 ## C. The audit trail
 
