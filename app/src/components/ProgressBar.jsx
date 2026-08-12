@@ -15,7 +15,12 @@
    the point — left to a wrapping flex row, a 430 px phone broke them 19 and 1,
    which reads as a mistake — so the stylesheet uses a grid of fixed columns.
    The G7 gate measures the result at ten real device widths. */
-export default function ProgressBar({ order, firstResults, total, at }) {
+export default function ProgressBar({ order, firstResults, total, at, freePlay }) {
+  /* Free play has no total, so a path would promise an ending the mode does
+     not have. The screen used to hold this decision, which pushed
+     SessionScreen one branch over the G6 complexity ceiling; it belongs here
+     anyway, because whether a path can exist is a fact about the path. */
+  if (freePlay) return null;
   return (
     <div className="wq-track">
       <span className="wq-tracklbl">read so far</span>

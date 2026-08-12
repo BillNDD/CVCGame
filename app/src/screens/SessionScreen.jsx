@@ -157,7 +157,7 @@ export default function SessionScreen({
           2026-08-12). It sits outside the header so the dots can WRAP to two or
           three lines on a phone without pushing the home control or the level
           chip off the edge — which is exactly what a single row did. */}
-      {!freePlay && <ProgressBar order={order} firstResults={firstResults} total={totalQ} at={answered} />}
+      <ProgressBar order={order} firstResults={firstResults} total={totalQ} at={answered} freePlay={freePlay} />
 
       <SessionStage state={state} currentWord={currentWord} phase={phase} fb={fb} liveRef={liveRef} micNote={micNote} adultNote={adultNote} pops={pops} />
 
