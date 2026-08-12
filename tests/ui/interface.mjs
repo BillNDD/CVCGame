@@ -663,6 +663,38 @@ for (const height of [430, 555, 720, 950]) {
   await context.close();
 }
 
+/* 36-37 — the mastery map explains itself, and does not tell a parent their
+   child failed. A user reported on 2026-08-12 that words their child had read
+   correctly were "tracking as unmastered". Nothing was broken: a first correct
+   reading reaches box 3, mastery is box 4, and every amber word is one the
+   child got right. But the screen carried three colours with no key and a
+   single "N/M mastered" that reads as failure. Both are measured here, in the
+   rendered page, because a legend that exists only in the source is a legend
+   nobody sees. */
+{
+  const context = await browser.newContext();
+  const page = await startSession(context, { width: 390, height: 844 });
+  await page.getByRole("button", { name: "Finish early" }).click().catch(() => {});
+  await page.goto(URL, { waitUntil: "load" });
+  await page.getByRole("button", { name: "Grown-ups corner" }).click();
+  await page.getByText("Mastery map").waitFor();
+  const body = await page.locator("body").innerText();
+  const legend = ["read right twice", "read right once", "not yet", "not tried"]
+    .filter((t) => body.includes(t));
+  if (legend.length === 4) ok(`the mastery map names all four of its colours (${legend.join(", ")})`);
+  else fail("the mastery map has colours with no key", `found ${legend.length} of 4: ${legend}`);
+
+  /* The count must lead with what the child DID. "N read" before "N green",
+     and the bare word "mastered" gone from the per-level row, because that is
+     the word that read as a verdict on the child. */
+  const rowCounts = await page.locator(".wq-rowbtn .wq-mono").allInnerTexts();
+  const shaped = rowCounts.filter((t) => /\d+\/\d+ read · \d+ green/.test(t));
+  if (shaped.length === rowCounts.length && rowCounts.length >= 11)
+    ok(`all ${rowCounts.length} level rows read "N/M read · N green" (${rowCounts[0]})`);
+  else fail("a level row still reports a bare mastered count", JSON.stringify(rowCounts.slice(0, 3)));
+  await context.close();
+}
+
 await browser.close();
 stopServer();
 console.log(`\nG7 interface gate: ${checks} checks passed, ${failures} failed`);
