@@ -233,12 +233,33 @@ semitones.<br><br>
 So these four are a gradient of exactly what you asked for — quieter, then rounder — with the
 measured gap as the middle of the range rather than a guess. Nothing else changes.</div>"""
 
-ROUND = 2 if "--round2" in sys.argv else 1
-if ROUND == 2:
+DIAG3 = """<div class="diag"><b>Almost done.</b> You said of round 2: “the v sound is now
+perfect, I just want to bring back the o sound from the original rounds, together they will be
+perfect.”<br><br>
+So the v is settled — arm D's, at −7&nbsp;dB with the top rolled off and 40&nbsp;ms fades — and
+the only thing left is which vowel stands beside it. <b>A</b> is the swap you asked for.
+<b>B</b> is round 2's arm D exactly as you heard it, unchanged, so you can check that the swap
+is the one you meant rather than one I read into your words. The v clip is byte-identical in
+both; only the vowel differs.</div>"""
+
+ROUND3 = [
+    ("A", "the original o, the roundest v", "d:short_u + v at −7 dB, softened, long fades",
+     "What you asked for: the v from round 2 arm D, which you called perfect, put back with "
+     "the <b>o sound from the original round</b> — d:short_u, the vowel “of” was first "
+     "offered with.", "d:short_u"),
+    ("B", "the same v, with schwa", "d:schwa + the same v",
+     "Round 2's arm D exactly as you heard it, unchanged, so you can be sure the swap above "
+     "is the one you meant and not one I read into it. The v is byte-identical between these "
+     "two — only the vowel differs.", "d:schwa"),
+]
+
+ROUND = 3 if "--round3" in sys.argv else (2 if "--round2" in sys.argv else 1)
+if ROUND == 3:
+    ARMS = [(k, n, r, note, [vowel, "V_FINAL"]) for k, n, r, note, vowel in ROUND3]
+elif ROUND == 2:
     ARMS = []
     for key, name, recipe, note, db, cut, fm in ROUND2:
-        tag = "V_" + key
-        ARMS.append((key, name, recipe, note, ["d:schwa", tag]))
+        ARMS.append((key, name, recipe, note, ["d:schwa", "V_" + key]))
 else:
     ARMS = ARMS_R1
 
@@ -247,6 +268,10 @@ if ROUND == 2:
     for key, _, _, _, db, cut, fm in ROUND2:
         pcm, sr = remake_v(db=db, cutoff=cut, fade_ms=fm)
         clips["V_" + key] = entry(pcm, sr)
+if ROUND == 3:
+    # The winning v, owner-graded perfect on 2026-08-12: round 2 arm D. 
+    pcm, sr = remake_v(db=-7.0, cutoff=1800, fade_ms=40)
+    clips["V_FINAL"] = entry(pcm, sr)
 for cid in ["d:short_u", "d:schwa", "s:pronounced", "w:of"]:
     clips[cid] = pack_entry(cid) if cid in MANIFEST else None
 if clips["w:of"] is None:
@@ -354,8 +379,8 @@ for arm in data:
         e.setdefault("id", "cut")
 out = pathlib.Path(sys.argv[1])
 out.write_text(html.replace("ARMS_JSON", json.dumps(data)).replace("SEAM_MS", str(SEAM2_MS))
-           .replace("HEADLINE", "rounder and quieter" if ROUND == 2 else "four ways")
-           .replace("DIAGBLOCK", DIAG2 if ROUND == 2 else DIAG1))
+           .replace("HEADLINE", {1: "four ways", 2: "rounder and quieter", 3: "the last swap"}[ROUND])
+           .replace("DIAGBLOCK", {1: DIAG1, 2: DIAG2, 3: DIAG3}[ROUND]))
 print(f"wrote {out} ({out.stat().st_size // 1024} KB)")
 for arm in data:
     print(f"  {arm['key']}  {arm['name']:22} v speech {arm['plan'][3]['speech']:4} ms")
