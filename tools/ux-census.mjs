@@ -156,7 +156,14 @@ async function inspect(page, viewport, label, opts = {}) {
      whether a real tap would reach it or land on something else. */
   const controls = await page.evaluate(({ childMin, adultMin }) => {
     const out = [];
-    for (const el of document.querySelectorAll("button, [role=button], a[href], input, select")) {
+    /* A DIALOG COVERS THE PAGE ON PURPOSE. When one is open, every control
+       behind it reports something on top of its own centre - which is the
+       dialog doing its job, not a defect. Judge only what is inside it. The
+       first version of this check called the whole home screen obscured the
+       moment the free-play chooser opened. */
+    const modal = document.querySelector('[role="dialog"] .wq-modal, .wq-modal');
+    const scope = modal || document;
+    for (const el of scope.querySelectorAll("button, [role=button], a[href], input, select")) {
       const r = el.getBoundingClientRect();
       if (r.width === 0 || r.height === 0) continue;
       /* The floors belong to classes, and the classes are the ones G7 already
@@ -181,7 +188,15 @@ async function inspect(page, viewport, label, opts = {}) {
         floor: isChild ? childMin : adultMin,
         klass: isChild ? "child" : isAdult ? "adult" : "unclassified",
         inView: r.top >= -1 && r.bottom <= innerHeight + 1 && r.left >= -1 && r.right <= innerWidth + 1,
-        obscured: !(at === el || el.contains(at)),
+        /* Nothing at the centre point means the control is OFF SCREEN, not
+           buried: elementFromPoint reads the viewport, so a control scrolled
+           past the fold returns null. The grown-ups corner is a scrolling page
+           by design and its lower level rows are legitimately below the fold,
+           so calling that "obscured" reported eleven defects that did not
+           exist. Obscured means something is on top of a control that IS in
+           view. */
+        obscured: !!at && !(at === el || el.contains(at)),
+        offScreen: !at,
         onTop: at ? at.tagName.toLowerCase() + "." + String(at.className).split(" ")[0] : "nothing",
         font: parseFloat(getComputedStyle(el).fontSize),
       });
@@ -219,11 +234,16 @@ async function inspect(page, viewport, label, opts = {}) {
         push("below-the-fold", `${sel} sits at y=${Math.round(box.y)}..${Math.round(box.y + box.height)} in a ${viewport.height}px viewport`);
     }
   }
-  /* Reported, not asserted: which controls carry no class of their own. It is
-     worth knowing and it is not a defect. */
+  /* Reported, not asserted: controls with no size class of their own, and
+     controls sitting below the fold on a screen that scrolls by design. Both
+     are worth knowing and neither is a defect. A control that MUST be reachable
+     in a state is asserted through mustBeVisible instead, which is the list
+     that knows what the state is for. */
   const unclassified = controls.filter((c) => c.klass === "unclassified")
     .map((c) => `${c.name || "(no label)"} ${c.w}x${c.h}`);
-  return { findings, aria, controls, unclassified, page: page_ };
+  const offScreen = controls.filter((c) => c.offScreen)
+    .map((c) => `${c.name || "(no label)"} ${c.w}x${c.h}`);
+  return { findings, aria, controls, unclassified, offScreen, page: page_ };
 }
 
 const BANK_WORDS = LEVELS.flatMap((l) => l.words);

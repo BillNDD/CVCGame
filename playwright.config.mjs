@@ -32,7 +32,16 @@ export default defineConfig({
   fullyParallel: true,
   forbidOnly: true,
   retries: 0,
-  workers: process.env.CI ? 2 : 4,
+  /* ONE by default, and the number is a property of the MACHINE rather than of
+     the census. At four workers this container failed cells with "Target page,
+     context or browser has been closed", and at two it still failed one or two
+     per run: Chromium contexts are expensive and the box is small. Every one of
+     those cells passes when run on its own, which is the signature of churn
+     rather than of a defect - and it is dangerous, because it looks exactly
+     like flakiness in the game and would let a real finding hide inside the
+     noise. A census that cannot repeat its own answer is worth nothing.
+     Raise it with CENSUS_WORKERS on a bigger machine. */
+  workers: Number(process.env.CENSUS_WORKERS || 1),
   reporter: [["list"], ["json", { outputFile: ".census/report.json" }],
              ["html", { outputFolder: ".census/html", open: "never" }]],
   outputDir: ".census/artifacts",

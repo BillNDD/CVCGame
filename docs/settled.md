@@ -996,8 +996,14 @@ Given one at a time on a clickable page, which is itself now the rule (AGENTS.md
 
 **"Three that take turns" is a commitment to three ROUNDS, not one.** Each line must be
 equally true for every word the sentence could be teaching, which is the constraint that
-killed "Here is the new word": a rotation is only as honest as its weakest line. The three
-are drafted in SPEC section 12 and none of them is recorded yet.
+killed "Here is the new word": a rotation is only as honest as its weakest line.
+
+**The three, chosen from eight later the same evening:** "You read them all. Let's sound out
+this one." / "Let's sound out one word together." / "Here is one word to sound out." They do
+three different jobs — the reason, the grown-up beside the child, the plain announcement — and
+the owner refused both praise-shaped candidates for the same reason: praise plays immediately
+before this line, and two celebrations in a row is one too many. None is recorded yet, and
+they are named in SPEC section 12.
 
 **"Every other beta" is a cadence, and cadence is the owner's to set (2026-08-02).** It also
 answers the question the census raised about itself: it is too slow for `npm run check` and
