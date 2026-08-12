@@ -62,6 +62,26 @@ export default function ParentScreen({
           {/* P2-4 — collapsed mastery map with summary rows */}
           <section className="wq-card" style={{ padding: 16, textAlign: "left" }}>
             <H3>Mastery map</H3>
+            {/* A parent read "2/12 mastered" after their child read all twelve
+                correctly and reported it as a bug (2026-08-12). It was not one:
+                a first correct reading reaches box 3 and mastery is box 4, so
+                every amber word is one the child GOT RIGHT. The screen had
+                three colours, no key, and a single number that reads as
+                failure. Both are answered here, in the grown-up's words. */}
+            <p className="wq-help" style={{ margin: "0 0 10px" }}>
+              Two correct readings, on different days, make a word green. The gap between them is
+              deliberate — waiting is what moves a word into long-term memory.
+            </p>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 10, margin: "0 0 12px",
+              fontSize: 12, color: C.ink2 }}>
+              {[["#c6f2dd", "read right twice"], ["#ffe9b3", "read right once"],
+                ["#ffd4d0", "not yet"], [C.chip, "not tried"]].map(([bg, label]) => (
+                <span key={label} style={{ display: "inline-flex", alignItems: "center", gap: 5 }}>
+                  <span style={{ background: bg, width: 15, height: 15, borderRadius: 4,
+                    border: "1px solid " + C.line, display: "inline-block" }} />{label}
+                </span>
+              ))}
+            </div>
             {LEVELS.map(l => {
               const done = l.words.filter(w => state.words[w] && state.words[w].box >= 4).length;
               const seen = l.words.filter(w => state.words[w] && state.words[w].attempts > 0).length;
@@ -70,7 +90,10 @@ export default function ParentScreen({
                 <div key={l.n} style={{ borderTop: "1px solid " + C.line, paddingTop: 9, marginTop: 9 }}>
                   <button className="wq-rowbtn" onClick={() => setOpenLevels(o => ({ ...o, [l.n]: !isOpen }))} aria-expanded={isOpen}>
                     <span style={{ fontWeight: 800, color: C.ink, fontSize: 14 }}>Level {l.n} {l.emoji}</span>
-                    <span className="wq-mono" style={{ fontSize: 12.5, color: C.muted, marginLeft: "auto" }}>{done}/{l.words.length} mastered</span>
+                    {/* Two numbers, not one. "2/12 mastered" alone told a
+                        parent their child had failed ten words they had in
+                        fact read correctly. What the child DID comes first. */}
+                    <span className="wq-mono" style={{ fontSize: 12.5, color: C.muted, marginLeft: "auto" }}>{seen}/{l.words.length} read · {done} green</span>
                     <span style={{ color: C.ink2, marginLeft: 8, fontSize: 12 }}>{isOpen ? "▲" : "▼"}</span>
                   </button>
                   <div className="wq-meter"><div style={{ width: (done / l.words.length) * 100 + "%", background: C.green, height: "100%" }} />

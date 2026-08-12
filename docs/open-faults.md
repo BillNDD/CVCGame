@@ -252,31 +252,29 @@ well" before seeing any of this.
 
 ---
 
-### B14. The mastery map tells a parent their child failed
+### B14. The mastery map told a parent their child failed — CLOSED 2026-08-12
 
-Reported by a user on 2026-08-12, with a screenshot: "he clicked and held 'got it' for most of
-these words but the game is tracking it as unmastered". Verified against the engine. **Nothing
-is broken and no result was lost** — but the screen cannot be read correctly by the person it
-is for, which makes it a fault rather than a misunderstanding.
+Reported by a user with a screenshot: "he clicked and held 'got it' for most of these words but
+the game is tracking it as unmastered". Verified against the engine: nothing was broken and no
+result was lost. A first correct reading reaches box 3, mastery is box 4, so **every amber word
+was one the child read correctly.** The fault was that the screen could not be read correctly by
+the person it is for — three colours with no key, and a single "2/12 mastered" that reads as a
+verdict on the child.
 
-- **Where** `app/src/screens/ParentScreen.jsx`, the mastery map and its per-level count.
-- **What the engine does** A first correct reading puts a word in box 3; a second puts it in
-  box 4; "mastered" means box 4 or more. The map colours from the same numbers: grey for never
-  tried, pink below box 2, amber at box 2 or 3, green at box 4. So **every amber tile is a word
-  the child read correctly.**
-- **Why it reads as failure** Three things compound.
-  1. **There is no legend.** Three colours, no key, nowhere on the screen.
-  2. **"2/12 mastered" is arithmetically true and emotionally wrong.** The child read twelve
-     and got twelve right.
-  3. **Green is days away by design.** After the first correct reading the word is not due
-     again for four sessions (`INTERVALS[3]`), and nothing says that the wait is the spaced
-     repetition working rather than the child struggling.
-- **Class** The same one as the rest of section B: correct behaviour with no signal. The
-  difference is that this one is being read by parents today.
-- **Done** The map says what its colours mean, and the count stops implying failure — two
-  numbers ("12/12 read · 2/12 mastered") rather than one. Moving mastery to box 3 would also
-  "fix" it and is NOT to be done without an owner ruling: one reading is not mastery, and
-  `buildSession`'s confidence pool is defined on box 4.
+Fixed, owner-ruled, both halves:
+- **A legend**, naming all four colours in a grown-up's words: read right twice, read right once,
+  not yet, not tried.
+- **Two numbers instead of one**: every level row now reads "N/M read · N green", so what the
+  child DID comes first. The word "mastered" is gone from the per-level row.
+- **A line saying why green takes time**: two correct readings on different days, and the gap
+  between them is the point.
+
+Measured in the rendered page by G7 checks 36 and 37, not just in the source — a legend that
+exists only in the code is a legend nobody sees. Floor raised 35 to 37.
+
+Moving mastery to box 3 would also have made the screen look better and was deliberately NOT
+done: one reading is not mastery, `buildSession`'s confidence pool is defined on box 4, and a
+display fault is not a reason to change what the game teaches.
 
 ## C. The audit trail
 
