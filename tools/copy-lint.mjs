@@ -101,8 +101,13 @@ function run(d) {
      this note read "wuz" while the reveal played short_o, "woz". The owner
      ruled on 2026-08-11 for AMERICAN pronunciation, since the voice itself is
      American, so the note stands and the SOUND moved to short_u to meet it.
-     "what" and "wash" keep the o-sound and their own notes, which is standard
-     American for both. */
+     "wash" keeps the o-sound and its own note, which is standard American.
+     "what" did NOT: it kept short_o by inheritance until 2026-08-12, when the
+     agreement check found that every phonemisation of the word — including the
+     carrier its shipped clip was cut from — says /wʌt/, and the owner, offered
+     the whole sound-out both ways, refused w-o-t. The note moved with the
+     sound, which is the only state this rule permits: the screen and the
+     sound-out say the same vowel or one of them is lying to a child. */
   check(notes.was === "Tricky word! The a sounds like “uh” — wuz.", "tricky note (was)", notes.was);
   check(notes.is === "Tricky word! The s sounds like “z” — iz.", "tricky note (is)", notes.is);
   check(notes.has === "Tricky word! The s sounds like “z” — haz.", "tricky note (has)", notes.has);
@@ -111,7 +116,7 @@ function run(d) {
   check(notes.bush === "Tricky word! The u sounds like “oo” — boosh.", "tricky note (bush)", notes.bush);
   check(notes.she === "Tricky word! The e sounds like “ee” — shee.", "tricky note (she)", notes.she);
   check(notes.the === "Tricky word! The e sounds like “uh” — thuh.", "tricky note (the)", notes.the);
-  check(notes.what === "Tricky word! The a sounds like “o” — wot.", "tricky note (what)", notes.what);
+  check(notes.what === "Tricky word! The a sounds like “uh” — wut.", "tricky note (what)", notes.what);
   check(Object.keys(notes).length === 9, "tricky note count", String(Object.keys(notes).length));
 
   // 3b. the adult's note for a word recognition cannot judge, exact

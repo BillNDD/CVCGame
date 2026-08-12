@@ -130,15 +130,20 @@ a refusal, not a proof. The sweep of 2026-08-12 raised two words — see B15.
   over a second — with nothing to say it had.
 - **Done** Family clips are measured on the way in, or the sound-out declines to use them.
 
-### B7. Falling through to system speech leaves no trace
+### B7. Falling through to system speech left no trace — CLOSED 2026-08-12
 
-- **Where** `resolvePack` returns `null` and the caller uses system speech.
-- **Today** Not active. Every reveal, across all three outcomes and every word tried,
-  resolves the default pack.
-- **The fault** Correct behaviour with no signal. A pack that quietly stopped resolving would
-  look like a design choice: no tile rings, a short spoken sentence, and nothing anywhere
-  saying the recorded voice was unavailable.
-- **Done** The grown-up's side of the app can tell that the recorded voice did not play.
+Every fallback path now says WHY, and the reason reaches the Grown-ups corner. There were four
+and each carries its own words: no audio player on this device, the pack did not load, the pack
+has no clip for a named id, or playback threw. The message a grown-up reads says what still
+works — the words are spoken, results are saved — and what does not: the sound-out will not
+light up letter by letter.
+
+Two tests, because one would not have been enough. The notice must APPEAR after a fallback with
+its reason in it, and it must be ABSENT when the recorded pack played — a notice that shows up
+either way is noise a parent learns to ignore. Floor raised 13 to 15.
+
+Nothing on the child's screen changed, and nothing about it is saved: it describes this device
+right now, not the child's progress.
 
 ### B8. Fourteen approved sounds are parked, unchecked against the current bank
 
@@ -285,25 +290,19 @@ Moving mastery to box 3 would also have made the screen look better and was deli
 done: one reading is not mastery, `buildSession`'s confidence pool is defined on box 4, and a
 display fault is not a reason to change what the game teaches.
 
-### B15. Two words where the tiles and the voice disagree
+### B15. Two words where the tiles and the voice disagreed — CLOSED 2026-08-12
 
-Found by `tools/sound_agreement.py` on 2026-08-12, over all 432 words. 46 words could not be
-aligned (tile count and phoneme count differ) and are evidence of nothing either way.
+Both moved to meet the voice, ruled by the owner after hearing each sound-out both ways.
 
-- **`with`** — the tile plays `th_quiet`, the voiceless /θ/ of "thin". The voice says **/wɪð/**,
-  voiced. `docs/voice-pack.md` records that sound round 22 ruled `with` takes /ð/ along with
-  this, that, then, them and the; those five went into `WORD_SOUND` and `with` did not. An
-  approved ruling that was never applied, found mechanically rather than by an ear.
-- **`what`** — the tile plays `short_o`. Every phonemisation says **/wʌt/**, including the
-  actual carrier the shipped clip was cut from, "Listen, what." **This contradicts the owner's
-  ruling of the same day**, made after hearing the shipped clip beside both candidate vowels,
-  that `short_o` is correct. The owner's ear is the authority and the tool is not: it reads the
-  word's phonemisation, not the audio, and /ʌ/ against /ɒ/ is exactly the contrast the reviewer
-  measured this project's formant metric as unable to resolve. Recorded as a conflict, not as a
-  fault in either direction.
-- **Done** The owner rules on both. `with` is a one-line change to `WORD_SOUND` if they want the
-  tile to follow the voice. `what` needs them to say whether the ruling stands, and if it does,
-  whether the tool should carry a recorded exception so it stops reporting it.
+- **`with`** now takes the buzzy th. It had been reasoned onto the quiet one under the American
+  ruling of 2026-08-11 — sound reasoning, wrong answer, because the af_heart clip that actually
+  ships says /wɪð/. An accent argued from is not the accent in the file.
+- **`what`** now teaches short u, reversing the owner's own ruling of the same morning. That
+  first ruling was made from the word clip alone; offered the whole sound-out both ways they
+  refused w-o-t. Its tricky note moved with it.
+
+The sweep is now at **0 disagreements across 432 words**. 46 remain unalignable (tile count and
+phoneme count differ) and are evidence of nothing either way.
 
 ## C. The audit trail
 

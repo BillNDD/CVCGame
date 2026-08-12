@@ -38,6 +38,11 @@ vi.mock("../app/src/storage.js", () => ({
   loadState: vi.fn(async () => null),
   saveState: vi.fn(async () => true),
 }));
+/* B7 — the real module hands the caller a REASON on every fallback path, so a
+   pack that quietly stopped resolving cannot look like a design choice. The
+   double carries one too, and the test below requires it to reach the
+   Grown-ups corner. */
+const FALLBACK_REASON = "the recorded voice has no clip for d:short_a";
 vi.mock("../app/src/voicepacks.js", () => ({
   initVoicePacks: vi.fn(async () => {}),
   unlockVoice: vi.fn(),
@@ -58,7 +63,7 @@ vi.mock("../app/src/voicepacks.js", () => ({
       const tiles = kind === "correct" || kind === "close" || kind === "wrong"
         ? tilesFor(word) : undefined;
       onScheduled(REVEAL_MS, tiles);
-    } else if (voiceMode === "fallback") fallback();
+    } else if (voiceMode === "fallback") fallback(FALLBACK_REASON);
   },
 }));
 
@@ -71,6 +76,15 @@ const { default: App } = await import("../app/src/App.jsx");
 
 const flush = async (ms = 0) => act(async () => { await vi.advanceTimersByTimeAsync(ms); });
 const advance = () => screen.getByText(/Next word|Finish!/);
+/* Out of the session and back to the home screen, discarding rather than
+   saving so the notice is the only thing under test. */
+const goHome = async () => {
+  fireEvent.click(screen.getByLabelText("Leave session"));
+  await flush(0);
+  fireEvent.click(screen.getByText("Discard and go home"));
+  await flush(0);
+};
+
 const gradeOneWord = async () => {
   render(createElement(App));
   await flush(0);
@@ -210,6 +224,36 @@ describe("G10 — the child hears the word before the app lets them move on", ()
     await flush(REVEAL_MS + 50);
     expect(document.querySelectorAll(".wq-tile.wq-pop").length).toBe(0);
     expect(document.querySelectorAll(".wq-tile").length).toBe(n);   // the tiles are still shown
+  });
+
+  /* B7 — a fallback is correct behaviour and used to leave no trace anywhere.
+     What a grown-up saw was a shorter spoken sentence and no tile rings, with
+     nothing saying the recorded voice was unavailable, so a pack that had
+     quietly stopped resolving looked like a design choice. The reason now
+     reaches the Grown-ups corner. The two halves are asserted separately: it
+     must appear when a fallback has happened, and it must NOT appear when the
+     recorded pack played, or the notice becomes noise a parent learns to
+     ignore. */
+  it("10a: a fallback tells the grown-up, and says why", async () => {
+    voiceMode = "fallback";
+    await gradeOneWord();
+    await flush(REVEAL_MS + 50);
+    /* the notice is in the Grown-ups corner, which is reached from home */
+    await goHome();
+    fireEvent.click(screen.getByLabelText("Grown-ups corner"));
+    await flush(0);
+    expect(screen.getByText("The recorded voice")).toBeTruthy();
+    expect(document.body.textContent).toContain(FALLBACK_REASON);
+  });
+
+  it("10b (control): with the recorded pack, the grown-up is told nothing", async () => {
+    voiceMode = "pack";
+    await gradeOneWord();
+    await flush(REVEAL_MS + 50);
+    await goHome();
+    fireEvent.click(screen.getByLabelText("Grown-ups corner"));
+    await flush(0);
+    expect(screen.queryByText("The recorded voice")).toBeNull();
   });
 
   /* Replay silences the sound-out on its way in. The rings were scheduled

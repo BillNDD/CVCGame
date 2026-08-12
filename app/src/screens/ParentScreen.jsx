@@ -8,7 +8,7 @@ import Seg from "../components/Seg.jsx";
 export default function ParentScreen({
   state, nameDraft, setNameDraft, commitName, setMode, setSound, setLang, setUpdateCheck, jumpLevel,
   openLevels, setOpenLevels, copyLog, copyBox, resetStage, setResetStage, doReset,
-  onBack, srAvailable, micHint, onExportJSON, onImportJSON, toast,
+  onBack, srAvailable, micHint, onExportJSON, onImportJSON, toast, voiceFallback,
 }) {
   return (
     <Frame>
@@ -60,6 +60,26 @@ export default function ParentScreen({
           </section>
 
           {/* P2-4 — collapsed mastery map with summary rows */}
+          {/* B7 — the recorded voice fell back to the device's own voice, and
+              says why. Correct behaviour used to leave no trace at all: a
+              grown-up saw a shorter sentence and no tile rings, and nothing
+              anywhere said the recorded voice was unavailable, so a pack that
+              had quietly stopped resolving looked like a design choice. Shown
+              only to the grown-up, and only after it has actually happened. */}
+          {voiceFallback && (
+            <section className="wq-card" style={{ padding: 16, textAlign: "left" }}>
+              <H3>The recorded voice</H3>
+              <p className="wq-help" style={{ margin: 0 }}>
+                The game is using your device's own voice at the moment, not its recorded one.
+                The reading still works and nothing is lost — words are spoken and results are
+                saved as usual — but the sound-out will not light up letter by letter.
+              </p>
+              <p className="wq-help" style={{ margin: "8px 0 0", opacity: 0.85 }}>
+                Reason: {voiceFallback}
+              </p>
+            </section>
+          )}
+
           <section className="wq-card" style={{ padding: 16, textAlign: "left" }}>
             <H3>Mastery map</H3>
             {/* A parent read "2/12 mastered" after their child read all twelve

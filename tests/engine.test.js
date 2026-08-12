@@ -443,7 +443,12 @@ describe("voice packs", () => {
     expect(soundIdsFor("push")).toEqual(["d:p", "d:oo_book", "d:sh"]);
     expect(soundIdsFor("bush")).toEqual(["d:b", "d:oo_book", "d:sh"]);
     expect(soundIdsFor("was")).toEqual(["d:w", "d:short_u", "d:z"]);
-    expect(soundIdsFor("what")).toEqual(["d:w", "d:short_o", "d:t"]);
+    /* "wut", owner-ruled 2026-08-12, reversing their own ruling of the same
+       morning. The first was made from the WORD clip alone; offered the whole
+       sound-out both ways they refused w-o-t. tools/sound_agreement.py had
+       flagged it: every phonemisation says /wʌt/, including the carrier this
+       clip was cut from. */
+    expect(soundIdsFor("what")).toEqual(["d:w", "d:short_u", "d:t"]);
     expect(soundIdsFor("wash")).toEqual(["d:w", "d:short_o", "d:sh"]);
     expect(soundIdsFor("is")).toEqual(["d:short_i", "d:z"]);
     expect(soundIdsFor("has")).toEqual(["d:h", "d:short_a", "d:z"]);
@@ -462,9 +467,12 @@ describe("voice packs", () => {
     for (const w of ["this", "that", "then", "them", "the"])
       expect(soundIdsFor(w)[0]).toBe("d:th_this");
     /* "with" is the one word where the accents disagree — /wɪð/ in British,
-       /wɪθ/ in most American. The owner ruled for AMERICAN on 2026-08-11,
-       because the voice is American, so it keeps the quiet th. */
-    expect(soundIdsFor("with")).toEqual(["d:w", "d:short_i", "d:th_quiet"]);
+       /wɪθ/ in most American. It was reasoned onto the quiet th on 2026-08-11
+       under the ruling for AMERICAN pronunciation. The reasoning was sound and
+       the answer was wrong: the af_heart clip this game actually ships says
+       /wɪð/, and the owner chose the buzzy th on 2026-08-12 after hearing both
+       sound-outs. An accent argued from is not the accent in the file. */
+    expect(soundIdsFor("with")).toEqual(["d:w", "d:short_i", "d:th_this"]);
 
     for (const w of ["thin", "thick", "thumb", "thud"])
       expect(soundIdsFor(w)[0]).toBe("d:th_quiet");
@@ -476,9 +484,9 @@ describe("voice packs", () => {
     const thWords = LEVELS.flatMap((l) => l.words).filter((w) => w.includes("th"));
     expect(thWords.length).toBe(14);
     const voiced = thWords.filter((w) => soundIdsFor(w).includes("d:th_this"));
-    expect(voiced.sort()).toEqual(["that", "the", "them", "then", "this"]);
+    expect(voiced.sort()).toEqual(["that", "the", "them", "then", "this", "with"]);
     const quiet = thWords.filter((w) => soundIdsFor(w).includes("d:th_quiet"));
-    expect(quiet.sort()).toEqual(["bath", "math", "moth", "path", "thick", "thin", "thud", "thumb", "with"]);
+    expect(quiet.sort()).toEqual(["bath", "math", "moth", "path", "thick", "thin", "thud", "thumb"]);
   });
   /* The sound-out reveal, owner-ruled 2026-08-04 and recorded in
      docs/settled.md: praise, the word, "Pronounced:", each sound on its own
