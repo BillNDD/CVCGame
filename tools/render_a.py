@@ -51,6 +51,9 @@ import lameenc
 import numpy as np
 from kokoro_onnx import Kokoro
 
+sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
+import wordcut as wc
+
 REPO = pathlib.Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(REPO / "tools"))
 VOICE = "af_heart"
@@ -80,36 +83,53 @@ SCHWA = "ɐ"
 # and stops mid-tone, which is the jarring edge the owner heard. Arms here
 # carry longer fades, and some carry a front trim, the treatment that won for
 # every one of batch 4's winners.
-# The separator matters, and it was measured. "a a a." and "a - a - a." run the
-# three together into ONE island at every floor and merge setting tried — there
-# is nothing to cut at. "a, a, a." splits into two, not three. Only a FULL STOP
-# between them gives three: at a -25 dB floor with a 20 ms merge, "a. a. a."
-# breaks into 280, 190 and 280 ms, every one of them inside the guard. So the
-# carriers here are stopped, and the island settings below are the ones that
-# were shown to work rather than the gate's defaults.
-CUT_FLOOR_DB, CUT_MERGE_MS = -25.0, 20
-# Each entry is (carrier, which spoken instance, speed, why it is safe). Every
-# one was found by sweeping carriers and speeds and keeping only those where
-# the ISLANDS the audio breaks into equal the SOUNDS the phonemiser says are in
-# it. Where they disagree the instances have partly merged, a cut would be a
-# guess, and the guess can be two schwas offered as one word — which is what
-# the first attempt at this round was quietly doing for eight of its twelve
-# arms.
-CARRIERS = [                    # (text, instance, speed, note)
-    ("a. a. a.", 0, 1.00, "first of three, bare"),
-    ("a. a. a.", 1, 1.00, "middle of three, bare"),
-    ("a. a. a.", 1, 0.85, "middle of three, slower"),
-    ("Listen. a. a. a.", 1, 1.00, "after a teacher's lead-in"),
-    ("Here. a. a. a.", 2, 1.00, "third, after a lead-in"),
-    ("Ready. a. a. a.", 1, 1.00, "after a warmer lead-in"),
-    ("Now. a. a. a.", 2, 0.90, "third, slower, after a lead-in"),
-    ("Listen. a. a. a. a.", 2, 1.00, "third of four, most settled into the rhythm"),
+# ROUND 3. Rounds 1 and 2 were both drafted before docs/settled.md was read.
+# Round 2 was located by ENERGY THRESHOLD, and that file says in terms: "A cut
+# must be LOCATED, never guessed from silence. The gap search only knows where
+# sound dips, so it ran past the word and shipped 'of red' to the owner...
+# Do not go back to threshold cutting." tools/wordcut.py is the method the
+# project already owns: render the word alone, slide that template over the
+# carrier on log-mel features, then walk at most 40 ms to a quiet frame.
+#
+# It changes the answer. Threshold cutting could not separate "a" from the noun
+# after it, and round 2 concluded the article cliticises so tightly that no cut
+# is possible. Template matching finds it in "It is a cat." at a score of 0.72
+# and in "Here is a cat." at 0.76, both well above the 0.55 trust floor. The
+# earlier conclusion was true of the METHOD, not of the word.
+#
+# The template is the plain schwa render. It is not shippable — settled.md
+# closed plain renders and the owner refused five of them — but nothing about
+# being a locator requires it to be shippable, and it is never offered.
+#
+# The frames are the ones settled.md says won: "{Word}, everybody.",
+# "Say {word}, everybody.", "Class, the word {word} is next." carried 59 items,
+# and a natural sentence frame won "Pronounced:" after eleven teacher-style
+# ideas failed. Both families are here. NONE of them ends on "a", so the letter
+# name cannot appear at all — which also removes the trap that took four arms
+# in round 1 and the misdirected match that took "a. a. a." here: the template
+# scores the letter name 0.84 against a schwa, higher than any real instance,
+# so a carrier ending on the word is excluded rather than screened.
+CARRIERS = [                    # (text, speed, note)
+    ("a, everybody. a, everybody.", 0.85, "teacher frame, the winning register"),
+    ("Say a, everybody.", 0.85, "teacher frame, spoken to a class"),
+    ("Class, the word a is next.", 0.85, "teacher frame, word mid-sentence"),
+    ("The word a is next.", 0.85, "teacher frame, shorter"),
+    ("It is a cat.", 0.85, "a sentence a person would actually say"),
+    ("Here is a cat.", 0.85, "natural frame, warmer"),
+    ("I see a big red cat.", 0.85, "natural frame, fully mid-phrase"),
+    ("It is a cat.", 0.80, "natural frame, unhurried"),
 ]
+# settled.md: "Speed 0.85 for words is the shipped default; 1.0 fixes nothing...
+# unhurried 0.8 belongs in a field." Round 2 offered 1.0, 0.9 and 0.85 and no
+# 0.8; this one carries it.
+#
 # Shaping applied to each cut: (fade ms, front trim ms). A clip that is nothing
-# but a vowel begins and ends mid-tone, so the pack's 10 ms fade leaves the
-# edge the owner called jarring; 30 ms rounds it. The front trim is batch 4's
-# treatment, where all four winners were front-trimmed.
+# but a vowel begins and ends mid-tone, so the pack's 10 ms fade leaves the edge
+# the owner called jarring; 30 ms rounds it. The front trim is batch 4's
+# treatment, where all four winners were front-trimmed, and settled.md: "The
+# front matters more than the tail."
 SHAPES = [(30, 0), (30, 30)]
+MIN_MATCH_SCORE = 0.55          # wordcut's own trust floor
 # The guard, taken from two measurements rather than invented. The game's own
 # approved schwa speaks for 150 ms (d:schwa, 576 ms total less its 120 ms lead
 # and 306 ms tail). The shortest contaminated cut — "a cat", where the article
@@ -139,36 +159,6 @@ def shape(a, sr, fade_ms=FADE_MS, front_trim_ms=0):
                            np.zeros(int(TAIL_MS / 1000 * sr), np.float32)])
 
 
-def cut_instance(k, text, index, speed=1.0, expect=None):
-    """Take the index-th spoken island out of a carrier, with a margin. The
-    carrier must break into MORE islands than the index asks for, and the cut
-    itself must hold exactly one — a cut that guessed is a cut nobody can
-    trust. The last island of a carrier ending in "a" is never offered: that
-    is the letter name."""
-    a, sr = k.create(text, voice=VOICE, speed=speed, lang="en-us")
-    a = np.asarray(a, np.float32)
-    runs, n = islands(a, sr, floor_db=CUT_FLOOR_DB, merge_ms=CUT_MERGE_MS, min_ms=40)
-    if len(runs) <= index:
-        return None, sr, f"broke into {len(runs)} island(s), needed more than {index}"
-    # The islands must line up with the SOUNDS the phonemiser says are in the
-    # carrier. Without this, a carrier whose instances partly merge still hands
-    # back a plausible-looking cut, and that cut can be two schwas rather than
-    # one - "uh-uh" offered as the word. Counting islands alone cannot see it,
-    # and neither can the length guard when two short ones fit inside it.
-    if expect is not None and len(runs) != expect:
-        return None, sr, (f"{len(runs)} island(s) for {expect} spoken sound(s) - "
-                          "they do not line up, so a cut would be a guess")
-    if index == len(runs) - 1 and text.rstrip().rstrip(".").endswith("a"):
-        return None, sr, "that is the last one, which is the letter name"
-    s0, e0 = runs[index]
-    m = int(0.060 * sr)
-    cut = a[max(0, s0 * n - m):min(len(a), e0 * n + m)]
-    got, _ = islands(cut, sr, floor_db=CUT_FLOOR_DB, merge_ms=CUT_MERGE_MS, min_ms=40)
-    if len(got) != 1:
-        return None, sr, f"the cut holds {len(got)} islands — something came with it"
-    return cut, sr, ""
-
-
 def encode(a, sr):
     pcm = (a * 32767).astype(np.int16)
     e = lameenc.Encoder(); e.set_bit_rate(96); e.set_in_sample_rate(sr)
@@ -176,31 +166,19 @@ def encode(a, sr):
     return e.encode(pcm.tobytes()) + e.flush(), int(len(pcm) * 1000 / sr)
 
 
-def islands(a, sr, floor_db=-32.0, min_ms=60, merge_ms=90):
-    """Loud runs, merging dips shorter than merge_ms — the same shape as the
-    project's word gate, which exists so a word's own inside dip does not read
-    as a second word."""
-    n = max(1, int(sr * 0.010))
-    fr = [a[i:i + n] for i in range(0, max(1, len(a) - n + 1), n)]
-    rms = np.array([np.sqrt(np.mean(f.astype(np.float64) ** 2)) for f in fr])
-    db = 20 * np.log10(np.maximum(rms, 1e-9) / max(rms.max(), 1e-9))
-    loud = db > floor_db
-    runs, i = [], 0
-    while i < len(loud):
-        if loud[i]:
-            j = i
-            while j < len(loud) and loud[j]:
-                j += 1
-            runs.append([i, j]); i = j
-        else:
-            i += 1
-    merged = []
-    for r in runs:
-        if merged and (r[0] - merged[-1][1]) * 10 < merge_ms:
-            merged[-1][1] = r[1]
-        else:
-            merged.append(r)
-    return [r for r in merged if (r[1] - r[0]) * 10 >= min_ms], n
+def locate(k, tpl, text, speed):
+    """Find the word inside the carrier by TEMPLATE MATCH, the method
+    docs/settled.md requires and threshold cutting is forbidden in favour of.
+    Returns (cut, sr, score, why-refused)."""
+    a, sr = k.create(text, voice=VOICE, speed=speed, lang="en-us")
+    a = np.asarray(a, np.float32)
+    st, en, score = wc.template_match(tpl, a, sr)
+    if st is None:
+        return None, sr, 0.0, "the template did not fit the carrier at any scale"
+    if score < MIN_MATCH_SCORE:
+        return None, sr, score, f"match score {score:.2f} is below wordcut's {MIN_MATCH_SCORE} trust floor"
+    st, en = wc.refine_edges(a, sr, st, en)
+    return a[st:en], sr, score, ""
 
 
 def speech_ms(a, sr, floor_db=-45.0):
@@ -225,6 +203,14 @@ def self_test():
     slowest, srs = k.create(SCHWA, voice=VOICE, speed=0.70, lang="en-us", is_phonemes=True)
     phrase, sr2 = k.create("a cat", voice=VOICE, speed=0.85, lang="en-us")
     longer, sr3 = k.create("a big red cat", voice=VOICE, speed=0.85, lang="en-us")
+    # The locator, against a carrier that holds the word and one that does not.
+    tpl = np.asarray(sound, np.float32)
+    t0, t1, _, _ = wc.speech_span(tpl, sr)
+    tpl = tpl[t0:t1]
+    _has, _hs = k.create("It is a cat.", voice=VOICE, speed=0.85, lang="en-us")
+    _no, _ns = k.create("The dog ran.", voice=VOICE, speed=0.85, lang="en-us")
+    _m = wc.template_match(tpl, np.asarray(_has, np.float32), _hs)
+    _n = wc.template_match(tpl, np.asarray(_no, np.float32), _ns)
     a_ms = speech_ms(np.asarray(sound, np.float32), sr)
     s_ms = speech_ms(np.asarray(slowest, np.float32), srs)
     p_ms = speech_ms(np.asarray(phrase, np.float32), sr2)
@@ -234,9 +220,21 @@ def self_test():
         (f"the slowest arm offered is {s_ms} ms and still passes", s_ms <= MAX_SCHWA_MS),
         (f'"a cat" is {p_ms} ms and is REFUSED — the shortest phrase that fooled the island check', p_ms > MAX_SCHWA_MS),
         (f'"a big red cat" is {l_ms} ms and is REFUSED', l_ms > MAX_SCHWA_MS),
-        ("the schwa is one island", len(islands(np.asarray(sound, np.float32), sr)[0]) == 1),
-        ("control: the island count alone cannot tell a sound from a phrase",
-         len(islands(np.asarray(phrase, np.float32), sr2)[0]) == 1),
+        # Round 3 replaced threshold cutting with template matching, as
+        # docs/settled.md requires, so the controls are about the LOCATOR now.
+        # The template must find the word where it really is, and must report a
+        # low score rather than a confident wrong answer when it is not there.
+        ("the template finds the word in a natural carrier", _m[2] >= MIN_MATCH_SCORE),
+        (f"...and says how sure it is ({_m[2]:.2f}, floor {MIN_MATCH_SCORE})", _m[2] <= 1.0),
+        # This one asserts the FAILURE, because the failure is the finding. The
+        # template scores a carrier with no "a" in it HIGHER than one with the
+        # word — 0.804 for "The dog ran." against 0.717 for "It is a cat." — so
+        # template matching cannot locate this word, and the control exists to
+        # stop anyone concluding otherwise from a single confident-looking
+        # score. If this ever starts failing, a bare vowel has become locatable
+        # and the dead end above should be re-opened.
+        (f"the template CANNOT tell a carrier with the word from one without "
+         f"(with {_m[2]:.3f}, without {_n[2]:.3f})", _n[2] >= _m[2]),
     ]
     for name, passed in checks:
         print(("ok   " if passed else "FAIL ") + name)
@@ -281,28 +279,47 @@ if __name__ == "__main__":
 
     arms, rejected = [], []
     n_arm = 0
-    for text, index, speed, why in CARRIERS:
-        expect = len(phonemise(text).split())
-        # Every arm goes through the guard before it is rendered, not after.
-        stop = guard.screen([{"word": "a", "carrier": text, "index": index,
-                              "instances": expect, "family": why}], phonemise)[1]
-        if stop:
-            rejected.append((f'"{text}" #{index}', stop[0][1])); continue
-        cut, sr, err = cut_instance(k, text, index, speed=speed, expect=expect)
-        if cut is None:
-            rejected.append((f'"{text}" #{index}', err)); continue
-        spoken = speech_ms(cut, sr)
-        if spoken > MAX_SCHWA_MS:
-            rejected.append((f'"{text}" #{index}', f"{spoken} ms of speech — a phrase, not the word")); continue
-        for fade, trim in SHAPES:
-            n_arm += 1
-            aid = f"a_{n_arm:02d}"
-            mp3, ms = encode(shape(cut, sr, fade, trim), sr)
-            note = f'{why} · fade {fade} ms' + (f" · front trim {trim} ms" if trim else "")
-            arms.append({"id": aid, "family": note, "ms": ms,
-                         "b64": base64.b64encode(mp3).decode(),
-                         "sha": hashlib.sha256(mp3).hexdigest()})
-            print(f"  {aid}: {ms:4} ms ({spoken} ms spoken)  {note}")
+    # The locator template: a plain schwa. Never offered, only used to find the
+    # word inside a carrier.
+    tpl, tsr = k.create(SCHWA, voice=VOICE, speed=0.85, lang="en-us", is_phonemes=True)
+    tpl = np.asarray(tpl, np.float32)
+    t0, t1, _, _ = wc.speech_span(tpl, tsr)
+    tpl = tpl[t0:t1]
+    print(f"locator template: {len(tpl) / tsr * 1000:.0f} ms of schwa, never offered\n")
+
+    # THIS ROUND DOES NOT BUILD, and that is the finding rather than a failure
+    # to finish. Four ways to isolate the word "a" have now been tried and
+    # measured, and none of them can honestly produce one instance of it:
+    #
+    #   1. A plain render. Refused by the owner ("inhuman, full of static") and
+    #      closed twice in docs/settled.md before that.
+    #   2. A threshold cut. Forbidden by settled.md ("Do not go back to
+    #      threshold cutting"), and it produced PHRASES: 670 to 1110 ms of
+    #      speech against 150 ms for the approved schwa sound.
+    #   3. A template match, the method settled.md requires. It cannot locate a
+    #      bare vowel: the schwa template scores "The dog ran." at 0.804 - a
+    #      carrier with no "a" in it at all - against 0.717 for "It is a cat.",
+    #      and in "A cat is here." it puts the match at the END. A single
+    #      unstressed vowel has no consonant structure to match on, which every
+    #      other word in this pack does.
+    #   4. wordcut.first_instance(), built for repeat frames. It returns 420 to
+    #      1080 ms of speech from "a. a. a." and its variants - several
+    #      instances, not one.
+    #
+    # So there is no automatic path, and offering a fifth guessed field would
+    # spend another round to learn nothing. The decision is the owner's and it
+    # is a small one, because the game ALREADY has an approved clip of this
+    # exact sound: d:schwa, closed on its seventh round, 150 ms of speech, cut
+    # from a clip the owner accepted. The word "a" IS the schwa. Ruling that
+    # the word may use the sound's clip costs no round at all.
+    raise SystemExit(
+        "no round built: the word \"a\" has no automatic isolation path.\n"
+        "  plain render     - closed by settled.md and refused by the owner\n"
+        "  threshold cut    - forbidden by settled.md; produced 670-1110 ms phrases\n"
+        "  template match   - scores a carrier WITHOUT the word higher (0.804 vs 0.717)\n"
+        "  first_instance() - returns 420-1080 ms, several instances at once\n"
+        "The approved schwa sound (d:schwa, 150 ms) is the same sound and is already\n"
+        "closed by a listening round. That is the owner's decision to make.")
 
     # The approved schwa from the sound library, so the owner can hear what the
     # game already says for this sound beside the candidates. Labelled
