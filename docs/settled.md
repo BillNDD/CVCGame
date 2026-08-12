@@ -104,6 +104,26 @@ updated whenever a round lands.
   so the first two are the word and the third is not. Any future round for
   "a", "I", or any other word that is also a letter name must check the
   phonemisation before rendering.
+- **The word "a" has NO automatic isolation path, and four methods were tried**
+  (2026-08-12). This supersedes the narrower entry below, which blamed
+  cliticisation; the real reason is that a single unstressed vowel has no
+  consonant structure for any locator to hold on to, and every other word in
+  this pack has some.
+  1. A plain render — closed twice here and refused by the owner as "inhuman,
+     full of static".
+  2. A threshold cut — forbidden by the LOCATED-not-guessed rule below, and it
+     produced phrases of 670 to 1110 ms against 150 ms for the approved schwa.
+  3. A template match, the required method — it CANNOT locate a bare vowel.
+     The schwa template scores `"The dog ran."`, a carrier with no "a" in it at
+     all, at **0.804**, against **0.717** for `"It is a cat."`, and in
+     `"A cat is here."` it puts the match at the end. The score is a floor, not
+     a proof, and here it is confidently wrong.
+  4. `wordcut.first_instance()`, built for repeat frames — it returns 420 to
+     1080 ms from `"a. a. a."` and its variants: several instances, not one.
+  Do not build a fifth field for this word without a new mechanism. The game
+  already holds an approved clip of the same sound — `d:schwa`, closed on its
+  seventh round, 150 ms of speech — and whether the WORD may use the SOUND's
+  clip is a ruling, not a round.
 - **"a" cannot be cut from in front of a noun.** Six arms were built from the
   front of `"a cat"`, `"a bag"` and `"a big red cat"` and every one was a
   PHRASE: 670, 640, 900 and 1110 ms of speech against 330 ms for the sound
