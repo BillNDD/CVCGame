@@ -367,10 +367,10 @@ Both moved to meet the voice, ruled by the owner after hearing each sound-out bo
 The sweep is now at **0 disagreements across 432 words**. 46 remain unalignable (tile count and
 phoneme count differ) and are evidence of nothing either way.
 
-## H. The heart words that did not ship on 2026-08-12
+## H. The heart words that did not ship on 2026-08-12 — ALL CLOSED 2026-08-12
 
-Four shipped — to, do, you, said. These three did not, and none of them is waiting on the
-owner's ear.
+Four shipped in the morning — to, do, you, said. The other three followed the same day:
+`my` and the seat ruling took one decision each, and `of` took three listening rounds.
 
 ### H1. `my` — CLOSED 2026-08-12
 
@@ -378,23 +378,14 @@ Shipped to Level 2 with the other six heart words, and `d:long_i` shipped with i
 blocker was never the audio: the clip had been graded perfect since 2026-08-07 and the sound
 was graded perfect the day it shipped. It was a seat, and the owner gave it one.
 
-### H2. `of` — the sounds got "iterate on this", and the next arm is not the obvious one
+### H2. `of` — CLOSED 2026-08-12, in three rounds
 
-- **Where** `w-of.mp3` is approved and pinned. The proposed sound-out was o→short_u, f→v,
-  both shipped, both arguably right for the citation form /ʌv/.
-- **Today** Not in the game. Of the 40 approved sentences it unblocks **zero**, so nothing
-  waits on it.
-- **The fault** Unknown, and that is the point of the next round. Do NOT reach for
-  `o→schwa` first: B12 measures `d:schwa` and `d:short_u` as the same vowel, so the two arms
-  may be indistinguishable — the round-8 mistake. The stronger suspicion is `d:v`, a
-  formant-bent synthetic graded perfect ALONE and never heard in company, which is precisely
-  what B11 says produced the two poor sounds. There is also a cheap hypothesis worth testing
-  before any ear: settled.md records that this synthesiser cannot render a lone unvoiced
-  phoneme and gave θ a vowel release. If `d:v` is really "vuh", the sound-out is "uh-vuh" —
-  two syllables for a one-syllable word.
-- **Done** `d:v`'s envelope and voiced release are measured against the top-five band
-  BEFORE a round is built; the arms are chosen from what that says; and whatever wins is
-  heard in company beside `to` and `do`, which the owner has already passed.
+Shipped to Level 2, sounded out **o → short_u, f → /v/**, graded `perfect` in round 3. The
+fault was in the `v`, not the vowel: it sat 6.2 dB louder and 400 Hz brighter than the sound
+beside it, because it was a synthetic pitched up six semitones — B11's story again. It was
+re-cut −7 dB with the top rolled off at 1800 Hz and 40 ms fades, and **every /v/ in the bank
+now takes that clip**, not only "of". The full record, including the recipe and the two hash
+refusals that guard it, is in `docs/settled.md`.
 
 ### H3. What a heart word's SEAT means — CLOSED 2026-08-12
 

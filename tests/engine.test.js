@@ -16,18 +16,18 @@ const seeded = (words, patch) => { const s = newState(); words.forEach(w => { s.
 
 /* ---------------- bank ---------------- */
 describe("word bank", () => {
-  it("has 437 unique words across 11 levels", () => {
+  it("has 438 unique words across 11 levels", () => {
     const all = LEVELS.flatMap(l => l.words);
-    expect(all.length).toBe(437);
-    expect(new Set(all).size).toBe(437);
+    expect(all.length).toBe(438);
+    expect(new Set(all).size).toBe(438);
     expect(LEVELS.map(l => l.n)).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]);
-    expect(LEVELS.map(l => l.words.length)).toEqual([12, 51, 49, 48, 50, 38, 58, 27, 22, 53, 29]);
+    expect(LEVELS.map(l => l.words.length)).toEqual([12, 52, 49, 48, 50, 38, 58, 27, 22, 53, 29]);
   });
   it("starts with the 12-word VC level", () => {
     expect(LEVELS[0].words).toEqual(["at","an","am","ax","in","it","if","is","on","ox","up","us"]);
   });
   it("maps every word to its level", () => {
-    expect(Object.keys(WORD_LEVEL).length).toBe(437);
+    expect(Object.keys(WORD_LEVEL).length).toBe(438);
     expect(WORD_LEVEL.at).toBe(1); expect(WORD_LEVEL.cat).toBe(2); expect(WORD_LEVEL.was).toBe(7);
     expect(WORD_LEVEL.has).toBe(2); expect(WORD_LEVEL.she).toBe(6);
     /* "the" moved 7 -> 2 on 2026-08-12: a heart word's level is where the
@@ -348,16 +348,16 @@ describe("migrate", () => {
 
 /* ---------------- export ---------------- */
 describe("buildMarkdown", () => {
-  it("reports the 437-word denominator and eleven level rows", () => {
+  it("reports the 438-word denominator and eleven level rows", () => {
     const md = buildMarkdown(newState());
-    expect(md).toContain("0/437");
+    expect(md).toContain("0/438");
     expect(md.match(/\*\*Level \d+ .+ \(/g).length).toBe(11);
   });
   it("counts a word as mastered only from box 4", () => {
     const three = seeded(["cat", "dog"], { box: 3, attempts: 2 });
-    expect(buildMarkdown(three)).toContain("0/437");
+    expect(buildMarkdown(three)).toContain("0/438");
     const four = seeded(["cat", "dog"], { box: 4, attempts: 2 });
-    expect(buildMarkdown(four)).toContain("2/437");
+    expect(buildMarkdown(four)).toContain("2/438");
   });
   it("keeps a grapheme-safe name intact in the header", () => {
     // lone surrogate = an unpaired HIGH surrogate, or a LOW surrogate with no high before it
@@ -382,10 +382,10 @@ describe("buildMarkdown", () => {
 describe("voice packs", () => {
   it("inventories one clip per word, the fixed sentences, and every sound a tile can ask for", () => {
     const script = voiceScript();
-    expect(script.length).toBe(496);                       // 6 sentences + 17 praise + 437 words + "Pronounced:" + 35 sounds
-    expect(script.filter((c) => c.id.startsWith("w:")).length).toBe(437);
+    expect(script.length).toBe(497);                       // 6 sentences + 17 praise + 438 words + "Pronounced:" + 35 sounds
+    expect(script.filter((c) => c.id.startsWith("w:")).length).toBe(438);
     expect(script.filter((c) => c.id.startsWith("d:")).length).toBe(35);
-    expect(new Set(script.map((c) => c.id)).size).toBe(496);
+    expect(new Set(script.map((c) => c.id)).size).toBe(497);
     expect(script.find((c) => c.id === "s:was").text).toBe("The word was");
     expect(script.find((c) => c.id === "l:wrong").text).toBe("Let’s try again.");
     expect(script.find((c) => c.id === "p:0").text).toBe("Great job!");
@@ -464,7 +464,7 @@ describe("voice packs", () => {
      will name words this way and must not be the thing that finds it. */
   it("bankWords covers every word the app names, not only the levels", () => {
     const words = bankWords();
-    expect(words.length).toBe(437);
+    expect(words.length).toBe(438);
     expect([...new Set(words)].length).toBe(words.length);       // no duplicates
     expect([...words].sort()).toEqual(words);                    // stable order
     const inLevels = new Set();
@@ -477,7 +477,7 @@ describe("voice packs", () => {
     for (const w of inLevels) expect(words.includes(w)).toBe(true);
     /* Today all three sets coincide, and recording that is the point: it is
        what made the old code look right. */
-    expect(inLevels.size).toBe(437);
+    expect(inLevels.size).toBe(438);
 
     /* Negative control. The old LEVELS-only derivation, run over a fixture
        where a word is named ONLY in a tricky note, must miss it — and the
@@ -543,6 +543,36 @@ describe("voice packs", () => {
        the sound they really make. */
     expect(soundIdsFor("cash")).toEqual(["d:k", "d:short_a", "d:sh"]);
     expect(soundIdsFor("hat")).toEqual(["d:h", "d:short_a", "d:t"]);
+  });
+
+  /* THE HEART WORDS, sound by sound. Eight words a child meets at Level 2 —
+     seven of them because their letters lie, which is why they are taught by
+     sight — and until now nothing in the suite said what any of them sounds
+     out to. Every id below was heard and graded by the owner: the six on
+     2026-08-12 in the heart-word round, and "of" in three rounds of its own the
+     same day. Left to the general mapping these would teach a short o in "to"
+     and "do", four sounds in "said", three in "you" and /ɒf/ in "of" — the
+     "default sound" class of fault (open-faults section B), which passes every
+     other gate because each wrong id is a clip that exists. */
+  it("sounds out every heart word the way the owner heard it", () => {
+    expect(soundIdsFor("to")).toEqual(["d:t", "d:oo_moon"]);
+    expect(soundIdsFor("do")).toEqual(["d:d", "d:oo_moon"]);
+    expect(soundIdsFor("you")).toEqual(["d:y", "d:oo_moon"]);
+    expect(soundIdsFor("said")).toEqual(["d:s", "d:short_e", "d:d"]);
+    expect(soundIdsFor("my")).toEqual(["d:m", "d:long_i"]);
+    expect(soundIdsFor("of")).toEqual(["d:short_u", "d:v"]);
+    expect(soundIdsFor("the")).toEqual(["d:th_this", "d:schwa"]);
+    expect(soundIdsFor("and")).toEqual(["d:short_a", "d:n", "d:d"]);
+    /* One tile, one sound (S8): "you" is y + ou and "said" is s + ai + d, so
+       the counts are two and three, not three and four. */
+    expect(chunkWord("you")).toEqual(["y", "ou"]);
+    expect(chunkWord("said")).toEqual(["s", "ai", "d"]);
+    expect(chunkWord("of")).toEqual(["o", "f"]);
+    /* Control: the bend is per WORD. The same letters elsewhere in the bank
+       keep their ordinary sounds, so this test cannot pass by a mapping that
+       simply bent o to oo or f to v everywhere. */
+    expect(soundIdsFor("dog")).toEqual(["d:d", "d:short_o", "d:g"]);
+    expect(soundIdsFor("fox")).toEqual(["d:f", "d:short_o", "d:x"]);
   });
 
   /* "th" spells TWO sounds, and until 2026-08-11 the tile map sent both to
