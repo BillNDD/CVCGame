@@ -86,6 +86,39 @@ durable record and must survive a context loss:
 - Brevity never buys silence about a mistake, a refusal, or a thing the owner
   must decide. Shorten the explanation, never drop the item.
 
+## Asking the owner to decide (owner-ruled 2026-08-12)
+
+Every decision that is the owner's to make goes to them as a **page they can
+click**, never as a wall of prose in chat and never as a question buried in a
+status report. The form is fixed, and it is fixed because the alternative was
+tried: a long chat message listing five open questions produced "you have
+posted a really long wall of text and I dont even know where to start."
+
+- **One decision per screen.** The page steps through them — 1 of 5, 2 of 5 —
+  with Back and Next. Several questions on one page is the wall of text again
+  with borders drawn on it.
+- **Every option is a button**, and each one carries what it means and what it
+  costs. An option with no cost written down is an option the owner cannot
+  weigh.
+- **One option is marked MY PICK**, with the reasoning. The owner asked for a
+  recommendation every time; giving none is not neutrality, it is passing the
+  work back.
+- **Every question has an "Other" text box**, and what the owner writes there
+  outranks any button. The four options are mine and the fifth is always
+  theirs.
+- **Every claim on the page is measured**, in the repository, at the time of
+  writing — not recalled. Numbers go in a table, with the units.
+- **A copy-all button** at the end, so the whole set of verdicts comes back in
+  one paste rather than being retyped.
+- **Verify the page in a real browser before sending it.** Every button, the
+  free-text box, and the copy. A page whose copy button silently fails costs
+  the owner an evening, and a page that offers two identical arms wastes a
+  round — round 8 did exactly that.
+
+The same form carries listening rounds, which are decisions about sound:
+verdict buttons reading *perfect / good / iterate on this / no good option* on
+every arm, and the copy-all at the end.
+
 ## The two failures this repository is built around
 
 **A machine cannot hear a word.** Every automated check passed while the pack

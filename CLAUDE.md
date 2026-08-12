@@ -29,6 +29,13 @@ refusal, or a decision the owner must make — shorten the explanation, never dr
 This applies to chat only; commit messages, `docs/`, SPEC and listening-page copy keep the
 Zinsser rule, because they must survive a context loss. `AGENTS.md` owns the full rule.
 
+**A decision the owner must make goes to them as a clickable page, one decision per screen**
+(owner-ruled 2026-08-12), with every option costed, one marked as the recommendation, an
+**"Other" box that outranks the buttons**, every number measured rather than recalled, and a
+copy-all at the end. Verify it in a real browser before sending. Listening rounds use the
+same form, with *perfect / good / iterate on this / no good option* on every arm. `AGENTS.md`
+owns the full rule.
+
 ## What counts as finished work
 
 These rules apply to every change, whether made by a person or by one or more agents in a
