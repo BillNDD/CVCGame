@@ -82,18 +82,28 @@ These rules are mandatory.
 
 ## 3. Word bank
 
-The bank has 432 words in eleven levels. The word order in a level is the introduction order.
+The bank has 436 words in eleven levels. The word order in a level is the introduction order.
 Words have 2 or 3 sound units through Level 9, and 3 or 4 at Levels 10 and 11, where a
 consonant blend adds a unit. Words have at most 4 letters through Level 7 and at Levels 10
 and 11; Levels 8 and 9 may reach 5. Four sound units is the ceiling, and it is a real one:
 the feedback tile row does not wrap, so a fifth unit would push the word off a small screen.
 Outside the multi-letter units, every letter is one sound. Levels 10 and 11 hold consonant
 blends, which are NOT multi-letter units: a blend is two sounds run together, so "band" is
-b-a-n-d on four tiles and "step" is s-t-e-p. The bank holds no vowel teams. The units are the six spoken digraphs (sh,
+b-a-n-d on four tiles and "step" is s-t-e-p. The units are the six spoken digraphs (sh,
 ch, th, wh, ck, ng), qu (one tile, says "kw"), the silent-letter pairs kn, wr and mb (each
-says its surviving letter), and the doubled endings ll, ss, ff and zz (each says its
+says its surviving letter), the doubled endings ll, ss, ff and zz (each says its
 single) — adopted with Levels 8 and 9 on 2026-08-04; ph was considered and left out
-because no word obeys the bank's rules. The nine words in `TRICKY` are the only
+because no word obeys the bank's rules — and, since 2026-08-12, the two vowel teams ai
+and ou.
+
+This document said "the bank holds no vowel teams" until that day, and the sentence was
+true when written. It stopped being true when "said" and "you" joined the heart roster.
+The distinction to hold on to is that ai and ou are units for TILING, not vowel teams
+TAUGHT as code: a heart word is learned by sight, and the tiles exist so the reveal can
+tell the truth about it — s-ai-d, not s-a-i-d, which spells a word no child will ever
+hear. Teaching vowel teams as decodable code stays ruled out (section 12), and neither
+unit has a ruled default sound, so every word that uses one must bend it per word. A test
+enforces that, with a control. The nine words in `TRICKY` are the only
 exceptions, each with a note.
 
 | Level | Name | Focus | Words |
@@ -103,14 +113,14 @@ exceptions, each with a note.
 | 3 | Busy Bees | short i and o | sit pig big dig win lip hit six fin bin dog hot top pot mop log box fox hop cot mom pop not got did him pin tip sip dip hip rip bit fit pit bib wig fix job lot nod hog tin rig rob sob mob cop dim |
 | 4 | Rocket Words | short e and u | bed red hen pen ten net leg wet jet men bus cup sun run fun mud bug hug nut tub pet get let set cut pup web bun rug mug vet tug jug hum rub dug bud peg met yet bet keg hem nun pun jut gut hub |
 | 5 | Explorer | all five vowels | yes zip gum gas kid cub den dot fed fig fog gap hid hut jog kit lid mix wax yak jig jab jot lab lad led lit lug nab pep pod rib rim rod rot sag sub sum tab tot wed wit zig zag fax nix vex sax cod gob |
-| 6 | Super Sounds | sh and ch | ship shop shut fish dish wish cash chat chip chop rich much such chin shed shin mash rash chug chum dash sash hush rush mush chap wash push bush she bash gash gush lash lush posh sham shun |
-| 7 | Word Wizard | th, wh, ck, ng, tricky | thin this that then them bath math with when whip duck sock kick back ring sing king long song was buck sung gong lung puck wick rung muck pack path sack tack neck luck tuck peck deck thud rock lock pick lick wing tick dock moth hang sang rang sick fang the what whim wham bang hung ding ping |
+| 6 | Super Sounds | sh and ch | ship shop shut fish dish wish cash chat chip chop rich much such chin shed shin mash rash chug chum dash sash hush rush mush chap wash push bush she bash gash gush lash lush posh sham shun to do |
+| 7 | Word Wizard | th, wh, ck, ng, tricky | thin this that then them bath math with when whip duck sock kick back ring sing king long song was buck sung gong lung puck wick rung muck pack path sack tack neck luck tuck peck deck thud rock lock pick lick wing tick dock moth hang sang rang sick fang the what whim wham bang hung ding ping you said |
 | 8 | Bells | ll ss ff zz, qu, silent letters | bell tell well fell hill mill doll mess boss kiss miss loss fuss huff puff cuff buzz fuzz jazz fizz quiz quit quip knit knob knot lamb |
 | 9 | Chicks | five-letter words | chick check chuck chess chill shack shock shell thick whack whiff whizz quick quack quill knock wreck wrong thumb wrap wren limb |
 | 10 | Tent Camp | blends at the end | and ant ask band belt bend best bolt bond bump camp cost damp dent desk dusk end fast fond gift gulf gulp hand help hint jump just kept lamp land last left lend lift list mask melt mend milk mint must nest pond pump raft rest risk sand sift silk soft task tent wilt |
 | 11 | Twin Drums | blends at the start | brag clap drop drum flag flat glad grab grin plan plum slam sled slid slip snap snug spin spot stem step stop swam swim trap trim trip twig twin |
 
-Level word counts: 12, 44, 49, 48, 50, 38, 59, 27, 22, 54, 29.
+Level word counts: 12, 44, 49, 48, 50, 40, 61, 27, 22, 54, 29.
 
 Levels 10 and 11 introduce NO new grapheme. Every letter in them is one the child already
 knows; what is new is running two consonants together without a vowel between. Letters and

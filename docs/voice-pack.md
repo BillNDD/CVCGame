@@ -100,14 +100,23 @@ byte-pinned word rather than replacing accepted audio with a render.
   sidecar workspace archive on the owner's PC
   (handoff `word-quest-uplift-handoff-2026-08-07T1438Z`).
 
-## Approved and unshipped: 73 items with no level yet (through 2026-08-12)
+## Approved and unshipped: 69 items with no level yet (through 2026-08-12)
 
-Seventy-three items are closed by the owner's ear and wait in
+Sixty-nine items are closed by the owner's ear and wait in
 `tools/pending-words/` for the levels and the mode that will hold them:
-**32 words** — the heart words **you, to, do, of, said, my, he, we, be, me, go,
-no, so**, the plural-s words and the two-syllable compounds — and **41
-sentences** across two sentence batches, plus the reveal lead-in **"Let's sound
-it out."**. Every one is graded `perfect`; the ledger names each with its round.
+**28 words** — the heart words **of, my, he, we, be, me, go, no, so**, the
+plural-s words and the two-syllable compounds — and **41 sentences** across two
+sentence batches, plus the reveal lead-in **"Let's sound it out."**. Every one
+is graded `perfect`; the ledger names each with its round.
+
+**Four heart words left this list on 2026-08-12**: `to` and `do` to Level 6,
+`you` and `said` to Level 7, each shipped byte for byte by
+`tools/ship-words.py`. What had blocked them was never the owner's ear — every
+clip had been graded `perfect` since 2026-08-07 — but the sound-out: left to
+the general mapping, "to" and "do" would have taught a short o and "said" would
+have taught four sounds. The owner heard each breakdown and passed it. `of`
+stays, because they asked for another pass on its sounds; `my` stays, because
+its sound is settled and its LEVEL is not.
 Each is stored as the exact bytes the owner heard, with its family and hash, so
 the day a word joins the bank it ships that clip and not a re-render.
 

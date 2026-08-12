@@ -28,7 +28,7 @@
   "g10_reveal_tests": 15,
   "g11_copy_rules": 5,
   "g12_qa_steps": 41,
-  "g13_clips": 489,
+  "g13_clips": 494,
   "g13_engine_tests": 13,
   "g14_update_tests": 18,
   "g14_worker_tests": 5,
@@ -37,7 +37,7 @@
   "g18_network_checks": 4,
   "g19_app_mutants": 10,
   "g19_survivors_max": 0,
-  "g20_tests_mapped": 255,
+  "g20_tests_mapped": 256,
   "g21_listening_checks": 5,
   "g13_edge_controls": 5,
   "_retired": {

@@ -22,11 +22,13 @@ const LEVELS = [
       "jig","jab","jot","lab","lad","led","lit","lug","nab","pep","pod","rib","rim","rod","rot","sag","sub","sum","tab","tot","wed","wit","zig","zag","fax","nix","vex","sax","cod","gob"] },
   { n: 6, name: "Super Sounds", emoji: "🦸", focus: "sh & ch",
     words: ["ship","shop","shut","fish","dish","wish","cash","chat","chip","chop","rich","much","such","chin","shed","shin","mash","rash","chug","chum",
-      "dash","sash","hush","rush","mush","chap","wash","push","bush","she","bash","gash","gush","lash","lush","posh","sham","shun"] },
+      "dash","sash","hush","rush","mush","chap","wash","push","bush","she","bash","gash","gush","lash","lush","posh","sham","shun",
+      "to","do"] },
   { n: 7, name: "Word Wizard", emoji: "🧙", focus: "th, wh, ck, ng + tricky words",
     words: ["thin","this","that","then","them","bath","math","with","when","whip","duck","sock","kick","back","ring","sing","king","long","song","was",
       "buck","sung","gong","lung","puck","wick","rung","muck","pack","path","sack","tack","neck","luck","tuck","peck","deck","thud",
-      "rock","lock","pick","lick","wing","tick","dock","moth","hang","sang","rang","sick","fang","the","what","whim","wham","bang","hung","ding","ping"] },
+      "rock","lock","pick","lick","wing","tick","dock","moth","hang","sang","rang","sick","fang","the","what","whim","wham","bang","hung","ding","ping",
+      "you","said"] },
   { n: 8, name: "Bells", emoji: "🔔", focus: "ll, ss, ff, zz + qu + silent letters",
     words: ["bell","tell","well","fell","hill","mill","doll","mess","boss","kiss","miss","loss","fuss","huff","puff","cuff","buzz","fuzz","jazz","fizz",
       "quiz","quit","quip","knit","knob","knot","lamb"] },
@@ -64,7 +66,13 @@ const TRICKY = {
    endings ll ss ff zz say their single. Owner-approved 2026-08-04 with
    Levels 8 and 9; ph was considered and left out - no word obeys the bank's
    own rules. */
-const DIGRAPHS = ["sh","ch","th","wh","ck","ng","qu","kn","wr","mb","ll","ss","ff","zz"];
+/* Safety rule S8: a multi-letter unit is ONE tile. "ai" and "ou" joined on
+   2026-08-12, owner-approved by ear: they are what makes "said" and "you"
+   readable as three tiles and two rather than four and three. The tiles have
+   to tell the truth, and s-a-i-d says a word the child will never hear.
+   Verified before the rule changed: NO word in the bank contains ai or ou, so
+   nothing already shipped re-tiles underneath this. */
+const DIGRAPHS = ["sh","ch","th","wh","ck","ng","qu","kn","wr","mb","ll","ss","ff","zz","ai","ou"];
 /* The microphone is gone (owner-ruled 2026-08-11, safety; removed 2026-08-12), and
    three things went with it because it was the only reason each existed.
    HOMOPHONES was a 31-word near-miss table read by nothing but the transcript
@@ -407,6 +415,20 @@ const WORD_SOUND = {
      day: a clip judged ALONE is not the same question as the same clip judged
      in the company it will keep. */
   what: { 1: "short_u" },
+  /* The heart words, owner-heard 2026-08-12, every one graded perfect in the
+     sound-out round. Each is a word whose letters do not say what they usually
+     say, which is why it is taught by sight — and the reveal still tells the
+     truth about it, per the 2026-08-06 ruling. */
+  to: { 1: "oo_moon" }, do: { 1: "oo_moon" },   // o says oo
+  you: { 1: "oo_moon" },                        // y-ou: the ou says oo
+  said: { 1: "short_e" },                       // s-ai-d: the ai says e
+  /* "my" is NOT here, and its absence is deliberate. The owner graded both it
+     and long_i perfect on 2026-08-12, so the sound is settled — but SPEC
+     section 12 seats "my" in the open-syllable level, which is not built. A
+     word named in WORD_SOUND and seated in no level is a word bankWords()
+     requires a clip for and buildSession can never serve, and the voice gate
+     caught exactly that within a minute of it being written. The ruling it
+     needs is where "my" sits, not how it sounds. */
   wash: { 1: "short_o" },
   is: { 1: "z" }, has: { 2: "z" },
   /* THE VOICED th. "th" spells two different sounds, and until 2026-08-11 the
@@ -446,6 +468,7 @@ const SOUND_TEXT = {
   short_i: "the sound in the middle of pig", short_o: "the sound in the middle of hot",
   short_u: "the sound in the middle of cup", long_e: "the sound at the end of she",
   schwa: "the lazy sound in the middle of the", oo_book: "the short oo sound in book",
+  oo_moon: "the long oo sound in moon",
 };
 /* The sound each of a word's tiles speaks, in order. */
 function soundIdsFor(word) {
@@ -467,6 +490,25 @@ function soundIdsFor(word) {
    TRICKY and WORD_SOUND are keyed BY WORD, so they are the other two places a
    word can be named, and both are folded in here. A test pins that: a word
    named in either and in no level still appears in the inventory. */
+/* THE HEART ROSTER — words taught by sight, ahead of the code that would
+   decode them. This is the ONE list; tools/decodable.mjs used to carry a
+   second, longer one that treated all sixteen as Level 1, which is how two
+   rosters drift apart and how a sentence gets levelled against a word the
+   child has never met.
+
+   A heart word still needs a SEAT in a level, because that is the only place
+   buildSession draws new words from — a roster entry alone would make a word
+   invisible to the game forever. So this list does not place words; it records
+   which of the placed words are sight words, for the sentence leveller and for
+   anyone reading the bank.
+
+   Placement follows SPEC section 12: to and do at Level 6, you and said at
+   Level 7. "of" is absent because the owner asked for another pass on its
+   sounds (2026-08-12); "my" is absent because SPEC puts it in the
+   open-syllable level, which is not built; "a" is absent because no word clip
+   for it exists and the voice says the letter name, which S4 forbids. */
+const HEART = ["the", "to", "do", "you", "said"];
+
 function bankWords() {
   const words = new Set();
   for (const l of LEVELS) for (const w of l.words) words.add(w);

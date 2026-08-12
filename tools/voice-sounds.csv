@@ -31,8 +31,9 @@ z,z,z s,zip is,continuous,superseded_by_synthesis,z.wav,yes,ok,owner accept z_1 
 qu,kw,qu,quiz,composite,superseded_by_synthesis,qu.wav,yes,marginal,owner accept qu_2 marginal [S4]; family qu_owner_120,S4 / 2026-08-05,clip,0.12,0.57,20,0,12,-3,,,256f719957e3cbf74acd16951c3fe6d2393259381f1928454abd5a46d54f25d1,SUPERSEDED 2026-08-11: the owner ruled that no recording of their voice ships in the game. The shipping clip for this sound is the synthesised one in tools/pending-sounds/. This row is kept as provenance for a recording that no longer ships and is no longer in the repository. | S4 qu_2 qu_owner_120; blend=none; pin bake-package/sound-winners/s-qu.wav; retake3
 long_a,eɪ,a,(future magic-e: cake),vowel,kokoro,,no,,,,,,,,,10,0,0,,,"the letter A's name; no bank word carries it yet - render candidates, e.g. from 'say day' cuts"
 long_e,iː,e,she,vowel,cut,she,no,,,,,,,,,10,0,0,,,the e of she; cut the ee tail from her approved clip
-long_i,aɪ,i,(future magic-e: dime),vowel,kokoro,,no,,,,,,,,,10,0,0,,,"the letter I's name; render candidates, e.g. from 'my time' cuts"
+long_i,aɪ,i,(future magic-e: dime),vowel,kokoro,,yes,perfect (owner),heard alone and inside my; both perfect. Approved and unshipped until 'my' has a level seat.,"heart-word sound-out round, 2026-08-12",,,,,,10,0,0,,,"the letter I's name; render candidates, e.g. from 'my time' cuts"
 long_o,oʊ,o,(future magic-e: home),vowel,kokoro,,no,,,,,,,,,10,0,0,,,"the letter O's name; render candidates, e.g. from 'go so' cuts"
 long_u,juː,u,(future magic-e: cube),vowel,kokoro,,no,,,,,,,,,10,0,0,,,"the letter U's name; render candidates, e.g. from 'use few' cuts"
 schwa,ə,e a,the,vowel,cut,the,no,,,,,,,,,10,0,0,,,the uh of the; cut from her approved clip
 oo_book,ʊ,u,push bush,vowel,cut,push,no,,,,,,,,,10,0,0,,,the oo of push and bush; cut mid-word from her approved clip
+oo_moon,u,o ou,"moon, food, boot",vowel,kokoro,,yes,perfect (owner),"heard alone and inside to, do and you; all perfect","heart-word sound-out round, 2026-08-12",,,,,,10,0,0,,,"the long oo; shipped 2026-08-12 for to, do and the ou of you"

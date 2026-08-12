@@ -537,19 +537,27 @@ describe("G10 — free play never touches the save", () => {
        graded as a retry.
 
        At the boundary the pin moves to 0.955, and that number is chosen, not
-       inherited. "plan" sits at index 412 of the 432-word bank, so a pin
-       anywhere in [0.95370, 0.95602) makes the UNGUARDED draw land exactly on
-       the word the child just read. Only a pin in that window can tell the
-       guard apart from luck: the previous pin of 0.935 was in the window for
-       the 349-word bank and fell out of it when the bank grew, at which point
-       the test would still have passed while proving nothing. Both literals
-       below are derived from the algorithm, never read back from a run:
-         - the guard drops "plan" from the pool, so 431 words are left and
-           floor(0.955 x 431) = 411 opens the block on "grin", not "plan";
-         - "plan" is then pushed back, and floor(0.955 x 431) = 411 of the
+       inherited. "plan" sits at index 416 of the 436-word bank, so a pin
+       anywhere in [0.954128, 0.956422) makes the UNGUARDED draw land exactly
+       on the word the child just read. Only a pin in that window can tell the
+       guard apart from luck: the pin of 0.935 was in the window for the
+       349-word bank and fell out of it when the bank grew, at which point the
+       test would still have passed while proving nothing. Both literals below
+       are derived from the algorithm, never read back from a run:
+         - the guard drops "plan" from the pool, so 435 words are left and
+           floor(0.955 x 435) = 415 opens the block on "grin", not "plan";
+         - "plan" is then pushed back, and floor(0.955 x 435) = 415 of the
            refilled pool is "plum". Without the push-back it would be "grab",
            so this line is what proves the word returns to the game rather
-           than leaving it. All literals (E4), for the 432-word bank. */
+           than leaving it. All literals (E4), for the 436-word bank.
+
+       RE-DERIVED 2026-08-12 when four heart words joined and the bank went
+       432 -> 436. The assertions never changed and never failed: 0.955 is
+       still inside the new window, by luck rather than by design. That is the
+       cup lesson in miniature — a derivation that stops matching its
+       assertion is how a result gets lost — so the window is recomputed and
+       written down here every time the bank moves, whether or not the test
+       goes red. */
     const spy = vi.spyOn(Math, "random").mockReturnValue(0.9999999);
     try {
       await enterFreePlay("🎲 Truly random");
