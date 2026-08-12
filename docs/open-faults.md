@@ -103,16 +103,6 @@ wrong sound for months without a single gate noticing.
 - **Done** A gate, not another sweep. Adding a word that needs an exception must fail until
   someone rules on it.
 
-### B3. `what` plays a vowel nobody chose
-
-- **Where** `WORD_SOUND.what = { 1: "short_o" }`, inherited from the ruling of 2026-08-06,
-  which was made before the accent was settled.
-- **Today** Not wrong. Both *wut* and *wot* are ordinary American, the on-screen note says
-  "wot", and screen and sound agree, so a child is not told two different things.
-- **The fault** `was` moved to short_u under the American ruling of 2026-08-11 and `what`
-  did not, because nobody ruled on it. It is a variant chosen by inheritance.
-- **Done** The owner listens once and rules. One line either way.
-
 ### B5. The tile ring falls back to a fixed length
 
 - **Where** `app/src/wq-css.js`, `animation: wqpop var(--wqpop, 700ms)`.
@@ -261,6 +251,32 @@ well" before seeing any of this.
   utterance-final position without the creak being checked.
 
 ---
+
+### B14. The mastery map tells a parent their child failed
+
+Reported by a user on 2026-08-12, with a screenshot: "he clicked and held 'got it' for most of
+these words but the game is tracking it as unmastered". Verified against the engine. **Nothing
+is broken and no result was lost** — but the screen cannot be read correctly by the person it
+is for, which makes it a fault rather than a misunderstanding.
+
+- **Where** `app/src/screens/ParentScreen.jsx`, the mastery map and its per-level count.
+- **What the engine does** A first correct reading puts a word in box 3; a second puts it in
+  box 4; "mastered" means box 4 or more. The map colours from the same numbers: grey for never
+  tried, pink below box 2, amber at box 2 or 3, green at box 4. So **every amber tile is a word
+  the child read correctly.**
+- **Why it reads as failure** Three things compound.
+  1. **There is no legend.** Three colours, no key, nowhere on the screen.
+  2. **"2/12 mastered" is arithmetically true and emotionally wrong.** The child read twelve
+     and got twelve right.
+  3. **Green is days away by design.** After the first correct reading the word is not due
+     again for four sessions (`INTERVALS[3]`), and nothing says that the wait is the spaced
+     repetition working rather than the child struggling.
+- **Class** The same one as the rest of section B: correct behaviour with no signal. The
+  difference is that this one is being read by parents today.
+- **Done** The map says what its colours mean, and the count stops implying failure — two
+  numbers ("12/12 read · 2/12 mastered") rather than one. Moving mastery to box 3 would also
+  "fix" it and is NOT to be done without an owner ruling: one reading is not mastery, and
+  `buildSession`'s confidence pool is defined on box 4.
 
 ## C. The audit trail
 
