@@ -27,9 +27,18 @@ function SessionStage({ state, currentWord, phase, fb, liveRef, pops = [] }) {
               sound is the reveal it always was. */}
           <div className="wq-slot-tiles" aria-hidden={phase !== "feedback"}>
             {phase === "feedback" && chunkWord(currentWord).map((g, i) => (
+              /* A ring only where its LENGTH is known (B5). A source that
+                 cannot say how long its sound is — a family pack, whose clips
+                 nobody has measured — used to get a ring of a fixed 700 ms,
+                 which is the fault fixed on 2026-08-11 handed back: it
+                 outlived the four short plosives and ran out 236 ms before /w/
+                 finished in "win". A ring against the wrong sound teaches the
+                 child the wrong piece of the word, so no length now means no
+                 ring, and the reveal is simply the one it always was without
+                 sound. */
               <span key={i + ":" + (pops[i]?.n || 0)}
-                className={"wq-display wq-tile" + (pops[i] ? " wq-pop" : "")}
-                style={pops[i]?.ms ? { "--wqpop": pops[i].ms + "ms" } : undefined}>{g}</span>
+                className={"wq-display wq-tile" + (pops[i]?.ms > 0 ? " wq-pop" : "")}
+                style={pops[i]?.ms > 0 ? { "--wqpop": pops[i].ms + "ms" } : undefined}>{g}</span>
             ))}
           </div>
 

@@ -8,7 +8,7 @@ Per-test rows carry the test's own sentence, which in this project IS the
 Given/When/Then effect. The requirement, oracle, platform, mutant family, evidence
 and known limits are declared per FILE, in the tool, where they stay true.
 
-Totals: 252 it() SITES across 12 files, plus 10 gates that are not test files.
+Totals: 255 it() SITES across 12 files, plus 10 gates that are not test files.
 
 A site inside a loop or a table runs many times, so these rows describe more tests than they number: Vitest executes 330. The rows count the places behaviour is asserted.
 
@@ -33,7 +33,7 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 8 | G10 — the text a grown-up reads on the child | 27: one completed session counts as  |
 | 9 | G10 — the text a grown-up reads on the child | 28 (control): two sessions still count as  |
 
-## tests/engine.test.js — 78 tests (G1)
+## tests/engine.test.js — 79 tests (G1)
 
 - **Requirement protected:** SPEC sections 3-4: the word bank, levels, chunking, the Leitner ladder, session shape and the reveal plan
 - **Independent oracle:** Literal expected values written from SPEC by hand (E4). Never the constant under test.
@@ -98,30 +98,31 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 52 | buildMarkdown | marks a partial session |
 | 53 | voice packs | inventories one clip per word, the fixed sentences, and every sound a tile can ask for |
 | 54 | voice packs | covers every grapheme the whole bank can produce |
-| 55 | voice packs | gives every tricky word its true sounds, not its letters |
-| 56 | voice packs | splits th into its two sounds, across every th word in the bank |
-| 57 | voice packs | plans the sound-out reveal on every outcome, at the literal 500 ms seam |
-| 58 | voice packs | knows a seam from a clip, and how long each one lasts |
-| 59 | voice packs | maps each tile sound to its own tile, in order |
-| 60 | voice packs | resolves one source per utterance: family, then default, then none |
-| 61 | speech helpers | says full words only, never letter names, and never stretches the reveal |
-| 62 | speech helpers | stays silent when sound is off or no engine exists |
-| 63 | speech helpers | configures the utterance: rate 0.9, pitch 1.1, locale, cancel first |
-| 64 | speech helpers | pins the seventeen praise sentences, character for character |
-| 65 | speech helpers | selects the praise by index, and falls back to the first for a bad index |
-| 66 | speech helpers | queues reveal parts: one cancel, and both the lead and the word sentence at 0.9 |
-| 67 | speech helpers | survives a throwing speech service |
-| 68 | speech helpers | hush stops speech, and survives a missing engine |
-| 69 | speech helpers | vibrates only when the device can, and never throws |
-| 70 | reference storage adapter | reads nothing when no storage exists at all |
-| 71 | reference storage adapter | reads a saved document from the host storage |
-| 72 | reference storage adapter | keeps a copy of damaged data and reports it, even if the copy write fails |
-| 73 | reference storage adapter | saves to the host and answers from memory when the host disappears |
-| 74 | reference storage adapter | reports an unsaved visit when the host write fails |
-| 75 | reference storage adapter | falls back to memory when the host read throws |
-| 76 | G1 — the system voice is never given a word it says wrongly | 75: no praise line contains a word with two pronunciations |
-| 77 | G1 — the system voice is never given a word it says wrongly | 76: with no unsafe line listed, every praise index reaches the system voice unchanged |
-| 78 | G1 — the system voice is never given a word it says wrongly | 77: the clip plan carries the new line to the pack |
+| 55 | voice packs | bankWords covers every word the app names, not only the levels |
+| 56 | voice packs | gives every tricky word its true sounds, not its letters |
+| 57 | voice packs | splits th into its two sounds, across every th word in the bank |
+| 58 | voice packs | plans the sound-out reveal on every outcome, at the literal 500 ms seam |
+| 59 | voice packs | knows a seam from a clip, and how long each one lasts |
+| 60 | voice packs | maps each tile sound to its own tile, in order |
+| 61 | voice packs | resolves one source per utterance: family, then default, then none |
+| 62 | speech helpers | says full words only, never letter names, and never stretches the reveal |
+| 63 | speech helpers | stays silent when sound is off or no engine exists |
+| 64 | speech helpers | configures the utterance: rate 0.9, pitch 1.1, locale, cancel first |
+| 65 | speech helpers | pins the seventeen praise sentences, character for character |
+| 66 | speech helpers | selects the praise by index, and falls back to the first for a bad index |
+| 67 | speech helpers | queues reveal parts: one cancel, and both the lead and the word sentence at 0.9 |
+| 68 | speech helpers | survives a throwing speech service |
+| 69 | speech helpers | hush stops speech, and survives a missing engine |
+| 70 | speech helpers | vibrates only when the device can, and never throws |
+| 71 | reference storage adapter | reads nothing when no storage exists at all |
+| 72 | reference storage adapter | reads a saved document from the host storage |
+| 73 | reference storage adapter | keeps a copy of damaged data and reports it, even if the copy write fails |
+| 74 | reference storage adapter | saves to the host and answers from memory when the host disappears |
+| 75 | reference storage adapter | reports an unsaved visit when the host write fails |
+| 76 | reference storage adapter | falls back to memory when the host read throws |
+| 77 | G1 — the system voice is never given a word it says wrongly | 75: no praise line contains a word with two pronunciations |
+| 78 | G1 — the system voice is never given a word it says wrongly | 76: with no unsafe line listed, every praise index reaches the system voice unchanged |
+| 79 | G1 — the system voice is never given a word it says wrongly | 77: the clip plan carries the new line to the pack |
 
 ## tests/faults.test.js — 13 tests (G9)
 
@@ -385,7 +386,7 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 17 | update-system tripwires (source, with controls) | the version check bypasses the service worker and the precache |
 | 18 | update-system tripwires (source, with controls) | the update module can never touch saved progress |
 
-## tests/voicepacks.test.js — 11 tests (G13)
+## tests/voicepacks.test.js — 13 tests (G13)
 
 - **Requirement protected:** The voice pack's engine-side contract: every word has a clip and every clip a recipe
 - **Independent oracle:** tools/voice-words.csv, the human-edited source of truth
@@ -401,12 +402,14 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 3 | voice-pack clip engine | falls back to system speech when the pack lacks a clip, and stays silent with sound off |
 | 4 | voice-pack clip engine | falls back before any sound when a clip fails to decode |
 | 5 | voice-pack clip engine | stopClips() halts a scheduled chain, and a new utterance silences the old one |
-| 6 | voice-pack clip engine | prefers a complete family pack: family clips come from the device, not from fetch |
-| 7 | voice-pack clip engine | takes the audio session back from the microphone before the next reveal |
-| 8 | voice-pack clip engine | declares a playback session before anything sounds, so the silent switch cannot mute the words |
-| 9 | voice-pack clip engine | (control): with no microphone use the context is left alone |
-| 10 | voice-pack clip engine | App.jsx wires the packs at every speech site (source tripwire with control) |
-| 11 | voice-pack clip engine | the audio-route repair survives with no caller, ready for the family recorder |
+| 6 | voice-pack clip engine | measures where the speech sits inside a clip, in the shipped pack |
+| 7 | voice-pack clip engine | a stored family clip carries its measurements, and an undecodable one carries none |
+| 8 | voice-pack clip engine | prefers a complete family pack: family clips come from the device, not from fetch |
+| 9 | voice-pack clip engine | takes the audio session back from the microphone before the next reveal |
+| 10 | voice-pack clip engine | declares a playback session before anything sounds, so the silent switch cannot mute the words |
+| 11 | voice-pack clip engine | (control): with no microphone use the context is left alone |
+| 12 | voice-pack clip engine | App.jsx wires the packs at every speech site (source tripwire with control) |
+| 13 | voice-pack clip engine | the audio-route repair survives with no caller, ready for the family recorder |
 
 ## Gates that are not test files
 

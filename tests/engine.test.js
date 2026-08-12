@@ -8,7 +8,7 @@ import {
   chunkWord, dashed, freshWordState, applyResult, buildSession, checkPromotion,
   heal, migrate, newState, buildMarkdown, loadState, saveState, speak, hush, buzz, feedbackSpeech, PRAISE,
   SEAM_MS, SOUNDOUT_SEAM_MS, voiceScript, clipPlan, resolvePack, TTS_UNSAFE_PRAISE, ttsSafePraise,
-  soundInventory, soundIdFor, soundIdsFor, tileSlots, isSeam, seamMs,
+  soundInventory, bankWords, soundIdFor, soundIdsFor, tileSlots, isSeam, seamMs, WORD_SOUND,
 } from "../src/engine.js";
 
 const clone = (o) => JSON.parse(JSON.stringify(o));
@@ -426,10 +426,46 @@ describe("voice packs", () => {
        "sh", "t", "v", "w", "x", "y", "z"]);
     const inv = new Set(soundInventory());
     for (const g of graphemes) expect(inv.has(soundIdFor(g))).toBe(true);
-    for (const l of LEVELS) for (const w of l.words) {
+    for (const w of bankWords()) {
       expect(soundIdsFor(w).length).toBe(chunkWord(w).length);   // S8 — one tile, one sound
       for (const id of soundIdsFor(w)) expect(inv.has(id)).toBe(true);
     }
+  });
+
+  /* B9: the inventory is derived from every word the app NAMES, not from the
+     levels alone. It walked LEVELS until 2026-08-12 and was correct only by
+     coincidence — every tricky word and every bent-sound word also happened to
+     sit in a level. A word named anywhere else would have had no sound clip
+     and no word clip, and its reveal alone would have dropped to system
+     speech. The heart-word roster (SPEC section 12) is the next thing that
+     will name words this way and must not be the thing that finds it. */
+  it("bankWords covers every word the app names, not only the levels", () => {
+    const words = bankWords();
+    expect(words.length).toBe(432);
+    expect([...new Set(words)].length).toBe(words.length);       // no duplicates
+    expect([...words].sort()).toEqual(words);                    // stable order
+    const inLevels = new Set();
+    for (const l of LEVELS) for (const w of l.words) inLevels.add(w);
+    for (const w of words) expect(typeof w).toBe("string");
+    /* The three sources, each pinned. TRICKY and WORD_SOUND are keyed BY WORD,
+       so they are the other two places a word can be named. */
+    for (const w of Object.keys(TRICKY)) expect(words.includes(w)).toBe(true);
+    for (const w of Object.keys(WORD_SOUND)) expect(words.includes(w)).toBe(true);
+    for (const w of inLevels) expect(words.includes(w)).toBe(true);
+    /* Today all three sets coincide, and recording that is the point: it is
+       what made the old code look right. */
+    expect(inLevels.size).toBe(432);
+
+    /* Negative control. The old LEVELS-only derivation, run over a fixture
+       where a word is named ONLY in a tricky note, must miss it — and the
+       union must not. Without this the test above passes on any derivation
+       that happens to cover today's data. */
+    const fixtureLevels = [{ words: ["cat", "sun"] }];
+    const fixtureTricky = { said: "Tricky word!" };
+    const oldWay = new Set(fixtureLevels.flatMap((l) => l.words));
+    const newWay = new Set([...oldWay, ...Object.keys(fixtureTricky)]);
+    expect(oldWay.has("said")).toBe(false);                      // the fault
+    expect(newWay.has("said")).toBe(true);                       // the fix
   });
 
   /* Owner-ruled 2026-08-06, docs/settled.md: "the bent letter plays its TRUE

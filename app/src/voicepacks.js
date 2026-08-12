@@ -16,6 +16,10 @@ const BUFFER_CAP = 64;             // decoded-clip cache; praise and stems stay 
 
 let defaultManifest = null;        // { id: { file, ms } }; {} when the pack is absent
 let familyIds = new Set();
+/* id -> {lead, tail, ms} for the family pack, or null where a clip predates
+   the measuring or could not be decoded. Never defaulted to zero: an
+   unmeasured clip is a clip the sound-out must not pretend to know. */
+const familyEdges = new Map();
 let ctx = null;                    // AudioContext, created and resumed by unlockVoice()
 let micUsed = false;               // the microphone has taken the audio session since the last reveal
 let token = 0;
@@ -51,14 +55,71 @@ function idbGet(key) {
   }));
 }
 
-export function idbPutClip(key, blob) {
+/* Where the speech starts and stops inside a clip, in milliseconds either
+   side. This is the SAME method the shipped pack was measured with —
+   tools/voice-edges.py: 10 ms frames, RMS in dB against the clip's own peak,
+   and anything quieter than -45 dB is not speech. It has to be the same
+   method, because the two numbers meet in one calculation: the sound-out pulls
+   each entry back over the previous clip's tail and its own lead so that what
+   a child hears between two sounds is the 500 ms the owner approved. Two
+   different definitions of "where the speech starts" would give two different
+   rhythms and nothing would say which was which. */
+const EDGE_FLOOR_DB = -45;
+const EDGE_FRAME_MS = 10;
+export function measureEdges(buf) {
+  const a = buf.getChannelData(0), sr = buf.sampleRate;
+  const n = Math.max(1, Math.round(sr * EDGE_FRAME_MS / 1000));
+  const rms = [];
+  for (let i = 0; i + n <= a.length; i += n) {
+    let sum = 0;
+    for (let j = i; j < i + n; j++) sum += a[j] * a[j];
+    rms.push(Math.sqrt(sum / n));
+  }
+  const peak = Math.max(...rms, 1e-9);
+  let first = -1, last = -1;
+  for (let k = 0; k < rms.length; k++) {
+    if (20 * Math.log10(Math.max(rms[k], 1e-9) / peak) > EDGE_FLOOR_DB) {
+      if (first < 0) first = k;
+      last = k;
+    }
+  }
+  const ms = Math.round(buf.duration * 1000);
+  if (first < 0) return { lead: 0, tail: 0, ms };          // silence: no speech to find
+  const lead = Math.round(first * n / sr * 1000);
+  const end = Math.round((last + 1) * n / sr * 1000);
+  return { lead, tail: Math.max(0, ms - end), ms };
+}
+
+/* A family clip is stored WITH its measurements, taken on the way in. It used
+   to go in as a bare blob, and `edge()` answered 0 for anything that was not
+   the default pack — so a parent's own recordings would have played with the
+   old file-to-file rhythm, gaps from 540 ms to over a second, with nothing
+   anywhere saying they had. That is B6, and the fix is to measure rather than
+   to guess or to decline. A clip that cannot be decoded is stored with no
+   measurements and is treated as unmeasured, never as zero-edged. */
+export async function idbPutClip(key, blob) {
+  let edges = null;
+  try {
+    const bytes = typeof blob.arrayBuffer === "function" ? await blob.arrayBuffer() : blob;
+    /* decodeAudioData consumes the buffer, so measure from a copy. */
+    const probe = ctx || new (window.AudioContext || window.webkitAudioContext)();
+    edges = measureEdges(await probe.decodeAudioData(bytes.slice(0)));
+  } catch { edges = null; }
+  const record = { blob, ...(edges || {}) };
   return openDB().then((db) => new Promise((resolve, reject) => {
     const tx = db.transaction(DB_STORE, "readwrite");
-    tx.objectStore(DB_STORE).put(blob, key);
-    tx.oncomplete = () => { db.close(); familyIds.add(key); buffers.delete("family:" + key); resolve(true); };
+    tx.objectStore(DB_STORE).put(record, key);
+    tx.oncomplete = () => {
+      db.close(); familyIds.add(key); buffers.delete("family:" + key);
+      familyEdges.set(key, edges); resolve(true);
+    };
     tx.onerror = () => { db.close(); reject(tx.error); };
   }));
 }
+
+/* Test-only reader: the stored RECORD, not the decoded buffer, so a test can
+   see whether a clip went in measured. Nothing in the app calls it. */
+export function __readClip(key) { return idbGet(key); }
 
 export function idbDeleteClip(key) {
   return openDB().then((db) => new Promise((resolve, reject) => {
@@ -141,8 +202,13 @@ async function bufferFor(tier, id) {
     if (!r.ok) throw new Error("clip fetch failed: " + id);
     bytes = await r.arrayBuffer();
   } else {
-    const blob = await idbGet(id);
-    if (!blob) throw new Error("family clip missing: " + id);
+    const rec = await idbGet(id);
+    if (!rec) throw new Error("family clip missing: " + id);
+    /* Two shapes: {blob, lead, tail, ms} written since 2026-08-12, and a bare
+       blob from before that. The old shape stays playable and stays
+       UNMEASURED — it is not given zeros it never earned. */
+    const blob = rec && rec.blob ? rec.blob : rec;
+    if (rec && typeof rec.lead === "number") familyEdges.set(id, { lead: rec.lead, tail: rec.tail, ms: rec.ms });
     bytes = typeof blob.arrayBuffer === "function" ? await blob.arrayBuffer() : blob;
   }
   const buf = await ctx.decodeAudioData(bytes);
@@ -195,11 +261,23 @@ function startHum(from, until) {
    has never been measured, so it reports none and its utterance keeps the
    plain file-to-file spacing — the rhythm the packs had before the sound-out,
    rather than a compensation applied against a number nobody has. */
+function clipMeta(tier, id) {
+  if (tier === "default") return defaultManifest[id] || null;
+  return familyEdges.get(id) || null;
+}
+/* 0 means "no silence to compensate for", and that is only true when a
+   measurement says so. An UNMEASURED clip returns 0 here as well — there is
+   nothing else to return — which is why nothing downstream may treat 0 as
+   proof of a measurement. `measured()` is that proof, and the ring and the
+   spacing both ask it rather than inferring from a zero. */
 function edge(tier, id, which) {
-  if (tier !== "default") return 0;
-  const m = defaultManifest[id];
+  const m = clipMeta(tier, id);
   return m && typeof m[which] === "number" ? m[which] : 0;
 }
+const measured = (tier, id) => {
+  const m = clipMeta(tier, id);
+  return !!m && typeof m.lead === "number" && typeof m.tail === "number" && typeof m.ms === "number";
+};
 
 async function playPlan(plan, tier, my, fallback, onScheduled) {
   try {
@@ -270,11 +348,15 @@ async function playPlan(plan, tier, my, fallback, onScheduled) {
        /sh/ is a 792 ms file holding 170 ms of sound. */
     onScheduled(Math.round((at - now) * 1000), slots.map((s) => {
       const id = plan[s.index];
+      /* A ring's length is the SPEECH, and only a measured clip has one. An
+         unmeasured clip reports 0, the component declines to ring at all, and
+         the child sees the reveal without rings rather than rings against the
+         wrong sound (B5). */
       const lead = edge(tier, id, "lead");
-      const ms = defaultManifest[id] ? defaultManifest[id].ms : 0;
+      const m = clipMeta(tier, id);
       return {
         at: Math.round((startedAt[s.index] - now) * 1000) + lead,
-        ms: tier === "default" ? ms - lead - edge(tier, id, "tail") : 0,
+        ms: measured(tier, id) ? m.ms - lead - edge(tier, id, "tail") : 0,
       };
     }));
   } catch (e) {

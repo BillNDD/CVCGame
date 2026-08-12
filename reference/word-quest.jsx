@@ -454,9 +454,29 @@ function soundIdsFor(word) {
 }
 /* Every sound the bank's tiles can ask for, derived from the bank rather than
    listed by hand, so a new word can never outrun its sounds. */
+/* EVERY word the app has an opinion about, not every word in a level. The
+   inventory below and the render script both used to walk LEVELS, which was
+   safe only by coincidence: every tricky word and every bent-sound word also
+   happened to sit in a level. A word reachable any other way would have had no
+   sound clip and no word clip, `resolvePack` would have returned null, and the
+   whole reveal would have dropped to system speech — for that word only, which
+   is the hardest kind of fault to notice. The heart-word roster in SPEC
+   section 12 is the next thing that will test this, and it must not be the
+   thing that finds it.
+
+   TRICKY and WORD_SOUND are keyed BY WORD, so they are the other two places a
+   word can be named, and both are folded in here. A test pins that: a word
+   named in either and in no level still appears in the inventory. */
+function bankWords() {
+  const words = new Set();
+  for (const l of LEVELS) for (const w of l.words) words.add(w);
+  for (const w of Object.keys(TRICKY)) words.add(w);
+  for (const w of Object.keys(WORD_SOUND)) words.add(w);
+  return [...words].sort();
+}
 function soundInventory() {
   const ids = new Set();
-  for (const l of LEVELS) for (const w of l.words) for (const id of soundIdsFor(w)) ids.add(id);
+  for (const w of bankWords()) for (const id of soundIdsFor(w)) ids.add(id);
   return [...ids].sort();
 }
 const VOICE_SENTENCES = {
@@ -474,7 +494,7 @@ function voiceScript() {
   const clips = [];
   for (const [id, text] of Object.entries(VOICE_SENTENCES)) clips.push({ id, text });
   PRAISE.forEach((text, i) => clips.push({ id: "p:" + i, text }));
-  for (const l of LEVELS) for (const w of l.words) clips.push({ id: "w:" + w, text: w });
+  for (const w of bankWords()) clips.push({ id: "w:" + w, text: w });
   clips.push({ id: "s:pronounced", text: "Pronounced:" });
   /* A sound clip's text says what the sound IS, in words a grown-up can act
      on — "the sound at the start of ship". It is never the id and never the

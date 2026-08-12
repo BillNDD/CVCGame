@@ -90,7 +90,12 @@ returning without a fresh ruling.
 ## B. The default sounds — the whole class of fault that let `th` ship wrong
 
 The owner asked for this group to be put first, on 2026-08-11. Section A arrived later
-the same evening and is child-facing, so it goes above it.
+the same evening and is child-facing, so it went above it, and both are now closed.
+
+**Every default in this section has been closed as of 2026-08-12** — B1, B2, B5, B6, B7, B8,
+B9, B14 and B15. What remains below is not a default that nobody decided: B11, B12 and B13
+are questions about the QUALITY of sounds a listener has already judged, and they need ears
+rather than code.
 
 A default is not a decision. It is the absence of one that still produces audio: a grapheme
 with no ruling still returns a valid clip id, `resolvePack` still resolves, the voice gate
@@ -129,23 +134,41 @@ says, not against correct English, and it phonemises the word rather than readin
 clip. If the model mispronounces a word consistently, both sides agree and both are wrong. It is
 a refusal, not a proof. The sweep of 2026-08-12 raised two words — see B15.
 
-### B5. The tile ring falls back to a fixed length
+### B5. The tile ring's fixed fallback length — CLOSED 2026-08-12
 
-- **Where** `app/src/wq-css.js`, `animation: wqpop var(--wqpop, 700ms)`.
-- **Today** Unreachable. The default pack declares every clip's speech length, so the ring
-  always gets a real one.
-- **The fault** A fixed 700 ms is the exact fault fixed on 2026-08-11 — it outlived the four
-  short plosives and ran out 236 ms before /w/ finished in "win". Any tier that cannot report
-  a length gets that fault back.
-- **Done** A tier that cannot report a length shows no ring at all, rather than a wrong one.
+There is no fallback length any more. A ring is drawn only where the sound's own measured
+length is known, and where it is not the reveal simply shows no rings — which is the reveal
+as it always was before the sound-out, not a degraded one.
 
-### B6. A family pack gets no speech-to-speech spacing
+Two places carried the fault, and only one of them was the one this entry named. The known
+one was `animation:wqpop var(--wqpop, 700ms)`: a source that could not report a length got
+handed back the exact fault fixed on 2026-08-11, a fixed 700 ms that outlives the four short
+plosives and runs out 236 ms before /w/ finishes in "win". The one nobody had noticed was the
+reduced-motion rule, which hard-coded 700 ms with `!important` — so on every device with
+reduced motion switched on, **every ring was already the wrong length**, measured pack or
+not. That was live, not theoretical.
 
-- **Where** `app/src/voicepacks.js`, `edge()` returns 0 for any tier that is not `default`.
-- **Today** Unreachable. No screen calls `idbPutClip`, so no family pack can exist.
-- **The fault** A family pack would play the old file-to-file rhythm — gaps from 540 ms to
-  over a second — with nothing to say it had.
-- **Done** Family clips are measured on the way in, or the sound-out declines to use them.
+Both now take `var(--wqpop)` with no default, so a missing length makes the shorthand invalid
+and nothing animates; and the component declines to add the class at all. Two locks on one
+door, because a ring against the wrong sound teaches a child the wrong piece of the word.
+
+### B6. A family pack's speech-to-speech spacing — CLOSED 2026-08-12
+
+Family clips are now MEASURED on the way in, which is the first of the two options this entry
+allowed and the better one: the alternative was for the sound-out to decline a parent's own
+voice, which would have gutted the feature to protect it.
+
+`measureEdges()` uses the same method the shipped pack was measured with — 10 ms frames, RMS
+in dB against the clip's own peak, anything below -45 dB is not speech — because the two
+numbers meet inside one calculation. The sound-out pulls each entry back over the previous
+clip's tail and the next one's lead so that what a child hears between two sounds is the
+500 ms the owner approved; two different definitions of "where the speech starts" would give
+two different rhythms with nothing to say which was which.
+
+`edge()` no longer asks which tier a clip belongs to. It asks whether the clip has a
+measurement. A clip stored before today, or one the browser cannot decode, stays PLAYABLE and
+stays UNMEASURED — it is never given zeros it did not earn, which is the whole fault here —
+and an unmeasured clip gets no ring, by B5's rule.
 
 ### B7. Falling through to system speech left no trace — CLOSED, REOPENED, CLOSED AGAIN 2026-08-12
 
@@ -175,25 +198,35 @@ either way is noise a parent learns to ignore. Floor raised 13 to 15.
 Nothing on the child's screen changed, and nothing about it is saved: it describes this device
 right now, not the child's progress.
 
-### B8. Fourteen approved sounds are parked, unchecked against the current bank
+### B8. The fourteen parked sounds — CLOSED 2026-08-12
 
-- **Where** `tools/pending-sounds/`: air, ar, aw, ear, er, long_a, long_i, long_o, long_u,
-  oi, oo_moon, ow, or, zh. 47 approved, 33 shipped.
-- **Today** Believed parked for Levels 10 to 15.
-- **The fault** Not verified. If a current bank word should be using one of these instead of
-  a default, it is being sounded out wrongly now.
-- **Done** Each of the 14 is confirmed as future work, or shipped because a word needs it.
+Checked rather than believed: **none** of air, ar, aw, ear, er, long_a, long_i, long_o,
+long_u, oi, oo_moon, ow, or, zh is required by any of the 432 words in the bank today. All
+fourteen are confirmed as future work for Levels 12 to 15.
 
-### B9. `soundInventory()` walks `LEVELS` only
+The regression is guarded, and the guard was verified rather than assumed: `voiceScript()`
+derives the required clip list from `soundInventory()`, and G13 fails on a required clip that
+is not shipped. So the day a bank word starts needing one of the fourteen, the voice gate
+goes red and names it. That guard is only as complete as the inventory, which is why B9 below
+had to be fixed in the same change.
 
-- **Where** `reference/word-quest.jsx`, `soundInventory()`.
-- **Today** Safe. Every tricky word is also in a level, so coverage is complete.
-- **The fault** A word reachable outside `LEVELS` would have no sound, `resolvePack` would
-  return null, and the whole reveal would drop to system speech with nothing on screen to
-  say so. The heart-word roster in SPEC section 12 is the next thing likely to test this.
-- **Done** The inventory is derived from every word the app can show, not from `LEVELS`.
+### B9. `soundInventory()` walked `LEVELS` only — CLOSED 2026-08-12
 
----
+Both the inventory and the render script now walk `bankWords()`: every word the app NAMES,
+which is the union of every level's words with the keys of `TRICKY` and `WORD_SOUND`, those
+being the other two places a word can be named.
+
+The count did not move — 432 words before and 432 after — and that is the finding, not a
+disappointment. The old code was correct by coincidence: every tricky word and every
+bent-sound word also happened to sit in a level. A word reachable any other way would have
+had no sound clip and no word clip, `resolvePack` would have returned null, and that word
+alone would have dropped to system speech — the hardest kind of fault to notice, because
+every other word still worked.
+
+The heart-word roster (SPEC section 12) is the next thing that will name words this way, and
+it must not have been the thing that found it. A test pins the union with a negative control:
+a fixture where a word is named only in a tricky note, which the old LEVELS-only derivation
+misses and the new one does not.
 
 ## B11. Two shipped sounds are judged poor, and the best one has no recipe
 

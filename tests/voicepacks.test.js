@@ -16,8 +16,14 @@ class FakeCtx {
   constructor() { this.state = "suspended"; this.currentTime = 100; this.destination = {}; contexts.push(this); }
   resume() { this.state = "running"; }
   close() { this.closed = true; this.state = "closed"; }
-  async decodeAudioData() {
+  async decodeAudioData(bytes) {
     if (decodeFail) throw new Error("bad bytes");
+    /* A caller can ask for real samples by handing in a Float32Array's buffer;
+       everything else gets the plain 1-second stub the older tests expect. */
+    if (bytes && bytes.byteLength > 64) {
+      const a = new Float32Array(bytes);
+      return { duration: a.length / 8000, sampleRate: 8000, getChannelData: () => a };
+    }
     return { duration: 1 };                    // every clip decodes to exactly 1 s
   }
   createBufferSource() {
@@ -64,7 +70,7 @@ vi.stubGlobal("fetch", vi.fn(async (url) => {
   return { ok: true, arrayBuffer: async () => new ArrayBuffer(8) };
 }));
 const pack = await import("../app/src/voicepacks.js");
-const { initVoicePacks, speakVoice, stopClips, unlockVoice, idbPutClip, idbDeleteClip, microphoneUsed } = pack;
+const { initVoicePacks, speakVoice, stopClips, unlockVoice, idbPutClip, idbDeleteClip, microphoneUsed, measureEdges } = pack;
 
 const settle = () => new Promise((r) => setTimeout(r, 0));
 const fb = vi.fn();
@@ -171,6 +177,59 @@ describe("voice-pack clip engine", () => {
     await settle(); await settle();
     expect(scheduled.length).toBe(8);                    // the replay clip joined
     expect(fb).not.toHaveBeenCalled();
+  });
+
+  /* B6 — a family clip is MEASURED on the way in, with the same method the
+     shipped pack was measured with (tools/voice-edges.py: 10 ms frames, RMS in
+     dB against the clip's own peak, -45 dB floor). Before 2026-08-12 `edge()`
+     answered 0 for anything that was not the default pack, so a parent's own
+     recordings would have played the old file-to-file rhythm — gaps from
+     540 ms to over a second — with nothing anywhere saying they had. */
+  it("measures where the speech sits inside a clip, in the shipped pack's own terms", () => {
+    /* 8 kHz, one second: 200 ms of silence, 300 ms of tone, 500 ms of silence.
+       The expected numbers are the literal boundaries of that fixture, never
+       read back from the function under test. */
+    const sr = 8000, a = new Float32Array(sr);
+    for (let i = Math.round(sr * 0.2); i < Math.round(sr * 0.5); i++) a[i] = Math.sin(i * 0.5);
+    const buf = { duration: 1, sampleRate: sr, getChannelData: () => a };
+    const m = measureEdges(buf);
+    expect(m.ms).toBe(1000);
+    expect(m.lead).toBe(200);
+    expect(m.tail).toBe(500);
+    // a clip that is silence all through has no speech to find, and says so
+    const quiet = measureEdges({ duration: 0.5, sampleRate: sr, getChannelData: () => new Float32Array(sr / 2) });
+    expect(quiet).toEqual({ lead: 0, tail: 0, ms: 500 });
+    /* Control: tone from the very first sample must NOT report a lead. Without
+       this, a function that always answered 200 would pass the case above. */
+    const full = new Float32Array(sr);
+    for (let i = 0; i < sr; i++) full[i] = Math.sin(i * 0.5);
+    const m2 = measureEdges({ duration: 1, sampleRate: sr, getChannelData: () => full });
+    expect(m2.lead).toBe(0);
+    expect(m2.tail).toBe(0);
+  });
+
+  it("a stored family clip carries its measurements, and an undecodable one carries none", async () => {
+    const sr = 8000, a = new Float32Array(sr);
+    for (let i = Math.round(sr * 0.1); i < Math.round(sr * 0.6); i++) a[i] = Math.sin(i * 0.5);
+    await idbPutClip("w:cat", a.buffer);
+    try {
+      const rec = await pack.__readClip("w:cat");
+      expect(rec.lead).toBe(100);
+      expect(rec.tail).toBe(400);
+      expect(rec.ms).toBe(1000);
+    } finally { await idbDeleteClip("w:cat"); }
+
+    /* Control: a clip the browser cannot decode is stored PLAYABLE but
+       UNMEASURED — never with zeros it did not earn, which is the whole fault
+       B6 names. */
+    decodeFail = true;
+    try {
+      await idbPutClip("w:cat", new ArrayBuffer(8));
+      const rec = await pack.__readClip("w:cat");
+      expect(rec.blob).toBeTruthy();
+      expect(rec.lead).toBeUndefined();
+      expect(rec.tail).toBeUndefined();
+    } finally { decodeFail = false; await idbDeleteClip("w:cat"); }
   });
 
   it("prefers a complete family pack: family clips come from the device, not from fetch", async () => {
