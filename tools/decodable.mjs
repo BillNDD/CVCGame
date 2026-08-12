@@ -18,16 +18,22 @@
 import { readFileSync } from "node:fs";
 import { LEVELS, TRICKY } from "../src/engine.js";
 
-/* The thirteen heart words the owner ruled onto the roster (SPEC section 12).
-   They are not decodable by the code the child has been taught, which is the
-   whole reason they are taught by sight — so a sentence may use them. */
-export const HEART = ["be", "do", "go", "he", "me", "my", "no", "of", "said", "so", "to", "we", "you"];
+/* The sixteen heart words the owner ruled onto the roster (SPEC section 12).
+   Most are not decodable by the code the child has been taught, which is the
+   whole reason they are taught by sight — so a sentence may use them from
+   Level 1. Three of them are here for a different reason, owner-ruled
+   2026-08-11: "the", "a" and "and" are the words a child meets on page one of
+   every book, and leaving them where the phonics falls puts "the" at Level 7
+   (it needs th) and "and" at Level 10 (it needs a final blend), which gates
+   almost every sentence worth reading behind two thirds of the game. */
+export const HEART = ["a", "and", "be", "do", "go", "he", "me", "my", "no", "of", "said", "so", "the", "to", "we", "you"];
 
-/* Levels beyond the nine that ship today, as proposed. A sentence for a level
-   may use every word up to and including it. */
+/* Levels beyond the eleven that ship today, as proposed. A sentence for a level
+   may use every word up to and including it. Levels 10 and 11 left this map on
+   2026-08-12, when they were built; what remains is 12 to 15. */
 export const PROPOSED = {
-  10: "and ant ask band belt bend best bolt bond bump camp cost damp dent desk dusk end fast fond gift gulf gulp hand help hint jump just kept lamp land last left lend lift list mask melt mend milk mint must nest pond pump raft rest risk romp sand sift silk soft task tent wilt".split(" "),
-  11: "brag clap drop drum flag flat glad grab grin plan plum slam sled slid slip snap snug spin spot stem step stop swam swim trap trim trip twig twin".split(" "),
+  12: "beds bugs cans cats cups dogs hats hens kids lids maps pens pigs pots tops".split(" "),
+  13: "catnip laptop sunset".split(" "),
 };
 
 export function vocabularyUpTo(level) {
@@ -42,6 +48,14 @@ export function vocabularyUpTo(level) {
    from "can" and is not taught. */
 export const words = (s) => s.toLowerCase().replace(/[.,!?;:"“”]/g, " ").split(/\s+/).filter(Boolean);
 
+/* The words the level itself introduces. A built level owns them; a level still
+   only proposed keeps them in PROPOSED until it is built. Reading only PROPOSED
+   was right until 2026-08-12 and wrong the moment Levels 10 and 11 shipped —
+   every Level 10 sentence was then refused as "uses no level 10 word", the
+   checker's own controls included. */
+export const newAt = (level) =>
+  (LEVELS.find((l) => l.n === level)?.words) || PROPOSED[level] || [];
+
 export function check(sentence, level, mustUse = []) {
   const v = vocabularyUpTo(level);
   const ws = words(sentence);
@@ -51,7 +65,7 @@ export function check(sentence, level, mustUse = []) {
   /* The level's own new words are the point of the sentence. One is the rule
      the owner set; a sentence that happens to use none is practice for the
      level before it. */
-  const fresh = ws.filter((w) => (PROPOSED[level] || []).includes(w));
+  const fresh = ws.filter((w) => newAt(level).includes(w));
   if (mustUse.length === 0 && !fresh.length) problems.push(`uses no level ${level} word`);
   for (const m of mustUse) if (!ws.includes(m)) problems.push(`does not use "${m}"`);
   /* A sentence a four-year-old reads aloud in one breath. Eight words is the

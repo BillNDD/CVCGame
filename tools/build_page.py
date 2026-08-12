@@ -181,8 +181,18 @@ function exportText() {{
   }});
   return lines.join("\\n");
 }}
-document.addEventListener("click", (e) => {{
-  const t = e.target;
+/* Touch, not click. A tap inside a cross-origin viewer frame never becomes a
+   click event on some mobile browsers, so a page wired to "click" alone is
+   completely dead on a phone while working perfectly on a laptop. That is
+   exactly what happened to the th round on 2026-08-11: the owner opened it,
+   nothing responded, and the round was lost. Both events are handled, and a
+   guard stops the pair from double-firing when a browser sends both. */
+let lastTap = 0;
+const handle = (e) => {{
+  if (e.type === "pointerup") lastTap = Date.now();
+  else if (Date.now() - lastTap < 700) return;   // this click follows our own pointerup
+  const t = e.target.closest("button");
+  if (!t) return;
   if (t.classList.contains("play")) {{ play(t); return; }}
   if (t.classList.contains("mark")) {{
     const item = t.dataset.item;
@@ -202,7 +212,9 @@ document.addEventListener("click", (e) => {{
       comment: (card.querySelector(".cmt input").value || "").trim() }};
     refresh(item);
   }}
-}});
+}};
+document.addEventListener("pointerup", handle);
+document.addEventListener("click", handle);
 document.addEventListener("input", (e) => {{
   if (!e.target.matches(".cmt input")) return;
   const item = e.target.dataset.item;
@@ -213,7 +225,7 @@ document.addEventListener("input", (e) => {{
    sticky footer is what actually gets the answers back, and it needs no
    permission from anybody. alert() is never used - it steals the selection it
    just told the reader to copy, and a blocked alert looks like a dead button. */
-document.getElementById("copy").addEventListener("click", async () => {{
+const doCopy = async () => {{
   const text = exportText();
   const box = document.getElementById("out");
   const status = document.getElementById("status");
@@ -227,6 +239,13 @@ document.getElementById("copy").addEventListener("click", async () => {{
   status.textContent = copied
     ? "Copied to the clipboard — paste it back in the chat. The text is also below, already selected."
     : "The clipboard is blocked here. The text below is selected: press Ctrl+C (or Cmd+C) and paste it back in the chat.";
+}};
+/* Same reason as the delegate above: on a phone this button must answer a
+   tap, not only a click. */
+document.getElementById("copy").addEventListener("pointerup", doCopy);
+document.getElementById("copy").addEventListener("click", (e) => {{
+  if (Date.now() - lastTap < 700) return;
+  doCopy(e);
 }});
 
 /* Restore a previous sitting, and say so. */
