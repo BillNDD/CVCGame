@@ -935,9 +935,11 @@ it had no row in `tools/voice-sounds.csv` at all before that day. Safety rule S8
 shipped re-tiled underneath it.
 
 **What did NOT ship, and why — none of it about the audio.**
-- `my` and `long_i`: both perfect. SPEC seats `my` in the open-syllable level, which is not
-  built, so `long_i` was shipped and then un-shipped as an orphan clip and recorded as
-  approved-and-unshipped. **The blocker is a seat, not a sound.**
+- `my` and `long_i`: both perfect. SPEC seated `my` in the open-syllable level, which is not
+  built, so `long_i` was shipped and then un-shipped as an orphan clip. **The blocker was a
+  seat, not a sound** — and the owner gave it one the same evening: `my` sits at Level 2 and
+  `d:long_i` ships. This paragraph described the state for about two hours; it is corrected
+  rather than deleted because the reasoning is the record.
 - `of`: the only iterate. Do not reach for `o→schwa` as the next arm without measuring
   first — B12 records `d:schwa` and `d:short_u` as the SAME vowel by formant (/ʌ/ and /ə/
   differ by stress, not quality), so offering both risks the round-8 mistake of two arms a
@@ -1119,7 +1121,7 @@ Two files answered this differently, so both were true at once and the sentence 
 confused. The owner ruled: **a heart word's level is where the CHILD MEETS it, not where its
 spelling would fall.**
 
-Every heart word now opens Level 2 — the, and, to, do, you, said, my, of, in that order, FIRST
+Every heart word now opens Level 2 — the, and, to, do, you, said, my, of, a, in that order, FIRST
 in the list, because a level's word order is its introduction order and appending would have
 made a word that exists to be met early the last thing a child meets.
 

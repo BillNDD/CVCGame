@@ -42,9 +42,10 @@ gain −7 dB, one-pole low-pass at 1800 Hz, re-peaked to −3.5 dBFS, 40 ms fade
 pack's own 80/300 ms padding. Its hash is `0489d6c0`; `tools/build_of_round.py --ship`
 reproduces it and refuses to write anything unless the source and the result both hash to
 the values recorded there. A rebuild needs the old clip **and its manifest edges** restored
-from `403b237`, because the recipe cuts the body at the edges the manifest declares. **Every word with a /v/ in it — van, vet, vat, vex and the rest —
-is sounded out with the new clip**, which is the point: a sound is judged in the company it
-keeps, and this one had never been.
+from `403b237`, because the recipe cuts the body at the edges the manifest declares. **Only "of" takes the new clip.** It went bank-wide for about an hour on
+2026-08-12 and the owner ruled it back the same evening: van, vet, vat and vex keep `d:v`,
+where it was graded perfect and sits within 0.7 dB of its neighbours, and the softened clip
+ships as `d:v_soft` for the one word whose company it was tuned for.
 
 ## The 32 sounds are in the pack (2026-08-11)
 

@@ -369,6 +369,26 @@ INVESTIGATION, not a gate: it never runs in `npm run check` and it is not one of
 gauntlet gates. Vitest is told to leave `tests/census/` alone, because collecting a Playwright
 spec turns the fast check red for a reason that has nothing to do with the game.
 
+### Never run `npm run check` while a gauntlet is running
+
+Owner-facing consequence: nothing. Agent-facing consequence: a false result, in both
+directions, and it is new as of 2026-08-12.
+
+`npm run check` now begins with `check:acceptance`, which REGENERATES `tests/generated`. The
+gauntlet's acceptance-mutation gate works by planting mutants in those same tracked files. Run
+the check mid-gauntlet and it erases a planted mutant, so G4 reports a survivor that was never
+alive — or, if the timing falls the other way, the check reads a planted mutant as a real diff
+and goes red for a fault that does not exist.
+
+The same window is why a mutant reached the repository at 22:44 that day: `git add -A` while
+the gate held a file mutated. `.gauntlet.lock/` exists for the whole run and is the signal —
+if it is there, do not commit and do not run the check.
+
+**The real fix, not yet built:** the mutation gates should mutate an UNTRACKED copy, so the
+window never opens. `tools/app-mutants.mjs` has the same shape — it edits tracked files under
+`app/src` in place — and is only survivable because the ordinary suite kills its mutants fast.
+Until that is done, the lock is the rule.
+
 ### The next census — the build spec, owner-ruled 2026-08-12
 
 Every item was verified present in this environment before it was written down. Each line says

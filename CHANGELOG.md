@@ -53,9 +53,11 @@ The first app version is 1.0.0-beta.1. The app stays in beta until version 1.0 i
 - Changed: the pause between clips is measured from the end of one sound to the start of the
   next. Each clip carries a different amount of its own silence, so a pause measured between
   files ran from half a second to over a second and the rhythm was uneven.
-- Fixed: the advance control could come alive in the middle of a reveal when the clips took
-  longer than usual to load. The first tap then cut the sounding-out short, which is the one
-  thing the wait exists to protect.
+- Fixed, but not completely — see the known issue at the top of this section: the advance
+  control could come alive in the middle of a reveal when the clips took longer than usual to
+  load, and the first tap then cut the sounding-out short. The fix closed the long version of
+  that window, where the control stayed live for the whole reveal. About half a second of it
+  remains, and is fixed in the release after this one.
 - Fixed: hearing the word again, or asking to finish early, now stops the reveal and clears
   the tile outlines. The outlines used to keep firing against sound that was no longer playing.
 - New: a Vite, React, and Tailwind app in `app/`. The app imports the game logic from the
