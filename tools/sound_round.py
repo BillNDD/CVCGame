@@ -56,6 +56,13 @@ LEAD_MS, TAIL_MS, FADE_MS = 80, 300, 10
 # Which parameters the envelope is built on: the three that separated the top
 # five from the poor pair, plus drift, which nearly did.
 GATED = ["speech_ms", "attack_ms", "peak_at", "timbre_drift"]
+# The eight vowels the owner has accepted. Shape is not identity: a candidate
+# can start fast, peak early and hold its timbre while being the wrong vowel
+# entirely, and the first field that ever passed the shape envelope did exactly
+# that - F1 456-493 Hz against the 617-1025 every accepted vowel occupies, and
+# F2 above all of them. A vowel is its formants, so for a vowel they are gated
+# too. Consonants are not: /h/ and /th/ have no vowel identity to hold.
+VOWELS = ["short_a", "short_e", "short_i", "short_o", "short_u", "schwa", "long_e", "oo_book"]
 
 
 def envelope():
@@ -74,9 +81,27 @@ def envelope():
     return out, rows
 
 
-def inside(m, env):
+def vowel_space():
+    """The F1/F2 box the owner's accepted vowels occupy."""
+    man = json.loads((PACK / "manifest.json").read_text())
+    rows = [cc.measure(PACK / man["d:" + s]["file"]) for s in VOWELS]
+    f1 = [r["F1"] for r in rows if r["F1"]]
+    f2 = [r["F2"] for r in rows if r["F2"]]
+    return (min(f1), max(f1)), (min(f2), max(f2))
+
+
+def inside(m, env, vowel=False):
     """Which gated parameters this candidate fails, and by how much."""
     bad = []
+    if vowel:
+        (f1lo, f1hi), (f2lo, f2hi) = vowel_space()
+        if m.get("F1") is None:
+            bad.append("formants could not be measured")
+        else:
+            if not f1lo <= m["F1"] <= f1hi:
+                bad.append(f'F1 {m["F1"]} outside the accepted vowels\' {f1lo}-{f1hi}')
+            if not f2lo <= m["F2"] <= f2hi:
+                bad.append(f'F2 {m["F2"]} outside the accepted vowels\' {f2lo}-{f2hi}')
     for k, (lo, hi) in env.items():
         x = m.get(k)
         if x is None:
@@ -89,7 +114,9 @@ def inside(m, env):
 def encode(a, sr, fade_ms=FADE_MS):
     a = np.clip(np.asarray(a, np.float32), -1, 1).copy()
     n = int(fade_ms / 1000 * sr)
-    if len(a) > 2 * n + 10:
+    # fade_ms 0 means the caller has already shaped the edges — the feathered
+    # treatment owns them, and a fade on top would undo what it did.
+    if n > 1 and len(a) > 2 * n + 10:
         a[:n] *= np.linspace(0, 1, n); a[-n:] *= np.linspace(1, 0, n)
     a = np.concatenate([np.zeros(int(LEAD_MS / 1000 * sr), np.float32), a,
                         np.zeros(int(TAIL_MS / 1000 * sr), np.float32)])
