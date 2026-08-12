@@ -571,9 +571,19 @@ the result goes wherever it belongs — `docs/settled.md` if a measurement close
 row if an ear did. **Trying one is never a substitute for the game work it was meant to
 serve, and nothing here may be counted as progress until it has been tried.**
 
-### G3. A deep UX census — every content family, on every viewport, in every state
+### G3. A deep UX census — BUILT 2026-08-12, and not yet trustworthy
 
 Owner-requested 2026-08-12, from the same investigation they are running on their maths game.
+**Built the same day** on the Playwright test runner: `npm run census`, with the layout classes
+in `tools/ux-census.mjs`, the cells in `tests/census/ux.spec.mjs`, the negative controls in
+`tests/census/controls.spec.mjs`, and seven viewport projects in `playwright.config.mjs`.
+`@playwright/test` joined the dependencies with the owner's approval.
+
+**What is not done, and it is the part that matters:** the run is FLAKY. A different handful
+of cells fails each time, and a cell that fails in a full run passes when run alone. Until
+that is settled the census cannot be quoted for anything — a census that gives a different
+answer each time is not evidence, and worse, it can hide a real defect inside its own noise.
+No benchmark, and no run on the other six viewports, until it is fixed.
 The 47 interface checks (G7) prove that specific measurements hold on specific screens. They
 do not prove that **every word in the bank renders correctly**, and no gate in this project
 does. A word is content, and content is where layout breaks: a five-letter word with four
