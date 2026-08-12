@@ -100,8 +100,17 @@ updated whenever a round lands.
   from the end of a carrier** (2026-08-12). The phonemiser settles it without
   an ear: `"a"`, `"a."`, `"Listen—a."`, `"The printed word is “a”."` and
   `"Say a."` all render `eɪ` — "ay" — which S4 forbids the app from ever
-  saying. Only a non-final position gives the schwa: `"a. a. a."` is `ɐ ɐ eɪ`,
-  so the first two are the word and the third is not. Any future round for
+  saying. Only a non-final position gives the schwa — but WHICH carrier gives it
+  was recorded backwards here on 2026-08-12 and is corrected on the same day by
+  an independent reviewer who checked with the repository's own tokenizer:
+  `"a. a. a."` is **`ˈeɪ. ˈeɪ. ˈeɪ.` — all three are the letter name**, because
+  a full stop makes every one of them utterance-final. It is `"a a a."` and
+  `"a - a - a."`, with no stops, that give `ɐ ɐ ˈeɪ`. A round designed from the
+  wrong version would have rendered three "ay"s and been refused without anyone
+  knowing why. Taken with the entry below — that those two unstopped carriers do
+  not separate into islands at any setting tried — the text-carrier route is
+  closed completely: the carriers that separate say the letter name, and the
+  carriers that say the word do not separate. Any future round for
   "a", "I", or any other word that is also a letter name must check the
   phonemisation before rendering.
 - **Boundaries come from the MODEL, not from the audio** (2026-08-12). Kokoro is

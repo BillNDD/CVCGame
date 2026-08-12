@@ -222,6 +222,56 @@ Owner ship review, 2026-08-12: ten shipped sounds heard side by side rather than
 
 ---
 
+## B12. The formant metric cannot tell one vowel from another
+
+Found by the independent speech-acoustics reviewer the owner instituted on 2026-08-12, checking
+numbers I had already acted on. Four listening rounds were designed against this measurement.
+
+- **Where** `tools/clip_compare.py`, `formants()` and the `--calibrate` path.
+- **What is wrong, measured**
+  - Ordinary analysis settings alone move the answer: sweeping sample rate, LPC order and window
+    length over ONE fixed clip shifts F1/F2 by a median of **51 Hz and up to 133 Hz**. My
+    acceptance threshold was 55 Hz — below the instrument's own noise.
+  - It is also below the real contrasts it must respect: /ʌ/ against /ɒ/ (cut against cot) is
+    **128 Hz**, while the spread WITHIN /ʌ/ across the pack is 137 Hz. With a cruder nucleus
+    picker /æ/ and /ɛ/ land **17 Hz apart** — the metric cannot separate "bad" from "bed".
+  - Four concrete faults: the 24 k to 12 k decimation has no anti-alias filter, so everything
+    above 6 kHz folds into the formant band; pre-emphasis is applied AFTER the window instead of
+    before; `F1` and `F2` are median-ed independently, so the reported pair can belong to no
+    frame that exists; and one spurious low pole silently relabels F1 to F2. Corrected analysis
+    puts d:schwa's F3 at ~2830 Hz where the tool reports 2020.
+  - Raw-Hz Euclidean distance is perceptually wrong: 100 Hz at F1 is a different vowel, 100 Hz
+    at F2 is nothing. Bark or log Hz is the right space.
+  - **The 55 Hz calibration was a duplicate, not a contrast.** `d:short_u` (957/1531) and
+    `d:schwa` (938/1583) are the same vowel — /ʌ/ and /ə/ differ by stress, not quality. The
+    tightest bound in the calibration was the pack compared with itself. And `--calibrate`
+    averaged over stops and fricatives, where "formants" are noise shape, which inflated the
+    reported median of 375 Hz; over the seven real vowels it is ~218.
+- **What this cost** Round 2's arms were read as "measurably a different vowel" at 274 Hz. They
+  were not a different vowel. At 25 to 50 ms — one decoder frame — they were not a vowel at all.
+  The right diagnosis was duration, and duration was measured and ignored.
+- **Done** The formant path is repaired (filter before decimation, pre-emphasis before the
+  window, paired medians, Bark spacing) or removed. Any tolerance is set from the p90 within-class
+  spread, about 250-350 Hz-equivalent, never 55. Identity comes from writing the phoneme token
+  and from a mel distance against approved clips of the same vowel — `mel_dist` and `env_corr`
+  are already the sounder half of the tool.
+
+## B13. `d:schwa`'s provenance in the record is not what shipped
+
+Same review. `tools/voice-sounds.csv` row "schwa" records empty `cut_start_s` / `cut_end_s` and
+`gain_db=0`. Measured by cross-correlation against `w-the.mp3` (corr 0.868), the shipped clip is
+**114-264 ms of that word's speech, plus about 5 dB of gain**. It is the back half of an
+utterance-final "the": f0 74 Hz at that point, which is the utterance-final creak `settled.md`
+warns about; it ships at peak -3.5 dBFS, **louder than all 432 word clips**; and its pitch RISES
+17.9 semitones where 99% of approved clips fall. The owner called it the sound "we did the least
+well" before seeing any of this.
+
+- **Done** The row records what actually produced the bytes, or says plainly that it cannot be
+  reproduced and the pin is the only authority. And no future sound is cut from an
+  utterance-final position without the creak being checked.
+
+---
+
 ## C. The audit trail
 
 ### C1. Sixty-four word rows carry no byte pin
