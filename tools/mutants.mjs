@@ -57,8 +57,18 @@ const MUTANTS = [
   /* Re-pointed 2026-07-27, when the owner had the 0.7 slow-down removed: the
      old "not slow" mutant now describes the shipped behaviour, so it hunts
      the opposite fault — a reveal rushed past the calm rate. */
-  ["reveal rate rushed", '{ text: "The word was " + w + ".", rate: 0.9 }', '{ text: "The word was " + w + ".", rate: 1.4 }'],
-  ["reveal loses its sentence", '{ text: "The word was " + w + ".", rate: 0.9 }', '{ text: "" + w, rate: 0.9 }'],
+  /* Re-pointed 2026-08-12: the anchor moved when the word "a" joined the bank
+     and system speech had to be handed its SOUND instead of the letter's name.
+     Both of these are the same line, and both anchors broke silently — the
+     gate reported "2 skipped" and a skipped mutant proves nothing. Use
+     `node tools/mutants.mjs --anchors` to find that in milliseconds. */
+  ["reveal rate rushed", '{ text: "The word was " + ttsSafeWord(w) + ".", rate: 0.9 }', '{ text: "The word was " + ttsSafeWord(w) + ".", rate: 1.4 }'],
+  ["reveal loses its sentence", '{ text: "The word was " + ttsSafeWord(w) + ".", rate: 0.9 }', '{ text: "" + ttsSafeWord(w), rate: 0.9 }'],
+  /* S4, on the one word where the fallback breaks it: handed the string "a",
+     every system voice says the LETTER'S NAME to a child being taught that
+     letters make sounds. The guard is one function call, and a guard with no
+     mutant is a guard nobody has tested. */
+  ["system speech says the letter name for “a”", 'const TTS_UNSAFE_WORD = { a: "uh" };', 'const TTS_UNSAFE_WORD = {};'],
   ["praise ignores its index", "{ text: PRAISE[praise] || PRAISE[0], rate: 0.9 }", "{ text: PRAISE[0], rate: 0.9 }"],
   ["praise option reworded", '"You sounded that one out beautifully!",', '"You sounded that one out!",'],
   ["hush does nothing", 'function hush() { try { if ("speechSynthesis" in window) window.speechSynthesis.cancel(); } catch (e) {} }', "function hush() {}"],
@@ -140,6 +150,18 @@ function runTests() {
     const out = (String(e.stdout || "") + String(e.stderr || "")).replace(ANSI, "");
     return { passed: false, failed: testsFailed(out) };
   }
+}
+
+/* --anchors: check every anchor against the source and print the ones that
+   have moved, WITHOUT running a single test. A skipped mutant proves nothing,
+   and finding out which one used to mean running the whole gate - twelve
+   minutes to learn a fact that takes milliseconds to check. Added 2026-08-12,
+   when two anchors moved on the evening of a release. */
+if (process.argv.includes("--anchors")) {
+  const moved = MUTANTS.filter(([, from]) => !original.includes(from));
+  for (const [name] of moved) console.log("ANCHOR MOVED: " + name);
+  console.log(`${MUTANTS.length} mutants, ${moved.length} anchor(s) no longer in the source`);
+  process.exit(moved.length ? 1 : 0);
 }
 
 const survivors = [], errored = [];
