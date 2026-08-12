@@ -187,7 +187,17 @@ step("G19 app-mutants", "node tools/app-mutants.mjs", [
   { label: "mutants", regex: /gate: (\d+) mutants/, floorKey: "g19_app_mutants" },
   { label: "survived", regex: /(\d+) survived/, maxKey: "g19_survivors_max" },
 ], {}, [
-  "killed: a failed match records a miss by itself (breaks S1)",
+  /* "a failed match records a miss by itself (breaks S1)" stood here until
+     2026-08-12. It was a transcript mutant, and it retired with the microphone
+     on the owner's ruling: there is no recognition, so nothing can record a
+     miss by itself. The list was not updated with it, so the gauntlet spent a
+     release demanding a check that no longer exists. A required-identifier
+     list is only as honest as its last retirement.
+
+     S1 IS NOT LEFT WITHOUT AN APP MUTANT: "one attempt records two results"
+     below is the grade-once rule, which is S1's other half - only an adult
+     records a result, and only once. */
+  "killed: one attempt records two results",
   "killed: the adult hold drops from 450 ms to 50 ms",
   "killed: the update check ignores the build stamp",
   "killed: the backup validator accepts an array",
