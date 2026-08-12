@@ -390,10 +390,10 @@ describe("buildMarkdown", () => {
 describe("voice packs", () => {
   it("inventories one clip per word, the fixed sentences, and every sound a tile can ask for", () => {
     const script = voiceScript();
-    expect(script.length).toBe(499);                       // 6 sentences + 17 praise + 439 words + "Pronounced:" + 36 sounds
+    expect(script.length).toBe(500);                       // 6 sentences + 17 praise + 439 words + "Pronounced:" + 37 sounds
     expect(script.filter((c) => c.id.startsWith("w:")).length).toBe(439);
-    expect(script.filter((c) => c.id.startsWith("d:")).length).toBe(36);
-    expect(new Set(script.map((c) => c.id)).size).toBe(499);
+    expect(script.filter((c) => c.id.startsWith("d:")).length).toBe(37);
+    expect(new Set(script.map((c) => c.id)).size).toBe(500);
     expect(script.find((c) => c.id === "s:was").text).toBe("The word was");
     expect(script.find((c) => c.id === "l:wrong").text).toBe("Let’s try again.");
     expect(script.find((c) => c.id === "p:0").text).toBe("Great job!");
@@ -568,7 +568,12 @@ describe("voice packs", () => {
     expect(soundIdsFor("you")).toEqual(["d:y", "d:oo_moon"]);
     expect(soundIdsFor("said")).toEqual(["d:s", "d:short_e", "d:d"]);
     expect(soundIdsFor("my")).toEqual(["d:m", "d:long_i"]);
-    expect(soundIdsFor("of")).toEqual(["d:short_u", "d:v"]);
+    /* "of" alone takes the softened v (owner-ruled 2026-08-12). The other four
+       /v/ words keep the clip graded perfect for them in SND16 — asserted here
+       because the first ship replaced d:v for the whole bank and nothing in
+       the suite would have noticed. */
+    expect(soundIdsFor("of")).toEqual(["d:short_u", "d:v_soft"]);
+    for (const w of ["van", "vet", "vat", "vex"]) expect(soundIdsFor(w)[0]).toBe("d:v");
     expect(soundIdsFor("the")).toEqual(["d:th_this", "d:schwa"]);
     expect(soundIdsFor("and")).toEqual(["d:short_a", "d:n", "d:d"]);
     /* One tile, one sound (S8): "you" is y + ou and "said" is s + ai + d, so

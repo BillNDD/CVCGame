@@ -3278,6 +3278,12 @@
  },
  "d:v": {
   "file": "d-v.mp3",
+  "lead": 190,
+  "ms": 864,
+  "tail": 424
+ },
+ "d:v_soft": {
+  "file": "d-v_soft.mp3",
   "lead": 130,
   "ms": 696,
   "tail": 326

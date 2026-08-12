@@ -193,29 +193,40 @@ def remake_v(db=0.0, cutoff=None, fade_ms=10):
 
 
 # --- The ship: the arm the owner chose, written into the pack ---------------
-# Round 3 (2026-08-12) ended "A · the original o, the roundest v | perfect".
-# That arm is d:short_u beside the round-2 arm-D v, so the only audio that
-# changes is the v: quieter by 7 dB, the top rolled off at 1800 Hz, 40 ms
-# fades. Both shas below are literal (rule E4) and both are checked: the SOURCE
-# must still be the clip the round was built from, and the RESULT must be the
-# bytes the owner actually heard. If either fails, nothing is written - a
-# re-render nobody listened to is the trap this project keeps falling into.
+# Round 3 (2026-08-12) ended "A · the original o, the roundest v | perfect", so
+# "of" sounds out short_u + a v that is 7 dB quieter, rolled off at 1800 Hz,
+# with 40 ms fades.
+#
+# IT IS A SECOND CLIP, NOT A REPLACEMENT, and that was the owner's ruling on
+# the same evening. The first version of this ship overwrote d:v for the whole
+# bank, argued from a record that turned out to be false - the shipped v was
+# graded "perfect (owner)" in SND16, not "ok" - and measurement then showed the
+# cost: the softened v sits 3.3 dB below the vowel in "of", which the owner
+# passed, but 6.5 dB below short_e in "vet", 6.7 below the x in "vex" and 9.6
+# below the n in "van". Three words nobody had heard. A clip tuned for one
+# word's company is not tuned for another's, so van, vet, vat and vex keep the
+# clip that was graded perfect for them, and "of" gets d:v_soft.
+#
+# Both shas are literal (rule E4) and both are checked: the SOURCE must be the
+# clip the round was built from, and the RESULT must be the bytes the owner
+# actually heard.
 SOURCE_V_SHA = "7a650b4bf6f4b1c45bfa68f2e50d59164cd59a03cb5856a63ec8b8d0635dda63"
 APPROVED_V_SHA = "0489d6c0e1bf964389f75b35f904e629794acf708831299a092d50d10412a85e"
-V_TARGETS = [PACK / "d-v.mp3", REPO / "tools" / "pending-sounds" / "s-v.mp3"]
+SOFT_TARGETS = [PACK / "d-v_soft.mp3", REPO / "tools" / "pending-sounds" / "s-v_soft.mp3"]
 
 
 def ship():
     import hashlib
-    have = hashlib.sha256((PACK / "d-v.mp3").read_bytes()).hexdigest()
-    if have == APPROVED_V_SHA:
-        print("d:v is already the approved v. Nothing to do.")
-        return 0
+    src = PACK / "d-v.mp3"
+    have = hashlib.sha256(src.read_bytes()).hexdigest()
     if have != SOURCE_V_SHA:
         print(f"REFUSED: d-v.mp3 hashes {have[:12]}, and this recipe was measured\n"
               f"         against {SOURCE_V_SHA[:12]}. Re-cutting an unknown clip would\n"
-              f"         produce audio nobody has heard.")
+              f"         produce audio nobody has heard. Restore SND16's clip first.")
         return 2
+    if SOFT_TARGETS[0].exists() and hashlib.sha256(SOFT_TARGETS[0].read_bytes()).hexdigest() == APPROVED_V_SHA:
+        print("d:v_soft is already the approved clip. Nothing to do.")
+        return 0
     pcm, sr = remake_v(db=-7.0, cutoff=1800, fade_ms=40)
     mp3 = encode(pcm, sr)
     got = hashlib.sha256(mp3).hexdigest()
@@ -223,36 +234,38 @@ def ship():
         print(f"REFUSED: the recipe produced {got[:12]}, not the approved\n"
               f"         {APPROVED_V_SHA[:12]}. These are not the bytes the owner graded.")
         return 3
-    for t in V_TARGETS:
+    for t in SOFT_TARGETS:
         t.write_bytes(mp3)
     # Measured from the ENCODED file, not from the samples that went into it:
     # that is what tools/voice-edges.py does for every other clip, and the
-    # sound-out spacing is computed from these numbers. Measuring the PCM
-    # instead reads 90/310 here, because the encoder's own delay and the 40 ms
-    # fades fall either side of the -45 dB floor.
-    lead, tail, ms = edges(*load(V_TARGETS[0]))
+    # sound-out spacing is computed from these numbers.
+    lead, tail, ms = edges(*load(SOFT_TARGETS[0]))
     man = json.loads((PACK / "manifest.json").read_text())
-    man["d:v"] = {"file": "d-v.mp3", "lead": lead, "ms": ms, "tail": tail}
+    man["d:v_soft"] = {"file": "d-v_soft.mp3", "lead": lead, "ms": ms, "tail": tail}
     (PACK / "manifest.json").write_text(json.dumps(man, indent=1) + "\n")
     led_path = REPO / "tools" / "pending-sounds" / "pending-sounds.json"
     led = json.loads(led_path.read_text())
-    led["v"] = {**led["v"], "sha256": got, "ms": ms,
-                "family": "of3-quieter-rounder",
-                "round": "of round 3 (2026-08-12)",
-                "verdict": "perfect (owner), judged in company inside “of”",
-                "how": "a buzzing v · as in van",
-                "note": "The SND16 v, re-cut after the owner called it “shouting” beside its "
-                        "neighbour: measured 6.2 dB louder and 400 Hz brighter than the vowel it "
-                        "stands next to. Recipe, from the shipped clip's own body: gain -7 dB, "
-                        "one-pole low-pass at 1800 Hz, re-peaked to -3.5 dBFS, 40 ms fades, then "
-                        "the pack's 80/300 ms padding. Reproduce with "
-                        "tools/build_of_round.py --ship, which refuses unless the bytes match. "
-                        "Every /v/ in the bank takes this clip, not only “of”."}
+    led["v_soft"] = {
+        "as_in": "of",
+        "family": "of3-quieter-rounder",
+        "how": "a buzzing v, quieter and rounder - the v of “of” only",
+        "ms": ms,
+        "round": "of round 3 (2026-08-12)",
+        "verdict": "perfect (owner), judged in company inside “of”",
+        "note": "SND16's v re-cut after the owner called it shouting beside the vowel in "
+                "“of”: measured 6.2 dB louder and 400 Hz brighter than the sound next to it. "
+                "Recipe, from the shipped d:v's own body: gain -7 dB, one-pole low-pass at "
+                "1800 Hz, re-peaked to -3.5 dBFS, 40 ms fades, then the pack's 80/300 ms "
+                "padding. ONLY “of” takes it. van, vet, vat and vex keep d:v, which was "
+                "graded perfect for them in SND16 and sits within 0.7 dB of its neighbours "
+                "there. Reproduce with tools/build_of_round.py --ship, which refuses unless "
+                "the source and the result both hash to the values recorded here.",
+        "sha256": got,
+    }
     led_path.write_text(json.dumps(led, indent=1) + "\n")
-    print(f"shipped d:v  {got[:12]}  {ms} ms file, {ms - lead - tail} ms of speech "
+    print(f"shipped d:v_soft  {got[:12]}  {ms} ms file, {ms - lead - tail} ms of speech "
           f"(lead {lead}, tail {tail})")
-    print("wrote: " + ", ".join(str(t.relative_to(REPO)) for t in V_TARGETS)
-          + ", app/public/voice/manifest.json, tools/pending-sounds/pending-sounds.json")
+    print("d:v is untouched: van, vet, vat and vex keep the clip graded perfect in SND16")
     return 0
 
 

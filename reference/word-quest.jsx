@@ -450,8 +450,15 @@ const WORD_SOUND = {
      measured rather than guessed — the shipped v sat 6.2 dB louder and 400 Hz
      brighter than the vowel beside it, having been graded alone and never in
      company. Round 2 settled the v (quieter, rounder), round 3 settled the
-     vowel, and the owner graded the pair perfect on 2026-08-12. */
-  of: { 0: "short_u", 1: "v" },
+     vowel, and the owner graded the pair perfect on 2026-08-12.
+
+     THE SOFTENED v IS THIS WORD'S ALONE (owner-ruled 2026-08-12). It first
+     replaced d:v everywhere, and measurement showed what that cost: 3.3 dB
+     below the vowel here, which the owner passed, but 6.5 dB below short_e in
+     "vet", 6.7 below the x in "vex" and 9.6 below the n in "van" — three words
+     nobody had heard. van, vet, vat and vex keep d:v, graded perfect for them
+     in SND16. A clip tuned for one word's company is not tuned for another's. */
+  of: { 0: "short_u", 1: "v_soft" },
   /* "a" is the commonest word in English and was the last one missing, because
      the only pronunciation the voice offered was /eɪ/ — the letter's NAME,
      which S4 forbids the app to say. The owner solved it outside this repo and
@@ -507,6 +514,10 @@ const SOUND_TEXT = {
   schwa: "the lazy sound in the middle of the", oo_book: "the short oo sound in book",
   /* Never "the letter A's name" (S4). This is the article: the uh of "a cat". */
   schwa_a: "the lazy uh sound of the word a",
+  /* The same sound as v, made quieter and rounder for the one word that needed
+     it. The text is what a person is asked to say when the clip is made, so it
+     names the sound and not the treatment. */
+  v_soft: "the sound at the start of van",
   oo_moon: "the long oo sound in moon",
   /* Never "the letter I's name": this text is what a person is asked to
      say when the clip is recorded or rendered, and S4 bans letter names

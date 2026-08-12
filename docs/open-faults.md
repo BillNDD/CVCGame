@@ -579,6 +579,12 @@ in `tools/ux-census.mjs`, the cells in `tests/census/ux.spec.mjs`, the negative 
 `tests/census/controls.spec.mjs`, and seven viewport projects in `playwright.config.mjs`.
 `@playwright/test` joined the dependencies with the owner's approval.
 
+**Its cadence is ruled: every other beta** (owner, 2026-08-12, in their own words). Not in
+`npm run check`, which is thirty seconds by the owner's own ruling and would be minutes with
+this in it; and not in the gauntlet, where a flaky cell would block a release rather than
+inform one. A survey run on every push stops being read, and one run only when somebody
+remembers is one that never runs.
+
 **What is not done, and it is the part that matters:** the run is FLAKY. A different handful
 of cells fails each time, and a cell that fails in a full run passes when run alone. Until
 that is settled the census cannot be quoted for anything — a census that gives a different
