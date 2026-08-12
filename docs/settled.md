@@ -12,6 +12,16 @@ updated whenever a round lands.
 
 ## Closed by measurement — do not spend a listening round
 
+- **"what" teaches SHORT O, and the ruling is now explicit** (owner, 2026-08-12).
+  The word says *wot*, the middle tile plays `short_o`, and the tricky-word note
+  reads "The a sounds like 'o' — wot." Screen and sound agree. This was correct
+  in the code but had never been decided: `was` moved to `short_u` under the
+  American ruling of 2026-08-11 and `what` did not, because nobody ruled, so it
+  was a variant held by inheritance. The owner heard the shipped word clip beside
+  both candidate vowels and both whole sound-outs, assembled from shipped audio
+  only, and ruled for the one already in place. No change to the code, and no
+  further round for this word.
+
 - **The 83 words of Levels 10 and 11 are clean as a set, heard together**
   (owner ship review, 2026-08-12). Every one had been approved ALONE inside a
   batch, across fourteen batches between 7 and 11 August, and none had been
