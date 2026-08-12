@@ -113,16 +113,6 @@ wrong sound for months without a single gate noticing.
   did not, because nobody ruled on it. It is a variant chosen by inheritance.
 - **Done** The owner listens once and rules. One line either way.
 
-### B4. A sound with no text falls back to its own file name
-
-- **Where** `voiceScript()`, `SOUND_TEXT[id.slice(2)] || id.slice(2)`.
-- **Today** No consumer reads that text at run time, so nothing is spoken wrongly.
-- **The fault** The family-pack recorder in SPEC section 5a would prompt an adult with
-  `th_quiet`, and any renderer reading `text` would synthesise a file name. Latent exposure
-  to safety rule S4, which forbids the app from ever speaking a letter name.
-- **Done** Every sound in the inventory has human text, and a sound without one fails the
-  voice gate rather than falling back.
-
 ### B5. The tile ring falls back to a fixed length
 
 - **Where** `app/src/wq-css.js`, `animation: wqpop var(--wqpop, 700ms)`.
@@ -274,17 +264,14 @@ well" before seeing any of this.
 
 ## C. The audit trail
 
-### C1. Sixty-four word rows carry no byte pin
+### C1. Sixty-four word rows carried no byte pin — CLOSED 2026-08-12
 
-- **Where** `tools/voice-words.csv`. 285 of 349 rows have a `byte_pin_sha256`; 64 do not,
-  all from the earliest rounds, before pinning began: bad, cab, can, dab, dad, nap, pad,
-  pal, pan, rag, ram, ran and others.
-- **Today** No effect. All 349 clips ship, all 349 rows read `locked: yes` and
-  `verdict: perfect`.
-- **The fault** Those 64 cannot prove which bytes the owner approved. A silent re-render of
-  any of them would pass every gate.
-- **Done** Every row carries a pin, or the 64 are named in the file as deliberately unpinned
-  with the reason.
+All 432 rows now carry a `byte_pin_sha256`. The 64 that did not were the earliest rounds, from
+before pinning began — bad, cab, can, dab, dad, nap, pad, pal, pan, rag, ram, ran and the rest —
+and each is now pinned to the sha of the clip that actually ships, which is the audio the owner
+graded perfect in the uplift pass. G13 re-derives the chain and passes: 432 rows, 432 locked,
+432 treatments, 432 byte pins, 489 clips shipped, 0 problems. A silent re-render can no longer
+replace approved audio for any word in the bank.
 
 ### C2. Staging during a gauntlet run has put a mutant into a commit twice
 

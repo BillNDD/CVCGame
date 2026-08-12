@@ -247,6 +247,22 @@
     "asr_start": null,
     "asr_end": null
   },
+  "bad": {
+    "word": "bad",
+    "verdict": "perfect",
+    "speed": 0.85,
+    "lead_ms": 80,
+    "period": false,
+    "onset_trim": false,
+    "trim_ms": 0,
+    "bright_head_ms": 0,
+    "head_trim_ms": 0,
+    "skip_burst": false,
+    "carrier": null,
+    "carrier_cut_mode": "none",
+    "asr_start": null,
+    "asr_end": null
+  },
   "bag": {
     "word": "bag",
     "verdict": "perfect",
@@ -286,6 +302,22 @@
       20
     ],
     "carrier_cut_mode": "energy",
+    "asr_start": null,
+    "asr_end": null
+  },
+  "cab": {
+    "word": "cab",
+    "verdict": "perfect",
+    "speed": 0.85,
+    "lead_ms": 80,
+    "period": false,
+    "onset_trim": false,
+    "trim_ms": 0,
+    "bright_head_ms": 0,
+    "head_trim_ms": 0,
+    "skip_burst": false,
+    "carrier": null,
+    "carrier_cut_mode": "none",
     "asr_start": null,
     "asr_end": null
   },
@@ -349,6 +381,38 @@
       20
     ],
     "carrier_cut_mode": "energy",
+    "asr_start": null,
+    "asr_end": null
+  },
+  "dab": {
+    "word": "dab",
+    "verdict": "perfect",
+    "speed": 0.85,
+    "lead_ms": 80,
+    "period": false,
+    "onset_trim": false,
+    "trim_ms": 0,
+    "bright_head_ms": 0,
+    "head_trim_ms": 0,
+    "skip_burst": false,
+    "carrier": null,
+    "carrier_cut_mode": "none",
+    "asr_start": null,
+    "asr_end": null
+  },
+  "dad": {
+    "word": "dad",
+    "verdict": "perfect",
+    "speed": 0.85,
+    "lead_ms": 80,
+    "period": false,
+    "onset_trim": false,
+    "trim_ms": 0,
+    "bright_head_ms": 0,
+    "head_trim_ms": 0,
+    "skip_burst": false,
+    "carrier": null,
+    "carrier_cut_mode": "none",
     "asr_start": null,
     "asr_end": null
   },
@@ -583,6 +647,38 @@
     "asr_start": null,
     "asr_end": null
   },
+  "nap": {
+    "word": "nap",
+    "verdict": "perfect",
+    "speed": 0.85,
+    "lead_ms": 80,
+    "period": false,
+    "onset_trim": false,
+    "trim_ms": 0,
+    "bright_head_ms": 0,
+    "head_trim_ms": 0,
+    "skip_burst": false,
+    "carrier": null,
+    "carrier_cut_mode": "none",
+    "asr_start": null,
+    "asr_end": null
+  },
+  "pad": {
+    "word": "pad",
+    "verdict": "perfect",
+    "speed": 0.85,
+    "lead_ms": 80,
+    "period": false,
+    "onset_trim": false,
+    "trim_ms": 0,
+    "bright_head_ms": 0,
+    "head_trim_ms": 0,
+    "skip_burst": false,
+    "carrier": null,
+    "carrier_cut_mode": "none",
+    "asr_start": null,
+    "asr_end": null
+  },
   "pal": {
     "word": "pal",
     "verdict": "perfect",
@@ -601,6 +697,38 @@
       20
     ],
     "carrier_cut_mode": "energy",
+    "asr_start": null,
+    "asr_end": null
+  },
+  "pan": {
+    "word": "pan",
+    "verdict": "perfect",
+    "speed": 0.85,
+    "lead_ms": 80,
+    "period": false,
+    "onset_trim": false,
+    "trim_ms": 0,
+    "bright_head_ms": 0,
+    "head_trim_ms": 0,
+    "skip_burst": false,
+    "carrier": null,
+    "carrier_cut_mode": "none",
+    "asr_start": null,
+    "asr_end": null
+  },
+  "rag": {
+    "word": "rag",
+    "verdict": "perfect",
+    "speed": 0.85,
+    "lead_ms": 80,
+    "period": false,
+    "onset_trim": false,
+    "trim_ms": 0,
+    "bright_head_ms": 0,
+    "head_trim_ms": 0,
+    "skip_burst": false,
+    "carrier": null,
+    "carrier_cut_mode": "none",
     "asr_start": null,
     "asr_end": null
   },
@@ -1679,6 +1807,22 @@
     "asr_end": 0.9,
     "asr_guard_lead_ms": 40,
     "asr_guard_tail_ms": 40
+  },
+  "wig": {
+    "word": "wig",
+    "verdict": "perfect",
+    "speed": 0.85,
+    "lead_ms": 80,
+    "period": false,
+    "onset_trim": false,
+    "trim_ms": 0,
+    "bright_head_ms": 0,
+    "head_trim_ms": 0,
+    "skip_burst": false,
+    "carrier": null,
+    "carrier_cut_mode": "none",
+    "asr_start": null,
+    "asr_end": null
   },
   "win": {
     "word": "win",
@@ -5199,6 +5343,22 @@
       20
     ],
     "carrier_cut_mode": "energy",
+    "asr_start": null,
+    "asr_end": null
+  },
+  "nag": {
+    "word": "nag",
+    "verdict": "perfect",
+    "speed": 0.85,
+    "lead_ms": 80,
+    "period": false,
+    "onset_trim": false,
+    "trim_ms": 0,
+    "bright_head_ms": 0,
+    "head_trim_ms": 0,
+    "skip_burst": false,
+    "carrier": null,
+    "carrier_cut_mode": "none",
     "asr_start": null,
     "asr_end": null
   },
