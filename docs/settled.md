@@ -951,6 +951,37 @@ the diphthong /aɪ/ came back as two entries against two tiles and I read it as 
 The same error made `a` look like one. Only `you` and `said` were real mismatches. If that
 tool is used to judge a tile count again, count phonemes, not characters.
 
+## Natural sentence or stitched words (2026-08-12) — closed, 8 of 8
+
+Ruled once from a measurement, then confirmed by ear the same day because the owner asked
+to hear it rather than read it. Eight sentences, each one offered both ways back to back:
+
+| | verdict |
+|---|---|
+| The cat sat on the mat. | natural |
+| My dog can run. | natural |
+| The hen is in the pen. | natural |
+| You can dig in the mud. | natural |
+| The pig sat in the sun. | natural |
+| Dad had ham and jam. | natural |
+| The sun is hot. | natural |
+| You can hop to the top. | natural |
+
+**The stitch was given its best case and still lost every time.** Each word was cut back to
+its own speech using the lead and tail the pack declares, and the words were butted straight
+together with NO gap added; both sides carried the standard 80 ms lead and 300 ms tail. Any
+real gap would only have made it longer and more mechanical. So this is not a question to
+re-open by adding a smarter stitcher: the losing version was already the flattering one.
+
+**The number, corrected.** Stitched runs **1.43 to 1.74 times** the natural recording,
+median **1.72**. This project has said "about twice as long" in more than one place; the
+direction was right and the figure was not. Do not quote 2x again.
+
+**What it costs, and it is the reason to keep this written down.** Every new sentence needs
+its own listening round and its own byte pin, exactly as a word does — there is no way to
+manufacture a sentence from words already approved. Anyone tempted to save rounds by
+stitching should read this entry first: it has been tried, heard, and refused unanimously.
+
 ## The trap this project keeps falling into
 
 A fix that is approved but not applied is worse than no fix: it reads as done.
