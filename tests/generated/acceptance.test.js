@@ -145,11 +145,11 @@ describe("Feature: Sound units and feedback text", () => {
     expect(tiles).toEqual(["th","i","s"]);
     expect(dashed(word)).toBe("th-i-s");
   });
-  it("A word splits into sound units (word=ax, tiles=a,x, dashed=a-xx)", () => {
+  it("A word splits into sound units (word=ax, tiles=a,x, dashed=a-x)", () => {
     const word = "ax";
     const tiles = chunkWord(word);
     expect(tiles).toEqual(["a","x"]);
-    expect(dashed(word)).toBe("a-xx");
+    expect(dashed(word)).toBe("a-x");
   });
   it("Feedback for a correct reading", () => {
     const fb = feedbackParts("correct", "cat");

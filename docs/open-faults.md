@@ -453,7 +453,22 @@ graded perfect in the uplift pass. G13 re-derives the chain and passes: 432 rows
 432 treatments, 432 byte pins, 489 clips shipped, 0 problems. A silent re-render can no longer
 replace approved audio for any word in the bank.
 
-### C2. Staging during a gauntlet run has put a mutant into a commit twice
+### C2. Staging during a gauntlet run has put a mutant into a commit — THREE times now, and it finally has a gate
+
+**2026-08-12, the third time, and mine.** At 22:44 I ran `git add -A` while a gauntlet was
+running in the background. The acceptance-mutation gate had `tests/generated/acceptance.test.js`
+mutated at that instant, and the commit captured it: the repository asserted that `dashed("ax")`
+is **"a-xx"**, which is not what the game does and not what any listener approved. It went
+unnoticed because every later run REGENERATES that file before using it — so the tests passed
+locally while the repository held a lie. The gauntlet's own evidence caught it, by refusing to
+say PASS on a dirty tree: **INCOMPLETE, commit 882ab9a DIRTY**.
+
+**The mechanism, at last.** `npm run check` now begins with `check:acceptance` — regenerate,
+then `git diff --exit-code -- tests/generated`. A committed mutant fails the very next check
+rather than surviving to a release, which is what happened all three times. Two notes and a
+rule did not stop this; a gate takes half a second and does.
+
+
 
 - **Where** Process, not code. Recorded in the commit message of `c87ed44`.
 - **Today** Both incidents are cleaned up. `c87ed44` is verified mutant-free, and so is every
