@@ -12,6 +12,33 @@ updated whenever a round lands.
 
 ## Closed by measurement — do not spend a listening round
 
+- **A sentence ships as ONE natural recording, never as its words stitched
+  together.** Owner-ruled 2026-08-12. A word said on its own is a citation form:
+  the pack's word clips run about twice the length of the same words inside a
+  read sentence. Measured 2026-08-12 over 40 of the 41 approved sentences
+  (the forty-first uses a word with no clip): the concatenated word clips run
+  **1.79× to 2.46× the recording, median 2.07×**. Stitching them makes a list,
+  not a sentence. The cost of the ruling is accepted — every
+  new sentence needs its own listening round and its own byte pin, exactly as a
+  word does — and it is why `tools/pending-words/` holds 41 whole-sentence
+  recordings rather than a recipe for assembling them.
+- **Nothing highlights during the sentence read, and no aligner is needed.**
+  Owner-ruled 2026-08-12, twice over: first "highlight nothing during the
+  sentence read; keep the walk for the sound-out", then the reveal was made to
+  walk EVERY word rather than only the level's word. Both rulings replace
+  inference with clips the player schedules itself, so no word's start time has
+  to be recovered from a recording. Do not install a forced aligner
+  (Montreal Forced Aligner or any other) for this: the dependency was weighed on
+  2026-08-12 and refused, because the feature it would serve no longer exists.
+  What the attempt closed by measurement, so nobody repeats it: silence does not
+  find word boundaries in connected speech (four energy-island settings over
+  twelve approved sentences matched the word count **zero times out of twelve**),
+  and DTW alignment against concatenated word clips reaches **33 of 34** on its
+  own control — one sentence in thirty-four would light the wrong word. Three
+  fixes were tried and all failed: content-word anchoring scored worse (32/34),
+  band-limiting scored the same (33/34), and rendering with gaps scored 0 of 6
+  because the synthesiser merges across commas. `tools/align-sentence.py` stays
+  in the tree as that record and has no consumer.
 - **The 10 ms fade at the start of a clip does not eat the first sound.** Every
   word this synthesiser renders already begins with 24-48 ms of silence, so the
   fade ramps silence. Measured across nine words on 2026-07-30, failures and

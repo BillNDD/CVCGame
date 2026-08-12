@@ -100,15 +100,32 @@ byte-pinned word rather than replacing accepted audio with a render.
   sidecar workspace archive on the owner's PC
   (handoff `word-quest-uplift-handoff-2026-08-07T1438Z`).
 
-## Approved and unshipped: 60 items with no level yet (through 2026-08-10)
+## Approved and unshipped: 156 items with no level yet (through 2026-08-11)
 
-Sixty items are now closed by the owner's ear across seven word batches and
-wait in `tools/pending-words/` for the levels that will hold them: the heart
-words **you, to, do, of, said, my**, the reveal sentence **"Let's sound it
-out."**, and fifty-three final-blend words for Levels 10 and 11 — the ledger
-names each with its round. Each is stored as the exact bytes the owner heard,
-with its family and hash, so the day a word joins the bank it ships that clip
-and not a re-render.
+A hundred and fifty-six items are closed by the owner's ear and wait in
+`tools/pending-words/` for the levels and the mode that will hold them:
+**115 words** across twelve word batches — the heart words **you, to, do, of,
+said, my, he, we, be, me, go, no, so**, the final-blend and initial-blend words
+for Levels 10 and 11, the plural-s words and the two-syllable compounds — and
+**41 sentences** across two sentence batches, plus the reveal lead-in
+**"Let's sound it out."**. Every one is graded `perfect`; the ledger names each
+with its round. Each is stored as the exact bytes the owner heard, with its
+family and hash, so the day a word joins the bank it ships that clip and not a
+re-render.
+
+**This number is the project's largest standing debt, and it is the trap
+`docs/settled.md` names.** Nothing here is waiting on the owner: it is waiting
+on Levels 10 and 11 to exist and on sentence mode to be built. The count is now
+bound to the ledger by the doc-truth gate (G16 rule 8), because this heading
+said "60" for a day after the ledger held 156, and a document that undercounts
+an approved backlog reads as if the work were smaller than it is.
+
+The sentence recordings are **one natural recording per sentence**, owner-ruled
+2026-08-12 — not the sentence's word clips stitched together. A word said on its
+own is a citation form and runs about twice as long as the same word in
+connected speech, so a stitched sentence reads like a list. The cost of the
+ruling is that every new sentence needs its own round and its own pin, exactly
+as a word does.
 
 What the first batches taught, in order: a new word is always cut from a
 carrier, never rendered plain; the crackle at the end is utterance-final creak

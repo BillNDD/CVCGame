@@ -163,8 +163,9 @@ exclusions are recorded in SPEC section 12.
 - E6. Raise the floors in `.claude/gate-baseline.json` when counts grow; never lower a floor.
   Keys that end in `_max` are ceilings: never raise one. E6 governs the baseline file only;
   the file-length limit is one of the G6 ceilings the file protects, not the meaning of E6.
-  That limit is 900 lines. The owner raised it from 600 on 2026-07-29; only the owner can move
-  a ceiling, and a file approaching one should be split instead.
+  That limit is 1200 lines. The owner raised it from 600 to 900 on 2026-07-29, and from 900 to
+  1200 on 2026-08-12; only the owner can move a ceiling, and a file approaching one should be
+  split instead.
 - E7. Run `npm run check` before every push: the full test suite plus the sub-minute gates
   (copy, doc-truth, QA count, voice pack, governing files, effect map, and the word-gate
   island control), about a minute. A red check blocks the change.

@@ -166,10 +166,11 @@ The level range is 1 to 7. SPEC and the engine agree; the owner corrected SPEC o
   `g6_file_lines_max`, `g6_dependency_cycles_max`.
   - Cyclomatic complexity per function: 15 or less, in `src/engine.js` and `app/src/**`. The
     counter is the ESLint `complexity` rule with its default counting.
-  - File length: 900 lines or less for every source file. `reference/word-quest.jsx` is exempt.
+  - File length: 1200 lines or less for every source file. `reference/word-quest.jsx` is exempt.
     That file must stay one file, so it can run as a chat artifact. The ceiling was 600 lines
-    until 2026-07-29, when the owner raised it to 900. It is still a ceiling: no change may
-    raise it again, and a file near it should be split rather than allowed to grow.
+    until 2026-07-29, when the owner raised it to 900, and 900 until 2026-08-12, when the owner
+    raised it to 1200. It is still a ceiling: only the owner may move it, no change may raise
+    it, and a file near it should be split rather than allowed to grow.
   - Dependency cycles in `app/src` and `src`: exactly 0. The checker must resolve the `@engine`
     alias, or the check is empty for those edges.
   - Tools: `eslint.config.mjs` at the root, `tools/dep-cycles.mjs` for cycles, and
@@ -247,7 +248,8 @@ The level range is 1 to 7. SPEC and the engine agree; the owner corrected SPEC o
   cannot vanish from either file; the gauntlet's summed counter refuses a missing file
   outright) and `g10_adult_control_tests`.
 - The splash update controls (SPEC section 7a) have their own file because the safety file
-  reached the 900-line file-length ceiling on 2026-08-07: `safety-splash.test.js` proves a
+  reached the file-length ceiling, 900 lines at the time, on 2026-08-07:
+  `safety-splash.test.js` proves a
   child's tap never reaches the network and only the adult hold applies an update.
 - S5 has its own file because the safety file reached the file-length ceiling, 600 lines at the
   time (G6). It holds one
@@ -464,7 +466,7 @@ promised a fallback the code never performed; G12 counted the step and saw nothi
 - Negative control: `--self-test` rewords a SPEC sentence, rewords a QA promise, changes a
   timing, changes the hold constant, and leaves a stale speed in SPEC; every detector must
   fire.
-- Baseline floor: `g16_doc_rules` (7).
+- Baseline floor: `g16_doc_rules` (8).
 
 ## Aggregation
 

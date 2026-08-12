@@ -8,7 +8,7 @@
    had no way to tell which was wrong. Counting steps (G12) cannot catch it;
    only binding the words to the code can.
 
-   Six rules, every expected value read from the document and checked
+   Eight rules, every expected value read from the document and checked
    against the source, never the other way round:
    1. Every child-facing sentence quoted in SPEC section 8 exists verbatim in
       the app source.
@@ -25,6 +25,15 @@
    6. The bank count the free-play chooser tells the grown-up ("any word from
       all 300") matches the bank. The bank grew from 260 to 300 in one
       commit; the next growth must not leave a parent-facing sentence lying.
+   7. Every gate floor the gate specification quotes is the floor the gauntlet
+      enforces. Seven had drifted by 2026-08-10, so the document told a reader
+      the suite was weaker than it is.
+   8. The "Approved and unshipped" count in the voice-pack document matches the
+      pending ledger. That heading said 60 while the ledger held 156 — fourteen
+      listening rounds of the owner's own time, undercounted by a document
+      nobody had reason to re-read. An approved result that a document
+      understates is an approved result this project loses, which is the trap
+      `docs/settled.md` was written to close.
 
    Negative control: --self-test corrupts each document in memory and
    requires every detector to fire.
@@ -60,7 +69,21 @@ const real = {
   corpus: SOURCES.map((f) => readFileSync(f, "utf8")).join("\n"),
   gauntletDoc: readFileSync("docs/testing-gauntlet.md", "utf8"),
   baseline: readFileSync(".claude/gate-baseline.json", "utf8"),
+  voiceDoc: readFileSync("docs/voice-pack.md", "utf8"),
+  ledger: readFileSync("tools/pending-words/pending-words.json", "utf8"),
 };
+
+/* How many approved items are still waiting for a level. Every key in the
+   ledger except its own comment, minus anything the shipped pack already
+   carries — an item that has shipped is no longer unshipped, and the ledger
+   keeps its row as provenance. A word key is bare ("jump"), a sentence key
+   carries the "s:" prefix, and the pack names words "w:jump". */
+function unshipped(ledgerText, packText) {
+  const pack = JSON.parse(packText);
+  return Object.keys(JSON.parse(ledgerText))
+    .filter((k) => k !== "_comment")
+    .filter((k) => !(k.startsWith("s:") ? k in pack : "w:" + k in pack)).length;
+}
 
 /* The sentences SPEC section 8 pins in its microphone block, as a fenced
    table of `name "sentence"` lines. Reading them out of the document means a
@@ -157,11 +180,20 @@ function run(d) {
       found.push(`the gate specification says ${key} is ${stated}, the baseline enforces ${baseline[key]}`);
   }
 
+  /* The approved backlog the voice-pack document reports must be the backlog
+     the ledger holds. Owner time is the scarcest thing this project spends,
+     and a heading that undercounts it hides the debt rather than paying it. */
+  rules += 1;
+  const stated = /## Approved and unshipped: (\d+) items/.exec(d.voiceDoc);
+  const waiting = unshipped(d.ledger, d.pack);
+  if (!stated || Number(stated[1]) !== waiting)
+    found.push(`the voice-pack document says ${stated ? stated[1] : "no"} items are approved and unshipped, the ledger holds ${waiting}`);
+
   return { found, rules };
 }
 
 if (process.argv.includes("--self-test")) {
-  const seen = { spec: false, qa: false, timing: false, hold: false, recipe: false, bank: false, floor: false };
+  const seen = { spec: false, qa: false, timing: false, hold: false, recipe: false, bank: false, floor: false, unshipped: false };
 
   const specCorrupt = { ...real, spec: real.spec.replace(/^(\s{3}retry\s+)"[^"]+"$/m, '$1"A sentence the app never says."') };
   seen.spec = run(specCorrupt).found.some((p) => p.startsWith("SPEC sentence missing"));
@@ -190,8 +222,17 @@ if (process.argv.includes("--self-test")) {
   const floorCorrupt = { ...real, gauntletDoc: real.gauntletDoc.replace(/`g20_tests_mapped` \(\d+\)/, "`g20_tests_mapped` (1)") };
   seen.floor = run(floorCorrupt).found.some((p) => p.includes("g20_tests_mapped"));
 
+  /* The exact fault this rule was written from: the heading kept the count of
+     an earlier batch while the owner went on approving. Both directions are
+     checked — a heading that lags the ledger hides work already paid for, and
+     one that runs ahead of it claims approvals that never happened. */
+  const behindDoc = { ...real, voiceDoc: real.voiceDoc.replace(/## Approved and unshipped: \d+ items/, "## Approved and unshipped: 60 items") };
+  const aheadDoc = { ...real, voiceDoc: real.voiceDoc.replace(/## Approved and unshipped: \d+ items/, "## Approved and unshipped: 900 items") };
+  seen.unshipped = run(behindDoc).found.some((p) => p.includes("says 60 items are approved and unshipped")) &&
+    run(aheadDoc).found.some((p) => p.includes("says 900 items are approved and unshipped"));
+
   if (Object.values(seen).every(Boolean)) {
-    console.log("self-test OK: a reworded SPEC sentence, a reworded QA promise, a wrong timing, a changed hold constant, a stale recipe number in the document, a stale bank count in the chooser, and a drifted gate floor are all caught");
+    console.log("self-test OK: a reworded SPEC sentence, a reworded QA promise, a wrong timing, a changed hold constant, a stale recipe number in the document, a stale bank count in the chooser, a drifted gate floor, and an unshipped count that lags or runs ahead of the ledger are all caught");
     process.exit(0);
   }
   console.error("self-test FAILED: " + JSON.stringify(seen));
