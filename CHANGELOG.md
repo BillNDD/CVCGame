@@ -7,6 +7,11 @@ This document follows the Microsoft Writing Style Guide.
 Version 6 adds the standalone progressive web app. The reference build does not change.
 The first app version is 1.0.0-beta.1. The app stays in beta until version 1.0 is ready.
 
+- Known issue: if you open the game cold and mark the first word, the "Next word" button can
+  come alive for about half a second while the word is still being sounded out. A tap in that
+  moment skips the rest of the sounding-out. It happens only when the sounds are still
+  loading — the first word after a cold start, or on a slow device — and it is fixed in the
+  next release.
 - Removed: microphone mode. A grown-up marks every result, and the game is played by a child
   and a grown-up together. Speech recognition could never judge a young child's reading
   fairly, and the app is smaller and quieter without it: no permission prompt, no listening
