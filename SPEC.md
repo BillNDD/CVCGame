@@ -769,9 +769,18 @@ sentences are made of the words that level teaches.
    the game under a promise it must then keep.
 
    **Three lines take turns**, owner-ruled the same evening, in the shape the seventeen praise
-   clips already use. The other two are drafted and none of the three is recorded yet; every
-   one must be equally true for every word, because a rotation is only as honest as its
-   weakest line. Nothing here is built, and no line has been heard.
+   clips already use. Chosen from eight on 2026-08-12:
+
+   1. "You read them all. Let's sound out this one."
+   2. "Let's sound out one word together."
+   3. "Here is one word to sound out."
+
+   The three are deliberately different jobs: the first gives the reason, the second names the
+   grown-up — this game is a parent and a child side by side — and the third simply announces.
+   Every one is true whichever word the app chooses and however many times the child has met
+   it, which is the rule that decided the set: the app picks the word, so a line calling it
+   new, or hard, or the tricky one would put the game under a promise it must then keep.
+   Nothing here is built, and **no line has been recorded or heard**.
 6. **The presentation is undecided and is the owner's next call.** Four were built and shown
    on 2026-08-11: tap a word to open its sound tiles silently; every word pre-split; one
    word lit at a time; and a plain sentence whose sounds appear only in the reveal. Design
