@@ -962,6 +962,45 @@ Both are fixed in `app/src/voicepacks.js`, which declares a playback session bef
 sounds and takes the session back before each reveal. Neither is visible on a laptop, and
 neither can be heard by any automatic check — only on a device.
 
+## Where the sounds are: ask the model, never the audio
+
+Added 2026-08-12, and it retires a great deal of earlier work.
+
+Kokoro is a duration-predictor model. Before it renders a single sample it
+decides how many decoder frames each phoneme will occupy, and that tensor is
+inside the ONNX file this project already has:
+`/encoder/predictor/duration_proj/linear_layer/Add_output_0`, shaped
+(tokens, 50). A token lasts `round(sigmoid(logits).sum() / speed) * 25 ms`, one
+frame being 600 samples at 24 kHz. `tools/phoneme_timings.py` owns it.
+
+It is exact. Summed over an utterance the prediction equals the rendered audio
+to the millisecond — twelve times out of twelve, over four sentences at three
+speeds. The ordering matters and is easy to get backwards: divide by the speed
+BEFORE rounding to whole frames. Rounding first is wrong by up to 111 ms on a
+two-second sentence, which looks close and is useless for cutting a 50 ms sound.
+
+What this replaces, for any clip rendered here:
+
+| Method | What it achieved |
+|---|---|
+| Energy thresholds | shipped "of red" to the owner |
+| Silence gaps | found word boundaries 0 times out of 12 sentences |
+| DTW alignment | 33 of 34, and all three proposed fixes failed |
+| Template matching | cannot locate a bare vowel; scores a carrier with no "a" in it at 0.804 against 0.717 for one that has it |
+
+None of it was necessary. The rule now sits in the AGENTS.md reading order:
+never hunt for a boundary in audio this project rendered.
+
+It also settled what was wrong with the word "a". Located exactly, the article
+lasts **25 to 75 ms** in every frame tried. The approved schwa SOUND the game
+teaches lasts 150 ms. Every arm of round 2 ran 290 to 410 ms — four to eight
+times too long, carrying its neighbours along. The owner heard that as
+"inhuman" and was describing a real defect, not a preference.
+
+The limit: this works only on audio rendered here, where the model's own
+durations are available. A recording of a person carries no such tensor, and
+for that the earlier measurements still stand.
+
 ## Licensing
 
 Kokoro's weights are Apache-2.0 and its training data is permissively sourced, so the

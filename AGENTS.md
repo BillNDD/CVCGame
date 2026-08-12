@@ -2,7 +2,7 @@
 
 This document follows the Microsoft Writing Style Guide.
 
-Read these four, in this order, before you change anything:
+Read these, in this order, before you change anything:
 
 1. **`CLAUDE.md`** — the rules that bind every change, and "What counts as
    finished work", which defines what may be called done. S1-S9 are child-safety
@@ -33,7 +33,19 @@ Read these four, in this order, before you change anything:
    in here — a fault that lives only in a chat log is a fault this project will
    lose, and has.
 5. **`docs/testing-gauntlet.md`** — the 16 gates and what each one is for.
-6. **`tools/voice-words.csv`** — for voice work only: the permanent repository
+6. **Never hunt for a boundary in audio this project rendered.** The
+   synthesiser publishes the duration of every phoneme before it renders a
+   sample, and `tools/phoneme_timings.py` reads it: a token lasts
+   `round(sigmoid(logits).sum() / speed) * 25 ms`, and summed over an utterance
+   it matches the rendered audio to the millisecond, twelve times out of twelve
+   at three speeds. Energy thresholds shipped "of red" to the owner, silence
+   found word boundaries zero times out of twelve, the DTW aligner reached 33 of
+   34, and template matching cannot locate a bare vowel at all. All of that was
+   work that never needed doing. Ask the model. `npm run check:timings` proves
+   it still holds; it is out of `npm run check` for the same reason the word-gate
+   control is out of the gauntlet — it needs the synthesiser environment, and a
+   new dependency in CI is the owner's call.
+7. **`tools/voice-words.csv`** — for voice work only: the permanent repository
    of the voice. One row per bank word, one column per knob and decision. It is
    the ONLY file a person edits after a listening round; everything else —
    `keepers-treatments.json`, `keeper-bytes.json`, `voice-lock.json` — is

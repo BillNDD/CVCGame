@@ -53,6 +53,7 @@ from kokoro_onnx import Kokoro
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
 import wordcut as wc
+import phoneme_timings as pt
 
 REPO = pathlib.Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(REPO / "tools"))
@@ -83,53 +84,40 @@ SCHWA = "ɐ"
 # and stops mid-tone, which is the jarring edge the owner heard. Arms here
 # carry longer fades, and some carry a front trim, the treatment that won for
 # every one of batch 4's winners.
-# ROUND 3. Rounds 1 and 2 were both drafted before docs/settled.md was read.
-# Round 2 was located by ENERGY THRESHOLD, and that file says in terms: "A cut
-# must be LOCATED, never guessed from silence. The gap search only knows where
-# sound dips, so it ran past the word and shipped 'of red' to the owner...
-# Do not go back to threshold cutting." tools/wordcut.py is the method the
-# project already owns: render the word alone, slide that template over the
-# carrier on log-mel features, then walk at most 40 ms to a quiet frame.
+# ROUND 3, built on exact boundaries instead of a search.
 #
-# It changes the answer. Threshold cutting could not separate "a" from the noun
-# after it, and round 2 concluded the article cliticises so tightly that no cut
-# is possible. Template matching finds it in "It is a cat." at a score of 0.72
-# and in "Here is a cat." at 0.76, both well above the 0.55 trust floor. The
-# earlier conclusion was true of the METHOD, not of the word.
+# Rounds 1 and 2 both guessed where the word was. Round 1 rendered it plain,
+# which settled.md had closed twice. Round 2 cut it by energy threshold, which
+# settled.md forbids by name. Neither had to happen: the synthesiser publishes
+# the duration of every phoneme before it renders anything, and
+# tools/phoneme_timings.py reads it. The word "a" sits at 725-775 ms of
+# "It is a cat." — not approximately, exactly, and the same arithmetic matches
+# the whole utterance to the millisecond twelve times out of twelve.
 #
-# The template is the plain schwa render. It is not shippable — settled.md
-# closed plain renders and the owner refused five of them — but nothing about
-# being a locator requires it to be shippable, and it is never offered.
+# WHAT THAT REVEALED, and it is the question this round asks the owner. The
+# article lasts 25 to 75 ms in every frame tried. The approved schwa SOUND that
+# the game already teaches lasts 150 ms. Every arm of round 2 ran 290 to 410 ms,
+# so all twelve were four to eight times too long and carried their neighbours
+# with them — the owner heard that and called it inhuman, and they were right.
 #
-# The frames are the ones settled.md says won: "{Word}, everybody.",
-# "Say {word}, everybody.", "Class, the word {word} is next." carried 59 items,
-# and a natural sentence frame won "Pronounced:" after eleven teacher-style
-# ideas failed. Both families are here. NONE of them ends on "a", so the letter
-# name cannot appear at all — which also removes the trap that took four arms
-# in round 1 and the misdirected match that took "a. a. a." here: the template
-# scores the letter name 0.84 against a schwa, higher than any real instance,
-# so a carrier ending on the word is excluded rather than screened.
-CARRIERS = [                    # (text, speed, note)
-    ("a, everybody. a, everybody.", 0.85, "teacher frame, the winning register"),
-    ("Say a, everybody.", 0.85, "teacher frame, spoken to a class"),
-    ("Class, the word a is next.", 0.85, "teacher frame, word mid-sentence"),
-    ("The word a is next.", 0.85, "teacher frame, shorter"),
-    ("It is a cat.", 0.85, "a sentence a person would actually say"),
-    ("Here is a cat.", 0.85, "natural frame, warmer"),
-    ("I see a big red cat.", 0.85, "natural frame, fully mid-phrase"),
-    ("It is a cat.", 0.80, "natural frame, unhurried"),
+# So the field is the real word at its real length, cut three ways, against the
+# sound the game already has. No stretching: settled.md, round 8 — "Processing
+# moves a sound away from a person, not toward one."
+# Four frames, not eight. The word is 50 to 75 ms long, and eighteen arms of a
+# sound that short is a field nobody can tell apart — round 8's lesson about
+# offering a listener things that do not differ, in a new form. These four
+# differ in register and in length; the margin is what varies within each.
+CARRIERS = [                # (text, speed, note)
+    ("It is a cat.", 1.00, "a sentence, at reading speed"),
+    ("It is a cat.", 0.70, "the same sentence, unhurried"),
+    ("The word a is next.", 0.60, "a teacher's sentence, slowest"),
+    ("a cat", 0.70, "the shortest frame there is"),
 ]
-# settled.md: "Speed 0.85 for words is the shipped default; 1.0 fixes nothing...
-# unhurried 0.8 belongs in a field." Round 2 offered 1.0, 0.9 and 0.85 and no
-# 0.8; this one carries it.
-#
-# Shaping applied to each cut: (fade ms, front trim ms). A clip that is nothing
-# but a vowel begins and ends mid-tone, so the pack's 10 ms fade leaves the edge
-# the owner called jarring; 30 ms rounds it. The front trim is batch 4's
-# treatment, where all four winners were front-trimmed, and settled.md: "The
-# front matters more than the tail."
-SHAPES = [(30, 0), (30, 30)]
-MIN_MATCH_SCORE = 0.55          # wordcut's own trust floor
+# How much of the surrounding silence to keep. The boundaries are exact, so a
+# margin is a DECISION about how much room the word needs, not a guess about
+# where it is. 0 is the word alone; 40 and 80 give it the breath either side
+# that a word in a sentence actually has.
+MARGINS_MS = [0, 40, 80]
 # The guard, taken from two measurements rather than invented. The game's own
 # approved schwa speaks for 150 ms (d:schwa, 576 ms total less its 120 ms lead
 # and 306 ms tail). The shortest contaminated cut — "a cat", where the article
@@ -287,39 +275,30 @@ if __name__ == "__main__":
     tpl = tpl[t0:t1]
     print(f"locator template: {len(tpl) / tsr * 1000:.0f} ms of schwa, never offered\n")
 
-    # THIS ROUND DOES NOT BUILD, and that is the finding rather than a failure
-    # to finish. Four ways to isolate the word "a" have now been tried and
-    # measured, and none of them can honestly produce one instance of it:
-    #
-    #   1. A plain render. Refused by the owner ("inhuman, full of static") and
-    #      closed twice in docs/settled.md before that.
-    #   2. A threshold cut. Forbidden by settled.md ("Do not go back to
-    #      threshold cutting"), and it produced PHRASES: 670 to 1110 ms of
-    #      speech against 150 ms for the approved schwa sound.
-    #   3. A template match, the method settled.md requires. It cannot locate a
-    #      bare vowel: the schwa template scores "The dog ran." at 0.804 - a
-    #      carrier with no "a" in it at all - against 0.717 for "It is a cat.",
-    #      and in "A cat is here." it puts the match at the END. A single
-    #      unstressed vowel has no consonant structure to match on, which every
-    #      other word in this pack does.
-    #   4. wordcut.first_instance(), built for repeat frames. It returns 420 to
-    #      1080 ms of speech from "a. a. a." and its variants - several
-    #      instances, not one.
-    #
-    # So there is no automatic path, and offering a fifth guessed field would
-    # spend another round to learn nothing. The decision is the owner's and it
-    # is a small one, because the game ALREADY has an approved clip of this
-    # exact sound: d:schwa, closed on its seventh round, 150 ms of speech, cut
-    # from a clip the owner accepted. The word "a" IS the schwa. Ruling that
-    # the word may use the sound's clip costs no round at all.
-    raise SystemExit(
-        "no round built: the word \"a\" has no automatic isolation path.\n"
-        "  plain render     - closed by settled.md and refused by the owner\n"
-        "  threshold cut    - forbidden by settled.md; produced 670-1110 ms phrases\n"
-        "  template match   - scores a carrier WITHOUT the word higher (0.804 vs 0.717)\n"
-        "  first_instance() - returns 420-1080 ms, several instances at once\n"
-        "The approved schwa sound (d:schwa, 150 ms) is the same sound and is already\n"
-        "closed by a listening round. That is the owner's decision to make.")
+    n_arm = 0
+    for text, speed, why in CARRIERS:
+        stop = guard.screen([{"word": "a", "carrier": text, "index": 0,
+                              "instances": len(phonemise(text).split()), "family": why}],
+                            phonemise)[1]
+        if stop:
+            rejected.append((f'"{text}" @{speed}', stop[0][1])); continue
+        audio, sr, rows = pt.timings(text, speed)
+        hit = pt.find(rows, "ɐ")
+        if hit is None:
+            rejected.append((f'"{text}" @{speed}', "the phonemiser put no schwa in this carrier")); continue
+        if hit["ms"] > MAX_SCHWA_MS:
+            rejected.append((f'"{text}" @{speed}', f'the model gives it {hit["ms"]:.0f} ms - too long to be one sound')); continue
+        for margin in MARGINS_MS:
+            n_arm += 1
+            aid = f"a_{n_arm:02d}"
+            i0 = max(0, int((hit["at_ms"] - margin) / 1000 * sr))
+            i1 = min(len(audio), int((hit["at_ms"] + hit["ms"] + margin) / 1000 * sr))
+            mp3, ms = encode(shape(audio[i0:i1], sr, 30, 0), sr)
+            note = f'{why} · {hit["ms"]:.0f} ms word' + (f" + {margin} ms room each side" if margin else ", exactly")
+            arms.append({"id": aid, "family": note, "ms": ms,
+                         "b64": base64.b64encode(mp3).decode(),
+                         "sha": hashlib.sha256(mp3).hexdigest()})
+            print(f'  {aid}: {ms:4} ms clip ({hit["ms"]:.0f} ms word + {2*margin} ms room)  {note}')
 
     # The approved schwa from the sound library, so the owner can hear what the
     # game already says for this sound beside the candidates. Labelled
