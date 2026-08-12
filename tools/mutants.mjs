@@ -89,11 +89,15 @@ const MUTANTS = [
      fault replayed: it costs six bank words their sound and nothing else in
      the build would notice, because th_quiet is a clip that exists. */
   ["the voiced th collapses into the quiet one", 'this: { 0: "th_this" }, that: { 0: "th_this" },', 'this: { 0: "th_quiet" }, that: { 0: "th_quiet" },'],
-  /* Re-pointed 2026-08-11: "with" moved back to the quiet th when the owner
-     ruled for American pronunciation, so the old anchor no longer exists. The
-     fault it hunts is now the opposite one — "with" wrongly joining the
-     voiced set — and the vowel that moved with the same ruling. */
-  ["with wrongly takes the voiced th", 'then: { 0: "th_this" }, them: { 0: "th_this" },', 'then: { 0: "th_this" }, them: { 0: "th_this" }, with: { 2: "th_this" },'],
+  /* Re-pointed TWICE, and the second time is the interesting one. On
+     2026-08-11 "with" moved to the quiet th under the ruling for American
+     pronunciation, so this mutant hunted the opposite fault: "with" wrongly
+     joining the voiced set. On 2026-08-12 the owner heard both and chose the
+     BUZZY th — so the mutant was planting a mapping the bank already had. An
+     equivalent mutant plants no fault, kills nothing, and survives forever;
+     G5 caught it the same evening. It now hunts the fault that exists today:
+     "with" losing the voiced th the owner chose. */
+  ["with loses the voiced th the owner chose", 'them: { 0: "th_this" }, with: { 2: "th_this" },', 'them: { 0: "th_this" }, with: { 2: "th_quiet" },'],
   ["was loses its American vowel", 'was: { 1: "short_u", 2: "z" },', 'was: { 1: "short_o", 2: "z" },'],
   ["a digraph loses its single sound", 'ck: "k", ff: "f", ll: "l", ss: "s", zz: "z",', 'ff: "f", ll: "l", ss: "s", zz: "z",'],
 ];
