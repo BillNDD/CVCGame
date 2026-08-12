@@ -55,6 +55,9 @@ desktop.ini
 # ---- Test output ----
 test-results/
 playwright-report/
+# the census writes its report, traces and screenshots here; findings are
+# read from it and acted on, never committed
+.census/
 
 # ---- Personal data: never commit these ----
 # The app can export a reading log. Keep all exports out of the repository.

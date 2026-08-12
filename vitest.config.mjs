@@ -22,6 +22,12 @@ export default defineConfig({
     dedupe: ["react", "react-dom"],
   },
   test: {
+    /* The UX census is Playwright, not vitest, and lives in tests/census.
+       Without this line vitest collects those .spec.mjs files, fails to parse
+       them, and `npm run check` goes red for a reason that has nothing to do
+       with the game. The census must never become a gate by accident: it is a
+       one-off investigation, run on demand with `npm run census`. */
+    exclude: ["**/node_modules/**", "**/dist/**", "tests/census/**"],
     coverage: {
       provider: "v8",
       include: ["src/engine.js", "app/src/**/*.{js,jsx}"],
