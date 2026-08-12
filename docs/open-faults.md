@@ -230,6 +230,13 @@ misses and the new one does not.
 
 ## B17. The advance control goes live for half a second in the middle of a reveal
 
+**Owner-ruled 2026-08-12: this ships in beta.17 and is fixed in the one after.** It predates
+every beta already installed, so shipping makes nothing worse, and the fix touches the arming
+logic that produced a regression the last time it was changed in a hurry — the progress fill
+ran backwards and G7 caught it. It is named in the beta's changelog as a known issue, because
+a parent should hear it from us rather than meet it.
+
+
 Found by an independent reviewer on 2026-08-12, through the UX census, and it is the first
 child-facing fault the census has produced. It is a candidate: measured on this machine under
 an induced delay, not yet seen by a person on a real device.
