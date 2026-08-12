@@ -400,6 +400,31 @@ describe("voice packs", () => {
     const graphemes = new Set();
     for (const l of LEVELS) for (const w of l.words) for (const g of chunkWord(w)) graphemes.add(g);
     expect(graphemes.size).toBe(39);
+    /* B1, owner-ruled 2026-08-12: the ROSTER is pinned, not just its size.
+       `soundIdFor` is `"d:" + (TILE_SOUND[g] || g)`, so a grapheme nobody has
+       ruled on still returns a valid clip id, resolvePack still resolves, every
+       gate still passes, and a child is still taught something. That is exactly
+       how th played the wrong sound for months. A count alone does not catch it
+       either: swap one grapheme for another and the size is unchanged.
+
+       So both halves are literal. The sixteen in TILE_SOUND are decisions
+       somebody made. The twenty-three on the fallback are correct — swept
+       against the whole bank on 2026-08-11 and put to an adversarial verifier —
+       but correct by luck of the naming rather than by a recorded ruling, and
+       they are listed here so that ADDING a grapheme fails this test until a
+       person puts it in one list or the other, which is the moment the decision
+       gets made. */
+    expect([...graphemes].sort()).toEqual(
+      ["a", "b", "c", "ch", "ck", "d", "e", "f", "ff", "g", "h", "i", "j", "k", "kn", "l",
+       "ll", "m", "mb", "n", "ng", "o", "p", "qu", "r", "s", "sh", "ss", "t", "th", "u",
+       "v", "w", "wh", "wr", "x", "y", "z", "zz"]);
+    const named = [...graphemes].filter((g) => soundIdFor(g) !== "d:" + g).sort();
+    const fallback = [...graphemes].filter((g) => soundIdFor(g) === "d:" + g).sort();
+    expect(named).toEqual(
+      ["a", "c", "ck", "e", "ff", "i", "kn", "ll", "mb", "o", "ss", "th", "u", "wh", "wr", "zz"]);
+    expect(fallback).toEqual(
+      ["b", "ch", "d", "f", "g", "h", "j", "k", "l", "m", "n", "ng", "p", "qu", "r", "s",
+       "sh", "t", "v", "w", "x", "y", "z"]);
     const inv = new Set(soundInventory());
     for (const g of graphemes) expect(inv.has(soundIdFor(g))).toBe(true);
     for (const l of LEVELS) for (const w of l.words) {
