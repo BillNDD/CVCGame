@@ -12,6 +12,20 @@ updated whenever a round lands.
 
 ## Closed by measurement — do not spend a listening round
 
+- **The 83 words of Levels 10 and 11 are clean as a set, heard together**
+  (owner ship review, 2026-08-12). Every one had been approved ALONE inside a
+  batch, across fourteen batches between 7 and 11 August, and none had been
+  heard beside the others. Played in level order, one verdict each: **83 fine,
+  0 needing work, none unmarked.** Do not re-round these words.
+  The comparison that makes it worth recording: the same owner, on the same
+  day, by the same side-by-side method, called **two of ten shipped SOUNDS
+  poor** — th_this and h, both previously graded "perfect" alone. The word
+  pipeline and the sound pipeline are not equally reliable, and the difference
+  is not the listener. Words are cut from a carrier render of that word, judged
+  one word at a time against a dozen candidates, and byte-pinned; sounds are
+  built by a chain of treatments and were, until now, never heard in company.
+  Effort belongs on the sound pipeline.
+
 - **A sentence ships as ONE natural recording, never as its words stitched
   together.** Owner-ruled 2026-08-12. A word said on its own is a citation form:
   the pack's word clips run about twice the length of the same words inside a
