@@ -104,7 +104,30 @@ updated whenever a round lands.
   so the first two are the word and the third is not. Any future round for
   "a", "I", or any other word that is also a letter name must check the
   phonemisation before rendering.
-- **The word "a" has NO automatic isolation path, and four methods were tried**
+- **Boundaries come from the MODEL, not from the audio** (2026-08-12). Kokoro is
+  a duration-predictor model: before it renders a sample it decides how many
+  frames each phoneme occupies, and that tensor is inside the ONNX file this
+  project already has —
+  `/encoder/predictor/duration_proj/linear_layer/Add_output_0`, shaped
+  (tokens, 50). A token lasts `round(sigmoid(logits).sum() / speed) * 25 ms`,
+  one decoder frame being 600 samples at 24 kHz. Summed over an utterance it
+  matches the rendered audio **to the millisecond, 12 times out of 12** across
+  four sentences at three speeds. `tools/phoneme_timings.py` owns it, with
+  fifteen controls.
+  The ordering is load-bearing: dividing by speed BEFORE rounding is exact,
+  rounding first and dividing second is wrong by up to 111 ms on a two-second
+  sentence — close enough to look right, useless for cutting a 50 ms sound.
+  This supersedes every attempt to recover a boundary from the waveform. Energy
+  thresholds shipped "of red"; the sentence aligner reached 33 of 34; template
+  matching cannot locate a bare vowel at all; silence found word boundaries
+  zero times out of twelve. None of it was necessary, and none of it should be
+  attempted again while a clip is one this project rendered. Nothing new ships:
+  `onnx` adds an output to a graph in memory on the developer machine, in the
+  same class as the GPL phonemiser.
+- **The word "a" has no automatic isolation path — SUPERSEDED the same day by
+  the entry above, which locates it exactly at 725–775 ms of "It is a cat.".
+  The four failures below are kept because they are still true of the methods
+  they name, and because they are what sent the search to the model in the end**
   (2026-08-12). This supersedes the narrower entry below, which blamed
   cliticisation; the real reason is that a single unstressed vowel has no
   consonant structure for any locator to hold on to, and every other word in
