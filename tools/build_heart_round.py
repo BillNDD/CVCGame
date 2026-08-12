@@ -45,16 +45,22 @@ CASES = [
      "The same oo_moon, in a second word.",
      "Same question, second word — does it hold?"),
     ("my", [("m", "d:m", "m"), ("y", "d:long_i", "eye")],
-     "Needs long_i. That sound IS the name of the letter I, which safety rule "
-     "S4 forbids the app from saying — but you ruled on 2026-08-06 that the "
-     "letter-name vowels join the library as SOUNDS. This is that ruling meeting a real word.",
-     "Is “y” saying eye a sound, or is it a letter name?"),
+     "Two tiles, two sounds — no tile change needed. I told you otherwise an hour ago "
+     "and I was wrong: my counting tool split the “eye” diphthong into two characters "
+     "and I read that as two sounds. This word needs only long_i, nothing else. "
+     "That sound IS the name of the letter I, and S4 forbids the app saying letter "
+     "names — but you ruled on 2026-08-06 that the letter-name vowels join the library "
+     "as SOUNDS. This is that ruling meeting its first real word.",
+     "Is “y” saying eye a sound you are happy for the game to teach?"),
     ("you", [("y", "d:y", "y"), ("ou", "d:oo_moon", "oo")],
-     "TWO tiles, not three. “ou” would become a new multi-letter unit, which is "
-     "a change to safety rule S8 and needs your approval.",
-     "Should “ou” be one tile?"),
+     "TWO tiles, not three — a real mismatch, unlike my. “ou” would become a new "
+     "multi-letter unit, which is a change to safety rule S8 and needs your approval. "
+     "No word in the bank contains “ou”, so nothing already shipped would change.",
+     "Should “ou” be one tile, saying oo?"),
     ("said", [("s", "d:s", "s"), ("ai", "d:short_e", "e"), ("d", "d:d", "d")],
-     "THREE tiles, not four. “ai” would become a new multi-letter unit — another S8 change.",
+     "THREE tiles, not four — also a real mismatch. “ai” would become a new "
+     "multi-letter unit, another S8 change. No bank word contains “ai” either. This is "
+     "how the field teaches said: the “ai” is the heart part.",
      "Should “ai” be one tile, saying e?"),
 ]
 
@@ -146,11 +152,24 @@ page.write_text("""<!doctype html><meta charset="utf-8">
  .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
  code{background:var(--chip);border-radius:5px;padding:1px 5px;font-size:13px}
  .warn{border-left:4px solid var(--amber);padding-left:12px}
+ .verdicts{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+ .v{font:inherit;font-weight:700;font-size:14px;border:0;border-radius:999px;padding:9px 14px;
+   min-height:44px;cursor:pointer;background:#fff;color:var(--ink);box-shadow:inset 0 0 0 2px var(--line)}
+ .v[aria-pressed="true"]{color:#fff}
+ .v[data-v="perfect"][aria-pressed="true"]{background:var(--ok);box-shadow:none}
+ .v[data-v="good"][aria-pressed="true"]{background:#4c8fd6;box-shadow:none}
+ .v[data-v="iterate"][aria-pressed="true"]{background:var(--amber);box-shadow:none;color:#3a2a05}
+ .v[data-v="no good option"][aria-pressed="true"]{background:#cc4747;box-shadow:none}
+ .bar{position:sticky;bottom:0;background:#fff;border-top:1px solid var(--line);
+   padding:12px 0 14px;margin-top:26px;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+ .count{font-size:14px;color:#5a6b8c}
+ textarea{width:100%;min-height:150px;font:13px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace;
+   border:1px solid var(--line);border-radius:10px;padding:10px;margin-top:10px}
 </style>
 <h1>Heart words: the sound-out round</h1>
 <p class="sub">Every word clip here you have already graded <b>perfect</b>. This round is only
 about <b>two sounds you have never heard</b> and <b>how each word breaks into tiles</b>.
-Play each one and say yes or no. The spacing is the app's own 500&nbsp;ms.</p>
+Play each, then press a verdict. The spacing is the app's own 500&nbsp;ms. When you are done, press <b>copy all answers</b> at the bottom and paste them back to me.</p>
 
 <h2>1. Two sounds, alone</h2>
 <div id="sounds"></div>
@@ -174,20 +193,63 @@ async function play(plan){
     if (i < plan.length-1) at += SEAM/1000 - (e.tail + plan[i+1].lead)/1000;
   });
 }
+const VERDICTS = ["perfect","good","iterate on this","no good option"];
+const answers = {};
+const vrow = key => `<div class="verdicts" data-key="${key}">` +
+  VERDICTS.map(v=>`<button class="v" data-v="${v}" aria-pressed="false">${v}</button>`).join("") + `</div>`;
+
 document.getElementById("sounds").innerHTML = SOUNDS.map((s,i)=>`
  <div class="card"><div class="row"><button data-s="${i}">▶ play</button>
  <b>${s.label}</b> <code>${s.id}</code></div>
- <p class="asks">${s.asks}</p></div>`).join("");
+ <p class="asks">${s.asks}</p>${vrow("sound " + s.id)}</div>`).join("");
 document.getElementById("words").innerHTML = WORDS.map((w,i)=>`
  <div class="card"><div class="word">${w.word}</div>
  <div class="tiles">${w.tiles.map(t=>`<div class="tile">${t.t}<small>${t.reads}</small></div>`).join("")}</div>
  <div class="note${w.note.indexOf("S8")>=0||w.note.indexOf("S4")>=0?" warn":""}">${w.note}</div>
  <p class="asks">${w.asks}</p>
- <div class="row"><button data-w="${i}">▶ play the whole reveal</button></div></div>`).join("");
+ <div class="row"><button data-w="${i}">▶ play the whole reveal</button></div>
+ ${vrow(w.word + "  [" + w.tiles.map(t=>t.t+"→"+t.reads).join(" ") + "]")}</div>`).join("");
+
+const TOTAL = SOUNDS.length + WORDS.length;
+document.body.insertAdjacentHTML("beforeend", `<div class="bar">
+  <button id="copy">📋 copy all answers</button>
+  <span class="count" id="count">0 of ${TOTAL} answered</span></div>
+  <textarea id="out" readonly placeholder="Your answers appear here as you click. Press copy, then paste them back to me."></textarea>`);
+
+function render(){
+  const lines = [];
+  for (const k of Object.keys(answers)) lines.push(k + " | " + answers[k]);
+  const missing = [];
+  document.querySelectorAll(".verdicts").forEach(d=>{ if(!answers[d.dataset.key]) missing.push(d.dataset.key); });
+  const NL = String.fromCharCode(10);
+  let text = "HEART WORD ROUND — " + new Date().toISOString().slice(0,10) + NL + NL
+    + (lines.join(NL) || "(nothing answered yet)");
+  if (missing.length) text += NL + NL + "NOT ANSWERED (" + missing.length + "):" + NL + missing.join(NL);
+  document.getElementById("out").value = text;
+  document.getElementById("count").textContent =
+    Object.keys(answers).length + " of " + TOTAL + " answered";
+}
+render();
+
 document.body.addEventListener("click", e=>{
   const b = e.target.closest("button"); if(!b) return;
-  if (b.dataset.s!==undefined) play([SOUNDS[+b.dataset.s]]);
-  if (b.dataset.w!==undefined) play(WORDS[+b.dataset.w].plan);
+  if (b.dataset.s!==undefined) return play([SOUNDS[+b.dataset.s]]);
+  if (b.dataset.w!==undefined) return play(WORDS[+b.dataset.w].plan);
+  if (b.classList.contains("v")) {
+    const row = b.closest(".verdicts"), key = row.dataset.key;
+    const already = b.getAttribute("aria-pressed") === "true";
+    row.querySelectorAll(".v").forEach(x=>x.setAttribute("aria-pressed","false"));
+    if (already) delete answers[key];            // click again to clear
+    else { b.setAttribute("aria-pressed","true"); answers[key] = b.dataset.v; }
+    return render();
+  }
+  if (b.id === "copy") {
+    const t = document.getElementById("out");
+    t.select();
+    navigator.clipboard.writeText(t.value).then(
+      ()=>{ b.textContent = "✓ copied"; setTimeout(()=>b.textContent="📋 copy all answers", 1600); },
+      ()=>{ document.execCommand("copy"); b.textContent = "✓ copied"; setTimeout(()=>b.textContent="📋 copy all answers", 1600); });
+  }
 });
 </script>
 """.replace("SOUNDS_JSON", json.dumps(sounds))
