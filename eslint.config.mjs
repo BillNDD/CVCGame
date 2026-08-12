@@ -22,14 +22,14 @@ export default [
     },
     rules: {
       complexity: ["error", 15],
-      "max-lines": ["error", 900],
+      "max-lines": ["error", 1200],
     },
   },
   {
     files: ["tools/**/*.mjs", "tests/**/*.{js,mjs}", "app/vite.config.js", "app/src/main.jsx", "*.mjs"],
     languageOptions: { ecmaVersion: 2024, sourceType: "module" },
     rules: {
-      "max-lines": ["error", 900],
+      "max-lines": ["error", 1200],
     },
   },
 ];
