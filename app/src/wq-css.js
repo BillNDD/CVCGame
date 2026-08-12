@@ -132,9 +132,40 @@ const CSS = `
 .wq-heard{flex-basis:100%;font-size:11px;color:${C.strip};opacity:.9}
 
 /* progress (P1-6: colour + pattern) */
-.wq-prog{display:flex;gap:2px;width:100%}
-.wq-seg{flex:1;height:9px;border-radius:2px;min-width:3px}
-.wq-seg-todo{background:rgba(255,255,255,.55)}
+/* The session path, owner-ruled 2026-08-12: one dot per word, at a size a
+   child can count, on its own row with a label. It replaced a 6 px bar that
+   was made for a grown-up — a pre-reader cannot read "7/20" but can see six
+   dots behind them.
+
+   IT WRAPS, and that is the whole engineering of it. Twenty 13 px dots need
+   336 px and a phone header has 263 px beside the home and level controls, so
+   a single row overflows on every phone — which the first drawing of this did,
+   off the right edge. flex-wrap lets the row become two or three lines on a
+   narrow screen and stay one line where it fits, and the label holds its place
+   at the start of the first line rather than wrapping with the dots. Measured
+   at real device widths by the G7 gate, not left to look right. */
+.wq-track{display:flex;align-items:flex-start;gap:8px;padding:0 12px 7px}
+/* Longhands, not the font shorthand: "font:700 9px/1.45 inherit" is invalid
+   CSS — the shorthand takes no inherit — so the browser dropped the whole
+   declaration and the label rendered at the inherited size, 126.6 px wide on a
+   320 px screen where it should be about 65. Measured, not spotted. */
+.wq-tracklbl{font-weight:700;font-size:9px;line-height:1.45;letter-spacing:.11em;
+  text-transform:uppercase;color:${C.strip};white-space:nowrap;flex:0 0 auto;padding-top:1px}
+/* A GRID of fixed columns, not a wrapping flex row. Both wrap; only the grid
+   wraps EVENLY. Left to flex-wrap, twenty dots broke 19 and 1 on a 430 px
+   phone — a single orphan dot on its own line, which reads as a mistake. Ten
+   columns give two rows of ten on every phone, and a child counts in tens.
+   The breakpoints are the widths at which the rows actually fit, measured:
+   twenty dots need 336 px and the widest track offers that from 446 px up, so
+   one row from 480; ten need 166 px, which the narrowest phone has; seven need
+   115 px, the floor for anything narrower than a phone this app supports. */
+.wq-prog{display:grid;grid-template-columns:repeat(20,13px);gap:4px;
+  justify-content:start;flex:0 1 auto;min-width:0}
+@media (max-width:479px){.wq-prog{grid-template-columns:repeat(10,13px)}}
+@media (max-width:319px){.wq-prog{grid-template-columns:repeat(7,13px)}}
+.wq-seg{width:13px;height:13px;border-radius:50%}
+.wq-seg-todo{background:${C.chip};box-shadow:inset 0 0 0 1px ${C.line}}
+.wq-seg-now{background:${C.sun};box-shadow:inset 0 0 0 1px #e0ac2b}
 .wq-seg-ok{background:${C.green}}
 .wq-seg-mid{background:repeating-linear-gradient(135deg,${C.sun} 0 3px,#fff 3px 6px)}
 .wq-seg-bad{background:repeating-linear-gradient(90deg,${C.red} 0 2px,#fff 2px 4px)}

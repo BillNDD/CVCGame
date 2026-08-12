@@ -328,6 +328,25 @@ replace approved audio for any word in the bank.
 - **Done** The rule is written into the standing rules rather than only into a commit
   message, and ideally the gauntlet refuses to run against a tree with staged changes.
 
+### C3. A detector that exists, in a gate that does not run before a push
+
+- **Where** `tools/quality-control.mjs`. It runs under `npm run lint:quality`, which is a
+  gauntlet step. `npm run check` — the thing E7 requires before every push — does not call it.
+- **Today** The dead-`font:` scan is now duplicated as safety test 8 in the fast suite, so that
+  one fault cannot ship again. The other three refusals in the tool — the complexity ceiling,
+  the dependency-cycle check and the config baseline — still run only in the gauntlet.
+- **The fault** This cost a real defect on 2026-08-12. The tool has refused a `font:` shorthand
+  ending in `inherit` since 2026-07-29, with the incident that motivated it written into the
+  stylesheet's own header. A rule written that morning — `font:700 9px/1.45 inherit` on the
+  session path's label — was invalid for exactly that reason, `npm run check` passed, and the
+  label rendered at the inherited size: 127 px wide on a 320 px screen where it should have been
+  78. A detector nobody runs before a push is not a detector, it is a record of a thing somebody
+  once knew.
+- **Done** Every refusal in `quality-control.mjs` either runs in `npm run check` or is written
+  down here as deliberately gauntlet-only, with the reason. Moving the whole tool is not the
+  answer: it takes 32 seconds, nearly all of it complexity analysis, and how long the check may
+  take is the owner's budget (2026-08-02).
+
 ---
 
 ## D. Known limits, carried deliberately

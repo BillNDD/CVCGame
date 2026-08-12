@@ -8,7 +8,7 @@ Per-test rows carry the test's own sentence, which in this project IS the
 Given/When/Then effect. The requirement, oracle, platform, mutant family, evidence
 and known limits are declared per FILE, in the tool, where they stay true.
 
-Totals: 286 it() SITES across 13 files, plus 10 gates that are not test files.
+Totals: 287 it() SITES across 13 files, plus 10 gates that are not test files.
 
 A site inside a loop or a table runs many times, so these rows describe more tests than they number: Vitest executes 330. The rows count the places behaviour is asserted.
 
@@ -308,7 +308,7 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 2 | G10 safety — S6: the splash update controls are adult holds | 50: Update now appears only after a newer version answers, and only the adult hold sends the consent message |
 | 3 | G10 safety — S6: the splash update controls are adult holds | 51: a newer build of the same version is offered in plain words |
 
-## tests/safety.test.js — 48 tests (G10)
+## tests/safety.test.js — 49 tests (G10)
 
 - **Requirement protected:** Safety rules S1-S7: the app never records a miss by itself, never speaks the word early, and never reaches the network
 - **Independent oracle:** The exact SPEC sentences and literal control sizes
@@ -358,15 +358,16 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 37 | G10 safety — S4: a word the microphone cannot judge fairly | 20: such a word offers no microphone and tells the adult why |
 | 38 | G10 safety — S6 and S7: no network, big controls | 6: no app source makes a network call |
 | 39 | G10 safety — S6 and S7: no network, big controls | 7: the stylesheet keeps child controls at 56 px and adult controls at 44 px |
-| 40 | G10 — free play never touches the save | 40: rights, wrongs and leaving write nothing at all |
-| 41 | G10 — free play never touches the save | 41 (control): the same grades in a real session DO reach the save |
-| 42 | G10 — free play never touches the save | 42: free play never says Finish and rolls into a new block |
-| 43 | G10 — free play never touches the save | 43: the header says FREE PLAY with a count-up, never x of 20 |
-| 44 | G10 — free play never touches the save | 44: a chooser stands between the tap and the game, and Back starts nothing |
-| 45 | G10 — free play never touches the save | 45: truly random draws from the whole bank, not the child |
-| 46 | G10 — free play never touches the save | 46: random play writes nothing and says what it is |
-| 47 | G10 — free play never touches the save | 47: a spent random block rolls into a fresh draw that never repeats the boundary word |
-| 48 | G10 safety — S6: the foreground check obeys the corner | 48: the check asks on a return to the foreground, and Off silences it at once |
+| 40 | G10 safety — S6 and S7: no network, big controls | 8: no  |
+| 41 | G10 — free play never touches the save | 40: rights, wrongs and leaving write nothing at all |
+| 42 | G10 — free play never touches the save | 41 (control): the same grades in a real session DO reach the save |
+| 43 | G10 — free play never touches the save | 42: free play never says Finish and rolls into a new block |
+| 44 | G10 — free play never touches the save | 43: the header says FREE PLAY with a count-up, never x of 20 |
+| 45 | G10 — free play never touches the save | 44: a chooser stands between the tap and the game, and Back starts nothing |
+| 46 | G10 — free play never touches the save | 45: truly random draws from the whole bank, not the child |
+| 47 | G10 — free play never touches the save | 46: random play writes nothing and says what it is |
+| 48 | G10 — free play never touches the save | 47: a spent random block rolls into a fresh draw that never repeats the boundary word |
+| 49 | G10 safety — S6: the foreground check obeys the corner | 48: the check asks on a return to the foreground, and Off silences it at once |
 
 ## tests/scheduler.test.js — 5 tests (G1)
 

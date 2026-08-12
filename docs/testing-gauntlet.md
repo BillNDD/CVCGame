@@ -210,6 +210,16 @@ every bound reads `LEVELS.length`, which is why adding a level needed no engine 
     on the word's centre, no page scroll, no sideways overflow, and the word's box
     unmoved between phases. This shape sits between the 390-wide phone checks and the
     1280/1080 landscape checks, and nothing measured it before.
+  - The session path fits every screen a family owns, at ten widths from 300 to 1280 px:
+    300 (narrower than any supported phone), 320, 375, 390, 430, 479, 480, 768, 810, 1280.
+    The save is seeded to Level 11 first, because the worst case is a full twenty-word
+    session and a fresh Level 1 holds twelve words. At each width: no sideways overflow, no
+    page scroll, all twenty dots inside the viewport, the row count and the dots per row
+    equal to literal expected values, "read so far" at 9 px, on the first line, and ending
+    left of the first dot. 479 and 480 are a pair on either side of the stated breakpoint,
+    so a moved rule shows up as one reporting the other's shape. Negative control: the phone
+    rule is overridden back to twenty columns and the same probe must report the dots off
+    the screen — the fault the owner photographed on 2026-08-12.
 
 ## G8. Accessibility
 
