@@ -875,6 +875,36 @@ pauses, and warm spectral tilt (attenuated low harmonics read as cold).
   began at speech onset and head_trim 40 removed the /h/. Do not combine the
   two without an ear. lip (80 ms) and van (40 ms) carry the same combination.
 
+## A report from a stale build cost most of a day (2026-08-12) — closed
+
+The owner reported, from a screen recording of the running game, that the reveal was not
+saying the phonics sounds after the word and that no tile was ringing as each sound played.
+Later the same day, after updating the app, they play-tested and reported it working: "The
+reading then phonics pronunciation with boxes around phonics letters thing is working again."
+Nothing in this repository changed in between. **The device was running an old build.**
+
+The same thing happened twice in one hour. A separate report — things on screen sitting
+behind one another — was also reported gone after the same update. Two faults, one cause,
+neither of them in the code.
+
+**What this cost, honestly.** I filed the sound report as B16 and named a "strongest
+candidate": the audio player not running when the words are due, which falls the whole
+utterance through to system speech and produces exactly those two symptoms together. It was a
+good hypothesis and it was wrong. I also aimed it at iPhone and iPad, and the owner was on a
+desktop. What was NOT wasted: chasing it found a real, separate fault — B7 had been closed
+that morning claiming every fallback path names its reason, and one of the five named none,
+which is fixed and stays fixed. But the fix did not cause this recovery and must never be
+recorded as though it did.
+
+**The rule this leaves.** Establish the running version BEFORE diagnosing anything reported
+from a device. This is a PWA: a newer version installs and waits rather than applying itself
+under an open page, which is correct and is exactly why a report can describe a build nobody
+is working on. The app shows its version and build stamp in the home screen's grown-up strip;
+that is one line of a report and it settles the question before a round is spent. Two things
+also worth remembering from the attempt: no screenshot or recording tells you the build, and
+a green desktop reproduction does not clear a fault reported on a real device — but neither
+does it convict the code.
+
 ## The trap this project keeps falling into
 
 A fix that is approved but not applied is worse than no fix: it reads as done.
