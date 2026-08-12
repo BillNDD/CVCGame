@@ -165,6 +165,47 @@ wrong sound for months without a single gate noticing.
 
 ---
 
+## B10. Word-by-word highlighting is not trustworthy yet
+
+Not part of the default-sounds group; filed here because it is the only other
+thing in the tree that is written and does not work.
+
+- **Where** `tools/align-sentence.py`, and the owner's request of 2026-08-11
+  that the sentence reveal walk word by word as the voice reads.
+- **What is needed** The start time of every word inside one whole recorded
+  sentence. A recording does not carry them.
+- **What was ruled out by measurement, so nobody repeats it** Silence does not
+  find word boundaries. Four energy-island settings over twelve approved
+  sentences matched the word count **zero times out of twelve**, because in
+  connected speech the words run together with no gap between them.
+- **What was built** A forced alignment out of the pack's own material: every
+  word in a decodable sentence has an approved clip, so those clips are
+  concatenated into a reference whose boundaries are known exactly, and dynamic
+  time warping carries the boundaries across into the real recording. Two
+  faults were found and fixed on the way — the pending clips are named
+  `w-{word}.mp3`, and the reference runs about **2.01x** the length of the
+  recording, because a word said alone is a citation form, so it must be scaled
+  to the recording BEFORE the warp or the warp spends its whole budget on the
+  squeeze and crushes whatever comes first.
+- **Why it cannot ship** Its own control fails. Each recording is aligned
+  against its own text and against a different sentence's text of the same
+  length; the right text must fit better every time, and it **won only 2 of 3**.
+  On "The cat sat on the mat." the WRONG text fit better — 0.381 against 0.393.
+  So on at least one sentence the alignment is not finding the words, it is
+  distributing them, and the plausible-looking timings it prints are arithmetic
+  rather than measurement.
+- **Why that matters more than it looks** A highlight one word out is worse
+  than no highlight. It tells a child that this squiggle makes that sound, and
+  it is wrong.
+- **Done** The control wins every time, over the whole approved set and not a
+  sample of ten. Three routes are open and none is chosen: anchor the warp on
+  the content words and let the function words float; band-limit the warp so it
+  cannot wander; or record sentences in a way that carries its own word
+  timings, which removes the problem instead of solving it.
+- **Not blocked by this** The sound-by-sound walk INSIDE a word has no such
+  problem. Those timings come from the individual sound clips the player
+  schedules itself, they are exact, and nothing is inferred.
+
 ## C. The audit trail
 
 ### C1. Sixty-four word rows carry no byte pin
