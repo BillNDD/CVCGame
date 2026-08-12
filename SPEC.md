@@ -595,17 +595,15 @@ The reference build runs in a chat host. A standalone build changes four items:
 
 3. Storage: change the storage adapter to IndexedDB with the same one-object schema. Add JSON
    export and import of the full state.
-4. Optional, later: a cloud pronunciation-score API behind a small server proxy. Keep the API key
-   on the server only. Interface:
-
-   ```
-   assessPronunciation(audio: Blob, target: string)
-     -> { accuracyScore: 0..100, phonemes: PhonemeScore[] }
-   // 80 or more: correct. 60 to 79: suggest "close". Below 60: give to the adult.
-   // The app still never records a wrong result by itself.
-   ```
-
-   Make this function opt-in. Do not transmit audio without an explicit adult choice.
+4. REMOVED 2026-08-12, owner-ruled. This item proposed a cloud pronunciation-score API
+   behind a server proxy, with an `assessPronunciation(audio: Blob, target)` stub that shipped
+   unused for months. It goes for the same reason the microphone went, one day earlier: its
+   only possible input is a recording of the child, and sending that off the device is not one
+   of the two requests safety rule S6 permits. "Opt-in" was the guard the original item
+   offered, and the microphone had one too — a toggle in the Grown-ups corner — which is
+   exactly why the owner ruled that a feature merely turned off is a feature somebody turns
+   back on. There is no cloud scoring in this app, and adding one is a new ruling, not a
+   revival of this item.
 
 The repository has a test suite. Run `npm test`. The command first extracts the engine to
 `src/engine.js` with `tools/extract-engine.mjs`, then runs Vitest. `docs/testing-gauntlet.md` defines the full gate set. All

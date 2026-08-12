@@ -25,12 +25,12 @@ export default defineConfig({
     coverage: {
       provider: "v8",
       include: ["src/engine.js", "app/src/**/*.{js,jsx}"],
-      /* Two exclusions, both deliberate and both documented. main.jsx is entry
-         wiring that runs on import; the decision it used to hold now lives in
-         swrefresh.js, which is measured. pronunciation.js is an interface stub
-         for a service that is out of scope (SPEC section 8, item 4); nothing
-         imports it. Nothing else may be excluded. */
-      exclude: ["app/src/main.jsx", "app/src/pronunciation.js"],
+      /* ONE exclusion, deliberate and documented: main.jsx is entry wiring that
+         runs on import, and the decision it used to hold now lives in
+         swrefresh.js, which is measured. pronunciation.js was the second until
+         2026-08-12, when the owner ruled the cloud scoring stub deleted along
+         with the microphone. Nothing else may be excluded. */
+      exclude: ["app/src/main.jsx"],
       reporter: ["text"],
       /* Floors sit at the measured truth on the day they were set, and rise
          from there (E6). They never fall. */
