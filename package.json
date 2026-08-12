@@ -27,7 +27,8 @@
     "check:coverage-control": "node tools/coverage-control.mjs",
     "check:voice-gate": "python3 tools/verify.py --self-test",
     "test:listening": "node tests/ui/listening-page.mjs",
-    "check:voice-edges": "python3 tools/voice-edges.py --check && python3 tools/voice-edges.py --self-test"
+    "check:voice-edges": "python3 tools/voice-edges.py --check && python3 tools/voice-edges.py --self-test",
+    "check:timings": "kokoro-env/bin/python tools/phoneme_timings.py --self-test"
   },
   "devDependencies": {
     "@testing-library/dom": "^10.4.1",
