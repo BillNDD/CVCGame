@@ -171,6 +171,57 @@ wrong sound for months without a single gate noticing.
 
 ---
 
+## B11. Two shipped sounds are judged poor, and the best one has no recipe
+
+Owner ship review, 2026-08-12: ten shipped sounds heard side by side rather than one at a time.
+`short_a` best; `short_e`, `short_i`, `short_o`, `short_u`, `schwa`, `long_e`, `oo_book` good;
+**`th_this` and `h` poor.** Both of those are in the game today.
+
+- **Where** `app/public/voice/d-th_this.mp3` and `d-h.mp3`; their entries in
+  `tools/pending-sounds/pending-sounds.json`.
+- **What a child hears today** Every `th` in this, that, then, them, the and with — and every
+  `h` in the bank — is sounded out with a clip the owner now calls poor. Not wrong, as
+  `th_quiet` was wrong before round 22: the right sound, made badly.
+- **What makes this more than a preference** Both were graded **"perfect (owner)"** in their own
+  rounds, `h` on 2026-08-11 and `th_this` after twenty-two rounds on the same day. A verdict
+  given to a clip heard ALONE did not survive hearing it beside its neighbours. That is a fault
+  in how this project runs rounds, not only in two clips: a sound must be judged in the company
+  it will keep.
+- **What separates them, measured** The owner then graded the four other short vowels "almost
+  perfect", which turns two tiers into a gradient, and the gradient separates cleanly. Against
+  the top five — `short_a` best, `short_e`, `short_i`, `short_o`, `short_u` almost perfect:
+
+  | | top five | "good" | poor |
+  |---|---|---|---|
+  | attack | 5–20 ms | 10–15 ms | **35–45 ms** |
+  | peak position | 0.10–0.19 | 0.06–0.29 | **0.29–0.77** |
+  | speech length | 240–300 ms | 130–290 ms | 210–220 ms |
+  | timbre drift | 1.78–3.22 | 2.13–4.16 | 3.47–5.22 |
+
+  Attack and peak position do not overlap at all between the top five and the poor two. `h`
+  peaks at 0.77 — three-quarters of the way through a breath sound — with a tilt of
+  −2.77 dB/oct against −8.99, the thin and bright end of everything shipped.
+
+  **The envelope also predicts the owner's own ranking, which is what makes it worth trusting.**
+  They placed `schwa` and `oo_book` at the bottom of the vowels with no numbers in front of
+  them. Those two are the shortest clips shipped, 150 and 130 ms, and the two with the latest
+  peaks among the vowels, 0.26 and 0.29 — failing the same rules the poor pair fail, by less.
+  The measurement found the gradient rather than being fitted to it.
+
+  Still a hypothesis from ten clips, and it is a REFUSAL filter, never a predictor of a verdict:
+  the three failed proxies in `docs/settled.md` are what happens when that line is crossed.
+- **The second fault, and the worse one** `short_a`, the clip the owner picked as the best made,
+  records **no method at all**: its ledger entry is a sha, the round id `P45-B01` and
+  "ok (owner ship review)". No family, no carrier, no duration, no treatment. The one sound most
+  worth reproducing is the one this project cannot say how it made. Every other sound in that
+  file carries its method.
+- **Done** Both poor sounds are re-rounded and replaced, judged beside their neighbours rather
+  than alone. `short_a`'s recipe is recovered from the round-45 render scripts, or its absence is
+  recorded as permanent so nobody trusts a reproduction that never existed. Every future sound
+  round is judged in company (see also G0: a rule with no gate is a rule that fails).
+
+---
+
 ## C. The audit trail
 
 ### C1. Sixty-four word rows carry no byte pin
