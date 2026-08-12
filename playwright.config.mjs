@@ -65,7 +65,12 @@ export default defineConfig({
     command: `npx vite preview --port ${PORT} --strictPort`,
     cwd: "app",
     url: `http://localhost:${PORT}/`,
-    reuseExistingServer: true,
+    /* NEVER reuse. A preview server already on this port is serving some other
+       build, and attaching to it means measuring an app nobody has built for
+       this run - which happened during a review, and again in the first full
+       run, which spent an hour measuring a build made before "a" and the split
+       v existed. */
+    reuseExistingServer: false,
     timeout: 120_000,
   },
 });

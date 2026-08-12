@@ -79,32 +79,65 @@ for (const c of CASES) {
 
     if (held) {
       await page.locator(".wq-tile").first().waitFor({ timeout: 8000 });
-      /* The advance control is inert for 400 ms on purpose (S1's cousin: a
-         child cannot skip past the reveal by hammering). Focus is judged only
-         once it is live, because that is the moment a person can act — and
-         measured in a real browser, that is exactly when the app moves focus
-         to it. Judging a moment earlier reported a defect that does not
-         exist. */
-      await page.waitForFunction(
-        () => { const b = document.querySelector(".wq-rail .wq-cta"); return b && !b.disabled; },
-        null, { timeout: 10000 });
+      /* THE CONTROL IS ARMED TWICE, and waiting for the first arm is a trap.
+         The app enables the advance control at 400 ms and then TAKES IT BACK
+         when the reveal's real length is known, re-arming it for the rest of
+         the sound-out. Disabling a focused button drops focus to <body>, so a
+         census that sampled focus in that window reported "focus-lost" — a
+         defect in the game that does not exist. Measured with the voice clips
+         delayed 900 ms: live at +192 ms, disabled again at +779 ms, live for
+         good at +8726 ms.
+         So: wait for the control to be live AND STAY live for half a second.
+         The window this closes is a real finding in its own right and is
+         recorded in docs/open-faults.md. */
+      await page.waitForFunction(() => {
+        const b = document.querySelector(".wq-rail .wq-cta");
+        if (!b || b.disabled) { window.__wqStable = 0; return false; }
+        window.__wqStable = (window.__wqStable || 0) + 1;
+        return window.__wqStable >= 5;
+      }, null, { timeout: 25000, polling: 100 });
       const reveal = await inspect(page, viewport, "reveal-correct", {
         expectFocus: true,
         expectTiles: chunkWord(c.word).length,
         mustBeVisible: [".wq-word", ".wq-tile", ".wq-rail .wq-cta"],
       });
       await testInfo.attach("aria", { body: reveal.aria, contentType: "text/plain" });
+      if (reveal.offScreen.length)
+        await testInfo.attach("controls below the fold", { body: reveal.offScreen.join("\n"), contentType: "text/plain" });
+
+      /* A REAL TAP, on the touch profiles, on the one control a child touches
+         after the reveal. The grade above is a 700 ms pointer hold, which is
+         the path S5 defines; this is the other path, and without it six touch
+         profiles were being driven entirely by mouse clicks. */
+      if (viewport.touch) {
+        const advance = page.locator(".wq-rail .wq-cta");
+        await advance.tap({ scroll: "none", timeout: 5000 });
+        await expect.soft(page.locator(".wq-word"), "a tap on “Next word” did not advance")
+          .not.toHaveText(c.word, { timeout: 5000 });
+      }
       for (const f of reveal.findings) expect.soft(f, `[reveal] ${f.kind}: ${f.detail}`).toBeUndefined();
 
-      /* What a screen reader is told must match what is on screen: an empty or
-         duplicated tile shows up as a mismatch here and nowhere else. */
-      const ariaTiles = (reveal.aria.match(/\n\s*-\s/g) || []).length;
-      expect.soft(ariaTiles, "the accessibility tree is empty").toBeGreaterThan(0);
+      /* What a screen reader is told must match what is on screen. The first
+         version of this counted lines in the aria snapshot and asserted "more
+         than zero", which passes on any page that is not blank — it compared
+         nothing to nothing. This reads the letters out of the snapshot's own
+         text nodes and requires them to spell the word, in order. */
+      const ariaText = (reveal.aria.match(/text:\s*"?([^"\n]+)"?/g) || [])
+        .join(" ").toLowerCase();
+      for (const unit of chunkWord(c.word))
+        expect.soft(ariaText, `the accessibility tree never mentions the tile "${unit}"`)
+          .toContain(unit);
+      expect.soft(reveal.aria.length, "the accessibility snapshot is empty").toBeGreaterThan(20);
     }
 
     /* Free play writes nothing (SPEC section 6): the learning evidence a
-       grown-up relies on must be identical before and after. */
-    expect.soft(await savedState(page), "free play changed the saved progress").toBe(before);
+       grown-up relies on must be identical before and after. The read is
+       asserted FIRST: if it fails on both sides it returns "unreadable" twice
+       and the comparison passes while proving nothing. */
+    const after = await savedState(page);
+    expect.soft(after, "the saved state could not be read, so this check proved nothing")
+      .not.toBe("unreadable");
+    expect.soft(after, "free play changed the saved progress").toBe(before);
     expect.soft(errors, "the page reported errors").toEqual([]);
     expect.soft(offsite, "the app made a request off its own host (S6)").toEqual([]);
   });

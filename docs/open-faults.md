@@ -228,6 +228,45 @@ it must not have been the thing that found it. A test pins the union with a nega
 a fixture where a word is named only in a tricky note, which the old LEVELS-only derivation
 misses and the new one does not.
 
+## B17. The advance control goes live for half a second in the middle of a reveal
+
+Found by an independent reviewer on 2026-08-12, through the UX census, and it is the first
+child-facing fault the census has produced. It is a candidate: measured on this machine under
+an induced delay, not yet seen by a person on a real device.
+
+- **Where** `armAdvance()` in `app/src/App.jsx:296-329`, and the code already knows: its own
+  comment says the guard's early arrival "would leave the control live for the whole
+  seven-second reveal... The first tap then kills the sound-out, which is the one thing the
+  wait exists to protect (CVC-UX-001)."
+- **What happens** The control is armed TWICE. The 400 ms guard arms it, and when the
+  reveal's real length is known the app takes it back and re-arms it for the true duration.
+  Between those two moments the control is **enabled, green and tappable, in the middle of the
+  sound-out**. A tap there calls `next()` and kills the reveal.
+- **Measured**, with the voice clips delayed 900 ms so six of them miss the 400 ms guard:
+
+  | moment | control | focus |
+  |---|---|---|
+  | +6 ms | disabled | body |
+  | +192 ms | **live** | the button |
+  | +779 ms | disabled again | body |
+  | +8726 ms | live for good | the button |
+
+  **~590 ms of open window**, in the middle of a reveal.
+- **When a child would meet it** Whenever six clips take longer than 400 ms to fetch and
+  decode: the first word after a cold load, a slow phone, a busy device. Never at idle on a
+  warm cache, which is why no gate has seen it — every existing browser check runs warm.
+- **Why it was nearly lost** The same double-arming made the census report `focus-lost`,
+  because disabling a focused button drops focus to `<body>`. That was written off as machine
+  churn and the census's worker count was lowered. The reviewer reproduced it deterministically
+  instead. A finding explained away as flakiness is a finding lost.
+- **Done** The control is never live during a reveal: the guard does not arm it until the
+  reveal's real length is known, with the 400 ms as a floor rather than a starting gun — or an
+  equivalent that closes the window rather than closing it late. Proved by a test that plants
+  the slow-clip condition (delay `**/voice/**`) and asserts the control is disabled for the
+  whole sound-out, with a control proving the test fails when the window is open.
+
+---
+
 ## B11. Two shipped sounds are judged poor, and the best one has no recipe
 
 Owner ship review, 2026-08-12: ten shipped sounds heard side by side rather than one at a time.
