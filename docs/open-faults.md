@@ -28,47 +28,63 @@ a gap in the audit trail, and **nothing after section A makes a wrong sound play
 
 ---
 
-## A. Remove microphone mode — decided 2026-08-11, to be done first
+## A. Remove microphone mode — CLOSED 2026-08-12
 
-**This is the most serious item in this file, and the only one that is wrong today rather
-than unguarded.** The owner ruled on 2026-08-11: microphone mode is removed from the game
-entirely. Their words: "I don't think it's safe or appropriate the more I think about it."
+Ruled on 2026-08-11 — "I don't think it's safe or appropriate the more I think about it" —
+and done the next day. A child's voice is no longer sent anywhere, because the app can no
+longer capture one. Deleted, not disabled: a feature that is only turned off is a feature
+somebody turns back on.
 
-### A1. A child's voice is sent to a third party, on the default setting
+**What proves it, and why the proof was built first.** `tools/mic-absence.mjs` checks three
+things: the terms appear in no tracked source file; they appear in nothing the build ships;
+and a real browser, driven through a graded session and the Grown-ups corner, never reaches a
+recogniser constructor or a capture device. It was written and run BEFORE a single line was
+deleted, against commit `6699d22`, where all three went RED on real hits — 29 in source, 6 in
+the built payload, and the running app reaching `SpeechRecognition` during a graded word.
+That commit is the negative control and it existed exactly once: after the deletion there is
+no tree left in which a broken detector would go red, so "the microphone is gone" would have
+been unfalsifiable forever. It carries four self-test controls, including one proving the
+allowlist suppresses exactly the file it names and nothing else.
 
-- **Where** `app/src/App.jsx`, `startRec()` and the `SR` recogniser from
-  `reference/word-quest.jsx`; the mode toggle in `app/src/screens/ParentScreen.jsx`; the
-  four microphone messages in `App.jsx`; `tests/recognizer.test.js` (51 tests, 8 blocks).
-- **What happens today** `newState()` sets `settings.mode` to `"mic"`, so every family that
-  installs the app gets microphone mode unless a grown-up changes it. When the child taps
-  "Start Recording", the browser's speech recogniser listens and, on the browsers this app
-  supports, sends that audio away to be transcribed. The app's own code is the proof: it
-  handles `ev.error === "network"` and shows "Can't listen without the internet." A thing
-  that runs on the device does not need the internet.
-- **Why it is a fault and not a trade-off** Safety rule S6 says the app makes no network
-  calls after load and all data stays on the device, with exactly two exceptions, both
-  requests to the app's own host carrying no data. A child's recorded voice going to a
-  transcription service is neither of them. The rule and the shipped default contradict each
-  other, and the rule is the one that is right.
-- **What was NOT the reason** Speech recognition never records a wrong answer — safety rule
-  S1 holds, and it only ever confirms a correct reading. The fault is not that it judges
-  badly. It is where the audio goes.
-- **Done** Microphone mode does not exist. A grown-up judges every word, and that is the
-  only mode. The recogniser, the mode toggle, the four microphone messages and the
-  recogniser tests are deleted rather than disabled — a feature that is only turned off is a
-  feature someone turns back on. SPEC sections 5, 6 and 10 lose the mode, `ADULT_JUDGED` and
-  the adult-note logic are re-read in a world with one mode, and the gate floors move down
-  only where a whole gate has gone away, with the reason written beside each (E6 forbids
-  lowering a floor to pass a build; it does not forbid retiring a gate whose subject was
-  deleted, and that distinction must be argued in the commit, not assumed).
-- **Not to be confused with the family voice pack.** The owner ruled the same evening that
-  the parent voice-pack recorder STAYS. It records a grown-up reading the word list, into
-  storage on their own device, and sends nothing anywhere. Different in kind. See D1.
-- **Timing** The owner chose to do this tomorrow with the rest of the list rather than cut a
-  release tonight, knowing that v1.0.0-beta.17 is public with the mode on by default. Until
-  it ships, a grown-up can switch to "you judge" in the Grown-ups corner.
+**A2 caught two of my own faults before the owner saw them.** The runtime check originally
+read its evidence AFTER a final navigation, and Playwright re-runs its init script on every
+navigation — so the array was wiped and the whole session walk was erased, while the tool
+printed "a whole session reached no recogniser". It had already been reported as proof. It
+now reads before navigating and refuses a run that graded no word. The source scan walked the
+filesystem and picked up `reference/.mutant.jsx`, a gitignored file the mutation gate leaves
+behind on a killed run; it now asks git for tracked files, which is what its own header
+always claimed.
 
----
+**Floors.** Only `g15_recognizer_tests` (51) was a whole gate. It moved to the `_retired`
+block of `.claude/gate-baseline.json` with its last value, the date and the reason, rather
+than vanishing — a key that simply disappears cannot be told from a key deleted to pass a
+build. Seven more moved and each is argued in the commit. `g13_engine_tests` ROSE, 10 to 11.
+Every coverage floor held: App.jsx lines 93.76 against a floor of 93 and branches 93.4
+against 80, so the fear that deleting the best-tested code would drop the percentages was
+measured and did not happen.
+
+**What was NOT the reason.** S1 held throughout: recognition never recorded a wrong answer,
+only ever confirmed a correct reading. The fault was where the audio went, never how it
+judged. S6 needed no edit either — removal is what made its existing words true.
+
+**What was lost, plainly.** A child could tap Record and practise alone. They cannot now:
+every word needs a grown-up's 450 ms hold. The owner accepted that on 2026-08-12 — "the game
+is meant to be parent and child together anyway". A practise-alone mode that grades nothing
+would restore it and is not part of this work.
+
+**Two things kept on purpose.** `microphoneUsed()` and `reclaimOutput()` in `voicepacks.js`
+have no caller now and must not be deleted: iOS moves the whole audio session to "play and
+record" when ANY capture device opens, and the family voice-pack recorder — which stays, see
+D1 — will open one. QA step 37 is parked for the same reason, with the reason written into
+the step.
+
+**Still open, and named so it is not lost:** `app/src/pronunciation.js`, the SPEC section 8
+item 4 scoring stub, takes a Blob of the child's voice. Nothing imports it and nothing can
+now produce that Blob. The owner ruled on the diagnostic page, not on this, and a cloud
+scoring API would meet the same S6 objection the recogniser did — a ruling that is not on
+record. It sits in the absence tool's allowlist, which prints on every run, so the question
+is loud rather than quietly blocking the gate. It needs an owner ruling: allowlist it
+permanently, or delete it.
 
 ## B. The default sounds — the whole class of fault that let `th` ship wrong
 

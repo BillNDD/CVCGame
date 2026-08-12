@@ -17,7 +17,7 @@ npm --prefix app run build
 ```
 
 The finished app is the `app/dist` folder. Serve it over HTTPS (or on `localhost`) with any
-static file server. The service worker and the microphone need a secure origin.
+static file server. The service worker needs a secure origin.
 
 ## To update your copy
 

@@ -934,7 +934,7 @@ verifies the result.
 ## How playback works
 
 The app plays clips through one Web Audio context that the first real tap unlocks (Begin
-Session, Start Recording, a result control, or replay). Clips load with `fetch` and decode
+Session, a result control, or replay). Clips load with `fetch` and decode
 before any sound: if any part of an utterance cannot decode or play, the whole utterance
 falls back to system speech, so the child never hears praise without its word. Media
 elements are never used, which keeps iPadOS autoplay rules and service-worker caching out
@@ -955,7 +955,7 @@ What was wrong was the audio session, twice:
 
 - Safari treats a page's Web Audio as background sound, which the ring/silent switch mutes,
   while a media element is never muted. A tablet on silent played nothing at all.
-- The microphone takes the whole session and leaves playback on the narrow route kept for a
+- A capture device takes the whole session and leaves playback on the narrow route kept for a
   phone call, so every word after a recording was thin.
 
 Both are fixed in `app/src/voicepacks.js`, which declares a playback session before anything

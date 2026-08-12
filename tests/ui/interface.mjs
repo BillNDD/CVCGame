@@ -167,50 +167,58 @@ for (const height of [430, 555, 720, 950]) {
   if (viaSpace) ok("Space grades directly");
   else fail("Space did not grade", "no tiles");
 
-  /* 13-14 — a word recognition cannot judge fairly (SPEC section 3): no record
-     control, and the adult's note must fit the fixed message slot without
-     moving the word. Measured, never eyeballed. */
-  {
-    /* A FRESH session, because this check walks until it meets one of the five
-       adult-judged words and the session order is shuffled. Reusing the page
-       above left only a partial queue: on a run where no flagged word remained,
-       the walk graded to the end, clicked "Finish!", and then waited thirty
-       seconds for a word that no longer existed. A gate that fails on the
-       luck of a shuffle is worse than no gate at all. */
-    const fresh = await startSession(context, { width: 390, height: 844 });
-    const wordBoxBefore = await fresh.locator(".wq-word").boundingBox();
-    let reached = false;
-    for (let i = 0; i < 12 && !reached; i += 1) {
-      if (await fresh.locator(".wq-prompt").count()) { reached = true; break; }
-      if (!(await fresh.locator(".wq-word").count())) break;   // session over: stop, never wait
-      await gradeByKey(fresh, "✓ got it (hold)", "Enter");
-      await fresh.waitForTimeout(500);
-      const next = fresh.getByRole("button", { name: /Next word|Finish!/ });
-      if (!(await next.count())) break;
-      await next.click();
-      await fresh.waitForTimeout(200);
-    }
-    if (!reached) fail("no adult-judged word appeared", "walked a whole Level 1 session");
-    else {
-      const rec = await fresh.getByRole("button", { name: /Record/ }).count();
-      if (rec === 0) ok("an adult-judged word offers no record control");
-      else fail("adult-judged word still offered recording", `${rec} controls`);
+  /* 13-14 — the message slot holds its size, whoever is reading. Checks 13
+     and 14 used to walk a session until they met one of the five words
+     recognition could not judge, then assert that no record control was
+     offered and that the adult's note fitted the fixed slot without moving the
+     word. Both halves went on 2026-08-12: there is no record control anywhere,
+     so that assertion could never fail again, and the five words lost their
+     note when the microphone did.
 
-      const fits = await fresh.evaluate(() => {
-        const slot = document.querySelector(".wq-slot-msg");
-        const note = document.querySelector(".wq-parentnote");
-        if (!slot || !note) return null;
-        return { noteH: note.scrollHeight, slotH: slot.clientHeight, size: getComputedStyle(note).fontSize };
-      });
-      const wordBoxAfter = await fresh.locator(".wq-word").boundingBox();
-      const moved = !wordBoxAfter || !wordBoxBefore ||
-        Math.abs(wordBoxAfter.y - wordBoxBefore.y) > 0.5 || Math.abs(wordBoxAfter.height - wordBoxBefore.height) > 0.5;
-      if (!fits) fail("the adult note is missing", "no .wq-parentnote in the slot");
-      else if (fits.noteH > fits.slotH) fail("the adult note overflows its slot", `${fits.noteH}px in ${fits.slotH}px`);
-      else if (fits.size !== "11.5px") fail("the adult note is not 11.5px", fits.size);
-      else if (moved) fail("the word moved on an adult-judged word", JSON.stringify({ wordBoxBefore, wordBoxAfter }));
-      else ok(`the adult note fits the slot (${fits.noteH}px in ${fits.slotH}px at ${fits.size}) and the word does not move`);
-    }
+     What survives is the reason the slot exists at all — P0-2, the word never
+     moves — and that is now measured directly instead of through a note. The
+     slot is filled to its worst case with the LONGEST tricky-word note in the
+     bank, which is the longest adult text the stage can still be asked to
+     show, and the word above it must not move by a pixel. */
+  {
+    const fresh = await startSession(context, { width: 390, height: 844 });
+    const before = await fresh.locator(".wq-word").boundingBox();
+    const slot = await fresh.evaluate(() => {
+      const el = document.querySelector(".wq-slot-msg");
+      return el ? { h: el.clientHeight, cs: getComputedStyle(el).minHeight } : null;
+    });
+    if (!slot) fail("no message slot on the stage", "the .wq-slot-msg row is missing");
+    else if (slot.h < 52) fail("the message slot is under its reserved height", `${slot.h}px`);
+    else ok(`the message slot reserves its height whatever it holds (${slot.h}px, min-height ${slot.cs})`);
+
+    /* Fill it with the longest adult text the bank can produce and re-measure
+       the word. A negative control follows: text that overflows the slot MUST
+       move the word, proving this probe can see movement at all. */
+    const longest = await fresh.evaluate(() => {
+      const el = document.querySelector(".wq-slot-msg");
+      const p = document.createElement("p");
+      p.className = "wq-parentnote";
+      p.style.cssText = "margin:0;font-size:11.5px;font-weight:700;line-height:1.35";
+      p.textContent = "Tricky word! The a sounds like \u201Cuh\u201D \u2014 wut.";
+      el.appendChild(p);
+      return { noteH: p.scrollHeight, slotH: el.clientHeight };
+    });
+    const after = await fresh.locator(".wq-word").boundingBox();
+    const moved = Math.abs(after.y - before.y) > 0.5 || Math.abs(after.height - before.height) > 0.5;
+    if (longest.noteH > longest.slotH) fail("the longest adult note overflows the slot", `${longest.noteH}px in ${longest.slotH}px`);
+    else if (moved) fail("the word moved when the slot was filled", JSON.stringify({ before, after }));
+    else ok(`the longest adult note fits the slot (${longest.noteH}px in ${longest.slotH}px) and the word does not move`);
+
+    await fresh.evaluate(() => {
+      const el = document.querySelector(".wq-slot-msg");
+      el.style.setProperty("min-height", "0", "important");
+      el.style.setProperty("height", "auto", "important");
+      el.querySelector(".wq-parentnote").textContent = "x ".repeat(400);
+    });
+    const wrecked = await fresh.locator(".wq-word").boundingBox();
+    if (Math.abs(wrecked.y - before.y) > 0.5)
+      console.log(`control OK: the probe reads real geometry (an unbounded slot moves the word ${Math.round(Math.abs(wrecked.y - before.y))}px)`);
+    else fail("negative control broken", "an overflowing slot left the word where it was");
     await fresh.close();
   }
 

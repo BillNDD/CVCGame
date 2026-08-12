@@ -129,7 +129,7 @@ await audit("home");
   const dbStore = storageSrc.match(/DB_STORE = "([^"]+)"/)[1];
   const seeded = JSON.stringify({
     version: 3, level: 1, sessionsCompleted: 0, perfectStreak: 0,
-    settings: { mode: "mic", sound: true, childName: "", lang: "en-US" },
+    settings: { sound: true, childName: "", lang: "en-US" },
     words: { is: { box: 5, attempts: 3, correct: 3, close: 0, wrong: 0, dueAt: 1, lastSession: 0 } },
     log: [],
   });
@@ -220,13 +220,16 @@ await audit("grown-ups");
   else fail("200 percent text on grown-ups", JSON.stringify(g));
   await page.evaluate(() => { document.documentElement.style.zoom = ""; });
 
-  /* adult mode: the rail prompt replaces the mic control — audit it too */
-  await page.getByRole("button", { name: "👍 You judge" }).click();
+  /* The session at 200 percent text. This block used to switch the app into
+     "You judge" first, because there were two session screens to audit and the
+     mic one was the default; there is one now, so the switch went with the
+     mode on 2026-08-12 and the audit keeps its own subject — the zoom, below,
+     which nothing else covers. */
   await page.getByRole("button", { name: "← Back" }).click();
   await page.getByRole("button", { name: "Begin Session" }).click();
   await page.locator(".wq-word").waitFor();
   await page.getByText("Say the word out loud!").waitFor();
-  await audit("session (adult mode)");
+  await audit("session at the grown-up prompt");
   await page.evaluate(() => { document.documentElement.style.zoom = "2"; });
   const s = await page.evaluate(() => {
     const stage = document.querySelector(".wq-stage");

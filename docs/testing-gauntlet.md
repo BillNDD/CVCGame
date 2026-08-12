@@ -148,7 +148,9 @@ every bound reads `LEVELS.length`, which is why adding a level needed no engine 
   screens sit in their own `app/src/screens` row and are floored by Vitest's `app/src/**`
   threshold rather than by the gauntlet's parse. `App.jsx` is pinned separately
   (`g6_appjsx_lines_min`, `g6_appjsx_branches_min`). The app was measured only after beta.2,
-  where every microphone fault lived in an app file no floor watched.
+  where every microphone fault lived in an app file no floor watched. Those faults and their
+  code went on 2026-08-12; the floors they justified stay, because the reason they were set
+  applies to whatever lives in those files next.
   - Until 2026-08-10 those two baseline keys were read by NO tool while sitting in the
     baseline file reading as protection, and they disagreed with the 81/82 the config
     actually enforced — which is how an audit came to believe the app floors were in
@@ -310,7 +312,7 @@ every bound reads `LEVELS.length`, which is why adding a level needed no engine 
 
 | Device | Test |
 |---|---|
-| iPad Safari, iPadOS 15.4 or later | Install, offline start, microphone permission, hold gesture |
+| iPad Safari, iPadOS 15.4 or later | Install, offline start, no permission prompt, hold gesture |
 | iPhone Safari | Layout in portrait and landscape, home-indicator area |
 | Windows Chrome or Edge | Install to desktop, icon quality, own window |
 | Any browser, 200 percent text | The stage scrolls. No content is cut off |
@@ -356,17 +358,17 @@ engine, never a hand-kept list.
   heard, alters a guard and grants one to an unheard word, drifts the lock file and deletes a
   word from it, deletes a word-table row, and quietly tunes an unlocked word; the detector
   must report every one.
-- Baseline floors: `g13_clips` (489) and `g13_engine_tests` (10).
+- Baseline floors: `g13_clips` (489) and `g13_engine_tests` (11).
 - To re-render the pack after the bank grows: `docs/voice-pack.md`.
 
 ## G19. App mutation
 
 - Tool: `tools/app-mutants.mjs`. Command: `npm run test:app-mutants`. Requirement: 0
-  survivors. Keys: `g19_app_mutants` (13), `g19_survivors_max` (0).
+  survivors. Keys: `g19_app_mutants` (10), `g19_survivors_max` (0).
 - G5 mutates the engine. Nothing mutated the half of the product the child actually
   touches, so the app's tests were known to PASS and not known to BITE. G19 breaks one
-  rule at a time in the files the engine never sees: the transcript acceptance rule (what
-  the app may call a reading), the 450 ms adult hold, the update comparison's build stamp,
+  rule at a time in the files the engine never sees: the grade-once rule (that nothing
+  records a result without an adult), the 450 ms adult hold, the update comparison's build stamp,
   the backup validator's shape checks, and free play's promise to write nothing.
 - Runner control: the pristine suite must pass before any mutant runs, so a broken
   environment fails loudly instead of reading as "every mutant killed".
@@ -444,26 +446,53 @@ version it has already replaced (SPEC section 7a).
   removing the scope check makes the navigation tests fail.
 - Baseline floors: `g14_update_tests` (18) and `g14_worker_tests` (5).
 
-## G15. Recognizer contract
+## G15. RETIRED 2026-08-12 — recognizer contract
 
-Speech recognition is the one part of the app a browser drives, and the part that broke in
-beta.2 while every gate stayed green. Two invariants, in `tests/recognizer.test.js`:
+The gate was the speech recogniser's contract: every event a browser can emit fired at a live
+attempt, and the whole alphabet fired again at an abandoned one. 51 tests in
+`tests/recognizer.test.js`. It went with the child-facing microphone, removed on the owner's
+safety ruling of 2026-08-11 because recognition sends a child's voice to a third party.
 
-- The ALPHABET. Every event a recognizer can emit — the eight error codes the specification
-  defines, plus result, no-match and end — is fired at a live attempt, and each one must
-  leave a visibly different, honest screen. A screen that never changes is what "the record
-  button does nothing" looks like to a child.
-- The STALE ACTOR. After every way an attempt can end — the child stops it and the grace
-  window closes, an adult grades, the session is discarded — the whole alphabet is fired at
-  the abandoned recognizer, and none of it may touch the screen or record anything. One
-  deliberate exception, tested by name: a late permission denial is still heard, because it
-  answers a question about the microphone rather than about that attempt.
-- The suite uses a recognizer that answers nothing unless a test says so. The polite double
-  in the safety suite, whose `stop()` fires `onend`, hid the in-app-browser rescue path for a
-  whole release.
-- Negative control: a fired event with no handler must leave the screen identical, and the
-  same event on the CURRENT attempt must change it.
-- Baseline floor: `g15_recognizer_tests` (51).
+The floor `g15_recognizer_tests` (51) moved to the `_retired` block of
+`.claude/gate-baseline.json` rather than being deleted, with its last value, the date and the
+reason, so nobody can later mistake a retirement for a floor lowered to pass a build. The
+counter in `tools/gauntlet.mjs` went in the same commit; leaving it would have made the
+gauntlet look for a file that is not there.
+
+One thing retired with it and should be said plainly: G15's own negative control — a fired
+event with no handler must leave the screen identical — cannot be ported anywhere. It needed
+a recogniser to fire at. E5's guarantee for this gate ends here rather than moving.
+
+Replacing it, in `tests/safety.test.js` and `tools/mic-absence.mjs`: S1's adult-only rule was
+one clause of two and is now absolute — no automatic path records anything at all — and a
+three-part detector proves the microphone is absent from the source, from the built bundle,
+and from a real browser driven through a whole session.
+
+## G22. Microphone absence
+
+- Tool: `tools/mic-absence.mjs`. Command: `node tools/mic-absence.mjs`. Three checks, and the
+  strongest is last: the terms appear in no tracked source file; they appear in nothing the
+  build ships; and a real Chromium, driven through a whole graded session and the Grown-ups
+  corner, never reaches a recogniser constructor or `getUserMedia`.
+- The runtime check does not read source. It replaces the browser's own constructors through
+  `addInitScript` before any app script runs, and reports what the app touched. Source can lie
+  by indirection — `window["Speech" + "Recognition"]` defeats every grep and cannot defeat
+  the trap.
+- Negative control, and the reason this tool was written BEFORE the deletion rather than
+  after: run at commit `6699d22`, the last commit with the microphone still in, all three
+  checks report RED — 29 source hits, 6 bundle hits including a diagnostic page under
+  `app/public` that a scan of `app/src` would never have seen, and the running app reaching
+  `SpeechRecognition` during a graded word. That commit is the control, it exists exactly
+  once, and a detector written after its subject is gone has never been shown to look at
+  anything. The tool also carries `--self-test`: a planted recogniser is caught, a capture
+  device open is caught, and the render-time ASR and the G21 listening page are proven NOT to
+  be its subject.
+- The summary line names only the checks that actually ran. A `--runtime`-only pass that said
+  "nothing shipped" would be a detector lying about its own coverage.
+- The allowlist is empty and prints on every run. The family voice-pack recorder will open a
+  capture device legitimately when it ships; its files go in the allowlist by name, with a
+  date and a reason, because an allowlist that grows quietly is how a detector stops
+  detecting.
 
 ## G16. Doc truth
 
@@ -484,7 +513,7 @@ promised a fallback the code never performed; G12 counted the step and saw nothi
 - Negative control: `--self-test` rewords a SPEC sentence, rewords a QA promise, changes a
   timing, changes the hold constant, and leaves a stale speed in SPEC; every detector must
   fire.
-- Baseline floor: `g16_doc_rules` (8).
+- Baseline floor: `g16_doc_rules` (7).
 
 ## Aggregation
 
@@ -562,7 +591,7 @@ other direction: the real pack, unchanged, must pass.
 
 ## G20. Effect map
 
-- Tool: `tools/effect-map.mjs`. Writes `docs/effect-map.md`. Keys: `g20_tests_mapped` (284).
+- Tool: `tools/effect-map.mjs`. Writes `docs/effect-map.md`. Keys: `g20_tests_mapped` (252).
 - One row per `it()` SITE — its file, suite, and the test's own sentence, which in this
   project IS the Given/When/Then effect, because tests are named as behaviour. A site inside
   a loop or a table runs many times, so the 284 rows describe the 341 tests Vitest executes;

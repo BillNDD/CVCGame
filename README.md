@@ -11,12 +11,11 @@ This document follows the Microsoft Writing Style Guide.
 ## What the game does
 
 - The game shows one word in large letters. The child reads the word aloud without help.
-- Microphone mode: the child taps "Start Recording", says the word, and taps "Stop". If the app
-  identifies the correct word, the app records a correct result.
-- If the app does not identify the word, the adult gives the result. The adult holds one of three
-  controls in the "grown-up" strip: got it, close, or not yet.
-- The app never records a wrong result by itself. Speech recognition is not reliable for young
-  voices. The adult always has the final decision.
+- The adult gives every result. The adult holds one of three controls in the "grown-up" strip:
+  got it, close, or not yet.
+- The app never records any result by itself. It has no microphone: speech recognition was
+  removed on 2026-08-12 because it sends a child's voice to a third party, and this app keeps
+  every piece of a child's data on the device. The adult always has the final decision.
 - After each attempt, the app shows the word in sound units. Example: "ship" shows as sh-i-p.
   The digraphs sh, ch, th, wh, ck, and ng always show as one unit.
 - A schedule engine selects the words for the next session. The engine mixes new words, words

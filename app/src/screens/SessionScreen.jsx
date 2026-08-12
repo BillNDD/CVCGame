@@ -9,7 +9,7 @@ import HoldButton from "../components/HoldButton.jsx";
 
 /* The stage: word, tile slot, message slot. Split from the screen shell so no
    function passes the G6 complexity ceiling; the rendered output is identical. */
-function SessionStage({ state, currentWord, phase, fb, liveRef, micNote, adultNote, pops = [] }) {
+function SessionStage({ state, currentWord, phase, fb, liveRef, pops = [] }) {
   return (
     <Zone.Stage>
       <div className="wq-stagegrid">
@@ -43,16 +43,6 @@ function SessionStage({ state, currentWord, phase, fb, liveRef, micNote, adultNo
                 {TRICKY[currentWord] && <p style={{ margin: "2px 0 0", fontSize: 12.5, fontWeight: 800, color: C.amberInk }}>⭐ {TRICKY[currentWord]}</p>}
               </>
             )}
-            {phase === "listening" && <p style={{ margin: 0, fontSize: 15, fontWeight: 800, color: C.action }}>🎙️ Listening…</p>}
-            {phase === "heard" && <p style={{ margin: 0, fontSize: 15, fontWeight: 700, color: C.ink2 }}>Nice try! Grown-up will check. 👇</p>}
-            {/* W4b — a microphone problem stays on screen until the next action,
-                never only in a passing toast */}
-            {phase === "ready" && micNote && <p style={{ margin: 0, fontSize: 14, fontWeight: 700, color: C.ink2 }}>{micNote}</p>}
-            {/* SPEC section 6 — a word recognition cannot judge fairly. The note
-                is for the adult, at 11.5 px so the longest one stays inside the
-                fixed slot and the word above never moves. Never spoken (S4). */}
-            {phase !== "feedback" && adultNote &&
-              <p className="wq-parentnote" style={{ margin: 0, fontSize: 11.5, fontWeight: 700, color: C.ink2, lineHeight: 1.35 }}>{adultNote}</p>}
           </div>
         </div>
       </div>
@@ -60,8 +50,11 @@ function SessionStage({ state, currentWord, phase, fb, liveRef, micNote, adultNo
   );
 }
 
-/* The action rail: advance control in feedback, otherwise mic or prompt. */
-function SessionRail({ state, kid, phase, advanceReady, waitMs, waitFrom, finishes, next, advanceRef, listening, micTried, startRec, softStop }) {
+/* The action rail: the advance control in feedback, the prompt otherwise.
+   There used to be a third state — the child's own record control. The
+   microphone was removed on 2026-08-12 (owner-ruled 2026-08-11, safety), so
+   the prompt is now what a child meets in every ready phase. */
+function SessionRail({ kid, phase, advanceReady, waitMs, waitFrom, finishes, next, advanceRef }) {
   return (
     <Zone.Rail>
       {phase === "feedback" ? (
@@ -83,10 +76,6 @@ function SessionRail({ state, kid, phase, advanceReady, waitMs, waitFrom, finish
               the queue is often not the last word of the session. */}
           {finishes ? "🏁 Finish!" : "Next word ➡️"}
         </button>
-      ) : state.settings.mode === "mic" ? (
-        listening
-          ? <button className="wq-cta" onClick={softStop} style={{ background: C.ink }}>⏹️ Stop</button>
-          : <button className="wq-cta" onClick={startRec}>🎙️ {micTried ? "Record again" : "Start Recording"}</button>
       ) : (
         <div className="wq-prompt">{kid ? kid + ", say the word out loud! 📣" : "Say the word out loud! 📣"}</div>
       )}
@@ -104,14 +93,13 @@ function ExitDialog({ answered, handleExit }) {
           : answered + (answered === 1 ? " word has" : " words have") + " been read. Save them as a short session, or discard so the schedule stays clean?"}
       </p>
       <div style={{ display: "grid", gap: 8 }}>
-        {/* A2-002 — the Save slot is reserved, never conditional. With the
-            dialog open on the first word and the microphone still listening
-            behind it, a reading made this control appear and pushed everything
-            below it down about 53 px: a tap meant for "Keep reading" discarded
-            the session instead. Opening the dialog now ends the attempt, so
-            nothing should be able to change this dialog while it is on screen —
-            and the slot stays reserved regardless, so nothing can move if
-            something ever does. */}
+        {/* A2-002 — the Save slot is reserved, never conditional. It was once
+            able to appear mid-dialog and push everything below it down about
+            53 px: a tap meant for "Keep reading" discarded the session instead.
+            The thing that could change the count behind an open dialog was the
+            microphone, and the microphone is gone (2026-08-12) — the reserved
+            slot stays anyway, because a dialog that cannot move is a promise
+            worth keeping whatever is behind it. */}
         <button className="wq-cta" disabled={answered === 0} onClick={() => handleExit("save")}
           style={{ background: answered === 0 ? "#9fb4c4" : C.green }}>
           {answered === 0 ? "Save as a short session" : "Save " + answered + " as a short session"}
@@ -124,10 +112,10 @@ function ExitDialog({ answered, handleExit }) {
 }
 
 export default function SessionScreen({
-  state, L, kid, currentWord, micNote, adultNote, phase, lastGrade, order, firstResults,
-  answered, totalQ, advanceReady, waitMs, waitFrom, finishes, micTried, listening, seenTwice, heard, exitAsk, pops,
+  state, L, kid, currentWord, phase, lastGrade, order, firstResults,
+  answered, totalQ, advanceReady, waitMs, waitFrom, finishes, seenTwice, exitAsk, pops,
   freePlay, fpCount, fpMode,
-  onExitAsk, grade, next, skipReveal, startRec, softStop, replay, handleExit, advanceRef, toast,
+  onExitAsk, grade, next, skipReveal, replay, handleExit, advanceRef, toast,
 }) {
   const liveRef = useRef(null);
   const fb = lastGrade ? feedbackParts(lastGrade, currentWord) : null;
@@ -159,11 +147,10 @@ export default function SessionScreen({
           chip off the edge — which is exactly what a single row did. */}
       <ProgressBar order={order} firstResults={firstResults} total={totalQ} at={answered} freePlay={freePlay} />
 
-      <SessionStage state={state} currentWord={currentWord} phase={phase} fb={fb} liveRef={liveRef} micNote={micNote} adultNote={adultNote} pops={pops} />
+      <SessionStage state={state} currentWord={currentWord} phase={phase} fb={fb} liveRef={liveRef} pops={pops} />
 
-      <SessionRail state={state} kid={kid} phase={phase} advanceReady={advanceReady} waitMs={waitMs} waitFrom={waitFrom}
-        finishes={finishes} next={next} advanceRef={advanceRef}
-        listening={listening} micTried={micTried} startRec={startRec} softStop={softStop} />
+      <SessionRail kid={kid} phase={phase} advanceReady={advanceReady} waitMs={waitMs} waitFrom={waitFrom}
+        finishes={finishes} next={next} advanceRef={advanceRef} />
 
       {/* P0-4 / P1-2 / P2-10 — grown-up strip: muted, bottom edge, small */}
       <Zone.Strip>
@@ -182,9 +169,8 @@ export default function SessionScreen({
         </div>
         {/* N-12 + P0-2: one reserved marker line, so the strip height never changes
             and the word never moves between phases */}
-        <span className="wq-heard wq-mono">
-          {phase === "heard" && heard ? "heard “" + heard + "”"
-            : seenTwice[currentWord] && phase !== "feedback" ? "Parent: second look" : " "}
+        <span className="wq-mark wq-mono">
+          {seenTwice[currentWord] && phase !== "feedback" ? "Parent: second look" : " "}
         </span>
       </Zone.Strip>
 

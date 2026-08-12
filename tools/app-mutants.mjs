@@ -4,8 +4,10 @@
    Command: npm run test:app-mutants   Requirement: 0 survivors.
 
    Each mutant breaks one rule that a person would notice, in the files the
-   engine never sees: the transcript acceptance rule, the adult hold, the
-   update comparison, the backup validator, and the free-play write guard.
+   engine never sees: the grade-once rule (one attempt, one result), the adult hold, the update
+   comparison, the backup validator, and the free-play write guard. The
+   transcript acceptance rule was a sixth family until 2026-08-12; see the note
+   where its four mutants used to be.
    Three of these are blueprint mutant families that had no mutant at all:
    grading that trusts the wrong thing, persistence that accepts malformed
    state, and a privacy or update allowlist that accepts what it should not.
@@ -23,19 +25,45 @@ const UPD = "app/src/updates.js";
 
 /* [name, file, from, to] — one narrow rule broken per mutant. */
 const MUTANTS = [
-  /* The transcript rule: what the app is allowed to call a reading. S1 says
-     speech recognition may only ever CONFIRM a correct reading. */
-  ["a sentence counts as a reading (2 words to 3)", APP,
-    "const MAX_HEARD_WORDS = 2;", "const MAX_HEARD_WORDS = 3;"],
-  ["the length guard on a heard phrase is dropped", APP,
-    "return m(clean) || (toks.length <= MAX_HEARD_WORDS && toks.some(m));",
-    "return m(clean) || toks.some(m);"],
-  ["a word merely CONTAINED in the transcript is accepted", APP,
-    "const m = t => t === word || (HOMOPHONES[word] || []).includes(t);",
-    "const m = t => t.includes(word) || (HOMOPHONES[word] || []).includes(t);"],
-  ["a failed match records a miss by itself (breaks S1)", APP,
-    'if (ok) grade("correct"); else setPhase("heard");',
-    'if (ok) grade("correct"); else grade("wrong");'],
+  /* FOUR MUTANTS RETIRED HERE on 2026-08-12, owner-ruled, and this note is
+     the record of it. They were the transcript rule — what the app was allowed
+     to call a reading: the two-word limit, the length guard, the contains-vs-
+     equals matcher, and the one that made a failed match record a miss by
+     itself. Every anchor was a line inside handleTranscripts(), and that
+     function no longer exists.
+
+     This file's own rule is that an anchor that moves is re-pointed, never
+     deleted (E3), and that rule is right: a mutant deleted to make a gate go
+     green is the exact fraud the gauntlet exists to prevent. It does not fit
+     here, because there is nothing to re-point AT. The rule these four
+     protected — that the app may never record a result by itself — did not
+     weaken when the microphone went; it became absolute, and the mutant below
+     is what now holds it.
+
+     THE FAMILY IS EMPTY, AND SAYING OTHERWISE WOULD BE THE LIE. A first draft
+     replaced the four with a grade-once mutant labelled "breaks S1". It does
+     not: both of its writes come from an adult holding a control, so what it
+     breaks is one attempt, one result. Review caught the mislabel. S1 has no
+     app mutant now, for the plain reason that S1's subject is an automatic
+     write and there is no automatic write left to mutate. A mutation gate
+     cannot cover a rule by breaking code that does not exist, and dressing an
+     S5 mutant in S1's name to keep a family non-empty is exactly the kind of
+     paperwork this gate exists to refuse. S1 is held by tests/safety.test.js
+     1, 2, 2a and 3, and by tools/mic-absence.mjs.
+
+     The mutant below is kept on its own merits, under its own rule.
+
+     The floor moves 13 -> 10. That is a retirement, not a lowering: the
+     subject is gone from the product, the tests that covered it are gone from
+     the suite, and no surviving rule lost its guard. */
+
+  /* One attempt, one result. Two adult controls can mature together — the
+     hold timer does not re-check `disabled` inside its own callback — and
+     without this guard the same word is counted twice and the grown-up is
+     offered "2 words have been read" for one word. */
+  ["one attempt records two results", APP,
+    "if (gradedRef.current === qi) return;",
+    "if (false) return;"],
 
   /* The adult gesture. S5: a pointer must hold a result control for 450 ms. */
   ["the adult hold drops from 450 ms to 50 ms", HOLD,

@@ -138,7 +138,6 @@ step("G1+G2+G9+G10 tests", "npx vitest run", [
   { label: "voice", regex: /voicepacks\.test\.js\s+\((\d+) tests\)/, floorKey: "g13_engine_tests" },
   { label: "updates", regex: /updates\.test\.js\s+\((\d+) tests\)/, floorKey: "g14_update_tests" },
   { label: "worker", regex: /serviceworker\.test\.js\s+\((\d+) tests\)/, floorKey: "g14_worker_tests" },
-  { label: "recognizer", regex: /recognizer\.test\.js\s+\((\d+) tests\)/, floorKey: "g15_recognizer_tests" },
   { label: "failed", regex: /(\d+) failed/, max: 0, default: 0 },
   /* A skipped test still counts in Vitest's per-file "(N tests)" figure, so
      `it.skip` on a required test would keep every floor satisfied and the
