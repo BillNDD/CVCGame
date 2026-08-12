@@ -89,7 +89,38 @@ updated whenever a round lands.
   `docs/voice-pack.md`.
 - **A new word is cut from a carrier, never rendered plain.** All thirteen
   winners came from a carrier sentence; not one plain render was accepted.
-  Do not spend an arm on a bare render again.
+  Do not spend an arm on a bare render again. **Re-confirmed the hard way on
+  2026-08-12**: round 1 for the word "a" was built entirely of plain phoneme
+  renders, five of them, and came back "none — these are all inhuman, full of
+  static, jarring intro and outro without rounding". That is the same verdict
+  as batch 2's "terribly robotic", and this file already said so. The round was
+  spent because nobody read this file before designing it, which is the exact
+  cost E10 exists to prevent.
+- **An isolated English article IS the letter name, so "a" can never be cut
+  from the end of a carrier** (2026-08-12). The phonemiser settles it without
+  an ear: `"a"`, `"a."`, `"Listen—a."`, `"The printed word is “a”."` and
+  `"Say a."` all render `eɪ` — "ay" — which S4 forbids the app from ever
+  saying. Only a non-final position gives the schwa: `"a. a. a."` is `ɐ ɐ eɪ`,
+  so the first two are the word and the third is not. Any future round for
+  "a", "I", or any other word that is also a letter name must check the
+  phonemisation before rendering.
+- **"a" cannot be cut from in front of a noun.** Six arms were built from the
+  front of `"a cat"`, `"a bag"` and `"a big red cat"` and every one was a
+  PHRASE: 670, 640, 900 and 1110 ms of speech against 330 ms for the sound
+  itself. An article cliticises onto the noun after it, so there is no gap to
+  cut at, and the island count cannot see it because the merge that stops a
+  word's own inside dip reading as two words also joins the article to its
+  noun. A full stop between repeats is what separates them: `"a. a. a."`
+  breaks into 280, 190 and 280 ms at a -25 dB floor with a 20 ms merge, while
+  `"a a a."`, `"a - a - a."` and `"a, a, a."` do not separate at any setting
+  tried.
+- **Island count and phoneme count agreeing does not prove the islands are the
+  right words** (2026-08-12). Requiring them to be equal is a real and useful
+  refusal — it threw out eight of twelve arms that had already passed both the
+  island check and the length guard — but `"Class, a. a. a."` passes it with
+  four islands for four sounds while the first island is a 40 ms /k/ burst and
+  the second is "lass". Equal counts, wrong alignment. Use the check to
+  REFUSE, never to conclude that a cut is right.
 - **The "crackle at the end" is utterance-final creak, and it is positional.**
   A word taken from the END of a carrier inherits the creaky phonation a
   breath group ends with. Cut the word from MID-phrase instead, or trim the

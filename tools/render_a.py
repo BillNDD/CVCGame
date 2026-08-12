@@ -59,13 +59,57 @@ SCHWA = "ɐ"
 
 # Two families, and no third. Anything that puts "a" last is excluded by
 # construction rather than rendered and screened out afterwards.
-PHONEME_ARMS = [                      # (id, note, speed)
-    ("a_p70", "the uh sound, slow", 0.70),
-    ("a_p80", "the uh sound", 0.80),
-    ("a_p85", "the uh sound, bank speed", 0.85),
-    ("a_p95", "the uh sound, quick", 0.95),
-    ("a_p105", "the uh sound, quickest", 1.05),
+# ROUND 2. The owner refused all five arms of round 1 — "these are all inhuman,
+# full of static, jarring intro and outro without rounding" — and named the way
+# out: cut it out of a sentence where "a" is read three times in a row.
+#
+# That works, and the phonemiser says why. "a a a." renders as ɐ ɐ eɪ: only the
+# LAST one is the letter name, because only the last one is utterance-final.
+# The first two are ordinary unstressed articles, spoken in a real sentence
+# with real prosody. "a a a, a a a." gives five clean ones. And unlike "a cat",
+# repeated articles have gaps between them, so there is something to cut at.
+#
+# Round 1 was built entirely from plain phoneme renders. docs/settled.md has
+# said since batch 1 that a new word is always cut from a CARRIER and never
+# rendered plain — every one of the fifty-six keepers came from a carrier —
+# and round 1 offered a field made only of the family that has never won. The
+# static and the inhumanity are what a bare synthesised vowel sounds like.
+#
+# The intro and outro are treated too. The pack's 10 ms fade is tuned for words
+# that begin and end on a consonant; a clip that is nothing but a vowel starts
+# and stops mid-tone, which is the jarring edge the owner heard. Arms here
+# carry longer fades, and some carry a front trim, the treatment that won for
+# every one of batch 4's winners.
+# The separator matters, and it was measured. "a a a." and "a - a - a." run the
+# three together into ONE island at every floor and merge setting tried — there
+# is nothing to cut at. "a, a, a." splits into two, not three. Only a FULL STOP
+# between them gives three: at a -25 dB floor with a 20 ms merge, "a. a. a."
+# breaks into 280, 190 and 280 ms, every one of them inside the guard. So the
+# carriers here are stopped, and the island settings below are the ones that
+# were shown to work rather than the gate's defaults.
+CUT_FLOOR_DB, CUT_MERGE_MS = -25.0, 20
+# Each entry is (carrier, which spoken instance, speed, why it is safe). Every
+# one was found by sweeping carriers and speeds and keeping only those where
+# the ISLANDS the audio breaks into equal the SOUNDS the phonemiser says are in
+# it. Where they disagree the instances have partly merged, a cut would be a
+# guess, and the guess can be two schwas offered as one word — which is what
+# the first attempt at this round was quietly doing for eight of its twelve
+# arms.
+CARRIERS = [                    # (text, instance, speed, note)
+    ("a. a. a.", 0, 1.00, "first of three, bare"),
+    ("a. a. a.", 1, 1.00, "middle of three, bare"),
+    ("a. a. a.", 1, 0.85, "middle of three, slower"),
+    ("Listen. a. a. a.", 1, 1.00, "after a teacher's lead-in"),
+    ("Here. a. a. a.", 2, 1.00, "third, after a lead-in"),
+    ("Ready. a. a. a.", 1, 1.00, "after a warmer lead-in"),
+    ("Now. a. a. a.", 2, 0.90, "third, slower, after a lead-in"),
+    ("Listen. a. a. a. a.", 2, 1.00, "third of four, most settled into the rhythm"),
 ]
+# Shaping applied to each cut: (fade ms, front trim ms). A clip that is nothing
+# but a vowel begins and ends mid-tone, so the pack's 10 ms fade leaves the
+# edge the owner called jarring; 30 ms rounds it. The front trim is batch 4's
+# treatment, where all four winners were front-trimmed.
+SHAPES = [(30, 0), (30, 30)]
 # The guard, taken from two measurements rather than invented. The game's own
 # approved schwa speaks for 150 ms (d:schwa, 576 ms total less its 120 ms lead
 # and 306 ms tail). The shortest contaminated cut — "a cat", where the article
@@ -79,13 +123,50 @@ PHONEME_ARMS = [                      # (id, note, speed)
 MAX_SCHWA_MS = 500
 
 
-def shape(a, sr):
+def shape(a, sr, fade_ms=FADE_MS, front_trim_ms=0):
+    """Round the edges and pad. A clip that is nothing but a vowel begins and
+    ends mid-tone, so the 10 ms fade the pack uses for words that start on a
+    consonant leaves an audible edge — the "jarring intro and outro" the owner
+    heard in round 1. The front trim is batch 4's treatment: all four of its
+    winners were front-trimmed."""
     a = np.clip(np.asarray(a, np.float32), -1, 1).copy()
-    n = int(FADE_MS / 1000 * sr)
+    if front_trim_ms:
+        a = a[int(front_trim_ms / 1000 * sr):]
+    n = int(fade_ms / 1000 * sr)
     if len(a) > 2 * n + 10:
         a[:n] *= np.linspace(0, 1, n); a[-n:] *= np.linspace(1, 0, n)
     return np.concatenate([np.zeros(int(LEAD_MS / 1000 * sr), np.float32), a,
                            np.zeros(int(TAIL_MS / 1000 * sr), np.float32)])
+
+
+def cut_instance(k, text, index, speed=1.0, expect=None):
+    """Take the index-th spoken island out of a carrier, with a margin. The
+    carrier must break into MORE islands than the index asks for, and the cut
+    itself must hold exactly one — a cut that guessed is a cut nobody can
+    trust. The last island of a carrier ending in "a" is never offered: that
+    is the letter name."""
+    a, sr = k.create(text, voice=VOICE, speed=speed, lang="en-us")
+    a = np.asarray(a, np.float32)
+    runs, n = islands(a, sr, floor_db=CUT_FLOOR_DB, merge_ms=CUT_MERGE_MS, min_ms=40)
+    if len(runs) <= index:
+        return None, sr, f"broke into {len(runs)} island(s), needed more than {index}"
+    # The islands must line up with the SOUNDS the phonemiser says are in the
+    # carrier. Without this, a carrier whose instances partly merge still hands
+    # back a plausible-looking cut, and that cut can be two schwas rather than
+    # one - "uh-uh" offered as the word. Counting islands alone cannot see it,
+    # and neither can the length guard when two short ones fit inside it.
+    if expect is not None and len(runs) != expect:
+        return None, sr, (f"{len(runs)} island(s) for {expect} spoken sound(s) - "
+                          "they do not line up, so a cut would be a guess")
+    if index == len(runs) - 1 and text.rstrip().rstrip(".").endswith("a"):
+        return None, sr, "that is the last one, which is the letter name"
+    s0, e0 = runs[index]
+    m = int(0.060 * sr)
+    cut = a[max(0, s0 * n - m):min(len(a), e0 * n + m)]
+    got, _ = islands(cut, sr, floor_db=CUT_FLOOR_DB, merge_ms=CUT_MERGE_MS, min_ms=40)
+    if len(got) != 1:
+        return None, sr, f"the cut holds {len(got)} islands — something came with it"
+    return cut, sr, ""
 
 
 def encode(a, sr):
@@ -183,20 +264,24 @@ if __name__ == "__main__":
     print(f'control: "{bad}" says the letter name, "{good}" does not — the check discriminates\n')
 
     arms, rejected = [], []
-    for aid, note, speed in PHONEME_ARMS:
-        audio, sr = k.create(SCHWA, voice=VOICE, speed=speed, lang="en-us", is_phonemes=True)
-        audio = np.asarray(audio, np.float32)
-        runs, _ = islands(audio, sr)
-        if len(runs) != 1:
-            rejected.append((aid, f"{len(runs)} islands, expected one")); continue
-        spoken = speech_ms(audio, sr)
+    n_arm = 0
+    for text, index, speed, why in CARRIERS:
+        expect = len(phonemizer.phonemize([text], language="en-us", backend="espeak")[0].split())
+        cut, sr, err = cut_instance(k, text, index, speed=speed, expect=expect)
+        if cut is None:
+            rejected.append((f'"{text}" #{index}', err)); continue
+        spoken = speech_ms(cut, sr)
         if spoken > MAX_SCHWA_MS:
-            rejected.append((aid, f"{spoken} ms of speech — too long to be one sound")); continue
-        mp3, ms = encode(shape(audio, sr), sr)
-        arms.append({"id": aid, "family": note, "ms": ms,
-                     "b64": base64.b64encode(mp3).decode(),
-                     "sha": hashlib.sha256(mp3).hexdigest()})
-        print(f"  {aid}: {ms:4} ms  {note}")
+            rejected.append((f'"{text}" #{index}', f"{spoken} ms of speech — a phrase, not the word")); continue
+        for fade, trim in SHAPES:
+            n_arm += 1
+            aid = f"a_{n_arm:02d}"
+            mp3, ms = encode(shape(cut, sr, fade, trim), sr)
+            note = f'{why} · fade {fade} ms' + (f" · front trim {trim} ms" if trim else "")
+            arms.append({"id": aid, "family": note, "ms": ms,
+                         "b64": base64.b64encode(mp3).decode(),
+                         "sha": hashlib.sha256(mp3).hexdigest()})
+            print(f"  {aid}: {ms:4} ms ({spoken} ms spoken)  {note}")
 
     # The approved schwa from the sound library, so the owner can hear what the
     # game already says for this sound beside the candidates. Labelled

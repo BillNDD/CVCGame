@@ -3,12 +3,18 @@
 This document exists because a fault that lives only in a chat log is a fault this project
 will lose, and has. Created on the owner's instruction, 2026-08-11.
 
-Every entry is something known to be wrong, missing, or undecided **right now**. Nothing
-speculative. Each says what it is, where it lives, what a child or a grown-up experiences
-today, and what "done" means. When an entry is finished, delete it and record the result in
-the document that owns the fact — `docs/settled.md` for anything a listener or a measurement
-closed, `tools/voice-sounds.csv` or `tools/voice-words.csv` for a round, `SPEC.md` for a
-ruling. This file holds only what is still open.
+Sections A to F are things known to be wrong, missing, or undecided **right now**, and
+nothing speculative. Each says what it is, where it lives, what a child or a grown-up
+experiences today, and what "done" means. Section G is the one exception and is marked as
+such: ideas worth trying that nobody has tried yet, kept here on the owner's instruction
+(2026-08-12) because an idea that lives only in a chat log is lost to the next context
+compaction exactly as a fault is. An idea is never counted as work done, and it never
+justifies calling anything finished.
+
+When an entry is finished, delete it and record the result in the document that owns the
+fact — `docs/settled.md` for anything a listener or a measurement closed,
+`tools/voice-sounds.csv` or `tools/voice-words.csv` for a round, `SPEC.md` for a ruling.
+This file holds only what is still open.
 
 This document follows the Microsoft Writing Style Guide.
 
@@ -312,3 +318,97 @@ set and asked whether they are still the right set.
   hand on 2026-08-11.
 - **Done** More of what the documents assert is derived from the code rather than typed
   beside it, so the gap cannot open silently.
+
+---
+
+## G. Ideas worth trying that nobody has tried
+
+Owner-instructed 2026-08-12. Unlike every section above, these are **not** faults and not
+rulings: they are approaches that looked promising in conversation and would otherwise be
+lost the next time a context is condensed. An idea leaves this section by being tried, and
+the result goes wherever it belongs — `docs/settled.md` if a measurement closed it, a round's
+row if an ear did. **Trying one is never a substitute for the game work it was meant to
+serve, and nothing here may be counted as progress until it has been tried.**
+
+### G0. Nothing enforces the reading of `docs/settled.md`
+
+This is a fault, not an idea, and it sits at the head of this section because it is what
+produced the idea below.
+
+- **Where** Rule E10 in `CLAUDE.md`; the reading order in `AGENTS.md`, where `docs/settled.md`
+  is item 3 with its reason attached.
+- **The fault** Every other load-bearing rule in this project has a gate. E10 has none. It is
+  the one rule that depends entirely on an agent choosing to comply, and on 2026-08-12 it
+  failed exactly as designed to fail: round 1 for the word "a" was built from five plain
+  phoneme renders and offered to the owner, while `docs/settled.md` already held **"Phoneme
+  renders are robotic and are not offered again"** and **"A new word is cut from a carrier,
+  never rendered plain. Do not spend an arm on a bare render again."** The file is not
+  orphaned and was not hard to find. It was not read. A listening round was spent proving
+  something the project had already proved, which is the precise cost E10 exists to prevent.
+- **Why a checklist is not the answer** A rule that says "read the file" cannot be checked,
+  and a declaration that a file was read is worth nothing.
+- **Done** The mechanical parts of `docs/settled.md` become refusals in the code that builds
+  a round, so a settled question cannot be re-opened by accident. The first three are ready
+  to write and would each have stopped round 1 on its own:
+  - an arm with no carrier is refused — "never rendered plain";
+  - an arm cut from the END of its carrier is refused for a word that is also a letter name —
+    the trap that put `eɪ` into four arms;
+  - an arm whose family has already been refused for that word in an earlier round is
+    refused, since the round history is in `tools/voice-words.csv` and can be read.
+  The parts that are judgements, not rules, stay judgements and stay in prose.
+
+### G1. Use the phonemiser to check a clip's CONTENT before anyone listens
+
+This is the biggest idea in the list, it has now paid for itself twice in one day, and it is
+still applied in only one place.
+
+- **The idea** The rendering stack contains a grapheme-to-phoneme step, and it can be asked
+  what a piece of text WILL say before a single sample is rendered. That turns a whole class
+  of "we found out by listening" into "we knew before we asked". It costs milliseconds and no
+  round.
+- **What it caught on 2026-08-12, for the word "a"** Every carrier ending on the word — plain
+  `"a"`, `"Listen—a."`, `"The printed word is “a”."`, `"Say a."` — phonemises to `eɪ`, which
+  is the LETTER NAME, forbidden by S4. Four of six arms in the first field were saying "ay",
+  and no amount of careful listening would have told anyone WHY. It also found the way out:
+  `"a. a. a."` is `ɐ ɐ eɪ`, so a cut from the first two is the real word. The owner's
+  suggestion and the phonemiser agreed, and the phonemiser is what proved it.
+- **What it caught second** Comparing the island count of a carrier against its phoneme count
+  refuses a cut whose instances have partly merged — which is the only way to tell one schwa
+  from two schwas offered as one word. It refused eight of twelve arms that had already
+  passed the island check and the length guard, and those eight would have gone to a listener.
+- **Where it is used today** `tools/render_a.py` only.
+- **What already exists, and what this would add.** The record of which bake choices worked
+  is not missing and must not be duplicated. What worked lives in `tools/voice-words.csv`,
+  one row per word with the winning family, its round and the owner's words — 56 distinct
+  families across 432 rows — and in `docs/voice-goldens-packs1-3.json`, 57 human-accepted
+  clips with their full recipes ("Ears win over scores"). What did NOT work lives in
+  `docs/settled.md`, which is a list of closed approaches and failed proxies, and in the
+  round-by-round story in `docs/voice-pack.md`. The phonemiser adds nothing to that record:
+  it moves a class of fault EARLIER, from "a listener told us" to "the build refused it".
+- **Worth trying next, in rough order of value:**
+  - A pack-wide sweep: phonemise every word in the bank and compare against the sound the
+    tiles will show. This is the same class of fault as `th` shipping the unvoiced sound for
+    all fourteen th words, and B3's `what` playing a vowel nobody chose — but caught by a
+    script in seconds rather than by a listening round.
+  - Wire it into `tools/render_batch*.py` so a carrier that mis-says its own word can never
+    be rendered, let alone offered.
+  - A G13 rule: a shipped word clip whose recipe carries a carrier must have that carrier
+    phonemise to the word, not to something else.
+- **The catch, and why this is an idea rather than a task** The phonemiser is GPL and lives
+  only in the developer environment; nothing about it ships (`docs/voice-pack.md`, Licensing).
+  It is also only reachable after `kokoro_onnx` initialises, which sets up its library path —
+  importing it first fails with "espeak not installed". Any check built on it therefore runs
+  where the renderer runs, never in CI, and never as a gate a release depends on. That
+  boundary needs the owner's ruling before it is built into anything.
+
+### G2. Judge the stitched sentence against the natural one
+
+- **The idea** The owner ruled on 2026-08-12 that a sentence ships as one natural recording,
+  on the strength of a length measurement, and then asked to hear the alternative rather than
+  read about it. `tools/compare_stitch.py` builds every batch-3 sentence both ways.
+- **Status** Built, not judged. It waits behind the word "a", because twelve of the
+  thirty-two sentences need it.
+- **The honest caveat that must travel with any number it prints** Its ratios are whole
+  encoded clips, both carrying the same 380 ms of padding, which FLATTERS the stitch. The
+  2.07× in `docs/settled.md` is speech against speech. The two figures are not comparable and
+  neither page nor report may present them as if they were.
