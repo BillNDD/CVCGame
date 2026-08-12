@@ -625,6 +625,33 @@ in `tools/ux-census.mjs`, the cells in `tests/census/ux.spec.mjs`, the negative 
 `tests/census/controls.spec.mjs`, and seven viewport projects in `playwright.config.mjs`.
 `@playwright/test` joined the dependencies with the owner's approval.
 
+**Owner-ruled 2026-08-12, after an investigation of what Playwright actually offers: EVERY
+capability below is used in the NEXT census, before the next beta.** All of them were verified
+present in this environment rather than recalled from documentation.
+
+| capability | what it would catch that today's census cannot |
+|---|---|
+| `toHaveCSS` on font sizes | the 4x label fault this census was written for, which it measures and never asserts |
+| `toBeInViewport({ratio})` | below-the-fold, properly, instead of a hand-rolled box comparison |
+| `toMatchAriaSnapshot` | what a screen reader is told, pinned as a readable file in git |
+| `page.clock` | timing faults without flakiness — freeze and advance instead of waiting |
+| the four unvisited states | the close reveal, the wrong reveal, the done screen, the update row |
+| overlap beyond a control's centre | the home-screen images that overlapped, which point-sampling misses |
+| `setEmulatedVisionDeficiency` | the green and red result controls, as a colour-blind parent sees them |
+| `emulateMedia` forcedColors / contrast / colorScheme | Windows High Contrast, `prefers-contrast`, dark mode |
+| `setCPUThrottlingRate` + `emulateNetworkConditions` + `route` delay | B17's whole class: faults that exist only while things are still loading |
+| `@axe-core/playwright` | contrast, names, roles and focus order on every cell instead of three screens |
+| `devices` (207 descriptors) and `deviceScaleFactor` | real phone and tablet profiles, and retina fractional-pixel layout |
+| `blob` reporter | merging shards, which is the missing half of a two-shard run |
+
+**And the gap that matters most, found by reading the installed package rather than the API:
+only Chromium is present.** Playwright ships WebKit and Firefox by default and this container
+has neither. The install guide tells a parent to add this game to an **iOS home screen**, and
+iOS is WebKit — always, in every browser. So every browser check this project has ever run,
+including all 371 census cells, has run on an engine an iPad user never touches. This
+environment is configured not to download browsers, so closing it needs a different machine:
+a CI runner, or the owner's own. It is the single largest hole in this project's evidence.
+
 **Its cadence is ruled: every other beta** (owner, 2026-08-12, in their own words). Not in
 `npm run check`, which is thirty seconds by the owner's own ruling and would be minutes with
 this in it; and not in the gauntlet, where a flaky cell would block a release rather than
