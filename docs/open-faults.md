@@ -372,20 +372,11 @@ phoneme count differ) and are evidence of nothing either way.
 Four shipped — to, do, you, said. These three did not, and none of them is waiting on the
 owner's ear.
 
-### H1. `my` is ready in every way except a seat
+### H1. `my` — CLOSED 2026-08-12
 
-- **Where** `tools/pending-words/` holds `w-my.mp3`, graded perfect and byte-pinned since
-  2026-08-07. `tools/pending-sounds/s-long_i.mp3` is graded perfect (2026-08-12, heard alone
-  and inside the word). `tools/voice-sounds.csv` records both.
-- **Today** Not in the game. `d:long_i` was shipped and then un-shipped the same hour,
-  because with `my` seated nowhere it became an orphan clip and the voice gate said so.
-- **The fault** SPEC section 12 seats `my` in the open-syllable level, which is not built —
-  a placement made when `my` was thought of as an open-syllable phonics word. But a heart
-  word is by definition taught AHEAD of the code that would decode it, so seating it at its
-  phonics level is arguably the one thing a heart word must not do. Of the 40 approved
-  sentences, `my` unblocks **eight** — more than any word except `you`.
-- **Done** The owner rules where `my` sits. Then it ships in one command; nothing else is
-  needed.
+Shipped to Level 2 with the other six heart words, and `d:long_i` shipped with it. The
+blocker was never the audio: the clip had been graded perfect since 2026-08-07 and the sound
+was graded perfect the day it shipped. It was a seat, and the owner gave it one.
 
 ### H2. `of` — the sounds got "iterate on this", and the next arm is not the obvious one
 
@@ -405,27 +396,13 @@ owner's ear.
   BEFORE a round is built; the arms are chosen from what that says; and whatever wins is
   heard in company beside `to` and `do`, which the owner has already passed.
 
-### H3. What a heart word's SEAT means is answered two ways in two files
+### H3. What a heart word's SEAT means — CLOSED 2026-08-12
 
-- **Where** `reference/word-quest.jsx` seats `the` at Level 7, `to`/`do` at 6, `you`/`said`
-  at 7. `tools/decodable.mjs` `vocabularyUpTo()` treats every word in the engine's `HEART`
-  as available from **Level 1**.
-- **Today** Both are true at once, so the sentence leveller claims a level the child cannot
-  read at. Measured across the 40 approved sentences: 32 are levellable, and **12 of those
-  are claimed below where the child actually meets the words** — "The cat sat on the mat."
-  reads as Level 2 and needs Level 7.
-- **The fault** Not new, and not made worse by this change: the old sixteen-word roster in
-  `decodable.mjs` did the same for these five words and worse for seven others it named
-  that have no seat at all. But it was advertised as fixed when the rosters were merged,
-  and it is only narrowed. A tool that says "Level 2" for a sentence a Level 2 child cannot
-  read is the fault, whichever list it came from.
-- **Done** The owner rules what a seat means: the level where the child MEETS the word (so
-  heart words move early, `vocabularyUpTo` reads `WORD_LEVEL`, and a 4-year-old's early
-  sessions contain undecodable words as a deliberate trade), or the level where the phonics
-  falls (so `vocabularyUpTo` stops treating heart words as Level 1). Until then
-  `decodable.mjs` must refuse to level a sentence below the highest seat of the heart words
-  inside it, rather than claiming a level it cannot support. **This is the single ruling
-  that unblocks sentence mode.**
+Ruled: the level is where the CHILD MEETS the word. All seven heart words moved to Level 2,
+`tools/decodable.mjs` now reads the same seats the engine does, and a guard throws if a heart
+word is ever seated later than Level 2. Every one of the 40 approved sentences is now
+levellable and none is claimed below where a child can read it — it was 32, 8 blocked and 12
+mis-levelled. Recorded in `docs/settled.md`.
 
 ## C. The audit trail
 

@@ -982,6 +982,41 @@ its own listening round and its own byte pin, exactly as a word does — there i
 manufacture a sentence from words already approved. Anyone tempted to save rounds by
 stitching should read this entry first: it has been tried, heard, and refused unanimously.
 
+## What a heart word's LEVEL means (2026-08-12) — closed
+
+Two files answered this differently, so both were true at once and the sentence leveller was
+confused. The owner ruled: **a heart word's level is where the CHILD MEETS it, not where its
+spelling would fall.**
+
+Every heart word now opens Level 2 — the, and, to, do, you, said, my, in that order, FIRST
+in the list, because a level's word order is its introduction order and appending would have
+made a word that exists to be met early the last thing a child meets.
+
+**What it fixed, measured before and after:**
+
+| | before | after |
+|---|---|---|
+| approved sentences that can be levelled | 32 of 40 | **40 of 40** |
+| blocked entirely | 8 (all by `my`) | **0** |
+| claimed BELOW where the child meets the words | 12 | **0** |
+
+`tools/decodable.mjs` got simpler rather than cleverer: `vocabularyUpTo()` used to add every
+heart word on top of the levels, treating them all as available from Level 1 while the
+engine seated them at 6 and 7. It now reads the same seats every other part of the game
+reads, so the two answers cannot drift apart because there is only one of them. A guard
+throws if a heart word has no seat, or a seat later than Level 2.
+
+**What it costs, and the owner took it deliberately.** A Level 2 child meets seven words
+they cannot sound out from the code they have been taught. That is what a heart word is, and
+it is standard in the field — the highest-frequency words are taught by sight ahead of the
+code, precisely so that reading a sentence is possible at all. **Level 1 is untouched**: a
+child's very first session is still the same twelve clean two-sound words.
+
+SPEC section 12's earlier placement — of/to/do/you/said at Levels 6 and 7, my in the
+open-syllable level — is superseded and says so. That placement was written when these were
+thought of as phonics words that happened to be common; the ruling reframes them as sight
+words that happen to be spelled awkwardly.
+
 ## The trap this project keeps falling into
 
 A fix that is approved but not applied is worse than no fix: it reads as done.

@@ -3551,7 +3551,8 @@
   "do": "d7de0bfd54da7fa3a7e9d897db7e4fdeeed713976937f10d87fc93e0401fb7e3",
   "said": "745c26a1d0bec518f75bec3f45653d8e979a3b918472671e31efd5c061aee5d1",
   "to": "f90809e9a2e9e682755519237c092a7c3430c2f0056d755de2f087b77b6486d9",
-  "you": "af076a43f3209ba8450a8c2e2d899d8c89f410f719ddc77d0a78f2f1f4ddcb82"
+  "you": "af076a43f3209ba8450a8c2e2d899d8c89f410f719ddc77d0a78f2f1f4ddcb82",
+  "my": "006858b6ab0c677fc0fb0206ca65f97e6fa4d804de74416357c82067505fd711"
  },
  "words": {
   "am": {
@@ -6605,6 +6606,13 @@
    "round": "batch 1 / 2026-08-07",
    "listen_context": "clip",
    "byte_pin_sha256": "af076a43f3209ba8450a8c2e2d899d8c89f410f719ddc77d0a78f2f1f4ddcb82"
+  },
+  "my": {
+   "verdict": "perfect",
+   "ear_notes": "owner perfect my_6; family listen_s95_m25_front90; recipe in the batch renderer, not in these columns",
+   "round": "batch 4 / 2026-08-07",
+   "listen_context": "clip",
+   "byte_pin_sha256": "006858b6ab0c677fc0fb0206ca65f97e6fa4d804de74416357c82067505fd711"
   }
  },
  "environment": {

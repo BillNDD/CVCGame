@@ -16,7 +16,7 @@
  *   node tools/decodable.mjs --self-test            prove the checker catches
  */
 import { readFileSync } from "node:fs";
-import { LEVELS, TRICKY, HEART } from "../src/engine.js";
+import { LEVELS, TRICKY, HEART, WORD_LEVEL } from "../src/engine.js";
 
 /* THE SHIPPED ROSTER COMES FROM THE ENGINE, and this file no longer keeps one
    of its own. It used to export a list of sixteen and treat every one of them
@@ -40,13 +40,34 @@ export const PROPOSED = {
   13: "catnip laptop sunset".split(" "),
 };
 
-/* What a child at this level has actually been taught. HEART is the engine's
-   own roster — the sight words that are really in the game — and never the
-   waiting list above. */
+/* What a child at this level has actually been taught — read from the LEVELS,
+   and from nothing else.
+
+   Owner-ruled 2026-08-12: a heart word's level is where the CHILD MEETS it,
+   not where its spelling would fall. That ruling is what lets this function
+   get simpler rather than cleverer. It used to add every HEART word on top of
+   the levels, which meant it treated them all as available from Level 1 while
+   the engine seated them at 6 and 7 — so it called 12 of the 32 levellable
+   sentences a level or more below where a child could actually read them.
+   "The cat sat on the mat." read as Level 2 and needed Level 7.
+
+   Now the heart words sit at Level 2 in the engine, this function reads the
+   same seats every other part of the game reads, and the two answers cannot
+   drift apart because there is only one of them. HEART stays imported for the
+   assertion below, which is the guard that keeps it that way. */
 export function vocabularyUpTo(level) {
-  const v = new Set(HEART);
+  const v = new Set();
   for (const l of LEVELS) if (l.n <= level) for (const w of l.words) v.add(w);
   for (const n of Object.keys(PROPOSED)) if (Number(n) <= level) for (const w of PROPOSED[n]) v.add(w);
+  /* The guard: every heart word must have a SEAT, and it must be an early one.
+     A heart word that drifted late would make this function quietly correct
+     and the game quietly wrong — the child would meet it long after a sentence
+     claimed they could read it. Two is the level sentence practice begins at. */
+  for (const w of HEART) {
+    const seat = WORD_LEVEL[w];
+    if (!seat) throw new Error(`heart word "${w}" has no level seat; buildSession can never serve it`);
+    if (seat > 2) throw new Error(`heart word "${w}" is seated at level ${seat}; a heart word is met early or it is not a heart word`);
+  }
   return v;
 }
 
