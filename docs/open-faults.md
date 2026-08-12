@@ -22,6 +22,10 @@ This document follows the Microsoft Writing Style Guide.
 
 Written against `v1.0.0-beta.17`, commit `fd7c894`. The full gauntlet passed on `c87ed44`
 with a clean tree: 22 gates, 0 failed, 66 source mutants killed, 341 tests, 406 clips.
+**As of 2026-08-12 that reads 67 mutants, 272 tests and 500 clips** — the test count fell
+because the microphone's 51 recognizer tests retired with the feature, and the clip count rose
+with the heart words. The line above is kept as the state when this document was opened; a
+"state at the time of writing" that is quietly edited stops being one.
 Section A is the exception to everything else here: it is wrong TODAY, it is child-facing,
 and it is on by default. Everything after it is a missing guard, an undecided preference, or
 a gap in the audit trail, and **nothing after section A makes a wrong sound play today.**
@@ -200,8 +204,13 @@ right now, not the child's progress.
 
 ### B8. The fourteen parked sounds — CLOSED 2026-08-12
 
-Checked rather than believed: **none** of air, ar, aw, ear, er, long_a, long_i, long_o,
-long_u, oi, oo_moon, ow, or, zh is required by any of the 432 words in the bank today. All
+Checked rather than believed, **as the bank stood that morning**: none of air, ar, aw, ear,
+er, long_a, long_i, long_o, long_u, oi, oo_moon, ow, or, zh was required by any of the 432
+words then in the bank. **Two of them came back the same day**: `long_i` for "my" and
+`oo_moon` for "to", "do" and "you", when the heart words were seated and their sound-outs
+heard. Both ship. The parking was right when it was done and the sentence needed the date
+attached to stay true — a "checked rather than believed" claim with no date is a claim that
+expires silently. All
 fourteen are confirmed as future work for Levels 12 to 15.
 
 The regression is guarded, and the guard was verified rather than assumed: `voiceScript()`
@@ -229,6 +238,15 @@ a fixture where a word is named only in a tricky note, which the old LEVELS-only
 misses and the new one does not.
 
 ## B17. The advance control goes live for half a second in the middle of a reveal
+
+**THIS REOPENS A FIX THAT WAS CALLED DONE.** The changelog has carried "Fixed: the advance
+control could come alive in the middle of a reveal when the clips took longer than usual to
+load" since the reveal was built. That fix was real and it was incomplete: it closed the case
+where the control stayed live for the WHOLE reveal, and left ~590 ms open between the guard
+firing and the real length arriving. CLAUDE.md requires that a fix found to be incomplete is
+reopened, with what is missing and how it came to be closed — this paragraph is that record,
+written after an auditor found the changelog telling a parent the same fault was both fixed
+and outstanding. The changelog bullet now says so too.
 
 **Owner-ruled 2026-08-12: this ships in beta.17 and is fixed in the one after.** It predates
 every beta already installed, so shipping makes nothing worse, and the fix touches the arming
@@ -420,7 +438,7 @@ Four shipped in the morning — to, do, you, said. The other three followed the 
 
 ### H1. `my` — CLOSED 2026-08-12
 
-Shipped to Level 2 with the other six heart words, and `d:long_i` shipped with it. The
+Shipped to Level 2 with the other heart words, and `d:long_i` shipped with it. The
 blocker was never the audio: the clip had been graded perfect since 2026-08-07 and the sound
 was graded perfect the day it shipped. It was a seat, and the owner gave it one.
 
@@ -430,13 +448,16 @@ Shipped to Level 2, sounded out **o → short_u, f → /v/**, graded `perfect` i
 fault was in the `v`, not the vowel: it sat 6.2 dB louder and 400 Hz brighter than the sound
 beside it, having been graded perfect ALONE in SND16 and never in company — B11's story
 again. It was
-re-cut −7 dB with the top rolled off at 1800 Hz and 40 ms fades, and **every /v/ in the bank
-now takes that clip**, not only "of". The full record, including the recipe and the two hash
+re-cut −7 dB with the top rolled off at 1800 Hz and 40 ms fades. **That clip went bank-wide for
+about an hour and the owner ruled it back the same evening**: `d:v_soft` is "of"'s alone, and
+van, vet, vat and vex keep `d:v`, which was graded perfect for them in SND16 and sits within
+0.7 dB of its neighbours there. This paragraph said "every /v/ in the bank now takes that clip"
+until an auditor read it — a closed entry describing a state the repository had already left. The full record, including the recipe and the two hash
 refusals that guard it, is in `docs/settled.md`.
 
 ### H3. What a heart word's SEAT means — CLOSED 2026-08-12
 
-Ruled: the level is where the CHILD MEETS the word. All eight heart words sit at Level 2,
+Ruled: the level is where the CHILD MEETS the word. All nine heart words sit at Level 2,
 `tools/decodable.mjs` now reads the same seats the engine does, and a guard throws if a heart
 word is ever seated later than Level 2. Every one of the 40 approved sentences is now
 levellable and none is claimed below where a child can read it — it was 32, 8 blocked and 12
@@ -467,6 +488,14 @@ say PASS on a dirty tree: **INCOMPLETE, commit 882ab9a DIRTY**.
 then `git diff --exit-code -- tests/generated`. A committed mutant fails the very next check
 rather than surviving to a release, which is what happened all three times. Two notes and a
 rule did not stop this; a gate takes half a second and does.
+
+**It is a net, not a cure, and it brought its own hazard.** Because `check:acceptance` WRITES
+those files, running the check during a gauntlet erases a planted mutant and makes G4 report a
+survivor that was never alive. That is recorded in `docs/testing-gauntlet.md`. **The cure is
+for the mutation gates to mutate an UNTRACKED copy** so the window never opens at all —
+`tools/mutants.mjs` writes a temporary reference file already, but `tools/acceptance-mutants.mjs`
+and `tools/app-mutants.mjs` both edit tracked files in place. Until that is built, C2 stays
+open with a net under it.
 
 
 
@@ -523,7 +552,7 @@ one ships, and the family-pack design has to answer it.
 
 ### D2. The voice is American and stays that way
 
-`af_heart` is an American voice and all 406 clips are in it, each listened to and accepted.
+`af_heart` is an American voice and every clip in the pack is in it — 406 when this was written, 500 today — each listened to and accepted.
 The owner ruled for American pronunciation on 2026-08-11 for exactly this reason. Canadian,
 which the owner would prefer, is not among the model's 54 voices — and for this bank every
 Canadian-American divergence is either unreachable or already matched, so the pronunciation
@@ -556,7 +585,7 @@ the *design* — the boundaries, the prerequisites, what the feature is. This se
 |---|---|---|
 | 2026-08-07 | Levels 10 and 11: final and initial blends | **Built 2026-08-12.** 83 words shipped |
 | 2026-08-07 | Levels 12 to 15: plural s, compounds, open syllables, magic e | Open. 32 approved words wait on 12, 13 and 14 |
-| 2026-08-07 | Heart words grow now: said, of, you, to, do, my | **Built 2026-08-12.** All eight heart words sit at Level 2 — the, and, to, do, you, said, my, of — with S8 gaining ai and ou and the engine gaining a HEART roster. `of` took three rounds of its own; `my` needed only a seat. `a` is the one left, and its clip arrived from the owner the same evening |
+| 2026-08-07 | Heart words grow now: said, of, you, to, do, my | **Built 2026-08-12.** All nine heart words sit at Level 2 — the, and, to, do, you, said, my, of, a — with S8 gaining ai and ou and the engine gaining a HEART roster. `of` took three rounds of its own, `my` needed only a seat, and `a` shipped the same evening from the owner's own schwa package |
 | 2026-08-07 | Sentence mode | Open. 41 sentences approved by ear, recorded, and unusable |
 | 2026-08-07 | Build-it encoding mode, practice only | Open. Not started |
 | 2026-08-07 | Speedy words fluency round in the free-play chooser | Open. Not started |
@@ -685,7 +714,13 @@ this in it; and not in the gauntlet, where a flaky cell would block a release ra
 inform one. A survey run on every push stops being read, and one run only when somebody
 remembers is one that never runs.
 
-**What is not done, and it is the part that matters:** the run is FLAKY. A different handful
+**FLAKINESS CLOSED 2026-08-12, and the census has now run in full**: 338 cells over 7
+viewports, 0 failures, 0 flaky, 54.8 minutes, recorded in `.census/report.json`. The three
+causes were two detector bugs of mine and Chromium churn at four workers. The paragraph below
+described the state before that and is kept because it says what the run may be quoted FOR:
+the checks that exist, not the ones the spec above adds.
+
+**What was not done, and it is the part that mattered:** the run was FLAKY. A different handful
 of cells fails each time, and a cell that fails in a full run passes when run alone. Until
 that is settled the census cannot be quoted for anything — a census that gives a different
 answer each time is not evidence, and worse, it can hide a real defect inside its own noise.

@@ -1,7 +1,8 @@
 /* THE DEEP UX CENSUS — one test per layout class, per viewport.
  *
  * 44 words covering all 29 layout-risk classes in the bank, across 7 viewports:
- * 308 cells. Each cell stages a NAMED word through the app's own free-play
+ * 329 cells from this file — 44 word cases plus 3 screen cases, each on 7
+ * viewports — and 9 more from the controls, which run on one. Each cell stages a NAMED word through the app's own free-play
  * chooser, checks the prompt, grades it the way a grown-up does, and checks the
  * reveal. Both states are inspected for the whole list in one pass.
  *
@@ -105,29 +106,40 @@ for (const c of CASES) {
       if (reveal.offScreen.length)
         await testInfo.attach("controls below the fold", { body: reveal.offScreen.join("\n"), contentType: "text/plain" });
 
+      for (const f of reveal.findings) expect.soft(f, `[reveal] ${f.kind}: ${f.detail}`).toBeUndefined();
+
+      /* THE TILES, IN ORDER, AGAINST THE ENGINE'S OWN SPLIT. This assertion has
+         now been wrong twice, and both times it was sold as the fix for the
+         previous version:
+           1. it counted lines in the aria snapshot and asserted "more than
+              zero" — true of any page that is not blank;
+           2. it read `text:` nodes out of the snapshot — but in mode:"ai" the
+              tile letters are trailing text on `generic` lines, so it was
+              reading the praise sentence and finding "c", "h", "e", "k" inside
+              it. Deleting the entire tile row left it green.
+         An auditor caught the second one. So it no longer parses a snapshot at
+         all: it compares the VISIBLE tile text with chunkWord(), in order, with
+         Playwright's own assertion. Delete a tile and it fails; reorder them
+         and it fails. The aria snapshot is still attached to the report as
+         evidence for a person to read — attached, not asserted, until
+         toMatchAriaSnapshot lands with the next census. */
+      await expect.soft(page.locator(".wq-tile"),
+        "the tiles on screen do not match the word's own split")
+        .toHaveText(chunkWord(c.word), { timeout: 5000 });
+
       /* A REAL TAP, on the touch profiles, on the one control a child touches
-         after the reveal. The grade above is a 700 ms pointer hold, which is
-         the path S5 defines; this is the other path, and without it six touch
-         profiles were being driven entirely by mouse clicks. */
+         after the reveal — and it comes LAST, because a tap on "Next word"
+         ENDS the reveal. Placed before the tile assertion, as it was when
+         first written, it advanced the word and then the assertion measured
+         the next word's tiles against this word's split. The tile check went
+         red and looked like a game defect; it was the census tripping over its
+         own feet. */
       if (viewport.touch) {
         const advance = page.locator(".wq-rail .wq-cta");
         await advance.tap({ scroll: "none", timeout: 5000 });
         await expect.soft(page.locator(".wq-word"), "a tap on “Next word” did not advance")
           .not.toHaveText(c.word, { timeout: 5000 });
       }
-      for (const f of reveal.findings) expect.soft(f, `[reveal] ${f.kind}: ${f.detail}`).toBeUndefined();
-
-      /* What a screen reader is told must match what is on screen. The first
-         version of this counted lines in the aria snapshot and asserted "more
-         than zero", which passes on any page that is not blank — it compared
-         nothing to nothing. This reads the letters out of the snapshot's own
-         text nodes and requires them to spell the word, in order. */
-      const ariaText = (reveal.aria.match(/text:\s*"?([^"\n]+)"?/g) || [])
-        .join(" ").toLowerCase();
-      for (const unit of chunkWord(c.word))
-        expect.soft(ariaText, `the accessibility tree never mentions the tile "${unit}"`)
-          .toContain(unit);
-      expect.soft(reveal.aria.length, "the accessibility snapshot is empty").toBeGreaterThan(20);
     }
 
     /* Free play writes nothing (SPEC section 6): the learning evidence a

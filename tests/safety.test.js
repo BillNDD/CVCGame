@@ -537,32 +537,34 @@ describe("G10 — free play never touches the save", () => {
        graded as a retry.
 
        At the boundary the pin moves to 0.955, and that number is chosen, not
-       inherited. "plan" sits at index 418 of the 438-word bank, so a pin
-       anywhere in [0.954338, 0.956621) makes the UNGUARDED draw land exactly
+       inherited. "plan" sits at index 419 of the 439-word bank, so a pin
+       anywhere in [0.954442, 0.956720) makes the UNGUARDED draw land exactly
        on the word the child just read. Only a pin in that window can tell the
        guard apart from luck: the pin of 0.935 was in the window for the
        349-word bank and fell out of it when the bank grew, at which point the
        test would still have passed while proving nothing. Both literals below
        are derived from the algorithm, never read back from a run:
-         - the guard drops "plan" from the pool, so 437 words are left and
-           floor(0.955 x 437) = 417 opens the block on "grin", not "plan";
+         - the guard drops "plan" from the pool, so 438 words are left and
+           floor(0.955 x 438) = 418 opens the block on "grin", not "plan";
          - "plan" is then pushed to the BACK of the refilled pool, so index
-           floor(0.955 x 438) = 418 of that pool is "plum" — the word that
+           floor(0.955 x 439) = 419 of that pool is "plum" — the word that
            sat one place after "plan" before it moved. Without the push-back
            the same index would land on "plan" itself, so this line is what
            proves the word returns to the game rather than leaving it. All
-           literals (E4), for the 438-word bank.
+           literals (E4), for the 439-word bank.
 
-       RE-DERIVED 2026-08-12, twice: once when four heart words joined
-       (432 -> 436) and again when "my", "of" and the eighth heart word landed
-       (436 -> 438). The assertions never changed and never failed: 0.955 is
-       still inside the new window, by luck rather than by design. That is the
-       cup lesson in miniature — a derivation that stops matching its
-       assertion is how a result gets lost — so the window is recomputed and
-       written down here every time the bank moves, whether or not the test
-       goes red. The second re-derivation was missed on the day and caught by
-       a reviewer, which is why this paragraph now names the bank size in
-       three places: a stale number is easier to see than a stale sentence. */
+       RE-DERIVED 2026-08-12, THREE times, and the third one is the lesson.
+       The bank went 432 -> 436 when four heart words joined, 436 -> 438 with
+       "my" and "of", and 438 -> 439 when "a" shipped. The first two were
+       written down. The third was not: the commit that added "a" claimed in
+       its own message to have "re-derived for 439", and every number in this
+       paragraph stayed at 438 — a stale derivation inside the sentence that
+       exists to prevent stale derivations, one bullet below an invocation of
+       the cup lesson. An auditor found it. The assertions never failed, and
+       that is the danger: 0.955 sits inside the true window either way, so
+       nothing goes red while the reasoning quietly stops matching the code.
+       Recompute all three numbers every time the bank moves, and never take
+       the previous paragraph's word for it. */
     const spy = vi.spyOn(Math, "random").mockReturnValue(0.9999999);
     try {
       await enterFreePlay("🎲 Truly random");
