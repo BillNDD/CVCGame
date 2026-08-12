@@ -5,7 +5,7 @@
    One deliberate divergence from the reference: .wq-btn-plain, .wq-segbtn and
    .wq-rowbtn are 44px tall, not 40px — SPEC rule 7 sets a 44px minimum for
    every adult control, and section 10 gates on it. */
-import { C, SOUNDOUT_POP_MS } from "@engine";
+import { C } from "@engine";
 
 const CSS = `
 /* No rule here uses the CSS \`font:\` shorthand. Ten of them once did, each
@@ -77,9 +77,18 @@ const CSS = `
    --wqpop is that sound's own measured speech length, handed down by the
    player. A fixed length was wrong in both directions: it outlived the four
    short plosives, leaving two tiles ringed at once, and it ran out 236 ms
-   before /w/ finished in "win". SOUNDOUT_POP_MS is only the fallback for a
-   pack whose lengths are unknown. */
-.wq-tile.wq-pop{animation:wqpop var(--wqpop,${SOUNDOUT_POP_MS}ms) steps(1,end)}
+   before /w/ finished in "win".
+
+   THERE IS NO LONGER A FALLBACK LENGTH, and that is the fix (B5, 2026-08-12).
+   This rule used to read var(--wqpop, 700ms), so a source that could not
+   report a length — a family pack, whose clips nobody has measured — got the
+   exact fault that was fixed on 2026-08-11 handed straight back to it. A ring
+   of the wrong length is worse than no ring: it teaches the child that a
+   different piece of the word is sounding. With no default, a missing
+   --wqpop makes the shorthand invalid and no animation runs at all, which is
+   the behaviour wanted; the component declines to add the class in the first
+   place, and this is the second lock on the same door. */
+.wq-tile.wq-pop{animation:wqpop var(--wqpop) steps(1,end)}
 @keyframes wqpop{0%,99%{outline:4px solid ${C.ink};outline-offset:3px}
   100%{outline:0 solid transparent}}
 .wq-slot-msg{height:52px;min-height:52px;display:flex;flex-direction:column;align-items:center;justify-content:center;margin-top:4px}
@@ -262,7 +271,11 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
      would leave the sounds attached to nothing. It is already the calmest
      form there is — a static outline, no movement of any kind — which is why
      the owner chose it over the hop and the glow. */
-  .wq-tile.wq-pop{animation:wqpop ${SOUNDOUT_POP_MS}ms steps(1,end)!important}}
+  /* Reduced motion keeps the ring — it carries information — but it kept it
+     at a FIXED 700 ms, which meant that on every device with reduced motion
+     switched on, every ring was the wrong length. The same B5 fault, hiding in
+     the exception. It now takes the sound's own length like everything else. */
+  .wq-tile.wq-pop{animation:wqpop var(--wqpop) steps(1,end)!important}}
 
 /* landscape: one centred column, the same stack as portrait (P2-1, A1-003).
    This query used to divide the stage into a 1.1fr column for the word and a
