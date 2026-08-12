@@ -342,6 +342,12 @@ phoneme count differ) and are evidence of nothing either way.
   because they are the evidence.
 - **Not verified by me.** I cannot hear the recording, or any audio. What follows is measurement
   and reading, not listening, and nobody should treat it as the verdict.
+- **Check the version first, before anything else here is believed.** On 2026-08-12 the owner
+  reported a separate visual fault — things on screen sitting behind one another — and then
+  reported it gone after updating the app. So the device this fault was seen on was running a
+  stale build. This is a PWA: it installs a new version and waits, and a report taken from an
+  old one describes a build nobody is working on. Establish which version is running before
+  spending a round on B16.
 - **The strongest candidate, and why.** Both symptoms together — no sounds, no tile rings — are
   the exact signature of the recorded pack falling through to system speech. That was written
   into `app/src/voicepacks.js` before this report as the description of a fallback: "what a
