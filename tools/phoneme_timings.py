@@ -68,13 +68,17 @@ def _load():
     return _sess, _kokoro, _tok
 
 
-def timings(text, speed=1.0, voice=VOICE):
+def timings(text, speed=1.0, voice=VOICE, is_phonemes=False):
     """Returns (audio, sample_rate, [{symbol, at_ms, ms}]) — one entry per
     phoneme token, including the padding and the spaces between words, in
     order. The boundaries are the model's own and nothing is inferred from the
     waveform."""
     sess, k, tok = _load()
-    phonemes = tok.phonemize(text, lang="en-us")
+    # A caller may hand in phonemes directly. A held or repeated sound has no
+    # spelling — "the sound is ððððð" is the only way to ask for a long /ð/ —
+    # and the timings are just as exact either way, because the model is being
+    # asked the same question.
+    phonemes = text if is_phonemes else tok.phonemize(text, lang="en-us")
     tokens = tok.tokenize(phonemes)
     style = k.get_voice_style(voice)[len(tokens)].reshape(1, -1)
     audio, dur = sess.run(None, {"tokens": np.array([[0, *tokens, 0]], dtype=np.int64),
