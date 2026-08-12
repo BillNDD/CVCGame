@@ -660,6 +660,10 @@ different one is not a finding. What WebKit on Linux can and cannot stand in for
 into the census's own report: it is the same engine core as iOS Safari, not the same build,
 and it is much closer to an iPad than Chromium has ever been.
 
+**The build spec lives in `docs/testing-gauntlet.md`**, under "The next census" — every
+capability mapped to the exact Playwright API and the fault it catches, so the work can be
+picked up by whoever opens the repository next without re-doing the investigation.
+
 **Its cadence is ruled: every other beta** (owner, 2026-08-12, in their own words). Not in
 `npm run check`, which is thirty seconds by the owner's own ruling and would be minutes with
 this in it; and not in the gauntlet, where a flaky cell would block a release rather than

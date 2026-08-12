@@ -369,6 +369,73 @@ INVESTIGATION, not a gate: it never runs in `npm run check` and it is not one of
 gauntlet gates. Vitest is told to leave `tests/census/` alone, because collecting a Playwright
 spec turns the fast check red for a reason that has nothing to do with the game.
 
+### The next census — the build spec, owner-ruled 2026-08-12
+
+Every item was verified present in this environment before it was written down. Each line says
+the exact Playwright API and what it catches that the census cannot catch today.
+
+**1. Three engines, and this is the largest item.** `projects` gains `firefox` and `webkit`
+beside `chromium`. The install guide tells a parent to put this game on an **iOS home screen**,
+and iOS is WebKit in every browser, always — so until this lands, every browser check this
+project has ever run has run on an engine an iPad user never touches. WebKit on Linux is the
+same engine core as iOS Safari, not the same build; the report must say so, or a green run gets
+read as "verified on iOS", which it is not. This machine cannot download browsers, so the run
+happens on a runner that can.
+
+**2. Real devices instead of hand-written boxes.** `devices` ships **207 descriptors** with the
+right user agent, device scale factor, touch and viewport. The seven hand-written viewports
+become a named set drawn from those, keeping the 320 px extreme, plus `deviceScaleFactor` 2–3
+so fractional-pixel layout is exercised.
+
+**3. The states a word never reaches.** Today the census sees the prompt and the correct
+reveal. It must also see the **close reveal**, the **wrong reveal** (S3's invitation text, which
+a child reads and which wraps), the **done screen**, the **update row** in each of its states,
+the **progress track** at 7, 10 and 20 columns, and the **level strip**.
+
+**4. Checks that close what the census currently only measures.**
+
+| check | API | the fault it catches |
+|---|---|---|
+| font floors | `expect(el).toHaveCSS("font-size", …)` | the label that rendered at four times its size — measured today, never asserted |
+| on-screen | `expect(el).toBeInViewport({ratio})` | below-the-fold, with a ratio rather than a hand-rolled box test |
+| accessible tree | `expect(page).toMatchAriaSnapshot()` | what a screen reader is told, pinned as a readable file in git |
+| overlap | rectangle intersection over every visible element | the home-screen images that overlapped — point-sampling a control's centre misses it |
+| a11y sweep | `@axe-core/playwright` | contrast, names, roles, focus order, on every cell instead of three screens |
+
+**5. Conditions, not just screens.** A fault that only exists while things are loading is
+invisible to a warm run, which is how B17 survived. Each of these is a project:
+
+| condition | API |
+|---|---|
+| colour blindness | CDP `Emulation.setEmulatedVisionDeficiency` — deuteranopia, protanopia, tritanopia, achromatopsia, blurred vision |
+| Windows High Contrast | `emulateMedia({ forcedColors: "active" })` |
+| `prefers-contrast` | `emulateMedia({ contrast: "more" })` |
+| dark mode | `emulateMedia({ colorScheme: "dark" })` |
+| a slow processor | CDP `Emulation.setCPUThrottlingRate(4)` |
+| a slow network | CDP `Network.emulateNetworkConditions` |
+| slow voice clips | `page.route("**/voice/**", …)` with a delay |
+| time itself | `page.clock` — `install`, `pauseAt`, `fastForward`, `runFor` |
+
+The colour-blindness and high-contrast runs produce **screenshots for the owner to judge**.
+A measurement cannot say whether a palette is usable; that is the same shape as a listening
+round, and it is theirs to rule on.
+
+**6. B17's test, and the pattern for its whole class.** The tap window is reproduced with the
+voice clips delayed and the processor throttled, and `page.clock` makes it deterministic: the
+advance control must be disabled for the entire sound-out, with a control proving the test
+fails when the window is open.
+
+**7. Shards that add up.** The `blob` reporter plus `playwright merge-reports` turns a
+two-shard run into one report. Sharding without it produces two half-answers.
+
+**8. Screenshot baselines, narrowly.** `toHaveScreenshot` scoped to the tile row, masked, with
+`maxDiffPixelRatio`. Baselines are stored per browser and per runner, because a baseline made
+on one machine is a statement about that machine — a mismatch anywhere else is not a finding.
+
+**What none of it can settle**, stated here so no report implies otherwise: whether the voice
+is right, whether a child understands the screen, whether a colour is pleasant, and whether the
+game works on a real iPad in a real kitchen. The QA script and a person own those.
+
 **Cadence: every other beta** (owner-ruled 2026-08-12). Its own negative controls —
 `npm run census:controls` — are the part that can be trusted at any time: four planted
 defects, each caught by the detector that exists for it, plus a clean-page control and a
