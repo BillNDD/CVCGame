@@ -334,41 +334,6 @@ Both moved to meet the voice, ruled by the owner after hearing each sound-out bo
 The sweep is now at **0 disagreements across 432 words**. 46 remain unalignable (tile count and
 phoneme count differ) and are evidence of nothing either way.
 
-### B16. The reveal is not saying the sounds after the word, and no tile rings
-
-- **Today** The owner reported on 2026-08-12, from a screen recording of the running game, that
-  the game "isn't reading the phonics sounds as we agreed after the word" and that there was
-  "no blue circle around the phonics sound as it was pronounced". Their words, kept verbatim
-  because they are the evidence.
-- **Not verified by me.** I cannot hear the recording, or any audio. What follows is measurement
-  and reading, not listening, and nobody should treat it as the verdict.
-- **Check the version first, before anything else here is believed.** On 2026-08-12 the owner
-  reported a separate visual fault — things on screen sitting behind one another — and then
-  reported it gone after updating the app. So the device this fault was seen on was running a
-  stale build. This is a PWA: it installs a new version and waits, and a report taken from an
-  old one describes a build nobody is working on. Establish which version is running before
-  spending a round on B16.
-- **The strongest candidate, and why.** Both symptoms together — no sounds, no tile rings — are
-  the exact signature of the recorded pack falling through to system speech. That was written
-  into `app/src/voicepacks.js` before this report as the description of a fallback: "what a
-  grown-up sees is a shorter spoken sentence and no tile rings". The fallback that fits an
-  iPhone or iPad is `playPlan()`'s audio-context check, and until today that one path recorded
-  no reason (see B7, reopened). The fix landed with this entry, so **the owner's own device can
-  now say what happened**: play a word, then open the Grown-ups corner and read the notice.
-- **What is ruled out.** Measured in a real browser against the built app: the pack resolves,
-  no fallback fires, no request fails, and both tiles carry the pop class. G13 passes at 489
-  clips required, 489 shipped, and `soundInventory()` derives its ids from the bank, so a
-  missing sound would be a missing FILE the gate would have caught. The clips are present and
-  the desktop path works, which is why this is very likely device-specific.
-- **The fault** A child hears the word and not the sounds it is made of. The sound-out reveal is
-  the teaching moment of the whole game — SPEC section 5a, owner-ruled 2026-08-04 — so this is
-  the product not doing its job, not a blemish.
-- **Done** The reason shown on the owner's device is read and acted on, the cause is fixed, a
-  person who can hear the game confirms the sounds play and the tiles ring with them, and a
-  check exists that would have caught it: the scheduled plan of a real reveal is read out of the
-  running app and compared against `clipPlan()`, with a negative control that drops one entry
-  and must be reported. Note what a check on this machine alone cannot do — it passes today.
-
 ## C. The audit trail
 
 ### C1. Sixty-four word rows carried no byte pin — CLOSED 2026-08-12
