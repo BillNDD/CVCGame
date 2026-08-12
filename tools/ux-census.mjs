@@ -142,6 +142,11 @@ async function inspect(page, viewport, label, opts = {}) {
   }, { vw: viewport.width, vh: viewport.height });
 
   if (page_.pageScrollX) push("horizontal-overflow", `the page scrolls sideways at ${viewport.width}px`);
+  /* Vertical overflow in a shell built never to scroll means the content does
+     not fit — the cheapest real check available, and it was measured and
+     thrown away until a reviewer noticed. */
+  if (page_.pageScrollY)
+    push("vertical-overflow", `the page scrolls down at ${viewport.width}x${viewport.height}, and this shell is built not to scroll`);
   for (const o of page_.overflowing)
     push("element-past-the-edge", `${o.tag}.${o.cls} spans ${o.left}..${o.right} in a ${viewport.width}px viewport`);
   for (const n of page_.nested)
@@ -204,6 +209,10 @@ async function inspect(page, viewport, label, opts = {}) {
     return out;
   }, { childMin: CHILD_MIN, adultMin: ADULT_MIN });
 
+  /* A scan that measures nothing reports nothing and goes green. Every state
+     this census visits has controls; zero means the scan looked in the wrong
+     place, which is a fault in the census and not in the game. */
+  if (!controls.length) push("nothing-measured", "the control scan found no controls at all in this state");
   for (const c of controls) {
     if (c.floor && (c.h < c.floor - 0.5 || c.w < c.floor - 0.5))
       push("control-too-small", `"${c.name}" is ${c.w}x${c.h}px, floor ${c.floor}px (${c.klass})`);
@@ -331,6 +340,9 @@ const PLANTS = [
   ["element-past-the-edge", `.wq-home-title{ position:relative !important; left: 2000px !important; }`],
   ["control-too-small", `.wq-cta{ min-height:10px !important; height:12px !important; min-width:10px !important; width:12px !important; padding:0 !important; }`],
   ["control-obscured", `body::after{ content:""; position:fixed; inset:0; z-index:99999; background:rgba(0,0,0,.01); }`],
+  ["vertical-overflow", `html,body,.wq-root,.wq-shell,.wq-stage{overflow:visible !important;height:auto !important} .wq-home-title{height:4000px !important;display:block !important}`],
+  ["nested-scroll", `.wq-stage{overflow-x:scroll !important} .wq-home-title{width:3000px !important;display:block !important}`],
+  ["nothing-measured", `button,[role=button],a[href],input,select{display:none !important}`],
 ];
 
 export { cases, signature, inspect, stage, holdGrade, savedState, holdTheDice,
