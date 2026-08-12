@@ -85,12 +85,22 @@ function unshipped(ledgerText, packText) {
     .filter((k) => !(k.startsWith("s:") ? k in pack : "w:" + k in pack)).length;
 }
 
-/* The sentences SPEC section 8 pins in its microphone block, as a fenced
+/* The sentences SPEC section 8 pins in its recorded-voice block, as a fenced
    table of `name "sentence"` lines. Reading them out of the document means a
-   sentence added there is checked from the moment it is written. */
+   sentence added there is checked from the moment it is written.
+
+   THE ANCHORS ARE THE FAULT TO WATCH. This used to slice between
+   "2. Microphone:" and "3. Storage:". When the microphone was removed on
+   2026-08-12 the first anchor would have vanished, indexOf would have returned
+   -1, slice(-1, n) would have yielded nonsense, and this function would have
+   returned an empty list — so the rule below would have checked ZERO sentences
+   and still reported itself as one of the passing rules. A gate that keeps
+   counting itself while measuring nothing is worse than no gate. The caller
+   now refuses an empty list outright, and that refusal has its own control. */
 function specSentences(spec) {
-  const block = spec.slice(spec.indexOf("2. Microphone:"), spec.indexOf("3. Storage:"));
-  return [...block.matchAll(/^\s{3}\w[\w ]*\s+"([^"]+)"$/gm)].map((m) => m[1]);
+  const a = spec.indexOf("2. Recorded voice:"), b = spec.indexOf("3. Storage:");
+  if (a < 0 || b < 0 || b <= a) return [];
+  return [...spec.slice(a, b).matchAll(/^\s{3}\w[\w ]*\s+"([^"]+)"$/gm)].map((m) => m[1]);
 }
 
 /* Every double-quoted run on ONE line of the QA script that is long enough to
@@ -121,8 +131,11 @@ function run(d) {
   let rules = 0;
 
   rules += 1;
-  for (const s of specSentences(d.spec)) {
-    if (!d.app.includes(s)) found.push(`SPEC sentence missing from the app: "${s}"`);
+  /* A rule that checks nothing must SAY so, not pass. See specSentences. */
+  const pinned = specSentences(d.spec);
+  if (pinned.length === 0) found.push("SPEC section 8 pins no sentences — the block or its anchors moved, and this rule is checking nothing");
+  for (const s of pinned) {
+    if (!d.corpus.includes(s)) found.push(`SPEC sentence missing from the app: "${s}"`);
   }
 
   rules += 1;
@@ -130,19 +143,12 @@ function run(d) {
     if (!d.corpus.includes(s)) found.push(`QA sentence missing from the app: "${s}"`);
   }
 
-  rules += 1;
-  const watchdog = num(d.app, "WATCHDOG_MS");
-  const grace = num(d.app, "GRACE_MS");
-  const specWatchdog = /no sign of life for (\d+) seconds/.exec(d.spec);
-  const specGrace = /(\d+)-second grace window/.exec(d.spec);
-  const qaTotal = /Within about (\d+) seconds/.exec(d.qa);
-  if (!specWatchdog || Number(specWatchdog[1]) * 1000 !== watchdog)
-    found.push(`SPEC watchdog says ${specWatchdog ? specWatchdog[1] + " s" : "nothing"}, the code says ${watchdog} ms`);
-  if (!specGrace || Number(specGrace[1]) * 1000 !== grace)
-    found.push(`SPEC grace says ${specGrace ? specGrace[1] + " s" : "nothing"}, the code says ${grace} ms`);
-  if (!qaTotal || Number(qaTotal[1]) * 1000 !== watchdog + grace)
-    found.push(`QA says the rescue takes about ${qaTotal ? qaTotal[1] : "?"} s, the code takes ${(watchdog + grace) / 1000} s`);
-
+  /* Rule 3 lived here: the 8-second watchdog and the 2-second grace window,
+     read out of App.jsx and held against SPEC's prose and QA step 32's "within
+     about 10 seconds". All four artefacts — the two constants, the SPEC
+     sentences and the QA step — went with the microphone on 2026-08-12. The
+     rule count drops 8 -> 7 because its subject is gone, not because a rule
+     was dropped to make a build pass. */
   rules += 1;
   const holdCode = num(d.hold, "HOLD_MS");
   const specHold = /hold an adult result control for\s*\n?\s*(\d+) ms/.exec(d.spec);
@@ -173,9 +179,20 @@ function run(d) {
      it; this rule means no one has to find it again. */
   rules += 1;
   const baseline = JSON.parse(d.baseline);
+  /* A RETIRED floor may still be quoted, and should be: the document explains
+     why a gate went, and the number it went with is part of the explanation.
+     It is checked against the retirement record, so the record cannot drift
+     from the prose either. What is refused is a key that is neither live nor
+     retired — a floor quoted from nowhere. */
+  const retired = baseline._retired || {};
   for (const m of d.gauntletDoc.matchAll(/`(g\d+[a-z0-9_]*)`\s*\((\d+)\)/g)) {
     const [, key, stated] = m;
-    if (!(key in baseline)) found.push(`the gate specification quotes ${key}, which is not a baseline key`);
+    if (key in retired) {
+      if (Number(stated) !== retired[key].was)
+        found.push(`the gate specification says ${key} retired at ${stated}, the baseline records ${retired[key].was}`);
+      continue;
+    }
+    if (!(key in baseline)) found.push(`the gate specification quotes ${key}, which is neither a live floor nor a retired one`);
     else if (Number(stated) !== baseline[key])
       found.push(`the gate specification says ${key} is ${stated}, the baseline enforces ${baseline[key]}`);
   }
@@ -193,16 +210,23 @@ function run(d) {
 }
 
 if (process.argv.includes("--self-test")) {
-  const seen = { spec: false, qa: false, timing: false, hold: false, recipe: false, bank: false, floor: false, unshipped: false };
+  const seen = { spec: false, blind: false, qa: false, hold: false, recipe: false, bank: false, floor: false, unshipped: false };
 
-  const specCorrupt = { ...real, spec: real.spec.replace(/^(\s{3}retry\s+)"[^"]+"$/m, '$1"A sentence the app never says."') };
+  const specCorrupt = { ...real, spec: real.spec.replace(/^(\s{3}heading\s+)"[^"]+"$/m, '$1"A sentence the app never says."') };
   seen.spec = run(specCorrupt).found.some((p) => p.startsWith("SPEC sentence missing"));
 
-  const qaCorrupt = { ...real, qa: real.qa.replace(/"Didn\u2019t catch that \u2014 tap to try again\."/, '"The microphone gave up completely."') };
-  seen.qa = run(qaCorrupt).found.some((p) => p.startsWith("QA sentence missing"));
+  /* The vacuous-rule control, and the reason rule 1 refuses an empty list at
+     all. Move the block's own anchor and the rule must SAY it is checking
+     nothing — the failure mode that would otherwise read as a pass. */
+  const blindCorrupt = { ...real, spec: real.spec.replace("2. Recorded voice:", "2. Something else entirely:") };
+  seen.blind = run(blindCorrupt).found.some((p) => p.startsWith("SPEC section 8 pins no sentences"));
 
-  const timingCorrupt = { ...real, qa: real.qa.replace(/Within about \d+ seconds/, "Within about 3 seconds") };
-  seen.timing = run(timingCorrupt).found.some((p) => p.startsWith("QA says the rescue takes"));
+  /* Re-pointed 2026-08-12: this used to corrupt "Didn\u2019t catch that \u2014 tap to try
+     again.", a microphone message. The QA script's longest quoted promises are
+     now the child's own prompt and the two update answers; the prompt is the
+     one a child meets, so it is the one the control breaks. */
+  const qaCorrupt = { ...real, qa: real.qa.replace(/"Say the word out loud! \u{1F4E3}"/u, '"Read the word to your grown-up now."') };
+  seen.qa = run(qaCorrupt).found.some((p) => p.startsWith("QA sentence missing"));
 
   const holdCorrupt = { ...real, hold: real.hold.replace(/const HOLD_MS = \d+/, "const HOLD_MS = 120") };
   seen.hold = run(holdCorrupt).found.some((p) => p.startsWith("SPEC hold says"));
@@ -232,7 +256,7 @@ if (process.argv.includes("--self-test")) {
     run(aheadDoc).found.some((p) => p.includes("says 900 items are approved and unshipped"));
 
   if (Object.values(seen).every(Boolean)) {
-    console.log("self-test OK: a reworded SPEC sentence, a reworded QA promise, a wrong timing, a changed hold constant, a stale recipe number in the document, a stale bank count in the chooser, a drifted gate floor, and an unshipped count that lags or runs ahead of the ledger are all caught");
+    console.log("self-test OK: a reworded SPEC sentence, a SPEC block whose anchor moved so the rule would check nothing, a reworded QA promise, a changed hold constant, a stale recipe number in the document, a stale bank count in the chooser, a drifted gate floor, and an unshipped count that lags or runs ahead of the ledger are all caught");
     process.exit(0);
   }
   console.error("self-test FAILED: " + JSON.stringify(seen));

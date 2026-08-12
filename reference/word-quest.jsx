@@ -65,32 +65,14 @@ const TRICKY = {
    Levels 8 and 9; ph was considered and left out - no word obeys the bank's
    own rules. */
 const DIGRAPHS = ["sh","ch","th","wh","ck","ng","qu","kn","wr","mb","ll","ss","ff","zz"];
-const HOMOPHONES = {
-  sun: ["son"], red: ["read"], mat: ["matt"], in: ["inn"], an: ["ann","anne"], ax: ["axe"],
-  not: ["knot"], him: ["hymn"], rap: ["wrap"], dug: ["doug"], fin: ["finn"], bin: ["been"],
-  cot: ["caught"], ring: ["wring"], rung: ["wrung"], sack: ["sac"], pick: ["pic"],
-  dam: ["damn"], fax: ["facts"], nix: ["nicks"], nun: ["none"], sax: ["sacks"],
-  tick: ["tic"], dock: ["doc"], what: ["watt"],
-  knot: ["not"], knit: ["nit"], wrap: ["rap"], lamb: ["lam"],
-  band: ["banned"], plum: ["plumb"],
-};
-/* Words speech recognition cannot judge fairly: the word sounds like the NAME
-   of the letter beside it, so a child who reads "am" perfectly is transcribed
-   as "m". The app never offers the microphone for these, because a correct
-   reading must never be reported as a miss. A word joins this list only when
-   the machine cannot represent it — never when the child might say it wrongly.
-   Vowel pairs like "pin" and "pen" stay on the microphone: a recogniser that
-   returns "pen" may be reporting exactly what the child said, and catching
-   that is the purpose of the game. */
-const ADULT_JUDGED = { am: "m", an: "n", ax: "x", if: "f", us: "s" };
-/* The adult's note for such a word. Composed from one template so the notes
-   can never drift apart, and never spoken: design rule 8 keeps letter names
-   out of speech. */
-const adultNote = (w) =>
-  ADULT_JUDGED[w]
-    ? `Parent: "${w}" and "${ADULT_JUDGED[w]}" are nearly indistinguishable, please act as judge here`
-    : "";
-
+/* The microphone is gone (owner-ruled 2026-08-11, safety; removed 2026-08-12), and
+   three things went with it because it was the only reason each existed.
+   HOMOPHONES was a 31-word near-miss table read by nothing but the transcript
+   matcher. ADULT_JUDGED named five words a recogniser could not judge fairly,
+   and adultNote() told a grown-up so. SPEC section 6 already ruled that the
+   note 'belongs to microphone mode only' and is absent when the adult judges
+   every word — which is now every word, always, so the SPEC's own rule deletes
+   it. Kept only if a reason survived the recogniser; none did. */
 const INTERVALS = [1, 1, 2, 4, 7, 12];
 const SESSION_SIZE = 20;
 const PROMPT_CAP = 26;
@@ -277,7 +259,6 @@ function healSettings(s) {
      child's name; it survived migrate and crashed the settings screen on the
      first .trim(). Every setting is healed to the type the app expects. */
   if (typeof s.settings.childName !== "string") s.settings.childName = String(s.settings.childName ?? "").slice(0, 20);
-  if (s.settings.mode !== "mic" && s.settings.mode !== "parent") s.settings.mode = d.mode;
   if (typeof s.settings.sound !== "boolean") s.settings.sound = d.sound;
   if (typeof s.settings.lang !== "string" || !s.settings.lang) s.settings.lang = d.lang;
 }
@@ -308,7 +289,7 @@ function migrate(s) {
 
 const newState = () => ({
   version: 3, level: 1, sessionsCompleted: 0, perfectStreak: 0,
-  settings: { mode: "mic", sound: true, childName: "", lang: "en-US" },
+  settings: { sound: true, childName: "", lang: "en-US" },
   words: {}, log: [],
 });
 
@@ -333,7 +314,6 @@ function speak(input, enabled, lang) {
 /* S2 — the queued reveal must never bleed into the next attempt. */
 function hush() { try { if ("speechSynthesis" in window) window.speechSynthesis.cancel(); } catch (e) {} }
 function buzz(ms) { try { if (navigator.vibrate) navigator.vibrate(ms); } catch (e) {} } // P2-8
-const SR = typeof window !== "undefined" ? (window.SpeechRecognition || window.webkitSpeechRecognition) : null;
 
 function feedbackParts(result, word) {
   const d = dashed(word);
@@ -595,10 +575,8 @@ export default function WordQuest() {
   const [seenTwice, setSeenTwice] = useState({});   // P2-11
   const [promptCount, setPromptCount] = useState(0);
   const [phase, setPhase] = useState("ready");
-  const [heard, setHeard] = useState("");
   const [lastGrade, setLastGrade] = useState(null);
   const [advanceReady, setAdvanceReady] = useState(true); // P0-3
-  const [micTried, setMicTried] = useState(false);        // N-8: label only — never gates replay
   const [exitAsk, setExitAsk] = useState(false);          // P1-4
   const [doneStats, setDoneStats] = useState(null);
   const [toast, setToast] = useState("");
@@ -607,7 +585,6 @@ export default function WordQuest() {
   const [openLevels, setOpenLevels] = useState({});       // P2-4
   const [nameDraft, setNameDraft] = useState("");
 
-  const recRef = useRef(null);
   const snapRef = useRef(null);            // N-3: word-state snapshot for lossless discard
   const liveRef = useRef(null);
   const advanceRef = useRef(null);
@@ -621,7 +598,6 @@ export default function WordQuest() {
       if (!alive || settled) return; settled = true;
       if (!s.settings.lang) s.settings.lang = "en-US";
       if (s.settings.childName === undefined) s.settings.childName = "";
-      if (!SR) s.settings.mode = "parent";
       setState(s); setNameDraft(s.settings.childName || ""); setScreen("home");
     };
     const timer = setTimeout(() => {
@@ -659,8 +635,8 @@ export default function WordQuest() {
     const q = buildSession(s);
     setState(s); setQueue(q); setQi(0);
     setFirstResults({}); setOrder([]); setRetries({}); setSeenTwice({});
-    setPromptCount(0); setPhase("ready"); setHeard(""); setLastGrade(null);
-    setMicTried(false); setAdvanceReady(true); setExitAsk(false);
+    setPromptCount(0); setPhase("ready"); setLastGrade(null);
+    setAdvanceReady(true); setExitAsk(false);
     snapRef.current = structuredClone(s.words);   // N-3
     setScreen("session");
   }
@@ -670,7 +646,6 @@ export default function WordQuest() {
   const totalQ = queue.length || SESSION_SIZE;  // P1-5
 
   function grade(result) {
-    hardStopRec();
     const s = structuredClone(stateRef.current);
     const word = queue[qi];
     const isRetry = firstResults[word] !== undefined;
@@ -704,7 +679,7 @@ export default function WordQuest() {
       setSeenTwice(s => ({ ...s, [word]: true }));   // P2-11
     }
     const np = promptCount + 1;
-    setPromptCount(np); setHeard(""); setLastGrade(null); setMicTried(false);
+    setPromptCount(np); setLastGrade(null);
     if (qi + 1 >= q.length || np >= PROMPT_CAP) finishSession(false);
     else { setQi(qi + 1); setPhase("ready"); }
   }
@@ -733,7 +708,6 @@ export default function WordQuest() {
   }
 
   function finishSession(partial) {
-    hardStopRec();
     const stats = commitSession(partial);
     setDoneStats(stats); setScreen("done"); setExitAsk(false);
     if (stats.promoted) buzz([30, 60, 30]);
@@ -741,49 +715,9 @@ export default function WordQuest() {
   }
 
   function handleExit(choice) {
-    hardStopRec();
     if (choice === "save") { finishSession(true); return; }
     if (choice === "discard") { hush(); discardSession(); setExitAsk(false); setScreen("home"); return; }
     setExitAsk(false);
-  }
-
-  /* ---------- microphone (P1-3 honest state) ---------- */
-  function startRec() {
-    if (!SR) { fallbackToParent("This browser can\u2019t listen \u2014 switched to grown-up mode."); return; }
-    try {
-      const rec = new SR();
-      rec.lang = (stateRef.current && stateRef.current.settings.lang) || "en-US";
-      rec.interimResults = false; rec.maxAlternatives = 5;
-      rec.onresult = (ev) => {
-        const alts = []; const res = ev.results[0];
-        for (let i = 0; i < res.length; i++) alts.push(res[i].transcript.toLowerCase().trim());
-        handleTranscripts(alts);
-      };
-      rec.onerror = (ev) => {
-        if (["not-allowed", "service-not-allowed", "audio-capture"].includes(ev.error)) fallbackToParent("Microphone isn\u2019t available \u2014 switched to grown-up mode.");
-        else if (ev.error === "no-speech") { setPhase("ready"); setMicTried(true); setToast("Didn\u2019t catch that \u2014 tap to try again."); }
-        else { setPhase("ready"); setMicTried(true); }
-      };
-      rec.onend = () => { recRef.current = null; setPhase(p => (p === "listening" ? "ready" : p)); setMicTried(true); };
-      recRef.current = rec; rec.start(); setPhase("listening");
-    } catch (e) { fallbackToParent("Microphone isn\u2019t available \u2014 switched to grown-up mode."); }
-  }
-  const listening = phase === "listening" && !!recRef.current;
-  function softStop() { try { if (recRef.current) recRef.current.stop(); else setPhase("ready"); } catch (e) { setPhase("ready"); } }
-  function hardStopRec() { try { if (recRef.current) { recRef.current.onend = null; recRef.current.stop(); } } catch (e) {} recRef.current = null; }
-  function fallbackToParent(msg) {
-    const s = structuredClone(stateRef.current); s.settings.mode = "parent";
-    setState(s); persist(s); setPhase("ready"); setToast(msg);
-  }
-  function handleTranscripts(alts) {
-    const word = queue[qi];
-    const ok = alts.some(a => {
-      const clean = a.replace(/[^a-z\s]/g, ""); const toks = clean.split(/\s+/).filter(Boolean);
-      const m = t => t === word || (HOMOPHONES[word] || []).includes(t);
-      return m(clean) || toks.some(m);
-    });
-    setHeard(alts[0] || "");
-    if (ok) grade("correct"); else setPhase("heard");
   }
 
   /* P1-1 + N-1 — replay exists only AFTER feedback; the word is never spoken pre-attempt */
@@ -794,7 +728,6 @@ export default function WordQuest() {
 
   /* ---------- settings ---------- */
   const mutate = (fn) => { const s = structuredClone(stateRef.current); fn(s); setState(s); persist(s); };
-  const setMode = (mode) => mutate(s => { s.settings.mode = mode; });
   const setSound = (on) => mutate(s => { s.settings.sound = on; });
   const setLang = (code) => mutate(s => { s.settings.lang = code; });
   const jumpLevel = (n) => { mutate(s => { s.level = n; s.perfectStreak = 0; }); setToast("Level set to " + n + " " + LEVELS[n - 1].emoji); };
@@ -807,7 +740,7 @@ export default function WordQuest() {
     try { await navigator.clipboard.writeText(md); setToast("Log copied \u2713"); } catch (e) { setCopyBox(md); }
   }
   function doReset() {
-    const s = newState(); if (!SR) s.settings.mode = "parent";
+    const s = newState();
     setState(s); persist(s); setNameDraft(""); setResetStage(0); setToast("All progress cleared.");
   }
 
@@ -858,7 +791,7 @@ export default function WordQuest() {
         {/* P2-7 — parent-facing copy lives in the grown-up strip, not under the child's button */}
         <Zone.Strip>
           <span className="wq-striplabel">grown-up</span>
-          <span style={{ fontSize: 12, color: C.strip }}>~20 words · about 5 minutes · {state.settings.mode === "mic" ? "microphone" : "you judge"}</span>
+          <span style={{ fontSize: 12, color: C.strip }}>~20 words · about 5 minutes · you judge</span>
         </Zone.Strip>
         {toast && <Toast>{toast}</Toast>}
       </Frame>
@@ -905,8 +838,6 @@ export default function WordQuest() {
                     {TRICKY[currentWord] && <p style={{ margin: "2px 0 0", fontSize: 12.5, fontWeight: 800, color: C.amberInk }}>⭐ {TRICKY[currentWord]}</p>}
                   </>
                 )}
-                {phase === "listening" && <p style={{ margin: 0, fontSize: 15, fontWeight: 800, color: C.action }}>🎙️ Listening…</p>}
-                {phase === "heard" && <p style={{ margin: 0, fontSize: 15, fontWeight: 700, color: C.ink2 }}>Nice try! Grown-up will check. 👇</p>}
               </div>
             </div>
           </div>
@@ -918,10 +849,6 @@ export default function WordQuest() {
               style={{ background: advanceReady ? C.green : "#9fb4c4" }}>
               {qi + 1 >= queue.length ? "🏁 Finish!" : "Next word ➡️"}
             </button>
-          ) : state.settings.mode === "mic" ? (
-            listening
-              ? <button className="wq-cta" onClick={softStop} style={{ background: C.ink }}>⏹️ Stop</button>
-              : <button className="wq-cta" onClick={startRec}>🎙️ {micTried ? "Record again" : "Start Recording"}</button>
           ) : (
             <div className="wq-prompt">{kid ? kid + ", say the word out loud! 📣" : "Say the word out loud! 📣"}</div>
           )}
@@ -938,9 +865,8 @@ export default function WordQuest() {
           </div>
           {/* N-12 + P0-2: one reserved marker line, so the strip height never changes
               and the word never moves between phases */}
-          <span className="wq-heard wq-mono">
-            {phase === "heard" && heard ? "heard “" + heard + "”"
-              : seenTwice[currentWord] && phase !== "feedback" ? "second look at this word" : " "}
+          <span className="wq-mark wq-mono">
+            {seenTwice[currentWord] && phase !== "feedback" ? "second look at this word" : " "}
           </span>
         </Zone.Strip>
 
@@ -1021,13 +947,6 @@ export default function WordQuest() {
               onChange={e => setNameDraft(e.target.value)} onBlur={commitName}
               placeholder="Leave blank to stay anonymous" className="wq-input" />
             <p className="wq-help">Saves when you tap away. Used only for greetings; stored on this device.</p>
-
-            <div className="wq-fieldrow">
-              <span className="wq-lbl">Answer mode</span>
-              <Seg options={[["mic", "🎙️ Mic"], ["parent", "👍 You judge"]]} value={state.settings.mode}
-                onChange={setMode} disabled={!SR ? ["mic"] : []} />
-            </div>
-            <p className="wq-help">The app only ever auto-confirms a <em>correct</em> reading. Anything else comes to you — recognition is unreliable for small voices.</p>
 
             <div className="wq-fieldrow">
               <span className="wq-lbl">Sounds</span>
@@ -1295,7 +1214,7 @@ const CSS = `
 .wq-holdfill{position:absolute;inset:0;width:0;opacity:.22}
 .wq-hold.holding .wq-holdfill{width:100%;transition:width .45s linear}
 .wq-sbtn:disabled{opacity:.38;cursor:default}
-.wq-heard{flex-basis:100%;font-size:11px;color:${C.strip};opacity:.9}
+.wq-mark{flex-basis:100%;font-size:11px;color:${C.strip};opacity:.9}
 
 /* progress (P1-6: colour + pattern) */
 .wq-prog{display:flex;gap:2px;width:100%}

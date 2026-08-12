@@ -129,7 +129,7 @@ const CSS = `
 .wq-holdfill{position:absolute;inset:0;width:0;opacity:.22}
 .wq-hold.holding .wq-holdfill{width:100%;transition:width .45s linear}
 .wq-sbtn:disabled{opacity:.38;cursor:default}
-.wq-heard{flex-basis:100%;font-size:11px;color:${C.strip};opacity:.9}
+.wq-mark{flex-basis:100%;font-size:11px;color:${C.strip};opacity:.9}
 
 /* progress (P1-6: colour + pattern) */
 /* The session path, owner-ruled 2026-08-12: one dot per word, at a size a
@@ -223,7 +223,6 @@ const CSS = `
 .wq-segbtn{flex:1 1 auto;min-width:44px;min-height:44px;border:0;background:transparent;border-radius:8px;
   color:${C.strip};cursor:pointer}
 .wq-segbtn.on{background:#fff;color:${C.ink};box-shadow:0 1px 3px rgba(23,53,107,.2)}
-.wq-segbtn:disabled{opacity:.4;cursor:default}
 .wq-rowbtn{display:flex;align-items:center;width:100%;border:0;background:transparent;padding:4px 0;cursor:pointer;min-height:44px}
 .wq-meter{display:flex;height:6px;border-radius:3px;background:${C.chip};overflow:hidden;margin-top:6px}
 .wq-trophy{display:inline-flex;align-items:center;justify-content:center;border:4px solid transparent;

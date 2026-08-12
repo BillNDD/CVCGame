@@ -29,13 +29,13 @@ The Word Quest symbol appears on the home screen. The app opens in its own windo
 
 The app stores all progress on the device. The app makes no network calls after the first load.
 
-## Give microphone permission
+## The app asks for no permissions
 
-1. Start a session in microphone mode.
-2. Tap "Start Recording".
-3. iOS asks for microphone permission one time. Tap "Allow".
+The app does not ask for the microphone, the camera, the photo library, or your location. It
+asks for nothing at all. If iOS ever asks you for a permission on behalf of this app, something
+is wrong: stop and check the address is the one you installed from.
 
-If you tap "Don't Allow", the app changes to adult mode. In adult mode, you give the results with the hold controls.
+You give every result yourself, with the hold controls in the grown-up strip.
 
 ## Remove the app
 

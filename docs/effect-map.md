@@ -8,7 +8,7 @@ Per-test rows carry the test's own sentence, which in this project IS the
 Given/When/Then effect. The requirement, oracle, platform, mutant family, evidence
 and known limits are declared per FILE, in the tool, where they stay true.
 
-Totals: 287 it() SITES across 13 files, plus 10 gates that are not test files.
+Totals: 252 it() SITES across 12 files, plus 10 gates that are not test files.
 
 A site inside a loop or a table runs many times, so these rows describe more tests than they number: Vitest executes 330. The rows count the places behaviour is asserted.
 
@@ -33,7 +33,7 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 8 | G10 — the text a grown-up reads on the child | 27: one completed session counts as  |
 | 9 | G10 — the text a grown-up reads on the child | 28 (control): two sessions still count as  |
 
-## tests/engine.test.js — 82 tests (G1)
+## tests/engine.test.js — 78 tests (G1)
 
 - **Requirement protected:** SPEC sections 3-4: the word bank, levels, chunking, the Leitner ladder, session shape and the reveal plan
 - **Independent oracle:** Literal expected values written from SPEC by hand (E4). Never the constant under test.
@@ -119,13 +119,9 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 73 | reference storage adapter | saves to the host and answers from memory when the host disappears |
 | 74 | reference storage adapter | reports an unsaved visit when the host write fails |
 | 75 | reference storage adapter | falls back to memory when the host read throws |
-| 76 | ASR tolerance list | accepts the VC near-misses |
-| 77 | ADULT_JUDGED — words recognition cannot judge fairly (SPEC section 3) | names exactly the five letter-name collisions, and the sound each one clashes with |
-| 78 | ADULT_JUDGED — words recognition cannot judge fairly (SPEC section 3) | composes the adult |
-| 79 | ADULT_JUDGED — words recognition cannot judge fairly (SPEC section 3) | every flagged word is a real bank word, and no vowel pair was flagged |
-| 80 | G1 — the system voice is never given a word it says wrongly | 75: no praise line contains a word with two pronunciations |
-| 81 | G1 — the system voice is never given a word it says wrongly | 76: with no unsafe line listed, every praise index reaches the system voice unchanged |
-| 82 | G1 — the system voice is never given a word it says wrongly | 77: the clip plan carries the new line to the pack |
+| 76 | G1 — the system voice is never given a word it says wrongly | 75: no praise line contains a word with two pronunciations |
+| 77 | G1 — the system voice is never given a word it says wrongly | 76: with no unsafe line listed, every praise index reaches the system voice unchanged |
+| 78 | G1 — the system voice is never given a word it says wrongly | 77: the clip plan carries the new line to the pack |
 
 ## tests/faults.test.js — 13 tests (G9)
 
@@ -246,26 +242,6 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 9 | G2 properties | P9: the session opens with the most secure word |
 | 10 | G2 properties | P10: migrate is total and idempotent, and its output survives the engine |
 
-## tests/recognizer.test.js — 8 tests (G15)
-
-- **Requirement protected:** SPEC section 8: the speech recognizer contract, including every way a browser can fail it
-- **Independent oracle:** A fake recognizer driven through each documented failure
-- **Platform:** node/jsdom
-- **Mutant family:** G19 transcript-acceptance family
-- **Evidence produced:** Vitest counts (floor g15_recognizer_tests)
-- **Known limits — what these tests do NOT prove:** A fake recognizer, not a real microphone: fairness across accents and voices is ADULT_JUDGED and unautomatable.
-
-| # | Suite | Effect (the test's own sentence) |
-|---|---|---|
-| 1 | G15 recognizer — R1: no event leaves the child with an unchanged screen | alphabet:  |
-| 2 | G15 recognizer — R1: no event leaves the child with an unchanged screen | control: the alphabet check catches a silent handler |
-| 3 | G15 recognizer — R1: no event leaves the child with an unchanged screen | every error code the specification defines is covered by name |
-| 4 | G15 recognizer — R2: an abandoned attempt can never touch the app | after ${ending}, a late  |
-| 5 | G15 recognizer — R2: an abandoned attempt can never touch the app | a late  |
-| 6 | G15 recognizer — R2: an abandoned attempt can never touch the app | control: the same event on the CURRENT attempt does change the screen |
-| 7 | G15 recognizer — R3: the  | 50: no per-word note when the grown-up is grading every word anyway |
-| 8 | G15 recognizer — R3: the  | 51 (control): the note is there when the microphone is doing the judging |
-
 ## tests/reveal.test.js — 15 tests (G10)
 
 - **Requirement protected:** SPEC section 5: the reveal, its pauses, the skip, and silence before the attempt ends
@@ -308,7 +284,7 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 2 | G10 safety — S6: the splash update controls are adult holds | 50: Update now appears only after a newer version answers, and only the adult hold sends the consent message |
 | 3 | G10 safety — S6: the splash update controls are adult holds | 51: a newer build of the same version is offered in plain words |
 
-## tests/safety.test.js — 49 tests (G10)
+## tests/safety.test.js — 25 tests (G10)
 
 - **Requirement protected:** Safety rules S1-S7: the app never records a miss by itself, never speaks the word early, and never reaches the network
 - **Independent oracle:** The exact SPEC sentences and literal control sizes
@@ -319,55 +295,31 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 
 | # | Suite | Effect (the test's own sentence) |
 |---|---|---|
-| 1 | G10 safety — S1: only an adult can record a miss | 1: a transcript that does not match records nothing and asks the adult |
-| 2 | G10 safety — S1: only an adult can record a miss | 2 (control): a matching transcript auto-confirms CORRECT, and only correct |
-| 3 | G10 safety — S1: only an adult can record a miss | 2a: a word buried in a sentence is NOT a reading, and records nothing |
-| 4 | G10 safety — S1: only an adult can record a miss | 2b: a reading with one word of filler beside it still counts |
-| 5 | G10 safety — S1: only an adult can record a miss | 2c: three words is a sentence, not a reading |
-| 6 | G10 safety — S1: only an adult can record a miss | 3: source tripwire — wrong and close fire only from the adult hold controls |
-| 7 | G10 safety — S2: the word is never spoken before the attempt ends | 4: nothing is spoken in the ready or listening phase, and replay is inert |
-| 8 | G10 safety — S2: the word is never spoken before the attempt ends | 4b: advancing to the next word silences any queued reveal |
-| 9 | G10 safety — S2: the word is never spoken before the attempt ends | 5 (control): after the attempt, speech says the full word and replay works |
-| 10 | G10 safety — W4b: a broken microphone never traps the child | 8: a recognizer whose stop() answers with end strikes once with a lasting message, twice into visit-only grown-up grading |
-| 11 | G10 safety — W4b: a broken microphone never traps the child | 8b: the true in-app-browser trap — no event ever, and stop() does nothing — is rescued by the grace window |
-| 12 | G10 safety — W4b: a broken microphone never traps the child | 8c: a dead recognizer whose stop() throws is rescued by the same grace window |
-| 13 | G10 safety — W4b: a broken microphone never traps the child | 9: the Stop control recovers even when the recognizer is dead |
-| 14 | G10 safety — W4b: a broken microphone never traps the child | 10: a mic failure that is not a denial blocks the mic for this visit only |
-| 15 | G10 safety — W4b: a broken microphone never traps the child | 11: an instant silent end is never a wordless no-op — message first, visit fallback second |
-| 16 | G10 safety — W4b: a broken microphone never traps the child | 12: a result that arrives after Stop still confirms a correct reading (iOS delivers after stop) |
-| 17 | G10 safety — W4b: a broken microphone never traps the child | 13: a tardy error from a stopped recognizer can never tear down the feedback phase |
-| 18 | G10 safety — W4b: a broken microphone never traps the child | 14: a pending result after a grade can never record the word twice |
-| 19 | G10 safety — W4b: a broken microphone never traps the child | 15: the watchdog re-arms while the engine shows life, so a slow reader is never cut off |
-| 20 | G10 safety — W4b: a broken microphone never traps the child | 15b: a Stop the child chose is never counted against the microphone |
-| 21 | G10 safety — W4b: a broken microphone never traps the child | 15c: tapping Record again over a live attempt starts cleanly, with no visit lockout |
-| 22 | G10 safety — W4b: a broken microphone never traps the child | 15d:  |
-| 23 | G10 safety — W4b: a broken microphone never traps the child | 15j: opening the exit dialog ends the attempt instead of listening behind it |
-| 24 | G10 safety — W4b: a broken microphone never traps the child | 15k: a reading cannot reach the app once the exit dialog is open |
-| 25 | G10 safety — W4b: a broken microphone never traps the child | 15l: the exit dialog |
-| 26 | G10 safety — W4b: a broken microphone never traps the child | 15m: a microphone failure is written once, and does not fade |
-| 27 | G10 safety — W4b: a broken microphone never traps the child | 15n (control): a grown-up confirmation with no slot of its own still toasts |
-| 28 | G10 safety — W4b: a broken microphone never traps the child | 15e: a browser that cannot listen never writes grown-up mode into the save |
-| 29 | G10 safety — W4b: a broken microphone never traps the child | 15f: a browser that cannot listen SAYS SO on the page, on every word |
-| 30 | G10 safety — W4b: a broken microphone never traps the child | 15g: a permission denial explains itself for as long as it lasts |
-| 31 | G10 safety — W4b: a broken microphone never traps the child | 15h: an adult who CHOSE grown-up mode is never nagged about it |
-| 32 | G10 safety — W4b: a broken microphone never traps the child | 15i: the Grown-ups corner explains its own disabled microphone option |
-| 33 | G10 safety — W4b: a broken microphone never traps the child | 16: a mode wrongly saved as grown-up by an old version heals back to microphone, one time |
-| 34 | G10 safety — W4c: an update never reloads under a child | 17: a new version mid-session waits for the session to end, then refreshes once |
-| 35 | G10 safety — W4c: an update never reloads under a child | 18 (control): with no session running the refresh is immediate, and a first install never reloads |
-| 36 | G10 safety — S4: a word the microphone cannot judge fairly | 19: the note is never spoken — letter names must not reach speech |
-| 37 | G10 safety — S4: a word the microphone cannot judge fairly | 20: such a word offers no microphone and tells the adult why |
-| 38 | G10 safety — S6 and S7: no network, big controls | 6: no app source makes a network call |
-| 39 | G10 safety — S6 and S7: no network, big controls | 7: the stylesheet keeps child controls at 56 px and adult controls at 44 px |
-| 40 | G10 safety — S6 and S7: no network, big controls | 8: no  |
-| 41 | G10 — free play never touches the save | 40: rights, wrongs and leaving write nothing at all |
-| 42 | G10 — free play never touches the save | 41 (control): the same grades in a real session DO reach the save |
-| 43 | G10 — free play never touches the save | 42: free play never says Finish and rolls into a new block |
-| 44 | G10 — free play never touches the save | 43: the header says FREE PLAY with a count-up, never x of 20 |
-| 45 | G10 — free play never touches the save | 44: a chooser stands between the tap and the game, and Back starts nothing |
-| 46 | G10 — free play never touches the save | 45: truly random draws from the whole bank, not the child |
-| 47 | G10 — free play never touches the save | 46: random play writes nothing and says what it is |
-| 48 | G10 — free play never touches the save | 47: a spent random block rolls into a fresh draw that never repeats the boundary word |
-| 49 | G10 safety — S6: the foreground check obeys the corner | 48: the check asks on a return to the foreground, and Off silences it at once |
+| 1 | G10 safety — S1: only an adult can record a result | 1: a whole session with no adult action records nothing |
+| 2 | G10 safety — S1: only an adult can record a result | 2 (control): the adult |
+| 3 | G10 safety — S1: only an adult can record a result | 2a: a wrong result also needs the adult, and records exactly one |
+| 4 | G10 safety — S1: only an adult can record a result | 3: source tripwire — EVERY grade fires only from an adult hold control |
+| 5 | G10 safety — S2: the word is never spoken before the attempt ends | 4: nothing is spoken in the ready phase, and replay is inert |
+| 6 | G10 safety — S2: the word is never spoken before the attempt ends | 4b: advancing to the next word silences any queued reveal |
+| 7 | G10 safety — S2: the word is never spoken before the attempt ends | 5 (control): after the attempt, speech says the full word and replay works |
+| 8 | A2-002: the exit dialog never changes underneath a grown-up | 17: all three controls are present on the first word, and Save is reserved and inert |
+| 9 | A2-002: the exit dialog never changes underneath a grown-up | 18: the dialog |
+| 10 | A2-002: the exit dialog never changes underneath a grown-up | 19 (control):  |
+| 11 | G10 safety — W4c: an update never reloads under a child | 17: a new version mid-session waits for the session to end, then refreshes once |
+| 12 | G10 safety — W4c: an update never reloads under a child | 18 (control): with no session running the refresh is immediate, and a first install never reloads |
+| 13 | G10 safety — S4: no letter name ever reaches speech | 19: the note is never spoken — letter names must not reach speech |
+| 14 | G10 safety — S6 and S7: no network, big controls | 6: no app source makes a network call |
+| 15 | G10 safety — S6 and S7: no network, big controls | 7: the stylesheet keeps child controls at 56 px and adult controls at 44 px |
+| 16 | G10 safety — S6 and S7: no network, big controls | 8: no  |
+| 17 | G10 — free play never touches the save | 40: rights, wrongs and leaving write nothing at all |
+| 18 | G10 — free play never touches the save | 41 (control): the same grades in a real session DO reach the save |
+| 19 | G10 — free play never touches the save | 42: free play never says Finish and rolls into a new block |
+| 20 | G10 — free play never touches the save | 43: the header says FREE PLAY with a count-up, never x of 20 |
+| 21 | G10 — free play never touches the save | 44: a chooser stands between the tap and the game, and Back starts nothing |
+| 22 | G10 — free play never touches the save | 45: truly random draws from the whole bank, not the child |
+| 23 | G10 — free play never touches the save | 46: random play writes nothing and says what it is |
+| 24 | G10 — free play never touches the save | 47: a spent random block rolls into a fresh draw that never repeats the boundary word |
+| 25 | G10 safety — S6: the foreground check obeys the corner | 48: the check asks on a return to the foreground, and Off silences it at once |
 
 ## tests/scheduler.test.js — 5 tests (G1)
 
@@ -433,7 +385,7 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 17 | update-system tripwires (source, with controls) | the version check bypasses the service worker and the precache |
 | 18 | update-system tripwires (source, with controls) | the update module can never touch saved progress |
 
-## tests/voicepacks.test.js — 10 tests (G13)
+## tests/voicepacks.test.js — 11 tests (G13)
 
 - **Requirement protected:** The voice pack's engine-side contract: every word has a clip and every clip a recipe
 - **Independent oracle:** tools/voice-words.csv, the human-edited source of truth
@@ -454,6 +406,7 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 8 | voice-pack clip engine | declares a playback session before anything sounds, so the silent switch cannot mute the words |
 | 9 | voice-pack clip engine | (control): with no microphone use the context is left alone |
 | 10 | voice-pack clip engine | App.jsx wires the packs at every speech site (source tripwire with control) |
+| 11 | voice-pack clip engine | the audio-route repair survives with no caller, ready for the family recorder |
 
 ## Gates that are not test files
 
@@ -465,7 +418,7 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | G5 | `tools/mutants.mjs` | That the engine tests bite | Killed mutants | A killed mutant proves detection of THAT fault only. |
 | G19 | `tools/app-mutants.mjs` | That the app tests bite | Killed mutants | Same limit, on the app half. |
 | G11 | `tools/copy-lint.mjs` | Every child-facing string against SPEC section 5 | The SPEC sentences | Wording is checked, not whether a child understands it. |
-| G12 | `docs/qa-procedure.md` | What automation cannot settle: a real device, a real child, a real microphone | A person following the steps | Human evidence; it is required, not optional, and no gate can replace it. |
+| G12 | `docs/qa-procedure.md` | What automation cannot settle: a real device, a real child, a real family | A person following the steps | Human evidence; it is required, not optional, and no gate can replace it. |
 | G13 | `tools/voice-check.mjs` | The shipped pack against tools/voice-words.csv | The CSV and the byte pins | Byte identity, never audio quality. |
 | G16 | `tools/doc-truth.mjs` | That the documents and the code agree | The documents | Agreement is not correctness; both can be wrong together. |
 | G17 | `tools/check-governing.mjs` | That no new status file appears unapproved | The owned set | Structural only. |

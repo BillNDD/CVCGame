@@ -6,9 +6,9 @@ import H3 from "../components/H3.jsx";
 import Seg from "../components/Seg.jsx";
 
 export default function ParentScreen({
-  state, nameDraft, setNameDraft, commitName, setMode, setSound, setLang, setUpdateCheck, jumpLevel,
+  state, nameDraft, setNameDraft, commitName, setSound, setLang, setUpdateCheck, jumpLevel,
   openLevels, setOpenLevels, copyLog, copyBox, resetStage, setResetStage, doReset,
-  onBack, srAvailable, micHint, onExportJSON, onImportJSON, toast, voiceFallback,
+  onBack, onExportJSON, onImportJSON, toast, voiceFallback,
 }) {
   return (
     <Frame>
@@ -28,15 +28,6 @@ export default function ParentScreen({
               onChange={e => setNameDraft(e.target.value)} onBlur={commitName}
               placeholder="Leave blank to stay anonymous" className="wq-input" />
             <p className="wq-help">Saves when you tap away. Used only for greetings; stored on this device.</p>
-
-            <div className="wq-fieldrow">
-              <span className="wq-lbl">Answer mode</span>
-              <Seg options={[["mic", "🎙️ Mic"], ["parent", "👍 You judge"]]} value={state.settings.mode}
-                onChange={setMode} disabled={!srAvailable ? ["mic"] : []} />
-              {/* A disabled control must explain itself, or it just looks broken. */}
-              {micHint && <p style={{ margin: "6px 0 0", fontSize: 12, color: C.ink2 }}>{micHint}</p>}
-            </div>
-            <p className="wq-help">The app only ever auto-confirms a <em>correct</em> reading. Anything else comes to you — recognition is unreliable for small voices.</p>
 
             <div className="wq-fieldrow">
               <span className="wq-lbl">Sounds</span>

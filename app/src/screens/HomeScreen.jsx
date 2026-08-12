@@ -80,7 +80,7 @@ export default function HomeScreen({ state, L, kid, masteredCount, persistent, r
           The update row (SPEC section 7a) wraps onto the strip's second line. */}
       <Zone.Strip>
         <span className="wq-striplabel">grown-up</span>
-        <span style={{ fontSize: 12, color: C.strip }}>~20 words · about 5 minutes · {state.settings.mode === "mic" ? "microphone" : "you judge"}</span>
+        <span style={{ fontSize: 12, color: C.strip }}>~20 words · about 5 minutes · you judge</span>
         <UpdateRow />
       </Zone.Strip>
       {fpChooser && <FreePlayChooser level={state.level} L={L} onChoose={onFreePlayChoose} onCancel={onFreePlayCancel} />}

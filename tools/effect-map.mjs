@@ -89,13 +89,6 @@ const DECLARED = {
     mutants: "G5 reveal and seam families", evidence: "Vitest counts (floor g10_reveal_tests)",
     limits: "Proves what is scheduled, never how it sounds — that is a listening round (G13).",
   },
-  "tests/recognizer.test.js": {
-    gate: "G15", requirement: "SPEC section 8: the speech recognizer contract, including every way a browser can fail it",
-    oracle: "A fake recognizer driven through each documented failure",
-    platform: "node/jsdom", mutants: "G19 transcript-acceptance family",
-    evidence: "Vitest counts (floor g15_recognizer_tests)",
-    limits: "A fake recognizer, not a real microphone: fairness across accents and voices is ADULT_JUDGED and unautomatable.",
-  },
   "tests/updates.test.js": {
     gate: "G14", requirement: "SPEC section 7a: the version and build comparison, and what a newer version may do",
     oracle: "Literal version and build strings", platform: "node/jsdom",
@@ -126,7 +119,7 @@ const NON_TEST_GATES = [
   ["G5", "tools/mutants.mjs", "That the engine tests bite", "Killed mutants", "A killed mutant proves detection of THAT fault only."],
   ["G19", "tools/app-mutants.mjs", "That the app tests bite", "Killed mutants", "Same limit, on the app half."],
   ["G11", "tools/copy-lint.mjs", "Every child-facing string against SPEC section 5", "The SPEC sentences", "Wording is checked, not whether a child understands it."],
-  ["G12", "docs/qa-procedure.md", "What automation cannot settle: a real device, a real child, a real microphone", "A person following the steps", "Human evidence; it is required, not optional, and no gate can replace it."],
+  ["G12", "docs/qa-procedure.md", "What automation cannot settle: a real device, a real child, a real family", "A person following the steps", "Human evidence; it is required, not optional, and no gate can replace it."],
   ["G13", "tools/voice-check.mjs", "The shipped pack against tools/voice-words.csv", "The CSV and the byte pins", "Byte identity, never audio quality."],
   ["G16", "tools/doc-truth.mjs", "That the documents and the code agree", "The documents", "Agreement is not correctness; both can be wrong together."],
   ["G17", "tools/check-governing.mjs", "That no new status file appears unapproved", "The owned set", "Structural only."],

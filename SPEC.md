@@ -31,8 +31,10 @@ the master source for behavior, data, and the build steps.
 
 These rules are mandatory.
 
-1. The app never records a wrong result by itself. Speech recognition is not reliable for young
-   voices. The app can only confirm a correct reading. The adult gives all other results.
+1. The app never records a wrong result by itself. Only an adult's action records any result at
+   all. Until 2026-08-12 there was one exception — speech recognition could confirm a correct
+   reading — and it was removed on safety grounds: recognition sends a child's voice to a
+   third party, which section 8's storage promise does not permit. The rule is now absolute.
 2. Feedback is positive. Feedback uses the exact text in section 5. A miss is an invitation to
    try again. A miss is not a failure message.
 3. The child reads first. The word appears with no help. The sound tiles appear only after the
@@ -66,8 +68,6 @@ These rules are mandatory.
 
 - Show one word at a time. Start with easy words. Increase the difficulty step by step.
 - Show the word in large, clear letters. The child reads the word aloud.
-- Microphone mode: the child taps "Start Recording", says the word, and taps "Stop". The app
-  examines the attempt.
 - Give feedback with the three fixed sentences in section 5.
 - Keep a log: the date, the words, the results, and the level.
 - Use a spaced-repetition engine. Mix current-level words, due reviews, and known words. Add
@@ -122,37 +122,17 @@ refused it for its adult tabloid meaning.
 
 Constants:
 
-```
-DIGRAPHS   = ["sh","ch","th","wh","ck","ng","qu","kn","wr","mb","ll","ss","ff","zz"]   // two-character scan, left to right
-TRICKY     = { was, is, has, wash, push, bush, she, the, what }   // exact notes in the reference
-HOMOPHONES = { sun:["son"], red:["read"], mat:["matt"], in:["inn"], an:["ann","anne"], ax:["axe"],
-               not:["knot"], him:["hymn"], rap:["wrap"], dug:["doug"], fin:["finn"], bin:["been"],
-               cot:["caught"], ring:["wring"], rung:["wrung"], sack:["sac"], pick:["pic"],
-               tick:["tic"], dock:["doc"], what:["watt"],
-               dam:["damn"], fax:["facts"], nix:["nicks"], nun:["none"], sax:["sacks"],
-               knot:["not"], knit:["nit"], wrap:["rap"], lamb:["lam"],
-               band:["banned"], plum:["plumb"] }
-SESSION_SIZE = 20
-PROMPT_CAP   = 26
-INTERVALS    = [1,1,2,4,7,12]   // sessions until due, by box 0..5
-```
+(A `HOMOPHONES` near-miss table lived here. Its only reader was the transcript matcher,
+so it retired with the microphone on 2026-08-12.)
+
 
 `chunkWord("ship")` gives `["sh","i","p"]`. The dashed form is `sh-i-p`.
 
-Some words cannot be judged fairly by speech recognition. A two-sound word whose consonant
-carries a letter name that sounds like the whole word is one: a child who reads "am" correctly
-is transcribed as "m", the name of the letter M. The app never offers the microphone for these
-words, so a correct reading can never be reported as a miss. `ADULT_JUDGED` names them and the
-sound each one collides with:
-
-```
-ADULT_JUDGED = { am: "m", an: "n", ax: "x", if: "f", us: "s" }
-```
-
-A word joins this list only when the microphone cannot represent it, never when the child might
-say it wrongly. Vowel pairs like "pin" and "pen" stay on the microphone: a recogniser that
-returns "pen" may be reporting exactly what the child said, and catching that is the purpose of
-the game.
+An `ADULT_JUDGED` list lived here: five words whose sound is the name of the letter beside
+them, so a child reading "am" perfectly was transcribed as "m". The app withheld the
+microphone for those five and told the adult why. Both halves retired on 2026-08-12 with the
+microphone itself — there is nothing to withhold, and section 6 had already ruled the note
+absent wherever the adult judges every word, which is now every word.
 
 To extend the bank, add words to a level's list or add a level object:
 `{ n, name, emoji, focus, words }`. Level sizes can differ; the session builder serves 20
@@ -226,7 +206,7 @@ streak alone never promotes outside a completed session. This path exists so a c
 clearly ready does not wait for the box schedule on a large level. The maximum level stays 7.
 
 Early exit. Opening the dialog ends the attempt in progress, exactly as each choice inside it
-does: the microphone stops, and the stage no longer says the app is listening. Nothing can be
+does. Nothing can be
 recorded while the dialog is on screen.
 
 The dialog reserves a place for each of its three controls, so no control ever moves while the
@@ -321,8 +301,8 @@ first available source:
 
 A whole utterance comes from one source. Voices never mix inside a sentence.
 
-The app takes the audio session back from the microphone before every reveal. A device that
-gives the microphone the whole session — iOS does — leaves playback on a narrow route meant
+The app takes the audio session back before every reveal. A device that gives a capture
+device the whole session — iOS does — leaves playback on a narrow route meant
 for a phone call, and every word after the child's first recording sounds thin. The app
 declares the session to be for playback and rebuilds its audio engine, which is what moves
 the route on versions that have no such setting. If the engine cannot be running in time,
@@ -389,22 +369,9 @@ phase. The app never says the word before the attempt.
 
 The screens are: home, session, done, and "Grown-ups corner".
 
-For a word in `ADULT_JUDGED`, a session in microphone mode shows the prompt used in grown-up
-mode instead of the record control, and the message slot carries one note for the adult:
-
-```
-Parent: "am" and "m" are nearly indistinguishable, please act as judge here
-```
-
-The note names the word and the sound it collides with. It appears at 11.5 px, so the longest
-note stays inside the fixed message slot and the word above never moves. The app never speaks
-this note: design rule 8 keeps letter names out of speech.
-
-The note belongs to microphone mode only. It exists to say that recognition cannot judge this
-one word, so it has nothing to tell an adult who is already judging every word — whether they
-chose grown-up grading in the corner or this visit cannot listen. In those sessions the slot
-carries no per-word note. A device-wide reason, such as a browser that cannot listen at all, is
-a different message and still appears.
+A per-word adult note lived here, for the five words recognition could not judge. It was
+ruled to belong to microphone mode only and to be absent wherever the adult judges every
+word; on 2026-08-12 that became every word, and the note retired with the microphone.
 
 Layout. Each screen has three fixed zones in a `100dvh` shell: a header, a stage, and an action
 rail with the "grown-up" strip below it. The word position in the stage does not move, and
@@ -422,20 +389,9 @@ stay directly under the word, because they explain it.
 Home. The title, an optional greeting with the name, the level, the counters, and the "Begin
 Session" control. Adult text shows in the strip, not below the child's control.
 
-Session, microphone mode:
-
-- The child taps "Start Recording". The app listens. The child taps "Stop".
-- Configuration: the locale from the settings, `interimResults: false`, `maxAlternatives: 5`.
-- If one alternative is equal to the target word, the app records a correct result. The match
-  test removes non-letters, accepts the homophones, and compares the whole transcript. A
-  transcript of two words or fewer also matches on either word, which allows a repeat or one
-  word of filler beside the reading. A longer transcript never matches, whichever words it
-  contains: a microphone hears the room, and a word found inside a sentence is not evidence
-  that the child read it. The adult judges those.
-- If the app does not identify the word, the stage shows a neutral message. The transcript shows
-  only in the strip, in small text. The adult gives the result.
-- If the app hears no speech, the app shows a short message and goes back to the ready state.
-- If the microphone is not available, the app changes to adult mode and keeps that setting.
+Session, microphone mode: removed 2026-08-12. Every session is now the one below, and the
+word "adult mode" is kept only where it distinguishes the past from the present — there is
+one mode and it needs no name.
 
 Session, adult mode. The stage asks the child to say the word aloud. The adult gives the result
 with the strip controls.
@@ -445,7 +401,7 @@ child-size control styled quieter than "Begin Session"). The tap opens a chooser
 word is shown, addressed to the grown-up, with two full child-size choices and a "Back"
 control that starts nothing: "Truly random", any word from the whole bank, and the child's
 level, the same mix a session would serve. The loop in both is the session loop — the same
-phases, microphone rules, feedback sentences, praise, reveal and wait — but it runs against
+phases, feedback sentences, praise, reveal and wait — but it runs against
 a throwaway copy of the progress and never writes. The header shows a "FREE PLAY" label and
 a count of words read instead of the progress bar and the x-of-20 count, both of which
 promise an ending this mode does not have. In level play the level chip stays; in truly
@@ -465,9 +421,9 @@ small in appearance, with a minimum target of 44 px.
 
 The strip marker line. The strip keeps one line below its controls, whether or not there is
 anything to show, so the strip height never changes and the word never moves between phases.
-The line shows what the microphone heard during the heard phase. Outside the feedback phase, a
+The line is reserved in every phase so the strip height never changes. Outside the feedback phase, a
 word the child is seeing again shows "Parent: second look". Every marker on this line names the
-adult as its reader, the same as the microphone messages and the tricky-word notes. A child can
+adult as its reader, the same as the tricky-word notes. A child can
 see this line, so a marker that reads as a verdict on the child's own attempt does not belong
 here: the words say who they are for.
 
@@ -524,7 +480,7 @@ One state object:
 
 ```
 { version, level: 1..7, sessionsCompleted, perfectStreak,
-  settings: { mode: "mic"|"parent", sound, childName, lang },
+  settings: { sound, childName, lang },     // `mode` retired 2026-08-12 with the microphone
   words: Record<string, WordState>,
   log: [ { n, date, level, c, k, w, acc, items:[{ w, r, retries }], partial } ] }
 ```
@@ -612,52 +568,31 @@ The reference build runs in a chat host. A standalone build changes four items:
    control, the app refreshes itself once. It waits for a safe moment to do so. A refresh
    never happens during a session, because it would take the screen away from the child and
    drop the words already read from that session's total.
-2. Microphone: use the standard permission flow. Use `webkitSpeechRecognition` where necessary.
-   If speech recognition is not available, use adult mode. Design rule 1 stays in all modes.
-   Listening never traps the child, and a failure is never silent. A recognizer that shows
-   no sign of life for 8 seconds is stopped; each time the engine reports sound or speech
-   the timer starts again, so a child who takes time to begin is not cut off. After any
-   stop, a 2-second grace window still accepts the finalized result — iOS often delivers it
-   only after the stop — so a reading confirmed late still counts. An event from an
-   abandoned attempt never reaches the screen: the feedback phase cannot be torn down by a
-   tardy error, and one reading can never record twice. A failure leaves its message in the
-   message slot until the next action. It is written once: the slot is its home, never the
-   slot and a passing toast at the same time. A toast carries a grown-up confirmation that
-   has no slot of its own, such as "Backup file saved." These are the exact sentences:
+2. Recorded voice: the app speaks with its own recorded pack, and falls back to the device's
+   own speech when it cannot. The microphone that lived in this item until 2026-08-12 is
+   gone; what replaced it here is the thing this item's fenced block always existed for — a
+   set of sentences the app must say, word for word, pinned in the document and checked
+   against the code.
+
+   A whole utterance comes from one source (section 5a). If the pack is missing any clip the
+   utterance needs, or the player will not run, the app uses the device's own speech instead.
+   The child's experience is unchanged: the words are still spoken and the results are still
+   saved. What is lost is the sound-out lighting up letter by letter, and the grown-up is
+   told so — in the "Grown-ups corner", never on the child's screen, and only after it has
+   actually happened. These are the exact sentences:
 
    ```
-   retry     "Didn’t catch that — tap to try again."
-   no mic    "The microphone isn’t available here — grown-up grading for this visit."
-   offline   "Can’t listen without the internet — a grown-up can check instead."
-   denied    "Microphone permission is off — switched to grown-up mode."
+   heading   "The recorded voice"
+   what      "The game is using your device's own voice at the moment, not its recorded one."
+   cost      "but the sound-out will not light up letter by letter."
    ```
 
-   A microphone that is absent says why, on the page, for as long as it stays absent. An
-   adult who chose grown-up mode sees none of these: that is a choice, not a fault. A denial
-   shows the standing sentence below, which lasts as long as the denial does and says how to
-   undo it, so the momentary sentence above appears only where the standing one cannot: a
-   device that refuses to store the marker, such as a browser in private mode. The
-   device-wide reason wins over the per-word one, because it is true of every word:
+   Every fallback names its own reason and the reason is shown with those sentences. There
+   are five and each has its own words: no audio player on this device, the pack did not
+   load, the pack has no clip for a named id, the player was not running when the words were
+   due, or playback threw. A fallback that leaves no trace is the fault this rule exists to
+   prevent: a pack that quietly stops resolving looks exactly like a design choice.
 
-   ```
-   no speech "Parent: this browser can’t listen. Chrome, Edge or Safari can use the microphone."
-   denied standing "Parent: microphone permission is off. Allow it, then choose the microphone in the Grown-ups corner."
-   corner    "This browser can’t listen. Chrome, Edge or Safari can use the microphone."
-   ```
-
-   Only an attempt that produces no event at all counts against the microphone: one invites
-   a retry, a second switches to grown-up grading for that visit only. A "Stop" the child
-   chooses ends the attempt in silence and counts nothing. The "Stop" control always works,
-   even when the recognizer is dead. A missing or unavailable microphone switches to
-   grown-up grading for the visit at once.
-
-   The saved answer mode belongs to the child, not to the browser. Only an explicit
-   permission denial or an adult's choice in the "Grown-ups corner" changes it. A visit that
-   cannot listen shows grown-up grading without writing anything, so the microphone returns
-   on the next open in a browser that can listen. A mode saved as grown-up by an app version
-   that predates this rule heals back to microphone one time. Those versions did not record
-   who chose the mode, so this one-time heal can also undo a grown-up's own earlier choice;
-   the corner toggle sets it back, and every choice from this version on is remembered.
 3. Storage: change the storage adapter to IndexedDB with the same one-object schema. Add JSON
    export and import of the full state.
 4. Optional, later: a cloud pronunciation-score API behind a small server proxy. Keep the API key
@@ -709,8 +644,8 @@ The minimum platform is iPadOS 15.4 or later, or an equivalent browser. The app 
 - [ ] First start: the first session gives the 12 Level 1 words and no other words.
 - [ ] A version 2 save at level N opens at level N+1. The word data does not change.
 - [ ] Next-level words appear only after the child has seen all current-level words.
-- [ ] Microphone mode: a correct word gives an automatic correct result. All other attempts go to
-      the adult. A microphone refusal changes the app to adult mode without an error.
+- [ ] No result of any kind is recorded without an adult's action. A whole session left alone
+      records nothing, and the app reaches no recogniser and no capture device at any point.
 - [ ] The page does not scroll in a session at standard text sizes. At 200 percent text size, the
       stage can scroll. No content is cut off.
 - [ ] The word position does not move between phases.
@@ -740,7 +675,7 @@ The minimum platform is iPadOS 15.4 or later, or an equivalent browser. The app 
 > Tailwind PWA that obeys the specification exactly. First move the engine functions
 > (`chunkWord`, the result rules, `buildSession`, promotion, the early-exit rules) into pure
 > modules with Vitest tests. Then build the interface. Change the storage adapter to IndexedDB
-> (section 8, item 3). Use the standard microphone permission flow (section 8, item 2) with
+> (section 8, item 3). Follow the recorded-voice rules (section 8, item 2) with
 > design rule 1. Then check each item in section 10. Do not build section 8, item 4. Make the
 > interface stub only.
 
@@ -912,7 +847,7 @@ The owner ruled the boundaries on 2026-08-11.
    only from a real source, only with tap-to-hear available.
 3. **A result is recorded, and only an adult can record it.** The grown-up marks the
    passage read on the same 450 ms hold as every other result. Safety rule S1 is untouched:
-   the app never marks a passage read by itself, and speech recognition may still only
+   the app never marks a passage read by itself, and only an adult's action may
    confirm, never refuse.
 4. **The credit names the book and the author, spoken.** Safety rule S9 is amended for
    this and nothing else: the name of a published author may appear in the repository and
@@ -947,7 +882,7 @@ screen.
 The owner ruled the shape on 2026-08-11.
 
 1. **It teaches both the controls and the phonics.** How to hold to grade, when to choose
-   the microphone and when to judge by ear, what replay and skip do, where backups live —
+   to grade and when to invite another try, what replay and skip do, where backups live —
    and the teaching behind them: what a sound-out is, why the app never says a letter name,
    what a tricky word is, and why the app waits before it will let anyone move on. A parent
    who knows only the buttons cannot tell a good session from a bad one.

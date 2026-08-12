@@ -18,16 +18,19 @@ This document follows the Microsoft Writing Style Guide.
    Expected: The app opens in its own window, without the Safari controls.
 4. Turn on Airplane Mode. Close the app fully. Open it again.
    Expected: The app starts, and a session begins normally, with no network.
-5. Turn Airplane Mode off. Start a session. Tap "Start Recording".
-   Expected: iPadOS asks for microphone permission, one time only.
-6. Tap "Allow". Say the word on the screen, clearly.
+5. Turn Airplane Mode off. Start a session and look at the whole screen before touching it.
+   Expected: The app asks for no permission of any kind. There is no record control. The
+   rail says "Say the word out loud! 📣".
+6. Have the child read the word, then press and hold "✓ got it".
    Expected: The app shows "Great job! That is ...", and says one praise sentence, then,
    "The word was ...". Praise varies over several words. The same sentence can
    repeat by chance.
-7. On the next word, say a different word on purpose.
-   Expected: The app shows "Nice try! Grown-up will check." and records no result.
-8. On a fresh install, tap "Don't Allow" for the microphone.
-   Expected: The app changes to grown-up mode, says so, and keeps that setting.
+7. On the next word, press and hold "↻ not yet".
+   Expected: The app shows "Good try!" and invites another go. It never says the child was
+   wrong, and the word comes back later in the session.
+8. Leave the next word on screen and touch nothing for a full minute.
+   Expected: Nothing is recorded, the word does not change, and the app never grades by
+   itself. Only your hold records anything, ever.
 
 ## Adult controls — hold gesture
 
@@ -102,13 +105,12 @@ This document follows the Microsoft Writing Style Guide.
 31. Turn on Airplane Mode and repeat the previous step.
     Expected: The same recorded voice speaks. Offline changes nothing.
 
-## Microphone resilience
+## The recorded voice falls back honestly
 
-32. Open the game link from a Messages chat, so it opens in the in-app browser. Start a session and tap "Start Recording".
-    Expected: Within about 10 seconds the message "Didn’t catch that — tap to try again."
-    appears and stays on screen. A second silent attempt switches to grown-up grading for
-    this visit, with the reason on screen. Nothing freezes. Opening the game later in
-    Safari brings the microphone back.
+32. In the "Grown-ups corner", read the screen from top to bottom before playing anything.
+    Expected: There is no "The recorded voice" box, because nothing has fallen back. Grade
+    one word with sound on, listen to the whole reveal, and come back: still no box, and the
+    sound-out lit up letter by letter as each sound played.
 
 ## Updates
 
@@ -124,17 +126,25 @@ This document follows the Microsoft Writing Style Guide.
     Expected: The switch is still Off. "Check for updates" on the first screen still
     answers when held, and nothing else about the corner changed.
 
-## Audio after the microphone
+## Audio after a recording — PARKED until the family recorder ships
 
-37. On the iPhone or iPad, grade a word with sound on and listen. Then tap "Start Recording" on the next word, let it finish, and listen to that reveal.
-    Expected: Both reveals sound the same. The second is not quieter, thinner, or tinny. Repeat once more: the third reveal still sounds the same as the first.
+37. Grade two words in a row with sound on and listen to both reveals.
+    Expected: Both reveals sound the same. The second is not quieter, thinner, or tinny.
+
+    This step used to open the microphone between the two reveals, because iOS moves the
+    whole audio session to "play and record" whenever any capture device opens and leaves
+    playback on the narrow route it wants for a call — a real fault, caught on a real iPhone.
+    The microphone went on 2026-08-12, so nothing on the device can trigger it today. The
+    repair (`reclaimOutput`) is deliberately kept in the code, because the family voice-pack
+    recorder will open a capture device when it ships, and this step goes back to opening one
+    between the reveals on the day it does.
 
 ## Leaving a session early
 
-38. In microphone mode, tap "Start Recording", tap the home control while the app is still listening, then read the word out loud after the dialog appears.
-    Expected: "🎙️ Listening…" disappears the moment the dialog opens. The dialog shows three
-    controls: an inert "Save as a short session", "Discard and go home", and "Keep reading".
-    Nothing you say is recorded, and no control moves. "Keep reading" returns to the same word.
+38. On the first word of a session, tap the home control, then look at the dialog without touching it.
+    Expected: The dialog shows three controls: an inert "Save as a short session", "Discard
+    and go home", and "Keep reading". Nothing moves while it is open, and no control appears
+    or disappears underneath your finger. "Keep reading" returns to the same word.
 
 ## Skipping a reveal
 

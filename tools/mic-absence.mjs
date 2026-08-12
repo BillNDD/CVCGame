@@ -40,7 +40,7 @@
 
    Run: node tools/mic-absence.mjs [--source] [--bundle] [--runtime]
         node tools/mic-absence.mjs --self-test */
-import { readFileSync, existsSync, readdirSync, statSync } from "node:fs";
+import { readFileSync, existsSync, readdirSync, statSync, writeFileSync, rmSync } from "node:fs";
 import { execSync } from "node:child_process";
 import { join } from "node:path";
 
@@ -63,27 +63,59 @@ const TERMS = [
    was allowed. EMPTY IS THE GOAL. A file listed here is a file this check is
    not checking, so the list is printed on every run and belongs in review. */
 const ALLOWED = {
+  "tools/record-reveal.mjs":
+    "a developer's screen-and-sound recorder for reviewing a reveal; runs on a workstation and "
+    + "ships nothing to a child — added 2026-08-12",
+  "tools/app-mutants.mjs":
+    "the note recording the four transcript mutants retired on 2026-08-12 has to name what "
+    + "they were — added 2026-08-12",
+  "app/src/pronunciation.js":
+    "AWAITING AN OWNER RULING, 2026-08-12. The SPEC section 8 item 4 stub takes a Blob of the "
+    + "child's voice. Nothing imports it and nothing can now produce that Blob. The owner ruled "
+    + "on the audio-test page, not on this; a cloud scoring API would face the same S6 objection "
+    + "as the recogniser did, and that ruling is not on record. Listed so the question is loud on "
+    + "every run instead of quietly blocking the gate.",
   // "app/src/recorder.js": "family voice-pack recorder, owner-kept (D1) — added YYYY-MM-DD",
 };
 
-const SOURCE_ROOTS = ["app/src", "app/public", "src", "reference", "tools", "tests"];
-const SKIP_DIRS = new Set(["node_modules", "dist", ".git", "generated", "voice", "pending-sounds"]);
+/* TRACKED files, from git — not a filesystem walk. The first version walked
+   directories, and picked up `reference/.mutant.jsx`: a gitignored working
+   file that the mutation gate writes and deletes many times a run. A gauntlet
+   killed halfway leaves one behind, so this check went RED on a machine with
+   no product fault at all and CLEAN on the next. A gate whose answer depends
+   on whether somebody once pressed Ctrl-C is not a gate.
+   Asking git also makes the header's own words true: it says "no tracked
+   source file", and now that is what it reads. */
+const CODE = /\.(js|cjs|mjs|jsx|ts|tsx|html|json|webmanifest)$/;
+const trackedFiles = () =>
+  execSync("git ls-files -z", { encoding: "buffer" }).toString("utf8")
+    .split("\0").filter((f) => f && CODE.test(f));
 /* This file names every term it hunts for, so it can never be its own subject. */
 const SELF = "tools/mic-absence.mjs";
 
-const walk = (dir, out = []) => {
+/* The built payload is not tracked, so it is walked — but only app/dist, which
+   the build owns entirely. */
+const distFiles = (dir = "app/dist", out = []) => {
   if (!existsSync(dir)) return out;
   for (const name of readdirSync(dir)) {
-    if (SKIP_DIRS.has(name)) continue;
-    const p = join(dir, name);
-    const st = statSync(p);
-    if (st.isDirectory()) walk(p, out);
-    else if (/\.(js|mjs|jsx|ts|tsx|html|json)$/.test(name)) out.push(p);
+    const f = join(dir, name);
+    if (statSync(f).isDirectory()) distFiles(f, out);
+    else if (CODE.test(name)) out.push(f);
   }
   return out;
 };
 
 const hitsIn = (text) => TERMS.filter((t) => text.includes(t));
+
+/* scan() without the printing, for the self-test's allowlist controls. */
+function scanSilently(files) {
+  let n = 0;
+  for (const f of files) {
+    if (f === SELF || ALLOWED[f]) continue;
+    try { n += hitsIn(readFileSync(f, "utf8")).length ? 1 : 0; } catch { /* unreadable */ }
+  }
+  return n;
+}
 
 function scan(files, label) {
   const found = [];
@@ -135,11 +167,29 @@ async function runtime() {
       Object.defineProperty(window, name, {
         configurable: true,
         get() { note(name); return function Fake() { return { start() {}, stop() {}, abort() {} }; }; },
+        /* A setter, because this must OBSERVE and never steer: with a getter
+           alone, `window.SpeechRecognition = X` throws in strict mode and
+           changes what the app does. */
+        set() {},
       });
     }
-    if (navigator.mediaDevices) {
-      const real = navigator.mediaDevices.getUserMedia;
-      navigator.mediaDevices.getUserMedia = function (...a) { note("getUserMedia"); return real.apply(this, a); };
+    /* Wrap the PROTOTYPE, not the instance: a call made as
+       MediaDevices.prototype.getUserMedia.call(navigator.mediaDevices, ...)
+       walks straight past an own-property wrapper. The legacy aliases are
+       trapped too — they are the ones an old snippet reaches for. */
+    if (window.MediaDevices && MediaDevices.prototype.getUserMedia) {
+      const real = MediaDevices.prototype.getUserMedia;
+      MediaDevices.prototype.getUserMedia = function (...a) { note("getUserMedia"); return real.apply(this, a); };
+    }
+    for (const legacy of ["getUserMedia", "webkitGetUserMedia", "mozGetUserMedia"]) {
+      Object.defineProperty(navigator, legacy, {
+        configurable: true,
+        get() { note("navigator." + legacy); return function () {}; },
+      });
+    }
+    if (window.MediaDevices && MediaDevices.prototype.getDisplayMedia) {
+      const realD = MediaDevices.prototype.getDisplayMedia;
+      MediaDevices.prototype.getDisplayMedia = function (...a) { note("getDisplayMedia"); return realD.apply(this, a); };
     }
     /* Control on the trap itself: if this probe reported zero because the trap
        never installed, this line would not appear either. */
@@ -150,8 +200,11 @@ async function runtime() {
   const installed = await page.evaluate(() => window.__micTrapInstalled === true);
   if (!installed) { console.log("  runtime BROKEN: the trap did not install; this run proves nothing"); await browser.close(); try { process.kill(-server.pid); } catch {} return 1; }
 
-  /* A whole session, not a glance at the home screen. */
-  await page.getByRole("button", { name: "Begin Session" }).click();
+  /* A whole session, not a glance at the home screen — and COUNTED, because a
+     walk whose every step is wrapped in .catch() can silently grade nothing
+     and still be described as a session. */
+  let graded = 0;
+  await page.getByRole("button", { name: /Begin Session/ }).click();
   await page.locator(".wq-word").waitFor();
   for (let i = 0; i < 3; i++) {
     const rec = page.getByRole("button", { name: /Record/ });
@@ -159,17 +212,30 @@ async function runtime() {
     await page.waitForTimeout(300);
     const b = page.getByRole("button", { name: "✓ got it (hold)" });
     if (!(await b.count())) break;
-    await b.focus(); await b.press("Enter");
+    await b.focus(); await b.press("Enter"); graded += 1;
     await page.locator(".wq-tile").first().waitFor().catch(() => {});
     await page.waitForFunction(() => { const x = document.querySelector(".wq-rail .wq-cta"); return !!x && !x.disabled; },
       null, { timeout: 12000 }).catch(() => {});
     await page.locator(".wq-rail .wq-cta").click().catch(() => {});
     await page.locator(".wq-word").waitFor().catch(() => {});
   }
+  /* READ THE SESSION'S EVIDENCE BEFORE NAVIGATING AGAIN. Playwright re-runs
+     addInitScript on every navigation, so the `window.__micCalls = []` at the
+     top of the trap re-executes and the whole session walk is erased. The
+     first version of this function read the array AFTER a goto() and then
+     printed "a whole session reached no recogniser" — a sentence that was
+     false by construction, and that the direct-read control could not catch,
+     because that control runs on the fresh document too. Found in review,
+     2026-08-12, after the result had already been reported as proof. */
+  const sessionCalls = await page.evaluate(() => window.__micCalls || []);
+  if (graded === 0) {
+    console.log("  runtime BROKEN: no word was graded, so no session was walked; this run proves nothing");
+    await browser.close(); try { process.kill(-server.pid); } catch {} return 1;
+  }
   await page.goto(URL, { waitUntil: "load" });
-  await page.getByRole("button", { name: "Grown-ups corner" }).click().catch(() => {});
+  await page.getByRole("button", { name: /Grown-ups corner/ }).click().catch(() => {});
   await page.waitForTimeout(500);
-  const calls = await page.evaluate(() => window.__micCalls || []);
+  const calls = [...sessionCalls, ...await page.evaluate(() => window.__micCalls || [])];
 
   /* Negative control on the trap: ask for the constructor directly. If this
      does NOT register, the probe above was reading nothing and its zero means
@@ -184,7 +250,7 @@ async function runtime() {
 
   if (control < 1) { console.log("  runtime BROKEN: the trap does not register a direct constructor read"); return 1; }
   console.log(`  control OK: the trap registers a direct constructor read (${control})`);
-  if (!calls.length) { console.log("  runtime CLEAN: a whole session reached no recogniser and no capture device"); return 0; }
+  if (!calls.length) { console.log(`  runtime CLEAN: ${graded} graded words, the corner, and the home screen reached no recogniser and no capture device`); return 0; }
   console.log(`  runtime RED: the app reached ${[...new Set(calls)].join(", ")} (${calls.length} times)`);
   return calls.length;
 }
@@ -202,20 +268,53 @@ if (process.argv.includes("--self-test")) {
   const recorder = 'navigator.mediaDevices.getUserMedia({ audio: true })';
   if (!hitsIn(recorder).length) { console.error("control FAILED: a capture device open is not caught"); bad = 1; }
   else console.log("ok   opening a capture device is caught (the family recorder must be allowlisted BY NAME)");
-  console.log(bad ? "mic-absence self-test FAILED" : "mic-absence self-test: 3 passed, 0 failed");
+
+  /* The allowlist is the mechanism most likely to turn this tool into
+     decoration, so it gets its own two controls: a listed file must be
+     skipped, and an UNLISTED one holding the same text must not be. Without
+     the second, an allowlist that matched everything would look like a pass. */
+  const probe = "tools/fixtures/mic-allowlist-probe.js";
+  writeFileSync(probe, 'const SR = window.webkitSpeechRecognition;\n');
+  try {
+    const unlisted = scanSilently([probe]);
+    ALLOWED[probe] = "self-test fixture";
+    const listed = scanSilently([probe]);
+    delete ALLOWED[probe];
+    if (unlisted === 1 && listed === 0) console.log("ok   the allowlist suppresses exactly the file it names, and nothing else");
+    else { console.error(`control FAILED: allowlist behaviour wrong (unlisted=${unlisted}, listed=${listed})`); bad = 1; }
+  } finally { rmSync(probe, { force: true }); }
+  console.log(bad ? "mic-absence self-test FAILED" : "mic-absence self-test: 4 controls passed, 0 failed");
   process.exit(bad);
 }
 
-const want = (f) => process.argv.includes(f) || process.argv.length === 2;
-let red = 0;
-if (want("--source")) red += scan(SOURCE_ROOTS.flatMap((d) => walk(d)), "source");
-if (want("--bundle")) {
-  if (!existsSync("app/dist")) { console.log("bundle: no app/dist — run npm --prefix app run build first"); red += 1; }
-  else red += scan(walk("app/dist"), "bundle");
+const FLAGS = ["--source", "--bundle", "--runtime"];
+const given = process.argv.slice(2);
+const unknown = given.filter((a) => !FLAGS.includes(a) && a !== "--self-test");
+if (unknown.length) {
+  /* `node tools/mic-absence.mjs --sourc` used to run NOTHING and exit 0 —
+     a green with zero checks performed, in a tool whose whole job is to
+     refuse exactly that shape of answer. */
+  console.error(`mic-absence: unknown flag ${unknown.join(", ")}. Use ${FLAGS.join(", ")} or no flag for all three.`);
+  process.exit(2);
 }
-if (want("--runtime")) { console.log("runtime:"); red += await runtime(); }
+const want = (f) => given.includes(f) || given.length === 0;
+let red = 0;
+/* The summary may only claim what actually ran. Saying "nothing shipped" after
+   a --runtime-only run would be a detector lying about its own coverage, which
+   is the fault this whole tool exists to make impossible. */
+const ran = [];
+if (want("--source")) { red += scan(trackedFiles(), "source"); ran.push("no source hit"); }
+if (want("--bundle")) {
+  /* Build it here rather than trusting whatever app/dist happens to hold: a
+     stale bundle from before a change reads as "nothing shipped". */
+  if (!process.env.WQ_SKIP_BUILD) execSync("npm --prefix app run build", { stdio: "pipe" });
+  if (!existsSync("app/dist")) { console.log("bundle: no app/dist — the build produced nothing"); red += 1; }
+  else { red += scan(distFiles(), "bundle"); ran.push("nothing shipped"); }
+}
+if (want("--runtime")) { console.log("runtime:"); red += await runtime(); ran.push("a whole session reached no recogniser"); }
 
 console.log(red
   ? `\nmic-absence: RED — ${red} findings. The child-facing microphone is still here.`
-  : "\nmic-absence: CLEAN — no source hit, nothing shipped, and a whole session reached no recogniser.");
+  : `\nmic-absence: CLEAN on what was run — ${ran.join(", ")}.`
+    + (ran.length === 3 ? "" : "  NOT a full pass: run with no flags for all three."));
 process.exit(red ? 1 : 0);

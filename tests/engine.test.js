@@ -4,12 +4,11 @@
 import { describe, it, expect, vi, afterEach } from "vitest";
 import { readFileSync } from "node:fs";
 import {
-  LEVELS, DIGRAPHS, TRICKY, HOMOPHONES, INTERVALS, SESSION_SIZE, PROMPT_CAP, WORD_LEVEL,
+  LEVELS, DIGRAPHS, TRICKY, INTERVALS, SESSION_SIZE, PROMPT_CAP, WORD_LEVEL,
   chunkWord, dashed, freshWordState, applyResult, buildSession, checkPromotion,
   heal, migrate, newState, buildMarkdown, loadState, saveState, speak, hush, buzz, feedbackSpeech, PRAISE,
   SEAM_MS, SOUNDOUT_SEAM_MS, voiceScript, clipPlan, resolvePack, TTS_UNSAFE_PRAISE, ttsSafePraise,
   soundInventory, soundIdFor, soundIdsFor, tileSlots, isSeam, seamMs,
-  ADULT_JUDGED, adultNote,
 } from "../src/engine.js";
 
 const clone = (o) => JSON.parse(JSON.stringify(o));
@@ -693,44 +692,12 @@ describe("reference storage adapter", () => {
 });
 
 /* ---------------- homophones ---------------- */
-describe("ASR tolerance list", () => {
-  it("accepts the VC near-misses", () => {
-    expect(HOMOPHONES.in).toContain("inn");
-    expect(HOMOPHONES.ax).toContain("axe");
-    expect(HOMOPHONES.an).toContain("ann");
-  });
-})
-
-describe("ADULT_JUDGED — words recognition cannot judge fairly (SPEC section 3)", () => {
-  it("names exactly the five letter-name collisions, and the sound each one clashes with", () => {
-    expect(ADULT_JUDGED).toEqual({ am: "m", an: "n", ax: "x", if: "f", us: "s" });
-  });
-
-  it("composes the adult's note from one template, and nothing for any other word", () => {
-    expect(adultNote("am")).toBe('Parent: "am" and "m" are nearly indistinguishable, please act as judge here');
-    expect(adultNote("us")).toBe('Parent: "us" and "s" are nearly indistinguishable, please act as judge here');
-    expect(adultNote("cat")).toBe("");
-    expect(adultNote("")).toBe("");
-  });
-
-  it("every flagged word is a real bank word, and no vowel pair was flagged", () => {
-    const bank = new Set(LEVELS.flatMap((l) => l.words));
-    for (const w of Object.keys(ADULT_JUDGED)) expect(bank.has(w)).toBe(true);
-    // a recogniser returning "pen" for "pin" may be reporting the child correctly:
-    // that is a reading error to catch, never a reason to remove the microphone
-    for (const w of ["pin", "pen", "bad", "bed", "cap", "cup"]) expect(ADULT_JUDGED[w]).toBe(undefined);
-  });
-});
-
-/* The system voice says "reed" for "read". The recorded pack does not: its
-   praise clip is rendered from an explicit past-tense pronunciation, and G13
-   fails the build if that override is dropped. But the pack is not the only
-   thing that speaks. Whenever it cannot play — a locked audio context, a clip
-   that will not decode, a device that has taken the audio session — the app
-   hands the same sentence to the system voice, which has no such instruction
-   and says "reed" to a child who has just read the word.
-   That is the fault beta.6 was published for, returning through a path no
-   gate watched: G13 checks the pack, and nothing checked the fallback. */
+/* Two describes lived here and retired with the microphone on 2026-08-12.
+   "ASR tolerance list" held HOMOPHONES, a 31-word near-miss table read by
+   nothing but the transcript matcher. "ADULT_JUDGED" held the five words a
+   recogniser could not judge fairly and the adult note that said so; SPEC
+   section 6 had already ruled that note absent wherever the adult judges every
+   word, which is now every word. Neither constant exists. */
 describe("G1 — the system voice is never given a word it says wrongly", () => {
   it("75: no praise line contains a word with two pronunciations", () => {
     /* "You read that word all by yourself!" said "reed" through the fallback

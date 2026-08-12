@@ -242,7 +242,28 @@ describe("voice-pack clip engine", () => {
     const app = readFileSync("app/src/App.jsx", "utf8");
     expect((app.match(/speakVoice\(/g) || []).length).toBe(3);   // grade, session end, replay
     expect((app.match(/unlockVoice\(\)/g) || []).length).toBeGreaterThanOrEqual(3);
-    expect((app.match(/microphoneUsed\(\)/g) || []).length).toBe(1);   // exactly where the mic opens
     expect("speak(feedbackSpeech(result, word, praiseIdx))".includes("speakVoice(")).toBe(false);
+  });
+
+  /* This line used to pin microphoneUsed() to exactly one call site in
+     App.jsx. On 2026-08-12 the child's microphone was removed and that count
+     became 0, so the assertion failed. The wrong fix — the easy one — is to
+     delete the function it guards. It must NOT be deleted: iOS moves the whole
+     audio session to "play and record" when ANY capture opens, and the family
+     voice-pack recorder, which the owner is keeping, opens one. The route
+     fault it repairs is a real fault reported from a real iPhone; it is now
+     simply waiting for its next caller.
+     So the tripwire is re-pointed, not dropped: the mechanism must still
+     EXIST and still WORK, and the two tests above prove the working part with
+     a live control. What is gone is only the claim about where it is called
+     from, which is a claim about a caller that no longer exists. */
+  it("the audio-route repair survives with no caller, ready for the family recorder", () => {
+    const src = readFileSync("app/src/voicepacks.js", "utf8");
+    expect(src.includes("export function microphoneUsed()")).toBe(true);
+    expect(src.includes("function reclaimOutput()")).toBe(true);
+    expect(src.includes("reclaimOutput();")).toBe(true);        // still called before a reveal
+    expect(typeof microphoneUsed).toBe("function");             // and still exported
+    // fixture control: the scan must notice if the mechanism is ripped out
+    expect("const micUsed = false;".includes("export function microphoneUsed()")).toBe(false);
   });
 });
