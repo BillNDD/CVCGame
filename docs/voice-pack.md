@@ -139,12 +139,12 @@ byte-pinned word rather than replacing accepted audio with a render.
   sidecar workspace archive on the owner's PC
   (handoff `word-quest-uplift-handoff-2026-08-07T1438Z`).
 
-## Approved and unshipped: 101 items with no level yet (through 2026-08-13)
+## Approved and unshipped: 123 items with no level yet (through 2026-08-13)
 
-A hundred and one items are closed by the owner's ear and wait in
+A hundred and twenty-three items are closed by the owner's ear and wait in
 `tools/pending-words/` for the levels and the code that will hold them:
 **26 words** — the heart words **he, we, be, me, go, no, so**, the
-plural-s words and the two-syllable compounds — **72 sentences** across three
+plural-s words and the two-syllable compounds — **94 sentences** across four
 sentence batches, and **three spoken lines**: the reveal lead-in
 **"Let's sound it out."** and the two invitation lines of the sentence reveal.
 Every one is graded `perfect`; the ledger names each with its round.
