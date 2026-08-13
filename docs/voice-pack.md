@@ -139,14 +139,46 @@ byte-pinned word rather than replacing accepted audio with a render.
   sidecar workspace archive on the owner's PC
   (handoff `word-quest-uplift-handoff-2026-08-07T1438Z`).
 
-## Approved and unshipped: 67 items with no level yet (through 2026-08-12)
+## Approved and unshipped: 101 items with no level yet (through 2026-08-13)
 
-Sixty-seven items are closed by the owner's ear and wait in
-`tools/pending-words/` for the levels and the mode that will hold them:
+A hundred and one items are closed by the owner's ear and wait in
+`tools/pending-words/` for the levels and the code that will hold them:
 **26 words** — the heart words **he, we, be, me, go, no, so**, the
-plural-s words and the two-syllable compounds — and **41 sentences** across two
-sentence batches, plus the reveal lead-in **"Let's sound it out."**. Every one
-is graded `perfect`; the ledger names each with its round.
+plural-s words and the two-syllable compounds — **72 sentences** across three
+sentence batches, and **three spoken lines**: the reveal lead-in
+**"Let's sound it out."** and the two invitation lines of the sentence reveal.
+Every one is graded `perfect`; the ledger names each with its round.
+
+**Sentence batch 3 and the invitation lines, 2026-08-13.** Thirty-one sentences
+across Levels 1 to 11, closing the per-level gaps batches 1 and 2 left, plus the
+three lines the game says before it sounds out one word of a sentence
+(SPEC section 12). Every one graded `perfect` by the owner the same evening,
+and every sha256 in their verdicts matched the audio actually served, byte for
+byte, before anything was written down.
+
+Two things this round is worth remembering for:
+
+`soundout-1` was rendered twice. The first take said "read" as in *reed* and the
+owner marked it **no good** in one listen. That is the fault SPEC section 9
+records from 2026-08-03, when the praise line "You read that word all by
+yourself!" was replaced for exactly it, and `tools/voice-check.mjs` has refused
+it ever since — but the render script went around the gate. The guard now lives
+where the audio is made: a line containing a two-pronunciation word and no
+explicit phonemes cannot be rendered at all. The second take carries
+`juː ɹˈɛd`, and the phonemiser settled which pronunciation was which before a
+person had to.
+
+The decodability checker refused **nine of the thirty-two** drafts, and one word
+explained six: **"we" is taught nowhere in the bank**, and neither are "go" or
+"me" — though all three have approved audio waiting in this very list, which
+makes them words with no level rather than words with no clip. Level 1 refused
+three more, because it is twelve VC words with no function words at all. The
+nine were rewritten from each level's own taught words, with the checker as the
+arbiter rather than anyone's judgement.
+
+**One sentence is not in this count.** `s32`, "Grab the twig and grin.", was
+served and left unmarked, so it is not recorded, not shipped, and not approved.
+It waits for an ear.
 
 **Six heart words left this list on 2026-08-12**, and `the` and `and` moved
 with them: every heart word now sits at **Level 2**, where sentence practice
