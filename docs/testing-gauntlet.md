@@ -196,7 +196,22 @@ every bound reads `LEVELS.length`, which is why adding a level needed no engine 
 ## G7. Interface measurements
 
 - Tool: Playwright against the built app (`vite preview`). Command: `npm run test:ui`.
-- Assert measurements and numbers. Never assert a screenshot. Key: `g7_interface_checks`.
+- Assert measurements and numbers. Never assert a screenshot. Key: `g7_interface_checks` (50).
+- **Every viewport here is a PAGE size, not a device size, since 2026-08-13.** An iPhone 13 is
+  390x844 as a device; a page gets 390x664, because the browser keeps the rest. Six checks and
+  three progress-track rows ran with 180 pixels of slack no child has ever had, and four rows
+  wore phone names over sizes no browser gives. Correcting them is what found the centring
+  drift the owner then ruled on (`docs/open-faults.md` G3c-1).
+- **A 450 ms hold must not select text (checks 24 to 26).** Reported by the owner from a real
+  iPhone 13, with a screenshot: a touch between "skip" and "got it" started an iOS text
+  selection across the grown-up strip. The cause is the app's own core gesture — S5 requires a
+  450 ms pointer hold on every adult result control, and a 450 ms press on a touch screen is
+  what iOS reads as "select this text". No gate had seen it because **every browser check in
+  this project drives a mouse, and a mouse never asks for a selection by pressing.** That is the
+  lesson worth more than the fix. The check asserts the child's surface is locked, that a
+  grown-up's inputs are not, and carries a control that removes the rule in the live page and
+  requires the elements to EXIST and to have changed — its first version ran after navigating
+  away and passed on "missing", which is a control passing because its subject was absent.
 - Required checks, each with literal values:
   - No page scroll in a session at viewport heights 430, 555, 720, and 950 px:
     `scrollHeight <= clientHeight` on the document at default text size.
