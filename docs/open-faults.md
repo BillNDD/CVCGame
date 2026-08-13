@@ -799,6 +799,25 @@ label rendered at four times its intended size by an invalid `font:` shorthand, 
 the home screen falling behind one another. Both were content-and-layout faults on a screen
 no measurement was watching.
 
+### G4. E11 is a rule with only one mechanical helper
+
+- **Where** `CLAUDE.md` E11 asks for the gates a change will touch to be named before the edit.
+  Only one part of that is mechanical today: `node tools/mutants.mjs --anchors`, which reports
+  moved mutant anchors in milliseconds and found one nobody had predicted on the rule's first
+  use.
+- **The gap** Everything else — which counts move, which documents state the fact, which
+  scenarios do arithmetic on a level's size, which floors follow — is still a person
+  remembering. Tonight that memory failed four times in one session.
+- **Done** A `blast-radius` tool: give it a word, a count, a constant or a file, and it lists
+  every tracked file that names it, every gate floor that would move, and every scenario whose
+  arithmetic depends on it. It needs no new gate — it is a lookup, and it makes E11's second
+  step a command rather than a recollection.
+- **Not built.** It was deferred on 2026-08-13 to get a beta out that had already taken twelve
+  hours. That is a real reason and it is also exactly how the step gets skipped, so it is
+  written here rather than remembered.
+
+---
+
 ### G0. Nothing enforces the reading of `docs/settled.md`
 
 This is a fault, not an idea, and it sits at the head of this section because it is what
