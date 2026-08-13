@@ -1,0 +1,11 @@
+- banner:
+  - text: Word Quest beta
+  - button "Grown-ups corner": ⚙️ Grown-ups
+- main:
+  - heading "Word Quest" [level=1]
+  - paragraph: Ready to read? 📖
+  - text: Level 1 🐣 Hatchlings 🗓️ 0 sessions 🌟 0 mastered
+- button "▶️ Begin Session"
+- button "🎈 Free play"
+- text: /grown-up ~\d+ words · about 5 minutes · you judge v[\d.]+-beta\.\d+ · [0-9a-f]+/
+- button "↻ Check for updates (hold)"

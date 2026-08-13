@@ -2,7 +2,7 @@
  *
  * 44 words covering all 29 layout-risk classes in the bank, across 8 device
  * profiles: 416 cells from this file — 44 word cases, 3 screen cases and 5
- * state cases, each on 8 profiles — and 38 more from the controls, which run
+ * state cases, each on 8 profiles — and 41 more from the controls, which run
  * on one. The control count in that sentence is asserted in
  * tests/census/controls.spec.mjs rather than typed and trusted: it read "9 more
  * from the controls" while 18 ran, which is how a document stops describing the
@@ -72,7 +72,7 @@ for (const [which, open, mustBeVisible, mustExist] of [
     await page.goto("/", { waitUntil: "load" });
     await open(page);
     await page.waitForTimeout(200);
-    const { findings, aria, unclassified, covered } = await inspect(page, viewport, which, { mustBeVisible: mustBeVisible || undefined, mustExist });
+    const { findings, aria, unclassified, covered } = await inspect(page, viewport, which, { mustBeVisible: mustBeVisible || undefined, mustExist, axe: true });
     await testInfo.attach("aria", { body: aria, contentType: "text/plain" });
     if (unclassified.length)
       await testInfo.attach("controls with no size class", { body: unclassified.join("\n"), contentType: "text/plain" });
@@ -119,7 +119,7 @@ for (const grade of ["close", "wrong"]) {
 
     await waitForReveal(page);
     const reveal = await inspect(page, viewport, `reveal-${grade}`, {
-      expectFocus: true,
+      expectFocus: true, axe: true,
       expectTiles: chunkWord("chat").length,
       mustBeVisible: [".wq-word", ".wq-tile", ".wq-rail .wq-cta"],
     });
@@ -194,7 +194,7 @@ test("state: a toast over the grown-ups corner", async ({ page }, testInfo) => {
      THIS comment, which quoted the forbidden pattern verbatim and so tripped
      the guard by explaining it. The guard is right to be crude; the variable
      and the sentence both moved. */
-  const toast = await inspect(page, viewport, "toast", { mustBeVisible: [".wq-toast"] });
+  const toast = await inspect(page, viewport, "toast", { mustBeVisible: [".wq-toast"], axe: true });
   for (const f of toast.findings) expect.soft(f, `[toast] ${f.kind}: ${f.detail}`).toBeUndefined();
   /* The channel must have something in it. A report-only channel nobody can
      reach is the same as no channel, and it took an auditor to notice. */
@@ -235,7 +235,7 @@ test("state: done screen", async ({ page }, testInfo) => {
     .click({ timeout: 5000 });
 
   const done = await inspect(page, viewport, "done", {
-    mustBeVisible: ['button:has-text("Home")'],
+    mustBeVisible: ['button:has-text("Home")'], axe: true,
   });
   await testInfo.attach("aria", { body: done.aria, contentType: "text/plain" });
   for (const f of done.findings) expect.soft(f, `[done] ${f.kind}: ${f.detail}`).toBeUndefined();
@@ -275,7 +275,7 @@ test("state: update row, before and after a check", async ({ page }, testInfo) =
   const apply = page.getByRole("button", { name: "⬆️ Update now (hold)" });
   await apply.waitFor({ timeout: 8000 });
   const ready = await inspect(page, viewport, "update-row ready", {
-    mustBeVisible: ['button[aria-label="⬆️ Update now (hold)"]'],
+    mustBeVisible: ['button[aria-label="⬆️ Update now (hold)"]'], axe: true,
   });
   await testInfo.attach("aria", { body: ready.aria, contentType: "text/plain" });
   for (const f of ready.findings) expect.soft(f, `[update ready] ${f.kind}: ${f.detail}`).toBeUndefined();
@@ -319,7 +319,7 @@ for (const c of CASES) {
          copied is a wait that drifts. */
       await waitForReveal(page);
       const reveal = await inspect(page, viewport, "reveal-correct", {
-        expectFocus: true,
+        expectFocus: true, axe: true,
         expectTiles: chunkWord(c.word).length,
         mustBeVisible: [".wq-word", ".wq-tile", ".wq-rail .wq-cta"],
       });

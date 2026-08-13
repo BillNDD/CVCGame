@@ -1,4 +1,4 @@
-/* The census's negative controls (E5). 38 cells run here: a detector that
+/* The census's negative controls (E5). 41 cells run here: a detector that
  * cannot find a fault it was told about will not find one it was not.
  *
  * NOT EVERY DETECTOR, and the difference is counted here rather than glossed —
@@ -13,10 +13,11 @@
  *
  * The make-up, and it is asserted below rather than trusted here:
  *   16 plant a defect from the CSS table in tools/ux-census.mjs;
- *    9 plant one built in the page, where a stylesheet cannot reach;
- *    2 prove a clean page reports none of them;
+ *   10 plant one built in the page, where a stylesheet cannot reach;
+ *    3 prove a clean page reports none of them;
  *    8 hold the census's own rules against the app;
- *    3 cover the toast report, the staging refusal, and this count itself.
+ *    4 cover the toast report, the staging refusal, the home screen's pinned
+ *      accessible tree, and this count itself.
  *
  * These have a control: horizontal-overflow, vertical-overflow,
  * element-past-the-edge, nested-scroll, control-too-small (twice: far below the
@@ -26,7 +27,7 @@
  * painting by background, box-shadow, border and outline), text-too-small and
  * text-too-big (twice each: far outside, and one pixel outside),
  * word-too-small, word-too-big, overlap (twice: with text and textless),
- * missing, and the staging refusal.
+ * missing, the accessibility sweep, and the staging refusal.
  *
  * These do NOT yet: tile-count, empty-tile, below-the-fold, focus-lost,
  * unreachable-control, page/console errors, off-host requests, and
@@ -432,6 +433,47 @@ test("detector fires: word-too-big", async ({ page }) => {
   expect(detail, "the target word rendered at 161px against a 160px ceiling and nothing fired").toMatch(/161px/);
 });
 
+test("detector fires: a11y, when a control loses its name", async ({ page }) => {
+  /* The sweep found zero violations on its first run across every state the
+     census visits, including the four G8 has never seen. That is a good result
+     and it is also exactly what a sweep that is not running looks like — so
+     this plants the fault G8's own control uses: a button with nothing a
+     screen reader can say. */
+  await page.goto("/", { waitUntil: "load" });
+  await page.evaluate(() => {
+    const b = document.createElement("button");
+    b.style.cssText = "position:fixed;left:0;bottom:0;width:60px;height:60px;";
+    document.body.appendChild(b);            // no text, no aria-label, no title
+  });
+  await page.waitForTimeout(150);
+  const { findings } = await inspect(page, VP, "planted", { axe: true });
+  const a11y = findings.filter((f) => f.kind === "a11y").map((f) => f.detail).join(" | ");
+  expect(a11y, "a button with no accessible name was reported by nothing").toMatch(/button-name/);
+});
+
+test("a clean page reports no accessibility violations", async ({ page }) => {
+  /* The other half. A sweep that fires on everything is as useless as one that
+     fires on nothing, and this is the app as it ships. */
+  await page.goto("/", { waitUntil: "load" });
+  await page.waitForTimeout(200);
+  const { findings } = await inspect(page, VP, "clean", { axe: true });
+  expect(findings.filter((f) => f.kind === "a11y").map((f) => f.detail),
+    "the home screen reports accessibility violations").toEqual([]);
+});
+
+test("the home screen's accessible tree is the one we last agreed", async ({ page }) => {
+  /* toMatchAriaSnapshot (build spec item 4): what a screen reader is TOLD,
+     pinned as a readable file in git rather than attached to a report nobody
+     opens. It lives in this project because the controls run on one profile —
+     a tree pinned eight times over eight device profiles is eight files that
+     drift apart, and the accessible tree is not a property of the viewport.
+     The census still attaches the tree of every cell as evidence; this is the
+     one that fails when it changes. */
+  await page.goto("/", { waitUntil: "load" });
+  await page.getByRole("button", { name: "▶️ Begin Session" }).waitFor({ timeout: 8000 });
+  await expect(page.locator("body")).toMatchAriaSnapshot({ name: "home-screen.aria.yml" });
+});
+
 test("S7's control floors are the ones the rule states", () => {
   /* An auditor set these to 20 and 20 and every control in this file stayed
      green: the plants were 12px against 56, so they fired anyway. The boundary
@@ -451,7 +493,7 @@ test("this file's own cell count is the one its header states", () => {
   const src = readFileSync(new URL("./controls.spec.mjs", import.meta.url), "utf8");
   const calls = (src.match(/^\s*test\(/gm) || []).length;
   const cells = calls - 1 + PLANTS.length;        // one of those test() calls is the PLANTS loop
-  expect(cells, "the number of control cells in this file has changed").toBe(38);
+  expect(cells, "the number of control cells in this file has changed").toBe(41);
   expect(src.slice(0, 400), "the header no longer states the number of cells that run")
     .toContain(`${cells} cells run here`);
 
@@ -471,7 +513,7 @@ test("this file's own cell count is the one its header states", () => {
   const tally = { plant: PLANTS.length, detector: 0, clean: 0, rule: 0, rest: 0 };
   for (const n of named) tally[group(n)] += 1;
   expect(tally, "the make-up of this file's cells has changed, and the header above still describes the old one")
-    .toEqual({ plant: 16, detector: 9, clean: 2, rule: 8, rest: 3 });
+    .toEqual({ plant: 16, detector: 10, clean: 3, rule: 8, rest: 4 });
   expect(Object.values(tally).reduce((a, b) => a + b, 0), "the breakdown no longer adds up to the total")
     .toBe(cells);
 });
