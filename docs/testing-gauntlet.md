@@ -639,7 +639,7 @@ promised a fallback the code never performed; G12 counted the step and saw nothi
   written into a document before the gate existed.
 - It is here rather than in `npm run check` because it takes about thirty seconds, and the
   check is half a minute in total.
-- Baseline floors: `e11_lookup_controls` (76), `e11_lookup_mutants` (42). Ceilings:
+- Baseline floors: `e11_lookup_controls` (92), `e11_lookup_mutants` (53). Ceilings:
   `e11_lookup_survivors_max` (0), `e11_lookup_anchors_max` (0). A survivor means some part of
   the lookup can be wrong while every control stays green. A moved anchor means a planted
   fault no longer applies to the code and has been proving nothing.
@@ -653,7 +653,11 @@ promised a fallback the code never performed; G12 counted the step and saw nothi
   of them total breakage. All fifteen died, which proved the controls were wired and said
   nothing about whether they were sensitive. An auditor then planted thirty-two of its own —
   partial, off-by-one, wrong-but-plausible — and twenty-four survived. The faults here are
-  that second kind, and several are that auditor's.
+  that second kind, and several are that auditor's. A second confirm round planted fifteen
+  more against the newly added layer and eleven survived; those eleven are here too.
+- What "0 survived" means, exactly: no KNOWN fault survives. It is not a completeness claim,
+  and every round of auditing so far has found faults the previous round's harness did not
+  contain.
 - It never writes to the working tree, and says so at the end of every run. The first harness
   mutated the live file forty-two times; kill it between two writes and a mutant is left in
   the repository, which has happened three times here by other routes (open-faults C2).

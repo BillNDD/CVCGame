@@ -26,10 +26,15 @@
  * WHAT IT STILL CANNOT SEE, all four measured rather than assumed:
  *   1. Case. "Cat" at the start of a sentence is not a dependency and is not
  *      reported for --word. Every capital hit measured in this repository was
- *      prose or UI copy. (--symbol IS case-insensitive: for an identifier a
- *      capital is the identifier, not prose.)
+ *      prose or UI copy. --symbol folds case only for a name with a separator
+ *      or a case transition (word_speed_override, HOLD_MS, seamMs), where a
+ *      capital IS the identifier. A single ALL-CAPS word is left alone: HEART
+ *      is a real export and also this repository's commonest phrase, and
+ *      folding its case turns 10 files into 66, of which 56 are prose.
  *   2. Coincidence. Two files can agree on a number by accident, and nothing
  *      here can tell that apart from a dependency.
+ *   2b. A numeral is found however it is punctuated (1500 finds "1,500" and
+ *      "1_500"), but not when it is written as words.
  *   3. Computation. A dependency written as LEVELS[1].words.length rather than
  *      as a literal cannot be found by --count. Search the symbol as well.
  *   4. Classification. Every file's kind is a guess from its path. A file
@@ -69,10 +74,29 @@ const flag = (f) => {
    right — wrong in exactly the place nobody would check. selfTest() re-points
    ROOT at a sandbox tree, which is the only reason it is a let. */
 let ROOT = null;
-const root = () => (ROOT ||= execFileSync("git", ["rev-parse", "--show-toplevel"], { encoding: "utf8" }).trim());
 
-const tracked = () =>
-  execFileSync("git", ["ls-files"], { cwd: root(), encoding: "utf8" }).trim().split("\n").filter(Boolean);
+/* Git's own environment variables OVERRIDE the working directory. A hook runs
+   with GIT_DIR and GIT_INDEX_FILE exported, so a `git add` here — meant for a
+   throwaway sandbox — writes the sandbox's files into the CALLING repository's
+   index instead. An audit reproduced it from a clean tree: SPEC.md staged at 2
+   lines instead of 975, src/engine.js staged though it is generated, 19 files
+   and nearly twenty thousand deletions, all waiting for the next commit.
+   Running `npm run check` from a pre-commit hook is the ordinary way to
+   automate E7, so this is not an exotic path. Every git call below runs with
+   these stripped, and a control proves a hook's repository is untouched. */
+const GIT_VARS = ["GIT_DIR", "GIT_WORK_TREE", "GIT_INDEX_FILE", "GIT_OBJECT_DIRECTORY",
+  "GIT_ALTERNATE_OBJECT_DIRECTORIES", "GIT_COMMON_DIR", "GIT_NAMESPACE",
+  "GIT_CEILING_DIRECTORIES", "GIT_PREFIX", "GIT_INTERNAL_SUPER_PREFIX"];
+function cleanEnv(extra = {}) {
+  const e = { ...process.env, ...extra };
+  for (const k of GIT_VARS) delete e[k];
+  return e;
+}
+const git = (args, cwd) => execFileSync("git", args, { cwd, encoding: "utf8", env: cleanEnv() });
+
+const root = () => (ROOT ||= git(["rev-parse", "--show-toplevel"], process.cwd()).trim());
+
+const tracked = () => git(["ls-files"], root()).trim().split("\n").filter(Boolean);
 
 /* Not opened as text. Their NAMES are still searched: w-gob.mp3 is the most
    easily forgotten dependency a word has. */
@@ -170,6 +194,7 @@ function tokenAt(line, i) {
   return line.slice(a, b);
 }
 const HASHISH = /^[0-9a-f]{7,}$/i;
+const unsep = (s) => s.replace(/(?<=\d)[,_](?=\d{3}\b)/g, "");
 
 /* One matcher per kind of thing you can name. Numbers are their own case:
    "-1" must find "let first = -1" and not "pack-1"; "0.8" must find "0.80",
@@ -183,22 +208,33 @@ function matcher(needle, mode) {
     return { test: (l) => flatten(l).includes(want), wrapped: want };
   }
   if (mode === "number") {
-    const body = esc(needle) + (needle.includes(".") ? "0*" : "");
+    /* 1,500 and 1500 are the same number, and the document that states the
+       clip-duration ceiling writes it with the comma while the gate that
+       enforces it writes it without. Only a separator between a digit and a
+       group of exactly three is stripped, so md5_2 stays md5_2. */
+    const body = esc(unsep(needle)) + (needle.includes(".") ? "0*" : "");
     /* Rejects a following DIGIT, and a dot only when a digit follows it: 44
        must find "44px", and "7" must find "7." at the end of a sentence — SPEC
        writes its level counts that way — while neither may match inside 7.5. */
     const re = new RegExp(`(?<![\\w.])${body}(?!\\d|\\.\\d)`, "g");
     return {
       test: (l) => {
+        const s = unsep(l);
         re.lastIndex = 0;
         let m;
-        while ((m = re.exec(l))) if (!HASHISH.test(tokenAt(l, m.index))) return true;
+        while ((m = re.exec(s))) if (!HASHISH.test(tokenAt(s, m.index))) return true;
         return false;
       },
     };
   }
   if (mode === "symbol") {
     const names = symbolVariants(needle);
+    /* Case-insensitive only for a name with a separator or a case transition —
+       word_speed_override, HOLD_MS, seamMs. A single ALL-CAPS word is a
+       different case: HEART is a real export AND the repository's commonest
+       phrase, and folding case turns 10 files into 66, of which 56 are prose.
+       The S2 fix keeps its whole value; the prose stays out. */
+    if (names.length === 1) return { test: (l) => l.includes(needle), names };
     const vs = names.map((v) => v.toLowerCase());
     return { test: (l) => { const low = l.toLowerCase(); return vs.some((v) => low.includes(v)); }, names };
   }
@@ -348,7 +384,7 @@ function report(title, rows, needle) {
       if (r.found.length > lines) console.log(`      … ${r.found.length - lines} more lines in this file (--all)`);
     }
   }
-  console.log(`\n  ${rows.length} file(s), of ${SCAN.tracked} tracked: ${SCAN.read} read, ${SCAN.binary} matched by name only`
+  console.log(`\n  ${rows.length} file(s), of ${SCAN.tracked} tracked: ${SCAN.read} read, ${SCAN.binary} not opened as text (name searched)`
     + (SCAN.unreadable ? `, ${SCAN.unreadable} UNREADABLE` : ""));
 }
 
@@ -405,23 +441,27 @@ const CORPUS = {
     "const isSecure = (solid, total) => total > 0 && solid / total >= 0.8;\n" +
     "const SOUNDOUT_SEAM_MS = 120;\n" +
     "const CHILD_TARGET = 44;\n" +
+    'const HEART = ["kek"];\n' +
     "let first = -1;\n" +
     'const wrong = "Let’s try again.";\n',
   "features/promotion.feature": "  Given a player on Level 2 with 6 of the 7 words at box 3\n",
   "tests/generated/acceptance.test.js": "expect(LEVELS[1].words.length).toBe(7);\n",
   "tests/engine.test.js": "expect(all.length).toBe(10);\nexpect(seamMs(1)).toBe(120);\n",
-  "SPEC.md": "Level word counts: 2, 7.\nThe child control floor is 44px.\n",
-  "CHANGELOG.md": "Ten words in the bank.\n",
+  "SPEC.md": "Level word counts: 2, 7.\nThe child control floor is 44px.\nA word clip may not exceed 1,500 ms.\n",
+  "CHANGELOG.md": "Ten words in the bank, and the heart words come early.\n",
   "docs/settled.md": "the bank holds 10 words, and pack-1 is retired.\nThe miss line reads Let's\ntry again. and nothing else.\n",
   ".claude/gate-baseline.json": '{ "g13_clips": 19, "g6_ratio": 0.80 }\n',
-  "tools/render-voice-pack.py": "SPEED = 0.85\nhold_ms = 450\n",
+  "tools/render-voice-pack.py": "SPEED = 0.85\nhold_ms = 450\nword_speed_override = {}\nceiling = 1500\n",
   "tools/mutants.mjs": '["promotion >= to >", "solid / total >= 0.8;"],\n',
   "tools/pending-words/w-zzq.json": '{ "word": "zzq" }\n',
   "tools/voice-words.csv": "word,level,round,notes\ncat,1,round 3,rendered beside zzq\n" +
     "hen,1,round 4,compared with zzq\nqqz,2,round 5,after zzq\nzzq,2,round 99,the word itself\n",
   /* A SECOND file of the same kind, so a report that keeps only the first file
      of each group is a fault rather than a coincidence. */
-  "tools/voice-lock.json": '{ "zzq": ["pinned"] }\n',
+  /* Five hits whose defining line is LAST by line number, so a report that
+     stopped ranking would show three passing mentions and hide the pin. */
+  "tools/voice-lock.json": '{ "note": "zzq beside cat",\n  "more": "zzq again",\n' +
+    '  "third": "zzq once more",\n  "fourth": "zzq yet again",\n  "zzq": ["pinned"] }\n',
   /* The same sentence on ONE line with a straight quote, where settled.md wraps
      it: flattening only the file side still finds the wrapped one, so without
      this the one-sided fault looks harmless. */
@@ -429,7 +469,7 @@ const CORPUS = {
   "app/public/voice/manifest.json": '{ "zzq": [1, 2] }\n',
   "app/public/voice/w-zzq.mp3": "zzq is written in these bytes as text, on purpose\n",
   "app/src/screens/HomeScreen.jsx": "any word from all 10\n",
-  "app/src/wq-css.js": "min-height: 44px;\n",
+  "app/src/wq-css.js": "min-height: 44px;\nconst wordSpeedOverride = 1;\n",
   "src/engine.js": ENGINE,
 };
 const UNTRACKED = { "scratch.md": "zzq is named here but git does not track it\n" };
@@ -441,13 +481,13 @@ function sandbox() {
     mkdirSync(join(box, dirname(f)), { recursive: true });
     writeFileSync(join(box, f), body);
   }
-  execFileSync("git", ["init", "-q"], { cwd: box });
+  git(["init", "-q"], box);
   /* -f because a developer's global gitignore commonly lists .claude/ or
      *.mp3, and a control that crashes on somebody's machine teaches them to
      stop believing the check. Caught rather than thrown for the same reason:
      an unstaged corpus must be reported by the named control below, not as a
      stack trace in the middle of npm run check. */
-  try { execFileSync("git", ["add", "-f", ...Object.keys(CORPUS)], { cwd: box, stdio: "ignore" }); }
+  try { git(["add", "-f", ...Object.keys(CORPUS)], box); }
   catch { /* reported by "every tracked file is accounted for" */ }
   return box;
 }
@@ -456,10 +496,15 @@ const files = (rows) => rows.map((r) => r.file);
 const linesOf = (rows, f) => (rows.find((r) => r.file === f)?.found || []).map((h) => h.n);
 /* stderr is captured rather than inherited: a control that expects a refusal
    would otherwise print that refusal into the middle of the control list. */
+/* stderr is captured rather than inherited: a control that expects a refusal
+   would otherwise print that refusal into the middle of the control list. The
+   timeout is so a fault that loops fails a control instead of hanging a
+   release run with nothing to read. */
+let LAST_STATUS = 0;
 const run = (box, ...argv) => {
-  const opt = { cwd: box, encoding: "utf8", stdio: ["ignore", "pipe", "pipe"] };
-  try { return execFileSync(process.execPath, [TOOL, ...argv], opt); }
-  catch (e) { return (e.stdout || "") + (e.stderr || ""); }
+  const opt = { cwd: box, encoding: "utf8", env: cleanEnv(), timeout: 60000, stdio: ["ignore", "pipe", "pipe"] };
+  try { LAST_STATUS = 0; return execFileSync(process.execPath, [TOOL, ...argv], opt); }
+  catch (e) { LAST_STATUS = e.status ?? -1; return (e.stdout || "") + (e.stderr || ""); }
 };
 
 function searchControls(ok) {
@@ -492,6 +537,8 @@ function numberControls(ok) {
   ok.push(["and 0.8 does not match 0.85", !files(hits("0.8", "number")).includes("tools/render-voice-pack.py")]);
   ok.push(["a negative number is found where it is used, and not in pack-1",
     files(hits("-1", "number")).join() === "reference/word-quest.jsx"]);
+  ok.push(["a numeral written with a separator is the same numeral: 1500 finds 1,500",
+    ["SPEC.md", "tools/render-voice-pack.py"].every((f) => files(hits("1500", "number")).includes(f))]);
 }
 
 function symbolTextControls(ok) {
@@ -500,6 +547,13 @@ function symbolTextControls(ok) {
   ok.push(["and in its camelCase twin", files(hits("SEAM_MS", "symbol")).includes("tests/engine.test.js")]);
   ok.push(["and spelled in lower case, because for an identifier a capital is not prose",
     files(hits("HOLD_MS", "symbol")).includes("tools/render-voice-pack.py")]);
+  ok.push(["a name of three parts is found too, not only two",
+    ["tools/render-voice-pack.py", "app/src/wq-css.js"]
+      .every((f) => files(hits("WORD_SPEED_OVERRIDE", "symbol")).includes(f))]);
+  /* And the limit of that: a single ALL-CAPS word is an export AND an ordinary
+     English word, so folding its case turns a dependency list into prose. */
+  ok.push(["a single-word name stays case-sensitive, so an export does not drag in prose",
+    files(hits("HEART", "symbol")).join() === "reference/word-quest.jsx"]);
   ok.push(["a mutant anchor is found", files(hits("solid / total >= 0.8;", "text")).includes("tools/mutants.mjs")]);
   ok.push(["copy typed with a straight quote finds the curly one",
     files(hits("Let's try again.", "text")).includes("reference/word-quest.jsx")]);
@@ -512,8 +566,11 @@ function symbolTextControls(ok) {
      is still found, so every other control passes, and the reader is told a
      line wraps that does not. */
   ok.push(["a sentence that does not wrap is not reported as though it did",
-    !(hits("Let’s try again.", "text").find((r) => r.file === "docs/qa-procedure.md")?.found[0].line || "")
-      .includes("wrapped across lines")]);
+    /* The whole array, not found[0]: the fault this is written for APPENDS a
+       phantom wrapped hit rather than replacing the real one, so every
+       text-mode file gets a duplicate and the per-file count doubles. */
+    (hits("Let’s try again.", "text").find((r) => r.file === "docs/qa-procedure.md")?.found || [])
+      .every((h) => !h.line.includes("wrapped across lines"))]);
 }
 
 function classifyControls(ok) {
@@ -526,6 +583,8 @@ function classifyControls(ok) {
     ["tests/engine.test.js", "E4", "a hand-written test is told to use literal values"],
     [".claude/gate-baseline.json", "E6", "a baseline is marked as a floor"],
     ["tools/mutants.mjs", "E3", "a mutant file is marked re-point, never delete"],
+    ["tools/acceptance-mutants.mjs", "E3", "and so is the acceptance half of the mutation gate"],
+    ["tools/app-mutants.mjs", "E3", "and the app half"],
     ["app/public/voice/manifest.json", "PACK RECIPE", "the pack recipe is not filed as 'other'"],
     ["app/public/voice/w-cat.mp3", "byte-pinned", "a shipped clip says delete, never re-render"],
     ["tools/pending-words/w-zzq.json", "WAITING ROOM", "the waiting room is named"],
@@ -608,6 +667,39 @@ function outputControls(ok, box) {
   ok.push(["the bank and clip counts are chased too, not only the level size",
     chase.includes("app/src/screens/HomeScreen.jsx") && chase.includes(".claude/gate-baseline.json")]);
 
+  /* --symbol and --text had no output control at all, and they are the two the
+     file's own header prescribes as the fallback for its declared blind spots:
+     --text is how a mutant anchor is found, --symbol how a dependency written
+     as a computation rather than a literal is found. */
+  const sym = run(box, "--symbol", "SEAM_MS");
+  ok.push(["--symbol prints its report, not just its title",
+    sym.includes("reference/word-quest.jsx") && sym.includes("THE ENGINE SOURCE")]);
+  ok.push(["and names the spellings it searched", sym.includes("SEAM_MS / seamMs")]);
+  const txt = run(box, "--text", "Let's try again.");
+  ok.push(["--text prints its report, not just its title",
+    txt.includes("docs/qa-procedure.md") && txt.includes("DOCUMENT")]);
+  ok.push(["a report that found something exits 0", LAST_STATUS === 0]);
+
+  ok.push(["the line that says the bank does NOT shrink reaches the page", has("Also keyed in")]);
+  /* The excerpt cap and the flag that lifts it: --all is in the usage block, so
+     an agent will use it, so something has to prove it does anything. */
+  const capped = run(box, "--word", "zzq"), all = run(box, "--word", "zzq", "--all");
+  ok.push(["excerpt lines are capped at three, and the tail says how many are left",
+    /* Both tails, because one file's off-by-one count is another file's right
+       answer: with four hits and five hits in the corpus, an off-by-one tail
+       still prints a "1" somewhere and a single-number check reads as fine. */
+    capped.includes("3: hen,1,round 4,compared with zzq")
+    && capped.includes("… 1 more lines in this file (--all)")
+    && capped.includes("… 2 more lines in this file (--all)")]);
+  ok.push(["and the defining line survives the cap even when it is last in the file",
+    capped.includes('"zzq": ["pinned"]')]);
+  /* By CONTENT, not by length: --all adds the hidden line and removes the tail
+     that announced it, so the two outputs are the same number of lines and a
+     length comparison passes whatever --all does. */
+  ok.push(["--all lifts the cap instead of being decoration",
+    all.includes("4: qqz,2,round 5,after zzq") && !capped.includes("4: qqz,2,round 5,after zzq")
+    && !all.includes("more lines in this file")]);
+
   ok.push(["a word nobody uses prints nothing found, and does not pretend otherwise",
     run(box, "--word", "zzzznotathing").includes("(nothing)")]);
   ok.push(["no argument is refused with a message, not a stack trace",
@@ -627,6 +719,43 @@ function outputControls(ok, box) {
       const t = statSync(join(box, "src/engine.js")).mtime;
       utimesSync(s, t, new Date(t.getTime() + 5000));
       return run(box, "--word", "zzq").includes("NEWER than src/engine.js"); })()]);
+}
+
+/* THE CONTROL FOR THE WORST FAULT THIS TOOL HAS HAD. A git hook exports GIT_DIR
+   and GIT_INDEX_FILE, and those OVERRIDE cwd — so the sandbox's `git add` wrote
+   its stub corpus into the calling repository's index: SPEC.md staged at 2 lines
+   instead of 975, the generated engine staged, nineteen files and nearly twenty
+   thousand deletions queued for the next commit. `npm run check` from a
+   pre-commit hook is the ordinary way to automate E7, so nothing exotic was
+   needed to reach it. This stands a scratch repository in for that hook's
+   repository, runs the whole self-test inside it with those variables set, and
+   requires the scratch repository to be untouched afterwards.
+   The nested run skips this control: without the guard it would recurse. */
+function hookControls(ok) {
+  const caller = mkdtempSync(join(tmpdir(), "blast-radius-hook-"));
+  writeFileSync(join(caller, "keep.txt"), "a file the caller already had\n");
+  git(["init", "-q"], caller);
+  git(["add", "keep.txt"], caller);
+  const hookEnv = cleanEnv({
+    GIT_DIR: join(caller, ".git"),
+    GIT_WORK_TREE: caller,
+    GIT_INDEX_FILE: join(caller, ".git", "index"),
+    BLAST_RADIUS_NESTED: "1",
+  });
+  let out = "";
+  try {
+    out = execFileSync(process.execPath, [TOOL, "--self-test"],
+      { cwd: caller, encoding: "utf8", env: hookEnv, timeout: 120000, stdio: ["ignore", "pipe", "pipe"] });
+  } catch (e) { out = (e.stdout || "") + (e.stderr || ""); }
+  const staged = git(["diff", "--cached", "--name-only"], caller).trim().split("\n").filter(Boolean);
+  const untracked = git(["status", "--porcelain"], caller).trim();
+  rmSync(caller, { recursive: true, force: true });
+  ok.push(["a self-test run from a git hook stages nothing into that hook's repository",
+    staged.join() === "keep.txt"]);
+  ok.push(["and leaves no sandbox file behind in its working tree",
+    !untracked.includes("SPEC.md") && !untracked.includes("engine.js")]);
+  ok.push(["and still passes its own controls there, rather than going red for the environment",
+    /controls: \d+ passed, 0 failed/.test(out)]);
 }
 
 async function selfTest() {
@@ -655,6 +784,7 @@ async function selfTest() {
     rmSync(box, { recursive: true, force: true });
   }
   classifyControls(ok);
+  if (!process.env.BLAST_RADIUS_NESTED) hookControls(ok);
 
   for (const [name, pass] of ok) console.log((pass ? "ok   " : "FAIL ") + name);
   const failed = ok.filter(([, p]) => !p).length;
