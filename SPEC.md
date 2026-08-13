@@ -858,7 +858,7 @@ bush, bang, whack, hung, rod** and **puff**. A later screen does not raise these
 That screen covered all 349 bank words and the 115 approved words waiting for a level,
 and it found nothing else.
 
-**Re-screened 2026-08-13 before beta.17, over the whole bank and the whole waiting room.**
+**Re-screened 2026-08-13 before beta.18, over the whole bank and the whole waiting room.**
 Counted at the time, not recalled: **438 bank words** after gob was removed, and **116 entries
 in the waiting room, of which 90 have already shipped into the bank and 26 are still waiting**.
 The ruled-out words and catfish are absent; the **seven** words confirmed absent in the

@@ -22,7 +22,7 @@ This document follows the Microsoft Writing Style Guide.
 
 Written against `v1.0.0-beta.17`, commit `fd7c894`. The full gauntlet passed on `c87ed44`
 with a clean tree: 22 gates, 0 failed, 66 source mutants killed, 341 tests, 406 clips.
-**As of the beta.17 release gauntlet on 2026-08-13, commit `037e561`, that reads 23 gates,
+**As of the beta.18 release gauntlet on 2026-08-13, commit `a70406d`, that reads 23 gates,
 67 source mutants, 273 tests and 499 clips**, with a clean tree and no gate skipped. The test
 count fell from 341 because the microphone's 51 recognizer tests retired with the feature; the
 clip count rose with the heart words and then fell by one when "gob" left the bank; and the
@@ -251,7 +251,9 @@ reopened, with what is missing and how it came to be closed — this paragraph i
 written after an auditor found the changelog telling a parent the same fault was both fixed
 and outstanding. The changelog bullet now says so too.
 
-**Owner-ruled 2026-08-12: this ships in beta.17 and is fixed in the one after.** It predates
+**Owner-ruled 2026-08-12: this ships in the next beta and is fixed in the one after.**
+That release is beta.18, not beta.17: beta.17 had already been published on 2026-08-11 and
+the version in `app/package.json` was never moved on, so a day of work called itself 17. It predates
 every beta already installed, so shipping makes nothing worse, and the fix touches the arming
 logic that produced a regression the last time it was changed in a hurry — the progress fill
 ran backwards and G7 caught it. It is named in the beta's changelog as a known issue, because
