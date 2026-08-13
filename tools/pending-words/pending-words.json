@@ -1752,5 +1752,225 @@
   "round": "sound-out lines (2026-08-13)",
   "verdict": "perfect",
   "level": "the sentence reveal's invitation (SPEC section 12)"
+ },
+ "s:mode-wm-wm01": {
+  "file": "s-mode-wm-wm01.mp3",
+  "text": "We sat on the mat.",
+  "ms": 1532,
+  "sha256": "7597644e9f65ab928d46868bd4a1de0aa0168d6825fd90735f47bd85eec1b81a",
+  "round": "we/me sentences (2026-08-13)",
+  "verdict": "perfect",
+  "level": "Level 2",
+  "blocked_on": "we and me are not seated in the bank yet - docs/open-faults.md K"
+ },
+ "s:mode-wm-wm02": {
+  "file": "s-mode-wm-wm02.mp3",
+  "text": "We had a big nap.",
+  "ms": 1489,
+  "sha256": "1a68576824f1629224711f6171434ef51e3cf72c92a89ece7581132e00b96719",
+  "round": "we/me sentences (2026-08-13)",
+  "verdict": "perfect",
+  "level": "Level 3",
+  "blocked_on": "we and me are not seated in the bank yet - docs/open-faults.md K"
+ },
+ "s:mode-wm-wm03": {
+  "file": "s-mode-wm-wm03.mp3",
+  "text": "We ran to my dad.",
+  "ms": 1617,
+  "sha256": "ac3d098eb35606422306f263868073fbe28ee99dee77f3e0ce3ebd8cda36b4f2",
+  "round": "we/me sentences (2026-08-13)",
+  "verdict": "perfect",
+  "level": "Level 2",
+  "blocked_on": "we and me are not seated in the bank yet - docs/open-faults.md K"
+ },
+ "s:mode-wm-wm04": {
+  "file": "s-mode-wm-wm04.mp3",
+  "text": "Can we tag the cat?",
+  "ms": 1596,
+  "sha256": "af06b9b519e5e2455feb7deebe73adc8d204c8cda7d433c3ab92576daf12bcca",
+  "round": "we/me sentences (2026-08-13)",
+  "verdict": "perfect",
+  "level": "Level 2",
+  "blocked_on": "we and me are not seated in the bank yet - docs/open-faults.md K"
+ },
+ "s:mode-wm-wm05": {
+  "file": "s-mode-wm-wm05.mp3",
+  "text": "My mom had a cap and we had a hat.",
+  "ms": 2449,
+  "sha256": "e4ff4f93b6d06538c875011cea7bc00477a4ebc71c6d62ba62a4ab2fcc87885a",
+  "round": "we/me sentences (2026-08-13)",
+  "verdict": "perfect",
+  "level": "Level 3",
+  "blocked_on": "we and me are not seated in the bank yet - docs/open-faults.md K"
+ },
+ "s:mode-wm-wm06": {
+  "file": "s-mode-wm-wm06.mp3",
+  "text": "We did not sit.",
+  "ms": 1532,
+  "sha256": "989525c74dfcdddafe88fbfb5cc15ae4b2cf10d97dc0ad1ca41cce4fa2c8a61a",
+  "round": "we/me sentences (2026-08-13)",
+  "verdict": "perfect",
+  "level": "Level 3",
+  "blocked_on": "we and me are not seated in the bank yet - docs/open-faults.md K"
+ },
+ "s:mode-wm-wm07": {
+  "file": "s-mode-wm-wm07.mp3",
+  "text": "We hid in the box.",
+  "ms": 1617,
+  "sha256": "a0861ccbc1531e7a69fc532f19457f04258606c105c7ee09ac31bacff101fb1d",
+  "round": "we/me sentences (2026-08-13)",
+  "verdict": "perfect",
+  "level": "Level 5",
+  "blocked_on": "we and me are not seated in the bank yet - docs/open-faults.md K"
+ },
+ "s:mode-wm-wm08": {
+  "file": "s-mode-wm-wm08.mp3",
+  "text": "We got a fig and a yam.",
+  "ms": 1788,
+  "sha256": "ffbe3cf0feb4745de621608e93a8cbd8bd333cab07486c0c5d139d795a738db2",
+  "round": "we/me sentences (2026-08-13)",
+  "verdict": "perfect",
+  "level": "Level 5",
+  "blocked_on": "we and me are not seated in the bank yet - docs/open-faults.md K"
+ },
+ "s:mode-wm-wm09": {
+  "file": "s-mode-wm-wm09.mp3",
+  "text": "We win!",
+  "ms": 1148,
+  "sha256": "8d6fefdd9617cb519fe590b12a33d38ad1cbec84da0e36a99676fa1dc8ddc1ba",
+  "round": "we/me sentences (2026-08-13)",
+  "verdict": "perfect",
+  "level": "Level 3",
+  "blocked_on": "we and me are not seated in the bank yet - docs/open-faults.md K"
+ },
+ "s:mode-wm-wm10": {
+  "file": "s-mode-wm-wm10.mp3",
+  "text": "We can dig a big pit.",
+  "ms": 1809,
+  "sha256": "4c6d0300e734c877b25f2816f9034e614a3e310abc2a933d8e3a9f3886108a9b",
+  "round": "we/me sentences (2026-08-13)",
+  "verdict": "perfect",
+  "level": "Level 3",
+  "blocked_on": "we and me are not seated in the bank yet - docs/open-faults.md K"
+ },
+ "s:mode-wm-wm11": {
+  "file": "s-mode-wm-wm11.mp3",
+  "text": "My dad said we can nap.",
+  "ms": 1809,
+  "sha256": "75037faba69a98cf27a67fd83b9d6b0f9efa04ffa26207556e3b7e1664c202a8",
+  "round": "we/me sentences (2026-08-13)",
+  "verdict": "perfect",
+  "level": "Level 2",
+  "blocked_on": "we and me are not seated in the bank yet - docs/open-faults.md K"
+ },
+ "s:mode-wm-wm12": {
+  "file": "s-mode-wm-wm12.mp3",
+  "text": "The cat sat on me.",
+  "ms": 1574,
+  "sha256": "de466435f333682a2d9a9660ab63502d4bbbafa8c518642fc6a408765dc8dab0",
+  "round": "we/me sentences (2026-08-13)",
+  "verdict": "perfect",
+  "level": "Level 2",
+  "blocked_on": "we and me are not seated in the bank yet - docs/open-faults.md K"
+ },
+ "s:mode-wm-wm14": {
+  "file": "s-mode-wm-wm14.mp3",
+  "text": "Tag me!",
+  "ms": 1212,
+  "sha256": "c3121c4161a5edef02c24fe57bf9cc55e40732cc471148b4c10ab7184e3a10ff",
+  "round": "we/me sentences (2026-08-13)",
+  "verdict": "perfect",
+  "level": "Level 2",
+  "blocked_on": "we and me are not seated in the bank yet - docs/open-faults.md K"
+ },
+ "s:mode-wm-wm15": {
+  "file": "s-mode-wm-wm15.mp3",
+  "text": "The dog ran to me.",
+  "ms": 1638,
+  "sha256": "d1f003609e8557d555792750d5b3666d4d9dbd2fc1002b881741601aca8bcf64",
+  "round": "we/me sentences (2026-08-13)",
+  "verdict": "perfect",
+  "level": "Level 3",
+  "blocked_on": "we and me are not seated in the bank yet - docs/open-faults.md K"
+ },
+ "s:mode-wm-wm16": {
+  "file": "s-mode-wm-wm16.mp3",
+  "text": "Pat the cat and it can sit on me.",
+  "ms": 2257,
+  "sha256": "956944caebed4076e76f26d428611b6464a7a3ed1f3b30a97a86ffcc0254d582",
+  "round": "we/me sentences (2026-08-13)",
+  "verdict": "perfect",
+  "level": "Level 3",
+  "blocked_on": "we and me are not seated in the bank yet - docs/open-faults.md K"
+ },
+ "s:mode-wm-wm17": {
+  "file": "s-mode-wm-wm17.mp3",
+  "text": "My pal hid the map on me.",
+  "ms": 1873,
+  "sha256": "dae237f4096f9645bf30bddcf831124309c76dece81231c975a71a8cdac91a94",
+  "round": "we/me sentences (2026-08-13)",
+  "verdict": "perfect",
+  "level": "Level 5",
+  "blocked_on": "we and me are not seated in the bank yet - docs/open-faults.md K"
+ },
+ "s:mode-wm-wm18": {
+  "file": "s-mode-wm-wm18.mp3",
+  "text": "The pup sat on my lap and did not nip me.",
+  "ms": 2726,
+  "sha256": "d9e54a5ed9844e797ca83c1822d3b6aa13ccc801ff137a71fb952a5b1107a536",
+  "round": "we/me sentences (2026-08-13)",
+  "verdict": "perfect",
+  "level": "NOT PLACEABLE — nip",
+  "blocked_on": "we and me are not seated in the bank yet - docs/open-faults.md K"
+ },
+ "s:mode-wm-wm19": {
+  "file": "s-mode-wm-wm19.mp3",
+  "text": "Can my pal tag me?",
+  "ms": 1681,
+  "sha256": "9f0b0be58d35b50a7aabe057aaf4fa7411ecceb11cdcdbc3acad3db675c8c641",
+  "round": "we/me sentences (2026-08-13)",
+  "verdict": "perfect",
+  "level": "Level 2",
+  "blocked_on": "we and me are not seated in the bank yet - docs/open-faults.md K"
+ },
+ "s:mode-wm-wm20": {
+  "file": "s-mode-wm-wm20.mp3",
+  "text": "The fox ran up to me.",
+  "ms": 1788,
+  "sha256": "e7414997910056223c540b32de030a6dcbb9f9ea956b261c6d366ab921570ae9",
+  "round": "we/me sentences (2026-08-13)",
+  "verdict": "perfect",
+  "level": "Level 3",
+  "blocked_on": "we and me are not seated in the bank yet - docs/open-faults.md K"
+ },
+ "s:mode-wm-wm21": {
+  "file": "s-mode-wm-wm21.mp3",
+  "text": "Zap me!",
+  "ms": 1169,
+  "sha256": "b96b18b22fd4d35c9b678bf548d5a7fa86d81af225d56bfc3243775ac538423b",
+  "round": "we/me sentences (2026-08-13)",
+  "verdict": "perfect",
+  "level": "Level 2",
+  "blocked_on": "we and me are not seated in the bank yet - docs/open-faults.md K"
+ },
+ "s:mode-wm-wm22": {
+  "file": "s-mode-wm-wm22.mp3",
+  "text": "My pal can zap me!",
+  "ms": 1702,
+  "sha256": "5e7ccb4fe8e0044ad7885ae9ac7a048c36058e8612c194e6af372bc2ffe72253",
+  "round": "we/me sentences (2026-08-13)",
+  "verdict": "perfect",
+  "level": "Level 2",
+  "blocked_on": "we and me are not seated in the bank yet - docs/open-faults.md K"
+ },
+ "s:mode-wm-wm23": {
+  "file": "s-mode-wm-wm23.mp3",
+  "text": "Tag me and we can run.",
+  "ms": 1809,
+  "sha256": "7acfb34de9558b9fe495e00f0b249cc24614ed6304a4490dfc8b47caf2fef119",
+  "round": "we/me sentences (2026-08-13)",
+  "verdict": "perfect",
+  "level": "Level 4",
+  "blocked_on": "we and me are not seated in the bank yet - docs/open-faults.md K"
  }
 }

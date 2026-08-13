@@ -728,6 +728,19 @@ a tile, the reveal says so in child-facing words) and NOT BUILT. Seating these t
 three more words to the class J1 exists for, so it does not create the fault, but it does
 make it three words larger and more likely to be met.
 
+**A sentence can be decodable and still be wrong, and nothing here checks for it.**
+On 2026-08-13 the owner refused "My dad can pat me." with two words: *not appropriate*.
+Every mechanical gate passed it — every word taught, the level correct, the audio clean —
+because `tools/decodable.mjs` asks whether a child CAN read a sentence and nothing asks
+whether a child SHOULD meet it. CLAUDE.md already carries this rule for WORDS, under
+"Before any beta is pushed": the whole bank is re-screened for sexual, crude or violent
+meaning, and "milt" reaching a listening round is the incident that earned it. Sentences
+were never brought under it, and a sentence can carry a meaning that none of its words
+does. An adult subject with a physical verb and a child object is the shape to watch,
+and it was written by me without noticing. **Done** means the pre-beta screen covers
+sentences as well as words, and the sentence drafting rule says so where it can be read
+before the next batch is written.
+
 **Done** means: `we` and `me` seated at Level 2 with `WORD_SOUND` entries pointing the `e`
 at `long_e`; a listening round for `d:long_o` before `go` is seated at all; the counts and
 floors that follow raised (E11 — the bank moves 438 to 440 or 441, and the clip count with
