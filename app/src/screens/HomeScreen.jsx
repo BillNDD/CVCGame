@@ -12,7 +12,7 @@ function FreePlayChooser({ level, L, onChoose, onCancel }) {
   return (
     <Modal title="Free play" onClose={onCancel}>
       <p style={{ margin: "0 0 14px", fontSize: 14.5, color: C.ink2, lineHeight: 1.5 }}>
-        Grown-up: which words? Truly random serves any word from all 438 — easy and
+        Grown-up: which words? Truly random serves any word from all 440 — easy and
         hard alike. Nothing is saved in free play either way.
       </p>
       <div style={{ display: "grid", gap: 8 }}>

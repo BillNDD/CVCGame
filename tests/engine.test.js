@@ -57,18 +57,18 @@ describe("A stumble must not cost mastery (parent report, 2026-08-13)", () => {
 });
 
 describe("word bank", () => {
-  it("has 438 unique words across 11 levels", () => {
+  it("has 440 unique words across 11 levels", () => {
     const all = LEVELS.flatMap(l => l.words);
-    expect(all.length).toBe(438);
-    expect(new Set(all).size).toBe(438);
+    expect(all.length).toBe(440);
+    expect(new Set(all).size).toBe(440);
     expect(LEVELS.map(l => l.n)).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]);
-    expect(LEVELS.map(l => l.words.length)).toEqual([12, 53, 49, 48, 49, 38, 58, 27, 22, 53, 29]);
+    expect(LEVELS.map(l => l.words.length)).toEqual([12, 55, 49, 48, 49, 38, 58, 27, 22, 53, 29]);
   });
   it("starts with the 12-word VC level", () => {
     expect(LEVELS[0].words).toEqual(["at","an","am","ax","in","it","if","is","on","ox","up","us"]);
   });
   it("maps every word to its level", () => {
-    expect(Object.keys(WORD_LEVEL).length).toBe(438);
+    expect(Object.keys(WORD_LEVEL).length).toBe(440);
     expect(WORD_LEVEL.at).toBe(1); expect(WORD_LEVEL.cat).toBe(2); expect(WORD_LEVEL.was).toBe(7);
     expect(WORD_LEVEL.has).toBe(2); expect(WORD_LEVEL.she).toBe(6);
     /* "the" moved 7 -> 2 on 2026-08-12: a heart word's level is where the
@@ -428,16 +428,16 @@ describe("migrate", () => {
 
 /* ---------------- export ---------------- */
 describe("buildMarkdown", () => {
-  it("reports the 438-word denominator and eleven level rows", () => {
+  it("reports the 440-word denominator and eleven level rows", () => {
     const md = buildMarkdown(newState());
-    expect(md).toContain("0/438");
+    expect(md).toContain("0/440");
     expect(md.match(/\*\*Level \d+ .+ \(/g).length).toBe(11);
   });
   it("counts a word as mastered only from box 4", () => {
     const three = seeded(["cat", "dog"], { box: 3, attempts: 2 });
-    expect(buildMarkdown(three)).toContain("0/438");
+    expect(buildMarkdown(three)).toContain("0/440");
     const four = seeded(["cat", "dog"], { box: 4, attempts: 2 });
-    expect(buildMarkdown(four)).toContain("2/438");
+    expect(buildMarkdown(four)).toContain("2/440");
   });
   it("keeps a grapheme-safe name intact in the header", () => {
     // lone surrogate = an unpaired HIGH surrogate, or a LOW surrogate with no high before it
@@ -462,10 +462,10 @@ describe("buildMarkdown", () => {
 describe("voice packs", () => {
   it("inventories one clip per word, the fixed sentences, and every sound a tile can ask for", () => {
     const script = voiceScript();
-    expect(script.length).toBe(499);                       // 6 sentences + 17 praise + 438 words + "Pronounced:" + 37 sounds
-    expect(script.filter((c) => c.id.startsWith("w:")).length).toBe(438);
+    expect(script.length).toBe(501);                       // 6 sentences + 17 praise + 440 words + "Pronounced:" + 37 sounds
+    expect(script.filter((c) => c.id.startsWith("w:")).length).toBe(440);
     expect(script.filter((c) => c.id.startsWith("d:")).length).toBe(37);
-    expect(new Set(script.map((c) => c.id)).size).toBe(499);
+    expect(new Set(script.map((c) => c.id)).size).toBe(501);
     expect(script.find((c) => c.id === "s:was").text).toBe("The word was");
     expect(script.find((c) => c.id === "l:wrong").text).toBe("Let’s try again.");
     expect(script.find((c) => c.id === "p:0").text).toBe("Great job!");
@@ -544,7 +544,7 @@ describe("voice packs", () => {
      will name words this way and must not be the thing that finds it. */
   it("bankWords covers every word the app names, not only the levels", () => {
     const words = bankWords();
-    expect(words.length).toBe(438);
+    expect(words.length).toBe(440);
     expect([...new Set(words)].length).toBe(words.length);       // no duplicates
     expect([...words].sort()).toEqual(words);                    // stable order
     const inLevels = new Set();
@@ -557,7 +557,7 @@ describe("voice packs", () => {
     for (const w of inLevels) expect(words.includes(w)).toBe(true);
     /* Today all three sets coincide, and recording that is the point: it is
        what made the old code look right. */
-    expect(inLevels.size).toBe(438);
+    expect(inLevels.size).toBe(440);
 
     /* Negative control. The old LEVELS-only derivation, run over a fixture
        where a word is named ONLY in a tricky note, must miss it — and the

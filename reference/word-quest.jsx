@@ -18,7 +18,7 @@ const LEVELS = [
      word on page one of every book. This is where sentence practice begins, so
      it is where the words a sentence cannot do without begin too. */
   { n: 2, name: "Sunny Start", emoji: "☀️", focus: "short a + heart words",
-    words: ["the","and","to","do","you","said","my","of","a",
+    words: ["the","and","to","do","you","said","my","of","a","we","me",
       "cat","hat","mat","sat","man","can","ran","bat","cap","map","tap","nap","bag","dad","jam","pan","rat","sad","wag","van",
       "fan","ham","lap","tag","had","tan","pad","rag","zap","yam","pal","cab","ram","dab","yap","mad","bad","rap","has","pat","dam","nag","sap","vat"] },
   { n: 3, name: "Busy Bees", emoji: "🐝", focus: "short i & o",
@@ -392,7 +392,7 @@ const TTS_UNSAFE_PRAISE = [];
 const ttsSafePraise = (i) => (TTS_UNSAFE_PRAISE.includes(i) ? 0 : i);
 /* THE ONE WORD SYSTEM SPEECH MUST NOT BE GIVEN RAW. Every clip in this game is
    recorded, and the app only reaches system speech when the pack fails to
-   load. For 438 of the 439 words that fallback is merely worse. For "a" it
+   load. For 439 of the 440 words that fallback is merely worse. For "a" it
    would break safety rule S4: handed the string "a", every system voice says
    the LETTER'S NAME, which is the one thing this app must never say to a child
    learning that letters make sounds. So the fallback says "uh" — the sound the
@@ -494,6 +494,14 @@ const WORD_SOUND = {
      "a" at the shipped schwa would make the word clip and the sound clip
      disagree inside one reveal, which is fault B15 by another route. */
   a: { 0: "schwa_a" },
+  /* "we" and "me", seated 2026-08-13 at the owner's ask, after nine sentences
+     of batch 3 had to be bent around their absence. Both are open syllables:
+     the e is not the e of "pen", it says its own name, so both bend to long_e —
+     the same clip "she" already uses and the owner graded good. "go" was asked
+     for at the same time and is NOT here: its o needs d:long_o, a sound nobody
+     has ever heard, and seating it would put an unheard sound in a child's ear
+     (docs/open-faults.md section K). */
+  we: { 1: "long_e" }, me: { 1: "long_e" },
   wash: { 1: "short_o" },
   is: { 1: "z" }, has: { 2: "z" },
   /* THE VOICED th. "th" spells two different sounds, and until 2026-08-11 the
@@ -577,14 +585,14 @@ function soundIdsFor(word) {
    which of the placed words are sight words, for the sentence leveller and for
    anyone reading the bank.
 
-   All eight sit at Level 2, owner-ruled 2026-08-12: a heart word's level is
+   All eleven sit at Level 2, owner-ruled 2026-08-12: a heart word's level is
    where the CHILD MEETS it. That ruling replaced the SPEC section 12
    placement, which had put them where their spelling falls — to and do at
    Level 6, you and said at Level 7, my at the open-syllable level that is not
    built. "a" joined them on 2026-08-12, from a schwa package the owner made
    outside this repo: until then no word clip existed, because the voice said
    the letter's name, which S4 forbids. */
-const HEART = ["the", "and", "to", "do", "you", "said", "my", "of", "a"];
+const HEART = ["the", "and", "to", "do", "you", "said", "my", "of", "a", "we", "me"];
 
 function bankWords() {
   const words = new Set();

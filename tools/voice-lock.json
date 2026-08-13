@@ -2888,6 +2888,7 @@
    "mash": 0.82,
    "mat": 0.82,
    "math": 0.82,
+   "me": 0.6,
    "men": 0.82,
    "mend": 0.8,
    "mess": 0.82,
@@ -3051,6 +3052,7 @@
    "was": 0.82,
    "wash": 0.82,
    "wax": 0.82,
+   "we": 0.6,
    "web": 1,
    "wed": 1,
    "well": 0.82,
@@ -3547,7 +3549,9 @@
   "you": "af076a43f3209ba8450a8c2e2d899d8c89f410f719ddc77d0a78f2f1f4ddcb82",
   "my": "006858b6ab0c677fc0fb0206ca65f97e6fa4d804de74416357c82067505fd711",
   "of": "7560e3f01143d518d00bb45410bcf65e64000808f3b26790ab746b06e792bd94",
-  "a": "d3fc66ccc4ed23f493af51b368009b2325153aae9c1cddd23007825a47c7ecee"
+  "a": "d3fc66ccc4ed23f493af51b368009b2325153aae9c1cddd23007825a47c7ecee",
+  "we": "9872dbfd5ff1ccc73aaaf21f6b2aa3734f5ea61349d6a13657374dc59f7dfd7e",
+  "me": "82a95a9b75d93fc1f57c73645f6233af18ed2c42ed3354a4da4e7f05dda1fa60"
  },
  "words": {
   "am": {
@@ -6615,6 +6619,20 @@
    "round": "the word a / 2026-08-12",
    "listen_context": "clip",
    "byte_pin_sha256": "d3fc66ccc4ed23f493af51b368009b2325153aae9c1cddd23007825a47c7ecee"
+  },
+  "we": {
+   "verdict": "perfect",
+   "ear_notes": "owner perfect we_1; family sit_sp0.6 — cut from \"Sit. we. Sit.\", never read from the bare spelling; recipe in the batch renderer, not in these columns",
+   "round": "batch 12 (2026-08-11)",
+   "listen_context": "clip",
+   "byte_pin_sha256": "9872dbfd5ff1ccc73aaaf21f6b2aa3734f5ea61349d6a13657374dc59f7dfd7e"
+  },
+  "me": {
+   "verdict": "perfect",
+   "ear_notes": "owner perfect me_1; family listen_sp0.6 — cut from \"Listen—me.\", never read from the bare spelling; recipe in the batch renderer, not in these columns",
+   "round": "batch 13 (2026-08-11)",
+   "listen_context": "clip",
+   "byte_pin_sha256": "82a95a9b75d93fc1f57c73645f6233af18ed2c42ed3354a4da4e7f05dda1fa60"
   }
  },
  "environment": {

@@ -701,7 +701,21 @@ A parent sent the child's export. Three things came out of it; one is fixed, two
   outlived its feature, carried by every player from before that date.
 - **Done** means `migrate` drops settings whose feature is gone, with a control.
 
-## K. Seating we, me and go — asked 2026-08-13, one of the three is blocked
+## K. Seating we, me and go — we and me SEATED 2026-08-13; go still blocked
+
+**`we` and `me` are in the game.** Level 2, beside the other nine heart words, with
+`WORD_SOUND` pointing each `e` at `long_e`, both listed in `HEART`, and the clips the
+owner graded `perfect` in batches 12 and 13 shipped as the exact bytes they heard. The
+count cascade E11 predicted all moved together: the bank 438 -> 440, Level 2 53 -> 55,
+the cumulative lower-level total 65 -> 67, the pack 499 -> 501 clips and the G13 floor
+with it. One thing E11's lookup did not predict and the work found: the derivation in
+`tests/safety.test.js` that computes the free-play block boundary had gone stale a
+SECOND time, at the removal of `gob`, inside the very paragraph that warns about it.
+All three of its numbers are now computed from the shipped `LEVELS` rather than
+reasoned about. **The 22 approved we/me sentences are unblocked.**
+
+`go` is still out, and everything below stands for it.
+
 
 The owner asked for `we`, `me` and `go` to be seated at appropriate levels, after nine
 sentences of batch 3 had to be bent around their absence. Three things were checked before

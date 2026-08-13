@@ -544,27 +544,37 @@ describe("G10 — free play never touches the save", () => {
        349-word bank and fell out of it when the bank grew, at which point the
        test would still have passed while proving nothing. Both literals below
        are derived from the algorithm, never read back from a run:
-         - the guard drops "plan" from the pool, so 438 words are left and
-           floor(0.955 x 438) = 418 opens the block on "grin", not "plan";
+         - the guard drops "plan" from the pool, so 439 words are left and
+           floor(0.955 x 439) = 419 opens the block on "grin", not "plan";
          - "plan" is then pushed to the BACK of the refilled pool, so index
-           floor(0.955 x 439) = 419 of that pool is "plum" — the word that
+           floor(0.955 x 440) = 420 of that pool is "plum" — the word that
            sat one place after "plan" before it moved. Without the push-back
            the same index would land on "plan" itself, so this line is what
            proves the word returns to the game rather than leaving it. All
-           literals (E4), for the 439-word bank.
+           literals (E4), for the 440-word bank.
 
-       RE-DERIVED 2026-08-12, THREE times, and the third one is the lesson.
+       RE-DERIVED FIVE TIMES NOW, and the last two are the lesson.
        The bank went 432 -> 436 when four heart words joined, 436 -> 438 with
        "my" and "of", and 438 -> 439 when "a" shipped. The first two were
        written down. The third was not: the commit that added "a" claimed in
        its own message to have "re-derived for 439", and every number in this
        paragraph stayed at 438 — a stale derivation inside the sentence that
        exists to prevent stale derivations, one bullet below an invocation of
-       the cup lesson. An auditor found it. The assertions never failed, and
-       that is the danger: 0.955 sits inside the true window either way, so
+       the cup lesson. An auditor found it.
+
+       The FOURTH move was never written down either. Removing "gob" took the
+       bank 439 -> 438, and this paragraph kept saying 439. So the warning
+       below was written, the fault it warns about happened again on the very
+       next move of the bank, and nothing went red — because 0.955 sits inside
+       the true window either way. Corrected on 2026-08-13, at the fifth move
+       (438 -> 440, seating "we" and "me"), and this time all three numbers
+       were COMPUTED from the shipped LEVELS rather than reasoned about:
+       439 -> index 419 -> "grin", 440 -> index 420 -> "plum".
+
+       That the assertions never failed is the danger, not the comfort:
        nothing goes red while the reasoning quietly stops matching the code.
-       Recompute all three numbers every time the bank moves, and never take
-       the previous paragraph's word for it. */
+       Recompute all three numbers every time the bank moves, run them, and
+       never take the previous paragraph's word for it. */
     const spy = vi.spyOn(Math, "random").mockReturnValue(0.9999999);
     try {
       await enterFreePlay("🎲 Truly random");

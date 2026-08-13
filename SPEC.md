@@ -82,7 +82,7 @@ These rules are mandatory.
 
 ## 3. Word bank
 
-The bank has 438 words in eleven levels. The word order in a level is the introduction order.
+The bank has 440 words in eleven levels. The word order in a level is the introduction order.
 Words have 2 or 3 sound units through Level 9, and 3 or 4 at Levels 10 and 11, where a
 consonant blend adds a unit. Words have at most 4 letters through Level 7 and at Levels 10
 and 11; Levels 8 and 9 may reach 5. Four sound units is the ceiling, and it is a real one:
@@ -109,7 +109,7 @@ exceptions, each with a note.
 | Level | Name | Focus | Words |
 |------:|------|-------|-------|
 | 1 | Hatchlings | two sounds (VC) | at an am ax in it if is on ox up us |
-| 2 | Sunny Start | short a + heart words | the and to do you said my of a cat hat mat sat man can ran bat cap map tap nap bag dad jam pan rat sad wag van fan ham lap tag had tan pad rag zap yam pal cab ram dab yap mad bad rap has pat dam nag sap vat |
+| 2 | Sunny Start | short a + heart words | the and to do you said my of a we me cat hat mat sat man can ran bat cap map tap nap bag dad jam pan rat sad wag van fan ham lap tag had tan pad rag zap yam pal cab ram dab yap mad bad rap has pat dam nag sap vat |
 | 3 | Busy Bees | short i and o | sit pig big dig win lip hit six fin bin dog hot top pot mop log box fox hop cot mom pop not got did him pin tip sip dip hip rip bit fit pit bib wig fix job lot nod hog tin rig rob sob mob cop dim |
 | 4 | Rocket Words | short e and u | bed red hen pen ten net leg wet jet men bus cup sun run fun mud bug hug nut tub pet get let set cut pup web bun rug mug vet tug jug hum rub dug bud peg met yet bet keg hem nun pun jut gut hub |
 | 5 | Explorer | all five vowels | yes zip gum gas kid cub den dot fed fig fog gap hid hut jog kit lid mix wax yak jig jab jot lab lad led lit lug nab pep pod rib rim rod rot sag sub sum tab tot wed wit zig zag fax nix vex sax cod |
@@ -818,7 +818,7 @@ sentences are made of the words that level teaches.
    same day, and the shipped pack's own sound and word clips.
 
 7. **Free play offers sentences too — owner-ruled 2026-08-13.** The chooser today asks
-   "which words?" and gives two answers: truly random from all 438, or this level's words.
+   "which words?" and gives two answers: truly random from all 440, or this level's words.
    It must also offer SENTENCES, so a child can practise reading them without a session.
    Free play's own promise is untouched and is what makes this safe: nothing is written to
    the record in free play, ever (design rule 1 and S1), so a sentence read there teaches

@@ -139,15 +139,21 @@ byte-pinned word rather than replacing accepted audio with a render.
   sidecar workspace archive on the owner's PC
   (handoff `word-quest-uplift-handoff-2026-08-07T1438Z`).
 
-## Approved and unshipped: 123 items with no level yet (through 2026-08-13)
+## Approved and unshipped: 121 items with no level yet (through 2026-08-13)
 
-A hundred and twenty-three items are closed by the owner's ear and wait in
+A hundred and twenty-one items are closed by the owner's ear and wait in
 `tools/pending-words/` for the levels and the code that will hold them:
-**26 words** — the heart words **he, we, be, me, go, no, so**, the
+**24 words** — the heart words **he, be, go, no, so**, the
 plural-s words and the two-syllable compounds — **94 sentences** across four
 sentence batches, and **three spoken lines**: the reveal lead-in
 **"Let's sound it out."** and the two invitation lines of the sentence reveal.
 Every one is graded `perfect`; the ledger names each with its round.
+
+**"we" and "me" left this list on 2026-08-13**, seated at Level 2 with the other
+heart words and shipped into the pack as the exact bytes the owner graded
+`perfect` in batches 12 and 13. **"go" did not**, and the reason is a sound: its
+`o` needs `d:long_o`, which nobody has ever heard. It waits here for a listening
+round of its own (`docs/open-faults.md` section K).
 
 **Sentence batch 3 and the invitation lines, 2026-08-13.** Thirty-one sentences
 across Levels 1 to 11, closing the per-level gaps batches 1 and 2 left, plus the
