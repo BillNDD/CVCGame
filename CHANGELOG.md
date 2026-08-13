@@ -7,6 +7,15 @@ This document follows the Microsoft Writing Style Guide.
 Version 6 adds the standalone progressive web app. The reference build does not change.
 The first app version is 1.0.0-beta.1. The app stays in beta until version 1.0 is ready.
 
+- Fixed: touching the screen during a session could start a text selection instead of doing
+  what you meant. On an iPhone the blue selection handles appeared over the grown-up strip,
+  between "skip" and "got it". The cause was the app's own gesture: a grown-up holds a result
+  control for 450 milliseconds, and a press that long on a touch screen is what the phone reads
+  as "select this text". The child's screen no longer offers a selection. The boxes in the
+  "Grown-ups corner" still do, because that is where you copy your backup out.
+  Reported by a parent on a real iPhone 13; no automatic check had ever seen it, because they
+  all drive a mouse and a mouse never asks for a selection by pressing.
+
 - Known issue: two of the sounds in the sounding-out are not good enough yet. The buzzing
   "th" of "this" and the "h" sound were judged poor when they were heard next to the others,
   and they are being remade. They are the right sounds, made badly, not the wrong sounds. The

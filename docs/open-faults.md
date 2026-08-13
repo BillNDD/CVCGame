@@ -790,7 +790,7 @@ of cells fails each time, and a cell that fails in a full run passes when run al
 that is settled the census cannot be quoted for anything — a census that gives a different
 answer each time is not evidence, and worse, it can hide a real defect inside its own noise.
 No benchmark, and no run on the other six viewports, until it is fixed.
-The 47 interface checks (G7) prove that specific measurements hold on specific screens. They
+The 50 interface checks (G7) prove that specific measurements hold on specific screens. They
 do not prove that **every word in the bank renders correctly**, and no gate in this project
 does. A word is content, and content is where layout breaks: a five-letter word with four
 tiles, a heart word whose tile is two letters wide, a praise line that wraps to three rows on

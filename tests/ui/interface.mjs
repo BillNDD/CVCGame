@@ -475,6 +475,70 @@ for (const height of [430, 555, 720, 950]) {
   await context.close();
 }
 
+/* A 450 ms HOLD MUST NOT SELECT TEXT. Reported by the owner from a real
+   iPhone 13 on 2026-08-13, with a screenshot: a touch between "skip" and
+   "got it" started an iOS text selection across the grown-up strip, blue
+   handles and all.
+   The cause is the app's own core gesture. S5 requires a 450 ms pointer hold on
+   every adult result control, and a 450 ms press on a touch screen is exactly
+   what iOS reads as "select this text" — so the interaction a grown-up performs
+   twenty times a session was fighting the operating system on every touch
+   device, from the day the hold was built. No gate saw it because every browser
+   check in this project drives a MOUSE, and a mouse never asks for a selection
+   by pressing. That is the lesson worth more than the fix: this repository's
+   evidence about touch has always come from a device that has none.
+   The control below is the fault itself, planted: with the rule removed, the
+   selectable surface comes back. */
+{
+  const context = await browser.newContext();
+  const page = await startSession(context, { width: 390, height: 664 });
+  const read = () => page.evaluate(() => {
+    const pick = (sel) => {
+      const el = document.querySelector(sel);
+      if (!el) return "missing";
+      const cs = getComputedStyle(el);
+      return cs.webkitUserSelect || cs.userSelect;
+    };
+    return { strip: pick(".wq-striplabel"), word: pick(".wq-word"), hold: pick(".wq-sbtn.wq-hold") };
+  });
+  const live = await read();
+  const locked = ["strip", "word", "hold"].filter((k) => live[k] === "none");
+  if (locked.length === 3) ok(`a hold cannot select the child's screen (user-select none on the strip label, the word and the grade control a grown-up holds)`);
+  else fail("a 450ms hold can select text on the child's screen",
+    `${JSON.stringify(live)} — a long press on a touch device raises a selection instead of grading`);
+
+  /* THE CONTROL RUNS HERE, ON THE SCREEN THE ELEMENTS ARE ON. Its first
+     version ran after navigating to the grown-ups corner, where .wq-striplabel
+     does not exist — so it read "missing", compared that against "none", and
+     passed while proving nothing. A control that passes because its subject is
+     absent is the shape this whole gate exists to refuse. */
+  await page.addStyleTag({ content: `.wq-root{-webkit-user-select:text !important;user-select:text !important}` });
+  const after = await read();
+  if (after.strip === "text" && after.hold === "text")
+    ok(`control OK: the probe reads live style (removing the rule makes the strip and the grade control selectable again)`);
+  else fail("the user-select probe does not read live style",
+    `${JSON.stringify(after)} — the elements must EXIST and must have changed`);
+
+  /* AND THE GROWN-UP CAN STILL SELECT WHAT THEY CAME FOR. Turning selection off
+     everywhere would take the inputs with it, which is the one place in this
+     app where selecting text is the point.
+     The name field, not the copy box: the copy box only renders when the
+     CLIPBOARD IS BLOCKED, and in a headless browser the write succeeds, so a
+     check pinned to it would have measured nothing on most runs. */
+  await page.goto(URL, { waitUntil: "load" });
+  await page.getByRole("button", { name: "Grown-ups corner" }).click();
+  await page.locator("#wq-name").waitFor({ timeout: 8000 });
+  const box2 = await page.evaluate(() => {
+    const el = document.querySelector("#wq-name");
+    if (!el) return "missing";
+    const cs = getComputedStyle(el);
+    return cs.webkitUserSelect || cs.userSelect;
+  });
+  if (box2 === "text") ok("the grown-up can still select and edit the text they came for (user-select text on the corner's inputs)");
+  else fail("a grown-up's input cannot be selected", `user-select is ${box2} — turning selection off took the inputs with it`);
+  await context.close();
+}
+
 /* 13-15 (A1-005) — a toast must clear the child's own control. The offset was
    a magic 112 px, which is not the height of anything: on a phone the toast
    covered the record control by 27 px and hid its label, and on iPad portrait

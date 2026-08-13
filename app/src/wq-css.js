@@ -254,6 +254,28 @@ const CSS = `
 .wq-modal{position:relative;z-index:1;background:#fff;border-radius:18px;padding:18px;max-width:380px;width:100%;
   box-shadow:0 12px 40px rgba(23,53,107,.3)}
 
+/* NO TEXT SELECTION ON THE CHILD'S SCREEN.
+   Reported by the owner from a real iPhone 13 on 2026-08-13, with a screenshot:
+   touching between "skip" and "got it" started an iOS text selection — blue
+   handles, highlighted label, the lot — across the grown-up strip.
+
+   It is not an edge case, and the cause is the app's own core gesture. Every
+   adult result control needs a 450 ms POINTER HOLD (S5), and a 450 ms press on
+   a touch screen is precisely the gesture iOS reads as "select this text". So
+   the one interaction a grown-up performs twenty times a session was fighting
+   the operating system on every touch device, from the day the hold was built,
+   and no rule in this stylesheet had ever said otherwise. No gate saw it
+   either: every browser check this project runs drives a mouse.
+
+   The callout is off with it, because the same long press raises the
+   copy/look-up bubble over any text it lands on.
+
+   A grown-up must still be able to select the backup text they came for, so
+   the inputs opt back in. That is the one place in this app where selecting
+   text is the point, and it is why this is two rules rather than one. */
+.wq-root{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+.wq-root input,.wq-root textarea,.wq-root .wq-input{-webkit-user-select:text;user-select:text}
+
 /* a11y + motion */
 button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid ${C.ink};outline-offset:2px}
 .wq-float{animation:wqf 2s ease-in-out infinite}
