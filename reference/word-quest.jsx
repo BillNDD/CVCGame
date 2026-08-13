@@ -346,6 +346,38 @@ function buildSession(state) {
   return q;
 }
 
+/* HOW OFTEN A SENTENCE ARRIVES. SPEC section 12 point 2 rules that a session
+   mixes words and sentences THROUGHOUT — "not words first and sentences at the
+   end" — so that a child who is tiring does not meet every sentence at once.
+   It does not fix the interval; five items is this build's reading of "every
+   few", which puts three sentences in a twenty-item session, and it is the one
+   number here the owner may want to move. */
+const SENTENCE_EVERY = 5;
+
+/* WHERE THE SENTENCES FALL IN A SESSION, and WHICH ones.
+
+   This returns a PLAN, not a queue. `buildSession` still returns words and
+   nothing else, which is deliberate: a sentence is never scheduled, never
+   enters a Leitner box and never gates promotion (SPEC section 12 points 3 and
+   4), so putting one into the queue the boxes are computed from would be the
+   fastest way to break all three of those rules at once. The plan says only
+   "after the child finishes item N, show this sentence".
+
+   `after` is a 1-based COUNT of words read, so `after: 5` means the sentence
+   comes when five words are done. Nothing is planned after the last item: the
+   session is over, and a sentence a child never reaches is worse than one that
+   was never planned, because the log will say it was shown.
+
+   No sentence repeats inside one session. A level with fewer sentences than
+   slots gets fewer sentences, never the same one twice — Level 11 ships four
+   and would otherwise show one of them twice in a twenty-item session. */
+function sessionSentences(level, size = SESSION_SIZE) {
+  const pool = SENTENCES[level] || [];
+  const slots = [];
+  for (let n = SENTENCE_EVERY; n < size; n += SENTENCE_EVERY) slots.push(n);
+  return shuffle(pool).slice(0, slots.length).map((s, i) => ({ after: slots[i], ...s }));
+}
+
 /* Two paths to promotion (SPEC §"Promotion"): 80 percent of the level at
    box 3+, or a streak of two perfect completed sessions. `session` is
    { partial, perfect } from the session that just ended. Without a session
@@ -828,6 +860,37 @@ function clipPlan(kind, word, praise) {
   if (kind === "levelup") return ["e:levelup"];
   return ["e:done"];
 }
+/* THE SENTENCE REVEAL'S PLAY ORDER (SPEC section 12 point 6, approved
+   2026-08-13). Its own function rather than another `kind` in `clipPlan`,
+   because `clipPlan`'s third argument is a praise index and a sentence has no
+   praise: overloading it would have put a sentence's clip id in a parameter
+   named `praise`, and the next person to read it would be entitled to believe
+   the name.
+
+   The whole sentence, a pause, then the ordinary sound-out with the INVITATION
+   in the place the praise line usually takes. That is deliberate: the reveal a
+   child meets here is the reveal they already know from every word — the same
+   seams, the same tile rings, the same order — so there is nothing new to
+   learn about the format while learning the sentence.
+
+   A sentence is ONE whole recording and never a stitch of word clips. Stitched,
+   the same sentence ran 2.07 times too long, and a child hearing eight separate
+   words does not hear a sentence.
+
+   `word` may be null, for a sentence whose level teaches none of its words.
+   Then there is nothing honest to sound out and the plan is the read alone —
+   the same rule as B5's rings: where the answer is not known, show and say
+   nothing rather than something wrong. */
+function sentencePlan(sentenceId, word, lineId) {
+  if (!word) return [sentenceId];
+  const out = [sentenceId, "seam", lineId, "seam2", "w:" + word, "seam2", "s:pronounced"];
+  for (const id of soundIdsFor(word)) out.push("seam2", id);
+  out.push("seam2", "w:" + word);
+  return out;
+}
+/* The closing read (point 5), on its own so a tap can interrupt it without
+   stopping anything that came before it. */
+const sentenceClosePlan = (sentenceId) => [sentenceId];
 /* Which entries of a plan are tile sounds, and which tile each belongs to.
    The player reports the scheduled time of each, so a tile lights the moment
    ITS sound starts rather than on a guessed delay. */

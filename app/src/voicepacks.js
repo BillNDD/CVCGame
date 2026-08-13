@@ -373,6 +373,17 @@ async function playPlan(plan, tier, my, fallback, onScheduled) {
    back, where no length and no tile time can be known — so a fallback reveal
    shows no pops rather than pops against the wrong sound. */
 export function speakVoice(kind, word, praiseIdx, enabled, fallback, onScheduled = () => {}) {
+  playClips(clipPlan(kind, word, praiseIdx), enabled, fallback, onScheduled);
+}
+
+/* The same utterance path for a plan the caller already has. The sentence
+   reveal builds its own (SPEC section 12 point 6) and cannot go through
+   `speakVoice`, whose plan comes from `clipPlan` and whose third argument is a
+   praise index — a sentence has no praise. Everything below the plan is
+   identical on purpose: one resolver, one player, one set of fallback reasons
+   (B7). A second copy of this would be a second place for a fallback to go
+   unnamed, which is the fault B7 was reopened for. */
+export function playClips(plan, enabled, fallback, onScheduled = () => {}) {
   stopClips();
   hush();
   if (!enabled) return;
@@ -390,7 +401,6 @@ export function speakVoice(kind, word, praiseIdx, enabled, fallback, onScheduled
      is still spoken, and nothing on the child's screen mentions it. */
   if (!ctx) { fallback("this device would not start an audio player"); return; }
   if (defaultManifest === null) { fallback("the recorded voice pack did not load"); return; }
-  const plan = clipPlan(kind, word, praiseIdx);
   const tier = resolvePack(plan, (t, id) => (t === "family" ? familyIds.has(id) : !!defaultManifest[id]));
   if (!tier) {
     const missing = plan.filter((id) => !isSeam(id) && !defaultManifest[id]);

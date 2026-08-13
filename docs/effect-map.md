@@ -8,7 +8,7 @@ Per-test rows carry the test's own sentence, which in this project IS the
 Given/When/Then effect. The requirement, oracle, platform, mutant family, evidence
 and known limits are declared per FILE, in the tool, where they stay true.
 
-Totals: 270 it() SITES across 12 files, plus 10 gates that are not test files.
+Totals: 277 it() SITES across 13 files, plus 10 gates that are not test files.
 
 A site inside a loop or a table runs many times, so these rows describe more tests than they number: Vitest executes 330. The rows count the places behaviour is asserted.
 
@@ -353,6 +353,25 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 3 | buildSession and the next level | opens the next level at 10 of the 12 words, not at 9 |
 | 4 | buildSession and the next level | brings a graded next-level word back for review |
 | 5 | buildSession and the next level | caps above-level review at 2 words a session |
+
+## tests/sentence.test.js — 7 tests (G10)
+
+- **Requirement protected:** SPEC section 12 points 2 to 6: where a sentence falls in a session, what it plays, what a tap does, and what ends it
+- **Independent oracle:** The literal clip plan and the level's own word lists
+- **Platform:** node/jsdom with fake timers
+- **Mutant family:** G19 sentence family
+- **Evidence produced:** Vitest counts (floor g10_sentence_tests)
+- **Known limits — what these tests do NOT prove:** Proves the ORDER the app asks for, never how the sentence sounds — that is a listening round (G13), and the owner has already graded every clip it plays.
+
+| # | Suite | Effect (the test's own sentence) |
+|---|---|---|
+| 1 | the sentence inside a session | 1: arrives after the fifth word, and only after a word is finished |
+| 2 | the sentence inside a session | 2: reads the sentence whole, invites, then sounds out the word the level teaches |
+| 3 | the sentence inside a session | 3: a tapped word shows its pieces and says NOTHING |
+| 4 | the sentence inside a session | 4: exactly one word is ever open, and tapping the open one closes it |
+| 5 | the sentence inside a session | 5: the sentence reads again to close, and a tap interrupts that read |
+| 6 | the sentence inside a session | 6: the grown-up ends it, nothing has to finish first, and no result is recorded |
+| 7 | the sentence inside a session | 7: no sentence repeats inside one session |
 
 ## tests/serviceworker.test.js — 5 tests (G14)
 

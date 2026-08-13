@@ -89,6 +89,12 @@ const DECLARED = {
     mutants: "G5 reveal and seam families", evidence: "Vitest counts (floor g10_reveal_tests)",
     limits: "Proves what is scheduled, never how it sounds — that is a listening round (G13).",
   },
+  "tests/sentence.test.js": {
+    gate: "G10", requirement: "SPEC section 12 points 2 to 6: where a sentence falls in a session, what it plays, what a tap does, and what ends it",
+    oracle: "The literal clip plan and the level's own word lists", platform: "node/jsdom with fake timers",
+    mutants: "G19 sentence family", evidence: "Vitest counts (floor g10_sentence_tests)",
+    limits: "Proves the ORDER the app asks for, never how the sentence sounds — that is a listening round (G13), and the owner has already graded every clip it plays.",
+  },
   "tests/updates.test.js": {
     gate: "G14", requirement: "SPEC section 7a: the version and build comparison, and what a newer version may do",
     oracle: "Literal version and build strings", platform: "node/jsdom",

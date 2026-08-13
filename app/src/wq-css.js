@@ -63,6 +63,22 @@ const CSS = `
 .wq-word{font-size:clamp(2.25rem,11vh,5.5rem);font-size:clamp(2.25rem,11dvh,5.5rem);
   font-weight:700;line-height:1.05;color:${C.ink};margin:4px 0 0;word-break:break-word}
 .wq-slot-tiles{min-height:52px;display:flex;align-items:center;justify-content:center;gap:6px;margin-top:8px}
+/* THE SENTENCE REVEAL (SPEC section 12 point 6). Every word is a control the
+   child taps, so every word obeys S7: 56 px is the child-control floor and
+   min-height holds it however short the word is. "a" is one character wide
+   and still has to be as easy to hit as "twin".
+   The words WRAP, because a sentence of eight words does not fit one phone
+   line and a sentence that scrolls sideways is a sentence a child loses. */
+.wq-sentence{width:100%;max-width:440px;text-align:center}
+.wq-sentence-line{margin:0;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:2px 4px}
+.wq-sword{font-family:ui-rounded,'SF Pro Rounded',system-ui,-apple-system,'Segoe UI',sans-serif;
+  font-size:clamp(1.35rem,5.2dvh,2.4rem);font-weight:700;line-height:1.1;color:${C.ink};
+  background:transparent;border:0;border-radius:12px;padding:6px 8px;min-height:56px;cursor:pointer}
+/* The open word is marked by the SAME ring the sound-out tiles take, so the
+   two never say different things about "this one, now". */
+.wq-sword-open{outline:3px solid ${C.action};outline-offset:-3px}
+.wq-sentence-tiles{margin-top:10px}
+.wq-sentence-hint{margin:8px 0 0;font-size:12.5px;font-weight:600}
 .wq-tile{background:${C.sun};color:${C.ink};border-radius:12px;padding:5px 12px;
   font-size:clamp(1.1rem,3.2dvh,1.6rem);font-weight:700;box-shadow:0 1px 3px rgba(23,53,107,.18)}
 /* The sound-out pop (owner-ruled 2026-08-04, shape chosen 2026-08-11 from four
