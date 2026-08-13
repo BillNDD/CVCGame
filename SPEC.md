@@ -817,6 +817,20 @@ sentences are made of the words that level teaches.
    approved audio: the sentence graded perfect in batch 1, the invitation graded perfect the
    same day, and the shipped pack's own sound and word clips.
 
+7. **Free play offers sentences too — owner-ruled 2026-08-13.** The chooser today asks
+   "which words?" and gives two answers: truly random from all 438, or this level's words.
+   It must also offer SENTENCES, so a child can practise reading them without a session.
+   Free play's own promise is untouched and is what makes this safe: nothing is written to
+   the record in free play, ever (design rule 1 and S1), so a sentence read there teaches
+   and celebrates and schedules nothing — which is what a sentence does inside a session
+   anyway, by point 3 above.
+
+   **One thing this needs that a session does not, and it is not assumed here.** Inside a
+   session the word that gets the automatic sound-out is *the word the level teaches*. A
+   free-play sentence has no such word, so the app must choose one — the longest, the one
+   with the most tiles, a random content word, or none at all with every word left to the
+   child's tap. That choice is the owner's and is unmade.
+
 What this costs, and none of it is done: `a` needs a listening round, being a word the game
 has never spoken. `the` and `and` have approved clips already. Every level object grows a
 sentence list, which the level introduction and the session builder both read. And the 40
