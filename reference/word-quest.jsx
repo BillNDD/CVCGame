@@ -213,6 +213,19 @@ function buildSession(state) {
    the box rule alone decides — a stored streak never promotes on its own.
    A partial session never changes the streak; any promotion resets it; the
    stored streak caps at 2, so nothing banks up at the top level. */
+/* THE PROMOTION THRESHOLD, as its own function so its BOUNDARY can be tested.
+   The rule is "80 per cent or more", and the difference between that and "more
+   than 80 per cent" only shows up when the ratio is EXACTLY 0.8 — which needs
+   a level whose size is a multiple of five. Level 5 was the only one, at 50
+   words, and it stopped being one on 2026-08-13 when the owner ruled "gob"
+   out. The mutation gate caught it within the hour: with no test able to reach
+   the boundary, ">=" could quietly become ">" and nothing in the suite would
+   notice, and a child would be held at a level they had earned.
+
+   Taking the comparison out of the bank's arithmetic makes the boundary
+   reachable with synthetic numbers forever, whatever the levels grow into. */
+const isSecure = (solid, total) => total > 0 && solid / total >= 0.8;
+
 function checkPromotion(state, session) {
   const prior = typeof state.perfectStreak === "number" && isFinite(state.perfectStreak) && state.perfectStreak > 0
     ? Math.min(2, Math.round(state.perfectStreak)) : 0;
@@ -220,7 +233,7 @@ function checkPromotion(state, session) {
   if (session) state.perfectStreak = session.perfect ? Math.min(2, prior + 1) : 0;
   if (state.level >= LEVELS.length) return false;
   const words = LEVELS[state.level - 1].words;
-  const secure = words.filter(w => state.words[w] && state.words[w].box >= 3).length / words.length >= 0.8;
+  const secure = isSecure(words.filter(w => state.words[w] && state.words[w].box >= 3).length, words.length);
   if (secure || (session && state.perfectStreak >= 2)) { state.level += 1; state.perfectStreak = 0; return true; }
   return false;
 }

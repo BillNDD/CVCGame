@@ -18,8 +18,11 @@ const MUTANTS = [
   ["INTERVALS[3] 4 to 5", "const INTERVALS = [1, 1, 2, 4, 7, 12];", "const INTERVALS = [1, 1, 2, 5, 7, 12];"],
   ["INTERVALS[0] 1 to 2", "const INTERVALS = [1, 1, 2, 4, 7, 12];", "const INTERVALS = [2, 1, 2, 4, 7, 12];"],
   ["dueAt plus to minus", "ws.dueAt = sessionNumber + INTERVALS[ws.box];", "ws.dueAt = sessionNumber - INTERVALS[ws.box];"],
-  ["promotion >= to >", "words.length >= 0.8;", "words.length > 0.8;"],
-  ["promotion 0.8 to 0.75", "words.length >= 0.8;", "words.length >= 0.75;"],
+  /* Re-pointed 2026-08-13 when the threshold moved into isSecure(). The anchor
+     it used to have - "words.length >= 0.8;" - stopped existing, and an anchor
+     that no longer matches is a mutant that silently skips. */
+  ["promotion >= to >", "solid / total >= 0.8;", "solid / total > 0.8;"],
+  ["promotion 0.8 to 0.75", "solid / total >= 0.8;", "solid / total >= 0.75;"],
   ["promotion box >=3 to >=2", "state.words[w] && state.words[w].box >= 3).length", "state.words[w] && state.words[w].box >= 2).length"],
   ["lower-level cap 5 to 4", "list.push(...take(dueBelow, 5));", "list.push(...take(dueBelow, 4));"],
   ["confidence cap 2 to 3", "list.push(...take(confidence, 2));", "list.push(...take(confidence, 3));"],

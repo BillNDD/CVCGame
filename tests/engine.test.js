@@ -8,7 +8,7 @@ import {
   chunkWord, dashed, freshWordState, applyResult, buildSession, checkPromotion,
   heal, migrate, newState, buildMarkdown, loadState, saveState, speak, hush, buzz, feedbackSpeech, PRAISE,
   SEAM_MS, SOUNDOUT_SEAM_MS, voiceScript, clipPlan, resolvePack, TTS_UNSAFE_PRAISE, ttsSafePraise,
-  soundInventory, bankWords, soundIdFor, soundIdsFor, tileSlots, isSeam, seamMs, WORD_SOUND,
+  soundInventory, bankWords, soundIdFor, soundIdsFor, tileSlots, isSeam, seamMs, WORD_SOUND, isSecure,
 } from "../src/engine.js";
 
 const clone = (o) => JSON.parse(JSON.stringify(o));
@@ -134,6 +134,30 @@ describe("applyResult", () => {
     expect(ws.attempts).toBe(3);
     expect([ws.correct, ws.wrong, ws.close]).toEqual([1, 1, 1]);
     expect(ws.lastSession).toBe(5);
+  });
+  /* THE PROMOTION BOUNDARY, at exactly 80 per cent. The rule is "80 per cent or
+     more", and the only inputs that tell that apart from "more than 80 per
+     cent" are the ones that land exactly on it — which needs a total divisible
+     by five. No level has one since "gob" was removed on 2026-08-13, so the
+     mutation gate found ">= to >" surviving within the hour: the boundary had
+     become unreachable and the rule could have drifted silently, holding a
+     child at a level they had earned.
+
+     These are synthetic totals on purpose. They stay exact whatever the bank
+     grows into, which is the whole point of taking the comparison out of the
+     bank's arithmetic. */
+  it("promotes at exactly 80 percent, not only above it", () => {
+    expect(isSecure(4, 5)).toBe(true);        // 0.80 exactly — kills ">= to >"
+    expect(isSecure(8, 10)).toBe(true);       // 0.80 exactly, a second total
+    expect(isSecure(40, 50)).toBe(true);      // 0.80 exactly, the old Level 5
+    expect(isSecure(3, 5)).toBe(false);       // 0.60
+    expect(isSecure(7, 10)).toBe(false);      // 0.70 — kills "0.8 to 0.75"
+    expect(isSecure(39, 49)).toBe(false);     // 0.7959 — today's Level 5, just under
+    expect(isSecure(40, 49)).toBe(true);      // 0.8163 — today's Level 5, just over
+    /* An empty level can never promote, and dividing by zero must not read as
+       secure: 0/0 is NaN, and NaN >= 0.8 is false, but that is a property of
+       NaN rather than a decision. The guard says it out loud. */
+    expect(isSecure(0, 0)).toBe(false);
   });
   it("uses the published interval ladder", () => {   // S2 — literals, not the constant
     expect(INTERVALS).toEqual([1, 1, 2, 4, 7, 12]);

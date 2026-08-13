@@ -8,7 +8,7 @@ Per-test rows carry the test's own sentence, which in this project IS the
 Given/When/Then effect. The requirement, oracle, platform, mutant family, evidence
 and known limits are declared per FILE, in the tool, where they stay true.
 
-Totals: 258 it() SITES across 12 files, plus 10 gates that are not test files.
+Totals: 259 it() SITES across 12 files, plus 10 gates that are not test files.
 
 A site inside a loop or a table runs many times, so these rows describe more tests than they number: Vitest executes 330. The rows count the places behaviour is asserted.
 
@@ -33,7 +33,7 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 8 | G10 — the text a grown-up reads on the child | 27: one completed session counts as  |
 | 9 | G10 — the text a grown-up reads on the child | 28 (control): two sessions still count as  |
 
-## tests/engine.test.js — 82 tests (G1)
+## tests/engine.test.js — 83 tests (G1)
 
 - **Requirement protected:** SPEC sections 3-4: the word bank, levels, chunking, the Leitner ladder, session shape and the reveal plan
 - **Independent oracle:** Literal expected values written from SPEC by hand (E4). Never the constant under test.
@@ -59,73 +59,74 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 13 | applyResult | never lets close demote below 1 and never promotes |
 | 14 | applyResult | drops exactly two boxes on wrong, with a floor of 0 |
 | 15 | applyResult | counts one attempt per call and records the session |
-| 16 | applyResult | uses the published interval ladder |
-| 17 | checkPromotion | promotes at exactly 80 percent on the 50-word level |
-| 18 | checkPromotion | uses box 3 as the solid threshold, not box 2 |
-| 19 | checkPromotion | needs 10 of 12 on the VC level |
-| 20 | checkPromotion | never promotes past the last level |
-| 21 | checkPromotion | promotes after two perfect sessions; a partial session never moves the streak |
-| 22 | checkPromotion | an imperfect completed session resets the streak to zero |
-| 23 | checkPromotion | the streak never promotes past the last level, and never banks above 2 |
-| 24 | checkPromotion | a partial session with a miss also leaves the streak unchanged |
-| 25 | checkPromotion | a stored streak alone never promotes on a session-less check |
-| 26 | checkPromotion | a manual level change resets the streak (source tripwire) |
-| 27 | checkPromotion | heal repairs a hostile perfectStreak |
-| 28 | buildSession | serves the 12 VC words and nothing else on a fresh install |
-| 29 | buildSession | targets 20 words on a full level |
-| 30 | buildSession | never repeats a word |
-| 31 | buildSession | caps lower-level reviews at 5 |
-| 32 | buildSession | adds at most 2 confidence words, and none before session 3 |
-| 33 | buildSession | opens every session with the most secure word |
-| 34 | buildSession | does not peek at the next level while fresh words remain |
-| 35 | buildSession | peeks once the level has been fully seen |
-| 36 | buildSession | never serves content more than one level ahead |
-| 37 | buildSession | publishes a prompt cap above the session size |
-| 38 | heal | gives an empty object a usable shape |
-| 39 | heal | repairs wrong types and clamps word data |
-| 40 | heal | lets a healed document build a session |
-| 41 | heal | drops hostile log rows and repairs their items and level |
-| 42 | heal | repairs a hostile version so the migration check cannot crash |
-| 43 | heal | repairs a hostile or fractional level so the engine cannot crash |
-| 44 | migrate | shifts the level and the log by one |
-| 45 | migrate | leaves word data untouched |
-| 46 | migrate | is idempotent |
-| 47 | migrate | maps old level 6 to new level 7 and clamps out-of-range input |
-| 48 | migrate | survives hostile documents |
-| 49 | buildMarkdown | reports the 438-word denominator and eleven level rows |
-| 50 | buildMarkdown | counts a word as mastered only from box 4 |
-| 51 | buildMarkdown | keeps a grapheme-safe name intact in the header |
-| 52 | buildMarkdown | marks a partial session |
-| 53 | voice packs | inventories one clip per word, the fixed sentences, and every sound a tile can ask for |
-| 54 | voice packs | covers every grapheme the whole bank can produce |
-| 55 | voice packs | bankWords covers every word the app names, not only the levels |
-| 56 | voice packs | no word uses ai or ou without a decided sound |
-| 57 | voice packs | gives every tricky word its true sounds, not its letters |
-| 58 | voice packs | sounds out every heart word the way the owner heard it |
-| 59 | voice packs | splits th into its two sounds, across every th word in the bank |
-| 60 | voice packs | plans the sound-out reveal on every outcome, at the literal 500 ms seam |
-| 61 | voice packs | knows a seam from a clip, and how long each one lasts |
-| 62 | voice packs | maps each tile sound to its own tile, in order |
-| 63 | voice packs | resolves one source per utterance: family, then default, then none |
-| 64 | speech helpers | says full words only, never letter names, and never stretches the reveal |
-| 65 | speech helpers | hands system speech the SOUND of “a”, never the letter |
-| 66 | speech helpers | stays silent when sound is off or no engine exists |
-| 67 | speech helpers | configures the utterance: rate 0.9, pitch 1.1, locale, cancel first |
-| 68 | speech helpers | pins the seventeen praise sentences, character for character |
-| 69 | speech helpers | selects the praise by index, and falls back to the first for a bad index |
-| 70 | speech helpers | queues reveal parts: one cancel, and both the lead and the word sentence at 0.9 |
-| 71 | speech helpers | survives a throwing speech service |
-| 72 | speech helpers | hush stops speech, and survives a missing engine |
-| 73 | speech helpers | vibrates only when the device can, and never throws |
-| 74 | reference storage adapter | reads nothing when no storage exists at all |
-| 75 | reference storage adapter | reads a saved document from the host storage |
-| 76 | reference storage adapter | keeps a copy of damaged data and reports it, even if the copy write fails |
-| 77 | reference storage adapter | saves to the host and answers from memory when the host disappears |
-| 78 | reference storage adapter | reports an unsaved visit when the host write fails |
-| 79 | reference storage adapter | falls back to memory when the host read throws |
-| 80 | G1 — the system voice is never given a word it says wrongly | 75: no praise line contains a word with two pronunciations |
-| 81 | G1 — the system voice is never given a word it says wrongly | 76: with no unsafe line listed, every praise index reaches the system voice unchanged |
-| 82 | G1 — the system voice is never given a word it says wrongly | 77: the clip plan carries the new line to the pack |
+| 16 | applyResult | promotes at exactly 80 percent, not only above it |
+| 17 | applyResult | uses the published interval ladder |
+| 18 | checkPromotion | promotes at exactly 80 percent on the 50-word level |
+| 19 | checkPromotion | uses box 3 as the solid threshold, not box 2 |
+| 20 | checkPromotion | needs 10 of 12 on the VC level |
+| 21 | checkPromotion | never promotes past the last level |
+| 22 | checkPromotion | promotes after two perfect sessions; a partial session never moves the streak |
+| 23 | checkPromotion | an imperfect completed session resets the streak to zero |
+| 24 | checkPromotion | the streak never promotes past the last level, and never banks above 2 |
+| 25 | checkPromotion | a partial session with a miss also leaves the streak unchanged |
+| 26 | checkPromotion | a stored streak alone never promotes on a session-less check |
+| 27 | checkPromotion | a manual level change resets the streak (source tripwire) |
+| 28 | checkPromotion | heal repairs a hostile perfectStreak |
+| 29 | buildSession | serves the 12 VC words and nothing else on a fresh install |
+| 30 | buildSession | targets 20 words on a full level |
+| 31 | buildSession | never repeats a word |
+| 32 | buildSession | caps lower-level reviews at 5 |
+| 33 | buildSession | adds at most 2 confidence words, and none before session 3 |
+| 34 | buildSession | opens every session with the most secure word |
+| 35 | buildSession | does not peek at the next level while fresh words remain |
+| 36 | buildSession | peeks once the level has been fully seen |
+| 37 | buildSession | never serves content more than one level ahead |
+| 38 | buildSession | publishes a prompt cap above the session size |
+| 39 | heal | gives an empty object a usable shape |
+| 40 | heal | repairs wrong types and clamps word data |
+| 41 | heal | lets a healed document build a session |
+| 42 | heal | drops hostile log rows and repairs their items and level |
+| 43 | heal | repairs a hostile version so the migration check cannot crash |
+| 44 | heal | repairs a hostile or fractional level so the engine cannot crash |
+| 45 | migrate | shifts the level and the log by one |
+| 46 | migrate | leaves word data untouched |
+| 47 | migrate | is idempotent |
+| 48 | migrate | maps old level 6 to new level 7 and clamps out-of-range input |
+| 49 | migrate | survives hostile documents |
+| 50 | buildMarkdown | reports the 438-word denominator and eleven level rows |
+| 51 | buildMarkdown | counts a word as mastered only from box 4 |
+| 52 | buildMarkdown | keeps a grapheme-safe name intact in the header |
+| 53 | buildMarkdown | marks a partial session |
+| 54 | voice packs | inventories one clip per word, the fixed sentences, and every sound a tile can ask for |
+| 55 | voice packs | covers every grapheme the whole bank can produce |
+| 56 | voice packs | bankWords covers every word the app names, not only the levels |
+| 57 | voice packs | no word uses ai or ou without a decided sound |
+| 58 | voice packs | gives every tricky word its true sounds, not its letters |
+| 59 | voice packs | sounds out every heart word the way the owner heard it |
+| 60 | voice packs | splits th into its two sounds, across every th word in the bank |
+| 61 | voice packs | plans the sound-out reveal on every outcome, at the literal 500 ms seam |
+| 62 | voice packs | knows a seam from a clip, and how long each one lasts |
+| 63 | voice packs | maps each tile sound to its own tile, in order |
+| 64 | voice packs | resolves one source per utterance: family, then default, then none |
+| 65 | speech helpers | says full words only, never letter names, and never stretches the reveal |
+| 66 | speech helpers | hands system speech the SOUND of “a”, never the letter |
+| 67 | speech helpers | stays silent when sound is off or no engine exists |
+| 68 | speech helpers | configures the utterance: rate 0.9, pitch 1.1, locale, cancel first |
+| 69 | speech helpers | pins the seventeen praise sentences, character for character |
+| 70 | speech helpers | selects the praise by index, and falls back to the first for a bad index |
+| 71 | speech helpers | queues reveal parts: one cancel, and both the lead and the word sentence at 0.9 |
+| 72 | speech helpers | survives a throwing speech service |
+| 73 | speech helpers | hush stops speech, and survives a missing engine |
+| 74 | speech helpers | vibrates only when the device can, and never throws |
+| 75 | reference storage adapter | reads nothing when no storage exists at all |
+| 76 | reference storage adapter | reads a saved document from the host storage |
+| 77 | reference storage adapter | keeps a copy of damaged data and reports it, even if the copy write fails |
+| 78 | reference storage adapter | saves to the host and answers from memory when the host disappears |
+| 79 | reference storage adapter | reports an unsaved visit when the host write fails |
+| 80 | reference storage adapter | falls back to memory when the host read throws |
+| 81 | G1 — the system voice is never given a word it says wrongly | 75: no praise line contains a word with two pronunciations |
+| 82 | G1 — the system voice is never given a word it says wrongly | 76: with no unsafe line listed, every praise index reaches the system voice unchanged |
+| 83 | G1 — the system voice is never given a word it says wrongly | 77: the clip plan carries the new line to the pack |
 
 ## tests/faults.test.js — 13 tests (G9)
 
