@@ -214,17 +214,22 @@ async function inspect(page, viewport, label, opts = {}) {
                        [r.right - r.width * 0.15, r.top + r.height * 0.15],
                        [r.left + r.width * 0.15, r.bottom - r.height * 0.15],
                        [r.right - r.width * 0.15, r.bottom - r.height * 0.15]];
-          let covered = 0;
-          for (const [x, y] of pts) {
+          let covered = 0, centreCovered = false;
+          for (const [i, [x, y]] of pts.entries()) {
             const hit = document.elementFromPoint(x, y);
             /* NOT `|| hit.contains(el)`. A full-page ::after overlay makes
                elementFromPoint return <body>, which is an ancestor - excluding
                ancestors made the detector blind to the whole overlay class,
                which is what it was built for. An ancestor painting over its own
                child is exactly the fault. */
-            if (hit && !(hit === el || el.contains(hit))) covered++;
+            if (hit && !(hit === el || el.contains(hit))) { covered++; if (i === 0) centreCovered = true; }
           }
-          return covered >= 2;
+          /* The centre alone is still a finding. Requiring two of five was a
+             REGRESSION on the case the one-point version already caught: a
+             60x20 badge dropped on the middle of "Begin Session" reads
+             "B NEW ssion" on screen, and the five-point rule reported nothing.
+             The four inset points ADD to the centre; they never replace it. */
+          return centreCovered || covered >= 2;
         })(),
         offScreen: !at,
         onTop: at ? at.tagName.toLowerCase() + "." + String(at.className).split(" ")[0] : "nothing",
@@ -245,6 +250,8 @@ async function inspect(page, viewport, label, opts = {}) {
       push("control-obscured", `"${c.name}" has ${c.onTop} on top of its own centre`);
     if (c.font && c.font < FONT_FLOOR.control)
       push("text-too-small", `"${c.name}" renders its label at ${c.font}px, floor ${FONT_FLOOR.control}px`);
+    if (c.font && c.font > FONT_CEIL.control)
+      push("text-too-big", `"${c.name}" renders its label at ${c.font}px, ceiling ${FONT_CEIL.control}px`);
   }
 
   /* The word a child is asked to read, which is the one piece of text on the
@@ -255,6 +262,8 @@ async function inspect(page, viewport, label, opts = {}) {
   });
   if (wordFont !== null && wordFont < FONT_FLOOR.word)
     push("word-too-small", `the target word renders at ${wordFont}px, floor ${FONT_FLOOR.word}px`);
+  if (wordFont !== null && wordFont > FONT_CEIL.word)
+    push("word-too-big", `the target word renders at ${wordFont}px, ceiling ${FONT_CEIL.word}px`);
 
   /* OVERLAP, over rectangles rather than one sampled pixel. control-obscured
      asks what sits at a control's exact centre, so an auditor covered the left
@@ -263,7 +272,28 @@ async function inspect(page, viewport, label, opts = {}) {
      things that actually carry ink - text leaves and images - and ignores
      ancestor pairs, which always overlap by construction. */
   const overlaps = await page.evaluate(() => {
+    /* THE MODAL IS NAMED, NOT INFERRED. The first version used two geometric
+       proxies for "a dialog is open" - drop anything not top-most at its own
+       centre, and ignore total containment - and both proxies excluded the
+       real fault along with the scrim. An element landing ON a control covers
+       that control's centre, so the control was dropped from the set and the
+       pair was never compared: the detector was structurally incapable of
+       seeing one thing land on top of another, which is the only fault it
+       names. Naming the dialog lets both proxies go. */
+    const MODAL = '[role="dialog"], .wq-modal, .wq-modalwrap, .wq-scrim';
+    const modalOpen = !!document.querySelector(MODAL);
+    const inModal = (el) => !!el.closest(MODAL);
     const ink = [...document.querySelectorAll("*")].filter((el) => {
+      /* The page root carries a gradient, so it qualifies as ink and pairs
+         with everything appended outside it, printing its whole text content
+         as a name. */
+      if (el.matches("html, body, .wq-root")) return false;
+      /* The scrim is a full-screen button labelled "Close" that lives INSIDE
+         the dialog, so it is on the same side of the modal boundary as the
+         dialog's own controls and covers every one of them completely. It is a
+         backdrop, not content: excluding the whole dialog would hide real
+         collisions between the controls inside it. */
+      if (el.matches(".wq-scrim")) return false;
       const s = getComputedStyle(el);
       if (s.visibility === "hidden" || s.display === "none" || Number(s.opacity) === 0) return false;
       const r = el.getBoundingClientRect();
@@ -273,14 +303,7 @@ async function inspect(page, viewport, label, opts = {}) {
          which is the common case and which made the first version of this scan
          blind to a div dropped on top of a button. */
       const isControl = el.matches("button, a, [role=button], input, .wq-cta, .wq-sbtn");
-      if (!(ownText || isControl || el.tagName === "IMG" || s.backgroundImage !== "none")) return false;
-      /* AND it must actually be the thing on top at its own centre. The free-play
-         chooser opens as a panel over the home screen, whose buttons stay in the
-         DOM with real boxes behind it - so "Begin Session" and "Truly random"
-         were reported as colliding when one is simply behind the other. Two
-         things collide only if a person can see both. */
-      const hit = document.elementFromPoint(r.left + r.width / 2, r.top + r.height / 2);
-      return !!hit && (hit === el || el.contains(hit) || hit.contains(el));
+      return ownText || isControl || el.tagName === "IMG" || s.backgroundImage !== "none";
     });
     const box = (el) => el.getBoundingClientRect();
     const name = (el) => (el.getAttribute("aria-label") || el.textContent || el.tagName).trim().slice(0, 28);
@@ -289,6 +312,11 @@ async function inspect(page, viewport, label, opts = {}) {
       for (let j = i + 1; j < ink.length; j++) {
         const a = ink[i], b = ink[j];
         if (a.contains(b) || b.contains(a)) continue;
+        /* A dialog sits on top of the screen behind it by design, and the
+           free-play chooser leaves the home screen's buttons in the DOM with
+           real boxes. A pair that straddles that boundary is stacking, not a
+           collision. */
+        if (modalOpen && inModal(a) !== inModal(b)) continue;
         const ra = box(a), rb = box(b);
         const w = Math.min(ra.right, rb.right) - Math.max(ra.left, rb.left);
         const h = Math.min(ra.bottom, rb.bottom) - Math.max(ra.top, rb.top);
@@ -303,7 +331,10 @@ async function inspect(page, viewport, label, opts = {}) {
            top of the level strip by design. Two things COLLIDING overlap each
            other partly, which is the shape of the home-screen images that
            landed on top of one another. */
-        if (ratio > 0.25 && ratio < 0.9)
+        /* No upper bound any more. Total containment is exactly what a panel
+           landing on a control looks like, and excluding it was excluding the
+           fault. */
+        if (ratio > 0.25)
           out.push(`"${name(a)}" and "${name(b)}" overlap over ${Math.round(ratio * 100)}% of the smaller`);
       }
     }
@@ -382,6 +413,13 @@ function requireStaged(asked, shown) {
    times its intended size. Both numbers are well under what the app renders
    today; they are floors a child can still read, not the current values. */
 const FONT_FLOOR = { control: 12, word: 24 };
+/* AND CEILINGS. Floors alone left the exact fault this census was commissioned
+   for still green: every control label at four times its size destroys the
+   layout - the title, the "Ready to read?" line and the level card all pushed
+   off the screen - and the census reported nothing. The app renders control
+   labels at 16px and the word far larger; these are ceilings a layout can
+   survive, not the values it uses. */
+const FONT_CEIL = { control: 34, word: 160 };
 
 const BANK_WORDS = LEVELS.flatMap((l) => l.words);
 const LONGEST_PRAISE = [...PRAISE.keys()].sort((a, b) => PRAISE[b].length - PRAISE[a].length)[0];
@@ -473,5 +511,5 @@ const PLANTS = [
   ["nothing-measured", `button,[role=button],a[href],input,select{display:none !important}`],
 ];
 
-export { cases, signature, inspect, stage, holdGrade, savedState, holdTheDice, requireStaged, FONT_FLOOR,
+export { cases, signature, inspect, stage, holdGrade, savedState, holdTheDice, requireStaged, FONT_FLOOR, FONT_CEIL,
          VIEWPORTS, CHILD_MIN, ADULT_MIN, PLANTS, BANK_WORDS, LONGEST_PRAISE };
