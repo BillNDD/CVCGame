@@ -36,20 +36,22 @@
  * never compares pixels against a baseline. It measures geometry, accessibility
  * structure, and errors — facts that survive a different machine.
  *
- * Usage:
- *   node tools/ux-census.mjs --benchmark [n]   time n cells, estimate the run
- *   node tools/ux-census.mjs --run             the whole census
- *   node tools/ux-census.mjs --run --shard 1/2 half of it
- *   node tools/ux-census.mjs --self-test       prove every detector fires
+ * THIS FILE IS A LIBRARY, NOT A COMMAND. It was documented as one — a usage
+ * block offering --benchmark, --run, --shard and --self-test — and none of the
+ * four had ever existed: the file has no main path, only exports. A header
+ * that names four commands nobody can run is the same fault as a control that
+ * cannot fail, in prose instead of code. The census runs on the Playwright
+ * runner, and these are the commands that exist:
+ *
+ *   npm run census            build, run every cell, then judge the report
+ *   npm run census:controls   the negative controls alone, ~14 seconds
+ *   npm run census:report     judge the report of the last run
+ *
+ * Sharding is the runner's: `playwright test --shard=1/2`, which is the
+ * owner's execution recommendation and needs the blob reporter to add up
+ * (item 7 of the build spec).
  */
 import { LEVELS, chunkWord, PRAISE, SESSION_SIZE } from "../src/engine.js";
-
-const ARGS = process.argv.slice(2);
-const has = (f) => ARGS.includes(f);
-const val = (f, d) => { const i = ARGS.indexOf(f); return i >= 0 && ARGS[i + 1] ? ARGS[i + 1] : d; };
-const PORT = 4187;
-const URL = `http://localhost:${PORT}/`;
-const OUT = ".census";
 
 /* The six the owner named, plus the 320 px extreme this repository already
    measures in G7. Touch is declared per profile because tap() and click() are
@@ -100,6 +102,55 @@ function cases() {
       picked.push({ ...widest, sig, why: "widest glyphs in its class", size: members.length });
   }
   return picked;
+}
+
+/* PSEUDO-ELEMENT OVERLAYS — the third shape, and the one both other scans are
+   structurally incapable of seeing.
+
+   ::before and ::after are not in the DOM, so the element-overlap scan cannot
+   reach them; and elementFromPoint returns the ORIGINATING element for a
+   pseudo-element, so a badge added as a control's OWN ::after scores zero on
+   all five sample points. An auditor planted exactly that on 2026-08-13:
+   "Begin Session" read "B NEW ssion" on screen and every detector in this file
+   stayed green. The five-point sample only catches a pseudo-element belonging
+   to a DIFFERENT element, where elementFromPoint returns that other element.
+
+   IT ASKS ABOUT PAINT, NOT GEOMETRY, AND THAT IS DELIBERATE. getComputedStyle
+   resolves a pseudo-element's width and height differently in each engine, and
+   item 1 of the build spec puts this census on three of them — a geometric
+   rule here would give three different answers to one question. So the rule is
+   flat: a ::before or ::after that is POSITIONED and PAINTS is reported, with
+   the host it sits on. The app has none today, which is what the clean-page
+   control proves; its two flex spacers (.wq-stage::before/::after) are
+   content:"" with no position and no paint, exactly the shape this must NOT
+   report. The cost of that breadth is that a decorative badge added later
+   lands here as a finding until a person rules on it, which is the safe
+   direction for a detector to fail in. */
+async function pseudoOverlays(page) {
+  return page.evaluate(() => {
+    const paints = (cs) => {
+      const rgba = /rgba?\(([^)]+)\)/.exec(cs.backgroundColor || "");
+      const alpha = rgba ? Number(rgba[1].split(",")[3] ?? 1) : 0;
+      return alpha > 0 || cs.backgroundImage !== "none";
+    };
+    const out = [];
+    for (const el of document.querySelectorAll("*")) {
+      for (const which of ["::before", "::after"]) {
+        const cs = getComputedStyle(el, which);
+        /* An element with no such pseudo-element reports "none" in Chromium
+           and "normal" in the other two. Both mean there is nothing painted. */
+        if (!cs.content || cs.content === "none" || cs.content === "normal") continue;
+        if (cs.position !== "absolute" && cs.position !== "fixed") continue;
+        const text = cs.content.replace(/^["']|["']$/g, "").trim();
+        if (!text && !paints(cs)) continue;
+        out.push({
+          host: (el.getAttribute("aria-label") || el.textContent || el.tagName).trim().slice(0, 40),
+          which, text: text.slice(0, 20), size: `${cs.width}x${cs.height}`,
+        });
+      }
+    }
+    return out.slice(0, 12);
+  });
 }
 
 /* Every check the census makes on one rendered state. Each returns a finding
@@ -271,16 +322,18 @@ async function inspect(page, viewport, label, opts = {}) {
      control's centre sat just clear of the panel. This compares the boxes of
      things that actually carry ink - text leaves and images - and ignores
      ancestor pairs, which always overlap by construction. */
-  /* The overlay list is passed IN and exported, so a control can hold it
-     against the app's own stylesheet. Maintaining it by hand already failed
-     once: .wq-toast is position:absolute at z-index 70, floats over the stage,
-     and is none of dialog/modal/modalwrap/scrim - so it collided with
-     everything under it on 11 of 21 state-by-viewport combinations. No census
-     cell provokes a toast today, but "All progress cleared." and "Log copied"
-     fire from the grown-ups corner, which the census inspects. */
-  await page.addInitScript(() => {}).catch(() => {});
-  const overlaps = await page.evaluate((OVERLAYS) => {
-    window.__WQ_OVERLAYS = OVERLAYS;
+  /* The modal boundary is passed IN and exported, so a control can hold the
+     full overlay list against the app's own stylesheet. Maintaining it by hand
+     already failed once: .wq-toast is position:absolute at z-index 70, floats
+     over the stage, and is none of dialog/modal/modalwrap/scrim.
+     IT IS NOT ON THIS BOUNDARY, and that is the correction of 2026-08-13.
+     Adding it here silenced the class rather than the false positives: a toast
+     that completely buries the "Ready to read?" line and the whole level card
+     was then reported by nothing at all. A toast IS meant to float over
+     content for a second or two, so what it covers is not a defect — it is a
+     fact worth having, and it comes back through the report-only channel
+     below, the same way an unclassified control does. */
+  const { collisions, covered } = await page.evaluate((MODAL) => {
     /* THE MODAL IS NAMED, NOT INFERRED. The first version used two geometric
        proxies for "a dialog is open" - drop anything not top-most at its own
        centre, and ignore total containment - and both proxies excluded the
@@ -289,7 +342,6 @@ async function inspect(page, viewport, label, opts = {}) {
        pair was never compared: the detector was structurally incapable of
        seeing one thing land on top of another, which is the only fault it
        names. Naming the dialog lets both proxies go. */
-    const MODAL = window.__WQ_OVERLAYS;
     const modalOpen = !!document.querySelector(MODAL);
     const inModal = (el) => !!el.closest(MODAL);
     const ink = [...document.querySelectorAll("*")].filter((el) => {
@@ -316,7 +368,7 @@ async function inspect(page, viewport, label, opts = {}) {
     });
     const box = (el) => el.getBoundingClientRect();
     const name = (el) => (el.getAttribute("aria-label") || el.textContent || el.tagName).trim().slice(0, 28);
-    const out = [];
+    const out = [], toasted = [];
     for (let i = 0; i < ink.length; i++) {
       for (let j = i + 1; j < ink.length; j++) {
         const a = ink[i], b = ink[j];
@@ -343,13 +395,24 @@ async function inspect(page, viewport, label, opts = {}) {
         /* No upper bound any more. Total containment is exactly what a panel
            landing on a control looks like, and excluding it was excluding the
            fault. */
-        if (ratio > 0.25)
-          out.push(`"${name(a)}" and "${name(b)}" overlap over ${Math.round(ratio * 100)}% of the smaller`);
+        if (ratio <= 0.25) continue;
+        const line = `"${name(a)}" and "${name(b)}" overlap over ${Math.round(ratio * 100)}% of the smaller`;
+        /* A TOAST IS TRANSIENT CONTENT, NOT A COLLISION - and not a silence
+           either. It floats over the stage on purpose, so a pair involving one
+           is reported rather than asserted. "All progress cleared." and
+           "Log copied" fire from the grown-ups corner, which the census
+           inspects, and what they bury is worth reading. */
+        (a.closest(".wq-toast") || b.closest(".wq-toast") ? toasted : out).push(line);
       }
     }
-    return out.slice(0, 12);
-  }, OVERLAYS);
-  for (const o of overlaps) push("overlap", o);
+    return { collisions: out.slice(0, 12), covered: toasted.slice(0, 12) };
+  }, MODAL_BOUNDARY);
+  for (const o of collisions) push("overlap", o);
+
+  const pseudo = await pseudoOverlays(page);
+  for (const p of pseudo)
+    push("pseudo-overlay", `"${p.host}" carries a positioned ${p.which} that paints`
+      + `${p.text ? ` the text "${p.text}"` : ""} over it (${p.size})`);
 
   /* The accessibility tree with its geometry, in one call: what a screen
      reader is told and where those things actually are. Used to compare the
@@ -398,7 +461,7 @@ async function inspect(page, viewport, label, opts = {}) {
     .map((c) => `${c.name || "(no label)"} ${c.w}x${c.h}`);
   const offScreen = controls.filter((c) => c.offScreen)
     .map((c) => `${c.name || "(no label)"} ${c.w}x${c.h}`);
-  return { findings, aria, controls, unclassified, offScreen, page: page_ };
+  return { findings, aria, controls, unclassified, offScreen, covered, page: page_ };
 }
 
 /* THE STAGING REFUSAL, as a function both the census and its control call.
@@ -430,10 +493,21 @@ const FONT_FLOOR = { control: 12, word: 24 };
    survive, not the values it uses. */
 const FONT_CEIL = { control: 34, word: 160 };
 
-/* EVERY overlay in the app, by selector. A pair that straddles this boundary is
-   stacking rather than a collision. Held against the app's stylesheet by a
-   control, because a hand-kept list is a promise and a checked one is a fact. */
-const OVERLAYS = '[role="dialog"], .wq-modal, .wq-modalwrap, .wq-scrim, .wq-toast';
+/* TWO LISTS, BECAUSE THEY ANSWER TWO DIFFERENT QUESTIONS. Collapsing them into
+   one on 2026-08-12 is what silenced the toast: a selector added to make the
+   stylesheet control pass also removed the toast from the overlap scan, and a
+   toast burying the level card became invisible.
+
+   MODAL_BOUNDARY is "what sits over the screen BY DESIGN, so a pair that
+   straddles it is stacking rather than a collision". A dialog is on it. A
+   toast is not: it floats over live content the child is still reading.
+
+   OVERLAYS is "everything in the app that stacks above content", and it exists
+   to be held against the app's own stylesheet by a control — because a
+   hand-kept list is a promise and a checked one is a fact. Every rule in
+   app/src/wq-css.js at or above OVERLAY_Z must appear here. */
+const MODAL_BOUNDARY = '[role="dialog"], .wq-modal, .wq-modalwrap, .wq-scrim';
+const OVERLAYS = `${MODAL_BOUNDARY}, .wq-toast`;
 /* The z-index at or above which an element is an overlay rather than content.
    The whole app uses four values: -1, 1, 70, 80. */
 const OVERLAY_Z = 50;
@@ -526,7 +600,15 @@ const PLANTS = [
   ["vertical-overflow", `html,body,.wq-root,.wq-shell,.wq-stage{overflow:visible !important;height:auto !important} .wq-home-title{height:4000px !important;display:block !important}`],
   ["nested-scroll", `.wq-stage{overflow-x:scroll !important} .wq-home-title{width:3000px !important;display:block !important}`],
   ["nothing-measured", `button,[role=button],a[href],input,select{display:none !important}`],
+  /* THE AUDITOR'S BADGE, AS A SHIPPED PLANT. A control's own ::after, which is
+     in no DOM scan and which elementFromPoint attributes to the control
+     itself. On screen "▶️ Begin Session" reads "B NEW ssion". Every detector
+     in this file was green against it until 2026-08-13. */
+  ["pseudo-overlay",
+   `.wq-cta::after{content:"NEW";position:absolute;left:50%;top:50%;width:60px;height:20px;`
+   + `margin:-10px 0 0 -30px;background:#333;color:#fff;z-index:9;}`],
 ];
 
-export { cases, signature, inspect, stage, holdGrade, savedState, holdTheDice, requireStaged, FONT_FLOOR, FONT_CEIL, OVERLAYS, OVERLAY_Z,
+export { cases, signature, inspect, pseudoOverlays, stage, holdGrade, savedState, holdTheDice, requireStaged,
+         FONT_FLOOR, FONT_CEIL, MODAL_BOUNDARY, OVERLAYS, OVERLAY_Z,
          VIEWPORTS, CHILD_MIN, ADULT_MIN, PLANTS, BANK_WORDS, LONGEST_PRAISE };

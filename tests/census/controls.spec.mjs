@@ -1,25 +1,35 @@
-/* The census's negative controls (E5). SEVEN of the census's detectors are run
- * against a defect planted on purpose; a detector that cannot find a fault it
- * was told about will not find one it was not.
+/* The census's negative controls (E5). 24 cells run here: a detector that
+ * cannot find a fault it was told about will not find one it was not.
  *
- * SEVEN, NOT ALL, and the difference is written here rather than glossed. These
- * have a control: horizontal-overflow, vertical-overflow, element-past-the-edge,
- * nested-scroll, control-too-small, control-obscured, nothing-measured. These do
- * NOT yet: tile-count, empty-tile, below-the-fold, missing, focus-lost,
+ * NOT EVERY DETECTOR, and the difference is counted here rather than glossed —
+ * twice now. The header claimed "every" until a reviewer counted them on
+ * 2026-08-12, then claimed "SEVEN" while 18 cells ran and while `missing` was
+ * listed as uncovered a hundred lines above its own control. A claim about
+ * coverage is exactly the kind that must be counted rather than asserted, so
+ * the last cell in this file counts it.
+ *
+ * These have a control: horizontal-overflow, vertical-overflow,
+ * element-past-the-edge, nested-scroll, control-too-small, control-obscured
+ * (three ways: a full-page overlay, a 49% panel, and a badge on the centre
+ * alone), nothing-measured, pseudo-overlay, text-too-small, text-too-big,
+ * overlap, missing, and the staging refusal. Four more cells check the
+ * census's own rules rather than its detectors: the overlay list against the
+ * stylesheet, the stylesheet scan's own reach, the modal boundary, and the
+ * font limits.
+ *
+ * These do NOT yet: tile-count, empty-tile, below-the-fold, focus-lost,
  * unreachable-control, page/console errors, off-host requests, and
  * free-play-wrote-evidence. Each of those needs a defect planted in the app
- * rather than in a stylesheet, which is a bigger job than a CSS string. The
- * header of this file claimed "every" until a reviewer counted them on
- * 2026-08-12; a claim about coverage is exactly the kind that must be counted
- * rather than asserted.
+ * rather than in a stylesheet, which is a bigger job than a CSS string.
  *
  * These run in ONE project (phone-portrait) because a detector is code, not a
  * viewport: proving it fires once proves it fires. The census itself is what
  * runs everywhere.
  */
-import { readFileSync } from "node:fs";
+import { readFileSync, readdirSync } from "node:fs";
 import { test, expect } from "@playwright/test";
-import { inspect, PLANTS, VIEWPORTS, stage, BANK_WORDS, requireStaged, FONT_FLOOR, FONT_CEIL, OVERLAYS, OVERLAY_Z } from "../../tools/ux-census.mjs";
+import { inspect, PLANTS, VIEWPORTS, stage, BANK_WORDS, requireStaged, FONT_FLOOR, FONT_CEIL,
+         MODAL_BOUNDARY, OVERLAYS, OVERLAY_Z } from "../../tools/ux-census.mjs";
 
 /* NO NAME-STRING SKIP. This file used to select itself with
    `test.skip(testInfo.project.name !== "phone-portrait")`. An auditor renamed
@@ -168,6 +178,60 @@ test("detector fires: missing, when a screen loses a control it must have", asyn
   expect(detail, "the finding does not name the control that was removed").toMatch(/Begin Session/);
 });
 
+/* The app's stylesheet is a JS template literal, so every colour in it is a
+   `${C.something}` interpolation — and `${` carries a brace. The rule-splitting
+   regex is written over "not a brace", so an interpolation ENDS a rule body
+   early and the real one is never matched. That is not a hypothetical: the
+   scan reached 71% of the file and exactly ONE rule at or above the overlay
+   threshold, and the one it could not see was `.wq-toast` at z-index 70 — the
+   exact rule this control was written to catch. It passed because it matched
+   nothing.
+
+   Interpolations are blanked before the split. Nothing is dropped: a colour is
+   never a selector and never a z-index. */
+function stylesheet() {
+  const css = readFileSync(new URL("../../app/src/wq-css.js", import.meta.url), "utf8");
+  /* One brace inside an interpolation would defeat the blanking as surely as
+     the interpolation defeated the split. There are none today; if one
+     appears, this says so instead of quietly under-reading the file again. */
+  if (/\$\{[^}]*\{/.test(css)) throw new Error("an interpolation in wq-css.js contains a brace, so the rule split is unsafe");
+  /* Comments go FIRST, and this cost a run to find. `[^{}]+` before a rule's
+     brace swallows whatever precedes it, so the paragraph above .wq-toast
+     became part of its selector list and every comma in that paragraph became
+     a "selector" — the rule was reached at last, and then reported under six
+     names none of which was .wq-toast. */
+  return css.replace(/\/\*[\s\S]*?\*\//g, " ").replace(/\$\{[^}]*\}/g, "0");
+}
+
+function overlayRules(css) {
+  const rules = [];
+  for (const m of css.matchAll(/([^{}]+)\{([^{}]*)\}/g)) {
+    const zm = /z-index\s*:\s*(-?\d+)/.exec(m[2]);
+    if (zm) rules.push({ selectors: m[1].split(",").map((s) => s.trim()).filter(Boolean), z: Number(zm[1]) });
+  }
+  return rules;
+}
+
+test("the stylesheet scan reaches every z-index the app declares", () => {
+  /* THE CONTROL FOR THE CONTROL. "It passes because it matched nothing" is the
+     failure mode, so coverage is asserted before the verdict is trusted: every
+     z-index declaration in the file must be reached by the rule split. Two
+     independent derivations of one number — a flat count of the declarations,
+     and the count the parser actually assembled into rules. */
+  const css = stylesheet();
+  const declared = (css.match(/z-index\s*:\s*-?\d+/g) || []).length;
+  expect(declared, "wq-css.js declares no z-index at all, so this control is judging an empty set")
+    .toBeGreaterThan(0);
+  expect(overlayRules(css).length, "the rule split cannot reach every z-index the stylesheet declares")
+    .toBe(declared);
+
+  /* And that it reaches the two that matter, by name and value (E4). */
+  const stacked = overlayRules(css).filter((r) => r.z >= OVERLAY_Z)
+    .flatMap((r) => r.selectors.map((s) => `${s} ${r.z}`)).sort();
+  expect(stacked, "the overlays the scan can see are not the ones the app defines")
+    .toEqual([".wq-modalwrap 80", ".wq-toast 70"]);
+});
+
 test("every overlay the app defines is named in the overlay list", () => {
   /* A HAND-KEPT LIST IS A PROMISE; THIS MAKES IT A FACT. The first version
      named dialog, modal, modalwrap and scrim, and missed .wq-toast - which is
@@ -176,20 +240,94 @@ test("every overlay the app defines is named in the overlay list", () => {
      would have noticed until a cell provoked a toast. This reads the app's own
      stylesheet and fails on any rule that stacks above content and is not
      covered. */
-  const css = readFileSync(new URL("../../app/src/wq-css.js", import.meta.url), "utf8");
   const named = OVERLAYS.split(",").map((s) => s.trim());
   const uncovered = [];
-  /* Each rule: the selector list, then its body. */
-  for (const m of css.matchAll(/([^{}]+)\{([^{}]*)\}/g)) {
-    const zm = /z-index\s*:\s*(-?\d+)/.exec(m[2]);
-    if (!zm || Number(zm[1]) < OVERLAY_Z) continue;
-    for (const sel of m[1].split(",").map((s) => s.trim()).filter(Boolean)) {
+  for (const rule of overlayRules(stylesheet())) {
+    if (rule.z < OVERLAY_Z) continue;
+    for (const sel of rule.selectors) {
       const cls = sel.match(/\.[a-zA-Z0-9_-]+/g) || [];
       const covered = named.some((n) => cls.some((c) => n.includes(c)) || (n.includes("role=") && sel.includes("[role")));
-      if (!covered) uncovered.push(`${sel} (z-index ${zm[1]})`);
+      if (!covered) uncovered.push(`${sel} (z-index ${rule.z})`);
     }
   }
   expect(uncovered, "the app stacks something above content that the overlay list does not name").toEqual([]);
+});
+
+test("no other app source stacks above content where the scan cannot see it", () => {
+  /* The scan above reads ONE file. Everything else the app ships could raise a
+     z-index too — a second stylesheet, or an inline style={{ zIndex }} in a
+     component — and none of it would reach the overlay list. There is none
+     today; this is the tripwire for the day there is. */
+  const dir = new URL("../../app/src/", import.meta.url);
+  const strays = [];
+  const walk = (d) => {
+    for (const e of readdirSync(d, { withFileTypes: true })) {
+      const child = new URL(e.name + (e.isDirectory() ? "/" : ""), d);
+      if (e.isDirectory()) { walk(child); continue; }
+      if (!/\.(jsx?|css)$/.test(e.name) || e.name === "wq-css.js") continue;
+      const text = readFileSync(child, "utf8");
+      for (const m of text.matchAll(/z-?[iI]ndex["']?\s*[:=]\s*["']?(-?\d+)/g))
+        if (Number(m[1]) >= OVERLAY_Z) strays.push(`${e.name}: z-index ${m[1]}`);
+    }
+  };
+  walk(dir);
+  expect(strays, "an app source outside wq-css.js stacks above content, where the overlay control cannot see it")
+    .toEqual([]);
+});
+
+test("the toast is NOT on the modal boundary, so what it buries is still seen", () => {
+  /* The correction of 2026-08-13. Adding .wq-toast to the boundary made the
+     stylesheet control pass and, in the same character, removed the toast from
+     the overlap scan: a toast that completely buries the "Ready to read?" line
+     and the whole level card was then reported by nothing at all. The fix had
+     removed the finding rather than the false positive.
+     Two lists now, and they are asserted apart. */
+  expect(MODAL_BOUNDARY, "the toast is back on the modal boundary, which silences everything it covers")
+    .not.toContain("wq-toast");
+  expect(OVERLAYS, "the toast has left the overlay list, so the stylesheet control will refuse it")
+    .toContain("wq-toast");
+  for (const named of ['[role="dialog"]', ".wq-modal", ".wq-modalwrap", ".wq-scrim"])
+    expect(MODAL_BOUNDARY, `${named} left the modal boundary`).toContain(named);
+});
+
+test("a toast that buries content is REPORTED, and is not called a collision", async ({ page }) => {
+  /* Both halves of the 2026-08-13 correction, in one cell. A toast floats over
+     live content on purpose, so it must not redden a cell — and it must not
+     vanish either, which is what naming it an overlay did. */
+  await page.goto("/", { waitUntil: "load" });
+  await page.getByRole("button", { name: "▶️ Begin Session" }).waitFor({ timeout: 8000 });
+  await page.evaluate(() => {
+    const b = [...document.querySelectorAll("button")].find((x) => x.textContent.includes("Begin Session"));
+    const r = b.getBoundingClientRect();
+    const t = document.createElement("div");
+    t.className = "wq-toast";
+    t.setAttribute("role", "status");
+    t.textContent = "All progress cleared.";
+    t.style.cssText = `position:fixed;left:${r.left}px;top:${r.top + r.height * 0.3}px;`
+      + `width:${r.width}px;height:${r.height * 0.6}px;background:#173;color:#fff;z-index:70;`;
+    document.body.appendChild(t);
+  });
+  await page.waitForTimeout(150);
+  const { findings, covered } = await inspect(page, VP, "planted", {});
+  const line = covered.join(" | ");
+  expect(line, "a toast burying a control was reported by nothing at all").toMatch(/All progress cleared/);
+  expect(line, "the report does not name what the toast buried").toMatch(/Begin Session/);
+  expect(findings.map((f) => f.kind), "a toast floating over content was asserted as a collision")
+    .not.toContain("overlap");
+});
+
+test("this file's own cell count is the one its header states", () => {
+  /* The header of this file has now been wrong twice about how much it proves,
+     and a coverage claim nobody counts is the shape of every finding in
+     docs/open-faults.md section G3b. So it is counted, from the source, every
+     run. Add a cell without saying so and this goes red; say so without adding
+     one and it goes red the other way. */
+  const src = readFileSync(new URL("./controls.spec.mjs", import.meta.url), "utf8");
+  const calls = (src.match(/^\s*test\(/gm) || []).length;
+  const cells = calls - 1 + PLANTS.length;        // one of those test() calls is the PLANTS loop
+  expect(cells, "the number of control cells in this file has changed").toBe(24);
+  expect(src.slice(0, 400), "the header no longer states the number of cells that run")
+    .toContain(`${cells} cells run here`);
 });
 
 test("the font limits are limits, not the values the app happens to render", () => {

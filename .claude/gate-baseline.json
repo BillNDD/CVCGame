@@ -1,6 +1,6 @@
 {
   "comment": "Limits for the testing gauntlet. Plain keys are floors: raise when counts grow, never lower. Keys ending in _max are ceilings: lower when quality improves, never raise (CLAUDE.md E6). 'What counts as finished work' (CLAUDE.md) governs every change.",
-  "g1_unit_tests": 83,
+  "g1_unit_tests": 87,
   "g1_scheduler_tests": 5,
   "g2_properties": 10,
   "g2_cases_per_property": 1000,
@@ -42,9 +42,11 @@
   "g18_network_checks": 4,
   "g19_app_mutants": 10,
   "g19_survivors_max": 0,
-  "g20_tests_mapped": 259,
+  "g20_tests_mapped": 263,
   "g21_listening_checks": 5,
   "g13_edge_controls": 5,
+  "census_controls": 24,
+  "census_cells": 329,
   "_retired": {
     "_why": "Floors whose SUBJECT left the product. A key that simply vanishes from this file cannot be told apart from a key deleted to make a build pass; a key recorded here with its last value, its date and its reason can. E6 forbids lowering a floor and this is not that: nothing these counted still exists to be counted.",
     "g15_recognizer_tests": {
