@@ -193,6 +193,7 @@ step("E11 lookup-mutants", "node tools/blast-radius-mutants.mjs", [
   { label: "controls", regex: /baseline: (\d+) controls/, floorKey: "e11_lookup_controls" },
   { label: "planted", regex: /(\d+) planted faults/, floorKey: "e11_lookup_mutants" },
   { label: "survived", regex: /(\d+) survived/, maxKey: "e11_lookup_survivors_max" },
+  { label: "equivalent", regex: /(\d+) equivalent/, maxKey: "e11_lookup_equivalent_max" },
   { label: "anchors_moved", regex: /(\d+) anchor\(s\) moved/, maxKey: "e11_lookup_anchors_max" },
 ]);
 

@@ -152,6 +152,37 @@ const MUTANTS = [
   ["the file name stops ranking above the excerpt lines",
     `  const rank = (h) => (h.n === 0 ? 0 : h.line.startsWith(needle) || h.line.startsWith('"' + needle) ? 1 : 2);`,
     "  const rank = (h) => (h.line.startsWith(needle) ? 1 : 2);"],
+
+  // --- the third confirm round. The fix for the git-hook fault shipped with a
+  // control that could not fail for it: every one of these passed 92 green
+  // controls while staging twenty files into the caller's repository.
+  ["git() stops scrubbing, which is the git-hook fault restored verbatim",
+    'const git = (args, cwd) => execFileSync("git", args, { cwd, encoding: "utf8", env: cleanEnv() });',
+    'const git = (args, cwd) => execFileSync("git", args, { cwd, encoding: "utf8" });'],
+  ["one sandbox git call bypasses git() and inherits the caller's environment",
+    '  git(["init", "-q"], box);', '  execFileSync("git", ["init", "-q"], { cwd: box });'],
+  ["the scrub list keeps only what one control happens to set",
+    'const GIT_VARS = ["GIT_DIR", "GIT_WORK_TREE", "GIT_INDEX_FILE", "GIT_OBJECT_DIRECTORY",',
+    'const GIT_VARS = ["GIT_DIR", "GIT_WORK_TREE", "GIT_INDEX_FILE"]; const UNUSED = ["GIT_OBJECT_DIRECTORY",'],
+  ["the hook controls are never called",
+    "  if (!process.env.BLAST_RADIUS_NESTED) hookControls(ok);", "  void hookControls;"],
+  ["the nested guard is inverted, so the hook controls run only when nested",
+    "  if (!process.env.BLAST_RADIUS_NESTED) hookControls(ok);",
+    "  if (process.env.BLAST_RADIUS_NESTED) hookControls(ok);"],
+  ["run() stops scrubbing, so every subprocess control inherits a hook's git",
+    "  const opt = { cwd: box, encoding: \"utf8\", env: cleanEnv(), timeout: 60000, stdio: [\"ignore\", \"pipe\", \"pipe\"] };",
+    "  const opt = { cwd: box, encoding: \"utf8\", timeout: 60000, stdio: [\"ignore\", \"pipe\", \"pipe\"] };",
+    /* EQUIVALENT, and kept rather than deleted (E3). A grandchild that inherits
+       GIT_DIR still builds its sandbox through git(), which scrubs, so nothing
+       reaches the caller's repository and no control can tell the difference.
+       The scrub in run() is defence in depth: it stops being equivalent the
+       moment any subprocess path stops going through git(). It is reported
+       separately so it is never read as a survivor, and never quietly dropped
+       so nobody re-derives this reasoning in a year. */
+    "equivalent: a grandchild still builds its sandbox through git(), which scrubs"],
+  ["the file name is ranked last instead of first",
+    "  const rank = (h) => (h.n === 0 ? 0 : h.line.startsWith(needle) || h.line.startsWith('\"' + needle) ? 1 : 2);",
+    "  const rank = (h) => (h.n === 0 ? 9 : h.line.startsWith(needle) || h.line.startsWith('\"' + needle) ? 1 : 2);"],
 ];
 
 /* A COPY of the working tree's file, in a scratch directory — not a git clone.
@@ -202,8 +233,8 @@ if (!/controls: \d+ passed, 0 failed/.test(baseline)) {
 }
 console.log(`baseline: ${/controls: (\d+) passed/.exec(baseline)[1]} controls green under a hostile global gitignore\n`);
 
-let survived = 0, moved = 0;
-for (const [name, from, to] of MUTANTS) {
+let survived = 0, moved = 0, equivalent = 0;
+for (const [name, from, to, why] of MUTANTS) {
   const n = original.split(from).length - 1;
   if (n !== 1) {
     console.log(`ANCHOR ${n === 0 ? "MOVED" : `AMBIGUOUS (${n})`}   ${name}`);
@@ -222,12 +253,13 @@ for (const [name, from, to] of MUTANTS) {
      identical in a pass/fail count. */
   if (!m) { console.log(`CRASHED, not detected   ${name}`); survived++; continue; }
   const failed = Number(m[2]);
-  if (failed > 0) console.log(`killed by ${String(failed).padStart(2)}   ${name}`);
-  else { console.log(`SURVIVED         ${name}`); survived++; }
+  if (failed > 0) { console.log(`killed by ${String(failed).padStart(2)}   ${name}`); continue; }
+  if (why) { console.log(`EQUIVALENT       ${name}\n                 ${why}`); equivalent++; continue; }
+  console.log(`SURVIVED         ${name}`); survived++;
 }
 
 rmSync(box, { recursive: true, force: true });
-console.log(`\n${MUTANTS.length} planted faults in ${REL}: ${survived} survived, ${moved} anchor(s) moved.`);
+console.log(`\n${MUTANTS.length} planted faults in ${REL}: ${survived} survived, ${equivalent} equivalent, ${moved} anchor(s) moved.`);
 console.log(readFileSync(live, "utf8") === original
   ? "The working tree is byte-for-byte as it was: every mutant lived in a scratch copy."
   : "WARNING: the working tree changed while this ran. Check it before committing.");

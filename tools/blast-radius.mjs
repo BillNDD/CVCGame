@@ -453,7 +453,11 @@ const CORPUS = {
   ".claude/gate-baseline.json": '{ "g13_clips": 19, "g6_ratio": 0.80 }\n',
   "tools/render-voice-pack.py": "SPEED = 0.85\nhold_ms = 450\nword_speed_override = {}\nceiling = 1500\n",
   "tools/mutants.mjs": '["promotion >= to >", "solid / total >= 0.8;"],\n',
-  "tools/pending-words/w-zzq.json": '{ "word": "zzq" }\n',
+  /* A name hit AND five content hits, so a report that stopped ranking the
+     file name first would push it out of the excerpt cap and hide the fact
+     that the file is named for the word. */
+  "tools/pending-words/w-zzq.json": '{ "word": "zzq",\n  "note": "zzq waiting",\n' +
+    '  "from": "zzq round 1",\n  "seat": "zzq mid",\n  "why": "zzq unshipped" }\n',
   "tools/voice-words.csv": "word,level,round,notes\ncat,1,round 3,rendered beside zzq\n" +
     "hen,1,round 4,compared with zzq\nqqz,2,round 5,after zzq\nzzq,2,round 99,the word itself\n",
   /* A SECOND file of the same kind, so a report that keeps only the first file
@@ -493,6 +497,20 @@ function sandbox() {
 }
 
 const files = (rows) => rows.map((r) => r.file);
+/* The excerpt lines printed UNDER one named file. Asserting on the whole
+   report instead let three faults through: with several files in the corpus,
+   one file's off-by-one tail is another file's right answer, and a file-name
+   marker dropped from one block is still printed by a clip that has no other
+   hit. Excerpt lines are the six-space indent; the block ends at the next
+   file or kind heading. */
+const block = (out, file) => {
+  const lines = out.split("\n");
+  const i = lines.findIndex((l) => l.trim().startsWith(file + "  ("));
+  if (i < 0) return "";
+  const rest = [];
+  for (let k = i + 1; k < lines.length && /^ {6}\S/.test(lines[k]); k++) rest.push(lines[k]);
+  return rest.join("\n");
+};
 const linesOf = (rows, f) => (rows.find((r) => r.file === f)?.found || []).map((h) => h.n);
 /* stderr is captured rather than inherited: a control that expects a refusal
    would otherwise print that refusal into the middle of the control list. */
@@ -688,11 +706,12 @@ function outputControls(ok, box) {
     /* Both tails, because one file's off-by-one count is another file's right
        answer: with four hits and five hits in the corpus, an off-by-one tail
        still prints a "1" somewhere and a single-number check reads as fine. */
-    capped.includes("3: hen,1,round 4,compared with zzq")
-    && capped.includes("… 1 more lines in this file (--all)")
-    && capped.includes("… 2 more lines in this file (--all)")]);
+    block(capped, "tools/voice-words.csv").includes("3: hen,1,round 4,compared with zzq")
+    && block(capped, "tools/voice-words.csv").includes("… 1 more lines in this file (--all)")]);
   ok.push(["and the defining line survives the cap even when it is last in the file",
     capped.includes('"zzq": ["pinned"]')]);
+  ok.push(["and the file NAME outranks the excerpt lines, so a clip is never capped away",
+    block(capped, "tools/pending-words/w-zzq.json").includes("(the file name itself)")]);
   /* By CONTENT, not by length: --all adds the hidden line and removes the tail
      that announced it, so the two outputs are the same number of lines and a
      length comparison passes whatever --all does. */
@@ -735,13 +754,23 @@ function hookControls(ok) {
   const caller = mkdtempSync(join(tmpdir(), "blast-radius-hook-"));
   writeFileSync(join(caller, "keep.txt"), "a file the caller already had\n");
   git(["init", "-q"], caller);
-  git(["add", "keep.txt"], caller);
-  const hookEnv = cleanEnv({
+  /* -f and a catch, for the same reason sandbox() has them: a global gitignore
+     listing *.txt is somebody's real configuration, and a control that dies on
+     it teaches them to stop believing the check. */
+  try { git(["add", "-f", "keep.txt"], caller); } catch { /* asserted below */ }
+  /* Scrub FIRST, then set — never cleanEnv({...}), which merges and then
+     deletes the very variables being set, so the child runs in a cleaner
+     environment than the parent and the control reproduces no hook at all.
+     That was the shape of this control on its first attempt: it reported ok
+     three times while every way of removing the fix passed 92 of 92 and staged
+     twenty files into the caller's repository. */
+  const hookEnv = {
+    ...cleanEnv(),
     GIT_DIR: join(caller, ".git"),
     GIT_WORK_TREE: caller,
     GIT_INDEX_FILE: join(caller, ".git", "index"),
     BLAST_RADIUS_NESTED: "1",
-  });
+  };
   let out = "";
   try {
     out = execFileSync(process.execPath, [TOOL, "--self-test"],
@@ -785,6 +814,18 @@ async function selfTest() {
   }
   classifyControls(ok);
   if (!process.env.BLAST_RADIUS_NESTED) hookControls(ok);
+  /* The guard exists to stop the hook control recursing into itself. It must
+     not be a switch that quietly removes controls: set in the ambient
+     environment, or deleted by an edit, it would take three controls away and
+     still report "0 failed". This asserts they ran, by name. */
+  ok.push(["the git-variable scrub names every variable git uses to override a working directory",
+    ["GIT_DIR", "GIT_WORK_TREE", "GIT_INDEX_FILE", "GIT_OBJECT_DIRECTORY",
+      "GIT_ALTERNATE_OBJECT_DIRECTORIES", "GIT_COMMON_DIR", "GIT_NAMESPACE",
+      "GIT_CEILING_DIRECTORIES", "GIT_PREFIX", "GIT_INTERNAL_SUPER_PREFIX"]
+      .every((v) => GIT_VARS.includes(v))]);
+  ok.push(["the git-hook controls actually ran, rather than being skipped",
+    !!process.env.BLAST_RADIUS_NESTED
+    || ok.some(([n]) => n.includes("stages nothing into that hook's repository"))]);
 
   for (const [name, pass] of ok) console.log((pass ? "ok   " : "FAIL ") + name);
   const failed = ok.filter(([, p]) => !p).length;
