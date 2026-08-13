@@ -119,6 +119,23 @@ The same form carries listening rounds, which are decisions about sound:
 verdict buttons reading *perfect / good / iterate on this / no good option* on
 every arm, and the copy-all at the end.
 
+## Before you change anything (owner-ruled 2026-08-13)
+
+`CLAUDE.md` E11 owns the rule. In practice it is three lines in your own notes before the
+first edit:
+
+1. **What am I changing?** One sentence, concrete — a word, a count, a constant, a line of copy.
+2. **What depends on it?** Walk the gates and name them: counts and floors, mutant anchors,
+   scenario arithmetic, the documents that state the fact, the copy a parent reads, the file
+   lists. Not from memory where a command will answer — `node tools/mutants.mjs --anchors` is
+   milliseconds and a gauntlet is twelve minutes.
+3. **What proves I did it right?** The check or the observation, named before the work starts,
+   not chosen afterwards from whatever passed.
+
+The failure this prevents is not carelessness. It is the ordinary shape of a small change in a
+system where one fact is written in eight places: the edit is right, and the eighth place is
+still saying yesterday's truth.
+
 ## The two failures this repository is built around
 
 **A machine cannot hear a word.** Every automated check passed while the pack

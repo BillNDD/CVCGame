@@ -181,6 +181,25 @@ exclusions are recorded in SPEC section 12.
   That limit is 1200 lines. The owner raised it from 600 to 900 on 2026-07-29, and from 900 to
   1200 on 2026-08-12; only the owner can move a ceiling, and a file approaching one should be
   split instead.
+- E11. Name the change, then name what it breaks, BEFORE you touch a file. Owner-ruled
+  2026-08-13, after a beta spent twelve hours failing the same way: a change is made, and only
+  then does anything discover what depended on it. Write down what you intend to change, then
+  walk the gates and say which will move — counts and floors (G1, G13, G20), mutant anchors
+  (G5, G19), scenario arithmetic (G3), the documents that state the fact (G16), the copy a
+  parent reads (G11), and the file lists (G17). Check the cheap ones mechanically rather than
+  from memory: `node tools/mutants.mjs --anchors` reports every mutant whose anchor has moved
+  in milliseconds, where finding the same thing through a gauntlet costs twelve minutes and
+  usually happens at the worst moment. A gate that goes red AFTER a change is a gate doing its
+  job late; the same gate consulted first is a plan. This rule earned itself on its first use:
+  it predicted five gates for one small change and the dry run then found a sixth nobody had
+  thought of.
+
+  Tonight's evidence for why it is a rule rather than advice, all from one session: removing a
+  word left it living in five other files, found one gate at a time; the same removal put the
+  promotion boundary out of reach of every test, so ">=" could have become ">" and a child
+  would have been held at a level they had earned; a mutant reached the repository because a
+  commit was made while a gate held a file mutated; and two mutants stopped meaning anything
+  because their anchors moved under an unrelated edit.
 - E7. Run `npm run check` before every push: the quality lint (ESLint with the complexity and
   file-length ceilings, the dependency-cycle scan, and the quality controls) plus the full test
   suite plus the sub-minute gates (copy, doc-truth, QA count, voice pack, governing files,
