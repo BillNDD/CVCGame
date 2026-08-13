@@ -183,6 +183,19 @@ step("G5 source-mutants", "node tools/mutants.mjs", [
 /* G5 mutates the engine; G19 mutates the half the child touches — the
    transcript rule, the adult hold, the update comparison, the backup
    validator and the free-play write guard. */
+/* The E11 lookup is not a gate — it never fails a build on what it reports.
+   Its CONTROLS are load-bearing all the same: a lookup that has quietly stopped
+   finding things sends an agent into a change believing nothing depends on it.
+   Faults are planted in a scratch copy of the file, never in the tree. This
+   carries no G number on purpose: G22 is already a cautionary tale about a
+   number written into a document before a gate existed (open-faults C4). */
+step("E11 lookup-mutants", "node tools/blast-radius-mutants.mjs", [
+  { label: "controls", regex: /baseline: (\d+) controls/, floorKey: "e11_lookup_controls" },
+  { label: "planted", regex: /(\d+) planted faults/, floorKey: "e11_lookup_mutants" },
+  { label: "survived", regex: /(\d+) survived/, maxKey: "e11_lookup_survivors_max" },
+  { label: "anchors_moved", regex: /(\d+) anchor\(s\) moved/, maxKey: "e11_lookup_anchors_max" },
+]);
+
 step("G19 app-mutants", "node tools/app-mutants.mjs", [
   { label: "mutants", regex: /gate: (\d+) mutants/, floorKey: "g19_app_mutants" },
   { label: "survived", regex: /(\d+) survived/, maxKey: "g19_survivors_max" },
@@ -319,7 +332,7 @@ step("G17 governing", "node tools/check-governing.mjs && node tools/check-govern
    up. Control below proves a missing gate is caught. */
 const REQUIRED_GATES = [
   "G11 copy", "G1+G2+G9+G10 tests", "G3 regeneration", "G4 acceptance-mutants",
-  "G5 source-mutants", "G19 app-mutants", "G6 coverage", "G6 quality",
+  "G5 source-mutants", "G19 app-mutants", "E11 lookup-mutants", "G6 coverage", "G6 quality",
   "G7 interface", "G8 accessibility", "G18 network", "G16 doc-truth",
   "G12 qa-procedure", "G13 voice-pack", "G13 voice-edges", "G20 effect-map", "G17 governing", "G6 coverage-control",
   "G21 listening-page", "app build",

@@ -78,6 +78,14 @@ const AGENT_TOOLS = [
     command: "tools/blast-radius.mjs --self-test",
   },
   {
+    file: "tools/blast-radius-mutants.mjs",
+    why: "the faults planted against the E11 lookup's own controls",
+    docs: { "docs/testing-gauntlet.md": "gauntletDoc" },
+    script: "gauntlet",
+    wiredIn: "gauntletJs",
+    command: "tools/blast-radius-mutants.mjs",
+  },
+  {
     file: "tools/mutants.mjs",
     why: "the mutation gate, and its --anchors dry run that E11 asks for first",
     docs: { "CLAUDE.md": "claude", "AGENTS.md": "agents" },
@@ -101,6 +109,7 @@ const real = {
   bankSize: LEVELS.flatMap((l) => l.words).length,
   corpus: SOURCES.map((f) => readFileSync(f, "utf8")).join("\n"),
   gauntletDoc: readFileSync("docs/testing-gauntlet.md", "utf8"),
+  gauntletJs: readFileSync("tools/gauntlet.mjs", "utf8"),
   baseline: readFileSync(".claude/gate-baseline.json", "utf8"),
   voiceDoc: readFileSync("docs/voice-pack.md", "utf8"),
   ledger: readFileSync("tools/pending-words/pending-words.json", "utf8"),
@@ -272,7 +281,7 @@ function run(d) {
       if (!d[text].includes(t.file))
         found.push(`${doc} no longer names ${t.file} (${t.why}) — an agent reading only the governing documents would never run it`);
     }
-    if (t.command && !d.pkg.includes(t.command))
+    if (t.command && !d[t.wiredIn || "pkg"].includes(t.command))
       found.push(`npm run ${t.script} no longer runs ${t.file} (${t.why}) — it can now rot without anything going red`);
   }
 
