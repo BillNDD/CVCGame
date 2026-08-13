@@ -868,8 +868,11 @@ and both are function words with no adult sense. Three bank words have a plural 
 out: **jug, bun, nut**. The game never pluralises, so none can appear today; the plural-s level
 (12, unbuilt) must exclude them, as SPEC already requires for jug and crab.
 
-The screen raised **two** words in the same class as knob and pot. The owner ruled **gob out**
-and it is gone. **keg** is unruled at the time of writing and remains in the bank.
+The screen raised **two** words in the same class as knob and pot, and the owner ruled on both
+the same day: **gob is OUT** and is gone from every file that named it; **keg is FINE** and
+stays. A keg is a small barrel, the word is standard in phonics word lists, and it sits with
+knob, pot, gash, bush, bang, whack, hung, rod and puff — ordinary words that carry an adult
+sense in some dialects. A later screen does not raise keg again.
 
 An earlier version of this paragraph said "the eight words confirmed absent" and "the 115 words
 still waiting". Both were recalled rather than counted, in a paragraph whose whole claim is
