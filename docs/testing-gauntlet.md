@@ -639,8 +639,8 @@ promised a fallback the code never performed; G12 counted the step and saw nothi
   written into a document before the gate existed.
 - It is here rather than in `npm run check` because it takes about thirty seconds, and the
   check is half a minute in total.
-- Baseline floors: `e11_lookup_controls` (92), `e11_lookup_mutants` (53). Ceilings:
-  `e11_lookup_survivors_max` (0), `e11_lookup_anchors_max` (0). A survivor means some part of
+- Baseline floors: `e11_lookup_controls` (95), `e11_lookup_mutants` (60). Ceilings:
+  `e11_lookup_survivors_max` (0), `e11_lookup_anchors_max` (0), `e11_lookup_equivalent_max` (1). A survivor means some part of
   the lookup can be wrong while every control stays green. A moved anchor means a planted
   fault no longer applies to the code and has been proving nothing.
 - It runs a baseline first and refuses to report anything if the unmutated lookup does not
@@ -655,6 +655,13 @@ promised a fallback the code never performed; G12 counted the step and saw nothi
   partial, off-by-one, wrong-but-plausible — and twenty-four survived. The faults here are
   that second kind, and several are that auditor's. A second confirm round planted fifteen
   more against the newly added layer and eleven survived; those eleven are here too.
+- A fault that CANNOT be killed, because the code it changes makes no observable difference,
+  is reported as `EQUIVALENT` with the reason written beside it, and is never deleted (E3).
+  One exists today: the sandbox subprocess helper scrubs git's environment variables a second
+  time, which nothing can detect while every sandbox is still built through the scrubbing
+  helper. It is defence in depth and stops being equivalent the moment that stops being true.
+  The `e11_lookup_equivalent_max` ceiling is what stops this becoming a way to retire an
+  inconvenient fault: raising it needs the owner, like any ceiling (E6).
 - What "0 survived" means, exactly: no KNOWN fault survives. It is not a completeness claim,
   and every round of auditing so far has found faults the previous round's harness did not
   contain.
