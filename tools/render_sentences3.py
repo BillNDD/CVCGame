@@ -24,6 +24,15 @@
 # rules: a sentence whose words are not all taught by its level, or that uses
 # no word the level introduces, refuses to build.
 #
+# THE NINE THAT THE CHECKER REFUSED, 2026-08-13. This batch was written on
+# 2026-08-12 and never rendered. Run at last, tools/decodable.mjs refused nine of
+# its thirty, and one word explains six of them: "we" is not taught anywhere in
+# the bank, and neither are "go" or "me". Level 1 refused three more because it
+# is twelve VC words with no function words at all - the heart roster sits at
+# Level 2, so a Level 1 sentence can only be built from at, an, am, ax, in, it,
+# if, is, on, ox, up and us. The nine were rewritten from each level's own
+# taught words rather than dropped, and the checker is still the arbiter.
+#
 # Usage: python render_sentences3.py <out_dir>
 import base64
 import hashlib
@@ -44,17 +53,17 @@ LEAD_MS, TAIL_MS, FADE_MS = 80, 300, 10
 # asked for: four to five words where the child has a dozen words to work with,
 # up to eight once the blends arrive.
 SENTENCES = {
-    1: ["Is it an ox?", "Up we go!", "It is an ax.", "Do we go in?", "My ox is in."],
+    1: ["Is it an ox?", "An ox is up.", "It is an ax.", "Is it up?", "An ax is on it."],
     2: ["My dad has a map.", "The cat sat on my lap.", "A man and a cat ran.", "Dad had a nap."],
     3: ["The dog did not sit.", "A fox ran to the log.", "My mom got a big box."],
-    5: ["The kid fed a cub.", "My pal hid the lid.", "We had gum and a fig."],
+    5: ["The kid fed a cub.", "My pal hid the lid.", "My pal had gum and a fig."],
     6: ["My chum can wash the dish.", "The shop had a red cap."],
-    8: ["My doll fell on the hill.", "We can quiz my pal."],
-    9: ["The chick is on my thumb.", "A duck can quack.", "We check the shell."],
-    10: ["The gift is in my hand.", "We camp in a big tent.", "My milk is on the desk.",
-         "Help me lift the lamp.", "The best nest is soft."],
+    8: ["My doll fell on the hill.", "My pal can quiz us."],
+    9: ["The chick is on my thumb.", "A duck can quack.", "Check the thick shell."],
+    10: ["The gift is in my hand.", "The tent is in the sand.", "My milk is on the desk.",
+         "Lift the lamp to the desk.", "The best nest is soft."],
     11: ["My twin can swim fast.", "The sled is on the flat sand.", "Stop and grab my hand.",
-         "The pup is snug in my lap.", "We clap and grin."],
+         "The pup is snug in my lap.", "Grab the twig and grin."],
 }
 
 # The word "a" said alone. Two things can go wrong and both have happened to

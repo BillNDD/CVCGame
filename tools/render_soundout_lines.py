@@ -43,13 +43,29 @@ FADE_MS = 10
 # SPEC section 12, verbatim and in the owner's own order. Each is true whichever
 # word the app picks and however many times the child has met it, which is the
 # rule that decided the set.
+# WORDS WHOSE SPELLING ALLOWS TWO PRONUNCIATIONS. SPEC section 9: "A sentence
+# must carry an explicit pronunciation when its spelling allows two." The praise
+# line "You read that word all by yourself!" was spoken with "read" as in "reed"
+# and was replaced on 2026-08-03; tools/voice-check.mjs has refused the fault
+# ever since. THIS SCRIPT RENDERED OUTSIDE THAT GATE on 2026-08-13 and put the
+# same fault in front of the owner, who caught it by ear in one listen — a round
+# spent on something the project had already closed and built a guard against.
+# So the guard is here too now, where the audio is made.
+TWO_WAY = ("read", "lead", "live", "wind", "tear", "bow", "row", "close", "use",
+           "present", "record", "object", "content", "does", "sow", "wound")
+
 LINES = [
+    # The phonemes are the FIX and they are not cosmetic: rendered from spelling
+    # this line says "reed", which teaches the wrong sound to a child who has
+    # just read the words. Verified with the phonemiser rather than by ear —
+    # from spelling it is ɹˈiːd, and this is ɹˈɛd.
     ("soundout-1", "You read them all. Let's sound out this one.",
-     "gives the reason"),
+     "gives the reason",
+     "juː ɹˈɛd ðˌɛm ˈɔːl. lˈɛts sˈaʊnd ˈaʊt ðˈɪswˌʌn."),
     ("soundout-2", "Let's sound out one word together.",
-     "names the grown-up: this game is a parent and a child side by side"),
+     "names the grown-up: this game is a parent and a child side by side", None),
     ("soundout-3", "Here is one word to sound out.",
-     "simply announces"),
+     "simply announces", None),
 ]
 
 
@@ -79,13 +95,24 @@ def main():
     k = Kokoro(str(REPO / "kokoro-v1.0.onnx"), str(REPO / "voices-v1.0.bin"))
 
     items = []
-    for cid, text, why in LINES:
-        audio, sr = k.create(text, voice=VOICE, speed=SPEED, lang="en-us")
+    for cid, text, why, phonemes in LINES:
+        # THE GATE, AT THE POINT OF MAKING. A line that contains a
+        # two-pronunciation word and does not say which one it means cannot be
+        # rendered at all, so the fault cannot reach a listener again.
+        risky = [w for w in TWO_WAY if w in text.lower().split()
+                 or f"{w}," in text.lower() or f"{w}." in text.lower()]
+        if risky and not phonemes:
+            raise SystemExit(
+                f"refusing to render {cid}: it contains {risky} and leaves the "
+                f"pronunciation to spelling (SPEC section 9). Give it explicit phonemes.")
+        audio, sr = k.create(phonemes or text, voice=VOICE, speed=SPEED, lang="en-us",
+                             **({"is_phonemes": True} if phonemes else {}))
         mp3, ms = encode(shape(np.asarray(audio, np.float32), sr), sr)
         (out / f"{cid}.mp3").write_bytes(mp3)
         sha = hashlib.sha256(mp3).hexdigest()
         items.append({"id": cid, "text": text, "why": why, "ms": ms,
                       "sha256": sha, "voice": VOICE, "speed": SPEED,
+                      "phonemes": phonemes,
                       "b64": base64.b64encode(mp3).decode()})
         print(f"  {cid}: {ms} ms  sha {sha[:12]}  \"{text}\"")
 
