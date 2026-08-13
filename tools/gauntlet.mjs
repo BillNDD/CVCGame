@@ -195,6 +195,11 @@ step("E11 lookup-mutants", "node tools/blast-radius-mutants.mjs", [
   { label: "survived", regex: /(\d+) survived/, maxKey: "e11_lookup_survivors_max" },
   { label: "equivalent", regex: /(\d+) equivalent/, maxKey: "e11_lookup_equivalent_max" },
   { label: "anchors_moved", regex: /(\d+) anchor\(s\) moved/, maxKey: "e11_lookup_anchors_max" },
+], {}, [
+  /* Pins WHICH fault holds the single equivalence slot. Without this the slot
+     could be moved to a different, inconvenient fault with every count
+     unchanged. */
+  "equivalent: a grandchild still builds its sandbox through git(), which scrubs",
 ]);
 
 step("G19 app-mutants", "node tools/app-mutants.mjs", [
