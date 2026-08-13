@@ -471,7 +471,27 @@ app.
 | on-screen | `expect(el).toBeInViewport({ratio})` | below-the-fold, with a ratio rather than a hand-rolled box test |
 | accessible tree | `expect(page).toMatchAriaSnapshot()` | what a screen reader is told, pinned as a readable file in git |
 | overlap | rectangle intersection over every visible element | the home-screen images that overlapped — point-sampling a control's centre misses it |
-| a11y sweep | `@axe-core/playwright` | contrast, names, roles, focus order, on every cell instead of three screens |
+| a11y sweep | axe-core, injected | contrast, names, roles, focus order, on every cell instead of three screens |
+
+**4 is BUILT as of 2026-08-13**, apart from the screenshot half of it. Font floors and ceilings
+were the first thing the rebuild landed. `toBeInViewport({ratio: 0.9})` now asserts that the
+miss sentence is on the screen a child is looking at, where an assertion belongs — `inspect()`
+keeps its own box comparison for the things it merely reports. Overlap is rebuilt twice over
+(see the audit rounds above). `toMatchAriaSnapshot` pins the home screen's accessible tree as a
+readable file in git, in the controls project rather than in the census: a tree pinned eight
+times over eight device profiles is eight files that drift apart, and the accessible tree is
+not a property of the viewport. Its generated form had to be edited once, because Playwright
+wrote the build stamp into it literally and it would have broken on every commit.
+
+**The accessibility sweep uses the axe-core already in the tree**, not
+`@axe-core/playwright` — no new dependency, and nothing fetched over the network, which the
+census owes S6 as much as the app does. It runs the SAME four WCAG tag sets as G8, deliberately:
+two accessibility checks in one repository answering to different rule sets would let a state
+pass in one and fail in the other with nobody able to say which was right. G8 remains the gate
+over five screens; the census asks the same questions of every state it visits, including the
+four G8 has never seen. **Its first run found zero violations across all of them** — a good
+result, and also exactly what a sweep that is not running looks like, so it ships with a planted
+unlabelled button and a clean-page control on either side of it.
 
 **5. Conditions, not just screens.** A fault that only exists while things are loading is
 invisible to a warm run, which is how B17 survived. Each of these is a project:
@@ -532,11 +552,12 @@ second Playwright on the same container, at load average 4, so they measure the 
 than the census. That measurement is owed on a quiet box before any full run is quoted.
 
 **Cadence: every other beta** (owner-ruled 2026-08-12). Its own negative controls —
-`npm run census:controls` — are the part that can be trusted at any time: 38 cells in about
-twenty-five seconds. Their make-up is asserted by the file's own last cell rather than typed
-here: 16 plant a defect from the CSS table, 9 plant one built in the page where a stylesheet
-cannot reach, 2 prove a clean page reports none of them, 8 hold the census's own rules against
-the app, and 3 cover the toast report, the staging refusal and that count itself. The
+`npm run census:controls` — are the part that can be trusted at any time: 41 cells in about
+thirty-seven seconds. Their make-up is asserted by the file's own last cell rather than typed
+here: 16 plant a defect from the CSS table, 10 plant one built in the page where a stylesheet
+cannot reach, 3 prove a clean page reports none of them, 8 hold the census's own rules against
+the app, and 4 cover the toast report, the staging refusal, the home screen's pinned accessible
+tree and that count itself. The
 arithmetic in this paragraph was wrong by two on each of the two days it was written — which
 is why the file now counts itself, and counts the breakdown rather than only the total.
 
@@ -544,7 +565,7 @@ is why the file now counts itself, and counts the breakdown rather than only the
 `.census/report.json`, builds, runs the cells, and then runs `tools/census-report.mjs`
 whatever the runner's exit code was — so a run that produces no report, or a report from
 some other config, is refused rather than read. The floors it enforces are
-`census_controls` (38) and `census_cells` (416) in `.claude/gate-baseline.json`, under E6
+`census_controls` (41) and `census_cells` (416) in `.claude/gate-baseline.json`, under E6
 like every other floor. The gauntlet still does not call the census, and that stays
 deliberate: a flaky cell must inform a release, never block one.
 

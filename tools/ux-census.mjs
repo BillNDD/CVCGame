@@ -51,6 +51,7 @@
  * owner's execution recommendation and needs the blob reporter to add up
  * (item 7 of the build spec).
  */
+import { readFileSync } from "node:fs";
 import { devices } from "@playwright/test";
 import { LEVELS, chunkWord, PRAISE, SESSION_SIZE } from "../src/engine.js";
 
@@ -463,6 +464,15 @@ async function inspect(page, viewport, label, opts = {}) {
   }, MODAL_BOUNDARY);
   for (const o of collisions) push("overlap", o);
 
+  /* OPT-IN PER CELL, because axe costs a few hundred milliseconds and the
+     census runs it hundreds of times. Every cell that shows a child a screen
+     asks for it; the planted-defect controls do not, since a stylesheet plant
+     would drown the result in contrast violations of its own making. */
+  if (opts.axe) {
+    for (const v of await axeViolations(page))
+      push("a11y", `${v.id} (${v.impact}) on ${v.count} node(s): ${v.where}${v.why ? " — " + v.why : ""}`);
+  }
+
   const pseudo = await pseudoOverlays(page);
   for (const p of pseudo)
     push("pseudo-overlay", `"${p.host}" carries a positioned ${p.which} that paints`
@@ -637,6 +647,39 @@ async function holdGrade(page, label, findings) {
   }
 }
 
+/* THE ACCESSIBILITY SWEEP — item 4 of the build spec, and its point is REACH
+   rather than a new rule. G8 already runs axe-core over five screens and is
+   the gate; this runs the same rule set over every cell the census visits, so
+   the states G8 never sees — the close and the wrong reveal, the done screen,
+   the update row, 44 words on 8 device profiles — are asked the same
+   questions. A name a screen reader cannot say, a role that lies, a control
+   with no accessible name, contrast that fails on ONE word and not another:
+   none of those are things a geometry scan can see.
+
+   THE SAME TAGS AS G8, deliberately. Two accessibility checks in one
+   repository answering to different rule sets would let a state pass here and
+   fail there, and nobody could say which was right.
+
+   No new dependency: axe-core has been in the tree since G8 was built, and it
+   is injected from node_modules rather than fetched — the census must not
+   reach the network any more than the app must (S6). */
+const AXE_TAGS = ["wcag2a", "wcag2aa", "wcag21a", "wcag21aa"];
+let AXE_SRC = null;
+async function axeViolations(page) {
+  AXE_SRC ??= readFileSync("node_modules/axe-core/axe.min.js", "utf8");
+  await page.addScriptTag({ content: AXE_SRC });
+  return page.evaluate(async (tags) => {
+    const r = await window.axe.run(document, { runOnly: { type: "tag", values: tags } });
+    return r.violations.map((v) => ({
+      id: v.id, impact: v.impact, count: v.nodes.length,
+      /* The element, not just the rule. "color-contrast: 3 nodes" sends a
+         person hunting; the selector and the failure summary do not. */
+      where: v.nodes.slice(0, 3).map((n) => (n.target || []).join(" ")).join(" | "),
+      why: (v.nodes[0]?.failureSummary || "").split("\n").filter(Boolean).slice(-1)[0] || "",
+    }));
+  }, AXE_TAGS);
+}
+
 /* THE REVEAL IS OVER WHEN THE ADVANCE CONTROL STAYS LIVE, not when it first
    goes live. The app enables it at 400 ms and TAKES IT BACK when the reveal's
    real length is known, re-arming it for the rest of the sound-out. Sampling
@@ -738,7 +781,7 @@ const PLANTS = [
    "text-too-big at the boundary: 35px against a 34px ceiling"],
 ];
 
-export { cases, signature, inspect, pseudoOverlays, stage, holdGrade, savedState, holdTheDice, requireStaged,
-         waitForReveal, GRADE,
+export { cases, signature, inspect, pseudoOverlays, axeViolations, stage, holdGrade, savedState, holdTheDice, requireStaged,
+         waitForReveal, GRADE, AXE_TAGS,
          FONT_FLOOR, FONT_CEIL, MODAL_BOUNDARY, OVERLAYS, OVERLAY_Z,
          PROFILES, VIEWPORTS, CHILD_MIN, ADULT_MIN, PLANTS, BANK_WORDS, LONGEST_PRAISE };
