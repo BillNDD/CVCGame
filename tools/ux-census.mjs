@@ -613,6 +613,46 @@ async function holdGrade(page, label, findings) {
   }
 }
 
+/* THE REVEAL IS OVER WHEN THE ADVANCE CONTROL STAYS LIVE, not when it first
+   goes live. The app enables it at 400 ms and TAKES IT BACK when the reveal's
+   real length is known, re-arming it for the rest of the sound-out. Sampling
+   inside that window reported "focus-lost" — a defect in the game that does not
+   exist — because disabling a focused button drops focus to <body>. Measured
+   with the voice clips delayed 900 ms: live at +192 ms, disabled again at
+   +779 ms, live for good at +8726 ms. The window itself is a real finding and
+   is docs/open-faults.md B17.
+
+   This lived inline in one cell. It is a function now because item 3 adds three
+   more states that have to wait the same way, and a wait that is copied is a
+   wait that drifts. */
+async function waitForReveal(page, timeout = 25000) {
+  await page.locator(".wq-tile").first().waitFor({ timeout: 8000 });
+  await page.waitForFunction(() => {
+    const b = document.querySelector(".wq-rail .wq-cta");
+    if (!b || b.disabled) { window.__wqStable = 0; return false; }
+    window.__wqStable = (window.__wqStable || 0) + 1;
+    return window.__wqStable >= 5;
+  }, null, { timeout, polling: 100 });
+}
+
+/* THE FOUR STATES A WORD NEVER REACHES — item 3 of the build spec.
+   Until this landed the census saw the prompt and the CORRECT reveal, and
+   nothing else. The close and the wrong reveals carry SPEC section 5's own
+   sentences, which are the longest child-facing text in the game and the text
+   most likely to wrap under a control; the done screen is the only screen a
+   child reaches by finishing; and the update row is the only place in the app
+   a parent can touch the network (S6).
+
+   The done cell runs a REAL session, not free play, because free play never
+   ends. That is why it is the one cell here that does not assert that the
+   saved progress is unchanged: it deliberately saves a short session, which is
+   what the app's own "Finish early" dialog offers. */
+const GRADE = {
+  correct: "✓ got it (hold)",
+  close: "~ close (hold)",
+  wrong: "↻ not yet (hold)",
+};
+
 /* The planted defects the controls run against. Each one is a fault this
    census exists to find, made on purpose, on a screen where the element it
    targets actually exists — and each CSS string here was corrected against a
@@ -640,5 +680,6 @@ const PLANTS = [
 ];
 
 export { cases, signature, inspect, pseudoOverlays, stage, holdGrade, savedState, holdTheDice, requireStaged,
+         waitForReveal, GRADE,
          FONT_FLOOR, FONT_CEIL, MODAL_BOUNDARY, OVERLAYS, OVERLAY_Z,
          PROFILES, VIEWPORTS, CHILD_MIN, ADULT_MIN, PLANTS, BANK_WORDS, LONGEST_PRAISE };

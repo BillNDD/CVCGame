@@ -437,10 +437,31 @@ overrode each profile back to whole-number scaling; that line is gone.
 make the whole census try to launch an engine this machine does not have. `CENSUS_ENGINE`
 selects it, Chromium is the default, and the report states which one actually ran (item 1).
 
-**3. The states a word never reaches.** Today the census sees the prompt and the correct
-reveal. It must also see the **close reveal**, the **wrong reveal** (S3's invitation text, which
-a child reads and which wraps), the **done screen**, the **update row** in each of its states,
-the **progress track** at 7, 10 and 20 columns, and the **level strip**.
+**3. The states a word never reaches. BUILT 2026-08-13, in part.** The census saw the prompt
+and the correct reveal and nothing else. It now also sees the **close reveal** and the **wrong
+reveal** — S3's invitation text, the longest child-facing sentence in the game and the one most
+likely to wrap under a control — the **done screen**, and the **update row** in both of its
+states. Four cells per profile, 32 in all.
+
+The two reveals are staged on `chat`, a four-tile word with a digraph: the widest tile row the
+bank can produce, so a reveal that wraps anywhere wraps there. The done screen needs a REAL
+session, because free play never ends — it grades one word, opens "Finish early", and saves a
+short session; it is therefore the only cell in the file that is meant to write, and the only
+one that does not assert the saved progress is unchanged. The update row is reached by
+intercepting the app's own same-origin `version.json`, so "⬆️ Update now" — a control that
+restarts the app, and which no census had ever seen rendered — is measured without anything
+being published anywhere.
+
+Each cell was proved by planting the fault it exists to catch and watching it go red: every
+child control shrunk below its 56 px floor, the done screen's way home deleted, the update
+check made never to offer the update it found, the miss sentence emptied, and the miss sentence
+pushed off the screen. Five plants, five kills. The first version of the sentence check
+measured the whole stage against a length I had guessed at, and the emptied-sentence plant
+sailed through it — the word and its tiles are text too. It reads `.wq-slot-msg` now.
+
+**Still unbuilt from this item:** the **progress track** at 7, 10 and 20 columns and the
+**level strip**, both of which need seeded state per level rather than a route through the
+app.
 
 **4. Checks that close what the census currently only measures.**
 
@@ -486,6 +507,30 @@ on one machine is a statement about that machine — a mismatch anywhere else is
 is right, whether a child understands the screen, whether a colour is pleasant, and whether the
 game works on a real iPad in a real kitchen. The QA script and a person own those.
 
+**Two things about running it, both found the hard way on 2026-08-13.**
+
+The preview server was started through `npx`, which puts a shim process between Playwright and
+the server it believes it is managing — so Playwright's handle was the shim's. A run would
+serve its first cell and then answer `ERR_CONNECTION_REFUSED` for every cell after it: the
+server gone, the runner none the wiser, and the whole thing reading like a flaky app rather
+than a dead process. The same page loaded fine on the same device against a hand-started
+preview, which is what ruled the app out. It runs `node_modules/.bin/vite` directly now, and
+the case that failed 3 of 4 reproducibly passes 4 of 4.
+
+The port is a parameter (`CENSUS_PORT`) and `npm run census` clears it first with
+`tools/free-port.mjs`. `reuseExistingServer: false` is deliberate and stays — attaching to
+someone else's server means measuring an app nobody built for this run, which cost an hour
+once — but its price is a zombie: an interrupted run leaves its preview holding the port, and
+the next run either refuses to start or is torn down mid-flight. Two census runs on one
+machine collide the same way, which is exactly what happened between this repository and an
+auditor's clone of it.
+
+**What is still not settled:** whether the census repeats its own answer under load. At two
+workers this box fails cells wildly (20 of 24, then 2 of 24, on the same 24 cells), which the
+config already assumes; but the 1-worker runs above were taken while an auditor was running a
+second Playwright on the same container, at load average 4, so they measure the machine rather
+than the census. That measurement is owed on a quiet box before any full run is quoted.
+
 **Cadence: every other beta** (owner-ruled 2026-08-12). Its own negative controls —
 `npm run census:controls` — are the part that can be trusted at any time: 25 cells in about
 eighteen seconds, of which 13 plant a defect and require the detector built for it to name
@@ -498,7 +543,7 @@ this file's own count of itself.
 `.census/report.json`, builds, runs the cells, and then runs `tools/census-report.mjs`
 whatever the runner's exit code was — so a run that produces no report, or a report from
 some other config, is refused rather than read. The floors it enforces are
-`census_controls` (25) and `census_cells` (376) in `.claude/gate-baseline.json`, under E6
+`census_controls` (25) and `census_cells` (408) in `.claude/gate-baseline.json`, under E6
 like every other floor. The gauntlet still does not call the census, and that stays
 deliberate: a flaky cell must inform a release, never block one.
 

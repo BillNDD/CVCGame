@@ -23,7 +23,14 @@ import { defineConfig, devices } from "@playwright/test";
 import { existsSync } from "node:fs";
 import { VIEWPORTS } from "./tools/ux-census.mjs";
 
-const PORT = 4187;
+/* THE PORT IS A PARAMETER. Two census runs on one machine — a shard, or an
+   auditor working in a clone — collide on a fixed port, and the collision does
+   not read as a collision: the second run either refuses to start or has its
+   server torn down under it and reports ERR_CONNECTION_REFUSED on the cells
+   that had not run yet, which looks exactly like a flaky app. Seen on
+   2026-08-13, in both directions, between this repository and an auditor's
+   clone of it. */
+const PORT = Number(process.env.CENSUS_PORT || 4187);
 
 /* THE ENGINE IS A PARAMETER WITH A CHROMIUM DEFAULT. Item 1 of the build spec
    runs this census on Chromium, Firefox and WebKit, and the install guide tells
@@ -101,7 +108,14 @@ export default defineConfig({
     })),
   ],
   webServer: {
-    command: `npx vite preview --port ${PORT} --strictPort`,
+    /* THE BINARY, NOT `npx`. npx puts a shim process between Playwright and
+       the server it thinks it is managing, so the handle Playwright holds is
+       the shim's. On 2026-08-13 a run would serve its first cell and then
+       answer ERR_CONNECTION_REFUSED for every cell after it — the server gone,
+       Playwright none the wiser, and the whole thing reading like a flaky app
+       rather than a dead process. The same page loaded fine on the same device
+       against a hand-started preview, which is what ruled the app out. */
+    command: `node_modules/.bin/vite preview --port ${PORT} --strictPort`,
     cwd: "app",
     url: `http://localhost:${PORT}/`,
     /* NEVER reuse. A preview server already on this port is serving some other
