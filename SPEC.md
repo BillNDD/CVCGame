@@ -82,7 +82,7 @@ These rules are mandatory.
 
 ## 3. Word bank
 
-The bank has 439 words in eleven levels. The word order in a level is the introduction order.
+The bank has 438 words in eleven levels. The word order in a level is the introduction order.
 Words have 2 or 3 sound units through Level 9, and 3 or 4 at Levels 10 and 11, where a
 consonant blend adds a unit. Words have at most 4 letters through Level 7 and at Levels 10
 and 11; Levels 8 and 9 may reach 5. Four sound units is the ceiling, and it is a real one:
@@ -112,7 +112,7 @@ exceptions, each with a note.
 | 2 | Sunny Start | short a + heart words | the and to do you said my of a cat hat mat sat man can ran bat cap map tap nap bag dad jam pan rat sad wag van fan ham lap tag had tan pad rag zap yam pal cab ram dab yap mad bad rap has pat dam nag sap vat |
 | 3 | Busy Bees | short i and o | sit pig big dig win lip hit six fin bin dog hot top pot mop log box fox hop cot mom pop not got did him pin tip sip dip hip rip bit fit pit bib wig fix job lot nod hog tin rig rob sob mob cop dim |
 | 4 | Rocket Words | short e and u | bed red hen pen ten net leg wet jet men bus cup sun run fun mud bug hug nut tub pet get let set cut pup web bun rug mug vet tug jug hum rub dug bud peg met yet bet keg hem nun pun jut gut hub |
-| 5 | Explorer | all five vowels | yes zip gum gas kid cub den dot fed fig fog gap hid hut jog kit lid mix wax yak jig jab jot lab lad led lit lug nab pep pod rib rim rod rot sag sub sum tab tot wed wit zig zag fax nix vex sax cod gob |
+| 5 | Explorer | all five vowels | yes zip gum gas kid cub den dot fed fig fog gap hid hut jog kit lid mix wax yak jig jab jot lab lad led lit lug nab pep pod rib rim rod rot sag sub sum tab tot wed wit zig zag fax nix vex sax cod |
 | 6 | Super Sounds | sh and ch | ship shop shut fish dish wish cash chat chip chop rich much such chin shed shin mash rash chug chum dash sash hush rush mush chap wash push bush she bash gash gush lash lush posh sham shun |
 | 7 | Word Wizard | th, wh, ck, ng, tricky | thin this that then them bath math with when whip duck sock kick back ring sing king long song was buck sung gong lung puck wick rung muck pack path sack tack neck luck tuck peck deck thud rock lock pick lick wing tick dock moth hang sang rang sick fang what whim wham bang hung ding ping |
 | 8 | Bells | ll ss ff zz, qu, silent letters | bell tell well fell hill mill doll mess boss kiss miss loss fuss huff puff cuff buzz fuzz jazz fizz quiz quit quip knit knob knot lamb |
@@ -120,7 +120,7 @@ exceptions, each with a note.
 | 10 | Tent Camp | blends at the end | ant ask band belt bend best bolt bond bump camp cost damp dent desk dusk end fast fond gift gulf gulp hand help hint jump just kept lamp land last left lend lift list mask melt mend milk mint must nest pond pump raft rest risk sand sift silk soft task tent wilt |
 | 11 | Twin Drums | blends at the start | brag clap drop drum flag flat glad grab grin plan plum slam sled slid slip snap snug spin spot stem step stop swam swim trap trim trip twig twin |
 
-Level word counts: 12, 53, 49, 48, 50, 38, 58, 27, 22, 53, 29.
+Level word counts: 12, 53, 49, 48, 49, 38, 58, 27, 22, 53, 29.
 
 Levels 10 and 11 introduce NO new grapheme. Every letter in them is one the child already
 knows; what is new is running two consonants together without a vowel between. Letters and
@@ -844,7 +844,9 @@ session is unchanged. of joined them the same evening, after three listening rou
 sound-out: o says the u of "up" and f says /v/, and the /v/ clip itself was re-cut for the
 whole bank (`docs/settled.md`). "I" waits for a capitalization ruling —
 the bank is lowercase everywhere. Words ruled out for child-appropriateness (2026-08-07): hunt, fist, limp, bone, buns,
-dump, and milt; catfish swapped out; and the plurals of jug and crab may never join
+dump, and milt; **gob, owner-ruled out on 2026-08-13** — mild crude slang for the mouth,
+raised by the pre-beta screen and removed from Level 5, from the pack, from the word table and
+from the waiting room, so it cannot return by accident; catfish swapped out; and the plurals of jug and crab may never join
 Level 12. "milt" is the reason CLAUDE.md now requires the WHOLE bank to be re-screened
 before every beta: the first draft lists were screened, a later backfill was not, and the
 word reached a listening round before the owner caught it. Ruled FINE by the owner on the
@@ -856,14 +858,22 @@ bush, bang, whack, hung, rod** and **puff**. A later screen does not raise these
 That screen covered all 349 bank words and the 115 approved words waiting for a level,
 and it found nothing else.
 
-**Re-screened 2026-08-13 before beta.17, over all 439 bank words and the 115 words still
-waiting.** Checked, not recalled: the seven ruled-out words and catfish are absent; the eight
-words confirmed absent in the 2026-08-11 screen are still absent; the nine words the owner
-ruled FINE that day are all still present and are not raised again. Two words are new since
-the last screen — **of** and **a** — and both are function words with no adult sense. Three
-bank words have a plural that is ruled out: **jug, bun, nut**. The game never pluralises, so
-none can appear today; the plural-s level (12, unbuilt) must exclude them, as SPEC already
-requires for jug and crab. Nothing else was found. Confirmed absent from both lists: shag, tit, muff, suck, bum,
+**Re-screened 2026-08-13 before beta.17, over the whole bank and the whole waiting room.**
+Counted at the time, not recalled: **438 bank words** after gob was removed, and **116 entries
+in the waiting room, of which 90 have already shipped into the bank and 26 are still waiting**.
+The ruled-out words and catfish are absent; the **seven** words confirmed absent in the
+2026-08-11 screen are still absent; the nine words the owner ruled FINE that day are all still
+present and are not raised again. Two words were new since the last screen — **of** and **a** —
+and both are function words with no adult sense. Three bank words have a plural that is ruled
+out: **jug, bun, nut**. The game never pluralises, so none can appear today; the plural-s level
+(12, unbuilt) must exclude them, as SPEC already requires for jug and crab.
+
+The screen raised **two** words in the same class as knob and pot. The owner ruled **gob out**
+and it is gone. **keg** is unruled at the time of writing and remains in the bank.
+
+An earlier version of this paragraph said "the eight words confirmed absent" and "the 115 words
+still waiting". Both were recalled rather than counted, in a paragraph whose whole claim is
+that it counted — found by an auditor the same day. Confirmed absent from both lists: shag, tit, muff, suck, bum,
 spunk, slag, and all seven words already ruled out above.
 
 Ruled out for good, with reasons on the record: nonsense words (better for assessment

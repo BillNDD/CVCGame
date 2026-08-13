@@ -461,7 +461,7 @@ game works on a real iPad in a real kitchen. The QA script and a person own thos
 defects, each caught by the detector that exists for it, plus a clean-page control and a
 control proving a case that cannot be staged is refused rather than examined.
 
-- Baseline floors: `g13_clips` (500) and `g13_engine_tests` (13).
+- Baseline floors: `g13_clips` (499) and `g13_engine_tests` (13).
 - To re-render the pack after the bank grows: `docs/voice-pack.md`.
 
 ## G19. App mutation
