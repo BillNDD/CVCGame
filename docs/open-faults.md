@@ -474,6 +474,25 @@ graded perfect in the uplift pass. G13 re-derives the chain and passes: 432 rows
 432 treatments, 432 byte pins, 489 clips shipped, 0 problems. A silent re-render can no longer
 replace approved audio for any word in the bank.
 
+### C4. G22 is documented as a gauntlet gate and is not one
+
+- **Where** `docs/testing-gauntlet.md` describes G22, the microphone-absence check. `tools/gauntlet.mjs`
+  and `.claude/gate-baseline.json` contain **no reference to it** — 0 hits for "G22" or
+  "mic-absence" in either. The 22 gates that run do not include it.
+- **What that means** The headline safety claim of beta.17 — that the microphone is gone from
+  the source, the bundle and the running app — rests on a hand run of `tools/mic-absence.mjs`
+  by whoever remembered. It is a real tool with real controls, and nothing schedules it.
+- **And the same document's allowlist warning is now stale**: it says the allowlist "is empty
+  and prints on every run" in the paragraph explaining that "an allowlist that grows quietly is
+  how a detector stops detecting". It has two entries, added 2026-08-12.
+- **Found** by a release auditor on 2026-08-13, checking whether the release's own safety claim
+  was backed by a gate.
+- **Done** G22 is wired into `tools/gauntlet.mjs` with a floor in the baseline like every other
+  gate, or the document stops calling it one. The first is right: a safety claim with no gate is
+  the C3 fault, and C3 is the reason the quality lint now runs in the check.
+
+---
+
 ### C2. Staging during a gauntlet run has put a mutant into a commit — THREE times now, and it finally has a gate
 
 **2026-08-12, the third time, and mine.** At 22:44 I ran `git add -A` while a gauntlet was

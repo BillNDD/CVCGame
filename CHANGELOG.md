@@ -7,6 +7,11 @@ This document follows the Microsoft Writing Style Guide.
 Version 6 adds the standalone progressive web app. The reference build does not change.
 The first app version is 1.0.0-beta.1. The app stays in beta until version 1.0 is ready.
 
+- Known issue: two of the sounds in the sounding-out are not good enough yet. The buzzing
+  "th" of "this" and the "h" sound were judged poor when they were heard next to the others,
+  and they are being remade. They are the right sounds, made badly, not the wrong sounds. The
+  "th" is in six words including "the", and the "h" is in twenty-five, including hat, ham, had
+  and has.
 - Known issue: if you open the game cold and mark the first word, the "Next word" button can
   come alive for about half a second while the word is still being sounded out. A tap in that
   moment skips the rest of the sounding-out. It happens only when the sounds are still
@@ -26,8 +31,9 @@ The first app version is 1.0.0-beta.1. The app stays in beta until version 1.0 i
   name, which the app never says to a child learning that letters make sounds.
 - Fixed: every sound in a sound-out is now one a person chose. Where a letter had no decided
   sound the app used to fall back to a general mapping, so a word could be sounded out with a
-  sound nobody had approved for it. Fourteen sounds that no word asks for were removed from
-  the pack at the same time.
+  sound nobody had approved for it. Twelve sounds that no word asks for were removed from the
+  pack at the same time. Two more were on that list and came back the same day, because the
+  heart words needed them: the long "i" of "my" and the "oo" of "moon".
 - Fixed: the progress bar wraps onto a second or third row on a narrow phone instead of
   running off the screen. The rows stay even.
 - Fixed: the reading log told a grown-up their child had failed a level they had simply not
