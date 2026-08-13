@@ -918,42 +918,50 @@ matcher waved through any selector containing `[role` and any class that is a su
 named one; and the toast report was dead in all 376 cells while the comment claimed it fired
 from a screen the census inspects — a fix that had replaced an honest caveat with a false one.
 
-**G3c-1. The 390x844 correction was applied to the census only.** Commit `2ac9dc7`'s whole
-finding is that a page on an iPhone 13 gets 390x664, not 390x844. `tests/ui/interface.mjs` —
-G7, a gauntlet gate — still calls `setViewportSize({ width: 390, height: 844 })` at five
-places, and line 739 labels 320x568 "iPhone SE". Fourteen occurrences of the box remain across
-`tests/` and `tools/`.
-- **What it means today** G7's phone checks run with 180 pixels of slack that no phone has.
-- **ASKED AND ANSWERED, 2026-08-13.** The six viewports were corrected in a clone and G7 run:
-  **47 checks, 1 failed.** The failure is child-facing and it is in the game, not in the test.
-  The word a child is asked to read does not sit where the owner ruled it should. Measured on
-  the built app at each device's real page height:
+**G3c-1. The 390x844 correction was applied to the census only — CLOSED 2026-08-13, owner-ruled.**
 
-  | device | page | midline | off centre |
-  |---|---|---|---|
-  | iPhone 13 — what the test asserts | 390x844 | 49.9% | 0px |
-  | **iPhone 13 — what a page really gets** | **390x664** | **45.7%** | **13px high** |
-  | **iPhone 13 mini** | **375x629** | **39.2%** | **28px high** |
-  | **iPhone 15 Pro** | **393x659** | **44.9%** | **15px high** |
-  | iPhone 15 Pro Max | 430x739 | 49.9% | 0px |
-  | Pixel 7 | 412x839 | 49.9% | 0px |
-  | Galaxy S9+ (the 320px extreme) | 320x658 | 48.3% | 5px |
-  | iPad Mini portrait | 768x1024 | 49.9% | 0px |
-  | iPhone 13 landscape | 750x342 | 62.1% | 8px low, on a 63px stage |
+G7 measured its phone checks at `{ width: 390, height: 844 }` in six places, and the progress
+track at three more device sizes. 844 is the DEVICE height of an iPhone 13; a page gets
+390x664, because the browser keeps the rest. Every phone check this project ever ran carried
+180 pixels of slack no child has ever had.
 
-  The pattern is the stage HEIGHT, not the width: wherever the stage lands near 260-300px the
-  word drifts up, and that is exactly where the common iPhones land. The tablets, the Android
-  phone and the 320px extreme are all fine. The owner picked this centring on 2026-08-03 from
-  four measured candidates, and G7's own comment claims "on a phone-sized stage the midline
-  lands within a point of 50 percent". On the most common phone in the world it lands 4.3 points
-  out, and on an iPhone 13 mini 10.8 points out. The implementation does not do what the ruling
-  said, and the gate that should have noticed was asking about a phone that does not exist.
-- **Why it is not fixed here** The layout half is a change to the game and cannot ride inside a
-  testing task (E8). **The sequencing is the owner's**, because a corrected G7 is a red gauntlet
-  gate and a red gate blocks every release until the layout is fixed.
-- **Done** means every phone viewport in `tests/` and `tools/` is a page size rather than a
-  device size, the "iPhone SE" label names a real page size, and the word sits where the owner
-  ruled it should on a 260-300px stage.
+**What the correction revealed, measured on the built app at each real page height:**
+
+| device | page | midline | off centre |
+|---|---|---|---|
+| iPhone 13 — what the test asserted | 390x844 | 49.9% | 0px |
+| iPhone 13 — what a page really gets | 390x664 | 45.7% | 13px high |
+| iPhone 13 mini | 375x629 | 39.2% | 28px high |
+| iPhone 15 Pro | 393x659 | 44.9% | 15px high |
+| iPhone 15 Pro Max | 430x739 | 49.9% | 0px |
+| Pixel 7 | 412x839 | 49.9% | 0px |
+| Galaxy S9+ (the 320px extreme) | 320x658 | 48.3% | 5px |
+| iPad Mini portrait | 768x1024 | 49.9% | 0px |
+
+The pattern is the stage HEIGHT, not the width: wherever the stage lands near 260-300px the
+word drifts up, and that is where the common iPhones land.
+
+**THE OWNER LOOKED AT THE REAL THING AND RULED IT, 2026-08-13.** They opened the live app on
+their own iPhone 13 and sent a screenshot: *"I don't see what the issue is, all these slight
+differences to a human being are trivial, they all look about centre. Nothing worth holding up
+a beta for. Like the lowest tier bug."* That is the first real-device screenshot this project
+has ever had, and it is the kind of judgement no measurement can make: the table says 13px, and
+only a person can say whether 13px matters to a five-year-old. It does not.
+
+Worth recording with it: the screenshot shows Safari with its toolbars, which is the SHORTER
+case. Installed to the home screen as the install guide asks, the page is taller and the drift
+is smaller — so the owner judged the worse of the two. That last sentence is reasoning from how
+iOS treats a standalone page, not a measurement, and nobody has measured the installed case.
+
+**What was done, and what was deliberately not.** Every device height in
+`tests/ui/interface.mjs` is a page height now — nine of them — and four rows that wore phone
+names over device sizes say what they actually are. The centring band moved from 48-52 to
+42-58, which is what "about centre" means and still fails a word at 20% or 80%. G7 is 47 of 47
+at the honest sizes. **No layout was changed**, because the owner ruled the layout fine.
+
+**What is still owed, at the lowest tier.** A dead-centre word on a 260-300px stage. It is not
+a blocker, it does not hold a release, and it is written here rather than in a chat log so it is
+not rediscovered in three weeks as if it were news.
 
 **G3c-3. Three smaller things from the same round that are not fixed.**
 - `metadata.engine` reports the engine that was REQUESTED, not the one that ran.
