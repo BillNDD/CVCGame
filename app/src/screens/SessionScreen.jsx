@@ -6,6 +6,7 @@ import Toast from "../components/Toast.jsx";
 import Modal from "../components/Modal.jsx";
 import ProgressBar from "../components/ProgressBar.jsx";
 import HoldButton from "../components/HoldButton.jsx";
+import SentenceStage from "../components/SentenceStage.jsx";
 
 /* The stage: word, tile slot, message slot. Split from the screen shell so no
    function passes the G6 complexity ceiling; the rendered output is identical. */
@@ -92,6 +93,62 @@ function SessionRail({ kid, phase, advanceReady, waitMs, waitFrom, finishes, nex
   );
 }
 
+/* Stage and rail together, because a sentence replaces BOTH: it takes the
+   whole stage, and its advance takes no wait. Split out so no function passes
+   the G6 complexity ceiling; the rendered output for a word is identical. */
+function SessionBody({ sentence, openWord, onTapWord, endSentence,
+  state, currentWord, phase, fb, liveRef, pops,
+  kid, advanceReady, waitMs, waitFrom, finishes, next, advanceRef }) {
+  /* The sentence replaces the word rather than sitting beside it: the word the
+     child just read is finished, and two things to look at is one too many for
+     a four-year-old (SPEC section 12 point 6). */
+  if (sentence) {
+    return (
+      <>
+        <Zone.Stage><SentenceStage sentence={sentence} openWord={openWord} pops={pops} onTapWord={onTapWord} /></Zone.Stage>
+        {/* Point 6: the grown-up ends the item and NOTHING has to finish
+            first, so this control is never disabled and takes no wait. It is
+            the one place in a session where the advance is always live. */}
+        <Zone.Rail>
+          <button className="wq-cta" onClick={endSentence} style={{ background: C.green }}>Next word ➡️</button>
+        </Zone.Rail>
+      </>
+    );
+  }
+  return (
+    <>
+      <SessionStage state={state} currentWord={currentWord} phase={phase} fb={fb} liveRef={liveRef} pops={pops} />
+      <SessionRail kid={kid} phase={phase} advanceReady={advanceReady} waitMs={waitMs} waitFrom={waitFrom}
+        finishes={finishes} next={next} advanceRef={advanceRef} />
+    </>
+  );
+}
+
+/* The header row. Split from the screen at the G6 complexity ceiling — the
+   same door the stage and the rail left by; the rendered output is identical. */
+function SessionHeader({ onExitAsk, freePlay, fpCount, fpMode, answered, totalQ, state, L }) {
+  return (
+    <Zone.Header>
+      <button className="wq-btn-plain" onClick={onExitAsk} aria-label="Leave session">🏠</button>
+      <div style={{ flex: 1, minWidth: 0, padding: "0 10px", textAlign: "center" }}>
+        {/* Free play keeps its chip here. It has no total, so the path below
+            would promise an ending this mode does not have — the same reason
+            the bar was never shown here either. */}
+        {freePlay && <span className="wq-chip" style={{ fontSize: 10.5, letterSpacing: ".12em" }}>FREE PLAY</span>}
+      </div>
+      {/* P2-9 — precise count, promoted into the header at tabular mono */}
+      <span className="wq-mono" style={{ fontSize: 14, fontWeight: 800, color: C.ink }}>
+        {freePlay ? fpCount + (fpCount === 1 ? " word" : " words") : answered + "/" + totalQ}</span>
+      {/* Truly random free play serves every level at once, so the level
+          chip would be a false statement there. The dice says what is true,
+          and carries a name a screen reader can say. */}
+      <span className="wq-chip" style={{ marginLeft: 8 }}
+        {...(freePlay && fpMode === "random" ? { role: "img", "aria-label": "random words" } : {})}>
+        {freePlay && fpMode === "random" ? "🎲" : state.level + " " + L.emoji}</span>
+    </Zone.Header>
+  );
+}
+
 /* P1-4 — the early-exit dialog with honest options. */
 function ExitDialog({ answered, handleExit }) {
   return (
@@ -123,32 +180,17 @@ function ExitDialog({ answered, handleExit }) {
 export default function SessionScreen({
   state, L, kid, currentWord, phase, lastGrade, order, firstResults,
   answered, totalQ, advanceReady, waitMs, waitFrom, finishes, seenTwice, exitAsk, pops,
+  sentence, openWord, onTapWord, endSentence,
   freePlay, fpCount, fpMode,
   onExitAsk, grade, next, skipReveal, replay, handleExit, advanceRef, toast,
 }) {
   const liveRef = useRef(null);
   const fb = lastGrade ? feedbackParts(lastGrade, currentWord) : null;
-  const canReplay = phase === "feedback";   // N-1
+  const canReplay = phase === "feedback" && !sentence;   // N-1
   return (
     <Frame>
-      <Zone.Header>
-        <button className="wq-btn-plain" onClick={onExitAsk} aria-label="Leave session">🏠</button>
-        <div style={{ flex: 1, minWidth: 0, padding: "0 10px", textAlign: "center" }}>
-          {/* Free play keeps its chip here. It has no total, so the path below
-              would promise an ending this mode does not have — the same reason
-              the bar was never shown here either. */}
-          {freePlay && <span className="wq-chip" style={{ fontSize: 10.5, letterSpacing: ".12em" }}>FREE PLAY</span>}
-        </div>
-        {/* P2-9 — precise count, promoted into the header at tabular mono */}
-        <span className="wq-mono" style={{ fontSize: 14, fontWeight: 800, color: C.ink }}>
-          {freePlay ? fpCount + (fpCount === 1 ? " word" : " words") : answered + "/" + totalQ}</span>
-        {/* Truly random free play serves every level at once, so the level
-            chip would be a false statement there. The dice says what is true,
-            and carries a name a screen reader can say. */}
-        <span className="wq-chip" style={{ marginLeft: 8 }}
-          {...(freePlay && fpMode === "random" ? { role: "img", "aria-label": "random words" } : {})}>
-          {freePlay && fpMode === "random" ? "🎲" : state.level + " " + L.emoji}</span>
-      </Zone.Header>
+      <SessionHeader onExitAsk={onExitAsk} freePlay={freePlay} fpCount={fpCount} fpMode={fpMode}
+        answered={answered} totalQ={totalQ} state={state} L={L} />
 
       {/* The session path, on its own row beneath the header (owner-ruled
           2026-08-12). It sits outside the header so the dots can WRAP to two or
@@ -156,9 +198,10 @@ export default function SessionScreen({
           chip off the edge — which is exactly what a single row did. */}
       <ProgressBar order={order} firstResults={firstResults} total={totalQ} at={answered} freePlay={freePlay} />
 
-      <SessionStage state={state} currentWord={currentWord} phase={phase} fb={fb} liveRef={liveRef} pops={pops} />
-
-      <SessionRail kid={kid} phase={phase} advanceReady={advanceReady} waitMs={waitMs} waitFrom={waitFrom}
+      <SessionBody
+        sentence={sentence} openWord={openWord} onTapWord={onTapWord} endSentence={endSentence}
+        state={state} currentWord={currentWord} phase={phase} fb={fb} liveRef={liveRef} pops={pops}
+        kid={kid} advanceReady={advanceReady} waitMs={waitMs} waitFrom={waitFrom}
         finishes={finishes} next={next} advanceRef={advanceRef} />
 
       {/* P0-4 / P1-2 / P2-10 — grown-up strip: muted, bottom edge, small */}
@@ -171,10 +214,16 @@ export default function SessionScreen({
             is reserved in every phase so no control moves under a finger
             (A2-002). */}
         <HoldButton onFire={skipReveal} disabled={phase !== "feedback"} color={C.ink2} label="⏭ skip" />
+        {/* No result is ever recorded for a sentence (SPEC section 12 point 3),
+            so the grade controls are dead while one is showing. Without this
+            they would be live — a sentence is not the feedback phase — and a
+            grown-up could grade the word behind it a second time, which is a
+            result the child never gave. S1 says only an adult action records a
+            result; it does not say every adult action should be offered. */}
         <div style={{ display: "flex", gap: 6, marginLeft: "auto" }}>
-          <HoldButton onFire={() => grade("correct")} disabled={phase === "feedback"} color={C.green} label="✓ got it" />
-          <HoldButton onFire={() => grade("close")} disabled={phase === "feedback"} color={C.amber} label="~ close" />
-          <HoldButton onFire={() => grade("wrong")} disabled={phase === "feedback"} color={C.red} label="↻ not yet" />
+          <HoldButton onFire={() => grade("correct")} disabled={phase === "feedback" || !!sentence} color={C.green} label="✓ got it" />
+          <HoldButton onFire={() => grade("close")} disabled={phase === "feedback" || !!sentence} color={C.amber} label="~ close" />
+          <HoldButton onFire={() => grade("wrong")} disabled={phase === "feedback" || !!sentence} color={C.red} label="↻ not yet" />
         </div>
         {/* N-12 + P0-2: one reserved marker line, so the strip height never changes
             and the word never moves between phases */}

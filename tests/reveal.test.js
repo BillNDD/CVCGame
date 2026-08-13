@@ -56,6 +56,11 @@ vi.mock("../app/src/voicepacks.js", () => ({
      too: three tiles, each ringing as its own sound starts. The done and
      level-up lines have no tiles and report none, which is why the caller
      must survive being handed nothing. */
+  /* The sentence reveal builds its own plan and plays it through this door
+     (SPEC section 12 point 6). A mock without it does not fail loudly — the
+     click handler throws, React logs, and the assertions above go on passing —
+     so its absence was found by `npm run check` and not by a red test. */
+  playClips: (plan, enabled, fallback, onScheduled) => { if (onScheduled) onScheduled(0, []); },
   speakVoice: (kind, word, praiseIdx, enabled, fallback, onScheduled) => {
     if (voiceMode === "slow") { pendingScheduled = onScheduled || null; lateWord = word; return; }
     if (voiceMode === "pack") {
@@ -94,6 +99,22 @@ const gradeOneWord = async () => {
   await flush(0);
 };
 
+/* Press for the next word, and press again if a SENTENCE takes the press.
+   A sentence arrives every five words (SPEC section 12 point 2) and its own
+   control is the same "Next word", so a walk through a session meets one — the
+   same way a grown-up does. Asserting the sentence appeared is what stops this
+   from quietly absorbing its disappearance. */
+const pressNext = async () => {
+  fireEvent.click(advance());
+  await flush(0);
+  if (document.querySelector(".wq-sentence")) {
+    fireEvent.click(advance());
+    await flush(0);
+    return true;
+  }
+  return false;
+};
+
 /* A2-003 — the advance control's label. Walk a first session to its last slot,
    grading every word correct so no retry is queued on the way: 12 words, so
    eleven grades leave the twelfth on screen. */
@@ -102,12 +123,15 @@ const walkToLastSlot = async () => {
   await flush(0);
   fireEvent.click(screen.getByText("▶️ Begin Session"));
   await flush(0);
+  let sentences = 0;
   for (let i = 0; i < 11; i += 1) {
     fireEvent.keyDown(screen.getByLabelText("✓ got it (hold)"), { key: "Enter" });
     await flush(REVEAL_MS + 50);
-    fireEvent.click(advance());
-    await flush(0);
+    if (await pressNext()) sentences += 1;
   }
+  /* Two sentences in eleven words, after the fifth and the tenth. Literal
+     (E4), so a walk that silently stops meeting them fails here. */
+  expect(sentences).toBe(2);
   return document.querySelector(".wq-word").textContent;
 };
 

@@ -3,13 +3,14 @@ import { useState, useEffect, useRef, useMemo, useCallback } from "react";
    this app never re-implement it (work item W1). */
 import {
   LEVELS, SESSION_SIZE, PROMPT_CAP, ADVANCE_GUARD_MS, SPLASH_TIMEOUT_MS,
-  C, freshWordState, applyResult, buildSession, checkPromotion,
+  C, SEAM_MS, freshWordState, applyResult, buildSession, checkPromotion,
   migrate, newState, buildMarkdown, feedbackSpeech, PRAISE, speak, hush, buzz, ttsSafePraise,
+  sessionSentences, sentencePlan, sentenceClosePlan, revealWord, REVEAL_LINES,
 } from "@engine";
 /* W3 — the storage adapter is IndexedDB in the standalone app. */
 import { loadState, saveState } from "./storage.js";
 import { installForegroundCheck } from "./updates.js";
-import { initVoicePacks, speakVoice, stopClips, unlockVoice } from "./voicepacks.js";
+import { initVoicePacks, speakVoice, playClips, stopClips, unlockVoice } from "./voicepacks.js";
 import Frame from "./components/Frame.jsx";
 import HomeScreen from "./screens/HomeScreen.jsx";
 import SessionScreen from "./screens/SessionScreen.jsx";
@@ -121,6 +122,21 @@ export default function App() {
      the utterance and its timings cannot be known, in which case the tiles
      stay plain rather than ringing against the wrong sound. */
   const [pops, setPops] = useState([]);
+  /* THE SENTENCE INTERLUDE (SPEC section 12 points 2 and 6). `plan` is where
+     the sentences fall in this session, computed once when the session is
+     built; `sentence` is the one showing now, or null; `openWord` is the one
+     word whose pieces are visible — exactly one, ever (point 4).
+
+     None of this touches the queue, the boxes or the streak. A sentence is
+     never scheduled and never gates promotion (points 3 and 4), so it is held
+     beside the session rather than inside it: a sentence in `queue` would be a
+     sentence in `order`, in `firstResults` and in the promotion arithmetic,
+     which is three rules broken by one convenience. */
+  const sentencePlanRef = useRef([]);
+  const closeTimer = useRef(null);
+  const [sentence, setSentence] = useState(null);
+  const [shownSentences, setShownSentences] = useState([]);
+  const [openWord, setOpenWord] = useState(null);
   const popTimers = useRef([]);
   const [exitAsk, setExitAsk] = useState(false);          // P1-4
   const [doneStats, setDoneStats] = useState(null);
@@ -234,6 +250,12 @@ export default function App() {
     const q = buildSession(s);
     setState(s); setQueue(q); setQi(0);
     setFirstResults({}); setOrder([]); setRetries({}); setSeenTwice({});
+    /* Where this session's sentences fall, decided once. Deciding it per item
+       would let the same sentence be drawn twice in one session, and a child
+       who meets "The cat sat on the mat." twice in ten minutes has been given
+       one fewer sentence than the level had for them. */
+    sentencePlanRef.current = sessionSentences(s.level);
+    setSentence(null); setShownSentences([]); setOpenWord(null);
     setPromptCount(0); setPhase("ready"); setLastGrade(null);
     setAdvanceReady(true); advanceLive.current = true; setExitAsk(false);
     gradedRef.current = null;                          // and grades its first word afresh
@@ -402,8 +424,78 @@ export default function App() {
        disabled, so focusing it from here does nothing at all. */
   }
 
+  /* THE SENTENCE, shown between two words (SPEC section 12 point 6). One read
+     of the whole sentence, an invitation, the sound-out of the word the LEVEL
+     teaches, and then the closing read. */
+  function showSentence(item) {
+    const w = revealWord(item.text, stateRef.current.level);
+    setSentence(item); setOpenWord(w); setPhase("sentence");
+    setShownSentences((ids) => [...ids, item.id]);
+    clearPops();
+    unlockVoice();
+    const line = REVEAL_LINES[Math.floor(Math.random() * REVEAL_LINES.length)];
+    const plan = sentencePlan(item.id, w, line);
+    /* NO SYSTEM-SPEECH FALLBACK HERE, and that is a decision rather than an
+       omission. Every other utterance falls back to the system voice when the
+       pack cannot play, because saying a word badly beats saying nothing. A
+       sentence cannot: the system voice reads "read" as *reed* (SPEC section
+       9), it says letter names when handed a single letter, which S4 forbids,
+       and the whole design rests on ONE recorded sentence rather than a stitch
+       of separately spoken words. So the reason is recorded for the Grown-ups
+       corner, the sentence stays on the screen to be read together, and
+       nothing is spoken. The child loses the reading, not the sentence. */
+    playClips(plan, stateRef.current.settings.sound, noteFallback,
+      (ms, tiles) => {
+        schedulePops(tiles);
+        /* Point 5: the sentence reads again to close. It is a second
+           utterance, timed to start when the first has finished, so a tap can
+           interrupt it without touching what came before. */
+        closeTimer.current = setTimeout(() => {
+          playClips(sentenceClosePlan(item.id), stateRef.current.settings.sound, noteFallback);
+        }, ms + SEAM_MS);
+      });
+  }
+  /* Point 3 and point 4: a tapped word shows its pieces SILENTLY, and opening
+     one closes the last. The tap also interrupts the closing read (point 5) —
+     the child has taken over, and the app talking over them is the opposite of
+     what this half of the design is for. */
+  function tapSentenceWord(w) {
+    hush(); stopClips(); clearPops();
+    clearTimeout(closeTimer.current);
+    setOpenWord(w);
+  }
+  /* Point 6: the grown-up ends the item. Nothing has to finish first — the
+     closing read and any tapping both stop here, which is the rule the word
+     items already follow, and it means a grown-up never waits out a sentence
+     to move on. */
+  function endSentence() {
+    hush(); stopClips(); clearPops();
+    clearTimeout(closeTimer.current);
+    setSentence(null); setOpenWord(null);
+    /* The press the sentence took is now paid back. Without this the child
+       lands back on the word they have already read and already been graded
+       on — the sentence would not be an interlude, it would be a hole. */
+    advanceWord();
+  }
+
   function next() {
     hush(); stopClips(); clearPops();                // S2 — silence the last reveal before the next attempt, and unmark its tiles
+    /* A sentence due here takes this press, and the child stays on the word
+       they just read until the sentence is done. `order` counts FIRST results
+       only, so a word put back for a second look does not push a sentence
+       forward or trigger one twice. Free play has its own sentence route
+       (SPEC section 12 point 7) and never lands here. */
+    const due = freePlay ? null
+      : sentencePlanRef.current.find((x) => x.after === order.length && !shownSentences.includes(x.id));
+    if (due) { setLastGrade(null); showSentence(due); return; }
+    advanceWord();
+  }
+
+  /* Everything the press does once no sentence is in the way. Split from
+     `next` so the sentence's own control reaches exactly the same code: an
+     advance that ran twice, or a second copy of this, is how a queue and a
+     session count stop agreeing. */
+  function advanceWord() {
     const word = queue[qi];
     let q = queue;
     if (retryComing) {                               // A2-003 — the same value the label was drawn from
@@ -606,6 +698,7 @@ export default function App() {
       firstResults={firstResults} answered={answered} totalQ={totalQ}
       advanceReady={advanceReady} waitMs={waitMs} waitFrom={waitFrom} finishes={finishes}
       pops={pops}
+      sentence={sentence} openWord={openWord} onTapWord={tapSentenceWord} endSentence={endSentence}
       freePlay={freePlay} fpCount={fpCount} fpMode={fpMode.current}
       seenTwice={seenTwice} exitAsk={exitAsk}
       onExitAsk={askExit} grade={grade} next={next} skipReveal={skipReveal}
