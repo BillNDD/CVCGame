@@ -42,13 +42,13 @@ describe("Feature: Grading a reading attempt", () => {
     expect(ws.dueAt).toBe(5);
   });
   it("A known word read correctly moves up one box", () => {
-    const ws = { ...freshWordState(), box: 1, attempts: 2 };
+    const ws = { ...freshWordState(), box: 1, attempts: 1, correct: 1 };
     applyResult(ws, "correct", 10);
     expect(ws.box).toBe(2);
     expect(ws.dueAt).toBe(12);
   });
   it("A word at the top box stays at the top", () => {
-    const ws = { ...freshWordState(), box: 5, attempts: 9 };
+    const ws = { ...freshWordState(), box: 5, attempts: 5, correct: 5 };
     applyResult(ws, "correct", 10);
     expect(ws.box).toBe(5);
     expect(ws.dueAt).toBe(22);

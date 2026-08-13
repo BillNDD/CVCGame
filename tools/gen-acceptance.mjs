@@ -19,6 +19,11 @@ const STEPS = [
     `const ws = freshWordState();`]],
   [/^a word in box (\d+) with (\d+) attempts?$/, (m) => [
     `const ws = { ...freshWordState(), box: ${N(m[1])}, attempts: ${N(m[2])} };`]],
+  /* A word's HISTORY, not just its count of tries. The fast track to box 3 keys
+     off the first CORRECT reading, so "box 5 with 9 attempts" described a state
+     the app cannot reach - nine tries and never once right, yet at the top box. */
+  [/^a word in box (\d+) read correctly (\d+) times? before$/, (m) => [
+    `const ws = { ...freshWordState(), box: ${N(m[1])}, attempts: ${N(m[2])}, correct: ${N(m[2])} };`]],
   [/^the child reads it correctly in session (\d+)$/, (m) => [
     `applyResult(ws, "correct", ${N(m[1])});`]],
   [/^the child is close in session (\d+)$/, (m) => [

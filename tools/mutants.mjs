@@ -9,7 +9,7 @@ const TMP = "reference/.mutant.jsx";
 const original = readFileSync(REF, "utf8");
 
 const MUTANTS = [
-  ["fast-track box 3 to 2", "ws.box = firstEver ? 3 :", "ws.box = firstEver ? 2 :"],
+  ["fast-track box 3 to 2", "ws.box = firstCorrect ? 3 :", "ws.box = firstCorrect ? 2 :"],
   ["correct step +1 to +2", "Math.min(5, ws.box + 1)", "Math.min(5, ws.box + 2)"],
   ["box ceiling 5 to 4", "Math.min(5, ws.box + 1)", "Math.min(4, ws.box + 1)"],
   ["close floor 1 to 0", "ws.box = Math.max(1, ws.box);", "ws.box = Math.max(0, ws.box);"],

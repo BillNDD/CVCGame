@@ -119,13 +119,19 @@ describe("G2 properties", () => {
     );
   });
 
-  it("P6: a first-ever correct always lands on box 3", () => {
+  it("P6: the first CORRECT always lands on box 3, whatever came before it", () => {
+    /* Was "first-ever", meaning attempts === 0. A close or a wrong on the first
+       meeting then cost the child two or three extra correct readings before
+       the word could be called mastered - reported by a parent from real data
+       on 2026-08-13. The attempts are arbitrary here on purpose: what earns the
+       jump is reading it right, not reading it right first. */
     fc.assert(
       fc.property(
         fc.integer({ min: 0, max: 5 }),
         fc.integer({ min: 1, max: 99 }),
-        (box, n) => {
-          const ws = { ...freshWordState(), box, attempts: 0 };
+        fc.integer({ min: 0, max: 20 }),
+        (box, n, attempts) => {
+          const ws = { ...freshWordState(), box, attempts, correct: 0 };
           applyResult(ws, "correct", n);
           return ws.box === 3;
         }

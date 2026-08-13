@@ -119,7 +119,7 @@
           "steps": [
             {
               "kind": "Given",
-              "text": "a word in box 1 with 2 attempts"
+              "text": "a word in box 1 read correctly 1 time before"
             },
             {
               "kind": "When",
@@ -142,7 +142,7 @@
           "steps": [
             {
               "kind": "Given",
-              "text": "a word in box 5 with 9 attempts"
+              "text": "a word in box 5 read correctly 5 times before"
             },
             {
               "kind": "When",
