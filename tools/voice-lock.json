@@ -2694,7 +2694,9 @@
   "period_words": [
    "rich"
   ],
-  "phoneme_sentences": [],
+  "phoneme_sentences": [
+   "s:soundout-1"
+  ],
   "phoneme_words": [],
   "sentence_speed": 1,
   "tail_ms": 300,

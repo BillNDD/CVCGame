@@ -58,6 +58,137 @@ const LEVELS = [
       "spin","spot","stem","step","stop","swam","swim","trap","trim","trip","twig","twin"] },
 ];
 
+/* THE SENTENCES, one list per level (SPEC section 12).
+   A level's sentences are practice for the level: every word in one is a word
+   the child has been taught by that level, and at least one word is NEW at it.
+   That is not a claim made here — `tools/decodable.mjs` is the arbiter and it
+   computed every seat below. Nothing in this list was levelled by hand, and a
+   test re-derives all of it, because a sentence placed one level early is a
+   guessing exercise and guessing is the habit phonics exists to prevent.
+
+   THE LIST IS KEYED BY THE LEVEL NUMBER `LEVELS` DEFINES, so there is exactly
+   one place that says which level exists. A test refuses a key that is not a
+   level and a level with no sentences.
+
+   Every text below is audio the owner graded `perfect` by ear, and every id is
+   the clip that carries it. Five approved sentences are NOT here and are named
+   in `docs/open-faults.md`: four run past the eight-word ceiling a four-year-old
+   can hold in one breath, and one leans on "nip", a word the bank never teaches.
+   They were approved as recordings, which is a different question from whether
+   a child can read them. */
+const SENTENCES = {
+  1: [
+    { id: "s:mode-b3-s01", text: "Is it an ox?" },
+    { id: "s:mode-b3-s02", text: "An ox is up." },
+    { id: "s:mode-b3-s03", text: "It is an ax." },
+    { id: "s:mode-b3-s04", text: "Is it up?" },
+    { id: "s:mode-b3-s05", text: "An ax is on it." },
+  ],
+  2: [
+    { id: "s:mode-s01", text: "The cat sat on the mat." },
+    { id: "s:mode-s06", text: "Dad had ham and jam." },
+    { id: "s:mode-b3-s06", text: "My dad has a map." },
+    { id: "s:mode-b3-s07", text: "The cat sat on my lap." },
+    { id: "s:mode-b3-s08", text: "A man and a cat ran." },
+    { id: "s:mode-b3-s09", text: "Dad had a nap." },
+    { id: "s:mode-wm-wm01", text: "We sat on the mat." },
+    { id: "s:mode-wm-wm03", text: "We ran to my dad." },
+    { id: "s:mode-wm-wm04", text: "Can we tag the cat?" },
+    { id: "s:mode-wm-wm11", text: "My dad said we can nap." },
+    { id: "s:mode-wm-wm12", text: "The cat sat on me." },
+    { id: "s:mode-wm-wm14", text: "Tag me!" },
+    { id: "s:mode-wm-wm19", text: "Can my pal tag me?" },
+    { id: "s:mode-wm-wm21", text: "Zap me!" },
+    { id: "s:mode-wm-wm22", text: "My pal can zap me!" },
+  ],
+  3: [
+    { id: "s:mode-s08", text: "You can hop to the top." },
+    { id: "s:mode-b2-s04", text: "My mom said you can dig." },
+    { id: "s:mode-b2-s13", text: "My pal has my top hat." },
+    { id: "s:mode-b3-s10", text: "The dog did not sit." },
+    { id: "s:mode-b3-s11", text: "A fox ran to the log." },
+    { id: "s:mode-b3-s12", text: "My mom got a big box." },
+    { id: "s:mode-wm-wm02", text: "We had a big nap." },
+    { id: "s:mode-wm-wm06", text: "We did not sit." },
+    { id: "s:mode-wm-wm09", text: "We win!" },
+    { id: "s:mode-wm-wm10", text: "We can dig a big pit." },
+    { id: "s:mode-wm-wm15", text: "The dog ran to me." },
+    { id: "s:mode-wm-wm20", text: "The fox ran up to me." },
+  ],
+  4: [
+    { id: "s:mode-s02", text: "My dog can run." },
+    { id: "s:mode-s03", text: "The hen is in the pen." },
+    { id: "s:mode-s04", text: "You can dig in the mud." },
+    { id: "s:mode-s05", text: "The pig sat in the sun." },
+    { id: "s:mode-s07", text: "The sun is hot." },
+    { id: "s:mode-s12", text: "Can you get the box?" },
+    { id: "s:mode-b2-s02", text: "Can you get my red cap?" },
+    { id: "s:mode-b2-s07", text: "The bug ran up my leg." },
+    { id: "s:mode-b2-s14", text: "The cat had the nap on my rug." },
+    { id: "s:mode-b2-s18", text: "The van is in the mud." },
+    { id: "s:mode-wm-wm23", text: "Tag me and we can run." },
+  ],
+  5: [
+    { id: "s:mode-s10", text: "Mom said yes to you." },
+    { id: "s:mode-s16", text: "The kid can zip and run." },
+    { id: "s:mode-b3-s13", text: "The kid fed a cub." },
+    { id: "s:mode-b3-s14", text: "My pal hid the lid." },
+    { id: "s:mode-b3-s15", text: "My pal had gum and a fig." },
+    { id: "s:mode-wm-wm07", text: "We hid in the box." },
+    { id: "s:mode-wm-wm08", text: "We got a fig and a yam." },
+    { id: "s:mode-wm-wm17", text: "My pal hid the map on me." },
+  ],
+  6: [
+    { id: "s:mode-s09", text: "The fish is in the net." },
+    { id: "s:mode-b2-s05", text: "The fish is in the big dish." },
+    { id: "s:mode-b2-s10", text: "Dad has the job in the shop." },
+    { id: "s:mode-b3-s16", text: "My chum can wash the dish." },
+    { id: "s:mode-b3-s17", text: "The shop had a red cap." },
+  ],
+  7: [
+    { id: "s:mode-s11", text: "The duck is wet." },
+    { id: "s:mode-s13", text: "The king can sing." },
+    { id: "s:mode-s14", text: "This bug is big." },
+    { id: "s:mode-s15", text: "That cup is red." },
+    { id: "s:mode-s17", text: "Dad can pack the bag." },
+    { id: "s:mode-s18", text: "The moth is on the rock." },
+    { id: "s:mode-s19", text: "When can you nap?" },
+    { id: "s:mode-b2-s06", text: "That thin man has the long chin." },
+    { id: "s:mode-b2-s11", text: "The wet duck sat on the rock." },
+    { id: "s:mode-b2-s12", text: "Can the kid pick up the box?" },
+    { id: "s:mode-b2-s17", text: "You can wash the dish with my mom." },
+    { id: "s:mode-b2-s19", text: "What did you get in the bag?" },
+  ],
+  8: [
+    { id: "s:mode-s20", text: "The doll is on the bed." },
+    { id: "s:mode-b2-s01", text: "The big dog ran up the hill." },
+    { id: "s:mode-b2-s08", text: "You did not miss the bus." },
+    { id: "s:mode-b2-s09", text: "The king said yes to the quiz." },
+    { id: "s:mode-b3-s18", text: "My doll fell on the hill." },
+    { id: "s:mode-b3-s19", text: "My pal can quiz us." },
+  ],
+  9: [
+    { id: "s:mode-b2-s03", text: "The chick is in the shed." },
+    { id: "s:mode-b2-s20", text: "The moth is on the shell." },
+    { id: "s:mode-b3-s20", text: "The chick is on my thumb." },
+    { id: "s:mode-b3-s21", text: "A duck can quack." },
+    { id: "s:mode-b3-s22", text: "Check the thick shell." },
+  ],
+  10: [
+    { id: "s:mode-b3-s23", text: "The gift is in my hand." },
+    { id: "s:mode-b3-s24", text: "The tent is in the sand." },
+    { id: "s:mode-b3-s25", text: "My milk is on the desk." },
+    { id: "s:mode-b3-s26", text: "Lift the lamp to the desk." },
+    { id: "s:mode-b3-s27", text: "The best nest is soft." },
+  ],
+  11: [
+    { id: "s:mode-b3-s28", text: "My twin can swim fast." },
+    { id: "s:mode-b3-s29", text: "The sled is on the flat sand." },
+    { id: "s:mode-b3-s30", text: "Stop and grab my hand." },
+    { id: "s:mode-b3-s31", text: "The pup is snug in my lap." },
+  ],
+};
+
 const TRICKY = {
   was: "Tricky word! The a sounds like \u201Cuh\u201D \u2014 wuz.",
   is: "Tricky word! The s sounds like \u201Cz\u201D \u2014 iz.",
@@ -614,6 +745,45 @@ const VOICE_SENTENCES = {
   "e:done": "All done! Great reading today!",
   "e:levelup": "Amazing! Level up!",
 };
+/* The invitation, spoken between the sentence and the one word the reveal
+   sounds out (SPEC section 12, step 2). Three of them so a child who reads
+   several sentences in a session is not told the same thing every time; the
+   choice is random and none of them says anything the others do not.
+
+   `soundout-1` is the one to leave alone. Its first take said "read" as in
+   *reed* and the owner refused it in one listen — the fault SPEC section 9
+   records from 2026-08-03. The shipped take carries explicit phonemes, and
+   the renderer now refuses any line with a two-pronunciation word and no
+   phonemes, so the gate lives where the audio is made. */
+const REVEAL_LINES = ["s:soundout-1", "s:soundout-2", "s:soundout-3"];
+const REVEAL_LINE_TEXT = {
+  "s:soundout-1": "You read them all. Let’s sound out this one.",
+  "s:soundout-2": "Let’s sound out one word together.",
+  "s:soundout-3": "Here is one word to sound out.",
+};
+/* A sentence split into the words a child sees. Case and punctuation are the
+   writer's problem, not the child's. An apostrophe is NOT stripped: "can't" is
+   a different word from "can" and is not taught.
+
+   `tools/decodable.mjs` imports this rather than keeping its own copy. Two
+   tokenisers would be two answers to "how many words is this", and the
+   eight-word ceiling would then mean two different things. */
+const sentenceWords = (s) => s.toLowerCase().replace(/[.,!?;:"“”]/g, " ").split(/\s+/).filter(Boolean);
+/* The word the reveal sounds out: the FIRST word of the sentence that the
+   level itself introduces (SPEC section 12, step 2 — "the word the LEVEL
+   TEACHES"). First, not random: a child meeting a sentence twice must be
+   taught the same word by it both times, or the sentence stops being practice
+   for anything in particular.
+
+   Returns null when the level teaches no word in the sentence, which is a
+   sentence that should never have been placed here. The caller shows the
+   sentence and skips the sound-out rather than ringing an arbitrary tile —
+   there is no honest guess to make, and B5's rule is the same one: where the
+   answer is not known, show nothing rather than something wrong. */
+function revealWord(text, level) {
+  const own = new Set((LEVELS.find((l) => l.n === level) || {}).words || []);
+  return sentenceWords(text).find((w) => own.has(w)) || null;
+}
 /* The canonical clip inventory: every id a pack must cover, with its text.
    Drives the renderer, the recorder, and the gate. Every clip is spoken at
    the voice's natural speed — a stretched word stops sounding like the word. */
@@ -622,6 +792,12 @@ function voiceScript() {
   for (const [id, text] of Object.entries(VOICE_SENTENCES)) clips.push({ id, text });
   PRAISE.forEach((text, i) => clips.push({ id: "p:" + i, text }));
   for (const w of bankWords()) clips.push({ id: "w:" + w, text: w });
+  /* Every sentence the game can show, and the invitation lines that introduce
+     the sound-out. A sentence is one whole recording and never a stitch of
+     word clips: stitched, the same sentence ran 2.07x too long, and a child
+     hearing eight separate words does not hear a sentence. */
+  for (const l of LEVELS) for (const s of SENTENCES[l.n] || []) clips.push({ id: s.id, text: s.text });
+  for (const id of REVEAL_LINES) clips.push({ id, text: REVEAL_LINE_TEXT[id] });
   clips.push({ id: "s:pronounced", text: "Pronounced:" });
   /* A sound clip's text says what the sound IS, in words a grown-up can act
      on — "the sound at the start of ship". It is never the id and never the
