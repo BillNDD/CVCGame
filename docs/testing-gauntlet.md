@@ -532,18 +532,19 @@ second Playwright on the same container, at load average 4, so they measure the 
 than the census. That measurement is owed on a quiet box before any full run is quoted.
 
 **Cadence: every other beta** (owner-ruled 2026-08-12). Its own negative controls —
-`npm run census:controls` — are the part that can be trusted at any time: 25 cells in about
-eighteen seconds, of which 13 plant a defect and require the detector built for it to name
-it, two prove a clean page reports none of them, five hold the census's own rules against
-the app (the overlay list against the stylesheet, the stylesheet scan's own reach, the modal
-boundary, the font limits, and that every viewport is a real device descriptor), and the rest cover the staging refusal, the toast report and
-this file's own count of itself.
+`npm run census:controls` — are the part that can be trusted at any time: 38 cells in about
+twenty-five seconds. Their make-up is asserted by the file's own last cell rather than typed
+here: 16 plant a defect from the CSS table, 9 plant one built in the page where a stylesheet
+cannot reach, 2 prove a clean page reports none of them, 8 hold the census's own rules against
+the app, and 3 cover the toast report, the staging refusal and that count itself. The
+arithmetic in this paragraph was wrong by two on each of the two days it was written — which
+is why the file now counts itself, and counts the breakdown rather than only the total.
 
 **The report gate is no longer optional.** `npm run census` deletes the previous
 `.census/report.json`, builds, runs the cells, and then runs `tools/census-report.mjs`
 whatever the runner's exit code was — so a run that produces no report, or a report from
 some other config, is refused rather than read. The floors it enforces are
-`census_controls` (25) and `census_cells` (408) in `.claude/gate-baseline.json`, under E6
+`census_controls` (38) and `census_cells` (416) in `.claude/gate-baseline.json`, under E6
 like every other floor. The gauntlet still does not call the census, and that stays
 deliberate: a flaky cell must inform a release, never block one.
 

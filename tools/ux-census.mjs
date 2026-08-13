@@ -158,10 +158,25 @@ function cases() {
    direction for a detector to fail in. */
 async function pseudoOverlays(page) {
   return page.evaluate(() => {
+    /* EVERY WAY A BOX CAN PUT INK ON THE SCREEN, not just background.
+       The first version asked about background-color and background-image
+       alone, and an auditor covered "▶️ Begin Session" solid black three
+       separate ways it could not see: a 56px border-top, an inset box-shadow
+       with a 200px spread, and a 200px outline pulled back over itself with a
+       negative offset. All three screenshot as a black button; all three fired
+       nothing. A detector that knows one painting route is a detector that
+       names one fault. */
+    const alphaOf = (c) => {
+      const rgba = /rgba?\(([^)]+)\)/.exec(c || "");
+      return rgba ? Number(rgba[1].split(",")[3] ?? 1) : 0;
+    };
     const paints = (cs) => {
-      const rgba = /rgba?\(([^)]+)\)/.exec(cs.backgroundColor || "");
-      const alpha = rgba ? Number(rgba[1].split(",")[3] ?? 1) : 0;
-      return alpha > 0 || cs.backgroundImage !== "none";
+      if (alphaOf(cs.backgroundColor) > 0 || cs.backgroundImage !== "none") return true;
+      if (cs.boxShadow && cs.boxShadow !== "none") return true;
+      if (cs.outlineStyle && cs.outlineStyle !== "none" && parseFloat(cs.outlineWidth) > 0) return true;
+      for (const side of ["Top", "Right", "Bottom", "Left"])
+        if (cs[`border${side}Style`] !== "none" && parseFloat(cs[`border${side}Width`]) > 0) return true;
+      return false;
     };
     const out = [];
     for (const el of document.querySelectorAll("*")) {
@@ -394,7 +409,16 @@ async function inspect(page, viewport, label, opts = {}) {
          which is the common case and which made the first version of this scan
          blind to a div dropped on top of a button. */
       const isControl = el.matches("button, a, [role=button], input, .wq-cta, .wq-sbtn");
-      return ownText || isControl || el.tagName === "IMG" || s.backgroundImage !== "none";
+      /* A SOLID COLOUR IS INK. background-IMAGE counted and background-COLOUR
+         did not, so an auditor dropped a textless black bar over the left
+         quarter of "▶️ Begin Session" — the button read "gin Session" on
+         screen — and this scan skipped the bar entirely as carrying nothing.
+         The same bar with two characters of text in it was caught. Ink is
+         about what a child SEES, and a black rectangle is the most visible
+         thing on a page. */
+      const rgba = /rgba?\(([^)]+)\)/.exec(s.backgroundColor || "");
+      const paintedBg = rgba ? Number(rgba[1].split(",")[3] ?? 1) > 0 : false;
+      return ownText || isControl || el.tagName === "IMG" || s.backgroundImage !== "none" || paintedBg;
     });
     const box = (el) => el.getBoundingClientRect();
     const name = (el) => (el.getAttribute("aria-label") || el.textContent || el.tagName).trim().slice(0, 28);
@@ -661,6 +685,17 @@ const GRADE = {
    positioned, so widening a control there never reaches the page's scroll
    width. A plant that plants nothing is a control that passes for the wrong
    reason, which is worse than no control at all. */
+/* [kind, css, label]. The label exists because several kinds now carry more
+   than one plant: one plant per detector proved only the branch that plant
+   happened to take. An auditor deleted three of the four branches of the
+   pseudo-element scan — ::before, position:fixed, and the paint test — and all
+   25 controls stayed green, because the single shipped plant was an ::after,
+   absolutely positioned, WITH TEXT, so `!text && !paints(cs)` short-circuited
+   before paints() was ever called. The floors had the same hole: a 12px
+   control against a 56px floor and a 6px label against a 12px floor prove the
+   detector fires SOMEWHERE, and an auditor then set the floors to 20 and 8 and
+   watched everything stay green. A boundary plant is what makes a floor a
+   floor. */
 const PLANTS = [
   ["horizontal-overflow",
    `html,body,.wq-root,.wq-shell,.wq-stage{overflow-x:auto !important;overflow:visible !important} .wq-home-title{width:3000px !important;display:block !important}`],
@@ -676,7 +711,31 @@ const PLANTS = [
      in this file was green against it until 2026-08-13. */
   ["pseudo-overlay",
    `.wq-cta::after{content:"NEW";position:absolute;left:50%;top:50%;width:60px;height:20px;`
-   + `margin:-10px 0 0 -30px;background:#333;color:#fff;z-index:9;}`],
+   + `margin:-10px 0 0 -30px;background:#333;color:#fff;z-index:9;}`,
+   "pseudo-overlay, an ::after with text"],
+  /* The other three branches, each of which an auditor deleted with every
+     control still green. The last three paint a control solid black without
+     one byte of background: a screenshot of the button is a black rectangle. */
+  ["pseudo-overlay", `.wq-cta::before{content:"";position:absolute;inset:0;background:#000;z-index:9;}`,
+   "pseudo-overlay, a ::before rather than an ::after"],
+  ["pseudo-overlay", `.wq-cta::after{content:"";position:fixed;inset:0;background:#000;z-index:9;}`,
+   "pseudo-overlay, position:fixed rather than absolute"],
+  ["pseudo-overlay", `.wq-cta::after{content:"";position:absolute;inset:0;box-shadow:inset 0 0 0 200px #000;z-index:9;}`,
+   "pseudo-overlay, painting with a box-shadow and no background at all"],
+  ["pseudo-overlay", `.wq-cta::after{content:"";position:absolute;inset:0;border-top:56px solid #000;z-index:9;}`,
+   "pseudo-overlay, painting with a border and no background at all"],
+  ["pseudo-overlay", `.wq-cta::after{content:"";position:absolute;inset:0;outline:200px solid #000;outline-offset:-200px;z-index:9;}`,
+   "pseudo-overlay, painting with an outline and no background at all"],
+  /* THE BOUNDARIES. Each of these is one pixel the wrong side of the limit it
+     tests, so lowering the limit — which an auditor did to all four — makes the
+     plant stop firing instead of firing anyway. */
+  ["control-too-small",
+   `.wq-cta{min-height:55px !important;height:55px !important;min-width:55px !important;width:55px !important;padding:0 !important}`,
+   "control-too-small at the boundary: 55px against S7's 56px floor"],
+  ["text-too-small", `button,.wq-cta,.wq-sbtn{font-size:11px !important}`,
+   "text-too-small at the boundary: 11px against a 12px floor"],
+  ["text-too-big", `button{font-size:35px !important}`,
+   "text-too-big at the boundary: 35px against a 34px ceiling"],
 ];
 
 export { cases, signature, inspect, pseudoOverlays, stage, holdGrade, savedState, holdTheDice, requireStaged,

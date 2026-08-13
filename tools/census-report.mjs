@@ -51,7 +51,12 @@ const DECLARED_SKIPS = ["CDP is Chromium-only", "engine not installed"];
    too: change a detector or a viewport and the last run is no longer about
    this census. */
 const WATCHED = ["app/dist", "app/src", "app/public", "src", "reference",
-                 "tools/ux-census.mjs", "tests/census", CONFIG];
+                 "tools/ux-census.mjs", "tools/census-report.mjs", "tests/census", CONFIG,
+                 /* The two that BUILD the bundle and the one that sets the
+                    floors this file enforces. An auditor named all three: they
+                    change the app or the verdict and app/dist only catches the
+                    first two once somebody remembers to rebuild. */
+                 "app/index.html", "app/vite.config.js", ".claude/gate-baseline.json"];
 
 /* WebKit on Linux is the same engine core as iOS Safari, not the same build.
    The install guide tells a parent to use an iOS home screen, so this sentence
@@ -169,9 +174,19 @@ function judge(report, now = newestSource()) {
      "Engines: phone, tablet, narrow, desktop" - the one paragraph whose whole
      job is to state coverage honestly, stating it falsely, and by exactly the
      mechanism that cost the controls their project. */
-  const engines = [...new Set((report.config?.projects || []).map((p) => p.metadata?.engine).filter(Boolean))];
+  /* REQUESTED IS NOT OBSERVED, and the difference is the whole point of this
+     paragraph. An auditor set CENSUS_ENGINE=webkit on a machine with no
+     WebKit: 18 cells failed with "Executable doesn't exist", and this printed
+     "Engines: webkit" and SUPPRESSED "WebKit did not run at all in this
+     report" — the one paragraph whose job is honest coverage, claiming an
+     engine that never launched. An engine has run when it has produced a cell
+     that PASSED; anything else is a request. */
+  const passedIn = new Set(all.filter((c) => c.status === "passed").map((c) => c.project));
+  const byName = new Map((report.config?.projects || []).map((p) => [p.name, p.metadata?.engine]));
+  const engines = [...new Set([...byName.values()].filter(Boolean))];
+  const observed = [...new Set([...passedIn].map((n) => byName.get(n)).filter(Boolean))];
 
-  return { all, controls, census, failed, skipped, projects, engines, problems };
+  return { all, controls, census, failed, skipped, projects, engines, observed, problems };
 }
 
 /* THE WHOLE OUTPUT, AS TEXT. It used to be a run of console.log calls, and the
@@ -186,8 +201,11 @@ function render(j) {
   out.push(`Failed:    ${j.failed.length}     Skipped: ${j.skipped.length}`);
   out.push(`Projects:  ${j.projects.length} — ${j.projects.join(", ")}`);
   out.push("", "WHAT THIS RUN DID NOT LOOK AT:");
-  out.push(`  Engines: ${j.engines.length ? j.engines.join(", ") : "NOT DECLARED — no project states its engine"}`);
-  if (!j.engines.includes("webkit")) out.push("  WebKit did not run at all in this report.");
+  out.push(`  Engines requested: ${j.engines.length ? j.engines.join(", ") : "NOT DECLARED — no project states its engine"}`);
+  out.push(`  Engines that produced a passing cell: ${j.observed.length ? j.observed.join(", ") : "none"}`);
+  for (const e of j.engines)
+    if (!j.observed.includes(e)) out.push(`  ${e} was asked for and produced no passing cell — it did not run.`);
+  if (!j.observed.includes("webkit")) out.push("  WebKit did not run at all in this report.");
   out.push(`  ${IOS}`);
   out.push("  It cannot settle whether the voice is right, whether a child understands the screen,");
   out.push("  whether a colour is pleasant, or whether the game works on a real iPad in a real kitchen.");
@@ -211,7 +229,9 @@ function selfTest() {
   const FRESH = { newest: 1000, where: "app/src/App.jsx", bundle: true };
   const build = (specs, stats = {}, config = {}) => ({
     stats: { startTime: new Date(2000).toISOString(), ...stats },
-    config: { configFile: `/repo/${CONFIG}`, projects: [{ metadata: { engine: "chromium" } }], ...config },
+    config: { configFile: `/repo/${CONFIG}`,
+      projects: [{ name: CONTROL_PROJECT, metadata: { engine: "chromium" } },
+                 { name: "desktop", metadata: { engine: "chromium" } }], ...config },
     suites: [{ specs }],
   });
   const many = (project, n, status = "passed") =>
@@ -221,7 +241,7 @@ function selfTest() {
      from these two numbers, so they cannot be the floors themselves — that is
      precisely the fault an auditor exploited by lowering FLOOR to {controls: 2}
      and watching every control still pass. */
-  const CONTROLS = 25, CELLS = 408;
+  const CONTROLS = 38, CELLS = 416;
   ok.push(["the baseline states the floors this file was written against",
     FLOOR.controls === CONTROLS && FLOOR.cells === CELLS]);
 
@@ -286,8 +306,21 @@ function selfTest() {
   ok.push(["the printed report carries the iOS sentence, in the words that do not soften it",
     printed.includes("NOT the same build") && printed.includes("No run on this machine is evidence about an iPad")]);
   ok.push(["the printed report states the engines from the run's own metadata",
-    printed.includes("Engines: chromium")]);
-  const noEngine = build([...many(CONTROL_PROJECT, CONTROLS), ...many("desktop", CELLS)], {}, { projects: [{}] });
+    printed.includes("Engines requested: chromium")]);
+  ok.push(["the printed report separates the engine ASKED FOR from the engine that actually ran",
+    printed.includes("Engines that produced a passing cell: chromium")]);
+  /* The auditor's plant: CENSUS_ENGINE=webkit on a machine with no WebKit.
+     Every cell fails, and the coverage paragraph used to answer "Engines:
+     webkit" and drop the line saying WebKit never ran. */
+  const askedNotRun = build([...many(CONTROL_PROJECT, CONTROLS, "failed"), ...many("desktop", CELLS, "failed")],
+    {}, { projects: [{ name: CONTROL_PROJECT, metadata: { engine: "webkit" } },
+                     { name: "desktop", metadata: { engine: "webkit" } }] });
+  const printedNotRun = render(judge(askedNotRun, FRESH));
+  ok.push(["an engine that was asked for and never launched is not counted as coverage",
+    printedNotRun.includes("webkit was asked for and produced no passing cell")
+    && printedNotRun.includes("WebKit did not run at all in this report")
+    && printedNotRun.includes("Engines that produced a passing cell: none")]);
+  const noEngine = build([...many(CONTROL_PROJECT, CONTROLS), ...many("desktop", CELLS)], {}, { projects: [{ name: "desktop" }] });
   ok.push(["a run whose projects declare no engine says so, rather than guessing from a name",
     render(judge(noEngine, FRESH)).includes("NOT DECLARED")]);
   ok.push(["the printed report carries the problems, not just the exit code",
