@@ -33,35 +33,35 @@ Feature: Level promotion
     Then the player stays on Level 11
 
   Scenario: Two perfect sessions in a row promote
-    Given a player on Level 2 with 5 of the 53 words at box 3
+    Given a player on Level 2 with 5 of the 55 words at box 3
     And a perfect-session streak of 1
     When the session ends with every word correct
     Then the player is promoted to Level 3
     And the perfect-session streak is 0
 
   Scenario: One perfect session is not enough
-    Given a player on Level 2 with 5 of the 53 words at box 3
+    Given a player on Level 2 with 5 of the 55 words at box 3
     And a perfect-session streak of 0
     When the session ends with every word correct
     Then the player stays on Level 2
     And the perfect-session streak is 1
 
   Scenario: An imperfect session resets the streak
-    Given a player on Level 2 with 5 of the 53 words at box 3
+    Given a player on Level 2 with 5 of the 55 words at box 3
     And a perfect-session streak of 1
     When the session ends with a missed word
     Then the player stays on Level 2
     And the perfect-session streak is 0
 
   Scenario: A session stopped early leaves the streak unchanged
-    Given a player on Level 2 with 5 of the 53 words at box 3
+    Given a player on Level 2 with 5 of the 55 words at box 3
     And a perfect-session streak of 1
     When the session stops early
     Then the player stays on Level 2
     And the perfect-session streak is 1
 
   Scenario: A session stopped early with a miss also leaves the streak unchanged
-    Given a player on Level 2 with 5 of the 53 words at box 3
+    Given a player on Level 2 with 5 of the 55 words at box 3
     And a perfect-session streak of 1
     When the session stops early with a missed word
     Then the player stays on Level 2
@@ -75,7 +75,7 @@ Feature: Level promotion
     And the perfect-session streak is 0
 
   Scenario: A stored streak alone never promotes without a completed session
-    Given a player on Level 2 with 5 of the 53 words at box 3
+    Given a player on Level 2 with 5 of the 55 words at box 3
     And a perfect-session streak of 2
     When the session ends
     Then the player stays on Level 2

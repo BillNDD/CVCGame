@@ -10,13 +10,13 @@ describe("Feature: The reading log export", () => {
     const s = newState();
     for (const w of ["cat", "dog"]) s.words[w] = { ...freshWordState(), box: 3, attempts: 2 };
     const md = buildMarkdown(s);
-    expect(md).toContain("0/438");
+    expect(md).toContain("0/440");
   });
   it("Box 4 counts as mastered", () => {
     const s = newState();
     for (const w of ["cat", "dog"]) s.words[w] = { ...freshWordState(), box: 4, attempts: 2 };
     const md = buildMarkdown(s);
-    expect(md).toContain("2/438");
+    expect(md).toContain("2/440");
   });
   it("A short session is marked", () => {
     const s = newState();
@@ -220,7 +220,7 @@ describe("Feature: Level promotion", () => {
   });
   it("Two perfect sessions in a row promote", () => {
     const s = newState(); s.level = 2;
-    expect(LEVELS[2 - 1].words.length).toBe(53);
+    expect(LEVELS[2 - 1].words.length).toBe(55);
     LEVELS[2 - 1].words.slice(0, 5).forEach((w) => { s.words[w] = { ...freshWordState(), box: 3, attempts: 1 }; });
     s.perfectStreak = 1;
     const promoted = checkPromotion(s, { partial: false, perfect: true });
@@ -230,7 +230,7 @@ describe("Feature: Level promotion", () => {
   });
   it("One perfect session is not enough", () => {
     const s = newState(); s.level = 2;
-    expect(LEVELS[2 - 1].words.length).toBe(53);
+    expect(LEVELS[2 - 1].words.length).toBe(55);
     LEVELS[2 - 1].words.slice(0, 5).forEach((w) => { s.words[w] = { ...freshWordState(), box: 3, attempts: 1 }; });
     s.perfectStreak = 0;
     const promoted = checkPromotion(s, { partial: false, perfect: true });
@@ -240,7 +240,7 @@ describe("Feature: Level promotion", () => {
   });
   it("An imperfect session resets the streak", () => {
     const s = newState(); s.level = 2;
-    expect(LEVELS[2 - 1].words.length).toBe(53);
+    expect(LEVELS[2 - 1].words.length).toBe(55);
     LEVELS[2 - 1].words.slice(0, 5).forEach((w) => { s.words[w] = { ...freshWordState(), box: 3, attempts: 1 }; });
     s.perfectStreak = 1;
     const promoted = checkPromotion(s, { partial: false, perfect: false });
@@ -250,7 +250,7 @@ describe("Feature: Level promotion", () => {
   });
   it("A session stopped early leaves the streak unchanged", () => {
     const s = newState(); s.level = 2;
-    expect(LEVELS[2 - 1].words.length).toBe(53);
+    expect(LEVELS[2 - 1].words.length).toBe(55);
     LEVELS[2 - 1].words.slice(0, 5).forEach((w) => { s.words[w] = { ...freshWordState(), box: 3, attempts: 1 }; });
     s.perfectStreak = 1;
     const promoted = checkPromotion(s, { partial: true, perfect: true });
@@ -260,7 +260,7 @@ describe("Feature: Level promotion", () => {
   });
   it("A session stopped early with a miss also leaves the streak unchanged", () => {
     const s = newState(); s.level = 2;
-    expect(LEVELS[2 - 1].words.length).toBe(53);
+    expect(LEVELS[2 - 1].words.length).toBe(55);
     LEVELS[2 - 1].words.slice(0, 5).forEach((w) => { s.words[w] = { ...freshWordState(), box: 3, attempts: 1 }; });
     s.perfectStreak = 1;
     const promoted = checkPromotion(s, { partial: true, perfect: false });
@@ -280,7 +280,7 @@ describe("Feature: Level promotion", () => {
   });
   it("A stored streak alone never promotes without a completed session", () => {
     const s = newState(); s.level = 2;
-    expect(LEVELS[2 - 1].words.length).toBe(53);
+    expect(LEVELS[2 - 1].words.length).toBe(55);
     LEVELS[2 - 1].words.slice(0, 5).forEach((w) => { s.words[w] = { ...freshWordState(), box: 3, attempts: 1 }; });
     s.perfectStreak = 2;
     const promoted = checkPromotion(s);
@@ -350,7 +350,7 @@ describe("Feature: Building a session", () => {
   it("Overdue reviews from lower levels are capped", () => {
     const s = newState(); s.level = 3; s.sessionsCompleted = 10 - 1;
     const lower = LEVELS.slice(0, 3 - 1).flatMap((l) => l.words);
-    expect(lower.length).toBe(65);
+    expect(lower.length).toBe(67);
     lower.forEach((w) => { s.words[w] = { ...freshWordState(), box: 1, attempts: 4, dueAt: 1 }; });
     const q = buildSession(s);
     expect(q.filter((w) => WORD_LEVEL[w] < s.level).length).toBeLessThanOrEqual(5);
