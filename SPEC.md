@@ -781,12 +781,35 @@ sentences are made of the words that level teaches.
    it, which is the rule that decided the set: the app picks the word, so a line calling it
    new, or hard, or the tricky one would put the game under a promise it must then keep.
    Nothing here is built, and **no line has been recorded or heard**.
-6. **The presentation is undecided and is the owner's next call.** Four were built and shown
-   on 2026-08-11: tap a word to open its sound tiles silently; every word pre-split; one
-   word lit at a time; and a plain sentence whose sounds appear only in the reveal. Design
-   rule 2 is what separates them — a word may be shown split during an attempt, because that
-   is a scaffold, but it may not be SPOKEN, because that is the answer. Tap-to-hear stays
-   ruled for the passages stage alone, where the words are untaught on purpose.
+6. **The presentation — RULED 2026-08-13.** Four were built and shown on 2026-08-11: tap a
+   word to open its sound tiles silently; every word pre-split; one word lit at a time; and a
+   plain sentence whose sounds appear only in the reveal. The owner chose none of them and
+   described a fifth, which combines the last two and adds a child-driven half:
+
+   1. The sentence is read whole.
+   2. An invitation line plays, and **the word the level teaches** takes the tile ring: its
+      pieces appear, and the voice says the sounds, then the word.
+   3. After that it is the child's. Tapping any other word shows that word's pieces
+      **silently** — no sound is spoken for a tapped word, ever. Only the first, automatic
+      word is spoken.
+   4. **Exactly one word is ever open.** Opening another closes the last.
+   5. The sentence reads again to close, and **a tap interrupts that read.**
+
+   The ring is the existing `.wq-tile.wq-pop` outline, not a new shape. Design rule 2 is
+   untouched and is what makes the silence in point 3 correct: a word may be shown split,
+   because that is a scaffold, but it may not be SPOKEN, because that is the answer.
+   Tap-to-hear stays ruled for the passages stage alone, where the words are untaught on
+   purpose.
+
+   **This ruling was given once before and lost.** The owner recorded it on 2026-08-13 with
+   "I already decided on this, it may have been lost in a context compaction" — and a search
+   of `docs/settled.md`, this file, `docs/voice-pack.md` and `docs/open-faults.md` found
+   nothing. It is written here now because a decision that lives only in a chat log is a
+   decision this project loses, which is the whole reason those documents exist.
+
+   **Still open, and not assumed:** what ends the item — the grown-up's control at any time,
+   or must the closing read finish first. A prototype built to this design, using only
+   approved audio, was put to the owner on 2026-08-13.
 
 What this costs, and none of it is done: `a` needs a listening round, being a word the game
 has never spoken. `the` and `and` have approved clips already. Every level object grows a
