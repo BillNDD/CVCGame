@@ -19,7 +19,7 @@
  */
 import { readFileSync } from "node:fs";
 import { test, expect } from "@playwright/test";
-import { inspect, PLANTS, VIEWPORTS, stage, BANK_WORDS, requireStaged, FONT_FLOOR } from "../../tools/ux-census.mjs";
+import { inspect, PLANTS, VIEWPORTS, stage, BANK_WORDS, requireStaged, FONT_FLOOR, FONT_CEIL } from "../../tools/ux-census.mjs";
 
 /* NO NAME-STRING SKIP. This file used to select itself with
    `test.skip(testInfo.project.name !== "phone-portrait")`. An auditor renamed
@@ -74,32 +74,61 @@ test("detector fires: a PARTIAL cover, not just a full-page one", async ({ page 
   expect(findings.map((f) => f.kind)).toContain("control-obscured");
 });
 
-test("detector fires: overlap, between two real elements", async ({ page }) => {
-  /* The fault this is actually for: the home-screen images that overlapped
-     each other. A real element, because two elements sitting on top of one
-     another is a different shape from something painted over both. */
+test("detector fires: overlap, when something lands ON a control", async ({ page }) => {
+  /* The fault this is actually for: the home-screen images that landed on top
+     of one another. The first version of this plant sat half off the button and
+     the only thing it collided with was the NEXT button down - so the control
+     was green for a collision it never named, while the detector was blind to
+     the case in its own title. It asserts the DETAIL now, not the kind: a
+     finding of the right kind from the wrong pair is not evidence. */
   await page.goto("/", { waitUntil: "load" });
-  /* A NAMED control, not "the first button". Targeting whatever button came
-     first made this pass alone and fail in the suite: which button is first
-     depends on what else the app has rendered by then, so the plant landed on
-     a different box each time. A plant that is not deterministic cannot prove
-     anything about a detector. */
   await page.getByRole("button", { name: "▶️ Begin Session" }).waitFor({ timeout: 8000 });
   await page.evaluate(() => {
-    const first = [...document.querySelectorAll("button")].find((b) => b.textContent.includes("Begin Session"));
-    const r = first.getBoundingClientRect();
+    const b = [...document.querySelectorAll("button")].find((x) => x.textContent.includes("Begin Session"));
+    const r = b.getBoundingClientRect();
     const d = document.createElement("div");
     d.textContent = "landed on top";
-    /* Half-on, half-off VERTICALLY, and inside the control horizontally, so the
-       plant stays on screen at every viewport. A version offset sideways ran off
-       the right edge of the phone viewport: its own centre was outside the
-       window, elementFromPoint returned null, and the scan dropped it. */
-    d.style.cssText = `position:fixed;left:${r.left + r.width * 0.2}px;top:${r.top + r.height * 0.5}px;width:${r.width * 0.5}px;height:${r.height}px;background:#c33;color:#fff;z-index:5;`;
+    d.style.cssText = `position:fixed;left:${r.left + r.width * 0.25}px;top:${r.top + r.height * 0.2}px;`
+      + `width:${r.width * 0.5}px;height:${r.height * 0.6}px;background:#c33;color:#fff;z-index:5;`;
     document.body.appendChild(d);
   });
   await page.waitForTimeout(150);
   const { findings } = await inspect(page, VP, "planted", {});
-  expect(findings.map((f) => f.kind)).toContain("overlap");
+  const overlap = findings.filter((f) => f.kind === "overlap").map((f) => f.detail).join(" | ");
+  expect(overlap, "no overlap was reported at all").not.toBe("");
+  expect(overlap, "an overlap was reported, but not between the two elements the plant collided")
+    .toMatch(/landed on top/);
+  expect(overlap, "the control that was landed on is not named in the finding").toMatch(/Begin Session/);
+});
+
+test("detector fires: control-obscured, from a badge on the CENTRE alone", async ({ page }) => {
+  /* Requiring two of five sample points was a regression on the case the
+     single-centre version already caught. On screen this reads "B NEW ssion". */
+  await page.goto("/", { waitUntil: "load" });
+  await page.getByRole("button", { name: "▶️ Begin Session" }).waitFor({ timeout: 8000 });
+  await page.evaluate(() => {
+    const b = [...document.querySelectorAll("button")].find((x) => x.textContent.includes("Begin Session"));
+    const r = b.getBoundingClientRect();
+    const d = document.createElement("div");
+    d.textContent = "NEW";
+    d.style.cssText = `position:fixed;left:${r.left + r.width / 2 - 30}px;top:${r.top + r.height / 2 - 10}px;`
+      + `width:60px;height:20px;background:#333;color:#fff;z-index:9;`;
+    document.body.appendChild(d);
+  });
+  await page.waitForTimeout(150);
+  const { findings } = await inspect(page, VP, "planted", {});
+  const obscured = findings.filter((f) => f.kind === "control-obscured").map((f) => f.detail).join(" | ");
+  expect(obscured, "a badge on a control's centre was not reported").toMatch(/Begin Session/);
+});
+
+test("detector fires: text-too-big, the fault this census was commissioned for", async ({ page }) => {
+  /* A label at four times its intended size. Floors alone left this green, and
+     it is the reason the census exists. */
+  await page.goto("/", { waitUntil: "load" });
+  await page.addStyleTag({ content: `button { font-size: 64px !important; }` });
+  await page.waitForTimeout(200);
+  const { findings } = await inspect(page, VP, "planted", {});
+  expect(findings.map((f) => f.kind)).toContain("text-too-big");
 });
 
 test("a clean page reports no overlap and no small text", async ({ page }) => {
@@ -109,6 +138,7 @@ test("a clean page reports no overlap and no small text", async ({ page }) => {
   const kinds = findings.map((f) => f.kind);
   expect(kinds, "a clean page reported an overlap").not.toContain("overlap");
   expect(kinds, "a clean page reported small text").not.toContain("text-too-small");
+  expect(kinds, "a clean page reported big text").not.toContain("text-too-big");
 });
 
 test("detector fires: missing, when a screen loses a control it must have", async ({ page }) => {
@@ -133,9 +163,11 @@ test("detector fires: missing, when a screen loses a control it must have", asyn
   expect(findings.map((f) => f.kind)).toContain("missing");
 });
 
-test("the font floors are floors, not the values the app happens to render", () => {
+test("the font limits are limits, not the values the app happens to render", () => {
   expect(FONT_FLOOR.control).toBe(12);
   expect(FONT_FLOOR.word).toBe(24);
+  expect(FONT_CEIL.control).toBe(34);
+  expect(FONT_CEIL.word).toBe(160);
 });
 
 test("a case that cannot be staged is refused, never examined", async ({ page }) => {
