@@ -1,13 +1,19 @@
 Feature: Level promotion
   A level is won when 80 percent of its words are solid at box 3 or more.
 
-  Scenario: Exactly 80 percent promotes
-    Given a player on Level 5 with 40 of the 50 words at box 3
+  # Level 5 held 50 words until 2026-08-13, when the owner ruled "gob" out and it
+  # became 49. No level's size is now a multiple of five, so no scenario can sit
+  # EXACTLY on the threshold: 80 per cent of 49 is 39.2. These two straddle it —
+  # 40 of 49 is 81.6 per cent and promotes, 39 is 79.6 and does not — which is
+  # what the rule has to get right. The scenario name says so rather than
+  # claiming an exactness the bank can no longer provide.
+  Scenario: Just over 80 percent promotes
+    Given a player on Level 5 with 40 of the 49 words at box 3
     When the session ends
     Then the player is promoted to Level 6
 
   Scenario: Just under 80 percent does not promote
-    Given a player on Level 5 with 39 of the 50 words at box 3
+    Given a player on Level 5 with 39 of the 49 words at box 3
     When the session ends
     Then the player stays on Level 5
 

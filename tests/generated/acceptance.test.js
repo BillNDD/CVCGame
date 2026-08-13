@@ -178,9 +178,9 @@ describe("Feature: Sound units and feedback text", () => {
 });
 
 describe("Feature: Level promotion", () => {
-  it("Exactly 80 percent promotes", () => {
+  it("Just over 80 percent promotes", () => {
     const s = newState(); s.level = 5;
-    expect(LEVELS[5 - 1].words.length).toBe(50);
+    expect(LEVELS[5 - 1].words.length).toBe(49);
     LEVELS[5 - 1].words.slice(0, 40).forEach((w) => { s.words[w] = { ...freshWordState(), box: 3, attempts: 1 }; });
     const promoted = checkPromotion(s);
     expect(promoted).toBe(true);
@@ -188,7 +188,7 @@ describe("Feature: Level promotion", () => {
   });
   it("Just under 80 percent does not promote", () => {
     const s = newState(); s.level = 5;
-    expect(LEVELS[5 - 1].words.length).toBe(50);
+    expect(LEVELS[5 - 1].words.length).toBe(49);
     LEVELS[5 - 1].words.slice(0, 39).forEach((w) => { s.words[w] = { ...freshWordState(), box: 3, attempts: 1 }; });
     const promoted = checkPromotion(s);
     expect(promoted).toBe(false);

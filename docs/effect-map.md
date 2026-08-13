@@ -192,7 +192,7 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 27 | Feature: Sound units and feedback text | Feedback for a missed reading |
 | 28 | Feature: Sound units and feedback text | The tricky word \ |
 | 29 | Feature: Sound units and feedback text | The tricky word \ |
-| 30 | Feature: Level promotion | Exactly 80 percent promotes |
+| 30 | Feature: Level promotion | Just over 80 percent promotes |
 | 31 | Feature: Level promotion | Just under 80 percent does not promote |
 | 32 | Feature: Level promotion | Box 2 words are not solid |
 | 33 | Feature: Level promotion | The starter level needs 10 of its 12 words |
