@@ -305,7 +305,7 @@
   "round": "batch 6 / 2026-08-07",
   "verdict": "perfect",
   "level": "reveal lead-in (planned)",
-  "text": "Let\u2019s sound it out."
+  "text": "Let’s sound it out."
  },
  "of": {
   "arm": "of_6",
@@ -1436,7 +1436,7 @@
   "note": "supersedes the batch 13 entry, which was bytes the owner had already marked closest in batch 12. This clip was never offered before: verified against all 1883 arms of the 23 earlier rounds."
  },
  "a": {
-  "arm": "2\u00b73 \u2014 matched to today's schwa",
+  "arm": "2·3 — matched to today's schwa",
   "family": "owner-handoff-schwaD",
   "ms": 743,
   "sha256": "d3fc66ccc4ed23f493af51b368009b2325153aae9c1cddd23007825a47c7ecee",
@@ -1444,5 +1444,313 @@
   "verdict": "perfect",
   "level": "heart word",
   "note": "The owner's SCHWA_D_AF_HEART handoff, built outside this repo: an af_heart schwa, 363 ms of speech, accepted as option D. Shipped as the bytes they graded on the listening page - the accepted body at 80/300 ms padding, turned down 4.8 dB to the level of the schwa already in the game, encoded at the pack's 96 kbps. No re-bake: the handoff's own recipe says Praat's overlap-add cannot be reproduced sample for sample, so the accepted WAV is the authority. The human reference recording in that package is an amplitude-envelope target only and is not in this repository."
+ },
+ "s:soundout-1": {
+  "file": "s-soundout-1.mp3",
+  "text": "You read them all. Let's sound out this one.",
+  "ms": 2705,
+  "sha256": "45ff2a519a22c2c423637835bd9dde8a363c08b19db93d8a30883e652d1b5563",
+  "round": "sound-out lines (2026-08-13)",
+  "verdict": "perfect",
+  "level": "the sentence reveal's invitation (SPEC section 12)",
+  "phonemes": "juː ɹˈɛd ðˌɛm ˈɔːl. lˈɛts sˈaʊnd ˈaʊt ðˈɪswˌʌn.",
+  "note": "the first take said 'read' as in reed and was marked no good; this one carries explicit phonemes"
+ },
+ "s:mode-b3-s01": {
+  "file": "s-mode-b3-s01.mp3",
+  "text": "Is it an ox?",
+  "ms": 1425,
+  "sha256": "313205c4906d7bede7ed5162573d9ea27a5abcf7fe40f309e8f5537e99d79e55",
+  "round": "sentence batch 3 (2026-08-13)",
+  "verdict": "perfect",
+  "level": "Level 1"
+ },
+ "s:mode-b3-s02": {
+  "file": "s-mode-b3-s02.mp3",
+  "text": "An ox is up.",
+  "ms": 1446,
+  "sha256": "4f5b7923a86f665652df56c1be611cbb9b79d997bd6ed445a28ffebc141d1e64",
+  "round": "sentence batch 3 (2026-08-13)",
+  "verdict": "perfect",
+  "level": "Level 1"
+ },
+ "s:mode-b3-s03": {
+  "file": "s-mode-b3-s03.mp3",
+  "text": "It is an ax.",
+  "ms": 1446,
+  "sha256": "a49f4ce416eb35a5b09dde9f86d3185739ea73f460d8bec76206321bc24abfa1",
+  "round": "sentence batch 3 (2026-08-13)",
+  "verdict": "perfect",
+  "level": "Level 1"
+ },
+ "s:mode-b3-s04": {
+  "file": "s-mode-b3-s04.mp3",
+  "text": "Is it up?",
+  "ms": 1190,
+  "sha256": "c0dab6d1b1101cf0be6197e87cee7c1083bd52bb35bdff8abcfcb980768b55b4",
+  "round": "sentence batch 3 (2026-08-13)",
+  "verdict": "perfect",
+  "level": "Level 1"
+ },
+ "s:mode-b3-s05": {
+  "file": "s-mode-b3-s05.mp3",
+  "text": "An ax is on it.",
+  "ms": 1468,
+  "sha256": "a7299543e247aa97dbfb9131708a3d668df2e010424a77e1c13c922b39a0988c",
+  "round": "sentence batch 3 (2026-08-13)",
+  "verdict": "perfect",
+  "level": "Level 1"
+ },
+ "s:mode-b3-s06": {
+  "file": "s-mode-b3-s06.mp3",
+  "text": "My dad has a map.",
+  "ms": 1574,
+  "sha256": "548fc94f4e0dcdd94cc39f20cf0866e648d29459b30a1c3b57f92e0171607c67",
+  "round": "sentence batch 3 (2026-08-13)",
+  "verdict": "perfect",
+  "level": "Level 2"
+ },
+ "s:mode-b3-s07": {
+  "file": "s-mode-b3-s07.mp3",
+  "text": "The cat sat on my lap.",
+  "ms": 1788,
+  "sha256": "ba445c5d35eea90e7a68c965f71a84c7beae765dcb9a4e5a1c2ed9188eb551b4",
+  "round": "sentence batch 3 (2026-08-13)",
+  "verdict": "perfect",
+  "level": "Level 2"
+ },
+ "s:mode-b3-s08": {
+  "file": "s-mode-b3-s08.mp3",
+  "text": "A man and a cat ran.",
+  "ms": 1724,
+  "sha256": "9bd1c54a4e470ae61f39985a33561c59564bac117896cc2386b2d6f7052dcba1",
+  "round": "sentence batch 3 (2026-08-13)",
+  "verdict": "perfect",
+  "level": "Level 2"
+ },
+ "s:mode-b3-s09": {
+  "file": "s-mode-b3-s09.mp3",
+  "text": "Dad had a nap.",
+  "ms": 1361,
+  "sha256": "b48c44b0ed5ac15f6eeb2b25aaae11c7d4ffc87f3c24b3d3a7929aaf3fc21f63",
+  "round": "sentence batch 3 (2026-08-13)",
+  "verdict": "perfect",
+  "level": "Level 2"
+ },
+ "s:mode-b3-s10": {
+  "file": "s-mode-b3-s10.mp3",
+  "text": "The dog did not sit.",
+  "ms": 1809,
+  "sha256": "888164833859c11d76036c982a21ecbafeb46f0e17e470dcc24403c486cb5885",
+  "round": "sentence batch 3 (2026-08-13)",
+  "verdict": "perfect",
+  "level": "Level 3"
+ },
+ "s:mode-b3-s11": {
+  "file": "s-mode-b3-s11.mp3",
+  "text": "A fox ran to the log.",
+  "ms": 1852,
+  "sha256": "d52826c9af5b9fb0b41ffc2c9a989cf146486f514b892e96c2e90b62045c047b",
+  "round": "sentence batch 3 (2026-08-13)",
+  "verdict": "perfect",
+  "level": "Level 3"
+ },
+ "s:mode-b3-s12": {
+  "file": "s-mode-b3-s12.mp3",
+  "text": "My mom got a big box.",
+  "ms": 1980,
+  "sha256": "a0cdae8cc5e8113540d0730b1b0745b65af18857bfe64b73ef0211a24cb5d215",
+  "round": "sentence batch 3 (2026-08-13)",
+  "verdict": "perfect",
+  "level": "Level 3"
+ },
+ "s:mode-b3-s13": {
+  "file": "s-mode-b3-s13.mp3",
+  "text": "The kid fed a cub.",
+  "ms": 1532,
+  "sha256": "34eca12c735292430d204eaa75393be3a10ce44c0e3d642c68a178de7364f3be",
+  "round": "sentence batch 3 (2026-08-13)",
+  "verdict": "perfect",
+  "level": "Level 5"
+ },
+ "s:mode-b3-s14": {
+  "file": "s-mode-b3-s14.mp3",
+  "text": "My pal hid the lid.",
+  "ms": 1681,
+  "sha256": "9642cb911bec2f094e9b46f6d7f86dcc6d7bc64a46197faa007e9f410f5d9a86",
+  "round": "sentence batch 3 (2026-08-13)",
+  "verdict": "perfect",
+  "level": "Level 5"
+ },
+ "s:mode-b3-s15": {
+  "file": "s-mode-b3-s15.mp3",
+  "text": "My pal had gum and a fig.",
+  "ms": 1980,
+  "sha256": "66bd1507f54937903a3d249f054173812da7011b6e55f1c9e77d897f8bc39002",
+  "round": "sentence batch 3 (2026-08-13)",
+  "verdict": "perfect",
+  "level": "Level 5"
+ },
+ "s:mode-b3-s16": {
+  "file": "s-mode-b3-s16.mp3",
+  "text": "My chum can wash the dish.",
+  "ms": 1937,
+  "sha256": "eb1e804ce6dd680c5c807c7970e0ed8f571fd186d4f9884ff0b14bad1729f41c",
+  "round": "sentence batch 3 (2026-08-13)",
+  "verdict": "perfect",
+  "level": "Level 6"
+ },
+ "s:mode-b3-s17": {
+  "file": "s-mode-b3-s17.mp3",
+  "text": "The shop had a red cap.",
+  "ms": 1852,
+  "sha256": "8454f1490bc66b86183d5972a8fb1440a91c5c911e826578648e450d80540fdf",
+  "round": "sentence batch 3 (2026-08-13)",
+  "verdict": "perfect",
+  "level": "Level 6"
+ },
+ "s:mode-b3-s18": {
+  "file": "s-mode-b3-s18.mp3",
+  "text": "My doll fell on the hill.",
+  "ms": 1830,
+  "sha256": "63c7a6a7f9a7aa452496693a3d0476827c1b74e944a0f774363a49948f6c6f5f",
+  "round": "sentence batch 3 (2026-08-13)",
+  "verdict": "perfect",
+  "level": "Level 8"
+ },
+ "s:mode-b3-s19": {
+  "file": "s-mode-b3-s19.mp3",
+  "text": "My pal can quiz us.",
+  "ms": 1724,
+  "sha256": "1af5caf85fc8d51c4aef6a4c22466ce4f67ac6deaa1d0e43c6c2aba40fcd5119",
+  "round": "sentence batch 3 (2026-08-13)",
+  "verdict": "perfect",
+  "level": "Level 8"
+ },
+ "s:mode-b3-s20": {
+  "file": "s-mode-b3-s20.mp3",
+  "text": "The chick is on my thumb.",
+  "ms": 1830,
+  "sha256": "a5ac03cba67f69e310a5ae93cf2c886ba761443356fe0c581e45f30460f37696",
+  "round": "sentence batch 3 (2026-08-13)",
+  "verdict": "perfect",
+  "level": "Level 9"
+ },
+ "s:mode-b3-s21": {
+  "file": "s-mode-b3-s21.mp3",
+  "text": "A duck can quack.",
+  "ms": 1489,
+  "sha256": "448d3f77ef087c1ce9c9ab49074f3ab058da93d4b9e5dc0eb994c089f91b76f4",
+  "round": "sentence batch 3 (2026-08-13)",
+  "verdict": "perfect",
+  "level": "Level 9"
+ },
+ "s:mode-b3-s22": {
+  "file": "s-mode-b3-s22.mp3",
+  "text": "Check the thick shell.",
+  "ms": 1574,
+  "sha256": "b55938ecf9754d3f563aed993b24b16453d1f7bf0affafe3a8723808d302cf5f",
+  "round": "sentence batch 3 (2026-08-13)",
+  "verdict": "perfect",
+  "level": "Level 9"
+ },
+ "s:mode-b3-s23": {
+  "file": "s-mode-b3-s23.mp3",
+  "text": "The gift is in my hand.",
+  "ms": 1809,
+  "sha256": "986b6d7a18945f7fdf0332525326a31fa4d0acb82f5cf946c9856615dee4a83a",
+  "round": "sentence batch 3 (2026-08-13)",
+  "verdict": "perfect",
+  "level": "Level 10"
+ },
+ "s:mode-b3-s24": {
+  "file": "s-mode-b3-s24.mp3",
+  "text": "The tent is in the sand.",
+  "ms": 1830,
+  "sha256": "b23cf63d8140bb9ced0622874b8b509f832a7a40012ad35b186dfa2aa177ea8d",
+  "round": "sentence batch 3 (2026-08-13)",
+  "verdict": "perfect",
+  "level": "Level 10"
+ },
+ "s:mode-b3-s25": {
+  "file": "s-mode-b3-s25.mp3",
+  "text": "My milk is on the desk.",
+  "ms": 1830,
+  "sha256": "df7184f84c1a8d4896a79eef4018cf2f05737c8b10a66c3ebb38ad17ca2841c0",
+  "round": "sentence batch 3 (2026-08-13)",
+  "verdict": "perfect",
+  "level": "Level 10"
+ },
+ "s:mode-b3-s26": {
+  "file": "s-mode-b3-s26.mp3",
+  "text": "Lift the lamp to the desk.",
+  "ms": 1873,
+  "sha256": "3caf435897234bc4b1a91e23a4b44a5951b283ac1013ae541597b04f6daf2b85",
+  "round": "sentence batch 3 (2026-08-13)",
+  "verdict": "perfect",
+  "level": "Level 10"
+ },
+ "s:mode-b3-s27": {
+  "file": "s-mode-b3-s27.mp3",
+  "text": "The best nest is soft.",
+  "ms": 1788,
+  "sha256": "3dc8dabfc19e1dbc07d538c27a7d007ad17fc7b4a131f6a6684a7acf0ac9ff42",
+  "round": "sentence batch 3 (2026-08-13)",
+  "verdict": "perfect",
+  "level": "Level 10"
+ },
+ "s:mode-b3-s28": {
+  "file": "s-mode-b3-s28.mp3",
+  "text": "My twin can swim fast.",
+  "ms": 1916,
+  "sha256": "b938ffb0792dd133ca8ccaf212424ed229c24e4fb06e7b94d2c4d775ea172fd7",
+  "round": "sentence batch 3 (2026-08-13)",
+  "verdict": "perfect",
+  "level": "Level 11"
+ },
+ "s:mode-b3-s29": {
+  "file": "s-mode-b3-s29.mp3",
+  "text": "The sled is on the flat sand.",
+  "ms": 2022,
+  "sha256": "362ecdcc52a138f5ddf718b99fe621a823d7502e603001f1bd063b8ea7793563",
+  "round": "sentence batch 3 (2026-08-13)",
+  "verdict": "perfect",
+  "level": "Level 11"
+ },
+ "s:mode-b3-s30": {
+  "file": "s-mode-b3-s30.mp3",
+  "text": "Stop and grab my hand.",
+  "ms": 1980,
+  "sha256": "c4a3db0b9790e58638083be874b29d7438fcee0b415730797a86d82e67be5094",
+  "round": "sentence batch 3 (2026-08-13)",
+  "verdict": "perfect",
+  "level": "Level 11"
+ },
+ "s:mode-b3-s31": {
+  "file": "s-mode-b3-s31.mp3",
+  "text": "The pup is snug in my lap.",
+  "ms": 1916,
+  "sha256": "4b9ae06140d749379b496b34ca11e7e880130d15fdabd91ab4d23ce21f362582",
+  "round": "sentence batch 3 (2026-08-13)",
+  "verdict": "perfect",
+  "level": "Level 11"
+ },
+ "s:soundout-2": {
+  "file": "s-soundout-2.mp3",
+  "text": "Let's sound out one word together.",
+  "ms": 2300,
+  "sha256": "a728972462d88f1f31ea7d41a1e5205a95509721594430c97d997d29dac1eac2",
+  "round": "sound-out lines (2026-08-13)",
+  "verdict": "perfect",
+  "level": "the sentence reveal's invitation (SPEC section 12)"
+ },
+ "s:soundout-3": {
+  "file": "s-soundout-3.mp3",
+  "text": "Here is one word to sound out.",
+  "ms": 2022,
+  "sha256": "33af1c57cf8a65e0357e8976cd5868ea85552e56f512dd72910cc386890fbed6",
+  "round": "sound-out lines (2026-08-13)",
+  "verdict": "perfect",
+  "level": "the sentence reveal's invitation (SPEC section 12)"
  }
 }
