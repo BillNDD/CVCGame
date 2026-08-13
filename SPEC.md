@@ -825,11 +825,23 @@ sentences are made of the words that level teaches.
    and celebrates and schedules nothing — which is what a sentence does inside a session
    anyway, by point 3 above.
 
-   **One thing this needs that a session does not, and it is not assumed here.** Inside a
+   **The one thing this needs that a session does not — RULED 2026-08-13.** Inside a
    session the word that gets the automatic sound-out is *the word the level teaches*. A
-   free-play sentence has no such word, so the app must choose one — the longest, the one
-   with the most tiles, a random content word, or none at all with every word left to the
-   child's tap. That choice is the owner's and is unmade.
+   free-play sentence has no such word, so the app must choose one. Four were costed and
+   put to the owner: the longest word, none at all with every word left to the child's tap,
+   a random content word, and the child's own level word. The owner chose **the longest
+   word, counted in SOUND TILES rather than letters**, and the first one when two tie.
+
+   Tiles rather than letters because tiles are the thing being taught: "ship" is four
+   letters and three sounds, and a child taking it apart meets three pieces. And it is
+   STABLE — the same sentence teaches the same word every time a child meets it, which is
+   the rule the session reveal already follows, and the reason the random option was
+   refused.
+
+   **Built 2026-08-13.** The chooser's third control, "📖 Sentences", serves every sentence
+   up to and including the child's level, endlessly, with the same reveal a session gives.
+   One earlier is practice they have earned; one later is the guessing exercise the
+   decodability rule exists to prevent. Nothing is recorded and no grade control is live.
 
 What this costs, and none of it is done: `a` needs a listening round, being a word the game
 has never spoken. `the` and `and` have approved clips already. Every level object grows a

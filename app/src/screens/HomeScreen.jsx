@@ -12,8 +12,8 @@ function FreePlayChooser({ level, L, onChoose, onCancel }) {
   return (
     <Modal title="Free play" onClose={onCancel}>
       <p style={{ margin: "0 0 14px", fontSize: 14.5, color: C.ink2, lineHeight: 1.5 }}>
-        Grown-up: which words? Truly random serves any word from all 440 — easy and
-        hard alike. Nothing is saved in free play either way.
+        Grown-up: words or sentences? Truly random serves any word from all 440 — easy and
+        hard alike. Nothing is saved in free play, whichever you pick.
       </p>
       <div style={{ display: "grid", gap: 8 }}>
         <button className="wq-cta" onClick={() => onChoose("random")}>🎲 Truly random</button>
@@ -23,6 +23,14 @@ function FreePlayChooser({ level, L, onChoose, onCancel }) {
         <button className="wq-cta" onClick={() => onChoose("level")}
           style={{ background: "#fff", color: C.ink, border: "2px solid " + C.ink2, boxShadow: "none" }}>
           🎯 Level {level} {L.emoji} words
+        </button>
+        {/* Sentences (SPEC section 12 point 7, owner-ruled 2026-08-13). It
+            serves every sentence up to and including this level, so a child
+            can practise reading them without a session — and, like every
+            other free-play choice, records nothing. */}
+        <button className="wq-cta" onClick={() => onChoose("sentences")}
+          style={{ background: "#fff", color: C.ink, border: "2px solid " + C.ink2, boxShadow: "none" }}>
+          📖 Sentences
         </button>
         <button className="wq-btn-plain" onClick={onCancel} style={{ justifySelf: "center" }}>Back</button>
       </div>

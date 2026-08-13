@@ -124,6 +124,13 @@ function SessionBody({ sentence, openWord, onTapWord, endSentence,
   );
 }
 
+/* What free play is counting. Sentences are not words, and a child who has
+   read four sentences being told "4 words" is being told something untrue
+   about their own reading. */
+const countLabel = (fpMode, n) => (fpMode === "sentences"
+  ? (n === 1 ? " sentence" : " sentences")
+  : (n === 1 ? " word" : " words"));
+
 /* The header row. Split from the screen at the G6 complexity ceiling — the
    same door the stage and the rail left by; the rendered output is identical. */
 function SessionHeader({ onExitAsk, freePlay, fpCount, fpMode, answered, totalQ, state, L }) {
@@ -138,7 +145,7 @@ function SessionHeader({ onExitAsk, freePlay, fpCount, fpMode, answered, totalQ,
       </div>
       {/* P2-9 — precise count, promoted into the header at tabular mono */}
       <span className="wq-mono" style={{ fontSize: 14, fontWeight: 800, color: C.ink }}>
-        {freePlay ? fpCount + (fpCount === 1 ? " word" : " words") : answered + "/" + totalQ}</span>
+        {freePlay ? fpCount + countLabel(fpMode, fpCount) : answered + "/" + totalQ}</span>
       {/* Truly random free play serves every level at once, so the level
           chip would be a false statement there. The dice says what is true,
           and carries a name a screen reader can say. */}
