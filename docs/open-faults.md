@@ -829,44 +829,71 @@ label rendered at four times its intended size by an invalid `font:` shorthand, 
 the home screen falling behind one another. Both were content-and-layout faults on a screen
 no measurement was watching.
 
-### G3b. The census rebuild — nine findings from the third audit round, 2026-08-13
+### G3b. The census rebuild — the third audit round's findings, CLOSED 2026-08-13
 
-Items 2 to 8 of the build spec are still unbuilt; these are faults in the foundation laid for
-them, all proved by planting in a clone. Ten of the auditor's thirteen standing plants now go
-red. These are the ones that do not.
+Nine findings, all from planting in a clone, and a tenth found while fixing them. Every one
+is closed, each with the fault planted again afterwards and the control watched to go red:
+**18 plants, 18 killed.** The record of what was built is in `docs/testing-gauntlet.md`; what
+follows is only what the faults were, because a fault fixed without its cause written down is
+a fault that comes back.
 
-- **The z-index control cannot see the overlay it was written for.** Its rule-splitting regex
-  cannot cross a `${...}` template interpolation, and every colour in `app/src/wq-css.js` is
-  one. It reaches 71% of the file and exactly one rule at or above the overlay threshold. The
-  invisible one is `z-index: 70` — `.wq-toast`, the exact rule the control was written to catch.
-  It passes because it matched nothing. Also out of scope: `app/src/styles.css` and any inline
-  `style={{ zIndex }}`.
-- **`test.fail()` turns a broken app into "1 passed", exit 0.** `judge()` compares status with
-  `expectedStatus`, and `test.fail` sets the expectation to failure. `forbidOnly` has no
-  equivalent for it. A one-line E3 bypass that survives both the runner and the gate built to
-  police the runner.
-- **A badge added as a control's own `::after` reads "B NEW ssion" and nothing fires.**
+- **The z-index control could not see the overlay it was written for.** Its rule-splitting
+  regex could not cross a `${...}` template interpolation, and every colour in
+  `app/src/wq-css.js` is one — so it reached 71% of the file and exactly one rule at or above
+  the overlay threshold. The invisible one was `.wq-toast` at `z-index: 70`, the exact rule the
+  control existed to catch. It passed because it matched nothing. Comments are now stripped
+  before interpolations are blanked (the comment above `.wq-toast` was being read as part of
+  its selector, which the first fix discovered by reporting the rule under six names, none of
+  them `.wq-toast`), a second cell asserts that the parser reaches EVERY z-index the file
+  declares before the verdict is trusted, and a third refuses a z-index in any other app source.
+- **`test.fail()` turned a broken app into "1 passed", exit 0.** `judge()` compared status with
+  `expectedStatus`, and `test.fail` sets the expectation to failure; `forbidOnly` has no
+  equivalent. Any cell that expects to fail is now refused by name (E3).
+- **A badge added as a control's own `::after` read "B NEW ssion" and nothing fired.**
   `elementFromPoint` returns the originating element for a pseudo-element, so the five-point
-  sample scores zero, and `::after` is not in the DOM so the overlap scan cannot see it. The
-  shipped control plants a real `<div>` for the same reading and passes.
+  sample scored zero, and `::after` is not in the DOM so the overlap scan could not see it.
+  There is a third scan now, `pseudo-overlay`, which asks about paint rather than geometry
+  because each engine resolves a pseudo-element's size differently and item 1 puts this census
+  on three of them.
 - **Naming `.wq-toast` as an overlay suppressed the class, not the false positives.** A toast
-  that completely buries the "Ready to read?" line and the whole level card is now reported by
-  nothing. The fix removed the finding rather than the false positive.
-- **The census floors are outside E6 and their self-test is E4-illegal.** `FLOOR` in
-  `tools/census-report.mjs` is built into its own fixtures, so lowering it to `{controls: 2}`
-  still passes 11 of 11. There are no census keys in `.claude/gate-baseline.json`.
-- **The report gate is opt-in and unbound.** `npm run census` never calls it; the gauntlet never
-  calls it; any `--reporter=` override skips writing the file it reads. It was observed judging
-  a ninety-minute-old report from a different config as if it were the run just made.
-- **Staleness watches the sources, not the bundle.** The census measures `app/dist` through
-  `vite preview`. Editing a source and NOT rebuilding leaves the gate silent, and the
-  documented fast path does not build. `tools/`, `tests/census/` and `playwright.config.mjs`
-  are unwatched too.
-- **The iOS paragraph's control asserts the constant, not the output.** Deleting the line that
-  prints it leaves 11 of 11 green. And `metadata.engine` has no producer, so the coverage
-  statement will say `NOT DECLARED` until item 1 sets it.
-- **Both census spec files misstate their own counts** — "SEVEN detectors" against 18 cells,
-  and `missing` listed as having no control when it has one.
+  burying the "Ready to read?" line and the whole level card was reported by nothing. There are
+  two lists now: the modal boundary, which a toast is not on, and the overlay list, which it is.
+  What a toast covers is reported into the run's attachments rather than asserted, because a
+  toast floats over live content on purpose.
+- **The census floors were outside E6 and their self-test was E4-illegal.** `FLOOR` was built
+  into its own fixtures, so lowering it to `{controls: 2}` still passed 11 of 11. The floors are
+  `census_controls` and `census_cells` in `.claude/gate-baseline.json` now, and the controls
+  assert them against literals.
+- **The report gate was opt-in and unbound.** `npm run census` now deletes the previous report,
+  then runs the gate whatever the runner's exit code was; a report from another config is
+  refused by name. The gauntlet still does not call it, and that stays deliberate.
+- **Staleness watched the sources, not the bundle.** The census measures `app/dist` through
+  `vite preview`, so editing a source without rebuilding left the gate silent. `app/dist`,
+  `tools/ux-census.mjs`, `tests/census/` and `playwright.config.mjs` are watched now, and the
+  walker takes a plain file as a root — three of the seven are files, and `readdirSync` throws
+  on those, so the directory-only version would have watched nothing through them.
+- **The iOS paragraph's control asserted the constant, not the output.** Deleting the line that
+  printed it left 11 of 11 green. The whole report is rendered by one function now and the
+  control reads what a person would see. `metadata.engine` has a producer, so the coverage
+  statement states the engine instead of guessing from the project name.
+- **Both census spec files misstated their own counts** — "SEVEN detectors" against 18 cells,
+  with `missing` listed as uncovered a hundred lines above its own control. The last cell in
+  the controls file counts the file.
+- **The tenth, found while fixing the nine:** `tools/ux-census.mjs` documented four commands —
+  `--benchmark`, `--run`, `--shard`, `--self-test` — and the file has no main path at all. None
+  of them had ever existed. A header naming four commands nobody can run is a control that
+  cannot fail, written in prose.
+
+**Two of my own repairs failed their first planting, and both are worth keeping in view.** The
+control for "the tool still prints the report it renders" searched the whole source for the
+literal `console.log(render(` — which that very line contains, so it found itself and stayed
+green while the real call site was replaced. That is the shape this whole section is about,
+made once more in the act of fixing it. And every staleness fixture injected its own clock, so
+the list of watched roots was never exercised: removing `app/dist` from it left all nineteen
+controls green.
+
+**Items 2 to 8 of the build spec remain unbuilt.** This entry was the foundation under them,
+not the work itself.
 
 ### G4. E11 is a rule with only one mechanical helper — BUILT 2026-08-13
 

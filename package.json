@@ -30,7 +30,7 @@
     "check:voice-edges": "python3 tools/voice-edges.py --check && python3 tools/voice-edges.py --self-test",
     "check:timings": "kokoro-env/bin/python tools/phoneme_timings.py --self-test",
     "check:sounds-agree": "kokoro-env/bin/python tools/sound_agreement.py --self-test && kokoro-env/bin/python tools/sound_agreement.py",
-    "census": "node tools/extract-engine.mjs && npm --prefix app run build && playwright test --config playwright.config.mjs",
+    "census": "node tools/extract-engine.mjs && rm -f .census/report.json && npm --prefix app run build && { playwright test --config playwright.config.mjs || true; } && node tools/census-report.mjs",
     "census:controls": "node tools/extract-engine.mjs && npm --prefix app run build && playwright test --config playwright.config.mjs tests/census/controls.spec.mjs",
     "census:report": "node tools/census-report.mjs"
   },

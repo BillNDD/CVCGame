@@ -2,7 +2,11 @@
  *
  * 44 words covering all 29 layout-risk classes in the bank, across 7 viewports:
  * 329 cells from this file — 44 word cases plus 3 screen cases, each on 7
- * viewports — and 9 more from the controls, which run on one. Each cell stages a NAMED word through the app's own free-play
+ * viewports — and 19 more from the controls, which run on one. Every number in
+ * that sentence is asserted in tests/census/controls.spec.mjs rather than
+ * typed and trusted: it read "9 more from the controls" while 18 ran, which is
+ * how a document stops describing the thing it names.
+ * Each cell stages a NAMED word through the app's own free-play
  * chooser, checks the prompt, grades it the way a grown-up does, and checks the
  * reveal. Both states are inspected for the whole list in one pass.
  *
@@ -50,10 +54,17 @@ for (const [which, open, mustBeVisible, mustExist] of [
     await page.goto("/", { waitUntil: "load" });
     await open(page);
     await page.waitForTimeout(200);
-    const { findings, aria, unclassified } = await inspect(page, viewport, which, { mustBeVisible: mustBeVisible || undefined, mustExist });
+    const { findings, aria, unclassified, covered } = await inspect(page, viewport, which, { mustBeVisible: mustBeVisible || undefined, mustExist });
     await testInfo.attach("aria", { body: aria, contentType: "text/plain" });
     if (unclassified.length)
       await testInfo.attach("controls with no size class", { body: unclassified.join("\n"), contentType: "text/plain" });
+    /* Reported, never asserted: a toast floats over live content on purpose,
+       so what it buries is a fact a person should read rather than a defect
+       that reddens a cell. Naming it an overlay instead — which is what was
+       done on 2026-08-12 — removed the finding rather than the false
+       positive. */
+    if (covered.length)
+      await testInfo.attach("what a toast covered", { body: covered.join("\n"), contentType: "text/plain" });
     for (const f of findings) expect.soft(f, `${f.kind}: ${f.detail}`).toBeUndefined();
     expect.soft(errors, "the page reported errors").toEqual([]);
   });
@@ -116,6 +127,8 @@ for (const c of CASES) {
       await testInfo.attach("aria", { body: reveal.aria, contentType: "text/plain" });
       if (reveal.offScreen.length)
         await testInfo.attach("controls below the fold", { body: reveal.offScreen.join("\n"), contentType: "text/plain" });
+      if (reveal.covered.length)
+        await testInfo.attach("what a toast covered", { body: reveal.covered.join("\n"), contentType: "text/plain" });
 
       for (const f of reveal.findings) expect.soft(f, `[reveal] ${f.kind}: ${f.detail}`).toBeUndefined();
 

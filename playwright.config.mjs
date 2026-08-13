@@ -67,7 +67,13 @@ export default defineConfig({
     {
       name: "controls",
       testMatch: /controls\.spec\.mjs/,
-      metadata: { role: "negative-controls" },
+      /* THE ENGINE IS DECLARED, NOT INFERRED FROM THE NAME. The coverage
+         paragraph in tools/census-report.mjs used to split the project name on
+         "-" and print "Engines: phone, tablet, narrow, desktop" — the one
+         paragraph whose whole job is to state honestly what did NOT run,
+         stating it falsely. It reads this instead, and says NOT DECLARED when
+         a project omits it. Item 1 of the build spec adds firefox and webkit. */
+      metadata: { role: "negative-controls", engine: "chromium" },
       use: {
         viewport: { width: VIEWPORTS[0].width, height: VIEWPORTS[0].height },
         hasTouch: VIEWPORTS[0].touch, isMobile: VIEWPORTS[0].touch,
@@ -76,7 +82,7 @@ export default defineConfig({
     ...VIEWPORTS.map((v) => ({
       name: v.name,
       testIgnore: /controls\.spec\.mjs/,
-      metadata: { role: "census" },
+      metadata: { role: "census", engine: "chromium" },
       use: { viewport: { width: v.width, height: v.height }, hasTouch: v.touch, isMobile: v.touch },
     })),
   ],

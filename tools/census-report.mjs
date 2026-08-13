@@ -11,9 +11,12 @@
  *
  * So this reads the runner's own JSON and REFUSES a run that:
  *   - carried no negative-control project at all;
- *   - ran fewer controls than the floor below;
+ *   - ran fewer controls or fewer cells than the floors in the baseline;
  *   - has any failed cell, including a soft-assertion failure;
- *   - skipped cells without saying why.
+ *   - contains a cell that EXPECTS to fail — test.fail() is a one-line E3
+ *     bypass that the runner reports as a pass;
+ *   - skipped cells without saying why;
+ *   - was produced by some other config, or predates the build it judges.
  *
  * It also prints the coverage statement, because a census reports what it did
  * NOT look at as plainly as what it did. "0 findings" over three viewports and
@@ -21,15 +24,34 @@
  *
  * Run: npm run census:report      Controls: npm run census:report -- --self-test
  */
-import { readFileSync, existsSync, statSync, readdirSync } from "node:fs";
+import { readFileSync, writeFileSync, existsSync, statSync, readdirSync, mkdtempSync, rmSync } from "node:fs";
 import { join } from "node:path";
+import { tmpdir } from "node:os";
 
 const REPORT = ".census/report.json";
-/* Floors, raised when the counts grow, never lowered (E6). */
-const FLOOR = { controls: 17, cells: 300 };
+const BUNDLE = "app/dist";
+const CONFIG = "playwright.config.mjs";
+
+/* THE FLOORS LIVE IN THE BASELINE, LIKE EVERY OTHER FLOOR IN THIS REPOSITORY
+   (E6). They used to be a literal in this file and built into this file's own
+   fixtures, so an auditor lowered them to {controls: 2} and all eleven controls
+   still passed — a floor that moves with the thing it measures is not a floor.
+   The self-test now asserts the baseline's values against literals (E4), so
+   lowering one goes red here AND shows as a diff in an owner-visible file. */
+const BASE = JSON.parse(readFileSync(new URL("../.claude/gate-baseline.json", import.meta.url), "utf8"));
+const FLOOR = { controls: BASE.census_controls, cells: BASE.census_cells };
 const CONTROL_PROJECT = "controls";
 /* Reasons a cell may legitimately skip. Anything else is a coverage hole. */
 const DECLARED_SKIPS = ["CDP is Chromium-only", "engine not installed"];
+
+/* Everything the census's answer depends on. It watched app/src and app/public
+   and NOT app/dist — but the census measures the BUILT bundle through vite
+   preview, so editing a source and not rebuilding left this gate silent about
+   a report that described a different app. The census's own machinery is here
+   too: change a detector or a viewport and the last run is no longer about
+   this census. */
+const WATCHED = ["app/dist", "app/src", "app/public", "src", "reference",
+                 "tools/ux-census.mjs", "tests/census", CONFIG];
 
 /* WebKit on Linux is the same engine core as iOS Safari, not the same build.
    The install guide tells a parent to use an iOS home screen, so this sentence
@@ -67,21 +89,19 @@ function cells(report) {
   return out;
 }
 
-/* The newest moment any source the census measures was touched. */
-function newestSource(roots = ["app/src", "app/public", "src", "reference"]) {
+/* The newest moment anything the census's answer depends on was touched. */
+function newestSource(roots = WATCHED) {
   let newest = 0, where = "";
-  const walk = (dir) => {
-    let entries = [];
-    try { entries = readdirSync(dir, { withFileTypes: true }); } catch { return; }
-    for (const e of entries) {
-      const full = join(dir, e.name);
-      if (e.isDirectory()) { walk(full); continue; }
-      const m = statSync(full).mtimeMs;
-      if (m > newest) { newest = m; where = full; }
-    }
+  const stamp = (path) => { const m = statSync(path).mtimeMs; if (m > newest) { newest = m; where = path; } };
+  const walk = (path) => {
+    let entries;
+    try { entries = statSync(path).isDirectory() ? readdirSync(path, { withFileTypes: true }) : null; }
+    catch { return; }
+    if (!entries) return stamp(path);
+    for (const e of entries) walk(join(path, e.name));
   };
   for (const r of roots) walk(r);
-  return { newest, where };
+  return { newest, where, bundle: existsSync(BUNDLE) };
 }
 
 function judge(report, now = newestSource()) {
@@ -104,6 +124,15 @@ function judge(report, now = newestSource()) {
   else if (now.newest > started)
     problems.push(`the census started ${new Date(started).toISOString()} but ${now.where} changed afterwards`
       + " — this report is about an older build. Re-run the census.");
+  if (!now.bundle)
+    problems.push(`there is no ${BUNDLE} — the census serves the built bundle, so nothing here was measured against one`);
+  /* WHICH RUN IS THIS. The gate was observed judging a ninety-minute-old
+     report produced by a different config as if it were the run just made,
+     because nothing tied the file to the census. */
+  const from = String(report.config?.configFile || "");
+  if (!from.endsWith(CONFIG))
+    problems.push(`this report was produced by ${from || "an unrecorded config"}, not by ${CONFIG}`);
+
   const controls = all.filter((c) => c.project === CONTROL_PROJECT);
   const census = all.filter((c) => c.project !== CONTROL_PROJECT);
   const failed = all.filter((c) => c.status !== c.expected && c.status !== "skipped");
@@ -117,6 +146,13 @@ function judge(report, now = newestSource()) {
   if (census.length < FLOOR.cells)
     problems.push(`${census.length} census cells ran, floor ${FLOOR.cells}`);
   for (const f of failed) problems.push(`FAILED ${f.project} › ${f.title}: ${f.errors[0] || f.status}`);
+  /* THE ONE-LINE E3 BYPASS. test.fail() sets the cell's expectation to failure,
+     so a broken app reports "1 passed", exit 0 — and the comparison above,
+     which asks whether the status matched the EXPECTATION, agrees with it.
+     forbidOnly has no equivalent. Nothing in this census may expect to fail. */
+  const inverted = all.filter((c) => c.expected !== "passed");
+  for (const c of inverted)
+    problems.push(`${c.project} › ${c.title} expects "${c.expected}" — test.fail() makes a broken app read as a pass (E3)`);
   /* The config says "a flaky pass is a finding, not a pass". Nothing read it. */
   if (report.stats?.flaky) problems.push(`${report.stats.flaky} cell(s) passed only on a retry, and the config sets retries to 0`);
   /* A SKIP DECLARES ITSELF. Item 5 of the build spec puts the CDP conditions -
@@ -129,69 +165,170 @@ function judge(report, now = newestSource()) {
   if (undeclared.length)
     problems.push(`${undeclared.length} cell(s) skipped with no declared reason — a skip is a coverage hole until it says why`);
 
-  return { all, controls, census, failed, skipped, projects, problems };
+  /* FROM METADATA, NOT FROM A NAME. Splitting the project name on "-" printed
+     "Engines: phone, tablet, narrow, desktop" - the one paragraph whose whole
+     job is to state coverage honestly, stating it falsely, and by exactly the
+     mechanism that cost the controls their project. */
+  const engines = [...new Set((report.config?.projects || []).map((p) => p.metadata?.engine).filter(Boolean))];
+
+  return { all, controls, census, failed, skipped, projects, engines, problems };
+}
+
+/* THE WHOLE OUTPUT, AS TEXT. It used to be a run of console.log calls, and the
+   control for the iOS paragraph asserted the CONSTANT rather than anything the
+   tool printed - so deleting the line that printed it left 11 of 11 green. The
+   report is built here and printed in one place, so a control can read what a
+   person would actually see. */
+function render(j) {
+  const out = [];
+  out.push("", "=== CENSUS REPORT ===", "");
+  out.push(`Cells:     ${j.all.length}  (${j.census.length} census, ${j.controls.length} negative controls)`);
+  out.push(`Failed:    ${j.failed.length}     Skipped: ${j.skipped.length}`);
+  out.push(`Projects:  ${j.projects.length} — ${j.projects.join(", ")}`);
+  out.push("", "WHAT THIS RUN DID NOT LOOK AT:");
+  out.push(`  Engines: ${j.engines.length ? j.engines.join(", ") : "NOT DECLARED — no project states its engine"}`);
+  if (!j.engines.includes("webkit")) out.push("  WebKit did not run at all in this report.");
+  out.push(`  ${IOS}`);
+  out.push("  It cannot settle whether the voice is right, whether a child understands the screen,");
+  out.push("  whether a colour is pleasant, or whether the game works on a real iPad in a real kitchen.");
+  if (j.problems.length) {
+    out.push("", "PROBLEMS:");
+    for (const p of j.problems) out.push("  " + p);
+    out.push("", `Census report: ${j.problems.length} problem(s)`);
+  } else {
+    out.push("", "Census report: 0 problems");
+  }
+  return out.join("\n");
 }
 
 function selfTest() {
   const ok = [];
-  const cell = (project, title, status = "passed") => ({
-    title, tests: [{ projectName: project, expectedStatus: "passed", results: [{ status, errors: [] }] }],
+  const cell = (project, title, status = "passed", expected = "passed") => ({
+    title, tests: [{ projectName: project, expectedStatus: expected, results: [{ status, errors: [] }] }],
   });
   /* A fixture is dated AFTER the sources it judges, because a report that
      predates the code is the fault being controlled, not the baseline. */
-  const FRESH = { newest: 1000, where: "app/src/App.jsx" };
-  const build = (specs, stats = {}) =>
-    ({ stats: { startTime: new Date(2000).toISOString(), ...stats }, suites: [{ specs }] });
+  const FRESH = { newest: 1000, where: "app/src/App.jsx", bundle: true };
+  const build = (specs, stats = {}, config = {}) => ({
+    stats: { startTime: new Date(2000).toISOString(), ...stats },
+    config: { configFile: `/repo/${CONFIG}`, projects: [{ metadata: { engine: "chromium" } }], ...config },
+    suites: [{ specs }],
+  });
   const many = (project, n, status = "passed") =>
     Array.from({ length: n }, (_, i) => cell(project, `cell ${i}`, status));
 
-  const good = build([...many(CONTROL_PROJECT, FLOOR.controls), ...many("desktop", FLOOR.cells)]);
+  /* LITERALS, NOT THE CONSTANT UNDER TEST (E4). Every fixture below is sized
+     from these two numbers, so they cannot be the floors themselves — that is
+     precisely the fault an auditor exploited by lowering FLOOR to {controls: 2}
+     and watching every control still pass. */
+  const CONTROLS = 24, CELLS = 329;
+  ok.push(["the baseline states the floors this file was written against",
+    FLOOR.controls === CONTROLS && FLOOR.cells === CELLS]);
+
+  const good = build([...many(CONTROL_PROJECT, CONTROLS), ...many("desktop", CELLS)]);
   ok.push(["a full run with every control is accepted", judge(good, FRESH).problems.length === 0]);
 
   /* The fault an auditor produced by deleting the controls project: cells ran,
      nothing was proved, exit 0. */
-  const noControls = build(many("desktop", FLOOR.cells));
+  const noControls = build(many("desktop", CELLS));
   ok.push(["a run with NO negative-control project is refused",
     judge(noControls, FRESH).problems.some((p) => p.includes("proved nothing about its own detectors"))]);
 
-  const fewControls = build([...many(CONTROL_PROJECT, FLOOR.controls - 1), ...many("desktop", FLOOR.cells)]);
+  const fewControls = build([...many(CONTROL_PROJECT, CONTROLS - 1), ...many("desktop", CELLS)]);
   ok.push(["a run that lost a control is refused",
-    judge(fewControls, FRESH).problems.some((p) => p.includes("floor " + FLOOR.controls))]);
+    judge(fewControls, FRESH).problems.some((p) => p.includes("floor " + CONTROLS))]);
 
-  const shortCensus = build([...many(CONTROL_PROJECT, FLOOR.controls), ...many("desktop", 10)]);
+  const shortCensus = build([...many(CONTROL_PROJECT, CONTROLS), ...many("desktop", 10)]);
   ok.push(["a run that examined almost nothing is refused",
     judge(shortCensus, FRESH).problems.some((p) => p.includes("census cells ran"))]);
 
-  const oneFailed = build([...many(CONTROL_PROJECT, FLOOR.controls), ...many("desktop", FLOOR.cells - 1),
+  const oneFailed = build([...many(CONTROL_PROJECT, CONTROLS), ...many("desktop", CELLS - 1),
     cell("desktop", "a cell that failed", "failed")]);
   ok.push(["a failed cell is refused", judge(oneFailed, FRESH).problems.some((p) => p.startsWith("FAILED"))]);
 
-
+  /* test.fail(): the app breaks, the runner says "1 passed", exit 0. */
+  const inverted = build([...many(CONTROL_PROJECT, CONTROLS), ...many("desktop", CELLS - 1),
+    cell("desktop", "a cell that expects to fail", "failed", "failed")]);
+  ok.push(["a cell that EXPECTS to fail is refused, however green the runner calls it",
+    judge(inverted, FRESH).problems.some((p) => p.includes("test.fail()"))]);
 
   /* The auditor's plant: a green census, then the app broken, and no re-run. */
-  const stale = build([...many(CONTROL_PROJECT, FLOOR.controls), ...many("desktop", FLOOR.cells)]);
+  const stale = build([...many(CONTROL_PROJECT, CONTROLS), ...many("desktop", CELLS)]);
   ok.push(["a report older than the code it judges is refused",
-    judge(stale, { newest: 9999, where: "app/src/wq-css.js" }).problems
+    judge(stale, { newest: 9999, where: "app/src/wq-css.js", bundle: true }).problems
       .some((p) => p.includes("changed afterwards"))]);
   ok.push(["a report with no start time at all is refused",
-    judge({ suites: stale.suites }, FRESH).problems.some((p) => p.includes("no start time"))]);
+    judge({ ...stale, stats: {} }, FRESH).problems.some((p) => p.includes("no start time"))]);
+  ok.push(["a run with no built bundle to measure is refused",
+    judge(stale, { ...FRESH, bundle: false }).problems.some((p) => p.includes("no app/dist"))]);
+  ok.push(["a report produced by some other config is refused",
+    judge(build([...many(CONTROL_PROJECT, CONTROLS), ...many("desktop", CELLS)], {},
+      { configFile: "/repo/some-other.config.mjs" }), FRESH).problems
+      .some((p) => p.includes("some-other.config.mjs"))]);
 
-  const flaky = build([...many(CONTROL_PROJECT, FLOOR.controls), ...many("desktop", FLOOR.cells)], { flaky: 2 });
+  const flaky = build([...many(CONTROL_PROJECT, CONTROLS), ...many("desktop", CELLS)], { flaky: 2 });
   ok.push(["a cell that passed only on a retry is refused, as the config promises",
     judge(flaky, FRESH).problems.some((p) => p.includes("only on a retry"))]);
 
-  const declared = build([...many(CONTROL_PROJECT, FLOOR.controls), ...many("desktop", FLOOR.cells),
+  const declared = build([...many(CONTROL_PROJECT, CONTROLS), ...many("desktop", CELLS),
     { title: "a condition cell", tests: [{ projectName: "desktop", expectedStatus: "passed",
       annotations: [{ description: "CDP is Chromium-only" }], results: [{ status: "skipped", errors: [] }] }] }]);
   ok.push(["a skip that declares its reason is counted, not refused",
     judge(declared, FRESH).problems.length === 0]);
-  const undeclared = build([...many(CONTROL_PROJECT, FLOOR.controls), ...many("desktop", FLOOR.cells),
+  const undeclared = build([...many(CONTROL_PROJECT, CONTROLS), ...many("desktop", CELLS),
     cell("desktop", "a cell that skipped", "skipped")]);
   ok.push(["a skip with no reason is still a coverage hole",
     judge(undeclared, FRESH).problems.some((p) => p.includes("no declared reason"))]);
 
-  ok.push(["the iOS sentence is not softened",
-    IOS.includes("NOT the same build") && IOS.includes("No run on this machine is evidence about an iPad")]);
+  /* THE OUTPUT A PERSON READS, not the constant behind it. Deleting the line
+     that prints the iOS paragraph used to leave every control green. */
+  const printed = render(judge(good, FRESH));
+  ok.push(["the printed report carries the iOS sentence, in the words that do not soften it",
+    printed.includes("NOT the same build") && printed.includes("No run on this machine is evidence about an iPad")]);
+  ok.push(["the printed report states the engines from the run's own metadata",
+    printed.includes("Engines: chromium")]);
+  const noEngine = build([...many(CONTROL_PROJECT, CONTROLS), ...many("desktop", CELLS)], {}, { projects: [{}] });
+  ok.push(["a run whose projects declare no engine says so, rather than guessing from a name",
+    render(judge(noEngine, FRESH)).includes("NOT DECLARED")]);
+  ok.push(["the printed report carries the problems, not just the exit code",
+    render(judge(noControls, FRESH)).includes("proved nothing about its own detectors")]);
+  /* And that the tool prints it. A report nothing prints is a report nobody
+     reads, and no fixture above would notice.
+     TWO GUARDS, because the first version of this control could not fail: it
+     searched the whole source for the literal "console.log(render(" — which
+     that very line contains, so it found itself and stayed green while the
+     real call site was replaced with `void render(judgement)`. That is the
+     "a control must not take its pass condition from the thing it is checking"
+     shape, made once more in the act of fixing it elsewhere. So the needle is
+     assembled from two pieces that never appear joined in this file, and only
+     the main path below the self-test is searched. */
+  const src = readFileSync(new URL("./census-report.mjs", import.meta.url), "utf8");
+  const main = src.slice(src.lastIndexOf("if (process.argv.includes"));
+  ok.push(["the tool still prints the report it renders", main.includes("console.log(" + "render(judgement))")]);
+
+  /* THE ROOTS THEMSELVES. Every staleness fixture above injects `now`, so none
+     of them touches the list of things being watched — an auditor removed
+     app/dist from it and all nineteen controls stayed green. app/dist is the
+     one that matters: the census serves the BUILT bundle through vite preview,
+     so a source edit with no rebuild is invisible unless the bundle is watched. */
+  for (const root of ["app/dist", "app/src", "app/public", "src", "tools/ux-census.mjs",
+                      "tests/census", "playwright.config.mjs"])
+    ok.push([`the staleness scan watches ${root}`, WATCHED.includes(root)]);
+  /* And that the walker can read them. Three of the roots are single FILES,
+     and readdirSync throws on a file — the version that only walked
+     directories would have watched nothing at all through those three. */
+  const tmp = mkdtempSync(join(tmpdir(), "census-control-"));
+  writeFileSync(join(tmp, "a.txt"), "x");
+  ok.push(["the staleness walker reads a directory root", newestSource([tmp]).newest > 0]);
+  ok.push(["the staleness walker reads a single-FILE root, which three of the roots are",
+    newestSource([join(tmp, "a.txt")]).newest > 0]);
+  rmSync(tmp, { recursive: true, force: true });
+  /* And that judge() actually calls it. Every fixture passes `now` in, so the
+     default argument — the only path the real run takes — is otherwise
+     untested. The fixture is dated the year 2000; nothing in this repository
+     is that old, so a live scan must call it stale. */
+  ok.push(["judge() reads the real tree when nothing is injected, which is what a real run does",
+    judge(good).problems.some((p) => p.includes("changed afterwards"))]);
 
   for (const [name, pass] of ok) console.log((pass ? "ok   " : "FAIL ") + name);
   const failed = ok.filter(([, p]) => !p).length;
@@ -201,32 +338,6 @@ function selfTest() {
 
 if (process.argv.includes("--self-test")) process.exit(selfTest() ? 1 : 0);
 
-const report = read(REPORT);
-const { all, controls, census, failed, skipped, projects, problems } = judge(report);
-
-console.log("\n=== CENSUS REPORT ===\n");
-console.log(`Cells:     ${all.length}  (${census.length} census, ${controls.length} negative controls)`);
-console.log(`Failed:    ${failed.length}     Skipped: ${skipped.length}`);
-console.log(`Projects:  ${projects.length} — ${projects.join(", ")}`);
-
-console.log("\nWHAT THIS RUN DID NOT LOOK AT:");
-/* FROM METADATA, NOT FROM A NAME. Splitting the project name on "-" printed
-   "Engines: phone, tablet, narrow, desktop" - the one paragraph whose whole job
-   is to state coverage honestly, stating it falsely, and by exactly the
-   mechanism increment 1 removed from the controls. */
-const declared = (report.config?.projects || [])
-  .map((p) => p.metadata?.engine).filter(Boolean);
-const engines = new Set(declared);
-console.log(`  Engines: ${engines.size ? [...engines].join(", ") : "NOT DECLARED — no project states its engine"}`);
-if (!engines.has("webkit")) console.log("  WebKit did not run at all in this report.");
-console.log(`  ${IOS}`);
-console.log("  It cannot settle whether the voice is right, whether a child understands the screen,");
-console.log("  whether a colour is pleasant, or whether the game works on a real iPad in a real kitchen.");
-
-if (problems.length) {
-  console.log("\nPROBLEMS:");
-  for (const p of problems) console.log("  " + p);
-  console.log(`\nCensus report: ${problems.length} problem(s)`);
-  process.exit(1);
-}
-console.log("\nCensus report: 0 problems");
+const judgement = judge(read(REPORT));
+console.log(render(judgement));
+process.exit(judgement.problems.length ? 1 : 0);
