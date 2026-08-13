@@ -37,6 +37,9 @@ This document follows the Microsoft Writing Style Guide.
 with the G6 complexity and file-length ceilings, the dependency-cycle scan, and the quality
 controls), the whole Vitest suite, and the sub-minute gates (G11 copy, G16 doc-truth, G12 QA
 count, G13 voice pack, G17 governing files, G20 effect map), each with its negative controls.
+It also runs the controls of `tools/blast-radius.mjs`, the E11 lookup, which is not a gate and
+never fails a build — but a lookup that has quietly stopped finding things is worse than none,
+so its thirty-five controls (and the fifteen faults planted against them) run here.
 The quality lint was gauntlet-only until 2026-08-12. It cost two defects in one day: a
 `font:` shorthand ending in `inherit`, which its own controls have refused since 2026-07-29,
 shipped a label at four times its intended size; and a file went one over the complexity

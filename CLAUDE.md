@@ -186,9 +186,14 @@ exclusions are recorded in SPEC section 12.
   then does anything discover what depended on it. Write down what you intend to change, then
   walk the gates and say which will move — counts and floors (G1, G13, G20), mutant anchors
   (G5, G19), scenario arithmetic (G3), the documents that state the fact (G16), the copy a
-  parent reads (G11), and the file lists (G17). Check the cheap ones mechanically rather than
-  from memory: `node tools/mutants.mjs --anchors` reports every mutant whose anchor has moved
-  in milliseconds, where finding the same thing through a gauntlet costs twelve minutes and
+  parent reads (G11), and the file lists (G17). Ask the repository rather than remembering:
+  `node tools/blast-radius.mjs --word gob` (also `--count`, `--symbol`, `--text`) lists every
+  tracked file that names the thing — by content and by file name, so a word's clip is not
+  forgotten — classified by what each file IS, with the counts that move, the floors that
+  follow, and the scenarios doing arithmetic on the level size it just computed. It is a
+  lookup, not a gate: it never fails a build and it cannot tell you whether the change is
+  right. `node tools/mutants.mjs --anchors` reports every mutant whose anchor has moved in
+  milliseconds, where finding the same thing through a gauntlet costs twelve minutes and
   usually happens at the worst moment. A gate that goes red AFTER a change is a gate doing its
   job late; the same gate consulted first is a plan. This rule earned itself on its first use:
   it predicted five gates for one small change and the dry run then found a sixth nobody had
@@ -203,8 +208,9 @@ exclusions are recorded in SPEC section 12.
 - E7. Run `npm run check` before every push: the quality lint (ESLint with the complexity and
   file-length ceilings, the dependency-cycle scan, and the quality controls) plus the full test
   suite plus the sub-minute gates (copy, doc-truth, QA count, voice pack, governing files,
-  effect map, and the word-gate island control), about half a minute. A red check blocks the
-  change. The quality lint joined the check on 2026-08-12, owner-ruled, after the gap it left
+  effect map, and the word-gate island control) plus the controls of the E11 lookup
+  (`tools/blast-radius.mjs --self-test`, a fifth of a second), about half a minute. A red
+  check blocks the change. The quality lint joined the check on 2026-08-12, owner-ruled, after the gap it left
   cost two defects in one day: a `font:` shorthand the quality controls have refused since
   2026-07-29 shipped a label at four times its intended size, and a file went over the
   complexity ceiling and was pushed. Both were caught only by the gauntlet, which runs at a

@@ -169,8 +169,8 @@ lives only in a chat log is one this project loses.
 
 ## Before you push
 
-- `npm run check` — the quality lint, the test suite and the sub-minute gates, about half a
-  minute. A red check blocks the change (E7). The quality lint runs first, because it is the
+- `npm run check` — the quality lint, the test suite, the sub-minute gates and the E11
+  lookup's own controls, about half a minute. A red check blocks the change (E7). The quality lint runs first, because it is the
   cheapest thing here and it is the one that refuses a file over the complexity or length
   ceiling; it joined the check on 2026-08-12 after two defects reached a push in one day
   behind the gap it left. It needs Python and NumPy for the word-gate island control; that

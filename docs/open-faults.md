@@ -799,22 +799,36 @@ label rendered at four times its intended size by an invalid `font:` shorthand, 
 the home screen falling behind one another. Both were content-and-layout faults on a screen
 no measurement was watching.
 
-### G4. E11 is a rule with only one mechanical helper
+### G4. E11 is a rule with only one mechanical helper — BUILT 2026-08-13
 
 - **Where** `CLAUDE.md` E11 asks for the gates a change will touch to be named before the edit.
-  Only one part of that is mechanical today: `node tools/mutants.mjs --anchors`, which reports
-  moved mutant anchors in milliseconds and found one nobody had predicted on the rule's first
-  use.
+  Until this was built, only one part of that was mechanical: `node tools/mutants.mjs
+  --anchors`, which reports moved mutant anchors in milliseconds and found one nobody had
+  predicted on the rule's first use.
 - **The gap** Everything else — which counts move, which documents state the fact, which
-  scenarios do arithmetic on a level's size, which floors follow — is still a person
-  remembering. Tonight that memory failed four times in one session.
-- **Done** A `blast-radius` tool: give it a word, a count, a constant or a file, and it lists
-  every tracked file that names it, every gate floor that would move, and every scenario whose
-  arithmetic depends on it. It needs no new gate — it is a lookup, and it makes E11's second
-  step a command rather than a recollection.
-- **Not built.** It was deferred on 2026-08-13 to get a beta out that had already taken twelve
-  hours. That is a real reason and it is also exactly how the step gets skipped, so it is
-  written here rather than remembered.
+  scenarios do arithmetic on a level's size, which floors follow — was a person remembering.
+  On 2026-08-13 that memory failed four times in one session.
+- **Built** `node tools/blast-radius.mjs --word gob` (also `--count`, `--symbol`, `--text`).
+  It lists every tracked file that names the thing, classified by what the file IS, with the
+  counts that move, the floors that follow, and — chased for you — the files doing arithmetic
+  on the level size it just computed. That last step is the one that mattered: the founding
+  incident's `features/promotion.feature` contains the number 49 and never the word, so a
+  file list alone would have missed it. It is a lookup, not a gate: it never fails a build.
+- **What its first version got wrong**, found by two independent audits the day it was
+  written, all fixed and each now carrying a planted-fault control: it read `git ls-files`
+  relative to the working directory, so running it from `app/` reported 2 files instead of 12
+  with the counts still right; it never matched file NAMES, so a word's `.mp3` was invisible;
+  it treated the level lists as the bank, mispredicting the counts for the 21 words keyed in
+  `TRICKY` or `WORD_SOUND` as well — the dangerous direction, since it invited lowering a
+  floor (E6) for a count that never moved; `--text` was exact-byte, so a straight apostrophe
+  and a curly one returned two different, both-incomplete answers, and neither found a
+  sentence a document had wrapped; `0.8` missed `0.80` and `-1` found `pack-1` instead of
+  `= -1`; and its ten controls ran a private closure over a six-line array, so the whole
+  search could be deleted and all ten still passed. Fifteen faults are now planted against the
+  self-test and all fifteen are killed.
+- **What it still cannot see** Case: `Cat` at the start of a sentence is not a dependency, and
+  is not reported. Coincidence: two files can agree on a number by accident, and nothing can
+  tell that apart from a dependency. Both are stated in the tool's own header.
 
 ---
 
