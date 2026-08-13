@@ -181,7 +181,7 @@ for (const height of [430, 555, 720, 950]) {
      bank, which is the longest adult text the stage can still be asked to
      show, and the word above it must not move by a pixel. */
   {
-    const fresh = await startSession(context, { width: 390, height: 844 });
+    const fresh = await startSession(context, { width: 390, height: 664 });
     const before = await fresh.locator(".wq-word").boundingBox();
     const slot = await fresh.evaluate(() => {
       const el = document.querySelector(".wq-slot-msg");
@@ -230,7 +230,7 @@ for (const height of [430, 555, 720, 950]) {
      report no growth. */
   {
     const context = await browser.newContext();
-    const page = await startSession(context, { width: 390, height: 844 });
+    const page = await startSession(context, { width: 390, height: 664 });
     const readFill = () => page.evaluate(() => {
       const f = document.querySelector(".wq-rail .wq-ctafill");
       if (!f) return null;
@@ -351,7 +351,7 @@ for (const height of [430, 555, 720, 950]) {
     const short = (list) => list.filter((c) =>
       c.h + 0.5 < c.floor || (c.who === "adult" && c.w + 0.5 < c.floor));
 
-    for (const vp of [{ width: 390, height: 844 }, { width: 768, height: 1024 }, { width: 1280, height: 800 }]) {
+    for (const vp of [{ width: 390, height: 664 }, { width: 768, height: 1024 }, { width: 1280, height: 800 }]) {
       const context = await browser.newContext();
       const page = await context.newPage();
       await page.setViewportSize(vp);
@@ -448,20 +448,30 @@ for (const height of [430, 555, 720, 950]) {
   await context.close();
 }
 
-/* The word sits at the stage's visual centre — the owner's pick from four
-   measured candidates (2026-08-03). On a phone-sized stage the midline lands
-   within a point of 50 percent; short stages degrade gracefully and are
-   covered by the no-scroll checks above. Phase stability is check 5's job. */
+/* The word sits about the stage's visual centre — the owner's pick from four
+   measured candidates (2026-08-03), judged again on a real iPhone 13 on
+   2026-08-13 and ruled fine.
+   THE BAND IS 42-58, NOT 48-52, AND THE REASON IS THE POINT. This check ran at
+   390x844 for its whole life. 844 is the DEVICE height of an iPhone 13; a page
+   gets 390x664, because the browser keeps the rest. At the honest height the
+   midline is 45.7% — and at 375x629, an iPhone 13 mini, it is 39.2%. The
+   owner looked at the real thing on a real phone and ruled the difference
+   trivial: "they all look about centre. Nothing worth holding up a beta for.
+   Like the lowest tier bug." So the gate now asks what the ruling asks —
+   ABOUT centre — and still fails on a word at 20% or 80%, which is what a real
+   regression looks like. The drift from a dead centre is recorded in
+   docs/open-faults.md G3c-1 as owed and lowest tier, so it is not lost.
+   Phase stability is check 5's job. */
 {
   const context = await browser.newContext();
-  const page = await startSession(context, { width: 390, height: 844 });
+  const page = await startSession(context, { width: 390, height: 664 });
   const pct = await page.evaluate(() => {
     const st = document.querySelector(".wq-stage").getBoundingClientRect();
     const w = document.querySelector(".wq-word").getBoundingClientRect();
     return (w.top + w.height / 2 - st.top) / st.height * 100;
   });
-  if (pct >= 48 && pct <= 52) ok(`the word sits at the stage centre (midline ${pct.toFixed(1)}% at 390x844)`);
-  else fail("the word is off the stage centre", `midline at ${pct.toFixed(1)}% (want 48-52)`);
+  if (pct >= 42 && pct <= 58) ok(`the word sits about the stage centre (midline ${pct.toFixed(1)}% at 390x664, the real page size of an iPhone 13)`);
+  else fail("the word is off the stage centre", `midline at ${pct.toFixed(1)}% (want 42-58)`);
   await context.close();
 }
 
@@ -475,7 +485,7 @@ for (const height of [430, 555, 720, 950]) {
   const storageSrc = readFileSync("app/src/storage.js", "utf8");
   const dbName = storageSrc.match(/DB_NAME = "([^"]+)"/)[1];
   const dbStore = storageSrc.match(/DB_STORE = "([^"]+)"/)[1];
-  const SIZES = [{ width: 390, height: 844 }, { width: 810, height: 1080 }, { width: 1280, height: 800 }];
+  const SIZES = [{ width: 390, height: 664 }, { width: 810, height: 1080 }, { width: 1280, height: 800 }];
   for (const vp of SIZES) {
     const context = await browser.newContext();
     const page = await context.newPage();
@@ -736,13 +746,13 @@ for (const height of [430, 555, 720, 950]) {
      out as literals so a change to the track has to change this list too */
   const SCREENS = [
     { width: 300, height: 600, rows: 3, perRow: [7, 7, 6], what: "narrower than any phone this app supports" },
-    { width: 320, height: 568, rows: 2, perRow: [10, 10], what: "iPhone SE" },
-    { width: 375, height: 812, rows: 2, perRow: [10, 10], what: "iPhone SE 2nd gen and iPhone 13 mini" },
-    { width: 390, height: 844, rows: 2, perRow: [10, 10], what: "iPhone 14" },
-    { width: 430, height: 932, rows: 2, perRow: [10, 10], what: "iPhone 15 Pro Max" },
+    { width: 320, height: 568, rows: 2, perRow: [10, 10], what: "the narrowest screen the app supports" },
+    { width: 375, height: 629, rows: 2, perRow: [10, 10], what: "iPhone 13 mini, at its page size" },
+    { width: 390, height: 664, rows: 2, perRow: [10, 10], what: "iPhone 13 and 14, at the page size a browser gives them" },
+    { width: 430, height: 739, rows: 2, perRow: [10, 10], what: "iPhone 15 Pro Max, at its page size" },
     { width: 479, height: 900, rows: 2, perRow: [10, 10], what: "one pixel inside the phone rule" },
     { width: 480, height: 900, rows: 1, perRow: [20], what: "the first width that holds one row" },
-    { width: 768, height: 1024, rows: 1, perRow: [20], what: "iPad portrait" },
+    { width: 768, height: 1024, rows: 1, perRow: [20], what: "iPad Mini portrait, where the page size is the device size" },
     { width: 810, height: 1080, rows: 1, perRow: [20], what: "iPad Air portrait" },
     { width: 1280, height: 800, rows: 1, perRow: [20], what: "desktop" },
   ];
@@ -791,7 +801,7 @@ for (const height of [430, 555, 720, 950]) {
    nobody sees. */
 {
   const context = await browser.newContext();
-  const page = await startSession(context, { width: 390, height: 844 });
+  const page = await startSession(context, { width: 390, height: 664 });
   await page.getByRole("button", { name: "Finish early" }).click().catch(() => {});
   await page.goto(URL, { waitUntil: "load" });
   await page.getByRole("button", { name: "Grown-ups corner" }).click();
