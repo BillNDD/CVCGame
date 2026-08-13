@@ -117,6 +117,16 @@ that definition.
 
 ## Before any beta is pushed
 
+Re-check every **sentence** the child can meet, as well as every word. A sentence can pass
+every mechanical gate and still be wrong: `tools/decodable.mjs` asks whether a child CAN
+read one, and nothing asked whether a child SHOULD meet it until the owner refused
+"My dad can pat me." on 2026-08-13 with two words — *not appropriate*. Every word in it was
+taught, the level was right, the audio was clean. A sentence carries a meaning that none of
+its words does. `tools/sentence-screen.mjs` is the gate: it refuses the shape the owner
+refused (an adult subject, a verb of physical contact, the child as object) and it refuses
+any sentence no person has read and named in its screened ledger. Being named there means
+somebody read that sentence on that date. A new sentence is unshippable until they do.
+
 Re-check every word the child can meet for child-appropriateness — the whole bank plus
 every newly accepted word, not only the words added since the last check. A word is
 refused if it carries a sexual, crude, violent or otherwise adult meaning or slang, and

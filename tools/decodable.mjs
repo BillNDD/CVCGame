@@ -29,8 +29,17 @@ import { LEVELS, TRICKY, HEART, WORD_LEVEL } from "../src/engine.js";
    ruled onto the roster and are not in the game: each needs a level seat, and
    several need a sound the owner has not heard. A sentence levelled against
    this list is levelled against a future, and `vocabularyUpTo` deliberately
-   does not read it. */
-export const HEART_WAITING = ["a", "be", "go", "he", "me", "my", "no", "of", "so", "we"];
+   does not read it.
+
+   IT WENT STALE ANYWAY, and that is why `waitingIsHonest` exists below. This
+   list still named "a", "my" and "of" long after they were seated on
+   2026-08-12, and "we" and "me" would have joined them on 2026-08-13: a word
+   is seated in the engine and nothing makes anyone come back here. A stale
+   entry is not harmless — this list is what a person reads to answer "which
+   heart words are still missing?", and it was answering with five words that
+   were already in the game. The overlap is now a thrown error, so the next
+   seating cannot leave it wrong. */
+export const HEART_WAITING = ["be", "go", "he", "no", "so"];
 
 /* Levels beyond the eleven that ship today, as proposed. A sentence for a level
    may use every word up to and including it. Levels 10 and 11 left this map on
@@ -68,7 +77,19 @@ export function vocabularyUpTo(level) {
     if (!seat) throw new Error(`heart word "${w}" has no level seat; buildSession can never serve it`);
     if (seat > 2) throw new Error(`heart word "${w}" is seated at level ${seat}; a heart word is met early or it is not a heart word`);
   }
+  waitingIsHonest(HEART);
   return v;
+}
+
+/* The waiting list must not name a word that is already in the game. Split out
+   so a control can call it with a fixture instead of the shipped roster (E5) —
+   a guard that can only be run against today's data is a guard that passes for
+   whatever reason it likes. */
+export function waitingIsHonest(seated) {
+  const both = HEART_WAITING.filter((w) => seated.includes(w));
+  if (both.length)
+    throw new Error(`HEART_WAITING still names seated word(s): ${both.join(", ")} — a heart word is waiting or it is in the game, never both`);
+  return true;
 }
 
 /* A word as the child meets it: case and punctuation are the writer's, not the
@@ -120,13 +141,25 @@ if (process.argv.includes("--self-test")) {
     ["The dog can't jump.", 10, false, "\"can't\" is not \"can\" — a contraction is a word of its own"],
   ];
   let failed = 0;
+  /* The waiting list's own control, and it runs FIRST because everything below
+     levels against the roster it guards. Both directions: today's split must
+     be honest, and a fixture where a waiting word has been seated must throw.
+     Without the second half this passes on any implementation, including one
+     that never compares the two lists at all. */
+  const honest = (() => { try { return waitingIsHonest(HEART) === true; } catch { return false; } })();
+  const caught = (() => { try { waitingIsHonest([...HEART, "go"]); return false; } catch { return true; } })();
+  console.log((honest ? "ok   " : "FAIL ") + "the waiting list names no word that is already seated");
+  console.log((caught ? "ok   " : "FAIL ") + "control: a waiting word that has been seated is caught");
+  if (!honest) failed += 1;
+  if (!caught) failed += 1;
   for (const [s, lvl, want, why] of cases) {
     const got = check(s, lvl).problems.length === 0;
     const ok = got === want;
     console.log((ok ? "ok   " : "FAIL ") + `${want ? "passes" : "refused"}: ${why}`);
     if (!ok) { failed += 1; console.log("       got: " + JSON.stringify(check(s, lvl).problems)); }
   }
-  console.log(`\ndecodable controls: ${cases.length - failed} passed, ${failed} failed`);
+  const total = cases.length + 2;   // the sentence cases, plus the waiting list's two
+  console.log(`\ndecodable controls: ${total - failed} passed, ${failed} failed`);
   process.exit(failed ? 1 : 0);
 }
 

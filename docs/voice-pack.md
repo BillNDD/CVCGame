@@ -139,15 +139,29 @@ byte-pinned word rather than replacing accepted audio with a render.
   sidecar workspace archive on the owner's PC
   (handoff `word-quest-uplift-handoff-2026-08-07T1438Z`).
 
-## Approved and unshipped: 121 items with no level yet (through 2026-08-13)
+## Approved and unshipped: 30 items with no level yet (through 2026-08-13)
 
-A hundred and twenty-one items are closed by the owner's ear and wait in
-`tools/pending-words/` for the levels and the code that will hold them:
-**24 words** — the heart words **he, be, go, no, so**, the
-plural-s words and the two-syllable compounds — **94 sentences** across four
-sentence batches, and **three spoken lines**: the reveal lead-in
-**"Let's sound it out."** and the two invitation lines of the sentence reveal.
-Every one is graded `perfect`; the ledger names each with its round.
+Thirty items are closed by the owner's ear and wait in `tools/pending-words/`
+for the levels and the code that will hold them: **24 words** — the heart words
+**he, be, go, no, so**, the plural-s words and the two-syllable compounds — and
+**six sentences**, named below with the reason each is waiting. Every one is
+graded `perfect`; the ledger names each with its round.
+
+**Eighty-eight sentences and the three invitation lines SHIPPED on 2026-08-13**,
+into the eleven level lists in the engine. Every seat was computed by
+`tools/decodable.mjs` and none was chosen by hand; every clip went in as the
+exact bytes the owner graded, sha256 matched before and after the copy. The pack
+went 501 clips to 592.
+
+**The six that did not ship, and why.** Four run past the eight-word ceiling a
+four-year-old can hold in one breath — `s:mode-b2-s15` and `s:mode-b2-s16` at
+nine words, `s:mode-wm-wm05` at ten, `s:mode-wm-wm16` at nine. One,
+`s:mode-wm-wm18`, is eleven words AND leans on "nip", which the bank never
+teaches. They were approved as RECORDINGS, which is a different question from
+whether a child can read them, and the eight-word rule is the one the shipped
+batches settled on. The sixth is `s:sound-it-out` ("Let's sound it out."), the
+reveal lead-in from batch 6: the reveal says "Pronounced:" today, and swapping
+that line is a change to the word reveal, not the sentence one.
 
 **"we" and "me" left this list on 2026-08-13**, seated at Level 2 with the other
 heart words and shipped into the pack as the exact bytes the owner graded

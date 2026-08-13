@@ -476,7 +476,7 @@
    "dog": [
     "Say dog.",
     0.46,
-    1.0
+    1
    ],
    "duck": [
     "Here is the word, duck.",
@@ -2692,9 +2692,11 @@
   "period_words": [
    "rich"
   ],
-  "phoneme_sentences": [],
+  "phoneme_sentences": [
+   "s:soundout-1"
+  ],
   "phoneme_words": [],
-  "sentence_speed": 1.0,
+  "sentence_speed": 1,
   "tail_ms": 300,
   "trim_ms": {},
   "voice": "af_heart",
@@ -2702,7 +2704,7 @@
   "word_speed_override": {
    "am": 0.82,
    "an": 0.82,
-   "and": 1.0,
+   "and": 1,
    "ant": 0.95,
    "ask": 0.95,
    "at": 0.82,
@@ -2728,31 +2730,31 @@
    "buck": 0.82,
    "bud": 0.82,
    "bug": 0.82,
-   "bump": 1.0,
+   "bump": 1,
    "bun": 0.82,
    "bus": 0.82,
    "bush": 0.82,
-   "buzz": 1.0,
-   "cap": 1.0,
+   "buzz": 1,
+   "cap": 1,
    "cash": 0.82,
    "cat": 0.82,
    "chap": 0.82,
    "chat": 0.82,
    "check": 0.82,
    "chess": 0.82,
-   "chick": 1.0,
+   "chick": 1,
    "chill": 0.82,
    "chin": 0.82,
    "chip": 0.82,
    "chop": 0.82,
-   "chuck": 1.0,
+   "chuck": 1,
    "chug": 0.82,
-   "chum": 1.0,
+   "chum": 1,
    "clap": 0.8,
    "cod": 0.82,
    "cop": 0.82,
-   "cot": 1.0,
-   "cub": 1.0,
+   "cot": 1,
+   "cub": 1,
    "cuff": 0.82,
    "cup": 0.82,
    "cut": 0.82,
@@ -2762,12 +2764,12 @@
    "deck": 0.82,
    "den": 0.82,
    "dent": 0.95,
-   "did": 1.0,
+   "did": 1,
    "dig": 0.82,
    "dim": 0.82,
    "ding": 0.82,
    "dip": 0.82,
-   "dish": 1.0,
+   "dish": 1,
    "dock": 0.82,
    "dog": 0.82,
    "doll": 0.82,
@@ -2775,7 +2777,7 @@
    "drop": 0.8,
    "drum": 0.8,
    "duck": 0.82,
-   "dug": 1.0,
+   "dug": 1,
    "end": 0.95,
    "fan": 0.82,
    "fang": 0.82,
@@ -2788,14 +2790,14 @@
    "fish": 0.82,
    "fit": 0.82,
    "fix": 0.82,
-   "fizz": 1.0,
+   "fizz": 1,
    "flag": 0.75,
    "flat": 0.95,
    "fog": 0.82,
    "fox": 0.82,
    "fun": 0.82,
    "fuss": 0.82,
-   "fuzz": 1.0,
+   "fuzz": 1,
    "gap": 0.82,
    "gas": 0.82,
    "gash": 0.82,
@@ -2806,80 +2808,80 @@
    "grab": 0.95,
    "grin": 0.8,
    "gum": 0.82,
-   "gush": 1.0,
-   "gut": 1.0,
+   "gush": 1,
+   "gut": 1,
    "had": 0.82,
    "ham": 0.82,
    "hang": 0.82,
    "has": 0.82,
    "hat": 0.82,
    "help": 0.95,
-   "hem": 1.0,
+   "hem": 1,
    "hen": 0.82,
-   "hid": 1.0,
-   "hill": 1.0,
+   "hid": 1,
+   "hill": 1,
    "him": 0.82,
    "hip": 0.82,
-   "hit": 1.0,
+   "hit": 1,
    "hog": 0.82,
    "hop": 0.82,
    "hot": 0.82,
-   "hub": 1.0,
-   "huff": 1.0,
-   "hug": 1.0,
+   "hub": 1,
+   "huff": 1,
+   "hug": 1,
    "hum": 0.82,
-   "hung": 1.0,
+   "hung": 1,
    "hush": 0.82,
-   "hut": 1.0,
-   "if": 1.0,
+   "hut": 1,
+   "if": 1,
    "in": 0.82,
    "is": 0.82,
    "it": 0.82,
    "jab": 0.82,
    "jam": 0.82,
-   "jazz": 1.0,
+   "jazz": 1,
    "jet": 0.82,
    "jig": 0.82,
    "job": 0.82,
    "jog": 0.82,
    "jot": 0.82,
    "jug": 0.82,
-   "jut": 1.0,
-   "keg": 1.0,
+   "jut": 1,
+   "keg": 1,
    "kick": 0.82,
    "kid": 0.82,
    "king": 0.82,
    "kiss": 0.82,
-   "kit": 1.0,
+   "kit": 1,
    "knit": 0.82,
-   "knob": 1.0,
+   "knob": 1,
    "knock": 0.82,
-   "knot": 1.0,
+   "knot": 1,
    "lab": 0.82,
    "lad": 0.82,
    "lamb": 0.82,
-   "land": 1.0,
+   "land": 1,
    "lap": 0.82,
    "lash": 0.82,
    "last": 0.9,
    "led": 0.82,
    "leg": 0.82,
-   "let": 1.0,
-   "lick": 1.0,
+   "let": 1,
+   "lick": 1,
    "lid": 0.82,
    "limb": 0.82,
    "lip": 0.82,
    "list": 0.95,
-   "lit": 1.0,
-   "lock": 1.0,
+   "lit": 1,
+   "lock": 1,
    "log": 0.82,
-   "long": 1.0,
-   "loss": 1.0,
+   "long": 1,
+   "loss": 1,
    "lot": 0.82,
-   "luck": 1.0,
-   "lug": 1.0,
+   "luck": 1,
+   "lug": 1,
    "lung": 0.82,
-   "lush": 1.0,
+   "lush": 1,
    "mad": 0.82,
    "man": 0.82,
    "map": 0.82,
@@ -2894,56 +2896,56 @@
    "mill": 0.82,
    "miss": 0.82,
    "mix": 0.82,
-   "mob": 1.0,
+   "mob": 1,
    "mom": 0.82,
    "mop": 0.82,
    "moth": 0.82,
-   "much": 1.0,
+   "much": 1,
    "muck": 0.82,
    "mud": 0.82,
-   "mug": 1.0,
+   "mug": 1,
    "mush": 0.82,
    "must": 0.9,
    "nab": 0.82,
-   "neck": 1.0,
-   "net": 1.0,
+   "neck": 1,
+   "net": 1,
    "nix": 0.82,
    "nod": 0.82,
    "not": 0.82,
-   "nun": 1.0,
-   "nut": 1.0,
+   "nun": 1,
+   "nut": 1,
    "of": 0.9,
    "on": 0.82,
    "ox": 0.82,
    "pack": 0.82,
    "pat": 0.82,
-   "path": 1.0,
+   "path": 1,
    "peck": 0.82,
    "peg": 0.82,
    "pen": 0.82,
    "pep": 0.82,
    "pet": 0.82,
-   "pick": 1.0,
+   "pick": 1,
    "pig": 0.82,
    "pin": 0.82,
-   "ping": 1.0,
+   "ping": 1,
    "pit": 0.82,
    "pod": 0.82,
    "pop": 0.82,
    "posh": 0.82,
    "pot": 0.8,
-   "puck": 1.0,
-   "puff": 1.0,
+   "puck": 1,
+   "puff": 1,
    "pump": 0.95,
    "pun": 0.82,
    "pup": 0.82,
-   "push": 1.0,
+   "push": 1,
    "quack": 0.82,
-   "quick": 1.0,
-   "quill": 1.0,
-   "quip": 1.0,
+   "quick": 1,
+   "quill": 1,
+   "quip": 1,
    "quit": 0.82,
-   "quiz": 1.0,
+   "quiz": 1,
    "ram": 0.82,
    "ran": 0.88,
    "rang": 0.82,
@@ -2954,19 +2956,19 @@
    "rest": 0.95,
    "rib": 0.82,
    "rich": 0.8,
-   "rig": 1.0,
-   "rim": 1.0,
+   "rig": 1,
+   "rim": 1,
    "ring": 0.82,
    "rip": 0.82,
    "rob": 0.82,
    "rock": 0.82,
    "rod": 0.82,
-   "rot": 1.0,
-   "rub": 1.0,
-   "rug": 1.0,
+   "rot": 1,
+   "rub": 1,
+   "rug": 1,
    "run": 0.82,
    "rung": 0.82,
-   "rush": 1.0,
+   "rush": 1,
    "sack": 0.82,
    "sad": 0.82,
    "sag": 0.82,
@@ -2976,18 +2978,18 @@
    "sat": 0.82,
    "sax": 0.82,
    "set": 0.82,
-   "shack": 1.0,
+   "shack": 1,
    "sham": 0.82,
    "she": 0.82,
-   "shed": 1.0,
+   "shed": 1,
    "shell": 0.82,
    "shin": 0.82,
    "ship": 0.82,
-   "shock": 1.0,
+   "shock": 1,
    "shop": 0.82,
-   "shun": 1.0,
+   "shun": 1,
    "shut": 0.82,
-   "sick": 1.0,
+   "sick": 1,
    "silk": 0.8,
    "sing": 0.82,
    "sip": 0.82,
@@ -2998,31 +3000,31 @@
    "slip": 0.95,
    "snap": 0.95,
    "snug": 0.75,
-   "sob": 1.0,
-   "sock": 1.0,
+   "sob": 1,
+   "sock": 1,
    "soft": 1.05,
    "song": 0.82,
    "spot": 0.8,
    "stop": 0.95,
-   "sub": 1.0,
-   "such": 1.0,
+   "sub": 1,
+   "such": 1,
    "sum": 0.82,
    "sun": 0.82,
-   "sung": 1.0,
+   "sung": 1,
    "swam": 0.75,
    "swim": 0.8,
    "tab": 0.82,
-   "tack": 1.0,
+   "tack": 1,
    "tag": 0.82,
    "tan": 0.82,
    "tap": 0.83,
    "tell": 0.82,
    "ten": 0.82,
    "that": 0.82,
-   "the": 1.0,
-   "them": 1.0,
+   "the": 1,
+   "them": 1,
    "then": 0.82,
-   "thick": 1.0,
+   "thick": 1,
    "thin": 0.82,
    "this": 0.82,
    "thud": 0.82,
@@ -3035,9 +3037,9 @@
    "tot": 0.82,
    "trap": 0.8,
    "trip": 0.95,
-   "tub": 1.0,
-   "tuck": 1.0,
-   "tug": 1.0,
+   "tub": 1,
+   "tuck": 1,
+   "tug": 1,
    "twig": 0.8,
    "twin": 0.95,
    "up": 0.82,
@@ -3051,28 +3053,28 @@
    "wash": 0.82,
    "wax": 0.82,
    "we": 0.6,
-   "web": 1.0,
-   "wed": 1.0,
+   "web": 1,
+   "wed": 1,
    "well": 0.82,
-   "wet": 1.0,
-   "whack": 1.0,
+   "wet": 1,
+   "whack": 1,
    "wham": 0.82,
    "what": 0.82,
    "when": 0.82,
-   "whiff": 1.0,
+   "whiff": 1,
    "whim": 0.82,
    "whip": 0.82,
    "whizz": 0.82,
-   "wick": 1.0,
+   "wick": 1,
    "win": 0.82,
    "wing": 0.82,
    "wish": 0.82,
    "wit": 0.82,
    "with": 0.82,
    "wrap": 0.82,
-   "wreck": 1.0,
+   "wreck": 1,
    "wren": 0.82,
-   "wrong": 1.0,
+   "wrong": 1,
    "yak": 0.82,
    "yam": 0.82,
    "yap": 0.82,
@@ -3439,11 +3441,557 @@
   "ms": 1297,
   "tail": 498
  },
+ "s:mode-b2-s01": {
+  "file": "s-mode-b2-s01.mp3",
+  "lead": 200,
+  "ms": 2001,
+  "tail": 404
+ },
+ "s:mode-b2-s02": {
+  "file": "s-mode-b2-s02.mp3",
+  "lead": 150,
+  "ms": 1745,
+  "tail": 380
+ },
+ "s:mode-b2-s03": {
+  "file": "s-mode-b2-s03.mp3",
+  "lead": 180,
+  "ms": 1745,
+  "tail": 430
+ },
+ "s:mode-b2-s04": {
+  "file": "s-mode-b2-s04.mp3",
+  "lead": 180,
+  "ms": 1873,
+  "tail": 424
+ },
+ "s:mode-b2-s05": {
+  "file": "s-mode-b2-s05.mp3",
+  "lead": 180,
+  "ms": 1980,
+  "tail": 390
+ },
+ "s:mode-b2-s06": {
+  "file": "s-mode-b2-s06.mp3",
+  "lead": 200,
+  "ms": 2236,
+  "tail": 424
+ },
+ "s:mode-b2-s07": {
+  "file": "s-mode-b2-s07.mp3",
+  "lead": 210,
+  "ms": 1830,
+  "tail": 416
+ },
+ "s:mode-b2-s08": {
+  "file": "s-mode-b2-s08.mp3",
+  "lead": 180,
+  "ms": 1766,
+  "tail": 414
+ },
+ "s:mode-b2-s09": {
+  "file": "s-mode-b2-s09.mp3",
+  "lead": 190,
+  "ms": 2044,
+  "tail": 422
+ },
+ "s:mode-b2-s10": {
+  "file": "s-mode-b2-s10.mp3",
+  "lead": 210,
+  "ms": 2001,
+  "tail": 394
+ },
+ "s:mode-b2-s11": {
+  "file": "s-mode-b2-s11.mp3",
+  "lead": 210,
+  "ms": 2001,
+  "tail": 414
+ },
+ "s:mode-b2-s12": {
+  "file": "s-mode-b2-s12.mp3",
+  "lead": 170,
+  "ms": 1873,
+  "tail": 404
+ },
+ "s:mode-b2-s13": {
+  "file": "s-mode-b2-s13.mp3",
+  "lead": 180,
+  "ms": 1958,
+  "tail": 386
+ },
+ "s:mode-b2-s14": {
+  "file": "s-mode-b2-s14.mp3",
+  "lead": 190,
+  "ms": 2150,
+  "tail": 428
+ },
+ "s:mode-b2-s17": {
+  "file": "s-mode-b2-s17.mp3",
+  "lead": 170,
+  "ms": 2236,
+  "tail": 404
+ },
+ "s:mode-b2-s18": {
+  "file": "s-mode-b2-s18.mp3",
+  "lead": 170,
+  "ms": 1724,
+  "tail": 406
+ },
+ "s:mode-b2-s19": {
+  "file": "s-mode-b2-s19.mp3",
+  "lead": 180,
+  "ms": 1724,
+  "tail": 426
+ },
+ "s:mode-b2-s20": {
+  "file": "s-mode-b2-s20.mp3",
+  "lead": 190,
+  "ms": 1702,
+  "tail": 382
+ },
+ "s:mode-b3-s01": {
+  "file": "s-mode-b3-s01.mp3",
+  "lead": 170,
+  "ms": 1425,
+  "tail": 458
+ },
+ "s:mode-b3-s02": {
+  "file": "s-mode-b3-s02.mp3",
+  "lead": 180,
+  "ms": 1446,
+  "tail": 422
+ },
+ "s:mode-b3-s03": {
+  "file": "s-mode-b3-s03.mp3",
+  "lead": 160,
+  "ms": 1446,
+  "tail": 472
+ },
+ "s:mode-b3-s04": {
+  "file": "s-mode-b3-s04.mp3",
+  "lead": 160,
+  "ms": 1190,
+  "tail": 458
+ },
+ "s:mode-b3-s05": {
+  "file": "s-mode-b3-s05.mp3",
+  "lead": 160,
+  "ms": 1468,
+  "tail": 426
+ },
+ "s:mode-b3-s06": {
+  "file": "s-mode-b3-s06.mp3",
+  "lead": 190,
+  "ms": 1574,
+  "tail": 392
+ },
+ "s:mode-b3-s07": {
+  "file": "s-mode-b3-s07.mp3",
+  "lead": 200,
+  "ms": 1788,
+  "tail": 418
+ },
+ "s:mode-b3-s08": {
+  "file": "s-mode-b3-s08.mp3",
+  "lead": 190,
+  "ms": 1724,
+  "tail": 406
+ },
+ "s:mode-b3-s09": {
+  "file": "s-mode-b3-s09.mp3",
+  "lead": 170,
+  "ms": 1361,
+  "tail": 426
+ },
+ "s:mode-b3-s10": {
+  "file": "s-mode-b3-s10.mp3",
+  "lead": 200,
+  "ms": 1809,
+  "tail": 422
+ },
+ "s:mode-b3-s11": {
+  "file": "s-mode-b3-s11.mp3",
+  "lead": 170,
+  "ms": 1852,
+  "tail": 440
+ },
+ "s:mode-b3-s12": {
+  "file": "s-mode-b3-s12.mp3",
+  "lead": 200,
+  "ms": 1980,
+  "tail": 380
+ },
+ "s:mode-b3-s13": {
+  "file": "s-mode-b3-s13.mp3",
+  "lead": 170,
+  "ms": 1532,
+  "tail": 404
+ },
+ "s:mode-b3-s14": {
+  "file": "s-mode-b3-s14.mp3",
+  "lead": 160,
+  "ms": 1681,
+  "tail": 422
+ },
+ "s:mode-b3-s15": {
+  "file": "s-mode-b3-s15.mp3",
+  "lead": 180,
+  "ms": 1980,
+  "tail": 400
+ },
+ "s:mode-b3-s16": {
+  "file": "s-mode-b3-s16.mp3",
+  "lead": 200,
+  "ms": 1937,
+  "tail": 392
+ },
+ "s:mode-b3-s17": {
+  "file": "s-mode-b3-s17.mp3",
+  "lead": 200,
+  "ms": 1852,
+  "tail": 410
+ },
+ "s:mode-b3-s18": {
+  "file": "s-mode-b3-s18.mp3",
+  "lead": 200,
+  "ms": 1830,
+  "tail": 416
+ },
+ "s:mode-b3-s19": {
+  "file": "s-mode-b3-s19.mp3",
+  "lead": 180,
+  "ms": 1724,
+  "tail": 386
+ },
+ "s:mode-b3-s20": {
+  "file": "s-mode-b3-s20.mp3",
+  "lead": 190,
+  "ms": 1830,
+  "tail": 446
+ },
+ "s:mode-b3-s21": {
+  "file": "s-mode-b3-s21.mp3",
+  "lead": 160,
+  "ms": 1489,
+  "tail": 430
+ },
+ "s:mode-b3-s22": {
+  "file": "s-mode-b3-s22.mp3",
+  "lead": 170,
+  "ms": 1574,
+  "tail": 432
+ },
+ "s:mode-b3-s23": {
+  "file": "s-mode-b3-s23.mp3",
+  "lead": 180,
+  "ms": 1809,
+  "tail": 422
+ },
+ "s:mode-b3-s24": {
+  "file": "s-mode-b3-s24.mp3",
+  "lead": 180,
+  "ms": 1830,
+  "tail": 406
+ },
+ "s:mode-b3-s25": {
+  "file": "s-mode-b3-s25.mp3",
+  "lead": 170,
+  "ms": 1830,
+  "tail": 416
+ },
+ "s:mode-b3-s26": {
+  "file": "s-mode-b3-s26.mp3",
+  "lead": 180,
+  "ms": 1873,
+  "tail": 414
+ },
+ "s:mode-b3-s27": {
+  "file": "s-mode-b3-s27.mp3",
+  "lead": 180,
+  "ms": 1788,
+  "tail": 408
+ },
+ "s:mode-b3-s28": {
+  "file": "s-mode-b3-s28.mp3",
+  "lead": 180,
+  "ms": 1916,
+  "tail": 398
+ },
+ "s:mode-b3-s29": {
+  "file": "s-mode-b3-s29.mp3",
+  "lead": 160,
+  "ms": 2022,
+  "tail": 408
+ },
+ "s:mode-b3-s30": {
+  "file": "s-mode-b3-s30.mp3",
+  "lead": 160,
+  "ms": 1980,
+  "tail": 430
+ },
+ "s:mode-b3-s31": {
+  "file": "s-mode-b3-s31.mp3",
+  "lead": 180,
+  "ms": 1916,
+  "tail": 388
+ },
+ "s:mode-s01": {
+  "file": "s-mode-s01.mp3",
+  "lead": 180,
+  "ms": 1638,
+  "tail": 414
+ },
+ "s:mode-s02": {
+  "file": "s-mode-s02.mp3",
+  "lead": 170,
+  "ms": 1574,
+  "tail": 412
+ },
+ "s:mode-s03": {
+  "file": "s-mode-s03.mp3",
+  "lead": 200,
+  "ms": 1745,
+  "tail": 420
+ },
+ "s:mode-s04": {
+  "file": "s-mode-s04.mp3",
+  "lead": 180,
+  "ms": 1745,
+  "tail": 400
+ },
+ "s:mode-s05": {
+  "file": "s-mode-s05.mp3",
+  "lead": 160,
+  "ms": 1681,
+  "tail": 432
+ },
+ "s:mode-s06": {
+  "file": "s-mode-s06.mp3",
+  "lead": 210,
+  "ms": 1724,
+  "tail": 426
+ },
+ "s:mode-s07": {
+  "file": "s-mode-s07.mp3",
+  "lead": 160,
+  "ms": 1489,
+  "tail": 460
+ },
+ "s:mode-s08": {
+  "file": "s-mode-s08.mp3",
+  "lead": 180,
+  "ms": 1724,
+  "tail": 416
+ },
+ "s:mode-s09": {
+  "file": "s-mode-s09.mp3",
+  "lead": 180,
+  "ms": 1724,
+  "tail": 396
+ },
+ "s:mode-s10": {
+  "file": "s-mode-s10.mp3",
+  "lead": 160,
+  "ms": 1638,
+  "tail": 424
+ },
+ "s:mode-s11": {
+  "file": "s-mode-s11.mp3",
+  "lead": 170,
+  "ms": 1446,
+  "tail": 452
+ },
+ "s:mode-s12": {
+  "file": "s-mode-s12.mp3",
+  "lead": 190,
+  "ms": 1574,
+  "tail": 382
+ },
+ "s:mode-s13": {
+  "file": "s-mode-s13.mp3",
+  "lead": 160,
+  "ms": 1510,
+  "tail": 440
+ },
+ "s:mode-s14": {
+  "file": "s-mode-s14.mp3",
+  "lead": 170,
+  "ms": 1532,
+  "tail": 394
+ },
+ "s:mode-s15": {
+  "file": "s-mode-s15.mp3",
+  "lead": 170,
+  "ms": 1510,
+  "tail": 430
+ },
+ "s:mode-s16": {
+  "file": "s-mode-s16.mp3",
+  "lead": 150,
+  "ms": 1788,
+  "tail": 398
+ },
+ "s:mode-s17": {
+  "file": "s-mode-s17.mp3",
+  "lead": 160,
+  "ms": 1681,
+  "tail": 412
+ },
+ "s:mode-s18": {
+  "file": "s-mode-s18.mp3",
+  "lead": 190,
+  "ms": 1788,
+  "tail": 378
+ },
+ "s:mode-s19": {
+  "file": "s-mode-s19.mp3",
+  "lead": 160,
+  "ms": 1446,
+  "tail": 412
+ },
+ "s:mode-s20": {
+  "file": "s-mode-s20.mp3",
+  "lead": 190,
+  "ms": 1724,
+  "tail": 406
+ },
+ "s:mode-wm-wm01": {
+  "file": "s-mode-wm-wm01.mp3",
+  "lead": 150,
+  "ms": 1532,
+  "tail": 434
+ },
+ "s:mode-wm-wm02": {
+  "file": "s-mode-wm-wm02.mp3",
+  "lead": 170,
+  "ms": 1489,
+  "tail": 440
+ },
+ "s:mode-wm-wm03": {
+  "file": "s-mode-wm-wm03.mp3",
+  "lead": 170,
+  "ms": 1617,
+  "tail": 440
+ },
+ "s:mode-wm-wm04": {
+  "file": "s-mode-wm-wm04.mp3",
+  "lead": 140,
+  "ms": 1596,
+  "tail": 406
+ },
+ "s:mode-wm-wm06": {
+  "file": "s-mode-wm-wm06.mp3",
+  "lead": 160,
+  "ms": 1532,
+  "tail": 444
+ },
+ "s:mode-wm-wm07": {
+  "file": "s-mode-wm-wm07.mp3",
+  "lead": 180,
+  "ms": 1617,
+  "tail": 410
+ },
+ "s:mode-wm-wm08": {
+  "file": "s-mode-wm-wm08.mp3",
+  "lead": 160,
+  "ms": 1788,
+  "tail": 428
+ },
+ "s:mode-wm-wm09": {
+  "file": "s-mode-wm-wm09.mp3",
+  "lead": 140,
+  "ms": 1148,
+  "tail": 490
+ },
+ "s:mode-wm-wm10": {
+  "file": "s-mode-wm-wm10.mp3",
+  "lead": 160,
+  "ms": 1809,
+  "tail": 412
+ },
+ "s:mode-wm-wm11": {
+  "file": "s-mode-wm-wm11.mp3",
+  "lead": 170,
+  "ms": 1809,
+  "tail": 432
+ },
+ "s:mode-wm-wm12": {
+  "file": "s-mode-wm-wm12.mp3",
+  "lead": 160,
+  "ms": 1574,
+  "tail": 462
+ },
+ "s:mode-wm-wm14": {
+  "file": "s-mode-wm-wm14.mp3",
+  "lead": 130,
+  "ms": 1212,
+  "tail": 512
+ },
+ "s:mode-wm-wm15": {
+  "file": "s-mode-wm-wm15.mp3",
+  "lead": 180,
+  "ms": 1638,
+  "tail": 454
+ },
+ "s:mode-wm-wm17": {
+  "file": "s-mode-wm-wm17.mp3",
+  "lead": 170,
+  "ms": 1873,
+  "tail": 454
+ },
+ "s:mode-wm-wm19": {
+  "file": "s-mode-wm-wm19.mp3",
+  "lead": 130,
+  "ms": 1681,
+  "tail": 452
+ },
+ "s:mode-wm-wm20": {
+  "file": "s-mode-wm-wm20.mp3",
+  "lead": 160,
+  "ms": 1788,
+  "tail": 448
+ },
+ "s:mode-wm-wm21": {
+  "file": "s-mode-wm-wm21.mp3",
+  "lead": 130,
+  "ms": 1169,
+  "tail": 454
+ },
+ "s:mode-wm-wm22": {
+  "file": "s-mode-wm-wm22.mp3",
+  "lead": 160,
+  "ms": 1702,
+  "tail": 432
+ },
+ "s:mode-wm-wm23": {
+  "file": "s-mode-wm-wm23.mp3",
+  "lead": 140,
+  "ms": 1809,
+  "tail": 462
+ },
  "s:pronounced": {
   "file": "s-pronounced.mp3",
   "lead": 120,
   "ms": 1104,
   "tail": 354
+ },
+ "s:soundout-1": {
+  "file": "s-soundout-1.mp3",
+  "lead": 160,
+  "ms": 2705,
+  "tail": 420
+ },
+ "s:soundout-2": {
+  "file": "s-soundout-2.mp3",
+  "lead": 170,
+  "ms": 2300,
+  "tail": 442
+ },
+ "s:soundout-3": {
+  "file": "s-soundout-3.mp3",
+  "lead": 130,
+  "ms": 2022,
+  "tail": 438
  },
  "s:was": {
   "file": "s-was.mp3",
