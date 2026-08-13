@@ -923,6 +923,30 @@ and both are function words with no adult sense. Three bank words have a plural 
 out: **jug, bun, nut**. The game never pluralises, so none can appear today; the plural-s level
 (12, unbuilt) must exclude them, as SPEC already requires for jug and crab.
 
+**Re-screened 2026-08-13 before beta.19, over the whole bank, the whole waiting room and —
+for the first time — every SENTENCE.** Counted at the time: **440 bank words** after "we"
+and "me" were seated, and **30 entries still waiting**. The two new words are function
+words with no adult sense, and neither has a plural a child could produce. Nothing else in
+the bank moved, so the 2026-08-11 and 2026-08-13 findings above stand unchanged and are
+not raised again.
+
+**The sentences are now inside this rule, and that is new.** All 88 shipped sentences and
+the three invitation lines were read one by one against the same test the words take:
+nothing with a sexual, crude, violent or otherwise adult meaning, and nothing whose SHAPE
+teaches a child something they should not be taught. `tools/sentence-screen.mjs` is the
+gate. It holds the screened ledger — being named there means a person read that sentence
+on that date — and it refuses the shape the owner refused on 2026-08-13, when they turned
+down "My dad can pat me." with two words: *not appropriate*. Every mechanical gate had
+passed it, because `tools/decodable.mjs` asks whether a child CAN read a sentence and
+nothing asked whether they SHOULD meet it. That sentence is not in the game and is the
+gate's control.
+
+Two shipped sentences were looked at twice and KEPT, and recording which is part of the
+screen: **"My pal can zap me!"** and **"Can my pal tag me?"** both put a contact verb on
+the child. Both stay because the subject is a peer in a game, which is the same reason
+"The cat sat on me." is fine. If either ever reads wrongly to the owner it comes out;
+that is a verdict, not a calculation.
+
 The screen raised **two** words in the same class as knob and pot, and the owner ruled on both
 the same day: **gob is OUT** and is gone from every file that named it; **keg is FINE** and
 stays. A keg is a small barrel, the word is standard in phonics word lists, and it sits with
