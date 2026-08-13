@@ -407,10 +407,35 @@ same engine core as iOS Safari, not the same build; the report must say so, or a
 read as "verified on iOS", which it is not. This machine cannot download browsers, so the run
 happens on a runner that can.
 
-**2. Real devices instead of hand-written boxes.** `devices` ships **207 descriptors** with the
-right user agent, device scale factor, touch and viewport. The seven hand-written viewports
-become a named set drawn from those, keeping the 320 px extreme, plus `deviceScaleFactor` 2–3
-so fractional-pixel layout is exercised.
+**2. Real devices instead of hand-written boxes. BUILT 2026-08-13.** `devices` ships **207
+descriptors** with the right user agent, device scale factor, touch and viewport. The seven
+hand-written viewports are now eight named profiles drawn from those, keeping the 320 px
+extreme — as a real device rather than a box — with fractional scale factors so
+fractional-pixel layout is exercised.
+
+| profile | device | page gets | scale |
+|---|---|---|---|
+| phone-portrait | iPhone 13 | 390x664 | 3 |
+| phone-landscape | iPhone 13 landscape | 750x342 | 3 |
+| phone-android | Pixel 7 | 412x839 | **2.625** |
+| tablet-portrait | iPad Mini | 768x1024 | 2 |
+| tablet-landscape | iPad Mini landscape | 1024x768 | 2 |
+| tablet-large | iPad Pro 11 | 834x1194 | 2 |
+| desktop | Desktop Chrome | 1280x720 | 1 |
+| narrow-extreme | Galaxy S9+ | 320x658 | **4.5** |
+
+**What it corrected on the day it landed.** The hand-written boxes were DEVICE dimensions, not
+page dimensions. This census called an iPhone 13 390x844 and asserted that nothing fell below
+the fold there; the page really gets 390x664. Every "nothing is below the fold" it had ever
+reported for a phone was reported with 180 pixels of slack in it. The screens were re-run at
+the honest sizes and still pass, so nothing was hiding behind the slack — but nothing had been
+proving that either. The config also pinned `deviceScaleFactor: 1` for every project, which
+overrode each profile back to whole-number scaling; that line is gone.
+
+**And the engine is now a parameter.** Every iPhone and iPad descriptor carries
+`defaultBrowserType: "webkit"`, so adopting real devices without stating `browserName` would
+make the whole census try to launch an engine this machine does not have. `CENSUS_ENGINE`
+selects it, Chromium is the default, and the report states which one actually ran (item 1).
 
 **3. The states a word never reaches.** Today the census sees the prompt and the correct
 reveal. It must also see the **close reveal**, the **wrong reveal** (S3's invitation text, which
@@ -462,18 +487,18 @@ is right, whether a child understands the screen, whether a colour is pleasant, 
 game works on a real iPad in a real kitchen. The QA script and a person own those.
 
 **Cadence: every other beta** (owner-ruled 2026-08-12). Its own negative controls —
-`npm run census:controls` — are the part that can be trusted at any time: 24 cells in about
-fourteen seconds, of which 13 plant a defect and require the detector built for it to name
-it, two prove a clean page reports none of them, four hold the census's own rules against
+`npm run census:controls` — are the part that can be trusted at any time: 25 cells in about
+eighteen seconds, of which 13 plant a defect and require the detector built for it to name
+it, two prove a clean page reports none of them, five hold the census's own rules against
 the app (the overlay list against the stylesheet, the stylesheet scan's own reach, the modal
-boundary, and the font limits), and the rest cover the staging refusal, the toast report and
+boundary, the font limits, and that every viewport is a real device descriptor), and the rest cover the staging refusal, the toast report and
 this file's own count of itself.
 
 **The report gate is no longer optional.** `npm run census` deletes the previous
 `.census/report.json`, builds, runs the cells, and then runs `tools/census-report.mjs`
 whatever the runner's exit code was — so a run that produces no report, or a report from
 some other config, is refused rather than read. The floors it enforces are
-`census_controls` (24) and `census_cells` (329) in `.claude/gate-baseline.json`, under E6
+`census_controls` (25) and `census_cells` (376) in `.claude/gate-baseline.json`, under E6
 like every other floor. The gauntlet still does not call the census, and that stays
 deliberate: a flaky cell must inform a release, never block one.
 
