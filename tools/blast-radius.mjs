@@ -3,8 +3,8 @@
  * E11's second step, as a command instead of a recollection. Name the thing you
  * are about to change and this lists every tracked file that mentions it — by
  * content AND by file name — every count that would move, every gate floor that
- * follows those counts, every mutant anchored on it, and every scenario doing
- * arithmetic on it.
+ * follows those counts, every mutant anchored on it, and every file doing
+ * arithmetic on a number the change moves.
  *
  * WHY IT EXISTS. On 2026-08-13 a beta spent twelve hours failing the same way:
  * a change was made, and only afterwards did something discover what depended
@@ -16,28 +16,39 @@
  *
  * None of those needed a person to be cleverer. They needed a lookup.
  *
- * WHAT IT IS NOT. It is not a gate and it never fails a build. It reports; you
- * decide. It also cannot know what a change MEANS — that removing a word is
+ * WHAT IT IS NOT. It cannot know what a change MEANS — that removing a word is
  * right, or that a threshold should be 0.8. It knows only what the repository
  * says depends on the thing you named, which is the part a person forgets.
+ * The lookup itself never fails a build. Its CONTROLS do: `--self-test` runs in
+ * `npm run check` (E7), so a broken lookup blocks a push even though a lookup
+ * that merely reports something inconvenient never will.
  *
- * WHAT IT STILL CANNOT SEE. Case: "Cat" at the start of a sentence is not
- * found by --word cat, on purpose — every capital hit measured in this
- * repository was prose, not a dependency. Meaning: two files can agree on a
- * number by coincidence, and this cannot tell that apart from a dependency.
+ * WHAT IT STILL CANNOT SEE, all four measured rather than assumed:
+ *   1. Case. "Cat" at the start of a sentence is not a dependency and is not
+ *      reported for --word. Every capital hit measured in this repository was
+ *      prose or UI copy. (--symbol IS case-insensitive: for an identifier a
+ *      capital is the identifier, not prose.)
+ *   2. Coincidence. Two files can agree on a number by accident, and nothing
+ *      here can tell that apart from a dependency.
+ *   3. Computation. A dependency written as LEVELS[1].words.length rather than
+ *      as a literal cannot be found by --count. Search the symbol as well.
+ *   4. Classification. Every file's kind is a guess from its path. A file
+ *      filed under the wrong kind is still listed, but under the wrong
+ *      heading, and the heading is what you scan.
  *
  * Usage:
  *   node tools/blast-radius.mjs --word gob
  *   node tools/blast-radius.mjs --count 50
  *   node tools/blast-radius.mjs --symbol SOUNDOUT_SEAM_MS
  *   node tools/blast-radius.mjs --text "Let's try again."
- *   node tools/blast-radius.mjs --word the --all      (no per-group cap)
+ *   node tools/blast-radius.mjs --word the --all      (every matching line)
  *   node tools/blast-radius.mjs --self-test
  */
 import { execFileSync } from "node:child_process";
-import { readFileSync, writeFileSync, mkdtempSync, mkdirSync, rmSync, existsSync, statSync } from "node:fs";
+import { readFileSync, writeFileSync, mkdtempSync, mkdirSync, rmSync, existsSync, statSync, utimesSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join, dirname } from "node:path";
+import { pathToFileURL, fileURLToPath } from "node:url";
 
 const ARGS = process.argv.slice(2);
 const flag = (f) => {
@@ -45,8 +56,10 @@ const flag = (f) => {
   if (i < 0) return null;
   const v = ARGS[i + 1];
   /* A missing value used to be taken from the next flag: "--word --count 50"
-     searched the repository for the literal string "--count". */
+     searched the repository for the literal string "--count". An empty value
+     used to match every line of every file and print the repository back. */
   if (v === undefined || v.startsWith("--")) { console.error(`${f} needs a value.`); process.exit(2); }
+  if (v === "") { console.error(`${f} cannot be empty.`); process.exit(2); }
   return v;
 };
 
@@ -58,8 +71,6 @@ const flag = (f) => {
 let ROOT = null;
 const root = () => (ROOT ||= execFileSync("git", ["rev-parse", "--show-toplevel"], { encoding: "utf8" }).trim());
 
-/* Every tracked file, because a change is only real once it is committed, and
-   an untracked file is nobody's dependency. */
 const tracked = () =>
   execFileSync("git", ["ls-files"], { cwd: root(), encoding: "utf8" }).trim().split("\n").filter(Boolean);
 
@@ -67,12 +78,17 @@ const tracked = () =>
    easily forgotten dependency a word has. */
 const BINARY = /\.(mp3|png|jpg|jpeg|webm|zip|pdf|wav|ico|woff2?)$/i;
 
+/* How much was actually looked at. A walk that quietly stopped early, or a
+   file that failed to read, is otherwise indistinguishable from a short answer
+   that is simply true. */
+const SCAN = { tracked: 0, read: 0, binary: 0, unreadable: 0 };
+
 /* Copy in this repository is typed with typographic punctuation and read back
-   with whatever a keyboard produces. Both sides are flattened so --text finds
-   the line either way; without this, "Let's try again." and "Let’s try again."
-   return two different, both-incomplete answers. */
+   with whatever a keyboard produces. BOTH sides are flattened — flattening only
+   the file gives the same two incomplete answers in the other direction, and
+   the natural way to get a sentence is to paste it from SPEC, which is curly. */
 const PUNCT = [["’", "'"], ["‘", "'"], ["“", '"'], ["”", '"'],
-  ["—", "-"], ["–", "-"], ["…", "..."], [" ", " "]];
+  ["—", "-"], ["–", "-"], ["…", "..."], [" ", " "]];
 const flatten = (s) => { let t = s; for (const [a, b] of PUNCT) t = t.split(a).join(b); return t; };
 
 const esc = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
@@ -83,6 +99,7 @@ const esc = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
    what you must NOT edit is named as such. */
 const KINDS = [
   "THE ENGINE SOURCE (E1: never edit src/engine.js)",
+  "GENERATED ENGINE — edit reference/word-quest.jsx instead (E1)",
   "ACCEPTANCE SCENARIO — arithmetic here is regenerated (G3)",
   "GENERATED — never edit by hand; regenerate",
   "TEST — literal expected values (E4)",
@@ -90,7 +107,7 @@ const KINDS = [
   "MUTANT ANCHOR — re-point it, never delete it (E3)",
   "THE PACK RECIPE — word_speed_override and carrier_cut live here",
   "SHIPPED AUDIO — byte-pinned; delete it, never re-render it",
-  "THE WAITING ROOM — a word that never shipped",
+  "THE WAITING ROOM — approved and not yet shipped",
   "VOICE RECORD — change it with the shipping tool, not by hand (E10)",
   "RENDER SCRIPT — a mention here is history; do NOT edit it to erase a word",
   "GOVERNING FILE (G17) — the owner approves changes here",
@@ -108,28 +125,31 @@ const GOVERNING = ["CLAUDE.md", "AGENTS.md", "README.md"];
 
 function classify(f) {
   if (f === "reference/word-quest.jsx") return KINDS[0];
-  if (f.startsWith("features/")) return KINDS[1];
-  if (f.startsWith("tests/generated/")) return KINDS[2];
-  if (f.startsWith("tests/")) return KINDS[3];
-  if (f === ".claude/gate-baseline.json") return KINDS[4];
-  if (["tools/mutants.mjs", "tools/app-mutants.mjs", "tools/acceptance-mutants.mjs"].includes(f)) return KINDS[5];
-  if (f === "app/public/voice/manifest.json") return KINDS[6];
-  if (BINARY.test(f) && f.startsWith("app/public/voice/")) return KINDS[7];
-  if (f.startsWith("tools/pending-words/")) return KINDS[8];
-  if (VOICE_RECORDS.includes(f)) return KINDS[9];
-  if (/^tools\/(render|bake|build)[-_]/.test(f)) return KINDS[10];
-  if (GOVERNING.includes(f)) return KINDS[11];
-  if (f === "SPEC.md") return KINDS[12];
-  if (f === "CHANGELOG.md") return KINDS[13];
-  if (f.startsWith("docs/")) return KINDS[14];
-  if (f.startsWith("app/src/")) return KINDS[15];
-  if (f.startsWith("app/")) return KINDS[16];
-  if (f.startsWith("tools/")) return KINDS[17];
-  return KINDS[18];
+  if (f === "src/engine.js") return KINDS[1];
+  if (f.startsWith("features/")) return KINDS[2];
+  if (f.startsWith("tests/generated/")) return KINDS[3];
+  if (f.startsWith("tests/")) return KINDS[4];
+  if (f === ".claude/gate-baseline.json") return KINDS[5];
+  if (["tools/mutants.mjs", "tools/app-mutants.mjs", "tools/acceptance-mutants.mjs"].includes(f)) return KINDS[6];
+  if (f === "app/public/voice/manifest.json") return KINDS[7];
+  if (BINARY.test(f) && f.startsWith("app/public/voice/")) return KINDS[8];
+  if (/^tools\/pending-(words|sounds)\//.test(f)) return KINDS[9];
+  if (VOICE_RECORDS.includes(f)) return KINDS[10];
+  if (/^tools\/(render|bake|build)[-_]/.test(f)) return KINDS[11];
+  if (GOVERNING.includes(f)) return KINDS[12];
+  if (f === "SPEC.md") return KINDS[13];
+  if (f === "CHANGELOG.md") return KINDS[14];
+  if (f.startsWith("docs/")) return KINDS[15];
+  if (f.startsWith("app/src/")) return KINDS[16];
+  if (f.startsWith("app/")) return KINDS[17];
+  if (f.startsWith("tools/")) return KINDS[18];
+  return KINDS[19];
 }
 
-/* SEAM_MS lives inside SOUNDOUT_SEAM_MS and again as seamMs. A word-boundary
-   search finds neither, and reports a clean short answer while doing it. */
+/* SEAM_MS lives inside SOUNDOUT_SEAM_MS, again as seamMs, and again as hold_ms
+   in the Python. Matching is case-insensitive across the variants: for an
+   identifier a capital IS the identifier, and WORD_SPEED_OVERRIDE returning a
+   third of what word_speed_override returns is two answers for one name. */
 function symbolVariants(s) {
   const out = new Set([s]);
   if (s.includes("_")) {
@@ -141,9 +161,22 @@ function symbolVariants(s) {
   return [...out];
 }
 
+/* The token a match sits inside, so a number can tell "48px" (a dependency)
+   from the start of a content hash (noise). */
+function tokenAt(line, i) {
+  let a = i, b = i;
+  while (a > 0 && /[\w.-]/.test(line[a - 1])) a--;
+  while (b < line.length && /[\w.-]/.test(line[b])) b++;
+  return line.slice(a, b);
+}
+const HASHISH = /^[0-9a-f]{7,}$/i;
+
 /* One matcher per kind of thing you can name. Numbers are their own case:
-   "-1" must find "let first = -1" and not "pack-1", and "0.8" must find
-   "0.80" — a floor written to two decimal places is the same floor. */
+   "-1" must find "let first = -1" and not "pack-1"; "0.8" must find "0.80",
+   because a floor written to two decimal places is the same floor; and "44"
+   must find "44px", because the two files that implement a 44-pixel rule spell
+   it with the unit and a report titled "files containing 44" that omits them
+   is the failure this tool exists to remove. */
 function matcher(needle, mode) {
   if (mode === "text") {
     const want = flatten(needle);
@@ -151,19 +184,32 @@ function matcher(needle, mode) {
   }
   if (mode === "number") {
     const body = esc(needle) + (needle.includes(".") ? "0*" : "");
-    const re = new RegExp(`(?<![\\w.])${body}(?![\\w.])`);
-    return { test: (l) => re.test(l) };
+    /* Rejects a following DIGIT, and a dot only when a digit follows it: 44
+       must find "44px", and "7" must find "7." at the end of a sentence — SPEC
+       writes its level counts that way — while neither may match inside 7.5. */
+    const re = new RegExp(`(?<![\\w.])${body}(?!\\d|\\.\\d)`, "g");
+    return {
+      test: (l) => {
+        re.lastIndex = 0;
+        let m;
+        while ((m = re.exec(l))) if (!HASHISH.test(tokenAt(l, m.index))) return true;
+        return false;
+      },
+    };
   }
   if (mode === "symbol") {
-    const vs = symbolVariants(needle);
-    return { test: (l) => vs.some((v) => l.includes(v)), names: vs };
+    const names = symbolVariants(needle);
+    const vs = names.map((v) => v.toLowerCase());
+    return { test: (l) => { const low = l.toLowerCase(); return vs.some((v) => low.includes(v)); }, names };
   }
   const re = new RegExp(`\\b${esc(needle)}\\b`);
   return { test: (l) => re.test(l) };
 }
 
-/* A sentence that wraps in a document is still that sentence. Two of the three
-   places the S3 feedback line is written wrap it. */
+/* A sentence that wraps in a document is still that sentence: docs/voice-pack.md
+   wraps "Sound by sound, you built the whole word!" across two lines, and a
+   line-by-line search reports the sentence as living in four files when it
+   lives in five. Returns the 1-based line the sentence STARTS on. */
 function wrappedAt(lines, want) {
   const flatWant = want.replace(/\s+/g, " ").trim();
   let buf = "";
@@ -183,13 +229,18 @@ const pathTokens = (f) => f.split(/[^A-Za-z0-9]+/).filter(Boolean);
 function hits(needle, mode = "word") {
   const m = matcher(needle, mode);
   const out = [];
-  for (const f of tracked()) {
+  const files = tracked();
+  SCAN.tracked = files.length; SCAN.read = 0; SCAN.binary = 0; SCAN.unreadable = 0;
+  for (const f of files) {
     const found = [];
     if (pathTokens(f).includes(needle)) found.push({ n: 0, line: "(the file name itself)" });
-    if (!BINARY.test(f)) {
+    if (BINARY.test(f)) SCAN.binary++;
+    else {
       let text = null;
       try { text = readFileSync(join(root(), f), "utf8"); } catch { text = null; }
-      if (text !== null) {
+      if (text === null) SCAN.unreadable++;
+      else {
+        SCAN.read++;
         const lines = text.split("\n");
         lines.forEach((l, i) => { if (m.test(l)) found.push({ n: i + 1, line: l.trim().slice(0, 96) }); });
         if (!found.length && m.wrapped) {
@@ -207,12 +258,16 @@ function hits(needle, mode = "word") {
    which is the failure this tool exists to stop.
 
    Bank membership is NOT the level lists. bankWords() unions the levels with
-   the TRICKY and WORD_SOUND keys, so 21 words are keyed twice and removing one
-   from its level shrinks nothing. Saying otherwise invites an agent to lower a
-   floor (E6) for a count that never moved. */
+   the TRICKY and WORD_SOUND keys, so some words are keyed twice and removing
+   one from its level shrinks nothing. Saying otherwise invites an agent to
+   lower a floor (E6) for a count that never moved.
+
+   The engine is imported from the ROOT, not from this file's own directory, so
+   the controls can put a small honest engine in a sandbox and read real
+   arithmetic out of it instead of asserting facts about today's word bank. */
 async function counts(word) {
   let m;
-  try { m = await import("../src/engine.js"); }
+  try { m = await import(pathToFileURL(join(root(), "src/engine.js")).href); }
   catch (e) { return { engine: false, why: String(e.message).split("\n")[0].slice(0, 120) }; }
   const bank = m.bankWords();
   const level = m.LEVELS.find((l) => l.words.includes(word));
@@ -227,7 +282,9 @@ async function counts(word) {
   };
   if (!bank.includes(word)) return { engine: true, inBank: false, level: null, alsoKeyed, now };
   /* A sound with exactly one user leaves with that user, and its clip leaves
-     with it — so the clip count drops by two, not one. */
+     with it — so the clip count drops by two, not one. Counted over the BANK:
+     counted over the levels, a sound shared with a word that lives only in
+     WORD_SOUND looks unique and the prediction is wrong by one clip. */
   const users = new Map();
   for (const w of bank) for (const id of m.soundIdsFor(w)) users.set(id, (users.get(id) || 0) + 1);
   const sole = m.soundIdsFor(word).filter((id) => users.get(id) === 1);
@@ -237,9 +294,9 @@ async function counts(word) {
     clips: now.clips - 1 - sole.length,
     sounds: now.sounds - sole.length,
   };
-  const levelOnly = alsoKeyed.length
-    ? { bank: now.bank, levelSize: level ? now.levelSize - 1 : null, clips: now.clips, sounds: now.sounds }
-    : everywhere;
+  const levelOnly = alsoKeyed.length && level
+    ? { bank: now.bank, levelSize: now.levelSize - 1, clips: now.clips, sounds: now.sounds }
+    : null;
   return { engine: true, inBank: true, level: level ? level.n : null, alsoKeyed, sole, now, levelOnly, everywhere };
 }
 
@@ -270,61 +327,113 @@ const shown = (r, needle, n = 3) => {
   return [...r.found].sort((a, b) => rank(a) - rank(b) || a.n - b.n).slice(0, n);
 };
 
-function report(title, rows, needle, { cap = 10, only = null } = {}) {
+/* Every FILE is listed, always. Only the excerpt LINES under it are capped:
+   a dependency hidden behind "… 37 more files (--all to list them)" is the
+   founding failure with a flag in front of it, and the reader who needed that
+   flag is exactly the reader who did not notice the line offering it. */
+function report(title, rows, needle) {
   console.log(`\n${title}`);
-  const keep = only ? rows.filter((r) => only.includes(r.kind)) : rows;
-  if (!keep.length) { console.log("  (nothing)"); return; }
+  if (!rows.length) { console.log("  (nothing)"); return; }
   const byKind = new Map();
-  for (const r of keep) {
+  for (const r of rows) {
     if (!byKind.has(r.kind)) byKind.set(r.kind, []);
     byKind.get(r.kind).push(r);
   }
-  const order = [...byKind].sort((a, b) => KINDS.indexOf(a[0]) - KINDS.indexOf(b[0]));
-  for (const [kind, list] of order) {
+  const lines = ARGS.includes("--all") ? Infinity : 3;
+  for (const [kind, list] of [...byKind].sort((a, b) => KINDS.indexOf(a[0]) - KINDS.indexOf(b[0]))) {
     console.log(`\n  ${kind}`);
-    const limit = ARGS.includes("--all") ? list.length : cap;
-    for (const r of list.slice(0, limit)) {
+    for (const r of list) {
       console.log(`    ${r.file}  (${r.found.length})`);
-      for (const h of shown(r, needle)) console.log(`      ${h.n || "-"}: ${h.line}`);
-      if (r.found.length > 3) console.log(`      … ${r.found.length - 3} more in this file`);
+      for (const h of shown(r, needle, lines)) console.log(`      ${h.n || "-"}: ${h.line}`);
+      if (r.found.length > lines) console.log(`      … ${r.found.length - lines} more lines in this file (--all)`);
     }
-    if (list.length > limit) console.log(`    … ${list.length - limit} more files here (--all to list them)`);
   }
+  console.log(`\n  ${rows.length} file(s), of ${SCAN.tracked} tracked: ${SCAN.read} read, ${SCAN.binary} matched by name only`
+    + (SCAN.unreadable ? `, ${SCAN.unreadable} UNREADABLE` : ""));
 }
 
-/* The kinds worth chasing a moved NUMBER into: this is where the promotion
-   scenario hid, and where an hour went. */
-const ARITHMETIC = [KINDS[1], KINDS[2], KINDS[3], KINDS[4], KINDS[5], KINDS[14]];
-
 // ------------------------------------------------------------------- controls
-/* E5: a lookup that quietly finds nothing is worse than no lookup. These drive
-   the REAL hits(), classify() and counts() — hits() over a sandbox git tree
-   built at real repository paths, in the tools/ship-words.py sandbox style.
-   An earlier version searched a six-line array through a private closure: the
-   whole file could be deleted and all ten controls still passed, which is the
-   E3 line. Every fault the two audits of 2026-08-13 found has a control here.*/
+/* E5: a lookup that quietly finds nothing is worse than no lookup.
+ *
+ * Two layers, because the first version only had the lower one and an audit
+ * gutted the renderer with every control still green: 24 of 32 planted faults
+ * survived, and the tool printed a clean, confident, complete-looking answer
+ * with every file missing.
+ *   - SEARCH controls call hits(), classify() and counts() over a sandbox git
+ *     tree built at real repository paths, in the tools/ship-words.py style.
+ *   - OUTPUT controls run this file as a subprocess with the sandbox as its
+ *     working directory and assert on what it PRINTS.
+ * The sandbox carries its own small engine, so no control asserts a fact about
+ * today's word bank. An earlier version did, and removing one word made
+ * `npm run check` die with a stack trace.
+ */
+const ENGINE = `
+export const LEVELS = [
+  { n: 1, words: ["cat", "hen"] },
+  { n: 2, words: ["zzq", "qqz", "kek", "lel", "mem", "nen", "pep"] },
+];
+export const TRICKY = { qqz: "a tricky note" };
+export const WORD_SOUND = { zzq: { 0: "zee" }, wsonly: { 0: "sole" } };
+const SOUNDS = {
+  cat: ["d:k", "d:a", "d:t"], hen: ["d:h", "d:t"], zzq: ["d:zee"], qqz: ["d:k", "d:a"],
+  kek: ["d:k"], lel: ["d:k"], mem: ["d:k"], nen: ["d:k"], pep: ["d:k"],
+  wsonly: ["d:sole", "d:h"],
+};
+export const soundIdsFor = (w) => SOUNDS[w] || [];
+export function bankWords() {
+  const s = new Set();
+  for (const l of LEVELS) for (const w of l.words) s.add(w);
+  for (const w of Object.keys(TRICKY)) s.add(w);
+  for (const w of Object.keys(WORD_SOUND)) s.add(w);
+  return [...s].sort();
+}
+export function soundInventory() {
+  const s = new Set();
+  for (const w of bankWords()) for (const id of soundIdsFor(w)) s.add(id);
+  return [...s].sort();
+}
+export const voiceScript = () =>
+  [1, 2, 3].concat(bankWords()).concat(soundInventory()).map((x) => ({ id: String(x) }));
+`;
+/* bank 10, level 2 holds 7, sounds 6, clips 3 + 10 + 6 = 19.
+   zzq is the only user of d:zee. hen looks like the only user of d:h until
+   wsonly — which is in no level — is counted, which is the whole point. */
 const CORPUS = {
   "reference/word-quest.jsx":
-    'const L5 = { words: ["cat", "zzq"] };\n' +
-    'const banned = ["catnip"];\n' +
+    'const L2 = { words: ["zzq", "qqz"] };\n' +
+    'const banned = ["zzqling"];\n' +
     "const isSecure = (solid, total) => total > 0 && solid / total >= 0.8;\n" +
     "const SOUNDOUT_SEAM_MS = 120;\n" +
+    "const CHILD_TARGET = 44;\n" +
     "let first = -1;\n" +
     'const wrong = "Let’s try again.";\n',
-  "tests/engine.test.js": "expect(all.length).toBe(438);\nexpect(seamMs(1)).toBe(120);\n",
-  "docs/settled.md": "the bank holds 438 words, and pack-1 is retired.\nThe miss line reads Let's\ntry again. and nothing else.\n",
-  ".claude/gate-baseline.json": '{ "g13_clips": 499, "g6_ratio": 0.80 }\n',
-  "tools/render-voice-pack.py": "SPEED = 0.85\n",
+  "features/promotion.feature": "  Given a player on Level 2 with 6 of the 7 words at box 3\n",
+  "tests/generated/acceptance.test.js": "expect(LEVELS[1].words.length).toBe(7);\n",
+  "tests/engine.test.js": "expect(all.length).toBe(10);\nexpect(seamMs(1)).toBe(120);\n",
+  "SPEC.md": "Level word counts: 2, 7.\nThe child control floor is 44px.\n",
+  "CHANGELOG.md": "Ten words in the bank.\n",
+  "docs/settled.md": "the bank holds 10 words, and pack-1 is retired.\nThe miss line reads Let's\ntry again. and nothing else.\n",
+  ".claude/gate-baseline.json": '{ "g13_clips": 19, "g6_ratio": 0.80 }\n',
+  "tools/render-voice-pack.py": "SPEED = 0.85\nhold_ms = 450\n",
   "tools/mutants.mjs": '["promotion >= to >", "solid / total >= 0.8;"],\n',
-  /* The word's own row is the fifth line, and four rows mention it in passing
-     before it: unranked, the row that matters sits inside "… more". */
+  "tools/pending-words/w-zzq.json": '{ "word": "zzq" }\n',
   "tools/voice-words.csv": "word,level,round,notes\ncat,1,round 3,rendered beside zzq\n" +
-    "dog,1,round 4,compared with zzq\nhen,2,round 5,after zzq\nzzq,9,round 99,the word itself\n",
+    "hen,1,round 4,compared with zzq\nqqz,2,round 5,after zzq\nzzq,2,round 99,the word itself\n",
+  /* A SECOND file of the same kind, so a report that keeps only the first file
+     of each group is a fault rather than a coincidence. */
+  "tools/voice-lock.json": '{ "zzq": ["pinned"] }\n',
+  /* The same sentence on ONE line with a straight quote, where settled.md wraps
+     it: flattening only the file side still finds the wrapped one, so without
+     this the one-sided fault looks harmless. */
+  "docs/qa-procedure.md": "The miss line reads Let's try again. exactly.\n",
   "app/public/voice/manifest.json": '{ "zzq": [1, 2] }\n',
   "app/public/voice/w-zzq.mp3": "zzq is written in these bytes as text, on purpose\n",
-  "app/src/screens/HomeScreen.jsx": "any word from all 438\n",
+  "app/src/screens/HomeScreen.jsx": "any word from all 10\n",
+  "app/src/wq-css.js": "min-height: 44px;\n",
+  "src/engine.js": ENGINE,
 };
 const UNTRACKED = { "scratch.md": "zzq is named here but git does not track it\n" };
+const TOOL = fileURLToPath(import.meta.url);
 
 function sandbox() {
   const box = mkdtempSync(join(tmpdir(), "blast-radius-"));
@@ -333,12 +442,25 @@ function sandbox() {
     writeFileSync(join(box, f), body);
   }
   execFileSync("git", ["init", "-q"], { cwd: box });
-  execFileSync("git", ["add", ...Object.keys(CORPUS)], { cwd: box });
+  /* -f because a developer's global gitignore commonly lists .claude/ or
+     *.mp3, and a control that crashes on somebody's machine teaches them to
+     stop believing the check. Caught rather than thrown for the same reason:
+     an unstaged corpus must be reported by the named control below, not as a
+     stack trace in the middle of npm run check. */
+  try { execFileSync("git", ["add", "-f", ...Object.keys(CORPUS)], { cwd: box, stdio: "ignore" }); }
+  catch { /* reported by "every tracked file is accounted for" */ }
   return box;
 }
 
 const files = (rows) => rows.map((r) => r.file);
 const linesOf = (rows, f) => (rows.find((r) => r.file === f)?.found || []).map((h) => h.n);
+/* stderr is captured rather than inherited: a control that expects a refusal
+   would otherwise print that refusal into the middle of the control list. */
+const run = (box, ...argv) => {
+  const opt = { cwd: box, encoding: "utf8", stdio: ["ignore", "pipe", "pipe"] };
+  try { return execFileSync(process.execPath, [TOOL, ...argv], opt); }
+  catch (e) { return (e.stdout || "") + (e.stderr || ""); }
+};
 
 function searchControls(ok) {
   ok.push(["a word in the engine source is found", files(hits("zzq")).includes("reference/word-quest.jsx")]);
@@ -348,64 +470,163 @@ function searchControls(ok) {
     files(hits("zzq")).includes("app/public/voice/w-zzq.mp3")]);
   ok.push(["and the clip's bytes are never opened as text",
     linesOf(hits("zzq"), "app/public/voice/w-zzq.mp3").join() === "0"]);
-  ok.push(["its entry in the pack recipe is found",
-    files(hits("zzq")).includes("app/public/voice/manifest.json")]);
-  ok.push(["a whole word does not match a longer one: cat is not catnip",
-    linesOf(hits("cat"), "reference/word-quest.jsx").join() === "1"]);
+  ok.push(["its entry in the pack recipe is found", files(hits("zzq")).includes("app/public/voice/manifest.json")]);
+  ok.push(["its file in the waiting room is found", files(hits("zzq")).includes("tools/pending-words/w-zzq.json")]);
+  ok.push(["a whole word does not match a longer one: zzq is not zzqling",
+    linesOf(hits("zzq"), "reference/word-quest.jsx").join() === "1"]);
   ok.push(["an untracked file is nobody's dependency", !files(hits("zzq")).includes("scratch.md")]);
   ok.push(["a term nobody uses reports nothing", hits("zzzznotathing").length === 0]);
+  ok.push(["every tracked file is accounted for: read, or matched by name only",
+    SCAN.tracked === Object.keys(CORPUS).length && SCAN.read + SCAN.binary === SCAN.tracked && SCAN.unreadable === 0]);
+}
+
+function numberControls(ok) {
   ok.push(["a count is found in a test AND a document AND the app",
     ["tests/engine.test.js", "docs/settled.md", "app/src/screens/HomeScreen.jsx"]
-      .every((f) => files(hits("438", "number")).includes(f))]);
+      .every((f) => files(hits("10", "number")).includes(f))]);
+  ok.push(["a number carrying a unit is still that number: 44 finds 44px",
+    ["app/src/wq-css.js", "SPEC.md"].every((f) => files(hits("44", "number")).includes(f))]);
+  ok.push(["and the bare number is found too", files(hits("44", "number")).includes("reference/word-quest.jsx")]);
   ok.push(["a floor written to two decimal places is the same floor: 0.8 finds 0.80",
     ["tools/mutants.mjs", ".claude/gate-baseline.json"].every((f) => files(hits("0.8", "number")).includes(f))]);
   ok.push(["and 0.8 does not match 0.85", !files(hits("0.8", "number")).includes("tools/render-voice-pack.py")]);
   ok.push(["a negative number is found where it is used, and not in pack-1",
     files(hits("-1", "number")).join() === "reference/word-quest.jsx"]);
-  ok.push(["a floor name is found in the baseline",
-    files(hits("g13_clips", "symbol")).includes(".claude/gate-baseline.json")]);
+}
+
+function symbolTextControls(ok) {
   ok.push(["a symbol is found inside a longer identifier",
     files(hits("SEAM_MS", "symbol")).includes("reference/word-quest.jsx")]);
   ok.push(["and in its camelCase twin", files(hits("SEAM_MS", "symbol")).includes("tests/engine.test.js")]);
+  ok.push(["and spelled in lower case, because for an identifier a capital is not prose",
+    files(hits("HOLD_MS", "symbol")).includes("tools/render-voice-pack.py")]);
   ok.push(["a mutant anchor is found", files(hits("solid / total >= 0.8;", "text")).includes("tools/mutants.mjs")]);
   ok.push(["copy typed with a straight quote finds the curly one",
     files(hits("Let's try again.", "text")).includes("reference/word-quest.jsx")]);
-  ok.push(["and finds it where a document wraps it across two lines",
-    files(hits("Let's try again.", "text")).includes("docs/settled.md")]);
+  ok.push(["copy pasted with the curly quote finds the straight one, which is the same fault the other way up",
+    files(hits("Let’s try again.", "text")).includes("docs/qa-procedure.md")]);
+  ok.push(["a document that wraps the sentence is found, on the line it starts",
+    linesOf(hits("Let's try again.", "text"), "docs/settled.md").join() === "2"]);
+  /* And a sentence that does NOT wrap is reported as an ordinary line. Without
+     this the wrap fallback quietly rescues a half-flattened matcher: the file
+     is still found, so every other control passes, and the reader is told a
+     line wraps that does not. */
+  ok.push(["a sentence that does not wrap is not reported as though it did",
+    !(hits("Let’s try again.", "text").find((r) => r.file === "docs/qa-procedure.md")?.found[0].line || "")
+      .includes("wrapped across lines")]);
 }
 
 function classifyControls(ok) {
   const label = (f, part) => classify(f).includes(part);
-  ok.push(["the engine source is called out by name, because E1 forbids editing the generated copy",
-    label("reference/word-quest.jsx", "E1")]);
-  ok.push(["a generated test is marked as generated", label("tests/generated/acceptance.test.js", "GENERATED")]);
-  ok.push(["a baseline is marked as a floor", label(".claude/gate-baseline.json", "E6")]);
-  ok.push(["a mutant file is marked re-point, never delete", label("tools/mutants.mjs", "E3")]);
-  ok.push(["the pack recipe is not filed as 'other'", label("app/public/voice/manifest.json", "PACK RECIPE")]);
-  ok.push(["a shipped clip says delete, never re-render", label("app/public/voice/w-cat.mp3", "byte-pinned")]);
-  ok.push(["a voice record says use the shipping tool", label("tools/voice-words.csv", "VOICE RECORD")]);
-  ok.push(["a render script says do NOT edit it to erase a word",
-    label("tools/render-voice-pack.py", "do NOT edit")]);
-  ok.push(["a governing file names the owner", label("CLAUDE.md", "G17")]);
-  ok.push(["and nothing above lands in the unclassified bucket",
-    !["app/public/voice/manifest.json", "tools/voice-words.csv", "CLAUDE.md", "app/public/voice/w-cat.mp3"]
-      .some((f) => classify(f) === KINDS[18])]);
+  const cases = [
+    ["reference/word-quest.jsx", "E1", "the engine source is called out by name"],
+    ["src/engine.js", "GENERATED ENGINE", "the generated engine says edit the reference instead"],
+    ["features/promotion.feature", "ACCEPTANCE SCENARIO", "an acceptance scenario is named as one"],
+    ["tests/generated/acceptance.test.js", "GENERATED", "a generated test is marked as generated"],
+    ["tests/engine.test.js", "E4", "a hand-written test is told to use literal values"],
+    [".claude/gate-baseline.json", "E6", "a baseline is marked as a floor"],
+    ["tools/mutants.mjs", "E3", "a mutant file is marked re-point, never delete"],
+    ["app/public/voice/manifest.json", "PACK RECIPE", "the pack recipe is not filed as 'other'"],
+    ["app/public/voice/w-cat.mp3", "byte-pinned", "a shipped clip says delete, never re-render"],
+    ["tools/pending-words/w-zzq.json", "WAITING ROOM", "the waiting room is named"],
+    ["tools/pending-sounds/s-zz.json", "WAITING ROOM", "and so is the sounds half of it"],
+    ["tools/voice-words.csv", "VOICE RECORD", "a voice record says use the shipping tool"],
+    ["tools/render-voice-pack.py", "do NOT edit", "a render script says do NOT edit it to erase a word"],
+    ["CLAUDE.md", "G17", "a governing file names the owner"],
+    ["SPEC.md", "master source", "SPEC is named as the master source"],
+    ["CHANGELOG.md", "a parent reads", "the changelog says a parent reads it"],
+    ["docs/settled.md", "G16", "a document is named as doc-truth's"],
+    ["app/src/screens/HomeScreen.jsx", "G11", "app copy is named as gated"],
+    ["app/public/robots.txt", "APP ASSET", "an app asset is not app copy"],
+    ["tools/gen-x.mjs", "TOOL", "a plain tool is a tool"],
+    ["package.json", "UNCLASSIFIED", "and what has no kind says so, instead of guessing"],
+  ];
+  for (const [f, part, name] of cases) ok.push([name, label(f, part)]);
 }
 
 async function countControls(ok) {
-  /* Against the REAL engine, because the fault being controlled is the tool
-     believing the level lists are the bank. */
-  const cat = await counts("cat"), the = await counts("the"), gob = await counts("gob");
-  ok.push(["a word only in a level shrinks the bank when removed", cat.everywhere.bank === cat.now.bank - 1]);
+  const cat = await counts("cat"), zzq = await counts("zzq"), hen = await counts("hen");
+  const wsonly = await counts("wsonly"), none = await counts("nosuchword");
+  const eq = (a, b) => a && JSON.stringify(a) === JSON.stringify(b);
+  ok.push(["the bank is the union, not the level lists",
+    eq(zzq.now, { bank: 10, levelSize: 7, clips: 19, sounds: 6 })]);
   ok.push(["a word keyed twice does NOT shrink the bank when only its level entry goes",
-    the.alsoKeyed.length > 0 && the.levelOnly.bank === the.now.bank]);
-  ok.push(["a word that is the only user of a sound takes two clips with it",
-    the.sole.length === 1 && the.everywhere.clips === the.now.clips - 2]);
-  ok.push(["and a word that shares all its sounds takes one",
-    cat.sole.length === 0 && cat.everywhere.clips === cat.now.clips - 1]);
-  ok.push(["a word that is not in the bank is reported as not in the bank", gob.inBank === false]);
-  ok.push(["every count that can move names the floors that follow it",
-    ["bank", "clips", "levelSize", "sounds", "tests"].every((k) => FLOORS[k]?.length > 0)]);
+    eq(zzq.levelOnly, { bank: 10, levelSize: 6, clips: 19, sounds: 6 })]);
+  ok.push(["and removing it everywhere takes its clip AND its sole sound's clip",
+    eq(zzq.everywhere, { bank: 9, levelSize: 6, clips: 17, sounds: 5 })]);
+  ok.push(["a word keyed once has no separate level-only case", cat.levelOnly === null]);
+  ok.push(["and takes exactly one clip with it",
+    eq(cat.everywhere, { bank: 9, levelSize: 1, clips: 18, sounds: 6 })]);
+  ok.push(["sole users are counted over the BANK, not the levels",
+    hen.sole.length === 0 && eq(hen.everywhere, { bank: 9, levelSize: 1, clips: 18, sounds: 6 })]);
+  ok.push(["a word in no level is still in the bank", wsonly.inBank === true && wsonly.now.levelSize === null]);
+  ok.push(["a word that is not in the bank is reported as not in the bank", none.inBank === false]);
+  ok.push(["the level a word sits in is reported, not the one next to it", zzq.level === 2]);
+  ok.push(["every count that can move names the floor it moves",
+    /* Optional chaining throughout: a renamed key must FAIL this control, not
+       throw inside it. A control that can only fail by crashing reports "the
+       tool is broken" where it meant "the fault was caught", and the two are
+       indistinguishable in a pass/fail count. */
+    !!FLOORS.bank?.[0]?.includes("g11_copy_rules") && FLOORS.clips?.[0] === "g13_clips"
+    && !!FLOORS.sounds?.[0]?.includes("g13_clips") && !!FLOORS.levelSize?.[0]?.includes("G3")
+    && !!FLOORS.tests?.[0]?.includes("g1_unit_tests") && !!FLOORS.tests?.[0]?.includes("g20_tests_mapped")]);
+}
+
+/* The layer the first version had none of. Everything above can pass while the
+   tool prints nothing at all. */
+function outputControls(ok, box) {
+  const out = run(box, "--word", "zzq");
+  const has = (s) => out.includes(s);
+  ok.push(["the report prints the files it found", has("reference/word-quest.jsx") && has("tools/voice-words.csv")]);
+  ok.push(["under the heading that says what each file IS", has("THE ENGINE SOURCE") && has("SHIPPED AUDIO")]);
+  ok.push(["the clip is in the printed report, not only in the search",
+    has("app/public/voice/w-zzq.mp3")]);
+  ok.push(["the counts reach the page", has('"bank":10') && has('"levelSize":7') && has('"clips":19')]);
+  ok.push(["both removal cases reach the page",
+    has("If its level entry goes") && has("If removed everywhere") && has('"clips":17')]);
+  ok.push(["the sole-user sound is named on the page", has("ONLY user of: d:zee")]);
+  ok.push(["every floor reaches the page",
+    has("g11_copy_rules") && has("g13_clips") && has("g20_tests_mapped")]);
+  ok.push(["the level a word sits in reaches the page", has("yes, Level 2")]);
+  ok.push(["how much was looked at reaches the page, by value and not merely by shape",
+    has(`of ${Object.keys(CORPUS).length} tracked`)]);
+
+  /* The founding incident, in one assertion: the scenario contains the level
+     size and never the word, so only the chase can reach it. */
+  ok.push(["the chase reaches the scenario that does arithmetic on the level size",
+    has("features/promotion.feature") && has("Arithmetic")]);
+  ok.push(["and the generated test that hard-codes it", has("tests/generated/acceptance.test.js")]);
+  /* And SPEC, which an audit removed a word without: its level-count sentence
+     holds the number and no gate reads it. The chase must never be narrower
+     than --count on the same number. */
+  const chase = out.slice(out.indexOf("Arithmetic"));
+  const byCount = run(box, "--count", "7");
+  const missing = files(hits("7", "number")).filter((f) => !chase.includes(f));
+  ok.push(["the chase is never narrower than --count on the same number", missing.length === 0]);
+  ok.push(["so SPEC's own level-count line is chased, and it is the line no gate reads",
+    chase.includes("SPEC.md") && byCount.includes("SPEC.md")]);
+  ok.push(["the bank and clip counts are chased too, not only the level size",
+    chase.includes("app/src/screens/HomeScreen.jsx") && chase.includes(".claude/gate-baseline.json")]);
+
+  ok.push(["a word nobody uses prints nothing found, and does not pretend otherwise",
+    run(box, "--word", "zzzznotathing").includes("(nothing)")]);
+  ok.push(["no argument is refused with a message, not a stack trace",
+    run(box).includes("name what you are changing")]);
+  ok.push(["a flag used as a value is refused", run(box, "--word", "--count").includes("needs a value")]);
+  ok.push(["an empty value is refused instead of printing the repository back",
+    run(box, "--word", "").includes("cannot be empty")]);
+  ok.push(["a missing engine loses the counts and keeps the file list",
+    (() => { const e = join(box, "src/engine.js"); const keep = readFileSync(e); rmSync(e);
+      const o = run(box, "--word", "zzq"); writeFileSync(e, keep);
+      return o.includes("No counts") && o.includes("reference/word-quest.jsx"); })()]);
+  ok.push(["an engine older than its source is called stale before anything is believed",
+    (() => { const s = join(box, "reference/word-quest.jsx");
+      /* Stamped rather than rewritten: two writes in the same millisecond are
+         not ordered, and a control that depends on clock resolution is a
+         control that fails on somebody else's machine. */
+      const t = statSync(join(box, "src/engine.js")).mtime;
+      utimesSync(s, t, new Date(t.getTime() + 5000));
+      return run(box, "--word", "zzq").includes("NEWER than src/engine.js"); })()]);
 }
 
 async function selfTest() {
@@ -415,22 +636,25 @@ async function selfTest() {
   try {
     ROOT = box;
     searchControls(ok);
-    /* F1, the worst of the two audits' findings: run from a subdirectory and a
-       cwd-relative lookup answers with that subtree only, counts still right. */
+    numberControls(ok);
+    symbolTextControls(ok);
+    await countControls(ok);
+    /* Run from a subdirectory: a cwd-relative walk answers with that subtree
+       only, counts still right — wrong where nobody would check. */
     ROOT = null;
     process.chdir(join(box, "app"));
-    const fromBelow = files(hits("zzq")).length;
+    const below = files(hits("zzq")).length;
     process.chdir(real);
     ROOT = box;
     ok.push(["the answer is the same run from a subdirectory as from the root",
-      fromBelow === files(hits("zzq")).length && fromBelow === 4]);
+      below === files(hits("zzq")).length && below === 7]);
+    outputControls(ok, box);
   } finally {
     process.chdir(real);
     ROOT = null;
     rmSync(box, { recursive: true, force: true });
   }
   classifyControls(ok);
-  await countControls(ok);
 
   for (const [name, pass] of ok) console.log((pass ? "ok   " : "FAIL ") + name);
   const failed = ok.filter(([, p]) => !p).length;
@@ -453,35 +677,39 @@ if (warn) console.log(`\n⚠️  ${warn}`);
 if (word !== null) {
   const c = await counts(word);
   console.log(`\n=== BLAST RADIUS: the word "${word}" ===`);
-  if (!c.engine) {
-    console.log(`\nNo counts: ${c.why}`);
-  } else {
+  if (!c.engine) console.log(`\nNo counts: ${c.why}`);
+  else {
     console.log(`\nIn the bank: ${c.inBank ? `yes, Level ${c.level ?? "none"}` : "no"}`);
     if (c.alsoKeyed.length) console.log(`Also keyed in: ${c.alsoKeyed.join(", ")} — the bank is the union, not the levels`);
     console.log("Counts now:            ", JSON.stringify(c.now));
     if (c.inBank) {
-      if (c.alsoKeyed.length) console.log("If its level entry goes:", JSON.stringify(c.levelOnly));
+      if (c.levelOnly) console.log("If its level entry goes:", JSON.stringify(c.levelOnly));
       console.log("If removed everywhere: ", JSON.stringify(c.everywhere));
       if (c.sole.length) console.log(`It is the ONLY user of: ${c.sole.join(", ")} — those clips go with it`);
       console.log("\nFloors that follow those counts:");
-      /* Every key, from the table itself. FLOORS.tests was declared and never
-         printed, and those were the two floors the founding incident raised. */
       for (const [k, list] of Object.entries(FLOORS)) for (const f of list) console.log(`  ${k}: ${f}`);
     }
   }
   report(`Files that name "${word}":`, hits(word), word);
   /* The step the tool used to leave to a person, which is where the hour went:
-     the level size it just printed is the number the promotion scenario does
-     arithmetic on, and nothing in the word's own file list mentions it. */
-  if (c.engine && c.inBank && c.now.levelSize) {
-    const n = String(c.now.levelSize);
-    report(`Arithmetic on this level's size (${n}) — chased for you:`, hits(n, "number"), n, { only: ARITHMETIC });
+     the numbers it has just printed are what the scenarios, the floors and the
+     copy do arithmetic on, and none of those files mentions the word. Every
+     kind is reported, because a chase narrower than --count on the same number
+     is a chase that hides SPEC's own level-count line. */
+  if (c.engine && c.inBank) {
+    const seen = new Set();
+    for (const [what, n] of [["this level's size", c.now.levelSize], ["the bank size", c.now.bank],
+      ["the clip count", c.now.clips]]) {
+      if (!n || seen.has(n)) continue;
+      seen.add(n);
+      report(`Arithmetic on ${what} (${n}) — chased for you:`, hits(String(n), "number"), String(n));
+    }
   }
 }
 if (count !== null) report(`Files containing the literal ${count}:`, hits(count, "number"), count);
 if (symbol !== null) {
   const vs = symbolVariants(symbol);
-  report(`Files naming ${vs.join(" / ")}:`, hits(symbol, "symbol"), symbol);
+  report(`Files naming ${vs.join(" / ")} (any case):`, hits(symbol, "symbol"), symbol);
 }
 if (text !== null) report(`Files containing "${text}":`, hits(text, "text"), text);
 

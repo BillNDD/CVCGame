@@ -39,10 +39,9 @@ controls), the whole Vitest suite, and the sub-minute gates (G11 copy, G16 doc-t
 count, G13 voice pack, G17 governing files, G20 effect map), each with its negative controls.
 It also runs the controls of `tools/blast-radius.mjs`, the E11 lookup — a lookup that has
 quietly stopped finding things is worse than none. The lookup itself never fails a build; its
-controls, being in the check, can. No fault harness runs against those controls yet: one was
-written on 2026-08-13 but lived untracked in a scratchpad, which an audit the same day
-correctly called out, both because E5 asks a detector to ship with its negative controls and
-because this sentence claimed a run that was not happening.
+controls, being in the check, can. The faults planted against those controls run in the
+gauntlet rather than the check, because they take half a minute: see "E11 lookup-mutants"
+below.
 The quality lint was gauntlet-only until 2026-08-12. It cost two defects in one day: a
 `font:` shorthand ending in `inherit`, which its own controls have refused since 2026-07-29,
 shipped a label at four times its intended size; and a file went one over the complexity
@@ -631,6 +630,33 @@ promised a fallback the code never performed; G12 counted the step and saw nothi
   timing, changes the hold constant, leaves a stale speed in SPEC, takes the lookup's name out
   of `CLAUDE.md`, and takes its controls out of `npm run check`; every detector must fire.
 - Baseline floor: `g16_doc_rules` (9).
+
+### E11 lookup-mutants — the controls of the lookup, not a gate
+
+- `tools/blast-radius-mutants.mjs` plants faults in a scratch COPY of
+  `tools/blast-radius.mjs` and requires the lookup's own controls to catch every one. It
+  carries no G number deliberately: G22 is this repository's cautionary tale about a number
+  written into a document before the gate existed.
+- It is here rather than in `npm run check` because it takes about thirty seconds, and the
+  check is half a minute in total.
+- Baseline floors: `e11_lookup_controls` (76), `e11_lookup_mutants` (42). Ceilings:
+  `e11_lookup_survivors_max` (0), `e11_lookup_anchors_max` (0). A survivor means some part of
+  the lookup can be wrong while every control stays green. A moved anchor means a planted
+  fault no longer applies to the code and has been proving nothing.
+- It runs a baseline first and refuses to report anything if the unmutated lookup does not
+  pass its own controls — otherwise every fault would "die" against an already-red test. That
+  baseline runs under a deliberately hostile global gitignore (one that hides `.claude/` and
+  `*.mp3`, as a developer's own commonly does), because the sandbox has to force those paths
+  in and a control that only fails on somebody else's machine is a control nobody has.
+- Why the faults look the way they do: the first harness, written on 2026-08-13, planted
+  fifteen faults that were the one-for-one inverse of the fix list written the same hour, all
+  of them total breakage. All fifteen died, which proved the controls were wired and said
+  nothing about whether they were sensitive. An auditor then planted thirty-two of its own —
+  partial, off-by-one, wrong-but-plausible — and twenty-four survived. The faults here are
+  that second kind, and several are that auditor's.
+- It never writes to the working tree, and says so at the end of every run. The first harness
+  mutated the live file forty-two times; kill it between two writes and a mutant is left in
+  the repository, which has happened three times here by other routes (open-faults C2).
 
 ## Aggregation
 
