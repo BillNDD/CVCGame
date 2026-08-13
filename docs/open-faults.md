@@ -22,10 +22,13 @@ This document follows the Microsoft Writing Style Guide.
 
 Written against `v1.0.0-beta.17`, commit `fd7c894`. The full gauntlet passed on `c87ed44`
 with a clean tree: 22 gates, 0 failed, 66 source mutants killed, 341 tests, 406 clips.
-**As of 2026-08-12 that reads 67 mutants, 272 tests and 500 clips** — the test count fell
-because the microphone's 51 recognizer tests retired with the feature, and the clip count rose
-with the heart words. The line above is kept as the state when this document was opened; a
-"state at the time of writing" that is quietly edited stops being one.
+**As of the beta.17 release gauntlet on 2026-08-13, commit `037e561`, that reads 23 gates,
+67 source mutants, 273 tests and 499 clips**, with a clean tree and no gate skipped. The test
+count fell from 341 because the microphone's 51 recognizer tests retired with the feature; the
+clip count rose with the heart words and then fell by one when "gob" left the bank; and the
+gate count rose by one for the E11 lookup's own planted faults. The line above is kept as the
+state when this document was opened; a "state at the time of writing" that is quietly edited
+stops being one.
 Section A is the exception to everything else here: it is wrong TODAY, it is child-facing,
 and it is on by default. Everything after it is a missing guard, an undecided preference, or
 a gap in the audit trail, and **nothing after section A makes a wrong sound play today.**
