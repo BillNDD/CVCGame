@@ -1151,12 +1151,6 @@
     -20,
     20
    ],
-   "gob": [
-    "Spell it: G O B. gob.",
-    80,
-    -20,
-    20
-   ],
    "got": [
     "got. got.",
     80,
@@ -2809,7 +2803,6 @@
    "gash": 0.82,
    "get": 0.82,
    "glad": 0.8,
-   "gob": 1,
    "gong": 0.82,
    "got": 0.82,
    "grab": 0.95,
@@ -3402,7 +3395,6 @@
   "vex": "b6f285e992baca991755daac38c34c375ed45f0c549a948ad5b23b3034723fd7",
   "sax": "793c7939975e9f8eee7021ebcfdd8f966148ca49f72bd104b58ae3d3ce723146",
   "cod": "83ce9c436831920c18e8238df9c9326989d8e5dc54918a433617d624943c6ac8",
-  "gob": "ba39a275448337064b7e36e7d65fa3690db8b24a4f85dbaf6879b8a2448b12a0",
   "bash": "8309f292b2fe4c47cfdd1c162f9737f0c7a6ec4ddfdf18e90c1803f53c1115ed",
   "gash": "a2164ddef074c906a13a0324303ea40377599b41cc60092d58a980f1c8fcb3b1",
   "gush": "397eaa85b43cf706de355c380e23d0df09217e4a84dd73f128ad4bfd51e0830b",
@@ -5552,13 +5544,6 @@
    "round": "UPLIFT-EXPERIMENT-2 / 2026-08-06",
    "listen_context": "clip",
    "byte_pin_sha256": "83ce9c436831920c18e8238df9c9326989d8e5dc54918a433617d624943c6ac8"
-  },
-  "gob": {
-   "verdict": "perfect",
-   "ear_notes": "owner perfect gob_1 [US5]; family spell_speed1; spell_speed1 (CS00 text @ speed 1.0)",
-   "round": "UPLIFT-SWEEP-5 / 2026-08-07",
-   "listen_context": "clip",
-   "byte_pin_sha256": "ba39a275448337064b7e36e7d65fa3690db8b24a4f85dbaf6879b8a2448b12a0"
   },
   "bash": {
    "verdict": "perfect",
