@@ -22,16 +22,25 @@
  */
 import { test, expect } from "@playwright/test";
 import { chunkWord } from "../../src/engine.js";
-import { cases, inspect, stage, holdGrade, savedState, VIEWPORTS } from "../../tools/ux-census.mjs";
+import { cases, inspect, stage, holdGrade, savedState, VIEWPORTS, requireStaged } from "../../tools/ux-census.mjs";
 
 const CASES = cases();
 const VP = Object.fromEntries(VIEWPORTS.map((v) => [v.name, v]));
 
 /* The screens a word never visits, checked once per viewport. */
-for (const [which, open] of [
-  ["home", async () => {}],
-  ["grown-ups corner", async (page) => page.getByRole("button", { name: "Grown-ups corner" }).click()],
-  ["free-play chooser", async (page) => page.getByText("🎈 Free play").click()],
+/* Each screen names WHAT MUST BE ON IT. Without that these cells passed
+   `{}` to inspect and asserted the existence of nothing: an auditor deleted
+   the "Begin Session" button - a child cannot start a session at all - and all
+   seven viewports stayed green. */
+for (const [which, open, mustBeVisible, mustExist] of [
+  /* Selectors read off the app's own source, not guessed: the first version of
+     this list named a "Check for updates" button that lives on the home
+     screen's grown-up strip, not in the corner, so three screens reported
+     "missing" for a control that was never there. */
+  ["home", async () => {}, ['button:has-text("Begin Session")', '[aria-label="Grown-ups corner"]']],
+  ["grown-ups corner", async (page) => page.getByRole("button", { name: "Grown-ups corner" }).click(), null,
+    ['button:has-text("Copy log")', 'button:has-text("Reset all progress")']],
+  ["free-play chooser", async (page) => page.getByText("🎈 Free play").click(), ['button:has-text("Truly random")']],
 ]) {
   test(`screen: ${which}`, async ({ page }, testInfo) => {
     const viewport = VP[testInfo.project.name];
@@ -41,7 +50,7 @@ for (const [which, open] of [
     await page.goto("/", { waitUntil: "load" });
     await open(page);
     await page.waitForTimeout(200);
-    const { findings, aria, unclassified } = await inspect(page, viewport, which, {});
+    const { findings, aria, unclassified } = await inspect(page, viewport, which, { mustBeVisible: mustBeVisible || undefined, mustExist });
     await testInfo.attach("aria", { body: aria, contentType: "text/plain" });
     if (unclassified.length)
       await testInfo.attach("controls with no size class", { body: unclassified.join("\n"), contentType: "text/plain" });
@@ -63,9 +72,11 @@ for (const c of CASES) {
     });
 
     const { shown } = await stage(page, viewport, c.word, null, { url: "/" });
-    /* Refused, not substituted: recording a different word than the one asked
-       for is the fault tools/record-reveal.mjs shipped with. */
-    expect(shown, `asked for "${c.word}", the app showed "${shown}"`).toBe(c.word);
+    /* Refused, not substituted, and refused by a FUNCTION THAT THROWS rather
+       than by an assertion in this file. An assertion here can be downgraded to
+       expect.soft in one character, and when an auditor did exactly that the
+       control that existed to forbid it still passed. */
+    requireStaged(c.word, shown);
 
     const before = await savedState(page);
 
@@ -123,9 +134,23 @@ for (const c of CASES) {
          and it fails. The aria snapshot is still attached to the report as
          evidence for a person to read — attached, not asserted, until
          toMatchAriaSnapshot lands with the next census. */
-      await expect.soft(page.locator(".wq-tile"),
-        "the tiles on screen do not match the word's own split")
-        .toHaveText(chunkWord(c.word), { timeout: 5000 });
+      /* IN VISUAL ORDER, AND ONLY WHAT IS PAINTED. toHaveText reads DOM order
+         and count() counts DOM nodes, so an auditor set flex-direction:
+         row-reverse - a child reading "chat" sees t-a-ch - and the check stayed
+         green; then made the last tile invisible, so the child sees "ch a", and
+         it stayed green again. Both are one-line ships. This sorts the tiles by
+         their painted x position and drops anything the child cannot see. */
+      const seen = await page.evaluate(() => [...document.querySelectorAll(".wq-tile")]
+        .filter((el) => {
+          const s = getComputedStyle(el);
+          const r = el.getBoundingClientRect();
+          return s.visibility !== "hidden" && s.display !== "none" && Number(s.opacity) > 0
+            && r.width > 0 && r.height > 0;
+        })
+        .sort((a, b) => a.getBoundingClientRect().x - b.getBoundingClientRect().x)
+        .map((el) => el.textContent.trim()));
+      expect.soft(seen, "the tiles a child SEES, left to right, do not match the word's own split")
+        .toEqual(chunkWord(c.word));
 
       /* A REAL TAP, on the touch profiles, on the one control a child touches
          after the reveal — and it comes LAST, because a tap on "Next word"

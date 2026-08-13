@@ -57,10 +57,29 @@ export default defineConfig({
       args: ["--no-sandbox"],
     },
   },
-  projects: VIEWPORTS.map((v) => ({
-    name: v.name,
-    use: { viewport: { width: v.width, height: v.height }, hasTouch: v.touch, isMobile: v.touch },
-  })),
+  /* The controls get a project of their OWN, bound by testMatch. They used to
+     live in every project and skip themselves unless the project was called
+     "phone-portrait" - so renaming the projects, which item 1 of the census
+     build spec requires, skipped all 63 of them and exited 0. A file selected
+     by testMatch cannot silently skip: either the project exists and runs it,
+     or the project is gone and tools/census-report.mjs says so by name. */
+  projects: [
+    {
+      name: "controls",
+      testMatch: /controls\.spec\.mjs/,
+      metadata: { role: "negative-controls" },
+      use: {
+        viewport: { width: VIEWPORTS[0].width, height: VIEWPORTS[0].height },
+        hasTouch: VIEWPORTS[0].touch, isMobile: VIEWPORTS[0].touch,
+      },
+    },
+    ...VIEWPORTS.map((v) => ({
+      name: v.name,
+      testIgnore: /controls\.spec\.mjs/,
+      metadata: { role: "census" },
+      use: { viewport: { width: v.width, height: v.height }, hasTouch: v.touch, isMobile: v.touch },
+    })),
+  ],
   webServer: {
     command: `npx vite preview --port ${PORT} --strictPort`,
     cwd: "app",

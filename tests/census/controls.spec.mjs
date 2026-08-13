@@ -17,13 +17,19 @@
  * viewport: proving it fires once proves it fires. The census itself is what
  * runs everywhere.
  */
+import { readFileSync } from "node:fs";
 import { test, expect } from "@playwright/test";
-import { inspect, PLANTS, VIEWPORTS, stage, BANK_WORDS } from "../../tools/ux-census.mjs";
+import { inspect, PLANTS, VIEWPORTS, stage, BANK_WORDS, requireStaged, FONT_FLOOR } from "../../tools/ux-census.mjs";
 
+/* NO NAME-STRING SKIP. This file used to select itself with
+   `test.skip(testInfo.project.name !== "phone-portrait")`. An auditor renamed
+   the projects to `chromium-<viewport>` - the minimum item 1 of the census
+   build spec requires - and every one of these 63 cells skipped, exit code 0,
+   reported as success. Every E5 obligation in the census would have evaporated
+   on the first commit, silently and greenly.
+   The file is now bound to its own project by testMatch in the config, so
+   there is nothing to skip and nothing to mis-spell. */
 const VP = VIEWPORTS[0];
-test.beforeEach(({ }, testInfo) => {
-  test.skip(testInfo.project.name !== VP.name, "detectors are code, not viewports");
-});
 
 for (const [kind, css] of PLANTS) {
   test(`detector fires: ${kind}`, async ({ page }) => {
@@ -43,6 +49,95 @@ test("a clean page produces none of those findings", async ({ page }) => {
   for (const [kind] of PLANTS) expect(kinds.has(kind), `clean page reported ${kind}`).toBe(false);
 });
 
+/* The detectors added on 2026-08-13, each with the plant an auditor used to
+   prove the previous version was decoration. */
+test("detector fires: text-too-small", async ({ page }) => {
+  await page.goto("/", { waitUntil: "load" });
+  await page.addStyleTag({ content: `button, .wq-cta, .wq-sbtn { font-size: 6px !important; }` });
+  await page.waitForTimeout(150);
+  const { findings } = await inspect(page, VP, "planted", {});
+  expect(findings.map((f) => f.kind)).toContain("text-too-small");
+});
+
+test("detector fires: a PARTIAL cover, not just a full-page one", async ({ page }) => {
+  /* The old control used a full-page overlay, the easiest possible case. This
+     covers the left 49% - the exact plant that produced ZERO findings from the
+     single-centre-point version, because every control's centre sat just clear
+     of the panel edge while its label was half buried. It is a pseudo-element,
+     so it is invisible to a DOM scan: this is what the five-point sample is
+     for, and the element-overlap scan below is for the other shape. */
+  await page.goto("/", { waitUntil: "load" });
+  await page.addStyleTag({ content:
+    `body::after{content:"";position:fixed;left:0;top:0;width:49vw;height:100vh;background:#000;z-index:99999;}` });
+  await page.waitForTimeout(150);
+  const { findings } = await inspect(page, VP, "planted", {});
+  expect(findings.map((f) => f.kind)).toContain("control-obscured");
+});
+
+test("detector fires: overlap, between two real elements", async ({ page }) => {
+  /* The fault this is actually for: the home-screen images that overlapped
+     each other. A real element, because two elements sitting on top of one
+     another is a different shape from something painted over both. */
+  await page.goto("/", { waitUntil: "load" });
+  /* A NAMED control, not "the first button". Targeting whatever button came
+     first made this pass alone and fail in the suite: which button is first
+     depends on what else the app has rendered by then, so the plant landed on
+     a different box each time. A plant that is not deterministic cannot prove
+     anything about a detector. */
+  await page.getByRole("button", { name: "▶️ Begin Session" }).waitFor({ timeout: 8000 });
+  await page.evaluate(() => {
+    const first = [...document.querySelectorAll("button")].find((b) => b.textContent.includes("Begin Session"));
+    const r = first.getBoundingClientRect();
+    const d = document.createElement("div");
+    d.textContent = "landed on top";
+    /* Half-on, half-off VERTICALLY, and inside the control horizontally, so the
+       plant stays on screen at every viewport. A version offset sideways ran off
+       the right edge of the phone viewport: its own centre was outside the
+       window, elementFromPoint returned null, and the scan dropped it. */
+    d.style.cssText = `position:fixed;left:${r.left + r.width * 0.2}px;top:${r.top + r.height * 0.5}px;width:${r.width * 0.5}px;height:${r.height}px;background:#c33;color:#fff;z-index:5;`;
+    document.body.appendChild(d);
+  });
+  await page.waitForTimeout(150);
+  const { findings } = await inspect(page, VP, "planted", {});
+  expect(findings.map((f) => f.kind)).toContain("overlap");
+});
+
+test("a clean page reports no overlap and no small text", async ({ page }) => {
+  await page.goto("/", { waitUntil: "load" });
+  await page.waitForTimeout(200);
+  const { findings } = await inspect(page, VP, "clean", {});
+  const kinds = findings.map((f) => f.kind);
+  expect(kinds, "a clean page reported an overlap").not.toContain("overlap");
+  expect(kinds, "a clean page reported small text").not.toContain("text-too-small");
+});
+
+test("detector fires: missing, when a screen loses a control it must have", async ({ page }) => {
+  /* B5's plant, as a shipped control. An auditor deleted the "Begin Session"
+     button - a child cannot start a session at all - and every one of the seven
+     viewports stayed green, because the screen cells passed `{}` to inspect and
+     so asserted the existence of nothing. */
+  await page.goto("/", { waitUntil: "load" });
+  await page.getByRole("button", { name: "▶️ Begin Session" }).waitFor({ timeout: 8000 });
+  /* The node is REMOVED, which is the fault. An earlier version of this plant
+     used addStyleTag with `button:has-text(...)` - a Playwright selector, not
+     CSS - and one invalid selector voids the whole rule, so nothing was hidden
+     and the control failed for a reason that had nothing to do with the app. */
+  await page.evaluate(() => {
+    const b = [...document.querySelectorAll("button")].find((x) => x.textContent.includes("Begin Session"));
+    b.remove();
+  });
+  await page.waitForTimeout(150);
+  const { findings } = await inspect(page, VP, "planted", {
+    mustBeVisible: ['button:has-text("Begin Session")'],
+  });
+  expect(findings.map((f) => f.kind)).toContain("missing");
+});
+
+test("the font floors are floors, not the values the app happens to render", () => {
+  expect(FONT_FLOOR.control).toBe(12);
+  expect(FONT_FLOOR.word).toBe(24);
+});
+
 test("a case that cannot be staged is refused, never examined", async ({ page }) => {
   /* The word is deliberately not the one the seed selects. The census must say
      so and stop, rather than examine whatever the app happened to show —
@@ -57,8 +152,19 @@ test("a case that cannot be staged is refused, never examined", async ({ page })
   const { shown } = await stage(page, VP, "cat", null, { forceWrongSeed: true, url: "/" });
   expect(shown).not.toBe("cat");
   expect(BANK_WORDS).toContain(shown);
-  let refused = false;
-  try { expect(shown, "the census must refuse this case").toBe("cat"); }
-  catch { refused = true; }
-  expect(refused, "a mis-staged word did NOT stop the case").toBe(true);
+
+  /* The REAL guard, called the way the census calls it. The previous version
+     re-ran the census's own expect inside a try/catch, which proved that
+     Playwright's expect throws and nothing about the census: an auditor
+     downgraded the census's guard to expect.soft and this control still
+     passed while the census examined a word it never asked for. */
+  expect(() => requireStaged("cat", shown), "requireStaged accepted the wrong word").toThrow(/staging refused/);
+  expect(requireStaged("cat", "cat"), "requireStaged rejected the RIGHT word").toBe("cat");
+
+  /* And that the census actually calls it. A guard nothing calls is a guard
+     that is not there. */
+  const src = readFileSync(new URL("./ux.spec.mjs", import.meta.url), "utf8");
+  expect(src, "the census no longer calls requireStaged").toContain("requireStaged(c.word, shown)");
+  expect(src, "the census guards staging with a softenable assertion again")
+    .not.toMatch(/expect\.soft\([^)]*shown/);
 });

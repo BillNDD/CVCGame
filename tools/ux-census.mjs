@@ -200,7 +200,32 @@ async function inspect(page, viewport, label, opts = {}) {
            so calling that "obscured" reported eleven defects that did not
            exist. Obscured means something is on top of a control that IS in
            view. */
-        obscured: !!at && !(at === el || el.contains(at)),
+        /* FIVE POINTS, NOT ONE. Sampling only the centre meant an auditor
+           could cover the left 49% of every screen in opaque black and the
+           census reported nothing: every control's centre sat just clear of
+           the panel edge, while "n Session" and "ee play" were half buried.
+           Two of five covered is a partial cover; one can be an edge artifact
+           where a rounded corner meets a neighbour. A pseudo-element overlay
+           is caught here and NOT by the element-overlap scan below, because
+           ::after is not in the DOM at all - which is why both exist. */
+        obscured: (() => {
+          const pts = [[r.left + r.width / 2, r.top + r.height / 2],
+                       [r.left + r.width * 0.15, r.top + r.height * 0.15],
+                       [r.right - r.width * 0.15, r.top + r.height * 0.15],
+                       [r.left + r.width * 0.15, r.bottom - r.height * 0.15],
+                       [r.right - r.width * 0.15, r.bottom - r.height * 0.15]];
+          let covered = 0;
+          for (const [x, y] of pts) {
+            const hit = document.elementFromPoint(x, y);
+            /* NOT `|| hit.contains(el)`. A full-page ::after overlay makes
+               elementFromPoint return <body>, which is an ancestor - excluding
+               ancestors made the detector blind to the whole overlay class,
+               which is what it was built for. An ancestor painting over its own
+               child is exactly the fault. */
+            if (hit && !(hit === el || el.contains(hit))) covered++;
+          }
+          return covered >= 2;
+        })(),
         offScreen: !at,
         onTop: at ? at.tagName.toLowerCase() + "." + String(at.className).split(" ")[0] : "nothing",
         font: parseFloat(getComputedStyle(el).fontSize),
@@ -218,7 +243,73 @@ async function inspect(page, viewport, label, opts = {}) {
       push("control-too-small", `"${c.name}" is ${c.w}x${c.h}px, floor ${c.floor}px (${c.klass})`);
     if (c.obscured)
       push("control-obscured", `"${c.name}" has ${c.onTop} on top of its own centre`);
+    if (c.font && c.font < FONT_FLOOR.control)
+      push("text-too-small", `"${c.name}" renders its label at ${c.font}px, floor ${FONT_FLOOR.control}px`);
   }
+
+  /* The word a child is asked to read, which is the one piece of text on the
+     screen the whole game exists for. */
+  const wordFont = await page.evaluate(() => {
+    const el = document.querySelector(".wq-word");
+    return el ? parseFloat(getComputedStyle(el).fontSize) : null;
+  });
+  if (wordFont !== null && wordFont < FONT_FLOOR.word)
+    push("word-too-small", `the target word renders at ${wordFont}px, floor ${FONT_FLOOR.word}px`);
+
+  /* OVERLAP, over rectangles rather than one sampled pixel. control-obscured
+     asks what sits at a control's exact centre, so an auditor covered the left
+     49% of every screen in opaque black and the census reported nothing: every
+     control's centre sat just clear of the panel. This compares the boxes of
+     things that actually carry ink - text leaves and images - and ignores
+     ancestor pairs, which always overlap by construction. */
+  const overlaps = await page.evaluate(() => {
+    const ink = [...document.querySelectorAll("*")].filter((el) => {
+      const s = getComputedStyle(el);
+      if (s.visibility === "hidden" || s.display === "none" || Number(s.opacity) === 0) return false;
+      const r = el.getBoundingClientRect();
+      if (r.width < 8 || r.height < 8) return false;
+      const ownText = [...el.childNodes].some((n) => n.nodeType === 3 && n.textContent.trim());
+      /* Controls count as ink even when their label sits in a child element,
+         which is the common case and which made the first version of this scan
+         blind to a div dropped on top of a button. */
+      const isControl = el.matches("button, a, [role=button], input, .wq-cta, .wq-sbtn");
+      if (!(ownText || isControl || el.tagName === "IMG" || s.backgroundImage !== "none")) return false;
+      /* AND it must actually be the thing on top at its own centre. The free-play
+         chooser opens as a panel over the home screen, whose buttons stay in the
+         DOM with real boxes behind it - so "Begin Session" and "Truly random"
+         were reported as colliding when one is simply behind the other. Two
+         things collide only if a person can see both. */
+      const hit = document.elementFromPoint(r.left + r.width / 2, r.top + r.height / 2);
+      return !!hit && (hit === el || el.contains(hit) || hit.contains(el));
+    });
+    const box = (el) => el.getBoundingClientRect();
+    const name = (el) => (el.getAttribute("aria-label") || el.textContent || el.tagName).trim().slice(0, 28);
+    const out = [];
+    for (let i = 0; i < ink.length; i++) {
+      for (let j = i + 1; j < ink.length; j++) {
+        const a = ink[i], b = ink[j];
+        if (a.contains(b) || b.contains(a)) continue;
+        const ra = box(a), rb = box(b);
+        const w = Math.min(ra.right, rb.right) - Math.max(ra.left, rb.left);
+        const h = Math.min(ra.bottom, rb.bottom) - Math.max(ra.top, rb.top);
+        if (w <= 1 || h <= 1) continue;
+        const smaller = Math.min(ra.width * ra.height, rb.width * rb.height);
+        if (smaller <= 0) continue;
+        const ratio = (w * h) / smaller;
+        /* PARTIAL overlap only. Total containment - one box wholly inside
+           another without a DOM ancestor relationship - is how stacking
+           contexts and modal scrims look, and reporting it produced four
+           findings on a clean screen where nothing was wrong: a dialog sits on
+           top of the level strip by design. Two things COLLIDING overlap each
+           other partly, which is the shape of the home-screen images that
+           landed on top of one another. */
+        if (ratio > 0.25 && ratio < 0.9)
+          out.push(`"${name(a)}" and "${name(b)}" overlap over ${Math.round(ratio * 100)}% of the smaller`);
+      }
+    }
+    return out.slice(0, 12);
+  });
+  for (const o of overlaps) push("overlap", o);
 
   /* The accessibility tree with its geometry, in one call: what a screen
      reader is told and where those things actually are. Used to compare the
@@ -234,9 +325,24 @@ async function inspect(page, viewport, label, opts = {}) {
       [...document.querySelectorAll(".wq-tile")].filter((t) => !t.textContent.trim()).length);
     if (empty) push("empty-tile", `${empty} tile(s) render with no letter in them`);
   }
+  /* EXISTENCE alone, for a screen that scrolls by design. The grown-ups corner
+     is one: its lower rows sit at y=1824 in a 568px viewport and that is not a
+     defect. Requiring them above the fold invented two findings; requiring
+     nothing at all is how an auditor deleted the "Begin Session" button and
+     left every viewport green. So a state says which of the two it means. */
+  for (const sel of opts.mustExist || []) {
+    if (!(await page.locator(sel).first().count()))
+      push("missing", `${sel} is not on the page at all`);
+  }
   if (opts.mustBeVisible) {
     for (const sel of opts.mustBeVisible) {
       const el = page.locator(sel).first();
+      /* COUNT FIRST. boundingBox() auto-waits, so a control that is genuinely
+         absent - the fault this is here to find - burned the whole 60s test
+         timeout and reported a timeout instead of "missing". Found by writing
+         the negative control for it: the detector could only report the fault
+         it was built for by taking a minute to do it. */
+      if (!(await el.count())) { push("missing", `${sel} is not on the page at all`); continue; }
       const box = await el.boundingBox().catch(() => null);
       if (!box) { push("missing", `${sel} is not on the page at all`); continue; }
       if (box.y + box.height > viewport.height + 1 || box.y < -1)
@@ -254,6 +360,28 @@ async function inspect(page, viewport, label, opts = {}) {
     .map((c) => `${c.name || "(no label)"} ${c.w}x${c.h}`);
   return { findings, aria, controls, unclassified, offScreen, page: page_ };
 }
+
+/* THE STAGING REFUSAL, as a function both the census and its control call.
+   It used to be an `expect` in the spec file with a control that re-ran the
+   same expect inside a try/catch — which proved that Playwright's expect
+   throws, and nothing about the census. An auditor downgraded the census's
+   real guard to expect.soft on 2026-08-13 and the control still passed while
+   the census went on to examine a word it had not asked for: exactly the fault
+   tools/record-reveal.mjs shipped with, recording "mop" when asked for "of".
+   A function that THROWS cannot be softened from the spec file. */
+function requireStaged(asked, shown) {
+  if (shown !== asked)
+    throw new Error(`staging refused: asked for "${asked}", the app showed "${shown}" - the cell stops here rather than examining the wrong word`);
+  return shown;
+}
+
+/* Floors, not measurements. inspect() collected a font size for every control
+   from the day it was written and never asserted it, so an auditor set every
+   child label to 6px and the target word to 8px and the census stayed green -
+   the exact fault class it was commissioned for, after a label shipped at four
+   times its intended size. Both numbers are well under what the app renders
+   today; they are floors a child can still read, not the current values. */
+const FONT_FLOOR = { control: 12, word: 24 };
 
 const BANK_WORDS = LEVELS.flatMap((l) => l.words);
 const LONGEST_PRAISE = [...PRAISE.keys()].sort((a, b) => PRAISE[b].length - PRAISE[a].length)[0];
@@ -345,5 +473,5 @@ const PLANTS = [
   ["nothing-measured", `button,[role=button],a[href],input,select{display:none !important}`],
 ];
 
-export { cases, signature, inspect, stage, holdGrade, savedState, holdTheDice,
+export { cases, signature, inspect, stage, holdGrade, savedState, holdTheDice, requireStaged, FONT_FLOOR,
          VIEWPORTS, CHILD_MIN, ADULT_MIN, PLANTS, BANK_WORDS, LONGEST_PRAISE };
