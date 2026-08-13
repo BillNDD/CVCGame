@@ -816,6 +816,36 @@ function revealWord(text, level) {
   const own = new Set((LEVELS.find((l) => l.n === level) || {}).words || []);
   return sentenceWords(text).find((w) => own.has(w)) || null;
 }
+/* THE SAME QUESTION IN FREE PLAY, where there is no level word to use.
+   Owner-ruled 2026-08-13, from four costed options: the LONGEST word, counted
+   in sound tiles rather than letters, and the first one when two tie.
+
+   Counted in TILES because that is the thing being taught: "ship" is four
+   letters and three sounds, and a child taking it apart meets three pieces.
+   Letters would call it longer than "cat" by one and it is longer by nothing
+   that matters here.
+
+   Stable, and that is the point of it. The same sentence teaches the same word
+   every time a child meets it, which is the rule the session reveal already
+   follows — a random pick was one of the four options and was refused for
+   exactly that reason. */
+function revealWordLongest(text) {
+  let best = null, most = 0;
+  for (const w of sentenceWords(text)) {
+    const n = chunkWord(w).length;
+    if (n > most) { most = n; best = w; }
+  }
+  return best;
+}
+/* Every sentence a child at this level can read, for free play (SPEC section
+   12 point 7). Levels up to AND INCLUDING theirs: a sentence from an earlier
+   level is practice a child has earned, and one from a later level is the
+   guessing exercise the decodability rule exists to prevent. */
+function sentencesUpTo(level) {
+  const out = [];
+  for (const l of LEVELS) if (l.n <= level) out.push(...(SENTENCES[l.n] || []));
+  return out;
+}
 /* The canonical clip inventory: every id a pack must cover, with its text.
    Drives the renderer, the recorder, and the gate. Every clip is spoken at
    the voice's natural speed — a stretched word stops sounding like the word. */

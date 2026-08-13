@@ -5,7 +5,8 @@ import {
   LEVELS, SESSION_SIZE, PROMPT_CAP, ADVANCE_GUARD_MS, SPLASH_TIMEOUT_MS,
   C, SEAM_MS, freshWordState, applyResult, buildSession, checkPromotion,
   migrate, newState, buildMarkdown, feedbackSpeech, PRAISE, speak, hush, buzz, ttsSafePraise,
-  sessionSentences, sentencePlan, sentenceClosePlan, revealWord, REVEAL_LINES,
+  sessionSentences, sentencePlan, sentenceClosePlan, revealWord, revealWordLongest,
+  sentencesUpTo, shuffle, REVEAL_LINES,
 } from "@engine";
 /* W3 — the storage adapter is IndexedDB in the standalone app. */
 import { loadState, saveState } from "./storage.js";
@@ -134,6 +135,7 @@ export default function App() {
      which is three rules broken by one convenience. */
   const sentencePlanRef = useRef([]);
   const closeTimer = useRef(null);
+  const fpSentences = useRef([]);
   const [sentence, setSentence] = useState(null);
   const [shownSentences, setShownSentences] = useState([]);
   const [openWord, setOpenWord] = useState(null);
@@ -267,14 +269,31 @@ export default function App() {
     unlockVoice();
     fpMode.current = mode;
     fpState.current = structuredClone(stateRef.current);
-    const q = mode === "random" ? buildRandomBlock("") : buildSession(fpState.current);
     setFpChooser(false);
     setFreePlay(true); setFpCount(0);
-    setQueue(q); setQi(0);
+    setQi(0);
     setFirstResults({}); setOrder([]); setRetries({}); setSeenTwice({});
     setPromptCount(0); setPhase("ready"); setLastGrade(null);
     setAdvanceReady(true); advanceLive.current = true; setExitAsk(false);
     gradedRef.current = null;
+    setSentence(null); setShownSentences([]); setOpenWord(null);
+    /* SENTENCE FREE PLAY (SPEC section 12 point 7). The queue holds sentences
+       rather than words and there is no grading at all: free play writes
+       nothing to the record, ever (design rule 1 and S1), so a sentence read
+       here teaches and celebrates and schedules nothing — which is what a
+       sentence does inside a session anyway.
+
+       The pool is every sentence up to and including the child's level. One
+       earlier is practice they have earned; one later is the guessing
+       exercise the decodability rule exists to prevent. */
+    if (mode === "sentences") {
+      const pool = shuffle(sentencesUpTo(fpState.current.level));
+      fpSentences.current = pool;
+      setQueue(pool); showSentence(pool[0], true);
+      setScreen("session");
+      return;
+    }
+    setQueue(mode === "random" ? buildRandomBlock("") : buildSession(fpState.current));
     setScreen("session");
   }
 
@@ -427,8 +446,15 @@ export default function App() {
   /* THE SENTENCE, shown between two words (SPEC section 12 point 6). One read
      of the whole sentence, an invitation, the sound-out of the word the LEVEL
      teaches, and then the closing read. */
-  function showSentence(item) {
-    const w = revealWord(item.text, stateRef.current.level);
+  function showSentence(item, free = false) {
+    /* WHICH WORD GETS SOUNDED OUT. In a session it is the word the LEVEL
+       teaches (SPEC section 12 point 6). Free play has no such word — a
+       sentence there may come from any level the child has reached — so the
+       owner ruled on 2026-08-13, from four costed options: the LONGEST word,
+       counted in sound tiles. Stable, so the same sentence teaches the same
+       word every time; a random pick was offered and refused for exactly the
+       reason the session rule gives. */
+    const w = free ? revealWordLongest(item.text) : revealWord(item.text, stateRef.current.level);
     setSentence(item); setOpenWord(w); setPhase("sentence");
     setShownSentences((ids) => [...ids, item.id]);
     clearPops();
@@ -506,6 +532,17 @@ export default function App() {
     }
     const np = promptCount + 1;
     setPromptCount(np); setLastGrade(null);
+    /* Sentence free play advances one sentence at a time and never runs out:
+       the shuffled pool is dealt again from the top. There is nothing to
+       grade and nothing to record, so none of the queue bookkeeping below
+       applies to it. */
+    if (freePlay && fpMode.current === "sentences") {
+      const pool = fpSentences.current;
+      const at = (qi + 1) % pool.length;
+      setQi(at); setFpCount((c) => c + 1);
+      showSentence(pool[at], true);
+      return;
+    }
     if (freePlay) {
       /* Endless: a spent block is rebuilt. In level mode it comes from the
          clone the results landed in, so a word read well recedes and a missed
