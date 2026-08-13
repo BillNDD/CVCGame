@@ -807,9 +807,15 @@ sentences are made of the words that level teaches.
    nothing. It is written here now because a decision that lives only in a chat log is a
    decision this project loses, which is the whole reason those documents exist.
 
-   **Still open, and not assumed:** what ends the item — the grown-up's control at any time,
-   or must the closing read finish first. A prototype built to this design, using only
-   approved audio, was put to the owner on 2026-08-13.
+   **What ends the item: the grown-up presses for the next word** — owner-ruled 2026-08-13,
+   closing the last open question in this design. Nothing has to finish first. The closing
+   read and any tapping the child is doing both stop when the control is pressed, which is the
+   same rule the word items already follow and means a grown-up never has to wait out a
+   sentence to move on.
+
+   **Approved 2026-08-13**, from a working prototype built to this design and using only
+   approved audio: the sentence graded perfect in batch 1, the invitation graded perfect the
+   same day, and the shipped pack's own sound and word clips.
 
 What this costs, and none of it is done: `a` needs a listening round, being a word the game
 has never spoken. `the` and `and` have approved clips already. Every level object grows a
