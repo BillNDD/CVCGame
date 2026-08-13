@@ -438,12 +438,12 @@
       "name": "Level promotion",
       "scenarios": [
         {
-          "name": "Exactly 80 percent promotes",
+          "name": "Just over 80 percent promotes",
           "outline": false,
           "steps": [
             {
               "kind": "Given",
-              "text": "a player on Level 5 with 40 of the 50 words at box 3"
+              "text": "a player on Level 5 with 40 of the 49 words at box 3"
             },
             {
               "kind": "When",
@@ -462,7 +462,7 @@
           "steps": [
             {
               "kind": "Given",
-              "text": "a player on Level 5 with 39 of the 50 words at box 3"
+              "text": "a player on Level 5 with 39 of the 49 words at box 3"
             },
             {
               "kind": "When",
