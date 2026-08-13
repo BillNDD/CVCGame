@@ -37,9 +37,12 @@ This document follows the Microsoft Writing Style Guide.
 with the G6 complexity and file-length ceilings, the dependency-cycle scan, and the quality
 controls), the whole Vitest suite, and the sub-minute gates (G11 copy, G16 doc-truth, G12 QA
 count, G13 voice pack, G17 governing files, G20 effect map), each with its negative controls.
-It also runs the controls of `tools/blast-radius.mjs`, the E11 lookup, which is not a gate and
-never fails a build — but a lookup that has quietly stopped finding things is worse than none,
-so its thirty-five controls (and the fifteen faults planted against them) run here.
+It also runs the controls of `tools/blast-radius.mjs`, the E11 lookup — a lookup that has
+quietly stopped finding things is worse than none. The lookup itself never fails a build; its
+controls, being in the check, can. No fault harness runs against those controls yet: one was
+written on 2026-08-13 but lived untracked in a scratchpad, which an audit the same day
+correctly called out, both because E5 asks a detector to ship with its negative controls and
+because this sentence claimed a run that was not happening.
 The quality lint was gauntlet-only until 2026-08-12. It cost two defects in one day: a
 `font:` shorthand ending in `inherit`, which its own controls have refused since 2026-07-29,
 shipped a label at four times its intended size; and a file went one over the complexity
@@ -605,21 +608,29 @@ and from a real browser driven through a whole session.
 A document that promises behaviour the code does not have is a defect. QA step 32 once
 promised a fallback the code never performed; G12 counted the step and saw nothing wrong.
 
-- `tools/doc-truth.mjs` binds words to code with five rules: every child-facing sentence
+- `tools/doc-truth.mjs` binds words to code. Five of its nine rules: every child-facing sentence
   quoted in SPEC section 8 exists verbatim in the app; every quoted sentence in the manual QA
   script exists verbatim in the app or the engine; the timings the documents name in words
   match the constants (the 8-second watchdog, the 2-second grace, and the "about 10 seconds"
   a tester is told to expect); the hold gesture the documents name matches the control's
   timer; and the voice-pack recipe SPEC names — the voice, the word speed, and the bit rate —
   matches the recipe inside the shipped pack.
-- The fifth rule comes from a real drift: SPEC named speed 0.7 for weeks after the pack moved
+- That recipe rule comes from a real drift: SPEC named speed 0.7 for weeks after the pack moved
   to 0.85. A reader cannot hear a manifest, and G13 cannot read prose.
 - Expected values are read out of the documents, never hard-coded here, so a sentence added
   to SPEC is checked from the moment it is written.
+- The ninth rule is the orphan rule, owner-ruled 2026-08-13: every tool a governing document
+  tells an agent to run must still be named in every document that names it, and must still be
+  wired into the command that runs its controls. It exists because an agent resuming after a
+  context compaction knows only what the governing documents say. A tool dropped from
+  `CLAUDE.md` by a later tidy-up has stopped existing for every agent after that, however
+  green its own controls are; and a tool dropped from `npm run check` can go wrong and stay
+  green. `tools/blast-radius.mjs` and `tools/mutants.mjs` are covered today. The rule found a
+  real gap the moment it was written: `README.md` did not name the lookup at all.
 - Negative control: `--self-test` rewords a SPEC sentence, rewords a QA promise, changes a
-  timing, changes the hold constant, and leaves a stale speed in SPEC; every detector must
-  fire.
-- Baseline floor: `g16_doc_rules` (8).
+  timing, changes the hold constant, leaves a stale speed in SPEC, takes the lookup's name out
+  of `CLAUDE.md`, and takes its controls out of `npm run check`; every detector must fire.
+- Baseline floor: `g16_doc_rules` (9).
 
 ## Aggregation
 

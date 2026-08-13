@@ -82,11 +82,23 @@ docs/         the install, testing, and QA documents
 reference/    the single-file artifact build
 ```
 
+## Before you change anything
+
+Run `node tools/blast-radius.mjs --word gob` — or `--count 49`, `--symbol SEAM_MS`, or
+`--text "Let's try again."` — and read the answer before you edit. One fact in this
+repository is usually written in eight places: the engine, a test with literal values, a
+generated file, a gate floor, a mutant anchor, an acceptance scenario doing arithmetic on a
+number, a document, and the copy a parent reads. The tool lists every tracked file that names
+the thing, sorted by what each file is, with the counts that would move and the gate floors
+that follow. It takes a fifth of a second, it is a lookup rather than a gate, and it never
+fails a build. `CLAUDE.md` rule E11 explains why it exists, and it is not optional.
+
 ## How to test
 
 Run `npm test` for the unit, property, acceptance, fault, and safety suites. Run
-`npm run gauntlet` for every quality gate. A red gauntlet blocks a change.
-`docs/testing-gauntlet.md` defines each gate.
+`npm run check` before every push — the quality lint, the tests, the sub-minute gates and the
+controls of `tools/blast-radius.mjs`, about half a minute. Run `npm run gauntlet` for every
+quality gate. A red gauntlet blocks a change. `docs/testing-gauntlet.md` defines each gate.
 
 ## Design rules
 

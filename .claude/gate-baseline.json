@@ -32,7 +32,7 @@
   "g13_engine_tests": 13,
   "g14_update_tests": 18,
   "g14_worker_tests": 5,
-  "g16_doc_rules": 8,
+  "g16_doc_rules": 9,
   "g17_governing_files": 24,
   "g18_network_checks": 4,
   "g19_app_mutants": 10,

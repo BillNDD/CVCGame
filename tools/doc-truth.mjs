@@ -63,8 +63,35 @@ const SOURCES = [
   "app/src/screens/DoneScreen.jsx", "app/src/screens/ParentScreen.jsx",
   "app/src/components/HoldButton.jsx", "app/src/components/UpdateRow.jsx", "src/engine.js",
 ];
+/* The tools an agent is TOLD to run, and the sentences that tell them. A tool
+   nobody is pointed at is a tool nobody runs: blast-radius was built on
+   2026-08-13 to make E11's second step a command, and the owner asked the same
+   day what stops it being quietly orphaned by a later edit or forgotten across
+   a context compaction. This is that stop. Add a tool here when a governing
+   document starts telling agents to run it. */
+const AGENT_TOOLS = [
+  {
+    file: "tools/blast-radius.mjs",
+    why: "the E11 lookup: what does this change break",
+    docs: { "CLAUDE.md": "claude", "AGENTS.md": "agents", "README.md": "readme" },
+    script: "check",
+    command: "tools/blast-radius.mjs --self-test",
+  },
+  {
+    file: "tools/mutants.mjs",
+    why: "the mutation gate, and its --anchors dry run that E11 asks for first",
+    docs: { "CLAUDE.md": "claude", "AGENTS.md": "agents" },
+    script: null,
+    command: null,
+  },
+];
+
 const real = {
   spec: readFileSync("SPEC.md", "utf8"),
+  claude: readFileSync("CLAUDE.md", "utf8"),
+  agents: readFileSync("AGENTS.md", "utf8"),
+  readme: readFileSync("README.md", "utf8"),
+  pkg: readFileSync("package.json", "utf8"),
   qa: readFileSync("docs/qa-procedure.md", "utf8"),
   pack: readFileSync("app/public/voice/manifest.json", "utf8"),
   app: readFileSync("app/src/App.jsx", "utf8"),
@@ -229,11 +256,43 @@ function run(d) {
     }
   }
 
+  /* THE ORPHAN RULE (owner-ruled 2026-08-13). A tool an agent is told to run
+     is only as real as the sentence that tells them. Nothing in this
+     repository used to notice if that sentence was edited away, and an agent
+     resuming after a context compaction knows only what the governing
+     documents say — so a tool dropped from CLAUDE.md is a tool that has
+     stopped existing, however green its own controls are.
+
+     Both halves are checked, because a tool can be orphaned in two
+     directions: the documents stop naming it, or the command stops running
+     it and it rots unnoticed. */
+  rules += 1;
+  for (const t of AGENT_TOOLS) {
+    for (const [doc, text] of Object.entries(t.docs)) {
+      if (!d[text].includes(t.file))
+        found.push(`${doc} no longer names ${t.file} (${t.why}) — an agent reading only the governing documents would never run it`);
+    }
+    if (t.command && !d.pkg.includes(t.command))
+      found.push(`npm run ${t.script} no longer runs ${t.file} (${t.why}) — it can now rot without anything going red`);
+  }
+
   return { found, rules };
 }
 
 if (process.argv.includes("--self-test")) {
-  const seen = { spec: false, blind: false, qa: false, hold: false, recipe: false, bank: false, floor: false, unshipped: false, table: false, tableOrder: false };
+  const seen = { spec: false, blind: false, qa: false, hold: false, recipe: false, bank: false, floor: false, unshipped: false, table: false, tableOrder: false, orphanDoc: false, orphanCmd: false };
+
+  /* Both ways a tool gets orphaned. The first is the one that actually
+     happens: somebody tidies a governing document, the sentence naming the
+     tool goes with the tidying, and every agent after that reads a repository
+     where the tool does not exist. */
+  const docOrphan = { ...real, claude: real.claude.split("tools/blast-radius.mjs").join("tools/nothing.mjs") };
+  seen.orphanDoc = run(docOrphan).found.some((p) => p.startsWith("CLAUDE.md no longer names tools/blast-radius.mjs"));
+
+  /* The second is quieter: the tool is still named, still recommended, and
+     nothing runs its controls any more, so it can go wrong and stay green. */
+  const cmdOrphan = { ...real, pkg: real.pkg.split("tools/blast-radius.mjs --self-test").join("true") };
+  seen.orphanCmd = run(cmdOrphan).found.some((p) => p.includes("no longer runs tools/blast-radius.mjs"));
 
   const specCorrupt = { ...real, spec: real.spec.replace(/^(\s{3}heading\s+)"[^"]+"$/m, '$1"A sentence the app never says."') };
   seen.spec = run(specCorrupt).found.some((p) => p.startsWith("SPEC sentence missing"));
@@ -294,7 +353,7 @@ if (process.argv.includes("--self-test")) {
   seen.tableOrder = run(orderCorrupt).found.some((p) => p.includes("same words, different order"));
 
   if (Object.values(seen).every(Boolean)) {
-    console.log("self-test OK: a reworded SPEC sentence, a SPEC block whose anchor moved so the rule would check nothing, a reworded QA promise, a changed hold constant, a stale recipe number in the document, a stale bank count in the chooser, a drifted gate floor, an unshipped count that lags or runs ahead of the ledger, a level row that lost a word, and a level row in the wrong order are all caught");
+    console.log("self-test OK: a reworded SPEC sentence, a SPEC block whose anchor moved so the rule would check nothing, a reworded QA promise, a changed hold constant, a stale recipe number in the document, a stale bank count in the chooser, a drifted gate floor, an unshipped count that lags or runs ahead of the ledger, a level row that lost a word, a level row in the wrong order, a governing document that has stopped naming a tool agents are told to run, and a command that has stopped running that tool's controls are all caught");
     process.exit(0);
   }
   console.error("self-test FAILED: " + JSON.stringify(seen));
