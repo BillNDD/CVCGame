@@ -19,11 +19,24 @@
  * hardware and headless mode, so this config never compares them. Screenshots
  * are kept for a human to look at when something else already failed.
  */
-import { defineConfig } from "@playwright/test";
+import { defineConfig, devices } from "@playwright/test";
 import { existsSync } from "node:fs";
 import { VIEWPORTS } from "./tools/ux-census.mjs";
 
 const PORT = 4187;
+
+/* THE ENGINE IS A PARAMETER WITH A CHROMIUM DEFAULT. Item 1 of the build spec
+   runs this census on Chromium, Firefox and WebKit, and the install guide tells
+   a parent to use an iOS home screen — which is WebKit in every browser,
+   always. This machine cannot download the other two: cdn.playwright.dev and
+   playwright.azureedge.net are both 403 at the proxy. So the engine is set
+   here, CI sets CENSUS_ENGINE to run the others, and the report states which
+   one actually ran rather than implying all three.
+   It must be STATED, not left to default. Every device descriptor carries its
+   own defaultBrowserType, and every iPhone and iPad descriptor says webkit —
+   so adopting real devices without this line would make the whole census try
+   to launch an engine that is not installed. */
+const ENGINE = process.env.CENSUS_ENGINE || "chromium";
 
 export default defineConfig({
   testDir: "tests/census",
@@ -51,11 +64,12 @@ export default defineConfig({
     screenshot: "only-on-failure",
     video: "off",
     reducedMotion: "reduce",
-    deviceScaleFactor: 1,
-    launchOptions: {
-      executablePath: existsSync("/opt/pw-browsers/chromium") ? "/opt/pw-browsers/chromium" : undefined,
-      args: ["--no-sandbox"],
-    },
+    /* NO deviceScaleFactor HERE ANY MORE. It was pinned to 1, which overrode
+       every profile back to whole-number scaling — the opposite of what item 2
+       asks for. Each profile now carries its device's own. */
+    launchOptions: ENGINE === "chromium" && existsSync("/opt/pw-browsers/chromium")
+      ? { executablePath: "/opt/pw-browsers/chromium", args: ["--no-sandbox"] }
+      : { args: ["--no-sandbox"] },
   },
   /* The controls get a project of their OWN, bound by testMatch. They used to
      live in every project and skip themselves unless the project was called
@@ -73,17 +87,17 @@ export default defineConfig({
          paragraph whose whole job is to state honestly what did NOT run,
          stating it falsely. It reads this instead, and says NOT DECLARED when
          a project omits it. Item 1 of the build spec adds firefox and webkit. */
-      metadata: { role: "negative-controls", engine: "chromium" },
-      use: {
-        viewport: { width: VIEWPORTS[0].width, height: VIEWPORTS[0].height },
-        hasTouch: VIEWPORTS[0].touch, isMobile: VIEWPORTS[0].touch,
-      },
+      metadata: { role: "negative-controls", engine: ENGINE, device: VIEWPORTS[0].device },
+      use: { ...devices[VIEWPORTS[0].device], browserName: ENGINE },
     },
     ...VIEWPORTS.map((v) => ({
       name: v.name,
       testIgnore: /controls\.spec\.mjs/,
-      metadata: { role: "census", engine: "chromium" },
-      use: { viewport: { width: v.width, height: v.height }, hasTouch: v.touch, isMobile: v.touch },
+      metadata: { role: "census", engine: ENGINE, device: v.device },
+      /* The descriptor whole, so the user agent, the scale factor, touch and
+         isMobile all come from the same device rather than three of them being
+         set here and the fourth being whatever Playwright defaults to. */
+      use: { ...devices[v.device], browserName: ENGINE },
     })),
   ],
   webServer: {

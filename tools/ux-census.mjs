@@ -51,20 +51,50 @@
  * owner's execution recommendation and needs the blob reporter to add up
  * (item 7 of the build spec).
  */
+import { devices } from "@playwright/test";
 import { LEVELS, chunkWord, PRAISE, SESSION_SIZE } from "../src/engine.js";
 
-/* The six the owner named, plus the 320 px extreme this repository already
-   measures in G7. Touch is declared per profile because tap() and click() are
-   different code paths in a browser, not two names for one thing. */
-const VIEWPORTS = [
-  { name: "phone-portrait", width: 390, height: 844, touch: true },
-  { name: "phone-landscape", width: 844, height: 390, touch: true },
-  { name: "tablet-portrait", width: 768, height: 1024, touch: true },
-  { name: "tablet-landscape", width: 1024, height: 768, touch: true },
-  { name: "tablet-large", width: 1180, height: 820, touch: true },
-  { name: "desktop", width: 1366, height: 768, touch: false },
-  { name: "narrow-extreme", width: 320, height: 568, touch: true },
+/* REAL DEVICES, NOT HAND-WRITTEN BOXES — item 2 of the build spec, and it
+   corrected a number this census had been wrong about since the day it was
+   written.
+   Playwright ships 207 descriptors carrying the user agent, the device scale
+   factor, touch, and the part that matters most here: the viewport a page
+   ACTUALLY GETS on that device, after the browser's own chrome is subtracted.
+   The hand-written boxes were device dimensions. This census called an
+   iPhone 13 390x844 and asserted that nothing fell below the fold there; a
+   page on an iPhone 13 gets 390x664. It was measuring a phone 180 pixels
+   taller than any phone, and every "nothing is below the fold" it has ever
+   reported for a phone was reported with that slack in it.
+
+   Eight profiles, not seven. The owner's six, plus the 320px extreme this
+   repository already measures in G7 — now a REAL 320px device rather than a
+   box — and an Android phone, which is here for its device scale factor:
+   Pixel 7 renders at 2.625, and a layout that only ever meets whole-number
+   scaling never meets the fractional-pixel rounding that the build spec asks
+   for. Galaxy S9+ brings 4.5 at the narrow end.
+
+   Touch is declared per profile because tap() and click() are different code
+   paths in a browser, not two names for one thing. */
+const PROFILES = [
+  ["phone-portrait", "iPhone 13"],
+  ["phone-landscape", "iPhone 13 landscape"],
+  ["phone-android", "Pixel 7"],
+  ["tablet-portrait", "iPad Mini"],
+  ["tablet-landscape", "iPad Mini landscape"],
+  ["tablet-large", "iPad Pro 11"],
+  ["desktop", "Desktop Chrome"],
+  ["narrow-extreme", "Galaxy S9+"],
 ];
+const VIEWPORTS = PROFILES.map(([name, device]) => {
+  const d = devices[device];
+  /* A descriptor renamed or dropped by a Playwright upgrade must stop the
+     census rather than silently leave a profile undefined — which reads, four
+     stack frames later, as "cannot read width of undefined" in a cell that
+     looks like a game defect. */
+  if (!d) throw new Error(`no Playwright device descriptor named "${device}" — the census profile "${name}" names nothing`);
+  return { name, device, width: d.viewport.width, height: d.viewport.height,
+           touch: d.hasTouch, scale: d.deviceScaleFactor };
+});
 
 /* S7's floors, as literals (E4): a child's control is 56 px, a grown-up's 44. */
 const CHILD_MIN = 56;
@@ -611,4 +641,4 @@ const PLANTS = [
 
 export { cases, signature, inspect, pseudoOverlays, stage, holdGrade, savedState, holdTheDice, requireStaged,
          FONT_FLOOR, FONT_CEIL, MODAL_BOUNDARY, OVERLAYS, OVERLAY_Z,
-         VIEWPORTS, CHILD_MIN, ADULT_MIN, PLANTS, BANK_WORDS, LONGEST_PRAISE };
+         PROFILES, VIEWPORTS, CHILD_MIN, ADULT_MIN, PLANTS, BANK_WORDS, LONGEST_PRAISE };

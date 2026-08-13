@@ -1,4 +1,4 @@
-/* The census's negative controls (E5). 24 cells run here: a detector that
+/* The census's negative controls (E5). 25 cells run here: a detector that
  * cannot find a fault it was told about will not find one it was not.
  *
  * NOT EVERY DETECTOR, and the difference is counted here rather than glossed —
@@ -12,10 +12,11 @@
  * element-past-the-edge, nested-scroll, control-too-small, control-obscured
  * (three ways: a full-page overlay, a 49% panel, and a badge on the centre
  * alone), nothing-measured, pseudo-overlay, text-too-small, text-too-big,
- * overlap, missing, and the staging refusal. Four more cells check the
+ * overlap, missing, and the staging refusal. Five more cells check the
  * census's own rules rather than its detectors: the overlay list against the
- * stylesheet, the stylesheet scan's own reach, the modal boundary, and the
- * font limits.
+ * stylesheet, the stylesheet scan's own reach, the modal boundary, the font
+ * limits, and that every viewport is a real device descriptor rather than a
+ * hand-written box.
  *
  * These do NOT yet: tile-count, empty-tile, below-the-fold, focus-lost,
  * unreachable-control, page/console errors, off-host requests, and
@@ -27,7 +28,7 @@
  * runs everywhere.
  */
 import { readFileSync, readdirSync } from "node:fs";
-import { test, expect } from "@playwright/test";
+import { test, expect, devices } from "@playwright/test";
 import { inspect, PLANTS, VIEWPORTS, stage, BANK_WORDS, requireStaged, FONT_FLOOR, FONT_CEIL,
          MODAL_BOUNDARY, OVERLAYS, OVERLAY_Z } from "../../tools/ux-census.mjs";
 
@@ -325,9 +326,33 @@ test("this file's own cell count is the one its header states", () => {
   const src = readFileSync(new URL("./controls.spec.mjs", import.meta.url), "utf8");
   const calls = (src.match(/^\s*test\(/gm) || []).length;
   const cells = calls - 1 + PLANTS.length;        // one of those test() calls is the PLANTS loop
-  expect(cells, "the number of control cells in this file has changed").toBe(24);
+  expect(cells, "the number of control cells in this file has changed").toBe(25);
   expect(src.slice(0, 400), "the header no longer states the number of cells that run")
     .toContain(`${cells} cells run here`);
+});
+
+test("every viewport is a real device, and its size is the device's own", () => {
+  /* Item 2 of the build spec, and the control that stops it sliding back. The
+     hand-written boxes were DEVICE dimensions: this census called an iPhone 13
+     390x844 and asserted nothing fell below the fold there, while a page on an
+     iPhone 13 gets 390x664. Every size here is now read off the descriptor, so
+     a number typed by hand cannot re-enter — and if a Playwright upgrade
+     renames a device, the profile throws instead of going undefined. */
+  for (const v of VIEWPORTS) {
+    const d = devices[v.device];
+    expect(d, `no Playwright descriptor named "${v.device}"`).toBeTruthy();
+    expect([v.width, v.height, v.touch, v.scale], `${v.name} does not match the descriptor it names`)
+      .toEqual([d.viewport.width, d.viewport.height, d.hasTouch, d.deviceScaleFactor]);
+  }
+  expect(VIEWPORTS.length, "the census profile set has changed size").toBe(8);
+  /* The extreme this repository already measures in G7 (E4, literal). */
+  expect(Math.min(...VIEWPORTS.map((v) => v.width)), "the 320px extreme has left the census").toBe(320);
+  /* And the reason phone-android and narrow-extreme are in the set at all: a
+     layout that only ever meets whole-number scaling never meets the
+     fractional-pixel rounding item 2 asks for. */
+  expect(VIEWPORTS.filter((v) => !Number.isInteger(v.scale)).map((v) => v.name).sort(),
+    "no profile has a fractional device scale factor, so fractional-pixel layout is never exercised")
+    .toEqual(["narrow-extreme", "phone-android"]);
 });
 
 test("the font limits are limits, not the values the app happens to render", () => {

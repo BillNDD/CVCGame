@@ -1,11 +1,15 @@
 /* THE DEEP UX CENSUS — one test per layout class, per viewport.
  *
- * 44 words covering all 29 layout-risk classes in the bank, across 7 viewports:
- * 329 cells from this file — 44 word cases plus 3 screen cases, each on 7
- * viewports — and 19 more from the controls, which run on one. Every number in
- * that sentence is asserted in tests/census/controls.spec.mjs rather than
+ * 44 words covering all 29 layout-risk classes in the bank, across 8 device
+ * profiles: 376 cells from this file — 44 word cases plus 3 screen cases, each
+ * on 8 profiles — and 25 more from the controls, which run on one. Every number
+ * in that sentence is asserted in tests/census/controls.spec.mjs rather than
  * typed and trusted: it read "9 more from the controls" while 18 ran, which is
  * how a document stops describing the thing it names.
+ *
+ * THE PROFILES ARE REAL DEVICES (build spec item 2), so the heights are what a
+ * page actually gets after browser chrome — an iPhone 13 gives 390x664, not the
+ * 390x844 this census asserted against for its first two days.
  * Each cell stages a NAMED word through the app's own free-play
  * chooser, checks the prompt, grades it the way a grown-up does, and checks the
  * reveal. Both states are inspected for the whole list in one pass.
