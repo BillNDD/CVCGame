@@ -710,6 +710,14 @@ function outputControls(ok, box) {
     && block(capped, "tools/voice-words.csv").includes("… 1 more lines in this file (--all)")]);
   ok.push(["and the defining line survives the cap even when it is last in the file",
     capped.includes('"zzq": ["pinned"]')]);
+  ok.push(["the block reader returns one file's lines, not the whole report and not nothing",
+    /* voice-lock.json is printed BEFORE voice-words.csv in the same kind, so a
+       reader that runs past the end of a block swallows the next file's lines
+       — which is invisible if you only check the last block in the group. */
+    block(capped, "tools/voice-lock.json") !== ""
+    && !block(capped, "tools/voice-lock.json").includes("round 3")
+    && !block(capped, "tools/voice-words.csv").includes("pinned")
+    && block(capped, "no/such/file.txt") === ""]);
   ok.push(["and the file NAME outranks the excerpt lines, so a clip is never capped away",
     block(capped, "tools/pending-words/w-zzq.json").includes("(the file name itself)")]);
   /* By CONTENT, not by length: --all adds the hidden line and removes the tail
@@ -769,18 +777,33 @@ function hookControls(ok) {
     GIT_DIR: join(caller, ".git"),
     GIT_WORK_TREE: caller,
     GIT_INDEX_FILE: join(caller, ".git", "index"),
-    BLAST_RADIUS_NESTED: "1",
+    /* Redirects where git writes objects. In the scrub list, so a loop that
+       was narrowed to the first few names leaves twenty loose objects in the
+       caller's store — no index change and no data loss, but a write to a
+       repository nobody pointed this at. */
+    GIT_OBJECT_DIRECTORY: join(caller, ".git", "objects"),
   };
+  /* Measured before and after, not against zero: the caller already staged a
+     file, so its store legitimately holds objects. What must not change is the
+     number. */
+  const objectsBefore = git(["count-objects", "-v"], caller);
   let out = "";
   try {
-    out = execFileSync(process.execPath, [TOOL, "--self-test"],
+    /* --nested, not an environment variable: the guard used to be satisfied by
+       BLAST_RADIUS_NESTED, which anyone's shell can export, so the control
+       saying "the hook controls ran" was being told so by the same thing that
+       had removed them. A flag this process adds cannot arrive from outside. */
+    out = execFileSync(process.execPath, [TOOL, "--self-test", "--nested"],
       { cwd: caller, encoding: "utf8", env: hookEnv, timeout: 120000, stdio: ["ignore", "pipe", "pipe"] });
   } catch (e) { out = (e.stdout || "") + (e.stderr || ""); }
   const staged = git(["diff", "--cached", "--name-only"], caller).trim().split("\n").filter(Boolean);
   const untracked = git(["status", "--porcelain"], caller).trim();
+  const objects = git(["count-objects", "-v"], caller);
   rmSync(caller, { recursive: true, force: true });
   ok.push(["a self-test run from a git hook stages nothing into that hook's repository",
     staged.join() === "keep.txt"]);
+  ok.push(["and writes no objects into that hook's object store either",
+    objects === objectsBefore]);
   ok.push(["and leaves no sandbox file behind in its working tree",
     !untracked.includes("SPEC.md") && !untracked.includes("engine.js")]);
   ok.push(["and still passes its own controls there, rather than going red for the environment",
@@ -813,7 +836,7 @@ async function selfTest() {
     rmSync(box, { recursive: true, force: true });
   }
   classifyControls(ok);
-  if (!process.env.BLAST_RADIUS_NESTED) hookControls(ok);
+  if (!ARGS.includes("--nested")) hookControls(ok);
   /* The guard exists to stop the hook control recursing into itself. It must
      not be a switch that quietly removes controls: set in the ambient
      environment, or deleted by an edit, it would take three controls away and
@@ -824,7 +847,7 @@ async function selfTest() {
       "GIT_CEILING_DIRECTORIES", "GIT_PREFIX", "GIT_INTERNAL_SUPER_PREFIX"]
       .every((v) => GIT_VARS.includes(v))]);
   ok.push(["the git-hook controls actually ran, rather than being skipped",
-    !!process.env.BLAST_RADIUS_NESTED
+    ARGS.includes("--nested")
     || ok.some(([n]) => n.includes("stages nothing into that hook's repository"))]);
 
   for (const [name, pass] of ok) console.log((pass ? "ok   " : "FAIL ") + name);

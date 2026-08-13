@@ -639,7 +639,7 @@ promised a fallback the code never performed; G12 counted the step and saw nothi
   written into a document before the gate existed.
 - It is here rather than in `npm run check` because it takes about thirty seconds, and the
   check is half a minute in total.
-- Baseline floors: `e11_lookup_controls` (95), `e11_lookup_mutants` (60). Ceilings:
+- Baseline floors: `e11_lookup_controls` (97), `e11_lookup_mutants` (64). Ceilings:
   `e11_lookup_survivors_max` (0), `e11_lookup_anchors_max` (0), `e11_lookup_equivalent_max` (1). A survivor means some part of
   the lookup can be wrong while every control stays green. A moved anchor means a planted
   fault no longer applies to the code and has been proving nothing.
@@ -661,7 +661,9 @@ promised a fallback the code never performed; G12 counted the step and saw nothi
   time, which nothing can detect while every sandbox is still built through the scrubbing
   helper. It is defence in depth and stops being equivalent the moment that stops being true.
   The `e11_lookup_equivalent_max` ceiling is what stops this becoming a way to retire an
-  inconvenient fault: raising it needs the owner, like any ceiling (E6).
+  inconvenient fault: raising it needs the owner, like any ceiling (E6). The gauntlet step also
+  requires that fault's reason string by name, so the single slot cannot be moved to a
+  different fault with every count unchanged.
 - What "0 survived" means, exactly: no KNOWN fault survives. It is not a completeness claim,
   and every round of auditing so far has found faults the previous round's harness did not
   contain.

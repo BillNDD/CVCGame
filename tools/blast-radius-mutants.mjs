@@ -165,10 +165,9 @@ const MUTANTS = [
     'const GIT_VARS = ["GIT_DIR", "GIT_WORK_TREE", "GIT_INDEX_FILE", "GIT_OBJECT_DIRECTORY",',
     'const GIT_VARS = ["GIT_DIR", "GIT_WORK_TREE", "GIT_INDEX_FILE"]; const UNUSED = ["GIT_OBJECT_DIRECTORY",'],
   ["the hook controls are never called",
-    "  if (!process.env.BLAST_RADIUS_NESTED) hookControls(ok);", "  void hookControls;"],
+    '  if (!ARGS.includes("--nested")) hookControls(ok);', "  void hookControls;"],
   ["the nested guard is inverted, so the hook controls run only when nested",
-    "  if (!process.env.BLAST_RADIUS_NESTED) hookControls(ok);",
-    "  if (process.env.BLAST_RADIUS_NESTED) hookControls(ok);"],
+    '  if (!ARGS.includes("--nested")) hookControls(ok);', '  if (ARGS.includes("--nested")) hookControls(ok);'],
   ["run() stops scrubbing, so every subprocess control inherits a hook's git",
     "  const opt = { cwd: box, encoding: \"utf8\", env: cleanEnv(), timeout: 60000, stdio: [\"ignore\", \"pipe\", \"pipe\"] };",
     "  const opt = { cwd: box, encoding: \"utf8\", timeout: 60000, stdio: [\"ignore\", \"pipe\", \"pipe\"] };",
@@ -183,6 +182,18 @@ const MUTANTS = [
   ["the file name is ranked last instead of first",
     "  const rank = (h) => (h.n === 0 ? 0 : h.line.startsWith(needle) || h.line.startsWith('\"' + needle) ? 1 : 2);",
     "  const rank = (h) => (h.n === 0 ? 9 : h.line.startsWith(needle) || h.line.startsWith('\"' + needle) ? 1 : 2);"],
+
+  // --- the fourth confirm round.
+  ["the scrub LOOP is narrowed while the list stays whole",
+    "  for (const k of GIT_VARS) delete e[k];", "  for (const k of GIT_VARS.slice(0, 3)) delete e[k];"],
+  ["the block reader falls back to the whole report when it cannot find the file",
+    '  if (i < 0) return "";', "  if (i < 0) return out;"],
+  ["the block reader runs past the end of the file's own lines",
+    "  for (let k = i + 1; k < lines.length && /^ {6}\\S/.test(lines[k]); k++) rest.push(lines[k]);",
+    "  for (let k = i + 1; k < lines.length; k++) rest.push(lines[k]);"],
+  ["nestedness is taken from the environment again, where anyone can set it",
+    '  if (!ARGS.includes("--nested")) hookControls(ok);',
+    "  if (!process.env.BLAST_RADIUS_NESTED) hookControls(ok);"],
 ];
 
 /* A COPY of the working tree's file, in a scratch directory — not a git clone.
