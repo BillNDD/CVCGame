@@ -7,6 +7,23 @@ This document follows the Microsoft Writing Style Guide.
 Version 6 adds the standalone progressive web app. The reference build does not change.
 The first app version is 1.0.0-beta.1. The app stays in beta until version 1.0 is ready.
 
+- New: your child now reads whole SENTENCES, not only single words. A sentence arrives every
+  five words in a session. The app reads it out, then invites you both to sound out one word
+  of it — the word that level is teaching — and reads the sentence again to finish. After the
+  first word, your child can tap any other word to see how it is built. A tapped word never
+  speaks: seeing how a word is made is help, and hearing it said is the answer.
+  You end the sentence whenever you like by pressing for the next word. Nothing has to
+  finish first, and a sentence is never marked or scored.
+
+- New: free play offers sentences too. Press "Free play", then "Sentences", and your child
+  reads sentence after sentence for as long as they want. It serves every sentence up to
+  their level and never runs out. As with all free play, nothing is saved.
+
+- New: two more words your child learns by sight, "we" and "me". They are at Level 2 with
+  the other sight words. Both say the letter e by its name, which is why they cannot be
+  sounded out by the usual rules and are taught by sight instead. The word bank is now 440
+  words.
+
 - Fixed: touching the screen during a session could start a text selection instead of doing
   what you meant. On an iPhone the blue selection handles appeared over the grown-up strip,
   between "skip" and "got it". The cause was the app's own gesture: a grown-up holds a result
