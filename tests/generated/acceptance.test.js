@@ -10,13 +10,13 @@ describe("Feature: The reading log export", () => {
     const s = newState();
     for (const w of ["cat", "dog"]) s.words[w] = { ...freshWordState(), box: 3, attempts: 2 };
     const md = buildMarkdown(s);
-    expect(md).toContain("0/439");
+    expect(md).toContain("0/438");
   });
   it("Box 4 counts as mastered", () => {
     const s = newState();
     for (const w of ["cat", "dog"]) s.words[w] = { ...freshWordState(), box: 4, attempts: 2 };
     const md = buildMarkdown(s);
-    expect(md).toContain("2/439");
+    expect(md).toContain("2/438");
   });
   it("A short session is marked", () => {
     const s = newState();

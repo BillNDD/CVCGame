@@ -29,7 +29,7 @@ const LEVELS = [
       "pet","get","let","set","cut","pup","web","bun","rug","mug","vet","tug","jug","hum","rub","dug","bud","peg","met","yet","bet","keg","hem","nun","pun","jut","gut","hub"] },
   { n: 5, name: "Explorer", emoji: "🧭", focus: "all five vowels",
     words: ["yes","zip","gum","gas","kid","cub","den","dot","fed","fig","fog","gap","hid","hut","jog","kit","lid","mix","wax","yak",
-      "jig","jab","jot","lab","lad","led","lit","lug","nab","pep","pod","rib","rim","rod","rot","sag","sub","sum","tab","tot","wed","wit","zig","zag","fax","nix","vex","sax","cod","gob"] },
+      "jig","jab","jot","lab","lad","led","lit","lug","nab","pep","pod","rib","rim","rod","rot","sag","sub","sum","tab","tot","wed","wit","zig","zag","fax","nix","vex","sax","cod"] },
   { n: 6, name: "Super Sounds", emoji: "🦸", focus: "sh & ch",
     words: ["ship","shop","shut","fish","dish","wish","cash","chat","chip","chop","rich","much","such","chin","shed","shin","mash","rash","chug","chum",
       "dash","sash","hush","rush","mush","chap","wash","push","bush","she","bash","gash","gush","lash","lush","posh","sham","shun"] },

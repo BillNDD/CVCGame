@@ -4,12 +4,12 @@ Feature: The reading log export
   Scenario: Box 3 does not count as mastered
     Given a fresh player whose words "cat" and "dog" sit in box 3
     When the log is exported
-    Then the export contains "0/439"
+    Then the export contains "0/438"
 
   Scenario: Box 4 counts as mastered
     Given a fresh player whose words "cat" and "dog" sit in box 4
     When the log is exported
-    Then the export contains "2/439"
+    Then the export contains "2/438"
 
   Scenario: A short session is marked
     Given a fresh player with one logged session marked as partial
