@@ -56,8 +56,7 @@ const MUTANTS = [
   ["the stale-engine warning is computed and never shown",
     "if (warn) console.log(`\\n⚠️  ${warn}`);", "void warn;"],
   ["the scan tally is silently overstated",
-    "  console.log(`\\n  ${rows.length} file(s), of ${SCAN.tracked} tracked: ${SCAN.read} read, ${SCAN.binary} matched by name only`",
-    "  console.log(`\\n  ${rows.length} file(s), of ${SCAN.tracked + 1} tracked: ${SCAN.read} read, ${SCAN.binary} matched by name only`"],
+    "of ${SCAN.tracked} tracked", "of ${SCAN.tracked + 1} tracked"],
 
   // --- the chase. The founding incident lives entirely here.
   ["the chase runs on the level size only, as it first shipped",
@@ -107,7 +106,7 @@ const MUTANTS = [
   ["the walk stops one file short", "  for (const f of files) {", "  for (const f of files.slice(0, -1)) {"],
   ["binary files are opened as text", "    if (BINARY.test(f)) SCAN.binary++;", "    if (false) SCAN.binary++;"],
   ["the file name is never matched", "if (pathTokens(f).includes(needle)) found.push", "if (false) found.push"],
-  ["ls-files runs in the working directory", '["ls-files"], { cwd: root(), encoding', '["ls-files"], { encoding'],
+  ["ls-files runs in the working directory", 'git(["ls-files"], root())', 'git(["ls-files"], process.cwd())'],
   ["a word search loses its boundaries", "  const re = new RegExp(`\\\\b${esc(needle)}\\\\b`);", "  const re = new RegExp(esc(needle));"],
   ["only the file side of a sentence is flattened", "    return { test: (l) => flatten(l).includes(want), wrapped: want };",
     "    return { test: (l) => flatten(l).includes(needle), wrapped: want };"],
@@ -115,7 +114,7 @@ const MUTANTS = [
     "      if (/\\s/.test(ch)) { if (buf.endsWith(\" \")) continue; buf += \" \"; } else buf += ch;\n      map.push(i);"],
   ["a padded decimal is a different number", '(needle.includes(".") ? "0*" : "")', '""'],
   ["a number may not carry a unit", "${body}(?!\\\\d|\\\\.\\\\d)", "${body}(?![\\\\w.])"],
-  ["the hash guard swallows ordinary numbers", "if (!HASHISH.test(tokenAt(l, m.index))) return true;", "if (false) return true;"],
+  ["the hash guard swallows ordinary numbers", "if (!HASHISH.test(tokenAt(s, m.index))) return true;", "if (false) return true;"],
   ["a symbol is matched case-sensitively again",
     "    return { test: (l) => { const low = l.toLowerCase(); return vs.some((v) => low.includes(v)); }, names };",
     "    return { test: (l) => vs.some((v) => l.includes(v)), names };"],
@@ -123,7 +122,36 @@ const MUTANTS = [
   ["the defining line is not ranked first",
     "  return [...r.found].sort((a, b) => rank(a) - rank(b) || a.n - b.n).slice(0, n);", "  return r.found.slice(0, n);"],
   ["an empty value is accepted again", '  if (v === "") { console.error(`${f} cannot be empty.`); process.exit(2); }', "  void 0;"],
-  ["the sandbox stops forcing ignored paths in", '"git", ["add", "-f", ...Object.keys(CORPUS)]', '"git", ["add", ...Object.keys(CORPUS)]'],
+  ["the sandbox stops forcing ignored paths in", 'git(["add", "-f", ...Object.keys(CORPUS)], box);', 'git(["add", ...Object.keys(CORPUS)], box);'],
+
+  // --- the confirm round's survivors. Every one of these passed 76 green
+  // controls, and each is now a control of its own.
+  ["the git-variable scrub is dropped, so a hook's repository is written to",
+    "  for (const k of GIT_VARS) delete e[k];", "  void GIT_VARS;"],
+  ["--symbol computes its report and prints nothing",
+    '  report(`Files naming ${vs.join(" / ")} (any case):`, hits(symbol, "symbol"), symbol);', "  void vs;"],
+  ["--text computes its report and prints nothing",
+    'if (text !== null) report(`Files containing "${text}":`, hits(text, "text"), text);', "if (false) void text;"],
+  ["the wrapped search APPENDS a phantom hit instead of replacing a miss",
+    "        if (!found.length && m.wrapped) {", "        if (m.wrapped) {"],
+  ["two thirds of the mutation gate stop being mutant anchors",
+    'if (["tools/mutants.mjs", "tools/app-mutants.mjs", "tools/acceptance-mutants.mjs"].includes(f)) return KINDS[6];',
+    'if (["tools/mutants.mjs"].includes(f)) return KINDS[6];'],
+  ["a name of three parts loses its middle",
+    '    out.add(p[0] + p.slice(1).map((x) => x[0].toUpperCase() + x.slice(1)).join(""));',
+    '    out.add(p[0] + p.slice(2).map((x) => x[0].toUpperCase() + x.slice(1)).join(""));'],
+  ["--all becomes decoration", '  const lines = ARGS.includes("--all") ? Infinity : 3;', "  const lines = 3;"],
+  ["the excerpt cap quietly tightens to one", '  const lines = ARGS.includes("--all") ? Infinity : 3;',
+    '  const lines = ARGS.includes("--all") ? Infinity : 1;'],
+  ["the hidden-line tail is off by one",
+    "console.log(`      … ${r.found.length - lines} more lines in this file (--all)`);",
+    "console.log(`      … ${r.found.length - lines - 1} more lines in this file (--all)`);"],
+  ["the line saying the bank does NOT shrink is dropped",
+    '    if (c.alsoKeyed.length) console.log(`Also keyed in: ${c.alsoKeyed.join(", ")} — the bank is the union, not the levels`);',
+    "    void c.alsoKeyed;"],
+  ["the file name stops ranking above the excerpt lines",
+    `  const rank = (h) => (h.n === 0 ? 0 : h.line.startsWith(needle) || h.line.startsWith('"' + needle) ? 1 : 2);`,
+    "  const rank = (h) => (h.line.startsWith(needle) ? 1 : 2);"],
 ];
 
 /* A COPY of the working tree's file, in a scratch directory — not a git clone.
@@ -140,7 +168,13 @@ writeFileSync(target, original);
 /* A git repository, though an empty one: the cwd-relative fault must produce a
    wrong ANSWER here, which is what it produces in the real tree. Run it outside a
    repository and it throws instead, and a crash is not a detection. */
-execFileSync("git", ["init", "-q"], { cwd: box });
+/* The same git-variable scrub the lookup itself needs: run this harness from a
+   git hook and an unscrubbed `git init` would reach the caller's repository. */
+const GIT_VARS = ["GIT_DIR", "GIT_WORK_TREE", "GIT_INDEX_FILE", "GIT_OBJECT_DIRECTORY",
+  "GIT_ALTERNATE_OBJECT_DIRECTORIES", "GIT_COMMON_DIR", "GIT_NAMESPACE",
+  "GIT_CEILING_DIRECTORIES", "GIT_PREFIX", "GIT_INTERNAL_SUPER_PREFIX"];
+const scrub = (e) => { const o = { ...e }; for (const k of GIT_VARS) delete o[k]; return o; };
+execFileSync("git", ["init", "-q"], { cwd: box, env: scrub(process.env) });
 
 /* A HOSTILE global gitignore, because a developer's own commonly lists .claude/
    or *.mp3, and the lookup's sandbox has to force those paths in. Without this
@@ -148,15 +182,22 @@ execFileSync("git", ["init", "-q"], { cwd: box });
    machine, which is the worst place for a control to be missing. */
 writeFileSync(join(box, "globalignore"), ".claude/\n*.mp3\n*.csv\n");
 writeFileSync(join(box, "gitconfig"), `[core]\n\texcludesFile = ${join(box, "globalignore")}\n`);
-const ENV = { ...process.env, GIT_CONFIG_GLOBAL: join(box, "gitconfig") };
+const ENV = scrub({ ...process.env, GIT_CONFIG_GLOBAL: join(box, "gitconfig") });
 
 /* A harness that reports kills without first proving the UNMUTATED file passes
    is reporting nothing: every mutant would "die" against an already-red test. */
-const baseline = execFileSync("node", [target, "--self-test"],
-  { cwd: box, encoding: "utf8", env: ENV, stdio: ["ignore", "pipe", "pipe"] });
+let baseline = "";
+try {
+  baseline = execFileSync("node", [target, "--self-test"],
+    { cwd: box, encoding: "utf8", env: ENV, timeout: 300000, stdio: ["ignore", "pipe", "pipe"] });
+} catch (e) { baseline = (e.stdout || "") + (e.stderr || ""); }
 if (!/controls: \d+ passed, 0 failed/.test(baseline)) {
+  /* Caught, not thrown: --self-test exits 1 when it is red, so an uncaught
+     execFileSync threw before this could say why, printed a stack trace
+     instead of the failing control names, and skipped the cleanup below. */
   console.error("The unmutated lookup does not pass its own controls. Nothing below would mean anything.");
-  console.error(baseline.split("\n").filter((l) => l.startsWith("FAIL")).join("\n"));
+  console.error(baseline.split("\n").filter((l) => l.startsWith("FAIL")).join("\n") || baseline.slice(-800));
+  rmSync(box, { recursive: true, force: true });
   process.exit(2);
 }
 console.log(`baseline: ${/controls: (\d+) passed/.exec(baseline)[1]} controls green under a hostile global gitignore\n`);
@@ -171,7 +212,9 @@ for (const [name, from, to] of MUTANTS) {
   }
   writeFileSync(target, original.replace(from, to));
   let out = "";
-  try { out = execFileSync("node", [target, "--self-test"], { cwd: box, encoding: "utf8", env: ENV, stdio: ["ignore", "pipe", "pipe"] }); }
+  /* A timeout, so a fault that loops fails as a survivor with something to read
+     rather than hanging a release run with nothing. */
+  try { out = execFileSync("node", [target, "--self-test"], { cwd: box, encoding: "utf8", env: ENV, timeout: 300000, stdio: ["ignore", "pipe", "pipe"] }); }
   catch (e) { out = (e.stdout || "") + (e.stderr || ""); }
   const m = /controls: (\d+) passed, (\d+) failed/.exec(out);
   /* A crash is NOT a kill. A control that only fails by throwing has told you
