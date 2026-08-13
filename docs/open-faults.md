@@ -676,6 +676,31 @@ set and asked whether they are still the right set.
 
 ---
 
+## J. From a real child's backup, 2026-08-13
+
+A parent sent the child's export. Three things came out of it; one is fixed, two are open.
+
+### J1. The letter "a" says two sounds and nothing says so — owner-ruled 2026-08-13, NOT BUILT
+
+- **Where** `WORD_SOUND.a = { 0: "schwa_a" }` against `TILE_SOUND.a = "short_a"`.
+- **What a child gets** The tile `a` says the lazy uh of the word "a", and the same single tile
+  says the a of cat everywhere else. "a" is the only single-letter word in the bank, so it is
+  the only place a child sees one tile alone and hears a sound that tile never makes elsewhere.
+  The child met it in session 5 beside `and`, `bad`, `mad`, `rap`, `tag`, `bag`, `rag`, `yap`,
+  `dab` — nine short-a words and one schwa, no signposting. The parent's words were "the letter
+  a is handled terribly".
+- **Ruled** When a word bends a tile away from that letter's usual sound, the reveal says so in
+  child-facing words. It applies to every bent sound, not only "a".
+- **Done** means the wording exists, the owner has approved it, and if it is spoken it has been
+  through a listening round. Not started: the copy is the owner's to write and S3/S4 govern it.
+
+### J2. `settings.mode: "mic"` survives a feature that no longer exists
+
+- **Where** `migrate()` passes `settings` through; the microphone was deleted on 2026-08-12.
+- **What happens today** Nothing: no code reads `settings.mode` any more. It is stale state that
+  outlived its feature, carried by every player from before that date.
+- **Done** means `migrate` drops settings whose feature is gone, with a control.
+
 ## G. Ideas worth trying that nobody has tried
 
 Owner-instructed 2026-08-12. Unlike every section above, these are **not** faults and not
@@ -803,6 +828,45 @@ demand, not in the check: this is a census, not a gate.
 label rendered at four times its intended size by an invalid `font:` shorthand, and images on
 the home screen falling behind one another. Both were content-and-layout faults on a screen
 no measurement was watching.
+
+### G3b. The census rebuild — nine findings from the third audit round, 2026-08-13
+
+Items 2 to 8 of the build spec are still unbuilt; these are faults in the foundation laid for
+them, all proved by planting in a clone. Ten of the auditor's thirteen standing plants now go
+red. These are the ones that do not.
+
+- **The z-index control cannot see the overlay it was written for.** Its rule-splitting regex
+  cannot cross a `${...}` template interpolation, and every colour in `app/src/wq-css.js` is
+  one. It reaches 71% of the file and exactly one rule at or above the overlay threshold. The
+  invisible one is `z-index: 70` — `.wq-toast`, the exact rule the control was written to catch.
+  It passes because it matched nothing. Also out of scope: `app/src/styles.css` and any inline
+  `style={{ zIndex }}`.
+- **`test.fail()` turns a broken app into "1 passed", exit 0.** `judge()` compares status with
+  `expectedStatus`, and `test.fail` sets the expectation to failure. `forbidOnly` has no
+  equivalent for it. A one-line E3 bypass that survives both the runner and the gate built to
+  police the runner.
+- **A badge added as a control's own `::after` reads "B NEW ssion" and nothing fires.**
+  `elementFromPoint` returns the originating element for a pseudo-element, so the five-point
+  sample scores zero, and `::after` is not in the DOM so the overlap scan cannot see it. The
+  shipped control plants a real `<div>` for the same reading and passes.
+- **Naming `.wq-toast` as an overlay suppressed the class, not the false positives.** A toast
+  that completely buries the "Ready to read?" line and the whole level card is now reported by
+  nothing. The fix removed the finding rather than the false positive.
+- **The census floors are outside E6 and their self-test is E4-illegal.** `FLOOR` in
+  `tools/census-report.mjs` is built into its own fixtures, so lowering it to `{controls: 2}`
+  still passes 11 of 11. There are no census keys in `.claude/gate-baseline.json`.
+- **The report gate is opt-in and unbound.** `npm run census` never calls it; the gauntlet never
+  calls it; any `--reporter=` override skips writing the file it reads. It was observed judging
+  a ninety-minute-old report from a different config as if it were the run just made.
+- **Staleness watches the sources, not the bundle.** The census measures `app/dist` through
+  `vite preview`. Editing a source and NOT rebuilding leaves the gate silent, and the
+  documented fast path does not build. `tools/`, `tests/census/` and `playwright.config.mjs`
+  are unwatched too.
+- **The iOS paragraph's control asserts the constant, not the output.** Deleting the line that
+  prints it leaves 11 of 11 green. And `metadata.engine` has no producer, so the coverage
+  statement will say `NOT DECLARED` until item 1 sets it.
+- **Both census spec files misstate their own counts** — "SEVEN detectors" against 18 cells,
+  and `missing` listed as having no control when it has one.
 
 ### G4. E11 is a rule with only one mechanical helper — BUILT 2026-08-13
 

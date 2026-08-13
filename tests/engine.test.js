@@ -15,6 +15,47 @@ const clone = (o) => JSON.parse(JSON.stringify(o));
 const seeded = (words, patch) => { const s = newState(); words.forEach(w => { s.words[w] = { ...freshWordState(), ...patch }; }); return s; };
 
 /* ---------------- bank ---------------- */
+describe("A stumble must not cost mastery (parent report, 2026-08-13)", () => {
+  /* the child had read "am" and "us" correctly TWICE each and the mastery map still
+     showed them as not learned. The cause: the fast track to box 3 keyed off
+     the first ATTEMPT, so one "close" - which SPEC section 5 calls an
+     invitation to try again, never a failure - cost two extra correct readings
+     for good. Literal expected values throughout (E4). */
+  it("a close then a correct lands on box 3, not box 2", () => {
+    const ws = freshWordState();
+    applyResult(ws, "close", 1);
+    expect(ws.box).toBe(1);
+    applyResult(ws, "correct", 2);
+    expect(ws.box).toBe(3);
+  });
+  it("a wrong then a correct lands on box 3, not box 1", () => {
+    const ws = freshWordState();
+    applyResult(ws, "wrong", 1);
+    expect(ws.box).toBe(0);
+    applyResult(ws, "correct", 2);
+    expect(ws.box).toBe(3);
+  });
+  it("the parent's own words: two correct readings after a stumble reach mastery", () => {
+    for (const first of ["close", "wrong"]) {
+      const ws = freshWordState();
+      applyResult(ws, first, 1);
+      applyResult(ws, "correct", 2);
+      applyResult(ws, "correct", 3);
+      expect(ws.box).toBe(4);
+      expect(ws.correct).toBe(2);
+    }
+  });
+  it("but the second correct still only steps one box, so the jump is not repeatable", () => {
+    const ws = freshWordState();
+    applyResult(ws, "correct", 1);
+    expect(ws.box).toBe(3);
+    applyResult(ws, "correct", 2);
+    expect(ws.box).toBe(4);
+    applyResult(ws, "correct", 3);
+    expect(ws.box).toBe(5);
+  });
+});
+
 describe("word bank", () => {
   it("has 438 unique words across 11 levels", () => {
     const all = LEVELS.flatMap(l => l.words);
@@ -109,11 +150,18 @@ describe("applyResult", () => {
     expect(ws.dueAt).toBe(5);                       // literal: 1 + 4
   });
   it("increments a known word by exactly one box", () => {
-    const ws = { ...freshWordState(), box: 1, attempts: 2 }; applyResult(ws, "correct", 10);
+    /* correct: 1, because the fast track now keys off the first CORRECT rather
+       than the first attempt. A word at box 1 with two attempts and no correct
+       reading is a state the app cannot reach: it would still be owed its jump
+       to box 3. The fixture describes a real word - read right once, stumbled
+       since - rather than an impossible one. */
+    const ws = { ...freshWordState(), box: 1, attempts: 2, correct: 1 }; applyResult(ws, "correct", 10);
     expect(ws.box).toBe(2); expect(ws.dueAt).toBe(12);   // literal: 10 + 2
   });
   it("caps the box at 5", () => {
-    const ws = { ...freshWordState(), box: 5, attempts: 9 }; applyResult(ws, "correct", 10);
+    /* correct: 5 for the same reason: box 5 is unreachable without correct
+       readings, and the old fixture claimed nine attempts and none of them right. */
+    const ws = { ...freshWordState(), box: 5, attempts: 9, correct: 5 }; applyResult(ws, "correct", 10);
     expect(ws.box).toBe(5); expect(ws.dueAt).toBe(22);   // literal: 10 + 12
   });
   it("never lets close demote below 1 and never promotes", () => {

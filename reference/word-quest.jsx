@@ -138,9 +138,17 @@ const dashed = (w) => chunkWord(w).join("-");
 const freshWordState = () => ({ box: 0, attempts: 0, correct: 0, close: 0, wrong: 0, dueAt: 1, lastSession: 0 });
 
 function applyResult(ws, result, sessionNumber) {
-  const firstEver = ws.attempts === 0;
+  /* THE FIRST CORRECT, NOT THE FIRST ATTEMPT. This was ws.attempts === 0, so a
+     single "close" on a word's first meeting burned the fast track for good:
+     the child then needed FOUR correct readings to master that word instead of
+     two, and a "wrong" cost five. A parent reported it on 2026-08-13 from real
+     data - the child had read "am" and "us" correctly twice each and the mastery
+     map still showed them as not learned - and SPEC section 5 has always said a
+     close is an invitation to try again and never a failure. It cannot be a
+     failure in the words and a two-reading penalty in the arithmetic. */
+  const firstCorrect = ws.correct === 0;
   ws.attempts += 1; ws.lastSession = sessionNumber;
-  if (result === "correct") { ws.correct += 1; ws.box = firstEver ? 3 : Math.min(5, ws.box + 1); }
+  if (result === "correct") { ws.correct += 1; ws.box = firstCorrect ? 3 : Math.min(5, ws.box + 1); }
   else if (result === "close") { ws.close += 1; ws.box = Math.max(1, ws.box); }
   else { ws.wrong += 1; ws.box = Math.max(0, ws.box - 2); }
   ws.dueAt = sessionNumber + INTERVALS[ws.box];

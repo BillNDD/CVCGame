@@ -8,13 +8,13 @@ Feature: Grading a reading attempt
     And the word is due again in session 5
 
   Scenario: A known word read correctly moves up one box
-    Given a word in box 1 with 2 attempts
+    Given a word in box 1 read correctly 1 time before
     When the child reads it correctly in session 10
     Then the word is in box 2
     And the word is due again in session 12
 
   Scenario: A word at the top box stays at the top
-    Given a word in box 5 with 9 attempts
+    Given a word in box 5 read correctly 5 times before
     When the child reads it correctly in session 10
     Then the word is in box 5
     And the word is due again in session 22
