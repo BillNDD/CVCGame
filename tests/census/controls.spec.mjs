@@ -1,22 +1,32 @@
-/* The census's negative controls (E5). 25 cells run here: a detector that
+/* The census's negative controls (E5). 38 cells run here: a detector that
  * cannot find a fault it was told about will not find one it was not.
  *
  * NOT EVERY DETECTOR, and the difference is counted here rather than glossed —
- * twice now. The header claimed "every" until a reviewer counted them on
- * 2026-08-12, then claimed "SEVEN" while 18 cells ran and while `missing` was
- * listed as uncovered a hundred lines above its own control. A claim about
- * coverage is exactly the kind that must be counted rather than asserted, so
- * the last cell in this file counts it.
+ * three times now. The header claimed "every" until a reviewer counted them on
+ * 2026-08-12; then "SEVEN" while 18 cells ran, with `missing` listed as
+ * uncovered a hundred lines above its own control; then a breakdown whose
+ * arithmetic came to 23 while 25 ran, in the same commit that added a cell to
+ * stop exactly that. A claim about coverage is the kind that must be counted,
+ * so the last cell in this file counts it — the total AND the make-up, because
+ * a total alone cannot notice a cell changing category, which is how "five
+ * own-rule cells" stayed written while six existed.
+ *
+ * The make-up, and it is asserted below rather than trusted here:
+ *   16 plant a defect from the CSS table in tools/ux-census.mjs;
+ *    9 plant one built in the page, where a stylesheet cannot reach;
+ *    2 prove a clean page reports none of them;
+ *    8 hold the census's own rules against the app;
+ *    3 cover the toast report, the staging refusal, and this count itself.
  *
  * These have a control: horizontal-overflow, vertical-overflow,
- * element-past-the-edge, nested-scroll, control-too-small, control-obscured
- * (three ways: a full-page overlay, a 49% panel, and a badge on the centre
- * alone), nothing-measured, pseudo-overlay, text-too-small, text-too-big,
- * overlap, missing, and the staging refusal. Five more cells check the
- * census's own rules rather than its detectors: the overlay list against the
- * stylesheet, the stylesheet scan's own reach, the modal boundary, the font
- * limits, and that every viewport is a real device descriptor rather than a
- * hand-written box.
+ * element-past-the-edge, nested-scroll, control-too-small (twice: far below the
+ * floor, and one pixel below it), control-obscured (three ways: a full-page
+ * overlay, a 49% panel, and a badge on the centre alone), nothing-measured,
+ * pseudo-overlay (six ways: ::before and ::after, absolute and fixed, and
+ * painting by background, box-shadow, border and outline), text-too-small and
+ * text-too-big (twice each: far outside, and one pixel outside),
+ * word-too-small, word-too-big, overlap (twice: with text and textless),
+ * missing, and the staging refusal.
  *
  * These do NOT yet: tile-count, empty-tile, below-the-fold, focus-lost,
  * unreachable-control, page/console errors, off-host requests, and
@@ -30,7 +40,7 @@
 import { readFileSync, readdirSync } from "node:fs";
 import { test, expect, devices } from "@playwright/test";
 import { inspect, PLANTS, VIEWPORTS, stage, BANK_WORDS, requireStaged, FONT_FLOOR, FONT_CEIL,
-         MODAL_BOUNDARY, OVERLAYS, OVERLAY_Z } from "../../tools/ux-census.mjs";
+         MODAL_BOUNDARY, OVERLAYS, OVERLAY_Z, CHILD_MIN, ADULT_MIN } from "../../tools/ux-census.mjs";
 
 /* NO NAME-STRING SKIP. This file used to select itself with
    `test.skip(testInfo.project.name !== "phone-portrait")`. An auditor renamed
@@ -42,8 +52,8 @@ import { inspect, PLANTS, VIEWPORTS, stage, BANK_WORDS, requireStaged, FONT_FLOO
    there is nothing to skip and nothing to mis-spell. */
 const VP = VIEWPORTS[0];
 
-for (const [kind, css] of PLANTS) {
-  test(`detector fires: ${kind}`, async ({ page }) => {
+for (const [kind, css, label] of PLANTS) {
+  test(`detector fires: ${label || kind}`, async ({ page }) => {
     await page.goto("/", { waitUntil: "load" });
     await page.addStyleTag({ content: css });
     await page.waitForTimeout(150);
@@ -204,14 +214,39 @@ function stylesheet() {
   return css.replace(/\/\*[\s\S]*?\*\//g, " ").replace(/\$\{[^}]*\}/g, "0");
 }
 
+/* A z-index whose value is not a bare integer — var(--wqtop), calc(70 + 20),
+   a keyword — is UNRESOLVABLE, and unresolvable is treated as an overlay.
+   The first version matched only `-?\d+`, so `z-index: var(--wqtop)` with
+   --wqtop:90 was not a z-index at all: an auditor put a full-page opaque black
+   panel in the app's own stylesheet and all three stylesheet cells passed. And
+   the coverage cell could not notice, because it counted "declared" with THE
+   SAME REGEX — two derivations that share a blind spot always agree. `declared`
+   now counts every `z-index:` in the file, whatever follows it. */
+const Z_ANY = /z-index\s*:/g;
+
 function overlayRules(css) {
   const rules = [];
   for (const m of css.matchAll(/([^{}]+)\{([^{}]*)\}/g)) {
-    const zm = /z-index\s*:\s*(-?\d+)/.exec(m[2]);
-    if (zm) rules.push({ selectors: m[1].split(",").map((s) => s.trim()).filter(Boolean), z: Number(zm[1]) });
+    const zm = /z-index\s*:\s*([^;}]+)/.exec(m[2]);
+    if (!zm) continue;
+    const raw = zm[1].trim();
+    const z = /^-?\d+$/.test(raw) ? Number(raw) : null;   // null = unresolvable
+    rules.push({ selectors: m[1].split(",").map((s) => s.trim()).filter(Boolean), z, raw });
   }
   return rules;
 }
+
+/* EXACT NAMES, NOT SUBSTRINGS. The matcher was
+   `named.some(n => cls.some(c => n.includes(c)) || (n.includes("role=") && sel.includes("[role")))`,
+   which waved through ANY selector containing `[role` — so
+   `[role="alert"]{position:fixed;inset:0;background:#000;z-index:90}` passed —
+   and any class that is a substring of a named one, so `.wq-mod` passed
+   because ".wq-modal".includes(".wq-mod"). */
+const NAMED = OVERLAYS.split(",").map((s) => s.trim());
+const NAMED_CLASSES = new Set(NAMED.flatMap((n) => n.match(/\.[a-zA-Z0-9_-]+/g) || []));
+const NAMED_ATTRS = new Set(NAMED.filter((n) => n.startsWith("[")));
+const isNamed = (sel) =>
+  (sel.match(/\.[a-zA-Z0-9_-]+/g) || []).some((c) => NAMED_CLASSES.has(c)) || NAMED_ATTRS.has(sel.trim());
 
 test("the stylesheet scan reaches every z-index the app declares", () => {
   /* THE CONTROL FOR THE CONTROL. "It passes because it matched nothing" is the
@@ -220,15 +255,15 @@ test("the stylesheet scan reaches every z-index the app declares", () => {
      independent derivations of one number — a flat count of the declarations,
      and the count the parser actually assembled into rules. */
   const css = stylesheet();
-  const declared = (css.match(/z-index\s*:\s*-?\d+/g) || []).length;
+  const declared = (css.match(Z_ANY) || []).length;
   expect(declared, "wq-css.js declares no z-index at all, so this control is judging an empty set")
     .toBeGreaterThan(0);
   expect(overlayRules(css).length, "the rule split cannot reach every z-index the stylesheet declares")
     .toBe(declared);
 
   /* And that it reaches the two that matter, by name and value (E4). */
-  const stacked = overlayRules(css).filter((r) => r.z >= OVERLAY_Z)
-    .flatMap((r) => r.selectors.map((s) => `${s} ${r.z}`)).sort();
+  const stacked = overlayRules(css).filter((r) => r.z === null || r.z >= OVERLAY_Z)
+    .flatMap((r) => r.selectors.map((s) => `${s} ${r.raw}`)).sort();
   expect(stacked, "the overlays the scan can see are not the ones the app defines")
     .toEqual([".wq-modalwrap 80", ".wq-toast 70"]);
 });
@@ -241,17 +276,29 @@ test("every overlay the app defines is named in the overlay list", () => {
      would have noticed until a cell provoked a toast. This reads the app's own
      stylesheet and fails on any rule that stacks above content and is not
      covered. */
-  const named = OVERLAYS.split(",").map((s) => s.trim());
   const uncovered = [];
   for (const rule of overlayRules(stylesheet())) {
-    if (rule.z < OVERLAY_Z) continue;
-    for (const sel of rule.selectors) {
-      const cls = sel.match(/\.[a-zA-Z0-9_-]+/g) || [];
-      const covered = named.some((n) => cls.some((c) => n.includes(c)) || (n.includes("role=") && sel.includes("[role")));
-      if (!covered) uncovered.push(`${sel} (z-index ${rule.z})`);
-    }
+    /* An unresolvable value (rule.z === null) is judged as an overlay. A
+       z-index nobody can read from the source is exactly the one nobody
+       notices, and that is the safe direction to be wrong in. */
+    if (rule.z !== null && rule.z < OVERLAY_Z) continue;
+    for (const sel of rule.selectors)
+      if (!isNamed(sel)) uncovered.push(`${sel} (z-index ${rule.raw})`);
   }
   expect(uncovered, "the app stacks something above content that the overlay list does not name").toEqual([]);
+});
+
+test("the overlay matcher refuses what it should refuse", () => {
+  /* Its own control, because this matcher waved two things through. It is
+     doing no work at all if it accepts everything, and the neighbouring cell's
+     hard-coded literal would hide that: the literal is what went red on the
+     auditor's plants, not this. E4 literals both ways. */
+  expect(isNamed(".wq-toast"), ".wq-toast is named and must be accepted").toBe(true);
+  expect(isNamed('[role="dialog"]'), '[role="dialog"] is named and must be accepted').toBe(true);
+  expect(isNamed(".wq-modalwrap"), ".wq-modalwrap is named and must be accepted").toBe(true);
+  expect(isNamed('[role="alert"]'), "any [role] selector used to be waved through").toBe(false);
+  expect(isNamed(".wq-mod"), ".wq-mod passed because it is a substring of .wq-modal").toBe(false);
+  expect(isNamed(".wq-audit-panel"), "an unnamed class must be refused").toBe(false);
 });
 
 test("no other app source stacks above content where the scan cannot see it", () => {
@@ -265,10 +312,27 @@ test("no other app source stacks above content where the scan cannot see it", ()
     for (const e of readdirSync(d, { withFileTypes: true })) {
       const child = new URL(e.name + (e.isDirectory() ? "/" : ""), d);
       if (e.isDirectory()) { walk(child); continue; }
-      if (!/\.(jsx?|css)$/.test(e.name) || e.name === "wq-css.js") continue;
+      /* EVERY EXTENSION THE APP COULD SHIP. It was /\.(jsx?|css)$/, and an
+         auditor put the same stray object in a .ts file and in a .mjs file and
+         walked past twice. */
+      if (!/\.(m?[jt]sx?|cjs|css)$/.test(e.name) || e.name === "wq-css.js") continue;
       const text = readFileSync(child, "utf8");
-      for (const m of text.matchAll(/z-?[iI]ndex["']?\s*[:=]\s*["']?(-?\d+)/g))
-        if (Number(m[1]) >= OVERLAY_Z) strays.push(`${e.name}: z-index ${m[1]}`);
+      for (const m of text.matchAll(/z-?[iI]ndex["']?\s*[:=]\s*["']?([^,;}\n]+)/g)) {
+        const raw = m[1].trim().replace(/["')]+$/, "");
+        /* A NUMBER IS JUDGED; ANYTHING ELSE IS REPORTED. `const TOP = 99; …
+           zIndex: TOP` and `el.style.setProperty("z-index", "99")` both walked
+           past a numbers-only scan, and both are plausible ships — a design
+           token and a one-line imperative style. A value this cannot resolve
+           is named rather than skipped, which is the safe direction and costs
+           only a sentence when someone adds a legitimate one. */
+        if (/^-?\d+$/.test(raw)) {
+          if (Number(raw) >= OVERLAY_Z) strays.push(`${e.name}: z-index ${raw}`);
+        } else if (!/^(auto|inherit|initial|unset|revert)$/.test(raw)) {
+          strays.push(`${e.name}: z-index ${raw} — a value this scan cannot resolve, so it cannot be cleared`);
+        }
+      }
+      for (const m of text.matchAll(/setProperty\(\s*["']z-index["']/g))
+        strays.push(`${e.name}: sets z-index imperatively (${m[0]}), where no stylesheet scan can see it`);
     }
   };
   walk(dir);
@@ -317,6 +381,67 @@ test("a toast that buries content is REPORTED, and is not called a collision", a
     .not.toContain("overlap");
 });
 
+test("detector fires: overlap, from a TEXTLESS bar burying a control's label", async ({ page }) => {
+  /* The auditor's plant of 2026-08-13, and it beat every detector in this
+     file. Opaque black over the left quarter of "▶️ Begin Session" — the
+     button reads "gin Session" on screen — in a column that misses all five
+     obscured sample points, and with NO TEXT in it, so the overlap scan's ink
+     filter rejected it: background-IMAGE counted as ink and background-COLOUR
+     did not. The same bar with two characters of text in it was caught, which
+     is what made the gap obvious once it was found. */
+  await page.goto("/", { waitUntil: "load" });
+  await page.getByRole("button", { name: "▶️ Begin Session" }).waitFor({ timeout: 8000 });
+  await page.evaluate(() => {
+    const b = [...document.querySelectorAll("button")].find((x) => x.textContent.includes("Begin Session"));
+    const r = b.getBoundingClientRect();
+    const d = document.createElement("div");
+    d.style.cssText = `position:fixed;left:${r.left + r.width * 0.2}px;top:${r.top}px;`
+      + `width:${r.width * 0.25}px;height:${r.height}px;background:#000;z-index:60;`;
+    document.body.appendChild(d);
+  });
+  await page.waitForTimeout(150);
+  const { findings } = await inspect(page, VP, "planted", {});
+  const overlap = findings.filter((f) => f.kind === "overlap").map((f) => f.detail).join(" | ");
+  expect(overlap, "a textless opaque bar burying a control's label was reported by nothing")
+    .toMatch(/Begin Session/);
+});
+
+test("detector fires: word-too-small, on the one word the whole game is for", async ({ page }) => {
+  /* Neither word-too-small nor word-too-big had a control, and neither
+     appeared in EITHER list in this file's header — in the file whose stated
+     purpose is that a coverage claim must be counted rather than asserted.
+     Deleting the check left 25 of 25 green. They need a staged word, because
+     .wq-word does not exist on the home screen, which is why the CSS-only
+     plant loop above could never have covered them. */
+  const { shown } = await stage(page, VP, "chat", null, { url: "/" });
+  requireStaged("chat", shown);
+  await page.addStyleTag({ content: `.wq-word{font-size:23px !important}` });
+  await page.waitForTimeout(150);
+  const { findings } = await inspect(page, VP, "planted", {});
+  const detail = findings.filter((f) => f.kind === "word-too-small").map((f) => f.detail).join(" | ");
+  expect(detail, "the target word rendered at 23px against a 24px floor and nothing fired").toMatch(/23px/);
+});
+
+test("detector fires: word-too-big", async ({ page }) => {
+  const { shown } = await stage(page, VP, "chat", null, { url: "/" });
+  requireStaged("chat", shown);
+  await page.addStyleTag({ content: `.wq-word{font-size:161px !important}` });
+  await page.waitForTimeout(150);
+  const { findings } = await inspect(page, VP, "planted", {});
+  const detail = findings.filter((f) => f.kind === "word-too-big").map((f) => f.detail).join(" | ");
+  expect(detail, "the target word rendered at 161px against a 160px ceiling and nothing fired").toMatch(/161px/);
+});
+
+test("S7's control floors are the ones the rule states", () => {
+  /* An auditor set these to 20 and 20 and every control in this file stayed
+     green: the plants were 12px against 56, so they fired anyway. The boundary
+     plants above close that, and these literals close it twice — S7 is a
+     safety rule and the number belongs to the rule, not to the census.
+     tests/ui/interface.mjs asserts the same two independently for G7. */
+  expect(CHILD_MIN, "S7 sets a child's control at 56px").toBe(56);
+  expect(ADULT_MIN, "S7 sets a grown-up's control at 44px").toBe(44);
+});
+
 test("this file's own cell count is the one its header states", () => {
   /* The header of this file has now been wrong twice about how much it proves,
      and a coverage claim nobody counts is the shape of every finding in
@@ -326,9 +451,29 @@ test("this file's own cell count is the one its header states", () => {
   const src = readFileSync(new URL("./controls.spec.mjs", import.meta.url), "utf8");
   const calls = (src.match(/^\s*test\(/gm) || []).length;
   const cells = calls - 1 + PLANTS.length;        // one of those test() calls is the PLANTS loop
-  expect(cells, "the number of control cells in this file has changed").toBe(25);
+  expect(cells, "the number of control cells in this file has changed").toBe(38);
   expect(src.slice(0, 400), "the header no longer states the number of cells that run")
     .toContain(`${cells} cells run here`);
+
+  /* THE BREAKDOWN, NOT JUST THE TOTAL. The previous version asserted the total
+     and that one string appeared in the header — and the header's arithmetic
+     was wrong by two in both of the commits that wrote it, in the very file
+     whose stated purpose is that a coverage claim must be counted. A total
+     alone cannot notice a cell moving from one category to another, which is
+     precisely how "five own-rule cells" stayed written while six existed. */
+  const named = [...src.matchAll(/^\s*test\((?:`|")([^`"]*)/gm)].map((m) => m[1])
+    .filter((n) => !n.includes("${"));
+  const group = (n) =>
+    /^detector fires/.test(n) ? "detector"
+      : /clean page/.test(n) ? "clean"
+      : /(overlay|stylesheet|modal boundary|font limits|real device|S7's control floors|other app source)/.test(n) ? "rule"
+      : "rest";
+  const tally = { plant: PLANTS.length, detector: 0, clean: 0, rule: 0, rest: 0 };
+  for (const n of named) tally[group(n)] += 1;
+  expect(tally, "the make-up of this file's cells has changed, and the header above still describes the old one")
+    .toEqual({ plant: 16, detector: 9, clean: 2, rule: 8, rest: 3 });
+  expect(Object.values(tally).reduce((a, b) => a + b, 0), "the breakdown no longer adds up to the total")
+    .toBe(cells);
 });
 
 test("every viewport is a real device, and its size is the device's own", () => {

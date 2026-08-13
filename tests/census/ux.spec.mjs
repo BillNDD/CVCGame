@@ -1,8 +1,8 @@
 /* THE DEEP UX CENSUS — one test per layout class, per viewport.
  *
  * 44 words covering all 29 layout-risk classes in the bank, across 8 device
- * profiles: 408 cells from this file — 44 word cases, 3 screen cases and 4
- * state cases, each on 8 profiles — and 25 more from the controls, which run
+ * profiles: 416 cells from this file — 44 word cases, 3 screen cases and 5
+ * state cases, each on 8 profiles — and 38 more from the controls, which run
  * on one. The control count in that sentence is asserted in
  * tests/census/controls.spec.mjs rather than typed and trusted: it read "9 more
  * from the controls" while 18 ran, which is how a document stops describing the
@@ -14,9 +14,9 @@
  *
  * A word cell stages a NAMED word through the app's own free-play chooser,
  * checks the prompt, grades it the way a grown-up does, and checks the reveal.
- * Both states are inspected for the whole list in one pass. The four state
+ * Both states are inspected for the whole list in one pass. The five state
  * cells (build spec item 3) reach what a word never does: the close and wrong
- * reveals, the done screen, and the update row.
+ * reveals, a toast, the done screen, and the update row.
  *
  * The word is reached by holding Math.random still, then READ OFF THE SCREEN
  * and refused if it is not the one asked for. The app builds its own block from
@@ -90,7 +90,7 @@ for (const [which, open, mustBeVisible, mustExist] of [
 
 /* ITEM 3 — THE STATES A WORD NEVER REACHES.
    The census saw the prompt and the correct reveal and nothing else. These are
-   the four it could not: the two reveals a child meets when the reading did NOT
+   the five it could not: the two reveals a child meets when the reading did NOT
    go well, the screen a child reaches by finishing, and the one row in the app
    that touches the network. */
 
@@ -151,6 +151,61 @@ for (const grade of ["close", "wrong"]) {
     expect.soft(errors, "the page reported errors").toEqual([]);
   });
 }
+
+/* A TOAST, ACTUALLY ON THE SCREEN. The report-only channel that says what a
+   toast covers was written on 2026-08-13 with a comment claiming that "All
+   progress cleared." and "Log copied" fire from the grown-ups corner, "which
+   the census inspects". An auditor read the attachments of every screen cell
+   and found the channel dead in all 376: <Toast> renders only after Copy log,
+   a reset, a level jump or a backup, and no cell pressed any of them. The
+   comment it replaced had been honest — "No census cell provokes a toast
+   today" — so the fix had turned a true caveat into a false claim. This cell
+   is what makes the claim true. */
+test("state: a toast over the grown-ups corner", async ({ page }, testInfo) => {
+  const viewport = VP[testInfo.project.name];
+  const errors = [];
+  page.on("pageerror", (e) => errors.push("pageerror: " + e.message.slice(0, 160)));
+  page.on("console", (m) => { if (m.type() === "error") errors.push("console: " + m.text().slice(0, 160)); });
+
+  await page.goto("/", { waitUntil: "load" });
+  await page.getByRole("button", { name: "Grown-ups corner" }).click({ timeout: 8000 });
+  await page.getByRole("button", { name: /Copy log/ }).click({ timeout: 8000 });
+  await page.locator(".wq-toast").waitFor({ timeout: 8000 });
+  /* BACK TO THE TOP BEFORE MEASURING. Playwright scrolls a control into view
+     to click it, and the "Grown-ups corner" is a long scrolling page — so the
+     first version of this cell measured it mid-scroll and reported two things
+     that are not defects: a level row whose centre had passed under the sticky
+     header, and that header overlapping the content behind it. Every other
+     screen cell in this file measures a screen at its top, and a scrolled page
+     is a different measurement, not a worse one. What the census does NOT yet
+     know is how to judge a screen a parent has scrolled — content under a
+     sticky header is by design, and telling that apart from content buried by
+     one is a rule nobody has written. It is recorded in docs/open-faults.md
+     rather than papered over here. */
+  await page.evaluate(() => {
+    window.scrollTo(0, 0);
+    for (const el of document.querySelectorAll("*")) if (el.scrollTop) el.scrollTop = 0;
+  });
+  await page.waitForTimeout(150);
+
+  /* NOT NAMED `shown`. The control that forbids softening the staging refusal
+     greps this file for a soft assertion carrying that identifier, and a local
+     of that name in an unrelated cell trips it — as did the first version of
+     THIS comment, which quoted the forbidden pattern verbatim and so tripped
+     the guard by explaining it. The guard is right to be crude; the variable
+     and the sentence both moved. */
+  const toast = await inspect(page, viewport, "toast", { mustBeVisible: [".wq-toast"] });
+  for (const f of toast.findings) expect.soft(f, `[toast] ${f.kind}: ${f.detail}`).toBeUndefined();
+  /* The channel must have something in it. A report-only channel nobody can
+     reach is the same as no channel, and it took an auditor to notice. */
+  await testInfo.attach("what a toast covered", { body: toast.covered.join("\n") || "(nothing)", contentType: "text/plain" });
+  expect.soft(toast.covered.length,
+    "a toast is on the screen and the channel that says what it covers is empty — it is unreachable again")
+    .toBeGreaterThan(0);
+  expect.soft(toast.findings.map((f) => f.kind), "a toast floating over content was asserted as a collision")
+    .not.toContain("overlap");
+  expect.soft(errors, "the page reported errors").toEqual([]);
+});
 
 /* The done screen. A REAL session, because free play never ends — so this is
    the one cell in the file that is meant to write, and the only one that does

@@ -895,6 +895,56 @@ controls green.
 **Items 2 to 8 of the build spec remain unbuilt.** This entry was the foundation under them,
 not the work itself.
 
+### G3c. What the fourth audit round found, 2026-08-13 — twelve findings, ten closed
+
+An independent auditor planted faults in a clone against commits `e1b3a95` and `2ac9dc7` and
+confirmed twelve. Ten are closed in the same change, each with the auditor's own plant replayed
+and the control watched to go red: **14 plants, 14 killed.** Two are recorded here because they
+are not the census's to fix.
+
+The ten, in one line each, because the code carries the detail:
+the z-index scan could not read `var()` or `calc()` — and its own coverage cell shared the
+regex, so two "independent derivations" had one blind spot; a **textless** opaque bar burying a
+control's label was ink to nobody, because background-IMAGE counted and background-COLOUR did
+not; the pseudo-element scan asked only about background, so a border, a box-shadow and an
+outline each painted a control solid black in silence; three of that scan's four branches could
+be deleted with all 25 controls green, because the one shipped plant took one path; S7's floors
+could be set to 20 and 20 with everything green, since every plant sat far from the boundary it
+tested; `word-too-small` and `word-too-big` had no control and appeared in NEITHER of the
+header's two lists; the "no other app source" tripwire was evaded by a named constant, by
+`setProperty`, by `.ts` and by `.mjs`; the counted-coverage sentences were themselves
+miscounted, in both files, in the commit that added a cell to stop exactly that; the overlay
+matcher waved through any selector containing `[role` and any class that is a substring of a
+named one; and the toast report was dead in all 376 cells while the comment claimed it fired
+from a screen the census inspects — a fix that had replaced an honest caveat with a false one.
+
+**G3c-1. The 390x844 correction was applied to the census only.** Commit `2ac9dc7`'s whole
+finding is that a page on an iPhone 13 gets 390x664, not 390x844. `tests/ui/interface.mjs` —
+G7, a gauntlet gate — still calls `setViewportSize({ width: 390, height: 844 })` at five
+places, and line 739 labels 320x568 "iPhone SE". Fourteen occurrences of the box remain across
+`tests/` and `tools/`.
+- **What it means today** G7's phone checks run with 180 pixels of slack that no phone has. It
+  is not known whether any of them would still pass at the honest height, and that is the
+  point: nothing has asked.
+- **Why it is not fixed here** G7 runs only in the full gauntlet, which is a release-time gate,
+  and changing what it measures may turn it red on real findings. That deserves its own change
+  with the owner's sight of what goes red, not a line slipped into a census commit.
+- **Done** means every phone viewport in `tests/` and `tools/` is a page size rather than a
+  device size, and whatever that turns up is fixed or ruled on.
+
+**G3c-2. The census cannot judge a screen a parent has scrolled.** Found by the new toast cell,
+which had to click "Copy log" — and Playwright scrolls a control into view to click it. Measured
+mid-scroll, the "Grown-ups corner" reports a level row whose centre has passed under the sticky
+header, and the header overlapping the content behind it. Neither is a defect.
+- **Where** `control-obscured` and `overlap` in `tools/ux-census.mjs`.
+- **What it means** Every screen cell measures a screen at its top, and that is now written into
+  the toast cell rather than assumed. The app has one sticky element and a long scrolling
+  parent screen, so the question is real: content UNDER a sticky header is by design, content
+  BURIED by one is a defect, and no rule here tells them apart.
+- **Done** means the scans know a sticky or fixed ancestor from a collision, with a control for
+  each direction — a row scrolled under the header must not fire, and a header sitting on top of
+  a control that has not been scrolled must.
+
 ### G4. E11 is a rule with only one mechanical helper — BUILT 2026-08-13
 
 - **Where** `CLAUDE.md` E11 asks for the gates a change will touch to be named before the edit.
