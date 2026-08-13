@@ -715,7 +715,23 @@ inform one. A survey run on every push stops being read, and one run only when s
 remembers is one that never runs.
 
 **FLAKINESS CLOSED 2026-08-12, and the census has now run in full**: 338 cells over 7
-viewports, 0 failures, 0 flaky, 54.8 minutes, recorded in `.census/report.json`. The three
+viewports, 0 failures, 0 flaky, 54.8 minutes, recorded in `.census/report.json`.
+
+**WHAT THAT RUN PROVES, AND WHAT IT DOES NOT.** It proves the geometry findings — no overflow,
+no element past the edge, no nested scroll, every control at or above its S7 floor, nothing
+obscured, nothing required below the fold — plus the tile COUNT against the engine's own split,
+no page or console errors, no request off the app's own host, and free play writing nothing.
+**It does not prove that the accessibility tree names the tiles**, because the assertion that
+claimed to check that could not fail: it matched letters inside the praise sentence. That was
+found by an auditor after the run, and the replacement — the visible tiles compared with
+chunkWord() in order — has been proved against a planted mutant but **has never run over a
+full census**. Quote the run for the checks it made, not for the one it did not.
+
+**A correction to how that was reported.** The commit that replaced the assertion says, in
+capitals, that deleting the entire tile row still passed. That is true of the ASSERTION and
+false of the CELL: the cell waits for a tile and compares the count, so it would have failed.
+The assertion was decoration; the cell was not defenceless. An overstated confession is still
+an unverified claim. The three
 causes were two detector bugs of mine and Chromium churn at four workers. The paragraph below
 described the state before that and is kept because it says what the run may be quoted FOR:
 the checks that exist, not the ones the spec above adds.

@@ -854,7 +854,16 @@ in phonics word lists. Ruled FINE on 2026-08-11, on the same principle and by th
 route — the pre-beta screen of the whole bank raised them, and the owner ruled: **gash,
 bush, bang, whack, hung, rod** and **puff**. A later screen does not raise these again.
 That screen covered all 349 bank words and the 115 approved words waiting for a level,
-and it found nothing else. Confirmed absent from both lists: shag, tit, muff, suck, bum,
+and it found nothing else.
+
+**Re-screened 2026-08-13 before beta.17, over all 439 bank words and the 115 words still
+waiting.** Checked, not recalled: the seven ruled-out words and catfish are absent; the eight
+words confirmed absent in the 2026-08-11 screen are still absent; the nine words the owner
+ruled FINE that day are all still present and are not raised again. Two words are new since
+the last screen — **of** and **a** — and both are function words with no adult sense. Three
+bank words have a plural that is ruled out: **jug, bun, nut**. The game never pluralises, so
+none can appear today; the plural-s level (12, unbuilt) must exclude them, as SPEC already
+requires for jug and crab. Nothing else was found. Confirmed absent from both lists: shag, tit, muff, suck, bum,
 spunk, slag, and all seven words already ruled out above.
 
 Ruled out for good, with reasons on the record: nonsense words (better for assessment
