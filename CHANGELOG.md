@@ -41,7 +41,8 @@ The first app version is 1.0.0-beta.1. The app stays in beta until version 1.0 i
   the app having stopped. The owner chose the spacing, the hum and the outline by ear and eye
   against the real audio.
 - New: 33 sound clips in the voice pack, one for every sound the word bank's tiles can ask
-  for. The pack now holds 406 clips. Every sound was approved in a listening round, and none of
+  for, bringing it to 406 clips at that point. **The pack now holds 500 clips and 37 sounds**,
+  after the heart words and the words added since. Every sound was approved in a listening round, and none of
   them is a recording of a family member's voice.
 - Changed: a tricky word sounds out with the sounds it really makes, not its letters. "was" is
   /w/ + short o + /z/, "she" is /sh/ + long e, "push" and "bush" take the short oo of "book".
