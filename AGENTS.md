@@ -125,10 +125,12 @@ every arm, and the copy-all at the end.
 first edit:
 
 1. **What am I changing?** One sentence, concrete — a word, a count, a constant, a line of copy.
-2. **What depends on it?** Walk the gates and name them: counts and floors, mutant anchors,
-   scenario arithmetic, the documents that state the fact, the copy a parent reads, the file
-   lists. Not from memory where a command will answer — `node tools/mutants.mjs --anchors` is
-   milliseconds and a gauntlet is twelve minutes.
+2. **What depends on it?** Ask, do not remember. `node tools/blast-radius.mjs --word gob`
+   lists every tracked file that names it, classified by what the file IS — engine source,
+   generated, test with literal values, gate floor, mutant anchor, a document a parent reads —
+   with the counts that move and the floors that follow. `node tools/mutants.mjs --anchors`
+   catches mutants whose anchor your edit has moved: milliseconds, against twelve minutes to
+   learn the same thing from a gauntlet. Read the output as a plan, not a grep.
 3. **What proves I did it right?** The check or the observation, named before the work starts,
    not chosen afterwards from whatever passed.
 
