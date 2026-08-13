@@ -19,7 +19,7 @@
  */
 import { readFileSync } from "node:fs";
 import { test, expect } from "@playwright/test";
-import { inspect, PLANTS, VIEWPORTS, stage, BANK_WORDS, requireStaged, FONT_FLOOR, FONT_CEIL } from "../../tools/ux-census.mjs";
+import { inspect, PLANTS, VIEWPORTS, stage, BANK_WORDS, requireStaged, FONT_FLOOR, FONT_CEIL, OVERLAYS, OVERLAY_Z } from "../../tools/ux-census.mjs";
 
 /* NO NAME-STRING SKIP. This file used to select itself with
    `test.skip(testInfo.project.name !== "phone-portrait")`. An auditor renamed
@@ -56,7 +56,9 @@ test("detector fires: text-too-small", async ({ page }) => {
   await page.addStyleTag({ content: `button, .wq-cta, .wq-sbtn { font-size: 6px !important; }` });
   await page.waitForTimeout(150);
   const { findings } = await inspect(page, VP, "planted", {});
-  expect(findings.map((f) => f.kind)).toContain("text-too-small");
+  const detail = findings.filter((f) => f.kind === "text-too-small").map((f) => f.detail).join(" | ");
+  expect(detail, "text-too-small did not fire").not.toBe("");
+  expect(detail, "the finding does not quote the size that was planted").toMatch(/6px/);
 });
 
 test("detector fires: a PARTIAL cover, not just a full-page one", async ({ page }) => {
@@ -128,7 +130,9 @@ test("detector fires: text-too-big, the fault this census was commissioned for",
   await page.addStyleTag({ content: `button { font-size: 64px !important; }` });
   await page.waitForTimeout(200);
   const { findings } = await inspect(page, VP, "planted", {});
-  expect(findings.map((f) => f.kind)).toContain("text-too-big");
+  const detail = findings.filter((f) => f.kind === "text-too-big").map((f) => f.detail).join(" | ");
+  expect(detail, "text-too-big did not fire").not.toBe("");
+  expect(detail, "the finding does not quote the size that was planted").toMatch(/64px/);
 });
 
 test("a clean page reports no overlap and no small text", async ({ page }) => {
@@ -160,7 +164,32 @@ test("detector fires: missing, when a screen loses a control it must have", asyn
   const { findings } = await inspect(page, VP, "planted", {
     mustBeVisible: ['button:has-text("Begin Session")'],
   });
-  expect(findings.map((f) => f.kind)).toContain("missing");
+  const detail = findings.filter((f) => f.kind === "missing").map((f) => f.detail).join(" | ");
+  expect(detail, "the finding does not name the control that was removed").toMatch(/Begin Session/);
+});
+
+test("every overlay the app defines is named in the overlay list", () => {
+  /* A HAND-KEPT LIST IS A PROMISE; THIS MAKES IT A FACT. The first version
+     named dialog, modal, modalwrap and scrim, and missed .wq-toast - which is
+     position:absolute at z-index 70, floats over the stage, and collided with
+     everything under it on 11 of 21 state-by-viewport combinations. Nothing
+     would have noticed until a cell provoked a toast. This reads the app's own
+     stylesheet and fails on any rule that stacks above content and is not
+     covered. */
+  const css = readFileSync(new URL("../../app/src/wq-css.js", import.meta.url), "utf8");
+  const named = OVERLAYS.split(",").map((s) => s.trim());
+  const uncovered = [];
+  /* Each rule: the selector list, then its body. */
+  for (const m of css.matchAll(/([^{}]+)\{([^{}]*)\}/g)) {
+    const zm = /z-index\s*:\s*(-?\d+)/.exec(m[2]);
+    if (!zm || Number(zm[1]) < OVERLAY_Z) continue;
+    for (const sel of m[1].split(",").map((s) => s.trim()).filter(Boolean)) {
+      const cls = sel.match(/\.[a-zA-Z0-9_-]+/g) || [];
+      const covered = named.some((n) => cls.some((c) => n.includes(c)) || (n.includes("role=") && sel.includes("[role")));
+      if (!covered) uncovered.push(`${sel} (z-index ${zm[1]})`);
+    }
+  }
+  expect(uncovered, "the app stacks something above content that the overlay list does not name").toEqual([]);
 });
 
 test("the font limits are limits, not the values the app happens to render", () => {

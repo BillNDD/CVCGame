@@ -271,7 +271,16 @@ async function inspect(page, viewport, label, opts = {}) {
      control's centre sat just clear of the panel. This compares the boxes of
      things that actually carry ink - text leaves and images - and ignores
      ancestor pairs, which always overlap by construction. */
-  const overlaps = await page.evaluate(() => {
+  /* The overlay list is passed IN and exported, so a control can hold it
+     against the app's own stylesheet. Maintaining it by hand already failed
+     once: .wq-toast is position:absolute at z-index 70, floats over the stage,
+     and is none of dialog/modal/modalwrap/scrim - so it collided with
+     everything under it on 11 of 21 state-by-viewport combinations. No census
+     cell provokes a toast today, but "All progress cleared." and "Log copied"
+     fire from the grown-ups corner, which the census inspects. */
+  await page.addInitScript(() => {}).catch(() => {});
+  const overlaps = await page.evaluate((OVERLAYS) => {
+    window.__WQ_OVERLAYS = OVERLAYS;
     /* THE MODAL IS NAMED, NOT INFERRED. The first version used two geometric
        proxies for "a dialog is open" - drop anything not top-most at its own
        centre, and ignore total containment - and both proxies excluded the
@@ -280,7 +289,7 @@ async function inspect(page, viewport, label, opts = {}) {
        pair was never compared: the detector was structurally incapable of
        seeing one thing land on top of another, which is the only fault it
        names. Naming the dialog lets both proxies go. */
-    const MODAL = '[role="dialog"], .wq-modal, .wq-modalwrap, .wq-scrim';
+    const MODAL = window.__WQ_OVERLAYS;
     const modalOpen = !!document.querySelector(MODAL);
     const inModal = (el) => !!el.closest(MODAL);
     const ink = [...document.querySelectorAll("*")].filter((el) => {
@@ -339,7 +348,7 @@ async function inspect(page, viewport, label, opts = {}) {
       }
     }
     return out.slice(0, 12);
-  });
+  }, OVERLAYS);
   for (const o of overlaps) push("overlap", o);
 
   /* The accessibility tree with its geometry, in one call: what a screen
@@ -420,6 +429,14 @@ const FONT_FLOOR = { control: 12, word: 24 };
    labels at 16px and the word far larger; these are ceilings a layout can
    survive, not the values it uses. */
 const FONT_CEIL = { control: 34, word: 160 };
+
+/* EVERY overlay in the app, by selector. A pair that straddles this boundary is
+   stacking rather than a collision. Held against the app's stylesheet by a
+   control, because a hand-kept list is a promise and a checked one is a fact. */
+const OVERLAYS = '[role="dialog"], .wq-modal, .wq-modalwrap, .wq-scrim, .wq-toast';
+/* The z-index at or above which an element is an overlay rather than content.
+   The whole app uses four values: -1, 1, 70, 80. */
+const OVERLAY_Z = 50;
 
 const BANK_WORDS = LEVELS.flatMap((l) => l.words);
 const LONGEST_PRAISE = [...PRAISE.keys()].sort((a, b) => PRAISE[b].length - PRAISE[a].length)[0];
@@ -511,5 +528,5 @@ const PLANTS = [
   ["nothing-measured", `button,[role=button],a[href],input,select{display:none !important}`],
 ];
 
-export { cases, signature, inspect, stage, holdGrade, savedState, holdTheDice, requireStaged, FONT_FLOOR, FONT_CEIL,
+export { cases, signature, inspect, stage, holdGrade, savedState, holdTheDice, requireStaged, FONT_FLOOR, FONT_CEIL, OVERLAYS, OVERLAY_Z,
          VIEWPORTS, CHILD_MIN, ADULT_MIN, PLANTS, BANK_WORDS, LONGEST_PRAISE };
