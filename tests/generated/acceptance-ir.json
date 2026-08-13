@@ -18,7 +18,7 @@
             },
             {
               "kind": "Then",
-              "text": "the export contains \"1/440\""
+              "text": "the export contains \"0/440\""
             }
           ],
           "examples": []
