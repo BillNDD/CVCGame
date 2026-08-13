@@ -701,6 +701,39 @@ A parent sent the child's export. Three things came out of it; one is fixed, two
   outlived its feature, carried by every player from before that date.
 - **Done** means `migrate` drops settings whose feature is gone, with a control.
 
+## K. Seating we, me and go — asked 2026-08-13, one of the three is blocked
+
+The owner asked for `we`, `me` and `go` to be seated at appropriate levels, after nine
+sentences of batch 3 had to be bent around their absence. Three things were checked before
+any bank change, and the third stops one of the three words.
+
+1. **All three have approved word clips already** — `we` and `go` from batch 12, `me` from
+   batch 13, all graded `perfect` on 2026-08-11 and waiting in `tools/pending-words/`. They
+   are words with no LEVEL, not words with no clip.
+2. **They are heart words, so they belong at Level 2** with the other nine, by the seat
+   ruling of 2026-08-12: the level is where the CHILD MEETS the word. None of the three can
+   be decoded by the bank's own rules — `we` and `me` are open syllables saying long e,
+   `go` is an open syllable saying long o — which is what a heart word is.
+3. **`d-long_o.mp3` does not ship, and `go` cannot be sounded out without it.** It is one of
+   the fourteen sounds parked in section B8 on 2026-08-12; `long_i` and `oo_moon` came back
+   the same day when `my`, `to`, `do` and `you` were seated, and `long_o` did not, because
+   nothing needed it. `go` needs it. The sound has never been rendered or heard by anyone,
+   so seating `go` means a listening round for `d:long_o` first — the same round `d:long_i`
+   had. `we` and `me` need only `d:long_e`, which ships and was graded good.
+
+**And a dependency that applies to all three.** Every one bends a tile away from that
+letter's usual sound: the `e` of `we` and `me` is not the `e` of `pen`, and the `o` of `go`
+is not the `o` of `dog`. That is section J1 exactly — ruled on 2026-08-13 (when a word bends
+a tile, the reveal says so in child-facing words) and NOT BUILT. Seating these three adds
+three more words to the class J1 exists for, so it does not create the fault, but it does
+make it three words larger and more likely to be met.
+
+**Done** means: `we` and `me` seated at Level 2 with `WORD_SOUND` entries pointing the `e`
+at `long_e`; a listening round for `d:long_o` before `go` is seated at all; the counts and
+floors that follow raised (E11 — the bank moves 438 to 440 or 441, and the clip count with
+it); and the new sentences the owner approves added by the same route as batch 3, with
+`tools/decodable.mjs` as the arbiter.
+
 ## G. Ideas worth trying that nobody has tried
 
 Owner-instructed 2026-08-12. Unlike every section above, these are **not** faults and not
