@@ -62,15 +62,36 @@ export const PARKED = [
 
 export const approved = (v) => /perfect|good|\bok\b|accepted|marginal/i.test(String(v || ""));
 
+/* A CSV row, split on commas that are NOT inside quotes.
+
+   The first version of this used `line.split(",")`, and its own first run
+   caught it: `oo_moon`'s as_in cell is "moon, food, boot", so every column
+   after it shifted and the gate read the wrong cell as the verdict. It then
+   reported a contradiction that did not exist — and, worse, would have read
+   garbage as an approval for any row with a comma in it. A gate that
+   mis-parses its evidence is a gate that lies confidently. */
+export function cells(line) {
+  const out = [];
+  let cur = "", q = false;
+  for (let i = 0; i < line.length; i++) {
+    const c = line[i];
+    if (c === '"') { if (q && line[i + 1] === '"') { cur += '"'; i++; } else q = !q; }
+    else if (c === "," && !q) { out.push(cur); cur = ""; }
+    else cur += c;
+  }
+  out.push(cur);
+  return out;
+}
+
 export function ledgers() {
   const js = JSON.parse(readFileSync("tools/pending-sounds/pending-sounds.json", "utf8"));
   const rows = readFileSync("tools/voice-sounds.csv", "utf8").trim().split("\n");
-  const head = rows[0].split(",");
+  const head = cells(rows[0]);
   const iName = head.indexOf("sound"), iVer = head.indexOf("verdict");
   const csv = {};
   for (const line of rows.slice(1)) {
-    const cells = line.split(",");
-    if (cells[iName]) csv[cells[iName]] = cells[iVer] || "";
+    const c = cells(line);
+    if (c[iName]) csv[c[iName]] = c[iVer] || "";
   }
   const sounds = {};
   for (const [k, v] of Object.entries(js)) {
@@ -216,6 +237,12 @@ if (process.argv.includes("--self-test")) {
   say(sentences("a\nb. c\n\nd").length === 3, "markdown wrapped over lines is joined before splitting");
   say(named("the d:long_o clip", ["long_o"]).includes("long_o"), "a clip id names its sound");
   say(!named("along_oh", ["long_o"]).length, "a sound name inside another word is not a mention");
+  /* The CSV parser, and the exact row that caught it. A naive split on commas
+     shifts every column after a quoted cell that contains one. */
+  say(cells('oo_moon,u,o ou,"moon, food, boot",vowel,kokoro,,yes,perfect (owner)')[8] === "perfect (owner)",
+    "a quoted cell containing a comma does not shift the columns after it");
+  say(cells("a,b,c")[1] === "b", "a plain row still splits");
+  say(cells('a,"b""c",d')[1] === 'b"c', "an escaped quote inside a quoted cell survives");
   /* The false positives the first real run produced, each now a control. */
   say(!named("never been rendered or heard by anyone", ["or"]).length,
     "short names: the word \"or\" in a sentence is not the sound `or`");
@@ -228,7 +255,7 @@ if (process.argv.includes("--self-test")) {
   say(named("d-a.mp3 does not ship", ["a"]).includes("a"),
     "short names control: written as a file, a short name IS a mention");
 
-  console.log(`\nledger-truth controls: ${22 - failed} passed, ${failed} failed`);
+  console.log(`\nledger-truth controls: ${25 - failed} passed, ${failed} failed`);
   process.exit(failed ? 1 : 0);
 }
 

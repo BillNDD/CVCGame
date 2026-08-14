@@ -166,8 +166,11 @@ that line is a change to the word reveal, not the sentence one.
 **"we" and "me" left this list on 2026-08-13**, seated at Level 2 with the other
 heart words and shipped into the pack as the exact bytes the owner graded
 `perfect` in batches 12 and 13. **"go" did not**, and the reason is a sound: its
-`o` needs `d:long_o`, which nobody has ever heard. It waits here for a listening
-round of its own (`docs/open-faults.md` section K).
+`o` needs `d:long_o`, which does not ship. It is APPROVED — the owner graded it
+`perfect` in sound round SND5 on 2026-08-10 — and it has simply never been copied
+into the pack, because until `go` no word needed it. An earlier version of this
+paragraph said nobody had ever heard it, which was wrong and cost `go`, `no` and
+`so` three days each (`docs/open-faults.md` section K).
 
 **Sentence batch 3 and the invitation lines, 2026-08-13.** Thirty-one sentences
 across Levels 1 to 11, closing the per-level gaps batches 1 and 2 left, plus the

@@ -303,6 +303,16 @@ step("G16 doc-truth", "node tools/doc-truth.mjs && node tools/doc-truth.mjs --se
   { label: "problems", regex: /(\d+) problems/, max: 0 },
 ]);
 
+/* G16b — the prose against the LEDGERS, which doc-truth never reads. Its own
+   gate rather than a rule inside doc-truth: doc-truth answers "do the
+   documents match the code", and this answers "do the documents match what a
+   PERSON approved". Different evidence, different failure, different fix. */
+step("G16b ledger-truth", "node tools/ledger-truth.mjs && node tools/ledger-truth.mjs --self-test", [
+  { label: "sounds", regex: /Ledger truth: (\d+) sounds/, floorKey: "g16b_sounds" },
+  { label: "problems", regex: /(\d+) problems/, max: 0 },
+  { label: "controls", regex: /ledger-truth controls: (\d+) passed/, floorKey: "g16b_controls" },
+]);
+
 step("G12 qa-procedure", "node tools/qa-check.mjs && node tools/qa-check.mjs --self-test", [
   { label: "steps", regex: /(\d+) steps/, floorKey: "g12_qa_steps" },
 ]);
