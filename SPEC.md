@@ -710,6 +710,10 @@ Levels, in order:
 2. Level 11, initial blends (CCVC: stop, flag, swim).
 3. Level 12, plural and ending -s, a small level of its own (cats, hens, cups). The s says
    /s/ after a quiet ending and /z/ after a voiced one; both clips exist.
+   **Nineteen approved words are waiting on this level and Level 13 — not on audio.** Every
+   sound they need already ships and every word clip is graded `perfect`. What is missing is
+   the level, its word list culled by the owner, and the plural exclusions CLAUDE.md already
+   requires: jug, bun, nut and crab have plurals that are ruled out.
 4. Level 13, compound words (CVC+CVC: sunset, catnip, laptop) — the first two-syllable
    step, each half a word the child owns. Needs a ruling on how a word past five letters
    displays; the current tile row caps at five.
@@ -719,8 +723,49 @@ Levels, in order:
    already in the sound library against this day. Vowel teams stay OUT of this level:
    teaching both at once confuses children.
 7. Beyond, unscheduled: r-controlled vowels (ar and or first, then er/ir/ur), then vowel
-   teams. The eight sounds these need (ar, or, er, moon-oo, aw, oi, ow, zh) are in the
-   voice actor's recording script so no second studio session is needed.
+   teams. **Every sound these levels need is already approved and waiting**, counted
+   2026-08-14: `ar`, `or`, `er`, `aw`, `oi`, `ow`, `air`, `ear`, `zh`, plus `long_a` and
+   `long_u` for magic-e — eleven in all, each graded by the owner and sitting in
+   `tools/pending-sounds/`. Shipping one is a file copy by `tools/ship-sounds.py`, not a
+   listening round. `d:long_o` proved that on 2026-08-13, having been called unheard for
+   three days while its `perfect` verdict sat in the ledger.
+
+8. **EXPANDING DOWN — levels BEFORE Level 1, teaching the sounds themselves. Owner-asked
+   2026-08-14, and not yet ruled.** Everything above grows the game upward. This grows it
+   downward, and it may matter more: Level 1 opens with twelve two-sound words, which
+   assumes a child already knows what a letter says. A child who does not cannot start at
+   all. The game currently teaches reading to a child who has already been taught sounds,
+   and it does not say so anywhere.
+
+   Nothing here is designed. These are the questions a design must answer, written down so
+   the next person does not have to rediscover them:
+
+   - **Which sounds, and in what order.** The field's usual first set is s, a, t, p, i, n,
+     chosen because those six alone make more real words than any other six. Whether to
+     follow it is the owner's call and wants the same research the levels above had.
+   - **How a sound is taught without a word.** The machinery exists: S4 already permits the
+     app to speak the single sounds of the approved library, and the sound-out reveal
+     already shows a tile and plays its sound. What is missing is the teaching order and
+     the screen, not the audio.
+   - **How a child is graded on a sound.** A grown-up shows a tile, the child says the
+     sound, the grown-up marks it — the same three controls, on a sound instead of a word.
+     Whether that result enters the Leitner boxes is a decision: it is a different kind of
+     knowing from reading a word.
+   - **HOW THE LEVELS ARE NUMBERED, and this one is an engineering trap.** Renumbering so
+     the new levels become 1 and 2 would move every existing level by two, and level
+     numbers are load-bearing in `WORD_LEVEL`, the promotion arithmetic, every sentence
+     seat, three feature files and every saved game on a family's device. Numbering the new
+     ones 0 and -1, or lettering them, costs nothing and breaks nothing. A migration that
+     renumbers a child's saved progress is the expensive answer and should be chosen on
+     purpose if at all.
+   - **What the sounds are called to a child.** S4 forbids letter names, so a sound level
+     cannot say "this is the letter S". It must say what the sound IS, which is the same
+     problem `SOUND_TEXT` already solves for grown-ups and has never had to solve for a
+     child on screen.
+
+   **What it does NOT need:** new audio. All 38 shipping sounds are approved, and the
+   eleven still in `tools/pending-sounds/` are approved too. This is a teaching-design and
+   screen job, not a voice job.
 
 Modes, each designed for the owner's pick before any build:
 

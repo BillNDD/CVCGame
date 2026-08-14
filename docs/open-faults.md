@@ -731,6 +731,42 @@ saying it was migrated rather than newly given: `ch`, `long_a`, `long_e`, `long_
    older review era ("accepted (half blend)") while the JSON uses "perfect (owner)". One
    ledger would end this class of fault; two will keep needing a gate to hold them together.
 
+**PUT TO TWO INDEPENDENT REVIEWERS ON 2026-08-14, AND BOTH REFUSED THE PLAN.** The proposal
+was: delete the CSV after moving its `ipa` and `graphemes` columns into the JSON. A software
+engineer and a software architect reviewed it separately, neither told the other's answer,
+and both agreed with the DIRECTION and rejected the PLAN. Their findings, verified:
+
+- **"Nothing parses the CSV" was FALSE, and it was the premise the plan rested on.**
+  `tools/ledger-truth.mjs:88` parses it, with a purpose-built quote-aware parser, and runs
+  in `npm run check` and as gauntlet gate G16b. The claim came from listing eight files
+  that mention the CSV, testing five of them for a real read, and generalising the result
+  to all eight. The file skipped was the gate written three hours earlier to read it.
+- **Deleting it lowers two or three E6 floors** — `g16b_sounds` 55 -> 49 (six sounds exist
+  only in the CSV), `g17_governing_files` 24 -> 23, and `g16b_controls` 25 -> 19 if rule 3
+  goes with it. E6 says never lower a floor. **That alone makes this the owner's decision.**
+- **`graphemes` must NOT move.** The live map is `TILE_SOUND` plus the per-word
+  `WORD_SOUND` overrides, which ship in the engine. The CSV column is older, has no row for
+  `ff`, `ll`, `ss`, `zz`, `kn`, `wr` or `mb`, and keys its vowels to retired ids. Copying it
+  would install a second, incomplete, wrongly-keyed map one directory from the right one.
+- **`ipa` is not copyable as a column.** It covers 30 of 38 shipping sounds and is keyed to
+  ids that no longer ship (`a`, not `short_a`). Moving it needs a key remap, which is an
+  inference, not a record — the exact guess item 1 above refuses to make.
+- **`family` is a NAME COLLISION.** In the CSV it is a phonetic class (`vowel`, `burst`,
+  `affricate`); in the JSON it is a render recipe (`rep_sp0.8_q240-180`). Same key, opposite
+  meaning. A naive merge would have clobbered one silently.
+- **The honest argument for deletion is not any of the five that were given.** It is that
+  `docs/settled.md` already records a reviewer misreading the CSV as if it described what
+  ships — "reading the wrong one turned a clip the owner had passed into a clip the owner
+  had merely tolerated". The file is a documented trap.
+
+**What both reviewers agreed to do FIRST, whatever is decided about deletion**, and what
+this entry now carries as its next step: correct `SPEC.md:889`, which says the
+grapheme-to-sound map "exists only in `tools/voice-sounds.csv`, which the app never
+imports" — already false since 2026-08-11 when `TILE_SOUND` shipped; and rewrite
+`pending-sounds.json`'s own header, which still promises that its entries "become the row
+in `tools/voice-sounds.csv`", a migration abandoned when the reveal shipped. That header is
+the single sentence that made the whole file point at the wrong master.
+
 ### F3. Nothing gates a document going stale
 
 - **Where** G16 doc-truth covers eight rules; G17 covers which files may exist. Rule 8, added
@@ -881,6 +917,84 @@ at `long_e`; a listening round for `d:long_o` before `go` is seated at all; the 
 floors that follow raised (E11 — the bank moves 438 to 440 or 441, and the clip count with
 it); and the new sentences the owner approves added by the same route as batch 3, with
 `tools/decodable.mjs` as the arbiter.
+
+## L. The safety rule with no gate — S9, opened 2026-08-14
+
+- **Where** Every tracked file. `CLAUDE.md` safety rule S9.
+- **The fault** S9 says no file in the repository contains a personal name, and NOTHING
+  CHECKS IT. Every other safety rule has a gate: S1 has three tests and a source tripwire,
+  S2 has the reveal suite, S5 has the hold tests, S6 has G18's real-browser network audit,
+  S7 has G7's measured control sizes. S9 has a sentence in a document and nothing else.
+- **What it cost, on 2026-08-13** A child's name entered four tracked files in six places —
+  a fault entry, an engine comment, a test comment, and a TEST NAME, which printed it in
+  every CI log and copied it into the generated effect map. The repository is public. Every
+  gate stayed green for a day. It was found by an architecture review that was auditing
+  something else entirely, and only then because a human read the output.
+- **Fixed on 2026-08-14** on the owner's immediate ruling: the name is out of the working
+  tree and out of every commit — 31 commits rewritten, `main` and the one stale branch
+  force-pushed, the `v1.0.0-beta.19` tag and its release deleted by the owner so no
+  reference held the old commits alive. Six branches and seventeen tags were then checked
+  commit by commit. **The removal is done. The gate is not.**
+- **A near miss during the removal, recorded because it is the lesson.** A push by REF name
+  went out while this clone had silently rolled back, putting a pre-scrub commit on a
+  branch for under a minute. Caught in the push output, fixed by re-pushing the explicit
+  SHA. While a working copy cannot be trusted, a push names a SHA, never a ref.
+- **Done** means a detector: a list of names the owner maintains, scanned across every
+  tracked file INCLUDING generated ones, wired into `npm run check` and the gauntlet, with
+  a negative control that plants a name and proves the scan catches it. The list itself
+  must hold no real name — a scanner whose own fixture is a child's name is the fault it
+  guards against. Use a placeholder in the control and keep the real list outside the
+  repository, or match on a pattern the owner supplies at run time.
+
+## M. The file map — designed 2026-08-14, not built
+
+An independent architecture review designed this against the faults this repository has
+actually had. It is recorded here rather than started, because it is a new governing file
+and G17 says the owner sees one before it exists. The owner asked for the map; the design
+below is what they are approving or refusing.
+
+- **Shape** `tools/file-map.mjs` generates `docs/file-map.md`, and a gate fails the build
+  when a tracked file has no declaration, when a declaration lies about direction, when a
+  live file goes dark, or when the committed map is stale. It follows
+  `tools/effect-map.mjs` -> `docs/effect-map.md` -> G20 exactly, because that pattern has
+  already survived a review that found 57 unmapped tests.
+- **One file, not two.** The hand-written half lives INSIDE the tool, as `DECLARED`, the
+  way `effect-map.mjs`, `sentence-screen.mjs` and `ledger-truth.mjs` all keep theirs. A
+  separate `file-map.json` would be a second ledger over the same facts needing its own
+  gate to stay in step — which is fault F2, re-committed.
+- **The split is by ROT RATE.** Everything a machine can see is computed on every run: the
+  file list, which tool writes each path, which reads it, which document names it, which
+  npm script runs it, which baseline floors it moves. Only four things are declared by
+  hand, because only these four cannot be derived: what KIND of thing the file is, the one
+  fact it OWNS, the command that regenerates it, and — for a file kept with no reader —
+  why it is kept.
+- **Two detectors, because there are two ways an orphan appears.** A NEW file with no
+  declaration fails the build, so a file cannot arrive silently. And a file declared live
+  whose readers and namers have both gone to zero fails too, which catches the file that
+  had a reader and lost it three commits later.
+- **The ceiling that stops it becoming a graveyard.** The only declaration that legitimises
+  a file with no reader is `HISTORY`, and its count is a CEILING in the baseline, not a
+  floor. Under E6 a ceiling moves only by the owner. Without that, `HISTORY` is an escape
+  hatch and the map is decoration within a month.
+- **How it stays on the right side of CLAUDE.md's ban on status files.** The declaration
+  schema has exactly four keys and none is free-form status — there is nowhere to write a
+  roadmap. It is regenerated on every `npm run check`, so any hand-typed narrative is
+  erased on the next run. It records only what IS; anything wrong goes to this document,
+  anything closed to `docs/settled.md`. A status file says how the work is going, and
+  survives because nothing overwrites it. This says what is in the tree and which way the
+  arrows point, and is overwritten forty times a day.
+
+**It would have caught three faults this repository has actually had**, which is the test
+CLAUDE.md sets: a data file with no stated direction (F2, cost three days), a documented
+gate that was never wired (C4, still open), and a live ledger that went dark and drifted —
+`docs/voice-goldens-packs1-3.json`, 3,647 lines, read by nothing, and **11 of its 57 word
+recipes already disagree with `tools/voice-words.csv`**. That last one was found by the
+same review and is the cleanest orphan in the tree.
+
+**Also found and not yet acted on:** `app/public/voice-review.csv` is written by the
+renderer, read by nothing, still lists `gob` — removed from the bank on 2026-08-13 — and
+is precached into the offline bundle on every child's device. No child data and no privacy
+fault, but it is product weight nobody chose and nothing tests.
 
 ## G. Ideas worth trying that nobody has tried
 
