@@ -929,10 +929,20 @@ What this needs before it can be built, each item real work and none of it done:
 - **The sound clips must ship.** The pack ships bank words, praise, the two invitation leads
   and the two session-end lines, and no individual sounds. Every sound the levels teach is
   owner-approved but waits in `tools/pending-sounds/` or the sidecar's bake package.
-- **A grapheme-to-sound map in app code.** `chunkWord` splits a word into GRAPHEMES, not
-  sounds: c, k and ck all say /k/, and s says /s/ or /z/. The map from grapheme to sound
-  exists only in `tools/voice-sounds.csv`, which the app never imports. It must be generated
-  into the app the way `voice-lock.json` is, so the two can never drift.
+- **A grapheme-to-sound map in app code — MET on 2026-08-11, and this bullet said otherwise
+  until 2026-08-14.** `chunkWord` splits a word into GRAPHEMES, not sounds: c, k and ck all
+  say /k/, and s says /s/ or /z/. The map is `TILE_SOUND`, with the per-word `WORD_SOUND`
+  overrides for a word that bends a letter away from its usual sound, and both ship inside
+  the engine: `soundIdFor` reads them for every sound-out the game already plays. This bullet
+  asked for exactly that and went on claiming the map "exists only in
+  `tools/voice-sounds.csv`, which the app never imports" for three days after the thing it
+  asked for had shipped.
+
+  **The `graphemes` column in `tools/voice-sounds.csv` is NOT that map and must not be used
+  as one.** Put to two independent reviewers on 2026-08-14 (`docs/open-faults.md` F2): it is
+  older, it has no row for `ff`, `ll`, `ss`, `zz`, `kn`, `wr` or `mb`, and it keys its vowels
+  to ids that no longer ship. Copying it into the app would install a second, incomplete,
+  wrongly-keyed map one directory from the right one.
 - **A per-level sound inventory.** A level object carries `{ n, name, emoji, focus, words }`
   and `focus` is a prose label for a person, not a list a screen can iterate.
 - **A place to remember it was shown.** The saved document has no field for it; adding one
