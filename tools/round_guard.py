@@ -42,7 +42,7 @@ def history(word):
             if m:
                 out[m.group(1).strip()] = r.get("verdict", "").strip()
     if LEDGER.exists():
-        d = json.loads(LEDGER.read_text())
+        d = json.loads(LEDGER.read_text(encoding="utf-8"))
         rec = d.get(word)
         if isinstance(rec, dict) and rec.get("family"):
             out[rec["family"]] = rec.get("verdict", "")
@@ -121,7 +121,7 @@ ANCHORS = {
 def check_anchors(text=None):
     """Every refusal must still be backed by docs/settled.md. Returns the list
     of anchors that have gone missing."""
-    t = text if text is not None else SETTLED.read_text()
+    t = text if text is not None else SETTLED.read_text(encoding="utf-8")
     return [f'{name}: settled.md no longer says "{a}"' for name, a in ANCHORS.items() if a not in t]
 
 
@@ -131,7 +131,7 @@ def closed_notes(text=None):
     front of whoever designs the round rather than in a file they meant to
     open. The owner's instruction, 2026-08-12: consulting what does not work is
     a MUST, not a courtesy."""
-    t = text if text is not None else SETTLED.read_text()
+    t = text if text is not None else SETTLED.read_text(encoding="utf-8")
     return [re.sub(r"\s+", " ", m.group(1)).strip()
             for m in re.finditer(r"^- \*\*(.+?)\*\*", t, re.M | re.S)]
 
@@ -196,7 +196,7 @@ def self_test():
     # The anchors must hold against the real file, and the check must FIRE when
     # the record stops saying what a refusal claims it says.
     cases.append(("every refusal is still backed by settled.md", check_anchors() == []))
-    gutted = SETTLED.read_text().replace(ANCHORS["bare render"], "(this sentence was removed)")
+    gutted = SETTLED.read_text(encoding="utf-8").replace(ANCHORS["bare render"], "(this sentence was removed)")
     cases.append(("a refusal whose sentence vanished from settled.md is caught",
                   len(check_anchors(gutted)) == 1))
     notes = closed_notes()
