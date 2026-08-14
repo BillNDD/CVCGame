@@ -925,6 +925,13 @@ it); and the new sentences the owner approves added by the same route as batch 3
   then plays the invitation and sounds out the level's word. The child is never given the
   chance to read it themselves, and the grown-up is never offered "got it" before the game
   has spoken. The three result controls are dead for the whole item.
+- **THE CHILD HAS NO TURN. That is the fault, stated as the owner stated it**, and it is
+  sharper than "the order is wrong": *"the child never gets a chance to be graded or do
+  anything. The sentence just starts getting read. The child can after pick other words to
+  see their phonics parts, but otherwise it is only on to next that is available."* One
+  control is live for the whole item, and it belongs to the grown-up. Tapping a word to see
+  its pieces is the only thing the child can do, and it comes AFTER the answer has already
+  been given aloud — so it is exploring a sentence they have been told, not reading one.
 - **Why this is wrong, and it is not a small thing.** Every WORD in this game has an
   attempt phase: the word appears, the child reads it aloud, the grown-up grades, and only
   THEN does the app speak — that is what safety rule S2 protects, and the reveal exists to
