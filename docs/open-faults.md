@@ -1043,6 +1043,35 @@ the result goes wherever it belongs — `docs/settled.md` if a measurement close
 row if an ear did. **Trying one is never a substitute for the game work it was meant to
 serve, and nothing here may be counted as progress until it has been tried.**
 
+### G6. An open-weights MUSIC model — noted 2026-08-14, and read the caveat first
+
+The owner saw MiniMax-Music3 announced (open weights, on Hugging Face) and asked whether it
+could make sounds or music for the game, or phonics sounds.
+
+**NOT for phonics sounds, and this is the important half.** A music model is not a speech
+model. Every sound and word in this pack is af_heart through kokoro, byte-pinned, and
+graded by ear in a numbered round; the whole apparatus in `docs/settled.md` exists because
+small differences in a single phoneme are audible to a listener and matter to a child
+learning what a letter says. Pointing a music generator at `d:short_a` would be the wrong
+tool, and G13 would refuse the result anyway because no round would have heard it. Anyone
+who reaches this entry looking for a shortcut to rendering sounds should stop here.
+
+**Where it could genuinely earn a place:** the game has NO music and no ambience at all
+today. Nothing plays between words; the only audio is speech. Whether it should have any is
+an unmade design question, not a technical one, and there is a real argument for keeping it
+silent — the voice is the teaching, and anything under it competes with a four-year-old's
+attention on a single sound. A celebration sting at a level-up, or a quiet arrival theme,
+is the shape most likely to survive that argument.
+
+**Three things to settle before any experiment:**
+- **The licence.** "Open weights" is not the same as permissive. Check the actual terms
+  before anything is downloaded — this project has an owner-approval rule for dependencies
+  precisely so that question gets asked out loud.
+- **S6 and offline.** Any audio must ship inside the pack and play with no network, like
+  every other clip. Nothing may call out at runtime.
+- **The owner's ear still decides.** Generated or not, anything a child hears goes through a
+  round. That is not negotiable and is the same rule that governs the voice.
+
 ### G5. Let an agent actually HEAR the audio — suggested to the owner 2026-08-14
 
 Every automatic check here is deaf. `voice-check.mjs` counts clips and checks pins;
