@@ -1,5 +1,9 @@
 # Self-hosting Word Quest
 
+**This document owns** how to host Word Quest somewhere other than the project's own pages.
+**It does not own** how to install it on a device, which is `docs/install-ios.md` and
+`docs/install-windows.md`.
+
 This document follows the Microsoft Writing Style Guide.
 
 Word Quest is a static web app. You can host your own copy from a clone of this repository.

@@ -1,5 +1,10 @@
 # For agents and humans working in this repository
 
+**This document owns** how agents work here: the prose rules for what is written down,
+the dependency rule, and the shape of a listening round or a decision page put to the owner.
+**It does not own** the rules that bind the CHANGE itself — that is `CLAUDE.md`, which is
+the stricter document and wins wherever the two touch.
+
 This document follows the Microsoft Writing Style Guide.
 
 Read these, in this order, before you change anything:

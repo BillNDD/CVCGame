@@ -1,5 +1,11 @@
 # Changelog
 
+**This document owns** what changed for a FAMILY, release by release, in words a parent
+reads: what is new, what is fixed, and what is still known to be wrong.
+**It does not own** why a change was made or how it was proved — the commit message owns
+the first and `docs/testing-gauntlet.md` the second — and it is never the place a decision
+is recorded.
+
 This document follows the Microsoft Writing Style Guide.
 
 ## Version 6

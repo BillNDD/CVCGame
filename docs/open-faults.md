@@ -1,5 +1,11 @@
 # Open faults — the list to work from
 
+**This document owns** what is WRONG and not yet fixed: every open fault, what a child or
+a grown-up experiences today, and what done would mean. An entry leaves only by being fixed.
+**It does not own** anything closed. The moment a fault is fixed the result goes to whichever
+document owns that fact — `docs/settled.md` if an ear closed it, `SPEC.md` if it changed
+behaviour — and this document is its counterpart, never its archive.
+
 This document exists because a fault that lives only in a chat log is a fault this project
 will lose, and has. Created on the owner's instruction, 2026-08-11.
 
@@ -644,6 +650,27 @@ set and asked whether they are still the right set.
   not. Anything duplicated is moved to its owner and replaced by a pointer. Anything that is
   a log rather than a document is split from the part that is standing truth. Nothing is
   deleted without the owner seeing what goes.
+
+**FIRST HALF DONE 2026-08-14, owner-asked.** All fourteen governing documents now open with
+what they own and what they do not, and gate G17 refuses one that does not. Five of them had
+opened with "This document follows the Microsoft Writing Style Guide" — true, and not an
+answer to "where does this fact live?".
+
+The boundaries were drawn where tonight's faults showed they were missing: `voice-pack.md`
+now says that where it and a ledger disagree the LEDGER is right and G16b enforces it,
+which is the fault that lost `d:long_o` for three days; `open-faults.md` says it owns only
+what is open and never becomes an archive, which is what let section K keep a corrected
+claim; and `settled.md` says the per-word record lives in `tools/voice-words.csv`, which E10
+already required a reader to consult and no document named as the owner.
+
+**The rest of F1 is NOT done, and is deliberately left for the owner to see before it moves.**
+Three documents are past a thousand lines — `open-faults.md`, `settled.md`, `voice-pack.md` —
+and the header cannot fix that on its own. `voice-pack.md` still reads as an accreted log of
+twenty-two rounds rather than a document, which F1 named on the day it was written. Splitting
+a log from the standing truth inside it means MOVING text a person wrote, and CLAUDE.md's own
+rule is that reorganising paperwork instead of the game work it supports does not count as
+progress. The header and the gate stop the drift; the split is a separate job with the owner
+watching.
 
 ### F2. The data files have no stated shape and three of them overlap
 

@@ -13,6 +13,7 @@
    status.json; the detector must report both and still accept the real tree.
    Run: node tools/check-governing.mjs */
 import { execSync } from "node:child_process";
+import { readFileSync } from "node:fs";
 
 /* The owned set: each file is the single owner of its facts (E10, and the
    review of 2026-08-02 that pointed every one of them at the word table). */
@@ -74,6 +75,41 @@ export function check(tracked) {
   return { governing, strays };
 }
 
+/* EVERY GOVERNING DOCUMENT MUST SAY WHAT IT OWNS. Fault F1 of the fault
+   record, owner-asked 2026-08-14 after they read back a session and said the
+   documents had grown redundant and conflicting.
+
+   The rule is F1's own "Done", made mechanical: one sentence at the head of
+   each document saying what it owns, and one saying what it does not. Five
+   documents opened instead with "This document follows the Microsoft Writing
+   Style Guide" — true, and not an answer to "where does this fact live?".
+
+   WHY A GATE AND NOT JUST A TIDY-UP. A header nothing checks rots exactly the
+   way section K did: written once, believed for months, wrong for three days
+   before anyone read it against the data. Duplication is how a fact drifts,
+   and F1 says so in its own words — the "was" note said one thing on screen
+   and another in the sound for weeks.
+
+   The form is fixed so it can be found: a line beginning "**This document
+   owns**" and a line beginning "**It does not own**", both inside the first
+   HEAD_LINES lines. Generated documents are exempt and named: their writer
+   owns them, and a header would be overwritten on the next run. */
+const HEAD_LINES = 16;
+const OWNS = /^\*\*This document owns\*\*/m;
+const NOT = /^\*\*It does not own\*\*/m;
+export const GENERATED_DOCS = ["docs/effect-map.md"];
+
+export function ownership(files, read) {
+  const missing = [];
+  for (const f of files) {
+    if (!f.endsWith(".md") || GENERATED_DOCS.includes(f)) continue;
+    const head = read(f).split("\n").slice(0, HEAD_LINES).join("\n");
+    const has = [OWNS.test(head) && "owns", NOT.test(head) && "not"].filter(Boolean);
+    if (has.length !== 2) missing.push(`${f} does not say what it owns${has.length ? ` (found "${has[0]}", missing the other half)` : ""}`);
+  }
+  return missing;
+}
+
 const tracked = execSync("git ls-files", { encoding: "utf8" }).split("\n").filter(Boolean);
 
 if (process.argv.includes("--self-test")) {
@@ -81,16 +117,39 @@ if (process.argv.includes("--self-test")) {
   const sawMd = planted.strays.includes("PROGRESS.md");
   const sawJson = planted.strays.includes("docs/status.json");
   const clean = check(tracked).strays.length === 0;
-  if (sawMd && sawJson && clean) {
-    console.log("self-test OK: a planted progress file and a stray status json are caught, and the real tree is accepted");
+  /* The ownership rule, on FIXTURES. A control that can only run against
+     today's documents passes for whatever reason it likes (E5). */
+  const OK = "# T\n\n**This document owns** the thing.\n**It does not own** the other thing.\n";
+  const fx = {
+    "good.md": OK,
+    "style-only.md": "# T\n\nThis document follows the Microsoft Writing Style Guide.\n",
+    "half.md": "# T\n\n**This document owns** the thing.\n",
+    "buried.md": "# T\n" + "\n".repeat(40) + OK,
+    "docs/effect-map.md": "# generated\n",
+    "notes.txt": "no header here",
+  };
+  const own = (fs) => ownership(fs, (f) => fx[f]);
+  const sawStyle = own(["style-only.md"]).length === 1;
+  const sawHalf = own(["half.md"])[0]?.includes("missing the other half");
+  const sawBuried = own(["buried.md"]).length === 1;        // past the head, so it does not count
+  const tookGood = own(["good.md"]).length === 0;
+  const exempt = own(["docs/effect-map.md"]).length === 0;  // generated: its writer owns it
+  const ignoresNonMd = own(["notes.txt"]).length === 0;
+  const realDocs = ownership(tracked, (f) => readFileSync(f, "utf8"));
+  const ok = sawMd && sawJson && clean && sawStyle && sawHalf && sawBuried
+    && tookGood && exempt && ignoresNonMd && realDocs.length === 0;
+  if (ok) {
+    console.log("self-test OK: a planted progress file and a stray status json are caught, a document that says only which style guide it follows is caught, half a header is caught, a header buried past the top is caught, a real header and a generated document both pass, and the real tree is accepted");
     process.exit(0);
   }
-  console.error("self-test FAILED: " + JSON.stringify({ sawMd, sawJson, clean }));
+  console.error("self-test FAILED: " + JSON.stringify({ sawMd, sawJson, clean, sawStyle, sawHalf, sawBuried, tookGood, exempt, ignoresNonMd, realDocs }));
   process.exit(1);
 }
 
 const { governing, strays } = check(tracked);
 strays.forEach((f) => console.error(
   `  PROBLEM: ${f} is not in the owned set - a new governing or status file needs the owner's approval (add it to tools/check-governing.mjs)`));
-console.log(`Governing files: ${governing} governing files, ${strays.length} strays`);
-process.exit(strays.length ? 1 : 0);
+const unowned = ownership(tracked, (f) => readFileSync(f, "utf8"));
+unowned.forEach((m) => console.error(`  PROBLEM: ${m} — F1: one line "**This document owns** …" and one "**It does not own** …", in the first ${HEAD_LINES} lines`));
+console.log(`Governing files: ${governing} governing files, ${strays.length} strays, ${unowned.length} without an ownership header`);
+process.exit(strays.length + unowned.length ? 1 : 0);

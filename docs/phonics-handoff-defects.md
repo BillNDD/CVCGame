@@ -1,5 +1,10 @@
 # Defects inherited from CVCGame — an audit for the PhonicsGame team
 
+**This document owns** the defect list carried over from the phonics handoff, as a historical
+record of what arrived broken and what was done about it.
+**It does not own** anything found since. A fault discovered in this repository belongs in
+`docs/open-faults.md`.
+
 This document is written for an AI coding agent working on PhonicsGame.
 
 PhonicsGame was seeded from CVCGame at commit `b299864` (released as v1.0.0-beta.2). Every

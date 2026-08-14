@@ -1,5 +1,11 @@
 # Rules for this repository
 
+**This document owns** the rules that bind every change: what counts as finished work,
+the safety rules S1 to S9, the engineering rules E1 to E11, and how to write to the owner.
+**It does not own** the behaviour those rules protect — that is `SPEC.md` — nor the gates
+that enforce them, which are `docs/testing-gauntlet.md`, nor the multi-agent working
+practice, which is `AGENTS.md`.
+
 These rules bind every change, human or agent. "What counts as finished work" below defines
 what may be called done. `docs/testing-gauntlet.md` defines the gates that enforce them. SPEC.md is the master source for behavior. `docs/settled.md` is the standing record
 of questions a listener or a measurement has already closed — read it before voice, audio or

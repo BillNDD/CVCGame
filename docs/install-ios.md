@@ -1,5 +1,9 @@
 # Install Word Quest on an iPad or an iPhone
 
+**This document owns** installing Word Quest on an iPhone or iPad.
+**It does not own** Windows, which is `docs/install-windows.md`, nor hosting it yourself,
+which is `docs/self-hosting.md`.
+
 This document tells you how to put the app on an iOS home screen. The steps use Safari.
 This document follows the Microsoft Writing Style Guide.
 

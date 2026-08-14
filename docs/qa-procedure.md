@@ -1,5 +1,10 @@
 # Manual QA procedure
 
+**This document owns** the numbered script a person runs on a real device for gate G12, and
+the reason each step exists.
+**It does not own** what the app should do at any step — that is `SPEC.md` — and every
+sentence it quotes is checked against the app by gate G16.
+
 This is the numbered device script for gate G12 (`docs/testing-gauntlet.md`). A person runs it
 on real hardware before each release. The robots cannot judge these steps.
 
