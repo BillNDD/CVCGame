@@ -5,6 +5,8 @@ reads: what is new, what is fixed, and what is still known to be wrong.
 **It does not own** why a change was made or how it was proved — the commit message owns
 the first and `docs/testing-gauntlet.md` the second — and it is never the place a decision
 is recorded.
+**This is a log**, searched rather than read. One section per release, kept forever, so a
+family can find what changed and when — owner-ruled 2026-08-14. Its length is not a fault.
 
 This document follows the Microsoft Writing Style Guide.
 

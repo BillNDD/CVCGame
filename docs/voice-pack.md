@@ -6,6 +6,9 @@ waiting for a level, and the history of the rounds that produced it.
 and the files generated from it — nor the per-sound verdict, which is
 `tools/pending-sounds/pending-sounds.json`. Where this document and a ledger disagree, the
 ledger is right and gate G16b says so.
+**This is a log**, searched rather than read. It records every listening round in order and
+will keep growing for as long as the voice does — owner-ruled 2026-08-14, the same way a
+JSON ledger grows. Its length is not a fault.
 
 This document follows the Microsoft Writing Style Guide.
 

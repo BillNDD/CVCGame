@@ -4,6 +4,8 @@
 round is never spent re-opening one. Read it before any voice, audio or word-bank work.
 **It does not own** what is still open — that is `docs/open-faults.md` — nor the per-word
 record of which family won and in which round, which is `tools/voice-words.csv`.
+**This is a log**, searched rather than read. A closed question is never re-opened, so this
+record only ever grows — owner-ruled 2026-08-14. Its length is not a fault.
 
 This document follows the Microsoft Writing Style Guide.
 
