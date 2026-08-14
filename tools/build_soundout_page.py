@@ -163,7 +163,7 @@ HTML = """<title>Sound-Out Lines</title>
 
 
 def main():
-    items = json.loads((pathlib.Path(sys.argv[1]) / "round.json").read_text())
+    items = json.loads((pathlib.Path(sys.argv[1]) / "round.json").read_text(encoding="utf-8"))
     shas = {i["sha256"] for i in items}
     if len(shas) != len(items):
         raise SystemExit("two arms share a sha256 — round 8 offered a listener two identical "
@@ -171,7 +171,7 @@ def main():
     cards = "".join(CARD.format(**i) for i in items)
     meta = [{"id": i["id"], "text": i["text"], "sha256": i["sha256"]} for i in items]
     out = pathlib.Path(sys.argv[2])
-    out.write_text(HTML.format(cards=cards, lines=json.dumps(meta)))
+    out.write_text(HTML.format(cards=cards, lines=json.dumps(meta)), encoding="utf-8")
     print(f"{len(items)} arms, {len(shas)} distinct clips -> {out} "
           f"({out.stat().st_size // 1024} KB)")
 

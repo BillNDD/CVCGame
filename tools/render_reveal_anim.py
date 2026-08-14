@@ -145,5 +145,5 @@ for word in WORDS:
     print(f"{word:5} {'-'.join(tiles):10} {int(len(body)/SR*1000):5}ms   "
           f"tile pops at {[m['at'] for m in marks if m['what'].startswith('tile:')]} ms")
 
-(OUT / "reveal.json").write_text(json.dumps({"gap_ms": GAP_MS, "items": items}))
+(OUT / "reveal.json").write_text(json.dumps({"gap_ms": GAP_MS, "items": items}), encoding="utf-8")
 print("\nwrote", OUT / "reveal.json")

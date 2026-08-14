@@ -31,7 +31,7 @@ TAIL_MS = 300
 FADE_MS = 10
 SILENCE_FLOOR_DB = -45
 
-batch = json.loads(pathlib.Path(sys.argv[1]).read_text())
+batch = json.loads(pathlib.Path(sys.argv[1]).read_text(encoding="utf-8"))
 OUT = pathlib.Path(sys.argv[2])
 OUT.mkdir(parents=True, exist_ok=True)
 k = Kokoro(MODEL, VOICES)
@@ -149,5 +149,5 @@ for b in bad:
 if bad:
     raise SystemExit("round refused: clips a listener could not judge")
 
-(OUT / "batch-data.json").write_text(json.dumps({"title": batch["title"], "items": items}))
+(OUT / "batch-data.json").write_text(json.dumps({"title": batch["title"], "items": items}), encoding="utf-8")
 print(f"rendered {len(audit)} clips for {len(items)} items")

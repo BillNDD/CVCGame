@@ -219,7 +219,7 @@ for d in sorted(ROUNDS.glob("out-*")):
     f = d / "batch-data.json"
     if f.exists():
         try:
-            for it in json.loads(f.read_text()).get("items", []):
+            for it in json.loads(f.read_text(encoding="utf-8")).get("items", []):
                 for a in it.get("arms", []):
                     ALREADY.setdefault(a["sha"], f"{d.name}:{a['id']}")
         except Exception:
@@ -340,5 +340,5 @@ items = [i for i in items if i["arms"]]
     "title": "Sound round 16 — af_heart matched to your reference recordings",
     "tally": ("Sounds: 7 of the 14 are closed (b, d, j, sh, y, short_e, short_u). These "
               "seven are open. Words: 349 shipped + 115 approved. Sentences: 42 approved."),
-    "items": items}))
+    "items": items}), encoding="utf-8")
 print("wrote", OUT / "batch-data.json")

@@ -38,7 +38,7 @@ SCRATCH = "/tmp/claude-0/-home-user-CVCFame/e6f72ac3-eaf2-5b4a-aa69-540f121df052
 VOICE = "af_heart"
 LEAD_MS, TAIL_MS, FADE_MS = 80, 300, 10
 
-batch = json.loads(pathlib.Path(sys.argv[1]).read_text())
+batch = json.loads(pathlib.Path(sys.argv[1]).read_text(encoding="utf-8"))
 OUT = pathlib.Path(sys.argv[2])
 OUT.mkdir(parents=True, exist_ok=True)
 k = Kokoro(f"{SCRATCH}/kokoro-v1.0.onnx", f"{SCRATCH}/voices-v1.0.bin")
@@ -151,5 +151,5 @@ bad = [a for a in audit if a[2] < 250 or a[3] < 0.05]
 print(f"audit: {len(audit)} clips, {len(bad)} unusable")
 if bad:
     raise SystemExit("round refused: clips a listener could not judge")
-(OUT / "batch-data.json").write_text(json.dumps({"title": batch["title"], "items": items}))
+(OUT / "batch-data.json").write_text(json.dumps({"title": batch["title"], "items": items}), encoding="utf-8")
 print("wrote", OUT / "batch-data.json")

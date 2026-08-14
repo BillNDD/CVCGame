@@ -268,11 +268,11 @@ if thin:
               "neighbour sound) and return next round or as owner recordings. "
               "Words: 349 shipped + 59 approved and waiting; the 19 rebuilt "
               "blends are in batch 9. Sentences: 21 shipped + 2 approved."),
-    "items": items}))
+    "items": items}), encoding="utf-8")
 print("wrote", OUT / "batch-data.json")
 
 # independent self-verification on the built file
-data = json.loads((OUT / "batch-data.json").read_text())
+data = json.loads((OUT / "batch-data.json").read_text(encoding="utf-8"))
 bad = []
 for item in data["items"]:
     card = next(c for c in CARDS if c["name"] == item["text"])

@@ -78,10 +78,10 @@ def csv_cell(v):
 def plan():
     """Every approved word that now has a level and is not yet in the pack."""
     sys.path.insert(0, str(REPO / "tools"))
-    ledger = json.loads(LEDGER.read_text())
-    manifest = json.loads((PACK / "manifest.json").read_text())
-    header = CSV.read_text().split("\n")[0].split(",")
-    have = {line.split(",")[0] for line in CSV.read_text().split("\n")[1:] if line}
+    ledger = json.loads(LEDGER.read_text(encoding="utf-8"))
+    manifest = json.loads((PACK / "manifest.json").read_text(encoding="utf-8"))
+    header = CSV.read_text(encoding="utf-8").split("\n")[0].split(",")
+    have = {line.split(",")[0] for line in CSV.read_text(encoding="utf-8").split("\n")[1:] if line}
 
     import subprocess
     levels = json.loads(subprocess.run(
@@ -129,7 +129,7 @@ def csv_row(r, header):
 
 
 def write(rows, manifest):
-    lines = CSV.read_text().rstrip("\n").split("\n")
+    lines = CSV.read_text(encoding="utf-8").rstrip("\n").split("\n")
     header = lines[0].split(",")
     for r in rows:
         dst = PACK / f"w-{r['word']}.mp3"
@@ -147,10 +147,10 @@ def write(rows, manifest):
             ov = manifest["__recipe"].setdefault("word_speed_override", {})
             ov[r["word"]] = int(speed) if speed.is_integer() else speed
             manifest["__recipe"]["word_speed_override"] = dict(sorted(ov.items()))
-    CSV.write_text("\n".join(lines) + "\n")
+    CSV.write_text("\n".join(lines) + "\n", encoding="utf-8")
     ordered = {k: manifest[k] for k in sorted(manifest) if k != "__recipe"}
     ordered["__recipe"] = manifest["__recipe"]
-    (PACK / "manifest.json").write_text(json.dumps(ordered, indent=1) + "\n")
+    (PACK / "manifest.json").write_text(json.dumps(ordered, indent=1) + "\n", encoding="utf-8")
 
 
 def self_test():
@@ -182,7 +182,7 @@ def self_test():
         (box / "pack").mkdir()
         src = box / "w-zz.mp3"
         src.write_bytes(b"pretend this is approved audio" * 40)
-        (box / "words.csv").write_text(",".join(CSV.read_text().split("\n")[0].split(",")) + "\n")
+        (box / "words.csv").write_text(",".join(CSV.read_text(encoding="utf-8").split("\n")[0].split(",")) + "\n")
         keep = (globals()["PACK"], globals()["CSV"], globals()["duration_ms"])
         globals()["PACK"] = box / "pack"
         globals()["CSV"] = box / "words.csv"
@@ -194,11 +194,11 @@ def self_test():
                   manifest)
         finally:
             globals()["PACK"], globals()["CSV"], globals()["duration_ms"] = keep
-        shipped = json.loads((box / "pack" / "manifest.json").read_text())
+        shipped = json.loads((box / "pack" / "manifest.json").read_text(encoding="utf-8"))
         # Parsed as CSV, not split on commas: ear_notes carries commas inside
         # its quotes, and a naive split reads the wrong column - which is how
         # this control failed the first time it ran.
-        with open(box / "words.csv", newline="") as fh:
+        with open(box / "words.csv", newline="", encoding="utf-8") as fh:
             row = list(csv.DictReader(fh))[-1]
         shutil.rmtree(box)
         return shipped["__recipe"].get("word_speed_override", {}), row["speed"]

@@ -100,14 +100,14 @@ def problems(manifest, measured):
 
 
 def main():
-    manifest = json.loads(MANIFEST.read_text())
+    manifest = json.loads(MANIFEST.read_text(encoding="utf-8"))
 
     if "--write" in sys.argv:
         measured = measure(manifest)
         for cid, (lead, tail) in measured.items():
             manifest[cid]["lead"] = lead
             manifest[cid]["tail"] = tail
-        MANIFEST.write_text(json.dumps(manifest, indent=1, sort_keys=True) + "\n")
+        MANIFEST.write_text(json.dumps(manifest, indent=1, sort_keys=True) + "\n", encoding="utf-8")
         leads = [v[0] for v in measured.values()]
         tails = [v[1] for v in measured.values()]
         print(f"wrote edges for {len(measured)} clips: "

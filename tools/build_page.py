@@ -9,7 +9,7 @@ import pathlib
 import sys
 
 OUT = pathlib.Path(sys.argv[1])
-data = json.loads((OUT / "batch-data.json").read_text())
+data = json.loads((OUT / "batch-data.json").read_text(encoding="utf-8"))
 page = pathlib.Path(sys.argv[2])
 
 REF_TAG = " \u2014 REFERENCE, not a candidate"
@@ -268,5 +268,5 @@ window.addEventListener("DOMContentLoaded", () => {{
   }}
 }});
 </script>'''
-page.write_text(html)
+page.write_text(html, encoding="utf-8")
 print("wrote", page, f"({page.stat().st_size // 1024} KB)")

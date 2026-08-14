@@ -398,5 +398,5 @@ if thin:
     "title": "Sound round 8 — twenty each for schwa and oo (book), all-new mechanisms",
     "tally": ("Sounds: 45 of 47 closed; these are the last two. Words: 349 shipped + 115 "
               "approved, nothing in flight. Sentences: 21 shipped + 42 approved, done."),
-    "items": items}))
+    "items": items}), encoding="utf-8")
 print("wrote", OUT / "batch-data.json")

@@ -116,7 +116,7 @@ def main():
                       "b64": base64.b64encode(mp3).decode()})
         print(f"  {cid}: {ms} ms  sha {sha[:12]}  \"{text}\"")
 
-    (out / "round.json").write_text(json.dumps(items, indent=1))
+    (out / "round.json").write_text(json.dumps(items, indent=1), encoding="utf-8")
     print(f"\n{len(items)} lines rendered at {VOICE} speed {SPEED} -> {out}")
 
 

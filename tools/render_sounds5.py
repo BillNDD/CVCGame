@@ -224,11 +224,11 @@ if thin:
               "and goes to your voice (the nine-sound precedent). "
               "Words: 349 shipped + 77 approved and waiting; 20 in batch 10. "
               "Sentences: 21 shipped + 2 approved."),
-    "items": items}))
+    "items": items}), encoding="utf-8")
 print("wrote", OUT / "batch-data.json")
 
 # self-verify: decode every arm and re-gate
-data = json.loads((OUT / "batch-data.json").read_text())
+data = json.loads((OUT / "batch-data.json").read_text(encoding="utf-8"))
 bad = []
 for item in data["items"]:
     card = next(c for c in CARDS if c["name"] == item["text"])

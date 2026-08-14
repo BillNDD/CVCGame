@@ -20,7 +20,7 @@ import pathlib
 import sys
 
 OUT = pathlib.Path(sys.argv[1])
-data = json.loads((OUT / "reveal.json").read_text())
+data = json.loads((OUT / "reveal.json").read_text(encoding="utf-8"))
 page = pathlib.Path(sys.argv[2])
 
 INK, SUN, INK2, AMBER = "#17356b", "#ffd166", "#3e5aa6", "#6b4600"
@@ -176,5 +176,5 @@ document.addEventListener("click", (e) => {{
   run(b.closest(".card"), b.dataset.t, b);
 }});
 </script>'''
-page.write_text(html)
+page.write_text(html, encoding="utf-8")
 print("wrote", page, f"({page.stat().st_size // 1024} KB)")

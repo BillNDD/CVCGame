@@ -38,8 +38,8 @@ import numpy as np
 REPO = pathlib.Path(__file__).resolve().parent.parent
 PACK = REPO / "app" / "public" / "voice"
 PEND = REPO / "tools" / "pending-words"
-MANIFEST = json.loads((PACK / "manifest.json").read_text())
-PENDING = json.loads((PEND / "pending-words.json").read_text())
+MANIFEST = json.loads((PACK / "manifest.json").read_text(encoding="utf-8"))
+PENDING = json.loads((PEND / "pending-words.json").read_text(encoding="utf-8"))
 LEAD_MS, TAIL_MS, FADE_MS = 80, 300, 10
 SR = 24000
 
@@ -239,7 +239,7 @@ document.body.addEventListener("click", e=>{
                 f"{len(skipped)} were left out because a word in them has no approved clip: "
                 + ", ".join(sorted({m for _, m in skipped})) + ".")
     out_path.write_text(page.replace("CARDS_JSON", json.dumps(cards))
-                        .replace("SUMMARY", summary).replace("SKIPNOTE", skipnote))
+                        .replace("SUMMARY", summary).replace("SKIPNOTE", skipnote), encoding="utf-8")
     print(f"wrote {out_path} ({out_path.stat().st_size // 1024} KB)")
     print(summary)
     if skipped:

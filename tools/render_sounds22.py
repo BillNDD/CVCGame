@@ -142,7 +142,7 @@ for d in sorted(ROUNDS.glob("out-*")):
     f = d / "batch-data.json"
     if f.exists():
         try:
-            for it in json.loads(f.read_text()).get("items", []):
+            for it in json.loads(f.read_text(encoding="utf-8")).get("items", []):
                 for a in it.get("arms", []):
                     ALREADY.setdefault(a["sha"], f"{d.name}:{a['id']}")
         except Exception:
@@ -236,7 +236,7 @@ data = {"title": "Sound round 22 — the voiced th",
             "how": "a buzzing th with the voice ON, as in <b>this</b> — the tongue between the teeth and the throat humming",
             "reject": "it sounds like the quiet th of <b>thin</b> (no voice), or like a d, or like a v, or it is too short to hear",
             "arms": arms}]}
-(OUT / "batch-data.json").write_text(json.dumps(data))
+(OUT / "batch-data.json").write_text(json.dumps(data), encoding="utf-8")
 print(f"th (voiced): {len(arms)} arms")
 for a in arms:
     print(f"  {a['id']:12} {a['family']:28} {a['ms']:4}ms  dtw {a['dtw']}")

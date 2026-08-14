@@ -98,7 +98,7 @@ window.addEventListener("DOMContentLoaded",()=>{Object.keys(answers).forEach(k=>
 def rows_for(items):
     out = []
     for label, cid in items:
-        f = PACK / json.loads((PACK / "manifest.json").read_text())[cid]["file"]
+        f = PACK / json.loads((PACK / "manifest.json").read_text(encoding="utf-8"))[cid]["file"]
         b64 = base64.b64encode(f.read_bytes()).decode()
         out.append(f'''<div class="row" data-item="{label}">
   <span class="w">{label}</span>
@@ -120,14 +120,14 @@ def build(groups, title, blurb, key, out):
 <main>{body}</main>
 <footer><button id="copy">Show what needs work</button><div id="status"></div>
 <textarea id="out" hidden readonly></textarea></footer>
-<script>const KEY="{key}";{SCRIPT}</script>''')
+<script>const KEY="{key}";{SCRIPT}</script>''', encoding="utf-8")
     print(f"wrote {out}: {total} clips in {len(groups)} group(s), "
           f"{pathlib.Path(out).stat().st_size // 1024} KB")
 
 
 if __name__ == "__main__":
     out = sys.argv[1]
-    man = json.loads((PACK / "manifest.json").read_text())
+    man = json.loads((PACK / "manifest.json").read_text(encoding="utf-8"))
     if "--sounds" in sys.argv:
         ids = sorted(k for k in man if k.startswith("d:"))
         build([("every sound in the library", [(k[2:], k) for k in ids])],

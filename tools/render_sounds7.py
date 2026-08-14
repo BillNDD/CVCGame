@@ -272,11 +272,11 @@ if thin:
     "tally": ("Sounds: 45 of 47 done - only these two left. "
               "Words: 349 shipped + 77 approved; batch 10 with you. "
               "Sentences: first proofing batch is out."),
-    "items": items}))
+    "items": items}), encoding="utf-8")
 print("wrote", OUT / "batch-data.json")
 
 # self-verify
-data = json.loads((OUT / "batch-data.json").read_text())
+data = json.loads((OUT / "batch-data.json").read_text(encoding="utf-8"))
 bad = []
 for item in data["items"]:
     card = next(c for c in CARDS if c["name"] == item["text"])

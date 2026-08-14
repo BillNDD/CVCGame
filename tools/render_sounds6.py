@@ -138,7 +138,7 @@ CARDS = [
 ]
 
 seed_arms = {}
-snd5 = json.load(open(ROUNDS / "out-snd5/batch-data.json"))
+snd5 = json.load(open(ROUNDS / "out-snd5/batch-data.json", encoding="utf-8"))
 for it in snd5["items"]:
     for a in it["arms"]:
         seed_arms[a["id"]] = a
@@ -243,12 +243,12 @@ if thin:
               "word have settled it. air and ear are NEW, ahead of the "
               "r-controlled tier. Words: 349 shipped + 77 approved; batch 10 "
               "is next. Sentences: 21 shipped + 2 approved."),
-    "items": items}))
+    "items": items}), encoding="utf-8")
 print("wrote", OUT / "batch-data.json")
 
 # self-verify: decode every arm and re-gate (the seed is owner-heard bytes,
 # checked for audibility and length only)
-data = json.loads((OUT / "batch-data.json").read_text())
+data = json.loads((OUT / "batch-data.json").read_text(encoding="utf-8"))
 bad = []
 for item in data["items"]:
     card = next(c for c in CARDS if c["name"] == item["text"])

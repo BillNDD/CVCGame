@@ -72,7 +72,7 @@ def main():
     data = {"sentence": SENTENCE, "newWord": NEW_WORD,
             "pieces": {w: [{"t": t, "s": s} for t, s in p] for w, p in PIECES.items()}}
     html = TEMPLATE.replace("__DATA__", json.dumps(data)).replace("__CLIPS__", json.dumps(clips))
-    out.write_text(html)
+    out.write_text(html, encoding="utf-8")
     print(f"prototype -> {out} ({out.stat().st_size // 1024} KB), "
           f"{len(clips)} real approved clips, 0 placeholders")
 

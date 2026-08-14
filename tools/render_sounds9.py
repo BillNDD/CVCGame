@@ -163,7 +163,7 @@ for d in sorted(ROUNDS.glob("out-*")):
     if not f.exists():
         continue
     try:
-        for it in json.loads(f.read_text()).get("items", []):
+        for it in json.loads(f.read_text(encoding="utf-8")).get("items", []):
             for a in it.get("arms", []):
                 ALREADY.setdefault(a["sha"], f"{d.name}:{a['id']}")
     except Exception:
@@ -282,5 +282,5 @@ if thin:
     "title": "Sound round 9 — back to basics: cut from the clips you already approved",
     "tally": ("Sounds: 45 of 47; these are the last two. Words: 349 shipped + 115 approved, "
               "backlog zero. Sentences: 42 approved, done."),
-    "items": items}))
+    "items": items}), encoding="utf-8")
 print("wrote", OUT / "batch-data.json")

@@ -380,5 +380,5 @@ if len(thin) > 4:
     "tally": ("Words: 349 shipped + 98 approved and waiting. Sentences: 21 shipped + 22 "
               "approved (sentence mode's twenty are done). Sounds: 45 of 47; the last two "
               "need your voice."),
-    "items": items}))
+    "items": items}), encoding="utf-8")
 print("wrote", OUT / "batch-data.json")

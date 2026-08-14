@@ -222,7 +222,7 @@ for d in sorted(ROUNDS.glob("out-*")):
     f = d / "batch-data.json"
     if f.exists():
         try:
-            for it in json.loads(f.read_text()).get("items", []):
+            for it in json.loads(f.read_text(encoding="utf-8")).get("items", []):
                 for a in it.get("arms", []):
                     ALREADY.setdefault(a["sha"], f"{d.name}:{a['id']}")
         except Exception:
@@ -353,5 +353,5 @@ items = [i for i in items if i["arms"]]
     "tally": ("Sounds: 12 of the 14 are closed. Only w and h are open, and on round 16 you "
               "chose the REFERENCE arm for both — your own voice, which cannot ship — so "
               "these are af_heart aimed at exactly that. Words: 349 shipped + 115 approved."),
-    "items": items}))
+    "items": items}), encoding="utf-8")
 print("wrote", OUT / "batch-data.json")

@@ -35,7 +35,7 @@ def history(word):
     as a field. Returns {family: verdict}."""
     out = {}
     if CSV_PATH.exists():
-        for r in csv.DictReader(CSV_PATH.open()):
+        for r in csv.DictReader(CSV_PATH.open(encoding="utf-8")):
             if r["word"].strip().lower() != word:
                 continue
             m = re.search(r"family ([^;]+)", r.get("ear_notes", ""))

@@ -237,5 +237,5 @@ if thin:
     "tally": ("Words: 349 shipped + 59 approved and waiting; these 19 are the "
               "rebuilt batch-8 field. Sentences: 21 shipped + 2 approved "
               "(Pronounced: is in). Sounds: 35 of 45 done; 10 in sound round 3."),
-    "items": items}))
+    "items": items}), encoding="utf-8")
 print("wrote", OUT / "batch-data.json")
