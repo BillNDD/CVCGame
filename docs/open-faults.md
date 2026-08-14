@@ -759,13 +759,30 @@ and both agreed with the DIRECTION and rejected the PLAN. Their findings, verifi
   ships — "reading the wrong one turned a clip the owner had passed into a clip the owner
   had merely tolerated". The file is a documented trap.
 
-**What both reviewers agreed to do FIRST, whatever is decided about deletion**, and what
-this entry now carries as its next step: correct `SPEC.md:889`, which says the
-grapheme-to-sound map "exists only in `tools/voice-sounds.csv`, which the app never
-imports" — already false since 2026-08-11 when `TILE_SOUND` shipped; and rewrite
-`pending-sounds.json`'s own header, which still promises that its entries "become the row
-in `tools/voice-sounds.csv`", a migration abandoned when the reveal shipped. That header is
-the single sentence that made the whole file point at the wrong master.
+**What both reviewers agreed to do FIRST, whatever is decided about deletion: DONE
+2026-08-14, owner-ruled.** Both corrections are made, and neither touched the game.
+
+- **The SPEC claim is gone, and the bullet holding it turned out to be obsolete entirely.**
+  It sat under "What this needs before it can be built" for the level introduction and asked
+  for "a grapheme-to-sound map in app code" — a prerequisite that `TILE_SOUND` and
+  `WORD_SOUND` MET on 2026-08-11. So the fault was not one false clause in a live
+  requirement; it was a requirement that had been satisfied for three days while still
+  listing itself as blocking work. It now records that it is met, and carries the reviewers'
+  warning that the CSV's `graphemes` column is not that map and must not be copied in.
+- **`pending-sounds.json`'s header no longer promises the abandoned migration.** It now says
+  plainly that it IS the sound ledger, that verdicts live there, what the `family` collision
+  means, and that G16b refuses any disagreement between the two files.
+
+**Its own pointer had rotted, which is the fault in miniature.** This entry said
+`SPEC.md:889`; the sentence was at 934 by the time anyone went to fix it, because the
+document grew underneath the reference. A line number is a fact with no owner, and it was
+wrong inside the entry whose subject is facts drifting between files. The reference is now
+to the sentence rather than to a line.
+
+**What is still open here is unchanged and is still the owner's call**: whether
+`tools/voice-sounds.csv` should exist at all (item 3 above), plus items 1 and 2. Deleting it
+still lowers two or three E6 floors, so nothing about the corrections above pre-empts that
+decision — they were the step both reviewers said comes first either way.
 
 ### F3. Nothing gates a document going stale
 
