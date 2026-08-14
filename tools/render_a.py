@@ -329,5 +329,5 @@ if __name__ == "__main__":
                   "and S4 forbids the app ever saying a letter name."),
         "items": [{"kind": "word", "text": "a",
                    "note": "12 of batch 3's 32 sentences need this word",
-                   "arms": arms}]}).replace("\\u", "\\u"))
+                   "arms": arms}]}).replace("\\u", "\\u"), encoding="utf-8")
     print(f"\nwrote {OUT / 'batch-data.json'}: {len(arms)} arms, {len(rejected)} refused")

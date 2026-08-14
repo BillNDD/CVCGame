@@ -27,7 +27,7 @@ SRC = REPO / "tools" / "pending-sounds"
 PACK = REPO / "app" / "public" / "voice"
 MANIFEST = PACK / "manifest.json"
 
-approved = json.loads((SRC / "pending-sounds.json").read_text())
+approved = json.loads((SRC / "pending-sounds.json").read_text(encoding="utf-8"))
 
 
 def length_ms(p):
@@ -46,7 +46,7 @@ wanted = json.loads(subprocess.run(
      "console.log(JSON.stringify(soundInventory()))"],
     cwd=REPO, capture_output=True, text=True, check=True).stdout)
 
-manifest = json.loads(MANIFEST.read_text())
+manifest = json.loads(MANIFEST.read_text(encoding="utf-8"))
 missing, shipped = [], 0
 for cid in wanted:
     sound = cid[2:]
@@ -75,6 +75,6 @@ if missing:
     raise SystemExit("no approved clip for: " + ", ".join(sorted(missing))
                      + "\nEach one needs a listening round before it can ship.")
 
-MANIFEST.write_text(json.dumps(manifest, indent=1, sort_keys=True) + "\n")
+MANIFEST.write_text(json.dumps(manifest, indent=1, sort_keys=True) + "\n", encoding="utf-8")
 print(f"shipped {shipped} sounds; manifest now holds {len(manifest) - 1} clips")
 print("next: python3 tools/voice-edges.py --write")

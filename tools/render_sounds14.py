@@ -235,14 +235,14 @@ for d in sorted(ROUNDS.glob("out-*")):
     f = d / "batch-data.json"
     if f.exists():
         try:
-            for it in json.loads(f.read_text()).get("items", []):
+            for it in json.loads(f.read_text(encoding="utf-8")).get("items", []):
                 for a in it.get("arms", []):
                     ALREADY.setdefault(a["sha"], f"{d.name}:{a['id']}")
         except Exception:
             pass
 print(f"hash guard: {len(ALREADY)} arms already offered\n")
 
-b13 = json.loads((ROUNDS / "out-snd13" / "batch-data.json").read_text())
+b13 = json.loads((ROUNDS / "out-snd13" / "batch-data.json").read_text(encoding="utf-8"))
 byname = {i["text"]: i for i in b13["items"]}
 
 items, failures = [], []
@@ -382,5 +382,5 @@ if thin:
     "tally": ("Sounds: 13 of the last 14 came back CLOSEST, nine with the same fault — the "
               "start and finish too jarring. These round them. Words: 349 shipped + 115 "
               "approved. Sentences: 42 approved."),
-    "items": items}))
+    "items": items}), encoding="utf-8")
 print("wrote", OUT / "batch-data.json")

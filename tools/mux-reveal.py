@@ -16,11 +16,11 @@ import av
 
 REC = pathlib.Path(sys.argv[1])
 OUT = pathlib.Path(sys.argv[2])
-meta = json.loads((REC / "pops.json").read_text())
+meta = json.loads((REC / "pops.json").read_text(encoding="utf-8"))
 TRIM = float(meta["trim_s"])
 LEN = float(meta["seconds"])
 
-vin = av.open(str(pathlib.Path((REC / "video-path.txt").read_text().strip())))
+vin = av.open(str(pathlib.Path((REC / "video-path.txt").read_text(encoding="utf-8").strip())))
 ain = av.open(str(REC / "audio.webm"))
 vs = vin.streams.video[0]
 

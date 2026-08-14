@@ -228,7 +228,7 @@ def compare(ref, cand):
 
 
 def pack_sounds():
-    man = json.loads((PACK / "manifest.json").read_text())
+    man = json.loads((PACK / "manifest.json").read_text(encoding="utf-8"))
     return {k: PACK / v["file"] for k, v in man.items() if k.startswith("d:")}
 
 

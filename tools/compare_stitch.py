@@ -72,8 +72,8 @@ def encode(a, sr):
 
 def main():
     batch = pathlib.Path(sys.argv[1])
-    data = json.loads((batch / "batch-data.json").read_text())
-    manifest = json.loads((PACK / "manifest.json").read_text())
+    data = json.loads((batch / "batch-data.json").read_text(encoding="utf-8"))
+    manifest = json.loads((PACK / "manifest.json").read_text(encoding="utf-8"))
     # The unapproved stand-in for "a", taken from batch 3's own word card.
     a_arm = next(x for it in data["items"] if it["kind"] == "word"
                  for x in it["arms"] if x["id"] == "a_2")
@@ -261,5 +261,5 @@ window.addEventListener("DOMContentLoaded", () => {{
   }});
 }});
 </script>'''
-    pathlib.Path(sys.argv[2]).write_text(page)
+    pathlib.Path(sys.argv[2]).write_text(page, encoding="utf-8")
     print(f"wrote {sys.argv[2]} ({len(page)//1024} KB)")

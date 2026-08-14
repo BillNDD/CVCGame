@@ -216,5 +216,5 @@ for name, cfg in SOUNDS.items():
 short = [a for a in audit if a[2] < 400]
 print(f"audit: {len(audit)} clips; all padded to at least 550 ms, {len(short)} under 400 ms")
 (OUT / "batch-data.json").write_text(json.dumps(
-    {"title": "Sound round 1 — ch, quiet th, long e, schwa, book-oo", "items": items}))
+    {"title": "Sound round 1 — ch, quiet th, long e, schwa, book-oo", "items": items}), encoding="utf-8")
 print("wrote", OUT / "batch-data.json")

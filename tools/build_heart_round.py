@@ -30,7 +30,7 @@ ROOT = pathlib.Path(__file__).resolve().parent.parent
 VOICE = ROOT / "app/public/voice"
 PENDING_W = ROOT / "tools/pending-words"
 PENDING_S = ROOT / "tools/pending-sounds"
-MANIFEST = json.loads((VOICE / "manifest.json").read_text())
+MANIFEST = json.loads((VOICE / "manifest.json").read_text(encoding="utf-8"))
 SEAM2_MS = 500          # the approved speech-to-speech gap
 
 # [word, [(tile, sound-id, how it reads)], note, what is being asked]
@@ -254,5 +254,5 @@ document.body.addEventListener("click", e=>{
 </script>
 """.replace("SOUNDS_JSON", json.dumps(sounds))
    .replace("WORDS_JSON", json.dumps(data))
-   .replace("SEAM_MS", str(SEAM2_MS)))
+   .replace("SEAM_MS", str(SEAM2_MS)), encoding="utf-8")
 print(f"wrote {page} ({page.stat().st_size // 1024} KB): {len(sounds)} sounds, {len(data)} sound-outs")

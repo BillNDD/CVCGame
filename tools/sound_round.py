@@ -70,7 +70,7 @@ def envelope():
     little room is allowed at each end — the five are a sample of what good
     looks like, not its boundary — except on attack and peak position, where
     the poor pair sit close enough that widening would let them back in."""
-    man = json.loads((PACK / "manifest.json").read_text())
+    man = json.loads((PACK / "manifest.json").read_text(encoding="utf-8"))
     rows = [cc.measure(PACK / man["d:" + s]["file"]) for s in TOP_FIVE]
     out = {}
     for k in GATED:
@@ -83,7 +83,7 @@ def envelope():
 
 def vowel_space():
     """The F1/F2 box the owner's accepted vowels occupy."""
-    man = json.loads((PACK / "manifest.json").read_text())
+    man = json.loads((PACK / "manifest.json").read_text(encoding="utf-8"))
     rows = [cc.measure(PACK / man["d:" + s]["file"]) for s in VOWELS]
     f1 = [r["F1"] for r in rows if r["F1"]]
     f2 = [r["F2"] for r in rows if r["F2"]]
@@ -179,7 +179,7 @@ def self_test():
     they called poor. An envelope that lets the poor pair through is not a
     filter, it is decoration."""
     env, rows = envelope()
-    man = json.loads((PACK / "manifest.json").read_text())
+    man = json.loads((PACK / "manifest.json").read_text(encoding="utf-8"))
     checks = []
     for s in TOP_FIVE:
         m = cc.measure(PACK / man["d:" + s]["file"])

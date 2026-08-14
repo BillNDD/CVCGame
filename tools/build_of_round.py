@@ -57,7 +57,7 @@ from phoneme_timings import timings, find            # noqa: E402
 
 REPO = pathlib.Path(__file__).resolve().parent.parent
 PACK = REPO / "app" / "public" / "voice"
-MANIFEST = json.loads((PACK / "manifest.json").read_text())
+MANIFEST = json.loads((PACK / "manifest.json").read_text(encoding="utf-8"))
 SEAM2_MS = 500
 FADE_MS = 10
 
@@ -128,7 +128,7 @@ SHIP = "--ship" in sys.argv
 # --- B: the /v/ of "van", at the model's own boundary -----------------------
 # Skipped when shipping: arms B and C need the synthesiser, and the winning arm
 # does not. A ship must not depend on a model being installed.
-rows = {} if SHIP else {r["word"]: r for r in csv.DictReader(open(REPO / "tools/voice-words.csv"))}
+rows = {} if SHIP else {r["word"]: r for r in csv.DictReader(open(REPO / "tools/voice-words.csv", encoding="utf-8"))}
 v_cut = v_held = None
 van_sr = held_sr = 24000
 v_ms = 75
@@ -240,11 +240,11 @@ def ship():
     # that is what tools/voice-edges.py does for every other clip, and the
     # sound-out spacing is computed from these numbers.
     lead, tail, ms = edges(*load(SOFT_TARGETS[0]))
-    man = json.loads((PACK / "manifest.json").read_text())
+    man = json.loads((PACK / "manifest.json").read_text(encoding="utf-8"))
     man["d:v_soft"] = {"file": "d-v_soft.mp3", "lead": lead, "ms": ms, "tail": tail}
-    (PACK / "manifest.json").write_text(json.dumps(man, indent=1) + "\n")
+    (PACK / "manifest.json").write_text(json.dumps(man, indent=1) + "\n", encoding="utf-8")
     led_path = REPO / "tools" / "pending-sounds" / "pending-sounds.json"
-    led = json.loads(led_path.read_text())
+    led = json.loads(led_path.read_text(encoding="utf-8"))
     led["v_soft"] = {
         "as_in": "of",
         "family": "of3-quieter-rounder",
@@ -262,7 +262,7 @@ def ship():
                 "the source and the result both hash to the values recorded here.",
         "sha256": got,
     }
-    led_path.write_text(json.dumps(led, indent=1) + "\n")
+    led_path.write_text(json.dumps(led, indent=1) + "\n", encoding="utf-8")
     print(f"shipped d:v_soft  {got[:12]}  {ms} ms file, {ms - lead - tail} ms of speech "
           f"(lead {lead}, tail {tail})")
     print("d:v is untouched: van, vet, vat and vex keep the clip graded perfect in SND16")
@@ -475,7 +475,7 @@ for arm in data:
 out = pathlib.Path(sys.argv[1])
 out.write_text(html.replace("ARMS_JSON", json.dumps(data)).replace("SEAM_MS", str(SEAM2_MS))
            .replace("HEADLINE", {1: "four ways", 2: "rounder and quieter", 3: "the last swap"}[ROUND])
-           .replace("DIAGBLOCK", {1: DIAG1, 2: DIAG2, 3: DIAG3}[ROUND]))
+           .replace("DIAGBLOCK", {1: DIAG1, 2: DIAG2, 3: DIAG3}[ROUND]), encoding="utf-8")
 print(f"wrote {out} ({out.stat().st_size // 1024} KB)")
 for arm in data:
     print(f"  {arm['key']}  {arm['name']:22} v speech {arm['plan'][3]['speech']:4} ms")

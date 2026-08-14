@@ -117,7 +117,7 @@ VOWEL_WORDS = {"long_a": ["say", "day", "cake"], "long_o": ["go", "so", "home"],
                "long_i": ["time", "my"], "long_u": ["use", "cube"]}
 
 items, audit = [], []
-led = json.loads((P45 / "pending-sounds.json").read_text())
+led = json.loads((P45 / "pending-sounds.json").read_text(encoding="utf-8"))
 for name, label, ph, donors, gems, kind in SOUNDS:
     arms = []
 
@@ -183,5 +183,5 @@ for name, label, ph, donors, gems, kind in SOUNDS:
 
 print(f"audit: {len(audit)} clips")
 (OUT / "batch-data.json").write_text(json.dumps(
-    {"title": "Sound round 2 — P45 accepted bake as option 1, plus fresh candidates", "items": items}))
+    {"title": "Sound round 2 — P45 accepted bake as option 1, plus fresh candidates", "items": items}), encoding="utf-8")
 print("wrote", OUT / "batch-data.json")

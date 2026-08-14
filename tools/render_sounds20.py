@@ -178,7 +178,7 @@ def pad(a, sr):
 # the reference the owner supplied, and the h they accepted on round 19
 ref_raw, rsr = load(UP / "0fc5f827-h.mp4")
 ref = G.core(resample(ref_raw[int(17.23 * rsr):int(17.44 * rsr)], rsr), SR)
-b19 = json.loads((ROUNDS / "out-snd19" / "batch-data.json").read_text())
+b19 = json.loads((ROUNDS / "out-snd19" / "batch-data.json").read_text(encoding="utf-8"))
 accepted = next(a for i in b19["items"] if i["text"] == "h"
                 for a in i["arms"] if a["id"] == "h_4")
 
@@ -244,5 +244,5 @@ print(f"\n{len(arms)} arms: {[a['family'] for a in arms]}")
                         "recipe. If none beats h_1, the accepted one stays."),
                "how": "a light quick breath · as in hat",
                "reject": "snake-hiss, a loop you can hear, or any other sound around it",
-               "arms": arms}]}))
+               "arms": arms}]}), encoding="utf-8")
 print("wrote", OUT / "batch-data.json")

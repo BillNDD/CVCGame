@@ -187,15 +187,15 @@ for d in sorted(ROUNDS.glob("out-*")):
     f = d / "batch-data.json"
     if f.exists():
         try:
-            for it in json.loads(f.read_text()).get("items", []):
+            for it in json.loads(f.read_text(encoding="utf-8")).get("items", []):
                 for a in it.get("arms", []):
                     ALREADY.setdefault(a["sha"], f"{d.name}:{a['id']}")
         except Exception:
             pass
 print(f"hash guard: {len(ALREADY)} arms already offered\n")
 
-b14 = json.loads((ROUNDS / "out-snd14" / "batch-data.json").read_text())
-b13 = json.loads((ROUNDS / "out-snd13" / "batch-data.json").read_text())
+b14 = json.loads((ROUNDS / "out-snd14" / "batch-data.json").read_text(encoding="utf-8"))
+b13 = json.loads((ROUNDS / "out-snd13" / "batch-data.json").read_text(encoding="utf-8"))
 PICK14 = {"g": "g_6", "n": "n_2", "v": "v_7", "w": "w_9", "z": "z_10", "h": "h_10"}
 PICK13 = {"j": "j_1", "sh": "sh_1"}
 # /h/ is judged as VOICED, and that is a correction rather than a loosening.
@@ -362,5 +362,5 @@ items = [i for i in items if i["arms"]]
     "title": "Sound round 15 — a different mechanism for each fault you named",
     "tally": ("Sounds: b, d, y, short_e and short_u closed on round 14. These nine are open. "
               "Words: 349 shipped + 115 approved. Sentences: 42 approved."),
-    "items": items}))
+    "items": items}), encoding="utf-8")
 print("wrote", OUT / "batch-data.json")

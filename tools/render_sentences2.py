@@ -44,10 +44,10 @@ OUT = pathlib.Path(sys.argv[1]); OUT.mkdir(parents=True, exist_ok=True)
 k = Kokoro(f"{SCRATCH}/kokoro-v1.0.onnx", f"{SCRATCH}/voices-v1.0.bin")
 
 bank = set()
-with open(REPO / "tools/voice-words.csv") as f:
+with open(REPO / "tools/voice-words.csv", encoding="utf-8") as f:
     for row in csv.DictReader(f):
         bank.add(row["word"].strip().lower())
-pending = json.loads((REPO / "tools/pending-words/pending-words.json").read_text())
+pending = json.loads((REPO / "tools/pending-words/pending-words.json").read_text(encoding="utf-8"))
 HEART = {w for w in ("of", "to", "do", "you", "said", "my", "and") if w in pending}
 ALLOWED = bank | HEART
 
@@ -126,5 +126,5 @@ if bad:
     "tally": ("Sentences: 21 feedback clips shipped + 22 approved (batch 1 was "
               "twenty of twenty); these 20 are in flight. Words: 349 shipped + "
               "98 approved. Sounds: 45 of 47; the last two need your voice."),
-    "items": items}))
+    "items": items}), encoding="utf-8")
 print("wrote", OUT / "batch-data.json")

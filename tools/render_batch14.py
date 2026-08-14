@@ -189,7 +189,7 @@ for d in sorted(ROUNDS.glob("out-*")):
     if not f.exists():
         continue
     try:
-        prev = json.loads(f.read_text())
+        prev = json.loads(f.read_text(encoding="utf-8"))
     except Exception:
         continue
     for it in prev.get("items", []):
@@ -476,5 +476,5 @@ if len(thin) > 1:
     "tally": ("Words: 349 shipped + 115 approved; these 2 are being re-heard on new "
               "material only. Sentences: 42 approved, done. Sounds: 45 of 47; round 8 is "
               "with you."),
-    "items": items}))
+    "items": items}), encoding="utf-8")
 print("wrote", OUT / "batch-data.json")

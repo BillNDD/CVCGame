@@ -413,5 +413,5 @@ if len(thin) > 1:
     "tally": ("Words: 349 shipped + 112 approved and waiting; these 3 are all that is open. "
               "Sentences: 21 shipped + 42 approved (both batches done, 40 of 40). "
               "Sounds: 45 of 47; the last two need your voice."),
-    "items": items}))
+    "items": items}), encoding="utf-8")
 print("wrote", OUT / "batch-data.json")

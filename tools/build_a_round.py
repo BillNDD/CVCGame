@@ -42,7 +42,7 @@ import numpy as np
 
 REPO = pathlib.Path(__file__).resolve().parent.parent
 PACK = REPO / "app" / "public" / "voice"
-MANIFEST = json.loads((PACK / "manifest.json").read_text())
+MANIFEST = json.loads((PACK / "manifest.json").read_text(encoding="utf-8"))
 SEAM_MS, SEAM2_MS = 700, 500
 DEFAULT_HANDOFF = pathlib.Path(
     "/tmp/claude-0/-home-user-CVCFame/e6f72ac3-eaf2-5b4a-aa69-540f121df052/scratchpad/"
@@ -284,7 +284,7 @@ document.body.addEventListener("click", e=>{
 </script>
 """
 out = pathlib.Path(sys.argv[1])
-out.write_text(page.replace("CARDS_JSON", json.dumps(CARDS)))
+out.write_text(page.replace("CARDS_JSON", json.dumps(CARDS)), encoding="utf-8")
 print(f"wrote {out} ({out.stat().st_size // 1024} KB)")
 print(f"  base clip: {NEW['1']['speech']} ms of speech, {BASE_RMS:.1f} dBFS RMS")
 for k, name, db, _ in LEVELS:

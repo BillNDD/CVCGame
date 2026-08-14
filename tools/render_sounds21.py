@@ -201,7 +201,7 @@ print(f"target from the owner's playback: centroid {rc:.0f} Hz, 2-6 kHz {rh:.3f}
 raw, rsr = load(UP / "0fc5f827-h.mp4")
 ref = G.core(resample(raw[int(17.23 * rsr):int(17.44 * rsr)], rsr), SR)
 
-b19 = json.loads((ROUNDS / "out-snd19" / "batch-data.json").read_text())
+b19 = json.loads((ROUNDS / "out-snd19" / "batch-data.json").read_text(encoding="utf-8"))
 accepted = next(a for i in b19["items"] if i["text"] == "h"
                 for a in i["arms"] if a["id"] == "h_4")
 arms = [{"id": "h_1", "family": "ACCEPTED-round19-unchanged", "ms": accepted["ms"],
@@ -261,5 +261,5 @@ for a in arms:
                         "measured centroid and 2-6 kHz fraction."),
                "how": "a light quick breath · as in hat",
                "reject": "bright snake-hiss, a loop you can hear, or any other sound around it",
-               "arms": arms}]}))
+               "arms": arms}]}), encoding="utf-8")
 print("\nwrote", OUT / "batch-data.json")

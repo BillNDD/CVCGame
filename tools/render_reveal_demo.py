@@ -174,5 +174,5 @@ for word, tiles in WORDS:
     "title": "Reveal demo — how the sound-out could sound: spacing, and hum vs silence",
     "tally": ("Sounds 47 of 47 · Words 349 shipped + 115 approved · Sentences 42 approved. "
               "Nothing is in flight; this is a design question, not a voice round."),
-    "items": items}))
+    "items": items}), encoding="utf-8")
 print("\nwrote", OUT / "batch-data.json")

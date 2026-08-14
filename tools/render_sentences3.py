@@ -88,7 +88,7 @@ def check_all():
     """The project's own decodability checker is the gate, not a copy of it."""
     tmp = pathlib.Path(sys.argv[1]); tmp.mkdir(parents=True, exist_ok=True)
     f = tmp / "sentences.json"
-    f.write_text(json.dumps({str(k): v for k, v in SENTENCES.items()}))
+    f.write_text(json.dumps({str(k): v for k, v in SENTENCES.items()}), encoding="utf-8")
     r = subprocess.run(["node", "tools/decodable.mjs", "--file", str(f)],
                        cwd=REPO, capture_output=True, text=True)
     print(r.stdout.strip())
@@ -199,5 +199,5 @@ if __name__ == "__main__":
                   "With these every level from 1 to 11 has at least five. Plus the article "
                   "“a”, the only word in the sentence plan that has never been "
                   "rendered: six arms, blind."),
-        "items": items}))
+        "items": items}), encoding="utf-8")
     print(f"\nwrote {OUT / 'batch-data.json'}: {total} sentences + 1 word ({len(arms)} arms)")

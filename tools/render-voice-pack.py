@@ -158,7 +158,7 @@ ASR_PINNED = {}
 ASR_GUARD_MS = {}   # word -> (lead ms, tail ms)
 # Full per-word treatments from bake_all_keepers.py (overrides maps above).
 _TREAT_PATH = pathlib.Path(__file__).resolve().parent / "keepers-treatments.json"
-TREATMENTS = json.loads(_TREAT_PATH.read_text()) if _TREAT_PATH.exists() else {}
+TREATMENTS = json.loads(_TREAT_PATH.read_text(encoding="utf-8")) if _TREAT_PATH.exists() else {}
 for _w, _t in TREATMENTS.items():
     if _w.startswith("_"):
         continue
@@ -262,13 +262,13 @@ OUT.mkdir(parents=True, exist_ok=True)
 # because rendering a substitute would ship audio nobody accepted - G13 would
 # catch it later, but later is after the accepted bytes are gone from the tree.
 _PIN_PATH = pathlib.Path(__file__).resolve().parent / "keeper-bytes.json"
-KEEPER_BYTES = {k: v for k, v in (json.loads(_PIN_PATH.read_text()) if _PIN_PATH.exists() else {}).items() if not k.startswith("_")}
+KEEPER_BYTES = {k: v for k, v in (json.loads(_PIN_PATH.read_text(encoding="utf-8")) if _PIN_PATH.exists() else {}).items() if not k.startswith("_")}
 _OLD_MANIFEST = {}
 if (OUT / "manifest.json").exists():
-    _OLD_MANIFEST = json.loads((OUT / "manifest.json").read_text())
+    _OLD_MANIFEST = json.loads((OUT / "manifest.json").read_text(encoding="utf-8"))
 
 k = None if RECIPE_ONLY else Kokoro(model_path, voices_path)
-script = json.load(open(script_path))
+script = json.load(open(script_path, encoding="utf-8"))
 
 
 def trim(audio, ms, sr):
@@ -467,13 +467,13 @@ manifest["__recipe"] = {
     "asr_guard_ms": {w: [l, t] for w, (l, t) in sorted(ASR_GUARD_MS.items())},
     "keepers_treatments": sorted(w for w in TREATMENTS if not w.startswith("_")),
 }
-(OUT / "manifest.json").write_text(json.dumps(manifest, indent=1) + "\n")
+(OUT / "manifest.json").write_text(json.dumps(manifest, indent=1) + "\n", encoding="utf-8")
 # The review file is a record of a RENDER — one row per clip, with the flags a
 # person reads before listening. A recipe-only run renders nothing, so writing
 # it would replace 372 rows with a bare header and quietly destroy the record
 # of the render that actually produced the pack. It did exactly that once.
 if not RECIPE_ONLY:
-    pathlib.Path(out_dir + "-review.csv").write_text("\n".join(review) + "\n")
+    pathlib.Path(out_dir + "-review.csv").write_text("\n".join(review) + "\n", encoding="utf-8")
 flags = [r for r in review[1:] if r.rstrip().endswith(("SHORT", "LONG"))]
 print(f"rewrote the recipe only; {len(manifest) - 1} clips carried through untouched"
       if RECIPE_ONLY else

@@ -35,9 +35,9 @@ import wordcut as wc
 
 REPO = pathlib.Path(__file__).resolve().parent.parent
 PACK = REPO / "app" / "public" / "voice"
-MANIFEST = json.loads((PACK / "manifest.json").read_text())
+MANIFEST = json.loads((PACK / "manifest.json").read_text(encoding="utf-8"))
 PEND = REPO / "tools" / "pending-words"
-_PJ = json.loads((PEND / "pending-words.json").read_text()) if (PEND / "pending-words.json").exists() else {}
+_PJ = json.loads((PEND / "pending-words.json").read_text(encoding="utf-8")) if (PEND / "pending-words.json").exists() else {}
 
 
 def clip_for(w):
@@ -188,7 +188,7 @@ def control(mp3, right_text, wrong_text):
 if __name__ == "__main__":
     P = REPO / "tools" / "pending-words"
     if "--self-test" in sys.argv:
-        d = json.loads((P / "pending-words.json").read_text())
+        d = json.loads((P / "pending-words.json").read_text(encoding="utf-8"))
         rows = [(P / f"s-{k[2:].replace(':', '-')}.mp3", v["text"])
                 for k, v in d.items()
                 if k.startswith("s:") and isinstance(v, dict) and v.get("text")]
