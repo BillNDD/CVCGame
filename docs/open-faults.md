@@ -1043,6 +1043,42 @@ the result goes wherever it belongs — `docs/settled.md` if a measurement close
 row if an ear did. **Trying one is never a substitute for the game work it was meant to
 serve, and nothing here may be counted as progress until it has been tried.**
 
+### G5. Let an agent actually HEAR the audio — suggested to the owner 2026-08-14
+
+Every automatic check here is deaf. `voice-check.mjs` counts clips and checks pins;
+`voice-edges.py` measures where speech sits; `sound_agreement.py` compares the tiles
+against the phonemes the SYNTHESISER claims. Not one can tell whether a clip says the right
+thing. That gap has cost real rounds: `soundout-1` said "read" as *reed* and reached the
+owner's ear, and the only reason it was caught is that a person listened.
+
+**The suggestion**, from another model: expose an audio-capable model to the agents through
+a small local command-line or MCP utility. `Phi-4-multimodal-instruct` is MIT-licensed with
+an MIT ONNX release, takes audio plus a written prompt and returns text, and names speech
+recognition and audio understanding among its intended uses. The agents' problem is not
+intelligence — the harness passes text and images and never passes raw audio to anything
+that can hear.
+
+**What it could do:** catch a clip that says the WRONG THING before it costs a round. A
+word clip saying a different word. A sentence with the *reed* fault. A sound clip that is
+silence, clipped, or the neighbouring phoneme. Each is a factual error a machine can find,
+and each has reached the owner at least once.
+
+**What it must NEVER do, and a future agent must not talk itself past this.** It cannot
+decide whether a sound is GOOD. CLAUDE.md is explicit that spoken-word correctness is
+proved by a listening round and nothing else, and G13 refuses any recipe no person heard.
+The distinction is the one `sound_agreement.py` already records about itself: a REFUSAL,
+not a proof. A machine saying "this clip says red" removes a wrong arm before it wastes an
+evening. A machine saying "this clip sounds good" is worth nothing — the owner's ear is the
+only thing that has ever settled that, and the ten-sound review of 2026-08-12 proved a clip
+graded ALONE is a different question from the same clip in company.
+
+**Cost to try:** a new dependency, so it needs the owner's approval under the AGENTS.md
+rule before anything is installed. The honest first experiment is small: run it over the
+598 clips already shipped and see whether it independently reports what each one says. If
+it agrees on all 598, it has earned a place in front of the next round. If it disagrees
+anywhere, that is either a bug in the tool or a fault nobody has found, and both are worth
+the afternoon.
+
 ### G3. A deep UX census — BUILT 2026-08-12, and not yet trustworthy
 
 Owner-requested 2026-08-12, from the same investigation they are running on their maths game.
