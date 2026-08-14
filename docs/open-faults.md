@@ -749,7 +749,7 @@ saying it was migrated rather than newly given: `ch`, `long_a`, `long_e`, `long_
 
 ## J. From a real child's backup, 2026-08-13
 
-A parent sent the child's export. Three things came out of it; one is fixed, two are open.
+A parent sent their child's export. Three things came out of it; one is fixed, two are open.
 
 ### J1. The letter "a" says two sounds and nothing says so — owner-ruled 2026-08-13, NOT BUILT
 

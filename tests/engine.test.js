@@ -18,7 +18,7 @@ const seeded = (words, patch) => { const s = newState(); words.forEach(w => { s.
 
 /* ---------------- bank ---------------- */
 describe("A stumble must not cost mastery (parent report, 2026-08-13)", () => {
-  /* the child had read "am" and "us" correctly TWICE each and the mastery map still
+  /* The child had read "am" and "us" correctly TWICE each and the mastery map still
      showed them as not learned. The cause: the fast track to box 3 keyed off
      the first ATTEMPT, so one "close" - which SPEC section 5 calls an
      invitation to try again, never a failure - cost two extra correct readings
