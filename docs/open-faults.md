@@ -918,6 +918,37 @@ floors that follow raised (E11 — the bank moves 438 to 440 or 441, and the cli
 it); and the new sentences the owner approves added by the same route as batch 3, with
 `tools/decodable.mjs` as the arbiter.
 
+## N. The sentence never lets a child TRY first — owner-found 2026-08-14, shipped in beta 19
+
+- **Where** `showSentence()` in `app/src/App.jsx`, reached from `next()`.
+- **What a child gets today** The sentence appears and the app IMMEDIATELY reads it whole,
+  then plays the invitation and sounds out the level's word. The child is never given the
+  chance to read it themselves, and the grown-up is never offered "got it" before the game
+  has spoken. The three result controls are dead for the whole item.
+- **Why this is wrong, and it is not a small thing.** Every WORD in this game has an
+  attempt phase: the word appears, the child reads it aloud, the grown-up grades, and only
+  THEN does the app speak — that is what safety rule S2 protects, and the reveal exists to
+  be the reward for trying. The sentence inverts it. A sentence is a thing to be READ, and
+  the app reads it first, so the hardest and most valuable moment — a child working out a
+  whole sentence for themselves — never happens. The owner found it on a real screen within
+  a day of the release.
+- **How it got built this way** SPEC section 12 point 6 describes the reveal in six steps
+  and every one of them is about what the app DOES after the sentence is on screen. It
+  opens "The sentence is read whole." Nobody wrote down what happens BEFORE that, and I
+  built exactly what was written. The design has an attempt phase missing from its own
+  description, not a step in the wrong order.
+- **Done** means the sentence arrives silent, with the child given the chance to read it
+  and the grown-up's controls live; the reveal begins only when the grown-up marks it, the
+  same way a word works. That needs the owner to rule three things: whether a sentence is
+  GRADED or only acknowledged (SPEC section 12 point 3 says a sentence is never scheduled,
+  which is not the same as never marked); what the prompt says while the child is trying,
+  since the word prompt "Say the word out loud!" does not fit; and whether "skip" should
+  reach the reveal for a child who is stuck. **Nothing should be built until those three are
+  ruled** — the last time this design was built from an incomplete description, it produced
+  this entry.
+- **Not a beta-blocker for a child already reading words**, but it is the first thing to fix
+  in beta 20, and until it is fixed the sentence teaches listening rather than reading.
+
 ## L. The safety rule with no gate — S9, opened 2026-08-14
 
 - **Where** Every tracked file. `CLAUDE.md` safety rule S9.
