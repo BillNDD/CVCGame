@@ -21,6 +21,10 @@ const URL = `http://localhost:${PORT}/`;
 let failures = 0, checks = 0;
 const ok = (name) => { checks += 1; console.log(`ok ${checks}: ${name}`); };
 const fail = (name, detail) => { failures += 1; console.error(`FAIL: ${name} — ${detail}`); };
+/* How many sentences this walk actually met. Counted rather than assumed:
+   `pressNext` swallows the extra press a sentence needs, and a helper that
+   silently absorbs the sentence would silently absorb its disappearance. */
+let sentencesMet = 0;
 
 if (!process.env.WQ_SKIP_BUILD) execSync("npm --prefix app run build", { stdio: "pipe" });
 
@@ -49,6 +53,32 @@ const gradeByKey = async (page, label, key) => {
   await b.focus();
   await b.press(key);
 };
+/* Press for the next word, and press again if a SENTENCE takes the press.
+   A sentence arrives after every fifth word read (SPEC section 12 point 2)
+   and its own control carries the same "Next word" label, so any walk through
+   a session meets one — exactly as a grown-up does.
+
+   THIS GATE FOUND THE SENTENCE THE HARD WAY, and the arithmetic is worth
+   keeping. Check 5 records four first results before check 6 begins, check 6's
+   grade is a RETRY of an already-graded word so it adds none, and the close
+   grade at check 12 is the fifth. The very next press was therefore the first
+   sentence of the session, `.wq-word` left the screen as designed, and this
+   gate sat waiting thirty seconds for a word that was never coming. The app
+   was right and the walk was out of date.
+
+   It RETURNS whether a sentence appeared, and the caller counts them, because
+   a helper that silently absorbs the sentence would also silently absorb its
+   disappearance. */
+const pressNext = async (page) => {
+  await page.locator(".wq-rail .wq-cta").click();
+  if (await page.locator(".wq-sentence").isVisible().catch(() => false)) {
+    await page.locator(".wq-rail .wq-cta").click();
+    await page.locator(".wq-word").waitFor();
+    return true;
+  }
+  await page.locator(".wq-word").waitFor();
+  return false;
+};
 
 /* 1-4 — no page scroll in a session at four heights, default text size */
 for (const height of [430, 555, 720, 950]) {
@@ -73,8 +103,7 @@ for (const height of [430, 555, 720, 950]) {
   await page.locator(".wq-tile").first().waitFor();
   const b2 = await word.boundingBox();
   await page.waitForTimeout(500);
-  await page.locator(".wq-rail .wq-cta").click();
-  await word.waitFor();
+  await pressNext(page);
   const b3 = await word.boundingBox();
   const same = (a, b) => a.x === b.x && a.y === b.y && a.width === b.width && a.height === b.height;
   // the retry path: a wrong grade re-queues this word three positions later
@@ -85,8 +114,7 @@ for (const height of [430, 555, 720, 950]) {
   let bRetry = null;
   for (let hop = 0; hop < 6; hop++) {
     await page.waitForTimeout(500);
-    await page.locator(".wq-rail .wq-cta").click();
-    await word.waitFor();
+    await pressNext(page);
     if ((await word.textContent()) === retriedWord) { bRetry = await word.boundingBox(); break; }
     await gradeByKey(page, "✓ got it (hold)", "Enter");
     await page.locator(".wq-tile").first().waitFor();
@@ -132,8 +160,7 @@ for (const height of [430, 555, 720, 950]) {
   else fail("timing constants wrong", `guard=${ADVANCE_GUARD_MS}`);
 
   /* 8-9 — a 150 ms hold does not grade; a 700 ms hold grades */
-  await advance.click();
-  await page.locator(".wq-word").waitFor();
+  await pressNext(page);
   const hold = page.getByRole("button", { name: "~ close (hold)" });
   const box = await hold.boundingBox();
   await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2);
@@ -153,19 +180,86 @@ for (const height of [430, 555, 720, 950]) {
 
   /* 10-11 — the keyboard grades directly, no hold */
   await page.waitForTimeout(500);
-  await advance.click();
-  await page.locator(".wq-word").waitFor();
+  sentencesMet += (await pressNext(page)) ? 1 : 0;
   await gradeByKey(page, "✓ got it (hold)", "Enter");
   const viaEnter = await page.locator(".wq-tile").first().isVisible().catch(() => false);
   if (viaEnter) ok("Enter grades directly");
   else fail("Enter did not grade", "no tiles");
   await page.waitForTimeout(500);
-  await advance.click();
-  await page.locator(".wq-word").waitFor();
+  sentencesMet += (await pressNext(page)) ? 1 : 0;
   await gradeByKey(page, "~ close (hold)", " ");
   const viaSpace = await page.locator(".wq-tile").first().isVisible().catch(() => false);
   if (viaSpace) ok("Space grades directly");
   else fail("Space did not grade", "no tiles");
+
+  /* 12 — THE SENTENCE, in a real browser (SPEC section 12 point 6). Everything
+     the vitest suite proves about it, it proves in jsdom, where nothing has a
+     size: no geometry, no wrapping, no page scroll, no 56 px floor. This is
+     where those become facts.
+
+     The walk above has read five words by now, so the first sentence has
+     already been met and pressed through — this asserts it, then walks on to
+     the next one and measures it. */
+  if (sentencesMet >= 1) ok(`the walk met the sentence after the fifth word (${sentencesMet} so far)`);
+  else fail("no sentence in a twelve-word session", `sentencesMet=${sentencesMet}`);
+
+  /* Walk on to the next sentence and hold it on the screen to measure. */
+  let atSentence = false;
+  for (let hop = 0; hop < 8 && !atSentence; hop++) {
+    await page.waitForTimeout(500);
+    await page.locator(".wq-rail .wq-cta").click();
+    atSentence = await page.locator(".wq-sentence").isVisible().catch(() => false);
+    if (!atSentence) {
+      await page.locator(".wq-word").waitFor();
+      await gradeByKey(page, "✓ got it (hold)", "Enter");
+      await page.locator(".wq-tile").first().waitFor();
+    }
+  }
+  if (!atSentence) fail("could not reach a second sentence to measure", "eight hops");
+  else {
+    const words = page.locator(".wq-sword");
+    const n = await words.count();
+    const boxes = [];
+    for (let i = 0; i < n; i++) boxes.push(await words.nth(i).boundingBox());
+    /* S7: every word is a control the child taps, so every word is 56 px or
+       more — including "a", which is one character wide. */
+    const small = boxes.filter((b) => !b || b.height < 56);
+    if (n >= 2 && small.length === 0) ok(`every sentence word is a child-sized control (${n} words, shortest ${Math.min(...boxes.map((b) => b.height)).toFixed(1)}px >= 56)`);
+    else fail("a sentence word is below the child floor", JSON.stringify({ n, small }));
+    /* The page must not scroll, and the sentence must not run off the side.
+       Eight words do not fit one phone line, so they WRAP — and a sentence
+       that scrolls sideways is a sentence a child loses. */
+    const m = await page.evaluate(() => ({
+      sh: document.documentElement.scrollHeight, ch: document.documentElement.clientHeight,
+      sw: document.documentElement.scrollWidth, cw: document.documentElement.clientWidth,
+    }));
+    if (m.sh <= m.ch && m.sw <= m.cw) ok(`the sentence fits the phone without scrolling (${m.sw}x${m.sh} in ${m.cw}x${m.ch})`);
+    else fail("the sentence scrolls the page", JSON.stringify(m));
+    /* Exactly one word open, and the tiles under it are that word's (point 4). */
+    const openCount = await page.locator(".wq-sword-open").count();
+    if (openCount === 1) ok("exactly one word is open when the sentence arrives");
+    else fail("wrong number of open words", `${openCount}`);
+    /* Point 6: the grown-up's control is live at once — no wait, no fill.
+       Every word reveal makes them wait for the child to hear the word; a
+       sentence must not, because nothing here has to be heard first. */
+    const railLive = await page.locator(".wq-rail .wq-cta").isEnabled();
+    const fillOnRail = await page.locator(".wq-rail .wq-ctafill").count();
+    if (railLive && fillOnRail === 0) ok("the sentence advance is live at once, with no wait to sit through");
+    else fail("the sentence advance made the grown-up wait", `live=${railLive} fill=${fillOnRail}`);
+    /* A tap on another word opens it and closes the last, and says nothing —
+       the silence is checked by the vitest suite; the geometry is checked here. */
+    const closed = words.nth(n - 1);
+    const wasOpen = await page.locator(".wq-sword-open").first().textContent();
+    await closed.click();
+    await page.waitForTimeout(150);
+    const nowOpen = await page.locator(".wq-sword-open").first().textContent().catch(() => null);
+    const stillOne = await page.locator(".wq-sword-open").count();
+    if (stillOne === 1 && nowOpen !== wasOpen) ok(`a tap moves the open word (${wasOpen.trim()} -> ${nowOpen.trim()}), still exactly one`);
+    else fail("tapping did not move the open word", JSON.stringify({ wasOpen, nowOpen, stillOne }));
+    /* Back to a word, so the checks below meet the screen they expect. */
+    await page.locator(".wq-rail .wq-cta").click();
+    await page.locator(".wq-word").waitFor();
+  }
 
   /* 13-14 — the message slot holds its size, whoever is reading. Checks 13
      and 14 used to walk a session until they met one of the five words
@@ -258,8 +352,7 @@ for (const height of [430, 555, 720, 950]) {
     /* negative control: no animation, so the probe must see a still fill */
     await page.addStyleTag({ content: ".wq-root .wq-ctafill{animation:none!important}" });
     await page.waitForFunction(() => { const b = document.querySelector(".wq-rail .wq-cta"); return !!b && !b.disabled; }, null, { timeout: 12000 }).catch(() => {});
-    await page.locator(".wq-rail .wq-cta").click();
-    await page.locator(".wq-word").waitFor();
+    await pressNext(page);
     await gradeByKey(page, "✓ got it (hold)", "Enter");
     await page.locator(".wq-tile").first().waitFor();
     await page.locator(".wq-rail .wq-ctafill").waitFor({ timeout: 5000 }).catch(() => {});
@@ -635,11 +728,15 @@ for (const height of [430, 555, 720, 950]) {
   await page.goto(URL, { waitUntil: "load" });
   await page.getByRole("button", { name: "Free play" }).click();
   await page.locator(".wq-modal").waitFor();
+  /* THREE choices since 2026-08-13, not two: sentences joined words (SPEC
+     section 12 point 7). Named individually rather than counted, so a choice
+     that vanishes is a failure and not a smaller number nobody reads. */
   const rand = await page.getByRole("button", { name: "Truly random" }).boundingBox();
   const lvl = await page.getByRole("button", { name: /Level \d+ .+ words/ }).boundingBox();
-  if (rand && lvl && rand.height >= 56 && lvl.height >= 56)
-    ok(`both free-play choices are child-sized (${Math.round(rand.height)}px and ${Math.round(lvl.height)}px)`);
-  else fail("a free-play choice is under 56 px", JSON.stringify({ rand, lvl }));
+  const sent = await page.getByRole("button", { name: "📖 Sentences" }).boundingBox();
+  if (rand && lvl && sent && rand.height >= 56 && lvl.height >= 56 && sent.height >= 56)
+    ok(`all three free-play choices are child-sized (${Math.round(rand.height)}px, ${Math.round(lvl.height)}px and ${Math.round(sent.height)}px)`);
+  else fail("a free-play choice is under 56 px or missing", JSON.stringify({ rand, lvl, sent }));
   /* A choice must LOOK like a control on the white card. The first cut of the
      level choice was white on white with no border and no shadow — a line of
      floating text — and nothing measured it. Now something does: each choice
@@ -653,8 +750,8 @@ for (const height of [430, 555, 720, 950]) {
       return { bg: s.backgroundColor, border: parseFloat(s.borderTopWidth) || 0, shadow: s.boxShadow, cardBg };
     });
   });
-  if (bounded.length === 2 && bounded.every((d) => d.bg !== d.cardBg || d.border >= 2 || d.shadow !== "none"))
-    ok("both free-play choices are visibly bounded on the card");
+  if (bounded.length === 3 && bounded.every((d) => d.bg !== d.cardBg || d.border >= 2 || d.shadow !== "none"))
+    ok("all three free-play choices are visibly bounded on the card");
   else fail("a free-play choice melts into the card", JSON.stringify(bounded));
   await page.getByRole("button", { name: "Back" }).click();
   const home = await page.getByRole("button", { name: "Begin Session" }).isVisible();
