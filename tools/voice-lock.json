@@ -2717,6 +2717,7 @@
    "bash": 0.82,
    "bat": 0.82,
    "bath": 0.82,
+   "be": 0.65,
    "bed": 0.82,
    "bell": 0.82,
    "best": 0.95,
@@ -2805,6 +2806,7 @@
    "gash": 0.82,
    "get": 0.82,
    "glad": 0.8,
+   "go": 0.6,
    "gong": 0.82,
    "got": 0.82,
    "grab": 0.95,
@@ -2817,6 +2819,7 @@
    "hang": 0.82,
    "has": 0.82,
    "hat": 0.82,
+   "he": 0.6,
    "help": 0.95,
    "hem": 1,
    "hen": 0.82,
@@ -2912,6 +2915,7 @@
    "neck": 1,
    "net": 1,
    "nix": 0.82,
+   "no": 0.7,
    "nod": 0.82,
    "not": 0.82,
    "nun": 1,
@@ -3002,6 +3006,7 @@
    "slip": 0.95,
    "snap": 0.95,
    "snug": 0.75,
+   "so": 0.6,
    "sob": 1,
    "sock": 1,
    "soft": 1.05,
@@ -3553,7 +3558,12 @@
   "of": "7560e3f01143d518d00bb45410bcf65e64000808f3b26790ab746b06e792bd94",
   "a": "d3fc66ccc4ed23f493af51b368009b2325153aae9c1cddd23007825a47c7ecee",
   "we": "9872dbfd5ff1ccc73aaaf21f6b2aa3734f5ea61349d6a13657374dc59f7dfd7e",
-  "me": "82a95a9b75d93fc1f57c73645f6233af18ed2c42ed3354a4da4e7f05dda1fa60"
+  "me": "82a95a9b75d93fc1f57c73645f6233af18ed2c42ed3354a4da4e7f05dda1fa60",
+  "he": "c8ec5e0bfb347b5fa1f715966c115ecd01e6d243d3be4eacf25bd811642c7f19",
+  "be": "f35ab9ccb3ed545f8f12c7220608b931314e069559023e32164e18b8c276d6d9",
+  "go": "67a88a57ab20c746982544fddea07204d4fc4093ba7076dff581d6cfc6f38b09",
+  "no": "5a8921e2428b17334cb0858b57c01efec3157d9dbe0faae2bd06c51aeeb78d88",
+  "so": "30ca49b878aa4f0a632ae0c04e7b4f201e5c6b63f42ce0d11575b19ba40247ed"
  },
  "words": {
   "am": {
@@ -6635,6 +6645,41 @@
    "round": "batch 13 (2026-08-11)",
    "listen_context": "clip",
    "byte_pin_sha256": "82a95a9b75d93fc1f57c73645f6233af18ed2c42ed3354a4da4e7f05dda1fa60"
+  },
+  "he": {
+   "verdict": "perfect",
+   "ear_notes": "owner perfect he_1; family listen_sp0.6 — cut from Listen—he., never read from the bare spelling; recipe in the batch renderer, not in these columns",
+   "round": "batch 12 (2026-08-11)",
+   "listen_context": "clip",
+   "byte_pin_sha256": "c8ec5e0bfb347b5fa1f715966c115ecd01e6d243d3be4eacf25bd811642c7f19"
+  },
+  "be": {
+   "verdict": "perfect",
+   "ear_notes": "owner perfect be_1; family listen_sp0.65 — cut from Listen—be., never read from the bare spelling; recipe in the batch renderer, not in these columns",
+   "round": "batch 14 (2026-08-11)",
+   "listen_context": "clip",
+   "byte_pin_sha256": "f35ab9ccb3ed545f8f12c7220608b931314e069559023e32164e18b8c276d6d9"
+  },
+  "go": {
+   "verdict": "perfect",
+   "ear_notes": "owner perfect go_1; family listen_sp0.6 — cut from Listen—go., never read from the bare spelling; recipe in the batch renderer, not in these columns",
+   "round": "batch 12 (2026-08-11)",
+   "listen_context": "clip",
+   "byte_pin_sha256": "67a88a57ab20c746982544fddea07204d4fc4093ba7076dff581d6cfc6f38b09"
+  },
+  "no": {
+   "verdict": "perfect",
+   "ear_notes": "owner perfect no_1; family listen_sp0.7 — cut from Listen—no., never read from the bare spelling; recipe in the batch renderer, not in these columns",
+   "round": "batch 12 (2026-08-11)",
+   "listen_context": "clip",
+   "byte_pin_sha256": "5a8921e2428b17334cb0858b57c01efec3157d9dbe0faae2bd06c51aeeb78d88"
+  },
+  "so": {
+   "verdict": "perfect",
+   "ear_notes": "owner perfect so_1; family sit_sp0.6 — cut from Sit. so. Sit., never read from the bare spelling; recipe in the batch renderer, not in these columns",
+   "round": "batch 12 (2026-08-11)",
+   "listen_context": "clip",
+   "byte_pin_sha256": "30ca49b878aa4f0a632ae0c04e7b4f201e5c6b63f42ce0d11575b19ba40247ed"
   }
  },
  "environment": {

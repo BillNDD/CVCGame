@@ -730,7 +730,44 @@ A parent sent the child's export. Three things came out of it; one is fixed, two
   outlived its feature, carried by every player from before that date.
 - **Done** means `migrate` drops settings whose feature is gone, with a control.
 
-## K. Seating we, me and go — we and me SEATED 2026-08-13; go still blocked
+## K. Seating we, me and go — CLOSED 2026-08-13, and go was never blocked
+
+**All three are in the game, and so are `he`, `be`, `no` and `so` with them.** Sixteen
+heart words now sit at Level 2, the open-syllable roster is complete, and
+`HEART_WAITING` is empty for the first time since it was written. The bank moved
+438 -> 445, Level 2 53 -> 60, the pack 499 -> 598 clips.
+
+**`go` was never blocked, and that is the part worth keeping.** This entry said its
+sound had never been rendered or heard by anyone, so seating it needed a listening
+round. `d:long_o` was graded **perfect** by the owner in sound round SND5 on
+**2026-08-10** — three days before this entry claimed nobody had heard it. The clip
+was on disk with a matching sha256 the whole time. It had simply never been COPIED
+INTO THE PACK, because until `go` no word needed it. `no` and `so` were held out by
+the same sentence.
+
+The owner found it by asking "didn't I transfer something I called letter sound o?".
+`tools/ledger-truth.mjs` (gate G16b) is the answer to that, so the next one is found
+by a build rather than by a memory. The cause is written up in section F2: two sound
+ledgers, a migration that stalled, and `doc-truth.mjs` never reading either of them.
+
+Three faults were caught by existing guards while this was done, and each is worth a
+line because each was a guard doing its job unprompted:
+
+- `waitingIsHonest`, written hours earlier for `we` and `me`, refused the test run:
+  *a heart word is waiting or it is in the game, never both*.
+- The S4 rule in `engine.test.js` refused `d:long_o` for having no child-facing
+  description, which would have offered whoever records this pack the string
+  "long_o" — a file name.
+- The free-play derivation in `safety.test.js` moved again, and the first correction
+  reasoned its way to the wrong answer by indexing without splicing. Simulating the
+  real function gave the right one.
+
+**Still open from this entry:** J1, the bent-sound signposting, now covers sixteen
+heart words rather than eleven. Every one of them bends a tile away from that
+letter's usual sound, and nothing yet tells a child so.
+
+The original entry follows, with its false sentence corrected in place.
+
 
 **`we` and `me` are in the game.** Level 2, beside the other nine heart words, with
 `WORD_SOUND` pointing each `e` at `long_e`, both listed in `HEART`, and the clips the

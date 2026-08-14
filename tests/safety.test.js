@@ -553,7 +553,7 @@ describe("G10 — free play never touches the save", () => {
            proves the word returns to the game rather than leaving it. All
            literals (E4), for the 440-word bank.
 
-       RE-DERIVED FIVE TIMES NOW, and the last two are the lesson.
+       RE-DERIVED SIX TIMES NOW, and the last three are the lesson.
        The bank went 432 -> 436 when four heart words joined, 436 -> 438 with
        "my" and "of", and 438 -> 439 when "a" shipped. The first two were
        written down. The third was not: the commit that added "a" claimed in
@@ -566,10 +566,18 @@ describe("G10 — free play never touches the save", () => {
        bank 439 -> 438, and this paragraph kept saying 439. So the warning
        below was written, the fault it warns about happened again on the very
        next move of the bank, and nothing went red — because 0.955 sits inside
-       the true window either way. Corrected on 2026-08-13, at the fifth move
-       (438 -> 440, seating "we" and "me"), and this time all three numbers
-       were COMPUTED from the shipped LEVELS rather than reasoned about:
-       439 -> index 419 -> "grin", 440 -> index 420 -> "plum".
+       the true window either way.
+
+       The FIFTH and SIXTH moves were both computed rather than reasoned about,
+       which is what this paragraph asks for: 438 -> 440 when "we" and "me"
+       were seated, and 440 -> 445 when the other five open syllables followed.
+       At 445 the two indices COINCIDE at 424 — splicing one word out and
+       pushing "plan" back leaves the pool the same length both times — and the
+       first draft of the sixth correction reasoned its way to the wrong answer
+       by indexing WITHOUT splicing, which is not what the function does.
+       Simulating the real function gave "grin" then "plum"; running it without
+       the push-back gave "grab", and that is the control proving the second
+       literal still bites.
 
        That the assertions never failed is the danger, not the comfort:
        nothing goes red while the reasoning quietly stops matching the code.

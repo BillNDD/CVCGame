@@ -37,9 +37,19 @@ import { LEVELS, TRICKY, HEART, WORD_LEVEL } from "../src/engine.js";
    is seated in the engine and nothing makes anyone come back here. A stale
    entry is not harmless — this list is what a person reads to answer "which
    heart words are still missing?", and it was answering with five words that
-   were already in the game. The overlap is now a thrown error, so the next
-   seating cannot leave it wrong. */
-export const HEART_WAITING = ["be", "go", "he", "no", "so"];
+   were already in the game.
+
+   THE GUARD EARNED ITSELF THE SAME DAY. It was written on 2026-08-13 when
+   "we" and "me" were seated, and it fired hours later on the very next
+   seating: `he`, `be`, `go`, `no` and `so` joined them, and the test run
+   refused with "a heart word is waiting or it is in the game, never both".
+   Nobody had to remember this file existed.
+
+   THE LIST IS NOW EMPTY, and that is a real state rather than an oversight:
+   every heart word the owner has ruled onto the roster is seated at Level 2
+   and in the game. It stays here, exported and guarded, because the roster
+   will grow again and the next word to be ruled on belongs in it. */
+export const HEART_WAITING = [];
 
 /* Levels beyond the eleven that ship today, as proposed. A sentence for a level
    may use every word up to and including it. Levels 10 and 11 left this map on
@@ -81,12 +91,16 @@ export function vocabularyUpTo(level) {
   return v;
 }
 
-/* The waiting list must not name a word that is already in the game. Split out
-   so a control can call it with a fixture instead of the shipped roster (E5) —
-   a guard that can only be run against today's data is a guard that passes for
-   whatever reason it likes. */
-export function waitingIsHonest(seated) {
-  const both = HEART_WAITING.filter((w) => seated.includes(w));
+/* The waiting list must not name a word that is already in the game.
+
+   BOTH lists are parameters, and the second one is the lesson. The first
+   version took only `seated` and read `HEART_WAITING` from the module, which
+   worked exactly until the list emptied on 2026-08-13 — at which point no
+   fixture could produce an overlap and the control could not fail for the
+   reason it claimed. A guard whose negative control depends on today's data
+   stops being a guard the day the data changes (E5). */
+export function waitingIsHonest(seated, waiting = HEART_WAITING) {
+  const both = waiting.filter((w) => seated.includes(w));
   if (both.length)
     throw new Error(`HEART_WAITING still names seated word(s): ${both.join(", ")} — a heart word is waiting or it is in the game, never both`);
   return true;
@@ -147,9 +161,14 @@ if (process.argv.includes("--self-test")) {
      Without the second half this passes on any implementation, including one
      that never compares the two lists at all. */
   const honest = (() => { try { return waitingIsHonest(HEART) === true; } catch { return false; } })();
-  const caught = (() => { try { waitingIsHonest([...HEART, "go"]); return false; } catch { return true; } })();
-  console.log((honest ? "ok   " : "FAIL ") + "the waiting list names no word that is already seated");
-  console.log((caught ? "ok   " : "FAIL ") + "control: a waiting word that has been seated is caught");
+  /* Fixtures, so the control fails for its own reason whatever the shipped
+     list happens to hold — including nothing, which is what it holds today. */
+  const caught = (() => { try { waitingIsHonest(["go", "cat"], ["go"]); return false; } catch { return true; } })();
+  const clean = (() => { try { return waitingIsHonest(["cat"], ["go"]) === true; } catch { return false; } })();
+  console.log((honest ? "ok   " : "FAIL ") + `the waiting list names no word that is already seated (${HEART_WAITING.length} waiting)`);
+  console.log((caught ? "ok   " : "FAIL ") + "control: a fixture where a waiting word has been seated is caught");
+  console.log((clean ? "ok   " : "FAIL ") + "control: a fixture with no overlap passes");
+  if (!clean) failed += 1;
   if (!honest) failed += 1;
   if (!caught) failed += 1;
   for (const [s, lvl, want, why] of cases) {
@@ -158,7 +177,7 @@ if (process.argv.includes("--self-test")) {
     console.log((ok ? "ok   " : "FAIL ") + `${want ? "passes" : "refused"}: ${why}`);
     if (!ok) { failed += 1; console.log("       got: " + JSON.stringify(check(s, lvl).problems)); }
   }
-  const total = cases.length + 2;   // the sentence cases, plus the waiting list's two
+  const total = cases.length + 3;   // the sentence cases, plus the waiting list's three
   console.log(`\ndecodable controls: ${total - failed} passed, ${failed} failed`);
   process.exit(failed ? 1 : 0);
 }
