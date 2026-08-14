@@ -94,19 +94,38 @@ export function check(tracked) {
    owns**" and a line beginning "**It does not own**", both inside the first
    HEAD_LINES lines. Generated documents are exempt and named: their writer
    owns them, and a header would be overwritten on the next run. */
+/* A LOG IS NOT A DOCUMENT, owner-ruled 2026-08-14: "docs like voice pack could
+   naturally expand to many thousands of lines and aren't meant to be covered
+   by the rule, much like a json".
+
+   The two have different jobs. A document is read whole and held in a reader's
+   head, so length is a fault in it. A log is SEARCHED — it records what
+   happened, in order, and grows for as long as the project does, exactly like
+   the JSON ledgers beside it. Calling a log too long is the same mistake as
+   calling `tools/voice-lock.json` too long, and F1 of the fault record made
+   exactly that mistake about `docs/voice-pack.md`.
+
+   The kind is DECLARED rather than inferred, because the distinction only
+   protects anything if a reader sees it at the top of the file. It stops the
+   next agent — or me, again — raising "this document is 1,200 lines" as a
+   fault against a file whose whole purpose is to keep growing. Nothing gates
+   the length of either kind: the 1,200-line ceiling is for CODE. */
+const LOG = /^\*\*This is a log\*\*/m;
 const HEAD_LINES = 16;
 const OWNS = /^\*\*This document owns\*\*/m;
 const NOT = /^\*\*It does not own\*\*/m;
 export const GENERATED_DOCS = ["docs/effect-map.md"];
 
 export function ownership(files, read) {
-  const missing = [];
+  const missing = [], logs = [];
   for (const f of files) {
     if (!f.endsWith(".md") || GENERATED_DOCS.includes(f)) continue;
     const head = read(f).split("\n").slice(0, HEAD_LINES).join("\n");
     const has = [OWNS.test(head) && "owns", NOT.test(head) && "not"].filter(Boolean);
     if (has.length !== 2) missing.push(`${f} does not say what it owns${has.length ? ` (found "${has[0]}", missing the other half)` : ""}`);
+    if (LOG.test(head)) logs.push(f);
   }
+  missing.logs = logs;
   return missing;
 }
 
@@ -129,7 +148,10 @@ if (process.argv.includes("--self-test")) {
     "notes.txt": "no header here",
   };
   const own = (fs) => ownership(fs, (f) => fx[f]);
+  fx["log.md"] = "# T\n\n**This document owns** the record.\n**It does not own** the rules.\n**This is a log**, searched rather than read.\n";
   const sawStyle = own(["style-only.md"]).length === 1;
+  const sawLog = own(["log.md"]).logs.length === 1 && own(["log.md"]).length === 0;
+  const notLog = own(["good.md"]).logs.length === 0;
   const sawHalf = own(["half.md"])[0]?.includes("missing the other half");
   const sawBuried = own(["buried.md"]).length === 1;        // past the head, so it does not count
   const tookGood = own(["good.md"]).length === 0;
@@ -137,12 +159,12 @@ if (process.argv.includes("--self-test")) {
   const ignoresNonMd = own(["notes.txt"]).length === 0;
   const realDocs = ownership(tracked, (f) => readFileSync(f, "utf8"));
   const ok = sawMd && sawJson && clean && sawStyle && sawHalf && sawBuried
-    && tookGood && exempt && ignoresNonMd && realDocs.length === 0;
+    && tookGood && exempt && ignoresNonMd && sawLog && notLog && realDocs.length === 0;
   if (ok) {
-    console.log("self-test OK: a planted progress file and a stray status json are caught, a document that says only which style guide it follows is caught, half a header is caught, a header buried past the top is caught, a real header and a generated document both pass, and the real tree is accepted");
+    console.log("self-test OK: a planted progress file and a stray status json are caught, a document that says only which style guide it follows is caught, half a header is caught, a header buried past the top is caught, a real header and a generated document both pass, a log declares itself and a document does not, and the real tree is accepted");
     process.exit(0);
   }
-  console.error("self-test FAILED: " + JSON.stringify({ sawMd, sawJson, clean, sawStyle, sawHalf, sawBuried, tookGood, exempt, ignoresNonMd, realDocs }));
+  console.error("self-test FAILED: " + JSON.stringify({ sawMd, sawJson, clean, sawStyle, sawHalf, sawBuried, tookGood, exempt, ignoresNonMd, sawLog, notLog, realDocs }));
   process.exit(1);
 }
 
@@ -151,5 +173,5 @@ strays.forEach((f) => console.error(
   `  PROBLEM: ${f} is not in the owned set - a new governing or status file needs the owner's approval (add it to tools/check-governing.mjs)`));
 const unowned = ownership(tracked, (f) => readFileSync(f, "utf8"));
 unowned.forEach((m) => console.error(`  PROBLEM: ${m} — F1: one line "**This document owns** …" and one "**It does not own** …", in the first ${HEAD_LINES} lines`));
-console.log(`Governing files: ${governing} governing files, ${strays.length} strays, ${unowned.length} without an ownership header`);
+console.log(`Governing files: ${governing} governing files, ${strays.length} strays, ${unowned.length} without an ownership header, ${unowned.logs.length} declared as logs`);
 process.exit(strays.length + unowned.length ? 1 : 0);

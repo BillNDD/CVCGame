@@ -663,14 +663,29 @@ what is open and never becomes an archive, which is what let section K keep a co
 claim; and `settled.md` says the per-word record lives in `tools/voice-words.csv`, which E10
 already required a reader to consult and no document named as the owner.
 
-**The rest of F1 is NOT done, and is deliberately left for the owner to see before it moves.**
-Three documents are past a thousand lines — `open-faults.md`, `settled.md`, `voice-pack.md` —
-and the header cannot fix that on its own. `voice-pack.md` still reads as an accreted log of
-twenty-two rounds rather than a document, which F1 named on the day it was written. Splitting
-a log from the standing truth inside it means MOVING text a person wrote, and CLAUDE.md's own
-rule is that reorganising paperwork instead of the game work it supports does not count as
-progress. The header and the gate stop the drift; the split is a separate job with the owner
-watching.
+**THE LENGTH HALF OF THIS FAULT IS WITHDRAWN — owner-ruled 2026-08-14.** F1 said three
+documents were "long enough that a reader cannot hold them" and named `voice-pack.md` as
+reading like an accreted log rather than a document. The owner's ruling: *"docs like voice
+pack could naturally expand to many thousands of lines and aren't meant to be covered by the
+rule, much like a json"*.
+
+That is a distinction this fault collapsed, and the collapse is the actual error. A DOCUMENT
+is read whole and held in a reader's head, so length is a fault in it. A LOG is SEARCHED — it
+records what happened, in order, and grows for as long as the project does. Calling
+`voice-pack.md` too long is the same mistake as calling `tools/voice-lock.json` too long, and
+"it reads as an accreted log" was a description of what it IS, mistaken for a criticism.
+
+The kind is now DECLARED at the head of each file and counted by gate G17, so the mistake
+cannot be made again from a cold read. Three are logs: `docs/voice-pack.md` (a round per
+entry), `docs/settled.md` (a closed question is never re-opened, so it only grows), and
+`CHANGELOG.md` (a section per release, kept forever). `docs/open-faults.md` is NOT one — its
+own header says an entry leaves it by being fixed, so it is a document that should shrink,
+and its length is a fair question for another day.
+
+**What remains of F1 is only the part about DUPLICATION**, which the headers begin and do not
+finish: a fact stated in two documents can still drift, and the headers now say which one
+wins. Moving text a person wrote is a separate job, with the owner watching, and CLAUDE.md's
+rule stands that reorganising paperwork instead of the game work it supports is not progress.
 
 ### F2. The data files have no stated shape and three of them overlap
 
