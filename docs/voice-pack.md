@@ -139,13 +139,27 @@ byte-pinned word rather than replacing accepted audio with a render.
   sidecar workspace archive on the owner's PC
   (handoff `word-quest-uplift-handoff-2026-08-07T1438Z`).
 
-## Approved and unshipped: 30 items with no level yet (through 2026-08-13)
+## Approved and unshipped: 25 items with no level yet (through 2026-08-13)
 
-Thirty items are closed by the owner's ear and wait in `tools/pending-words/`
-for the levels and the code that will hold them: **24 words** — the heart words
-**he, be, go, no, so**, the plural-s words and the two-syllable compounds — and
-**six sentences**, named below with the reason each is waiting. Every one is
-graded `perfect`; the ledger names each with its round.
+Twenty-five items are closed by the owner's ear and wait in `tools/pending-words/`
+for the levels and the code that will hold them: **19 words** — the plural-s
+words and the two-syllable compounds — and **six sentences**, named below with
+the reason each is waiting. Every one is graded `perfect`; the ledger names each
+with its round.
+
+**The last five heart words shipped on 2026-08-13**: `he`, `be`, `go`, `no` and
+`so`, seated at Level 2 with the other eleven. The open-syllable roster is now
+complete and `HEART_WAITING` in `tools/decodable.mjs` is empty for the first
+time. `d:long_o` shipped with them — approved in sound round SND5 on 2026-08-10
+and never copied into the pack until a word needed it. **Nothing here was
+re-rendered and no verdict was revisited**; every clip went in as the exact
+bytes the owner graded, sha256 checked before and after each copy.
+
+**What is left is nineteen words that need a LEVEL that does not exist.** The
+plural-s words want Level 12 and the compounds want Level 13, both unbuilt and
+both owner-ruled roadmap items in SPEC section 12. They are not blocked on a
+sound, an ear or a file — they are waiting on a level, which is a different
+kind of waiting and is why they are named separately here.
 
 **Eighty-eight sentences and the three invitation lines SHIPPED on 2026-08-13**,
 into the eleven level lists in the engine. Every seat was computed by

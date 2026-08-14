@@ -18,7 +18,7 @@ const LEVELS = [
      word on page one of every book. This is where sentence practice begins, so
      it is where the words a sentence cannot do without begin too. */
   { n: 2, name: "Sunny Start", emoji: "☀️", focus: "short a + heart words",
-    words: ["the","and","to","do","you","said","my","of","a","we","me",
+    words: ["the","and","to","do","you","said","my","of","a","we","me","he","be","go","no","so",
       "cat","hat","mat","sat","man","can","ran","bat","cap","map","tap","nap","bag","dad","jam","pan","rat","sad","wag","van",
       "fan","ham","lap","tag","had","tan","pad","rag","zap","yam","pal","cab","ram","dab","yap","mad","bad","rap","has","pat","dam","nag","sap","vat"] },
   { n: 3, name: "Busy Bees", emoji: "🐝", focus: "short i & o",
@@ -555,7 +555,7 @@ const TTS_UNSAFE_PRAISE = [];
 const ttsSafePraise = (i) => (TTS_UNSAFE_PRAISE.includes(i) ? 0 : i);
 /* THE ONE WORD SYSTEM SPEECH MUST NOT BE GIVEN RAW. Every clip in this game is
    recorded, and the app only reaches system speech when the pack fails to
-   load. For 439 of the 440 words that fallback is merely worse. For "a" it
+   load. For 444 of the 445 words that fallback is merely worse. For "a" it
    would break safety rule S4: handed the string "a", every system voice says
    the LETTER'S NAME, which is the one thing this app must never say to a child
    learning that letters make sounds. So the fallback says "uh" — the sound the
@@ -664,7 +664,14 @@ const WORD_SOUND = {
      for at the same time and is NOT here: its o needs d:long_o, a sound nobody
      has ever heard, and seating it would put an unheard sound in a child's ear
      (docs/open-faults.md section K). */
-  we: { 1: "long_e" }, me: { 1: "long_e" },
+  we: { 1: "long_e" }, me: { 1: "long_e" }, he: { 1: "long_e" }, be: { 1: "long_e" },
+  /* The o that says its own name. "go", "no" and "so" were held out of the
+     game for three days by a record that said `d:long_o` had never been heard;
+     the owner had graded it PERFECT in sound round SND5 on 2026-08-10 and the
+     clip had simply never been copied into the pack. Nothing was missing but
+     a file. `tools/ledger-truth.mjs` is the gate that now refuses that
+     confusion (docs/open-faults.md sections F2 and K). */
+  go: { 1: "long_o" }, no: { 1: "long_o" }, so: { 1: "long_o" },
   wash: { 1: "short_o" },
   is: { 1: "z" }, has: { 2: "z" },
   /* THE VOICED th. "th" spells two different sounds, and until 2026-08-11 the
@@ -715,6 +722,11 @@ const SOUND_TEXT = {
      say when the clip is recorded or rendered, and S4 bans letter names
      from speech. It names the sound by a word that carries it. */
   long_i: "the sound at the end of my",
+  /* Added 2026-08-13 with go, no and so. Without it the script would have
+     offered whoever records this pack the string "long_o" — a file name, and
+     the exact fault the rule above exists to stop. A test caught it in the
+     same run as the seating. */
+  long_o: "the sound at the end of go",
 };
 /* The sound each of a word's tiles speaks, in order. */
 function soundIdsFor(word) {
@@ -748,14 +760,15 @@ function soundIdsFor(word) {
    which of the placed words are sight words, for the sentence leveller and for
    anyone reading the bank.
 
-   All eleven sit at Level 2, owner-ruled 2026-08-12: a heart word's level is
+   All sixteen sit at Level 2, owner-ruled 2026-08-12: a heart word's level is
    where the CHILD MEETS it. That ruling replaced the SPEC section 12
    placement, which had put them where their spelling falls — to and do at
    Level 6, you and said at Level 7, my at the open-syllable level that is not
    built. "a" joined them on 2026-08-12, from a schwa package the owner made
    outside this repo: until then no word clip existed, because the voice said
    the letter's name, which S4 forbids. */
-const HEART = ["the", "and", "to", "do", "you", "said", "my", "of", "a", "we", "me"];
+const HEART = ["the", "and", "to", "do", "you", "said", "my", "of", "a",
+  "we", "me", "he", "be", "go", "no", "so"];
 
 function bankWords() {
   const words = new Set();
