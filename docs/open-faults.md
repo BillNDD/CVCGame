@@ -660,6 +660,35 @@ set and asked whether they are still the right set.
   and from what. Anything generated is regenerable by a named command, and the check proves
   it. Anything genuinely dead is removed with the owner's sight of it.
 
+**PARTLY CLOSED 2026-08-13, and it cost three words to find.** The two SOUND ledgers were
+the live case of this fault, not a hypothetical one. `tools/pending-sounds/pending-sounds.json`
+says in its own header that its entries "become the row in `tools/voice-sounds.csv` when the
+sound-out reveal is built". The reveal shipped on 2026-08-11. **The migration never finished**,
+so a reader could open either file and get a different answer about whether the owner had
+approved a sound — which is exactly how `d:long_o` was called unheard for three days while
+its `perfect` verdict sat in the other file (section K).
+
+Seven rows whose verdict cell was EMPTY now carry the owner's verdict, its round, and a note
+saying it was migrated rather than newly given: `ch`, `long_a`, `long_e`, `long_o`, `long_u`,
+`oo_book`, `schwa`. No verdict was changed and none was invented. `tools/ledger-truth.mjs`
+(gate G16b) now refuses any future disagreement.
+
+**What is NOT closed, and is deliberately not being guessed at:**
+
+1. **Eight shipping sounds have no row in `voice-sounds.csv` at all** — `schwa_a`, `short_a`,
+   `short_e`, `short_i`, `short_o`, `short_u`, `th_quiet`, `v_soft`. Every one carries a
+   verdict in the JSON ledger, so nothing unapproved is reaching a child; what is missing is
+   the recipe columns (cut points, gain, guard windows) that a row is FOR. Writing rows with
+   invented numbers would be worse than no rows, so they stay absent and named here.
+2. **Four shipping sounds have a row that says `locked=no`** — `ch`, `long_e`, `oo_book`,
+   `schwa`. In `voice-words.csv` "locked" means byte-pinned, and what it governs for a sound
+   has never been written down. Setting it without knowing is the kind of guess this section
+   exists to stop.
+3. **Whether `voice-sounds.csv` should exist at all** is the owner's call. It has 38 rows to
+   the JSON's 49, is missing eight sounds that ship, and its verdict vocabulary is from an
+   older review era ("accepted (half blend)") while the JSON uses "perfect (owner)". One
+   ledger would end this class of fault; two will keep needing a gate to hold them together.
+
 ### F3. Nothing gates a document going stale
 
 - **Where** G16 doc-truth covers eight rules; G17 covers which files may exist. Rule 8, added
@@ -728,12 +757,25 @@ any bank change, and the third stops one of the three words.
    ruling of 2026-08-12: the level is where the CHILD MEETS the word. None of the three can
    be decoded by the bank's own rules — `we` and `me` are open syllables saying long e,
    `go` is an open syllable saying long o — which is what a heart word is.
-3. **`d-long_o.mp3` does not ship, and `go` cannot be sounded out without it.** It is one of
-   the fourteen sounds parked in section B8 on 2026-08-12; `long_i` and `oo_moon` came back
-   the same day when `my`, `to`, `do` and `you` were seated, and `long_o` did not, because
-   nothing needed it. `go` needs it. The sound has never been rendered or heard by anyone,
-   so seating `go` means a listening round for `d:long_o` first — the same round `d:long_i`
-   had. `we` and `me` need only `d:long_e`, which ships and was graded good.
+3. **`d-long_o.mp3` does not ship, and `go` cannot be sounded out until it does.** It is one
+   of the fourteen sounds parked in section B8 on 2026-08-12; `long_i` and `oo_moon` came
+   back the same day when `my`, `to`, `do` and `you` were seated, and `long_o` did not,
+   because nothing needed it. `go` needs it.
+
+   **CORRECTED 2026-08-13, by the owner, from memory.** The three sentences that stood here
+   said the sound had never been rendered or heard by anyone and that seating `go` therefore
+   needed a listening round. **That was false.** The owner graded `d:long_o` **perfect** in
+   sound round SND5 on **2026-08-10**; the clip is `tools/pending-sounds/s-long_o.mp3` and
+   its sha256 matches its record exactly. What is true is only that it has never been COPIED
+   INTO THE PACK, because until `go` no word needed it. Not shipped and not approved are a
+   file copy and a listening round apart, and this entry conflated them for three days,
+   through two commits and into a published release note. `no` and `so` were described as
+   blocked by the same sentence and are not blocked either.
+
+   The cause is recorded rather than tidied away: B8 recorded these sounds as PARKED,
+   meaning no bank word needs them, and somewhere that became UNHEARD. `tools/ledger-truth.mjs`
+   now refuses the confusion mechanically — it reads the sound ledgers, which `doc-truth.mjs`
+   never did. `we` and `me` needed only `d:long_e`, which ships and was graded good.
 
 **And a dependency that applies to all three.** Every one bends a tile away from that
 letter's usual sound: the `e` of `we` and `me` is not the `e` of `pen`, and the `o` of `go`

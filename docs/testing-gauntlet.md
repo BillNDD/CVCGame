@@ -789,6 +789,40 @@ promised a fallback the code never performed; G12 counted the step and saw nothi
   mutated the live file forty-two times; kill it between two writes and a mutant is left in
   the repository, which has happened three times here by other routes (open-faults C2).
 
+## G16b. Ledger truth
+
+G16 asks whether the documents match the CODE. This asks whether they match what a PERSON
+approved, and until 2026-08-13 nothing did.
+
+`tools/doc-truth.mjs` reads twelve files. `tools/pending-sounds/pending-sounds.json` is not
+one of them, so a document could say a sound had never been heard while the owner's verdict
+for that exact sound sat in a ledger, and no gate anywhere would notice. Three documents did
+exactly that about `d:long_o`, which the owner graded **perfect** in sound round SND5 on
+2026-08-10. Three approved words — `go`, `no`, `so` — were called blocked on a listening
+round that had already happened, and the claim reached a published release note. The owner
+found it by remembering, which is the mechanism these gates exist to replace.
+
+- **The direction is the point.** A sound shipping that nobody approved is the loud fault
+  every gate already watches for, and it has never happened — all 37 shipping sounds carry a
+  verdict. This is the quiet one: an approval that exists and is not believed. Nothing goes
+  red, no child hears anything wrong, and the work simply never gets done.
+- **Four rules.** No document calls a sound unheard when a ledger heard it; every shipping
+  sound carries an approval; the two sound ledgers do not contradict each other; a sound
+  called parked must genuinely not ship.
+- **The claim-detecting phrases are deliberately narrow.** A wide list catches "`long_o` did
+  not come back, because nothing needed it" — a true sentence about SHIPPING, not about
+  hearing — and a gate that cries wolf is a gate somebody switches off.
+- **A short sound name must be written unambiguously.** Ten sounds are named by one or two
+  letters. The gate's own first run reported that the word "or" in "rendered OR heard by
+  anyone" named the sound `or`, and that the article "a" named the schwa. A name of three
+  characters or fewer now counts only as `d:a`, `d-a.mp3`, or in backticks. Both false
+  positives are controls.
+- **Its CSV parser was wrong and its own run caught it.** A naive split on commas shifted
+  every column after `oo_moon`'s `"moon, food, boot"` cell, so the gate read the wrong cell as
+  a verdict and reported a contradiction that did not exist. A gate that mis-parses its
+  evidence lies confidently. That row is now a control.
+- Keys: `g16b_sounds` (55) and `g16b_controls` (25), problems capped at 0.
+
 ## Aggregation
 
 - `npm run gauntlet` first regenerates `src/engine.js` with the extractor. Every new script
