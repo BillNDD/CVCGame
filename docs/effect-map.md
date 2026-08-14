@@ -46,7 +46,7 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 |---|---|---|
 | 1 | A stumble must not cost mastery (parent report, 2026-08-13) | a close then a correct lands on box 3, not box 2 |
 | 2 | A stumble must not cost mastery (parent report, 2026-08-13) | a wrong then a correct lands on box 3, not box 1 |
-| 3 | A stumble must not cost mastery (parent report, 2026-08-13) | the child |
+| 3 | A stumble must not cost mastery (parent report, 2026-08-13) | the parent |
 | 4 | A stumble must not cost mastery (parent report, 2026-08-13) | but the second correct still only steps one box, so the jump is not repeatable |
 | 5 | word bank | has 445 unique words across 11 levels |
 | 6 | word bank | starts with the 12-word VC level |
