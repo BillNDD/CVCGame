@@ -1,5 +1,10 @@
 # Settled questions
 
+**This document owns** the questions a listener or a measurement has already CLOSED, so a
+round is never spent re-opening one. Read it before any voice, audio or word-bank work.
+**It does not own** what is still open — that is `docs/open-faults.md` — nor the per-word
+record of which family won and in which round, which is `tools/voice-words.csv`.
+
 This document follows the Microsoft Writing Style Guide.
 
 Read this before proposing any change to the voice, the audio pipeline, or the

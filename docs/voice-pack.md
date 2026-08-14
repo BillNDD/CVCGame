@@ -1,5 +1,12 @@
 # The default voice pack
 
+**This document owns** the voice pack as SHIPPED: what is in it, what is approved and
+waiting for a level, and the history of the rounds that produced it.
+**It does not own** the per-word recipe or byte pin — those are `tools/voice-words.csv`
+and the files generated from it — nor the per-sound verdict, which is
+`tools/pending-sounds/pending-sounds.json`. Where this document and a ledger disagree, the
+ledger is right and gate G16b says so.
+
 This document follows the Microsoft Writing Style Guide.
 
 The app speaks through voice packs (SPEC section 5a). The default pack ships with the app in

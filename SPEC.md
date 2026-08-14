@@ -1,5 +1,12 @@
 # Word Quest — product and build specification
 
+**This document owns** what the game DOES: every rule of behaviour, the levels and
+their words, the sentences a child meets, the copy the app speaks and shows, and the
+road the owner has ruled for what is not built yet.
+**It does not own** how any of it is proved — that is `docs/testing-gauntlet.md` — nor
+which rounds an ear has closed, which is `docs/settled.md`, nor what is currently wrong,
+which is `docs/open-faults.md`.
+
 This document is the full specification for Word Quest, an open-source phonics game with spaced
 repetition for early readers. The document describes the reference build: `reference/word-quest.jsx`, version 3. The document
 gives a developer or an AI coding agent all the data necessary to build, extend, or port the

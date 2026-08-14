@@ -1,5 +1,10 @@
 # Word Quest
 
+**This document owns** the first thing a newcomer needs: what Word Quest is, how to run
+it, and where to go next.
+**It does not own** any detail it points at. Every number in it is a summary of a fact
+owned elsewhere, and where they disagree the owning document is right.
+
 Word Quest is a phonics game for children who learn to read their first words. The game shows one
 word at a time. A session has approximately 20 words and takes approximately five minutes. An
 adult stays with the child during each session. The goal is a full phonics training game, grown

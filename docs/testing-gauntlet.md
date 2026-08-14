@@ -1,5 +1,10 @@
 # Testing gauntlet — gate specification (G1–G21)
 
+**This document owns** the gates: what each one proves, what it cannot prove, and the floor
+or ceiling it holds in `.claude/gate-baseline.json`.
+**It does not own** the behaviour under test — that is `SPEC.md` — nor the rules that say a
+gate may never be weakened, which are `CLAUDE.md` E3 to E6.
+
 This document defines the quality gates for Word Quest. The owner reviews this document, not
 every line of code. The gates are the contract. `npm run gauntlet` runs every automatic gate.
 A change is complete only when the gauntlet is green.

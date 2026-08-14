@@ -1,5 +1,9 @@
 # Install Word Quest on a Windows desktop
 
+**This document owns** installing Word Quest on Windows.
+**It does not own** iPhone or iPad, which is `docs/install-ios.md`, nor hosting it yourself,
+which is `docs/self-hosting.md`.
+
 This document tells you how to install the app on Windows. The steps use Chrome or Edge.
 This document follows the Microsoft Writing Style Guide.
 
