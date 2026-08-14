@@ -1034,6 +1034,111 @@ renderer, read by nothing, still lists `gob` — removed from the bank on 2026-0
 is precached into the offline bundle on every child's device. No child data and no privacy
 fault, but it is product weight nobody chose and nothing tests.
 
+## O. A session link is in 184 commit messages — owner-found 2026-08-14
+
+The owner opened the commit page for `f221d69` on GitHub and found a `Claude-Session:`
+trailer at the foot of the message. Their words: the previous agent "started uploading every
+conversation I had to the repo". **Measured the same hour, that is not what happened, and the
+difference matters in both directions.**
+
+- **Where** Commit messages only. The oldest carrying it is `62773c8`, 2026-08-03.
+- **What is actually there, measured** 184 of the 319 commits on `main` carry the line
+  `Claude-Session: https://claude.ai/code/session_01VnrRZ9RWEFgPrDGijqbyeF`. It is **one URL
+  repeated 184 times**, not one per conversation.
+- **What is NOT there, and it was checked rather than assumed** No conversation or transcript
+  file is tracked, in any commit: 0 files by name, 0 tracked files containing a `claude.ai`
+  link, 0 hits for the owner's email anywhere in history or in any author field. The git
+  identities are `Claude <noreply@anthropic.com>` and the owner's GitHub `users.noreply`
+  alias, which is the privacy-preserving one. **No conversation content was ever published.**
+- **Why it is still a fault** The URL is a pointer to the owner's own session and opening it
+  needs their account — but it is their identifier, sitting in a public repository, put there
+  by a tool rather than by a person who chose it. The owner ruled on 2026-08-14: the repo
+  stays **public**, and the trailers go.
+- **What the removal breaks, and this is the expensive half.** Rewriting 184 messages moves
+  every commit SHA from `62773c8` forward. **Eight tags then point at the old commits and keep
+  them alive on GitHub** — `v1.0.0-beta.12` through `v1.0.0-beta.19`. That is exactly the trap
+  the beta.19 scrub hit on 2026-08-13, when a deleted tag was what finally released the old
+  history. Two branches also carry the trailer: `claude/work-items-w1-w7-hw3bp0` (179) and
+  `probe-delete-me` (146). The repository credential can push branches but **cannot push or
+  delete tags** — those eight are the owner's to delete in the GitHub UI, and until they are
+  gone the scrub is not done however clean `main` looks.
+- **A wider identity sweep ran with it and the working tree came back clean.** No username, no
+  personal email, no phone number, no IP address, no key or token. The only email hit is an npm
+  dependency's own deprecation notice inside `package-lock.json`, and the only absolute paths
+  are the generic `/home/user/` of a render container. **2,883 text blobs across all history
+  were enumerated and NOT yet scanned** — that is the unfinished half, and it is named here
+  rather than quietly dropped.
+- **A second identity fault, found by trying to push this entry, 2026-08-14.** The local git
+  config on this machine held a real personal `@icloud.com` address as `user.email`, so the
+  commit carrying this very section was authored with it. **GitHub refused the push** — "push
+  declined due to email privacy restrictions" — which is the only reason it is not public now.
+  The address appears in **0** commits on every remote ref, in 0 commit messages and in 0
+  tracked files; the public history carries only `noreply` aliases. The config is now set to
+  the GitHub `users.noreply` alias. It is recorded because it is machine state, not repository
+  state: it will NOT follow the move to `D:` in section P, and a fresh clone or a new machine
+  starts with whatever the global config says. A protection owned by a remote setting rather
+  than by this repository is one that holds until somebody turns it off.
+- **Done** means: the sweep of the 2,883 historical blobs is finished FIRST, so history is
+  rewritten once rather than twice; the trailer is gone from every commit on every ref; the
+  proof is that `git diff` between the old and the new head is **empty**, which is what shows
+  only messages changed and never a byte of the game; `main` and both tainted branches are
+  pushed **by SHA, never by ref name** (S9's near miss, 2026-08-14); and the eight tags are
+  deleted and recut by the owner. A rewrite that leaves the tags standing is this project's
+  "fix called done" fault with a fresh date on it.
+
+## P. The repository moves to `D:\OpenCVCGame` — owner-asked 2026-08-14, not started
+
+- **Where** The working directory itself. Today `C:\Users\aaron\Documents\CVCGame`.
+- **What the owner asked for** The content of the folder migrates to `D:\OpenCVCGame`, and
+  that becomes the working directory.
+- **Why it is written here rather than done** It was asked at the end of a session with the
+  token budget nearly spent, and a half-finished move of a git repository is worse than one
+  not started.
+- **What it will touch, so nobody discovers it one failure at a time (E11)** The absolute
+  paths in this environment are not all inside the repository. The agent memory folder is
+  keyed to the OLD path — `C--Users-aaron-Documents-CVCGame` — so it does **not** follow the
+  repo and must be moved deliberately or it is silently lost. `.claude/` settings, any hook or
+  launch configuration holding an absolute path, and the Python voice toolchain's own paths
+  are the other three places to check before the old folder is deleted.
+- **Done** means: the repository is at `D:\OpenCVCGame` with `git rev-parse HEAD` matching
+  `origin/main`, `npm run check` green from the new location, the voice toolchain proven to
+  still render from there, the agent memory carried across, and only then the old folder
+  removed. Not done while anything still reads the C: path.
+
+## Q. `npm run check` cannot go fully green on Windows — found 2026-08-14
+
+Found while adding sections O and P, by running the check the rule requires (E7). The repo
+moved to a Windows machine (section P moves it again, to `D:`) and two of the check's steps
+were written for Linux. **Neither is a fault in the game; both are faults in the gates that
+protect it, and a gate that cannot run is a gate that is not protecting anything.**
+
+- **Fixed in the same change** `tools/round_guard.py` called `read_text()` with no encoding,
+  so Python used this machine's cp1252 locale on UTF-8 files and died with a
+  `UnicodeDecodeError` before a single one of its refusals ran. Four call sites now name
+  `encoding="utf-8"`. This is the E10 guard — the one that refuses a listening round the
+  records have already closed — so it had been silently absent on this machine.
+- **NOT fixed, and it is the reason this entry exists** `node tools/free-port.mjs --self-test`
+  fails 2 of 4: "a listening port is found, with the process that holds it" and "the command
+  line of the holder is reported, not just a number". It looks for the holder of a port with
+  Unix tooling that Windows does not have. **Proved pre-existing** by stashing this change and
+  running the control against `f221d69` unaltered — same two failures — so it is neither
+  caused by this change nor hidden by it.
+- **The wider fault behind both** About twenty `read_text()` / `write_text()` calls across
+  `tools/*.py` still name no encoding — `align-sentence.py`, `build_a_round.py`,
+  `build_of_round.py`, `build_page.py`, `build_soundout_page.py` and others. Every one is a
+  `UnicodeDecodeError` waiting for the first non-ASCII byte, on Windows only. They did not fire
+  today because the check does not run them; the voice toolchain does, and that is where they
+  will surface.
+- **What was shipped against a red check, stated plainly** This change was committed and
+  pushed with the check red on those two free-port controls, because they pre-date it and it
+  removes one red without adding any. That is a judgement, not a licence: it is recorded here
+  so the next person sees that the check has been red since 2026-08-14 rather than discovering
+  it and assuming it was always so.
+- **Done** means `npm run check` is green on Windows: `free-port.mjs` finds a port holder on
+  this platform or states in its own output that it cannot and skips honestly, and the
+  encoding-less reads in `tools/*.py` name UTF-8. Section P's move to `D:` does not change
+  any of this — the same machine, a different drive.
+
 ## G. Ideas worth trying that nobody has tried
 
 Owner-instructed 2026-08-12. Unlike every section above, these are **not** faults and not
