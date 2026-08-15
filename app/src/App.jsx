@@ -10,6 +10,11 @@ import {
 } from "@engine";
 /* W3 — the storage adapter is IndexedDB in the standalone app. */
 import { loadState, saveState } from "./storage.js";
+
+/* B17's backstop, in milliseconds. Above the longest legitimate reveal ever
+   measured (~8.7 s on a cold start), so it can only fire on a path where the
+   reveal is genuinely wedged — never into a slow-but-working sound-out. */
+const ADVANCE_BACKSTOP_MS = 10000;
 import { installForegroundCheck } from "./updates.js";
 import { initVoicePacks, speakVoice, playClips, stopClips, unlockVoice } from "./voicepacks.js";
 import Frame from "./components/Frame.jsx";
@@ -112,9 +117,11 @@ export default function App() {
   const [lastGrade, setLastGrade] = useState(null);
   const [advanceReady, setAdvanceReady] = useState(true); // P0-3
   /* How long the child is being asked to wait, so the control can show it
-     (A1-004). The reveal's real length arrives a moment after the wait starts,
-     so this is the last length armAdvance was given, never a guess. */
-  const [waitMs, setWaitMs] = useState(ADVANCE_GUARD_MS);
+     (A1-004). Zero means NOT YET KNOWN — no arm has happened since the grade
+     — and the rail shows no fill at all rather than a bar sweeping a length
+     nobody has measured (B17: the length arrives when the clips schedule, and
+     nothing is armed before it). */
+  const [waitMs, setWaitMs] = useState(0);
   /* Where the fill already stands, as a percent, when the wait is re-armed —
      so the sweep continues from its own position instead of restarting. */
   const [waitFrom, setWaitFrom] = useState(0);
@@ -173,6 +180,13 @@ export default function App() {
   const advanceRef = useRef(null);
   const gradedRef = useRef(null);          // the queue position this attempt has already graded
   const advanceTimer = useRef(null);       // P0-3: when the advance control comes alive
+  /* B17's last line of defence: armed at the grade, cleared by ANY real arm.
+     It exists for the path nobody has met — a decode that hangs forever with
+     sound on — because a control that never comes alive traps the grown-up in
+     the session. Longer than the longest legitimate reveal, so it can never
+     fire into a slow-but-working sound-out; the measured worst reveal arms
+     for good at ~8.7 s and this sits above it. */
+  const advanceBackstop = useRef(null);
   const fillTrack = useRef(null);          // the fill's live segment {from, ms, t0}, so a re-arm continues it
   const advanceLive = useRef(true);        // the same fact, readable inside a handler
   const stateRef = useRef(null);
@@ -350,6 +364,7 @@ export default function App() {
   function armAdvance(ms, real = false) {
     if (advanceLive.current && !real) return;
     clearTimeout(advanceTimer.current);
+    clearTimeout(advanceBackstop.current);
     const now = Date.now();
     let from = 0;
     /* The guard may already have run out and woken the control. Take it back:
@@ -426,24 +441,43 @@ export default function App() {
     }
     if (!freePlay) { setState(s); persist(s); }
     setLastGrade(result); setPhase("feedback");
-    setAdvanceReady(false); advanceLive.current = false; fillTrack.current = null; setWaitFrom(0);
+    setAdvanceReady(false); advanceLive.current = false; fillTrack.current = null;
+    setWaitFrom(0); setWaitMs(0);
     clearPops();
     /* P0-3, and CVC-UX-001: the reveal runs about five to seven seconds —
        praise, a pause, "The word was", a pause, then the word — and advancing
        silences it. A child who taps at once never hears the word said
        properly, which is the one thing the reveal exists for. So the control
-       waits for the word. When there is no recorded reveal to wait for —
-       sound off, or the pack cannot play and system speech takes over, whose
-       length nothing here can know — it falls back to the short guard. */
-    armAdvance(ADVANCE_GUARD_MS);
+       waits for the word.
+
+       B17, FIXED 2026-08-15: the 400 ms guard used to be armed HERE, as a
+       starting gun — and when six clips took longer than that to fetch and
+       decode, it fired first, the control sat live and green in the middle of
+       the sound-out for ~590 measured milliseconds, and the real length then
+       "took it back". Promised for the beta after 18 and missed in 19. Now
+       NOTHING is armed at grade time. Each path that learns the reveal's
+       length is the thing that arms:
+       - the clips schedule    -> the real length, with the guard as a FLOOR;
+       - the pack cannot play  -> the guard, once system speech is underway
+         (all five B7 fallback paths land here, the suspended iPad context
+         included);
+       - sound off             -> the guard at once, since playClips fires
+         neither callback when it is disabled;
+       - anything else — a decode that hangs forever, a path nobody has met —
+       -> the backstop below, longer than the longest legitimate reveal, so a
+         wedged reveal cannot trap the grown-up and a slow-but-working one is
+         never cut into. The window is closed by never opening it, not late. */
+    clearTimeout(advanceBackstop.current);
+    if (!s.settings.sound) armAdvance(ADVANCE_GUARD_MS);
+    else advanceBackstop.current = setTimeout(() => armAdvance(ADVANCE_GUARD_MS), ADVANCE_BACKSTOP_MS);
     if (result === "correct") buzz(28);           // N-11: no error rumble
     unlockVoice();
     const praiseIdx = Math.floor(Math.random() * PRAISE.length);
     speakVoice(result, word, praiseIdx, s.settings.sound,
       /* The system voice says "reed" for "read". The recorded clip does not,
          so only this fallback is remapped to a praise line it can say. */
-      (why) => { noteFallback(why); speak(feedbackSpeech(result, word, ttsSafePraise(praiseIdx)), true, s.settings.lang); },
-      (ms, tiles) => { armAdvance(ms, true); schedulePops(tiles); });
+      (why) => { noteFallback(why); speak(feedbackSpeech(result, word, ttsSafePraise(praiseIdx)), true, s.settings.lang); armAdvance(ADVANCE_GUARD_MS); },
+      (ms, tiles) => { armAdvance(Math.max(ms, ADVANCE_GUARD_MS), true); schedulePops(tiles); });
     /* P1-7 lives in the effect below: this is the moment the control is
        disabled, so focusing it from here does nothing at all. */
   }
@@ -621,6 +655,7 @@ export default function App() {
   function skipReveal() {
     if (phase !== "feedback") return;
     clearTimeout(advanceTimer.current);
+    clearTimeout(advanceBackstop.current);
     advanceLive.current = true;
     setAdvanceReady(true);
     next();

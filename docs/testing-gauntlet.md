@@ -595,7 +595,7 @@ deliberate: a flaky cell must inform a release, never block one.
 ## G19. App mutation
 
 - Tool: `tools/app-mutants.mjs`. Command: `npm run test:app-mutants`. Requirement: 0
-  survivors. Keys: `g19_app_mutants` (10), `g19_survivors_max` (0).
+  survivors. Keys: `g19_app_mutants` (11), `g19_survivors_max` (0).
 - G5 mutates the engine. Nothing mutated the half of the product the child actually
   touches, so the app's tests were known to PASS and not known to BITE. G19 breaks one
   rule at a time in the files the engine never sees: the grade-once rule (that nothing
@@ -962,7 +962,7 @@ other direction: the real pack, unchanged, must pass.
 
 ## G20. Effect map
 
-- Tool: `tools/effect-map.mjs`. Writes `docs/effect-map.md`. Keys: `g20_tests_mapped` (287).
+- Tool: `tools/effect-map.mjs`. Writes `docs/effect-map.md`. Keys: `g20_tests_mapped` (290).
 - One row per `it()` SITE — its file, suite, and the test's own sentence, which in this
   project IS the Given/When/Then effect, because tests are named as behaviour. A site inside
   a loop or a table runs many times, so the 284 rows describe the 341 tests Vitest executes;

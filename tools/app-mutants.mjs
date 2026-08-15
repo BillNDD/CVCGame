@@ -5,7 +5,8 @@
 
    Each mutant breaks one rule that a person would notice, in the files the
    engine never sees: the grade-once rule (one attempt, one result), the adult hold, the update
-   comparison, the backup validator, and the free-play write guard. The
+   comparison, the backup validator, the free-play write guard, and the
+   advance arming (B17: nothing arms before a length is known). The
    transcript acceptance rule was a sixth family until 2026-08-12; see the note
    where its four mutants used to be.
    Three of these are blueprint mutant families that had no mutant at all:
@@ -102,6 +103,16 @@ const MUTANTS = [
   ["free play writes to the save", APP,
     "if (!freePlay) { setState(s); persist(s); }",
     "{ setState(s); persist(s); }"],
+
+  /* B17, fixed 2026-08-15: nothing is armed at grade time — each path that
+     learns the reveal's length is the thing that arms. This mutant restores
+     the 400 ms starting gun that sat live and green in the middle of a real
+     sound-out for ~590 measured milliseconds whenever six cold clips took
+     longer than the guard to decode. Killed by reveal test 14, which replays
+     the measured fault: clips at 900 ms, control asserted dead at +500. */
+  ["the starting gun returns: the guard arms at grade time", APP,
+    "if (!s.settings.sound) armAdvance(ADVANCE_GUARD_MS);",
+    "armAdvance(ADVANCE_GUARD_MS); if (!s.settings.sound) armAdvance(ADVANCE_GUARD_MS);"],
 ];
 
 const run = (cmd, args) => { try { execFileSync(cmd, args, { stdio: "pipe" }); return true; } catch { return false; } };
@@ -137,7 +148,12 @@ const testsFailed = (out) => {
 
 function runTests() {
   try {
-    execFileSync("npx", ["vitest", "run", "--reporter=dot"],
+    /* Through Node's own binary, never "npx": execFileSync takes no shell, so
+       on Windows the npx.cmd shim cannot be resolved (and newer Node refuses
+       .cmd without a shell outright). Every mutant run then "failed", and the
+       pristine-suite control - doing exactly its job - refused the gate.
+       Found 2026-08-15, the fourth Windows-only gate fault of the move. */
+    execFileSync(process.execPath, ["node_modules/vitest/vitest.mjs", "run", "--reporter=dot"],
       { stdio: "pipe", encoding: "utf8", maxBuffer: 64 * 1024 * 1024,
         env: { ...process.env, NO_COLOR: "1" } });
     return { passed: true, failed: 0 };
@@ -163,7 +179,7 @@ for (const sig of ["SIGINT", "SIGTERM", "SIGHUP"])
 process.on("uncaughtException", (e) => { restoreOnce(); console.error(e); process.exit(1); });
 
 run("node", ["tools/extract-engine.mjs"]);
-if (!run("npx", ["vitest", "run", "--reporter=dot"])) {
+if (!run(process.execPath, ["node_modules/vitest/vitest.mjs", "run", "--reporter=dot"])) {
   console.error("Runner control FAILED: the pristine suite does not pass; mutation results would be meaningless.");
   process.exit(1);
 }

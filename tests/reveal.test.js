@@ -13,7 +13,7 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { render, screen, fireEvent, act, cleanup } from "@testing-library/react";
 import { createElement } from "react";
-import { chunkWord } from "../src/engine.js";
+import { chunkWord, newState } from "../src/engine.js";
 
 const REVEAL_MS = 5200;                       // a real reveal, measured from the pack
 /* The shape the real player reports: one entry per tile of THIS word, each
@@ -23,10 +23,16 @@ const REVEAL_MS = 5200;                       // a real reveal, measured from th
 const tileAt = (i) => 2400 + i * 700;
 const TILE_MS = [280, 190, 70, 430];
 const tilesFor = (word) => chunkWord(word).map((g, i) => ({ at: tileAt(i), ms: TILE_MS[i % 4] }));
-/* "pack" schedules clips and reports their length; "fallback" cannot play and
-   hands the utterance to system speech; "silent" is sound turned off, where
-   the module returns without a word to either side. */
+/* "pack" schedules clips and reports their length; "quick" schedules a reveal
+   SHORTER than the guard, for the floor rule; "fallback" cannot play and
+   hands the utterance to system speech; "silent" is the path that fires
+   neither callback — a decode that hangs forever — which only the backstop
+   can answer (B17). Sound OFF is not a mode here: the real module returns
+   before any callback when it is disabled, and the CALLER knows the setting,
+   so that test drives it through the stored save's own settings. */
 let voiceMode = "pack";
+/* The stored save, so a test can start with settings of its choosing. */
+let stored = null;
 /* "slow" is the reveal whose length arrives after the short guard has already
    run out — six cold clips to fetch and decode. The double holds the callback
    so a test can deliver the length whenever it likes. */
@@ -35,7 +41,7 @@ let lateWord = "";
 const lateReveal = (ms) => { if (pendingScheduled) pendingScheduled(ms, tilesFor(lateWord)); };
 
 vi.mock("../app/src/storage.js", () => ({
-  loadState: vi.fn(async () => null),
+  loadState: vi.fn(async () => stored),
   saveState: vi.fn(async () => true),
 }));
 /* B7 — the real module hands the caller a REASON on every fallback path, so a
@@ -62,12 +68,17 @@ vi.mock("../app/src/voicepacks.js", () => ({
      so its absence was found by `npm run check` and not by a red test. */
   playClips: (plan, enabled, fallback, onScheduled) => { if (onScheduled) onScheduled(0, []); },
   speakVoice: (kind, word, praiseIdx, enabled, fallback, onScheduled) => {
+    /* The real module returns before ANY callback when sound is off — the
+       caller knows the setting and arms the guard itself. A double that fired
+       onScheduled anyway handed the sound-off test a phantom reveal length
+       and re-armed the control for 5.2 s nobody was waiting through. */
+    if (!enabled) return;
     if (voiceMode === "slow") { pendingScheduled = onScheduled || null; lateWord = word; return; }
-    if (voiceMode === "pack") {
+    if (voiceMode === "pack" || voiceMode === "quick") {
       if (!onScheduled) return;
       const tiles = kind === "correct" || kind === "close" || kind === "wrong"
         ? tilesFor(word) : undefined;
-      onScheduled(REVEAL_MS, tiles);
+      onScheduled(voiceMode === "quick" ? 150 : REVEAL_MS, tiles);
     } else if (voiceMode === "fallback") fallback(FALLBACK_REASON);
   },
 }));
@@ -138,7 +149,7 @@ const walkToLastSlot = async () => {
   return document.querySelector(".wq-word").textContent;
 };
 
-beforeEach(() => { vi.useFakeTimers(); localStorage.clear(); voiceMode = "pack"; pendingScheduled = null; });
+beforeEach(() => { vi.useFakeTimers(); localStorage.clear(); voiceMode = "pack"; pendingScheduled = null; stored = null; });
 afterEach(() => { cleanup(); vi.useRealTimers(); });
 
 describe("G10 — the child hears the word before the app lets them move on", () => {
@@ -160,11 +171,67 @@ describe("G10 — the child hears the word before the app lets them move on", ()
     expect(advance().disabled).toBe(false);
   });
 
-  it("3 (control): with sound off, nothing can leave the control dim for ever", async () => {
-    voiceMode = "silent";                            // neither callback runs
+  it("3 (control): a reveal that never reports still cannot trap the grown-up — the backstop", async () => {
+    /* REWRITTEN WITH B17'S FIX, 2026-08-15, and the old expectation is the
+       fault, recorded: this test used to demand the control alive at 450 ms
+       on the neither-callback path — which is the starting gun by another
+       name, arming before any length could be known. That gun is what sat
+       live and green in the middle of a real sound-out for ~590 measured
+       milliseconds on a cold start. The path this mode simulates — sound ON,
+       clips hanging forever — is now answered by the backstop alone: longer
+       than the longest legitimate reveal, so it can never fire into one that
+       is merely slow. */
+    voiceMode = "silent";                            // neither callback ever runs
     await gradeOneWord();
-    await flush(450);
+    await flush(9950);
+    expect(advance().disabled).toBe(true);           // still waiting, still safe
+    /* The backstop does not flip the control — it ARMS the guard, so the
+       release is backstop plus guard: 10 s to notice the wedge, 400 ms of
+       visible fill so the wake is never a surprise jump. */
+    await flush(200);
+    expect(advance().disabled).toBe(true);           // 10.15 s: the guard is sweeping
+    await flush(300);
+    expect(advance().disabled).toBe(false);          // 10.4 s: the wedged path releases
+  });
+
+  it("3b: with sound OFF there is no reveal to wait for, and the guard arms at once", async () => {
+    stored = { ...newState(), settings: { ...newState().settings, sound: false } };
+    await gradeOneWord();
+    expect(advance().disabled).toBe(true);
+    await flush(450);                                // literal (E4): the 400 ms guard
     expect(advance().disabled).toBe(false);
+  });
+
+  it("14 (B17): a slow reveal never opens the mid-sound-out window", async () => {
+    /* The measured fault, replayed: clips take 900 ms to fetch and decode, so
+       the old 400 ms starting gun fired first and the control sat live in the
+       middle of the sound-out until the real length "took it back". Now
+       NOTHING arms before the length arrives: at +500 ms — inside what used
+       to be the ~590 ms window — the control is dead, and there is no fill
+       sweeping a length nobody has measured. */
+    voiceMode = "slow";
+    await gradeOneWord();
+    await flush(500);
+    expect(advance().disabled).toBe(true);           // the window does not exist
+    expect(document.querySelector(".wq-ctafill")).toBeNull();
+    await flush(400);                                // +900: the clips schedule
+    lateReveal(REVEAL_MS);
+    await flush(0);
+    expect(advance().disabled).toBe(true);           // now waiting the REAL length
+    expect(document.querySelector(".wq-ctafill")).toBeTruthy();
+    await flush(REVEAL_MS - 100);
+    expect(advance().disabled).toBe(true);           // the word is still to come
+    await flush(200);
+    expect(advance().disabled).toBe(false);          // and only now is it over
+  });
+
+  it("14b: the guard is a FLOOR — a reveal shorter than 400 ms still waits 400", async () => {
+    voiceMode = "quick";                             // the clips report 150 ms
+    await gradeOneWord();
+    await flush(350);
+    expect(advance().disabled).toBe(true);           // 150 ms passed; the floor holds
+    await flush(100);
+    expect(advance().disabled).toBe(false);          // 400 ms: the floor releases
   });
 
   /* A2-003 — the label describes the press. A miss on the last slot puts the
@@ -309,35 +376,36 @@ describe("G10 — the child hears the word before the app lets them move on", ()
     expect(document.querySelectorAll(".wq-tile.wq-pop").length).toBe(0);
   });
 
-  /* The reveal's real length always wins over the 400 ms guard. Six clips
-     have to be fetched and decoded before a length is known, and in
-     microphone mode the decoded-clip cache is dropped before every reveal, so
-     the guard reaching its end first is an ordinary event, not a rare one. A
-     control left live for the rest of the reveal loses the child the word. */
-  it("13: a reveal length that arrives late still holds the control", async () => {
+  /* REWRITTEN WITH B17'S FIX, 2026-08-15. This test used to assert the
+     starting-gun sequence as CORRECT — "the guard woke it, as it must" —
+     which is the ~590 ms window itself, pinned as intended behaviour by a
+     test written before the fault was understood (its own comment still
+     reasoned from microphone mode, gone since 2026-08-12). The scenario it
+     protected — a length arriving after an earlier arm, without the fill
+     jumping backwards — survives on the ONE path where a re-arm still
+     exists: the wedged-reveal backstop fires first, and the truth arrives
+     later still. */
+  it("13: a length arriving after the backstop takes the control back, and the fill never runs backwards", async () => {
     voiceMode = "slow";
     await gradeOneWord();
-    /* The bar is only drawn while the control is held, so its last visible
-       position is read before the guard runs out. */
     const fillAt = () => {
       const el = document.querySelector(".wq-ctafill");
       return el ? parseFloat(el.style.getPropertyValue("--wqfillfrom")) : null;
     };
-    await flush(300);
+    await flush(10200);                                // the backstop fired at 10 s and armed the guard
     const before = fillAt();
-    expect(before).not.toBeNull();
-    await flush(300);                                  // past the 400 ms guard
-    expect(advance().disabled).toBe(false);            // the guard woke it, as it must
+    expect(before).not.toBeNull();                     // its fill is sweeping
+    expect(advance().disabled).toBe(true);             // and the guard has 200 ms to run
     act(() => { lateReveal(REVEAL_MS); });
     await flush(0);
-    expect(advance().disabled).toBe(true);             // and the truth takes it back
+    expect(advance().disabled).toBe(true);             // the truth takes over the wait
     /* A1-004 — and the bar does not jump backwards while it does. Redrawing
        it at the true wait's honest fraction sent it from 12 per cent to 4,
        and G7 caught that in the browser. */
     expect(fillAt()).toBeGreaterThanOrEqual(before);
-    await flush(REVEAL_MS - 600);
+    await flush(REVEAL_MS - 100);
     expect(advance().disabled).toBe(true);
-    await flush(700);
+    await flush(200);
     expect(advance().disabled).toBe(false);
   });
 

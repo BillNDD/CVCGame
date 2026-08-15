@@ -8,7 +8,7 @@ Per-test rows carry the test's own sentence, which in this project IS the
 Given/When/Then effect. The requirement, oracle, platform, mutant family, evidence
 and known limits are declared per FILE, in the tool, where they stay true.
 
-Totals: 287 it() SITES across 13 files, plus 10 gates that are not test files.
+Totals: 290 it() SITES across 13 files, plus 10 gates that are not test files.
 
 A site inside a loop or a table runs many times, so these rows describe more tests than they number: Vitest executes 330. The rows count the places behaviour is asserted.
 
@@ -260,7 +260,7 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 9 | G2 properties | P9: the session opens with the most secure word |
 | 10 | G2 properties | P10: migrate is total and idempotent, and its output survives the engine |
 
-## tests/reveal.test.js — 15 tests (G10)
+## tests/reveal.test.js — 18 tests (G10)
 
 - **Requirement protected:** SPEC section 5: the reveal, its pauses, the skip, and silence before the attempt ends
 - **Independent oracle:** The literal clip plan and stated timings
@@ -273,19 +273,22 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 |---|---|---|
 | 1 | G10 — the child hears the word before the app lets them move on | 1: with a recorded reveal, the advance control waits for the word |
 | 2 | G10 — the child hears the word before the app lets them move on | 2 (control): with no recorded reveal, the short guard still applies |
-| 3 | G10 — the child hears the word before the app lets them move on | 3 (control): with sound off, nothing can leave the control dim for ever |
-| 4 | G10 — the child hears the word before the app lets them move on | 5: a miss on the last word says \ |
-| 5 | G10 — the child hears the word before the app lets them move on | 6 (pair): a correct last word says \ |
-| 6 | G10 — the child hears the word before the app lets them move on | 7: a tap on the grown-up skip does nothing — the reveal keeps its wait |
-| 7 | G10 — the child hears the word before the app lets them move on | 8: the adult |
-| 8 | G10 — the child hears the word before the app lets them move on | 9: each tile takes its ring as its own sound plays, for as long as that sound lasts |
-| 9 | G10 — the child hears the word before the app lets them move on | 10 (control): with no recorded reveal, no tile is ever ringed |
-| 10 | G10 — the child hears the word before the app lets them move on | 10a: a fallback tells the grown-up, and says why |
-| 11 | G10 — the child hears the word before the app lets them move on | 10b (control): with the recorded pack, the grown-up is told nothing |
-| 12 | G10 — the child hears the word before the app lets them move on | 11: replay clears the rings it silenced |
-| 13 | G10 — the child hears the word before the app lets them move on | 12: asking to finish early stops the reveal and its rings |
-| 14 | G10 — the child hears the word before the app lets them move on | 13: a reveal length that arrives late still holds the control |
-| 15 | G10 — the child hears the word before the app lets them move on | 4: the wait carries a fill for exactly as long as the reveal |
+| 3 | G10 — the child hears the word before the app lets them move on | 3 (control): a reveal that never reports still cannot trap the grown-up — the backstop |
+| 4 | G10 — the child hears the word before the app lets them move on | 3b: with sound OFF there is no reveal to wait for, and the guard arms at once |
+| 5 | G10 — the child hears the word before the app lets them move on | 14 (B17): a slow reveal never opens the mid-sound-out window |
+| 6 | G10 — the child hears the word before the app lets them move on | 14b: the guard is a FLOOR — a reveal shorter than 400 ms still waits 400 |
+| 7 | G10 — the child hears the word before the app lets them move on | 5: a miss on the last word says \ |
+| 8 | G10 — the child hears the word before the app lets them move on | 6 (pair): a correct last word says \ |
+| 9 | G10 — the child hears the word before the app lets them move on | 7: a tap on the grown-up skip does nothing — the reveal keeps its wait |
+| 10 | G10 — the child hears the word before the app lets them move on | 8: the adult |
+| 11 | G10 — the child hears the word before the app lets them move on | 9: each tile takes its ring as its own sound plays, for as long as that sound lasts |
+| 12 | G10 — the child hears the word before the app lets them move on | 10 (control): with no recorded reveal, no tile is ever ringed |
+| 13 | G10 — the child hears the word before the app lets them move on | 10a: a fallback tells the grown-up, and says why |
+| 14 | G10 — the child hears the word before the app lets them move on | 10b (control): with the recorded pack, the grown-up is told nothing |
+| 15 | G10 — the child hears the word before the app lets them move on | 11: replay clears the rings it silenced |
+| 16 | G10 — the child hears the word before the app lets them move on | 12: asking to finish early stops the reveal and its rings |
+| 17 | G10 — the child hears the word before the app lets them move on | 13: a length arriving after the backstop takes the control back, and the fill never runs backwards |
+| 18 | G10 — the child hears the word before the app lets them move on | 4: the wait carries a fill for exactly as long as the reveal |
 
 ## tests/safety-splash.test.js — 3 tests (G10)
 

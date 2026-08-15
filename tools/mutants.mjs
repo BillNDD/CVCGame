@@ -145,7 +145,12 @@ const testsFailed = (out) => {
 
 function runTests() {
   try {
-    execFileSync("npx", ["vitest", "run", "--reporter=dot"],
+    /* Through Node's own binary, never "npx": execFileSync takes no shell, so
+       on Windows the npx.cmd shim cannot be resolved (and newer Node refuses
+       .cmd without a shell outright). Every mutant run then "failed", and the
+       pristine-suite control - doing exactly its job - refused the gate.
+       Found 2026-08-15, the fourth Windows-only gate fault of the move. */
+    execFileSync(process.execPath, ["node_modules/vitest/vitest.mjs", "run", "--reporter=dot"],
       { stdio: "pipe", encoding: "utf8", maxBuffer: 64 * 1024 * 1024,
         env: { ...process.env, NO_COLOR: "1" } });
     return { passed: true, failed: 0 };
@@ -174,7 +179,7 @@ let missing = 0;
    any mutant runs. Without this, a broken environment (a crashing vitest)
    reads as "every mutant killed" while no mutation testing happened. */
 run("node", ["tools/extract-engine.mjs"]);
-if (!run("npx", ["vitest", "run", "--reporter=dot"])) {
+if (!run(process.execPath, ["node_modules/vitest/vitest.mjs", "run", "--reporter=dot"])) {
   console.error("Runner control FAILED: the pristine suite does not pass; mutation results would be meaningless.");
   process.exit(1);
 }

@@ -72,7 +72,7 @@ const sites = collectSites(JSON.parse(pristine));
 
 if (selfTest) {
   applyMutant(sites[0]);
-  const stalePassed = run("npx", ["vitest", "run", TEST, "--reporter=dot"]);
+  const stalePassed = run(process.execPath, ["node_modules/vitest/vitest.mjs", "run", TEST, "--reporter=dot"]);
   restore();
   if (stalePassed) {
     console.log("self-test OK: an unregenerated mutant survives, and this gate would report it");
@@ -86,7 +86,7 @@ const survivors = [];
 for (const site of sites) {
   applyMutant(site);
   const generated = run("node", ["tools/gen-acceptance.mjs"]);
-  const passed = generated && run("npx", ["vitest", "run", TEST, "--reporter=dot"]);
+  const passed = generated && run(process.execPath, ["node_modules/vitest/vitest.mjs", "run", TEST, "--reporter=dot"]);
   if (passed) survivors.push(site.desc);
 }
 restore();

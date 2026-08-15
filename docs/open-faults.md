@@ -246,62 +246,37 @@ it must not have been the thing that found it. A test pins the union with a nega
 a fixture where a word is named only in a tricky note, which the old LEVELS-only derivation
 misses and the new one does not.
 
-## B17. The advance control goes live for half a second in the middle of a reveal
+## B17. The advance control goes live mid-reveal — FIXED 2026-08-15
 
-**THIS REOPENS A FIX THAT WAS CALLED DONE.** The changelog has carried "Fixed: the advance
-control could come alive in the middle of a reveal when the clips took longer than usual to
-load" since the reveal was built. That fix was real and it was incomplete: it closed the case
-where the control stayed live for the WHOLE reveal, and left ~590 ms open between the guard
-firing and the real length arriving. CLAUDE.md requires that a fix found to be incomplete is
-reopened, with what is missing and how it came to be closed — this paragraph is that record,
-written after an auditor found the changelog telling a parent the same fault was both fixed
-and outstanding. The changelog bullet now says so too.
+**Promised for the beta after 18, missed in 19, and delivered the beta after that promise
+said.** That record stays: a fix promised in a release note is a debt, and this one was
+paid late.
 
-**Owner-ruled 2026-08-12: this ships in the next beta and is fixed in the one after.**
-That release is beta.18, not beta.17: beta.17 had already been published on 2026-08-11 and
-the version in `app/package.json` was never moved on, so a day of work called itself 17. It predates
-every beta already installed, so shipping makes nothing worse, and the fix touches the arming
-logic that produced a regression the last time it was changed in a hurry — the progress fill
-ran backwards and G7 caught it. It is named in the beta's changelog as a known issue, because
-a parent should hear it from us rather than meet it.
+The starting gun is gone. Nothing arms at grade time; each path that learns the reveal's
+length is the thing that arms — the scheduled clips (with the 400 ms guard as a FLOOR, so
+a short reveal still waits), the five B7 fallback paths (the guard, once system speech is
+underway), sound off (the guard at once), and a 10-second backstop for a reveal that is
+genuinely wedged, sitting above the longest legitimate reveal ever measured so it can
+never fire into one that is merely slow. The ~590 ms window is closed by never opening
+it. The fill appears only once a length is known, so no bar ever sweeps a guess.
 
+Proof, as this entry's Done demanded: reveal test 14 replays the measured fault — clips
+at 900 ms, the control asserted dead at +500, inside what used to be the window — and
+G19 gained the negative control, a mutant that restores the starting gun and dies to
+three tests. Test 13, which had pinned the take-back sequence as intended behaviour
+("the guard woke it, as it must" — the window, asserted as correct), was rewritten to
+the fixed contract with its reason recorded in place. One prior contract changed with
+the fix, deliberately: the neither-callback path used to demand the control alive at
+450 ms — arming before any length could be known IS the gun — and now releases at the
+backstop, with the old expectation quoted in the rewritten test.
 
-Found by an independent reviewer on 2026-08-12, through the UX census, and it is the first
-child-facing fault the census has produced. It is a candidate: measured on this machine under
-an induced delay, not yet seen by a person on a real device.
-
-- **Where** `armAdvance()` in `app/src/App.jsx:296-329`, and the code already knows: its own
-  comment says the guard's early arrival "would leave the control live for the whole
-  seven-second reveal... The first tap then kills the sound-out, which is the one thing the
-  wait exists to protect (CVC-UX-001)."
-- **What happens** The control is armed TWICE. The 400 ms guard arms it, and when the
-  reveal's real length is known the app takes it back and re-arms it for the true duration.
-  Between those two moments the control is **enabled, green and tappable, in the middle of the
-  sound-out**. A tap there calls `next()` and kills the reveal.
-- **Measured**, with the voice clips delayed 900 ms so six of them miss the 400 ms guard:
-
-  | moment | control | focus |
-  |---|---|---|
-  | +6 ms | disabled | body |
-  | +192 ms | **live** | the button |
-  | +779 ms | disabled again | body |
-  | +8726 ms | live for good | the button |
-
-  **~590 ms of open window**, in the middle of a reveal.
-- **When a child would meet it** Whenever six clips take longer than 400 ms to fetch and
-  decode: the first word after a cold load, a slow phone, a busy device. Never at idle on a
-  warm cache, which is why no gate has seen it — every existing browser check runs warm.
-- **Why it was nearly lost** The same double-arming made the census report `focus-lost`,
-  because disabling a focused button drops focus to `<body>`. That was written off as machine
-  churn and the census's worker count was lowered. The reviewer reproduced it deterministically
-  instead. A finding explained away as flakiness is a finding lost.
-- **Done** The control is never live during a reveal: the guard does not arm it until the
-  reveal's real length is known, with the 400 ms as a floor rather than a starting gun — or an
-  equivalent that closes the window rather than closing it late. Proved by a test that plants
-  the slow-clip condition (delay `**/voice/**`) and asserts the control is disabled for the
-  whole sound-out, with a control proving the test fails when the window is open.
+Fixing it surfaced the fourth Windows gate fault (recorded in Q): both mutation runners
+invoked vitest through "npx", which execFileSync cannot resolve on Windows, so G19 had
+never run on this machine — the pristine-suite control refused it, doing exactly its
+job. Through Node's own binary now; 11 mutants, 11 killed, first complete Windows run.
 
 ---
+
 
 ## B11. Two shipped sounds are judged poor, and the best one has no recipe
 
@@ -1163,6 +1138,15 @@ protect it, and a gate that cannot run is a gate that is not protecting anything
   removes one red without adding any. That is a judgement, not a licence: it is recorded here
   so the next person sees that the check has been red since 2026-08-14 rather than discovering
   it and assuming it was always so.
+- **A FOURTH Windows fault, found 2026-08-15 while fixing B17: no mutation gate had ever
+  run on this machine.** `tools/mutants.mjs`, `tools/app-mutants.mjs` and
+  `tools/acceptance-mutants.mjs` all invoked vitest through `"npx"` via `execFileSync`,
+  which takes no shell — so Windows cannot resolve the `npx.cmd` shim and every run
+  "failed". The pristine-suite control then refused each gate, which is that control doing
+  precisely its job: refusing to call a broken environment "all mutants killed". All three
+  now run vitest through Node's own binary and the vitest entry file, no shell, no shim.
+  `tools/mic-absence.mjs` still spawns `"npx"` for its preview server and is left for its
+  own entry (C4 — the gate is not wired anywhere yet).
 - **A third Windows fault, found 2026-08-15 in the GAUNTLET's own tooling.**
   `tools/blast-radius-mutants.mjs` wrote its sandbox git config with a raw Windows temp
   path — and in a git config VALUE a backslash is an escape character, so the whole harness

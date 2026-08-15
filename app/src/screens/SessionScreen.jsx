@@ -72,13 +72,16 @@ function SessionRail({ kid, phase, advanceReady, waitMs, waitFrom, finishes, nex
           style={{ background: advanceReady ? C.green : "#9fb4c4" }}>
           {/* A1-004 — the wait is visible: a fill crosses the control over the
               reveal's own length and lands as the control comes alive. The
-              wait is armed twice — the 400 ms guard first, the reveal's real
-              length a moment later — and on the second arm the fill continues
-              from its own position (--wqfillfrom, a percent) over the
-              remaining wait, so it never moves backwards. It carries no text
-              and no role: the feedback already speaks for itself through one
-              channel (N-9). */}
-          {!advanceReady && <span key={waitMs + "-" + waitFrom} className="wq-ctafill" aria-hidden="true"
+              fill appears only once a length is KNOWN (waitMs > 0): before
+              the clips schedule there is nothing honest to sweep, and B17's
+              fix means nothing is armed in that gap either — the control sits
+              plainly disabled instead of showing a bar over a guessed length.
+              If a later arm replaces an earlier one (the backstop, then the
+              real length), the fill continues from its own position
+              (--wqfillfrom, a percent) over the remaining wait, so it never
+              moves backwards. It carries no text and no role: the feedback
+              already speaks for itself through one channel (N-9). */}
+          {!advanceReady && waitMs > 0 && <span key={waitMs + "-" + waitFrom} className="wq-ctafill" aria-hidden="true"
             style={{ "--wqfill": waitMs + "ms", "--wqfillfrom": waitFrom + "%" }} />}
           {/* A2-003 — the label says what the press will do, and the app works
               that out rather than reading it off the queue as it stands: a
