@@ -61,5 +61,7 @@
   "g23_declared": 25,
   "g23_facts": 4,
   "g23_controls": 40,
-  "filemap_history_max": 1
+  "filemap_history_max": 1,
+  "g24_controls": 15,
+  "g24_files": 188
 }

@@ -354,6 +354,19 @@ step("G23 file-map", "node tools/file-map.mjs --check && node tools/file-map.mjs
   { label: "controls", regex: /file-map controls: (\d+) passed/, floorKey: "g23_controls" },
 ], {}, ["ok   the real tree holds no copied fact"]);
 
+/* G24 — the S9 gate (open-faults L, built 2026-08-15): no tracked file
+   contains a personal name. The name list lives OUTSIDE the repository —
+   private/s9-names.txt, gitignored since day one, or the S9_NAMES variable —
+   because a public repo holding the list of names that must never be public
+   would BE the leak. Where no list exists (CI above all), the structural
+   controls still run and the summary says "0 names" rather than implying a
+   protection that is not there. */
+step("G24 s9-names", "node tools/s9-names.mjs && node tools/s9-names.mjs --self-test", [
+  { label: "files", regex: /(\d+) files scanned/, floorKey: "g24_files" },
+  { label: "problems", regex: /(\d+) problems/, max: 0 },
+  { label: "controls", regex: /s9 controls: (\d+) passed/, floorKey: "g24_controls" },
+], {}, ["ok   a planted name in file content is caught"]);
+
 /* Every gate that MUST have run. A gauntlet that skipped one — a step
    removed, a command renamed — has to fail rather than report a smaller,
    greener total. This is the closed list the release evidence is checked
@@ -364,7 +377,7 @@ const REQUIRED_GATES = [
   "G5 source-mutants", "G19 app-mutants", "E11 lookup-mutants", "G6 coverage", "G6 quality",
   "G7 interface", "G8 accessibility", "G18 network", "G16 doc-truth",
   "G12 qa-procedure", "G13 voice-pack", "G13 voice-edges", "G20 effect-map", "G17 governing", "G23 file-map",
-  "G6 coverage-control", "G21 listening-page", "app build",
+  "G24 s9-names", "G6 coverage-control", "G21 listening-page", "app build",
 ];
 const sh = (cmd) => { try { return execSync(cmd, { encoding: "utf8", stdio: "pipe" }).trim(); } catch { return null; } };
 

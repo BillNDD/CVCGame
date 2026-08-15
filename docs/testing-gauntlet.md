@@ -1,4 +1,4 @@
-# Testing gauntlet — gate specification (G1–G23)
+# Testing gauntlet — gate specification (G1–G24)
 
 **This document owns** the gates: what each one proves, what it cannot prove, and the floor
 or ceiling it holds in `.claude/gate-baseline.json`.
@@ -698,6 +698,38 @@ the tool would be fault F2 re-committed.
 - Keys: `g23_declared` (25), `g23_facts` (4), `g23_controls` (40), problems capped at 0,
   ceiling `filemap_history_max` (1).
 - Run: `node tools/file-map.mjs --check` and `--self-test`; both are in `npm run check`.
+
+## G24. The S9 gate — no tracked file contains a personal name
+
+Built 2026-08-15 from open-faults L. S9 was the one safety rule with no gate, and the cost
+is on the record: a child's name entered four tracked files in six places — one of them a
+TEST NAME that printed it into every CI log — the repository is public, and every gate
+stayed green for a day. It was found by a review auditing something else, because a human
+happened to read the output.
+
+- **The list lives OUTSIDE the repository, and that is the rule's own logic**: a public
+  repo holding the list of names that must never be public would BE the leak. Names come
+  from `private/s9-names.txt` (one per line; `private/` has been gitignored since the
+  repository's first day) merged with the `S9_NAMES` environment variable. The gate
+  reports how many names it loaded, never what they are; a name appears only in the
+  failure line on the screen of whoever ran the scan, where it must, or nothing can be
+  fixed.
+- **A run without a list says so instead of implying protection.** On CI, where the list
+  cannot exist, only the structural controls run and the summary reads "0 names loaded";
+  the live scan runs where the owner keeps the list. Claiming otherwise would be the C3
+  fault — safety resting on a check that does not run where the claim is read.
+- **Matching**: whole words, case-insensitive, across every tracked text file including
+  the generated ones. A camel-glued identifier (`nameScore`) is a hit — an identifier was
+  one of the incident's six landings — while "cannot" and "skimming" are not hits for the
+  short names inside them, and a name under three characters is refused as configuration
+  rather than matched into noise. The regex deliberately carries no `/i` flag: `/i` makes
+  character classes case-insensitive too, which silently killed the camel-glue catch in
+  the first version and was caught by its own control.
+- **Fixtures hold no real name** — every control plants "Placeholderkid", because a
+  scanner whose own fixture is a child's name is the fault it guards against (open-faults
+  L, verbatim).
+- Keys: `g24_files` (188), `g24_controls` (15), problems capped at 0.
+- Run: `node tools/s9-names.mjs` and `--self-test`; both are in `npm run check`.
 
 ## G14. Update system
 

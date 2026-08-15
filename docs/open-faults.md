@@ -989,33 +989,27 @@ grew its attempt tests (silent arrival, lead-by-grade, one-mark-only, never pers
 the engine pins the praise roster in both halves, G7's walk now marks a sentence the way a
 grown-up does, and the QA script gained the on-device step.
 
-## L. The safety rule with no gate — S9, opened 2026-08-14
+## L. The safety rule with no gate — S9, GATED 2026-08-15
 
-- **Where** Every tracked file. `CLAUDE.md` safety rule S9.
-- **The fault** S9 says no file in the repository contains a personal name, and NOTHING
-  CHECKS IT. Every other safety rule has a gate: S1 has three tests and a source tripwire,
-  S2 has the reveal suite, S5 has the hold tests, S6 has G18's real-browser network audit,
-  S7 has G7's measured control sizes. S9 has a sentence in a document and nothing else.
-- **What it cost, on 2026-08-13** A child's name entered four tracked files in six places —
-  a fault entry, an engine comment, a test comment, and a TEST NAME, which printed it in
-  every CI log and copied it into the generated effect map. The repository is public. Every
-  gate stayed green for a day. It was found by an architecture review that was auditing
-  something else entirely, and only then because a human read the output.
-- **Fixed on 2026-08-14** on the owner's immediate ruling: the name is out of the working
-  tree and out of every commit — 31 commits rewritten, `main` and the one stale branch
-  force-pushed, the `v1.0.0-beta.19` tag and its release deleted by the owner so no
-  reference held the old commits alive. Six branches and seventeen tags were then checked
-  commit by commit. **The removal is done. The gate is not.**
-- **A near miss during the removal, recorded because it is the lesson.** A push by REF name
-  went out while this clone had silently rolled back, putting a pre-scrub commit on a
-  branch for under a minute. Caught in the push output, fixed by re-pushing the explicit
-  SHA. While a working copy cannot be trusted, a push names a SHA, never a ref.
-- **Done** means a detector: a list of names the owner maintains, scanned across every
-  tracked file INCLUDING generated ones, wired into `npm run check` and the gauntlet, with
-  a negative control that plants a name and proves the scan catches it. The list itself
-  must hold no real name — a scanner whose own fixture is a child's name is the fault it
-  guards against. Use a placeholder in the control and keep the real list outside the
-  repository, or match on a pattern the owner supplies at run time.
+Gate G24 exists, in `npm run check` and the gauntlet, and `docs/testing-gauntlet.md` owns
+its record. The design is the entry's own Done, built as written: the name list lives
+outside the repository (`private/s9-names.txt`, gitignored since day one, merged with
+`S9_NAMES`), every tracked text file is scanned including the generated ones, a
+camel-glued identifier is a hit because an identifier was one of the incident's six
+landings, and every fixture plants "Placeholderkid" — never a real name, for the entry's
+own reason. Where no list exists the summary says "0 names" rather than implying
+protection; the live scan runs where the owner keeps the list, and that honesty is written
+into the gate's section.
+
+**What remains is the owner's one step**: create `private/s9-names.txt` on this machine,
+one name per line. Not pasted into any chat, any commit, or any file the repository
+tracks — the entire design exists so those names never touch anything shared. The gate
+reports "N names loaded" the next time the check runs, and from that run on, the fault
+class that sat green for a day fails a build in seconds.
+
+The removal history stays in this entry's original text below the fold of the git log
+(2026-08-14): 31 commits rewritten, six branches and seventeen tags checked, and the
+near-miss that taught the push-by-SHA rule.
 
 ## M. The file map — designed 2026-08-14, BUILT 2026-08-15, owner-ruled
 
