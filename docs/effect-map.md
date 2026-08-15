@@ -379,10 +379,10 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 7 | the sentence inside a session | 4: exactly one word is ever open, and tapping the open one closes it |
 | 8 | the sentence inside a session | 5: the sentence reads again to close, and a tap interrupts that read |
 | 9 | the sentence inside a session | 6: after the mark the grown-up ends it, nothing has to finish first, and no result is recorded |
-| 10 | the sentence inside a session | 8 (free play): opens on a sentence at once, and counts sentences not words |
+| 10 | the sentence inside a session | 8 (free play): opens on a sentence IN THE ATTEMPT, counts sentences, and its advance names one |
 | 11 | the sentence inside a session | 9 (free play): sounds out the LONGEST word, in tiles, and never the level |
 | 12 | the sentence inside a session | 9b: the longest word is a pure rule, and it is not the first word |
-| 13 | the sentence inside a session | 10 (free play): records nothing, and offers no way to record anything |
+| 13 | the sentence inside a session | 10 (free play): the controls are live for the SENTENCE, and no mark records anything |
 | 14 | the sentence inside a session | 11 (free play): never runs out — the pool is dealt again from the top |
 | 15 | the sentence inside a session | 12: the open word |
 | 16 | the sentence inside a session | 7: no sentence repeats inside one session |

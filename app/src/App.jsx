@@ -482,15 +482,16 @@ export default function App() {
        disabled, so focusing it from here does nothing at all. */
   }
 
-  /* THE SENTENCE, shown between two words (SPEC section 12 point 6). In a
-     SESSION it now arrives with an ATTEMPT PHASE (owner-ruled 2026-08-14,
-     fixing open-faults N: "the child never gets a chance to be graded or do
-     anything"): the sentence appears SILENT, the child reads it aloud, the
-     grown-up marks it with the same three controls a word gets, and only the
-     mark starts the reveal — which is S2's promise, extended from the word to
-     the sentence. In FREE PLAY the reveal still starts at once: the owner
-     ruled on 2026-08-13 that no grade control is live there (SPEC section 12
-     point 7), so there is no mark to wait for. */
+  /* THE SENTENCE, shown between two words (SPEC section 12 point 6). It
+     arrives with an ATTEMPT PHASE everywhere (owner-ruled 2026-08-14 for the
+     session, fixing open-faults N — "the child never gets a chance to be
+     graded or do anything" — and 2026-08-15 for free play, from the owner's
+     own phone: the reveal "plays without providing the child a chance to
+     figure it out"): the sentence appears SILENT, the child reads it aloud,
+     the grown-up marks it, and only the mark starts the reveal — S2's
+     promise, extended from the word to the sentence. Free play's own promise
+     is untouched by the mark: nothing is ever recorded there (design rule 1
+     and S1), exactly as free-play WORD grades already record nothing real. */
   function showSentence(item, free = false) {
     /* WHICH WORD GETS SOUNDED OUT. In a session it is the word the LEVEL
        teaches (SPEC section 12 point 6). Free play has no such word — a
@@ -501,13 +502,11 @@ export default function App() {
        reason the session rule gives. */
     const w = free ? revealWordLongest(item.text) : revealWord(item.text, stateRef.current.level);
     setSentence(item); setOpenWord(w); setPhase("sentence");
-    setSentencePhase(free ? "reveal" : "attempt");
+    setSentencePhase("attempt");
     sentenceGraded.current = false;
     setShownSentences((ids) => [...ids, item.id]);
     clearPops();
     unlockVoice();
-    if (!free) return;                     // the session sentence waits for the child's attempt
-    playSentenceReveal(item, w, null);
   }
   /* The reveal itself, shared by the two doors that open it: a free-play
      arrival (no lead — nothing was graded) and a session mark (a lead by

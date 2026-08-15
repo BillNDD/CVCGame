@@ -99,7 +99,7 @@ function SessionRail({ kid, phase, advanceReady, waitMs, waitFrom, finishes, nex
 /* Stage and rail together, because a sentence replaces BOTH: it takes the
    whole stage, and its advance takes no wait. Split out so no function passes
    the G6 complexity ceiling; the rendered output for a word is identical. */
-function SessionBody({ sentence, sentencePhase, openWord, onTapWord, endSentence,
+function SessionBody({ sentence, sentencePhase, openWord, onTapWord, endSentence, nextIsSentence,
   state, currentWord, phase, fb, liveRef, pops,
   kid, advanceReady, waitMs, waitFrom, finishes, next, advanceRef }) {
   /* The sentence replaces the word rather than sitting beside it: the word the
@@ -121,7 +121,13 @@ function SessionBody({ sentence, sentencePhase, openWord, onTapWord, endSentence
         <Zone.Rail>
           {attempt
             ? <div className="wq-prompt">{kid ? kid + ", read the sentence out loud! 📣" : "Read the sentence out loud! 📣"}</div>
-            : <button className="wq-cta" onClick={endSentence} style={{ background: C.green }}>Next word ➡️</button>}
+            : <button className="wq-cta" onClick={endSentence} style={{ background: C.green }}>
+                {/* The label says what the press brings (A2-003). In sentence
+                    free play the next item IS a sentence, and the owner read
+                    "Next word" there from a real phone (2026-08-15): a label
+                    that misnames the next thing teaches a child to ignore
+                    labels. */}
+                {nextIsSentence ? "Next sentence ➡️" : "Next word ➡️"}</button>}
         </Zone.Rail>
       </>
     );
@@ -218,6 +224,7 @@ export default function SessionScreen({
 
       <SessionBody
         sentence={sentence} sentencePhase={sentencePhase} openWord={openWord}
+        nextIsSentence={freePlay && fpMode === "sentences"}
         onTapWord={onTapWord} endSentence={endSentence}
         state={state} currentWord={currentWord} phase={phase} fb={fb} liveRef={liveRef} pops={pops}
         kid={kid} advanceReady={advanceReady} waitMs={waitMs} waitFrom={waitFrom}

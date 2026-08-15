@@ -71,7 +71,7 @@ const { default: App } = await import("../app/src/App.jsx");
 const { saveState } = await import("../app/src/storage.js");
 
 const flush = async (ms = 0) => act(async () => { await vi.advanceTimersByTimeAsync(ms); });
-const advance = () => screen.getByText(/Next word|Finish!/);
+const advance = () => screen.getByText(/Next word|Next sentence|Finish!/);
 const sentenceEl = () => document.querySelector(".wq-sentence");
 const swords = () => [...document.querySelectorAll(".wq-sword")];
 const openSword = () => document.querySelector(".wq-sword-open");
@@ -144,7 +144,7 @@ describe("the sentence inside a session", () => {
     for (const label of ["✓ got it (hold)", "~ close (hold)", "↻ not yet (hold)"]) {
       expect(screen.getByLabelText(label).disabled).toBe(false);
     }
-    expect(screen.queryByText(/Next word|Finish!/)).toBeNull();
+    expect(screen.queryByText(/Next word|Next sentence|Finish!/)).toBeNull();
     /* The attempt offers no scaffold: no tap targets, no tiles, no hint. The
        words are plain text — a child reading, not a child exploring. */
     expect(document.querySelectorAll("button.wq-sword").length).toBe(0);
@@ -332,14 +332,24 @@ describe("the sentence inside a session", () => {
     await flush(0);
   };
 
-  it("8 (free play): opens on a sentence at once, and counts sentences not words", async () => {
+  it("8 (free play): opens on a sentence IN THE ATTEMPT, counts sentences, and its advance names one", async () => {
     await openSentenceFreePlay();
     expect(sentenceEl()).toBeTruthy();
     expect(document.querySelector(".wq-word")).toBeNull();
+    /* The attempt came to free play on 2026-08-15, owner-ruled from a real
+       phone: the reveal used to "play without providing the child a chance
+       to figure it out". Silent arrival, prompt up, no advance anywhere. */
+    expect(played.length).toBe(0);
+    expect(screen.getByText("Read the sentence out loud! 📣")).toBeTruthy();
+    expect(screen.queryByText(/Next word|Next sentence|Finish!/)).toBeNull();
     /* "0 sentences", never "0 words": a child who has read four sentences
        being told "4 words" is being told something untrue about their own
        reading. */
     expect(screen.getByText("0 sentences")).toBeTruthy();
+    await markSentence();
+    /* The reveal's advance says what the press brings: the next item IS a
+       sentence here, and the owner read "Next word" off a real phone. */
+    expect(screen.getByText("Next sentence ➡️")).toBeTruthy();
     fireEvent.click(advance());
     await flush(0);
     expect(screen.getByText("1 sentence")).toBeTruthy();
@@ -355,10 +365,13 @@ describe("the sentence inside a session", () => {
        rather than likely, and it is what kills the swap that survived before. */
     await openSentenceFreePlay(11);
     for (let i = 0; i < 10; i += 1) {
+      await markSentence();                      // the attempt ends at the mark, here too
       const plan = played[played.length - 1];
       const shown = swords().map((b) => b.textContent).join(" ");
       const want = revealWordLongest(shown);
-      expect({ shown, id: plan[0], word: plan[4] }).toEqual({ shown, id: plan[0], word: "w:" + want });
+      /* plan[0] is the lead, plan[2] the sentence, plan[6] the word (the mark
+         prepends a lead and its seam, exactly as in a session). */
+      expect({ shown, id: plan[2], word: plan[6] }).toEqual({ shown, id: plan[2], word: "w:" + want });
       /* Longest counted in TILES, not letters: "ship" is four letters and
          three sounds, and three is what a child takes apart. */
       const ws = swords().map((b) => b.textContent.toLowerCase().replace(/[.,!?]$/, ""));
@@ -382,16 +395,27 @@ describe("the sentence inside a session", () => {
     expect(revealWordLongest("Is it up?")).toBe("is");
   });
 
-  it("10 (free play): records nothing, and offers no way to record anything", async () => {
-    const before = localStorage.length;
+  it("10 (free play): the controls are live for the SENTENCE, and no mark records anything", async () => {
     await openSentenceFreePlay();
-    /* Free play writes nothing to the record, ever (design rule 1 and S1).
-       There is no grade control to press at all here. */
+    /* Baselines AFTER entry: the app persists once on mount (the healed
+       load), and that save belongs to loading, not to any mark below. */
+    const before = localStorage.length;
+    const saves = saveState.mock.calls.length;
+    /* The attempt came to free play on 2026-08-15, so the controls are LIVE —
+       and free play's promise did not move an inch: nothing is written, ever
+       (design rule 1 and S1). Six sentences, each marked with a different
+       grade, and the record is exactly as it was. */
     for (const label of ["✓ got it (hold)", "~ close (hold)", "↻ not yet (hold)"]) {
-      expect(screen.getByLabelText(label).disabled).toBe(true);
+      expect(screen.getByLabelText(label).disabled).toBe(false);
     }
-    for (let i = 0; i < 6; i += 1) { fireEvent.click(advance()); await flush(0); }
+    const grades = ["✓ got it (hold)", "~ close (hold)", "↻ not yet (hold)"];
+    for (let i = 0; i < 6; i += 1) {
+      await markSentence(grades[i % 3]);
+      fireEvent.click(advance());
+      await flush(0);
+    }
     expect(localStorage.length).toBe(before);
+    expect(saveState.mock.calls.length).toBe(saves);
   });
 
   it("11 (free play): never runs out — the pool is dealt again from the top", async () => {
@@ -401,6 +425,7 @@ describe("the sentence inside a session", () => {
     const seen = [];
     for (let i = 0; i < 7; i += 1) {
       seen.push(swords().map((b) => b.textContent).join(" "));
+      await markSentence();
       fireEvent.click(advance());
       await flush(0);
       expect(sentenceEl()).toBeTruthy();

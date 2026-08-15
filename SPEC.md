@@ -936,10 +936,19 @@ sentences are made of the words that level teaches.
    **Built 2026-08-13.** The chooser's third control, "📖 Sentences", serves every sentence
    up to and including the child's level, endlessly, with the same reveal a session gives.
    One earlier is practice they have earned; one later is the guessing exercise the
-   decodability rule exists to prevent. Nothing is recorded and no grade control is live —
-   which is why the session's attempt phase (point 6) does not apply here: with no grade
-   control there is no mark to wait for, so a free-play sentence's reveal starts on
-   arrival, as this ruling built it.
+   decodability rule exists to prevent. **Nothing is ever recorded** — that half of the
+   2026-08-13 ruling is iron and unchanged.
+
+   **The attempt phase applies here too — owner-ruled 2026-08-15, from their own phone.**
+   The 2026-08-13 ruling also said no grade control is live in sentence free play, and it
+   was made before the attempt phase existed, when every sentence read itself on arrival.
+   Within a day of the attempt phase shipping the owner met the old shape in free play and
+   named it: the reveal "plays without providing the child a chance to figure it out." So
+   a free-play sentence now arrives silent like a session's, the three controls are live,
+   and the mark starts the reveal — exactly as free-play WORDS have always been graded
+   against a throwaway state. The mark decides only what the app says, there as here. The
+   advance under a free-play sentence reveal says **"Next sentence ➡️"**, because the next
+   item is one, and a label that misnames the next thing teaches a child to ignore labels.
 
 What this costs, and none of it is done: `a` needs a listening round, being a word the game
 has never spoken. `the` and `and` have approved clips already. Every level object grows a

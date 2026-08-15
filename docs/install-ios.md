@@ -35,6 +35,15 @@ The app stores all progress on the device. The full network rule is safety rule 
 CLAUDE.md, and the app's own "Grown-ups corner" states it in plain words — including the
 narrow update checks it allows and the switch that turns the automatic one off.
 
+## Keep the ring/silent switch on ring
+
+On iPhones and iPads, the ring/silent switch can mute the game's recorded voice — the
+words are then spoken by the system voice instead, the letter tiles stop lighting up as
+their sounds play, and sentences fall silent. The game asks newer devices to treat its
+voice as media (like a video), which the switch does not mute, but older versions of iOS
+do not offer that. If the voice or the sentences go quiet and nothing else looks wrong,
+check the switch first — found on a real phone, 2026-08-15.
+
 ## The app asks for no permissions
 
 The app does not ask for the microphone, the camera, the photo library, or your location. It
