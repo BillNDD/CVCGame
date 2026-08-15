@@ -989,7 +989,11 @@ and the cause (a description that began at "The sentence is read whole", built a
 recorded there so the next incomplete description is recognised. Proof: the sentence suite
 grew its attempt tests (silent arrival, lead-by-grade, one-mark-only, never persisted),
 the engine pins the praise roster in both halves, G7's walk now marks a sentence the way a
-grown-up does, and the QA script gained the on-device step.
+grown-up does, and the QA script gained the on-device step. **And the proof no gate can
+give: the owner ran that step on their own phone the same day — sessions, free play, the
+notes and the labels — and reported it working, in their word, "perfected." The two
+faults their first minute found (a mute ring switch, and free play still auto-playing)
+were fixed the same hour, which is what a device minute is for.**
 
 ## L. The safety rule with no gate — S9, GATED 2026-08-15
 
