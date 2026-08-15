@@ -15,7 +15,7 @@ import {
 
 describe("buildSession and the next level", () => {
   /* The peek used to open on exposure: "every word has been seen", which a
-     child who has read all 12 and got all 12 wrong satisfies. Ten sessions of
+     child who has read all 14 and got all 14 wrong satisfies. Ten sessions of
      wrong answers handed such a child the whole of Level 2, eight words a
      session, and parked every one of them for good. */
   it("never hands the next level to a child who has read nothing correctly", () => {
@@ -31,30 +31,30 @@ describe("buildSession and the next level", () => {
       s.sessionsCompleted += 1;
     }
     expect(served.length).toBe(10);
-    expect(served.map(q => q.length)).toEqual([12, 12, 12, 12, 12, 12, 12, 12, 12, 12]);
+    expect(served.map(q => q.length)).toEqual([14, 14, 14, 14, 14, 14, 14, 14, 14, 14]);
     expect(served.flat().filter(w => WORD_LEVEL[w] > 1).length).toBe(0);
-    expect(Object.keys(s.words).length).toBe(12);
+    expect(Object.keys(s.words).length).toBe(14);
   });
   it("does not count a close reading as learning the word", () => {
     const s = newState(); s.sessionsCompleted = 3;
     LEVELS[0].words.forEach(w => { s.words[w] = { ...freshWordState(), box: 1, attempts: 2, dueAt: 1 }; });
     s.words[LEVELS[0].words[0]] = { ...freshWordState(), box: 3, attempts: 2, dueAt: 1 };
     const q = buildSession(s);
-    expect(q.length).toBe(12);
+    expect(q.length).toBe(14);
     expect(q.filter(w => WORD_LEVEL[w] === 2).length).toBe(0);
   });
-  it("opens the next level at 10 of the 12 words, not at 9", () => {
+  it("opens the next level at 12 of the 14 words, not at 11", () => {
     const mk = (learned, box) => {
       const s = newState(); s.sessionsCompleted = 3;
       LEVELS[0].words.forEach(w => { s.words[w] = { ...freshWordState(), box: 0, attempts: 2, dueAt: 1 }; });
       LEVELS[0].words.slice(0, learned).forEach(w => { s.words[w] = { ...freshWordState(), box, attempts: 2, dueAt: 1 }; });
       return s;
     };
-    expect(LEVELS[0].words.length).toBe(12);
-    expect(buildSession(mk(9, 3)).filter(w => WORD_LEVEL[w] === 2).length).toBe(0);
-    expect(buildSession(mk(10, 3)).filter(w => WORD_LEVEL[w] === 2).length).toBe(8);
+    expect(LEVELS[0].words.length).toBe(14);
+    expect(buildSession(mk(11, 3)).filter(w => WORD_LEVEL[w] === 2).length).toBe(0);
+    expect(buildSession(mk(12, 3)).filter(w => WORD_LEVEL[w] === 2).length).toBe(6);
     // box 2 is a word read correctly twice and then missed: still learned
-    expect(buildSession(mk(10, 2)).filter(w => WORD_LEVEL[w] === 2).length).toBe(8);
+    expect(buildSession(mk(12, 2)).filter(w => WORD_LEVEL[w] === 2).length).toBe(6);
   });
   it("brings a graded next-level word back for review", () => {
     const s = newState(); s.sessionsCompleted = 6;
@@ -63,7 +63,7 @@ describe("buildSession and the next level", () => {
     expect(WORD_LEVEL.cat).toBe(2);
     const q = buildSession(s);
     expect(q).toContain("cat");
-    expect(q.length).toBe(13);
+    expect(q.length).toBe(15);
   });
   it("caps above-level review at 2 words a session", () => {
     const s = newState(); s.sessionsCompleted = 6;
@@ -71,6 +71,6 @@ describe("buildSession and the next level", () => {
     LEVELS[1].words.slice(0, 5).forEach(w => { s.words[w] = { ...freshWordState(), box: 0, attempts: 1, dueAt: 1 }; });
     const q = buildSession(s);
     expect(q.filter(w => WORD_LEVEL[w] === 2).length).toBe(2);
-    expect(q.length).toBe(14);
+    expect(q.length).toBe(16);
   });
 });

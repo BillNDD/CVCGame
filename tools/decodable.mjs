@@ -8,7 +8,7 @@
  *
  * The rule, owner-ruled 2026-08-11: taught words plus the heart-word roster.
  * "Taught" means every word up to and including the level the sentence belongs
- * to, so a Level 10 sentence may never lean on a Level 11 word.
+ * to, so a Level 19 sentence may never lean on a Level 20 word.
  *
  * Usage:
  *   node tools/decodable.mjs <level> "sentence"     check one
@@ -46,17 +46,22 @@ import { LEVELS, TRICKY, HEART, WORD_LEVEL } from "../src/engine.js";
    Nobody had to remember this file existed.
 
    THE LIST IS NOW EMPTY, and that is a real state rather than an oversight:
-   every heart word the owner has ruled onto the roster is seated at Level 2
-   and in the game. It stays here, exported and guarded, because the roster
-   will grow again and the next word to be ruled on belongs in it. */
+   every heart word the owner has ruled onto the roster is seated and in the
+   game — since 2026-08-15 at the seat the owner read and approved, Levels 1
+   to 7. It stays here, exported and guarded, because the roster will grow
+   again and the next word to be ruled on belongs in it. */
 export const HEART_WAITING = [];
 
-/* Levels beyond the eleven that ship today, as proposed. A sentence for a level
-   may use every word up to and including it. Levels 10 and 11 left this map on
-   2026-08-12, when they were built; what remains is 12 to 15. */
+/* Levels beyond the twenty that ship today, as proposed. A sentence for a
+   level may use every word up to and including it. Levels 10 and 11 left this
+   map on 2026-08-12, when they were built. RE-KEYED 2026-08-15 with the
+   10-and-10 build: these used to sit at 12 and 13, and the moment real Levels
+   12 and 13 existed the map would have silently widened their vocabulary with
+   words no level teaches — union by number, the exact trap E11 names. The
+   plural-s level and the compound level now wait beyond the last real level. */
 export const PROPOSED = {
-  12: "beds bugs cans cats cups dogs hats hens kids lids maps pens pigs pots tops".split(" "),
-  13: "catnip laptop sunset".split(" "),
+  21: "beds bugs cans cats cups dogs hats hens kids lids maps pens pigs pots tops".split(" "),
+  22: "catnip laptop sunset".split(" "),
 };
 
 /* What a child at this level has actually been taught — read from the LEVELS,
@@ -70,7 +75,8 @@ export const PROPOSED = {
    sentences a level or more below where a child could actually read them.
    "The cat sat on the mat." read as Level 2 and needed Level 7.
 
-   Now the heart words sit at Level 2 in the engine, this function reads the
+   Now the heart words sit at their owner-approved seats in the engine
+   (Levels 1 to 7 since the 10-and-10 curriculum), this function reads the
    same seats every other part of the game reads, and the two answers cannot
    drift apart because there is only one of them. HEART stays imported for the
    assertion below, which is the guard that keeps it that way. */
@@ -78,14 +84,17 @@ export function vocabularyUpTo(level) {
   const v = new Set();
   for (const l of LEVELS) if (l.n <= level) for (const w of l.words) v.add(w);
   for (const n of Object.keys(PROPOSED)) if (Number(n) <= level) for (const w of PROPOSED[n]) v.add(w);
-  /* The guard: every heart word must have a SEAT, and it must be an early one.
-     A heart word that drifted late would make this function quietly correct
-     and the game quietly wrong — the child would meet it long after a sentence
-     claimed they could read it. Two is the level sentence practice begins at. */
+  /* The guard: every heart word must have a SEAT, and it must be one the
+     owner ruled. A heart word that drifted late would make this function
+     quietly correct and the game quietly wrong — the child would meet it long
+     after a sentence claimed they could read it. Under the 10-and-10
+     curriculum (owner-approved 2026-08-15, rounds one to three) the seats
+     span Levels 1 to 7 — "Move of to 7" is the owner's own outer bound, so
+     seven is the fence: an eighth-level heart is drift, not a ruling. */
   for (const w of HEART) {
     const seat = WORD_LEVEL[w];
     if (!seat) throw new Error(`heart word "${w}" has no level seat; buildSession can never serve it`);
-    if (seat > 2) throw new Error(`heart word "${w}" is seated at level ${seat}; a heart word is met early or it is not a heart word`);
+    if (seat > 7) throw new Error(`heart word "${w}" is seated at level ${seat}; the owner's rulings end at 7 ("Move of to 7") and a heart word is met early or it is not a heart word`);
   }
   waitingIsHonest(HEART);
   return v;
@@ -142,17 +151,17 @@ export function check(sentence, level, mustUse = []) {
 if (process.argv.includes("--self-test")) {
   /* Every way a sentence can fail the promise, and one control that must pass. */
   const cases = [
-    ["The dog ran fast.", 10, true, "a real one: every word taught, and 'fast' is new at 10"],
-    ["The dog ran quickly.", 10, false, "'quickly' is not taught anywhere — the fault the checker exists for"],
-    ["The dog ran up the hill.", 10, false, "every word taught, but none of them is new at level 10"],
-    ["The kid can stop.", 10, false, "'stop' is a level 11 word: a sentence must never arrive before its words"],
-    ["The kid can stop.", 11, true, "control: the same sentence is fine at level 11"],
-    ["The frog can jump.", 10, false, "'frog' is in no level at all — it caught this in my own fixture"],
-    ["You said the dog can jump.", 10, true, "heart words 'you' and 'said' are allowed"],
-    ["The dog ran fast", 10, false, "no end punctuation"],
-    ["the dog ran fast.", 10, false, "no capital"],
-    ["The big dog and the fat cat and the red hen ran fast.", 10, false, "too long to hold"],
-    ["The dog can't jump.", 10, false, "\"can't\" is not \"can\" — a contraction is a word of its own"],
+    ["The dog ran fast.", 19, true, "a real one: every word taught, and 'fast' is new at 19"],
+    ["The dog ran quickly.", 19, false, "'quickly' is not taught anywhere — the fault the checker exists for"],
+    ["The dog ran up the hill.", 19, false, "every word taught, but none of them is new at level 19"],
+    ["The kid can stop.", 19, false, "'stop' is a level 20 word: a sentence must never arrive before its words"],
+    ["The kid can stop.", 20, true, "control: the same sentence is fine at level 20"],
+    ["The frog can jump.", 19, false, "'frog' is in no level at all — it caught this in my own fixture"],
+    ["You said the dog can jump.", 19, true, "heart words 'you' and 'said' are allowed"],
+    ["The dog ran fast", 19, false, "no end punctuation"],
+    ["the dog ran fast.", 19, false, "no capital"],
+    ["The big dog and the fat cat and the red hen ran fast.", 19, false, "too long to hold"],
+    ["The dog can't jump.", 19, false, "\"can't\" is not \"can\" — a contraction is a word of its own"],
   ];
   let failed = 0;
   /* The waiting list's own control, and it runs FIRST because everything below

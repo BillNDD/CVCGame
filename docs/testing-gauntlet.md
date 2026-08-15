@@ -247,8 +247,8 @@ every bound reads `LEVELS.length`, which is why adding a level needed no engine 
     1280/1080 landscape checks, and nothing measured it before.
   - The session path fits every screen a family owns, at ten widths from 300 to 1280 px:
     300 (narrower than any supported phone), 320, 375, 390, 430, 479, 480, 768, 810, 1280.
-    The save is seeded to Level 11 first, because the worst case is a full twenty-word
-    session and a fresh Level 1 holds twelve words. At each width: no sideways overflow, no
+    The save is seeded to Level 20 first, because the worst case is a full twenty-word
+    session and a fresh Level 1 holds fourteen words. At each width: no sideways overflow, no
     page scroll, all twenty dots inside the viewport, the row count and the dots per row
     equal to literal expected values, "read so far" at 9 px, on the first line, and ending
     left of the first dot. 479 and 480 are a pair on either side of the stated breakpoint,
@@ -589,7 +589,7 @@ some other config, is refused rather than read. The floors it enforces are
 like every other floor. The gauntlet still does not call the census, and that stays
 deliberate: a flaky cell must inform a release, never block one.
 
-- Baseline floors: `g13_clips` (598) and `g13_engine_tests` (13).
+- Baseline floors: `g13_clips` (653) and `g13_engine_tests` (13).
 - To re-render the pack after the bank grows: `docs/voice-pack.md`.
 
 ## G19. App mutation
@@ -761,7 +761,7 @@ happened to read the output.
   halves repository language is the tree talking, one stranger half is a person. The
   stated residue: someone named entirely in repository words is skipped here, exactly as
   each half already was by the single-word layers.
-- Keys: `g24_files` (191), `g24_controls` (41), `g24_vocab` (155), `g24_common` (890),
+- Keys: `g24_files` (191), `g24_controls` (41), `g24_vocab` (157), `g24_common` (890),
   `g24_surnames` (1000), problems capped at 0.
 - Run: `node tools/s9-names.mjs` and `--self-test`; both are in `npm run check`.
 
@@ -950,7 +950,7 @@ found it by remembering, which is the mechanism these gates exist to replace.
   every column after `oo_moon`'s `"moon, food, boot"` cell, so the gate read the wrong cell as
   a verdict and reported a contradiction that did not exist. A gate that mis-parses its
   evidence lies confidently. That row is now a control.
-- Keys: `g16b_sounds` (55) and `g16b_controls` (33), problems capped at 0.
+- Keys: `g16b_sounds` (56) and `g16b_controls` (33), problems capped at 0.
 
 ## Aggregation
 
@@ -1028,7 +1028,7 @@ other direction: the real pack, unchanged, must pass.
 
 ## G20. Effect map
 
-- Tool: `tools/effect-map.mjs`. Writes `docs/effect-map.md`. Keys: `g20_tests_mapped` (291).
+- Tool: `tools/effect-map.mjs`. Writes `docs/effect-map.md`. Keys: `g20_tests_mapped` (294).
 - One row per `it()` SITE — its file, suite, and the test's own sentence, which in this
   project IS the Given/When/Then effect, because tests are named as behaviour. A site inside
   a loop or a table runs many times, so the 284 rows describe the 341 tests Vitest executes;

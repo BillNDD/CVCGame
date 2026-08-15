@@ -1,4 +1,4 @@
-import { C, chunkWord, sentenceWords, TRICKY } from "@engine";
+import { C, chunkWord, displayChunk, sentenceWords, TRICKY } from "@engine";
 
 /* THE SENTENCE REVEAL (SPEC section 12 point 6, approved 2026-08-13 from a
    working prototype). The owner was shown four designs on 2026-08-11, chose
@@ -74,7 +74,7 @@ export default function SentenceStage({ sentence, openWord, pops = [], onTapWord
              word is built" without claiming to say it. */
           <span key={i + ":" + (pops[i]?.n || 0)}
             className={"wq-display wq-tile" + (pops[i]?.ms > 0 ? " wq-pop" : "")}
-            style={pops[i]?.ms > 0 ? { "--wqpop": pops[i].ms + "ms" } : undefined}>{g}</span>
+            style={pops[i]?.ms > 0 ? { "--wqpop": pops[i].ms + "ms" } : undefined}>{displayChunk(openWord, g)}</span>
         ))}
       </div>
       {/* The bent-sound note, for whichever word is OPEN (open-faults J1,

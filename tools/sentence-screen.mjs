@@ -114,9 +114,34 @@ export const SCREENED = [
   "s:soundout-1", "s:soundout-2", "s:soundout-3",
 ];
 
+/* THE SECOND READ — the 10-and-10 curriculum rounds, 2026-08-15. Every id
+   below is a sentence the owner heard whole AND read on the round pages that
+   same night; the round-one page said it in as many words: "Reading this page
+   IS the screening." docs/settled.md holds the four rounds. A second dated
+   list rather than a merge, because SCREENED_ON above is the 2026-08-13 read
+   and one constant cannot carry two dates honestly. The ids spell the level
+   each sentence was DRAFTED at, which is history, not a seat — the arbiter
+   (tools/decodable.mjs) owns seats, and two drafts landed elsewhere. */
+export const SCREENED_2026_08_15 = [
+  "s:cur-l1-01", "s:cur-l1-02", "s:cur-l2-01", "s:cur-l2-02",
+  "s:cur-l2-03", "s:cur-l2-04", "s:cur-l2-05", "s:cur-l3-01",
+  "s:cur-l3-02", "s:cur-l3-03", "s:cur-l4-01", "s:cur-l4-02",
+  "s:cur-l4-04", "s:cur-l4-05", "s:cur-l5-01", "s:cur-l5-02",
+  "s:cur-l5-03", "s:cur-l6-01", "s:cur-l6-02", "s:cur-l6-03",
+  "s:cur-l6-04", "s:cur-l6-05", "s:cur-l7-01", "s:cur-l7-02",
+  "s:cur-l7-03", "s:cur-l7-04", "s:cur-l7-05", "s:cur-l8-01",
+  "s:cur-l8-02", "s:cur-l8-03", "s:cur-l8-04", "s:cur-l8-05",
+  "s:cur-l9-01", "s:cur-l9-02", "s:cur-l9-03", "s:cur-l9-04",
+  "s:cur-l9-05", "s:cur-l10-01", "s:cur-l10-02", "s:cur-l10-03",
+  "s:cur-l10-04", "s:cur-l10-05", "s:cur-l11-01", "s:cur-l11-02",
+  "s:cur-l11-03", "s:cur-l11-04", "s:cur-l11-05", "s:cur-l12-01",
+  "s:cur-l12-02", "s:cur-l12-03", "s:cur-l12-04", "s:cur-l12-05",
+  "s:cur-l12-06",
+];
+
 export function screen(sentences) {
   const problems = [];
-  const known = new Set(SCREENED);
+  const known = new Set([...SCREENED, ...SCREENED_2026_08_15]);
   for (const { id, text } of sentences) {
     const s = shape(text);
     if (s) problems.push(`refused by shape: ${id} ("${text}") — ${s}`);
@@ -128,7 +153,7 @@ export function screen(sentences) {
      sentence the game no longer shows is a record of a read that no longer
      protects anything, and it hides the next removal. */
   const shipped = new Set(sentences.map((s) => s.id));
-  for (const id of SCREENED) if (!shipped.has(id)) problems.push(`screened but not shipped: ${id} — remove it, or ship it`);
+  for (const id of [...SCREENED, ...SCREENED_2026_08_15]) if (!shipped.has(id)) problems.push(`screened but not shipped: ${id} — remove it, or ship it`);
   return problems;
 }
 

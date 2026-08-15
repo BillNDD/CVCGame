@@ -240,7 +240,9 @@ describe("G9 faults — an unreadable save, and backups that must look like one"
 
   it("7a (control): a genuine backup still restores", async () => {
     mockLoad.mockResolvedValueOnce(newState());
-    const backup = JSON.stringify({ ...newState(), level: 4, version: 3 });
+    /* A version 4 backup: its level is trusted (and clamped), where a pre-v4
+       one would recompute from the words — that path has its own tests. */
+    const backup = JSON.stringify({ ...newState(), level: 4, version: 4 });
     await importFile(backup);
     expect(screen.getByText("Backup loaded.")).toBeTruthy();
     expect(mockSave.mock.calls.at(-1)[0].level).toBe(4);

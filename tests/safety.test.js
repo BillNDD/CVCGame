@@ -537,21 +537,22 @@ describe("G10 — free play never touches the save", () => {
        graded as a retry.
 
        At the boundary the pin moves to 0.955, and that number is chosen, not
-       inherited. "plan" sits at index 419 of the 439-word bank, so a pin
-       anywhere in [0.954442, 0.956720) makes the UNGUARDED draw land exactly
-       on the word the child just read. Only a pin in that window can tell the
-       guard apart from luck: the pin of 0.935 was in the window for the
-       349-word bank and fell out of it when the bank grew, at which point the
-       test would still have passed while proving nothing. Both literals below
-       are derived from the algorithm, never read back from a run:
-         - the guard drops "plan" from the pool, so 439 words are left and
-           floor(0.955 x 439) = 419 opens the block on "grin", not "plan";
-         - "plan" is then pushed to the BACK of the refilled pool, so index
-           floor(0.955 x 440) = 420 of that pool is "plum" — the word that
-           sat one place after "plan" before it moved. Without the push-back
-           the same index would land on "plan" itself, so this line is what
-           proves the word returns to the game rather than leaving it. All
-           literals (E4), for the 440-word bank.
+       inherited. The discriminating structure at the 446-word bank (the
+       SEVENTH move — "i" joined with the 10-and-10 curriculum, and every
+       number here was SIMULATED against the real function, per the history
+       below): floor(0.955 x 446) = 425 is "grin", so an UNGUARDED draw over
+       the whole bank would open on "grin". Both literals below come from
+       running the algorithm:
+         - the guard drops "plan" from the pool, so 445 words are left and
+           floor(0.955 x 445) = 424 opens the block on "grab" — not "grin",
+           which is what an unguarded draw would serve, and not "plan";
+         - "plan" is then pushed to the BACK of the refilled pool (444 left
+           after the first splice, plus "plan" = 445 again), so the second
+           draw's floor(0.955 x 445) = 424 of THAT pool is "grin". Without
+           the push-back the pool would sit at 444 and the draw would land
+           elsewhere, so this line is what proves the word returns to the
+           game rather than leaving it. All literals (E4), for the 446-word
+           bank.
 
        RE-DERIVED SIX TIMES NOW, and the last three are the lesson.
        The bank went 432 -> 436 when four heart words joined, 436 -> 438 with
@@ -571,13 +572,12 @@ describe("G10 — free play never touches the save", () => {
        The FIFTH and SIXTH moves were both computed rather than reasoned about,
        which is what this paragraph asks for: 438 -> 440 when "we" and "me"
        were seated, and 440 -> 445 when the other five open syllables followed.
-       At 445 the two indices COINCIDE at 424 — splicing one word out and
-       pushing "plan" back leaves the pool the same length both times — and the
-       first draft of the sixth correction reasoned its way to the wrong answer
-       by indexing WITHOUT splicing, which is not what the function does.
-       Simulating the real function gave "grin" then "plum"; running it without
-       the push-back gave "grab", and that is the control proving the second
-       literal still bites.
+       The SEVENTH (445 -> 446, the word "i") was simulated the same way: at
+       446 the guarded pool sits at 445 both times — splice one out, push
+       "plan" back — so both draws index 424, giving "grab" then "grin",
+       while the unguarded whole-bank draw lands on "grin" first. The guard
+       and the coincidence word are one index apart, which is exactly the
+       discrimination this pin exists for.
 
        That the assertions never failed is the danger, not the comfort:
        nothing goes red while the reasoning quietly stops matching the code.
@@ -598,9 +598,9 @@ describe("G10 — free play never touches the save", () => {
       spy.mockReturnValue(0.955);
       await gradeOne("✓ got it (hold)");
       expect(screen.getByText("20 words")).toBeTruthy();
-      expect(document.querySelector(".wq-word").textContent).toBe("grin");
+      expect(document.querySelector(".wq-word").textContent).toBe("grab");
       await gradeOne("✓ got it (hold)");
-      expect(document.querySelector(".wq-word").textContent).toBe("plum");
+      expect(document.querySelector(".wq-word").textContent).toBe("grin");
     } finally { spy.mockRestore(); }
   });
 });

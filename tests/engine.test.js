@@ -60,28 +60,29 @@ describe("A stumble must not cost mastery (parent report, 2026-08-13)", () => {
 });
 
 describe("word bank", () => {
-  it("has 445 unique words across 11 levels", () => {
+  it("has 446 unique words across 20 levels", () => {
     const all = LEVELS.flatMap(l => l.words);
-    expect(all.length).toBe(445);
-    expect(new Set(all).size).toBe(445);
-    expect(LEVELS.map(l => l.n)).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]);
-    expect(LEVELS.map(l => l.words.length)).toEqual([12, 60, 49, 48, 49, 38, 58, 27, 22, 53, 29]);
+    expect(all.length).toBe(446);
+    expect(new Set(all).size).toBe(446);
+    expect(LEVELS.map(l => l.n)).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]);
+    expect(LEVELS.map(l => l.words.length)).toEqual([14, 12, 12, 13, 13, 12, 11, 10, 10, 10, 10, 10, 33, 49, 38, 58, 27, 22, 53, 29]);
   });
-  it("starts with the 12-word VC level", () => {
-    expect(LEVELS[0].words).toEqual(["at","an","am","ax","in","it","if","is","on","ox","up","us"]);
+  it("starts with the ten VC words, then Level 1's four seated hearts", () => {
+    expect(LEVELS[0].words).toEqual(["is","it","in","on","at","an","up","us","am","ax","the","a","and","i"]);
   });
   it("maps every word to its level", () => {
-    expect(Object.keys(WORD_LEVEL).length).toBe(445);
-    expect(WORD_LEVEL.at).toBe(1); expect(WORD_LEVEL.cat).toBe(2); expect(WORD_LEVEL.was).toBe(7);
-    expect(WORD_LEVEL.has).toBe(2); expect(WORD_LEVEL.she).toBe(6);
-    /* "the" moved 7 -> 2 on 2026-08-12: a heart word's level is where the
-       CHILD MEETS it, not where its th would fall. */
-    expect(WORD_LEVEL.the).toBe(2); expect(WORD_LEVEL.and).toBe(2); expect(WORD_LEVEL.my).toBe(2);
-    expect(WORD_LEVEL.bell).toBe(8); expect(WORD_LEVEL.chick).toBe(9);
+    expect(Object.keys(WORD_LEVEL).length).toBe(446);
+    expect(WORD_LEVEL.at).toBe(1); expect(WORD_LEVEL.cat).toBe(2); expect(WORD_LEVEL.was).toBe(16);
+    expect(WORD_LEVEL.has).toBe(6); expect(WORD_LEVEL.she).toBe(15);
+    /* Heart seats are the owner's 2026-08-15 rulings: a heart word's level is
+       where the CHILD MEETS it, not where its spelling would fall. */
+    expect(WORD_LEVEL.the).toBe(1); expect(WORD_LEVEL.and).toBe(1); expect(WORD_LEVEL.i).toBe(1);
+    expect(WORD_LEVEL.my).toBe(2); expect(WORD_LEVEL.of).toBe(7);
+    expect(WORD_LEVEL.bell).toBe(17); expect(WORD_LEVEL.chick).toBe(18);
   });
-  it("flags the twenty-three tricky words — the nine originals and the fourteen heart-word notes of 2026-08-15", () => {
+  it("flags the twenty-four tricky words — the nine originals, the fourteen heart-word notes of 2026-08-15, and i", () => {
     expect(Object.keys(TRICKY).sort()).toEqual([
-      "a","be","bush","do","go","has","he","is","me","my","no","of",
+      "a","be","bush","do","go","has","he","i","is","me","my","no","of",
       "push","said","she","so","the","to","was","wash","we","what","you",
     ]);
     /* "and" is the one heart word with no note, because it bends nothing —
@@ -90,26 +91,31 @@ describe("word bank", () => {
     expect(TRICKY.and).toBeUndefined();
   });
   it("keeps every word inside what the tile row can hold: 4 units at most, 5 letters at most", () => {
-    /* Levels 1 to 9 break into two or three sound units. Levels 10 and 11 are
-       blends, and a blend is TWO sounds run together rather than one — "band"
-       is b-a-n-d and "step" is s-t-e-p — so a fourth unit appears for the
-       first time. Four is the ceiling, and it is a real one: the feedback tile
-       row is a flexbox that does not wrap, so a fifth unit would push the word
+    /* Levels 1 to 18 break into one, two or three sound units. Levels 19 and
+       20 are blends, and a blend is TWO sounds run together rather than one —
+       "band" is b-a-n-d and "step" is s-t-e-p — so a fourth unit appears
+       there. Four is the ceiling, and it is a real one: the feedback tile row
+       is a flexbox that does not wrap, so a fifth unit would push the word
        off a small screen. That the four fit is measured on a 320 px viewport
        by the G7 interface gate, which an assertion here cannot see. */
-    /* ONE tile is possible from 2026-08-12, and by exactly one word: the
-       article "a". It is named here rather than allowed by a loosened floor,
-       so a single-letter word arriving by accident still fails. A one-tile
-       reveal is also a shape nothing else in the bank produces — the word, the
-       sound and the word again are all the same recording — which is why the
-       owner heard it before it shipped. */
+    /* ONE tile is possible by exactly two words, each named here rather than
+       allowed by a loosened floor, so a single-letter word arriving by
+       accident still fails: the article "a" (2026-08-12) and the word "i"
+       (round four, 2026-08-15). Both share the shape nothing else in the bank
+       produces — the word, the sound and the word again are all the same
+       recording — which is why the owner heard each before it shipped. */
     const single = LEVELS.flatMap((l) => l.words).filter((w) => chunkWord(w).length === 1);
-    expect(single).toEqual(["a"]);
+    expect(single).toEqual(["a", "i"]);
     for (const l of LEVELS) {
       for (const w of l.words) {
-        expect(w.length).toBeLessThanOrEqual(l.n <= 7 || l.n >= 10 ? 4 : 5);
-        expect(chunkWord(w).length).toBeGreaterThanOrEqual(w === "a" ? 1 : 2);
-        expect(chunkWord(w).length).toBeLessThanOrEqual(l.n <= 9 ? 3 : 4);
+        /* Letters: three through the CVC stages; "said" brings four to Level 6
+           as a heart, the digraph stages run at four, Chicks (18) at five.
+           Tiles: three everywhere until the blend stages — a blend is TWO
+           sounds run together, so Levels 19 and 20 seat the first four-tile
+           words, measured on a 320 px viewport by the G7 interface gate. */
+        expect(w.length).toBeLessThanOrEqual(l.n === 18 ? 5 : l.n === 6 || l.n >= 15 ? 4 : 3);
+        expect(chunkWord(w).length).toBeGreaterThanOrEqual(w === "a" || w === "i" ? 1 : 2);
+        expect(chunkWord(w).length).toBeLessThanOrEqual(l.n >= 19 ? 4 : 3);
       }
     }
   });
@@ -226,14 +232,16 @@ describe("applyResult", () => {
 
 /* ---------------- promotion (S3) ---------------- */
 describe("checkPromotion", () => {
-  it("promotes at exactly 80 percent on the 50-word level", () => {   // S3 — reachable boundary
-    // 40/50 is EXACTLY 0.8 — the one case where >= and > differ. The 48-word
-    // level cannot reach the boundary (38.4), and a test that sits off it let
-    // the "promotion >= to >" mutant survive G5 on 2026-08-03.
-    const at40 = seeded(LEVELS[4].words.slice(0, 40), { box: 3, attempts: 1 }); at40.level = 5;
-    expect(checkPromotion(at40)).toBe(true); expect(at40.level).toBe(6);
-    const at39 = seeded(LEVELS[4].words.slice(0, 39), { box: 3, attempts: 1 }); at39.level = 5;
-    expect(checkPromotion(at39)).toBe(false); expect(at39.level).toBe(5);
+  it("promotes at exactly 80 percent on a ten-word level", () => {   // S3 — reachable boundary
+    // 8/10 is EXACTLY 0.8 — the one case where >= and > differ, and the
+    // 10-and-10 curriculum made it reachable through the real bank again
+    // (Level 8 carries no hearts, so ten IS its denominator). A test that
+    // sits off the boundary let the "promotion >= to >" mutant survive G5
+    // on 2026-08-03; this one sits on it from both sides.
+    const at8 = seeded(LEVELS[7].words.slice(0, 8), { box: 3, attempts: 1 }); at8.level = 8;
+    expect(checkPromotion(at8)).toBe(true); expect(at8.level).toBe(9);
+    const at7 = seeded(LEVELS[7].words.slice(0, 7), { box: 3, attempts: 1 }); at7.level = 8;
+    expect(checkPromotion(at7)).toBe(false); expect(at7.level).toBe(8);
   });
   it("uses box 3 as the solid threshold, not box 2", () => {   // S3 — kills the >= 2 mutant
     const box2 = seeded(LEVELS[0].words, { box: 2, attempts: 2 });
@@ -241,15 +249,15 @@ describe("checkPromotion", () => {
     const box3 = seeded(LEVELS[0].words, { box: 3, attempts: 2 });
     expect(checkPromotion(box3)).toBe(true);
   });
-  it("needs 10 of 12 on the VC level", () => {
-    const nine = seeded(LEVELS[0].words.slice(0, 9), { box: 3, attempts: 1 });
-    expect(checkPromotion(nine)).toBe(false);
-    const ten = seeded(LEVELS[0].words.slice(0, 10), { box: 3, attempts: 1 });
-    expect(checkPromotion(ten)).toBe(true); expect(ten.level).toBe(2);
+  it("needs 12 of 14 on the starter level, hearts counted", () => {
+    const eleven = seeded(LEVELS[0].words.slice(0, 11), { box: 3, attempts: 1 });
+    expect(checkPromotion(eleven)).toBe(false);
+    const twelve = seeded(LEVELS[0].words.slice(0, 12), { box: 3, attempts: 1 });
+    expect(checkPromotion(twelve)).toBe(true); expect(twelve.level).toBe(2);
   });
   it("never promotes past the last level", () => {
-    const top = seeded(LEVELS[10].words, { box: 5, attempts: 5 }); top.level = 11;
-    expect(checkPromotion(top)).toBe(false); expect(top.level).toBe(11);
+    const top = seeded(LEVELS[19].words, { box: 5, attempts: 5 }); top.level = 20;
+    expect(checkPromotion(top)).toBe(false); expect(top.level).toBe(20);
   });
   it("promotes after two perfect sessions; a partial session never moves the streak", () => {
     const s = newState(); s.level = 2;
@@ -267,9 +275,9 @@ describe("checkPromotion", () => {
     expect(s.perfectStreak).toBe(0);
   });
   it("the streak never promotes past the last level, and never banks above 2", () => {
-    const s = newState(); s.level = 11; s.perfectStreak = 5;
+    const s = newState(); s.level = 20; s.perfectStreak = 5;
     expect(checkPromotion(s, { partial: false, perfect: true })).toBe(false);
-    expect(s.level).toBe(11);
+    expect(s.level).toBe(20);
     expect(s.perfectStreak).toBe(2);                        // capped, not 6
   });
   it("a partial session with a miss also leaves the streak unchanged", () => {
@@ -299,13 +307,16 @@ describe("checkPromotion", () => {
 
 /* ---------------- session builder (S4) ---------------- */
 describe("buildSession", () => {
-  it("serves the 12 VC words and nothing else on a fresh install", () => {
+  it("serves the 14 starter words - ten VC, four hearts - and nothing else on a fresh install", () => {
     const q = buildSession(newState());
-    expect(q.length).toBe(12);
+    expect(q.length).toBe(14);
     expect(new Set(q)).toEqual(new Set(LEVELS[0].words));
   });
   it("targets 20 words on a full level", () => {
-    const s = newState(); s.level = 2;
+    /* Level 13 is the first with more fresh words than the target; an early
+       ten-word level runs short instead, which "serves the whole starter
+       level" above pins from the other side. */
+    const s = newState(); s.level = 13;
     LEVELS[0].words.forEach(w => { s.words[w] = { ...freshWordState(), box: 5, attempts: 3, dueAt: 99 }; });
     expect(buildSession(s).length).toBe(20);
     expect(SESSION_SIZE).toBe(20);
@@ -395,13 +406,13 @@ describe("heal", () => {
   it("repairs a hostile version so the migration check cannot crash", () => {
     expect(() => migrate({ version: { toString: null } })).not.toThrow();
     const m = migrate({ version: { toString: null }, level: 2 });
-    expect(m.version).toBe(3);
-    expect(m.level).toBe(3);
+    expect(m.version).toBe(4);
+    expect(m.level).toBe(1);   // no word data: the v4 recompute answers the start
   });
   it("repairs a hostile or fractional level so the engine cannot crash", () => {
     expect(migrate({ version: 3, level: "abc" }).level).toBe(1);
     expect(migrate({ version: 3, level: {} }).level).toBe(1);
-    expect(migrate({ version: 3, level: 3.7 }).level).toBe(4);
+    expect(migrate({ version: 3, level: 3.7 }).level).toBe(1);   // rounded by heal, then recomputed by v4
     expect(() => buildSession(migrate({ version: 3, level: 3.7 }))).not.toThrow();
     expect(() => buildMarkdown(migrate({ version: 3, level: "abc" }))).not.toThrow();
   });
@@ -413,9 +424,15 @@ describe("migrate", () => {
     words: { cat: { box: 5, attempts: 9, correct: 8, close: 1, wrong: 0, dueAt: 20, lastSession: 8 } },
     log: [{ n: 1, level: 1, c: 18, k: 1, w: 1, acc: 90, items: [], partial: false }] });
 
-  it("shifts the level and the log by one", () => {
+  it("runs the whole chain: the log shifts, the level recomputes from the words, mode leaves", () => {
+    /* v3 bumps the log rows; v4 (the 10-and-10 curriculum, 2026-08-15) then
+       recomputes the LEVEL from the child's own words — one mastered word
+       secures no level, so this save lands at 1, not at old-3-plus-1. The
+       log keeps its bumped number: it recorded what was true when written.
+       v4 also drops settings.mode, the microphone-era leftover (J2). */
     const m = migrate(v2());
-    expect(m.version).toBe(3); expect(m.level).toBe(4); expect(m.log[0].level).toBe(2);
+    expect(m.version).toBe(4); expect(m.level).toBe(1); expect(m.log[0].level).toBe(2);
+    expect(m.settings.mode).toBeUndefined();
   });
   it("leaves word data untouched", () => {
     const before = JSON.stringify(v2().words);
@@ -425,10 +442,28 @@ describe("migrate", () => {
     const once = migrate(v2()); const twice = migrate(clone(once));
     expect(twice).toEqual(once);
   });
-  it("maps old level 6 to new level 7 and clamps out-of-range input", () => {
-    expect(migrate({ ...v2(), level: 6 }).level).toBe(7);
-    expect(migrate({ version: 3, level: 99 }).level).toBe(11);
+  it("recomputes any pre-v4 level from the words, and clamps a v4 one", () => {
+    /* A stored pre-v4 index points at the OLD structure, so its value cannot
+       be trusted at all — 6, 99 and -5 all land where the (empty) word data
+       says: Level 1. Only a v4 save's own out-of-range value takes the clamp. */
+    expect(migrate({ ...v2(), level: 6 }).level).toBe(1);
+    expect(migrate({ version: 3, level: 99 }).level).toBe(1);
     expect(migrate({ version: 3, level: -5 }).level).toBe(1);
+    expect(migrate({ version: 4, level: 99 }).level).toBe(20);
+    expect(migrate({ version: 4, level: -5 }).level).toBe(1);
+  });
+  it("computes the v4 level at the same boundary promotion uses", () => {
+    /* 12 of Level 1's 14 words secure it (80 per cent or more); 11 do not.
+       Mastering the first two levels' words exactly answers 3. Literals (E4). */
+    const eleven = { version: 3, words: {} };
+    LEVELS[0].words.slice(0, 11).forEach((w) => { eleven.words[w] = { box: 3, attempts: 2, correct: 2, close: 0, wrong: 0, dueAt: 0, lastSession: 0 }; });
+    expect(migrate(eleven).level).toBe(1);
+    const twelve = { version: 3, words: {} };
+    LEVELS[0].words.slice(0, 12).forEach((w) => { twelve.words[w] = { box: 3, attempts: 2, correct: 2, close: 0, wrong: 0, dueAt: 0, lastSession: 0 }; });
+    expect(migrate(twelve).level).toBe(2);
+    const twoLevels = { version: 3, words: {} };
+    LEVELS.slice(0, 2).flatMap((l) => l.words).forEach((w) => { twoLevels.words[w] = { box: 5, attempts: 4, correct: 4, close: 0, wrong: 0, dueAt: 0, lastSession: 0 }; });
+    expect(migrate(twoLevels).level).toBe(3);
   });
   it("survives hostile documents", () => {
     for (const bad of [{}, null, undefined, { version: "2" }, { log: null }, { words: [] }])
@@ -440,14 +475,14 @@ describe("migrate", () => {
 describe("sentences", () => {
   const all = () => Object.entries(SENTENCES).flatMap(([lvl, list]) => list.map((s) => ({ ...s, level: Number(lvl) })));
 
-  it("gives all eleven levels a list, and names no level that does not exist", () => {
-    expect(Object.keys(SENTENCES).map(Number).sort((a, b) => a - b)).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]);
-    expect(all().length).toBe(88);
+  it("gives all twenty levels a list, and names no level that does not exist", () => {
+    expect(Object.keys(SENTENCES).map(Number).sort((a, b) => a - b)).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]);
+    expect(all().length).toBe(141);
     /* A level with no sentence is a level where the whole feature is invisible,
        and nothing else here would say so — every other assertion in this file
        is about the sentences that ARE listed. */
     for (const l of LEVELS) expect(SENTENCES[l.n].length).toBeGreaterThan(0);
-    expect(Object.values(SENTENCES).map((v) => v.length)).toEqual([5, 15, 12, 11, 8, 5, 12, 6, 5, 5, 4]);
+    expect(Object.values(SENTENCES).map((v) => v.length)).toEqual([5, 10, 9, 5, 6, 9, 9, 6, 10, 5, 6, 10, 6, 8, 5, 12, 6, 5, 5, 4]);
   });
 
   /* THE ARBITER, RE-RUN. The lists were generated by tools/decodable.mjs and
@@ -481,12 +516,13 @@ describe("sentences", () => {
     }
     /* Literal, not derived (E4), and the FIRST such word rather than any:
        a child meeting a sentence twice must be taught the same word by it. */
-    expect(revealWord("The cat sat on the mat.", 2)).toBe("the");
-    expect(revealWord("The king can sing.", 7)).toBe("king");
-    expect(revealWord("My twin can swim fast.", 11)).toBe("twin");
+    expect(revealWord("The cat sat on the mat.", 2)).toBe("cat");
+    expect(revealWord("The king can sing.", 16)).toBe("king");
+    expect(revealWord("My twin can swim fast.", 20)).toBe("twin");
     /* Control: a level that teaches nothing in the sentence gets null, not a
-       guess. "The king can sing." holds no Level 1 word at all. */
-    expect(revealWord("The king can sing.", 1)).toBe(null);
+       guess. "The king can sing." holds no Level 8 word at all — "the" sits
+       at 1, "can" at 2, "king" and "sing" at 16. */
+    expect(revealWord("The king can sing.", 8)).toBe(null);
   });
 
   it("holds every sentence to one breath and one clip", () => {
@@ -528,16 +564,16 @@ describe("sentences", () => {
 
 /* ---------------- export ---------------- */
 describe("buildMarkdown", () => {
-  it("reports the 445-word denominator and eleven level rows", () => {
+  it("reports the 446-word denominator and twenty level rows", () => {
     const md = buildMarkdown(newState());
-    expect(md).toContain("0/445");
-    expect(md.match(/\*\*Level \d+ .+ \(/g).length).toBe(11);
+    expect(md).toContain("0/446");
+    expect(md.match(/\*\*Level \d+ .+ \(/g).length).toBe(20);
   });
   it("counts a word as mastered only from box 4", () => {
     const three = seeded(["cat", "dog"], { box: 3, attempts: 2 });
-    expect(buildMarkdown(three)).toContain("0/445");
+    expect(buildMarkdown(three)).toContain("0/446");
     const four = seeded(["cat", "dog"], { box: 4, attempts: 2 });
-    expect(buildMarkdown(four)).toContain("2/445");
+    expect(buildMarkdown(four)).toContain("2/446");
   });
   it("keeps a grapheme-safe name intact in the header", () => {
     // lone surrogate = an unpaired HIGH surrogate, or a LOW surrogate with no high before it
@@ -562,10 +598,10 @@ describe("buildMarkdown", () => {
 describe("voice packs", () => {
   it("inventories one clip per word, the fixed sentences, and every sound a tile can ask for", () => {
     const script = voiceScript();
-    expect(script.length).toBe(598);                       // 6 fixed + 17 praise + 445 words + 88 sentences + 3 invitations + "Pronounced:" + 38 sounds
-    expect(script.filter((c) => c.id.startsWith("w:")).length).toBe(445);
-    expect(script.filter((c) => c.id.startsWith("d:")).length).toBe(38);
-    expect(new Set(script.map((c) => c.id)).size).toBe(598);
+    expect(script.length).toBe(653);                       // 6 fixed + 17 praise + 446 words + 141 sentences + 3 invitations + "Pronounced:" + 39 sounds
+    expect(script.filter((c) => c.id.startsWith("w:")).length).toBe(446);
+    expect(script.filter((c) => c.id.startsWith("d:")).length).toBe(39);
+    expect(new Set(script.map((c) => c.id)).size).toBe(653);
     expect(script.find((c) => c.id === "s:was").text).toBe("The word was");
     expect(script.find((c) => c.id === "l:wrong").text).toBe("Let’s try again.");
     expect(script.find((c) => c.id === "p:0").text).toBe("Great job!");
@@ -644,7 +680,7 @@ describe("voice packs", () => {
      will name words this way and must not be the thing that finds it. */
   it("bankWords covers every word the app names, not only the levels", () => {
     const words = bankWords();
-    expect(words.length).toBe(445);
+    expect(words.length).toBe(446);
     expect([...new Set(words)].length).toBe(words.length);       // no duplicates
     expect([...words].sort()).toEqual(words);                    // stable order
     const inLevels = new Set();
@@ -657,7 +693,7 @@ describe("voice packs", () => {
     for (const w of inLevels) expect(words.includes(w)).toBe(true);
     /* Today all three sets coincide, and recording that is the point: it is
        what made the old code look right. */
-    expect(inLevels.size).toBe(445);
+    expect(inLevels.size).toBe(446);
 
     /* Negative control. The old LEVELS-only derivation, run over a fixture
        where a word is named ONLY in a tricky note, must miss it — and the

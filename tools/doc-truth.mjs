@@ -119,11 +119,17 @@ const real = {
    ledger except its own comment, minus anything the shipped pack already
    carries — an item that has shipped is no longer unshipped, and the ledger
    keeps its row as provenance. A word key is bare ("jump"), a sentence key
-   carries the "s:" prefix, and the pack names words "w:jump". */
+   carries the "s:" prefix, and the pack names words "w:jump".
+   An entry with `superseded_by` is neither shipped nor waiting: its text
+   ships under another id whose clip the owner also approved, so the row is
+   provenance for a render that will never ship (two rounds offered the same
+   sentence twice on 2026-08-15, and the accepted clip is the authority — the
+   word-a rule). Counting one as waiting would keep the heading wrong forever. */
 function unshipped(ledgerText, packText) {
   const pack = JSON.parse(packText);
   return Object.keys(JSON.parse(ledgerText))
     .filter((k) => k !== "_comment")
+    .filter((k) => !JSON.parse(ledgerText)[k].superseded_by)
     .filter((k) => !(k.startsWith("s:") ? k in pack : "w:" + k in pack)).length;
 }
 
@@ -289,7 +295,7 @@ function run(d) {
 }
 
 if (process.argv.includes("--self-test")) {
-  const seen = { spec: false, blind: false, qa: false, hold: false, recipe: false, bank: false, floor: false, unshipped: false, table: false, tableOrder: false, orphanDoc: false, orphanCmd: false };
+  const seen = { spec: false, blind: false, qa: false, hold: false, recipe: false, bank: false, floor: false, unshipped: false, superseded: false, table: false, tableOrder: false, orphanDoc: false, orphanCmd: false };
 
   /* Both ways a tool gets orphaned. The first is the one that actually
      happens: somebody tidies a governing document, the sentence naming the
@@ -345,6 +351,17 @@ if (process.argv.includes("--self-test")) {
   const aheadDoc = { ...real, voiceDoc: real.voiceDoc.replace(/## Approved and unshipped: \d+ items/, "## Approved and unshipped: 900 items") };
   seen.unshipped = run(behindDoc).found.some((p) => p.includes("says 60 items are approved and unshipped")) &&
     run(aheadDoc).found.some((p) => p.includes("says 900 items are approved and unshipped"));
+
+  /* The superseded exemption, both directions: a planted waiting entry moves
+     the count (the heading check fires), and the SAME entry marked
+     superseded_by does not — otherwise a row that can never ship would keep
+     the heading wrong forever, or the exemption would quietly eat real debt. */
+  const baseLedger = JSON.parse(real.ledger);
+  const planted = { ...baseLedger, "zz-planted-word": { verdict: "perfect" } };
+  const marked = { ...baseLedger, "zz-planted-word": { verdict: "perfect", superseded_by: "w:cat" } };
+  const countsIt = unshipped(JSON.stringify(planted), real.pack) === unshipped(real.ledger, real.pack) + 1;
+  const exemptsIt = unshipped(JSON.stringify(marked), real.pack) === unshipped(real.ledger, real.pack);
+  seen.superseded = countsIt && exemptsIt;
 
   /* Exactly the fault this rule was written from: a level grows and its row in
      the table does not. Dropping the last word of the Level 2 row is the same

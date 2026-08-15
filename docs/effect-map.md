@@ -8,7 +8,7 @@ Per-test rows carry the test's own sentence, which in this project IS the
 Given/When/Then effect. The requirement, oracle, platform, mutant family, evidence
 and known limits are declared per FILE, in the tool, where they stay true.
 
-Totals: 291 it() SITES across 13 files, plus 10 gates that are not test files.
+Totals: 294 it() SITES across 13 files, plus 10 gates that are not test files.
 
 A site inside a loop or a table runs many times, so these rows describe more tests than they number: Vitest executes 330. The rows count the places behaviour is asserted.
 
@@ -33,7 +33,7 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 8 | G10 — the text a grown-up reads on the child | 27: one completed session counts as  |
 | 9 | G10 — the text a grown-up reads on the child | 28 (control): two sessions still count as  |
 
-## tests/engine.test.js — 96 tests (G1)
+## tests/engine.test.js — 97 tests (G1)
 
 - **Requirement protected:** SPEC sections 3-4: the word bank, levels, chunking, the Leitner ladder, session shape and the reveal plan
 - **Independent oracle:** Literal expected values written from SPEC by hand (E4). Never the constant under test.
@@ -48,10 +48,10 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 2 | A stumble must not cost mastery (parent report, 2026-08-13) | a wrong then a correct lands on box 3, not box 1 |
 | 3 | A stumble must not cost mastery (parent report, 2026-08-13) | the parent |
 | 4 | A stumble must not cost mastery (parent report, 2026-08-13) | but the second correct still only steps one box, so the jump is not repeatable |
-| 5 | word bank | has 445 unique words across 11 levels |
-| 6 | word bank | starts with the 12-word VC level |
+| 5 | word bank | has 446 unique words across 20 levels |
+| 6 | word bank | starts with the ten VC words, then Level 1 |
 | 7 | word bank | maps every word to its level |
-| 8 | word bank | flags the twenty-three tricky words — the nine originals and the fourteen heart-word notes of 2026-08-15 |
+| 8 | word bank | flags the twenty-four tricky words — the nine originals, the fourteen heart-word notes of 2026-08-15, and i |
 | 9 | word bank | keeps every word inside what the tile row can hold: 4 units at most, 5 letters at most |
 | 10 | chunkWord and dashed | fuses every digraph |
 | 11 | chunkWord and dashed | splits VC and plain CVC words |
@@ -65,9 +65,9 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 19 | applyResult | counts one attempt per call and records the session |
 | 20 | applyResult | promotes at exactly 80 percent, not only above it |
 | 21 | applyResult | uses the published interval ladder |
-| 22 | checkPromotion | promotes at exactly 80 percent on the 50-word level |
+| 22 | checkPromotion | promotes at exactly 80 percent on a ten-word level |
 | 23 | checkPromotion | uses box 3 as the solid threshold, not box 2 |
-| 24 | checkPromotion | needs 10 of 12 on the VC level |
+| 24 | checkPromotion | needs 12 of 14 on the starter level, hearts counted |
 | 25 | checkPromotion | never promotes past the last level |
 | 26 | checkPromotion | promotes after two perfect sessions; a partial session never moves the streak |
 | 27 | checkPromotion | an imperfect completed session resets the streak to zero |
@@ -76,7 +76,7 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 30 | checkPromotion | a stored streak alone never promotes on a session-less check |
 | 31 | checkPromotion | a manual level change resets the streak (source tripwire) |
 | 32 | checkPromotion | heal repairs a hostile perfectStreak |
-| 33 | buildSession | serves the 12 VC words and nothing else on a fresh install |
+| 33 | buildSession | serves the 14 starter words - ten VC, four hearts - and nothing else on a fresh install |
 | 34 | buildSession | targets 20 words on a full level |
 | 35 | buildSession | never repeats a word |
 | 36 | buildSession | caps lower-level reviews at 5 |
@@ -92,54 +92,55 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 46 | heal | drops hostile log rows and repairs their items and level |
 | 47 | heal | repairs a hostile version so the migration check cannot crash |
 | 48 | heal | repairs a hostile or fractional level so the engine cannot crash |
-| 49 | migrate | shifts the level and the log by one |
+| 49 | migrate | runs the whole chain: the log shifts, the level recomputes from the words, mode leaves |
 | 50 | migrate | leaves word data untouched |
 | 51 | migrate | is idempotent |
-| 52 | migrate | maps old level 6 to new level 7 and clamps out-of-range input |
-| 53 | migrate | survives hostile documents |
-| 54 | sentences | gives all eleven levels a list, and names no level that does not exist |
-| 55 | sentences | places every sentence where a child can actually read it |
-| 56 | sentences | places no sentence later than it needs to be |
-| 57 | sentences | gives every sentence a word the level teaches, for the reveal to sound out |
-| 58 | sentences | holds every sentence to one breath and one clip |
-| 59 | sentences | counts the words a child sees, not the punctuation a writer left |
-| 60 | sentences | ships three invitation lines, each with a clip and its own words |
-| 61 | buildMarkdown | reports the 445-word denominator and eleven level rows |
-| 62 | buildMarkdown | counts a word as mastered only from box 4 |
-| 63 | buildMarkdown | keeps a grapheme-safe name intact in the header |
-| 64 | buildMarkdown | marks a partial session |
-| 65 | voice packs | inventories one clip per word, the fixed sentences, and every sound a tile can ask for |
-| 66 | voice packs | covers every grapheme the whole bank can produce |
-| 67 | voice packs | bankWords covers every word the app names, not only the levels |
-| 68 | voice packs | no word uses ai or ou without a decided sound |
-| 69 | voice packs | gives every tricky word its true sounds, not its letters |
-| 70 | voice packs | sounds out every heart word the way the owner heard it |
-| 71 | voice packs | splits th into its two sounds, across every th word in the bank |
-| 72 | voice packs | plans the sound-out reveal on every outcome, at the literal 500 ms seam |
-| 73 | voice packs | knows a seam from a clip, and how long each one lasts |
-| 74 | voice packs | maps each tile sound to its own tile, in order |
-| 75 | voice packs | resolves one source per utterance: family, then default, then none |
-| 76 | speech helpers | says full words only, never letter names, and never stretches the reveal |
-| 77 | speech helpers | hands system speech the SOUND of “a”, never the letter |
-| 78 | speech helpers | stays silent when sound is off or no engine exists |
-| 79 | speech helpers | configures the utterance: rate 0.9, pitch 1.1, locale, cancel first |
-| 80 | speech helpers | pins the seventeen praise sentences, character for character |
-| 81 | speech helpers | selects the praise by index, and falls back to the first for a bad index |
-| 82 | speech helpers | queues reveal parts: one cancel, and both the lead and the word sentence at 0.9 |
-| 83 | speech helpers | survives a throwing speech service |
-| 84 | speech helpers | hush stops speech, and survives a missing engine |
-| 85 | speech helpers | vibrates only when the device can, and never throws |
-| 86 | reference storage adapter | reads nothing when no storage exists at all |
-| 87 | reference storage adapter | reads a saved document from the host storage |
-| 88 | reference storage adapter | keeps a copy of damaged data and reports it, even if the copy write fails |
-| 89 | reference storage adapter | saves to the host and answers from memory when the host disappears |
-| 90 | reference storage adapter | reports an unsaved visit when the host write fails |
-| 91 | reference storage adapter | falls back to memory when the host read throws |
-| 92 | G1 — the system voice is never given a word it says wrongly | 75: no praise line contains a word with two pronunciations |
-| 93 | G1 — the system voice is never given a word it says wrongly | 76: with no unsafe line listed, every praise index reaches the system voice unchanged |
-| 94 | G1 — the system voice is never given a word it says wrongly | 77: the clip plan carries the new line to the pack |
-| 95 | G1 — the system voice is never given a word it says wrongly | 78: the sentence praise roster is exactly the rows that never say \ |
-| 96 | G1 — the system voice is never given a word it says wrongly | 79: the sentence lead is the grade |
+| 52 | migrate | recomputes any pre-v4 level from the words, and clamps a v4 one |
+| 53 | migrate | computes the v4 level at the same boundary promotion uses |
+| 54 | migrate | survives hostile documents |
+| 55 | sentences | gives all twenty levels a list, and names no level that does not exist |
+| 56 | sentences | places every sentence where a child can actually read it |
+| 57 | sentences | places no sentence later than it needs to be |
+| 58 | sentences | gives every sentence a word the level teaches, for the reveal to sound out |
+| 59 | sentences | holds every sentence to one breath and one clip |
+| 60 | sentences | counts the words a child sees, not the punctuation a writer left |
+| 61 | sentences | ships three invitation lines, each with a clip and its own words |
+| 62 | buildMarkdown | reports the 446-word denominator and twenty level rows |
+| 63 | buildMarkdown | counts a word as mastered only from box 4 |
+| 64 | buildMarkdown | keeps a grapheme-safe name intact in the header |
+| 65 | buildMarkdown | marks a partial session |
+| 66 | voice packs | inventories one clip per word, the fixed sentences, and every sound a tile can ask for |
+| 67 | voice packs | covers every grapheme the whole bank can produce |
+| 68 | voice packs | bankWords covers every word the app names, not only the levels |
+| 69 | voice packs | no word uses ai or ou without a decided sound |
+| 70 | voice packs | gives every tricky word its true sounds, not its letters |
+| 71 | voice packs | sounds out every heart word the way the owner heard it |
+| 72 | voice packs | splits th into its two sounds, across every th word in the bank |
+| 73 | voice packs | plans the sound-out reveal on every outcome, at the literal 500 ms seam |
+| 74 | voice packs | knows a seam from a clip, and how long each one lasts |
+| 75 | voice packs | maps each tile sound to its own tile, in order |
+| 76 | voice packs | resolves one source per utterance: family, then default, then none |
+| 77 | speech helpers | says full words only, never letter names, and never stretches the reveal |
+| 78 | speech helpers | hands system speech the SOUND of “a”, never the letter |
+| 79 | speech helpers | stays silent when sound is off or no engine exists |
+| 80 | speech helpers | configures the utterance: rate 0.9, pitch 1.1, locale, cancel first |
+| 81 | speech helpers | pins the seventeen praise sentences, character for character |
+| 82 | speech helpers | selects the praise by index, and falls back to the first for a bad index |
+| 83 | speech helpers | queues reveal parts: one cancel, and both the lead and the word sentence at 0.9 |
+| 84 | speech helpers | survives a throwing speech service |
+| 85 | speech helpers | hush stops speech, and survives a missing engine |
+| 86 | speech helpers | vibrates only when the device can, and never throws |
+| 87 | reference storage adapter | reads nothing when no storage exists at all |
+| 88 | reference storage adapter | reads a saved document from the host storage |
+| 89 | reference storage adapter | keeps a copy of damaged data and reports it, even if the copy write fails |
+| 90 | reference storage adapter | saves to the host and answers from memory when the host disappears |
+| 91 | reference storage adapter | reports an unsaved visit when the host write fails |
+| 92 | reference storage adapter | falls back to memory when the host read throws |
+| 93 | G1 — the system voice is never given a word it says wrongly | 75: no praise line contains a word with two pronunciations |
+| 94 | G1 — the system voice is never given a word it says wrongly | 76: with no unsafe line listed, every praise index reaches the system voice unchanged |
+| 95 | G1 — the system voice is never given a word it says wrongly | 77: the clip plan carries the new line to the pack |
+| 96 | G1 — the system voice is never given a word it says wrongly | 78: the sentence praise roster is exactly the rows that never say \ |
+| 97 | G1 — the system voice is never given a word it says wrongly | 79: the sentence lead is the grade |
 
 ## tests/faults.test.js — 13 tests (G9)
 
@@ -166,7 +167,7 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 12 | G9 faults — an unreadable save, and backups that must look like one | 7a (control): a genuine backup still restores |
 | 13 | G9 faults — wrong-shape JSON battery | 4: hostile shapes heal, and every engine function survives them |
 
-## tests/generated/acceptance.test.js — 60 tests (G3)
+## tests/generated/acceptance.test.js — 62 tests (G3)
 
 - **Requirement protected:** The Gherkin scenarios in features/*.feature, in the owner's own domain language
 - **Independent oracle:** The feature files, which the owner approves before any pipeline work
@@ -206,37 +207,39 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 27 | Feature: Sound units and feedback text | Feedback for a missed reading |
 | 28 | Feature: Sound units and feedback text | The tricky word \ |
 | 29 | Feature: Sound units and feedback text | The tricky word \ |
-| 30 | Feature: Level promotion | Just over 80 percent promotes |
+| 30 | Feature: Level promotion | Exactly 80 percent promotes |
 | 31 | Feature: Level promotion | Just under 80 percent does not promote |
 | 32 | Feature: Level promotion | Box 2 words are not solid |
-| 33 | Feature: Level promotion | The starter level needs 10 of its 12 words |
-| 34 | Feature: Level promotion | The last level has no promotion |
-| 35 | Feature: Level promotion | Two perfect sessions in a row promote |
-| 36 | Feature: Level promotion | One perfect session is not enough |
-| 37 | Feature: Level promotion | An imperfect session resets the streak |
-| 38 | Feature: Level promotion | A session stopped early leaves the streak unchanged |
-| 39 | Feature: Level promotion | A session stopped early with a miss also leaves the streak unchanged |
-| 40 | Feature: Level promotion | A box promotion on a perfect session still resets the streak |
-| 41 | Feature: Level promotion | A stored streak alone never promotes without a completed session |
-| 42 | Feature: Saved data survives anything | A version 2 save opens one level up |
-| 43 | Feature: Saved data survives anything | Migration runs only once |
-| 44 | Feature: Saved data survives anything | A hostile level heals to the start |
-| 45 | Feature: Saved data survives anything | An out-of-range level clamps to the top |
-| 46 | Feature: Saved data survives anything | An out-of-range box clamps |
-| 47 | Feature: Saved data survives anything | A broken log row is dropped |
-| 48 | Feature: Building a session | The first session serves the whole starter level |
-| 49 | Feature: Building a session | A full level fills the target |
-| 50 | Feature: Building a session | Overdue reviews from lower levels are capped |
-| 51 | Feature: Building a session | No mastered words return before the third session |
-| 52 | Feature: Building a session | At most two mastered words return for confidence |
-| 53 | Feature: Building a session | The session opens with the most secure word |
-| 54 | Feature: Building a session | No peeking while fresh words remain |
-| 55 | Feature: Building a session | Peeking starts when the level is fully seen |
-| 56 | Feature: Building a session | A level seen but not learned keeps the next level closed |
-| 57 | Feature: Building a session | The next level opens at 10 of the 12 words read correctly |
-| 58 | Feature: Building a session | Nine of the 12 words does not open the next level |
-| 59 | Feature: Building a session | A word the child has already read comes back, whatever its level |
-| 60 | Feature: Building a session | Above-level review never takes over the session |
+| 33 | Feature: Level promotion | The starter level needs 12 of its 14 words |
+| 34 | Feature: Level promotion | Eleven of the starter level |
+| 35 | Feature: Level promotion | The last level has no promotion |
+| 36 | Feature: Level promotion | Two perfect sessions in a row promote |
+| 37 | Feature: Level promotion | One perfect session is not enough |
+| 38 | Feature: Level promotion | An imperfect session resets the streak |
+| 39 | Feature: Level promotion | A session stopped early leaves the streak unchanged |
+| 40 | Feature: Level promotion | A session stopped early with a miss also leaves the streak unchanged |
+| 41 | Feature: Level promotion | A box promotion on a perfect session still resets the streak |
+| 42 | Feature: Level promotion | A stored streak alone never promotes without a completed session |
+| 43 | Feature: Saved data survives anything | A version 2 save recomputes its level from the child |
+| 44 | Feature: Saved data survives anything | An old save lands where the child |
+| 45 | Feature: Saved data survives anything | Migration runs only once |
+| 46 | Feature: Saved data survives anything | A hostile level heals to the start |
+| 47 | Feature: Saved data survives anything | An out-of-range level clamps to the top |
+| 48 | Feature: Saved data survives anything | An out-of-range box clamps |
+| 49 | Feature: Saved data survives anything | A broken log row is dropped |
+| 50 | Feature: Building a session | The first session serves the whole starter level |
+| 51 | Feature: Building a session | A full level fills the target |
+| 52 | Feature: Building a session | Overdue reviews from lower levels are capped |
+| 53 | Feature: Building a session | No mastered words return before the third session |
+| 54 | Feature: Building a session | At most two mastered words return for confidence |
+| 55 | Feature: Building a session | The session opens with the most secure word |
+| 56 | Feature: Building a session | No peeking while fresh words remain |
+| 57 | Feature: Building a session | Peeking starts when the level is fully seen |
+| 58 | Feature: Building a session | A level seen but not learned keeps the next level closed |
+| 59 | Feature: Building a session | The next level opens at 12 of the 14 words read correctly |
+| 60 | Feature: Building a session | Eleven of the 14 words does not open the next level |
+| 61 | Feature: Building a session | A word the child has already read comes back, whatever its level |
+| 62 | Feature: Building a session | Above-level review never takes over the session |
 
 ## tests/properties.test.js — 10 tests (G2)
 
@@ -355,7 +358,7 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 |---|---|---|
 | 1 | buildSession and the next level | never hands the next level to a child who has read nothing correctly |
 | 2 | buildSession and the next level | does not count a close reading as learning the word |
-| 3 | buildSession and the next level | opens the next level at 10 of the 12 words, not at 9 |
+| 3 | buildSession and the next level | opens the next level at 12 of the 14 words, not at 11 |
 | 4 | buildSession and the next level | brings a graded next-level word back for review |
 | 5 | buildSession and the next level | caps above-level review at 2 words a session |
 

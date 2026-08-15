@@ -130,20 +130,22 @@ const pressNext = async () => {
 };
 
 /* A2-003 — the advance control's label. Walk a first session to its last slot,
-   grading every word correct so no retry is queued on the way: 12 words, so
-   eleven grades leave the twelfth on screen. */
+   grading every word correct so no retry is queued on the way: 14 words in
+   the starter session since the 10-and-10 curriculum, so thirteen grades
+   leave the fourteenth on screen. */
 const walkToLastSlot = async () => {
   render(createElement(App));
   await flush(0);
   fireEvent.click(screen.getByText("▶️ Begin Session"));
   await flush(0);
   let sentences = 0;
-  for (let i = 0; i < 11; i += 1) {
+  for (let i = 0; i < 13; i += 1) {
     fireEvent.keyDown(screen.getByLabelText("✓ got it (hold)"), { key: "Enter" });
     await flush(REVEAL_MS + 50);
     if (await pressNext()) sentences += 1;
   }
-  /* Two sentences in eleven words, after the fifth and the tenth. Literal
+  /* Two sentences in thirteen words, after the fifth and the tenth — the
+     after-fifteen slot sits past a 14-word session and never fires. Literal
      (E4), so a walk that silently stops meeting them fails here. */
   expect(sentences).toBe(2);
   return document.querySelector(".wq-word").textContent;

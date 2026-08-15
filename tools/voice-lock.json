@@ -2686,6 +2686,7 @@
    "an": 150,
    "bit": 180,
    "had": 150,
+   "i": 0,
    "nix": 220,
    "pin": 180,
    "rat": 120
@@ -2838,6 +2839,7 @@
    "hung": 1,
    "hush": 0.82,
    "hut": 1,
+   "i": 1,
    "if": 1,
    "in": 0.82,
    "is": 0.82,
@@ -3563,7 +3565,8 @@
   "be": "f35ab9ccb3ed545f8f12c7220608b931314e069559023e32164e18b8c276d6d9",
   "go": "67a88a57ab20c746982544fddea07204d4fc4093ba7076dff581d6cfc6f38b09",
   "no": "5a8921e2428b17334cb0858b57c01efec3157d9dbe0faae2bd06c51aeeb78d88",
-  "so": "30ca49b878aa4f0a632ae0c04e7b4f201e5c6b63f42ce0d11575b19ba40247ed"
+  "so": "30ca49b878aa4f0a632ae0c04e7b4f201e5c6b63f42ce0d11575b19ba40247ed",
+  "i": "51d76557a73de5488c8a407d7cdea7d8f5d7a1f94122cb1e3d75182afa94cf9b"
  },
  "words": {
   "am": {
@@ -6680,11 +6683,18 @@
    "round": "batch 12 (2026-08-11)",
    "listen_context": "clip",
    "byte_pin_sha256": "30ca49b878aa4f0a632ae0c04e7b4f201e5c6b63f42ce0d11575b19ba40247ed"
+  },
+  "i": {
+   "verdict": "perfect",
+   "ear_notes": "owner arm C, whole word at sentence speed - the word says the letter's own name; family listen_sp1.0; sound-out is this same recording (d:long_i_i), the word-a rule",
+   "round": "round 4 / 2026-08-15",
+   "listen_context": "clip",
+   "byte_pin_sha256": "51d76557a73de5488c8a407d7cdea7d8f5d7a1f94122cb1e3d75182afa94cf9b"
   }
  },
  "environment": {
   "model": "kokoro-v1.0.onnx",
   "voices": "voices-v1.0.bin",
-  "libs": "kokoro-onnx==0.5.0, lameenc==1.8.4, numpy==2.4.6, onnxruntime==1.28.0"
+  "libs": "unknown"
  }
 }

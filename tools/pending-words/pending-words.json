@@ -2081,7 +2081,9 @@
   "round": "round 2 / 2026-08-15",
   "verdict": "pick",
   "level": "L3 (new curriculum, unbuilt)",
-  "text": "We sat on the mat."
+  "text": "We sat on the mat.",
+  "superseded_by": "s:mode-wm-wm01",
+  "superseded_why": "same text already shipped and screened under s:mode-wm-wm01; the accepted clip is the authority (the word-a rule), so this render never ships"
  },
  "s:cur-l4-01": {
   "arm": "s:cur-l4-01",
@@ -2111,7 +2113,9 @@
   "round": "round 1 / 2026-08-15",
   "verdict": "perfect",
   "level": "L4 (new curriculum, unbuilt)",
-  "text": "Dad had a nap."
+  "text": "Dad had a nap.",
+  "superseded_by": "s:mode-b3-s09",
+  "superseded_why": "same text already shipped and screened under s:mode-b3-s09; the accepted clip is the authority (the word-a rule), so this render never ships"
  },
  "s:cur-l4-04": {
   "arm": "s:cur-l4-04",

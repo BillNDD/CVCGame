@@ -1241,6 +1241,20 @@ with the levels in the curriculum draft, every one dated 2026-08-15. One iterate
 hen-and-pen sentence at Level 11, carried to round four. "We win!" was already shipped
 and screened, shown for context only.
 
+**The six approved lists, recorded here because a verdict that lives only in an
+untracked page is a verdict this project will lose** (the build reviewer caught the round
+pages living in a gitignored folder; the engine's LEVELS now owns these, and this table is
+the round's record of what the owner approved, with the of adjustment applied):
+
+| level | ten decodables, in teaching order | hearts seated |
+|---|---|---|
+| 7 | mom pop hot pot top not got did him pig | of |
+| 8 | sip dip tip pin win hit six fin bin lip | — |
+| 9 | box fox log hop cot bit fit pit wig bib | — |
+| 10 | fix job rip hip lot nod hog tin rig mop | — |
+| 11 | rob sob mob cop dim bed red hen pen ten | — |
+| 12 | net leg wet jet men bus cup sun run fun | — |
+
 Three rounds in one evening closed 54 new sentences, two banned phrases, twelve word
 lists, and two heart seats. The renders needed no re-recipe at any point: whole-sentence,
 af_heart, speed 1.0 — the settled sentence recipe held through all of it.

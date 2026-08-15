@@ -135,7 +135,8 @@ function run(d) {
   check(notes.go === "Tricky word! The o says its name — go.", "tricky note (go)", notes.go);
   check(notes.no === "Tricky word! The o says its name — no.", "tricky note (no)", notes.no);
   check(notes.so === "Tricky word! The o says its name — so.", "tricky note (so)", notes.so);
-  check(Object.keys(notes).length === 23, "tricky note count", String(Object.keys(notes).length));
+  check(notes.i === "Tricky word! The i says its name — I.", "tricky note (i)", notes.i);
+  check(Object.keys(notes).length === 24, "tricky note count", String(Object.keys(notes).length));
 
   /* Rule 3b lived here: the five adult notes, pinned word for word. It
      retired with the microphone on 2026-08-12 — the note existed to explain

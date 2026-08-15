@@ -804,7 +804,7 @@ for (const height of [430, 555, 720, 950]) {
       tx.onerror = () => reject(tx.error);
     };
     rq.onerror = () => reject(rq.error);
-  }), [dbName, dbStore, STORE_KEY, JSON.stringify({ version: 3, level: 11, sessionsCompleted: 0, perfectStreak: 0, words: {}, settings: { sound: true } })]);
+  }), [dbName, dbStore, STORE_KEY, JSON.stringify({ version: 4, level: 20, sessionsCompleted: 0, perfectStreak: 0, words: {}, settings: { sound: true } })]);
   await page.reload({ waitUntil: "load" });
   await page.getByRole("button", { name: "Begin Session" }).click();
   await page.locator(".wq-word").waitFor();
@@ -819,7 +819,7 @@ for (const height of [430, 555, 720, 950]) {
     over: document.documentElement.scrollWidth > document.documentElement.clientWidth,
   }));
   if (tiles !== 4 || boxes.some((b) => !b)) {
-    fail("a Level 11 word did not render four measurable tiles", `word=${seen} tiles=${tiles}`);
+    fail("a Level 20 word did not render four measurable tiles", `word=${seen} tiles=${tiles}`);
   } else {
     const left = Math.min(...boxes.map((b) => b.x));
     const right = Math.max(...boxes.map((b) => b.x + b.width));
@@ -855,7 +855,7 @@ for (const height of [430, 555, 720, 950]) {
    and ruled: one line where the width allows, two or three where it does not,
    never out of bounds, with "read so far" holding the start of the first line.
    Measured at real device widths, on the WORST case — a twenty-word session,
-   which a fresh Level 1 never produces because that level holds twelve words.
+   which a fresh Level 1 never produces because that level holds fourteen words.
    The expected rows are literal, and so are the dots per row: the track is a
    grid of fixed columns, so what each width does is a fact, not an estimate.
    479 and 480 are here as a pair because they sit either side of the stated
@@ -866,7 +866,7 @@ for (const height of [430, 555, 720, 950]) {
   const storageSrc = readFileSync("app/src/storage.js", "utf8");
   const dbName = storageSrc.match(/DB_NAME = "([^"]+)"/)[1];
   const dbStore = storageSrc.match(/DB_STORE = "([^"]+)"/)[1];
-  const SAVE = JSON.stringify({ version: 3, level: 11, sessionsCompleted: 0,
+  const SAVE = JSON.stringify({ version: 4, level: 20, sessionsCompleted: 0,
     perfectStreak: 0, words: {}, settings: { sound: true } });
 
   const probe = (page) => page.evaluate(() => {

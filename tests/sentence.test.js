@@ -188,7 +188,7 @@ describe("the sentence inside a session", () => {
     expect(played[0][0]).toBe("l:wrong");
     /* Every mark reaches the SAME reveal — a stuck child hears the sentence
        read to them, which is S3's invitation kept. */
-    expect(played[0][2].startsWith("s:mode-")).toBe(true);
+    expect(/^s:(mode|cur)-/.test(played[0][2])).toBe(true);
   });
 
   it("0c: one attempt, one result — a second mark in the same window changes nothing", async () => {
@@ -217,7 +217,7 @@ describe("the sentence inside a session", () => {
        too long. */
     expect(plan[0].startsWith("p:")).toBe(true);
     expect(plan[1]).toBe("seam");
-    expect(plan[2].startsWith("s:mode-")).toBe(true);
+    expect(/^s:(mode|cur)-/.test(plan[2])).toBe(true);
     expect(plan[3]).toBe("seam");
     /* Point 2: the invitation takes the place the praise line usually holds,
        so the reveal a child meets here is the reveal they already know. */
@@ -232,7 +232,7 @@ describe("the sentence inside a session", () => {
     const word = plan[6].slice(2);
     expect(LEVELS[0].words.includes(word)).toBe(true);
     /* Its pieces are on the screen, and they are that word's pieces. */
-    expect(tiles().join("")).toBe(word);
+    expect(tiles().join("")).toBe(word === "i" ? "I" : word);   // the one word the screen uppercases
     expect(openSword().textContent.toLowerCase().replace(/[.!?]$/, "")).toBe(word);
   });
 
@@ -247,7 +247,7 @@ describe("the sentence inside a session", () => {
        but never SPOKEN, because that is the answer. Nothing new was played. */
     expect(played.length).toBe(spoken);
     const w = other.textContent.toLowerCase().replace(/[.,!?]$/, "");
-    expect(tiles().join("")).toBe(w);
+    expect(tiles().join("")).toBe(w === "i" ? "I" : w);   // the one word the screen uppercases
   });
 
   it("4: exactly one word is ever open, and tapping the open one closes it", async () => {
@@ -306,12 +306,12 @@ describe("the sentence inside a session", () => {
     for (const label of ["✓ got it (hold)", "~ close (hold)", "↻ not yet (hold)"]) {
       expect(screen.getByLabelText(label).disabled).toBe(true);
     }
-    const before = screen.getByText("5/12").textContent;
+    const before = screen.getByText("5/14").textContent;
     fireEvent.click(advance());
     await flush(0);
     expect(sentenceEl()).toBeNull();
     /* The count did not move: the sentence read no word and graded none. */
-    expect(screen.getByText("5/12").textContent).toBe(before);
+    expect(screen.getByText("5/14").textContent).toBe(before);
     /* And the press paid back the word it took: the child is on the SIXTH
        word, not back on the fifth they already read. */
     expect(document.querySelector(".wq-word")).toBeTruthy();

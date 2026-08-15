@@ -1,4 +1,4 @@
-import { C, LANGS, LEVELS } from "@engine";
+import { C, LANGS, LEVELS, displayWord } from "@engine";
 import Frame from "../components/Frame.jsx";
 import Zone from "../components/Zone.jsx";
 import Toast from "../components/Toast.jsx";
@@ -114,7 +114,7 @@ export default function ParentScreen({
                       {l.words.map(w => {
                         const ws = state.words[w];
                         const bg = !ws || ws.attempts === 0 ? C.chip : ws.box >= 4 ? "#c6f2dd" : ws.box >= 2 ? "#ffe9b3" : "#ffd4d0";
-                        return <span key={w} style={{ background: bg, color: C.ink, borderRadius: 6, padding: "3px 7px", fontSize: 12, fontWeight: 700 }}>{w}</span>;
+                        return <span key={w} style={{ background: bg, color: C.ink, borderRadius: 6, padding: "3px 7px", fontSize: 12, fontWeight: 700 }}>{displayWord(w)}</span>;
                       })}
                     </div>
                   )}

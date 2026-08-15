@@ -71,7 +71,7 @@ const MUTANTS = [
      every system voice says the LETTER'S NAME to a child being taught that
      letters make sounds. The guard is one function call, and a guard with no
      mutant is a guard nobody has tested. */
-  ["system speech says the letter name for “a”", 'const TTS_UNSAFE_WORD = { a: "uh" };', 'const TTS_UNSAFE_WORD = {};'],
+  ["system speech says the letter name for “a”", 'const TTS_UNSAFE_WORD = { a: "uh", i: "I" };', 'const TTS_UNSAFE_WORD = {};'],
   ["praise ignores its index", "{ text: PRAISE[praise] || PRAISE[0], rate: 0.9 }", "{ text: PRAISE[0], rate: 0.9 }"],
   ["praise option reworded", '"You sounded that one out beautifully!",', '"You sounded that one out!",'],
   ["hush does nothing", 'function hush() { try { if ("speechSynthesis" in window) window.speechSynthesis.cancel(); } catch (e) {} }', "function hush() {}"],

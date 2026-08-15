@@ -860,12 +860,12 @@ pins all twenty-three notes word for word. A SPOKEN layer was offered, and the o
 chose "shown now, spoken explored later" — recorded as idea G8, unpromised.
 
 
-### J2. `settings.mode: "mic"` survives a feature that no longer exists
+### J2. `settings.mode: "mic"` survives a feature that no longer exists — CLOSED 2026-08-15
 
-- **Where** `migrate()` passes `settings` through; the microphone was deleted on 2026-08-12.
-- **What happens today** Nothing: no code reads `settings.mode` any more. It is stale state that
-  outlived its feature, carried by every player from before that date.
-- **Done** means `migrate` drops settings whose feature is gone, with a control.
+- **Where** `migrate()` passed `settings` through; the microphone was deleted on 2026-08-12.
+- **Closed by the v4 migration** of the 10-and-10 build: any pre-v4 save drops
+  `settings.mode` on load, whatever its value, and the migrate test asserts the field is
+  gone from a save that carried it. No code read it; now no save carries it either.
 
 ## K. Seating we, me and go — CLOSED 2026-08-13, and go was never blocked
 
@@ -1137,12 +1137,11 @@ protect it, and a gate that cannot run is a gate that is not protecting anything
   `UnicodeDecodeError` before a single one of its refusals ran. Four call sites now name
   `encoding="utf-8"`. This is the E10 guard — the one that refuses a listening round the
   records have already closed — so it had been silently absent on this machine.
-- **NOT fixed, and it is the reason this entry exists** `node tools/free-port.mjs --self-test`
-  fails 2 of 4: "a listening port is found, with the process that holds it" and "the command
-  line of the holder is reported, not just a number". It looks for the holder of a port with
-  Unix tooling that Windows does not have. **Proved pre-existing** by stashing this change and
-  running the control against `f221d69` unaltered — same two failures — so it is neither
-  caused by this change nor hidden by it.
+- **Fixed later the same day** (this paragraph said "NOT fixed" until 2026-08-15, which was
+  true when written and stale within hours — the build reviewer caught the drift):
+  `tools/free-port.mjs` grew a CannotTell state and a PowerShell path for Windows, its scan
+  parser was extracted so the controls reach the real guard, and its 15 controls pass on
+  this machine. `npm run check` has run fully green on Windows since commit `638c0ff`.
 - **The wider fault behind both** About twenty `read_text()` / `write_text()` calls across
   `tools/*.py` still name no encoding — `align-sentence.py`, `build_a_round.py`,
   `build_of_round.py`, `build_page.py`, `build_soundout_page.py` and others. Every one is a
@@ -1174,6 +1173,22 @@ protect it, and a gate that cannot run is a gate that is not protecting anything
   this platform or states in its own output that it cannot and skips honestly, and the
   encoding-less reads in `tools/*.py` name UTF-8. Section P's move to `D:` does not change
   any of this — the same machine, a different drive.
+
+## R. Eleven level names a child can see that no owner has ruled on — opened 2026-08-15
+
+- **Where** `reference/word-quest.jsx`, the `LEVELS` array: the 10-and-10 build re-cut
+  Levels 1–12, and ten of the twelve needed names where before there were five. Level 1
+  kept Hatchlings and Level 2 kept Sunny Start; the other ten — Jam Jar, Van Pals,
+  Zig Zap, Dig Dog, Mom and Pop, Six Pins, Fox Box, Fix It, Red Hen, Fun Run — are the
+  build's PROVISIONAL choices, each derived from the level's own words, plus an emoji
+  apiece. Levels 13–20 keep their shipped names unchanged.
+- **What a child experiences today** The provisional names, on the level chip and the
+  level-up screen. Nothing is wrong with them except that no owner has read them, and a
+  level's name is child-facing copy the same way feedback lines are.
+- **Done** means the owner has ruled on the ten names (a one-screen decision page, or
+  edits in their own words), the survivors are recorded as approved, and this entry
+  closes. Until then the names ship as provisional because a nameless level would be
+  worse, and the aria snapshot pins only Level 1, which the owner has already lived with.
 
 ## G. Ideas worth trying that nobody has tried
 

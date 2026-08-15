@@ -89,7 +89,7 @@ These rules are mandatory.
 
 ## 3. Word bank
 
-The bank has 445 words in eleven levels. The word order in a level is the introduction order.
+The bank has 446 words in twenty levels. The word order in a level is the introduction order.
 Words have 2 or 3 sound units through Level 9, and 3 or 4 at Levels 10 and 11, where a
 consonant blend adds a unit. Words have at most 4 letters through Level 7 and at Levels 10
 and 11; Levels 8 and 9 may reach 5. Four sound units is the ceiling, and it is a real one:
@@ -118,17 +118,26 @@ test pins that absence as a decision.
 
 | Level | Name | Focus | Words |
 |------:|------|-------|-------|
-| 1 | Hatchlings | two sounds (VC) | at an am ax in it if is on ox up us |
-| 2 | Sunny Start | short a + heart words | the and to do you said my of a we me he be go no so cat hat mat sat man can ran bat cap map tap nap bag dad jam pan rat sad wag van fan ham lap tag had tan pad rag zap yam pal cab ram dab yap mad bad rap has pat dam nag sap vat |
-| 3 | Busy Bees | short i and o | sit pig big dig win lip hit six fin bin dog hot top pot mop log box fox hop cot mom pop not got did him pin tip sip dip hip rip bit fit pit bib wig fix job lot nod hog tin rig rob sob mob cop dim |
-| 4 | Rocket Words | short e and u | bed red hen pen ten net leg wet jet men bus cup sun run fun mud bug hug nut tub pet get let set cut pup web bun rug mug vet tug jug hum rub dug bud peg met yet bet keg hem nun pun jut gut hub |
-| 5 | Explorer | all five vowels | yes zip gum gas kid cub den dot fed fig fog gap hid hut jog kit lid mix wax yak jig jab jot lab lad led lit lug nab pep pod rib rim rod rot sag sub sum tab tot wed wit zig zag fax nix vex sax cod |
-| 6 | Super Sounds | sh and ch | ship shop shut fish dish wish cash chat chip chop rich much such chin shed shin mash rash chug chum dash sash hush rush mush chap wash push bush she bash gash gush lash lush posh sham shun |
-| 7 | Word Wizard | th, wh, ck, ng, tricky | thin this that then them bath math with when whip duck sock kick back ring sing king long song was buck sung gong lung puck wick rung muck pack path sack tack neck luck tuck peck deck thud rock lock pick lick wing tick dock moth hang sang rang sick fang what whim wham bang hung ding ping |
-| 8 | Bells | ll ss ff zz, qu, silent letters | bell tell well fell hill mill doll mess boss kiss miss loss fuss huff puff cuff buzz fuzz jazz fizz quiz quit quip knit knob knot lamb |
-| 9 | Chicks | five-letter words | chick check chuck chess chill shack shock shell thick whack whiff whizz quick quack quill knock wreck wrong thumb wrap wren limb |
-| 10 | Tent Camp | blends at the end | ant ask band belt bend best bolt bond bump camp cost damp dent desk dusk end fast fond gift gulf gulp hand help hint jump just kept lamp land last left lend lift list mask melt mend milk mint must nest pond pump raft rest risk sand sift silk soft task tent wilt |
-| 11 | Twin Drums | blends at the start | brag clap drop drum flag flat glad grab grin plan plum slam sled slid slip snap snug spin spot stem step stop swam swim trap trim trip twig twin |
+| 1 | Hatchlings | two sounds (VC) | is it in on at an up us am ax the a and i |
+| 2 | Sunny Start | VC finishes; short a begins | my we if ox cat sat ran can man dad hat mat |
+| 3 | Jam Jar | short a | me to had bag nap map cap tag jam ham pat bat |
+| 4 | Van Pals | short a | he no do sad mad bad rat pan fan van pal pad rag |
+| 5 | Zig Zap | short a | go so you tap wag lap tan zap yam cab ram dab rap |
+| 6 | Dig Dog | short a finishes; short i and o begin | be said has dam nag sap vat yap sit dog big dig |
+| 7 | Mom and Pop | short i and o open up | of mom pop hot pot top not got did him pig |
+| 8 | Six Pins | short i builds | sip dip tip pin win hit six fin bin lip |
+| 9 | Fox Box | short o builds | box fox log hop cot bit fit pit wig bib |
+| 10 | Fix It | short i and o finish | fix job rip hip lot nod hog tin rig mop |
+| 11 | Red Hen | odds and ends; short e begins | rob sob mob cop dim bed red hen pen ten |
+| 12 | Fun Run | short e and u | net leg wet jet men bus cup sun run fun |
+| 13 | Rocket Words | short e and u | mud bug hug nut tub pet get let set cut pup web bun rug mug vet tug jug hum rub dug bud peg met yet bet keg hem nun pun jut gut hub |
+| 14 | Explorer | all five vowels | yes zip gum gas kid cub den dot fed fig fog gap hid hut jog kit lid mix wax yak jig jab jot lab lad led lit lug nab pep pod rib rim rod rot sag sub sum tab tot wed wit zig zag fax nix vex sax cod |
+| 15 | Super Sounds | sh and ch | ship shop shut fish dish wish cash chat chip chop rich much such chin shed shin mash rash chug chum dash sash hush rush mush chap wash push bush she bash gash gush lash lush posh sham shun |
+| 16 | Word Wizard | th, wh, ck, ng + tricky words | thin this that then them bath math with when whip duck sock kick back ring sing king long song was buck sung gong lung puck wick rung muck pack path sack tack neck luck tuck peck deck thud rock lock pick lick wing tick dock moth hang sang rang sick fang what whim wham bang hung ding ping |
+| 17 | Bells | ll, ss, ff, zz + qu + silent letters | bell tell well fell hill mill doll mess boss kiss miss loss fuss huff puff cuff buzz fuzz jazz fizz quiz quit quip knit knob knot lamb |
+| 18 | Chicks | five-letter words | chick check chuck chess chill shack shock shell thick whack whiff whizz quick quack quill knock wreck wrong thumb wrap wren limb |
+| 19 | Tent Camp | blends at the end | ant ask band belt bend best bolt bond bump camp cost damp dent desk dusk end fast fond gift gulf gulp hand help hint jump just kept lamp land last left lend lift list mask melt mend milk mint must nest pond pump raft rest risk sand sift silk soft task tent wilt |
+| 20 | Twin Drums | blends at the start | brag clap drop drum flag flat glad grab grin plan plum slam sled slid slip snap snug spin spot stem step stop swam swim trap trim trip twig twin |
 
 The table above is the one owner of the level word lists, and gate G16 holds it to the
 engine's `LEVELS`. A summary line of per-level counts stood here until 2026-08-15 and is
@@ -741,7 +750,7 @@ Levels, in order:
 
 8. **EXPANDING DOWN — levels BEFORE Level 1, teaching the sounds themselves. Owner-asked
    2026-08-14, and not yet ruled.** Everything above grows the game upward. This grows it
-   downward, and it may matter more: Level 1 opens with twelve two-sound words, which
+   downward, and it may matter more: Level 1 opens with ten two-sound words, which
    assumes a child already knows what a letter says. A child who does not cannot start at
    all. The game currently teaches reading to a child who has already been taught sounds,
    and it does not say so anywhere.
@@ -913,7 +922,7 @@ sentences are made of the words that level teaches.
    same day, and the shipped pack's own sound and word clips.
 
 7. **Free play offers sentences too — owner-ruled 2026-08-13.** The chooser today asks
-   "which words?" and gives two answers: truly random from all 445, or this level's words.
+   "which words?" and gives two answers: truly random from all 446, or this level's words.
    It must also offer SENTENCES, so a child can practise reading them without a session.
    Free play's own promise is untouched and is what makes this safe: nothing is written to
    the record in free play, ever (design rule 1 and S1), so a sentence read there teaches
@@ -1009,13 +1018,17 @@ What this needs before it can be built, each item real work and none of it done:
 The heart-word roster grows now, ahead of sentence mode: of, to, do, you, said and my were
 to join Levels 6 and 7, with my in the open-syllable level. **That placement was superseded
 on 2026-08-12**: the owner ruled that a heart word's level is where the CHILD MEETS it, not
-where its spelling would fall, and every heart word now opens **Level 2** — the, and, to,
-do, you, said, my, of, in that order, first in the list because a level's word order is its
-introduction order. Level 1 keeps its twelve clean two-sound words, so a child's very first
-session is unchanged. of joined them the same evening, after three listening rounds on its
-sound-out: o says the u of "up" and f says /v/, and the /v/ clip itself was re-cut for the
-whole bank (`docs/settled.md`). "I" waits for a capitalization ruling —
-the bank is lowercase everywhere. Words ruled out for child-appropriateness (2026-08-07): hunt, fist, limp, bone, buns,
+where its spelling would fall. The PRINCIPLE stands; the seats moved on 2026-08-15 with the
+10-and-10 curriculum, every one approved by the owner's read of the level lists: the, a,
+and and i open Level 1, my and we Level 2, me and to Level 3, he, no and do Level 4, go, so
+and you Level 5, be and said Level 6, and of Level 7 — "Move of to 7", in the owner's
+words. Hearts lead each level's list because a level's word order is its introduction
+order; Level 1 alone leads with its ten decodables, so a child's very first act is sounding
+out a clean two-sound word. of's sound-out survived from its three 2026-08-12 listening
+rounds unchanged: o says the u of "up" and f says /v/ (`docs/settled.md`). "i" waited for a
+capitalization ruling and got it in round four, 2026-08-15: the bank key stays lowercase,
+and everywhere a child sees the word — card, tile, feedback, parent lists — it shows as
+"I", by the engine's one display layer. Words ruled out for child-appropriateness (2026-08-07): hunt, fist, limp, bone, buns,
 dump, and milt; **gob, owner-ruled out on 2026-08-13** — mild crude slang for the mouth,
 raised by the pre-beta screen and removed from Level 5, from the pack, from the word table and
 from the waiting room, so it cannot return by accident; catfish swapped out; and the plurals of jug and crab may never join

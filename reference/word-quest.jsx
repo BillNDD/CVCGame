@@ -5,57 +5,75 @@ import { useState, useEffect, useRef, useMemo, useCallback } from "react";
    Three fixed zones · grown-up strip · AA contrast · no page scroll in session
    ============================================================ */
 
+/* THE 10-AND-10 CURRICULUM (owner-approved 2026-08-15 in four listening
+   rounds; docs/settled.md holds the record). Levels 1-12 carry ten decodable
+   words each, in the teaching order the owner read and approved; heart words
+   ride outside that count and sit where the owner ruled: the, a, and and i at
+   Level 1, of at Level 7 ("Move of to 7", round three), the rest as offered.
+   Hearts LEAD each level's array because a level's word order is its
+   introduction order (owner-ruled 2026-08-12, kept from the old Level 2) —
+   except Level 1, where the ten decodables lead: a child's first-ever act in
+   this game is sounding out a clean two-sound word, not memorising a sight
+   word, and the four hearts still arrive inside the same first session.
+   "i" is the one word new to the bank (round four): it says the letter's own
+   name, so it is a heart, and its clip is the exact render the owner approved.
+   Levels 13-20 are the bank's remaining stages, identities and internal order
+   unchanged; only their numbers moved — except the fifteen short-e and
+   short-u words that moved down into Levels 11 and 12. Their names for
+   Levels 2-12 are PROVISIONAL and the owner has not ruled on them:
+   docs/open-faults.md carries that debt. */
 const LEVELS = [
   { n: 1, name: "Hatchlings", emoji: "🐣", focus: "two sounds (VC)",
-    words: ["at","an","am","ax","in","it","if","is","on","ox","up","us"] },
-  /* Level 2 opens with the HEART WORDS, and they are first rather than last on
-     purpose: a level's word order IS its introduction order, so appending
-     would have made a word that exists to be met early the last thing a child
-     meets. Owner-ruled 2026-08-12 — a heart word's level is where the CHILD
-     MEETS it, not where its spelling would fall. "the" would otherwise sit at
-     Level 7 for its th, "and" at Level 10 for its final blend, and "said" and
-     "you" at 7 for units the child has not been taught; every one of them is a
-     word on page one of every book. This is where sentence practice begins, so
-     it is where the words a sentence cannot do without begin too. */
-  { n: 2, name: "Sunny Start", emoji: "☀️", focus: "short a + heart words",
-    words: ["the","and","to","do","you","said","my","of","a","we","me","he","be","go","no","so",
-      "cat","hat","mat","sat","man","can","ran","bat","cap","map","tap","nap","bag","dad","jam","pan","rat","sad","wag","van",
-      "fan","ham","lap","tag","had","tan","pad","rag","zap","yam","pal","cab","ram","dab","yap","mad","bad","rap","has","pat","dam","nag","sap","vat"] },
-  { n: 3, name: "Busy Bees", emoji: "🐝", focus: "short i & o",
-    words: ["sit","pig","big","dig","win","lip","hit","six","fin","bin","dog","hot","top","pot","mop","log","box","fox","hop","cot",
-      "mom","pop","not","got","did","him","pin","tip","sip","dip","hip","rip","bit","fit","pit","bib","wig","fix","job","lot","nod","hog","tin","rig","rob","sob","mob","cop","dim"] },
-  { n: 4, name: "Rocket Words", emoji: "🚀", focus: "short e & u",
-    words: ["bed","red","hen","pen","ten","net","leg","wet","jet","men","bus","cup","sun","run","fun","mud","bug","hug","nut","tub",
-      "pet","get","let","set","cut","pup","web","bun","rug","mug","vet","tug","jug","hum","rub","dug","bud","peg","met","yet","bet","keg","hem","nun","pun","jut","gut","hub"] },
-  { n: 5, name: "Explorer", emoji: "🧭", focus: "all five vowels",
+    words: ["is","it","in","on","at","an","up","us","am","ax","the","a","and","i"] },
+  { n: 2, name: "Sunny Start", emoji: "☀️", focus: "VC finishes; short a begins",
+    words: ["my","we","if","ox","cat","sat","ran","can","man","dad","hat","mat"] },
+  { n: 3, name: "Jam Jar", emoji: "🍓", focus: "short a",
+    words: ["me","to","had","bag","nap","map","cap","tag","jam","ham","pat","bat"] },
+  { n: 4, name: "Van Pals", emoji: "🚐", focus: "short a",
+    words: ["he","no","do","sad","mad","bad","rat","pan","fan","van","pal","pad","rag"] },
+  { n: 5, name: "Zig Zap", emoji: "⚡", focus: "short a",
+    words: ["go","so","you","tap","wag","lap","tan","zap","yam","cab","ram","dab","rap"] },
+  { n: 6, name: "Dig Dog", emoji: "🐶", focus: "short a finishes; short i and o begin",
+    words: ["be","said","has","dam","nag","sap","vat","yap","sit","dog","big","dig"] },
+  { n: 7, name: "Mom and Pop", emoji: "🍲", focus: "short i and o open up",
+    words: ["of","mom","pop","hot","pot","top","not","got","did","him","pig"] },
+  { n: 8, name: "Six Pins", emoji: "🎳", focus: "short i builds",
+    words: ["sip","dip","tip","pin","win","hit","six","fin","bin","lip"] },
+  { n: 9, name: "Fox Box", emoji: "🦊", focus: "short o builds",
+    words: ["box","fox","log","hop","cot","bit","fit","pit","wig","bib"] },
+  { n: 10, name: "Fix It", emoji: "🔧", focus: "short i and o finish",
+    words: ["fix","job","rip","hip","lot","nod","hog","tin","rig","mop"] },
+  { n: 11, name: "Red Hen", emoji: "🍞", focus: "odds and ends; short e begins",
+    words: ["rob","sob","mob","cop","dim","bed","red","hen","pen","ten"] },
+  { n: 12, name: "Fun Run", emoji: "🏃", focus: "short e and u",
+    words: ["net","leg","wet","jet","men","bus","cup","sun","run","fun"] },
+  { n: 13, name: "Rocket Words", emoji: "🚀", focus: "short e & u",
+    words: ["mud","bug","hug","nut","tub","pet","get","let","set","cut","pup","web","bun","rug","mug","vet","tug","jug","hum","rub",
+      "dug","bud","peg","met","yet","bet","keg","hem","nun","pun","jut","gut","hub"] },
+  { n: 14, name: "Explorer", emoji: "🧭", focus: "all five vowels",
     words: ["yes","zip","gum","gas","kid","cub","den","dot","fed","fig","fog","gap","hid","hut","jog","kit","lid","mix","wax","yak",
-      "jig","jab","jot","lab","lad","led","lit","lug","nab","pep","pod","rib","rim","rod","rot","sag","sub","sum","tab","tot","wed","wit","zig","zag","fax","nix","vex","sax","cod"] },
-  { n: 6, name: "Super Sounds", emoji: "🦸", focus: "sh & ch",
+      "jig","jab","jot","lab","lad","led","lit","lug","nab","pep","pod","rib","rim","rod","rot","sag","sub","sum","tab","tot",
+      "wed","wit","zig","zag","fax","nix","vex","sax","cod"] },
+  { n: 15, name: "Super Sounds", emoji: "🦸", focus: "sh & ch",
     words: ["ship","shop","shut","fish","dish","wish","cash","chat","chip","chop","rich","much","such","chin","shed","shin","mash","rash","chug","chum",
       "dash","sash","hush","rush","mush","chap","wash","push","bush","she","bash","gash","gush","lash","lush","posh","sham","shun"] },
-  { n: 7, name: "Word Wizard", emoji: "🧙", focus: "th, wh, ck, ng + tricky words",
+  { n: 16, name: "Word Wizard", emoji: "🧙", focus: "th, wh, ck, ng + tricky words",
     words: ["thin","this","that","then","them","bath","math","with","when","whip","duck","sock","kick","back","ring","sing","king","long","song","was",
-      "buck","sung","gong","lung","puck","wick","rung","muck","pack","path","sack","tack","neck","luck","tuck","peck","deck","thud",
-      "rock","lock","pick","lick","wing","tick","dock","moth","hang","sang","rang","sick","fang","what","whim","wham","bang","hung","ding","ping"] },
-  { n: 8, name: "Bells", emoji: "🔔", focus: "ll, ss, ff, zz + qu + silent letters",
+      "buck","sung","gong","lung","puck","wick","rung","muck","pack","path","sack","tack","neck","luck","tuck","peck","deck","thud","rock","lock",
+      "pick","lick","wing","tick","dock","moth","hang","sang","rang","sick","fang","what","whim","wham","bang","hung","ding","ping"] },
+  { n: 17, name: "Bells", emoji: "🔔", focus: "ll, ss, ff, zz + qu + silent letters",
     words: ["bell","tell","well","fell","hill","mill","doll","mess","boss","kiss","miss","loss","fuss","huff","puff","cuff","buzz","fuzz","jazz","fizz",
       "quiz","quit","quip","knit","knob","knot","lamb"] },
-  { n: 9, name: "Chicks", emoji: "🐔", focus: "five-letter words",
-    words: ["chick","check","chuck","chess","chill","shack","shock","shell","thick","whack","whiff","whizz",
-      "quick","quack","quill","knock","wreck","wrong","thumb","wrap","wren","limb"] },
-  /* Levels 10 and 11 are blends, and a blend introduces NO new grapheme: the
-     child already knows every letter here and is learning to run two of them
-     together. That is why these levels need no new sound, only new words —
-     Letters and Sounds calls it a fluency step, not a new phase. Each cluster
-     stays two tiles in the reveal, because it is two sounds blended, unlike the
-     digraphs of S8 which are one sound and one tile. */
-  { n: 10, name: "Tent Camp", emoji: "⛺", focus: "blends at the end",
-    words: ["ant","ask","band","belt","bend","best","bolt","bond","bump","camp","cost","damp","dent","desk","dusk","end","fast",
-      "fond","gift","gulf","gulp","hand","help","hint","jump","just","kept","lamp","land","last","left","lend","lift","list","mask",
-      "melt","mend","milk","mint","must","nest","pond","pump","raft","rest","risk","sand","sift","silk","soft","task","tent","wilt"] },
-  { n: 11, name: "Twin Drums", emoji: "🥁", focus: "blends at the start",
-    words: ["brag","clap","drop","drum","flag","flat","glad","grab","grin","plan","plum","slam","sled","slid","slip","snap","snug",
-      "spin","spot","stem","step","stop","swam","swim","trap","trim","trip","twig","twin"] },
+  { n: 18, name: "Chicks", emoji: "🐔", focus: "five-letter words",
+    words: ["chick","check","chuck","chess","chill","shack","shock","shell","thick","whack","whiff","whizz","quick","quack","quill","knock","wreck","wrong","thumb","wrap",
+      "wren","limb"] },
+  { n: 19, name: "Tent Camp", emoji: "⛺", focus: "blends at the end",
+    words: ["ant","ask","band","belt","bend","best","bolt","bond","bump","camp","cost","damp","dent","desk","dusk","end","fast","fond","gift","gulf",
+      "gulp","hand","help","hint","jump","just","kept","lamp","land","last","left","lend","lift","list","mask","melt","mend","milk","mint","must",
+      "nest","pond","pump","raft","rest","risk","sand","sift","silk","soft","task","tent","wilt"] },
+  { n: 20, name: "Twin Drums", emoji: "🥁", focus: "blends at the start",
+    words: ["brag","clap","drop","drum","flag","flat","glad","grab","grin","plan","plum","slam","sled","slid","slip","snap","snug","spin","spot","stem",
+      "step","stop","swam","swim","trap","trim","trip","twig","twin"] },
 ];
 
 /* THE SENTENCES, one list per level (SPEC section 12).
@@ -78,57 +96,128 @@ const LEVELS = [
    a child can read them. */
 const SENTENCES = {
   1: [
-    { id: "s:mode-b3-s01", text: "Is it an ox?" },
-    { id: "s:mode-b3-s02", text: "An ox is up." },
     { id: "s:mode-b3-s03", text: "It is an ax." },
     { id: "s:mode-b3-s04", text: "Is it up?" },
     { id: "s:mode-b3-s05", text: "An ax is on it." },
+    { id: "s:cur-l1-01", text: "I am in!" },
+    { id: "s:cur-l1-02", text: "I am it!" },
   ],
   2: [
+    { id: "s:mode-b3-s01", text: "Is it an ox?" },
+    { id: "s:mode-b3-s02", text: "An ox is up." },
     { id: "s:mode-s01", text: "The cat sat on the mat." },
-    { id: "s:mode-s06", text: "Dad had ham and jam." },
-    { id: "s:mode-b3-s06", text: "My dad has a map." },
-    { id: "s:mode-b3-s07", text: "The cat sat on my lap." },
     { id: "s:mode-b3-s08", text: "A man and a cat ran." },
-    { id: "s:mode-b3-s09", text: "Dad had a nap." },
     { id: "s:mode-wm-wm01", text: "We sat on the mat." },
-    { id: "s:mode-wm-wm03", text: "We ran to my dad." },
-    { id: "s:mode-wm-wm04", text: "Can we tag the cat?" },
-    { id: "s:mode-wm-wm11", text: "My dad said we can nap." },
-    { id: "s:mode-wm-wm12", text: "The cat sat on me." },
-    { id: "s:mode-wm-wm14", text: "Tag me!" },
-    { id: "s:mode-wm-wm19", text: "Can my pal tag me?" },
-    { id: "s:mode-wm-wm21", text: "Zap me!" },
-    { id: "s:mode-wm-wm22", text: "My pal can zap me!" },
+    { id: "s:cur-l2-01", text: "Dad ran." },
+    { id: "s:cur-l2-02", text: "We sat." },
+    { id: "s:cur-l2-03", text: "The cat sat." },
+    { id: "s:cur-l2-04", text: "My cat ran." },
+    { id: "s:cur-l2-05", text: "The man ran." },
   ],
   3: [
-    { id: "s:mode-s08", text: "You can hop to the top." },
+    { id: "s:mode-s06", text: "Dad had ham and jam." },
+    { id: "s:mode-b3-s09", text: "Dad had a nap." },
+    { id: "s:mode-wm-wm03", text: "We ran to my dad." },
+    { id: "s:mode-wm-wm04", text: "Can we tag the cat?" },
+    { id: "s:mode-wm-wm12", text: "The cat sat on me." },
+    { id: "s:mode-wm-wm14", text: "Tag me!" },
+    { id: "s:cur-l3-01", text: "We sat and had jam." },
+    { id: "s:cur-l3-02", text: "Dad and I had ham." },
+    { id: "s:cur-l3-03", text: "The cat had a nap." },
+  ],
+  4: [
+    { id: "s:mode-wm-wm19", text: "Can my pal tag me?" },
+    { id: "s:cur-l4-01", text: "He is sad." },
+    { id: "s:cur-l4-02", text: "A rat is in the van!" },
+    { id: "s:cur-l4-04", text: "He ran to the van." },
+    { id: "s:cur-l4-05", text: "Dad is mad at the rat." },
+  ],
+  5: [
+    { id: "s:mode-b3-s07", text: "The cat sat on my lap." },
+    { id: "s:mode-wm-wm21", text: "Zap me!" },
+    { id: "s:mode-wm-wm22", text: "My pal can zap me!" },
+    { id: "s:cur-l5-01", text: "You can go." },
+    { id: "s:cur-l5-02", text: "We go up." },
+    { id: "s:cur-l5-03", text: "We go in the cab." },
+  ],
+  6: [
+    { id: "s:mode-b3-s06", text: "My dad has a map." },
+    { id: "s:mode-wm-wm11", text: "My dad said we can nap." },
+    { id: "s:mode-wm-wm02", text: "We had a big nap." },
+    { id: "s:mode-wm-wm15", text: "The dog ran to me." },
+    { id: "s:cur-l6-01", text: "The dog is big." },
+    { id: "s:cur-l6-02", text: "The dog can sit." },
+    { id: "s:cur-l6-03", text: "He said we can dig." },
+    { id: "s:cur-l6-04", text: "A big dog sat." },
+    { id: "s:cur-l6-05", text: "The big dog can dig." },
+  ],
+  7: [
     { id: "s:mode-b2-s04", text: "My mom said you can dig." },
     { id: "s:mode-b2-s13", text: "My pal has my top hat." },
     { id: "s:mode-b3-s10", text: "The dog did not sit." },
+    { id: "s:mode-wm-wm06", text: "We did not sit." },
+    { id: "s:cur-l7-01", text: "Mom got a big pot." },
+    { id: "s:cur-l7-02", text: "The pig is hot." },
+    { id: "s:cur-l7-03", text: "Did the dog dig?" },
+    { id: "s:cur-l7-04", text: "He is not sad." },
+    { id: "s:cur-l7-05", text: "I got it!" },
+  ],
+  8: [
+    { id: "s:mode-wm-wm09", text: "We win!" },
+    { id: "s:cur-l8-01", text: "A sip of pop!" },
+    { id: "s:cur-l8-02", text: "I got six." },
+    { id: "s:cur-l8-03", text: "He hit the top." },
+    { id: "s:cur-l8-04", text: "The pin is in the bin." },
+    { id: "s:cur-l8-05", text: "Dip it in the jam." },
+  ],
+  9: [
+    { id: "s:mode-s08", text: "You can hop to the top." },
     { id: "s:mode-b3-s11", text: "A fox ran to the log." },
     { id: "s:mode-b3-s12", text: "My mom got a big box." },
-    { id: "s:mode-wm-wm02", text: "We had a big nap." },
-    { id: "s:mode-wm-wm06", text: "We did not sit." },
-    { id: "s:mode-wm-wm09", text: "We win!" },
     { id: "s:mode-wm-wm10", text: "We can dig a big pit." },
-    { id: "s:mode-wm-wm15", text: "The dog ran to me." },
     { id: "s:mode-wm-wm20", text: "The fox ran up to me." },
+    { id: "s:cur-l9-01", text: "A fox can hop." },
+    { id: "s:cur-l9-02", text: "The wig is in the box." },
+    { id: "s:cur-l9-03", text: "The fox sat on a log." },
+    { id: "s:cur-l9-04", text: "We fit in the box!" },
+    { id: "s:cur-l9-05", text: "The bib is on him." },
   ],
-  4: [
-    { id: "s:mode-s02", text: "My dog can run." },
+  10: [
+    { id: "s:cur-l10-01", text: "Dad can fix it." },
+    { id: "s:cur-l10-02", text: "We did a big job." },
+    { id: "s:cur-l10-03", text: "My cap got a rip." },
+    { id: "s:cur-l10-04", text: "The hog is in the pit." },
+    { id: "s:cur-l10-05", text: "Mop it up!" },
+  ],
+  11: [
     { id: "s:mode-s03", text: "The hen is in the pen." },
-    { id: "s:mode-s04", text: "You can dig in the mud." },
+    { id: "s:cur-l11-01", text: "I go to bed." },
+    { id: "s:cur-l11-02", text: "The hen is red." },
+    { id: "s:cur-l11-03", text: "I am ten!" },
+    { id: "s:cur-l11-04", text: "The red hen sat on my bed." },
+    { id: "s:cur-l11-05", text: "We go to bed at ten." },
+  ],
+  12: [
+    { id: "s:mode-s02", text: "My dog can run." },
     { id: "s:mode-s05", text: "The pig sat in the sun." },
     { id: "s:mode-s07", text: "The sun is hot." },
+    { id: "s:mode-wm-wm23", text: "Tag me and we can run." },
+    { id: "s:cur-l12-01", text: "The sun is up." },
+    { id: "s:cur-l12-02", text: "We run in the sun." },
+    { id: "s:cur-l12-03", text: "The bus is big and red." },
+    { id: "s:cur-l12-04", text: "Fun in the sun!" },
+    { id: "s:cur-l12-05", text: "My leg is wet." },
+    { id: "s:cur-l12-06", text: "The men got on the bus." },
+  ],
+  13: [
+    { id: "s:mode-s04", text: "You can dig in the mud." },
     { id: "s:mode-s12", text: "Can you get the box?" },
     { id: "s:mode-b2-s02", text: "Can you get my red cap?" },
     { id: "s:mode-b2-s07", text: "The bug ran up my leg." },
     { id: "s:mode-b2-s14", text: "The cat had the nap on my rug." },
     { id: "s:mode-b2-s18", text: "The van is in the mud." },
-    { id: "s:mode-wm-wm23", text: "Tag me and we can run." },
   ],
-  5: [
+  14: [
     { id: "s:mode-s10", text: "Mom said yes to you." },
     { id: "s:mode-s16", text: "The kid can zip and run." },
     { id: "s:mode-b3-s13", text: "The kid fed a cub." },
@@ -138,14 +227,14 @@ const SENTENCES = {
     { id: "s:mode-wm-wm08", text: "We got a fig and a yam." },
     { id: "s:mode-wm-wm17", text: "My pal hid the map on me." },
   ],
-  6: [
+  15: [
     { id: "s:mode-s09", text: "The fish is in the net." },
     { id: "s:mode-b2-s05", text: "The fish is in the big dish." },
     { id: "s:mode-b2-s10", text: "Dad has the job in the shop." },
     { id: "s:mode-b3-s16", text: "My chum can wash the dish." },
     { id: "s:mode-b3-s17", text: "The shop had a red cap." },
   ],
-  7: [
+  16: [
     { id: "s:mode-s11", text: "The duck is wet." },
     { id: "s:mode-s13", text: "The king can sing." },
     { id: "s:mode-s14", text: "This bug is big." },
@@ -159,7 +248,7 @@ const SENTENCES = {
     { id: "s:mode-b2-s17", text: "You can wash the dish with my mom." },
     { id: "s:mode-b2-s19", text: "What did you get in the bag?" },
   ],
-  8: [
+  17: [
     { id: "s:mode-s20", text: "The doll is on the bed." },
     { id: "s:mode-b2-s01", text: "The big dog ran up the hill." },
     { id: "s:mode-b2-s08", text: "You did not miss the bus." },
@@ -167,21 +256,21 @@ const SENTENCES = {
     { id: "s:mode-b3-s18", text: "My doll fell on the hill." },
     { id: "s:mode-b3-s19", text: "My pal can quiz us." },
   ],
-  9: [
+  18: [
     { id: "s:mode-b2-s03", text: "The chick is in the shed." },
     { id: "s:mode-b2-s20", text: "The moth is on the shell." },
     { id: "s:mode-b3-s20", text: "The chick is on my thumb." },
     { id: "s:mode-b3-s21", text: "A duck can quack." },
     { id: "s:mode-b3-s22", text: "Check the thick shell." },
   ],
-  10: [
+  19: [
     { id: "s:mode-b3-s23", text: "The gift is in my hand." },
     { id: "s:mode-b3-s24", text: "The tent is in the sand." },
     { id: "s:mode-b3-s25", text: "My milk is on the desk." },
     { id: "s:mode-b3-s26", text: "Lift the lamp to the desk." },
     { id: "s:mode-b3-s27", text: "The best nest is soft." },
   ],
-  11: [
+  20: [
     { id: "s:mode-b3-s28", text: "My twin can swim fast." },
     { id: "s:mode-b3-s29", text: "The sled is on the flat sand." },
     { id: "s:mode-b3-s30", text: "Stop and grab my hand." },
@@ -225,6 +314,10 @@ const TRICKY = {
   go: "Tricky word! The o says its name \u2014 go.",
   no: "Tricky word! The o says its name \u2014 no.",
   so: "Tricky word! The o says its name \u2014 so.",
+  /* The word i joined the bank in round four, 2026-08-15 \u2014 the first word
+     added since the curriculum was approved. Same shape as the long vowels
+     above; the word IS the letter's name, which is why it is a heart. */
+  i: "Tricky word! The i says its name \u2014 I.",
 };
 /* One tile per unit (S8). Beyond the six spoken digraphs: qu says kw, the
    silent-letter pairs kn wr mb say their surviving letter, and the doubled
@@ -353,8 +446,17 @@ function buildSession(state) {
   list.push(...take(curDue, SESSION_SIZE - list.length));
   list.push(...take(freshCur, SESSION_SIZE - list.length));
   if (list.length < SESSION_SIZE) {
-    const anyLow = entries.filter(([w, ws]) => WORD_LEVEL[w] <= level).sort((a, b) => a[1].box - b[1].box).map(([w]) => w);
-    list.push(...take(anyLow, SESSION_SIZE - list.length));
+    /* The top-up lane draws from the CHILD'S OWN LEVEL only (narrowed
+       2026-08-15 with the 10-and-10 build). It used to say `<= level`, which
+       was invisible while a level held fifty fresh words and became a hole the
+       day a level held ten: with the primary lanes short, this lane refilled
+       the session with lower-level words past the five-review cap and with
+       mastered words the confidence lane is the only door for — quietly
+       breaking two owner-approved session promises. A session with nothing
+       eligible now runs short instead, which is what the first session has
+       always done. */
+    const anyCur = entries.filter(([w, ws]) => WORD_LEVEL[w] === level).sort((a, b) => a[1].box - b[1].box).map(([w]) => w);
+    list.push(...take(anyCur, SESSION_SIZE - list.length));
   }
   if (list.length < SESSION_SIZE && level < LEVELS.length && freshCur.length === 0 && learned) {
     // D2: next-level peek only after every current-level word has been seen
@@ -501,7 +603,18 @@ function heal(s) {
   return s;
 }
 
-/* v4 migration — version 2 saves shift up one level (VC level inserted at 1). Idempotent. */
+/* Save migrations, one block per version, each idempotent.
+   v3: version-2 saves shift up one level (the VC level inserted at 1).
+   v4: the 10-and-10 curriculum (owner-approved 2026-08-15) re-cut the levels,
+   so a stored index points at a different place than the one the child earned.
+   The owner's ruling for this exact case — decision 5 of the curriculum page —
+   was "compute the new level from the child's own words", and the boxes are
+   those words: the new level is the FIRST whose words are not yet secure,
+   judged by the same isSecure rule promotion uses, so a migrated child lands
+   exactly where promotion would have put them. A child secure everywhere
+   lands on the last level; a fresh save walks to Level 1 untouched. Log rows
+   keep their old level numbers: the log is a record of what happened, and the
+   number it recorded was true when it was written. */
 function migrate(s) {
   s = heal(s);
   if (!s.version || s.version < 3) {
@@ -509,12 +622,25 @@ function migrate(s) {
     (s.log || []).forEach(r => { r.level += 1; });
     s.version = 3;
   }
+  if (s.version < 4) {
+    let lvl = LEVELS.length;
+    for (let i = 0; i < LEVELS.length; i++) {
+      const ws = LEVELS[i].words;
+      if (!isSecure(ws.filter(w => s.words[w] && s.words[w].box >= 3).length, ws.length)) { lvl = i + 1; break; }
+    }
+    s.level = lvl;
+    /* open-faults J2: settings.mode carried "mic" in every save laid down
+       before the microphone was removed (owner safety ruling, 2026-08-11).
+       Nothing reads it; v4 is the door it leaves through. */
+    if (s.settings && s.settings.mode !== undefined) delete s.settings.mode;
+    s.version = 4;
+  }
   s.level = Math.min(Math.max(1, s.level || 1), LEVELS.length);  // defensive clamp, always
   return s;
 }
 
 const newState = () => ({
-  version: 3, level: 1, sessionsCompleted: 0, perfectStreak: 0,
+  version: 4, level: 1, sessionsCompleted: 0, perfectStreak: 0,
   settings: { sound: true, childName: "", lang: "en-US" },
   words: {}, log: [],
 });
@@ -541,11 +667,20 @@ function speak(input, enabled, lang) {
 function hush() { try { if ("speechSynthesis" in window) window.speechSynthesis.cancel(); } catch (e) {} }
 function buzz(ms) { try { if (navigator.vibrate) navigator.vibrate(ms); } catch (e) {} } // P2-8
 
+/* The bank spells every word lowercase, and English writes exactly one of
+   them uppercase everywhere: I. These two are the display layer for that one
+   word — the key stays "i" so matching and ledgers keep a single spelling,
+   and every place a child SEES it (card, tiles, feedback, parent lists) shows
+   "I". A tile shows the word's own chunk, so the chunk helper needs the word
+   to know when it is that word. */
+const displayWord = (w) => (w === "i" ? "I" : w);
+const displayChunk = (word, g) => (word === "i" ? "I" : g);
 function feedbackParts(result, word) {
-  const d = dashed(word);
-  if (result === "correct") return { lead: "Great job! That is ", d, word, icon: "🎉" };
-  if (result === "close") return { lead: "Good try! The correct pronunciation is ", d, word, icon: "💪" };
-  return { lead: "Let\u2019s try that again. The correct pronunciation is ", d, word, icon: "🔁" };
+  const shown = displayWord(word);
+  const d = word === "i" ? shown : dashed(word);
+  if (result === "correct") return { lead: "Great job! That is ", d, word: shown, icon: "🎉" };
+  if (result === "close") return { lead: "Good try! The correct pronunciation is ", d, word: shown, icon: "💪" };
+  return { lead: "Let\u2019s try that again. The correct pronunciation is ", d, word: shown, icon: "🔁" };
 }
 /* Seventeen praise sentences for a correct reading (SPEC \u00a75). Most point to the
    child\u2019s own effort. The caller picks the index; 0 is the fallback. */
@@ -591,7 +726,14 @@ const ttsSafePraise = (i) => (TTS_UNSAFE_PRAISE.includes(i) ? 0 : i);
    one, and the fallback is written down rather than left to a synthesiser's
    judgement. The copy gate (rule 4) reads feedbackSpeech for every bank word
    and refuses a letter name, which is exactly how this was caught. */
-const TTS_UNSAFE_WORD = { a: "uh" };
+/* Two words the system voice must not receive as their bank spelling.
+   "a": every voice says the letter's NAME for the bare string, and S4 forbids
+   that — the fallback says "uh", the word itself (found by the copy gate on
+   2026-08-12). "i": the capital, because the voice pronounces "I" as the word
+   — which for this one word IS the letter's name, and that is not an S4
+   breach: the word is the name. Lowercase "i" would also trip the copy gate's
+   single-letter rule, the same net that caught "a". */
+const TTS_UNSAFE_WORD = { a: "uh", i: "I" };
 const ttsSafeWord = (w) => TTS_UNSAFE_WORD[w] || w;
 /* The reveal is its own utterance, so the pause before it does the work that
    slowing the word used to do badly. */
@@ -683,6 +825,14 @@ const WORD_SOUND = {
      "a" at the shipped schwa would make the word clip and the sound clip
      disagree inside one reveal, which is fault B15 by another route. */
   a: { 0: "schwa_a" },
+  /* "i" — one letter, one sound, and the sound is the letter's own NAME, which
+     is why a plain render was safe here when it never was for "a" (settled,
+     round four, 2026-08-15). On the "a" precedent it gets its OWN sound id and
+     the id's bytes ARE the word clip the owner approved (arm C, whole word at
+     sentence speed): one recording serving both, so the word clip and the
+     sound clip cannot disagree inside a reveal — B15 has no route in. d:long_i
+     (the y of "my") is a different approved recording and stays where it is. */
+  i: { 0: "long_i_i" },
   /* "we" and "me", seated 2026-08-13 at the owner's ask, after nine sentences
      of batch 3 had to be bent around their absence. Both are open syllables:
      the e is not the e of "pen", it says its own name, so both bend to long_e —
@@ -753,6 +903,11 @@ const SOUND_TEXT = {
      the exact fault the rule above exists to stop. A test caught it in the
      same run as the seating. */
   long_o: "the sound at the end of go",
+  /* The word i's own sound, bytes identical to its word clip (round four,
+     2026-08-15). Named by a carrier word like every entry here — the S4 rule
+     bans asking a recorder for "the letter I's name" even when, as here, that
+     is what the sound happens to be. */
+  long_i_i: "the sound at the start of ice",
 };
 /* The sound each of a word's tiles speaks, in order. */
 function soundIdsFor(word) {
@@ -786,15 +941,17 @@ function soundIdsFor(word) {
    which of the placed words are sight words, for the sentence leveller and for
    anyone reading the bank.
 
-   All sixteen sit at Level 2, owner-ruled 2026-08-12: a heart word's level is
-   where the CHILD MEETS it. That ruling replaced the SPEC section 12
-   placement, which had put them where their spelling falls — to and do at
-   Level 6, you and said at Level 7, my at the open-syllable level that is not
-   built. "a" joined them on 2026-08-12, from a schwa package the owner made
-   outside this repo: until then no word clip existed, because the voice said
-   the letter's name, which S4 forbids. */
+   The seats moved on 2026-08-15 with the 10-and-10 curriculum: the owner
+   approved every seat by reading the level lists in rounds one to three —
+   the, a, and and i at Level 1, my and we at 2, me and to at 3, he, no and do
+   at 4, go, so and you at 5, be and said at 6, and of at 7 ("Move of to 7",
+   in the owner's words). The 2026-08-12 principle survives the move: a heart
+   word's level is where the CHILD MEETS it, never where its spelling falls.
+   "a" joined on 2026-08-12 from a schwa package the owner made outside this
+   repo; "i" joined on 2026-08-15 in round four, the first word the curriculum
+   added — it says the letter's own name, which is exactly why it is here. */
 const HEART = ["the", "and", "to", "do", "you", "said", "my", "of", "a",
-  "we", "me", "he", "be", "go", "no", "so"];
+  "we", "me", "he", "be", "go", "no", "so", "i"];
 
 function bankWords() {
   const words = new Set();
@@ -1298,11 +1455,11 @@ export default function WordQuest() {
               <p style={{ margin: 0, fontSize: 11.5, fontWeight: 800, letterSpacing: ".14em",
                 textTransform: "uppercase", color: C.ink }}>Read this word</p>
               {/* P0-2 — word baseline is fixed; everything else lives in reserved slots below */}
-              <div className="wq-display wq-word" aria-live="off">{currentWord}</div>
+              <div className="wq-display wq-word" aria-live="off">{displayWord(currentWord)}</div>
 
               <div className="wq-slot-tiles" aria-hidden={phase !== "feedback"}>
                 {phase === "feedback" && chunkWord(currentWord).map((g, i) => (
-                  <span key={i} className="wq-display wq-tile">{g}</span>
+                  <span key={i} className="wq-display wq-tile">{displayChunk(currentWord, g)}</span>
                 ))}
               </div>
 

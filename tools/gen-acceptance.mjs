@@ -56,8 +56,8 @@ const STEPS = [
   // ---- session building ----
   [/^a brand-new player$/, () => [
     `const s = newState();`]],
-  [/^a player on Level 2 who has mastered every Level 1 word$/, () => [
-    `const s = newState(); s.level = 2;`,
+  [/^a player on Level (\d+) who has mastered every Level 1 word$/, (m) => [
+    `const s = newState(); s.level = ${N(m[1])};`,
     `LEVELS[0].words.forEach((w) => { s.words[w] = { ...freshWordState(), box: 5, attempts: 3, dueAt: 99 }; });`]],
   [/^a player on Level (\d+) in session (\d+) with all (\d+) lower-level words overdue in box (\d+)$/, (m) => [
     `const s = newState(); s.level = ${N(m[1])}; s.sessionsCompleted = ${N(m[2])} - 1;`,
@@ -74,22 +74,30 @@ const STEPS = [
     `LEVELS[0].words.forEach((w) => { s.words[w] = { ...freshWordState(), box: ${N(m[2])}, attempts: 3, dueAt: 1 }; });`]],
   [/^the word "([a-z]+)" is due in box (\d+)$/, (m) => [
     `s.words[${S(m[1])}] = { ...freshWordState(), box: ${N(m[2])}, attempts: 9, dueAt: 1 };`]],
-  [/^a player on Level 1 who has seen (\d+) of the 12 words$/, (m) => [
+  /* Every Level 1 step asserts the level's size from the scenario's own words.
+     The old shapes baked "12" into the regex and, for two of them, emitted no
+     length assertion at all — so a scenario could say "all 12 words" of a
+     level that held ten, slice past the end, and pass while its text lied
+     (found by the build reviewer, 2026-08-15). The count is captured and
+     asserted in every shape now; a wrong Y is a red build in all four. */
+  [/^a player on Level 1 who has seen (\d+) of the (\d+) words$/, (m) => [
     `const s = newState(); s.sessionsCompleted = 3;`,
+    `expect(LEVELS[0].words.length).toBe(${N(m[2])});`,
     `LEVELS[0].words.slice(0, ${N(m[1])}).forEach((w) => { s.words[w] = { ...freshWordState(), box: 5, attempts: 4, dueAt: 99 }; });`]],
-  [/^a player on Level 1 who has seen all 12 words$/, () => [
+  [/^a player on Level 1 who has seen all (\d+) words$/, (m) => [
     `const s = newState(); s.sessionsCompleted = 3;`,
+    `expect(LEVELS[0].words.length).toBe(${N(m[1])});`,
     `LEVELS[0].words.forEach((w) => { s.words[w] = { ...freshWordState(), box: 5, attempts: 4, dueAt: 99 }; });`]],
   /* A3-002 — "seen" and "learned" are different things. A box of 0 is a word
      the child has read and got wrong; the box only rises on a correct reading,
      and a first correct reading sets it to 3. */
-  [/^a player on Level 1 who has seen all 12 words and read none correctly$/, () => [
+  [/^a player on Level 1 who has seen all (\d+) words and read none correctly$/, (m) => [
     `const s = newState(); s.sessionsCompleted = 3;`,
-    `expect(LEVELS[0].words.length).toBe(12);`,
+    `expect(LEVELS[0].words.length).toBe(${N(m[1])});`,
     `LEVELS[0].words.forEach((w) => { s.words[w] = { ...freshWordState(), box: 0, attempts: 2, dueAt: 1 }; });`]],
-  [/^a player on Level 1 who has read (\d+) of the 12 words correctly$/, (m) => [
+  [/^a player on Level 1 who has read (\d+) of the (\d+) words correctly$/, (m) => [
     `const s = newState(); s.sessionsCompleted = 3;`,
-    `expect(LEVELS[0].words.length).toBe(12);`,
+    `expect(LEVELS[0].words.length).toBe(${N(m[2])});`,
     `LEVELS[0].words.forEach((w) => { s.words[w] = { ...freshWordState(), box: 0, attempts: 2, dueAt: 1 }; });`,
     `LEVELS[0].words.slice(0, ${N(m[1])}).forEach((w) => { s.words[w] = { ...freshWordState(), box: 3, attempts: 2, dueAt: 1 }; });`]],
   [/^the Level 2 word "([a-z]+)" was read wrong in an earlier session$/, (m) => [
@@ -159,8 +167,15 @@ const STEPS = [
     `  words: { cat: { box: 5, attempts: 9, correct: 8, close: 1, wrong: 0, dueAt: 20, lastSession: 8 } }, log: [] };`]],
   [/^a version 3 save with level "([a-z]+)"$/, (m) => [
     `const doc = { version: 3, level: ${S(m[1])} };`]],
-  [/^a version 3 save with level (\d+)$/, (m) => [
-    `const doc = { version: 3, level: ${N(m[1])} };`]],
+  [/^a version (\d+) save with level (\d+)$/, (m) => [
+    `const doc = { version: ${N(m[1])}, level: ${N(m[2])} };`]],
+  /* The v4 landing, from the child's own words: mastering the first two
+     levels' words exactly secures Levels 1 and 2 and nothing above, so the
+     recompute must answer 3. Built from LEVELS so the fixture can never
+     drift from the bank. */
+  [/^a version 2 save whose words have mastered the first two levels$/, () => [
+    `const doc = { version: 2, level: 1, words: {} };`,
+    `LEVELS.slice(0, 2).flatMap((l) => l.words).forEach((w) => { doc.words[w] = { box: 5, attempts: 6, correct: 6, close: 0, wrong: 0, dueAt: 99, lastSession: 1 }; });`]],
   [/^a save where the word "([a-z]+)" sits in box (\d+)$/, (m) => [
     `const doc = { version: 3, words: { ${m[1]}: { box: ${N(m[2])}, attempts: 1 } } };`]],
   [/^a save whose log contains one null row$/, () => [

@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { C, TRICKY, chunkWord, feedbackParts } from "@engine";
+import { C, TRICKY, chunkWord, displayWord, displayChunk, feedbackParts } from "@engine";
 import Frame from "../components/Frame.jsx";
 import Zone from "../components/Zone.jsx";
 import Toast from "../components/Toast.jsx";
@@ -18,7 +18,7 @@ function SessionStage({ state, currentWord, phase, fb, liveRef, pops = [] }) {
           <p style={{ margin: 0, fontSize: 11.5, fontWeight: 800, letterSpacing: ".14em",
             textTransform: "uppercase", color: C.ink }}>Read this word</p>
           {/* P0-2 — word baseline is fixed; everything else lives in reserved slots below */}
-          <div className="wq-display wq-word" aria-live="off">{currentWord}</div>
+          <div className="wq-display wq-word" aria-live="off">{displayWord(currentWord)}</div>
 
           {/* The sound-out: a tile takes its ring as its own sound plays. The
               key carries the tile's mark count, so the browser runs the
@@ -39,7 +39,7 @@ function SessionStage({ state, currentWord, phase, fb, liveRef, pops = [] }) {
                  sound. */
               <span key={i + ":" + (pops[i]?.n || 0)}
                 className={"wq-display wq-tile" + (pops[i]?.ms > 0 ? " wq-pop" : "")}
-                style={pops[i]?.ms > 0 ? { "--wqpop": pops[i].ms + "ms" } : undefined}>{g}</span>
+                style={pops[i]?.ms > 0 ? { "--wqpop": pops[i].ms + "ms" } : undefined}>{displayChunk(currentWord, g)}</span>
             ))}
           </div>
 
