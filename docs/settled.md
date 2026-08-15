@@ -1228,6 +1228,25 @@ computing each child's level from their own words, the new word "I" with its own
 clip, floors and scenarios — is the next large change, and none of these verdicts ship
 until it lands.
 
+## Sentence round three — Levels 7–12 all but closed (2026-08-15) — closed
+
+The same night as rounds one and two, the next six lists went to the owner with 31 new
+sentences: the old short i and o stage reordered for sentence power, short e and u
+beginning, and the heart word "of" offered a seat. **The lists are approved with one
+adjustment in the owner's words — "Move of to 7" — so "of" seats at Level 7, not 8.**
+No approved sentence used "of" before Level 8, so nothing moved with it.
+
+**Thirty of thirty-one sentences came back perfect on first listen** — the verdicts live
+with the levels in the curriculum draft, every one dated 2026-08-15. One iterates: the
+hen-and-pen sentence at Level 11, carried to round four. "We win!" was already shipped
+and screened, shown for context only.
+
+Three rounds in one evening closed 54 new sentences, two banned phrases, twelve word
+lists, and two heart seats. The renders needed no re-recipe at any point: whole-sentence,
+af_heart, speed 1.0 — the settled sentence recipe held through all of it.
+
+## The trap this project keeps falling into
+
 A fix that is approved but not applied is worse than no fix: it reads as done.
 cup and pop won a treatment on 28 July, were held back while an audit ran, and
 were still unshipped two days later while the release notes implied otherwise.
