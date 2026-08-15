@@ -117,7 +117,25 @@ function run(d) {
   check(notes.she === "Tricky word! The e sounds like “ee” — shee.", "tricky note (she)", notes.she);
   check(notes.the === "Tricky word! The e sounds like “uh” — thuh.", "tricky note (the)", notes.the);
   check(notes.what === "Tricky word! The a sounds like “uh” — wut.", "tricky note (what)", notes.what);
-  check(Object.keys(notes).length === 9, "tricky note count", String(Object.keys(notes).length));
+  /* The fourteen heart-word notes (J1), owner-approved 2026-08-15 from a
+     decision page, pinned word for word like the nine above: this copy is
+     read aloud by a grown-up to a child at the teaching moment, and a drifted
+     note is a lesson mis-taught. */
+  check(notes.to === "Tricky word! The o sounds like “oo” — too.", "tricky note (to)", notes.to);
+  check(notes.do === "Tricky word! The o sounds like “oo” — doo.", "tricky note (do)", notes.do);
+  check(notes.you === "Tricky word! The ou sounds like “oo” — yoo.", "tricky note (you)", notes.you);
+  check(notes.said === "Tricky word! The ai sounds like “eh” — sed.", "tricky note (said)", notes.said);
+  check(notes.my === "Tricky word! The y says a letter name — “eye”.", "tricky note (my)", notes.my);
+  check(notes.of === "Tricky word! The o sounds like “uh” and the f sounds like “v” — uv.", "tricky note (of)", notes.of);
+  check(notes.a === "Tricky word! On its own, a says a lazy “uh”.", "tricky note (a)", notes.a);
+  check(notes.we === "Tricky word! The e says its name — wee.", "tricky note (we)", notes.we);
+  check(notes.me === "Tricky word! The e says its name — mee.", "tricky note (me)", notes.me);
+  check(notes.he === "Tricky word! The e says its name — hee.", "tricky note (he)", notes.he);
+  check(notes.be === "Tricky word! The e says its name — bee.", "tricky note (be)", notes.be);
+  check(notes.go === "Tricky word! The o says its name — go.", "tricky note (go)", notes.go);
+  check(notes.no === "Tricky word! The o says its name — no.", "tricky note (no)", notes.no);
+  check(notes.so === "Tricky word! The o says its name — so.", "tricky note (so)", notes.so);
+  check(Object.keys(notes).length === 23, "tricky note count", String(Object.keys(notes).length));
 
   /* Rule 3b lived here: the five adult notes, pinned word for word. It
      retired with the microphone on 2026-08-12 — the note existed to explain

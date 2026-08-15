@@ -728,7 +728,7 @@ happened to read the output.
 - **Fixtures hold no real name** — every control plants "Placeholderkid", because a
   scanner whose own fixture is a child's name is the fault it guards against (open-faults
   L, verbatim).
-- Keys: `g24_files` (188), `g24_controls` (15), problems capped at 0.
+- Keys: `g24_files` (189), `g24_controls` (15), problems capped at 0.
 - Run: `node tools/s9-names.mjs` and `--self-test`; both are in `npm run check`.
 
 ## G14. Update system
@@ -994,7 +994,7 @@ other direction: the real pack, unchanged, must pass.
 
 ## G20. Effect map
 
-- Tool: `tools/effect-map.mjs`. Writes `docs/effect-map.md`. Keys: `g20_tests_mapped` (290).
+- Tool: `tools/effect-map.mjs`. Writes `docs/effect-map.md`. Keys: `g20_tests_mapped` (291).
 - One row per `it()` SITE — its file, suite, and the test's own sentence, which in this
   project IS the Given/When/Then effect, because tests are named as behaviour. A site inside
   a loop or a table runs many times, so the 284 rows describe the 341 tests Vitest executes;

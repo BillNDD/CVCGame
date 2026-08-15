@@ -410,6 +410,34 @@ describe("the sentence inside a session", () => {
     expect(screen.queryByText("Session complete")).toBeNull();
   });
 
+  /* THE BENT-SOUND NOTE IN A SENTENCE (open-faults J1, "sentences too"
+     owner-ruled 2026-08-15). The stage is rendered directly: which sentence a
+     session deals is random, and a test that only sometimes meets a bent word
+     is a test that only sometimes tests. Literal fixtures (E4). */
+  it("12: the open word's bent-sound note shows in the reveal — and only there", async () => {
+    const { default: SentenceStage } = await import("../app/src/components/SentenceStage.jsx");
+    const fixture = { id: "s:mode-wm-wm01", text: "We sat on the mat." };
+    const note = () => document.querySelector(".wq-sentence .wq-slot-msg")?.textContent ?? "";
+    /* The sounded-out word is bent: its note, word for word. */
+    render(createElement(SentenceStage, { sentence: fixture, openWord: "we", onTapWord: () => {} }));
+    expect(note()).toBe("⭐ Tricky word! The e says its name — wee.");
+    cleanup();
+    /* A plain word open: the slot stays, one line high, empty — nothing moves. */
+    render(createElement(SentenceStage, { sentence: fixture, openWord: "sat", onTapWord: () => {} }));
+    expect(note().trim()).toBe("");
+    cleanup();
+    /* A tapped bent word gets the same note: "the" is tappable in any
+       sentence that contains it, and its pieces without its note would be
+       half the truth. */
+    render(createElement(SentenceStage, { sentence: fixture, openWord: "the", onTapWord: () => {} }));
+    expect(note()).toBe("⭐ Tricky word! The e sounds like “uh” — thuh.");
+    cleanup();
+    /* Never during the attempt: the child is reading, and the note belongs
+       to the reveal's teaching, not to a hint before the try. */
+    render(createElement(SentenceStage, { sentence: fixture, openWord: "we", attempt: true, onTapWord: () => {} }));
+    expect(note().trim()).toBe("");
+  });
+
   it("7: no sentence repeats inside one session", async () => {
     render(createElement(App));
     await flush(0);

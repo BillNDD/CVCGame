@@ -1,4 +1,4 @@
-import { C, chunkWord, sentenceWords } from "@engine";
+import { C, chunkWord, sentenceWords, TRICKY } from "@engine";
 
 /* THE SENTENCE REVEAL (SPEC section 12 point 6, approved 2026-08-13 from a
    working prototype). The owner was shown four designs on 2026-08-11, chose
@@ -77,6 +77,17 @@ export default function SentenceStage({ sentence, openWord, pops = [], onTapWord
             style={pops[i]?.ms > 0 ? { "--wqpop": pops[i].ms + "ms" } : undefined}>{g}</span>
         ))}
       </div>
+      {/* The bent-sound note, for whichever word is OPEN (open-faults J1,
+          "sentences too" owner-ruled 2026-08-15). The word reveal has carried
+          this note since the first nine tricky words; a bent word sounded out
+          or tapped open inside a sentence now says the same thing in the same
+          amber words. A reserved slot, like every slot on this stage (P0-2):
+          one line high whether or not a note exists, so the sentence never
+          moves when a word opens, closes, or changes. Never in the attempt —
+          the child is reading, and the note is part of the reveal's teaching,
+          not a hint before the try. */}
+      <p className="wq-slot-msg" style={{ margin: "2px 0 0", fontSize: 12.5, fontWeight: 800, color: C.amberInk, textAlign: "center", minHeight: "1.4em" }}>
+        {!attempt && openWord && TRICKY[openWord] ? "⭐ " + TRICKY[openWord] : " "}</p>
       <p className="wq-sentence-hint" style={{ color: C.ink2 }}>
         {attempt ? " " : "Tap a word to see its sounds."}</p>
     </div>

@@ -844,19 +844,21 @@ the same day in `tools/free-port.mjs`. Six faults planted against rule 5, six ki
 
 A parent sent their child's export. Three things came out of it; one is fixed, two are open.
 
-### J1. The letter "a" says two sounds and nothing says so — owner-ruled 2026-08-13, NOT BUILT
+### J1. The letter "a" says two sounds and nothing says so — BUILT 2026-08-15, owner-ruled
 
-- **Where** `WORD_SOUND.a = { 0: "schwa_a" }` against `TILE_SOUND.a = "short_a"`.
-- **What a child gets** The tile `a` says the lazy uh of the word "a", and the same single tile
-  says the a of cat everywhere else. "a" is the only single-letter word in the bank, so it is
-  the only place a child sees one tile alone and hears a sound that tile never makes elsewhere.
-  The child met it in session 5 beside `and`, `bad`, `mad`, `rap`, `tag`, `bag`, `rag`, `yap`,
-  `dab` — nine short-a words and one schwa, no signposting. The parent's words were "the letter
-  a is handled terribly".
-- **Ruled** When a word bends a tile away from that letter's usual sound, the reveal says so in
-  child-facing words. It applies to every bent sound, not only "a".
-- **Done** means the wording exists, the owner has approved it, and if it is spoken it has been
-  through a listening round. Not started: the copy is the owner's to write and S3/S4 govern it.
+The reveal now says so, for every bent heart word, in the owner's own shipped note
+pattern: fourteen new `TRICKY` notes join the original nine, chosen by the owner from a
+decision page (all fourteen approved as drafted; the long vowels say "says its name", the
+rest keep the sounds-like respelling). The parent's word "a" carries "On its own, a says a
+lazy “uh”." — the exact gap their report named. "and" stays noteless because it bends
+nothing, and a test pins the absence as a decision. The sentence reveal shows the open
+word's note too ("sentences too", owner-ruled the same day), in a reserved slot so the
+approved layout never moves; never during the child's attempt. The five buzzy-th words
+stay out by SPEC section 5's own rule — th is a two-sound unit where the word decides,
+not a letter bent from its usual sound. SPEC sections 3 and 12 own the record; copy-lint
+pins all twenty-three notes word for word. A SPOKEN layer was offered, and the owner
+chose "shown now, spoken explored later" — recorded as idea G8, unpromised.
+
 
 ### J2. `settings.mode: "mic"` survives a feature that no longer exists
 
@@ -1161,6 +1163,18 @@ lost the next time a context is condensed. An idea leaves this section by being 
 the result goes wherever it belongs — `docs/settled.md` if a measurement closed it, a round's
 row if an ear did. **Trying one is never a substitute for the game work it was meant to
 serve, and nothing here may be counted as progress until it has been tried.**
+
+### G8. A SPOKEN bent-sound signpost — noted 2026-08-15, owner: "shown now, spoken explored later"
+
+When J1's written notes shipped, the owner was offered a spoken layer — a rotating line
+before the sound-out ("One sound is special here — listen:") followed by the bent sound's
+own clip — and chose to explore it later rather than promise it. What it would take, so
+the exploration starts honest: a render-capable session (this machine has no synthesiser —
+measured 2026-08-15), ONE new recorded line through a full listening round (the
+three-lines-take-turns pattern is the precedent), and S4 shapes the wording absolutely —
+speech may never name a letter, so the spoken line can never say what the written notes
+say ("The e says..."), only point ("listen:") and play the approved sound clip. The
+written notes are complete without it; this is an idea, not a debt.
 
 ### G7. The voice-asset migrate ("Pass B") — noted 2026-08-15, not built, and read the critique first
 

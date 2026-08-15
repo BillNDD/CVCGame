@@ -110,8 +110,11 @@ TAUGHT as code: a heart word is learned by sight, and the tiles exist so the rev
 tell the truth about it — s-ai-d, not s-a-i-d, which spells a word no child will ever
 hear. Teaching vowel teams as decodable code stays ruled out (section 12), and neither
 unit has a ruled default sound, so every word that uses one must bend it per word. A test
-enforces that, with a control. The nine words in `TRICKY` are the only
-exceptions, each with a note.
+enforces that, with a control. `TRICKY` holds the note a grown-up reads when a word bends
+a sound — twenty-three words carry one since 2026-08-15, when the fourteen heart-word
+notes joined the owner's original nine (open-faults J1: a bent tile the reveal never
+explained). "and" is the one heart word without a note, because it bends nothing, and a
+test pins that absence as a decision.
 
 | Level | Name | Focus | Words |
 |------:|------|-------|-------|
@@ -880,6 +883,11 @@ sentences are made of the words that level teaches.
       **silently** — no sound is spoken for a tapped word, ever. Only the first, automatic
       word is spoken.
    4. **Exactly one word is ever open.** Opening another closes the last.
+      When the open word carries a `TRICKY` note — sounded out by the app or
+      tapped open by the child — the note shows under its tiles, in the same
+      amber words the word reveal uses ("sentences too", owner-ruled
+      2026-08-15, open-faults J1). The slot is reserved either way, so the
+      sentence never moves; the note never shows during the attempt.
    5. The sentence reads again to close, and **a tap interrupts that read.**
 
    The ring is the existing `.wq-tile.wq-pop` outline, not a new shape. Design rule 2 is

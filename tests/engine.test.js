@@ -79,8 +79,15 @@ describe("word bank", () => {
     expect(WORD_LEVEL.the).toBe(2); expect(WORD_LEVEL.and).toBe(2); expect(WORD_LEVEL.my).toBe(2);
     expect(WORD_LEVEL.bell).toBe(8); expect(WORD_LEVEL.chick).toBe(9);
   });
-  it("flags the nine tricky words", () => {
-    expect(Object.keys(TRICKY).sort()).toEqual(["bush","has","is","push","she","the","was","wash","what"]);
+  it("flags the twenty-three tricky words — the nine originals and the fourteen heart-word notes of 2026-08-15", () => {
+    expect(Object.keys(TRICKY).sort()).toEqual([
+      "a","be","bush","do","go","has","he","is","me","my","no","of",
+      "push","said","she","so","the","to","was","wash","we","what","you",
+    ]);
+    /* "and" is the one heart word with no note, because it bends nothing —
+       pinned so a note cannot arrive for it without a person deciding, and
+       so its absence is a stated fact rather than an oversight (J1). */
+    expect(TRICKY.and).toBeUndefined();
   });
   it("keeps every word inside what the tile row can hold: 4 units at most, 5 letters at most", () => {
     /* Levels 1 to 9 break into two or three sound units. Levels 10 and 11 are

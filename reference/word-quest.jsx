@@ -199,6 +199,32 @@ const TRICKY = {
   she: "Tricky word! The e sounds like \u201Cee\u201D \u2014 shee.",
   the: "Tricky word! The e sounds like \u201Cuh\u201D \u2014 thuh.",
   what: "Tricky word! The a sounds like \u201Cuh\u201D \u2014 wut.",
+  /* THE HEART-WORD NOTES (open-faults J1, owner-approved 2026-08-15). Ruled
+     2026-08-13 after a parent's report \u2014 "the letter a is handled terribly":
+     when a word bends a tile away from that letter's usual sound, the reveal
+     says so in child-facing words. The nine notes above were the owner's own
+     shipped pattern; these fourteen extend it to every heart word that bends.
+     Two shapes inside one format, chosen by the owner from a decision page:
+     long vowels say "says its name" \u2014 the kitchen-table phrase, and exactly
+     true \u2014 and the rest keep the sounds-like respelling. "and" bends nothing
+     and stays noteless; the five buzzy-th words stay out because th is a
+     two-sound unit where the WORD decides (SPEC section 5), not a letter bent
+     from its usual sound. Shown only: S4 governs speech and none of these is
+     spoken \u2014 a spoken layer is a recorded idea, not a promise. */
+  to: "Tricky word! The o sounds like \u201Coo\u201D \u2014 too.",
+  do: "Tricky word! The o sounds like \u201Coo\u201D \u2014 doo.",
+  you: "Tricky word! The ou sounds like \u201Coo\u201D \u2014 yoo.",
+  said: "Tricky word! The ai sounds like \u201Ceh\u201D \u2014 sed.",
+  my: "Tricky word! The y says a letter name \u2014 \u201Ceye\u201D.",
+  of: "Tricky word! The o sounds like \u201Cuh\u201D and the f sounds like \u201Cv\u201D \u2014 uv.",
+  a: "Tricky word! On its own, a says a lazy \u201Cuh\u201D.",
+  we: "Tricky word! The e says its name \u2014 wee.",
+  me: "Tricky word! The e says its name \u2014 mee.",
+  he: "Tricky word! The e says its name \u2014 hee.",
+  be: "Tricky word! The e says its name \u2014 bee.",
+  go: "Tricky word! The o says its name \u2014 go.",
+  no: "Tricky word! The o says its name \u2014 no.",
+  so: "Tricky word! The o says its name \u2014 so.",
 };
 /* One tile per unit (S8). Beyond the six spoken digraphs: qu says kw, the
    silent-letter pairs kn wr mb say their surviving letter, and the doubled

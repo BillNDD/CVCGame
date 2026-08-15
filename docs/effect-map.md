@@ -8,7 +8,7 @@ Per-test rows carry the test's own sentence, which in this project IS the
 Given/When/Then effect. The requirement, oracle, platform, mutant family, evidence
 and known limits are declared per FILE, in the tool, where they stay true.
 
-Totals: 290 it() SITES across 13 files, plus 10 gates that are not test files.
+Totals: 291 it() SITES across 13 files, plus 10 gates that are not test files.
 
 A site inside a loop or a table runs many times, so these rows describe more tests than they number: Vitest executes 330. The rows count the places behaviour is asserted.
 
@@ -51,7 +51,7 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 5 | word bank | has 445 unique words across 11 levels |
 | 6 | word bank | starts with the 12-word VC level |
 | 7 | word bank | maps every word to its level |
-| 8 | word bank | flags the nine tricky words |
+| 8 | word bank | flags the twenty-three tricky words — the nine originals and the fourteen heart-word notes of 2026-08-15 |
 | 9 | word bank | keeps every word inside what the tile row can hold: 4 units at most, 5 letters at most |
 | 10 | chunkWord and dashed | fuses every digraph |
 | 11 | chunkWord and dashed | splits VC and plain CVC words |
@@ -359,7 +359,7 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 4 | buildSession and the next level | brings a graded next-level word back for review |
 | 5 | buildSession and the next level | caps above-level review at 2 words a session |
 
-## tests/sentence.test.js — 15 tests (G10)
+## tests/sentence.test.js — 16 tests (G10)
 
 - **Requirement protected:** SPEC section 12 points 2 to 6: where a sentence falls in a session, what it plays, what a tap does, and what ends it
 - **Independent oracle:** The literal clip plan and the level's own word lists
@@ -384,7 +384,8 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 12 | the sentence inside a session | 9b: the longest word is a pure rule, and it is not the first word |
 | 13 | the sentence inside a session | 10 (free play): records nothing, and offers no way to record anything |
 | 14 | the sentence inside a session | 11 (free play): never runs out — the pool is dealt again from the top |
-| 15 | the sentence inside a session | 7: no sentence repeats inside one session |
+| 15 | the sentence inside a session | 12: the open word |
+| 16 | the sentence inside a session | 7: no sentence repeats inside one session |
 
 ## tests/serviceworker.test.js — 5 tests (G14)
 

@@ -26,7 +26,7 @@
   "g10_safety_tests": 28,
   "g10_adult_control_tests": 9,
   "g10_reveal_tests": 18,
-  "g10_sentence_tests": 15,
+  "g10_sentence_tests": 16,
   "g11_copy_rules": 5,
   "g12_qa_steps": 42,
   "g13_clips": 598,
@@ -45,7 +45,7 @@
   "g18_network_checks": 4,
   "g19_app_mutants": 11,
   "g19_survivors_max": 0,
-  "g20_tests_mapped": 290,
+  "g20_tests_mapped": 291,
   "g21_listening_checks": 5,
   "g13_edge_controls": 5,
   "census_controls": 41,
@@ -63,5 +63,5 @@
   "g23_controls": 40,
   "filemap_history_max": 1,
   "g24_controls": 15,
-  "g24_files": 188
+  "g24_files": 189
 }
