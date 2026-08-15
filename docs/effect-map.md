@@ -8,7 +8,7 @@ Per-test rows carry the test's own sentence, which in this project IS the
 Given/When/Then effect. The requirement, oracle, platform, mutant family, evidence
 and known limits are declared per FILE, in the tool, where they stay true.
 
-Totals: 282 it() SITES across 13 files, plus 10 gates that are not test files.
+Totals: 287 it() SITES across 13 files, plus 10 gates that are not test files.
 
 A site inside a loop or a table runs many times, so these rows describe more tests than they number: Vitest executes 330. The rows count the places behaviour is asserted.
 
@@ -33,7 +33,7 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 8 | G10 — the text a grown-up reads on the child | 27: one completed session counts as  |
 | 9 | G10 — the text a grown-up reads on the child | 28 (control): two sessions still count as  |
 
-## tests/engine.test.js — 94 tests (G1)
+## tests/engine.test.js — 96 tests (G1)
 
 - **Requirement protected:** SPEC sections 3-4: the word bank, levels, chunking, the Leitner ladder, session shape and the reveal plan
 - **Independent oracle:** Literal expected values written from SPEC by hand (E4). Never the constant under test.
@@ -138,6 +138,8 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 92 | G1 — the system voice is never given a word it says wrongly | 75: no praise line contains a word with two pronunciations |
 | 93 | G1 — the system voice is never given a word it says wrongly | 76: with no unsafe line listed, every praise index reaches the system voice unchanged |
 | 94 | G1 — the system voice is never given a word it says wrongly | 77: the clip plan carries the new line to the pack |
+| 95 | G1 — the system voice is never given a word it says wrongly | 78: the sentence praise roster is exactly the rows that never say \ |
+| 96 | G1 — the system voice is never given a word it says wrongly | 79: the sentence lead is the grade |
 
 ## tests/faults.test.js — 13 tests (G9)
 
@@ -354,7 +356,7 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 4 | buildSession and the next level | brings a graded next-level word back for review |
 | 5 | buildSession and the next level | caps above-level review at 2 words a session |
 
-## tests/sentence.test.js — 12 tests (G10)
+## tests/sentence.test.js — 15 tests (G10)
 
 - **Requirement protected:** SPEC section 12 points 2 to 6: where a sentence falls in a session, what it plays, what a tap does, and what ends it
 - **Independent oracle:** The literal clip plan and the level's own word lists
@@ -366,17 +368,20 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | # | Suite | Effect (the test's own sentence) |
 |---|---|---|
 | 1 | the sentence inside a session | 1: arrives after the fifth word, and only after a word is finished |
-| 2 | the sentence inside a session | 2: reads the sentence whole, invites, then sounds out the word the level teaches |
-| 3 | the sentence inside a session | 3: a tapped word shows its pieces and says NOTHING |
-| 4 | the sentence inside a session | 4: exactly one word is ever open, and tapping the open one closes it |
-| 5 | the sentence inside a session | 5: the sentence reads again to close, and a tap interrupts that read |
-| 6 | the sentence inside a session | 6: the grown-up ends it, nothing has to finish first, and no result is recorded |
-| 7 | the sentence inside a session | 8 (free play): opens on a sentence at once, and counts sentences not words |
-| 8 | the sentence inside a session | 9 (free play): sounds out the LONGEST word, in tiles, and never the level |
-| 9 | the sentence inside a session | 9b: the longest word is a pure rule, and it is not the first word |
-| 10 | the sentence inside a session | 10 (free play): records nothing, and offers no way to record anything |
-| 11 | the sentence inside a session | 11 (free play): never runs out — the pool is dealt again from the top |
-| 12 | the sentence inside a session | 7: no sentence repeats inside one session |
+| 2 | the sentence inside a session | 0: arrives SILENT with the child |
+| 3 | the sentence inside a session | 0b: the mark decides only what the app says — praise that never says \ |
+| 4 | the sentence inside a session | 0c: one attempt, one result — a second mark in the same window changes nothing |
+| 5 | the sentence inside a session | 2: the mark starts the reveal: the whole sentence, the invitation, then the level |
+| 6 | the sentence inside a session | 3: a tapped word shows its pieces and says NOTHING |
+| 7 | the sentence inside a session | 4: exactly one word is ever open, and tapping the open one closes it |
+| 8 | the sentence inside a session | 5: the sentence reads again to close, and a tap interrupts that read |
+| 9 | the sentence inside a session | 6: after the mark the grown-up ends it, nothing has to finish first, and no result is recorded |
+| 10 | the sentence inside a session | 8 (free play): opens on a sentence at once, and counts sentences not words |
+| 11 | the sentence inside a session | 9 (free play): sounds out the LONGEST word, in tiles, and never the level |
+| 12 | the sentence inside a session | 9b: the longest word is a pure rule, and it is not the first word |
+| 13 | the sentence inside a session | 10 (free play): records nothing, and offers no way to record anything |
+| 14 | the sentence inside a session | 11 (free play): never runs out — the pool is dealt again from the top |
+| 15 | the sentence inside a session | 7: no sentence repeats inside one session |
 
 ## tests/serviceworker.test.js — 5 tests (G14)
 

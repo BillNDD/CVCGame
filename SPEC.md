@@ -806,11 +806,15 @@ sentences are made of the words that level teaches.
 2. **A session mixes words and sentences throughout.** Not words first and sentences at the
    end. A sentence arrives every few items, so a child who is tiring does not meet every
    sentence at once, and the level's teaching and its payoff are interleaved.
-3. **A sentence is never scheduled.** The grown-up marks it and the result is recorded, but
-   a sentence does not enter the spaced-repetition boxes. Re-reading one sentence teaches
-   that sentence; the words inside it are already being scheduled individually, which is
-   where the learning belongs. This costs no new field in the saved document, so no version
-   bump and no migration.
+3. **A sentence is never scheduled.** The grown-up marks it, and the mark decides ONLY what
+   the app says next — it is recorded nowhere (owner-ruled 2026-08-14, from the decision
+   page that gave the sentence its attempt phase). A sentence does not enter the
+   spaced-repetition boxes and never returns. Re-reading one sentence teaches that
+   sentence; the words inside it are already being scheduled individually, which is where
+   the learning belongs. This costs no new field in the saved document, so no version bump
+   and no migration — an earlier draft of this point said the result "is recorded", which
+   could not be true alongside "no new field", and building from that unresolved pair is
+   part of how the attempt phase went unbuilt (open-faults N).
 4. **Words alone decide promotion.** The existing rule is untouched: 80 per cent of the
    level's words at box 3 or higher, or two perfect sessions. A sentence is practice and
    celebration, never a gate, and no child is held at a level by one sentence.
@@ -839,10 +843,35 @@ sentences are made of the words that level teaches.
    it, which is the rule that decided the set: the app picks the word, so a line calling it
    new, or hard, or the tricky one would put the game under a promise it must then keep.
    Nothing here is built, and **no line has been recorded or heard**.
-6. **The presentation — RULED 2026-08-13.** Four were built and shown on 2026-08-11: tap a
-   word to open its sound tiles silently; every word pre-split; one word lit at a time; and a
-   plain sentence whose sounds appear only in the reveal. The owner chose none of them and
-   described a fifth, which combines the last two and adds a child-driven half:
+6. **The presentation — RULED 2026-08-13, and the ATTEMPT PHASE ruled 2026-08-14.** Four
+   designs were built and shown on 2026-08-11: tap a word to open its sound tiles silently;
+   every word pre-split; one word lit at a time; and a plain sentence whose sounds appear
+   only in the reveal. The owner chose none of them and described a fifth. That fifth was
+   built as written and shipped in beta 19 — and the owner found within a day that it began
+   with the app reading the sentence aloud: "the child never gets a chance to be graded or
+   do anything." The description opened with what the app DOES ("The sentence is read
+   whole") and nobody had written down what happens BEFORE that, so what was built had the
+   child's turn missing (open-faults N). The three rulings of 2026-08-14, from a decision
+   page, complete it:
+
+   **Before the reveal — the child's turn.** The sentence arrives SILENT, with the stage
+   label "Read this sentence" and the rail prompt "Read the sentence out loud! 📣" (the
+   child's name in front when one is set) — the word prompt's exact shape. The child reads
+   it aloud. The three grade controls are live and are the ONLY way forward: no advance
+   control exists during the attempt and there is no separate skip — the mark is the path,
+   exactly as "not yet" is for a stuck child on a word. The words are plain text during the
+   attempt: no tap targets and no tiles, because a scaffold offered mid-attempt would be
+   the app helping before the child has tried. S2 extends from the word to the sentence:
+   the app speaks nothing until the attempt ends.
+
+   **The mark.** Graded with the same three controls a word gets, and the grade decides
+   only what the app SAYS (point 3): "got it" leads with a praise clip drawn only from the
+   rows that never say the word "word" — the engine pins that roster in both halves —
+   while "close" and "not yet" lead with the same recorded "Good try!" / "Let's try
+   again." a word's reveal uses. Zero new audio. Every mark reaches the same reveal, so a
+   stuck child hears the sentence read to them — S3's invitation, kept.
+
+   **Then the reveal the owner approved, unchanged:**
 
    1. The sentence is read whole.
    2. An invitation line plays, and **the word the level teaches** takes the tile ring: its
@@ -899,7 +928,10 @@ sentences are made of the words that level teaches.
    **Built 2026-08-13.** The chooser's third control, "📖 Sentences", serves every sentence
    up to and including the child's level, endlessly, with the same reveal a session gives.
    One earlier is practice they have earned; one later is the guessing exercise the
-   decodability rule exists to prevent. Nothing is recorded and no grade control is live.
+   decodability rule exists to prevent. Nothing is recorded and no grade control is live —
+   which is why the session's attempt phase (point 6) does not apply here: with no grade
+   control there is no mark to wait for, so a free-play sentence's reveal starts on
+   arrival, as this ruling built it.
 
 What this costs, and none of it is done: `a` needs a listening round, being a word the game
 has never spoken. `the` and `and` have approved clips already. Every level object grows a

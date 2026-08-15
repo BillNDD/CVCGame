@@ -33,6 +33,14 @@ This document follows the Microsoft Writing Style Guide.
 7. On the next word, press and hold "↻ not yet".
    Expected: The app shows "Good try!" and invites another go. It never says the child was
    wrong, and the word comes back later in the session.
+7b. Keep grading until five words are done, and watch what arrives next.
+   Expected: A sentence appears in SILENCE — the app speaks nothing. The stage says
+   "Read this sentence" and the rail says "Read the sentence out loud! 📣". The three
+   grade controls are live, and there is no "Next word" control anywhere: the only way
+   forward is your hold. Have the child read the sentence, then press and hold
+   "✓ got it". Only then does the app speak — a praise line, the whole sentence, an
+   invitation, one word sounded out, and the sentence again. "Next word" appears with
+   the reveal and works at once.
 8. Leave the next word on screen and touch nothing for a full minute.
    Expected: Nothing is recorded, the word does not change, and the app never grades by
    itself. Only your hold records anything, ever.

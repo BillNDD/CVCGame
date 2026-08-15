@@ -72,6 +72,14 @@ const gradeByKey = async (page, label, key) => {
 const pressNext = async (page) => {
   await page.locator(".wq-rail .wq-cta").click();
   if (await page.locator(".wq-sentence").isVisible().catch(() => false)) {
+    /* THE SENTENCE NOW HAS AN ATTEMPT PHASE (owner-ruled 2026-08-14, fixing
+       open-faults N): it arrives silent with NO advance control — the rail
+       carries the prompt, and the only way forward is the grown-up's mark,
+       exactly as a grown-up at a real screen. So this walk marks it correct
+       by keyboard (S5) and then presses the reveal's always-live advance.
+       The first version of this helper pressed a second time and waited on a
+       control the attempt deliberately does not have. */
+    await gradeByKey(page, "✓ got it (hold)", "Enter");
     await page.locator(".wq-rail .wq-cta").click();
     await page.locator(".wq-word").waitFor();
     return true;

@@ -22,7 +22,7 @@ import { C, chunkWord, sentenceWords } from "@engine";
 
    The ring is the existing `.wq-tile.wq-pop` outline, never a new shape, so a
    child meets the same reveal they know from every word. */
-export default function SentenceStage({ sentence, openWord, pops = [], onTapWord }) {
+export default function SentenceStage({ sentence, openWord, pops = [], onTapWord, attempt = false }) {
   const ws = sentenceWords(sentence.text);
   /* The words as the WRITER wrote them — capitals and punctuation kept —
      beside the lower-cased forms the game reasons about. A child reads
@@ -30,12 +30,22 @@ export default function SentenceStage({ sentence, openWord, pops = [], onTapWord
      are the same length by construction: `sentenceWords` splits on the same
      whitespace this does. */
   const shown = sentence.text.trim().split(/\s+/);
+  /* THE ATTEMPT (owner-ruled 2026-08-14, open-faults N). Before the mark the
+     sentence is the child's to READ: plain words, no tap targets, no tiles,
+     no hint — the same bare stage a word gets in its ready phase. Tapping
+     belongs to the reveal, where SPEC section 12 point 6 places it ("After
+     that it is the child's"): a scaffold offered mid-attempt would be the
+     app helping before the child has tried. The slots below stay reserved in
+     both phases so nothing moves when the mark lands (P0-2). */
   return (
     <div className="wq-sentence">
+      {attempt && <p style={{ margin: 0, fontSize: 11.5, fontWeight: 800, letterSpacing: ".14em",
+        textTransform: "uppercase", color: C.ink, textAlign: "center" }}>Read this sentence</p>}
       <p className="wq-sentence-line">
         {shown.map((raw, i) => {
           const w = ws[i];
-          const open = w !== undefined && w === openWord;
+          const open = !attempt && w !== undefined && w === openWord;
+          if (attempt) return <span key={i} className="wq-sword">{raw}</span>;
           return (
             <button
               key={i}
@@ -55,8 +65,8 @@ export default function SentenceStage({ sentence, openWord, pops = [], onTapWord
       {/* The tile row for the open word. It sits in a reserved slot so the
           sentence above it never moves when a word opens or closes — the same
           promise the word stage makes (P0-2). */}
-      <div className="wq-slot-tiles wq-sentence-tiles" aria-hidden={!openWord}>
-        {openWord && chunkWord(openWord).map((g, i) => (
+      <div className="wq-slot-tiles wq-sentence-tiles" aria-hidden={attempt || !openWord}>
+        {!attempt && openWord && chunkWord(openWord).map((g, i) => (
           /* A ring only where its LENGTH is known (B5), and only for the word
              the app sounded out. A tapped word is silent, so it has no sounds
              playing and therefore nothing to ring against: it shows its pieces
@@ -67,7 +77,8 @@ export default function SentenceStage({ sentence, openWord, pops = [], onTapWord
             style={pops[i]?.ms > 0 ? { "--wqpop": pops[i].ms + "ms" } : undefined}>{g}</span>
         ))}
       </div>
-      <p className="wq-sentence-hint" style={{ color: C.ink2 }}>Tap a word to see its sounds.</p>
+      <p className="wq-sentence-hint" style={{ color: C.ink2 }}>
+        {attempt ? " " : "Tap a word to see its sounds."}</p>
     </div>
   );
 }

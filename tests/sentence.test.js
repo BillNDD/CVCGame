@@ -1,7 +1,14 @@
 /* Word Quest — the sentence inside a session (SPEC section 12, approved
-   2026-08-13). The owner was shown four designs on 2026-08-11, chose none, and
-   described a fifth. These are that fifth, point by point:
+   2026-08-13; the ATTEMPT PHASE owner-ruled 2026-08-14, fixing open-faults N:
+   "the child never gets a chance to be graded or do anything"). The sentence
+   now arrives SILENT with the child's turn first, and the reveal — the fifth
+   design the owner described — begins only at the grown-up's mark:
 
+     0. the sentence arrives silent; the child reads it; the grown-up marks it
+        with the same three controls a word gets, and the mark decides only
+        what the app SAYS — a praise line that never says "word", or the same
+        "Good try!" / "Let's try again." a word's reveal leads with. Nothing
+        is recorded, and there is no separate skip: the mark is the path.
      1. the sentence is read whole
      2. an invitation plays and the word the LEVEL TEACHES is sounded out
      3. tapping any other word shows its pieces SILENTLY
@@ -16,7 +23,7 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { render, screen, fireEvent, act, cleanup } from "@testing-library/react";
 import { createElement } from "react";
-import { LEVELS, REVEAL_LINES, SENTENCES, chunkWord, revealWordLongest, newState } from "../src/engine.js";
+import { LEVELS, REVEAL_LINES, SENTENCES, SENTENCE_PRAISE, PRAISE, chunkWord, revealWordLongest, newState } from "../src/engine.js";
 
 const REVEAL_MS = 5200;
 /* Every plan the app asked to be played, in order, so a test can assert the
@@ -58,6 +65,10 @@ Object.defineProperty(window, "speechSynthesis", {
   value: { cancel: () => {}, speak: () => {} },
 });
 const { default: App } = await import("../app/src/App.jsx");
+/* The mocked save, so a test can assert the sentence NEVER reaches it: the
+   mark decides what the app says and is recorded nowhere (owner-ruled
+   2026-08-14). */
+const { saveState } = await import("../app/src/storage.js");
 
 const flush = async (ms = 0) => act(async () => { await vi.advanceTimersByTimeAsync(ms); });
 const advance = () => screen.getByText(/Next word|Finish!/);
@@ -68,7 +79,8 @@ const tiles = () => [...document.querySelectorAll(".wq-sentence-tiles .wq-tile")
 
 /* Grade N words correct and press through, stopping the moment a sentence
    appears. Level 1 is twelve words and the plan puts a sentence after the
-   fifth, so five grades reach one. */
+   fifth, so five grades reach one. The walk now ends at the ATTEMPT: the
+   sentence on screen, silent, waiting for the child. */
 const walkToSentence = async () => {
   render(createElement(App));
   await flush(0);
@@ -80,6 +92,12 @@ const walkToSentence = async () => {
     fireEvent.click(advance());
     await flush(0);
   }
+};
+/* The grown-up's mark on the sentence — a keyboard press, because S5 gives a
+   keyboard direct operation of the adult controls. */
+const markSentence = async (label = "✓ got it (hold)") => {
+  fireEvent.keyDown(screen.getByLabelText(label), { key: "Enter" });
+  await flush(0);
 };
 
 beforeEach(() => { vi.useFakeTimers(); localStorage.clear(); played = []; scheduled = null; stored = null; });
@@ -111,25 +129,107 @@ describe("the sentence inside a session", () => {
       .toBe(true);
   });
 
-  it("2: reads the sentence whole, invites, then sounds out the word the level teaches", async () => {
+  it("0: arrives SILENT with the child's turn first — prompt up, controls live, no way past but the mark", async () => {
     await walkToSentence();
+    /* S2, extended from the word to the sentence: the app has spoken NOTHING.
+       Every clip ever played would be in `played`, and there are none. */
+    expect(played.length).toBe(0);
+    /* The prompt is the word prompt's exact shape, with the ruled words. */
+    expect(screen.getByText("Read the sentence out loud! 📣")).toBeTruthy();
+    expect(screen.getByText("Read this sentence")).toBeTruthy();
+    /* The three grade controls are LIVE — this is the turn the owner said the
+       child never got. And there is no advance control at all: the mark is
+       the only way forward, exactly as it is for a word. No separate skip
+       (owner-ruled 2026-08-14). */
+    for (const label of ["✓ got it (hold)", "~ close (hold)", "↻ not yet (hold)"]) {
+      expect(screen.getByLabelText(label).disabled).toBe(false);
+    }
+    expect(screen.queryByText(/Next word|Finish!/)).toBeNull();
+    /* The attempt offers no scaffold: no tap targets, no tiles, no hint. The
+       words are plain text — a child reading, not a child exploring. */
+    expect(document.querySelectorAll("button.wq-sword").length).toBe(0);
+    expect(tiles().length).toBe(0);
+  });
+
+  it("0b: the mark decides only what the app says — praise that never says \"word\", or the word-reveal leads", async () => {
+    /* Around EVERY mark: the save-call count may not move. The five word
+       grades of each walk legitimately persist — that is what a word's grade
+       is FOR — so the window measured is the mark alone. */
+    const unrecorded = async (label) => {
+      const before = saveState.mock.calls.length;
+      await markSentence(label);
+      expect(saveState.mock.calls.length).toBe(before);
+    };
+    await walkToSentence();
+    await unrecorded("✓ got it (hold)");
+    /* The lead is a praise clip drawn ONLY from the rows that never say the
+       word "word" — the child read a sentence, and the app must not
+       mis-describe what they did. */
+    const lead = played[0][0];
+    expect(lead.startsWith("p:")).toBe(true);
+    const idx = Number(lead.slice(2));
+    expect(SENTENCE_PRAISE.includes(idx)).toBe(true);
+    expect(/\bword\b/i.test(PRAISE[idx])).toBe(false);
+    expect(played[0][1]).toBe("seam");
+    /* A close and a wrong mark lead with S3's exact recorded sentences — the
+       same clips a word's reveal uses, so zero new audio. The closing-read
+       timer is flushed before each teardown: left armed, it fires into the
+       NEXT block's walk and its sentence clip lands at played[0] — which is
+       exactly what happened to the first version of this test. */
+    await flush(REVEAL_MS + 800);
+    cleanup(); played = [];
+    await walkToSentence();
+    await unrecorded("~ close (hold)");
+    expect(played[0][0]).toBe("l:close");
+    await flush(REVEAL_MS + 800);
+    cleanup(); played = [];
+    await walkToSentence();
+    await unrecorded("↻ not yet (hold)");
+    expect(played[0][0]).toBe("l:wrong");
+    /* Every mark reaches the SAME reveal — a stuck child hears the sentence
+       read to them, which is S3's invitation kept. */
+    expect(played[0][2].startsWith("s:mode-")).toBe(true);
+  });
+
+  it("0c: one attempt, one result — a second mark in the same window changes nothing", async () => {
+    await walkToSentence();
+    await markSentence("✓ got it (hold)");
+    expect(played.length).toBe(1);
+    /* Both holds maturing in one commit window was the double-count fault the
+       words already guard against; the sentence takes the same guard. */
+    await markSentence("~ close (hold)");
+    await markSentence("↻ not yet (hold)");
+    expect(played.length).toBe(1);
+    /* After the mark the controls are dead — the reveal is not a second
+       chance to grade, for the sentence or the word behind it. */
+    for (const label of ["✓ got it (hold)", "~ close (hold)", "↻ not yet (hold)"]) {
+      expect(screen.getByLabelText(label).disabled).toBe(true);
+    }
+  });
+
+  it("2: the mark starts the reveal: the whole sentence, the invitation, then the level's word", async () => {
+    await walkToSentence();
+    await markSentence();
     expect(played.length).toBe(1);
     const plan = played[0];
-    /* Point 1: the WHOLE sentence, one clip, first. Never a stitch of word
-       clips — stitched, the same sentence ran 2.07x too long. */
-    expect(plan[0].startsWith("s:mode-")).toBe(true);
+    /* The lead first (point 0), then point 1: the WHOLE sentence, one clip.
+       Never a stitch of word clips — stitched, the same sentence ran 2.07x
+       too long. */
+    expect(plan[0].startsWith("p:")).toBe(true);
     expect(plan[1]).toBe("seam");
+    expect(plan[2].startsWith("s:mode-")).toBe(true);
+    expect(plan[3]).toBe("seam");
     /* Point 2: the invitation takes the place the praise line usually holds,
        so the reveal a child meets here is the reveal they already know. */
-    expect(REVEAL_LINES.includes(plan[2])).toBe(true);
+    expect(REVEAL_LINES.includes(plan[4])).toBe(true);
     /* Then the ordinary sound-out: the word, "Pronounced:", its sounds, the
        word again. */
-    expect(plan[3]).toBe("seam2");
-    expect(plan[4].startsWith("w:")).toBe(true);
-    expect(plan[6]).toBe("s:pronounced");
-    expect(plan[plan.length - 1]).toBe(plan[4]);
+    expect(plan[5]).toBe("seam2");
+    expect(plan[6].startsWith("w:")).toBe(true);
+    expect(plan[8]).toBe("s:pronounced");
+    expect(plan[plan.length - 1]).toBe(plan[6]);
     /* The word is one the LEVEL teaches, not any word of the sentence. */
-    const word = plan[4].slice(2);
+    const word = plan[6].slice(2);
     expect(LEVELS[0].words.includes(word)).toBe(true);
     /* Its pieces are on the screen, and they are that word's pieces. */
     expect(tiles().join("")).toBe(word);
@@ -138,6 +238,7 @@ describe("the sentence inside a session", () => {
 
   it("3: a tapped word shows its pieces and says NOTHING", async () => {
     await walkToSentence();
+    await markSentence();
     const spoken = played.length;
     const other = swords().find((b) => b.getAttribute("aria-pressed") === "false");
     fireEvent.click(other);
@@ -151,6 +252,7 @@ describe("the sentence inside a session", () => {
 
   it("4: exactly one word is ever open, and tapping the open one closes it", async () => {
     await walkToSentence();
+    await markSentence();
     expect(document.querySelectorAll(".wq-sword-open").length).toBe(1);
     const first = openSword();
     const other = swords().find((b) => b !== first);
@@ -168,7 +270,8 @@ describe("the sentence inside a session", () => {
 
   it("5: the sentence reads again to close, and a tap interrupts that read", async () => {
     await walkToSentence();
-    const sentenceId = played[0][0];
+    await markSentence();
+    const sentenceId = played[0][2];          // after the lead and its seam
     expect(played.length).toBe(1);
     await flush(REVEAL_MS + 800);
     /* The closing read is the sentence alone — one clip, no invitation and no
@@ -181,21 +284,25 @@ describe("the sentence inside a session", () => {
     cleanup();
     played = [];
     await walkToSentence();
+    await markSentence();
     fireEvent.click(swords()[swords().length - 1]);
     await flush(REVEAL_MS + 800);
     expect(played.length).toBe(1);            // the closing read never started
   });
 
-  it("6: the grown-up ends it, nothing has to finish first, and no result is recorded", async () => {
+  it("6: after the mark the grown-up ends it, nothing has to finish first, and no result is recorded", async () => {
     await walkToSentence();
-    /* The advance is live at once — no wait, no fill. Every word reveal makes
-       the grown-up wait for the child to hear the word; a sentence must not,
-       because there is nothing here the child has to hear before moving on. */
+    await markSentence();
+    /* In the REVEAL the advance is live at once — no wait, no fill. Every
+       word reveal makes the grown-up wait for the child to hear the word; a
+       sentence must not, because the ruling of 2026-08-13 stands: nothing has
+       to finish first. */
     expect(advance().disabled).toBe(false);
     expect(document.querySelector(".wq-ctafill")).toBeNull();
-    /* Point 3: a sentence is never scheduled, so the grade controls are dead
-       while it shows. Live, they would let a grown-up record a second result
-       for the word behind the sentence. */
+    /* Point 3: a sentence is never scheduled — the mark decided what the app
+       SAYS and nothing else. The session count is untouched, so the reveal's
+       controls are dead: the word behind the sentence can never be graded a
+       second time. */
     for (const label of ["✓ got it (hold)", "~ close (hold)", "↻ not yet (hold)"]) {
       expect(screen.getByLabelText(label).disabled).toBe(true);
     }
@@ -316,6 +423,7 @@ describe("the sentence inside a session", () => {
       await flush(0);
       if (sentenceEl()) {
         seen.push(swords().map((b) => b.textContent).join(" "));
+        await markSentence();                  // the attempt ends at the mark
         fireEvent.click(advance());
         await flush(0);
       }

@@ -8,6 +8,7 @@ import {
   chunkWord, dashed, freshWordState, applyResult, buildSession, checkPromotion,
   heal, migrate, newState, buildMarkdown, loadState, saveState, speak, hush, buzz, feedbackSpeech, PRAISE,
   SEAM_MS, SOUNDOUT_SEAM_MS, voiceScript, clipPlan, resolvePack, TTS_UNSAFE_PRAISE, ttsSafePraise,
+  SENTENCE_PRAISE, sentenceLead,
   soundInventory, bankWords, soundIdFor, soundIdsFor, tileSlots, isSeam, seamMs, WORD_SOUND, isSecure,
   SENTENCES, REVEAL_LINES, REVEAL_LINE_TEXT, sentenceWords, revealWord,
 } from "../src/engine.js";
@@ -1045,5 +1046,33 @@ describe("G1 — the system voice is never given a word it says wrongly", () => 
        against the new truth — the mechanism stays for exactly that day. */
     const p2 = voiceScript().find((c) => c.id === "p:2");
     expect(p2.text).toBe("You knew just what to do with that word!");
+  });
+
+  /* THE SENTENCE'S PRAISE ROSTER (owner-ruled 2026-08-14, open-faults N).
+     Pinned in BOTH halves, the way the grapheme fallback roster is (B1): a
+     count alone would stay green while one safe line was swapped for a
+     word-shaped one. */
+  it("78: the sentence praise roster is exactly the rows that never say \"word\", both halves pinned", () => {
+    expect(SENTENCE_PRAISE).toEqual([0, 1, 4, 5, 6, 7, 8, 9, 11, 13, 14, 15, 16]);
+    /* The four excluded rows each say "word" — that is WHY they are out, and
+       if a praise edit ever changes one, this fails until a person re-decides
+       the roster rather than letting it drift. */
+    for (const i of [2, 3, 10, 12]) expect(/\bword\b/i.test(PRAISE[i])).toBe(true);
+    for (const i of SENTENCE_PRAISE) expect(/\bword\b/i.test(PRAISE[i])).toBe(false);
+    /* Union check: every praise row is in exactly one half. */
+    expect([...SENTENCE_PRAISE, 2, 3, 10, 12].sort((a, b) => a - b))
+      .toEqual(Array.from({ length: 17 }, (_, i) => i));
+  });
+
+  it("79: the sentence lead is the grade's exact clip, and an off-roster index cannot praise with a word-line", () => {
+    expect(sentenceLead("close")).toBe("l:close");
+    expect(sentenceLead("wrong")).toBe("l:wrong");
+    expect(sentenceLead("correct", 5)).toBe("p:5");
+    expect(sentenceLead("correct", 16)).toBe("p:16");
+    /* A caller handing in an excluded or absent index gets the roster's first
+       entry, never the word-shaped line it asked for. */
+    expect(sentenceLead("correct", 2)).toBe("p:0");
+    expect(sentenceLead("correct", 99)).toBe("p:0");
+    expect(sentenceLead("correct")).toBe("p:0");
   });
 });

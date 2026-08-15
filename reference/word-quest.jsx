@@ -806,6 +806,29 @@ const REVEAL_LINE_TEXT = {
   "s:soundout-2": "Let’s sound out one word together.",
   "s:soundout-3": "Here is one word to sound out.",
 };
+/* THE LEAD LINE OF A GRADED SENTENCE (owner-ruled 2026-08-14, from the
+   decision page that gave the sentence its attempt phase). A sentence is
+   GRADED with the same three controls as a word, and the grade decides only
+   what the app SAYS — nothing is written to the save, nothing is scheduled,
+   nothing returns (SPEC section 12 points 3 and 4 stand untouched).
+
+   "correct" takes a praise clip, but only from the rows that never say the
+   word "word": a child has just read a SENTENCE, and "You knew just what to
+   do with that word!" would be the app mis-describing what they did. The
+   four excluded rows are 2, 3, 10 and 12 (0-based) — measured, not chosen,
+   and a test pins both halves so a praise edit cannot silently widen this.
+   "close" and "wrong" take the same two lead clips a word's reveal uses:
+   S3's exact sentences, already recorded, already approved. Zero new audio.
+
+   The index is the CALLER's choice so this stays a pure function; an index
+   outside the roster falls back to its first entry rather than praising a
+   sentence with a word-shaped line. */
+const SENTENCE_PRAISE = [0, 1, 4, 5, 6, 7, 8, 9, 11, 13, 14, 15, 16];
+function sentenceLead(result, praiseIdx) {
+  if (result === "close") return "l:close";
+  if (result === "wrong") return "l:wrong";
+  return "p:" + (SENTENCE_PRAISE.includes(praiseIdx) ? praiseIdx : SENTENCE_PRAISE[0]);
+}
 /* A sentence split into the words a child sees. Case and punctuation are the
    writer's problem, not the child's. An apostrophe is NOT stripped: "can't" is
    a different word from "can" and is not taught.

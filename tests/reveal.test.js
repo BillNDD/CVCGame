@@ -99,15 +99,18 @@ const gradeOneWord = async () => {
   await flush(0);
 };
 
-/* Press for the next word, and press again if a SENTENCE takes the press.
-   A sentence arrives every five words (SPEC section 12 point 2) and its own
-   control is the same "Next word", so a walk through a session meets one — the
-   same way a grown-up does. Asserting the sentence appeared is what stops this
-   from quietly absorbing its disappearance. */
+/* Press for the next word — and when a SENTENCE takes the press, do what a
+   grown-up now does (owner-ruled 2026-08-14, open-faults N): the sentence
+   arrives silent with no advance control, the child reads, the grown-up MARKS
+   it, and only the reveal has the always-live "Next word". Asserting the
+   sentence appeared is what stops this from quietly absorbing its
+   disappearance. */
 const pressNext = async () => {
   fireEvent.click(advance());
   await flush(0);
   if (document.querySelector(".wq-sentence")) {
+    fireEvent.keyDown(screen.getByLabelText("✓ got it (hold)"), { key: "Enter" });
+    await flush(0);
     fireEvent.click(advance());
     await flush(0);
     return true;

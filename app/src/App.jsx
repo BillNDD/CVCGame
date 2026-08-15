@@ -6,7 +6,7 @@ import {
   C, SEAM_MS, freshWordState, applyResult, buildSession, checkPromotion,
   migrate, newState, buildMarkdown, feedbackSpeech, PRAISE, speak, hush, buzz, ttsSafePraise,
   sessionSentences, sentencePlan, sentenceClosePlan, revealWord, revealWordLongest,
-  sentencesUpTo, shuffle, REVEAL_LINES,
+  sentencesUpTo, shuffle, REVEAL_LINES, SENTENCE_PRAISE, sentenceLead,
 } from "@engine";
 /* W3 — the storage adapter is IndexedDB in the standalone app. */
 import { loadState, saveState } from "./storage.js";
@@ -137,6 +137,11 @@ export default function App() {
   const closeTimer = useRef(null);
   const fpSentences = useRef([]);
   const [sentence, setSentence] = useState(null);
+  /* "attempt" while the child reads and the grown-up's controls are live;
+     "reveal" once the mark lands (or at once in free play, where nothing is
+     graded). The attempt phase is what open-faults N was opened about. */
+  const [sentencePhase, setSentencePhase] = useState(null);
+  const sentenceGraded = useRef(false);
   const [shownSentences, setShownSentences] = useState([]);
   const [openWord, setOpenWord] = useState(null);
   const popTimers = useRef([]);
@@ -443,9 +448,15 @@ export default function App() {
        disabled, so focusing it from here does nothing at all. */
   }
 
-  /* THE SENTENCE, shown between two words (SPEC section 12 point 6). One read
-     of the whole sentence, an invitation, the sound-out of the word the LEVEL
-     teaches, and then the closing read. */
+  /* THE SENTENCE, shown between two words (SPEC section 12 point 6). In a
+     SESSION it now arrives with an ATTEMPT PHASE (owner-ruled 2026-08-14,
+     fixing open-faults N: "the child never gets a chance to be graded or do
+     anything"): the sentence appears SILENT, the child reads it aloud, the
+     grown-up marks it with the same three controls a word gets, and only the
+     mark starts the reveal — which is S2's promise, extended from the word to
+     the sentence. In FREE PLAY the reveal still starts at once: the owner
+     ruled on 2026-08-13 that no grade control is live there (SPEC section 12
+     point 7), so there is no mark to wait for. */
   function showSentence(item, free = false) {
     /* WHICH WORD GETS SOUNDED OUT. In a session it is the word the LEVEL
        teaches (SPEC section 12 point 6). Free play has no such word — a
@@ -456,11 +467,22 @@ export default function App() {
        reason the session rule gives. */
     const w = free ? revealWordLongest(item.text) : revealWord(item.text, stateRef.current.level);
     setSentence(item); setOpenWord(w); setPhase("sentence");
+    setSentencePhase(free ? "reveal" : "attempt");
+    sentenceGraded.current = false;
     setShownSentences((ids) => [...ids, item.id]);
     clearPops();
     unlockVoice();
+    if (!free) return;                     // the session sentence waits for the child's attempt
+    playSentenceReveal(item, w, null);
+  }
+  /* The reveal itself, shared by the two doors that open it: a free-play
+     arrival (no lead — nothing was graded) and a session mark (a lead by
+     grade). One function, because two copies of this plan is how a queue and
+     a session count stop agreeing. */
+  function playSentenceReveal(item, w, leadId) {
     const line = REVEAL_LINES[Math.floor(Math.random() * REVEAL_LINES.length)];
-    const plan = sentencePlan(item.id, w, line);
+    const plan = leadId ? [leadId, "seam", ...sentencePlan(item.id, w, line)]
+      : sentencePlan(item.id, w, line);
     /* NO SYSTEM-SPEECH FALLBACK HERE, and that is a decision rather than an
        omission. Every other utterance falls back to the system voice when the
        pack cannot play, because saying a word badly beats saying nothing. A
@@ -481,6 +503,27 @@ export default function App() {
         }, ms + SEAM_MS);
       });
   }
+  /* THE MARK THAT ENDS THE SENTENCE ATTEMPT (owner-ruled 2026-08-14). Graded
+     with the same three controls as a word, and the grade decides ONLY what
+     the app says next: a praise line from the rows that never say "word" for
+     a correct reading, or the same "Good try!" / "Let's try again." leads a
+     word's reveal uses. Nothing is written to the save, nothing is scheduled,
+     and the sentence never comes back — SPEC section 12 points 3 and 4 stand.
+     No separate skip either: the mark IS the path to the reveal, exactly as
+     "not yet" is for a stuck child on a word.
+
+     One attempt, one result — the same double-fire guard the word controls
+     need: both holds can mature in the same commit window, and a second call
+     here would start the reveal twice over itself. */
+  function gradeSentence(result) {
+    if (sentenceGraded.current || !sentence) return;
+    sentenceGraded.current = true;
+    if (result === "correct") buzz(28);            // N-11: no error rumble, same as a word
+    unlockVoice();
+    const praiseIdx = SENTENCE_PRAISE[Math.floor(Math.random() * SENTENCE_PRAISE.length)];
+    setSentencePhase("reveal");
+    playSentenceReveal(sentence, openWord, sentenceLead(result, praiseIdx));
+  }
   /* Point 3 and point 4: a tapped word shows its pieces SILENTLY, and opening
      one closes the last. The tap also interrupts the closing read (point 5) —
      the child has taken over, and the app talking over them is the opposite of
@@ -498,6 +541,7 @@ export default function App() {
     hush(); stopClips(); clearPops();
     clearTimeout(closeTimer.current);
     setSentence(null); setOpenWord(null);
+    setSentencePhase(null); sentenceGraded.current = false;
     /* The press the sentence took is now paid back. Without this the child
        lands back on the word they have already read and already been graded
        on — the sentence would not be an interlude, it would be a hole. */
@@ -735,7 +779,8 @@ export default function App() {
       firstResults={firstResults} answered={answered} totalQ={totalQ}
       advanceReady={advanceReady} waitMs={waitMs} waitFrom={waitFrom} finishes={finishes}
       pops={pops}
-      sentence={sentence} openWord={openWord} onTapWord={tapSentenceWord} endSentence={endSentence}
+      sentence={sentence} sentencePhase={sentencePhase} gradeSentence={gradeSentence}
+      openWord={openWord} onTapWord={tapSentenceWord} endSentence={endSentence}
       freePlay={freePlay} fpCount={fpCount} fpMode={fpMode.current}
       seenTwice={seenTwice} exitAsk={exitAsk}
       onExitAsk={askExit} grade={grade} next={next} skipReveal={skipReveal}

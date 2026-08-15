@@ -96,21 +96,29 @@ function SessionRail({ kid, phase, advanceReady, waitMs, waitFrom, finishes, nex
 /* Stage and rail together, because a sentence replaces BOTH: it takes the
    whole stage, and its advance takes no wait. Split out so no function passes
    the G6 complexity ceiling; the rendered output for a word is identical. */
-function SessionBody({ sentence, openWord, onTapWord, endSentence,
+function SessionBody({ sentence, sentencePhase, openWord, onTapWord, endSentence,
   state, currentWord, phase, fb, liveRef, pops,
   kid, advanceReady, waitMs, waitFrom, finishes, next, advanceRef }) {
   /* The sentence replaces the word rather than sitting beside it: the word the
      child just read is finished, and two things to look at is one too many for
      a four-year-old (SPEC section 12 point 6). */
   if (sentence) {
+    const attempt = sentencePhase === "attempt";
     return (
       <>
-        <Zone.Stage><SentenceStage sentence={sentence} openWord={openWord} pops={pops} onTapWord={onTapWord} /></Zone.Stage>
-        {/* Point 6: the grown-up ends the item and NOTHING has to finish
-            first, so this control is never disabled and takes no wait. It is
-            the one place in a session where the advance is always live. */}
+        <Zone.Stage><SentenceStage sentence={sentence} openWord={openWord} pops={pops}
+          onTapWord={onTapWord} attempt={attempt} /></Zone.Stage>
+        {/* THE CHILD'S TURN FIRST (owner-ruled 2026-08-14, open-faults N).
+            During the attempt the rail carries the prompt, exactly as a
+            word's ready phase does, and there is NO advance control: the mark
+            is the only way forward, the same as a word. The always-live
+            advance below belongs to the REVEAL — the ruling of 2026-08-13
+            that nothing has to finish first was made about the reveal, and
+            it stands there untouched. */}
         <Zone.Rail>
-          <button className="wq-cta" onClick={endSentence} style={{ background: C.green }}>Next word ➡️</button>
+          {attempt
+            ? <div className="wq-prompt">{kid ? kid + ", read the sentence out loud! 📣" : "Read the sentence out loud! 📣"}</div>
+            : <button className="wq-cta" onClick={endSentence} style={{ background: C.green }}>Next word ➡️</button>}
         </Zone.Rail>
       </>
     );
@@ -187,7 +195,7 @@ function ExitDialog({ answered, handleExit }) {
 export default function SessionScreen({
   state, L, kid, currentWord, phase, lastGrade, order, firstResults,
   answered, totalQ, advanceReady, waitMs, waitFrom, finishes, seenTwice, exitAsk, pops,
-  sentence, openWord, onTapWord, endSentence,
+  sentence, sentencePhase, gradeSentence, openWord, onTapWord, endSentence,
   freePlay, fpCount, fpMode,
   onExitAsk, grade, next, skipReveal, replay, handleExit, advanceRef, toast,
 }) {
@@ -206,7 +214,8 @@ export default function SessionScreen({
       <ProgressBar order={order} firstResults={firstResults} total={totalQ} at={answered} freePlay={freePlay} />
 
       <SessionBody
-        sentence={sentence} openWord={openWord} onTapWord={onTapWord} endSentence={endSentence}
+        sentence={sentence} sentencePhase={sentencePhase} openWord={openWord}
+        onTapWord={onTapWord} endSentence={endSentence}
         state={state} currentWord={currentWord} phase={phase} fb={fb} liveRef={liveRef} pops={pops}
         kid={kid} advanceReady={advanceReady} waitMs={waitMs} waitFrom={waitFrom}
         finishes={finishes} next={next} advanceRef={advanceRef} />
@@ -221,16 +230,29 @@ export default function SessionScreen({
             is reserved in every phase so no control moves under a finger
             (A2-002). */}
         <HoldButton onFire={skipReveal} disabled={phase !== "feedback"} color={C.ink2} label="⏭ skip" />
-        {/* No result is ever recorded for a sentence (SPEC section 12 point 3),
-            so the grade controls are dead while one is showing. Without this
-            they would be live — a sentence is not the feedback phase — and a
-            grown-up could grade the word behind it a second time, which is a
-            result the child never gave. S1 says only an adult action records a
-            result; it does not say every adult action should be offered. */}
+        {/* THE SENTENCE IS GRADED WITH THESE SAME CONTROLS (owner-ruled
+            2026-08-14, open-faults N): live during its ATTEMPT, marking the
+            SENTENCE — a grade that decides only what the app says next and is
+            recorded nowhere (SPEC section 12 point 3: never scheduled, never
+            in the boxes). Dead again the moment the mark lands, exactly as
+            they are during a word's feedback: one attempt, one result, and
+            the word behind the sentence can never be graded a second time.
+            In free play a sentence has no attempt phase at all (SPEC section
+            12 point 7: no grade control is live there), so `sentencePhase`
+            is "reveal" from the start and these stay dead. */}
         <div style={{ display: "flex", gap: 6, marginLeft: "auto" }}>
-          <HoldButton onFire={() => grade("correct")} disabled={phase === "feedback" || !!sentence} color={C.green} label="✓ got it" />
-          <HoldButton onFire={() => grade("close")} disabled={phase === "feedback" || !!sentence} color={C.amber} label="~ close" />
-          <HoldButton onFire={() => grade("wrong")} disabled={phase === "feedback" || !!sentence} color={C.red} label="↻ not yet" />
+          {(() => {
+            const sAttempt = !!sentence && sentencePhase === "attempt";
+            const dead = sentence ? !sAttempt : phase === "feedback";
+            const fire = (r) => (sAttempt ? gradeSentence(r) : grade(r));
+            return (
+              <>
+                <HoldButton onFire={() => fire("correct")} disabled={dead} color={C.green} label="✓ got it" />
+                <HoldButton onFire={() => fire("close")} disabled={dead} color={C.amber} label="~ close" />
+                <HoldButton onFire={() => fire("wrong")} disabled={dead} color={C.red} label="↻ not yet" />
+              </>
+            );
+          })()}
         </div>
         {/* N-12 + P0-2: one reserved marker line, so the strip height never changes
             and the word never moves between phases */}
