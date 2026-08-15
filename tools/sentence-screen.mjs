@@ -56,6 +56,24 @@ export function shape(text) {
   return `an adult (${ws[adult]}) does something physical (${ws[verb]}) to the child (${ws[child]})`;
 }
 
+/* PHRASES THE OWNER BANNED BY NAME. A sentence can be innocent word by word
+   and still carry a euphemism whole. The owner banned two in the Levels 1-6
+   listening round on 2026-08-15 — both had passed every mechanical gate, and
+   one of them ("pat" beside "cat") had passed this file's shape check too,
+   because no adult and no child appears in it. Like ADULTS and CONTACT above,
+   this list is deliberately narrow: it holds exactly what the owner has
+   refused, covers the plural a child could produce, and claims nothing more.
+   The words themselves stay teachable; it is the pairing that is banned. */
+export function phrases(text) {
+  const ws = sentenceWords(text);
+  const has = (...forms) => ws.some((w) => forms.includes(w));
+  if (has("pat", "pats") && has("cat", "cats"))
+    return `"pat" beside "cat" — a euphemism the owner banned on 2026-08-15, in any order, any distance`;
+  if (ws.some((w, i) => ["tap", "taps"].includes(w) && ws[i + 1] === "it"))
+    return `"tap it" — a euphemism the owner banned on 2026-08-15`;
+  return null;
+}
+
 /* THE SCREENED LEDGER — read by a person on 2026-08-13, all 91 of them, one
    by one, against CLAUDE.md's word rule: nothing with a sexual, crude,
    violent or otherwise adult meaning or slang, and nothing whose SHAPE
@@ -102,6 +120,8 @@ export function screen(sentences) {
   for (const { id, text } of sentences) {
     const s = shape(text);
     if (s) problems.push(`refused by shape: ${id} ("${text}") — ${s}`);
+    const p = phrases(text);
+    if (p) problems.push(`refused by banned phrase: ${id} ("${text}") — ${p}`);
     if (!known.has(id)) problems.push(`never screened by a person: ${id} ("${text}") — read it, then add it to SCREENED`);
   }
   /* The ledger must not outlive what it screens either. A name here for a
@@ -129,9 +149,24 @@ if (process.argv.includes("--self-test")) {
     ["My dad can pat the dog.", false, "an adult and a contact verb, but the object is not the child"],
     ["Pat me and my dad can run.", false, "the order is the shape: the child comes before the adult here"],
   ];
+  const phraseCases = [
+    ["Pat my cat.", true, "the sentence the owner banned on 2026-08-15, word for word"],
+    ["Can you tap it?", true, "the other sentence the owner banned on 2026-08-15, word for word"],
+    ["My cat can pat.", true, "the same pair reversed — the ban is the pairing, not the order"],
+    ["He taps it.", true, "the plural a child could produce is covered, as the word rule requires"],
+    ["The cat sat.", false, "cat without pat is the bank's oldest friend and must survive"],
+    ["Tap, tap, tap!", false, "tap without it is innocent drumming and must survive"],
+    ["We tap at it.", false, "tap and it apart: the euphemism is the adjacent pair, not the words"],
+  ];
   let failed = 0;
   for (const [text, want, why] of cases) {
     const got = shape(text) !== null;
+    const ok = got === want;
+    console.log((ok ? "ok   " : "FAIL ") + `${want ? "refused" : "passes "}: ${why}`);
+    if (!ok) failed += 1;
+  }
+  for (const [text, want, why] of phraseCases) {
+    const got = phrases(text) !== null;
     const ok = got === want;
     console.log((ok ? "ok   " : "FAIL ") + `${want ? "refused" : "passes "}: ${why}`);
     if (!ok) failed += 1;
@@ -149,7 +184,7 @@ if (process.argv.includes("--self-test")) {
   const sawStale = stale.some((p) => p.startsWith("screened but not shipped:"));
   console.log((sawStale ? "ok   " : "FAIL ") + "control: a screened sentence the game no longer shows is reported");
   if (!sawStale) failed += 1;
-  const total = cases.length + 3;
+  const total = cases.length + phraseCases.length + 3;
   console.log(`\nsentence-screen controls: ${total - failed} passed, ${failed} failed`);
   process.exit(failed ? 1 : 0);
 }

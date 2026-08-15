@@ -1056,7 +1056,10 @@ on that date — and it refuses the shape the owner refused on 2026-08-13, when 
 down "My dad can pat me." with two words: *not appropriate*. Every mechanical gate had
 passed it, because `tools/decodable.mjs` asks whether a child CAN read a sentence and
 nothing asked whether they SHOULD meet it. That sentence is not in the game and is the
-gate's control.
+gate's control. The gate also refuses whole phrases the owner has banned by name — two
+euphemisms caught in the 2026-08-15 listening round, listed only in the tool itself —
+because a sentence can be innocent word by word and still carry an adult meaning as a
+pair, in a shape with no adult and no child in it for the shape check to see.
 
 Two shipped sentences were looked at twice and KEPT, and recording which is part of the
 screen: **"My pal can zap me!"** and **"Can my pal tag me?"** both put a contact verb on

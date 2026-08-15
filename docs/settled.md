@@ -1157,7 +1157,30 @@ open-syllable level — is superseded and says so. That placement was written wh
 thought of as phonics words that happened to be common; the ruling reframes them as sight
 words that happen to be spelled awkwardly.
 
-## The trap this project keeps falling into
+## Sentence round one for the new curriculum (2026-08-15) — partly closed
+
+The first listening round for the 10-and-10 curriculum (ten words, growing sentences,
+Levels 1–6 first) put 24 new whole-sentence renders — af_heart, speed 1.0, the recipe every
+shipped sentence uses — to the owner's ear and eye in one page. Closed by that round:
+
+- **15 sentences approved "perfect"**, by ear and by read, on 2026-08-15. They enter the
+  screened ledger when the curriculum lands, citing this round: "Dad ran." "We sat."
+  "The cat sat." "My cat ran." "The man ran." "The cat had a nap." "He is sad."
+  "Dad had a nap." "He ran to the van." "You can go." "We go up." "The dog is big."
+  "The dog can sit." "He said we can dig." "A big dog sat."
+- **Two phrases banned by name as euphemisms in American English**, owner-ruled the same
+  night. `tools/sentence-screen.mjs` now refuses both mechanically — the pairing in any
+  order at any distance for one, the adjacent pair for the other, plurals covered — with
+  controls proving the innocent neighbours ("The cat sat.", drumming taps) survive. The
+  banned pairings are listed only in that tool. Neither banned sentence ever shipped; both
+  died in the round, which is the round doing its job.
+- **The renders themselves needed no re-recipe**: every verdict was about the words, none
+  about the voice. The sentence recipe stays settled.
+
+Not closed, carried into round two: six "iterate" sentences, three "no good option" slots,
+and the owner's word-list verdict, which round one never received — the question sat at the
+bottom of the page and the owner never saw it. A decision the owner cannot see is a
+decision not asked: round two leads with it.
 
 A fix that is approved but not applied is worse than no fix: it reads as done.
 cup and pop won a treatment on 28 July, were held back while an audit ran, and
