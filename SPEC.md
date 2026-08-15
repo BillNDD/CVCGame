@@ -127,7 +127,11 @@ exceptions, each with a note.
 | 10 | Tent Camp | blends at the end | ant ask band belt bend best bolt bond bump camp cost damp dent desk dusk end fast fond gift gulf gulp hand help hint jump just kept lamp land last left lend lift list mask melt mend milk mint must nest pond pump raft rest risk sand sift silk soft task tent wilt |
 | 11 | Twin Drums | blends at the start | brag clap drop drum flag flat glad grab grin plan plum slam sled slid slip snap snug spin spot stem step stop swam swim trap trim trip twig twin |
 
-Level word counts: 12, 53, 49, 48, 49, 38, 58, 27, 22, 53, 29.
+The table above is the one owner of the level word lists, and gate G16 holds it to the
+engine's `LEVELS`. A summary line of per-level counts stood here until 2026-08-15 and is
+gone on purpose: it was a second copy of the table inside the same document, nothing bound
+it, and it drifted — still saying 53 for Level 2 after the heart words took it to 60, so
+the line summed to 438 against a bank of 445. Count from the table.
 
 Levels 10 and 11 introduce NO new grapheme. Every letter in them is one the child already
 knows; what is new is running two consonants together without a vowel between. Letters and
@@ -154,8 +158,10 @@ absent wherever the adult judges every word, which is now every word.
 To extend the bank, add words to a level's list or add a level object:
 `{ n, name, emoji, focus, words }`. Level sizes can differ; the session builder serves 20
 words at a time regardless. Level 1 stays at 12 words — English has only a small set of clean
-short-vowel VC words. Words with consonant blends (like "stop" or "hand") need a fourth sound
-tile, which the layout does not carry yet; they belong to a future level, not to this bank.
+short-vowel VC words. Words with consonant blends (like "stop" or "hand") live in Levels 10
+and 11, built 2026-08-12 with the four-tile layout they need; a sentence here called them "a
+future level" for three days after they shipped, which is why this paragraph now names the
+levels instead of a date that will pass.
 
 ## 4. Schedule engine
 

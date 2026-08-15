@@ -8,7 +8,8 @@ This document follows the Microsoft Writing Style Guide.
 
 Word Quest is a static web app. You can host your own copy from a clone of this repository.
 The app you serve works offline after the first load, exactly like the official copy, and
-makes no network calls beyond your own host.
+holds to safety rule S6 in CLAUDE.md — the only requests it allows go to your own host, and
+the "Grown-ups corner" states the rule in plain words.
 
 ## First setup
 

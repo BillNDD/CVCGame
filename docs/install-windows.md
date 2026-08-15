@@ -44,7 +44,9 @@ You can also right-click the entry. Then click "Pin to taskbar" or "Pin to Start
 1. Open the app one time with a network connection.
 2. The app then operates without a network connection.
 
-The app stores all progress on the computer. The app makes no network calls after the first load.
+The app stores all progress on the computer. The full network rule is safety rule S6 in
+CLAUDE.md, and the app's own "Grown-ups corner" states it in plain words — including the
+narrow update checks it allows and the switch that turns the automatic one off.
 
 ## Remove the app
 

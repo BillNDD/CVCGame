@@ -28,21 +28,18 @@ This document follows the Microsoft Writing Style Guide.
   sight, the engine moves that word forward quickly.
 - The app keeps a record for the adult: a mastery map, a session log, and an export function.
 
-The word bank has 260 words in seven levels:
-
-- Two-sound VC words.
-- Short a.
-- Short i and o.
-- Short e and u.
-- Mixed vowels.
-- Digraphs sh and ch.
-- Digraphs th, wh, ck, and ng, with some tricky words.
+The word bank and its levels live in SPEC.md section 3, which is the one owner of both.
+This file deliberately states no count: a copied number here was 185 words stale before
+anyone noticed, and a pointer cannot rot.
 
 ## Privacy
 
-The app has no accounts, no analytics, and no network calls. The app does not transmit data. All
-progress stays on the device. The name field is optional. The app uses the name only for
-greetings on the screen.
+The app has no accounts and no analytics, and all progress stays on the device. The full
+privacy rule is safety rule S6 in CLAUDE.md — including the two narrow update checks it
+allows: one that runs only when a grown-up presses and holds, and an automatic one a parent
+can switch off. The "Grown-ups corner" in the app states all of it in plain words. The name
+field is optional, device-local only (safety rule S9), and used only for greetings on the
+screen.
 
 ## How to run the game
 
@@ -102,8 +99,10 @@ fails a build. `CLAUDE.md` rule E11 explains why it exists, and it is not option
 
 Run `npm test` for the unit, property, acceptance, fault, and safety suites. Run
 `npm run check` before every push — the quality lint, the tests, the sub-minute gates and the
-controls of `tools/blast-radius.mjs`, about half a minute. Run `npm run gauntlet` for every
-quality gate. A red gauntlet blocks a change. `docs/testing-gauntlet.md` defines each gate.
+controls of `tools/blast-radius.mjs`, about half a minute. When each check runs, and what a
+red one blocks, is engineering rule E7 in CLAUDE.md, which owns that rule; the short form is
+that a red check blocks a push, and the full `npm run gauntlet` runs at a release.
+`docs/testing-gauntlet.md` defines each gate.
 
 ## Design rules
 

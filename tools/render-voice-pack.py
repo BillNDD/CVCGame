@@ -468,12 +468,17 @@ manifest["__recipe"] = {
     "keepers_treatments": sorted(w for w in TREATMENTS if not w.startswith("_")),
 }
 (OUT / "manifest.json").write_text(json.dumps(manifest, indent=1) + "\n", encoding="utf-8")
-# The review file is a record of a RENDER — one row per clip, with the flags a
-# person reads before listening. A recipe-only run renders nothing, so writing
-# it would replace 372 rows with a bare header and quietly destroy the record
-# of the render that actually produced the pack. It did exactly that once.
-if not RECIPE_ONLY:
-    pathlib.Path(out_dir + "-review.csv").write_text("\n".join(review) + "\n", encoding="utf-8")
+# The review sheet used to be WRITTEN here, to out_dir + "-review.csv" — which
+# is app/public/voice-review.csv, inside the precache, on every child's device.
+# The owner ruled it deleted on 2026-08-15 after a measured no-loss proof (372
+# rows, zero verdicts, everything but the removed word in the manifest), and
+# the first "deletion" missed this writer because the path is BUILT, not named:
+# grep for "voice-review" finds nothing here. An independent reviewer caught it
+# the same day — the deleted file would have returned on the next render. The
+# flags a person reads before listening are printed below instead; a render's
+# QC record belongs on the screen of the person rendering, not in the bundle.
+# Gate G23 keeps a tombstone for the path so a future writer cannot bring it
+# back quietly.
 flags = [r for r in review[1:] if r.rstrip().endswith(("SHORT", "LONG"))]
 print(f"rewrote the recipe only; {len(manifest) - 1} clips carried through untouched"
       if RECIPE_ONLY else

@@ -223,7 +223,12 @@ execFileSync("git", ["init", "-q"], { cwd: box, env: scrub(process.env) });
    the missing "git add -f" is unkillable here: it fires only on somebody else's
    machine, which is the worst place for a control to be missing. */
 writeFileSync(join(box, "globalignore"), ".claude/\n*.mp3\n*.csv\n");
-writeFileSync(join(box, "gitconfig"), `[core]\n\texcludesFile = ${join(box, "globalignore")}\n`);
+/* Forward slashes on purpose: in a git config VALUE a backslash is an escape
+   character, so a raw Windows temp path ("C:\Users\...") is "bad config line
+   2" and the whole sandbox dies before the first mutant. Git on Windows
+   accepts forward-slash paths everywhere. Found 2026-08-15, the third
+   Windows-only gate fault of the move (open-faults Q). */
+writeFileSync(join(box, "gitconfig"), `[core]\n\texcludesFile = ${join(box, "globalignore").replace(/\\/g, "/")}\n`);
 const ENV = scrub({ ...process.env, GIT_CONFIG_GLOBAL: join(box, "gitconfig") });
 
 /* A harness that reports kills without first proving the UNMUTATED file passes

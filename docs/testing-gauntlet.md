@@ -1,4 +1,4 @@
-# Testing gauntlet — gate specification (G1–G21)
+# Testing gauntlet — gate specification (G1–G23)
 
 **This document owns** the gates: what each one proves, what it cannot prove, and the floor
 or ceiling it holds in `.claude/gate-baseline.json`.
@@ -645,11 +645,59 @@ deliberate: a flaky cell must inform a release, never block one.
   dependency rule.
 - Negative control: `--self-test` plants a `PROGRESS.md` and a stray `status.json`; the
   detector must report both and still accept the real tree.
-- Baseline floor: `g17_governing_files` (24). It moved from 23 on 2026-08-11, when the
+- Baseline floor: `g17_governing_files` (25). It moved from 23 on 2026-08-11, when the
   owner approved `docs/open-faults.md` into the owned set — the list of what is still
-  wrong, so that a fault cannot be lost to a context compaction. That is the approval
-  path this gate exists to force, working as intended.
+  wrong, so that a fault cannot be lost to a context compaction — and from 24 on
+  2026-08-15, when the owner approved `docs/file-map.md`, the generated ownership map
+  (G23). That is the approval path this gate exists to force, working as intended.
 - Run: `node tools/check-governing.mjs`
+
+## G23. The file map with teeth
+
+Owner-ruled 2026-08-15: "end drift and orphanage — any change to any file can't result in
+drift, because information ownership is well established and the map is known by all."
+Design: open-faults section M (2026-08-14), built with the one-fact-one-owner rule from the
+same day's refactor review. The map is the detector's own configuration — the fact table and
+the file declarations live inside `tools/file-map.mjs`, and `docs/file-map.md` is generated
+from them, so the map and the enforcement are one object and cannot disagree. A hand-written
+map of owners would rot exactly as a hand-written count does; a separate data file beside
+the tool would be fault F2 re-committed.
+
+- **The refusals.** An owned fact stated as a literal in a governing document that does not
+  own it; a tracked file declared nowhere; a G17-approved file with no declaration here
+  (without that coupling a future top-level document would slip through a bulk glob and
+  never be scanned — reviewer-found the day the gate was built); a DATA file no code reads
+  (registries, prose and JSON comments do not count as readers — `voice-review.csv` sat
+  named in a registry while read by nothing); a GENERATED file whose regen tool never names
+  it; two claims to one fact, including a fact's forbidden shape appearing inside a
+  different fact's owner; a HISTORY count over its ceiling — or a ceiling KEY missing from
+  the baseline, because `history > undefined` is false and that is a ceiling that silently
+  stopped existing; and a TOMBSTONE path that exists at all, tracked or not — the deleted
+  review sheet's writer built its path from pieces no grep for the name could find, and
+  would have resurrected it into the precache on the next render.
+- **Born red on the real thing.** The fact rules were run against HEAD before the
+  2026-08-15 pointer fixes and produced seven true hits: README's bank paragraph (twice —
+  both shapes), README's privacy absolute (twice), README's claim that a red gauntlet is
+  what blocks a change, AGENTS' E7 paraphrase, and AGENTS' stale gate count. The same proof
+  shape as `tools/mic-absence.mjs`: the detector was seen red on real data before its
+  fixtures existed. This bullet first QUOTED the gauntlet-blocks phrase verbatim, and the
+  gate's first live catch was its own specification — refused in `npm run check` until the
+  quote became a description, which is the rule working on the person who wrote it.
+- **Exemptions are declared, argued and controlled**, never implied: logs keep their dated
+  numbers (owner-ruled 2026-08-14), and `docs/open-faults.md` quotes wrong sentences
+  because quoting faults is its job. A control proves each exemption stays exempt and a
+  control proves the exemption is not wider than declared.
+- **What it cannot see, stated plainly:** a paragraph describing old behaviour in fresh
+  words. That is fault F3, which stays open. The fact families grow one bite at a time, the
+  way doc-truth's rules did, each carrying the incident that earned it.
+- **HISTORY is a ceiling, not a floor.** The only declaration that legitimises a file with
+  no reader is HISTORY with a written reason, and its count is capped by
+  `filemap_history_max` (1) — a ceiling only the owner moves (E6). Today's one:
+  `docs/voice-goldens-packs1-3.json`, whose 11-of-57 recipe disagreements make it a trap if
+  read as live.
+- Keys: `g23_declared` (25), `g23_facts` (4), `g23_controls` (40), problems capped at 0,
+  ceiling `filemap_history_max` (1).
+- Run: `node tools/file-map.mjs --check` and `--self-test`; both are in `npm run check`.
 
 ## G14. Update system
 

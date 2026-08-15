@@ -682,10 +682,24 @@ entry), `docs/settled.md` (a closed question is never re-opened, so it only grow
 own header says an entry leaves it by being fixed, so it is a document that should shrink,
 and its length is a fair question for another day.
 
-**What remains of F1 is only the part about DUPLICATION**, which the headers begin and do not
-finish: a fact stated in two documents can still drift, and the headers now say which one
-wins. Moving text a person wrote is a separate job, with the owner watching, and CLAUDE.md's
-rule stands that reorganising paperwork instead of the game work it supports is not progress.
+**THE DUPLICATION HALF CLOSED 2026-08-15, owner-ruled — twice, because the first closing
+was wrong, and the record of that stays here.** The copies that were live and wrong —
+README's bank paragraph (185 words stale), README's privacy absolute, README crediting the
+gauntlet with blocking a change, AGENTS' E7 paraphrase and its stale gate count, SPEC's
+counts line summing to 438 inside its own document — each became a pointer to its owner or
+was deleted, and gate G23 now REFUSES an owned fact stated as a literal in a governing
+document that does not own it. The gate was run against the pre-fix tree first and went
+red on the five cross-document copies (seven pattern hits); SPEC's internal line was the
+owner talking to itself, outside any gate's remit by design, and was deleted by hand.
+
+The first version of this paragraph said "fully closed" while three S6 restatements were
+still live in `docs/install-ios.md`, `docs/install-windows.md` and `AGENTS.md` — the two
+install guides being the documents a parent actually reads — and the README rewrite that
+closed one wrong privacy sentence had introduced another (it promised two switchable
+requests; S6 ships one switch). An independent reviewer caught all four the same day.
+The three restatements are pointers now, the README sentence matches S6, and the S6 fact
+family gained a third forbidden shape with its own controls. What no gate can see — a
+paragraph describing old behaviour in fresh words — is F3's, below, and stays open.
 
 ### F2. The data files have no stated shape and three of them overlap
 
@@ -841,6 +855,11 @@ the same day in `tools/free-port.mjs`. Six faults planted against rule 5, six ki
   the recipe numbers. It cannot see a paragraph that describes an old behaviour, which is
   how SPEC section 5 came to describe the pre-reveal utterance until it was rewritten by
   hand on 2026-08-11.
+- **A SLICE closed 2026-08-15:** gate G23 now refuses an owned fact copied as a LITERAL
+  into a governing document that does not own it — the phrase-shaped half of this fault,
+  proven red against the real pre-fix tree. What remains open is exactly the half G23's own
+  header disclaims: a stale paragraph in fresh words, which no pattern can see. This entry
+  stays for that half.
 - **Done** More of what the documents assert is derived from the code rather than typed
   beside it, so the gap cannot open silently.
 
@@ -1047,55 +1066,26 @@ it); and the new sentences the owner approves added by the same route as batch 3
   guards against. Use a placeholder in the control and keep the real list outside the
   repository, or match on a pattern the owner supplies at run time.
 
-## M. The file map — designed 2026-08-14, not built
+## M. The file map — designed 2026-08-14, BUILT 2026-08-15, owner-ruled
 
-An independent architecture review designed this against the faults this repository has
-actually had. It is recorded here rather than started, because it is a new governing file
-and G17 says the owner sees one before it exists. The owner asked for the map; the design
-below is what they are approving or refusing.
+Built as designed, with the ownership teeth the owner added when they ruled it: "end drift
+and orphanage." The record of what it is lives where it belongs — gate G23 in
+`docs/testing-gauntlet.md`, and the generated `docs/file-map.md` itself. This stub stays
+only to say where the entry went; the design text moved into the tool's own header.
 
-- **Shape** `tools/file-map.mjs` generates `docs/file-map.md`, and a gate fails the build
-  when a tracked file has no declaration, when a declaration lies about direction, when a
-  live file goes dark, or when the committed map is stale. It follows
-  `tools/effect-map.mjs` -> `docs/effect-map.md` -> G20 exactly, because that pattern has
-  already survived a review that found 57 unmapped tests.
-- **One file, not two.** The hand-written half lives INSIDE the tool, as `DECLARED`, the
-  way `effect-map.mjs`, `sentence-screen.mjs` and `ledger-truth.mjs` all keep theirs. A
-  separate `file-map.json` would be a second ledger over the same facts needing its own
-  gate to stay in step — which is fault F2, re-committed.
-- **The split is by ROT RATE.** Everything a machine can see is computed on every run: the
-  file list, which tool writes each path, which reads it, which document names it, which
-  npm script runs it, which baseline floors it moves. Only four things are declared by
-  hand, because only these four cannot be derived: what KIND of thing the file is, the one
-  fact it OWNS, the command that regenerates it, and — for a file kept with no reader —
-  why it is kept.
-- **Two detectors, because there are two ways an orphan appears.** A NEW file with no
-  declaration fails the build, so a file cannot arrive silently. And a file declared live
-  whose readers and namers have both gone to zero fails too, which catches the file that
-  had a reader and lost it three commits later.
-- **The ceiling that stops it becoming a graveyard.** The only declaration that legitimises
-  a file with no reader is `HISTORY`, and its count is a CEILING in the baseline, not a
-  floor. Under E6 a ceiling moves only by the owner. Without that, `HISTORY` is an escape
-  hatch and the map is decoration within a month.
-- **How it stays on the right side of CLAUDE.md's ban on status files.** The declaration
-  schema has exactly four keys and none is free-form status — there is nowhere to write a
-  roadmap. It is regenerated on every `npm run check`, so any hand-typed narrative is
-  erased on the next run. It records only what IS; anything wrong goes to this document,
-  anything closed to `docs/settled.md`. A status file says how the work is going, and
-  survives because nothing overwrites it. This says what is in the tree and which way the
-  arrows point, and is overwritten forty times a day.
+The two orphans the design review found were both dispositioned by the owner the same day,
+from a decision page: `app/public/voice-review.csv` DELETED — proven first to hold nothing
+accepted (372 rows, zero verdicts, every id but the removed word's in the shipped manifest,
+227 clips behind the pack) — and `docs/voice-goldens-packs1-3.json` declared HISTORY, the
+first entry against the `filemap_history_max` ceiling of 1.
 
-**It would have caught three faults this repository has actually had**, which is the test
-CLAUDE.md sets: a data file with no stated direction (F2, cost three days), a documented
-gate that was never wired (C4, still open), and a live ledger that went dark and drifted —
-`docs/voice-goldens-packs1-3.json`, 3,647 lines, read by nothing, and **11 of its 57 word
-recipes already disagree with `tools/voice-words.csv`**. That last one was found by the
-same review and is the cleanest orphan in the tree.
-
-**Also found and not yet acted on:** `app/public/voice-review.csv` is written by the
-renderer, read by nothing, still lists `gob` — removed from the bank on 2026-08-13 — and
-is precached into the offline bundle on every child's device. No child data and no privacy
-fault, but it is product weight nobody chose and nothing tests.
+**The deletion was wrongly called done the first time.** `tools/render-voice-pack.py`
+still WROTE the file — its path is built as `out_dir + "-review.csv"`, so no grep for the
+name could find the writer, and the next render would have put the sheet straight back
+into the precache. An independent reviewer caught it hours after the "deletion" was
+recorded here. The write is gone, the flags it carried now print to the person rendering,
+and G23 keeps a TOMBSTONE for the path — it fails the build if the file exists at all,
+tracked or not, so a future writer cannot resurrect it quietly.
 
 ## O. A session link is in 184 commit messages — owner-found 2026-08-14
 
@@ -1197,6 +1187,13 @@ protect it, and a gate that cannot run is a gate that is not protecting anything
   removes one red without adding any. That is a judgement, not a licence: it is recorded here
   so the next person sees that the check has been red since 2026-08-14 rather than discovering
   it and assuming it was always so.
+- **A third Windows fault, found 2026-08-15 in the GAUNTLET's own tooling.**
+  `tools/blast-radius-mutants.mjs` wrote its sandbox git config with a raw Windows temp
+  path — and in a git config VALUE a backslash is an escape character, so the whole harness
+  died at "bad config line 2" before planting a single fault. Proved pre-existing by
+  stashing the day's edits. Fixed with forward slashes, which git accepts on every
+  platform: the harness then ran 64 planted faults, 0 survived, 1 equivalent, 0 anchors
+  moved — its first complete run on this machine.
 - **Done** means `npm run check` is green on Windows: `free-port.mjs` finds a port holder on
   this platform or states in its own output that it cannot and skips honestly, and the
   encoding-less reads in `tools/*.py` name UTF-8. Section P's move to `D:` does not change
@@ -1210,6 +1207,31 @@ lost the next time a context is condensed. An idea leaves this section by being 
 the result goes wherever it belongs — `docs/settled.md` if a measurement closed it, a round's
 row if an ear did. **Trying one is never a substitute for the game work it was meant to
 serve, and nothing here may be counted as progress until it has been tried.**
+
+### G7. The voice-asset migrate ("Pass B") — noted 2026-08-15, not built, and read the critique first
+
+The owner shared an externally-authored refactor brief whose second half designs a full
+voice-asset migration: a JSON schema per asset, `assets/` and `pins/` trees, five new Python
+tools, git-LFS decisions, a `legacy/` freeze of `tools/voice-words.csv`, release zips and CI
+changes. Its first half (ownership and pointers) was reviewed, corrected, and built on
+2026-08-15 as gate G23; the second half is recorded here so it is neither lost nor started.
+
+**The critique that must travel with it, from the 2026-08-15 review:**
+- **It never names the fault it closes.** Every fault it cites (two sound ledgers, stale
+  counts) was already closed by other means. Before any of it is built, the question is:
+  what goes wrong today that this fixes?
+- **It rewrites E10 as a step inside a migration.** Freezing the one file a person edits
+  after a listening round means rewriting a CLAUDE.md engineering rule — the owner's call,
+  taken at the top, never a bullet in a plan.
+- **The pin-storage branch is the real risk.** If LFS is not in use, audio in git inflates
+  the repository permanently; the fallback (gitignore `pins/`, read bytes from a CI zip)
+  puts the declared authority OUTSIDE the repo — fragile for a project whose safety story
+  is byte-pinned audio in the tree.
+- Its useful parts already landed: one-fact-one-owner (G23), the born-red proof shape, the
+  log exemption, pointer-not-copy.
+
+An idea leaves this section by being tried; trying this one starts with the owner naming
+the fault it would fix.
 
 ### G6. An open-weights MUSIC model — noted 2026-08-14, and read the caveat first
 

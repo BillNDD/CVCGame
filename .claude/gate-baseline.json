@@ -41,7 +41,7 @@
   "e11_lookup_survivors_max": 0,
   "e11_lookup_equivalent_max": 1,
   "e11_lookup_anchors_max": 0,
-  "g17_governing_files": 24,
+  "g17_governing_files": 25,
   "g18_network_checks": 4,
   "g19_app_mutants": 10,
   "g19_survivors_max": 0,
@@ -57,5 +57,9 @@
       "on": "2026-08-12",
       "why": "The whole G15 gate. Its subject was the browser speech recogniser contract; the child-facing microphone was removed on the owner's safety ruling of 2026-08-11, tests/recognizer.test.js was deleted, and the counter in tools/gauntlet.mjs went with it in the same commit. No surviving rule lost its guard: S1's adult-only clause became absolute and is now covered by tests/safety.test.js 1, 2, 2a and 3."
     }
-  }
+  },
+  "g23_declared": 25,
+  "g23_facts": 4,
+  "g23_controls": 40,
+  "filemap_history_max": 1
 }

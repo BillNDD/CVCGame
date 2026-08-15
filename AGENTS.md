@@ -11,9 +11,13 @@ Read these, in this order, before you change anything:
 
 1. **`CLAUDE.md`** — the rules that bind every change, and "What counts as
    finished work", which defines what may be called done. S1-S9 are child-safety
-   rules and are not negotiable. E1-E10 are engineering rules; E7 (run
-   `npm run gauntlet` before every push) and E3 (never delete a test, never
-   lower a floor) are the ones most often forgotten under time pressure.
+   rules and are not negotiable. E1-E11 are engineering rules; CLAUDE.md owns
+   their exact text, and this list deliberately restates none of it — an earlier
+   version of this sentence paraphrased E7 wrongly for days, naming the heavier
+   release-time run as the step before every push, while the correct words sat
+   one file away. Gate G23 now refuses that phrase anywhere outside its owner,
+   which is why this sentence describes it instead of quoting it. E7 and E3 are
+   the two most often forgotten under time pressure.
 2. **`SPEC.md`** — the master source for behaviour. If the code and SPEC
    disagree, that is a defect in one of them, and gate G16 will say so.
 3. **`docs/settled.md`** — what a listener or a measurement has ALREADY closed.
@@ -37,7 +41,8 @@ Read these, in this order, before you change anything:
    the fact. If you find a fault and do not fix it in the same change, it goes
    in here — a fault that lives only in a chat log is a fault this project will
    lose, and has.
-5. **`docs/testing-gauntlet.md`** — the 16 gates and what each one is for.
+5. **`docs/testing-gauntlet.md`** — every gate and what each one is for. It owns
+   the gate count; a number written here went stale once already.
 6. **Never hunt for a boundary in audio this project rendered.** The
    synthesiser publishes the duration of every phoneme before it renders a
    sample, and `tools/phoneme_timings.py` reads it: a token lasts
@@ -126,17 +131,21 @@ every arm, and the copy-all at the end.
 
 ## Before you change anything (owner-ruled 2026-08-13)
 
-`CLAUDE.md` E11 owns the rule. In practice it is three lines in your own notes before the
+`CLAUDE.md` E11 owns the rule. In practice it is four lines in your own notes before the
 first edit:
 
 1. **What am I changing?** One sentence, concrete — a word, a count, a constant, a line of copy.
-2. **What depends on it?** Ask, do not remember. `node tools/blast-radius.mjs --word gob`
+2. **Who owns this fact?** Ask the map, not your memory: `docs/file-map.md` names the one
+   file that owns each guarded fact and the declared kind of every file (owner-ruled
+   2026-08-15). A fact changes only in its owner; a new file declares itself in
+   `tools/file-map.mjs` in the same commit. Gate G23 refuses the alternatives.
+3. **What depends on it?** Ask, do not remember. `node tools/blast-radius.mjs --word gob`
    lists every tracked file that names it, classified by what the file IS — engine source,
    generated, test with literal values, gate floor, mutant anchor, a document a parent reads —
    with the counts that move and the floors that follow. `node tools/mutants.mjs --anchors`
    catches mutants whose anchor your edit has moved: milliseconds, against twelve minutes to
    learn the same thing from a gauntlet. Read the output as a plan, not a grep.
-3. **What proves I did it right?** The check or the observation, named before the work starts,
+4. **What proves I did it right?** The check or the observation, named before the work starts,
    not chosen afterwards from whatever passed.
 
 The failure this prevents is not carelessness. It is the ordinary shape of a small change in a
@@ -167,8 +176,8 @@ lives only in a chat log is one this project loses.
 - Small local glue is fine without asking, where a library would be
   disproportionate or a project convention requires hand-rolled code: the
   reference build stays one dependency-free file (E2), and anything the app
-  ships must hold to S6 — no network calls after load and no analytics, no
-  matter what the library offers.
+  ships must hold to safety rule S6 exactly as CLAUDE.md states it, no matter
+  what the library offers.
 - If a reasonable search finds no suitable open-source option, propose a custom
   approach and wait for approval; do not build the substantial version first.
 

@@ -342,6 +342,18 @@ step("G17 governing", "node tools/check-governing.mjs && node tools/check-govern
   { label: "strays", regex: /(\d+) strays/, max: 0 },
 ]);
 
+/* G23 — the file map with teeth (owner-ruled 2026-08-15). One fact, one
+   owner; a copy in a non-owner governing document fails; an undeclared
+   tracked file fails; a DATA file no code reads fails unless declared
+   HISTORY, whose count is a ceiling. Born red against the pre-fix tree:
+   seven real hits at the HEAD of 2026-08-15. */
+step("G23 file-map", "node tools/file-map.mjs --check && node tools/file-map.mjs --self-test", [
+  { label: "declared", regex: /File map: (\d+) declared/, floorKey: "g23_declared" },
+  { label: "facts", regex: /(\d+) owned facts/, floorKey: "g23_facts" },
+  { label: "problems", regex: /(\d+) problems/, max: 0 },
+  { label: "controls", regex: /file-map controls: (\d+) passed/, floorKey: "g23_controls" },
+], {}, ["ok   the real tree holds no copied fact"]);
+
 /* Every gate that MUST have run. A gauntlet that skipped one — a step
    removed, a command renamed — has to fail rather than report a smaller,
    greener total. This is the closed list the release evidence is checked
@@ -351,8 +363,8 @@ const REQUIRED_GATES = [
   "G11 copy", "G1+G2+G9+G10 tests", "G3 regeneration", "G4 acceptance-mutants",
   "G5 source-mutants", "G19 app-mutants", "E11 lookup-mutants", "G6 coverage", "G6 quality",
   "G7 interface", "G8 accessibility", "G18 network", "G16 doc-truth",
-  "G12 qa-procedure", "G13 voice-pack", "G13 voice-edges", "G20 effect-map", "G17 governing", "G6 coverage-control",
-  "G21 listening-page", "app build",
+  "G12 qa-procedure", "G13 voice-pack", "G13 voice-edges", "G20 effect-map", "G17 governing", "G23 file-map",
+  "G6 coverage-control", "G21 listening-page", "app build",
 ];
 const sh = (cmd) => { try { return execSync(cmd, { encoding: "utf8", stdio: "pipe" }).trim(); } catch { return null; } };
 

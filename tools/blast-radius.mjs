@@ -143,8 +143,15 @@ const KINDS = [
   "TOOL",
   "UNCLASSIFIED — read it yourself",
 ];
+/* app/public/voice-review.csv stood in this list until 2026-08-15, when it was deleted:
+   a render-time review sheet read by nothing, 227 clips behind the pack, still naming a
+   word the owner had removed, and precached onto every child's device. Measured before
+   deletion: 372 rows, zero verdicts, and every id but the removed word's in the shipped
+   manifest — nothing accepted was lost. Its writer built the path from pieces, so the
+   first deletion missed it; the write is gone from tools/render-voice-pack.py and gate
+   G23 keeps a tombstone for the path. */
 const VOICE_RECORDS = ["tools/voice-lock.json", "tools/keeper-bytes.json", "tools/keepers-treatments.json",
-  "tools/voice-words.csv", "tools/voice-sounds.csv", "app/public/voice-review.csv"];
+  "tools/voice-words.csv", "tools/voice-sounds.csv"];
 const GOVERNING = ["CLAUDE.md", "AGENTS.md", "README.md"];
 
 function classify(f) {

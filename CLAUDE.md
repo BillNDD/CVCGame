@@ -107,10 +107,12 @@ only when the real behavior is implemented, tested against real expected values,
 to work. Anything short of that stays open and labeled unfinished, with the reason.
 
 Prove what automated tests cannot settle alone. For spoken-word correctness (a listening
-round, recorded in the word's row of `tools/voice-words.csv`), microphone fairness
-(`ADULT_JUDGED`), true offline behavior (the QA script on a real device), and whether a
-pre-reader can use the screen (judged in the app beside the printed word, never only as a
-bare clip), a green script is not enough. G13 is this rule's gate for the voice — it
+round, recorded in the word's row of `tools/voice-words.csv`), true offline behavior (the
+QA script on a real device), and whether a pre-reader can use the screen (judged in the app
+beside the printed word, never only as a bare clip), a green script is not enough.
+Microphone fairness (`ADULT_JUDGED`) stood in this list until the microphone was removed on
+2026-08-12; SPEC section 3 records the retirement, and the clause is kept here as one line
+so a reader who meets the name in an old commit knows it was a rule and not a leftover. G13 is this rule's gate for the voice — it
 refuses any recipe no person heard — and the QA script owns device proof. This game
 teaches phonics reading — CVC today, growing slowly toward a full phonics training game
 along the owner-ruled road in SPEC section 12 — and will never contain math; an earlier
@@ -210,7 +212,20 @@ exclusions are recorded in SPEC section 12.
   lookup, not a gate: it never fails a build and it cannot tell you whether the change is
   right. `node tools/mutants.mjs --anchors` reports every mutant whose anchor has moved in
   milliseconds, where finding the same thing through a gauntlet costs twelve minutes and
-  usually happens at the worst moment. A gate that goes red AFTER a change is a gate doing its
+  usually happens at the worst moment.
+
+  The third lookup is the map, owner-ruled 2026-08-15: before any change to any file — a
+  fact altered, a fact invented, any `.md`, `.json` or `.csv` touched — consult
+  `docs/file-map.md`. It names the one file that owns each guarded fact and the declared
+  kind of every file. Change a fact only in its owner; declare any new file in
+  `tools/file-map.mjs` in the same commit that creates it; never edit the map itself, which
+  is generated. Gate G23 refuses what this paragraph asks you not to do — a copied fact, an
+  undeclared file, an orphaned ledger, a resurrected tombstone — so forgetting the map is a
+  red check, not a silent drift. Its honest limits are written in the tool's own header and
+  in F3: a stale paragraph in fresh words still needs a human reader, and a brand-new fact
+  family is unguarded until its row is added.
+
+  A gate that goes red AFTER a change is a gate doing its
   job late; the same gate consulted first is a plan. This rule earned itself on its first use:
   it predicted five gates for one small change and the dry run then found a sixth nobody had
   thought of.
