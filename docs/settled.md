@@ -1182,6 +1182,39 @@ and the owner's word-list verdict, which round one never received — the questi
 bottom of the page and the owner never saw it. A decision the owner cannot see is a
 decision not asked: round two leads with it.
 
+## Sentence round two — Levels 1–6 verdict-complete (2026-08-15) — closed
+
+Round two led with the word lists and closed everything round one left open.
+
+**The six word lists are approved, exactly as offered, with one change of the round's own
+finding: the heart word "I" — the bank's sixteenth heart, never seated in any level — is
+seated at Level 1.** Ten decodables per level in teaching order, hearts riding outside the
+count:
+
+| level | ten decodables, in teaching order | hearts seated |
+|---|---|---|
+| 1 | is it in on at an up us am ax | the · a · and · I |
+| 2 | if ox cat sat ran can man dad hat mat | my · we |
+| 3 | had bag nap map cap tag jam ham pat bat | me · to |
+| 4 | sad mad bad rat pan fan van pal pad rag | he · no · do |
+| 5 | tap wag lap tan zap yam cab ram dab rap | go · so · you |
+| 6 | has dam nag sap vat yap sit dog big dig | be · said |
+
+**All nine open slots filled, each winner heard and read by the owner on 2026-08-15:**
+"I am in!" (L1) · "I am it!" (L1) · "We sat and had jam." (L3) · "Dad and I had ham." (L3) ·
+"We sat on the mat." (L3) · "A rat is in the van!" (L4) · "Dad is mad at the rat." (L4) ·
+"We go in the cab." (L5) · "The big dog can dig." (L6). Two slots came back "either is
+fine"; under that delegation the round-runner picked "We sat and had jam." over its ham
+twin (variety) and "Dad and I had ham." (it reinforces the newly seated I). Both were
+heard by the owner; only the choice between two approved renders was delegated.
+
+**Levels 1–6 of the 10-and-10 curriculum are now verdict-complete and awaiting the build**:
+31 sentences a child can meet (7 already shipped and screened, 24 approved in these two
+rounds), every one heard whole at the settled sentence recipe and read by the owner against
+the sentence screen's question. The build — engine levels, sentence bank, save migration
+computing each child's level from their own words, floors and scenarios — is the next
+large change, and none of these verdicts ship until it lands.
+
 A fix that is approved but not applied is worse than no fix: it reads as done.
 cup and pop won a treatment on 28 July, were held back while an audit ran, and
 were still unshipped two days later while the release notes implied otherwise.
