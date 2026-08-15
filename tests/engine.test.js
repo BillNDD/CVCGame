@@ -407,12 +407,19 @@ describe("heal", () => {
     expect(() => migrate({ version: { toString: null } })).not.toThrow();
     const m = migrate({ version: { toString: null }, level: 2 });
     expect(m.version).toBe(4);
-    expect(m.level).toBe(1);   // no word data: the v4 recompute answers the start
+    expect(m.level).toBe(6);   // healed to no version, bumped 2 to 3 by v3, floored at old 3's new ground
   });
   it("repairs a hostile or fractional level so the engine cannot crash", () => {
+    /* heal's own guard, probed directly: the migrate clamp's `|| 1` would
+       mask a deleted guard from every end-to-end path (a G5 mutant survived
+       exactly that way on 2026-08-15), so the guard is pinned where it acts —
+       a hostile level reads as absent, a fractional one rounds. */
+    expect(heal({ level: "abc" }).level).toBeUndefined();
+    expect(heal({ level: {} }).level).toBeUndefined();
+    expect(heal({ level: 3.7 }).level).toBe(4);
     expect(migrate({ version: 3, level: "abc" }).level).toBe(1);
     expect(migrate({ version: 3, level: {} }).level).toBe(1);
-    expect(migrate({ version: 3, level: 3.7 }).level).toBe(1);   // rounded by heal, then recomputed by v4
+    expect(migrate({ version: 3, level: 3.7 }).level).toBe(11);  // heal rounds 3.7 to 4, and old 4's stage begins at new 11
     expect(() => buildSession(migrate({ version: 3, level: 3.7 }))).not.toThrow();
     expect(() => buildMarkdown(migrate({ version: 3, level: "abc" }))).not.toThrow();
   });
@@ -425,13 +432,16 @@ describe("migrate", () => {
     log: [{ n: 1, level: 1, c: 18, k: 1, w: 1, acc: 90, items: [], partial: false }] });
 
   it("runs the whole chain: the log shifts, the level recomputes from the words, mode leaves", () => {
-    /* v3 bumps the log rows; v4 (the 10-and-10 curriculum, 2026-08-15) then
-       recomputes the LEVEL from the child's own words — one mastered word
-       secures no level, so this save lands at 1, not at old-3-plus-1. The
-       log keeps its bumped number: it recorded what was true when written.
-       v4 also drops settings.mode, the microphone-era leftover (J2). */
+    /* v3 bumps the level and the log; v4 (the 10-and-10 curriculum,
+       2026-08-15) recomputes from the child's own words AND floors the result
+       at the stored level's mapped ground — one mastered word secures no
+       level, but this child already held old Level 4 (after the v3 bump),
+       whose short-e-and-u stage begins at new Level 11. A migration never
+       seats a child below a level they had earned (build reviewer's finding).
+       The log keeps its bumped number: it recorded what was true when
+       written. v4 also drops settings.mode, the microphone-era leftover (J2). */
     const m = migrate(v2());
-    expect(m.version).toBe(4); expect(m.level).toBe(1); expect(m.log[0].level).toBe(2);
+    expect(m.version).toBe(4); expect(m.level).toBe(11); expect(m.log[0].level).toBe(2);
     expect(m.settings.mode).toBeUndefined();
   });
   it("leaves word data untouched", () => {
@@ -443,11 +453,13 @@ describe("migrate", () => {
     expect(twice).toEqual(once);
   });
   it("recomputes any pre-v4 level from the words, and clamps a v4 one", () => {
-    /* A stored pre-v4 index points at the OLD structure, so its value cannot
-       be trusted at all — 6, 99 and -5 all land where the (empty) word data
-       says: Level 1. Only a v4 save's own out-of-range value takes the clamp. */
-    expect(migrate({ ...v2(), level: 6 }).level).toBe(1);
-    expect(migrate({ version: 3, level: 99 }).level).toBe(1);
+    /* A stored pre-v4 index maps to where its old stage now begins and the
+       child keeps the higher of that floor and the box recompute: old 6 (the
+       v2 fixture's 6 becomes 7 after the v3 bump) opens at new 16; a wild 99
+       clamps to old 11 first and lands at 20; -5 clamps to old 1. A v4
+       save's own out-of-range value takes the plain clamp. */
+    expect(migrate({ ...v2(), level: 6 }).level).toBe(16);
+    expect(migrate({ version: 3, level: 99 }).level).toBe(20);
     expect(migrate({ version: 3, level: -5 }).level).toBe(1);
     expect(migrate({ version: 4, level: 99 }).level).toBe(20);
     expect(migrate({ version: 4, level: -5 }).level).toBe(1);
@@ -464,6 +476,21 @@ describe("migrate", () => {
     const twoLevels = { version: 3, words: {} };
     LEVELS.slice(0, 2).flatMap((l) => l.words).forEach((w) => { twoLevels.words[w] = { box: 5, attempts: 4, correct: 4, close: 0, wrong: 0, dueAt: 0, lastSession: 0 }; });
     expect(migrate(twoLevels).level).toBe(3);
+  });
+  it("never seats a migrated child below the ground they held", () => {
+    /* Promotion's second path — two perfect sessions — leaves few boxes
+       behind, and a parent can set a level by hand; both were real saves the
+       recompute alone sent back to Level 1 (build reviewer, 2026-08-15).
+       Old 5 was Explorer, which survives whole as new 14; old 8 was Bells,
+       now 17. Literals (E4). */
+    expect(migrate({ version: 3, level: 5, words: {} }).level).toBe(14);
+    expect(migrate({ version: 3, level: 8, words: {} }).level).toBe(17);
+    /* And the floor is a floor, not a ceiling: boxes that compute HIGHER than
+       the stored ground win. Mastering the first six levels' words computes 7
+       against old Level 2's floor of 2. */
+    const rich = { version: 3, level: 2, words: {} };
+    LEVELS.slice(0, 6).flatMap((l) => l.words).forEach((w) => { rich.words[w] = { box: 5, attempts: 4, correct: 4, close: 0, wrong: 0, dueAt: 0, lastSession: 0 }; });
+    expect(migrate(rich).level).toBe(7);
   });
   it("survives hostile documents", () => {
     for (const bad of [{}, null, undefined, { version: "2" }, { log: null }, { words: [] }])

@@ -743,7 +743,7 @@
       "name": "Saved data survives anything",
       "scenarios": [
         {
-          "name": "A version 2 save recomputes its level from the child's words",
+          "name": "A version 2 save keeps the ground its level had earned",
           "outline": false,
           "steps": [
             {
@@ -756,7 +756,7 @@
             },
             {
               "kind": "Then",
-              "text": "the player is on level 1"
+              "text": "the player is on level 11"
             },
             {
               "kind": "Then",

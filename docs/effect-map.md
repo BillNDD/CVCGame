@@ -8,7 +8,7 @@ Per-test rows carry the test's own sentence, which in this project IS the
 Given/When/Then effect. The requirement, oracle, platform, mutant family, evidence
 and known limits are declared per FILE, in the tool, where they stay true.
 
-Totals: 294 it() SITES across 13 files, plus 10 gates that are not test files.
+Totals: 295 it() SITES across 13 files, plus 10 gates that are not test files.
 
 A site inside a loop or a table runs many times, so these rows describe more tests than they number: Vitest executes 330. The rows count the places behaviour is asserted.
 
@@ -33,7 +33,7 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 8 | G10 — the text a grown-up reads on the child | 27: one completed session counts as  |
 | 9 | G10 — the text a grown-up reads on the child | 28 (control): two sessions still count as  |
 
-## tests/engine.test.js — 97 tests (G1)
+## tests/engine.test.js — 98 tests (G1)
 
 - **Requirement protected:** SPEC sections 3-4: the word bank, levels, chunking, the Leitner ladder, session shape and the reveal plan
 - **Independent oracle:** Literal expected values written from SPEC by hand (E4). Never the constant under test.
@@ -97,50 +97,51 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 51 | migrate | is idempotent |
 | 52 | migrate | recomputes any pre-v4 level from the words, and clamps a v4 one |
 | 53 | migrate | computes the v4 level at the same boundary promotion uses |
-| 54 | migrate | survives hostile documents |
-| 55 | sentences | gives all twenty levels a list, and names no level that does not exist |
-| 56 | sentences | places every sentence where a child can actually read it |
-| 57 | sentences | places no sentence later than it needs to be |
-| 58 | sentences | gives every sentence a word the level teaches, for the reveal to sound out |
-| 59 | sentences | holds every sentence to one breath and one clip |
-| 60 | sentences | counts the words a child sees, not the punctuation a writer left |
-| 61 | sentences | ships three invitation lines, each with a clip and its own words |
-| 62 | buildMarkdown | reports the 446-word denominator and twenty level rows |
-| 63 | buildMarkdown | counts a word as mastered only from box 4 |
-| 64 | buildMarkdown | keeps a grapheme-safe name intact in the header |
-| 65 | buildMarkdown | marks a partial session |
-| 66 | voice packs | inventories one clip per word, the fixed sentences, and every sound a tile can ask for |
-| 67 | voice packs | covers every grapheme the whole bank can produce |
-| 68 | voice packs | bankWords covers every word the app names, not only the levels |
-| 69 | voice packs | no word uses ai or ou without a decided sound |
-| 70 | voice packs | gives every tricky word its true sounds, not its letters |
-| 71 | voice packs | sounds out every heart word the way the owner heard it |
-| 72 | voice packs | splits th into its two sounds, across every th word in the bank |
-| 73 | voice packs | plans the sound-out reveal on every outcome, at the literal 500 ms seam |
-| 74 | voice packs | knows a seam from a clip, and how long each one lasts |
-| 75 | voice packs | maps each tile sound to its own tile, in order |
-| 76 | voice packs | resolves one source per utterance: family, then default, then none |
-| 77 | speech helpers | says full words only, never letter names, and never stretches the reveal |
-| 78 | speech helpers | hands system speech the SOUND of “a”, never the letter |
-| 79 | speech helpers | stays silent when sound is off or no engine exists |
-| 80 | speech helpers | configures the utterance: rate 0.9, pitch 1.1, locale, cancel first |
-| 81 | speech helpers | pins the seventeen praise sentences, character for character |
-| 82 | speech helpers | selects the praise by index, and falls back to the first for a bad index |
-| 83 | speech helpers | queues reveal parts: one cancel, and both the lead and the word sentence at 0.9 |
-| 84 | speech helpers | survives a throwing speech service |
-| 85 | speech helpers | hush stops speech, and survives a missing engine |
-| 86 | speech helpers | vibrates only when the device can, and never throws |
-| 87 | reference storage adapter | reads nothing when no storage exists at all |
-| 88 | reference storage adapter | reads a saved document from the host storage |
-| 89 | reference storage adapter | keeps a copy of damaged data and reports it, even if the copy write fails |
-| 90 | reference storage adapter | saves to the host and answers from memory when the host disappears |
-| 91 | reference storage adapter | reports an unsaved visit when the host write fails |
-| 92 | reference storage adapter | falls back to memory when the host read throws |
-| 93 | G1 — the system voice is never given a word it says wrongly | 75: no praise line contains a word with two pronunciations |
-| 94 | G1 — the system voice is never given a word it says wrongly | 76: with no unsafe line listed, every praise index reaches the system voice unchanged |
-| 95 | G1 — the system voice is never given a word it says wrongly | 77: the clip plan carries the new line to the pack |
-| 96 | G1 — the system voice is never given a word it says wrongly | 78: the sentence praise roster is exactly the rows that never say \ |
-| 97 | G1 — the system voice is never given a word it says wrongly | 79: the sentence lead is the grade |
+| 54 | migrate | never seats a migrated child below the ground they held |
+| 55 | migrate | survives hostile documents |
+| 56 | sentences | gives all twenty levels a list, and names no level that does not exist |
+| 57 | sentences | places every sentence where a child can actually read it |
+| 58 | sentences | places no sentence later than it needs to be |
+| 59 | sentences | gives every sentence a word the level teaches, for the reveal to sound out |
+| 60 | sentences | holds every sentence to one breath and one clip |
+| 61 | sentences | counts the words a child sees, not the punctuation a writer left |
+| 62 | sentences | ships three invitation lines, each with a clip and its own words |
+| 63 | buildMarkdown | reports the 446-word denominator and twenty level rows |
+| 64 | buildMarkdown | counts a word as mastered only from box 4 |
+| 65 | buildMarkdown | keeps a grapheme-safe name intact in the header |
+| 66 | buildMarkdown | marks a partial session |
+| 67 | voice packs | inventories one clip per word, the fixed sentences, and every sound a tile can ask for |
+| 68 | voice packs | covers every grapheme the whole bank can produce |
+| 69 | voice packs | bankWords covers every word the app names, not only the levels |
+| 70 | voice packs | no word uses ai or ou without a decided sound |
+| 71 | voice packs | gives every tricky word its true sounds, not its letters |
+| 72 | voice packs | sounds out every heart word the way the owner heard it |
+| 73 | voice packs | splits th into its two sounds, across every th word in the bank |
+| 74 | voice packs | plans the sound-out reveal on every outcome, at the literal 500 ms seam |
+| 75 | voice packs | knows a seam from a clip, and how long each one lasts |
+| 76 | voice packs | maps each tile sound to its own tile, in order |
+| 77 | voice packs | resolves one source per utterance: family, then default, then none |
+| 78 | speech helpers | says full words only, never letter names, and never stretches the reveal |
+| 79 | speech helpers | hands system speech the SOUND of “a”, never the letter |
+| 80 | speech helpers | stays silent when sound is off or no engine exists |
+| 81 | speech helpers | configures the utterance: rate 0.9, pitch 1.1, locale, cancel first |
+| 82 | speech helpers | pins the seventeen praise sentences, character for character |
+| 83 | speech helpers | selects the praise by index, and falls back to the first for a bad index |
+| 84 | speech helpers | queues reveal parts: one cancel, and both the lead and the word sentence at 0.9 |
+| 85 | speech helpers | survives a throwing speech service |
+| 86 | speech helpers | hush stops speech, and survives a missing engine |
+| 87 | speech helpers | vibrates only when the device can, and never throws |
+| 88 | reference storage adapter | reads nothing when no storage exists at all |
+| 89 | reference storage adapter | reads a saved document from the host storage |
+| 90 | reference storage adapter | keeps a copy of damaged data and reports it, even if the copy write fails |
+| 91 | reference storage adapter | saves to the host and answers from memory when the host disappears |
+| 92 | reference storage adapter | reports an unsaved visit when the host write fails |
+| 93 | reference storage adapter | falls back to memory when the host read throws |
+| 94 | G1 — the system voice is never given a word it says wrongly | 75: no praise line contains a word with two pronunciations |
+| 95 | G1 — the system voice is never given a word it says wrongly | 76: with no unsafe line listed, every praise index reaches the system voice unchanged |
+| 96 | G1 — the system voice is never given a word it says wrongly | 77: the clip plan carries the new line to the pack |
+| 97 | G1 — the system voice is never given a word it says wrongly | 78: the sentence praise roster is exactly the rows that never say \ |
+| 98 | G1 — the system voice is never given a word it says wrongly | 79: the sentence lead is the grade |
 
 ## tests/faults.test.js — 13 tests (G9)
 
@@ -220,7 +221,7 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 40 | Feature: Level promotion | A session stopped early with a miss also leaves the streak unchanged |
 | 41 | Feature: Level promotion | A box promotion on a perfect session still resets the streak |
 | 42 | Feature: Level promotion | A stored streak alone never promotes without a completed session |
-| 43 | Feature: Saved data survives anything | A version 2 save recomputes its level from the child |
+| 43 | Feature: Saved data survives anything | A version 2 save keeps the ground its level had earned |
 | 44 | Feature: Saved data survives anything | An old save lands where the child |
 | 45 | Feature: Saved data survives anything | Migration runs only once |
 | 46 | Feature: Saved data survives anything | A hostile level heals to the start |

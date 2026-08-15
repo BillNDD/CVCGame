@@ -4,12 +4,16 @@ Feature: Saved data survives anything
   # The 10-and-10 curriculum re-cut the levels on 2026-08-15, so a stored level
   # number from before it points at a different place than the child earned.
   # The owner's ruling (curriculum decision 5) is that the new level is computed
-  # from the child's own words: the first level whose words are not yet secure,
-  # by the same rule promotion uses. One mastered word secures no level.
-  Scenario: A version 2 save recomputes its level from the child's words
+  # from the child's own words — and the result is FLOORED at the level the
+  # child already held, mapped to where its old stage now begins, because
+  # promotion has a second path (two perfect sessions) that leaves few boxes
+  # behind, and a parent can set a level by hand. A migration never demotes.
+  # This save held old level 3, bumped to 4 by the v3 step; old 4's short-e
+  # stage begins at new level 11.
+  Scenario: A version 2 save keeps the ground its level had earned
     Given a version 2 save at level 3 with a log row at level 1
     When the save loads
-    Then the player is on level 1
+    Then the player is on level 11
     And the log row shows level 2
     And the word data is unchanged
 

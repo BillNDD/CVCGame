@@ -186,13 +186,17 @@ describe("G10 safety — S2: the word is never spoken before the attempt ends", 
     const draw = vi.spyOn(Math, "random").mockReturnValue(0.95);
     try { await adultGrades("✓ got it (hold)"); } finally { draw.mockRestore(); } // attempt ends, correct
     expect(utterances.at(-2)).toBe("Every sound in its place — wonderful!"); // praise, after the attempt
-    expect(utterances.at(-1)).toBe(`The word was ${word}.`); // full word, its own sentence
+    /* The two words the fallback must not hand over raw: "a" would be the
+       letter's name (S4), so it says "uh"; "i" goes as the capital, whose
+       name IS the word. Any other first word speaks as itself. */
+    const spoken = word === "a" ? "uh" : word === "i" ? "I" : word;
+    expect(utterances.at(-1)).toBe(`The word was ${spoken}.`); // full word, its own sentence
     expect(rates.at(-1)).toBe(0.9);                         // the reveal is clear, never stretched
     await flush(500);
     const replay = screen.getByRole("button", { name: "Hear the word again" });
     expect(replay.disabled).toBe(false);
     fireEvent.click(replay);
-    expect(utterances.at(-1)).toBe(word);                   // replay says the whole word
+    expect(utterances.at(-1)).toBe(spoken);                 // replay says the whole word, TTS-safe
     expect(rates.at(-1)).toBe(0.9);                         // the same rate as the reveal
     for (const t of utterances) expect(/(^| )[a-z]([ .,!?]|$)/.test(t)).toBe(false); // no letter names
   });

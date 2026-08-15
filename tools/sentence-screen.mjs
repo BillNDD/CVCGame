@@ -217,6 +217,6 @@ if (process.argv.includes("--self-test")) {
 if (process.argv.length === 2) {
   const problems = screen(shippedSentences());
   problems.forEach((p) => console.log("  PROBLEM: " + p));
-  console.log(`Sentence screen: ${shippedSentences().length} sentences, screened ${SCREENED_ON}, ${problems.length} problems`);
+  console.log(`Sentence screen: ${shippedSentences().length} sentences, screened ${SCREENED_ON} and 2026-08-15, ${problems.length} problems`);
   process.exit(problems.length ? 1 : 0);
 }

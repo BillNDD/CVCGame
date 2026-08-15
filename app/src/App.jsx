@@ -4,7 +4,7 @@ import { useState, useEffect, useRef, useMemo, useCallback } from "react";
 import {
   LEVELS, SESSION_SIZE, PROMPT_CAP, ADVANCE_GUARD_MS, SPLASH_TIMEOUT_MS,
   C, SEAM_MS, freshWordState, applyResult, buildSession, checkPromotion,
-  migrate, newState, buildMarkdown, feedbackSpeech, PRAISE, speak, hush, buzz, ttsSafePraise,
+  migrate, newState, buildMarkdown, feedbackSpeech, PRAISE, speak, hush, buzz, ttsSafePraise, ttsSafeWord,
   sessionSentences, sentencePlan, sentenceClosePlan, revealWord, revealWordLongest,
   sentencesUpTo, shuffle, REVEAL_LINES, SENTENCE_PRAISE, sentenceLead,
 } from "@engine";
@@ -274,8 +274,14 @@ export default function App() {
     /* Where this session's sentences fall, decided once. Deciding it per item
        would let the same sentence be drawn twice in one session, and a child
        who meets "The cat sat on the mat." twice in ten minutes has been given
-       one fewer sentence than the level had for them. */
-    sentencePlanRef.current = sessionSentences(s.level);
+       one fewer sentence than the level had for them.
+       THE PLAN IS SIZED TO THIS SESSION'S REAL QUEUE, not to the target
+       (build reviewer, 2026-08-15): with the default the slots sat at 5, 10
+       and 15 of an assumed twenty, and every session shorter than sixteen
+       items silently dropped its later sentences — a ten-word level showed
+       one of the three its comment promised. A sentence planned past the last
+       word is a sentence the log claims was offered and the child never met. */
+    sentencePlanRef.current = sessionSentences(s.level, q.length);
     setSentence(null); setShownSentences([]); setOpenWord(null);
     setPromptCount(0); setPhase("ready"); setLastGrade(null);
     setAdvanceReady(true); advanceLive.current = true; setExitAsk(false);
@@ -725,7 +731,11 @@ export default function App() {
     clearPops();
     unlockVoice();
     speakVoice("replay", currentWord, 0, stateRef.current.settings.sound,
-      (why) => { noteFallback(why); speak([{ text: currentWord, rate: 0.9 }], true, stateRef.current.settings.lang); });
+      (why) => { noteFallback(why); speak([{ text: ttsSafeWord(currentWord), rate: 0.9 }], true, stateRef.current.settings.lang); });
+    /* ttsSafeWord, because the raw string is not always the word: "a" would
+       be the letter's name (S4) and "i" goes as its capital. Found while the
+       build reviewer was probing the i entry, latent since "a" shipped -- the
+       pack path always played the clip, so only the fallback could say it. */
   }
 
   /* ---------- settings ---------- */

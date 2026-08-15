@@ -1174,7 +1174,7 @@ protect it, and a gate that cannot run is a gate that is not protecting anything
   encoding-less reads in `tools/*.py` name UTF-8. Section P's move to `D:` does not change
   any of this — the same machine, a different drive.
 
-## R. Eleven level names a child can see that no owner has ruled on — opened 2026-08-15
+## R. Ten level names a child can see that no owner has ruled on — opened 2026-08-15
 
 - **Where** `reference/word-quest.jsx`, the `LEVELS` array: the 10-and-10 build re-cut
   Levels 1–12, and ten of the twelve needed names where before there were five. Level 1

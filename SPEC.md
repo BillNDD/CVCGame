@@ -223,7 +223,7 @@ the current one.
 Mix the list. Move the word with the highest box to position 1. Each session starts with a
 probable success.
 
-A session can have fewer than 20 words. Example: the first session has the 12 Level 1 words.
+A session can have fewer than 20 words. Example: the first session has the 14 Level 1 words.
 
 Promotion. Do this check at the end of a full session. Count the current-level words that have
 box 3 or more. If the count is 80 percent or more, increase the level by 1. Example: Level 1 has 12 words, so

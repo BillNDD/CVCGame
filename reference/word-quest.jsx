@@ -447,14 +447,10 @@ function buildSession(state) {
   list.push(...take(freshCur, SESSION_SIZE - list.length));
   if (list.length < SESSION_SIZE) {
     /* The top-up lane draws from the CHILD'S OWN LEVEL only (narrowed
-       2026-08-15 with the 10-and-10 build). It used to say `<= level`, which
-       was invisible while a level held fifty fresh words and became a hole the
-       day a level held ten: with the primary lanes short, this lane refilled
-       the session with lower-level words past the five-review cap and with
-       mastered words the confidence lane is the only door for — quietly
-       breaking two owner-approved session promises. A session with nothing
-       eligible now runs short instead, which is what the first session has
-       always done. */
+       2026-08-15): as `<= level` it was invisible beside fifty fresh words
+       and became a hole beside ten — refilling past the five-review cap and
+       through the confidence lane's monopoly on mastered words. A session
+       with nothing eligible runs short, as the first session always has. */
     const anyCur = entries.filter(([w, ws]) => WORD_LEVEL[w] === level).sort((a, b) => a[1].box - b[1].box).map(([w]) => w);
     list.push(...take(anyCur, SESSION_SIZE - list.length));
   }
@@ -610,10 +606,11 @@ function heal(s) {
    The owner's ruling for this exact case — decision 5 of the curriculum page —
    was "compute the new level from the child's own words", and the boxes are
    those words: the new level is the FIRST whose words are not yet secure,
-   judged by the same isSecure rule promotion uses, so a migrated child lands
-   exactly where promotion would have put them. A child secure everywhere
-   lands on the last level; a fresh save walks to Level 1 untouched. Log rows
-   keep their old level numbers: the log is a record of what happened, and the
+   judged by the same isSecure rule promotion uses. The boxes carry only one
+   of promotion's two paths, so the recompute is FLOORED by the stored level's
+   mapped position (the block below says why); a child secure everywhere lands
+   on the last level; a fresh save walks to Level 1 untouched. Log rows keep
+   their old level numbers: the log is a record of what happened, and the
    number it recorded was true when it was written. */
 function migrate(s) {
   s = heal(s);
@@ -628,7 +625,15 @@ function migrate(s) {
       const ws = LEVELS[i].words;
       if (!isSecure(ws.filter(w => s.words[w] && s.words[w].box >= 3).length, ws.length)) { lvl = i + 1; break; }
     }
-    s.level = lvl;
+    /* THE FLOOR: promotion has TWO paths — boxes, or two perfect sessions —
+       and a parent can set a level by hand. The box recompute alone sent
+       both kinds back to 1 (build reviewer, 2026-08-15). A migration never
+       seats a child below a level they held: the stored level maps to where
+       its OLD stage now begins (old 3, short i/o, at new 6; old 4 at 11;
+       old 5-11 whole as 14-20) and the child keeps whichever is higher. */
+    const OLD_TO_NEW = [1, 2, 6, 11, 14, 15, 16, 17, 18, 19, 20];
+    const stored = Math.min(Math.max(1, Math.round(s.level || 1)), OLD_TO_NEW.length);
+    s.level = Math.max(lvl, OLD_TO_NEW[stored - 1]);
     /* open-faults J2: settings.mode carried "mic" in every save laid down
        before the microphone was removed (owner safety ruling, 2026-08-11).
        Nothing reads it; v4 is the door it leaves through. */
@@ -667,12 +672,9 @@ function speak(input, enabled, lang) {
 function hush() { try { if ("speechSynthesis" in window) window.speechSynthesis.cancel(); } catch (e) {} }
 function buzz(ms) { try { if (navigator.vibrate) navigator.vibrate(ms); } catch (e) {} } // P2-8
 
-/* The bank spells every word lowercase, and English writes exactly one of
-   them uppercase everywhere: I. These two are the display layer for that one
-   word — the key stays "i" so matching and ledgers keep a single spelling,
-   and every place a child SEES it (card, tiles, feedback, parent lists) shows
-   "I". A tile shows the word's own chunk, so the chunk helper needs the word
-   to know when it is that word. */
+/* The display layer for the one word English writes uppercase: the key
+   stays "i" (matching and ledgers keep one spelling), and every surface a
+   child or parent reads — card, tiles, feedback, lists, export — shows I. */
 const displayWord = (w) => (w === "i" ? "I" : w);
 const displayChunk = (word, g) => (word === "i" ? "I" : g);
 function feedbackParts(result, word) {
@@ -726,13 +728,10 @@ const ttsSafePraise = (i) => (TTS_UNSAFE_PRAISE.includes(i) ? 0 : i);
    one, and the fallback is written down rather than left to a synthesiser's
    judgement. The copy gate (rule 4) reads feedbackSpeech for every bank word
    and refuses a letter name, which is exactly how this was caught. */
-/* Two words the system voice must not receive as their bank spelling.
-   "a": every voice says the letter's NAME for the bare string, and S4 forbids
-   that — the fallback says "uh", the word itself (found by the copy gate on
-   2026-08-12). "i": the capital, because the voice pronounces "I" as the word
-   — which for this one word IS the letter's name, and that is not an S4
-   breach: the word is the name. Lowercase "i" would also trip the copy gate's
-   single-letter rule, the same net that caught "a". */
+/* Words the system voice must not receive as their bank spelling. "a"
+   would be the letter's NAME (S4): the fallback says "uh", the word itself.
+   "i" goes as the capital — the voice then says the word, and for this one
+   word the name IS the word, which is no S4 breach. */
 const TTS_UNSAFE_WORD = { a: "uh", i: "I" };
 const ttsSafeWord = (w) => TTS_UNSAFE_WORD[w] || w;
 /* The reveal is its own utterance, so the pause before it does the work that
@@ -1181,14 +1180,14 @@ function buildMarkdown(state) {
   const last = state.log[state.log.length - 1];
   if (last) {
     md += "\n## Latest session (#" + last.n + ", " + last.date + (last.partial ? ", ended early" : "") + ")\n\n";
-    md += last.items.map(it => "- " + it.w + " " + (it.r === "correct" ? "\u2705" : it.r === "close" ? "\uD83D\uDFE1" : "\uD83D\uDD01")
+    md += last.items.map(it => "- " + displayWord(it.w) + " " + (it.r === "correct" ? "\u2705" : it.r === "close" ? "\uD83D\uDFE1" : "\uD83D\uDD01")
        + (it.retries ? " (" + it.retries + " retry)" : "")).join("\n") + "\n";
   }
   md += "\n## Mastery snapshot\n\n_\u2705 mastered \u00B7 \uD83D\uDFE1 learning \u00B7 \u2B1C unseen_\n\n";
   LEVELS.forEach(L => {
     md += "**Level " + L.n + " " + L.emoji + " (" + L.focus + "):** " + L.words.map(w => {
       const ws = state.words[w];
-      return w + " " + (!ws || ws.attempts === 0 ? "\u2B1C" : ws.box >= 4 ? "\u2705" : "\uD83D\uDFE1");
+      return displayWord(w) + " " + (!ws || ws.attempts === 0 ? "\u2B1C" : ws.box >= 4 ? "\u2705" : "\uD83D\uDFE1");
     }).join(" \u00B7 ") + "\n\n";
   });
   return md;
@@ -1358,7 +1357,7 @@ export default function WordQuest() {
   /* P1-1 + N-1 — replay exists only AFTER feedback; the word is never spoken pre-attempt */
   function replay() {
     if (phase !== "feedback") return;
-    speak([{ text: currentWord, rate: 0.9 }], stateRef.current.settings.sound, stateRef.current.settings.lang);
+    speak([{ text: ttsSafeWord(currentWord), rate: 0.9 }], stateRef.current.settings.sound, stateRef.current.settings.lang);
   }
 
   /* ---------- settings ---------- */
@@ -1426,7 +1425,7 @@ export default function WordQuest() {
         {/* P2-7 — parent-facing copy lives in the grown-up strip, not under the child's button */}
         <Zone.Strip>
           <span className="wq-striplabel">grown-up</span>
-          <span style={{ fontSize: 12, color: C.strip }}>~20 words · about 5 minutes · you judge</span>
+          <span style={{ fontSize: 12, color: C.strip }}>up to 20 words · about 5 minutes · you judge</span>
         </Zone.Strip>
         {toast && <Toast>{toast}</Toast>}
       </Frame>
@@ -1625,7 +1624,7 @@ export default function WordQuest() {
                       {l.words.map(w => {
                         const ws = state.words[w];
                         const bg = !ws || ws.attempts === 0 ? C.chip : ws.box >= 4 ? "#c6f2dd" : ws.box >= 2 ? "#ffe9b3" : "#ffd4d0";
-                        return <span key={w} style={{ background: bg, color: C.ink, borderRadius: 6, padding: "3px 7px", fontSize: 12, fontWeight: 700 }}>{w}</span>;
+                        return <span key={w} style={{ background: bg, color: C.ink, borderRadius: 6, padding: "3px 7px", fontSize: 12, fontWeight: 700 }}>{displayWord(w)}</span>;
                       })}
                     </div>
                   )}

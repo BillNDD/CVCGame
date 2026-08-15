@@ -86,3 +86,4 @@ script.json
 tools/__pycache__/
 .gauntlet-evidence.json
 .cov-control/
+.claude/launch.json
