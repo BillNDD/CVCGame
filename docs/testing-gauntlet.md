@@ -811,9 +811,19 @@ found it by remembering, which is the mechanism these gates exist to replace.
   every gate already watches for, and it has never happened — all 37 shipping sounds carry a
   verdict. This is the quiet one: an approval that exists and is not believed. Nothing goes
   red, no child hears anything wrong, and the work simply never gets done.
-- **Four rules.** No document calls a sound unheard when a ledger heard it; every shipping
+- **Five rules.** No document calls a sound unheard when a ledger heard it; every shipping
   sound carries an approval; the two sound ledgers do not contradict each other; a sound
-  called parked must genuinely not ship.
+  called parked must genuinely not ship; and — added 2026-08-14 — a shipping sound may not
+  rest on the ARCHIVE ledger alone.
+- **Rule 5, and why the two ledgers are not peers.** `tools/voice-sounds.csv` is not a second
+  ledger of the shipping voice. Measured on 2026-08-14: 26 of its 38 rows are sourced
+  `superseded_by_synthesis` and record cuts from recordings of the owner's own voice, which
+  the owner ruled on 2026-08-11 would never ship and whose source files left the repository.
+  Of the 32 sounds both files name, exactly **one** shares a sha256. It is an archive beside
+  a live ledger. Because rule 2 accepts an approval from EITHER, a clip could otherwise ship
+  carrying only the blessing of a row describing audio that is not the audio playing — the
+  trap `docs/settled.md` records a reviewer already falling into. True for all 38 shipping
+  sounds today, so rule 5 guards a regression rather than reporting a fault.
 - **The claim-detecting phrases are deliberately narrow.** A wide list catches "`long_o` did
   not come back, because nothing needed it" — a true sentence about SHIPPING, not about
   hearing — and a gate that cries wolf is a gate somebody switches off.
@@ -826,7 +836,7 @@ found it by remembering, which is the mechanism these gates exist to replace.
   every column after `oo_moon`'s `"moon, food, boot"` cell, so the gate read the wrong cell as
   a verdict and reported a contradiction that did not exist. A gate that mis-parses its
   evidence lies confidently. That row is now a control.
-- Keys: `g16b_sounds` (55) and `g16b_controls` (25), problems capped at 0.
+- Keys: `g16b_sounds` (55) and `g16b_controls` (33), problems capped at 0.
 
 ## Aggregation
 

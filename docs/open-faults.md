@@ -779,10 +779,56 @@ document grew underneath the reference. A line number is a fact with no owner, a
 wrong inside the entry whose subject is facts drifting between files. The reference is now
 to the sentence rather than to a line.
 
-**What is still open here is unchanged and is still the owner's call**: whether
-`tools/voice-sounds.csv` should exist at all (item 3 above), plus items 1 and 2. Deleting it
-still lowers two or three E6 floors, so nothing about the corrections above pre-empts that
-decision — they were the step both reviewers said comes first either way.
+**ITEMS 1, 2 AND 3 ARE CLOSED, 2026-08-14, owner-ruled — and the measurement changed the
+question rather than answering it.** The file was read rather than reasoned about:
+
+| measured | value |
+|---|---|
+| rows | 38 |
+| rows sourced `superseded_by_synthesis`, saying SUPERSEDED in their own notes | **26** |
+| sounds named by BOTH files | 32 |
+| of those, sharing a `sha256` | **1** (`th_this`, and its row is sourced `synthesis`, not archived) |
+| rows only in the CSV | `a, e, i, o, th_thin, u` — retired ids |
+
+A row states it outright: *"SUPERSEDED 2026-08-11: the owner ruled that no recording of their
+voice ships in the game… This row is kept as provenance for a recording that no longer ships
+and is no longer in the repository."*
+
+**So these were never two ledgers of one fact.** One is the live ledger of the synthesised
+clips that ship. The other is an ARCHIVE of the owner's own voice recordings, retired when
+the owner ruled they would not ship, whose byte pins name files that are not in the
+repository and can never be verified. Thirty-one of thirty-two disagreeing is not drift
+between peers; it is two pipelines, one of them closed.
+
+- **Item 3 — it stays, and it is not renamed.** Deleting an archive lowers two or three E6
+  floors and destroys the only record of how those clips were made, which is precisely what
+  B11 already costs this project for one sound. **The rename was proposed, and the E11 lookup
+  refused it**: 14 of its 20 references live in `docs/settled.md` and `docs/voice-pack.md`,
+  both declared LOGS, and in render scripts whose header `tools/blast-radius.mjs` marks as
+  history not to be rewritten. Renaming would either dangle those or edit a log to match
+  today's naming, which is the "state at the time of writing, quietly edited" fault this
+  document warns about in its own header.
+- **What was actually missing was never the name.** Nothing STOPPED a reader treating an
+  archive row as the record of what ships — the trap `docs/settled.md` already records
+  somebody falling into. `tools/ledger-truth.mjs` gains **rule 5**: a shipping sound may not
+  rest on an archive row alone. Rule 2 accepts an approval from either ledger, so without it
+  a clip could ship carrying only the blessing of a row describing audio that is not the
+  audio playing. True for all 38 shipping sounds today, so it guards a regression rather
+  than reporting a fault. Controls 25 -> 33, floor raised to match.
+- **Item 1 — the eight shipping sounds with no CSV row are CORRECT, not a gap.** `schwa_a`,
+  `short_a`, `short_e`, `short_i`, `short_o`, `short_u`, `th_quiet` and `v_soft` were never
+  recorded in the owner's voice; they are synthesis-only. There is nothing to backfill, and
+  writing recipe numbers for them would have invented a recording that never existed.
+- **Item 2 — `locked=no` on four rows belongs to the RECORDING pipeline's pinning**, and is
+  moot for a row whose source file is gone. It is not a value anybody can now justify
+  setting, and it does not govern anything that ships.
+
+**Three of my own controls were vacuous and planting found all three**, which is the only
+reason any of this is trustworthy. Rule 5's first four controls all supplied `csvSource` by
+fixture, so deleting the line that READS it from the CSV left every one of them green — the
+rule would have been dead against real data while its controls said it worked. The reader is
+now its own function proved by a fixture. The identical shape had already been found twice
+the same day in `tools/free-port.mjs`. Six faults planted against rule 5, six killed.
 
 ### F3. Nothing gates a document going stale
 

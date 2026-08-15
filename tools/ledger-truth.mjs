@@ -19,11 +19,16 @@
  * and it is quieter: an approval that exists and is not believed. Nothing goes
  * red, no child hears anything wrong, and the work simply does not get done.
  *
- * FOUR RULES:
+ * FIVE RULES:
  *   1. No document may call a sound unheard when a ledger says it was heard.
  *   2. Every sound that SHIPS carries an approval in a ledger.
  *   3. The two sound ledgers may not contradict each other about approval.
  *   4. A sound the documents call parked or waiting must genuinely not ship.
+ *   5. A shipping sound may not rest on the ARCHIVE ledger alone. See the note
+ *      above `ARCHIVED`: `tools/voice-sounds.csv` is not a second ledger of the
+ *      shipping voice, it is the record of a superseded recording pipeline, and
+ *      rule 2 accepts either ledger — so without this a clip could ship on the
+ *      authority of a row describing audio that is not the audio playing.
  *
  * Usage:
  *   node tools/ledger-truth.mjs              check
@@ -83,24 +88,56 @@ export function cells(line) {
   return out;
 }
 
-export function ledgers() {
-  const js = JSON.parse(readFileSync("tools/pending-sounds/pending-sounds.json", "utf8"));
-  const rows = readFileSync("tools/voice-sounds.csv", "utf8").trim().split("\n");
+/* The CSV reduced to the two cells the rules read, as its OWN function so a
+   fixture can prove it. That is not style: on 2026-08-14 rule 5 was written
+   with four controls, and deleting the line that captures `source` left all
+   four green — every one of them handed the field in by fixture, so not one
+   reached the code that reads it. Rule 5 would then have been dead against
+   real data while its controls said it worked. The same shape had already been
+   found twice that day, in `tools/free-port.mjs`. A reader that no control
+   reaches is a reader that can be deleted. */
+export function csvRows(text) {
+  const rows = text.trim().split("\n");
   const head = cells(rows[0]);
-  const iName = head.indexOf("sound"), iVer = head.indexOf("verdict");
-  const csv = {};
+  const iName = head.indexOf("sound"), iVer = head.indexOf("verdict"), iSrc = head.indexOf("source");
+  const out = {};
   for (const line of rows.slice(1)) {
     const c = cells(line);
-    if (c[iName]) csv[c[iName]] = c[iVer] || "";
+    if (c[iName]) out[c[iName]] = { verdict: c[iVer] || "", source: c[iSrc] || "" };
   }
+  return out;
+}
+
+export function ledgers() {
+  const js = JSON.parse(readFileSync("tools/pending-sounds/pending-sounds.json", "utf8"));
+  const csv = csvRows(readFileSync("tools/voice-sounds.csv", "utf8"));
   const sounds = {};
   for (const [k, v] of Object.entries(js)) {
     if (k.startsWith("_") || typeof v !== "object" || v === null) continue;
-    sounds[k] = { json: String(v.verdict || ""), round: v.round || "", csv: csv[k] };
+    sounds[k] = { json: String(v.verdict || ""), round: v.round || "", csv: csv[k]?.verdict, csvSource: csv[k]?.source };
   }
-  for (const k of Object.keys(csv)) if (!sounds[k]) sounds[k] = { json: "", round: "", csv: csv[k] };
+  for (const k of Object.keys(csv)) if (!sounds[k]) sounds[k] = { json: "", round: "", csv: csv[k].verdict, csvSource: csv[k].source };
   return sounds;
 }
+
+/* WHAT `tools/voice-sounds.csv` IS, decided 2026-08-14 after measuring it.
+   It is NOT a second ledger of the shipping voice. 26 of its 38 rows are
+   sourced `superseded_by_synthesis` and say so in their own notes: they record
+   cuts from recordings of the OWNER'S OWN VOICE, which the owner ruled on
+   2026-08-11 would never ship, and whose source files are no longer in the
+   repository. Of the 32 sounds both files name, exactly ONE shares a sha256.
+   That is not two ledgers drifting; it is one archive and one live ledger.
+
+   It was kept rather than deleted (deleting lowers E6 floors and destroys the
+   only record of how those clips were made — B11 is what that costs) and
+   rather than renamed (14 of its 20 references live in `docs/settled.md` and
+   `docs/voice-pack.md`, which are declared LOGS, and in render scripts whose
+   history must not be rewritten). What was missing was never the name. It was
+   that nothing STOPPED a reader treating an archive row as the record of what
+   ships — the trap `docs/settled.md` already records somebody falling into,
+   which "turned a clip the owner had passed into a clip the owner had merely
+   tolerated". Rule 5 is that stop. */
+const ARCHIVED = "superseded_by_synthesis";
 
 /* Markdown wraps a sentence over several lines, so paragraphs are joined
    before the split. Without that, "never been rendered or heard by\nanyone"
@@ -171,6 +208,24 @@ export function check(sounds, texts, packIds) {
     if (approved(json) && csv.trim() === "")
       problems.push(`the two sound ledgers disagree about "${k}": pending-sounds.json says "${json}", voice-sounds.csv has a row with no verdict`);
   }
+  /* 5 — A SHIPPING SOUND MAY NOT REST ON THE ARCHIVE ALONE. Rule 2 accepts an
+     approval from EITHER ledger, and that is the door this rule closes: a
+     clip could ship carrying only the blessing of a row that describes a
+     recording which no longer exists and whose bytes are not the bytes
+     playing. Nobody would see it, because the row looks exactly like a live
+     one — it has a verdict, a byte pin and a full recipe.
+
+     True today for all 38 shipping sounds, measured 2026-08-14: every one is
+     approved in `pending-sounds.json`. So this guards a regression rather than
+     reporting a fault, which is precisely when a guard is worth writing — the
+     day someone ships a sound on an archive row is the day nobody is looking. */
+  for (const id of packIds) {
+    const k = id.slice(2);
+    const s = sounds[k];
+    if (!s || !approved(s.csv) || approved(s.json)) continue;
+    if (s.csvSource === ARCHIVED)
+      problems.push(`${id} ships approved only by voice-sounds.csv, whose row is sourced "${ARCHIVED}" — an archive of a recording that no longer ships. The live approval belongs in pending-sounds.json.`);
+  }
   /* 4 — a sound the documents call parked must genuinely not ship. */
   const ships = new Set(packIds.map((id) => id.slice(2)));
   for (const [file, text] of Object.entries(texts)) {
@@ -234,6 +289,33 @@ if (process.argv.includes("--self-test")) {
   say(check(fix, { "f.md": "`long_z` is parked until a level needs it." }, []).length === 0,
     "rule 4 control: a genuinely parked sound passes");
 
+  /* Rule 5. The fixtures differ ONLY in `csvSource`, which is the whole claim:
+     the same verdict, on the same shipping sound, is trustworthy from a live
+     row and is not from an archive row. Rule 2 passes all three of these — it
+     accepts either ledger — so anything these catch, rule 5 caught. */
+  say(check({ long_z: { json: "", csv: "ok", csvSource: "superseded_by_synthesis" } }, {}, ["d:long_z"]).length === 1,
+    "rule 5: a sound shipping on an ARCHIVE row alone is caught");
+  say(check({ long_z: { json: "", csv: "ok", csvSource: "kokoro" } }, {}, ["d:long_z"]).length === 0,
+    "rule 5 control: the same verdict from a LIVE csv row passes");
+  say(check({ long_z: { json: "perfect (owner)", csv: "ok", csvSource: "superseded_by_synthesis" } }, {}, ["d:long_z"]).length === 0,
+    "rule 5 control: an archive row is harmless when the live ledger approves too");
+  say(check({ long_z: { json: "", csv: "", csvSource: "superseded_by_synthesis" } }, {}, ["d:long_z"]).length === 1,
+    "rule 5 control: an UNAPPROVED archive row is rule 2's catch, and is still caught");
+
+  /* And the READER itself, on a fixture. Every control above supplies
+     `csvSource` by hand, so all four survived the capture being deleted. These
+     are the ones that fail when the CSV stops being read properly — the join
+     between the rule and the file it judges. */
+  const FIX_CSV = 'sound,ipa,source,verdict\nlong_z,z,superseded_by_synthesis,ok\nlong_y,y,kokoro,perfect (owner)';
+  say(csvRows(FIX_CSV).long_z.source === "superseded_by_synthesis",
+    "the reader captures a row's SOURCE, which rule 5 is decided on");
+  say(csvRows(FIX_CSV).long_z.verdict === "ok",
+    "the reader captures a row's VERDICT from the same row");
+  say(csvRows(FIX_CSV).long_y.source === "kokoro",
+    "the reader keeps each row's source distinct, not the first one for all");
+  say(csvRows('sound,verdict\nlong_z,ok').long_z.source === "",
+    "a CSV with no source column reads as no source, never as undefined");
+
   say(sentences("a\nb. c\n\nd").length === 3, "markdown wrapped over lines is joined before splitting");
   say(named("the d:long_o clip", ["long_o"]).includes("long_o"), "a clip id names its sound");
   say(!named("along_oh", ["long_o"]).length, "a sound name inside another word is not a mention");
@@ -255,7 +337,7 @@ if (process.argv.includes("--self-test")) {
   say(named("d-a.mp3 does not ship", ["a"]).includes("a"),
     "short names control: written as a file, a short name IS a mention");
 
-  console.log(`\nledger-truth controls: ${25 - failed} passed, ${failed} failed`);
+  console.log(`\nledger-truth controls: ${33 - failed} passed, ${failed} failed`);
   process.exit(failed ? 1 : 0);
 }
 
