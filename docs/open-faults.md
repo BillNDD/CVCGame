@@ -1007,11 +1007,15 @@ own reason. Where no list exists the summary says "0 names" rather than implying
 protection; the live scan runs where the owner keeps the list, and that honesty is written
 into the gate's section.
 
-**What remains is the owner's one step**: create `private/s9-names.txt` on this machine,
-one name per line. Not pasted into any chat, any commit, or any file the repository
-tracks — the entire design exists so those names never touch anything shared. The gate
-reports "N names loaded" the next time the check runs, and from that run on, the fault
-class that sat green for a day fails a build in seconds.
+**The owner then ruled better, 2026-08-15: "I would prefer no name ever appear, not have
+to list names."** So the gate grew two open layers that need no secret at all — the
+known-vocabulary stranger rule (deny by default: a capitalized token the tree has never
+known fails the build) and the public common-names registry, scanned even in lowercase.
+The private list became OPTIONAL, a belt for the one residue no open layer can see: a
+family name that is also an ordinary word. The vocabulary layer's adoption report caught
+the owner's own given name in a fault entry's machine path on its first contact with real
+data — written by the agent that built the gate, redacted the same hour, history folded
+into section O's rewrite.
 
 The removal history stays in this entry's original text below the fold of the git log
 (2026-08-14): 31 commits rewritten, six branches and seventeen tags checked, and the
@@ -1082,6 +1086,14 @@ difference matters in both directions.**
   state: it will NOT follow the move to `D:` in section P, and a fresh clone or a new machine
   starts with whatever the global config says. A protection owned by a remote setting rather
   than by this repository is one that holds until somebody turns it off.
+- **THE REWRITE GAINED A SECOND JOB, 2026-08-15.** The G24 vocabulary layer's adoption
+  report found the owner's given name in `docs/open-faults.md` — inside section P's
+  literal machine path, written there on 2026-08-14 by the same agent that later built the
+  gate, public from commit `d50ba3b` onward. The working tree is redacted; the history is
+  not, and those commits sit inside this rewrite's window anyway. So the rewrite is no
+  longer messages-only: it must also rewrite the file content of the affected commits, and
+  its proof changes with it — `git diff` old-to-new must be empty EXCEPT the redaction,
+  stated per file, rather than empty outright.
 - **Done** means: the sweep of the 2,883 historical blobs is finished FIRST, so history is
   rewritten once rather than twice; the trailer is gone from every commit on every ref; the
   proof is that `git diff` between the old and the new head is **empty**, which is what shows
@@ -1092,7 +1104,11 @@ difference matters in both directions.**
 
 ## P. The repository moves to `D:\OpenCVCGame` — owner-asked 2026-08-14, not started
 
-- **Where** The working directory itself. Today `C:\Users\(redacted)\Documents\CVCGame`.
+- **Where** The working directory itself: today, the repository's folder under the user
+  profile on `C:`. The literal path stood here until 2026-08-15, when the new G24
+  vocabulary layer's own adoption report flagged it — it contained the owner's given name,
+  in a public repository, written by the same agent that built the gate. The history side
+  is folded into section O's pending rewrite.
 - **What the owner asked for** The content of the folder migrates to `D:\OpenCVCGame`, and
   that becomes the working directory.
 - **Why it is written here rather than done** It was asked at the end of a session with the
@@ -1100,7 +1116,7 @@ difference matters in both directions.**
   not started.
 - **What it will touch, so nobody discovers it one failure at a time (E11)** The absolute
   paths in this environment are not all inside the repository. The agent memory folder is
-  keyed to the OLD path — `C--Users-(redacted)-Documents-CVCGame` — so it does **not** follow the
+  keyed to the OLD path — a slug derived from the full C: folder path — so it does **not** follow the
   repo and must be moved deliberately or it is silently lost. `.claude/` settings, any hook or
   launch configuration holding an absolute path, and the Python voice toolchain's own paths
   are the other three places to check before the old folder is deleted.

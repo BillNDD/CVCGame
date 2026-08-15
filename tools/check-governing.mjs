@@ -49,6 +49,11 @@ export const GOVERNING = [
      2026-08-10) but pushed before this entry existed — that gap is recorded
      in docs/settled.md. */
   "tools/pending-sounds/pending-sounds.json",
+  /* The S9 gate's two open ammunition files (G24, owner-ruled 2026-08-15):
+     the known capitalized vocabulary, and the public common-names registry.
+     Both grow only by owner-visible diff; neither can hold a secret. */
+  "tools/s9-vocab.json",
+  "tools/s9-common-names.json",
   "tools/pending-words/pending-words.json",
   "tools/voice-lock.json",
   "tools/voice-sounds.csv",

@@ -645,11 +645,12 @@ deliberate: a flaky cell must inform a release, never block one.
   dependency rule.
 - Negative control: `--self-test` plants a `PROGRESS.md` and a stray `status.json`; the
   detector must report both and still accept the real tree.
-- Baseline floor: `g17_governing_files` (25). It moved from 23 on 2026-08-11, when the
+- Baseline floor: `g17_governing_files` (27). It moved from 23 on 2026-08-11, when the
   owner approved `docs/open-faults.md` into the owned set — the list of what is still
-  wrong, so that a fault cannot be lost to a context compaction — and from 24 on
-  2026-08-15, when the owner approved `docs/file-map.md`, the generated ownership map
-  (G23). That is the approval path this gate exists to force, working as intended.
+  wrong, so that a fault cannot be lost to a context compaction — from 24 on 2026-08-15
+  for `docs/file-map.md`, the generated ownership map (G23), and to 27 the same day for
+  G24's two open ammunition files, the known vocabulary and the public common-names
+  registry. That is the approval path this gate exists to force, working as intended.
 - Run: `node tools/check-governing.mjs`
 
 ## G23. The file map with teeth
@@ -695,7 +696,7 @@ the tool would be fault F2 re-committed.
   `filemap_history_max` (1) — a ceiling only the owner moves (E6). Today's one:
   `docs/voice-goldens-packs1-3.json`, whose 11-of-57 recipe disagreements make it a trap if
   read as live.
-- Keys: `g23_declared` (25), `g23_facts` (4), `g23_controls` (40), problems capped at 0,
+- Keys: `g23_declared` (27), `g23_facts` (4), `g23_controls` (40), problems capped at 0,
   ceiling `filemap_history_max` (1).
 - Run: `node tools/file-map.mjs --check` and `--self-test`; both are in `npm run check`.
 
@@ -725,10 +726,32 @@ happened to read the output.
   rather than matched into noise. The regex deliberately carries no `/i` flag: `/i` makes
   character classes case-insensitive too, which silently killed the camel-glue catch in
   the first version and was caught by its own control.
-- **Fixtures hold no real name** — every control plants "Placeholderkid", because a
-  scanner whose own fixture is a child's name is the fault it guards against (open-faults
-  L, verbatim).
-- Keys: `g24_files` (189), `g24_controls` (15), problems capped at 0.
+- **Fixtures hold no real name** — every control plants "Placeholderkid" or draws a name
+  from the committed public list AT RUN TIME, because a scanner whose own fixture is a
+  child's name is the fault it guards against (open-faults L, verbatim), and because this
+  tool is itself tracked and scanned: a literal stranger in a fixture fails the very gate
+  it tests, which its first version proved five times over.
+- **The VOCABULARY layer (owner-ruled 2026-08-15: "no name ever appears", with no list of
+  names).** Deny by default: every capitalized token whose lowercase form the tree does
+  not know must be in `tools/s9-vocab.json` — the known vocabulary, seeded from the
+  scrub-verified tree — or the build fails. A personal name nobody thought to list is
+  exactly such a stranger. Growing the vocabulary is an owner-visible diff, G17's shape.
+  Stated limit, pinned by a control: a name written all-lowercase slips this layer.
+- **The COMMON-NAMES layer (owner-proposed the same day).** The US registry's top given
+  names of the last century, committed openly — public data names no real person — and
+  scanned like a denylist: whole-word, case-insensitive, camel-glued identifiers, so a
+  common name written in LOWERCASE is caught, which is the vocabulary layer's pinned
+  blind spot. Names colliding with repository language are excluded in the file itself,
+  with reasons, or the gate would cry wolf on the bank's own words. Machinery (lockfiles)
+  is outside this layer: integrity hashes spell every three-letter name eventually, and
+  one did on the first live run.
+- **The adoption report caught a real leak before the layer was even wired**: filtering
+  the registry against repository language surfaced the owner's own given name, sitting
+  in a fault entry's literal machine path — public for a day, written by the same agent
+  that built the gate. The tree is redacted; the history side is folded into the pending
+  section-O rewrite. A gate finding its own author is the system working.
+- Keys: `g24_files` (191), `g24_controls` (30), `g24_vocab` (155), `g24_common` (194),
+  problems capped at 0.
 - Run: `node tools/s9-names.mjs` and `--self-test`; both are in `npm run check`.
 
 ## G14. Update system
