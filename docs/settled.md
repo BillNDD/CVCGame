@@ -1187,9 +1187,8 @@ decision not asked: round two leads with it.
 Round two led with the word lists and closed everything round one left open.
 
 **The six word lists are approved, exactly as offered, with one change of the round's own
-finding: the heart word "I" — the bank's sixteenth heart, never seated in any level — is
-seated at Level 1.** Ten decodables per level in teaching order, hearts riding outside the
-count:
+finding: the word "I" is seated at Level 1.** Ten decodables per level in teaching order,
+hearts riding outside the count:
 
 | level | ten decodables, in teaching order | hearts seated |
 |---|---|---|
@@ -1208,12 +1207,26 @@ fine"; under that delegation the round-runner picked "We sat and had jam." over 
 twin (variety) and "Dad and I had ham." (it reinforces the newly seated I). Both were
 heard by the owner; only the choice between two approved renders was delegated.
 
+**A correction, written the same hour the error was found.** The round page and an earlier
+version of this entry called "I" the bank's sixteenth heart word, never seated. That was
+recalled, not counted, and it was wrong twice: **"I" has never been in the bank at all** —
+no word, no clip, no voice-words row, no tricky note — and the bank's real sixteenth heart
+is **"of"**, which the six approved lists leave unseated. Both facts were then read from
+the engine, not remembered. What follows from each: seating "I" means **adding a new word
+to the bank** — its word clip needs its own listening verdict before the build ships
+(E10 says the round for it is designed only after re-reading how the word "a" was won,
+because a bare render of a tiny word is the exact shape that entry closed), and "I says
+its name" needs a tricky note; **"of" seats in Level 7 or later**, offered to the owner
+with the next stretch of lists. The owner's approval of the six lists and the nine
+sentences stands — the sentences carrying "I" were heard whole and approved whole.
+
 **Levels 1–6 of the 10-and-10 curriculum are now verdict-complete and awaiting the build**:
 31 sentences a child can meet (7 already shipped and screened, 24 approved in these two
 rounds), every one heard whole at the settled sentence recipe and read by the owner against
 the sentence screen's question. The build — engine levels, sentence bank, save migration
-computing each child's level from their own words, floors and scenarios — is the next
-large change, and none of these verdicts ship until it lands.
+computing each child's level from their own words, the new word "I" with its own heard
+clip, floors and scenarios — is the next large change, and none of these verdicts ship
+until it lands.
 
 A fix that is approved but not applied is worse than no fix: it reads as done.
 cup and pop won a treatment on 28 July, were held back while an audit ran, and
