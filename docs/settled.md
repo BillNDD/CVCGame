@@ -1279,6 +1279,30 @@ Level 1, of at Level 7, all others as offered), two banned phrases now gate-enfo
 one new word.** Levels 1–12 of the 10-and-10 curriculum are verdict-complete. What remains
 before a child sees any of it is the build, and the build alone.
 
+## Three rulings on the evening of 2026-08-15 — closed
+
+All three arrived in chat after the 10-and-10 build shipped, two of them from a decision
+page whose numbers were computed from the engine.
+
+**The ten new level names are approved as offered** — "Sound great", the owner's words on
+Jam Jar, Van Pals, Zig Zap, Dig Dog, Mom and Pop, Six Pins, Fox Box, Fix It, Red Hen and
+Fun Run. Open-faults R holds the fuller record.
+
+**Heart words count toward winning a level.** The build had continued the old Level 2's
+arithmetic by default and the reviewer rightly flagged that nobody had ruled it; now the
+owner has, accepting the recommendation: promotion certifies readiness for the next
+level's sentences, and sentences lean on the hearts more than on any decodable, so the
+child who cannot yet read them is not ready, whichever ten decodables they know. Level 1
+promotes at 12 of its 14; the decodables-only alternative (8 of 10 everywhere) and a
+weighted middle bar were both offered and declined.
+
+**Level 1's sentence pool caps where honesty caps it.** Ten meaningful sentences do not
+exist in ten VC words plus four hearts, and the owner's own curriculum rule is "target
+ten, never padded" — so Level 1 tops out around eight, and the target stays ten only
+where ten is honest. The two levers that could widen the space — seating another heart at
+Level 1, or ruling chants a legitimate Level 1 shape — were offered and not taken; the
+chant question may return with round five's own chant candidate.
+
 ## The trap this project keeps falling into
 
 A fix that is approved but not applied is worse than no fix: it reads as done.
