@@ -1174,7 +1174,7 @@ protect it, and a gate that cannot run is a gate that is not protecting anything
   encoding-less reads in `tools/*.py` name UTF-8. Section P's move to `D:` does not change
   any of this — the same machine, a different drive.
 
-## R. Ten level names a child can see that no owner has ruled on — opened 2026-08-15
+## R. Ten level names a child can see that no owner has ruled on — CLOSED 2026-08-15
 
 - **Where** `reference/word-quest.jsx`, the `LEVELS` array: the 10-and-10 build re-cut
   Levels 1–12, and ten of the twelve needed names where before there were five. Level 1
@@ -1185,10 +1185,9 @@ protect it, and a gate that cannot run is a gate that is not protecting anything
 - **What a child experiences today** The provisional names, on the level chip and the
   level-up screen. Nothing is wrong with them except that no owner has read them, and a
   level's name is child-facing copy the same way feedback lines are.
-- **Done** means the owner has ruled on the ten names (a one-screen decision page, or
-  edits in their own words), the survivors are recorded as approved, and this entry
-  closes. Until then the names ship as provisional because a nameless level would be
-  worse, and the aria snapshot pins only Level 1, which the owner has already lived with.
+- **Closed the same evening**: shown the ten names in chat, the owner ruled "Sound
+  great" — all ten approved as offered. The engine's LEVELS comment no longer calls
+  them provisional; this entry is the record of when and how they were ruled.
 
 ## G. Ideas worth trying that nobody has tried
 

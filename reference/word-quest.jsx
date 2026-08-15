@@ -19,9 +19,9 @@ import { useState, useEffect, useRef, useMemo, useCallback } from "react";
    name, so it is a heart, and its clip is the exact render the owner approved.
    Levels 13-20 are the bank's remaining stages, identities and internal order
    unchanged; only their numbers moved — except the fifteen short-e and
-   short-u words that moved down into Levels 11 and 12. Their names for
-   Levels 2-12 are PROVISIONAL and the owner has not ruled on them:
-   docs/open-faults.md carries that debt. */
+   short-u words that moved down into Levels 11 and 12. The ten new names
+   for Levels 3-12 were owner-approved on 2026-08-15 ("Sound great";
+   open-faults R records the ruling). */
 const LEVELS = [
   { n: 1, name: "Hatchlings", emoji: "🐣", focus: "two sounds (VC)",
     words: ["is","it","in","on","at","an","up","us","am","ax","the","a","and","i"] },
