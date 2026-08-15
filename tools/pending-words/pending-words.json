@@ -1972,5 +1972,564 @@
   "verdict": "perfect",
   "level": "Level 4",
   "blocked_on": "we and me are not seated in the bank yet - docs/open-faults.md K"
+ },
+ "s:cur-l1-01": {
+  "arm": "s:cur-l1-01",
+  "family": "sentence",
+  "ms": 917,
+  "sha256": "bd7f21dcd8758673bdfd303e9dcb6c6c5747413e5fb0b6bac63a2b209e385a4c",
+  "round": "round 2 / 2026-08-15",
+  "verdict": "pick",
+  "level": "L1 (new curriculum, unbuilt)",
+  "text": "I am in!"
+ },
+ "s:cur-l1-02": {
+  "arm": "s:cur-l1-02",
+  "family": "sentence",
+  "ms": 874,
+  "sha256": "7ccc037ad813fc4429e8dc4a2e9e49e001c60455715b25e8959edf00d2689898",
+  "round": "round 2 / 2026-08-15",
+  "verdict": "pick",
+  "level": "L1 (new curriculum, unbuilt)",
+  "text": "I am it!"
+ },
+ "s:cur-l2-01": {
+  "arm": "s:cur-l2-01",
+  "family": "sentence",
+  "ms": 938,
+  "sha256": "dd42b7194566a49abecce3631cddfaa95bd75dd810350b354e0275096754f452",
+  "round": "round 1 / 2026-08-15",
+  "verdict": "perfect",
+  "level": "L2 (new curriculum, unbuilt)",
+  "text": "Dad ran."
+ },
+ "s:cur-l2-02": {
+  "arm": "s:cur-l2-02",
+  "family": "sentence",
+  "ms": 832,
+  "sha256": "2ab606e0df2d28bf50822ab445e52399751ef3cacdaf38a7e82c2920a4881eae",
+  "round": "round 1 / 2026-08-15",
+  "verdict": "perfect",
+  "level": "L2 (new curriculum, unbuilt)",
+  "text": "We sat."
+ },
+ "s:cur-l2-03": {
+  "arm": "s:cur-l2-03",
+  "family": "sentence",
+  "ms": 960,
+  "sha256": "9d0355cca047c8383d52961f05f7c61d9a9c967abff880df7299cdffaa034a73",
+  "round": "round 1 / 2026-08-15",
+  "verdict": "perfect",
+  "level": "L2 (new curriculum, unbuilt)",
+  "text": "The cat sat."
+ },
+ "s:cur-l2-04": {
+  "arm": "s:cur-l2-04",
+  "family": "sentence",
+  "ms": 1002,
+  "sha256": "7899c058ad3a48dca38e4159d0fb2dc4a1db6c6ba9d520ff394488caa87940f6",
+  "round": "round 1 / 2026-08-15",
+  "verdict": "perfect",
+  "level": "L2 (new curriculum, unbuilt)",
+  "text": "My cat ran."
+ },
+ "s:cur-l2-05": {
+  "arm": "s:cur-l2-05",
+  "family": "sentence",
+  "ms": 938,
+  "sha256": "f5c4b2864bca029f26e534f9d0e468ebafd18d0fe4586d8224cbb5bd48e746e5",
+  "round": "round 1 / 2026-08-15",
+  "verdict": "perfect",
+  "level": "L2 (new curriculum, unbuilt)",
+  "text": "The man ran."
+ },
+ "s:cur-l3-01": {
+  "arm": "s:cur-l3-01",
+  "family": "sentence",
+  "ms": 1301,
+  "sha256": "8cc9acb4f4b8af13be4fff012a3316aae3ac967e175981d5085c819cec7f98a6",
+  "round": "round 2 / 2026-08-15",
+  "verdict": "either is fine - runner picked this one",
+  "level": "L3 (new curriculum, unbuilt)",
+  "text": "We sat and had jam."
+ },
+ "s:cur-l3-02": {
+  "arm": "s:cur-l3-02",
+  "family": "sentence",
+  "ms": 1216,
+  "sha256": "8198dfd44239cf3e2ab2862638f1813c7df2a4b4bed0a0e54b8200b090e4ee73",
+  "round": "round 2 / 2026-08-15",
+  "verdict": "either is fine - runner picked this one",
+  "level": "L3 (new curriculum, unbuilt)",
+  "text": "Dad and I had ham."
+ },
+ "s:cur-l3-03": {
+  "arm": "s:cur-l3-03",
+  "family": "sentence",
+  "ms": 1152,
+  "sha256": "593da0d0f78c5a186d3cae44c57e29a99400f1b5b13705679512ee03bd646069",
+  "round": "round 1 / 2026-08-15",
+  "verdict": "perfect",
+  "level": "L3 (new curriculum, unbuilt)",
+  "text": "The cat had a nap."
+ },
+ "s:cur-l3-04": {
+  "arm": "s:cur-l3-04",
+  "family": "sentence",
+  "ms": 1152,
+  "sha256": "ff4bb834573a6156aadafe47782e16be209ab67a26f968aacf9bf750a1f48a99",
+  "round": "round 2 / 2026-08-15",
+  "verdict": "pick",
+  "level": "L3 (new curriculum, unbuilt)",
+  "text": "We sat on the mat."
+ },
+ "s:cur-l4-01": {
+  "arm": "s:cur-l4-01",
+  "family": "sentence",
+  "ms": 960,
+  "sha256": "f4b25550a4f22b8e4faa5ddcac8a72d9c1eeb960588cd4d778952e7286662344",
+  "round": "round 1 / 2026-08-15",
+  "verdict": "perfect",
+  "level": "L4 (new curriculum, unbuilt)",
+  "text": "He is sad."
+ },
+ "s:cur-l4-02": {
+  "arm": "s:cur-l4-02",
+  "family": "sentence",
+  "ms": 1322,
+  "sha256": "7d4c24cf8a68a078b138810c63c6038ff653f707ac5be13fa605beb77ab9c63d",
+  "round": "round 2 / 2026-08-15",
+  "verdict": "pick",
+  "level": "L4 (new curriculum, unbuilt)",
+  "text": "A rat is in the van!"
+ },
+ "s:cur-l4-03": {
+  "arm": "s:cur-l4-03",
+  "family": "sentence",
+  "ms": 981,
+  "sha256": "7b6581b8fc25f06378acaa7dbc6ecceeda49617c70216ccc077d96df08ade6fa",
+  "round": "round 1 / 2026-08-15",
+  "verdict": "perfect",
+  "level": "L4 (new curriculum, unbuilt)",
+  "text": "Dad had a nap."
+ },
+ "s:cur-l4-04": {
+  "arm": "s:cur-l4-04",
+  "family": "sentence",
+  "ms": 1194,
+  "sha256": "b3da76594fac38cc2bb2c0bc898728f03e673a360b9d46b081979b066f5b7d86",
+  "round": "round 1 / 2026-08-15",
+  "verdict": "perfect",
+  "level": "L4 (new curriculum, unbuilt)",
+  "text": "He ran to the van."
+ },
+ "s:cur-l4-05": {
+  "arm": "s:cur-l4-05",
+  "family": "sentence",
+  "ms": 1365,
+  "sha256": "a90913a668094eddb93b8deab7680b4efb5aeadd8a6eee379017cb644e45e71a",
+  "round": "round 2 / 2026-08-15",
+  "verdict": "pick",
+  "level": "L4 (new curriculum, unbuilt)",
+  "text": "Dad is mad at the rat."
+ },
+ "s:cur-l5-01": {
+  "arm": "s:cur-l5-01",
+  "family": "sentence",
+  "ms": 917,
+  "sha256": "dd487f2b3a14009dee329e3ff8eebf3ed24d8122a6921ec58372bf447a895bee",
+  "round": "round 1 / 2026-08-15",
+  "verdict": "perfect",
+  "level": "L5 (new curriculum, unbuilt)",
+  "text": "You can go."
+ },
+ "s:cur-l5-02": {
+  "arm": "s:cur-l5-02",
+  "family": "sentence",
+  "ms": 853,
+  "sha256": "0b28870e1324bd210d605bb6973cd339bb4985b8846043f69193b7867a5ad148",
+  "round": "round 1 / 2026-08-15",
+  "verdict": "perfect",
+  "level": "L5 (new curriculum, unbuilt)",
+  "text": "We go up."
+ },
+ "s:cur-l5-03": {
+  "arm": "s:cur-l5-03",
+  "family": "sentence",
+  "ms": 1109,
+  "sha256": "810477ea44fa3b89a7de02a009c285225a1ab494b28e3df9395639b0a761c6cb",
+  "round": "round 2 / 2026-08-15",
+  "verdict": "pick",
+  "level": "L5 (new curriculum, unbuilt)",
+  "text": "We go in the cab."
+ },
+ "s:cur-l6-01": {
+  "arm": "s:cur-l6-01",
+  "family": "sentence",
+  "ms": 1109,
+  "sha256": "894bc44edef496cb5961604d866150fa8807acffc04dbe861efdbf8c76ff8451",
+  "round": "round 1 / 2026-08-15",
+  "verdict": "perfect",
+  "level": "L6 (new curriculum, unbuilt)",
+  "text": "The dog is big."
+ },
+ "s:cur-l6-02": {
+  "arm": "s:cur-l6-02",
+  "family": "sentence",
+  "ms": 1173,
+  "sha256": "b52dfcf9fe7cff2ed0669f7c4c3b99e7ac661a51ee7ac910e1821e6c6ab72786",
+  "round": "round 1 / 2026-08-15",
+  "verdict": "perfect",
+  "level": "L6 (new curriculum, unbuilt)",
+  "text": "The dog can sit."
+ },
+ "s:cur-l6-03": {
+  "arm": "s:cur-l6-03",
+  "family": "sentence",
+  "ms": 1258,
+  "sha256": "73c46b6d03d74a4ee372aa8f9571dcdbd125a030c630a9362b2a819f6f9c6512",
+  "round": "round 1 / 2026-08-15",
+  "verdict": "perfect",
+  "level": "L6 (new curriculum, unbuilt)",
+  "text": "He said we can dig."
+ },
+ "s:cur-l6-04": {
+  "arm": "s:cur-l6-04",
+  "family": "sentence",
+  "ms": 1194,
+  "sha256": "ca44b9b22eb91ee915b5cfaf30c3dfaf11034aeab1304a3ed16e25ed8d5b7da0",
+  "round": "round 1 / 2026-08-15",
+  "verdict": "perfect",
+  "level": "L6 (new curriculum, unbuilt)",
+  "text": "A big dog sat."
+ },
+ "s:cur-l6-05": {
+  "arm": "s:cur-l6-05",
+  "family": "sentence",
+  "ms": 1386,
+  "sha256": "062c0433b6996f1c897fc6ae6bb40472a14223cab179e1a459e640c2f350e3fb",
+  "round": "round 2 / 2026-08-15",
+  "verdict": "pick",
+  "level": "L6 (new curriculum, unbuilt)",
+  "text": "The big dog can dig."
+ },
+ "s:cur-l7-01": {
+  "arm": "s:cur-l7-01",
+  "family": "sentence",
+  "ms": 1344,
+  "sha256": "3cbe3a4d505da82cfef96a9292c77a5dad9981f9906bdb3acf6944275be800b9",
+  "round": "round 3 / 2026-08-15",
+  "verdict": "perfect",
+  "level": "L7 (new curriculum, unbuilt)",
+  "text": "Mom got a big pot."
+ },
+ "s:cur-l7-02": {
+  "arm": "s:cur-l7-02",
+  "family": "sentence",
+  "ms": 1109,
+  "sha256": "54b88d4e217bd77d1188aaf1510a2d543f67d68b54c82d6af329b4dca217f985",
+  "round": "round 3 / 2026-08-15",
+  "verdict": "perfect",
+  "level": "L7 (new curriculum, unbuilt)",
+  "text": "The pig is hot."
+ },
+ "s:cur-l7-03": {
+  "arm": "s:cur-l7-03",
+  "family": "sentence",
+  "ms": 1109,
+  "sha256": "b60e47582daa864755aad3d38a71f07cf85fc854afff1cfd15434ae78de4cd31",
+  "round": "round 3 / 2026-08-15",
+  "verdict": "perfect",
+  "level": "L7 (new curriculum, unbuilt)",
+  "text": "Did the dog dig?"
+ },
+ "s:cur-l7-04": {
+  "arm": "s:cur-l7-04",
+  "family": "sentence",
+  "ms": 1109,
+  "sha256": "86457151e8ca6e7a25c64367720a00bacf42ef90dcdbd1a3f6c565ee88e3bbae",
+  "round": "round 3 / 2026-08-15",
+  "verdict": "perfect",
+  "level": "L7 (new curriculum, unbuilt)",
+  "text": "He is not sad."
+ },
+ "s:cur-l7-05": {
+  "arm": "s:cur-l7-05",
+  "family": "sentence",
+  "ms": 917,
+  "sha256": "0ebd12bc5cc9c08e8747648b08c70bc4a260dd5f157cba20cf4ab00ac21d820b",
+  "round": "round 3 / 2026-08-15",
+  "verdict": "perfect",
+  "level": "L7 (new curriculum, unbuilt)",
+  "text": "I got it!"
+ },
+ "s:cur-l8-01": {
+  "arm": "s:cur-l8-01",
+  "family": "sentence",
+  "ms": 1024,
+  "sha256": "17f1be923e1c19309c04330e69c7954857c188b4b58731bc67c2d93c43fb075b",
+  "round": "round 3 / 2026-08-15",
+  "verdict": "perfect",
+  "level": "L8 (new curriculum, unbuilt)",
+  "text": "A sip of pop!"
+ },
+ "s:cur-l8-02": {
+  "arm": "s:cur-l8-02",
+  "family": "sentence",
+  "ms": 1066,
+  "sha256": "85106cc6aeb0d14e28f8ffe4514cbe732eb673eb49d44ca7a497aab6ef35bc67",
+  "round": "round 3 / 2026-08-15",
+  "verdict": "perfect",
+  "level": "L8 (new curriculum, unbuilt)",
+  "text": "I got six."
+ },
+ "s:cur-l8-03": {
+  "arm": "s:cur-l8-03",
+  "family": "sentence",
+  "ms": 1045,
+  "sha256": "3a03b03e7a7a77f3fad0213ff0cf26397cd39b4677de082179c07ee373f96473",
+  "round": "round 3 / 2026-08-15",
+  "verdict": "perfect",
+  "level": "L8 (new curriculum, unbuilt)",
+  "text": "He hit the top."
+ },
+ "s:cur-l8-04": {
+  "arm": "s:cur-l8-04",
+  "family": "sentence",
+  "ms": 1322,
+  "sha256": "0ba1e1db7c46cc88062354f50e4530de92fe0566e4f4e6ab3274e5e82a01717f",
+  "round": "round 3 / 2026-08-15",
+  "verdict": "perfect",
+  "level": "L8 (new curriculum, unbuilt)",
+  "text": "The pin is in the bin."
+ },
+ "s:cur-l8-05": {
+  "arm": "s:cur-l8-05",
+  "family": "sentence",
+  "ms": 1173,
+  "sha256": "7c097ee07b786d966e7a4ce9e4b9b2ebc02a299a101c0401442728ea3b9b2aad",
+  "round": "round 3 / 2026-08-15",
+  "verdict": "perfect",
+  "level": "L8 (new curriculum, unbuilt)",
+  "text": "Dip it in the jam."
+ },
+ "s:cur-l9-01": {
+  "arm": "s:cur-l9-01",
+  "family": "sentence",
+  "ms": 1152,
+  "sha256": "768f01e535a0d070e43609a27f643818ea5ddae2605f7896a48a955e93586d93",
+  "round": "round 3 / 2026-08-15",
+  "verdict": "perfect",
+  "level": "L9 (new curriculum, unbuilt)",
+  "text": "A fox can hop."
+ },
+ "s:cur-l9-02": {
+  "arm": "s:cur-l9-02",
+  "family": "sentence",
+  "ms": 1493,
+  "sha256": "885f789988eb9101456f1c254fc4e478d7d4d0d872eb7f73972cfc4183704977",
+  "round": "round 3 / 2026-08-15",
+  "verdict": "perfect",
+  "level": "L9 (new curriculum, unbuilt)",
+  "text": "The wig is in the box."
+ },
+ "s:cur-l9-03": {
+  "arm": "s:cur-l9-03",
+  "family": "sentence",
+  "ms": 1429,
+  "sha256": "a1142ba80ba57104334c2b384478c6ba4d371ec50ff2f1dc312dc1212317521c",
+  "round": "round 3 / 2026-08-15",
+  "verdict": "perfect",
+  "level": "L9 (new curriculum, unbuilt)",
+  "text": "The fox sat on a log."
+ },
+ "s:cur-l9-04": {
+  "arm": "s:cur-l9-04",
+  "family": "sentence",
+  "ms": 1216,
+  "sha256": "db418d1d2288da64c47c1301bfaa0de40889c6ef645c7c60f1e85e6ed5460de0",
+  "round": "round 3 / 2026-08-15",
+  "verdict": "perfect",
+  "level": "L9 (new curriculum, unbuilt)",
+  "text": "We fit in the box!"
+ },
+ "s:cur-l9-05": {
+  "arm": "s:cur-l9-05",
+  "family": "sentence",
+  "ms": 1173,
+  "sha256": "973d698b9e008d18c4b5af25bb534e8aec4e16fa2fd076fc066d37258486094a",
+  "round": "round 3 / 2026-08-15",
+  "verdict": "perfect",
+  "level": "L9 (new curriculum, unbuilt)",
+  "text": "The bib is on him."
+ },
+ "s:cur-l10-01": {
+  "arm": "s:cur-l10-01",
+  "family": "sentence",
+  "ms": 1173,
+  "sha256": "90387e9fd91d84139ba67584b106caa1b0e41ea76d591fb9018877c46c32595d",
+  "round": "round 3 / 2026-08-15",
+  "verdict": "perfect",
+  "level": "L10 (new curriculum, unbuilt)",
+  "text": "Dad can fix it."
+ },
+ "s:cur-l10-02": {
+  "arm": "s:cur-l10-02",
+  "family": "sentence",
+  "ms": 1237,
+  "sha256": "837572e9f0d5cc22a3476faebddf9ca2bc0b70227e95173c9fb8d565f7957a3e",
+  "round": "round 3 / 2026-08-15",
+  "verdict": "perfect",
+  "level": "L10 (new curriculum, unbuilt)",
+  "text": "We did a big job."
+ },
+ "s:cur-l10-03": {
+  "arm": "s:cur-l10-03",
+  "family": "sentence",
+  "ms": 1258,
+  "sha256": "9525d13a33a3062dd02eb3a6db2b201a7c05a8699cd644feae051e323bc2c26c",
+  "round": "round 3 / 2026-08-15",
+  "verdict": "perfect",
+  "level": "L10 (new curriculum, unbuilt)",
+  "text": "My cap got a rip."
+ },
+ "s:cur-l10-04": {
+  "arm": "s:cur-l10-04",
+  "family": "sentence",
+  "ms": 1365,
+  "sha256": "f6277ad5eb978cad538cde94b209e1fe542d11c253f4b0d678a0b8b75a5c7bd2",
+  "round": "round 3 / 2026-08-15",
+  "verdict": "perfect",
+  "level": "L10 (new curriculum, unbuilt)",
+  "text": "The hog is in the pit."
+ },
+ "s:cur-l10-05": {
+  "arm": "s:cur-l10-05",
+  "family": "sentence",
+  "ms": 874,
+  "sha256": "c64e60fa53b1e06662d0e538b15aba2a2e94863be8dcebf35a593f1561f47731",
+  "round": "round 3 / 2026-08-15",
+  "verdict": "perfect",
+  "level": "L10 (new curriculum, unbuilt)",
+  "text": "Mop it up!"
+ },
+ "s:cur-l11-01": {
+  "arm": "s:cur-l11-01",
+  "family": "sentence",
+  "ms": 1024,
+  "sha256": "f718a065cf620f2ff1717fd9eff4d2633e15956c8e8e055a8f86668c907fe6ca",
+  "round": "round 3 / 2026-08-15",
+  "verdict": "perfect",
+  "level": "L11 (new curriculum, unbuilt)",
+  "text": "I go to bed."
+ },
+ "s:cur-l11-02": {
+  "arm": "s:cur-l11-02",
+  "family": "sentence",
+  "ms": 1088,
+  "sha256": "d262709077a31bd7fa96011c2b9ea0d08032a42088807f341fdb6a2d04769ac1",
+  "round": "round 3 / 2026-08-15",
+  "verdict": "perfect",
+  "level": "L11 (new curriculum, unbuilt)",
+  "text": "The hen is red."
+ },
+ "s:cur-l11-03": {
+  "arm": "s:cur-l11-03",
+  "family": "sentence",
+  "ms": 960,
+  "sha256": "4ac624b2d2756bbee86277abd563ffc235e52cbded0ec82ba82f496cb2ea74c0",
+  "round": "round 3 / 2026-08-15",
+  "verdict": "perfect",
+  "level": "L11 (new curriculum, unbuilt)",
+  "text": "I am ten!"
+ },
+ "s:cur-l11-04": {
+  "arm": "s:cur-l11-04",
+  "family": "sentence",
+  "ms": 1685,
+  "sha256": "f481c2d1471b01e3477fda04d7df9a051e1d2077749b532075c054720b49d1fe",
+  "round": "round 4 / 2026-08-15",
+  "verdict": "either is fine - runner picked this one",
+  "level": "L11 (new curriculum, unbuilt)",
+  "text": "The red hen sat on my bed."
+ },
+ "s:cur-l11-05": {
+  "arm": "s:cur-l11-05",
+  "family": "sentence",
+  "ms": 1237,
+  "sha256": "5ca16d8dd7b2a6a82511c3c77184b5fd4f75468f3ecada31da57c7d5c70e31e8",
+  "round": "round 3 / 2026-08-15",
+  "verdict": "perfect",
+  "level": "L11 (new curriculum, unbuilt)",
+  "text": "We go to bed at ten."
+ },
+ "s:cur-l12-01": {
+  "arm": "s:cur-l12-01",
+  "family": "sentence",
+  "ms": 1024,
+  "sha256": "3a18f18279377be883824e670f768c44f08782b4655a614594c1378304fe17b7",
+  "round": "round 3 / 2026-08-15",
+  "verdict": "perfect",
+  "level": "L12 (new curriculum, unbuilt)",
+  "text": "The sun is up."
+ },
+ "s:cur-l12-02": {
+  "arm": "s:cur-l12-02",
+  "family": "sentence",
+  "ms": 1109,
+  "sha256": "d48dc7c1279049b3cedb1e560b6115f56d928ea7dd4267010d6510b64760cf78",
+  "round": "round 3 / 2026-08-15",
+  "verdict": "perfect",
+  "level": "L12 (new curriculum, unbuilt)",
+  "text": "We run in the sun."
+ },
+ "s:cur-l12-03": {
+  "arm": "s:cur-l12-03",
+  "family": "sentence",
+  "ms": 1472,
+  "sha256": "4f7df40af94a9f477746b551d092f4ed244fdb176ec168dacea4591c930333ff",
+  "round": "round 3 / 2026-08-15",
+  "verdict": "perfect",
+  "level": "L12 (new curriculum, unbuilt)",
+  "text": "The bus is big and red."
+ },
+ "s:cur-l12-04": {
+  "arm": "s:cur-l12-04",
+  "family": "sentence",
+  "ms": 1024,
+  "sha256": "cd907fe810f0f6e47d7945084037bd8a603a557c0d9f52e7cd1c47a02a05d5cc",
+  "round": "round 3 / 2026-08-15",
+  "verdict": "perfect",
+  "level": "L12 (new curriculum, unbuilt)",
+  "text": "Fun in the sun!"
+ },
+ "s:cur-l12-05": {
+  "arm": "s:cur-l12-05",
+  "family": "sentence",
+  "ms": 1152,
+  "sha256": "43226bc18a57dffcf9904673ea5aeabe1b51599896f9aa7c635a986e6403e551",
+  "round": "round 3 / 2026-08-15",
+  "verdict": "perfect",
+  "level": "L12 (new curriculum, unbuilt)",
+  "text": "My leg is wet."
+ },
+ "s:cur-l12-06": {
+  "arm": "s:cur-l12-06",
+  "family": "sentence",
+  "ms": 1301,
+  "sha256": "73ff60fb1a7ea604f4ee934ba2911b3d773cfebefe53b464bbf014235f2f7628",
+  "round": "round 3 / 2026-08-15",
+  "verdict": "perfect",
+  "level": "L12 (new curriculum, unbuilt)",
+  "text": "The men got on the bus."
+ },
+ "i": {
+  "arm": "i_c",
+  "family": "listen_sp1.0",
+  "ms": 682,
+  "sha256": "51d76557a73de5488c8a407d7cdea7d8f5d7a1f94122cb1e3d75182afa94cf9b",
+  "round": "round 4 / 2026-08-15",
+  "verdict": "arm C approved",
+  "level": "heart-style word (new, seats L1 in the new curriculum)"
  }
 }

@@ -1245,6 +1245,26 @@ Three rounds in one evening closed 54 new sentences, two banned phrases, twelve 
 lists, and two heart seats. The renders needed no re-recipe at any point: whole-sentence,
 af_heart, speed 1.0 — the settled sentence recipe held through all of it.
 
+## Round four, and the night is closed (2026-08-15) — closed
+
+Two questions ended the evening. The hen sentence came back "either is fine"; under that
+delegation the runner shipped "The red hen sat on my bed." — it gives red its only sentence
+appearance, puts three Level 11 words in one line, and the pen oddity that started the
+iteration is gone entirely. And the word **i** has its first clip: **arm C, the whole word
+at sentence speed 1.0**, chosen over 0.9 and 0.85. Like the word "a", its sound-out is the
+same recording, because one letter is one sound; unlike "a", the word says the letter's own
+name, so the render family the "a" round closed was never on the table.
+
+Every winner's exact heard bytes now sit in `tools/pending-words/` with round, verdict and
+SHA-256 — 55 sentences keyed `s:cur-l<level>-<n>` and the word under `i` — and
+`docs/voice-pack.md` names the batch under Approved and unshipped. The build ships those
+bytes hash-verified or returns the item to a round; nothing is re-rendered on trust.
+
+The night's tally: **55 sentences, twelve word lists, three heart-seat rulings (I at
+Level 1, of at Level 7, all others as offered), two banned phrases now gate-enforced, and
+one new word.** Levels 1–12 of the 10-and-10 curriculum are verdict-complete. What remains
+before a child sees any of it is the build, and the build alone.
+
 ## The trap this project keeps falling into
 
 A fix that is approved but not applied is worse than no fix: it reads as done.

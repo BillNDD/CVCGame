@@ -149,13 +149,26 @@ byte-pinned word rather than replacing accepted audio with a render.
   sidecar workspace archive on the owner's PC
   (handoff `word-quest-uplift-handoff-2026-08-07T1438Z`).
 
-## Approved and unshipped: 25 items with no level yet (through 2026-08-13)
+## Approved and unshipped: 81 items with no level yet (through 2026-08-15)
 
-Twenty-five items are closed by the owner's ear and wait in `tools/pending-words/`
-for the levels and the code that will hold them: **19 words** — the plural-s
-words and the two-syllable compounds — and **six sentences**, named below with
-the reason each is waiting. Every one is graded `perfect`; the ledger names each
-with its round.
+Eighty-one items are closed by the owner's ear and wait in `tools/pending-words/`
+for the levels and the code that will hold them: **20 words** and **61 sentences**.
+
+**Fifty-six arrived on 2026-08-15, the night the 10-and-10 curriculum was heard**:
+the 55 winning sentences of listening rounds one to four (Levels 1–12 of the new
+curriculum, every one heard whole at the settled sentence recipe and read by the
+owner against the sentence screen's question), and the first clip of the word
+**i** — a brand-new bank word, arm C at sentence speed, its sound-out the same
+clip because one letter is one sound, on the word-"a" precedent. The ledger keys
+the sentences as `s:cur-l<level>-<n>` until the build assigns real ids, and the
+bytes in this folder are the exact renders the owner heard — at build time the
+pack ships these bytes, hash-verified, or the item goes back to a round. They
+wait because the new levels do not exist in the engine yet; `docs/settled.md`
+holds the four rounds' full record.
+
+The earlier twenty-five: **19 words** — the plural-s words and the two-syllable
+compounds — and **six sentences**, named below with the reason each is waiting.
+Every one is graded `perfect`; the ledger names each with its round.
 
 **The last five heart words shipped on 2026-08-13**: `he`, `be`, `go`, `no` and
 `so`, seated at Level 2 with the other eleven. The open-syllable roster is now
