@@ -645,12 +645,12 @@ deliberate: a flaky cell must inform a release, never block one.
   dependency rule.
 - Negative control: `--self-test` plants a `PROGRESS.md` and a stray `status.json`; the
   detector must report both and still accept the real tree.
-- Baseline floor: `g17_governing_files` (27). It moved from 23 on 2026-08-11, when the
+- Baseline floor: `g17_governing_files` (28). It moved from 23 on 2026-08-11, when the
   owner approved `docs/open-faults.md` into the owned set — the list of what is still
   wrong, so that a fault cannot be lost to a context compaction — from 24 on 2026-08-15
-  for `docs/file-map.md`, the generated ownership map (G23), and to 27 the same day for
-  G24's two open ammunition files, the known vocabulary and the public common-names
-  registry. That is the approval path this gate exists to force, working as intended.
+  for `docs/file-map.md`, the generated ownership map (G23), and to 28 the same day for
+  G24's three open ammunition files: the known vocabulary, the public common-names
+  registry, and the census surnames for the pair rule. That is the approval path this gate exists to force, working as intended.
 - Run: `node tools/check-governing.mjs`
 
 ## G23. The file map with teeth
@@ -696,7 +696,7 @@ the tool would be fault F2 re-committed.
   `filemap_history_max` (1) — a ceiling only the owner moves (E6). Today's one:
   `docs/voice-goldens-packs1-3.json`, whose 11-of-57 recipe disagreements make it a trap if
   read as live.
-- Keys: `g23_declared` (27), `g23_facts` (4), `g23_controls` (40), problems capped at 0,
+- Keys: `g23_declared` (28), `g23_facts` (4), `g23_controls` (40), problems capped at 0,
   ceiling `filemap_history_max` (1).
 - Run: `node tools/file-map.mjs --check` and `--self-test`; both are in `npm run check`.
 
@@ -737,8 +737,9 @@ happened to read the output.
   scrub-verified tree — or the build fails. A personal name nobody thought to list is
   exactly such a stranger. Growing the vocabulary is an owner-visible diff, G17's shape.
   Stated limit, pinned by a control: a name written all-lowercase slips this layer.
-- **The COMMON-NAMES layer (owner-proposed the same day).** The US registry's top given
-  names of the last century, committed openly — public data names no real person — and
+- **The COMMON-NAMES layer (owner-proposed the same day).** The US registry's top names of the last century PLUS the top 200 of each sex for
+  every decade from the 1970s through the 2020s, uniques kept (owner-refined the same
+  day) — the child's generation and the parents' — committed openly — public data names no real person — and
   scanned like a denylist: whole-word, case-insensitive, camel-glued identifiers, so a
   common name written in LOWERCASE is caught, which is the vocabulary layer's pinned
   blind spot. Names colliding with repository language are excluded in the file itself,
@@ -750,8 +751,18 @@ happened to read the output.
   in a fault entry's literal machine path — public for a day, written by the same agent
   that built the gate. The tree is redacted; the history side is folded into the pending
   section-O rewrite. A gate finding its own author is the system working.
-- Keys: `g24_files` (191), `g24_controls` (30), `g24_vocab` (155), `g24_common` (194),
-  problems capped at 0.
+- **The PAIR rule (owner-proposed 2026-08-15, refined the same hour).** The census
+  top-1000 surnames, committed openly and never scanned alone: a common FIRST name
+  immediately beside one — either order, comma tolerated, same line — is a full person's
+  name and fails the build. It resurrects the first names excluded as repository
+  language: a language-word first passes alone and fails beside a surname. Its first live
+  sweep taught it the precision cut its controls now pin: the bank's own Level 7 list
+  runs "king" beside "long" and ordinary prose keeps "a short grace window" — both
+  halves repository language is the tree talking, one stranger half is a person. The
+  stated residue: someone named entirely in repository words is skipped here, exactly as
+  each half already was by the single-word layers.
+- Keys: `g24_files` (191), `g24_controls` (41), `g24_vocab` (155), `g24_common` (890),
+  `g24_surnames` (1000), problems capped at 0.
 - Run: `node tools/s9-names.mjs` and `--self-test`; both are in `npm run check`.
 
 ## G14. Update system

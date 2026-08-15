@@ -97,12 +97,25 @@ export function scan(tree, names) {
        case-SENSITIVE. */
     const ci = name.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")
       .replace(/[a-zA-Z]/g, (c) => `[${c.toLowerCase()}${c.toUpperCase()}]`);
-    const re = new RegExp(`(^|[^A-Za-z])${ci}(?![a-z])`);
+    const re = new RegExp(`(^|[^A-Za-z])(${ci})(?![a-z])`, "g");
     for (const [file, text] of Object.entries(tree)) {
-      const m = text.match(re);
-      if (m) {
+      let m;
+      re.lastIndex = 0;
+      while ((m = re.exec(text))) {
+        /* AN ALL-CAPS TOKEN IS A WORD, NOT A GLUED NAME. The camel boundary
+           exists for placeholderkidScore — a mixed-case name running into an
+           uppercase letter. Matched ENTIRELY in uppercase with more uppercase
+           following, it is the inside of an acronym or a caps heading: the
+           first 890-name run flagged twelve files for the pipeline's own
+           trade words spelled C-A-R-R-I-E-R and I-S-L-A-N-D, reading them as
+           people. A name written ALL-CAPS but standing alone — next char not
+           a letter — still hits. */
+        const span = m[2];
+        const next = text[m.index + m[0].length] || "";
+        if (span === span.toUpperCase() && /[A-Z]/.test(next)) continue;
         const line = text.slice(0, m.index).split("\n").length;
         problems.push(`${file}:${line} contains "${name}" — S9: no file in the repository contains a personal name`);
+        break;
       }
     }
   }
@@ -135,10 +148,21 @@ export function loadTree() {
    vocabulary is self-satisfying by construction, and the common-names list
    holds 194 capitalized names ON PURPOSE — scanning the guard's own list
    would flag every bullet in it. */
-const MACHINERY = /package-lock\.json$|\.gitignore$|\.gitattributes$|s9-common-names\.json$/;
+const MACHINERY = /package-lock\.json$|\.gitignore$|\.gitattributes$|s9-common-names\.json$|s9-surnames\.json$/;
 
 /* camelCase splits first, so an identifier carrying a glued name still
    surrenders it — an identifier was one of the incident's six landings. */
+export function languageOf(tree) {
+  const lower = new Set();
+  for (const [f, t] of Object.entries(tree)) {
+    if (MACHINERY.test(f)) continue;
+    for (const w of t.replace(/([a-z])([A-Z])/g, "$1 $2").split(/[^A-Za-z]+/)) {
+      if (/^[a-z]+$/.test(w)) lower.add(w);
+    }
+  }
+  return lower;
+}
+
 export function strangers(tree, vocab) {
   const known = new Set(vocab);
   const lower = new Set();
@@ -171,6 +195,61 @@ export function loadVocab(read = readFileSync) {
    itself; the list only grows, by owner-visible diff. */
 export function loadCommon(read = readFileSync) {
   return JSON.parse(read("tools/s9-common-names.json", "utf8")).names;
+}
+
+/* THE PAIR RULE (owner-proposed 2026-08-15): a common FIRST name immediately
+   beside a common SURNAME — either order, a comma tolerated, same line — is
+   a full person's name, and fails the build. The census top-1000 surnames
+   are never scanned alone, so the list needs no exclusions: a surname-word
+   is an ordinary word standing alone and half a person in a pair. The
+   pair's first-name side uses the WHOLE first-name universe, the excluded
+   ones included — that is the rule's whole point: a language-word first
+   name passes alone and fails beside a surname stranger. This closes the
+   residue every single-word layer structurally leaks. */
+export function loadSurnames(read = readFileSync) {
+  return JSON.parse(read("tools/s9-surnames.json", "utf8")).surnames;
+}
+export function loadFirstUniverse(read = readFileSync) {
+  const j = JSON.parse(read("tools/s9-common-names.json", "utf8"));
+  return [...j.names, ...j.excluded_at_adoption.map((e) => e.split(" ")[0])];
+}
+
+/* PRECISION CUT, from the rule's first live sweep: the bank's own Level 7
+   list runs "…king long…" and ordinary prose keeps "a short grace window" —
+   Long and Short are top-1000 surnames, king and grace are first names. A
+   pair where BOTH sides are already the tree's ordinary language is the
+   tree talking, not a person; a pair with even one stranger side is a
+   person. STATED LIMIT: someone named entirely in repository words — both
+   halves language — is skipped here, exactly as each half already was by
+   the single-word layers. */
+export function pairs(tree, firsts, surnames, lang) {
+  const F = new Set(firsts.map((n) => n.toLowerCase()));
+  const S = new Set(surnames.map((n) => n.toLowerCase()));
+  const problems = [];
+  for (const [file, text] of Object.entries(tree)) {
+    if (MACHINERY.test(file)) continue;
+    const lines = text.split("\n");
+    for (let i = 0; i < lines.length; i++) {
+      /* Tokens with the exact gap that follows each: a pair is two adjacent
+         word-tokens whose gap is only spaces, or a comma with spaces — the
+         given-then-family order and the family-comma-given order both. */
+      const toks = [...lines[i].matchAll(/([A-Za-z]+)([^A-Za-z]*)/g)];
+      for (let k = 0; k + 1 < toks.length; k++) {
+        const a = toks[k][1].toLowerCase(), gap = toks[k][2], b = toks[k + 1][1].toLowerCase();
+        /* Exactly two adjacency shapes count: spaces, or one comma with
+           spaces. Anything else — a period, a quote, a bracket — breaks the
+           pair, so a sentence ending in a first name never marries the next
+           sentence's opening surname. */
+        if (!/^[ \t]+$/.test(gap) && !/^[ \t]*,[ \t]*$/.test(gap)) continue;
+        if (lang && lang.has(a) && lang.has(b)) continue;
+        if ((F.has(a) && S.has(b)) || (S.has(a) && F.has(b))) {
+          problems.push(`${file}:${i + 1} pairs a common first name with a common surname — a full person's name (S9)`);
+          k = toks.length;                       // one report per line is enough
+        }
+      }
+    }
+  }
+  return problems;
 }
 
 /* ------------------------------------------------------------ self-test -- */
@@ -251,7 +330,8 @@ function selfTest() {
   /* The common layer, through the real list — fixture names are DRAWN from
      it at run time, so this file never holds a name literal of its own. */
   const common = loadCommon();
-  T("the common list is real, sorted, and unique", common.length >= 150
+  T("the common list is real, sorted, and unique — six decades of both sexes, uniques kept",
+    common.length >= 800
     && JSON.stringify(common) === JSON.stringify([...new Set(common)].sort()));
   T("a common given name is caught, capitalized",
     scan({ "docs/a.md": "we met " + common[0] + " at the park" }, common).length === 1);
@@ -259,8 +339,40 @@ function selfTest() {
     scan({ "tests/x.test.js": "it('" + common[1].toLowerCase() + " reads the word')" }, common).length === 1);
   T("a common name glued into an identifier is caught",
     scan({ "src/x.js": "const " + common[2].toLowerCase() + "Score = 1;" }, common).length === 1);
+  T("a name-shaped span inside an ALL-CAPS word is a word, not a person",
+    scan({ "docs/a.md": "THE " + common[0].toUpperCase() + "R PHASE" }, common).length === 0);
+  T("a name written ALL-CAPS but standing alone is still caught",
+    scan({ "docs/a.md": "signed, " + common[0].toUpperCase() + " " }, common).length === 1);
   const scanTree = Object.fromEntries(Object.entries(tree).filter(([f]) => !MACHINERY.test(f)));
   T("the real tree holds no common given name", scan(scanTree, common).length === 0);
+  /* The PAIR rule, fixture names drawn from the real lists at run time. */
+  const surnames = loadSurnames();
+  const universe = loadFirstUniverse();
+  const excludedFirst = universe.find((n) => !common.includes(n));
+  T("a common first name beside a common surname is a person — caught",
+    pairs({ "docs/a.md": "signed by " + common[0] + " " + surnames[0] + " today" }, universe, surnames).length === 1);
+  T("the reversed order with a comma is the same person — caught",
+    pairs({ "docs/a.md": "  " + surnames[0] + ", " + common[0] }, universe, surnames).length === 1);
+  T("lowercase does not disguise the pair",
+    pairs({ "src/x.js": "// " + common[0].toLowerCase() + " " + surnames[0].toLowerCase() }, universe, surnames).length === 1);
+  T("a first name excluded as repository language is RESURRECTED by the pair — the rule's whole point",
+    excludedFirst !== undefined
+    && pairs({ "docs/a.md": "by " + excludedFirst + " " + surnames[0] }, universe, surnames).length === 1);
+  T("a sentence boundary breaks the pair — no marriage across a period",
+    pairs({ "docs/a.md": "we saw " + common[0] + ". " + surnames[0] + " street is long" }, universe, surnames).length === 0);
+  T("a first name beside an ordinary word is nobody",
+    pairs({ "docs/a.md": common[0] + " reads books" }, universe, surnames).length === 0);
+  /* The language cut, both directions: two repo-language words touching are
+     the tree talking (the bank runs king-long; prose keeps a short grace
+     window); one stranger side makes a person again. */
+  T("two language words that happen to be name-shaped are NOT a person",
+    pairs({ "docs/a.md": "keep a short grace window" }, ["Grace"], ["Short"],
+      new Set(["keep", "a", "short", "grace", "window"])).length === 0);
+  T("one stranger side makes the pair a person again",
+    pairs({ "docs/a.md": "by grace " + surnames[0].toLowerCase() }, ["Grace"], surnames,
+      new Set(["by", "grace"])).length === 1);
+  T("the real tree pairs no first name with a surname",
+    pairs(tree, universe, surnames, languageOf(tree)).length === 0);
   T("machinery is out of the common scan — a lockfile hash spells every short name eventually",
     scan({ "package-lock.json": "integrity: sha512-x" + common[0] + "q" }, common).length === 0
     && scan(Object.fromEntries(Object.entries({ "package-lock.json": "x" }).filter(([f]) => !MACHINERY.test(f))), common).length === 0);
@@ -285,10 +397,12 @@ if (isMain) {
      off. The PRIVATE list still scans everything including machinery — names
      the owner explicitly lists are worth a rare false hit. */
   const scanTree = Object.fromEntries(Object.entries(tree).filter(([f]) => !MACHINERY.test(f)));
-  const hits = [...scan(scanTree, names), ...scan(scanTree, common), ...strangers(tree, vocab)];
+  const surnames = loadSurnames();
+  const hits = [...scan(scanTree, names), ...scan(scanTree, common), ...strangers(tree, vocab),
+    ...pairs(tree, loadFirstUniverse(), surnames, languageOf(tree))];
   problems.forEach((p) => console.error("  PROBLEM: " + p));
   hits.forEach((h) => console.error("  PROBLEM: " + h));
-  console.log(`S9 names: ${names.length} names loaded, ${common.length} common names guarded, ${vocab.length} known tokens, ${Object.keys(tree).length} files scanned, ${problems.length + hits.length} problems`);
+  console.log(`S9 names: ${names.length} names loaded, ${common.length} common names guarded, ${surnames.length} surnames paired, ${vocab.length} known tokens, ${Object.keys(tree).length} files scanned, ${problems.length + hits.length} problems`);
   if (!names.length) console.log("  (no private/s9-names.txt and no S9_NAMES on this machine - structural controls only; the live scan runs where the owner keeps the list)");
   process.exit(problems.length + hits.length ? 1 : 0);
 }

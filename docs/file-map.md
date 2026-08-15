@@ -50,6 +50,7 @@ verbatim) are exempt; the exemptions are declared in the tool.
 | `tools/pending-sounds/pending-sounds.json` | DATA | the sound ledger: every sound verdict the owner has given |
 | `tools/s9-vocab.json` | DATA | the known capitalized vocabulary of the tree (G24): a stranger to it fails the build |
 | `tools/s9-common-names.json` | DATA | the public common-names registry the tree must never contain (G24) |
+| `tools/s9-surnames.json` | DATA | the public census surnames for G24's pair rule: a first name beside one is a person |
 | `tools/pending-words/pending-words.json` | DATA | approved words and sentences waiting for a level |
 | `tools/voice-lock.json` | GENERATED | regenerate: `node tools/gen-voice-lock.mjs` |
 | `tools/voice-sounds.csv` | DATA | the archive of the retired recording pipeline (ledger-truth rule 5 guards it) |

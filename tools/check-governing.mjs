@@ -54,6 +54,7 @@ export const GOVERNING = [
      Both grow only by owner-visible diff; neither can hold a secret. */
   "tools/s9-vocab.json",
   "tools/s9-common-names.json",
+  "tools/s9-surnames.json",
   "tools/pending-words/pending-words.json",
   "tools/voice-lock.json",
   "tools/voice-sounds.csv",
