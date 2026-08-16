@@ -769,13 +769,14 @@ Levels, in order:
    sentence" — the word may be taught; the sentence screen judges each use.
    **The target is 420 words; 147 are covered by the 461-word bank as of
    Level 21.** The uncovered words map onto the road above: vowel teams,
-   magic-e, r-controlled vowels, -ing forms, and the two-syllable stage. One
-   word is unresolved and waits on the owner: h-o-p-e (lesson 50, spelled
-   here with separators because the S9 gate rightly refuses the bare word)
-   is both a target word and an entry in that gate's given-names list, whose
-   own rule says it only grows — excluding it needs the owner to move the
-   g24_common floor. Until that ruling the list itself stays out of the
-   repository and this paragraph is its record.
+   magic-e, r-controlled vowels, -ing forms, and the two-syllable stage. The
+   list lives at `tools/target-vocab.txt`. One word collided on arrival:
+   hope is both a target word and was an entry in the S9 gate's given-names
+   list, and the owner resolved it the same day — "Hope stays in word list
+   remove from given name list on my authority" (2026-08-16). The name moved
+   to the list's excluded-with-reasons section, the g24_common floor moved
+   890 to 889 on that authority, and the pair rule still refuses Hope beside
+   any surname.
 
 8. **EXPANDING DOWN — the pre-level ladder. Owner-asked 2026-08-14; RULED and BUILT
    2026-08-15** (four verdicts on a decision page; `docs/settled.md` holds them). Five

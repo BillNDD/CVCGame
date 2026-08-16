@@ -173,6 +173,7 @@ export const DECLARED = [
   { path: "tools/s9-common-names.json", kind: "DATA", owns: "the public common-names registry the tree must never contain (G24)" },
   { path: "tools/s9-surnames.json", kind: "DATA", owns: "the public census surnames for G24's pair rule: a first name beside one is a person" },
   { path: "tools/pending-words/pending-words.json", kind: "DATA", owns: "the waiting room's ledger: verdict, family, arm, round and byte pin for every approved-and-unshipped clip — docs/voice-pack.md tells each round's story" },
+  { path: "tools/target-vocab.txt", kind: "DATA", owns: "the 420-word target vocabulary the owner ruled the game covers before it is called done — SPEC section 12 owns the ruling" },
   { path: "tools/voice-lock.json", kind: "GENERATED", regen: "node tools/gen-voice-lock.mjs" },
   { path: "tools/voice-sounds.csv", kind: "DATA", owns: "the archive of the retired recording pipeline (ledger-truth rule 5 guards it)" },
   { path: "tools/voice-words.csv", kind: "DATA", owns: "per word: the recipe, the verdict, the round, the byte pin — the one file a person edits after a listening round" },
