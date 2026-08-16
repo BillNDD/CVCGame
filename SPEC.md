@@ -1082,6 +1082,16 @@ words with no adult sense, and neither has a plural a child could produce. Nothi
 the bank moved, so the 2026-08-11 and 2026-08-13 findings above stand unchanged and are
 not raised again.
 
+**Re-screened 2026-08-15 before beta.20, over the whole bank and every sentence.** The
+bank counted **446 words** — one new since the last screen, the word "i", which has no
+adult sense and no plural a child could produce. Every word was re-read against this
+rule with the 10-and-10 curriculum's re-cut lists in hand; the 2026-08-13 rulings all
+stand (keg, knob, pot, gash, bush, bang, whack, dam and puck stay; gob stays out), the
+words confirmed absent then were confirmed absent again, and nothing new was raised.
+Every one of the **198 sentences** and the three invitation lines carries a person's
+dated read — 91 on 2026-08-13, the rest on the 2026-08-15 round pages — and the
+mechanical screen (shape, banned pairings, ledger) runs green over all of them.
+
 **The sentences are now inside this rule, and that is new.** All 88 shipped sentences and
 the three invitation lines were read one by one against the same test the words take:
 nothing with a sexual, crude, violent or otherwise adult meaning, and nothing whose SHAPE

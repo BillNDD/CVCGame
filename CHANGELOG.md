@@ -15,6 +15,31 @@ This document follows the Microsoft Writing Style Guide.
 Version 6 adds the standalone progressive web app. The reference build does not change.
 The first app version is 1.0.0-beta.1. The app stays in beta until version 1.0 is ready.
 
+- New in 1.0.0-beta.20: the game now starts at the very beginning. Five PRE-LEVELS sit
+  before Level 1 for a child who does not yet know what letters say. Pre 1 is listening
+  only: the app says a short word in pieces — "a … t" — and your child says the word they
+  make. Pre 2 to 5 show one letter at a time, play its sound, and your child says it back.
+  You mark every answer with the same three buttons you already use. A brand-new player
+  starts at Pre 1; a child who has already read words here skips the pre-levels entirely,
+  and you can walk in or out any time from the Grown-ups corner.
+- New: the levels themselves are rebuilt. Twenty levels now, each teaching ten new words,
+  so levels are won often and each one means something. Nothing your child learned is
+  lost: their place is recomputed from the words they actually know, and it can only come
+  out the same or higher — never lower.
+- New: every level now has ten sentences (Level 1 has six — its two-sound words honestly
+  make no more). One hundred and ten new sentences joined in one day, every one approved
+  by ear before it shipped. The later levels finally use their own words: fish, knock,
+  chess, camp, drum.
+- New: one new word, and it is a big one for a small reader — "I". It shows as a capital
+  everywhere your child sees it, and its tricky-word note says why: the i says its name.
+- Fixed: the known issue from beta.19 — the "Next word" button coming alive for half a
+  second during the sounding-out on a cold start — is fixed. The button now waits for the
+  real length of what is being said, on every device, first word included.
+- Fixed: sessions on ten-word levels were quietly showing only one of their three planned
+  sentences. All planned sentences now arrive.
+- Fixed: with the recorded voice unavailable, the replay button could hand the word "a"
+  to the device's own voice, which says the letter's name. It now says the word.
+
 - New: your child now reads whole SENTENCES, not only single words. A sentence arrives every
   five words in a session. The app reads it out, then invites you both to sound out one word
   of it — the word that level is teaching — and reads the sentence again to finish. After the
