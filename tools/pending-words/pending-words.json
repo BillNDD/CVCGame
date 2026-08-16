@@ -3025,5 +3025,85 @@
   "verdict": "perfect",
   "level": "L20",
   "text": "We drum and clap and spin."
+ },
+ "s:r6-01": {
+  "arm": "s:r6-01",
+  "family": "sentence",
+  "ms": 1365,
+  "sha256": "f32673e79902f1fcabdcaf1e48ca6f882706d06d1ed5986e926664bf09c8a94b",
+  "round": "round 6 / 2026-08-15",
+  "verdict": "perfect",
+  "level": "L15",
+  "text": "We got fish at the shop."
+ },
+ "s:r6-02": {
+  "arm": "s:r6-02",
+  "family": "sentence",
+  "ms": 1280,
+  "sha256": "ea870fb46d83c92ddfb0ffac80ad1a1c770ebfc741463598c15174dc82ece39d",
+  "round": "round 6 / 2026-08-15",
+  "verdict": "perfect",
+  "level": "L17",
+  "text": "I can tell you a lot."
+ },
+ "s:r6-03": {
+  "arm": "s:r6-03",
+  "family": "sentence",
+  "ms": 1280,
+  "sha256": "a6d2bf37a306d836b671a846cf82e9f3d9e98ec1940325939da44d1735e0eccd",
+  "round": "round 6 / 2026-08-15",
+  "verdict": "perfect",
+  "level": "L4",
+  "text": "A rat is in the pan!"
+ },
+ "s:r6-04": {
+  "arm": "s:r6-04",
+  "family": "sentence",
+  "ms": 1130,
+  "sha256": "f598d667e0b08818f6a9b3ae7e1691d28b444d49004db1476531f36a01eb4777",
+  "round": "round 6 / 2026-08-15",
+  "verdict": "perfect",
+  "level": "L8",
+  "text": "Did you win a pin?"
+ },
+ "s:r6-05": {
+  "arm": "s:r6-05",
+  "family": "sentence",
+  "ms": 1216,
+  "sha256": "254946ea157d275deece21002a6ec7e79e46d45897c689e66896cdb73b0e0444",
+  "round": "round 6 / 2026-08-15",
+  "verdict": "perfect",
+  "level": "L13",
+  "text": "I hum to my pup."
+ },
+ "s:r6-06": {
+  "arm": "s:r6-06",
+  "family": "sentence",
+  "ms": 1536,
+  "sha256": "5727de0bb60ff7db1d63732c0b1eeceec3bd0b689e25b2d2d5a085e182b24703",
+  "round": "round 6 / 2026-08-15",
+  "verdict": "perfect",
+  "level": "L15",
+  "text": "Mom can chop and mash."
+ },
+ "s:r6-07": {
+  "arm": "s:r6-07",
+  "family": "sentence",
+  "ms": 1237,
+  "sha256": "1db28204d3393225363fd55e7a3510297c420e2ad0ec8b14ca0ee20572f7a45d",
+  "round": "round 6 / 2026-08-15",
+  "verdict": "perfect",
+  "level": "L18",
+  "text": "We knock on the shed."
+ },
+ "s:r6-08": {
+  "arm": "s:r6-08",
+  "family": "sentence",
+  "ms": 1130,
+  "sha256": "b1dff06562fb69a61bde96a8b48e880f546e458e38e4f1dda98e0f230ee22589",
+  "round": "round 6 / 2026-08-15",
+  "verdict": "perfect",
+  "level": "L20",
+  "text": "We grin and clap."
  }
 }

@@ -1326,6 +1326,21 @@ Level 1 rests at six sentences: its space is nearly spent, the chant lever is go
 the owner's "never padded" rule holds. The ten-per-level target stays open only where ten
 honest sentences exist.
 
+## Round six closes the sentence banks (2026-08-15) — closed
+
+Ten cards ended the project the owner opened that morning with "I want to greatly expand
+the use of sentences per level." All eight straight candidates came back perfect and
+shipped the same hour as `s:r6-01` through `s:r6-08` — the two round-five skips confirmed
+on their second asking, and all six chant-slot replacements. The Level 1 either-or came
+back "neither works", and with the chant lever already dead and the space honestly spent,
+**Level 1 is finished at six sentences** — the one level below ten, by three rulings that
+all say the same thing: never padded.
+
+**The banks stand complete: 198 sentences, ten per level everywhere but Level 1 (six) and
+Level 16 (twelve, grandfathered over the target).** Every one heard whole at the settled
+recipe, read by the owner on a dated round page, screened, hash-pinned, and seated by the
+arbiter. Six rounds, one day.
+
 ## The trap this project keeps falling into
 
 A fix that is approved but not applied is worse than no fix: it reads as done.

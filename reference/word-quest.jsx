@@ -119,7 +119,7 @@ const SENTENCES = {
     { id: "s:cur-l4-02", text: "A rat is in the van!" }, { id: "s:cur-l4-04", text: "He ran to the van." },
     { id: "s:cur-l4-05", text: "Dad is mad at the rat." }, { id: "s:r5-03", text: "The fan is on." },
     { id: "s:r5-04", text: "My pal is sad." }, { id: "s:r5-05", text: "He had a bad nap." },
-    { id: "s:r5-06", text: "The rag is on the van." },
+    { id: "s:r5-06", text: "The rag is on the van." }, { id: "s:r6-03", text: "A rat is in the pan!" },
   ],
   5: [
     { id: "s:mode-b3-s07", text: "The cat sat on my lap." }, { id: "s:mode-wm-wm21", text: "Zap me!" },
@@ -147,7 +147,7 @@ const SENTENCES = {
     { id: "s:cur-l8-02", text: "I got six." }, { id: "s:cur-l8-03", text: "He hit the top." },
     { id: "s:cur-l8-04", text: "The pin is in the bin." }, { id: "s:cur-l8-05", text: "Dip it in the jam." },
     { id: "s:r5-13", text: "Did we win?" }, { id: "s:r5-14", text: "The top is in the bin." },
-    { id: "s:r5-15", text: "I had a sip." },
+    { id: "s:r5-15", text: "I had a sip." }, { id: "s:r6-04", text: "Did you win a pin?" },
   ],
   9: [
     { id: "s:mode-s08", text: "You can hop to the top." }, { id: "s:mode-b3-s11", text: "A fox ran to the log." },
@@ -182,7 +182,7 @@ const SENTENCES = {
     { id: "s:mode-b2-s02", text: "Can you get my red cap?" }, { id: "s:mode-b2-s07", text: "The bug ran up my leg." },
     { id: "s:mode-b2-s14", text: "The cat had the nap on my rug." }, { id: "s:mode-b2-s18", text: "The van is in the mud." },
     { id: "s:r5-25", text: "The pup dug in the mud." }, { id: "s:r5-26", text: "A bug is on the web." },
-    { id: "s:r5-27", text: "I get a hug." },
+    { id: "s:r5-27", text: "I get a hug." }, { id: "s:r6-05", text: "I hum to my pup." },
   ],
   14: [
     { id: "s:mode-s10", text: "Mom said yes to you." }, { id: "s:mode-s16", text: "The kid can zip and run." },
@@ -196,6 +196,7 @@ const SENTENCES = {
     { id: "s:mode-b2-s10", text: "Dad has the job in the shop." }, { id: "s:mode-b3-s16", text: "My chum can wash the dish." },
     { id: "s:mode-b3-s17", text: "The shop had a red cap." }, { id: "s:r5-30", text: "The fish is on the dish." },
     { id: "s:r5-31", text: "I wish I had a ship." }, { id: "s:r5-32", text: "Hush! The pup is in bed." },
+    { id: "s:r6-01", text: "We got fish at the shop." }, { id: "s:r6-06", text: "Mom can chop and mash." },
   ],
   16: [
     { id: "s:mode-s11", text: "The duck is wet." }, { id: "s:mode-s13", text: "The king can sing." },
@@ -210,14 +211,14 @@ const SENTENCES = {
     { id: "s:mode-b2-s08", text: "You did not miss the bus." }, { id: "s:mode-b2-s09", text: "The king said yes to the quiz." },
     { id: "s:mode-b3-s18", text: "My doll fell on the hill." }, { id: "s:mode-b3-s19", text: "My pal can quiz us." },
     { id: "s:r5-33", text: "My doll fell in the mud." }, { id: "s:r5-34", text: "What a mess!" },
-    { id: "s:r5-35", text: "A bug can buzz and hum." },
+    { id: "s:r5-35", text: "A bug can buzz and hum." }, { id: "s:r6-02", text: "I can tell you a lot." },
   ],
   18: [
     { id: "s:mode-b2-s03", text: "The chick is in the shed." }, { id: "s:mode-b2-s20", text: "The moth is on the shell." },
     { id: "s:mode-b3-s20", text: "The chick is on my thumb." }, { id: "s:mode-b3-s21", text: "A duck can quack." },
     { id: "s:mode-b3-s22", text: "Check the thick shell." }, { id: "s:r5-36", text: "Quick! Get on the bus." },
     { id: "s:r5-37", text: "The shell is thick." }, { id: "s:r5-38", text: "Can you win at chess?" },
-    { id: "s:r5-39", text: "I hid in the shack." },
+    { id: "s:r5-39", text: "I hid in the shack." }, { id: "s:r6-07", text: "We knock on the shed." },
   ],
   19: [
     { id: "s:mode-b3-s23", text: "The gift is in my hand." }, { id: "s:mode-b3-s24", text: "The tent is in the sand." },
@@ -231,7 +232,7 @@ const SENTENCES = {
     { id: "s:mode-b3-s30", text: "Stop and grab my hand." }, { id: "s:mode-b3-s31", text: "The pup is snug in my lap." },
     { id: "s:r5-45", text: "I am so glad!" }, { id: "s:r5-46", text: "Do not slip on the step." },
     { id: "s:r5-47", text: "The pig swam in the mud." }, { id: "s:r5-48", text: "Stop at the spot." },
-    { id: "s:r5-49", text: "We drum and clap and spin." },
+    { id: "s:r5-49", text: "We drum and clap and spin." }, { id: "s:r6-08", text: "We grin and clap." },
   ],
 };
 

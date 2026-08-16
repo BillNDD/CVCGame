@@ -153,6 +153,9 @@ export const SCREENED_2026_08_15 = [
   "s:r5-41", "s:r5-42", "s:r5-43", "s:r5-44",
   "s:r5-45", "s:r5-46", "s:r5-47", "s:r5-48",
   "s:r5-49",
+  /* Round six, read the same day. */
+  "s:r6-01", "s:r6-02", "s:r6-03", "s:r6-04",
+  "s:r6-05", "s:r6-06", "s:r6-07", "s:r6-08",
 ];
 
 export function screen(sentences) {
