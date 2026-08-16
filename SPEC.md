@@ -970,7 +970,8 @@ sentences are made of the words that level teaches.
    same day, and the shipped pack's own sound and word clips.
 
 7. **Free play offers sentences too — owner-ruled 2026-08-13.** The chooser today asks
-   "which words?" and gives two answers: truly random from all 446, or this level's words.
+   "which words?" and gives two answers: truly random from the whole bank, or this level's
+   words (the chooser's copy owns the number; a copy of it here went stale once).
    It must also offer SENTENCES, so a child can practise reading them without a session.
    Free play's own promise is untouched and is what makes this safe: nothing is written to
    the record in free play, ever (design rule 1 and S1), so a sentence read there teaches
@@ -1114,6 +1115,14 @@ adult sense and no plural a child could produce. Every word was re-read against 
 rule with the 10-and-10 curriculum's re-cut lists in hand; the 2026-08-13 rulings all
 stand (keg, knob, pot, gash, bush, bang, whack, dam and puck stay; gob stays out), the
 words confirmed absent then were confirmed absent again, and nothing new was raised.
+
+**Re-screened 2026-08-16 before beta.21.** The bank counted **461 words** — fifteen new
+since the day-old whole-bank pass above: the fourteen plurals and romp, each read by the
+owner on the Cats and Dogs decision page, where the screen's one flag (cans, the jugs
+precedent) was upheld and the word held back. The ruled plural exclusions — jugs, buns,
+nuts, crabs — were re-verified absent by measurement, and every one of the 210 sentences
+carries a person's dated read, the twelve new ones from that same page and its listening
+round. Nothing else was raised.
 Every one of the **210 sentences** and the three invitation lines carries a person's
 dated read — 91 on 2026-08-13, the next batch on the 2026-08-15 round pages, and
 Level 21's twelve on the 2026-08-16 Cats and Dogs pages (one of them written by the
