@@ -761,7 +761,7 @@ happened to read the output.
   halves repository language is the tree talking, one stranger half is a person. The
   stated residue: someone named entirely in repository words is skipped here, exactly as
   each half already was by the single-word layers.
-- Keys: `g24_files` (191), `g24_controls` (41), `g24_vocab` (157), `g24_common` (890),
+- Keys: `g24_files` (191), `g24_controls` (41), `g24_vocab` (158), `g24_common` (890),
   `g24_surnames` (1000), problems capped at 0.
 - Run: `node tools/s9-names.mjs` and `--self-test`; both are in `npm run check`.
 
