@@ -1042,7 +1042,43 @@ recorded here. The write is gone, the flags it carried now print to the person r
 and G23 keeps a TOMBSTONE for the path — it fails the build if the file exists at all,
 tracked or not, so a future writer cannot resurrect it quietly.
 
-## O. A session link is in 184 commit messages — owner-found 2026-08-14
+## O. A session link is in 184 commit messages — owner-found 2026-08-14 — CLOSED 2026-08-16
+
+**CLOSED.** The one history rewrite ran on 2026-08-16 and the remote now serves it whole.
+The record of what was done, so the next reader trusts the proof rather than the claim:
+
+- **The rewrite**: `git filter-repo` (invoked as `python -m git_filter_repo`), one pass —
+  then a second identical pass when `ls-remote` surfaced a 26th ref the plan had missed:
+  `cursor/grok-refactor-page-4be7`, the faulted agent's own branch, carrying ALL 184
+  trailers and both name-bearing blobs, plus one real commit of its own, kept. The second
+  pass left every already-clean ref byte-identical, which is the strongest single proof
+  the pipeline is stable. Three redactions: every `Claude-Session:` trailer line dropped;
+  the owner-name path and slug forms in this file's history replaced with `(redacted)`;
+  the session id replaced with `(redacted)` everywhere including this entry's own quote.
+- **The proof, run twice independently** (this session's battery, then the owner's Opus
+  double-checker with its own commands): zero trailers across all refs; the given name in
+  zero blobs outside the two deliberate SSA-dataset entries of `tools/s9-common-names.json`;
+  session id and personal email in zero blobs; `git diff` old-head to new-head across the
+  bundle boundary = exactly one redacted line in this file and nothing else; per-commit
+  tree sampling 10 of 10 clean; all 25 then 26 refs mapped old-to-new by filter-repo's own
+  commit map.
+- **The push**: the owner ran every remote write by hand on 2026-08-16 — seven branches
+  force-pushed by SHA with leases pinned to the recorded old values, 19 tags deleted and
+  recut (the credential deleted them fine; the recorded "cannot delete tags" belief was
+  wrong for tag DELETION via push). `ls-remote` verified after: 26 of 26 refs match the
+  rewritten history, zero mismatches.
+- **What remains, named rather than dropped**: GitHub still holds `refs/pull/2/head`
+  pinning the old cursor-branch tip server-side, and any old commit stays fetchable by raw
+  SHA until GitHub runs a server gc — the Support ticket asking for that purge plus removal
+  of the PR ref is drafted and is the owner's to send, after which PR #2 can be closed. The
+  pre-scrub backups (`pre-scrub-backup.bundle`, `pre-scrub-cursor-branch.bundle`) stay in
+  the session scratchpad until the owner confirms end-to-end. The owner also holds the
+  cheapest mitigation independent of GitHub: revoking the old session at claude.ai kills
+  what the leaked pointer points at.
+
+The original entry follows, kept as the record of what was found and why each job existed.
+
+## O (original entry). A session link is in 184 commit messages — owner-found 2026-08-14
 
 The owner opened the commit page for `f221d69` on GitHub and found a `Claude-Session:`
 trailer at the foot of the message. Their words: the previous agent "started uploading every

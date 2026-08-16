@@ -462,6 +462,12 @@ describe("migrate", () => {
     expect(migrate({ version: 3, level: 99 }).level).toBe(20);
     expect(migrate({ version: 3, level: -5 }).level).toBe(1);
     expect(migrate({ version: 4, level: 99 }).level).toBe(21);
+    /* The half-level save: heal() rounds any fractional level BEFORE the
+       clamp ("a fractional one is rounded"), so 20.5 lands on 21 by design.
+       Pinned the night property P10's own stale 20-bound flagged it and an
+       agent nearly "fixed" the engine instead of the property (E4 literals). */
+    expect(migrate({ version: 4, level: 20.5 }).level).toBe(21);
+    expect(migrate({ version: 4, level: 20.4 }).level).toBe(20);
     expect(migrate({ version: 4, level: -5 }).level).toBe(1);
   });
   it("computes the v4 level at the same boundary promotion uses", () => {
