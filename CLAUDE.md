@@ -30,7 +30,7 @@ Fix it, record it honestly, and carry on.
 Chat replies are **scanned, not read** (owner-ruled 2026-08-11). Bullets, tables, short
 technical lines — not paragraphs. Length follows the density of what must be said, with no
 fixed budget. Emojis mark status and sections only, never mid-sentence: 🎧 round, ✅ closed,
-⚠️ needs the owner, 🐞 fault found, 📊 tally. Brevity never buys silence about a mistake, a
+⚠️ needs the owner, 🐞 fault found, 📊 tally, ⏳ working, 🎉 celebration. Brevity never buys silence about a mistake, a
 refusal, or a decision the owner must make — shorten the explanation, never drop the item.
 This applies to chat only; commit messages, `docs/`, SPEC and listening-page copy keep the
 Zinsser rule, because they must survive a context loss. `AGENTS.md` owns the full rule.

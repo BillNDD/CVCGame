@@ -87,8 +87,10 @@ durable record and must survive a context loss:
   something the owner needs.
 - **Emojis mark status and sections, never mid-sentence.** One leading emoji
   per line or heading: 🎧 a round, ✅ closed, ⚠️ needs the owner, 🐞 a fault
-  found, 📊 the tally. Enough to find the relevant line at a glance; never
-  decoration.
+  found, 📊 the tally, ⏳ working and slow with nothing needed from the owner,
+  🎉 a celebration for something that went particularly right (both
+  owner-blessed 2026-08-16). Enough to find the relevant line at a glance;
+  never decoration.
 - **A round delivery carries, at least:** the link, the tally, what is NEW this
   round, why the last round failed if it did, and any fault found in this
   project's own tooling. The owner reads for whatever is relevant at the time,
