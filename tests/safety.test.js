@@ -107,7 +107,10 @@ describe("G10 safety — S1: only an adult can record a result", () => {
     const word = await startWord();
     await adultGrades("✓ got it (hold)");
     expect(screen.getAllByText(/Great job! That is/).length).toBeGreaterThan(0);
-    const saved = mockSave.mock.calls.at(-1)[0].words[word];
+    /* The card shows the DISPLAY form ("I"); the save keys the bank form
+       ("i") — the one word where they differ, and a random first draw of it
+       made this lookup flake until the key was normalised. */
+    const saved = mockSave.mock.calls.at(-1)[0].words[word === "I" ? "i" : word];
     expect(saved.correct).toBe(1);
     expect(saved.close).toBe(0);
     expect(saved.wrong).toBe(0);
@@ -116,7 +119,7 @@ describe("G10 safety — S1: only an adult can record a result", () => {
   it("2a: a wrong result also needs the adult, and records exactly one", async () => {
     const word = await startWord();
     await adultGrades("↻ not yet (hold)");
-    const saved = mockSave.mock.calls.at(-1)[0].words[word];
+    const saved = mockSave.mock.calls.at(-1)[0].words[word === "I" ? "i" : word];
     expect(saved.wrong).toBe(1);
     expect(saved.correct).toBe(0);
     expect(saved.close).toBe(0);

@@ -137,6 +137,22 @@ export const SCREENED_2026_08_15 = [
   "s:cur-l11-03", "s:cur-l11-04", "s:cur-l11-05", "s:cur-l12-01",
   "s:cur-l12-02", "s:cur-l12-03", "s:cur-l12-04", "s:cur-l12-05",
   "s:cur-l12-06",
+  /* Round five, read on its page the same day (the s:r5 ids carry no
+     level on the build reviewer's advice - a seat is the arbiter's fact,
+     not an id's). */
+  "s:r5-01", "s:r5-02", "s:r5-03", "s:r5-04",
+  "s:r5-05", "s:r5-06", "s:r5-07", "s:r5-08",
+  "s:r5-09", "s:r5-10", "s:r5-11", "s:r5-12",
+  "s:r5-13", "s:r5-14", "s:r5-15", "s:r5-16",
+  "s:r5-17", "s:r5-18", "s:r5-19", "s:r5-20",
+  "s:r5-21", "s:r5-22", "s:r5-23", "s:r5-24",
+  "s:r5-25", "s:r5-26", "s:r5-27", "s:r5-28",
+  "s:r5-29", "s:r5-30", "s:r5-31", "s:r5-32",
+  "s:r5-33", "s:r5-34", "s:r5-35", "s:r5-36",
+  "s:r5-37", "s:r5-38", "s:r5-39", "s:r5-40",
+  "s:r5-41", "s:r5-42", "s:r5-43", "s:r5-44",
+  "s:r5-45", "s:r5-46", "s:r5-47", "s:r5-48",
+  "s:r5-49",
 ];
 
 export function screen(sentences) {

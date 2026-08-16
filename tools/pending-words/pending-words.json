@@ -2535,5 +2535,495 @@
   "round": "round 4 / 2026-08-15",
   "verdict": "arm C approved",
   "level": "heart-style word (new, seats L1 in the new curriculum)"
+ },
+ "s:r5-01": {
+  "arm": "s:r5-01",
+  "family": "sentence",
+  "ms": 896,
+  "sha256": "14f204766091dcaceeefaaa48267ecb3e46ab499ec254a43c2f35b07c234d006",
+  "round": "round 5 / 2026-08-15",
+  "verdict": "perfect",
+  "level": "L1",
+  "text": "It is I!"
+ },
+ "s:r5-02": {
+  "arm": "s:r5-02",
+  "family": "sentence",
+  "ms": 1088,
+  "sha256": "fd3cca7ddbe8d2eb8ef9313a3a2082453c0113ed573f42163dd0b938da3177f2",
+  "round": "round 5 / 2026-08-15",
+  "verdict": "perfect",
+  "level": "L3",
+  "text": "The bat had a nap."
+ },
+ "s:r5-03": {
+  "arm": "s:r5-03",
+  "family": "sentence",
+  "ms": 1045,
+  "sha256": "faa6e3b203668deadf3625cf555da5d3332c4d4da5343c7816bfbd3c0a934a6d",
+  "round": "round 5 / 2026-08-15",
+  "verdict": "perfect",
+  "level": "L4",
+  "text": "The fan is on."
+ },
+ "s:r5-04": {
+  "arm": "s:r5-04",
+  "family": "sentence",
+  "ms": 1130,
+  "sha256": "f5254487377537a20f5423a86d8988f4caf4ce824cd84a7c61704790e4917296",
+  "round": "round 5 / 2026-08-15",
+  "verdict": "perfect",
+  "level": "L4",
+  "text": "My pal is sad."
+ },
+ "s:r5-05": {
+  "arm": "s:r5-05",
+  "family": "sentence",
+  "ms": 1130,
+  "sha256": "ae919b6c891db6d719e7f7fb606ad893b8445973b0c0ec600f72832fb13ef001",
+  "round": "round 5 / 2026-08-15",
+  "verdict": "perfect",
+  "level": "L4",
+  "text": "He had a bad nap."
+ },
+ "s:r5-06": {
+  "arm": "s:r5-06",
+  "family": "sentence",
+  "ms": 1386,
+  "sha256": "70388668be26516fcfd56acc9eeac43d23360c95667ad561dfec9eb1cf4875f2",
+  "round": "round 5 / 2026-08-15",
+  "verdict": "perfect",
+  "level": "L4",
+  "text": "The rag is on the van."
+ },
+ "s:r5-07": {
+  "arm": "s:r5-07",
+  "family": "sentence",
+  "ms": 1237,
+  "sha256": "6370b5cc042164dd18416090793fc29673ca85f2627f8430056532d83c12899d",
+  "round": "round 5 / 2026-08-15",
+  "verdict": "perfect",
+  "level": "L5",
+  "text": "You and I can go."
+ },
+ "s:r5-08": {
+  "arm": "s:r5-08",
+  "family": "sentence",
+  "ms": 874,
+  "sha256": "99349d3a0e82880dcfb109316100c53163e9da7a21facc17bcdc431b4b3244db",
+  "round": "round 5 / 2026-08-15",
+  "verdict": "perfect",
+  "level": "L5",
+  "text": "So it is!"
+ },
+ "s:r5-09": {
+  "arm": "s:r5-09",
+  "family": "sentence",
+  "ms": 981,
+  "sha256": "8894555c29068314bebde1850003a596bcd73a29bf1ef586ae4394bce2c1edee",
+  "round": "round 5 / 2026-08-15",
+  "verdict": "perfect",
+  "level": "L5",
+  "text": "We had a yam."
+ },
+ "s:r5-10": {
+  "arm": "s:r5-10",
+  "family": "sentence",
+  "ms": 917,
+  "sha256": "2c513c43d1abdc408739f7d446d7ea7370e60654f31e1ac59a6a51506fd74715",
+  "round": "round 5 / 2026-08-15",
+  "verdict": "perfect",
+  "level": "L5",
+  "text": "I can rap."
+ },
+ "s:r5-11": {
+  "arm": "s:r5-11",
+  "family": "sentence",
+  "ms": 1216,
+  "sha256": "2ac7b1d771a2dc45e5b8875c8bc83e89a3be0ac878d4bd1f3eb1b92bdc91e3b9",
+  "round": "round 5 / 2026-08-15",
+  "verdict": "perfect",
+  "level": "L6",
+  "text": "The dog has a nap."
+ },
+ "s:r5-12": {
+  "arm": "s:r5-12",
+  "family": "sentence",
+  "ms": 1109,
+  "sha256": "995faf278b09f2a8793133851bef033185001bdd9de9a8f7112dfc6947133ca8",
+  "round": "round 5 / 2026-08-15",
+  "verdict": "perfect",
+  "level": "L7",
+  "text": "The pot is hot."
+ },
+ "s:r5-13": {
+  "arm": "s:r5-13",
+  "family": "sentence",
+  "ms": 874,
+  "sha256": "74a2a641fb408be1d5e5fe9465f26dcdb847814cb677f67b3266cf7b41c8b018",
+  "round": "round 5 / 2026-08-15",
+  "verdict": "perfect",
+  "level": "L8",
+  "text": "Did we win?"
+ },
+ "s:r5-14": {
+  "arm": "s:r5-14",
+  "family": "sentence",
+  "ms": 1322,
+  "sha256": "dfe402705dd24fdfad30c696ea37980209dbff08d58cfe99e581218a26658102",
+  "round": "round 5 / 2026-08-15",
+  "verdict": "perfect",
+  "level": "L8",
+  "text": "The top is in the bin."
+ },
+ "s:r5-15": {
+  "arm": "s:r5-15",
+  "family": "sentence",
+  "ms": 1066,
+  "sha256": "826faba5c83437ee0aeb7f453f4c5796c82a4a53ef37816f80f2b3f298ae954c",
+  "round": "round 5 / 2026-08-15",
+  "verdict": "perfect",
+  "level": "L8",
+  "text": "I had a sip."
+ },
+ "s:r5-16": {
+  "arm": "s:r5-16",
+  "family": "sentence",
+  "ms": 1216,
+  "sha256": "01d90627a528c22b2d094d5d7162943698bb424c5a5b7415b0d68825f802a29d",
+  "round": "round 5 / 2026-08-15",
+  "verdict": "perfect",
+  "level": "L10",
+  "text": "I can mop a lot."
+ },
+ "s:r5-17": {
+  "arm": "s:r5-17",
+  "family": "sentence",
+  "ms": 1152,
+  "sha256": "459e6d259eaee078ce6ac193a2159bff5d57da370b7cb42af62d54c1648f4d69",
+  "round": "round 5 / 2026-08-15",
+  "verdict": "perfect",
+  "level": "L10",
+  "text": "Did the hog nod?"
+ },
+ "s:r5-18": {
+  "arm": "s:r5-18",
+  "family": "sentence",
+  "ms": 1152,
+  "sha256": "3c9216176b81e6fdccc70a5b5c0eda7ea15ad072d7d7118d0909eab3cef93fc1",
+  "round": "round 5 / 2026-08-15",
+  "verdict": "perfect",
+  "level": "L10",
+  "text": "Fix the rip in it."
+ },
+ "s:r5-19": {
+  "arm": "s:r5-19",
+  "family": "sentence",
+  "ms": 1344,
+  "sha256": "2b6f20087add4d227315293bdbb1da73b87258cf0e49c392c4c850e874bc2b93",
+  "round": "round 5 / 2026-08-15",
+  "verdict": "perfect",
+  "level": "L10",
+  "text": "The tin is in the bin."
+ },
+ "s:r5-20": {
+  "arm": "s:r5-20",
+  "family": "sentence",
+  "ms": 960,
+  "sha256": "1e67e271fb37312ef06acba77ea13f98a0c3464ed198249580756d7ab5d8ccb5",
+  "round": "round 5 / 2026-08-15",
+  "verdict": "perfect",
+  "level": "L10",
+  "text": "A big rig!"
+ },
+ "s:r5-21": {
+  "arm": "s:r5-21",
+  "family": "sentence",
+  "ms": 1045,
+  "sha256": "0a1e07ab2c9904532ae26c4e8d13bc01ccbb6b33de42a7b901bf2fc1c17f5ed8",
+  "round": "round 5 / 2026-08-15",
+  "verdict": "perfect",
+  "level": "L11",
+  "text": "I am in bed."
+ },
+ "s:r5-22": {
+  "arm": "s:r5-22",
+  "family": "sentence",
+  "ms": 1301,
+  "sha256": "e84bb53acb2c5a0e754704fae3828628095b2c88087630df9ba7b03776a5b857",
+  "round": "round 5 / 2026-08-15",
+  "verdict": "perfect",
+  "level": "L11",
+  "text": "A cop has a job."
+ },
+ "s:r5-23": {
+  "arm": "s:r5-23",
+  "family": "sentence",
+  "ms": 1024,
+  "sha256": "777c5300ccf4eb8c6e9dd49c76461b9763e517dd759fbdf23105c5c635933451",
+  "round": "round 5 / 2026-08-15",
+  "verdict": "perfect",
+  "level": "L11",
+  "text": "Ten in the bed!"
+ },
+ "s:r5-24": {
+  "arm": "s:r5-24",
+  "family": "sentence",
+  "ms": 1429,
+  "sha256": "2375c7083421c1d1076687534e3047cc986926b9c76f3802a2bc86caa986f06c",
+  "round": "round 5 / 2026-08-15",
+  "verdict": "perfect",
+  "level": "L11",
+  "text": "The red pen is in the tin."
+ },
+ "s:r5-25": {
+  "arm": "s:r5-25",
+  "family": "sentence",
+  "ms": 1322,
+  "sha256": "98fe21851373e51e6ce71d699361a70f941f0cc8a2f11b0c156e586d2c3602d8",
+  "round": "round 5 / 2026-08-15",
+  "verdict": "perfect",
+  "level": "L13",
+  "text": "The pup dug in the mud."
+ },
+ "s:r5-26": {
+  "arm": "s:r5-26",
+  "family": "sentence",
+  "ms": 1258,
+  "sha256": "c7d534dde247f5548650757cf54582fd01d9374837d222fce9a89b2773310cc2",
+  "round": "round 5 / 2026-08-15",
+  "verdict": "perfect",
+  "level": "L13",
+  "text": "A bug is on the web."
+ },
+ "s:r5-27": {
+  "arm": "s:r5-27",
+  "family": "sentence",
+  "ms": 960,
+  "sha256": "1de8777ecf631b35a34091f38d6a161fa46bb26573e7cd1f54d5b502b7dc75bd",
+  "round": "round 5 / 2026-08-15",
+  "verdict": "perfect",
+  "level": "L13",
+  "text": "I get a hug."
+ },
+ "s:r5-28": {
+  "arm": "s:r5-28",
+  "family": "sentence",
+  "ms": 1322,
+  "sha256": "4538046980d5781aa9122761ef12062abd898c6c3a1672cf58e0b4f8a843bf8d",
+  "round": "round 5 / 2026-08-15",
+  "verdict": "perfect",
+  "level": "L14",
+  "text": "The cub is in the den."
+ },
+ "s:r5-29": {
+  "arm": "s:r5-29",
+  "family": "sentence",
+  "ms": 1280,
+  "sha256": "da5f8dc7e0245a4bb78d5e284970088d6f1736339ef85af39cb7366c515180e3",
+  "round": "round 5 / 2026-08-15",
+  "verdict": "perfect",
+  "level": "L14",
+  "text": "We jog in the fog."
+ },
+ "s:r5-30": {
+  "arm": "s:r5-30",
+  "family": "sentence",
+  "ms": 1365,
+  "sha256": "c2149a0565e3e9029b93b6a52445cd75e4e208e59a9b3aa9db99bc974bbb04a8",
+  "round": "round 5 / 2026-08-15",
+  "verdict": "perfect",
+  "level": "L15",
+  "text": "The fish is on the dish."
+ },
+ "s:r5-31": {
+  "arm": "s:r5-31",
+  "family": "sentence",
+  "ms": 1258,
+  "sha256": "38429930c7ec41054b907472a9f5edc109578a1555574af2300cb176aa9c0c7a",
+  "round": "round 5 / 2026-08-15",
+  "verdict": "perfect",
+  "level": "L15",
+  "text": "I wish I had a ship."
+ },
+ "s:r5-32": {
+  "arm": "s:r5-32",
+  "family": "sentence",
+  "ms": 1557,
+  "sha256": "c4e4e26339178a6e6e5f5bab7ee83f26c17072d62c7821ed058d8e04dce1a9d6",
+  "round": "round 5 / 2026-08-15",
+  "verdict": "good",
+  "level": "L15",
+  "text": "Hush! The pup is in bed."
+ },
+ "s:r5-33": {
+  "arm": "s:r5-33",
+  "family": "sentence",
+  "ms": 1450,
+  "sha256": "1e0cdff80545e24379600008ebd7dd945cb9144d3d61900c0d95a41b183a0cc6",
+  "round": "round 5 / 2026-08-15",
+  "verdict": "perfect",
+  "level": "L17",
+  "text": "My doll fell in the mud."
+ },
+ "s:r5-34": {
+  "arm": "s:r5-34",
+  "family": "sentence",
+  "ms": 896,
+  "sha256": "400828c8a68c5eac3eabc94390c9ddd292ee43d015ace700da66b03837551ab2",
+  "round": "round 5 / 2026-08-15",
+  "verdict": "perfect",
+  "level": "L17",
+  "text": "What a mess!"
+ },
+ "s:r5-35": {
+  "arm": "s:r5-35",
+  "family": "sentence",
+  "ms": 1450,
+  "sha256": "65c098ee31408e8b83d2546ae36c81bec1b71bf097a331b1e877aa7050cecb12",
+  "round": "round 5 / 2026-08-15",
+  "verdict": "perfect",
+  "level": "L17",
+  "text": "A bug can buzz and hum."
+ },
+ "s:r5-36": {
+  "arm": "s:r5-36",
+  "family": "sentence",
+  "ms": 1237,
+  "sha256": "0337e4a1adbd7def5c6bbca09f7b77024a72387c46f95da4845b03fc3e3e3ac8",
+  "round": "round 5 / 2026-08-15",
+  "verdict": "perfect",
+  "level": "L18",
+  "text": "Quick! Get on the bus."
+ },
+ "s:r5-37": {
+  "arm": "s:r5-37",
+  "family": "sentence",
+  "ms": 1152,
+  "sha256": "a5d9d0c0f8fd36d830d060883301b78ffde55c87fba6b6e99188769241bfab5b",
+  "round": "round 5 / 2026-08-15",
+  "verdict": "perfect",
+  "level": "L18",
+  "text": "The shell is thick."
+ },
+ "s:r5-38": {
+  "arm": "s:r5-38",
+  "family": "sentence",
+  "ms": 1216,
+  "sha256": "a74ffdc0af1506e0054ea6e907b5fa22904c8e82e82ce66edf8d845c3511f88a",
+  "round": "round 5 / 2026-08-15",
+  "verdict": "perfect",
+  "level": "L18",
+  "text": "Can you win at chess?"
+ },
+ "s:r5-39": {
+  "arm": "s:r5-39",
+  "family": "sentence",
+  "ms": 1173,
+  "sha256": "54d5b64e9630d189c29f7bcac0073e8fa2253c52461359ce063fb43bc4444ba1",
+  "round": "round 5 / 2026-08-15",
+  "verdict": "perfect",
+  "level": "L18",
+  "text": "I hid in the shack."
+ },
+ "s:r5-40": {
+  "arm": "s:r5-40",
+  "family": "sentence",
+  "ms": 1429,
+  "sha256": "73eea73f3649be28b010969be1bc94cf832ae939f1cb29c5fd2289159a2b31b2",
+  "round": "round 5 / 2026-08-15",
+  "verdict": "perfect",
+  "level": "L19",
+  "text": "An ant is on my hand."
+ },
+ "s:r5-41": {
+  "arm": "s:r5-41",
+  "family": "sentence",
+  "ms": 1557,
+  "sha256": "e13d9258e2647e8259a8b86215781fc8195002f4248c1678b1d293364e8ef583",
+  "round": "round 5 / 2026-08-15",
+  "verdict": "perfect",
+  "level": "L19",
+  "text": "We set up camp at the pond."
+ },
+ "s:r5-42": {
+  "arm": "s:r5-42",
+  "family": "sentence",
+  "ms": 1216,
+  "sha256": "5c60427d10051da2e064b25144ef45b4964c2432e1d74523b41594835e7bc669",
+  "round": "round 5 / 2026-08-15",
+  "verdict": "perfect",
+  "level": "L19",
+  "text": "I can help you pack."
+ },
+ "s:r5-43": {
+  "arm": "s:r5-43",
+  "family": "sentence",
+  "ms": 1109,
+  "sha256": "d1c42abaf9c04d6ab8e502751637819aba3fe766b7bfb997ee6a6fb6a89ff456",
+  "round": "round 5 / 2026-08-15",
+  "verdict": "perfect",
+  "level": "L19",
+  "text": "Jump in the sand!"
+ },
+ "s:r5-44": {
+  "arm": "s:r5-44",
+  "family": "sentence",
+  "ms": 1408,
+  "sha256": "3b0680623aa1a40060d702983b098198ed205de7518b4c4d9aa3dfa9de0eb999",
+  "round": "round 5 / 2026-08-15",
+  "verdict": "perfect",
+  "level": "L19",
+  "text": "The lamp is on the desk."
+ },
+ "s:r5-45": {
+  "arm": "s:r5-45",
+  "family": "sentence",
+  "ms": 1088,
+  "sha256": "d12389de5bd374e5b272d7527daada6f14dc27cb74714581d1581c89dc709df3",
+  "round": "round 5 / 2026-08-15",
+  "verdict": "perfect",
+  "level": "L20",
+  "text": "I am so glad!"
+ },
+ "s:r5-46": {
+  "arm": "s:r5-46",
+  "family": "sentence",
+  "ms": 1408,
+  "sha256": "1349984ff594cb9b630f2ceb79fa4219d93bb991ac8f5414480ffda45aa74bcd",
+  "round": "round 5 / 2026-08-15",
+  "verdict": "perfect",
+  "level": "L20",
+  "text": "Do not slip on the step."
+ },
+ "s:r5-47": {
+  "arm": "s:r5-47",
+  "family": "sentence",
+  "ms": 1386,
+  "sha256": "efa4d6b0eb19eb9156a55d596ee3ae2986172379b0b454e57a40b8b05b597489",
+  "round": "round 5 / 2026-08-15",
+  "verdict": "perfect",
+  "level": "L20",
+  "text": "The pig swam in the mud."
+ },
+ "s:r5-48": {
+  "arm": "s:r5-48",
+  "family": "sentence",
+  "ms": 1152,
+  "sha256": "7cc1887005f119d64fb405f994ba574c021c03f7c79f5d0218938559250dcd04",
+  "round": "round 5 / 2026-08-15",
+  "verdict": "perfect",
+  "level": "L20",
+  "text": "Stop at the spot."
+ },
+ "s:r5-49": {
+  "arm": "s:r5-49",
+  "family": "sentence",
+  "ms": 1557,
+  "sha256": "efd6499362c03f803fc1d0fdaee781163ef3fafbd21d7be0b599a83989e5bde4",
+  "round": "round 5 / 2026-08-15",
+  "verdict": "perfect",
+  "level": "L20",
+  "text": "We drum and clap and spin."
  }
 }

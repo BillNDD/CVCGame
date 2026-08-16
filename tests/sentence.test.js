@@ -188,7 +188,7 @@ describe("the sentence inside a session", () => {
     expect(played[0][0]).toBe("l:wrong");
     /* Every mark reaches the SAME reveal — a stuck child hears the sentence
        read to them, which is S3's invitation kept. */
-    expect(/^s:(mode|cur)-/.test(played[0][2])).toBe(true);
+    expect(/^s:(mode-|cur-|r\d+-)/.test(played[0][2])).toBe(true);
   });
 
   it("0c: one attempt, one result — a second mark in the same window changes nothing", async () => {
@@ -217,7 +217,7 @@ describe("the sentence inside a session", () => {
        too long. */
     expect(plan[0].startsWith("p:")).toBe(true);
     expect(plan[1]).toBe("seam");
-    expect(/^s:(mode|cur)-/.test(plan[2])).toBe(true);
+    expect(/^s:(mode-|cur-|r\d+-)/.test(plan[2])).toBe(true);
     expect(plan[3]).toBe("seam");
     /* Point 2: the invitation takes the place the praise line usually holds,
        so the reveal a child meets here is the reveal they already know. */
@@ -420,18 +420,19 @@ describe("the sentence inside a session", () => {
 
   it("11 (free play): never runs out — the pool is dealt again from the top", async () => {
     await openSentenceFreePlay();
-    /* Level 1 owns five sentences, so the sixth press must come back round
-       rather than ending the session or showing an empty stage. */
+    /* Level 1 owns six sentences since round five seated "It is I!", so the
+       seventh press must come back round rather than ending the session or
+       showing an empty stage. */
     const seen = [];
-    for (let i = 0; i < 7; i += 1) {
+    for (let i = 0; i < 8; i += 1) {
       seen.push(swords().map((b) => b.textContent).join(" "));
       await markSentence();
       fireEvent.click(advance());
       await flush(0);
       expect(sentenceEl()).toBeTruthy();
     }
-    expect(new Set(seen.slice(0, 5)).size).toBe(5);      // all five, no repeat
-    expect(seen[5]).toBe(seen[0]);                        // then round again, in the same order
+    expect(new Set(seen.slice(0, 6)).size).toBe(6);      // all six, no repeat
+    expect(seen[6]).toBe(seen[0]);                        // then round again, in the same order
     expect(screen.queryByText("Session complete")).toBeNull();
   });
 

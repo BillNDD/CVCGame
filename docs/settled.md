@@ -1303,6 +1303,29 @@ where ten is honest. The two levers that could widen the space — seating anoth
 Level 1, or ruling chants a legitimate Level 1 shape — were offered and not taken; the
 chant question may return with round five's own chant candidate.
 
+## Sentence round five — the pools grow toward ten, and the chant shape dies (2026-08-15) — closed
+
+Fifty-nine candidates went to the owner's ear to grow every thin level toward the
+ten-per-level target. **Forty-eight came back perfect and one good — 49 shipped the same
+day** as ids `s:r5-01` through `s:r5-49` (level-free ids, on the build reviewer's advice
+that a seat is the arbiter's fact, not an id's). Most levels now hold ten sentences;
+`tools/pending-words/` holds every winner's exact bytes with its verdict and hash.
+
+**The chant shape is refused by ear, five of five**: "Up, up, up!", "A rat! A rat!",
+"A fin! A fin!", "Knock, knock!" and "Clap, clap, clap!" all came back "no good option" in
+one round. A repeated-word exclamation is not a sentence this owner wants a child to meet,
+whatever level it sits at. Do not offer the shape again — this closes the chant lever that
+the Level 1 decision page had left open.
+
+Also refused: "Let us hum." and "She can chop and mash." One iterates: "Am I up?" (L1).
+Two came back with no verdict at all — "We got fish at the shop." and "I can tell you a
+lot." — and a skipped card is a question not yet asked, never a refusal: both re-offer in
+round six unchanged.
+
+Level 1 rests at six sentences: its space is nearly spent, the chant lever is gone, and
+the owner's "never padded" rule holds. The ten-per-level target stays open only where ten
+honest sentences exist.
+
 ## The trap this project keeps falling into
 
 A fix that is approved but not applied is worse than no fix: it reads as done.
