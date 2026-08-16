@@ -15,6 +15,12 @@ This document follows the Microsoft Writing Style Guide.
 Version 6 adds the standalone progressive web app. The reference build does not change.
 The first app version is 1.0.0-beta.1. The app stays in beta until version 1.0 is ready.
 
+- New in 1.0.0-beta.21: a new level at the top — Level 21, Cats and Dogs 🐾. Fourteen
+  plural words (cats, dogs, cups, hens and friends) teach the two sounds a plural s can
+  make: /s/ after a quiet ending, /z/ after a noisy one — sound one out and hear it say
+  "dogz", exactly the way we all say it. Twelve new sentences come with it, every one
+  read and approved by ear, and one new word — romp — joins Tent Camp where it always
+  belonged. Free play's truly-random pool grows to all 461 words.
 - New in 1.0.0-beta.20: the game now starts at the very beginning. Five PRE-LEVELS sit
   before Level 1 for a child who does not yet know what letters say. Pre 1 is listening
   only: the app says a short word in pieces — "a … t" — and your child says the word they

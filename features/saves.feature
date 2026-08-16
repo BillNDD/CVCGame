@@ -35,7 +35,7 @@ Feature: Saved data survives anything
   Scenario: An out-of-range level clamps to the top
     Given a version 4 save with level 99
     When the save loads
-    Then the player is on level 20
+    Then the player is on level 21
 
   Scenario: An out-of-range box clamps
     Given a save where the word "cat" sits in box 99

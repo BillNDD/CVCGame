@@ -37,9 +37,9 @@ Feature: Level promotion
     Then the player stays on Level 1
 
   Scenario: The last level has no promotion
-    Given a player on Level 20 with 29 of the 29 words at box 5
+    Given a player on Level 21 with 14 of the 14 words at box 5
     When the session ends
-    Then the player stays on Level 20
+    Then the player stays on Level 21
 
   Scenario: Two perfect sessions in a row promote
     Given a player on Level 2 with 5 of the 12 words at box 3

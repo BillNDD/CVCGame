@@ -70,10 +70,12 @@ const LEVELS = [
   { n: 19, name: "Tent Camp", emoji: "⛺", focus: "blends at the end",
     words: ["ant","ask","band","belt","bend","best","bolt","bond","bump","camp","cost","damp","dent","desk","dusk","end","fast","fond","gift","gulf",
       "gulp","hand","help","hint","jump","just","kept","lamp","land","last","left","lend","lift","list","mask","melt","mend","milk","mint","must",
-      "nest","pond","pump","raft","rest","risk","sand","sift","silk","soft","task","tent","wilt"] },
+      "nest","pond","pump","raft","rest","risk","romp","sand","sift","silk","soft","task","tent","wilt"] },
   { n: 20, name: "Twin Drums", emoji: "🥁", focus: "blends at the start",
     words: ["brag","clap","drop","drum","flag","flat","glad","grab","grin","plan","plum","slam","sled","slid","slip","snap","snug","spin","spot","stem",
       "step","stop","swam","swim","trap","trim","trip","twig","twin"] },
+  { n: 21, name: "Cats and Dogs", emoji: "🐾", focus: "one becomes many",
+    words: ["beds","bugs","cats","cups","dogs","hats","hens","kids","lids","maps","pens","pigs","pots","tops"] },
 ];
 
 /* THE SENTENCES, one list per level (SPEC section 12).
@@ -233,6 +235,14 @@ const SENTENCES = {
     { id: "s:r5-45", text: "I am so glad!" }, { id: "s:r5-46", text: "Do not slip on the step." },
     { id: "s:r5-47", text: "The pig swam in the mud." }, { id: "s:r5-48", text: "Stop at the spot." },
     { id: "s:r5-49", text: "We drum and clap and spin." }, { id: "s:r6-08", text: "We grin and clap." },
+  ],
+  21: [
+    { id: "s:r7-01", text: "The kids grab the cups." }, { id: "s:r7-02", text: "The dogs dig in the sand." },
+    { id: "s:r7-03", text: "The kids get red hats." }, { id: "s:r7-04", text: "The lids fit on the pots." },
+    { id: "s:r7-05", text: "Six hens sat in the mud." }, { id: "s:r7-06", text: "The bugs hop on the pots." },
+    { id: "s:r7-07", text: "The pigs dig in the mud." }, { id: "s:r7-08", text: "The maps rest on the desk." },
+    { id: "s:r7-09", text: "The dogs run to the pond to swim." }, { id: "s:r7-10", text: "The kids grab the cups and the pens." },
+    { id: "s:r7-11", text: "The bugs hop on the pots and lids." }, { id: "s:r7-12", text: "Pigs and hens romp in the wet mud." },
   ],
 };
 
@@ -866,6 +876,14 @@ const WORD_SOUND = {
   go: { 1: "long_o" }, no: { 1: "long_o" }, so: { 1: "long_o" },
   wash: { 1: "short_o" },
   is: { 1: "z" }, has: { 2: "z" },
+  /* The plural s that buzzes. After a voiced ending the plural s says /z/ —
+     dogz, not dogss — which is Level 21's whole lesson (owner-ruled
+     2026-08-16, SPEC section 12). These eight bend their last tile to the z
+     of "is" and "has" above; the six voiceless plurals of the same level
+     (cats, hats, pots, maps, cups, tops) keep the plain s and are absent
+     here on purpose. */
+  hens: { 3: "z" }, pigs: { 3: "z" }, bugs: { 3: "z" }, pens: { 3: "z" },
+  kids: { 3: "z" }, dogs: { 3: "z" }, beds: { 3: "z" }, lids: { 3: "z" },
   /* THE VOICED th. "th" spells two different sounds, and until 2026-08-11 the
      tile map sent both of them to th_quiet — the VOICELESS th of "thin", a
      puff of air with no voice in it. These five take the buzzing one, /ð/, and

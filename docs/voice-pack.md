@@ -149,13 +149,22 @@ byte-pinned word rather than replacing accepted audio with a render.
   sidecar workspace archive on the owner's PC
   (handoff `word-quest-uplift-handoff-2026-08-07T1438Z`).
 
-## Approved and unshipped: 25 items with no level yet (through 2026-08-15)
+## Approved and unshipped: 10 items with no level yet (through 2026-08-16)
 
-Twenty-five items are closed by the owner's ear and wait in `tools/pending-words/`
-for the levels and the code that will hold them: **19 words** — the plural-s
-words and the two-syllable compounds — and **six sentences**, named below with
-the reason each is waiting. Every one is graded `perfect`; the ledger names each
-with its round.
+Ten items are closed by the owner's ear and wait in `tools/pending-words/`
+for the levels and the code that will hold them: **four words** — cans (flagged
+to the waiting room by the owner's own roster ruling of 2026-08-16, the jugs
+precedent) and the three two-syllable compounds (sunset, laptop, catnip),
+which wait on the five-tile display ruling — and **six sentences**, named
+below with the reason each is waiting. Every one is graded `perfect`; the
+ledger names each with its round.
+
+**Fifteen words left this list on 2026-08-16**: the fourteen plurals of
+Level 21, Cats and Dogs, and romp into Level 19 — shipped by
+`tools/ship-words.py` as the exact bytes of batches 6, 11, 12 and 14,
+sha256-checked against the ledger pins before and after every copy. Twelve
+Level 21 sentences shipped the same day from listening round 7, every one
+graded perfect within hours of being rendered.
 
 **The 2026-08-15 batch shipped the night it was heard.** The 10-and-10
 curriculum's four listening rounds closed 55 winning sentences and the first

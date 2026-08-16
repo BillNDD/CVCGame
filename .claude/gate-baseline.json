@@ -30,7 +30,7 @@
   "g10_sentence_tests": 16,
   "g11_copy_rules": 5,
   "g12_qa_steps": 42,
-  "g13_clips": 710,
+  "g13_clips": 737,
   "g13_engine_tests": 13,
   "g14_update_tests": 18,
   "g14_worker_tests": 5,
@@ -64,7 +64,7 @@
   "g23_controls": 40,
   "filemap_history_max": 1,
   "g24_controls": 41,
-  "g24_files": 191,
+  "g24_files": 198,
   "g24_vocab": 158,
   "g24_common": 890,
   "g24_surnames": 1000

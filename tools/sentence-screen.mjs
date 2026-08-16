@@ -158,9 +158,20 @@ export const SCREENED_2026_08_15 = [
   "s:r6-05", "s:r6-06", "s:r6-07", "s:r6-08",
 ];
 
+/* Level 21's twelve, owner-read on the Cats and Dogs decision pages of
+   2026-08-16: seven kept by name on round one, one the owner WROTE
+   (s:r7-08, "The maps rest on the desk." — writing outranks reading), and
+   four kept by name on round two. Every clip then graded perfect in
+   listening round seven the same day. */
+export const SCREENED_2026_08_16 = [
+  "s:r7-01", "s:r7-02", "s:r7-03", "s:r7-04",
+  "s:r7-05", "s:r7-06", "s:r7-07", "s:r7-08",
+  "s:r7-09", "s:r7-10", "s:r7-11", "s:r7-12",
+];
+
 export function screen(sentences) {
   const problems = [];
-  const known = new Set([...SCREENED, ...SCREENED_2026_08_15]);
+  const known = new Set([...SCREENED, ...SCREENED_2026_08_15, ...SCREENED_2026_08_16]);
   for (const { id, text } of sentences) {
     const s = shape(text);
     if (s) problems.push(`refused by shape: ${id} ("${text}") — ${s}`);
@@ -172,7 +183,7 @@ export function screen(sentences) {
      sentence the game no longer shows is a record of a read that no longer
      protects anything, and it hides the next removal. */
   const shipped = new Set(sentences.map((s) => s.id));
-  for (const id of [...SCREENED, ...SCREENED_2026_08_15]) if (!shipped.has(id)) problems.push(`screened but not shipped: ${id} — remove it, or ship it`);
+  for (const id of [...SCREENED, ...SCREENED_2026_08_15, ...SCREENED_2026_08_16]) if (!shipped.has(id)) problems.push(`screened but not shipped: ${id} — remove it, or ship it`);
   return problems;
 }
 
@@ -236,6 +247,6 @@ if (process.argv.includes("--self-test")) {
 if (process.argv.length === 2) {
   const problems = screen(shippedSentences());
   problems.forEach((p) => console.log("  PROBLEM: " + p));
-  console.log(`Sentence screen: ${shippedSentences().length} sentences, screened ${SCREENED_ON} and 2026-08-15, ${problems.length} problems`);
+  console.log(`Sentence screen: ${shippedSentences().length} sentences, screened ${SCREENED_ON}, 2026-08-15 and 2026-08-16, ${problems.length} problems`);
   process.exit(problems.length ? 1 : 0);
 }

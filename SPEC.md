@@ -136,8 +136,9 @@ test pins that absence as a decision.
 | 16 | Word Wizard | th, wh, ck, ng + tricky words | thin this that then them bath math with when whip duck sock kick back ring sing king long song was buck sung gong lung puck wick rung muck pack path sack tack neck luck tuck peck deck thud rock lock pick lick wing tick dock moth hang sang rang sick fang what whim wham bang hung ding ping |
 | 17 | Bells | ll, ss, ff, zz + qu + silent letters | bell tell well fell hill mill doll mess boss kiss miss loss fuss huff puff cuff buzz fuzz jazz fizz quiz quit quip knit knob knot lamb |
 | 18 | Chicks | five-letter words | chick check chuck chess chill shack shock shell thick whack whiff whizz quick quack quill knock wreck wrong thumb wrap wren limb |
-| 19 | Tent Camp | blends at the end | ant ask band belt bend best bolt bond bump camp cost damp dent desk dusk end fast fond gift gulf gulp hand help hint jump just kept lamp land last left lend lift list mask melt mend milk mint must nest pond pump raft rest risk sand sift silk soft task tent wilt |
+| 19 | Tent Camp | blends at the end | ant ask band belt bend best bolt bond bump camp cost damp dent desk dusk end fast fond gift gulf gulp hand help hint jump just kept lamp land last left lend lift list mask melt mend milk mint must nest pond pump raft rest risk romp sand sift silk soft task tent wilt |
 | 20 | Twin Drums | blends at the start | brag clap drop drum flag flat glad grab grin plan plum slam sled slid slip snap snug spin spot stem step stop swam swim trap trim trip twig twin |
+| 21 | Cats and Dogs | the plural s: /s/ after quiet endings, /z/ after voiced | beds bugs cats cups dogs hats hens kids lids maps pens pigs pots tops |
 
 The table above is the one owner of the level word lists, and gate G16 holds it to the
 engine's `LEVELS`. A summary line of per-level counts stood here until 2026-08-15 and is
@@ -731,12 +732,15 @@ Levels, in order:
 1. Level 10, final blends (CVCC: hand, jump, milk). Research: final blends are easier than
    initial ones, so they come first.
 2. Level 11, initial blends (CCVC: stop, flag, swim).
-3. Level 12, plural and ending -s, a small level of its own (cats, hens, cups). The s says
-   /s/ after a quiet ending and /z/ after a voiced one; both clips exist.
-   **Nineteen approved words are waiting on this level and Level 13 — not on audio.** Every
-   sound they need already ships and every word clip is graded `perfect`. What is missing is
-   the level, its word list culled by the owner, and the plural exclusions CLAUDE.md already
-   requires: jug, bun, nut and crab have plurals that are ruled out.
+3. **SHIPPED 2026-08-16 as Level 21, Cats and Dogs** — the plural-s level, built the
+   evening after beta.20. The owner culled the roster to fourteen on a decision page
+   (cans waits in the ledger on the jugs precedent), romp took its seat in Level 19,
+   and twelve sentences passed the owner's read and listening round 7 the same day.
+   The s says /s/ after a quiet ending (cats, hats, pots, maps, cups, tops) and /z/
+   after a voiced one (hens, pigs, bugs, pens, kids, dogs, beds, lids) — the engine's
+   WORD_SOUND bends the eight voiced plurals to the z of "is". The ruled exclusions
+   stand: jug, bun, nut and crab have plurals that stay out. Of the nineteen waiting
+   words, the three compounds still wait on Level 13's display ruling below.
 4. Level 13, compound words (CVC+CVC: sunset, catnip, laptop) — the first two-syllable
    step, each half a word the child owns. Needs a ruling on how a word past five letters
    displays; the current tile row caps at five.
@@ -752,6 +756,25 @@ Levels, in order:
    `tools/pending-sounds/`. Shipping one is a file copy by `tools/ship-sounds.py`, not a
    listening round. `d:long_o` proved that on 2026-08-13, having been called unheard for
    three days while its `perfect` verdict sat in the ledger.
+
+   **THE TARGET VOCABULARY, owner-ruled 2026-08-16.** The road now has a
+   destination: "I would like for the game to cover at least these words by
+   the time we call it done" — the word index of the owner's phonics primer,
+   lessons 10 to 100, photographed and transcribed the same day. Of its 434
+   distinct words the owner refused fifteen on a decision page: thirteen
+   book-artifacts and character names (blap, ruck, ding, blam, biff, beagle,
+   boo, zzzz, ho, sam, let's, eagle's, don't — sam is also a given name the
+   S9 gate refuses), and gun, by the appropriateness screen. shot was
+   admitted by the owner's amendment — "Also shot is fine in the right
+   sentence" — the word may be taught; the sentence screen judges each use.
+   **The target is 420 words; 147 are covered by the 461-word bank as of
+   Level 21.** The uncovered words map onto the road above: vowel teams,
+   magic-e, r-controlled vowels, -ing forms, and the two-syllable stage. One
+   word is unresolved and waits on the owner: "hope" is both a target word
+   and an entry in the S9 gate's given-names list, whose own rule says it
+   only grows — excluding it needs the owner to move the g24_common floor.
+   Until that ruling the list itself stays out of the repository and this
+   paragraph is its record.
 
 8. **EXPANDING DOWN — the pre-level ladder. Owner-asked 2026-08-14; RULED and BUILT
    2026-08-15** (four verdicts on a decision page; `docs/settled.md` holds them). Five
@@ -1088,9 +1111,11 @@ adult sense and no plural a child could produce. Every word was re-read against 
 rule with the 10-and-10 curriculum's re-cut lists in hand; the 2026-08-13 rulings all
 stand (keg, knob, pot, gash, bush, bang, whack, dam and puck stay; gob stays out), the
 words confirmed absent then were confirmed absent again, and nothing new was raised.
-Every one of the **198 sentences** and the three invitation lines carries a person's
-dated read — 91 on 2026-08-13, the rest on the 2026-08-15 round pages — and the
-mechanical screen (shape, banned pairings, ledger) runs green over all of them.
+Every one of the **210 sentences** and the three invitation lines carries a person's
+dated read — 91 on 2026-08-13, the next batch on the 2026-08-15 round pages, and
+Level 21's twelve on the 2026-08-16 Cats and Dogs pages (one of them written by the
+owner, which outranks a read) — and the mechanical screen (shape, banned pairings,
+ledger) runs green over all of them.
 
 **The sentences are now inside this rule, and that is new.** All 88 shipped sentences and
 the three invitation lines were read one by one against the same test the words take:

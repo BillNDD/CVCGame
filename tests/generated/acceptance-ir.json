@@ -18,7 +18,7 @@
             },
             {
               "kind": "Then",
-              "text": "the export contains \"0/446\""
+              "text": "the export contains \"0/461\""
             }
           ],
           "examples": []
@@ -37,7 +37,7 @@
             },
             {
               "kind": "Then",
-              "text": "the export contains \"2/446\""
+              "text": "the export contains \"2/461\""
             }
           ],
           "examples": []
@@ -538,7 +538,7 @@
           "steps": [
             {
               "kind": "Given",
-              "text": "a player on Level 20 with 29 of the 29 words at box 5"
+              "text": "a player on Level 21 with 14 of the 14 words at box 5"
             },
             {
               "kind": "When",
@@ -546,7 +546,7 @@
             },
             {
               "kind": "Then",
-              "text": "the player stays on Level 20"
+              "text": "the player stays on Level 21"
             }
           ],
           "examples": []
@@ -840,7 +840,7 @@
             },
             {
               "kind": "Then",
-              "text": "the player is on level 20"
+              "text": "the player is on level 21"
             }
           ],
           "examples": []

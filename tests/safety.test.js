@@ -508,15 +508,15 @@ describe("G10 — free play never touches the save", () => {
 
   it("45: truly random draws from the whole bank, not the child's level", async () => {
     /* Math.random pinned high makes every draw take the end of the pool, so
-       the first word served is the bank's LAST word - "twin", deep in
-       Level 11. A fresh Level 1 save can never see it in a session or in
+       the first word served is the bank's LAST word - "tops", the tail of
+       Level 21. A fresh Level 1 save can never see it in a session or in
        level free play: buildSession serves Level 1 plus review only. The
        expected word is a literal on purpose (E4); if the bank ever gains a
        new last word, this is the line to update. */
     const spy = vi.spyOn(Math, "random").mockReturnValue(0.9999999);
     try {
       await enterFreePlay("🎲 Truly random");
-      expect(document.querySelector(".wq-word").textContent).toBe("twin");
+      expect(document.querySelector(".wq-word").textContent).toBe("tops");
       /* control: the SAME pin through the level door serves a Level 1 word -
          the pin alone cannot conjure "ping"; only the random door can. */
       cleanup();
@@ -545,7 +545,7 @@ describe("G10 — free play never touches the save", () => {
 
   it("47: a spent random block rolls into a fresh draw that never repeats the boundary word", async () => {
     /* Pinned at the top of the pool, the first block is the bank's last 20
-       words in reverse - "twin" first, "plan" last - with no repeats, since
+       words in reverse - "tops" first, "swim" last - with no repeats, since
        a repeat inside a block would collide with its own first result and be
        graded as a retry.
 
@@ -592,6 +592,15 @@ describe("G10 — free play never touches the save", () => {
        and the coincidence word are one index apart, which is exactly the
        discrimination this pin exists for.
 
+       The EIGHTH move (446 -> 461: Level 21's fourteen plurals and romp into
+       Level 19, 2026-08-16) was simulated against the real algorithm again.
+       The boundary word is now "swim" (the tail-20 block is the six last
+       Twin Drums words plus all fourteen plurals). Unguarded,
+       floor(0.955 x 461) = 440 is "swam"; guarded, floor(0.955 x 460) = 439
+       is "stop", and the refilled pool's same index is "swam" — guard and
+       coincidence one index apart once more, so 0.955 still discriminates
+       and keeps its seat.
+
        That the assertions never failed is the danger, not the comfort:
        nothing goes red while the reasoning quietly stops matching the code.
        Recompute all three numbers every time the bank moves, run them, and
@@ -605,15 +614,15 @@ describe("G10 — free play never touches the save", () => {
         await gradeOne("✓ got it (hold)");
       }
       seen.push(document.querySelector(".wq-word").textContent);
-      expect(seen[0]).toBe("twin");
-      expect(seen[19]).toBe("plan");
+      expect(seen[0]).toBe("tops");
+      expect(seen[19]).toBe("swim");
       expect(new Set(seen).size).toBe(20);
       spy.mockReturnValue(0.955);
       await gradeOne("✓ got it (hold)");
       expect(screen.getByText("20 words")).toBeTruthy();
-      expect(document.querySelector(".wq-word").textContent).toBe("grab");
+      expect(document.querySelector(".wq-word").textContent).toBe("stop");
       await gradeOne("✓ got it (hold)");
-      expect(document.querySelector(".wq-word").textContent).toBe("grin");
+      expect(document.querySelector(".wq-word").textContent).toBe("swam");
     } finally { spy.mockRestore(); }
   });
 });

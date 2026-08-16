@@ -3109,5 +3109,137 @@
   "verdict": "perfect",
   "level": "L20",
   "text": "We grin and clap."
+ },
+ "s:r7-01": {
+  "file": "s-r7-01.mp3",
+  "arm": "s:r7-01",
+  "family": "sentence",
+  "ms": 1809,
+  "sha256": "85089a3734be6058bcf31fef897babe1ae3803d5a234db1adf991949e3dd53bc",
+  "round": "round 7 / 2026-08-16",
+  "verdict": "perfect",
+  "level": "L21",
+  "text": "The kids grab the cups."
+ },
+ "s:r7-02": {
+  "file": "s-r7-02.mp3",
+  "arm": "s:r7-02",
+  "family": "sentence",
+  "ms": 1894,
+  "sha256": "0fc8dd8b042d4b4547567ed267577bc85f679e449cf539247dfb9aea24bb3af3",
+  "round": "round 7 / 2026-08-16",
+  "verdict": "perfect",
+  "level": "L21",
+  "text": "The dogs dig in the sand."
+ },
+ "s:r7-03": {
+  "file": "s-r7-03.mp3",
+  "arm": "s:r7-03",
+  "family": "sentence",
+  "ms": 1766,
+  "sha256": "a1bccb496f6a229da80274c3c1d3eef44310418552095ce1d363fc6f90c3e3a3",
+  "round": "round 7 / 2026-08-16",
+  "verdict": "perfect",
+  "level": "L21",
+  "text": "The kids get red hats."
+ },
+ "s:r7-04": {
+  "file": "s-r7-04.mp3",
+  "arm": "s:r7-04",
+  "family": "sentence",
+  "ms": 1852,
+  "sha256": "027f96692774ed6e89bd50e556daa482802bcdeee76c91ddee6b32a29a046a73",
+  "round": "round 7 / 2026-08-16",
+  "verdict": "perfect",
+  "level": "L21",
+  "text": "The lids fit on the pots."
+ },
+ "s:r7-05": {
+  "file": "s-r7-05.mp3",
+  "arm": "s:r7-05",
+  "family": "sentence",
+  "ms": 1830,
+  "sha256": "0e4a17405ac1103f75cd64ee0104a7b4f4b58a41403781dd6c81fd8ec8ddaaae",
+  "round": "round 7 / 2026-08-16",
+  "verdict": "perfect",
+  "level": "L21",
+  "text": "Six hens sat in the mud."
+ },
+ "s:r7-06": {
+  "file": "s-r7-06.mp3",
+  "arm": "s:r7-06",
+  "family": "sentence",
+  "ms": 1958,
+  "sha256": "9e7c69cbd4e9dd6247fbbf98ecfe973659ab95c6c9761b23bd8af98fa8bfe984",
+  "round": "round 7 / 2026-08-16",
+  "verdict": "perfect",
+  "level": "L21",
+  "text": "The bugs hop on the pots."
+ },
+ "s:r7-07": {
+  "file": "s-r7-07.mp3",
+  "arm": "s:r7-07",
+  "family": "sentence",
+  "ms": 1809,
+  "sha256": "c2b440e27a20432593511ebe02df1dd453754ddf7bd9d29718834412a4e21743",
+  "round": "round 7 / 2026-08-16",
+  "verdict": "perfect",
+  "level": "L21",
+  "text": "The pigs dig in the mud."
+ },
+ "s:r7-08": {
+  "file": "s-r7-08.mp3",
+  "arm": "s:r7-08",
+  "family": "sentence",
+  "ms": 1852,
+  "sha256": "a05b8dd6cc829c0cf390b067fb5efb2d2e9e7b063cc788eb3cafd0fd155fa189",
+  "round": "round 7 / 2026-08-16",
+  "verdict": "perfect",
+  "level": "L21",
+  "text": "The maps rest on the desk."
+ },
+ "s:r7-09": {
+  "file": "s-r7-09.mp3",
+  "arm": "s:r7-09",
+  "family": "sentence",
+  "ms": 2321,
+  "sha256": "00b4cfdddd8f7a9b95746ceaae0cd624ddfda2dbd7e0d72d5deea1df30bd9d7c",
+  "round": "round 7 / 2026-08-16",
+  "verdict": "perfect",
+  "level": "L21",
+  "text": "The dogs run to the pond to swim."
+ },
+ "s:r7-10": {
+  "file": "s-r7-10.mp3",
+  "arm": "s:r7-10",
+  "family": "sentence",
+  "ms": 2214,
+  "sha256": "ae0b8f6668e92b0aab360a28a5cbb2eed3eb232989245f4d8d6391e4da615422",
+  "round": "round 7 / 2026-08-16",
+  "verdict": "perfect",
+  "level": "L21",
+  "text": "The kids grab the cups and the pens."
+ },
+ "s:r7-11": {
+  "file": "s-r7-11.mp3",
+  "arm": "s:r7-11",
+  "family": "sentence",
+  "ms": 2278,
+  "sha256": "ad7518fdba6004d20a93d01e883f92aeb2af79096a2a60fd41e6be3959e8ccd7",
+  "round": "round 7 / 2026-08-16",
+  "verdict": "perfect",
+  "level": "L21",
+  "text": "The bugs hop on the pots and lids."
+ },
+ "s:r7-12": {
+  "file": "s-r7-12.mp3",
+  "arm": "s:r7-12",
+  "family": "sentence",
+  "ms": 2321,
+  "sha256": "f1b3c5ad02d75c7cfc8a23ccbf9514f464a4895414e35bfd146533d6aab99727",
+  "round": "round 7 / 2026-08-16",
+  "verdict": "perfect",
+  "level": "L21",
+  "text": "Pigs and hens romp in the wet mud."
  }
 }
