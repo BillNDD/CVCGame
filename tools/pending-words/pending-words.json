@@ -1286,6 +1286,7 @@
  "dogs": {
   "file": "w-dogs.mp3",
   "word": "dogs",
+  "arm": "dogs_7",
   "ms": 990,
   "sha256": "efe3c0de50d03a2e236d6cdc7d91294b6251135ae478df25808def59917b533e",
   "family": "say_sp0.8",
@@ -1296,6 +1297,7 @@
  "beds": {
   "file": "w-beds.mp3",
   "word": "beds",
+  "arm": "beds_1",
   "ms": 920,
   "sha256": "3ee45d632eac3328e64e1d162a873c6d103c5d794d593442711788bcc7ea79f4",
   "family": "listen_sp0.8",
@@ -1306,6 +1308,7 @@
  "tops": {
   "file": "w-tops.mp3",
   "word": "tops",
+  "arm": "tops_2",
   "ms": 990,
   "sha256": "e8998f2bd93723a21e76ce064ab729629258e13fc90ecdb10dfa583aa2328463",
   "family": "listen_sp0.8",
@@ -1406,6 +1409,7 @@
  "lids": {
   "file": "w-lids.mp3",
   "word": "lids",
+  "arm": "lids_4",
   "ms": 970,
   "sha256": "64d56bc22a396c0124ed537dac29ff33705ecd3c828b1c63fe678564f4bca8ad",
   "family": "stop_sp0.6",

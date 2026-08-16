@@ -630,6 +630,16 @@ shaping what the owner was offered.
 Both fixes carry controls: `python3 tools/verify.py --self-test` runs in `npm run check`
 and four planted mutants each turn it red.
 
+**Recovered 2026-08-16: the four missing arm ids.** The ledger entries for dogs, beds,
+tops and lids recorded family and byte pin but never the winning arm's id. The owner asked
+to settle it by ear; it settled by bytes instead: the original round pages still exist as
+artifacts, so every surviving arm was decoded and hashed against the ledger pins. Exact
+matches — dogs `dogs_7`, beds `beds_1`, tops `tops_2` on this batch's page, and lids
+`lids_4` on batch 14's. Two were already corroborated in prose (dogs on `say_sp0.8`
+above; lids on `stop_sp0.6` in batch 14), and the recorded families for beds and tops
+(`listen_sp0.8`) are consistent with their arm positions under this batch's build order.
+No re-render and no new listening was needed; a byte-identical match outranks both.
+
 ## Batch 11 — judged 2026-08-11: the frame finding, confirmed
 
 Twelve of eighteen perfect — cats, hats, pots, maps, cups, hens, pigs, bugs, pens, cans,
