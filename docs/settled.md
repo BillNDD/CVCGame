@@ -1453,7 +1453,11 @@ Fifty Famous Stories (9 passages), Mother Goose (8) and Aesop (4) arriving as th
 420-word target is taught — the road itself is what buys the shelves. These eleven wait
 for the passage stage's build: the whisper presentation ruled earlier today, clips
 through listening rounds, and the credit spoken at the end. Nothing here ships until
-then, and nothing here is re-offered to a future round as new.
+then, and nothing here is re-offered to a future round as new. **Listening round 8
+closed the same day: all 22 passage sentences and the three credit lines came back
+perfect on the first render** — the clips are byte-pinned in the waiting room under
+`s:r8-*`, and what remains for the build is the whisper screen and the tap-to-hear
+word clips for the passages' untaught words.
 
 ## The trap this project keeps falling into
 

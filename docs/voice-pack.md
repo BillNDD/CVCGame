@@ -149,9 +149,16 @@ byte-pinned word rather than replacing accepted audio with a render.
   sidecar workspace archive on the owner's PC
   (handoff `word-quest-uplift-handoff-2026-08-07T1438Z`).
 
-## Approved and unshipped: 10 items with no level yet (through 2026-08-16)
+## Approved and unshipped: 35 items with no level yet (through 2026-08-16)
 
-Ten items are closed by the owner's ear and wait in `tools/pending-words/`
+**Round 8 added twenty-five, all perfect on the first take (2026-08-16):** the eleven
+kept passages of docs/settled.md rendered sentence by sentence — 22 whole-sentence clips
+— plus the three credit lines the passage stage will speak, McGuffey's own name
+surviving the owner's ear unphonemised. They wait on the passage stage's build (the
+whisper screen and the tap-to-hear word clips), each byte-pinned in the ledger under
+`s:r8-*`.
+
+Ten older items are closed by the owner's ear and wait in `tools/pending-words/`
 for the levels and the code that will hold them: **four words** — cans (flagged
 to the waiting room by the owner's own roster ruling of 2026-08-16, the jugs
 precedent) and the three two-syllable compounds (sunset, laptop, catnip),
