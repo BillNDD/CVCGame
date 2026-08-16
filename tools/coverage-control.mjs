@@ -83,7 +83,9 @@ writeFileSync(join(root, "vitest.config.mjs"), `export default {
 
 let out = "";
 try {
-  out = execSync(`./node_modules/.bin/vitest run --coverage --root ${root}`, {
+  /* vitest through node itself, the mutant runners' own fix: a .bin shell
+     script is not executable under the Windows default shell. */
+  out = execSync(`"${process.execPath}" node_modules/vitest/vitest.mjs run --coverage --root ${root}`, {
     stdio: "pipe", encoding: "utf8", env: { ...process.env, NO_COLOR: "1" },
   });
 } catch (e) {

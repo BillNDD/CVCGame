@@ -18,10 +18,13 @@ const ok = (name) => { checks += 1; console.log(`ok ${checks}: ${name}`); };
 const fail = (name, detail) => { failures += 1; console.error(`FAIL: ${name} — ${detail}`); };
 
 if (!process.env.WQ_SKIP_BUILD) execSync("npm --prefix app run build", { stdio: "pipe" });
-const server = spawn("npx", ["vite", "preview", "--port", String(PORT), "--strictPort"], {
+/* vite through node itself: "npx" is not spawnable on Windows (ENOENT), the
+   same fault the mutant runners fixed on 2026-08-15. The bin path is the
+   app's own vite, resolved from the cwd the server runs in. */
+const server = spawn(process.execPath, ["node_modules/vite/bin/vite.js", "preview", "--port", String(PORT), "--strictPort"], {
   cwd: "app", stdio: "ignore", detached: true,
 });
-const stopServer = () => { try { process.kill(-server.pid); } catch {} };
+const stopServer = () => { try { process.platform === "win32" ? server.kill() : process.kill(-server.pid); } catch {} };
 for (let i = 0; i < 50; i++) {
   try { const r = await fetch(URL); if (r.ok) break; } catch {}
   await new Promise((r) => setTimeout(r, 200));
@@ -274,12 +277,17 @@ await audit("grown-ups");
   await rmHold.focus();
   await rmHold.press("Enter");
   await rmPage.locator(".wq-tile").first().waitFor();
-  /* The feedback screen carries exactly one animation under reduced motion, and
-     this check names it rather than counting to zero: the fill that crosses the
-     advance control is the only thing that says how much of the word is still
-     to come, so switching it off returns the child to a grey box with no
-     information in it (A1-004). Everything else must still be gone, and the
-     fill must still be there — both are asserted. */
+  /* B17 (2026-08-15): nothing is armed at grade time. On the PACK path the
+     clips schedule, the wait's length becomes known, and the fill appears —
+     the one animation that must survive reduced motion (A1-004). On the
+     FALLBACK path there is no known length and therefore no fill AT ALL, by
+     design ("no length means no fill"), so there is nothing to keep. Which
+     path ran is measured, not assumed — the same discipline as G7's timing
+     check — and each path gets its own honest assertion. */
+  const path = await Promise.race([
+    rmPage.locator(".wq-ctafill").waitFor({ timeout: 8000 }).then(() => "pack"),
+    rmPage.waitForFunction(() => { const b = document.querySelector(".wq-rail .wq-cta"); return !!b && !b.disabled; }, null, { timeout: 8000 }).then(() => "fallback"),
+  ]).catch(() => "neither");
   const rmFeedbackAnims = await rmPage.evaluate(() => document.getAnimations()
     .map((a) => (a.effect && a.effect.target ? String(a.effect.target.className) : "?")));
   const rmFill = rmFeedbackAnims.filter((c) => c.includes("wq-ctafill")).length;
@@ -287,8 +295,9 @@ await audit("grown-ups");
   if (rmHome + rmSession + rmMidHold + rmFeedbackOther === 0)
     ok("reduced motion: no animation on home, session, mid-hold, or feedback beyond the advance fill");
   else fail("reduced motion left animations running", JSON.stringify({ rmHome, rmSession, rmMidHold, rmFeedbackOther, rmFeedbackAnims }));
-  if (rmFill === 1) ok("reduced motion keeps the one animation that carries information: the advance fill");
-  else fail("the advance fill does not survive reduced motion", JSON.stringify({ rmFill, rmFeedbackAnims }));
+  if (path === "pack" && rmFill === 1) ok("reduced motion keeps the one animation that carries information: the advance fill (pack path)");
+  else if (path === "fallback" && rmFill === 0) ok("reduced motion on the fallback path: no fill exists to keep, and none was invented (B17)");
+  else fail("the advance fill does not match its path under reduced motion", JSON.stringify({ path, rmFill, rmFeedbackAnims }));
   await rmContext.close();
 }
 

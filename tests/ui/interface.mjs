@@ -28,10 +28,13 @@ let sentencesMet = 0;
 
 if (!process.env.WQ_SKIP_BUILD) execSync("npm --prefix app run build", { stdio: "pipe" });
 
-const server = spawn("npx", ["vite", "preview", "--port", String(PORT), "--strictPort"], {
+/* vite through node itself: "npx" is not spawnable on Windows (ENOENT), the
+   same fault the mutant runners fixed on 2026-08-15. The bin path is the
+   app's own vite, resolved from the cwd the server runs in. */
+const server = spawn(process.execPath, ["node_modules/vite/bin/vite.js", "preview", "--port", String(PORT), "--strictPort"], {
   cwd: "app", stdio: "ignore", detached: true,
 });
-const stopServer = () => { try { process.kill(-server.pid); } catch {} };
+const stopServer = () => { try { process.platform === "win32" ? server.kill() : process.kill(-server.pid); } catch {} };
 for (let i = 0; i < 50; i++) {
   try { const r = await fetch(URL); if (r.ok) break; } catch {}
   await new Promise((r) => setTimeout(r, 200));
@@ -40,10 +43,43 @@ for (let i = 0; i < 50; i++) {
 const executablePath = existsSync("/opt/pw-browsers/chromium") ? "/opt/pw-browsers/chromium" : undefined;
 const browser = await chromium.launch({ executablePath, args: ["--no-sandbox"] });
 
+/* A GRADUATED save is seeded before every word-session walk: since the
+   pre-level ladder (2026-08-15) a truly fresh install begins at Pre 1, and
+   the checks below measure the WORD session. Without the seed the walk was
+   silently measuring the pre screen - its letter also renders in .wq-word,
+   so twelve geometry checks passed on the wrong screen before the first
+   sentence check told the truth. The ladder gets its own checks further
+   down. */
+const storageSrcTop = readFileSync("app/src/storage.js", "utf8");
+const dbName = storageSrcTop.match(/DB_NAME = "([^"]+)"/)[1];
+const dbStore = storageSrcTop.match(/DB_STORE = "([^"]+)"/)[1];
+const GRADUATED = JSON.stringify({ version: 5, level: 1, preLevel: 0, prePerfectStreak: 0,
+  sessionsCompleted: 0, perfectStreak: 0, words: {}, log: [], pre: {}, settings: { sound: true, childName: "", lang: "en-US" } });
+async function seedSave(page, save) {
+  await page.goto(URL, { waitUntil: "load" });
+  /* The app's own first boot writes a fresh save; a put that races it can
+     lose and the walk then measures the pre-level screen (found when this
+     gate stranded on "Great listening today!"). Let the boot settle, then
+     overwrite, then reload into the seeded state. */
+  await page.getByRole("button", { name: "Begin Session" }).waitFor();
+  await page.waitForTimeout(400);
+  await page.evaluate(([db, store, key, s]) => new Promise((resolve, reject) => {
+    const rq = indexedDB.open(db, 1);
+    rq.onupgradeneeded = () => rq.result.createObjectStore(store);
+    rq.onsuccess = () => {
+      const tx = rq.result.transaction(store, "readwrite");
+      tx.objectStore(store).put(s, key);
+      tx.oncomplete = () => resolve(true);
+      tx.onerror = () => reject(tx.error);
+    };
+    rq.onerror = () => reject(rq.error);
+  }), [dbName, dbStore, STORE_KEY, save]);
+  await page.reload({ waitUntil: "load" });
+}
 async function startSession(context, viewport) {
   const page = await context.newPage();
   if (viewport) await page.setViewportSize(viewport);
-  await page.goto(URL, { waitUntil: "load" });
+  await seedSave(page, GRADUATED);
   await page.getByRole("button", { name: "Begin Session" }).click();
   await page.locator(".wq-word").waitFor();
   return page;
@@ -82,9 +118,15 @@ const pressNext = async (page) => {
     await gradeByKey(page, "✓ got it (hold)", "Enter");
     await page.locator(".wq-rail .wq-cta").click();
     await page.locator(".wq-word").waitFor();
+    sentencesMet += 1;   // counted HERE, so no call site can meet one silently
     return true;
   }
-  await page.locator(".wq-word").waitFor();
+  try {
+    await page.locator(".wq-word").waitFor({ timeout: 5000 });
+  } catch (e) {
+    const body = await page.evaluate(() => document.body.innerText.slice(0, 300).split("\n").join(" | "));
+    throw new Error("pressNext: no word and no sentence after the press; screen shows: " + body);
+  }
   return false;
 };
 
@@ -188,13 +230,13 @@ for (const height of [430, 555, 720, 950]) {
 
   /* 10-11 — the keyboard grades directly, no hold */
   await page.waitForTimeout(500);
-  sentencesMet += (await pressNext(page)) ? 1 : 0;
+  await pressNext(page);
   await gradeByKey(page, "✓ got it (hold)", "Enter");
   const viaEnter = await page.locator(".wq-tile").first().isVisible().catch(() => false);
   if (viaEnter) ok("Enter grades directly");
   else fail("Enter did not grade", "no tiles");
   await page.waitForTimeout(500);
-  sentencesMet += (await pressNext(page)) ? 1 : 0;
+  await pressNext(page);
   await gradeByKey(page, "~ close (hold)", " ");
   const viaSpace = await page.locator(".wq-tile").first().isVisible().catch(() => false);
   if (viaSpace) ok("Space grades directly");
@@ -208,8 +250,22 @@ for (const height of [430, 555, 720, 950]) {
      The walk above has read five words by now, so the first sentence has
      already been met and pressed through — this asserts it, then walks on to
      the next one and measures it. */
-  if (sentencesMet >= 1) ok(`the walk met the sentence after the fifth word (${sentencesMet} so far)`);
-  else fail("no sentence in a twelve-word session", `sentencesMet=${sentencesMet}`);
+  /* The checks above used to leave exactly five words graded, so the first
+     sentence had always been met by here — arithmetic that died with the
+     14-word starter level. The promise itself is what matters: a sentence
+     arrives after every fifth word (SPEC section 12 point 2), so from
+     wherever the walk stands, at most six more grades MUST meet one. Walk
+     to it instead of counting the choreography. */
+  for (let hop = 0; hop < 6 && sentencesMet === 0; hop++) {
+    await page.waitForTimeout(500);
+    await pressNext(page);
+    if (sentencesMet === 0) {
+      await gradeByKey(page, "✓ got it (hold)", "Enter");
+      await page.locator(".wq-tile").first().waitFor();
+    }
+  }
+  if (sentencesMet >= 1) ok(`the walk met a sentence within its promised window (${sentencesMet} so far)`);
+  else fail("no sentence within six graded words", `sentencesMet=${sentencesMet}`);
 
   /* Walk on to the next sentence and hold it on the screen to measure. */
   let atSentence = false;
@@ -243,17 +299,29 @@ for (const height of [430, 555, 720, 950]) {
     }));
     if (m.sh <= m.ch && m.sw <= m.cw) ok(`the sentence fits the phone without scrolling (${m.sw}x${m.sh} in ${m.cw}x${m.ch})`);
     else fail("the sentence scrolls the page", JSON.stringify(m));
-    /* Exactly one word open, and the tiles under it are that word's (point 4). */
+    /* THE ATTEMPT PHASE FIRST (owner-ruled 2026-08-14, open-faults N): the
+       sentence arrives silent, NO word open, the rail carrying the prompt and
+       no advance control at all — the child's turn. Then the mark starts the
+       reveal, which opens exactly the level's one word (point 4). This block
+       used to expect the reveal on arrival; that world ended with N. */
+    const openAtArrival = await page.locator(".wq-sword-open").count();
+    const promptOnRail = await page.locator(".wq-rail .wq-prompt").count();
+    const ctaInAttempt = await page.locator(".wq-rail .wq-cta").count();
+    if (openAtArrival === 0 && promptOnRail === 1 && ctaInAttempt === 0)
+      ok("the attempt arrives silent: no open word, the prompt on the rail, no advance to press");
+    else fail("the attempt phase is not the child's turn", JSON.stringify({ openAtArrival, promptOnRail, ctaInAttempt }));
+    await gradeByKey(page, "✓ got it (hold)", "Enter");
+    await page.locator(".wq-sword-open").first().waitFor();
     const openCount = await page.locator(".wq-sword-open").count();
-    if (openCount === 1) ok("exactly one word is open when the sentence arrives");
+    if (openCount === 1) ok("exactly one word is open once the mark starts the reveal");
     else fail("wrong number of open words", `${openCount}`);
-    /* Point 6: the grown-up's control is live at once — no wait, no fill.
-       Every word reveal makes them wait for the child to hear the word; a
-       sentence must not, because nothing here has to be heard first. */
+    /* Point 6 (2026-08-13, unchanged by N): the REVEAL's advance is live at
+       once — no wait, no fill. The attempt has no advance at all, which is
+       asserted above; this asserts the reveal keeps the old promise. */
     const railLive = await page.locator(".wq-rail .wq-cta").isEnabled();
     const fillOnRail = await page.locator(".wq-rail .wq-ctafill").count();
-    if (railLive && fillOnRail === 0) ok("the sentence advance is live at once, with no wait to sit through");
-    else fail("the sentence advance made the grown-up wait", `live=${railLive} fill=${fillOnRail}`);
+    if (railLive && fillOnRail === 0) ok("the reveal's advance is live at once, with no wait to sit through");
+    else fail("the reveal's advance made the grown-up wait", `live=${railLive} fill=${fillOnRail}`);
     /* A tap on another word opens it and closes the last, and says nothing —
        the silence is checked by the vitest suite; the geometry is checked here. */
     const closed = words.nth(n - 1);

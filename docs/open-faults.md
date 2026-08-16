@@ -1142,6 +1142,16 @@ protect it, and a gate that cannot run is a gate that is not protecting anything
   `tools/free-port.mjs` grew a CannotTell state and a PowerShell path for Windows, its scan
   parser was extracted so the controls reach the real guard, and its 15 controls pass on
   this machine. `npm run check` has run fully green on Windows since commit `638c0ff`.
+- **The GAUNTLET's own Windows faults surfaced on 2026-08-16, at the first gauntlet this
+  machine ever ran (beta 20), and were fixed the same night**: the three browser gates and
+  the coverage calibration all spawned `npx` or a `.bin` shell script, unspawnable under
+  Windows (the same class the mutant runners had already cured — everything now runs
+  through `process.execPath` and the real bin paths); and G3's untracked-files guard used
+  the POSIX `test -z "$(...)"` idiom, which the Windows default shell fails on the idiom
+  rather than the truth — `tools/generated-clean.mjs` is the portable replacement. The
+  same first run also caught three checks whose choreography predated this session's own
+  features (the sentence attempt phase, B17's arming, the 14-word starter level); each
+  check now measures the path that actually runs instead of assuming the old one.
 - **The wider fault behind both** About twenty `read_text()` / `write_text()` calls across
   `tools/*.py` still name no encoding — `align-sentence.py`, `build_a_round.py`,
   `build_of_round.py`, `build_page.py`, `build_soundout_page.py` and others. Every one is a

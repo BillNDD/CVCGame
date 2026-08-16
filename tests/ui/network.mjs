@@ -34,10 +34,13 @@ const fail = (name, detail) => { failures += 1; console.error(`FAIL: ${name} —
 
 if (!process.env.WQ_SKIP_BUILD) execSync("npm --prefix app run build", { stdio: "pipe" });
 
-const server = spawn("npx", ["vite", "preview", "--port", String(PORT), "--strictPort"], {
+/* vite through node itself: "npx" is not spawnable on Windows (ENOENT), the
+   same fault the mutant runners fixed on 2026-08-15. The bin path is the
+   app's own vite, resolved from the cwd the server runs in. */
+const server = spawn(process.execPath, ["node_modules/vite/bin/vite.js", "preview", "--port", String(PORT), "--strictPort"], {
   cwd: "app", stdio: "ignore", detached: true,
 });
-const stopServer = () => { try { process.kill(-server.pid); } catch {} };
+const stopServer = () => { try { process.platform === "win32" ? server.kill() : process.kill(-server.pid); } catch {} };
 for (let i = 0; i < 50; i++) {
   try { const r = await fetch(URL); if (r.ok) break; } catch {}
   await new Promise((r) => setTimeout(r, 200));

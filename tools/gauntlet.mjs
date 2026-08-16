@@ -163,7 +163,7 @@ step("G1+G2+G9+G10 tests", "npx vitest run", [
 
 /* The porcelain check also catches a committed deletion of a generated file:
    git diff alone cannot see the regenerated file arriving as untracked. */
-step("G3 regeneration", 'npm run gen:acceptance && git diff --exit-code -- tests/generated && test -z "$(git status --porcelain -- tests/generated)"', [
+step("G3 regeneration", 'npm run gen:acceptance && git diff --exit-code -- tests/generated && node tools/generated-clean.mjs', [
   { label: "scenarios", regex: /(\d+) scenarios[,)]/, floorKey: "g3_scenarios" },
   { label: "generated", regex: /(\d+) tests\)/, floorKey: "g3_generated_tests" },
 ]);
