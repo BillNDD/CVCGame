@@ -1365,6 +1365,22 @@ comment-stripping workaround written before that ruling was reverted; the audito
 autopsy of that stripper (two silent desync triggers) stands in the session record as the
 reason such a strip must never return casually.
 
+## CV syllable drills — asked, measured, and skipped (2026-08-16) — closed
+
+The owner asked whether the pack holds accepted recordings for consonant-vowel blends —
+sa, ba, ta, de and their family — suspecting it does not. Measured: it does not. The only
+CV-shaped clips anywhere are the real words "no" and "so". The ladder needs none by
+construction: Pre 1 teaches blending by ear on real Level 1 words whose sounds and whole
+clips are all accepted (a test pins every ladder item to the shipped inventory), and
+blending with print is Level 1's own opening job, demonstrated by every reveal.
+
+Offered the addition with its three costs — an S4 extension (a blended syllable is
+neither a full word nor an approved single sound), fresh renders through listening rounds
+(nonsense syllables are where a renderer mispronounces), and a new item kind — the owner
+ruled: **"Yeah let's skip them."** Real-word blending with meaning attached stands as the
+ladder's method. Do not re-open without a new ruling; this entry is what the round would
+cost and why it was declined.
+
 ## The trap this project keeps falling into
 
 A fix that is approved but not applied is worse than no fix: it reads as done.
