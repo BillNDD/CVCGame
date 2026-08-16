@@ -8,7 +8,7 @@ Per-test rows carry the test's own sentence, which in this project IS the
 Given/When/Then effect. The requirement, oracle, platform, mutant family, evidence
 and known limits are declared per FILE, in the tool, where they stay true.
 
-Totals: 295 it() SITES across 13 files, plus 10 gates that are not test files.
+Totals: 310 it() SITES across 14 files, plus 10 gates that are not test files.
 
 A site inside a loop or a table runs many times, so these rows describe more tests than they number: Vitest executes 330. The rows count the places behaviour is asserted.
 
@@ -241,6 +241,33 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 60 | Feature: Building a session | Eleven of the 14 words does not open the next level |
 | 61 | Feature: Building a session | A word the child has already read comes back, whatever its level |
 | 62 | Feature: Building a session | Above-level review never takes over the session |
+
+## tests/pre.test.js — 15 tests (G10)
+
+- **Requirement protected:** SPEC section 12 item 8: the pre-level ladder - its five rungs, sessions, promotions, and the fresh-saves-only migration
+- **Independent oracle:** Literal rung rosters, literal boundary counts, and the shipped sound inventory
+- **Platform:** node/jsdom with fake timers
+- **Mutant family:** none yet - the ladder shipped 2026-08-15 and its mutant family is a named follow-up
+- **Evidence produced:** Vitest counts (mapped by G20)
+- **Known limits — what these tests do NOT prove:** Proves the ladder's arithmetic and wiring, never how a sound lands in a child's ear - the clips it plays were each graded in their own rounds.
+
+| # | Suite | Effect (the test's own sentence) |
+|---|---|---|
+| 1 | the ladder | holds five rungs: the ear, then s-a-t-p, i-n, m-o, u-x |
+| 2 | the ladder | teaches exactly the letters Level 1 |
+| 3 | a pre-session | serves a fresh rung whole, in taught order, and never shuffles |
+| 4 | a pre-session | leads with up to five due letter reviews from earlier rungs |
+| 5 | a pre-session | caps at twelve and never repeats an item |
+| 6 | winning a rung | promotes at the words |
+| 7 | winning a rung | promotes on the words |
+| 8 | winning a rung | passing the last rung leaves the ladder for Level 1 |
+| 9 | migration v5 and the fresh-saves-only ruling | a truly fresh save starts the ladder; every kind of history skips it |
+| 10 | migration v5 and the fresh-saves-only ruling | is idempotent, and a graduate stays graduated |
+| 11 | migration v5 and the fresh-saves-only ruling | a corrupted preLevel fails toward teaching, never past it |
+| 12 | migration v5 and the fresh-saves-only ruling | keeps pre boxes and word boxes in separate rooms — the letters a and i collide otherwise |
+| 13 | the ladder in the app | a fresh install boots to Pre 1 and Begin serves the ear, not a word |
+| 14 | the ladder in the app | only the adult |
+| 15 | the ladder in the app | the grown-up |
 
 ## tests/properties.test.js — 10 tests (G2)
 

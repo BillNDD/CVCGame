@@ -9,13 +9,14 @@ const OUT = process.argv[3] || "src/engine.js";
 const MARK = "/* ============================================================ */\n\nexport default function WordQuest()";
 
 const src = readFileSync(resolve(SRC), "utf8");
+
 const cut = src.indexOf(MARK);
 if (cut < 0) { console.error("Component banner not found in " + SRC); process.exit(1); }
 
 const body = src.slice(0, cut).replace(/^import .*from "react";$/m, "");
 const EXPORTS = ["LEVELS","TRICKY","DIGRAPHS","HEART","INTERVALS","SESSION_SIZE","PROMPT_CAP",
   "WORD_LEVEL","chunkWord","dashed","displayWord","displayChunk","freshWordState","applyResult","shuffle","buildSession",
-  "checkPromotion","isSecure","heal","migrate","newState","buildMarkdown","loadState","saveState","feedbackParts",
+  "checkPromotion","isSecure","heal","migrate","newState","PRE_LEVELS","preItems","buildPreSession","checkPrePromotion","buildMarkdown","loadState","saveState","feedbackParts",
   "ADVANCE_GUARD_MS","SPLASH_TIMEOUT_MS","STORE_KEY","C","LANGS","speak","hush","buzz","feedbackSpeech","PRAISE",
   "SEAM_MS","SOUNDOUT_SEAM_MS","SOUNDOUT_POP_MS","TILE_SOUND","WORD_SOUND","SOUND_TEXT","soundIdFor","soundIdsFor","bankWords","soundInventory","VOICE_SENTENCES","SENTENCES","SENTENCE_EVERY","sessionSentences","REVEAL_LINES","REVEAL_LINE_TEXT","SENTENCE_PRAISE","sentenceLead","sentenceWords","revealWord","revealWordLongest","sentencesUpTo","voiceScript","clipPlan","sentencePlan","sentenceClosePlan","tileSlots","isSeam","seamMs","resolvePack","TTS_UNSAFE_PRAISE","ttsSafePraise","TTS_UNSAFE_WORD","ttsSafeWord"];
 

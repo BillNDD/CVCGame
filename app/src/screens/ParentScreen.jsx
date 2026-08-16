@@ -1,4 +1,4 @@
-import { C, LANGS, LEVELS, displayWord } from "@engine";
+import { C, LANGS, LEVELS, PRE_LEVELS, displayWord } from "@engine";
 import Frame from "../components/Frame.jsx";
 import Zone from "../components/Zone.jsx";
 import Toast from "../components/Toast.jsx";
@@ -6,7 +6,7 @@ import H3 from "../components/H3.jsx";
 import Seg from "../components/Seg.jsx";
 
 export default function ParentScreen({
-  state, nameDraft, setNameDraft, commitName, setSound, setLang, setUpdateCheck, jumpLevel,
+  state, nameDraft, setNameDraft, commitName, setSound, setLang, setUpdateCheck, jumpLevel, jumpPreLevel,
   openLevels, setOpenLevels, copyLog, copyBox, resetStage, setResetStage, doReset,
   onBack, onExportJSON, onImportJSON, toast, voiceFallback,
 }) {
@@ -48,6 +48,15 @@ export default function ParentScreen({
               <Seg options={LEVELS.map(l => [l.n, String(l.n)])} value={state.level} onChange={jumpLevel} />
             </div>
             <p className="wq-help">Changes only which words come up next. Mastery already earned is kept, and the engine still promotes on its own.</p>
+            {/* The pre-level ladder (owner-ruled 2026-08-15): Off means the
+                child reads words; 1 to 5 puts the next session inside the
+                ladder. Fresh saves arrive at 1 on their own; this is the
+                grown-up's way back in, or out. */}
+            <div style={{ marginTop: 10 }}>
+              <div style={{ fontWeight: 800, fontSize: 13, color: C.ink, marginBottom: 4 }}>Pre-levels (sounds before words)</div>
+              <Seg options={[[0, "Words"], ...PRE_LEVELS.map(p => [p.n, "P" + p.n])]} value={state.preLevel} onChange={jumpPreLevel} />
+            </div>
+            <p className="wq-help">Words: sessions serve reading. P1 to P5: sessions teach listening and letter sounds first, graded by you.</p>
           </section>
 
           {/* P2-4 — collapsed mastery map with summary rows */}

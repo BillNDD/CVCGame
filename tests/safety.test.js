@@ -13,7 +13,7 @@ import { readFileSync } from "node:fs";
 import { createElement } from "react";
 
 vi.mock("../app/src/storage.js", () => ({
-  loadState: vi.fn(async () => null),
+  loadState: vi.fn(async () => null),   // per-test boots override below
   saveState: vi.fn(async () => true),
 }));
 import { saveState as mockSave, loadState as mockLoad } from "../app/src/storage.js";
@@ -36,7 +36,13 @@ const flush = async (ms = 0) => act(async () => { await vi.advanceTimersByTimeAs
    a startListening() here that tapped the child's record control, and a
    skipAdultJudgedWords() that walked past the five words recognition could not
    judge. Both went with the microphone on 2026-08-12. */
+/* Every word-session test boots a GRADUATED save: since the pre-level
+   ladder (2026-08-15) a truly fresh install begins at Pre 1, and the word
+   mechanics under test here live past the ladder. The ladder has its own
+   suite in tests/pre.test.js. */
+const graduated = () => ({ ...newState(), preLevel: 0 });
 const startWord = async () => {
+  mockLoad.mockResolvedValueOnce(graduated());
   render(createElement(App));
   await flush(0);
   fireEvent.click(screen.getByText("▶️ Begin Session"));
@@ -628,6 +634,7 @@ describe("G10 safety — S6: the foreground check obeys the corner's switch", ()
       value: { getRegistration: async () => ({ update }) },
     });
     try {
+      mockLoad.mockResolvedValueOnce(graduated());
       render(createElement(App));
       await flush(0);
       document.dispatchEvent(new Event("visibilitychange"));

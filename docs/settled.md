@@ -1150,7 +1150,9 @@ throws if a heart word has no seat, or a seat later than Level 2.
 they cannot sound out from the code they have been taught. That is what a heart word is, and
 it is standard in the field — the highest-frequency words are taught by sight ahead of the
 code, precisely so that reading a sentence is possible at all. **Level 1 is untouched**: a
-child's very first session is still the same twelve clean two-sound words.
+child's very first session is still the same twelve clean two-sound words. (Superseded
+2026-08-15: the 10-and-10 curriculum re-cut Level 1 to fourteen — ten decodables and four
+hearts — and the pre-level ladder now sits before it.)
 
 SPEC section 12's earlier placement — of/to/do/you/said at Levels 6 and 7, my in the
 open-syllable level — is superseded and says so. That placement was written when these were
@@ -1340,6 +1342,28 @@ all say the same thing: never padded.
 Level 16 (twelve, grandfathered over the target).** Every one heard whole at the settled
 recipe, read by the owner on a dated round page, screened, hash-pinned, and seated by the
 arbiter. Six rounds, one day.
+
+## The pre-level ladder is ruled and built (2026-08-15) — closed
+
+The owner asked to "expand the game now back to the origins of early reading", weighed a
+sidecar AI's eight-level draft against a critical read (adopt the oral-first core and the
+skill gating; alter the letter sets to feed OUR Level 1 and the numbering to a separate
+ladder; abandon its CVC levels wholesale as duplicates of Levels 1–8), accepted that
+shape, and then ruled all four design decisions on a decision page, each the
+recommendation: **five pre-levels** (ears, then s-a-t-p, i-n, m-o, u-x — the ten letters
+Level 1's decodables spell, every sound clip already owner-approved); **adult-graded
+say-it-back** (S1 untouched, zero new audio, the tile-tap variant declined for version
+one); **the words' own promotion rule** — both paths of it, boxes at 80 percent or two
+perfect sessions, after the auditor measured that boxes alone make a two-letter rung a
+100 percent bar; and **fresh saves only** (any reading history — a graded word, a
+session, a log row, a level set above the start — begins past the ladder). SPEC section
+12 item 8 carries the full ruling; the rung names (Little Ears, First Sounds, New Sounds,
+More Sounds, Last Sounds) were approved the same evening — "Approve pre level names", the
+owner's words — so nothing in the ladder ships unruled. The same evening the owner raised the G6 file-length ceiling to 1400 in
+their own words — "Increase it to 1400 on my authority" — recorded in CLAUDE.md E6, and a
+comment-stripping workaround written before that ruling was reverted; the auditor's
+autopsy of that stripper (two silent desync triggers) stands in the session record as the
+reason such a strip must never return casually.
 
 ## The trap this project keeps falling into
 

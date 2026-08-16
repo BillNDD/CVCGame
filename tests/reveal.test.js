@@ -151,7 +151,7 @@ const walkToLastSlot = async () => {
   return document.querySelector(".wq-word").textContent;
 };
 
-beforeEach(() => { vi.useFakeTimers(); localStorage.clear(); voiceMode = "pack"; pendingScheduled = null; stored = null; });
+beforeEach(() => { vi.useFakeTimers(); localStorage.clear(); voiceMode = "pack"; pendingScheduled = null; stored = { ...newState(), preLevel: 0 }; });   // graduated: word tests live past the ladder
 afterEach(() => { cleanup(); vi.useRealTimers(); });
 
 describe("G10 — the child hears the word before the app lets them move on", () => {
@@ -197,7 +197,7 @@ describe("G10 — the child hears the word before the app lets them move on", ()
   });
 
   it("3b: with sound OFF there is no reveal to wait for, and the guard arms at once", async () => {
-    stored = { ...newState(), settings: { ...newState().settings, sound: false } };
+    stored = { ...newState(), preLevel: 0, settings: { ...newState().settings, sound: false } };
     await gradeOneWord();
     expect(advance().disabled).toBe(true);
     await flush(450);                                // literal (E4): the 400 ms guard

@@ -100,7 +100,7 @@ const markSentence = async (label = "✓ got it (hold)") => {
   await flush(0);
 };
 
-beforeEach(() => { vi.useFakeTimers(); localStorage.clear(); played = []; scheduled = null; stored = null; });
+beforeEach(() => { vi.useFakeTimers(); localStorage.clear(); played = []; scheduled = null; stored = { ...newState(), preLevel: 0 }; });   // graduated: word tests live past the ladder
 afterEach(() => { cleanup(); vi.useRealTimers(); });
 
 describe("the sentence inside a session", () => {
@@ -323,7 +323,7 @@ describe("the sentence inside a session", () => {
      LONGEST word is sounded out — counted in sound tiles, first one on a tie,
      and stable so the same sentence always teaches the same word. */
   const openSentenceFreePlay = async (level = 1) => {
-    if (level !== 1) stored = { ...newState(), level };
+    if (level !== 1) stored = { ...newState(), preLevel: 0, level };
     render(createElement(App));
     await flush(0);
     fireEvent.click(screen.getByText("🎈 Free play"));

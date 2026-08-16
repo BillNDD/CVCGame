@@ -18,7 +18,9 @@ import { render, screen, fireEvent, act, cleanup } from "@testing-library/react"
 import { createElement } from "react";
 
 vi.mock("../app/src/storage.js", () => ({
-  loadState: vi.fn(async () => null),
+  /* Graduated by default: these tests exercise the WORD session's adult
+     controls, which live past the pre-level ladder (2026-08-15). */
+  loadState: vi.fn(async () => ({ version: 5, level: 1, preLevel: 0, prePerfectStreak: 0, sessionsCompleted: 0, perfectStreak: 0, settings: { sound: true, childName: "", lang: "en-US" }, words: {}, log: [], pre: {} })),
   saveState: vi.fn(async () => true),
 }));
 import { loadState as mockLoad } from "../app/src/storage.js";

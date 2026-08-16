@@ -263,6 +263,11 @@ If the adult stops a session early, the app shows two options:
 - close: `Good try! The correct pronunciation is **{d}**, {word}.`
 - wrong: `Let’s try that again. The correct pronunciation is **{d}**, {word}.`
 
+A PRE-LEVEL item (section 12 item 8) has no `{d}` and no `{word}` — a sound is not spelled
+— so its feedback keeps each sentence's opening and stops where the word would begin:
+`🎉 Great job!`, `💪 Good try!`, `🔁 Let’s try that again.` Same three grades, same order,
+same warmth; the copy gate pins these exactly as it pins the three above.
+
 The feedback shows below a row of yellow sound tiles, one tile for each unit. If the word is in
 `TRICKY`, add the note on a second line.
 
@@ -748,8 +753,25 @@ Levels, in order:
    listening round. `d:long_o` proved that on 2026-08-13, having been called unheard for
    three days while its `perfect` verdict sat in the ledger.
 
-8. **EXPANDING DOWN — levels BEFORE Level 1, teaching the sounds themselves. Owner-asked
-   2026-08-14, and not yet ruled.** Everything above grows the game upward. This grows it
+8. **EXPANDING DOWN — the pre-level ladder. Owner-asked 2026-08-14; RULED and BUILT
+   2026-08-15** (four verdicts on a decision page; `docs/settled.md` holds them). Five
+   pre-levels sit before Level 1, lettered "Pre 1" to "Pre 5" — never renumbering the word
+   levels, exactly as the trap paragraph below demanded. Pre 1 is the EAR: the app plays a
+   Level 1 word's approved sounds apart, the child blends them aloud, the adult grades with
+   the same three hold controls, and the whole word's clip confirms in feedback. Pre 2 to 5
+   teach the ten letters Level 1's decodables spell — s a t p, then i n, then m o, then
+   u x — one letter filling the screen while its approved sound plays as the PROMPT. The
+   child says it back; nothing on a pre-level screen is ever read, which is why S2 is not
+   in play: S2 guards a reading attempt's answer, and an echo task has no answer to rob.
+   The prompt may replay at any moment for the same reason. S1 is unchanged (only the
+   adult's hold records), S4 is unchanged (approved sounds and whole words only — the
+   ladder adds zero audio), and results live in their own boxes (`state.pre`), never the
+   word boxes, promoted by the words' own two-path rule at each rung. A fresh save starts
+   at Pre 1; any save with reading history — a graded word, a session, a log row, or a
+   level set above the start — begins past the ladder, and the grown-ups corner can walk
+   in or out at will. The questions below were this item's open design notes and are kept
+   because they show why each ruling landed where it did; the original ask follows.**
+   Everything above grows the game upward. This grows it
    downward, and it may matter more: Level 1 opens with ten two-sound words, which
    assumes a child already knows what a letter says. A child who does not cannot start at
    all. The game currently teaches reading to a child who has already been taught sounds,

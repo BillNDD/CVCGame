@@ -25,6 +25,9 @@ import App from "../app/src/App.jsx";
 
 const flush = async (ms = 0) => act(async () => { await vi.advanceTimersByTimeAsync(ms); });
 const boot = async (ms = 0) => { render(createElement(App)); await flush(ms); };
+/* Since the pre-level ladder (2026-08-15) a FRESH install begins at Pre 1,
+   so a fresh-boot fault test grades the ladder's first item — that IS the
+   first thing a real fresh install grades. The adult strip is the same one. */
 const gradeFirstWord = async () => {
   fireEvent.click(screen.getByText("▶️ Begin Session"));
   await flush(0);
@@ -50,7 +53,7 @@ describe("G9 faults — the app boot", () => {
   it("1: a damaged save reads as fresh, with the damage message, and stays writable", async () => {
     mockLoad.mockResolvedValue({ __corrupt: true });
     await boot();
-    expect(screen.getByText(/Hatchlings/)).toBeTruthy();
+    expect(screen.getByText(/Pre 1/)).toBeTruthy();   // fresh means the ladder now
     expect(screen.getByText("Saved progress was damaged. A copy was kept; starting fresh.")).toBeTruthy();
     // 1b — control for the zero-writes spy: a writable visit MUST record writes
     await gradeFirstWord();
@@ -60,21 +63,21 @@ describe("G9 faults — the app boot", () => {
   it("2: a storage timeout starts fresh, warns, and writes nothing for the visit", async () => {
     mockLoad.mockImplementation(() => new Promise(() => {}));   // never answers
     await boot(3000);
-    expect(screen.getByText(/Hatchlings/)).toBeTruthy();
+    expect(screen.getByText(/Pre 1/)).toBeTruthy();
     expect(screen.getByText("Couldn’t read saved progress. Nothing will be saved this visit.")).toBeTruthy();
     expect(screen.getByText(/could not be read/)).toBeTruthy();
     await gradeFirstWord();
-    expect(screen.getAllByText(/Great job!/).length).toBeGreaterThan(0); // grading worked
+    expect(screen.getAllByText(/Great job!/).length).toBeGreaterThan(0); // grading worked (the ladder speaks the same praise)
     expect(mockSave.mock.calls.length).toBe(0);                          // but nothing was written
   });
 
   it("3: late data never renders and is never written over", async () => {
     mockLoad.mockImplementation(() => new Promise((res) =>
-      setTimeout(() => res({ ...newState(), level: 5, sessionsCompleted: 9 }), 3500)));
+      setTimeout(() => res({ ...newState(), preLevel: 0, level: 5, sessionsCompleted: 9 }), 3500)));
     await boot(3000);
-    expect(screen.getByText(/Hatchlings/)).toBeTruthy();     // fresh state rendered
+    expect(screen.getByText(/Pre 1/)).toBeTruthy();          // fresh state rendered
     await flush(600);                                        // the late answer arrives
-    expect(screen.queryByText(/Explorer/)).toBeNull();       // level 5 never renders
+    expect(screen.queryByText(/Zig Zap/)).toBeNull();        // level 5 never renders
     expect(screen.getByText("Saved progress found. Reload to continue it.")).toBeTruthy();
     expect(mockSave.mock.calls.length).toBe(0);              // and is never written over
   });
@@ -88,7 +91,7 @@ describe("G9 faults — the app boot", () => {
     });
     await boot();
     await gradeFirstWord();
-    expect(screen.getAllByText(/Great job! That is/).length).toBeGreaterThan(0);
+    expect(screen.getAllByText("🎉 Great job!").length).toBeGreaterThan(0);   // the exact pre feedback line, pinned
     delete window.speechSynthesis;
   });
 
@@ -217,7 +220,7 @@ describe("G9 faults — an unreadable save, and backups that must look like one"
     ["an array carrying every field a save has", '[{"version":3,"level":5,"words":{},"settings":{}}]'],
   ]) {
     it(`7: ${label} is refused, and nothing is written`, async () => {
-      mockLoad.mockResolvedValueOnce({ ...newState(), level: 5 });
+      mockLoad.mockResolvedValueOnce({ ...newState(), preLevel: 0, level: 5 });
       await importFile(text);
       expect(screen.getByText("That file is not a Word Quest backup.")).toBeTruthy();
       const wrote = mockSave.mock.calls.some((c) => c[0].level !== 5);
@@ -239,7 +242,7 @@ describe("G9 faults — an unreadable save, and backups that must look like one"
   });
 
   it("7a (control): a genuine backup still restores", async () => {
-    mockLoad.mockResolvedValueOnce(newState());
+    mockLoad.mockResolvedValueOnce({ ...newState(), preLevel: 0 });
     /* A version 4 backup: its level is trusted (and clamped), where a pre-v4
        one would recompute from the words — that path has its own tests. */
     const backup = JSON.stringify({ ...newState(), level: 4, version: 4 });

@@ -34,6 +34,8 @@ function childCopy() {
     "app/src/screens/HomeScreen.jsx",
     "app/src/screens/SessionScreen.jsx",
     "app/src/screens/DoneScreen.jsx",
+    "app/src/screens/PreSessionScreen.jsx",
+    "app/src/screens/PreDoneScreen.jsx",
   ];
   const texts = [];
   for (const f of files) {
@@ -57,6 +59,13 @@ function run(d) {
   check(leads.correct === "Great job! That is ", "feedback lead (correct)", leads.correct);
   check(leads.close === "Good try! The correct pronunciation is ", "feedback lead (close)", leads.close);
   check(leads.wrong === "Let’s try that again. The correct pronunciation is ", "feedback lead (wrong)", leads.wrong);
+  /* The pre-ladder's three feedback lines (SPEC section 5, added 2026-08-15):
+     the same sentences' openings, stopped where the word would begin, pinned
+     against the screen that renders them. The auditor found them ungated. */
+  const preScreen = readFileSync("app/src/screens/PreSessionScreen.jsx", "utf8");
+  check(preScreen.includes('"🎉 Great job!"'), "pre feedback (correct)", "PreSessionScreen has lost its exact line");
+  check(preScreen.includes('"💪 Good try!"'), "pre feedback (close)", "PreSessionScreen has lost its exact line");
+  check(preScreen.includes('"🔁 Let’s try that again."'), "pre feedback (wrong)", "PreSessionScreen has lost its exact line");
   check(leads.sCorrect === "Great job! The word was cat.", "speech (correct)", leads.sCorrect);
   check(leads.sClose === "Good try! The word is cat.", "speech (close)", leads.sClose);
   check(leads.sWrong === "Let’s try again. The word is cat.", "speech (wrong)", leads.sWrong);

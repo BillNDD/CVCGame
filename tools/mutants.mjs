@@ -86,7 +86,7 @@ const MUTANTS = [
   ["imperfect session keeps the streak", "state.perfectStreak = session.perfect ? Math.min(2, prior + 1) : 0;", "state.perfectStreak = session.perfect ? Math.min(2, prior + 1) : prior;"],
   ["streak cap dropped", "state.perfectStreak = session.perfect ? Math.min(2, prior + 1) : 0;", "state.perfectStreak = session.perfect ? prior + 1 : 0;"],
   ["session-less call uses the stored streak", "(session && state.perfectStreak >= 2)", "state.perfectStreak >= 2"],
-  ["heal streak cap dropped", "else s.perfectStreak = Math.min(2, Math.round(s.perfectStreak));", "else s.perfectStreak = Math.round(s.perfectStreak);"],
+  ["heal streak cap dropped", "else s[key] = Math.min(2, Math.round(v));", "else s[key] = Math.round(v);"],
   ["pack order inverted", 'for (const tier of ["family", "default"])', 'for (const tier of ["default", "family"])'],
   ["seam 700 to 350", "const SEAM_MS = 700;", "const SEAM_MS = 350;"],
   /* The sound-out reveal (owner-ruled 2026-08-04, built 2026-08-11). The

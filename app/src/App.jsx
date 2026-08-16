@@ -2,7 +2,7 @@ import { useState, useEffect, useRef, useMemo, useCallback } from "react";
 /* All game logic comes from the generated engine module. The components in
    this app never re-implement it (work item W1). */
 import {
-  LEVELS, SESSION_SIZE, PROMPT_CAP, ADVANCE_GUARD_MS, SPLASH_TIMEOUT_MS,
+  LEVELS, PRE_LEVELS, SESSION_SIZE, PROMPT_CAP, ADVANCE_GUARD_MS, SPLASH_TIMEOUT_MS,
   C, SEAM_MS, freshWordState, applyResult, buildSession, checkPromotion,
   migrate, newState, buildMarkdown, feedbackSpeech, PRAISE, speak, hush, buzz, ttsSafePraise, ttsSafeWord,
   sessionSentences, sentencePlan, sentenceClosePlan, revealWord, revealWordLongest,
@@ -18,10 +18,14 @@ const ADVANCE_BACKSTOP_MS = 10000;
 import { installForegroundCheck } from "./updates.js";
 import { initVoicePacks, speakVoice, playClips, stopClips, unlockVoice } from "./voicepacks.js";
 import Frame from "./components/Frame.jsx";
+import Zone from "./components/Zone.jsx";
 import HomeScreen from "./screens/HomeScreen.jsx";
 import SessionScreen from "./screens/SessionScreen.jsx";
 import DoneScreen from "./screens/DoneScreen.jsx";
 import ParentScreen from "./screens/ParentScreen.jsx";
+import PreSessionScreen from "./screens/PreSessionScreen.jsx";
+import PreDoneScreen from "./screens/PreDoneScreen.jsx";
+import usePreSession from "./usePre.js";
 
 /* The microphone left three device-local markers behind on every install that
    ever ran a version carrying it: which mode an adult chose, whether
@@ -267,6 +271,9 @@ export default function App() {
   /* ---------- session ---------- */
   function beginSession() {
     unlockVoice();                 // a real tap: the audio engine may play from here on
+    /* A save inside the ladder begins a PRE session; everyone else gets the
+       words. One button, one meaning: begin where the child is. */
+    if (stateRef.current.preLevel > 0) { beginPre(); return; }
     const s = structuredClone(state);
     const q = buildSession(s);
     setState(s); setQueue(q); setQi(0);
@@ -744,6 +751,7 @@ export default function App() {
   const setUpdateCheck = (on) => mutate(s => { s.settings.updateCheck = on; });
   const setLang = (code) => mutate(s => { s.settings.lang = code; });
   const jumpLevel = (n) => { mutate(s => { s.level = n; s.perfectStreak = 0; }); setToast("Level set to " + n + " " + LEVELS[n - 1].emoji); };
+  const jumpPreLevel = (n) => { mutate(s => { s.preLevel = n; s.prePerfectStreak = 0; }); setToast(n === 0 ? "Sessions serve words" : "Next session: Pre " + n); };
   function commitName() {
     const clean = Array.from(nameDraft.trim()).slice(0, 20).join("");   // P7 — never bisect a surrogate pair
     mutate(s => { s.settings.childName = clean; });
@@ -798,6 +806,12 @@ export default function App() {
     if (reason) setVoiceFallback(String(reason));
   }, []);
 
+  /* The pre-level ladder lives in its own hook (G6: App stays under the
+     complexity ceiling; the ladder reads as one piece in usePre.js). */
+  const { preQ, preQi, prePhase, preGrade, preAdvanceReady, preDone,
+    beginPre, gradePre, nextPre, exitPre, playPrePrompt } =
+    usePreSession({ stateRef, setState, persist, setScreen, noteFallback });
+
   const masteredCount = useMemo(() => state ? Object.values(state.words).filter(ws => ws.box >= 4).length : 0, [state]);
 
   /* ============================ RENDER ============================ */
@@ -832,13 +846,24 @@ export default function App() {
       handleExit={handleExit} advanceRef={advanceRef} toast={toast} />;
   }
 
+  if (screen === "pre" && preQ[preQi]) {
+    return <PreSessionScreen state={state} item={preQ[preQi]} phase={prePhase} lastGrade={preGrade}
+      answered={preQi + (prePhase === "feedback" ? 1 : 0)} totalQ={preQ.length}
+      advanceReady={preAdvanceReady} finishes={preQi + 1 >= preQ.length}
+      onExitAsk={exitPre} grade={gradePre} next={nextPre} replayPrompt={playPrePrompt} />;
+  }
+
+  if (screen === "predone" && preDone) {
+    return <PreDoneScreen preDone={preDone} onHome={() => setScreen("home")} />;
+  }
+
   if (screen === "done" && doneStats) {
     return <DoneScreen doneStats={doneStats} kid={kid} onHome={() => setScreen("home")} toast={toast} />;
   }
 
   return <ParentScreen state={state} nameDraft={nameDraft} setNameDraft={setNameDraft}
     commitName={commitName} setSound={setSound} setLang={setLang} setUpdateCheck={setUpdateCheck}
-    jumpLevel={jumpLevel} openLevels={openLevels} setOpenLevels={setOpenLevels}
+    jumpLevel={jumpLevel} jumpPreLevel={jumpPreLevel} openLevels={openLevels} setOpenLevels={setOpenLevels}
     copyLog={copyLog} copyBox={copyBox} resetStage={resetStage} setResetStage={setResetStage}
     doReset={doReset} onBack={() => { setResetStage(0); setCopyBox(""); setScreen("home"); }}
     voiceFallback={voiceFallback} onExportJSON={exportJSON} onImportJSON={importJSON} toast={toast} />;

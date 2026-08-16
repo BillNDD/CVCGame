@@ -406,7 +406,7 @@ describe("heal", () => {
   it("repairs a hostile version so the migration check cannot crash", () => {
     expect(() => migrate({ version: { toString: null } })).not.toThrow();
     const m = migrate({ version: { toString: null }, level: 2 });
-    expect(m.version).toBe(4);
+    expect(m.version).toBe(5);
     expect(m.level).toBe(6);   // healed to no version, bumped 2 to 3 by v3, floored at old 3's new ground
   });
   it("repairs a hostile or fractional level so the engine cannot crash", () => {
@@ -441,7 +441,7 @@ describe("migrate", () => {
        The log keeps its bumped number: it recorded what was true when
        written. v4 also drops settings.mode, the microphone-era leftover (J2). */
     const m = migrate(v2());
-    expect(m.version).toBe(4); expect(m.level).toBe(11); expect(m.log[0].level).toBe(2);
+    expect(m.version).toBe(5); expect(m.level).toBe(11); expect(m.log[0].level).toBe(2);
     expect(m.settings.mode).toBeUndefined();
   });
   it("leaves word data untouched", () => {

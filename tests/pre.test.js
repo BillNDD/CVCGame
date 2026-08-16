@@ -1,0 +1,186 @@
+/* Word Quest — the pre-level ladder (owner-ruled 2026-08-15: five levels,
+   adult-graded say-it-back, the words' own promotion rule, fresh saves only).
+   Engine truths first, then the running app. Every assertion uses literal
+   expected values, never the constant under test (E4).
+   @vitest-environment jsdom */
+import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
+import { render, screen, fireEvent, act, cleanup } from "@testing-library/react";
+import { createElement } from "react";
+import {
+  PRE_LEVELS, preItems, buildPreSession, checkPrePromotion, migrate, newState,
+  freshWordState, soundIdsFor, soundInventory, LEVELS, HEART,
+} from "../src/engine.js";
+
+const boxed = (keys, box) => Object.fromEntries(keys.map((k) => [k,
+  { box, attempts: 2, correct: 2, close: 0, wrong: 0, dueAt: 0, lastSession: 0 }]));
+
+describe("the ladder's shape", () => {
+  it("holds five rungs: the ear, then s-a-t-p, i-n, m-o, u-x", () => {
+    expect(PRE_LEVELS.map((p) => p.n)).toEqual([1, 2, 3, 4, 5]);
+    expect(PRE_LEVELS.map((p) => p.kind)).toEqual(["ear", "letter", "letter", "letter", "letter"]);
+    expect(preItems(2)).toEqual(["s", "a", "t", "p"]);
+    expect(preItems(3)).toEqual(["i", "n"]);
+    expect(preItems(4)).toEqual(["m", "o"]);
+    expect(preItems(5)).toEqual(["u", "x"]);
+    expect(preItems(1)).toEqual(["am", "an", "in", "on", "at", "it", "up", "us", "is", "ax"]);
+    expect(preItems(0)).toEqual([]);   // off the ladder there is nothing to serve
+  });
+  it("teaches exactly the letters Level 1's decodables spell, and every item's sound ships", () => {
+    const letters = PRE_LEVELS.filter((p) => p.kind === "letter").flatMap((p) => p.items).sort();
+    const l1 = [...new Set(LEVELS[0].words.filter((w) => !HEART.includes(w)).join(""))].sort();
+    expect(letters).toEqual(l1);
+    expect(letters).toEqual(["a", "i", "m", "n", "o", "p", "s", "t", "u", "x"]);
+    /* The auditor's roster guard: an item whose sound is not in the shipped
+       inventory would be the "default sound" fault arriving by ladder. */
+    const inv = new Set(soundInventory());
+    for (const p of PRE_LEVELS) for (const item of p.items)
+      for (const id of soundIdsFor(item)) expect(inv.has(id)).toBe(true);
+  });
+});
+
+describe("a pre-session", () => {
+  it("serves a fresh rung whole, in taught order, and never shuffles", () => {
+    expect(buildPreSession({ ...newState(), preLevel: 1 }))
+      .toEqual(["am", "an", "in", "on", "at", "it", "up", "us", "is", "ax"]);
+    expect(buildPreSession({ ...newState(), preLevel: 2 })).toEqual(["s", "a", "t", "p"]);
+  });
+  it("leads with up to five due letter reviews from earlier rungs", () => {
+    const s = { ...newState(), preLevel: 3, sessionsCompleted: 1,
+      pre: boxed(["s", "a", "t", "p"], 2) };
+    s.pre.s.dueAt = 1; s.pre.a.dueAt = 1;                  // two due, two not
+    s.pre.t.dueAt = 9; s.pre.p.dueAt = 9;
+    expect(buildPreSession(s)).toEqual(["s", "a", "i", "n"]);
+  });
+  it("caps at twelve and never repeats an item", () => {
+    const s = { ...newState(), preLevel: 1, sessionsCompleted: 1, pre: boxed(preItems(1), 1) };
+    const q = buildPreSession(s);
+    expect(q.length).toBe(10);
+    expect(new Set(q).size).toBe(10);
+  });
+});
+
+describe("winning a rung", () => {
+  it("promotes at the words' boundary: 8 of the ear's 10, all 4 of s-a-t-p", () => {
+    const eight = { ...newState(), preLevel: 1, pre: boxed(preItems(1).slice(0, 8), 3) };
+    expect(checkPrePromotion(eight)).toBe(true); expect(eight.preLevel).toBe(2);
+    const seven = { ...newState(), preLevel: 1, pre: boxed(preItems(1).slice(0, 7), 3) };
+    expect(checkPrePromotion(seven)).toBe(false); expect(seven.preLevel).toBe(1);
+    /* Small rungs make 80 percent a full house — which is why the second
+       path below exists. Pinned so the arithmetic is a stated fact. */
+    const three = { ...newState(), preLevel: 2, pre: boxed(["s", "a", "t"], 3) };
+    expect(checkPrePromotion(three)).toBe(false);
+    const four = { ...newState(), preLevel: 2, pre: boxed(["s", "a", "t", "p"], 3) };
+    expect(checkPrePromotion(four)).toBe(true); expect(four.preLevel).toBe(3);
+  });
+  it("promotes on the words' second path too: two perfect sessions in a row", () => {
+    const s = { ...newState(), preLevel: 2, pre: {} };
+    expect(checkPrePromotion(s, { perfect: true })).toBe(false);
+    expect(s.prePerfectStreak).toBe(1);
+    expect(checkPrePromotion(s, { perfect: true })).toBe(true);
+    expect(s.preLevel).toBe(3);
+    expect(s.prePerfectStreak).toBe(0);
+    const broken = { ...newState(), preLevel: 2, pre: {}, prePerfectStreak: 1 };
+    expect(checkPrePromotion(broken, { perfect: false })).toBe(false);
+    expect(broken.prePerfectStreak).toBe(0);
+  });
+  it("passing the last rung leaves the ladder for Level 1", () => {
+    const s = { ...newState(), preLevel: 5, pre: boxed(["u", "x"], 3) };
+    expect(checkPrePromotion(s)).toBe(true);
+    expect(s.preLevel).toBe(0);
+    expect(checkPrePromotion(s)).toBe(false);   // off the ladder, nothing promotes
+  });
+});
+
+describe("migration v5 and the fresh-saves-only ruling", () => {
+  it("a truly fresh save starts the ladder; every kind of history skips it", () => {
+    expect(migrate({ version: 4, level: 1, words: {}, log: [], settings: {} }).preLevel).toBe(1);
+    expect(migrate({ version: 4, level: 1, words: boxed(["cat"], 3), log: [], settings: {} }).preLevel).toBe(0);
+    expect(migrate({ version: 4, level: 1, words: {}, log: [], sessionsCompleted: 2, settings: {} }).preLevel).toBe(0);
+    expect(migrate({ version: 4, level: 1, words: {}, log: [{ n: 1, level: 1, items: [] }], settings: {} }).preLevel).toBe(0);
+    expect(migrate({ version: 4, level: 8, words: {}, log: [], settings: {} }).preLevel).toBe(0);   // a set level is intent
+  });
+  it("is idempotent, and a graduate stays graduated", () => {
+    const once = migrate({ version: 4, level: 1, words: {}, log: [], settings: {} });
+    const twice = migrate(JSON.parse(JSON.stringify(once)));
+    expect(twice).toEqual(once);
+    expect(migrate({ ...newState(), preLevel: 0 }).preLevel).toBe(0);
+  });
+  it("a corrupted preLevel fails toward teaching, never past it", () => {
+    /* The auditor proved the first clamp graduated a mid-ladder child: a
+       hostile value healed to absent and the final clamp read absent as 0.
+       Recovery now walks the ladder's own boxes — corruption with ladder
+       marks lands at the first unsecure rung; a clean history still rules a
+       save with no marks. All literals (E4). */
+    expect(migrate({ ...newState(), preLevel: 99 }).preLevel).toBe(5);      // too high clamps down, mid-ladder stays mid-ladder
+    const marks = { s: { box: 3, attempts: 2, correct: 2, close: 0, wrong: 0, dueAt: 0, lastSession: 0 } };
+    expect(migrate({ ...newState(), preLevel: NaN, pre: marks }).preLevel).toBe(1);
+    expect(migrate({ ...newState(), preLevel: -3, pre: marks }).preLevel).toBe(1);
+    expect(migrate({ ...newState(), preLevel: "abc" }).preLevel).toBe(1);   // fresh save, no marks: the ladder begins
+    expect(migrate({ ...newState(), preLevel: "abc", words: marks }).preLevel).toBe(0);   // reading history still rules
+    /* The auditor's last case: a reader whose grown-up jumped them to words
+       keeps stale ladder marks — reader evidence must outrank them, or a
+       Level 5 child lands back in sound drills on any corruption. */
+    const reader = { ...newState(), preLevel: NaN, level: 5,
+      pre: { s: { box: 4, attempts: 3, correct: 3, close: 0, wrong: 0, dueAt: 0, lastSession: 1 } },
+      words: { cat: { box: 5, attempts: 4, correct: 4, close: 0, wrong: 0, dueAt: 0, lastSession: 2 } } };
+    expect(migrate(reader).preLevel).toBe(0);
+    const done = { ...newState(), preLevel: NaN, pre: {} };
+    PRE_LEVELS.flatMap((p) => p.items).forEach((k) => { done.pre[k] = { box: 3, attempts: 2, correct: 2, close: 0, wrong: 0, dueAt: 0, lastSession: 0 }; });
+    expect(migrate(done).preLevel).toBe(0);                                 // every rung secure is the one safe graduation
+  });
+  it("keeps pre boxes and word boxes in separate rooms — the letters a and i collide otherwise", () => {
+    const s = migrate({ ...newState(), preLevel: 2, pre: boxed(["a"], 4), words: boxed(["a"], 1) });
+    expect(s.pre.a.box).toBe(4);
+    expect(s.words.a.box).toBe(1);
+  });
+});
+
+/* ---------- the running app ---------- */
+vi.mock("../app/src/storage.js", () => ({
+  loadState: vi.fn(async () => null),
+  saveState: vi.fn(async () => true),
+}));
+import { saveState as mockSave, loadState as mockLoad } from "../app/src/storage.js";
+const { default: App } = await import("../app/src/App.jsx");
+const flush = async (ms = 0) => act(async () => { await vi.advanceTimersByTimeAsync(ms); });
+
+beforeEach(() => { vi.useFakeTimers(); mockSave.mockClear(); mockLoad.mockReset(); mockLoad.mockResolvedValue(null); localStorage.clear(); });
+afterEach(() => { cleanup(); vi.useRealTimers(); });
+
+describe("the ladder in the app", () => {
+  it("a fresh install boots to Pre 1 and Begin serves the ear, not a word", async () => {
+    render(createElement(App));
+    await flush(0);
+    expect(screen.getByText(/Pre 1/)).toBeTruthy();
+    fireEvent.click(screen.getByText("▶️ Begin Session"));
+    await flush(0);
+    expect(screen.getByText("What word do the sounds make?")).toBeTruthy();
+    expect(screen.getByText("👂")).toBeTruthy();
+    expect(document.body.textContent.includes("Read this word")).toBe(false);
+  });
+  it("only the adult's hold records a pre result, into state.pre alone (S1)", async () => {
+    render(createElement(App));
+    await flush(0);
+    fireEvent.click(screen.getByText("▶️ Begin Session"));
+    await flush(0);
+    const writes = mockSave.mock.calls.length;
+    await flush(30000);                                   // a long quiet wait records nothing
+    expect(mockSave.mock.calls.length).toBe(writes);
+    fireEvent.keyDown(screen.getByLabelText("✓ got it (hold)"), { key: "Enter" });
+    await flush(0);
+    const saved = mockSave.mock.calls.at(-1)[0];
+    expect(saved.pre.am.correct).toBe(1);                 // the first ear item, taught order
+    expect(Object.keys(saved.words).length).toBe(0);      // and the word boxes untouched
+  });
+  it("the grown-up's pre control jumps the ladder and Words leaves it", async () => {
+    mockLoad.mockResolvedValueOnce({ ...newState(), preLevel: 0 });
+    render(createElement(App));
+    await flush(0);
+    fireEvent.click(screen.getByText("⚙️ Grown-ups"));
+    await flush(0);
+    fireEvent.click(screen.getByText("P3"));
+    await flush(0);
+    const saved = mockSave.mock.calls.at(-1)[0];
+    expect(saved.preLevel).toBe(3);
+  });
+});

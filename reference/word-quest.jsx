@@ -515,14 +515,24 @@ async function saveState(s) {
   return false;
 }
 /* F7 — guarantee the document shape. Valid JSON is not a valid save. */
-function healWords(s) {
-  if (!s.words || typeof s.words !== "object" || Array.isArray(s.words)) s.words = {};
-  for (const [w, ws] of Object.entries(s.words)) {
-    if (!ws || typeof ws !== "object" || typeof ws.box !== "number" || !isFinite(ws.box)) { delete s.words[w]; continue; }
+/* One healer for any box dictionary: words and pre-items carry the same
+   shape, so they take the same repairs. */
+function healBoxes(dict) {
+  for (const [w, ws] of Object.entries(dict)) {
+    if (!ws || typeof ws !== "object" || typeof ws.box !== "number" || !isFinite(ws.box)) { delete dict[w]; continue; }
     ws.box = Math.min(5, Math.max(0, Math.round(ws.box)));
     for (const k of ["attempts", "correct", "close", "wrong", "dueAt", "lastSession"])
       if (typeof ws[k] !== "number" || !isFinite(ws[k])) ws[k] = 0;
   }
+}
+function healWords(s) {
+  if (!s.words || typeof s.words !== "object" || Array.isArray(s.words)) s.words = {};
+  healBoxes(s.words);
+  if (!s.pre || typeof s.pre !== "object" || Array.isArray(s.pre)) s.pre = {};
+  healBoxes(s.pre);
+  // a hostile or negative preLevel reads as absent; migrate recovers it
+  if (typeof s.preLevel !== "number" || !isFinite(s.preLevel) || s.preLevel < 0) delete s.preLevel;
+  else s.preLevel = Math.round(s.preLevel);
 }
 function healLog(s) {
   if (!Array.isArray(s.log)) s.log = [];
@@ -544,12 +554,18 @@ function healSettings(s) {
   if (typeof s.settings.sound !== "boolean") s.settings.sound = d.sound;
   if (typeof s.settings.lang !== "string" || !s.settings.lang) s.settings.lang = d.lang;
 }
+/* Both streaks take the same repair: absent, hostile or negative reads as
+   zero, anything real rounds and caps at two. */
+function healStreak(s, key) {
+  const v = s[key];
+  if (typeof v !== "number" || !isFinite(v) || v < 0) s[key] = 0;
+  else s[key] = Math.min(2, Math.round(v));
+}
 function heal(s) {
   if (!s || typeof s !== "object") s = {};
   healWords(s); healLog(s); healSettings(s);
   if (typeof s.sessionsCompleted !== "number" || !isFinite(s.sessionsCompleted) || s.sessionsCompleted < 0) s.sessionsCompleted = 0;
-  if (typeof s.perfectStreak !== "number" || !isFinite(s.perfectStreak) || s.perfectStreak < 0) s.perfectStreak = 0;
-  else s.perfectStreak = Math.min(2, Math.round(s.perfectStreak));
+  healStreak(s, "perfectStreak"); healStreak(s, "prePerfectStreak");
   // a non-numeric level reads as absent; a fractional one is rounded — migrate clamps the range
   if (typeof s.level !== "number" || !isFinite(s.level)) delete s.level; else s.level = Math.round(s.level);
   // a version that is not a number reads as absent — a hostile value must not crash the migration check
@@ -570,42 +586,85 @@ function heal(s) {
    on the last level; a fresh save walks to Level 1 untouched. Log rows keep
    their old level numbers: the log is a record of what happened, and the
    number it recorded was true when it was written. */
-function migrate(s) {
-  s = heal(s);
+/* Save migrations, one function per version so each stays under the G6
+   complexity ceiling and reads alone. migrate() is the driver. */
+function migrateV3(s) {
   if (!s.version || s.version < 3) {
     s.level = (s.level || 1) + 1;
     (s.log || []).forEach(r => { r.level += 1; });
     s.version = 3;
   }
-  if (s.version < 4) {
-    let lvl = LEVELS.length;
-    for (let i = 0; i < LEVELS.length; i++) {
-      const ws = LEVELS[i].words;
-      if (!isSecure(ws.filter(w => s.words[w] && s.words[w].box >= 3).length, ws.length)) { lvl = i + 1; break; }
-    }
-    /* THE FLOOR: promotion has TWO paths — boxes, or two perfect sessions —
-       and a parent can set a level by hand. The box recompute alone sent
-       both kinds back to 1 (build reviewer, 2026-08-15). A migration never
-       seats a child below a level they held: the stored level maps to where
-       its OLD stage now begins (old 3, short i/o, at new 6; old 4 at 11;
-       old 5-11 whole as 14-20) and the child keeps whichever is higher. */
-    const OLD_TO_NEW = [1, 2, 6, 11, 14, 15, 16, 17, 18, 19, 20];
-    const stored = Math.min(Math.max(1, Math.round(s.level || 1)), OLD_TO_NEW.length);
-    s.level = Math.max(lvl, OLD_TO_NEW[stored - 1]);
-    /* open-faults J2: settings.mode carried "mic" in every save laid down
-       before the microphone was removed (owner safety ruling, 2026-08-11).
-       Nothing reads it; v4 is the door it leaves through. */
-    if (s.settings && s.settings.mode !== undefined) delete s.settings.mode;
-    s.version = 4;
+}
+function migrateV4(s) {
+  if (s.version >= 4) return;
+  let lvl = LEVELS.length;
+  for (let i = 0; i < LEVELS.length; i++) {
+    const ws = LEVELS[i].words;
+    if (!isSecure(ws.filter(w => s.words[w] && s.words[w].box >= 3).length, ws.length)) { lvl = i + 1; break; }
   }
+  /* THE FLOOR: promotion has TWO paths — boxes, or two perfect sessions —
+     and a parent can set a level by hand. The box recompute alone sent
+     both kinds back to 1 (build reviewer, 2026-08-15). A migration never
+     seats a child below a level they held: the stored level maps to where
+     its OLD stage now begins (old 3, short i/o, at new 6; old 4 at 11;
+     old 5-11 whole as 14-20) and the child keeps whichever is higher. */
+  const OLD_TO_NEW = [1, 2, 6, 11, 14, 15, 16, 17, 18, 19, 20];
+  const stored = Math.min(Math.max(1, Math.round(s.level || 1)), OLD_TO_NEW.length);
+  s.level = Math.max(lvl, OLD_TO_NEW[stored - 1]);
+  /* open-faults J2: settings.mode carried "mic" in every save laid down
+     before the microphone was removed (owner safety ruling, 2026-08-11).
+     Nothing reads it; v4 is the door it leaves through. */
+  if (s.settings && s.settings.mode !== undefined) delete s.settings.mode;
+  s.version = 4;
+}
+function migrateV5(s) {
+  if (s.version >= 5) return;
+  /* v5, the pre-level ladder (owner-ruled 2026-08-15): a fresh save starts
+     at Pre 1. Reading history is ANY of: a graded word, a completed session,
+     a kept log row, or a level someone set above the start — each one proves
+     the ladder's skill or a grown-up's intent, and none of them may be
+     demoted into letter drills (the auditor asked what counts; this is the
+     answer, and the tests pin each arm). */
+  if (typeof s.preLevel !== "number")
+    s.preLevel = (Object.keys(s.words).length > 0 || s.sessionsCompleted > 0
+      || (s.log || []).length > 0 || (s.level || 1) > 1) ? 0 : 1;
+  s.version = 5;
+}
+/* A corrupted preLevel on an already-v5 save fails TOWARD teaching, never
+   past it (the auditor proved the old clamp graduated a mid-ladder child):
+   ladder evidence in the boxes lands at the first unsecure rung — the same
+   walk the v4 level recompute does — and only a save with no ladder marks
+   falls back to the history rule. */
+function recoverPreLevel(s) {
+  /* READER EVIDENCE FIRST (the auditor's last find): a child moved to words
+     by the grown-up's jump keeps their old ladder marks forever, and marks
+     checked first would demote that reader to sound drills. Words, log rows
+     and a raised level are things the ladder never writes, so they are the
+     reader's proof; sessionsCompleted is NOT among them, because the ladder
+     rides the same session clock. */
+  if (Object.keys(s.words).length > 0 || (s.log || []).length > 0 || (s.level || 1) > 1) return 0;
+  if (Object.keys(s.pre).length > 0) {
+    for (const p of PRE_LEVELS) {
+      const solid = p.items.filter((k) => s.pre[k] && s.pre[k].box >= 3).length;
+      if (!isSecure(solid, p.items.length)) return p.n;
+    }
+    return 0;   // every rung secure: a finished ladder is the one safe graduation
+  }
+  return s.sessionsCompleted > 0 ? 0 : 1;
+}
+function migrate(s) {
+  s = heal(s);
+  migrateV3(s); migrateV4(s); migrateV5(s);
+  if (typeof s.preLevel !== "number") s.preLevel = recoverPreLevel(s);
   s.level = Math.min(Math.max(1, s.level || 1), LEVELS.length);  // defensive clamp, always
+  s.preLevel = Math.min(Math.max(0, s.preLevel || 0), PRE_LEVELS.length);
   return s;
 }
 
 const newState = () => ({
-  version: 4, level: 1, sessionsCompleted: 0, perfectStreak: 0,
+  version: 5, level: 1, preLevel: 1, sessionsCompleted: 0, perfectStreak: 0, prePerfectStreak: 0,
   settings: { sound: true, childName: "", lang: "en-US" },
-  words: {}, log: [],
+  words: {}, log: [], pre: {},
 });
 
 /* ---------- speech ---------- */
@@ -909,6 +968,75 @@ function soundIdsFor(word) {
    added — it says the letter's own name, which is exactly why it is here. */
 const HEART = ["the", "and", "to", "do", "you", "said", "my", "of", "a",
   "we", "me", "he", "be", "go", "no", "so", "i"];
+
+/* THE PRE-LEVEL LADDER (owner-ruled 2026-08-15: five levels, adult-graded
+   say-it-back, the words' own boxes-and-80-percent rule, fresh saves only —
+   SPEC section 12 item 8 carries the ruling). It teaches a child with no
+   letter knowledge everything Level 1 assumes. Pre 1 is the EAR: the app
+   plays a Level-1 word's sounds apart, the child says the word they make,
+   the adult grades — no letters anywhere. Pre 2 to 5 put one letter on
+   screen at a time: its approved sound is the PROMPT (S2 guards reading
+   attempts, and nothing on this screen is read — an echo task has no answer
+   to rob; SPEC section 12 item 8 states the distinction), the
+   child says it back, the adult grades with the same strip words use. The
+   ladder adds ZERO audio: every letter sound and every ear word already
+   ships owner-approved. The ten letters are exactly the ten that Level 1's
+   decodables spell, in the classic continuous-first s-a-t-p opening.
+   Boxes live in state.pre, NEVER state.words — the letters "a" and "i"
+   would collide with the words "a" and "i". The five rung names were
+   owner-approved on 2026-08-15 ("Approve pre level names"). */
+const PRE_LEVELS = [
+  { n: 1, name: "Little Ears", emoji: "👂", focus: "hear two sounds, say the word", kind: "ear",
+    items: ["am", "an", "in", "on", "at", "it", "up", "us", "is", "ax"] },
+  { n: 2, name: "First Sounds", emoji: "✨", focus: "s, a, t and p", kind: "letter", items: ["s", "a", "t", "p"] },
+  { n: 3, name: "New Sounds", emoji: "🌱", focus: "i and n", kind: "letter", items: ["i", "n"] },
+  { n: 4, name: "More Sounds", emoji: "🌟", focus: "m and o", kind: "letter", items: ["m", "o"] },
+  { n: 5, name: "Last Sounds", emoji: "🏁", focus: "u and x", kind: "letter", items: ["u", "x"] },
+];
+const preItems = (n) => (PRE_LEVELS.find((p) => p.n === n) || { items: [] }).items;
+
+/* A pre-session: up to five due letter reviews from the levels already won,
+   then this level's items — the fresh ones in taught order, the rest lowest
+   box first. No shuffle: a beginner's first meetings keep the taught order,
+   which is the pedagogy. Capped at twelve. */
+function buildPreSession(state) {
+  const pre = state.pre || {};
+  const cur = preItems(state.preLevel);
+  const sNum = state.sessionsCompleted + 1;
+  const picked = new Set();
+  const take = (arr, k) => { const got = []; for (const w of arr) { if (got.length >= k) break; if (!picked.has(w)) { picked.add(w); got.push(w); } } return got; };
+  const dueEarlier = PRE_LEVELS.filter((p) => p.kind === "letter" && p.n < state.preLevel).flatMap((p) => p.items)
+    .filter((k) => pre[k] && pre[k].attempts > 0 && pre[k].box < 5 && pre[k].dueAt <= sNum)
+    .sort((a, b) => pre[a].box - pre[b].box);
+  const list = [];
+  list.push(...take(dueEarlier, 5));
+  list.push(...take(cur.filter((k) => !pre[k] || pre[k].attempts === 0), 12 - list.length));
+  list.push(...take([...cur].sort((a, b) => ((pre[a] && pre[a].box) || 0) - ((pre[b] && pre[b].box) || 0)), 12 - list.length));
+  return list;
+}
+
+/* Winning a pre-level is the words' own rule, BOTH halves of it: 80 percent
+   of the rung's items at box 3, or two perfect sessions in a row - the same
+   pair checkPromotion runs. The second path matters more here than it ever
+   did for words: the rungs are small (the auditor measured 80 percent of a
+   two-letter rung as two of two), so the boxes alone would make a bar the
+   verdict never described. On a rung a child cannot crack, the grown-up's
+   jump control is the door. Passing Pre 5 leaves the ladder (preLevel 0)
+   and Level 1 begins. */
+function checkPrePromotion(state, session) {
+  if (!state.preLevel) return false;
+  const pre = state.pre || {};
+  const prior = typeof state.prePerfectStreak === "number" && isFinite(state.prePerfectStreak) && state.prePerfectStreak > 0
+    ? Math.min(2, Math.round(state.prePerfectStreak)) : 0;
+  if (session) state.prePerfectStreak = session.perfect ? Math.min(2, prior + 1) : 0;
+  const cur = preItems(state.preLevel);
+  const solid = cur.filter((k) => pre[k] && pre[k].box >= 3).length;
+  const secure = isSecure(solid, cur.length);
+  if (!secure && !(session && state.prePerfectStreak >= 2)) return false;
+  state.preLevel = state.preLevel >= PRE_LEVELS.length ? 0 : state.preLevel + 1;
+  state.prePerfectStreak = 0;
+  return true;
+}
 
 function bankWords() {
   const words = new Set();

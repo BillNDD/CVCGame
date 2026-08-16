@@ -95,6 +95,12 @@ const DECLARED = {
     mutants: "G19 sentence family", evidence: "Vitest counts (floor g10_sentence_tests)",
     limits: "Proves the ORDER the app asks for, never how the sentence sounds — that is a listening round (G13), and the owner has already graded every clip it plays.",
   },
+  "tests/pre.test.js": {
+    gate: "G10", requirement: "SPEC section 12 item 8: the pre-level ladder - its five rungs, sessions, promotions, and the fresh-saves-only migration",
+    oracle: "Literal rung rosters, literal boundary counts, and the shipped sound inventory", platform: "node/jsdom with fake timers",
+    mutants: "none yet - the ladder shipped 2026-08-15 and its mutant family is a named follow-up", evidence: "Vitest counts (mapped by G20)",
+    limits: "Proves the ladder's arithmetic and wiring, never how a sound lands in a child's ear - the clips it plays were each graded in their own rounds.",
+  },
   "tests/updates.test.js": {
     gate: "G14", requirement: "SPEC section 7a: the version and build comparison, and what a newer version may do",
     oracle: "Literal version and build strings", platform: "node/jsdom",

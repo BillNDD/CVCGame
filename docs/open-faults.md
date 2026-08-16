@@ -1189,6 +1189,17 @@ protect it, and a gate that cannot run is a gate that is not protecting anything
   great" — all ten approved as offered. The engine's LEVELS comment no longer calls
   them provisional; this entry is the record of when and how they were ruled.
 
+## S. The pre-level ladder has no mutant family — opened 2026-08-15
+
+- **Where** `tools/mutants.mjs` (G5) and `tools/app-mutants.mjs` (G19): the ladder shipped
+  with 15 tests but zero planted mutants, so nothing yet proves those tests can fail.
+  The effect map names this entry as the follow-up.
+- **What a child experiences today** Nothing wrong — the tests are real and green. The gap
+  is proof-of-teeth: a quietly weakened pre test would not turn any gate red.
+- **Done** means a G5 family over `checkPrePromotion` (the 80 percent bar, the streak cap,
+  the graduation), a G19 family over `usePre.js` (the one-grade guard, the advance arming),
+  floors `g5_source_mutants` and `g19_app_mutants` raised to match, and this entry closed.
+
 ## G. Ideas worth trying that nobody has tried
 
 Owner-instructed 2026-08-12. Unlike every section above, these are **not** faults and not
