@@ -86,7 +86,7 @@ durable record and must survive a context loss:
   finding earns length; a routine delivery does not. Never pad, never truncate
   something the owner needs.
 - **Emojis mark status and sections, never mid-sentence.** One leading emoji
-  per line or heading: 🎧 a round, ✅ closed, ⚠️ needs the owner, 🐛 a fault
+  per line or heading: 🎧 a round, ✅ closed, ⚠️ needs the owner, 🐞 a fault
   found, 📊 the tally. Enough to find the relevant line at a glance; never
   decoration.
 - **A round delivery carries, at least:** the link, the tally, what is NEW this
