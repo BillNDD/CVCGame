@@ -732,8 +732,9 @@ Levels, in order:
 1. Level 10, final blends (CVCC: hand, jump, milk). Research: final blends are easier than
    initial ones, so they come first.
 2. Level 11, initial blends (CCVC: stop, flag, swim).
-3. **SHIPPED 2026-08-16 as Level 21, Cats and Dogs** — the plural-s level, built the
-   evening after beta.20. The owner culled the roster to fourteen on a decision page
+3. **SHIPPED 2026-08-16 as Level 21, Cats and Dogs** — the plural-s level, built in
+   the small hours and morning after beta.20 (the commit clock, not the narrative,
+   dates it). The owner culled the roster to fourteen on a decision page
    (cans waits in the ledger on the jugs precedent), romp took its seat in Level 19,
    and twelve sentences passed the owner's read and listening round 7 the same day.
    The s says /s/ after a quiet ending (cats, hats, pots, maps, cups, tops) and /z/
