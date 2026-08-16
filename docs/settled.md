@@ -1423,6 +1423,38 @@ it deliberately leaves open, named there: the whisper's exact ink level (watch a
 child), and the late-game multi-paragraph form. Do not re-open the presentation without
 a new ruling; iterate the ink level freely — that is tuning, not re-opening.
 
+## The first passages from real books — culled by the owner's eye (2026-08-16) — closed
+
+Two page rounds put twenty-one verbatim public-domain candidates before the owner —
+fifteen from the first four books fetched from Project Gutenberg, then six more from four
+shelves after the owner asked for source diversity — every card carrying its credit line,
+its measured decodability against the 461-word bank, and the character names that would
+ride into the new passage-names ledger. **Eleven were kept**, ten cut (among the cuts:
+Pat-a-cake, whose opening rides the owner's own standing pat-ban — the eye and the screen
+agreeing). The kept eleven, verbatim, with their credits:
+
+- "The sun is up. The man has fed the black hen and the fat duck." — *McGuffey's First Eclectic Reader* (77% decodable)
+- "Let us run and jump. I think it is fun to run, and skip, and jump." — *McGuffey's First Eclectic Reader* (77% decodable)
+- "Now the duck will swim in the pond. The hen has run to her nest." — *McGuffey's First Eclectic Reader* (71% decodable)
+- "I went with Tom to the pond. I had my doll, and Tom had his flag." — *McGuffey's First Eclectic Reader* (71% decodable; ledger riders Tom)
+- "See the duck on the pond! Her nest is up on the bank, under the rock." — *McGuffey's First Eclectic Reader* (62% decodable)
+- "And what do you think she found besides flowers? A nest with young birds in it." — *McGuffey's First Eclectic Reader* (59% decodable)
+- "Toss it to me, and see. I will not let it fall." — *McGuffey's First Eclectic Reader* (58% decodable; ledger riders Toss)
+- "O Ben! let me get in, will you?" — *McGuffey's First Eclectic Reader* (56% decodable; ledger riders Ben)
+- "She will now put it in the cage, and hang the cage up. Then the cat can not catch it." — *McGuffey's First Eclectic Reader* (65% decodable)
+- "The Lion was much amused to think that a Mouse could ever help him. But he was generous and finally let the Mouse go." — *The Aesop for Children*, by Aesop (55% decodable; ledger riders Lion, Mouse)
+- "See a pin and pick it up, All the day you'll have good luck. See a pin and let it lay, Bad luck you'll have all the day." — *The Real Mother Goose*, a Mother Goose rhyme (58% decodable)
+
+The first four passage names entered `tools/s9-passage-names.json` with this cull: two
+McGuffey children and Aesop's Lion and Mouse, each crediting its passage. The diversity
+finding is recorded on the round-two page and stands here in one line: at today's bank
+only primer prose and rhymes are honestly readable, and the measured unlock table shows
+Fifty Famous Stories (9 passages), Mother Goose (8) and Aesop (4) arriving as the
+420-word target is taught — the road itself is what buys the shelves. These eleven wait
+for the passage stage's build: the whisper presentation ruled earlier today, clips
+through listening rounds, and the credit spoken at the end. Nothing here ships until
+then, and nothing here is re-offered to a future round as new.
+
 ## The trap this project keeps falling into
 
 A fix that is approved but not applied is worse than no fix: it reads as done.

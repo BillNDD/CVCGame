@@ -11,5 +11,18 @@
   "features/",
   "tests/"
  ],
- "names": {}
+ "names": {
+  "Tom": {
+   "source": "McGuffey's First Eclectic Reader \u2014 the pond passage, kept by the owner 2026-08-16"
+  },
+  "Ben": {
+   "source": "McGuffey's First Eclectic Reader \u2014 the swing passage (O Ben!), kept by the owner 2026-08-16"
+  },
+  "Lion": {
+   "source": "The Aesop for Children \u2014 the Lion and the Mouse, kept by the owner 2026-08-16"
+  },
+  "Mouse": {
+   "source": "The Aesop for Children \u2014 the Lion and the Mouse, kept by the owner 2026-08-16"
+  }
+ }
 }

@@ -645,7 +645,7 @@ deliberate: a flaky cell must inform a release, never block one.
   dependency rule.
 - Negative control: `--self-test` plants a `PROGRESS.md` and a stray `status.json`; the
   detector must report both and still accept the real tree.
-- Baseline floor: `g17_governing_files` (28). It moved from 23 on 2026-08-11, when the
+- Baseline floor: `g17_governing_files` (29). It moved from 23 on 2026-08-11, when the
   owner approved `docs/open-faults.md` into the owned set — the list of what is still
   wrong, so that a fault cannot be lost to a context compaction — from 24 on 2026-08-15
   for `docs/file-map.md`, the generated ownership map (G23), and to 28 the same day for
@@ -761,7 +761,7 @@ happened to read the output.
   halves repository language is the tree talking, one stranger half is a person. The
   stated residue: someone named entirely in repository words is skipped here, exactly as
   each half already was by the single-word layers.
-- Keys: `g24_files` (199), `g24_controls` (47), `g24_vocab` (160), `g24_common` (889),
+- Keys: `g24_files` (199), `g24_controls` (47), `g24_vocab` (168), `g24_common` (889),
   `g24_surnames` (1000), problems capped at 0.
 - Run: `node tools/s9-names.mjs` and `--self-test`; both are in `npm run check`.
 

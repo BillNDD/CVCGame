@@ -378,7 +378,7 @@ function selfTest() {
   const vocab = loadVocab();
   T("the real vocabulary is sorted and unique, so a diff shows exactly the newcomer",
     JSON.stringify(vocab) === JSON.stringify([...new Set(vocab)].sort()));
-  T("the real tree holds no capitalized stranger", strangers(tree, vocab).length === 0);
+  T("the real tree holds no capitalized stranger", strangers(tree, vocab, loadPassageNames()).length === 0);
   /* The common layer, through the real list — fixture names are DRAWN from
      it at run time, so this file never holds a name literal of its own. */
   const common = loadCommon();

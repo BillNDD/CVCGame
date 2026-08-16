@@ -55,6 +55,10 @@ export const GOVERNING = [
   "tools/s9-vocab.json",
   "tools/s9-common-names.json",
   "tools/s9-surnames.json",
+  /* S9's second exception (owner-approved 2026-08-16): the passage-names
+     ledger, growing only by owner-visible diff at each passage's screening
+     round. */
+  "tools/s9-passage-names.json",
   "tools/pending-words/pending-words.json",
   "tools/voice-lock.json",
   "tools/voice-sounds.csv",
