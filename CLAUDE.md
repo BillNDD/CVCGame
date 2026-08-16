@@ -250,7 +250,8 @@ exclusions are recorded in SPEC section 12.
 - E7. Run `npm run check` before every push: the quality lint (ESLint with the complexity and
   file-length ceilings, the dependency-cycle scan, and the quality controls) plus the full test
   suite plus the sub-minute gates (copy, doc-truth, QA count, voice pack, governing files,
-  effect map, and the word-gate island control) plus the controls of the E11 lookup
+  effect map, the word-gate island control, and the coverage lookup with its
+  clips-waiting-for-seats line, owner-ruled 2026-08-16) plus the controls of the E11 lookup
   (`tools/blast-radius.mjs --self-test`, a fifth of a second), about half a minute. A red
   check blocks the change. The quality lint joined the check on 2026-08-12, owner-ruled, after the gap it left
   cost two defects in one day: a `font:` shorthand the quality controls have refused since

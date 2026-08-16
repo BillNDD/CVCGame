@@ -97,6 +97,13 @@ durable record and must survive a context loss:
   so lead with those and keep them findable rather than deciding for them.
 - Brevity never buys silence about a mistake, a refusal, or a thing the owner
   must decide. Shorten the explanation, never drop the item.
+- **Every word batch ends with a seating pass** (owner-ruled 2026-08-16: "Go
+  ahead with this"). Words whose sound-outs are fully taught at an existing
+  level are OFFERED for seating on a page in the same build that ships their
+  clips — seated words reach free play, sessions and the schedule; unseated
+  clips reach nobody. What stays waiting is a measured number: the coverage
+  lookup's clips-waiting-for-seats line runs in every check, so the drawer
+  can never grow quietly.
 
 ## Asking the owner to decide (owner-ruled 2026-08-12)
 

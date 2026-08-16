@@ -1467,7 +1467,10 @@ flowers) and one closest (all, comment truncated) that go to batch 16 on new mat
 only. Seventeen of the thirty-two are target-list words. The clips wait with the
 passage sentences for the passage stage's build; none of them enters a level, free play
 or the schedule by being approved — seating is a separate, owner-culled step, and the
-question of a standing seating pass is OPEN with the owner as of this entry.
+question of a standing seating pass was OPEN when this entry was first written and the
+owner ruled it the same day — "Go ahead with this": a seating pass is a standing part of
+every word batch, and the coverage lookup's clips-waiting-for-seats line runs in every
+check. AGENTS.md carries the practice rule.
 
 ## The trap this project keeps falling into
 
