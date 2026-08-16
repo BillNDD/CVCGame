@@ -1381,6 +1381,36 @@ ruled: **"Yeah let's skip them."** Real-word blending with meaning attached stan
 ladder's method. Do not re-open without a new ruling; this entry is what the round would
 cost and why it was declined.
 
+## Level 21, the plural level — five verdicts on one page (2026-08-16) — closed
+
+The road's next stop was ruled on a browser-verified decision page the evening after
+beta.20 shipped. The five verdicts, in the owner's words where quoted:
+
+1. **The roster is 14 words**: cats hats pots maps cups hens pigs bugs pens kids dogs
+   beds tops lids — "Ship 14 - cans waits for a future ruling". **cans** is flagged, not
+   refused: my screen matched it to the jugs precedent (2026-08-07) and the owner left it
+   in the waiting room, verdict intact. Six words say /s/, eight say /z/; d:s and d:z
+   both ship already, so the level adds zero new audio.
+2. **romp is seated in Level 19, Tent Camp**, with the other final blends — the 19th
+   waiting word finally has its home. Its perfect verdict and pinned bytes ride along.
+3. **The level's name is Cats and Dogs 🐾** — one /s/ plural and one /z/ plural, the
+   level's whole lesson in its own name.
+4. **Sentences: 7 of the 13 drafts survived the owner's read**, and the cut pattern
+   taught something: every cut was a static scene (sit on beds, nap on beds, sit on
+   desk, the chant-shaped "spin and spin"), every keep an action (grab, dig, get, fit,
+   sat in mud, hop). The owner also wrote one of their own — "The maps rest on the
+   desk." — and asked for eight-word options that reuse earlier levels' words. Drafting
+   to that brief is the standing instruction for this level's remaining sentence work.
+5. **The book-list target stands at 420 words.** The owner's 100-lessons index
+   (photographed 2026-08-16, "I would like for the game to cover at least these words by
+   the time we call it done") holds 434 distinct words. Thirteen book-artifacts are
+   refused (blap, ruck, ding, blam, biff, beagle, boo, zzzz, ho, sam, let's, eagle's,
+   don't — sam is also a person's name the S9 gate would refuse). **gun is refused** by
+   the appropriateness screen. **shot is admitted** on the owner's amendment — "Also
+   shot is fine in the right sentence" — meaning the word may be taught and the sentence
+   screen judges each use. SPEC section 12 takes the ruled list when it lands in the
+   repository; until then the transcription lives in the session scratchpad.
+
 ## The trap this project keeps falling into
 
 A fix that is approved but not applied is worse than no fix: it reads as done.
