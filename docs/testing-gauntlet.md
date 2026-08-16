@@ -696,7 +696,7 @@ the tool would be fault F2 re-committed.
   `filemap_history_max` (1) — a ceiling only the owner moves (E6). Today's one:
   `docs/voice-goldens-packs1-3.json`, whose 11-of-57 recipe disagreements make it a trap if
   read as live.
-- Keys: `g23_declared` (28), `g23_facts` (4), `g23_controls` (40), problems capped at 0,
+- Keys: `g23_declared` (30), `g23_facts` (4), `g23_controls` (40), problems capped at 0,
   ceiling `filemap_history_max` (1).
 - Run: `node tools/file-map.mjs --check` and `--self-test`; both are in `npm run check`.
 
@@ -761,7 +761,7 @@ happened to read the output.
   halves repository language is the tree talking, one stranger half is a person. The
   stated residue: someone named entirely in repository words is skipped here, exactly as
   each half already was by the single-word layers.
-- Keys: `g24_files` (199), `g24_controls` (41), `g24_vocab` (159), `g24_common` (889),
+- Keys: `g24_files` (199), `g24_controls` (47), `g24_vocab` (160), `g24_common` (889),
   `g24_surnames` (1000), problems capped at 0.
 - Run: `node tools/s9-names.mjs` and `--self-test`; both are in `npm run check`.
 

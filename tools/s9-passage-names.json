@@ -1,0 +1,15 @@
+{
+ "_comment": "Character names inside verbatim public-domain teaching content (gate G24; owner-approved 2026-08-16: 'Can we adjust the rule so it doesn't catch names in the game sentences and paragraphs?'). A name listed here passes the COMMON-names scan and the stranger scan ONLY inside content_files below - everywhere else it stays refused, the pair rule is unaffected, and the PRIVATE denylist ignores this ledger entirely: a real family name always wins. Each entry names its source passage's credit, enters by owner-visible diff at the passage's screening round, and leaves when its last passage does. content_files entries ending in / are prefixes.",
+ "content_files": [
+  "reference/word-quest.jsx",
+  "src/engine.js",
+  "tools/pending-words/pending-words.json",
+  "tools/sentence-screen.mjs",
+  "tools/voice-words.csv",
+  "docs/settled.md",
+  "docs/voice-pack.md",
+  "features/",
+  "tests/"
+ ],
+ "names": {}
+}

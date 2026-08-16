@@ -179,10 +179,17 @@ exclusions are recorded in SPEC section 12.
   These two are units for TILING only; teaching vowel teams as code stays ruled out
   (SPEC section 12).
 - S9. No file in the repository contains a personal name. The child's name is a device-local
-  setting only. One exception, owner-approved 2026-08-11: the name of a published author may
-  appear, and be spoken, in the book credit of the passage stage (SPEC section 12). S9 exists
-  to keep a real child's and family's data off the device and out of the repository, and a
-  book's author is neither.
+  setting only. Two exceptions. First, owner-approved 2026-08-11: the name of a published
+  author may appear, and be spoken, in the book credit of the passage stage (SPEC section
+  12). Second, owner-approved 2026-08-16 ("Can we adjust the rule so it doesn't catch names
+  in the game sentences and paragraphs?"): a character's name inside verbatim public-domain
+  teaching content may appear and be spoken, scoped by `tools/s9-passage-names.json` — each
+  name enters that ledger as its own owner-visible diff with its source credited, passes
+  only inside the ledger's content files, and stays refused everywhere else. The pair rule
+  is unaffected and the private denylist ignores the ledger entirely: a real family name
+  always wins. S9 exists
+  to keep a real child's and family's data off the device and out of the repository, and
+  neither a book's author nor a book's characters are that.
 
 ## Engineering rules
 

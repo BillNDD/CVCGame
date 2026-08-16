@@ -1181,6 +1181,10 @@ exact whisper ink level (to be settled by watching a real child, not by taste), 
 very-late-game multi-paragraph form, which is its own design for later. Paragraph CONTENT
 walks the same pipeline as every sentence: written, person-read, rendered, and heard.
 
+Character names inside verbatim passage text are S9's second exception (owner-approved
+2026-08-16): each enters `tools/s9-passage-names.json` at its passage's screening round,
+an owner-visible diff crediting the source, and passes only inside the content files.
+
 As the child's confidence grows, sentence mode grows with it: one sentence, then several,
 then a paragraph. Its final stage is not written for the game at all. It is a passage from
 a real book, and when the grown-up marks it read, part of the congratulations tells the

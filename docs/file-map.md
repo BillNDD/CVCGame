@@ -53,6 +53,7 @@ verbatim) are exempt; the exemptions are declared in the tool.
 | `tools/s9-surnames.json` | DATA | the public census surnames for G24's pair rule: a first name beside one is a person |
 | `tools/pending-words/pending-words.json` | DATA | the waiting room's ledger: verdict, family, arm, round and byte pin for every approved-and-unshipped clip — docs/voice-pack.md tells each round's story |
 | `tools/target-vocab.txt` | DATA | the 420-word target vocabulary the owner ruled the game covers before it is called done — SPEC section 12 owns the ruling |
+| `tools/s9-passage-names.json` | DATA | the passage-names ledger: which character names verbatim teaching content may carry, where they pass, and each name's source — S9's second exception (CLAUDE.md owns the rule) |
 | `tools/voice-lock.json` | GENERATED | regenerate: `node tools/gen-voice-lock.mjs` |
 | `tools/voice-sounds.csv` | DATA | the archive of the retired recording pipeline (ledger-truth rule 5 guards it) |
 | `tools/voice-words.csv` | DATA | per word: the recipe, the verdict, the round, the byte pin — the one file a person edits after a listening round |

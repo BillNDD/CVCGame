@@ -79,7 +79,7 @@ export function loadNames(read = readFileSync, exists = existsSync, env = proces
    the line number — the name itself appears ONLY here, on the screen of
    whoever ran the scan, because a finding that hides where the fault is
    cannot be fixed. */
-export function scan(tree, names) {
+export function scan(tree, names, passage = null) {
   const problems = [];
   for (const name of names) {
     /* Leading boundary: any non-letter. Trailing boundary: any non-LOWERCASE,
@@ -113,6 +113,9 @@ export function scan(tree, names) {
         const span = m[2];
         const next = text[m.index + m[0].length] || "";
         if (span === span.toUpperCase() && /[A-Z]/.test(next)) continue;
+        /* A screened character name, met inside the teaching content it was
+           screened FOR, is the passage ledger's whole purpose. */
+        if (passage && passage.names[name] && inScope(file, passage.content_files)) continue;
         const line = text.slice(0, m.index).split("\n").length;
         problems.push(`${file}:${line} contains "${name}" — S9: no file in the repository contains a personal name`);
         break;
@@ -148,7 +151,28 @@ export function loadTree() {
    vocabulary is self-satisfying by construction, and the common-names list
    holds 194 capitalized names ON PURPOSE — scanning the guard's own list
    would flag every bullet in it. */
-const MACHINERY = /package-lock\.json$|\.gitignore$|\.gitattributes$|s9-common-names\.json$|s9-surnames\.json$/;
+const MACHINERY = /package-lock\.json$|\.gitignore$|\.gitattributes$|s9-common-names\.json$|s9-surnames\.json$|s9-passage-names\.json$/;
+
+/* THE PASSAGE LEDGER (owner-approved 2026-08-16: "Can we adjust the rule so
+   it doesn't catch names in the game sentences and paragraphs?"). Verbatim
+   public-domain teaching content carries its characters' names by design,
+   each screened by the owner's own read. A name in this
+   ledger passes the COMMON scan and the STRANGER scan only inside the
+   ledger's content_files; anywhere else it is refused exactly as before.
+   Two things this deliberately does NOT loosen: the PRIVATE denylist never
+   consults the ledger (a real family name always wins, even in a passage),
+   and the pair rule is untouched (a ledgered first name beside a surname
+   still fails the build). Each name enters by owner-visible diff at its
+   passage's screening round, with the source credited. */
+export function loadPassageNames(read = readFileSync) {
+  try {
+    const j = JSON.parse(read("tools/s9-passage-names.json", "utf8"));
+    return { content_files: j.content_files || [], names: j.names || {} };
+  } catch { return { content_files: [], names: {} }; }
+}
+export function inScope(file, scope) {
+  return scope.some((s) => s.endsWith("/") ? file.startsWith(s) : file === s);
+}
 
 /* camelCase splits first, so an identifier carrying a glued name still
    surrenders it — an identifier was one of the incident's six landings. */
@@ -163,7 +187,7 @@ export function languageOf(tree) {
   return lower;
 }
 
-export function strangers(tree, vocab) {
+export function strangers(tree, vocab, passage = null) {
   const known = new Set(vocab);
   const lower = new Set();
   const caps = new Map();
@@ -171,12 +195,22 @@ export function strangers(tree, vocab) {
     if (MACHINERY.test(f)) continue;
     for (const w of t.replace(/([a-z])([A-Z])/g, "$1 $2").split(/[^A-Za-z]+/)) {
       if (/^[a-z]+$/.test(w)) lower.add(w);
-      else if (/^[A-Z][a-z]{2,}$/.test(w) && !caps.has(w)) caps.set(w, f);
+      else if (/^[A-Z][a-z]{2,}$/.test(w)) { if (!caps.has(w)) caps.set(w, new Set()); caps.get(w).add(f); }
     }
   }
-  return [...caps.entries()]
-    .filter(([w]) => !lower.has(w.toLowerCase()) && !known.has(w))
-    .map(([w, f]) => `${f}: "${w}" is a capitalized token this repository has never known — a personal name is exactly such a stranger (S9). A legitimate new word is added to tools/s9-vocab.json, an owner-visible diff.`);
+  const out = [];
+  for (const [w, files] of caps.entries()) {
+    if (lower.has(w.toLowerCase()) || known.has(w)) continue;
+    if (passage && passage.names[w]) {
+      /* Ledgered: fine inside content files, a stranger anywhere else. */
+      const outside = [...files].filter((f) => !inScope(f, passage.content_files));
+      for (const f of outside) out.push(`${f}: "${w}" is a passage name, and passage names pass only inside the content files the ledger scopes (S9) — it does not belong here.`);
+      continue;
+    }
+    const f = [...files][0];
+    out.push(`${f}: "${w}" is a capitalized token this repository has never known — a personal name is exactly such a stranger (S9). A legitimate new word is added to tools/s9-vocab.json, an owner-visible diff.`);
+  }
+  return out;
 }
 
 export function loadVocab(read = readFileSync) {
@@ -271,6 +305,24 @@ function selfTest() {
     scan({ "a.md": "the scanner cannot skim banners" }, ["ann", "kim"].filter((n) => n.length >= 3)).length === 0);
   T("a clean tree with a loaded list passes",
     scan({ "a.md": "an ordinary sentence about a cat" }, [P]).length === 0);
+
+  /* THE PASSAGE LEDGER's six controls (owner-approved 2026-08-16). The
+     fixture name follows the Placeholderkid convention: never a real name. */
+  const PC = "Placeholderchar";
+  const LEDGER = { content_files: ["reference/word-quest.jsx", "docs/settled.md", "tests/"], names: { [PC]: { source: "a fixture primer" } } };
+  T("a ledgered passage name inside a content file passes the common scan",
+    scan({ "reference/word-quest.jsx": `text: "${PC} ran to the gate."` }, [PC], LEDGER).length === 0);
+  T("the same ledgered name OUTSIDE the content files is refused",
+    scan({ "docs/open-faults.md": `${PC} was here` }, [PC], LEDGER).length === 1);
+  T("an unledgered name inside a content file is still refused",
+    scan({ "reference/word-quest.jsx": `text: "${P} ran home."` }, [P], LEDGER).length === 1);
+  T("the PRIVATE list ignores the ledger — a family name wins even in a passage",
+    scan({ "reference/word-quest.jsx": `text: "${PC} sat."` }, [PC]).length === 1);
+  T("a ledgered stranger token passes only inside content files",
+    strangers({ "docs/settled.md": `${PC} read it.` }, [], LEDGER).length === 0
+    && strangers({ "tools/x.mjs": `const ${PC} = 1;` }, [], LEDGER).length === 1);
+  T("a content-files prefix entry scopes a whole directory",
+    scan({ "tests/generated/acceptance.test.js": `it("${PC} reads", () => {})` }, [PC], LEDGER).length === 0);
   /* Optional chaining on purpose: with the scan dead this control must FAIL,
      not throw — a thrown self-test prints no summary and reads as "no
      output", which is how the first planting of a dead scan went unscored. */
@@ -398,11 +450,14 @@ if (isMain) {
      the owner explicitly lists are worth a rare false hit. */
   const scanTree = Object.fromEntries(Object.entries(tree).filter(([f]) => !MACHINERY.test(f)));
   const surnames = loadSurnames();
-  const hits = [...scan(scanTree, names), ...scan(scanTree, common), ...strangers(tree, vocab),
+  const passage = loadPassageNames();
+  /* The PRIVATE list never sees the passage ledger - a real family name
+     always wins, even inside a screened passage. */
+  const hits = [...scan(scanTree, names), ...scan(scanTree, common, passage), ...strangers(tree, vocab, passage),
     ...pairs(tree, loadFirstUniverse(), surnames, languageOf(tree))];
   problems.forEach((p) => console.error("  PROBLEM: " + p));
   hits.forEach((h) => console.error("  PROBLEM: " + h));
-  console.log(`S9 names: ${names.length} names loaded, ${common.length} common names guarded, ${surnames.length} surnames paired, ${vocab.length} known tokens, ${Object.keys(tree).length} files scanned, ${problems.length + hits.length} problems`);
+  console.log(`S9 names: ${names.length} names loaded, ${common.length} common names guarded, ${surnames.length} surnames paired, ${vocab.length} known tokens, ${Object.keys(passage.names).length} passage names scoped, ${Object.keys(tree).length} files scanned, ${problems.length + hits.length} problems`);
   if (!names.length) console.log("  (no private/s9-names.txt and no S9_NAMES on this machine - structural controls only; the live scan runs where the owner keeps the list)");
   process.exit(problems.length + hits.length ? 1 : 0);
 }
