@@ -770,11 +770,12 @@ Levels, in order:
    **The target is 420 words; 147 are covered by the 461-word bank as of
    Level 21.** The uncovered words map onto the road above: vowel teams,
    magic-e, r-controlled vowels, -ing forms, and the two-syllable stage. One
-   word is unresolved and waits on the owner: "hope" is both a target word
-   and an entry in the S9 gate's given-names list, whose own rule says it
-   only grows — excluding it needs the owner to move the g24_common floor.
-   Until that ruling the list itself stays out of the repository and this
-   paragraph is its record.
+   word is unresolved and waits on the owner: h-o-p-e (lesson 50, spelled
+   here with separators because the S9 gate rightly refuses the bare word)
+   is both a target word and an entry in that gate's given-names list, whose
+   own rule says it only grows — excluding it needs the owner to move the
+   g24_common floor. Until that ruling the list itself stays out of the
+   repository and this paragraph is its record.
 
 8. **EXPANDING DOWN — the pre-level ladder. Owner-asked 2026-08-14; RULED and BUILT
    2026-08-15** (four verdicts on a decision page; `docs/settled.md` holds them). Five
