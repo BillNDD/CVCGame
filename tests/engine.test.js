@@ -703,6 +703,20 @@ describe("voice packs", () => {
       for (const id of soundIdsFor(w)) expect(inv.has(id)).toBe(true);
     }
   });
+  it("the plural s splits by voicing: dogs buzzes, cats hisses (Level 21's lesson)", () => {
+    /* All literals (E4). The eight voiced plurals bend their last tile to
+       d:z; the six voiceless keep d:s. Without the bend a child sounding out
+       "dogs" hears d-o-g-sss, a word nobody says. */
+    expect(soundIdsFor("dogs")).toEqual(["d:d", "d:short_o", "d:g", "d:z"]);
+    expect(soundIdsFor("hens")).toEqual(["d:h", "d:short_e", "d:n", "d:z"]);
+    expect(soundIdsFor("beds")).toEqual(["d:b", "d:short_e", "d:d", "d:z"]);
+    expect(soundIdsFor("cats")).toEqual(["d:k", "d:short_a", "d:t", "d:s"]);
+    expect(soundIdsFor("cups")).toEqual(["d:k", "d:short_u", "d:p", "d:s"]);
+    for (const w of ["hens", "pigs", "bugs", "pens", "kids", "dogs", "beds", "lids"])
+      expect(soundIdsFor(w).at(-1)).toBe("d:z");
+    for (const w of ["cats", "hats", "pots", "maps", "cups", "tops"])
+      expect(soundIdsFor(w).at(-1)).toBe("d:s");
+  });
 
   /* B9: the inventory is derived from every word the app NAMES, not from the
      levels alone. It walked LEVELS until 2026-08-12 and was correct only by
