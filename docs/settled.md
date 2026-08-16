@@ -1411,6 +1411,18 @@ beta.20 shipped. The five verdicts, in the owner's words where quoted:
    screen judges each use. SPEC section 12 takes the ruled list when it lands in the
    repository; until then the transcription lives in the session scratchpad.
 
+## The paragraph stage's presentation — ruled on mockups (2026-08-16) — closed
+
+How a two-to-three sentence paragraph presents was settled on a page of four working
+phone mockups the owner could tap through, after a first round of four and the owner's
+own blend note. The verdicts, verbatim: "Whisper - big line centered, next line faint
+below" and "One hold per sentence, as today". SPEC section 12's passage item owns the
+full design. What this closes: the filmstrip, the plain growing page, the history chip
+and the full ladder are refused for this stage; per-paragraph grading is refused. What
+it deliberately leaves open, named there: the whisper's exact ink level (watch a real
+child), and the late-game multi-paragraph form. Do not re-open the presentation without
+a new ruling; iterate the ink level freely — that is tuning, not re-opening.
+
 ## The trap this project keeps falling into
 
 A fix that is approved but not applied is worse than no fix: it reads as done.

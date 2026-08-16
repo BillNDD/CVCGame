@@ -1157,6 +1157,21 @@ obeys the bank's rules, S8); vowel teams taught alongside magic-e.
 
 ### Passages from real books — approved 2026-08-11, unbuilt
 
+**The paragraph presentation is ruled — 2026-08-16, on a page of tappable mockups.** A
+small paragraph (two or three sentences, growing over time) presents as the WHISPER: the
+current sentence in full child-size type, centered in its space; the NEXT sentence waiting
+below it at roughly 65 percent size and 30 percent ink; on advance the whisper inflates up
+into the active spot, and read sentences settle small and dim above. The owner picked it
+from four working mockups (a pip filmstrip, the plain growing page, a history-as-chip
+variant, and a full fade-with-distance ladder), and it began as their own blend of two:
+"the child appropriate [type] ... but below that is like spotlight the 'next line' in a
+smaller slightly see through colouring". Grading stays ONE HOLD PER SENTENCE, exactly as
+today — a paragraph is a presentation of sentences, not a new unit of record, so S1's
+machinery and the schedule's boxes are untouched. Two things stay deliberately open: the
+exact whisper ink level (to be settled by watching a real child, not by taste), and the
+very-late-game multi-paragraph form, which is its own design for later. Paragraph CONTENT
+walks the same pipeline as every sentence: written, person-read, rendered, and heard.
+
 As the child's confidence grows, sentence mode grows with it: one sentence, then several,
 then a paragraph. Its final stage is not written for the game at all. It is a passage from
 a real book, and when the grown-up marks it read, part of the congratulations tells the
