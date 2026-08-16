@@ -28,15 +28,25 @@ if (!cycleCaught) {
 }
 
 const baseline = JSON.parse(readFileSync(".claude/gate-baseline.json", "utf8"));
-const cfg = JSON.parse(execSync("npx eslint --print-config src/engine.js", { encoding: "utf8" }));
-const complexity = cfg.rules?.complexity?.[1];
-const maxLinesOpt = cfg.rules?.["max-lines"]?.[1];
-const maxLines = typeof maxLinesOpt === "object" ? maxLinesOpt.max : maxLinesOpt;
-if (complexity !== baseline.g6_complexity_max || maxLines !== baseline.g6_file_lines_max) {
-  console.error(`control FAILED: the live ESLint config (complexity ${complexity}, max-lines ${maxLines}) ` +
-    `does not match the baseline ceilings (${baseline.g6_complexity_max}, ${baseline.g6_file_lines_max})`);
-  process.exit(1);
-}
+/* Two ceilings since 2026-08-16 ("Increase the engine specific line max to
+   2400"): the engine's own, and the general one every other file keeps. Both
+   effective configs are pinned to the baseline, so loosening either scope
+   cannot pass while the baseline claims something tighter. */
+const pin = (file, key, expectComplexity) => {
+  const cfg = JSON.parse(execSync(`npx eslint --print-config ${file}`, { encoding: "utf8" }));
+  const complexity = cfg.rules?.complexity?.[1];
+  const maxLinesOpt = cfg.rules?.["max-lines"]?.[1];
+  const maxLines = typeof maxLinesOpt === "object" ? maxLinesOpt.max : maxLinesOpt;
+  if ((expectComplexity && complexity !== baseline.g6_complexity_max) || maxLines !== baseline[key]) {
+    console.error(`control FAILED: the live ESLint config for ${file} (complexity ${complexity}, ` +
+      `max-lines ${maxLines}) does not match the baseline ceilings ` +
+      `(${baseline.g6_complexity_max}, ${baseline[key]})`);
+    process.exit(1);
+  }
+};
+pin("src/engine.js", "g6_engine_file_lines_max", true);
+pin("app/src/App.jsx", "g6_file_lines_max", true);
+pin("tools/gauntlet.mjs", "g6_file_lines_max", false);
 
 /* A `font:` shorthand ending in `inherit` is invalid CSS: `inherit` is not a
    font-family, so the browser throws the whole declaration away and the rule

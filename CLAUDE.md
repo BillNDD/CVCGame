@@ -196,7 +196,10 @@ exclusions are recorded in SPEC section 12.
 - E6. Raise the floors in `.claude/gate-baseline.json` when counts grow; never lower a floor.
   Keys that end in `_max` are ceilings: never raise one. E6 governs the baseline file only;
   the file-length limit is one of the G6 ceilings the file protects, not the meaning of E6.
-  That limit is 1400 lines. The owner raised it from 600 to 900 on 2026-07-29, from 900 to
+  That limit is 1400 lines, and since 2026-08-16 the generated engine alone carries its own
+  ceiling of 2400 ("Increase the engine specific line max to 2400" — the engine grows with
+  teaching content, and it is the one file that kept hitting the general limit). The general
+  limit was raised from 600 to 900 on 2026-07-29, from 900 to
   1200 on 2026-08-12, and from 1200 to 1400 on 2026-08-15 ("Increase it to 1400 on my
   authority", when the pre-level ladder would not fit the generated engine); only the owner
   can move a ceiling, and a file approaching one should be split instead.

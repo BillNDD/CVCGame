@@ -18,6 +18,7 @@
   "g6_branches_min": 90,
   "g6_complexity_max": 15,
   "g6_file_lines_max": 1400,
+  "g6_engine_file_lines_max": 2400,
   "g6_dependency_cycles_max": 0,
   "g7_interface_checks": 57,
   "g8_checks": 18,
