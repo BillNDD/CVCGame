@@ -1459,6 +1459,16 @@ perfect on the first render** — the clips are byte-pinned in the waiting room 
 `s:r8-*`, and what remains for the build is the whisper screen and the tap-to-hear
 word clips for the passages' untaught words.
 
+## Batch 15 — the passage words (2026-08-16) — closed
+
+Thirty-two words, one full field each, in the same evening-to-morning arc as rounds 7
+and 8: twenty-eight accepted on the first field, three whole-field refusals (bank, cage,
+flowers) and one closest (all, comment truncated) that go to batch 16 on new material
+only. Seventeen of the thirty-two are target-list words. The clips wait with the
+passage sentences for the passage stage's build; none of them enters a level, free play
+or the schedule by being approved — seating is a separate, owner-culled step, and the
+question of a standing seating pass is OPEN with the owner as of this entry.
+
 ## The trap this project keeps falling into
 
 A fix that is approved but not applied is worse than no fix: it reads as done.

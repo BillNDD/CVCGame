@@ -149,7 +149,16 @@ byte-pinned word rather than replacing accepted audio with a render.
   sidecar workspace archive on the owner's PC
   (handoff `word-quest-uplift-handoff-2026-08-07T1438Z`).
 
-## Approved and unshipped: 35 items with no level yet (through 2026-08-16)
+## Approved and unshipped: 63 items with no level yet (through 2026-08-16)
+
+**Batch 15 added twenty-eight of thirty-two (2026-08-16): the passage tap-to-hear
+words.** Full nine-arm fields for every word, and the frame rule held again — most
+winners came from `listen`, with the verifier's gates keeping every offered cut clean.
+The four that did not close: **bank, cage and flowers** failed their whole fields
+("none are right" — cage's soft g and flowers' two syllables are the suspects to
+carry into the next field), and **all** came back closest on `all_1` with the owner's
+comment cut short ("Little to…") — batch 16 offers all four on NEW material only,
+hash-guarded against every prior arm, per the batch-13 lesson.
 
 **Round 8 added twenty-five, all perfect on the first take (2026-08-16):** the eleven
 kept passages of docs/settled.md rendered sentence by sentence — 22 whole-sentence clips
