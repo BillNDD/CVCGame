@@ -866,6 +866,15 @@ Modes, each designed for the owner's pick before any build:
   each sound plays, so every attempt ends in success. A word qualifies only when every
   tile's sound-in-that-word has a shipped clip, which excludes "one" by itself until
   its own ruling. Every sentence Build-it speaks needs owner approval before it ships.
+  **Its look was ruled the same day, from three live options each:** a slot is WIDER
+  when its sound is written with more than one letter, so the shape of the word is a
+  clue before a sound plays; and the help after two misses is the letter fading into
+  ITS OWN SLOT while its sound plays, chosen over marking the tile in the tray,
+  because where a sound goes is the thing a child is being taught. **The distractor
+  rule was narrowed the same day too**: only the four units with no ruled default are
+  barred outright, and a per-word guard refuses any distractor whose sound one of that
+  word's own tiles already says. The first draft barred every grapheme that bends
+  anywhere, which removed all five vowels while still allowing ck beside cat.
 - Speedy words — a third free-play choice: short timed re-reads over mastered words only
   (box 4 and up), racing the child's own best, nothing recorded. Its copy must obey S3:
   a slow run is never a failure.

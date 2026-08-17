@@ -5,6 +5,13 @@ description: Run the comprehensive drift check — every ownership, map, lookup 
 
 # The comprehensive drift check
 
+**This document owns** the procedure for the comprehensive drift check: which gates and
+lookups to run, in what order, how to read their results, and what a green run does not mean.
+
+**It does not own** any of the facts those gates hold — every count, floor and ownership
+rule lives in the file that owns it, and this skill only tells you how to ask.
+Owner-asked, 2026-08-17.
+
 Answer one question, with evidence: **is every fact in this repository still owned by
 exactly one file, and does every lookup, map and coverage claim still match the tree?**
 

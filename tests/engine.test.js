@@ -1256,6 +1256,17 @@ describe("Build-it tray", () => {
     expect(trayPool(2).length).toBe(19);
   });
 
+  /* The two visual rulings of 2026-08-17 have engine-visible consequences and
+     are pinned here, so a redesign that quietly drops them fails a test rather
+     than only looking different: the SHAPE of a slot comes from the answer
+     tile's letter count, and the help after two misses names the slot each
+     sound belongs to, which needs the answer in position order. */
+  it("gives every answer tile in the order the word is built", () => {
+    expect(buildTray("ship", 2, held(0)).answer).toEqual(["sh", "i", "p"]);
+    expect(buildTray("there", 19, held(0)).answer).toEqual(["th", "ere"]);
+    expect(buildTray("black", 20, held(0)).answer).toEqual(["b", "l", "a", "ck"]);
+  });
+
   it("is reproducible: the same rand builds the same tray", () => {
     const a = buildTray("ship", 8, held(0.42));
     const b = buildTray("ship", 8, held(0.42));

@@ -319,10 +319,26 @@ export default function App() {
     speakVoice("replay", word, 0, stateRef.current.settings.sound,
       (why) => { noteFallback(why); speak([{ text: ttsSafeWord(word), rate: 0.9 }], true, stateRef.current.settings.lang); });
   }, []);
+  /* `then` runs when the sound has actually FINISHED, not after a guess. The
+     owner heard the guess fail: placing the last tile played its sound and the
+     celebration began over the top of it, because the screen waited a fixed
+     520 ms while /n/ was still speaking. playClips reports the utterance's
+     measured length once its clips are scheduled, so the wait is the real one.
+
+     The report never arrives on the fallback path (system speech), so a timer
+     stands behind it at a length no clip chain exceeds, and whichever comes
+     first wins - once. A child must never be left waiting on a callback that
+     the pack quietly declined to make. */
   const playBuildSounds = useCallback((ids, then) => {
     unlockVoice();
-    playClips(ids, stateRef.current.settings.sound, noteFallback);
-    if (then) setTimeout(then, 260 * ids.length + 260);
+    let fired = false;
+    const once = (ms) => {
+      if (fired || !then) return;
+      fired = true;
+      setTimeout(then, ms);
+    };
+    playClips(ids, stateRef.current.settings.sound, noteFallback, (ms) => once(ms + 140));
+    setTimeout(() => once(0), 400 * ids.length + 700);
   }, []);
 
   /* Which word to build. Mastered first (box 4 and up), because the mode's

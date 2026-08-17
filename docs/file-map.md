@@ -33,6 +33,7 @@ verbatim) are exempt; the exemptions are declared in the tool.
 | `README.md` | OWNER | the front door: what the game is, and pointers to every owner |
 | `SPEC.md` | OWNER | behaviour: the bank and levels, the engine, the screens, the feedback text, and the road ahead |
 | `.claude/gate-baseline.json` | DATA | every floor and ceiling the gates hold (E6) |
+| `.claude/skills/drift-check/SKILL.md` | OWNER | how to run the comprehensive drift check: which gates and lookups, in what order, and what a green run does not mean |
 | `docs/install-ios.md` | OWNER | the iOS install steps a parent follows |
 | `docs/install-windows.md` | OWNER | the Windows install steps a parent follows |
 | `docs/phonics-handoff-defects.md` | OWNER | the historical handoff defect record; its instructions are history, not tasks |
@@ -79,6 +80,7 @@ are counted against a ceiling only the owner moves.
 | `^features\/` | DATA | owner-approved Gherkin, the G3 source |
 | `^\.github\/` | CI | deploy and release workflows |
 | `^icons\/` | ASSET | repo art |
+| `^\.claude\/skills\/` | DOC | skills the owner invokes by name; instructions, not facts |
 | `^(\.claude\/)?[^/]+$` | ROOT | configs, license, lockfiles at the top level |
 
 Every tracked file is one of the governing files above or matches a bulk

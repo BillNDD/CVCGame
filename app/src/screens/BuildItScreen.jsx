@@ -18,15 +18,24 @@ import Zone from "../components/Zone.jsx";
    while each sound plays, and the child copies them: every attempt ends in
    success, which is the whole reason the mode is practice-only. */
 const SLOT = 64, TILE = 64;
+/* A slot is wider when its sound is written with more than one letter, so the
+   SHAPE of the word is visible before a single sound plays. Owner-chosen on
+   2026-08-17 from three live layouts. It is a real clue and that is the point:
+   a child meeting sh-i-p can see that the first sound is a wide one. The extra
+   width is per letter beyond the first, so a trigraph is wider still. */
+const slotWidth = (tile) => SLOT + (Math.max(1, (tile || "").length) - 1) * 26;
 
 export default function BuildItScreen({ tray, level, playSounds, playWord, onDone, onExit,
   soundIdOf, soundIdsOf }) {
   const [slots, setSlots] = useState(() => tray.answer.map(() => null));
   const [misses, setMisses] = useState(0);
-  const [glow, setGlow] = useState(null);
+  const [ghost, setGhost] = useState(null);
   const [msg, setMsg] = useState("");
   const [won, setWon] = useState(false);
   const timers = useRef([]);
+  /* Written before the state it mirrors, so a second tap in the same frame
+     sees the first one. */
+  const slotsRef = useRef(tray.answer.map(() => null));
 
   /* Every timer this screen starts is remembered, so leaving mid-scaffold
      cannot leave a sound firing over the next screen. */
@@ -39,35 +48,36 @@ export default function BuildItScreen({ tray, level, playSounds, playWord, onDon
 
   const filled = slots.every(Boolean);
 
-  /* Both handlers update from the PREVIOUS state rather than from the state
-     this render closed over. Two taps inside one frame - which a child's hand
-     does, and which a fast script does every time - otherwise both read the
-     same empty tray and both land in slot one, so three taps fill one slot.
-     Caught in the browser before this shipped. */
+  /* The tray is kept in a ref as well as in state, and the ref is written
+     FIRST. Two taps inside one frame - which a child's hand does - otherwise
+     both read the state their own render closed over, both find slot one
+     empty, and three taps fill one slot. Caught in the browser.
+
+     The last tile's sound is also the reason the check is not on a timer: the
+     owner heard the celebration start over the top of /n/. `check` now runs
+     when that sound has finished, which the pack reports. */
   function place(tile) {
     if (won) return;
-    playSounds([soundIdOf(tile)]);
-    setSlots((prev) => {
-      if (prev.includes(tile)) return prev;
-      const i = prev.indexOf(null);
-      if (i < 0) return prev;
-      const next = prev.slice();
-      next[i] = tile;
-      if (next.every(Boolean)) later(() => check(next), 520);
-      return next;
-    });
+    const prev = slotsRef.current;
+    if (prev.includes(tile)) return;
+    const i = prev.indexOf(null);
+    if (i < 0) return;
+    const next = prev.slice();
+    next[i] = tile;
+    slotsRef.current = next;
+    setSlots(next);
+    playSounds([soundIdOf(tile)], next.every(Boolean) ? () => check(next) : undefined);
   }
 
   function lift(i) {
-    if (won) return;
-    setSlots((prev) => {
-      if (!prev[i]) return prev;
-      playSounds([soundIdOf(prev[i])]);
-      const next = prev.slice();
-      next[i] = null;
-      return next;
-    });
+    if (won || !slotsRef.current[i]) return;
+    const tile = slotsRef.current[i];
+    const next = slotsRef.current.slice();
+    next[i] = null;
+    slotsRef.current = next;
+    setSlots(next);
     setMsg("");
+    playSounds([soundIdOf(tile)]);
   }
 
   function check(built) {
@@ -89,20 +99,24 @@ export default function BuildItScreen({ tray, level, playSounds, playWord, onDon
     });
   }
 
+  /* The help after two misses (D5), in the form the owner chose on 2026-08-17
+     from three live options: the letter fades into ITS OWN SLOT while its sound
+     plays, so the child sees where each sound goes rather than only which tile
+     it is. Then it clears and the child copies it. */
   function scaffold() {
-    setMsg("Watch the tiles glow, then copy them.");
-    setSlots(tray.answer.map(() => null));
+    setMsg("Watch where each sound goes, then copy it.");
+    slotsRef.current = tray.answer.map(() => null);
+    setSlots(slotsRef.current);
     tray.answer.forEach((tile, i) => {
-      later(() => { setGlow(tile); playSounds([soundIdOf(tile)]); }, i * 900);
-      later(() => setGlow(null), i * 900 + 700);
+      later(() => { setGhost(i); playSounds([soundIdOf(tile)]); }, i * 900);
+      later(() => setGhost(null), i * 900 + 700);
     });
   }
 
   const tileStyle = (tile, used) => ({
     width: TILE, height: TILE, borderRadius: 14, fontSize: 27, fontWeight: 800,
     display: "flex", alignItems: "center", justifyContent: "center",
-    border: "3px solid " + (glow === tile ? "#d97706" : C.ink2),
-    background: glow === tile ? "#fef3c7" : "#fff",
+    border: "3px solid " + C.ink2, background: "#fff",
     color: C.ink, opacity: used ? 0.22 : 1, cursor: used ? "default" : "pointer",
   });
 
@@ -124,11 +138,14 @@ export default function BuildItScreen({ tray, level, playSounds, playWord, onDon
           <div style={{ display: "flex", gap: 10, justifyContent: "center", flexWrap: "wrap" }}>
             {slots.map((tile, i) => (
               <button key={i} onClick={() => lift(i)} aria-label={tile ? "Take back " + tile : "Empty space"}
-                style={{ width: SLOT, height: SLOT, borderRadius: 14, fontSize: 27, fontWeight: 800,
+                style={{ width: slotWidth(tray.answer[i]), height: SLOT, borderRadius: 14,
+                  fontSize: 27, fontWeight: 800,
                   border: (tile ? "3px solid " + C.ink2 : "3px dashed #94a8c0"),
                   background: tile ? "#fff" : "rgba(255,255,255,.55)", color: C.ink,
                   display: "flex", alignItems: "center", justifyContent: "center",
-                  cursor: tile ? "pointer" : "default" }}>{tile || ""}</button>
+                  cursor: tile ? "pointer" : "default" }}>
+                {tile || (ghost === i ? <span style={{ opacity: 0.28 }}>{tray.answer[i]}</span> : "")}
+              </button>
             ))}
           </div>
 

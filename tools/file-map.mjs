@@ -148,6 +148,7 @@ export const DECLARED = [
   { path: "README.md", kind: "OWNER", owns: "the front door: what the game is, and pointers to every owner" },
   { path: "SPEC.md", kind: "OWNER", owns: "behaviour: the bank and levels, the engine, the screens, the feedback text, and the road ahead" },
   { path: ".claude/gate-baseline.json", kind: "DATA", owns: "every floor and ceiling the gates hold (E6)" },
+  { path: ".claude/skills/drift-check/SKILL.md", kind: "OWNER", owns: "how to run the comprehensive drift check: which gates and lookups, in what order, and what a green run does not mean" },
   { path: "docs/install-ios.md", kind: "OWNER", owns: "the iOS install steps a parent follows" },
   { path: "docs/install-windows.md", kind: "OWNER", owns: "the Windows install steps a parent follows" },
   { path: "docs/phonics-handoff-defects.md", kind: "OWNER", owns: "the historical handoff defect record; its instructions are history, not tasks" },
@@ -194,6 +195,7 @@ export const BULK = [
   { glob: /^features\//, kind: "DATA", note: "owner-approved Gherkin, the G3 source" },
   { glob: /^\.github\//, kind: "CI", note: "deploy and release workflows" },
   { glob: /^icons\//, kind: "ASSET", note: "repo art" },
+  { glob: /^\.claude\/skills\//, kind: "DOC", note: "skills the owner invokes by name; instructions, not facts" },
   { glob: /^(\.claude\/)?[^/]+$/, kind: "ROOT", note: "configs, license, lockfiles at the top level" },
 ];
 

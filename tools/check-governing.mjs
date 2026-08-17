@@ -18,6 +18,11 @@ import { readFileSync } from "node:fs";
 /* The owned set: each file is the single owner of its facts (E10, and the
    review of 2026-08-02 that pointed every one of them at the word table). */
 export const GOVERNING = [
+  /* Owner-asked 2026-08-17: "can you make a skill that I can call that would
+     complete a comprehensive drift check". A skill is instructions for an
+     agent rather than a fact, but it is a tracked .md that tells agents what
+     to do, so it belongs in the owned set the same way AGENTS.md does. */
+  ".claude/skills/drift-check/SKILL.md",
   "AGENTS.md",
   "CHANGELOG.md",
   "CLAUDE.md",
