@@ -842,7 +842,16 @@ Modes, each designed for the owner's pick before any build:
   "Sentences live inside levels" below, which supersedes the word "mode" here.**
 - Build-it — encoding: the app speaks a word and the child assembles it from sound tiles.
   Practice-only, like free play: nothing is ever written to the record, so design rule 1
-  and safety rule S1 stand untouched.
+  and safety rule S1 stand untouched. **Flagged by the owner for strong consideration,
+  2026-08-17 (H-2), with the safety reasoning recorded here so the build inherits it:**
+  the app speaks FIRST by design, so a Build-it turn can never be a graded reading
+  attempt — S2 guards a reading attempt's answer, and here there is no answer to rob;
+  that holds only while Build-it stays practice, so practice-only is a load-bearing
+  property, not a preference. The same three adult marks may be offered or none at all,
+  because S1 is untouched only while nothing is recorded. Tiles are sounds, never letter
+  names (S4). Reading and spelling teach each other — encoding is decoding run backward,
+  and the tile inventory, the adult-hold controls and the sound clips it needs all ship
+  today, which makes this one of the smallest builds on the road.
 - Speedy words — a third free-play choice: short timed re-reads over mastered words only
   (box 4 and up), racing the child's own best, nothing recorded. Its copy must obey S3:
   a slow run is never a failure.
