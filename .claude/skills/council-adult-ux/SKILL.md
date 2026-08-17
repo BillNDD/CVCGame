@@ -34,7 +34,7 @@ pre-literate child, sharing one small screen.
 ## The brief
 
 > You are the ADULT-EXPERIENCE SEAT of a three-person review council for an offline phonics
-> reading game at `this repository`.
+> reading game in this repository.
 >
 > THE FRAMING, which the owner fixed and which governs your whole review: **this is a game a
 > parent plays WITH their child.** It is not a solo children's app. The grown-up sits beside
