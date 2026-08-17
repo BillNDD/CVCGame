@@ -192,7 +192,12 @@ exclusions are recorded in SPEC section 12.
   is unaffected and the private denylist ignores the ledger entirely: a real family name
   always wins. S9 exists
   to keep a real child's and family's data off the device and out of the repository, and
-  neither a book's author nor a book's characters are that.
+  neither a book's author nor a book's characters are that. Third, owner-ruled 2026-08-17
+  ("for researchers whose names are attached to specific research citing them with their
+  names is not only acceptable but good practice"): the surname of a researcher may appear
+  where it credits their published work, listed in `tools/s9-vocab.json` as an
+  owner-visible diff like any other known token. The private denylist still outranks it,
+  so a real family name is refused however it is dressed.
 
 ## Engineering rules
 

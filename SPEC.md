@@ -749,9 +749,9 @@ chosen. The other pathways need the app to express rules — magic e, bossy r, t
 2. **From the meaning ladder: the suffixes, twenty levels earlier.** -s inside the initial
    code, -ing and agent -er on stems that need no doubling, -ed in all three of its sounds
    early. This is the single strongest research finding in the specialist's report —
-   morphological instruction helps YOUNGER children more than older ones, from a 2010
-   systematic review of twenty-two studies in a peer-reviewed education journal, where the
-   effect was larger for less able readers too. It argues directly against saving -ing and -ed for the top of the
+   morphological instruction helps YOUNGER children more than older ones, (Bowers,
+   Kirby and Deacon, 2010, a systematic review of twenty-two studies in the Review of
+   Educational Research, where the effect was larger for less able readers too). It argues directly against saving -ing and -ed for the top of the
    ladder, where every real book puts them on page one. **Suffixes get their own Build-it
    tiles**, so a child assembles jump + ed as two pieces rather than seven letters.
 3. **From the text ladder: about twenty heart words front-loaded**, so a real sentence

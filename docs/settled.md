@@ -1638,7 +1638,7 @@ their own Build-it tiles, and twenty heart words front-loaded so a sentence exis
 two.
 
 Three things settled with it. **The choice was not evidence-driven between the four
-options** — the 2000 federal reading panel found no reliable difference between systematic
+options** — the National Reading Panel (2000) found no reliable difference between systematic
 phonics variants, so nobody should later claim this pathway was proven superior. It was
 chosen for coherence, for adult simplicity, and above all for fit: the game had already
 built a linguistic-phonics engine without knowing it. **The arithmetic does not close on
