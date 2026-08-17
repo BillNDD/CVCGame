@@ -130,16 +130,21 @@ Give the owner a scannable verdict — bullets and a table, never paragraphs:
 
 | check | result |
 |---|---|
-| Owners (G23) | 30 declared, 4 owned facts, 1456 tracked, 0 problems · 40/40 controls |
-| Blast radius (E11) | 97/97 controls |
-| Effect map (G20) | 320 tests over 14 files, 0 problems |
-| Safety cover (G25) | 9 rules, 25 proofs, 0 problems · source-only 1 · unobserved 6 |
-| Doc truth (G16) | 9 rules, 0 problems |
-| Governing (G17) | 29 files, 0 strays |
-| Ledgers | 0 problems |
-| Target coverage | N words, clips waiting for seats: N |
-| Mutant anchors | N moved |
-| npm run check | exit 0 |
+| Owners (G23) | <declared> declared, <facts> owned facts, <tracked> tracked, <n> problems · <n>/<n> controls |
+| Blast radius (E11) | <n>/<n> controls |
+| Effect map (G20) | <n> tests over <n> files, <n> problems |
+| Safety cover (G25) | <n> rules, <n> proofs, <n> problems · source-only <n> · unobserved <n> |
+| Doc truth (G16) | <n> rules, <n> problems |
+| Governing (G17) | <n> files, <n> strays |
+| Ledgers | <n> problems |
+| Target coverage | <n> words, clips waiting for seats: <n> |
+| Mutant anchors | <n> moved |
+| npm run check | exit <n> |
+
+**Every cell is a placeholder on purpose.** A worked example in a document is a
+copy of a fact, and this one would have been the first thing to drift — the
+numbers written here when the skill was created were stale within the hour.
+Fill each cell from the run in front of you, never from this page.
 
 ✅ or ⚠️ verdict in one line, then anything that needs the owner.
 ```

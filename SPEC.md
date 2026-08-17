@@ -852,18 +852,28 @@ Modes, each designed for the owner's pick before any build:
   names (S4). Reading and spelling teach each other — encoding is decoding run backward,
   and the tile inventory, the adult-hold controls and the sound clips it needs all ship
   today, which makes this one of the smallest builds on the road. **Fit ruled by the
-  owner on 2026-08-17, five verdicts on the costed page, still unbuilt:** free play
+  owner on 2026-08-17, five verdicts on the costed page, and BUILT the same day (D1,
+  D2, D3 and D5; D4 is the absence of a control):** free play
   gains a fourth chooser row (Build a word), serving mastered words first and the
   child's level roster when few are mastered; sessions gain a breather — one Build-it
   turn after every seventh reading word, chosen knowing it sits beside the review
   queue's ordering, so the build must leave that ordering untouched; the tray ramps —
   the word's own tiles shuffled through Level 5, one distractor from Level 6, two past
-  Level 14, and a distractor comes only from taught default-safe sounds, never a
-  bending unit, because a tile with no word behind it must still say a true sound; no
+  Level 14. **The distractor rule was narrowed the same day, on a measurement:** the
+  first draft barred every grapheme that bends in any word, which took all five vowels
+  out — 343 of the bank's words are three tiles with exactly one vowel, so the middle
+  slot answered itself without listening — while still allowing ck beside cat, where
+  both tiles say /k/. Only the four units with no ruled default are barred outright
+  now, and a per-word guard refuses any distractor whose sound one of that word's own
+  tiles already says; no
   adult marks in any mode — the app's own match feedback is the whole loop, so free
   play stays usable by a child alone; misses are unlimited, the app sounds out what
-  the child actually built, and after two misses the right tiles glow in order while
-  each sound plays, so every attempt ends in success. A word qualifies only when every
+  the child actually built, and after two misses the correct letter fades into its own
+  slot while its sound plays — the form the owner chose on 2026-08-17 from three live
+  options, over marking the tile in the tray, because where a sound goes is the thing
+  being taught — so every attempt ends in success. A slot is WIDER when its sound is
+  written with more than one letter, chosen the same way, so the shape of the word is a
+  clue before a sound plays. A word qualifies only when every
   tile's sound-in-that-word has a shipped clip, which excludes "one" by itself until
   its own ruling. Every sentence Build-it speaks needs owner approval before it ships.
   **Its look was ruled the same day, from three live options each:** a slot is WIDER

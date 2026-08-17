@@ -1559,3 +1559,23 @@ not work**: measuring energetic audio outside the span where a word's own templa
 inside a clip separates nothing — at every threshold it either refused most of the arms
 the owner accepted or caught none he refused. It is not to be re-attempted without a new
 idea, and the arm-level measurements are in the round's own record.
+
+## Build-it's distractor rule, narrowed on a measurement (2026-08-17) — closed
+
+The first draft refused any grapheme that bends in ANY word, reading the owner's "never a
+bending unit" at its widest. Measured, that removed 13 of the bank's 44 graphemes and all
+five vowels — want bends a, his bends s, they bends th — and 343 of the 476 bank words are
+three tiles with exactly one vowel, so the middle slot could be filled without listening.
+It also still allowed ck as a distractor beside cat, where both tiles say /k/.
+
+The owner accepted the narrowing: only the four units with no ruled default (ai, ou, ey,
+ere) are barred outright, and the real danger is caught per WORD and after bends — no
+distractor may say a sound one of that word's own tiles already says. That refuses ck
+beside cat, z beside his and o beside want, which the wide rule missed, and it costs no
+word: all 476 stay buildable. The reasoning the owner accepted: a lone tile plays its
+DEFAULT sound, which is what Level 2 teaches it says, and the bend in "want" is a fact
+about want rather than about the letter.
+
+The same page closed Build-it's look: slots are wider when their sound takes more than one
+letter, and the help after two misses is the letter fading into its own slot rather than
+the tile lighting in the tray.

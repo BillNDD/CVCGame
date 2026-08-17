@@ -592,7 +592,7 @@ the *design* — the boundaries, the prerequisites, what the feature is. This se
 | 2026-08-07 | Levels 12 to 15: plural s, compounds, open syllables, magic e | Open. 32 approved words wait on 12, 13 and 14 |
 | 2026-08-07 | Heart words grow now: said, of, you, to, do, my | **Built 2026-08-12.** All nine heart words sit at Level 2 — the, and, to, do, you, said, my, of, a — with S8 gaining ai and ou and the engine gaining a HEART roster. `of` took three rounds of its own, `my` needed only a seat, and `a` shipped the same evening from the owner's own schwa package |
 | 2026-08-07 | Sentence mode | Open. 41 sentences approved by ear, recorded, and unusable |
-| 2026-08-07 | Build-it encoding mode, practice only | Open. Not started |
+| 2026-08-07 | Build-it encoding mode, practice only | BUILT 2026-08-17 (SPEC section 12). Its screen has no test of its own yet, and the practice-only property has no tripwire: both open, below. |
 | 2026-08-07 | Speedy words fluency round in the free-play chooser | Open. Not started |
 | 2026-08-10 | Level introduction: new sounds, and a review of trouble sounds | Open. Not started |
 | 2026-08-11 | Parent tutorial from the home screen | Open. Blocked behind section B, the default sounds |
@@ -1754,3 +1754,53 @@ still applied in only one place.
   encoded clips, both carrying the same 380 ms of padding, which FLATTERS the stitch. The
   2.07× in `docs/settled.md` is speech against speech. The two figures are not comparable and
   neither page nor report may present them as if they were.
+
+## Q. Build-it's own proofs, and two decisions it raises (2026-08-17)
+
+Built the day it was ruled, and reviewed the same day by an agent with no memory of
+building it. What that review found is fixed — slots that held a letter rather than a tray
+position, so eleven words with a repeated sound could never be built; a tray that stayed
+live while the last sound played; callbacks that outlived the screen; a breather that
+never fired after the first session of a page load; a mode that says nothing at all with
+sound switched off. What it found and is NOT fixed is here.
+
+**Q1. The screen has no test.** `app/src/screens/BuildItScreen.jsx` is not named in any
+suite. D1's chooser row, D4's absence of adult marks and all of D5 are unproved, and the
+mode's load-bearing claim — that it writes nothing to the record — has no tripwire, while
+the analogous free-play claim has one (`tests/safety.test.js`, a source scan with fixture
+controls). The claim is true today; it was traced by hand and the screen touches only UI
+state. Done means: a source tripwire in the repository's own idiom, plus a walk that
+builds a word, misses twice, and reaches the scaffold. Gate G25 cannot see this gap — its
+own header says it proves that something CLAIMS to prove a rule.
+
+**Q2. The new child-facing copy has never been through G11.** `tools/copy-lint.mjs`'s
+corpus lists App, Home, Session, Done, PreSession and PreDone, not BuildItScreen, so
+"That says …", "Watch where each sound goes, then copy it.", "🎉 You built …" and the
+grown-up line have not been checked against SPEC. Two source scans have the same omission:
+the S6 network scan in `tests/safety.test.js` and the file list in `tools/doc-truth.mjs`.
+Done means all three know the file — and, because the copy is new and child-facing, that
+the owner has approved the sentences.
+
+**Q3, for the owner. A child can build a word the owner ruled out.** The tray's
+distractors make other words reachable, and a miss prints and SPEAKS what the child
+built: a Level 6 child building "dog" with a b distractor hears "That says g-o-b". gob was
+removed from the bank on 2026-08-13 so it could not return by accident, and this returns
+it. Every ruled-out word measured is reachable from some tray. The options, none of them
+free: screen the built string before speaking it and stay silent on a hit; refuse
+distractors that complete a ruled-out word, which shrinks the pool per word; or accept it,
+on the grounds that the app never presents the string as a word and immediately corrects
+it. This one is the owner's.
+
+**Q4. The breather drops a missed word's second look.** When the breather takes the press
+after a word graded "not yet", the retry is never queued: `lastGrade` is cleared before
+the build starts, and the decision that re-queues the word reads it. The sentence stage
+has the same shape and predates Build-it, so this is one fault in two places rather than a
+new one, and it is a real loss to a child — the word they got wrong does not come back.
+
+**Q5. A service-worker refresh can take the screen away mid-build.** `app/src/swrefresh.js`
+treats "any screen except a live session" as a safe moment, and the breather is a live
+session under a new screen name. The pre-letter ladder has the same hole and predates this.
+
+**Q6. The pre-ladder child is offered Build-it.** Free play offers "Build a word" to a
+child who has not yet met a letter, which is a whole-word build before the ladder's first
+step. Probably wrong; needs a ruling.

@@ -8,7 +8,7 @@ import UpdateRow from "../components/UpdateRow.jsx";
 /* The free-play chooser (SPEC section 6): between the tap and the game, the
    grown-up picks which words free play serves. Both choices are full 56 px
    controls (S7) because the finger on them may be the child's. */
-function FreePlayChooser({ level, L, onChoose, onCancel }) {
+function FreePlayChooser({ level, L, sound, onChoose, onCancel }) {
   return (
     <Modal title="Free play" onClose={onCancel}>
       <p style={{ margin: "0 0 14px", fontSize: 14.5, color: C.ink2, lineHeight: 1.5 }}>
@@ -37,10 +37,18 @@ function FreePlayChooser({ level, L, onChoose, onCancel }) {
             fourth row: the app speaks a word and the child assembles it from
             sound tiles. It serves words the child has mastered first, so the
             word spoken is one they own; nothing here is recorded either. */}
-        <button className="wq-cta" onClick={() => onChoose("build")}
-          style={{ background: "#fff", color: C.ink, border: "2px solid " + C.ink2, boxShadow: "none" }}>
+        {/* With sound switched off the mode has nothing to say, and its whole
+            prompt is a spoken word: it would show a child empty slots and never
+            tell them what to build. The row states why rather than vanishing,
+            so a grown-up can see the switch that brings it back. */}
+        <button className="wq-cta" onClick={() => onChoose("build")} disabled={!sound}
+          style={{ background: "#fff", color: C.ink, border: "2px solid " + C.ink2,
+            boxShadow: "none", opacity: sound ? 1 : 0.55 }}>
           🧱 Build a word
         </button>
+        {!sound && <p style={{ margin: 0, fontSize: 12.5, color: C.ink2, textAlign: "center" }}>
+          Building needs sound. Turn sound on in the Grown-ups corner.
+        </p>}
         <button className="wq-btn-plain" onClick={onCancel} style={{ justifySelf: "center" }}>Back</button>
       </div>
     </Modal>
@@ -105,7 +113,8 @@ export default function HomeScreen({ state, L, kid, masteredCount, persistent, r
         <span style={{ fontSize: 12, color: C.strip }}>up to 20 words · about 5 minutes · you judge</span>
         <UpdateRow />
       </Zone.Strip>
-      {fpChooser && <FreePlayChooser level={state.level} L={L} onChoose={onFreePlayChoose} onCancel={onFreePlayCancel} />}
+      {fpChooser && <FreePlayChooser level={state.level} L={L} sound={state.settings.sound}
+        onChoose={onFreePlayChoose} onCancel={onFreePlayCancel} />}
       {toast && <Toast>{toast}</Toast>}
     </Frame>
   );

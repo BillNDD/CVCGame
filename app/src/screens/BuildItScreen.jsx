@@ -27,6 +27,13 @@ const slotWidth = (tile) => SLOT + (Math.max(1, (tile || "").length) - 1) * 26;
 
 export default function BuildItScreen({ tray, level, playSounds, playWord, onDone, onExit,
   soundIdOf, soundIdsOf }) {
+  /* A slot holds the INDEX of the tray tile in it, never the letter. Holding
+     the letter deduped by grapheme, so a word with a repeated sound had one
+     tile that could not be placed at all: dad is d-a-d, and its second d was
+     unreachable. Eleven bank words were unbuildable - bib dad did mom nun pep
+     pop pump pup tent tot - and at Level 2, where there are no distractors,
+     the screen simply sat there with a slot that could never fill. Found by
+     an independent review, 2026-08-17. */
   const [slots, setSlots] = useState(() => tray.answer.map(() => null));
   const [misses, setMisses] = useState(0);
   const [ghost, setGhost] = useState(null);
@@ -36,17 +43,22 @@ export default function BuildItScreen({ tray, level, playSounds, playWord, onDon
   /* Written before the state it mirrors, so a second tap in the same frame
      sees the first one. */
   const slotsRef = useRef(tray.answer.map(() => null));
+  /* True from the moment the last tile is placed until its sound has ended
+     and the build has been judged. */
+  const judging = useRef(false);
+  /* False after unmount, so a callback that outlives the screen - the sound
+     player's completion runs on App's timer, not this screen's - cannot speak
+     over the next screen or run endBuild a second time. */
+  const alive = useRef(true);
 
   /* Every timer this screen starts is remembered, so leaving mid-scaffold
      cannot leave a sound firing over the next screen. */
   const later = (fn, ms) => { timers.current.push(setTimeout(fn, ms)); };
-  useEffect(() => () => timers.current.forEach(clearTimeout), []);
+  useEffect(() => () => { alive.current = false; timers.current.forEach(clearTimeout); }, []);
 
   /* The word first, always, and never the tiles: hearing the word is the
      prompt, and hearing its sounds would be the answer. */
   useEffect(() => { playWord(tray.word); }, [tray.word, playWord]);
-
-  const filled = slots.every(Boolean);
 
   /* The tray is kept in a ref as well as in state, and the ref is written
      FIRST. Two taps inside one frame - which a child's hand does - otherwise
@@ -56,35 +68,45 @@ export default function BuildItScreen({ tray, level, playSounds, playWord, onDon
      The last tile's sound is also the reason the check is not on a timer: the
      owner heard the celebration start over the top of /n/. `check` now runs
      when that sound has finished, which the pack reports. */
-  function place(tile) {
-    if (won) return;
+  const at = (idx) => (idx === null ? null : tray.tiles[idx]);
+  const builtFrom = (arr) => arr.map(at);
+
+  function place(idx) {
+    if (won || judging.current) return;
     const prev = slotsRef.current;
-    if (prev.includes(tile)) return;
+    if (prev.includes(idx)) return;
     const i = prev.indexOf(null);
     if (i < 0) return;
     const next = prev.slice();
-    next[i] = tile;
+    next[i] = idx;
     slotsRef.current = next;
     setSlots(next);
-    playSounds([soundIdOf(tile)], next.every(Boolean) ? () => check(next) : undefined);
+    const full = next.every((x) => x !== null);
+    /* While the last sound plays the tray is LOCKED. Without it a child could
+       lift a tile inside that window and the finished build would still be
+       judged - a celebration over an empty slot, or a miss against something
+       already dismantled. */
+    if (full) judging.current = true;
+    playSounds([soundIdOf(at(idx))], full ? () => { judging.current = false; check(builtFrom(next)); } : undefined);
   }
 
   function lift(i) {
-    if (won || !slotsRef.current[i]) return;
-    const tile = slotsRef.current[i];
+    if (won || judging.current || slotsRef.current[i] === null) return;
+    const idx = slotsRef.current[i];
     const next = slotsRef.current.slice();
     next[i] = null;
     slotsRef.current = next;
     setSlots(next);
     setMsg("");
-    playSounds([soundIdOf(tile)]);
+    playSounds([soundIdOf(at(idx))]);
   }
 
   function check(built) {
+    if (!alive.current) return;
     if (built.join("") === tray.answer.join("")) {
       setWon(true);
       setMsg("🎉 You built " + tray.word + "!");
-      playSounds(soundIdsOf(tray.word), () => playWord(tray.word));
+      playSounds(soundIdsOf(tray.word), () => { if (alive.current) playWord(tray.word); });
       later(onDone, 2600);
       return;
     }
@@ -94,6 +116,7 @@ export default function BuildItScreen({ tray, level, playSounds, playWord, onDon
     /* What the child BUILT, in their own tiles, then the target. A miss the
        child can hear is a miss the child can fix. */
     playSounds(built.map(soundIdOf), () => {
+      if (!alive.current) return;
       playWord(tray.word);
       if (n >= 2) later(scaffold, 900);
     });
@@ -104,6 +127,7 @@ export default function BuildItScreen({ tray, level, playSounds, playWord, onDon
      plays, so the child sees where each sound goes rather than only which tile
      it is. Then it clears and the child copies it. */
   function scaffold() {
+    if (!alive.current) return;
     setMsg("Watch where each sound goes, then copy it.");
     slotsRef.current = tray.answer.map(() => null);
     setSlots(slotsRef.current);
@@ -137,14 +161,14 @@ export default function BuildItScreen({ tray, level, playSounds, playWord, onDon
 
           <div style={{ display: "flex", gap: 10, justifyContent: "center", flexWrap: "wrap" }}>
             {slots.map((tile, i) => (
-              <button key={i} onClick={() => lift(i)} aria-label={tile ? "Take back " + tile : "Empty space"}
+              <button key={i} onClick={() => lift(i)} aria-label={tile !== null ? "Take back " + at(tile) : "Empty space"}
                 style={{ width: slotWidth(tray.answer[i]), height: SLOT, borderRadius: 14,
                   fontSize: 27, fontWeight: 800,
-                  border: (tile ? "3px solid " + C.ink2 : "3px dashed #94a8c0"),
-                  background: tile ? "#fff" : "rgba(255,255,255,.55)", color: C.ink,
+                  border: (tile !== null ? "3px solid " + C.ink2 : "3px dashed #94a8c0"),
+                  background: tile !== null ? "#fff" : "rgba(255,255,255,.55)", color: C.ink,
                   display: "flex", alignItems: "center", justifyContent: "center",
-                  cursor: tile ? "pointer" : "default" }}>
-                {tile || (ghost === i ? <span style={{ opacity: 0.28 }}>{tray.answer[i]}</span> : "")}
+                  cursor: tile !== null ? "pointer" : "default" }}>
+                {at(tile) || (ghost === i ? <span style={{ opacity: 0.28 }}>{tray.answer[i]}</span> : "")}
               </button>
             ))}
           </div>
@@ -154,8 +178,8 @@ export default function BuildItScreen({ tray, level, playSounds, playWord, onDon
 
           <div style={{ display: "flex", gap: 10, justifyContent: "center", flexWrap: "wrap", marginTop: 14 }}>
             {tray.tiles.map((tile, i) => (
-              <button key={tile + i} onClick={() => place(tile)} aria-label={"Tile " + tile}
-                style={tileStyle(tile, slots.includes(tile))}>{tile}</button>
+              <button key={tile + "-" + i} onClick={() => place(i)} aria-label={"Tile " + tile}
+                style={tileStyle(tile, slots.includes(i))}>{tile}</button>
             ))}
           </div>
         </div>

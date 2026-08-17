@@ -1267,6 +1267,23 @@ describe("Build-it tray", () => {
     expect(buildTray("black", 20, held(0)).answer).toEqual(["b", "l", "a", "ck"]);
   });
 
+  /* The eleven words whose sounds repeat. The tray must offer a tile for EVERY
+     slot, counting duplicates: the screen once held a letter in each slot and
+     deduped by letter, so dad's second d could never be placed and the word
+     could not be built at all. Found by an independent review, 2026-08-17. */
+  it("offers a tile for every slot, even when a sound repeats", () => {
+    for (const w of ["bib", "dad", "did", "mom", "nun", "pep", "pop", "pump", "pup", "tent", "tot"]) {
+      const t = buildTray(w, 2, held(0.3));
+      expect(t.answer.length).toBe(chunkWord(w).length);
+      const pool = t.tiles.slice();
+      for (const need of t.answer) {
+        const at = pool.indexOf(need);
+        expect(at).toBeGreaterThanOrEqual(0);   // a tile is consumed per slot, not per letter
+        pool.splice(at, 1);
+      }
+    }
+  });
+
   it("is reproducible: the same rand builds the same tray", () => {
     const a = buildTray("ship", 8, held(0.42));
     const b = buildTray("ship", 8, held(0.42));

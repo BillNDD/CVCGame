@@ -306,6 +306,12 @@ export default function App() {
     setPromptCount(0); setPhase("ready"); setLastGrade(null);
     setAdvanceReady(true); advanceLive.current = true; setExitAsk(false);
     gradedRef.current = null;                          // and grades its first word afresh
+    /* Build-it's breather counts word positions, and those positions repeat
+       every session. Without this the second session finds 7 and 14 already
+       used and never breathes again until the page is reloaded - invisible to
+       every walker, because a walker walks one session. Found by an
+       independent review, 2026-08-17. */
+    builtAfter.current = new Set();
     snapRef.current = structuredClone(s.words);   // N-3
     setScreen("session");
   }
@@ -358,6 +364,10 @@ export default function App() {
   /* The turn ends and nothing has been recorded - by construction, since
      nothing here calls setState or persist. */
   function endBuild() {
+    /* Every other exit in this file silences first (endSentence, next,
+       handleExit); this one did not, so a build's sound could carry into the
+       session's ready phase, which is meant to be silent. */
+    hush(); stopClips();
     setBuild(null);
     /* The breather TOOK the advance press, so it owes the advance: without
        this the child comes back to the word they already finished and has to
