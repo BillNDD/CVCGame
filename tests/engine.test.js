@@ -10,7 +10,7 @@ import {
   SEAM_MS, SOUNDOUT_SEAM_MS, voiceScript, clipPlan, resolvePack, TTS_UNSAFE_PRAISE, ttsSafePraise,
   SENTENCE_PRAISE, sentenceLead,
   soundInventory, bankWords, soundIdFor, soundIdsFor, tileSlots, isSeam, seamMs, WORD_SOUND, isSecure,
-  buildTray, trayPool, trayExtras,
+  buildTray, trayPool, trayExtras, trayClash,
   SENTENCES, REVEAL_LINES, REVEAL_LINE_TEXT, sentenceWords, revealWord,
 } from "../src/engine.js";
 import { check as decodableCheck } from "../tools/decodable.mjs";
@@ -1218,28 +1218,42 @@ describe("Build-it tray", () => {
     }
   });
 
-  /* The safety of the pool, and the reason for it: a tray tile with no word
-     behind it still plays a sound when a child taps it, so a unit whose sound
-     is decided per word cannot be in there. The four with no ruled default
-     (S8) and every grapheme some word bends are all out. */
+  /* The safety of the pool. Only four units are barred outright - the ones
+     with no ruled default sound, which alone can say nothing true. Everything
+     else is admitted and then guarded per word, because the danger is not a
+     grapheme that bends somewhere else; it is two tiles in ONE tray that say
+     the same thing. Owner-ruled 2026-08-17, after the first version banned
+     every vowel and still allowed ck beside cat. */
   it("keeps units with no ruled default out of the pool", () => {
     const pool = trayPool(21);
     for (const unit of ["ai", "ou", "ey", "ere"]) expect(pool).not.toContain(unit);
   });
 
-  it("keeps a grapheme some word bends out of the pool", () => {
+  it("keeps the vowels, so a child can be offered i against a", () => {
     const pool = trayPool(21);
-    expect(pool).not.toContain("s");        // his and is say /z/
-    expect(pool).not.toContain("a");        // want says short o
-    expect(pool).not.toContain("th");       // they and there say the voiced th
-    expect(pool).toContain("ck");           // ck says /k/ in every word that has it
-    expect(pool).toContain("m");
+    for (const v of ["a", "e", "i", "o", "u"]) expect(pool).toContain(v);
+    expect(pool).toContain("s");            // says /s/ alone; his bends it, his is not this word
+    expect(pool).toContain("th");
+    expect(pool.length).toBe(40);
+  });
+
+  it("refuses a distractor that would sound exactly like one of the word's own tiles", () => {
+    expect(trayClash("cat", "ck")).toBe(true);    // ck and cat's c both say /k/
+    expect(trayClash("his", "z")).toBe(true);     // his bends s to /z/
+    expect(trayClash("want", "o")).toBe(true);    // want bends a to short o
+    expect(trayClash("ship", "h")).toBe(false);   // /h/ is not in ship
+    expect(trayClash("cat", "o")).toBe(false);
+    for (let i = 0; i < 12; i++) {
+      const t = buildTray("cat", 21, () => (i % 7) / 7);
+      for (const c of t.tiles.filter((x) => !t.answer.includes(x)))
+        expect(trayClash("cat", c)).toBe(false);
+    }
   });
 
   it("only draws graphemes a child at that level has met", () => {
-    expect(trayPool(2)).toEqual(["c", "d", "h", "m", "n", "p", "r", "t", "w", "x"]);
-    expect(trayPool(2).length).toBe(10);
-    expect(trayPool(21).length).toBe(31);
+    expect(trayPool(2)).toEqual(["a", "c", "d", "e", "f", "h", "i", "m", "n", "o",
+      "p", "r", "s", "t", "th", "u", "w", "x", "y"]);
+    expect(trayPool(2).length).toBe(19);
   });
 
   it("is reproducible: the same rand builds the same tray", () => {

@@ -805,7 +805,7 @@ happened to read the output.
   halves repository language is the tree talking, one stranger half is a person. The
   stated residue: someone named entirely in repository words is skipped here, exactly as
   each half already was by the single-word layers.
-- Keys: `g24_files` (199), `g24_controls` (47), `g24_vocab` (168), `g24_common` (889),
+- Keys: `g24_files` (199), `g24_controls` (47), `g24_vocab` (169), `g24_common` (889),
   `g24_surnames` (1000), problems capped at 0.
 - Run: `node tools/s9-names.mjs` and `--self-test`; both are in `npm run check`.
 
@@ -1072,7 +1072,7 @@ other direction: the real pack, unchanged, must pass.
 
 ## G20. Effect map
 
-- Tool: `tools/effect-map.mjs`. Writes `docs/effect-map.md`. Keys: `g20_tests_mapped` (319).
+- Tool: `tools/effect-map.mjs`. Writes `docs/effect-map.md`. Keys: `g20_tests_mapped` (320).
 - One row per `it()` SITE — its file, suite, and the test's own sentence, which in this
   project IS the Given/When/Then effect, because tests are named as behaviour. A site inside
   a loop or a table runs many times, so the map's 310 rows describe the 324 tests Vitest executes;

@@ -1304,37 +1304,36 @@ function tileSlots(plan) {
    default (S8, 2026-08-12 and 2026-08-17) and every grapheme some word bends
    through WORD_SOUND. "his" bends s to /z/, so an s tile beside a word that
    does not bend it would teach two things at once. */
-const trayBend = () => {
-  const bent = new Set(NO_TRAY_UNITS);
-  for (const [w, bends] of Object.entries(WORD_SOUND))
-    for (const at of Object.keys(bends)) {
-      const c = chunkWord(w)[Number(at)];
-      if (c) bent.add(c);
-    }
-  return bent;
-};
+/* The four units with no ruled default sound (S8, 2026-08-12 and 2026-08-17).
+   These are the only graphemes barred outright: alone they can say nothing
+   true, because every word that uses them bends them. */
 const NO_TRAY_UNITS = ["ai", "ou", "ey", "ere"];
-/* Every grapheme a child has met at or below this level, minus the ones no
-   tile can honestly say. Drawn from the bank itself, so a word added to a
-   level brings its graphemes with it and nothing needs a second list. */
+/* Every grapheme a child has met at or below this level. Drawn from the bank
+   itself, so a word added to a level brings its graphemes with it. */
 function trayPool(level) {
-  const bent = trayBend();
   const out = new Set();
   for (const w of bankWords())
     if ((WORD_LEVEL[w] || 99) <= level)
-      for (const c of chunkWord(w)) if (!bent.has(c)) out.add(c);
+      for (const c of chunkWord(w)) if (!NO_TRAY_UNITS.includes(c)) out.add(c);
   return [...out].sort();
 }
-/* How many extra tiles the tray offers. The ramp the owner ruled: the word's
-   own tiles shuffled while a child is new, one distractor from Level 6, two
-   past Level 14. */
+/* How many extra tiles the tray offers: the ramp the owner ruled on
+   2026-08-17. None while a child is new, one from Level 6, two past 14. */
 const trayExtras = (level) => (level <= 5 ? 0 : level <= 14 ? 1 : 2);
-/* The tray itself. `rand` is passed in so a test can hold the shuffle still;
-   the app passes Math.random. Returns the slots to fill and the tiles to
-   choose from, already shuffled, with the word's own tiles always present. */
+/* THE GUARD, owner-ruled 2026-08-17 after the first version banned every
+   vowel. A distractor is refused when its own sound is ALREADY spoken by one
+   of this word's tiles, because two tiles that sound identical make a puzzle
+   no ear can solve: ck beside cat's c, z beside his's s, o beside want's
+   bent a. It is decided per WORD and after bends, which is why it catches
+   those three while a per-grapheme ban did not.
+
+   A grapheme that bends in some OTHER word is welcome here. A lone tile plays
+   its default sound - the sound Level 2 teaches it says - and the bend in
+   "want" is a fact about want, not about the letter a. */
+const trayClash = (word, c) => soundIdsFor(word).includes(soundIdFor(c));
 function buildTray(word, level, rand = Math.random) {
   const own = chunkWord(word);
-  const pool = trayPool(level).filter((c) => !own.includes(c));
+  const pool = trayPool(level).filter((c) => !own.includes(c) && !trayClash(word, c));
   /* Drawn by shuffling and taking, never by retrying until the picks differ:
      a retry loop cannot end when rand is held still, and a held rand is
      exactly what a test uses. This one hung the suite before it was caught. */
