@@ -1595,3 +1595,20 @@ drift apart, and it adds no audio at all, because every ladder letter already ha
 clip. What is closed: the mode's shape, its starting rung, and the reason a tray may never
 hold a letter the ladder has not reached. What is not closed is the tile-less Pre 1 idea,
 which is a different feature wearing this one's name.
+
+## The scan lists stop rotting (2026-08-17) — closed
+
+The owner approved thirteen Build-it sentences and ruled that they be PINNED rather than
+merely scanned: measured first, the copy gate's only content rule is a banned-word regex,
+and all thirteen strings passed it, so adding the file alone would have refused nothing.
+Each sentence is now held by exact text against the screen that renders it, the same idiom
+that pins the pre-ladder's three lines.
+
+Then the wider fault, which the owner also ruled on. Three gates each kept a hand-written
+list of app files — the copy gate, the S6 no-network scan and doc-truth — and all three had
+drifted the same way: BuildItScreen was missing from every one, and SentenceStage had been
+missing from the copy gate since the sentence stage shipped. The same omission three times
+is a fault in the list, not in the people keeping it. The lists are derived from the tree
+now (`tools/app-sources.mjs`, gate G11b): a new file under app/src is scanned from the
+moment it exists, and staying out takes a written exclusion with a reason. The S6 scan
+excludes nothing at all — it went from 11 files to 26 and found no violation.

@@ -13,6 +13,7 @@
    Negative control: --self-test corrupts copies in memory and requires the
    detectors to fire.
    Run: npm run lint:copy */
+import { sourcesFor, staleExclusions } from "./app-sources.mjs";
 import { readFileSync } from "node:fs";
 import { execSync } from "node:child_process";
 import { LEVELS, TRICKY, feedbackParts, feedbackSpeech, newState, PRAISE, VOICE_SENTENCES } from "../src/engine.js";
@@ -29,14 +30,12 @@ const LETTER_NAME = /(^| )[a-z]([ .,!?]|$)/;
 /* Child-facing copy corpus: JSX text and multi-word strings from the child
    screens, comments stripped. ParentScreen is adult-facing (out of scope). */
 function childCopy() {
-  const files = [
-    "app/src/App.jsx",
-    "app/src/screens/HomeScreen.jsx",
-    "app/src/screens/SessionScreen.jsx",
-    "app/src/screens/DoneScreen.jsx",
-    "app/src/screens/PreSessionScreen.jsx",
-    "app/src/screens/PreDoneScreen.jsx",
-  ];
+  /* DERIVED, not listed (owner-ruled 2026-08-17). Every app source is scanned
+     unless tools/app-sources.mjs excludes it with a written reason, so a new
+     screen is covered from the moment it exists. Three gates each kept a
+     hand-written list and all three had drifted the same way. */
+  const files = sourcesFor("copy");
+
   const texts = [];
   for (const f of files) {
     const src = readFileSync(f, "utf8").replace(/\/\*[\s\S]*?\*\//g, "").replace(/\/\/[^\n]*/g, "");
@@ -66,6 +65,33 @@ function run(d) {
   check(preScreen.includes('"🎉 Great job!"'), "pre feedback (correct)", "PreSessionScreen has lost its exact line");
   check(preScreen.includes('"💪 Good try!"'), "pre feedback (close)", "PreSessionScreen has lost its exact line");
   check(preScreen.includes('"🔁 Let’s try that again."'), "pre feedback (wrong)", "PreSessionScreen has lost its exact line");
+  /* BUILD-IT's own sentences (SPEC section 12, owner-approved 2026-08-17).
+     Pinned by exact text against the screens that render them, the same way
+     the pre-ladder's three lines are, because the banned-word rule alone would
+     accept any rewording: measured before this was added, all thirteen of the
+     mode's strings passed a corpus that checks only for words like "wrong".
+     A deliberate change to any of these is a one-line diff here; an accidental
+     one is a red build. */
+  const buildScreen = readFileSync("app/src/screens/BuildItScreen.jsx", "utf8");
+  const homeScreen = readFileSync("app/src/screens/HomeScreen.jsx", "utf8");
+  const pinned = [
+    [homeScreen, '🧱 Build a word', "chooser row (words)"],
+    [homeScreen, '🔎 Find the sound', "chooser row (the ladder)"],
+    [homeScreen, 'Building needs sound. Turn sound on in the Grown-ups corner.', "sound-off note"],
+    [buildScreen, '🔊 Hear the word', "prompt control (words)"],
+    [buildScreen, '🔊 Hear the sound', "prompt control (the ladder)"],
+    [buildScreen, 'That says ', "miss lead (words)"],
+    [buildScreen, '… listen again.', "miss tail"],
+    [buildScreen, 'That is a different sound', "miss lead (the ladder)"],
+    [buildScreen, 'Watch where each sound goes, then copy it.', "help after two misses (words)"],
+    [buildScreen, 'Watch which tile it is, then tap it.', "help after two misses (the ladder)"],
+    [buildScreen, '🎉 You built ', "win (words)"],
+    [buildScreen, '🎉 You found it!', "win (the ladder)"],
+    [buildScreen, 'practice only · nothing is saved here', "the grown-up strip"],
+  ];
+  for (const [src, text, name] of pinned)
+    check(src.includes(text), "build-it copy: " + name, `the screen has lost "${text}"`);
+
   check(leads.sCorrect === "Great job! The word was cat.", "speech (correct)", leads.sCorrect);
   check(leads.sClose === "Good try! The word is cat.", "speech (close)", leads.sClose);
   check(leads.sWrong === "Let’s try again. The word is cat.", "speech (wrong)", leads.sWrong);
@@ -101,6 +127,7 @@ function run(d) {
 
   // 2. no banned word in child-facing copy
   rules.add("banned-words");
+  for (const s of staleExclusions()) check(false, "stale scan exclusion", s);
   for (const { f, t } of corpus) check(!BANNED.test(t), "banned word in child copy", `${f}: "${t.trim()}"`);
   for (const p of praise) check(!BANNED.test(p), "banned word in praise", p);
 

@@ -117,7 +117,13 @@ function step(gate, command, counts = [], env = {}, required = []) {
 
 step("extract engine", "node tools/extract-engine.mjs");
 
-step("G11 copy", "node tools/copy-lint.mjs && node tools/copy-lint.mjs --self-test", [
+/* The derived source lists (owner-ruled 2026-08-17). It guards the three scans
+   that had each lost the same files, so it runs where they run. */
+step("G11 app-sources", "node tools/app-sources.mjs && node tools/app-sources.mjs --self-test", [
+  { label: "controls", regex: /app-sources controls: (\d+) passed/, floorKey: "g11_source_controls" },
+], {}, ["ok   a new file is in by default"]);
+
+step("G11 copy", "G11 app-sources", "node tools/copy-lint.mjs && node tools/copy-lint.mjs --self-test", [
   { label: "rules", regex: /Copy gate: (\d+) rules/, floorKey: "g11_copy_rules" },
   { label: "problems", regex: /(\d+) problems/, max: 0 },
 ]);

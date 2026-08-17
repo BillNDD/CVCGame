@@ -700,6 +700,33 @@ the tool would be fault F2 re-committed.
   ceiling `filemap_history_max` (1).
 - Run: `node tools/file-map.mjs --check` and `--self-test`; both are in `npm run check`.
 
+## G11b. The derived source lists — a scan cannot lose a file
+
+Built 2026-08-17, owner-ruled ("also C for rot protection"). Three gates each kept a
+hand-written list of app files to scan — the copy gate, the S6 no-network scan in
+`tests/safety.test.js`, and doc-truth — and all three had drifted the same way: a screen
+was added and none of them learned about it. `BuildItScreen.jsx` was missing from all
+three, and `SentenceStage.jsx` had been missing from the copy gate since the sentence stage
+shipped. The same omission three times says the list is the fault, not the people keeping
+it.
+
+The lists are now DERIVED from the tree by `tools/app-sources.mjs`. A new file under
+`app/src` is scanned from the moment it exists; staying out takes a written exclusion with
+a reason, which is an owner-visible diff. The S6 scan excludes nothing at all — it asks
+whether ANY file reaches the network, so no file may sit outside it, and the two files
+entitled to a request keep their scoped allowance at the call site. Adding the derivation
+took the network scan from 11 files to 26, with no violations found.
+
+- Tool: `tools/app-sources.mjs`. Command: `node tools/app-sources.mjs && node tools/app-sources.mjs --self-test`.
+- Key: `g11_source_controls` (7).
+- Controls: seven, and two matter most — a new file must be in by default, which is the
+  fault this replaces, and an exclusion naming a file that no longer exists must be
+  reported, because a stale exclusion tells a reader something deliberate is happening
+  when nothing is. The set carries an anti-vacuity control: a stub that filters nothing
+  must FAIL the exclusion case.
+- Limit: it knows which files exist, never whether a scan is the right scan for them. An
+  exclusion with a bad reason still excludes.
+
 ## G25. Safety cover — which rule has no executable proof
 
 Built 2026-08-17, owner-approved. Until it existed, no command could answer the question

@@ -45,6 +45,7 @@
    requires every detector to fire.
    Run: node tools/doc-truth.mjs */
 import { readFileSync } from "node:fs";
+import { sourcesFor } from "./app-sources.mjs";
 
 const { LEVELS, NEVER_BUILD } = await import("../src/engine.js");
 
@@ -57,12 +58,10 @@ const rule = (okay, name, detail) => {
 /* The haystack is every source a sentence could honestly live in: the app,
    its screens and components, and the generated engine that owns the
    feedback text. */
-const SOURCES = [
-  "app/src/App.jsx", "app/src/storage.js", "app/src/voicepacks.js", "app/src/swrefresh.js",
-  "app/src/updates.js", "app/src/screens/HomeScreen.jsx", "app/src/screens/SessionScreen.jsx",
-  "app/src/screens/DoneScreen.jsx", "app/src/screens/ParentScreen.jsx",
-  "app/src/components/HoldButton.jsx", "app/src/components/UpdateRow.jsx", "src/engine.js",
-];
+/* DERIVED (owner-ruled 2026-08-17): every app source except the ones
+   tools/app-sources.mjs excludes with a reason, plus the generated engine.
+   The hand-written list had lost three screens. */
+const SOURCES = [...sourcesFor("docs"), "src/engine.js"];
 /* The tools an agent is TOLD to run, and the sentences that tell them. A tool
    nobody is pointed at is a tool nobody runs: blast-radius was built on
    2026-08-13 to make E11's second step a command, and the owner asked the same

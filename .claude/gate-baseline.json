@@ -72,5 +72,6 @@
   "g25_proofs": 28,
   "g25_source_only_max": 1,
   "g25_unobserved_max": 6,
-  "g25_controls": 12
+  "g25_controls": 12,
+  "g11_source_controls": 7
 }

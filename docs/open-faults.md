@@ -1773,7 +1773,7 @@ state. Done means: a source tripwire in the repository's own idiom, plus a walk 
 builds a word, misses twice, and reaches the scaffold. Gate G25 cannot see this gap — its
 own header says it proves that something CLAIMS to prove a rule.
 
-**Q2. The new child-facing copy has never been through G11.** `tools/copy-lint.mjs`'s
+**Q2. FIXED 2026-08-17, and the class with it.** The new child-facing copy has never been through G11. `tools/copy-lint.mjs`'s
 corpus lists App, Home, Session, Done, PreSession and PreDone, not BuildItScreen, so
 "That says …", "Watch where each sound goes, then copy it.", "🎉 You built …" and the
 grown-up line have not been checked against SPEC. Two source scans have the same omission:

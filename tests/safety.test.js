@@ -29,6 +29,7 @@ Object.defineProperty(window, "speechSynthesis", {
 const { default: App } = await import("../app/src/App.jsx");
 const { newState } = await import("../src/engine.js");
 const { installRefresh } = await import("../app/src/swrefresh.js");
+const { sourcesFor } = await import("../tools/app-sources.mjs");
 
 const flush = async (ms = 0) => act(async () => { await vi.advanceTimersByTimeAsync(ms); });
 /* Every word is now the adult's to judge, so a session is entered the same
@@ -368,12 +369,14 @@ describe("G10 safety — S4: no letter name ever reaches speech", () => {
    by a dependency, an <img src>, or a stylesheet url(). */
 describe("G10 safety — S6 and S7: no network, big controls", () => {
   it("6: no app source makes a network call", () => {
-    const files = [
-      "app/src/App.jsx", "app/src/main.jsx", "app/src/storage.js", "app/src/wq-css.js",
-      "app/src/screens/HomeScreen.jsx", "app/src/screens/SessionScreen.jsx",
-      "app/src/screens/DoneScreen.jsx", "app/src/screens/ParentScreen.jsx",
-      "app/src/voicepacks.js", "app/src/updates.js", "app/src/components/UpdateRow.jsx",
-    ];
+    /* EVERY app source, derived (owner-ruled 2026-08-17). S6 asks whether ANY
+       file reaches the network, so a hand-written list is the wrong shape for
+       it - and this one had lost seven files, including the newest screen a
+       child meets. Nothing is excluded from this scan; the two files entitled
+       to a request carry a scoped allowance below instead. */
+    const files = sourcesFor("network");
+    expect(files.length).toBeGreaterThan(20);
+
     const NET = /\bfetch\s*\(|XMLHttpRequest|new WebSocket|sendBeacon|gtag\(|analytics/;
     /* Each allowance is scoped to the ONE file entitled to it: the voice-pack
        adapter may fetch its own clips, and the update module may fetch the
