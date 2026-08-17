@@ -22,6 +22,13 @@ export const GOVERNING = [
      complete a comprehensive drift check". A skill is instructions for an
      agent rather than a fact, but it is a tracked .md that tells agents what
      to do, so it belongs in the owned set the same way AGENTS.md does. */
+  /* The review council, owner-ruled 2026-08-17: three fresh-context seats for the
+     duration of the curriculum redesign - engineering and test integrity, early
+     literacy, and the grown-up's experience. Their briefs are skills so any future
+     session can spin an identical reviewer after a context loss. */
+  ".claude/skills/council-engineer/SKILL.md",
+  ".claude/skills/council-literacy/SKILL.md",
+  ".claude/skills/council-adult-ux/SKILL.md",
   ".claude/skills/drift-check/SKILL.md",
   "AGENTS.md",
   "CHANGELOG.md",

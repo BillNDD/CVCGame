@@ -645,7 +645,7 @@ deliberate: a flaky cell must inform a release, never block one.
   dependency rule.
 - Negative control: `--self-test` plants a `PROGRESS.md` and a stray `status.json`; the
   detector must report both and still accept the real tree.
-- Baseline floor: `g17_governing_files` (30). It moved from 23 on 2026-08-11, when the
+- Baseline floor: `g17_governing_files` (33). It moved from 23 on 2026-08-11, when the
   owner approved `docs/open-faults.md` into the owned set — the list of what is still
   wrong, so that a fault cannot be lost to a context compaction — from 24 on 2026-08-15
   for `docs/file-map.md`, the generated ownership map (G23), and to 28 the same day for
@@ -696,7 +696,7 @@ the tool would be fault F2 re-committed.
   `filemap_history_max` (1) — a ceiling only the owner moves (E6). Today's one:
   `docs/voice-goldens-packs1-3.json`, whose 11-of-57 recipe disagreements make it a trap if
   read as live.
-- Keys: `g23_declared` (31), `g23_facts` (4), `g23_controls` (40), problems capped at 0,
+- Keys: `g23_declared` (34), `g23_facts` (4), `g23_controls` (40), problems capped at 0,
   ceiling `filemap_history_max` (1).
 - Run: `node tools/file-map.mjs --check` and `--self-test`; both are in `npm run check`.
 

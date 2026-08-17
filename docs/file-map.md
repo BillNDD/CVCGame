@@ -33,6 +33,9 @@ verbatim) are exempt; the exemptions are declared in the tool.
 | `README.md` | OWNER | the front door: what the game is, and pointers to every owner |
 | `SPEC.md` | OWNER | behaviour: the bank and levels, the engine, the screens, the feedback text, and the road ahead |
 | `.claude/gate-baseline.json` | DATA | every floor and ceiling the gates hold (E6) |
+| `.claude/skills/council-engineer/SKILL.md` | OWNER | the brief for the council's engineering seat: what that reviewer is told, what it may not do, and how its findings come back |
+| `.claude/skills/council-literacy/SKILL.md` | OWNER | the brief for the council's early-literacy seat: what it judges about the ladder and the questions it asks of every level |
+| `.claude/skills/council-adult-ux/SKILL.md` | OWNER | the brief for the council's adult-experience seat: whose experience it judges and what it is suspicious of |
 | `.claude/skills/drift-check/SKILL.md` | OWNER | how to run the comprehensive drift check: which gates and lookups, in what order, and what a green run does not mean |
 | `docs/install-ios.md` | OWNER | the iOS install steps a parent follows |
 | `docs/install-windows.md` | OWNER | the Windows install steps a parent follows |
