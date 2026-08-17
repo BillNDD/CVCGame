@@ -8,7 +8,7 @@ Per-test rows carry the test's own sentence, which in this project IS the
 Given/When/Then effect. The requirement, oracle, platform, mutant family, evidence
 and known limits are declared per FILE, in the tool, where they stay true.
 
-Totals: 324 it() SITES across 14 files, plus 18 gates that are not test files.
+Totals: 333 it() SITES across 15 files, plus 18 gates that are not test files.
 
 A site inside a loop or a table runs many times, so these rows describe more tests than they number: Vitest executes 330. The rows count the places behaviour is asserted.
 
@@ -33,6 +33,27 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 7 | G10 safety — S5: one attempt, one result | 24: two controls held at once record one result, not two |
 | 8 | G10 — the text a grown-up reads on the child | 27: one completed session counts as  |
 | 9 | G10 — the text a grown-up reads on the child | 28 (control): two sessions still count as  |
+
+## tests/buildit.test.js — 8 tests (G10)
+
+- **Requirement protected:** SPEC section 12: Build-it writes nothing to the record, speaks the word before the tiles, and ends every attempt in success
+- **Independent oracle:** A source tripwire with fixture controls and a real-source mutation, plus a walked loop with a held tray
+- **Platform:** node/jsdom
+- **Mutant family:** not yet in a G19 family
+- **Evidence produced:** Vitest counts (summed floor g10_safety_tests)
+- **Known limits — what these tests do NOT prove:** Proves the screen never reaches the record and that the loop runs; it cannot say whether a child understands the tray, and it hears nothing.
+- **Safety rules proved here:** S1 (unit), S2 (unit), S4 (unit)
+
+| # | Suite | Effect (the test's own sentence) |
+|---|---|---|
+| 1 | Build-it writes nothing to the record | 1: source tripwire — the screen touches no state that is saved |
+| 2 | Build-it writes nothing to the record | 2: a completed build saves nothing |
+| 3 | Build-it writes nothing to the record | 3: no adult mark exists anywhere on the screen (D4) |
+| 4 | Build-it | 4: the word is spoken first, and the tiles are not |
+| 5 | Build-it | 5: a tile plays its own sound as it is placed |
+| 6 | Build-it | 6: a word whose sound repeats can still be built |
+| 7 | Build-it | 7: a miss says what the child actually built, and the tray is not locked |
+| 8 | Build-it | 8: after the second miss, the letter is shown in its own slot |
 
 ## tests/engine.test.js — 112 tests (G1)
 
@@ -358,7 +379,7 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 2 | G10 safety — S6: the splash update controls are adult holds | 50: Update now appears only after a newer version answers, and only the adult hold sends the consent message |
 | 3 | G10 safety — S6: the splash update controls are adult holds | 51: a newer build of the same version is offered in plain words |
 
-## tests/safety.test.js — 25 tests (G10)
+## tests/safety.test.js — 26 tests (G10)
 
 - **Requirement protected:** Safety rules S1-S7: the app never records a miss by itself, never speaks the word early, and never reaches the network
 - **Independent oracle:** The exact SPEC sentences and literal control sizes
@@ -380,21 +401,22 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 8 | A2-002: the exit dialog never changes underneath a grown-up | 17: all three controls are present on the first word, and Save is reserved and inert |
 | 9 | A2-002: the exit dialog never changes underneath a grown-up | 18: the dialog |
 | 10 | A2-002: the exit dialog never changes underneath a grown-up | 19 (control):  |
-| 11 | G10 safety — W4c: an update never reloads under a child | 17: a new version mid-session waits for the session to end, then refreshes once |
-| 12 | G10 safety — W4c: an update never reloads under a child | 18 (control): with no session running the refresh is immediate, and a first install never reloads |
-| 13 | G10 safety — S4: no letter name ever reaches speech | 19: the note is never spoken — letter names must not reach speech |
-| 14 | G10 safety — S6 and S7: no network, big controls | 6: no app source makes a network call |
-| 15 | G10 safety — S6 and S7: no network, big controls | 7: the stylesheet keeps child controls at 56 px and adult controls at 44 px |
-| 16 | G10 safety — S6 and S7: no network, big controls | 8: no  |
-| 17 | G10 — free play never touches the save | 40: rights, wrongs and leaving write nothing at all |
-| 18 | G10 — free play never touches the save | 41 (control): the same grades in a real session DO reach the save |
-| 19 | G10 — free play never touches the save | 42: free play never says Finish and rolls into a new block |
-| 20 | G10 — free play never touches the save | 43: the header says FREE PLAY with a count-up, never x of 20 |
-| 21 | G10 — free play never touches the save | 44: a chooser stands between the tap and the game, and Back starts nothing |
-| 22 | G10 — free play never touches the save | 45: truly random draws from the whole bank, not the child |
-| 23 | G10 — free play never touches the save | 46: random play writes nothing and says what it is |
-| 24 | G10 — free play never touches the save | 47: a spent random block rolls into a fresh draw that never repeats the boundary word |
-| 25 | G10 safety — S6: the foreground check obeys the corner | 48: the check asks on a return to the foreground, and Off silences it at once |
+| 11 | G10 safety — W4c: an update never reloads under a child | 17b: the pre-ladder and a build are live sessions too |
+| 12 | G10 safety — W4c: an update never reloads under a child | 17: a new version mid-session waits for the session to end, then refreshes once |
+| 13 | G10 safety — W4c: an update never reloads under a child | 18 (control): with no session running the refresh is immediate, and a first install never reloads |
+| 14 | G10 safety — S4: no letter name ever reaches speech | 19: the note is never spoken — letter names must not reach speech |
+| 15 | G10 safety — S6 and S7: no network, big controls | 6: no app source makes a network call |
+| 16 | G10 safety — S6 and S7: no network, big controls | 7: the stylesheet keeps child controls at 56 px and adult controls at 44 px |
+| 17 | G10 safety — S6 and S7: no network, big controls | 8: no  |
+| 18 | G10 — free play never touches the save | 40: rights, wrongs and leaving write nothing at all |
+| 19 | G10 — free play never touches the save | 41 (control): the same grades in a real session DO reach the save |
+| 20 | G10 — free play never touches the save | 42: free play never says Finish and rolls into a new block |
+| 21 | G10 — free play never touches the save | 43: the header says FREE PLAY with a count-up, never x of 20 |
+| 22 | G10 — free play never touches the save | 44: a chooser stands between the tap and the game, and Back starts nothing |
+| 23 | G10 — free play never touches the save | 45: truly random draws from the whole bank, not the child |
+| 24 | G10 — free play never touches the save | 46: random play writes nothing and says what it is |
+| 25 | G10 — free play never touches the save | 47: a spent random block rolls into a fresh draw that never repeats the boundary word |
+| 26 | G10 safety — S6: the foreground check obeys the corner | 48: the check asks on a return to the foreground, and Off silences it at once |
 
 ## tests/scheduler.test.js — 5 tests (G1)
 

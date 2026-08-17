@@ -299,6 +299,25 @@ describe("G10 safety — W4c: an update never reloads under a child", () => {
     return out;
   }
 
+  /* Q5, owner-ruled 2026-08-17: a live session is three screens, not one. The
+     pre-letter ladder and Build-it's breather are both moments a reload would
+     take the screen away from a child mid-task, and "build" was added without
+     this file learning about it - which is the fault, not the omission. */
+  it("17b: the pre-ladder and a build are live sessions too", async () => {
+    for (const screen of ["pre", "build"]) {
+      const sw = refreshDouble({ screen });
+      sw.takeover();
+      expect(sw.reloads).toBe(0);            // never mid-task
+      sw.goTo("home");
+      expect(sw.reloads).toBe(1);            // and then, once
+    }
+    /* The control: a screen that is NOT live must refresh at once, or this
+       test would pass with the guard stuck on. */
+    const safe = refreshDouble({ screen: "parent" });
+    safe.takeover();
+    expect(safe.reloads).toBe(1);
+  });
+
   it("17: a new version mid-session waits for the session to end, then refreshes once", async () => {
     const sw = refreshDouble({ screen: "session" });
     sw.takeover();

@@ -100,6 +100,14 @@ export const DECLARED = {
     mutants: "G19 sentence family", evidence: "Vitest counts (floor g10_sentence_tests)",
     limits: "Proves the ORDER the app asks for, never how the sentence sounds — that is a listening round (G13), and the owner has already graded every clip it plays.",
   },
+  "tests/buildit.test.js": {
+    safety: { S1: "unit", S2: "unit", S4: "unit" },
+    gate: "G10", requirement: "SPEC section 12: Build-it writes nothing to the record, speaks the word before the tiles, and ends every attempt in success",
+    oracle: "A source tripwire with fixture controls and a real-source mutation, plus a walked loop with a held tray",
+    platform: "node/jsdom", mutants: "not yet in a G19 family",
+    evidence: "Vitest counts (summed floor g10_safety_tests)",
+    limits: "Proves the screen never reaches the record and that the loop runs; it cannot say whether a child understands the tray, and it hears nothing.",
+  },
   "tests/pre.test.js": {
     safety: { S1: "unit" },
     gate: "G10", requirement: "SPEC section 12 item 8: the pre-level ladder - its five rungs, sessions, promotions, and the fresh-saves-only migration",
