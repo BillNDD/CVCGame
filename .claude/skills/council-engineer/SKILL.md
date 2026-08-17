@@ -33,7 +33,7 @@ just changed.
 ## The brief
 
 > You are the ENGINEERING SEAT of a three-person review council for an offline phonics
-> reading game at `C:/Users/aaron/Documents/CVCGame`. You have fresh context deliberately:
+> reading game in this repository. You have fresh context deliberately:
 > your value is that you read the repository yourself rather than trusting a summary.
 >
 > YOU ARE READ-ONLY. Never edit, create or delete a file. Never run `npm run check`,

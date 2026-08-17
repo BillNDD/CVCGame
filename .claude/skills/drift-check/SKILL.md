@@ -18,6 +18,32 @@ exactly one file, and does every lookup, map and coverage claim still match the 
 Report a verdict the owner can scan. Never claim green without pasting the number that
 proves it.
 
+## The standing rule: no green without this
+
+Owner-ruled 2026-08-17: **"something that absolutely needs to be checked before any 'all
+green' is given is that the owners, map, and blast radius files have still 100% coverage
+and zero drift."**
+
+So this check is a PRECONDITION, not a report. Nobody — human or agent — may call a change
+finished, a build ready, or a check green until it has run and every number below is the
+whole of its population. `npm run check` passing is not sufficient on its own: it proves the
+gates that ran were happy, and this proves the gates still cover everything they claim to.
+
+**The coverage numbers, and what 100% means for each.** A run is only green when every one
+of these is total, not merely non-zero:
+
+| what | 100% means | today |
+|---|---|---|
+| Owners (G23) | every tracked file is declared or matched by a bulk glob — undeclared count is 0 | 34 declared, 1,502 tracked, 0 problems |
+| The map (`docs/file-map.md`) | generated from the table and identical to it — never hand-edited | current |
+| Effect map (G20) | every executable test has a row saying what it protects | 340 tests, 0 without a row |
+| Safety cover (G25) | every rule S1–S9 has a proof that exists and is scheduled | 9 of 9 |
+| App sources (G11b) | every file under `app/src` is in every scan that should see it | 26 files |
+| Blast radius (E11) | its own controls all pass, so "nothing depends on this" can be trusted | 97 of 97 |
+
+A number that has stopped being total is drift even when the gate is green, because a gate
+that has quietly narrowed its population reports success about a smaller world.
+
 ## What drift means here
 
 Four different failures wear the same clothes, and the checks below separate them:
