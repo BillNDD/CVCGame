@@ -48,10 +48,10 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 2 | A stumble must not cost mastery (parent report, 2026-08-13) | a wrong then a correct lands on box 3, not box 1 |
 | 3 | A stumble must not cost mastery (parent report, 2026-08-13) | the parent |
 | 4 | A stumble must not cost mastery (parent report, 2026-08-13) | but the second correct still only steps one box, so the jump is not repeatable |
-| 5 | word bank | has 469 unique words across 21 levels |
+| 5 | word bank | has 476 unique words across 21 levels |
 | 6 | word bank | starts with the ten VC words, then Level 1 |
 | 7 | word bank | maps every word to its level |
-| 8 | word bank | flags the twenty-four tricky words — the nine originals, the fourteen heart-word notes of 2026-08-15, and i |
+| 8 | word bank | flags the twenty-eight tricky words — the originals, the heart notes of 2026-08-15, i, and seating pass two |
 | 9 | word bank | keeps every word inside what the tile row can hold: 4 units at most, 5 letters at most |
 | 10 | chunkWord and dashed | fuses every digraph |
 | 11 | chunkWord and dashed | splits VC and plain CVC words |
@@ -106,7 +106,7 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 60 | sentences | holds every sentence to one breath and one clip |
 | 61 | sentences | counts the words a child sees, not the punctuation a writer left |
 | 62 | sentences | ships three invitation lines, each with a clip and its own words |
-| 63 | buildMarkdown | reports the 469-word denominator and twenty-one level rows |
+| 63 | buildMarkdown | reports the 476-word denominator and twenty-one level rows |
 | 64 | buildMarkdown | counts a word as mastered only from box 4 |
 | 65 | buildMarkdown | keeps a grapheme-safe name intact in the header |
 | 66 | buildMarkdown | marks a partial session |
@@ -282,7 +282,7 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | # | Suite | Effect (the test's own sentence) |
 |---|---|---|
 | 1 | G2 properties | P1: chunkWord round-trips every input |
-| 2 | G2 properties | P2: every chunk is one letter or one of the sixteen multi-letter units |
+| 2 | G2 properties | P2: every chunk is one letter or one of the nineteen multi-letter units |
 | 3 | G2 properties | P3: box stays in 0..5 through any result sequence |
 | 4 | G2 properties | P4: dueAt is the session plus the ladder value for the new box, and is in the future |
 | 5 | G2 properties | P5: attempts grows by exactly 1 per call and equals correct+close+wrong from fresh |

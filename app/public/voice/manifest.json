@@ -2803,6 +2803,7 @@
    "flag": 0.75,
    "flat": 0.95,
    "fog": 0.82,
+   "for": 0.7,
    "fox": 0.82,
    "fun": 0.82,
    "fuss": 0.82,
@@ -2933,6 +2934,7 @@
    "nut": 1,
    "of": 0.9,
    "on": 0.82,
+   "out": 0.75,
    "ox": 0.82,
    "pack": 0.82,
    "pat": 0.82,
@@ -3072,6 +3074,7 @@
    "vet": 0.82,
    "vex": 0.82,
    "wag": 0.82,
+   "want": 0.75,
    "was": 0.82,
    "wash": 0.82,
    "wax": 0.82,
@@ -3085,6 +3088,7 @@
    "wham": 0.82,
    "what": 0.82,
    "when": 0.82,
+   "which": 0.9,
    "whiff": 1,
    "whim": 0.82,
    "whip": 0.82,
@@ -3110,6 +3114,12 @@
    "zig": 0.82,
    "zip": 0.82
   }
+ },
+ "d:air": {
+  "file": "d-air.mp3",
+  "lead": 200,
+  "ms": 1056,
+  "tail": 426
  },
  "d:b": {
   "file": "d-b.mp3",
@@ -3165,6 +3175,12 @@
   "ms": 336,
   "tail": 6
  },
+ "d:long_a": {
+  "file": "d-long_a.mp3",
+  "lead": 50,
+  "ms": 408,
+  "tail": 28
+ },
  "d:long_e": {
   "file": "d-long_e.mp3",
   "lead": 190,
@@ -3180,13 +3196,13 @@
  "d:long_i_i": {
   "file": "d-long_i_i.mp3",
   "lead": 80,
-  "ms": 682,
+  "ms": 744,
   "tail": 224
  },
  "d:long_o": {
   "file": "d-long_o.mp3",
   "lead": 200,
-  "ms": 1010,
+  "ms": 1080,
   "tail": 430
  },
  "d:m": {
@@ -3218,6 +3234,18 @@
   "lead": 50,
   "ms": 360,
   "tail": 20
+ },
+ "d:or": {
+  "file": "d-or.mp3",
+  "lead": 50,
+  "ms": 408,
+  "tail": 28
+ },
+ "d:ow": {
+  "file": "d-ow.mp3",
+  "lead": 200,
+  "ms": 1056,
+  "tail": 426
  },
  "d:p": {
   "file": "d-p.mp3",
@@ -5469,10 +5497,22 @@
   "ms": 1008,
   "tail": 308
  },
+ "w:for": {
+  "file": "w-for.mp3",
+  "lead": 120,
+  "ms": 912,
+  "tail": 312
+ },
  "w:fox": {
   "file": "w-fox.mp3",
   "lead": 130,
   "ms": 940,
+  "tail": 328
+ },
+ "w:from": {
+  "file": "w-from.mp3",
+  "lead": 120,
+  "ms": 888,
   "tail": 328
  },
  "w:fun": {
@@ -6381,6 +6421,12 @@
   "ms": 936,
   "tail": 316
  },
+ "w:out": {
+  "file": "w-out.mp3",
+  "lead": 130,
+  "ms": 888,
+  "tail": 308
+ },
  "w:ox": {
   "file": "w-ox.mp3",
   "lead": 120,
@@ -7173,6 +7219,18 @@
   "ms": 960,
   "tail": 320
  },
+ "w:there": {
+  "file": "w-there.mp3",
+  "lead": 150,
+  "ms": 1176,
+  "tail": 516
+ },
+ "w:they": {
+  "file": "w-they.mp3",
+  "lead": 160,
+  "ms": 1224,
+  "tail": 554
+ },
  "w:thick": {
   "file": "w-thick.mp3",
   "lead": 130,
@@ -7341,6 +7399,12 @@
   "ms": 920,
   "tail": 394
  },
+ "w:want": {
+  "file": "w-want.mp3",
+  "lead": 120,
+  "ms": 960,
+  "tail": 320
+ },
  "w:was": {
   "file": "w-was.mp3",
   "lead": 120,
@@ -7418,6 +7482,12 @@
   "lead": 130,
   "ms": 888,
   "tail": 308
+ },
+ "w:which": {
+  "file": "w-which.mp3",
+  "lead": 120,
+  "ms": 888,
+  "tail": 318
  },
  "w:whiff": {
   "file": "w-whiff.mp3",

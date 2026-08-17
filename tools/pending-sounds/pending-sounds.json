@@ -441,5 +441,11 @@
   "verdict": "perfect (owner), judged in company inside \u201cof\u201d",
   "note": "SND16's v re-cut after the owner called it shouting beside the vowel in \u201cof\u201d: measured 6.2 dB louder and 400 Hz brighter than the sound next to it. Recipe, from the shipped d:v's own body: gain -7 dB, one-pole low-pass at 1800 Hz, re-peaked to -3.5 dBFS, 40 ms fades, then the pack's 80/300 ms padding. ONLY \u201cof\u201d takes it. van, vet, vat and vex keep d:v, which was graded perfect for them in SND16 and sits within 0.7 dB of its neighbours there. Reproduce with tools/build_of_round.py --ship, which refuses unless the source and the result both hash to the values recorded here.",
   "sha256": "0489d6c0e1bf964389f75b35f904e629794acf708831299a092d50d10412a85e"
+ },
+ "long_i_i": {
+  "sha256": "51d76557a73de5488c8a407d7cdea7d8f5d7a1f94122cb1e3d75182afa94cf9b",
+  "verdict": "perfect",
+  "round": "curriculum round C / 2026-08-15 - the word i's own clip; one letter, one sound (the schwa_a precedent)",
+  "note": "ledger row added 2026-08-17 when ship-sounds refused to run without it: the clip shipped via the word pipeline and the sound ledger never learned it (the F2 class - one truth, two records)"
  }
 }

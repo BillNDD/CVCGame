@@ -1492,6 +1492,22 @@ is the cure, and its two named paths (the owner records it, or the tap plays the
 approved sentence) wait on the owner. Nothing about cage is re-offered from synthesis
 without a new mechanism nobody has named yet.
 
+## Seating pass two — seven seats, three tile units, and cage's path (2026-08-17) — closed
+
+The owner seated all seven offers ("seat 7 of 7: which from want they for out there"),
+ruled both tile units in ("Both units join S8, tiling only" — with ere riding there's
+approved seat description as the one trigraph), and answered cage's three-way with their
+own path: "Keep trying with novel approaches to get a good cage recording" — so neither
+the sentence-tap fallback nor an owner recording is chosen, and batch 18 owes cage
+genuinely new synthesis mechanisms (candidates noted in docs/voice-pack.md's batch-16
+record and beyond: word-initial carriers, phoneme-spacing tricks, wide world-colour
+grids, and phoneme-level splicing from approved clips). Four sounds shipped from pending
+with the hearts — long a, or, ow, air — and or proved different in kind on the way: it
+says the same thing everywhere, so it carries a true default like sh, while ey and ere
+bend per word, ai-style. one remains parked on its sound-out design question. The
+tile-row law, the th roster, the draw simulation (tenth move), the no-default guard and
+every count moved in the same build, all measured.
+
 ## The trap this project keeps falling into
 
 A fix that is approved but not applied is worse than no fix: it reads as done.

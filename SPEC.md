@@ -122,9 +122,9 @@ test pins that absence as a decision.
 | 2 | Sunny Start | VC finishes; short a begins | my we if ox cat sat ran can man dad hat mat fat |
 | 3 | Jam Jar | short a | me to had bag nap map cap tag jam ham pat bat |
 | 4 | Van Pals | short a | he no do sad mad bad rat pan fan van pal pad rag |
-| 5 | Zig Zap | short a | go so you tap wag lap tan zap yam cab ram dab rap |
-| 6 | Dig Dog | short a finishes; short i and o begin | be said has dam nag sap vat yap sit dog big dig his |
-| 7 | Mom and Pop | short i and o open up | of mom pop hot pot top not got did him pig |
+| 5 | Zig Zap | short a | go so you tap wag lap tan zap yam cab ram dab rap out |
+| 6 | Dig Dog | short a finishes; short i and o begin | be said has dam nag sap vat yap sit dog big dig his they |
+| 7 | Mom and Pop | short i and o open up | of mom pop hot pot top not got did him pig for |
 | 8 | Six Pins | short i builds | sip dip tip pin win hit six fin bin lip |
 | 9 | Fox Box | short o builds | box fox log hop cot bit fit pit wig bib |
 | 10 | Fix It | short i and o finish | fix job rip hip lot nod hog tin rig mop |
@@ -135,9 +135,9 @@ test pins that absence as a decision.
 | 15 | Super Sounds | sh and ch | ship shop shut fish dish wish cash chat chip chop rich much such chin shed shin mash rash chug chum dash sash hush rush mush chap wash push bush she bash gash gush lash lush posh sham shun |
 | 16 | Word Wizard | th, wh, ck, ng + tricky words | thin this that then them bath math with when whip duck sock kick back ring sing king long song was buck sung gong lung puck wick rung muck pack path sack tack neck luck tuck peck deck thud rock lock pick lick wing tick dock moth hang sang rang sick fang what whim wham bang hung ding ping |
 | 17 | Bells | ll, ss, ff, zz + qu + silent letters | bell tell well fell hill mill doll mess boss kiss miss loss fuss huff puff cuff buzz fuzz jazz fizz will quiz quit quip knit knob knot lamb |
-| 18 | Chicks | five-letter words | chick check chuck chess chill shack shock shell thick whack whiff whizz quick quack quill knock wreck wrong thumb wrap wren limb |
-| 19 | Tent Camp | blends at the end | ant ask band belt bend best bolt bond bump camp cost damp dent desk dusk end fast fond gift gulf gulp hand help hint jump just kept lamp land last left lend lift list mask melt mend milk mint must nest pond pump raft rest risk romp sand sift silk soft task tent think went wilt |
-| 20 | Twin Drums | blends at the start | brag clap drop drum flag flat glad grab grin plan plum slam sled slid slip snap snug spin spot stem step stop swam swim trap trim trip twig twin black skip |
+| 18 | Chicks | five-letter words | chick check chuck chess chill shack shock shell thick whack which whiff whizz quick quack quill knock wreck wrong thumb wrap wren limb |
+| 19 | Tent Camp | blends at the end | ant ask band belt bend best bolt bond bump camp cost damp dent desk dusk end fast fond gift gulf gulp hand help hint jump just kept lamp land last left lend lift list mask melt mend milk mint must nest pond pump raft rest risk romp sand sift silk soft task tent there think want went wilt |
+| 20 | Twin Drums | blends at the start | brag clap drop drum flag flat glad grab grin plan plum slam sled slid slip snap snug spin spot stem step stop swam swim trap trim trip twig twin black skip from |
 | 21 | Cats and Dogs | the plural s: /s/ after quiet endings, /z/ after voiced | beds bugs cats cups dogs hats hens kids lids maps pens pigs pots tops |
 
 The table above is the one owner of the level word lists, and gate G16 holds it to the

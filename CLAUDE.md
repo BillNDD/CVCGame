@@ -168,7 +168,10 @@ exclusions are recorded in SPEC section 12.
 - S7. Child controls are 56 px or more. Adult controls are 44 px or more.
 - S8. Multi-letter units always show as one tile: the spoken digraphs (sh, ch, th, wh, ck,
   ng), qu, the silent-letter pairs (kn, wr, mb), the doubled endings (ll, ss, ff, zz), and
-  the two vowel teams inside heart words (ai, ou). Owner-approved 2026-08-04 with Levels 8
+  the heart-word team units — ai, ou (2026-08-12), and ey, or, ere (2026-08-17: "Both
+  units join S8, tiling only", with ere riding there's approved seat description; or
+  alone ships its true default sound, graded in the sound rounds — the other four bend
+  per word). Owner-approved 2026-08-04 with Levels 8
   and 9; ph was considered and left out because no word obeys the bank's own rules. ai and
   ou joined on 2026-08-12, approved by ear in the heart-word sound-out round: without them
   "said" tiles as s-a-i-d and "you" as y-o-u, and the tiles would spell words no child will

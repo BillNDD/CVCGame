@@ -32,11 +32,11 @@ const LEVELS = [
   { n: 4, name: "Van Pals", emoji: "🚐", focus: "short a",
     words: ["he","no","do","sad","mad","bad","rat","pan","fan","van","pal","pad","rag"] },
   { n: 5, name: "Zig Zap", emoji: "⚡", focus: "short a",
-    words: ["go","so","you","tap","wag","lap","tan","zap","yam","cab","ram","dab","rap"] },
+    words: ["go","so","you","tap","wag","lap","tan","zap","yam","cab","ram","dab","rap","out"] },
   { n: 6, name: "Dig Dog", emoji: "🐶", focus: "short a finishes; short i and o begin",
-    words: ["be","said","has","dam","nag","sap","vat","yap","sit","dog","big","dig","his"] },
+    words: ["be","said","has","dam","nag","sap","vat","yap","sit","dog","big","dig","his","they"] },
   { n: 7, name: "Mom and Pop", emoji: "🍲", focus: "short i and o open up",
-    words: ["of","mom","pop","hot","pot","top","not","got","did","him","pig"] },
+    words: ["of","mom","pop","hot","pot","top","not","got","did","him","pig","for"] },
   { n: 8, name: "Six Pins", emoji: "🎳", focus: "short i builds",
     words: ["sip","dip","tip","pin","win","hit","six","fin","bin","lip"] },
   { n: 9, name: "Fox Box", emoji: "🦊", focus: "short o builds",
@@ -65,15 +65,15 @@ const LEVELS = [
     words: ["bell","tell","well","fell","hill","mill","doll","mess","boss","kiss","miss","loss","fuss","huff","puff","cuff","buzz","fuzz","jazz","fizz","will",
       "quiz","quit","quip","knit","knob","knot","lamb"] },
   { n: 18, name: "Chicks", emoji: "🐔", focus: "five-letter words",
-    words: ["chick","check","chuck","chess","chill","shack","shock","shell","thick","whack","whiff","whizz","quick","quack","quill","knock","wreck","wrong","thumb","wrap",
+    words: ["chick","check","chuck","chess","chill","shack","shock","shell","thick","whack","which","whiff","whizz","quick","quack","quill","knock","wreck","wrong","thumb","wrap",
       "wren","limb"] },
   { n: 19, name: "Tent Camp", emoji: "⛺", focus: "blends at the end",
     words: ["ant","ask","band","belt","bend","best","bolt","bond","bump","camp","cost","damp","dent","desk","dusk","end","fast","fond","gift","gulf",
       "gulp","hand","help","hint","jump","just","kept","lamp","land","last","left","lend","lift","list","mask","melt","mend","milk","mint","must",
-      "nest","pond","pump","raft","rest","risk","romp","sand","sift","silk","soft","task","tent","think","went","wilt"] },
+      "nest","pond","pump","raft","rest","risk","romp","sand","sift","silk","soft","task","tent","there","think","want","went","wilt"] },
   { n: 20, name: "Twin Drums", emoji: "🥁", focus: "blends at the start",
     words: ["brag","clap","drop","drum","flag","flat","glad","grab","grin","plan","plum","slam","sled","slid","slip","snap","snug","spin","spot","stem",
-      "step","stop","swam","swim","trap","trim","trip","twig","twin","black","skip"] },
+      "step","stop","swam","swim","trap","trim","trip","twig","twin","black","skip","from"] },
   { n: 21, name: "Cats and Dogs", emoji: "🐾", focus: "one becomes many",
     words: ["beds","bugs","cats","cups","dogs","hats","hens","kids","lids","maps","pens","pigs","pots","tops"] },
 ];
@@ -271,6 +271,10 @@ const TRICKY = {
   to: "Tricky word! The o sounds like \u201Coo\u201D \u2014 too.",
   do: "Tricky word! The o sounds like \u201Coo\u201D \u2014 doo.",
   you: "Tricky word! The ou sounds like \u201Coo\u201D \u2014 yoo.",
+  they: "Tricky word! The ey sounds like “ay” — thay.",
+  for: "Tricky word! The or says “or” — for.",
+  out: "Tricky word! The ou shouts “ow” — owt.",
+  there: "Tricky word! The ere sounds like “air” — thair.",
   said: "Tricky word! The ai sounds like \u201Ceh\u201D \u2014 sed.",
   my: "Tricky word! The y says a letter name \u2014 \u201Ceye\u201D.",
   of: "Tricky word! The o sounds like \u201Cuh\u201D and the f sounds like \u201Cv\u201D \u2014 uv.",
@@ -298,7 +302,20 @@ const TRICKY = {
    to tell the truth, and s-a-i-d says a word the child will never hear.
    Verified before the rule changed: NO word in the bank contains ai or ou, so
    nothing already shipped re-tiles underneath this. */
-const DIGRAPHS = ["sh","ch","th","wh","ck","ng","qu","kn","wr","mb","ll","ss","ff","zz","ai","ou"];
+/* "ey" and "or" joined on 2026-08-17 by the same ruling shape — "Both units
+   join S8, tiling only" — and "ere" rode in with there's seat description on
+   the same page (th-ere was the tiling the owner approved the seat under).
+   Without them they tiles t-h-e-y, for grows a phantom silent r, and there
+   needs silent-tile machinery that does not exist. Verified again before the
+   rule changed: across all 476 words, ey appears only in they, or only in
+   for, and ere only in there — nothing re-tiles underneath. Like ai and ou,
+   ey and ere have no ruled default sound — every word using one bends it per
+   word, ai-style. or is different in kind: d:or ships as its true sound (the
+   owner graded it in the sound rounds), and it says the same thing wherever
+   it appears, so it carries a real default like sh or ch — still never
+   TAUGHT as a code level, which is what the tiling-only ruling protects. */
+const TRIGRAPHS = ["ere"];
+const DIGRAPHS = ["sh","ch","th","wh","ck","ng","qu","kn","wr","mb","ll","ss","ff","zz","ai","ou","ey","or"];
 /* The microphone is gone (owner-ruled 2026-08-11, safety; removed 2026-08-12), and
    three things went with it because it was the only reason each existed.
    HOMOPHONES was a 31-word near-miss table read by nothing but the transcript
@@ -345,8 +362,11 @@ LEVELS.forEach(L => L.words.forEach(w => { WORD_LEVEL[w] = L.n; }));
 function chunkWord(word) {
   const out = []; let i = 0;
   while (i < word.length) {
+    const three = word.slice(i, i + 3);
     const two = word.slice(i, i + 2);
-    if (DIGRAPHS.includes(two)) { out.push(two); i += 2; } else { out.push(word[i]); i += 1; }
+    if (TRIGRAPHS.includes(three)) { out.push(three); i += 3; }
+    else if (DIGRAPHS.includes(two)) { out.push(two); i += 2; }
+    else { out.push(word[i]); i += 1; }
   }
   return out;
 }
@@ -820,7 +840,14 @@ const WORD_SOUND = {
      say, which is why it is taught by sight — and the reveal still tells the
      truth about it, per the 2026-08-06 ruling. */
   to: { 1: "oo_moon" }, do: { 1: "oo_moon" },   // o says oo
-  you: { 1: "oo_moon" },                        // y-ou: the ou says oo
+  you: { 1: "oo_moon" },
+  /* Seating pass two's hearts (owner-ruled 2026-08-17, "seat 7 of 7"): each
+     bends its team tile to a sound the owner graded in the sound rounds,
+     shipped from pending the same day. want rides the wash-bend. */
+  they: { 0: "th_this", 1: "long_a" },
+  out: { 0: "ow" },
+  there: { 0: "th_this", 1: "air" },
+  want: { 1: "short_o" },                        // y-ou: the ou says oo
   said: { 1: "short_e" },                       // s-ai-d: the ai says e
   my: { 1: "long_i" },                          // y says the letter I's sound
   /* "of" took three rounds, and both of its letters lie: o says the u of "up"
@@ -924,6 +951,10 @@ const SOUND_TEXT = {
   short_i: "the sound in the middle of pig", short_o: "the sound in the middle of hot",
   short_u: "the sound in the middle of cup", long_e: "the sound at the end of she",
   schwa: "the lazy sound in the middle of the", oo_book: "the short oo sound in book",
+  /* Seating pass two's four (2026-08-17), each named by a word the child is
+     taught, never a letter name (S4). */
+  long_a: "the sound at the end of they", or: "the sound at the end of for",
+  ow: "the sound at the start of out", air: "the sound at the end of there",
   /* Never "the letter A's name" (S4). This is the article: the uh of "a cat". */
   schwa_a: "the lazy uh sound of the word a",
   /* The same sound as v, made quieter and rounder for the one word that needed

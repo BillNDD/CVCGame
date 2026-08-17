@@ -53,17 +53,18 @@ describe("G2 properties", () => {
     fc.assert(fc.property(lowerWord, (w) => chunkWord(w).join("") === w), RUNS);
   });
 
-  it("P2: every chunk is one letter or one of the sixteen multi-letter units", () => {
-    /* Sixteen since 2026-08-12: "ai" and "ou" joined so "said" and "you" tile
-       as three and two rather than four and three. Written out here rather
-       than read from DIGRAPHS, so adding a unit must be a decision in two
-       places (E4). */
+  it("P2: every chunk is one letter or one of the nineteen multi-letter units", () => {
+    /* Sixteen since 2026-08-12 ("ai" and "ou" for said and you); nineteen
+       since 2026-08-17, when seating pass two brought "ey" and "or" by
+       ruling and "ere" with there's seat — the one trigraph. Written out
+       here rather than read from DIGRAPHS, so adding a unit must be a
+       decision in two places (E4). */
     const DIGRAPH_LITERALS = ["sh", "ch", "th", "wh", "ck", "ng", "qu", "kn", "wr", "mb",
-      "ll", "ss", "ff", "zz", "ai", "ou"];
+      "ll", "ss", "ff", "zz", "ai", "ou", "ey", "or", "ere"];
     fc.assert(
       fc.property(lowerWord, (w) =>
         chunkWord(w).every(
-          (c) => c.length === 1 || (c.length === 2 && DIGRAPH_LITERALS.includes(c))
+          (c) => c.length === 1 || ((c.length === 2 || c.length === 3) && DIGRAPH_LITERALS.includes(c))
         )
       ),
       RUNS

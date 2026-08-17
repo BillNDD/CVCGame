@@ -149,7 +149,14 @@ byte-pinned word rather than replacing accepted audio with a render.
   sidecar workspace archive on the owner's PC
   (handoff `word-quest-uplift-handoff-2026-08-07T1438Z`).
 
-## Approved and unshipped: 66 items with no level yet (through 2026-08-17)
+## Approved and unshipped: 59 items with no level yet (through 2026-08-17)
+
+**Seating pass two shipped seven the same day their seats were ruled (2026-08-17,
+"seat 7 of 7"):** which to Chicks, from to Twin Drums, want and there to Tent Camp,
+they to Dig Dog, for to Level 7, out to Level 5 — and four sounds rode with them out of
+pending, each already owner-graded: long a, or, ow and air. The ey, or and ere tile
+units joined S8 to make the hearts tile true. **one stays parked** on its sound-out
+design question, its clip safe in the ledger.
 
 **Batch 17 closed eight of eleven (verdicts late 2026-08-16, recorded 2026-08-17):**
 which, from, want, they, for, out, one and there — the tier list the owner approved,
