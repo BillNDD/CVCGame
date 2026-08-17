@@ -149,7 +149,20 @@ byte-pinned word rather than replacing accepted audio with a render.
   sidecar workspace archive on the owner's PC
   (handoff `word-quest-uplift-handoff-2026-08-07T1438Z`).
 
-## Approved and unshipped: 59 items with no level yet (through 2026-08-17)
+## Approved and unshipped: 90 items with no level yet (through 2026-08-17)
+
+**Batch 18 closed 31 of 35 (2026-08-17) — the first batch of the train toward the full
+target bank.** than joined at last on its phonemised arm, and thirty short decodables
+came with it: bill, brush, cakes, coat, coats, cold, comes, cops, dust, fill, find, fly,
+fold, frog, gates, goat, gold, grass, held, hits, hold, holes, hunt, into, jumps, liked,
+likes, lived, logs, lots. Their bytes and pins are in the waiting room, which now holds
+434 items. **Three refused, and the owner named a fault rather than a preference:**
+cage ("the clipping is still terrible, other pieces of the sentences throughout"), gets
+("all gets options have extra sounds before or after. Poor clipping") and goats. **as is
+closest on as_5, "still too fast"** — a speed axis, not a clipping one. The refusals are
+a gate fault, not three unlucky words: `docs/open-faults.md` owns what is broken and
+`docs/settled.md` records what the measurement closed.
+
 
 **Seating pass two shipped seven the same day their seats were ruled (2026-08-17,
 "seat 7 of 7"):** which to Chicks, from to Twin Drums, want and there to Tent Camp,
