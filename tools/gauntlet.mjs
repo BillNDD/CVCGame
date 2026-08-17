@@ -361,11 +361,21 @@ step("G23 file-map", "node tools/file-map.mjs --check && node tools/file-map.mjs
    would BE the leak. Where no list exists (CI above all), the structural
    controls still run and the summary says "0 names" rather than implying a
    protection that is not there. */
-step("G24 s9-names", "node tools/s9-names.mjs && node tools/s9-names.mjs --self-test", [
+step("G24 s9-names", "G25 safety-cover", "node tools/s9-names.mjs && node tools/s9-names.mjs --self-test", [
   { label: "files", regex: /(\d+) files scanned/, floorKey: "g24_files" },
   { label: "problems", regex: /(\d+) problems/, max: 0 },
   { label: "controls", regex: /s9 controls: (\d+) passed/, floorKey: "g24_controls" },
 ], {}, ["ok   a planted name in file content is caught"]);
+
+/* G25: which safety rule has no executable proof. The floors are counts that
+   grow as rules and proofs are added; the two _max keys are DEBT, recorded at
+   today's honest number so it cannot grow quietly (E6). */
+step("G25 safety-cover", "node tools/safety-cover.mjs && node tools/safety-cover.mjs --self-test", [
+  { label: "rules", regex: /Safety cover: (d+) rules/, floorKey: "g25_rules" },
+  { label: "proofs", regex: /rules, (d+) declared proofs/, floorKey: "g25_proofs" },
+  { label: "problems", regex: /declared proofs, (d+) problems/, max: 0 },
+  { label: "controls", regex: /safety-cover controls: (d+) passed/, floorKey: "g25_controls" },
+], {}, ["ok   a relabelled tag is caught, not just a deleted one"]);
 
 /* Every gate that MUST have run. A gauntlet that skipped one — a step
    removed, a command renamed — has to fail rather than report a smaller,

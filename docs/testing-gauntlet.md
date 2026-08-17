@@ -88,7 +88,7 @@ The ten initial properties:
 | # | Property |
 |---|---|
 | P1 | For every bank word and every lowercase a–z string: `chunkWord(w).join("")` equals `w`. |
-| P2 | For the same domain as P1: every chunk is one letter, or is one of exactly sh, ch, th, wh, ck, ng. No chunk has another length. |
+| P2 | For the same domain as P1: every chunk is one letter, or one of the nineteen multi-letter units the property writes out by hand — the eighteen digraphs and the one trigraph, `ere`. A chunk is one, two or three letters and never another length. |
 | P3 | For any valid word state and any result sequence: `box` stays in the range 0 to 5 after every step. |
 | P4 | After any single `applyResult` on a valid word state at session `n`: `dueAt` equals `n` plus the interval for the new box, and `dueAt > n`. |
 | P5 | Starting from a fresh word state: `attempts` grows by exactly 1 per call, and `correct + close + wrong` equals `attempts` after every call. |
@@ -699,6 +699,50 @@ the tool would be fault F2 re-committed.
 - Keys: `g23_declared` (30), `g23_facts` (4), `g23_controls` (40), problems capped at 0,
   ceiling `filemap_history_max` (1).
 - Run: `node tools/file-map.mjs --check` and `--self-test`; both are in `npm run check`.
+
+## G25. Safety cover — which rule has no executable proof
+
+Built 2026-08-17, owner-approved. Until it existed, no command could answer the question
+this gate is named for. Safety rules S1 to S9 were enforced by tests spread over eleven
+files plus careful human reading, and open-faults L records what that costs: S9 lived
+without a gate until somebody happened to notice, and the noticing was luck rather than a
+system.
+
+**The relation lives in one place.** `tools/effect-declarations.mjs` already said, in
+prose, what every test file protects — "Safety rules S1-S7", "SPEC section 5 and S5". A
+range cannot be computed, so each declaration now also carries a machine-readable field
+naming the rule and how it is proved: `unit` runs the code that implements the fact,
+`source` reads source text, `observed` watches a real browser. The gate reads that field.
+A second table of what proves each rule would drift from the first within a week, which is
+the fault `tools/file-map.mjs` names in its own header.
+
+**What it refuses.** A rule with no proof at all — the fault-L detector, which makes a
+tenth safety rule unaddable without something that proves it. A proof naming a file that
+does not exist, because a renamed test silently stops proving anything. A proof running
+under a gate no scheduled step runs, read from the gauntlet's own `REQUIRED_GATES`: that is
+the G22 shape from open-faults C4, where a detector nobody runs looks exactly like
+protection. And a run that parses fewer rules than its floor, because a gate whose anchor
+has moved reports "0 of 0 uncovered" and passes — doc-truth learned that on 2026-08-15.
+
+**What it reports under a ceiling instead.** Two debts, each at today's honest number so
+neither can grow quietly. `g25_source_only_max (1)` counts rules whose every proof reads
+source: today that is S9 alone, and for S9 a source scan IS the real proof, which is why
+this reports rather than refuses. `g25_unobserved_max (6)` counts rules no browser has ever
+seen: today S1, S2, S3, S4, S8 and S9. S8 is the sharpest of them — "multi-letter units
+always show as one tile" is a claim about a rendered screen, and every proof of it is
+engine-level. A ceiling only falls.
+
+**What it cannot do.** It reads declarations, not behaviour. It proves that something
+claims to prove a rule, never that the claim is true — the test itself does that, and only
+a person can say the rule is the right rule. A proof nobody declared is invisible to it,
+which is why every number here is a floor rather than an equality.
+
+- Tool: `tools/safety-cover.mjs`. Command: `node tools/safety-cover.mjs && node tools/safety-cover.mjs --self-test`.
+- Keys: `g25_rules (9)`, `g25_proofs (25)`, `g25_controls (11)`, `g25_source_only_max (1)`, `g25_unobserved_max (6)`.
+- Controls: eleven, and the important one is that the six planted faults run through a
+  parameterised detector, so the same cases can be put to a stub that always reports
+  nothing. It must answer none of them. Two controls in this repository once passed with
+  their detector removed; this is the shape that catches that.
 
 ## G24. The S9 gate — no tracked file contains a personal name
 

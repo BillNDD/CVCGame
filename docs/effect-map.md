@@ -8,7 +8,7 @@ Per-test rows carry the test's own sentence, which in this project IS the
 Given/When/Then effect. The requirement, oracle, platform, mutant family, evidence
 and known limits are declared per FILE, in the tool, where they stay true.
 
-Totals: 311 it() SITES across 14 files, plus 10 gates that are not test files.
+Totals: 311 it() SITES across 14 files, plus 18 gates that are not test files.
 
 A site inside a loop or a table runs many times, so these rows describe more tests than they number: Vitest executes 330. The rows count the places behaviour is asserted.
 
@@ -20,6 +20,7 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 - **Mutant family:** G19 adult-hold family
 - **Evidence produced:** Vitest counts (floor g10_adult_control_tests)
 - **Known limits — what these tests do NOT prove:** Fake timers prove the rule, not that a hold feels right under a real thumb (G12).
+- **Safety rules proved here:** S1 (unit), S5 (unit)
 
 | # | Suite | Effect (the test's own sentence) |
 |---|---|---|
@@ -41,6 +42,7 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 - **Mutant family:** G5 progression, scheduling, digraph and reveal families
 - **Evidence produced:** Vitest counts (floor g1_unit_tests)
 - **Known limits — what these tests do NOT prove:** Proves the engine's arithmetic and shape, never that a child understands the screen or that a clip sounds right.
+- **Safety rules proved here:** S4 (unit), S8 (unit)
 
 | # | Suite | Effect (the test's own sentence) |
 |---|---|---|
@@ -152,6 +154,7 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 - **Mutant family:** G5 heal and migrate families; G19 backup-validator family
 - **Evidence produced:** Vitest counts (floor g9_fault_tests)
 - **Known limits — what these tests do NOT prove:** Simulated storage failures; a real device's disk, quota and private-mode behaviour is the QA procedure's job (G12).
+- **Safety rules proved here:** none
 
 | # | Suite | Effect (the test's own sentence) |
 |---|---|---|
@@ -177,6 +180,7 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 - **Mutant family:** G4 mutates each expected value in the IR; a scenario that still passes is not reading it
 - **Evidence produced:** Vitest counts (floor g3_generated_tests) plus a regeneration diff
 - **Known limits — what these tests do NOT prove:** Only covers behaviour someone thought to write a scenario for.
+- **Safety rules proved here:** none
 
 | # | Suite | Effect (the test's own sentence) |
 |---|---|---|
@@ -251,6 +255,7 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 - **Mutant family:** none yet - the ladder shipped 2026-08-15 and its mutant family is a named follow-up
 - **Evidence produced:** Vitest counts (mapped by G20)
 - **Known limits — what these tests do NOT prove:** Proves the ladder's arithmetic and wiring, never how a sound lands in a child's ear - the clips it plays were each graded in their own rounds.
+- **Safety rules proved here:** S1 (unit)
 
 | # | Suite | Effect (the test's own sentence) |
 |---|---|---|
@@ -278,6 +283,7 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 - **Mutant family:** G5 box, interval and migrate families
 - **Evidence produced:** Vitest counts (floors g2_properties, g2_cases_per_property); fast-check prints the seed and the shrunk counter-example on failure
 - **Known limits — what these tests do NOT prove:** Invariants can hold while the behaviour they permit is still wrong for a child.
+- **Safety rules proved here:** S8 (unit)
 
 | # | Suite | Effect (the test's own sentence) |
 |---|---|---|
@@ -300,6 +306,7 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 - **Mutant family:** G5 reveal and seam families
 - **Evidence produced:** Vitest counts (floor g10_reveal_tests)
 - **Known limits — what these tests do NOT prove:** Proves what is scheduled, never how it sounds — that is a listening round (G13).
+- **Safety rules proved here:** S2 (unit)
 
 | # | Suite | Effect (the test's own sentence) |
 |---|---|---|
@@ -330,6 +337,7 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 - **Mutant family:** G19 update-comparison family
 - **Evidence produced:** Counted into the summed floor g10_safety_tests, so neither file can quietly empty
 - **Known limits — what these tests do NOT prove:** Same as safety.test.js: source and stylesheet claims are pre-filters.
+- **Safety rules proved here:** S5 (unit), S6 (source)
 
 | # | Suite | Effect (the test's own sentence) |
 |---|---|---|
@@ -345,6 +353,7 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 - **Mutant family:** G19 transcript, hold and free-play families
 - **Evidence produced:** Vitest counts (summed floor g10_safety_tests)
 - **Known limits — what these tests do NOT prove:** The S6 network scan reads SOURCE — G18 watches the browser. The S7 size check reads the STYLESHEET — G7 measures rendered geometry. Both are pre-filters here, not proof.
+- **Safety rules proved here:** S1 (unit), S2 (unit), S4 (unit), S6 (source), S7 (source)
 
 | # | Suite | Effect (the test's own sentence) |
 |---|---|---|
@@ -382,6 +391,7 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 - **Mutant family:** G5 promotion, peek and above-level review families
 - **Evidence produced:** Vitest counts (floor g1_scheduler_tests)
 - **Known limits — what these tests do NOT prove:** Says nothing about pacing as a child experiences it, only about which words are chosen.
+- **Safety rules proved here:** none
 
 | # | Suite | Effect (the test's own sentence) |
 |---|---|---|
@@ -399,6 +409,7 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 - **Mutant family:** G19 sentence family
 - **Evidence produced:** Vitest counts (floor g10_sentence_tests)
 - **Known limits — what these tests do NOT prove:** Proves the ORDER the app asks for, never how the sentence sounds — that is a listening round (G13), and the owner has already graded every clip it plays.
+- **Safety rules proved here:** S1 (unit), S2 (unit), S3 (unit), S5 (unit)
 
 | # | Suite | Effect (the test's own sentence) |
 |---|---|---|
@@ -427,6 +438,7 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 - **Mutant family:** none yet
 - **Evidence produced:** Vitest counts (floor g14_worker_tests)
 - **Known limits — what these tests do NOT prove:** A simulated lifecycle; the real install-and-relaunch path is the QA procedure (G12).
+- **Safety rules proved here:** none
 
 | # | Suite | Effect (the test's own sentence) |
 |---|---|---|
@@ -444,6 +456,7 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 - **Mutant family:** G19 update-comparison family
 - **Evidence produced:** Vitest counts (floor g14_update_tests)
 - **Known limits — what these tests do NOT prove:** Does not prove the deployed host serves a correct version.json.
+- **Safety rules proved here:** none
 
 | # | Suite | Effect (the test's own sentence) |
 |---|---|---|
@@ -474,6 +487,7 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 - **Mutant family:** none; G13's own self-test carries the controls
 - **Evidence produced:** Vitest counts (floor g13_engine_tests) plus the G13 pack audit
 - **Known limits — what these tests do NOT prove:** Proves a clip EXISTS and matches its pin. Whether it sounds like the word is settled by a listening round and nothing else.
+- **Safety rules proved here:** none
 
 | # | Suite | Effect (the test's own sentence) |
 |---|---|---|
@@ -493,16 +507,24 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 
 ## Gates that are not test files
 
-| Gate | Where | Requirement protected | Oracle | Known limits |
-|---|---|---|---|---|
-| G7 | `tests/ui/interface.mjs` | Rendered geometry: no scroll, fixed word box, control floors, tablet and landscape shapes | Literal measurements in a real browser | Cannot judge whether the screen is understandable — that is human QA. |
-| G8 | `tests/ui/a11y.mjs` | Keyboard operation, focus order, contrast, reduced motion | axe plus literal geometry | Automated a11y finds rule violations, not confusion. |
-| G18 | `tests/ui/network.mjs` | S6 observed: every request the built app makes | The browser's own request events | Covers the paths the script drives; an untested screen is untested. |
-| G5 | `tools/mutants.mjs` | That the engine tests bite | Killed mutants | A killed mutant proves detection of THAT fault only. |
-| G19 | `tools/app-mutants.mjs` | That the app tests bite | Killed mutants | Same limit, on the app half. |
-| G11 | `tools/copy-lint.mjs` | Every child-facing string against SPEC section 5 | The SPEC sentences | Wording is checked, not whether a child understands it. |
-| G12 | `docs/qa-procedure.md` | What automation cannot settle: a real device, a real child, a real family | A person following the steps | Human evidence; it is required, not optional, and no gate can replace it. |
-| G13 | `tools/voice-check.mjs` | The shipped pack against tools/voice-words.csv | The CSV and the byte pins | Byte identity, never audio quality. |
-| G16 | `tools/doc-truth.mjs` | That the documents and the code agree | The documents | Agreement is not correctness; both can be wrong together. |
-| G17 | `tools/check-governing.mjs` | That no new status file appears unapproved | The owned set | Structural only. |
+| Gate | Where | Requirement protected | Oracle | Known limits | Safety rules proved |
+|---|---|---|---|---|---|
+| G7 | `tests/ui/interface.mjs` | Rendered geometry: no scroll, fixed word box, control floors, tablet and landscape shapes | Literal measurements in a real browser | Cannot judge whether the screen is understandable — that is human QA. | S5 (observed), S7 (observed) |
+| G8 | `tests/ui/a11y.mjs` | Keyboard operation, focus order, contrast, reduced motion | axe plus literal geometry | Automated a11y finds rule violations, not confusion. | S5 (observed) |
+| G18 | `tests/ui/network.mjs` | S6 observed: every request the built app makes | The browser's own request events | Covers the paths the script drives; an untested screen is untested. | S6 (observed) |
+| G5 | `tools/mutants.mjs` | That the engine tests bite | Killed mutants | A killed mutant proves detection of THAT fault only. | none |
+| G19 | `tools/app-mutants.mjs` | That the app tests bite | Killed mutants | Same limit, on the app half. | none |
+| G11 | `tools/copy-lint.mjs` | Every child-facing string against SPEC section 5 | The SPEC sentences | Wording is checked, not whether a child understands it. | S3 (source), S9 (source) |
+| G12 | `docs/qa-procedure.md` | What automation cannot settle: a real device, a real child, a real family | A person following the steps | Human evidence; it is required, not optional, and no gate can replace it. | none |
+| G13 | `tools/voice-check.mjs` | The shipped pack against tools/voice-words.csv | The CSV and the byte pins | Byte identity, never audio quality. | none |
+| G16 | `tools/doc-truth.mjs` | That the documents and the code agree | The documents | Agreement is not correctness; both can be wrong together. | none |
+| G17 | `tools/check-governing.mjs` | That no new status file appears unapproved | The owned set | Structural only. | none |
+| G3 | `tools/gherkin-parse.mjs` | That every scenario in features/ reaches the generated acceptance suite | The feature files themselves | Parses a subset of Gherkin; a construct it cannot read is silently no test. | none |
+| G4 | `tools/acceptance-mutants.mjs` | That the acceptance suite bites: a mutated Then value must fail it | Killed mutants | A killed mutant proves detection of THAT fault only. | none |
+| G6 | `vitest coverage + eslint` | Coverage floors, the complexity and file-length ceilings, and the dependency-cycle scan | The measured percentages against .claude/gate-baseline.json | Coverage counts lines reached, never whether the assertion was worth making. | none |
+| G20 | `tools/effect-map.mjs` | That every executable test has a row saying what it protects | The test tree itself | A row proves a declaration exists, never that the declaration is true. | none |
+| G21 | `tools/listening-check.mjs` | That a listening page offers what it says it offers | The page's own bytes | Structural only: it cannot hear. | none |
+| G23 | `tools/file-map.mjs` | One fact, one owner file; every file declared; no orphan, no resurrected tombstone | The declaration table in the tool | A stale paragraph in fresh words is invisible to it (fault F3). | none |
+| G24 | `tools/s9-names.mjs` | S9 enforced: no personal name in any tracked file, by content and by file name | The layered name lists in the tool | A name nobody listed is a name it cannot see. | S9 (source) |
+| E11 | `tools/blast-radius-mutants.mjs` | That the E11 lookup itself still finds what it claims to find | Planted faults in the lookup | Proves the lookup works, never that a change is right. | none |
 
