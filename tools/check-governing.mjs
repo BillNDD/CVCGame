@@ -47,6 +47,7 @@ export const GOVERNING = [
      wrong, so a fault cannot be lost to a context compaction. An entry leaves
      this file only by being fixed, and its result is recorded in whichever
      document owns the fact. */
+  "docs/redesign-plan.md",
   "docs/open-faults.md",
   "docs/settled.md",
   "docs/testing-gauntlet.md",

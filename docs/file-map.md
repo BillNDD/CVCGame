@@ -37,6 +37,7 @@ verbatim) are exempt; the exemptions are declared in the tool.
 | `.claude/skills/council-literacy/SKILL.md` | OWNER | the brief for the council's early-literacy seat: what it judges about the ladder and the questions it asks of every level |
 | `.claude/skills/council-adult-ux/SKILL.md` | OWNER | the brief for the council's adult-experience seat: whose experience it judges and what it is suspicious of |
 | `.claude/skills/drift-check/SKILL.md` | OWNER | how to run the comprehensive drift check: which gates and lookups, in what order, and what a green run does not mean |
+| `docs/redesign-plan.md` | OWNER | the plan for the curriculum redesign: every step still to do, what each breaks, and what it waits on |
 | `docs/install-ios.md` | OWNER | the iOS install steps a parent follows |
 | `docs/install-windows.md` | OWNER | the Windows install steps a parent follows |
 | `docs/phonics-handoff-defects.md` | OWNER | the historical handoff defect record; its instructions are history, not tasks |

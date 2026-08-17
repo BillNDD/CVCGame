@@ -152,6 +152,7 @@ export const DECLARED = [
   { path: ".claude/skills/council-literacy/SKILL.md", kind: "OWNER", owns: "the brief for the council's early-literacy seat: what it judges about the ladder and the questions it asks of every level" },
   { path: ".claude/skills/council-adult-ux/SKILL.md", kind: "OWNER", owns: "the brief for the council's adult-experience seat: whose experience it judges and what it is suspicious of" },
   { path: ".claude/skills/drift-check/SKILL.md", kind: "OWNER", owns: "how to run the comprehensive drift check: which gates and lookups, in what order, and what a green run does not mean" },
+  { path: "docs/redesign-plan.md", kind: "OWNER", owns: "the plan for the curriculum redesign: every step still to do, what each breaks, and what it waits on" },
   { path: "docs/install-ios.md", kind: "OWNER", owns: "the iOS install steps a parent follows" },
   { path: "docs/install-windows.md", kind: "OWNER", owns: "the Windows install steps a parent follows" },
   { path: "docs/phonics-handoff-defects.md", kind: "OWNER", owns: "the historical handoff defect record; its instructions are history, not tasks" },
