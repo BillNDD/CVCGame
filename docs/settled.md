@@ -1612,3 +1612,17 @@ is a fault in the list, not in the people keeping it. The lists are derived from
 now (`tools/app-sources.mjs`, gate G11b): a new file under app/src is scanned from the
 moment it exists, and staying out takes a written exclusion with a reason. The S6 scan
 excludes nothing at all — it went from 11 files to 26 and found no violation.
+
+## as, closed after three rounds (2026-08-17) — closed
+
+as refused a listen sweep in batch 18, refused a slower sweep in batch 19 ("still too
+fast", 0.65), and refused four different CARRIERS in batch 20 — the word ending a
+sentence, inside one, contrasted against another word, and said twice. What it accepted
+was the phonemised render at 0.7: no carrier at all. The lesson is worth keeping, because
+two rounds were spent on the wrong axis: when a word refuses both speed and framing, the
+next thing to try is removing the sentence entirely rather than varying it again.
+
+The same round confirmed the hash guard earns its cost. notes and socks came out with ZERO
+arms on the first render because every shape the standard recipe produced was byte-identical
+to what the owner had already refused; both then accepted on the first offer of a genuinely
+new frame. A field that renders empty is information, not a failure to pad.

@@ -4426,5 +4426,158 @@
   "round": "batch 19 / 2026-08-17",
   "verdict": "perfect",
   "level": "waiting for a seat"
+ },
+ "as": {
+  "arm": "as_9",
+  "family": "phoneme_sp0.7",
+  "ms": 1300,
+  "sha256": "d543b25bb29483a69c2df4ddbb299e39aaf9e9f084464c99f00e6070a1a0b610",
+  "round": "batch 20 / 2026-08-17",
+  "verdict": "perfect",
+  "level": "waiting for a seat"
+ },
+ "road": {
+  "arm": "road_2",
+  "family": "solo_trimmed_sp0.75",
+  "ms": 880,
+  "sha256": "1926fd8e5879ca6ab5117e651cdd6f57ca6964f5d41f7b3754996af3527e66ed",
+  "round": "batch 20 / 2026-08-17",
+  "verdict": "perfect",
+  "level": "waiting for a seat"
+ },
+ "notes": {
+  "arm": "notes_4",
+  "family": "point_sp0.85",
+  "ms": 1000,
+  "sha256": "746a7bba391777d41bc187533ca527bbf50a27125cf281152cf4d5c44805fcb8",
+  "round": "batch 20 / 2026-08-17",
+  "verdict": "perfect",
+  "level": "waiting for a seat"
+ },
+ "socks": {
+  "arm": "socks_1",
+  "family": "ends_sp0.85",
+  "ms": 1030,
+  "sha256": "c7d3cec7bc3533331332f5c01c553be2dfad87e1142ca0d3821ae1b69966c633",
+  "round": "batch 20 / 2026-08-17",
+  "verdict": "perfect",
+  "level": "waiting for a seat"
+ },
+ "ate": {
+  "arm": "ate_5",
+  "family": "listen_sp0.75",
+  "ms": 850,
+  "sha256": "399a3f507f50d9fd8c45e23d3b37407e3fec831379d90f33de69bd3414645477",
+  "round": "batch 20 / 2026-08-17",
+  "verdict": "perfect",
+  "level": "waiting for a seat"
+ },
+ "cake": {
+  "arm": "cake_5",
+  "family": "listen_sp0.75",
+  "ms": 910,
+  "sha256": "a8042249bfaee75b6f892a02121246d0f57623305975c6006b67f143a2505aa3",
+  "round": "batch 20 / 2026-08-17",
+  "verdict": "perfect",
+  "level": "waiting for a seat"
+ },
+ "came": {
+  "arm": "came_4",
+  "family": "listen_sp0.7",
+  "ms": 910,
+  "sha256": "eb652c38c033486c4debdfb94b415174502403744a9c5c6e3f6157eb7d5bc2cd",
+  "round": "batch 20 / 2026-08-17",
+  "verdict": "perfect",
+  "level": "waiting for a seat"
+ },
+ "game": {
+  "arm": "game_2",
+  "family": "say_sp0.75",
+  "ms": 890,
+  "sha256": "64c5c40ff6786db2daccabfa993762115cda7eb7eab3166e9cd8065d883e068c",
+  "round": "batch 20 / 2026-08-17",
+  "verdict": "perfect",
+  "level": "waiting for a seat"
+ },
+ "gate": {
+  "arm": "gate_6",
+  "family": "listen_sp0.8",
+  "ms": 880,
+  "sha256": "66394bfac8f43c9c01ee6f1ebed2db6ff8be2124b82b215fd33e4dba0676e7f1",
+  "round": "batch 20 / 2026-08-17",
+  "verdict": "perfect",
+  "level": "waiting for a seat"
+ },
+ "hate": {
+  "arm": "hate_4",
+  "family": "listen_sp0.8",
+  "ms": 880,
+  "sha256": "e0ab176a0a80302e2c4c911952642a77f4a6bd9cf6948480c5592ecaf07d4c79",
+  "round": "batch 20 / 2026-08-17",
+  "verdict": "perfect",
+  "level": "waiting for a seat"
+ },
+ "lake": {
+  "arm": "lake_6",
+  "family": "listen_sp0.8",
+  "ms": 830,
+  "sha256": "583f63fda70b90ec1aa590f98ae09919c9909716e0b926a976cb4167cdab7e7e",
+  "round": "batch 20 / 2026-08-17",
+  "verdict": "perfect",
+  "level": "waiting for a seat"
+ },
+ "late": {
+  "arm": "late_5",
+  "family": "listen_sp0.75",
+  "ms": 910,
+  "sha256": "7eff5927aef07132edc1a4300be55b9fde8cd9bafdf37525104c1d3161958c49",
+  "round": "batch 20 / 2026-08-17",
+  "verdict": "perfect",
+  "level": "waiting for a seat"
+ },
+ "make": {
+  "arm": "make_4",
+  "family": "listen_sp0.7",
+  "ms": 910,
+  "sha256": "d0a8321c16d44b39c5cdecaf535c45c92acf095b72d2468e3c6772f24597202b",
+  "round": "batch 20 / 2026-08-17",
+  "verdict": "perfect",
+  "level": "waiting for a seat"
+ },
+ "same": {
+  "arm": "same_5",
+  "family": "listen_sp0.75",
+  "ms": 980,
+  "sha256": "fd82270df6c1577469d59c605d1326c44a893626e416107b69c3b35552676dc2",
+  "round": "batch 20 / 2026-08-17",
+  "verdict": "perfect",
+  "level": "waiting for a seat"
+ },
+ "save": {
+  "arm": "save_4",
+  "family": "listen_sp0.7",
+  "ms": 950,
+  "sha256": "6e6c68804d0dc16822e21f61791f1f49f29c74d31e5258a094acd3439dc26cbb",
+  "round": "batch 20 / 2026-08-17",
+  "verdict": "perfect",
+  "level": "waiting for a seat"
+ },
+ "take": {
+  "arm": "take_6",
+  "family": "listen_sp0.8",
+  "ms": 950,
+  "sha256": "f80b4845990f93f81287faa018b3374d1b682cee99ff50ebfcff0bb026ee3af1",
+  "round": "batch 20 / 2026-08-17",
+  "verdict": "perfect",
+  "level": "waiting for a seat"
+ },
+ "tame": {
+  "arm": "tame_2",
+  "family": "say_sp0.75",
+  "ms": 980,
+  "sha256": "85ff4db420db94b851ead6e5c22ad128a5844d1b041e4241d20947b7d65da260",
+  "round": "batch 20 / 2026-08-17",
+  "verdict": "perfect",
+  "level": "waiting for a seat"
  }
 }

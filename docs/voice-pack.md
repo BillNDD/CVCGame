@@ -149,7 +149,19 @@ byte-pinned word rather than replacing accepted audio with a render.
   sidecar workspace archive on the owner's PC
   (handoff `word-quest-uplift-handoff-2026-08-07T1438Z`).
 
-## Approved and unshipped: 110 items with no level yet (through 2026-08-17)
+## Approved and unshipped: 127 items with no level yet (through 2026-08-17)
+
+**Batch 20 closed 17 of 20 (2026-08-17), and it ended a three-round hunt.** **as is
+accepted at last**, on a phonemised arm at 0.7 — the axis that finally worked was neither
+speed (two sweeps refused, 0.65 down to 0.5) nor a carrier, but leaving the carrier out
+altogether. **road, notes and socks all landed on their first offer of a new mechanism**:
+road on the blob-trimmed solo it had reached "closest" with, notes and socks on frames the
+sweep had never used — both fields had come out EMPTY on the first render, the hash guard
+refusing to hand back bytes the owner had already refused. Thirteen magic-e words came with
+them: ate, cake, came, game, gate, hate, lake, late, make, same, save, take, tame.
+**Three refused: cage (a fifth whole field), gave and made.** cage is now the longest-running
+open word in the project's history.
+
 
 **Batch 19 closed 23 of 28 (2026-08-17), and it settled the clipping fault by ear.**
 gets and goats — the two words the owner refused the same day with "extra sounds before
