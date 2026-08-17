@@ -1791,7 +1791,7 @@ distractors that complete a ruled-out word, which shrinks the pool per word; or 
 on the grounds that the app never presents the string as a word and immediately corrects
 it. This one is the owner's.
 
-**Q4. The breather drops a missed word's second look.** When the breather takes the press
+**Q4. FIXED 2026-08-17, both paths.** The breather drops a missed word's second look. When the breather takes the press
 after a word graded "not yet", the retry is never queued: `lastGrade` is cleared before
 the build starts, and the decision that re-queues the word reads it. The sentence stage
 has the same shape and predates Build-it, so this is one fault in two places rather than a

@@ -8,7 +8,7 @@ Per-test rows carry the test's own sentence, which in this project IS the
 Given/When/Then effect. The requirement, oracle, platform, mutant family, evidence
 and known limits are declared per FILE, in the tool, where they stay true.
 
-Totals: 334 it() SITES across 15 files, plus 18 gates that are not test files.
+Totals: 336 it() SITES across 15 files, plus 18 gates that are not test files.
 
 A site inside a loop or a table runs many times, so these rows describe more tests than they number: Vitest executes 330. The rows count the places behaviour is asserted.
 
@@ -437,7 +437,7 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 4 | buildSession and the next level | brings a graded next-level word back for review |
 | 5 | buildSession and the next level | caps above-level review at 2 words a session |
 
-## tests/sentence.test.js — 16 tests (G10)
+## tests/sentence.test.js — 18 tests (G10)
 
 - **Requirement protected:** SPEC section 12 points 2 to 6: where a sentence falls in a session, what it plays, what a tap does, and what ends it
 - **Independent oracle:** The literal clip plan and the level's own word lists
@@ -464,7 +464,9 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 13 | the sentence inside a session | 10 (free play): the controls are live for the SENTENCE, and no mark records anything |
 | 14 | the sentence inside a session | 11 (free play): never runs out — the pool is dealt again from the top |
 | 15 | the sentence inside a session | 12: the open word |
-| 16 | the sentence inside a session | 7: no sentence repeats inside one session |
+| 16 | the sentence inside a session | 7b: a miss just before a sentence still queues the second look |
+| 17 | the sentence inside a session | 7c (control): a miss with no sentence in the way grows the queue the same way |
+| 18 | the sentence inside a session | 7: no sentence repeats inside one session |
 
 ## tests/serviceworker.test.js — 5 tests (G14)
 

@@ -475,6 +475,59 @@ describe("the sentence inside a session", () => {
     expect(note().trim()).toBe("");
   });
 
+  /* Q4, owner-ruled 2026-08-17. An interruption takes the press that would
+     have advanced the word, and both interruptions cleared the grade on the
+     way in - so a word graded "not yet" just before one never came back for
+     the second look SPEC section 4 promises. The sentence stage has had this
+     since it shipped; Build-it's breather doubled it.
+
+     The proof is the session's own progress dots: one dot per queued word, so
+     a queue that grew by one after the sentence IS the retry, whatever the
+     session's length or which word the draw picked. */
+  it("7b: a miss just before a sentence still queues the second look", async () => {
+    render(createElement(App));
+    await flush(0);
+    fireEvent.click(screen.getByText("▶️ Begin Session"));
+    await flush(0);
+    for (let i = 0; i < 4; i += 1) {
+      fireEvent.keyDown(screen.getByLabelText("✓ got it (hold)"), { key: "Enter" });
+      await flush(REVEAL_MS + 50);
+      fireEvent.click(advance());
+      await flush(0);
+    }
+    expect(sentenceEl()).toBeNull();                     // still on a word, as planned
+    const dots = () => document.querySelectorAll(".wq-seg").length;
+    const before = dots();
+    expect(before).toBeGreaterThan(5);
+    fireEvent.keyDown(screen.getByLabelText("↻ not yet (hold)"), { key: "Enter" });
+    await flush(REVEAL_MS + 50);
+    fireEvent.click(advance());
+    await flush(0);
+    expect(sentenceEl()).toBeTruthy();                   // the sentence took the press
+    await markSentence();
+    fireEvent.click(advance());
+    await flush(0);
+    expect(dots()).toBe(before + 1);                     // the missed word is back in the queue
+  });
+
+  /* The control for the test above: the SAME miss with no interruption also
+     grows the queue by one. Without it, "+1" could be something the sentence
+     does rather than something the retry does. */
+  it("7c (control): a miss with no sentence in the way grows the queue the same way", async () => {
+    render(createElement(App));
+    await flush(0);
+    fireEvent.click(screen.getByText("▶️ Begin Session"));
+    await flush(0);
+    const dots = () => document.querySelectorAll(".wq-seg").length;
+    const before = dots();
+    fireEvent.keyDown(screen.getByLabelText("↻ not yet (hold)"), { key: "Enter" });
+    await flush(REVEAL_MS + 50);
+    fireEvent.click(advance());
+    await flush(0);
+    expect(sentenceEl()).toBeNull();                     // no interruption on the first word
+    expect(dots()).toBe(before + 1);
+  });
+
   it("7: no sentence repeats inside one session", async () => {
     render(createElement(App));
     await flush(0);

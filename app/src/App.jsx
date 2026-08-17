@@ -182,6 +182,20 @@ export default function App() {
   /* Which word-counts have already had their breather, so a re-render or a
      second press cannot serve two. */
   const builtAfter = useRef(new Set());
+  /* THE GRADE AN INTERRUPTION IS HOLDING. A sentence or a Build-it breather
+     takes the press that would have advanced the word, and both clear the
+     grade on the way in - so when they hand the press back, the decision that
+     re-queues a missed word reads null and the child never gets the second
+     look SPEC section 4 promises. The grade is parked here and read back by
+     advanceWord.
+
+     It is a REF and not state on purpose: endSentence and endBuild call
+     advanceWord in the SAME tick, before React has re-rendered, so a restored
+     piece of state would still read null at the point it is needed. That is
+     the version of this fix that looks right and does nothing. Owner-ruled Q4,
+     2026-08-17; both paths, because the sentence stage has had this fault
+     since it shipped. */
+  const heldGrade = useRef(null);
   const [fpCount, setFpCount] = useState(0);
   const fpState = useRef(null);
   /* The chooser between the tap and the game: truly random, or the child's
@@ -696,7 +710,7 @@ export default function App() {
        (SPEC section 12 point 7) and never lands here. */
     const due = freePlay ? null
       : sentencePlanRef.current.find((x) => x.after === order.length && !shownSentences.includes(x.id));
-    if (due) { setLastGrade(null); showSentence(due); return; }
+    if (due) { heldGrade.current = lastGrade; setLastGrade(null); showSentence(due); return; }
     /* D2, the breather (owner-ruled 2026-08-17): one Build-it turn after every
        seventh reading word. It takes a word the child got RIGHT in this very
        session, so the word spoken is one they have just shown they own, and it
@@ -718,6 +732,7 @@ export default function App() {
       const offerable = right.filter(buildable);
       if (offerable.length) {
         builtAfter.current.add(order.length);
+        heldGrade.current = lastGrade;
         setLastGrade(null);
         startBuild(offerable[offerable.length - 1], "session");
         return;
@@ -733,7 +748,18 @@ export default function App() {
   function advanceWord() {
     const word = queue[qi];
     let q = queue;
-    if (retryComing) {                               // A2-003 — the same value the label was drawn from
+    /* The decision, recomputed from the grade an interruption parked. Nothing
+       else that feeds advanceDecision changes while a sentence or a build is on
+       screen - retries, firstResults, promptCount, queue and qi are all
+       untouched by both - so the grade is the whole of what has to survive.
+       Cleared here rather than by the interruption, so exactly one advance can
+       use it and a second press cannot queue the word twice. */
+    const held = heldGrade.current;
+    heldGrade.current = null;
+    const comingBack = held
+      ? advanceFork(freePlay, { lastGrade: held, retries, firstResults, word, promptCount, queue, qi }).retry
+      : retryComing;
+    if (comingBack) {                                // A2-003 — the same value the label was drawn from
       q = queue.slice();
       q.splice(Math.min(qi + 3, q.length), 0, word);
       setQueue(q);
