@@ -1626,3 +1626,23 @@ The same round confirmed the hash guard earns its cost. notes and socks came out
 arms on the first render because every shape the standard recipe produced was byte-identical
 to what the owner had already refused; both then accepted on the first offer of a genuinely
 new frame. A field that renders empty is information, not a failure to pad.
+
+## The teaching pathway is chosen (2026-08-17) — closed
+
+The owner ruled the whole curriculum on one page: the SOUND LADDER, with all three grafts.
+SPEC section 12a owns the ruling and its reasoning. What is closed is the architecture —
+organise by sound rather than by spelling, teach the three facts about the code in week one,
+never say anything that must be unlearned — and the three additions: the complete grapheme
+inventory at the end, the suffixes twenty levels earlier than the tradition puts them with
+their own Build-it tiles, and twenty heart words front-loaded so a sentence exists in week
+two.
+
+Three things settled with it. **The choice was not evidence-driven between the four
+options** — the 2000 federal reading panel found no reliable difference between systematic
+phonics variants, so nobody should later claim this pathway was proven superior. It was
+chosen for coherence, for adult simplicity, and above all for fit: the game had already
+built a linguistic-phonics engine without knowing it. **The arithmetic does not close on
+level word-sets alone**, and the owner ruled that the pathway must reach 1,200 to 1,500
+exposures anyway, carried by sentences and spaced review. **And the existing 21 levels are
+superseded** and will be rebuilt against this ladder — a cost the owner accepted on the day,
+in his words: better now than in two months.

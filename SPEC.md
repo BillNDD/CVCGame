@@ -718,6 +718,77 @@ The minimum platform is iPadOS 15.4 or later, or an equivalent browser. The app 
 > design rule 1. Then check each item in section 10. Do not build section 8, item 4. Make the
 > interface stub only.
 
+## 12a. THE TEACHING PATHWAY — owner-ruled 2026-08-17
+
+**This section owns what the game teaches and in what order.** Everything else in this
+document describes how a level behaves; this says what the levels ARE. It replaces the
+21-level ladder that grew by accretion, and the replacement was chosen deliberately and
+early, on the owner's reasoning: better now than in two months.
+
+**The ruling: the Sound Ladder, with three grafts.** An independent specialist in early
+reading wrote four complete pathways — organised by spelling (the UFLI shape), by sound
+(linguistic phonics), by meaning unit, and by text yield — and the owner chose the sound
+ladder and all three grafts offered with it.
+
+**Why the sound ladder.** English writing is a code for the sounds of speech, and the code
+has three facts a child must own from the first week: a sound can be written more than one
+way, a spelling can have more than one job, and a spelling can be one to four letters long.
+Teach those and nothing ever has to be unlearned — no magic e that breaks on "have", no
+silent letters that are not silent. The decisive argument was fit: this game already puts
+multi-letter graphemes on ONE TILE, already refuses to say letter names, and already binds
+a sound to a spelling PER WORD. That is linguistic phonics, built before the pathway was
+chosen. The other pathways need the app to express rules — magic e, bossy r, the floss rule
+— that a tile-and-sound screen has no vocabulary for.
+
+**The three grafts, and what each fixes:**
+
+1. **From the grapheme ladder: the complete inventory, written out at the end.** ph, gh,
+   eigh, -ough, gn, -stle, ci/ti, ch as /k/ and /sh/. The sound-first tradition tends to
+   leave that tail to incidental exposure; completeness costs nothing and this ladder states
+   it.
+2. **From the meaning ladder: the suffixes, twenty levels earlier.** -s inside the initial
+   code, -ing and agent -er on stems that need no doubling, -ed in all three of its sounds
+   early. This is the single strongest research finding in the specialist's report —
+   morphological instruction helps YOUNGER children more than older ones, from a 2010
+   systematic review of twenty-two studies in a peer-reviewed education journal, where the
+   effect was larger for less able readers too. It argues directly against saving -ing and -ed for the top of the
+   ladder, where every real book puts them on page one. **Suffixes get their own Build-it
+   tiles**, so a child assembles jump + ed as two pieces rather than seven letters.
+3. **From the text ladder: about twenty heart words front-loaded**, so a real sentence
+   exists in the child's second week rather than their sixth. The sound ladder permits this
+   on its own terms: a word may be introduced ahead of the code that explains it, provided
+   the child is told which part is doing a job they have not met yet.
+
+**The shape, in one line:** sounds-first architecture, complete grapheme inventory,
+morphology braided in from the middle of the initial code, and twenty heart words up front.
+
+**The arithmetic, and the owner's ruling on it.** 100 levels of 6 to 10 words is at most 800
+words of explicit teaching; the full code plus multisyllabic work and suffixes needs roughly
+1,200 to 1,500 exposures. The owner ruled on 2026-08-17 that **the pathway must reach 1,200
+to 1,500** rather than settle for what the level word-sets can hold. The surplus rides on the
+two strands that already exist: **a level TEACHES its words and PRACTISES many more**,
+through the sentences that appear in every level after the earliest sounds and through the
+spaced review that brings earlier words back. A word met only in a sentence is still a word
+met, and the review queue is what turns meeting into knowing.
+
+**The parameters the owner fixed with the ruling:** the pathway ends where a child can read
+an early chapter book, which is roughly the end of Grade 2 — all the single-syllable code
+plus multisyllabic words and the common suffixes. It is aligned to US science-of-reading
+practice, because the voice pack is US English and a British sequence would teach vowel
+distinctions this voice does not make. Encoding is a first-class strand: every level says
+what a child should be able to BUILD as well as read, and it stays ungraded, so S1 and the
+practice-only property are untouched. Levels hold 6 to 10 words and the ladder may run to
+100. Sentences appear in every level after the earliest sounds and grow to paragraphs, from
+public-domain sources as before. Level names are numbers; only the decade levels are named.
+
+**What this pathway does NOT do, recorded because a green ladder invites more confidence
+than it has earned.** It does not teach fluency, and fluency is the real gate to a chapter
+book: that comes from volume of reading a grown-up supplies, not from five minutes of word
+work. It does not teach language comprehension, and reading is decoding multiplied by
+language — a child can finish level 100 and still not understand a chapter book if nobody
+has been talking to them and reading to them. Both belong in the "Grown-ups corner" in plain
+words.
+
 ## 12. The road ahead — approved and unbuilt
 
 The owner's goal is a full phonics training game, grown slowly. Everything in this section
