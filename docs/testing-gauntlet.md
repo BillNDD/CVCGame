@@ -589,7 +589,7 @@ some other config, is refused rather than read. The floors it enforces are
 like every other floor. The gauntlet still does not call the census, and that stays
 deliberate: a flaky cell must inform a release, never block one.
 
-- Baseline floors: `g13_clips` (737) and `g13_engine_tests` (13).
+- Baseline floors: `g13_clips` (745) and `g13_engine_tests` (13).
 - To re-render the pack after the bank grows: `docs/voice-pack.md`.
 
 ## G19. App mutation

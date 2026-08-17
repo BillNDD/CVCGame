@@ -509,7 +509,8 @@ describe("G10 — free play never touches the save", () => {
   it("45: truly random draws from the whole bank, not the child's level", async () => {
     /* Math.random pinned high makes every draw take the end of the pool, so
        the first word served is the bank's LAST word - "tops", the tail of
-       Level 21. A fresh Level 1 save can never see it in a session or in
+       Level 21 (the seating pass appended inside earlier levels, so the
+       last word did not move). A fresh Level 1 save can never see it in a session or in
        level free play: buildSession serves Level 1 plus review only. The
        expected word is a literal on purpose (E4); if the bank ever gains a
        new last word, this is the line to update. */
@@ -545,7 +546,7 @@ describe("G10 — free play never touches the save", () => {
 
   it("47: a spent random block rolls into a fresh draw that never repeats the boundary word", async () => {
     /* Pinned at the top of the pool, the first block is the bank's last 20
-       words in reverse - "tops" first, "swim" last - with no repeats, since
+       words in reverse - "tops" first, "trim" last - with no repeats, since
        a repeat inside a block would collide with its own first result and be
        graded as a retry.
 
@@ -601,6 +602,15 @@ describe("G10 — free play never touches the save", () => {
        coincidence one index apart once more, so 0.955 still discriminates
        and keeps its seat.
 
+       The NINTH move (461 -> 469: the first seating pass, "seat 8 of 8",
+       2026-08-16) was simulated the same way. black and skip joined Twin
+       Drums' tail, so the boundary word is now "trim" and the tail-20 block
+       is four Twin Drums words, black, skip, and the fourteen plurals.
+       Unguarded, floor(0.955 x 469) = 447 is "swim"; guarded,
+       floor(0.955 x 468) = 446 is "swam", and the refilled pool's same
+       index is "swim" — the guard and the coincidence stay one index
+       apart, and 0.955 keeps its seat a ninth time.
+
        That the assertions never failed is the danger, not the comfort:
        nothing goes red while the reasoning quietly stops matching the code.
        Recompute all three numbers every time the bank moves, run them, and
@@ -615,14 +625,14 @@ describe("G10 — free play never touches the save", () => {
       }
       seen.push(document.querySelector(".wq-word").textContent);
       expect(seen[0]).toBe("tops");
-      expect(seen[19]).toBe("swim");
+      expect(seen[19]).toBe("trim");
       expect(new Set(seen).size).toBe(20);
       spy.mockReturnValue(0.955);
       await gradeOne("✓ got it (hold)");
       expect(screen.getByText("20 words")).toBeTruthy();
-      expect(document.querySelector(".wq-word").textContent).toBe("stop");
-      await gradeOne("✓ got it (hold)");
       expect(document.querySelector(".wq-word").textContent).toBe("swam");
+      await gradeOne("✓ got it (hold)");
+      expect(document.querySelector(".wq-word").textContent).toBe("swim");
     } finally { spy.mockRestore(); }
   });
 });

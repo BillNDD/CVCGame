@@ -48,7 +48,7 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 2 | A stumble must not cost mastery (parent report, 2026-08-13) | a wrong then a correct lands on box 3, not box 1 |
 | 3 | A stumble must not cost mastery (parent report, 2026-08-13) | the parent |
 | 4 | A stumble must not cost mastery (parent report, 2026-08-13) | but the second correct still only steps one box, so the jump is not repeatable |
-| 5 | word bank | has 461 unique words across 21 levels |
+| 5 | word bank | has 469 unique words across 21 levels |
 | 6 | word bank | starts with the ten VC words, then Level 1 |
 | 7 | word bank | maps every word to its level |
 | 8 | word bank | flags the twenty-four tricky words — the nine originals, the fourteen heart-word notes of 2026-08-15, and i |
@@ -106,7 +106,7 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 60 | sentences | holds every sentence to one breath and one clip |
 | 61 | sentences | counts the words a child sees, not the punctuation a writer left |
 | 62 | sentences | ships three invitation lines, each with a clip and its own words |
-| 63 | buildMarkdown | reports the 461-word denominator and twenty-one level rows |
+| 63 | buildMarkdown | reports the 469-word denominator and twenty-one level rows |
 | 64 | buildMarkdown | counts a word as mastered only from box 4 |
 | 65 | buildMarkdown | keeps a grapheme-safe name intact in the header |
 | 66 | buildMarkdown | marks a partial session |

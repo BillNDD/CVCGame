@@ -149,7 +149,12 @@ byte-pinned word rather than replacing accepted audio with a render.
   sidecar workspace archive on the owner's PC
   (handoff `word-quest-uplift-handoff-2026-08-07T1438Z`).
 
-## Approved and unshipped: 66 items with no level yet (through 2026-08-16)
+## Approved and unshipped: 58 items with no level yet (through 2026-08-16)
+
+**The first seating pass shipped eight of them (2026-08-16, "seat 8 of 8"):** black,
+skip, went, will, think, fat, but and his left this list for their levels the same day
+their seats were ruled — think re-seated once on the way, from Word Wizard to Tent Camp,
+when the tile-row law showed a four-tile word cannot sit below the blends.
 
 **Batch 16 closed three of the four comebacks (2026-08-16), and the finding is a speed.**
 All three winners — flowers, bank, all — came from `listen_sp0.7`, a speed batch 15's

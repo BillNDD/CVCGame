@@ -15,7 +15,7 @@ Feature: Building a session
     And no word repeats
 
   Scenario: Overdue reviews from lower levels are capped
-    Given a player on Level 3 in session 10 with all 26 lower-level words overdue in box 1
+    Given a player on Level 3 in session 10 with all 27 lower-level words overdue in box 1
     When a session is built
     Then at most 5 words come from lower levels
 

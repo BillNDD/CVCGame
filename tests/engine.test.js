@@ -60,18 +60,18 @@ describe("A stumble must not cost mastery (parent report, 2026-08-13)", () => {
 });
 
 describe("word bank", () => {
-  it("has 461 unique words across 21 levels", () => {
+  it("has 469 unique words across 21 levels", () => {
     const all = LEVELS.flatMap(l => l.words);
-    expect(all.length).toBe(461);
-    expect(new Set(all).size).toBe(461);
+    expect(all.length).toBe(469);
+    expect(new Set(all).size).toBe(469);
     expect(LEVELS.map(l => l.n)).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21]);
-    expect(LEVELS.map(l => l.words.length)).toEqual([14, 12, 12, 13, 13, 12, 11, 10, 10, 10, 10, 10, 33, 49, 38, 58, 27, 22, 54, 29, 14]);
+    expect(LEVELS.map(l => l.words.length)).toEqual([14, 13, 12, 13, 13, 13, 11, 10, 10, 10, 10, 11, 33, 49, 38, 58, 28, 22, 56, 31, 14]);
   });
   it("starts with the ten VC words, then Level 1's four seated hearts", () => {
     expect(LEVELS[0].words).toEqual(["is","it","in","on","at","an","up","us","am","ax","the","a","and","i"]);
   });
   it("maps every word to its level", () => {
-    expect(Object.keys(WORD_LEVEL).length).toBe(461);
+    expect(Object.keys(WORD_LEVEL).length).toBe(469);
     expect(WORD_LEVEL.at).toBe(1); expect(WORD_LEVEL.cat).toBe(2); expect(WORD_LEVEL.was).toBe(16);
     expect(WORD_LEVEL.has).toBe(6); expect(WORD_LEVEL.she).toBe(15);
     /* Heart seats are the owner's 2026-08-15 rulings: a heart word's level is
@@ -113,7 +113,11 @@ describe("word bank", () => {
            Tiles: three everywhere until the blend stages — a blend is TWO
            sounds run together, so Levels 19 and 20 seat the first four-tile
            words, measured on a 320 px viewport by the G7 interface gate. */
-        expect(w.length).toBeLessThanOrEqual(l.n === 18 ? 5 : l.n === 6 || l.n >= 15 ? 4 : 3);
+        /* The first seating pass (2026-08-16) brought the first FIVE-letter
+           blend words — black and think — so Levels 19 and up share Chicks'
+           five-letter allowance; their four tiles at 320 px stay measured by
+           the G7 interface gate, never assumed here. */
+        expect(w.length).toBeLessThanOrEqual(l.n >= 18 ? 5 : l.n === 6 || l.n >= 15 ? 4 : 3);
         expect(chunkWord(w).length).toBeGreaterThanOrEqual(w === "a" || w === "i" ? 1 : 2);
         expect(chunkWord(w).length).toBeLessThanOrEqual(l.n >= 19 ? 4 : 3);
       }
@@ -597,16 +601,16 @@ describe("sentences", () => {
 
 /* ---------------- export ---------------- */
 describe("buildMarkdown", () => {
-  it("reports the 461-word denominator and twenty-one level rows", () => {
+  it("reports the 469-word denominator and twenty-one level rows", () => {
     const md = buildMarkdown(newState());
-    expect(md).toContain("0/461");
+    expect(md).toContain("0/469");
     expect(md.match(/\*\*Level \d+ .+ \(/g).length).toBe(21);
   });
   it("counts a word as mastered only from box 4", () => {
     const three = seeded(["cat", "dog"], { box: 3, attempts: 2 });
-    expect(buildMarkdown(three)).toContain("0/461");
+    expect(buildMarkdown(three)).toContain("0/469");
     const four = seeded(["cat", "dog"], { box: 4, attempts: 2 });
-    expect(buildMarkdown(four)).toContain("2/461");
+    expect(buildMarkdown(four)).toContain("2/469");
   });
   it("keeps a grapheme-safe name intact in the header", () => {
     // lone surrogate = an unpaired HIGH surrogate, or a LOW surrogate with no high before it
@@ -631,10 +635,10 @@ describe("buildMarkdown", () => {
 describe("voice packs", () => {
   it("inventories one clip per word, the fixed sentences, and every sound a tile can ask for", () => {
     const script = voiceScript();
-    expect(script.length).toBe(737);                       // 6 fixed + 17 praise + 461 words + 210 sentences + 3 invitations + "Pronounced:" + 39 sounds
-    expect(script.filter((c) => c.id.startsWith("w:")).length).toBe(461);
+    expect(script.length).toBe(745);                       // 6 fixed + 17 praise + 469 words + 210 sentences + 3 invitations + "Pronounced:" + 39 sounds
+    expect(script.filter((c) => c.id.startsWith("w:")).length).toBe(469);
     expect(script.filter((c) => c.id.startsWith("d:")).length).toBe(39);
-    expect(new Set(script.map((c) => c.id)).size).toBe(737);
+    expect(new Set(script.map((c) => c.id)).size).toBe(745);
     expect(script.find((c) => c.id === "s:was").text).toBe("The word was");
     expect(script.find((c) => c.id === "l:wrong").text).toBe("Let’s try again.");
     expect(script.find((c) => c.id === "p:0").text).toBe("Great job!");
@@ -727,7 +731,7 @@ describe("voice packs", () => {
      will name words this way and must not be the thing that finds it. */
   it("bankWords covers every word the app names, not only the levels", () => {
     const words = bankWords();
-    expect(words.length).toBe(461);
+    expect(words.length).toBe(469);
     expect([...new Set(words)].length).toBe(words.length);       // no duplicates
     expect([...words].sort()).toEqual(words);                    // stable order
     const inLevels = new Set();
@@ -740,7 +744,7 @@ describe("voice packs", () => {
     for (const w of inLevels) expect(words.includes(w)).toBe(true);
     /* Today all three sets coincide, and recording that is the point: it is
        what made the old code look right. */
-    expect(inLevels.size).toBe(461);
+    expect(inLevels.size).toBe(469);
 
     /* Negative control. The old LEVELS-only derivation, run over a fixture
        where a word is named ONLY in a tricky note, must miss it — and the
@@ -867,11 +871,11 @@ describe("voice packs", () => {
     /* No th word in the bank is left unaccounted for, so a word added later
        cannot quietly inherit the wrong one. */
     const thWords = LEVELS.flatMap((l) => l.words).filter((w) => w.includes("th"));
-    expect(thWords.length).toBe(14);
+    expect(thWords.length).toBe(15);
     const voiced = thWords.filter((w) => soundIdsFor(w).includes("d:th_this"));
     expect(voiced.sort()).toEqual(["that", "the", "them", "then", "this", "with"]);
     const quiet = thWords.filter((w) => soundIdsFor(w).includes("d:th_quiet"));
-    expect(quiet.sort()).toEqual(["bath", "math", "moth", "path", "thick", "thin", "thud", "thumb"]);
+    expect(quiet.sort()).toEqual(["bath", "math", "moth", "path", "thick", "thin", "think", "thud", "thumb"]);
   });
   /* The sound-out reveal, owner-ruled 2026-08-04 and recorded in
      docs/settled.md: praise, the word, "Pronounced:", each sound on its own

@@ -2726,6 +2726,7 @@
    "big": 0.82,
    "bin": 0.82,
    "bit": 0.82,
+   "black": 1,
    "bolt": 0.9,
    "bond": 0.95,
    "boss": 0.82,
@@ -2738,6 +2739,7 @@
    "bun": 0.82,
    "bus": 0.82,
    "bush": 0.82,
+   "but": 0.9,
    "buzz": 1,
    "cap": 1,
    "cash": 0.82,
@@ -2788,6 +2790,7 @@
    "fan": 0.82,
    "fang": 0.82,
    "fast": 0.95,
+   "fat": 1,
    "fax": 0.82,
    "fed": 0.82,
    "fell": 0.82,
@@ -2831,6 +2834,7 @@
    "hill": 1,
    "him": 0.82,
    "hip": 0.82,
+   "his": 0.8,
    "hit": 1,
    "hog": 0.82,
    "hop": 0.82,
@@ -3010,6 +3014,7 @@
    "sip": 0.82,
    "sit": 0.82,
    "six": 0.82,
+   "skip": 0.95,
    "sled": 0.8,
    "slid": 0.75,
    "slip": 0.95,
@@ -3042,6 +3047,7 @@
    "then": 0.82,
    "thick": 1,
    "thin": 0.82,
+   "think": 0.8,
    "this": 0.82,
    "thud": 0.82,
    "thumb": 0.82,
@@ -3073,6 +3079,7 @@
    "web": 1,
    "wed": 1,
    "well": 0.82,
+   "went": 1,
    "wet": 1,
    "whack": 1,
    "wham": 0.82,
@@ -4928,6 +4935,12 @@
   "ms": 1333,
   "tail": 592
  },
+ "w:black": {
+  "file": "w-black.mp3",
+  "lead": 120,
+  "ms": 936,
+  "tail": 326
+ },
  "w:bolt": {
   "file": "w-bolt.mp3",
   "lead": 120,
@@ -5005,6 +5018,12 @@
   "lead": 130,
   "ms": 1080,
   "tail": 430
+ },
+ "w:but": {
+  "file": "w-but.mp3",
+  "lead": 120,
+  "ms": 864,
+  "tail": 314
  },
  "w:buzz": {
   "file": "w-buzz.mp3",
@@ -5366,6 +5385,12 @@
   "ms": 1008,
   "tail": 318
  },
+ "w:fat": {
+  "file": "w-fat.mp3",
+  "lead": 120,
+  "ms": 888,
+  "tail": 328
+ },
  "w:fax": {
   "file": "w-fax.mp3",
   "lead": 130,
@@ -5665,6 +5690,12 @@
   "lead": 120,
   "ms": 850,
   "tail": 322
+ },
+ "w:his": {
+  "file": "w-his.mp3",
+  "lead": 130,
+  "ms": 984,
+  "tail": 324
  },
  "w:hit": {
   "file": "w-hit.mp3",
@@ -6920,6 +6951,12 @@
   "ms": 1174,
   "tail": 494
  },
+ "w:skip": {
+  "file": "w-skip.mp3",
+  "lead": 120,
+  "ms": 912,
+  "tail": 312
+ },
  "w:slam": {
   "file": "w-slam.mp3",
   "lead": 120,
@@ -7148,6 +7185,12 @@
   "ms": 888,
   "tail": 308
  },
+ "w:think": {
+  "file": "w-think.mp3",
+  "lead": 130,
+  "ms": 960,
+  "tail": 330
+ },
  "w:this": {
   "file": "w-this.mp3",
   "lead": 130,
@@ -7340,6 +7383,12 @@
   "ms": 1032,
   "tail": 442
  },
+ "w:went": {
+  "file": "w-went.mp3",
+  "lead": 130,
+  "ms": 888,
+  "tail": 328
+ },
  "w:wet": {
   "file": "w-wet.mp3",
   "lead": 200,
@@ -7405,6 +7454,12 @@
   "lead": 150,
   "ms": 1148,
   "tail": 520
+ },
+ "w:will": {
+  "file": "w-will.mp3",
+  "lead": 120,
+  "ms": 888,
+  "tail": 308
  },
  "w:wilt": {
   "file": "w-wilt.mp3",

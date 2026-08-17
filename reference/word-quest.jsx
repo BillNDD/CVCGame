@@ -26,7 +26,7 @@ const LEVELS = [
   { n: 1, name: "Hatchlings", emoji: "🐣", focus: "two sounds (VC)",
     words: ["is","it","in","on","at","an","up","us","am","ax","the","a","and","i"] },
   { n: 2, name: "Sunny Start", emoji: "☀️", focus: "VC finishes; short a begins",
-    words: ["my","we","if","ox","cat","sat","ran","can","man","dad","hat","mat"] },
+    words: ["my","we","if","ox","cat","sat","ran","can","man","dad","hat","mat","fat"] },
   { n: 3, name: "Jam Jar", emoji: "🍓", focus: "short a",
     words: ["me","to","had","bag","nap","map","cap","tag","jam","ham","pat","bat"] },
   { n: 4, name: "Van Pals", emoji: "🚐", focus: "short a",
@@ -34,7 +34,7 @@ const LEVELS = [
   { n: 5, name: "Zig Zap", emoji: "⚡", focus: "short a",
     words: ["go","so","you","tap","wag","lap","tan","zap","yam","cab","ram","dab","rap"] },
   { n: 6, name: "Dig Dog", emoji: "🐶", focus: "short a finishes; short i and o begin",
-    words: ["be","said","has","dam","nag","sap","vat","yap","sit","dog","big","dig"] },
+    words: ["be","said","has","dam","nag","sap","vat","yap","sit","dog","big","dig","his"] },
   { n: 7, name: "Mom and Pop", emoji: "🍲", focus: "short i and o open up",
     words: ["of","mom","pop","hot","pot","top","not","got","did","him","pig"] },
   { n: 8, name: "Six Pins", emoji: "🎳", focus: "short i builds",
@@ -46,7 +46,7 @@ const LEVELS = [
   { n: 11, name: "Red Hen", emoji: "🍞", focus: "odds and ends; short e begins",
     words: ["rob","sob","mob","cop","dim","bed","red","hen","pen","ten"] },
   { n: 12, name: "Fun Run", emoji: "🏃", focus: "short e and u",
-    words: ["net","leg","wet","jet","men","bus","cup","sun","run","fun"] },
+    words: ["net","leg","wet","jet","men","bus","cup","sun","run","fun","but"] },
   { n: 13, name: "Rocket Words", emoji: "🚀", focus: "short e & u",
     words: ["mud","bug","hug","nut","tub","pet","get","let","set","cut","pup","web","bun","rug","mug","vet","tug","jug","hum","rub",
       "dug","bud","peg","met","yet","bet","keg","hem","nun","pun","jut","gut","hub"] },
@@ -62,7 +62,7 @@ const LEVELS = [
       "buck","sung","gong","lung","puck","wick","rung","muck","pack","path","sack","tack","neck","luck","tuck","peck","deck","thud","rock","lock",
       "pick","lick","wing","tick","dock","moth","hang","sang","rang","sick","fang","what","whim","wham","bang","hung","ding","ping"] },
   { n: 17, name: "Bells", emoji: "🔔", focus: "ll, ss, ff, zz + qu + silent letters",
-    words: ["bell","tell","well","fell","hill","mill","doll","mess","boss","kiss","miss","loss","fuss","huff","puff","cuff","buzz","fuzz","jazz","fizz",
+    words: ["bell","tell","well","fell","hill","mill","doll","mess","boss","kiss","miss","loss","fuss","huff","puff","cuff","buzz","fuzz","jazz","fizz","will",
       "quiz","quit","quip","knit","knob","knot","lamb"] },
   { n: 18, name: "Chicks", emoji: "🐔", focus: "five-letter words",
     words: ["chick","check","chuck","chess","chill","shack","shock","shell","thick","whack","whiff","whizz","quick","quack","quill","knock","wreck","wrong","thumb","wrap",
@@ -70,10 +70,10 @@ const LEVELS = [
   { n: 19, name: "Tent Camp", emoji: "⛺", focus: "blends at the end",
     words: ["ant","ask","band","belt","bend","best","bolt","bond","bump","camp","cost","damp","dent","desk","dusk","end","fast","fond","gift","gulf",
       "gulp","hand","help","hint","jump","just","kept","lamp","land","last","left","lend","lift","list","mask","melt","mend","milk","mint","must",
-      "nest","pond","pump","raft","rest","risk","romp","sand","sift","silk","soft","task","tent","wilt"] },
+      "nest","pond","pump","raft","rest","risk","romp","sand","sift","silk","soft","task","tent","think","went","wilt"] },
   { n: 20, name: "Twin Drums", emoji: "🥁", focus: "blends at the start",
     words: ["brag","clap","drop","drum","flag","flat","glad","grab","grin","plan","plum","slam","sled","slid","slip","snap","snug","spin","spot","stem",
-      "step","stop","swam","swim","trap","trim","trip","twig","twin"] },
+      "step","stop","swam","swim","trap","trim","trip","twig","twin","black","skip"] },
   { n: 21, name: "Cats and Dogs", emoji: "🐾", focus: "one becomes many",
     words: ["beds","bugs","cats","cups","dogs","hats","hens","kids","lids","maps","pens","pigs","pots","tops"] },
 ];
@@ -884,6 +884,9 @@ const WORD_SOUND = {
      here on purpose. */
   hens: { 3: "z" }, pigs: { 3: "z" }, bugs: { 3: "z" }, pens: { 3: "z" },
   kids: { 3: "z" }, dogs: { 3: "z" }, beds: { 3: "z" }, lids: { 3: "z" },
+  /* The first seating pass (owner-ruled 2026-08-16, "seat 8 of 8"): his
+     joins has and is on the buzzing ending. */
+  his: { 2: "z" },
   /* THE VOICED th. "th" spells two different sounds, and until 2026-08-11 the
      tile map sent both of them to th_quiet — the VOICELESS th of "thin", a
      puff of air with no voice in it. These five take the buzzing one, /ð/, and
