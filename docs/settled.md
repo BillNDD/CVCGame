@@ -1515,3 +1515,24 @@ cup and pop won a treatment on 28 July, were held back while an audit ran, and
 were still unshipped two days later while the release notes implied otherwise.
 Anything a listener approves goes into the pack or into "Approved and unshipped"
 in `docs/voice-pack.md` the same day, with the reason it is waiting.
+
+## Build-it's fit — five verdicts on one page (2026-08-17) — closed
+
+The owner ruled all five on the costed page with the playable mock: a fourth
+free-play chooser row; the in-session breather (one build after every seventh
+reading word — chosen over the victory-lap recommendation with the queue-adjacency
+cost named on the page); the ramped tray (scramble through Level 5, one distractor
+from Level 6, two past 14, distractors default-safe only); no adult marks in any
+mode; unlimited misses with the glow scaffold after two. SPEC section 12 owns the
+full ruling. The question of where Build-it lives is closed; the build itself is
+open and stays in the task list.
+
+## Two batch-18 mechanisms are dead ends, measured (2026-08-17) — closed
+
+The spaced-phoneme splice cannot work on this synthesizer: "kˈeɪ dʒ" renders as one
+speech island at every floor tried (-32 and -35 dB) — the phonemizer ignores the
+space, so there is no gap to splice across. The stop-frame cannot frame a
+vowel-initial word: "Stop. As. Stop." and "Stop. Than. Stop." merge the word into a
+neighboring Stop island (2 islands, no middle) at every tried setting. Neither
+mechanism is offered again for these shapes without a new idea; the batch-18
+renderer prints both refusals aloud rather than hiding them.

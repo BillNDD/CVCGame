@@ -851,7 +851,21 @@ Modes, each designed for the owner's pick before any build:
   because S1 is untouched only while nothing is recorded. Tiles are sounds, never letter
   names (S4). Reading and spelling teach each other — encoding is decoding run backward,
   and the tile inventory, the adult-hold controls and the sound clips it needs all ship
-  today, which makes this one of the smallest builds on the road.
+  today, which makes this one of the smallest builds on the road. **Fit ruled by the
+  owner on 2026-08-17, five verdicts on the costed page, still unbuilt:** free play
+  gains a fourth chooser row (Build a word), serving mastered words first and the
+  child's level roster when few are mastered; sessions gain a breather — one Build-it
+  turn after every seventh reading word, chosen knowing it sits beside the review
+  queue's ordering, so the build must leave that ordering untouched; the tray ramps —
+  the word's own tiles shuffled through Level 5, one distractor from Level 6, two past
+  Level 14, and a distractor comes only from taught default-safe sounds, never a
+  bending unit, because a tile with no word behind it must still say a true sound; no
+  adult marks in any mode — the app's own match feedback is the whole loop, so free
+  play stays usable by a child alone; misses are unlimited, the app sounds out what
+  the child actually built, and after two misses the right tiles glow in order while
+  each sound plays, so every attempt ends in success. A word qualifies only when every
+  tile's sound-in-that-word has a shipped clip, which excludes "one" by itself until
+  its own ruling. Every sentence Build-it speaks needs owner approval before it ships.
 - Speedy words — a third free-play choice: short timed re-reads over mastered words only
   (box 4 and up), racing the child's own best, nothing recorded. Its copy must obey S3:
   a slow run is never a failure.
