@@ -1579,3 +1579,19 @@ about want rather than about the letter.
 The same page closed Build-it's look: slots are wider when their sound takes more than one
 letter, and the help after two misses is the letter fading into its own slot rather than
 the tile lighting in the tray.
+
+## Build-a-sound, and the rung it cannot start at (2026-08-17) — closed
+
+The owner ruled that a pre-ladder child gets a sounds version of Build-it rather than the
+word version. A fresh-context debug agent then found that the ruling cannot be honoured at
+Pre 1: "Little Ears" teaches listening with no letters anywhere, deliberately, so the
+honest tile inventory at that rung is empty. Three ways out were costed — hide the row
+below Pre 2, borrow Pre 2's roster early, or invent a third tile-less ear mode — and the
+owner chose the first.
+
+So Build-a-sound starts at Pre 2 and its tray is exactly what the rung has taught: four
+tiles, then six, eight and ten. It is one screen with the word version rather than two that
+drift apart, and it adds no audio at all, because every ladder letter already has a shipped
+clip. What is closed: the mode's shape, its starting rung, and the reason a tray may never
+hold a letter the ladder has not reached. What is not closed is the tile-less Pre 1 idea,
+which is a different feature wearing this one's name.

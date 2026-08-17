@@ -1801,7 +1801,7 @@ new one, and it is a real loss to a child — the word they got wrong does not c
 treats "any screen except a live session" as a safe moment, and the breather is a live
 session under a new screen name. The pre-letter ladder has the same hole and predates this.
 
-**Q6. The pre-ladder child is offered Build-it.** Free play offers "Build a word" to a
+**Q6. FIXED 2026-08-17 as Build-a-sound.** The pre-ladder child is offered Build-it. Free play offers "Build a word" to a
 child who has not yet met a letter, which is a whole-word build before the ladder's first
 step. Probably wrong; needs a ruling.
 

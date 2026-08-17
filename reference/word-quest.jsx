@@ -1289,6 +1289,38 @@ function tileSlots(plan) {
   for (let i = 0; i < plan.length; i++) if (String(plan[i]).startsWith("d:")) slots.push({ index: i, tile: t++ });
   return slots;
 }
+/* ---------------- Build-a-sound: Build-it at the ladder's scale ------------
+   Owner-ruled 2026-08-17 (open-faults Q6). A pre-ladder child was being offered
+   the word version of Build-it before they had met a letter. The mode they get
+   instead says a SOUND and asks them to find its tile among the letters they
+   have been taught - the same idea at the ladder's scale.
+
+   IT STARTS AT PRE 2, and that is the whole design constraint. Pre 1 is "Little
+   Ears": listening only, no letters anywhere, deliberately. A tray needs tiles
+   and the honest inventory at Pre 1 is empty, so the mode is not offered there
+   rather than borrowing letters the ladder has not reached. Drawing on Pre 2's
+   roster early would teach s, a, t and p ahead of the rung that introduces
+   them, and that order is stated pedagogy.
+
+   The tray is exactly what the child has been taught, nothing more: four tiles
+   at Pre 2, six at Pre 3, eight at Pre 4, ten at Pre 5. Every one of those ten
+   letters already has a shipped clip, so this mode adds no audio at all. */
+const PRE_TRAY_FROM = 2;
+function preLetters(preLevel) {
+  return PRE_LEVELS.filter((p) => p.kind === "letter" && p.n >= PRE_TRAY_FROM && p.n <= preLevel)
+    .flatMap((p) => p.items);
+}
+/* Null below Pre 2, so a caller cannot accidentally build a tray for a child
+   who has met no letters - the check lives here rather than in every caller. */
+function buildSoundTray(preLevel, rand = Math.random) {
+  const pool = preLetters(preLevel);
+  if (!pool.length) return null;
+  const target = pool[Math.floor(rand() * pool.length)];
+  const deck = shuffle(pool, rand);
+  return { kind: "sound", target, slots: 1, answer: [target],
+    prompt: soundIdFor(target), tiles: deck, sounds: deck.map(soundIdFor) };
+}
+
 /* ---------------- Build-it: the tray a child assembles a word from ----------
    SPEC section 12, owner-ruled 2026-08-17. The app speaks a word the child
    already knows and the child builds it from sound tiles. It speaks FIRST, so

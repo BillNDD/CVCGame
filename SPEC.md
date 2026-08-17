@@ -873,7 +873,14 @@ Modes, each designed for the owner's pick before any build:
   options, over marking the tile in the tray, because where a sound goes is the thing
   being taught — so every attempt ends in success. A slot is WIDER when its sound is
   written with more than one letter, chosen the same way, so the shape of the word is a
-  clue before a sound plays. A word qualifies only when every
+  clue before a sound plays. **A child still on the pre-letter ladder gets
+  Build-a-sound instead (owner-ruled 2026-08-17):** the app says a single sound
+  and the child finds its tile among the letters that rung has taught — four
+  tiles at Pre 2, six at Pre 3, eight at Pre 4, ten at Pre 5. It is not offered
+  at Pre 1 at all, because "Little Ears" teaches listening with no letters
+  anywhere and a tray there would have nothing honest to hold; borrowing Pre 2's
+  roster early would teach s, a, t and p ahead of the rung that introduces them.
+  Every ladder letter already has a shipped clip, so the mode adds no audio. A word qualifies only when every
   tile's sound-in-that-word has a shipped clip, which excludes "one" by itself until
   its own ruling. Every sentence Build-it speaks needs owner approval before it ships.
   **Its look was ruled the same day, from three live options each:** a slot is WIDER

@@ -7,7 +7,7 @@ import {
   migrate, newState, buildMarkdown, feedbackSpeech, PRAISE, speak, hush, buzz, ttsSafePraise, ttsSafeWord,
   sessionSentences, sentencePlan, sentenceClosePlan, revealWord, revealWordLongest,
   sentencesUpTo, shuffle, REVEAL_LINES, SENTENCE_PRAISE, sentenceLead,
-  buildTray, soundIdFor, soundIdsFor, buildable,
+  buildTray, buildSoundTray, soundIdFor, soundIdsFor, buildable,
 } from "@engine";
 /* W3 — the storage adapter is IndexedDB in the standalone app. */
 import { loadState, saveState } from "./storage.js";
@@ -429,7 +429,17 @@ export default function App() {
     /* D1: the fourth chooser row. Build-it has no queue and no grading - it
        is one word at a time, and the child leaves when they like. */
     if (mode === "build") {
-      startBuild(buildWordFor(fpState.current), "home");
+      /* A child still on the pre-letter ladder gets the SOUND version: find
+         the tile for a sound, among the letters they have been taught. Below
+         Pre 2 they have met none, so buildSoundTray returns null and the row
+         is not offered at all (open-faults Q6, owner-ruled 2026-08-17). */
+      const s2 = fpState.current;
+      if (s2.preLevel > 0) {
+        const tray = buildSoundTray(s2.preLevel);
+        if (tray) { buildBack.current = "home"; setBuild(tray); setScreen("build"); }
+        return;
+      }
+      startBuild(buildWordFor(s2), "home");
       return;
     }
     setQueue(mode === "random" ? buildRandomBlock("") : buildSession(fpState.current));

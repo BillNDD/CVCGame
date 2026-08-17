@@ -8,7 +8,7 @@ import UpdateRow from "../components/UpdateRow.jsx";
 /* The free-play chooser (SPEC section 6): between the tap and the game, the
    grown-up picks which words free play serves. Both choices are full 56 px
    controls (S7) because the finger on them may be the child's. */
-function FreePlayChooser({ level, L, sound, onChoose, onCancel }) {
+function FreePlayChooser({ level, L, sound, preLevel, buildable, onChoose, onCancel }) {
   return (
     <Modal title="Free play" onClose={onCancel}>
       <p style={{ margin: "0 0 14px", fontSize: 14.5, color: C.ink2, lineHeight: 1.5 }}>
@@ -41,11 +41,14 @@ function FreePlayChooser({ level, L, sound, onChoose, onCancel }) {
             prompt is a spoken word: it would show a child empty slots and never
             tell them what to build. The row states why rather than vanishing,
             so a grown-up can see the switch that brings it back. */}
-        <button className="wq-cta" onClick={() => onChoose("build")} disabled={!sound}
+        {/* Hidden at Pre 1, where the child has met no letters and a tray would
+            have nothing honest to hold (open-faults Q6). It returns at Pre 2 as
+            "find the sound", and after the ladder as "build a word". */}
+        {buildable && <button className="wq-cta" onClick={() => onChoose("build")} disabled={!sound}
           style={{ background: "#fff", color: C.ink, border: "2px solid " + C.ink2,
             boxShadow: "none", opacity: sound ? 1 : 0.55 }}>
-          🧱 Build a word
-        </button>
+          {preLevel > 0 ? "🔎 Find the sound" : "🧱 Build a word"}
+        </button>}
         {!sound && <p style={{ margin: 0, fontSize: 12.5, color: C.ink2, textAlign: "center" }}>
           Building needs sound. Turn sound on in the Grown-ups corner.
         </p>}
@@ -114,6 +117,7 @@ export default function HomeScreen({ state, L, kid, masteredCount, persistent, r
         <UpdateRow />
       </Zone.Strip>
       {fpChooser && <FreePlayChooser level={state.level} L={L} sound={state.settings.sound}
+        preLevel={state.preLevel} buildable={state.preLevel === 0 || state.preLevel >= 2}
         onChoose={onFreePlayChoose} onCancel={onFreePlayCancel} />}
       {toast && <Toast>{toast}</Toast>}
     </Frame>

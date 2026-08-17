@@ -12,6 +12,12 @@ import Zone from "../components/Zone.jsx";
    no promotion, and no adult marks anywhere on the screen (D4). The only
    controls are the tiles, the word button and the way out.
 
+   IT SERVES TWO MODES from one screen. A word tray has several slots and its
+   prompt is a spoken word; a SOUND tray (the pre-letter ladder's version,
+   owner-ruled 2026-08-17) has one slot and its prompt is a single sound. The
+   loop, the safety property and the help are identical, so they are one screen
+   rather than two that drift apart.
+
    D5, the miss: tries are unlimited. Each miss sounds out what the child
    ACTUALLY built, then says the word again, so a wrong answer is information
    rather than a buzz. After the second miss the right tiles glow in order
@@ -29,6 +35,10 @@ const slotWidth = (tile) => SLOT + (Math.max(1, (tile || "").length) - 1) * 26;
    word, decided when the tray was built. The screen never derives a sound from
    a letter - that is what made five words' tiles silent. */
 export default function BuildItScreen({ tray, playSounds, playWord, onDone, onExit, soundIdsOf }) {
+  const isSound = tray.kind === "sound";
+  /* The prompt: a word through the pack's word path, or one sound. Either way
+     it is spoken FIRST and never assembled from the tiles. */
+  const sayPrompt = () => (isSound ? playSounds([tray.prompt]) : playWord(tray.word));
   /* A slot holds the INDEX of the tray tile in it, never the letter. Holding
      the letter deduped by grapheme, so a word with a repeated sound had one
      tile that could not be placed at all: dad is d-a-d, and its second d was
@@ -60,7 +70,9 @@ export default function BuildItScreen({ tray, playSounds, playWord, onDone, onEx
 
   /* The word first, always, and never the tiles: hearing the word is the
      prompt, and hearing its sounds would be the answer. */
-  useEffect(() => { playWord(tray.word); }, [tray.word, playWord]);
+  /* The prompt is spoken once per tray. Keyed on the tray's own identity
+     rather than on sayPrompt, which is a new function every render. */
+  useEffect(() => { sayPrompt(); }, [tray.word, tray.prompt]);
 
   /* The tray is kept in a ref as well as in state, and the ref is written
      FIRST. Two taps inside one frame - which a child's hand does - otherwise
@@ -109,19 +121,20 @@ export default function BuildItScreen({ tray, playSounds, playWord, onDone, onEx
     if (!alive.current) return;
     if (built.join("") === tray.answer.join("")) {
       setWon(true);
-      setMsg("🎉 You built " + tray.word + "!");
-      playSounds(soundIdsOf(tray.word), () => { if (alive.current) playWord(tray.word); });
+      setMsg(isSound ? "🎉 You found it!" : "🎉 You built " + tray.word + "!");
+      if (isSound) playSounds([tray.prompt]);
+      else playSounds(soundIdsOf(tray.word), () => { if (alive.current) playWord(tray.word); });
       later(onDone, 2600);
       return;
     }
     const n = misses + 1;
     setMisses(n);
-    setMsg("That says " + built.join("‑") + "… listen again.");
+    setMsg(isSound ? "That is a different sound… listen again." : "That says " + built.join("‑") + "… listen again.");
     /* What the child BUILT, in their own tiles, then the target. A miss the
        child can hear is a miss the child can fix. */
     playSounds(builtSounds, () => {
       if (!alive.current) return;
-      playWord(tray.word);
+      sayPrompt();
       if (n >= 2) later(scaffold, 900);
     });
   }
@@ -132,7 +145,7 @@ export default function BuildItScreen({ tray, playSounds, playWord, onDone, onEx
      it is. Then it clears and the child copies it. */
   function scaffold() {
     if (!alive.current) return;
-    setMsg("Watch where each sound goes, then copy it.");
+    setMsg(isSound ? "Watch which tile it is, then tap it." : "Watch where each sound goes, then copy it.");
     slotsRef.current = tray.answer.map(() => null);
     setSlots(slotsRef.current);
     tray.answer.forEach((tile, i) => {
@@ -151,7 +164,7 @@ export default function BuildItScreen({ tray, playSounds, playWord, onDone, onEx
   return (
     <Frame>
       <Zone.Header>
-        <span style={{ fontWeight: 800, color: C.ink, fontSize: 15 }}>🧱 Build a word</span>
+        <span style={{ fontWeight: 800, color: C.ink, fontSize: 15 }}>{isSound ? "🔎 Find the sound" : "🧱 Build a word"}</span>
         <span className="wq-chip" style={{ fontSize: 10.5, padding: "5px 8px" }}>practice</span>
         <button className="wq-btn-plain" onClick={onExit} aria-label="Leave building">✖️ Done</button>
       </Zone.Header>
@@ -160,8 +173,8 @@ export default function BuildItScreen({ tray, playSounds, playWord, onDone, onEx
         <div style={{ textAlign: "center", width: "100%", maxWidth: 420 }}>
           {/* The word button is a child control (S7) and repeats the prompt as
               often as a child wants: the word is never the secret here. */}
-          <button className="wq-cta" onClick={() => playWord(tray.word)}
-            style={{ minHeight: 56, marginBottom: 18 }}>🔊 Hear the word</button>
+          <button className="wq-cta" onClick={sayPrompt}
+            style={{ minHeight: 56, marginBottom: 18 }}>{isSound ? "🔊 Hear the sound" : "🔊 Hear the word"}</button>
 
           <div style={{ display: "flex", gap: 10, justifyContent: "center", flexWrap: "wrap" }}>
             {slots.map((tile, i) => (

@@ -20,7 +20,7 @@ import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { render, screen, fireEvent, act, cleanup } from "@testing-library/react";
 import { createElement } from "react";
 import { readFileSync } from "node:fs";
-import { buildTray, chunkWord } from "../src/engine.js";
+import { buildTray, buildSoundTray, preLetters, chunkWord } from "../src/engine.js";
 
 /* The pack is replaced so the loop can be walked without an audio device, and
    so a completion callback fires at once rather than after a real clip. */
@@ -205,5 +205,59 @@ describe("Build-it's loop", () => {
     expect(screen.getByText(/Watch where each sound goes/)).toBeTruthy();
     /* the ghost is the answer's own letter, in the slot it belongs to */
     expect(slots()[0].textContent).toBe(tray.answer[0]);
+  });
+});
+
+/* BUILD-A-SOUND (open-faults Q6, owner-ruled 2026-08-17). The ladder's version:
+   one slot, a spoken sound for a prompt, and a tray of the letters the child
+   has been taught. */
+describe("Build-a-sound, for a child still on the ladder", () => {
+  it("9: Pre 1 gets no tray at all — it has met no letters", () => {
+    expect(buildSoundTray(1, () => 0.3)).toBeNull();
+    expect(preLetters(1)).toEqual([]);
+  });
+
+  it("10: the tray is exactly what the rung has taught, and grows with it", () => {
+    expect(preLetters(2)).toEqual(["s", "a", "t", "p"]);
+    expect(preLetters(3)).toEqual(["s", "a", "t", "p", "i", "n"]);
+    expect(preLetters(5).length).toBe(10);
+    for (const [rung, size] of [[2, 4], [3, 6], [4, 8], [5, 10]]) {
+      const t = buildSoundTray(rung, () => 0.3);
+      expect(t.tiles.length).toBe(size);
+      expect(t.slots).toBe(1);
+      expect(t.tiles).toContain(t.target);
+    }
+  });
+
+  it("11: no tile is silent, and none is a letter the rung has not reached", () => {
+    const shipped = new Set(Object.keys(JSON.parse(readFileSync("app/public/voice/manifest.json", "utf8"))));
+    for (const rung of [2, 3, 4, 5]) {
+      const t = buildSoundTray(rung, () => 0.5);
+      expect(t.sounds.every((id) => shipped.has(id))).toBe(true);
+      expect(t.tiles.every((c) => preLetters(rung).includes(c))).toBe(true);
+    }
+    /* the control: a sound id the pack does not hold is seen as missing */
+    expect(shipped.has("d:zzz")).toBe(false);
+  });
+
+  it("12: finding the sound wins, and a wrong tile invites another try", async () => {
+    const tray = buildSoundTray(3, () => 0.3);
+    render(createElement(BuildItScreen, {
+      tray,
+      playWord: (w) => played.push("word:" + w),
+      playSounds: (ids, then) => { played.push("sounds:" + ids.join(",")); if (then) then(); },
+      soundIdsOf: (w) => chunkWord(w).map((c) => "d:" + c),
+      onDone: () => {}, onExit: () => {},
+    }));
+    /* the prompt is the SOUND, spoken first and never assembled from tiles */
+    expect(played[0]).toBe("sounds:" + tray.prompt);
+    const wrong = tiles().find((b) => b.textContent !== tray.target);
+    fireEvent.click(wrong);
+    await flush(50);
+    expect(screen.getByText(/different sound/)).toBeTruthy();
+    fireEvent.click(slots()[0]);                       // take it back
+    fireEvent.click(tiles().find((b) => b.textContent === tray.target));
+    await flush(50);
+    expect(screen.getByText(/You found it/)).toBeTruthy();
   });
 });
