@@ -1536,3 +1536,26 @@ vowel-initial word: "Stop. As. Stop." and "Stop. Than. Stop." merge the word int
 neighboring Stop island (2 islands, no middle) at every tried setting. Neither
 mechanism is offered again for these shapes without a new idea; the batch-18
 renderer prints both refusals aloud rather than hiding them.
+
+## The clipping fault, closed by ear (2026-08-17) — closed
+
+The owner refused three fields in batch 18 for "extra sounds before or after. Poor
+clipping". The measurement against his own verdicts refuted the obvious hypothesis and
+found the real one: the arms he ACCEPTED were almost all carrier cuts, while the refused
+fields had fallen back to raw solos, and a solo carries a median 220 ms of energetic
+sound before the word against a carrier cut's 90. That is af_heart's utterance-initial
+blob — the same blob verify.clean_onset has stripped from the gate's own reference since
+2026-08-10, and which nothing stripped from what the owner was offered.
+
+Batch 19 offered no raw solo: every solo goes through clean_onset, the fricative lead
+check batch 18 had dropped is restored, and a thin field is answered with another carrier
+shape rather than an ungated fallback. gets and goats were accepted on the first re-offer.
+The fault is closed.
+
+Two further things this round settled. **The "Say {word}, everybody." carrier is the
+strongest frame yet measured** — it won 12 of 23 accepts, more than the listen sweep that
+has led since batch 16; new batches should offer it first. And **a coverage metric does
+not work**: measuring energetic audio outside the span where a word's own template matches
+inside a clip separates nothing — at every threshold it either refused most of the arms
+the owner accepted or caught none he refused. It is not to be re-attempted without a new
+idea, and the arm-level measurements are in the round's own record.

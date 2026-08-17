@@ -4246,5 +4246,185 @@
   "round": "batch 18 / 2026-08-17",
   "verdict": "perfect",
   "level": "waiting for a seat"
+ },
+ "gets": {
+  "arm": "gets_2",
+  "family": "say_sp0.75",
+  "ms": 850,
+  "sha256": "34c59bbeaefbba6ac67d73110855ae668eaf13253d9bfd5e7483235151a3e9b2",
+  "round": "batch 19 / 2026-08-17",
+  "verdict": "perfect",
+  "level": "waiting for a seat"
+ },
+ "goats": {
+  "arm": "goats_3",
+  "family": "here_sp0.8",
+  "ms": 910,
+  "sha256": "3e28d2340f16c57bea2a537d6c1265ac19fc63321b7492855a24a9457ab3e94b",
+  "round": "batch 19 / 2026-08-17",
+  "verdict": "perfect",
+  "level": "waiting for a seat"
+ },
+ "makes": {
+  "arm": "makes_3",
+  "family": "here_sp0.8",
+  "ms": 970,
+  "sha256": "9e0962badef2c1f10f7d10a9a31a4c8062daf38a8d43da936694bc653ff6f726",
+  "round": "batch 19 / 2026-08-17",
+  "verdict": "perfect",
+  "level": "waiting for a seat"
+ },
+ "mist": {
+  "arm": "mist_4",
+  "family": "say_sp0.7",
+  "ms": 920,
+  "sha256": "cc89d70be003dcbb0ba2fd9df4af8762900fcd52cd393dba97eee70e5b065421",
+  "round": "batch 19 / 2026-08-17",
+  "verdict": "perfect",
+  "level": "waiting for a seat"
+ },
+ "mitt": {
+  "arm": "mitt_3",
+  "family": "listen_sp0.8",
+  "ms": 860,
+  "sha256": "d9cfe41e06c33e7760d84b9b57416ebca3d41562d01a8c51ff0a328316dbdb42",
+  "round": "batch 19 / 2026-08-17",
+  "verdict": "perfect",
+  "level": "waiting for a seat"
+ },
+ "noses": {
+  "arm": "noses_5",
+  "family": "say_sp0.75",
+  "ms": 1100,
+  "sha256": "1d848c1ce248da4bf86e985f703de7eec4182870554d00df63afed7dbdb6ae23",
+  "round": "batch 19 / 2026-08-17",
+  "verdict": "perfect",
+  "level": "waiting for a seat"
+ },
+ "old": {
+  "arm": "old_4",
+  "family": "say_sp0.7",
+  "ms": 820,
+  "sha256": "4a9721b75fcbbcb0fd730345eb564c50d8ee26cd97f12a10e9109156b5e1933a",
+  "round": "batch 19 / 2026-08-17",
+  "verdict": "perfect",
+  "level": "waiting for a seat"
+ },
+ "rack": {
+  "arm": "rack_2",
+  "family": "listen_sp0.75",
+  "ms": 900,
+  "sha256": "448a4573dc186d0ad865ad5c7d367b3fc725aefd6a573c7b29ed81b2338a1abc",
+  "round": "batch 19 / 2026-08-17",
+  "verdict": "perfect",
+  "level": "waiting for a seat"
+ },
+ "rid": {
+  "arm": "rid_4",
+  "family": "say_sp0.7",
+  "ms": 820,
+  "sha256": "97fbe9c2276696143eba0cdc130232cd4b4ef95c95ccd3ec6a05ec1c1864ff89",
+  "round": "batch 19 / 2026-08-17",
+  "verdict": "perfect",
+  "level": "waiting for a seat"
+ },
+ "rocks": {
+  "arm": "rocks_4",
+  "family": "say_sp0.8",
+  "ms": 920,
+  "sha256": "a97396b6b1ee03475d5bc366498cef7b562a18b8f12316d6db362ee703584ec6",
+  "round": "batch 19 / 2026-08-17",
+  "verdict": "perfect",
+  "level": "waiting for a seat"
+ },
+ "sacks": {
+  "arm": "sacks_2",
+  "family": "say_sp0.8",
+  "ms": 980,
+  "sha256": "fbf51ad26ee1161a40d88d22b51e6de0834f5694d6ec10966622dbffdf253723",
+  "round": "batch 19 / 2026-08-17",
+  "verdict": "perfect",
+  "level": "waiting for a seat"
+ },
+ "saved": {
+  "arm": "saved_5",
+  "family": "say_sp0.75",
+  "ms": 1000,
+  "sha256": "d555e00b905f96af2dfef25cdbced8431cf26d630230641c3bbf5c935095d145",
+  "round": "batch 19 / 2026-08-17",
+  "verdict": "perfect",
+  "level": "waiting for a seat"
+ },
+ "shot": {
+  "arm": "shot_5",
+  "family": "say_sp0.75",
+  "ms": 860,
+  "sha256": "992a9d3c813ebfc97c579936efc2cc6a1387a0023c77bb0e91e759f24c543193",
+  "round": "batch 19 / 2026-08-17",
+  "verdict": "perfect",
+  "level": "waiting for a seat"
+ },
+ "smell": {
+  "arm": "smell_5",
+  "family": "say_sp0.75",
+  "ms": 960,
+  "sha256": "58f85670ec20138a8a9acd0fc07f4d9fec73e6691d0e003002671787dac0c3e4",
+  "round": "batch 19 / 2026-08-17",
+  "verdict": "perfect",
+  "level": "waiting for a seat"
+ },
+ "sold": {
+  "arm": "sold_2",
+  "family": "listen_sp0.75",
+  "ms": 990,
+  "sha256": "9f13d0ee6d1bfc42f0dd435581e60df5b3231d29477bbc1d58779c139b22f33d",
+  "round": "batch 19 / 2026-08-17",
+  "verdict": "perfect",
+  "level": "waiting for a seat"
+ },
+ "spots": {
+  "arm": "spots_4",
+  "family": "solo_trimmed_sp0.7",
+  "ms": 1130,
+  "sha256": "8a8b4a134f015e3970387d87a68c65653511fdfd3408486605b268f64e6c7709",
+  "round": "batch 19 / 2026-08-17",
+  "verdict": "perfect",
+  "level": "waiting for a seat"
+ },
+ "thank": {
+  "arm": "thank_2",
+  "family": "listen_sp0.75",
+  "ms": 980,
+  "sha256": "bee9ae1effa50908c40ece870982af1fe6c38b5f4188f542006dcc438a81cff9",
+  "round": "batch 19 / 2026-08-17",
+  "verdict": "perfect",
+  "level": "waiting for a seat"
+ },
+ "told": {
+  "arm": "told_1",
+  "family": "listen_sp0.7",
+  "ms": 1030,
+  "sha256": "438ecb4675fe65c7d9a3c39ad73ea33943d92286b3499df73209da0f69b97637",
+  "round": "batch 19 / 2026-08-17",
+  "verdict": "perfect",
+  "level": "waiting for a seat"
+ },
+ "waves": {
+  "arm": "waves_2",
+  "family": "listen_sp0.75",
+  "ms": 1000,
+  "sha256": "fd39e983e95b61b67f48b1dd3363b1229829ff36662916d44150fe048d037f8b",
+  "round": "batch 19 / 2026-08-17",
+  "verdict": "perfect",
+  "level": "waiting for a seat"
+ },
+ "yell": {
+  "arm": "yell_2",
+  "family": "listen_sp0.75",
+  "ms": 870,
+  "sha256": "49706e534aa313e28f42c8709f884df95b130e0faac466bd8c4af51032c9bfd9",
+  "round": "batch 19 / 2026-08-17",
+  "verdict": "perfect",
+  "level": "waiting for a seat"
  }
 }

@@ -149,7 +149,20 @@ byte-pinned word rather than replacing accepted audio with a render.
   sidecar workspace archive on the owner's PC
   (handoff `word-quest-uplift-handoff-2026-08-07T1438Z`).
 
-## Approved and unshipped: 90 items with no level yet (through 2026-08-17)
+## Approved and unshipped: 110 items with no level yet (through 2026-08-17)
+
+**Batch 19 closed 23 of 28 (2026-08-17), and it settled the clipping fault by ear.**
+gets and goats — the two words the owner refused the same day with "extra sounds before
+or after" — were accepted on their first re-offer, which is the measurement confirmed by
+the only instrument that counts. Twenty more came with them: bill, makes, mist, mitt,
+nest, noses, old, pond, rack, rid, rocks, sacks, saved, shot, smell, sold, spots, thank,
+told, waves, yell. **The winning families say what worked**: 22 of 23 are carrier cuts,
+and the new "Say {word}, everybody." frame won 12 of them, more than any other shape —
+the trimmed solo won once. **cage reached "closest" for the first time in four rounds**,
+on the blob-trimmed solo, and road is closest on the same family, so that treatment is
+the live lead for both. Three refused: as (refused again, now on slow arms — the speed
+axis is exhausted and it needs a new mechanism), notes and socks.
+
 
 **Batch 18 closed 31 of 35 (2026-08-17) — the first batch of the train toward the full
 target bank.** than joined at last on its phonemised arm, and thirty short decodables
