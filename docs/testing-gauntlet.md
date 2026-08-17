@@ -738,8 +738,8 @@ a person can say the rule is the right rule. A proof nobody declared is invisibl
 which is why every number here is a floor rather than an equality.
 
 - Tool: `tools/safety-cover.mjs`. Command: `node tools/safety-cover.mjs && node tools/safety-cover.mjs --self-test`.
-- Keys: `g25_rules (9)`, `g25_proofs (25)`, `g25_controls (11)`, `g25_source_only_max (1)`, `g25_unobserved_max (6)`.
-- Controls: eleven, and the important one is that the six planted faults run through a
+- Keys: `g25_rules (9)`, `g25_proofs (25)`, `g25_controls (12)`, `g25_source_only_max (1)`, `g25_unobserved_max (6)`.
+- Controls: twelve, and the important one is that the six planted faults run through a
   parameterised detector, so the same cases can be put to a stub that always reports
   nothing. It must answer none of them. Two controls in this repository once passed with
   their detector removed; this is the shape that catches that.

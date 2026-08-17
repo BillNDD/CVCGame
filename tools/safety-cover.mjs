@@ -49,6 +49,7 @@ import { DECLARED, NON_TEST_GATES } from "./effect-declarations.mjs";
 
 const BASELINE = JSON.parse(readFileSync(".claude/gate-baseline.json", "utf8"));
 const KINDS = ["unit", "source", "observed"];
+const FLOORS = { rules: BASELINE.g25_rules, proofs: BASELINE.g25_proofs };
 
 /* The rules, read from the file that OWNS them. Never a list typed here: a
    list typed here would be a copy of CLAUDE.md's own facts, which G23
@@ -90,11 +91,15 @@ const looksLikePath = (where) => where.includes("/") && /\.\w+$/.test(where);
 /* Every refusal in one function, so --self-test exercises the shipped path
    rather than a re-implementation of it. The effect map's own control was
    once a re-implementation and passed with the detector gone (2026-08-10). */
-export function problems(rules, proofs, scheduled, fileExists) {
+export function problems(rules, proofs, scheduled, fileExists, floors = FLOORS) {
   const found = [];
-  if (rules.length < BASELINE.g25_rules)
+  if (rules.length < floors.rules)
     found.push(`only ${rules.length} safety rules parsed from CLAUDE.md, expected at least `
-      + `${BASELINE.g25_rules} — this gate would be checking nothing`);
+      + `${floors.rules} — this gate would be checking nothing`);
+  const pairs = rules.reduce((n, r) => n + (proofs[r] || []).length, 0);
+  if (pairs < floors.proofs)
+    found.push(`${pairs} declared proofs, below the floor of ${floors.proofs}: a proof was `
+      + `deleted from tools/effect-declarations.mjs and the rule it covered may still look proved`);
   for (const rule of rules) {
     const mine = proofs[rule] || [];
     if (!mine.length) {
@@ -173,29 +178,34 @@ function selfTest() {
      about the detector it guards, and this repository has shipped two of
      those - the effect map's first self-test asked whether an absent file was
      absent, and the gauntlet's asked whether filtering left anything. */
+  const none = { rules: 0, proofs: 0 };
   const planted = (detect) => [
     ["a moved anchor is a failure, not a pass",
-      hits(detect([], {}, scheduled, yes), /checking nothing/) === 1,
+      hits(detect([], {}, scheduled, yes, { rules: 1, proofs: 0 }), /checking nothing/) === 1,
       "a gate that parses no rules must say so; reporting 0 of 0 uncovered is how a check stops existing"],
     ["a rule with no proof is named",
-      hits(detect(rules, proofsByRule(real, []), scheduled, yes), /^S2 has no executable proof/) === 1,
+      hits(detect(rules, proofsByRule(real, []), scheduled, yes, none), /^S2 has no executable proof/) === 1,
       "the fault-L detector: a safety rule nothing proves must be reported by name"],
     ["a relabelled tag is caught, not just a deleted one",
-      hits(detect(rules, proofsByRule(relabelled, []), scheduled, yes), /^S1 has no executable proof/) === 1,
+      hits(detect(rules, proofsByRule(relabelled, []), scheduled, yes, none), /^S1 has no executable proof/) === 1,
       "a counter passes a deletion control; only a mapping reports S1 when its tag was moved to S6"],
     ["a proof naming a vanished file is caught",
-      hits(detect(rules, proofsByRule(both, []), scheduled, () => false), /does not exist/) === 2,
+      hits(detect(rules, proofsByRule(both, []), scheduled, () => false, none), /does not exist/) === 2,
       "a renamed test silently stops proving anything"],
     ["a proof under an unscheduled gate is caught",
-      hits(detect(rules, proofsByRule(both, []), ["G7"], yes), /which no scheduled gate runs/) === 2,
+      hits(detect(rules, proofsByRule(both, []), ["G7"], yes, none), /which no scheduled gate runs/) === 2,
       "the G22 shape: a detector nobody runs is not proof (open-faults C4)"],
     ["an unknown kind is caught",
-      hits(detect(["S1"], proofsByRule(badKind, []), scheduled, yes), /is not one of/) === 1,
+      hits(detect(["S1"], proofsByRule(badKind, []), scheduled, yes, none), /is not one of/) === 1,
       "a typo in a kind must not read as a proof of the strongest sort"],
   ];
 
   const cases = [
     ...planted(problems),
+    ["a deleted proof is caught by the floor, in the sub-minute check",
+      hits(problems(rules, proofsByRule(both, []), scheduled, yes, { rules: 0, proofs: 5 }), /below the floor/) === 1
+      && problems(rules, proofsByRule(both, []), scheduled, yes, none).length === 0,
+      "the gauntlet's floor only runs at a release; a tag deleted between releases must fail the push"],
     ["source-only and unobserved are told apart",
       sourceOnly(rules, proofsByRule(mixed, [])).join() === "S1"
       && unobserved(rules, proofsByRule(mixed, [])).join() === "S1,S2",
