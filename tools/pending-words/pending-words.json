@@ -3846,5 +3846,38 @@
   "round": "batch 15 / 2026-08-16",
   "verdict": "perfect",
   "level": "passage tap-to-hear (unbuilt)"
+ },
+ "flowers": {
+  "file": "w-flowers.mp3",
+  "word": "flowers",
+  "arm": "flowers_5",
+  "family": "listen_sp0.7",
+  "ms": 1210,
+  "sha256": "ab60bce854008eab179d048b55115a05837f743324b83d7776fbf785fb9d79af",
+  "round": "batch 16 / 2026-08-16",
+  "verdict": "perfect",
+  "level": "passage tap-to-hear (unbuilt)"
+ },
+ "bank": {
+  "file": "w-bank.mp3",
+  "word": "bank",
+  "arm": "bank_1",
+  "family": "listen_sp0.7",
+  "ms": 860,
+  "sha256": "875f0cad8823a45dca1b8bceb39e97a017ffbfe4dd1465c59a71024d39252110",
+  "round": "batch 16 / 2026-08-16",
+  "verdict": "perfect",
+  "level": "passage tap-to-hear (unbuilt)"
+ },
+ "all": {
+  "file": "w-all.mp3",
+  "word": "all",
+  "arm": "all_5",
+  "family": "listen_sp0.7_longtail",
+  "ms": 890,
+  "sha256": "789fa2ac5c62e5eb6e21bab1b05df2d09ad263b74d3c269f77e298b109a1c28b",
+  "round": "batch 16 / 2026-08-16",
+  "verdict": "perfect",
+  "level": "passage tap-to-hear (unbuilt)"
  }
 }

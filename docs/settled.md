@@ -1472,6 +1472,15 @@ owner ruled it the same day — "Go ahead with this": a seating pass is a standi
 every word batch, and the coverage lookup's clips-waiting-for-seats line runs in every
 check. AGENTS.md carries the practice rule.
 
+## Batch 16 — three comebacks close on a slower speed (2026-08-16) — closed
+
+flowers, bank and all: every winner `listen_sp0.7`, a speed no earlier sweep offered —
+the finding is that batch 15's speed floor (0.75) was the fault for all three, not the
+frames. Sweeps now start at 0.7. cage refused its second whole field; its third
+mechanism is named in docs/voice-pack.md (cut from the owner's own approved passage
+clip) and nothing about cage is settled except that soft-g carriers and phonemised
+arms both lost.
+
 ## The trap this project keeps falling into
 
 A fix that is approved but not applied is worse than no fix: it reads as done.

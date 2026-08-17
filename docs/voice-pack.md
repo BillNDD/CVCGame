@@ -149,7 +149,18 @@ byte-pinned word rather than replacing accepted audio with a render.
   sidecar workspace archive on the owner's PC
   (handoff `word-quest-uplift-handoff-2026-08-07T1438Z`).
 
-## Approved and unshipped: 63 items with no level yet (through 2026-08-16)
+## Approved and unshipped: 66 items with no level yet (through 2026-08-16)
+
+**Batch 16 closed three of the four comebacks (2026-08-16), and the finding is a speed.**
+All three winners — flowers, bank, all — came from `listen_sp0.7`, a speed batch 15's
+sweep never offered (its floor was 0.75). The mechanisms built for each suspect (the
+stop-frame for bank, the compound treatment for flowers, the long tails for all) were
+outdone by simply going slower; future sweeps start at 0.7. The hash guard refused two
+byte-identical re-offers on its first live run. **cage stands 0-for-2** — soft-g carriers
+and phonemised arms both refused whole — and its named third mechanism is the strongest
+one this project owns: cut the word from the owner's OWN approved passage clip
+(`s:r8-p09s1` says "cage" twice, graded perfect in round 8), the sound-round-9 recipe.
+That is batch 17, when the owner has ear for one word.
 
 **Batch 15 added twenty-eight of thirty-two (2026-08-16): the passage tap-to-hear
 words.** Full nine-arm fields for every word, and the frame rule held again — most
