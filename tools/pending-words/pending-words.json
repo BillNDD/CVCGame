@@ -3879,5 +3879,93 @@
   "round": "batch 16 / 2026-08-16",
   "verdict": "perfect",
   "level": "passage tap-to-hear (unbuilt)"
+ },
+ "which": {
+  "file": "w-which.mp3",
+  "word": "which",
+  "arm": "which_7",
+  "family": "listen_sp0.9",
+  "ms": 830,
+  "sha256": "1116551d2787df765092617e232a2a30c7bf58054feb0f612f5d98d478fe438a",
+  "round": "batch 17 / 2026-08-16",
+  "verdict": "perfect",
+  "level": "awaiting seat (tier list, 2026-08-16)"
+ },
+ "from": {
+  "file": "w-from.mp3",
+  "word": "from",
+  "arm": "from_8",
+  "family": "listen_sp0.85",
+  "ms": 820,
+  "sha256": "e4f8a1bfd79a77c37b1861592c55ca21254a71f92a1b30ec8904c5610a2409dc",
+  "round": "batch 17 / 2026-08-16",
+  "verdict": "perfect",
+  "level": "awaiting seat (tier list, 2026-08-16)"
+ },
+ "want": {
+  "file": "w-want.mp3",
+  "word": "want",
+  "arm": "want_1",
+  "family": "listen_sp0.75",
+  "ms": 900,
+  "sha256": "5d21d2251242ea6970066f85e875e637527694cdb584bcbe40d72532086118c8",
+  "round": "batch 17 / 2026-08-16",
+  "verdict": "perfect",
+  "level": "awaiting seat (tier list, 2026-08-16)"
+ },
+ "they": {
+  "file": "w-they.mp3",
+  "word": "they",
+  "arm": "they_3",
+  "family": "solo_sp0.85",
+  "ms": 1169,
+  "sha256": "0104ae9f2bc8a89a17068056482b91986fe42f1cf23f1a49487ff20484206126",
+  "round": "batch 17 / 2026-08-16",
+  "verdict": "perfect",
+  "level": "awaiting seat (tier list, 2026-08-16)"
+ },
+ "for": {
+  "file": "w-for.mp3",
+  "word": "for",
+  "arm": "for_1",
+  "family": "listen_sp0.7",
+  "ms": 860,
+  "sha256": "906e411aa1a832d6477330294599f82ccb8eea8adb97cc728ffa71e2664ad4c4",
+  "round": "batch 17 / 2026-08-16",
+  "verdict": "perfect",
+  "level": "awaiting seat (tier list, 2026-08-16)"
+ },
+ "out": {
+  "file": "w-out.mp3",
+  "word": "out",
+  "arm": "out_2",
+  "family": "listen_sp0.75",
+  "ms": 840,
+  "sha256": "967d414d6c7828e9c3266b3ea5f3ea8a284a1df193a16a69b8d30c917c6a9db4",
+  "round": "batch 17 / 2026-08-16",
+  "verdict": "perfect",
+  "level": "awaiting seat (tier list, 2026-08-16)"
+ },
+ "one": {
+  "file": "w-one.mp3",
+  "word": "one",
+  "arm": "one_1",
+  "family": "listen_sp0.75_warm",
+  "ms": 840,
+  "sha256": "27f6a62ff472ad7aea8087366279682d1a9c06737d17a18750ce9e636ccef823",
+  "round": "batch 17 / 2026-08-16",
+  "verdict": "perfect",
+  "level": "awaiting seat (tier list, 2026-08-16)"
+ },
+ "there": {
+  "file": "w-there.mp3",
+  "word": "there",
+  "arm": "there_3",
+  "family": "solo_sp0.85",
+  "ms": 1105,
+  "sha256": "485f1b36a3e175be8b59e5a33bdafb27661a8ccdf7414b585b7194708f9a0323",
+  "round": "batch 17 / 2026-08-16",
+  "verdict": "perfect",
+  "level": "awaiting seat (tier list, 2026-08-16)"
  }
 }

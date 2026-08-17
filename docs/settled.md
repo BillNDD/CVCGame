@@ -1481,6 +1481,17 @@ mechanism is named in docs/voice-pack.md (cut from the owner's own approved pass
 clip) and nothing about cage is settled except that soft-g carriers and phonemised
 arms both lost.
 
+## Batch 17 — eight of the tier list close; cage exhausts synthesis (2026-08-17) — closed
+
+which, from, want, they, for, out, one and there: accepted (two on the ungated solo arms
+the empty-field fallback carried — the ear judged what the gates could not). as and than
+refused their first fields and wait for batch 18. cage refused its THIRD field, and this
+one held four arms cut from the owner's own round-8 passage clip — the strongest material
+the pipeline owns. What is settled: synthesis is exhausted for cage; what is not settled
+is the cure, and its two named paths (the owner records it, or the tap plays the whole
+approved sentence) wait on the owner. Nothing about cage is re-offered from synthesis
+without a new mechanism nobody has named yet.
+
 ## The trap this project keeps falling into
 
 A fix that is approved but not applied is worse than no fix: it reads as done.

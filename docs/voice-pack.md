@@ -149,7 +149,16 @@ byte-pinned word rather than replacing accepted audio with a render.
   sidecar workspace archive on the owner's PC
   (handoff `word-quest-uplift-handoff-2026-08-07T1438Z`).
 
-## Approved and unshipped: 58 items with no level yet (through 2026-08-16)
+## Approved and unshipped: 66 items with no level yet (through 2026-08-17)
+
+**Batch 17 closed eight of eleven (verdicts late 2026-08-16, recorded 2026-08-17):**
+which, from, want, they, for, out, one and there — the tier list the owner approved,
+awaiting their seats. Three refused: **as and than** go to batch 18 on new mechanisms,
+and **cage refused its third whole field — including four arms cut from the owner's OWN
+approved passage clip.** That is the schwa lesson arriving for a word: synthesis is
+exhausted for cage, and the escalation paths are the owner's to pick — record it
+themselves (the nine stop sounds precedent, 2026-08-04), or let cage's tap-to-hear play
+the whole approved passage sentence it lives in, which ships today with zero new audio.
 
 **The first seating pass shipped eight of them (2026-08-16, "seat 8 of 8"):** black,
 skip, went, will, think, fat, but and his left this list for their levels the same day
