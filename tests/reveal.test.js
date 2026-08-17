@@ -133,17 +133,35 @@ const pressNext = async () => {
    grading every word correct so no retry is queued on the way: 14 words in
    the starter session since the 10-and-10 curriculum, so thirteen grades
    leave the fourteenth on screen. */
+/* Build-it's breather (SPEC section 12, decision D2, owner-ruled 2026-08-17):
+   one build turn after every seventh reading word. A walk leaves it the way a
+   grown-up would. It is COUNTED by its callers, so a breather that stops
+   appearing, or one that appears where it must not, fails a test rather than
+   passing quietly. */
+const leaveBuild = async () => {
+  const out = screen.queryByLabelText("Leave building");
+  if (!out) return false;
+  fireEvent.click(out);
+  await flush(0);
+  return true;
+};
+
 const walkToLastSlot = async () => {
   render(createElement(App));
   await flush(0);
   fireEvent.click(screen.getByText("▶️ Begin Session"));
   await flush(0);
-  let sentences = 0;
+  let sentences = 0, breathers = 0;
   for (let i = 0; i < 13; i += 1) {
+    if (await leaveBuild()) breathers += 1;
     fireEvent.keyDown(screen.getByLabelText("✓ got it (hold)"), { key: "Enter" });
     await flush(REVEAL_MS + 50);
     if (await pressNext()) sentences += 1;
   }
+  if (await leaveBuild()) breathers += 1;
+  /* One: after the seventh word. The fourteenth is the session's last, and
+     the breather never takes the last word's press. Literal (E4). */
+  expect(breathers).toBe(1);
   /* Two sentences in thirteen words, after the fifth and the tenth — the
      after-fifteen slot sits past a 14-word session and never fires. Literal
      (E4), so a walk that silently stops meeting them fails here. */

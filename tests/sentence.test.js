@@ -81,12 +81,23 @@ const tiles = () => [...document.querySelectorAll(".wq-sentence-tiles .wq-tile")
    appears. Level 1 is twelve words and the plan puts a sentence after the
    fifth, so five grades reach one. The walk now ends at the ATTEMPT: the
    sentence on screen, silent, waiting for the child. */
+/* Build-it's breather (SPEC section 12, D2) can take a press inside a walk;
+   a walk leaves it the way a grown-up would. */
+const leaveBuild = async () => {
+  const out = screen.queryByLabelText("Leave building");
+  if (!out) return false;
+  fireEvent.click(out);
+  await flush(0);
+  return true;
+};
+
 const walkToSentence = async () => {
   render(createElement(App));
   await flush(0);
   fireEvent.click(screen.getByText("▶️ Begin Session"));
   await flush(0);
   for (let i = 0; i < 5; i += 1) {
+    await leaveBuild();
     fireEvent.keyDown(screen.getByLabelText("✓ got it (hold)"), { key: "Enter" });
     await flush(REVEAL_MS + 50);
     fireEvent.click(advance());
@@ -470,7 +481,12 @@ describe("the sentence inside a session", () => {
     fireEvent.click(screen.getByText("▶️ Begin Session"));
     await flush(0);
     const seen = [];
+    let breathers = 0;
     for (let i = 0; i < 11; i += 1) {
+      /* Build-it's breather (D2) takes one press after every seventh word and
+         hands the advance back when it ends; the walk leaves it as a grown-up
+         would and counts it, so it cannot silently stop happening. */
+      if (await leaveBuild()) breathers += 1;
       fireEvent.keyDown(screen.getByLabelText("✓ got it (hold)"), { key: "Enter" });
       await flush(REVEAL_MS + 50);
       fireEvent.click(advance());
@@ -484,5 +500,6 @@ describe("the sentence inside a session", () => {
     }
     expect(seen.length).toBe(2);                       // after the fifth and the tenth
     expect(new Set(seen).size).toBe(seen.length);
+    expect(breathers).toBe(1);                         // one build turn, after the seventh word
   });
 });

@@ -299,7 +299,11 @@ describe("voice-pack clip engine", () => {
 
   it("App.jsx wires the packs at every speech site (source tripwire with control)", () => {
     const app = readFileSync("app/src/App.jsx", "utf8");
-    expect((app.match(/speakVoice\(/g) || []).length).toBe(3);   // grade, session end, replay
+    /* Four since Build-it (2026-08-17): grade, session end, replay, and the
+       word Build-it speaks before the child assembles it. The count is the
+       point of this tripwire - a speech site added without the pack wiring
+       must move it - so it rises with a named reason and never quietly. */
+    expect((app.match(/speakVoice\(/g) || []).length).toBe(4);
     expect((app.match(/unlockVoice\(\)/g) || []).length).toBeGreaterThanOrEqual(3);
     expect("speak(feedbackSpeech(result, word, praiseIdx))".includes("speakVoice(")).toBe(false);
   });

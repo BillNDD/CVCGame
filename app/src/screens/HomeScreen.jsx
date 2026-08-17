@@ -12,8 +12,9 @@ function FreePlayChooser({ level, L, onChoose, onCancel }) {
   return (
     <Modal title="Free play" onClose={onCancel}>
       <p style={{ margin: "0 0 14px", fontSize: 14.5, color: C.ink2, lineHeight: 1.5 }}>
-        Grown-up: words or sentences? Truly random serves any word from all 476 — easy and
-        hard alike. Nothing is saved in free play, whichever you pick.
+        Grown-up: read words, read sentences, or build a word from its sounds? Truly random
+        serves any word from all 476 — easy and hard alike. Nothing is saved in free play,
+        whichever you pick.
       </p>
       <div style={{ display: "grid", gap: 8 }}>
         <button className="wq-cta" onClick={() => onChoose("random")}>🎲 Truly random</button>
@@ -31,6 +32,14 @@ function FreePlayChooser({ level, L, onChoose, onCancel }) {
         <button className="wq-cta" onClick={() => onChoose("sentences")}
           style={{ background: "#fff", color: C.ink, border: "2px solid " + C.ink2, boxShadow: "none" }}>
           📖 Sentences
+        </button>
+        {/* Build-it (SPEC section 12, owner-ruled 2026-08-17, decision D1). The
+            fourth row: the app speaks a word and the child assembles it from
+            sound tiles. It serves words the child has mastered first, so the
+            word spoken is one they own; nothing here is recorded either. */}
+        <button className="wq-cta" onClick={() => onChoose("build")}
+          style={{ background: "#fff", color: C.ink, border: "2px solid " + C.ink2, boxShadow: "none" }}>
+          🧱 Build a word
         </button>
         <button className="wq-btn-plain" onClick={onCancel} style={{ justifySelf: "center" }}>Back</button>
       </div>

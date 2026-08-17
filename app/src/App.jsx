@@ -7,6 +7,7 @@ import {
   migrate, newState, buildMarkdown, feedbackSpeech, PRAISE, speak, hush, buzz, ttsSafePraise, ttsSafeWord,
   sessionSentences, sentencePlan, sentenceClosePlan, revealWord, revealWordLongest,
   sentencesUpTo, shuffle, REVEAL_LINES, SENTENCE_PRAISE, sentenceLead,
+  buildTray, soundIdFor, soundIdsFor,
 } from "@engine";
 /* W3 — the storage adapter is IndexedDB in the standalone app. */
 import { loadState, saveState } from "./storage.js";
@@ -20,6 +21,9 @@ import { initVoicePacks, speakVoice, playClips, stopClips, unlockVoice } from ".
 import Frame from "./components/Frame.jsx";
 import Zone from "./components/Zone.jsx";
 import HomeScreen from "./screens/HomeScreen.jsx";
+import BuildItScreen from "./screens/BuildItScreen.jsx";
+/* D2: the breather's spacing, owner-ruled 2026-08-17. */
+const BUILD_EVERY = 7;
 import SessionScreen from "./screens/SessionScreen.jsx";
 import DoneScreen from "./screens/DoneScreen.jsx";
 import ParentScreen from "./screens/ParentScreen.jsx";
@@ -169,6 +173,15 @@ export default function App() {
      session count. Promotion is pinned off for the visit: a level-up that is
      not real must never be celebrated. */
   const [freePlay, setFreePlay] = useState(false);
+  /* BUILD-IT (SPEC section 12, decisions D1 and D2). `build` is the tray on
+     screen; `buildBack` is where to return when the turn ends - "home" for a
+     free-play run, "session" for the breather. Nothing about a Build-it turn
+     is written to state: it is practice, and that is load-bearing (S1). */
+  const [build, setBuild] = useState(null);
+  const buildBack = useRef("home");
+  /* Which word-counts have already had their breather, so a re-render or a
+     second press cannot serve two. */
+  const builtAfter = useRef(new Set());
   const [fpCount, setFpCount] = useState(0);
   const fpState = useRef(null);
   /* The chooser between the tap and the game: truly random, or the child's
@@ -297,6 +310,48 @@ export default function App() {
     setScreen("session");
   }
 
+  /* ---------------- Build-it (SPEC section 12) ----------------
+     The word is spoken by the pack the same way the reveal speaks it; the
+     tiles play single sounds, which is what the sound-out already does, so
+     this mode adds no new audio path and no new clip. */
+  const playBuildWord = useCallback((word) => {
+    unlockVoice();
+    speakVoice("replay", word, 0, stateRef.current.settings.sound,
+      (why) => { noteFallback(why); speak([{ text: ttsSafeWord(word), rate: 0.9 }], true, stateRef.current.settings.lang); });
+  }, []);
+  const playBuildSounds = useCallback((ids, then) => {
+    unlockVoice();
+    playClips(ids, stateRef.current.settings.sound, noteFallback);
+    if (then) setTimeout(then, 260 * ids.length + 260);
+  }, []);
+
+  /* Which word to build. Mastered first (box 4 and up), because the mode's
+     whole premise is a word the child already owns; the level's own roster
+     when a child has mastered too few, so a new player is never stuck. */
+  function buildWordFor(s) {
+    const mastered = Object.entries(s.words).filter(([, ws]) => ws.box >= 4).map(([w]) => w);
+    const pool = mastered.length >= 3 ? mastered : LEVELS[s.level - 1].words;
+    return pool[Math.floor(Math.random() * pool.length)];
+  }
+  function startBuild(word, back) {
+    const s = stateRef.current;
+    buildBack.current = back;
+    setBuild(buildTray(word, s.level));
+    setScreen("build");
+  }
+  /* The turn ends and nothing has been recorded - by construction, since
+     nothing here calls setState or persist. */
+  function endBuild() {
+    setBuild(null);
+    /* The breather TOOK the advance press, so it owes the advance: without
+       this the child comes back to the word they already finished and has to
+       press again. Caught by the reveal walker landing one word short of the
+       session's end. */
+    if (buildBack.current === "session") { setScreen("session"); advanceWord(); return; }
+    setFreePlay(false);
+    setScreen("home");
+  }
+
   function beginFreePlay(mode) {
     unlockVoice();
     fpMode.current = mode;
@@ -323,6 +378,12 @@ export default function App() {
       fpSentences.current = pool;
       setQueue(pool); showSentence(pool[0], true);
       setScreen("session");
+      return;
+    }
+    /* D1: the fourth chooser row. Build-it has no queue and no grading - it
+       is one word at a time, and the child leaves when they like. */
+    if (mode === "build") {
+      startBuild(buildWordFor(fpState.current), "home");
       return;
     }
     setQueue(mode === "random" ? buildRandomBlock("") : buildSession(fpState.current));
@@ -604,6 +665,31 @@ export default function App() {
     const due = freePlay ? null
       : sentencePlanRef.current.find((x) => x.after === order.length && !shownSentences.includes(x.id));
     if (due) { setLastGrade(null); showSentence(due); return; }
+    /* D2, the breather (owner-ruled 2026-08-17): one Build-it turn after every
+       seventh reading word. It takes a word the child got RIGHT in this very
+       session, so the word spoken is one they have just shown they own, and it
+       skips itself when no word qualifies - a session where nothing went right
+       is not a session to interrupt with a puzzle.
+
+       It sits AFTER the sentence check and BEFORE advanceWord, so it never
+       reorders the queue and never touches the review schedule: the breather
+       is a screen between two words, not a step in the ladder. */
+    /* Never in place of the session's ending: a breather after the last word
+       would replace "Finish!" with a puzzle, and the child would lose the end
+       of their own session. Caught by the G10 pair tests, which walk a
+       14-word Level 1 session whose last word is the fourteenth - a multiple
+       of seven. */
+    if (!freePlay && order.length > 0 && order.length % BUILD_EVERY === 0
+        && qi + 1 < queue.length
+        && !builtAfter.current.has(order.length)) {
+      const right = order.filter((w) => firstResults[w] === "correct");
+      if (right.length) {
+        builtAfter.current.add(order.length);
+        setLastGrade(null);
+        startBuild(right[right.length - 1], "session");
+        return;
+      }
+    }
     advanceWord();
   }
 
@@ -816,55 +902,70 @@ export default function App() {
 
   /* ============================ RENDER ============================ */
 
-  if (screen === "splash" || !state) {
-    return <Frame><div className="wq-center"><div className="wq-float" style={{ fontSize: 56 }}>🚀</div>
-      <p style={{ marginTop: 12, fontWeight: 800, color: C.ink }}>Loading Word Quest…</p></div></Frame>;
+  /* THE ROUTER, in its own function. It grows by one branch every time a
+     screen is added, and App is measured by the quality lint at a
+     complexity ceiling of 15 (G6) - which Build-it's screen reached. A
+     function per job keeps each one under its own budget instead of
+     asking the owner to raise a ceiling for a routing table. */
+  function renderScreen() {
+    if (screen === "splash" || !state) {
+      return <Frame><div className="wq-center"><div className="wq-float" style={{ fontSize: 56 }}>🚀</div>
+        <p style={{ marginTop: 12, fontWeight: 800, color: C.ink }}>Loading Word Quest…</p></div></Frame>;
+    }
+
+    const L = LEVELS[state.level - 1];
+    const kid = state.settings.childName;
+
+    if (screen === "build" && build) {
+      return <BuildItScreen tray={build} playWord={playBuildWord} playSounds={playBuildSounds}
+        soundIdOf={soundIdFor} soundIdsOf={soundIdsFor}
+        onDone={endBuild} onExit={endBuild} />;
+    }
+
+    if (screen === "home") {
+      return <HomeScreen state={state} L={L} kid={kid} masteredCount={masteredCount}
+        persistent={persistent} readOnly={readOnly}
+        onBegin={beginSession} onFreePlay={() => setFpChooser(true)} onParent={() => setScreen("parent")}
+        fpChooser={fpChooser} onFreePlayChoose={beginFreePlay} onFreePlayCancel={cancelFpChooser} toast={toast} />;
+    }
+
+    if (screen === "session" && currentWord) {
+      return <SessionScreen state={state} L={L} kid={kid} currentWord={currentWord}
+        phase={phase} lastGrade={lastGrade} order={order}
+        firstResults={firstResults} answered={answered} totalQ={totalQ}
+        advanceReady={advanceReady} waitMs={waitMs} waitFrom={waitFrom} finishes={finishes}
+        pops={pops}
+        sentence={sentence} sentencePhase={sentencePhase} gradeSentence={gradeSentence}
+        openWord={openWord} onTapWord={tapSentenceWord} endSentence={endSentence}
+        freePlay={freePlay} fpCount={fpCount} fpMode={fpMode.current}
+        seenTwice={seenTwice} exitAsk={exitAsk}
+        onExitAsk={askExit} grade={grade} next={next} skipReveal={skipReveal}
+        replay={replay}
+        handleExit={handleExit} advanceRef={advanceRef} toast={toast} />;
+    }
+
+    if (screen === "pre" && preQ[preQi]) {
+      return <PreSessionScreen state={state} item={preQ[preQi]} phase={prePhase} lastGrade={preGrade}
+        answered={preQi + (prePhase === "feedback" ? 1 : 0)} totalQ={preQ.length}
+        advanceReady={preAdvanceReady} finishes={preQi + 1 >= preQ.length}
+        onExitAsk={exitPre} grade={gradePre} next={nextPre} replayPrompt={playPrePrompt} />;
+    }
+
+    if (screen === "predone" && preDone) {
+      return <PreDoneScreen preDone={preDone} onHome={() => setScreen("home")} />;
+    }
+
+    if (screen === "done" && doneStats) {
+      return <DoneScreen doneStats={doneStats} kid={kid} onHome={() => setScreen("home")} toast={toast} />;
+    }
+
+    return <ParentScreen state={state} nameDraft={nameDraft} setNameDraft={setNameDraft}
+      commitName={commitName} setSound={setSound} setLang={setLang} setUpdateCheck={setUpdateCheck}
+      jumpLevel={jumpLevel} jumpPreLevel={jumpPreLevel} openLevels={openLevels} setOpenLevels={setOpenLevels}
+      copyLog={copyLog} copyBox={copyBox} resetStage={resetStage} setResetStage={setResetStage}
+      doReset={doReset} onBack={() => { setResetStage(0); setCopyBox(""); setScreen("home"); }}
+      voiceFallback={voiceFallback} onExportJSON={exportJSON} onImportJSON={importJSON} toast={toast} />;
   }
 
-  const L = LEVELS[state.level - 1];
-  const kid = state.settings.childName;
-
-  if (screen === "home") {
-    return <HomeScreen state={state} L={L} kid={kid} masteredCount={masteredCount}
-      persistent={persistent} readOnly={readOnly}
-      onBegin={beginSession} onFreePlay={() => setFpChooser(true)} onParent={() => setScreen("parent")}
-      fpChooser={fpChooser} onFreePlayChoose={beginFreePlay} onFreePlayCancel={cancelFpChooser} toast={toast} />;
-  }
-
-  if (screen === "session" && currentWord) {
-    return <SessionScreen state={state} L={L} kid={kid} currentWord={currentWord}
-      phase={phase} lastGrade={lastGrade} order={order}
-      firstResults={firstResults} answered={answered} totalQ={totalQ}
-      advanceReady={advanceReady} waitMs={waitMs} waitFrom={waitFrom} finishes={finishes}
-      pops={pops}
-      sentence={sentence} sentencePhase={sentencePhase} gradeSentence={gradeSentence}
-      openWord={openWord} onTapWord={tapSentenceWord} endSentence={endSentence}
-      freePlay={freePlay} fpCount={fpCount} fpMode={fpMode.current}
-      seenTwice={seenTwice} exitAsk={exitAsk}
-      onExitAsk={askExit} grade={grade} next={next} skipReveal={skipReveal}
-      replay={replay}
-      handleExit={handleExit} advanceRef={advanceRef} toast={toast} />;
-  }
-
-  if (screen === "pre" && preQ[preQi]) {
-    return <PreSessionScreen state={state} item={preQ[preQi]} phase={prePhase} lastGrade={preGrade}
-      answered={preQi + (prePhase === "feedback" ? 1 : 0)} totalQ={preQ.length}
-      advanceReady={preAdvanceReady} finishes={preQi + 1 >= preQ.length}
-      onExitAsk={exitPre} grade={gradePre} next={nextPre} replayPrompt={playPrePrompt} />;
-  }
-
-  if (screen === "predone" && preDone) {
-    return <PreDoneScreen preDone={preDone} onHome={() => setScreen("home")} />;
-  }
-
-  if (screen === "done" && doneStats) {
-    return <DoneScreen doneStats={doneStats} kid={kid} onHome={() => setScreen("home")} toast={toast} />;
-  }
-
-  return <ParentScreen state={state} nameDraft={nameDraft} setNameDraft={setNameDraft}
-    commitName={commitName} setSound={setSound} setLang={setLang} setUpdateCheck={setUpdateCheck}
-    jumpLevel={jumpLevel} jumpPreLevel={jumpPreLevel} openLevels={openLevels} setOpenLevels={setOpenLevels}
-    copyLog={copyLog} copyBox={copyBox} resetStage={resetStage} setResetStage={setResetStage}
-    doReset={doReset} onBack={() => { setResetStage(0); setCopyBox(""); setScreen("home"); }}
-    voiceFallback={voiceFallback} onExportJSON={exportJSON} onImportJSON={importJSON} toast={toast} />;
+  return renderScreen();
 }
