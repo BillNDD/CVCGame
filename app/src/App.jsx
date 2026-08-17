@@ -951,8 +951,7 @@ export default function App() {
 
     if (screen === "build" && build) {
       return <BuildItScreen tray={build} playWord={playBuildWord} playSounds={playBuildSounds}
-        soundIdOf={soundIdFor} soundIdsOf={soundIdsFor}
-        onDone={endBuild} onExit={endBuild} />;
+        soundIdsOf={soundIdsFor} onDone={endBuild} onExit={endBuild} />;
     }
 
     if (screen === "home") {

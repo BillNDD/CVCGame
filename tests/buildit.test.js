@@ -66,7 +66,6 @@ function mount(word, level = 2, onDone = () => {}) {
     tray,
     playWord: (w) => played.push("word:" + w),
     playSounds: (ids, then) => { played.push("sounds:" + ids.join(",")); if (then) then(); },
-    soundIdOf: (t) => "d:" + t,
     soundIdsOf: (w) => chunkWord(w).map((c) => "d:" + c),
     onDone, onExit: onDone,
   }));
@@ -82,7 +81,11 @@ describe("Build-it writes nothing to the record", () => {
     const src = readFileSync("app/src/screens/BuildItScreen.jsx", "utf8");
     /* The names that reach the record in this app. A screen that holds none of
        them cannot write to it, whatever it does with its own useState. */
-    const WRITERS = /\b(persist|saveState|setState\(|mutate\(|applyResult|checkPromotion|localStorage)\b/g;
+    /* No trailing \b after a bracket: it only matches when a word character
+       follows, so "setState(" and "mutate(" would have been missed on every
+       real call — setState((prev) => …) has a bracket next. The fixture
+       controls happened to pick the one spelling that worked. */
+    const WRITERS = /\b(persist|saveState|applyResult|checkPromotion|localStorage)\b|\b(setState|mutate)\s*\(/g;
     const offenders = (text) => [...text.matchAll(WRITERS)].map((m) => m[0]);
     expect(offenders(src)).toEqual([]);
     /* Fixture controls: the scan must fire on each kind of write, or an empty
@@ -90,6 +93,8 @@ describe("Build-it writes nothing to the record", () => {
     expect(offenders("persist(s);")).toEqual(["persist"]);
     expect(offenders("saveState(next);")).toEqual(["saveState"]);
     expect(offenders("setState(s => s);")).toEqual(["setState("]);
+    expect(offenders("setState((prev) => prev);")).toEqual(["setState("]);
+    expect(offenders("mutate( s => s );")).toEqual(["mutate("]);
     expect(offenders("localStorage.setItem('x', 1);")).toEqual(["localStorage"]);
     /* And the strongest form: the REAL source with one line added must fail.
        A scan proved only against hand-written fixtures can still be looking at
@@ -97,12 +102,21 @@ describe("Build-it writes nothing to the record", () => {
     expect(offenders(src + "\n  persist(stateRef.current);\n")).toEqual(["persist"]);
   });
 
-  it("2: a completed build saves nothing", async () => {
+  it("2: a completed build saves nothing — and the probe can see a save", async () => {
     const tray = mount("cat");
     for (const t of tray.answer) fireEvent.click(tileFor(t)[0]);
     await flush(50);
     expect(saves).toEqual([]);
     expect(screen.getByText(/You built cat/)).toBeTruthy();
+    /* THE CONTROL. The screen cannot reach storage.js from its own import tree,
+       so an empty `saves` would be empty however the screen behaved — the
+       assertion above proves nothing by itself. Firing the mocked saver proves
+       the probe is wired and CAN report a write. Without this the test is a
+       mock presented as proof the real feature works, which CLAUDE.md refuses
+       by name. */
+    const { saveState } = await import("../app/src/storage.js");
+    saveState({ marker: 1 });
+    expect(saves).toEqual([{ marker: 1 }]);
   });
 
   it("3: no adult mark exists anywhere on the screen (D4)", () => {
@@ -120,10 +134,33 @@ describe("Build-it's loop", () => {
     expect(played.some((p) => p.startsWith("sounds:"))).toBe(false);
   });
 
-  it("5: a tile plays its own sound as it is placed", () => {
-    const tray = mount("cat");
-    fireEvent.click(tileFor(tray.answer[0])[0]);
-    expect(played).toContain("sounds:d:" + tray.answer[0]);
+  it("5: a tile plays the sound it makes IN THIS WORD, not the letter's default", () => {
+    /* his bends s to /z/. The tile must say /z/ - the screen once derived the
+       sound from the letter, so the s tile said /s/ while the word said /z/,
+       and the four units with no default were silent altogether. */
+    const tray = mount("his", 8);
+    const sTile = tray.tiles.indexOf("s");
+    expect(tray.sounds[sTile]).toBe("d:z");
+    fireEvent.click(tiles()[sTile]);
+    expect(played).toContain("sounds:d:z");
+  });
+
+  it("5b: no tray tile is ever silent", async () => {
+    const { bankWords, buildable, WORD_LEVEL, buildTray: bt } = await import("../src/engine.js");
+    const shipped = new Set(Object.keys(JSON.parse(readFileSync("app/public/voice/manifest.json", "utf8"))));
+    let silent = 0, checked = 0;
+    for (const w of bankWords()) {
+      if (!buildable(w)) continue;
+      for (const r of [0.1, 0.5, 0.9]) {
+        const t = bt(w, WORD_LEVEL[w] || 1, () => r);
+        checked += 1;
+        if (t.sounds.some((id) => !shipped.has(id))) silent += 1;
+      }
+    }
+    expect(checked).toBeGreaterThan(1400);
+    expect(silent).toBe(0);
+    /* the control: an id the pack does not hold must be seen as silent */
+    expect(shipped.has("d:ou")).toBe(false);
   });
 
   it("6: a word whose sound repeats can still be built", async () => {

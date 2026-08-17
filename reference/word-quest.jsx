@@ -1373,7 +1373,24 @@ function buildTray(word, level, rand = Math.random) {
      a retry loop cannot end when rand is held still, and a held rand is
      exactly what a test uses. This one hung the suite before it was caught. */
   const extras = shuffle(pool, rand).slice(0, Math.min(trayExtras(level), pool.length));
-  return { word, slots: own.length, answer: own, tiles: shuffle([...own, ...extras], rand) };
+  /* EVERY TILE CARRIES ITS OWN SOUND, decided here and never re-derived from
+     the letter later. A tile that belongs to the word plays the sound it makes
+     IN THAT WORD - his's s says /z/ - and a distractor, which has no word
+     behind it, plays its default.
+
+     Deriving it from the letter at tap time was the fault: the screen played
+     soundIdFor(letter) for a tile and soundIdsFor(word) for the celebration,
+     two different maps in one turn. Five words then had a SILENT tile, because
+     the four units with no ruled default have no default clip to play - tap
+     the ou in "you" and nothing happened, in the mode whose whole feedback is
+     that sound - and 42 more had a tile that said something the word does not.
+     Found by a fresh-context debug agent, 2026-08-17. */
+  const bent = soundIdsFor(word);
+  const pairs = own.map((c, i) => ({ tile: c, sound: bent[i] }))
+    .concat(extras.map((c) => ({ tile: c, sound: soundIdFor(c) })));
+  const deck = shuffle(pairs, rand);
+  return { word, slots: own.length, answer: own,
+    tiles: deck.map((p) => p.tile), sounds: deck.map((p) => p.sound) };
 }
 /* A plan entry that is a pause rather than a clip. Both seams live here, so a
    pause can never be mistaken for a missing clip: reading "seam2" as a clip id

@@ -1764,7 +1764,7 @@ live while the last sound played; callbacks that outlived the screen; a breather
 never fired after the first session of a page load; a mode that says nothing at all with
 sound switched off. What it found and is NOT fixed is here.
 
-**Q1. The screen has no test.** `app/src/screens/BuildItScreen.jsx` is not named in any
+**Q1. FIXED 2026-08-17.** The screen has no test. `app/src/screens/BuildItScreen.jsx` is not named in any
 suite. D1's chooser row, D4's absence of adult marks and all of D5 are unproved, and the
 mode's load-bearing claim — that it writes nothing to the record — has no tripwire, while
 the analogous free-play claim has one (`tests/safety.test.js`, a source scan with fixture
@@ -1781,7 +1781,7 @@ the S6 network scan in `tests/safety.test.js` and the file list in `tools/doc-tr
 Done means all three know the file — and, because the copy is new and child-facing, that
 the owner has approved the sentences.
 
-**Q3, for the owner. A child can build a word the owner ruled out.** The tray's
+**Q3. FIXED 2026-08-17, owner-asked.** A child can build a word the owner ruled out. The tray's
 distractors make other words reachable, and a miss prints and SPEAKS what the child
 built: a Level 6 child building "dog" with a b distractor hears "That says g-o-b". gob was
 removed from the bank on 2026-08-13 so it could not return by accident, and this returns
@@ -1797,10 +1797,30 @@ the build starts, and the decision that re-queues the word reads it. The sentenc
 has the same shape and predates Build-it, so this is one fault in two places rather than a
 new one, and it is a real loss to a child — the word they got wrong does not come back.
 
-**Q5. A service-worker refresh can take the screen away mid-build.** `app/src/swrefresh.js`
+**Q5. FIXED 2026-08-17.** A service-worker refresh can take the screen away mid-build. `app/src/swrefresh.js`
 treats "any screen except a live session" as a safe moment, and the breather is a live
 session under a new screen name. The pre-letter ladder has the same hole and predates this.
 
 **Q6. The pre-ladder child is offered Build-it.** Free play offers "Build a word" to a
 child who has not yet met a letter, which is a whole-word build before the ladder's first
 step. Probably wrong; needs a ruling.
+
+**Q7. FIXED 2026-08-17 — five words had a SILENT tile, and 42 had a lying one.**
+Found by a fresh-context debug agent, outside the six it was given. The screen took a
+tile's sound from the LETTER while taking the celebration's sounds from the WORD: two maps
+in one turn. For out, said, there, they and you the letter's map has no clip at all — the
+four units S8 says have no ruled default — so tapping the ou in "you" played nothing, in
+the mode whose entire feedback is that sound, and a miss holding that tile silenced the
+whole sound-out rather than one tile. For 42 more the tile contradicted the word: his's s
+said /s/ while the word said /z/. Every tray tile now carries its own sound, decided when
+the tray is built — the word's bent sound for a tile that belongs to it, the default for a
+distractor, which has no word behind it. A test sweeps every buildable word at three draws
+and requires no tile to be silent, with a control that the pack really does lack d:ou.
+
+Two faults in the day's own new test file, also found there and also fixed: the
+no-writes tripwire's regex ended in a word boundary after a bracket, so `setState(` and
+`mutate(` would have been missed on every real call — the fixture controls happened to
+pick the one spelling that matched; and the "a completed build saves nothing" test was
+vacuous, because the screen cannot reach the storage module from its own import tree, so
+the probe would have been empty however the screen behaved. It now fires the mocked saver
+and requires the probe to report it.

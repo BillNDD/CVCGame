@@ -25,8 +25,10 @@ const SLOT = 64, TILE = 64;
    width is per letter beyond the first, so a trigraph is wider still. */
 const slotWidth = (tile) => SLOT + (Math.max(1, (tile || "").length) - 1) * 26;
 
-export default function BuildItScreen({ tray, level, playSounds, playWord, onDone, onExit,
-  soundIdOf, soundIdsOf }) {
+/* `tray.sounds` is parallel to `tray.tiles`: the sound each tile makes in THIS
+   word, decided when the tray was built. The screen never derives a sound from
+   a letter - that is what made five words' tiles silent. */
+export default function BuildItScreen({ tray, playSounds, playWord, onDone, onExit, soundIdsOf }) {
   /* A slot holds the INDEX of the tray tile in it, never the letter. Holding
      the letter deduped by grapheme, so a word with a repeated sound had one
      tile that could not be placed at all: dad is d-a-d, and its second d was
@@ -69,7 +71,9 @@ export default function BuildItScreen({ tray, level, playSounds, playWord, onDon
      owner heard the celebration start over the top of /n/. `check` now runs
      when that sound has finished, which the pack reports. */
   const at = (idx) => (idx === null ? null : tray.tiles[idx]);
+  const soundAt = (idx) => tray.sounds[idx];
   const builtFrom = (arr) => arr.map(at);
+  const soundsFrom = (arr) => arr.map(soundAt);
 
   function place(idx) {
     if (won || judging.current) return;
@@ -87,7 +91,7 @@ export default function BuildItScreen({ tray, level, playSounds, playWord, onDon
        judged - a celebration over an empty slot, or a miss against something
        already dismantled. */
     if (full) judging.current = true;
-    playSounds([soundIdOf(at(idx))], full ? () => { judging.current = false; check(builtFrom(next)); } : undefined);
+    playSounds([soundAt(idx)], full ? () => { judging.current = false; check(builtFrom(next), soundsFrom(next)); } : undefined);
   }
 
   function lift(i) {
@@ -98,10 +102,10 @@ export default function BuildItScreen({ tray, level, playSounds, playWord, onDon
     slotsRef.current = next;
     setSlots(next);
     setMsg("");
-    playSounds([soundIdOf(at(idx))]);
+    playSounds([soundAt(idx)]);
   }
 
-  function check(built) {
+  function check(built, builtSounds) {
     if (!alive.current) return;
     if (built.join("") === tray.answer.join("")) {
       setWon(true);
@@ -115,7 +119,7 @@ export default function BuildItScreen({ tray, level, playSounds, playWord, onDon
     setMsg("That says " + built.join("‑") + "… listen again.");
     /* What the child BUILT, in their own tiles, then the target. A miss the
        child can hear is a miss the child can fix. */
-    playSounds(built.map(soundIdOf), () => {
+    playSounds(builtSounds, () => {
       if (!alive.current) return;
       playWord(tray.word);
       if (n >= 2) later(scaffold, 900);
@@ -132,7 +136,7 @@ export default function BuildItScreen({ tray, level, playSounds, playWord, onDon
     slotsRef.current = tray.answer.map(() => null);
     setSlots(slotsRef.current);
     tray.answer.forEach((tile, i) => {
-      later(() => { setGhost(i); playSounds([soundIdOf(tile)]); }, i * 900);
+      later(() => { setGhost(i); playSounds([tray.sounds[tray.tiles.indexOf(tile)]]); }, i * 900);
       later(() => setGhost(null), i * 900 + 700);
     });
   }

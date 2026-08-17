@@ -8,7 +8,7 @@ Per-test rows carry the test's own sentence, which in this project IS the
 Given/When/Then effect. The requirement, oracle, platform, mutant family, evidence
 and known limits are declared per FILE, in the tool, where they stay true.
 
-Totals: 333 it() SITES across 15 files, plus 18 gates that are not test files.
+Totals: 334 it() SITES across 15 files, plus 18 gates that are not test files.
 
 A site inside a loop or a table runs many times, so these rows describe more tests than they number: Vitest executes 330. The rows count the places behaviour is asserted.
 
@@ -34,7 +34,7 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 8 | G10 — the text a grown-up reads on the child | 27: one completed session counts as  |
 | 9 | G10 — the text a grown-up reads on the child | 28 (control): two sessions still count as  |
 
-## tests/buildit.test.js — 8 tests (G10)
+## tests/buildit.test.js — 9 tests (G10)
 
 - **Requirement protected:** SPEC section 12: Build-it writes nothing to the record, speaks the word before the tiles, and ends every attempt in success
 - **Independent oracle:** A source tripwire with fixture controls and a real-source mutation, plus a walked loop with a held tray
@@ -47,13 +47,14 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | # | Suite | Effect (the test's own sentence) |
 |---|---|---|
 | 1 | Build-it writes nothing to the record | 1: source tripwire — the screen touches no state that is saved |
-| 2 | Build-it writes nothing to the record | 2: a completed build saves nothing |
+| 2 | Build-it writes nothing to the record | 2: a completed build saves nothing — and the probe can see a save |
 | 3 | Build-it writes nothing to the record | 3: no adult mark exists anywhere on the screen (D4) |
 | 4 | Build-it | 4: the word is spoken first, and the tiles are not |
-| 5 | Build-it | 5: a tile plays its own sound as it is placed |
-| 6 | Build-it | 6: a word whose sound repeats can still be built |
-| 7 | Build-it | 7: a miss says what the child actually built, and the tray is not locked |
-| 8 | Build-it | 8: after the second miss, the letter is shown in its own slot |
+| 5 | Build-it | 5: a tile plays the sound it makes IN THIS WORD, not the letter |
+| 6 | Build-it | 5b: no tray tile is ever silent |
+| 7 | Build-it | 6: a word whose sound repeats can still be built |
+| 8 | Build-it | 7: a miss says what the child actually built, and the tray is not locked |
+| 9 | Build-it | 8: after the second miss, the letter is shown in its own slot |
 
 ## tests/engine.test.js — 112 tests (G1)
 
