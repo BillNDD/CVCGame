@@ -7,7 +7,7 @@ import {
   migrate, newState, buildMarkdown, feedbackSpeech, PRAISE, speak, hush, buzz, ttsSafePraise, ttsSafeWord,
   sessionSentences, sentencePlan, sentenceClosePlan, revealWord, revealWordLongest,
   sentencesUpTo, shuffle, REVEAL_LINES, SENTENCE_PRAISE, sentenceLead,
-  buildTray, soundIdFor, soundIdsFor,
+  buildTray, soundIdFor, soundIdsFor, buildable,
 } from "@engine";
 /* W3 — the storage adapter is IndexedDB in the standalone app. */
 import { loadState, saveState } from "./storage.js";
@@ -352,10 +352,16 @@ export default function App() {
      when a child has mastered too few, so a new player is never stuck. */
   function buildWordFor(s) {
     const mastered = Object.entries(s.words).filter(([, ws]) => ws.box >= 4).map(([w]) => w);
-    const pool = mastered.length >= 3 ? mastered : LEVELS[s.level - 1].words;
+    const chosen = mastered.length >= 3 ? mastered : LEVELS[s.level - 1].words;
+    /* A word whose own tiles spell a word the owner ruled out is never offered:
+       no choice of distractors can make it safe. Measured over the bank that is
+       exactly one word, sift, which is an anagram of fist. */
+    const pool = chosen.filter(buildable);
+    if (!pool.length) return null;
     return pool[Math.floor(Math.random() * pool.length)];
   }
   function startBuild(word, back) {
+    if (!word) return;
     const s = stateRef.current;
     buildBack.current = back;
     setBuild(buildTray(word, s.level));
@@ -709,10 +715,11 @@ export default function App() {
         && qi + 1 < queue.length
         && !builtAfter.current.has(order.length)) {
       const right = order.filter((w) => firstResults[w] === "correct");
-      if (right.length) {
+      const offerable = right.filter(buildable);
+      if (offerable.length) {
         builtAfter.current.add(order.length);
         setLastGrade(null);
-        startBuild(right[right.length - 1], "session");
+        startBuild(offerable[offerable.length - 1], "session");
         return;
       }
     }

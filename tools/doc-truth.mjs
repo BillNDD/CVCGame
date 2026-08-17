@@ -46,7 +46,7 @@
    Run: node tools/doc-truth.mjs */
 import { readFileSync } from "node:fs";
 
-const { LEVELS } = await import("../src/engine.js");
+const { LEVELS, NEVER_BUILD } = await import("../src/engine.js");
 
 const problems = [];
 const rule = (okay, name, detail) => {
@@ -245,6 +245,27 @@ function run(d) {
       found.push(`the gate specification says ${key} is ${stated}, the baseline enforces ${baseline[key]}`);
   }
 
+  /* Every word SPEC rules out for child-appropriateness must be a word the
+     engine refuses to let a child BUILD. The two lists lived apart for a day
+     and a tray handed gob back - the word SPEC says was removed "so it cannot
+     return by accident". A subset check, not equality: the engine may be
+     stricter (it also refuses the ruled-out plurals), never looser. */
+  rules += 1;
+  {
+    const said = /Words ruled out for child-appropriateness \(2026-08-07\): ([^;]+);/.exec(d.spec);
+    /* "hunt, fist, limp, bone, buns, dump, and milt" - the Oxford comma
+       leaves "and milt" on the last item, so the word is stripped per ITEM
+       rather than from the sentence. The first version reported that the
+       engine would let a child build "and milt". */
+    const ruled = said
+      ? said[1].split(",").map((w) => w.replace(/^\s*and\s+/, "").trim()).filter(Boolean)
+      : [];
+    if (!ruled.length) found.push("SPEC's child-appropriateness sentence could not be read, so this rule is checking nothing");
+    for (const w of ruled.concat(["gob"]))
+      if (!NEVER_BUILD.includes(w))
+        found.push(`SPEC rules out "${w}" but the engine would let a child build it: add it to NEVER_BUILD in reference/word-quest.jsx`);
+  }
+
   /* The approved backlog the voice-pack document reports must be the backlog
      the ledger holds. Owner time is the scarcest thing this project spends,
      and a heading that undercounts it hides the debt rather than paying it. */
@@ -342,6 +363,19 @@ if (process.argv.includes("--self-test")) {
      baseline: the exact drift found on 2026-08-10. */
   const floorCorrupt = { ...real, gauntletDoc: real.gauntletDoc.replace(/`g20_tests_mapped` \(\d+\)/, "`g20_tests_mapped` (1)") };
   seen.floor = run(floorCorrupt).found.some((p) => p.includes("g20_tests_mapped"));
+
+  /* A word the owner rules out must be a word no tray can spell. Both halves
+     are planted: a SPEC that names a word the engine does not refuse must be
+     reported, and a SPEC whose sentence has moved must report that it is
+     checking nothing rather than passing on an empty list. */
+  const looseSpec = { ...real, spec: real.spec.replace(
+    /Words ruled out for child-appropriateness \(2026-08-07\): [^;]+;/,
+    "Words ruled out for child-appropriateness (2026-08-07): hunt, fist, and zzztest;") };
+  const blindSpec = { ...real, spec: real.spec.replace(
+    /Words ruled out for child-appropriateness \(2026-08-07\):/, "Words once ruled out:") };
+  seen.neverBuild = run(looseSpec).found.some((p) => p.includes('rules out "zzztest"'))
+    && run(blindSpec).found.some((p) => p.includes("checking nothing"))
+    && !run(real).found.some((p) => p.includes("rules out"));
 
   /* The exact fault this rule was written from: the heading kept the count of
      an earlier batch while the owner went on approving. Both directions are

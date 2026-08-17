@@ -1308,6 +1308,40 @@ function tileSlots(plan) {
    These are the only graphemes barred outright: alone they can say nothing
    true, because every word that uses them bends them. */
 const NO_TRAY_UNITS = ["ai", "ou", "ey", "ere"];
+/* Words a child must never be able to BUILD. SPEC section 12 owns this list -
+   these are the words the owner ruled out for child-appropriateness, and gob,
+   which was removed from every file on 2026-08-13 "so it cannot return by
+   accident". A tray returns it by accident: building "dog" with a b distractor
+   spells it, and the miss feedback then prints and SPEAKS what the child made.
+   A doc-truth rule holds this list against SPEC's own sentence, so a word the
+   owner rules out later cannot be ruled out in one place only.
+   Found by an independent review of Build-it, 2026-08-17. */
+const NEVER_BUILD = ["hunt", "fist", "limp", "bone", "buns", "dump", "milt", "gob",
+  "jugs", "crabs"];
+/* Can these tiles, in some order, spell a word from that list? A tray is a
+   multiset, so a tile is consumed once per slot: "dad" holds two d tiles and
+   spells nothing with one. */
+function traySpells(tiles, word, slots) {
+  const want = chunkWord(word);
+  /* The child fills SLOTS, not the whole tray, so a forbidden word is reachable
+     when it is the right LENGTH for the slots and its tiles are available -
+     never when it merely matches the tray's own size. Checking tray length was
+     the first version's fault: it reported dog + b as safe, and dog + b is how
+     a child spells gob. */
+  if (want.length !== slots) return false;
+  const left = tiles.slice();
+  return want.every((c) => {
+    const at = left.indexOf(c);
+    if (at < 0) return false;
+    left.splice(at, 1);
+    return true;
+  });
+}
+const trayForbidden = (tiles, slots) => NEVER_BUILD.some((w) => traySpells(tiles, w, slots));
+/* A word whose OWN tiles spell a forbidden one cannot be made safe by choosing
+   distractors, so it is not offered at all. Measured over the bank: exactly one,
+   sift, which is an anagram of fist. */
+const buildable = (word) => !trayForbidden(chunkWord(word), chunkWord(word).length);
 /* Every grapheme a child has met at or below this level. Drawn from the bank
    itself, so a word added to a level brings its graphemes with it. */
 function trayPool(level) {
@@ -1333,7 +1367,8 @@ const trayExtras = (level) => (level <= 5 ? 0 : level <= 14 ? 1 : 2);
 const trayClash = (word, c) => soundIdsFor(word).includes(soundIdFor(c));
 function buildTray(word, level, rand = Math.random) {
   const own = chunkWord(word);
-  const pool = trayPool(level).filter((c) => !own.includes(c) && !trayClash(word, c));
+  const pool = trayPool(level).filter((c) => !own.includes(c) && !trayClash(word, c)
+    && !trayForbidden(own.concat([c]), own.length));
   /* Drawn by shuffling and taking, never by retrying until the picks differ:
      a retry loop cannot end when rand is held still, and a held rand is
      exactly what a test uses. This one hung the suite before it was caught. */

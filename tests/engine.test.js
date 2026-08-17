@@ -10,7 +10,7 @@ import {
   SEAM_MS, SOUNDOUT_SEAM_MS, voiceScript, clipPlan, resolvePack, TTS_UNSAFE_PRAISE, ttsSafePraise,
   SENTENCE_PRAISE, sentenceLead,
   soundInventory, bankWords, soundIdFor, soundIdsFor, tileSlots, isSeam, seamMs, WORD_SOUND, isSecure,
-  buildTray, trayPool, trayExtras, trayClash,
+  buildTray, trayPool, trayExtras, trayClash, trayForbidden, buildable, NEVER_BUILD,
   SENTENCES, REVEAL_LINES, REVEAL_LINE_TEXT, sentenceWords, revealWord,
 } from "../src/engine.js";
 import { check as decodableCheck } from "../tools/decodable.mjs";
@@ -1282,6 +1282,32 @@ describe("Build-it tray", () => {
         pool.splice(at, 1);
       }
     }
+  });
+
+  /* No tray may let a child SPELL a word the owner ruled out. Building "dog"
+     with a b distractor spells gob, which SPEC says was removed from every file
+     "so it cannot return by accident" - and the miss feedback prints and speaks
+     what the child built. Found by an independent review, 2026-08-17. */
+  it("refuses a distractor that would let a child spell a ruled-out word", () => {
+    expect(trayForbidden(["d", "o", "g", "b"], 3)).toBe(true);    // gob
+    expect(trayForbidden(["d", "o", "g", "m"], 3)).toBe(false);
+    expect(trayForbidden(["h", "u", "n", "t"], 4)).toBe(true);    // hunt
+    /* The length rule: a forbidden word must FIT the slots. Four tiles cannot
+       spell a three-sound word when all four must be placed. */
+    expect(trayForbidden(["g", "o", "b", "d"], 4)).toBe(false);
+    for (const r of [0.05, 0.3, 0.6, 0.9])
+      for (const w of ["dog", "log", "big", "job", "melt", "milk"]) {
+        const t = buildTray(w, 21, () => r);
+        expect(trayForbidden(t.tiles, t.slots)).toBe(false);
+      }
+  });
+
+  it("never offers a word whose own tiles spell a ruled-out one", () => {
+    expect(buildable("sift")).toBe(false);      // an anagram of fist
+    expect(buildable("dog")).toBe(true);
+    expect(NEVER_BUILD).toContain("gob");
+    expect(NEVER_BUILD).toContain("milt");
+    expect(NEVER_BUILD.length).toBe(10);
   });
 
   it("is reproducible: the same rand builds the same tray", () => {
