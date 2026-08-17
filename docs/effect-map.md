@@ -8,7 +8,7 @@ Per-test rows carry the test's own sentence, which in this project IS the
 Given/When/Then effect. The requirement, oracle, platform, mutant family, evidence
 and known limits are declared per FILE, in the tool, where they stay true.
 
-Totals: 311 it() SITES across 14 files, plus 18 gates that are not test files.
+Totals: 319 it() SITES across 14 files, plus 18 gates that are not test files.
 
 A site inside a loop or a table runs many times, so these rows describe more tests than they number: Vitest executes 330. The rows count the places behaviour is asserted.
 
@@ -34,7 +34,7 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 8 | G10 — the text a grown-up reads on the child | 27: one completed session counts as  |
 | 9 | G10 — the text a grown-up reads on the child | 28 (control): two sessions still count as  |
 
-## tests/engine.test.js — 99 tests (G1)
+## tests/engine.test.js — 107 tests (G1)
 
 - **Requirement protected:** SPEC sections 3-4: the word bank, levels, chunking, the Leitner ladder, session shape and the reveal plan
 - **Independent oracle:** Literal expected values written from SPEC by hand (E4). Never the constant under test.
@@ -145,6 +145,14 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 97 | G1 — the system voice is never given a word it says wrongly | 77: the clip plan carries the new line to the pack |
 | 98 | G1 — the system voice is never given a word it says wrongly | 78: the sentence praise roster is exactly the rows that never say \ |
 | 99 | G1 — the system voice is never given a word it says wrongly | 79: the sentence lead is the grade |
+| 100 | Build-it tray | gives the word its true number of slots, never a padded one |
+| 101 | Build-it tray | ramps the extra tiles: none, then one from Level 6, then two past 14 |
+| 102 | Build-it tray | always offers every tile the answer needs |
+| 103 | Build-it tray | never offers a distractor that is one of the word |
+| 104 | Build-it tray | keeps units with no ruled default out of the pool |
+| 105 | Build-it tray | keeps a grapheme some word bends out of the pool |
+| 106 | Build-it tray | only draws graphemes a child at that level has met |
+| 107 | Build-it tray | is reproducible: the same rand builds the same tray |
 
 ## tests/faults.test.js — 13 tests (G9)
 

@@ -393,9 +393,12 @@ function applyResult(ws, result, sessionNumber) {
   return ws;
 }
 
-function shuffle(arr) {
+/* `rand` is a parameter with the old behaviour as its default: Build-it's tray
+   must be reproducible in a test, and a shuffle that reaches for Math.random
+   itself cannot be held still. Every existing caller is unchanged. */
+function shuffle(arr, rand = Math.random) {
   const a = arr.slice();
-  for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; }
+  for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(rand() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; }
   return a;
 }
 
@@ -1285,6 +1288,58 @@ function tileSlots(plan) {
   let t = 0;
   for (let i = 0; i < plan.length; i++) if (String(plan[i]).startsWith("d:")) slots.push({ index: i, tile: t++ });
   return slots;
+}
+/* ---------------- Build-it: the tray a child assembles a word from ----------
+   SPEC section 12, owner-ruled 2026-08-17. The app speaks a word the child
+   already knows and the child builds it from sound tiles. It speaks FIRST, so
+   a turn can never be a graded reading attempt, and nothing here writes to any
+   record: practice-only is load-bearing, not a preference.
+
+   THE SLOTS ARE ALWAYS THE WORD'S TRUE SOUND COUNT. That alone teaches
+   segmentation, so a tray never pads or hides a slot.
+
+   A DISTRACTOR MUST STILL SAY A TRUE SOUND. A tile with no word behind it is
+   still a tile a child will tap and hear, so the pool refuses any unit whose
+   sound is decided per word rather than once: the four units with no ruled
+   default (S8, 2026-08-12 and 2026-08-17) and every grapheme some word bends
+   through WORD_SOUND. "his" bends s to /z/, so an s tile beside a word that
+   does not bend it would teach two things at once. */
+const trayBend = () => {
+  const bent = new Set(NO_TRAY_UNITS);
+  for (const [w, bends] of Object.entries(WORD_SOUND))
+    for (const at of Object.keys(bends)) {
+      const c = chunkWord(w)[Number(at)];
+      if (c) bent.add(c);
+    }
+  return bent;
+};
+const NO_TRAY_UNITS = ["ai", "ou", "ey", "ere"];
+/* Every grapheme a child has met at or below this level, minus the ones no
+   tile can honestly say. Drawn from the bank itself, so a word added to a
+   level brings its graphemes with it and nothing needs a second list. */
+function trayPool(level) {
+  const bent = trayBend();
+  const out = new Set();
+  for (const w of bankWords())
+    if ((WORD_LEVEL[w] || 99) <= level)
+      for (const c of chunkWord(w)) if (!bent.has(c)) out.add(c);
+  return [...out].sort();
+}
+/* How many extra tiles the tray offers. The ramp the owner ruled: the word's
+   own tiles shuffled while a child is new, one distractor from Level 6, two
+   past Level 14. */
+const trayExtras = (level) => (level <= 5 ? 0 : level <= 14 ? 1 : 2);
+/* The tray itself. `rand` is passed in so a test can hold the shuffle still;
+   the app passes Math.random. Returns the slots to fill and the tiles to
+   choose from, already shuffled, with the word's own tiles always present. */
+function buildTray(word, level, rand = Math.random) {
+  const own = chunkWord(word);
+  const pool = trayPool(level).filter((c) => !own.includes(c));
+  /* Drawn by shuffling and taking, never by retrying until the picks differ:
+     a retry loop cannot end when rand is held still, and a held rand is
+     exactly what a test uses. This one hung the suite before it was caught. */
+  const extras = shuffle(pool, rand).slice(0, Math.min(trayExtras(level), pool.length));
+  return { word, slots: own.length, answer: own, tiles: shuffle([...own, ...extras], rand) };
 }
 /* A plan entry that is a pause rather than a clip. Both seams live here, so a
    pause can never be mistaken for a missing clip: reading "seam2" as a clip id

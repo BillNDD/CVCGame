@@ -10,6 +10,7 @@ import {
   SEAM_MS, SOUNDOUT_SEAM_MS, voiceScript, clipPlan, resolvePack, TTS_UNSAFE_PRAISE, ttsSafePraise,
   SENTENCE_PRAISE, sentenceLead,
   soundInventory, bankWords, soundIdFor, soundIdsFor, tileSlots, isSeam, seamMs, WORD_SOUND, isSecure,
+  buildTray, trayPool, trayExtras,
   SENTENCES, REVEAL_LINES, REVEAL_LINE_TEXT, sentenceWords, revealWord,
 } from "../src/engine.js";
 import { check as decodableCheck } from "../tools/decodable.mjs";
@@ -1174,5 +1175,76 @@ describe("G1 — the system voice is never given a word it says wrongly", () => 
     expect(sentenceLead("correct", 2)).toBe("p:0");
     expect(sentenceLead("correct", 99)).toBe("p:0");
     expect(sentenceLead("correct")).toBe("p:0");
+  });
+});
+
+/* ---------------- Build-it: the tray (SPEC section 12) ----------------
+   Owner-ruled 2026-08-17. Practice-only: nothing here writes to a record, and
+   these tests exist to keep the tray honest, not to grade anything. */
+describe("Build-it tray", () => {
+  /* A held rand, so a shuffle can be checked rather than hoped at. */
+  const held = (...xs) => { let i = 0; return () => xs[i++ % xs.length]; };
+
+  it("gives the word its true number of slots, never a padded one", () => {
+    expect(buildTray("ship", 2, held(0)).slots).toBe(3);
+    expect(buildTray("cat", 2, held(0)).slots).toBe(3);
+    expect(buildTray("black", 20, held(0)).slots).toBe(4);
+    expect(buildTray("a", 1, held(0)).slots).toBe(1);
+  });
+
+  it("ramps the extra tiles: none, then one from Level 6, then two past 14", () => {
+    expect(trayExtras(1)).toBe(0);
+    expect(trayExtras(5)).toBe(0);
+    expect(trayExtras(6)).toBe(1);
+    expect(trayExtras(14)).toBe(1);
+    expect(trayExtras(15)).toBe(2);
+    expect(trayExtras(21)).toBe(2);
+  });
+
+  it("always offers every tile the answer needs", () => {
+    for (const [w, l] of [["ship", 2], ["ship", 8], ["black", 20], ["think", 19]]) {
+      const t = buildTray(w, l, held(0.1, 0.6, 0.3, 0.9));
+      for (const c of t.answer) expect(t.tiles).toContain(c);
+      expect(t.tiles.length).toBe(t.slots + trayExtras(l));
+    }
+  });
+
+  it("never offers a distractor that is one of the word's own tiles", () => {
+    for (let i = 0; i < 20; i++) {
+      const t = buildTray("ship", 21, held((i % 9) / 10, ((i + 3) % 9) / 10, 0.5));
+      const extra = t.tiles.filter((c) => !t.answer.includes(c));
+      expect(extra.length).toBe(2);
+      expect(new Set(extra).size).toBe(2);
+    }
+  });
+
+  /* The safety of the pool, and the reason for it: a tray tile with no word
+     behind it still plays a sound when a child taps it, so a unit whose sound
+     is decided per word cannot be in there. The four with no ruled default
+     (S8) and every grapheme some word bends are all out. */
+  it("keeps units with no ruled default out of the pool", () => {
+    const pool = trayPool(21);
+    for (const unit of ["ai", "ou", "ey", "ere"]) expect(pool).not.toContain(unit);
+  });
+
+  it("keeps a grapheme some word bends out of the pool", () => {
+    const pool = trayPool(21);
+    expect(pool).not.toContain("s");        // his and is say /z/
+    expect(pool).not.toContain("a");        // want says short o
+    expect(pool).not.toContain("th");       // they and there say the voiced th
+    expect(pool).toContain("ck");           // ck says /k/ in every word that has it
+    expect(pool).toContain("m");
+  });
+
+  it("only draws graphemes a child at that level has met", () => {
+    expect(trayPool(2)).toEqual(["c", "d", "h", "m", "n", "p", "r", "t", "w", "x"]);
+    expect(trayPool(2).length).toBe(10);
+    expect(trayPool(21).length).toBe(31);
+  });
+
+  it("is reproducible: the same rand builds the same tray", () => {
+    const a = buildTray("ship", 8, held(0.42));
+    const b = buildTray("ship", 8, held(0.42));
+    expect(a.tiles).toEqual(b.tiles);
   });
 });
