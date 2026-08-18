@@ -135,3 +135,18 @@ Fluency and language comprehension. The specialist raised both unasked and was r
 child can finish level 100 and still not read a chapter book, because fluency comes from
 volume of reading a grown-up supplies and comprehension comes from being talked to. Both
 belong in the "Grown-ups corner" in plain words, and neither is a ladder problem.
+
+## Four scope rulings, owner, 2026-08-17
+
+1. **ONE CUTOVER.** The 21-level game stays as it is until all 100 levels are ready, then
+   the ladder is replaced in a single release. No band-by-band shipping, no coexistence, no
+   progress migration at each step — and no shippable game in between, which is the accepted
+   cost.
+2. **THE PRE-LADDER IS REDESIGNED** against the new pathway rather than kept: its rungs must
+   introduce letters in the new order, and it may grow if the sound ladder wants more
+   pre-print work. New clips follow.
+3. **A HARD ENDING AT LEVEL 100.** A celebration, and the game says it is finished. Free
+   play and the passage stage stay available afterwards forever.
+4. **LEVELS 90-100 ARE DEVELOPED WITH A FRESH-CONTEXT PHONICS EXPERT**, not by me alone —
+   and **public-domain literature is the source for sentences and paragraphs wherever it can
+   be**, at every level, not only at the top.
