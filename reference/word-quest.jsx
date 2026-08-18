@@ -1348,7 +1348,7 @@ const NO_TRAY_UNITS = ["ai", "ou", "ey", "ere"];
    A doc-truth rule holds this list against SPEC's own sentence, so a word the
    owner rules out later cannot be ruled out in one place only.
    Found by an independent review of Build-it, 2026-08-17. */
-const NEVER_BUILD = ["hunt", "fist", "limp", "bone", "buns", "dump", "milt", "gob",
+const NEVER_BUILD = ["fist", "limp", "bone", "buns", "dump", "milt", "gob",
   "jugs", "crabs"];
 /* Can these tiles, in some order, spell a word from that list? A tray is a
    multiset, so a tile is consumed once per slot: "dad" holds two d tiles and

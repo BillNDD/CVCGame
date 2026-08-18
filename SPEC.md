@@ -1197,8 +1197,8 @@ out a clean two-sound word. of's sound-out survived from its three 2026-08-12 li
 rounds unchanged: o says the u of "up" and f says /v/ (`docs/settled.md`). "i" waited for a
 capitalization ruling and got it in round four, 2026-08-15: the bank key stays lowercase,
 and everywhere a child sees the word — card, tile, feedback, parent lists — it shows as
-"I", by the engine's one display layer. Words ruled out for child-appropriateness (2026-08-07): hunt, fist, limp, bone, buns,
-dump, and milt; **gob, owner-ruled out on 2026-08-13** — mild crude slang for the mouth,
+"I", by the engine's one display layer. Words ruled out for child-appropriateness (2026-08-07): fist, limp, bone, buns,
+dump, and milt; **hunt was on that list and came off it on 2026-08-17** — the owner ruled "hunting is not out and neither should hunt be", so both the word and its -ing form may be taught; **gob, owner-ruled out on 2026-08-13** — mild crude slang for the mouth,
 raised by the pre-beta screen and removed from Level 5, from the pack, from the word table and
 from the waiting room, so it cannot return by accident; catfish swapped out; and the plurals of jug and crab may never join
 Level 12. "milt" is the reason CLAUDE.md now requires the WHOLE bank to be re-screened

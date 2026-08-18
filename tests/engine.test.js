@@ -1291,7 +1291,7 @@ describe("Build-it tray", () => {
   it("refuses a distractor that would let a child spell a ruled-out word", () => {
     expect(trayForbidden(["d", "o", "g", "b"], 3)).toBe(true);    // gob
     expect(trayForbidden(["d", "o", "g", "m"], 3)).toBe(false);
-    expect(trayForbidden(["h", "u", "n", "t"], 4)).toBe(true);    // hunt
+    expect(trayForbidden(["m", "i", "l", "t"], 4)).toBe(true);    // milt (hunt came off the list 2026-08-17)
     /* The length rule: a forbidden word must FIT the slots. Four tiles cannot
        spell a three-sound word when all four must be placed. */
     expect(trayForbidden(["g", "o", "b", "d"], 4)).toBe(false);
@@ -1307,7 +1307,7 @@ describe("Build-it tray", () => {
     expect(buildable("dog")).toBe(true);
     expect(NEVER_BUILD).toContain("gob");
     expect(NEVER_BUILD).toContain("milt");
-    expect(NEVER_BUILD.length).toBe(10);
+    expect(NEVER_BUILD.length).toBe(9);   // hunt came off the list 2026-08-17
   });
 
   it("is reproducible: the same rand builds the same tray", () => {
