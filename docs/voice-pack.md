@@ -203,7 +203,7 @@ byte-pinned word rather than replacing accepted audio with a render.
   sidecar workspace archive on the owner's PC
   (handoff `word-quest-uplift-handoff-2026-08-07T1438Z`).
 
-## Approved and unshipped: 734 items with no level yet (through 2026-08-19)
+## Approved and unshipped: 804 items with no level yet (through 2026-08-19)
 
 **Ninety-three sentence and paragraph takes closed by ear in one day (2026-08-19)**, across
 four fields — batch 5 (16 of 16), batch 6 (25 of 29), batch 7 (46 of 48) and a rework of
@@ -220,6 +220,17 @@ guard refuses any `say` that is not a pure respelling: same word count, and ever
 word declared as a homograph. A `say` that adds, drops or reorders words is a different
 sentence and needs the owner's ear, not a code path. The guard runs four controls, two of
 which must fail, before the voice starts.
+
+**Seventy book passages closed the same day, 70 of 70**, and they are the first rows in
+this pack to carry a `credit`. Sixty-one are from McGuffey's First Eclectic Reader and nine
+from Fifty Famous Stories Retold. G26 rule 5 re-verifies every sentence of a credited row
+against the pinned bytes of the book it names, so the citation is checkable rather than
+asserted.
+
+Twenty-seven further passages were withheld. They cite Aesop, Mother Goose, Oz, English
+Fairy Tales and Beatrix Potter - books harvested from a session folder that was never
+committed, so nothing can check what they claim. A credit nothing can check is not a
+citation, and the owner never saw them.
 
 The clips wait in `tools/pending-words/` with the rest, unseated until the hundred-level
 ladder gives them a home.

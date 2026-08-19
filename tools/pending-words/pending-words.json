@@ -10069,5 +10069,705 @@
   "say": "Mom took me to the shop to get a book. I looked at every book on the rack. The best had a red fox on it and a hen on the back. It was a good book, and it did not cost a lot. We took it home and I red it to Mom at sunset. Then she red it back to me, and we looked at every bit of it. It is my best book, and I hope we can go back to that shop.",
   "say_reason": "homograph respelling for the voice: read->red, read->red",
   "level": "v3 L75, paragraph - unseated, ladder redesign"
+ },
+ "s:v3-l05-51": {
+  "text": "The mat. Is the cat on the mat? The cat is on the mat.",
+  "family": "sentence_sp1.0",
+  "ms": 3029,
+  "sha256": "eb61273536bab586beffdfaa9688ec4b4be5a35aab61e688c4fb96772ec08328",
+  "round": "corpus passages / 2026-08-19",
+  "verdict": "perfect",
+  "credit": "McGuffey's First Eclectic Reader",
+  "level": "v3 L5, paragraph - unseated, ladder redesign"
+ },
+ "s:v3-l05-52": {
+  "text": "The mat.",
+  "family": "sentence_sp1.0",
+  "ms": 725,
+  "sha256": "4008838a0700508062b47f985bece1fa589969dd3c02cc633651d1e439ae8916",
+  "round": "corpus passages / 2026-08-19",
+  "verdict": "perfect",
+  "credit": "McGuffey's First Eclectic Reader",
+  "level": "v3 L5, sentence - unseated, ladder redesign"
+ },
+ "s:v3-l05-53": {
+  "text": "Is the cat on the mat?",
+  "family": "sentence_sp1.0",
+  "ms": 1301,
+  "sha256": "b2f09d235c909c6d45f2e41c0402427f2014d11d84d19758ecaa38f7b71491b3",
+  "round": "corpus passages / 2026-08-19",
+  "verdict": "perfect",
+  "credit": "McGuffey's First Eclectic Reader",
+  "level": "v3 L5, sentence - unseated, ladder redesign"
+ },
+ "s:v3-l05-54": {
+  "text": "The cat is on the mat.",
+  "family": "sentence_sp1.0",
+  "ms": 1323,
+  "sha256": "ffebcde40240b5607138b765b411ef52507fb74eeb28d5cf1c5493075aeb6c0a",
+  "round": "corpus passages / 2026-08-19",
+  "verdict": "perfect",
+  "credit": "McGuffey's First Eclectic Reader",
+  "level": "v3 L5, sentence - unseated, ladder redesign"
+ },
+ "s:v3-l10-51": {
+  "text": "The man has a pen. Is the pen in his hand? It is in his hand.",
+  "family": "sentence_sp1.0",
+  "ms": 3648,
+  "sha256": "9b4f61146607800b1119c995bc8e5fd1dd83299f0cc4302d63a5546dbdfd27dc",
+  "round": "corpus passages / 2026-08-19",
+  "verdict": "perfect",
+  "credit": "McGuffey's First Eclectic Reader",
+  "level": "v3 L10, paragraph - unseated, ladder redesign"
+ },
+ "s:v3-l10-52": {
+  "text": "The man has a pen.",
+  "family": "sentence_sp1.0",
+  "ms": 1195,
+  "sha256": "afa396c1031ca39bbab4ecda18fcafcc843e6e70e3caab763b160874072c937a",
+  "round": "corpus passages / 2026-08-19",
+  "verdict": "perfect",
+  "credit": "McGuffey's First Eclectic Reader",
+  "level": "v3 L10, sentence - unseated, ladder redesign"
+ },
+ "s:v3-l10-53": {
+  "text": "Is the pen in his hand?",
+  "family": "sentence_sp1.0",
+  "ms": 1365,
+  "sha256": "d9600de54c1d5ad7369f1843d0ff0c0775c7b4b104e3044ae66054309f84a254",
+  "round": "corpus passages / 2026-08-19",
+  "verdict": "perfect",
+  "credit": "McGuffey's First Eclectic Reader",
+  "level": "v3 L10, sentence - unseated, ladder redesign"
+ },
+ "s:v3-l10-54": {
+  "text": "It is in his hand.",
+  "family": "sentence_sp1.0",
+  "ms": 1131,
+  "sha256": "8026de6eab670499bad14e32d181aec19a49185c35ed41d64d5437d25db12108",
+  "round": "corpus passages / 2026-08-19",
+  "verdict": "perfect",
+  "credit": "McGuffey's First Eclectic Reader",
+  "level": "v3 L10, sentence - unseated, ladder redesign"
+ },
+ "s:v3-l10-55": {
+  "text": "He has a pen in his hand.",
+  "family": "sentence_sp1.0",
+  "ms": 1472,
+  "sha256": "17c80e4058e4fe8f19734df4fcf6c60984b0fd110fb4a98873b59a39faea9688",
+  "round": "corpus passages / 2026-08-19",
+  "verdict": "perfect",
+  "credit": "McGuffey's First Eclectic Reader",
+  "level": "v3 L10, sentence - unseated, ladder redesign"
+ },
+ "s:v3-l10-56": {
+  "text": "The man has a hat.",
+  "family": "sentence_sp1.0",
+  "ms": 1131,
+  "sha256": "697a5bfb51a6b5cb5278dc2b65861728ff2422540d1321b323de10939f24cf5a",
+  "round": "corpus passages / 2026-08-19",
+  "verdict": "perfect",
+  "credit": "McGuffey's First Eclectic Reader",
+  "level": "v3 L10, sentence - unseated, ladder redesign"
+ },
+ "s:v3-l100-51": {
+  "text": "I met him on the step. Did you jump into the mud? I have a nut. I met the man.",
+  "family": "sentence_sp1.0",
+  "ms": 4651,
+  "sha256": "d0184331ed4a95d9579dcf4b0cf55a9845c9281d839ae6778602ba32b95abb77",
+  "round": "corpus passages / 2026-08-19",
+  "verdict": "perfect",
+  "credit": "McGuffey's First Eclectic Reader",
+  "level": "v3 L100, paragraph - unseated, ladder redesign"
+ },
+ "s:v3-l100-52": {
+  "text": "I met him on the step.",
+  "family": "sentence_sp1.0",
+  "ms": 1280,
+  "sha256": "80f04d2ff120b5844b1e20d88fcc24938ee87d2566751a12b47f444bf2e93b7d",
+  "round": "corpus passages / 2026-08-19",
+  "verdict": "perfect",
+  "credit": "McGuffey's First Eclectic Reader",
+  "level": "v3 L100, sentence - unseated, ladder redesign"
+ },
+ "s:v3-l100-53": {
+  "text": "I met the man.",
+  "family": "sentence_sp1.0",
+  "ms": 1024,
+  "sha256": "a1e057f7924bc2b9a5eb053958278778d7f43a427b75c1ca7bbd940200cd16c7",
+  "round": "corpus passages / 2026-08-19",
+  "verdict": "perfect",
+  "credit": "McGuffey's First Eclectic Reader",
+  "level": "v3 L100, sentence - unseated, ladder redesign"
+ },
+ "s:v3-l11-51": {
+  "text": "She has the hat.",
+  "family": "sentence_sp1.0",
+  "ms": 1088,
+  "sha256": "1b2c699f2b08e04e2e852f7b328f84b8df005a63a5e03dbc1f2fcba9aed95f8a",
+  "round": "corpus passages / 2026-08-19",
+  "verdict": "perfect",
+  "credit": "McGuffey's First Eclectic Reader",
+  "level": "v3 L11, sentence - unseated, ladder redesign"
+ },
+ "s:v3-l13-51": {
+  "text": "She has left the nest.",
+  "family": "sentence_sp1.0",
+  "ms": 1280,
+  "sha256": "6b4d8dbd3ee7d781b549694421d75bed135f196bf3b9822d31cc32ca574b8fbd",
+  "round": "corpus passages / 2026-08-19",
+  "verdict": "perfect",
+  "credit": "McGuffey's First Eclectic Reader",
+  "level": "v3 L13, sentence - unseated, ladder redesign"
+ },
+ "s:v3-l17-51": {
+  "text": "She has just fed it.",
+  "family": "sentence_sp1.0",
+  "ms": 1173,
+  "sha256": "96a1144d8181a0a183200a646d9a8730aad71cc12e4623836b726eba02c5470f",
+  "round": "corpus passages / 2026-08-19",
+  "verdict": "perfect",
+  "credit": "McGuffey's First Eclectic Reader",
+  "level": "v3 L17, sentence - unseated, ladder redesign"
+ },
+ "s:v3-l17-52": {
+  "text": "Did you jump into the mud?",
+  "family": "sentence_sp1.0",
+  "ms": 1451,
+  "sha256": "05355831b585b31a250df1ec5606950bda10c42600bc21a65fca2f351fa43d3e",
+  "round": "corpus passages / 2026-08-19",
+  "verdict": "perfect",
+  "credit": "McGuffey's First Eclectic Reader",
+  "level": "v3 L17, sentence - unseated, ladder redesign"
+ },
+ "s:v3-l17-53": {
+  "text": "I have a nut.",
+  "family": "sentence_sp1.0",
+  "ms": 1045,
+  "sha256": "e2616ab8eea36e020d0365903f9327e5092aa3a12da890f9deea3b6dff8a55bd",
+  "round": "corpus passages / 2026-08-19",
+  "verdict": "perfect",
+  "credit": "McGuffey's First Eclectic Reader",
+  "level": "v3 L17, sentence - unseated, ladder redesign"
+ },
+ "s:v3-l18-51": {
+  "text": "The rat ran from the box.",
+  "family": "sentence_sp1.0",
+  "ms": 1536,
+  "sha256": "ea1bb3a7651ac32c2346776fd29b51e5d9109a3aad6302fa551a619df0160349",
+  "round": "corpus passages / 2026-08-19",
+  "verdict": "perfect",
+  "credit": "McGuffey's First Eclectic Reader",
+  "level": "v3 L18, sentence - unseated, ladder redesign"
+ },
+ "s:v3-l20-51": {
+  "text": "Let us run and jump.",
+  "family": "sentence_sp1.0",
+  "ms": 1237,
+  "sha256": "65a0b033c6b463c8b73f300780c6ff9bbb181dd6c5d4b859e3e7ad09225dbd3f",
+  "round": "corpus passages / 2026-08-19",
+  "verdict": "perfect",
+  "credit": "McGuffey's First Eclectic Reader",
+  "level": "v3 L20, sentence - unseated, ladder redesign"
+ },
+ "s:v3-l23-51": {
+  "text": "But not so.",
+  "family": "sentence_sp1.0",
+  "ms": 981,
+  "sha256": "99a8fc810c90c453732595d75467ec3b98c20d6357583ac87f70dda9d3da7d21",
+  "round": "corpus passages / 2026-08-19",
+  "verdict": "perfect",
+  "credit": "Fifty Famous Stories Retold",
+  "level": "v3 L23, sentence - unseated, ladder redesign"
+ },
+ "s:v3-l25-51": {
+  "text": "It was not there.",
+  "family": "sentence_sp1.0",
+  "ms": 1045,
+  "sha256": "01aa2feb52fc650a432decdb172ce412aea073dd42da58091eeb6b354638c0e4",
+  "round": "corpus passages / 2026-08-19",
+  "verdict": "perfect",
+  "credit": "Fifty Famous Stories Retold",
+  "level": "v3 L25, sentence - unseated, ladder redesign"
+ },
+ "s:v3-l25-52": {
+  "text": "There they go!",
+  "family": "sentence_sp1.0",
+  "ms": 939,
+  "sha256": "a59da38c75b59047660832231e7c9afdc50db944a9b8a32acc70fb24205faaf4",
+  "round": "corpus passages / 2026-08-19",
+  "verdict": "perfect",
+  "credit": "McGuffey's First Eclectic Reader",
+  "level": "v3 L25, sentence - unseated, ladder redesign"
+ },
+ "s:v3-l26-51": {
+  "text": "This duck can swim.",
+  "family": "sentence_sp1.0",
+  "ms": 1216,
+  "sha256": "2c6aac3d1d1804d48ead2bd407e17652c22d181499197b71f452b34e971d2843",
+  "round": "corpus passages / 2026-08-19",
+  "verdict": "perfect",
+  "credit": "McGuffey's First Eclectic Reader",
+  "level": "v3 L26, sentence - unseated, ladder redesign"
+ },
+ "s:v3-l27-51": {
+  "text": "But what of that?",
+  "family": "sentence_sp1.0",
+  "ms": 1045,
+  "sha256": "9ab4cde6d7a3ce34efa7ae7d61e5a8055649d5b1facedb0b212d68848947d59a",
+  "round": "corpus passages / 2026-08-19",
+  "verdict": "perfect",
+  "credit": "Fifty Famous Stories Retold",
+  "level": "v3 L27, sentence - unseated, ladder redesign"
+ },
+ "s:v3-l27-52": {
+  "text": "But what is that?",
+  "family": "sentence_sp1.0",
+  "ms": 1045,
+  "sha256": "dfdc7d62cd5b3b2a4f6941f20f9ab5cc3432374e82bc0b81eca19ea42a17337d",
+  "round": "corpus passages / 2026-08-19",
+  "verdict": "perfect",
+  "credit": "Fifty Famous Stories Retold",
+  "level": "v3 L27, sentence - unseated, ladder redesign"
+ },
+ "s:v3-l27-53": {
+  "text": "What has he in his hand?",
+  "family": "sentence_sp1.0",
+  "ms": 1323,
+  "sha256": "10208032ced6404dbb2820150f26f760a974de3e2bb009c8a9c5ab912e45ca1d",
+  "round": "corpus passages / 2026-08-19",
+  "verdict": "perfect",
+  "credit": "McGuffey's First Eclectic Reader",
+  "level": "v3 L27, sentence - unseated, ladder redesign"
+ },
+ "s:v3-l31-51": {
+  "text": "The fat duck swam to the bank, and we fed her.",
+  "family": "sentence_sp1.0",
+  "ms": 2517,
+  "sha256": "126f17f88eeffdbbc70f1cffa796dab211c6a6af66de7bdbbccaef696c8808ff",
+  "round": "corpus passages / 2026-08-19",
+  "verdict": "perfect",
+  "credit": "McGuffey's First Eclectic Reader",
+  "level": "v3 L31, sentence - unseated, ladder redesign"
+ },
+ "s:v3-l33-51": {
+  "text": "Let us run, and skip, and jump on the bank.",
+  "family": "sentence_sp1.0",
+  "ms": 2539,
+  "sha256": "0258d8f35fd4cb5366bcb3ad6cd9db63c6a72fdad3416be307a646d5fa7191a1",
+  "round": "corpus passages / 2026-08-19",
+  "verdict": "perfect",
+  "credit": "McGuffey's First Eclectic Reader",
+  "level": "v3 L33, sentence - unseated, ladder redesign"
+ },
+ "s:v3-l40-51": {
+  "text": "The fat hen is on the box. The rat ran from the box. Can the hen run?",
+  "family": "sentence_sp1.0",
+  "ms": 4267,
+  "sha256": "e70c1d8901cecb360fe2fb050cc3641ce5bb3f985b24b8d2d5d62fdbcde7befc",
+  "round": "corpus passages / 2026-08-19",
+  "verdict": "perfect",
+  "credit": "McGuffey's First Eclectic Reader",
+  "level": "v3 L40, paragraph - unseated, ladder redesign"
+ },
+ "s:v3-l40-52": {
+  "text": "She is a black hen. She has left the nest.",
+  "family": "sentence_sp1.0",
+  "ms": 2368,
+  "sha256": "951cc730297f2d086cf93f659c6626a3339efffa7b0343b7326f2272e478c17e",
+  "round": "corpus passages / 2026-08-19",
+  "verdict": "perfect",
+  "credit": "McGuffey's First Eclectic Reader",
+  "level": "v3 L40, paragraph - unseated, ladder redesign"
+ },
+ "s:v3-l40-53": {
+  "text": "The fat hen is on the box.",
+  "family": "sentence_sp1.0",
+  "ms": 1621,
+  "sha256": "1a5ed0772a987bdefb1a4b7b73b6c2729d76663f80dcec7e5b974487b0918a17",
+  "round": "corpus passages / 2026-08-19",
+  "verdict": "perfect",
+  "credit": "McGuffey's First Eclectic Reader",
+  "level": "v3 L40, sentence - unseated, ladder redesign"
+ },
+ "s:v3-l40-54": {
+  "text": "Can the hen run?",
+  "family": "sentence_sp1.0",
+  "ms": 1045,
+  "sha256": "7b73c0470ac9e452df59087cb8fb838a38abc41fa28edfa7a099001126599687",
+  "round": "corpus passages / 2026-08-19",
+  "verdict": "perfect",
+  "credit": "McGuffey's First Eclectic Reader",
+  "level": "v3 L40, sentence - unseated, ladder redesign"
+ },
+ "s:v3-l40-55": {
+  "text": "She is a black hen.",
+  "family": "sentence_sp1.0",
+  "ms": 1195,
+  "sha256": "0fac740896012eb4f0204854aef50f0aebb2116786c9c3bf9632d4c95d635562",
+  "round": "corpus passages / 2026-08-19",
+  "verdict": "perfect",
+  "credit": "McGuffey's First Eclectic Reader",
+  "level": "v3 L40, sentence - unseated, ladder redesign"
+ },
+ "s:v3-l40-56": {
+  "text": "The fat hen has left the nest.",
+  "family": "sentence_sp1.0",
+  "ms": 1728,
+  "sha256": "580f8830453f83b8bb257f837a30e71cde8d9a63ac092fdf57fbb3cc6e92265e",
+  "round": "corpus passages / 2026-08-19",
+  "verdict": "perfect",
+  "credit": "McGuffey's First Eclectic Reader",
+  "level": "v3 L40, sentence - unseated, ladder redesign"
+ },
+ "s:v3-l40-57": {
+  "text": "Has the black hen left the nest?",
+  "family": "sentence_sp1.0",
+  "ms": 1749,
+  "sha256": "d1b9e9e759058fc83946a56636f4ff03d430fe9071377ec51df6458d08e7358b",
+  "round": "corpus passages / 2026-08-19",
+  "verdict": "perfect",
+  "credit": "McGuffey's First Eclectic Reader",
+  "level": "v3 L40, sentence - unseated, ladder redesign"
+ },
+ "s:v3-l40-58": {
+  "text": "The man has fed the black hen and the fat duck.",
+  "family": "sentence_sp1.0",
+  "ms": 2432,
+  "sha256": "afa0b214b082d55727ee7fb38e087f773a39cb5284a24ae3bdfd95e694ac7fe2",
+  "round": "corpus passages / 2026-08-19",
+  "verdict": "perfect",
+  "credit": "McGuffey's First Eclectic Reader",
+  "level": "v3 L40, sentence - unseated, ladder redesign"
+ },
+ "s:v3-l40-59": {
+  "text": "The hen has run to her nest.",
+  "family": "sentence_sp1.0",
+  "ms": 1728,
+  "sha256": "af5646020283f9ac9bc947b4253cb77bc576f4abb99ed12917f50aa1a2b349f4",
+  "round": "corpus passages / 2026-08-19",
+  "verdict": "perfect",
+  "credit": "McGuffey's First Eclectic Reader",
+  "level": "v3 L40, sentence - unseated, ladder redesign"
+ },
+ "s:v3-l40-60": {
+  "text": "I will tell you.",
+  "family": "sentence_sp1.0",
+  "ms": 1045,
+  "sha256": "acd0aa5a78a88dbf6e83aff7ff23b6154cad175f55943c367acd68796ccb45a1",
+  "round": "corpus passages / 2026-08-19",
+  "verdict": "perfect",
+  "credit": "McGuffey's First Eclectic Reader",
+  "level": "v3 L40, sentence - unseated, ladder redesign"
+ },
+ "s:v3-l46-51": {
+  "text": "The king stopped.",
+  "family": "sentence_sp1.0",
+  "ms": 1067,
+  "sha256": "aae58e911aaa6e295214b86c28ab077b3907b7af4353b061bf778c2cb0640478",
+  "round": "corpus passages / 2026-08-19",
+  "verdict": "perfect",
+  "credit": "Fifty Famous Stories Retold",
+  "level": "v3 L46, sentence - unseated, ladder redesign"
+ },
+ "s:v3-l55-51": {
+  "text": "It fell into the water.",
+  "family": "sentence_sp1.0",
+  "ms": 1323,
+  "sha256": "2969a8b8b97ec4a944fa2be3db6385bf1592c30b9fe396e3a9c22bfd0c5fcbc4",
+  "round": "corpus passages / 2026-08-19",
+  "verdict": "perfect",
+  "credit": "Fifty Famous Stories Retold",
+  "level": "v3 L55, sentence - unseated, ladder redesign"
+ },
+ "s:v3-l56-51": {
+  "text": "The men have all left the ship.",
+  "family": "sentence_sp1.0",
+  "ms": 1579,
+  "sha256": "54a010ad1a31ac92648faf889fd38baf71bc2afd4d559450bbb4fe4f9c7e681f",
+  "round": "corpus passages / 2026-08-19",
+  "verdict": "perfect",
+  "credit": "Fifty Famous Stories Retold",
+  "level": "v3 L56, sentence - unseated, ladder redesign"
+ },
+ "s:v3-l60-51": {
+  "text": "I will take you back.",
+  "family": "sentence_sp1.0",
+  "ms": 1259,
+  "sha256": "2d92bc9f347ad47e67d1a8a8a4bafa877c47f99cfba83a76a057fdaa6c99454a",
+  "round": "corpus passages / 2026-08-19",
+  "verdict": "perfect",
+  "credit": "McGuffey's First Eclectic Reader",
+  "level": "v3 L60, sentence - unseated, ladder redesign"
+ },
+ "s:v3-l60-52": {
+  "text": "Will you take dinner with us.",
+  "family": "sentence_sp1.0",
+  "ms": 1387,
+  "sha256": "f498214bb57fb9f3fc51526c01f1452f4ba623c8706a555b44a3b43632ac9c3e",
+  "round": "corpus passages / 2026-08-19",
+  "verdict": "perfect",
+  "credit": "McGuffey's First Eclectic Reader",
+  "level": "v3 L60, sentence - unseated, ladder redesign"
+ },
+ "s:v3-l61-51": {
+  "text": "See the duck on the pond!",
+  "family": "sentence_sp1.0",
+  "ms": 1365,
+  "sha256": "4f4b6ce77ce2cca833ca6e9f29c883bbda479440c1a0462650eecfb5fb2ae009",
+  "round": "corpus passages / 2026-08-19",
+  "verdict": "perfect",
+  "credit": "McGuffey's First Eclectic Reader",
+  "level": "v3 L61, sentence - unseated, ladder redesign"
+ },
+ "s:v3-l61-52": {
+  "text": "I can just see it.",
+  "family": "sentence_sp1.0",
+  "ms": 1131,
+  "sha256": "600d81b8215d3cf87765ec5470f756bcf08630c3379e973c3a2ab197a434bbf8",
+  "round": "corpus passages / 2026-08-19",
+  "verdict": "perfect",
+  "credit": "McGuffey's First Eclectic Reader",
+  "level": "v3 L61, sentence - unseated, ladder redesign"
+ },
+ "s:v3-l61-53": {
+  "text": "Did you see him there?",
+  "family": "sentence_sp1.0",
+  "ms": 1259,
+  "sha256": "2a5195cc8ef5c44acc545799fc8fa72fb9db70fbfe67b4b7a44f944c6396f30f",
+  "round": "corpus passages / 2026-08-19",
+  "verdict": "perfect",
+  "credit": "McGuffey's First Eclectic Reader",
+  "level": "v3 L61, sentence - unseated, ladder redesign"
+ },
+ "s:v3-l66-51": {
+  "text": "They like grass, and will take it from his hand.",
+  "family": "sentence_sp1.0",
+  "ms": 2496,
+  "sha256": "fdc5fc7274759efd9b63eb8972f4cdd4a0a9f5f31ac96f64ca7f784931391d28",
+  "round": "corpus passages / 2026-08-19",
+  "verdict": "perfect",
+  "credit": "McGuffey's First Eclectic Reader",
+  "level": "v3 L66, sentence - unseated, ladder redesign"
+ },
+ "s:v3-l75-51": {
+  "text": "Is this a good pen?",
+  "family": "sentence_sp1.0",
+  "ms": 1259,
+  "sha256": "dd04587ad6555a807e23dfa51cc353ea33584fc6160cf0b899dfb0c0a57ba6d6",
+  "round": "corpus passages / 2026-08-19",
+  "verdict": "perfect",
+  "credit": "McGuffey's First Eclectic Reader",
+  "level": "v3 L75, sentence - unseated, ladder redesign"
+ },
+ "s:v3-l76-51": {
+  "text": "The sky is as blue as it can be.",
+  "family": "sentence_sp1.0",
+  "ms": 1920,
+  "sha256": "b7f531c02c473e563bca4992bb60fa09ab7a47ac1e036655ab25247c37411ebd",
+  "round": "corpus passages / 2026-08-19",
+  "verdict": "perfect",
+  "credit": "McGuffey's First Eclectic Reader",
+  "level": "v3 L76, sentence - unseated, ladder redesign"
+ },
+ "s:v3-l77-51": {
+  "text": "It is not hot, now. Let us run and jump.",
+  "family": "sentence_sp1.0",
+  "ms": 2496,
+  "sha256": "8adb1fb25b898943127f9a9e1585aa41dc7bdd302c92cebd0dd14ff6f083b115",
+  "round": "corpus passages / 2026-08-19",
+  "verdict": "perfect",
+  "credit": "McGuffey's First Eclectic Reader",
+  "level": "v3 L77, paragraph - unseated, ladder redesign"
+ },
+ "s:v3-l77-52": {
+  "text": "Now the duck will swim in the pond.",
+  "family": "sentence_sp1.0",
+  "ms": 1771,
+  "sha256": "865d4195821822d66e41a7438dd6aa717d3b9cbdae71ec1e0a5dc09e549ca607",
+  "round": "corpus passages / 2026-08-19",
+  "verdict": "perfect",
+  "credit": "McGuffey's First Eclectic Reader",
+  "level": "v3 L77, sentence - unseated, ladder redesign"
+ },
+ "s:v3-l77-53": {
+  "text": "It is not hot, now.",
+  "family": "sentence_sp1.0",
+  "ms": 1323,
+  "sha256": "e11d85a8804c6c5058084d038255629d85903bc35e9d0c17979f0c4913d0679d",
+  "round": "corpus passages / 2026-08-19",
+  "verdict": "perfect",
+  "credit": "McGuffey's First Eclectic Reader",
+  "level": "v3 L77, sentence - unseated, ladder redesign"
+ },
+ "s:v3-l77-54": {
+  "text": "It is not hot now.",
+  "family": "sentence_sp1.0",
+  "ms": 1237,
+  "sha256": "f142f253218c28dc1154a5431208dc02332ba42d754caf7987d3409ea0b6a29e",
+  "round": "corpus passages / 2026-08-19",
+  "verdict": "perfect",
+  "credit": "McGuffey's First Eclectic Reader",
+  "level": "v3 L77, sentence - unseated, ladder redesign"
+ },
+ "s:v3-l77-55": {
+  "text": "How happy they are!",
+  "family": "sentence_sp1.0",
+  "ms": 1216,
+  "sha256": "4fe514a588ff17b180989bf51a179b8835a0aa60b7cf125816335f7eb4fa8815",
+  "round": "corpus passages / 2026-08-19",
+  "verdict": "perfect",
+  "credit": "McGuffey's First Eclectic Reader",
+  "level": "v3 L77, sentence - unseated, ladder redesign"
+ },
+ "s:v3-l80-51": {
+  "text": "I will not let it fall.",
+  "family": "sentence_sp1.0",
+  "ms": 1365,
+  "sha256": "8c94da9f5d3f6d033d0f5b6fb83729c19d9e63bf65753dffbb3f34926fd00d2d",
+  "round": "corpus passages / 2026-08-19",
+  "verdict": "perfect",
+  "credit": "McGuffey's First Eclectic Reader",
+  "level": "v3 L80, sentence - unseated, ladder redesign"
+ },
+ "s:v3-l80-52": {
+  "text": "Did you see that boy fall down?",
+  "family": "sentence_sp1.0",
+  "ms": 1728,
+  "sha256": "d0bb80367430f1f0a088e9e95e65dfe61a9fe7e5738468bbcfe61a21f05c68b0",
+  "round": "corpus passages / 2026-08-19",
+  "verdict": "perfect",
+  "credit": "McGuffey's First Eclectic Reader",
+  "level": "v3 L80, sentence - unseated, ladder redesign"
+ },
+ "s:v3-l81-51": {
+  "text": "The man has fed the black hen and the fat duck. Now the duck will swim in the pond. The hen has run to her nest. Let us not stop at the pond now, for it is hot.",
+  "family": "sentence_sp1.0",
+  "ms": 10027,
+  "sha256": "58a57acf010d38d1325b0c778d83b23e4dbdf2304056582fce16b1ab461c35d1",
+  "round": "corpus passages / 2026-08-19",
+  "verdict": "perfect",
+  "credit": "McGuffey's First Eclectic Reader",
+  "level": "v3 L81, paragraph - unseated, ladder redesign"
+ },
+ "s:v3-l81-52": {
+  "text": "Let us not stop at the pond now, for it is hot.",
+  "family": "sentence_sp1.0",
+  "ms": 2667,
+  "sha256": "84f81bf79c7e8bc60d470f67834aac0fea9eb6f8e7c918b689a65494d365fbcc",
+  "round": "corpus passages / 2026-08-19",
+  "verdict": "perfect",
+  "credit": "McGuffey's First Eclectic Reader",
+  "level": "v3 L81, sentence - unseated, ladder redesign"
+ },
+ "s:v3-l83-51": {
+  "text": "A nest with young birds in it.",
+  "family": "sentence_sp1.0",
+  "ms": 1579,
+  "sha256": "54a8c2f074e513553c834fcb9f75e79cdfbc2ea665d3ffa070ef6e84cb94496b",
+  "round": "corpus passages / 2026-08-19",
+  "verdict": "perfect",
+  "credit": "McGuffey's First Eclectic Reader",
+  "level": "v3 L83, sentence - unseated, ladder redesign"
+ },
+ "s:v3-l83-52": {
+  "text": "So she left the birds.",
+  "family": "sentence_sp1.0",
+  "ms": 1301,
+  "sha256": "ad1bfbdcd38574b389bcb6f83a1083231b1153abe2945445bce991fdbc7aa8cd",
+  "round": "corpus passages / 2026-08-19",
+  "verdict": "perfect",
+  "credit": "McGuffey's First Eclectic Reader",
+  "level": "v3 L83, sentence - unseated, ladder redesign"
+ },
+ "s:v3-l85-51": {
+  "text": "He could not see where the ship was going.",
+  "family": "sentence_sp1.0",
+  "ms": 2005,
+  "sha256": "c04a00017f9981d0b387953de9a6e5c8c8c9a081a9961d89e165c9d017323ccb",
+  "round": "corpus passages / 2026-08-19",
+  "verdict": "perfect",
+  "credit": "Fifty Famous Stories Retold",
+  "level": "v3 L85, sentence - unseated, ladder redesign"
+ },
+ "s:v3-l85-52": {
+  "text": "If the men do not stop, let us go with them and see where they go.",
+  "family": "sentence_sp1.0",
+  "ms": 3392,
+  "sha256": "008317c8bf2dcb5a52de004e87d142327169844ac15ae8856516448d83374ba3",
+  "round": "corpus passages / 2026-08-19",
+  "verdict": "perfect",
+  "credit": "McGuffey's First Eclectic Reader",
+  "level": "v3 L85, sentence - unseated, ladder redesign"
+ },
+ "s:v3-l85-53": {
+  "text": "Where can it be?",
+  "family": "sentence_sp1.0",
+  "ms": 1003,
+  "sha256": "a9d422e35e0741fa8359924dadf261f7161c2d893546732f1da703b4b6bec235",
+  "round": "corpus passages / 2026-08-19",
+  "verdict": "perfect",
+  "credit": "McGuffey's First Eclectic Reader",
+  "level": "v3 L85, sentence - unseated, ladder redesign"
+ },
+ "s:v3-l88-51": {
+  "text": "Then the cat can not catch it.",
+  "family": "sentence_sp1.0",
+  "ms": 1493,
+  "sha256": "a0beb4df8f486de4cad2b86cbc7465be893ed9b72ab048575cc8ed6e14e8ab1f",
+  "round": "corpus passages / 2026-08-19",
+  "verdict": "perfect",
+  "credit": "McGuffey's First Eclectic Reader",
+  "level": "v3 L88, sentence - unseated, ladder redesign"
+ },
+ "s:v3-l95-51": {
+  "text": "There were no waves to set it in motion.",
+  "family": "sentence_sp1.0",
+  "ms": 1941,
+  "sha256": "4f0fd3f5b0e0871a3d1d155f79f8a39801f1795f66ead2ea18ec8ce76e7395d8",
+  "round": "corpus passages / 2026-08-19",
+  "verdict": "perfect",
+  "credit": "Fifty Famous Stories Retold",
+  "level": "v3 L95, sentence - unseated, ladder redesign"
+ },
+ "s:v3-l97-51": {
+  "text": "The duck has her nest under the rock. It is not hot now. Let us run, and skip, and jump on the bank.",
+  "family": "sentence_sp1.0",
+  "ms": 5845,
+  "sha256": "53e1d1382017f8f4c930b6967f9ae125b2e4cc86dcc60bd7a4ccb4fe570b6a8e",
+  "round": "corpus passages / 2026-08-19",
+  "verdict": "perfect",
+  "credit": "McGuffey's First Eclectic Reader",
+  "level": "v3 L97, paragraph - unseated, ladder redesign"
+ },
+ "s:v3-l97-52": {
+  "text": "See the duck on the pond! Her nest is up on the bank, under the rock.",
+  "family": "sentence_sp1.0",
+  "ms": 3883,
+  "sha256": "eeae6788690e6d39555b3e547cf224b0d8481936b624f8d0069ed76a0716f7d8",
+  "round": "corpus passages / 2026-08-19",
+  "verdict": "perfect",
+  "credit": "McGuffey's First Eclectic Reader",
+  "level": "v3 L97, paragraph - unseated, ladder redesign"
+ },
+ "s:v3-l97-53": {
+  "text": "Her nest is up on the bank, under the rock.",
+  "family": "sentence_sp1.0",
+  "ms": 2240,
+  "sha256": "2a05600952ad5caaa276ef0ac7ec2b2ee3f0aa5e008becbb814c8c5e3514bb3d",
+  "round": "corpus passages / 2026-08-19",
+  "verdict": "perfect",
+  "credit": "McGuffey's First Eclectic Reader",
+  "level": "v3 L97, sentence - unseated, ladder redesign"
+ },
+ "s:v3-l97-54": {
+  "text": "The duck has her nest under the rock.",
+  "family": "sentence_sp1.0",
+  "ms": 1792,
+  "sha256": "c3607d458237d303aba89730695de2a8db7d563a5ce850616b82aa17ac537f38",
+  "round": "corpus passages / 2026-08-19",
+  "verdict": "perfect",
+  "credit": "McGuffey's First Eclectic Reader",
+  "level": "v3 L97, sentence - unseated, ladder redesign"
  }
 }
