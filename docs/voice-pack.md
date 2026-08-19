@@ -203,7 +203,7 @@ byte-pinned word rather than replacing accepted audio with a render.
   sidecar workspace archive on the owner's PC
   (handoff `word-quest-uplift-handoff-2026-08-07T1438Z`).
 
-## Approved and unshipped: 804 items with no level yet (through 2026-08-19)
+## Approved and unshipped: 855 items with no level yet (through 2026-08-19)
 
 **Ninety-three sentence and paragraph takes closed by ear in one day (2026-08-19)**, across
 four fields — batch 5 (16 of 16), batch 6 (25 of 29), batch 7 (46 of 48) and a rework of
@@ -231,6 +231,12 @@ Twenty-seven further passages were withheld. They cite Aesop, Mother Goose, Oz, 
 Fairy Tales and Beatrix Potter - books harvested from a session folder that was never
 committed, so nothing can check what they claim. A credit nothing can check is not a
 citation, and the owner never saw them.
+
+**Batches 8 and 9 closed 51 of 51 the same day**, the second text for every level that had
+one and could carry another. That completes the sentence corpus for every level with the
+vocabulary to write with. What is left is a word bill, not a drafting job: level 1 needs no
+text at all - it is the only level in the whole shape whose `text` field is empty, so the
+designer never asked for one - and levels 72 and 94 have no words to write with.
 
 The clips wait in `tools/pending-words/` with the rest, unseated until the hundred-level
 ladder gives them a home.

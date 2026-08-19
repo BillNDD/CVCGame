@@ -1,11 +1,129 @@
 {
- "_comment": "Public-domain sources a ledger credit may name (G26 rule 5). One line per book: the title exactly as a `credit` field spells it, the file, and the sha256 of that file's bytes. Adding a book is one line plus the file. A book is added only when a credit needs it.",
+ "_comment": "Public-domain sources a ledger credit may name (G26 rule 5). One line per book: the title exactly as a `credit` field spells it, the file, and the sha256 of that file's bytes. Adding a book is one line plus the file. A book is added only when a credit needs it. Every entry also records first_published, source and pd_basis: the owner ruled on 2026-08-19 \"I only want things included that are in the public domain remember\", and a future reader must be able to check that reasoning without redoing the research. Gutenberg hosting a text is NOT the basis - it hosts copyrighted works too - so the basis names the evidence in the fetched text itself wherever there is any. THE EXCISION LEDGER BESIDE THIS FILE IS NOT IN THE REPOSITORY, and that is a known fault rather than an oversight. tools/corpus/excisions.json records every removed sentence verbatim - the third of the three signals that keep a screened text honest. It cannot be committed as things stand: tracking it turns S9 red with 247 problems, every one of them the ledger, measured 2026-08-19. The reason is structural and worth understanding before anyone tries a quick fix. S9 exempts a name that sits inside verbatim text from a pinned book, and it checks that by finding the sentence in the pinned bytes. An excised sentence is by definition the one text that is NOT in those bytes, because the screen took it out. So the one file whose whole job is to say what was removed is the one file the exemption can never cover. What is committed instead is the per-book excised count in each row below, which matches the ledger row for row. A reader who needs the sentences themselves must regenerate them, and whoever fixes this should widen S9 rather than quietly drop the record.",
  "McGuffey's First Eclectic Reader": {
-  "file": "tools/corpus/mcguffey1.txt",
-  "sha256": "436a6e6b0b14176fb32dc0b598dadda849b6a32c80273de2d0c5ed126b6db88b"
+  "file": "tools/corpus/mcguffey1.screened.txt",
+  "sha256": "7da42d19bf8ce4a68b6ca434f1b601c64f4a7a1cd5bd86af2fb804eda39bea3b",
+  "screened": true,
+  "excised": 14,
+  "first_published": "1836 or 1879 (edition not established)",
+  "source": "fetched earlier, by another hand",
+  "pd_basis": "THE EDITION IS NOT ESTABLISHED. These bytes were fetched and pinned earlier by another hand and no record was kept of which edition they are. The readers themselves date from 1836, with revised editions in 1879, so the WORK is out of copyright beyond any doubt; what is unverified is which of those these bytes hold. A second thing is unfinished here: each of these four files still opens with a transcriber preface written for the free-text edition - it is not the readers text at all, and a future harvest could quote it and credit it to a schoolbook. Fetch these again, strip the preface, and record the edition before any credit leans on them."
  },
  "Fifty Famous Stories Retold": {
-  "file": "tools/corpus/fifty-stories.txt",
-  "sha256": "bd521c87ea9906f95fdc13b6b87ea2fc246a17f7f135174ced6359ff0a86daa0"
+  "file": "tools/corpus/fifty-stories.screened.txt",
+  "sha256": "f4c313f33bdedf98ee0be16e225d8067c5b11377b44b4f784487c46502673432",
+  "screened": true,
+  "excised": 93,
+  "first_published": 1896,
+  "source": "fetched earlier, by another hand",
+  "pd_basis": "The screened text already in this repository carries an 1896 copyright line. Published before 1929, so the 95-year US copyright term has run out."
+ },
+ "McGuffey's Eclectic Primer": {
+  "file": "tools/corpus/mcguffey-primer.screened.txt",
+  "sha256": "0944b302c2e540ac31e971f6065902deaa0460ff78c9f0896537828a7487fcfa",
+  "screened": true,
+  "excised": 14,
+  "first_published": "1836 or 1879 (edition not established)",
+  "source": "fetched earlier, by another hand",
+  "pd_basis": "THE EDITION IS NOT ESTABLISHED. These bytes were fetched and pinned earlier by another hand and no record was kept of which edition they are. The readers themselves date from 1836, with revised editions in 1879, so the WORK is out of copyright beyond any doubt; what is unverified is which of those these bytes hold. A second thing is unfinished here: each of these four files still opens with a transcriber preface written for the free-text edition - it is not the readers text at all, and a future harvest could quote it and credit it to a schoolbook. Fetch these again, strip the preface, and record the edition before any credit leans on them."
+ },
+ "McGuffey's Second Eclectic Reader": {
+  "file": "tools/corpus/mcguffey2.screened.txt",
+  "sha256": "0462c6bbf804ba5e3d332fc71aec906e5193a13927fe2987d869613260196ee6",
+  "screened": true,
+  "excised": 41,
+  "first_published": "1836 or 1879 (edition not established)",
+  "source": "fetched earlier, by another hand",
+  "pd_basis": "THE EDITION IS NOT ESTABLISHED. These bytes were fetched and pinned earlier by another hand and no record was kept of which edition they are. The readers themselves date from 1836, with revised editions in 1879, so the WORK is out of copyright beyond any doubt; what is unverified is which of those these bytes hold. A second thing is unfinished here: each of these four files still opens with a transcriber preface written for the free-text edition - it is not the readers text at all, and a future harvest could quote it and credit it to a schoolbook. Fetch these again, strip the preface, and record the edition before any credit leans on them."
+ },
+ "McGuffey's Third Eclectic Reader": {
+  "file": "tools/corpus/mcguffey3.screened.txt",
+  "sha256": "b6130a1c40d634cc38c81d9c0dd64af0d28ab2e2d14324f7fff5d02dc90758d1",
+  "screened": true,
+  "excised": 63,
+  "first_published": "1836 or 1879 (edition not established)",
+  "source": "fetched earlier, by another hand",
+  "pd_basis": "THE EDITION IS NOT ESTABLISHED. These bytes were fetched and pinned earlier by another hand and no record was kept of which edition they are. The readers themselves date from 1836, with revised editions in 1879, so the WORK is out of copyright beyond any doubt; what is unverified is which of those these bytes hold. A second thing is unfinished here: each of these four files still opens with a transcriber preface written for the free-text edition - it is not the readers text at all, and a future harvest could quote it and credit it to a schoolbook. Fetch these again, strip the preface, and record the edition before any credit leans on them."
+ },
+ "The Wonderful Wizard of Oz": {
+  "file": "tools/corpus/wizard-of-oz.screened.txt",
+  "sha256": "b69616bd8a55f68b524742e913652906a4abd8737809bcdecb8f49c79abc409b",
+  "screened": true,
+  "excised": 117,
+  "first_published": 1900,
+  "source": "gutenberg.org/ebooks/55",
+  "pd_basis": "The author dates his own introduction, in the fetched text, to the spring of 1900. Published before 1929, so the 95-year US copyright term has run out."
+ },
+ "The Real Mother Goose": {
+  "file": "tools/corpus/real-mother-goose.screened.txt",
+  "sha256": "635ff1392e5b67abb845bb6bbecb0fcdd3cc9b9aed78790d5d4d8e7109113b2d",
+  "screened": true,
+  "excised": 44,
+  "first_published": 1916,
+  "source": "gutenberg.org/ebooks/10607",
+  "pd_basis": "The title page of the fetched text prints 1916. Published before 1929, so the 95-year US copyright term has run out."
+ },
+ "English Fairy Tales": {
+  "file": "tools/corpus/english-fairy-tales.screened.txt",
+  "sha256": "581538d4695e38720ebff2e56f7b0a23993ef9b4b0f09e4ea681991c7b2053e0",
+  "screened": true,
+  "excised": 245,
+  "first_published": 1918,
+  "source": "gutenberg.org/ebooks/17034",
+  "pd_basis": "The fetched text states it was first published in 1918. Published before 1929, so the 95-year US copyright term has run out. Note for whoever reads a credit naming this title: it is the 1918 retelling, NOT the 1890 collection of the same name, which is a different book by a different hand. A credit is only verifiable against the edition pinned here."
+ },
+ "Winnie-the-Pooh": {
+  "file": "tools/corpus/winnie-the-pooh.screened.txt",
+  "sha256": "176593f650af3b5066946eb65b33ae36a78d00f82d80bb5e1456e82a023583af",
+  "screened": true,
+  "excised": 13,
+  "first_published": 1926,
+  "source": "gutenberg.org/ebooks/67098",
+  "pd_basis": "Two independent statements in the fetched text agree: the source header records an original publication in 1926, and the imprint page carries a 1926 copyright and a first printing in the tenth month of 1926. Published before 1929, so the 95-year US copyright term has run out. The term on a 1926 work ran out on the first day of 2022, which is also the day the text was released for free distribution."
+ },
+ "The House at Pooh Corner": {
+  "file": "tools/corpus/house-at-pooh-corner.screened.txt",
+  "sha256": "f59173acbfe743e07482863cd92795bd8c6090727548eb630e2a4d1f3e6931d0",
+  "screened": true,
+  "excised": 3,
+  "first_published": 1928,
+  "source": "gutenberg.org/ebooks/73011",
+  "pd_basis": "Two independent statements in the fetched text agree: the source header records an original publication in 1928, and the imprint page carries a 1928 copyright and a first printing in the ninth month of 1928. Published before 1929, so the 95-year US copyright term has run out. The term on a 1928 work ran out on the first day of 2024; the text was released for free distribution the month after."
+ },
+ "The Tale of Peter Rabbit": {
+  "file": "tools/corpus/peter-rabbit.screened.txt",
+  "sha256": "4430116eb0baaa6087c3e6e8b3cb05f7b438b7b8a2b76c65486796b54ca913e9",
+  "screened": true,
+  "excised": 1,
+  "first_published": 1902,
+  "source": "gutenberg.org/ebooks/14838",
+  "pd_basis": "The fetched text states it was first published in 1902. Published before 1929, so the 95-year US copyright term has run out."
+ },
+ "The Book of Nonsense": {
+  "file": "tools/corpus/book-of-nonsense.screened.txt",
+  "sha256": "9f18a41b703a58679b82200f1bc5361f5db64e8e0373f83fc2bf4952e29b6257",
+  "screened": true,
+  "excised": 12,
+  "first_published": 1888,
+  "source": "gutenberg.org/ebooks/982",
+  "pd_basis": "THE WEAKEST BASIS IN THIS FILE, written plainly so it can be argued with. No year appears anywhere in the fetched text. The author died in 1888, so everything he wrote was published before then and therefore before 1929, and the source records the text as public domain in the USA. The year in this row is the LATEST POSSIBLE one, not a verified imprint. If a credit ever needs to name an edition, verify it first."
+ },
+ "The Golden Goose Book": {
+  "file": "tools/corpus/golden-goose-book.screened.txt",
+  "sha256": "90d0ee8b9ffeede5bbb798a5d4017c8048ba1adaa5c220f3d0bdd9a8cd46a650",
+  "screened": true,
+  "excised": 12,
+  "first_published": 1905,
+  "source": "gutenberg.org/ebooks/15661",
+  "pd_basis": "The fetched text prints 1905. Published before 1929, so the 95-year US copyright term has run out."
+ },
+ "Japanese Fairy Tales": {
+  "file": "tools/corpus/japanese-fairy-tales.screened.txt",
+  "sha256": "444f38913e77b907c07c81713dce8cb2b2699032e92f8a381ae85bd25e7678d6",
+  "screened": true,
+  "excised": 205,
+  "first_published": 1908,
+  "source": "gutenberg.org/ebooks/4018",
+  "pd_basis": "The fetched text prints 1908. Published before 1929, so the 95-year US copyright term has run out."
  }
 }

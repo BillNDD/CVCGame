@@ -10769,5 +10769,464 @@
   "verdict": "perfect",
   "credit": "McGuffey's First Eclectic Reader",
   "level": "v3 L97, sentence - unseated, ladder redesign"
+ },
+ "s:v3-l35-02": {
+  "text": "A frog sat on a flat rock. I did not step, and the frog did not hop. Then a bug fell in the grass. The frog got it with a snap!",
+  "family": "sentence_sp1.0",
+  "ms": 7957,
+  "sha256": "c0a4c87545a1dae3a3e5305298cce2a4bc609ff96ee7b3d41f111d8c6ea4f3d6",
+  "round": "sentence batch 8 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L35, paragraph - unseated, ladder redesign"
+ },
+ "s:v3-l36-02": {
+  "text": "Six chicks sit in a nest. A chick got a bit of string in his bill. He ran with it, and the other chicks ran with him. Then the string split, and the chicks fell in the grass!",
+  "family": "sentence_sp1.0",
+  "ms": 9557,
+  "sha256": "f1c1a1ea3d62ec3e5694128ee627ab712d90b21c71bec53096a177b82631b267",
+  "round": "sentence batch 8 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L36, paragraph - unseated, ladder redesign"
+ },
+ "s:v3-l37-02": {
+  "text": "I am brushing my dog on the mat. He did not want to sit. He was hunting a bug in the dust! The bug went up, he went up with it, and I was yelling, get it!",
+  "family": "sentence_sp1.0",
+  "ms": 8725,
+  "sha256": "d208e1adfc5ce562cc7ed4cc8bcf85d7f8cc6d2810c7bb77c09b6da67f206b43",
+  "round": "sentence batch 8 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L37, paragraph - unseated, ladder redesign"
+ },
+ "s:v3-l38-02": {
+  "text": "I am a jumper. I can jump from the step to the mat. Then I jump from the mat to another step. My mother is a jumper as well!",
+  "family": "sentence_sp1.0",
+  "ms": 7659,
+  "sha256": "7fcf2defdf63e1d212f531b92e3a079222f83c6ff365cfc971bac9ecb3b59464",
+  "round": "sentence batch 8 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L38, paragraph - unseated, ladder redesign"
+ },
+ "s:v3-l39-02": {
+  "text": "My pig ran from the pigpen. She went into the dustbin and got a bit of catfish! Then she ran back with it. Dad and I had to fix the dustbin.",
+  "family": "sentence_sp1.0",
+  "ms": 8427,
+  "sha256": "9d09e48abe7cd81af5660bf1ab531f818e6a5e1aecd2c00ea63fc29c90d5d080",
+  "round": "sentence batch 8 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L39, paragraph - unseated, ladder redesign"
+ },
+ "s:v3-l41-02": {
+  "text": "I went into the den to get my drum. A cobweb was on it! Mom got her glasses and did find a bug in the cobweb. So I got my drum and left the bug having his rest, and I never did brush that cobweb.",
+  "family": "sentence_sp1.0",
+  "ms": 12309,
+  "sha256": "79cfe4c40b785d105f3f48dde657e095b3337f4f51e7ff371a408b0d7d6715e5",
+  "round": "sentence batch 8 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L41, paragraph - unseated, ladder redesign"
+ },
+ "s:v3-l42-02": {
+  "text": "Dad did not have his wallet at the shop. We went back to the van to find it. It was not in the van! Then Mom got it from the backpack, and Dad was so glad.",
+  "family": "sentence_sp1.0",
+  "ms": 9088,
+  "sha256": "b73638ec1f259883722602925985b5cef9f384c8bf8154a144573a14cba4ec7e",
+  "round": "sentence batch 8 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L42, paragraph - unseated, ladder redesign"
+ },
+ "s:v3-l43-02": {
+  "text": "I got up and dressed. Mom asked me to help, so I picked up the pots and brushed the mat. Dad mixed a big pot of jam. When it was set, we had it on the step in the sun.",
+  "family": "sentence_sp1.0",
+  "ms": 10048,
+  "sha256": "4be7ba8cea7fe62892a4fa2118a1ad22dcbae0b90bbc781b76e70acdb48190ac",
+  "round": "sentence batch 8 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L43, paragraph - unseated, ladder redesign"
+ },
+ "s:v3-l44-02": {
+  "text": "Dad filled the big tub with sand and set it in the grass. I filled my cup with sand and did tip it up into a hill. Then my brother ran up and did kick it! I yelled, and he sat and helped me fix it. We filled the tub up, and my hill was as big as the tub.",
+  "family": "sentence_sp1.0",
+  "ms": 15083,
+  "sha256": "ab7da8005baf702bfd41b19de42ba14e62a931e1e3a14d0c6b43f3ce67017acf",
+  "round": "sentence batch 8 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L44, paragraph - unseated, ladder redesign"
+ },
+ "s:v3-l45-02": {
+  "text": "I wanted a plum from the top of the shrub, but I am not big. Dad lifted a box and set it in the grass. I got up on the box and picked a plum! Then it slid from my hand and landed in the mud. I got back up and picked another, and the hunt ended well.",
+  "family": "sentence_sp1.0",
+  "ms": 14677,
+  "sha256": "d8f3de005ea72f54e2b507ec31d70e111fa5b8157713982cb4737619783a401e",
+  "round": "sentence batch 8 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L45, paragraph - unseated, ladder redesign"
+ },
+ "s:v3-l47-02": {
+  "text": "The den had a lot of dust in it. Mom got the brushes, and we packed the old pots into boxes. Up on top I did find a bat, hung up and at rest. Mom said to let him be, so we did not brush that bit of the den. The bat has his spot, and my brother wishes that spot was his!",
+  "family": "sentence_sp1.0",
+  "ms": 16725,
+  "sha256": "07cdf708e03cad52881c9bbe6b8e2288ab3aeef75cbf419498b1e30c86eea434",
+  "round": "sentence batch 8 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L47, paragraph - unseated, ladder redesign"
+ },
+ "s:v3-l48-02": {
+  "text": "Mom has a little pot with a red handle. She let me hold the handle and tip the milk into my cup. I did it, and not a bit fell! Mom said, that was simple. Then we sat in the middle of the mat and had milk and an apple.",
+  "family": "sentence_sp1.0",
+  "ms": 12843,
+  "sha256": "700cf1cd42f4cd5f1b0cc34410532512eb0f1aa531029f7b66a979dd9c0b3660",
+  "round": "sentence batch 8 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L48, paragraph - unseated, ladder redesign"
+ },
+ "s:v3-l49-02": {
+  "text": "Dad got me a puppet rabbit at the shop. I can get my hand in it, and then it can hop! At dinner I let it nod and grin at Mom. She said it is the best rabbit in the land. Then my puppet had a bit of my dinner.",
+  "family": "sentence_sp1.0",
+  "ms": 11925,
+  "sha256": "8b04ded68ff1f752a7e9feec63b4227d94b175d2ada19a93f3de36183fb5a811",
+  "round": "sentence batch 8 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L49, paragraph - unseated, ladder redesign"
+ },
+ "s:v3-l50-02": {
+  "text": "My pal has an old box in his shed. It has a lock on it, and we did rap on the lid to get it up. Then Dad got a pin and did unlock it! In it we did find a black rock and an old map. My pal said that map is the best thing he has, so we went to find the spot on it.",
+  "family": "sentence_sp1.0",
+  "ms": 15872,
+  "sha256": "74731678c1267f55d81f2fb927355e652a9be631ecf299deecccd097776b54e3",
+  "round": "sentence batch 8 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L50, paragraph - unseated, ladder redesign"
+ },
+ "s:v3-l51-02": {
+  "text": "I did find a penny in the sandy grass at the step. It was very old, and every bit of it was black. Mom said a penny as old as that is lucky. I did rub it with a rag, and finally it was not black. My lucky penny is in a little box, and I am so happy with it.",
+  "family": "sentence_sp1.0",
+  "ms": 16021,
+  "sha256": "44a7a55ac39452dbdcdcfc590e8f3f2ea51d43d33a73bc247614405f32d20c14",
+  "round": "sentence batch 8 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L51, paragraph - unseated, ladder redesign"
+ },
+ "s:v3-l52-02": {
+  "text": "Mom hung the wet socks up to dry in the sun. Then the sky went black and cold. I said, why not get them in? We did try, and we got every sock in fast. Mom said I was quick, and my socks are dry.",
+  "family": "sentence_sp1.0",
+  "ms": 12544,
+  "sha256": "20dcec26bb774e5ffd812004dd72cab6c562f8963a1f4f27a0547fbc5d60bf25",
+  "round": "sentence batch 8 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L52, paragraph - unseated, ladder redesign"
+ },
+ "s:v3-l53-02": {
+  "text": "My kitten had a nap in the sun on the mat. I went in softly, as I did not want to get her up. Then Dad did drop a pot, and she got up quickly and ran! I tried to find her, and finally I spied her in a box. She was happier in that box than on the mat, so I let her be.",
+  "family": "sentence_sp1.0",
+  "ms": 15915,
+  "sha256": "b1e4f2d9a9dba9dd155aeaa3abd0966534ec3aa89a31b89128f3b4112229285c",
+  "round": "sentence batch 8 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L53, paragraph - unseated, ladder redesign"
+ },
+ "s:v3-l54-02": {
+  "text": "It was wet, so Mom got the big umbrella. My brother and I got in with her, and we did not get a drop on us. We went to the shop and got a banana and a red apple. Then we ran back and had them on the step. Mom said the umbrella is a wonderful thing.",
+  "family": "sentence_sp1.0",
+  "ms": 14528,
+  "sha256": "bbbabc66fafd4929a1f3aad381bde0647cffab2ae8daec738d160c77ac2ae1c2",
+  "round": "sentence batch 8 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L54, paragraph - unseated, ladder redesign"
+ },
+ "s:v3-l55-02": {
+  "text": "The ram wanted water, and the sun was so hot. I got a big pot and filled it up at the tap. When I went to his pen, water went on my socks! I set the pot in, and he did lap it up fast. Mom said the ram and I did well.",
+  "family": "sentence_sp1.0",
+  "ms": 13675,
+  "sha256": "f990e4b660257f86112551f5e5f145afc5b2c03c46586ed360aca016b0e7b21c",
+  "round": "sentence batch 8 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L55, paragraph - unseated, ladder redesign"
+ },
+ "s:v3-l56-02": {
+  "text": "It was sunny, so Mom got all the pots and lids from the shed. She set the things on the grass. My brother and I had to find the lid of every pot. A lot of lids did not fit, and we had to try and try. A web was on a big lid, and I did yell! Then all the pots had lids, and Mom said we can have dinner.",
+  "family": "sentence_sp1.0",
+  "ms": 18091,
+  "sha256": "1c029df4803d8a9acb358d0cda08fadfd4335f50f27324943880044dcc263d9a",
+  "round": "sentence batch 8 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L56, paragraph - unseated, ladder redesign"
+ },
+ "s:v3-l57-02": {
+  "text": "My brother made up a game. We had to hop from the step to the gate and back, and every hop had to be the same. He went and did not drop a bit. Then I went, and I fell in the grass! We did it a lot, and finally I got to the gate and back. Mom came and gave us a plum.",
+  "family": "sentence_sp1.0",
+  "ms": 15317,
+  "sha256": "dc0eee7cc6f65064bba49f6d2437b88fd11d9bbf402052a70c4ae472d5d054cf",
+  "round": "sentence batch 8 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L57, paragraph - unseated, ladder redesign"
+ },
+ "s:v3-l58-02": {
+  "text": "It was a sunny day, and Mom said we can stay in the grass all day. She gave me a pail and said, fill it at the tap. I did fill it to the top. On the way back I did slip, and all the water went in the grass! My brother helped me fill it up, and we got it back to Mom. She said it was the best way to end a sunny day.",
+  "family": "sentence_sp1.0",
+  "ms": 17472,
+  "sha256": "d5ece6e95eb2b6e075b11a648491e8ce83598d8b7a7102d5a16bdc3ca4288160",
+  "round": "sentence batch 8 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L58, paragraph - unseated, ladder redesign"
+ },
+ "s:v3-l62-02": {
+  "text": "Eagles have a nest up on the rocks by the lake. Dad and I sat on a seat and did see them. Each day they leave the nest to hunt, and each day they get back with meat. The little eagles can not fly yet, so they sit in the nest and eat. Dad said that by spring they will leave the nest as well. I want to be on that seat when they do.",
+  "family": "sentence_sp1.0",
+  "ms": 18581,
+  "sha256": "152aacd6848dbf608263c8b5aaae72e019ddf61e8d9788da61dcf4202520420a",
+  "round": "sentence batch 8 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L62, paragraph - unseated, ladder redesign"
+ },
+ "s:v3-l62-03": {
+  "text": "We had dinner on the grass. Mom gave each of us a seat on the old mat. We had meat and a green apple, and there was a lot to eat. Then a leaf fell into my cup! Dad got it, and I did not leave a drop. It was the best dinner we have had.",
+  "family": "sentence_sp1.0",
+  "ms": 14059,
+  "sha256": "a4e7f96e17e8e4947802319b76c72399a044b188b9119e08a35fd2ac3135a1cb",
+  "round": "sentence batch 8 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L62, paragraph - unseated, ladder redesign"
+ },
+ "s:v3-l65-02": {
+  "text": "The old goat gets up the hill slowly at sunset. I sit on the gate and hold her pail of seed. When she gets to me, I throw the seed into her dish. She can eat it fast, as it is a long way up that hill. Then she has a rest by the gate, and I go home. Each day I sit and hold that pail, and each day she gets up the hill slowly to meet me.",
+  "family": "sentence_sp1.0",
+  "ms": 19755,
+  "sha256": "90bb34a72709391f8687b7d0f081e91ff8e3d7e32bf151896f51b9d757d3948f",
+  "round": "sentence batch 8 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L65, paragraph - unseated, ladder redesign"
+ },
+ "s:v3-l65-03": {
+  "text": "My brother set a big pail in the grass. We had to throw an old sock into it from the step. He got it in, and I did not. So I went slowly up to the pail and did drop the sock in! He said that was not the game. Then he let me have a go from the step, and it went in!",
+  "family": "sentence_sp1.0",
+  "ms": 15339,
+  "sha256": "c29bc3b53dfc537e6a14fbbf71098143ec366a06e83d255a51235a0d48df42a1",
+  "round": "sentence batch 8 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L65, paragraph - unseated, ladder redesign"
+ },
+ "s:v3-l74-02": {
+  "text": "It was late, and Mom let me stay up to see the moon. We sat on the step, and it was cold. The moon was big and white, and it was so bright that I can see every leaf on the shrub. Soon a fox went by, right in the light of it! Mom said hush, and the fox went on up the hill and did not see us. Then it got too cold to sit, and we went in. From my bed I can see the moon, and it is in my room as well.",
+  "family": "sentence_sp1.0",
+  "ms": 22101,
+  "sha256": "ba478640569a9ef26231dc8b923ae2d99c20b322e057374bcfca6be629b4c252",
+  "round": "sentence batch 8 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L74, paragraph - unseated, ladder redesign"
+ },
+ "s:v3-l74-03": {
+  "text": "It was a hot day, so Dad filled the little pool in the grass. My brother and I got in, and the water was so cold that we did yell! Soon the sun made it hot, and we did not want to get up. We had a game: we had to zoom from side to side and not stop. Then Dad got in with us, and a lot of the water went on the grass! We had to fill it up, and this time Dad sat on the step. It was the best hot day we have had.",
+  "family": "sentence_sp1.0",
+  "ms": 22059,
+  "sha256": "a0d83a485c641d1d9a8c1998f7471e78c05a20c00c7ba37b4819f25feacb6e37",
+  "round": "sentence batch 8 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L74, paragraph - unseated, ladder redesign"
+ },
+ "s:v3-l02-02": {
+  "text": "I tap.",
+  "family": "sentence_sp1.0",
+  "ms": 789,
+  "sha256": "f9148cbc23053b859535e5443a8dccd174043cdd54f1f2e2f0b518aac3fb8322",
+  "round": "sentence batch 9 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L2, sentence - unseated, ladder redesign"
+ },
+ "s:v3-l03-02": {
+  "text": "I stop at the top.",
+  "family": "sentence_sp1.0",
+  "ms": 1259,
+  "sha256": "59df0a9f4df0d85172a0d70afdfd97b092505408e4198eb9780af2e1ac7d993c",
+  "round": "sentence batch 9 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L3, sentence - unseated, ladder redesign"
+ },
+ "s:v3-l04-02": {
+  "text": "I can pop the cap.",
+  "family": "sentence_sp1.0",
+  "ms": 1216,
+  "sha256": "5dd7c94a8f776544dc83b2f6ea50528007f1b681aa1df95f47b1534dcf5a2e9e",
+  "round": "sentence batch 9 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L4, sentence - unseated, ladder redesign"
+ },
+ "s:v3-l05-02": {
+  "text": "I can mop the mat.",
+  "family": "sentence_sp1.0",
+  "ms": 1237,
+  "sha256": "6576d73ef09f196e344cc564d58dc8ff87aa257c21eee16f3bc7ed8ca278de4e",
+  "round": "sentence batch 9 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L5, sentence - unseated, ladder redesign"
+ },
+ "s:v3-l09-02": {
+  "text": "We got to the pigpen. A pig can nap in it.",
+  "family": "sentence_sp1.0",
+  "ms": 2475,
+  "sha256": "1fbb805e38a7aa577bbcef7a3e83d4b1124aeb1bf91d094b1b77401ce91ef5ec",
+  "round": "sentence batch 9 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L9, sentence - unseated, ladder redesign"
+ },
+ "s:v3-l14-02": {
+  "text": "The sun is up. We sit in the sand and spot bugs. A big bug hid in the dust!",
+  "family": "sentence_sp1.0",
+  "ms": 4565,
+  "sha256": "f1d8e7f0b0066764a9edef7f73f8ff1a8174ce72d3da7986b09676424aaec675",
+  "round": "sentence batch 9 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L14, sentence - unseated, ladder redesign"
+ },
+ "s:v3-l15-02": {
+  "text": "A frog sat on the step. I ran up to it. It hid from me!",
+  "family": "sentence_sp1.0",
+  "ms": 3541,
+  "sha256": "72b59847363598e00659336da34473a89e665046bcb3b670209c24ec89f9e9c9",
+  "round": "sentence batch 9 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L15, sentence - unseated, ladder redesign"
+ },
+ "s:v3-l16-02": {
+  "text": "I ask Mom if I can sit at the desk. She said I can. I get a red pen.",
+  "family": "sentence_sp1.0",
+  "ms": 4395,
+  "sha256": "31903331eb5eb13bb787cd07e0a73e7a786b0bee0ca0f98f62ea7c0bb82deef7",
+  "round": "sentence batch 9 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L16, sentence - unseated, ladder redesign"
+ },
+ "s:v3-l17-02": {
+  "text": "The dog went in the mud. It jumps up at me, and I get wet. It is just a bit of fun!",
+  "family": "sentence_sp1.0",
+  "ms": 4907,
+  "sha256": "523e11ddb5849ec12a4acfe9bf4134c682ab997888b88b085a5595e9df29a968",
+  "round": "sentence batch 9 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L17, sentence - unseated, ladder redesign"
+ },
+ "s:v3-l17-03": {
+  "text": "I hid in the big tent. Dad just did not spot me. I win!",
+  "family": "sentence_sp1.0",
+  "ms": 3605,
+  "sha256": "560e39c88d68185384ed8a508a186106f1a16e4e565f13a121549d540f068c1d",
+  "round": "sentence batch 9 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L17, sentence - unseated, ladder redesign"
+ },
+ "s:v3-l19-02": {
+  "text": "Mom got a big yam. I had a bit of it. Yes, it is the best!",
+  "family": "sentence_sp1.0",
+  "ms": 3648,
+  "sha256": "446c289fc973ba0e869f51af0d9bc17f43581090f07ae15f2843630570915bb6",
+  "round": "sentence batch 9 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L19, sentence - unseated, ladder redesign"
+ },
+ "s:v3-l20-02": {
+  "text": "The bus got us to camp. It was hot. We sat on a big log at sunset.",
+  "family": "sentence_sp1.0",
+  "ms": 4075,
+  "sha256": "0cb39862f942117766924f4c98d136e6d1a88cf92799586094a3eb39bc9a6efc",
+  "round": "sentence batch 9 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L20, sentence - unseated, ladder redesign"
+ },
+ "s:v3-l21-02": {
+  "text": "We go to sit on the grass. It is wet! I tell Mom, and she gets us a mat.",
+  "family": "sentence_sp1.0",
+  "ms": 4352,
+  "sha256": "f6fb8296dc126a466d5bf8a630a2784de160ef0d1814134179eca474ac79d3ba",
+  "round": "sentence batch 9 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L21, sentence - unseated, ladder redesign"
+ },
+ "s:v3-l22-02": {
+  "text": "I had a big red ship. Dad and I set it in the tub. It did not tip!",
+  "family": "sentence_sp1.0",
+  "ms": 4224,
+  "sha256": "40c3d303ec8efff52220d4ca61c3bd4aa53aea1ade1ef6c7536a1cf32735c3f3",
+  "round": "sentence batch 9 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L22, sentence - unseated, ladder redesign"
+ },
+ "s:v3-l24-02": {
+  "text": "Mom got me a big red pot of mint. I thank Mom, and I set it in the sun!",
+  "family": "sentence_sp1.0",
+  "ms": 4587,
+  "sha256": "9489f09a4ecd9c8e57a6d39c5a81cfe78cc7955e5fbdd5e1a3e50973fb352b68",
+  "round": "sentence batch 9 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L24, paragraph - unseated, ladder redesign"
+ },
+ "s:v3-l25-02": {
+  "text": "This big ox is in the pen with the pig. We fed them, and then we went in.",
+  "family": "sentence_sp1.0",
+  "ms": 4160,
+  "sha256": "0ec40b55340edfe9cde8f2af70f594fd2b1e78bc7309b42352213b6def408251",
+  "round": "sentence batch 9 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L25, paragraph - unseated, ladder redesign"
+ },
+ "s:v3-l26-02": {
+  "text": "The black chick ran to the back of the box. I pick it up, and it can nap in my hand.",
+  "family": "sentence_sp1.0",
+  "ms": 4757,
+  "sha256": "e08d144e946c02e0e072a30d83a1eb4fe47d5d043f514a629e4671989faa1c84",
+  "round": "sentence batch 9 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L26, paragraph - unseated, ladder redesign"
+ },
+ "s:v3-l27-02": {
+  "text": "When we got back, I got a whiff of hot ham. Mom had it in a big pan. We ran to sit!",
+  "family": "sentence_sp1.0",
+  "ms": 4992,
+  "sha256": "0088ad0d725a06ff4db9fd2cbe32c91e42ca5bc20dc842171f650b15dc1d175e",
+  "round": "sentence batch 9 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L27, paragraph - unseated, ladder redesign"
+ },
+ "s:v3-l28-02": {
+  "text": "Mom said to bring something red. I did bring my red hat. Then Mom hung it up on the hat rack!",
+  "family": "sentence_sp1.0",
+  "ms": 5440,
+  "sha256": "661462a401c3f72bf5a265f156449a31069de0f5a84fce60a0d02d4f9d3406b4",
+  "round": "sentence batch 9 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L28, paragraph - unseated, ladder redesign"
+ },
+ "s:v3-l29-02": {
+  "text": "There is a black quill in the grass. I am quick to pick it up! Mom said I can hang it up in my den.",
+  "family": "sentence_sp1.0",
+  "ms": 5248,
+  "sha256": "9aae554482ffaa0b64ed6c700010fd79f2d6c840a29b2deff60533fe18bd4dfd",
+  "round": "sentence batch 9 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L29, paragraph - unseated, ladder redesign"
+ },
+ "s:v3-l30-02": {
+  "text": "Dad and I dug a big pit in the sand. Mom told us it is the best pit yet. We got a big hug!",
+  "family": "sentence_sp1.0",
+  "ms": 5845,
+  "sha256": "fa28d031b57838564afb6e6956a39b5a86b09e6609525164fe3cd4c663dc8afc",
+  "round": "sentence batch 9 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L30, paragraph - unseated, ladder redesign"
+ },
+ "s:v3-l32-02": {
+  "text": "Mom said we can go to the shop. I got my socks and my belt on, quick! Then we ran to the bus.",
+  "family": "sentence_sp1.0",
+  "ms": 5696,
+  "sha256": "8250e2beb3cda1cd45929e8cd960b36154b42ec4fa6de0e2e5fc6dd35761948e",
+  "round": "sentence batch 9 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L32, paragraph - unseated, ladder redesign"
+ },
+ "s:v3-l34-02": {
+  "text": "I had a plan. Dad and I can be a band! He gets the drum, and I clap and sing.",
+  "family": "sentence_sp1.0",
+  "ms": 4736,
+  "sha256": "0ab80be6a1f634015b39525c0dd61ce852afb5b4d1ef0977b8aa959eb8074f14",
+  "round": "sentence batch 9 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L34, paragraph - unseated, ladder redesign"
  }
 }

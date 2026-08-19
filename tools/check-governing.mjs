@@ -92,6 +92,21 @@ export const GOVERNING = [
   "tools/ladder/word-bill.json",
   "tools/ladder/corpus-harvest.json",
   "tools/corpus/sources.json",
+  /* The excision ledger, added 2026-08-19 with nine more books. It is the third
+     of the three signals that keep a screened corpus honest - the filename says
+     the file is screened, the manifest says how many sentences went, and this
+     says WHICH ones, verbatim, so a removal can be reviewed or argued with.
+     It was written the same day the screen was and nothing declared it; because
+     it stayed untracked, neither this gate nor G23 had ever seen it.
+
+     IT IS STILL UNTRACKED, and the row stays here on purpose so that the day it
+     is committed it is governed rather than a stray. It cannot be committed yet:
+     it quotes sentences the screen CUT from the pinned books, and S9's corpus
+     exemption works by finding a sentence inside the pinned bytes - which an
+     excised sentence, alone among all book text, is guaranteed not to be in.
+     Tracking it turns S9 red with 247 problems, every one of them this file.
+     tools/corpus/sources.json carries the long version of the reason. */
+  "tools/corpus/excisions.json",
   "tools/pending-words/pending-words.json",
   "tools/voice-lock.json",
   "tools/voice-sounds.csv",

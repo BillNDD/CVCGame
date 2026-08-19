@@ -582,7 +582,6 @@
    "king",
    "long",
    "bang",
-   "ding",
    "fang",
    "gong",
    "hang",
@@ -716,8 +715,7 @@
   "pool": 195,
   "cands": 2,
   "words": [
-   "blind",
-   "grind"
+   "blind"
   ]
  },
  {
@@ -784,8 +782,7 @@
    "backpack",
    "dustbin",
    "hilltop",
-   "sandbox",
-   "catfish"
+   "sandbox"
   ]
  },
  {
@@ -2025,7 +2022,6 @@
    "rustle",
    "whistle",
    "wrestle",
-   "hustle",
    "thistle"
   ],
   "filled": [
