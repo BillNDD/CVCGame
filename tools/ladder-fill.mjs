@@ -30,6 +30,7 @@
    Run: node tools/ladder-fill.mjs              the plan, written nowhere
         node tools/ladder-fill.mjs --write      apply it to ladder-v4.json
         node tools/ladder-fill.mjs --check      fail if a target word has no seat
+        node tools/ladder-fill.mjs --sounds     the word bill of unproved sounds
         node tools/ladder-fill.mjs --self-test  prove the checks catch their faults */
 import { readFileSync, writeFileSync } from "node:fs";
 import { pathToFileURL } from "node:url";
@@ -164,18 +165,244 @@ export function segment(word, inv, opts = {}) {
   return units;
 }
 
-/* The earliest level at which every grapheme of the word has been taught. */
-export function readyLevel(word, inv, opts = {}) {
+/* The units of a word WITH the position of each, which every rule below needs
+   and which the unit list alone throws away. A split vowel spans three letters
+   and reports as one unit, so the arithmetic is not the string length. */
+export function unitsOf(word, inv, opts = {}) {
   const units = segment(word, inv, opts);
   if (!units) return null;
-  const w = String(word).toLowerCase();
+  const out = [];
   let p = 0;
-  let max = 1;
   for (const g of units) {
-    max = Math.max(max, levelOf(g, w, p, inv));
+    out.push({ g, p });
     p += /_e$/.test(g) ? 3 : g.length;
   }
+  return out;
+}
+
+/* The earliest level at which every grapheme of the word has been taught. */
+export function readyLevel(word, inv, opts = {}) {
+  const units = unitsOf(word, inv, opts);
+  if (!units) return null;
+  const w = String(word).toLowerCase();
+  let max = 1;
+  for (const u of units) max = Math.max(max, levelOf(u.g, w, u.p, inv));
   return max;
+}
+
+/* --------------------------------------------- which SOUND, not which spelling -- */
+
+/* THE FAULT THIS LAYER IS FOR, and it is open-faults section U. Everything
+   above asks whether every GRAPHEME of a word is taught by a level. Nothing
+   above asks WHICH SOUND the word needs from a grapheme that has more than
+   one, and `levelOf` resolves all thirteen of them to the EARLIEST level - the
+   permissive direction. `town` was seated at 65, which teaches `ow` as the long
+   o of throw; the word needs the /au/ of out, taught at 77. A child reads
+   "tone". That is the dangerous shape, because "tone" is a real word, so
+   nothing signals the error and the child cannot self-correct. Four more were
+   found the same way, by a human reader, and by no gate.
+
+   THE MODEL, AND WHY THIS ONE. Section U offered two. A word DECLARES which
+   sound it needs, which is precise and needs per-word data this repository does
+   not have for the 887 placed words. Or the model DECLINES to place any word
+   using a multi-sound spelling until every sound of it is taught, which needs
+   no data at all - and, measured rather than guessed, would hold back 281 of
+   the 887, `at`, `an`, `cat` and `sat` among them, because the letter `a` is
+   taught twice. A report nobody can read is a report nobody reads, and that
+   one would have been dismissed at its first line.
+
+   So: a third. Each multi-sound spelling gets a RESOLVER, and a resolver only
+   ever answers where English leaves no choice. `c` before a, o, u or a
+   consonant is /k/ and there is no exception; before e, i or y it refuses,
+   because gem and get are both real. Four spellings have such a rule, nine do
+   not, and a spelling with no rule is judged against ALL of its sounds. The
+   errors run the same way the segmentation's do: a refusal costs a line in a
+   report a person reads, and never a wrong sound in a child's ear. That takes
+   326 raw hits to 88, over 79 words, which is a word bill somebody can hold.
+
+   IT REPORTS. IT NEVER MOVES A WORD. `readyLevel`, `levelOf`, `plan` and
+   `check` answer exactly what they answered before this layer existed. All
+   sixty-one controls that pinned them are unchanged and still pass, the
+   `seatedEarly` lookup still reads 23, and the 162 seats in ladder-v4.json are
+   untouched. The only edit above this comment is `readyLevel` calling
+   `unitsOf` for the position arithmetic it used to do inline, so the two
+   layers cannot drift apart on where a unit sits. Placement is the owner's
+   call and he has already ruled on several of these one at a time. The reasons
+   `check()` does not FAIL on this are with `soundBill` below.
+
+   WHAT IT STILL CANNOT SEE, and this is the larger fault of the two. It only
+   asks about a spelling the shape teaches TWICE. A word needing a sound the
+   shape teaches NOWHERE for its spelling is invisible to it, and section U
+   names three such words itself: `come`, `love` and `some` sit at 64 because
+   `o_e` is taught there as the long o of nose, and the /u/ they say is taught
+   at no level for any spelling. `finally` needs a long i in an open syllable
+   and `child` needs one before ld, and `i` is short-i-only everywhere in the
+   shape. So do `want`, `wash`, `what`, `watch`, `swan`, `swap` and `squash`,
+   whose `a` after a w says the short o of pot. Nothing here catches one of
+   them, and nothing can without per-word sound data, which is section U's
+   first option and still has no source. Their absence from this bill is not
+   evidence they are safe. */
+
+/* Consonant clusters an English word can BEGIN with. Used for one thing: the
+   maximal onset principle, which decides which syllable the consonants before
+   a final y belong to. Doubled letters are absent on purpose - no word starts
+   pp - and so are nd, ck and lt, which is what makes sandy, lucky and salty
+   long e while butterfly is long i. */
+const ONSET_BLENDS = new Set(["bl", "br", "ch", "cl", "cr", "dr", "fl", "fr",
+  "gl", "gr", "ph", "pl", "pr", "qu", "sc", "sh", "sk", "sl", "sm", "sn", "sp",
+  "st", "sw", "th", "tr", "tw", "wh", "wr"]);
+
+/* Does this unit carry the vowel of a syllable? `qu` is the one the letters
+   alone get wrong: it holds a u and spells /kw/, two consonants. */
+function vowelUnit(g) {
+  return g !== "qu" && (/_e$/.test(g) || /[aeiouy]/.test(g));
+}
+
+/* THE RESOLVERS. Each takes the lower-cased word, the position of the unit,
+   the whole unit list and the unit's index, and returns a sound id or null.
+   Null means "this model cannot tell", which is an answer and not a failure:
+   it is what sends the word to a person. Nine of the thirteen multi-sound
+   spellings - ch, th, ea, ie, ow, oo, ey, ear, ere - are absent from this
+   table because no rule over the spelling decides them. bear and hear, book
+   and moon, throw and town differ by which word it is, and nothing here knows
+   that. Naming a rule for them would be inventing one. */
+export const SOUND_RULES = {
+  /* c is /s/ before e, i or y and /k/ everywhere else. The hard direction has
+     no exception in English (cat, cop, cup, clap, picnic, act); the soft one
+     has several, so it refuses and the word is reported. */
+  c: (w, p) => (/[eiy]/.test(w[p + 1] || "") ? null : "k"),
+  /* g is /g/ before a, o, u, a consonant or the end of a word (gap, got, gum,
+     glad, bag). Before e, i or y it is usually /j/ - gem, giant - and
+     sometimes not - get, give, girl, gift - so it refuses. That costs five
+     words in today's ladder, and five reported words is cheaper and more
+     honest than a hand-written list of exceptions. */
+  g: (w, p) => (/[eiy]/.test(w[p + 1] || "") ? null : "g"),
+  /* The shape teaches a=long_a at exactly one level, and that level's own rule
+     is `open_multi`: the long a of an OPEN syllable in a longer word - ta-ble,
+     na-tion, an-cient. So an a whose syllable is CLOSED, meaning two consonant
+     units follow it or consonants run to the end of the word, is the short a
+     and nothing else: cat, hand, catnip, lamb, backpack. Everything else
+     refuses. One consonant then a vowel may be either (table, nation), and a
+     word-final a is the schwa of banana, which the shape teaches nowhere. */
+  a: (w, p, units, i) => {
+    const after = units.slice(i + 1);
+    if (!after.length) return null;
+    let cons = 0;
+    while (cons < after.length && !vowelUnit(after[cons].g)) cons += 1;
+    return cons >= 2 || cons === after.length ? "short_a" : null;
+  },
+  /* y is the consonant of yes at the start of a word and a vowel anywhere
+     else. WHICH vowel is the maximal onset principle: the consonants between
+     the last vowel and the y begin the y's own syllable when they can, and end
+     the syllable before it when they cannot. but-ter-fly has fl, which words
+     do begin with, so the y is the long i of a stressed final syllable;
+     san-dy has nd, which no English word begins with, so the split falls
+     before the d and the y is the long e of sandy.
+     `levelOf` has its own y rule and it is the WHOLE-WORD test - any vowel
+     anywhere earlier makes it long e - which reads butterfly as long e and
+     seats it at 51 when the sound it needs arrives at 52. That rule is left
+     exactly as it was, because correcting it would MOVE a word, and this layer
+     reports. A control below pins the disagreement as deliberate rather than
+     leaving two rules to drift apart unnoticed.
+     Its own limit, stated: -fy words (satisfy, occupy) put a single consonant
+     before a long i, so this rule reads them as long e and misses them. None
+     is in the ladder today. */
+  y: (w, p) => {
+    if (p === 0) return "y";
+    const before = w.slice(0, p);
+    const run = before.replace(/^.*[aeiou]/, "");
+    if (run.length === before.length) return "long_i";
+    return run.length >= 2 && ONSET_BLENDS.has(run.slice(-2)) ? "long_i" : "long_e";
+  },
+};
+
+/* The sounds a unit could need, and where each is taught. A resolved unit
+   offers the one sound its rule names; an unresolved one offers all of them,
+   because any could be the one the word needs. A rule that names a sound the
+   shape does not teach for that spelling is treated as no answer at all - the
+   alternative is an undefined level, which compares false against every
+   number and would hide the unit in silence. */
+function candidates(g, w, units, i, inv, rules) {
+  const e = inv.get(g);
+  if (!e || e.sounds.size < 2) return null;
+  const rule = rules[g];
+  const got = rule ? rule(w, units[i].p, units, i) : null;
+  const at = got ? e.sounds.get(got) : undefined;
+  return at ? [[got, at]] : [...e.sounds];
+}
+
+/* Every unit of a word whose spelling the shape teaches with more than one
+   sound, and which of those sounds a child sitting at `seat` has not met. */
+export function unprovedSounds(word, seat, inv, opts = {}) {
+  const rules = opts.rules || SOUND_RULES;
+  const units = unitsOf(word, inv, opts);
+  if (!units) return [];
+  const w = String(word).toLowerCase();
+  const out = [];
+  units.forEach((u, i) => {
+    const need = candidates(u.g, w, units, i, inv, rules);
+    if (!need) return;
+    const late = need.filter(([, n]) => n > seat);
+    if (late.length) {
+      out.push({ g: u.g, pos: u.p, resolved: need.length === 1 ? need[0][0] : null,
+        late: late.map(([s, n]) => `${s}@L${n}`) });
+    }
+  });
+  return out;
+}
+
+/* The level at which a word is safe under EVERY reading this model cannot rule
+   out. It is section U's second option - decline until every sound is taught -
+   computed and REPORTED rather than enforced, so the owner can see where a
+   word would have to go if it turns out to need the later sound. For `town` it
+   is 77, which is where the owner moved it. */
+export function safeLevel(word, inv, opts = {}) {
+  const rules = opts.rules || SOUND_RULES;
+  const units = unitsOf(word, inv, opts);
+  if (!units) return null;
+  const w = String(word).toLowerCase();
+  let max = 1;
+  units.forEach((u, i) => {
+    if (!inv.has(u.g)) return;
+    const need = candidates(u.g, w, units, i, inv, rules);
+    max = Math.max(max, need ? Math.max(...need.map(([, n]) => n)) : levelOf(u.g, w, u.p, inv));
+  });
+  return max;
+}
+
+/* The word bill. Every placed word this model cannot show is safe where it
+   sits, sorted by level and then by the alphabet, because it is read by a
+   person level by level.
+
+   WHY IT IS A LOOKUP AND NOT A GATE, decided rather than defaulted. It reads
+   79 words today and this change cannot drive that to zero, because zeroing it
+   means MOVING words - the owner's call, and he has already ruled on several
+   one at a time. Fifty-eight of the 79 are this pass's own `filled` words, so
+   even a rule scoped to what this pass placed would be red from the moment it
+   shipped. A gate that is red on arrival, over a fault it was not built to
+   fix, teaches everyone to skip it: that is this file's own reasoning for
+   `seatedEarly` and open-faults T1 says it again.
+   The teeth are in the controls instead, which is the honest place for them.
+   `--self-test` FAILS the moment this detector stops catching `town` seated at
+   65, and fails per spelling besides. So the detector is proved by planting,
+   not by the ladder happening to be clean. */
+export function soundBill(state, opts = {}) {
+  const inv = inventory(state.shape);
+  const out = [];
+  for (const lv of state.ladder) {
+    const own = new Set(lv.filled || []);
+    for (const w of [...new Set(lv.words || [])]) {
+      const h = unprovedSounds(w, lv.n, inv, opts);
+      if (!h.length) continue;
+      out.push({
+        word: w, level: lv.n, safe: safeLevel(w, inv, opts),
+        source: own.has(w) ? "fill" : "generator",
+        units: [...new Set(h.map((x) => x.g))],
+        late: [...new Set(h.flatMap((x) => x.late))],
+      });
+    }
+  }
+  return out.sort((a, b) => a.level - b.level || (a.word < b.word ? -1 : 1));
 }
 
 /* ------------------------------------------------------------- the state -- */
@@ -385,6 +612,31 @@ function describe(state, p) {
   out.push(`over ${p.band.soft} (soft): ${over.length}${over.length ? " -> " + over.join(" ") : ""}, hard ceiling ${p.band.hard}, worst ${Math.max(...p.sizes)}`);
   out.push("A level still under six has no more on-topic target words. It is a gap to");
   out.push("take to the owner as a word bill, never a level to pad.");
+  return out.join("\n");
+}
+
+/* The word bill, written out. One line per word, level order, so it can be
+   read down and ruled on. `safe` is where the word would go if it needs the
+   later sound; `late` names the sounds the seat has not taught. */
+function describeSounds(state, bill) {
+  const out = [];
+  const byG = new Map();
+  for (const r of bill) for (const g of r.units) byG.set(g, (byG.get(g) || 0) + 1);
+  const fill = bill.filter((r) => r.source === "fill").length;
+  out.push(`${bill.length} placed word(s) sit at a level that has not taught the sound`);
+  out.push(`they need from a spelling the shape teaches twice: ${fill} seated by this pass,`);
+  out.push(`${bill.length - fill} by the generator. Words per spelling, and a word using two `
+    + `is counted\nunder both: `
+    + `${[...byG].sort((a, b) => b[1] - a[1]).map(([g, n]) => `${g} ${n}`).join(", ")}.`);
+  out.push("");
+  out.push("level  word          safe  spelling  sound not yet taught       placed by");
+  for (const r of bill) {
+    out.push(`L${String(r.level).padStart(3)}   ${r.word.padEnd(13)} L${String(r.safe).padStart(3)}  `
+      + `${r.units.join(" ").padEnd(9)} ${r.late.join(" ").padEnd(26)} ${r.source}`);
+  }
+  out.push("");
+  out.push("A LOOKUP, never a gate. Nothing here is moved by this tool: which level a");
+  out.push("word belongs at is the owner's ruling, and this is the bill to rule on.");
   return out.join("\n");
 }
 
@@ -736,6 +988,246 @@ function controlEndingLevel(say, f) {
     rules({ ...f, ladder: early }).includes("seated early"));
 }
 
+/* A THIRD fixture, for the sound layer. Its levels are the REAL ones: these
+   are the twenty-three levels of `shape-v3.json` that teach one of the
+   thirteen multi-sound spellings, copied on 2026-08-19 with their numbers, so
+   that "seat `town` at 65 and it must be caught" is open-faults section U's
+   own example and not an analogy to it. Every other level teaches nothing.
+   The numbers are a snapshot for a fixture, never a claim about the shape:
+   `--check` prints the levels it reads from the real file, so a shape that
+   moves one shows the move in the real output.
+   Level 1 also teaches the plain letters these control words are built from,
+   because a word with one untaught letter is unspellable and would report
+   nothing at all - the quietest way this fixture could go vacuous. */
+const SOUND_LEVELS = {
+  1: "s=s a=short_a t p i=short_i n o e u l d m r b h w f k v z le=l",
+  4: "c=k", 9: "g=g", 19: "y=y", 23: "ch=ch", 24: "th=th_quiet", 25: "th=th_this",
+  51: "y=long_e", 52: "y=long_i", 59: "ey=long_a", 62: "ea=long_e",
+  63: "ie=long_e ey=long_e", 65: "ow=long_o", 67: "ie=long_i", 69: "ea=short_e",
+  72: "a=long_a", 74: "oo=oo_moon", 75: "oo=oo_book", 77: "ow=ow",
+  84: "ear=ear ere=ear", 85: "ear=air ere=air", 87: "c=s g=j", 94: "ch=k",
+};
+
+function soundFixture() {
+  const shape = [];
+  for (let n = 1; n <= 100; n += 1) {
+    shape.push({ n, teaches: "", new: SOUND_LEVELS[n] || "", heart: [] });
+  }
+  return { shape, ladder: shape.map((lv) => ({ n: lv.n, words: [] })), target: [] };
+}
+
+/* Seat one word at one level and ask the real bill about it. Every control
+   below goes through this, so every one of them calls soundBill, unprovedSounds,
+   safeLevel, unitsOf, segment and inventory for real. `tools/ladder-status.mjs`
+   has a control that builds its expected answer by hand and never calls the
+   function it names, so it cannot fail; not one of these can do that. */
+function billFor(f, word, level, opts) {
+  const state = {
+    ...f,
+    ladder: f.ladder.map((lv) => (lv.n === level ? { ...lv, words: [word] } : lv)),
+  };
+  return soundBill(state, opts).map((r) => `${r.word}@L${r.level} ${r.units.join("+")} `
+    + `${r.late.join(" ")} safe L${r.safe}`).join("; ");
+}
+
+/* The nine spellings with no rule, each seated at the level that teaches its
+   FIRST sound and then at the level that teaches its last. Read down the
+   second column: that is the sound a child at that seat has not been taught,
+   and the word they would say if they needed it. */
+const UNRULED_CASES = [
+  ["ow", "town", 65, "ow@L77", 77],
+  ["ch", "chop", 23, "k@L94", 94],
+  ["th", "thin", 24, "th_this@L25", 25],
+  ["ea", "eat", 62, "short_e@L69", 69],
+  ["ie", "field", 63, "long_i@L67", 67],
+  ["oo", "moon", 74, "oo_book@L75", 75],
+  ["ey", "hey", 59, "long_e@L63", 63],
+  ["ear", "hear", 84, "air@L85", 85],
+  ["ere", "here", 84, "air@L85", 85],
+];
+
+function controlUnruledSounds(say, f) {
+  const T = (n, p) => say.push([n, p]);
+
+  /* THE NEGATIVE CONTROL open-faults section U names by name. `town` at 65 is
+     the seat the fill gave it and the seat the literacy reader refused: the
+     level teaches ow as the long o of throw, the word needs the /au/ of out at
+     77, and a child reads "tone". The detector must catch it, and the same
+     word at 77 must raise nothing - a detector that reports either way is a
+     detector nobody can act on. */
+  T("control: town seated at 65, where ow says the long o of throw, IS caught",
+    billFor(f, "town", 65) === "town@L65 ow ow@L77 safe L77");
+  T("town at 77, where the ow of out is taught, raises nothing",
+    billFor(f, "town", 77) === "");
+  /* E5 twice over. Strip the sounds off level 77 and the spelling has one
+     sound, so nothing is multi-sound and nothing is reported - which proves
+     the report comes from the SECOND sound and not from the spelling being on
+     some list. And the blunt model of section U's option two, every rule
+     removed, still catches it: the rules narrow the report, they never create
+     it. */
+  const oneSound = { ...f, shape: f.shape.map((lv) => (lv.n === 77 ? { ...lv, new: "" } : lv)) };
+  T("control: with ow taught once, the same seat raises nothing",
+    billFor(oneSound, "town", 65) === "");
+  T("control: with every rule removed, town at 65 is still caught",
+    billFor(f, "town", 65, { rules: {} }) === "town@L65 ow ow@L77 safe L77");
+
+  for (const [g, word, early, late, safe] of UNRULED_CASES) {
+    T(`${g}: ${word} at ${early} is caught, and names the sound it has not been taught`,
+      billFor(f, word, early) === `${word}@L${early} ${g} ${late} safe L${safe}`);
+    T(`control: ${word} at ${safe}, where every sound of ${g} is taught, raises nothing`,
+      billFor(f, word, safe) === "");
+  }
+}
+
+function controlRuledSounds(say, f) {
+  const T = (n, p) => say.push([n, p]);
+
+  /* SOFT c. Before a, o, u or a consonant there is no other reading, so the
+     word is clean at the level that teaches c. Before e, i or y there is, so
+     it is reported. */
+  T("c before a is the k of cat, and cat at the c level is clean",
+    billFor(f, "cat", 4) === "");
+  T("c before e may be the s of cent, so cent at the c level is caught",
+    billFor(f, "cent", 4) === "cent@L4 c s@L87 safe L87");
+  T("control: with no c rule, cat at the c level is caught too - the rule is what clears it",
+    billFor(f, "cat", 4, { rules: {} }) === "cat@L4 c+a s@L87 long_a@L72 safe L87");
+
+  /* SOFT g. Same shape, and its refusal costs get, gets, getting, gift and
+     girl in the real ladder - named here so the price is on the page. */
+  T("g before a is the g of gap, and gap at the g level is clean",
+    billFor(f, "gap", 9) === "");
+  T("g before e may be the j of gem, so gem at the g level is caught",
+    billFor(f, "gem", 9) === "gem@L9 g j@L87 safe L87");
+  T("control: with no g rule, gap at the g level is caught too",
+    billFor(f, "gap", 9, { rules: { a: SOUND_RULES.a } }) === "gap@L9 g j@L87 safe L87");
+
+  /* THE CLOSED SYLLABLE. The long a of level 72 is an open syllable's, so an a
+     with two consonant units after it, or consonants to the end of the word,
+     is the short a and clean from level one. table is t-a-b-le: one consonant
+     unit and then a vowel-bearing one, an open syllable, so it is reported. */
+  T("a closed syllable's a is the short a, and cat is clean at level one",
+    billFor(f, "cat", 4) === "" && billFor(f, "hand", 4) === "");
+  T("an open syllable's a may be the long a, so table is caught",
+    billFor(f, "table", 48) === "table@L48 a long_a@L72 safe L72");
+  T("a word-final a is a schwa this shape teaches nowhere, so it is caught",
+    billFor(f, "banana", 54) === "banana@L54 a long_a@L72 safe L72");
+  T("control: with no a rule, cat is caught at the c level - the rule is what clears it",
+    billFor(f, "cat", 4, { rules: { c: SOUND_RULES.c } })
+    === "cat@L4 a long_a@L72 safe L72");
+  T("control: qu counts as consonants, not as the vowel its u looks like",
+    vowelUnit("qu") === false && vowelUnit("ea") === true && vowelUnit("a_e") === true);
+
+  /* THE y, AND THE ONE PLACE TWO RULES IN THIS FILE DISAGREE ON PURPOSE. */
+  T("a y that starts a word is the consonant of yes and is clean at its level",
+    billFor(f, "yes", 19) === "");
+  T("sandy is san-dy: nd begins no English word, so the y is the long e of 51",
+    billFor(f, "sandy", 51) === ""
+    && billFor(f, "sandy", 19) === "sandy@L19 y long_e@L51 safe L51");
+  T("spy has no vowel before its y, so it is the long i of 52 and caught at 51",
+    billFor(f, "spy", 52) === "" && billFor(f, "spy", 51) === "spy@L51 y long_i@L52 safe L52");
+  /* butterfly is but-ter-fly: fl DOES begin English words, so the split falls
+     before the f and the y is the long i taught at 52. It sits at 51. */
+  T("butterfly is but-ter-fly, so its y is the long i of 52 and its seat at 51 is caught",
+    billFor(f, "butterfly", 51) === "butterfly@L51 y long_i@L52 safe L52");
+  T("control: levelOf's whole-word y rule reads the same word as long e - the two "
+    + "rules disagree by design, and readyLevel is left alone so no word moves",
+    levelOf("y", "butterfly", 8, inventory(f.shape)) === 51
+    && readyLevel("butterfly", inventory(f.shape)) === 51
+    && SOUND_RULES.y("butterfly", 8) === "long_i");
+  T("control: fl is an onset and nd, pp and ck are not - that IS the rule",
+    SOUND_RULES.y("butterfly", 8) === "long_i" && SOUND_RULES.y("sandy", 4) === "long_e"
+    && SOUND_RULES.y("puppy", 4) === "long_e" && SOUND_RULES.y("lucky", 4) === "long_e");
+}
+
+function controlSoundModel(say, f) {
+  const T = (n, p) => say.push([n, p]);
+  const inv = inventory(f.shape);
+
+  T("the shape teaches thirteen spellings with more than one sound",
+    [...inv].filter(([, e]) => e.sounds.size > 1).map(([g]) => g).sort().join(" ")
+    === "a c ch ea ear ere ey g ie oo ow th y");
+  T("four of them have a rule and nine are answered by refusing",
+    Object.keys(SOUND_RULES).sort().join(" ") === "a c g y");
+
+  /* A word with no multi-sound spelling raises nothing, at any seat. Without
+     this the bill could be reporting every word it is handed. */
+  T("a word of single-sound spellings raises nothing wherever it sits",
+    billFor(f, "pot", 1) === "" && billFor(f, "pot", 94) === "");
+  /* And a word the schedule cannot spell at all raises nothing rather than
+     throwing - the unreadable word is `check`'s business, not this layer's. */
+  T("an unspellable word raises nothing and does not throw",
+    unprovedSounds("qzzq", 1, inv).length === 0 && safeLevel("qzzq", inv) === null);
+
+  /* THE SILENT-HIDE PATH. A rule that names a sound the shape does not teach
+     for that spelling used to give an undefined level, and undefined compares
+     false against every number - so the unit would vanish from the report
+     without a word. It now falls back to every sound, the conservative
+     direction. Planted here because no shape in the repository triggers it. */
+  const wrongRule = { rules: { ...SOUND_RULES, ow: () => "long_u" } };
+  T("control: a rule naming a sound the shape does not teach falls back to all of them",
+    billFor(f, "town", 65, wrongRule) === "town@L65 ow ow@L77 safe L77");
+  T("control: a rule naming a sound the shape DOES teach is obeyed",
+    billFor(f, "town", 65, { rules: { ...SOUND_RULES, ow: () => "long_o" } }) === "");
+
+  /* safeLevel is section U's option two, computed. It is what the bill's last
+     column means and what a mover would need. */
+  T("safe level is where every sound the model cannot rule out has been taught",
+    safeLevel("town", inv) === 77 && safeLevel("cat", inv) === 4
+    && safeLevel("hear", inv) === 85 && safeLevel("pot", inv) === 1);
+
+  /* Each reported unit says whether a rule named its sound or nothing could.
+     A caller that acts on the bill needs to tell "the rule says long e and it
+     arrives later" from "nobody knows which of these it is", and a field
+     nothing asserts is a field that can quietly stop being true. */
+  T("a reported unit says whether a rule named its sound or nothing could",
+    unprovedSounds("town", 65, inv).map((h) => `${h.g}:${h.resolved}`).join(" ")
+    === "ow:null"
+    && unprovedSounds("sandy", 19, inv).map((h) => `${h.g}:${h.resolved}`).join(" ")
+    === "y:long_e");
+
+  /* Only the ladder is read. Heart words are taught whole, never sounded out,
+     so a heart word in the shape must never reach this bill. */
+  const hearty = {
+    ...f,
+    shape: f.shape.map((lv) => (lv.n === 65 ? { ...lv, heart: ["town"] } : lv)),
+  };
+  T("a heart word is taught whole and never reaches the bill",
+    soundBill(hearty).length === 0);
+
+  /* THE MEASUREMENT THAT CHOSE THE MODEL, on the fixture rather than on the
+     ladder, so it cannot drift with the data. Under section U's option two -
+     no rules at all - the first word a child ever meets is held back, because
+     the letter a is taught twice. That is why the resolvers exist. */
+  const blunt = { rules: {} };
+  T("control: option two, with no rules, holds back the word `at` itself",
+    billFor(f, "at", 1, blunt) === "at@L1 a long_a@L72 safe L72" && billFor(f, "at", 1) === "");
+
+  /* Sorted by level, then by the alphabet: it is read down by a person. */
+  const many = {
+    ...f,
+    ladder: f.ladder.map((lv) => {
+      if (lv.n === 65) return { ...lv, words: ["town"] };
+      if (lv.n === 62) return { ...lv, words: ["seat", "eat"], filled: ["eat"] };
+      return lv;
+    }),
+  };
+  T("the bill is sorted by level and then by the alphabet",
+    soundBill(many).map((r) => `${r.level}:${r.word}:${r.source}`).join(" ")
+    === "62:eat:fill 62:seat:generator 65:town:generator");
+
+  /* And the printed page carries every row. A renderer that counts three and
+     prints two is a lookup that has quietly stopped being one, and the count
+     line would still read three. */
+  const page = describeSounds(many, soundBill(many));
+  T("every row of the bill reaches the printed page, with its safe level",
+    page.includes("3 placed word(s)") && page.includes("1 seated by this pass")
+    && page.includes("L 62   eat") && page.includes("L 62   seat")
+    && page.includes("L 65   town") && page.includes("ow@L77"));
+  T("control: an empty bill prints no rows and says so as a zero",
+    describeSounds(f, []).includes("0 placed word(s)")
+    && !describeSounds(f, []).includes("town"));
+}
+
 function selfTest() {
   const say = [];
   const sf = splitFixture();
@@ -743,6 +1235,10 @@ function selfTest() {
   controlSplitVowels(say, sf, sinv);
   controlShapeTokens(say, sf, sinv);
   controlEndingLevel(say, sf);
+  const df = soundFixture();
+  controlUnruledSounds(say, df);
+  controlRuledSounds(say, df);
+  controlSoundModel(say, df);
   controlFaults(say, controlChecks(say));
   const failed = say.filter(([, p]) => !p).length;
   for (const [n, p] of say) console.log((p ? "ok   " : "FAIL ") + n);
@@ -756,6 +1252,10 @@ if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) 
   const argv = process.argv.slice(2);
   if (argv.includes("--self-test")) process.exit(selfTest() ? 1 : 0);
   const state = load();
+  if (argv.includes("--sounds")) {
+    console.log(describeSounds(state, soundBill(state)));
+    process.exit(0);
+  }
   if (argv.includes("--check")) {
     const faults = check(state);
     for (const f of faults) {
@@ -768,6 +1268,17 @@ if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) 
       : "\nladder-fill --check: every target word has a seat, none seated early, none over the band.");
     console.log(`Lookup, not a rule: ${early.length} of the generator's own placements sit before`);
     console.log("this model would read them. That is the generator's fault, not this pass's.");
+    /* The second lookup, and its reasons are with soundBill. The spellings are
+       named with the levels read from the real shape, so a shape that moves one
+       shows the move here rather than only in a fixture. */
+    const bill = soundBill(state);
+    const inv = inventory(state.shape);
+    const twice = [...inv].filter(([, e]) => e.sounds.size > 1)
+      .map(([g, e]) => `${g}(${[...e.sounds.values()].join("/")})`);
+    console.log(`Lookup, not a rule: ${bill.length} placed word(s) sit where this model cannot`);
+    console.log(`show the sound they need has been taught. ${twice.length} spellings are taught twice:`);
+    console.log(`  ${twice.join(" ")}`);
+    console.log("Run node tools/ladder-fill.mjs --sounds for the bill. open-faults section U.");
     process.exit(faults.length ? 1 : 0);
   }
   const p = plan(state);
