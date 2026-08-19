@@ -515,12 +515,12 @@
  },
  {
   "n": 53,
-  "teaches": "y turns into i",
+  "teaches": "y turns into i, and the -ly ending",
   "new": "",
   "heart": [],
-  "build": "",
+  "build": "add -ly as its own tile",
   "text": "paragraph, 5 sentences",
-  "rule": "y_to_i"
+  "rule": "y_to_i_suffix_ly"
  },
  {
   "n": 54,
@@ -922,12 +922,12 @@
  },
  {
   "n": 98,
-  "teaches": "the -ly and -ful endings",
+  "teaches": "the -ful ending",
   "new": "",
   "heart": [],
   "build": "suffix as its own tile",
   "text": "paragraph, 10 sentences",
-  "rule": "suffix_ly_ful"
+  "rule": "suffix_ful"
  },
  {
   "n": 99,

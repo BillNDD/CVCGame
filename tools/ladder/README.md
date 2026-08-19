@@ -51,8 +51,30 @@ Known faults at the time of committing, all recorded in `docs/redesign-plan.md`:
 - ~~Level 24 teaches the quiet `th` and no quiet-`th` word exists anywhere.~~
   **Closed 2026-08-19.** Level 24 now seats *bathtub thank thankful* - three,
   also under six, and it is still the child's first paragraph.
-- The shape and the ladder disagree about what level 49 teaches, and about what
-  level 94 teaches: the ladder says `ch=k ch=sh` where the shape says `ch=k`.
+- **Level 98 seats three words, and that is the price of a ruling, not a
+  regression.** The owner ruled on 2026-08-19 that "L53 teaches y-to-i AND -ly",
+  so *gladly*, *quickly* and *softly* moved to 53 and *kindly* to 68, where the
+  long i it needs is taught. Level 98 keeps *helpful playful useful* and teaches
+  -ful alone. It is the same word bill as 23 and 24 above: the other three -ful
+  words in the target vocabulary are already seated EARLIER - *thankful* at 24,
+  *wonderful* at 54, *careful* at 85 - so the only way to reach six here is to
+  drag a word backwards past the level that made it readable. SPEC section 12
+  owns the ruling; `docs/open-faults.md` section V owns what those three earlier
+  words mean for -ful.
+- The shape and the ladder disagree about what THREE levels teach - 46, 49 and
+  94, measured 2026-08-19. This bullet named only 49 and 94 until then.
+  At 46 the shape says "two letters, one sound" and rule `double` where the
+  ladder says "doubling before an ending" and `double_suffix`. At 49 the shape
+  says "the e at the end with a job", rule `silent_e_jobs`, graphemes
+  `ce=s ge=j se=s ve=v ze=z`, and the ladder says "a doubled letter in the
+  middle", rule `double_medial`, no graphemes at all. Those two look like one
+  drift rather than two, since the ladder's 49 carries a doubling subject that
+  belongs beside 46. At 94 the ladder says `ch=k ch=sh` where the shape says
+  `ch=k`. **Nothing else disagrees about a subject.** The other 33 levels whose
+  `new` fields differ are the same graphemes with the sound half missing from
+  the ladder's copy, which is the "graphemes written without their sound" count
+  `tools/ladder-status.mjs` already reports - not a second opinion about what
+  the level teaches.
 - `corpus-harvest.json` is the output of a pipeline that produced fabricated
   citations three times before its faults were found. The passages in this file
   were verified contiguous; **a person still reads every text before it ships**,

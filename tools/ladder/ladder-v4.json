@@ -1047,9 +1047,9 @@
  },
  {
   "n": 53,
-  "teaches": "y turns into i",
+  "teaches": "y turns into i, and the -ly ending",
   "new": "",
-  "rule": "y_to_i",
+  "rule": "y_to_i_suffix_ly",
   "pool": 159,
   "cands": 5,
   "words": [
@@ -1057,7 +1057,10 @@
    "dried",
    "happier",
    "spied",
-   "tried"
+   "tried",
+   "gladly",
+   "quickly",
+   "softly"
   ]
  },
  {
@@ -1439,7 +1442,8 @@
    "mild",
    "mind",
    "wild",
-   "child"
+   "child",
+   "kindly"
   ],
   "filled": [
    "child"
@@ -2092,18 +2096,14 @@
  },
  {
   "n": 98,
-  "teaches": "the -ly and -ful endings",
+  "teaches": "the -ful ending",
   "new": "",
-  "rule": "suffix_ly_ful",
+  "rule": "suffix_ful",
   "pool": 163,
   "cands": 7,
   "words": [
-   "gladly",
    "helpful",
-   "kindly",
    "playful",
-   "quickly",
-   "softly",
    "useful"
   ]
  },

@@ -52,6 +52,22 @@ being filled past six (59, 63, 84) and three entered it (23, 24, 65), every one
 of those three by rising out of empty rather than by losing anything. Counted honestly - levels under six INCLUDING the empty ones - the
 number went from 30 to 25.
 
+Measured a third time on 2026-08-19, after the owner ruled "L53 teaches y-to-i
+AND -ly" and four words moved down the ladder: 100 levels, **887 words placed, 3
+empty levels, 21 under six words**. Counted with the empty ones, 25 became 24.
+Nothing was added and nothing was removed - 887 is the same 887 - so every
+movement here is one level's loss and another's gain. Level 53 went from 5 words
+to 8 and level 68 from 5 to 6, which took both off the under-six list; level 98
+gave up four and fell from 7 to 3, which put it on. Three words at 98 is a word
+bill for the owner in exactly the sense levels 23 and 24 already are, and it was
+NOT padded. The target vocabulary does hold three more -ful words, and every one
+of them is seated earlier - thankful at 24, wonderful at 54, careful at 85 - so
+filling 98 would mean dragging a word back up the ladder past the level that
+made it readable. That is padding under another name.
+`tools/ladder/README.md` carries the thin level beside 23 and 24. SPEC section
+12 owns the ruling itself, and `docs/open-faults.md` section V carries what
+those three earlier -ful words mean: -ful now has the fault -ly just lost.
+
 ## Where this came from
 
 The owner ruled the **Sound Ladder with three grafts** (SPEC 12a) on 2026-08-17 after an

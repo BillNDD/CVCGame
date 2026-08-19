@@ -754,6 +754,20 @@ chosen. The other pathways need the app to express rules — magic e, bossy r, t
    Educational Research, where the effect was larger for less able readers too). It argues directly against saving -ing and -ed for the top of the
    ladder, where every real book puts them on page one. **Suffixes get their own Build-it
    tiles**, so a child assembles jump + ed as two pieces rather than seven letters.
+
+   **The graft reached -ly last. The owner ruled on 2026-08-19: "L53 teaches y-to-i AND
+   -ly."** Every other suffix already obeyed the argument above — -s at level 6, -ing at 37,
+   agent -er at 38, -ed at 43, -es at 47 — and -ly alone sat at level 98 of 100, which is
+   the top of the ladder this graft exists to argue against. The ladder had already
+   convicted itself: it seated *finally* at level 51 and *slowly* at 65, teaching -ly words
+   thirty-three and forty-seven levels before it taught -ly. Level 53 is where it belongs
+   because that level already teaches the other half of the same fact — y turning into i
+   when an ending arrives — and because *gladly*, *quickly* and *softly* need no sound a
+   child has not met by level 51. *kindly* went to level 68 instead, where the long i
+   before two consonants is taught: read at 53 a child gives it the short i of *kid* and
+   says the first syllable of *kindle*. That is the same reasoning that moved *child* from
+   level 23 to 68 on the same day. Level 98 keeps -ful, and falls to three words — a word
+   bill for the owner, never a level to pad.
 3. **From the text ladder: about twenty heart words front-loaded**, so a real sentence
    exists in the child's second week rather than their sixth. The sound ladder permits this
    on its own terms: a word may be introduced ahead of the code that explains it, provided

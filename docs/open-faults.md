@@ -1362,6 +1362,46 @@ control per multi-sound spelling and a negative control that seats `town` at 65
 and fails. Until then, every level teaching a second sound of an already-taught
 spelling needs a human read of its word list before it ships.
 
+## V. `-ful` now has the fault `-ly` just lost — opened 2026-08-19
+
+The owner ruled on 2026-08-19 that "L53 teaches y-to-i AND -ly", and the suffix
+graft of SPEC section 12 — the strongest research finding in the specialist's
+report — finally reaches every suffix but one. `-ful` is the one. It is still
+taught at level 98 of 100, and it is now the only suffix left at the top of the
+ladder the graft exists to argue against.
+
+- **Where** `tools/ladder/shape-v3.json` and `tools/ladder/ladder-v4.json`,
+  level 98, rule `suffix_ful`.
+- **The measurement**, taken the day the ruling landed. The target vocabulary
+  holds six `-ful` words. Three are seated at 98 — *helpful*, *playful*,
+  *useful*. The other three are seated EARLIER: *thankful* at 24, *wonderful*
+  at 54, *careful* at 85. So a child meets a `-ful` word 74, 44 and 13 levels
+  before anything explains the ending. That is the same arithmetic that
+  convicted `-ly`, where *finally* sat at 51 and *slowly* at 65 against a
+  teaching level of 98.
+- **It is worse than it looks from the seats alone.** By the readiness model's
+  own reckoning *helpful* and *useful* are readable at level 14 and were held
+  at 98 regardless — 84 levels of waiting for words a child could already
+  sound out.
+- **What a child experiences today** Nothing. These are DRAFT files; the game
+  still runs the 21 levels in `src/engine.js` and no child has met this ladder.
+  The cost is paid at conversion, and it is cheaper to move a number now than
+  a level later.
+- **What was NOT done, and why** Level 98 was left at three words. Padding it
+  is impossible without dragging *thankful*, *wonderful* or *careful* backwards
+  past the level that made each readable, which is the fault the silent fill was
+  deleted for. Three is an honest word bill, recorded in
+  `tools/ladder/README.md` beside levels 23 and 24.
+- **One residue on the `-ly` side, stated so it is not later called a surprise.**
+  *finally* still sits at level 51, two levels before 53. It is one of the 23
+  placements `ladder-fill --check` already reports as sitting before this model
+  would read them, so it is counted, not hidden.
+- **Done** means the owner rules on where `-ful` is taught, the same way he
+  ruled on `-ly`, and the level moves with its words — or he rules that 98 is
+  where it stays, and this entry closes with that ruling recorded in SPEC
+  section 12. Either way it is a decision page, not an agent's judgement:
+  the `-ly` ruling was, and this is the same question.
+
 ## G. Ideas worth trying that nobody has tried
 
 Owner-instructed 2026-08-12. Unlike every section above, these are **not** faults and not
