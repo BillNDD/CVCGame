@@ -15,6 +15,7 @@
 #
 # Usage: python ship-sounds.py
 import hashlib
+import io
 import json
 import pathlib
 import shutil
@@ -75,6 +76,8 @@ if missing:
     raise SystemExit("no approved clip for: " + ", ".join(sorted(missing))
                      + "\nEach one needs a listening round before it can ship.")
 
-MANIFEST.write_text(json.dumps(manifest, indent=1, sort_keys=True) + "\n", encoding="utf-8")
+# newline pinned to LF: write_text uses the platform default, and on Windows
+# that put 7,680 CRLF pairs into the manifest on 2026-08-19
+io.open(MANIFEST, "w", encoding="utf-8", newline="\n").write(json.dumps(manifest, indent=1, sort_keys=True) + "\n")
 print(f"shipped {shipped} sounds; manifest now holds {len(manifest) - 1} clips")
 print("next: python3 tools/voice-edges.py --write")

@@ -27,6 +27,7 @@
 #   python voice-edges.py --write       measure the pack and record the edges
 #   python voice-edges.py --check       re-measure and fail on any disagreement
 #   python voice-edges.py --self-test   prove the check catches a fabricated edge
+import io
 import json
 import pathlib
 import sys
@@ -107,7 +108,9 @@ def main():
         for cid, (lead, tail) in measured.items():
             manifest[cid]["lead"] = lead
             manifest[cid]["tail"] = tail
-        MANIFEST.write_text(json.dumps(manifest, indent=1, sort_keys=True) + "\n", encoding="utf-8")
+        # newline pinned to LF: write_text uses the platform default, and on Windows
+        # that put 7,680 CRLF pairs into the manifest on 2026-08-19
+        io.open(MANIFEST, "w", encoding="utf-8", newline="\n").write(json.dumps(manifest, indent=1, sort_keys=True) + "\n")
         leads = [v[0] for v in measured.values()]
         tails = [v[1] for v in measured.values()]
         print(f"wrote edges for {len(measured)} clips: "
