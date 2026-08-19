@@ -897,6 +897,35 @@ const TILE_SOUND = {
      share and square. His words: "are: air. But remember the word are alone
      shouldn't follow the air sound." The word itself is bent below. */
   are: "air",
+  /* The extended code's single-sound units, owner-accepted 2026-08-19 (R9 of
+     the forensic audit). Each mapping is read off tools/ladder/shape-v3.json,
+     where the unit is taught with exactly ONE sound, and every target id has a
+     shipped clip. ai and ou are DELIBERATELY absent: owner-ruled 2026-08-12,
+     neither has a default sound and every word using one bends per word - a
+     test enforces that, and the ladder teaching ai=long_a at level 58 is a
+     tension for the owner to rule on, not for this table to resolve. The six
+     spellings taught with TWO sounds (ea ey ie oo ear ere) are also absent -
+     they bend per word the same way. */
+  ay: "long_a", eigh: "long_a",
+  ee: "long_e",
+  igh: "long_i",
+  oa: "long_o", oe: "long_o",
+  ew: "oo_moon", ue: "oo_moon",
+  ir: "er", ur: "er", re: "er",
+  ore: "or",
+  ce: "s", se: "s",
+  ci: "sh", ti: "sh",
+  dge: "j", ge: "j",
+  tch: "ch", tu: "ch",
+  le: "l", tle: "l",
+  ph: "f", ve: "v",
+  /* These five map onto the three approved-and-unshipped sounds (aw, ear, oi).
+     The mapping is the shape's own single-sound teaching; the clips ship the
+     moment the converted bank asks for them, the way ar and er shipped on
+     2026-08-19 when `are` and `were` first asked. */
+  al: "aw", au: "aw", augh: "aw",
+  eer: "ear",
+  oy: "oi",
 };
 const soundIdFor = (g) => "d:" + (TILE_SOUND[g] || g);
 /* A tricky word is tricky because one of its letters is not saying what the

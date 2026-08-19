@@ -75,8 +75,8 @@ is the clause that catches the eighth fault nobody has thought of yet.
 |---|---|---|
 | BREAKS | `g27_throws_max` (0) | a real function threw on what the ladder produces |
 | BREAKS | `g27_no_value_max` (0) | a real function returned nothing where a value is required |
-| BREAKS | `g27_sound_no_clip_max` (40) | a tile unit resolves to a sound id in no pack and no waiting room |
-| BREAKS | `g27_tray_no_clip_max` (516) | Build-it would deal a tile whose sound has no clip |
+| BREAKS | `g27_sound_no_clip_max` (16) | a tile unit resolves to a sound id in no pack and no waiting room |
+| BREAKS | `g27_tray_no_clip_max` (233) | Build-it would deal a tile whose sound has no clip |
 | BREAKS | `g27_word_no_clip_max` (95) | a bank word has no word clip anywhere |
 | BREAKS | `g27_sentence_no_clip_max` (0) | a placed text has no clip anywhere |
 | BREAKS | `g27_text_word_untaught_max` (1) | a placed text uses a word the ladder does not teach by that level |
