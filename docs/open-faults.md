@@ -1269,6 +1269,80 @@ protect it, and a gate that cannot run is a gate that is not protecting anything
   the graduation), a G19 family over `usePre.js` (the one-grade guard, the advance arming),
   floors `g5_source_mutants` and `g19_app_mutants` raised to match, and this entry closed.
 
+## T. What the ladder fill found and did not fix — opened 2026-08-19
+
+`tools/ladder-fill.mjs` seated the 162 target words the generator had left at no level at
+all. Five faults surfaced while it was built. None of them is what the fill was for, so none
+of them was fixed in that change, and each is written here rather than in a chat log.
+
+### T1. Twenty-three of the generator's own placements sit before a child can read them
+
+- **Where** `tools/ladder/ladder-v4.json`, among the 725 words the generator placed —
+  not among the 162 the fill added, which are gated. `comes` at level 7 (readable at 64),
+  `lived` at 16 (66), `waves` at 17 (57), `all` at 56 (86), `fall` at 80 (86), the whole
+  y-to-i family at 53 (63), and seventeen more.
+- **The cause** The generator scored a word by the letters it contains rather than by the
+  units it is read in, so `comes` counted as readable the moment c, o, m, e and s had each
+  been taught. A child meeting it there reads /k/-/o/-/m/-/e/-/s/.
+- **What a child experiences today** Nothing: the ladder is a draft and no level of it has
+  been converted to engine code. The moment it is, these are wrong-sound placements.
+- **Why nothing catches it** `ladder-fill --check` reports the count as a LOOKUP and does
+  not fail on it. Failing would leave the gate permanently red on a fault it was not built
+  to fix, and a permanently red gate teaches everyone to skip it. `seatedEarly()` prints
+  the number so it is on the page rather than in somebody's memory.
+- **Done** means each of the 23 moved to a level that can read it, or ruled a deliberate
+  exception with the reason, and the `--check` lookup then reading zero.
+
+### T2. Three levels still seat no word, and two more sit under the owner's six
+
+- **Where** `tools/ladder/ladder-v4.json`. Levels 32 (coda3), 72 (the open-syllable long a)
+  and 94 (`ch` saying k and sh) seat zero. Levels 23 (`ch`, five words) and 24 (the quiet
+  `th`, three) rose out of empty but stopped short of six.
+- **The cause** No word in `tools/target-vocab.txt` is on topic for those five subjects.
+  The fill refuses to pad a level with a word that teaches nothing about it — that is the
+  silent fill this generator already had deleted once.
+- **Done** means a word bill for the owner covering those five subjects, ruled the way the
+  295-candidate bill was ruled, and the words seated.
+
+### T3. The ladder generator is not in this repository
+
+- **Where** Nowhere. No tracked `.mjs`, `.js` or `.py` writes `ladder-v4.json` or
+  `shape-v3.json`; `tools/ladder/README.md` records that the ladder lived in a session
+  scratchpad, and the scratchpad is gone.
+- **What it means** The ladder cannot be regenerated, only edited. Every fault the
+  generator baked in — the ten-word cap, the letter-coverage readiness model, T1 — is now
+  a property of a data file that nothing can rebuild.
+- **Done** is a decision, not a fix: either the generator is rewritten from
+  `tools/ladder-fill.mjs`'s readiness model, which would let the ladder be rebuilt from the
+  shape and the vocabulary, or the owner rules that `ladder-v4.json` is now hand-maintained
+  and the fill's `--check` is the only guard it gets.
+
+### T4. The shape and the ladder disagree about two levels, and only one was known
+
+- **Where** `tools/ladder/shape-v3.json` against `tools/ladder/ladder-v4.json`. Level 49:
+  the ladder's `new` is empty where the shape says `ce=s ge=j se=s ve=v ze=z`. Level 94:
+  the ladder says `ch=k ch=sh` where the shape says `ch=k`. The 49 disagreement is named in
+  `tools/ladder/README.md`; the 94 one was not named anywhere until now.
+- **What it means** Two files answer "what does this level teach" differently, and nothing
+  asks them to agree. Level 94 is also one of the three that seat no word (T2), so the
+  disagreement and the emptiness may be the same fault seen twice.
+- **Done** means a rule that the two files must agree on every level's `new` field, with a
+  control that proves it catches a disagreement, and the two levels reconciled.
+
+### T5. `docs/redesign-plan.md` contradicts itself about how many words the ladder holds
+
+- **Where** `docs/redesign-plan.md`. The measured paragraph now reads 887 words placed and
+  3 empty levels. Fifteen lines below, the "state today, measured" table says
+  "Words placed | 749 + 22 heart = 771" and "Levels with no words at all | 9 (92–100)".
+- **The cause** Pre-existing: the table was written against an earlier scratchpad ladder and
+  never updated when `ladder-v4.json` was committed. The fill did not create this; it made
+  it impossible to miss.
+- **What a reader experiences today** Two numbers for the same fact in one document, which
+  is exactly the drift `tools/ladder-status.mjs` was built to end.
+- **Done** means the table's rows either recomputed from the files that own them or deleted
+  in favour of a pointer to the lookup, and nothing in the document quoting a ladder count
+  that a person typed.
+
 ## G. Ideas worth trying that nobody has tried
 
 Owner-instructed 2026-08-12. Unlike every section above, these are **not** faults and not

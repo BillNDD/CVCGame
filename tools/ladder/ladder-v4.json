@@ -162,7 +162,15 @@
    "got",
    "get",
    "gap",
-   "pigpen"
+   "pigpen",
+   "dog",
+   "dogs",
+   "pig"
+  ],
+  "filled": [
+   "dog",
+   "dogs",
+   "pig"
   ]
  },
  {
@@ -202,7 +210,11 @@
    "if",
    "fed",
    "gift",
-   "soft"
+   "soft",
+   "fog"
+  ],
+  "filled": [
+   "fog"
   ]
  },
  {
@@ -222,7 +234,13 @@
    "cab",
    "best",
    "bet",
-   "dab"
+   "dab",
+   "bag",
+   "big"
+  ],
+  "filled": [
+   "bag",
+   "big"
   ]
  },
  {
@@ -242,7 +260,13 @@
    "let",
    "lid",
    "lot",
-   "lots"
+   "lots",
+   "animal",
+   "leg"
+  ],
+  "filled": [
+   "animal",
+   "leg"
   ]
  },
  {
@@ -262,7 +286,13 @@
    "nut",
    "sun",
    "tub",
-   "up"
+   "up",
+   "bug",
+   "bugs"
+  ],
+  "filled": [
+   "bug",
+   "bugs"
   ]
  },
  {
@@ -282,7 +312,13 @@
    "rid",
    "rod",
    "rub",
-   "run"
+   "run",
+   "frog",
+   "rag"
+  ],
+  "filled": [
+   "frog",
+   "rag"
   ]
  },
  {
@@ -377,7 +413,13 @@
    "us",
    "laptop",
    "sunset",
-   "bus"
+   "bus",
+   "log",
+   "logs"
+  ],
+  "filled": [
+   "log",
+   "logs"
   ]
  },
  {
@@ -397,7 +439,13 @@
    "smell",
    "tell",
    "buzz",
-   "doll"
+   "doll",
+   "dressed",
+   "umbrella"
+  ],
+  "filled": [
+   "dressed",
+   "umbrella"
   ]
  },
  {
@@ -417,7 +465,13 @@
    "wish",
    "wash",
    "hush",
-   "mash"
+   "mash",
+   "brushed",
+   "shrub"
+  ],
+  "filled": [
+   "brushed",
+   "shrub"
   ]
  },
  {
@@ -427,7 +481,20 @@
   "rule": null,
   "pool": 201,
   "cands": 0,
-  "words": []
+  "words": [
+   "benches",
+   "branches",
+   "child",
+   "chop",
+   "rich"
+  ],
+  "filled": [
+   "benches",
+   "branches",
+   "child",
+   "chop",
+   "rich"
+  ]
  },
  {
   "n": 24,
@@ -436,7 +503,16 @@
   "rule": null,
   "pool": 201,
   "cands": 0,
-  "words": []
+  "words": [
+   "bathtub",
+   "thank",
+   "thankful"
+  ],
+  "filled": [
+   "bathtub",
+   "thank",
+   "thankful"
+  ]
  },
  {
   "n": 25,
@@ -473,7 +549,13 @@
    "luck",
    "pick",
    "rack",
-   "rock"
+   "rock",
+   "chick",
+   "chicks"
+  ],
+  "filled": [
+   "chick",
+   "chicks"
   ]
  },
  {
@@ -511,7 +593,13 @@
    "gong",
    "hang",
    "hung",
-   "lung"
+   "lung",
+   "bring",
+   "something"
+  ],
+  "filled": [
+   "bring",
+   "something"
   ]
  },
  {
@@ -548,7 +636,13 @@
    "socks",
    "sold",
    "told",
-   "well"
+   "well",
+   "dug",
+   "hug"
+  ],
+  "filled": [
+   "dug",
+   "hug"
   ]
  },
  {
@@ -676,7 +770,13 @@
   "words": [
    "helper",
    "jumper",
-   "singer"
+   "singer",
+   "another",
+   "mother"
+  ],
+  "filled": [
+   "another",
+   "mother"
   ]
  },
  {
@@ -711,7 +811,13 @@
    "hum",
    "jam",
    "job",
-   "lap"
+   "lap",
+   "rug",
+   "undo"
+  ],
+  "filled": [
+   "rug",
+   "undo"
   ]
  },
  {
@@ -807,7 +913,13 @@
    "butter",
    "hammer",
    "ladder",
-   "pepper"
+   "pepper",
+   "biggest",
+   "digging"
+  ],
+  "filled": [
+   "biggest",
+   "digging"
   ]
  },
  {
@@ -839,7 +951,11 @@
    "handle",
    "middle",
    "simple",
-   "waffle"
+   "waffle",
+   "table"
+  ],
+  "filled": [
+   "table"
   ]
  },
  {
@@ -874,7 +990,13 @@
    "rap",
    "rip",
    "shed",
-   "shell"
+   "shell",
+   "thing",
+   "unlock"
+  ],
+  "filled": [
+   "thing",
+   "unlock"
   ]
  },
  {
@@ -894,7 +1016,13 @@
    "jelly",
    "lucky",
    "penny",
-   "puppy"
+   "puppy",
+   "sandy",
+   "silly"
+  ],
+  "filled": [
+   "sandy",
+   "silly"
   ]
  },
  {
@@ -975,7 +1103,13 @@
    "all",
    "bash",
    "bell",
-   "boss"
+   "boss",
+   "sunny",
+   "things"
+  ],
+  "filled": [
+   "sunny",
+   "things"
   ]
  },
  {
@@ -995,7 +1129,13 @@
    "gates",
    "lake",
    "same",
-   "save"
+   "save",
+   "gave",
+   "made"
+  ],
+  "filled": [
+   "gave",
+   "made"
   ]
  },
  {
@@ -1015,7 +1155,13 @@
    "rain",
    "say",
    "stay",
-   "tail"
+   "tail",
+   "player",
+   "way"
+  ],
+  "filled": [
+   "player",
+   "way"
   ]
  },
  {
@@ -1030,7 +1176,15 @@
    "freight",
    "sleigh",
    "weigh",
-   "weight"
+   "weight",
+   "grey",
+   "hey",
+   "obey"
+  ],
+  "filled": [
+   "grey",
+   "hey",
+   "obey"
   ]
  },
  {
@@ -1050,7 +1204,13 @@
    "buck",
    "bud",
    "bun",
-   "bush"
+   "bush",
+   "unhappy",
+   "windy"
+  ],
+  "filled": [
+   "unhappy",
+   "windy"
   ]
  },
  {
@@ -1070,7 +1230,13 @@
    "meet",
    "meets",
    "need",
-   "seed"
+   "seed",
+   "seem",
+   "seen"
+  ],
+  "filled": [
+   "seem",
+   "seen"
   ]
  },
  {
@@ -1080,7 +1246,36 @@
   "rule": null,
   "pool": 150,
   "cands": 0,
-  "words": []
+  "words": [
+   "deal",
+   "each",
+   "eagle",
+   "eagles",
+   "eat",
+   "eating",
+   "leaf",
+   "leave",
+   "mean",
+   "meat",
+   "reader",
+   "seat",
+   "teaching"
+  ],
+  "filled": [
+   "deal",
+   "each",
+   "eagle",
+   "eagles",
+   "eat",
+   "eating",
+   "leaf",
+   "leave",
+   "mean",
+   "meat",
+   "reader",
+   "seat",
+   "teaching"
+  ]
  },
  {
   "n": 63,
@@ -1094,7 +1289,29 @@
    "honey",
    "money",
    "monkey",
-   "valley"
+   "valley",
+   "babies",
+   "brief",
+   "chief",
+   "cities",
+   "field",
+   "niece",
+   "pennies",
+   "piece",
+   "ponies",
+   "preview"
+  ],
+  "filled": [
+   "babies",
+   "brief",
+   "chief",
+   "cities",
+   "field",
+   "niece",
+   "pennies",
+   "piece",
+   "ponies",
+   "preview"
   ]
  },
  {
@@ -1114,7 +1331,21 @@
    "broke",
    "hole",
    "home",
-   "hope"
+   "hope",
+   "come",
+   "love",
+   "nose",
+   "note",
+   "some",
+   "those"
+  ],
+  "filled": [
+   "come",
+   "love",
+   "nose",
+   "note",
+   "some",
+   "those"
   ]
  },
  {
@@ -1124,7 +1355,18 @@
   "rule": null,
   "pool": 154,
   "cands": 0,
-  "words": []
+  "words": [
+   "slowly",
+   "throw",
+   "town",
+   "wow"
+  ],
+  "filled": [
+   "slowly",
+   "throw",
+   "town",
+   "wow"
+  ]
  },
  {
   "n": 66,
@@ -1143,7 +1385,25 @@
    "hide",
    "inside",
    "like",
-   "line"
+   "line",
+   "live",
+   "mile",
+   "nine",
+   "shine",
+   "side",
+   "smile",
+   "time",
+   "white"
+  ],
+  "filled": [
+   "live",
+   "mile",
+   "nine",
+   "shine",
+   "side",
+   "smile",
+   "time",
+   "white"
   ]
  },
  {
@@ -1160,7 +1420,15 @@
    "light",
    "might",
    "pie",
-   "tie"
+   "tie",
+   "night",
+   "right",
+   "sight"
+  ],
+  "filled": [
+   "night",
+   "right",
+   "sight"
   ]
  },
  {
@@ -1205,7 +1473,13 @@
    "dash",
    "deck",
    "dim",
-   "dock"
+   "dock",
+   "sheep",
+   "yesterday"
+  ],
+  "filled": [
+   "sheep",
+   "yesterday"
   ]
  },
  {
@@ -1259,7 +1533,24 @@
   "rule": null,
   "pool": 142,
   "cands": 0,
-  "words": []
+  "words": [
+   "moon",
+   "pool",
+   "room",
+   "soon",
+   "too",
+   "tooth",
+   "zoom"
+  ],
+  "filled": [
+   "moon",
+   "pool",
+   "room",
+   "soon",
+   "too",
+   "tooth",
+   "zoom"
+  ]
  },
  {
   "n": 75,
@@ -1293,7 +1584,11 @@
    "glue",
    "mule",
    "new",
-   "true"
+   "true",
+   "use"
+  ],
+  "filled": [
+   "use"
   ]
  },
  {
@@ -1313,7 +1608,25 @@
    "cow",
    "down",
    "how",
-   "loud"
+   "loud",
+   "house",
+   "mouse",
+   "our",
+   "outside",
+   "proud",
+   "shouted",
+   "sound",
+   "sounds"
+  ],
+  "filled": [
+   "house",
+   "mouse",
+   "our",
+   "outside",
+   "proud",
+   "shouted",
+   "sound",
+   "sounds"
   ]
  },
  {
@@ -1333,7 +1646,15 @@
    "join",
    "loyal",
    "point",
-   "royal"
+   "royal",
+   "noise",
+   "soil",
+   "spoil"
+  ],
+  "filled": [
+   "noise",
+   "soil",
+   "spoil"
   ]
  },
  {
@@ -1353,7 +1674,27 @@
    "dark",
    "far",
    "farm",
-   "farms"
+   "farms",
+   "charm",
+   "farmer",
+   "hard",
+   "park",
+   "part",
+   "start",
+   "started",
+   "tar",
+   "yard"
+  ],
+  "filled": [
+   "charm",
+   "farmer",
+   "hard",
+   "park",
+   "part",
+   "start",
+   "started",
+   "tar",
+   "yard"
   ]
  },
  {
@@ -1373,7 +1714,13 @@
    "gush",
    "gut",
    "hem",
-   "hip"
+   "hip",
+   "sleep",
+   "teeth"
+  ],
+  "filled": [
+   "sleep",
+   "teeth"
   ]
  },
  {
@@ -1393,7 +1740,15 @@
    "sore",
    "store",
    "story",
-   "tore"
+   "tore",
+   "horse",
+   "torn",
+   "worker"
+  ],
+  "filled": [
+   "horse",
+   "torn",
+   "worker"
   ]
  },
  {
@@ -1413,7 +1768,19 @@
    "haul",
    "jaw",
    "laugh",
-   "lawn"
+   "lawn",
+   "paw",
+   "sauce",
+   "saw",
+   "straw",
+   "yawn"
+  ],
+  "filled": [
+   "paw",
+   "sauce",
+   "saw",
+   "straw",
+   "yawn"
   ]
  },
  {
@@ -1433,7 +1800,17 @@
    "first",
    "purple",
    "shirt",
-   "turn"
+   "turn",
+   "church",
+   "nurse",
+   "survey",
+   "third"
+  ],
+  "filled": [
+   "church",
+   "nurse",
+   "survey",
+   "third"
   ]
  },
  {
@@ -1444,7 +1821,21 @@
   "pool": 159,
   "cands": 1,
   "words": [
-   "deer"
+   "deer",
+   "ear",
+   "ears",
+   "hear",
+   "here",
+   "near",
+   "year"
+  ],
+  "filled": [
+   "ear",
+   "ears",
+   "hear",
+   "here",
+   "near",
+   "year"
   ]
  },
  {
@@ -1457,7 +1848,11 @@
   "words": [
    "where",
    "careful",
-   "careless"
+   "careless",
+   "unfair"
+  ],
+  "filled": [
+   "unfair"
   ]
  },
  {
@@ -1506,7 +1901,13 @@
    "judge",
    "match",
    "matches",
-   "pitch"
+   "pitch",
+   "scratch",
+   "watch"
+  ],
+  "filled": [
+   "scratch",
+   "watch"
   ]
  },
  {
@@ -1526,7 +1927,11 @@
    "wrap",
    "wreck",
    "wren",
-   "wrong"
+   "wrong",
+   "climb"
+  ],
+  "filled": [
+   "climb"
   ]
  },
  {
@@ -1546,7 +1951,13 @@
    "jot",
    "jut",
    "lab",
-   "lad"
+   "lad",
+   "tree",
+   "trees"
+  ],
+  "filled": [
+   "tree",
+   "trees"
   ]
  },
  {
@@ -1581,7 +1992,15 @@
    "fought",
    "rough",
    "though",
-   "tough"
+   "tough",
+   "ought",
+   "thought",
+   "through"
+  ],
+  "filled": [
+   "ought",
+   "thought",
+   "through"
   ]
  },
  {
@@ -1598,7 +2017,11 @@
    "rustle",
    "whistle",
    "wrestle",
-   "hustle"
+   "hustle",
+   "thistle"
+  ],
+  "filled": [
+   "thistle"
   ]
  },
  {
@@ -1713,7 +2136,13 @@
    "mill",
    "mob",
    "muck",
-   "mush"
+   "mush",
+   "teach",
+   "teacher"
+  ],
+  "filled": [
+   "teach",
+   "teacher"
   ]
  }
 ]

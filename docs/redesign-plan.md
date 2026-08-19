@@ -33,6 +33,25 @@ empty levels, 22 under six words, 35 graphemes still written without their
 sound, 393 candidates in the bill across 38 levels, 87 corpus singles and 10
 contiguous passages.
 
+Measured again on 2026-08-19, after `tools/ladder-fill.mjs` seated the 162
+target words the generator had placed at no level at all: 100 levels, **887
+words placed, 3 empty levels, 22 under six words**. The other four numbers did
+not move. The fill ADDS ONLY - the owner ruled "Keep them" of the 214
+generator-invented words on 2026-08-19, and no word was evicted, reordered or
+dropped; every level's existing list survives unchanged as the head of its new
+one, and each level's `filled` array names exactly what arrived.
+
+Why the counts moved the way they did. Empty levels fell from 8 to 3 because
+five of them - 23, 24, 62, 65 and 74 - had on-topic target words waiting and
+nothing had ever offered them a seat. The three that remain are 32 (coda3), 72
+(the open-syllable long a) and 94 (ch saying k and sh): no word in the target
+vocabulary is on topic for those, so they are a word bill for the owner rather
+than a level to pad. "Under six" reads 22 both times and that is a coincidence
+worth spelling out, not a sign nothing happened: five levels left the list by
+being filled and five entered it, three of them (23, 24, 65) by rising out of
+empty. Counted honestly - levels under six INCLUDING the empty ones - the
+number went from 30 to 25.
+
 ## Where this came from
 
 The owner ruled the **Sound Ladder with three grafts** (SPEC 12a) on 2026-08-17 after an

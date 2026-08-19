@@ -60,6 +60,7 @@ verbatim) are exempt; the exemptions are declared in the tool.
 | `tools/waiting-room.mjs` | SOURCE | G26: the waiting room's byte pins, row schema, citations and verdict vocabulary |
 | `tools/record-takes.py` | SOURCE | the one listening-round recorder, words and sentences: verify-then-write, refuse an existing id, refuse an unparsed line, persist every verdict |
 | `tools/ladder-status.mjs` | SOURCE | the lookup that reports what the redesign ladder holds, measured from its own files |
+| `tools/ladder-fill.mjs` | SOURCE | the rule for where a word may sit in the ladder - its greedy longest-match segmentation, the level that first teaches each unit, and the check that every target word has a seat |
 | `tools/ladder/README.md` | OWNER | what each curriculum-redesign design artefact is, where it came from, and how far it can be trusted |
 | `tools/ladder/shape-v3.json` | DATA | the 100-level shape: what each level teaches, its graphemes, rule, heart words and text demand |
 | `tools/ladder/ladder-v4.json` | DATA | the words the rebuilt generator placed at each of the 100 levels |
