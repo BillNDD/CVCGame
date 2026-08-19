@@ -47,9 +47,9 @@ nothing had ever offered them a seat. The three that remain are 32 (coda3), 72
 (the open-syllable long a) and 94 (ch saying k and sh): no word in the target
 vocabulary is on topic for those, so they are a word bill for the owner rather
 than a level to pad. "Under six" reads 22 both times and that is a coincidence
-worth spelling out, not a sign nothing happened: five levels left the list by
-being filled and five entered it, three of them (23, 24, 65) by rising out of
-empty. Counted honestly - levels under six INCLUDING the empty ones - the
+worth spelling out, not a sign nothing happened: three levels left the list by
+being filled past six (59, 63, 84) and three entered it (23, 24, 65), every one
+of those three by rising out of empty rather than by losing anything. Counted honestly - levels under six INCLUDING the empty ones - the
 number went from 30 to 25.
 
 ## Where this came from
