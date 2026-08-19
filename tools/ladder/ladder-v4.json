@@ -1007,7 +1007,6 @@
    "finally",
    "every",
    "very",
-   "butterfly",
    "funny",
    "happy",
    "jelly",
@@ -1039,7 +1038,11 @@
    "sly",
    "spy",
    "try",
-   "why"
+   "why",
+   "butterfly"
+  ],
+  "filled": [
+   "butterfly"
   ]
  },
  {
@@ -1293,7 +1296,6 @@
    "babies",
    "brief",
    "chief",
-   "cities",
    "field",
    "niece",
    "pennies",
@@ -1305,7 +1307,6 @@
    "babies",
    "brief",
    "chief",
-   "cities",
    "field",
    "niece",
    "pennies",
@@ -1886,7 +1887,11 @@
   "cands": 2,
   "words": [
    "generous",
-   "huge"
+   "huge",
+   "cities"
+  ],
+  "filled": [
+   "cities"
   ]
  },
  {
