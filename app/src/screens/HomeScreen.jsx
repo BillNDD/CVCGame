@@ -8,13 +8,19 @@ import UpdateRow from "../components/UpdateRow.jsx";
 /* The free-play chooser (SPEC section 6): between the tap and the game, the
    grown-up picks which words free play serves. Both choices are full 56 px
    controls (S7) because the finger on them may be the child's. */
-function FreePlayChooser({ level, L, sound, preLevel, buildable, onChoose, onCancel }) {
+function FreePlayChooser({ level, L, sound, preLevel, buildable, sentences, onChoose, onCancel }) {
   return (
     <Modal title="Free play" onClose={onCancel}>
+      {/* The question names only the choices below it. With no sentences to
+          serve the row is gone, and a paragraph still offering to read them
+          describes a control the grown-up cannot find — the same fault as the
+          dead control, one line higher up. */}
       <p style={{ margin: "0 0 14px", fontSize: 14.5, color: C.ink2, lineHeight: 1.5 }}>
-        Grown-up: read words, read sentences, or build a word from its sounds? Truly random
-        serves any word from all 476 — easy and hard alike. Nothing is saved in free play,
-        whichever you pick.
+        {sentences > 0
+          ? "Grown-up: read words, read sentences, or build a word from its sounds?"
+          : "Grown-up: read words or build a word from its sounds?"}
+        {" "}Truly random serves any word from all 476 — easy and hard alike. Nothing is
+        saved in free play, whichever you pick.
       </p>
       <div style={{ display: "grid", gap: 8 }}>
         <button className="wq-cta" onClick={() => onChoose("random")}>🎲 Truly random</button>
@@ -29,10 +35,20 @@ function FreePlayChooser({ level, L, sound, preLevel, buildable, onChoose, onCan
             serves every sentence up to and including this level, so a child
             can practise reading them without a session — and, like every
             other free-play choice, records nothing. */}
-        <button className="wq-cta" onClick={() => onChoose("sentences")}
+        {/* Hidden where that pool is empty. A level's text is written with the
+            level, so a level whose text is not written yet has no sentences —
+            which is what a level looks like before it is finished, not a
+            fault. Nothing a grown-up can switch brings them back, so the row
+            GOES rather than standing there disabled: that is the call the
+            Build-it row takes at Pre 1, where a tray would have nothing honest
+            to hold (open-faults Q6), and the opposite of the call it takes
+            with sound off, where a switch does exist and the row says so.
+            Under it, beginFreePlay refuses an empty pool whatever this
+            decides — a hidden control is not a guard. */}
+        {sentences > 0 && <button className="wq-cta" onClick={() => onChoose("sentences")}
           style={{ background: "#fff", color: C.ink, border: "2px solid " + C.ink2, boxShadow: "none" }}>
           📖 Sentences
-        </button>
+        </button>}
         {/* Build-it (SPEC section 12, owner-ruled 2026-08-17, decision D1). The
             fourth row: the app speaks a word and the child assembles it from
             sound tiles. It serves words the child has mastered first, so the
@@ -59,7 +75,7 @@ function FreePlayChooser({ level, L, sound, preLevel, buildable, onChoose, onCan
 }
 
 export default function HomeScreen({ state, L, kid, masteredCount, persistent, readOnly, onBegin, onFreePlay, onParent,
-  fpChooser, onFreePlayChoose, onFreePlayCancel, toast }) {
+  fpChooser, onFreePlayChoose, onFreePlayCancel, sentences, toast }) {
   return (
     <Frame>
       <Zone.Header>
@@ -118,6 +134,7 @@ export default function HomeScreen({ state, L, kid, masteredCount, persistent, r
       </Zone.Strip>
       {fpChooser && <FreePlayChooser level={state.level} L={L} sound={state.settings.sound}
         preLevel={state.preLevel} buildable={state.preLevel === 0 || state.preLevel >= 2}
+        sentences={sentences}
         onChoose={onFreePlayChoose} onCancel={onFreePlayCancel} />}
       {toast && <Toast>{toast}</Toast>}
     </Frame>

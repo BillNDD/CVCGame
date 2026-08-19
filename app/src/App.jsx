@@ -96,16 +96,40 @@ function advanceFork(freePlay, args) {
    replacement — a natural repeat would collide with its own first result and
    be graded as a retry, silently skipping the count-up — and the first draw
    never equals the word the child just read, so a block boundary can never
-   show the same word twice in a row. */
+   show the same word twice in a row.
+
+   The draws are guarded because `splice` on an empty array returns nothing and
+   says nothing about it: [0] of that is `undefined`, and a block padded with
+   undefined reaches the stage as a word with no letters. A bank smaller than a
+   block is not a fault anyone plans, and the deal must not invent words to
+   cover one — it deals what there is, or nothing. */
 const ALL_WORDS = LEVELS.flatMap((l) => l.words);
 function buildRandomBlock(prevWord) {
   const pool = ALL_WORDS.filter((w) => w !== prevWord);
+  if (!pool.length) return [];
   const block = [pool.splice(Math.floor(Math.random() * pool.length), 1)[0]];
   if (prevWord) pool.push(prevWord);
-  while (block.length < SESSION_SIZE) {
+  while (block.length < SESSION_SIZE && pool.length) {
     block.push(pool.splice(Math.floor(Math.random() * pool.length), 1)[0]);
   }
   return block;
+}
+
+/* WHAT EACH FREE-PLAY MODE HAS TO DEAL, in one place, so the chooser's decision
+   to OFFER a mode and the deal that STARTS it can never disagree about what
+   there is to serve. Build-it is not here: it has no queue at all — one word at
+   a time, and the child leaves when they like.
+
+   Every one of these can come back EMPTY, and none of them used to be asked.
+   An empty pool is not a bug and needs no bug to happen: a level whose text has
+   not been written yet has no sentences, exactly as a level whose words are not
+   chosen yet has no words. That is what a level looks like before it is
+   finished, and the free-play chooser is the first screen a child ever sees. */
+function freePlayPool(mode, s) {
+  if (mode === "sentences") return shuffle(sentencesUpTo(s.level));
+  if (mode === "random") return buildRandomBlock("");
+  if (mode === "level") return buildSession(s);
+  return [];                          // an unknown mode serves nothing, and says so
 }
 
 export default function App() {
@@ -402,6 +426,28 @@ export default function App() {
     unlockVoice();
     fpMode.current = mode;
     fpState.current = structuredClone(stateRef.current);
+    /* NOTHING STARTS ON NOTHING. The pool is dealt BEFORE a single piece of
+       state is committed, and an empty one turns the tap back at the door.
+
+       This is a guard and not a special case for one level. Every queue mode
+       indexes its pool at once — `pool[0]` — and an empty array answers that
+       with `undefined`: the sentence reveal then asked an undefined for its
+       longest word and threw, taking the whole app down, and the endless deal
+       computed (qi + 1) % 0 = NaN. One empty array, three faults, on the first
+       screen a child ever sees. It is not live today only because every level
+       happens to have sentences; it arms the day a level does not, which is
+       what the redesigned ladder's first level is.
+
+       The chooser hides a mode it cannot serve, so a grown-up does not arrive
+       here (HomeScreen). This is what makes that safe rather than lucky: the
+       two decisions read the same pool through the same function, and if they
+       ever disagree the app says so instead of breaking. */
+    const pool = mode === "build" ? null : freePlayPool(mode, fpState.current);
+    if (pool && !pool.length) {
+      setFpChooser(false);
+      setToast("Nothing to read there yet. Pick another free play choice.");
+      return;
+    }
     setFpChooser(false);
     setFreePlay(true); setFpCount(0);
     setQi(0);
@@ -420,7 +466,6 @@ export default function App() {
        earlier is practice they have earned; one later is the guessing
        exercise the decodability rule exists to prevent. */
     if (mode === "sentences") {
-      const pool = shuffle(sentencesUpTo(fpState.current.level));
       fpSentences.current = pool;
       setQueue(pool); showSentence(pool[0], true);
       setScreen("session");
@@ -442,7 +487,7 @@ export default function App() {
       startBuild(buildWordFor(s2), "home");
       return;
     }
-    setQueue(mode === "random" ? buildRandomBlock("") : buildSession(fpState.current));
+    setQueue(pool);
     setScreen("session");
   }
 
@@ -623,6 +668,14 @@ export default function App() {
      is untouched by the mark: nothing is ever recorded there (design rule 1
      and S1), exactly as free-play WORD grades already record nothing real. */
   function showSentence(item, free = false) {
+    /* NOTHING IS NOT A SENTENCE. Both callers reach this by indexing an array,
+       and an index that misses hands over `undefined` — which used to reach
+       revealWordLongest and throw inside a click handler, which is a white
+       screen and a lost session rather than a missing sentence. It fails
+       closed: the stage keeps what it is showing. beginFreePlay refuses an
+       empty pool and the chooser hides the mode, so this is the third lock on
+       one door, and it is the one standing closest to the fault. */
+    if (!item) return;
     /* WHICH WORD GETS SOUNDED OUT. In a session it is the word the LEVEL
        teaches (SPEC section 12 point 6). Free play has no such word — a
        sentence there may come from any level the child has reached — so the
@@ -783,6 +836,11 @@ export default function App() {
        applies to it. */
     if (freePlay && fpMode.current === "sentences") {
       const pool = fpSentences.current;
+      /* (qi + 1) % 0 is NaN, and pool[NaN] is undefined: the deal that "never
+         runs out" runs out of everything at once. A pool that emptied under a
+         running visit has nothing left to teach, so the visit ends the way the
+         grown-up's own exit ends it — nothing was being saved anyway. */
+      if (!pool.length) { leaveFreePlay(); return; }
       const at = (qi + 1) % pool.length;
       setQi(at); setFpCount((c) => c + 1);
       showSentence(pool[at], true);
@@ -801,6 +859,11 @@ export default function App() {
           fpState.current.sessionsCompleted += 1;    // the clone's clock, so reviews come due
           q2 = buildSession(fpState.current);
         }
+        /* The rebuild can come back empty for the same reasons the first deal
+           can, and an empty queue makes queue[qi] undefined — which does not
+           render the stage, it falls through the whole screen switch to the
+           Grown-ups corner, mid-visit, with no tap to explain it. */
+        if (!q2.length) { leaveFreePlay(); return; }
         setQueue(q2); setQi(0);
         setFirstResults({}); setOrder([]); setRetries({}); setSeenTwice({});
         gradedRef.current = null;
@@ -869,12 +932,19 @@ export default function App() {
        behind the dialog, with the tiles still ringing, talks over the
        grown-up while they read their options and decide. */
     hush(); stopClips(); clearPops();
-    if (freePlay) {                       // nothing to save, nothing to ask
-      setFreePlay(false); fpState.current = null;
-      setScreen("home");
-      return;
-    }
+    if (freePlay) { leaveFreePlay(); return; }   // nothing to save, nothing to ask
     setExitAsk(true);
+  }
+
+  /* The one way out of free play, so a guard that has to end a visit ends it
+     exactly as the grown-up's own tap does rather than inventing a second
+     retreat. Nothing to save and nothing to ask: the throwaway clone goes with
+     the screen. The silencing is here as well as in askExit, because a guard
+     reaches this without a dialog in front of it. */
+  function leaveFreePlay() {
+    hush(); stopClips(); clearPops();
+    setFreePlay(false); fpState.current = null;
+    setScreen("home");
   }
 
   function handleExit(choice) {
@@ -991,10 +1061,15 @@ export default function App() {
     }
 
     if (screen === "home") {
+      /* How many sentences free play could serve. The chooser drops its row
+         when this is zero, and it comes through the SAME sentencesUpTo the
+         deal reads, so the offer and the deal cannot drift apart. */
+      const fpSentenceCount = sentencesUpTo(state.level).length;
       return <HomeScreen state={state} L={L} kid={kid} masteredCount={masteredCount}
         persistent={persistent} readOnly={readOnly}
         onBegin={beginSession} onFreePlay={() => setFpChooser(true)} onParent={() => setScreen("parent")}
-        fpChooser={fpChooser} onFreePlayChoose={beginFreePlay} onFreePlayCancel={cancelFpChooser} toast={toast} />;
+        fpChooser={fpChooser} onFreePlayChoose={beginFreePlay} onFreePlayCancel={cancelFpChooser}
+        sentences={fpSentenceCount} toast={toast} />;
     }
 
     if (screen === "session" && currentWord) {

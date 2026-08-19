@@ -31,6 +31,18 @@ const REVEAL_MS = 5200;
 let played = [];
 let scheduled = null;
 
+/* A LEVEL WITH NO SENTENCES — which no level is today, and which the
+   redesigned ladder's first level is. `sentencesUpTo` is the single function
+   both the chooser's offer and free play's deal read, so emptying it is the
+   whole fixture: nothing else about the app is stood in for, and the real
+   beginFreePlay, showSentence and revealWordLongest all run. False means "ask
+   the real engine", so every other test in this file is untouched by it. */
+let noSentences = false;
+vi.mock("@engine", async (importOriginal) => {
+  const real = await importOriginal();
+  return { ...real, sentencesUpTo: (level) => (noSentences ? [] : real.sentencesUpTo(level)) };
+});
+
 /* A stored save, so a test can put the child at a level of its choosing. At
    Level 1 the session rule and the free-play rule pick the SAME word — every
    Level 1 word is two tiles and every Level 1 sentence is made of them — so a
@@ -111,7 +123,7 @@ const markSentence = async (label = "✓ got it (hold)") => {
   await flush(0);
 };
 
-beforeEach(() => { vi.useFakeTimers(); localStorage.clear(); played = []; scheduled = null; stored = { ...newState(), preLevel: 0 }; });   // graduated: word tests live past the ladder
+beforeEach(() => { vi.useFakeTimers(); localStorage.clear(); played = []; scheduled = null; noSentences = false; stored = { ...newState(), preLevel: 0 }; });   // graduated: word tests live past the ladder
 afterEach(() => { cleanup(); vi.useRealTimers(); });
 
 describe("the sentence inside a session", () => {
@@ -554,5 +566,72 @@ describe("the sentence inside a session", () => {
     expect(seen.length).toBe(2);                       // after the fifth and the tenth
     expect(new Set(seen).size).toBe(seen.length);
     expect(breathers).toBe(1);                         // one build turn, after the seventh word
+  });
+});
+
+/* THE EMPTY POOL. Free play deals from data, and every level's data can be
+   empty — a level whose text has not been written yet has no sentences, the
+   same way a level whose words are not chosen yet has no words. Nothing in
+   the app asked. `pool[0]` on an empty array is undefined, the reveal asked
+   that undefined for its longest word, and it threw out of a click handler:
+   a white screen on the first choice the first screen offers. Not live while
+   every level has sentences; armed the day one does not.
+
+   Two halves, and the first is the one that matters. The GUARD must hold
+   whatever the chooser decides — a hidden control is not a guard — and the
+   chooser must not offer a mode it cannot serve. */
+describe("free play deals from data that can be empty", () => {
+  it("13: an empty pool turns the tap back rather than breaking the app", async () => {
+    /* The row is drawn while there ARE sentences and the pool is empty by the
+       time it is tapped, which is the only way this is reachable now that the
+       chooser hides the row: the offer and the deal disagreeing. That is
+       exactly what the guard is for. Without it, the click below throws
+       inside React and none of these four assertions is ever reached. */
+    const thrown = [];
+    const catcher = (e) => { thrown.push(String(e.error || e.message)); e.preventDefault(); };
+    window.addEventListener("error", catcher);
+    try {
+      render(createElement(App));
+      await flush(0);
+      fireEvent.click(screen.getByText("🎈 Free play"));
+      await flush(0);
+      const row = screen.getByText("📖 Sentences");
+      noSentences = true;
+      fireEvent.click(row);
+      await flush(0);
+      expect(thrown).toEqual([]);
+      expect(sentenceEl()).toBeNull();                             // no stage was entered
+      expect(screen.getByText("▶️ Begin Session")).toBeTruthy();   // still home
+      expect(screen.getByText("Nothing to read there yet. Pick another free play choice.")).toBeTruthy();
+      expect(screen.queryByText("🎲 Truly random")).toBeNull();    // and the chooser closed
+    } finally {
+      window.removeEventListener("error", catcher);
+    }
+  });
+
+  it("14: the chooser drops the sentence row where there is nothing to serve — and keeps it where there is", async () => {
+    noSentences = true;
+    render(createElement(App));
+    await flush(0);
+    fireEvent.click(screen.getByText("🎈 Free play"));
+    await flush(0);
+    expect(screen.queryByText("📖 Sentences")).toBeNull();
+    /* And the question above the rows stops offering it. A paragraph naming a
+       control that is not there is the dead control one line higher up. */
+    expect(screen.getByText(/^Grown-up: read words or build a word from its sounds\?/)).toBeTruthy();
+    /* Only that row. A chooser that empties itself is not a fix, and the two
+       remaining choices serve words, which this level has. */
+    expect(screen.getByText("🎲 Truly random")).toBeTruthy();
+    expect(screen.getByText("🧱 Build a word")).toBeTruthy();
+    cleanup();
+    /* THE CONTROL (E5): the same walk with sentences to serve keeps the row.
+       A hider that hides in every world hides nothing. */
+    noSentences = false;
+    render(createElement(App));
+    await flush(0);
+    fireEvent.click(screen.getByText("🎈 Free play"));
+    await flush(0);
+    expect(screen.getByText("📖 Sentences")).toBeTruthy();
+    expect(screen.getByText(/^Grown-up: read words, read sentences, or build a word/)).toBeTruthy();
   });
 });

@@ -1980,3 +1980,42 @@ pick the one spelling that matched; and the "a completed build saves nothing" te
 vacuous, because the screen cannot reach the storage module from its own import tree, so
 the probe would have been empty however the screen behaved. It now fires the mocked saver
 and requires the probe to report it.
+
+## W. What the free-play empty-pool guard found and did not fix — opened 2026-08-19
+
+The crash itself is closed: free play refused to deal an empty pool from the day the guard
+landed, the chooser stopped offering a mode it cannot serve, and two tests hold it with
+three planted mutants behind them. What follows was found in the same read and is NOT
+fixed, so it lives here rather than in a chat log.
+
+**W1. The screen switch has no default, and an unknown state lands a family in the
+Grown-ups corner.** `renderScreen` in `app/src/App.jsx` tests each screen with the data it
+needs — `screen === "session" && currentWord`, `screen === "pre" && preQ[preQi]`,
+`screen === "done" && doneStats` — and every one of those guards falls through to the SAME
+final `return`, which is `ParentScreen`. So a session whose queue is empty does not fail
+loudly and does not show a blank stage: it silently opens the adult settings screen, mid
+visit, with no tap to explain it. That is how the empty sentence pool behaved once its
+throw was guarded and nothing else was — measured, not reasoned: a planted mutant with the
+`beginFreePlay` guard removed and the `showSentence` guard kept put the test on the
+Grown-ups corner, and the test caught it by looking for "▶️ Begin Session" and not finding
+it.
+
+Every route to that state that this change could find is now closed at its source, which is
+why this is a latent gap and not a live fault. **Done** would be the switch ending in
+something honest for a state nobody planned — the home screen, which is always renderable —
+with ParentScreen reached only by asking for it. Not done here because the fall-through is
+load-bearing for the `screen === "parent"` case and rewriting the switch is a bigger change
+than a guard, and because it deserves a ruling: a family dropped into the settings screen is
+a different kind of wrong from a family dropped home.
+
+**W2. Free play offers sentences and level words to a child still on the pre-letter
+ladder.** A child at Pre 1 to Pre 4 has met a handful of letters and no whole word. Their
+save still carries `level: 1`, so the chooser offers them "🎯 Level 1 words" and
+"📖 Sentences", and the sentence row serves a full CVC sentence to a child who has not yet
+finished meeting the alphabet. The Build-it row is hidden for exactly this reason at Pre 1 —
+"a tray would have nothing honest to hold" (Q6, owner-ruled 2026-08-17) — and the same
+reasoning has never been applied to the two rows beside it.
+
+This is not a crash and not a guess about the code; it is a teaching decision, and it
+belongs to the owner and the literacy seat rather than to an engineering change (E8). **Done**
+is a ruling on what free play offers a pre-ladder child, and the chooser matching it.
