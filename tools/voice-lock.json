@@ -2709,6 +2709,7 @@
    "an": 0.82,
    "and": 1,
    "ant": 0.95,
+   "are": 0.7,
    "ask": 0.95,
    "at": 0.82,
    "ax": 0.82,
@@ -3085,6 +3086,7 @@
    "wed": 1,
    "well": 0.82,
    "went": 1,
+   "were": 0.8,
    "wet": 1,
    "whack": 1,
    "wham": 0.82,
@@ -3617,7 +3619,9 @@
   "there": "485f1b36a3e175be8b59e5a33bdafb27661a8ccdf7414b585b7194708f9a0323",
   "they": "0104ae9f2bc8a89a17068056482b91986fe42f1cf23f1a49487ff20484206126",
   "want": "5d21d2251242ea6970066f85e875e637527694cdb584bcbe40d72532086118c8",
-  "which": "1116551d2787df765092617e232a2a30c7bf58054feb0f612f5d98d478fe438a"
+  "which": "1116551d2787df765092617e232a2a30c7bf58054feb0f612f5d98d478fe438a",
+  "are": "b8efddf7f3b1f4da91ada4b3d8a685931aecc4cd0a06c0a62081734602792676",
+  "were": "fafb91a4b392e1b0ef80c5beaeeaa2c6c1d0f79243579d05dffc4462ddb0b97c"
  },
  "words": {
   "am": {
@@ -6951,6 +6955,20 @@
    "round": "batch 17 / 2026-08-16",
    "listen_context": "clip",
    "byte_pin_sha256": "1116551d2787df765092617e232a2a30c7bf58054feb0f612f5d98d478fe438a"
+  },
+  "are": {
+   "verdict": "perfect",
+   "ear_notes": "owner perfect are_3; family listen_sp0.7; recipe in the batch renderer, not in these columns; unseated: the bank names it, no level holds it yet",
+   "round": "batch 21 round 1 / 2026-08-18",
+   "listen_context": "clip",
+   "byte_pin_sha256": "b8efddf7f3b1f4da91ada4b3d8a685931aecc4cd0a06c0a62081734602792676"
+  },
+  "were": {
+   "verdict": "perfect",
+   "ear_notes": "owner perfect were_4; family listen_sp0.8; recipe in the batch renderer, not in these columns; unseated: the bank names it, no level holds it yet",
+   "round": "batch 21 round 15 / 2026-08-18",
+   "listen_context": "clip",
+   "byte_pin_sha256": "fafb91a4b392e1b0ef80c5beaeeaa2c6c1d0f79243579d05dffc4462ddb0b97c"
   }
  },
  "environment": {

@@ -650,10 +650,17 @@ describe("buildMarkdown", () => {
 describe("voice packs", () => {
   it("inventories one clip per word, the fixed sentences, and every sound a tile can ask for", () => {
     const script = voiceScript();
-    expect(script.length).toBe(756);                       // 6 fixed + 17 praise + 476 words + 210 sentences + 3 invitations + "Pronounced:" + 43 sounds
-    expect(script.filter((c) => c.id.startsWith("w:")).length).toBe(476);
-    expect(script.filter((c) => c.id.startsWith("d:")).length).toBe(43);
-    expect(new Set(script.map((c) => c.id)).size).toBe(756);
+    /* 2026-08-19: both counts rose by two, and for two different reasons.
+       WORDS 476 -> 478 because the owner ruled whole-word bends for `are`
+       and `were`, and bankWords() names every word WORD_SOUND keys.
+       SOUNDS 43 -> 45 because bending `were` to `er` and `are` to `ar`
+       made the engine ASK for two sounds it had never asked for, which is
+       what let ship-sounds.py move them out of the approved-and-unshipped
+       backlog. Re-counted from the pack, never from voiceScript(). */
+    expect(script.length).toBe(760);                       // 6 fixed + 17 praise + 478 words + 210 sentences + 3 invitations + "Pronounced:" + 45 sounds
+    expect(script.filter((c) => c.id.startsWith("w:")).length).toBe(478);
+    expect(script.filter((c) => c.id.startsWith("d:")).length).toBe(45);
+    expect(new Set(script.map((c) => c.id)).size).toBe(760);
     expect(script.find((c) => c.id === "s:was").text).toBe("The word was");
     expect(script.find((c) => c.id === "l:wrong").text).toBe("Let’s try again.");
     expect(script.find((c) => c.id === "p:0").text).toBe("Great job!");
@@ -746,7 +753,10 @@ describe("voice packs", () => {
      will name words this way and must not be the thing that finds it. */
   it("bankWords covers every word the app names, not only the levels", () => {
     const words = bankWords();
-    expect(words.length).toBe(476);
+    /* 478, not 476: `are` and `were` are named ONLY in WORD_SOUND, never
+       in a level. inLevels stays 476 below, and that gap is now the whole
+       point of this test rather than a coincidence it records. */
+    expect(words.length).toBe(478);
     expect([...new Set(words)].length).toBe(words.length);       // no duplicates
     expect([...words].sort()).toEqual(words);                    // stable order
     const inLevels = new Set();
@@ -757,9 +767,12 @@ describe("voice packs", () => {
     for (const w of Object.keys(TRICKY)) expect(words.includes(w)).toBe(true);
     for (const w of Object.keys(WORD_SOUND)) expect(words.includes(w)).toBe(true);
     for (const w of inLevels) expect(words.includes(w)).toBe(true);
-    /* Today all three sets coincide, and recording that is the point: it is
-       what made the old code look right. */
+    /* They no longer coincide, and THAT is the point. Until 2026-08-19 all
+       three sets were identical, which is exactly what made the old
+       LEVELS-only derivation look correct. `are` and `were` are the first
+       two words the app names without seating them in a level. */
     expect(inLevels.size).toBe(476);
+    expect(words.length - inLevels.size).toBe(2);
 
     /* Negative control. The old LEVELS-only derivation, run over a fixture
        where a word is named ONLY in a tricky note, must miss it — and the

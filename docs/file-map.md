@@ -66,7 +66,8 @@ verbatim) are exempt; the exemptions are declared in the tool.
 | `tools/ladder/ladder-v4.json` | DATA | the words the rebuilt generator placed at each of the 100 levels |
 | `tools/ladder/word-bill.json` | DATA | the candidate words offered for the starved levels, and the owner's ruling on them |
 | `tools/ladder/corpus-harvest.json` | DATA | what the public-domain pipeline found: sentences and contiguous passages with their credits and source indices |
-| `tools/corpus/sources.json` | DATA | the public-domain books a ledger credit may name, each pinned by sha256 (G26 rule 5) |
+| `tools/corpus/sources.json` | DATA | the public-domain books a ledger credit may name, each pinned by sha256 (G26 rule 5), with the year and evidence that puts each one in the public domain |
+| `tools/corpus/excisions.json` | DATA | every sentence the corpus screen removed from a book, verbatim, with its index and hazard class — the record that makes a screened text honest rather than a quietly edited one |
 | `tools/target-vocab.txt` | DATA | the 697-word target vocabulary the owner ruled the game covers before it is called done — SPEC section 12 owns the ruling |
 | `tools/s9-passage-names.json` | DATA | the passage-names ledger: which character names verbatim teaching content may carry, where they pass, and each name's source — S9's second exception (CLAUDE.md owns the rule) |
 | `tools/voice-lock.json` | GENERATED | regenerate: `node tools/gen-voice-lock.mjs` |

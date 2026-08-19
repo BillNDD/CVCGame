@@ -18,6 +18,36 @@ sentences, the invitation leads, and the session-end lines, plus `manifest.json`
 clip's file and duration. Gate G13 fails the build when the pack does not cover the engine's
 clip inventory, so the bank can never grow past its voice.
 
+## `are` and `were` ship - the first two clips shipped to no level, 2026-08-19
+
+Two word clips left the waiting room and entered the pack: `w-are.mp3` (arm `are_3`,
+family `listen_sp0.7`, batch 21 round 1) and `w-were.mp3` (arm `were_4`, family
+`listen_sp0.8`, batch 21 round 15). Both were graded `perfect` by the owner on
+2026-08-18. Neither was re-rendered: `tools/ship-words.py` copies the exact bytes of the
+round and refuses a source that does not hash to the value the ledger recorded, and both
+matched.
+
+They shipped because the owner ruled their SOUNDS on 2026-08-19 — `are` bent to `ar`,
+`were` bent to `er` — and a ruling puts a word in `WORD_SOUND`, which is one of the three
+places `bankWords()` looks. So the app began naming both words, and G13 began requiring a
+clip for each, while the ladder redesign has not yet given either a seat. They are the
+first two words in this project's history to be in the bank and in no level.
+
+That broke the shipping tool, which asked for a LEVEL. It asks for BANK membership now,
+which is the question that was always meant: the bank is what requires a clip, and a bank
+word without one is the single word in the game that silently drops to system speech.
+Until today the two questions had the same answer for every word, which is exactly the
+coincidence that hid the `soundInventory` fault (`docs/open-faults.md` B9) one file over.
+An unseated word's `level` cell in `tools/voice-words.csv` is left EMPTY and its
+`ear_notes` says why; a number nobody had decided would have been a worse record than a
+blank. Four controls prove the new rule, and a planted mutant that removes the refusal is
+killed by two of them.
+
+Counts that moved: clips shipped 758 → 760 (the pack now covers all 760 the engine
+requires, 0 problems), `tools/voice-words.csv` rows 476 → 478, manifest word entries
+476 → 478, word speed overrides 410 → 412 (`are` 0.7, `were` 0.8 — both off the 0.85 bank
+default), edges measured 758 → 760, and the E6 floor `g13_clips` 756 → 760.
+
 ## Batch 21 closed - 459 of 459, 2026-08-18
 
 The largest batch this project has run, and the first to finish complete: every
@@ -203,7 +233,13 @@ byte-pinned word rather than replacing accepted audio with a render.
   sidecar workspace archive on the owner's PC
   (handoff `word-quest-uplift-handoff-2026-08-07T1438Z`).
 
-## Approved and unshipped: 855 items with no level yet (through 2026-08-19)
+## Approved and unshipped: 853 items still in the waiting room (through 2026-08-19)
+
+This heading read "with no level yet" until 2026-08-19, and the two phrases meant the same
+thing until that day. The number is, and always was, what the ledger holds minus what the
+pack carries — `tools/doc-truth.mjs` rule 8 derives it and refuses a heading that drifts.
+`are` and `were` shipped that day with no level, so unshipped and unseated stopped being
+the same set and the heading now says which one it counts.
 
 **Ninety-three sentence and paragraph takes closed by ear in one day (2026-08-19)**, across
 four fields — batch 5 (16 of 16), batch 6 (25 of 29), batch 7 (46 of 48) and a rework of

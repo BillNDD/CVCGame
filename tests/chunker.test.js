@@ -135,7 +135,10 @@ describe("the extended code", () => {
   it("no word in the bank re-tiles, and the row still caps at four", () => {
     const by = {};
     for (const w of bankWords()) { const n = chunkWord(w).length; by[n] = (by[n] || 0) + 1; }
-    expect(by).toEqual({ 1: 2, 2: 30, 3: 344, 4: 100 });
+    expect(by).toEqual({ 1: 3, 2: 31, 3: 344, 4: 100 }  /* 2026-08-19: 1 and 2 each rose by one.
+       `are` (1 tile) and `were` (2 tiles) joined bankWords() when the owner
+       ruled them whole-word bends, and bankWords unions the WORD_SOUND keys.
+       Re-counted from the bank, not from chunkWord. */);
     expect(Math.max(...bankWords().map((w) => chunkWord(w).length))).toBe(4);
     /* And every word of every shipped sentence, which the bank does not
        contain and which the sentence stage tiles the same way. */

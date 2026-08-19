@@ -9165,5 +9165,37 @@
     "carrier_cut_mode": "none",
     "asr_start": null,
     "asr_end": null
+  },
+  "are": {
+    "word": "are",
+    "verdict": "perfect",
+    "speed": 0.7,
+    "lead_ms": 80,
+    "period": false,
+    "onset_trim": false,
+    "trim_ms": 0,
+    "bright_head_ms": 0,
+    "head_trim_ms": 0,
+    "skip_burst": false,
+    "carrier": null,
+    "carrier_cut_mode": "none",
+    "asr_start": null,
+    "asr_end": null
+  },
+  "were": {
+    "word": "were",
+    "verdict": "perfect",
+    "speed": 0.8,
+    "lead_ms": 80,
+    "period": false,
+    "onset_trim": false,
+    "trim_ms": 0,
+    "bright_head_ms": 0,
+    "head_trim_ms": 0,
+    "skip_burst": false,
+    "carrier": null,
+    "carrier_cut_mode": "none",
+    "asr_start": null,
+    "asr_end": null
   }
 }

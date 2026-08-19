@@ -884,6 +884,19 @@ const TILE_SOUND = {
   a: "short_a", e: "short_e", i: "short_i", o: "short_o", u: "short_u",
   c: "k", ck: "k", ff: "f", ll: "l", ss: "s", zz: "z",
   kn: "n", wr: "r", mb: "m", th: "th_quiet", wh: "w",
+  /* The doubled consonants, owner-ruled 2026-08-19: "aren't all the new
+     chunker units just the same sounds as other sounds? like ll is just l".
+     Yes. Every one of these already had a recorded clip; none needed a new
+     one. They were missing rows until today, so each resolved to an id like
+     "d:tt" that does not exist - latent, because no bank word reached them,
+     and armed the moment a level-46 word entered the bank. */
+  bb: "b", cc: "k", dd: "d", gg: "g", mm: "m",
+  nn: "n", pp: "p", rr: "r", tt: "t",
+  /* are, owner-ruled 2026-08-19 after hearing all three candidates: the
+     GRAPHEME takes the air sound, because that is what it says inside care,
+     share and square. His words: "are: air. But remember the word are alone
+     shouldn't follow the air sound." The word itself is bent below. */
+  are: "air",
 };
 const soundIdFor = (g) => "d:" + (TILE_SOUND[g] || g);
 /* A tricky word is tricky because one of its letters is not saying what the
@@ -894,6 +907,19 @@ const soundIdFor = (g) => "d:" + (TILE_SOUND[g] || g);
    one tile of the word that lies and not the letter everywhere it appears.
    Every id here is a clip the owner has approved in a listening round. */
 const WORD_SOUND = {
+  /* are, owner-ruled 2026-08-19. The grapheme says air (above); the WORD says
+     ar, rhyming with car, and it is a heart word a child meets on nearly every
+     page. The owner heard all three candidates and ruled the grapheme and the
+     word separately in one breath. `ar` is a clip he approved on 2026-08-18. */
+  are: { 0: "ar" },
+  /* were, owner-ruled 2026-08-19 on a listening round. The chunker tiles it
+     w + ere, and `ere` is one of the thirteen spellings the shape teaches
+     TWICE - as `ear` and as `air` - so unbent the sound-out says "w-air".
+     The owner heard that against the word he had approved and ruled "bend -
+     use what I approved". The sound it needs is `er`, which he approved on
+     2026-08-18 and which is waiting to ship. He ruled `are` differently the
+     same day; that one is not here. */
+  were: { 1: "er" },
   she: { 1: "long_e" },                    // e says its name
   the: { 0: "th_this", 1: "schwa" },       // the buzzy th, then the lazy uh
   push: { 1: "oo_book" }, bush: { 1: "oo_book" },

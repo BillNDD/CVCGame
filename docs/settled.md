@@ -17,6 +17,44 @@ to a word nobody has heard yet.
 Rule E10 in CLAUDE.md requires this file to be read before voice work and
 updated whenever a round lands.
 
+## A grapheme and the word spelled the same way can take different sounds (2026-08-19)
+
+The owner heard `are` on a listening round and ruled both halves of it in one breath:
+*"are: air. But remember the word are alone shouldn't follow the air sound."*
+
+So the GRAPHEME `are` says `air`, because that is what it says inside care, share and
+square, and the WORD `are` says `ar`, rhyming with car. `TILE_SOUND.are = "air"` carries
+the first; `WORD_SOUND.are = { 0: "ar" }` bends the second. `ar` is a sound the owner
+approved on 2026-08-18.
+
+**This is the first time the project has had to say that those are two different
+questions.** Every earlier bend in `WORD_SOUND` overrode a letter whose general sound was
+right somewhere else and wrong in that word — `she`'s e, `the`'s th, `push`'s u. Here the
+general sound is right, the word is an exception to it, and the SPELLING of the exception
+is the grapheme itself. A reader who knows only that `are` says `air` would sound out the
+commonest word on the page as "air", and a reader who knows only that `are` says `ar`
+would teach a child that care rhymes with car. Both facts are true and neither may be
+inferred from the other. The rule from today: a grapheme's default sound and a word's
+sound are recorded separately, and a ruling on one is never read as a ruling on the other.
+
+`were` was ruled the same day and is a plainer case of the same machinery: *"bend - Use
+what I approved"*. The chunker tiles it `w` + `ere`, and `ere` is one of the spellings the
+shape teaches twice — as `ear` and as `air` — so unbent the sound-out said "w-air". It
+takes `er`, which the owner approved on 2026-08-18. `WORD_SOUND.were = { 1: "er" }`.
+
+**What the ruling cost, and it was not audio.** A ruling puts a word in `WORD_SOUND`,
+which is one of the three places `bankWords()` looks, so both words entered the bank
+without entering a level — the first two in this project's history to do so. G13 then
+required a clip for each, correctly. Both clips already existed and were graded `perfect`
+on 2026-08-18; what did not exist was a way to ship a clip to a word with no level.
+`tools/ship-words.py` asked for a LEVEL and now asks for BANK membership, which is the
+question that was always meant. See `docs/voice-pack.md` for what shipped and the counts
+that moved.
+
+**Do not re-open either sound.** `are` was heard against all three candidates; `were` was
+heard against the word the owner had already approved. The clips are byte-pinned in
+`tools/voice-words.csv` and G13 verifies each file against its pin.
+
 ## A contaminated series is refused whole, not book by book (2026-08-19)
 
 The literacy seat, checking its own earlier recommendations under the widened

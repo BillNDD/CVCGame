@@ -1,12 +1,17 @@
 # Move an approved word out of the waiting room and into the pack.
 #
-# A word reaches a child only when four things are true: it is in a level, it
+# A word reaches a child only when four things are true: the BANK names it, it
 # has a row in tools/voice-words.csv, its bytes are in app/public/voice with a
 # manifest entry, and G13 can verify those bytes against the pin. The listening
 # rounds gave us the bytes; on 2026-08-12 a hundred and fifteen approved words
 # were still sitting in tools/pending-words with no level, and the count had
 # been wrong in the documents for a day. This tool exists so the last three
 # steps are one command and cannot be done by hand, half-way.
+#
+# The first of those four said "it is in a level" until 2026-08-19, and meant
+# the same thing by coincidence: every word the engine named also sat in a
+# level. `are` and `were` ended that. See seat() for the rule and the fault it
+# is one file away from.
 #
 # It NEVER re-renders. A re-render is a different file, and a different file is
 # one no person heard (E3, and docs/settled.md's "the trap this project keeps
@@ -75,8 +80,35 @@ def csv_cell(v):
     return '"' + v.replace('"', '""') + '"' if any(c in v for c in ',"\n') else v
 
 
+def seat(word, levels, bank):
+    """Must the pack carry this word, what does its row's level cell say, and
+    why. Returns (required, level_cell, note).
+
+    The question is BANK membership, not a level. The bank is the union of
+    every level's words with the keys of TRICKY and WORD_SOUND (the engine's
+    bankWords), and the bank is what requires a clip: voiceScript derives the
+    inventory from it, so a bank word with no clip is the one word in the game
+    that silently drops to system speech. This asked for a LEVEL until
+    2026-08-19, and got the same answer by coincidence, because until that day
+    every word the engine named also sat in a level. `are` and `were` are the
+    first two that do not - the owner ruled their sounds before the ladder
+    redesign gave them seats - and the coincidence ended. It is the same
+    coincidence that hid the soundInventory fault (open-faults B9), found the
+    same way and one file over.
+
+    An unseated word's level cell is EMPTY, and its note says so. Nothing reads
+    the column - gen-voice-lock and voice-check never look at it - so it is
+    provenance for a reader, and an invented number would be a worse record
+    than an honest blank."""
+    if word not in bank:
+        return False, "", "not in the bank: the app never names it"
+    if word in levels:
+        return True, str(levels[word]), ""
+    return True, "", "unseated: the bank names it, no level holds it yet"
+
+
 def plan():
-    """Every approved word that now has a level and is not yet in the pack."""
+    """Every approved word the bank names that is not yet in the pack."""
     sys.path.insert(0, str(REPO / "tools"))
     ledger = json.loads(LEDGER.read_text(encoding="utf-8"))
     manifest = json.loads((PACK / "manifest.json").read_text(encoding="utf-8"))
@@ -84,17 +116,20 @@ def plan():
     have = {line.split(",")[0] for line in CSV.read_text(encoding="utf-8").split("\n")[1:] if line}
 
     import subprocess
-    levels = json.loads(subprocess.run(
-        ["node", "-e", "import('./src/engine.js').then(m=>console.log(JSON.stringify("
-         "Object.fromEntries(m.LEVELS.flatMap(l=>l.words.map(w=>[w,l.n]))))))"],
+    engine = json.loads(subprocess.run(
+        ["node", "-e", "import('./src/engine.js').then(m=>console.log(JSON.stringify({"
+         "levels:Object.fromEntries(m.LEVELS.flatMap(l=>l.words.map(w=>[w,l.n]))),"
+         "bank:m.bankWords()})))"],
         cwd=REPO, capture_output=True, text=True, check=True).stdout)
+    levels, bank = engine["levels"], set(engine["bank"])
 
     rows, skipped = [], []
     for word, rec in sorted(ledger.items()):
         if word.startswith("s:") or word == "_comment" or not isinstance(rec, dict):
             continue
-        if word not in levels:
-            skipped.append((word, "no level yet"))
+        required, level_cell, note = seat(word, levels, bank)
+        if not required:
+            skipped.append((word, note))
             continue
         if "w:" + word in manifest and word in have:
             skipped.append((word, "already shipped"))
@@ -107,8 +142,8 @@ def plan():
         if got != rec.get("sha256"):
             skipped.append((word, f"REFUSED: bytes are not the approved ones ({got[:12]})"))
             continue
-        rows.append({"word": word, "level": levels[word], "src": src, "rec": rec,
-                     "sha": got, "header": header})
+        rows.append({"word": word, "level": level_cell, "seat_note": note,
+                     "src": src, "rec": rec, "sha": got, "header": header})
     return rows, skipped, manifest, header
 
 
@@ -121,7 +156,8 @@ def csv_row(r, header):
         word=r["word"], level=str(r["level"]), locked="yes",
         verdict=rec.get("verdict", ""),
         ear_notes=f'owner {rec.get("verdict","")} {rec.get("arm","")}; family {fam}; '
-                  f'recipe in the batch renderer, not in these columns',
+                  f'recipe in the batch renderer, not in these columns'
+                  + (f'; {r["seat_note"]}' if r.get("seat_note") else ""),
         round=rec.get("round", ""), listen_context="clip",
         byte_pin_sha256=r["sha"],
     )
@@ -211,10 +247,22 @@ def self_test():
     ov, csv_speed = ship_into_sandbox("carrier_listen")
     ok.append(("a word at the bank default adds nothing to the recipe", ov == {}))
     ok.append(("and that word's row carries the bank default", csv_speed == DEFAULTS["speed"]))
+    # The seat rule, against literal fixtures. Its predecessor asked the real
+    # tree whether anything had been skipped "for no level" and passed when
+    # NOTHING was skipped - so on 2026-08-19, the day the rule it guarded
+    # changed, it would have gone on passing while proving nothing.
+    lv, bank = {"cat": 1}, {"cat", "are"}
+    ok.append(("a seated bank word ships with its level", seat("cat", lv, bank)[:2] == (True, "1")))
+    ok.append(("an unseated bank word still ships - the bank requires the clip, not the level",
+               seat("are", lv, bank)[:2] == (True, "")))
+    ok.append(("and its row says why the level cell is blank",
+               "unseated" in seat("are", lv, bank)[2]))
+    ok.append(("a word the bank does not name is refused a place in the pack",
+               seat("zzq", lv, bank)[0] is False))
     rows, skipped, _, _ = plan()
     reasons = {r for _, r in skipped}
-    ok.append(("a word with no level is refused a place in the pack",
-               any("no level" in r for r in reasons) or not skipped))
+    ok.append(("and the real tree refuses one: the waiting room is not the bank",
+               any("not in the bank" in r for r in reasons)))
     bad_count = sum(1 for _, r in skipped if r.startswith("REFUSED"))
     ok.append(("no approved word in the tree fails its own hash", bad_count == 0))
     for name, passed in ok:
@@ -233,7 +281,8 @@ if __name__ == "__main__":
         print(f"REFUSED  {w}: {why}")
     print(f"{len(rows)} word(s) ready to ship, {len(skipped)} skipped ({len(refused)} refused)")
     for r in rows:
-        print(f"  L{r['level']:<3} {r['word']:<8} {r['rec'].get('verdict',''):<9} {r['rec'].get('round','')}")
+        print(f"  L{r['level'] or '-':<3} {r['word']:<8} {r['rec'].get('verdict',''):<9} "
+              f"{r['rec'].get('round','')}{'  [' + r['seat_note'] + ']' if r['seat_note'] else ''}")
     if "--write" in sys.argv:
         if refused:
             raise SystemExit("refusing to ship anything while a word fails its own hash")

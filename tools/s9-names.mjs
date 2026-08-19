@@ -582,7 +582,7 @@ function selfTest() {
         : readFileSync(f, "utf8"), () => true).length === 0);
     T("BREACH 3 closed: a manifest entry whose pin does not match its bytes is refused",
       loadCorpus((f) => f.endsWith("sources.json")
-        ? JSON.stringify({ X: { file: "tools/corpus/mcguffey1.txt", sha256: "1".repeat(64) } })
+        ? JSON.stringify({ X: { file: "tools/corpus/mcguffey1.screened.txt", sha256: "1".repeat(64) } })
         : readFileSync(f, "utf8"), () => true).length === 0);
     T("window: a short book sentence no longer qualifies on its own",
       !fromCorpus("The man has a pen.", 4, c));

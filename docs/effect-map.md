@@ -8,7 +8,7 @@ Per-test rows carry the test's own sentence, which in this project IS the
 Given/When/Then effect. The requirement, oracle, platform, mutant family, evidence
 and known limits are declared per FILE, in the tool, where they stay true.
 
-Totals: 340 it() SITES across 15 files, plus 18 gates that are not test files.
+Totals: 347 it() SITES across 16 files, plus 18 gates that are not test files.
 
 A site inside a loop or a table runs many times, so these rows describe more tests than they number: Vitest executes 330. The rows count the places behaviour is asserted.
 
@@ -59,6 +59,26 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 11 | Build-a-sound, for a child still on the ladder | 10: the tray is exactly what the rung has taught, and grows with it |
 | 12 | Build-a-sound, for a child still on the ladder | 11: no tile is silent, and none is a letter the rung has not reached |
 | 13 | Build-a-sound, for a child still on the ladder | 12: finding the sound wins, and a wrong tile invites another try |
+
+## tests/chunker.test.js — 7 tests (G1)
+
+- **Requirement protected:** SPEC sections 3-4 and safety rule S8: the seventy-two multi-letter units the chunker fuses, the position rules that keep a syllable ending off the front of a word, and the proof that widening the roster re-tiled nothing already shipped
+- **Independent oracle:** Literal rosters re-derived from tools/ladder/shape-v3.json's `new` fields, literal tilings written from what each spelling says, and a literal tile-count histogram over the whole bank (E4)
+- **Platform:** node/jsdom
+- **Mutant family:** not yet in a G5 family - the roster shipped 2026-08-19 and its mutants are a named follow-up
+- **Evidence produced:** Vitest counts (mapped by G20)
+- **Known limits — what these tests do NOT prove:** Proves which letters fuse into one tile, never which SOUND that tile makes - no unit here carries a clip decision, and split vowels are outside the roster entirely because a tile row must spell its word.
+- **Safety rules proved here:** S8 (unit)
+
+| # | Suite | Effect (the test's own sentence) |
+|---|---|---|
+| 1 | the extended code | holds the whole extended code, all three tiers pinned |
+| 2 | the extended code | fuses the vowel teams, the r-controlled units and the long tiers |
+| 3 | the extended code | refuses a syllable-ending unit at the front of a word |
+| 4 | the extended code | refuses ti, tu and al where the spelling does not say that sound |
+| 5 | the extended code | keeps the silent-letter pairs to the ends they belong to |
+| 6 | the extended code | no word in the bank re-tiles, and the row still caps at four |
+| 7 | the extended code | leaves a split vowel as letters, because a tile row must spell the word |
 
 ## tests/engine.test.js — 112 tests (G1)
 
@@ -327,7 +347,7 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | # | Suite | Effect (the test's own sentence) |
 |---|---|---|
 | 1 | G2 properties | P1: chunkWord round-trips every input |
-| 2 | G2 properties | P2: every chunk is one letter or one of the nineteen multi-letter units |
+| 2 | G2 properties | P2: every chunk is one letter or one of the seventy-two multi-letter units |
 | 3 | G2 properties | P3: box stays in 0..5 through any result sequence |
 | 4 | G2 properties | P4: dueAt is the session plus the ladder value for the new box, and is in the future |
 | 5 | G2 properties | P5: attempts grows by exactly 1 per call and equals correct+close+wrong from fresh |

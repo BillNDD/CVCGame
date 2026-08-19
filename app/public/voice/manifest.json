@@ -2707,6 +2707,7 @@
    "an": 0.82,
    "and": 1,
    "ant": 0.95,
+   "are": 0.7,
    "ask": 0.95,
    "at": 0.82,
    "ax": 0.82,
@@ -3083,6 +3084,7 @@
    "wed": 1,
    "well": 0.82,
    "went": 1,
+   "were": 0.8,
    "wet": 1,
    "whack": 1,
    "wham": 0.82,
@@ -3121,6 +3123,12 @@
   "ms": 1056,
   "tail": 426
  },
+ "d:ar": {
+  "file": "d-ar.mp3",
+  "lead": 40,
+  "ms": 408,
+  "tail": 58
+ },
  "d:b": {
   "file": "d-b.mp3",
   "lead": 200,
@@ -3138,6 +3146,12 @@
   "lead": 190,
   "ms": 768,
   "tail": 428
+ },
+ "d:er": {
+  "file": "d-er.mp3",
+  "lead": 50,
+  "ms": 504,
+  "tail": 184
  },
  "d:f": {
   "file": "d-f.mp3",
@@ -4824,6 +4838,12 @@
   "lead": 120,
   "ms": 912,
   "tail": 322
+ },
+ "w:are": {
+  "file": "w-are.mp3",
+  "lead": 130,
+  "ms": 816,
+  "tail": 326
  },
  "w:ask": {
   "file": "w-ask.mp3",
@@ -7452,6 +7472,12 @@
   "lead": 130,
   "ms": 888,
   "tail": 328
+ },
+ "w:were": {
+  "file": "w-were.mp3",
+  "lead": 130,
+  "ms": 840,
+  "tail": 330
  },
  "w:wet": {
   "file": "w-wet.mp3",
