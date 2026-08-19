@@ -202,7 +202,10 @@ def main(argv):
     written = []
     try:
         res = record(audio, ledger, text, round_label,
-                     write=lambda name, data: (PEND / name).write_bytes(data) or written.append(name))
+                     # Append FIRST, write second. The previous form used `or`, and write_bytes
+        # returns a byte count - truthy for any real clip - so the append never ran,
+        # the rollback list stayed empty and the success line always said zero.
+        write=lambda name, data: (written.append(name), (PEND / name).write_bytes(data)))
     except Exception:
         for name in written:
             (PEND / name).unlink(missing_ok=True)

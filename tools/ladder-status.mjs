@@ -60,7 +60,7 @@ export function report(d) {
 /* The main-module guard. A Windows path needs pathToFileURL, not string
    surgery: the hand-rolled version matched nothing, so the whole file ran as a
    no-op and its self-test printed success by printing nothing at all. */
-if (import.meta.url === pathToFileURL(process.argv[1]).href) {
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
   if (process.argv.includes("--self-test")) {
     const say = [];
     const T = (n, p) => say.push([n, p]);
