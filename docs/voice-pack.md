@@ -203,7 +203,15 @@ byte-pinned word rather than replacing accepted audio with a render.
   sidecar workspace archive on the owner's PC
   (handoff `word-quest-uplift-handoff-2026-08-07T1438Z`).
 
-## Approved and unshipped: 641 items with no level yet (through 2026-08-18)
+## Approved and unshipped: 657 items with no level yet (through 2026-08-19)
+
+**Sentence batch 5 closed 16 of 16 by ear (2026-08-19)** — the whole field passed on a
+single take each, which is what the single-take ruling predicted. Fourteen were the
+owner's own accepts from the everything batch; one, at L40, is his replacement wording
+after he refused the draft for putting jam on a child's lap. The clips wait in
+`tools/pending-words/` with the rest, unseated until the hundred-level ladder gives them
+a home.
+
 
 **Batch 20 closed 17 of 20 (2026-08-17), and it ended a three-round hunt.** **as is
 accepted at last**, on a phonemised arm at 0.7 — the axis that finally worked was neither

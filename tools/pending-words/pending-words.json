@@ -305,7 +305,7 @@
   "round": "batch 6 / 2026-08-07",
   "verdict": "perfect",
   "level": "reveal lead-in (planned)",
-  "text": "Let\u2019s sound it out."
+  "text": "Let’s sound it out."
  },
  "of": {
   "arm": "of_6",
@@ -1441,7 +1441,7 @@
   "note": "supersedes the batch 13 entry, which was bytes the owner had already marked closest in batch 12. This clip was never offered before: verified against all 1883 arms of the 23 earlier rounds."
  },
  "a": {
-  "arm": "2\u00b73 \u2014 matched to today's schwa",
+  "arm": "2·3 — matched to today's schwa",
   "family": "owner-handoff-schwaD",
   "ms": 743,
   "sha256": "d3fc66ccc4ed23f493af51b368009b2325153aae9c1cddd23007825a47c7ecee",
@@ -1458,7 +1458,7 @@
   "round": "sound-out lines (2026-08-13)",
   "verdict": "perfect",
   "level": "the sentence reveal's invitation (SPEC section 12)",
-  "phonemes": "ju\u02d0 \u0279\u02c8\u025bd \u00f0\u02cc\u025bm \u02c8\u0254\u02d0l. l\u02c8\u025bts s\u02c8a\u028and \u02c8a\u028at \u00f0\u02c8\u026asw\u02cc\u028cn.",
+  "phonemes": "juː ɹˈɛd ðˌɛm ˈɔːl. lˈɛts sˈaʊnd ˈaʊt ðˈɪswˌʌn.",
   "note": "the first take said 'read' as in reed and was marked no good; this one carries explicit phonemes"
  },
  "s:mode-b3-s01": {
@@ -1925,7 +1925,7 @@
   "sha256": "d9e54a5ed9844e797ca83c1822d3b6aa13ccc801ff137a71fb952a5b1107a536",
   "round": "we/me sentences (2026-08-13)",
   "verdict": "perfect",
-  "level": "NOT PLACEABLE \u2014 nip",
+  "level": "NOT PLACEABLE — nip",
   "blocked_on": "we and me are not seated in the bank yet - docs/open-faults.md K"
  },
  "s:mode-wm-wm19": {
@@ -9226,5 +9226,149 @@
   "verdict": "perfect",
   "level": "v3 L23, paragraph - unseated, ladder redesign",
   "credit": "McGuffey's First Eclectic Reader"
+ },
+ "s:v3-l16-01": {
+  "text": "Dad has a red van. The kids and I are in it. We can nap and sip milk in the van.",
+  "family": "sentence_sp1.0",
+  "ms": 5478,
+  "sha256": "8f7374b00035a0a9b601c838a5a9421b7387f1642b6397922f017a303b736706",
+  "round": "sentence batch 5 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L16, paragraph - unseated, ladder redesign"
+ },
+ "s:v3-l19-01": {
+  "text": "I want a yak. A fat yak can not fit in my bed. My yak must nap on the mat!",
+  "family": "sentence_sp1.0",
+  "ms": 5094,
+  "sha256": "fc0181c22ae3b918eef3dbc6f0c70bcc9031133d6cb9a5c4d4db6e5e2f2d74bc",
+  "round": "sentence batch 5 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L19, paragraph - unseated, ladder redesign"
+ },
+ "s:v3-l21-01": {
+  "text": "My doll fell on the hill. I ran up and got it. It gets a kiss!",
+  "family": "sentence_sp1.0",
+  "ms": 4198,
+  "sha256": "8e78749a4fba1219504000342a66866d7dcb706d3745d1a12fb64a1c15d92c0f",
+  "round": "sentence batch 5 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L21, paragraph - unseated, ladder redesign"
+ },
+ "s:v3-l40-02": {
+  "text": "The cub had jam on his hand.",
+  "family": "sentence_sp1.0",
+  "ms": 1980,
+  "sha256": "13179506471deefde222c8e865044642cfad84668287c2fa163d16e75687b13c",
+  "round": "sentence batch 5 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L40, sentence - unseated, ladder redesign"
+ },
+ "s:v3-l44-01": {
+  "text": "I filled the tub with mom. I got in with my duck. Then I did a splash. I yelled to mom, and she got wet! We had fun.",
+  "family": "sentence_sp1.0",
+  "ms": 7740,
+  "sha256": "35f79e6ec0b9416ab1410316a1a3b804db8c515bb0f28347ea3d818ba5972704",
+  "round": "sentence batch 5 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L44, paragraph - unseated, ladder redesign"
+ },
+ "s:v3-l45-01": {
+  "text": "I wanted to sled. Dad lifted me up on the hill. I slid so fast, and I landed on my back! We did it a lot. Then the fun ended and we went in.",
+  "family": "sentence_sp1.0",
+  "ms": 9169,
+  "sha256": "a03a7ad37ab0d90e4854f39ed363305c8668980c3abd3a63fe5e7538497e4e7c",
+  "round": "sentence batch 5 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L45, paragraph - unseated, ladder redesign"
+ },
+ "s:v3-l46-02": {
+  "text": "I am swimming at the pond. Dad is sitting on the bank. I am getting cold, so I stopped. Mom got me a hot cup of milk. I am so glad!",
+  "family": "sentence_sp1.0",
+  "ms": 8849,
+  "sha256": "5409d84e3f296f39e2b03352159e8b1a777389b9db3529075b2bbc1a6b6b371c",
+  "round": "sentence batch 5 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L46, paragraph - unseated, ladder redesign"
+ },
+ "s:v3-l50-01": {
+  "text": "I went to the shed with my pup. He got in a mess! He had a mitt and a shell. The sack had a rip in it. My pal and I packed it up.",
+  "family": "sentence_sp1.0",
+  "ms": 7505,
+  "sha256": "124aedbd2f7cfc336d50ec3b95929cf6e1f226ac28b077596c5bb86b262ef48a",
+  "round": "sentence batch 5 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L50, paragraph - unseated, ladder redesign"
+ },
+ "s:v3-l51-01": {
+  "text": "I had jelly on my hand. A butterfly landed on it. It wanted the jelly! I was very happy. I did not want it to go.",
+  "family": "sentence_sp1.0",
+  "ms": 7804,
+  "sha256": "0f1b74a85f3ec6f6c44ce6aa31720d2182d0a9e5c06379ff36ff61c642b044b2",
+  "round": "sentence batch 5 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L51, paragraph - unseated, ladder redesign"
+ },
+ "s:v3-l52-01": {
+  "text": "My rabbit is shy. I try to spy on her. She is by the shed! She is very sly. Why is she so shy?",
+  "family": "sentence_sp1.0",
+  "ms": 6502,
+  "sha256": "1367df2f93a1645662f4e35c4f45ab2d1649f10710d5e4e6170b22af60bad8ce",
+  "round": "sentence batch 5 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L52, paragraph - unseated, ladder redesign"
+ },
+ "s:v3-l53-01": {
+  "text": "My puppy got wet in the pond. I spied him on the bank. I dried him with my hat. Then he tried to get back in! He was happier wet than dry.",
+  "family": "sentence_sp1.0",
+  "ms": 8700,
+  "sha256": "4bc227db9c5cdcfde0f3d9874933498dfa3b8b877d92646efc512e1e8bfdc667",
+  "round": "sentence batch 5 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L53, paragraph - unseated, ladder redesign"
+ },
+ "s:v3-l54-01": {
+  "text": "Mom had a banana in her backpack. She let me have it at the pond. It was wonderful. Besides the banana, she had a muffin. I had that as well.",
+  "family": "sentence_sp1.0",
+  "ms": 9020,
+  "sha256": "fc77c54a69dfc8dc12a5675c9f3523a34e14b596f554878fe902c56bb2af7b66",
+  "round": "sentence batch 5 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L54, paragraph - unseated, ladder redesign"
+ },
+ "s:v3-l55-01": {
+  "text": "I had a wand of wax. It fell in the tub. The water was hot, and the wax got soft. My wand was a mess! Mom said she will fix it.",
+  "family": "sentence_sp1.0",
+  "ms": 8401,
+  "sha256": "80e5992870eedb2a46a90c55f3e24ad5ef7b6ccfa80853d29883f6fd660f5a0e",
+  "round": "sentence batch 5 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L55, paragraph - unseated, ladder redesign"
+ },
+ "s:v3-l56-01": {
+  "text": "My twin and I have ten hens. The hens are in a pen. We fill six cups with water. We set the cups in the pen. The hens run to us! They have all the water.",
+  "family": "sentence_sp1.0",
+  "ms": 9980,
+  "sha256": "d6fdb1d6b911f715910b5fa2afb5239a87b19a00208c92e1469e93e7c7354a7f",
+  "round": "sentence batch 5 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L56, paragraph - unseated, ladder redesign"
+ },
+ "s:v3-l57-01": {
+  "text": "We came to the lake. Mom had a cake in her backpack. She did save it as a gift. We ate the cake by the gate. Then we had a game on the grass. We ran to the gate and back.",
+  "family": "sentence_sp1.0",
+  "ms": 10748,
+  "sha256": "f184f6591c4910a4ef6fe3eed9c53ef597b53cd26086c9bee90614f2d6148d32",
+  "round": "sentence batch 5 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L57, paragraph - unseated, ladder redesign"
+ },
+ "s:v3-l58-01": {
+  "text": "The rain did not stop all day. We had to stay in. Mom got the paint and a pail of water. I did paint a yak with a long tail. My twin did paint the rain. Then we lay on the mat to rest.",
+  "family": "sentence_sp1.0",
+  "ms": 12134,
+  "sha256": "fa99ee74a7b189b61e10efc7dedada07613c06e087c6bc3daf62169adb60a60c",
+  "round": "sentence batch 5 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L58, paragraph - unseated, ladder redesign"
  }
 }
