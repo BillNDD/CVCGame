@@ -85,6 +85,13 @@ const AGENT_TOOLS = [
     command: "tools/blast-radius-mutants.mjs",
   },
   {
+    file: "tools/conversion-rehearsal.mjs",
+    why: "G27: what the 100-level ladder would break in the real engine",
+    docs: { "docs/testing-gauntlet.md": "gauntletDoc" },
+    script: "check",
+    command: "tools/conversion-rehearsal.mjs --self-test",
+  },
+  {
     file: "tools/mutants.mjs",
     why: "the mutation gate, and its --anchors dry run that E11 asks for first",
     docs: { "CLAUDE.md": "claude", "AGENTS.md": "agents" },

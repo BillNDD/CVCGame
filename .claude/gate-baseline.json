@@ -59,12 +59,12 @@
       "why": "The whole G15 gate. Its subject was the browser speech recogniser contract; the child-facing microphone was removed on the owner's safety ruling of 2026-08-11, tests/recognizer.test.js was deleted, and the counter in tools/gauntlet.mjs went with it in the same commit. No surviving rule lost its guard: S1's adult-only clause became absolute and is now covered by tests/safety.test.js 1, 2, 2a and 3."
     }
   },
-  "g23_declared": 45,
+  "g23_declared": 47,
   "g23_facts": 4,
   "g23_controls": 40,
   "filemap_history_max": 1,
   "g24_controls": 47,
-  "g24_files": 263,
+  "g24_files": 266,
   "g24_vocab": 184,
   "g24_common": 888,
   "g24_surnames": 1000,
@@ -73,5 +73,22 @@
   "g25_source_only_max": 1,
   "g25_unobserved_max": 6,
   "g25_controls": 12,
-  "g11_source_controls": 7
+  "g11_source_controls": 7,
+  "g27_controls": 66,
+  "g27_classes": 15,
+  "g27_throws_max": 0,
+  "g27_no_value_max": 0,
+  "g27_sound_no_clip_max": 40,
+  "g27_tray_no_clip_max": 516,
+  "g27_word_no_clip_max": 95,
+  "g27_sentence_no_clip_max": 0,
+  "g27_text_word_untaught_max": 1,
+  "g27_clip_unshipped_max": 822,
+  "g27_empty_sentence_pool_max": 0,
+  "g27_session_reveal_silent_max": 20,
+  "g27_unseated_bank_word_max": 26,
+  "g27_short_session_max": 99,
+  "g27_no_block_building_max": 100,
+  "g27_paragraph_reveal_max": 143,
+  "g27_stale_chooser_copy_max": 1
 }

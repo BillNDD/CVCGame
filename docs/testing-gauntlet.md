@@ -1,4 +1,4 @@
-# Testing gauntlet — gate specification (G1–G24)
+# Testing gauntlet — gate specification (G1–G27)
 
 **This document owns** the gates: what each one proves, what it cannot prove, and the floor
 or ceiling it holds in `.claude/gate-baseline.json`.
@@ -37,6 +37,81 @@ only `tools/record-takes.py` can, by refusing at the moment of writing. It
 cannot catch an `either-is-fine` row collapsed to `perfect`, because that is a
 legal value; the limit has its own control that asserts the miss rather than
 hiding it. Sub-second over ~960 rows, so it runs in `npm run check`.
+
+## G27 - the conversion rehearsal
+
+`node tools/conversion-rehearsal.mjs --check`, with `--self-test` for its controls and no
+flag at all for the report a person reads. Owner-ruled 2026-08-19: "Build a conversion
+rehearsal, and gate it."
+
+**What it protects.** Seven faults were found in one week, every one by a person going
+looking and not one by a gate. They share a shape: code that is correct for a 21-level world
+and wrong for a 100-level one, where nothing fails until the data changes. Every other gate
+here measures the ladder that ships today, so all seven would have fired at once inside the
+conversion release. This gate moves that discovery forward by however long the redesign takes.
+
+**How it works.** The two data literals in `reference/word-quest.jsx`, `LEVELS` and
+`SENTENCES`, are spliced out and replaced with the 100-level ladder
+(`tools/ladder/ladder-v4.json`, `tools/ladder/shape-v3.json`, and the banked texts in
+`tools/pending-words/pending-words.json`). The substituted reference goes through
+`tools/extract-engine.mjs` — the real extractor, run as itself — and the module it produces
+is imported. `app/src/App.jsx`'s truly-random block builder is sliced out at its own anchors
+and re-exported against that module. Then the real functions run over every level:
+`buildSession`, `trayPool`, `buildTray`, `chunkWord`, `soundIdFor`, `soundIdsFor`,
+`sentencesUpTo`, `sentenceWords`, `revealWord`, `revealWordLongest`, `voiceScript`,
+`bankWords` and `buildRandomBlock`.
+
+**Why it is a splice and not a re-implementation.** A rehearsal that re-derived what the
+engine does would pass while the engine failed. Only the data changes; the splice is proved
+reversible byte-for-byte before it is used, and the substitution is checked after import.
+
+**The finding classes** are `g27_classes` (15), each with a ceiling that only comes down
+(E6). A count above its ceiling is red. A count below prints the number to lower the ceiling
+to. A class with no ceiling at all is red — `count > undefined` is false, which is how a
+ceiling silently stops existing. A finding class the ledger does not know is red, and that
+is the clause that catches the eighth fault nobody has thought of yet.
+
+| tier | class and ceiling | what it means |
+|---|---|---|
+| BREAKS | `g27_throws_max` (0) | a real function threw on what the ladder produces |
+| BREAKS | `g27_no_value_max` (0) | a real function returned nothing where a value is required |
+| BREAKS | `g27_sound_no_clip_max` (40) | a tile unit resolves to a sound id in no pack and no waiting room |
+| BREAKS | `g27_tray_no_clip_max` (516) | Build-it would deal a tile whose sound has no clip |
+| BREAKS | `g27_word_no_clip_max` (95) | a bank word has no word clip anywhere |
+| BREAKS | `g27_sentence_no_clip_max` (0) | a placed text has no clip anywhere |
+| BREAKS | `g27_text_word_untaught_max` (1) | a placed text uses a word the ladder does not teach by that level |
+| BILL | `g27_clip_unshipped_max` (822) | approved, in the waiting room, not yet in the pack |
+| DEGRADED | `g27_empty_sentence_pool_max` (0) | a level whose free-play sentence pool is empty |
+| DEGRADED | `g27_session_reveal_silent_max` (20) | the level teaches no word in its own text, so the sound-out is skipped |
+| DEGRADED | `g27_unseated_bank_word_max` (26) | a bank word truly-random can never draw |
+| DEGRADED | `g27_short_session_max` (99) | a first session shorter than `SESSION_SIZE` |
+| DEGRADED | `g27_no_block_building_max` (100) | the level never exceeds `SESSION_SIZE`, so the block IS the level |
+| DEGRADED | `g27_paragraph_reveal_max` (143) | a multi-sentence text gets one sound-out word for the whole paragraph |
+| DEGRADED | `g27_stale_chooser_copy_max` (1) | the chooser states a bank size the bank does not have |
+
+**The seventh class earned itself on the day it was written.** Three owner-approved texts
+became illegal in one afternoon because the ladder moved under them — `hustle` was removed,
+`catfish` was removed, and `butterfly` moved from level 51 to 52. All three were verdict
+`perfect`, all three passed every gate, and all three would have asked a child to read a word
+they had not been taught. The `butterfly` shape is the one a membership test misses: the word
+is still in the ladder, one level too late.
+
+**Negative controls**, `g27_controls` (66). Every one is a PAIR: the fault is planted, the
+real `rehearse()` runs and must go red on that class; without the fault, the same real run
+must be silent on it. A detector that always cries wolf fails the green half and one that
+never fires fails the red half. The fixture uses the real reference and the real app source —
+only the data is small — so the code under test is the code that ships. The anchors have
+controls of their own: a renamed `LEVELS` literal, a renamed `SENTENCES` literal and a moved
+`buildRandomBlock` must each be refused rather than ignored. The control the whole file
+stands on is a decoy extractor that ignores the source it is handed, which is the one way
+a rehearsal could quietly re-test today's world and print a clean sheet.
+
+**What it cannot do.** It cannot call anything inside the React component: `beginFreePlay`,
+`showSentence` and the endless deal are closures over component state and need a renderer, so
+where a consequence lives there the tool reports the driven cause and names the rest in prose.
+It cannot say whether the ladder is right — `tools/ladder-status.mjs` measures what the ladder
+holds and the literacy seat judges whether it teaches. About three seconds for the gate and
+ten for its controls, so both run in `npm run check`.
 
 ## Method
 
@@ -723,7 +798,7 @@ the tool would be fault F2 re-committed.
   `filemap_history_max` (1) — a ceiling only the owner moves (E6). Today's one:
   `docs/voice-goldens-packs1-3.json`, whose 11-of-57 recipe disagreements make it a trap if
   read as live.
-- Keys: `g23_declared` (45), `g23_facts` (4), `g23_controls` (40), problems capped at 0,
+- Keys: `g23_declared` (47), `g23_facts` (4), `g23_controls` (40), problems capped at 0,
   ceiling `filemap_history_max` (1).
 - Run: `node tools/file-map.mjs --check` and `--self-test`; both are in `npm run check`.
 
@@ -859,7 +934,7 @@ happened to read the output.
   halves repository language is the tree talking, one stranger half is a person. The
   stated residue: someone named entirely in repository words is skipped here, exactly as
   each half already was by the single-word layers.
-- Keys: `g24_files` (263), `g24_controls` (47), `g24_vocab` (184), `g24_common` (888),
+- Keys: `g24_files` (266), `g24_controls` (47), `g24_vocab` (184), `g24_common` (888),
   `g24_common` moved 889 to 888 on 2026-08-19, owner-ruled on the `Hope` precedent of
   2026-08-16: **Joy** is an ordinary English word that is also a given name, and it
   appears in a listening round's carrier phrase. The alternative was rewording a record

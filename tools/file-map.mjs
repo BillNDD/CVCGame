@@ -180,6 +180,7 @@ export const DECLARED = [
   { path: "tools/pending-words/pending-words.json", kind: "DATA", owns: "the waiting room's ledger: verdict, family, arm, round and byte pin for every approved-and-unshipped clip — docs/voice-pack.md tells each round's story" },
   { path: "tools/waiting-room.mjs", kind: "SOURCE", owns: "G26: the waiting room's byte pins, row schema, citations and verdict vocabulary" },
   { path: "tools/record-takes.py", kind: "SOURCE", owns: "the one listening-round recorder, words and sentences: verify-then-write, refuse an existing id, refuse an unparsed line, persist every verdict" },
+  { path: "tools/conversion-rehearsal.mjs", kind: "SOURCE", owns: "G27: what the 100-level ladder would break in the real engine - the substitution, the probes over every level, and the ceiling each finding class is held to" },
   { path: "tools/ladder-status.mjs", kind: "SOURCE", owns: "the lookup that reports what the redesign ladder holds, measured from its own files" },
   { path: "tools/ladder-fill.mjs", kind: "SOURCE", owns: "the rule for where a word may sit in the ladder - its greedy longest-match segmentation, the level that first teaches each unit, and the check that every target word has a seat" },
   { path: "tools/ladder/README.md", kind: "OWNER", owns: "what each curriculum-redesign design artefact is, where it came from, and how far it can be trusted" },
