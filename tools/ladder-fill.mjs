@@ -64,7 +64,14 @@ export function inventory(shape) {
     for (const tok of raw.split(/[\s,]+/).filter(Boolean)) {
       const [head, sound] = tok.split("=");
       const g = head.replace(/^-+/, "");
-      if (!g) return;
+      /* A malformed token costs its own place and nothing else. This was
+         `return`, which exits the forEach callback and so threw away every
+         REMAINING token of that level - one stray "-" or "=long_a" would have
+         left the letters written after it taught nowhere, and the words that
+         need them unspellable rather than merely late. No level in
+         shape-v3.json has an empty head today, so the fix moves no word; the
+         control below plants the stray token the real file does not have. */
+      if (!g) continue;
       if (!inv.has(g)) inv.set(g, { first: i + 1, sounds: new Map() });
       const e = inv.get(g);
       if (sound && !e.sounds.has(sound)) e.sounds.set(sound, i + 1);
@@ -529,8 +536,213 @@ function controlFaults(say, f) {
     rules({ ...f, ladder: filled }) === "");
 }
 
+/* A SECOND fixture, for the four paths the first one cannot reach. It is
+   separate on purpose. The fixture above has its orphan list and its placement
+   counts written out as literals, and widening it to carry split vowels would
+   have meant rewriting every one of those expected values - which is the edit
+   E3 forbids, done for the most sympathetic reason there is. So the new paths
+   get their own small schedule instead, and the thirty-four controls above
+   still assert exactly what their author wrote.
+
+   WHAT IT TEACHES, AND WHY EACH PIECE IS THERE.
+   - Four split vowels (a_e o_e i_e e_e at levels 6 to 9), because the real
+     shape has five - a_e L57, e_e L63, o_e L64, i_e L66, u_e L76 - and
+     EIGHTEEN of the 162 words this pass seated are read through them: gave
+     made come love nose note some those live mile nine shine side smile time
+     white use outside. Until this fixture existed, splitAt, SPLIT_MIDS and
+     SPLIT_TAILS had no control at all.
+   - `ere` at level 11, a three-letter team that must OUTRANK a split vowel.
+     The real shape has ten such units, `ere` at L84 among them, and "there"
+     is the word that tells th+ere from th+e_e.
+   - `-s=s` at level 1 and nowhere else, so the leading-dash strip has a
+     consequence. In the real shape `-s=s` sits at L6 and plain `s` is already
+     taught at L1, so the strip is load-bearing and invisible; here it is the
+     only way `s` is taught at all.
+   - An `ending` level at 12, after the last review level. The real shape has
+     one - L100, "MILESTONE - Reader" - and `teach` and `teacher` reached it.
+   Two absences are deliberate and load-bearing. `z` is taught NOWHERE, so a
+   split vowel whose middle letter is untaught has somewhere to fail. And
+   level four opens with a stray "-" token, so a malformed head has six real
+   letters behind it to swallow. */
+function splitFixture() {
+  return {
+    shape: [
+      { n: 1, teaches: "s, written as the plural", new: "-s=s", heart: [] },
+      { n: 2, teaches: "two more", new: "t n", heart: [] },
+      { n: 3, teaches: "the short vowels", new: "a=short_a e=short_e i=short_i o=short_o", heart: [] },
+      { n: 4, teaches: "six more, behind a stray token", new: "- b h m r v x", heart: [] },
+      { n: 5, teaches: "review", new: "", rule: "review", heart: [] },
+      { n: 6, teaches: "long a: a_e", new: "a_e=long_a", heart: [] },
+      { n: 7, teaches: "long o: o_e", new: "o_e=long_o", heart: [] },
+      { n: 8, teaches: "long i: i_e", new: "i_e=long_i", heart: [] },
+      { n: 9, teaches: "long e: e_e", new: "e_e=long_e", heart: [] },
+      { n: 10, teaches: "th", new: "th=th", heart: [] },
+      { n: 11, teaches: "the ere team", new: "ere=air", heart: [] },
+      { n: 12, teaches: "MILESTONE - Reader", new: "", rule: "ending", heart: [] },
+    ],
+    ladder: [
+      { n: 1, words: [] }, { n: 2, words: [] }, { n: 3, words: [] },
+      { n: 4, words: [] }, { n: 5, words: [] }, { n: 6, words: [] },
+      { n: 7, words: [] }, { n: 8, words: [] }, { n: 9, words: [] },
+      { n: 10, words: [] }, { n: 11, words: [] }, { n: 12, words: [] },
+    ],
+    target: ["hats", "boxes", "oven", "notes", "time", "here", "there"],
+  };
+}
+
+/* Read a level out of an inventory without throwing when the spelling is
+   missing. A control that crashes takes the whole run down with it and reports
+   nothing about the twenty after it; a control that returns null says which
+   assertion went red. */
+function firstOf(inv, g) {
+  return inv.has(g) ? inv.get(g).first : null;
+}
+
+function controlSplitVowels(say, f, inv) {
+  const T = (n, p) => say.push([n, p]);
+
+  /* THE UNITS THEMSELVES, before any level arithmetic. readyLevel takes a max
+     over the units, and a max hides things: a split vowel that swallowed two
+     letters instead of three leaves a stray "e" behind, and because "e" is
+     taught long before any split vowel the max never moves. The segmentation
+     is the honest place to see it, and it is what a person would read down. */
+  T("a split vowel is one unit of exactly three letters",
+    (segment("time", inv) || []).join("-") === "t-i_e"
+    && (segment("notes", inv) || []).join("-") === "n-o_e-s");
+  T("the words the split vowel must NOT take are segmented letter by letter",
+    (segment("boxes", inv) || []).join("-") === "b-o-x-e-s"
+    && (segment("oven", inv) || []).join("-") === "o-v-e-n"
+    && (segment("hats", inv) || []).join("-") === "h-a-t-s");
+  T("a three-letter team is one unit, and an unspellable word is null",
+    (segment("there", inv) || []).join("-") === "th-ere" && segment("maze", inv) === null);
+
+  /* THE SPLIT VOWEL ITSELF. "time" is t + i_e, so it waits for level eight.
+     Read letter by letter it is t-i-m-e and would arrive at four - which is
+     the level a child could not yet read it at. */
+  T("a split-vowel word waits for its split vowel", readyLevel("time", inv) === 8);
+  /* E5. Take the split vowels out of the schedule and the same word drops to
+     level four, read t-i-m-e. That four-versus-eight gap is the whole value of
+     the path, and it proves the control above is not agreeing by accident. */
+  const bare = inventory(f.shape.map((lv) => (lv.n >= 6 && lv.n <= 9 ? { ...lv, new: "" } : lv)));
+  T("control: with no split vowel taught, time reads t-i-m-e and arrives at four",
+    readyLevel("time", bare) === 4 && readyLevel("notes", bare) === 3);
+  T("a split vowel carries its silent-e endings: notes is n + o_e + s",
+    readyLevel("notes", inv) === 7);
+
+  /* SPLIT_MIDS. The middle letter is never y, w or x: "boxes" is b-o-x-e-s,
+     not b + o_e + s, which would say "bose". */
+  T("the middle of a split vowel is never x: boxes is not b-o_e-s",
+    readyLevel("boxes", inv) === 4);
+  T("control: without the rule, boxes waits for the long-o level",
+    readyLevel("boxes", inv, { strict: false }) === 7);
+
+  /* SPLIT_TAILS. The e must end the word or carry an ending that keeps it
+     silent: "oven" is o-v-e-n, not o_e + n, which would say "own". */
+  T("a split vowel needs a silent-e ending: oven is not o_e-n",
+    readyLevel("oven", inv) === 4);
+  T("control: without the rule, oven waits for the long-o level",
+    readyLevel("oven", inv, { strict: false }) === 7);
+
+  /* The third letter must actually BE an e. Without that test every ordinary
+     three-letter word becomes a split vowel: "hats" would read h + a_e. */
+  T("an ordinary word is not a split vowel: hats is h-a-t-s",
+    readyLevel("hats", inv) === 4);
+
+  /* A taught three-letter unit outranks a split vowel at the same place.
+     "there" is th + ere, not th + e_e. */
+  T("a three-letter team outranks a split vowel: there is th + ere",
+    readyLevel("there", inv) === 11);
+  T("control: take ere away and the same word falls back to th + e_e",
+    readyLevel("there", inventory(f.shape.map((lv) => (lv.n === 11 ? { ...lv, new: "" } : lv)))) === 10);
+
+  /* A split vowel still needs its middle letter taught. z is taught nowhere in
+     this fixture, so "maze" is not readable at any level - and saying so is
+     the point, because the alternative is calling it ready at six. */
+  T("a split vowel still needs its middle letter: maze is spellable nowhere",
+    readyLevel("maze", inv) === null);
+  T("control: teach the z and maze becomes readable at the long-a level",
+    readyLevel("maze", inventory([...f.shape, { n: 13, new: "z=z" }])) === 6);
+
+  /* The consequence a child would feel: the pass SEATS the word at eight. */
+  const p = plan(f);
+  T("the pass seats a split-vowel word at its split-vowel level",
+    p.placed.get("time") === 8 && p.placed.get("notes") === 7
+    && p.placed.get("there") === 11 && p.placed.size === 7);
+}
+
+function controlShapeTokens(say, f, inv) {
+  const T = (n, p) => say.push([n, p]);
+
+  /* THE LEADING DASH. The shape writes a suffix as `-s=s`, and the strip is
+     what turns that into the spelling `s`. Here it is the only place s is
+     taught, so without the strip "hats" and "notes" are spellable nowhere. */
+  T("a suffix written with a leading dash is taught as its bare spelling",
+    firstOf(inv, "s") === 1 && !inv.has("-s"));
+  T("control: the dashed form and the plain form give the same inventory",
+    firstOf(inventory([{ n: 1, new: "-s=s" }]), "s") === 1
+    && firstOf(inventory([{ n: 1, new: "s=s" }]), "s") === 1);
+  T("a word needing the dashed suffix is readable", readyLevel("hats", inv) === 4);
+
+  /* THE STRAY TOKEN. Level four is written "- b h m r v x". The dash teaches
+     nothing, and the six letters behind it must still be taught - the fault
+     this catches skipped the whole rest of the level. */
+  T("a stray token costs its own place and not the rest of the level",
+    ["b", "h", "m", "r", "v", "x"].every((g) => firstOf(inv, g) === 4)
+    && !inv.has("-") && !inv.has(""));
+  T("control: the stray token is the difference - the same level without it teaches the same six",
+    ["b", "h", "m", "r", "v", "x"].every((g) =>
+      firstOf(inventory([{ n: 1, new: "b h m r v x" }]), g) === 1));
+  T("control: an empty head from a lone sound mark is skipped, not taught",
+    inventory([{ n: 1, new: "=long_a t" }]).has("t")
+    && !inventory([{ n: 1, new: "=long_a t" }]).has(""));
+}
+
+function controlEndingLevel(say, f) {
+  const T = (n, p) => say.push([n, p]);
+
+  /* THE ENDING LEVEL. Level 12's job is breadth, like a review level, and it
+     says so with rule "ending" rather than rule "review" - which is exactly
+     how the real shape writes level 100. Two words, `teach` and `teacher`,
+     reached L100 through this clause and nothing tested it. */
+  T("an ending level is a level this pass may move a word to",
+    [...reviewLevels(f.shape)].sort((a, b) => a - b).join(" ") === "5 12"
+    && f.shape[11].rule === "ending" && f.shape[4].rule === "review");
+
+  /* Squeeze the band to one seat and give the pass two words that are both
+     ready at eleven. The first takes eleven; the second has no review level
+     left after it, and must go on to the ending level at twelve. */
+  const late = { ...f, target: ["here", "there"] };
+  const tight = plan(late, { band: { soft: 1 } });
+  T("a word that will not fit its own level goes on to the ending level",
+    tight.placed.get("here") === 11 && tight.placed.get("there") === 12
+    && tight.moved.has("there"));
+  /* E5. Take the ending rule off that level and the word has nowhere on topic
+     to go: it stays home and its level is named as over the soft band. If the
+     clause were dropped, the control above would read 11 and this one would
+     still read 11 - so the pair, not either alone, is the proof. */
+  const noEnding = { ...late, shape: f.shape.map((lv) => ({ ...lv, rule: lv.rule === "ending" ? undefined : lv.rule })) };
+  const homed = plan(noEnding, { band: { soft: 1 } });
+  T("control: strip the ending rule and the word stays home, named over-band",
+    homed.placed.get("there") === 11 && homed.overSoft.has(11));
+
+  /* The check must still refuse a split-vowel word seated before its level. */
+  const filled = applyPlan(f.ladder, plan(f));
+  const rules = (st) => check(st).map((x) => x.rule).join(",");
+  T("the check passes the split-vowel fixture once it is filled",
+    rules({ ...f, ladder: filled }) === "");
+  const early = filled.map((lv) => (lv.n === 4
+    ? { ...lv, words: [...lv.words, "time"], filled: [...(lv.filled || []), "time"] } : lv));
+  T("control: a split-vowel word seated before its split vowel FAILS the check",
+    rules({ ...f, ladder: early }).includes("seated early"));
+}
+
 function selfTest() {
   const say = [];
+  const sf = splitFixture();
+  const sinv = inventory(sf.shape);
+  controlSplitVowels(say, sf, sinv);
+  controlShapeTokens(say, sf, sinv);
+  controlEndingLevel(say, sf);
   controlFaults(say, controlChecks(say));
   const failed = say.filter(([, p]) => !p).length;
   for (const [n, p] of say) console.log((p ? "ok   " : "FAIL ") + n);
