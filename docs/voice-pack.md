@@ -233,7 +233,29 @@ byte-pinned word rather than replacing accepted audio with a render.
   sidecar workspace archive on the owner's PC
   (handoff `word-quest-uplift-handoff-2026-08-07T1438Z`).
 
-## Approved and unshipped: 853 items still in the waiting room (through 2026-08-19)
+## Approved and unshipped: 858 items still in the waiting room (through 2026-08-19)
+
+**Every level of the hundred has text, closed 2026-08-19.** The last three were levels 1, 72
+and 94. Levels 72 and 94 were unwritable until the owner's 107-word bill gave them
+vocabulary the same day. Level 1 was called unwritable and was not: its whole vocabulary is
+`an ant as at in it sat sit nap pan` with no heart word until level 2, so `an` only fits
+`ant` and there is no copula - exactly one good text exists, and it is **"An ant sat."** The
+repository's own bar settles the quality question, since level 2 ships "I sip."
+
+**THREE APPROVED TEXTS WENT ILLEGAL THE SAME DAY, and the cause matters more than the
+repair.** Each was validated when written, against a ladder that then moved underneath it:
+`hustle` and `catfish` left the ladder as words the owner had already refused, and
+`butterfly` moved from level 51 to 52 because its `y` says the long i taught at 52. All three
+carried verdict `perfect`. No gate caught any of them - they were found by re-running the
+check by hand after the third edit. All 274 banked texts are now re-validated against the
+ladder as it stands, and none is illegal.
+
+The lesson is a class and not three incidents: **a banked text is only as valid as the ladder
+it was checked against, and nothing re-checks it.** The conversion rehearsal carries that as
+a required control, including the harder half - a word still IN the ladder but at a LATER
+level than the text, which is the `butterfly` shape and the one a naive membership test
+misses.
+
 
 This heading read "with no level yet" until 2026-08-19, and the two phrases meant the same
 thing until that day. The number is, and always was, what the ledger holds minus what the

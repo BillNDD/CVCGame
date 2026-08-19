@@ -9300,11 +9300,11 @@
   "level": "v3 L50, paragraph - unseated, ladder redesign"
  },
  "s:v3-l51-01": {
-  "text": "I had jelly on my hand. A butterfly landed on it. It wanted the jelly! I was very happy. I did not want it to go.",
+  "text": "I had jelly on my hand. A bug landed on it. It wanted the jelly! I was very happy. I did not want it to go.",
   "family": "sentence_sp1.0",
-  "ms": 7804,
-  "sha256": "0f1b74a85f3ec6f6c44ce6aa31720d2182d0a9e5c06379ff36ff61c642b044b2",
-  "round": "sentence batch 5 / 2026-08-19",
+  "ms": 6891,
+  "sha256": "92dcabd47de15f524b3b0f9050ecbd2247554f4922a8660e28c198ac408d9db1",
+  "round": "ladder-drift repair / 2026-08-19",
   "verdict": "perfect",
   "level": "v3 L51, paragraph - unseated, ladder redesign"
  },
@@ -9930,11 +9930,11 @@
   "level": "v3 L93, sentence - unseated, ladder redesign"
  },
  "s:v3-l93-02": {
-  "text": "At the shore my pal and I had a castle of wet sand. It took all day to get it up. Then the waves came in, and there was a bustle to save it. Dad had to whistle to us to hustle back up the shore. We sat in the grass and looked as the top of the castle went down in the waves. Dad said we can go back and get a new castle up.",
+  "text": "At the shore my pal and I had a castle of wet sand. It took all day to get it up. Then the waves came in, and there was a bustle to save it. Dad had to whistle to us to get back up the shore. We sat in the grass and looked as the top of the castle went down in the waves. Dad said we can go back and get a new castle up.",
   "family": "sentence_sp1.0",
-  "ms": 19281,
-  "sha256": "7f13d76c467c4f484315388e8d419866e7eeba457bc71c9d8f313fd38b213d42",
-  "round": "sentence batch 7 / 2026-08-19",
+  "ms": 18773,
+  "sha256": "cb55a0f9328de6bd61058d4a702f24d854cef10f97eec06621d1a6dd4d02ad45",
+  "round": "final levels / 2026-08-19",
   "verdict": "perfect",
   "level": "v3 L93, paragraph - unseated, ladder redesign"
  },
@@ -10807,11 +10807,11 @@
   "level": "v3 L38, paragraph - unseated, ladder redesign"
  },
  "s:v3-l39-02": {
-  "text": "My pig ran from the pigpen. She went into the dustbin and got a bit of catfish! Then she ran back with it. Dad and I had to fix the dustbin.",
+  "text": "My pig ran from the pigpen. She went into the dustbin and got a bit of ham! Then she ran back with it. Dad and I had to fix the dustbin.",
   "family": "sentence_sp1.0",
-  "ms": 8427,
-  "sha256": "9d09e48abe7cd81af5660bf1ab531f818e6a5e1aecd2c00ea63fc29c90d5d080",
-  "round": "sentence batch 8 / 2026-08-19",
+  "ms": 8171,
+  "sha256": "a149aa9298c5287098649035e109319cd045c33e19d301489e158c6401033c33",
+  "round": "ladder-drift repair / 2026-08-19",
   "verdict": "perfect",
   "level": "v3 L39, paragraph - unseated, ladder redesign"
  },
@@ -11228,5 +11228,50 @@
   "round": "sentence batch 9 / 2026-08-19",
   "verdict": "perfect",
   "level": "v3 L34, paragraph - unseated, ladder redesign"
+ },
+ "s:v3-l01-01": {
+  "text": "An ant sat.",
+  "family": "sentence_sp1.0",
+  "ms": 1003,
+  "sha256": "35c0c36c703d9912759740f5e9e52ada34ac271ce7faba376450d739f293e47f",
+  "round": "final levels / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L1, sentence - unseated, ladder redesign"
+ },
+ "s:v3-l72-01": {
+  "text": "It was sunny, so we had breakfast at the table by the maple. Mom had on her apron, and the pan of bacon was hot. The smell of it got the baby up from her bed. My dog was very lazy and did not get up at all. The sun was bright on the baby, so I made her a hat from paper. The lady from the hill came by, and Mom gave her some bacon and gravy. Later we all sat in the grass, and my lazy dog came to sit with us.",
+  "family": "sentence_sp1.0",
+  "ms": 23872,
+  "sha256": "d4e200634d7e978531226a9910ca82efa07c70bea5d35ccf70dc91ed1ffa91e2",
+  "round": "final levels / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L72, paragraph - unseated, ladder redesign"
+ },
+ "s:v3-l72-02": {
+  "text": "The lady up the road has hens and a baby goat. On a windy day in spring she let me help. She gave me an apron, as the mud was deep by the gate. The baby goat was not lazy at all, and he ran up to get at my bucket. I fell back in the grass by the maple, and the hens went this way and that. Later she made me bacon, and there was gravy to dip my bread in. I went home with honey in a paper bag, and the baby goat came to the gate to see me go.",
+  "family": "sentence_sp1.0",
+  "ms": 24811,
+  "sha256": "53eb3301671ba85dae40609bdf8d3b66764338f1643d046ba8b71d03d88e620a",
+  "round": "final levels / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L72, paragraph - unseated, ladder redesign"
+ },
+ "s:v3-l94-01": {
+  "text": "Our school has a big night in spring, and this year I was in the chorus. The school bus did not start, so a mechanic had to come and fix it. We got there late, and my stomach was in a knot. The orchestra went on first, and the drum was so loud that I had to grin. Then it was time for the chorus, and the knot in my stomach let go. We had to sing, and every note was right, up to the high note at the end. When it was over, the school chef had a long table of cakes and jelly for us all. I ate so much that my stomach was sore. On the way home the bus went by the shore, and the moon was bright on the old anchor down on the sand.",
+  "family": "sentence_sp1.0",
+  "ms": 35477,
+  "sha256": "69c8cf6e237e81372ddc80e6a61f2d49e19aac007f556f4c4d27a8703cd67de1",
+  "round": "final levels / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L94, paragraph - unseated, ladder redesign"
+ },
+ "s:v3-l94-02": {
+  "text": "Our school got to go out on an old ship for the day. It took six men to get the anchor up. A mechanic came with us, and he was down there in the dark all day, where it is very hot. When we got out on the water, the ship went up and down. My stomach did not like that at all, and I had to sit down. The chef gave me dry bread and a cup of water, and it helped. Then our school orchestra got up on the deck to play. The chorus had to sing over the sound of the waves. When the anchor went down at the shore, we did not want to go home.",
+  "family": "sentence_sp1.0",
+  "ms": 27072,
+  "sha256": "b4c34b3d42eb736d3fd0cccb462897b9aa4325db88e5afa51cc4a8cc492300b0",
+  "round": "final levels / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L94, paragraph - unseated, ladder redesign"
  }
 }
