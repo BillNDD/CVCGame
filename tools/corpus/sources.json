@@ -1,0 +1,11 @@
+{
+ "_comment": "Public-domain sources a ledger credit may name (G26 rule 5). One line per book: the title exactly as a `credit` field spells it, the file, and the sha256 of that file's bytes. Adding a book is one line plus the file. A book is added only when a credit needs it.",
+ "McGuffey's First Eclectic Reader": {
+  "file": "tools/corpus/mcguffey1.txt",
+  "sha256": "436a6e6b0b14176fb32dc0b598dadda849b6a32c80273de2d0c5ed126b6db88b"
+ },
+ "Fifty Famous Stories Retold": {
+  "file": "tools/corpus/fifty-stories.txt",
+  "sha256": "bd521c87ea9906f95fdc13b6b87ea2fc246a17f7f135174ced6359ff0a86daa0"
+ }
+}

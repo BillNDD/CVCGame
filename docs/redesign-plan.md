@@ -9,6 +9,30 @@ plan, and it is deleted when the redesign lands.
 
 Written 2026-08-17 at the owner's instruction, so the work survives a context loss.
 
+## The design artefacts are in the repository now (2026-08-19)
+
+They were built during this redesign and lived only in a session scratchpad -
+a temporary folder outside the repository. The 459 approved word clips and the
+55 sentence takes were safe in `tools/pending-words/`; the LADDER that would
+seat them was not. Losing the folder would have lost the whole 100-level design.
+
+Committed at the owner's word, 68 KB, as `tools/ladder/`: the shape, the placed
+words, the word bill he ruled on, and the public-domain harvest. Each is
+declared in the map and in the owned set, and `tools/ladder/README.md` states
+what each one is and how far it can be trusted.
+
+`tools/ladder-status.mjs` reads them and prints what the ladder holds. It is a
+LOOKUP, like blast-radius: it never fails a build and it cannot say whether the
+ladder is right. It exists because every number in this redesign has been
+recomputed by hand and got quoted wrong at least three times - a sound bill five
+times too large, an approved-and-unshipped count wrong twice, a passage total
+inflated by sliding windows. Its controls run in `npm run check`.
+
+Measured by it on the day it was committed: 100 levels, 725 words placed, 8
+empty levels, 22 under six words, 35 graphemes still written without their
+sound, 393 candidates in the bill across 38 levels, 87 corpus singles and 10
+contiguous passages.
+
 ## Where this came from
 
 The owner ruled the **Sound Ladder with three grafts** (SPEC 12a) on 2026-08-17 after an
@@ -24,14 +48,110 @@ their findings drive most of this plan.
 | Levels designed | 100, shape fixed (`scratchpad/ladder2-shape.json`) |
 | Words placed | 749 + 22 heart = 771 |
 | Words needing a new clip | 183 |
-| Graphemes the ladder teaches | 97 — 47 shipped, 5 waiting, **45 unrecorded** |
+| Sounds the ladder needs | 48 — **40 shipped, 7 approved and waiting to ship, 0 unrecorded** |
 | Sentences the ladder calls for | 542 — 210 exist, **332 to source and record** |
 | Levels teaching nothing on their own subject | **25** |
 | Levels with no words at all | **9** (92–100) |
 | Committed to the repository | **nothing** — all work is in the scratchpad |
 
-The owner is producing the 45 sound clips on a sidecar and will hand them over; that path
-is not blocked on anything here.
+## THE SOUND WORK IS DONE — corrected 2026-08-17, and this correction matters
+
+An earlier version of this document said **45 sounds were unrecorded** and that the owner's
+sidecar would produce them. **That was wrong, twice over, and the true number is zero.**
+
+**The first error: counting spellings instead of sounds.** The pack is keyed by SOUND. The
+pathway the owner chose is built on one sound having many spellings — `ai`, `ay`, `a_e`,
+`eigh` and `ey` all say long a, and `d:long_a` has shipped since early August. Walking the
+ladder's graphemes and asking "is there a clip named for this spelling" produced a bill five
+times too large, and it contradicted the very thesis of the ladder it was costing.
+
+**The second error: reading file names instead of verdicts.** `tools/pending-sounds/pending-sounds.json`
+carries a `verdict` field on every entry. Not one was opened. Every clip called "waiting"
+already had the owner's approval recorded against it, two of them re-confirmed blind on
+2026-08-10.
+
+**The true state, measured:**
+
+- **40 sounds shipped** — in the pack, in the game today.
+- **7 approved and waiting only for `tools/ship-sounds.py`**: `long_u`, `oi`, `ar`, `er`,
+  `ear`, `aw`, `zh`. These need a ship step, not a microphone and not an evening.
+- **0 unrecorded.** Nothing the 100-level ladder needs is missing.
+- The check reported `c` as having no clip; that is an artefact of the check, not a gap.
+  English `c` says /k/ and `d:k` ships. There is no separate `c` sound to record.
+
+**Settled 2026-08-18 — the paragraph below was wrong.** The phonics seat and a
+re-reading of the ledger agree that `aw` is closed. Kept here because the error is
+instructive: a verdict string that reads as a chronology was read as a contradiction.
+The original note said `aw`'s ledger entry contains two records that
+disagree: *"closest of its field — owner ruled iterate on this clip, better arms"* and a
+later *ok*. One of them is wrong and the file cannot say which. **Play `aw` once and rule**,
+rather than shipping on a contradiction.
+
+**The remaining action is therefore small and specific:** run `ship-sounds.py` for the seven,
+after the `aw` verdict is settled — noting that the tool is driven by the engine's sound
+inventory, so it may not ship a sound the 21-level engine does not yet ask for. If so, these
+seven ship with the ladder rather than before it, and that is a sequencing fact rather than
+more work.
+
+## What the phonics seat found, 2026-08-18
+
+A fresh-context specialist walked the ladder against the code. Four findings
+change the plan.
+
+### The sound bill is zero
+
+Item 7 is settled. **No new sound needs recording.** All 45 graphemes an earlier
+count called missing, plus 18 more nobody had counted, resolve into the 50
+approved sound ids. 23 are vowel spellings of sounds already shipped; 8 are
+consonant spellings; 3 are doubled consonants needing a mapping row and no clip;
+11 are not graphemes at all.
+
+The `aw` ledger entry is NOT contradictory, and an earlier note in this document
+saying so was wrong. Its verdict string is a chronology: round 2 asked for better
+arms, round 3 heard them, the original clip won, closed. `long_a` carries the
+byte-identical string and shipped on it.
+
+### The damage is wider than "9 empty, 7 thin"
+
+About **20 further levels teach nothing about their own subject** while holding a
+full complement of filler words, so they appear in neither count. Level 57
+teaches `a_e` and holds *pad, path, rang*. Level 48 teaches `-y` and holds no `y`
+word at all. Levels 95 and 96 teach `ti` and `tu` and hold *tin, tick, tip* and
+*tub, tuck, tug*.
+
+A level full of wrong words is more dangerous than an empty one, because it
+teaches confidently and wrongly, and nothing counts it.
+
+One root cause: the generator strips `_e` before its grapheme accumulator runs,
+so split vowels are invisible to it. The same blindness makes the chunker read
+`house` as h-o-oo-s, and it fires the same way on *mouse, please, noise, cause,
+cheese*. The fix is ordering — vowel teams matched before split vowels.
+
+### Eighteen graphemes nobody counted
+
+`a_e e_e i_e o_e u_e`, `ey`, `ere`, `al`, `augh`, `tle`, final `re`, `si`, `su`,
+and `ce ge se ve ze`. All map to sounds already approved. Two of them, `ey` and
+`ere`, are in the shipped engine today and taught at no level.
+
+**`si` and `su` are the only spellings of `zh`.** Neither is in the ladder, so
+shipping `zh` as things stand would orphan the clip — a sound with no word to
+play on.
+
+### Two ordering faults, cheap now and expensive later
+
+Level 81 is thin by design rather than by scarcity: level 38 teaches the `-er`
+suffix 43 rungs earlier and eats *ever, her, under, never, other*, leaving level
+81 with two words. The /er/ sound is first met at 38, so level 81 must be
+re-scoped rather than refilled.
+
+Two levels teach a grapheme's rarest sound first. Level 60 teaches `ea` as
+*great, break, steak* — three words — before level 62 teaches the long-e `ea` of
+hundreds. Level 83 does the same to `ear`. Both are one-line shape edits.
+
+### Sequencing, which the plan had wrong
+
+Item 1 must land before items 2 and 3. Re-running the generator on the current
+chunker reproduces all twenty off-topic levels and wastes both council reviews.
 
 ## THE BLOCKER, and it is ahead of everything else
 
@@ -87,6 +207,20 @@ cumulative set rather than assume a band cannot be sourced. Every sentence passe
 `tools/sentence-screen.mjs` and needs a human read recorded in its ledger. Where no sourced
 sentence fits a level, a written one fills the gap and is labelled as written.
 
+
+**Paragraphs are first-class, not shredded sentences (owner-checked 2026-08-18).**
+Seventy-seven of the hundred levels demand a paragraph, from level 24 up, and the
+paragraph presentation is already ruled and built (SPEC section 12, the WHISPER,
+2026-08-16). The pipeline must therefore select CONTIGUOUS PASSAGES, not only
+single sentences: consecutive sentences from one source, kept in their original
+order, every one decodable at the same level, carrying one book credit for the
+whole passage. Levelling a paragraph means levelling its hardest sentence - the
+passage sits where its LAST-unlocked word sits. A pipeline that levels sentences
+independently shreds every public-domain paragraph into scatter, and the
+multi-line system the project already built would present nothing. Sourcing
+order per the owner's standing preference: a real passage wherever one fits,
+a written one only where none does, labelled as written.
+
 ### 6. Convert to engine code
 The output becomes `LEVELS` in `reference/word-quest.jsx`. The engineering seat enumerated
 what breaks, and it is the largest gate movement in the project's history:
@@ -116,6 +250,11 @@ tighten to 6–10 words.
 ### 8. Before any "all green"
 The owner's standing rule of 2026-08-17: the drift check must pass with 100% coverage and
 zero drift, and **he is asked before it runs** — it is a milestone check, not a habit.
+
+**The timing is now ruled: it runs when Phase A closes** (owner, 2026-08-18, "after phase A
+we will run /drift-check"). Phase A is content design and touches SPEC, the plan, the word
+lists and the ledgers, so it is the point where ownership and the map are most likely to have
+drifted, and the last point before code work builds on top of them.
 
 ## Open questions for the owner
 

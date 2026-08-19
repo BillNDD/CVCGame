@@ -16,8 +16,11 @@
   "as_in": "car, star",
   "how": "r-controlled \"ar\" \u00b7 as in car, star",
   "round": "P45-B05",
-  "sha256": "5bbf0fa449f94db9cc197272b78672770b5b8160f418e977b2e2e6a9937fc408",
-  "verdict": "ok (owner ship review); re-confirmed perfect blind, sound round 2, 2026-08-10"
+  "sha256": "90431afd0eb34452d63153fbc02805ece57257cd73c24a98944cc8ffd34c448e",
+  "verdict": "perfect (owner); replaced 2026-08-18 with a fresh af_heart bake the owner accepted by ear, superseding 5bbf0fa449f9 - the prior verdict stands for the bytes it judged, not for these",
+  "supersedes_sha256": "5bbf0fa449f94db9cc197272b78672770b5b8160f418e977b2e2e6a9937fc408",
+  "master_sha256": "67bcd4f3dcf7c1e37507e9b4e620d79c8575f0e792e683dcf947a5479756b92b",
+  "bake": "fresh af_heart synthesis, owner-accepted master delivered 2026-08-18"
  },
  "aw": {
   "as_in": "saw, paw, law",
@@ -62,15 +65,21 @@
   "how": "r-controlled 'ear' \u00b7 as in ear, deer, near",
   "ms": 970,
   "round": "SND6 (sound round 6, 2026-08-10)",
-  "sha256": "03b5cc97b216e4f86b07fdef2a32fbea3a547c1a53223c39948c733647ceafbd",
-  "verdict": "perfect (owner)"
+  "sha256": "adc3ac9292f7f3ac4de83100a1e141c9c3cab6edaaec7b9f1785ec667608199c",
+  "verdict": "perfect (owner); replaced 2026-08-18 with a fresh af_heart bake the owner accepted by ear, superseding 03b5cc97b216 - the prior verdict stands for the bytes it judged, not for these",
+  "supersedes_sha256": "03b5cc97b216e4f86b07fdef2a32fbea3a547c1a53223c39948c733647ceafbd",
+  "master_sha256": "5d144a22a9116d3f1efe1e2fc2e2289100a10323b94cbc4b5338de4b2f22cda3",
+  "bake": "fresh af_heart synthesis, owner-accepted master delivered 2026-08-18"
  },
  "er": {
   "as_in": "her, bird",
   "how": "r-controlled \"er\" \u00b7 as in her, bird",
   "round": "P45-B05",
-  "sha256": "08536b707195d895901055639cb996a38ce74b492a7a0c2c9a45c113011db5ea",
-  "verdict": "ok (owner ship review); re-confirmed perfect blind, sound round 2, 2026-08-10"
+  "sha256": "74cc174fc3528edbb74b8ba01cb260b3d9972e8ceb4a2688178bbe376fbcfd6f",
+  "verdict": "perfect (owner); replaced 2026-08-18 with a fresh af_heart bake the owner accepted by ear, superseding 08536b707195 - the prior verdict stands for the bytes it judged, not for these",
+  "supersedes_sha256": "08536b707195d895901055639cb996a38ce74b492a7a0c2c9a45c113011db5ea",
+  "master_sha256": "344c2b3866c30f4aec727e2274d4fb7db3da52c3290735d3ebbff9d83f976833",
+  "bake": "fresh af_heart synthesis, owner-accepted master delivered 2026-08-18"
  },
  "f": {
   "as_in": "fan, if",
@@ -96,9 +105,12 @@
   "ms": 760,
   "note": "af_heart, chosen by an objective distance to the owner's reference then matched on duration, pitch and frame-median formants. No owner recording involved.",
   "round": "SND19 (sound round 19, 2026-08-11)",
-  "sha256": "84feb6f224c76ea1c2c9f5ebf45f3790f3f6f89f9489fd20b31b593af181303f",
-  "verdict": "perfect (owner)",
-  "ship_review_2026_08_12": "poor"
+  "sha256": "5341be007c923844a72a31b61e5682555a7689831c80e50516d80ed6c8f5700b",
+  "verdict": "perfect (owner); replaced 2026-08-18 with a fresh af_heart bake the owner accepted by ear, superseding 84feb6f224c7 - the prior verdict stands for the bytes it judged, not for these",
+  "ship_review_2026_08_12": "poor",
+  "supersedes_sha256": "84feb6f224c76ea1c2c9f5ebf45f3790f3f6f89f9489fd20b31b593af181303f",
+  "master_sha256": "5c28baad5fed6b3de768cd5884a175286aa4a351e5fff4c5891cb129cd17c9f7",
+  "bake": "fresh af_heart synthesis, blind round 0008 option A, recipe aperiodic_hot_conditioned_one_way_hold_400, candidate cand-f53c77b6a101; 82 ms entry shoulder + 400 ms hold + 78 ms exit"
  },
  "j": {
   "as_in": "jam, jet",
@@ -384,8 +396,11 @@
   "ms": 880,
   "note": "af_heart, chosen by an objective distance to the owner's reference then matched on duration, pitch and frame-median formants. No owner recording involved.",
   "round": "SND19 (sound round 19, 2026-08-11)",
-  "sha256": "8553acab8e97e6d8c47e678e1e0d8c95e3fbd6d870180ac6dc7b43ca83bf8507",
-  "verdict": "perfect (owner)"
+  "sha256": "b326b2d647e85da300f42d8e800ebbd6a8caaae9e49c670bc36ada3d472c5aea",
+  "verdict": "perfect (owner); replaced 2026-08-18 with a fresh af_heart bake the owner accepted by ear, superseding 8553acab8e97 - the prior verdict stands for the bytes it judged, not for these",
+  "supersedes_sha256": "8553acab8e97e6d8c47e678e1e0d8c95e3fbd6d870180ac6dc7b43ca83bf8507",
+  "master_sha256": "c4583fae6f701b94536eaa4c2f1034093d9b3c43be60cb1251d20da4b92a6256",
+  "bake": "fresh af_heart synthesis, blind round 0005 option B, candidate cand-34fe64d5c178; carrier crop audio[9000:13200], 10 ms entry and 30 ms exit shoulders, normalised to -20.5 dBFS RMS"
  },
  "x": {
   "as_in": "ax, fox",

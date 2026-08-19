@@ -17,6 +17,232 @@ to a word nobody has heard yet.
 Rule E10 in CLAUDE.md requires this file to be read before voice work and
 updated whenever a round lands.
 
+## A contaminated series is refused whole, not book by book (2026-08-19)
+
+The literacy seat, checking its own earlier recommendations under the widened
+brief, found it had recommended a SECOND book carrying the same racial slur -
+in the title - and had praised the title as the reason a child would love it.
+The same word had appeared in a cast list it typed out a round earlier. Two
+chances, missed both.
+
+**The finding that matters more than any title: the slur is a property of two
+whole early-1900s animal series, not of one book.** Those authors wrote a
+shared universe and the character crosses between titles, so a book that is not
+about that character still carries the name. Measured counts across six titles
+ran from 1 to 160. The one clean title in the series was clean by luck - it is
+set among insects and the character never walks through.
+
+**About forty-five titles across those two series are refused until any one is
+individually cleared.** A series is a unit of contamination.
+
+Also refused the same day: a title whose plot turns on selling popcorn to buy
+handkerchiefs for "the little heathen children" - missionary-fair framing,
+which is the colonial caricature class and not a violence class at all.
+
+**And the screen was overruled once, correctly, in the safe direction:** a hit
+on a term that is also an ordinary English noun meaning a gap. The seat checked
+the surrounding text, found the innocent sense, and said so rather than
+silently dropping the book. A marker is not a verdict in either direction.
+
+## Storybooks do not feed a decodable ladder (measured 2026-08-19)
+
+Thirteen storybooks by five authors were measured against the ladder. **The
+yield is essentially zero at any level.** The apparent hits are exclamations
+and fragments - "Buzz!", "Hush!", "There!", "And he was." - which seat because
+they are two words long, not because a child could read them for meaning.
+
+One tale has a shorter mean sentence than McGuffey - 9.9 words against 11.0,
+half of them eight words or fewer - and yields **two** decodable sentences.
+Short sentences are not the constraint; story vocabulary is simply not ladder
+vocabulary.
+
+**So the corpus grows by graded reader or by writing, and storybooks earn a
+different shelf: read-aloud, for the grown-up to read TO the child.** SPEC
+section 12a already says fluency comes from the volume of reading a grown-up
+supplies. That is where a love of reading is built, months before a child can
+decode a page of it alone.
+
+## A representation flag is a marker, not a verdict (owner-ruled 2026-08-19)
+
+The widened screen flagged the bear-and-piglet stories for having a single
+female character, and the owner overruled it: "fine despite having only one
+female character. It is widely considered in north american society a timeless
+classic."
+
+The ruling separates two things the screen had merged. A **slur refuses the
+book outright** and no reading redeems it — the section below carries that. A
+**representation flag asks a question**, and the answer depends on what the
+book is, when it was written, and what a grown-up reading aloud can supply
+around it. The screen surfaces both the same way, so a person must decide which
+kind of hit they are holding.
+
+This is why the sex-role, caricature and contempt classes were written as
+markers rather than refusals when they were added the same day. The owner's
+ruling confirms the design: the machine finds the passage, a person judges it.
+A screen that could retire a classic on a character count would have to be
+wrong about something, and this is the shape of the wrongness it would have.
+
+## A slur refuses the whole book (owner-ruled 2026-08-19)
+
+The owner's words: "A book that contains this name must be removed and not used
+for any sentences or paragraphs. This is a racist term in contemporary english
+for african americans."
+
+An animal story from a well-known early-1900s series was recommended, fetched, screened, pinned and
+added to the manifest. It was in the repository for about an hour. Its raccoon
+character is named with a racial slur, forty-seven times. The owner caught it;
+no automated screen did, and no seat did - the literacy seat had read the book
+for violence and death and passed it.
+
+**The rule this taught**, now in `tools/screen-corpus.py`: a slur is not a
+sentence-level hazard to be excised. A book whose CHARACTER carries one cannot
+be cleaned sentence by sentence, because the name is the book. The whole title
+is refused, deleted from disk, and struck from the manifest and the excision
+ledger - which quoted it verbatim and had to go too.
+
+The refused terms live in that tool and are deliberately NOT repeated here: a
+document that forbids a word should not be the file that contains it. This
+entry was itself flagged by S9 for spelling two of them out, which is the rule
+working on its own record. Eight controls prove the detector both catches and
+does not over-catch an innocent lookalike.
+
+**And the sentence screen beside it was itself broken.** Its pattern held a
+literal backspace byte where a regex word boundary belonged - a `` written
+inside a non-raw Python string - so it matched nothing and reported nothing,
+twice, and its controls said so both times. A detector that finds nothing looks
+exactly like a clean corpus.
+
+**Widened the same day, at the owner's instruction:** "the literary agent needs
+to check content not just for violence but also for sexism and racism as well
+as child appropriateness." The screen now carries classes for sex roles,
+servitude, racial and cultural caricature, and contempt for class or
+disability, alongside the original violence classes. Every one is a MARKER that
+puts a passage in front of a person, never a verdict: sexism in particular is
+structural and a word list cannot see it.
+
+## Every sound heard, every sound good (owner, 2026-08-19)
+
+All fifty approved sounds were played to the owner in one page - the exact
+bytes the pack ships and the waiting room holds, not re-renders - and he passed
+**every one**. 43 shipped, 7 approved and waiting.
+
+That closes the sound library. Any later claim that a sound is missing is a
+claim about NOTATION - whether a grapheme in the ladder names the sound it
+makes - and never about a recording. The two were conflated in chat until the
+owner caught it: "You keep oscillating between telling me all sounds are done
+and they are not." They are done.
+
+The same day, the seven waiting sounds got their recording lines in
+`SOUND_TEXT`. Without them `voiceScript` fell back to the id and would have
+handed a recorder the string "long_u" where a sentence belongs. That fault is
+now closed; it was found by the council's engineering seat and lived in
+`docs/open-faults.md` for a day.
+
+## Three sentence rulings (owner, 2026-08-19)
+
+**Six sentences is fine for one level.** The shape's sentence counts are a
+guide, not a cap. A level whose text wants a sixth sentence may have it.
+
+**More animals than just ducks.** The literacy seat proposed threading one
+recurring duck through levels 26, 29, 31 and 37, following McGuffey's own
+continuing duck. The owner ruled for VARIETY instead: the corpus and the
+written drafts must range wider than a single animal. Recurrence is not the
+goal; a world with more than one creature in it is.
+
+**A sourced passage is seated at the EARLIEST level it can be read, not the
+only one.** The two real McGuffey passages seat at levels 5 and 10, whose shape
+asks for one and two sentences - so they move UP to a level that wants three,
+rather than being cut for being too good. Owner: "use those three sentence
+paragraphs in appropriate levels."
+
+## Public domain is not a screen (2026-08-19)
+
+The literacy seat ran the corpus pipeline's own output past the appropriateness
+rules and found three texts it had harvested from real books:
+
+- "It is not best to whip them." In McGuffey the referent is horses and the
+  lesson is kindness. Stripped of its context a child reads a bare sentence
+  about whipping.
+- "That is the end of her." - a death, from Oz.
+- A passage built from "Good boy! Take that! Take that!" - a praise line
+  stitched onto a mother striking her son.
+
+None reached the owner. All three passed every mechanical check, because the
+checks ask whether a child CAN read a sentence and never whether they SHOULD -
+the same gap that let "My dad can pat me." through on 2026-08-13.
+
+**A sourced sentence carries no exemption. It goes through the same screen as a
+written one, and a person reads it before it ships.** A credit line is
+provenance, not approval. And contiguity is not coherence: the pipeline judged
+a McGuffey drill of hen-and-box sentences a paragraph because the sentences sat
+next to each other.
+
+## A decodable chain is not a paragraph (owner-taught 2026-08-19)
+
+Two batch-2 refusals drew the line: "is grass in a den normal? No" and "hat
+being wet and person being strong unrelated". A written paragraph must COHERE -
+one scene, events that cause each other, nothing that needs explaining away.
+Decodability is the floor, not the standard. The machine can check the floor;
+the meaning check is the drafter's job before the owner ever sees the text.
+
+## Sentences are single takes (owner-ruled 2026-08-18)
+
+"When we finally get to sentences no need for multiple of each one. For
+sentences your first try is usually a winner one is enough for each." One
+render per sentence, offered for a yes/no listen, never a comparison field.
+The history supports the ruling: all 210 sentence clips in the pack were
+single takes. Multi-arm fields are for WORDS, where the cut is the hard part;
+a sentence is synthesised whole and has no cut to get wrong.
+
+## A phoneme solo is never a deliverable (2026-08-18)
+
+Proved twice in one evening, from both directions. Strip af_heart's utterance
+blob with clean_onset and the consonant goes with it - the owner's "The word
+isn't there," for a clip whose /th/ had been eaten. Keep everything above the
+silence floor and the blob stays - the owner's "uh and weird cracking at
+front," four words in a row. There is no trim that keeps the consonant and
+drops the blob, because the blob is voiced and touches the word.
+
+The deliverable form of a phoneme-forced word is a CUT FROM A PHONEME CARRIER -
+the sentence written in IPA, the word cut from inside it, where the blob
+attaches to the carrier's first word and never to the target.
+
+Same evening, owner-ruled: **more than three options.** A field starved to
+three arms by the verify gate wastes a round even when every refusal was
+honest; for rescue rounds the gate yields to field size and the owner's ear
+does the gating. "Give me more than three options next time please."
+
+## The carrier frames are equals, and speed is not the axis (2026-08-18)
+**Measured again after four rounds: five misses out of 120 words, and ALL FIVE
+had never met "here is the word" or "the word is".** badge, banana, boy, dive,
+dolphin. The builder stops adding carrier frames once four arms survive the
+gate, so a word whose first two frames both pass never meets the other two - and
+a word that is hard is exactly the word that needs the frames it did not get.
+The stop rule saves render time and spends listening time, which is the wrong
+trade: owner time is the scarcest thing this project spends.
+
+**The rule for the next builder: fill from all four frames before multiplying
+speeds within one.** The recipe was left unchanged for rounds 2 to 4 on purpose,
+because 115 accepts from 120 words is the strongest measurement this project
+has, and changing the frame mid-run would have confounded it.
+
+
+Measured over batch 21 round 1: 28 accepts, **say 14 and listen 13**. Batch 19's
+finding that "Say {word}, everybody." leads was drawn from 23 accepts on a
+narrower field and does not survive a wider one. **Offer both frames. A round
+that leads with one and falls back to the other is offering half a field.**
+
+The three speeds split 11 / 10 / 7 across the same 28 accepts. **Speed does not
+discriminate and a speed sweep is not a round.** This is the same lesson the word
+"as" taught by refusing a speed sweep twice, now measured on accepts rather than
+on refusals.
+
+**The builder's stop rule is a fault, not a saving.** It stops adding carriers
+once four arms survive the gate, so a word whose first two frames both pass never
+meets "here is the word" or "the word is". Both of round 1's two misses were in
+exactly that position. A field should be filled from all four frames before
+speeds are multiplied within one.
+
 ## Closed by measurement — do not spend a listening round
 
 - **"what" teaches SHORT U, and "with" takes the BUZZY th** (owner, 2026-08-12).

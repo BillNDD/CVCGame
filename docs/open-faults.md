@@ -24,6 +24,29 @@ This file holds only what is still open.
 
 This document follows the Microsoft Writing Style Guide.
 
+## The seven waiting sounds have no recording text (found 2026-08-18)
+
+**Where it lives.** `SOUND_TEXT` in `reference/word-quest.jsx`, and `voiceScript`, which
+reads it as `SOUND_TEXT[id] || id`.
+
+**What a person experiences today.** Nothing, because none of the seven has shipped. The
+moment any of them does, the voice script hands the recorder a file name instead of a
+sentence. Measured 2026-08-18: `SOUND_TEXT` holds exactly 43 entries, which are exactly the
+43 shipped ids. All seven waiting sounds - `ar aw ear er long_u oi zh` - are absent, so the
+script would emit the literal strings "ar", "aw", "ear", "er", "long_u", "oi", "zh".
+
+**Why nothing caught it.** `grep -rn SOUND_TEXT tests/` returns no matches. The only
+assertion over the sound ids is a count of 43, and a count cannot see text. The gap is
+invisible until a sound ships, and shipping is exactly when it would be too late.
+
+**What done means.** Seven `SOUND_TEXT` rows written and heard, plus a test that fails when
+a sound in the inventory has no text, with a negative control that proves the test catches
+its target fault (E5). The rows must be written BEFORE the ship step, not after.
+
+**Found alongside it.** The `schwa` description reads "the lazy sound in the middle of the".
+The schwa in "the" is the last sound, not the middle one. A text fix, worth one listen while
+a recording batch is open.
+
 ## State at the time of writing
 
 Written against `v1.0.0-beta.17`, commit `fd7c894`. The full gauntlet passed on `c87ed44`

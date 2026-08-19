@@ -1,0 +1,636 @@
+{
+ "singles": [
+  {
+   "level": 60,
+   "text": "Take what you can get when you can get it.",
+   "credit": "Aesop's Fables",
+   "index": 526
+  },
+  {
+   "level": 77,
+   "text": "All the young men will look at me.",
+   "credit": "Aesop's Fables",
+   "index": 986
+  },
+  {
+   "level": 64,
+   "text": "There in that hole?",
+   "credit": "Aesop's Fables",
+   "index": 1008
+  },
+  {
+   "level": 23,
+   "text": "So up she comes.",
+   "credit": "English Fairy Tales",
+   "index": 626
+  },
+  {
+   "level": 78,
+   "text": "Good boy!",
+   "credit": "English Fairy Tales",
+   "index": 682
+  },
+  {
+   "level": 60,
+   "text": "Take that!",
+   "credit": "English Fairy Tales",
+   "index": 684
+  },
+  {
+   "level": 60,
+   "text": "Take that!",
+   "credit": "English Fairy Tales",
+   "index": 685
+  },
+  {
+   "level": 60,
+   "text": "Take that!",
+   "credit": "English Fairy Tales",
+   "index": 686
+  },
+  {
+   "level": 77,
+   "text": "Then he could not tell what to do.",
+   "credit": "English Fairy Tales",
+   "index": 794
+  },
+  {
+   "level": 28,
+   "text": "But that did not stop long.",
+   "credit": "English Fairy Tales",
+   "index": 930
+  },
+  {
+   "level": 79,
+   "text": "It was dark.",
+   "credit": "English Fairy Tales",
+   "index": 1222
+  },
+  {
+   "level": 85,
+   "text": "Where was I?",
+   "credit": "English Fairy Tales",
+   "index": 1856
+  },
+  {
+   "level": 27,
+   "text": "But what of that?",
+   "credit": "Fifty Famous Stories Retold",
+   "index": 151
+  },
+  {
+   "level": 46,
+   "text": "The king stopped.",
+   "credit": "Fifty Famous Stories Retold",
+   "index": 1260
+  },
+  {
+   "level": 25,
+   "text": "It was not there.",
+   "credit": "Fifty Famous Stories Retold",
+   "index": 1434
+  },
+  {
+   "level": 23,
+   "text": "But not so.",
+   "credit": "Fifty Famous Stories Retold",
+   "index": 1445
+  },
+  {
+   "level": 95,
+   "text": "There were no waves to set it in motion.",
+   "credit": "Fifty Famous Stories Retold",
+   "index": 1500
+  },
+  {
+   "level": 55,
+   "text": "It fell into the water.",
+   "credit": "Fifty Famous Stories Retold",
+   "index": 1506
+  },
+  {
+   "level": 85,
+   "text": "He could not see where the ship was going.",
+   "credit": "Fifty Famous Stories Retold",
+   "index": 1518
+  },
+  {
+   "level": 56,
+   "text": "The men have all left the ship.",
+   "credit": "Fifty Famous Stories Retold",
+   "index": 1707
+  },
+  {
+   "level": 27,
+   "text": "But what is that?",
+   "credit": "Fifty Famous Stories Retold",
+   "index": 1714
+  },
+  {
+   "level": 5,
+   "text": "The mat.",
+   "credit": "McGuffey's First Eclectic Reader",
+   "index": 59
+  },
+  {
+   "level": 5,
+   "text": "Is the cat on the mat?",
+   "credit": "McGuffey's First Eclectic Reader",
+   "index": 60
+  },
+  {
+   "level": 5,
+   "text": "The cat is on the mat.",
+   "credit": "McGuffey's First Eclectic Reader",
+   "index": 61
+  },
+  {
+   "level": 10,
+   "text": "The man has a pen.",
+   "credit": "McGuffey's First Eclectic Reader",
+   "index": 65
+  },
+  {
+   "level": 10,
+   "text": "Is the pen in his hand?",
+   "credit": "McGuffey's First Eclectic Reader",
+   "index": 66
+  },
+  {
+   "level": 10,
+   "text": "It is in his hand.",
+   "credit": "McGuffey's First Eclectic Reader",
+   "index": 67
+  },
+  {
+   "level": 40,
+   "text": "The fat hen is on the box.",
+   "credit": "McGuffey's First Eclectic Reader",
+   "index": 71
+  },
+  {
+   "level": 18,
+   "text": "The rat ran from the box.",
+   "credit": "McGuffey's First Eclectic Reader",
+   "index": 72
+  },
+  {
+   "level": 40,
+   "text": "Can the hen run?",
+   "credit": "McGuffey's First Eclectic Reader",
+   "index": 73
+  },
+  {
+   "level": 11,
+   "text": "She has the hat.",
+   "credit": "McGuffey's First Eclectic Reader",
+   "index": 83
+  },
+  {
+   "level": 40,
+   "text": "She is a black hen.",
+   "credit": "McGuffey's First Eclectic Reader",
+   "index": 88
+  },
+  {
+   "level": 13,
+   "text": "She has left the nest.",
+   "credit": "McGuffey's First Eclectic Reader",
+   "index": 89
+  },
+  {
+   "level": 10,
+   "text": "He has a pen in his hand.",
+   "credit": "McGuffey's First Eclectic Reader",
+   "index": 99
+  },
+  {
+   "level": 40,
+   "text": "The fat hen has left the nest.",
+   "credit": "McGuffey's First Eclectic Reader",
+   "index": 103
+  },
+  {
+   "level": 10,
+   "text": "The man has a hat.",
+   "credit": "McGuffey's First Eclectic Reader",
+   "index": 108
+  },
+  {
+   "level": 40,
+   "text": "Has the black hen left the nest?",
+   "credit": "McGuffey's First Eclectic Reader",
+   "index": 113
+  },
+  {
+   "level": 17,
+   "text": "She has just fed it.",
+   "credit": "McGuffey's First Eclectic Reader",
+   "index": 127
+  },
+  {
+   "level": 88,
+   "text": "Then the cat can not catch it.",
+   "credit": "McGuffey's First Eclectic Reader",
+   "index": 129
+  },
+  {
+   "level": 40,
+   "text": "The man has fed the black hen and the fat duck.",
+   "credit": "McGuffey's First Eclectic Reader",
+   "index": 138
+  },
+  {
+   "level": 77,
+   "text": "Now the duck will swim in the pond.",
+   "credit": "McGuffey's First Eclectic Reader",
+   "index": 139
+  },
+  {
+   "level": 40,
+   "text": "The hen has run to her nest.",
+   "credit": "McGuffey's First Eclectic Reader",
+   "index": 140
+  },
+  {
+   "level": 81,
+   "text": "Let us not stop at the pond now, for it is hot.",
+   "credit": "McGuffey's First Eclectic Reader",
+   "index": 141
+  },
+  {
+   "level": 77,
+   "text": "It is not hot, now.",
+   "credit": "McGuffey's First Eclectic Reader",
+   "index": 147
+  },
+  {
+   "level": 20,
+   "text": "Let us run and jump.",
+   "credit": "McGuffey's First Eclectic Reader",
+   "index": 148
+  },
+  {
+   "level": 61,
+   "text": "See the duck on the pond!",
+   "credit": "McGuffey's First Eclectic Reader",
+   "index": 150
+  },
+  {
+   "level": 97,
+   "text": "Her nest is up on the bank, under the rock.",
+   "credit": "McGuffey's First Eclectic Reader",
+   "index": 151
+  },
+  {
+   "level": 97,
+   "text": "The duck has her nest under the rock.",
+   "credit": "McGuffey's First Eclectic Reader",
+   "index": 163
+  },
+  {
+   "level": 77,
+   "text": "It is not hot now.",
+   "credit": "McGuffey's First Eclectic Reader",
+   "index": 164
+  },
+  {
+   "level": 33,
+   "text": "Let us run, and skip, and jump on the bank.",
+   "credit": "McGuffey's First Eclectic Reader",
+   "index": 165
+  },
+  {
+   "level": 75,
+   "text": "Is this a good pen?",
+   "credit": "McGuffey's First Eclectic Reader",
+   "index": 169
+  },
+  {
+   "level": 26,
+   "text": "This duck can swim.",
+   "credit": "McGuffey's First Eclectic Reader",
+   "index": 171
+  },
+  {
+   "level": 100,
+   "text": "I met him on the step.",
+   "credit": "McGuffey's First Eclectic Reader",
+   "index": 178
+  },
+  {
+   "level": 17,
+   "text": "Did you jump into the mud?",
+   "credit": "McGuffey's First Eclectic Reader",
+   "index": 179
+  },
+  {
+   "level": 17,
+   "text": "I have a nut.",
+   "credit": "McGuffey's First Eclectic Reader",
+   "index": 180
+  },
+  {
+   "level": 100,
+   "text": "I met the man.",
+   "credit": "McGuffey's First Eclectic Reader",
+   "index": 181
+  },
+  {
+   "level": 80,
+   "text": "I will not let it fall.",
+   "credit": "McGuffey's First Eclectic Reader",
+   "index": 201
+  },
+  {
+   "level": 31,
+   "text": "The fat duck swam to the bank, and we fed her.",
+   "credit": "McGuffey's First Eclectic Reader",
+   "index": 207
+  },
+  {
+   "level": 27,
+   "text": "What has he in his hand?",
+   "credit": "McGuffey's First Eclectic Reader",
+   "index": 217
+  },
+  {
+   "level": 85,
+   "text": "If the men do not stop, let us go with them and see where they go.",
+   "credit": "McGuffey's First Eclectic Reader",
+   "index": 220
+  },
+  {
+   "level": 60,
+   "text": "I will take you back.",
+   "credit": "McGuffey's First Eclectic Reader",
+   "index": 253
+  },
+  {
+   "level": 61,
+   "text": "I can just see it.",
+   "credit": "McGuffey's First Eclectic Reader",
+   "index": 263
+  },
+  {
+   "level": 61,
+   "text": "Did you see him there?",
+   "credit": "McGuffey's First Eclectic Reader",
+   "index": 267
+  },
+  {
+   "level": 76,
+   "text": "The sky is as blue as it can be.",
+   "credit": "McGuffey's First Eclectic Reader",
+   "index": 300
+  },
+  {
+   "level": 85,
+   "text": "Where can it be?",
+   "credit": "McGuffey's First Eclectic Reader",
+   "index": 313
+  },
+  {
+   "level": 77,
+   "text": "How happy they are!",
+   "credit": "McGuffey's First Eclectic Reader",
+   "index": 374
+  },
+  {
+   "level": 83,
+   "text": "A nest with young birds in it.",
+   "credit": "McGuffey's First Eclectic Reader",
+   "index": 388
+  },
+  {
+   "level": 83,
+   "text": "So she left the birds.",
+   "credit": "McGuffey's First Eclectic Reader",
+   "index": 390
+  },
+  {
+   "level": 40,
+   "text": "I will tell you.",
+   "credit": "McGuffey's First Eclectic Reader",
+   "index": 412
+  },
+  {
+   "level": 25,
+   "text": "There they go!",
+   "credit": "McGuffey's First Eclectic Reader",
+   "index": 477
+  },
+  {
+   "level": 80,
+   "text": "Did you see that boy fall down?",
+   "credit": "McGuffey's First Eclectic Reader",
+   "index": 480
+  },
+  {
+   "level": 60,
+   "text": "Will you take dinner with us.",
+   "credit": "McGuffey's First Eclectic Reader",
+   "index": 493
+  },
+  {
+   "level": 66,
+   "text": "They like grass, and will take it from his hand.",
+   "credit": "McGuffey's First Eclectic Reader",
+   "index": 524
+  },
+  {
+   "level": 77,
+   "text": "See how they run!",
+   "credit": "Mother Goose",
+   "index": 43
+  },
+  {
+   "level": 25,
+   "text": "Yes, that he is.",
+   "credit": "Mother Goose",
+   "index": 178
+  },
+  {
+   "level": 77,
+   "text": "See how they run!",
+   "credit": "Mother Goose",
+   "index": 187
+  },
+  {
+   "level": 52,
+   "text": "Why did you let it go?",
+   "credit": "Mother Goose",
+   "index": 209
+  },
+  {
+   "level": 77,
+   "text": "How do you do?",
+   "credit": "Mother Goose",
+   "index": 275
+  },
+  {
+   "level": 77,
+   "text": "And how do you do?",
+   "credit": "Mother Goose",
+   "index": 276
+  },
+  {
+   "level": 61,
+   "text": "SEE, SEE See, see!",
+   "credit": "Mother Goose",
+   "index": 444
+  },
+  {
+   "level": 80,
+   "text": "We all fall down.",
+   "credit": "Mother Goose",
+   "index": 548
+  },
+  {
+   "level": 86,
+   "text": "They walked back to the road.",
+   "credit": "The Wonderful Wizard of Oz",
+   "index": 258
+  },
+  {
+   "level": 79,
+   "text": "She sat up and looked around her.",
+   "credit": "The Wonderful Wizard of Oz",
+   "index": 331
+  },
+  {
+   "level": 61,
+   "text": "All of them had green glasses in them.",
+   "credit": "The Wonderful Wizard of Oz",
+   "index": 742
+  },
+  {
+   "level": 64,
+   "text": "Then she went home.",
+   "credit": "Beatrix Potter tales (2)",
+   "index": 57
+  },
+  {
+   "level": 41,
+   "text": "Well I never did!...",
+   "credit": "Beatrix Potter tales (2)",
+   "index": 183
+  },
+  {
+   "level": 63,
+   "text": "But he ate up the honey!",
+   "credit": "Beatrix Potter tales (3)",
+   "index": 48
+  }
+ ],
+ "passages": [
+  {
+   "level": 5,
+   "sentences": [
+    "The mat.",
+    "Is the cat on the mat?",
+    "The cat is on the mat."
+   ],
+   "credit": "McGuffey's First Eclectic Reader",
+   "size": 3,
+   "start": 59
+  },
+  {
+   "level": 10,
+   "sentences": [
+    "The man has a pen.",
+    "Is the pen in his hand?",
+    "It is in his hand."
+   ],
+   "credit": "McGuffey's First Eclectic Reader",
+   "size": 3,
+   "start": 65
+  },
+  {
+   "level": 40,
+   "sentences": [
+    "The fat hen is on the box.",
+    "The rat ran from the box.",
+    "Can the hen run?"
+   ],
+   "credit": "McGuffey's First Eclectic Reader",
+   "size": 3,
+   "start": 71
+  },
+  {
+   "level": 40,
+   "sentences": [
+    "She is a black hen.",
+    "She has left the nest."
+   ],
+   "credit": "McGuffey's First Eclectic Reader",
+   "size": 2,
+   "start": 88
+  },
+  {
+   "level": 77,
+   "sentences": [
+    "It is not hot, now.",
+    "Let us run and jump."
+   ],
+   "credit": "McGuffey's First Eclectic Reader",
+   "size": 2,
+   "start": 147
+  },
+  {
+   "level": 77,
+   "sentences": [
+    "How do you do?",
+    "And how do you do?"
+   ],
+   "credit": "Mother Goose",
+   "size": 2,
+   "start": 275
+  },
+  {
+   "level": 81,
+   "sentences": [
+    "The man has fed the black hen and the fat duck.",
+    "Now the duck will swim in the pond.",
+    "The hen has run to her nest.",
+    "Let us not stop at the pond now, for it is hot."
+   ],
+   "credit": "McGuffey's First Eclectic Reader",
+   "size": 4,
+   "start": 138
+  },
+  {
+   "level": 97,
+   "sentences": [
+    "The duck has her nest under the rock.",
+    "It is not hot now.",
+    "Let us run, and skip, and jump on the bank."
+   ],
+   "credit": "McGuffey's First Eclectic Reader",
+   "size": 3,
+   "start": 163
+  },
+  {
+   "level": 97,
+   "sentences": [
+    "See the duck on the pond!",
+    "Her nest is up on the bank, under the rock."
+   ],
+   "credit": "McGuffey's First Eclectic Reader",
+   "size": 2,
+   "start": 150
+  },
+  {
+   "level": 100,
+   "sentences": [
+    "I met him on the step.",
+    "Did you jump into the mud?",
+    "I have a nut.",
+    "I met the man."
+   ],
+   "credit": "McGuffey's First Eclectic Reader",
+   "size": 4,
+   "start": 178
+  }
+ ]
+}

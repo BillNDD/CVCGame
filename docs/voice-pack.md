@@ -18,6 +18,60 @@ sentences, the invitation leads, and the session-end lines, plus `manifest.json`
 clip's file and duration. Gate G13 fails the build when the pack does not cover the engine's
 clip inventory, so the bank can never grow past its voice.
 
+## Batch 21 closed - 459 of 459, 2026-08-18
+
+The largest batch this project has run, and the first to finish complete: every
+word the 100-level ladder needs and the pack lacked, accepted by the owner's
+ear in one day, across fifteen main rounds, three rescue rounds and two
+single-word rounds. All 459 are byte-pinned in the waiting room, unshipped and
+unseated, waiting for the ladder that will seat them.
+
+The mechanism scoreboard, measured from the ledger: listen-carrier cuts 288,
+say-carrier 127, the other two carriers 24, phoneme carriers 7, and one to
+three each for the late mechanisms - phoneme pairs, primed cuts, the British
+G2P path, and the last-gap cutter that finally landed third, royal and soil.
+
+What the batch taught, recorded in docs/settled.md the same day: the two
+carrier frames are equals and speed is not the axis; a field is filled from
+all four frames before speeds multiply; a phoneme solo is never a deliverable;
+sentences are single takes; and the owner's ear remains the only working
+detector of a missing onset - the calibrated detector built to hear one could
+not, and refused to gate.
+
+The three hardest words fell to a cutter with no fixed windows: the carrier
+ends on the target behind a written-in pause, and the cut runs from the middle
+of that real silence to the end of speech. A frame that leaves no true pause
+produces no arm. Nine words of the owner's frustration - "extra sounds" -
+specified that design better than any measurement had.
+
+## Batch 21, round 1 - 2026-08-18
+
+Thirty words for the 100-level ladder, eight arms each, 237 arms, every one
+byte-distinct and hash-guarded against every arm offered in batches 1 to 20.
+
+**Twenty-eight accepted, two closest, none refused.** The strongest field this
+project has run. Accepted clips run 750 to 1160 ms, median 960.
+
+What the verdicts measured, and it revises what batch 19 taught:
+
+- **The carrier is a dead heat.** say won 14 and listen won 13. Batch 19 made
+  "Say {word}, everybody." the leading frame on 12 of 23 accepts; a wider field
+  says the two frames are equals, and a round that offers only one is offering
+  half a field.
+- **Speed is not the axis.** The three speeds split 11 / 10 / 7. Nothing in the
+  verdicts separates them, which matches what the word "as" taught by refusing a
+  speed sweep twice.
+- **The first arm offered is rarely the winner.** Arm 1 won twice; arms 2, 3 and
+  4 won twenty-two of twenty-eight. A thin field is not a cheap field: the
+  listener is choosing, not accepting the first tolerable thing.
+- **Both misses landed on the trimmed solo**, and both had spent only say,
+  listen and the solo before the field filled. Neither ever met the "here" or
+  "the word is" carriers, because the builder stops adding carriers once four
+  arms survive. Those two are owed a comeback on the frames they never saw.
+
+Recorded in the waiting room, unshipped, unseated: the ladder that will seat
+them does not exist yet.
+
 ## "a" ships, from the owner's own schwa package (2026-08-12)
 
 `w:a` and `d:schwa_a` are the same 743 ms file: 363 ms of af_heart schwa with the pack's
@@ -149,7 +203,7 @@ byte-pinned word rather than replacing accepted audio with a render.
   sidecar workspace archive on the owner's PC
   (handoff `word-quest-uplift-handoff-2026-08-07T1438Z`).
 
-## Approved and unshipped: 127 items with no level yet (through 2026-08-17)
+## Approved and unshipped: 641 items with no level yet (through 2026-08-18)
 
 **Batch 20 closed 17 of 20 (2026-08-17), and it ended a three-round hunt.** **as is
 accepted at last**, on a phonemised arm at 0.7 — the axis that finally worked was neither

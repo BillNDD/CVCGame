@@ -11,6 +11,33 @@ A change is complete only when the gauntlet is green.
 
 This document follows the Microsoft Writing Style Guide.
 
+## G26 - the waiting room is internally honest
+
+`node tools/waiting-room.mjs`, with `--self-test` for its controls. Six rules
+over `tools/pending-words/`, owner-approved 2026-08-19 before a line was
+written:
+
+1. Every row's sha256 matches the bytes of its clip on disk.
+2. Rows and clips are one-to-one - no orphan clip, no row without bytes.
+3. No two rows share the same bytes. This is the one that earned the gate: the
+   arm-id collision found on 2026-08-18 was prevented only by a naming
+   accident, and the same shape reappeared in sentence ids the next day.
+4. A row carries the fields its kind needs - a word row `arm` or `file`, a
+   sentence row `text`.
+5. A row claiming a book credit has its text verbatim in a book pinned by
+   sha256 in `tools/corpus/sources.json`. Born from a fabricated citation: five
+   of sixteen passages in the first corpus run joined text from either side of
+   a lesson heading and credited it to a real book.
+6. Every verdict is `perfect` or `either-is-fine`. Two values, not one, because
+   they mean different things: the owner chose, or the owner declined to choose
+   and a tool broke the tie.
+
+**What it cannot do.** It cannot prove the bytes are the ones the owner heard -
+only `tools/record-takes.py` can, by refusing at the moment of writing. It
+cannot catch an `either-is-fine` row collapsed to `perfect`, because that is a
+legal value; the limit has its own control that asserts the miss rather than
+hiding it. Sub-second over ~960 rows, so it runs in `npm run check`.
+
 ## Method
 
 - This project uses constraint-based development. The gates prove behavior. Code review is

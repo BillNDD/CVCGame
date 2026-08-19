@@ -1,0 +1,950 @@
+[
+ {
+  "n": 1,
+  "teaches": "the first six sounds",
+  "new": "s=s a=short_a t p i=short_i n",
+  "heart": [],
+  "build": "3-sound words from these tiles",
+  "text": "",
+  "rule": null
+ },
+ {
+  "n": 2,
+  "teaches": "swapping one sound",
+  "new": "",
+  "heart": [
+   "I"
+  ],
+  "build": "sat to sit to sip to tip",
+  "text": "1 sentence, 2 words",
+  "rule": "swap1"
+ },
+ {
+  "n": 3,
+  "teaches": "the short o",
+  "new": "o",
+  "heart": [
+   "the"
+  ],
+  "build": "",
+  "text": "1 sentence, 3 words",
+  "rule": null
+ },
+ {
+  "n": 4,
+  "teaches": "the c sound",
+  "new": "c=k",
+  "heart": [
+   "a"
+  ],
+  "build": "",
+  "text": "1 sentence, 3 words",
+  "rule": null
+ },
+ {
+  "n": 5,
+  "teaches": "the m sound",
+  "new": "m",
+  "heart": [
+   "is"
+  ],
+  "build": "",
+  "text": "1 sentence, 4 words",
+  "rule": null
+ },
+ {
+  "n": 6,
+  "teaches": "plural -s, and the s that buzzes",
+  "new": "-s=s",
+  "heart": [
+   "to"
+  ],
+  "build": "add -s as its own tile",
+  "text": "2 sentences, 4 words",
+  "rule": "suffix_s"
+ },
+ {
+  "n": 7,
+  "teaches": "the e sound",
+  "new": "e",
+  "heart": [
+   "he"
+  ],
+  "build": "",
+  "text": "2 sentences",
+  "rule": null
+ },
+ {
+  "n": 8,
+  "teaches": "the d sound",
+  "new": "d",
+  "heart": [
+   "we"
+  ],
+  "build": "",
+  "text": "2 sentences",
+  "rule": null
+ },
+ {
+  "n": 9,
+  "teaches": "the g sound",
+  "new": "g=g",
+  "heart": [
+   "me"
+  ],
+  "build": "",
+  "text": "2 sentences, 5 words",
+  "rule": null
+ },
+ {
+  "n": 10,
+  "teaches": "MILESTONE - First Sounds",
+  "new": "h",
+  "heart": [
+   "be"
+  ],
+  "build": "any 3-sound word so far",
+  "text": "2 sentences, 5 words",
+  "rule": null
+ },
+ {
+  "n": 11,
+  "teaches": "the f sound",
+  "new": "f",
+  "heart": [
+   "she"
+  ],
+  "build": "",
+  "text": "2 sentences, 5 words",
+  "rule": null
+ },
+ {
+  "n": 12,
+  "teaches": "the b sound",
+  "new": "b",
+  "heart": [
+   "you"
+  ],
+  "build": "",
+  "text": "2 sentences, 6 words",
+  "rule": null
+ },
+ {
+  "n": 13,
+  "teaches": "the l sound",
+  "new": "l",
+  "heart": [
+   "of"
+  ],
+  "build": "",
+  "text": "2 sentences, 6 words",
+  "rule": null
+ },
+ {
+  "n": 14,
+  "teaches": "the u sound",
+  "new": "u",
+  "heart": [
+   "was"
+  ],
+  "build": "",
+  "text": "3 sentences",
+  "rule": null
+ },
+ {
+  "n": 15,
+  "teaches": "the r sound",
+  "new": "r",
+  "heart": [
+   "said"
+  ],
+  "build": "",
+  "text": "3 sentences",
+  "rule": null
+ },
+ {
+  "n": 16,
+  "teaches": "the v and k sounds",
+  "new": "v k",
+  "heart": [
+   "are"
+  ],
+  "build": "",
+  "text": "3 sentences",
+  "rule": null
+ },
+ {
+  "n": 17,
+  "teaches": "the j and w sounds",
+  "new": "j w",
+  "heart": [
+   "have"
+  ],
+  "build": "",
+  "text": "3 sentences",
+  "rule": null
+ },
+ {
+  "n": 18,
+  "teaches": "the z and x sounds",
+  "new": "z x",
+  "heart": [
+   "they"
+  ],
+  "build": "",
+  "text": "3 sentences",
+  "rule": null
+ },
+ {
+  "n": 19,
+  "teaches": "the y sound",
+  "new": "y=y",
+  "heart": [
+   "my"
+  ],
+  "build": "",
+  "text": "3 sentences",
+  "rule": null
+ },
+ {
+  "n": 20,
+  "teaches": "MILESTONE - All The Letters",
+  "new": "",
+  "heart": [
+   "do"
+  ],
+  "build": "any word so far",
+  "text": "3 sentences",
+  "rule": "review"
+ },
+ {
+  "n": 21,
+  "teaches": "doubled endings",
+  "new": "ff=f ll=l ss=s zz=z",
+  "heart": [
+   "go"
+  ],
+  "build": "",
+  "text": "3 sentences",
+  "rule": "floss"
+ },
+ {
+  "n": 22,
+  "teaches": "the sh sound",
+  "new": "sh",
+  "heart": [
+   "no"
+  ],
+  "build": "",
+  "text": "3 sentences",
+  "rule": null
+ },
+ {
+  "n": 23,
+  "teaches": "the ch sound",
+  "new": "ch=ch",
+  "heart": [
+   "so"
+  ],
+  "build": "",
+  "text": "3 sentences",
+  "rule": null
+ },
+ {
+  "n": 24,
+  "teaches": "the quiet th",
+  "new": "th=th_quiet",
+  "heart": [],
+  "build": "",
+  "text": "first paragraph, 2 sentences",
+  "rule": null
+ },
+ {
+  "n": 25,
+  "teaches": "the buzzy th",
+  "new": "th=th_this",
+  "heart": [
+   "there"
+  ],
+  "build": "",
+  "text": "paragraph, 2 sentences",
+  "rule": null
+ },
+ {
+  "n": 26,
+  "teaches": "the ck spelling",
+  "new": "ck",
+  "heart": [],
+  "build": "",
+  "text": "paragraph, 2 sentences",
+  "rule": null
+ },
+ {
+  "n": 27,
+  "teaches": "the wh sound",
+  "new": "wh",
+  "heart": [],
+  "build": "",
+  "text": "paragraph, 3 sentences",
+  "rule": null
+ },
+ {
+  "n": 28,
+  "teaches": "the ng sound",
+  "new": "ng",
+  "heart": [],
+  "build": "",
+  "text": "paragraph, 3 sentences",
+  "rule": null
+ },
+ {
+  "n": 29,
+  "teaches": "the qu spelling",
+  "new": "qu",
+  "heart": [],
+  "build": "",
+  "text": "paragraph, 3 sentences",
+  "rule": null
+ },
+ {
+  "n": 30,
+  "teaches": "MILESTONE - Every First Spelling",
+  "new": "",
+  "heart": [],
+  "build": "any word so far",
+  "text": "paragraph, 3 sentences",
+  "rule": "review"
+ },
+ {
+  "n": 31,
+  "teaches": "one more sound at the end",
+  "new": "",
+  "heart": [],
+  "build": "",
+  "text": "paragraph, 3 sentences",
+  "rule": "coda2"
+ },
+ {
+  "n": 32,
+  "teaches": "more sounds at the end",
+  "new": "",
+  "heart": [],
+  "build": "",
+  "text": "paragraph, 3 sentences",
+  "rule": "coda3"
+ },
+ {
+  "n": 33,
+  "teaches": "two at the start: s-",
+  "new": "",
+  "heart": [],
+  "build": "",
+  "text": "paragraph, 3 sentences",
+  "rule": "onset_s"
+ },
+ {
+  "n": 34,
+  "teaches": "two at the start: l- and r-",
+  "new": "",
+  "heart": [],
+  "build": "",
+  "text": "paragraph, 3 sentences",
+  "rule": "onset_lr"
+ },
+ {
+  "n": 35,
+  "teaches": "start and end together",
+  "new": "",
+  "heart": [],
+  "build": "",
+  "text": "paragraph, 4 sentences",
+  "rule": "both_ends"
+ },
+ {
+  "n": 36,
+  "teaches": "three at the start",
+  "new": "",
+  "heart": [],
+  "build": "",
+  "text": "paragraph, 4 sentences",
+  "rule": "onset3"
+ },
+ {
+  "n": 37,
+  "teaches": "the -ing ending",
+  "new": "",
+  "heart": [],
+  "build": "add -ing as its own tile",
+  "text": "paragraph, 4 sentences",
+  "rule": "suffix_ing"
+ },
+ {
+  "n": 38,
+  "teaches": "the -er ending, the doer",
+  "new": "er=er",
+  "heart": [],
+  "build": "add -er as its own tile",
+  "text": "paragraph, 4 sentences",
+  "rule": "suffix_er"
+ },
+ {
+  "n": 39,
+  "teaches": "compounds",
+  "new": "",
+  "heart": [],
+  "build": "two words joined",
+  "text": "paragraph, 4 sentences",
+  "rule": "compound"
+ },
+ {
+  "n": 40,
+  "teaches": "MILESTONE - Longer Words",
+  "new": "",
+  "heart": [],
+  "build": "",
+  "text": "paragraph, 4 sentences",
+  "rule": "review"
+ },
+ {
+  "n": 41,
+  "teaches": "two beats",
+  "new": "",
+  "heart": [],
+  "build": "",
+  "text": "paragraph, 4 sentences",
+  "rule": "syll2"
+ },
+ {
+  "n": 42,
+  "teaches": "two beats with a digraph",
+  "new": "",
+  "heart": [],
+  "build": "",
+  "text": "paragraph, 4 sentences",
+  "rule": "syll2_digraph"
+ },
+ {
+  "n": 43,
+  "teaches": "the -ed ending saying /t/",
+  "new": "",
+  "heart": [],
+  "build": "add -ed as its own tile",
+  "text": "paragraph, 4 sentences",
+  "rule": "suffix_ed_t"
+ },
+ {
+  "n": 44,
+  "teaches": "the -ed ending saying /d/",
+  "new": "",
+  "heart": [],
+  "build": "",
+  "text": "paragraph, 5 sentences",
+  "rule": "suffix_ed_d"
+ },
+ {
+  "n": 45,
+  "teaches": "the -ed ending saying /id/",
+  "new": "",
+  "heart": [],
+  "build": "",
+  "text": "paragraph, 5 sentences",
+  "rule": "suffix_ed_id"
+ },
+ {
+  "n": 46,
+  "teaches": "two letters, one sound",
+  "new": "bb cc dd gg mm nn pp rr tt",
+  "heart": [],
+  "build": "double the letter before an ending",
+  "text": "paragraph, 5 sentences",
+  "rule": "double"
+ },
+ {
+  "n": 47,
+  "teaches": "the -es ending",
+  "new": "",
+  "heart": [],
+  "build": "add -es as its own tile",
+  "text": "paragraph, 5 sentences",
+  "rule": "suffix_es"
+ },
+ {
+  "n": 48,
+  "teaches": "the -le ending",
+  "new": "le=l",
+  "heart": [],
+  "build": "",
+  "text": "paragraph, 5 sentences",
+  "rule": "le_end"
+ },
+ {
+  "n": 49,
+  "teaches": "the e at the end with a job",
+  "new": "ce=s ge=j se=s ve=v ze=z",
+  "heart": [],
+  "build": "",
+  "text": "paragraph, 5 sentences",
+  "rule": "silent_e_jobs"
+ },
+ {
+  "n": 50,
+  "teaches": "MILESTONE - Word Builder",
+  "new": "",
+  "heart": [],
+  "build": "",
+  "text": "paragraph, 5 sentences",
+  "rule": "review"
+ },
+ {
+  "n": 51,
+  "teaches": "the -y that says the long e",
+  "new": "y=long_e",
+  "heart": [],
+  "build": "",
+  "text": "paragraph, 5 sentences",
+  "rule": "y_ee"
+ },
+ {
+  "n": 52,
+  "teaches": "the -y that says the long i",
+  "new": "y=long_i",
+  "heart": [],
+  "build": "",
+  "text": "paragraph, 5 sentences",
+  "rule": "y_igh"
+ },
+ {
+  "n": 53,
+  "teaches": "y turns into i",
+  "new": "",
+  "heart": [],
+  "build": "",
+  "text": "paragraph, 5 sentences",
+  "rule": "y_to_i"
+ },
+ {
+  "n": 54,
+  "teaches": "three beats",
+  "new": "",
+  "heart": [],
+  "build": "",
+  "text": "paragraph, 5 sentences",
+  "rule": "syll3"
+ },
+ {
+  "n": 55,
+  "teaches": "a after w",
+  "new": "",
+  "heart": [],
+  "build": "",
+  "text": "paragraph, 5 sentences",
+  "rule": "wa"
+ },
+ {
+  "n": 56,
+  "teaches": "review: everything so far",
+  "new": "",
+  "heart": [],
+  "build": "",
+  "text": "paragraph, 6 sentences",
+  "rule": "review"
+ },
+ {
+  "n": 57,
+  "teaches": "long a: a_e",
+  "new": "a_e=long_a",
+  "heart": [],
+  "build": "",
+  "text": "paragraph, 6 sentences",
+  "rule": null
+ },
+ {
+  "n": 58,
+  "teaches": "long a: ai and ay",
+  "new": "ai=long_a ay=long_a",
+  "heart": [],
+  "build": "",
+  "text": "paragraph, 6 sentences",
+  "rule": null
+ },
+ {
+  "n": 59,
+  "teaches": "long a: two more spellings",
+  "new": "ey=long_a eigh=long_a",
+  "heart": [],
+  "build": "",
+  "text": "paragraph, 6 sentences",
+  "rule": null
+ },
+ {
+  "n": 60,
+  "teaches": "MILESTONE - The Long A",
+  "new": "",
+  "heart": [],
+  "build": "",
+  "text": "paragraph, 6 sentences",
+  "rule": "review"
+ },
+ {
+  "n": 61,
+  "teaches": "long e: ee",
+  "new": "ee=long_e",
+  "heart": [],
+  "build": "",
+  "text": "paragraph, 6 sentences",
+  "rule": null
+ },
+ {
+  "n": 62,
+  "teaches": "long e: ea",
+  "new": "ea=long_e",
+  "heart": [],
+  "build": "",
+  "text": "paragraph, 6 sentences",
+  "rule": null
+ },
+ {
+  "n": 63,
+  "teaches": "long e: three more spellings",
+  "new": "e_e=long_e ie=long_e ey=long_e",
+  "heart": [],
+  "build": "",
+  "text": "paragraph, 6 sentences",
+  "rule": null
+ },
+ {
+  "n": 64,
+  "teaches": "long o: o_e and oa",
+  "new": "o_e=long_o oa=long_o",
+  "heart": [],
+  "build": "",
+  "text": "paragraph, 6 sentences",
+  "rule": null
+ },
+ {
+  "n": 65,
+  "teaches": "long o: ow and oe",
+  "new": "ow=long_o oe=long_o",
+  "heart": [],
+  "build": "",
+  "text": "paragraph, 6 sentences",
+  "rule": null
+ },
+ {
+  "n": 66,
+  "teaches": "long i: i_e",
+  "new": "i_e=long_i",
+  "heart": [],
+  "build": "",
+  "text": "paragraph, 6 sentences",
+  "rule": null
+ },
+ {
+  "n": 67,
+  "teaches": "long i: igh and ie",
+  "new": "igh=long_i ie=long_i",
+  "heart": [],
+  "build": "",
+  "text": "paragraph, 7 sentences",
+  "rule": null
+ },
+ {
+  "n": 68,
+  "teaches": "long i before two sounds",
+  "new": "",
+  "heart": [],
+  "build": "",
+  "text": "paragraph, 7 sentences",
+  "rule": "i_before_two"
+ },
+ {
+  "n": 69,
+  "teaches": "the same spelling, another job",
+  "new": "ea=short_e",
+  "heart": [],
+  "build": "",
+  "text": "paragraph, 7 sentences",
+  "rule": "another_job"
+ },
+ {
+  "n": 70,
+  "teaches": "MILESTONE - All Five Long Sounds",
+  "new": "",
+  "heart": [],
+  "build": "",
+  "text": "paragraph, 7 sentences",
+  "rule": "review"
+ },
+ {
+  "n": 71,
+  "teaches": "the lazy vowel",
+  "new": "",
+  "heart": [],
+  "build": "",
+  "text": "paragraph, 7 sentences",
+  "rule": "schwa"
+ },
+ {
+  "n": 72,
+  "teaches": "open syllables in longer words",
+  "new": "a=long_a",
+  "heart": [],
+  "build": "",
+  "text": "paragraph, 7 sentences",
+  "rule": "open_multi"
+ },
+ {
+  "n": 73,
+  "teaches": "dropping the e before an ending",
+  "new": "",
+  "heart": [],
+  "build": "",
+  "text": "paragraph, 7 sentences",
+  "rule": "drop_e"
+ },
+ {
+  "n": 74,
+  "teaches": "the oo of moon",
+  "new": "oo=oo_moon",
+  "heart": [],
+  "build": "",
+  "text": "paragraph, 7 sentences",
+  "rule": null
+ },
+ {
+  "n": 75,
+  "teaches": "the oo of book",
+  "new": "oo=oo_book",
+  "heart": [],
+  "build": "",
+  "text": "paragraph, 7 sentences",
+  "rule": "oo_book"
+ },
+ {
+  "n": 76,
+  "teaches": "long u: u_e, ew and ue",
+  "new": "u_e=long_u ew=oo_moon ue=oo_moon",
+  "heart": [],
+  "build": "",
+  "text": "paragraph, 7 sentences",
+  "rule": null
+ },
+ {
+  "n": 77,
+  "teaches": "the ou sound: ou and ow",
+  "new": "ou=ow ow=ow",
+  "heart": [],
+  "build": "",
+  "text": "paragraph, 8 sentences",
+  "rule": null
+ },
+ {
+  "n": 78,
+  "teaches": "the oi sound: oi and oy",
+  "new": "oi=oi oy=oi",
+  "heart": [],
+  "build": "",
+  "text": "paragraph, 8 sentences",
+  "rule": null
+ },
+ {
+  "n": 79,
+  "teaches": "the ar sound",
+  "new": "ar=ar",
+  "heart": [],
+  "build": "",
+  "text": "paragraph, 8 sentences",
+  "rule": null
+ },
+ {
+  "n": 80,
+  "teaches": "MILESTONE - Every Vowel",
+  "new": "",
+  "heart": [],
+  "build": "",
+  "text": "paragraph, 8 sentences",
+  "rule": "review"
+ },
+ {
+  "n": 81,
+  "teaches": "the or sound: or and ore",
+  "new": "or=or ore=or",
+  "heart": [],
+  "build": "",
+  "text": "paragraph, 8 sentences",
+  "rule": null
+ },
+ {
+  "n": 82,
+  "teaches": "the aw sound: aw, au and augh",
+  "new": "aw=aw au=aw augh=aw",
+  "heart": [],
+  "build": "",
+  "text": "paragraph, 8 sentences",
+  "rule": null
+ },
+ {
+  "n": 83,
+  "teaches": "the er sound: two more spellings",
+  "new": "ir=er ur=er",
+  "heart": [
+   "were"
+  ],
+  "build": "",
+  "text": "paragraph, 8 sentences",
+  "rule": null
+ },
+ {
+  "n": 84,
+  "teaches": "the ear sound",
+  "new": "ear=ear eer=ear ere=ear",
+  "heart": [],
+  "build": "",
+  "text": "paragraph, 8 sentences",
+  "rule": null
+ },
+ {
+  "n": 85,
+  "teaches": "the air sound",
+  "new": "air are ere=air ear=air",
+  "heart": [],
+  "build": "",
+  "text": "paragraph, 8 sentences",
+  "rule": null
+ },
+ {
+  "n": 86,
+  "teaches": "the all and alk family",
+  "new": "al=aw",
+  "heart": [],
+  "build": "",
+  "text": "paragraph, 8 sentences",
+  "rule": "all_family"
+ },
+ {
+  "n": 87,
+  "teaches": "soft c and soft g",
+  "new": "c=s g=j",
+  "heart": [],
+  "build": "",
+  "text": "paragraph, 8 sentences",
+  "rule": null
+ },
+ {
+  "n": 88,
+  "teaches": "the -tch and -dge endings",
+  "new": "tch=ch dge=j",
+  "heart": [],
+  "build": "",
+  "text": "paragraph, 8 sentences",
+  "rule": null
+ },
+ {
+  "n": 89,
+  "teaches": "letters that stay quiet",
+  "new": "kn=n wr=r mb=m gn=n",
+  "heart": [],
+  "build": "",
+  "text": "paragraph, 9 sentences",
+  "rule": null
+ },
+ {
+  "n": 90,
+  "teaches": "MILESTONE - Every Sound",
+  "new": "",
+  "heart": [],
+  "build": "",
+  "text": "paragraph, 9 sentences",
+  "rule": "review"
+ },
+ {
+  "n": 91,
+  "teaches": "the f sound: ph and gh",
+  "new": "ph=f gh=f",
+  "heart": [],
+  "build": "",
+  "text": "paragraph, 9 sentences",
+  "rule": null
+ },
+ {
+  "n": 92,
+  "teaches": "the ough family",
+  "new": "ough=aw",
+  "heart": [],
+  "build": "",
+  "text": "paragraph, 9 sentences",
+  "rule": null
+ },
+ {
+  "n": 93,
+  "teaches": "the -stle ending",
+  "new": "tle=l",
+  "heart": [],
+  "build": "",
+  "text": "paragraph, 9 sentences",
+  "rule": "stle"
+ },
+ {
+  "n": 94,
+  "teaches": "ch does another job",
+  "new": "ch=k",
+  "heart": [],
+  "build": "",
+  "text": "paragraph, 9 sentences",
+  "rule": null
+ },
+ {
+  "n": 95,
+  "teaches": "the sh sound in longer words",
+  "new": "ti=sh ci=sh",
+  "heart": [],
+  "build": "",
+  "text": "paragraph, 9 sentences",
+  "rule": null
+ },
+ {
+  "n": 96,
+  "teaches": "the ch sound in longer words",
+  "new": "tu=ch re=er",
+  "heart": [],
+  "build": "",
+  "text": "paragraph, 9 sentences",
+  "rule": null
+ },
+ {
+  "n": 97,
+  "teaches": "prefixes",
+  "new": "",
+  "heart": [],
+  "build": "prefix as its own tile",
+  "text": "paragraph, 10 sentences",
+  "rule": "prefix"
+ },
+ {
+  "n": 98,
+  "teaches": "the -ly and -ful endings",
+  "new": "",
+  "heart": [],
+  "build": "suffix as its own tile",
+  "text": "paragraph, 10 sentences",
+  "rule": "suffix_ly_ful"
+ },
+ {
+  "n": 99,
+  "teaches": "the -less and -ness endings",
+  "new": "",
+  "heart": [],
+  "build": "suffix as its own tile",
+  "text": "paragraph, 10 sentences",
+  "rule": "suffix_less_ness"
+ },
+ {
+  "n": 100,
+  "teaches": "MILESTONE - Reader",
+  "new": "",
+  "heart": [],
+  "build": "any word in the game",
+  "text": "the last paragraph",
+  "rule": "ending"
+ }
+]

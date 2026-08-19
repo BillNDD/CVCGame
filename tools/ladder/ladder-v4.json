@@ -1,0 +1,1719 @@
+[
+ {
+  "n": 1,
+  "teaches": "the first six sounds",
+  "new": "s a t p i n",
+  "rule": null,
+  "pool": 21,
+  "cands": 21,
+  "words": [
+   "an",
+   "ant",
+   "as",
+   "at",
+   "in",
+   "it",
+   "sat",
+   "sit",
+   "nap",
+   "pan"
+  ]
+ },
+ {
+  "n": 2,
+  "teaches": "swapping one sound",
+  "new": "",
+  "rule": "swap1",
+  "pool": 11,
+  "cands": 9,
+  "words": [
+   "pin",
+   "pit",
+   "sip",
+   "tin",
+   "pat",
+   "sap",
+   "tan",
+   "tap",
+   "tip"
+  ]
+ },
+ {
+  "n": 3,
+  "teaches": "the short o",
+  "new": "o",
+  "rule": null,
+  "pool": 11,
+  "cands": 9,
+  "words": [
+   "into",
+   "not",
+   "on",
+   "pot",
+   "stop",
+   "top",
+   "pop",
+   "spot",
+   "tot"
+  ]
+ },
+ {
+  "n": 4,
+  "teaches": "the c sound",
+  "new": "c",
+  "rule": null,
+  "pool": 9,
+  "cands": 7,
+  "words": [
+   "can",
+   "cat",
+   "cop",
+   "cap",
+   "cot",
+   "cost",
+   "catnip"
+  ]
+ },
+ {
+  "n": 5,
+  "teaches": "the m sound",
+  "new": "m",
+  "rule": null,
+  "pool": 11,
+  "cands": 9,
+  "words": [
+   "am",
+   "man",
+   "mom",
+   "mop",
+   "map",
+   "mat",
+   "camp",
+   "mint",
+   "mist"
+  ]
+ },
+ {
+  "n": 6,
+  "teaches": "plural -s, and the s that buzzes",
+  "new": "-s",
+  "rule": "suffix_s",
+  "pool": 8,
+  "cands": 6,
+  "words": [
+   "cops",
+   "pots",
+   "spots",
+   "tops",
+   "maps",
+   "cats"
+  ]
+ },
+ {
+  "n": 7,
+  "teaches": "the e sound",
+  "new": "e",
+  "rule": null,
+  "pool": 19,
+  "cands": 17,
+  "words": [
+   "comes",
+   "men",
+   "pet",
+   "ten",
+   "net",
+   "pen",
+   "set",
+   "nest",
+   "step",
+   "tent"
+  ]
+ },
+ {
+  "n": 8,
+  "teaches": "the d sound",
+  "new": "d",
+  "rule": null,
+  "pool": 30,
+  "cands": 21,
+  "words": [
+   "and",
+   "did",
+   "end",
+   "mad",
+   "nod",
+   "sad",
+   "sand",
+   "dad",
+   "den",
+   "dip"
+  ]
+ },
+ {
+  "n": 9,
+  "teaches": "the g sound",
+  "new": "g",
+  "rule": null,
+  "pool": 26,
+  "cands": 6,
+  "words": [
+   "gas",
+   "gets",
+   "got",
+   "get",
+   "gap",
+   "pigpen"
+  ]
+ },
+ {
+  "n": 10,
+  "teaches": "MILESTONE - First Sounds",
+  "new": "h",
+  "rule": null,
+  "pool": 38,
+  "cands": 18,
+  "words": [
+   "had",
+   "ham",
+   "hand",
+   "has",
+   "hat",
+   "hats",
+   "hid",
+   "him",
+   "his",
+   "hit"
+  ]
+ },
+ {
+  "n": 11,
+  "teaches": "the f sound",
+  "new": "f",
+  "rule": null,
+  "pool": 40,
+  "cands": 12,
+  "words": [
+   "fan",
+   "fast",
+   "fat",
+   "fin",
+   "find",
+   "fit",
+   "if",
+   "fed",
+   "gift",
+   "soft"
+  ]
+ },
+ {
+  "n": 12,
+  "teaches": "the b sound",
+  "new": "b",
+  "rule": null,
+  "pool": 51,
+  "cands": 21,
+  "words": [
+   "bad",
+   "bed",
+   "bit",
+   "bat",
+   "bib",
+   "bin",
+   "cab",
+   "best",
+   "bet",
+   "dab"
+  ]
+ },
+ {
+  "n": 13,
+  "teaches": "the l sound",
+  "new": "l",
+  "rule": null,
+  "pool": 85,
+  "cands": 44,
+  "words": [
+   "cold",
+   "fold",
+   "gold",
+   "land",
+   "led",
+   "left",
+   "let",
+   "lid",
+   "lot",
+   "lots"
+  ]
+ },
+ {
+  "n": 14,
+  "teaches": "the u sound",
+  "new": "u",
+  "rule": null,
+  "pool": 113,
+  "cands": 38,
+  "words": [
+   "but",
+   "dust",
+   "fun",
+   "hunt",
+   "mud",
+   "must",
+   "nut",
+   "sun",
+   "tub",
+   "up"
+  ]
+ },
+ {
+  "n": 15,
+  "teaches": "the r sound",
+  "new": "r",
+  "rule": null,
+  "pool": 139,
+  "cands": 36,
+  "words": [
+   "from",
+   "her",
+   "ram",
+   "ran",
+   "rat",
+   "red",
+   "rid",
+   "rod",
+   "rub",
+   "run"
+  ]
+ },
+ {
+  "n": 16,
+  "teaches": "the v and k sounds",
+  "new": "v k",
+  "rule": null,
+  "pool": 151,
+  "cands": 22,
+  "words": [
+   "ever",
+   "lived",
+   "kid",
+   "van",
+   "desk",
+   "kids",
+   "milk",
+   "ask",
+   "kit",
+   "vat"
+  ]
+ },
+ {
+  "n": 17,
+  "teaches": "the j and w sounds",
+  "new": "j w",
+  "rule": null,
+  "pool": 168,
+  "cands": 27,
+  "words": [
+   "jump",
+   "jumps",
+   "just",
+   "swam",
+   "swim",
+   "want",
+   "waves",
+   "went",
+   "wet",
+   "win"
+  ]
+ },
+ {
+  "n": 18,
+  "teaches": "the z and x sounds",
+  "new": "z x",
+  "rule": null,
+  "pool": 173,
+  "cands": 15,
+  "words": [
+   "ax",
+   "ox",
+   "box",
+   "fix",
+   "fox",
+   "six",
+   "zap",
+   "zip",
+   "fax",
+   "mix"
+  ]
+ },
+ {
+  "n": 19,
+  "teaches": "the y sound",
+  "new": "y=y",
+  "rule": null,
+  "pool": 168,
+  "cands": 5,
+  "words": [
+   "yes",
+   "yam",
+   "yak",
+   "yap",
+   "yet"
+  ]
+ },
+ {
+  "n": 20,
+  "teaches": "MILESTONE - All The Letters",
+  "new": "",
+  "rule": "review",
+  "pool": 163,
+  "cands": 163,
+  "words": [
+   "held",
+   "hits",
+   "hold",
+   "hop",
+   "hot",
+   "old",
+   "us",
+   "laptop",
+   "sunset",
+   "bus"
+  ]
+ },
+ {
+  "n": 21,
+  "teaches": "doubled endings",
+  "new": "ff ll ss zz",
+  "rule": "floss",
+  "pool": 188,
+  "cands": 30,
+  "words": [
+   "bill",
+   "fell",
+   "fill",
+   "grass",
+   "hill",
+   "kiss",
+   "smell",
+   "tell",
+   "buzz",
+   "doll"
+  ]
+ },
+ {
+  "n": 22,
+  "teaches": "the sh sound",
+  "new": "sh",
+  "rule": null,
+  "pool": 211,
+  "cands": 33,
+  "words": [
+   "brush",
+   "dish",
+   "fish",
+   "ship",
+   "shop",
+   "shot",
+   "wish",
+   "wash",
+   "hush",
+   "mash"
+  ]
+ },
+ {
+  "n": 23,
+  "teaches": "the ch sound",
+  "new": "ch",
+  "rule": null,
+  "pool": 201,
+  "cands": 0,
+  "words": []
+ },
+ {
+  "n": 24,
+  "teaches": "the quiet th",
+  "new": "th=th_quiet",
+  "rule": null,
+  "pool": 201,
+  "cands": 0,
+  "words": []
+ },
+ {
+  "n": 25,
+  "teaches": "the buzzy th",
+  "new": "th=th_this",
+  "rule": null,
+  "pool": 209,
+  "cands": 8,
+  "words": [
+   "that",
+   "them",
+   "then",
+   "this",
+   "with",
+   "than",
+   "brother",
+   "other"
+  ]
+ },
+ {
+  "n": 26,
+  "teaches": "the ck spelling",
+  "new": "ck",
+  "rule": null,
+  "pool": 232,
+  "cands": 31,
+  "words": [
+   "back",
+   "black",
+   "duck",
+   "kick",
+   "lick",
+   "lock",
+   "luck",
+   "pick",
+   "rack",
+   "rock"
+  ]
+ },
+ {
+  "n": 27,
+  "teaches": "the wh sound",
+  "new": "wh",
+  "rule": null,
+  "pool": 230,
+  "cands": 8,
+  "words": [
+   "when",
+   "what",
+   "whack",
+   "wham",
+   "whiff",
+   "whim",
+   "whip",
+   "whizz"
+  ]
+ },
+ {
+  "n": 28,
+  "teaches": "the ng sound",
+  "new": "ng",
+  "rule": null,
+  "pool": 245,
+  "cands": 23,
+  "words": [
+   "sing",
+   "king",
+   "long",
+   "bang",
+   "ding",
+   "fang",
+   "gong",
+   "hang",
+   "hung",
+   "lung"
+  ]
+ },
+ {
+  "n": 29,
+  "teaches": "the qu spelling",
+  "new": "qu",
+  "rule": null,
+  "pool": 242,
+  "cands": 7,
+  "words": [
+   "quick",
+   "quit",
+   "quack",
+   "quiz",
+   "quill",
+   "quip",
+   "squash"
+  ]
+ },
+ {
+  "n": 30,
+  "teaches": "MILESTONE - Every First Spelling",
+  "new": "",
+  "rule": "review",
+  "pool": 235,
+  "cands": 235,
+  "words": [
+   "rocks",
+   "sack",
+   "sacks",
+   "shack",
+   "sick",
+   "sock",
+   "socks",
+   "sold",
+   "told",
+   "well"
+  ]
+ },
+ {
+  "n": 31,
+  "teaches": "one more sound at the end",
+  "new": "",
+  "rule": "coda2",
+  "pool": 225,
+  "cands": 41,
+  "words": [
+   "help",
+   "lamp",
+   "lift",
+   "pond",
+   "rest",
+   "romp",
+   "band",
+   "bank",
+   "belt",
+   "bend"
+  ]
+ },
+ {
+  "n": 32,
+  "teaches": "more sounds at the end",
+  "new": "",
+  "rule": "coda3",
+  "pool": 215,
+  "cands": 0,
+  "words": []
+ },
+ {
+  "n": 33,
+  "teaches": "two at the start: s-",
+  "new": "",
+  "rule": "onset_s",
+  "pool": 215,
+  "cands": 10,
+  "words": [
+   "sled",
+   "slip",
+   "spin",
+   "skip",
+   "slam",
+   "slid",
+   "snap",
+   "stem",
+   "swan",
+   "swap"
+  ]
+ },
+ {
+  "n": 34,
+  "teaches": "two at the start: l- and r-",
+  "new": "",
+  "rule": "onset_lr",
+  "pool": 205,
+  "cands": 17,
+  "words": [
+   "clap",
+   "drum",
+   "flat",
+   "glad",
+   "grab",
+   "grin",
+   "drop",
+   "plan",
+   "plum",
+   "trap"
+  ]
+ },
+ {
+  "n": 35,
+  "teaches": "start and end together",
+  "new": "",
+  "rule": "both_ends",
+  "pool": 195,
+  "cands": 2,
+  "words": [
+   "blind",
+   "grind"
+  ]
+ },
+ {
+  "n": 36,
+  "teaches": "three at the start",
+  "new": "",
+  "rule": "onset3",
+  "pool": 193,
+  "cands": 9,
+  "words": [
+   "spring",
+   "scrap",
+   "scrub",
+   "splash",
+   "split",
+   "strap",
+   "string",
+   "strip",
+   "strong"
+  ]
+ },
+ {
+  "n": 37,
+  "teaches": "the -ing ending",
+  "new": "",
+  "rule": "suffix_ing",
+  "pool": 189,
+  "cands": 5,
+  "words": [
+   "brushing",
+   "fishing",
+   "hunting",
+   "singing",
+   "yelling"
+  ]
+ },
+ {
+  "n": 38,
+  "teaches": "the -er ending, the doer",
+  "new": "er",
+  "rule": "suffix_er",
+  "pool": 188,
+  "cands": 3,
+  "words": [
+   "helper",
+   "jumper",
+   "singer"
+  ]
+ },
+ {
+  "n": 39,
+  "teaches": "compounds",
+  "new": "",
+  "rule": "compound",
+  "pool": 185,
+  "cands": 5,
+  "words": [
+   "backpack",
+   "dustbin",
+   "hilltop",
+   "sandbox",
+   "catfish"
+  ]
+ },
+ {
+  "n": 40,
+  "teaches": "MILESTONE - Longer Words",
+  "new": "",
+  "rule": "review",
+  "pool": 180,
+  "cands": 180,
+  "words": [
+   "will",
+   "yell",
+   "cub",
+   "cup",
+   "gum",
+   "hen",
+   "hum",
+   "jam",
+   "job",
+   "lap"
+  ]
+ },
+ {
+  "n": 41,
+  "teaches": "two beats",
+  "new": "",
+  "rule": "syll2",
+  "pool": 170,
+  "cands": 19,
+  "words": [
+   "having",
+   "never",
+   "over",
+   "tiger",
+   "behind",
+   "buses",
+   "cobweb",
+   "glasses",
+   "illness",
+   "muffin"
+  ]
+ },
+ {
+  "n": 42,
+  "teaches": "two beats with a digraph",
+  "new": "",
+  "rule": "syll2_digraph",
+  "pool": 160,
+  "cands": 2,
+  "words": [
+   "wallet",
+   "windmill"
+  ]
+ },
+ {
+  "n": 43,
+  "teaches": "the -ed ending saying /t/",
+  "new": "",
+  "rule": "suffix_ed_t",
+  "pool": 173,
+  "cands": 8,
+  "words": [
+   "jumped",
+   "licked",
+   "picked",
+   "asked",
+   "helped",
+   "kicked",
+   "mixed",
+   "packed"
+  ]
+ },
+ {
+  "n": 44,
+  "teaches": "the -ed ending saying /d/",
+  "new": "",
+  "rule": "suffix_ed_d",
+  "pool": 165,
+  "cands": 2,
+  "words": [
+   "filled",
+   "yelled"
+  ]
+ },
+ {
+  "n": 45,
+  "teaches": "the -ed ending saying /id/",
+  "new": "",
+  "rule": "suffix_ed_id",
+  "pool": 163,
+  "cands": 4,
+  "words": [
+   "ended",
+   "landed",
+   "lifted",
+   "wanted"
+  ]
+ },
+ {
+  "n": 46,
+  "teaches": "doubling before an ending",
+  "new": "bb cc dd gg mm nn pp rr tt",
+  "rule": "double_suffix",
+  "pool": 175,
+  "cands": 10,
+  "words": [
+   "getting",
+   "quitting",
+   "sitting",
+   "stopped",
+   "stopping",
+   "swimming",
+   "butter",
+   "hammer",
+   "ladder",
+   "pepper"
+  ]
+ },
+ {
+  "n": 47,
+  "teaches": "the -es ending",
+  "new": "",
+  "rule": "suffix_es",
+  "pool": 169,
+  "cands": 4,
+  "words": [
+   "boxes",
+   "brushes",
+   "foxes",
+   "wishes"
+  ]
+ },
+ {
+  "n": 48,
+  "teaches": "the -le ending",
+  "new": "le",
+  "rule": "le_end",
+  "pool": 173,
+  "cands": 8,
+  "words": [
+   "little",
+   "apple",
+   "bubble",
+   "candle",
+   "handle",
+   "middle",
+   "simple",
+   "waffle"
+  ]
+ },
+ {
+  "n": 49,
+  "teaches": "a doubled letter in the middle",
+  "new": "",
+  "rule": "double_medial",
+  "pool": 165,
+  "cands": 5,
+  "words": [
+   "kitten",
+   "dinner",
+   "mitten",
+   "puppet",
+   "rabbit"
+  ]
+ },
+ {
+  "n": 50,
+  "teaches": "MILESTONE - Word Builder",
+  "new": "",
+  "rule": "review",
+  "pool": 160,
+  "cands": 160,
+  "words": [
+   "mitt",
+   "mess",
+   "miss",
+   "pack",
+   "pal",
+   "pup",
+   "rap",
+   "rip",
+   "shed",
+   "shell"
+  ]
+ },
+ {
+  "n": 51,
+  "teaches": "the -y that says the long e",
+  "new": "y=long_e",
+  "rule": "y_ee",
+  "pool": 164,
+  "cands": 14,
+  "words": [
+   "finally",
+   "every",
+   "very",
+   "butterfly",
+   "funny",
+   "happy",
+   "jelly",
+   "lucky",
+   "penny",
+   "puppy"
+  ]
+ },
+ {
+  "n": 52,
+  "teaches": "the -y that says the long i",
+  "new": "y=long_i",
+  "rule": "y_igh",
+  "pool": 164,
+  "cands": 10,
+  "words": [
+   "fly",
+   "by",
+   "cry",
+   "dry",
+   "shy",
+   "sky",
+   "sly",
+   "spy",
+   "try",
+   "why"
+  ]
+ },
+ {
+  "n": 53,
+  "teaches": "y turns into i",
+  "new": "",
+  "rule": "y_to_i",
+  "pool": 159,
+  "cands": 5,
+  "words": [
+   "cried",
+   "dried",
+   "happier",
+   "spied",
+   "tried"
+  ]
+ },
+ {
+  "n": 54,
+  "teaches": "three beats",
+  "new": "",
+  "rule": "syll3",
+  "pool": 154,
+  "cands": 3,
+  "words": [
+   "besides",
+   "banana",
+   "wonderful"
+  ]
+ },
+ {
+  "n": 55,
+  "teaches": "a after w",
+  "new": "",
+  "rule": "wa",
+  "pool": 151,
+  "cands": 3,
+  "words": [
+   "wax",
+   "wand",
+   "water"
+  ]
+ },
+ {
+  "n": 56,
+  "teaches": "review: everything so far",
+  "new": "",
+  "rule": "review",
+  "pool": 148,
+  "cands": 148,
+  "words": [
+   "web",
+   "cups",
+   "hens",
+   "lids",
+   "pens",
+   "twin",
+   "all",
+   "bash",
+   "bell",
+   "boss"
+  ]
+ },
+ {
+  "n": 57,
+  "teaches": "long a: a_e",
+  "new": "a_e",
+  "rule": null,
+  "pool": 156,
+  "cands": 18,
+  "words": [
+   "ate",
+   "cake",
+   "cakes",
+   "came",
+   "game",
+   "gate",
+   "gates",
+   "lake",
+   "same",
+   "save"
+  ]
+ },
+ {
+  "n": 58,
+  "teaches": "long a: ai and ay",
+  "new": "ai=long_a ay",
+  "rule": null,
+  "pool": 162,
+  "cands": 16,
+  "words": [
+   "day",
+   "lay",
+   "pail",
+   "pain",
+   "paint",
+   "play",
+   "rain",
+   "say",
+   "stay",
+   "tail"
+  ]
+ },
+ {
+  "n": 59,
+  "teaches": "long a: two more spellings",
+  "new": "ey=long_a eigh=long_a",
+  "rule": null,
+  "pool": 157,
+  "cands": 5,
+  "words": [
+   "eight",
+   "freight",
+   "sleigh",
+   "weigh",
+   "weight"
+  ]
+ },
+ {
+  "n": 60,
+  "teaches": "MILESTONE - The Long A",
+  "new": "",
+  "rule": "review",
+  "pool": 152,
+  "cands": 152,
+  "words": [
+   "hate",
+   "late",
+   "make",
+   "makes",
+   "take",
+   "tame",
+   "buck",
+   "bud",
+   "bun",
+   "bush"
+  ]
+ },
+ {
+  "n": 61,
+  "teaches": "long e: ee",
+  "new": "ee",
+  "rule": null,
+  "pool": 160,
+  "cands": 18,
+  "words": [
+   "see",
+   "deep",
+   "feed",
+   "feel",
+   "feet",
+   "green",
+   "meet",
+   "meets",
+   "need",
+   "seed"
+  ]
+ },
+ {
+  "n": 62,
+  "teaches": "long e: ea",
+  "new": "ea=long_e",
+  "rule": null,
+  "pool": 150,
+  "cands": 0,
+  "words": []
+ },
+ {
+  "n": 63,
+  "teaches": "long e: three more spellings",
+  "new": "e_e ie=long_e ey=long_e",
+  "rule": null,
+  "pool": 155,
+  "cands": 5,
+  "words": [
+   "these",
+   "honey",
+   "money",
+   "monkey",
+   "valley"
+  ]
+ },
+ {
+  "n": 64,
+  "teaches": "long o: o_e and oa",
+  "new": "o_e oa",
+  "rule": null,
+  "pool": 164,
+  "cands": 14,
+  "words": [
+   "coat",
+   "coats",
+   "goat",
+   "holes",
+   "notes",
+   "road",
+   "broke",
+   "hole",
+   "home",
+   "hope"
+  ]
+ },
+ {
+  "n": 65,
+  "teaches": "long o: ow and oe",
+  "new": "ow=long_o oe",
+  "rule": null,
+  "pool": 154,
+  "cands": 0,
+  "words": []
+ },
+ {
+  "n": 66,
+  "teaches": "long i: i_e",
+  "new": "i_e",
+  "rule": null,
+  "pool": 171,
+  "cands": 17,
+  "words": [
+   "likes",
+   "bite",
+   "dime",
+   "dive",
+   "fine",
+   "five",
+   "hide",
+   "inside",
+   "like",
+   "line"
+  ]
+ },
+ {
+  "n": 67,
+  "teaches": "long i: igh and ie",
+  "new": "igh ie=long_i",
+  "rule": null,
+  "pool": 172,
+  "cands": 11,
+  "words": [
+   "bright",
+   "flies",
+   "high",
+   "light",
+   "might",
+   "pie",
+   "tie"
+  ]
+ },
+ {
+  "n": 68,
+  "teaches": "long i before two sounds",
+  "new": "",
+  "rule": "i_before_two",
+  "pool": 165,
+  "cands": 4,
+  "words": [
+   "kind",
+   "mild",
+   "mind",
+   "wild"
+  ]
+ },
+ {
+  "n": 69,
+  "teaches": "the same spelling, another job",
+  "new": "ea=short_e",
+  "rule": "another_job",
+  "pool": 162,
+  "cands": 1,
+  "words": [
+   "read"
+  ]
+ },
+ {
+  "n": 70,
+  "teaches": "MILESTONE - All Five Long Sounds",
+  "new": "",
+  "rule": "review",
+  "pool": 161,
+  "cands": 161,
+  "words": [
+   "goats",
+   "cash",
+   "cod",
+   "cuff",
+   "cut",
+   "dam",
+   "dash",
+   "deck",
+   "dim",
+   "dock"
+  ]
+ },
+ {
+  "n": 71,
+  "teaches": "the lazy vowel",
+  "new": "",
+  "rule": "schwa",
+  "pool": 151,
+  "cands": 16,
+  "words": [
+   "sleeping",
+   "tigers",
+   "holiday",
+   "needed",
+   "painted",
+   "painter",
+   "planted",
+   "printed",
+   "printer",
+   "redo"
+  ]
+ },
+ {
+  "n": 72,
+  "teaches": "open syllables in longer words",
+  "new": "a=long_a",
+  "rule": "open_multi",
+  "pool": 142,
+  "cands": 0,
+  "words": []
+ },
+ {
+  "n": 73,
+  "teaches": "dropping the e before an ending",
+  "new": "",
+  "rule": "drop_e",
+  "pool": 147,
+  "cands": 5,
+  "words": [
+   "liked",
+   "noses",
+   "saved",
+   "biting",
+   "smiled"
+  ]
+ },
+ {
+  "n": 74,
+  "teaches": "the oo of moon",
+  "new": "oo=oo_moon",
+  "rule": null,
+  "pool": 142,
+  "cands": 0,
+  "words": []
+ },
+ {
+  "n": 75,
+  "teaches": "the oo of book",
+  "new": "oo=oo_book",
+  "rule": "oo_book",
+  "pool": 147,
+  "cands": 5,
+  "words": [
+   "good",
+   "book",
+   "look",
+   "looked",
+   "took"
+  ]
+ },
+ {
+  "n": 76,
+  "teaches": "long u: u_e, ew and ue",
+  "new": "u_e ew ue",
+  "rule": null,
+  "pool": 153,
+  "cands": 11,
+  "words": [
+   "blue",
+   "clue",
+   "cube",
+   "cute",
+   "dew",
+   "few",
+   "glue",
+   "mule",
+   "new",
+   "true"
+  ]
+ },
+ {
+  "n": 77,
+  "teaches": "the ou sound: ou and ow",
+  "new": "ou=ow ow=ow",
+  "rule": null,
+  "pool": 162,
+  "cands": 19,
+  "words": [
+   "found",
+   "now",
+   "out",
+   "young",
+   "could",
+   "flowers",
+   "cow",
+   "down",
+   "how",
+   "loud"
+  ]
+ },
+ {
+  "n": 78,
+  "teaches": "the oi sound: oi and oy",
+  "new": "oi oy",
+  "rule": null,
+  "pool": 164,
+  "cands": 12,
+  "words": [
+   "boy",
+   "going",
+   "toy",
+   "boil",
+   "coin",
+   "enjoy",
+   "join",
+   "loyal",
+   "point",
+   "royal"
+  ]
+ },
+ {
+  "n": 79,
+  "teaches": "the ar sound",
+  "new": "ar",
+  "rule": null,
+  "pool": 172,
+  "cands": 18,
+  "words": [
+   "arm",
+   "around",
+   "barn",
+   "car",
+   "card",
+   "cars",
+   "dark",
+   "far",
+   "farm",
+   "farms"
+  ]
+ },
+ {
+  "n": 80,
+  "teaches": "MILESTONE - Every Vowel",
+  "new": "",
+  "rule": "review",
+  "pool": 162,
+  "cands": 162,
+  "words": [
+   "dot",
+   "fall",
+   "fizz",
+   "fuss",
+   "fuzz",
+   "gash",
+   "gush",
+   "gut",
+   "hem",
+   "hip"
+  ]
+ },
+ {
+  "n": 81,
+  "teaches": "the or sound: or and ore",
+  "new": "or ore",
+  "rule": null,
+  "pool": 164,
+  "cands": 12,
+  "words": [
+   "for",
+   "born",
+   "corn",
+   "more",
+   "or",
+   "shore",
+   "sore",
+   "store",
+   "story",
+   "tore"
+  ]
+ },
+ {
+  "n": 82,
+  "teaches": "the aw sound: aw, au and augh",
+  "new": "aw au augh",
+  "rule": null,
+  "pool": 168,
+  "cands": 14,
+  "words": [
+   "away",
+   "caught",
+   "claw",
+   "crawl",
+   "dinosaur",
+   "draw",
+   "haul",
+   "jaw",
+   "laugh",
+   "lawn"
+  ]
+ },
+ {
+  "n": 83,
+  "teaches": "the er sound: two more spellings",
+  "new": "ir ur",
+  "rule": null,
+  "pool": 168,
+  "cands": 10,
+  "words": [
+   "birds",
+   "girl",
+   "bird",
+   "burn",
+   "curl",
+   "dirt",
+   "first",
+   "purple",
+   "shirt",
+   "turn"
+  ]
+ },
+ {
+  "n": 84,
+  "teaches": "the ear sound",
+  "new": "ear=ear eer ere=ear",
+  "rule": null,
+  "pool": 159,
+  "cands": 1,
+  "words": [
+   "deer"
+  ]
+ },
+ {
+  "n": 85,
+  "teaches": "the air sound",
+  "new": "air are ere=air ear=air",
+  "rule": null,
+  "pool": 161,
+  "cands": 3,
+  "words": [
+   "where",
+   "careful",
+   "careless"
+  ]
+ },
+ {
+  "n": 86,
+  "teaches": "the all and alk family",
+  "new": "al",
+  "rule": "all_family",
+  "pool": 165,
+  "cands": 7,
+  "words": [
+   "talk",
+   "talked",
+   "talking",
+   "talks",
+   "walk",
+   "walked",
+   "walking"
+  ]
+ },
+ {
+  "n": 87,
+  "teaches": "soft c and soft g",
+  "new": "c=s g=j",
+  "rule": null,
+  "pool": 160,
+  "cands": 2,
+  "words": [
+   "generous",
+   "huge"
+  ]
+ },
+ {
+  "n": 88,
+  "teaches": "the -tch and -dge endings",
+  "new": "tch dge",
+  "rule": null,
+  "pool": 170,
+  "cands": 12,
+  "words": [
+   "catch",
+   "badge",
+   "bridge",
+   "edge",
+   "fetch",
+   "fudge",
+   "judge",
+   "match",
+   "matches",
+   "pitch"
+  ]
+ },
+ {
+  "n": 89,
+  "teaches": "letters that stay quiet",
+  "new": "kn wr mb gn",
+  "rule": null,
+  "pool": 172,
+  "cands": 12,
+  "words": [
+   "knock",
+   "knit",
+   "knob",
+   "knot",
+   "lamb",
+   "limb",
+   "wrap",
+   "wreck",
+   "wren",
+   "wrong"
+  ]
+ },
+ {
+  "n": 90,
+  "teaches": "MILESTONE - Every Sound",
+  "new": "",
+  "rule": "review",
+  "pool": 162,
+  "cands": 162,
+  "words": [
+   "hub",
+   "huff",
+   "hut",
+   "jab",
+   "jazz",
+   "jet",
+   "jot",
+   "jut",
+   "lab",
+   "lad"
+  ]
+ },
+ {
+  "n": 91,
+  "teaches": "the f sound: ph and gh",
+  "new": "ph gh",
+  "rule": null,
+  "pool": 158,
+  "cands": 6,
+  "words": [
+   "alphabet",
+   "dolphin",
+   "elephant",
+   "graph",
+   "phone",
+   "photo"
+  ]
+ },
+ {
+  "n": 92,
+  "teaches": "the ough family",
+  "new": "ough",
+  "rule": null,
+  "pool": 162,
+  "cands": 10,
+  "words": [
+   "bought",
+   "brought",
+   "cough",
+   "dough",
+   "enough",
+   "fought",
+   "rough",
+   "though",
+   "tough"
+  ]
+ },
+ {
+  "n": 93,
+  "teaches": "the -stle ending",
+  "new": "tle",
+  "rule": "stle",
+  "pool": 160,
+  "cands": 7,
+  "words": [
+   "bustle",
+   "castle",
+   "nestle",
+   "rustle",
+   "whistle",
+   "wrestle",
+   "hustle"
+  ]
+ },
+ {
+  "n": 94,
+  "teaches": "ch does two more jobs",
+  "new": "ch=k ch=sh",
+  "rule": null,
+  "pool": 153,
+  "cands": 0,
+  "words": []
+ },
+ {
+  "n": 95,
+  "teaches": "the sh sound in longer words",
+  "new": "ti ci",
+  "rule": null,
+  "pool": 160,
+  "cands": 7,
+  "words": [
+   "action",
+   "ancient",
+   "motion",
+   "nation",
+   "social",
+   "special",
+   "station"
+  ]
+ },
+ {
+  "n": 96,
+  "teaches": "the ch sound in longer words",
+  "new": "tu re",
+  "rule": null,
+  "pool": 159,
+  "cands": 6,
+  "words": [
+   "adventure",
+   "capture",
+   "future",
+   "mixture",
+   "nature",
+   "picture"
+  ]
+ },
+ {
+  "n": 97,
+  "teaches": "prefixes",
+  "new": "",
+  "rule": "prefix",
+  "pool": 166,
+  "cands": 13,
+  "words": [
+   "under",
+   "disagree",
+   "dishes",
+   "dislike",
+   "precious",
+   "remember",
+   "rested",
+   "retell",
+   "return",
+   "uncle"
+  ]
+ },
+ {
+  "n": 98,
+  "teaches": "the -ly and -ful endings",
+  "new": "",
+  "rule": "suffix_ly_ful",
+  "pool": 163,
+  "cands": 7,
+  "words": [
+   "gladly",
+   "helpful",
+   "kindly",
+   "playful",
+   "quickly",
+   "softly",
+   "useful"
+  ]
+ },
+ {
+  "n": 99,
+  "teaches": "the -less and -ness endings",
+  "new": "",
+  "rule": "suffix_less_ness",
+  "pool": 162,
+  "cands": 6,
+  "words": [
+   "darkness",
+   "endless",
+   "helpless",
+   "hopeless",
+   "kindness",
+   "sadness"
+  ]
+ },
+ {
+  "n": 100,
+  "teaches": "MILESTONE - Reader",
+  "new": "",
+  "rule": "ending",
+  "pool": 156,
+  "cands": 156,
+  "words": [
+   "lash",
+   "lip",
+   "lit",
+   "loss",
+   "lush",
+   "met",
+   "mill",
+   "mob",
+   "muck",
+   "mush"
+  ]
+ }
+]

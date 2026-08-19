@@ -72,6 +72,26 @@ export const GOVERNING = [
      ledger, growing only by owner-visible diff at each passage's screening
      round. */
   "tools/s9-passage-names.json",
+  /* G26 rule 5's citation manifest, owner-approved 2026-08-19 with the storage
+     cost stated and accepted ("so long as cost in storage is tens of mb not
+     hundreds" - it is 250 KB). Names each public-domain book a ledger credit
+     may cite, pinned by sha256, so a claimed quotation can be checked against
+     the actual text. Born from a fabricated citation: five of sixteen passages
+     in the first corpus run joined text across a lesson heading and credited
+     it to a real book. It grows one line at a time, each an owner-visible
+     diff, the same discipline as the S9 ledgers above. */
+  /* The curriculum redesign's design artefacts, committed 2026-08-19 on the
+     owner's word ("do it") as insurance: they were built during the redesign
+     and lived only in a session scratchpad outside the repository. The 459
+     approved clips were safe; the ladder that would seat them was not.
+     tools/ladder/README.md says what each is and how far it can be trusted -
+     they are DRAFTS, not the game, and the engine still holds 21 levels. */
+  "tools/ladder/README.md",
+  "tools/ladder/shape-v3.json",
+  "tools/ladder/ladder-v4.json",
+  "tools/ladder/word-bill.json",
+  "tools/ladder/corpus-harvest.json",
+  "tools/corpus/sources.json",
   "tools/pending-words/pending-words.json",
   "tools/voice-lock.json",
   "tools/voice-sounds.csv",

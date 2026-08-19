@@ -48,8 +48,13 @@
         node tools/s9-names.mjs --self-test   prove the scanner catches its fault */
 import { execSync } from "node:child_process";
 import { readFileSync, existsSync } from "node:fs";
+import { createHash } from "node:crypto";
 
 const LIST_PATH = "private/s9-names.txt";
+const CORPUS_MANIFEST = "tools/corpus/sources.json";
+/* Filled by the runner from the private list. The corpus exemption consults
+   it so a real family name can never be excused by appearing in a book. */
+export const PRIVATE_DENIED = new Set();
 
 const isBinary = (f) => /\.(mp3|png|jpg|jpeg|ico|woff2?|ttf|gif|webp|onnx|bin)$/i.test(f);
 
@@ -79,7 +84,86 @@ export function loadNames(read = readFileSync, exists = existsSync, env = proces
    the line number — the name itself appears ONLY here, on the screen of
    whoever ran the scan, because a finding that hides where the fault is
    cannot be fixed. */
-export function scan(tree, names, passage = null) {
+/* THE CORPUS EXEMPTION (owner-ruled 2026-08-19). The game teaches from
+   public-domain children's books, and those books are full of characters with
+   ordinary given names. The owner's words: "Names in fictional books need to be kept as an
+   exception. If a rule or gate finds a name somewhere it should check if it is
+   as part of a sentence from one of our limited titles. If so, ignore."
+
+   TWO GUARDS, and the exemption is only safe because of them.
+
+   FIRST, the private denylist is checked BEFORE this and always wins
+   (owner-ruled 2026-08-16). A real family name is refused however it is
+   dressed, including inside a quotation. That ordering is not an
+   implementation detail; it is the rule.
+
+   SECOND, the exemption is by SENTENCE, not by word. "Is this name somewhere
+   in one of our books" would launder every name in English: write a real one
+   into any file and it passes because that name occurs in some book. What is
+   exempt is a name inside a run of text that is VERBATIM in a declared title.
+   A quotation cannot be faked without quoting the book.
+
+   The declared titles are the ones pinned in tools/corpus/sources.json - the
+   same manifest G26 rule 5 checks citations against. One list, two gates. */
+export function loadCorpus(read = readFileSync, exists = existsSync) {
+  const out = [];
+  if (!exists(CORPUS_MANIFEST)) return out;
+  const man = JSON.parse(read(CORPUS_MANIFEST, "utf8"));
+  for (const [title, meta] of Object.entries(man)) {
+    if (title.startsWith("_") || !meta || !meta.file || !exists(meta.file)) continue;
+    /* BREACH 3, closed. A manifest entry is a CAPABILITY: it turns this rule
+       off for a whole file. Three conditions before it is honoured.
+
+       One, the path must live under tools/corpus/ — so a manifest line cannot
+       point the exemption at a document, a test fixture or a config file.
+       Two, the bytes must hash to the pin the manifest declares — so the file
+       cannot be swapped after the owner approved it, and an entry that names
+       no real book cannot be added without also producing its sha.
+       Three, no path traversal.
+
+       Without these, adding one line to a JSON file silently disabled a
+       safety rule for everything in the file it named. */
+    if (!/^tools\/corpus\/[A-Za-z0-9._-]+$/.test(meta.file)) continue;
+    if (typeof meta.sha256 !== "string" || meta.sha256.length !== 64) continue;
+    const raw = read(meta.file, "utf8");
+    if (createHash("sha256").update(raw, "utf8").digest("hex") !== meta.sha256) continue;
+    out.push({ title, file: meta.file, text: norm(raw) });
+  }
+  return out;
+}
+
+/* One spelling of whitespace, so a line break inside a book does not hide a
+   match. The same normalisation G26 rule 5 uses on a citation. */
+const norm = (t) => t.replace(/\s+/g, " ");
+
+/* Is this hit inside a run of text that is verbatim in a declared title? The
+   window is the sentence around the name - enough context that quoting it
+   means quoting the book, short enough that a real sentence still matches. */
+export function isCorpusFile(file, corpus) {
+  return corpus.some((c) => c.file === file);
+}
+
+export function fromCorpus(text, index, corpus) {
+  if (!corpus.length) return false;
+  /* The window must be a WHOLE sentence, not any span between two periods:
+     it starts after a sentence end and must itself end in one, so a fragment
+     glued to a quotation cannot ride along.
+
+     The 12-letter floor was too low — the seat measured that "The man has a
+     pen." clears it, and a first reader is made of sentences short enough to
+     quote by accident. 24 letters is roughly two such sentences: enough that
+     quoting it means quoting the book on purpose. */
+  const before = text.lastIndexOf(".", index);
+  const after = text.indexOf(".", index);
+  if (after < 0) return false;
+  const start = Math.max(0, before < 0 ? 0 : before + 1);
+  const window = norm(text.slice(start, after + 1)).trim();
+  if (!/[.!?]$/.test(window)) return false;
+  if (window.replace(/[^A-Za-z]/g, "").length < 24) return false;
+  return corpus.some((c) => c.text.includes(window));
+}
+
+export function scan(tree, names, passage = null, corpus = []) {
   const problems = [];
   for (const name of names) {
     /* Leading boundary: any non-letter. Trailing boundary: any non-LOWERCASE,
@@ -116,6 +200,11 @@ export function scan(tree, names, passage = null) {
         /* A screened character name, met inside the teaching content it was
            screened FOR, is the passage ledger's whole purpose. */
         if (passage && passage.names[name] && inScope(file, passage.content_files)) continue;
+        /* The corpus exemption. A name inside verbatim book text is the book's,
+           not a person's. Never reached for a privately denylisted name: those
+           are refused before this line by the ordering in the runner below. */
+        if (corpus.length && !PRIVATE_DENIED.has(name.toLowerCase())
+            && (isCorpusFile(file, corpus) || fromCorpus(text, m.index, corpus))) continue;
         const line = text.slice(0, m.index).split("\n").length;
         problems.push(`${file}:${line} contains "${name}" — S9: no file in the repository contains a personal name`);
         break;
@@ -187,7 +276,7 @@ export function languageOf(tree) {
   return lower;
 }
 
-export function strangers(tree, vocab, passage = null) {
+export function strangers(tree, vocab, passage = null, corpus = []) {
   const known = new Set(vocab);
   const lower = new Set();
   const caps = new Map();
@@ -203,11 +292,33 @@ export function strangers(tree, vocab, passage = null) {
     if (lower.has(w.toLowerCase()) || known.has(w)) continue;
     if (passage && passage.names[w]) {
       /* Ledgered: fine inside content files, a stranger anywhere else. */
-      const outside = [...files].filter((f) => !inScope(f, passage.content_files));
+      const outside = [...files].filter((f) => !inScope(f, passage.content_files) && !isCorpusFile(f, corpus));
       for (const f of outside) out.push(`${f}: "${w}" is a passage name, and passage names pass only inside the content files the ledger scopes (S9) — it does not belong here.`);
       continue;
     }
     const f = [...files][0];
+    /* The corpus exemption, third and last rule to get it. A book is written in
+       English, not in this repository's vocabulary: every proper noun in it is
+       a stranger by construction. A stranger standing inside verbatim book text
+       is the book's word. Outside it, it still has to be declared. */
+    if (corpus.length && !PRIVATE_DENIED.has(w.toLowerCase())) {
+      /* BREACH 2, closed. This used to test t.indexOf(w) — the FIRST
+         occurrence only — so one quoted sentence at the top of a file excused
+         every later use of that token anywhere below it. EVERY occurrence
+         must now qualify. */
+      const inBook = [...files].every((file) => {
+        if (isCorpusFile(file, corpus)) return true;
+        const t = tree[file];
+        let at = t.indexOf(w);
+        if (at < 0) return false;
+        while (at >= 0) {
+          if (!fromCorpus(t, at, corpus)) return false;
+          at = t.indexOf(w, at + 1);
+        }
+        return true;
+      });
+      if (inBook) continue;
+    }
     out.push(`${f}: "${w}" is a capitalized token this repository has never known — a personal name is exactly such a stranger (S9). A legitimate new word is added to tools/s9-vocab.json, an owner-visible diff.`);
   }
   return out;
@@ -256,14 +367,21 @@ export function loadFirstUniverse(read = readFileSync) {
    person. STATED LIMIT: someone named entirely in repository words — both
    halves language — is skipped here, exactly as each half already was by
    the single-word layers. */
-export function pairs(tree, firsts, surnames, lang) {
+export function pairs(tree, firsts, surnames, lang, corpus = []) {
   const F = new Set(firsts.map((n) => n.toLowerCase()));
   const S = new Set(surnames.map((n) => n.toLowerCase()));
   const problems = [];
   for (const [file, text] of Object.entries(tree)) {
     if (MACHINERY.test(file)) continue;
     const lines = text.split("\n");
-    for (let i = 0; i < lines.length; i++) {
+    /* BREACH 1, closed. The exemption used to be judged from the start of the
+       line, so a short quotation placed FIRST on a line disabled the pair rule
+       for everything after it — eighteen characters of a first reader was
+       enough. And text.indexOf(line) returns the first occurrence of that
+       CONTENT anywhere in the file, so a repeated line resolved to the wrong
+       offset. A running offset gives the true position of each pair. */
+    let lineStart = 0;
+    for (let i = 0; i < lines.length; i++, lineStart += lines[i - 1].length + 1) {
       /* Tokens with the exact gap that follows each: a pair is two adjacent
          word-tokens whose gap is only spaces, or a comma with spaces — the
          given-then-family order and the family-comma-given order both. */
@@ -277,6 +395,13 @@ export function pairs(tree, firsts, surnames, lang) {
         if (!/^[ \t]+$/.test(gap) && !/^[ \t]*,[ \t]*$/.test(gap)) continue;
         if (lang && lang.has(a) && lang.has(b)) continue;
         if ((F.has(a) && S.has(b)) || (S.has(a) && F.has(b))) {
+          /* The corpus exemption reaches the pair rule too: a full character
+             name in a quoted line is the book's, not a person's. A privately denylisted
+             half still refuses the pair - PRIVATE_DENIED is consulted, never
+             bypassed. */
+          if (corpus.length && !PRIVATE_DENIED.has(a) && !PRIVATE_DENIED.has(b)
+              && (isCorpusFile(file, corpus)
+                  || fromCorpus(text, lineStart + toks[k].index, corpus))) continue;
           problems.push(`${file}:${i + 1} pairs a common first name with a common surname — a full person's name (S9)`);
           k = toks.length;                       // one report per line is enough
         }
@@ -378,7 +503,7 @@ function selfTest() {
   const vocab = loadVocab();
   T("the real vocabulary is sorted and unique, so a diff shows exactly the newcomer",
     JSON.stringify(vocab) === JSON.stringify([...new Set(vocab)].sort()));
-  T("the real tree holds no capitalized stranger", strangers(tree, vocab, loadPassageNames()).length === 0);
+  T("the real tree holds no capitalized stranger", strangers(tree, vocab, loadPassageNames(), loadCorpus()).length === 0);
   /* The common layer, through the real list — fixture names are DRAWN from
      it at run time, so this file never holds a name literal of its own. */
   const common = loadCommon();
@@ -396,7 +521,7 @@ function selfTest() {
   T("a name written ALL-CAPS but standing alone is still caught",
     scan({ "docs/a.md": "signed, " + common[0].toUpperCase() + " " }, common).length === 1);
   const scanTree = Object.fromEntries(Object.entries(tree).filter(([f]) => !MACHINERY.test(f)));
-  T("the real tree holds no common given name", scan(scanTree, common).length === 0);
+  T("the real tree holds no common given name", scan(scanTree, common, loadPassageNames(), loadCorpus()).length === 0);
   /* The PAIR rule, fixture names drawn from the real lists at run time. */
   const surnames = loadSurnames();
   const universe = loadFirstUniverse();
@@ -424,7 +549,66 @@ function selfTest() {
     pairs({ "docs/a.md": "by grace " + surnames[0].toLowerCase() }, ["Grace"], surnames,
       new Set(["by", "grace"])).length === 1);
   T("the real tree pairs no first name with a surname",
-    pairs(tree, universe, surnames, languageOf(tree)).length === 0);
+    pairs(tree, universe, surnames, languageOf(tree), loadCorpus()).length === 0);
+  /* THE CORPUS EXEMPTION'S OWN CONTROLS (owner-ruled 2026-08-19). A rule that
+     lets a name through needs its REFUSALS proved, not its permissions.
+
+     The fixture names are assembled from pieces at run time. A gate that
+     forbids a name in any file may not write one into its own source - and it
+     caught exactly that when these controls were first written with the names
+     spelled out. */
+  {
+    const c = loadCorpus();
+    const mk = (...cs) => String.fromCharCode(...cs);
+    /* THE THREE BREACHES, each proved closed by the attack that opened it.
+       Found 2026-08-19 by the council's engineering seat, hours after the
+       exemption shipped. All three were the same shape, in its words: "the
+       exemption is decided from a position that is not the position of the
+       hit." Every one is a control here so none can reopen silently. */
+    const carrier = "Let us run, and skip, and jump on the bank.";
+    const U = loadFirstUniverse(), SN = loadSurnames();
+    T("BREACH 1 closed: a book quotation first on a line no longer excuses a pair after it",
+      pairs({ "docs/x.md": carrier + " Reviewed by " + U[0] + " " + SN[0] + "." },
+            [U[0]], SN, null, c).length === 1);
+    T("BREACH 1 control: the same pair with no book text is still refused",
+      pairs({ "docs/x.md": "Reviewed by " + U[0] + " " + SN[0] + "." }, [U[0]], SN, null, c).length === 1);
+    const novel = mk(90, 122, 113, 120);      // a token no book and no vocabulary holds
+    T("BREACH 2 closed: a token quoted once does not excuse a second casual use",
+      strangers({ "docs/x.md": carrier + " Later, " + novel + " signed it. " + novel + " again." },
+                [], null, c).some((m) => m.includes(novel)));
+    T("BREACH 3 closed: a manifest entry outside tools/corpus/ is refused",
+      loadCorpus((f) => f.endsWith("sources.json")
+        ? JSON.stringify({ X: { file: "docs/open-faults.md", sha256: "0".repeat(64) } })
+        : readFileSync(f, "utf8"), () => true).length === 0);
+    T("BREACH 3 closed: a manifest entry whose pin does not match its bytes is refused",
+      loadCorpus((f) => f.endsWith("sources.json")
+        ? JSON.stringify({ X: { file: "tools/corpus/mcguffey1.txt", sha256: "1".repeat(64) } })
+        : readFileSync(f, "utf8"), () => true).length === 0);
+    T("window: a short book sentence no longer qualifies on its own",
+      !fromCorpus("The man has a pen.", 4, c));
+    T("window: a real long quotation still qualifies",
+      c.length === 0 || fromCorpus(carrier, 4, c));
+    const known = mk(67, 104, 97, 114, 108, 101, 115);          // in the corpus
+    const invented = mk(90, 101, 98, 101, 100, 105, 97, 104);   // in no book
+    const quoted = { "docs/x.md": "It reads: There was once a boy named " + known + " who lived in that land." };
+    T("corpus: a name written casually is still refused",
+      scan({ "docs/x.md": known + " reviewed this file today." }, [known], null, c).length === 1);
+    T("corpus: a PRIVATELY DENYLISTED name is refused even inside book text", (() => {
+      PRIVATE_DENIED.add(known.toLowerCase());
+      const n = scan(quoted, [known], null, c).length;
+      PRIVATE_DENIED.delete(known.toLowerCase());
+      return n === 1;
+    })());
+    T("corpus: an invented name is not laundered by the corpus existing",
+      scan({ "docs/x.md": invented + " signed it." }, [invented], null, c).length === 1);
+    T("corpus: only a DECLARED file counts as a source",
+      c.length > 0 && isCorpusFile(c[0].file, c) && !isCorpusFile("tools/corpus/sneaky.txt", c));
+    T("corpus: a fragment too short to be a quotation is not exempt",
+      !fromCorpus("The man.", 4, c));
+    T("corpus control: with NO corpus loaded the exemption cannot fire",
+      scan({ "docs/x.md": known + " reviewed this." }, [known], null, []).length === 1);
+  }
+
   T("machinery is out of the common scan — a lockfile hash spells every short name eventually",
     scan({ "package-lock.json": "integrity: sha512-x" + common[0] + "q" }, common).length === 0
     && scan(Object.fromEntries(Object.entries({ "package-lock.json": "x" }).filter(([f]) => !MACHINERY.test(f))), common).length === 0);
@@ -453,8 +637,16 @@ if (isMain) {
   const passage = loadPassageNames();
   /* The PRIVATE list never sees the passage ledger - a real family name
      always wins, even inside a screened passage. */
-  const hits = [...scan(scanTree, names), ...scan(scanTree, common, passage), ...strangers(tree, vocab, passage),
-    ...pairs(tree, loadFirstUniverse(), surnames, languageOf(tree))];
+  /* ORDER IS THE RULE (owner, 2026-08-16 and 2026-08-19). The private denylist
+     is loaded into PRIVATE_DENIED first, so the corpus exemption below can
+     never excuse a real family name that happens to appear in a book. The
+     private names are then scanned WITHOUT the corpus, which is the same
+     statement made twice on purpose. */
+  names.forEach((n) => PRIVATE_DENIED.add(n.toLowerCase()));
+  const corpus = loadCorpus();
+  const hits = [...scan(scanTree, names), ...scan(scanTree, common, passage, corpus),
+    ...strangers(tree, vocab, passage, corpus),
+    ...pairs(tree, loadFirstUniverse(), surnames, languageOf(tree), corpus)];
   problems.forEach((p) => console.error("  PROBLEM: " + p));
   hits.forEach((h) => console.error("  PROBLEM: " + h));
   console.log(`S9 names: ${names.length} names loaded, ${common.length} common names guarded, ${surnames.length} surnames paired, ${vocab.length} known tokens, ${Object.keys(passage.names).length} passage names scoped, ${Object.keys(tree).length} files scanned, ${problems.length + hits.length} problems`);

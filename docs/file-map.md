@@ -57,7 +57,16 @@ verbatim) are exempt; the exemptions are declared in the tool.
 | `tools/s9-common-names.json` | DATA | the public common-names registry the tree must never contain (G24) |
 | `tools/s9-surnames.json` | DATA | the public census surnames for G24's pair rule: a first name beside one is a person |
 | `tools/pending-words/pending-words.json` | DATA | the waiting room's ledger: verdict, family, arm, round and byte pin for every approved-and-unshipped clip — docs/voice-pack.md tells each round's story |
-| `tools/target-vocab.txt` | DATA | the 420-word target vocabulary the owner ruled the game covers before it is called done — SPEC section 12 owns the ruling |
+| `tools/waiting-room.mjs` | SOURCE | G26: the waiting room's byte pins, row schema, citations and verdict vocabulary |
+| `tools/record-takes.py` | SOURCE | the one listening-round recorder, words and sentences: verify-then-write, refuse an existing id, refuse an unparsed line, persist every verdict |
+| `tools/ladder-status.mjs` | SOURCE | the lookup that reports what the redesign ladder holds, measured from its own files |
+| `tools/ladder/README.md` | OWNER | what each curriculum-redesign design artefact is, where it came from, and how far it can be trusted |
+| `tools/ladder/shape-v3.json` | DATA | the 100-level shape: what each level teaches, its graphemes, rule, heart words and text demand |
+| `tools/ladder/ladder-v4.json` | DATA | the words the rebuilt generator placed at each of the 100 levels |
+| `tools/ladder/word-bill.json` | DATA | the candidate words offered for the starved levels, and the owner's ruling on them |
+| `tools/ladder/corpus-harvest.json` | DATA | what the public-domain pipeline found: sentences and contiguous passages with their credits and source indices |
+| `tools/corpus/sources.json` | DATA | the public-domain books a ledger credit may name, each pinned by sha256 (G26 rule 5) |
+| `tools/target-vocab.txt` | DATA | the 697-word target vocabulary the owner ruled the game covers before it is called done — SPEC section 12 owns the ruling |
 | `tools/s9-passage-names.json` | DATA | the passage-names ledger: which character names verbatim teaching content may carry, where they pass, and each name's source — S9's second exception (CLAUDE.md owns the rule) |
 | `tools/voice-lock.json` | GENERATED | regenerate: `node tools/gen-voice-lock.mjs` |
 | `tools/voice-sounds.csv` | DATA | the archive of the retired recording pipeline (ledger-truth rule 5 guards it) |
@@ -80,6 +89,7 @@ are counted against a ceiling only the owner moves.
 | `^app\/` | SOURCE | the shipped app and its assets; copy gated by G11, pack by G13 |
 | `^reference\/` | SOURCE | the one-file reference build (E2) |
 | `^tests\/` | TEST | suites and generated acceptance; mapped by G20 |
+| `^tools\/corpus\/.*\.txt$` | DATA | public-domain source text, read by G26 rule 5 and pinned in sources.json |
 | `^tools\/` | TOOL | gates, generators, renderers |
 | `^features\/` | DATA | owner-approved Gherkin, the G3 source |
 | `^\.github\/` | CI | deploy and release workflows |
