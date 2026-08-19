@@ -1,0 +1,53 @@
+{
+ "_comment": "Decade names, owner-approved 2026-08-19 on the decades-and-rulings page - all ten approved as drafted. Levels stay numbered; a level's name and emoji are its decade's (owner-ruled the same day: 'numbered levels and names for each decade').",
+ "1": {
+  "span": "1-10",
+  "name": "First Sounds",
+  "emoji": "🐣"
+ },
+ "2": {
+  "span": "11-20",
+  "name": "Letter Land",
+  "emoji": "🔠"
+ },
+ "3": {
+  "span": "21-30",
+  "name": "Letter Teams",
+  "emoji": "🤝"
+ },
+ "4": {
+  "span": "31-40",
+  "name": "Busy Blends",
+  "emoji": "🧩"
+ },
+ "5": {
+  "span": "41-50",
+  "name": "Word Builders",
+  "emoji": "🧱"
+ },
+ "6": {
+  "span": "51-60",
+  "name": "Magic Letters",
+  "emoji": "✨"
+ },
+ "7": {
+  "span": "61-70",
+  "name": "Vowel Voyage",
+  "emoji": "⛵"
+ },
+ "8": {
+  "span": "71-80",
+  "name": "Sound Safari",
+  "emoji": "🦁"
+ },
+ "9": {
+  "span": "81-90",
+  "name": "Secret Letters",
+  "emoji": "🕵"
+ },
+ "10": {
+  "span": "91-100",
+  "name": "Story Summit",
+  "emoji": "🏔"
+ }
+}

@@ -96,7 +96,7 @@ console.log(`Conversion source: ${levels.length} levels, ${seated} seated words 
   `(hearts inline), ${texts} texts across ${Object.keys(sentences).length} levels`);
 console.log(`  levels with no words: ${emptyLv.join(" ") || "none"}`);
 console.log(`  levels with no text : ${noText.join(" ") || "none"}`);
-console.log(`  decade names authored: ${names ? Object.keys(names).length : 0} of 10` +
+console.log(`  decade names authored: ${names ? Object.keys(names).filter((k) => !k.startsWith("_")).length : 0} of 10` +
   (names ? "" : `  <- ${NAMES_PATH} does not exist yet`));
 for (const p of problems.slice(0, 3)) console.log("  BLOCKS --write: " + p);
 if (problems.length > 3) console.log(`  ... and ${problems.length - 3} more of the same`);

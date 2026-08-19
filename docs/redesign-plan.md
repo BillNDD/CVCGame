@@ -316,6 +316,34 @@ order per the owner's standing preference: a real passage wherever one fits,
 a written one only where none does, labelled as written.
 
 ### 6. Convert to engine code
+
+**The four conversion rulings landed 2026-08-19**, owner-clicked on the
+decades-and-rulings page, and the converter (`tools/convert-ladder.mjs`) is
+built and dry-running green against them:
+
+- **Decade names.** "Numbered levels and names for each decade" - ten names,
+  all approved as drafted, in `tools/ladder/decade-names.json`. A level's name
+  and emoji are its decade's; its focus line is the shape's own `teaches` text.
+- **Sessions at small levels: accept shorter early sessions.** A session is
+  the level's words plus the review that is genuinely due; when that runs out
+  it ends. The home copy's own "up to 20 words" already says so. SPEC's
+  "serves 20 words at a time" sentence gains this ruling at conversion.
+- **Paragraph sound-out: the level's own taught word, else the longest.**
+  Extends the 2026-08-13 longest-word ruling, which answered sentences and
+  was silent on paragraphs. G27 measures 20 texts where no level word appears
+  and the longest-word fallback carries those.
+- **Chooser copy derives its bank count at build time.** "All 476" went stale
+  once before (SPEC records it); after this it cannot lie again.
+- **Heart words seat inline** - not a new ruling but the game's own precedent
+  (shipped level 1 carries the, a, and, i in its words array), followed.
+
+The ai/ou ruling from the same page is recorded in `docs/settled.md` and
+CLAUDE.md S8, because it supersedes a prior ruling rather than filling a gap.
+
+What --write still waits for, and it is one thing: **the 95 bill words'
+listening verdicts.** The voice-pack gate requires a clip for every word the
+engine names, so the converted engine goes red until those clips are approved
+and shipped. The rounds are rendered and in the owner's hands.
 The output becomes `LEVELS` in `reference/word-quest.jsx`. The engineering seat enumerated
 what breaks, and it is the largest gate movement in the project's history:
 
