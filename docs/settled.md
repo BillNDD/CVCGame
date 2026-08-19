@@ -82,6 +82,24 @@ ruling confirms the design: the machine finds the passage, a person judges it.
 A screen that could retire a classic on a character count would have to be
 wrong about something, and this is the shape of the wrongness it would have.
 
+## A slur keeps refusing whole books, and the cost is named (owner-ruled 2026-08-19)
+
+`savages` and `heathens` sit on the whole-book refusal list AND on the
+caricature marker list. The refusal runs first, so their marker role never
+fires. That was put to the owner as a fault with a price attached, and he ruled
+to **keep both refusing whole books**.
+
+The price, measured and accepted: **three editions of Aesop are refused and
+cannot be used.** The 1919 children's edition trips five times on `savage`, and
+every one of the five describes a bear, a wolf or a tiger. The 1912 and 1867
+editions trip on `heathen` in an adult preface a child would never reach.
+
+So the overlap is not a bug to be tidied away later. A reader who finds it and
+thinks "this is obviously wrong, the word describes a bear" should know the
+owner saw exactly that and chose the blunt rule anyway. The alternative on the
+page was to make the screen judge whether a noun is a person, and a word list
+cannot do that honestly.
+
 ## A slur refuses the whole book (owner-ruled 2026-08-19)
 
 The owner's words: "A book that contains this name must be removed and not used

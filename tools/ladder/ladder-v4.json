@@ -481,13 +481,35 @@
    "benches",
    "branches",
    "chop",
-   "rich"
+   "rich",
+   "chin",
+   "chip",
+   "chat",
+   "chest",
+   "much",
+   "such",
+   "chill",
+   "lunch",
+   "bench",
+   "munch"
   ],
   "filled": [
    "benches",
    "branches",
    "chop",
    "rich"
+  ],
+  "billed": [
+   "chin",
+   "chip",
+   "chat",
+   "chest",
+   "much",
+   "such",
+   "chill",
+   "lunch",
+   "bench",
+   "munch"
   ]
  },
  {
@@ -500,12 +522,32 @@
   "words": [
    "bathtub",
    "thank",
-   "thankful"
+   "thankful",
+   "thin",
+   "think",
+   "bath",
+   "path",
+   "moth",
+   "thud",
+   "thump",
+   "cloth",
+   "month"
   ],
   "filled": [
    "bathtub",
    "thank",
    "thankful"
+  ],
+  "billed": [
+   "thin",
+   "think",
+   "bath",
+   "path",
+   "moth",
+   "thud",
+   "thump",
+   "cloth",
+   "month"
   ]
  },
  {
@@ -665,7 +707,26 @@
   "rule": "coda3",
   "pool": 215,
   "cands": 0,
-  "words": []
+  "words": [
+   "hands",
+   "tents",
+   "nests",
+   "belts",
+   "lamps",
+   "desks",
+   "gifts",
+   "next"
+  ],
+  "billed": [
+   "hands",
+   "tents",
+   "nests",
+   "belts",
+   "lamps",
+   "desks",
+   "gifts",
+   "next"
+  ]
  },
  {
   "n": 33,
@@ -715,7 +776,29 @@
   "pool": 195,
   "cands": 2,
   "words": [
-   "blind"
+   "blind",
+   "stand",
+   "stamp",
+   "stomp",
+   "plant",
+   "drink",
+   "trunk",
+   "skunk",
+   "print",
+   "blend",
+   "crust"
+  ],
+  "billed": [
+   "stand",
+   "stamp",
+   "stomp",
+   "plant",
+   "drink",
+   "trunk",
+   "skunk",
+   "print",
+   "blend",
+   "crust"
   ]
  },
  {
@@ -840,7 +923,27 @@
   "cands": 2,
   "words": [
    "wallet",
-   "windmill"
+   "windmill",
+   "rocket",
+   "pocket",
+   "bucket",
+   "jacket",
+   "sandwich",
+   "chicken",
+   "thunder",
+   "chipmunk",
+   "whisper"
+  ],
+  "billed": [
+   "rocket",
+   "pocket",
+   "bucket",
+   "jacket",
+   "sandwich",
+   "chicken",
+   "thunder",
+   "chipmunk",
+   "whisper"
   ]
  },
  {
@@ -876,7 +979,23 @@
   "cands": 2,
   "words": [
    "filled",
-   "yelled"
+   "yelled",
+   "spilled",
+   "spelled",
+   "smelled",
+   "buzzed",
+   "drilled",
+   "chilled",
+   "grilled"
+  ],
+  "billed": [
+   "spilled",
+   "spelled",
+   "smelled",
+   "buzzed",
+   "drilled",
+   "chilled",
+   "grilled"
   ]
  },
  {
@@ -1358,11 +1477,33 @@
   "cands": 0,
   "words": [
    "slowly",
-   "throw"
+   "throw",
+   "snow",
+   "show",
+   "grow",
+   "slow",
+   "toe",
+   "goes",
+   "window",
+   "yellow",
+   "pillow",
+   "rainbow"
   ],
   "filled": [
    "slowly",
    "throw"
+  ],
+  "billed": [
+   "snow",
+   "show",
+   "grow",
+   "slow",
+   "toe",
+   "goes",
+   "window",
+   "yellow",
+   "pillow",
+   "rainbow"
   ]
  },
  {
@@ -1455,7 +1596,27 @@
   "pool": 162,
   "cands": 1,
   "words": [
-   "read"
+   "read",
+   "head",
+   "bread",
+   "ready",
+   "heavy",
+   "feather",
+   "weather",
+   "breakfast",
+   "spread",
+   "thread"
+  ],
+  "billed": [
+   "head",
+   "bread",
+   "ready",
+   "heavy",
+   "feather",
+   "weather",
+   "breakfast",
+   "spread",
+   "thread"
   ]
  },
  {
@@ -1511,7 +1672,28 @@
   "rule": "open_multi",
   "pool": 142,
   "cands": 0,
-  "words": []
+  "words": [
+   "baby",
+   "lady",
+   "paper",
+   "lazy",
+   "bacon",
+   "maple",
+   "gravy",
+   "later",
+   "apron"
+  ],
+  "billed": [
+   "baby",
+   "lady",
+   "paper",
+   "lazy",
+   "bacon",
+   "maple",
+   "gravy",
+   "later",
+   "apron"
+  ]
  },
  {
   "n": 73,
@@ -1888,10 +2070,32 @@
   "words": [
    "generous",
    "huge",
-   "cities"
+   "cities",
+   "city",
+   "cent",
+   "pencil",
+   "circle",
+   "circus",
+   "magic",
+   "ginger",
+   "princess",
+   "gem",
+   "germ"
   ],
   "filled": [
    "cities"
+  ],
+  "billed": [
+   "city",
+   "cent",
+   "pencil",
+   "circle",
+   "circus",
+   "magic",
+   "ginger",
+   "princess",
+   "gem",
+   "germ"
   ]
  },
  {
@@ -2040,7 +2244,24 @@
   "rule": null,
   "pool": 153,
   "cands": 0,
-  "words": []
+  "words": [
+   "school",
+   "anchor",
+   "stomach",
+   "chorus",
+   "mechanic",
+   "orchestra",
+   "chef"
+  ],
+  "billed": [
+   "school",
+   "anchor",
+   "stomach",
+   "chorus",
+   "mechanic",
+   "orchestra",
+   "chef"
+  ]
  },
  {
   "n": 95,
@@ -2105,7 +2326,27 @@
   "words": [
    "helpful",
    "playful",
-   "useful"
+   "useful",
+   "handful",
+   "cheerful",
+   "joyful",
+   "painful",
+   "powerful",
+   "awful",
+   "spoonful",
+   "mouthful",
+   "peaceful"
+  ],
+  "billed": [
+   "handful",
+   "cheerful",
+   "joyful",
+   "painful",
+   "powerful",
+   "awful",
+   "spoonful",
+   "mouthful",
+   "peaceful"
   ]
  },
  {

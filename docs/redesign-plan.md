@@ -64,6 +64,20 @@ NOT padded. The target vocabulary does hold three more -ful words, and every one
 of them is seated earlier - thankful at 24, wonderful at 54, careful at 85 - so
 filling 98 would mean dragging a word back up the ladder past the level that
 made it readable. That is padding under another name.
+Measured a fourth time on 2026-08-19, after the owner ruled on a 107-word bill
+for the levels that could not teach their own subject: 100 levels, **990 words
+placed, ZERO empty levels, 12 under six**. He accepted every word offered and
+refused none. The bill was not padding: each candidate had to exercise its own
+level's subject, and each was checked for the SOUND it needs rather than only
+its letters - the check that open-faults section U exists for. Nine levels that
+could not demonstrate their own rule now can, and level 35 is the clearest: its
+only remaining word was `blind`, which a child at 35 reads to rhyme with
+`grinned`, so the level taught "start and end together" through none of its own
+words. It now holds ten blends whose vowels all stay short.
+
+The 107 joined `tools/target-vocab.txt` the same day, taking it from 715 lines
+to 822, on the precedent of the 295-word bill the owner ruled on 2026-08-18.
+
 `tools/ladder/README.md` carries the thin level beside 23 and 24. SPEC section
 12 owns the ruling itself, and `docs/open-faults.md` section V carries what
 those three earlier -ful words mean: -ful now has the fault -ly just lost.
