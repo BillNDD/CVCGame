@@ -2,16 +2,16 @@
  "_comment": "Public-domain sources a ledger credit may name (G26 rule 5). One line per book: the title exactly as a `credit` field spells it, the file, and the sha256 of that file's bytes. Adding a book is one line plus the file. A book is added only when a credit needs it. Every entry also records first_published, source and pd_basis: the owner ruled on 2026-08-19 \"I only want things included that are in the public domain remember\", and a future reader must be able to check that reasoning without redoing the research. Gutenberg hosting a text is NOT the basis - it hosts copyrighted works too - so the basis names the evidence in the fetched text itself wherever there is any. THE EXCISION LEDGER BESIDE THIS FILE IS NOT IN THE REPOSITORY, and that is a known fault rather than an oversight. tools/corpus/excisions.json records every removed sentence verbatim - the third of the three signals that keep a screened text honest. It cannot be committed as things stand: tracking it turns S9 red with 247 problems, every one of them the ledger, measured 2026-08-19. The reason is structural and worth understanding before anyone tries a quick fix. S9 exempts a name that sits inside verbatim text from a pinned book, and it checks that by finding the sentence in the pinned bytes. An excised sentence is by definition the one text that is NOT in those bytes, because the screen took it out. So the one file whose whole job is to say what was removed is the one file the exemption can never cover. What is committed instead is the per-book excised count in each row below, which matches the ledger row for row. A reader who needs the sentences themselves must regenerate them, and whoever fixes this should widen S9 rather than quietly drop the record.",
  "McGuffey's First Eclectic Reader": {
   "file": "tools/corpus/mcguffey1.screened.txt",
-  "sha256": "7da42d19bf8ce4a68b6ca434f1b601c64f4a7a1cd5bd86af2fb804eda39bea3b",
+  "sha256": "91045d7cf44e0f5cd0524b762000ddd9ddb6a13a902bfe8de20bab353818dd94",
   "screened": true,
-  "excised": 14,
+  "excised": 138,
   "first_published": "1836 or 1879 (edition not established)",
   "source": "fetched earlier, by another hand",
   "pd_basis": "THE EDITION IS NOT ESTABLISHED. These bytes were fetched and pinned earlier by another hand and no record was kept of which edition they are. The readers themselves date from 1836, with revised editions in 1879, so the WORK is out of copyright beyond any doubt; what is unverified is which of those these bytes hold. A second thing is unfinished here: each of these four files still opens with a transcriber preface written for the free-text edition - it is not the readers text at all, and a future harvest could quote it and credit it to a schoolbook. Fetch these again, strip the preface, and record the edition before any credit leans on them."
  },
  "Fifty Famous Stories Retold": {
   "file": "tools/corpus/fifty-stories.screened.txt",
-  "sha256": "f4c313f33bdedf98ee0be16e225d8067c5b11377b44b4f784487c46502673432",
+  "sha256": "f0985bb86965ac95c3e59fd376b131fb2fd7deb34542b95b189470e69c1f8623",
   "screened": true,
   "excised": 93,
   "first_published": 1896,
