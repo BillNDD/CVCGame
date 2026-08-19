@@ -117,7 +117,7 @@ describe("the extended code", () => {
   });
   it("keeps the silent-letter pairs to the ends they belong to", () => {
     /* mb says /m/ only at the end of a word; kn, wr and gn only at an end.
-       Tightening these three moved no bank word — measured — and it stops
+       Narrowing these three moved no bank word — measured — and it stops
        "number" reading n-u-mb-er, where both letters are spoken. */
     expect(chunkWord("thumb")).toEqual(["th","u","mb"]);
     expect(chunkWord("number")).toEqual(["n","u","m","b","er"]);
