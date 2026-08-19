@@ -15,13 +15,15 @@
  *
  * plus one authored file this tool REFUSES to invent:
  *
- *   tools/ladder/level-names.json    name, emoji and focus per level - the
- *                                    child-facing copy. The existing 21 levels
- *                                    carry owner-approved names ("Jam Jar",
- *                                    "Zig Zap"); the other 79 need authoring
- *                                    and the owner's eye, and a generator that
- *                                    invented them would put unapproved copy
- *                                    in front of a child.
+ *   tools/ladder/decade-names.json   name and emoji per DECADE of levels -
+ *                                    owner-ruled 2026-08-19: "I think it's
+ *                                    better to have numbered levels and names
+ *                                    for each decade (levels 1-10, 11-20
+ *                                    etc)". Ten entries, keyed "1".."10". A
+ *                                    level's name and emoji are its decade's;
+ *                                    its focus line is the shape's own
+ *                                    `teaches` text, which is ruled teaching
+ *                                    description rather than invented copy.
  *
  * HEART WORDS ARE SEATED INLINE, following the game's own precedent: the
  * shipped level 1 already carries "the", "a", "and" and "i" in its words
@@ -50,8 +52,9 @@ const ladder = R("tools/ladder/ladder-v4.json");
 const shapeRaw = R("tools/ladder/shape-v3.json");
 const shape = Array.isArray(shapeRaw) ? shapeRaw : shapeRaw.levels;
 const pend = R("tools/pending-words/pending-words.json");
-const NAMES_PATH = "tools/ladder/level-names.json";
+const NAMES_PATH = "tools/ladder/decade-names.json";
 const names = existsSync(path.join(REPO, NAMES_PATH)) ? R(NAMES_PATH) : null;
+const decadeOf = (n) => String(Math.ceil(n / 10));
 
 /* ---- LEVELS ---------------------------------------------------------- */
 const problems = [];
@@ -62,13 +65,13 @@ for (const lad of ladder) {
   /* hearts first, then the taught words in the ladder's own order; a heart
      word also seated as a taught word keeps its taught seat only. */
   const words = [...heart.filter((h) => !lad.words.includes(h)), ...lad.words];
-  const nm = names && names[String(lad.n)];
-  if (!nm) problems.push(`level ${lad.n} has no entry in ${NAMES_PATH}`);
+  const nm = names && names[decadeOf(lad.n)];
+  if (!nm) problems.push(`decade ${decadeOf(lad.n)} (level ${lad.n}) has no entry in ${NAMES_PATH}`);
   levels.push({
     n: lad.n,
-    name: nm ? nm.name : `(unnamed ${lad.n})`,
+    name: nm ? nm.name : `(unnamed decade ${decadeOf(lad.n)})`,
     emoji: nm ? nm.emoji : "?",
-    focus: nm ? nm.focus : sh.teaches,
+    focus: sh.teaches,
     words,
   });
 }
@@ -93,7 +96,7 @@ console.log(`Conversion source: ${levels.length} levels, ${seated} seated words 
   `(hearts inline), ${texts} texts across ${Object.keys(sentences).length} levels`);
 console.log(`  levels with no words: ${emptyLv.join(" ") || "none"}`);
 console.log(`  levels with no text : ${noText.join(" ") || "none"}`);
-console.log(`  level names authored: ${names ? Object.keys(names).length : 0} of ${levels.length}` +
+console.log(`  decade names authored: ${names ? Object.keys(names).length : 0} of 10` +
   (names ? "" : `  <- ${NAMES_PATH} does not exist yet`));
 for (const p of problems.slice(0, 3)) console.log("  BLOCKS --write: " + p);
 if (problems.length > 3) console.log(`  ... and ${problems.length - 3} more of the same`);
