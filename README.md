@@ -22,7 +22,9 @@ This document follows the Microsoft Writing Style Guide.
   removed on 2026-08-12 because it sends a child's voice to a third party, and this app keeps
   every piece of a child's data on the device. The adult always has the final decision.
 - After each attempt, the app shows the word in sound units. Example: "ship" shows as sh-i-p.
-  The digraphs sh, ch, th, wh, ck, and ng always show as one unit.
+  A multi-letter unit always shows as one tile, never as separate letters. Safety rule S8 in
+  CLAUDE.md owns the list of those units. This file names none of them, because the list has
+  grown four times and a copy here would be stale each time.
 - A schedule engine selects the words for the next session. The engine mixes new words, words
   that are due for review, and known words. If the child reads a new word correctly at first
   sight, the engine moves that word forward quickly.
@@ -120,8 +122,8 @@ that a red check blocks a push, and the full `npm run gauntlet` runs at a releas
 ## How to contribute
 
 The word bank is data. See the `LEVELS` constant in the component and `SPEC.md`, section 3. You
-can add levels, other English varieties, and CVCC or CCVC words. Keep each level at approximately
-20 words. Do not add a change that breaks design rule 1.
+can add levels, other English varieties, and CVCC or CCVC words. SPEC section 3 owns how big a
+level is; do not take a size from this file. Do not add a change that breaks design rule 1.
 
 Add tests for each engine change. `SPEC.md`, section 8 gives the minimum test list.
 

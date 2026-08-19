@@ -105,6 +105,48 @@ durable record and must survive a context loss:
   lookup's clips-waiting-for-seats line runs in every check, so the drawer
   can never grow quietly.
 
+### Never write "approved" without saying approved of what (2026-08-18)
+
+A word passes two separate approvals in this project, and they are months apart:
+
+- **The list ruling** — may a child be taught this word at all? The owner reads it.
+- **The clip verdict** — does this recording say the word correctly? The owner hears it.
+
+On 2026-08-18 an agent reported 291 words "approved" after a list ruling. The owner read
+that as 291 clips having reached the game unheard, and was right to be alarmed: it is the
+exact shape of the failure every gate in this repository exists to prevent.
+
+So the word "approved" is never used alone. Write **"ruled onto the list"** or **"heard and
+accepted"**. A status line that says a word is done, when only half of it is, is a false
+green - and a false green about a child's voice pack is the most expensive kind here.
+
+### The concise style, beyond chat (owner-ruled 2026-08-18)
+
+The owner asked for the Microsoft Writing Style Guide to govern the project,
+with an amendment of his own: "concise paragraphs and statements please with
+emojis for clarity."
+
+From this date, the concise form is the default for chat **and for every new
+document section**. Short paragraphs. Plain statements. Emojis under the rule
+above, marking status and sections so a line can be found at a glance.
+
+Three limits, so the ruling is not over-read:
+
+- **Text the game shows or speaks is exempt.** SPEC owns that voice, and the
+  owner named this exemption himself. The feedback sentences are pinned exactly
+  by S3, so restyling them would break a safety rule rather than improve a
+  document.
+- **Existing documents are not rewritten.** The durable set measured 116,332
+  words on the day of the ruling. Restyling it wholesale is prose work that
+  changes nothing a child can see, and two of those files are ledgers whose
+  exact wording IS the evidence: rewriting a record is how a record is lost.
+  Four short parent-facing files were restyled the same day, because a parent
+  reads those under pressure: README.md, and the iOS, Windows and self-hosting
+  guides.
+- **Concise is not thin.** A durable document still states why. Drop the
+  reasoning and the next reader with no context repeats the mistake the
+  document was written to prevent.
+
 ## Asking the owner to decide (owner-ruled 2026-08-12)
 
 Every decision that is the owner's to make goes to them as a **page they can
@@ -206,3 +248,25 @@ lives only in a chat log is one this project loses.
   `reference/word-quest.jsx` and run `node tools/extract-engine.mjs` (E1, E2).
 - Every detector ships with a negative control that proves it catches its
   target fault (E5). Every assertion uses a literal expected value (E4).
+
+### One pen on the tree (owner-accepted R8, 2026-08-19)
+
+Five writers shared one working tree for a day, and every kind of trouble that
+invites arrived on schedule: a commit went in red because the tree changed
+between the check and the commit; an agent's commit swept another writer's
+in-flight edits under its own message, which tripped a security review; two
+document counts drifted mid-edit; and a `git add` raced a concurrent edit to
+the baseline. No data was lost - every drift was caught by a gate - but the
+reports stopped being believable, which costs more than the faults did.
+
+The rule, accepted by the owner on the forensic audit of 2026-08-19:
+
+- **One writer at a time on the shared tree.** The session lead holds the only
+  pen on `git commit`.
+- **Parallel agents get read-only briefs, or their own worktree.** A read-only
+  agent reports; it never edits, stages or commits.
+- **Verify the tree you commit, not the tree you checked.** If anything else
+  can write, build the prospective commit as a tree object and run the check
+  against that exact tree, the way the are/were shipping commit did. "The
+  check was green when I ran it" is not the same claim as "the committed tree
+  is green," and the gap between them shipped a red commit on 2026-08-19.

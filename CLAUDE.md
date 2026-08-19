@@ -197,7 +197,31 @@ exclusions are recorded in SPEC section 12.
   names is not only acceptable but good practice"): the surname of a researcher may appear
   where it credits their published work, listed in `tools/s9-vocab.json` as an
   owner-visible diff like any other known token. The private denylist still outranks it,
-  so a real family name is refused however it is dressed.
+  so a real family name is refused however it is dressed. Fourth, owner-ruled
+  2026-08-19 ("Names in fictional books need to be kept as an exception. If a
+  rule or gate finds a name somewhere it should check if it is as part of a
+  sentence from one of our limited titles. If so, ignore."): a character's name
+  inside verbatim text from a book pinned in `tools/corpus/sources.json` passes,
+  wherever it appears. Two guards make that safe rather than a hole, and both
+  are the owner's own earlier rulings. The private denylist is consulted FIRST
+  and always wins, so a real family name is refused even inside a quotation. And
+  the exemption is by SENTENCE, not by word: what passes is a name inside a run
+  of text that is verbatim in a declared title, because "this name occurs in
+  some book" would excuse every name in English. A declared source file is
+  itself exempt, being the text the others are checked against. G24 carries the
+  rule and seven controls that prove its refusals rather than its permissions.
+  The exemption was attacked by the council's engineering seat hours after it
+  shipped and had THREE breaches, all the same shape: the exemption was decided
+  from a position that was not the position of the hit. Eighteen characters of a
+  first reader, placed first on a line, turned the pair rule off for the rest of
+  it; one quoted sentence excused every later use of a token in the same file;
+  and a single manifest line turned the rule off for any file it named, since
+  the pin was never verified. All three are closed and each is a control. The
+  manifest is now a CAPABILITY: an entry is honoured only if its path is under
+  `tools/corpus/` and its bytes hash to the pin it declares. The window is a
+  whole sentence of at least 24 letters, so a short first-reader sentence cannot
+  be quoted by accident - which means a name inside a sentence shorter than that
+  is NOT exempt. It fails closed, and the escalation is the per-name ledger.
 
 ## Engineering rules
 
