@@ -21,7 +21,7 @@ LEAD_MS, TAIL_MS, FADE_MS = 80, 300, 10
 OUT = pathlib.Path(sys.argv[1]); OUT.mkdir(parents=True, exist_ok=True)
 k = Kokoro(str(REPO / "kokoro-v1.0.onnx"), str(REPO / "voices-v1.0.bin"))
 
-batch = json.loads((OUT.parent / "sbatch4-render.json").read_text(encoding="utf-8"))
+batch = json.loads((OUT.parent / "sbatch5-render.json").read_text(encoding="utf-8"))
 # id counters continue from what the ledger already holds, so a level that
 # banked takes in batch 1 cannot mint a colliding id here (L6 would have)
 _led = json.loads((REPO / "tools/pending-words/pending-words.json").read_text(encoding="utf-8"))
@@ -74,5 +74,5 @@ for row in texts:
                  "sha256": hashlib.sha256(mp3).hexdigest()}]
     print("  %s  %4d ms  %s" % (sid, ms, text), flush=True)
 
-(OUT / "sbatch4-audio.json").write_text(json.dumps(out), encoding="utf-8")
-print("wrote sbatch4-audio.json; %d takes" % len(out), flush=True)
+(OUT / "sbatch5-audio.json").write_text(json.dumps(out), encoding="utf-8")
+print("wrote sbatch5-audio.json; %d takes" % len(out), flush=True)

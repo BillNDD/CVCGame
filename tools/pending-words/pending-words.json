@@ -9370,5 +9370,704 @@
   "round": "sentence batch 5 / 2026-08-19",
   "verdict": "perfect",
   "level": "v3 L58, paragraph - unseated, ladder redesign"
+ },
+ "s:v3-l47-01": {
+  "text": "We fed the foxes. I filled six boxes with fish. We set the boxes in the grass. The foxes got the fish! Mom wishes we had six foxes.",
+  "family": "sentence_sp1.0",
+  "ms": 9681,
+  "sha256": "81f633fddd28bb8699919aa32bfc655bba41839bc2e1adde2a6af4c5123f81f1",
+  "round": "sentence batch 6 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L47, paragraph - unseated, ladder redesign"
+ },
+ "s:v3-l59-01": {
+  "text": "Eight sacks sat by the gate. I had to weigh them all. Every sack was the same weight. Then I set the freight in the sleigh. The yak went up the hill, step by step. At the top we had a rest in the sun.",
+  "family": "sentence_sp1.0",
+  "ms": 12305,
+  "sha256": "63826729f7f58e138563ab194ec0ea5a7f3b39927258a42eb3d825553d25e0e8",
+  "round": "sentence batch 6 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L59, paragraph - unseated, ladder redesign"
+ },
+ "s:v3-l59-02": {
+  "text": "The sleigh went so fast that the eight hens in it had to hold on.",
+  "family": "sentence_sp1.0",
+  "ms": 3921,
+  "sha256": "e5932019dcb563e710736a3b12da0371ddf8b68b9de2733e4fef913e06873388",
+  "round": "sentence batch 6 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L59, sentence - unseated, ladder redesign"
+ },
+ "s:v3-l60-01": {
+  "text": "A tame buck comes to the bush by the shed every day. This day he is late. Mom makes a bun and I take it to the gate. Then the buck comes up the hill, fast. He gets the bun in a snap. He is never late when a bun is on the gate.",
+  "family": "sentence_sp1.0",
+  "ms": 14332,
+  "sha256": "8d0675bdf9bc17f2d4de0cf2bd488241f57497d56ab5b6409303bd6e88aeb20e",
+  "round": "sentence batch 6 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L60, paragraph - unseated, ladder redesign"
+ },
+ "s:v3-l60-02": {
+  "text": "The ram is so tame that he will take a bun from my hand.",
+  "family": "sentence_sp1.0",
+  "ms": 3686,
+  "sha256": "4135a51c2521e1c6bfa583d6c49da4e59e5ec4a45aa2a7fddf21c6d699de970a",
+  "round": "sentence batch 6 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L60, sentence - unseated, ladder redesign"
+ },
+ "s:v3-l61-01": {
+  "text": "I set a seed in a deep pit and fill it with mud. Every day I feed it water. I need to see a green stem. Then, on a hot day, I see it. The stem is little and green. I feel so happy that I run to tell Mom.",
+  "family": "sentence_sp1.0",
+  "ms": 13414,
+  "sha256": "11d166603b189918d5bf70433b4aa410b53a60366b1bf8c8ae8f2b98ee42a708",
+  "round": "sentence batch 6 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L61, paragraph - unseated, ladder redesign"
+ },
+ "s:v3-l61-02": {
+  "text": "Every day the hens meet me at the gate. They can see the tin in my hand, and they need what is in it. When I feed them, they run in and I can feel them on my feet. The green hen is not fast, so she gets to the tin at the end. I hold a bit back and feed her from my hand. She is the best hen I have.",
+  "family": "sentence_sp1.0",
+  "ms": 17617,
+  "sha256": "acdd05aa28421da127c71a46c26861089a9445ed5ea3031d8b4b8a02b736c40d",
+  "round": "sentence batch 6 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L61, paragraph - unseated, ladder redesign"
+ },
+ "s:v3-l61-03": {
+  "text": "A swan meets me at the deep green pond every day, and she is never late.",
+  "family": "sentence_sp1.0",
+  "ms": 4476,
+  "sha256": "294e23f1e884d4991742c82b60e3b00665b6683c2f5890b7256872e7b397fc7e",
+  "round": "sentence batch 6 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L61, sentence - unseated, ladder redesign"
+ },
+ "s:v3-l63-01": {
+  "text": "A monkey sat in the valley with six pots of honey. He had no money, but he did not need it. Then a fox came up the hill to see these pots. The monkey said yes when the fox asked to have a dip. The fox ran back and got a pot of jam to swap. Then the monkey had honey and jam, and a pal as well.",
+  "family": "sentence_sp1.0",
+  "ms": 18193,
+  "sha256": "8dd6005ae83635073bc6e9508c020e121b40f10373fa5709ff4a6dac1ad8676b",
+  "round": "sentence batch 6 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L63, paragraph - unseated, ladder redesign"
+ },
+ "s:v3-l63-02": {
+  "text": "An ant got into the honey in the valley, and it did not want to go back.",
+  "family": "sentence_sp1.0",
+  "ms": 4177,
+  "sha256": "80c62b260bfde3937ecd55290a994fcccbe3856572f0c093c069cc9c061bcb69",
+  "round": "sentence batch 6 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L63, sentence - unseated, ladder redesign"
+ },
+ "s:v3-l64-01": {
+  "text": "A goat got into the shed and ate my coat. It has six holes in it. I hope Mom can fix them. She held it up and said it can be a hen nest. We hung the coat on the gate by the road. Then six hens sat in the six holes, and every hen was happy.",
+  "family": "sentence_sp1.0",
+  "ms": 14844,
+  "sha256": "63e7f4953426b477735d6807ef359b4121bcb8904fdce055ca43abfa469a9fbf",
+  "round": "sentence batch 6 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L64, paragraph - unseated, ladder redesign"
+ },
+ "s:v3-l64-02": {
+  "text": "The van broke on the road home, so Dad had to fix it in the rain.",
+  "family": "sentence_sp1.0",
+  "ms": 3836,
+  "sha256": "d31553b5d87e1cf8325b87f46bd14d295e3d0bff41d2f05516feb22c11fc6613",
+  "round": "sentence batch 6 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L64, sentence - unseated, ladder redesign"
+ },
+ "s:v3-l66-01": {
+  "text": "A swan likes to dive in the deep pond by my home. I sat on a rock with a bun in my hand. When she came up, I let her have a bite. She got it and went to hide inside the green grass. Then five hens came and sat in a line on the bank. It was a fine day at the pond.",
+  "family": "sentence_sp1.0",
+  "ms": 16593,
+  "sha256": "2781ad31ddff5d622cce66bd27005d2a2f7a345f02e4f061cff36f1baf4cb661",
+  "round": "sentence batch 6 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L66, paragraph - unseated, ladder redesign"
+ },
+ "s:v3-l66-02": {
+  "text": "Five kids came to my home to play. I had to hide, and the best spot was inside the shed. I sat on a sack of yam and did not let them see me. Then a hen came inside and sat on my hat. I had to jump up, and then they all ran in. It was a fine game, and the hen was the best of us all.",
+  "family": "sentence_sp1.0",
+  "ms": 17510,
+  "sha256": "078f373775853ed1d42e6dd1499c5473557ed7f1a219652f1dba9e12b1917754",
+  "round": "sentence batch 6 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L66, paragraph - unseated, ladder redesign"
+ },
+ "s:v3-l66-03": {
+  "text": "When it is hot, the rabbit likes to hide inside a hole in the bank.",
+  "family": "sentence_sp1.0",
+  "ms": 3878,
+  "sha256": "9e7284001211567083542c696dea3c28a6c7fb2f8c83ee243b6fedfb434f6838",
+  "round": "sentence batch 6 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L66, sentence - unseated, ladder redesign"
+ },
+ "s:v3-l67-01": {
+  "text": "Mom set a hot pie on the step to get cold. The sun was bright and high, and the pie did not get cold fast. Then the flies came, as they wanted the pie as well. I sat by the step and did my best to help. But every fly that went up came back. So Dad got a net and set it on top of the pie. The flies had to go, and we had the pie at sunset.",
+  "family": "sentence_sp1.0",
+  "ms": 21180,
+  "sha256": "4a99fda34994bbd420f0e273ceeeed04674d55f4d864e6e63911f270aedcfcb8",
+  "round": "sentence batch 6 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L67, paragraph - unseated, ladder redesign"
+ },
+ "s:v3-l67-02": {
+  "text": "The cat got so high up that we might need a ladder.",
+  "family": "sentence_sp1.0",
+  "ms": 3174,
+  "sha256": "d9ca051655455aa5c8d6fe53f1598e1b3f50e3115b0737a4a20a590565ab6caa",
+  "round": "sentence batch 6 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L67, sentence - unseated, ladder redesign"
+ },
+ "s:v3-l68-01": {
+  "text": "A wild rabbit lived in a hole behind the shed. The day was mild, so I sat on the grass with a bit of my bun. The rabbit came up, but he stopped by the gate. I did not mind, as a wild rabbit is not a pet. Every day I sat in the same spot with the same bun. Then, on a mild day in spring, he came and ate from my hand. Mom said he picked me, as I was kind and did not grab at him.",
+  "family": "sentence_sp1.0",
+  "ms": 23398,
+  "sha256": "fa85388bbd6650329c88bd294f59b3674ae1897378e0c22456ddcf6b3eedb508",
+  "round": "sentence batch 6 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L68, paragraph - unseated, ladder redesign"
+ },
+ "s:v3-l68-02": {
+  "text": "It is kind to let the wild duck have the pond, and I do not mind at all.",
+  "family": "sentence_sp1.0",
+  "ms": 4433,
+  "sha256": "c6bb6fcbd142eb89abadff97d2ce0700997005974347688b12600124146c30b5",
+  "round": "sentence batch 6 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L68, sentence - unseated, ladder redesign"
+ },
+ "s:v3-l70-01": {
+  "text": "We went to the dock at sunset, when the light was dim. Dad held the net and I held the rod. A fat cod came up and had a bite at my line. I had to dash to get the net, and my cuff got wet. We got the cod up on the deck, and it was as long as my hand. Dad said it was the best cod he had ever had on his rod. Then we let it go, and it went in with a splash.",
+  "family": "sentence_sp1.0",
+  "ms": 20945,
+  "sha256": "c01e0eedad6cb710152ac613653ac5e1859738eb1b298a67eff1f8af55814450",
+  "round": "sentence batch 6 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L70, paragraph - unseated, ladder redesign"
+ },
+ "s:v3-l70-02": {
+  "text": "The goats ate the grass on the dam, so Dad did not have to cut it.",
+  "family": "sentence_sp1.0",
+  "ms": 3900,
+  "sha256": "f2fdcb68737cb110e9cd1d352b7dea436f9c24d2af5f0a2f6c4067749acf2e81",
+  "round": "sentence batch 6 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L70, sentence - unseated, ladder redesign"
+ },
+ "s:v3-l71-02": {
+  "text": "The painter had to redo the gate, as the ram got red paint on his back.",
+  "family": "sentence_sp1.0",
+  "ms": 4582,
+  "sha256": "8bb09a1b0c0d6ef11fd6186d89b756c64bf7fe396f4b8c098b96f158501e5781",
+  "round": "sentence batch 6 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L71, sentence - unseated, ladder redesign"
+ },
+ "s:v3-l73-01": {
+  "text": "Mom saved up and got me a pup. He liked biting every sock in the shed. My brother said the pup had to stop, as we had no socks left. So I got him an old mitt, and he liked that best of all. The mitt has six holes in it, and my socks have no holes at all. He licked the noses of all the cats as well, but they did not mind. Mom smiled and said the mitt was the best gift she had got me.",
+  "family": "sentence_sp1.0",
+  "ms": 22481,
+  "sha256": "0d513f6bb8085e7ec2f1b307ee6fb4127034d3f0d9690d311fc8d0c3b6ddce22",
+  "round": "sentence batch 6 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L73, paragraph - unseated, ladder redesign"
+ },
+ "s:v3-l73-02": {
+  "text": "I saved up my cash and got a drum, and every cat in the shed ran when I hit it.",
+  "family": "sentence_sp1.0",
+  "ms": 4966,
+  "sha256": "e9217d89c9ffb5b765c31411679487601f96195caca4da17f5356ca5cf86057c",
+  "round": "sentence batch 6 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L73, sentence - unseated, ladder redesign"
+ },
+ "s:v3-l75-02": {
+  "text": "My cat looked at the book and then sat on it.",
+  "family": "sentence_sp1.0",
+  "ms": 2662,
+  "sha256": "2adaf9288218a1e01f2f3771fce3d7e0c00c0df1bc272e915cd6247b2918ee50",
+  "round": "sentence batch 6 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L75, sentence - unseated, ladder redesign"
+ },
+ "s:v3-l100-01": {
+  "text": "Look how far you got, and look how fast you can read now.",
+  "family": "sentence_sp1.0",
+  "ms": 3452,
+  "sha256": "d16b0dcd700f53f49f5f32a5a3b813984a2f5c2fa40211c0b572d22fbb6d77b2",
+  "round": "sentence batch 7 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L100, sentence - unseated, ladder redesign"
+ },
+ "s:v3-l100-02": {
+  "text": "We all met at the gate when the sun was up. The goat came, and the kitten came, and the swan was out on the pond. We walked down the lush grass and looked at the water. My brother got his feet in the muck and did not mind a bit. When it got dark, Dad lit the lamp and we all sat around it. Mom said we can go back every day, and we will.",
+  "family": "sentence_sp1.0",
+  "ms": 19153,
+  "sha256": "0c595ed65e258f88d662d41ef0d365fd1457f94b51b27881c638c96c38e4749e",
+  "round": "sentence batch 7 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L100, paragraph - unseated, ladder redesign"
+ },
+ "s:v3-l76-01": {
+  "text": "The dew on the grass was cold, but the mule did not mind.",
+  "family": "sentence_sp1.0",
+  "ms": 3622,
+  "sha256": "8b5271099ed28df9aec2356326979ded3ade669d76d0b54e46f12e79b443279e",
+  "round": "sentence batch 7 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L76, sentence - unseated, ladder redesign"
+ },
+ "s:v3-l76-02": {
+  "text": "My brother got a new pot of blue glue. He wanted to fix a little cube that broke. He set the cube on a mat and held it. A few spots of glue fell on his hand and dried. He said that was fine. It was not true, and he had to wash his hand a lot.",
+  "family": "sentence_sp1.0",
+  "ms": 14673,
+  "sha256": "87296b072a22d6ee09941577f3a171a113683dea65741c5c718d906ba393f35a",
+  "round": "sentence batch 7 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L76, paragraph - unseated, ladder redesign"
+ },
+ "s:v3-l77-01": {
+  "text": "The young cow was so loud that the hens ran out of the shed.",
+  "family": "sentence_sp1.0",
+  "ms": 3708,
+  "sha256": "12b5997eb0aed216a637183de31419d6876beaee821e6769fb94a09214a034c2",
+  "round": "sentence batch 7 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L77, sentence - unseated, ladder redesign"
+ },
+ "s:v3-l77-02": {
+  "text": "Now the flowers by the pond lay flat. We could not find out how. Then we found a young cow down in the middle of them. She was loud when we came, and she did not want to get up. Mom said the cow liked flowers as well as we did.",
+  "family": "sentence_sp1.0",
+  "ms": 13756,
+  "sha256": "983621fe060e44ff2c979039764d2ebb75d5a19e519c4445edca1a46584d0b5e",
+  "round": "sentence batch 7 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L77, paragraph - unseated, ladder redesign"
+ },
+ "s:v3-l78-01": {
+  "text": "The boy did not enjoy going to bed, but the cat did.",
+  "family": "sentence_sp1.0",
+  "ms": 3473,
+  "sha256": "b8ef36d1cf6c6d278ba996d3cf80e571d38ec76ea1682a7c5b0d5a6fd271bf3b",
+  "round": "sentence batch 7 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L78, sentence - unseated, ladder redesign"
+ },
+ "s:v3-l78-02": {
+  "text": "The boy took his toy ship down to the pond. A swan came to join him and went with the ship all day. That swan was as loyal as a good brother. When the boy went home, the swan sat at the point of the pond and cried. Mom said they could go back to the pond, and the boy did enjoy that.",
+  "family": "sentence_sp1.0",
+  "ms": 17297,
+  "sha256": "22075b8638b7d5c2e15f66de4d66c593c1039752e977ddf4e2a16188cb9d5996",
+  "round": "sentence batch 7 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L78, paragraph - unseated, ladder redesign"
+ },
+ "s:v3-l79-01": {
+  "text": "It was dark in the barn, and the little goat did not want to go in far.",
+  "family": "sentence_sp1.0",
+  "ms": 4092,
+  "sha256": "0dc771c8e8d099e6f464f1901d950fb2092be7823980597285deee829794a9a8",
+  "round": "sentence batch 7 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L79, sentence - unseated, ladder redesign"
+ },
+ "s:v3-l79-02": {
+  "text": "We went far out to the farm. It was dark when we got there. My brother led me around the barn to see the new goats. Every goat was sleeping in the grass, so we let them rest. Then we went back to the car and had a nap as well.",
+  "family": "sentence_sp1.0",
+  "ms": 13329,
+  "sha256": "a16063bde1ce8610947d9f447796fc5161218e70f0dd4eaeb3932f0897a29ec4",
+  "round": "sentence batch 7 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L79, paragraph - unseated, ladder redesign"
+ },
+ "s:v3-l80-01": {
+  "text": "Every hen on the farm fell in the mud, and now every hen has to get a wash.",
+  "family": "sentence_sp1.0",
+  "ms": 4689,
+  "sha256": "dff5c188abd2f6b3f059bde704028a4c3b505a26b68c2eb319e6e3e9bba0642a",
+  "round": "sentence batch 7 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L80, sentence - unseated, ladder redesign"
+ },
+ "s:v3-l80-02": {
+  "text": "A little rabbit had a home behind the shed. Every day it came out to sit in the sun, and every day the cat went to look at it. The cat did not want to run at it. She just sat down and looked. Now the rabbit will not run when the cat comes, and they rest in the sun.",
+  "family": "sentence_sp1.0",
+  "ms": 15462,
+  "sha256": "db3918be243f836e89abd264e3aa34a6fcaf529fa4f84679327016733fee34f4",
+  "round": "sentence batch 7 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L80, paragraph - unseated, ladder redesign"
+ },
+ "s:v3-l81-01": {
+  "text": "A little goat was born at the farm, and now the barn has a new bed in it.",
+  "family": "sentence_sp1.0",
+  "ms": 4369,
+  "sha256": "f34ef629a241bd38b9a20f246cd06d68a183acce9367b99e48144f96648e25eb",
+  "round": "sentence batch 7 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L81, sentence - unseated, ladder redesign"
+ },
+ "s:v3-l81-02": {
+  "text": "Dad got a sack of corn at the store. On the road home the sack tore, and the corn went down the hill. We had to pick up every bit, and my arm got sore. Dad said we will tell that story for ever. He got a new sack, and he held it with his arm around it.",
+  "family": "sentence_sp1.0",
+  "ms": 14950,
+  "sha256": "43d81a77613c0ef80904aa9ab629d6083b2d245a2c1899b00e11f971050c41ba",
+  "round": "sentence batch 7 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L81, paragraph - unseated, ladder redesign"
+ },
+ "s:v3-l82-01": {
+  "text": "My little brother can draw a dinosaur, but the jaw is as long as the tail.",
+  "family": "sentence_sp1.0",
+  "ms": 4582,
+  "sha256": "b9d3fcf5bc089dadc9e430a3bd7f60b82505ae2ceee5cda88cb00dbe8e4a326d",
+  "round": "sentence batch 7 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L82, sentence - unseated, ladder redesign"
+ },
+ "s:v3-l82-02": {
+  "text": "I did draw a dinosaur and cut it out. My brother took it away and set it down on the lawn. The kitten went to crawl up on it, and she caught the tail with a claw. Then she had to haul that dinosaur all around the lawn. Mom looked out and had to laugh.",
+  "family": "sentence_sp1.0",
+  "ms": 14737,
+  "sha256": "8033b0fad2dcc5357db9ea2de6a396f746877c0cc24483177b1e9985bfdf19c2",
+  "round": "sentence batch 7 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L82, paragraph - unseated, ladder redesign"
+ },
+ "s:v3-l83-01": {
+  "text": "The birds were all on the gate, and the cat had to turn around and go home.",
+  "family": "sentence_sp1.0",
+  "ms": 4305,
+  "sha256": "6fb3fea8820ced737d40be07eebc1ccedcc395a406bc499799df9a2ec75d79b7",
+  "round": "sentence batch 7 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L83, sentence - unseated, ladder redesign"
+ },
+ "s:v3-l83-02": {
+  "text": "The girl planted her first seed in the dirt behind the shed. The sun was hot, and she did not want the seed to burn, so she set her purple shirt over it. Birds came to look, but they could not get in. When she went back, a green curl was up out of the dirt. She did a little turn in the grass, and her shirt had dirt on it all day.",
+  "family": "sentence_sp1.0",
+  "ms": 18620,
+  "sha256": "62e149665c103e35774d3c7941d5a8b87d658c9203959e90f813e0776c56b821",
+  "round": "sentence batch 7 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L83, paragraph - unseated, ladder redesign"
+ },
+ "s:v3-l84-01": {
+  "text": "A deer was at the gate when we got up, and it looked at us as if we got up late.",
+  "family": "sentence_sp1.0",
+  "ms": 4582,
+  "sha256": "ec511d5c34aecb4263b47f48a7f074778365d0bd2d483bbf4386b1400517b560",
+  "round": "sentence batch 7 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L84, sentence - unseated, ladder redesign"
+ },
+ "s:v3-l84-02": {
+  "text": "A deer came down to the farm when it was dark. It went around the barn and stopped at the corn. The goats looked at the deer, and the deer looked back at the goats. Then the deer took a bite of corn and ran up the hill. Now the goats look up at that hill every day, and every day they wish.",
+  "family": "sentence_sp1.0",
+  "ms": 16529,
+  "sha256": "9fbdcd39683e61cb97e3f9417fec29a1044d7747ec3941214cf05e9734ff812d",
+  "round": "sentence batch 7 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L84, paragraph - unseated, ladder redesign"
+ },
+ "s:v3-l85-01": {
+  "text": "Be careful where you step, or you will land in the mud.",
+  "family": "sentence_sp1.0",
+  "ms": 3089,
+  "sha256": "57e154a9bedffd558a9d77026a28c09a5d69b02911a96ef778f57052ef59317d",
+  "round": "sentence batch 7 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L85, sentence - unseated, ladder redesign"
+ },
+ "s:v3-l85-02": {
+  "text": "I had to take a cup of water down the hill to the camp. Mom said to be careful, so I looked at where I set every step. Then I got to the flat grass and got careless. The cup slid out of my hand and landed in the dirt. Mom did not fuss. She got me a new cup and said to be careful to the end.",
+  "family": "sentence_sp1.0",
+  "ms": 17702,
+  "sha256": "37ed5008a8771553829da5432bba070146a3493b4bcd65d23db4b9a2ed47fbe2",
+  "round": "sentence batch 7 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L85, paragraph - unseated, ladder redesign"
+ },
+ "s:v3-l86-01": {
+  "text": "We walked all around the pond, and my pal talked and talked.",
+  "family": "sentence_sp1.0",
+  "ms": 3729,
+  "sha256": "25a3a464955295fe2e496419b046ed80ca1dbb8c200b243363714d9b4d653069",
+  "round": "sentence batch 7 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L86, sentence - unseated, ladder redesign"
+ },
+ "s:v3-l86-02": {
+  "text": "Every day we walked the old mule down to the pond. He was not fast. He stopped to look at the grass, and he stopped to look at the birds, and then he just stopped. Dad talked to him as they walked. When we got back it was dark, and the mule had not talked back a bit.",
+  "family": "sentence_sp1.0",
+  "ms": 15377,
+  "sha256": "6b452bdce7b1aba1cf914497a77b16b5d09c7409a1f590cc1beb8b66652349a5",
+  "round": "sentence batch 7 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L86, paragraph - unseated, ladder redesign"
+ },
+ "s:v3-l87-01": {
+  "text": "It was a huge cake, and my brother was generous with it.",
+  "family": "sentence_sp1.0",
+  "ms": 3388,
+  "sha256": "12b1db4585a80b4ed3b7a49a899a146e3f0022771563aa43ce5cc013575bbcb4",
+  "round": "sentence batch 7 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L87, sentence - unseated, ladder redesign"
+ },
+ "s:v3-l87-02": {
+  "text": "My brother got a huge muffin at the shop. It was as huge as his hand. He looked at it and looked at it. Then he broke it and held out the best bit to me. Mom said that was generous, and my brother went red. It was the best muffin I have had.",
+  "family": "sentence_sp1.0",
+  "ms": 14737,
+  "sha256": "f186163fe05acb07ef8904b1d51799e0ab3f6b8f2dbf5ad5cf47c63473f7c710",
+  "round": "sentence batch 7 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L87, paragraph - unseated, ladder redesign"
+ },
+ "s:v3-l88-01": {
+  "text": "The puppy will fetch, but she will not let go.",
+  "family": "sentence_sp1.0",
+  "ms": 2726,
+  "sha256": "81008202484089fc10cb06c4095816264b60b8d664c4d0cecb4e08d6562748fe",
+  "round": "sentence batch 7 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L88, sentence - unseated, ladder redesign"
+ },
+ "s:v3-l88-02": {
+  "text": "At camp we had a jump match down by the bridge. The judge was my brother, and he sat on a rock at the edge of the grass. Every kid got to jump, and every kid got a bit of fudge at the end. I did not get the badge. My brother said the badge went to the best jump, and then he let me have his fudge as well.",
+  "family": "sentence_sp1.0",
+  "ms": 17574,
+  "sha256": "636c0fbb254b476397b15bc4c211f87fa53c80bd52986941b7aecfa36d0bfaa4",
+  "round": "sentence batch 7 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L88, paragraph - unseated, ladder redesign"
+ },
+ "s:v3-l89-01": {
+  "text": "The wren did not knock, and now she has a nest in the shed.",
+  "family": "sentence_sp1.0",
+  "ms": 3430,
+  "sha256": "ba45a22b1eea50a7d6e7cc8d2668e7859b96b24010c4698c3b180837a18107b7",
+  "round": "sentence batch 7 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L89, sentence - unseated, ladder redesign"
+ },
+ "s:v3-l89-02": {
+  "text": "Mom set out to knit a wrap for the little lamb that was born in the cold. The pup wanted to help, and that went wrong. He got the string in a huge knot and ran with it all around the desk. It took us all day to get every knot out. The lamb has the wrap now, and the pup has the rest of the string.",
+  "family": "sentence_sp1.0",
+  "ms": 17532,
+  "sha256": "b9943d4f083399b6763f36e5aec5122ed3c22c834bc03290e054626885cdad08",
+  "round": "sentence batch 7 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L89, paragraph - unseated, ladder redesign"
+ },
+ "s:v3-l90-01": {
+  "text": "We sat in the little hut and let the rain fall all around us.",
+  "family": "sentence_sp1.0",
+  "ms": 3729,
+  "sha256": "419a463756a8d56311b9f2d9fbc7a370f6cac6a92570c7bac710d4f796ed3212",
+  "round": "sentence batch 7 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L90, sentence - unseated, ladder redesign"
+ },
+ "s:v3-l90-02": {
+  "text": "A jet went over the farm, and the old ox looked up at it. The hens did not look up at all. They just went on with the corn. When the jet went away, the ox looked at us. We could not tell him how a jet gets up that high, so we got him more corn as well.",
+  "family": "sentence_sp1.0",
+  "ms": 14780,
+  "sha256": "a8028ea5fb5edef239684de39cf275c5cbfb00cc8ac0659f49b613e38f185e47",
+  "round": "sentence batch 7 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L90, paragraph - unseated, ladder redesign"
+ },
+ "s:v3-l91-01": {
+  "text": "The photo of the elephant was so funny that we had to laugh.",
+  "family": "sentence_sp1.0",
+  "ms": 3494,
+  "sha256": "01ca0e3d4875ce6aed4e5beb322c268f34fd16bf21ca89271dcfccac6aa15caf",
+  "round": "sentence batch 7 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L91, sentence - unseated, ladder redesign"
+ },
+ "s:v3-l91-02": {
+  "text": "Dad had a photo of a dolphin on his phone. He held it up so we could all see. The dolphin was up out of the water, and it looked as if it had a huge grin. My brother wanted to look at it every day, so Dad printed it out and we hung it up over his bed. Now he will tell every kid at camp that he has a photo of a dolphin that can laugh.",
+  "family": "sentence_sp1.0",
+  "ms": 19494,
+  "sha256": "a07b0fd1fd527a26e0598776f677c152a4e741679523c395598f5dd856441fad",
+  "round": "sentence batch 7 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L91, paragraph - unseated, ladder redesign"
+ },
+ "s:v3-l92-01": {
+  "text": "The dough was rough, though it did make a good muffin in the end.",
+  "family": "sentence_sp1.0",
+  "ms": 3558,
+  "sha256": "9cb011f3952ce2ca3ae1e4f022f8afe2031a53a3243b47f79a6b382f018dbfba",
+  "round": "sentence batch 7 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L92, sentence - unseated, ladder redesign"
+ },
+ "s:v3-l92-02": {
+  "text": "My brother had a cough, so he had to rest in bed all day. Mom bought him a book, and I brought him a cup of water. He said that was not enough, so I brought him the cat as well. The cat got up on his bed and did not get down. It was a tough day, though it ended well.",
+  "family": "sentence_sp1.0",
+  "ms": 15270,
+  "sha256": "def2910daca29f2d7fe756652e889391e9259a4c18931c1e30450953f50a06d0",
+  "round": "sentence batch 7 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L92, paragraph - unseated, ladder redesign"
+ },
+ "s:v3-l93-01": {
+  "text": "Dad let out a whistle, and the puppy ran to him from the far end of the farm.",
+  "family": "sentence_sp1.0",
+  "ms": 4518,
+  "sha256": "4382a3c3fd3fc4d2891e2561084831aa0d5fc5d12f0287383ccd14a176d0e7e8",
+  "round": "sentence batch 7 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L93, sentence - unseated, ladder redesign"
+ },
+ "s:v3-l93-02": {
+  "text": "At the shore my pal and I had a castle of wet sand. It took all day to get it up. Then the waves came in, and there was a bustle to save it. Dad had to whistle to us to hustle back up the shore. We sat in the grass and looked as the top of the castle went down in the waves. Dad said we can go back and get a new castle up.",
+  "family": "sentence_sp1.0",
+  "ms": 19281,
+  "sha256": "7f13d76c467c4f484315388e8d419866e7eeba457bc71c9d8f313fd38b213d42",
+  "round": "sentence batch 7 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L93, paragraph - unseated, ladder redesign"
+ },
+ "s:v3-l95-01": {
+  "text": "That old station is so ancient that a wren has a nest over the gate.",
+  "family": "sentence_sp1.0",
+  "ms": 4284,
+  "sha256": "48fdcd5256d19c27bbe97480d26cc25db4a06782bc7539f22856f43e05a609a1",
+  "round": "sentence batch 7 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L95, sentence - unseated, ladder redesign"
+ },
+ "s:v3-l95-02": {
+  "text": "We walked to the ancient station by the lake. It was a special day, and every kid at camp got a job. My brother got the old windmill in motion, and it went around and around. I had to fill the cups and hand them out. The action did not stop all day, and when the sun went down we all sat in the grass and had a rest.",
+  "family": "sentence_sp1.0",
+  "ms": 18833,
+  "sha256": "66c6b4d59c7f1032816b9f268406287142472c4b857f2fac50617d2b2c4598d4",
+  "round": "sentence batch 7 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L95, paragraph - unseated, ladder redesign"
+ },
+ "s:v3-l96-01": {
+  "text": "We had a little adventure out in the grass, and I got a picture of a wren.",
+  "family": "sentence_sp1.0",
+  "ms": 4113,
+  "sha256": "bdc2b711be3c19e5337939ff301467477fb32bed7b96808b1eab8012060a48cf",
+  "round": "sentence batch 7 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L96, sentence - unseated, ladder redesign"
+ },
+ "s:v3-l97-01": {
+  "text": "My uncle will retell that same story every day, and we let him.",
+  "family": "sentence_sp1.0",
+  "ms": 3985,
+  "sha256": "9200a78a222097de9ad0d1729cd8ca633ae6622567e776255d4a5f8dc9229743",
+  "round": "sentence batch 7 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L97, sentence - unseated, ladder redesign"
+ },
+ "s:v3-l97-02": {
+  "text": "My uncle came to the farm for the day. He and Dad disagree on all of it, and they can do it all day and never get mad. When dinner was over they did the dishes, and they went on with it over every cup. My brother and I dislike the dishes, so we sat under the desk and let them. Then my uncle rested a bit and got up to retell the story of the deer at the station. We can remember every bit of that story, but we let him tell it. When he had to return home, Dad went to the gate with him. Dad said a brother is precious, and that is true when he is wrong as well.",
+  "family": "sentence_sp1.0",
+  "ms": 30545,
+  "sha256": "dcb61df74ccf01e09fc04ba03b3516ae5b004fe8101915eb5ea47a71b5e85a77",
+  "round": "sentence batch 7 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L97, paragraph - unseated, ladder redesign"
+ },
+ "s:v3-l98-01": {
+  "text": "Mom softly said that we had helped enough, and we gladly sat down.",
+  "family": "sentence_sp1.0",
+  "ms": 4134,
+  "sha256": "aeff01f21087ca534401e7d1e78ee96d70dac569d62c0a662c0d230043a8372c",
+  "round": "sentence batch 7 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L98, sentence - unseated, ladder redesign"
+ },
+ "s:v3-l98-02": {
+  "text": "Mom had a lot of boxes to get up the hill, and I gladly went to help. The duck came as well. A duck is playful, and a playful duck is not helpful. He got in the middle of the boxes, and they all fell down. Mom kindly said that was fine, and we picked them up quickly. Then she softly told the duck to sit in the grass, and he did. He was more useful sitting down.",
+  "family": "sentence_sp1.0",
+  "ms": 21500,
+  "sha256": "1ab9a91f8eed5a4ab6e6438862bd00b8826366a6c5b9f7269470c3013231c868",
+  "round": "sentence batch 7 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L98, paragraph - unseated, ladder redesign"
+ },
+ "s:v3-l99-01": {
+  "text": "The kindness of my brother is endless when there is fudge in it for him.",
+  "family": "sentence_sp1.0",
+  "ms": 4070,
+  "sha256": "c7f2b421f89f640f3dc4e934493e77d714b44df514a2429f2e33769051c59f37",
+  "round": "sentence batch 7 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L99, sentence - unseated, ladder redesign"
+ },
+ "s:v3-l69-01": {
+  "text": "Mom had to go to the shop, so she left notes on the desk. My brother read them to me at the desk. The notes said to feed the cat and fill her dish with water. Then we had to get the socks from the line and fold them. At the end, the notes said we can have a cake. We did every job, and then we had the cake. When Mom came back, my brother read the notes to her as well.",
+  "family": "sentence_sp1.0",
+  "ms": 20331,
+  "sha256": "83bd89d3f9857a211ffe07b7ff5d6ac9c0297fd8bd441d77c6d50b2fc48cdc25",
+  "round": "sentence rework / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L69, paragraph - unseated, ladder redesign",
+  "say": "Mom had to go to the shop, so she left notes on the desk. My brother red them to me at the desk. The notes said to feed the cat and fill her dish with water. Then we had to get the socks from the line and fold them. At the end, the notes said we can have a cake. We did every job, and then we had the cake. When Mom came back, my brother red the notes to her as well.",
+  "say_reason": "homograph respelling for the voice: read->red, read->red"
+ },
+ "s:v3-l69-02": {
+  "text": "Dad read the map to me at the top of the hill, and then we went to the lake.",
+  "family": "sentence_sp1.0",
+  "ms": 3669,
+  "sha256": "cbaef2c3cc59c18b86c6ee074cb8e673f9ab64b022dcbc63f0747b28b5b7a399",
+  "round": "sentence rework / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L69, sentence - unseated, ladder redesign",
+  "say": "Dad red the map to me at the top of the hill, and then we went to the lake.",
+  "say_reason": "homograph respelling for the voice: read->red"
+ },
+ "s:v3-l71-01": {
+  "text": "It was a holiday, so we went to see the tigers. Every tiger was sleeping in the sun, and we needed them to get up. We sat on the grass and had an apple. Then a man came with a sack of dinner. The tigers got up so fast that my apple went in the mud. Mom said that was the best bit of the holiday. When we got home, I painted a tiger and we hung it up.",
+  "family": "sentence_sp1.0",
+  "ms": 19968,
+  "sha256": "0d76a57470d3f2379a7ae9195281115b955a34d10c0467da4fb03c32c73c5fdf",
+  "round": "sentence rework / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L71, paragraph - unseated, ladder redesign"
+ },
+ "s:v3-l96-02": {
+  "text": "We had an adventure down by the pond. We got a mixture of mud and water in an old pot, and we painted a picture of the pond on a flat rock. My brother wanted to capture the swan in it, but the swan did not sit long enough. That is nature. So the picture has the pond, the grass, and a fat spot where the swan was. We set it up on the desk in the shed, and it will be there in the future.",
+  "family": "sentence_sp1.0",
+  "ms": 21717,
+  "sha256": "3fd06817bb11849a400b0eaff19981295bab38bedd229f14f0a91119d0b7fa12",
+  "round": "sentence rework / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L96, paragraph - unseated, ladder redesign"
+ },
+ "s:v3-l99-02": {
+  "text": "The goat comes to the gate every day. When I have corn, he jumps. Mom said my kindness is endless. But I said it is the corn that he likes, not me. Then we walked to the barn and back, and he stopped at every good bit of grass.",
+  "family": "sentence_sp1.0",
+  "ms": 13739,
+  "sha256": "ee3a94b0ec15e86d7d6ca8f21f6c1c427e46e27633eec4358a7847c34a45bdfa",
+  "round": "sentence rework / 2026-08-19",
+  "verdict": "perfect",
+  "level": "v3 L99, paragraph - unseated, ladder redesign"
+ },
+ "s:v3-l75-01": {
+  "text": "Mom took me to the shop to get a book. I looked at every book on the rack. The best had a red fox on it and a hen on the back. It was a good book, and it did not cost a lot. We took it home and I read it to Mom at sunset. Then she read it back to me, and we looked at every bit of it. It is my best book, and I hope we can go back to that shop.",
+  "family": "sentence_sp1.0",
+  "ms": 19435,
+  "sha256": "50633fef79c9a72dae8aeecc2921b01467a417b9da8a4667f3ed753556a2f497",
+  "round": "sentence rework / 2026-08-19",
+  "verdict": "perfect",
+  "say": "Mom took me to the shop to get a book. I looked at every book on the rack. The best had a red fox on it and a hen on the back. It was a good book, and it did not cost a lot. We took it home and I red it to Mom at sunset. Then she red it back to me, and we looked at every bit of it. It is my best book, and I hope we can go back to that shop.",
+  "say_reason": "homograph respelling for the voice: read->red, read->red",
+  "level": "v3 L75, paragraph - unseated, ladder redesign"
  }
 }

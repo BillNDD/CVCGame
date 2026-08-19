@@ -203,14 +203,26 @@ byte-pinned word rather than replacing accepted audio with a render.
   sidecar workspace archive on the owner's PC
   (handoff `word-quest-uplift-handoff-2026-08-07T1438Z`).
 
-## Approved and unshipped: 657 items with no level yet (through 2026-08-19)
+## Approved and unshipped: 734 items with no level yet (through 2026-08-19)
 
-**Sentence batch 5 closed 16 of 16 by ear (2026-08-19)** — the whole field passed on a
-single take each, which is what the single-take ruling predicted. Fourteen were the
-owner's own accepts from the everything batch; one, at L40, is his replacement wording
-after he refused the draft for putting jam on a child's lap. The clips wait in
-`tools/pending-words/` with the rest, unseated until the hundred-level ladder gives them
-a home.
+**Ninety-three sentence and paragraph takes closed by ear in one day (2026-08-19)**, across
+four fields — batch 5 (16 of 16), batch 6 (25 of 29), batch 7 (46 of 48) and a rework of
+what those two refused (6 of 6, after one was re-presented). Every one passed on a single take, which is what the
+single-take ruling predicted. One, at L40, is the owner's own replacement wording after he
+refused the draft for putting jam on a child's lap.
+
+**Two clips carry a say/show split, and it is recorded in their rows.** Level 69 teaches
+`ea` as short e and its only word is `read`, so the text cannot avoid a homograph the voice
+gets wrong: it says /riːd/ where the sentence means /rɛd/. The renderer therefore accepts a
+`say` field — the child is shown `read`, the voice is given `red` — and every such row
+stores both texts plus a `say_reason`, so the difference is auditable rather than hidden. A
+guard refuses any `say` that is not a pure respelling: same word count, and every changed
+word declared as a homograph. A `say` that adds, drops or reorders words is a different
+sentence and needs the owner's ear, not a code path. The guard runs four controls, two of
+which must fail, before the voice starts.
+
+The clips wait in `tools/pending-words/` with the rest, unseated until the hundred-level
+ladder gives them a home.
 
 
 **Batch 20 closed 17 of 20 (2026-08-17), and it ended a three-round hunt.** **as is

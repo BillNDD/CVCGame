@@ -839,8 +839,17 @@ Levels, in order:
    S9 gate refuses), and gun, by the appropriateness screen. shot was
    admitted by the owner's amendment — "Also shot is fine in the right
    sentence" — the word may be taught; the sentence screen judges each use.
-   **The target is 420 words; 147 are covered by the 461-word bank as of
-   Level 21.** The uncovered words map onto the road above: vowel teams,
+   **The target was 420 words on 2026-08-16 and is 697 since 2026-08-18**, when
+   the curriculum redesign found that thirty of the new hundred levels had fewer
+   than six on-topic words in any approved source and fifteen had none at all.
+   The owner ruled on 295 candidates and refused four: fight, hustle and grind on
+   appropriateness, and neighbor turned down for the long-a level. Twelve were
+   already on the first list, so 277 joined it. Two of the approved words are
+   claimed by two levels each - purple by the -le level and the ur level,
+   elephant by the three-beat level and the ph level - and each belongs at the
+   LATER of the two, because a word cannot be read before every grapheme in it
+   has been taught. **147 of the original 420 were covered by the 461-word bank
+   as of Level 21.** The uncovered words map onto the road above: vowel teams,
    magic-e, r-controlled vowels, -ing forms, and the two-syllable stage. The
    list lives at `tools/target-vocab.txt`. One word collided on arrival:
    hope is both a target word and was an entry in the S9 gate's given-names
@@ -1208,7 +1217,41 @@ same day, so a later screen does not raise them again: **knob** and **pot** — 
 words (a door knob, a cooking pot) that carry adult slang in some dialects, and standard
 in phonics word lists. Ruled FINE on 2026-08-11, on the same principle and by the same
 route — the pre-beta screen of the whole bank raised them, and the owner ruled: **gash,
-bush, bang, whack, hung, rod** and **puff**. A later screen does not raise these again.
+bush, bang, whack, hung, rod** and **puff**. A later screen does not raise these again. Ruled FINE
+on 2026-08-18 by the same route, when the redesign's screen raised it: **lay**.
+
+Refused by the owner on 2026-08-18, from the 295-word bill the curriculum redesign needed:
+**fight** (violence), **hustle** and **grind** (adult slang, raised by the screen and refused
+rather than kept, unlike lay on the same day - the owner draws the line word by word and the
+screen's job is to put each one in front of him), and **neighbor**, which is not an
+appropriateness refusal at all: the word was offered for the long-a `eigh` level and simply
+turned down. A later screen does not raise these four again. The screen also removed
+**catfish** before the owner saw it, because this document already records it as swapped out,
+and corrected the British "neighbour" to "neighbor" before offering it, because SPEC section
+12a rules General American.
+
+Ruled FINE by the owner on 2026-08-19, when the redesign's screen raised them from the
+hundred-level ladder: **bet, gut, jab, lash, loss, mob, muck, mush** and **whip**. The
+owner's words were "keep them", given on a decision page that costed the alternative in
+plain terms — that a child finishing all one hundred levels meets lash, loss, mob and muck
+at the summit, and is taught whip at Level 27. He read that cost and ruled anyway, so these
+nine join the ruled-fine list and a later screen does not raise them again.
+
+Two things about that screen are worth recording, because both are faults in it rather than
+in the words. **It re-raised gash, which this document had already ruled FINE on
+2026-08-11** — the screen consulted its own hazard patterns and never consulted the
+ruled-fine list six paragraphs above it, which is precisely the waste the "does not raise
+these again" sentence exists to prevent. And the nine words above were never on the owner's
+target vocabulary at all: they are among 214 words, 30% of the ladder, that the lost
+generator invented and seated in alphabetical runs while leaving 162 of the owner's own
+words placed nowhere. The appropriateness question and the vocabulary question arrived
+together and are separate. The owner settled the first here; the second was settled the
+same day by `tools/ladder-fill.mjs`, which adds the 162 and evicts nothing.
+
+The lay ruling in full: the screen
+offered a free removal — level 59 teaches `ay` and eight substitutes existed — and the owner
+kept the word, ruling with the knob/pot/bush line rather than against it. A later screen does
+not raise it again.
 That screen covered all 349 bank words and the 115 approved words waiting for a level,
 and it found nothing else.
 
