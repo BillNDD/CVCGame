@@ -440,11 +440,9 @@
    "tell",
    "buzz",
    "doll",
-   "dressed",
    "umbrella"
   ],
   "filled": [
-   "dressed",
    "umbrella"
   ]
  },
@@ -466,11 +464,9 @@
    "wash",
    "hush",
    "mash",
-   "brushed",
    "shrub"
   ],
   "filled": [
-   "brushed",
    "shrub"
   ]
  },
@@ -484,14 +480,12 @@
   "words": [
    "benches",
    "branches",
-   "child",
    "chop",
    "rich"
   ],
   "filled": [
    "benches",
    "branches",
-   "child",
    "chop",
    "rich"
   ]
@@ -867,7 +861,13 @@
    "helped",
    "kicked",
    "mixed",
-   "packed"
+   "packed",
+   "dressed",
+   "brushed"
+  ],
+  "filled": [
+   "dressed",
+   "brushed"
   ]
  },
  {
@@ -1357,15 +1357,11 @@
   "cands": 0,
   "words": [
    "slowly",
-   "throw",
-   "town",
-   "wow"
+   "throw"
   ],
   "filled": [
    "slowly",
-   "throw",
-   "town",
-   "wow"
+   "throw"
   ]
  },
  {
@@ -1442,7 +1438,11 @@
    "kind",
    "mild",
    "mind",
-   "wild"
+   "wild",
+   "child"
+  ],
+  "filled": [
+   "child"
   ]
  },
  {
@@ -1616,7 +1616,9 @@
    "proud",
    "shouted",
    "sound",
-   "sounds"
+   "sounds",
+   "town",
+   "wow"
   ],
   "filled": [
    "house",
@@ -1626,7 +1628,9 @@
    "proud",
    "shouted",
    "sound",
-   "sounds"
+   "sounds",
+   "town",
+   "wow"
   ]
  },
  {

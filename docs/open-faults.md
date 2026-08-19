@@ -24,29 +24,6 @@ This file holds only what is still open.
 
 This document follows the Microsoft Writing Style Guide.
 
-## The seven waiting sounds have no recording text (found 2026-08-18)
-
-**Where it lives.** `SOUND_TEXT` in `reference/word-quest.jsx`, and `voiceScript`, which
-reads it as `SOUND_TEXT[id] || id`.
-
-**What a person experiences today.** Nothing, because none of the seven has shipped. The
-moment any of them does, the voice script hands the recorder a file name instead of a
-sentence. Measured 2026-08-18: `SOUND_TEXT` holds exactly 43 entries, which are exactly the
-43 shipped ids. All seven waiting sounds - `ar aw ear er long_u oi zh` - are absent, so the
-script would emit the literal strings "ar", "aw", "ear", "er", "long_u", "oi", "zh".
-
-**Why nothing caught it.** `grep -rn SOUND_TEXT tests/` returns no matches. The only
-assertion over the sound ids is a count of 43, and a count cannot see text. The gap is
-invisible until a sound ships, and shipping is exactly when it would be too late.
-
-**What done means.** Seven `SOUND_TEXT` rows written and heard, plus a test that fails when
-a sound in the inventory has no text, with a negative control that proves the test catches
-its target fault (E5). The rows must be written BEFORE the ship step, not after.
-
-**Found alongside it.** The `schwa` description reads "the lazy sound in the middle of the".
-The schwa in "the" is the last sound, not the middle one. A text fix, worth one listen while
-a recording batch is open.
-
 ## State at the time of writing
 
 Written against `v1.0.0-beta.17`, commit `fd7c894`. The full gauntlet passed on `c87ed44`
@@ -1342,6 +1319,48 @@ of them was fixed in that change, and each is written here rather than in a chat
 - **Done** means the table's rows either recomputed from the files that own them or deleted
   in favour of a pointer to the lookup, and nothing in the document quoting a ladder count
   that a person typed.
+
+## U. The readiness model knows spellings and not sounds — opened 2026-08-19
+
+Five words were seated where a child sounding them out with the units they have
+been taught produces the WRONG WORD. Found by the literacy seat reviewing the
+fill's output, not by any gate. All five are now moved, but the model that put
+them there is unchanged, so it will do it again.
+
+- **`town` and `wow` at level 65.** That level teaches `ow` as the long o of
+  *throw*. The `ow` of *out* is level 77. A child reads "tone" and "woe" — and
+  those are the dangerous ones, because both are real words, so nothing signals
+  the error and the child cannot self-correct.
+- **`child` at level 23.** `i` is taught as the short i and nothing else until
+  level 68. A child reads it to rhyme with "filled".
+- **`dressed` at 21 and `brushed` at 22.** `-ed` is taught at 43, and it is the
+  one suffix that is opaque: three pronunciations, two of which contradict the
+  letters. Sounded out at 21 they give "dress-ed" and "brush-ed", two syllables
+  where the word has one. This is the canonical early reading error, which is
+  why the shape spends three whole levels (43, 44, 45) on `-ed` and one on `-es`.
+
+**`ladder-fill --check` reports "none seated early" for all five, and is right
+by its own definition.** `readyLevel()` asks whether every GRAPHEME of a word is
+taught by that level. It never asks WHICH SOUND the word needs from a grapheme
+that has more than one. Thirteen spellings in the shape are taught at two levels
+— th, ch, ea, ie, ow, oo, ey, ear, ere, c, g, a, s — and the model resolves every
+one of them to the earliest, which is the permissive direction.
+
+This is the same blindness as section T's entry about the generator, but in the
+fill's own output, and T does not cover it. It also caught the author of this
+entry: a script written here to check which `-ly` words were ready reported level
+19, because it read the final `y` as the consonant taught at level 23 rather than
+the long e taught at level 51. Anyone re-deriving the model from its prose
+re-derives the fault.
+
+**What a child experiences today:** nothing, for these five. They are moved.
+
+**Done** means `readyLevel()` takes a sound as well as a spelling — a word
+declares which sound it needs from each multi-sound grapheme, or the model
+declines to place any word using one until every sound of it is taught — with a
+control per multi-sound spelling and a negative control that seats `town` at 65
+and fails. Until then, every level teaching a second sound of an already-taught
+spelling needs a human read of its word list before it ships.
 
 ## G. Ideas worth trying that nobody has tried
 

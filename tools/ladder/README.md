@@ -41,9 +41,13 @@ Known faults at the time of committing, all recorded in `docs/redesign-plan.md`:
   open-syllable long a) and 94 (`ch` saying k and sh): no target word is on
   topic for them, so they are a word bill for the owner and not a level to pad.
 - ~~Level 23 teaches `ch` and no `ch` word exists in the ladder until level 88.~~
-  **Closed 2026-08-19.** Level 23 now seats *benches branches child chop rich* -
-  five, one short of the owner's floor of six, and that shortfall is the word
-  bill above rather than a reason to add a word that teaches nothing about `ch`.
+  **Closed 2026-08-19.** Level 23 now seats *benches branches chop rich* - four,
+  two short of the owner's floor of six, and that shortfall is the word bill
+  above rather than a reason to add a word that teaches nothing about `ch`.
+  It seated *child* too until the same day, when the literacy seat found that a
+  child reading it at level 23 says it to rhyme with "filled": `i` is taught as
+  the short i and nothing else until level 68. The word moved there. That is the
+  fault in section U below, and it is why this bullet says four and not five.
 - ~~Level 24 teaches the quiet `th` and no quiet-`th` word exists anywhere.~~
   **Closed 2026-08-19.** Level 24 now seats *bathtub thank thankful* - three,
   also under six, and it is still the child's first paragraph.
