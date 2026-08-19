@@ -314,8 +314,73 @@ const TRICKY = {
    owner graded it in the sound rounds), and it says the same thing wherever
    it appears, so it carries a real default like sh or ch — still never
    TAUGHT as a code level, which is what the tiling-only ruling protects. */
-const TRIGRAPHS = ["ere"];
-const DIGRAPHS = ["sh","ch","th","wh","ck","ng","qu","kn","wr","mb","ll","ss","ff","zz","ai","ou","ey","or"];
+/* THE EXTENDED CODE, 2026-08-19. Until today this list held nineteen units and
+   the chunker could not see the rest of English: "see" tiled as s-e-e, "boat"
+   as b-o-a-t, "night" as n-i-g-h-t. That is the redesign's own blocker
+   (docs/redesign-plan.md) — a word whose vowel team is invisible is a word the
+   ladder seats at the level of its first letter, and levels 57 to 100 teach
+   nothing else.
+
+   THE ROSTER IS NOT INVENTED HERE. Every unit below is read off
+   tools/ladder/shape-v3.json — the `new` field of the 100-level pathway the
+   owner ruled on 2026-08-17 (SPEC 12a). That file says which spellings this
+   game teaches and at which level, so it is the authority on what a unit IS;
+   guessing a roster from memory beside it would be a second, disagreeing map
+   one directory from the right one, which is the fault F2 already records.
+   Nothing in the shape is left out and nothing not in the shape is added: the
+   nineteen units that were already here all appear in it.
+
+   WHAT THIS DOES NOT DO. It does not change one tile a child sees today.
+   Measured before the edit, over all 476 words a child can meet — the whole
+   bank plus every word of every shipped sentence — ZERO re-tile. That is the
+   same verification ai and ou were held to on 2026-08-12 and ey, or and ere on
+   2026-08-17, and it is the reason this is an engine change and not an S8
+   ruling: the wider roster is latent until the 100-level bank lands.
+
+   SPLIT VOWELS (a_e i_e o_e u_e e_e) ARE DELIBERATELY ABSENT. They are
+   discontinuous — the a of "cake" and its silent e are one grapheme with a k
+   in between — and this chunker's output IS the tile row and IS the dashed
+   text a child reads (S5). A discontinuous unit cannot round-trip (property
+   P1), so emitting ["c","a_e","k"] would print "c-a_e-k" to a child and put
+   the tiles in an order the printed word does not have. That is a child-facing
+   change and S8 owns it, so it is the owner's ruling and not this file's.
+   tools/ladder-fill.mjs already models split vowels for LEVEL arithmetic,
+   where nothing has to round-trip, and that is where the ladder reads them. */
+const TRIGRAPHS = ["ere","air","are","dge","ear","eer","igh","ore","tch","tle"];
+const DIGRAPHS = ["sh","ch","th","wh","ck","ng","qu","kn","wr","mb","ll","ss","ff","zz","ai","ou","ey","or",
+  "al","ar","au","aw","ay","bb","cc","ce","ci","dd","ea","ee","er","ew","ge","gg","gh","gn","ie","ir","le",
+  "mm","nn","oa","oe","oi","oo","ow","oy","ph","pp","re","rr","se","ti","tt","tu","ue","ur","ve","ze"];
+const QUADGRAPHS = ["augh","eigh","ough"];
+/* WHERE A UNIT MAY MATCH, and every rule here is an orthographic fact rather
+   than a preference. Greedy longest-match is the right instinct — it prefers
+   ch to c+h — but a handful of the shape's units are syllable ENDINGS, and
+   unconstrained they swallow the front of ordinary words. Measured against
+   today's bank before the rules were written: "leg" reads le+g, "get" ge+t,
+   "set" se+t, "vet" ve+t, "red" re+d, "tin" ti+n, "tub" tu+b and "pal" p+al.
+   Eighteen live bank words, every one of them wrong, and the rules below take
+   that to zero.
+
+   These are lifted VERBATIM from tools/ladder-fill.mjs, which has carried them
+   with controls since the fill pass. Two models of the same code that drift
+   apart is a fault this project has already paid for twice (F2), so the rules
+   are copied exactly rather than re-reasoned: mb says /m/ only at the end of a
+   word, kn wr and gn only at the start, tu is /ch/ only in -ture, ti and ci
+   are /sh/ only before the endings that make them so, and al is /aw/ only
+   before l or k. Applying them to mb, kn and wr TIGHTENS three units that
+   already shipped; measured, no bank word moves, because no bank word has a
+   medial mb or a late kn. */
+const FINAL_ONLY = ["ce","ge","se","ve","ze","le","tle","re","mb"];
+const START_ONLY = ["kn","wr","gn"];
+const TI_FOLLOWERS = ["on","ous","al","ent","en"];
+function unitOk(g, w, p) {
+  const end = p + g.length, rest = w.slice(end);
+  if (FINAL_ONLY.includes(g)) return end === w.length;
+  if (START_ONLY.includes(g)) return p === 0 || end === w.length;
+  if (g === "tu") return rest === "re";
+  if (g === "ti" || g === "ci") return TI_FOLLOWERS.some((t) => rest.startsWith(t));
+  if (g === "al") return rest.startsWith("l") || rest.startsWith("k");
+  return true;
+}
 /* The microphone is gone (owner-ruled 2026-08-11, safety; removed 2026-08-12), and
    three things went with it because it was the only reason each existed.
    HOMOPHONES was a 31-word near-miss table read by nothing but the transcript
@@ -359,13 +424,18 @@ const WORD_LEVEL = {};
 LEVELS.forEach(L => L.words.forEach(w => { WORD_LEVEL[w] = L.n; }));
 
 /* ---------- phonics ---------- */
+/* Longest match first, and a unit that matches the LETTERS but fails its
+   position rule falls through to the next length down rather than to a
+   letter — so "leg" is l-e-g and not l+e+g by way of a refused le. */
 function chunkWord(word) {
   const out = []; let i = 0;
   while (i < word.length) {
+    const four = word.slice(i, i + 4);
     const three = word.slice(i, i + 3);
     const two = word.slice(i, i + 2);
-    if (TRIGRAPHS.includes(three)) { out.push(three); i += 3; }
-    else if (DIGRAPHS.includes(two)) { out.push(two); i += 2; }
+    if (QUADGRAPHS.includes(four) && unitOk(four, word, i)) { out.push(four); i += 4; }
+    else if (TRIGRAPHS.includes(three) && unitOk(three, word, i)) { out.push(three); i += 3; }
+    else if (DIGRAPHS.includes(two) && unitOk(two, word, i)) { out.push(two); i += 2; }
     else { out.push(word[i]); i += 1; }
   }
   return out;
@@ -979,6 +1049,18 @@ const SOUND_TEXT = {
      bans asking a recorder for "the letter I's name" even when, as here, that
      is what the sound happens to be. */
   long_i_i: "the sound at the start of ice",
+  /* THE SEVEN APPROVED AND WAITING, written 2026-08-19 - the day the owner
+     heard all fifty sounds in one sitting and passed every one. Without these
+     lines voiceScript falls back to the id itself and hands a recorder the
+     string "long_u" where a sentence belongs. Named by a carrier word like
+     every entry above, because S4 bans asking for a letter's name. */
+  ar: "the sound in the middle of car",
+  aw: "the sound at the start of awful",
+  ear: "the sound at the end of deer",
+  er: "the sound at the end of her",
+  long_u: "the sound at the start of use",
+  oi: "the sound in the middle of coin",
+  zh: "the buzzing sound in the middle of measure",
 };
 /* The sound each of a word's tiles speaks, in order. */
 function soundIdsFor(word) {

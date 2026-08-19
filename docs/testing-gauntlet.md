@@ -115,7 +115,7 @@ The ten initial properties:
 | # | Property |
 |---|---|
 | P1 | For every bank word and every lowercase a–z string: `chunkWord(w).join("")` equals `w`. |
-| P2 | For the same domain as P1: every chunk is one letter, or one of the nineteen multi-letter units the property writes out by hand — the eighteen digraphs and the one trigraph, `ere`. A chunk is one, two or three letters and never another length. |
+| P2 | For the same domain as P1: every chunk is one letter, or one of the seventy-two multi-letter units the property writes out by hand — 59 digraphs, 10 trigraphs and the 3 four-letter units `augh`, `eigh` and `ough`. A chunk is one to four letters and never another length. It was nineteen units and three letters until 2026-08-19, when the chunker was extended to the whole code the 100-level ladder teaches; `tests/chunker.test.js` owns the roster and its position rules. |
 | P3 | For any valid word state and any result sequence: `box` stays in the range 0 to 5 after every step. |
 | P4 | After any single `applyResult` on a valid word state at session `n`: `dueAt` equals `n` plus the interval for the new box, and `dueAt > n`. |
 | P5 | Starting from a fresh word state: `attempts` grows by exactly 1 per call, and `correct + close + wrong` equals `attempts` after every call. |
@@ -859,7 +859,12 @@ happened to read the output.
   halves repository language is the tree talking, one stranger half is a person. The
   stated residue: someone named entirely in repository words is skipped here, exactly as
   each half already was by the single-word layers.
-- Keys: `g24_files` (212), `g24_controls` (47), `g24_vocab` (178), `g24_common` (889),
+- Keys: `g24_files` (212), `g24_controls` (47), `g24_vocab` (184), `g24_common` (888),
+  `g24_common` moved 889 to 888 on 2026-08-19, owner-ruled on the `Hope` precedent of
+  2026-08-16: **Joy** is an ordinary English word that is also a given name, and it
+  appears in a listening round's carrier phrase. The alternative was rewording a record
+  of what was actually offered, which would falsify it. Only the owner moves a floor
+  downward (E6), and both times it has moved it was this same collision.
   `g24_surnames` (1000), problems capped at 0.
 - Run: `node tools/s9-names.mjs` and `--self-test`; both are in `npm run check`.
 

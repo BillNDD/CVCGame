@@ -53,18 +53,33 @@ describe("G2 properties", () => {
     fc.assert(fc.property(lowerWord, (w) => chunkWord(w).join("") === w), RUNS);
   });
 
-  it("P2: every chunk is one letter or one of the nineteen multi-letter units", () => {
+  it("P2: every chunk is one letter or one of the seventy-two multi-letter units", () => {
     /* Sixteen since 2026-08-12 ("ai" and "ou" for said and you); nineteen
        since 2026-08-17, when seating pass two brought "ey" and "or" by
-       ruling and "ere" with there's seat — the one trigraph. Written out
-       here rather than read from DIGRAPHS, so adding a unit must be a
-       decision in two places (E4). */
-    const DIGRAPH_LITERALS = ["sh", "ch", "th", "wh", "ck", "ng", "qu", "kn", "wr", "mb",
-      "ll", "ss", "ff", "zz", "ai", "ou", "ey", "or", "ere"];
+       ruling and "ere" with there's seat — the one trigraph. SEVENTY-TWO
+       since 2026-08-19, when the chunker was extended to the whole code the
+       100-level ladder teaches (docs/redesign-plan.md, the blocker). Written
+       out here rather than read from DIGRAPHS, so adding a unit must be a
+       decision in two places (E4) — and re-derived from the `new` fields of
+       tools/ladder/shape-v3.json, which is where the roster comes from, not
+       from the engine's own arrays.
+
+       The length clause matters as much as the list. Before today no chunk
+       could exceed three letters; augh, eigh and ough are the only units that
+       may reach four, and a chunk of five would mean the loop had run past its
+       longest tier. */
+    const UNIT_LITERALS = ["sh", "ch", "th", "wh", "ck", "ng", "qu", "kn", "wr", "mb",
+      "ll", "ss", "ff", "zz", "ai", "ou", "ey", "or",
+      "al", "ar", "au", "aw", "ay", "bb", "cc", "ce", "ci", "dd", "ea", "ee", "er", "ew",
+      "ge", "gg", "gh", "gn", "ie", "ir", "le", "mm", "nn", "oa", "oe", "oi", "oo", "ow",
+      "oy", "ph", "pp", "re", "rr", "se", "ti", "tt", "tu", "ue", "ur", "ve", "ze",
+      "ere", "air", "are", "dge", "ear", "eer", "igh", "ore", "tch", "tle",
+      "augh", "eigh", "ough"];
+    expect(UNIT_LITERALS.length).toBe(72);
     fc.assert(
       fc.property(lowerWord, (w) =>
         chunkWord(w).every(
-          (c) => c.length === 1 || ((c.length === 2 || c.length === 3) && DIGRAPH_LITERALS.includes(c))
+          (c) => c.length === 1 || (c.length <= 4 && UNIT_LITERALS.includes(c))
         )
       ),
       RUNS

@@ -46,6 +46,23 @@ const MUTANTS = [
   ["PROMPT_CAP 26 to 25", "const PROMPT_CAP = 26;", "const PROMPT_CAP = 25;"],
   ["dashed join removed", 'const dashed = (w) => chunkWord(w).join("-");', 'const dashed = (w) => chunkWord(w).join("");'],
   ["digraph ck dropped", '"wh","ck","ng","qu"', '"wh","ng","qu"'],
+  /* THE CHUNKER'S POSITION RULES, one mutant per rule, added 2026-08-19 with
+     the extended code. Each of these four protects words that are in the bank
+     TODAY, so a survivor here is not a theoretical gap: without the final-only
+     rule "leg" reads le+g, "get" ge+t, "set" se+t, "vet" ve+t and "red" re+d;
+     without the ti rule "tin", "tick" and "tip" read ti+n, ti+ck, ti+p;
+     without the tu rule "tub", "tuck" and "tug" read tu+b, tu+ck, tu+g; and
+     without the al rule "pal" reads p+al. Eighteen live words across the four,
+     every one of them a wrong tile row and a wrong sound-out. Verified against
+     an out-of-tree mutation before they were written: neutering unitOk turns
+     nine of tests/chunker.test.js's assertions red. */
+  ["chunker final-only rule dropped", "if (FINAL_ONLY.includes(g)) return end === w.length;",
+    "if (FINAL_ONLY.includes(g)) return true;"],
+  ["chunker tu rule dropped", 'if (g === "tu") return rest === "re";', 'if (g === "tu") return true;'],
+  ["chunker ti rule dropped", 'if (g === "ti" || g === "ci") return TI_FOLLOWERS.some((t) => rest.startsWith(t));',
+    'if (g === "ti" || g === "ci") return true;'],
+  ["chunker al rule dropped", 'if (g === "al") return rest.startsWith("l") || rest.startsWith("k");',
+    'if (g === "al") return true;'],
   ["migrate +1 to +2", "s.level = (s.level || 1) + 1;", "s.level = (s.level || 1) + 2;"],
   ["migrate log shift dropped", "(s.log || []).forEach(r => { r.level += 1; });", ""],
   ["migrate clamp removed", "Math.min(Math.max(1, s.level || 1), LEVELS.length)", "Math.max(1, s.level || 1)"],

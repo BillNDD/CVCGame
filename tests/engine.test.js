@@ -4,7 +4,7 @@
 import { describe, it, expect, vi, afterEach } from "vitest";
 import { readFileSync } from "node:fs";
 import {
-  LEVELS, DIGRAPHS, TRICKY, INTERVALS, SESSION_SIZE, PROMPT_CAP, WORD_LEVEL,
+  LEVELS, TRICKY, INTERVALS, SESSION_SIZE, PROMPT_CAP, WORD_LEVEL,
   chunkWord, dashed, freshWordState, applyResult, buildSession, checkPromotion,
   heal, migrate, newState, buildMarkdown, loadState, saveState, speak, hush, buzz, feedbackSpeech, PRAISE,
   SEAM_MS, SOUNDOUT_SEAM_MS, voiceScript, clipPlan, resolvePack, TTS_UNSAFE_PRAISE, ttsSafePraise,
@@ -146,14 +146,22 @@ describe("chunkWord and dashed", () => {
        stopped fusing would fail here even if the list still named it. */
     expect(chunkWord("said")).toEqual(["s","ai","d"]);
     expect(chunkWord("you")).toEqual(["y","ou"]);
-    expect(DIGRAPHS).toEqual(["sh","ch","th","wh","ck","ng","qu","kn","wr","mb","ll","ss","ff","zz","ai","ou","ey","or"]);
     /* Seating pass two's units, owner-approved 2026-08-17, pinned by their
        motivating words like ai and ou before them — and ere, the one
        trigraph, pinned the same way. */
     expect(chunkWord("they")).toEqual(["th","ey"]);
     expect(chunkWord("for")).toEqual(["f","or"]);
     expect(chunkWord("there")).toEqual(["th","ere"]);
+    /* THE ROSTER ITSELF IS PINNED IN tests/chunker.test.js, which owns the
+       extended code the 100-level ladder teaches (2026-08-19) and every
+       position rule that keeps it off ordinary words. It is a separate file
+       because this one is 1318 lines against a 1400 ceiling, and E6 says a
+       file approaching a ceiling is split rather than grown into — and
+       because the g1_unit_tests floor is counted from THIS file's name, so
+       moving the tests that were already here would have LOWERED a floor,
+       which E6 forbids outright. Both halves stay literal either way. */
   });
+
   it("splits VC and plain CVC words", () => {
     expect(chunkWord("ax")).toEqual(["a","x"]);
     expect(chunkWord("is")).toEqual(["i","s"]);

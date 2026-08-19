@@ -31,6 +31,14 @@ export const DECLARED = {
     evidence: "Vitest counts (floor g1_unit_tests)",
     limits: "Proves the engine's arithmetic and shape, never that a child understands the screen or that a clip sounds right.",
   },
+  "tests/chunker.test.js": {
+    safety: { S8: "unit" },
+    gate: "G1", requirement: "SPEC sections 3-4 and safety rule S8: the seventy-two multi-letter units the chunker fuses, the position rules that keep a syllable ending off the front of a word, and the proof that widening the roster re-tiled nothing already shipped",
+    oracle: "Literal rosters re-derived from tools/ladder/shape-v3.json's `new` fields, literal tilings written from what each spelling says, and a literal tile-count histogram over the whole bank (E4)",
+    platform: "node/jsdom", mutants: "not yet in a G5 family - the roster shipped 2026-08-19 and its mutants are a named follow-up",
+    evidence: "Vitest counts (mapped by G20)",
+    limits: "Proves which letters fuse into one tile, never which SOUND that tile makes - no unit here carries a clip decision, and split vowels are outside the roster entirely because a tile row must spell its word.",
+  },
   "tests/scheduler.test.js": {
     gate: "G1", requirement: "SPEC section 4: promotion and the level rules of the session builder",
     oracle: "Hand-computed queues from stated states", platform: "node/jsdom",
