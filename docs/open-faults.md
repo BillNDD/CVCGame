@@ -838,6 +838,21 @@ the same day in `tools/free-port.mjs`. Six faults planted against rule 5, six ki
 - **Done** More of what the documents assert is derived from the code rather than typed
   beside it, so the gap cannot open silently.
 
+### F4. The sentence-screen ledger binds a read to an id, not to the text that was read
+
+- **Where** `tools/sentence-screen.mjs`, every SCREENED list. Found 2026-08-20 while landing
+  the move-bill repairs: eleven texts were reworded under their existing ids, and the gate
+  kept passing throughout, because being in the list means "this ID was read", while the rule
+  the gate enforces means "this TEXT was read".
+- **What a grown-up experiences today** Nothing yet — the eleven repaired wordings were read
+  by the owner the same day on the approval page, and the ledger comment names that read. The
+  fault is the silent path: any future edit to a screened text inherits the old read with no
+  gate going red, which is exactly the shape of the cup lesson.
+- **Done** A screened entry carries something derived from the text it vouches for (the drift
+  refactor's structured entries are the planned vehicle), so that editing a text un-screens
+  it mechanically. Until then, every text edit must re-read and re-date by hand, as the
+  2026-08-20 repairs did.
+
 ---
 
 ## J. From a real child's backup, 2026-08-13
@@ -1361,6 +1376,18 @@ declines to place any word using one until every sound of it is taught — with 
 control per multi-sound spelling and a negative control that seats `town` at 65
 and fails. Until then, every level teaching a second sound of an already-taught
 spelling needs a human read of its word list before it ships.
+
+**Two more of the same family, found 2026-08-20 by the move-bill commit's audit:
+`sold` and `told` at level 30.** Both need o saying its name before ld — the
+exact sound the same commit moved cold/gold/fold to level 68 for — and a child
+at 30 sounds s-o-l-d with the short o taught since the first decades. They got
+neither of the hybrid ruling's remedies: no WORD_SOUND bend (old and hold have
+one), no move (cold, gold and fold did), and no entry anywhere until this one.
+The blind model above is why the fill never flagged them. Measured 2026-08-20:
+bending in place breaks nothing; moving them to 68 breaks exactly one approved
+text (s:v3-l30-02 uses told). **Done** means the owner rules — bend like
+old/hold or move like cold/gold/fold — and the fix lands with clip, literals
+and, if moved, the one text repair.
 
 ## V. `-ful` now has the fault `-ly` just lost — opened 2026-08-19
 

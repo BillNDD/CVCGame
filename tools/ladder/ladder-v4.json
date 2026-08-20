@@ -251,9 +251,6 @@
   "pool": 85,
   "cands": 44,
   "words": [
-   "cold",
-   "fold",
-   "gold",
    "land",
    "led",
    "left",
@@ -903,8 +900,6 @@
   "words": [
    "having",
    "never",
-   "over",
-   "tiger",
    "buses",
    "cobweb",
    "glasses",
@@ -920,7 +915,6 @@
   "pool": 160,
   "cands": 2,
   "words": [
-   "wallet",
    "windmill",
    "rocket",
    "pocket",
@@ -1200,7 +1194,8 @@
   "words": [
    "wax",
    "wand",
-   "water"
+   "water",
+   "wallet"
   ]
  },
  {
@@ -1567,7 +1562,7 @@
  },
  {
   "n": 68,
-  "teaches": "long i before two sounds",
+  "teaches": "long i and long o before two sounds",
   "new": "",
   "rule": "i_before_two",
   "pool": 165,
@@ -1579,7 +1574,10 @@
    "wild",
    "child",
    "kindly",
-   "behind"
+   "behind",
+   "cold",
+   "gold",
+   "fold"
   ],
   "filled": [
    "child",
@@ -1652,7 +1650,6 @@
   "cands": 16,
   "words": [
    "sleeping",
-   "tigers",
    "holiday",
    "needed",
    "painted",
@@ -1680,7 +1677,10 @@
    "gravy",
    "later",
    "apron",
-   "table"
+   "table",
+   "over",
+   "tiger",
+   "tigers"
   ],
   "billed": [
    "baby",
@@ -2249,7 +2249,7 @@
    "chorus",
    "mechanic",
    "orchestra",
-   "chef"
+   "machine"
   ],
   "billed": [
    "school",
@@ -2258,7 +2258,7 @@
    "chorus",
    "mechanic",
    "orchestra",
-   "chef"
+   "machine"
   ]
  },
  {

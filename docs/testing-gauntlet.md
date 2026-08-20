@@ -76,12 +76,12 @@ is the clause that catches the eighth fault nobody has thought of yet.
 | BREAKS | `g27_throws_max` (0) | a real function threw on what the ladder produces |
 | BREAKS | `g27_no_value_max` (0) | a real function returned nothing where a value is required |
 | BREAKS | `g27_sound_no_clip_max` (14) | a tile unit resolves to a sound id in no pack and no waiting room |
-| BREAKS | `g27_tray_no_clip_max` (198) | Build-it would deal a tile whose sound has no clip |
+| BREAKS | `g27_tray_no_clip_max` (182) | Build-it would deal a tile whose sound has no clip |
 | BREAKS | `g27_word_no_clip_max` (95) | a bank word has no word clip anywhere - REPORTS ONLY, held by the sum below |
 | BREAKS | `g27_sentence_no_clip_max` (0) | a placed text has no clip anywhere |
 | BREAKS | `g27_text_word_untaught_max` (1) | a placed text uses a word the ladder does not teach by that level |
 | BILL | `g27_clip_unshipped_max` (822) | approved, in the waiting room, not yet in the pack - REPORTS ONLY, held by the sum below |
-| BREAKS | `g27_word_clips_missing_max` (913) | `word_no_clip` + `clip_unshipped` together. The two are one debt in two rooms, and approving a listening round moves a word from the first to the second - success, which under separate ceilings reddened the build while the total had not moved. Gating the sum cannot be satisfied by shuffling. Set to the measured 917, which is what the gate's own nudge asked for: the owner first instructed 1050 for headroom and then withdrew it the same minute - "go with 917 don't delay the issue". A ceiling with slack in it is a ceiling that stops catching drift. |
+| BREAKS | `g27_word_clips_missing_max` (909) | `word_no_clip` + `clip_unshipped` together. The two are one debt in two rooms, and approving a listening round moves a word from the first to the second - success, which under separate ceilings reddened the build while the total had not moved. Gating the sum cannot be satisfied by shuffling. Born at the measured 917, lowered to 913 when the gate learned to sum, and lowered again to 909 when the move-bill repairs and round 15 landed (a first lowering to 908 was measured while one text sat temporarily outside the room; the ceiling follows the steady state, not the trough) - E6, lower-when-better. 917 is what the gate's own nudge asked for: the owner first instructed 1050 for headroom and then withdrew it the same minute - "go with 917 don't delay the issue". A ceiling with slack in it is a ceiling that stops catching drift. |
 | DEGRADED | `g27_empty_sentence_pool_max` (0) | a level whose free-play sentence pool is empty |
 | DEGRADED | `g27_session_reveal_silent_max` (13) | the level teaches no word in its own text, so the sound-out is skipped |
 | DEGRADED | `g27_unseated_bank_word_max` (3) | a bank word truly-random can never draw |
@@ -1129,7 +1129,7 @@ found it by remembering, which is the mechanism these gates exist to replace.
   every column after `oo_moon`'s `"moon, food, boot"` cell, so the gate read the wrong cell as
   a verdict and reported a contradiction that did not exist. A gate that mis-parses its
   evidence lies confidently. That row is now a control.
-- Keys: `g16b_sounds` (56) and `g16b_controls` (33), problems capped at 0.
+- Keys: `g16b_sounds` (58) and `g16b_controls` (33), problems capped at 0.
 
 ## Aggregation
 

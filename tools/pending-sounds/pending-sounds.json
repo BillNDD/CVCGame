@@ -462,5 +462,21 @@
   "verdict": "perfect",
   "round": "curriculum round C / 2026-08-15 - the word i's own clip; one letter, one sound (the schwa_a precedent)",
   "note": "ledger row added 2026-08-17 when ship-sounds refused to run without it: the clip shipped via the word pipeline and the sound ledger never learned it (the F2 class - one truth, two records)"
+ },
+ "uf": {
+  "as_in": "rough, tough, enough",
+  "how": "the uh-f cluster ough says: \"uf\" - as in rough, tough, enough",
+  "round": "sound round 14 / 2026-08-20",
+  "sha256": "f3ec9447ef03a4ec7b7304cfd2a7ebd8bdbb8ef582b7133fa75b71d868fc354f",
+  "verdict": "perfect (owner) - the continuation arm won for both cluster sounds; citation arms good, trios no good",
+  "bake": "render_sounds14 phoneme carrier, target last, cut at the last energy island - the sounds13 method verbatim"
+ },
+ "off": {
+  "as_in": "cough",
+  "how": "the aw-f cluster ough says in cough: \"off\"",
+  "round": "sound round 14 / 2026-08-20",
+  "sha256": "c4f23fca7cacb46ce39cc1750377106fc528d7e3dc99d5283a155c5de29808e6",
+  "verdict": "perfect (owner) - the continuation arm won for both cluster sounds; citation arms good, trios no good",
+  "bake": "render_sounds14 phoneme carrier, target last, cut at the last energy island - the sounds13 method verbatim"
  }
 }

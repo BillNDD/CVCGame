@@ -305,7 +305,7 @@
   "round": "batch 6 / 2026-08-07",
   "verdict": "perfect",
   "level": "reveal lead-in (planned)",
-  "text": "Let’s sound it out."
+  "text": "Let\u2019s sound it out."
  },
  "of": {
   "arm": "of_6",
@@ -1441,7 +1441,7 @@
   "note": "supersedes the batch 13 entry, which was bytes the owner had already marked closest in batch 12. This clip was never offered before: verified against all 1883 arms of the 23 earlier rounds."
  },
  "a": {
-  "arm": "2·3 — matched to today's schwa",
+  "arm": "2\u00b73 \u2014 matched to today's schwa",
   "family": "owner-handoff-schwaD",
   "ms": 743,
   "sha256": "d3fc66ccc4ed23f493af51b368009b2325153aae9c1cddd23007825a47c7ecee",
@@ -1458,7 +1458,7 @@
   "round": "sound-out lines (2026-08-13)",
   "verdict": "perfect",
   "level": "the sentence reveal's invitation (SPEC section 12)",
-  "phonemes": "juː ɹˈɛd ðˌɛm ˈɔːl. lˈɛts sˈaʊnd ˈaʊt ðˈɪswˌʌn.",
+  "phonemes": "ju\u02d0 \u0279\u02c8\u025bd \u00f0\u02cc\u025bm \u02c8\u0254\u02d0l. l\u02c8\u025bts s\u02c8a\u028and \u02c8a\u028at \u00f0\u02c8\u026asw\u02cc\u028cn.",
   "note": "the first take said 'read' as in reed and was marked no good; this one carries explicit phonemes"
  },
  "s:mode-b3-s01": {
@@ -1925,7 +1925,7 @@
   "sha256": "d9e54a5ed9844e797ca83c1822d3b6aa13ccc801ff137a71fb952a5b1107a536",
   "round": "we/me sentences (2026-08-13)",
   "verdict": "perfect",
-  "level": "NOT PLACEABLE — nip",
+  "level": "NOT PLACEABLE \u2014 nip",
   "blocked_on": "we and me are not seated in the bank yet - docs/open-faults.md K"
  },
  "s:mode-wm-wm19": {
@@ -8963,11 +8963,11 @@
   "level": "v3 L36, paragraph - unseated, ladder redesign"
  },
  "s:v3-l41-01": {
-  "text": "I am having a muffin. A bit fell on the mat. The cat ran over. She got it fast!",
+  "text": "I am having a muffin. A bit fell on the mat. The cat ran up. She got it fast!",
   "family": "sentence_sp1.0",
-  "ms": 5414,
-  "sha256": "2434dc6d853b5ed98d019935e5db86e20db285fd443b98b368543fd44f581886",
-  "round": "sentence batch 3 / 2026-08-19",
+  "ms": 4864,
+  "sha256": "b216c0ef9531ed63d70dae277db5f74778bc55d28d66d348155ed37acf457b87",
+  "round": "sound round 14 + the eleven / 2026-08-20",
   "verdict": "perfect",
   "level": "v3 L41, paragraph - unseated, ladder redesign"
  },
@@ -9000,11 +9000,11 @@
   "credit": "Fifty Famous Stories Retold"
  },
  "s:v3-l48-01": {
-  "text": "I wash the dish. A little bubble went up. It went over my apple and up to the middle of the den! Then - pop! Simple fun.",
+  "text": "I wash the dish. A little bubble went up. It got to the middle of the den! Then - pop! Simple fun.",
   "family": "sentence_sp1.0",
-  "ms": 7270,
-  "sha256": "1d60aea17cfa75d66c4df5a974031b18f7920936031dea46072d0fd97cfc39b2",
-  "round": "sentence batch 3 / 2026-08-19",
+  "ms": 5717,
+  "sha256": "80d01364b70f884d3356c4ca62306b33d801b3d5fe9f45ea729e7bccce2de883",
+  "round": "sound round 14 + the eleven / 2026-08-20",
   "verdict": "perfect",
   "level": "v3 L48, paragraph - unseated, ladder redesign"
  },
@@ -9144,20 +9144,20 @@
   "level": "v3 L12, sentence - unseated, ladder redesign"
  },
  "s:v3-l13-01": {
-  "text": "The gold is cold in the sand.",
+  "text": "Dad left the lid on the pot.",
   "family": "sentence_sp1.0",
-  "ms": 2044,
-  "sha256": "38cb3f31e9f39050e5dfa116192deb6182c8544b08d78e2c2134bdf9a3415c5a",
-  "round": "sentence batch 4 / 2026-08-19",
+  "ms": 1600,
+  "sha256": "e180d7e0e32d9b2a0618f0097d0d44463fe76575c76de3a5374347c7526a6851",
+  "round": "sound round 14 + the eleven / 2026-08-20",
   "verdict": "perfect",
   "level": "v3 L13, sentence - unseated, ladder redesign"
  },
  "s:v3-l13-02": {
-  "text": "Mom let me fold the map.",
+  "text": "Mom let me get the map.",
   "family": "sentence_sp1.0",
-  "ms": 1830,
-  "sha256": "8adcfa53c27c029136c5515929e4bcc41b2f547ec934367eb8fec37dc92c00ca",
-  "round": "sentence batch 4 / 2026-08-19",
+  "ms": 1387,
+  "sha256": "82e83d86322d51b280b9dde18d5a540d2a1c5eb2967a2ee402ba522db0aa0df5",
+  "round": "sound round 14 + the eleven / 2026-08-20",
   "verdict": "perfect",
   "level": "v3 L13, sentence - unseated, ladder redesign"
  },
@@ -9282,11 +9282,11 @@
   "level": "v3 L45, paragraph - unseated, ladder redesign"
  },
  "s:v3-l46-02": {
-  "text": "I am swimming at the pond. Dad is sitting on the bank. I am getting cold, so I stopped. Mom got me a hot cup of milk. I am so glad!",
+  "text": "I am swimming at the pond. Dad is sitting on the bank. The sun went in, so I stopped. Mom got me a hot cup of milk. I am so glad!",
   "family": "sentence_sp1.0",
-  "ms": 8849,
-  "sha256": "5409d84e3f296f39e2b03352159e8b1a777389b9db3529075b2bbc1a6b6b371c",
-  "round": "sentence batch 5 / 2026-08-19",
+  "ms": 8320,
+  "sha256": "7cbf4107b0cb87de74e585447b06e23e6ba14d94771cd3493e3d1f8700b741c5",
+  "round": "sound round 14 + the eleven / 2026-08-20",
   "verdict": "perfect",
   "level": "v3 L46, paragraph - unseated, ladder redesign"
  },
@@ -9505,15 +9505,6 @@
   "round": "sentence batch 6 / 2026-08-19",
   "verdict": "perfect",
   "level": "v3 L66, sentence - unseated, ladder redesign"
- },
- "s:v3-l67-01": {
-  "text": "Mom set a hot pie on the step to get cold. The sun was bright and high, and the pie did not get cold fast. Then the flies came, as they wanted the pie as well. I sat by the step and did my best to help. But every fly that went up came back. So Dad got a net and set it on top of the pie. The flies had to go, and we had the pie at sunset.",
-  "family": "sentence_sp1.0",
-  "ms": 21180,
-  "sha256": "4a99fda34994bbd420f0e273ceeeed04674d55f4d864e6e63911f270aedcfcb8",
-  "round": "sentence batch 6 / 2026-08-19",
-  "verdict": "perfect",
-  "level": "v3 L67, paragraph - unseated, ladder redesign"
  },
  "s:v3-l67-02": {
   "text": "The cat got so high up that we might need a ladder.",
@@ -10024,11 +10015,11 @@
   "say_reason": "homograph respelling for the voice: read->red"
  },
  "s:v3-l71-01": {
-  "text": "It was a holiday, so we went to see the tigers. Every tiger was sleeping in the sun, and we needed them to get up. We sat on the grass and had an apple. Then a man came with a sack of dinner. The tigers got up so fast that my apple went in the mud. Mom said that was the best bit of the holiday. When we got home, I painted a tiger and we hung it up.",
+  "text": "It was a holiday, so we went to see the sheep. Every sheep was sleeping in the sun, and we needed them to get up. We sat on the grass and had an apple. Then a man came with a sack of dinner. The sheep got up so fast that my apple went in the mud. Mom said that was the best bit of the holiday. When we got home, I painted a sheep and we hung it up.",
   "family": "sentence_sp1.0",
-  "ms": 19968,
-  "sha256": "0d76a57470d3f2379a7ae9195281115b955a34d10c0467da4fb03c32c73c5fdf",
-  "round": "sentence rework / 2026-08-19",
+  "ms": 19157,
+  "sha256": "605f1c9026c5a4a14013cb63736ca4432a76cfc765cc6ff6fa8203a25cec8a61",
+  "round": "sound round 14 + the eleven / 2026-08-20",
   "verdict": "perfect",
   "level": "v3 L71, paragraph - unseated, ladder redesign"
  },
@@ -10816,11 +10807,11 @@
   "level": "v3 L41, paragraph - unseated, ladder redesign"
  },
  "s:v3-l42-02": {
-  "text": "Dad did not have his wallet at the shop. We went back to the van to find it. It was not in the van! Then Mom got it from the backpack, and Dad was so glad.",
+  "text": "Dad did not have his jacket at the shop. We went back to the van to find it. It was not in the van! Then Mom got it from the backpack, and Dad was so glad.",
   "family": "sentence_sp1.0",
-  "ms": 9088,
-  "sha256": "b73638ec1f259883722602925985b5cef9f384c8bf8154a144573a14cba4ec7e",
-  "round": "sentence batch 8 / 2026-08-19",
+  "ms": 9131,
+  "sha256": "a83c0a99b358b0e5a5c99003c9a57615d53e77f94f920d8617b29b316450c633",
+  "round": "sound round 14 + the eleven / 2026-08-20",
   "verdict": "perfect",
   "level": "v3 L42, paragraph - unseated, ladder redesign"
  },
@@ -10897,11 +10888,11 @@
   "level": "v3 L51, paragraph - unseated, ladder redesign"
  },
  "s:v3-l52-02": {
-  "text": "Mom hung the wet socks up to dry in the sun. Then the sky went black and cold. I said, why not get them in? We did try, and we got every sock in fast. Mom said I was quick, and my socks are dry.",
+  "text": "Mom hung the wet socks up to dry in the sun. Then the sky went black. I said, why not get them in? We did try, and we got every sock in fast. Mom said I was quick, and my socks are dry.",
   "family": "sentence_sp1.0",
-  "ms": 12544,
-  "sha256": "20dcec26bb774e5ffd812004dd72cab6c562f8963a1f4f27a0547fbc5d60bf25",
-  "round": "sentence batch 8 / 2026-08-19",
+  "ms": 11904,
+  "sha256": "34eab67b5b2b26ce50427d8b4ffe0a4edb43104c8312f23055891104bb784f88",
+  "round": "sound round 14 + the eleven / 2026-08-20",
   "verdict": "perfect",
   "level": "v3 L52, paragraph - unseated, ladder redesign"
  },
@@ -11248,20 +11239,20 @@
   "level": "v3 L72, paragraph - unseated, ladder redesign"
  },
  "s:v3-l94-01": {
-  "text": "Our school has a big night in spring, and this year I was in the chorus. The school bus did not start, so a mechanic had to come and fix it. We got there late, and my stomach was in a knot. The orchestra went on first, and the drum was so loud that I had to grin. Then it was time for the chorus, and the knot in my stomach let go. We had to sing, and every note was right, up to the high note at the end. When it was over, the school chef had a long table of cakes and jelly for us all. I ate so much that my stomach was sore. On the way home the bus went by the shore, and the moon was bright on the old anchor down on the sand.",
+  "text": "Our school has a big night in spring, and this year I was in the chorus. The school bus did not start, so a mechanic had to come and fix it. We got there late, and my stomach was in a knot. The orchestra went on first, and the drum was so loud that I had to grin. Then it was time for the chorus, and the knot in my stomach let go. We had to sing, and every note was right, up to the high note at the end. When it was over, there was a long table of cakes and jelly for us all. I ate so much that my stomach was sore. On the way home the bus went by the shore, and the moon was bright on the old anchor down on the sand.",
   "family": "sentence_sp1.0",
-  "ms": 35477,
-  "sha256": "69c8cf6e237e81372ddc80e6a61f2d49e19aac007f556f4c4d27a8703cd67de1",
-  "round": "final levels / 2026-08-19",
+  "ms": 33195,
+  "sha256": "799df97c792648a349a71121f21868a909437fb56b4807baa8c8e738ee2d21da",
+  "round": "sound round 14 + the eleven / 2026-08-20",
   "verdict": "perfect",
   "level": "v3 L94, paragraph - unseated, ladder redesign"
  },
  "s:v3-l94-02": {
-  "text": "Our school got to go out on an old ship for the day. It took six men to get the anchor up. A mechanic came with us, and he was down there in the dark all day, where it is very hot. When we got out on the water, the ship went up and down. My stomach did not like that at all, and I had to sit down. The chef gave me dry bread and a cup of water, and it helped. Then our school orchestra got up on the deck to play. The chorus had to sing over the sound of the waves. When the anchor went down at the shore, we did not want to go home.",
+  "text": "Our school got to go out on an old ship for the day. It took six men to get the anchor up. A mechanic came with us, and he was down there in the dark all day, where it is very hot. When we got out on the water, the ship went up and down. My stomach did not like that at all, and I had to sit down. The men gave me dry bread and a cup of water, and it helped. Then our school orchestra got up on the deck to play. The chorus had to sing over the sound of the waves. When the anchor went down at the shore, we did not want to go home.",
   "family": "sentence_sp1.0",
-  "ms": 27072,
-  "sha256": "b4c34b3d42eb736d3fd0cccb462897b9aa4325db88e5afa51cc4a8cc492300b0",
-  "round": "final levels / 2026-08-19",
+  "ms": 26987,
+  "sha256": "56ebb9bfca2f955ada2f3f4e8b8031bcb09ba0447cf705ad5c63e390cc7aca3e",
+  "round": "sound round 14 + the eleven / 2026-08-20",
   "verdict": "perfect",
   "level": "v3 L94, paragraph - unseated, ladder redesign"
  },
@@ -12110,5 +12101,41 @@
   "round": "L78 replacement / 2026-08-20",
   "verdict": "perfect",
   "level": "v3 L78, paragraph - unseated, ladder redesign"
+ },
+ "machine": {
+  "arm": "machine_5",
+  "family": "listen_sp0.75",
+  "ms": 1110,
+  "sha256": "003d4afbf608d2db00b9704807c0bb33a139edd7b3160473be9b674610e89778",
+  "round": "round 15 / 2026-08-20",
+  "verdict": "perfect",
+  "level": "unseated - ladder redesign"
+ },
+ "mechanic": {
+  "arm": "mechanic_5",
+  "family": "word_sp0.75",
+  "ms": 1130,
+  "sha256": "a4d2e08949af2a295e03b246f92916d58f56415bfe48d6da50724bc5d5da05c4",
+  "round": "round 15 / 2026-08-20",
+  "verdict": "perfect",
+  "level": "unseated - ladder redesign"
+ },
+ "apron": {
+  "arm": "apron_1",
+  "family": "word_sp0.7",
+  "ms": 1040,
+  "sha256": "969515cfd98f4a6577b0b7b34b66b53b69c17cb36182ff05d04b975737f56eed",
+  "round": "round 15 / 2026-08-20",
+  "verdict": "perfect",
+  "level": "unseated - ladder redesign"
+ },
+ "s:v3-l67-01": {
+  "text": "Mom set a hot pie on the step. The sun was bright and high, and the pie was hot all day. Then the flies came, as they wanted the pie as well. I sat by the step and did my best to help. But every fly that went up came back. So Dad got a net and set it on top of the pie. The flies had to go, and we had the pie at sunset.",
+  "family": "sentence_sp1.0",
+  "ms": 19776,
+  "sha256": "f987a1ca2f5d2985d3735f6d677b3c0fc0afd2d36925cb4703aab2cb7867c871",
+  "round": "round 15 / 2026-08-20",
+  "verdict": "perfect",
+  "level": "v3 L67, paragraph - unseated, ladder redesign"
  }
 }

@@ -233,12 +233,32 @@ byte-pinned word rather than replacing accepted audio with a render.
   sidecar workspace archive on the owner's PC
   (handoff `word-quest-uplift-handoff-2026-08-07T1438Z`).
 
-## Approved and unshipped: 942 items still in the waiting room (through 2026-08-20)
+## Approved and unshipped: 945 items still in the waiting room (through 2026-08-20)
+
+**The move-bill repairs landed 2026-08-20 evening** - the eleven texts the seven seat
+moves invalidated were reworded, re-rendered and put to the owner on one page: ten
+"perfect" and banked; the eleventh (l67-01) was caught by the conversion rehearsal USING
+a word its own level does not teach ("for", taught at L81 - introduced by the rework,
+after validation), so its row and clip left the room on the l78-02 pattern, and the
+owner ruled its two-word fix ("hot all day") perfect in round 15 the same evening, when
+it returned. Round 15 also closed the recording debt to ZERO: machine (banked that
+evening to carry ch=/sh/ at level 94), mechanic (comeback accepted on a carrier family
+its refused round never offered), and apron all took clips on first press.
+
+**Approved and unshipped, sounds (2026-08-20): `d:uf` and `d:off`** - the two cluster
+sounds the owner's move-bill ruling created (the x/ks and qu/kw precedent), accepted by
+ear in sound round 14 (the continuation arm won for both; citations good, trios no
+good). Their bytes and verdicts sit in `tools/pending-sounds/pending-sounds.json` as
+`uf` and `off`. WAITING because shipping them is one motion with the bends that use
+them: rough/tough/enough bend their ough tile to uf and cough to off, the four become
+level 92's heart words, their word clips ship, and the test literals move - the next
+commit's whole subject.
 
 **The 95 bill words closed 94 of 95 in two rounds, same day (2026-08-19)** - the words
 the owner's 107-word level bill created that morning. Round 1 took 48 of 48; round 2 took
 45 of 46, with **mechanic refused - "none are right"** - owed a comeback field on new
-mechanisms, recorded in round-verdicts.json. Both rounds banked through the unified
+mechanisms, recorded in round-verdicts.json, and PAID in round 15 the next evening,
+above. Both rounds banked through the unified
 recorder with its verify-then-write guarantee. One word short of the whole conversion's
 recording debt, cleared between lunch and dinner.
 

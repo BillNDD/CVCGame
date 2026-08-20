@@ -574,5 +574,143 @@
    "note": "incredibly sad - refused on READ despite the earlier ear-approval; the read outranks",
    "action": "row and clip removed from the waiting room, the gob pattern; replacement drafted the same day"
   }
+ ],
+ "sound round 14 + the eleven / 2026-08-20": [
+  {
+   "id": "d:uf arm 1",
+   "verdict": "good",
+   "arm": "citation",
+   "note": ""
+  },
+  {
+   "id": "d:uf arm 2",
+   "verdict": "good",
+   "arm": "citation_sp0.85",
+   "note": ""
+  },
+  {
+   "id": "d:uf arm 3",
+   "verdict": "no good",
+   "arm": "trio",
+   "note": ""
+  },
+  {
+   "id": "d:uf arm 4",
+   "verdict": "perfect",
+   "arm": "continuation",
+   "note": "continuation wins for both cluster sounds"
+  },
+  {
+   "id": "d:off arm 1",
+   "verdict": "good",
+   "arm": "citation",
+   "note": ""
+  },
+  {
+   "id": "d:off arm 2",
+   "verdict": "good",
+   "arm": "citation_sp0.85",
+   "note": ""
+  },
+  {
+   "id": "d:off arm 3",
+   "verdict": "no good",
+   "arm": "trio",
+   "note": ""
+  },
+  {
+   "id": "d:off arm 4",
+   "verdict": "perfect",
+   "arm": "continuation",
+   "note": "continuation wins for both cluster sounds"
+  },
+  {
+   "id": "s:v3-l13-01",
+   "verdict": "perfect",
+   "note": "read + listened on the sound14+eleven page; the read is the sentence screen for the repaired wording"
+  },
+  {
+   "id": "s:v3-l13-02",
+   "verdict": "perfect",
+   "note": "read + listened on the sound14+eleven page; the read is the sentence screen for the repaired wording"
+  },
+  {
+   "id": "s:v3-l41-01",
+   "verdict": "perfect",
+   "note": "read + listened on the sound14+eleven page; the read is the sentence screen for the repaired wording"
+  },
+  {
+   "id": "s:v3-l42-02",
+   "verdict": "perfect",
+   "note": "read + listened on the sound14+eleven page; the read is the sentence screen for the repaired wording"
+  },
+  {
+   "id": "s:v3-l46-02",
+   "verdict": "perfect",
+   "note": "read + listened on the sound14+eleven page; the read is the sentence screen for the repaired wording"
+  },
+  {
+   "id": "s:v3-l48-01",
+   "verdict": "perfect",
+   "note": "read + listened on the sound14+eleven page; the read is the sentence screen for the repaired wording"
+  },
+  {
+   "id": "s:v3-l52-02",
+   "verdict": "perfect",
+   "note": "read + listened on the sound14+eleven page; the read is the sentence screen for the repaired wording"
+  },
+  {
+   "id": "s:v3-l67-01",
+   "verdict": "perfect",
+   "note": "read + listened on the sound14+eleven page - BUT that wording used \"for\", taught at L81, caught by the rehearsal before commit; reworded to hot-all-day the same evening, awaiting his read and ear",
+   "action": "row and clip left the waiting room, the l78-02 pattern; the hot-all-day rework is rendered and goes to the owner on its own card"
+  },
+  {
+   "id": "s:v3-l71-01",
+   "verdict": "perfect",
+   "note": "read + listened on the sound14+eleven page; the read is the sentence screen for the repaired wording"
+  },
+  {
+   "id": "s:v3-l94-01",
+   "verdict": "perfect",
+   "note": "read + listened on the sound14+eleven page; the read is the sentence screen for the repaired wording"
+  },
+  {
+   "id": "s:v3-l94-02",
+   "verdict": "perfect",
+   "note": "read + listened on the sound14+eleven page; the read is the sentence screen for the repaired wording"
+  },
+  {
+   "id": "level 94 ch=sh hole",
+   "verdict": "bank machine to carry ch=sh",
+   "arm": null,
+   "note": "owner chose the second option over the narrow-to-k recommendation; machine seated at 94, clip and bends to follow its own round"
+  }
+ ],
+ "round 15 / 2026-08-20": [
+  {
+   "id": "s:v3-l67-01",
+   "verdict": "perfect",
+   "arm": null,
+   "note": "the hot-all-day rework, read and heard; row and clip returned to the waiting room the same evening"
+  },
+  {
+   "id": "machine",
+   "verdict": "perfect",
+   "arm": "machine_5 listen_sp0.75",
+   "note": "first offer, banked for ch=sh at level 94"
+  },
+  {
+   "id": "mechanic",
+   "verdict": "perfect",
+   "arm": "mechanic_5 word_sp0.75",
+   "note": "comeback accepted on a family round R1-2 never offered; the hash guard had re-refused all eight prior arms byte-for-byte"
+  },
+  {
+   "id": "apron",
+   "verdict": "perfect",
+   "arm": "apron_1 word_sp0.7",
+   "note": "first offer, the recording debt closes"
+  }
  ]
 }

@@ -100,18 +100,26 @@ blind spots the owner keeps catching. ITS VERDICT IS IN and is folded into the l
 five of the lead's drafts were reworded (13-01 was word salad, 46-02 had a
 snapped causal spine, 67-01 used an adult idiom, 48-01 stuttered, 71-01's
 goats collided with the approved baby-goat text one level up - sheep now -
-and 94-02's fix above). Renders exist for the six KEEPs; the five rewords
-need re-rendering before the approval page. The reviewer also found a hole
-for the OWNER: with chef gone, level 94 claims ch says /k/ and /sh/ but
-holds ZERO /sh/ words anywhere in the ladder - narrow the level's teaching
-to ch=/k/, or bank a /sh/ word (machine is the classic). Undecided.
+and 94-02's fix above). RESOLVED 2026-08-20 evening: all eleven re-rendered
+and put to the owner on the sound14+eleven page, all eleven "perfect" by
+read and by ear; the moves, the repairs and the re-reads landed as the one
+commit this thread demanded. The level-94 hole the reviewer surfaced was
+ruled the same evening: the owner chose to BANK MACHINE to carry ch=/sh/ -
+against the narrow-to-/k/ recommendation, and his word outranks. machine is
+seated at 94; round 15 gave it its clip the same evening (machine_5,
+listen_sp0.75, "perfect"), and its bends (a schwa, ch=/sh/, i_e saying
+long e - machine is an exception to the magic-e rule the owner named) can
+now land on the seated-marked-bent-shipped pattern. Round 15 also paid
+mechanic's comeback debt (accepted on word_sp0.75, a family its refused
+round never offered) and took apron's first clip - the recording debt is
+ZERO again.
 
 The eleven, validated against the POST-move ladder (id, level, full text):
 - s:v3-l13-01 (13): Dad left the lid on the pot.
 - s:v3-l13-02 (13): Mom let me get the map.
 - s:v3-l46-02 (46): I am swimming at the pond. Dad is sitting on the bank. The sun went in, so I stopped. Mom got me a hot cup of milk. I am so glad!
 - s:v3-l52-02 (52): Mom hung the wet socks up to dry in the sun. Then the sky went black. I said, why not get them in? We did try, and we got every sock in fast. Mom said I was quick, and my socks are dry.
-- s:v3-l67-01 (67): Mom set a hot pie on the step. The sun was bright and high, and the pie was hot for a long time. Then the flies came, as they wanted the pie as well. I sat by the step and did my best to help. But every fly that went up came back. So Dad got a net and set it on top of the pie. The flies had to go, and we had the pie at sunset.
+- s:v3-l67-01 (67): Mom set a hot pie on the step. The sun was bright and high, and the pie was hot all day. Then the flies came, as they wanted the pie as well. I sat by the step and did my best to help. But every fly that went up came back. So Dad got a net and set it on top of the pie. The flies had to go, and we had the pie at sunset. (An earlier entry here read "hot for a long time" - withdrawn the same evening: "for" is taught at L81, the rehearsal caught it, and the owner ruled this wording perfect in round 15.)
 - s:v3-l41-01 (41): I am having a muffin. A bit fell on the mat. The cat ran up. She got it fast!
 - s:v3-l48-01 (48): I wash the dish. A little bubble went up. It got to the middle of the den! Then - pop! Simple fun.
 - s:v3-l71-01 (71): It was a holiday, so we went to see the sheep. Every sheep was sleeping in the sun, and we needed them to get up. We sat on the grass and had an apple. Then a man came with a sack of dinner. The sheep got up so fast that my apple went in the mud. Mom said that was the best bit of the holiday. When we got home, I painted a sheep and we hung it up.
@@ -125,9 +133,12 @@ one tile carrying two sounds. Bake method is tools/render_sounds13.py's,
 verbatim: phoneme carriers at speed 1.0, is_phonemes true, target LAST, cut by
 last energy island, the bake's polish. The four arms per sound - citation, citation at speed 0.85, trio with the target last, and
 continuation; the exact phoneme strings live in the session script
-render_sounds14.py, and the method note above re-derives them. The session ). Once the owner accepts a take per sound:
-d:uf and d:off ship, then rough/tough/enough bend their ough tile to uf and
-cough to off, and all four become the hearts his ough ruling made them.
+render_sounds14.py, and the method note above re-derives them. HEARD
+2026-08-20 evening: the CONTINUATION arm won for both sounds ("perfect";
+citation arms "good", trios "no good" - logged in round-verdicts.json). The
+accepted takes ship as d:uf and d:off, then rough/tough/enough bend their
+ough tile to uf and cough to off, and all four become the hearts his ough
+ruling made them.
 
 **3. Rulings enacted but not finished.** The ch ruling (Greek six stay and
 TEACH the exception, chef out) still owes the six their SECOND-vowel bends

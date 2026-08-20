@@ -728,7 +728,6 @@ buzzed
 cent
 chat
 cheerful
-chef
 chest
 chicken
 chill
@@ -765,6 +764,7 @@ lamps
 later
 lazy
 lunch
+machine
 magic
 maple
 mechanic

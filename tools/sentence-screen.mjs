@@ -189,7 +189,22 @@ export const SCREENED_2026_08_16 = [
    the replacement, which settles that the refusal stood. Batch 2 (levels
    25-50, 69 read): 69 ok. Batch 3 (levels 50-77, 69 read): 69 ok. Batch 1
    (levels 1-25, 69 read): 69 ok - THE READ SCREEN IS COMPLETE: every text in
-   the waiting room has been read by the owner. */
+   the waiting room has been read by the owner.
+   2026-08-20, the move-bill repairs: eleven of these ids were REWORDED when
+   the early-seated words moved to their code levels (l13-01, l13-02, l41-01,
+   l42-02, l46-02, l48-01, l52-02, l67-01, l71-01, l94-01, l94-02), and the
+   owner read every repaired wording on the sound14+eleven page the same day,
+   all eleven "perfect". Their entries below therefore name reads of the
+   CURRENT texts. One of them took a detour the round log keeps in full:
+   l67-01's first repaired wording used "for", which the ladder teaches at
+   L81; the rehearsal caught it before the commit, the row and clip left the
+   room on the l78-02 pattern, the two-word fix ("hot all day", validates at
+   67) went back on its own card, and the owner ruled it perfect in round 15
+   the same evening - so its entry here names a read of the text now in the
+   room. This ledger binds a read to an
+   ID, not to the bytes read, so
+   a reworded text inherits its id's read silently - a recorded gap in
+   docs/open-faults.md until the drift refactor gives these entries structure. */
 export const SCREENED_2026_08_20_V3_AWAITING_SEAT = [
   "s:v3-l01-01", "s:v3-l02-01", "s:v3-l02-02", "s:v3-l03-01",
   "s:v3-l03-02", "s:v3-l04-01", "s:v3-l04-02", "s:v3-l05-01",
