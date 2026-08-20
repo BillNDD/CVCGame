@@ -180,6 +180,7 @@ export const DECLARED = [
   { path: "tools/pending-words/pending-words.json", kind: "DATA", owns: "the waiting room's ledger: verdict, family, arm, round and byte pin for every approved-and-unshipped clip — docs/voice-pack.md tells each round's story" },
   { path: "tools/waiting-room.mjs", kind: "SOURCE", owns: "G26: the waiting room's byte pins, row schema, citations and verdict vocabulary" },
   { path: "tools/record-takes.py", kind: "SOURCE", owns: "the one listening-round recorder, words and sentences: verify-then-write, refuse an existing id, refuse an unparsed line, persist every verdict" },
+  { path: "tools/pending-words/round-verdicts.json", kind: "LOG", owns: "every listening-round judgement as given - accepts, closests, refusals and comments - written by the unified recorder the day the owner gave them (E10)" },
   { path: "tools/ladder/decade-names.json", kind: "LEDGER", owns: "the ten decade names and emojis, owner-approved 2026-08-19; a level's name and emoji are its decade's" },
   { path: "tools/convert-ladder.mjs", kind: "SOURCE", owns: "the ladder conversion generator: derives the LEVELS and SENTENCES literals from the ruled ladder, the shape and the approved texts; refuses to write until level names exist and are owner-approved" },
   { path: "tools/conversion-rehearsal.mjs", kind: "SOURCE", owns: "G27: what the 100-level ladder would break in the real engine - the substitution, the probes over every level, and the ceiling each finding class is held to" },

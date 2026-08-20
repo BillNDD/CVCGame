@@ -59,6 +59,7 @@ verbatim) are exempt; the exemptions are declared in the tool.
 | `tools/pending-words/pending-words.json` | DATA | the waiting room's ledger: verdict, family, arm, round and byte pin for every approved-and-unshipped clip — docs/voice-pack.md tells each round's story |
 | `tools/waiting-room.mjs` | SOURCE | G26: the waiting room's byte pins, row schema, citations and verdict vocabulary |
 | `tools/record-takes.py` | SOURCE | the one listening-round recorder, words and sentences: verify-then-write, refuse an existing id, refuse an unparsed line, persist every verdict |
+| `tools/pending-words/round-verdicts.json` | LOG | every listening-round judgement as given - accepts, closests, refusals and comments - written by the unified recorder the day the owner gave them (E10) |
 | `tools/ladder/decade-names.json` | LEDGER | the ten decade names and emojis, owner-approved 2026-08-19; a level's name and emoji are its decade's |
 | `tools/convert-ladder.mjs` | SOURCE | the ladder conversion generator: derives the LEVELS and SENTENCES literals from the ruled ladder, the shape and the approved texts; refuses to write until level names exist and are owner-approved |
 | `tools/conversion-rehearsal.mjs` | SOURCE | G27: what the 100-level ladder would break in the real engine - the substitution, the probes over every level, and the ceiling each finding class is held to |
