@@ -233,7 +233,15 @@ byte-pinned word rather than replacing accepted audio with a render.
   sidecar workspace archive on the owner's PC
   (handoff `word-quest-uplift-handoff-2026-08-07T1438Z`).
 
-## Approved and unshipped: 858 items still in the waiting room (through 2026-08-19)
+## Approved and unshipped: 951 items still in the waiting room (through 2026-08-19)
+
+**The 95 bill words closed 94 of 95 in two rounds, same day (2026-08-19)** - the words
+the owner's 107-word level bill created that morning. Round 1 took 48 of 48; round 2 took
+45 of 46, with **mechanic refused - "none are right"** - owed a comeback field on new
+mechanisms, recorded in round-verdicts.json. Both rounds banked through the unified
+recorder with its verify-then-write guarantee. One word short of the whole conversion's
+recording debt, cleared between lunch and dinner.
+
 
 **Every level of the hundred has text, closed 2026-08-19.** The last three were levels 1, 72
 and 94. Levels 72 and 94 were unwritable until the owner's 107-word bill gave them

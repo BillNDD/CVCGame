@@ -1,0 +1,570 @@
+{
+ "R1 round 1 / 2026-08-19": [
+  {
+   "id": "anchor",
+   "verdict": "perfect",
+   "arm": "anchor_1",
+   "note": ""
+  },
+  {
+   "id": "awful",
+   "verdict": "perfect",
+   "arm": "awful_3",
+   "note": ""
+  },
+  {
+   "id": "baby",
+   "verdict": "perfect",
+   "arm": "baby_5",
+   "note": ""
+  },
+  {
+   "id": "bacon",
+   "verdict": "perfect",
+   "arm": "bacon_4",
+   "note": ""
+  },
+  {
+   "id": "belts",
+   "verdict": "perfect",
+   "arm": "belts_1",
+   "note": ""
+  },
+  {
+   "id": "bench",
+   "verdict": "perfect",
+   "arm": "bench_1",
+   "note": ""
+  },
+  {
+   "id": "blend",
+   "verdict": "perfect",
+   "arm": "blend_3",
+   "note": ""
+  },
+  {
+   "id": "bread",
+   "verdict": "perfect",
+   "arm": "bread_2",
+   "note": ""
+  },
+  {
+   "id": "breakfast",
+   "verdict": "perfect",
+   "arm": "breakfast_2",
+   "note": ""
+  },
+  {
+   "id": "bucket",
+   "verdict": "perfect",
+   "arm": "bucket_2",
+   "note": ""
+  },
+  {
+   "id": "buzzed",
+   "verdict": "perfect",
+   "arm": "buzzed_1",
+   "note": ""
+  },
+  {
+   "id": "cent",
+   "verdict": "perfect",
+   "arm": "cent_1",
+   "note": ""
+  },
+  {
+   "id": "cheerful",
+   "verdict": "perfect",
+   "arm": "cheerful_3",
+   "note": ""
+  },
+  {
+   "id": "chef",
+   "verdict": "perfect",
+   "arm": "chef_4",
+   "note": ""
+  },
+  {
+   "id": "chest",
+   "verdict": "perfect",
+   "arm": "chest_6",
+   "note": ""
+  },
+  {
+   "id": "chicken",
+   "verdict": "perfect",
+   "arm": "chicken_1",
+   "note": ""
+  },
+  {
+   "id": "chilled",
+   "verdict": "perfect",
+   "arm": "chilled_5",
+   "note": ""
+  },
+  {
+   "id": "chipmunk",
+   "verdict": "perfect",
+   "arm": "chipmunk_2",
+   "note": ""
+  },
+  {
+   "id": "chorus",
+   "verdict": "perfect",
+   "arm": "chorus_5",
+   "note": ""
+  },
+  {
+   "id": "circle",
+   "verdict": "perfect",
+   "arm": "circle_1",
+   "note": ""
+  },
+  {
+   "id": "circus",
+   "verdict": "perfect",
+   "arm": "circus_2",
+   "note": ""
+  },
+  {
+   "id": "city",
+   "verdict": "perfect",
+   "arm": "city_5",
+   "note": ""
+  },
+  {
+   "id": "cloth",
+   "verdict": "perfect",
+   "arm": "cloth_1",
+   "note": ""
+  },
+  {
+   "id": "crust",
+   "verdict": "perfect",
+   "arm": "crust_1",
+   "note": ""
+  },
+  {
+   "id": "desks",
+   "verdict": "perfect",
+   "arm": "desks_1",
+   "note": ""
+  },
+  {
+   "id": "drilled",
+   "verdict": "perfect",
+   "arm": "drilled_3",
+   "note": ""
+  },
+  {
+   "id": "drink",
+   "verdict": "perfect",
+   "arm": "drink_1",
+   "note": ""
+  },
+  {
+   "id": "feather",
+   "verdict": "perfect",
+   "arm": "feather_6",
+   "note": ""
+  },
+  {
+   "id": "gem",
+   "verdict": "perfect",
+   "arm": "gem_6",
+   "note": ""
+  },
+  {
+   "id": "germ",
+   "verdict": "perfect",
+   "arm": "germ_1",
+   "note": ""
+  },
+  {
+   "id": "gifts",
+   "verdict": "perfect",
+   "arm": "gifts_1",
+   "note": ""
+  },
+  {
+   "id": "ginger",
+   "verdict": "perfect",
+   "arm": "ginger_6",
+   "note": ""
+  },
+  {
+   "id": "goes",
+   "verdict": "perfect",
+   "arm": "goes_5",
+   "note": ""
+  },
+  {
+   "id": "gravy",
+   "verdict": "perfect",
+   "arm": "gravy_3",
+   "note": ""
+  },
+  {
+   "id": "grilled",
+   "verdict": "perfect",
+   "arm": "grilled_1",
+   "note": ""
+  },
+  {
+   "id": "grow",
+   "verdict": "perfect",
+   "arm": "grow_6",
+   "note": ""
+  },
+  {
+   "id": "handful",
+   "verdict": "perfect",
+   "arm": "handful_1",
+   "note": ""
+  },
+  {
+   "id": "hands",
+   "verdict": "perfect",
+   "arm": "hands_1",
+   "note": ""
+  },
+  {
+   "id": "head",
+   "verdict": "perfect",
+   "arm": "head_5",
+   "note": ""
+  },
+  {
+   "id": "heavy",
+   "verdict": "perfect",
+   "arm": "heavy_1",
+   "note": ""
+  },
+  {
+   "id": "jacket",
+   "verdict": "perfect",
+   "arm": "jacket_1",
+   "note": ""
+  },
+  {
+   "id": "joyful",
+   "verdict": "perfect",
+   "arm": "joyful_1",
+   "note": ""
+  },
+  {
+   "id": "lady",
+   "verdict": "perfect",
+   "arm": "lady_5",
+   "note": ""
+  },
+  {
+   "id": "lamps",
+   "verdict": "perfect",
+   "arm": "lamps_6",
+   "note": ""
+  },
+  {
+   "id": "later",
+   "verdict": "perfect",
+   "arm": "later_4",
+   "note": ""
+  },
+  {
+   "id": "lazy",
+   "verdict": "perfect",
+   "arm": "lazy_2",
+   "note": ""
+  },
+  {
+   "id": "lunch",
+   "verdict": "perfect",
+   "arm": "lunch_1",
+   "note": ""
+  },
+  {
+   "id": "magic",
+   "verdict": "perfect",
+   "arm": "magic_6",
+   "note": ""
+  }
+ ],
+ "R1 round 2 / 2026-08-19": [
+  {
+   "id": "maple",
+   "verdict": "perfect",
+   "arm": "maple_6",
+   "note": ""
+  },
+  {
+   "id": "mechanic",
+   "verdict": "none are right",
+   "arm": null,
+   "note": ""
+  },
+  {
+   "id": "month",
+   "verdict": "perfect",
+   "arm": "month_1",
+   "note": ""
+  },
+  {
+   "id": "mouthful",
+   "verdict": "perfect",
+   "arm": "mouthful_1",
+   "note": ""
+  },
+  {
+   "id": "munch",
+   "verdict": "perfect",
+   "arm": "munch_1",
+   "note": ""
+  },
+  {
+   "id": "nests",
+   "verdict": "perfect",
+   "arm": "nests_1",
+   "note": ""
+  },
+  {
+   "id": "next",
+   "verdict": "perfect",
+   "arm": "next_5",
+   "note": ""
+  },
+  {
+   "id": "orchestra",
+   "verdict": "perfect",
+   "arm": "orchestra_1",
+   "note": ""
+  },
+  {
+   "id": "painful",
+   "verdict": "perfect",
+   "arm": "painful_6",
+   "note": ""
+  },
+  {
+   "id": "paper",
+   "verdict": "perfect",
+   "arm": "paper_1",
+   "note": ""
+  },
+  {
+   "id": "peaceful",
+   "verdict": "perfect",
+   "arm": "peaceful_1",
+   "note": ""
+  },
+  {
+   "id": "pencil",
+   "verdict": "perfect",
+   "arm": "pencil_1",
+   "note": ""
+  },
+  {
+   "id": "pillow",
+   "verdict": "perfect",
+   "arm": "pillow_5",
+   "note": ""
+  },
+  {
+   "id": "plant",
+   "verdict": "perfect",
+   "arm": "plant_5",
+   "note": ""
+  },
+  {
+   "id": "pocket",
+   "verdict": "perfect",
+   "arm": "pocket_1",
+   "note": ""
+  },
+  {
+   "id": "powerful",
+   "verdict": "perfect",
+   "arm": "powerful_6",
+   "note": ""
+  },
+  {
+   "id": "princess",
+   "verdict": "perfect",
+   "arm": "princess_1",
+   "note": ""
+  },
+  {
+   "id": "print",
+   "verdict": "perfect",
+   "arm": "print_1",
+   "note": ""
+  },
+  {
+   "id": "rainbow",
+   "verdict": "perfect",
+   "arm": "rainbow_6",
+   "note": ""
+  },
+  {
+   "id": "ready",
+   "verdict": "perfect",
+   "arm": "ready_6",
+   "note": ""
+  },
+  {
+   "id": "rocket",
+   "verdict": "perfect",
+   "arm": "rocket_1",
+   "note": ""
+  },
+  {
+   "id": "sandwich",
+   "verdict": "perfect",
+   "arm": "sandwich_4",
+   "note": ""
+  },
+  {
+   "id": "school",
+   "verdict": "perfect",
+   "arm": "school_4",
+   "note": ""
+  },
+  {
+   "id": "show",
+   "verdict": "perfect",
+   "arm": "show_5",
+   "note": ""
+  },
+  {
+   "id": "skunk",
+   "verdict": "perfect",
+   "arm": "skunk_1",
+   "note": ""
+  },
+  {
+   "id": "slow",
+   "verdict": "perfect",
+   "arm": "slow_6",
+   "note": ""
+  },
+  {
+   "id": "smelled",
+   "verdict": "perfect",
+   "arm": "smelled_5",
+   "note": ""
+  },
+  {
+   "id": "snow",
+   "verdict": "perfect",
+   "arm": "snow_6",
+   "note": ""
+  },
+  {
+   "id": "spelled",
+   "verdict": "perfect",
+   "arm": "spelled_1",
+   "note": ""
+  },
+  {
+   "id": "spilled",
+   "verdict": "perfect",
+   "arm": "spilled_4",
+   "note": ""
+  },
+  {
+   "id": "spoonful",
+   "verdict": "perfect",
+   "arm": "spoonful_1",
+   "note": ""
+  },
+  {
+   "id": "spread",
+   "verdict": "perfect",
+   "arm": "spread_5",
+   "note": ""
+  },
+  {
+   "id": "stamp",
+   "verdict": "perfect",
+   "arm": "stamp_5",
+   "note": ""
+  },
+  {
+   "id": "stand",
+   "verdict": "perfect",
+   "arm": "stand_5",
+   "note": ""
+  },
+  {
+   "id": "stomach",
+   "verdict": "perfect",
+   "arm": "stomach_6",
+   "note": ""
+  },
+  {
+   "id": "stomp",
+   "verdict": "perfect",
+   "arm": "stomp_1",
+   "note": ""
+  },
+  {
+   "id": "tents",
+   "verdict": "perfect",
+   "arm": "tents_1",
+   "note": ""
+  },
+  {
+   "id": "thread",
+   "verdict": "perfect",
+   "arm": "thread_1",
+   "note": ""
+  },
+  {
+   "id": "thump",
+   "verdict": "perfect",
+   "arm": "thump_1",
+   "note": ""
+  },
+  {
+   "id": "thunder",
+   "verdict": "perfect",
+   "arm": "thunder_5",
+   "note": ""
+  },
+  {
+   "id": "toe",
+   "verdict": "perfect",
+   "arm": "toe_1",
+   "note": ""
+  },
+  {
+   "id": "trunk",
+   "verdict": "perfect",
+   "arm": "trunk_6",
+   "note": ""
+  },
+  {
+   "id": "weather",
+   "verdict": "perfect",
+   "arm": "weather_5",
+   "note": ""
+  },
+  {
+   "id": "whisper",
+   "verdict": "perfect",
+   "arm": "whisper_1",
+   "note": ""
+  },
+  {
+   "id": "window",
+   "verdict": "perfect",
+   "arm": "window_1",
+   "note": ""
+  },
+  {
+   "id": "yellow",
+   "verdict": "perfect",
+   "arm": "yellow_5",
+   "note": ""
+  }
+ ]
+}

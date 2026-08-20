@@ -305,7 +305,7 @@
   "round": "batch 6 / 2026-08-07",
   "verdict": "perfect",
   "level": "reveal lead-in (planned)",
-  "text": "Let’s sound it out."
+  "text": "Let\u2019s sound it out."
  },
  "of": {
   "arm": "of_6",
@@ -1441,7 +1441,7 @@
   "note": "supersedes the batch 13 entry, which was bytes the owner had already marked closest in batch 12. This clip was never offered before: verified against all 1883 arms of the 23 earlier rounds."
  },
  "a": {
-  "arm": "2·3 — matched to today's schwa",
+  "arm": "2\u00b73 \u2014 matched to today's schwa",
   "family": "owner-handoff-schwaD",
   "ms": 743,
   "sha256": "d3fc66ccc4ed23f493af51b368009b2325153aae9c1cddd23007825a47c7ecee",
@@ -1458,7 +1458,7 @@
   "round": "sound-out lines (2026-08-13)",
   "verdict": "perfect",
   "level": "the sentence reveal's invitation (SPEC section 12)",
-  "phonemes": "juː ɹˈɛd ðˌɛm ˈɔːl. lˈɛts sˈaʊnd ˈaʊt ðˈɪswˌʌn.",
+  "phonemes": "ju\u02d0 \u0279\u02c8\u025bd \u00f0\u02cc\u025bm \u02c8\u0254\u02d0l. l\u02c8\u025bts s\u02c8a\u028and \u02c8a\u028at \u00f0\u02c8\u026asw\u02cc\u028cn.",
   "note": "the first take said 'read' as in reed and was marked no good; this one carries explicit phonemes"
  },
  "s:mode-b3-s01": {
@@ -1925,7 +1925,7 @@
   "sha256": "d9e54a5ed9844e797ca83c1822d3b6aa13ccc801ff137a71fb952a5b1107a536",
   "round": "we/me sentences (2026-08-13)",
   "verdict": "perfect",
-  "level": "NOT PLACEABLE — nip",
+  "level": "NOT PLACEABLE \u2014 nip",
   "blocked_on": "we and me are not seated in the bank yet - docs/open-faults.md K"
  },
  "s:mode-wm-wm19": {
@@ -11273,5 +11273,842 @@
   "round": "final levels / 2026-08-19",
   "verdict": "perfect",
   "level": "v3 L94, paragraph - unseated, ladder redesign"
+ },
+ "anchor": {
+  "ms": 1010,
+  "sha256": "4091b89a15be039fc2d1071eec7cbc50531eaf96a87321244981123565087689",
+  "round": "R1 round 1 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "unseated - ladder redesign",
+  "family": "here_sp0.7",
+  "arm": "anchor_1"
+ },
+ "awful": {
+  "ms": 1000,
+  "sha256": "99de86763d631515543d9c1ccc841af281a480a3a9c785a6be4c9f893b188213",
+  "round": "R1 round 1 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "unseated - ladder redesign",
+  "family": "listen_sp0.75",
+  "arm": "awful_3"
+ },
+ "baby": {
+  "ms": 960,
+  "sha256": "550edb1832f978fe8d4d2a4dac014c78b102c02a4547d5945e45d31e68f7a7e4",
+  "round": "R1 round 1 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "unseated - ladder redesign",
+  "family": "listen_sp0.75",
+  "arm": "baby_5"
+ },
+ "bacon": {
+  "ms": 980,
+  "sha256": "fdb38e2ce1d7f164cb771c6083f04f36a183a0ebee6a45efe5334ef08fe2c59f",
+  "round": "R1 round 1 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "unseated - ladder redesign",
+  "family": "listen_sp0.8",
+  "arm": "bacon_4"
+ },
+ "belts": {
+  "ms": 900,
+  "sha256": "d2d7a80db255ab09664d7879c79d0484c1d458d5a9da30672fbd8102a161f7d4",
+  "round": "R1 round 1 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "unseated - ladder redesign",
+  "family": "say_sp0.7",
+  "arm": "belts_1"
+ },
+ "bench": {
+  "ms": 890,
+  "sha256": "42d6896f3978c9f3d1bd5c5609e62603572b829d7f2f224430bc65a7a4924532",
+  "round": "R1 round 1 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "unseated - ladder redesign",
+  "family": "say_sp0.7",
+  "arm": "bench_1"
+ },
+ "blend": {
+  "ms": 890,
+  "sha256": "c1820f8762ee2bfdf5103916ce2903066c2c72aa43784820ccb2b4dda997cb14",
+  "round": "R1 round 1 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "unseated - ladder redesign",
+  "family": "say_sp0.8",
+  "arm": "blend_3"
+ },
+ "bread": {
+  "ms": 850,
+  "sha256": "40b9868107b6220d65e4ac44c7dfd726286e45091ed604aab36578a9db80529c",
+  "round": "R1 round 1 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "unseated - ladder redesign",
+  "family": "say_sp0.75",
+  "arm": "bread_2"
+ },
+ "breakfast": {
+  "ms": 1120,
+  "sha256": "299cc1c6d924eea98069704ef6e316c359d39efd901f8aec4b348c0ea6129599",
+  "round": "R1 round 1 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "unseated - ladder redesign",
+  "family": "say_sp0.75",
+  "arm": "breakfast_2"
+ },
+ "bucket": {
+  "ms": 1060,
+  "sha256": "a67362bc564f2b20b0b9d1864b40d06aca982b52226177eb59408e453d0af8fe",
+  "round": "R1 round 1 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "unseated - ladder redesign",
+  "family": "word_sp0.7",
+  "arm": "bucket_2"
+ },
+ "buzzed": {
+  "ms": 940,
+  "sha256": "829c486180d4e0e4f60a18d47e0178c2f8a8de56939e6933a740faba1b79c963",
+  "round": "R1 round 1 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "unseated - ladder redesign",
+  "family": "say_sp0.7",
+  "arm": "buzzed_1"
+ },
+ "cent": {
+  "ms": 890,
+  "sha256": "7dc25ba6c6135814a219f5ca7a8b7c9ec444e550b37d3c5df46ff549b7fe7c57",
+  "round": "R1 round 1 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "unseated - ladder redesign",
+  "family": "say_sp0.7",
+  "arm": "cent_1"
+ },
+ "cheerful": {
+  "ms": 1080,
+  "sha256": "45b8c84138c67beaaf00a3d8545198b0b253b828a7567c9d8d13dfa5f5f8e7b2",
+  "round": "R1 round 1 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "unseated - ladder redesign",
+  "family": "say_sp0.8",
+  "arm": "cheerful_3"
+ },
+ "chef": {
+  "ms": 970,
+  "sha256": "a6d4f0d81af5358a442d6f4e5e24099d9d77e8b1962f8aa5d0b0f6807aa79470",
+  "round": "R1 round 1 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "unseated - ladder redesign",
+  "family": "listen_sp0.7",
+  "arm": "chef_4"
+ },
+ "chest": {
+  "ms": 950,
+  "sha256": "0f56eb525c7e2b1c2e947c95b3ec3c8b8a4eb802c9bdc85b7bebc11cb2365c95",
+  "round": "R1 round 1 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "unseated - ladder redesign",
+  "family": "listen_sp0.8",
+  "arm": "chest_6"
+ },
+ "chicken": {
+  "ms": 1010,
+  "sha256": "6cadfc9767e8a547d3b1d1156fc9c4a87207074efea59775cc1aa088434371dc",
+  "round": "R1 round 1 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "unseated - ladder redesign",
+  "family": "say_sp0.8",
+  "arm": "chicken_1"
+ },
+ "chilled": {
+  "ms": 1000,
+  "sha256": "e165df4571948d67e16b89f17c0658dc2dc17658c33d676ad36bd3a92c0b9bf5",
+  "round": "R1 round 1 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "unseated - ladder redesign",
+  "family": "listen_sp0.75",
+  "arm": "chilled_5"
+ },
+ "chipmunk": {
+  "ms": 1130,
+  "sha256": "f088bfa8b877562267d7cb44e201731dfb960a045990bc9c97038c9bccf91fad",
+  "round": "R1 round 1 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "unseated - ladder redesign",
+  "family": "solo_trimmed_sp0.8",
+  "arm": "chipmunk_2"
+ },
+ "chorus": {
+  "ms": 1100,
+  "sha256": "cbbca0ba2b8192e9e78a332592bcfb72b062615bcb0e120b9c653b8f1470950c",
+  "round": "R1 round 1 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "unseated - ladder redesign",
+  "family": "solo_trimmed_sp0.7",
+  "arm": "chorus_5"
+ },
+ "circle": {
+  "ms": 1060,
+  "sha256": "0ba716d2535dc15a8c1e613b3932de477c7b35c1865942a28513b9976d69486f",
+  "round": "R1 round 1 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "unseated - ladder redesign",
+  "family": "say_sp0.7",
+  "arm": "circle_1"
+ },
+ "circus": {
+  "ms": 1040,
+  "sha256": "0e395e3d39ca073e753c5a9bf19989931e3701d234eea4fe9d6ca2ebb1ec87c3",
+  "round": "R1 round 1 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "unseated - ladder redesign",
+  "family": "say_sp0.8",
+  "arm": "circus_2"
+ },
+ "city": {
+  "ms": 940,
+  "sha256": "97463e703a849fc7ffdf9f6a3168631d9466c3f789481247d235abfd3232bae0",
+  "round": "R1 round 1 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "unseated - ladder redesign",
+  "family": "listen_sp0.75",
+  "arm": "city_5"
+ },
+ "cloth": {
+  "ms": 1000,
+  "sha256": "5a29ec926054172b9d531de4ab8dd066f8293a027975541a42cc21c8f2be72c9",
+  "round": "R1 round 1 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "unseated - ladder redesign",
+  "family": "say_sp0.7",
+  "arm": "cloth_1"
+ },
+ "crust": {
+  "ms": 970,
+  "sha256": "e56f896b6378774ebdb58a39990b40f3eff3e8dd36a0fe954b638f0554162c74",
+  "round": "R1 round 1 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "unseated - ladder redesign",
+  "family": "say_sp0.7",
+  "arm": "crust_1"
+ },
+ "desks": {
+  "ms": 1030,
+  "sha256": "ef6f25104edf621337b7bd28cd74afbb2cbc462ff04bdc1eba8063cc105ed964",
+  "round": "R1 round 1 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "unseated - ladder redesign",
+  "family": "say_sp0.7",
+  "arm": "desks_1"
+ },
+ "drilled": {
+  "ms": 880,
+  "sha256": "8745507f2ae676d6419757bd559399780bd360da29c7ce7f40625e26d4c51f7c",
+  "round": "R1 round 1 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "unseated - ladder redesign",
+  "family": "say_sp0.8",
+  "arm": "drilled_3"
+ },
+ "drink": {
+  "ms": 860,
+  "sha256": "541f872b865784da6bb9b465a05f55b298b69ffd7f5720d94ebbd18698953759",
+  "round": "R1 round 1 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "unseated - ladder redesign",
+  "family": "say_sp0.7",
+  "arm": "drink_1"
+ },
+ "feather": {
+  "ms": 980,
+  "sha256": "0951bfb14bf631b83e440f04cadf33c7b0fd53241c87256fe42a31aad57f3fb9",
+  "round": "R1 round 1 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "unseated - ladder redesign",
+  "family": "listen_sp0.8",
+  "arm": "feather_6"
+ },
+ "gem": {
+  "ms": 880,
+  "sha256": "c132a36009ba69248858940e3d1c260c57a82a5b8f52b91082036c2a26951351",
+  "round": "R1 round 1 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "unseated - ladder redesign",
+  "family": "listen_sp0.8",
+  "arm": "gem_6"
+ },
+ "germ": {
+  "ms": 930,
+  "sha256": "5979ac1bb81fa95516f38f475189237ee770786821a8ae1414f2421ad4c37f92",
+  "round": "R1 round 1 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "unseated - ladder redesign",
+  "family": "say_sp0.7",
+  "arm": "germ_1"
+ },
+ "gifts": {
+  "ms": 950,
+  "sha256": "86aeff0b6a5fbf5f32c518ae19f2e5fcd6e4d74780d7b1a36274662814165b6d",
+  "round": "R1 round 1 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "unseated - ladder redesign",
+  "family": "say_sp0.7",
+  "arm": "gifts_1"
+ },
+ "ginger": {
+  "ms": 1090,
+  "sha256": "4b5631007cf733883f5f4ed78b8582abe7c049f27856ad4a845fc660e389c8bb",
+  "round": "R1 round 1 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "unseated - ladder redesign",
+  "family": "listen_sp0.8",
+  "arm": "ginger_6"
+ },
+ "goes": {
+  "ms": 990,
+  "sha256": "5a2e8bf619b9d0bdaac86e259882014c5e63313cc1ad010be52b1b2a774fcd79",
+  "round": "R1 round 1 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "unseated - ladder redesign",
+  "family": "listen_sp0.75",
+  "arm": "goes_5"
+ },
+ "gravy": {
+  "ms": 950,
+  "sha256": "2e8f122bdda5e39cbb8ab6960cab817cf5367437a1f0898268480cff3fab938e",
+  "round": "R1 round 1 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "unseated - ladder redesign",
+  "family": "say_sp0.8",
+  "arm": "gravy_3"
+ },
+ "grilled": {
+  "ms": 950,
+  "sha256": "090d0ed95ba6ef5f44efec422be5bdd9913a69649b6477e5c0063f56c2164d56",
+  "round": "R1 round 1 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "unseated - ladder redesign",
+  "family": "say_sp0.7",
+  "arm": "grilled_1"
+ },
+ "grow": {
+  "ms": 890,
+  "sha256": "9003bfea3d3b2405640c27993234938e86ad3ce5749649cb5b4686648f11d34b",
+  "round": "R1 round 1 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "unseated - ladder redesign",
+  "family": "listen_sp0.8",
+  "arm": "grow_6"
+ },
+ "handful": {
+  "ms": 1060,
+  "sha256": "f1f4ef4647a5fab6ad5d9bc1e6258131cd2efe91b870e22d5b320702a5c314d1",
+  "round": "R1 round 1 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "unseated - ladder redesign",
+  "family": "say_sp0.7",
+  "arm": "handful_1"
+ },
+ "hands": {
+  "ms": 940,
+  "sha256": "9ee9684f2e8a6cccb413b5e00d071f2cb5bb803e27a2b64699070227ee5d7d71",
+  "round": "R1 round 1 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "unseated - ladder redesign",
+  "family": "say_sp0.7",
+  "arm": "hands_1"
+ },
+ "head": {
+  "ms": 810,
+  "sha256": "05cdb7b10fd456cfabb08bb81c077f9d6bb2153803081b03e8058d2411950752",
+  "round": "R1 round 1 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "unseated - ladder redesign",
+  "family": "listen_sp0.8",
+  "arm": "head_5"
+ },
+ "heavy": {
+  "ms": 810,
+  "sha256": "56342ea5b28c92693489889004eecd84eb3b920d1f5b12348ca9a86e67443574",
+  "round": "R1 round 1 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "unseated - ladder redesign",
+  "family": "say_sp0.7",
+  "arm": "heavy_1"
+ },
+ "jacket": {
+  "ms": 990,
+  "sha256": "4ee119aa0ff9b12e26999d4ae2fb2950bd1aec1d1961491338b8e5a0e69c0eb0",
+  "round": "R1 round 1 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "unseated - ladder redesign",
+  "family": "say_sp0.7",
+  "arm": "jacket_1"
+ },
+ "joyful": {
+  "ms": 1080,
+  "sha256": "8e1e70cc6b3a72015851c3575e3ea5f0942ac4cf9d85cf50c2794141199fa1c4",
+  "round": "R1 round 1 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "unseated - ladder redesign",
+  "family": "say_sp0.7",
+  "arm": "joyful_1"
+ },
+ "lady": {
+  "ms": 1000,
+  "sha256": "ced41033823fd73fbc08fa92a3acb363954188d5d1806cbb407acd08404f22ca",
+  "round": "R1 round 1 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "unseated - ladder redesign",
+  "family": "listen_sp0.75",
+  "arm": "lady_5"
+ },
+ "lamps": {
+  "ms": 960,
+  "sha256": "8a28eafbdea34a23b2ee9c265936ed51b91bf97e48154f4cb3ca8af60c10abb1",
+  "round": "R1 round 1 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "unseated - ladder redesign",
+  "family": "listen_sp0.8",
+  "arm": "lamps_6"
+ },
+ "later": {
+  "ms": 1010,
+  "sha256": "2ea8cece0cd8bc4a108ec20b653443673bd8570e2d4da53da308416a6ad4762d",
+  "round": "R1 round 1 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "unseated - ladder redesign",
+  "family": "listen_sp0.7",
+  "arm": "later_4"
+ },
+ "lazy": {
+  "ms": 970,
+  "sha256": "02f153a37b57ba315ee61049a595f5c4c0c40b54a2faaec6584d61ce1d2ecbf3",
+  "round": "R1 round 1 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "unseated - ladder redesign",
+  "family": "say_sp0.75",
+  "arm": "lazy_2"
+ },
+ "lunch": {
+  "ms": 900,
+  "sha256": "a97b776727296c3b72deea84932cea919fb6c6780016acc26a0b076186a4e066",
+  "round": "R1 round 1 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "unseated - ladder redesign",
+  "family": "say_sp0.7",
+  "arm": "lunch_1"
+ },
+ "magic": {
+  "ms": 1060,
+  "sha256": "2be0e20f2ef61482599f8706fde2de98edc1ceecf6c277f424950a026581a6bd",
+  "round": "R1 round 1 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "unseated - ladder redesign",
+  "family": "listen_sp0.8",
+  "arm": "magic_6"
+ },
+ "maple": {
+  "ms": 1020,
+  "sha256": "cfb13c30d4e8eb8d6296258a11bfc120cd94aa71748899efa6cf6b05e5a89bea",
+  "round": "R1 round 2 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "unseated - ladder redesign",
+  "family": "listen_sp0.8",
+  "arm": "maple_6"
+ },
+ "month": {
+  "ms": 850,
+  "sha256": "133e2aafd976fc109c666a2d97dfaca5798d2b73e2ef5b903ee9c3f1b69f470a",
+  "round": "R1 round 2 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "unseated - ladder redesign",
+  "family": "say_sp0.7",
+  "arm": "month_1"
+ },
+ "mouthful": {
+  "ms": 1110,
+  "sha256": "4b828e97598b057a234f79e16205b22a589293b291a5ea708b77a831f63b3424",
+  "round": "R1 round 2 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "unseated - ladder redesign",
+  "family": "here_sp0.8",
+  "arm": "mouthful_1"
+ },
+ "munch": {
+  "ms": 910,
+  "sha256": "7962a403e77c02f02a433c634efc9d63742f9b78e0d89cfbc2c96cd38e9c61dd",
+  "round": "R1 round 2 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "unseated - ladder redesign",
+  "family": "say_sp0.7",
+  "arm": "munch_1"
+ },
+ "nests": {
+  "ms": 980,
+  "sha256": "92ea446ff2bd9dfa70dff12dfd77cc0e62d6d4a4c71c20c704c4f8ad41247886",
+  "round": "R1 round 2 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "unseated - ladder redesign",
+  "family": "say_sp0.75",
+  "arm": "nests_1"
+ },
+ "next": {
+  "ms": 950,
+  "sha256": "ef8d2052e656d2d7484e8fadd5f7e0772554b655522018daf17d38caf02e0f7c",
+  "round": "R1 round 2 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "unseated - ladder redesign",
+  "family": "listen_sp0.8",
+  "arm": "next_5"
+ },
+ "orchestra": {
+  "ms": 1120,
+  "sha256": "c7ec4976577234cd800c29016c0edc68be3a9bc2f2941c07c4b0c4835753ee06",
+  "round": "R1 round 2 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "unseated - ladder redesign",
+  "family": "say_sp0.7",
+  "arm": "orchestra_1"
+ },
+ "painful": {
+  "ms": 1080,
+  "sha256": "31ea511b86054c2f78a18752b9918f9703837c3f9367cd3f32d421ed03d22c83",
+  "round": "R1 round 2 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "unseated - ladder redesign",
+  "family": "listen_sp0.8",
+  "arm": "painful_6"
+ },
+ "paper": {
+  "ms": 1050,
+  "sha256": "ceb7fbb92578c55d527460f790099258964bad9d478dcc268790808aae93a047",
+  "round": "R1 round 2 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "unseated - ladder redesign",
+  "family": "say_sp0.7",
+  "arm": "paper_1"
+ },
+ "peaceful": {
+  "ms": 1120,
+  "sha256": "fb2abfb1dd33cb42f6cad1c8c1e88986171dc52856cc2eddcbfb7e100254946b",
+  "round": "R1 round 2 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "unseated - ladder redesign",
+  "family": "say_sp0.7",
+  "arm": "peaceful_1"
+ },
+ "pencil": {
+  "ms": 1020,
+  "sha256": "3084202df762ccd5967373edb11b5bd950a26635a029a7379866dda4a47823bd",
+  "round": "R1 round 2 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "unseated - ladder redesign",
+  "family": "say_sp0.7",
+  "arm": "pencil_1"
+ },
+ "pillow": {
+  "ms": 950,
+  "sha256": "90ff34bb61491682ee6dc2afb4c15d56372ba4d2560abe7d083998c5af94ecdc",
+  "round": "R1 round 2 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "unseated - ladder redesign",
+  "family": "listen_sp0.75",
+  "arm": "pillow_5"
+ },
+ "plant": {
+  "ms": 950,
+  "sha256": "d3ff8355858ddb5f46d6ab62408fa1c32ade32f141b2df08c956c1900bb22d00",
+  "round": "R1 round 2 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "unseated - ladder redesign",
+  "family": "listen_sp0.75",
+  "arm": "plant_5"
+ },
+ "pocket": {
+  "ms": 1020,
+  "sha256": "c6f466e054949ccfba64d552a269dba7e22984be80599e850231a26119889240",
+  "round": "R1 round 2 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "unseated - ladder redesign",
+  "family": "say_sp0.7",
+  "arm": "pocket_1"
+ },
+ "powerful": {
+  "ms": 1210,
+  "sha256": "4b49a26f39ebc5fdb899af9673877989cabd47c8edf353bfc9cc4d0950191c52",
+  "round": "R1 round 2 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "unseated - ladder redesign",
+  "family": "listen_sp0.8",
+  "arm": "powerful_6"
+ },
+ "princess": {
+  "ms": 1190,
+  "sha256": "5adc339ef89fd2bdd46931225d1807aac4fd7f512597d40721d4a19605cf4f67",
+  "round": "R1 round 2 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "unseated - ladder redesign",
+  "family": "say_sp0.7",
+  "arm": "princess_1"
+ },
+ "print": {
+  "ms": 880,
+  "sha256": "d33ae90c36be371af79a9760343783d31199ae208246f733d5432d3a9dd3d44b",
+  "round": "R1 round 2 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "unseated - ladder redesign",
+  "family": "say_sp0.7",
+  "arm": "print_1"
+ },
+ "rainbow": {
+  "ms": 1060,
+  "sha256": "ac2c775240b07bfb0bcfac6eb91c6d979bac062a54eb0f8031c9794f667aec3a",
+  "round": "R1 round 2 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "unseated - ladder redesign",
+  "family": "listen_sp0.8",
+  "arm": "rainbow_6"
+ },
+ "ready": {
+  "ms": 880,
+  "sha256": "ba0cda98dbed797652ef6bb1596d3d651dd55f04e45bb667a66e9292580a4318",
+  "round": "R1 round 2 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "unseated - ladder redesign",
+  "family": "listen_sp0.8",
+  "arm": "ready_6"
+ },
+ "rocket": {
+  "ms": 1020,
+  "sha256": "0460b8cdf2a9df123bdadae81ff6a429ed9f74ca5aaf3cf41d959a284e2eb9c3",
+  "round": "R1 round 2 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "unseated - ladder redesign",
+  "family": "say_sp0.75",
+  "arm": "rocket_1"
+ },
+ "sandwich": {
+  "ms": 1250,
+  "sha256": "61d1cda47dda76d8d74ed7e5a5427c3fba91bad5e38a481c02f3178f6acf1f78",
+  "round": "R1 round 2 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "unseated - ladder redesign",
+  "family": "listen_sp0.7",
+  "arm": "sandwich_4"
+ },
+ "school": {
+  "ms": 1050,
+  "sha256": "d931d89557275f76eabc4196b417443ca5505b06102e38083ced49b4a3571eac",
+  "round": "R1 round 2 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "unseated - ladder redesign",
+  "family": "solo_trimmed_sp0.7",
+  "arm": "school_4"
+ },
+ "show": {
+  "ms": 900,
+  "sha256": "8c04a7e36471dce3cf3671199e0a29177edecb9b3a3d07b642e61cb32f321367",
+  "round": "R1 round 2 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "unseated - ladder redesign",
+  "family": "listen_sp0.75",
+  "arm": "show_5"
+ },
+ "skunk": {
+  "ms": 950,
+  "sha256": "5f58c940a3cb0a4fbdfa7412d4c15b9df4c00955f5062b445bb3e09974c33150",
+  "round": "R1 round 2 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "unseated - ladder redesign",
+  "family": "say_sp0.7",
+  "arm": "skunk_1"
+ },
+ "slow": {
+  "ms": 980,
+  "sha256": "1282da09cbfa40d894a4524dc81ccaed321ede91ac4ce181efae9015b26d4081",
+  "round": "R1 round 2 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "unseated - ladder redesign",
+  "family": "listen_sp0.8",
+  "arm": "slow_6"
+ },
+ "smelled": {
+  "ms": 1070,
+  "sha256": "a5e28627097307e6a5106f664d1c073e971b65b16bcb34ff228b63087c21873a",
+  "round": "R1 round 2 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "unseated - ladder redesign",
+  "family": "listen_sp0.8",
+  "arm": "smelled_5"
+ },
+ "snow": {
+  "ms": 980,
+  "sha256": "d26177eefa00fe4a363260c746f77ebb0da13db628012fe9172fec99220e708b",
+  "round": "R1 round 2 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "unseated - ladder redesign",
+  "family": "listen_sp0.8",
+  "arm": "snow_6"
+ },
+ "spelled": {
+  "ms": 1000,
+  "sha256": "12432252f650917a0301afa5f2ee7c0aabb3c19c8b0ce470c15a8d56d1869d51",
+  "round": "R1 round 2 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "unseated - ladder redesign",
+  "family": "say_sp0.7",
+  "arm": "spelled_1"
+ },
+ "spilled": {
+  "ms": 1080,
+  "sha256": "e0b9081e183f6362ff0b99eb3293a5d3324d7ce981619f19cb58d30e0847de86",
+  "round": "R1 round 2 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "unseated - ladder redesign",
+  "family": "listen_sp0.75",
+  "arm": "spilled_4"
+ },
+ "spoonful": {
+  "ms": 1120,
+  "sha256": "85115c8e52b742c3d7e3da1a92c4b06ec984b888850a89e52a14c3226235a055",
+  "round": "R1 round 2 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "unseated - ladder redesign",
+  "family": "say_sp0.75",
+  "arm": "spoonful_1"
+ },
+ "spread": {
+  "ms": 1050,
+  "sha256": "6d00464aeacb38a883671a3b2303491da5b4ab0246c0a03559576a9becaff094",
+  "round": "R1 round 2 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "unseated - ladder redesign",
+  "family": "listen_sp0.8",
+  "arm": "spread_5"
+ },
+ "stamp": {
+  "ms": 1020,
+  "sha256": "dad908d39a7e6f36147c4c8c9138ee4ef176697559441e4bf5d63fd7f50e7f76",
+  "round": "R1 round 2 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "unseated - ladder redesign",
+  "family": "listen_sp0.75",
+  "arm": "stamp_5"
+ },
+ "stand": {
+  "ms": 1020,
+  "sha256": "989a3f027683cbade981a44de05091903a81d3b23f018046f582dea8a547960e",
+  "round": "R1 round 2 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "unseated - ladder redesign",
+  "family": "listen_sp0.75",
+  "arm": "stand_5"
+ },
+ "stomach": {
+  "ms": 1040,
+  "sha256": "7f379c7e57bb2a08bbbb4d5748fcc3e1d7d3685f0ef0f2f1c3ddcf2d9c0f114d",
+  "round": "R1 round 2 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "unseated - ladder redesign",
+  "family": "listen_sp0.8",
+  "arm": "stomach_6"
+ },
+ "stomp": {
+  "ms": 1020,
+  "sha256": "683c8066b6ced1d34dccda9d21d4d3eb2ae3ee40e346d5220669f0cb6a6986e7",
+  "round": "R1 round 2 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "unseated - ladder redesign",
+  "family": "say_sp0.7",
+  "arm": "stomp_1"
+ },
+ "tents": {
+  "ms": 940,
+  "sha256": "2b934fa79d127fea6f8223fe9a42bf0badd0cd2126365e909d34d61a39771ab8",
+  "round": "R1 round 2 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "unseated - ladder redesign",
+  "family": "say_sp0.7",
+  "arm": "tents_1"
+ },
+ "thread": {
+  "ms": 1010,
+  "sha256": "367df22e0c87ad7e677615ba45aa48b0d6b2fceeaa02972773f9a19d9609d3c5",
+  "round": "R1 round 2 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "unseated - ladder redesign",
+  "family": "listen_sp0.7",
+  "arm": "thread_1"
+ },
+ "thump": {
+  "ms": 880,
+  "sha256": "362a88a5c53b5610782e3e990d7eb1c85f81de2764546f341d2c3730ae2fbded",
+  "round": "R1 round 2 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "unseated - ladder redesign",
+  "family": "say_sp0.7",
+  "arm": "thump_1"
+ },
+ "thunder": {
+  "ms": 1100,
+  "sha256": "f7e9d1b6824c692d850ef2c2acb009cf52f8081207ec9053c18b6117ee9c9b12",
+  "round": "R1 round 2 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "unseated - ladder redesign",
+  "family": "listen_sp0.75",
+  "arm": "thunder_5"
+ },
+ "toe": {
+  "ms": 910,
+  "sha256": "40806c0a7ffe3585b24d32cc3e6004bf2ac28144359dabd669e0b54a56a6adcf",
+  "round": "R1 round 2 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "unseated - ladder redesign",
+  "family": "say_sp0.7",
+  "arm": "toe_1"
+ },
+ "trunk": {
+  "ms": 910,
+  "sha256": "f15709ca89b32305cebb2a6dd712c45277b1ca98239b3ea6a9c71ed1dd660af9",
+  "round": "R1 round 2 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "unseated - ladder redesign",
+  "family": "listen_sp0.8",
+  "arm": "trunk_6"
+ },
+ "weather": {
+  "ms": 900,
+  "sha256": "a3500d6fc0500b9d3893caaaa9695f5a8940f12d0b8108808bc176c9cf50da9e",
+  "round": "R1 round 2 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "unseated - ladder redesign",
+  "family": "listen_sp0.8",
+  "arm": "weather_5"
+ },
+ "whisper": {
+  "ms": 980,
+  "sha256": "555483bd043c48f06ce4fbe386378a7ecf9fb811104f66e80f34edf15889ccac",
+  "round": "R1 round 2 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "unseated - ladder redesign",
+  "family": "say_sp0.7",
+  "arm": "whisper_1"
+ },
+ "window": {
+  "ms": 950,
+  "sha256": "c4e4540bcb4e0a5af6ee83a159f1056342c1742896ab1b1eb26c5781fbedd1e6",
+  "round": "R1 round 2 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "unseated - ladder redesign",
+  "family": "say_sp0.7",
+  "arm": "window_1"
+ },
+ "yellow": {
+  "ms": 960,
+  "sha256": "bb19e7576f7f7cc83d0f32f500c279ea8fd8fc2377e550b1c9437e5374fa7d5b",
+  "round": "R1 round 2 / 2026-08-19",
+  "verdict": "perfect",
+  "level": "unseated - ladder redesign",
+  "family": "listen_sp0.75",
+  "arm": "yellow_5"
  }
 }
