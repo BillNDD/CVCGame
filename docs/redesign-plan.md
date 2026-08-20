@@ -369,6 +369,36 @@ Needs no redesign. All five modes survive: truly random, level words, sentences,
 word, find the sound. Only scale changes — the sentence pool grows to 542 and level sets
 tighten to 6–10 words.
 
+### 7b. The drift refactor - owner-briefed 2026-08-20, runs after green, before beta
+
+The owner's instruction, corrected in his own words when the first reading got
+it backwards: drift-related files are "meant to be by and for the agents", and
+he wants them "restructured for maximum machine comprehensibility and
+legibility without giving any consideration to human readability."
+
+Three rulings, given one page at a time on 2026-08-20, form the brief:
+
+1. **Full grant.** The derived prose views retire - file-map.md and
+   effect-map.md become schema'd JSON, G16 and G23 are rewired to read the
+   JSON with the SAME cross-checks, every retired path gets a tombstone in the
+   map, and the owned set is amended accordingly. Every floor, ceiling,
+   control and cross-check survives; only formats change.
+2. **One computed entrypoint.** A `drift --state` command composes the whole
+   drift picture - every owned fact, owner, floor, ceiling, effect mapping,
+   blast index - into one schema'd JSON with stable ids and per-section
+   provenance (input hashes and generation stamps). It is computed live and
+   NEVER COMMITTED, so no fact ever exists in two places on disk and the
+   no-copied-facts rule is never in tension. The existing tools remain the
+   computers; the entrypoint composes them.
+3. **settled.md and open-faults.md convert fully** to structured entries,
+   machine-first throughout, with the owner's quoted words as fields. Chosen
+   over the recommended index-over-prose, on his authority. The one safeguard
+   that stays: the migration must prove every quoted ruling byte-identical to
+   the source prose before that prose retires, and it produces old-vs-new
+   diff pages for the owner's spot-check - roughly sixty settled entries and
+   every open fault - because a nuance lost in translating HIS rulings is the
+   one unrecoverable failure this refactor could have.
+
 ### 8. Before any "all green"
 The owner's standing rule of 2026-08-17: the drift check must pass with 100% coverage and
 zero drift, and **he is asked before it runs** — it is a milestone check, not a habit.
