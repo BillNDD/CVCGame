@@ -184,7 +184,22 @@ same evening: 1,145 rows in tools/lexicon.csv, 169 corrected on the
 expert's two reports (167 + the 93-row follow-up's bolt, which was a LIVE
 wrong sound-out in the shipped bank, bent the same day), one row pending
 the owner (laugh), gated as G27's lexicon_fault class at ceiling zero.
-The CSV is canonical input to --write. TILE_SOUND stays for tray-tile defaults
+The CSV is canonical input to --write, and THE WRITER IS BUILT
+(2026-08-20, late): --write computes the lexicon deltas against the
+engine's own exported rule model (4 tile overrides: away, ginger, going,
+laugh; 273 bend rows; ZERO hand-row conflicts), splices four literals
+compactly (the converted engine measures 2,101 lines against its 2,400
+ceiling), proves reversibility and idempotence, and verifies in a temp
+dir through the REAL extractor that the spliced engine agrees with every
+lexicon row - measured tonight: 100 levels, bank 1,135, 51 sounds, all
+1,144 rows agreeing - before a byte touches the reference. Seven E5
+controls run in npm run check. Still owed before the cutover commit:
+ship-words --sentences (built next), then the cutover itself in the
+blueprint's internal order, then the hand literal re-derivation. The
+owner's remaining cutover rulings are all IN: long words SHRINK the
+reveal row to fit one line (S7-clean - reveal tiles are display, not
+controls; Build-it's tappable tray wraps at the 56 px floor instead),
+the 107 stragglers are seated, and read says /red/. TILE_SOUND stays for tray-tile defaults
 (a tray tile is a letter out of word context); (g) re-derive the test literals by hand;
 (h) G27 to zero BREAKS; (h2) the SEVEN UI NOVELTIES as beta-cadence gates,
 owner-ruled 2026-08-20 from the UXSWEEP document ("make these genuine

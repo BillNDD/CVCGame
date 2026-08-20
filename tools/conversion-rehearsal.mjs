@@ -198,7 +198,7 @@ export function sentencesFrom(pending) {
    Splice, never rewrite. Each span is found by its opening line and the first
    line-start terminator after it, and the splice is proved reversible before
    it is used. */
-function spanOf(src, open, close, label) {
+export function spanOf(src, open, close, label) {
   const a = src.indexOf(open);
   if (a < 0) throw new Error(`the reference has no ${label} literal to substitute (looked for ${JSON.stringify(open)})`);
   const b = src.indexOf(close, a);

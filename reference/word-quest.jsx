@@ -1289,17 +1289,28 @@ function magicE(tiles) {
 const LEX_BENDS = {
 };
 /* GENERATED: LEX_BENDS end */
-/* The sound each of a word's tiles speaks, in order. */
-function soundIdsFor(word) {
-  const bent = { ...(LEX_BENDS[word] || {}), ...(WORD_SOUND[word] || {}) };
-  const tiles = chunkWord(word);
+/* The bendless rule output for a tile sequence - what the engine would say
+   with no WORD_SOUND and no LEX_BENDS row: the magic-e rule over the tile
+   defaults. Its own exported function because the conversion writer diffs
+   the owner's lexicon against exactly this, emitting only what the rules
+   cannot produce - one model, exported, never re-implemented (the
+   blueprint's Q1). */
+function ruleSoundsFor(tiles) {
   const m = magicE(tiles);
   return tiles.map((g, i) => {
-    if (bent[i]) return "d:" + bent[i];
     if (m && i === m.silentAt) return "d:silent";
     if (m && i === m.vowelAt) return "d:" + VCE_VOWEL[g];
     return soundIdFor(g);
   });
+}
+/* The sound each of a word's tiles speaks, in order: the rule output, with
+   any bend outranking it tile by tile - LEX_BENDS under WORD_SOUND, so an
+   owner ruling always wins over a generated row. */
+function soundIdsFor(word) {
+  const bent = { ...(LEX_BENDS[word] || {}), ...(WORD_SOUND[word] || {}) };
+  const tiles = chunkWord(word);
+  const base = ruleSoundsFor(tiles);
+  return tiles.map((g, i) => (bent[i] ? "d:" + bent[i] : base[i]));
 }
 /* Every sound the bank's tiles can ask for, derived from the bank rather than
    listed by hand, so a new word can never outrun its sounds. */
