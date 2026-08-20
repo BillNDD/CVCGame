@@ -431,10 +431,21 @@ const WORD_LEVEL = {};
 LEVELS.forEach(L => L.words.forEach(w => { WORD_LEVEL[w] = L.n; }));
 
 /* ---------- phonics ---------- */
+/* Per-word tiling overrides, owner-ruled 2026-08-20: tools/lexicon.csv is
+   the tiling authority, and a word whose true tiles the position rules
+   cannot produce (going, ginger, away - each proven by the phonics audit)
+   gets its row emitted here by the conversion writer. Empty until --write
+   runs; the markers below are the writer's splice anchors, in the same
+   style the rehearsal slices LEVELS. */
+/* GENERATED: WORD_TILES begin (tools/convert-ladder.mjs --write) */
+const WORD_TILES = {
+};
+/* GENERATED: WORD_TILES end */
 /* Longest match first, and a unit that matches the LETTERS but fails its
    position rule falls through to the next length down rather than to a
    letter — so "leg" is l-e-g and not l+e+g by way of a refused le. */
 function chunkWord(word) {
+  if (WORD_TILES[word]) return [...WORD_TILES[word]];
   const out = []; let i = 0;
   while (i < word.length) {
     const four = word.slice(i, i + 4);
@@ -959,6 +970,17 @@ const TILE_SOUND = {
      REAL shipped clip, the /ow/ cry of out, so "snow" reached the wrong
      vowel through a green gate. Now it reaches a marker and a red count. */
   ar: "ar", air: "air", aw: "aw", ear: "ear", er: "er", oi: "oi",
+  /* Four more, 2026-08-20, from the conversion blueprint's sweep: the only
+     rowless graphemes the shape teaches at exactly ONE level, so the level's
+     own lesson is the default (the owner's levels-teach-the-default ruling).
+     gh says f (laugh's family, level 82's own lesson), gn says n (sign, the
+     kn pattern's sibling), ough says the aw of bought (level 92's five
+     -ought words; the seven heart exceptions bend per word), ze says z (the
+     e-absorbed final, sneeze). The six spellings taught at TWO levels - ea,
+     ere, ey, ie, oo, ow - stay rowless on purpose: no single sound is the
+     truth, the lexicon rules each word, and the loud fallback plus the
+     NO_TRAY_UNITS list keep an unruled occurrence from ever guessing. */
+  gh: "f", gn: "n", ough: "aw", ze: "z",
 };
 /* FAIL-LOUD, 2026-08-20 (beta path item d; the reviewer and the lead agreed
    the design). A grapheme without a TILE_SOUND row resolves to an id in the
@@ -1253,9 +1275,19 @@ function magicE(tiles) {
     return { vowelAt: n - 2, silentAt: -1 };
   return null;
 }
+/* Lexicon bends, owner-ruled 2026-08-20: the conversion writer emits here
+   every tile position where tools/lexicon.csv differs from pure rule output
+   (defaults + the magic-e rule) - and ONLY those, so the rules keep doing
+   what the rules already do. Hand WORD_SOUND outranks these tile by tile
+   and the writer refuses any overlap between the two maps. Empty until
+   --write runs. */
+/* GENERATED: LEX_BENDS begin (tools/convert-ladder.mjs --write) */
+const LEX_BENDS = {
+};
+/* GENERATED: LEX_BENDS end */
 /* The sound each of a word's tiles speaks, in order. */
 function soundIdsFor(word) {
-  const bent = WORD_SOUND[word] || {};
+  const bent = { ...(LEX_BENDS[word] || {}), ...(WORD_SOUND[word] || {}) };
   const tiles = chunkWord(word);
   const m = magicE(tiles);
   return tiles.map((g, i) => {
@@ -1378,6 +1410,7 @@ function bankWords() {
   for (const l of LEVELS) for (const w of l.words) words.add(w);
   for (const w of Object.keys(TRICKY)) words.add(w);
   for (const w of Object.keys(WORD_SOUND)) words.add(w);
+  for (const w of Object.keys(LEX_BENDS)) words.add(w);
   return [...words].sort();
 }
 function soundInventory() {
@@ -1441,7 +1474,12 @@ function sentenceLead(result, praiseIdx) {
    `tools/decodable.mjs` imports this rather than keeping its own copy. Two
    tokenisers would be two answers to "how many words is this", and the
    eight-word ceiling would then mean two different things. */
-const sentenceWords = (s) => s.toLowerCase().replace(/[.,!?;:"“”]/g, " ").split(/\s+/).filter(Boolean);
+/* A token with no letter in it is punctuation, not a word: "Then - pop!"
+   yields no "-" tile. 2026-08-20; this was G27's one standing
+   text_word_untaught finding, carried at a ceiling of 1 since the gate was
+   born, and the ceiling drops to zero with it. */
+const sentenceWords = (s) => s.toLowerCase().replace(/[.,!?;:"“”]/g, " ").split(/\s+/)
+  .filter((w) => /[a-z]/.test(w));
 /* The word the reveal sounds out: the FIRST word of the sentence that the
    level itself introduces (SPEC section 12, step 2 — "the word the LEVEL
    TEACHES"). First, not random: a child meeting a sentence twice must be
@@ -1623,7 +1661,10 @@ function buildSoundTray(preLevel, rand = Math.random) {
 /* The four units with no ruled default sound (S8, 2026-08-12 and 2026-08-17).
    These are the only graphemes barred outright: alone they can say nothing
    true, because every word that uses them bends them. */
-const NO_TRAY_UNITS = ["ai", "ou", "ey", "ere"];
+/* Grown by ea, oo, ow and ie on 2026-08-20: all six twice-taught spellings
+   are deliberately default-less, so a tray that dealt one as a distractor
+   would deal a tile that plays nothing - the dead-control fault. */
+const NO_TRAY_UNITS = ["ai", "ou", "ey", "ere", "ea", "oo", "ow", "ie"];
 /* Words a child must never be able to BUILD. SPEC section 12 owns this list -
    these are the words the owner ruled out for child-appropriateness, and gob,
    which was removed from every file on 2026-08-13 "so it cannot return by

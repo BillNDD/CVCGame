@@ -120,7 +120,9 @@ const MUTANTS = [
   ["sound-out seam 500 to 900", "const SOUNDOUT_SEAM_MS = 500;", "const SOUNDOUT_SEAM_MS = 900;"],
   ["a seam is read as a clip", 'const isSeam = (id) => id === "seam" || id === "seam2";', 'const isSeam = (id) => id === "seam";'],
   ["tile slots lose their order", "if (String(plan[i]).startsWith(\"d:\")) slots.push({ index: i, tile: t++ });", "if (String(plan[i]).startsWith(\"d:\")) slots.push({ index: i, tile: 0 });"],
-  ["tricky words lose their true sound", "const bent = WORD_SOUND[word] || {};", "const bent = {};"],
+  /* Re-pointed 2026-08-20 when LEX_BENDS joined the merge - the fault it
+     plants (every bend lost) is the same one. */
+  ["tricky words lose their true sound", "const bent = { ...(LEX_BENDS[word] || {}), ...(WORD_SOUND[word] || {}) };", "const bent = {};"],
   /* The voiced th, collapsed back into the quiet one. "th" spells two sounds
      and the map sent both to th_quiet until 2026-08-11, so this is the exact
      fault replayed: it costs six bank words their sound and nothing else in

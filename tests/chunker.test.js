@@ -18,7 +18,7 @@
    and from what the spelling says, never read back off the arrays under test
    (E4). Run: npm test */
 import { describe, it, expect } from "vitest";
-import { DIGRAPHS, TRIGRAPHS, QUADGRAPHS, chunkWord, bankWords, SENTENCES, sentenceWords, soundIdsFor, soundInventory, clipPlan } from "../src/engine.js";
+import { DIGRAPHS, TRIGRAPHS, QUADGRAPHS, chunkWord, bankWords, SENTENCES, sentenceWords, soundIdsFor, soundInventory, clipPlan, soundIdFor, WORD_TILES, LEX_BENDS } from "../src/engine.js";
 
 describe("the extended code", () => {
   /* All three tiers are pinned as literals,
@@ -224,5 +224,37 @@ describe("the extended code", () => {
     expect(clipPlan("correct", "come", 0)).toEqual(
       ["p:0", "seam2", "w:come", "seam2", "s:pronounced",
        "seam2", "d:k", "seam2", "d:short_u", "seam2", "d:m", "seam2", "w:come"]);
+  });
+
+  /* THE CONVERSION ANCHORS, 2026-08-20 (blueprint commit 1). Two generated
+     literals the writer fills at --write: per-word tiling overrides and the
+     lexicon's rule-diff bends. Until then both are EMPTY, pinned so today's
+     engine provably behaves exactly as before - the zero-retile histogram
+     above is the other half of that proof. The branch behaviour (an override
+     honoured; WORD_SOUND outranking LEX_BENDS) is proved by the writer's own
+     self-test, which splices a nonempty map through the real extractor - a
+     const cannot be mutated here. */
+  it("carries the writer's two anchors, empty and latent", () => {
+    expect(WORD_TILES).toEqual({});
+    expect(LEX_BENDS).toEqual({});
+  });
+  it("gives the four single-taught spellings their level's own sound", () => {
+    /* gh, gn, ough and ze are the only rowless graphemes the shape teaches
+       at exactly one level, so the lesson is the default (the owner's
+       levels-teach-the-default ruling). Literals, not reads (E4). */
+    expect(soundIdFor("gh")).toBe("d:f");
+    expect(soundIdFor("gn")).toBe("d:n");
+    expect(soundIdFor("ough")).toBe("d:aw");
+    expect(soundIdFor("ze")).toBe("d:z");
+    /* The six twice-taught spellings stay deliberately rowless: the loud
+       fallback is their guard, and the lexicon rules each word. */
+    for (const g of ["ea", "ere", "ey", "ie", "oo", "ow"])
+      expect(soundIdFor(g)).toBe("d:unmapped." + g);
+  });
+  it("reads no word out of bare punctuation", () => {
+    /* "Then - pop!" was G27's one standing text_word_untaught finding,
+       carried at a ceiling of 1 since the gate was born. */
+    expect(sentenceWords("Then - pop! It is fun.")).toEqual(["then", "pop", "it", "is", "fun"]);
+    expect(sentenceWords("a - b")).toEqual(["a", "b"]);
   });
 });
