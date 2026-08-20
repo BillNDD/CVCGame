@@ -133,12 +133,12 @@ one tile carrying two sounds. Bake method is tools/render_sounds13.py's,
 verbatim: phoneme carriers at speed 1.0, is_phonemes true, target LAST, cut by
 last energy island, the bake's polish. The four arms per sound - citation, citation at speed 0.85, trio with the target last, and
 continuation; the exact phoneme strings live in the session script
-render_sounds14.py, and the method note above re-derives them. HEARD
-2026-08-20 evening: the CONTINUATION arm won for both sounds ("perfect";
-citation arms "good", trios "no good" - logged in round-verdicts.json). The
-accepted takes ship as d:uf and d:off, then rough/tough/enough bend their
-ough tile to uf and cough to off, and all four become the hearts his ough
-ruling made them.
+render_sounds14.py, and the method note above re-derives them. HEARD AND
+SHIPPED 2026-08-20 evening: the CONTINUATION arm won for both sounds
+("perfect"; citation arms "good", trios "no good" - logged in
+round-verdicts.json), d:uf and d:off shipped, rough/tough/enough bent their
+ough tile to uf and cough to off, and all four joined level 92's heart list
+beside dough/though/through - the seven hearts the ough ruling named, DONE.
 
 **3. Rulings enacted but not finished.** The ch ruling (Greek six stay and
 TEACH the exception, chef out) still owes the six their SECOND-vowel bends

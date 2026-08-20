@@ -2763,6 +2763,7 @@
    "cod": 0.82,
    "cop": 0.82,
    "cot": 1,
+   "cough": 0.7,
    "cub": 1,
    "cuff": 0.82,
    "cup": 0.82,
@@ -2790,6 +2791,7 @@
    "duck": 0.82,
    "dug": 1,
    "end": 0.95,
+   "enough": 0.75,
    "fan": 0.82,
    "fang": 0.82,
    "fast": 0.95,
@@ -2993,6 +2995,7 @@
    "rock": 0.82,
    "rod": 0.82,
    "rot": 1,
+   "rough": 0.8,
    "rub": 1,
    "rug": 1,
    "run": 0.82,
@@ -3070,6 +3073,7 @@
    "top": 0.82,
    "tops": 0.8,
    "tot": 0.82,
+   "tough": 0.7,
    "trap": 0.8,
    "trip": 0.95,
    "tub": 1,
@@ -3246,6 +3250,12 @@
   "ms": 864,
   "tail": 414
  },
+ "d:off": {
+  "file": "d-off.mp3",
+  "lead": 90,
+  "ms": 576,
+  "tail": 126
+ },
  "d:oo_book": {
   "file": "d-oo_book.mp3",
   "lead": 120,
@@ -3359,6 +3369,12 @@
   "lead": 190,
   "ms": 816,
   "tail": 406
+ },
+ "d:uf": {
+  "file": "d-uf.mp3",
+  "lead": 90,
+  "ms": 528,
+  "tail": 118
  },
  "d:v": {
   "file": "d-v.mp3",
@@ -5238,6 +5254,12 @@
   "ms": 888,
   "tail": 318
  },
+ "w:cough": {
+  "file": "w-cough.mp3",
+  "lead": 130,
+  "ms": 984,
+  "tail": 314
+ },
  "w:cub": {
   "file": "w-cub.mp3",
   "lead": 170,
@@ -5435,6 +5457,12 @@
   "lead": 130,
   "ms": 840,
   "tail": 310
+ },
+ "w:enough": {
+  "file": "w-enough.mp3",
+  "lead": 120,
+  "ms": 984,
+  "tail": 314
  },
  "w:fan": {
   "file": "w-fan.mp3",
@@ -6864,6 +6892,12 @@
   "ms": 936,
   "tail": 326
  },
+ "w:rough": {
+  "file": "w-rough.mp3",
+  "lead": 130,
+  "ms": 936,
+  "tail": 316
+ },
  "w:rub": {
   "file": "w-rub.mp3",
   "lead": 190,
@@ -7391,6 +7425,12 @@
   "lead": 160,
   "ms": 1008,
   "tail": 308
+ },
+ "w:tough": {
+  "file": "w-tough.mp3",
+  "lead": 130,
+  "ms": 960,
+  "tail": 310
  },
  "w:trap": {
   "file": "w-trap.mp3",

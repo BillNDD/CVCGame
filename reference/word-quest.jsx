@@ -1048,13 +1048,20 @@ const WORD_SOUND = {
      five -ought words that obey it; dough, though and through are taught by
      sight with true audio. Each bends its single ough tile to the sound the
      word actually says - long o, long o, and the oo of moon. rough, tough,
-     enough and cough are NOT here: their ough carries TWO sounds in one tile
-     (/uf/, /off/), which no single clip can play - that mechanism gap is on
-     the owner's page. month, phonics-reviewed the same day: its o says the u
+     enough and cough carry TWO sounds in one ough tile, which no single clip
+     could play until the owner ruled the x/ks and qu/kw precedent onto them
+     (the move bill, 2026-08-20): uf and off were recorded as cluster sounds,
+     accepted by ear in sound round 14 the same evening (the continuation arm
+     won for both), and the four bend to them here and join the level-92
+     hearts. month, phonics-reviewed the same day: its o says the u
      of up, like come and some, and its four tiles carry four real sounds. */
   dough: { 1: "long_o" },
   though: { 0: "th_this", 1: "long_o" },   // the buzzy th - the report listed it and the first draft of this row missed it
   through: { 2: "oo_moon" },
+  rough: { 1: "uf" },
+  tough: { 1: "uf" },
+  enough: { 2: "uf" },
+  cough: { 1: "off" },
   month: { 1: "short_u" },
   /* The hybrid ruling, owner 2026-08-20: of the eleven early-seated words,
      the five function words stay where children meet them constantly, marked
@@ -1152,6 +1159,12 @@ const SOUND_TEXT = {
   long_u: "the sound at the start of use",
   oi: "the sound in the middle of coin",
   zh: "the buzzing sound in the middle of measure",
+  /* The two cluster sounds of the ough hearts, owner-ruled 2026-08-20 on the
+     move bill - the x/ks and qu/kw precedent - and accepted by ear in sound
+     round 14 the same evening. One tile, two sounds, one clip each; named by
+     the carrier words that hold them, as S4 requires. */
+  uf: "the sound at the end of rough",
+  off: "the sound at the end of cough",
 };
 /* The sound each of a word's tiles speaks, in order. */
 function soundIdsFor(word) {

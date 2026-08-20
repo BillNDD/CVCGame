@@ -1952,3 +1952,23 @@ level word-sets alone**, and the owner ruled that the pathway must reach 1,200 t
 exposures anyway, carried by sentences and spaced review. **And the existing 21 levels are
 superseded** and will be rebuilt against this ladder — a cost the owner accepted on the day,
 in his words: better now than in two months.
+
+## The cluster sounds uf and off, and how a two-sound tile ships (2026-08-20) - closed
+
+Sound round 14 settled the pair the move-bill ruling created. rough, tough, enough and
+cough carry ough tiles saying TWO sounds (/uf/, /off/), which no single-sound clip could
+play; the owner ruled the x/ks and qu/kw precedent onto them - record the cluster as one
+sound - and the bake was the settled method verbatim: a phoneme carrier, the target last,
+cut at the last energy island. What the round closed by ear: **the CONTINUATION arm
+("the sound is: ...") won for both sounds**, the citation arms were good, and the trio
+arms - three words ending on the target - were refused outright. A future cluster-sound
+round should lead with continuation and citation and should not spend arms on trios.
+
+Round 15 the same evening settled mechanic's comeback, and the lesson generalises: a
+word that refused every arm of the standard field ("none are right", eight arms across
+say, listen and trimmed-solo) accepted on the FIRST offer of a carrier family it had
+never heard - "The word is mechanic." at 0.75. The hash guard did the triage for free,
+re-refusing all eight prior arms byte-for-byte so only the genuinely new families
+rendered. This is the same lesson as the notes/socks round: when a field is refused
+whole, change the FAMILY, not the speed, and let the hash guard prove which offers are
+actually new.

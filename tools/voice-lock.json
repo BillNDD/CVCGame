@@ -2765,6 +2765,7 @@
    "cod": 0.82,
    "cop": 0.82,
    "cot": 1,
+   "cough": 0.7,
    "cub": 1,
    "cuff": 0.82,
    "cup": 0.82,
@@ -2792,6 +2793,7 @@
    "duck": 0.82,
    "dug": 1,
    "end": 0.95,
+   "enough": 0.75,
    "fan": 0.82,
    "fang": 0.82,
    "fast": 0.95,
@@ -2995,6 +2997,7 @@
    "rock": 0.82,
    "rod": 0.82,
    "rot": 1,
+   "rough": 0.8,
    "rub": 1,
    "rug": 1,
    "run": 0.82,
@@ -3072,6 +3075,7 @@
    "top": 0.82,
    "tops": 0.8,
    "tot": 0.82,
+   "tough": 0.7,
    "trap": 0.8,
    "trip": 0.95,
    "tub": 1,
@@ -3639,7 +3643,11 @@
   "find": "8750245c8e93199c10be28456fdafacf225fa4a0d05e19fc0dcdb1407ef6016e",
   "hold": "df84f61570a8e2dcf792d48d56c61aea60b21e1f87b8719647ab4a7517cacf61",
   "into": "9900d7f9a6a3c43be7f1ed2f95f718298cb59a7ba4afecc45d8e62c410545bd1",
-  "old": "4a9721b75fcbbcb0fd730345eb564c50d8ee26cd97f12a10e9109156b5e1933a"
+  "old": "4a9721b75fcbbcb0fd730345eb564c50d8ee26cd97f12a10e9109156b5e1933a",
+  "cough": "562ef7bad84922028ae0dd9dbd813f4be8124754c43a7ea48793fc96e8f2fc59",
+  "enough": "ac75160d4bb1b8a5b72235eb5380e1a86eb71721226a81f09dfc57b0d32ecd97",
+  "rough": "440664a70f1f948d0ac07747f1aa9535c76bd81e7851ff1f27d947493a175ffd",
+  "tough": "c8f3344d11cb35165df463eeca7d51c9a4751fe14b0535070db5240e909cafbd"
  },
  "words": {
   "am": {
@@ -7050,6 +7058,34 @@
    "round": "batch 19 / 2026-08-17",
    "listen_context": "clip",
    "byte_pin_sha256": "4a9721b75fcbbcb0fd730345eb564c50d8ee26cd97f12a10e9109156b5e1933a"
+  },
+  "cough": {
+   "verdict": "perfect",
+   "ear_notes": "owner perfect cough_1; family say_sp0.7; recipe in the batch renderer, not in these columns; unseated: the bank names it, no level holds it yet",
+   "round": "batch 21 round 3 / 2026-08-18",
+   "listen_context": "clip",
+   "byte_pin_sha256": "562ef7bad84922028ae0dd9dbd813f4be8124754c43a7ea48793fc96e8f2fc59"
+  },
+  "enough": {
+   "verdict": "perfect",
+   "ear_notes": "owner perfect enough_5; family listen_sp0.75; recipe in the batch renderer, not in these columns; unseated: the bank names it, no level holds it yet",
+   "round": "batch 21 round 4 / 2026-08-18",
+   "listen_context": "clip",
+   "byte_pin_sha256": "ac75160d4bb1b8a5b72235eb5380e1a86eb71721226a81f09dfc57b0d32ecd97"
+  },
+  "rough": {
+   "verdict": "perfect",
+   "ear_notes": "owner perfect rough_6; family listen_sp0.8; recipe in the batch renderer, not in these columns; unseated: the bank names it, no level holds it yet",
+   "round": "batch 21 round 11 / 2026-08-18",
+   "listen_context": "clip",
+   "byte_pin_sha256": "440664a70f1f948d0ac07747f1aa9535c76bd81e7851ff1f27d947493a175ffd"
+  },
+  "tough": {
+   "verdict": "perfect",
+   "ear_notes": "owner perfect tough_4; family listen_sp0.7; recipe in the batch renderer, not in these columns; unseated: the bank names it, no level holds it yet",
+   "round": "batch 21 round 14 / 2026-08-18",
+   "listen_context": "clip",
+   "byte_pin_sha256": "c8f3344d11cb35165df463eeca7d51c9a4751fe14b0535070db5240e909cafbd"
   }
  },
  "environment": {
