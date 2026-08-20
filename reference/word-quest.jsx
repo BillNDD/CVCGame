@@ -1033,6 +1033,13 @@ const WORD_SOUND = {
      confusion (docs/open-faults.md sections F2 and K). */
   go: { 1: "long_o" }, no: { 1: "long_o" }, so: { 1: "long_o" },
   wash: { 1: "short_o" },
+  /* as, phonics-reviewed 2026-08-20: the s buzzes to /z/ exactly as it does
+     in is, his and has, which were bent long ago while `as` - accepted into
+     the bank 2026-08-18 after three rounds - never got the same row. Until
+     this line its sound-out was short_a + /s/, which spells a word no child
+     should be taught. Found by the read-only phonics review, certainty
+     "certain", the only fault in all 478 shipped bank words. */
+  as: { 1: "z" },
   is: { 1: "z" }, has: { 2: "z" },
   /* The plural s that buzzes. After a voiced ending the plural s says /z/ —
      dogz, not dogss — which is Level 21's whole lesson (owner-ruled

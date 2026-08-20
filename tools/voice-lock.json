@@ -2710,6 +2710,7 @@
    "and": 1,
    "ant": 0.95,
    "are": 0.7,
+   "as": 0.7,
    "ask": 0.95,
    "at": 0.82,
    "ax": 0.82,
@@ -3621,7 +3622,8 @@
   "want": "5d21d2251242ea6970066f85e875e637527694cdb584bcbe40d72532086118c8",
   "which": "1116551d2787df765092617e232a2a30c7bf58054feb0f612f5d98d478fe438a",
   "are": "b8efddf7f3b1f4da91ada4b3d8a685931aecc4cd0a06c0a62081734602792676",
-  "were": "fafb91a4b392e1b0ef80c5beaeeaa2c6c1d0f79243579d05dffc4462ddb0b97c"
+  "were": "fafb91a4b392e1b0ef80c5beaeeaa2c6c1d0f79243579d05dffc4462ddb0b97c",
+  "as": "d543b25bb29483a69c2df4ddbb299e39aaf9e9f084464c99f00e6070a1a0b610"
  },
  "words": {
   "am": {
@@ -6969,6 +6971,13 @@
    "round": "batch 21 round 15 / 2026-08-18",
    "listen_context": "clip",
    "byte_pin_sha256": "fafb91a4b392e1b0ef80c5beaeeaa2c6c1d0f79243579d05dffc4462ddb0b97c"
+  },
+  "as": {
+   "verdict": "perfect",
+   "ear_notes": "owner perfect as_9; family phoneme_sp0.7; recipe in the batch renderer, not in these columns; unseated: the bank names it, no level holds it yet",
+   "round": "batch 20 / 2026-08-17",
+   "listen_context": "clip",
+   "byte_pin_sha256": "d543b25bb29483a69c2df4ddbb299e39aaf9e9f084464c99f00e6070a1a0b610"
   }
  },
  "environment": {
