@@ -137,9 +137,9 @@ caught,82,c-augh-t,k aw t,engine engine engine,seat+text,
 cent,87,c-e-n-t,s short_e n t,position engine engine engine,seat,
 charm,79,ch-ar-m,ch ar m,engine engine engine,seat,
 chat,23,ch-a-t,ch short_a t,engine engine engine,bank+seat,
-check,,ch-e-ck,ch short_e k,engine engine engine,bank+text,
+check,26,ch-e-ck,ch short_e k,engine engine engine,bank+text+seat,"seated by the fill on the owner cutover ruling, 2026-08-20"
 cheerful,98,ch-eer-f-u-l,ch ear f short_u l,engine engine engine engine engine,seat,
-chess,,ch-e-ss,ch short_e s,engine engine engine,bank+text,
+chess,23,ch-e-ss,ch short_e s,engine engine engine,bank+text+seat,"seated by the fill on the owner cutover ruling, 2026-08-20"
 chest,23,ch-e-s-t,ch short_e s t,engine engine engine engine,seat,
 chick,26,ch-i-ck,ch short_i k,engine engine engine,bank+seat+text,
 chicken,42,ch-i-ck-e-n,ch short_i k short_e n,engine engine engine engine engine,seat,
@@ -209,7 +209,7 @@ desk,16,d-e-s-k,d short_e s k,engine engine engine engine,bank+seat+text,
 desks,32,d-e-s-k-s,d short_e s k s,engine engine engine engine engine,seat,
 dew,76,d-ew,d oo_moon,engine engine,seat+text,
 did,8,d-i-d,d short_i d,engine engine engine,bank+seat+text,
-dig,,d-i-g,d short_i g,engine engine engine,bank+text,
+dig,9,d-i-g,d short_i g,engine engine engine,bank+text+seat,"seated by the fill on the owner cutover ruling, 2026-08-20"
 digging,46,d-i-gg-i-ng,d short_i g short_i ng,engine engine engine engine engine,seat,
 dim,70,d-i-m,d short_i m,engine engine engine,bank+seat+text,
 dime,66,d-i-m-e,d long_i m silent,engine engine engine engine,seat,
@@ -280,7 +280,7 @@ fell,21,f-e-ll,f short_e l,engine engine engine,bank+seat+text,
 fetch,88,f-e-tch,f short_e ch,engine engine engine,seat+text,
 few,76,f-ew,f long_u,expert expert,seat+text,
 field,63,f-ie-l-d,f long_e l d,engine seat-rule engine engine,seat,
-fig,,f-i-g,f short_i g,engine engine engine,bank+text,
+fig,11,f-i-g,f short_i g,engine engine engine,bank+text+seat,"seated by the fill on the owner cutover ruling, 2026-08-20"
 fill,21,f-i-ll,f short_i l,engine engine engine,seat+text,
 filled,44,f-i-ll-e-d,f short_i l silent d,expert expert expert expert expert,seat+text,"the -ed of level 44: voiced stem, e silent, d stays d"
 fin,11,f-i-n,f short_i n,engine engine engine,bank+seat,
@@ -294,7 +294,7 @@ fit,11,f-i-t,f short_i t,engine engine engine,bank+seat+text,
 five,66,f-i-ve,f long_i v,engine engine engine,seat+text,
 fix,18,f-i-x,f short_i x,engine engine engine,bank+seat+text,
 fizz,80,f-i-zz,f short_i z,engine engine engine,bank+seat,
-flag,,f-l-a-g,f l short_a g,engine engine engine engine,bank+text,
+flag,13,f-l-a-g,f l short_a g,engine engine engine engine,bank+text+seat,"seated by the fill on the owner cutover ruling, 2026-08-20"
 flat,34,f-l-a-t,f l short_a t,engine engine engine engine,bank+seat+text,
 flies,67,f-l-ie-s,f l long_i z,expert expert expert expert,seat+text,final s buzzes to z after a voiced sound
 flowers,77,f-l-ow-er-s,f l ow er z,expert expert expert expert expert,seat+text,final s buzzes to z after a voiced sound
@@ -402,7 +402,7 @@ hip,80,h-i-p,h short_i p,engine engine engine,bank+seat,
 his,10,h-i-s,h short_i z,engine engine engine,bank+seat+text,
 hit,10,h-i-t,h short_i t,engine engine engine,bank+seat+text,
 hits,20,h-i-t-s,h short_i t s,engine engine engine engine,seat,
-hog,,h-o-g,h short_o g,engine engine engine,bank+text,
+hog,10,h-o-g,h short_o g,engine engine engine,bank+text+seat,"seated by the fill on the owner cutover ruling, 2026-08-20"
 hold,20,h-o-l-d,h long_o l d,engine engine engine engine,bank+seat+text,
 hole,64,h-o-le,h long_o l,expert expert expert,seat+text,
 holes,64,h-o-l-e-s,h long_o l silent z,expert expert expert expert expert,seat+text,
@@ -442,7 +442,7 @@ jazz,90,j-a-zz,j short_a z,engine engine engine,bank+seat,
 jelly,51,j-e-ll-y,j short_e l long_e,engine engine engine position,seat+text,
 jet,90,j-e-t,j short_e t,engine engine engine,bank+seat+text,
 job,40,j-o-b,j short_o b,engine engine engine,bank+seat+text,
-jog,,j-o-g,j short_o g,engine engine engine,bank+text,
+jog,17,j-o-g,j short_o g,engine engine engine,bank+text+seat,"seated by the fill on the owner cutover ruling, 2026-08-20"
 join,78,j-oi-n,j oi n,engine engine engine,seat+text,
 jot,90,j-o-t,j short_o t,engine engine engine,bank+seat,
 joyful,98,j-oy-f-u-l,j oi f short_u l,engine engine engine engine engine,seat,
@@ -666,7 +666,7 @@ pie,67,p-ie,p long_i,engine seat-rule,seat+text,
 piece,63,p-ie-ce,p long_e s,engine seat-rule engine,seat,
 pig,9,p-i-g,p short_i g,engine engine engine,bank+seat+text,
 pigpen,9,p-i-g-p-e-n,p short_i g p short_e n,engine engine engine engine engine engine,seat+text,
-pigs,,p-i-g-s,p short_i g z,engine engine engine engine,bank+text,
+pigs,9,p-i-g-s,p short_i g z,engine engine engine engine,bank+text+seat,"seated by the fill on the owner cutover ruling, 2026-08-20"
 pillow,65,p-i-ll-ow,p short_i l long_o,engine engine engine seat-rule,seat,
 pin,2,p-i-n,p short_i n,engine engine engine,bank+seat+text,
 pit,2,p-i-t,p short_i t,engine engine engine,bank+seat+text,
@@ -731,7 +731,7 @@ return,97,r-e-t-ur-n,r short_e t er n,engine engine engine engine engine,seat+te
 rhyme,,r-h-y-m-e,r silent long_i m silent,expert expert expert expert expert,text,
 rich,23,r-i-ch,r short_i ch,engine engine engine,bank+seat,
 rid,15,r-i-d,r short_i d,engine engine engine,seat,
-rig,,r-i-g,r short_i g,engine engine engine,bank+text,
+rig,15,r-i-g,r short_i g,engine engine engine,bank+text+seat,"seated by the fill on the owner cutover ruling, 2026-08-20"
 right,67,r-igh-t,r long_i t,engine engine engine,seat+text,
 rip,50,r-i-p,r short_i p,engine engine engine,bank+seat+text,
 road,64,r-oa-d,r long_o d,engine engine engine,seat+text,
@@ -881,7 +881,7 @@ swap,33,s-w-a-p,s w short_o p,expert expert expert expert,seat+text,
 swim,17,s-w-i-m,s w short_i m,engine engine engine engine,bank+seat+text,
 swimming,46,s-w-i-mm-i-ng,s w short_i m short_i ng,engine engine engine engine engine engine,seat+text,
 table,72,t-a-b-le,t long_a b l,expert expert expert expert,seat+text,open-syllable candidate at 72+ - expert decides the vowel
-tag,,t-a-g,t short_a g,engine engine engine,bank+text,
+tag,9,t-a-g,t short_a g,engine engine engine,bank+text+seat,"seated by the fill on the owner cutover ruling, 2026-08-20"
 tail,58,t-ai-l,t long_a l,engine engine engine,seat+text,
 take,60,t-a-k-e,t long_a k silent,engine engine engine engine,seat+text,
 talk,86,t-al-k,t aw k,engine engine engine,seat,
@@ -925,7 +925,7 @@ thread,69,th-r-ea-d,th_quiet r short_e d,engine engine seat-rule engine,seat,
 through,92,th-r-ough,th_quiet r oo_moon,engine engine engine,bank+seat,
 throw,65,th-r-ow,th_quiet r long_o,engine engine seat-rule,seat+text,
 thud,24,th-u-d,th_quiet short_u d,engine engine engine,bank+seat,
-thumb,,th-u-mb,th_quiet short_u m,engine engine engine,bank+text,
+thumb,89,th-u-mb,th_quiet short_u m,engine engine engine,bank+text+seat,"seated by the fill on the owner cutover ruling, 2026-08-20"
 thump,24,th-u-m-p,th_quiet short_u m p,engine engine engine engine,seat,
 thunder,42,th-u-n-d-er,th_quiet short_u n d er,engine engine engine engine engine,seat,
 tie,67,t-ie,t long_i,engine seat-rule,seat,
@@ -1013,7 +1013,7 @@ whistle,93,wh-i-s-tle,w short_i s l,engine engine engine engine,seat+text,open-s
 white,66,wh-i-t-e,w long_i t silent,engine engine engine engine,seat+text,
 whizz,27,wh-i-zz,w short_i z,engine engine engine,bank+seat,
 why,52,wh-y,w long_i,engine position,seat+text,
-wig,,w-i-g,w short_i g,engine engine engine,bank+text,
+wig,17,w-i-g,w short_i g,engine engine engine,bank+text+seat,"seated by the fill on the owner cutover ruling, 2026-08-20"
 wild,68,w-i-l-d,w long_i l d,engine lesson-68 engine engine,seat+text,
 will,40,w-i-ll,w short_i l,engine engine engine,bank+seat+text,
 win,17,w-i-n,w short_i n,engine engine engine,bank+seat+text,
@@ -1051,96 +1051,96 @@ young,77,y-ou-ng,y short_u ng,expert expert expert,seat+text,
 zap,18,z-a-p,z short_a p,engine engine engine,bank+seat+text,
 zip,18,z-i-p,z short_i p,engine engine engine,bank+seat+text,
 zoom,74,z-oo-m,z oo_moon m,engine seat-rule engine,seat+text,
-beds,,b-e-d-s,b short_e d z,engine,bank,shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class
+beds,12,b-e-d-s,b short_e d z,engine,bank+seat,"shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class; seated by the fill on the owner cutover ruling, 2026-08-20"
 bolt,68,b-o-l-t,b long_o l t,expert expert expert expert,bank,"the 93-row follow-up review: /bolt/ says long o, the cold/gold class; was a LIVE wrong sound-out in the shipped bank, bent the same day; seated at 68 the same evening - the o-before-two lesson, the class remedy, flagged for the owner"
-bond,,b-o-n-d,b short_o n d,engine,bank,shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class
-brag,,b-r-a-g,b r short_a g,engine,bank,shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class
-bump,,b-u-m-p,b short_u m p,engine,bank,shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class
-chap,,ch-a-p,ch short_a p,engine,bank,shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class
-chuck,,ch-u-ck,ch short_u k,engine,bank,shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class
+bond,12,b-o-n-d,b short_o n d,engine,bank+seat,"shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class; seated by the fill on the owner cutover ruling, 2026-08-20"
+brag,15,b-r-a-g,b r short_a g,engine,bank+seat,"shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class; seated by the fill on the owner cutover ruling, 2026-08-20"
+bump,14,b-u-m-p,b short_u m p,engine,bank+seat,"shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class; seated by the fill on the owner cutover ruling, 2026-08-20"
+chap,23,ch-a-p,ch short_a p,engine,bank+seat,"shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class; seated by the fill on the owner cutover ruling, 2026-08-20"
+chuck,26,ch-u-ck,ch short_u k,engine,bank+seat,"shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class; seated by the fill on the owner cutover ruling, 2026-08-20"
 chug,,ch-u-g,ch short_u g,engine,bank,shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class
-damp,,d-a-m-p,d short_a m p,engine,bank,shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class
-dent,,d-e-n-t,d short_e n t,engine,bank,shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class
-ding,,d-i-ng,d short_i ng,engine,bank,shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class
-dusk,,d-u-s-k,d short_u s k,engine,bank,shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class
-fond,,f-o-n-d,f short_o n d,engine,bank,shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class
-gulf,,g-u-l-f,g short_u l f,engine,bank,shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class
-gulp,,g-u-l-p,g short_u l p,engine,bank,shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class
-hint,,h-i-n-t,h short_i n t,engine,bank,shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class
-jig,,j-i-g,j short_i g,engine,bank,shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class
-jug,,j-u-g,j short_u g,engine,bank,shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class
-keg,,k-e-g,k short_e g,engine,bank,shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class
-kept,,k-e-p-t,k short_e p t,engine,bank,shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class
-last,,l-a-s-t,l short_a s t,engine,bank,shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class
-lend,,l-e-n-d,l short_e n d,engine,bank,shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class
-list,,l-i-s-t,l short_i s t,engine,bank,shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class
-lug,,l-u-g,l short_u g,engine,bank,shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class
-mask,,m-a-s-k,m short_a s k,engine,bank,shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class
-math,,m-a-th,m short_a th_quiet,engine,bank,shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class
-melt,,m-e-l-t,m short_e l t,engine,bank,shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class
-mend,,m-e-n-d,m short_e n d,engine,bank,shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class
-mug,,m-u-g,m short_u g,engine,bank,shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class
-nab,,n-a-b,n short_a b,engine,bank,shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class
-nag,,n-a-g,n short_a g,engine,bank,shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class
-neck,,n-e-ck,n short_e k,engine,bank,shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class
-nix,,n-i-x,n short_i x,engine,bank,shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class
-nun,,n-u-n,n short_u n,engine,bank,shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class
-pad,,p-a-d,p short_a d,engine,bank,shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class
-peck,,p-e-ck,p short_e k,engine,bank,shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class
-peg,,p-e-g,p short_e g,engine,bank,shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class
-pep,,p-e-p,p short_e p,engine,bank,shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class
-ping,,p-i-ng,p short_i ng,engine,bank,shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class
-pod,,p-o-d,p short_o d,engine,bank,shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class
-posh,,p-o-sh,p short_o sh,engine,bank,shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class
-puck,,p-u-ck,p short_u k,engine,bank,shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class
-puff,,p-u-ff,p short_u f,engine,bank,shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class
+damp,8,d-a-m-p,d short_a m p,engine,bank+seat,"shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class; seated by the fill on the owner cutover ruling, 2026-08-20"
+dent,8,d-e-n-t,d short_e n t,engine,bank+seat,"shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class; seated by the fill on the owner cutover ruling, 2026-08-20"
+ding,28,d-i-ng,d short_i ng,engine,bank+seat,"shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class; seated by the fill on the owner cutover ruling, 2026-08-20"
+dusk,16,d-u-s-k,d short_u s k,engine,bank+seat,"shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class; seated by the fill on the owner cutover ruling, 2026-08-20"
+fond,11,f-o-n-d,f short_o n d,engine,bank+seat,"shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class; seated by the fill on the owner cutover ruling, 2026-08-20"
+gulf,14,g-u-l-f,g short_u l f,engine,bank+seat,"shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class; seated by the fill on the owner cutover ruling, 2026-08-20"
+gulp,14,g-u-l-p,g short_u l p,engine,bank+seat,"shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class; seated by the fill on the owner cutover ruling, 2026-08-20"
+hint,10,h-i-n-t,h short_i n t,engine,bank+seat,"shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class; seated by the fill on the owner cutover ruling, 2026-08-20"
+jig,17,j-i-g,j short_i g,engine,bank+seat,"shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class; seated by the fill on the owner cutover ruling, 2026-08-20"
+jug,17,j-u-g,j short_u g,engine,bank+seat,"shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class; seated by the fill on the owner cutover ruling, 2026-08-20"
+keg,16,k-e-g,k short_e g,engine,bank+seat,"shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class; seated by the fill on the owner cutover ruling, 2026-08-20"
+kept,16,k-e-p-t,k short_e p t,engine,bank+seat,"shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class; seated by the fill on the owner cutover ruling, 2026-08-20"
+last,13,l-a-s-t,l short_a s t,engine,bank+seat,"shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class; seated by the fill on the owner cutover ruling, 2026-08-20"
+lend,13,l-e-n-d,l short_e n d,engine,bank+seat,"shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class; seated by the fill on the owner cutover ruling, 2026-08-20"
+list,13,l-i-s-t,l short_i s t,engine,bank+seat,"shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class; seated by the fill on the owner cutover ruling, 2026-08-20"
+lug,14,l-u-g,l short_u g,engine,bank+seat,"shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class; seated by the fill on the owner cutover ruling, 2026-08-20"
+mask,16,m-a-s-k,m short_a s k,engine,bank+seat,"shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class; seated by the fill on the owner cutover ruling, 2026-08-20"
+math,24,m-a-th,m short_a th_quiet,engine,bank+seat,"shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class; seated by the fill on the owner cutover ruling, 2026-08-20"
+melt,13,m-e-l-t,m short_e l t,engine,bank+seat,"shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class; seated by the fill on the owner cutover ruling, 2026-08-20"
+mend,8,m-e-n-d,m short_e n d,engine,bank+seat,"shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class; seated by the fill on the owner cutover ruling, 2026-08-20"
+mug,14,m-u-g,m short_u g,engine,bank+seat,"shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class; seated by the fill on the owner cutover ruling, 2026-08-20"
+nab,12,n-a-b,n short_a b,engine,bank+seat,"shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class; seated by the fill on the owner cutover ruling, 2026-08-20"
+nag,9,n-a-g,n short_a g,engine,bank+seat,"shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class; seated by the fill on the owner cutover ruling, 2026-08-20"
+neck,26,n-e-ck,n short_e k,engine,bank+seat,"shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class; seated by the fill on the owner cutover ruling, 2026-08-20"
+nix,18,n-i-x,n short_i x,engine,bank+seat,"shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class; seated by the fill on the owner cutover ruling, 2026-08-20"
+nun,14,n-u-n,n short_u n,engine,bank+seat,"shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class; seated by the fill on the owner cutover ruling, 2026-08-20"
+pad,8,p-a-d,p short_a d,engine,bank+seat,"shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class; seated by the fill on the owner cutover ruling, 2026-08-20"
+peck,26,p-e-ck,p short_e k,engine,bank+seat,"shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class; seated by the fill on the owner cutover ruling, 2026-08-20"
+peg,9,p-e-g,p short_e g,engine,bank+seat,"shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class; seated by the fill on the owner cutover ruling, 2026-08-20"
+pep,7,p-e-p,p short_e p,engine,bank+seat,"shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class; seated by the fill on the owner cutover ruling, 2026-08-20"
+ping,28,p-i-ng,p short_i ng,engine,bank+seat,"shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class; seated by the fill on the owner cutover ruling, 2026-08-20"
+pod,8,p-o-d,p short_o d,engine,bank+seat,"shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class; seated by the fill on the owner cutover ruling, 2026-08-20"
+posh,22,p-o-sh,p short_o sh,engine,bank+seat,"shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class; seated by the fill on the owner cutover ruling, 2026-08-20"
+puck,26,p-u-ck,p short_u k,engine,bank+seat,"shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class; seated by the fill on the owner cutover ruling, 2026-08-20"
+puff,21,p-u-ff,p short_u f,engine,bank+seat,"shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class; seated by the fill on the owner cutover ruling, 2026-08-20"
 pump,,p-u-m-p,p short_u m p,engine,bank,shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class
 pun,,p-u-n,p short_u n,engine,bank,shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class
-push,,p-u-sh,p oo_book sh,engine,bank,shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class
-raft,,r-a-f-t,r short_a f t,engine,bank,shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class
-rang,,r-a-ng,r short_a ng,engine,bank,shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class
-rash,,r-a-sh,r short_a sh,engine,bank,shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class
-rib,,r-i-b,r short_i b,engine,bank,shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class
-rim,,r-i-m,r short_i m,engine,bank,shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class
-ring,,r-i-ng,r short_i ng,engine,bank,shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class
-risk,,r-i-s-k,r short_i s k,engine,bank,shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class
-rob,,r-o-b,r short_o b,engine,bank,shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class
+push,22,p-u-sh,p oo_book sh,engine,bank+seat,"shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class; seated by the fill on the owner cutover ruling, 2026-08-20"
+raft,15,r-a-f-t,r short_a f t,engine,bank+seat,"shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class; seated by the fill on the owner cutover ruling, 2026-08-20"
+rang,28,r-a-ng,r short_a ng,engine,bank+seat,"shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class; seated by the fill on the owner cutover ruling, 2026-08-20"
+rash,22,r-a-sh,r short_a sh,engine,bank+seat,"shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class; seated by the fill on the owner cutover ruling, 2026-08-20"
+rib,15,r-i-b,r short_i b,engine,bank+seat,"shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class; seated by the fill on the owner cutover ruling, 2026-08-20"
+rim,15,r-i-m,r short_i m,engine,bank+seat,"shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class; seated by the fill on the owner cutover ruling, 2026-08-20"
+ring,28,r-i-ng,r short_i ng,engine,bank+seat,"shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class; seated by the fill on the owner cutover ruling, 2026-08-20"
+risk,16,r-i-s-k,r short_i s k,engine,bank+seat,"shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class; seated by the fill on the owner cutover ruling, 2026-08-20"
+rob,15,r-o-b,r short_o b,engine,bank+seat,"shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class; seated by the fill on the owner cutover ruling, 2026-08-20"
 rot,,r-o-t,r short_o t,engine,bank,shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class
-rung,,r-u-ng,r short_u ng,engine,bank,shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class
-rush,,r-u-sh,r short_u sh,engine,bank,shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class
-sag,,s-a-g,s short_a g,engine,bank,shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class
-sang,,s-a-ng,s short_a ng,engine,bank,shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class
-sash,,s-a-sh,s short_a sh,engine,bank,shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class
-sax,,s-a-x,s short_a x,engine,bank,shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class
-sham,,sh-a-m,sh short_a m,engine,bank,shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class
-shin,,sh-i-n,sh short_i n,engine,bank,shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class
-shock,,sh-o-ck,sh short_o k,engine,bank,shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class
-shun,,sh-u-n,sh short_u n,engine,bank,shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class
+rung,28,r-u-ng,r short_u ng,engine,bank+seat,"shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class; seated by the fill on the owner cutover ruling, 2026-08-20"
+rush,22,r-u-sh,r short_u sh,engine,bank+seat,"shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class; seated by the fill on the owner cutover ruling, 2026-08-20"
+sag,9,s-a-g,s short_a g,engine,bank+seat,"shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class; seated by the fill on the owner cutover ruling, 2026-08-20"
+sang,28,s-a-ng,s short_a ng,engine,bank+seat,"shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class; seated by the fill on the owner cutover ruling, 2026-08-20"
+sash,22,s-a-sh,s short_a sh,engine,bank+seat,"shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class; seated by the fill on the owner cutover ruling, 2026-08-20"
+sax,18,s-a-x,s short_a x,engine,bank+seat,"shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class; seated by the fill on the owner cutover ruling, 2026-08-20"
+sham,22,sh-a-m,sh short_a m,engine,bank+seat,"shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class; seated by the fill on the owner cutover ruling, 2026-08-20"
+shin,22,sh-i-n,sh short_i n,engine,bank+seat,"shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class; seated by the fill on the owner cutover ruling, 2026-08-20"
+shock,26,sh-o-ck,sh short_o k,engine,bank+seat,"shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class; seated by the fill on the owner cutover ruling, 2026-08-20"
+shun,22,sh-u-n,sh short_u n,engine,bank+seat,"shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class; seated by the fill on the owner cutover ruling, 2026-08-20"
 shut,,sh-u-t,sh short_u t,engine,bank,shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class
-sift,,s-i-f-t,s short_i f t,engine,bank,shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class
-silk,,s-i-l-k,s short_i l k,engine,bank,shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class
-sob,,s-o-b,s short_o b,engine,bank,shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class
-song,,s-o-ng,s short_o ng,engine,bank,shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class
+sift,11,s-i-f-t,s short_i f t,engine,bank+seat,"shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class; seated by the fill on the owner cutover ruling, 2026-08-20"
+silk,16,s-i-l-k,s short_i l k,engine,bank+seat,"shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class; seated by the fill on the owner cutover ruling, 2026-08-20"
+sob,12,s-o-b,s short_o b,engine,bank+seat,"shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class; seated by the fill on the owner cutover ruling, 2026-08-20"
+song,28,s-o-ng,s short_o ng,engine,bank+seat,"shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class; seated by the fill on the owner cutover ruling, 2026-08-20"
 sub,,s-u-b,s short_u b,engine,bank,shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class
 sum,,s-u-m,s short_u m,engine,bank,shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class
 sung,,s-u-ng,s short_u ng,engine,bank,shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class
-tab,,t-a-b,t short_a b,engine,bank,shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class
+tab,12,t-a-b,t short_a b,engine,bank+seat,"shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class; seated by the fill on the owner cutover ruling, 2026-08-20"
 tack,,t-a-ck,t short_a k,engine,bank,shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class
-task,,t-a-s-k,t short_a s k,engine,bank,shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class
+task,16,t-a-s-k,t short_a s k,engine,bank+seat,"shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class; seated by the fill on the owner cutover ruling, 2026-08-20"
 tick,,t-i-ck,t short_i k,engine,bank,shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class
 trim,,t-r-i-m,t r short_i m,engine,bank,shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class
 trip,,t-r-i-p,t r short_i p,engine,bank,shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class
 tuck,,t-u-ck,t short_u k,engine,bank,shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class
 tug,,t-u-g,t short_u g,engine,bank,shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class
-twig,,t-w-i-g,t w short_i g,engine,bank,shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class
-vet,,v-e-t,v short_e t,engine,bank,shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class
-vex,,v-e-x,v short_e x,engine,bank,shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class
-wag,,w-a-g,w short_a g,engine,bank,shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class
-wed,,w-e-d,w short_e d,engine,bank,shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class
-which,,wh-i-ch,w short_i ch,engine,bank,shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class
+twig,17,t-w-i-g,t w short_i g,engine,bank+seat,"shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class; seated by the fill on the owner cutover ruling, 2026-08-20"
+vet,16,v-e-t,v short_e t,engine,bank+seat,"shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class; seated by the fill on the owner cutover ruling, 2026-08-20"
+vex,18,v-e-x,v short_e x,engine,bank+seat,"shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class; seated by the fill on the owner cutover ruling, 2026-08-20"
+wag,17,w-a-g,w short_a g,engine,bank+seat,"shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class; seated by the fill on the owner cutover ruling, 2026-08-20"
+wed,17,w-e-d,w short_e d,engine,bank+seat,"shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class; seated by the fill on the owner cutover ruling, 2026-08-20"
+which,27,wh-i-ch,w short_i ch,engine,bank+seat,"shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class; seated by the fill on the owner cutover ruling, 2026-08-20"
 wick,,w-i-ck,w short_i k,engine,bank,shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class
-wilt,,w-i-l-t,w short_i l t,engine,bank,shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class
+wilt,17,w-i-l-t,w short_i l t,engine,bank+seat,"shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class; seated by the fill on the owner cutover ruling, 2026-08-20"
 wing,,w-i-ng,w short_i ng,engine,bank,shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class
-wit,,w-i-t,w short_i t,engine,bank,shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class
-zag,,z-a-g,z short_a g,engine,bank,shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class
-zig,,z-i-g,z short_i g,engine,bank,shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class
+wit,17,w-i-t,w short_i t,engine,bank+seat,"shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class; seated by the fill on the owner cutover ruling, 2026-08-20"
+zag,18,z-a-g,z short_a g,engine,bank+seat,"shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class; seated by the fill on the owner cutover ruling, 2026-08-20"
+zig,18,z-i-g,z short_i g,engine,bank+seat,"shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class; seated by the fill on the owner cutover ruling, 2026-08-20"

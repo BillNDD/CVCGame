@@ -126,7 +126,11 @@
    "set",
    "nest",
    "step",
-   "tent"
+   "tent",
+   "pep"
+  ],
+  "filled": [
+   "pep"
   ]
  },
  {
@@ -146,7 +150,19 @@
    "sand",
    "dad",
    "den",
-   "dip"
+   "dip",
+   "damp",
+   "dent",
+   "mend",
+   "pad",
+   "pod"
+  ],
+  "filled": [
+   "damp",
+   "dent",
+   "mend",
+   "pad",
+   "pod"
   ]
  },
  {
@@ -165,12 +181,24 @@
    "pigpen",
    "dog",
    "dogs",
-   "pig"
+   "pig",
+   "dig",
+   "nag",
+   "peg",
+   "pigs",
+   "sag",
+   "tag"
   ],
   "filled": [
+   "dig",
    "dog",
    "dogs",
-   "pig"
+   "nag",
+   "peg",
+   "pig",
+   "pigs",
+   "sag",
+   "tag"
   ]
  },
  {
@@ -190,7 +218,13 @@
    "hid",
    "him",
    "his",
-   "hit"
+   "hit",
+   "hint",
+   "hog"
+  ],
+  "filled": [
+   "hint",
+   "hog"
   ]
  },
  {
@@ -211,10 +245,16 @@
    "fed",
    "gift",
    "soft",
-   "fog"
+   "fog",
+   "fig",
+   "fond",
+   "sift"
   ],
   "filled": [
-   "fog"
+   "fig",
+   "fog",
+   "fond",
+   "sift"
   ]
  },
  {
@@ -236,11 +276,21 @@
    "bet",
    "dab",
    "bag",
-   "big"
+   "big",
+   "beds",
+   "bond",
+   "nab",
+   "sob",
+   "tab"
   ],
   "filled": [
    "bag",
-   "big"
+   "beds",
+   "big",
+   "bond",
+   "nab",
+   "sob",
+   "tab"
   ]
  },
  {
@@ -259,11 +309,21 @@
    "lot",
    "lots",
    "animal",
-   "leg"
+   "leg",
+   "flag",
+   "last",
+   "lend",
+   "list",
+   "melt"
   ],
   "filled": [
    "animal",
-   "leg"
+   "flag",
+   "last",
+   "leg",
+   "lend",
+   "list",
+   "melt"
   ]
  },
  {
@@ -285,11 +345,23 @@
    "tub",
    "up",
    "bug",
-   "bugs"
+   "bugs",
+   "bump",
+   "gulf",
+   "gulp",
+   "lug",
+   "mug",
+   "nun"
   ],
   "filled": [
    "bug",
-   "bugs"
+   "bugs",
+   "bump",
+   "gulf",
+   "gulp",
+   "lug",
+   "mug",
+   "nun"
   ]
  },
  {
@@ -311,11 +383,23 @@
    "rub",
    "run",
    "frog",
-   "rag"
+   "rag",
+   "brag",
+   "raft",
+   "rib",
+   "rig",
+   "rim",
+   "rob"
   ],
   "filled": [
+   "brag",
    "frog",
-   "rag"
+   "raft",
+   "rag",
+   "rib",
+   "rig",
+   "rim",
+   "rob"
   ]
  },
  {
@@ -335,7 +419,25 @@
    "milk",
    "ask",
    "kit",
-   "vat"
+   "vat",
+   "dusk",
+   "keg",
+   "kept",
+   "mask",
+   "risk",
+   "silk",
+   "task",
+   "vet"
+  ],
+  "filled": [
+   "dusk",
+   "keg",
+   "kept",
+   "mask",
+   "risk",
+   "silk",
+   "task",
+   "vet"
   ]
  },
  {
@@ -354,7 +456,27 @@
    "want",
    "went",
    "wet",
-   "win"
+   "win",
+   "jig",
+   "jog",
+   "jug",
+   "twig",
+   "wag",
+   "wed",
+   "wig",
+   "wilt",
+   "wit"
+  ],
+  "filled": [
+   "jig",
+   "jog",
+   "jug",
+   "twig",
+   "wag",
+   "wed",
+   "wig",
+   "wilt",
+   "wit"
   ]
  },
  {
@@ -374,7 +496,19 @@
    "zap",
    "zip",
    "fax",
-   "mix"
+   "mix",
+   "nix",
+   "sax",
+   "vex",
+   "zag",
+   "zig"
+  ],
+  "filled": [
+   "nix",
+   "sax",
+   "vex",
+   "zag",
+   "zig"
   ]
  },
  {
@@ -436,9 +570,11 @@
    "tell",
    "buzz",
    "doll",
-   "umbrella"
+   "umbrella",
+   "puff"
   ],
   "filled": [
+   "puff",
    "umbrella"
   ]
  },
@@ -460,10 +596,26 @@
    "wash",
    "hush",
    "mash",
-   "shrub"
+   "shrub",
+   "posh",
+   "push",
+   "rash",
+   "rush",
+   "sash",
+   "sham",
+   "shin",
+   "shun"
   ],
   "filled": [
-   "shrub"
+   "posh",
+   "push",
+   "rash",
+   "rush",
+   "sash",
+   "sham",
+   "shin",
+   "shrub",
+   "shun"
   ]
  },
  {
@@ -487,11 +639,15 @@
    "chill",
    "lunch",
    "bench",
-   "munch"
+   "munch",
+   "chap",
+   "chess"
   ],
   "filled": [
    "benches",
    "branches",
+   "chap",
+   "chess",
    "chop",
    "rich"
   ],
@@ -527,10 +683,12 @@
    "thud",
    "thump",
    "cloth",
-   "month"
+   "month",
+   "math"
   ],
   "filled": [
    "bathtub",
+   "math",
    "thank",
    "thankful"
   ],
@@ -583,11 +741,23 @@
    "rack",
    "rock",
    "chick",
-   "chicks"
+   "chicks",
+   "check",
+   "chuck",
+   "neck",
+   "peck",
+   "puck",
+   "shock"
   ],
   "filled": [
+   "check",
    "chick",
-   "chicks"
+   "chicks",
+   "chuck",
+   "neck",
+   "peck",
+   "puck",
+   "shock"
   ]
  },
  {
@@ -605,7 +775,11 @@
    "whiff",
    "whim",
    "whip",
-   "whizz"
+   "whizz",
+   "which"
+  ],
+  "filled": [
+   "which"
   ]
  },
  {
@@ -626,11 +800,25 @@
    "hung",
    "lung",
    "bring",
-   "something"
+   "something",
+   "ding",
+   "ping",
+   "rang",
+   "ring",
+   "rung",
+   "sang",
+   "song"
   ],
   "filled": [
    "bring",
-   "something"
+   "ding",
+   "ping",
+   "rang",
+   "ring",
+   "rung",
+   "sang",
+   "something",
+   "song"
   ]
  },
  {
@@ -2145,10 +2333,12 @@
    "wreck",
    "wren",
    "wrong",
-   "climb"
+   "climb",
+   "thumb"
   ],
   "filled": [
-   "climb"
+   "climb",
+   "thumb"
   ]
  },
  {
