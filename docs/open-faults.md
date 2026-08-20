@@ -1377,17 +1377,15 @@ control per multi-sound spelling and a negative control that seats `town` at 65
 and fails. Until then, every level teaching a second sound of an already-taught
 spelling needs a human read of its word list before it ships.
 
-**Two more of the same family, found 2026-08-20 by the move-bill commit's audit:
-`sold` and `told` at level 30.** Both need o saying its name before ld — the
-exact sound the same commit moved cold/gold/fold to level 68 for — and a child
-at 30 sounds s-o-l-d with the short o taught since the first decades. They got
-neither of the hybrid ruling's remedies: no WORD_SOUND bend (old and hold have
-one), no move (cold, gold and fold did), and no entry anywhere until this one.
-The blind model above is why the fill never flagged them. Measured 2026-08-20:
-bending in place breaks nothing; moving them to 68 breaks exactly one approved
-text (s:v3-l30-02 uses told). **Done** means the owner rules — bend like
-old/hold or move like cold/gold/fold — and the fix lands with clip, literals
-and, if moved, the one text repair.
+**Two more of the same family were found 2026-08-20 by the move-bill commit's
+audit — `sold` and `told` at level 30 — and CLOSED the same evening.** Both
+need o saying its name before ld, a child at 30 would have sounded them with
+the short o, and the blind model above is why the fill never flagged them.
+The owner ruled: move both to level 68 beside cold/gold/fold. The move and
+its one text repair (s:v3-l30-02, "told" became "said", read and heard
+"perfect" on the pit-and-ow page) landed as one commit. They stand here only
+as this entry's seventh and eighth pieces of evidence; the model that seated
+them wrong is still the open fault.
 
 ## V. `-ful` now has the fault `-ly` just lost — opened 2026-08-19
 

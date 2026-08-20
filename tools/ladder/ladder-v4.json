@@ -665,8 +665,6 @@
    "sick",
    "sock",
    "socks",
-   "sold",
-   "told",
    "well",
    "dug",
    "hug"
@@ -1577,7 +1575,9 @@
    "behind",
    "cold",
    "gold",
-   "fold"
+   "fold",
+   "sold",
+   "told"
   ],
   "filled": [
    "child",

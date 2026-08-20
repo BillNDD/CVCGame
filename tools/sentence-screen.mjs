@@ -204,7 +204,11 @@ export const SCREENED_2026_08_16 = [
    room. This ledger binds a read to an
    ID, not to the bytes read, so
    a reworded text inherits its id's read silently - a recorded gap in
-   docs/open-faults.md until the drift refactor gives these entries structure. */
+   docs/open-faults.md until the drift refactor gives these entries structure.
+   2026-08-20, later the same evening: l30-02 was reworded once more when the
+   owner ruled sold and told up to level 68 ("told" became "said"), and he
+   read and heard the repaired text on the pit-and-ow page, "perfect" - its
+   entry below names a read of the current text. */
 export const SCREENED_2026_08_20_V3_AWAITING_SEAT = [
   "s:v3-l01-01", "s:v3-l02-01", "s:v3-l02-02", "s:v3-l03-01",
   "s:v3-l03-02", "s:v3-l04-01", "s:v3-l04-02", "s:v3-l05-01",

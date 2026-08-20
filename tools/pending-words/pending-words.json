@@ -11185,11 +11185,11 @@
   "level": "v3 L29, paragraph - unseated, ladder redesign"
  },
  "s:v3-l30-02": {
-  "text": "Dad and I dug a big pit in the sand. Mom told us it is the best pit yet. We got a big hug!",
+  "text": "Dad and I dug a big pit in the sand. Mom said it is the best pit yet. We got a big hug!",
   "family": "sentence_sp1.0",
-  "ms": 5845,
-  "sha256": "fa28d031b57838564afb6e6956a39b5a86b09e6609525164fe3cd4c663dc8afc",
-  "round": "sentence batch 9 / 2026-08-19",
+  "ms": 5675,
+  "sha256": "6c617bbbcf90506079a626432ace948781ef102d4159dedf88b8cfa8e13d68ce",
+  "round": "pit and ow / 2026-08-20",
   "verdict": "perfect",
   "level": "v3 L30, paragraph - unseated, ladder redesign"
  },
