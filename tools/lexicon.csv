@@ -483,7 +483,7 @@ laptop,20,l-a-p-t-o-p,l short_a p t short_o p,engine engine engine engine engine
 lash,100,l-a-sh,l short_a sh,engine engine engine,bank+seat,
 late,60,l-a-t-e,l long_a t silent,engine engine engine engine,seat+text,
 later,72,l-a-t-er,l long_a t er,expert expert expert expert,seat+text,open-syllable candidate at 72+ - expert decides the vowel
-laugh,82,l-augh,l aw,engine engine,seat+text,OWNER DECISION pending: needs an /af/ cluster id (the uf/off precedent) or a retile
+laugh,82,l-a-ugh,l short_a f,owner owner owner,seat+text,"owner-ruled 2026-08-20: l-a-ugh with ugh being just the existing f sound - a one-use tile, no new recording; the a keeps its short default"
 lawn,82,l-aw-n,l aw n,engine engine engine,seat+text,
 lay,58,l-ay,l long_a,engine engine,seat+text,
 lazy,72,l-a-z-y,l long_a z long_e,expert expert expert expert,seat+text,open-syllable candidate at 72+ - expert decides the vowel
