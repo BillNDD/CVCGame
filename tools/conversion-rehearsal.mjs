@@ -149,6 +149,9 @@ export const CLASSES = [
   { id: "stale_chooser_copy", key: "g27_stale_chooser_copy_max", tier: "DEGRADED",
     what: "the free-play chooser tells a grown-up a bank size the bank does not have",
     act: "hold the copy against bankWords() rather than against a number somebody typed" },
+  { id: "lexicon_fault", key: "g27_lexicon_fault_max", tier: "BREAKS",
+    what: "a lexicon row is malformed, names an unknown sound, is UNDECIDED, or a tiled word has no row - the CSV the owner ruled canonical (2026-08-20) has stopped being trustworthy",
+    act: "fix the row in tools/lexicon.csv; a wrong row here becomes a wrong sound in a child's ear at conversion" },
 ];
 
 const empty = () => Object.fromEntries(CLASSES.map((c) => [c.id, []]));
@@ -343,6 +346,69 @@ function probeTrays(E, found, where) {
   }
 }
 
+/* One CSV line into cells, honouring double quotes - the note column holds
+   commas. Enough parser for this file and no more; a fixture proves it. */
+export function csvCells(line) {
+  const out = [];
+  let cur = "", q = false;
+  for (let i = 0; i < line.length; i++) {
+    const ch = line[i];
+    if (q) {
+      if (ch === '"' && line[i + 1] === '"') { cur += '"'; i++; }
+      else if (ch === '"') q = false;
+      else cur += ch;
+    } else if (ch === '"') q = true;
+    else if (ch === ",") { out.push(cur); cur = ""; }
+    else cur += ch;
+  }
+  out.push(cur);
+  return out;
+}
+
+/* THE LEXICON, owner-ruled 2026-08-20: one row per word that will ever be
+   tiled, canonical input to the conversion. This probe is the CSV's reader
+   and its gate: structure (sounds count matches tiles, tiles spell the word,
+   no UNDECIDED), vocabulary (every sound id is a clip that exists or the
+   silent marker), and coverage (every word the substituted world can tile
+   has a row; read is covered by its two sense rows). */
+function probeLexicon(E, found, input) {
+  if (!input.lexicon) { found.lexicon_fault.push("tools/lexicon.csv is missing from the input"); return; }
+  const lines = input.lexicon.trim().split(/\r?\n/);
+  const header = csvCells(lines[0]).join(",");
+  if (!header.startsWith("word,seat,tiles,sounds")) {
+    found.lexicon_fault.push(`lexicon header is not the declared shape: "${header.slice(0, 60)}"`); return;
+  }
+  const known = new Set(["silent", "UNDECIDED"]);
+  for (const k of Object.keys(input.pending)) if (k.startsWith("d:")) known.add(k.slice(2));
+  for (const k of Object.keys(input.manifest)) if (k.startsWith("d:")) known.add(k.slice(2));
+  try {
+    const ps = JSON.parse(readFileSync("tools/pending-sounds/pending-sounds.json", "utf8"));
+    for (const k of Object.keys(ps)) if (!k.startsWith("_")) known.add(k);
+  } catch { /* the vocabulary check falls back to the pack alone */ }
+  const have = new Set();
+  for (const line of lines.slice(1)) {
+    const [word, , tiles, sounds] = csvCells(line);
+    if (!word) continue;
+    have.add(word.split("#")[0]);
+    if (word === "-") continue;   // the dash artifact row, silent by design
+    const tl = tiles.split("-"), sl = sounds.split(" ").filter(Boolean);
+    if (tl.length !== sl.length)
+      found.lexicon_fault.push(`${word}: ${tl.length} tiles but ${sl.length} sounds`);
+    if (tl.join("") !== word.split("#")[0])
+      found.lexicon_fault.push(`${word}: tiles "${tiles}" do not spell it`);
+    for (const s of sl) {
+      if (s === "UNDECIDED") found.lexicon_fault.push(`${word}: a tile is UNDECIDED`);
+      else if (!known.has(s)) found.lexicon_fault.push(`${word}: unknown sound id "${s}"`);
+    }
+  }
+  const union = new Set(E.bankWords());
+  for (const l of E.LEVELS) for (const w of l.words) union.add(w.toLowerCase());
+  for (const k of Object.keys(E.SENTENCES)) for (const s of E.SENTENCES[k] || [])
+    for (const w of E.sentenceWords(s.text)) union.add(w.toLowerCase());
+  for (const w of union) if (!have.has(w))
+    found.lexicon_fault.push(`"${w}" can be tiled and has no lexicon row`);
+}
+
 /* Sentence free play and the session reveal, driven as far as they can be
    driven outside a renderer. sentencesUpTo, revealWordLongest, revealWord and
    sentenceWords are real; showSentence is a closure over component state and
@@ -423,6 +489,7 @@ export async function rehearse(input) {
     const found = empty();
     const where = clipWhere(input.manifest, input.pending);
     probeClips(E, found, where);
+    probeLexicon(E, found, input);
     probeSessions(E, found);
     probeTrays(E, found, where);
     probeSentences(E, found);
@@ -459,6 +526,7 @@ export function realInput(read = readFileSync) {
     levels: levelsFrom(j("tools/ladder/ladder-v4.json"), shape),
     sentences: sentencesFrom(pending),
     heartLevels: heartLevelsFrom(shape),
+    lexicon: read("tools/lexicon.csv", "utf8"),
   };
 }
 
@@ -569,7 +637,21 @@ function fixtureInput(real) {
        The heart branch has its own control below. */
     heartLevels: {},
     homeSrc: `serves any word from all ${bank.size} — easy and hard alike.`,
+    lexicon: fixtureLexicon(bank),
   };
+}
+
+/* A lexicon covering exactly the fixture's words, rows written the way the
+   real generator writes them, so the clean fixture is silent and a planted
+   fault is the only thing that shows. */
+function fixtureLexicon(bank) {
+  const lines = ["word,seat,tiles,sounds,source,in,note"];
+  for (const w of [...bank].sort()) {
+    const tiles = chunkWord(w);
+    const sounds = soundIdsFor(w).map((s) => s.slice(2)).join(" ");
+    lines.push(`${w},1,${tiles.join("-")},${sounds},engine,bank,`);
+  }
+  return lines.join("\n") + "\n";
 }
 
 /* A pack that covers every clip the fixture asks for, so the clean fixture
@@ -623,6 +705,10 @@ const CONTROLS = [
     plant: (i) => ({ ...i, levels: [{ ...i.levels[0], words: FIX_WORDS.slice(0, 3) }, i.levels[1]] }) },
   { name: "a placed text holding two sentences", cls: "paragraph_reveal",
     plant: (i) => ({ ...i, sentences: { ...i.sentences, 1: [{ id: "s:mode-b3-s03", text: "It is an ax. It is up." }] } }) },
+  { name: "a lexicon row naming a sound no pack knows", cls: "lexicon_fault",
+    plant: (i) => ({ ...i, lexicon: i.lexicon.replace(/^(cat,[^,]*,[^,]*,)k short_a t/m, "$1k short_q t") }) },
+  { name: "a tiled word missing from the lexicon", cls: "lexicon_fault",
+    plant: (i) => ({ ...i, lexicon: i.lexicon.split("\n").filter((l) => !l.startsWith("cat,")).join("\n") }) },
   { name: "chooser copy against a bank size the bank does not have", cls: "stale_chooser_copy",
     plant: (i) => ({ ...i, homeSrc: "serves any word from all 5 — easy and hard alike." }) },
   { name: "chooser copy that has stopped stating a bank size at all", cls: "no_value",

@@ -59,7 +59,7 @@
       "why": "The whole G15 gate. Its subject was the browser speech recogniser contract; the child-facing microphone was removed on the owner's safety ruling of 2026-08-11, tests/recognizer.test.js was deleted, and the counter in tools/gauntlet.mjs went with it in the same commit. No surviving rule lost its guard: S1's adult-only clause became absolute and is now covered by tests/safety.test.js 1, 2, 2a and 3."
     }
   },
-  "g23_declared": 47,
+  "g23_declared": 51,
   "g23_facts": 4,
   "g23_controls": 40,
   "filemap_history_max": 1,
@@ -75,7 +75,7 @@
   "g25_controls": 12,
   "g11_source_controls": 7,
   "g27_controls": 66,
-  "g27_classes": 16,
+  "g27_classes": 17,
   "g27_throws_max": 0,
   "g27_no_value_max": 0,
   "g27_sound_no_clip_max": 15,
@@ -91,5 +91,6 @@
   "g27_short_session_max": 99,
   "g27_no_block_building_max": 100,
   "g27_paragraph_reveal_max": 143,
-  "g27_stale_chooser_copy_max": 1
+  "g27_stale_chooser_copy_max": 1,
+  "g27_lexicon_fault_max": 0
 }

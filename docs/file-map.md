@@ -74,6 +74,7 @@ verbatim) are exempt; the exemptions are declared in the tool.
 | `tools/corpus/excisions.json` | DATA | every sentence the corpus screen removed from a book, verbatim, with its index and hazard class — the record that makes a screened text honest rather than a quietly edited one |
 | `tools/target-vocab.txt` | DATA | the 697-word target vocabulary the owner ruled the game covers before it is called done — SPEC section 12 owns the ruling |
 | `tools/s9-passage-names.json` | DATA | the passage-names ledger: which character names verbatim teaching content may carry, where they pass, and each name's source — S9's second exception (CLAUDE.md owns the rule) |
+| `tools/lexicon.csv` | DATA | the pronunciation lexicon, owner-ruled 2026-08-20: one row per word that will ever be tiled (1,052 - ladder, hearts, bank, every sentence and paragraph word; read as two rows), tiles and one sound per tile. First pass generated from the engine's rules, audited row-by-row by a read-only phonics expert (168 rows corrected); canonical input to the conversion. laugh's row awaits the owner (its note names it) |
 | `tools/voice-lock.json` | GENERATED | regenerate: `node tools/gen-voice-lock.mjs` |
 | `tools/voice-sounds.csv` | DATA | the archive of the retired recording pipeline (ledger-truth rule 5 guards it) |
 | `tools/voice-words.csv` | DATA | per word: the recipe, the verdict, the round, the byte pin — the one file a person edits after a listening round |

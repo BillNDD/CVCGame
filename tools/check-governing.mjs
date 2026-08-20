@@ -118,6 +118,7 @@ export const GOVERNING = [
      Tracking it turns S9 red with 247 problems, every one of them this file.
      tools/corpus/sources.json carries the long version of the reason. */
   "tools/corpus/excisions.json",
+  "tools/lexicon.csv",
   "tools/pending-words/pending-words.json",
   "tools/voice-lock.json",
   "tools/voice-sounds.csv",

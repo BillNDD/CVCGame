@@ -65,7 +65,7 @@ and re-exported against that module. Then the real functions run over every leve
 engine does would pass while the engine failed. Only the data changes; the splice is proved
 reversible byte-for-byte before it is used, and the substitution is checked after import.
 
-**The finding classes** are `g27_classes` (16), each with a ceiling that only comes down
+**The finding classes** are `g27_classes` (17), each with a ceiling that only comes down
 (E6). A count above its ceiling is red. A count below prints the number to lower the ceiling
 to. A class with no ceiling at all is red — `count > undefined` is false, which is how a
 ceiling silently stops existing. A finding class the ledger does not know is red, and that
@@ -89,6 +89,7 @@ is the clause that catches the eighth fault nobody has thought of yet.
 | DEGRADED | `g27_no_block_building_max` (100) | the level never exceeds `SESSION_SIZE`, so the block IS the level |
 | DEGRADED | `g27_paragraph_reveal_max` (143) | a multi-sentence text gets one sound-out word for the whole paragraph |
 | DEGRADED | `g27_stale_chooser_copy_max` (1) | the chooser states a bank size the bank does not have |
+| BREAKS | `g27_lexicon_fault_max` (0) | a row of `tools/lexicon.csv` is malformed, names an unknown sound, is undecided, or a tiled word has no row. The lexicon is the owner-ruled canonical word-sound truth (2026-08-20), audited row-by-row by a read-only phonics expert; this class is its reader and its gate, and it caught its first two real faults on the day it was born - the generator had dropped the shipped-bank words outside the ladder. |
 
 **The seventh class earned itself on the day it was written.** Three owner-approved texts
 became illegal in one afternoon because the ladder moved under them — `hustle` was removed,
@@ -799,7 +800,7 @@ the tool would be fault F2 re-committed.
   `filemap_history_max` (1) — a ceiling only the owner moves (E6). Today's one:
   `docs/voice-goldens-packs1-3.json`, whose 11-of-57 recipe disagreements make it a trap if
   read as live.
-- Keys: `g23_declared` (47), `g23_facts` (4), `g23_controls` (40), problems capped at 0,
+- Keys: `g23_declared` (51), `g23_facts` (4), `g23_controls` (40), problems capped at 0,
   ceiling `filemap_history_max` (1).
 - Run: `node tools/file-map.mjs --check` and `--self-test`; both are in `npm run check`.
 
