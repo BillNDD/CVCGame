@@ -141,12 +141,19 @@ ough tile to uf and cough to off, and all four joined level 92's heart list
 beside dough/though/through - the seven hearts the ough ruling named, DONE.
 
 **3. Rulings enacted but not finished.** The ch ruling (Greek six stay and
-TEACH the exception, chef out) still owes the six their SECOND-vowel bends
-(anchor, stomach, chorus, mechanic, orchestra carry an uncorrected vowel each
-- the phonics review's list). come/love/some/live/comes await the SILENT-E
-mechanism - the one engineering piece that also unlocks every magic-e word's
-audio (cake, kite, bite, line; the owner's own rule: the vowel says its name
-and the e is silent).
+TEACH the exception, chef out) is HALF PAID, and the half is a measured
+tile-count fact, not a choice: a WORD_SOUND bend pulls its word into
+bankWords() today, and the tile-row law still caps the shipped bank at four
+tiles (SPEC section 4). anchor, chorus and school tile at four - they are
+bent, banked and SHIPPED (2026-08-20 evening: anchor n=/ng/ ch=/k/ or=/er/;
+chorus ch=/k/; school ch=/k/ oo=moon, which its seat cannot determine and
+the bare-oo fallback id would silently miss). stomach (6 tiles), mechanic
+(7), orchestra (7) and machine (6) CANNOT enter today's bank without
+breaking that law - their bends land at conversion, when the four-tile law
+is re-derived against a ladder full of long words. come/love/some/live/comes
+await the SILENT-E mechanism - the one engineering piece that also unlocks
+every magic-e word's audio (cake, kite, bite, line; the owner's own rule:
+the vowel says its name and the e is silent).
 
 **4. The beta path from here, in order:** (a) land the move+repair commit;
 (b) uf/off round to the owner, ship, bend; (c) the Greek five's vowel bends;

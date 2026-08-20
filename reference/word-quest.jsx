@@ -1063,6 +1063,20 @@ const WORD_SOUND = {
   enough: { 2: "uf" },
   cough: { 1: "off" },
   month: { 1: "short_u" },
+  /* The Greek ch words the owner ruled to stay and teach the exception
+     (2026-08-20: "the ch acts as a k. Leave in and teach the exception").
+     Only the three that tile at four or fewer bend TODAY: a bend pulls its
+     word into the bank, and the tile-row law still caps the shipped bank at
+     four (SPEC section 4). stomach, mechanic and orchestra tile at 6-7 and
+     take their rows at conversion, when that law is re-derived; machine
+     (6 tiles) waits with them. The vowels are the phonics review's list:
+     anchor's n says /ng/ and its or says /er/; school's oo is the moon oo,
+     which its seat level cannot determine and the bare-oo fallback id would
+     silently miss. chorus needs only the k - its or and u defaults are
+     already the word's own sounds. */
+  anchor: { 1: "ng", 2: "k", 3: "er" },
+  chorus: { 0: "k" },
+  school: { 1: "k", 2: "oo_moon" },
   /* The hybrid ruling, owner 2026-08-20: of the eleven early-seated words,
      the five function words stay where children meet them constantly, marked
      tricky with true-sound bends, and the six content words move to their

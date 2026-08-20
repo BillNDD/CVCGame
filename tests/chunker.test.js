@@ -135,7 +135,9 @@ describe("the extended code", () => {
   it("no word in the bank re-tiles, and the row still caps at four", () => {
     const by = {};
     for (const w of bankWords()) { const n = chunkWord(w).length; by[n] = (by[n] || 0) + 1; }
-    expect(by).toEqual({ 1: 3, 2: 37, 3: 347, 4: 104 }  /* 2026-08-20 evening: rough, tough and
+    expect(by).toEqual({ 1: 3, 2: 37, 3: 347, 4: 107 }  /* 2026-08-20 evening, second rise: anchor
+       (a-n-ch-or), chorus (ch-or-u-s) and school (s-ch-oo-l) - four tiles
+       each - joined by their Greek-ch bends. Re-counted from the bank. */  /* 2026-08-20 evening: rough, tough and
        cough (2 tiles each: r-ough, t-ough, c-ough) and enough (3: e-n-ough)
        joined bankWords() by their uf/off cluster bends - the four ough hearts
        of level 92. Re-counted from the bank. */  /* 2026-08-20 third rise: into, find, old

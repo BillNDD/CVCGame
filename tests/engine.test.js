@@ -662,10 +662,10 @@ describe("voice packs", () => {
        made the engine ASK for two sounds it had never asked for, which is
        what let ship-sounds.py move them out of the approved-and-unshipped
        backlog. Re-counted from the pack, never from voiceScript(). */
-    expect(script.length).toBe(775);                       // 6 fixed + 17 praise + 491 words + 210 sentences + 3 invitations + "Pronounced:" + 47 sounds - 2026-08-20 evening: the four ough hearts (rough tough enough cough) joined the bank by their uf/off bends, and the engine asks for those two cluster sounds
-    expect(script.filter((c) => c.id.startsWith("w:")).length).toBe(491);
+    expect(script.length).toBe(778);                       // 6 fixed + 17 praise + 494 words + 210 sentences + 3 invitations + "Pronounced:" + 47 sounds - 2026-08-20 evening, second rise: anchor, chorus and school joined by their Greek-ch bends (the owner's teach-the-exception ruling); their 6-7-tile siblings wait for conversion and the tile-row law's re-derivation
+    expect(script.filter((c) => c.id.startsWith("w:")).length).toBe(494);
     expect(script.filter((c) => c.id.startsWith("d:")).length).toBe(47);
-    expect(new Set(script.map((c) => c.id)).size).toBe(775);
+    expect(new Set(script.map((c) => c.id)).size).toBe(778);
     expect(script.find((c) => c.id === "s:was").text).toBe("The word was");
     expect(script.find((c) => c.id === "l:wrong").text).toBe("Let’s try again.");
     expect(script.find((c) => c.id === "p:0").text).toBe("Great job!");
@@ -762,7 +762,7 @@ describe("voice packs", () => {
     /* 478, not 476: `are` and `were` are named ONLY in WORD_SOUND, never
        in a level. inLevels stays 476 below, and that gap is now the whole
        point of this test rather than a coincidence it records. */
-    expect(words.length).toBe(491);
+    expect(words.length).toBe(494);
     expect([...new Set(words)].length).toBe(words.length);       // no duplicates
     expect([...words].sort()).toEqual(words);                    // stable order
     const inLevels = new Set();
@@ -778,7 +778,7 @@ describe("voice packs", () => {
        LEVELS-only derivation look correct. `are` and `were` are the first
        two words the app names without seating them in a level. */
     expect(inLevels.size).toBe(476);
-    expect(words.length - inLevels.size).toBe(15);  // are were as dough though through rough tough enough cough month into find old hold - named outside the levels
+    expect(words.length - inLevels.size).toBe(18);  // are were as dough though through rough tough enough cough month into find old hold anchor chorus school - named outside the levels
 
     /* Negative control. The old LEVELS-only derivation, run over a fixture
        where a word is named ONLY in a tricky note, must miss it — and the

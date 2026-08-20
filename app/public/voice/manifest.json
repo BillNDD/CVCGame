@@ -2705,6 +2705,7 @@
   "word_speed_override": {
    "am": 0.82,
    "an": 0.82,
+   "anchor": 0.7,
    "and": 1,
    "ant": 0.95,
    "are": 0.7,
@@ -2756,6 +2757,7 @@
    "chin": 0.82,
    "chip": 0.82,
    "chop": 0.82,
+   "chorus": 0.7,
    "chuck": 1,
    "chug": 0.82,
    "chum": 1,
@@ -3009,6 +3011,7 @@
    "sash": 0.82,
    "sat": 0.82,
    "sax": 0.82,
+   "school": 0.7,
    "set": 0.82,
    "shack": 1,
    "sham": 0.82,
@@ -4852,6 +4855,12 @@
   "ms": 960,
   "tail": 330
  },
+ "w:anchor": {
+  "file": "w-anchor.mp3",
+  "lead": 140,
+  "ms": 1080,
+  "tail": 330
+ },
  "w:and": {
   "file": "w-and.mp3",
   "lead": 120,
@@ -5205,6 +5214,12 @@
   "lead": 120,
   "ms": 1152,
   "tail": 452
+ },
+ "w:chorus": {
+  "file": "w-chorus.mp3",
+  "lead": 130,
+  "ms": 1152,
+  "tail": 312
  },
  "w:chuck": {
   "file": "w-chuck.mp3",
@@ -6987,6 +7002,12 @@
   "lead": 120,
   "ms": 1152,
   "tail": 472
+ },
+ "w:school": {
+  "file": "w-school.mp3",
+  "lead": 120,
+  "ms": 1104,
+  "tail": 314
  },
  "w:set": {
   "file": "w-set.mp3",
