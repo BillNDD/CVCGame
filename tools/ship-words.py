@@ -23,10 +23,17 @@
 #   python3 tools/ship-words.py --check          what would move, and why
 #   python3 tools/ship-words.py --write          move it
 #   python3 tools/ship-words.py --self-test      prove the refusals refuse
+#   python3 tools/ship-words.py --sentences         what sentence takes would move
+#   python3 tools/ship-words.py --sentences --write move them (cutover only: the
+#                                                   live engine must NAME an id
+#                                                   before its clip may ship, or
+#                                                   G13's orphan rule is right to
+#                                                   refuse the pack)
 import hashlib
 import json
 import pathlib
 import shutil
+import subprocess
 import sys
 
 REPO = pathlib.Path(__file__).resolve().parent.parent
@@ -189,6 +196,67 @@ def write(rows, manifest):
     (PACK / "manifest.json").write_text(json.dumps(ordered, indent=1) + "\n", encoding="utf-8")
 
 
+def plan_sentences(ledger=None, named=None):
+    """The 274 approved v3 takes, shippable ONLY once the engine names their
+    ids - before the cutover this plans zero, honestly. Same contract as
+    words: byte-copy, sha verified against the ledger row, never re-render
+    (a re-render is a file no person heard)."""
+    if ledger is None:
+        ledger = json.loads(LEDGER.read_text(encoding="utf-8"))
+    manifest = json.loads((PACK / "manifest.json").read_text(encoding="utf-8"))
+    if named is None:
+        named = set(json.loads(subprocess.run(
+            ["node", "-e", "import('./src/engine.js').then(m=>console.log(JSON.stringify("
+             "Object.values(m.SENTENCES).flat().map(s=>s.id))))"],
+            cwd=REPO, capture_output=True, text=True, check=True).stdout))
+    rows, skipped = [], []
+    for sid, rec in sorted(ledger.items()):
+        if not sid.startswith("s:v3-") or not isinstance(rec, dict):
+            continue
+        if rec.get("verdict") not in ("perfect", "either-is-fine"):
+            skipped.append((sid, f"verdict {rec.get('verdict')!r} is not an accept"))
+            continue
+        if sid not in named:
+            skipped.append((sid, "the live engine does not name this id yet - ships at the cutover"))
+            continue
+        if sid in manifest:
+            skipped.append((sid, "already shipped"))
+            continue
+        src = PEND / (sid.replace("s:v3-", "s-v3-") + ".mp3")
+        if not src.exists():
+            skipped.append((sid, "no audio in the waiting room"))
+            continue
+        if sha(src) != rec.get("sha256"):
+            raise SystemExit(f"{sid}: the waiting-room bytes do not hash to the ledger pin - nothing ships")
+        rows.append({"id": sid, "src": src, "sha": rec["sha256"]})
+    return rows, skipped, manifest
+
+
+def write_sentences(rows, manifest):
+    for r in rows:
+        dst = PACK / (r["id"].replace("s:v3-", "s-v3-") + ".mp3")
+        shutil.copyfile(r["src"], dst)
+        if sha(dst) != r["sha"]:
+            raise SystemExit(f"{r['id']}: the copy does not hash to the approved bytes")
+        manifest[r["id"]] = {"file": dst.name, "ms": duration_ms(dst)}
+    ordered = {k: manifest[k] for k in sorted(manifest) if k != "__recipe"}
+    ordered["__recipe"] = manifest["__recipe"]
+    (PACK / "manifest.json").write_text(json.dumps(ordered, indent=1) + "\n", encoding="utf-8")
+
+
+def sentences_main():
+    rows, skipped, manifest = plan_sentences()
+    unnamed = sum(1 for _, why in skipped if "does not name" in why)
+    print(f"{len(rows)} sentence take(s) ready to ship, {len(skipped)} skipped ({unnamed} awaiting the cutover)")
+    for sid, why in [s for s in skipped if "does not name" not in s[1]][:6]:
+        print(f"  {sid}: {why}")
+    if "--write" in sys.argv and rows:
+        write_sentences(rows, manifest)
+        print(f"shipped {len(rows)} sentence take(s). Now run: python3 tools/voice-edges.py --write")
+    elif "--write" in sys.argv:
+        print("nothing to write")
+
+
 def self_test():
     """Every refusal this tool must make. Without these it is a copier, and a
     copier would happily ship a re-render nobody heard."""
@@ -265,6 +333,22 @@ def self_test():
                any("not in the bank" in r for r in reasons)))
     bad_count = sum(1 for _, r in skipped if r.startswith("REFUSED"))
     ok.append(("no approved word in the tree fails its own hash", bad_count == 0))
+    # The sentence path (cutover machinery, 2026-08-20). E5 both ways: the
+    # engine-must-name rule skips, the sha pin refuses, and the same row
+    # plans the moment the engine names it - so the 274-awaiting line can
+    # never be a detector that only ever fires nothing.
+    real_row = json.loads(LEDGER.read_text(encoding="utf-8"))["s:v3-l13-01"]
+    fx = {"s:v3-l13-01": dict(real_row)}
+    srows, sskipped, _ = plan_sentences(ledger=fx, named=set())
+    ok.append(("a sentence id the live engine does not name is skipped, never shipped",
+               not srows and "does not name" in sskipped[0][1]))
+    srows, _, _ = plan_sentences(ledger=fx, named={"s:v3-l13-01"})
+    ok.append(("the same id plans the moment the engine names it", len(srows) == 1))
+    try:
+        plan_sentences(ledger={"s:v3-l13-01": {**real_row, "sha256": "0" * 64}}, named={"s:v3-l13-01"})
+        ok.append(("a sentence whose bytes do not hash to the pin is refused", False))
+    except SystemExit:
+        ok.append(("a sentence whose bytes do not hash to the pin is refused", True))
     for name, passed in ok:
         print(("ok   " if passed else "FAIL ") + name)
     failed = sum(1 for _, p in ok if not p)
@@ -273,6 +357,9 @@ def self_test():
 
 
 if __name__ == "__main__":
+    if "--sentences" in sys.argv:
+        sentences_main()
+        sys.exit(0)
     if "--self-test" in sys.argv:
         sys.exit(1 if self_test() else 0)
     rows, skipped, manifest, header = plan()
