@@ -545,11 +545,23 @@
    "sunset",
    "bus",
    "log",
-   "logs"
+   "logs",
+   "pump",
+   "pun",
+   "snug",
+   "sub",
+   "sum",
+   "tug"
   ],
   "filled": [
    "log",
-   "logs"
+   "logs",
+   "pump",
+   "pun",
+   "snug",
+   "sub",
+   "sum",
+   "tug"
   ]
  },
  {
@@ -855,11 +867,27 @@
    "socks",
    "well",
    "dug",
-   "hug"
+   "hug",
+   "chug",
+   "chum",
+   "rot",
+   "shut",
+   "tack",
+   "thick",
+   "trim",
+   "trip"
   ],
   "filled": [
+   "chug",
+   "chum",
    "dug",
-   "hug"
+   "hug",
+   "rot",
+   "shut",
+   "tack",
+   "thick",
+   "trim",
+   "trip"
   ]
  },
  {
@@ -1069,11 +1097,21 @@
    "job",
    "lap",
    "rug",
-   "undo"
+   "undo",
+   "sung",
+   "tick",
+   "tuck",
+   "wick",
+   "wing"
   ],
   "filled": [
    "rug",
-   "undo"
+   "sung",
+   "tick",
+   "tuck",
+   "undo",
+   "wick",
+   "wing"
   ]
  },
  {

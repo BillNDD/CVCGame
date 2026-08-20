@@ -483,11 +483,17 @@ export function plan(state, opts = {}) {
 
   /* One - at home, inside the soft band. */
   for (const w of queue) if (sizes[ready.get(w) - 1] < band.soft) seat(w, ready.get(w));
-  /* Two - the overflow, to the earliest review level that can still take it. */
+  /* Two - the overflow, to the earliest review level that can still take it.
+     Owner-ruled 2026-08-20 on the adjudication page: the overflow may pass
+     the SOFT cap - a review level absorbs up to the hard ceiling, because
+     nineteen shipped words had home levels at 20 and every review level sat
+     at exactly 12, and "passing soft is allowed but never silent" is the
+     band's own definition. The hard ceiling still refuses (its control is
+     below); over-soft levels still print, so nothing passes silently. */
   for (const w of queue) {
     if (placed.has(w)) continue;
     for (let n = ready.get(w); n <= levels; n += 1) {
-      if (review.has(n) && sizes[n - 1] < band.soft) { seat(w, n); moved.set(w, n); break; }
+      if (review.has(n) && sizes[n - 1] < band.hard) { seat(w, n); moved.set(w, n); break; }
     }
   }
   /* Three - home anyway, over the soft band, up to the hard ceiling. */
@@ -735,6 +741,14 @@ function controlChecks(say) {
     homed.placed.get("chip") === 4 && homed.overSoft.has(4));
   T("control: the hard ceiling refuses rather than overfills",
     plan(noReview, { band: { soft: 1, hard: 1 } }).unplaceable.join(" ") === "chip let limbs");
+  /* Owner-ruled 2026-08-20 (adjudication page, "absorb at review levels past
+     the soft cap"): the overflow may fill a review level BEYOND soft, up to
+     the hard ceiling. Under the old rule the review level held at most soft
+     seats and this assertion goes red - that is the control's teeth. The
+     hard edge keeps its own control above. */
+  const absorb = plan(f, { band: { soft: 0, hard: 3 } });
+  T("owner 2026-08-20: the review level absorbs past the soft cap",
+    absorb.sizes[4] >= 2 && [...absorb.moved.values()].every((n) => absorb.review.has(n)));
 
   /* The same input must give the same output, and a control below proves the
      comparison can tell two runs apart rather than always agreeing. */

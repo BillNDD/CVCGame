@@ -154,7 +154,7 @@ chip,23,ch-i-p,ch short_i p,engine engine engine,bank+seat,
 chipmunk,42,ch-i-p-m-u-n-k,ch short_i p m short_u n k,engine engine engine engine engine engine engine,seat,
 chop,23,ch-o-p,ch short_o p,engine engine engine,bank+seat+text,
 chorus,94,ch-or-u-s,k or short_u s,engine engine engine engine,bank+seat+text,
-chum,,ch-u-m,ch short_u m,engine engine engine,bank+text,
+chum,30,ch-u-m,ch short_u m,engine engine engine,bank+text,"absorbed at a review milestone past the soft cap, owner-ruled 2026-08-20"
 church,83,ch-ur-ch,ch er ch,engine engine engine,seat,
 circle,87,c-ir-c-le,s er k l,position engine engine engine,seat,
 circus,87,c-ir-c-u-s,s er k short_u s,position engine engine engine engine,seat,
@@ -820,7 +820,7 @@ smile,66,s-m-i-le,s m long_i l,expert expert expert expert,seat,
 smiled,73,s-m-i-l-e-d,s m long_i l silent d,expert expert expert expert expert expert,seat+text,open-syllable candidate at 72+ - expert decides the vowel
 snap,33,s-n-a-p,s n short_a p,engine engine engine engine,bank+seat+text,
 snow,65,s-n-ow,s n long_o,engine engine seat-rule,seat,
-snug,,s-n-u-g,s n short_u g,engine engine engine engine,bank+text,
+snug,20,s-n-u-g,s n short_u g,engine engine engine engine,bank+text,"absorbed at a review milestone past the soft cap, owner-ruled 2026-08-20"
 so,23,s-o,s long_o,engine engine,bank+seat+text,
 social,95,s-o-ci-a-l,s long_o sh short_a l,expert expert expert expert expert,seat,open-syllable candidate at 72+ - expert decides the vowel
 sock,30,s-o-ck,s short_o k,engine engine engine,bank+seat+text,
@@ -910,7 +910,7 @@ then,25,th-e-n,th_this short_e n,engine engine engine,bank+seat+text,
 there,25,th-ere,th_this air,engine engine,bank+seat+text,
 these,63,th-e-se,th_this long_e z,expert expert expert,seat+text,
 they,18,th-ey,th_this long_a,engine engine,bank+seat+text,
-thick,,th-i-ck,th_quiet short_i k,engine engine engine,bank+text,
+thick,30,th-i-ck,th_quiet short_i k,engine engine engine,bank+text,"absorbed at a review milestone past the soft cap, owner-ruled 2026-08-20"
 thin,24,th-i-n,th_quiet short_i n,engine engine engine,bank+seat+text,
 thing,50,th-i-ng,th_quiet short_i ng,engine engine engine,seat+text,
 things,56,th-i-ng-s,th_quiet short_i ng z,expert expert expert expert,seat+text,final s buzzes to z after a voiced sound
@@ -1058,7 +1058,7 @@ brag,15,b-r-a-g,b r short_a g,engine,bank+seat,"shipped-bank word outside ladder
 bump,14,b-u-m-p,b short_u m p,engine,bank+seat,"shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class; seated by the fill on the owner cutover ruling, 2026-08-20"
 chap,23,ch-a-p,ch short_a p,engine,bank+seat,"shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class; seated by the fill on the owner cutover ruling, 2026-08-20"
 chuck,26,ch-u-ck,ch short_u k,engine,bank+seat,"shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class; seated by the fill on the owner cutover ruling, 2026-08-20"
-chug,,ch-u-g,ch short_u g,engine,bank,shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class
+chug,30,ch-u-g,ch short_u g,engine,bank,"shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class; absorbed at a review milestone past the soft cap, owner-ruled 2026-08-20"
 damp,8,d-a-m-p,d short_a m p,engine,bank+seat,"shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class; seated by the fill on the owner cutover ruling, 2026-08-20"
 dent,8,d-e-n-t,d short_e n t,engine,bank+seat,"shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class; seated by the fill on the owner cutover ruling, 2026-08-20"
 ding,28,d-i-ng,d short_i ng,engine,bank+seat,"shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class; seated by the fill on the owner cutover ruling, 2026-08-20"
@@ -1094,8 +1094,8 @@ pod,8,p-o-d,p short_o d,engine,bank+seat,"shipped-bank word outside ladder and t
 posh,22,p-o-sh,p short_o sh,engine,bank+seat,"shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class; seated by the fill on the owner cutover ruling, 2026-08-20"
 puck,26,p-u-ck,p short_u k,engine,bank+seat,"shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class; seated by the fill on the owner cutover ruling, 2026-08-20"
 puff,21,p-u-ff,p short_u f,engine,bank+seat,"shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class; seated by the fill on the owner cutover ruling, 2026-08-20"
-pump,,p-u-m-p,p short_u m p,engine,bank,shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class
-pun,,p-u-n,p short_u n,engine,bank,shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class
+pump,20,p-u-m-p,p short_u m p,engine,bank,"shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class; absorbed at a review milestone past the soft cap, owner-ruled 2026-08-20"
+pun,20,p-u-n,p short_u n,engine,bank,"shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class; absorbed at a review milestone past the soft cap, owner-ruled 2026-08-20"
 push,22,p-u-sh,p oo_book sh,engine,bank+seat,"shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class; seated by the fill on the owner cutover ruling, 2026-08-20"
 raft,15,r-a-f-t,r short_a f t,engine,bank+seat,"shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class; seated by the fill on the owner cutover ruling, 2026-08-20"
 rang,28,r-a-ng,r short_a ng,engine,bank+seat,"shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class; seated by the fill on the owner cutover ruling, 2026-08-20"
@@ -1105,7 +1105,7 @@ rim,15,r-i-m,r short_i m,engine,bank+seat,"shipped-bank word outside ladder and 
 ring,28,r-i-ng,r short_i ng,engine,bank+seat,"shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class; seated by the fill on the owner cutover ruling, 2026-08-20"
 risk,16,r-i-s-k,r short_i s k,engine,bank+seat,"shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class; seated by the fill on the owner cutover ruling, 2026-08-20"
 rob,15,r-o-b,r short_o b,engine,bank+seat,"shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class; seated by the fill on the owner cutover ruling, 2026-08-20"
-rot,,r-o-t,r short_o t,engine,bank,shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class
+rot,30,r-o-t,r short_o t,engine,bank,"shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class; absorbed at a review milestone past the soft cap, owner-ruled 2026-08-20"
 rung,28,r-u-ng,r short_u ng,engine,bank+seat,"shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class; seated by the fill on the owner cutover ruling, 2026-08-20"
 rush,22,r-u-sh,r short_u sh,engine,bank+seat,"shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class; seated by the fill on the owner cutover ruling, 2026-08-20"
 sag,9,s-a-g,s short_a g,engine,bank+seat,"shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class; seated by the fill on the owner cutover ruling, 2026-08-20"
@@ -1116,31 +1116,31 @@ sham,22,sh-a-m,sh short_a m,engine,bank+seat,"shipped-bank word outside ladder a
 shin,22,sh-i-n,sh short_i n,engine,bank+seat,"shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class; seated by the fill on the owner cutover ruling, 2026-08-20"
 shock,26,sh-o-ck,sh short_o k,engine,bank+seat,"shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class; seated by the fill on the owner cutover ruling, 2026-08-20"
 shun,22,sh-u-n,sh short_u n,engine,bank+seat,"shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class; seated by the fill on the owner cutover ruling, 2026-08-20"
-shut,,sh-u-t,sh short_u t,engine,bank,shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class
+shut,30,sh-u-t,sh short_u t,engine,bank,"shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class; absorbed at a review milestone past the soft cap, owner-ruled 2026-08-20"
 sift,11,s-i-f-t,s short_i f t,engine,bank+seat,"shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class; seated by the fill on the owner cutover ruling, 2026-08-20"
 silk,16,s-i-l-k,s short_i l k,engine,bank+seat,"shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class; seated by the fill on the owner cutover ruling, 2026-08-20"
 sob,12,s-o-b,s short_o b,engine,bank+seat,"shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class; seated by the fill on the owner cutover ruling, 2026-08-20"
 song,28,s-o-ng,s short_o ng,engine,bank+seat,"shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class; seated by the fill on the owner cutover ruling, 2026-08-20"
-sub,,s-u-b,s short_u b,engine,bank,shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class
-sum,,s-u-m,s short_u m,engine,bank,shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class
-sung,,s-u-ng,s short_u ng,engine,bank,shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class
+sub,20,s-u-b,s short_u b,engine,bank,"shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class; absorbed at a review milestone past the soft cap, owner-ruled 2026-08-20"
+sum,20,s-u-m,s short_u m,engine,bank,"shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class; absorbed at a review milestone past the soft cap, owner-ruled 2026-08-20"
+sung,40,s-u-ng,s short_u ng,engine,bank,"shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class; absorbed at a review milestone past the soft cap, owner-ruled 2026-08-20"
 tab,12,t-a-b,t short_a b,engine,bank+seat,"shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class; seated by the fill on the owner cutover ruling, 2026-08-20"
-tack,,t-a-ck,t short_a k,engine,bank,shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class
+tack,30,t-a-ck,t short_a k,engine,bank,"shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class; absorbed at a review milestone past the soft cap, owner-ruled 2026-08-20"
 task,16,t-a-s-k,t short_a s k,engine,bank+seat,"shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class; seated by the fill on the owner cutover ruling, 2026-08-20"
-tick,,t-i-ck,t short_i k,engine,bank,shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class
-trim,,t-r-i-m,t r short_i m,engine,bank,shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class
-trip,,t-r-i-p,t r short_i p,engine,bank,shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class
-tuck,,t-u-ck,t short_u k,engine,bank,shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class
-tug,,t-u-g,t short_u g,engine,bank,shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class
+tick,40,t-i-ck,t short_i k,engine,bank,"shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class; absorbed at a review milestone past the soft cap, owner-ruled 2026-08-20"
+trim,30,t-r-i-m,t r short_i m,engine,bank,"shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class; absorbed at a review milestone past the soft cap, owner-ruled 2026-08-20"
+trip,30,t-r-i-p,t r short_i p,engine,bank,"shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class; absorbed at a review milestone past the soft cap, owner-ruled 2026-08-20"
+tuck,40,t-u-ck,t short_u k,engine,bank,"shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class; absorbed at a review milestone past the soft cap, owner-ruled 2026-08-20"
+tug,20,t-u-g,t short_u g,engine,bank,"shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class; absorbed at a review milestone past the soft cap, owner-ruled 2026-08-20"
 twig,17,t-w-i-g,t w short_i g,engine,bank+seat,"shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class; seated by the fill on the owner cutover ruling, 2026-08-20"
 vet,16,v-e-t,v short_e t,engine,bank+seat,"shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class; seated by the fill on the owner cutover ruling, 2026-08-20"
 vex,18,v-e-x,v short_e x,engine,bank+seat,"shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class; seated by the fill on the owner cutover ruling, 2026-08-20"
 wag,17,w-a-g,w short_a g,engine,bank+seat,"shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class; seated by the fill on the owner cutover ruling, 2026-08-20"
 wed,17,w-e-d,w short_e d,engine,bank+seat,"shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class; seated by the fill on the owner cutover ruling, 2026-08-20"
 which,27,wh-i-ch,w short_i ch,engine,bank+seat,"shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class; seated by the fill on the owner cutover ruling, 2026-08-20"
-wick,,w-i-ck,w short_i k,engine,bank,shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class
+wick,40,w-i-ck,w short_i k,engine,bank,"shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class; absorbed at a review milestone past the soft cap, owner-ruled 2026-08-20"
 wilt,17,w-i-l-t,w short_i l t,engine,bank+seat,"shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class; seated by the fill on the owner cutover ruling, 2026-08-20"
-wing,,w-i-ng,w short_i ng,engine,bank,shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class
+wing,40,w-i-ng,w short_i ng,engine,bank,"shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class; absorbed at a review milestone past the soft cap, owner-ruled 2026-08-20"
 wit,17,w-i-t,w short_i t,engine,bank+seat,"shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class; seated by the fill on the owner cutover ruling, 2026-08-20"
 zag,18,z-a-g,z short_a g,engine,bank+seat,"shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class; seated by the fill on the owner cutover ruling, 2026-08-20"
 zig,18,z-i-g,z short_i g,engine,bank+seat,"shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class; seated by the fill on the owner cutover ruling, 2026-08-20"
