@@ -9,7 +9,7 @@ import {
   heal, migrate, newState, buildMarkdown, loadState, saveState, speak, hush, buzz, feedbackSpeech, PRAISE,
   SEAM_MS, SOUNDOUT_SEAM_MS, voiceScript, clipPlan, resolvePack, TTS_UNSAFE_PRAISE, ttsSafePraise,
   SENTENCE_PRAISE, sentenceLead,
-  soundInventory, bankWords, soundIdFor, soundIdsFor, tileSlots, isSeam, seamMs, WORD_SOUND, isSecure,
+  soundInventory, bankWords, soundIdFor, soundIdsFor, tileSlots, isSeam, seamMs, TILE_SOUND, WORD_SOUND, isSecure,
   buildTray, trayPool, trayExtras, trayClash, trayForbidden, buildable, NEVER_BUILD,
   SENTENCES, REVEAL_LINES, REVEAL_LINE_TEXT, sentenceWords, revealWord,
 } from "../src/engine.js";
@@ -687,39 +687,35 @@ describe("voice packs", () => {
     const graphemes = new Set();
     for (const l of LEVELS) for (const w of l.words) for (const g of chunkWord(w)) graphemes.add(g);
     expect(graphemes.size).toBe(44);
-    /* B1, owner-ruled 2026-08-12: the ROSTER is pinned, not just its size.
-       `soundIdFor` is `"d:" + (TILE_SOUND[g] || g)`, so a grapheme nobody has
-       ruled on still returns a valid clip id, resolvePack still resolves, every
-       gate still passes, and a child is still taught something. That is exactly
-       how th played the wrong sound for months. A count alone does not catch it
-       either: swap one grapheme for another and the size is unchanged.
+    /* B1, owner-ruled 2026-08-12, upgraded 2026-08-20 when the fallback went
+       LOUD (beta path item d, reviewer and lead agreed): the ROSTER is pinned,
+       not just its size. `soundIdFor` is now `"d:" + (TILE_SOUND[g] ||
+       "unmapped." + g)` - a grapheme nobody has ruled on resolves into a
+       namespace no pack will ever contain, so it can no longer inherit a
+       plausible id. The old fallback is how th played the wrong sound for
+       months, and an unruled ow would have collided with the REAL /ow/ clip
+       and played the wrong vowel with no gate able to see it.
 
-       So both halves are literal. The sixteen in TILE_SOUND are decisions
-       somebody made. The twenty-three on the fallback are correct — swept
-       against the whole bank on 2026-08-11 and put to an adversarial verifier —
-       but correct by luck of the naming rather than by a recorded ruling, and
-       they are listed here so that ADDING a grapheme fails this test until a
-       person puts it in one list or the other, which is the moment the decision
-       gets made. */
+       The pin is the decision record itself: every grapheme the bank can
+       produce must hold a TILE_SOUND row - the 24 identity rows written
+       2026-08-20 were the fallback's old passengers, each now a stated
+       decision - except the two the owner has deliberately left default-less.
+       Adding a grapheme fails this test until a person writes its row, which
+       is the moment the decision gets made. */
     expect([...graphemes].sort()).toEqual(
       ["a", "ai", "b", "c", "ch", "ck", "d", "e", "ere", "ey", "f", "ff", "g", "h", "i", "j", "k", "kn", "l",
        "ll", "m", "mb", "n", "ng", "o", "or", "ou", "p", "qu", "r", "s", "sh", "ss", "t", "th", "u",
        "v", "w", "wh", "wr", "x", "y", "z", "zz"]);
-    const named = [...graphemes].filter((g) => soundIdFor(g) !== "d:" + g).sort();
-    const fallback = [...graphemes].filter((g) => soundIdFor(g) === "d:" + g).sort();
-    /* "ai" and "ou" moved to the NAMED side on 2026-08-19: "The levels'
-       teaching becomes the default" (owner, decades-and-rulings page). The
-       2026-08-12 ruling that neither had a default was made when no level
-       taught either; level 58 now teaches ai as long a and level 77 teaches
-       ou as the /ow/ of out. said and you keep their per-word bends, proved
-       below. Both literals re-derived by hand from the ruling, not read off
-       TILE_SOUND (E4). */
-    expect(named).toEqual(
-      ["a", "ai", "c", "ck", "e", "ff", "i", "kn", "ll", "mb", "o", "ou", "ss", "th", "u", "wh", "wr", "zz"]);
-    expect(fallback).toEqual(
-      ["b", "ch", "d", "ere", "ey", "f", "g", "h", "j", "k", "l", "m", "n", "ng", "or", "p", "qu", "r", "s",
-       "sh", "t", "v", "w", "x", "y", "z"]);
+    const undecided = [...graphemes].filter((g) => TILE_SOUND[g] === undefined).sort();
+    expect(undecided).toEqual(["ere", "ey"]);   // the two ruled default-less, and nothing else
+    /* The marker is the whole point, so it is asserted directly, with a
+       negative control (E5): a grapheme that will never exist takes the same
+       loud path, proving the marker is the fallback and not a special case. */
+    expect(soundIdFor("ey")).toBe("d:unmapped.ey");
+    expect(soundIdFor("ere")).toBe("d:unmapped.ere");
+    expect(soundIdFor("zzq")).toBe("d:unmapped.zzq");
     const inv = new Set(soundInventory());
+    expect(inv.has("d:unmapped.zzq")).toBe(false);
     /* Every grapheme's DEFAULT sound must exist — except the two that have no
        ruled default and are only ever used bent. Naming them here rather than
        loosening the loop keeps the exception countable, and the test above

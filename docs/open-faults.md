@@ -117,8 +117,16 @@ wrong sound for months without a single gate noticing.
 
 ### B1. The grapheme fallback — CLOSED 2026-08-12, owner-ruled (option 2)
 
-`soundIdFor` is still `"d:" + (TILE_SOUND[g] || g)`, and the 23 graphemes on the fallback are
-still correct — swept against the whole bank on 2026-08-11 and put to an adversarial verifier.
+**UPGRADED 2026-08-20, the fail-loud commit:** `soundIdFor` is now `"d:" + (TILE_SOUND[g] ||
+"unmapped." + g)` — a grapheme with no row resolves into a namespace no pack will ever
+contain, so it can no longer inherit a plausible clip. The fallback's old passengers (the
+identity graphemes, plus ar/air/aw/ear/er/oi from the ladder) each became a stated
+TILE_SOUND row. The change exposed unruled `ow` riding a REAL clip of the wrong sound —
+held by two owner-ruled ceiling raises the same evening rather than hidden. The paragraph
+below records the world before that commit.
+
+`soundIdFor` was `"d:" + (TILE_SOUND[g] || g)`, and the 23 graphemes on the fallback were
+correct — swept against the whole bank on 2026-08-11 and put to an adversarial verifier.
 What was missing was any way to notice GROWTH: a new grapheme inherited a clip named after
 itself and nothing failed.
 

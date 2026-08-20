@@ -75,8 +75,8 @@ is the clause that catches the eighth fault nobody has thought of yet.
 |---|---|---|
 | BREAKS | `g27_throws_max` (0) | a real function threw on what the ladder produces |
 | BREAKS | `g27_no_value_max` (0) | a real function returned nothing where a value is required |
-| BREAKS | `g27_sound_no_clip_max` (14) | a tile unit resolves to a sound id in no pack and no waiting room |
-| BREAKS | `g27_tray_no_clip_max` (177) | Build-it would deal a tile whose sound has no clip |
+| BREAKS | `g27_sound_no_clip_max` (15) | a tile unit resolves to a sound id in no pack and no waiting room. Raised 14 to 15 by the owner (2026-08-20, pit-and-ow page) when the fail-loud fallback exposed unruled ow - whose old fallback id was a REAL clip of the wrong sound, invisible to every count. The fifteenth finding is that exposure held honestly: ow carries no default and waits for the conversion seat rule beside ea, ie, oo, ey and ere. |
+| BREAKS | `g27_tray_no_clip_max` (211). Raised 177 to 211 by the owner (2026-08-20, tray-ceiling page) for the same exposure as the sound ceiling: the loud fallback moved every ow word's Build-it tray entry from invisibly-wrong to counted, +34 | Build-it would deal a tile whose sound has no clip |
 | BREAKS | `g27_word_no_clip_max` (95) | a bank word has no word clip anywhere - REPORTS ONLY, held by the sum below |
 | BREAKS | `g27_sentence_no_clip_max` (0) | a placed text has no clip anywhere |
 | BREAKS | `g27_text_word_untaught_max` (1) | a placed text uses a word the ladder does not teach by that level |

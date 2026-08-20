@@ -157,12 +157,26 @@ the vowel says its name and the e is silent).
 
 **4. The beta path from here, in order:** (a) land the move+repair commit;
 (b) uf/off round to the owner, ship, bend; (c) the Greek five's vowel bends;
-(d) the FAIL-LOUD fallback in soundIdFor - reviewer and lead already agree -
-which turns every unmapped tile from a wrong guess into a loud gate finding;
+(d) DONE 2026-08-20: the FAIL-LOUD fallback in soundIdFor - every unmapped
+tile resolves into an unmapped. namespace no pack contains, the 30 fallback
+passengers became stated TILE_SOUND rows, and the exposed ow is held by two
+owner-ruled ceilings (sound 15, tray 211) until the conversion seat rule;
 (e) the silent-e mechanism with controls; (f) build --write in
 tools/convert-ladder.mjs (the splice/reversibility machinery to reuse is in
 tools/conversion-rehearsal.mjs); (g) re-derive the test literals by hand;
-(h) G27 to zero BREAKS; (i) the full gauntlet, then beta. The drift refactor
+(h) G27 to zero BREAKS; (h2) the SEVEN UI NOVELTIES as beta-cadence gates,
+owner-ruled 2026-08-20 from the UXSWEEP document ("make these genuine
+novelties part of gates... check with every beta and ignore rest"): the
+multi-viewport matrix, the elementFromPoint hit-test, layout-shift,
+recurring-control drift, automated offline visual re-checks, update-takeover
+proof, and E5 mutation controls on the UI checks themselves - built on the
+existing census, run in the gauntlet, each with a control that proves it can
+fail. The owner also ruled the five UXSWEEP contracts are NOT replicated
+("We already have comparable files"): the checks read the repo's own
+records - features/session.feature, docs/file-map.md, docs/effect-map.md
+and the census report - never a parallel schema set. Thresholds are the
+house floors where stricter (S7's 56/44 over the document's 24). (i) the
+full gauntlet, then beta. The drift refactor
 (section 7b) runs after green, before that beta.
 
 ## Where this came from

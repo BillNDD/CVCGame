@@ -933,8 +933,38 @@ const TILE_SOUND = {
   al: "aw", au: "aw", augh: "aw",
   eer: "ear",
   oy: "oi",
+  /* The identity rows, written 2026-08-20 when the fallback went loud. These
+     24 graphemes spell their own sound id - b says d:b, ch says d:ch - and
+     for three months they rode the bare fallback, correct by luck of the
+     naming rather than by a recorded ruling (B1's own words). Each is now a
+     stated decision, which is what lets the fallback below refuse instead of
+     guess: after these rows, a grapheme with no row is a grapheme NOBODY has
+     ruled on, and the one thing the engine must never do with it is hand back
+     a plausible id. d:ow was the proof: the fallback id for an unruled ow IS
+     a real shipped clip - the /ow/ cry of out - so "snow" would have played
+     the wrong vowel confidently, with no gate able to see it. */
+  b: "b", ch: "ch", d: "d", f: "f", g: "g", h: "h", j: "j", k: "k", l: "l",
+  m: "m", n: "n", ng: "ng", or: "or", p: "p", qu: "qu", r: "r", s: "s",
+  sh: "sh", t: "t", v: "v", w: "w", x: "x", y: "y", z: "z",
+  /* Six more identity rows the loud fallback surfaced the moment it landed:
+     the ladder's r-controlled and diphthong spellings whose bare fallback id
+     was the RIGHT sound - ar in car, air in chair, aw in saw, ear in hear,
+     er in her, oi in coin - correct by luck like the 24 above, now stated.
+     What the sweep deliberately did NOT give rows: ea, oo, ow and ie, the
+     twice-taught spellings whose sound depends on the word's seat level. ow
+     is the proof the marker earns its keep - its old fallback id d:ow is a
+     REAL shipped clip, the /ow/ cry of out, so "snow" reached the wrong
+     vowel through a green gate. Now it reaches a marker and a red count. */
+  ar: "ar", air: "air", aw: "aw", ear: "ear", er: "er", oi: "oi",
 };
-const soundIdFor = (g) => "d:" + (TILE_SOUND[g] || g);
+/* FAIL-LOUD, 2026-08-20 (beta path item d; the reviewer and the lead agreed
+   the design). A grapheme without a TILE_SOUND row resolves to an id in the
+   unmapped. namespace, which no pack will ever contain: resolvePack misses,
+   the reveal degrades exactly as it does for any missing clip, and every gate
+   that walks tiles sees the marker instead of a plausible guess. The old
+   fallback ("d:" + g) is how th played the wrong sound for months and how an
+   unruled ow would have played the wrong vowel with a REAL clip. */
+const soundIdFor = (g) => "d:" + (TILE_SOUND[g] || "unmapped." + g);
 /* A tricky word is tricky because one of its letters is not saying what the
    letter usually says. The owner ruled on 2026-08-06 that the sound-out tells
    the truth about it anyway — "the bent letter plays its TRUE sound... No
