@@ -305,7 +305,7 @@
   "round": "batch 6 / 2026-08-07",
   "verdict": "perfect",
   "level": "reveal lead-in (planned)",
-  "text": "Let\u2019s sound it out."
+  "text": "Let’s sound it out."
  },
  "of": {
   "arm": "of_6",
@@ -1441,7 +1441,7 @@
   "note": "supersedes the batch 13 entry, which was bytes the owner had already marked closest in batch 12. This clip was never offered before: verified against all 1883 arms of the 23 earlier rounds."
  },
  "a": {
-  "arm": "2\u00b73 \u2014 matched to today's schwa",
+  "arm": "2·3 — matched to today's schwa",
   "family": "owner-handoff-schwaD",
   "ms": 743,
   "sha256": "d3fc66ccc4ed23f493af51b368009b2325153aae9c1cddd23007825a47c7ecee",
@@ -1458,7 +1458,7 @@
   "round": "sound-out lines (2026-08-13)",
   "verdict": "perfect",
   "level": "the sentence reveal's invitation (SPEC section 12)",
-  "phonemes": "ju\u02d0 \u0279\u02c8\u025bd \u00f0\u02cc\u025bm \u02c8\u0254\u02d0l. l\u02c8\u025bts s\u02c8a\u028and \u02c8a\u028at \u00f0\u02c8\u026asw\u02cc\u028cn.",
+  "phonemes": "juː ɹˈɛd ðˌɛm ˈɔːl. lˈɛts sˈaʊnd ˈaʊt ðˈɪswˌʌn.",
   "note": "the first take said 'read' as in reed and was marked no good; this one carries explicit phonemes"
  },
  "s:mode-b3-s01": {
@@ -1925,7 +1925,7 @@
   "sha256": "d9e54a5ed9844e797ca83c1822d3b6aa13ccc801ff137a71fb952a5b1107a536",
   "round": "we/me sentences (2026-08-13)",
   "verdict": "perfect",
-  "level": "NOT PLACEABLE \u2014 nip",
+  "level": "NOT PLACEABLE — nip",
   "blocked_on": "we and me are not seated in the bank yet - docs/open-faults.md K"
  },
  "s:mode-wm-wm19": {
@@ -9659,15 +9659,6 @@
   "verdict": "perfect",
   "level": "v3 L78, sentence - unseated, ladder redesign"
  },
- "s:v3-l78-02": {
-  "text": "The boy took his toy ship down to the pond. A swan came to join him and went with the ship all day. That swan was as loyal as a good brother. When the boy went home, the swan sat at the point of the pond and cried. Mom said they could go back to the pond, and the boy did enjoy that.",
-  "family": "sentence_sp1.0",
-  "ms": 17297,
-  "sha256": "22075b8638b7d5c2e15f66de4d66c593c1039752e977ddf4e2a16188cb9d5996",
-  "round": "sentence batch 7 / 2026-08-19",
-  "verdict": "perfect",
-  "level": "v3 L78, paragraph - unseated, ladder redesign"
- },
  "s:v3-l79-01": {
   "text": "It was dark in the barn, and the little goat did not want to go in far.",
   "family": "sentence_sp1.0",
@@ -12110,5 +12101,14 @@
   "level": "unseated - ladder redesign",
   "family": "listen_sp0.75",
   "arm": "yellow_5"
+ },
+ "s:v3-l78-02": {
+  "text": "The boy took his toy ship down to the pond. His dog ran to join him, and a swan came to see. The boy set the ship going, and it went this way and that. Then the ship came to a stop in the soil at the bank. The loyal dog went in and got it back! The boy held his wet toy up high, and the swan swam up and down. They all sat in the sun as the ship dried. It was a fine day, and the boy did enjoy it.",
+  "family": "sentence_sp1.0",
+  "ms": 23040,
+  "sha256": "fb8c4afe9c14c49a93118a852b4741cc31fc6d256c3b994ee87e2762e03e3467",
+  "round": "L78 replacement / 2026-08-20",
+  "verdict": "perfect",
+  "level": "v3 L78, paragraph - unseated, ladder redesign"
  }
 }

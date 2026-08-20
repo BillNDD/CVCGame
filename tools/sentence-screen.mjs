@@ -169,9 +169,85 @@ export const SCREENED_2026_08_16 = [
   "s:r7-09", "s:r7-10", "s:r7-11", "s:r7-12",
 ];
 
+/* THE READ SCREEN OF THE V3 TEXTS - owner-ruled 2026-08-20 on the audit page:
+   "read them on screening pages". The listening rounds graded AUDIO, and the
+   independent audit refused to let those stand as reads; these pages were
+   text-only, one question per text - should a child meet this - which is the
+   question CLAUDE.md's before-any-beta rule asks. These ids are AWAITING
+   SEATS: screened and approved for reading, not yet shipped, because the
+   engine is still the 21-level one. The stale rule below exempts exactly this
+   list and nothing else, and a control proves the exemption is not a blanket:
+   a v3 id NOT in this list is still refused as never screened.
+   Batch 4 (levels 77-100, 67 read): 66 ok, one REFUSED - s:v3-l78-02,
+   "incredibly sad" - despite an earlier ear-approval; the read outranks, and
+   its row and clip left the waiting room the way gob left the pack, so it
+   cannot return by accident; its REPLACEMENT - a warmer scene under the same
+   id, drafted, validated and rendered the same day - was approved "good" on a
+   single-text page whose whole subject was the refused text's meaning, which
+   is why its read stands recorded here beside the batch reads. A second
+   batch-4 submission later said "ok" for the old id; the owner then approved
+   the replacement, which settles that the refusal stood. Batch 2 (levels
+   25-50, 69 read): 69 ok. Batch 3 (levels 50-77, 69 read): 69 ok. */
+export const SCREENED_2026_08_20_V3_AWAITING_SEAT = [
+  "s:v3-l25-02", "s:v3-l25-51", "s:v3-l25-52", "s:v3-l26-01",
+  "s:v3-l26-02", "s:v3-l26-51", "s:v3-l27-01", "s:v3-l27-02",
+  "s:v3-l27-51", "s:v3-l27-52", "s:v3-l27-53", "s:v3-l28-01",
+  "s:v3-l28-02", "s:v3-l29-01", "s:v3-l29-02", "s:v3-l30-01",
+  "s:v3-l30-02", "s:v3-l31-01", "s:v3-l31-02", "s:v3-l31-51",
+  "s:v3-l32-01", "s:v3-l32-02", "s:v3-l33-01", "s:v3-l33-02",
+  "s:v3-l33-51", "s:v3-l34-01", "s:v3-l34-02", "s:v3-l35-01",
+  "s:v3-l35-02", "s:v3-l36-01", "s:v3-l36-02", "s:v3-l37-01",
+  "s:v3-l37-02", "s:v3-l38-01", "s:v3-l38-02", "s:v3-l39-01",
+  "s:v3-l39-02", "s:v3-l40-01", "s:v3-l40-02", "s:v3-l40-51",
+  "s:v3-l40-52", "s:v3-l40-53", "s:v3-l40-54", "s:v3-l40-55",
+  "s:v3-l40-56", "s:v3-l40-57", "s:v3-l40-58", "s:v3-l40-59",
+  "s:v3-l40-60", "s:v3-l41-01", "s:v3-l41-02", "s:v3-l42-01",
+  "s:v3-l42-02", "s:v3-l43-01", "s:v3-l43-02", "s:v3-l44-01",
+  "s:v3-l44-02", "s:v3-l45-01", "s:v3-l45-02", "s:v3-l46-01",
+  "s:v3-l46-02", "s:v3-l46-51", "s:v3-l47-01", "s:v3-l47-02",
+  "s:v3-l48-01", "s:v3-l48-02", "s:v3-l49-01", "s:v3-l49-02",
+  "s:v3-l50-01",
+  "s:v3-l50-02", "s:v3-l51-01", "s:v3-l51-02", "s:v3-l52-01",
+  "s:v3-l52-02", "s:v3-l53-01", "s:v3-l53-02", "s:v3-l54-01",
+  "s:v3-l54-02", "s:v3-l55-01", "s:v3-l55-02", "s:v3-l55-51",
+  "s:v3-l56-01", "s:v3-l56-02", "s:v3-l56-51", "s:v3-l57-01",
+  "s:v3-l57-02", "s:v3-l58-01", "s:v3-l58-02", "s:v3-l59-01",
+  "s:v3-l59-02", "s:v3-l60-01", "s:v3-l60-02", "s:v3-l60-51",
+  "s:v3-l60-52", "s:v3-l61-01", "s:v3-l61-02", "s:v3-l61-03",
+  "s:v3-l61-51", "s:v3-l61-52", "s:v3-l61-53", "s:v3-l62-02",
+  "s:v3-l62-03", "s:v3-l63-01", "s:v3-l63-02", "s:v3-l64-01",
+  "s:v3-l64-02", "s:v3-l65-02", "s:v3-l65-03", "s:v3-l66-01",
+  "s:v3-l66-02", "s:v3-l66-03", "s:v3-l66-51", "s:v3-l67-01",
+  "s:v3-l67-02", "s:v3-l68-01", "s:v3-l68-02", "s:v3-l69-01",
+  "s:v3-l69-02", "s:v3-l70-01", "s:v3-l70-02", "s:v3-l71-01",
+  "s:v3-l71-02", "s:v3-l72-01", "s:v3-l72-02", "s:v3-l73-01",
+  "s:v3-l73-02", "s:v3-l74-02", "s:v3-l74-03", "s:v3-l75-01",
+  "s:v3-l75-02", "s:v3-l75-51", "s:v3-l76-01", "s:v3-l76-02",
+  "s:v3-l76-51", "s:v3-l77-01", "s:v3-l77-02", "s:v3-l77-51",
+  "s:v3-l77-52",
+  "s:v3-l77-53", "s:v3-l77-54", "s:v3-l77-55", "s:v3-l78-01",
+  "s:v3-l78-02",
+  "s:v3-l79-01", "s:v3-l79-02", "s:v3-l80-01", "s:v3-l80-02",
+  "s:v3-l80-51", "s:v3-l80-52", "s:v3-l81-01", "s:v3-l81-02",
+  "s:v3-l81-51", "s:v3-l81-52", "s:v3-l82-01", "s:v3-l82-02",
+  "s:v3-l83-01", "s:v3-l83-02", "s:v3-l83-51", "s:v3-l83-52",
+  "s:v3-l84-01", "s:v3-l84-02", "s:v3-l85-01", "s:v3-l85-02",
+  "s:v3-l85-51", "s:v3-l85-52", "s:v3-l85-53", "s:v3-l86-01",
+  "s:v3-l86-02", "s:v3-l87-01", "s:v3-l87-02", "s:v3-l88-01",
+  "s:v3-l88-02", "s:v3-l88-51", "s:v3-l89-01", "s:v3-l89-02",
+  "s:v3-l90-01", "s:v3-l90-02", "s:v3-l91-01", "s:v3-l91-02",
+  "s:v3-l92-01", "s:v3-l92-02", "s:v3-l93-01", "s:v3-l93-02",
+  "s:v3-l94-01", "s:v3-l94-02", "s:v3-l95-01", "s:v3-l95-02",
+  "s:v3-l95-51", "s:v3-l96-01", "s:v3-l96-02", "s:v3-l97-01",
+  "s:v3-l97-02", "s:v3-l97-51", "s:v3-l97-52", "s:v3-l97-53",
+  "s:v3-l97-54", "s:v3-l98-01", "s:v3-l98-02", "s:v3-l99-01",
+  "s:v3-l99-02", "s:v3-l100-01", "s:v3-l100-02", "s:v3-l100-51",
+  "s:v3-l100-52", "s:v3-l100-53",
+];
+
 export function screen(sentences) {
   const problems = [];
-  const known = new Set([...SCREENED, ...SCREENED_2026_08_15, ...SCREENED_2026_08_16]);
+  const known = new Set([...SCREENED, ...SCREENED_2026_08_15, ...SCREENED_2026_08_16, ...SCREENED_2026_08_20_V3_AWAITING_SEAT]);
   for (const { id, text } of sentences) {
     const s = shape(text);
     if (s) problems.push(`refused by shape: ${id} ("${text}") — ${s}`);
@@ -239,7 +315,22 @@ if (process.argv.includes("--self-test")) {
   const sawStale = stale.some((p) => p.startsWith("screened but not shipped:"));
   console.log((sawStale ? "ok   " : "FAIL ") + "control: a screened sentence the game no longer shows is reported");
   if (!sawStale) failed += 1;
-  const total = cases.length + phraseCases.length + 3;
+  /* The awaiting-seat exemption, both ways. A v3 id IN the read ledger ships
+     without a "never screened" refusal; a v3 id NOT in it is refused exactly
+     like any stranger. Without the second half, the ledger would be a blanket
+     amnesty for anything spelled s:v3-. The planted id was s:v3-l78-02 until
+     its replacement was read and approved on 2026-08-20 and the id joined the
+     ledger - at which point this control went red, which is the control
+     working; the plant is now an id no text will ever hold. */
+  const seated = screen([...shippedSentences(), { id: "s:v3-l100-01", text: "Look how far you got, and look how fast you can read now." }]);
+  const seatedOk = !seated.some((p) => p.includes("s:v3-l100-01"));
+  console.log((seatedOk ? "ok   " : "FAIL ") + "control: a v3 id the owner read ships without a never-screened refusal");
+  if (!seatedOk) failed += 1;
+  const refused = screen([...shippedSentences(), { id: "s:v3-l00-99", text: "planted" }]);
+  const refusedCaught = refused.some((p) => p.startsWith("never screened by a person: s:v3-l00-99"));
+  console.log((refusedCaught ? "ok   " : "FAIL ") + "control: a v3 id OUTSIDE the read ledger is refused - the exemption is a list, not a spelling");
+  if (!refusedCaught) failed += 1;
+  const total = cases.length + phraseCases.length + 5;
   console.log(`\nsentence-screen controls: ${total - failed} passed, ${failed} failed`);
   process.exit(failed ? 1 : 0);
 }
