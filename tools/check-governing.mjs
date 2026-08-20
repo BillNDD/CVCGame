@@ -96,6 +96,12 @@ export const GOVERNING = [
      governing file because it is CHILD-FACING COPY - a level's name and emoji
      come from it - and the conversion generator refuses to write without it. */
   "tools/ladder/decade-names.json",
+  /* round-verdicts.json is the unified recorder's E10 persistence: every accept,
+     closest, refusal and comment from every listening round, written the day it
+     happened. It exists because "a verdict that lives only in a chat log is a
+     verdict this project will lose, and has" (E10). A LOG, like the other three:
+     append-only, never a place a fact is edited. */
+  "tools/pending-words/round-verdicts.json",
   "tools/corpus/sources.json",
   /* The excision ledger, added 2026-08-19 with nine more books. It is the third
      of the three signals that keep a screened corpus honest - the filename says

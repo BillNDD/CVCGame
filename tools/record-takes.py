@@ -47,6 +47,7 @@
 #   python3 tools/record-takes.py --self-test
 import base64
 import hashlib
+import io
 import json
 import pathlib
 import re
@@ -210,7 +211,7 @@ def main(argv):
         for name in written:
             (PEND / name).unlink(missing_ok=True)
         raise
-    LEDGER.write_text(json.dumps(res["ledger"], indent=1) + "\n", encoding="utf-8")
+    io.open(LEDGER, "w", encoding="utf-8", newline="\n").write(json.dumps(res["ledger"], indent=1) + "\n")
     prior = json.loads(VERDICT_LOG.read_text(encoding="utf-8")) if VERDICT_LOG.exists() else {}
     VERDICT_LOG.write_text(json.dumps(verdict_log(res["items"], round_label, prior), indent=1) + "\n",
                            encoding="utf-8")
