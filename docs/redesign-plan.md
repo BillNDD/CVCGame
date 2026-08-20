@@ -179,9 +179,12 @@ and past). His reasoning, which the lead endorses: the vocabulary is CLOSED
 and small (~1,000), so a rule's power to generalise buys nothing, and a row
 a person can read beats an interaction a person must reason about - tonight's
 ow collision and the ve discovery are the evidence. The rules and bends
-built so far become the CSV's first-pass GENERATOR, a read-only phonics
-expert reviews every row and reports errors, and after that audit the CSV
-is canonical input to --write. TILE_SOUND stays for tray-tile defaults
+built so far became the CSV's first-pass GENERATOR, and the audit RAN the
+same evening: 1,145 rows in tools/lexicon.csv, 169 corrected on the
+expert's two reports (167 + the 93-row follow-up's bolt, which was a LIVE
+wrong sound-out in the shipped bank, bent the same day), one row pending
+the owner (laugh), gated as G27's lexicon_fault class at ceiling zero.
+The CSV is canonical input to --write. TILE_SOUND stays for tray-tile defaults
 (a tray tile is a letter out of word context); (g) re-derive the test literals by hand;
 (h) G27 to zero BREAKS; (h2) the SEVEN UI NOVELTIES as beta-cadence gates,
 owner-ruled 2026-08-20 from the UXSWEEP document ("make these genuine

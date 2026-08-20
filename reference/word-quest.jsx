@@ -1109,6 +1109,11 @@ const WORD_SOUND = {
   some: { 1: "short_u" },
   love: { 1: "short_u" },
   have: { 1: "short_a" },
+  /* Found by the lexicon audit's 93-row follow-up, 2026-08-20: bolt is in
+     the SHIPPED bank and its sound-out said "bahlt" - a live wrong vowel,
+     the same o-before-l-plus-consonant class as cold and gold. The lexicon
+     row and this bend were corrected in the same commit. */
+  bolt: { 1: "long_o" },
   /* The Greek ch words the owner ruled to stay and teach the exception
      (2026-08-20: "the ch acts as a k. Leave in and teach the exception").
      Only the three that tile at four or fewer bend TODAY: a bend pulls its

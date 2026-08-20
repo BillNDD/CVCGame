@@ -1052,7 +1052,7 @@ zap,18,z-a-p,z short_a p,engine engine engine,bank+seat+text,
 zip,18,z-i-p,z short_i p,engine engine engine,bank+seat+text,
 zoom,74,z-oo-m,z oo_moon m,engine seat-rule engine,seat+text,
 beds,,b-e-d-s,b short_e d z,engine,bank,shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class
-bolt,,b-o-l-t,b short_o l t,engine,bank,shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class
+bolt,68,b-o-l-t,b long_o l t,expert expert expert expert,bank,"the 93-row follow-up review: /bolt/ says long o, the cold/gold class; was a LIVE wrong sound-out in the shipped bank, bent the same day; seated at 68 the same evening - the o-before-two lesson, the class remedy, flagged for the owner"
 bond,,b-o-n-d,b short_o n d,engine,bank,shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class
 brag,,b-r-a-g,b r short_a g,engine,bank,shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class
 bump,,b-u-m-p,b short_u m p,engine,bank,shipped-bank word outside ladder and texts - appended when the lexicon gate found the generator had dropped the class
