@@ -390,6 +390,26 @@ Three rulings, given one page at a time on 2026-08-20, form the brief:
    NEVER COMMITTED, so no fact ever exists in two places on disk and the
    no-copied-facts rule is never in tension. The existing tools remain the
    computers; the entrypoint composes them.
+3a. **Rationale is a REQUIRED field on every rule, threshold and check**
+   (owner-endorsed 2026-08-20, from a sidecar's argument the lead reviewed and
+   agreed with). The agent reading these documents is a reasoner, not a
+   parser: structure buys unambiguity, rationale buys correct behaviour in
+   the cases no rule set anticipates. Mechanics, all four adopted: LOCALITY -
+   the rationale sits on the same object as the rule it explains, never in a
+   distant section; CONTENT - why the check exists, which false pass it
+   prevents, what the miss costs a real child, and if deleting the rule
+   would not let a competent agent re-derive it from the rationale alone,
+   the rationale is noise and goes; PRECEDENCE - rationale is non-normative
+   and the threshold governs on conflict, with ONE exception: a rationale
+   naming a specific false-pass mode makes avoiding that mode part of the
+   check (the E5 philosophy as data); SCHEMA - rationale is required by the
+   validator, so an unjustified rule is a lint failure. Two refinements of
+   the lead's: normative numbers never appear in rationale but INCIDENT
+   numbers do ("7,680 CRLF pairs, 2026-08-19" is the strongest
+   anti-rationalization device this repository owns), and every rationale
+   that rests on an owner ruling carries `ruling:` and `date:` fields with
+   his words verbatim, machine-findable.
+
 3. **settled.md and open-faults.md convert fully** to structured entries,
    machine-first throughout, with the owner's quoted words as fields. Chosen
    over the recommended index-over-prose, on his authority. The one safeguard
