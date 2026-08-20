@@ -113,7 +113,9 @@ const MUTANTS = [
      green. These replace it, one for each way the reveal can be quietly
      broken. */
   ["sound-out seam dropped", 'for (const id of soundIdsFor(word)) out.push("seam2", id);', 'for (const id of soundIdsFor(word)) out.push(id);'],
-  ["sound-out loses its sounds", 'const out = [lead, "seam2", "w:" + word, "seam2", "s:pronounced"];\n    for (const id of soundIdsFor(word)) out.push("seam2", id);', 'const out = [lead, "seam2", "w:" + word];'],
+  /* Re-pointed 2026-08-20 when the magic-e rule taught the loop to step over
+     d:silent - the anchor moved, the fault it plants is the same one. */
+  ["sound-out loses its sounds", 'for (const id of soundIdsFor(word)) if (id !== "d:silent") out.push("seam2", id);', '/* sounds dropped by mutant */'],
   ["sound-out never says the word again", 'out.push("seam2", "w:" + word);\n    return out;', "return out;"],
   ["sound-out seam 500 to 900", "const SOUNDOUT_SEAM_MS = 500;", "const SOUNDOUT_SEAM_MS = 900;"],
   ["a seam is read as a clip", 'const isSeam = (id) => id === "seam" || id === "seam2";', 'const isSeam = (id) => id === "seam";'],

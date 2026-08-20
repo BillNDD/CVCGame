@@ -28,7 +28,9 @@ export default function usePreSession({ stateRef, setState, persist, setScreen, 
   const preResultsRef = useRef({});
 
   const prePromptPlan = (it) =>
-    it.length === 1 ? [soundIdFor(it)] : soundIdsFor(it).flatMap((id, i) => (i ? ["seam2", id] : [id]));
+    it.length === 1
+      ? [soundIdFor(it)]
+      : soundIdsFor(it).filter((id) => id !== "d:silent").flatMap((id, i) => (i ? ["seam2", id] : [id]));
   const playPrePrompt = () => {
     stopClips();
     playClips(prePromptPlan(preQ[preQi]), stateRef.current.settings.sound, noteFallback);

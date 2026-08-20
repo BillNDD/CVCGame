@@ -18,7 +18,7 @@
    and from what the spelling says, never read back off the arrays under test
    (E4). Run: npm test */
 import { describe, it, expect } from "vitest";
-import { DIGRAPHS, TRIGRAPHS, QUADGRAPHS, chunkWord, bankWords, SENTENCES, sentenceWords } from "../src/engine.js";
+import { DIGRAPHS, TRIGRAPHS, QUADGRAPHS, chunkWord, bankWords, SENTENCES, sentenceWords, soundIdsFor, soundInventory, clipPlan } from "../src/engine.js";
 
 describe("the extended code", () => {
   /* All three tiers are pinned as literals,
@@ -135,7 +135,10 @@ describe("the extended code", () => {
   it("no word in the bank re-tiles, and the row still caps at four", () => {
     const by = {};
     for (const w of bankWords()) { const n = chunkWord(w).length; by[n] = (by[n] || 0) + 1; }
-    expect(by).toEqual({ 1: 3, 2: 37, 3: 347, 4: 107 }  /* 2026-08-20 evening, second rise: anchor
+    expect(by).toEqual({ 1: 3, 2: 37, 3: 349, 4: 109 }  /* 2026-08-20 evening, third rise: come and
+       some (4 tiles), love and have (3 each - their ve fuses) joined with
+       the magic-e rule - three tricky-marked per the owner, have as the
+       rule's recorded exception. Re-counted from the bank. */  /* 2026-08-20 evening, second rise: anchor
        (a-n-ch-or), chorus (ch-or-u-s) and school (s-ch-oo-l) - four tiles
        each - joined by their Greek-ch bends. Re-counted from the bank. */  /* 2026-08-20 evening: rough, tough and
        cough (2 tiles each: r-ough, t-ough, c-ough) and enough (3: e-n-ough)
@@ -168,5 +171,58 @@ describe("the extended code", () => {
     expect(chunkWord("note")).toEqual(["n","o","t","e"]);
     expect(chunkWord("cake").join("")).toBe("cake");
     for (const g of [...DIGRAPHS, ...TRIGRAPHS, ...QUADGRAPHS]) expect(g.includes("_")).toBe(false);
+  });
+
+  /* THE MAGIC-E RULE, owner-stated 2026-08-20: "the vowel takes on its letter
+     sound and the e is silent... bite. line." The tiles stay letters (the pin
+     above), and the SOUNDS carry the rule: a bare final e after a consonant
+     goes d:silent while its vowel says its name; a final ce/ge/se/ve/ze tile
+     absorbs the e, so the vowel says its name with no silent tile at all.
+     Every expected value a literal (E4); measured over all 49 candidates in
+     the ladder, hearts and bank, 45 read right by rule and the four
+     exceptions carry bends, which outrank the rule tile by tile. */
+  it("sounds the magic e: the vowel says its name and the e says nothing", () => {
+    expect(soundIdsFor("cake")).toEqual(["d:k", "d:long_a", "d:k", "d:silent"]);
+    expect(soundIdsFor("time")).toEqual(["d:t", "d:long_i", "d:m", "d:silent"]);
+    expect(soundIdsFor("home")).toEqual(["d:h", "d:long_o", "d:m", "d:silent"]);
+    expect(soundIdsFor("cute")).toEqual(["d:k", "d:long_u", "d:t", "d:silent"]);
+    /* The e-absorbed finals: no silent tile, the vowel still says its name. */
+    expect(soundIdsFor("gave")).toEqual(["d:g", "d:long_a", "d:v"]);
+    expect(soundIdsFor("these")).toEqual(["d:th_quiet", "d:long_e", "d:s"]);
+    expect(soundIdsFor("use")).toEqual(["d:long_u", "d:s"]);
+    /* live is the owner's own example of the pattern - no bend, no note,
+       read by the rule alone. */
+    expect(soundIdsFor("live")).toEqual(["d:l", "d:long_i", "d:v"]);
+  });
+  it("lets a bend outrank the rule, which is how come, some, love and have stay honest", () => {
+    /* come's o bends to the u of up while its e STILL goes silent by rule -
+       the bend wins tile by tile, not word by word. */
+    expect(soundIdsFor("come")).toEqual(["d:k", "d:short_u", "d:m", "d:silent"]);
+    expect(soundIdsFor("some")).toEqual(["d:s", "d:short_u", "d:m", "d:silent"]);
+    expect(soundIdsFor("love")).toEqual(["d:l", "d:short_u", "d:v"]);
+    /* have states the sound it already had; unbent, h-a-ve is exactly the
+       shape that fires and it would say "haiv". */
+    expect(soundIdsFor("have")).toEqual(["d:h", "d:short_a", "d:v"]);
+  });
+  it("does not fire where the shape is absent - the controls (E5)", () => {
+    /* No final e tile: */
+    expect(soundIdsFor("lived")).toEqual(["d:l", "d:short_i", "d:v", "d:short_e", "d:d"]);
+    /* Two tiles, no vowel-consonant-e run: */
+    expect(soundIdsFor("the")).toEqual(["d:th_this", "d:schwa"]);
+    /* A vowel TEAM before the final tile is not a bare vowel: */
+    expect(soundIdsFor("house")).toEqual(["d:h", "d:ow", "d:s"]);
+    expect(soundIdsFor("see")).toEqual(["d:s", "d:long_e"]);
+    /* A final le tile is the syllable unit, never the magic e: */
+    expect(soundIdsFor("table")).toEqual(["d:t", "d:short_a", "d:b", "d:l"]);
+  });
+  it("keeps d:silent out of every audio path while S8 keeps its slot", () => {
+    /* One tile, one sound - the slot survives (S8)... */
+    expect(soundIdsFor("come").length).toBe(chunkWord("come").length);
+    /* ...and no audio consumer ever asks for it: not the inventory, and not
+       the reveal plan, which steps over the silent tile with no seam. */
+    expect(soundInventory().includes("d:silent")).toBe(false);
+    expect(clipPlan("correct", "come", 0)).toEqual(
+      ["p:0", "seam2", "w:come", "seam2", "s:pronounced",
+       "seam2", "d:k", "seam2", "d:short_u", "seam2", "d:m", "seam2", "w:come"]);
   });
 });

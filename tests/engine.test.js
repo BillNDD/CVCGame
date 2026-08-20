@@ -81,15 +81,19 @@ describe("word bank", () => {
     expect(WORD_LEVEL.my).toBe(2); expect(WORD_LEVEL.of).toBe(7);
     expect(WORD_LEVEL.bell).toBe(17); expect(WORD_LEVEL.chick).toBe(18);
   });
-  it("flags the thirty-two tricky words — the originals, the heart notes, i, seating pass two's four, and the hybrid ruling's four", () => {
+  it("flags the thirty-five tricky words — the originals, the heart notes, i, seating pass two's four, the hybrid ruling's four, and the magic-e rule's three", () => {
     /* into, find, old and hold joined 2026-08-20 under the owner's hybrid
        ruling: function words stay seated where children meet them, marked
        tricky with true-sound bends, instead of moving to their code levels
        and breaking 27 approved texts. Re-typed here by hand, as this pin
        demands of every arrival. */
+    /* come, some and love joined 2026-08-20 with the magic-e rule: the owner
+       ruled them marked tricky ("come love some marked tricky"), their o
+       saying the u of up despite the e. Re-typed by hand, as this pin
+       demands of every arrival. */
     expect(Object.keys(TRICKY).sort()).toEqual([
-      "a","be","bush","do","find","for","go","has","he","hold","i","into","is","me","my","no","of",
-      "old","out","push","said","she","so","the","there","they","to","was","wash","we","what","you",
+      "a","be","bush","come","do","find","for","go","has","he","hold","i","into","is","love","me","my","no","of",
+      "old","out","push","said","she","so","some","the","there","they","to","was","wash","we","what","you",
     ]);
     /* "and" is the one heart word with no note, because it bends nothing —
        pinned so a note cannot arrive for it without a person deciding, and
@@ -662,10 +666,15 @@ describe("voice packs", () => {
        made the engine ASK for two sounds it had never asked for, which is
        what let ship-sounds.py move them out of the approved-and-unshipped
        backlog. Re-counted from the pack, never from voiceScript(). */
-    expect(script.length).toBe(778);                       // 6 fixed + 17 praise + 494 words + 210 sentences + 3 invitations + "Pronounced:" + 47 sounds - 2026-08-20 evening, second rise: anchor, chorus and school joined by their Greek-ch bends (the owner's teach-the-exception ruling); their 6-7-tile siblings wait for conversion and the tile-row law's re-derivation
-    expect(script.filter((c) => c.id.startsWith("w:")).length).toBe(494);
+    expect(script.length).toBe(782);                       // 6 fixed + 17 praise + 498 words + 210 sentences + 3 invitations + "Pronounced:" + 47 sounds - 2026-08-20 evening, third rise: come, some and love joined with the magic-e rule (tricky-marked, o bent to the u of up) and have joined with them (its bend states its own short a so the rule cannot say haiv); d:silent adds NO sound because it is the absence of a demand, excluded from the inventory by design
+    expect(script.filter((c) => c.id.startsWith("w:")).length).toBe(498);
     expect(script.filter((c) => c.id.startsWith("d:")).length).toBe(47);
-    expect(new Set(script.map((c) => c.id)).size).toBe(778);
+    expect(new Set(script.map((c) => c.id)).size).toBe(782);
+    /* The magic-e rule's silent marker must never become a clip to render:
+       no script row, no inventory entry (S8 keeps its SLOT in soundIdsFor;
+       the audio consumers skip it). */
+    expect(script.some((c) => c.id === "d:silent")).toBe(false);
+    expect(soundInventory().includes("d:silent")).toBe(false);
     expect(script.find((c) => c.id === "s:was").text).toBe("The word was");
     expect(script.find((c) => c.id === "l:wrong").text).toBe("Let’s try again.");
     expect(script.find((c) => c.id === "p:0").text).toBe("Great job!");
@@ -728,7 +737,9 @@ describe("voice packs", () => {
     }
     for (const w of bankWords()) {
       expect(soundIdsFor(w).length).toBe(chunkWord(w).length);   // S8 — one tile, one sound
-      for (const id of soundIdsFor(w)) expect(inv.has(id)).toBe(true);
+      /* d:silent keeps its S8 slot and is the absence of a demand: every
+         other id must have a clip; silent must have NONE, asserted above. */
+      for (const id of soundIdsFor(w)) if (id !== "d:silent") expect(inv.has(id)).toBe(true);
     }
   });
   it("the plural s splits by voicing: dogs buzzes, cats hisses (Level 21's lesson)", () => {
@@ -758,7 +769,7 @@ describe("voice packs", () => {
     /* 478, not 476: `are` and `were` are named ONLY in WORD_SOUND, never
        in a level. inLevels stays 476 below, and that gap is now the whole
        point of this test rather than a coincidence it records. */
-    expect(words.length).toBe(494);
+    expect(words.length).toBe(498);
     expect([...new Set(words)].length).toBe(words.length);       // no duplicates
     expect([...words].sort()).toEqual(words);                    // stable order
     const inLevels = new Set();
@@ -774,7 +785,7 @@ describe("voice packs", () => {
        LEVELS-only derivation look correct. `are` and `were` are the first
        two words the app names without seating them in a level. */
     expect(inLevels.size).toBe(476);
-    expect(words.length - inLevels.size).toBe(18);  // are were as dough though through rough tough enough cough month into find old hold anchor chorus school - named outside the levels
+    expect(words.length - inLevels.size).toBe(22);  // are were as dough though through rough tough enough cough month into find old hold anchor chorus school come some love have - named outside the levels
 
     /* Negative control. The old LEVELS-only derivation, run over a fixture
        where a word is named ONLY in a tricky note, must miss it — and the

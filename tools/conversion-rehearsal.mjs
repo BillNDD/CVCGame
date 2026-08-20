@@ -324,6 +324,14 @@ function probeTrays(E, found, where) {
     if (!pool.ok) continue;
     if (l.words.length && !pool.value.length) found.no_value.push(`trayPool(${l.n}) is empty at a level that holds words`);
     for (const w of l.words) {
+      /* The class this feeds says "Build-it WOULD DEAL a tile" - so a word
+         Build-it refuses cannot produce a finding here. buildable() went
+         two-part on 2026-08-20 (a magic-e word's silent tile plays nothing,
+         the dead-control fault), and probing refused words counted 42 tray
+         findings for tiles no child can ever tap. A control below proves
+         both halves: a refused silent-e word is not counted, and a buildable
+         word with a clipless sound still is. */
+      if (E.buildable && !E.buildable(w)) continue;
       /* rand is held still so the rehearsal is reproducible; buildTray takes
          it as a parameter for exactly this reason. */
       const t = call(found, `buildTray("${w}", ${l.n})`, () => E.buildTray(w, l.n, () => 0.5));
@@ -651,6 +659,26 @@ async function selfTest() {
     const red = await rehearse(ctl.plant(fixtureInput(real)));
     T(`RED   ${ctl.name} -> ${ctl.cls} fires`, red.counts[ctl.cls] > 0);
     T(`GREEN ${ctl.name} -> ${ctl.cls} is silent without it`, clean.counts[ctl.cls] === 0);
+  }
+
+  /* THE BUILDABLE HALF OF THE TRAY CLASS, 2026-08-20. The class says
+     "Build-it WOULD DEAL a tile", and buildable() went two-part when the
+     magic-e rule landed: a silent-e word's e tile plays nothing, so Build-it
+     refuses the word. The pair here proves the probe skips exactly what
+     Build-it skips and nothing more: come's silent tile raises no tray
+     finding, and the same word is still a bank word every other class sees -
+     strip its word clip and word_no_clip fires. Without the second half, the
+     skip could quietly widen into dropping the word from the rehearsal. */
+  {
+    const planted = fixtureInput(real);
+    planted.levels = [{ ...planted.levels[0], words: [...planted.levels[0].words, "come"] },
+      ...planted.levels.slice(1)];
+    const r1 = await rehearse({ ...planted,
+      manifest: without(planted.manifest, "d:silent"), pending: without(planted.pending, "d:silent") });
+    T("a silent-e word Build-it refuses raises no tray finding", r1.counts.tray_no_clip === 0);
+    const r2 = await rehearse({ ...planted,
+      manifest: without(planted.manifest, "w:come"), pending: without(planted.pending, "come") });
+    T("the refused word is still a bank word every other class sees", r2.counts.word_no_clip > 0);
   }
 
   /* THE AGGREGATE CEILING, owner-ruled 2026-08-20. Its whole value is that a

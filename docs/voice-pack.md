@@ -233,7 +233,7 @@ byte-pinned word rather than replacing accepted audio with a render.
   sidecar workspace archive on the owner's PC
   (handoff `word-quest-uplift-handoff-2026-08-07T1438Z`).
 
-## Approved and unshipped: 938 items still in the waiting room (through 2026-08-20)
+## Approved and unshipped: 934 items still in the waiting room (through 2026-08-20)
 
 **The move-bill repairs landed 2026-08-20 evening** - the eleven texts the seven seat
 moves invalidated were reworded, re-rendered and put to the owner on one page: ten

@@ -161,6 +161,14 @@ describe("Build-it's loop", () => {
     expect(silent).toBe(0);
     /* the control: an id the pack does not hold must be seen as silent */
     expect(shipped.has("d:ou")).toBe(false);
+    /* The magic-e words (2026-08-20): their silent e is a tile that plays
+       nothing, so buildable() refuses them until the owner rules Build-it's
+       silent-e treatment - asserted here so the refusal is a stated fact and
+       the loop above cannot pass by silently skipping them. */
+    expect(buildable("come")).toBe(false);
+    expect(buildable("some")).toBe(false);
+    expect(buildable("love")).toBe(true);   // its ve absorbs the e - no silent tile, builds fine
+    expect(buildable("have")).toBe(true);
   });
 
   it("6: a word whose sound repeats can still be built", async () => {

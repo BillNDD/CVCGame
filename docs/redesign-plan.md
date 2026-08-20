@@ -161,9 +161,28 @@ the vowel says its name and the e is silent).
 tile resolves into an unmapped. namespace no pack contains, the 30 fallback
 passengers became stated TILE_SOUND rows, and the exposed ow is held by two
 owner-ruled ceilings (sound 15, tray 211) until the conversion seat rule;
-(e) the silent-e mechanism with controls; (f) build --write in
+(e) DONE 2026-08-20: the MAGIC-E RULE, the owner's own words as code -
+"the vowel takes on its letter sound and the e is silent" - two shapes
+(bare final e goes d:silent keeping its S8 slot; a final ce/ge/se/ve/ze
+tile absorbs the e), measured over all 49 candidates: 45 right by rule,
+four exceptions bent (come/some/love short u, have its own short a),
+come/some/love tricky-marked and all four shipped (bank 498). Every audio
+consumer skips d:silent; Build-it refuses a silent-tile word until the
+owner rules its tray treatment (recorded beside his magic-e-game idea);
+comes still waits on the four-tile law. (f) build --write in
 tools/convert-ladder.mjs (the splice/reversibility machinery to reuse is in
-tools/conversion-rehearsal.mjs); (g) re-derive the test literals by hand;
+tools/conversion-rehearsal.mjs) - AND the owner's lexicon ruling, 2026-08-20
+tonight: the conversion's word-sound truth becomes ONE CSV, every word that
+will ever be TILED (ladder, hearts, bank, and every sentence and paragraph
+word), one row each with its full decomposition, read as two rows (present
+and past). His reasoning, which the lead endorses: the vocabulary is CLOSED
+and small (~1,000), so a rule's power to generalise buys nothing, and a row
+a person can read beats an interaction a person must reason about - tonight's
+ow collision and the ve discovery are the evidence. The rules and bends
+built so far become the CSV's first-pass GENERATOR, a read-only phonics
+expert reviews every row and reports errors, and after that audit the CSV
+is canonical input to --write. TILE_SOUND stays for tray-tile defaults
+(a tray tile is a letter out of word context); (g) re-derive the test literals by hand;
 (h) G27 to zero BREAKS; (h2) the SEVEN UI NOVELTIES as beta-cadence gates,
 owner-ruled 2026-08-20 from the UXSWEEP document ("make these genuine
 novelties part of gates... check with every beta and ignore rest"): the

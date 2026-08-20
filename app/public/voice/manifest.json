@@ -2763,6 +2763,7 @@
    "chum": 1,
    "clap": 0.8,
    "cod": 0.82,
+   "come": 0.7,
    "cop": 0.82,
    "cot": 1,
    "cough": 0.7,
@@ -2905,6 +2906,7 @@
    "long": 1,
    "loss": 1,
    "lot": 0.82,
+   "love": 0.7,
    "luck": 1,
    "lug": 1,
    "lung": 0.82,
@@ -3040,6 +3042,7 @@
    "sob": 1,
    "sock": 1,
    "soft": 1.05,
+   "some": 0.75,
    "song": 0.82,
    "spot": 0.8,
    "stop": 0.95,
@@ -5251,6 +5254,12 @@
   "ms": 1008,
   "tail": 308
  },
+ "w:come": {
+  "file": "w-come.mp3",
+  "lead": 130,
+  "ms": 912,
+  "tail": 312
+ },
  "w:cop": {
   "file": "w-cop.mp3",
   "lead": 170,
@@ -5761,6 +5770,12 @@
   "ms": 936,
   "tail": 316
  },
+ "w:have": {
+  "file": "w-have.mp3",
+  "lead": 120,
+  "ms": 936,
+  "tail": 326
+ },
  "w:he": {
   "file": "w-he.mp3",
   "lead": 130,
@@ -6234,6 +6249,12 @@
   "lead": 200,
   "ms": 1056,
   "tail": 326
+ },
+ "w:love": {
+  "file": "w-love.mp3",
+  "lead": 120,
+  "ms": 960,
+  "tail": 310
  },
  "w:luck": {
   "file": "w-luck.mp3",
@@ -7188,6 +7209,12 @@
   "lead": 120,
   "ms": 1008,
   "tail": 308
+ },
+ "w:some": {
+  "file": "w-some.mp3",
+  "lead": 140,
+  "ms": 984,
+  "tail": 324
  },
  "w:song": {
   "file": "w-song.mp3",

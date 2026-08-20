@@ -8,7 +8,7 @@ Per-test rows carry the test's own sentence, which in this project IS the
 Given/When/Then effect. The requirement, oracle, platform, mutant family, evidence
 and known limits are declared per FILE, in the tool, where they stay true.
 
-Totals: 349 it() SITES across 16 files, plus 18 gates that are not test files.
+Totals: 353 it() SITES across 16 files, plus 18 gates that are not test files.
 
 A site inside a loop or a table runs many times, so these rows describe more tests than they number: Vitest executes 330. The rows count the places behaviour is asserted.
 
@@ -60,7 +60,7 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 12 | Build-a-sound, for a child still on the ladder | 11: no tile is silent, and none is a letter the rung has not reached |
 | 13 | Build-a-sound, for a child still on the ladder | 12: finding the sound wins, and a wrong tile invites another try |
 
-## tests/chunker.test.js — 7 tests (G1)
+## tests/chunker.test.js — 11 tests (G1)
 
 - **Requirement protected:** SPEC sections 3-4 and safety rule S8: the seventy-two multi-letter units the chunker fuses, the position rules that keep a syllable ending off the front of a word, and the proof that widening the roster re-tiled nothing already shipped
 - **Independent oracle:** Literal rosters re-derived from tools/ladder/shape-v3.json's `new` fields, literal tilings written from what each spelling says, and a literal tile-count histogram over the whole bank (E4)
@@ -79,6 +79,10 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 5 | the extended code | keeps the silent-letter pairs to the ends they belong to |
 | 6 | the extended code | no word in the bank re-tiles, and the row still caps at four |
 | 7 | the extended code | leaves a split vowel as letters, because a tile row must spell the word |
+| 8 | the extended code | sounds the magic e: the vowel says its name and the e says nothing |
+| 9 | the extended code | lets a bend outrank the rule, which is how come, some, love and have stay honest |
+| 10 | the extended code | does not fire where the shape is absent - the controls (E5) |
+| 11 | the extended code | keeps d:silent out of every audio path while S8 keeps its slot |
 
 ## tests/engine.test.js — 112 tests (G1)
 
@@ -99,7 +103,7 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 5 | word bank | has 476 unique words across 21 levels |
 | 6 | word bank | starts with the ten VC words, then Level 1 |
 | 7 | word bank | maps every word to its level |
-| 8 | word bank | flags the thirty-two tricky words — the originals, the heart notes, i, seating pass two |
+| 8 | word bank | flags the thirty-five tricky words — the originals, the heart notes, i, seating pass two |
 | 9 | word bank | keeps every word inside what the tile row can hold: 4 units at most, 5 letters at most |
 | 10 | chunkWord and dashed | fuses every digraph |
 | 11 | chunkWord and dashed | splits VC and plain CVC words |

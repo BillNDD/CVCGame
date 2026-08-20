@@ -251,6 +251,9 @@ const TRICKY = {
   find: "Tricky word! The i says its name — fynd.",
   old: "Tricky word! The o says its name — ohld.",
   hold: "Tricky word! The o says its name — hohld.",
+  come: "Tricky word! The o sounds like “uh” — kum.",
+  some: "Tricky word! The o sounds like “uh” — sum.",
+  love: "Tricky word! The o sounds like “uh” — luv.",
   was: "Tricky word! The a sounds like \u201Cuh\u201D \u2014 wuz.",
   is: "Tricky word! The s sounds like \u201Cz\u201D \u2014 iz.",
   has: "Tricky word! The s sounds like \u201Cz\u201D \u2014 haz.",
@@ -1093,6 +1096,19 @@ const WORD_SOUND = {
   enough: { 2: "uf" },
   cough: { 1: "off" },
   month: { 1: "short_u" },
+  /* The magic-e rule's four measured exceptions, 2026-08-20. come, some and
+     love keep the short u the owner ruled ("come love some marked tricky" -
+     their o says the u of up despite the e), and their tricky notes live in
+     TRICKY. have keeps its short a - the bend states the sound it already
+     had, and exists so the rule cannot reach it: h-a-ve is exactly the shape
+     that fires, and unbent it would say "haiv". comes is NOT here: at five
+     tiles it waits on the four-tile law with stomach and machine, exactly as
+     the conversion plan records. A bend outranks the rule tile by tile, so
+     come's e still goes silent by rule while its o bends. */
+  come: { 1: "short_u" },
+  some: { 1: "short_u" },
+  love: { 1: "short_u" },
+  have: { 1: "short_a" },
   /* The Greek ch words the owner ruled to stay and teach the exception
      (2026-08-20: "the ch acts as a k. Leave in and teach the exception").
      Only the three that tile at four or fewer bend TODAY: a bend pulls its
@@ -1210,10 +1226,39 @@ const SOUND_TEXT = {
   uf: "the sound at the end of rough",
   off: "the sound at the end of cough",
 };
+/* THE MAGIC-E RULE, owner-stated 2026-08-20: "when a word ends in e and has a
+   vowel before it, that vowel takes on its letter sound and the e is silent...
+   spite. trite. kite... bite. line." Two shapes carry it. A word ending in a
+   bare e tile after a consonant (c-a-k-e) sounds its vowel's name and the e
+   goes SILENT - the tile keeps its slot (S8: one tile, one sound) and its
+   sound is d:silent, which every audio consumer skips. A word ending in one
+   of the e-absorbed consonant tiles ce ge se ve ze (g-a-ve, th-e-se) sounds
+   its vowel's name with no silent tile at all, the e living inside the final
+   consonant's own tile. Measured over all 49 candidate words in the ladder,
+   the hearts and the bank: 45 read correctly by this rule alone; the four
+   that do not - come, some, love, have - carry WORD_SOUND rows below, and a
+   bend always outranks the rule, tile by tile. */
+const VCE_VOWEL = { a: "long_a", e: "long_e", i: "long_i", o: "long_o", u: "long_u" };
+const E_ABSORBED = ["ce", "ge", "se", "ve", "ze"];
+function magicE(tiles) {
+  const n = tiles.length;
+  if (n >= 3 && tiles[n - 1] === "e" && !VCE_VOWEL[tiles[n - 2]] && VCE_VOWEL[tiles[n - 3]])
+    return { vowelAt: n - 3, silentAt: n - 1 };
+  if (n >= 2 && E_ABSORBED.includes(tiles[n - 1]) && VCE_VOWEL[tiles[n - 2]])
+    return { vowelAt: n - 2, silentAt: -1 };
+  return null;
+}
 /* The sound each of a word's tiles speaks, in order. */
 function soundIdsFor(word) {
   const bent = WORD_SOUND[word] || {};
-  return chunkWord(word).map((g, i) => (bent[i] ? "d:" + bent[i] : soundIdFor(g)));
+  const tiles = chunkWord(word);
+  const m = magicE(tiles);
+  return tiles.map((g, i) => {
+    if (bent[i]) return "d:" + bent[i];
+    if (m && i === m.silentAt) return "d:silent";
+    if (m && i === m.vowelAt) return "d:" + VCE_VOWEL[g];
+    return soundIdFor(g);
+  });
 }
 /* Every sound the bank's tiles can ask for, derived from the bank rather than
    listed by hand, so a new word can never outrun its sounds. */
@@ -1332,7 +1377,9 @@ function bankWords() {
 }
 function soundInventory() {
   const ids = new Set();
-  for (const w of bankWords()) for (const id of soundIdsFor(w)) ids.add(id);
+  /* d:silent is the absence of a demand, never a clip to ship: a silent tile
+     keeps its slot in soundIdsFor (S8) and every audio consumer skips it. */
+  for (const w of bankWords()) for (const id of soundIdsFor(w)) if (id !== "d:silent") ids.add(id);
   return [...ids].sort();
 }
 const VOICE_SENTENCES = {
@@ -1468,7 +1515,9 @@ function voiceScript() {
 function clipPlan(kind, word, praise) {
   const soundOut = (lead) => {
     const out = [lead, "seam2", "w:" + word, "seam2", "s:pronounced"];
-    for (const id of soundIdsFor(word)) out.push("seam2", id);
+    /* A silent tile gets NO moment in the choreography: no seam, no clip.
+       The reveal steps over the magic e the way a reader's voice does. */
+    for (const id of soundIdsFor(word)) if (id !== "d:silent") out.push("seam2", id);
     out.push("seam2", "w:" + word);
     return out;
   };
@@ -1603,7 +1652,16 @@ const trayForbidden = (tiles, slots) => NEVER_BUILD.some((w) => traySpells(tiles
 /* A word whose OWN tiles spell a forbidden one cannot be made safe by choosing
    distractors, so it is not offered at all. Measured over the bank: exactly one,
    sift, which is an anagram of fist. */
-const buildable = (word) => !trayForbidden(chunkWord(word), chunkWord(word).length);
+/* A word is buildable when its tray spells nothing forbidden AND every tile
+   has a sound to tap. A magic-e word fails the second half: its silent e is a
+   tile that plays nothing, and a control that looks live and does nothing is
+   the dead-control fault Build-it must never deal (test 5b owns the proof).
+   What Build-it SHOULD do with a silent e - tap its letter default, show it
+   ghosted, link it to its vowel - is the owner's design call, recorded with
+   his own magic-e-game idea for the next beta; until he rules, these words
+   read and reveal but do not build. */
+const buildable = (word) => !trayForbidden(chunkWord(word), chunkWord(word).length)
+  && !soundIdsFor(word).includes("d:silent");
 /* Every grapheme a child has met at or below this level. Drawn from the bank
    itself, so a word added to a level brings its graphemes with it. */
 function trayPool(level) {
