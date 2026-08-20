@@ -91,6 +91,11 @@ export const GOVERNING = [
   "tools/ladder/ladder-v4.json",
   "tools/ladder/word-bill.json",
   "tools/ladder/corpus-harvest.json",
+  /* decade-names.json: the ten names the owner approved on 2026-08-19, all as
+     drafted, after ruling "numbered levels and names for each decade". It is a
+     governing file because it is CHILD-FACING COPY - a level's name and emoji
+     come from it - and the conversion generator refuses to write without it. */
+  "tools/ladder/decade-names.json",
   "tools/corpus/sources.json",
   /* The excision ledger, added 2026-08-19 with nine more books. It is the third
      of the three signals that keep a screened corpus honest - the filename says

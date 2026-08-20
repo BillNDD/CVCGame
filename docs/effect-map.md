@@ -162,7 +162,7 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 68 | voice packs | covers every grapheme the whole bank can produce |
 | 69 | voice packs | the plural s splits by voicing: dogs buzzes, cats hisses (Level 21 |
 | 70 | voice packs | bankWords covers every word the app names, not only the levels |
-| 71 | voice packs | no word uses ai or ou without a decided sound |
+| 71 | voice packs | ai and ou say what their levels teach, and the heart words still bend |
 | 72 | voice packs | gives every tricky word its true sounds, not its letters |
 | 73 | voice packs | sounds out every heart word the way the owner heard it |
 | 74 | voice packs | splits th into its two sounds, across every th word in the bank |

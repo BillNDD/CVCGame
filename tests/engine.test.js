@@ -702,16 +702,17 @@ describe("voice packs", () => {
        "v", "w", "wh", "wr", "x", "y", "z", "zz"]);
     const named = [...graphemes].filter((g) => soundIdFor(g) !== "d:" + g).sort();
     const fallback = [...graphemes].filter((g) => soundIdFor(g) === "d:" + g).sort();
+    /* "ai" and "ou" moved to the NAMED side on 2026-08-19: "The levels'
+       teaching becomes the default" (owner, decades-and-rulings page). The
+       2026-08-12 ruling that neither had a default was made when no level
+       taught either; level 58 now teaches ai as long a and level 77 teaches
+       ou as the /ow/ of out. said and you keep their per-word bends, proved
+       below. Both literals re-derived by hand from the ruling, not read off
+       TILE_SOUND (E4). */
     expect(named).toEqual(
-      ["a", "c", "ck", "e", "ff", "i", "kn", "ll", "mb", "o", "ss", "th", "u", "wh", "wr", "zz"]);
-    /* "ai" and "ou" arrived on 2026-08-12 for "said" and "you" and sit on the
-       FALLBACK side deliberately, which is the one place in this roster where
-       that is not a decision but a deferral — so it gets its own guard below.
-       Neither has a ruled default sound. In the wider language "ai" says long a
-       (rain, wait) and "ou" says the /aʊ/ of out, which the pack does not hold
-       at all. Both words that use them bend them per-word instead. */
+      ["a", "ai", "c", "ck", "e", "ff", "i", "kn", "ll", "mb", "o", "ou", "ss", "th", "u", "wh", "wr", "zz"]);
     expect(fallback).toEqual(
-      ["ai", "b", "ch", "d", "ere", "ey", "f", "g", "h", "j", "k", "l", "m", "n", "ng", "or", "ou", "p", "qu", "r", "s",
+      ["b", "ch", "d", "ere", "ey", "f", "g", "h", "j", "k", "l", "m", "n", "ng", "or", "p", "qu", "r", "s",
        "sh", "t", "v", "w", "x", "y", "z"]);
     const inv = new Set(soundInventory());
     /* Every grapheme's DEFAULT sound must exist — except the two that have no
@@ -719,7 +720,7 @@ describe("voice packs", () => {
        loosening the loop keeps the exception countable, and the test above
        ("no word uses ai or ou without a decided sound") is what makes the
        exception safe: the moment a word uses one unbent, that test fails. */
-    const NO_DEFAULT_YET = ["ai", "ou", "ey", "ere"];   // or ships its true default
+    const NO_DEFAULT_YET = ["ey", "ere"];   // ai and ou ruled 2026-08-19; or ships its true default
     for (const g of graphemes) {
       if (NO_DEFAULT_YET.includes(g)) { expect(inv.has(soundIdFor(g))).toBe(false); continue; }
       expect(inv.has(soundIdFor(g))).toBe(true);
@@ -793,26 +794,28 @@ describe("voice packs", () => {
      same shape as th: a default nobody decided, producing audio anyway.
      The guard exists because the roster test above records "ai" and "ou" as
      deferred rather than decided, and a deferral with no guard is just a hole. */
-  it("no word uses ai or ou without a decided sound", () => {
-    const UNRULED = ["ai", "ou"];
+  it("ai and ou say what their levels teach, and the heart words still bend", () => {
+    /* Owner-ruled 2026-08-19: "The levels' teaching becomes the default" -
+       ai says the long a level 58 teaches, ou the /ow/ of out level 77
+       teaches. This SUPERSEDES the 2026-08-12 no-default ruling this test
+       used to enforce, which was made when no level taught either unit. What
+       must stay true forever: the two heart words that bend keep winning
+       over the defaults, or "said" reads as "sayed" and "you" as "yow". */
     const inv = new Set(soundInventory());
-    const offenders = [];
-    for (const w of bankWords()) {
-      const tiles = chunkWord(w), ids = soundIdsFor(w);
-      tiles.forEach((g, i) => {
-        if (UNRULED.includes(g) && ids[i] === "d:" + g) offenders.push(w + ":" + g);
-      });
-    }
-    expect(offenders).toEqual([]);
-    // and neither unruled id is in the inventory, so nothing can be asking for one
-    for (const g of UNRULED) expect(inv.has("d:" + g)).toBe(false);
-    /* Control: the check must catch a word that uses one unbent. "rain" is not
-       in the bank; if it were, with no WORD_SOUND entry, it would ask for
-       d:ai. Built from the same two functions the loop above uses. */
-    const rainTiles = chunkWord("rain"), rainIds = soundIdsFor("rain");
-    expect(rainTiles).toEqual(["r", "ai", "n"]);
-    expect(rainIds[1]).toBe("d:ai");                 // exactly the fault, on a word not in the bank
-    expect(inv.has(rainIds[1])).toBe(false);         // and no clip for it
+    expect(soundIdFor("ai")).toBe("d:long_a");
+    expect(soundIdFor("ou")).toBe("d:ow");
+    expect(inv.has("d:long_a")).toBe(true);
+    expect(inv.has("d:ow")).toBe(true);
+    /* the bends win: literal expected values, spoken sound by sound */
+    expect(soundIdsFor("said")).toEqual(["d:s", "d:short_e", "d:d"]);
+    expect(soundIdsFor("you")).toEqual(["d:y", "d:oo_moon"]);
+    /* Control: a word with NO bend gets the level's default - "rain" is not
+       in the bank, has no WORD_SOUND row, and must sound out r / long a / n.
+       Under the old ruling this exact call produced d:ai with no clip; that
+       fault shape is what the supersession retires. */
+    expect(chunkWord("rain")).toEqual(["r", "ai", "n"]);
+    expect(soundIdsFor("rain")).toEqual(["d:r", "d:long_a", "d:n"]);
+    expect(soundIdsFor("rain").every((id) => inv.has(id))).toBe(true);
   });
 
   /* Owner-ruled 2026-08-06, docs/settled.md: "the bent letter plays its TRUE

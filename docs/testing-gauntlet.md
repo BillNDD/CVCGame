@@ -65,7 +65,7 @@ and re-exported against that module. Then the real functions run over every leve
 engine does would pass while the engine failed. Only the data changes; the splice is proved
 reversible byte-for-byte before it is used, and the substitution is checked after import.
 
-**The finding classes** are `g27_classes` (15), each with a ceiling that only comes down
+**The finding classes** are `g27_classes` (16), each with a ceiling that only comes down
 (E6). A count above its ceiling is red. A count below prints the number to lower the ceiling
 to. A class with no ceiling at all is red — `count > undefined` is false, which is how a
 ceiling silently stops existing. A finding class the ledger does not know is red, and that
@@ -75,12 +75,13 @@ is the clause that catches the eighth fault nobody has thought of yet.
 |---|---|---|
 | BREAKS | `g27_throws_max` (0) | a real function threw on what the ladder produces |
 | BREAKS | `g27_no_value_max` (0) | a real function returned nothing where a value is required |
-| BREAKS | `g27_sound_no_clip_max` (16) | a tile unit resolves to a sound id in no pack and no waiting room |
-| BREAKS | `g27_tray_no_clip_max` (233) | Build-it would deal a tile whose sound has no clip |
-| BREAKS | `g27_word_no_clip_max` (95) | a bank word has no word clip anywhere |
+| BREAKS | `g27_sound_no_clip_max` (14) | a tile unit resolves to a sound id in no pack and no waiting room |
+| BREAKS | `g27_tray_no_clip_max` (208) | Build-it would deal a tile whose sound has no clip |
+| BREAKS | `g27_word_no_clip_max` (95) | a bank word has no word clip anywhere - REPORTS ONLY, held by the sum below |
 | BREAKS | `g27_sentence_no_clip_max` (0) | a placed text has no clip anywhere |
 | BREAKS | `g27_text_word_untaught_max` (1) | a placed text uses a word the ladder does not teach by that level |
-| BILL | `g27_clip_unshipped_max` (822) | approved, in the waiting room, not yet in the pack |
+| BILL | `g27_clip_unshipped_max` (822) | approved, in the waiting room, not yet in the pack - REPORTS ONLY, held by the sum below |
+| BREAKS | `g27_word_clips_missing_max` (917) | `word_no_clip` + `clip_unshipped` together. The two are one debt in two rooms, and approving a listening round moves a word from the first to the second - success, which under separate ceilings reddened the build while the total had not moved. Gating the sum cannot be satisfied by shuffling. Set to the measured 917, which is what the gate's own nudge asked for: the owner first instructed 1050 for headroom and then withdrew it the same minute - "go with 917 don't delay the issue". A ceiling with slack in it is a ceiling that stops catching drift. |
 | DEGRADED | `g27_empty_sentence_pool_max` (0) | a level whose free-play sentence pool is empty |
 | DEGRADED | `g27_session_reveal_silent_max` (20) | the level teaches no word in its own text, so the sound-out is skipped |
 | DEGRADED | `g27_unseated_bank_word_max` (26) | a bank word truly-random can never draw |
@@ -934,7 +935,7 @@ happened to read the output.
   halves repository language is the tree talking, one stranger half is a person. The
   stated residue: someone named entirely in repository words is skipped here, exactly as
   each half already was by the single-word layers.
-- Keys: `g24_files` (266), `g24_controls` (47), `g24_vocab` (184), `g24_common` (888),
+- Keys: `g24_files` (266), `g24_controls` (47), `g24_vocab` (185), `g24_common` (888),
   `g24_common` moved 889 to 888 on 2026-08-19, owner-ruled on the `Hope` precedent of
   2026-08-16: **Joy** is an ordinary English word that is also a given name, and it
   appears in a listening round's carrier phrase. The alternative was rewording a record

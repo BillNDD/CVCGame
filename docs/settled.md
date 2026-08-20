@@ -100,6 +100,30 @@ section 12a already says fluency comes from the volume of reading a grown-up
 supplies. That is where a love of reading is built, months before a child can
 decode a page of it alone.
 
+## ai and ou get their default sounds from the levels that teach them (owner-ruled 2026-08-19)
+
+On 2026-08-12 the owner ruled that `ai` and `ou` were tiling units with NO
+default sound - every word using one bent per word - and a test enforced it.
+That ruling was right for its day: no level taught either unit, so any default
+would have been a sound nobody decided, the open-faults section B shape.
+
+The hundred-level ladder changed the ground: level 58 teaches ai as the long a
+of rain, and level 77 teaches ou as the /aw/ of out, as their level subjects.
+Put to the owner with both rulings side by side, he ruled: **"The levels'
+teaching becomes the default."**
+
+So `ai` says long a and `ou` says /ow/ wherever no per-word bend says
+otherwise, and the two heart words that bend - said and you - keep their bends,
+which win over the defaults exactly as they always did. The enforcing test now
+proves the NEW ruling: the defaults resolve to shipped clips, said still sounds
+out s / short-e / d, you still sounds out y / oo, and the control word rain -
+not in the bank, no bend - sounds out r / long-a / n, where under the old
+ruling that exact call produced an id with no clip behind it.
+
+Recorded here because it SUPERSEDES a settled ruling rather than filling a
+gap, and CLAUDE.md S8 carries both rulings with both dates so a reader who
+meets the old one in history knows which won and why.
+
 ## A representation flag is a marker, not a verdict (owner-ruled 2026-08-19)
 
 The widened screen flagged the bear-and-piglet stories for having a single

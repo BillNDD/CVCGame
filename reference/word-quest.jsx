@@ -900,12 +900,15 @@ const TILE_SOUND = {
   /* The extended code's single-sound units, owner-accepted 2026-08-19 (R9 of
      the forensic audit). Each mapping is read off tools/ladder/shape-v3.json,
      where the unit is taught with exactly ONE sound, and every target id has a
-     shipped clip. ai and ou are DELIBERATELY absent: owner-ruled 2026-08-12,
-     neither has a default sound and every word using one bends per word - a
-     test enforces that, and the ladder teaching ai=long_a at level 58 is a
-     tension for the owner to rule on, not for this table to resolve. The six
-     spellings taught with TWO sounds (ea ey ie oo ear ere) are also absent -
-     they bend per word the same way. */
+     shipped clip. ai and ou carry the sounds their levels teach - owner-ruled
+     2026-08-19, "The levels' teaching becomes the default", superseding the
+     2026-08-12 ruling that neither had one. That first ruling was made when no
+     level taught either unit; level 58 now teaches ai as long a and level 77
+     teaches ou as the /ow/ of out. The heart words that bend (said, you) keep
+     their per-word bends, which win over these defaults exactly as before.
+     The six spellings taught with TWO sounds (ea ey ie oo ear ere) stay
+     absent - they bend per word. */
+  ai: "long_a", ou: "ow",
   ay: "long_a", eigh: "long_a",
   ee: "long_e",
   igh: "long_i",

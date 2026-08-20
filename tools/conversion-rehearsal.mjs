@@ -87,14 +87,35 @@ export const CLASSES = [
     what: "Build-it would deal a tile whose sound has no clip anywhere",
     act: "same root as sound_no_clip; counted separately because a child taps this one" },
   { id: "word_no_clip", key: "g27_word_no_clip_max", tier: "BREAKS",
+    partOf: "word_clips_missing",
     what: "a bank word has no word clip in the pack and none waiting",
     act: "record it, or take the word out of the ladder" },
   { id: "sentence_no_clip", key: "g27_sentence_no_clip_max", tier: "BREAKS",
     what: "a placed sentence has no clip in the pack and none waiting",
     act: "record it; a sentence has no system-speech fallback (SPEC section 12)" },
   { id: "clip_unshipped", key: "g27_clip_unshipped_max", tier: "BILL",
+    partOf: "word_clips_missing",
     what: "the clip is approved and in the waiting room, and has not shipped into the pack",
     act: "a ship step, not a recording session: the pack build, then the ledger row" },
+  /* THE AGGREGATE, owner-ruled 2026-08-20 after an audit found the build red for
+     the best possible reason. word_no_clip and clip_unshipped are the same debt in
+     two rooms: a word with no voice at all, and a word whose voice is recorded and
+     approved but not yet in the pack. Approving a listening round MOVES words from
+     the first room to the second - which is the work succeeding - and under two
+     separate ceilings that success reddened the build while the total had not
+     moved by one (95 + 822 = 917 before, 2 + 915 = 917 after).
+     Gating the SUM is the honest measure, and it cannot be satisfied by shuffling a
+     word between the rooms. Both parts still REPORT at their own tiers, because a
+     word with no recording at all is a different job from a word awaiting a ship
+     step, and the owner needs to see which is which.
+     The ceiling is 1050 rather than the measured 917 at the owner's explicit
+     instruction, to leave headroom while the remaining recording rounds land. His
+     words: "After we are done and run a full gauntlet return it to 917 or whatever
+     it needs to be to catch drift." That tightening is open-faults section X. */
+  { id: "word_clips_missing", key: "g27_word_clips_missing_max", tier: "BREAKS",
+    sumOf: ["word_no_clip", "clip_unshipped"],
+    what: "bank words whose clip is missing or not yet shipped, counted together",
+    act: "record the missing ones, then ship the waiting ones; moving a word between the two does not help" },
   { id: "empty_sentence_pool", key: "g27_empty_sentence_pool_max", tier: "DEGRADED",
     what: "sentencesUpTo returns an empty pool, so sentence free play has nothing to deal",
     act: "place a text at or below that level; until then the caller needs a guard" },
@@ -442,13 +463,29 @@ export function gate(counts, baseline) {
   if (CLASSES.length < baseline.g27_classes)
     problems.push(`${CLASSES.length} finding classes against a floor of ${baseline.g27_classes} (g27_classes): a probe was removed`);
   for (const c of CLASSES) {
+    /* A class that is PART of an aggregate is not ceilinged on its own - the
+       aggregate holds it. But it is only safe to skip the check if the aggregate
+       actually exists and actually gates, or the part would be silently
+       unguarded, which is the shape of every fault this file exists to catch. */
+    if (c.partOf) {
+      const agg = CLASSES.find((x) => x.id === c.partOf);
+      if (!agg) { problems.push(`${c.id} names aggregate ${c.partOf}, which is not a class: the part is unguarded`); continue; }
+      if (!(agg.key in baseline)) { problems.push(`${c.id} is held by ${agg.id}, which has no ceiling in ${BASELINE}: the part is unguarded`); continue; }
+      if (!(agg.sumOf || []).includes(c.id)) { problems.push(`${c.id} names aggregate ${agg.id}, which does not sum it: the part is unguarded`); continue; }
+      continue;
+    }
     if (!(c.key in baseline)) { problems.push(`${c.id} has no ceiling: add ${c.key} to ${BASELINE} or the class is unguarded`); continue; }
-    const max = baseline[c.key], n = counts[c.id];
+    const max = baseline[c.key];
+    const n = c.sumOf ? c.sumOf.reduce((a, id) => a + (counts[id] || 0), 0) : counts[c.id];
     if (n > max) problems.push(`${c.id}: ${n} findings against a ceiling of ${max} (${c.key}) - ${c.what}`);
     else if (n < max) nudges.push(`${c.id}: ${n} findings, ceiling ${max} - lower ${c.key} to ${n}`);
   }
   for (const id of Object.keys(counts))
     if (!CLASSES.some((c) => c.id === id)) problems.push(`${id} is a finding class with no entry in CLASSES; the ledger does not know it`);
+  /* And the mirror: an aggregate that sums a class nobody produces is measuring air. */
+  for (const c of CLASSES)
+    for (const part of c.sumOf || [])
+      if (!CLASSES.some((x) => x.id === part)) problems.push(`${c.id} sums ${part}, which is not a class`);
   return { problems, nudges };
 }
 
@@ -609,6 +646,40 @@ async function selfTest() {
     const red = await rehearse(ctl.plant(fixtureInput(real)));
     T(`RED   ${ctl.name} -> ${ctl.cls} fires`, red.counts[ctl.cls] > 0);
     T(`GREEN ${ctl.name} -> ${ctl.cls} is silent without it`, clean.counts[ctl.cls] === 0);
+  }
+
+  /* THE AGGREGATE CEILING, owner-ruled 2026-08-20. Its whole value is that a
+     word moving between the two rooms cannot change the verdict, so every
+     control below tests that property rather than the arithmetic. A gate that
+     only proved 917 <= 917 would pass on an implementation that read one class
+     and ignored the other. */
+  {
+    const zero = Object.fromEntries(CLASSES.filter((c) => !c.sumOf).map((c) => [c.id, 0]));
+    const wide = Object.fromEntries(CLASSES.map((c) => [c.key, 9999]));
+    const base = { ...wide, g27_classes: CLASSES.length, g27_word_clips_missing_max: 100 };
+    const at = (a, b) => gate({ ...zero, word_no_clip: a, clip_unshipped: b }, base).problems
+      .filter((x) => x.startsWith("word_clips_missing:"));
+    T("GREEN the sum at the ceiling passes", at(40, 60).length === 0);
+    T("RED   the sum one over the ceiling fails", at(40, 61).length === 1);
+    /* The property that made the owner choose this design over raising a
+       ceiling: approving a listening round moves a word from no-clip to
+       waiting, and that must be invisible to the gate. */
+    T("SHUFFLE moving every word between the two rooms changes nothing",
+      at(100, 0).length === at(0, 100).length && at(50, 50).length === at(0, 100).length);
+    /* And the mirror: the parts must NOT be individually ceilinged any more, or
+       the aggregate is decoration over the fault it was built to remove. */
+    T("a part over its own old ceiling does not fail on its own",
+      gate({ ...zero, word_no_clip: 0, clip_unshipped: 95 },
+        { ...base, g27_clip_unshipped_max: 1 }).problems.filter((x) => x.startsWith("clip_unshipped:")).length === 0);
+    /* Unguarded-part controls: each way a part could silently lose its cover. */
+    T("a part whose aggregate has no ceiling is reported as unguarded",
+      gate({ ...zero, word_no_clip: 1, clip_unshipped: 1 },
+        Object.fromEntries(Object.entries(base).filter(([k]) => k !== "g27_word_clips_missing_max")))
+        .problems.some((x) => x.includes("has no ceiling") && x.includes("unguarded")));
+    /* Control on the control: with everything present, none of those fire. */
+    T("control: a whole and healthy ledger reports no unguarded part",
+      gate({ ...zero, word_no_clip: 1, clip_unshipped: 1 }, base)
+        .problems.filter((x) => x.includes("unguarded")).length === 0);
   }
 
   /* The substitution controls. A rehearsal that quietly tested today's ladder

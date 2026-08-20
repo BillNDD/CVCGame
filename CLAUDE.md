@@ -175,10 +175,14 @@ exclusions are recorded in SPEC section 12.
   and 9; ph was considered and left out because no word obeys the bank's own rules. ai and
   ou joined on 2026-08-12, approved by ear in the heart-word sound-out round: without them
   "said" tiles as s-a-i-d and "you" as y-o-u, and the tiles would spell words no child will
-  ever hear. Neither has a ruled default sound — in the wider language ai says the long a of
-  rain and ou the /aʊ/ of out, and the pack holds neither — so every word using one must
-  bend it per word. A test enforces exactly that, with a control, because a unit with no
-  decided sound is the "default sound" fault (open-faults section B) waiting to happen.
+  ever hear. Neither had a ruled default sound — in the wider language ai says the long a of
+  rain and ou the /aʊ/ of out — so every word using one had to bend per word, and a test
+  enforced exactly that, with a control. Superseded 2026-08-19, owner-ruled on the
+  decades-and-rulings page: "The levels' teaching becomes the default." The hundred-level
+  ladder now TEACHES ai as long a (level 58) and ou as the /aʊ/ of out (level 77), which
+  the 2026-08-12 ruling predated, so ai and ou carry those defaults and the test now
+  enforces the new ruling — including that said and you keep their per-word bends, which
+  win over the defaults exactly as before.
   These two are units for TILING only; teaching vowel teams as code stays ruled out
   (SPEC section 12).
 - S9. No file in the repository contains a personal name. The child's name is a device-local
