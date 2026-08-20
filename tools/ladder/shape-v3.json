@@ -13,7 +13,7 @@
   "teaches": "swapping one sound",
   "new": "",
   "heart": [
-   "I"
+   "i"
   ],
   "build": "sat to sit to sip to tip",
   "text": "1 sentence, 2 words",
@@ -870,7 +870,11 @@
   "n": 92,
   "teaches": "the ough family",
   "new": "ough=aw",
-  "heart": [],
+  "heart": [
+   "dough",
+   "though",
+   "through"
+  ],
   "build": "",
   "text": "paragraph, 9 sentences",
   "rule": null

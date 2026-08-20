@@ -56,15 +56,25 @@ const NAMES_PATH = "tools/ladder/decade-names.json";
 const names = existsSync(path.join(REPO, NAMES_PATH)) ? R(NAMES_PATH) : null;
 const decadeOf = (n) => String(Math.ceil(n / 10));
 
+/* THE ONE SEAT-MERGE. Exported because tools/conversion-rehearsal.mjs must
+   rehearse the exact levels this tool will write - the independent audit's B3
+   found the rehearsal testing 990 seats while this file built 1,014, the
+   two-models fault inside the gate built to stop it. Hearts first, then the
+   taught words in the ladder's own order; a heart also seated as a taught
+   word keeps its taught seat only. */
+export function seatWords(lad, sh) {
+  const heart = ((sh && sh.heart) || []).filter(Boolean);
+  return [...heart.filter((h) => !lad.words.includes(h)), ...lad.words];
+}
+
+const IS_MAIN = process.argv[1] && import.meta.url === (await import("node:url")).pathToFileURL(process.argv[1]).href;
+
 /* ---- LEVELS ---------------------------------------------------------- */
 const problems = [];
 const levels = [];
 for (const lad of ladder) {
   const sh = shape.find((s) => s.n === lad.n);
-  const heart = (sh.heart || []).filter(Boolean);
-  /* hearts first, then the taught words in the ladder's own order; a heart
-     word also seated as a taught word keeps its taught seat only. */
-  const words = [...heart.filter((h) => !lad.words.includes(h)), ...lad.words];
+  const words = seatWords(lad, sh);
   const nm = names && names[decadeOf(lad.n)];
   if (!nm) problems.push(`decade ${decadeOf(lad.n)} (level ${lad.n}) has no entry in ${NAMES_PATH}`);
   levels.push({
@@ -103,9 +113,9 @@ if (problems.length > 3) console.log(`  ... and ${problems.length - 3} more of t
 
 const DRY = !process.argv.includes("--write");
 const OUT = process.env.CONVERT_OUT || HERE;
-writeFileSync(path.join(OUT, "draft-levels.json"), JSON.stringify(levels, null, 1) + "\n");
-writeFileSync(path.join(OUT, "draft-sentences.json"), JSON.stringify(sentences, null, 1) + "\n");
-console.log(DRY
+if (IS_MAIN) writeFileSync(path.join(OUT, "draft-levels.json"), JSON.stringify(levels, null, 1) + "\n");
+if (IS_MAIN) writeFileSync(path.join(OUT, "draft-sentences.json"), JSON.stringify(sentences, null, 1) + "\n");
+if (IS_MAIN) console.log(DRY
   ? `Dry run: draft-levels.json and draft-sentences.json written to ${OUT}; the reference is untouched.`
   : problems.length
     ? "REFUSED to write: the problems above must be closed first."

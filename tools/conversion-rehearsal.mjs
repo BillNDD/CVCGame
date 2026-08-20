@@ -58,6 +58,7 @@
         node tools/conversion-rehearsal.mjs --check     the gate
         node tools/conversion-rehearsal.mjs --self-test its controls */
 import { execFileSync } from "node:child_process";
+import { seatWords } from "./convert-ladder.mjs";
 import { readFileSync, writeFileSync, mkdtempSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
@@ -160,12 +161,16 @@ const without = (o, k) => { const c = { ...o }; delete c[k]; return c; };
    need owner-ruled names, which is a different job (open-faults R). */
 export function levelsFrom(ladder, shape) {
   const by = new Map((shape || []).map((s) => [s.n, s]));
+  /* seatWords is the CONVERTER'S OWN merge, imported rather than re-modelled:
+     the audit's B3 found this function building 990 seats while the converter
+     built 1,014 with hearts inline, so 24 heart words were never rehearsed by
+     the only gate guarding the conversion. One function, one literal. */
   return ladder.map((l) => ({
     n: l.n,
     name: "L" + l.n,
     emoji: "⭐",
     focus: (by.get(l.n) || {}).teaches || l.teaches || "",
-    words: l.words || [],
+    words: seatWords({ words: l.words || [] }, by.get(l.n)),
   }));
 }
 

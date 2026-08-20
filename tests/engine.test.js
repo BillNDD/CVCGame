@@ -657,10 +657,10 @@ describe("voice packs", () => {
        made the engine ASK for two sounds it had never asked for, which is
        what let ship-sounds.py move them out of the approved-and-unshipped
        backlog. Re-counted from the pack, never from voiceScript(). */
-    expect(script.length).toBe(761);                       // 6 fixed + 17 praise + 479 words + 210 sentences + 3 invitations + "Pronounced:" + 45 sounds - `as` joined 2026-08-20 with its /z/ bend
-    expect(script.filter((c) => c.id.startsWith("w:")).length).toBe(479);
+    expect(script.length).toBe(765);                       // 6 fixed + 17 praise + 483 words + 210 sentences + 3 invitations + "Pronounced:" + 45 sounds - as, then dough/though/through/month, all 2026-08-20 bends
+    expect(script.filter((c) => c.id.startsWith("w:")).length).toBe(483);
     expect(script.filter((c) => c.id.startsWith("d:")).length).toBe(45);
-    expect(new Set(script.map((c) => c.id)).size).toBe(761);
+    expect(new Set(script.map((c) => c.id)).size).toBe(765);
     expect(script.find((c) => c.id === "s:was").text).toBe("The word was");
     expect(script.find((c) => c.id === "l:wrong").text).toBe("Let’s try again.");
     expect(script.find((c) => c.id === "p:0").text).toBe("Great job!");
@@ -757,7 +757,7 @@ describe("voice packs", () => {
     /* 478, not 476: `are` and `were` are named ONLY in WORD_SOUND, never
        in a level. inLevels stays 476 below, and that gap is now the whole
        point of this test rather than a coincidence it records. */
-    expect(words.length).toBe(479);
+    expect(words.length).toBe(483);
     expect([...new Set(words)].length).toBe(words.length);       // no duplicates
     expect([...words].sort()).toEqual(words);                    // stable order
     const inLevels = new Set();
@@ -773,7 +773,7 @@ describe("voice packs", () => {
        LEVELS-only derivation look correct. `are` and `were` are the first
        two words the app names without seating them in a level. */
     expect(inLevels.size).toBe(476);
-    expect(words.length - inLevels.size).toBe(3);   // are, were, as - each named only in WORD_SOUND
+    expect(words.length - inLevels.size).toBe(7);   // are, were, as, dough, though, through, month - named only in WORD_SOUND
 
     /* Negative control. The old LEVELS-only derivation, run over a fixture
        where a word is named ONLY in a tricky note, must miss it — and the

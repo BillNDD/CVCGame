@@ -2786,6 +2786,7 @@
    "dogs": 0.8,
    "doll": 0.82,
    "dot": 0.82,
+   "dough": 0.75,
    "drop": 0.8,
    "drum": 0.8,
    "duck": 0.82,
@@ -2919,6 +2920,7 @@
    "mix": 0.82,
    "mob": 1,
    "mom": 0.82,
+   "month": 0.7,
    "mop": 0.82,
    "moth": 0.82,
    "much": 1,
@@ -3055,6 +3057,8 @@
    "thin": 0.82,
    "think": 0.8,
    "this": 0.82,
+   "though": 0.7,
+   "through": 0.7,
    "thud": 0.82,
    "thumb": 0.82,
    "tick": 0.82,
@@ -3623,7 +3627,11 @@
   "which": "1116551d2787df765092617e232a2a30c7bf58054feb0f612f5d98d478fe438a",
   "are": "b8efddf7f3b1f4da91ada4b3d8a685931aecc4cd0a06c0a62081734602792676",
   "were": "fafb91a4b392e1b0ef80c5beaeeaa2c6c1d0f79243579d05dffc4462ddb0b97c",
-  "as": "d543b25bb29483a69c2df4ddbb299e39aaf9e9f084464c99f00e6070a1a0b610"
+  "as": "d543b25bb29483a69c2df4ddbb299e39aaf9e9f084464c99f00e6070a1a0b610",
+  "dough": "99d67a42b643b0da8308723d1693acf8b1263659c277a11bf78cbc9d98ae97a1",
+  "month": "133e2aafd976fc109c666a2d97dfaca5798d2b73e2ef5b903ee9c3f1b69f470a",
+  "though": "02e65cf88b4e3576f7aa6120874705810423cae278a421c580581bea558c6926",
+  "through": "3fb26afdaef567112f7259639fd1cfb319874cb577d928f589cb774b6263e996"
  },
  "words": {
   "am": {
@@ -6978,6 +6986,34 @@
    "round": "batch 20 / 2026-08-17",
    "listen_context": "clip",
    "byte_pin_sha256": "d543b25bb29483a69c2df4ddbb299e39aaf9e9f084464c99f00e6070a1a0b610"
+  },
+  "dough": {
+   "verdict": "perfect",
+   "ear_notes": "owner perfect dough_5; family listen_sp0.75; recipe in the batch renderer, not in these columns; unseated: the bank names it, no level holds it yet",
+   "round": "batch 21 round 4 / 2026-08-18",
+   "listen_context": "clip",
+   "byte_pin_sha256": "99d67a42b643b0da8308723d1693acf8b1263659c277a11bf78cbc9d98ae97a1"
+  },
+  "month": {
+   "verdict": "perfect",
+   "ear_notes": "owner perfect month_1; family say_sp0.7; recipe in the batch renderer, not in these columns; unseated: the bank names it, no level holds it yet",
+   "round": "R1 round 2 / 2026-08-19",
+   "listen_context": "clip",
+   "byte_pin_sha256": "133e2aafd976fc109c666a2d97dfaca5798d2b73e2ef5b903ee9c3f1b69f470a"
+  },
+  "though": {
+   "verdict": "perfect",
+   "ear_notes": "owner perfect though_s2; family pair2_sp0.7; recipe in the batch renderer, not in these columns; unseated: the bank names it, no level holds it yet",
+   "round": "batch 21 round rescue2 / 2026-08-18",
+   "listen_context": "clip",
+   "byte_pin_sha256": "02e65cf88b4e3576f7aa6120874705810423cae278a421c580581bea558c6926"
+  },
+  "through": {
+   "verdict": "perfect",
+   "ear_notes": "owner perfect through_1; family listen_sp0.7; recipe in the batch renderer, not in these columns; unseated: the bank names it, no level holds it yet",
+   "round": "batch 21 round 14 / 2026-08-18",
+   "listen_context": "clip",
+   "byte_pin_sha256": "3fb26afdaef567112f7259639fd1cfb319874cb577d928f589cb774b6263e996"
   }
  },
  "environment": {

@@ -233,7 +233,7 @@ byte-pinned word rather than replacing accepted audio with a render.
   sidecar workspace archive on the owner's PC
   (handoff `word-quest-uplift-handoff-2026-08-07T1438Z`).
 
-## Approved and unshipped: 950 items still in the waiting room (through 2026-08-20)
+## Approved and unshipped: 946 items still in the waiting room (through 2026-08-20)
 
 **The 95 bill words closed 94 of 95 in two rounds, same day (2026-08-19)** - the words
 the owner's 107-word level bill created that morning. Round 1 took 48 of 48; round 2 took

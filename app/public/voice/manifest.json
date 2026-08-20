@@ -2784,6 +2784,7 @@
    "dogs": 0.8,
    "doll": 0.82,
    "dot": 0.82,
+   "dough": 0.75,
    "drop": 0.8,
    "drum": 0.8,
    "duck": 0.82,
@@ -2917,6 +2918,7 @@
    "mix": 0.82,
    "mob": 1,
    "mom": 0.82,
+   "month": 0.7,
    "mop": 0.82,
    "moth": 0.82,
    "much": 1,
@@ -3053,6 +3055,8 @@
    "thin": 0.82,
    "think": 0.8,
    "this": 0.82,
+   "though": 0.7,
+   "through": 0.7,
    "thud": 0.82,
    "thumb": 0.82,
    "tick": 0.82,
@@ -5386,6 +5390,12 @@
   "ms": 1008,
   "tail": 308
  },
+ "w:dough": {
+  "file": "w-dough.mp3",
+  "lead": 130,
+  "ms": 912,
+  "tail": 312
+ },
  "w:drop": {
   "file": "w-drop.mp3",
   "lead": 120,
@@ -6309,6 +6319,12 @@
   "lead": 120,
   "ms": 860,
   "tail": 362
+ },
+ "w:month": {
+  "file": "w-month.mp3",
+  "lead": 120,
+  "ms": 912,
+  "tail": 322
  },
  "w:mop": {
   "file": "w-mop.mp3",
@@ -7281,6 +7297,18 @@
   "lead": 130,
   "ms": 1032,
   "tail": 322
+ },
+ "w:though": {
+  "file": "w-though.mp3",
+  "lead": 120,
+  "ms": 1128,
+  "tail": 318
+ },
+ "w:through": {
+  "file": "w-through.mp3",
+  "lead": 140,
+  "ms": 1080,
+  "tail": 320
  },
  "w:thud": {
   "file": "w-thud.mp3",

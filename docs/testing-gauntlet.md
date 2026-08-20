@@ -76,15 +76,15 @@ is the clause that catches the eighth fault nobody has thought of yet.
 | BREAKS | `g27_throws_max` (0) | a real function threw on what the ladder produces |
 | BREAKS | `g27_no_value_max` (0) | a real function returned nothing where a value is required |
 | BREAKS | `g27_sound_no_clip_max` (14) | a tile unit resolves to a sound id in no pack and no waiting room |
-| BREAKS | `g27_tray_no_clip_max` (208) | Build-it would deal a tile whose sound has no clip |
+| BREAKS | `g27_tray_no_clip_max` (198) | Build-it would deal a tile whose sound has no clip |
 | BREAKS | `g27_word_no_clip_max` (95) | a bank word has no word clip anywhere - REPORTS ONLY, held by the sum below |
 | BREAKS | `g27_sentence_no_clip_max` (0) | a placed text has no clip anywhere |
 | BREAKS | `g27_text_word_untaught_max` (1) | a placed text uses a word the ladder does not teach by that level |
 | BILL | `g27_clip_unshipped_max` (822) | approved, in the waiting room, not yet in the pack - REPORTS ONLY, held by the sum below |
-| BREAKS | `g27_word_clips_missing_max` (917) | `word_no_clip` + `clip_unshipped` together. The two are one debt in two rooms, and approving a listening round moves a word from the first to the second - success, which under separate ceilings reddened the build while the total had not moved. Gating the sum cannot be satisfied by shuffling. Set to the measured 917, which is what the gate's own nudge asked for: the owner first instructed 1050 for headroom and then withdrew it the same minute - "go with 917 don't delay the issue". A ceiling with slack in it is a ceiling that stops catching drift. |
+| BREAKS | `g27_word_clips_missing_max` (913) | `word_no_clip` + `clip_unshipped` together. The two are one debt in two rooms, and approving a listening round moves a word from the first to the second - success, which under separate ceilings reddened the build while the total had not moved. Gating the sum cannot be satisfied by shuffling. Set to the measured 917, which is what the gate's own nudge asked for: the owner first instructed 1050 for headroom and then withdrew it the same minute - "go with 917 don't delay the issue". A ceiling with slack in it is a ceiling that stops catching drift. |
 | DEGRADED | `g27_empty_sentence_pool_max` (0) | a level whose free-play sentence pool is empty |
-| DEGRADED | `g27_session_reveal_silent_max` (20) | the level teaches no word in its own text, so the sound-out is skipped |
-| DEGRADED | `g27_unseated_bank_word_max` (26) | a bank word truly-random can never draw |
+| DEGRADED | `g27_session_reveal_silent_max` (13) | the level teaches no word in its own text, so the sound-out is skipped |
+| DEGRADED | `g27_unseated_bank_word_max` (3) | a bank word truly-random can never draw |
 | DEGRADED | `g27_short_session_max` (99) | a first session shorter than `SESSION_SIZE` |
 | DEGRADED | `g27_no_block_building_max` (100) | the level never exceeds `SESSION_SIZE`, so the block IS the level |
 | DEGRADED | `g27_paragraph_reveal_max` (143) | a multi-sentence text gets one sound-out word for the whole paragraph |

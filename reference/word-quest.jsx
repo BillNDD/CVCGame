@@ -1040,6 +1040,18 @@ const WORD_SOUND = {
      should be taught. Found by the read-only phonics review, certainty
      "certain", the only fault in all 478 shipped bank words. */
   as: { 1: "z" },
+  /* The ough hearts, owner-ruled 2026-08-20: level 92's lesson keeps only the
+     five -ought words that obey it; dough, though and through are taught by
+     sight with true audio. Each bends its single ough tile to the sound the
+     word actually says - long o, long o, and the oo of moon. rough, tough,
+     enough and cough are NOT here: their ough carries TWO sounds in one tile
+     (/uf/, /off/), which no single clip can play - that mechanism gap is on
+     the owner's page. month, phonics-reviewed the same day: its o says the u
+     of up, like come and some, and its four tiles carry four real sounds. */
+  dough: { 1: "long_o" },
+  though: { 0: "th_this", 1: "long_o" },   // the buzzy th - the report listed it and the first draft of this row missed it
+  through: { 2: "oo_moon" },
+  month: { 1: "short_u" },
   is: { 1: "z" }, has: { 2: "z" },
   /* The plural s that buzzes. After a voiced ending the plural s says /z/ —
      dogz, not dogss — which is Level 21's whole lesson (owner-ruled

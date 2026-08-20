@@ -135,7 +135,9 @@ describe("the extended code", () => {
   it("no word in the bank re-tiles, and the row still caps at four", () => {
     const by = {};
     for (const w of bankWords()) { const n = chunkWord(w).length; by[n] = (by[n] || 0) + 1; }
-    expect(by).toEqual({ 1: 3, 2: 32, 3: 344, 4: 100 }  /* 2026-08-20: 2-tile rose by one - `as`
+    expect(by).toEqual({ 1: 3, 2: 34, 3: 345, 4: 101 }  /* 2026-08-20 again: dough and though (2
+       tiles), through (3) and month (4) joined bankWords() as ough-heart and
+       tricky bends from the owner's phonics rulings. Re-counted from the bank. */  /* 2026-08-20: 2-tile rose by one - `as`
        joined bankWords() when its s was bent to /z/ (the is/his/has row it
        never got), and `as` tiles a-s. Re-counted from the bank. */  /* 2026-08-19: 1 and 2 each rose by one.
        `are` (1 tile) and `were` (2 tiles) joined bankWords() when the owner
