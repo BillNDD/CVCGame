@@ -187,8 +187,28 @@ export const SCREENED_2026_08_16 = [
    is why its read stands recorded here beside the batch reads. A second
    batch-4 submission later said "ok" for the old id; the owner then approved
    the replacement, which settles that the refusal stood. Batch 2 (levels
-   25-50, 69 read): 69 ok. Batch 3 (levels 50-77, 69 read): 69 ok. */
+   25-50, 69 read): 69 ok. Batch 3 (levels 50-77, 69 read): 69 ok. Batch 1
+   (levels 1-25, 69 read): 69 ok - THE READ SCREEN IS COMPLETE: every text in
+   the waiting room has been read by the owner. */
 export const SCREENED_2026_08_20_V3_AWAITING_SEAT = [
+  "s:v3-l01-01", "s:v3-l02-01", "s:v3-l02-02", "s:v3-l03-01",
+  "s:v3-l03-02", "s:v3-l04-01", "s:v3-l04-02", "s:v3-l05-01",
+  "s:v3-l05-02", "s:v3-l05-51", "s:v3-l05-52", "s:v3-l05-53",
+  "s:v3-l05-54", "s:v3-l06-01", "s:v3-l06-02", "s:v3-l06-03",
+  "s:v3-l06-04", "s:v3-l07-01", "s:v3-l07-02", "s:v3-l08-01",
+  "s:v3-l08-02", "s:v3-l09-01", "s:v3-l09-02", "s:v3-l10-01",
+  "s:v3-l10-02", "s:v3-l10-51", "s:v3-l10-52", "s:v3-l10-53",
+  "s:v3-l10-54", "s:v3-l10-55", "s:v3-l10-56", "s:v3-l11-01",
+  "s:v3-l11-02", "s:v3-l11-51", "s:v3-l12-01", "s:v3-l12-02",
+  "s:v3-l13-01", "s:v3-l13-02", "s:v3-l13-51", "s:v3-l14-01",
+  "s:v3-l14-02", "s:v3-l15-01", "s:v3-l15-02", "s:v3-l16-01",
+  "s:v3-l16-02", "s:v3-l17-02", "s:v3-l17-03", "s:v3-l17-51",
+  "s:v3-l17-52", "s:v3-l17-53", "s:v3-l18-01", "s:v3-l18-02",
+  "s:v3-l18-51", "s:v3-l19-01", "s:v3-l19-02", "s:v3-l20-01",
+  "s:v3-l20-02", "s:v3-l20-51", "s:v3-l21-01", "s:v3-l21-02",
+  "s:v3-l22-01", "s:v3-l22-02", "s:v3-l23-01", "s:v3-l23-02",
+  "s:v3-l23-03", "s:v3-l23-51", "s:v3-l24-01", "s:v3-l24-02",
+  "s:v3-l25-01",
   "s:v3-l25-02", "s:v3-l25-51", "s:v3-l25-52", "s:v3-l26-01",
   "s:v3-l26-02", "s:v3-l26-51", "s:v3-l27-01", "s:v3-l27-02",
   "s:v3-l27-51", "s:v3-l27-52", "s:v3-l27-53", "s:v3-l28-01",
