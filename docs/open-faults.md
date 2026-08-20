@@ -1404,6 +1404,16 @@ ladder the graft exists to argue against.
 
 ## G. Ideas worth trying that nobody has tried
 
+- **A rules-and-exceptions practice game (owner, 2026-08-20, for the next
+  beta).** His words: "we should also have these rules and exceptions as a
+  game kids can play. Magic e. All those type of special cases so they can
+  practice them." The day's phonics rulings are the natural syllabus: the
+  magic-e pattern (spite, trite, kite, bite, line - his own examples), soft c
+  and g by the letter that follows, ch's Greek /k/ words taught AS the
+  exception, the -ought family, and the marked tricky words (come, love,
+  some, month). The rulings and their word lists are already in the ladder
+  and WORD_SOUND, so the game's content exists the day the mechanism does.
+
 Owner-instructed 2026-08-12. Unlike every section above, these are **not** faults and not
 rulings: they are approaches that looked promising in conversation and would otherwise be
 lost the next time a context is condensed. An idea leaves this section by being tried, and
