@@ -738,5 +738,43 @@
    "verdict": "other: l-a-ugh with ugh being just the existing f sound - new one-use tile ugh",
    "note": "rules out both offered options; the lexicon tiles and sounds columns carry it whole, the writer emits the per-word tile row and the f bend, nothing records"
   }
+ ],
+ "adjudication / 2026-08-20": [
+  {
+   "id": "very",
+   "verdict": "air - v air long_e",
+   "note": "both reviewers; the air of there"
+  },
+  {
+   "id": "pronounced",
+   "verdict": "keep short_o",
+   "note": "owner kept the draft against the likely-tier dispute"
+  },
+  {
+   "id": "use",
+   "verdict": "keep the noun s",
+   "note": "zero texts constrain it"
+  },
+  {
+   "id": "anchor",
+   "verdict": "align anchor to n",
+   "note": "joins the ten spelling-faithful n-before-k words; live bend edited"
+  },
+  {
+   "id": "away",
+   "verdict": "align away to short_a",
+   "note": "joins the twelve of the unstressed-a convention"
+  },
+  {
+   "id": "nineteen",
+   "verdict": "absorb at review levels past the soft cap",
+   "note": "the fill overflow rule widens with a control"
+  },
+  {
+   "id": "read",
+   "verdict": "accept read_1",
+   "arm": "pack_red_reuse",
+   "note": "the pack red clip reused as the past tense of level 69; the superseded /reed/ take is the present-tense record"
+  }
  ]
 }

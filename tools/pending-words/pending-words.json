@@ -8519,13 +8519,15 @@
   "level": "unseated - ladder redesign"
  },
  "read": {
-  "arm": "read_f3",
-  "family": "listen_sp0.8",
+  "arm": "read_1",
+  "family": "pack_red_reuse",
   "ms": 810,
-  "sha256": "6bc8d55f544a9961e64cc064d020eec879f6f82cd49dd20ea6463d112201e291",
-  "round": "batch 21 round final / 2026-08-18",
+  "sha256": "38fba7adecec288f25ca2425e195da4044a97d5f5eee5d6b5c8c29a742e6b256",
+  "round": "adjudication / 2026-08-20",
   "verdict": "perfect",
-  "level": "unseated - ladder redesign"
+  "supersedes_sha256": "6bc8d55f544a9961e64cc064d020eec879f6f82cd49dd20ea6463d112201e291",
+  "level": "unseated - ladder redesign",
+  "ear_note": "the past tense of level 69, owner-accepted as the pack red clip reused - identical spoken form; the superseded take is the PRESENT-tense record (owner ear, cutover page)"
  },
  "reader": {
   "arm": "reader_f1",

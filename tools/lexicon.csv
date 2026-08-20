@@ -9,7 +9,7 @@ alphabet,91,a-l-ph-a-b-e-t,short_a l f short_a b short_e t,engine engine engine 
 am,5,a-m,short_a m,engine engine,bank+seat+text,
 amused,,a-m-u-s-e-d,short_a m long_u z silent d,expert expert expert expert expert expert,text,
 an,1,a-n,short_a n,engine engine,bank+seat+text,
-anchor,94,a-n-ch-or,short_a ng k er,engine engine engine engine,bank+seat+text,open-syllable candidate at 72+ - expert decides the vowel
+anchor,94,a-n-ch-or,short_a n k er,owner owner owner owner,bank+seat+text,open-syllable candidate at 72+ - expert decides the vowel; adjudicated 2026-08-20: n joins the ten spelling-faithful n-before-k words
 ancient,95,a-n-ci-e-n-t,long_a n sh short_e n t,expert expert expert expert expert expert,seat+text,open-syllable candidate at 72+ - expert decides the vowel
 and,8,a-n-d,short_a n d,engine engine engine,bank+seat+text,
 animal,13,a-n-i-m-a-l,short_a n short_i m short_a l,engine engine engine engine engine engine,seat,
@@ -25,7 +25,7 @@ ask,16,a-s-k,short_a s k,engine engine engine,bank+seat+text,
 asked,43,a-s-k-e-d,short_a s k silent t,expert expert expert expert expert,seat+text,"the -ed of level 43: voiceless stem, e silent, d says t"
 at,1,a-t,short_a t,engine engine,bank+seat+text,
 ate,57,a-t-e,long_a t silent,engine engine engine,seat+text,
-away,82,a-w-ay,schwa w long_a,expert expert expert,seat+text,tiling corrected: aw must not eat the sounded w
+away,82,a-w-ay,short_a w long_a,owner owner owner,seat+text,tiling corrected: aw must not eat the sounded w; adjudicated 2026-08-20: short_a joins the twelve of the unstressed-a convention
 awful,98,aw-f-u-l,aw f short_u l,engine engine engine engine,seat,
 ax,18,a-x,short_a x,engine engine,bank+seat+text,
 babies,63,b-a-b-ie-s,b long_a b long_e z,expert expert expert expert expert,seat,
@@ -693,7 +693,7 @@ princess,87,p-r-i-n-c-e-ss,p r short_i n s short_e s,engine engine engine engine
 print,35,p-r-i-n-t,p r short_i n t,engine engine engine engine engine,seat,
 printed,71,p-r-i-n-t-e-d,p r short_i n t short_e d,engine engine engine engine engine engine engine,seat+text,
 printer,71,p-r-i-n-t-er,p r short_i n t er,engine engine engine engine engine engine,seat,
-pronounced,,p-r-o-n-ou-n-c-e-d,p r short_o n ow n s silent t,expert expert expert expert expert expert expert expert expert,text,"the -ed of level 43: voiceless stem, e silent, d says t"
+pronounced,,p-r-o-n-ou-n-c-e-d,p r short_o n ow n s silent t,expert expert expert expert expert expert expert expert expert,text,"the -ed of level 43: voiceless stem, e silent, d says t; adjudicated 2026-08-20: short_o KEPT by the owner against the likely-tier dispute"
 proud,77,p-r-ou-d,p r ow d,engine engine engine engine,seat,
 pup,50,p-u-p,p short_u p,engine engine engine,bank+seat+text,
 puppet,49,p-u-pp-e-t,p short_u p short_e t,engine engine engine engine engine,seat+text,
@@ -970,12 +970,12 @@ unhappy,60,u-n-h-a-pp-y,short_u n h short_a p long_e,engine engine engine engine
 unlock,50,u-n-l-o-ck,short_u n l short_o k,engine engine engine engine engine,seat+text,
 up,14,u-p,short_u p,engine engine,bank+seat+text,
 us,20,u-s,short_u s,engine engine,bank+seat+text,
-use,76,u-se,long_u s,engine engine,seat,
+use,76,u-se,long_u s,engine engine,seat,adjudicated 2026-08-20: the noun s KEPT; zero texts constrain it
 useful,98,u-s-e-f-u-l,long_u s silent f short_u l,expert expert expert expert expert expert,seat+text,open-syllable candidate at 72+ - expert decides the vowel
 valley,63,v-al-l-ey,v short_a l long_e,expert expert expert expert,seat+text,
 van,16,v-a-n,v short_a n,engine engine engine,bank+seat+text,
 vat,16,v-a-t,v short_a t,engine engine engine,bank+seat,
-very,51,v-er-y,v er long_e,expert expert expert,seat+text,
+very,51,v-er-y,v air long_e,owner owner owner,seat+text,"adjudicated 2026-08-20: the air of there, both reviewers"
 waffle,48,w-a-ff-le,w short_o f l,expert expert expert expert,seat,
 walk,86,w-al-k,w aw k,engine engine engine,seat,
 walked,86,w-al-k-e-d,w aw k silent t,expert expert expert expert expert,seat+text,"the -ed of level 43: voiceless stem, e silent, d says t"

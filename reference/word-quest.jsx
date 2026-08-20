@@ -1147,7 +1147,11 @@ const WORD_SOUND = {
      which its seat level cannot determine and the bare-oo fallback id would
      silently miss. chorus needs only the k - its or and u defaults are
      already the word's own sounds. */
-  anchor: { 1: "ng", 2: "k", 3: "er" },
+  /* anchor's n adjudicated 2026-08-20: it joins the ten spelling-faithful
+     n-before-k words (bank, think, monkey...) rather than standing alone on
+     the ng side - the owner's pick between the two policies both reviewers
+     surfaced. The blend supplies the /ng/ colour naturally. */
+  anchor: { 2: "k", 3: "er" },
   chorus: { 0: "k" },
   school: { 1: "k", 2: "oo_moon" },
   /* The hybrid ruling, owner 2026-08-20: of the eleven early-seated words,
