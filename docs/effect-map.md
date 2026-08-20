@@ -99,7 +99,7 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 5 | word bank | has 476 unique words across 21 levels |
 | 6 | word bank | starts with the ten VC words, then Level 1 |
 | 7 | word bank | maps every word to its level |
-| 8 | word bank | flags the twenty-eight tricky words — the originals, the heart notes of 2026-08-15, i, and seating pass two |
+| 8 | word bank | flags the thirty-two tricky words — the originals, the heart notes, i, seating pass two |
 | 9 | word bank | keeps every word inside what the tile row can hold: 4 units at most, 5 letters at most |
 | 10 | chunkWord and dashed | fuses every digraph |
 | 11 | chunkWord and dashed | splits VC and plain CVC words |

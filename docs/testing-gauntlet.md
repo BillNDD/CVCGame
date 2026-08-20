@@ -935,7 +935,7 @@ happened to read the output.
   halves repository language is the tree talking, one stranger half is a person. The
   stated residue: someone named entirely in repository words is skipped here, exactly as
   each half already was by the single-word layers.
-- Keys: `g24_files` (266), `g24_controls` (47), `g24_vocab` (185), `g24_common` (888),
+- Keys: `g24_files` (266), `g24_controls` (47), `g24_vocab` (186), `g24_common` (888),
   `g24_common` moved 889 to 888 on 2026-08-19, owner-ruled on the `Hope` precedent of
   2026-08-16: **Joy** is an ordinary English word that is also a given name, and it
   appears in a listening round's carrier phrase. The alternative was rewording a record

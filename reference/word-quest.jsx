@@ -247,6 +247,10 @@ const SENTENCES = {
 };
 
 const TRICKY = {
+  into: "Tricky word! The o sounds like “oo” — in-too.",
+  find: "Tricky word! The i says its name — fynd.",
+  old: "Tricky word! The o says its name — ohld.",
+  hold: "Tricky word! The o says its name — hohld.",
   was: "Tricky word! The a sounds like \u201Cuh\u201D \u2014 wuz.",
   is: "Tricky word! The s sounds like \u201Cz\u201D \u2014 iz.",
   has: "Tricky word! The s sounds like \u201Cz\u201D \u2014 haz.",
@@ -1052,6 +1056,16 @@ const WORD_SOUND = {
   though: { 0: "th_this", 1: "long_o" },   // the buzzy th - the report listed it and the first draft of this row missed it
   through: { 2: "oo_moon" },
   month: { 1: "short_u" },
+  /* The hybrid ruling, owner 2026-08-20: of the eleven early-seated words,
+     the five function words stay where children meet them constantly, marked
+     tricky with true-sound bends, and the six content words move to their
+     code levels instead. comes has no row here: its silent e blocks a
+     per-tile bend, so it joins come, love, some and live in the silent-e
+     batch and wears only the marking until that mechanism lands. */
+  into: { 3: "oo_moon" },
+  find: { 1: "long_i" },
+  old: { 0: "long_o" },
+  hold: { 1: "long_o" },
   is: { 1: "z" }, has: { 2: "z" },
   /* The plural s that buzzes. After a voiced ending the plural s says /z/ —
      dogz, not dogss — which is Level 21's whole lesson (owner-ruled
