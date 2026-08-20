@@ -82,6 +82,71 @@ to 822, on the precedent of the 295-word bill the owner ruled on 2026-08-18.
 12 owns the ruling itself, and `docs/open-faults.md` section V carries what
 those three earlier -ful words mean: -ful now has the fault -ly just lost.
 
+## Where the work stands - 2026-08-20 evening, written for the context handoff
+
+Every thread below is in flight this minute. A successor picks up HERE.
+
+**1. The move bill (owner-ruled: hybrid).** DONE and committed (fd1c239): into,
+find, old, hold seated-marked-bent-shipped; comes deferred to the silent-e
+batch. REMAINING, and these land as ONE commit so the every-text-after-its-words
+invariant never breaks between commits: (a) the ladder moves cold/gold/fold to
+68, over/tiger/tigers to 72, wallet to 55, and chef LEAVES level 94 entirely
+(owner: "You can leave chef out"); (b) the eleven repaired texts below replace
+their rows in tools/pending-words/pending-words.json, re-rendered and
+owner-approved by ear first (renders were running in the session scratchpad as
+sbatch18; if lost, re-render from these texts with tools/render_sbatch18.py);
+(c) a read-only literacy reviewer was checking these eleven for the drafting
+blind spots the owner keeps catching. ITS VERDICT IS IN and is folded into the list below:
+five of the lead's drafts were reworded (13-01 was word salad, 46-02 had a
+snapped causal spine, 67-01 used an adult idiom, 48-01 stuttered, 71-01's
+goats collided with the approved baby-goat text one level up - sheep now -
+and 94-02's fix above). Renders exist for the six KEEPs; the five rewords
+need re-rendering before the approval page. The reviewer also found a hole
+for the OWNER: with chef gone, level 94 claims ch says /k/ and /sh/ but
+holds ZERO /sh/ words anywhere in the ladder - narrow the level's teaching
+to ch=/k/, or bank a /sh/ word (machine is the classic). Undecided.
+
+The eleven, validated against the POST-move ladder (id, level, full text):
+- s:v3-l13-01 (13): Dad left the lid on the pot.
+- s:v3-l13-02 (13): Mom let me get the map.
+- s:v3-l46-02 (46): I am swimming at the pond. Dad is sitting on the bank. The sun went in, so I stopped. Mom got me a hot cup of milk. I am so glad!
+- s:v3-l52-02 (52): Mom hung the wet socks up to dry in the sun. Then the sky went black. I said, why not get them in? We did try, and we got every sock in fast. Mom said I was quick, and my socks are dry.
+- s:v3-l67-01 (67): Mom set a hot pie on the step. The sun was bright and high, and the pie was hot for a long time. Then the flies came, as they wanted the pie as well. I sat by the step and did my best to help. But every fly that went up came back. So Dad got a net and set it on top of the pie. The flies had to go, and we had the pie at sunset.
+- s:v3-l41-01 (41): I am having a muffin. A bit fell on the mat. The cat ran up. She got it fast!
+- s:v3-l48-01 (48): I wash the dish. A little bubble went up. It got to the middle of the den! Then - pop! Simple fun.
+- s:v3-l71-01 (71): It was a holiday, so we went to see the sheep. Every sheep was sleeping in the sun, and we needed them to get up. We sat on the grass and had an apple. Then a man came with a sack of dinner. The sheep got up so fast that my apple went in the mud. Mom said that was the best bit of the holiday. When we got home, I painted a sheep and we hung it up.
+- s:v3-l42-02 (42): Dad did not have his jacket at the shop. We went back to the van to find it. It was not in the van! Then Mom got it from the backpack, and Dad was so glad.
+- s:v3-l94-01 (94): unchanged except "the school chef had a long table" becomes "there was a long table".
+- s:v3-l94-02 (94): unchanged except "The chef gave me" becomes "The men gave me" - the six who raised the anchor; the reviewer refused "a kind man", an unnamed adult offering an unwell child food being stranger-danger phrasing verbatim, the "My dad can pat me." shape.
+
+**2. The uf and off cluster sounds (owner-ruled: record them, the x/qu
+precedent).** They are the /uf/ of rough-tough-enough and the /off/ of cough,
+one tile carrying two sounds. Bake method is tools/render_sounds13.py's,
+verbatim: phoneme carriers at speed 1.0, is_phonemes true, target LAST, cut by
+last energy island, the bake's polish. The four arms per sound - citation, citation at speed 0.85, trio with the target last, and
+continuation; the exact phoneme strings live in the session script
+render_sounds14.py, and the method note above re-derives them. The session ). Once the owner accepts a take per sound:
+d:uf and d:off ship, then rough/tough/enough bend their ough tile to uf and
+cough to off, and all four become the hearts his ough ruling made them.
+
+**3. Rulings enacted but not finished.** The ch ruling (Greek six stay and
+TEACH the exception, chef out) still owes the six their SECOND-vowel bends
+(anchor, stomach, chorus, mechanic, orchestra carry an uncorrected vowel each
+- the phonics review's list). come/love/some/live/comes await the SILENT-E
+mechanism - the one engineering piece that also unlocks every magic-e word's
+audio (cake, kite, bite, line; the owner's own rule: the vowel says its name
+and the e is silent).
+
+**4. The beta path from here, in order:** (a) land the move+repair commit;
+(b) uf/off round to the owner, ship, bend; (c) the Greek five's vowel bends;
+(d) the FAIL-LOUD fallback in soundIdFor - reviewer and lead already agree -
+which turns every unmapped tile from a wrong guess into a loud gate finding;
+(e) the silent-e mechanism with controls; (f) build --write in
+tools/convert-ladder.mjs (the splice/reversibility machinery to reuse is in
+tools/conversion-rehearsal.mjs); (g) re-derive the test literals by hand;
+(h) G27 to zero BREAKS; (i) the full gauntlet, then beta. The drift refactor
+(section 7b) runs after green, before that beta.
+
 ## Where this came from
 
 The owner ruled the **Sound Ladder with three grafts** (SPEC 12a) on 2026-08-17 after an
