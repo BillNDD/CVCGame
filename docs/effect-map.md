@@ -8,7 +8,7 @@ Per-test rows carry the test's own sentence, which in this project IS the
 Given/When/Then effect. The requirement, oracle, platform, mutant family, evidence
 and known limits are declared per FILE, in the tool, where they stay true.
 
-Totals: 369 it() SITES across 17 files, plus 18 gates that are not test files.
+Totals: 372 it() SITES across 17 files, plus 18 gates that are not test files.
 
 A site inside a loop or a table runs many times, so these rows describe more tests than they number: Vitest executes 330. The rows count the places behaviour is asserted.
 
@@ -34,7 +34,7 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 8 | G10 — the text a grown-up reads on the child | 27: one completed session counts as  |
 | 9 | G10 — the text a grown-up reads on the child | 28 (control): two sessions still count as  |
 
-## tests/buildit.test.js — 15 tests (G10)
+## tests/buildit.test.js — 17 tests (G10)
 
 - **Requirement protected:** SPEC section 12: Build-it writes nothing to the record, speaks the word before the tiles, and ends every attempt in success
 - **Independent oracle:** A source tripwire with fixture controls and a real-source mutation, plus a walked loop with a held tray
@@ -60,7 +60,9 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 12 | Build-a-sound, for a child still on the ladder | 11: no tile is silent, and none is a letter the rung has not reached |
 | 13 | Build-a-sound, for a child still on the ladder | 12: finding the sound wins, and a wrong tile invites another try |
 | 14 | Build-a-sound, for a child still on the ladder | 13: a miss hands the tray back by itself - the wrong tile does not sit in the slot |
-| 15 | free play builds go on until Done | 14: a found sound is followed by another sound, and Done goes home |
+| 15 | free play builds go on until Done | 15:  |
+| 16 | free play builds go on until Done | 16:  |
+| 17 | free play builds go on until Done | 14: a found sound is followed by another sound, and Done goes home |
 
 ## tests/chunker.test.js — 14 tests (G1)
 
@@ -492,7 +494,7 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 5 | buildSession and the next level | brings a graded next-level word back for review |
 | 6 | buildSession and the next level | caps above-level review at 2 words a session |
 
-## tests/sentence.test.js — 21 tests (G10)
+## tests/sentence.test.js — 22 tests (G10)
 
 - **Requirement protected:** SPEC section 12 points 2 to 6: where a sentence falls in a session, what it plays, what a tap does, and what ends it
 - **Independent oracle:** The literal clip plan and the level's own word lists
@@ -524,7 +526,8 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 18 | the sentence inside a session | 7c (control): a miss with no sentence in the way earns the same second look |
 | 19 | the sentence inside a session | 7: no sentence repeats inside one session |
 | 20 | free play deals from data that can be empty | 13: an empty pool turns the tap back rather than breaking the app |
-| 21 | free play deals from data that can be empty | 14: the chooser drops the sentence row where there is nothing to serve — and keeps it where there is |
+| 21 | free play deals from data that can be empty | 15: the grid |
+| 22 | free play deals from data that can be empty | 14: the chooser drops the sentence row where there is nothing to serve — and keeps it where there is |
 
 ## tests/serviceworker.test.js — 5 tests (G14)
 

@@ -7,7 +7,7 @@ import {
   migrate, newState, buildMarkdown, feedbackSpeech, PRAISE, speak, hush, buzz, ttsSafePraise, ttsSafeWord,
   sessionSentences, sentencePlan, sentenceClosePlan, revealWord, revealWordLongest,
   sentencesUpTo, shuffle, REVEAL_LINES, SENTENCE_PRAISE, sentenceLead,
-  buildTray, buildSoundTray, soundIdFor, soundIdsFor, buildable, WORD_LEVEL,
+  buildTray, buildSoundTray, soundIdFor, soundIdsFor, buildable, WORD_LEVEL, bankWords,
 } from "@engine";
 /* W3 — the storage adapter is IndexedDB in the standalone app. */
 import { loadState, saveState } from "./storage.js";
@@ -404,9 +404,18 @@ export default function App() {
   /* Which word to build. Mastered first (box 4 and up), because the mode's
      whole premise is a word the child already owns; the level's own roster
      when a child has mastered too few, so a new player is never stuck. */
+  /* THE LEVEL'S OWN WORDS, since the 2026-08-21 grid: the cell says "Build a
+     level word", so it deals from the child's current level - mastered ones
+     first when the level has three or more, the whole level roster
+     otherwise. The old single row served mastered words from ANY level
+     first (the 2026-08-17 D1 ruling, written for a chooser with one build
+     row), which at level 75 handed the owner "is" and "an" from the
+     earliest levels - the cell's promise and its deal disagreed. "Build any
+     word" is now where the whole bank lives. */
   function buildWordFor(s) {
-    const mastered = Object.entries(s.words).filter(([, ws]) => ws.box >= 4).map(([w]) => w);
-    const chosen = mastered.length >= 3 ? mastered : LEVELS[s.level - 1].words;
+    const roster = LEVELS[s.level - 1].words;
+    const mastered = roster.filter((w) => s.words[w] && s.words[w].box >= 4);
+    const chosen = mastered.length >= 3 ? mastered : roster;
     /* A word whose own tiles spell a word the owner ruled out is never offered:
        no choice of distractors can make it safe. Measured over the bank that is
        exactly one word, sift, which is an anagram of fist. */
@@ -508,7 +517,7 @@ export default function App() {
        The pool is every sentence up to and including the child's level. One
        earlier is practice they have earned; one later is the guessing
        exercise the decodability rule exists to prevent. */
-    if (mode === "sentences") {
+    if (SENTENCE_MODES.includes(mode)) {   // both sentence cells - beta 23 let "Any sentence" fall into the word path
       fpSentences.current = pool;
       setQueue(pool); showSentence(pool[0], true);
       setScreen("session");

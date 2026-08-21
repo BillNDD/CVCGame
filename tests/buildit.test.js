@@ -300,6 +300,42 @@ describe("free play builds go on until Done", () => {
      the next one, and only the Done control leaves. Driven through the real
      App on a pre-ladder save, tiles tried in order until the right one -
      misses are unlimited and the slot clears itself (test 13). */
+  it("15: 'Build a level word' deals the level's own word, mastery elsewhere notwithstanding", async () => {
+    /* The owner at level 75 was handed "is" and "an" (2026-08-21): the old
+       row served mastered words from any level first. The cell promises the
+       level, so the word spoken is one of level 75's, even with early words
+       mastered on the save. */
+    const App = (await import("../app/src/App.jsx")).default;
+    const early = { ...newState(), preLevel: 0, level: 75 };
+    for (const w of ["is", "an", "at", "in", "it"]) early.words[w] = { box: 5, attempts: 4, correct: 4, close: 0, wrong: 0, dueAt: 99, lastSession: 1 };
+    stored = early;
+    render(createElement(App));
+    await flush(0);
+    fireEvent.click(screen.getByText("🎈 Free play"));
+    await flush(0);
+    fireEvent.click(screen.getByText("🧱 Build a level word"));
+    await flush(0);
+    expect(screen.getByText("🧱 Build a word")).toBeTruthy();
+    const spoken = played.find((x) => x.startsWith("word:"));
+    expect(spoken).toBeTruthy();
+    const { LEVELS } = await import("../src/engine.js");
+    expect(LEVELS[74].words.includes(spoken.slice(5))).toBe(true);
+    expect(["is", "an", "at", "in", "it"].includes(spoken.slice(5))).toBe(false);
+  });
+  it("16: 'Build any word' opens a build at all", async () => {
+    /* Dead on the owner's phone in beta 23: the cell's draw called a bank
+       lookup the app had never imported. */
+    const App = (await import("../app/src/App.jsx")).default;
+    stored = { ...newState(), preLevel: 0, level: 1 };
+    render(createElement(App));
+    await flush(0);
+    fireEvent.click(screen.getByText("🎈 Free play"));
+    await flush(0);
+    fireEvent.click(screen.getByText("🎲 Build any word"));
+    await flush(0);
+    expect(screen.getByText("🧱 Build a word")).toBeTruthy();
+    expect(played.find((x) => x.startsWith("word:"))).toBeTruthy();
+  });
   it("14: a found sound is followed by another sound, and Done goes home", async () => {
     const App = (await import("../app/src/App.jsx")).default;
     stored = { ...newState(), preLevel: 3 };

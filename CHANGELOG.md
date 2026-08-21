@@ -15,6 +15,11 @@ This document follows the Microsoft Writing Style Guide.
 Version 6 adds the standalone progressive web app. The reference build does not change.
 The first app version is 1.0.0-beta.1. The app stays in beta until version 1.0 is ready.
 
+- Fixed in 1.0.0-beta.24 (the second emergency release of the day): the new Free play grid
+  shipped with two dead cells — "Any sentence" and "Build any word" did nothing when
+  tapped — and "Build a level word" was handing out early words a child had already
+  mastered instead of the level's own. All three work as their labels say: any sentence
+  in the game, any buildable word in the game, and the words of the level you are on.
 - Fixed in 1.0.0-beta.23 (an emergency release, the same day as beta.22): the sound-out's
   rings were landing on the wrong tile after a silent letter. In "kicked" the e lit up
   while the d sound played, and the d never lit; in "useful" the same slip ran through the

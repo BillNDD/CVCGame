@@ -674,6 +674,29 @@ describe("free play deals from data that can be empty", () => {
     }
   });
 
+  it("15: the grid's right column works - Any sentence opens a sentence, Build any word opens a build", async () => {
+    /* Both cells shipped in beta 23 without a test and both were dead on the
+       owner's phone within the hour (2026-08-21): "Any sentence" fell through
+       the sentences check into the word path. Each cell is driven to its
+       screen here. */
+    render(createElement(App));
+    await flush(0);
+    fireEvent.click(screen.getByText("🎈 Free play"));
+    await flush(0);
+    fireEvent.click(screen.getByText("🎲 Any sentence"));
+    await flush(0);
+    expect(sentenceEl()).toBeTruthy();                           // a sentence, in the attempt
+    expect(screen.getByLabelText("random sentences")).toBeTruthy();   // the header's dice chip names the mode
+    cleanup();
+    render(createElement(App));
+    await flush(0);
+    fireEvent.click(screen.getByText("🎈 Free play"));
+    await flush(0);
+    fireEvent.click(screen.getByText("🎲 Build any word"));
+    await flush(0);
+    expect(screen.getByText("🧱 Build a word")).toBeTruthy();      // the build screen's own header
+  });
+
   it("14: the chooser drops the sentence row where there is nothing to serve — and keeps it where there is", async () => {
     noSentences = true;
     render(createElement(App));
