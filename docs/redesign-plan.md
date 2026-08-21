@@ -214,7 +214,9 @@ records - features/session.feature, docs/file-map.md, docs/effect-map.md
 and the census report - never a parallel schema set. Thresholds are the
 house floors where stricter (S7's 56/44 over the document's 24). (i) the
 full gauntlet, then beta. The drift refactor
-(section 7b) runs after green, before that beta.
+(section 7b) is DEFERRED, owner-ruled 2026-08-20 late: "If you have not
+started the drift refactor let's just leave it to consider for next beta."
+It had not been started; its design below stands for that consideration.
 
 ## Where this came from
 
@@ -503,7 +505,7 @@ Needs no redesign. All five modes survive: truly random, level words, sentences,
 word, find the sound. Only scale changes — the sentence pool grows to 542 and level sets
 tighten to 6–10 words.
 
-### 7b. The drift refactor - owner-briefed 2026-08-20, runs after green, before beta
+### 7b. The drift refactor - owner-briefed 2026-08-20; DEFERRED the same day to consider for the beta after this one
 
 The owner's instruction, corrected in his own words when the first reading got
 it backwards: drift-related files are "meant to be by and for the agents", and
