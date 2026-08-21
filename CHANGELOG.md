@@ -15,6 +15,30 @@ This document follows the Microsoft Writing Style Guide.
 Version 6 adds the standalone progressive web app. The reference build does not change.
 The first app version is 1.0.0-beta.1. The app stays in beta until version 1.0 is ready.
 
+- New in 1.0.0-beta.22: the whole road, at last. The game now has ONE HUNDRED levels
+  and 1,123 words, climbing from the first short-vowel words all the way to two- and
+  three-beat words like breakfast and wonderful, with every letter team, silent letter,
+  magic e and ending taught in its own level before your child meets it in a word. The
+  level names come in decades — First Sounds 🐣 through Story Summit 🏔 — so the climb
+  reads like a journey. Two hundred and seventy-four sentences and short passages ride
+  along, each one read aloud by a person and approved by ear before it shipped, and every
+  single word now has its own recorded clip: nothing your child hears is a machine
+  guessing at a spelling.
+- Changed in 1.0.0-beta.22: your child's place on the new road is worked out from the
+  words they actually know, not from their old level number. Because the new levels teach
+  in a different order, that place can come out LOWER than the number they had — a child
+  who finished the old game starts around level 6 of 100, where the first words the old
+  game never taught begin. Nothing is lost: every word they mastered stays mastered, and
+  levels they already know are won after a single short session each. A level a grown-up
+  set by hand, with no reading behind it, keeps its number.
+- Fixed in 1.0.0-beta.22: on the ten-word first level, one wrong answer used to nudge the
+  whole screen down a few pixels — the word never moves now. The Grown-ups corner and the
+  game screens are reachable by keyboard on a phone held sideways. Four sentences were
+  reworded to say what they mean ("Mom filled the tub" — nobody is in it with her), and
+  "i" shows as "I" in its tiles as well as on its card.
+- Known in 1.0.0-beta.22: a few early sentences use "did + verb" for the past ("we did
+  try") because the -ed ending is not taught until later — deliberate, and under review
+  for the next release. Quoted speech appears without quotation marks for the same reason.
 - New in 1.0.0-beta.21: a new level at the top — Level 21, Cats and Dogs 🐾. Fourteen
   plural words (cats, dogs, cups, hens and friends) teach the two sounds a plural s can
   make: /s/ after a quiet ending, /z/ after a noisy one — sound one out and hear it say
