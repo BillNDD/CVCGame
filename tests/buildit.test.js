@@ -301,6 +301,40 @@ describe("free play builds go on until Done", () => {
      the next one, and only the Done control leaves. Driven through the real
      App on a pre-ladder save, tiles tried in order until the right one -
      misses are unlimited and the slot clears itself (test 13). */
+  it("19: a child at level 1 and at level 2 gets a build, not an error", async () => {
+    /* The owner's worry, answered by driving it rather than by reasoning
+       (2026-08-21): "present level and two below" has no two below at levels
+       1 and 2. Nothing throws - the window clamps to level 1 - and a word
+       from what the child has met is spoken. The page errors are captured,
+       because a thrown render leaves a screen that merely LOOKS empty. */
+    const App = (await import("../app/src/App.jsx")).default;
+    const { LEVELS } = engine;
+    for (const level of [1, 2]) {
+      const thrown = [];
+      const catcher = (e) => { thrown.push(String(e.error || e.message)); e.preventDefault(); };
+      window.addEventListener("error", catcher);
+      try {
+        played.length = 0;
+        stored = { ...newState(), preLevel: 0, level };
+        render(createElement(App));
+        await flush(0);
+        fireEvent.click(screen.getByText("🎈 Free play"));
+        await flush(0);
+        fireEvent.click(screen.getByText(`🧱 Build a level ${level} word`));
+        await flush(0);
+        expect(thrown).toEqual([]);
+        expect(screen.getByText("🧱 Build a word")).toBeTruthy();
+        const spoken = played.find((x) => x.startsWith("word:"));
+        expect(spoken).toBeTruthy();
+        const met = LEVELS.slice(0, level).flatMap((l) => l.words);
+        expect(met.includes(spoken.slice(5))).toBe(true);   // only words the child has met
+      } finally {
+        window.removeEventListener("error", catcher);
+        cleanup();
+      }
+    }
+  });
+
   it("18: every level's build window holds words, the first two included", () => {
     /* The owner's question when the window landed (2026-08-21): levels 1 and
        2 have no two levels below them. The window clamps at 1, and this
