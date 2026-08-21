@@ -67,7 +67,7 @@ function FreePlayChooser({ level, L, sound, preLevel, buildable, sentences, onCh
           <div style={rowLabel}>Build</div>
           <div style={row}>
             <button className="wq-cta" onClick={() => onChoose("build")} disabled={!sound}
-              style={{ ...left, opacity: sound ? 1 : 0.55 }}>🧱 Build a level word</button>
+              style={{ ...left, opacity: sound ? 1 : 0.55 }}>🧱 Build a level {level} word</button>
             <button className="wq-cta" onClick={() => onChoose("build-any")} disabled={!sound}
               style={{ ...right, opacity: sound ? 1 : 0.55 }}>🎲 Build any word</button>
           </div>

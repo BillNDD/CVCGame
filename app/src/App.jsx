@@ -413,8 +413,15 @@ export default function App() {
      row), which at level 75 handed the owner "is" and "an" from the
      earliest levels - the cell's promise and its deal disagreed. "Build any
      word" is now where the whole bank lives. */
+  /* A WINDOW, not one level (owner-ruled 2026-08-21): the level itself and
+     the two below it, so the mode still draws on what a child has just
+     learned when their own level holds few buildable words - level 73 has
+     two, and a level could have none. Named in the cell's label so the deal
+     and the promise say the same thing. */
+  const BUILD_WINDOW = 3;
   function buildWordFor(s) {
-    const roster = LEVELS[s.level - 1].words;
+    const lo = Math.max(1, s.level - (BUILD_WINDOW - 1));
+    const roster = LEVELS.slice(lo - 1, s.level).flatMap((l) => l.words);
     const mastered = roster.filter((w) => s.words[w] && s.words[w].box >= 4);
     const chosen = mastered.length >= 3 ? mastered : roster;
     /* A word whose own tiles spell a word the owner ruled out is never offered:

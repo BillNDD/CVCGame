@@ -313,13 +313,17 @@ describe("free play builds go on until Done", () => {
     await flush(0);
     fireEvent.click(screen.getByText("🎈 Free play"));
     await flush(0);
-    fireEvent.click(screen.getByText("🧱 Build a level word"));
+    fireEvent.click(screen.getByText("🧱 Build a level 75 word"));   // the cell names the level (2026-08-21)
     await flush(0);
     expect(screen.getByText("🧱 Build a word")).toBeTruthy();
     const spoken = played.find((x) => x.startsWith("word:"));
     expect(spoken).toBeTruthy();
     const { LEVELS } = await import("../src/engine.js");
-    expect(LEVELS[74].words.includes(spoken.slice(5))).toBe(true);
+    /* The window is the level and the two below (73, 74, 75), so the mode
+       still has words where a level holds few buildable ones - and never
+       reaches the earliest levels the owner was handed. */
+    const window = [73, 74, 75].flatMap((n) => LEVELS[n - 1].words);
+    expect(window.includes(spoken.slice(5))).toBe(true);
     expect(["is", "an", "at", "in", "it"].includes(spoken.slice(5))).toBe(false);
   });
   it("16: 'Build any word' opens a build at all", async () => {

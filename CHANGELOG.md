@@ -15,6 +15,10 @@ This document follows the Microsoft Writing Style Guide.
 Version 6 adds the standalone progressive web app. The reference build does not change.
 The first app version is 1.0.0-beta.1. The app stays in beta until version 1.0 is ready.
 
+- Changed in 1.0.0-beta.25: the Build cell now names the level it deals from — "Build a
+  level 75 word" — and deals from that level and the two below it, so the mode always has
+  words a child has just learned even when their own level holds only one or two that can
+  be built.
 - Fixed in 1.0.0-beta.24 (the second emergency release of the day): the new Free play grid
   shipped with two dead cells — "Any sentence" and "Build any word" did nothing when
   tapped — and "Build a level word" was handing out early words a child had already

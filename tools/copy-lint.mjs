@@ -79,7 +79,7 @@ function run(d) {
        Build row reads "Build a level word" | "Build any word", the Sounds row
        "Find a Pre N sound" - the level number is rendered, so the pin holds
        the literal prefix the JSX carries. */
-    [homeScreen, '🧱 Build a level word', "chooser cell (build, this level)"],
+    [homeScreen, '🧱 Build a level {level} word', "chooser cell (build, this level)"],
     [homeScreen, '🎲 Build any word', "chooser cell (build, any word)"],
     [homeScreen, '🔎 Find a Pre {preLevel} sound', "chooser cell (the ladder)"],
     [homeScreen, '🎲 Any word', "chooser cell (words, any)"],

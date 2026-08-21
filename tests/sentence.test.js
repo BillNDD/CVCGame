@@ -735,7 +735,7 @@ describe("free play deals from data that can be empty", () => {
        cells serve words, which this level has. */
     expect(screen.getByText("🎲 Any sentence")).toBeTruthy();
     expect(screen.getByText("🎲 Any word")).toBeTruthy();
-    expect(screen.getByText("🧱 Build a level word")).toBeTruthy();
+    expect(screen.getByText("🧱 Build a level 1 word")).toBeTruthy();
     cleanup();
     /* THE CONTROL (E5): the same walk with sentences to serve keeps the row.
        A hider that hides in every world hides nothing. */
