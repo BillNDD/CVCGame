@@ -539,6 +539,94 @@ is spawned through node itself (the .bin shim is a POSIX script, the same fault 
 mutant runners met on 2026-08-15), and `npm run census`'s `${CENSUS_PORT:-4187}` expansion
 is POSIX-only, so on Windows the playwright command runs directly.
 
+### The speed plan — measured 2026-08-21, awaiting the owner's rulings, NOT YET BUILT
+
+Three read-only audits and one stamped gauntlet run (run 7, 32 min 16 s on the owner's
+machine, 28 gates green) measured where the time goes before anything was proposed.
+
+**Where the gauntlet's minutes are.** The mutation block is about 72 per cent of the
+wall: G4 + G5 inside the first 12:54 (with the fast gates), E11 5:12, G19 6:36. Browser
+gates 4:09 (G7 alone 3:38). Everything else about five minutes. Inside the mutation
+block: 191 vitest launches per run, 87 of them the full 17-file suite (G1, G5's control
+and 72 mutants, G19's control and 11, G6's coverage pass) - a clean unmutated suite is
+proved four separate times, `src/engine.js` is regenerated 77 times with identical bytes,
+and no mutant run carries `--bail`: a killed mutant runs all 378 tests when one failure
+would do. G19's full runs cost ~33 s each (rewriting `app/src` invalidates the transform
+cache); G5's are far cheaper (one module). vitest's default forks pool already spreads
+each run across every core, so stacking concurrent mutants on one machine mostly
+oversubscribes the same CPUs - concurrency is not the first lever here; doing less is.
+
+**What may overlap, and what never may.** Hard serial core: G3, G4 and G19 mutate
+TRACKED files in place (open-faults C2), G5 rewrites the shared untracked engine, the
+build produces `app/dist` for G7/G8/G18. Independent of all of it by construction: E11
+(a tmpdir sandbox that asserts the tree untouched), G21 (no port, tmpdir), and the eleven
+read-only document and pack gates - EXCEPT that G23 and G24 scan every tracked file's
+content and so may not overlap a tracked-file mutator (G3/G4/G19); they may overlap G5.
+G7/G8/G18 hold distinct ports (4183/4/5) but each asserts rendered geometry and 400 ms
+guard windows - three chromiums plus a mutation loop on one box is the realistic failure
+mode, so they stay serial. The evidence writer couples to serial order in five places
+(module-level `failures`/`results`, G18's stdout reused 178 lines later, one end-of-run
+`dirty` sample, per-child restore-on-exit, the lock in the parent's cwd), and on Windows
+it writes `payload.hash: null` and null suite versions (POSIX `find`/`sort`) - so "serial
+and parallel evidence are identical" cannot be proved until the evidence is first made
+honest on this platform.
+
+**The plan, in the order the measurements dictate.**
+- P0, instrument and make evidence honest: `durationMs` per step in the evidence and the
+  summary line; the payload hash by a Node directory walk, suite versions by
+  `createRequire`; a `--canonical` form (results sorted by gate, timing and platform
+  stripped) with a planted-divergence control.
+- P1, do less, still serial (no concurrency risk): `--bail 1` on G5 and G19 mutant runs
+  (a kill is still "at least one failure"; the parser is unchanged; verify the summary
+  row still prints under bail); one `--coverage` run feeding both G1's and G6's counters;
+  G4's generator in-process instead of 102 spawns. Measure each against run 7.
+- P2, bounded lanes, `--workers 2`, default 1: one Node parent, children via
+  `child_process` under a semaphore, the parent the sole writer; lane B (E11, G21, the
+  eleven read-only gates) overlaps G5 only - never a tracked-file mutator, never the
+  build; `dirty` sampled only while no mutator is live. The ceiling is the ~7 minutes
+  lane B can hide behind G5, about 22 per cent of run 7 - at the bar, before contention.
+  Adopted only if it cuts wall time by 20 per cent or more against the POST-P1 baseline,
+  with byte-identical canonical evidence and no new failures; otherwise it stays a flag
+  nobody sets.
+- Not proposed: sandboxed concurrent mutants. vitest already uses all cores per run, and
+  the sandbox needs two `node_modules` junction-linked per mutant on Windows - the
+  load-bearing unknown. The sandbox IS wanted for a different reason (C2: G4 and G19
+  mutate tracked files) and belongs to the hardening programme below, not to speed.
+- GitHub runners: lanes become separate jobs there (true isolation) with a merge step
+  producing the one evidence file; the census, which runs on no runner today, gets its
+  own dispatch workflow at `ubuntu-latest`'s four cores.
+
+**The census.** 2,809 cells at 11.4 s ≈ 8.7 h at one worker. Three levers, each measured:
+the reveal wait (~8 s of every grading cell is the voice clip playing out; muting recovers
+~6 h but moves the measurement onto the 400 ms arming branch a child does not meet -
+open-faults B17 - so it is the owner's call); `workers` (the 1 was a verdict on the Linux
+container; no Windows measurement exists - the plan measures 2 and 4 on the controls and
+novelties subset, three runs each, and adopts the highest churn-free count); and the
+class key, whose third term is the grapheme's STRING (66 values) and is the whole
+explosion - by grapheme LENGTH it is 37 classes: 521 cells on eight profiles, 226 on
+three (320/390/1280). Two mandatory fixes ride with any ruling: `census_cells` 416 →
+2,809 (E6, six times stale), and a `census:novelties` entry point so the every-beta
+ruling is runnable without the every-other-beta body.
+
+### Owner-queued: harden and deflake the gates (2026-08-21, after beta 22)
+
+The owner queued a twelve-point programme the same day - one schema-validated gate
+policy as sole authority; per family a stable id, exact claim, proof method, limits,
+paths, non-run behaviour and an executable negative control; one representative defect
+run against every gate; fail closed on errors, timeouts, cancellation, skips, missing
+artifacts, duplicate results and stale revision identity; expected-versus-received
+reporting that never calls inventory a pass; zero automatic retries with the first
+failure preserved; evidence bound to candidate bytes, commit, tool identity and
+environment; calibrated coverage, mutation and browser evidence; fast checks on pull
+requests, the full audit on one dispatched frozen candidate; independent verification of
+remote enforcement including tag protection; regression tests that mutate the policy and
+aggregation and must be rejected; an independent read-only review of the exact revision.
+Deflaking rule: never retry until green, never widen a timeout without a measurement,
+never weaken an assertion, never treat missing evidence as success. The day's rehearsals
+found exactly its class - G25's counters blind since birth, three floor raises on the
+wrong key, stray step arguments, a null payload hash - and the recommendation, costed
+against that record, is owed after the beta push and after the speed plan above.
+
 ### Never run `npm run check` while a gauntlet is running
 
 Owner-facing consequence: nothing. Agent-facing consequence: a false result, in both
