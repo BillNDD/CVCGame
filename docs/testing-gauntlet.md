@@ -502,6 +502,35 @@ INVESTIGATION, not a gate: it never runs in `npm run check` and it is not one of
 gauntlet gates. Vitest is told to leave `tests/census/` alone, because collecting a Playwright
 spec turns the fast check red for a reason that has nothing to do with the game.
 
+### The beta-cadence novelties (owner-ruled 2026-08-20, built 2026-08-21)
+
+The UXSWEEP review offered a stack of new checks; the owner kept "the genuine novelties as
+part of gates ... we check with every beta and ignore rest". Five detector families now ride
+the census, helpers in `tools/census-novelties.mjs`, cells in
+`tests/census/novelties.spec.mjs` (three cells on every device profile) and
+`tests/census/novelties-once.spec.mjs` (its own testMatch-bound project: two singleton cells
+plus the negative controls - every detector proven against its own planted fault, E5, and
+the offline comparator's control caught its first real bug before the live cell ever lied):
+
+- **phase walk** - the screen holds still while a word moves through its phases, on every
+  profile. G7 check 5 pins one word at one viewport; the class is live - the night of the
+  cutover it caught the ten-word Level 1 dropping the word 8 px on a retried word's dot.
+- **home furniture** - the child's two big buttons sit where they sat after a visit.
+- **hit-test** - every live control owns its own centre, asked at ready AND mid-reveal,
+  the phase the census's static screens never hold.
+- **update-stay** - a foreground poke never replaces the open page (S6: an update installs
+  and waits).
+- **offline equality** - the offline app is the same app, measured: geometry offline equals
+  geometry online. This is the one cell that allows the service worker; every other census
+  cell now BLOCKS it (2026-08-21), because ten cells each starting a 1,500-file precache
+  against one single-threaded preview crashed the shared browser and made green-alone cells
+  fail in file order.
+
+Two Windows lessons from the first run on the owner's machine, both now in the config: vite
+is spawned through node itself (the .bin shim is a POSIX script, the same fault G7 and the
+mutant runners met on 2026-08-15), and `npm run census`'s `${CENSUS_PORT:-4187}` expansion
+is POSIX-only, so on Windows the playwright command runs directly.
+
 ### Never run `npm run check` while a gauntlet is running
 
 Owner-facing consequence: nothing. Agent-facing consequence: a false result, in both

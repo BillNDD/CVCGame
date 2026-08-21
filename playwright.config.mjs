@@ -67,6 +67,17 @@ export default defineConfig({
   outputDir: ".census/artifacts",
   use: {
     baseURL: `http://localhost:${PORT}/`,
+    /* Workers BLOCKED by default (2026-08-21): every cell that loads the app
+       otherwise starts its own 1,500-file precache install against one
+       single-threaded preview - ten of those in a file crashed the shared
+       browser and made green-alone cells fail in file order. The one cell
+       that measures the offline promise re-allows them for itself. */
+    serviceWorkers: "block",
+    /* The corner's Copy-log toast only appears when the clipboard write
+       lands; Windows headless denies it without this grant, and the cell
+       measured the fallback textarea instead (2026-08-21). Chromium-only:
+       the other engines reject unknown permission names at context birth. */
+    ...(ENGINE === "chromium" ? { permissions: ["clipboard-read", "clipboard-write"] } : {}),
     trace: "retain-on-failure",
     screenshot: "only-on-failure",
     video: "off",
@@ -97,9 +108,17 @@ export default defineConfig({
       metadata: { role: "negative-controls", engine: ENGINE, device: VIEWPORTS[0].device },
       use: { ...devices[VIEWPORTS[0].device], browserName: ENGINE },
     },
+    {
+      /* The novelty singletons and their negative controls: one profile, bound
+         by testMatch for the same reason the controls are. */
+      name: "novelties-once",
+      testMatch: /novelties-once\.spec\.mjs/,
+      metadata: { role: "novelty-singletons", engine: ENGINE, device: VIEWPORTS[0].device },
+      use: { ...devices[VIEWPORTS[0].device], browserName: ENGINE },
+    },
     ...VIEWPORTS.map((v) => ({
       name: v.name,
-      testIgnore: /controls\.spec\.mjs/,
+      testIgnore: /controls\.spec\.mjs|novelties-once\.spec\.mjs/,
       metadata: { role: "census", engine: ENGINE, device: v.device },
       /* The descriptor whole, so the user agent, the scale factor, touch and
          isMobile all come from the same device rather than three of them being
@@ -114,8 +133,12 @@ export default defineConfig({
        answer ERR_CONNECTION_REFUSED for every cell after it — the server gone,
        Playwright none the wiser, and the whole thing reading like a flaky app
        rather than a dead process. The same page loaded fine on the same device
-       against a hand-started preview, which is what ruled the app out. */
-    command: `node_modules/.bin/vite preview --port ${PORT} --strictPort`,
+       against a hand-started preview, which is what ruled the app out.
+       And vite THROUGH NODE ITSELF, not the .bin shim: the shim is a POSIX
+       shell script Windows cannot spawn - the same fault the G7 harness and
+       the mutant runners fixed on 2026-08-15, met here on 2026-08-21 when
+       the census first ran on the owner's own machine. */
+    command: `node node_modules/vite/bin/vite.js preview --port ${PORT} --strictPort`,
     cwd: "app",
     url: `http://localhost:${PORT}/`,
     /* NEVER reuse. A preview server already on this port is serving some other

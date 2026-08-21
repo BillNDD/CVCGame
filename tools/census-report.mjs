@@ -42,7 +42,7 @@ const BASE = JSON.parse(readFileSync(new URL("../.claude/gate-baseline.json", im
 const FLOOR = { controls: BASE.census_controls, cells: BASE.census_cells };
 const CONTROL_PROJECT = "controls";
 /* Reasons a cell may legitimately skip. Anything else is a coverage hole. */
-const DECLARED_SKIPS = ["CDP is Chromium-only", "engine not installed"];
+const DECLARED_SKIPS = ["CDP is Chromium-only", "engine not installed", "chromium settles it"];
 
 /* Everything the census's answer depends on. It watched app/src and app/public
    and NOT app/dist — but the census measures the BUILT bundle through vite

@@ -53,7 +53,7 @@
  */
 import { readFileSync } from "node:fs";
 import { devices } from "@playwright/test";
-import { LEVELS, chunkWord, PRAISE, SESSION_SIZE } from "../src/engine.js";
+import { LEVELS, chunkWord, PRAISE, SESSION_SIZE, STORE_KEY } from "../src/engine.js";
 
 /* REAL DEVICES, NOT HAND-WRITTEN BOXES — item 2 of the build spec, and it
    corrected a number this census had been wrong about since the day it was
@@ -537,7 +537,11 @@ async function inspect(page, viewport, label, opts = {}) {
    tools/record-reveal.mjs shipped with, recording "mop" when asked for "of".
    A function that THROWS cannot be softened from the spec file. */
 function requireStaged(asked, shown) {
-  if (shown !== asked)
+  /* Case-blind on purpose (2026-08-21): the bank word "i" is DISPLAYED as
+     "I", the pronoun's only honest spelling - displayWord's transform is the
+     app being right, not the census drawing the wrong word. Any other
+     difference still refuses. */
+  if (shown.toLowerCase() !== asked.toLowerCase())
     throw new Error(`staging refused: asked for "${asked}", the app showed "${shown}" - the cell stops here rather than examining the wrong word`);
   return shown;
 }
@@ -614,6 +618,31 @@ async function stage(context, viewport, word, watchers, opts = {}) {
      grades. */
   await page.evaluate((v) => { window.__wqQueue = [v]; }, dieFor(LONGEST_PRAISE, PRAISE.length));
   return { page, shown };
+}
+
+/* A save with the pre-ladder behind it, for the cells that need "Begin
+   Session" to start a WORD session: since the pre-ladder (2026-08-15) a
+   truly fresh save begins at Pre 1, and the done cell was measuring the
+   wrong screen - found by the first post-cutover census run (2026-08-21).
+   Same seed shape as G7's GRADUATED, written through the app's own store. */
+async function seedGraduated(page) {
+  const storageSrc = readFileSync("app/src/storage.js", "utf8");
+  const db = storageSrc.match(/DB_NAME = "([^"]+)"/)[1];
+  const store = storageSrc.match(/DB_STORE = "([^"]+)"/)[1];
+  const save = JSON.stringify({ version: 5, level: 1, preLevel: 0, prePerfectStreak: 0,
+    sessionsCompleted: 0, perfectStreak: 0, words: {}, log: [], pre: {}, settings: { sound: true, childName: "", lang: "en-US" } });
+  await page.evaluate(([d, s, key, v]) => new Promise((resolve, reject) => {
+    const rq = indexedDB.open(d, 1);
+    rq.onupgradeneeded = () => rq.result.createObjectStore(s);
+    rq.onsuccess = () => {
+      const tx = rq.result.transaction(s, "readwrite");
+      tx.objectStore(s).put(v, key);
+      tx.oncomplete = () => resolve(true);
+      tx.onerror = () => reject(tx.error);
+    };
+    rq.onerror = () => reject(rq.error);
+  }), [db, store, STORE_KEY, save]);
+  await page.reload({ waitUntil: "load" });
 }
 
 /* Free play must never touch learning evidence (SPEC section 6). Read the
@@ -781,7 +810,7 @@ const PLANTS = [
    "text-too-big at the boundary: 35px against a 34px ceiling"],
 ];
 
-export { cases, signature, inspect, pseudoOverlays, axeViolations, stage, holdGrade, savedState, holdTheDice, requireStaged,
+export { cases, signature, inspect, pseudoOverlays, axeViolations, stage, holdGrade, savedState, seedGraduated, holdTheDice, requireStaged,
          waitForReveal, GRADE, AXE_TAGS,
          FONT_FLOOR, FONT_CEIL, MODAL_BOUNDARY, OVERLAYS, OVERLAY_Z,
          PROFILES, VIEWPORTS, CHILD_MIN, ADULT_MIN, PLANTS, BANK_WORDS, LONGEST_PRAISE };
