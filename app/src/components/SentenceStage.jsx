@@ -22,7 +22,14 @@ import { C, chunkWord, displayChunk, sentenceWords, TRICKY } from "@engine";
 
    The ring is the existing `.wq-tile.wq-pop` outline, never a new shape, so a
    child meets the same reveal they know from every word. */
-export default function SentenceStage({ sentence, openWord, pops = [], onTapWord, attempt = false }) {
+/* ONE occurrence opens, never every copy of the word: a text with "did" twice
+   lit both when "did" was tapped (G7, 2026-08-21), and SPEC section 12 says
+   one word is open. The tapped position wins; when the app opened the word
+   itself (the reveal), the first occurrence is the one. -1 when nothing is
+   open, which no index matches. */
+const openIndexOf = (ws, openWord, openAt) => (openWord ? (openAt ?? ws.indexOf(openWord)) : -1);
+
+export default function SentenceStage({ sentence, openWord, openAt, pops = [], onTapWord, attempt = false }) {
   const ws = sentenceWords(sentence.text);
   /* The words as the WRITER wrote them — capitals and punctuation kept —
      beside the lower-cased forms the game reasons about. A child reads
@@ -30,6 +37,7 @@ export default function SentenceStage({ sentence, openWord, pops = [], onTapWord
      are the same length by construction: `sentenceWords` splits on the same
      whitespace this does. */
   const shown = sentence.text.trim().split(/\s+/);
+  const openIdx = openIndexOf(ws, openWord, openAt);
   /* THE ATTEMPT (owner-ruled 2026-08-14, open-faults N). Before the mark the
      sentence is the child's to READ: plain words, no tap targets, no tiles,
      no hint — the same bare stage a word gets in its ready phase. Tapping
@@ -44,7 +52,7 @@ export default function SentenceStage({ sentence, openWord, pops = [], onTapWord
       <p className="wq-sentence-line">
         {shown.map((raw, i) => {
           const w = ws[i];
-          const open = !attempt && w !== undefined && w === openWord;
+          const open = !attempt && i === openIdx;
           if (attempt) return <span key={i} className="wq-sword">{raw}</span>;
           return (
             <button
@@ -56,7 +64,7 @@ export default function SentenceStage({ sentence, openWord, pops = [], onTapWord
                  the screen that does nothing. Tapping the open word closes
                  it, which is point 4 read the only way that is consistent —
                  exactly one word open, and none is a legal number. */
-              onClick={() => onTapWord(open ? null : w)}
+              onClick={() => onTapWord(open ? null : w, open ? null : i)}
               aria-pressed={open}
             >{raw}</button>
           );

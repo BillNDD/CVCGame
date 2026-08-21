@@ -20,6 +20,8 @@ The first app version is 1.0.0-beta.1. The app stays in beta until version 1.0 i
   tapped — and "Build a level word" was handing out early words a child had already
   mastered instead of the level's own. All three work as their labels say: any sentence
   in the game, any buildable word in the game, and the words of the level you are on.
+  Also: tapping a word in a sentence that contains that word twice opened both copies;
+  now only the one you tapped opens.
 - Fixed in 1.0.0-beta.23 (an emergency release, the same day as beta.22): the sound-out's
   rings were landing on the wrong tile after a silent letter. In "kicked" the e lit up
   while the d sound played, and the d never lit; in "useful" the same slip ran through the

@@ -193,6 +193,7 @@ export default function App() {
   const sentenceGraded = useRef(false);
   const [shownSentences, setShownSentences] = useState([]);
   const [openWord, setOpenWord] = useState(null);
+  const [openAt, setOpenAt] = useState(null);   // which occurrence is open; null = the first
   const popTimers = useRef([]);
   const [exitAsk, setExitAsk] = useState(false);          // P1-4
   const [doneStats, setDoneStats] = useState(null);
@@ -751,7 +752,7 @@ export default function App() {
        word every time; a random pick was offered and refused for exactly the
        reason the session rule gives. */
     const w = free ? revealWordLongest(item.text) : revealWord(item.text, stateRef.current.level);
-    setSentence(item); setOpenWord(w); setPhase("sentence");
+    setSentence(item); setOpenWord(w); setOpenAt(null); setPhase("sentence");
     setSentencePhase("attempt");
     sentenceGraded.current = false;
     setShownSentences((ids) => [...ids, item.id]);
@@ -811,10 +812,10 @@ export default function App() {
      one closes the last. The tap also interrupts the closing read (point 5) —
      the child has taken over, and the app talking over them is the opposite of
      what this half of the design is for. */
-  function tapSentenceWord(w) {
+  function tapSentenceWord(w, at = null) {
     hush(); stopClips(); clearPops();
     clearTimeout(closeTimer.current);
-    setOpenWord(w);
+    setOpenWord(w); setOpenAt(at);
   }
   /* Point 6: the grown-up ends the item. Nothing has to finish first — the
      closing read and any tapping both stop here, which is the rule the word
@@ -1154,7 +1155,7 @@ export default function App() {
         advanceReady={advanceReady} waitMs={waitMs} waitFrom={waitFrom} finishes={finishes}
         pops={pops}
         sentence={sentence} sentencePhase={sentencePhase} gradeSentence={gradeSentence}
-        openWord={openWord} onTapWord={tapSentenceWord} endSentence={endSentence}
+        openWord={openWord} openAt={openAt} onTapWord={tapSentenceWord} endSentence={endSentence}
         freePlay={freePlay} fpCount={fpCount} fpMode={fpMode.current}
         seenTwice={seenTwice} exitAsk={exitAsk}
         onExitAsk={askExit} grade={grade} next={next} skipReveal={skipReveal}

@@ -102,7 +102,7 @@ function SessionRail({ kid, phase, advanceReady, waitMs, waitFrom, finishes, nex
 /* Stage and rail together, because a sentence replaces BOTH: it takes the
    whole stage, and its advance takes no wait. Split out so no function passes
    the G6 complexity ceiling; the rendered output for a word is identical. */
-function SessionBody({ sentence, sentencePhase, openWord, onTapWord, endSentence, nextIsSentence,
+function SessionBody({ sentence, sentencePhase, openWord, openAt, onTapWord, endSentence, nextIsSentence,
   state, currentWord, phase, fb, liveRef, pops,
   kid, advanceReady, waitMs, waitFrom, finishes, next, advanceRef }) {
   /* The sentence replaces the word rather than sitting beside it: the word the
@@ -112,7 +112,7 @@ function SessionBody({ sentence, sentencePhase, openWord, onTapWord, endSentence
     const attempt = sentencePhase === "attempt";
     return (
       <>
-        <Zone.Stage><SentenceStage sentence={sentence} openWord={openWord} pops={pops}
+        <Zone.Stage><SentenceStage sentence={sentence} openWord={openWord} openAt={openAt} pops={pops}
           onTapWord={onTapWord} attempt={attempt} /></Zone.Stage>
         {/* THE CHILD'S TURN FIRST (owner-ruled 2026-08-14, open-faults N).
             During the attempt the rail carries the prompt, exactly as a
@@ -207,7 +207,7 @@ function ExitDialog({ answered, handleExit }) {
 export default function SessionScreen({
   state, L, kid, currentWord, phase, lastGrade, order, firstResults,
   answered, totalQ, advanceReady, waitMs, waitFrom, finishes, seenTwice, exitAsk, pops,
-  sentence, sentencePhase, gradeSentence, openWord, onTapWord, endSentence,
+  sentence, sentencePhase, gradeSentence, openWord, openAt, onTapWord, endSentence,
   freePlay, fpCount, fpMode,
   onExitAsk, grade, next, skipReveal, replay, handleExit, advanceRef, toast,
 }) {
@@ -226,7 +226,7 @@ export default function SessionScreen({
       <ProgressBar order={order} firstResults={firstResults} total={totalQ} at={answered} freePlay={freePlay} />
 
       <SessionBody
-        sentence={sentence} sentencePhase={sentencePhase} openWord={openWord}
+        sentence={sentence} sentencePhase={sentencePhase} openWord={openWord} openAt={openAt}
         nextIsSentence={freePlay && fpMode.startsWith("sentences")}
         onTapWord={onTapWord} endSentence={endSentence}
         state={state} currentWord={currentWord} phase={phase} fb={fb} liveRef={liveRef} pops={pops}

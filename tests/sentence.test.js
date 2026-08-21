@@ -674,6 +674,30 @@ describe("free play deals from data that can be empty", () => {
     }
   });
 
+  it("16: a repeated word opens at ONE position - the tapped one", async () => {
+    /* G7 on 2026-08-21: a level-77 text with "did" twice lit both copies
+       when "did" was tapped, because the open state was the word's text.
+       Rendered straight: the stage is told the word and the position. */
+    const SentenceStage = (await import("../app/src/components/SentenceStage.jsx")).default;
+    const taps = [];
+    render(createElement(SentenceStage, { sentence: { id: "s:x", text: "We did not see it, but we did hear it." },
+      openWord: "did", openAt: 7, onTapWord: (w, i) => taps.push([w, i]) }));
+    const open = document.querySelectorAll(".wq-sword-open");
+    expect(open.length).toBe(1);
+    expect(open[0].textContent).toBe("did");
+    const all = [...document.querySelectorAll(".wq-sword")];
+    expect(all.indexOf(open[0])).toBe(7);                      // the second "did", as tapped
+    fireEvent.click(all[1]);                                    // tap the first "did"
+    expect(taps).toEqual([["did", 1]]);                         // the stage reports word AND position
+    cleanup();
+    /* The app-opened word (no position) opens its FIRST occurrence only. */
+    render(createElement(SentenceStage, { sentence: { id: "s:y", text: "We did not see it, but we did hear it." },
+      openWord: "did", onTapWord: () => {} }));
+    const first = document.querySelectorAll(".wq-sword-open");
+    expect(first.length).toBe(1);
+    expect([...document.querySelectorAll(".wq-sword")].indexOf(first[0])).toBe(1);
+  });
+
   it("15: the grid's right column works - Any sentence opens a sentence, Build any word opens a build", async () => {
     /* Both cells shipped in beta 23 without a test and both were dead on the
        owner's phone within the hour (2026-08-21): "Any sentence" fell through
