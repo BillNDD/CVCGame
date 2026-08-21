@@ -45,6 +45,7 @@ vi.mock("../app/src/storage.js", () => ({
 let stored, saves;
 const BuildItScreen = (await import("../app/src/screens/BuildItScreen.jsx")).default;
 const { newState } = await import("../src/engine.js");
+const engine = await import("../src/engine.js");
 
 const flush = async (ms = 0) => act(async () => { await vi.advanceTimersByTimeAsync(ms); });
 
@@ -300,6 +301,27 @@ describe("free play builds go on until Done", () => {
      the next one, and only the Done control leaves. Driven through the real
      App on a pre-ladder save, tiles tried in order until the right one -
      misses are unlimited and the slot clears itself (test 13). */
+  it("18: every level's build window holds words, the first two included", () => {
+    /* The owner's question when the window landed (2026-08-21): levels 1 and
+       2 have no two levels below them. The window clamps at 1, and this
+       proves the clamp leaves words on the shelf - for EVERY level, not just
+       those two. The constant is read from the app rather than re-typed, so
+       widening or narrowing the window brings its own arithmetic here. */
+    const src = readFileSync("app/src/App.jsx", "utf8");
+    const W = Number(/const BUILD_WINDOW = (\d+);/.exec(src)[1]);
+    expect(W).toBe(3);
+    const { LEVELS, buildable } = engine;
+    const windowOf = (L) => LEVELS.slice(Math.max(1, L - (W - 1)) - 1, L).flatMap((l) => l.words).filter(buildable);
+    const counts = LEVELS.map((l) => windowOf(l.n).length);
+    expect(Math.min(...counts)).toBe(4);            // level 45, the thinnest shelf in the bank
+    expect(counts.filter((n) => n === 0).length).toBe(0);
+    /* The two levels the question was about, measured: level 1 stands on its
+       own ten words, level 2 on twenty. */
+    expect(windowOf(1).length).toBe(10);
+    expect(windowOf(2).length).toBe(20);
+    expect(windowOf(1).every((w) => LEVELS[0].words.includes(w))).toBe(true);
+  });
+
   it("17: a long word's celebration is never cut off - the turn ends when the sound does", async () => {
     /* The owner on "biting" (2026-08-21): the sound-out reached b-i-t-i and
        stopped, because the turn ended on a fixed 2,600 ms while a five-tile
