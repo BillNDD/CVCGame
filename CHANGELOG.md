@@ -24,6 +24,22 @@ The first app version is 1.0.0-beta.1. The app stays in beta until version 1.0 i
   along, each one read aloud by a person and approved by ear before it shipped, and every
   single word now has its own recorded clip: nothing your child hears is a machine
   guessing at a spelling.
+- New in 1.0.0-beta.22: **Build it** — reading run backward. The app says a word and
+  your child builds it from sound tiles, dragging each sound into its slot; a slot is
+  wider when its sound is written with two letters, so the shape of the word is a clue
+  before a sound plays. Tries are unlimited, the app sounds out whatever was built, and
+  after two misses the right tile drifts into place while its sound plays — so every
+  attempt ends in success, and there is nothing for a grown-up to mark. It lives in two
+  places: a fourth row in Free play ("Build a word"), and a short breather inside every
+  session — one build turn after every seventh word, using a word your child has just
+  read right. A child still on the pre-levels gets Build a sound instead: the app says
+  one sound and your child finds its tile among the letters that rung has taught (not
+  at Pre 1, where no letters have been met yet). Build it is practice only: it never
+  writes to your child's record. The tray starts with just the word's own tiles and
+  adds a distractor or two as the levels climb.
+- New in 1.0.0-beta.22: the magic e. When a word like "cake" or "these" is sounded out,
+  the vowel says its name and the e's tile stays silent — exactly what the letter does —
+  instead of the e being given a sound it never makes.
 - Changed in 1.0.0-beta.22: your child's place on the new road is worked out from the
   words they actually know, not from their old level number. Because the new levels teach
   in a different order, that place can come out LOWER than the number they had — a child
@@ -35,7 +51,9 @@ The first app version is 1.0.0-beta.1. The app stays in beta until version 1.0 i
   whole screen down a few pixels — the word never moves now. The Grown-ups corner and the
   game screens are reachable by keyboard on a phone held sideways. Four sentences were
   reworded to say what they mean ("Mom filled the tub" — nobody is in it with her), and
-  "i" shows as "I" in its tiles as well as on its card.
+  "i" shows as "I" in its tiles as well as on its card. A word your child missed always
+  comes back for a second look, even when a sentence or a build turn took the next
+  press. Free play no longer stumbles on a level that has no sentences yet.
 - Known in 1.0.0-beta.22: a few early sentences use "did + verb" for the past ("we did
   try") because the -ed ending is not taught until later — deliberate, and under review
   for the next release. Quoted speech appears without quotation marks for the same reason.
