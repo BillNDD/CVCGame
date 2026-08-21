@@ -9,69 +9,73 @@ import UpdateRow from "../components/UpdateRow.jsx";
    grown-up picks which words free play serves. Both choices are full 56 px
    controls (S7) because the finger on them may be the child's. */
 function FreePlayChooser({ level, L, sound, preLevel, buildable, sentences, onChoose, onCancel }) {
+  /* THE GRID, owner-ruled 2026-08-21 from a mock he called perfect: one row
+     per activity, two columns - the LEFT cell is the child's own level, the
+     RIGHT cell is anything in the whole game. The old "Truly random" row at
+     the top meant random WORDS only, and a grown-up had no random sentences
+     or random builds at all; a fresh Level 1 save met its one sentence over
+     and over. The Sounds row (a child still on the pre-letter ladder) has a
+     level cell only: "any sound" would offer letters the rung has not taught,
+     which the 2026-08-17 Build-a-sound ruling forbids, so that cell waits on
+     the owner rather than guessing. Every cell is a 56 px child control (S7). */
+  const left = { background: "#fff", color: C.ink, border: "2px solid " + C.ink2, boxShadow: "none", padding: "12px 10px", fontSize: 15 };
+  const right = { padding: "12px 10px", fontSize: 15 };
+  const rowLabel = { margin: "10px 0 6px", font: "700 11px/1 ui-sans-serif, system-ui, sans-serif", letterSpacing: ".1em", textTransform: "uppercase", color: C.ink2 };
+  const row = { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 };
   return (
     <Modal title="Free play" onClose={onCancel}>
-      {/* The question names only the choices below it. With no sentences to
-          serve the row is gone, and a paragraph still offering to read them
-          describes a control the grown-up cannot find — the same fault as the
-          dead control, one line higher up. */}
-      <p style={{ margin: "0 0 14px", fontSize: 14.5, color: C.ink2, lineHeight: 1.5 }}>
-        {sentences > 0
-          ? "Grown-up: read words, read sentences, or build a word from its sounds?"
-          : "Grown-up: read words or build a word from its sounds?"}
+      <p style={{ margin: "0 0 6px", fontSize: 14.5, color: C.ink2, lineHeight: 1.5 }}>
+        Grown-up: pick what to practise. Left is your child&rsquo;s level; right is
         {/* The count is derived, never typed: the owner's build-time ruling at
             the cutover, after "all 476" sat one keystroke from stale for a
             month. G27's stale_chooser_copy re-sources from the same derivation. */}
-        {" "}Truly random serves any word from all {bankWords().length} — easy and hard alike. Nothing is
+        {" "}any word from all {bankWords().length} &mdash; easy and hard alike. Nothing is
         saved in free play, whichever you pick.
       </p>
-      <div style={{ display: "grid", gap: 8 }}>
-        <button className="wq-cta" onClick={() => onChoose("random")}>🎲 Truly random</button>
-        {/* The quiet styling the home rail uses would melt into this WHITE
-            card - white on white, no edge at all - so the second choice takes
-            the exit dialog's outlined pattern instead. */}
-        <button className="wq-cta" onClick={() => onChoose("level")}
-          style={{ background: "#fff", color: C.ink, border: "2px solid " + C.ink2, boxShadow: "none" }}>
-          🎯 Level {level} {L.emoji} words
-        </button>
-        {/* Sentences (SPEC section 12 point 7, owner-ruled 2026-08-13). It
-            serves every sentence up to and including this level, so a child
-            can practise reading them without a session — and, like every
-            other free-play choice, records nothing. */}
-        {/* Hidden where that pool is empty. A level's text is written with the
-            level, so a level whose text is not written yet has no sentences —
-            which is what a level looks like before it is finished, not a
-            fault. Nothing a grown-up can switch brings them back, so the row
-            GOES rather than standing there disabled: that is the call the
-            Build-it row takes at Pre 1, where a tray would have nothing honest
-            to hold (open-faults Q6), and the opposite of the call it takes
-            with sound off, where a switch does exist and the row says so.
-            Under it, beginFreePlay refuses an empty pool whatever this
-            decides — a hidden control is not a guard. */}
-        {sentences > 0 && <button className="wq-cta" onClick={() => onChoose("sentences")}
-          style={{ background: "#fff", color: C.ink, border: "2px solid " + C.ink2, boxShadow: "none" }}>
-          📖 Sentences
-        </button>}
-        {/* Build-it (SPEC section 12, owner-ruled 2026-08-17, decision D1). The
-            fourth row: the app speaks a word and the child assembles it from
-            sound tiles. It serves words the child has mastered first, so the
-            word spoken is one they own; nothing here is recorded either. */}
-        {/* With sound switched off the mode has nothing to say, and its whole
-            prompt is a spoken word: it would show a child empty slots and never
-            tell them what to build. The row states why rather than vanishing,
-            so a grown-up can see the switch that brings it back. */}
-        {/* Hidden at Pre 1, where the child has met no letters and a tray would
-            have nothing honest to hold (open-faults Q6). It returns at Pre 2 as
-            "find the sound", and after the ladder as "build a word". */}
-        {buildable && <button className="wq-cta" onClick={() => onChoose("build")} disabled={!sound}
-          style={{ background: "#fff", color: C.ink, border: "2px solid " + C.ink2,
-            boxShadow: "none", opacity: sound ? 1 : 0.55 }}>
-          {preLevel > 0 ? "🔎 Find the sound" : "🧱 Build a word"}
-        </button>}
-        {!sound && <p style={{ margin: 0, fontSize: 12.5, color: C.ink2, textAlign: "center" }}>
+      <div style={{ display: "grid", gap: 2 }}>
+        <div style={rowLabel}>Words</div>
+        <div style={row}>
+          <button className="wq-cta" onClick={() => onChoose("level")} style={left}>🎯 Level {level} {L.emoji} words</button>
+          <button className="wq-cta" onClick={() => onChoose("random")} style={right}>🎲 Any word</button>
+        </div>
+        {/* Sentences: the left cell serves every sentence up to this level and
+            GOES when that pool is empty (a level whose text is not written yet
+            has no sentences - not a fault); the right cell serves the whole
+            game's texts and is never empty. Under both, beginFreePlay refuses
+            an empty pool whatever this decides - a hidden control is not a
+            guard. */}
+        <div style={rowLabel}>Sentences</div>
+        <div style={row}>
+          {sentences > 0
+            ? <button className="wq-cta" onClick={() => onChoose("sentences")} style={left}>📖 Level {level} sentences</button>
+            : <span aria-hidden="true" />}
+          <button className="wq-cta" onClick={() => onChoose("sentences-any")} style={right}>🎲 Any sentence</button>
+        </div>
+        {/* Build (SPEC section 12, owner-ruled 2026-08-17, D1): the app speaks
+            a word and the child assembles it. With sound switched off the mode
+            has nothing to say, so the cells dim and the line below says why. A
+            child still on the pre-letter ladder gets Find-the-sound instead
+            (Q6), and at Pre 1 - no letters met - the row goes. */}
+        {buildable && preLevel > 0 && <>
+          <div style={rowLabel}>Sounds</div>
+          <div style={row}>
+            <button className="wq-cta" onClick={() => onChoose("build")} disabled={!sound}
+              style={{ ...left, opacity: sound ? 1 : 0.55, gridColumn: "1 / -1" }}>🔎 Find a Pre {preLevel} sound</button>
+          </div>
+        </>}
+        {buildable && preLevel === 0 && <>
+          <div style={rowLabel}>Build</div>
+          <div style={row}>
+            <button className="wq-cta" onClick={() => onChoose("build")} disabled={!sound}
+              style={{ ...left, opacity: sound ? 1 : 0.55 }}>🧱 Build a level word</button>
+            <button className="wq-cta" onClick={() => onChoose("build-any")} disabled={!sound}
+              style={{ ...right, opacity: sound ? 1 : 0.55 }}>🎲 Build any word</button>
+          </div>
+        </>}
+        {!sound && <p style={{ margin: "6px 0 0", fontSize: 12.5, color: C.ink2, textAlign: "center" }}>
           Building needs sound. Turn sound on in the Grown-ups corner.
         </p>}
-        <button className="wq-btn-plain" onClick={onCancel} style={{ justifySelf: "center" }}>Back</button>
+        <button className="wq-btn-plain" onClick={onCancel} style={{ justifySelf: "center", marginTop: 10 }}>Back</button>
       </div>
     </Modal>
   );

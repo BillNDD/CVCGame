@@ -32,7 +32,7 @@ test("home furniture: the child's two big buttons sit where they sat, after a vi
   await page.getByText("▶️ Begin Session").waitFor();
   const before = await homeFurniture(page);
   await page.getByText("🎈 Free play").click();
-  await page.getByText("🎲 Truly random").click();
+  await page.getByText("🎲 Any word").click();
   await page.locator(".wq-word").waitFor();
   await page.locator(".wq-header button").first().click();   // 🏠 home
   await page.getByText("▶️ Begin Session").waitFor();

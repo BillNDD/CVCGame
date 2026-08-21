@@ -11,7 +11,7 @@ import {
   SENTENCE_PRAISE, sentenceLead,
   soundInventory, bankWords, soundIdFor, soundIdsFor, tileSlots, isSeam, seamMs, TILE_SOUND, WORD_SOUND, isSecure,
   buildTray, trayPool, trayExtras, trayClash, trayForbidden, buildable, NEVER_BUILD,
-  SENTENCES, REVEAL_LINES, REVEAL_LINE_TEXT, sentenceWords, revealWord,
+  SENTENCES, REVEAL_LINES, REVEAL_LINE_TEXT, sentenceWords, revealWord, sentencePlan,
 } from "../src/engine.js";
 import { check as decodableCheck } from "../tools/decodable.mjs";
 
@@ -930,6 +930,21 @@ expect(script.length).toBe(1475);                       // 6 fixed + 17 praise +
       .toEqual([{ index: 6, tile: 0 }, { index: 8, tile: 1 }]);
     expect(tileSlots(clipPlan("replay", "cat"))).toEqual([]);   // no sound-out, no pops
     expect(tileSlots(clipPlan("done"))).toEqual([]);
+  });
+  it("steps over a silent tile, so the ring after it lands on its own tile (beta 22's fault)", () => {
+    /* "kicked" is k-i-ck-e-d; its sounds are k, short i, k, SILENT, d, and the
+       plan carries no clip for the silent e. Counting clips put the /d/ ring
+       on the e and left the d dark - three screenshots from the owner on
+       2026-08-21. With the tile sounds passed in, the slots name the true
+       tiles. All literals (E4). */
+    expect(tileSlots(clipPlan("correct", "kicked", 0), soundIdsFor("kicked")).map((s) => s.tile)).toEqual([0, 1, 2, 4]);
+    expect(tileSlots(clipPlan("correct", "useful", 0), soundIdsFor("useful")).map((s) => s.tile)).toEqual([0, 1, 3, 4, 5]);
+    expect(tileSlots(clipPlan("correct", "cat", 0), soundIdsFor("cat")).map((s) => s.tile)).toEqual([0, 1, 2]);
+    /* The sentence reveal's plan carries no silent clip either - beta 22's
+       did, the player found no file for it, and a sentence whose word had a
+       silent tile played nothing at all. */
+    expect(sentencePlan("s:v3-l44-01", "filled", "r:1").includes("d:silent")).toBe(false);
+    expect(sentencePlan("s:v3-l44-01", "filled", "r:1").filter((id) => id.startsWith("d:")).length).toBe(4);
   });
   it("resolves one source per utterance: family, then default, then none", () => {
     const plan = ["l:close", "seam", "s:is", "seam", "w:ship"];

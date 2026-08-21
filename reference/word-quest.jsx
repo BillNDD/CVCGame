@@ -1942,7 +1942,7 @@ function clipPlan(kind, word, praise) {
 function sentencePlan(sentenceId, word, lineId) {
   if (!word) return [sentenceId];
   const out = [sentenceId, "seam", lineId, "seam2", "w:" + word, "seam2", "s:pronounced"];
-  for (const id of soundIdsFor(word)) out.push("seam2", id);
+  for (const id of soundIdsFor(word)) if (id !== "d:silent") out.push("seam2", id);   // the silent tile has no clip, exactly as in clipPlan
   out.push("seam2", "w:" + word);
   return out;
 }
@@ -1952,10 +1952,22 @@ const sentenceClosePlan = (sentenceId) => [sentenceId];
 /* Which entries of a plan are tile sounds, and which tile each belongs to.
    The player reports the scheduled time of each, so a tile lights the moment
    ITS sound starts rather than on a guessed delay. */
-function tileSlots(plan) {
+/* BETA 22 SHIPPED THIS WRONG, and three screenshots from the owner on
+   2026-08-21 said how: the rings stepped by CLIP, and the plan carries no
+   clip for a silent tile, so after the silent e of "useful" every ring landed
+   one tile late and the last tile never lit - "e" ringed while /d/ played in
+   "kicked". The sounds were right; the pointer was wrong. The caller now
+   passes the word's tile sounds WITH their silents, and a slot's tile is
+   its true position: the silent tile is stepped over, never counted. Without
+   the list (an old caller, a replay, a sentence line) the plan's own order
+   is the tile order, as before. */
+function tileSlots(plan, tileSounds = null) {
   const slots = [];
   let t = 0;
-  for (let i = 0; i < plan.length; i++) if (String(plan[i]).startsWith("d:")) slots.push({ index: i, tile: t++ });
+  for (let i = 0; i < plan.length; i++) if (String(plan[i]).startsWith("d:")) {
+    if (tileSounds) while (t < tileSounds.length && tileSounds[t] === "d:silent") t++;
+    slots.push({ index: i, tile: t++ });
+  }
   return slots;
 }
 /* ---------------- Build-a-sound: Build-it at the ladder's scale ------------

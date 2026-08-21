@@ -8,7 +8,7 @@ Per-test rows carry the test's own sentence, which in this project IS the
 Given/When/Then effect. The requirement, oracle, platform, mutant family, evidence
 and known limits are declared per FILE, in the tool, where they stay true.
 
-Totals: 364 it() SITES across 17 files, plus 18 gates that are not test files.
+Totals: 369 it() SITES across 17 files, plus 18 gates that are not test files.
 
 A site inside a loop or a table runs many times, so these rows describe more tests than they number: Vitest executes 330. The rows count the places behaviour is asserted.
 
@@ -34,7 +34,7 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 8 | G10 — the text a grown-up reads on the child | 27: one completed session counts as  |
 | 9 | G10 — the text a grown-up reads on the child | 28 (control): two sessions still count as  |
 
-## tests/buildit.test.js — 13 tests (G10)
+## tests/buildit.test.js — 15 tests (G10)
 
 - **Requirement protected:** SPEC section 12: Build-it writes nothing to the record, speaks the word before the tiles, and ends every attempt in success
 - **Independent oracle:** A source tripwire with fixture controls and a real-source mutation, plus a walked loop with a held tray
@@ -59,6 +59,8 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 11 | Build-a-sound, for a child still on the ladder | 10: the tray is exactly what the rung has taught, and grows with it |
 | 12 | Build-a-sound, for a child still on the ladder | 11: no tile is silent, and none is a letter the rung has not reached |
 | 13 | Build-a-sound, for a child still on the ladder | 12: finding the sound wins, and a wrong tile invites another try |
+| 14 | Build-a-sound, for a child still on the ladder | 13: a miss hands the tray back by itself - the wrong tile does not sit in the slot |
+| 15 | free play builds go on until Done | 14: a found sound is followed by another sound, and Done goes home |
 
 ## tests/chunker.test.js — 14 tests (G1)
 
@@ -87,7 +89,7 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 13 | the extended code | gives the four single-taught spellings their level |
 | 14 | the extended code | reads no word out of bare punctuation |
 
-## tests/engine.test.js — 105 tests (G1)
+## tests/engine.test.js — 106 tests (G1)
 
 - **Requirement protected:** SPEC sections 3-4: the word bank, levels, chunking, the Leitner ladder, session shape and the reveal plan
 - **Independent oracle:** Literal expected values written from SPEC by hand (E4). Never the constant under test.
@@ -169,43 +171,44 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 68 | voice packs | plans the sound-out reveal on every outcome, at the literal 500 ms seam |
 | 69 | voice packs | knows a seam from a clip, and how long each one lasts |
 | 70 | voice packs | maps each tile sound to its own tile, in order |
-| 71 | voice packs | resolves one source per utterance: family, then default, then none |
-| 72 | speech helpers | says full words only, never letter names, and never stretches the reveal |
-| 73 | speech helpers | hands system speech the SOUND of “a”, never the letter |
-| 74 | speech helpers | stays silent when sound is off or no engine exists |
-| 75 | speech helpers | configures the utterance: rate 0.9, pitch 1.1, locale, cancel first |
-| 76 | speech helpers | pins the seventeen praise sentences, character for character |
-| 77 | speech helpers | selects the praise by index, and falls back to the first for a bad index |
-| 78 | speech helpers | queues reveal parts: one cancel, and both the lead and the word sentence at 0.9 |
-| 79 | speech helpers | survives a throwing speech service |
-| 80 | speech helpers | hush stops speech, and survives a missing engine |
-| 81 | speech helpers | vibrates only when the device can, and never throws |
-| 82 | reference storage adapter | reads nothing when no storage exists at all |
-| 83 | reference storage adapter | reads a saved document from the host storage |
-| 84 | reference storage adapter | keeps a copy of damaged data and reports it, even if the copy write fails |
-| 85 | reference storage adapter | saves to the host and answers from memory when the host disappears |
-| 86 | reference storage adapter | reports an unsaved visit when the host write fails |
-| 87 | reference storage adapter | falls back to memory when the host read throws |
-| 88 | G1 — the system voice is never given a word it says wrongly | 75: no praise line contains a word with two pronunciations |
-| 89 | G1 — the system voice is never given a word it says wrongly | 76: with no unsafe line listed, every praise index reaches the system voice unchanged |
-| 90 | G1 — the system voice is never given a word it says wrongly | 77: the clip plan carries the new line to the pack |
-| 91 | G1 — the system voice is never given a word it says wrongly | 78: the sentence praise roster is exactly the rows that never say \ |
-| 92 | G1 — the system voice is never given a word it says wrongly | 79: the sentence lead is the grade |
-| 93 | Build-it tray | gives the word its true number of slots, never a padded one |
-| 94 | Build-it tray | ramps the extra tiles: none, then one from Level 6, then two past 14 |
-| 95 | Build-it tray | always offers every tile the answer needs |
-| 96 | Build-it tray | never offers a distractor that is one of the word |
-| 97 | Build-it tray | keeps units with no ruled default out of the pool |
-| 98 | Build-it tray | keeps the vowels, so a child can be offered i against a |
-| 99 | Build-it tray | refuses a distractor that would sound exactly like one of the word |
-| 100 | Build-it tray | only draws graphemes a child at that level has met |
-| 101 | Build-it tray | gives every answer tile in the order the word is built |
-| 102 | Build-it tray | offers a tile for every slot, even when a sound repeats |
-| 103 | Build-it tray | refuses a distractor that would let a child spell a ruled-out word |
-| 104 | Build-it tray | never offers a word whose own tiles spell a ruled-out one |
-| 105 | Build-it tray | is reproducible: the same rand builds the same tray |
+| 71 | voice packs | steps over a silent tile, so the ring after it lands on its own tile (beta 22 |
+| 72 | voice packs | resolves one source per utterance: family, then default, then none |
+| 73 | speech helpers | says full words only, never letter names, and never stretches the reveal |
+| 74 | speech helpers | hands system speech the SOUND of “a”, never the letter |
+| 75 | speech helpers | stays silent when sound is off or no engine exists |
+| 76 | speech helpers | configures the utterance: rate 0.9, pitch 1.1, locale, cancel first |
+| 77 | speech helpers | pins the seventeen praise sentences, character for character |
+| 78 | speech helpers | selects the praise by index, and falls back to the first for a bad index |
+| 79 | speech helpers | queues reveal parts: one cancel, and both the lead and the word sentence at 0.9 |
+| 80 | speech helpers | survives a throwing speech service |
+| 81 | speech helpers | hush stops speech, and survives a missing engine |
+| 82 | speech helpers | vibrates only when the device can, and never throws |
+| 83 | reference storage adapter | reads nothing when no storage exists at all |
+| 84 | reference storage adapter | reads a saved document from the host storage |
+| 85 | reference storage adapter | keeps a copy of damaged data and reports it, even if the copy write fails |
+| 86 | reference storage adapter | saves to the host and answers from memory when the host disappears |
+| 87 | reference storage adapter | reports an unsaved visit when the host write fails |
+| 88 | reference storage adapter | falls back to memory when the host read throws |
+| 89 | G1 — the system voice is never given a word it says wrongly | 75: no praise line contains a word with two pronunciations |
+| 90 | G1 — the system voice is never given a word it says wrongly | 76: with no unsafe line listed, every praise index reaches the system voice unchanged |
+| 91 | G1 — the system voice is never given a word it says wrongly | 77: the clip plan carries the new line to the pack |
+| 92 | G1 — the system voice is never given a word it says wrongly | 78: the sentence praise roster is exactly the rows that never say \ |
+| 93 | G1 — the system voice is never given a word it says wrongly | 79: the sentence lead is the grade |
+| 94 | Build-it tray | gives the word its true number of slots, never a padded one |
+| 95 | Build-it tray | ramps the extra tiles: none, then one from Level 6, then two past 14 |
+| 96 | Build-it tray | always offers every tile the answer needs |
+| 97 | Build-it tray | never offers a distractor that is one of the word |
+| 98 | Build-it tray | keeps units with no ruled default out of the pool |
+| 99 | Build-it tray | keeps the vowels, so a child can be offered i against a |
+| 100 | Build-it tray | refuses a distractor that would sound exactly like one of the word |
+| 101 | Build-it tray | only draws graphemes a child at that level has met |
+| 102 | Build-it tray | gives every answer tile in the order the word is built |
+| 103 | Build-it tray | offers a tile for every slot, even when a sound repeats |
+| 104 | Build-it tray | refuses a distractor that would let a child spell a ruled-out word |
+| 105 | Build-it tray | never offers a word whose own tiles spell a ruled-out one |
+| 106 | Build-it tray | is reproducible: the same rand builds the same tray |
 
-## tests/faults.test.js — 17 tests (G9)
+## tests/faults.test.js — 18 tests (G9)
 
 - **Requirement protected:** SPEC section 7: damaged saves, silent storage, late data, hostile shapes, and backups that lie
 - **Independent oracle:** Stated expected outcomes per fault, each with a control proving the probe can see a write
@@ -233,7 +236,8 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 14 | G9 faults — the corner | commits a trimmed, 20-glyph name without bisecting a surrogate pair |
 | 15 | G9 faults — the corner | copies the log when the clipboard allows, and shows the box when it refuses |
 | 16 | G9 faults — the corner | saves a backup through the blob path without a throw |
-| 17 | G9 faults — the corner | resets only through the second press, and the first can back out |
+| 17 | G9 faults — the corner | jumping to a word level steps the child off the pre-ladder |
+| 18 | G9 faults — the corner | resets only through the second press, and the first can back out |
 
 ## tests/generated/acceptance.test.js — 62 tests (G3)
 
@@ -571,7 +575,7 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 17 | update-system tripwires (source, with controls) | the version check bypasses the service worker and the precache |
 | 18 | update-system tripwires (source, with controls) | the update module can never touch saved progress |
 
-## tests/voicepacks.test.js — 13 tests (G13)
+## tests/voicepacks.test.js — 14 tests (G13)
 
 - **Requirement protected:** The voice pack's engine-side contract: every word has a clip and every clip a recipe
 - **Independent oracle:** tools/voice-words.csv, the human-edited source of truth
@@ -583,19 +587,20 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 
 | # | Suite | Effect (the test's own sentence) |
 |---|---|---|
-| 1 | voice-pack clip engine | places speech 500 ms apart through the sound-out, whatever silence the files carry |
-| 2 | voice-pack clip engine | lays a hum under the sound-out only, and stops it with everything else |
-| 3 | voice-pack clip engine | falls back to system speech when the pack lacks a clip, and stays silent with sound off |
-| 4 | voice-pack clip engine | falls back before any sound when a clip fails to decode |
-| 5 | voice-pack clip engine | stopClips() halts a scheduled chain, and a new utterance silences the old one |
-| 6 | voice-pack clip engine | measures where the speech sits inside a clip, in the shipped pack |
-| 7 | voice-pack clip engine | a stored family clip carries its measurements, and an undecodable one carries none |
-| 8 | voice-pack clip engine | prefers a complete family pack: family clips come from the device, not from fetch |
-| 9 | voice-pack clip engine | takes the audio session back from the microphone before the next reveal |
-| 10 | voice-pack clip engine | declares a playback session before anything sounds, so the silent switch cannot mute the words |
-| 11 | voice-pack clip engine | (control): with no microphone use the context is left alone |
-| 12 | voice-pack clip engine | App.jsx wires the packs at every speech site (source tripwire with control) |
-| 13 | voice-pack clip engine | the audio-route repair survives with no caller, ready for the family recorder |
+| 1 | voice-pack clip engine | rings the tile after a silent one on its own tile, never one early (beta 22 |
+| 2 | voice-pack clip engine | places speech 500 ms apart through the sound-out, whatever silence the files carry |
+| 3 | voice-pack clip engine | lays a hum under the sound-out only, and stops it with everything else |
+| 4 | voice-pack clip engine | falls back to system speech when the pack lacks a clip, and stays silent with sound off |
+| 5 | voice-pack clip engine | falls back before any sound when a clip fails to decode |
+| 6 | voice-pack clip engine | stopClips() halts a scheduled chain, and a new utterance silences the old one |
+| 7 | voice-pack clip engine | measures where the speech sits inside a clip, in the shipped pack |
+| 8 | voice-pack clip engine | a stored family clip carries its measurements, and an undecodable one carries none |
+| 9 | voice-pack clip engine | prefers a complete family pack: family clips come from the device, not from fetch |
+| 10 | voice-pack clip engine | takes the audio session back from the microphone before the next reveal |
+| 11 | voice-pack clip engine | declares a playback session before anything sounds, so the silent switch cannot mute the words |
+| 12 | voice-pack clip engine | (control): with no microphone use the context is left alone |
+| 13 | voice-pack clip engine | App.jsx wires the packs at every speech site (source tripwire with control) |
+| 14 | voice-pack clip engine | the audio-route repair survives with no caller, ready for the family recorder |
 
 ## Gates that are not test files
 

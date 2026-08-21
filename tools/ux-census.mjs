@@ -610,7 +610,7 @@ async function stage(context, viewport, word, watchers, opts = {}) {
   /* Loaded, boot's own dice spent, and only now is the draw decided. */
   await page.evaluate((v) => { window.__wqQueue = [v]; }, dieFor(wi, BANK_WORDS.length));
   await page.getByText("🎈 Free play").click({ timeout: 8000 });
-  await page.getByText("🎲 Truly random").click({ timeout: 8000 });
+  await page.getByText("🎲 Any word").click({ timeout: 8000 });   // the grid's right Words cell (2026-08-21)
   await page.locator(".wq-word").waitFor({ timeout: 8000 });
   const shown = (await page.locator(".wq-word").textContent()).trim();
   /* The praise line for this cell is the longest one, because the longest is

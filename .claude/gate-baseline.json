@@ -8,7 +8,7 @@
   "g3_generated_tests": 62,
   "g4_acceptance_mutants": 100,
   "g4_survivors_max": 0,
-  "g5_source_mutants": 72,
+  "g5_source_mutants": 73,
   "g5_survivors_max": 0,
   "g6_lines_min": 95,
   "g6_app_lines_min": 82,

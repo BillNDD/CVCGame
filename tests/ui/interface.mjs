@@ -884,7 +884,7 @@ for (const height of [430, 555, 720, 950]) {
   /* THREE choices since 2026-08-13, not two: sentences joined words (SPEC
      section 12 point 7). Named individually rather than counted, so a choice
      that vanishes is a failure and not a smaller number nobody reads. */
-  const rand = await page.getByRole("button", { name: "Truly random" }).boundingBox();
+  const rand = await page.getByRole("button", { name: "Any word" }).boundingBox();
   const lvl = await page.getByRole("button", { name: /Level \d+ .+ words/ }).boundingBox();
   const sent = await page.getByRole("button", { name: "📖 Sentences" }).boundingBox();
   if (rand && lvl && sent && rand.height >= 56 && lvl.height >= 56 && sent.height >= 56)
@@ -912,11 +912,11 @@ for (const height of [430, 555, 720, 950]) {
   if (home && modals === 0) ok("Back closes the chooser and starts nothing");
   else fail("Back did not return cleanly to home", `home=${home} modals=${modals}`);
   await page.getByRole("button", { name: "Free play" }).click();
-  await page.getByRole("button", { name: "Truly random" }).click();
+  await page.getByRole("button", { name: "Any word" }).click();
   await page.locator(".wq-word").waitFor();
   const label = await page.locator(".wq-chip", { hasText: "FREE PLAY" }).count();
   const dice = await page.locator(".wq-chip", { hasText: "🎲" }).count();
-  if (label === 1 && dice === 1) ok("truly random play is labeled FREE PLAY with the dice chip");
+  if (label === 1 && dice === 1) ok("any-word play is labeled FREE PLAY with the dice chip");
   else fail("random free play mislabels itself", `freeplay=${label} dice=${dice}`);
   await context.close();
 }

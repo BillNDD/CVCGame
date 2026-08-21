@@ -66,6 +66,9 @@ vi.stubGlobal("fetch", vi.fn(async (url) => {
     "d:k": { file: "d-k.mp3", ms: 200, lead: 50, tail: 50 },
     "d:short_a": { file: "d-short_a.mp3", ms: 300, lead: 90, tail: 90 },
     "d:t": { file: "d-t.mp3", ms: 200, lead: 60, tail: 40 },
+    "w:kicked": { file: "w-kicked.mp3", ms: 900, lead: 120, tail: 320 },
+    "d:short_i": { file: "d-short_i.mp3", ms: 300, lead: 90, tail: 90 },
+    "d:d": { file: "d-d.mp3", ms: 200, lead: 60, tail: 40 },
   }) };
   return { ok: true, arrayBuffer: async () => new ArrayBuffer(8) };
 }));
@@ -95,6 +98,16 @@ describe("voice-pack clip engine", () => {
      the silence each one carries, so the whole schedule can be worked out by
      hand. p:0 ends its speech at 0.05 + 1 - 0.300 = 0.750; w:cat's speech
      must start at 1.250, so its FILE starts at 1.250 - 0.120 = 1.130. */
+  it("rings the tile after a silent one on its own tile, never one early (beta 22's fault)", async () => {
+    /* kicked: k, short i, k, SILENT e, d. Four clips, five tiles. The fourth
+       ring must name tile 4 (the d), not tile 3 (the e) - which is what the
+       owner's screenshots showed: the e ringed while /d/ played, the d dark. */
+    let tiles = null;
+    speakVoice("correct", "kicked", 0, true, fb, (m, t) => { tiles = t; });
+    await settle(); await settle(); await settle();
+    expect(tiles.map((t) => t.tile)).toEqual([0, 1, 2, 4]);
+    expect(tiles.length).toBe(4);
+  });
   it("places speech 500 ms apart through the sound-out, whatever silence the files carry", async () => {
     let ms = null, tiles = null;
     speakVoice("correct", "cat", 0, true, fb, (m, t) => { ms = m; tiles = t; });
@@ -118,10 +131,14 @@ describe("voice-pack clip engine", () => {
     /* Each tile is told when its own sound starts — the file's start plus the
        silence in front of it — and how long that sound lasts, so the ring is
        the length of the thing it marks. */
+    /* Each ring now NAMES its tile (2026-08-21): the list has no entry for a
+       silent tile, so position in the list is not the tile - the beta 22
+       fault. For cat the tiles are the positions; the silent-tile case is
+       pinned in its own test below. */
     expect(tiles).toEqual([
-      { at: 3360, ms: 100 },      // d:k        file at 3310 + 50 ms lead; 200 - 50 - 50 of speech
-      { at: 4760, ms: 120 },      // d:short_a  file at 4670 + 90 ms lead; 300 - 90 - 90
-      { at: 6080, ms: 100 },      // d:t        file at 6020 + 60 ms lead; 200 - 60 - 40
+      { tile: 0, at: 3360, ms: 100 },      // d:k        file at 3310 + 50 ms lead; 200 - 50 - 50 of speech
+      { tile: 1, at: 4760, ms: 120 },      // d:short_a  file at 4670 + 90 ms lead; 300 - 90 - 90
+      { tile: 2, at: 6080, ms: 100 },      // d:t        file at 6020 + 60 ms lead; 200 - 60 - 40
     ]);
     expect(ms).toBe(8360);
     expect(fb).not.toHaveBeenCalled();

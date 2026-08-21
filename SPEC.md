@@ -518,9 +518,18 @@ with the strip controls.
 
 Session, free play. Entered from the second control on the home screen ("Free play", a full
 child-size control styled quieter than "Begin Session"). The tap opens a chooser before any
-word is shown, addressed to the grown-up, with two full child-size choices and a "Back"
-control that starts nothing: "Truly random", any word from the whole bank, and the child's
-level, the same mix a session would serve. The loop in both is the session loop — the same
+word is shown, addressed to the grown-up, laid out as a GRID (owner-ruled 2026-08-21 from a
+mock he called perfect): one row per activity — Words, Sentences, and Build (or Sounds while
+the child is on the pre-letter ladder) — and two full child-size cells per row, the LEFT the
+child's own level and the RIGHT anything in the whole game, plus a "Back" control that
+starts nothing. For words that is "Level N words", the same mix a session would serve, and
+"Any word", a uniform draw over the whole bank. For sentences, this level's texts and every
+text in the game. For Build, a level word and any buildable word, dealt at that word's own
+level. The Sounds row has its level cell only: "any sound" would offer letters the rung has
+not taught, which the 2026-08-17 Build-a-sound ruling forbids, and it waits on the owner.
+Until that day the chooser was a single "Truly random" row over three activity rows, which
+meant random WORDS only; a Level 1 save met its one sentence over and over. The loop in both
+columns is the session loop — the same
 phases, feedback sentences, praise, reveal and wait — but it runs against
 a throwaway copy of the progress and never writes. The header shows a "FREE PLAY" label and
 a count of words read instead of the progress bar and the x-of-20 count, both of which

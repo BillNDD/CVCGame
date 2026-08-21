@@ -62,7 +62,7 @@ for (const [which, open, mustBeVisible, mustExist] of [
   ["home", async () => {}, ['button:has-text("Begin Session")', '[aria-label="Grown-ups corner"]']],
   ["grown-ups corner", async (page) => page.getByRole("button", { name: "Grown-ups corner" }).click(), null,
     ['button:has-text("Copy log")', 'button:has-text("Reset all progress")']],
-  ["free-play chooser", async (page) => page.getByText("🎈 Free play").click(), ['button:has-text("Truly random")']],
+  ["free-play chooser", async (page) => page.getByText("🎈 Free play").click(), ['button:has-text("Any word")']],
 ]) {
   test(`screen: ${which}`, async ({ page }, testInfo) => {
     const viewport = VP[testInfo.project.name];

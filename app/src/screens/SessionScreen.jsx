@@ -147,7 +147,7 @@ function SessionBody({ sentence, sentencePhase, openWord, onTapWord, endSentence
 /* What free play is counting. Sentences are not words, and a child who has
    read four sentences being told "4 words" is being told something untrue
    about their own reading. */
-const countLabel = (fpMode, n) => (fpMode === "sentences"
+const countLabel = (fpMode, n) => (fpMode.startsWith("sentences")
   ? (n === 1 ? " sentence" : " sentences")
   : (n === 1 ? " word" : " words"));
 
@@ -170,8 +170,8 @@ function SessionHeader({ onExitAsk, freePlay, fpCount, fpMode, answered, totalQ,
           chip would be a false statement there. The dice says what is true,
           and carries a name a screen reader can say. */}
       <span className="wq-chip" style={{ marginLeft: 8 }}
-        {...(freePlay && fpMode === "random" ? { role: "img", "aria-label": "random words" } : {})}>
-        {freePlay && fpMode === "random" ? "🎲" : state.level + " " + L.emoji}</span>
+        {...(freePlay && (fpMode === "random" || fpMode === "sentences-any") ? { role: "img", "aria-label": fpMode === "random" ? "random words" : "random sentences" } : {})}>
+        {freePlay && (fpMode === "random" || fpMode === "sentences-any") ? "🎲" : state.level + " " + L.emoji}</span>
     </Zone.Header>
   );
 }
@@ -227,7 +227,7 @@ export default function SessionScreen({
 
       <SessionBody
         sentence={sentence} sentencePhase={sentencePhase} openWord={openWord}
-        nextIsSentence={freePlay && fpMode === "sentences"}
+        nextIsSentence={freePlay && fpMode.startsWith("sentences")}
         onTapWord={onTapWord} endSentence={endSentence}
         state={state} currentWord={currentWord} phase={phase} fb={fb} liveRef={liveRef} pops={pops}
         kid={kid} advanceReady={advanceReady} waitMs={waitMs} waitFrom={waitFrom}

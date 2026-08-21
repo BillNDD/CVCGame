@@ -120,6 +120,14 @@ export default function BuildItScreen({ tray, playSounds, playWord, onDone, onEx
   function check(built, builtSounds) {
     if (!alive.current) return;
     if (built.join("") === tray.answer.join("")) {
+      /* A win cancels every help still queued. Each miss past the second
+         queued a scaffold 900 ms out, and a scaffold landing AFTER the win
+         stamped "Watch which tile it is" over "You found it!" and emptied
+         the slot the child had just filled right - found by the
+         free-play-continues test on 2026-08-21. The win's own onDone timer
+         is queued below, after the clear. */
+      timers.current.forEach(clearTimeout);
+      timers.current = [];
       setWon(true);
       setMsg(isSound ? "🎉 You found it!" : "🎉 You built " + tray.word + "!");
       if (isSound) playSounds([tray.prompt]);
@@ -134,6 +142,14 @@ export default function BuildItScreen({ tray, playSounds, playWord, onDone, onEx
        child can hear is a miss the child can fix. */
     playSounds(builtSounds, () => {
       if (!alive.current) return;
+      /* The tray is HANDED BACK after a miss: the slots clear once the child
+         has heard what they built, so "listen again" is something they can
+         act on. Beta 22 left the wrong tiles sitting in the slots, and with
+         one slot in Find-the-sound there was no visible way to try another
+         tile at all (the owner's report, 2026-08-21). The scaffold after the
+         second miss still glows the answer into the same cleared slots. */
+      slotsRef.current = tray.answer.map(() => null);
+      setSlots(slotsRef.current);
       sayPrompt();
       if (n >= 2) later(scaffold, 900);
     });
@@ -144,7 +160,7 @@ export default function BuildItScreen({ tray, playSounds, playWord, onDone, onEx
      plays, so the child sees where each sound goes rather than only which tile
      it is. Then it clears and the child copies it. */
   function scaffold() {
-    if (!alive.current) return;
+    if (!alive.current || won) return;   // never over a win
     setMsg(isSound ? "Watch which tile it is, then tap it." : "Watch where each sound goes, then copy it.");
     slotsRef.current = tray.answer.map(() => null);
     setSlots(slotsRef.current);

@@ -7,7 +7,7 @@ import {
   migrate, newState, buildMarkdown, feedbackSpeech, PRAISE, speak, hush, buzz, ttsSafePraise, ttsSafeWord,
   sessionSentences, sentencePlan, sentenceClosePlan, revealWord, revealWordLongest,
   sentencesUpTo, shuffle, REVEAL_LINES, SENTENCE_PRAISE, sentenceLead,
-  buildTray, buildSoundTray, soundIdFor, soundIdsFor, buildable,
+  buildTray, buildSoundTray, soundIdFor, soundIdsFor, buildable, WORD_LEVEL,
 } from "@engine";
 /* W3 — the storage adapter is IndexedDB in the standalone app. */
 import { loadState, saveState } from "./storage.js";
@@ -127,9 +127,19 @@ function buildRandomBlock(prevWord) {
    finished, and the free-play chooser is the first screen a child ever sees. */
 function freePlayPool(mode, s) {
   if (mode === "sentences") return shuffle(sentencesUpTo(s.level));
+  if (mode === "sentences-any") return shuffle(sentencesUpTo(LEVELS.length));   // the grid's right column: every text in the game
   if (mode === "random") return buildRandomBlock("");
   if (mode === "level") return buildSession(s);
   return [];                          // an unknown mode serves nothing, and says so
+}
+/* The grid's "build any word": a uniform draw over every buildable word in
+   the bank, never opening on the word just built. The tray is dealt at the
+   WORD'S own level, so a level-90 word brings level-90 distractors to a
+   level-3 child who asked for anything - that is what "any" means here. */
+const SENTENCE_MODES = ["sentences", "sentences-any"];
+function anyBuildableWord(avoid) {
+  const pool = bankWords().filter((w) => buildable(w) && w !== avoid);
+  return pool.length ? pool[Math.floor(Math.random() * pool.length)] : null;
 }
 
 export default function App() {
@@ -202,6 +212,12 @@ export default function App() {
      free-play run, "session" for the breather. Nothing about a Build-it turn
      is written to state: it is practice, and that is load-bearing (S1). */
   const [build, setBuild] = useState(null);
+  /* Counts every tray dealt, and keys the build screen by it: a new tray
+     rendered into the same component kept the previous round's slots (found
+     by the free-play-continues test, 2026-08-21), so every round mounts
+     fresh. */
+  const buildSeq = useRef(0);
+  const dealBuild = (tray) => { buildSeq.current += 1; setBuild(tray); };
   const buildBack = useRef("home");
   /* Which word-counts have already had their breather, so a re-render or a
      second press cannot serve two. */
@@ -398,11 +414,11 @@ export default function App() {
     if (!pool.length) return null;
     return pool[Math.floor(Math.random() * pool.length)];
   }
-  function startBuild(word, back) {
+  function startBuild(word, back, level = null) {
     if (!word) return;
     const s = stateRef.current;
     buildBack.current = back;
-    setBuild(buildTray(word, s.level));
+    dealBuild(buildTray(word, level ?? s.level));
     setScreen("build");
   }
   /* The turn ends and nothing has been recorded - by construction, since
@@ -420,6 +436,33 @@ export default function App() {
     if (buildBack.current === "session") { setScreen("session"); advanceWord(); return; }
     setFreePlay(false);
     setScreen("home");
+  }
+  /* A FINISHED build in free play deals the next one - free play is endless
+     by design and "Done" is the way out - where beta 22 sent every finished
+     build home after one round (the owner, on his own save: "only lets you
+     pick one sound then kicks you out"). The session breather still returns
+     to the session: one turn is the breather's whole point. A new sound is
+     drawn until it differs from the one just found, where the roster allows. */
+  function nextBuild() {
+    if (buildBack.current === "session") { endBuild(); return; }
+    hush(); stopClips();
+    const s2 = fpState.current || stateRef.current;
+    if (s2.preLevel > 0) {
+      const last = build && build.prompt;
+      let tray = buildSoundTray(s2.preLevel);
+      for (let k = 0; k < 6 && tray && tray.prompt === last && tray.tiles.length > 1; k += 1) tray = buildSoundTray(s2.preLevel);
+      if (tray) { dealBuild(tray); return; }
+      endBuild(); return;
+    }
+    if (fpMode.current === "build-any") {
+      const word = anyBuildableWord(build && build.word);
+      if (!word) { endBuild(); return; }
+      dealBuild(buildTray(word, WORD_LEVEL[word]));
+      return;
+    }
+    const word = buildWordFor(s2);
+    if (!word) { endBuild(); return; }
+    dealBuild(buildTray(word, stateRef.current.level));
   }
 
   function beginFreePlay(mode) {
@@ -442,7 +485,7 @@ export default function App() {
        here (HomeScreen). This is what makes that safe rather than lucky: the
        two decisions read the same pool through the same function, and if they
        ever disagree the app says so instead of breaking. */
-    const pool = mode === "build" ? null : freePlayPool(mode, fpState.current);
+    const pool = mode === "build" || mode === "build-any" ? null : freePlayPool(mode, fpState.current);
     if (pool && !pool.length) {
       setFpChooser(false);
       setToast("Nothing to read there yet. Pick another free play choice.");
@@ -473,6 +516,12 @@ export default function App() {
     }
     /* D1: the fourth chooser row. Build-it has no queue and no grading - it
        is one word at a time, and the child leaves when they like. */
+    if (mode === "build-any") {
+      const word = anyBuildableWord(null);
+      if (!word) { setToast("Nothing to build yet. Pick another free play choice."); return; }
+      startBuild(word, "home", WORD_LEVEL[word]);
+      return;
+    }
     if (mode === "build") {
       /* A child still on the pre-letter ladder gets the SOUND version: find
          the tile for a sound, among the letters they have been taught. Below
@@ -481,7 +530,7 @@ export default function App() {
       const s2 = fpState.current;
       if (s2.preLevel > 0) {
         const tray = buildSoundTray(s2.preLevel);
-        if (tray) { buildBack.current = "home"; setBuild(tray); setScreen("build"); }
+        if (tray) { buildBack.current = "home"; dealBuild(tray); setScreen("build"); }
         return;
       }
       startBuild(buildWordFor(s2), "home");
@@ -524,8 +573,12 @@ export default function App() {
   }
   function schedulePops(tiles = []) {
     popTimers.current.forEach(clearTimeout);
+    /* Each ring lands on the tile the player NAMES (t.tile), never on its
+       place in the list: the list has no entry for a silent tile, and indexing
+       by list position is exactly how beta 22 ringed the e of "kicked" while
+       /d/ played and never ringed the d at all. */
     popTimers.current = tiles.map((t, i) => setTimeout(
-      () => setPops(p => { const n = p.slice(); n[i] = { n: (n[i]?.n || 0) + 1, ms: t.ms }; return n; }), t.at));
+      () => setPops(p => { const n = p.slice(); const k = t.tile ?? i; n[k] = { n: (n[k]?.n || 0) + 1, ms: t.ms }; return n; }), t.at));
   }
 
   /* `real` marks the reveal's own measured length, which always wins. Without
@@ -722,7 +775,7 @@ export default function App() {
         closeTimer.current = setTimeout(() => {
           playClips(sentenceClosePlan(item.id), stateRef.current.settings.sound, noteFallback);
         }, ms + SEAM_MS);
-      });
+      }, w ? soundIdsFor(w) : null);
   }
   /* THE MARK THAT ENDS THE SENTENCE ATTEMPT (owner-ruled 2026-08-14). Graded
      with the same three controls as a word, and the grade decides ONLY what
@@ -839,7 +892,7 @@ export default function App() {
        the shuffled pool is dealt again from the top. There is nothing to
        grade and nothing to record, so none of the queue bookkeeping below
        applies to it. */
-    if (freePlay && fpMode.current === "sentences") {
+    if (freePlay && SENTENCE_MODES.includes(fpMode.current)) {
       const pool = fpSentences.current;
       /* (qi + 1) % 0 is NaN, and pool[NaN] is undefined: the deal that "never
          runs out" runs out of everything at once. A pool that emptied under a
@@ -980,7 +1033,15 @@ export default function App() {
   const setSound = (on) => mutate(s => { s.settings.sound = on; });
   const setUpdateCheck = (on) => mutate(s => { s.settings.updateCheck = on; });
   const setLang = (code) => mutate(s => { s.settings.lang = code; });
-  const jumpLevel = (n) => { mutate(s => { s.level = n; s.perfectStreak = 0; }); setToast("Level set to " + n + " " + LEVELS[n - 1].emoji); };
+  /* Picking a WORD level steps the child off the pre-letter ladder as well:
+     the ladder wins over the level whenever preLevel > 0, so a grown-up who
+     tapped "26" while P3 was set was sent back to i and e (the owner, on his
+     own save, 2026-08-21). The toast says both things that changed. */
+  const jumpLevel = (n) => {
+    const wasPre = stateRef.current.preLevel > 0;
+    mutate(s => { s.level = n; s.perfectStreak = 0; s.preLevel = 0; s.prePerfectStreak = 0; });
+    setToast("Level set to " + n + " " + LEVELS[n - 1].emoji + (wasPre ? " · sessions serve words" : ""));
+  };
   const jumpPreLevel = (n) => { mutate(s => { s.preLevel = n; s.prePerfectStreak = 0; }); setToast(n === 0 ? "Sessions serve words" : "Next session: Pre " + n); };
   function commitName() {
     const clean = Array.from(nameDraft.trim()).slice(0, 20).join("");   // P7 — never bisect a surrogate pair
@@ -1061,8 +1122,8 @@ export default function App() {
     const kid = state.settings.childName;
 
     if (screen === "build" && build) {
-      return <BuildItScreen tray={build} playWord={playBuildWord} playSounds={playBuildSounds}
-        soundIdsOf={soundIdsFor} onDone={endBuild} onExit={endBuild} />;
+      return <BuildItScreen key={buildSeq.current} tray={build} playWord={playBuildWord} playSounds={playBuildSounds}
+        soundIdsOf={soundIdsFor} onDone={nextBuild} onExit={endBuild} />;
     }
 
     if (screen === "home") {

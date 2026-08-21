@@ -100,7 +100,7 @@ await page.goto(base, { waitUntil: "networkidle" });
    device without writing in a state the game would never have built, and it
    is an ordinary mode a child can choose from the home screen. */
 await page.getByText("🎈 Free play").click();
-await page.getByText("🎲 Truly random").click();
+await page.getByText("🎲 Any word").click();
 await page.waitForTimeout(300);
 
 const shown = async () => (await page.locator(".wq-word").textContent());

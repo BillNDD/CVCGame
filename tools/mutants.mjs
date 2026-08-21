@@ -112,14 +112,16 @@ const MUTANTS = [
      with it, so the mutant stopped testing anything while the gate stayed
      green. These replace it, one for each way the reveal can be quietly
      broken. */
-  ["sound-out seam dropped", 'for (const id of soundIdsFor(word)) out.push("seam2", id);', 'for (const id of soundIdsFor(word)) out.push(id);'],
+  ["sound-out seam dropped", 'for (const id of soundIdsFor(word)) if (id !== "d:silent") out.push("seam2", id);', 'for (const id of soundIdsFor(word)) if (id !== "d:silent") out.push(id);'],
+  /* Beta 22 shipped the ring one tile late after every silent tile. */
+  ["ring forgets the silent tile", 'if (tileSounds) while (t < tileSounds.length && tileSounds[t] === "d:silent") t++;', ''],
   /* Re-pointed 2026-08-20 when the magic-e rule taught the loop to step over
      d:silent - the anchor moved, the fault it plants is the same one. */
   ["sound-out loses its sounds", 'for (const id of soundIdsFor(word)) if (id !== "d:silent") out.push("seam2", id);', '/* sounds dropped by mutant */'],
   ["sound-out never says the word again", 'out.push("seam2", "w:" + word);\n    return out;', "return out;"],
   ["sound-out seam 500 to 900", "const SOUNDOUT_SEAM_MS = 500;", "const SOUNDOUT_SEAM_MS = 900;"],
   ["a seam is read as a clip", 'const isSeam = (id) => id === "seam" || id === "seam2";', 'const isSeam = (id) => id === "seam";'],
-  ["tile slots lose their order", "if (String(plan[i]).startsWith(\"d:\")) slots.push({ index: i, tile: t++ });", "if (String(plan[i]).startsWith(\"d:\")) slots.push({ index: i, tile: 0 });"],
+  ["tile slots lose their order", 'slots.push({ index: i, tile: t++ });', 'slots.push({ index: i, tile: t });'],
   /* Re-pointed 2026-08-20 when LEX_BENDS joined the merge - the fault it
      plants (every bend lost) is the same one. */
   ["tricky words lose their true sound", "const bent = { ...(LEX_BENDS[word] || {}), ...(WORD_SOUND[word] || {}) };", "const bent = {};"],

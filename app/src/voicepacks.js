@@ -8,7 +8,7 @@
    child never hears praise without its word. stopClips() silences the chain
    the moment the next attempt starts: S2 applies to clips exactly as to
    speech. */
-import { clipPlan, isSeam, seamMs, resolvePack, tileSlots, hush } from "@engine";
+import { clipPlan, isSeam, seamMs, resolvePack, tileSlots, hush, soundIdsFor } from "@engine";
 
 const DB_NAME = "word-quest-voice";
 const DB_STORE = "clips";
@@ -279,7 +279,7 @@ const measured = (tier, id) => {
   return !!m && typeof m.lead === "number" && typeof m.tail === "number" && typeof m.ms === "number";
 };
 
-async function playPlan(plan, tier, my, fallback, onScheduled) {
+async function playPlan(plan, tier, my, fallback, onScheduled, tileSounds = null) {
   try {
     const decoded = await Promise.all(plan.map((id) => (isSeam(id) ? null : bufferFor(tier, id))));
     if (my !== token) return;                    // a newer utterance took over
@@ -334,7 +334,7 @@ async function playPlan(plan, tier, my, fallback, onScheduled) {
        clips' real decoded lengths, on the same clock that schedules them —
        never a guessed delay, which would drift apart from the sound as the
        word grows a tile. */
-    const slots = tileSlots(plan);
+    const slots = tileSlots(plan, tileSounds);
     if (slots.length) startHum(start, at);
     /* The caller needs to know how long the child will be listening: the
        advance control waits for the word rather than cutting it off. This is
@@ -355,6 +355,7 @@ async function playPlan(plan, tier, my, fallback, onScheduled) {
       const lead = edge(tier, id, "lead");
       const m = clipMeta(tier, id);
       return {
+        tile: s.tile,   // the TRUE tile, silent tiles stepped over - the ring lands where the sound lives
         at: Math.round((startedAt[s.index] - now) * 1000) + lead,
         ms: measured(tier, id) ? m.ms - lead - edge(tier, id, "tail") : 0,
       };
@@ -373,7 +374,9 @@ async function playPlan(plan, tier, my, fallback, onScheduled) {
    back, where no length and no tile time can be known — so a fallback reveal
    shows no pops rather than pops against the wrong sound. */
 export function speakVoice(kind, word, praiseIdx, enabled, fallback, onScheduled = () => {}) {
-  playClips(clipPlan(kind, word, praiseIdx), enabled, fallback, onScheduled);
+  /* The word's tile sounds ride along, silents included, so every ring of the
+     sound-out lands on its own tile (see playClips). */
+  playClips(clipPlan(kind, word, praiseIdx), enabled, fallback, onScheduled, word ? soundIdsFor(word) : null);
 }
 
 /* The same utterance path for a plan the caller already has. The sentence
@@ -383,7 +386,11 @@ export function speakVoice(kind, word, praiseIdx, enabled, fallback, onScheduled
    identical on purpose: one resolver, one player, one set of fallback reasons
    (B7). A second copy of this would be a second place for a fallback to go
    unnamed, which is the fault B7 was reopened for. */
-export function playClips(plan, enabled, fallback, onScheduled = () => {}) {
+/* `tileSounds` is the word's tile sounds WITH its silent tiles (soundIdsFor):
+   the plan carries no clip for a silent tile, so the only way a ring can find
+   its true tile is to be told which tiles are silent (the beta 22 fault: every
+   ring after a silent e landed one tile late). */
+export function playClips(plan, enabled, fallback, onScheduled = () => {}, tileSounds = null) {
   stopClips();
   hush();
   if (!enabled) return;
@@ -407,5 +414,5 @@ export function playClips(plan, enabled, fallback, onScheduled = () => {}) {
     fallback(`the recorded voice has no clip for ${missing.join(", ") || "this utterance"}`);
     return;
   }
-  playPlan(plan, tier, token, fallback, onScheduled);
+  playPlan(plan, tier, token, fallback, onScheduled, tileSounds);
 }

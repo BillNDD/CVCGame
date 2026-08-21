@@ -325,6 +325,21 @@ describe("G9 faults — the corner's own actions survive their edges", () => {
     expect(URL.revokeObjectURL).toHaveBeenCalledWith("blob:wq-test");
     expect(await made.text()).toContain('"application": "word-quest-backup"');
   });
+  it("jumping to a word level steps the child off the pre-ladder", async () => {
+    /* The owner set P3, then tapped level 26, and the ladder kept winning
+       (2026-08-21): preLevel > 0 governs every session. A tapped word level
+       now clears it, and the toast says so. */
+    mockLoad.mockResolvedValueOnce({ ...seed(), preLevel: 3 });
+    await boot(0);
+    fireEvent.click(screen.getByLabelText("Grown-ups corner"));
+    await flush(0);
+    fireEvent.click(screen.getByText("26"));
+    await flush(0);
+    const saved = mockSave.mock.calls.at(-1)[0];
+    expect(saved.level).toBe(26);
+    expect(saved.preLevel).toBe(0);
+    expect(screen.getByText(/Level set to 26 .* sessions serve words/)).toBeTruthy();
+  });
   it("resets only through the second press, and the first can back out", async () => {
     await openCorner();
     fireEvent.click(screen.getByText("🗑️ Reset all progress"));

@@ -75,8 +75,15 @@ function run(d) {
   const buildScreen = readFileSync("app/src/screens/BuildItScreen.jsx", "utf8");
   const homeScreen = readFileSync("app/src/screens/HomeScreen.jsx", "utf8");
   const pinned = [
-    [homeScreen, '🧱 Build a word', "chooser row (words)"],
-    [homeScreen, '🔎 Find the sound', "chooser row (the ladder)"],
+    /* The chooser became a grid on 2026-08-21 (owner-ruled from a mock): the
+       Build row reads "Build a level word" | "Build any word", the Sounds row
+       "Find a Pre N sound" - the level number is rendered, so the pin holds
+       the literal prefix the JSX carries. */
+    [homeScreen, '🧱 Build a level word', "chooser cell (build, this level)"],
+    [homeScreen, '🎲 Build any word', "chooser cell (build, any word)"],
+    [homeScreen, '🔎 Find a Pre {preLevel} sound', "chooser cell (the ladder)"],
+    [homeScreen, '🎲 Any word', "chooser cell (words, any)"],
+    [homeScreen, '🎲 Any sentence', "chooser cell (sentences, any)"],
     [homeScreen, 'Building needs sound. Turn sound on in the Grown-ups corner.', "sound-off note"],
     [buildScreen, '🔊 Hear the word', "prompt control (words)"],
     [buildScreen, '🔊 Hear the sound', "prompt control (the ladder)"],

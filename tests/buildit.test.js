@@ -269,4 +269,68 @@ describe("Build-a-sound, for a child still on the ladder", () => {
     await flush(50);
     expect(screen.getByText(/You found it/)).toBeTruthy();
   });
+  it("13: a miss hands the tray back by itself - the wrong tile does not sit in the slot", async () => {
+    /* The owner, 2026-08-21: "once you pick a sound, if you make a wrong
+       choice, there is no way to choose a different sound." Beta 22 left the
+       wrong tile in the single slot and the only way on was a tap nothing
+       explained. After the miss is heard, the slot is empty again with no
+       tap at all, and the next tile goes straight in. */
+    const tray = buildSoundTray(3, () => 0.3);
+    render(createElement(BuildItScreen, {
+      tray,
+      playWord: (w) => played.push("word:" + w),
+      playSounds: (ids, then) => { played.push("sounds:" + ids.join(",")); if (then) then(); },
+      soundIdsOf: (w) => chunkWord(w).map((c) => "d:" + c),
+      onDone: () => {}, onExit: () => {},
+    }));
+    const wrong = tiles().find((b) => b.textContent !== tray.target);
+    fireEvent.click(wrong);
+    await flush(50);
+    expect(screen.getByText(/different sound/)).toBeTruthy();
+    expect(slots()[0].textContent).toBe("");                  // handed back, untouched
+    fireEvent.click(tiles().find((b) => b.textContent === tray.target));   // straight in
+    await flush(50);
+    expect(screen.getByText(/You found it/)).toBeTruthy();
+  });
+});
+
+describe("free play builds go on until Done", () => {
+  /* The owner, 2026-08-21: Find-the-sound "only lets you pick one sound then
+     kicks you out". Free play is endless by design; a finished build deals
+     the next one, and only the Done control leaves. Driven through the real
+     App on a pre-ladder save, tiles tried in order until the right one -
+     misses are unlimited and the slot clears itself (test 13). */
+  it("14: a found sound is followed by another sound, and Done goes home", async () => {
+    const App = (await import("../app/src/App.jsx")).default;
+    stored = { ...newState(), preLevel: 3 };
+    render(createElement(App));
+    await flush(0);
+    fireEvent.click(screen.getByText("🎈 Free play"));
+    await flush(0);
+    fireEvent.click(screen.getByText("🔎 Find a Pre 3 sound"));
+    await flush(0);
+    expect(screen.getByText("🔎 Find the sound")).toBeTruthy();
+    const findIt = async () => {
+      const n = tiles().length;
+      for (let i = 0; i < n; i += 1) {
+        fireEvent.click(tiles()[i]);   // re-queried: the tray re-renders after every tap
+        await flush(400);              // the App's playSounds hands back 140 ms after scheduling; a miss then re-says the prompt
+        if (screen.queryByText(/You found it/)) return true;
+      }
+      return false;
+    };
+    expect(await findIt()).toBe(true);
+    /* The win must STAY won: the scaffolds queued by the misses on the way
+       (900 ms out, one per miss past the second) may not stamp over it. */
+    await flush(1000);
+    expect(screen.getByText(/You found it/)).toBeTruthy();
+    await flush(2700);                                         // the win's pause, then the NEXT sound
+    expect(screen.queryByText("▶️ Begin Session")).toBeNull();   // not home
+    expect(screen.getByText("🔎 Find the sound")).toBeTruthy();  // another round
+    expect(slots()[0].textContent).toBe("");                     // fresh slot
+    fireEvent.click(screen.getByLabelText("Leave building"));    // Done
+    await flush(0);
+    expect(screen.getByText("▶️ Begin Session")).toBeTruthy();   // now home
+    expect(saves.filter((s) => s && s.words && Object.keys(s.words).length)).toEqual([]);   // practice only, still
+  });
 });

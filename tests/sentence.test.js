@@ -366,7 +366,7 @@ describe("the sentence inside a session", () => {
     await flush(0);
     fireEvent.click(screen.getByText("🎈 Free play"));
     await flush(0);
-    fireEvent.click(screen.getByText("📖 Sentences"));
+    fireEvent.click(screen.getByText(`📖 Level ${level} sentences`));   // the grid's left cell names the level
     await flush(0);
   };
 
@@ -660,7 +660,7 @@ describe("free play deals from data that can be empty", () => {
       await flush(0);
       fireEvent.click(screen.getByText("🎈 Free play"));
       await flush(0);
-      const row = screen.getByText("📖 Sentences");
+      const row = screen.getByText("📖 Level 1 sentences");
       noSentences = true;
       fireEvent.click(row);
       await flush(0);
@@ -668,7 +668,7 @@ describe("free play deals from data that can be empty", () => {
       expect(sentenceEl()).toBeNull();                             // no stage was entered
       expect(screen.getByText("▶️ Begin Session")).toBeTruthy();   // still home
       expect(screen.getByText("Nothing to read there yet. Pick another free play choice.")).toBeTruthy();
-      expect(screen.queryByText("🎲 Truly random")).toBeNull();    // and the chooser closed
+      expect(screen.queryByText("🎲 Any word")).toBeNull();    // and the chooser closed
     } finally {
       window.removeEventListener("error", catcher);
     }
@@ -680,14 +680,15 @@ describe("free play deals from data that can be empty", () => {
     await flush(0);
     fireEvent.click(screen.getByText("🎈 Free play"));
     await flush(0);
-    expect(screen.queryByText("📖 Sentences")).toBeNull();
-    /* And the question above the rows stops offering it. A paragraph naming a
-       control that is not there is the dead control one line higher up. */
-    expect(screen.getByText(/^Grown-up: read words or build a word from its sounds\?/)).toBeTruthy();
-    /* Only that row. A chooser that empties itself is not a fix, and the two
-       remaining choices serve words, which this level has. */
-    expect(screen.getByText("🎲 Truly random")).toBeTruthy();
-    expect(screen.getByText("🧱 Build a word")).toBeTruthy();
+    expect(screen.queryByText("📖 Level 1 sentences")).toBeNull();
+    /* Re-derived for the 2026-08-21 grid: only the LEVEL cell goes. The
+       right column's "Any sentence" serves the whole game's texts and stays,
+       and the lede no longer lists activities, so it no longer has to change
+       with them. A chooser that empties itself is not a fix: the other
+       cells serve words, which this level has. */
+    expect(screen.getByText("🎲 Any sentence")).toBeTruthy();
+    expect(screen.getByText("🎲 Any word")).toBeTruthy();
+    expect(screen.getByText("🧱 Build a level word")).toBeTruthy();
     cleanup();
     /* THE CONTROL (E5): the same walk with sentences to serve keeps the row.
        A hider that hides in every world hides nothing. */
@@ -696,7 +697,6 @@ describe("free play deals from data that can be empty", () => {
     await flush(0);
     fireEvent.click(screen.getByText("🎈 Free play"));
     await flush(0);
-    expect(screen.getByText("📖 Sentences")).toBeTruthy();
-    expect(screen.getByText(/^Grown-up: read words, read sentences, or build a word/)).toBeTruthy();
+    expect(screen.getByText("📖 Level 1 sentences")).toBeTruthy();
   });
 });

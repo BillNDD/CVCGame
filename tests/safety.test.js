@@ -518,12 +518,12 @@ describe("G10 — free play never touches the save", () => {
     await flush(0);
     /* no word yet - the grown-up's choice comes first */
     expect(document.querySelector(".wq-word")).toBeNull();
-    expect(screen.getByText("🎲 Truly random")).toBeTruthy();
+    expect(screen.getByText("🎲 Any word")).toBeTruthy();
     expect(screen.getByText(/🎯 Level 1/)).toBeTruthy();
     fireEvent.click(screen.getByText("Back"));
     await flush(0);
     expect(screen.getByText("▶️ Begin Session")).toBeTruthy();
-    expect(screen.queryByText("🎲 Truly random")).toBeNull();
+    expect(screen.queryByText("🎲 Any word")).toBeNull();
     expect(document.querySelector(".wq-word")).toBeNull();
     expect(mockSave.mock.calls.length).toBe(before);
   });
@@ -538,7 +538,7 @@ describe("G10 — free play never touches the save", () => {
        new last word, this is the line to update. */
     const spy = vi.spyOn(Math, "random").mockReturnValue(0.9999999);
     try {
-      await enterFreePlay("🎲 Truly random");
+      await enterFreePlay("🎲 Any word");
       expect(document.querySelector(".wq-word").textContent).toBe("teacher");
       /* control: the SAME pin through the level door serves a Level 1 word -
          the pin alone cannot conjure "ping"; only the random door can. */
@@ -550,7 +550,7 @@ describe("G10 — free play never touches the save", () => {
   });
 
   it("46: random play writes nothing and says what it is", async () => {
-    await enterFreePlay("🎲 Truly random");
+    await enterFreePlay("🎲 Any word");
     expect(screen.getByText("FREE PLAY")).toBeTruthy();
     /* the dice chip: the level chip would claim a level this mode is not serving */
     expect(screen.getByText("🎲")).toBeTruthy();
@@ -656,7 +656,7 @@ describe("G10 — free play never touches the save", () => {
        never take the previous paragraph's word for it. */
     const spy = vi.spyOn(Math, "random").mockReturnValue(0.9999999);
     try {
-      await enterFreePlay("🎲 Truly random");
+      await enterFreePlay("🎲 Any word");
       const seen = [];
       for (let i = 0; i < 19; i++) {
         seen.push(document.querySelector(".wq-word").textContent);
