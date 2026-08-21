@@ -621,7 +621,7 @@ environment; calibrated coverage, mutation and browser evidence; fast checks on 
 requests, the full audit on one dispatched frozen candidate; independent verification of
 remote enforcement including tag protection; regression tests that mutate the policy and
 aggregation and must be rejected; an independent read-only review of the exact revision.
-Deflaking rule: never retry until green, never widen a timeout without a measurement,
+The deflaking rule: never retry until green, never widen a timeout without a measurement,
 never weaken an assertion, never treat missing evidence as success. The day's rehearsals
 found exactly its class - G25's counters blind since birth, three floor raises on the
 wrong key, stray step arguments, a null payload hash - and the recommendation, costed
