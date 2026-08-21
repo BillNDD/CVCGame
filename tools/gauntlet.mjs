@@ -130,7 +130,7 @@ step("G11 app-sources", "node tools/app-sources.mjs && node tools/app-sources.mj
   { label: "controls", regex: /app-sources controls: (\d+) passed/, floorKey: "g11_source_controls" },
 ], {}, ["ok   a new file is in by default"]);
 
-step("G11 copy", "G11 app-sources", "node tools/copy-lint.mjs && node tools/copy-lint.mjs --self-test", [
+step("G11 copy", "node tools/copy-lint.mjs && node tools/copy-lint.mjs --self-test", [
   { label: "rules", regex: /Copy gate: (\d+) rules/, floorKey: "g11_copy_rules" },
   { label: "problems", regex: /(\d+) problems/, max: 0 },
 ]);
