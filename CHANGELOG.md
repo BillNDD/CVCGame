@@ -15,6 +15,24 @@ This document follows the Microsoft Writing Style Guide.
 Version 6 adds the standalone progressive web app. The reference build does not change.
 The first app version is 1.0.0-beta.1. The app stays in beta until version 1.0 is ready.
 
+- Fixed in 1.0.0-beta.23 (an emergency release, the same day as beta.22): the sound-out's
+  rings were landing on the wrong tile after a silent letter. In "kicked" the e lit up
+  while the d sound played, and the d never lit; in "useful" the same slip ran through the
+  whole word. The SOUNDS were right all along — only the pointer was wrong — but a child
+  watches the tile, so this was the game teaching the wrong letter for a sound, on every
+  word with a silent letter. Fixed, and a sentence whose word had a silent letter — which
+  was playing nothing at all — reads again.
+- Fixed in 1.0.0-beta.23: "Find the sound" ended after one pick; free play now deals the
+  next sound (or the next word to build) until you press Done. A wrong pick used to leave
+  the tile stuck in the slot with no way on — the tray is handed back after the miss is
+  heard. And a late "watch which tile it is" hint no longer stamps over a win.
+- Fixed in 1.0.0-beta.23: in the Grown-ups corner, choosing a word level while a pre-level
+  was set left the pre-level in charge. Choosing a level now steps your child off the
+  pre-levels, and the note says so.
+- Changed in 1.0.0-beta.23: the Free play chooser is a grid. One row per activity — Words,
+  Sentences, Build (or Sounds while your child is on the pre-levels) — with two choices
+  per row: your child's level on the left, anything in the whole game on the right. "Any
+  sentence" is new, and ends Level 1 meeting its one sentence over and over.
 - New in 1.0.0-beta.22: the whole road, at last. The game now has ONE HUNDRED levels
   and 1,123 words, climbing from the first short-vowel words all the way to two- and
   three-beat words like breakfast and wonderful, with every letter team, silent letter,
