@@ -555,6 +555,12 @@ describe("the sentence inside a session", () => {
       if (sentenceEl()) { await markSentence(); fireEvent.click(advance()); await flush(0); }
     }
     expect(met).toBe(true);
+    /* And the second look is GRADED, because the retry path's own bookkeeping
+       (the near-due re-schedule for a word won on its second try) had never
+       run under a test until the 2026-08-21 coverage rehearsal looked. */
+    fireEvent.keyDown(screen.getByLabelText("✓ got it (hold)"), { key: "Enter" });
+    await flush(REVEAL_MS + 50);
+    expect(document.querySelector(".wq-word").textContent).toBe(missed);   // still the retried word, in its reveal
   });
 
   /* The control for the test above: the SAME miss with no interruption also

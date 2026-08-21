@@ -269,3 +269,76 @@ describe("G9 faults — wrong-shape JSON battery", () => {
     }
   });
 });
+
+describe("G9 faults — the corner's own actions survive their edges", () => {
+  /* Three adult actions the coverage rehearsal (2026-08-21) found no test
+     had ever pressed: the name commit with its surrogate-pair rule, the log
+     copy on BOTH clipboard outcomes, and the two-stage reset. Each is a
+     screen a real parent uses; a throw in any of them is a fault. */
+  const seed = () => ({ version: 6, level: 1, preLevel: 0, prePerfectStreak: 0,
+    sessionsCompleted: 0, perfectStreak: 0, words: {}, log: [], pre: {},
+    settings: { sound: true, childName: "", lang: "en-US" } });
+  beforeEach(() => vi.useFakeTimers());
+  afterEach(() => { vi.useRealTimers(); cleanup(); });
+  const openCorner = async () => {
+    mockLoad.mockResolvedValueOnce(seed());
+    await boot(0);
+    fireEvent.click(screen.getByLabelText("Grown-ups corner"));
+    await flush(0);
+  };
+  it("commits a trimmed, 20-glyph name without bisecting a surrogate pair", async () => {
+    await openCorner();
+    const input = document.getElementById("wq-name");
+    /* 21 astronaut emoji: a byte-wise slice(0, 20) would cut one in half. */
+    fireEvent.change(input, { target: { value: "  " + "🧑‍🚀".repeat(21) + "  " } });
+    fireEvent.blur(input);
+    await flush(0);
+    const committed = mockSave.mock.calls.at(-1)[0].settings.childName;
+    expect(Array.from(committed).length).toBe(20);
+    expect(committed.endsWith("�")).toBe(false);
+  });
+  it("copies the log when the clipboard allows, and shows the box when it refuses", async () => {
+    await openCorner();
+    Object.assign(navigator, { clipboard: { writeText: vi.fn(async () => undefined) } });
+    fireEvent.click(screen.getByText("📋 Copy log (Markdown)"));
+    await flush(0);
+    expect(screen.getByText("Log copied ✓")).toBeTruthy();
+    navigator.clipboard.writeText = vi.fn(async () => { throw new Error("denied"); });
+    fireEvent.click(screen.getByText("📋 Copy log (Markdown)"));
+    await flush(0);
+    /* The fallback the owner met on his own phone the same morning: the
+       markdown lands in a select-all box instead of vanishing. */
+    expect(document.querySelector("textarea.wq-input").value).toContain("0/1123");
+  });
+  it("saves a backup through the blob path without a throw", async () => {
+    await openCorner();
+    /* jsdom has no object URLs; the stubs stand in for the browser and the
+       assertions hold the CONTRACT: one URL made, one revoked, the download
+       carries the marker the import path will demand back. */
+    let made = null;
+    URL.createObjectURL = vi.fn((blob) => { made = blob; return "blob:wq-test"; });
+    URL.revokeObjectURL = vi.fn();
+    fireEvent.click(screen.getByText("⬇️ Save backup file"));
+    await flush(1200);
+    expect(screen.getByText("Backup file saved.")).toBeTruthy();
+    expect(URL.createObjectURL).toHaveBeenCalledTimes(1);
+    expect(URL.revokeObjectURL).toHaveBeenCalledWith("blob:wq-test");
+    expect(await made.text()).toContain('"application": "word-quest-backup"');
+  });
+  it("resets only through the second press, and the first can back out", async () => {
+    await openCorner();
+    fireEvent.click(screen.getByText("🗑️ Reset all progress"));
+    await flush(0);
+    fireEvent.click(screen.getByText("Keep my progress"));
+    await flush(0);
+    expect(screen.getByText("🗑️ Reset all progress")).toBeTruthy();   // backed out whole
+    fireEvent.click(screen.getByText("🗑️ Reset all progress"));
+    await flush(0);
+    fireEvent.click(screen.getByText("Yes, erase everything"));
+    await flush(0);
+    expect(screen.getByText("All progress cleared.")).toBeTruthy();
+    const saved = mockSave.mock.calls.at(-1)[0];
+    expect(saved.words).toEqual({});
+    expect(saved.log).toEqual([]);
+  });
+});
