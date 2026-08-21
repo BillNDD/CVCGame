@@ -881,15 +881,18 @@ for (const height of [430, 555, 720, 950]) {
   await page.goto(URL, { waitUntil: "load" });
   await page.getByRole("button", { name: "Free play" }).click();
   await page.locator(".wq-modal").waitFor();
-  /* THREE choices since 2026-08-13, not two: sentences joined words (SPEC
-     section 12 point 7). Named individually rather than counted, so a choice
-     that vanishes is a failure and not a smaller number nobody reads. */
+  /* The grid since 2026-08-21 (owner-ruled from a mock): Words and Sentences
+     rows each hold a level cell and an any cell. Named individually rather
+     than counted, so a cell that vanishes is a failure and not a smaller
+     number nobody reads. Two cells share a row at 390 px, so each must still
+     clear the 56 px child floor on its own. */
   const rand = await page.getByRole("button", { name: "Any word" }).boundingBox();
   const lvl = await page.getByRole("button", { name: /Level \d+ .+ words/ }).boundingBox();
-  const sent = await page.getByRole("button", { name: "📖 Sentences" }).boundingBox();
-  if (rand && lvl && sent && rand.height >= 56 && lvl.height >= 56 && sent.height >= 56)
-    ok(`all three free-play choices are child-sized (${Math.round(rand.height)}px, ${Math.round(lvl.height)}px and ${Math.round(sent.height)}px)`);
-  else fail("a free-play choice is under 56 px or missing", JSON.stringify({ rand, lvl, sent }));
+  const sent = await page.getByRole("button", { name: /Level \d+ sentences/ }).boundingBox();
+  const anySent = await page.getByRole("button", { name: "Any sentence" }).boundingBox();
+  if (rand && lvl && sent && anySent && [rand, lvl, sent, anySent].every((b) => b.height >= 56))
+    ok(`all four word and sentence cells are child-sized (${Math.round(rand.height)}px, ${Math.round(lvl.height)}px, ${Math.round(sent.height)}px and ${Math.round(anySent.height)}px)`);
+  else fail("a free-play cell is under 56 px or missing", JSON.stringify({ rand, lvl, sent, anySent }));
   /* A choice must LOOK like a control on the white card. The first cut of the
      level choice was white on white with no border and no shadow — a line of
      floating text — and nothing measured it. Now something does: each choice
@@ -903,9 +906,14 @@ for (const height of [430, 555, 720, 950]) {
       return { bg: s.backgroundColor, border: parseFloat(s.borderTopWidth) || 0, shadow: s.boxShadow, cardBg };
     });
   });
-  if (bounded.length === 3 && bounded.every((d) => d.bg !== d.cardBg || d.border >= 2 || d.shadow !== "none"))
-    ok("all three free-play choices are visibly bounded on the card");
-  else fail("a free-play choice melts into the card", JSON.stringify(bounded));
+  /* FOUR cells on this page's FRESH save: the Words and Sentences rows of
+     two each. The save sits at Pre 1, where the Build/Sounds row goes by the
+     2026-08-17 Build-a-sound ruling (no letters met, nothing honest for a
+     tray to hold) - so four is the truth here, not a shortfall. The grid of
+     2026-08-21; a graduated save would show six. */
+  if (bounded.length === 4 && bounded.every((d) => d.bg !== d.cardBg || d.border >= 2 || d.shadow !== "none"))
+    ok("all four free-play cells of a fresh save are visibly bounded on the card");
+  else fail("a free-play cell melts into the card, or the fresh-save count moved", JSON.stringify(bounded));
   await page.getByRole("button", { name: "Back" }).click();
   const home = await page.getByRole("button", { name: "Begin Session" }).isVisible();
   const modals = await page.locator(".wq-modal").count();
