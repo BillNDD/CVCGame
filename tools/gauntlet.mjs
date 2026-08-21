@@ -79,6 +79,13 @@ function report(gate, command, ok, counts, extra = {}) {
 }
 
 function step(gate, command, counts = [], env = {}, required = []) {
+  /* Refuse a malformed call before running anything: a stray argument slid
+     into the G24 call on 2026-08-17 (7d512b3) and sat unnoticed until the
+     next gauntlet - four days later - died mid-run on required.filter. A
+     harness that types its own arguments fails at authoring time instead. */
+  if (typeof gate !== "string" || typeof command !== "string" || !Array.isArray(counts)
+      || typeof env !== "object" || Array.isArray(env) || !Array.isArray(required))
+    throw new Error(`malformed step call for ${JSON.stringify(gate)}: (gate, command, counts[], env{}, required[])`);
   let out = "", ok = true;
   try {
     out = execSync(command, { stdio: "pipe", encoding: "utf8", env: { ...process.env, NO_COLOR: "1", ...env } });
@@ -367,7 +374,7 @@ step("G23 file-map", "node tools/file-map.mjs --check && node tools/file-map.mjs
    would BE the leak. Where no list exists (CI above all), the structural
    controls still run and the summary says "0 names" rather than implying a
    protection that is not there. */
-step("G24 s9-names", "G25 safety-cover", "node tools/s9-names.mjs && node tools/s9-names.mjs --self-test", [
+step("G24 s9-names", "node tools/s9-names.mjs && node tools/s9-names.mjs --self-test", [
   { label: "files", regex: /(\d+) files scanned/, floorKey: "g24_files" },
   { label: "problems", regex: /(\d+) problems/, max: 0 },
   { label: "controls", regex: /s9 controls: (\d+) passed/, floorKey: "g24_controls" },
