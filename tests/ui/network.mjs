@@ -41,10 +41,18 @@ const server = spawn(process.execPath, ["node_modules/vite/bin/vite.js", "previe
   cwd: "app", stdio: "ignore", detached: true,
 });
 const stopServer = () => { try { process.platform === "win32" ? server.kill() : process.kill(-server.pid); } catch {} };
-for (let i = 0; i < 50; i++) {
-  try { const r = await fetch(URL); if (r.ok) break; } catch {}
-  await new Promise((r) => setTimeout(r, 200));
+/* Sixty seconds, not ten, and LOUD when it is not enough: on the owner's
+   machine the first vite spawn after a reboot took longer than the old
+   fifty-by-200 ms poll, and the gate fell through to a connection-refused
+   deep inside its first check, reading like a broken app (G18, gauntlet run
+   6, 2026-08-21). A server that is slow to start is not a game fault; a
+   server that never starts must say so by name. */
+let serverUp = false;
+for (let i = 0; i < 300 && !serverUp; i++) {
+  try { const r = await fetch(URL); if (r.ok) serverUp = true; } catch {}
+  if (!serverUp) await new Promise((r) => setTimeout(r, 200));
 }
+if (!serverUp) { stopServer(); throw new Error(`the preview server never answered on ${URL} within 60 s - nothing below was measured`); }
 
 const executablePath = existsSync("/opt/pw-browsers/chromium") ? "/opt/pw-browsers/chromium" : undefined;
 const browser = await chromium.launch({ executablePath, args: ["--no-sandbox"] });
