@@ -124,8 +124,15 @@ const pressNext = async (page) => {
   }
   /* D2: a Build-it breather takes the press after every seventh word. Leave
      it the way a grown-up does and walk on - added when the level-69 crowd
-     walk became the first in this file to grade past seven words. */
-  const doneBtn = page.getByRole("button", { name: "✖️ Done" });
+     walk became the first in this file to grade past seven words. The wait
+     RACES the word against the breather's Done control: the first version
+     checked visibility in the instant after the press, and when the breather
+     had not painted yet the walk died waiting for a word that was never
+     coming (gauntlet run 4, an order-dependent flake). */
+  try {
+    await page.locator('.wq-word, button:has-text("Done")').first().waitFor({ timeout: 5000 });
+  } catch {}
+  const doneBtn = page.locator("button", { hasText: "Done" }).first();
   if (await doneBtn.isVisible().catch(() => false)) await doneBtn.click();
   try {
     await page.locator(".wq-word").waitFor({ timeout: 5000 });

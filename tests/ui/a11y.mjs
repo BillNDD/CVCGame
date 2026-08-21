@@ -8,7 +8,7 @@
 import { chromium } from "playwright";
 import { spawn, execSync } from "node:child_process";
 import { existsSync, readFileSync } from "node:fs";
-import { STORE_KEY } from "../../src/engine.js";
+import { STORE_KEY, TRICKY, WORD_LEVEL } from "../../src/engine.js";
 
 const PORT = 4184;
 const URL = `http://localhost:${PORT}/`;
@@ -120,21 +120,27 @@ await audit("home");
   else fail("contrast negative control broken", "planted low contrast not flagged");
 }
 
-/* Seed a save whose most secure word is tricky ("is"), so the session opens
-   with it and the feedback audit ALWAYS covers the tricky-word note. Before
-   this seed the note was audited only when the shuffle happened to serve a
+/* Seed a save whose most secure word is tricky, so the session opens with
+   it and the feedback audit ALWAYS covers the tricky-word note. Before this
+   seed the note was audited only when the shuffle happened to serve a
    tricky word — a stochastic blind spot that hid a real contrast failure.
    The database and store names come from the live adapter source, and the
-   key from the live engine, so the seed follows any rename. */
+   WORD AND ITS LEVEL from the live engine (2026-08-21): the seed used to
+   hard-code "is" at level 1, and the cutover moved "is" to level 5, so the
+   session served ten untricky words and the note was never on the screen
+   this gate audited. Now the seed sits AT the tricky word's own level and
+   the audit follows the bank wherever it moves. */
+const TRICKY_WORD = Object.keys(TRICKY).find((w) => WORD_LEVEL[w]);
+if (!TRICKY_WORD) throw new Error("no tricky word holds a level seat - the note audit has nothing honest to seed");
 {
   const storageSrc = readFileSync("app/src/storage.js", "utf8");
   const dbName = storageSrc.match(/DB_NAME = "([^"]+)"/)[1];
   const dbStore = storageSrc.match(/DB_STORE = "([^"]+)"/)[1];
   const seeded = JSON.stringify({
-    version: 3, level: 1, sessionsCompleted: 0, perfectStreak: 0,
+    version: 6, level: WORD_LEVEL[TRICKY_WORD], preLevel: 0, prePerfectStreak: 0, sessionsCompleted: 0, perfectStreak: 0,
     settings: { sound: true, childName: "", lang: "en-US" },
-    words: { is: { box: 5, attempts: 3, correct: 3, close: 0, wrong: 0, dueAt: 1, lastSession: 0 } },
-    log: [],
+    words: { [TRICKY_WORD]: { box: 5, attempts: 3, correct: 3, close: 0, wrong: 0, dueAt: 0, lastSession: 0 } },
+    log: [], pre: {},
   });
   await page.evaluate(([db, store, key, value]) => new Promise((resolve, reject) => {
     const rq = indexedDB.open(db, 1);
@@ -188,7 +194,11 @@ await audit("session");
       ok(`inert advance control: label ${m.bare.toFixed(2)}:1 on its own colour, ${m.band.toFixed(2)}:1 under the fill`);
     } else fail("inert advance control label", JSON.stringify(m));
   }
-  const note = page.locator("text=Tricky word!");
+  /* The note lost its "Tricky word!" header when the owner's J1 note pattern
+     shipped; it now reads as a starred line carrying the word's own note,
+     read here from the live engine so a re-worded note moves the check with
+     it (found by the first post-cutover G8 run, 2026-08-21). */
+  const note = page.locator(`text=⭐ ${TRICKY[TRICKY_WORD]}`);
   if (await note.count() > 0) ok("the tricky-word note is on the audited feedback screen");
   else fail("tricky-word note missing", "the seeded tricky word did not show its note");
   await audit("feedback");

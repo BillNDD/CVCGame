@@ -396,10 +396,14 @@ step("G24 s9-names", "node tools/s9-names.mjs && node tools/s9-names.mjs --self-
    grow as rules and proofs are added; the two _max keys are DEBT, recorded at
    today's honest number so it cannot grow quietly (E6). */
 step("G25 safety-cover", "node tools/safety-cover.mjs && node tools/safety-cover.mjs --self-test", [
-  { label: "rules", regex: /Safety cover: (d+) rules/, floorKey: "g25_rules" },
-  { label: "proofs", regex: /rules, (d+) declared proofs/, floorKey: "g25_proofs" },
-  { label: "problems", regex: /declared proofs, (d+) problems/, max: 0 },
-  { label: "controls", regex: /safety-cover controls: (d+) passed/, floorKey: "g25_controls" },
+  /* All four of these read (d+) - a mangled escape - from the day this gate
+     was born (7d512b3, the same 2026-08-17 session as the stray step
+     arguments), so G25 had never parsed a single number until the fourth
+     rehearsal run of 2026-08-21 printed four question marks. */
+  { label: "rules", regex: /Safety cover: (\d+) rules/, floorKey: "g25_rules" },
+  { label: "proofs", regex: /rules, (\d+) declared proofs/, floorKey: "g25_proofs" },
+  { label: "problems", regex: /declared proofs, (\d+) problems/, max: 0 },
+  { label: "controls", regex: /safety-cover controls: (\d+) passed/, floorKey: "g25_controls" },
 ], {}, ["ok   a relabelled tag is caught, not just a deleted one"]);
 
 /* Every gate that MUST have run. A gauntlet that skipped one — a step
