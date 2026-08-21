@@ -58,6 +58,24 @@ describe("buildSession and the next level", () => {
     // box 2 is a word read correctly twice and then missed: still learned
     expect(buildSession(mk(8, 2)).filter(w => WORD_LEVEL[w] === 2).length).toBe(10);
   });
+  it("holds the peek at 80 per cent, not 75 - the boundary only a 16-word level can see", () => {
+    /* At the 10-word starter no whole count lands between 0.75 and 0.8, so
+       the 8-of-10 test above cannot tell the two shares apart and a mutant
+       trading 0.8 for 0.75 survived the 2026-08-21 gauntlet rehearsal.
+       Level 8 holds 16 words: 12 of 16 is exactly 0.75 - learned to the
+       weaker rule, not learned to the real one - and 13 of 16 is 0.8125.
+       Counts re-derived at the cutover; the level's own words are due, so a
+       peek that opens must reach level 9 for its fill. */
+    const mk16 = (learned) => {
+      const s = { ...newState(), preLevel: 0, level: 8, sessionsCompleted: 3 };
+      LEVELS[7].words.forEach(w => { s.words[w] = { ...freshWordState(), box: 0, attempts: 2, dueAt: 1 }; });
+      LEVELS[7].words.slice(0, learned).forEach(w => { s.words[w] = { ...freshWordState(), box: 3, attempts: 2, dueAt: 1 }; });
+      return s;
+    };
+    expect(LEVELS[7].words.length).toBe(16);
+    expect(buildSession(mk16(12)).filter(w => WORD_LEVEL[w] === 9).length).toBe(0);
+    expect(buildSession(mk16(13)).filter(w => WORD_LEVEL[w] === 9).length).toBe(4);
+  });
   it("brings a graded next-level word back for review", () => {
     const s = newState(); s.sessionsCompleted = 6;
     LEVELS[0].words.forEach(w => { s.words[w] = { ...freshWordState(), box: 0, attempts: 2, dueAt: 1 }; });

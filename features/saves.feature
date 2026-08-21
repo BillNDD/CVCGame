@@ -1,19 +1,17 @@
 Feature: Saved data survives anything
   Old saves migrate one time. Damaged saves repair before any use.
 
-  # The 10-and-10 curriculum re-cut the levels on 2026-08-15, so a stored level
-  # number from before it points at a different place than the child earned.
-  # The owner's ruling (curriculum decision 5) is that the new level is computed
-  # from the child's own words — and the result is FLOORED at the level the
-  # child already held, mapped to where its old stage now begins, because
-  # promotion has a second path (two perfect sessions) that leaves few boxes
-  # behind, and a parent can set a level by hand. A migration never demotes.
-  # This save held old level 3, bumped to 4 by the v3 step; old 4's short-e
-  # stage begins at new level 11.
-  Scenario: A version 2 save keeps the ground its level had earned
+  # Re-ruled 2026-08-21 on the cutover morning page: "Recompute the seat from
+  # the child's own graded words." The 2026-08-15 floor (curriculum decision
+  # 5) kept a stored number as earned ground; on the renumbered hundred-level
+  # ladder that number skips the new teaching seated below it, so the floor
+  # is gone. This save's one mastered word secures no level: the child starts
+  # at the first rung with that word's mastery intact, and the log keeps the
+  # number that was true when written.
+  Scenario: A version 2 save seats where its own graded words put it
     Given a version 2 save at level 3 with a log row at level 1
     When the save loads
-    Then the player is on level 11
+    Then the player is on level 1
     And the log row shows level 2
     And the word data is unchanged
 

@@ -23,7 +23,7 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { render, screen, fireEvent, act, cleanup } from "@testing-library/react";
 import { createElement } from "react";
-import { LEVELS, REVEAL_LINES, SENTENCES, SENTENCE_PRAISE, PRAISE, chunkWord, revealWordLongest, newState } from "../src/engine.js";
+import { LEVELS, REVEAL_LINES, SENTENCES, SENTENCE_PRAISE, PRAISE, chunkWord, revealWordLongest, sentencePlan, newState } from "../src/engine.js";
 
 const REVEAL_MS = 5200;
 /* Every plan the app asked to be played, in order, so a test can assert the
@@ -125,6 +125,21 @@ const markSentence = async (label = "✓ got it (hold)") => {
 
 beforeEach(() => { vi.useFakeTimers(); localStorage.clear(); played = []; scheduled = null; noSentences = false; stored = { ...newState(), preLevel: 0 }; });   // graduated: word tests live past the ladder
 afterEach(() => { cleanup(); vi.useRealTimers(); });
+
+describe("the sentence reveal's clip plan", () => {
+  it("sounds the open word out seam by seam, every id literal (E4)", () => {
+    /* The plan IS the audio a child hears: text, line, the word, the
+       pronounce stem, then every sound with a seam2 breath BETWEEN sounds -
+       drop the seams and the sound-out becomes one smear. A mutant doing
+       exactly that survived the 2026-08-21 rehearsal because no test pinned
+       this sequence; clipPlan's pin covers the WORD reveal, not this one. */
+    expect(sentencePlan("s:v3-l04-01", "cat", "r:2")).toEqual(
+      ["s:v3-l04-01", "seam", "r:2", "seam2", "w:cat", "seam2", "s:pronounced",
+       "seam2", "d:k", "seam2", "d:short_a", "seam2", "d:t", "seam2", "w:cat"]);
+    /* No word: the reveal is honestly the read alone. */
+    expect(sentencePlan("s:v3-l06-01", null, "r:1")).toEqual(["s:v3-l06-01"]);
+  });
+});
 
 describe("the sentence inside a session", () => {
   it("1: arrives after the fifth word, and only after a word is finished", async () => {

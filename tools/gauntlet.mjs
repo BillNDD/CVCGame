@@ -136,7 +136,10 @@ step("G11 copy", "node tools/copy-lint.mjs && node tools/copy-lint.mjs --self-te
 ]);
 
 step("G1+G2+G9+G10 tests", "npx vitest run", [
-  { label: "unit", regex: /engine\.test\.js\s+\((\d+) tests\)/, floorKey: "g1_unit_tests" },
+  /* engine.test.js split on 2026-08-21 (the recompute rails pushed it past
+     the 1,400-line ceiling); the SUM keeps the floor whole, the safety-split
+     pattern. The first regex cannot match the second file's name. */
+  { label: "unit", regexes: [/(?<!migrate\.)engine\.test\.js\s+\((\d+) tests\)/, /migrate\.test\.js\s+\((\d+) tests\)/], floorKey: "g1_unit_tests" },
   { label: "scheduler", regex: /scheduler\.test\.js\s+\((\d+) tests\)/, floorKey: "g1_scheduler_tests" },
   { label: "properties", regex: /properties\.test\.js\s+\((\d+) tests\)/, floorKey: "g2_properties" },
   { label: "faults", regex: /faults\.test\.js\s+\((\d+) tests\)/, floorKey: "g9_fault_tests" },
@@ -145,6 +148,15 @@ step("G1+G2+G9+G10 tests", "npx vitest run", [
      must not also match the second file's name — "safety-splash" does not
      contain the literal "safety.test.js". */
   { label: "safety", regexes: [/safety\.test\.js\s+\((\d+) tests\)/, /safety-splash\.test\.js\s+\((\d+) tests\)/], floorKey: "g10_safety_tests" },
+  /* The three files that had NO counter until 2026-08-21, and the fault that
+     found them: on 2026-08-17 three floor raises landed on g10_safety_tests
+     while the tests they meant to count went to chunker and buildit - and
+     the same day's stray step arguments kept the gauntlet from ever running
+     the numbers. Every file vitest runs now has a counter, so a raise has a
+     right key to land on. */
+  { label: "chunker", regex: /chunker\.test\.js\s+\((\d+) tests\)/, floorKey: "g1_chunker_tests" },
+  { label: "buildit", regex: /buildit\.test\.js\s+\((\d+) tests\)/, floorKey: "g10_buildit_tests" },
+  { label: "pre", regex: /pre\.test\.js\s+\((\d+) tests\)/, floorKey: "g1_pre_tests" },
   { label: "adult_controls", regex: /adult-controls\.test\.js\s+\((\d+) tests\)/, floorKey: "g10_adult_control_tests" },
   { label: "reveal", regex: /reveal\.test\.js\s+\((\d+) tests\)/, floorKey: "g10_reveal_tests" },
   { label: "sentence", regex: /sentence\.test\.js\s+\((\d+) tests\)/, floorKey: "g10_sentence_tests" },

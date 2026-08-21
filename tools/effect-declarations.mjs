@@ -23,6 +23,14 @@
 /* Per file: the requirement it protects, how the expected values are decided,
    where it runs, which mutant family attacks it, what it leaves unproven. */
 export const DECLARED = {
+  "tests/migrate.test.js": {
+    safety: {},
+    gate: "G1", requirement: "SPEC saves rule: an old save migrates once, seats by the owner's 2026-08-21 recompute ruling, and heals before any use",
+    oracle: "Literal expected values written from the ruling by hand (E4): the graduate walks to 6, a hand-set save keeps its number.",
+    platform: "node/jsdom", mutants: "G5 migrate family (clamp, recompute)",
+    evidence: "Vitest counts (summed into floor g1_unit_tests with engine.test.js - the 2026-08-21 split)",
+    limits: "Proves the seat arithmetic, never that the seat is pedagogically right - that was the owner's page to rule.",
+  },
   "tests/engine.test.js": {
     safety: { S4: "unit", S8: "unit" },
     gate: "G1", requirement: "SPEC sections 3-4: the word bank, levels, chunking, the Leitner ladder, session shape and the reveal plan",

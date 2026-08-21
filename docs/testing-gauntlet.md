@@ -401,7 +401,15 @@ every bound reads `LEVELS.length`, which is why adding a level needed no engine 
 - Each rule in `CLAUDE.md` becomes at least one failing-by-default test. Keys:
   `g10_safety_tests` (the SUM of `safety.test.js` and `safety-splash.test.js`, so a test
   cannot vanish from either file; the gauntlet's summed counter refuses a missing file
-  outright) and `g10_adult_control_tests`.
+  outright) and `g10_adult_control_tests`. The safety floor reads 29, and its history is
+  a lesson: on 2026-08-17 three raises (37, 38, 42) landed on this key while the tests
+  they counted went to `chunker.test.js` and `buildit.test.js` - files that had NO
+  counter - and the same day's stray step arguments kept the gauntlet from ever running
+  the numbers. The 2026-08-21 rehearsal found it; beta.21's own released tree was
+  re-run in a worktree and measured 29, so 29 is the last CI-validated truth, the
+  mis-keyed raises were reverted rather than "lowered" (their tests were never here),
+  and every vitest file now carries its own counter (`g1_chunker_tests`,
+  `g10_buildit_tests`, `g1_pre_tests`) so a raise always has a right key to land on.
 - The splash update controls (SPEC section 7a) have their own file because the safety file
   reached the file-length ceiling, 900 lines at the time, on 2026-08-07:
   `safety-splash.test.js` proves a

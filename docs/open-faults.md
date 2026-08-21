@@ -2081,7 +2081,7 @@ This is not a crash and not a guess about the code; it is a teaching decision, a
 belongs to the owner and the literacy seat rather than to an engineering change (E8). **Done**
 is a ruling on what free play offers a pre-ladder child, and the chooser matching it.
 
-## X. An updating child keeps an old level NUMBER on a re-numbered ladder (2026-08-20)
+## X. An updating child keeps an old level NUMBER on a re-numbered ladder - opened 2026-08-20, CLOSED 2026-08-21 by the owner's recompute ruling
 
 - **Where it lives** `migrateV6` and `OLD_TO_NEW` in `reference/word-quest.jsx`
   (extracted to `src/engine.js`).
@@ -2102,10 +2102,18 @@ is a ruling on what free play offers a pre-ladder child, and the chooser matchin
   meet is fully taught when met - but graphemes the new ladder introduces
   below their seat (digraphs, teams, magic-e, whatever their number skips)
   are never introduced by their named teaching level.
-- **What done means** The owner rules a seating policy (a decision page is
-  prepared: recompute-preferred, stored-number-preferred as today, or a
-  per-decade mapping table), the migration implements it, and a test pins a
-  version-5 graduate save to the ruled seat with literal expected values.
+- **What done means** The owner rules a seating policy, the migration
+  implements it, and a test pins a graduate save to the ruled seat with
+  literal expected values.
+- **CLOSED 2026-08-21.** The owner ruled "Recompute the seat from the
+  child's own graded words" on the cutover morning page. migrateV6 now seats
+  any graded save by the walk alone (a graduate lands at 6, where cops and
+  spots begin the teaching the old game never gave), and a save with no
+  graded word keeps its stored, clamped number - the only evidence it
+  holds. Pinned in tests/engine.test.js ("seats an updating child by the
+  ruled recompute"), rails measured then re-typed. OLD_TO_NEW survives only
+  for that no-graded fallback, where the number was a grown-up's hand-set
+  choice in any world.
 
 ## Y. Cutover residue found by the audit seats (2026-08-20)
 

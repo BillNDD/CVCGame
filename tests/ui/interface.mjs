@@ -15,7 +15,7 @@
 import { chromium } from "playwright";
 import { spawn, execSync } from "node:child_process";
 import { existsSync, readFileSync } from "node:fs";
-import { ADVANCE_GUARD_MS, STORE_KEY } from "../../src/engine.js";
+import { ADVANCE_GUARD_MS, STORE_KEY, chunkWord } from "../../src/engine.js";
 
 const PORT = 4183;
 const URL = `http://localhost:${PORT}/`;
@@ -906,15 +906,15 @@ for (const height of [430, 555, 720, 950]) {
   await context.close();
 }
 
-/* 21-22 — the four-tile row fits the narrowest phone, and stays on one line.
-   Every level up to 9 breaks into at most THREE sound units, so the tile row
-   had never been asked to hold four. Levels 10 and 11 are blends, and a blend
-   is two sounds run together, not one: "band" is b-a-n-d and "step" is
-   s-t-e-p, four tiles each. The row is a flexbox with no wrap, so a fourth
-   tile either fits or silently pushes the word off the side of a small
-   screen. An engine test cannot see that — it has no width. Measured on the
-   narrowest phone this app supports and on the tallest word the new levels
-   contain. */
+/* 21-22 — the reveal row fits the narrowest phone and stays on one line, at
+   the level a session actually deals. Re-derived at the 2026-08-21 gauntlet
+   rehearsal: the old check expected FOUR tiles because old level 20 topped
+   out there, and the converted level 20 dealt it "sunset", six tiles in the
+   wq-many band. The row now asserts the served word's own tile count
+   (through the engine's chunker, the same split the child sees), one line,
+   and no sideways overflow - check 13 holds the eight-tile crowd band the
+   same way. The negative control below is unchanged: a fit-check that
+   cannot report a miss proves nothing. */
 {
   const storageSrc = readFileSync("app/src/storage.js", "utf8");
   const dbName = storageSrc.match(/DB_NAME = "([^"]+)"/)[1];
@@ -948,17 +948,17 @@ for (const height of [430, 555, 720, 950]) {
     w: document.documentElement.clientWidth,
     over: document.documentElement.scrollWidth > document.documentElement.clientWidth,
   }));
-  if (tiles !== 4 || boxes.some((b) => !b)) {
-    fail("a Level 20 word did not render four measurable tiles", `word=${seen} tiles=${tiles}`);
+  if (tiles !== chunkWord(seen.trim().toLowerCase()).length || boxes.some((b) => !b)) {
+    fail("a Level 20 word did not render its own split as measurable tiles", `word=${seen} tiles=${tiles} split=${chunkWord(seen.trim().toLowerCase()).length}`);
   } else {
     const left = Math.min(...boxes.map((b) => b.x));
     const right = Math.max(...boxes.map((b) => b.x + b.width));
     const oneLine = new Set(boxes.map((b) => Math.round(b.y))).size === 1;
     if (left >= 0 && right <= doc.w && !doc.over)
-      ok(`four tiles fit 320 px wide ("${seen}" spans ${Math.round(right - left)} px of ${doc.w})`);
-    else fail("the four-tile row overflows a 320 px screen", JSON.stringify({ seen, left, right, doc }));
-    if (oneLine) ok(`the four tiles of "${seen}" sit on one line`);
-    else fail("the four-tile row wrapped", JSON.stringify(boxes.map((b) => Math.round(b.y))));
+      ok(`the reveal row fits 320 px wide ("${seen}", ${tiles} tiles, spans ${Math.round(right - left)} px of ${doc.w})`);
+    else fail("the reveal row overflows a 320 px screen", JSON.stringify({ seen, left, right, doc }));
+    if (oneLine) ok(`the ${tiles} tiles of "${seen}" sit on one line`);
+    else fail("the reveal row wrapped", JSON.stringify(boxes.map((b) => Math.round(b.y))));
 
     /* Negative control. A fit-check that cannot report a miss proves nothing,
        and this one would pass on any screen if it were reading the wrong box.

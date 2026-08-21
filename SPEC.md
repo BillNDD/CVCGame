@@ -1390,9 +1390,12 @@ shipped), **rack** (26), **sack** and **sacks** (30, sacks in s:v3-l59-01), **wh
 (27), **rim** (15), **clap** (34), **strip** (36), **lush** (100). The drug-slang
 second-sense cluster (bud, grass, tab, snow, trip, high, lit, line, fix, chug, buzzed)
 was considered and NOT raised, following the pot precedent — ordinary words whose adult
-sense needs adult knowledge to see. The nine raised words await the owner's decision
-page; until he rules, this paragraph is the screen's record and the bank's screening
-date, and a later screen does not re-raise what it lists.
+sense needs adult knowledge to see. The owner ruled on the morning
+decision page of 2026-08-21: **keep all nine** - chicks, rack, sack, sacks, whizz, rim,
+clap, strip and lush all join the ruled-fine list with that date, the screen's chicks
+flag recorded as overruled the way the cans flag was once recorded as upheld. This
+paragraph is the screen's record and the bank's screening date, and a later screen does
+not re-raise what it lists.
 Every one of the **210 sentences** and the three invitation lines carries a person's
 dated read — 91 on 2026-08-13, the next batch on the 2026-08-15 round pages, and
 Level 21's twelve on the 2026-08-16 Cats and Dogs pages (one of them written by the

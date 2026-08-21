@@ -2001,3 +2001,16 @@ phonemes - the pin list is closed history, not a mechanism.
 (batch 15, owner perfect, never seated in the hundred levels) retired from manifest and
 lock; its history stays in the pending-words ledger and its bytes in git. The waiting
 room holds its row again, so a future seat re-ships it without a new round.
+
+## The two sentence conventions, ruled kept for this beta (2026-08-21) - closed
+
+The cutover audit named two patterns that run through the v3 sentence set rather than
+living in any one sentence: unquoted dialogue (quotation marks are never taught, so
+speech ships bare in four texts) and "did + verb" as the narrative past below the -ed
+levels (about forty texts). The owner ruled on the morning decision page: **keep both
+conventions; revisit next beta.** Both are deliberate workarounds for untaught code,
+every text carrying them passed a person's read, and the one genuine misparse the audit
+found ("Mom asked, milk?") was fixed as a sentence edit in the same ruling, not as a
+convention change. A screen or a round does not raise either pattern again this beta;
+the literacy question - whether did-past helps or hurts a pre-reader - is queued for
+the next one.

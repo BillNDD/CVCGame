@@ -298,14 +298,14 @@ describe("Feature: Level promotion", () => {
 });
 
 describe("Feature: Saved data survives anything", () => {
-  it("A version 2 save keeps the ground its level had earned", () => {
+  it("A version 2 save seats where its own graded words put it", () => {
     const doc = { version: 2, level: 3, sessionsCompleted: 9,
       settings: { mode: "parent", sound: true, childName: "", lang: "en-US" },
       words: { cat: { box: 5, attempts: 9, correct: 8, close: 1, wrong: 0, dueAt: 20, lastSession: 8 } },
       log: [{ n: 1, level: 1, c: 18, k: 1, w: 1, acc: 90, items: [] }] };
     const wordsBefore = JSON.stringify(doc.words);
     const m = migrate(doc);
-    expect(m.level).toBe(11);
+    expect(m.level).toBe(1);
     expect(m.log[0].level).toBe(2);
     expect(JSON.stringify(m.words)).toBe(wordsBefore);
   });

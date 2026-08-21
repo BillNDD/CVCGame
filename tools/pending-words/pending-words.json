@@ -305,7 +305,7 @@
   "round": "batch 6 / 2026-08-07",
   "verdict": "perfect",
   "level": "reveal lead-in (planned)",
-  "text": "Let\u2019s sound it out."
+  "text": "Let’s sound it out."
  },
  "of": {
   "arm": "of_6",
@@ -1441,7 +1441,7 @@
   "note": "supersedes the batch 13 entry, which was bytes the owner had already marked closest in batch 12. This clip was never offered before: verified against all 1883 arms of the 23 earlier rounds."
  },
  "a": {
-  "arm": "2\u00b73 \u2014 matched to today's schwa",
+  "arm": "2·3 — matched to today's schwa",
   "family": "owner-handoff-schwaD",
   "ms": 743,
   "sha256": "d3fc66ccc4ed23f493af51b368009b2325153aae9c1cddd23007825a47c7ecee",
@@ -1458,7 +1458,7 @@
   "round": "sound-out lines (2026-08-13)",
   "verdict": "perfect",
   "level": "the sentence reveal's invitation (SPEC section 12)",
-  "phonemes": "ju\u02d0 \u0279\u02c8\u025bd \u00f0\u02cc\u025bm \u02c8\u0254\u02d0l. l\u02c8\u025bts s\u02c8a\u028and \u02c8a\u028at \u00f0\u02c8\u026asw\u02cc\u028cn.",
+  "phonemes": "juː ɹˈɛd ðˌɛm ˈɔːl. lˈɛts sˈaʊnd ˈaʊt ðˈɪswˌʌn.",
   "note": "the first take said 'read' as in reed and was marked no good; this one carries explicit phonemes"
  },
  "s:mode-b3-s01": {
@@ -1925,7 +1925,7 @@
   "sha256": "d9e54a5ed9844e797ca83c1822d3b6aa13ccc801ff137a71fb952a5b1107a536",
   "round": "we/me sentences (2026-08-13)",
   "verdict": "perfect",
-  "level": "NOT PLACEABLE \u2014 nip",
+  "level": "NOT PLACEABLE — nip",
   "blocked_on": "we and me are not seated in the bank yet - docs/open-faults.md K"
  },
  "s:mode-wm-wm19": {
@@ -8983,13 +8983,14 @@
   "level": "v3 L42, paragraph - unseated, ladder redesign"
  },
  "s:v3-l43-01": {
-  "text": "We packed the backpack. Mom asked, milk? I picked milk. Dad helped us zip it up.",
+  "text": "We packed the backpack. Mom asked if I want milk. I picked milk. Dad helped us zip it up.",
   "family": "sentence_sp1.0",
-  "ms": 5158,
-  "sha256": "c265ac1b2a77e8f6efef835d93612125026bffbf2f8fc1aa4ca61ec9b997bcc4",
-  "round": "sentence batch 3 / 2026-08-19",
+  "ms": 5483,
+  "sha256": "4f2d51190826e7ce05e708846eb0d29d89eb591f3fb67cb47783e4b92a9daa44",
+  "round": "redo1 / 2026-08-21",
   "verdict": "perfect",
-  "level": "v3 L43, paragraph - unseated, ladder redesign"
+  "level": "v3 L43, paragraph - unseated, ladder redesign",
+  "edit": "owner-ruled sentence edit, cutover morning page 2026-08-21; text and audio replaced together"
  },
  "s:v3-l46-01": {
   "text": "The king stopped.",
@@ -9266,13 +9267,14 @@
   "level": "v3 L40, sentence - unseated, ladder redesign"
  },
  "s:v3-l44-01": {
-  "text": "I filled the tub with mom. I got in with my duck. Then I did a splash. I yelled to mom, and she got wet! We had fun.",
+  "text": "Mom filled the tub. I got in with my duck. Then I did a splash. I yelled to mom, and she got wet! We had fun.",
   "family": "sentence_sp1.0",
-  "ms": 7740,
-  "sha256": "35f79e6ec0b9416ab1410316a1a3b804db8c515bb0f28347ea3d818ba5972704",
-  "round": "sentence batch 5 / 2026-08-19",
+  "ms": 6976,
+  "sha256": "6ef41189dfdd012d7b313cae4462a55394dc6389af1d3ad0c9044347d375f678",
+  "round": "redo1 / 2026-08-21",
   "verdict": "perfect",
-  "level": "v3 L44, paragraph - unseated, ladder redesign"
+  "level": "v3 L44, paragraph - unseated, ladder redesign",
+  "edit": "owner-ruled sentence edit, cutover morning page 2026-08-21; text and audio replaced together"
  },
  "s:v3-l45-01": {
   "text": "I wanted to sled. Dad lifted me up on the hill. I slid so fast, and I landed on my back! We did it a lot. Then the fun ended and we went in.",
@@ -9491,13 +9493,14 @@
   "level": "v3 L66, paragraph - unseated, ladder redesign"
  },
  "s:v3-l66-02": {
-  "text": "Five kids came to my home to play. I had to hide, and the best spot was inside the shed. I sat on a sack of yam and did not let them see me. Then a hen came inside and sat on my hat. I had to jump up, and then they all ran in. It was a fine game, and the hen was the best of us all.",
+  "text": "Five kids came to my home to play. I had to hide, and the best spot was inside the shed. I sat on a sack and did not let them see me. Then a hen came inside and sat on my hat. I had to jump up, and then they all ran in. It was a fine game, and the hen was the best of us all.",
   "family": "sentence_sp1.0",
-  "ms": 17510,
-  "sha256": "078f373775853ed1d42e6dd1499c5473557ed7f1a219652f1dba9e12b1917754",
-  "round": "sentence batch 6 / 2026-08-19",
+  "ms": 16704,
+  "sha256": "74ad2122c5170834e8ed0f16175780595bc7e81aac9ceff92e47694e4f608f10",
+  "round": "redo1 / 2026-08-21",
   "verdict": "perfect",
-  "level": "v3 L66, paragraph - unseated, ladder redesign"
+  "level": "v3 L66, paragraph - unseated, ladder redesign",
+  "edit": "owner-ruled sentence edit, cutover morning page 2026-08-21; text and audio replaced together"
  },
  "s:v3-l66-03": {
   "text": "When it is hot, the rabbit likes to hide inside a hole in the bank.",
@@ -10989,13 +10992,14 @@
   "level": "v3 L65, paragraph - unseated, ladder redesign"
  },
  "s:v3-l74-02": {
-  "text": "It was late, and Mom let me stay up to see the moon. We sat on the step, and it was cold. The moon was big and white, and it was so bright that I can see every leaf on the shrub. Soon a fox went by, right in the light of it! Mom said hush, and the fox went on up the hill and did not see us. Then it got too cold to sit, and we went in. From my bed I can see the moon, and it is in my room as well.",
+  "text": "It was late, and Mom let me stay up to see the moon. We sat on the step, and it was cold. The moon was big and white, and it was so bright that I did see every leaf on the shrub. Soon a fox went by, right in the light of it! Mom said hush, and the fox went on up the hill and did not see us. Then it got too cold to sit, and we went in. From my bed I can see the moon, and it is in my room as well.",
   "family": "sentence_sp1.0",
-  "ms": 22101,
-  "sha256": "ba478640569a9ef26231dc8b923ae2d99c20b322e057374bcfca6be629b4c252",
-  "round": "sentence batch 8 / 2026-08-19",
+  "ms": 22144,
+  "sha256": "a5210ce721b4df20f90d4b0cedf37b41a6b154945d741ddf45b290971d370229",
+  "round": "redo1 / 2026-08-21",
   "verdict": "perfect",
-  "level": "v3 L74, paragraph - unseated, ladder redesign"
+  "level": "v3 L74, paragraph - unseated, ladder redesign",
+  "edit": "owner-ruled sentence edit, cutover morning page 2026-08-21; text and audio replaced together"
  },
  "s:v3-l74-03": {
   "text": "It was a hot day, so Dad filled the little pool in the grass. My brother and I got in, and the water was so cold that we did yell! Soon the sun made it hot, and we did not want to get up. We had a game: we had to zoom from side to side and not stop. Then Dad got in with us, and a lot of the water went on the grass! We had to fill it up, and this time Dad sat on the step. It was the best hot day we have had.",

@@ -8,7 +8,7 @@ Per-test rows carry the test's own sentence, which in this project IS the
 Given/When/Then effect. The requirement, oracle, platform, mutant family, evidence
 and known limits are declared per FILE, in the tool, where they stay true.
 
-Totals: 356 it() SITES across 16 files, plus 18 gates that are not test files.
+Totals: 360 it() SITES across 17 files, plus 18 gates that are not test files.
 
 A site inside a loop or a table runs many times, so these rows describe more tests than they number: Vitest executes 330. The rows count the places behaviour is asserted.
 
@@ -87,7 +87,7 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 13 | the extended code | gives the four single-taught spellings their level |
 | 14 | the extended code | reads no word out of bare punctuation |
 
-## tests/engine.test.js — 112 tests (G1)
+## tests/engine.test.js — 105 tests (G1)
 
 - **Requirement protected:** SPEC sections 3-4: the word bank, levels, chunking, the Leitner ladder, session shape and the reveal plan
 - **Independent oracle:** Literal expected values written from SPEC by hand (E4). Never the constant under test.
@@ -147,70 +147,63 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 46 | heal | drops hostile log rows and repairs their items and level |
 | 47 | heal | repairs a hostile version so the migration check cannot crash |
 | 48 | heal | repairs a hostile or fractional level so the engine cannot crash |
-| 49 | migrate | runs the whole chain: the log shifts, the level recomputes from the words, mode leaves |
-| 50 | migrate | leaves word data untouched |
-| 51 | migrate | is idempotent |
-| 52 | migrate | recomputes any pre-v4 level from the words, and clamps a v4 one |
-| 53 | migrate | computes the migrated level at the same boundary promotion uses |
-| 54 | migrate | never seats a migrated child below the ground they held |
-| 55 | migrate | survives hostile documents |
-| 56 | sentences | gives all hundred levels a list, and names no level that does not exist |
-| 57 | sentences | places every sentence where a child can actually read it |
-| 58 | sentences | places no sentence later than it needs to be |
-| 59 | sentences | gives every sentence a word the level teaches, for the reveal to sound out |
-| 60 | sentences | holds every text to one clip, and inside the longest approved read |
-| 61 | sentences | counts the words a child sees, not the punctuation a writer left |
-| 62 | sentences | ships three invitation lines, each with a clip and its own words |
-| 63 | buildMarkdown | reports the 1,123-word denominator and one hundred level rows |
-| 64 | buildMarkdown | counts a word as mastered only from box 4 |
-| 65 | buildMarkdown | keeps a grapheme-safe name intact in the header |
-| 66 | buildMarkdown | marks a partial session |
-| 67 | voice packs | inventories one clip per word, the fixed sentences, and every sound a tile can ask for |
-| 68 | voice packs | covers every grapheme the whole bank can produce |
-| 69 | voice packs | the plural s splits by voicing: dogs buzzes, cats hisses (Level 21 |
-| 70 | voice packs | bankWords covers every word the app names, not only the levels |
-| 71 | voice packs | ai and ou say what their levels teach, and the heart words still bend |
-| 72 | voice packs | gives every tricky word its true sounds, not its letters |
-| 73 | voice packs | sounds out every heart word the way the owner heard it |
-| 74 | voice packs | splits th into its two sounds, across every th word in the bank |
-| 75 | voice packs | plans the sound-out reveal on every outcome, at the literal 500 ms seam |
-| 76 | voice packs | knows a seam from a clip, and how long each one lasts |
-| 77 | voice packs | maps each tile sound to its own tile, in order |
-| 78 | voice packs | resolves one source per utterance: family, then default, then none |
-| 79 | speech helpers | says full words only, never letter names, and never stretches the reveal |
-| 80 | speech helpers | hands system speech the SOUND of “a”, never the letter |
-| 81 | speech helpers | stays silent when sound is off or no engine exists |
-| 82 | speech helpers | configures the utterance: rate 0.9, pitch 1.1, locale, cancel first |
-| 83 | speech helpers | pins the seventeen praise sentences, character for character |
-| 84 | speech helpers | selects the praise by index, and falls back to the first for a bad index |
-| 85 | speech helpers | queues reveal parts: one cancel, and both the lead and the word sentence at 0.9 |
-| 86 | speech helpers | survives a throwing speech service |
-| 87 | speech helpers | hush stops speech, and survives a missing engine |
-| 88 | speech helpers | vibrates only when the device can, and never throws |
-| 89 | reference storage adapter | reads nothing when no storage exists at all |
-| 90 | reference storage adapter | reads a saved document from the host storage |
-| 91 | reference storage adapter | keeps a copy of damaged data and reports it, even if the copy write fails |
-| 92 | reference storage adapter | saves to the host and answers from memory when the host disappears |
-| 93 | reference storage adapter | reports an unsaved visit when the host write fails |
-| 94 | reference storage adapter | falls back to memory when the host read throws |
-| 95 | G1 — the system voice is never given a word it says wrongly | 75: no praise line contains a word with two pronunciations |
-| 96 | G1 — the system voice is never given a word it says wrongly | 76: with no unsafe line listed, every praise index reaches the system voice unchanged |
-| 97 | G1 — the system voice is never given a word it says wrongly | 77: the clip plan carries the new line to the pack |
-| 98 | G1 — the system voice is never given a word it says wrongly | 78: the sentence praise roster is exactly the rows that never say \ |
-| 99 | G1 — the system voice is never given a word it says wrongly | 79: the sentence lead is the grade |
-| 100 | Build-it tray | gives the word its true number of slots, never a padded one |
-| 101 | Build-it tray | ramps the extra tiles: none, then one from Level 6, then two past 14 |
-| 102 | Build-it tray | always offers every tile the answer needs |
-| 103 | Build-it tray | never offers a distractor that is one of the word |
-| 104 | Build-it tray | keeps units with no ruled default out of the pool |
-| 105 | Build-it tray | keeps the vowels, so a child can be offered i against a |
-| 106 | Build-it tray | refuses a distractor that would sound exactly like one of the word |
-| 107 | Build-it tray | only draws graphemes a child at that level has met |
-| 108 | Build-it tray | gives every answer tile in the order the word is built |
-| 109 | Build-it tray | offers a tile for every slot, even when a sound repeats |
-| 110 | Build-it tray | refuses a distractor that would let a child spell a ruled-out word |
-| 111 | Build-it tray | never offers a word whose own tiles spell a ruled-out one |
-| 112 | Build-it tray | is reproducible: the same rand builds the same tray |
+| 49 | sentences | gives all hundred levels a list, and names no level that does not exist |
+| 50 | sentences | places every sentence where a child can actually read it |
+| 51 | sentences | places no sentence later than it needs to be |
+| 52 | sentences | gives every sentence a word the level teaches, for the reveal to sound out |
+| 53 | sentences | holds every text to one clip, and inside the longest approved read |
+| 54 | sentences | counts the words a child sees, not the punctuation a writer left |
+| 55 | sentences | ships three invitation lines, each with a clip and its own words |
+| 56 | buildMarkdown | reports the 1,123-word denominator and one hundred level rows |
+| 57 | buildMarkdown | counts a word as mastered only from box 4 |
+| 58 | buildMarkdown | keeps a grapheme-safe name intact in the header |
+| 59 | buildMarkdown | marks a partial session |
+| 60 | voice packs | inventories one clip per word, the fixed sentences, and every sound a tile can ask for |
+| 61 | voice packs | covers every grapheme the whole bank can produce |
+| 62 | voice packs | the plural s splits by voicing: dogs buzzes, cats hisses (Level 21 |
+| 63 | voice packs | bankWords covers every word the app names, not only the levels |
+| 64 | voice packs | ai and ou say what their levels teach, and the heart words still bend |
+| 65 | voice packs | gives every tricky word its true sounds, not its letters |
+| 66 | voice packs | sounds out every heart word the way the owner heard it |
+| 67 | voice packs | splits th into its two sounds, across every th word in the bank |
+| 68 | voice packs | plans the sound-out reveal on every outcome, at the literal 500 ms seam |
+| 69 | voice packs | knows a seam from a clip, and how long each one lasts |
+| 70 | voice packs | maps each tile sound to its own tile, in order |
+| 71 | voice packs | resolves one source per utterance: family, then default, then none |
+| 72 | speech helpers | says full words only, never letter names, and never stretches the reveal |
+| 73 | speech helpers | hands system speech the SOUND of “a”, never the letter |
+| 74 | speech helpers | stays silent when sound is off or no engine exists |
+| 75 | speech helpers | configures the utterance: rate 0.9, pitch 1.1, locale, cancel first |
+| 76 | speech helpers | pins the seventeen praise sentences, character for character |
+| 77 | speech helpers | selects the praise by index, and falls back to the first for a bad index |
+| 78 | speech helpers | queues reveal parts: one cancel, and both the lead and the word sentence at 0.9 |
+| 79 | speech helpers | survives a throwing speech service |
+| 80 | speech helpers | hush stops speech, and survives a missing engine |
+| 81 | speech helpers | vibrates only when the device can, and never throws |
+| 82 | reference storage adapter | reads nothing when no storage exists at all |
+| 83 | reference storage adapter | reads a saved document from the host storage |
+| 84 | reference storage adapter | keeps a copy of damaged data and reports it, even if the copy write fails |
+| 85 | reference storage adapter | saves to the host and answers from memory when the host disappears |
+| 86 | reference storage adapter | reports an unsaved visit when the host write fails |
+| 87 | reference storage adapter | falls back to memory when the host read throws |
+| 88 | G1 — the system voice is never given a word it says wrongly | 75: no praise line contains a word with two pronunciations |
+| 89 | G1 — the system voice is never given a word it says wrongly | 76: with no unsafe line listed, every praise index reaches the system voice unchanged |
+| 90 | G1 — the system voice is never given a word it says wrongly | 77: the clip plan carries the new line to the pack |
+| 91 | G1 — the system voice is never given a word it says wrongly | 78: the sentence praise roster is exactly the rows that never say \ |
+| 92 | G1 — the system voice is never given a word it says wrongly | 79: the sentence lead is the grade |
+| 93 | Build-it tray | gives the word its true number of slots, never a padded one |
+| 94 | Build-it tray | ramps the extra tiles: none, then one from Level 6, then two past 14 |
+| 95 | Build-it tray | always offers every tile the answer needs |
+| 96 | Build-it tray | never offers a distractor that is one of the word |
+| 97 | Build-it tray | keeps units with no ruled default out of the pool |
+| 98 | Build-it tray | keeps the vowels, so a child can be offered i against a |
+| 99 | Build-it tray | refuses a distractor that would sound exactly like one of the word |
+| 100 | Build-it tray | only draws graphemes a child at that level has met |
+| 101 | Build-it tray | gives every answer tile in the order the word is built |
+| 102 | Build-it tray | offers a tile for every slot, even when a sound repeats |
+| 103 | Build-it tray | refuses a distractor that would let a child spell a ruled-out word |
+| 104 | Build-it tray | never offers a word whose own tiles spell a ruled-out one |
+| 105 | Build-it tray | is reproducible: the same rand builds the same tray |
 
 ## tests/faults.test.js — 13 tests (G9)
 
@@ -292,7 +285,7 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 40 | Feature: Level promotion | A session stopped early with a miss also leaves the streak unchanged |
 | 41 | Feature: Level promotion | A box promotion on a perfect session still resets the streak |
 | 42 | Feature: Level promotion | A stored streak alone never promotes without a completed session |
-| 43 | Feature: Saved data survives anything | A version 2 save keeps the ground its level had earned |
+| 43 | Feature: Saved data survives anything | A version 2 save seats where its own graded words put it |
 | 44 | Feature: Saved data survives anything | An old save lands where the child |
 | 45 | Feature: Saved data survives anything | Migration runs only once |
 | 46 | Feature: Saved data survives anything | A hostile level heals to the start |
@@ -312,6 +305,28 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 60 | Feature: Building a session | Seven of the 10 words does not open the next level |
 | 61 | Feature: Building a session | A word the child has already read comes back, whatever its level |
 | 62 | Feature: Building a session | Above-level review never takes over the session |
+
+## tests/migrate.test.js — 9 tests (G1)
+
+- **Requirement protected:** SPEC saves rule: an old save migrates once, seats by the owner's 2026-08-21 recompute ruling, and heals before any use
+- **Independent oracle:** Literal expected values written from the ruling by hand (E4): the graduate walks to 6, a hand-set save keeps its number.
+- **Platform:** node/jsdom
+- **Mutant family:** G5 migrate family (clamp, recompute)
+- **Evidence produced:** Vitest counts (summed into floor g1_unit_tests with engine.test.js - the 2026-08-21 split)
+- **Known limits — what these tests do NOT prove:** Proves the seat arithmetic, never that the seat is pedagogically right - that was the owner's page to rule.
+- **Safety rules proved here:** none
+
+| # | Suite | Effect (the test's own sentence) |
+|---|---|---|
+| 1 | migrate | runs the whole chain: the log shifts, the level recomputes from the words, mode leaves |
+| 2 | migrate | leaves word data untouched |
+| 3 | migrate | seats an updating child by the ruled recompute, and a hand-set save by its number |
+| 4 | migrate | clamps an impossible level even on a save that needs no version work |
+| 5 | migrate | is idempotent |
+| 6 | migrate | recomputes any pre-v4 level from the words, and clamps a v4 one |
+| 7 | migrate | computes the migrated level at the same boundary promotion uses |
+| 8 | migrate | never seats a migrated child below the ground they held |
+| 9 | migrate | survives hostile documents |
 
 ## tests/pre.test.js — 15 tests (G10)
 
@@ -450,7 +465,7 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 25 | G10 — free play never touches the save | 47: a spent random block rolls into a fresh draw that never repeats the boundary word |
 | 26 | G10 safety — S6: the foreground check obeys the corner | 48: the check asks on a return to the foreground, and Off silences it at once |
 
-## tests/scheduler.test.js — 5 tests (G1)
+## tests/scheduler.test.js — 6 tests (G1)
 
 - **Requirement protected:** SPEC section 4: promotion and the level rules of the session builder
 - **Independent oracle:** Hand-computed queues from stated states
@@ -465,10 +480,11 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 1 | buildSession and the next level | never hands the next level to a child who has read nothing correctly |
 | 2 | buildSession and the next level | does not count a close reading as learning the word |
 | 3 | buildSession and the next level | opens the next level at 8 of the 10 words, not at 7 |
-| 4 | buildSession and the next level | brings a graded next-level word back for review |
-| 5 | buildSession and the next level | caps above-level review at 2 words a session |
+| 4 | buildSession and the next level | holds the peek at 80 per cent, not 75 - the boundary only a 16-word level can see |
+| 5 | buildSession and the next level | brings a graded next-level word back for review |
+| 6 | buildSession and the next level | caps above-level review at 2 words a session |
 
-## tests/sentence.test.js — 20 tests (G10)
+## tests/sentence.test.js — 21 tests (G10)
 
 - **Requirement protected:** SPEC section 12 points 2 to 6: where a sentence falls in a session, what it plays, what a tap does, and what ends it
 - **Independent oracle:** The literal clip plan and the level's own word lists
@@ -480,26 +496,27 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 
 | # | Suite | Effect (the test's own sentence) |
 |---|---|---|
-| 1 | the sentence inside a session | 1: arrives after the fifth word, and only after a word is finished |
-| 2 | the sentence inside a session | 0: arrives SILENT with the child |
-| 3 | the sentence inside a session | 0b: the mark decides only what the app says — praise that never says \ |
-| 4 | the sentence inside a session | 0c: one attempt, one result — a second mark in the same window changes nothing |
-| 5 | the sentence inside a session | 2: the mark starts the reveal: the whole sentence, the invitation, then the level |
-| 6 | the sentence inside a session | 3: a tapped word shows its pieces and says NOTHING |
-| 7 | the sentence inside a session | 4: exactly one word is ever open, and tapping the open one closes it |
-| 8 | the sentence inside a session | 5: the sentence reads again to close, and a tap interrupts that read |
-| 9 | the sentence inside a session | 6: after the mark the grown-up ends it, nothing has to finish first, and no result is recorded |
-| 10 | the sentence inside a session | 8 (free play): opens on a sentence IN THE ATTEMPT, counts sentences, and its advance names one |
-| 11 | the sentence inside a session | 9 (free play): sounds out the LONGEST word, in tiles, and never the level |
-| 12 | the sentence inside a session | 9b: the longest word is a pure rule, and it is not the first word |
-| 13 | the sentence inside a session | 10 (free play): the controls are live for the SENTENCE, and no mark records anything |
-| 14 | the sentence inside a session | 11 (free play): never runs out — the pool is dealt again from the top |
-| 15 | the sentence inside a session | 12: the open word |
-| 16 | the sentence inside a session | 7b: a miss just before a sentence still earns the second look |
-| 17 | the sentence inside a session | 7c (control): a miss with no sentence in the way earns the same second look |
-| 18 | the sentence inside a session | 7: no sentence repeats inside one session |
-| 19 | free play deals from data that can be empty | 13: an empty pool turns the tap back rather than breaking the app |
-| 20 | free play deals from data that can be empty | 14: the chooser drops the sentence row where there is nothing to serve — and keeps it where there is |
+| 1 | the sentence reveal | sounds the open word out seam by seam, every id literal (E4) |
+| 2 | the sentence inside a session | 1: arrives after the fifth word, and only after a word is finished |
+| 3 | the sentence inside a session | 0: arrives SILENT with the child |
+| 4 | the sentence inside a session | 0b: the mark decides only what the app says — praise that never says \ |
+| 5 | the sentence inside a session | 0c: one attempt, one result — a second mark in the same window changes nothing |
+| 6 | the sentence inside a session | 2: the mark starts the reveal: the whole sentence, the invitation, then the level |
+| 7 | the sentence inside a session | 3: a tapped word shows its pieces and says NOTHING |
+| 8 | the sentence inside a session | 4: exactly one word is ever open, and tapping the open one closes it |
+| 9 | the sentence inside a session | 5: the sentence reads again to close, and a tap interrupts that read |
+| 10 | the sentence inside a session | 6: after the mark the grown-up ends it, nothing has to finish first, and no result is recorded |
+| 11 | the sentence inside a session | 8 (free play): opens on a sentence IN THE ATTEMPT, counts sentences, and its advance names one |
+| 12 | the sentence inside a session | 9 (free play): sounds out the LONGEST word, in tiles, and never the level |
+| 13 | the sentence inside a session | 9b: the longest word is a pure rule, and it is not the first word |
+| 14 | the sentence inside a session | 10 (free play): the controls are live for the SENTENCE, and no mark records anything |
+| 15 | the sentence inside a session | 11 (free play): never runs out — the pool is dealt again from the top |
+| 16 | the sentence inside a session | 12: the open word |
+| 17 | the sentence inside a session | 7b: a miss just before a sentence still earns the second look |
+| 18 | the sentence inside a session | 7c (control): a miss with no sentence in the way earns the same second look |
+| 19 | the sentence inside a session | 7: no sentence repeats inside one session |
+| 20 | free play deals from data that can be empty | 13: an empty pool turns the tap back rather than breaking the app |
+| 21 | free play deals from data that can be empty | 14: the chooser drops the sentence row where there is nothing to serve — and keeps it where there is |
 
 ## tests/serviceworker.test.js — 5 tests (G14)
 

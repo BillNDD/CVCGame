@@ -42,18 +42,40 @@ import { SENTENCES, REVEAL_LINES, REVEAL_LINE_TEXT, sentenceWords } from "../src
    does. */
 export const ADULTS = ["dad", "mom", "man", "men", "gran", "nan", "pop"];
 export const CONTACT = ["pat", "tap", "hit", "rub", "hug", "kiss", "zap", "nip", "jab",
-  "slap", "whack", "smack", "grab", "pin", "tug", "lick", "kick", "bump", "shut"];
+  "slap", "whack", "smack", "grab", "pin", "tug", "lick", "kick", "bump", "shut",
+  /* Widened 2026-08-21, owner-ruled on the cutover morning page: the audit
+     found "Dad lifted me up" wearing the refused shape through a verb this
+     list could not see. The first widening took every verb an adult uses on
+     a child's body PLUS take and pick - and promptly refused "Mom took me
+     to the shop", "It took us all day" and "he picked me" (a rabbit,
+     choosing): the cries-wolf trap this header warns about, caught by the
+     gate's own run before it shipped. So take and pick stay out (motion and
+     idiom, not contact), the body verbs below joined with their sentence
+     inflections, and shape() gained the adjacency window that makes broad
+     verbs precise. */
+  "lift", "lifted", "lifts", "hold", "held", "holds",
+  "carry", "carried", "carries", "pull", "pulled",
+  "pulls", "push", "pushed", "pushes", "touch", "touched", "touches"];
 export const CHILD = ["me", "us"];
 
 export function shape(text) {
+  /* EVERY contact verb after an adult is examined (the old first-match could
+     look at an innocent early verb and miss a guilty later one), and the
+     child must sit within THREE words after the verb - "lifted me up" and
+     "pat me" are the shape; "held the map for us" and a "me" three
+     sentences downstream are not. The window is what lets the 2026-08-21
+     verb widening exist without refusing half the corpus (measured: the
+     unbounded span swept four innocent paragraphs on its first run). */
   const ws = sentenceWords(text);
   const adult = ws.findIndex((w) => ADULTS.includes(w));
   if (adult < 0) return null;
-  const verb = ws.findIndex((w, i) => i > adult && CONTACT.includes(w));
-  if (verb < 0) return null;
-  const child = ws.findIndex((w, i) => i > verb && CHILD.includes(w));
-  if (child < 0) return null;
-  return `an adult (${ws[adult]}) does something physical (${ws[verb]}) to the child (${ws[child]})`;
+  for (let v = adult + 1; v < ws.length; v += 1) {
+    if (!CONTACT.includes(ws[v])) continue;
+    for (let c = v + 1; c <= Math.min(v + 3, ws.length - 1); c += 1)
+      if (CHILD.includes(ws[c]))
+        return `an adult (${ws[adult]}) does something physical (${ws[v]}) to the child (${ws[c]})`;
+  }
+  return null;
 }
 
 /* PHRASES THE OWNER BANNED BY NAME. A sentence can be innocent word by word
@@ -246,6 +268,8 @@ export const SCREENED_2026_08_20_V3_AWAITING_SEAT = [
 export const SHAPE_CLEARED = {
   "s:v3-l44-02": "the kick is the BROTHER kicking a sand hill ('my brother ran up and did kick it'), no adult touches anyone; owner-read in screen batch 2, 2026-08-20, 69 ok",
   "s:v3-l58-02": "the tap is a FAUCET ('fill it at the tap'), a noun the verb list misreads; owner-read in screen batch 3, 2026-08-20, 69 ok",
+  "s:v3-l45-01": "'Dad lifted me up on the hill' - a sled lift, first-reader warmth; owner ruled 'keep both; widen the verb list; clear both ids by name', cutover morning page, 2026-08-21",
+  "s:v3-l42-01": "'Dad held my hand and we sat and had a plum' - hand-holding; same ruling, same page, 2026-08-21",
 };
 
 export function screen(sentences) {
@@ -281,6 +305,9 @@ if (process.argv.includes("--self-test")) {
     ["My dad had a nap.", false, "an adult with no contact verb and no child"],
     ["Can my pal tag me?", false, "control: approved, and must not be swept up"],
     ["My dad can pat the dog.", false, "an adult and a contact verb, but the object is not the child"],
+    ["Dad lifted me up on the hill.", true, "the 2026-08-21 widening's own proof: the verb the cutover audit found this screen blind to (the shipped sentence itself passes only through its SHAPE_CLEARED entry)"],
+    ["Mom held me in the den.", true, "the widening's second verb, inflected as a sentence would carry it"],
+    ["Dad held the map for us.", false, "held with no child object - the widened verbs keep the old shape's precision"],
     ["Pat me and my dad can run.", false, "the order is the shape: the child comes before the adult here"],
   ];
   const phraseCases = [
@@ -330,7 +357,7 @@ if (process.argv.includes("--self-test")) {
   console.log((seatedOk ? "ok   " : "FAIL ") + "control: a v3 id the owner read ships without a never-screened refusal");
   if (!seatedOk) failed += 1;
   {
-    const clearedText = "Dad ran to the hill. My brother did kick it. I sat by me."; // adult..kick..child shape
+    const clearedText = "Dad ran to the hill. My brother did kick me."; // adult..kick..child, inside the adjacency window (re-pointed 2026-08-21 when the window landed)
     const hit = screen([{ id: "s:v3-l44-02", text: clearedText }]);
     const strange = screen([{ id: "s:v3-l00-98", text: clearedText }]);
     const clearedOk = !hit.some((p) => p.startsWith("refused by shape")) && strange.some((p) => p.startsWith("refused by shape"));
