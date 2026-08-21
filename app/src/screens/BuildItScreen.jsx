@@ -130,9 +130,19 @@ export default function BuildItScreen({ tray, playSounds, playWord, onDone, onEx
       timers.current = [];
       setWon(true);
       setMsg(isSound ? "🎉 You found it!" : "🎉 You built " + tray.word + "!");
-      if (isSound) playSounds([tray.prompt]);
-      else playSounds(soundIdsOf(tray.word), () => { if (alive.current) playWord(tray.word); });
-      later(onDone, 2600);
+      /* The turn ends when the CELEBRATION ends, never on a fixed timer: the
+         old 2,600 ms was shorter than a five-tile word's sound-out plus its
+         word, so "biting" was cut off mid-word and the next tray dealt over
+         it (the owner, 2026-08-21). Every player path reports when it has
+         finished and carries its own backstop, so a silent pack still ends
+         the turn. The 900 ms after it is the beat the child gets to enjoy
+         having won. */
+      const finish = () => { if (alive.current) later(onDone, 900); };
+      if (isSound) playSounds([tray.prompt], finish);
+      else playSounds(soundIdsOf(tray.word), () => {
+        if (!alive.current) return;
+        playWord(tray.word, finish);
+      });
       return;
     }
     const n = misses + 1;

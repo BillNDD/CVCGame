@@ -375,10 +375,19 @@ export default function App() {
      The word is spoken by the pack the same way the reveal speaks it; the
      tiles play single sounds, which is what the sound-out already does, so
      this mode adds no new audio path and no new clip. */
-  const playBuildWord = useCallback((word) => {
+  /* `then` fires when the word has finished speaking - the same once-with-a-
+     backstop shape playBuildSounds uses, so a silent pack or a fallback voice
+     still hands control back rather than stranding the caller. The win needs
+     it: it used to end on a fixed timer and cut long words off mid-word
+     (the owner on "biting", 2026-08-21). */
+  const playBuildWord = useCallback((word, then) => {
     unlockVoice();
+    let fired = false;
+    const once = (ms) => { if (fired || !then) return; fired = true; setTimeout(then, ms); };
     speakVoice("replay", word, 0, stateRef.current.settings.sound,
-      (why) => { noteFallback(why); speak([{ text: ttsSafeWord(word), rate: 0.9 }], true, stateRef.current.settings.lang); });
+      (why) => { noteFallback(why); speak([{ text: ttsSafeWord(word), rate: 0.9 }], true, stateRef.current.settings.lang); once(900); },
+      (ms) => once(ms + 140));
+    setTimeout(() => once(0), 3000);
   }, []);
   /* `then` runs when the sound has actually FINISHED, not after a guess. The
      owner heard the guess fail: placing the last tile played its sound and the

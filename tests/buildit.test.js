@@ -64,7 +64,7 @@ function mount(word, level = 2, onDone = () => {}) {
   const tray = trayFor(word, level);
   render(createElement(BuildItScreen, {
     tray,
-    playWord: (w) => played.push("word:" + w),
+    playWord: (w, then) => { played.push("word:" + w); if (then) then(); },
     playSounds: (ids, then) => { played.push("sounds:" + ids.join(",")); if (then) then(); },
     soundIdsOf: (w) => chunkWord(w).map((c) => "d:" + c),
     onDone, onExit: onDone,
@@ -253,7 +253,7 @@ describe("Build-a-sound, for a child still on the ladder", () => {
     const tray = buildSoundTray(3, () => 0.3);
     render(createElement(BuildItScreen, {
       tray,
-      playWord: (w) => played.push("word:" + w),
+      playWord: (w, then) => { played.push("word:" + w); if (then) then(); },
       playSounds: (ids, then) => { played.push("sounds:" + ids.join(",")); if (then) then(); },
       soundIdsOf: (w) => chunkWord(w).map((c) => "d:" + c),
       onDone: () => {}, onExit: () => {},
@@ -278,7 +278,7 @@ describe("Build-a-sound, for a child still on the ladder", () => {
     const tray = buildSoundTray(3, () => 0.3);
     render(createElement(BuildItScreen, {
       tray,
-      playWord: (w) => played.push("word:" + w),
+      playWord: (w, then) => { played.push("word:" + w); if (then) then(); },
       playSounds: (ids, then) => { played.push("sounds:" + ids.join(",")); if (then) then(); },
       soundIdsOf: (w) => chunkWord(w).map((c) => "d:" + c),
       onDone: () => {}, onExit: () => {},
@@ -300,6 +300,47 @@ describe("free play builds go on until Done", () => {
      the next one, and only the Done control leaves. Driven through the real
      App on a pre-ladder save, tiles tried in order until the right one -
      misses are unlimited and the slot clears itself (test 13). */
+  it("17: a long word's celebration is never cut off - the turn ends when the sound does", async () => {
+    /* The owner on "biting" (2026-08-21): the sound-out reached b-i-t-i and
+       stopped, because the turn ended on a fixed 2,600 ms while a five-tile
+       word's celebration runs longer. The screen now waits for the players
+       to report they have finished. Driven with SLOW players - each hands
+       back after 3 s - and the turn must not end before they do. */
+    const tray = trayFor("biting", 73);
+    let ended = 0;
+    const pending = [];
+    render(createElement(BuildItScreen, {
+      tray,
+      playWord: (w, then) => { played.push("word:" + w); if (then) pending.push([then, 3000]); },
+      playSounds: (ids, then) => { played.push("sounds:" + ids.join(",")); if (then) pending.push([then, 3000]); },
+      soundIdsOf: (w) => chunkWord(w).map((c) => "d:" + c),
+      onDone: () => { ended += 1; }, onExit: () => {},
+    }));
+    const run = async (ms) => { const q = pending.splice(0); for (const [fn] of q) fn(); await flush(ms); };
+    /* "biting" needs the i tile twice and the tray carries two of them, so
+       each slot takes the next UNUSED tile of that letter - clicking the
+       same one twice places nothing (test 6's lesson, met again). */
+    const used = new Set();
+    for (const t2 of tray.answer) {
+      const i = tray.tiles.findIndex((x, k) => x === t2 && !used.has(k));
+      used.add(i);
+      fireEvent.click(tiles()[i]);
+    }
+    await flush(0);
+    await run(0);                                   // the last tile's own sound lands, and the check runs
+    expect(screen.getByText(/You built biting/)).toBeTruthy();
+    await flush(2600);
+    expect(ended).toBe(0);                          // the old fixed timer would have ended it here
+    await run(0);                                   // the sound-out finishes -> the word speaks
+    /* Twice in all: once as the prompt at the start of the turn, once to
+       close the celebration. */
+    expect(played.filter((x) => x === "word:biting").length).toBe(2);
+    expect(played.at(-1)).toBe("word:biting");
+    expect(ended).toBe(0);                          // still celebrating: the word is speaking
+    await run(950);                                 // the word finishes, then the 900 ms beat
+    expect(ended).toBe(1);
+  });
+
   it("15: 'Build a level word' deals the level's own word, mastery elsewhere notwithstanding", async () => {
     /* The owner at level 75 was handed "is" and "an" (2026-08-21): the old
        row served mastered words from any level first. The cell promises the
@@ -360,9 +401,13 @@ describe("free play builds go on until Done", () => {
       return false;
     };
     expect(await findIt()).toBe(true);
-    /* The win must STAY won: the scaffolds queued by the misses on the way
-       (900 ms out, one per miss past the second) may not stamp over it. */
-    await flush(1000);
+    /* The win must STAY won while it is being celebrated: the scaffolds
+       queued by the misses on the way (900 ms out, one per miss past the
+       second) may not stamp over it. Re-derived 2026-08-21 when the turn
+       stopped ending on a fixed 2,600 ms and started ending when the
+       celebration ends - so the window checked here is inside the
+       celebration, not past it. */
+    await flush(300);
     expect(screen.getByText(/You found it/)).toBeTruthy();
     await flush(2700);                                         // the win's pause, then the NEXT sound
     expect(screen.queryByText("▶️ Begin Session")).toBeNull();   // not home

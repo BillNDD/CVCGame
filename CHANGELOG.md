@@ -15,6 +15,10 @@ This document follows the Microsoft Writing Style Guide.
 Version 6 adds the standalone progressive web app. The reference build does not change.
 The first app version is 1.0.0-beta.1. The app stays in beta until version 1.0 is ready.
 
+- Fixed in 1.0.0-beta.25: building a longer word cut its own celebration off. "biting"
+  sounded out b-i-t-i and stopped, because the turn ended on a fixed pause that was
+  shorter than the celebration. The turn now ends when the sounds do, with a beat after
+  it to enjoy.
 - Changed in 1.0.0-beta.25: the Build cell now names the level it deals from — "Build a
   level 75 word" — and deals from that level and the two below it, so the mode always has
   words a child has just learned even when their own level holds only one or two that can
