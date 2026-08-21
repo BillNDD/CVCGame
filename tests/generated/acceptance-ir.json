@@ -18,7 +18,7 @@
             },
             {
               "kind": "Then",
-              "text": "the export contains \"0/476\""
+              "text": "the export contains \"0/1123\""
             }
           ],
           "examples": []
@@ -37,7 +37,7 @@
             },
             {
               "kind": "Then",
-              "text": "the export contains \"2/476\""
+              "text": "the export contains \"2/1123\""
             }
           ],
           "examples": []
@@ -443,7 +443,7 @@
           "steps": [
             {
               "kind": "Given",
-              "text": "a player on Level 8 with 8 of the 10 words at box 3"
+              "text": "a player on Level 2 with 8 of the 10 words at box 3"
             },
             {
               "kind": "When",
@@ -451,7 +451,7 @@
             },
             {
               "kind": "Then",
-              "text": "the player is promoted to Level 9"
+              "text": "the player is promoted to Level 3"
             }
           ],
           "examples": []
@@ -462,7 +462,7 @@
           "steps": [
             {
               "kind": "Given",
-              "text": "a player on Level 8 with 7 of the 10 words at box 3"
+              "text": "a player on Level 2 with 7 of the 10 words at box 3"
             },
             {
               "kind": "When",
@@ -470,7 +470,7 @@
             },
             {
               "kind": "Then",
-              "text": "the player stays on Level 8"
+              "text": "the player stays on Level 2"
             }
           ],
           "examples": []
@@ -481,7 +481,7 @@
           "steps": [
             {
               "kind": "Given",
-              "text": "a player on Level 1 with 14 of the 14 words at box 2"
+              "text": "a player on Level 1 with 10 of the 10 words at box 2"
             },
             {
               "kind": "When",
@@ -495,12 +495,12 @@
           "examples": []
         },
         {
-          "name": "The starter level needs 12 of its 14 words",
+          "name": "The starter level needs 8 of its 10 words",
           "outline": false,
           "steps": [
             {
               "kind": "Given",
-              "text": "a player on Level 1 with 12 of the 14 words at box 3"
+              "text": "a player on Level 1 with 8 of the 10 words at box 3"
             },
             {
               "kind": "When",
@@ -514,12 +514,12 @@
           "examples": []
         },
         {
-          "name": "Eleven of the starter level's 14 words is not enough",
+          "name": "Seven of the starter level's 10 words is not enough",
           "outline": false,
           "steps": [
             {
               "kind": "Given",
-              "text": "a player on Level 1 with 11 of the 14 words at box 3"
+              "text": "a player on Level 1 with 7 of the 10 words at box 3"
             },
             {
               "kind": "When",
@@ -538,7 +538,7 @@
           "steps": [
             {
               "kind": "Given",
-              "text": "a player on Level 21 with 14 of the 14 words at box 5"
+              "text": "a player on Level 100 with 12 of the 12 words at box 5"
             },
             {
               "kind": "When",
@@ -546,7 +546,7 @@
             },
             {
               "kind": "Then",
-              "text": "the player stays on Level 21"
+              "text": "the player stays on Level 100"
             }
           ],
           "examples": []
@@ -557,7 +557,7 @@
           "steps": [
             {
               "kind": "Given",
-              "text": "a player on Level 2 with 5 of the 13 words at box 3"
+              "text": "a player on Level 2 with 5 of the 10 words at box 3"
             },
             {
               "kind": "Given",
@@ -584,7 +584,7 @@
           "steps": [
             {
               "kind": "Given",
-              "text": "a player on Level 2 with 5 of the 13 words at box 3"
+              "text": "a player on Level 2 with 5 of the 10 words at box 3"
             },
             {
               "kind": "Given",
@@ -611,7 +611,7 @@
           "steps": [
             {
               "kind": "Given",
-              "text": "a player on Level 2 with 5 of the 13 words at box 3"
+              "text": "a player on Level 2 with 5 of the 10 words at box 3"
             },
             {
               "kind": "Given",
@@ -638,7 +638,7 @@
           "steps": [
             {
               "kind": "Given",
-              "text": "a player on Level 2 with 5 of the 13 words at box 3"
+              "text": "a player on Level 2 with 5 of the 10 words at box 3"
             },
             {
               "kind": "Given",
@@ -665,7 +665,7 @@
           "steps": [
             {
               "kind": "Given",
-              "text": "a player on Level 2 with 5 of the 13 words at box 3"
+              "text": "a player on Level 2 with 5 of the 10 words at box 3"
             },
             {
               "kind": "Given",
@@ -692,7 +692,7 @@
           "steps": [
             {
               "kind": "Given",
-              "text": "a player on Level 1 with 12 of the 14 words at box 3"
+              "text": "a player on Level 1 with 8 of the 10 words at box 3"
             },
             {
               "kind": "Given",
@@ -719,7 +719,7 @@
           "steps": [
             {
               "kind": "Given",
-              "text": "a player on Level 2 with 5 of the 13 words at box 3"
+              "text": "a player on Level 2 with 5 of the 10 words at box 3"
             },
             {
               "kind": "Given",
@@ -832,7 +832,7 @@
           "steps": [
             {
               "kind": "Given",
-              "text": "a version 4 save with level 99"
+              "text": "a version 4 save with level 999"
             },
             {
               "kind": "When",
@@ -840,7 +840,7 @@
             },
             {
               "kind": "Then",
-              "text": "the player is on level 21"
+              "text": "the player is on level 100"
             }
           ],
           "examples": []
@@ -907,7 +907,7 @@
             },
             {
               "kind": "Then",
-              "text": "it has exactly 14 words"
+              "text": "it has exactly 10 words"
             },
             {
               "kind": "Then",
@@ -926,7 +926,7 @@
           "steps": [
             {
               "kind": "Given",
-              "text": "a player on Level 13 who has mastered every Level 1 word"
+              "text": "a player on Level 22 who has mastered every Level 1 word"
             },
             {
               "kind": "When",
@@ -949,7 +949,7 @@
           "steps": [
             {
               "kind": "Given",
-              "text": "a player on Level 3 in session 10 with all 27 lower-level words overdue in box 1"
+              "text": "a player on Level 3 in session 10 with all 20 lower-level words overdue in box 1"
             },
             {
               "kind": "When",
@@ -1037,7 +1037,7 @@
           "steps": [
             {
               "kind": "Given",
-              "text": "a player on Level 1 who has seen 13 of the 14 words"
+              "text": "a player on Level 1 who has seen 9 of the 10 words"
             },
             {
               "kind": "When",
@@ -1056,7 +1056,7 @@
           "steps": [
             {
               "kind": "Given",
-              "text": "a player on Level 1 who has seen all 14 words"
+              "text": "a player on Level 1 who has seen all 10 words"
             },
             {
               "kind": "When",
@@ -1079,7 +1079,7 @@
           "steps": [
             {
               "kind": "Given",
-              "text": "a player on Level 1 who has seen all 14 words and read none correctly"
+              "text": "a player on Level 1 who has seen all 10 words and read none correctly"
             },
             {
               "kind": "When",
@@ -1087,7 +1087,7 @@
             },
             {
               "kind": "Then",
-              "text": "it has exactly 14 words"
+              "text": "it has exactly 10 words"
             },
             {
               "kind": "Then",
@@ -1097,12 +1097,12 @@
           "examples": []
         },
         {
-          "name": "The next level opens at 12 of the 14 words read correctly",
+          "name": "The next level opens at 8 of the 10 words read correctly",
           "outline": false,
           "steps": [
             {
               "kind": "Given",
-              "text": "a player on Level 1 who has read 12 of the 14 words correctly"
+              "text": "a player on Level 1 who has read 8 of the 10 words correctly"
             },
             {
               "kind": "When",
@@ -1120,12 +1120,12 @@
           "examples": []
         },
         {
-          "name": "Eleven of the 14 words does not open the next level",
+          "name": "Seven of the 10 words does not open the next level",
           "outline": false,
           "steps": [
             {
               "kind": "Given",
-              "text": "a player on Level 1 who has read 11 of the 14 words correctly"
+              "text": "a player on Level 1 who has read 7 of the 10 words correctly"
             },
             {
               "kind": "When",
@@ -1137,7 +1137,7 @@
             },
             {
               "kind": "Then",
-              "text": "it has exactly 14 words"
+              "text": "it has exactly 10 words"
             }
           ],
           "examples": []
@@ -1148,11 +1148,11 @@
           "steps": [
             {
               "kind": "Given",
-              "text": "a player on Level 1 who has seen all 14 words and read none correctly"
+              "text": "a player on Level 1 who has seen all 10 words and read none correctly"
             },
             {
               "kind": "Given",
-              "text": "the Level 2 word \"cat\" was read wrong in an earlier session"
+              "text": "the Level 2 word \"tin\" was read wrong in an earlier session"
             },
             {
               "kind": "When",
@@ -1160,11 +1160,11 @@
             },
             {
               "kind": "Then",
-              "text": "the session contains the word \"cat\""
+              "text": "the session contains the word \"tin\""
             },
             {
               "kind": "Then",
-              "text": "it has exactly 15 words"
+              "text": "it has exactly 11 words"
             }
           ],
           "examples": []
@@ -1175,7 +1175,7 @@
           "steps": [
             {
               "kind": "Given",
-              "text": "a player on Level 1 who has seen all 14 words and read none correctly"
+              "text": "a player on Level 1 who has seen all 10 words and read none correctly"
             },
             {
               "kind": "Given",
@@ -1191,7 +1191,7 @@
             },
             {
               "kind": "Then",
-              "text": "it has exactly 16 words"
+              "text": "it has exactly 12 words"
             }
           ],
           "examples": []

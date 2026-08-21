@@ -863,6 +863,22 @@ the same day in `tools/free-port.mjs`. Six faults planted against rule 5, six ki
 
 ---
 
+## W (first use). The third sentence slot of a 20-word session - opened and
+## CLOSED 2026-08-20, the same night
+
+Opened when the driven walk at level 22 met two sentences against three
+planned slots, with the D2 breather seam as the suspect. Closed by measuring
+the right thing: **the plan was honest and the app ate nothing** - level 22
+owns only TWO texts, and `sessionSentences` gives a level fewer sentences
+than slots by design ("a level with fewer sentences than slots gets fewer,
+never the same one twice"). The walk was re-derived at level 77, whose pool
+holds seven texts over a 20-word queue, and it MEASURED all three slots
+serving - after the 5th, 10th and 15th words, breathers at the 7th and 14th,
+no repeats - so the pin now reads 3 and the third slot's path has finally run.
+The letter W was reused by the 2026-08-19 free-play entry below; this one
+keeps the (first use) suffix so a reader who meets either name in a commit can
+tell them apart.
+
 ## J. From a real child's backup, 2026-08-13
 
 A parent sent their child's export. Three things came out of it; one is fixed, two are open.
@@ -1416,10 +1432,12 @@ ladder the graft exists to argue against.
   own reckoning *helpful* and *useful* are readable at level 14 and were held
   at 98 regardless — 84 levels of waiting for words a child could already
   sound out.
-- **What a child experiences today** Nothing. These are DRAFT files; the game
-  still runs the 21 levels in `src/engine.js` and no child has met this ladder.
-  The cost is paid at conversion, and it is cheaper to move a number now than
-  a level later.
+- **What a child experiences today** As of the 2026-08-20 cutover this ladder
+  IS the game, so the cost is now paid where a child can meet it: *thankful*,
+  *wonderful* and *careful* arrive 74, 44 and 13 levels before level 98
+  explains the `-ful` ending. Each carries its own audited sound row, so the
+  word is taught truly when met - what is lost is the ending being NAMED
+  before its early examples, not the words being wrong.
 - **What was NOT done, and why** Level 98 was left at three words. Padding it
   is impossible without dragging *thankful*, *wonderful* or *careful* backwards
   past the level that made each readable, which is the fault the silent fill was
@@ -2062,3 +2080,58 @@ reasoning has never been applied to the two rows beside it.
 This is not a crash and not a guess about the code; it is a teaching decision, and it
 belongs to the owner and the literacy seat rather than to an engineering change (E8). **Done**
 is a ruling on what free play offers a pre-ladder child, and the chooser matching it.
+
+## X. An updating child keeps an old level NUMBER on a re-numbered ladder (2026-08-20)
+
+- **Where it lives** `migrateV6` and `OLD_TO_NEW` in `reference/word-quest.jsx`
+  (extracted to `src/engine.js`).
+- **What it is** The v6 migration takes the stored level as a floor and runs a
+  box recompute against the new ladder as the lift. The 2026-08-20 fidelity
+  audit MEASURED the lift inert: even a reader with all 476 old words at box 5
+  recomputes to level 6, because new level 6 seats *cops* and *spots* and the
+  old bank taught neither (5/7 = 71%, under the 80% gate). So for any save
+  stored at 6 or above, migration reduces to `min(stored, 100)` - the NUMBER
+  rides across, but old level 15 and new level 15 teach different code, so the
+  child skips every new grapheme seated below their old number and is walked
+  through review levels above it. `OLD_TO_NEW` (v2 saves) still maps to
+  targets addressed to the dead 21-level ladder, the same fault one layer
+  older.
+- **What a child or grown-up experiences today** A child updating from
+  beta.21 resumes at their old level number. Nothing breaks and no progress
+  is lost - boxes, mastery and sessions all keep working, and every word they
+  meet is fully taught when met - but graphemes the new ladder introduces
+  below their seat (digraphs, teams, magic-e, whatever their number skips)
+  are never introduced by their named teaching level.
+- **What done means** The owner rules a seating policy (a decision page is
+  prepared: recompute-preferred, stored-number-preferred as today, or a
+  per-decade mapping table), the migration implements it, and a test pins a
+  version-5 graduate save to the ruled seat with literal expected values.
+
+## Y. Cutover residue found by the audit seats (2026-08-20)
+
+### Y1. An inflected "laugh" would re-tile as augh, against the one-use-ugh ruling
+
+- **Where it lives** `ruleTilesFor` in `reference/word-quest.jsx`: the chunker
+  knows `augh`, so `chunkWord("laughs")` gives l-augh-s while the owner's
+  ruling tiles the base word l-a-ugh with ugh saying f.
+- **What a child experiences today** Nothing, measured: no inflected form of
+  laugh is in the bank or in any sentence (only "laugh." appears, in
+  s:v3-l82-02, l91-01 and l91-02).
+- **What done means** The moment any laughs/laughed/laughing is seated, its
+  lexicon row is written l-a-ugh-(ending) to match the ruling, and the G27
+  lexicon gate then holds it. This entry exists so that seat is planned, not
+  discovered.
+
+### Y2. Seven sentence texts ship twice under different ids
+
+- **Where it lives** The v3 sentence set: e.g. "The rat ran from the box." is
+  both s:v3-l18-02 and s:v3-l18-51; the l5/l23 mat text, the l10/l20 pen
+  text, and the l31, l33, l40 and l46 pairs repeat the same way.
+- **What a child experiences today** The no-repeat rule works by ID, so a
+  session pool holding both ids can serve the identical text twice - dulling,
+  not wrong. Each duplicate also carries its own clip, so the pack holds
+  bytes it does not need.
+- **What done means** One id per text: the ladder drops the duplicate ids,
+  their clips retire by the amused pattern, and the sentence-count pins
+  re-derive. An engineering change, deferred past the cutover commit so the
+  audited tree ships exactly as audited.

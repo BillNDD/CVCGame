@@ -222,8 +222,13 @@ function run(d) {
     found.push(`SPEC says ${specBitrate ? specBitrate[1] : "no"} kbps, the pack says ${recipe.bitrate}`);
 
   rules += 1;
+  /* Re-sourced at the 2026-08-20 cutover: the chooser DERIVES its count from
+     bankWords().length (the owner's ruling), so the derived form passes and a
+     TYPED number - even one that happens to equal the bank today - is the
+     stale-tomorrow fault this rule was born from. */
+  const homeDerived = d.home.includes("any word from all {bankWords().length}");
   const homeCount = /any word from all (\d+)/.exec(d.home);
-  if (!homeCount || Number(homeCount[1]) !== d.bankSize)
+  if (!homeDerived && (!homeCount || Number(homeCount[1]) !== d.bankSize))
     found.push(`the chooser copy says all ${homeCount ? homeCount[1] : "?"} words, the bank holds ${d.bankSize}`);
 
   /* Every floor the gate specification quotes must be the floor the gauntlet
@@ -362,7 +367,10 @@ if (process.argv.includes("--self-test")) {
 
   /* The stale-count fault: the chooser keeps telling parents a bank size the
      bank has outgrown. */
-  const bankCorrupt = { ...real, home: real.home.replace(/any word from all \d+/, "any word from all 250") };
+  /* Re-planted at the cutover: the live chooser DERIVES its count, so the
+     fault to plant is the derived form replaced by a typed stale number -
+     exactly the regression the re-sourced rule refuses. */
+  const bankCorrupt = { ...real, home: real.home.replace("any word from all {bankWords().length}", "any word from all 250") };
   seen.bank = run(bankCorrupt).found.some((p) => p.startsWith("the chooser copy says all 250"));
 
   /* A floor quoted in the gate specification that no longer matches the

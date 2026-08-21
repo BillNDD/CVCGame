@@ -65,7 +65,7 @@ export default function SentenceStage({ sentence, openWord, pops = [], onTapWord
       {/* The tile row for the open word. It sits in a reserved slot so the
           sentence above it never moves when a word opens or closes — the same
           promise the word stage makes (P0-2). */}
-      <div className="wq-slot-tiles wq-sentence-tiles" aria-hidden={attempt || !openWord}>
+      <div className={"wq-slot-tiles wq-sentence-tiles" + (openWord && chunkWord(openWord).length >= 8 ? " wq-crowd" : openWord && chunkWord(openWord).length >= 6 ? " wq-many" : "")} aria-hidden={attempt || !openWord}>
         {!attempt && openWord && chunkWord(openWord).map((g, i) => (
           /* A ring only where its LENGTH is known (B5), and only for the word
              the app sounded out. A tapped word is silent, so it has no sounds

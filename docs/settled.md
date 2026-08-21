@@ -1972,3 +1972,32 @@ re-refusing all eight prior arms byte-for-byte so only the genuinely new familie
 rendered. This is the same lesson as the notes/socks round: when a field is refused
 whole, change the FAMILY, not the speed, and let the hash guard prove which offers are
 actually new.
+
+## A sentence with a homograph, and the three proofs that settle one (2026-08-20) - closed
+
+The v3 sentence set put "read" back into shipped audio for the first time since the
+praise line "You read that word all by yourself!" was replaced in 2026-08-03, and the
+G13 rule that has refused spelling-rendered homographs ever since knew only one proof:
+explicit phonemes. The pack now ships FOUR sentences containing "read", honest three
+different ways, and the gate accepts exactly those three and nothing else.
+
+**Settled: the SAY/SHOW split is the way an ambiguous sentence renders.** The voice is
+given a respelled `say` text ("Dad red the map..."), the child sees the true text, and
+the take ledger (tools/pending-words/pending-words.json) records both, the reason, and
+the sha256 of the graded bytes. s:v3-l69-01, l69-02 and l75-01 ship this way, owner
+perfect in the 2026-08-19 sentence rework. The gate verifies the say respells EVERY
+ambiguous word to a target the renderer's own table declares, and that the shipped
+bytes hash to the graded row - a say that leaves the word unchanged, or bytes the
+listener never heard, both refuse (controls planted for each).
+
+**Settled: one byte pin, s:v3-l100-01.** "...look how fast you can read now" rendered
+from bare text in sentence batch 7, BEFORE the say mechanism existed, and the owner
+graded it perfect the same day he was refusing wrong "read"s elsewhere. It ships pinned
+to those exact bytes in tools/voice-check.mjs, the KEEPER_BYTES shape for a sentence;
+a re-render fails the gate. Any FUTURE ambiguous sentence must use the say path or
+phonemes - the pin list is closed history, not a mechanism.
+
+**Settled the same night: a clip the bank cannot name leaves the pack.** w:amused
+(batch 15, owner perfect, never seated in the hundred levels) retired from manifest and
+lock; its history stays in the pending-words ledger and its bytes in git. The waiting
+room holds its row again, so a future seat re-ships it without a new round.

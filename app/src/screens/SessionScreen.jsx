@@ -26,7 +26,10 @@ function SessionStage({ state, currentWord, phase, fb, liveRef, pops = [] }) {
               class it already has. `pops` is empty whenever no sound-out is
               playing, so the tiles simply sit there — the reveal without
               sound is the reveal it always was. */}
-          <div className="wq-slot-tiles" aria-hidden={phase !== "feedback"}>
+          {/* The owner's cutover ruling (2026-08-20): long words SHRINK to keep one
+              row - reveal tiles are display, not controls, so S7's floor does not
+              bind them. Two steps, at six and at eight tiles. */}
+          <div className={"wq-slot-tiles" + (chunkWord(currentWord).length >= 8 ? " wq-crowd" : chunkWord(currentWord).length >= 6 ? " wq-many" : "")} aria-hidden={phase !== "feedback"}>
             {phase === "feedback" && chunkWord(currentWord).map((g, i) => (
               /* A ring only where its LENGTH is known (B5). A source that
                  cannot say how long its sound is — a family pack, whose clips

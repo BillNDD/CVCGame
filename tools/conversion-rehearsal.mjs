@@ -63,7 +63,7 @@ import { readFileSync, writeFileSync, mkdtempSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import { pathToFileURL } from "node:url";
-import { TRICKY, WORD_SOUND, chunkWord, soundIdFor, soundIdsFor } from "../src/engine.js";
+import { TRICKY, WORD_SOUND, LEX_BENDS, chunkWord, soundIdFor, soundIdsFor } from "../src/engine.js";
 
 const EXTRACTOR = "tools/extract-engine.mjs";
 const BASELINE = ".claude/gate-baseline.json";
@@ -473,10 +473,15 @@ function probeRandom(E, A, found) {
 }
 
 function probeCopy(E, found, homeSrc) {
-  const m = /any word from all (\d+)/.exec(homeSrc);
-  if (!m) { found.no_value.push("the free-play chooser copy no longer states a bank size where this tool looks"); return; }
-  const bank = E.bankWords().length;
-  if (Number(m[1]) !== bank) found.stale_chooser_copy.push(`the chooser says all ${m[1]}, the bank holds ${bank}`);
+  /* Re-sourced at the cutover: the chooser DERIVES its count from
+     bankWords().length (the owner's ruling), so the stale class now fires on
+     the one way it can regress - the derivation replaced by a typed number.
+     A typed number that happens to equal the bank today is still stale
+     TOMORROW, which is exactly what the old copy was. */
+  const typed = /any word from all (\d+)/.exec(homeSrc);
+  const derived = homeSrc.includes("any word from all {bankWords().length}");
+  if (!typed && !derived) { found.no_value.push("the free-play chooser copy no longer states a bank size where this tool looks"); return; }
+  if (typed) found.stale_chooser_copy.push(`the chooser types the number ${typed[1]} where the ruling says derive from bankWords()`);
 }
 
 /* --------------------------------------------------------- the rehearsal --
@@ -620,7 +625,11 @@ function fixtureInput(real) {
      and reads as taught later than it is. Today's ladder holds no duplicate,
      so this is a fixture concern rather than a finding - but it is the
      engine's real behaviour and the fixture must not trip over it. */
-  const named = [...new Set([...Object.keys(TRICKY), ...Object.keys(WORD_SOUND)])]
+  /* LEX_BENDS joined the union at the cutover: the fixture must seat every
+     word the engine's by-word tables name, or the clean fixture fires the
+     unseated class 273 times - which is exactly what happened the first run
+     after the conversion wrote. */
+  const named = [...new Set([...Object.keys(TRICKY), ...Object.keys(WORD_SOUND), ...Object.keys(LEX_BENDS)])]
     .filter((w) => !FIX_WORDS.includes(w));
   if (named.length < 10) throw new Error("the engine's by-word tables came back nearly empty; the fixture would be checking nothing");
   const bank = new Set([...FIX_WORDS, ...named]);
@@ -636,7 +645,7 @@ function fixtureInput(real) {
        control cannot pass because some real heart list happened to cover it.
        The heart branch has its own control below. */
     heartLevels: {},
-    homeSrc: `serves any word from all ${bank.size} — easy and hard alike.`,
+    homeSrc: "serves any word from all {bankWords().length} — easy and hard alike.",
     lexicon: fixtureLexicon(bank),
   };
 }
@@ -668,6 +677,11 @@ function fixtureManifest(manifest, bank) {
     for (const id of soundIdsFor(w)) out[id] ||= { file: "fixture" };
     out["w:" + w] ||= { file: "fixture" };
   }
+  /* The fixture's sentences too: their ids are old-world ids whose real
+     clips retired at the cutover, and a clean fixture must not read as a
+     waiting room. The planted-fault controls use ids this loop never
+     covers, so every red half stays red-capable. */
+  for (const rows of Object.values(FIX_SENTENCES)) for (const s of rows) out[s.id] ||= { file: "fixture" };
   return out;
 }
 
@@ -709,7 +723,7 @@ const CONTROLS = [
     plant: (i) => ({ ...i, lexicon: i.lexicon.replace(/^(cat,[^,]*,[^,]*,)k short_a t/m, "$1k short_q t") }) },
   { name: "a tiled word missing from the lexicon", cls: "lexicon_fault",
     plant: (i) => ({ ...i, lexicon: i.lexicon.split("\n").filter((l) => !l.startsWith("cat,")).join("\n") }) },
-  { name: "chooser copy against a bank size the bank does not have", cls: "stale_chooser_copy",
+  { name: "chooser copy that types a number where the ruling says derive", cls: "stale_chooser_copy",
     plant: (i) => ({ ...i, homeSrc: "serves any word from all 5 — easy and hard alike." }) },
   { name: "chooser copy that has stopped stating a bank size at all", cls: "no_value",
     plant: (i) => ({ ...i, homeSrc: "serves whatever it likes." }) },
@@ -739,7 +753,12 @@ async function selfTest() {
      it, so a rehearsal that reported everything would fail here - all
      fourteen at once. */
   const clean = await rehearse(fixtureInput(real));
-  for (const c of CLASSES) T(`clean fixture: ${c.id} is silent`, clean.counts[c.id] === 0);
+  for (const c of CLASSES) {
+    T(`clean fixture: ${c.id} is silent`, clean.counts[c.id] === 0);
+    /* When this goes red, the first members are the whole diagnosis. */
+    if (clean.counts[c.id] > 0)
+      for (const m of clean.found[c.id].slice(0, 4)) console.log(`       ${c.id}: ${m}`);
+  }
 
   for (const ctl of CONTROLS) {
     const red = await rehearse(ctl.plant(fixtureInput(real)));

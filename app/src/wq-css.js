@@ -105,6 +105,14 @@ const CSS = `
    the behaviour wanted; the component declines to add the class in the first
    place, and this is the second lock on the same door. */
 .wq-tile.wq-pop{animation:wqpop var(--wqpop) steps(1,end)}
+/* The owner's cutover ruling, 2026-08-20: a long word's reveal SHRINKS to
+   keep one row rather than wrapping - display tiles, not controls, so S7's
+   56 px floor does not bind them (Build-it's tappable tray wraps instead
+   and keeps the floor). Two steps: six tiles and up, then eight. */
+.wq-slot-tiles.wq-many .wq-tile{padding:4px 8px;font-size:clamp(.85rem,2.4dvh,1.15rem);border-radius:9px}
+.wq-slot-tiles.wq-many{gap:4px}
+.wq-slot-tiles.wq-crowd .wq-tile{padding:3px 5px;font-size:clamp(.7rem,2dvh,.95rem);border-radius:7px}
+.wq-slot-tiles.wq-crowd{gap:3px}
 @keyframes wqpop{0%,99%{outline:4px solid ${C.ink};outline-offset:3px}
   100%{outline:0 solid transparent}}
 .wq-slot-msg{height:52px;min-height:52px;display:flex;flex-direction:column;align-items:center;justify-content:center;margin-top:4px}

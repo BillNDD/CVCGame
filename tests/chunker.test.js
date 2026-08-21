@@ -135,30 +135,16 @@ describe("the extended code", () => {
   it("no word in the bank re-tiles, and the row still caps at four", () => {
     const by = {};
     for (const w of bankWords()) { const n = chunkWord(w).length; by[n] = (by[n] || 0) + 1; }
-    expect(by).toEqual({ 1: 3, 2: 37, 3: 349, 4: 109 }  /* 2026-08-20 evening, third rise: come and
-       some (4 tiles), love and have (3 each - their ve fuses) joined with
-       the magic-e rule - three tricky-marked per the owner, have as the
-       rule's recorded exception. Re-counted from the bank. */  /* 2026-08-20 evening, second rise: anchor
-       (a-n-ch-or), chorus (ch-or-u-s) and school (s-ch-oo-l) - four tiles
-       each - joined by their Greek-ch bends. Re-counted from the bank. */  /* 2026-08-20 evening: rough, tough and
-       cough (2 tiles each: r-ough, t-ough, c-ough) and enough (3: e-n-ough)
-       joined bankWords() by their uf/off cluster bends - the four ough hearts
-       of level 92. Re-counted from the bank. */  /* 2026-08-20 third rise: into, find, old
-       and hold joined as tricky-marked bends under the hybrid ruling - old at
-       3 tiles, the other three at 4. Re-counted from the bank. */  /* 2026-08-20 again: dough and though (2
-       tiles), through (3) and month (4) joined bankWords() as ough-heart and
-       tricky bends from the owner's phonics rulings. Re-counted from the bank. */  /* 2026-08-20: 2-tile rose by one - `as`
-       joined bankWords() when its s was bent to /z/ (the is/his/has row it
-       never got), and `as` tiles a-s. Re-counted from the bank. */  /* 2026-08-19: 1 and 2 each rose by one.
-       `are` (1 tile) and `were` (2 tiles) joined bankWords() when the owner
-       ruled them whole-word bends, and bankWords unions the WORD_SOUND keys.
-       Re-counted from the bank, not from chunkWord. */);
-    expect(Math.max(...bankWords().map((w) => chunkWord(w).length))).toBe(4);
+    /* The converted bank, 2026-08-20 - measured, re-typed. The four-tile cap
+       died with the owner's shrink ruling; eight is breakfast, the measured
+       ceiling of everything he has approved. */
+    expect(by).toEqual({ 1: 5, 2: 89, 3: 507, 4: 289, 5: 136, 6: 64, 7: 31, 8: 2 });   // +put (p-u-t) at 75, the cutover straggler that slipped the sweep
+    expect(Math.max(...bankWords().map((w) => chunkWord(w).length))).toBe(8);
     /* And every word of every shipped sentence, which the bank does not
        contain and which the sentence stage tiles the same way. */
     const sent = new Set();
     for (const k of Object.keys(SENTENCES)) for (const s of SENTENCES[k]) for (const w of sentenceWords(s.text)) sent.add(w);
-    expect(Math.max(...[...sent].map((w) => chunkWord(w).length))).toBe(4);
+    expect(Math.max(...[...sent].map((w) => chunkWord(w).length))).toBe(8);
   });
 
   /* Split vowels are NOT in this chunker, and that is a decision rather than
@@ -188,7 +174,8 @@ describe("the extended code", () => {
     expect(soundIdsFor("cute")).toEqual(["d:k", "d:long_u", "d:t", "d:silent"]);
     /* The e-absorbed finals: no silent tile, the vowel still says its name. */
     expect(soundIdsFor("gave")).toEqual(["d:g", "d:long_a", "d:v"]);
-    expect(soundIdsFor("these")).toEqual(["d:th_quiet", "d:long_e", "d:s"]);
+    /* the audited lexicon's row, not the bare rule: voiced th, final z */
+    expect(soundIdsFor("these")).toEqual(["d:th_this", "d:long_e", "d:z"]);
     expect(soundIdsFor("use")).toEqual(["d:long_u", "d:s"]);
     /* live is the owner's own example of the pattern - no bend, no note,
        read by the rule alone. */
@@ -203,17 +190,26 @@ describe("the extended code", () => {
     /* have states the sound it already had; unbent, h-a-ve is exactly the
        shape that fires and it would say "haiv". */
     expect(soundIdsFor("have")).toEqual(["d:h", "d:short_a", "d:v"]);
+    /* Two more lexicon rows that LOOK like controls and are not (the
+       2026-08-20 honesty audit moved them here from the control block, where
+       their new values no longer discriminated): lived's silent e is the
+       audited -ed class, and table's long a is the audited open-syllable
+       row - in both, the lexicon speaks, not the bare rule. */
+    expect(soundIdsFor("lived")).toEqual(["d:l", "d:short_i", "d:v", "d:silent", "d:d"]);
+    expect(soundIdsFor("table")).toEqual(["d:t", "d:long_a", "d:b", "d:l"]);
   });
   it("does not fire where the shape is absent - the controls (E5)", () => {
-    /* No final e tile: */
-    expect(soundIdsFor("lived")).toEqual(["d:l", "d:short_i", "d:v", "d:short_e", "d:d"]);
+    /* Each word here has NO vowel-consonant-e run and NO lexicon bend, so a
+       firing rule would be visible two ways: a long vowel where a short one
+       belongs, or a d:silent tile where none exists. Every expected value is
+       a literal with neither. */
+    expect(soundIdsFor("sit")).toEqual(["d:s", "d:short_i", "d:t"]);
+    expect(soundIdsFor("fox")).toEqual(["d:f", "d:short_o", "d:x"]);
     /* Two tiles, no vowel-consonant-e run: */
     expect(soundIdsFor("the")).toEqual(["d:th_this", "d:schwa"]);
     /* A vowel TEAM before the final tile is not a bare vowel: */
     expect(soundIdsFor("house")).toEqual(["d:h", "d:ow", "d:s"]);
     expect(soundIdsFor("see")).toEqual(["d:s", "d:long_e"]);
-    /* A final le tile is the syllable unit, never the magic e: */
-    expect(soundIdsFor("table")).toEqual(["d:t", "d:short_a", "d:b", "d:l"]);
   });
   it("keeps d:silent out of every audio path while S8 keeps its slot", () => {
     /* One tile, one sound - the slot survives (S8)... */
@@ -234,9 +230,18 @@ describe("the extended code", () => {
      honoured; WORD_SOUND outranking LEX_BENDS) is proved by the writer's own
      self-test, which splices a nonempty map through the real extractor - a
      const cannot be mutated here. */
-  it("carries the writer's two anchors, empty and latent", () => {
-    expect(WORD_TILES).toEqual({});
-    expect(LEX_BENDS).toEqual({});
+  it("carries the writer's two literals, filled at the cutover", () => {
+    /* Four tile overrides - three the phonics audit proved and laugh on the
+       owner's one-use-ugh ruling - and 273 lexicon bend rows. Spot-pinned;
+       the full agreement (every CSV row vs the real engine) is the writer's
+       own verify step and G27's lexicon gate. */
+    expect(WORD_TILES).toEqual({
+      away: ["a", "w", "ay"], ginger: ["g", "i", "n", "g", "er"],
+      going: ["g", "o", "i", "ng"], laugh: ["l", "a", "ugh"],
+    });
+    expect(Object.keys(LEX_BENDS).length).toBe(273);
+    expect(LEX_BENDS.laugh).toEqual({ 2: "f" });
+    expect(LEX_BENDS.machine).toEqual({ 2: "sh", 3: "long_e" });   // its short a IS the default - only the diffs emit
   });
   it("gives the four single-taught spellings their level's own sound", () => {
     /* gh, gn, ough and ze are the only rowless graphemes the shape teaches

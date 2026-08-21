@@ -130,9 +130,9 @@ const pressNext = async () => {
 };
 
 /* A2-003 — the advance control's label. Walk a first session to its last slot,
-   grading every word correct so no retry is queued on the way: 14 words in
-   the starter session since the 10-and-10 curriculum, so thirteen grades
-   leave the fourteenth on screen. */
+   grading every word correct so no retry is queued on the way: ten words in
+   the converted starter session (2026-08-20 cutover), so nine grades leave
+   the tenth on screen. */
 /* Build-it's breather (SPEC section 12, decision D2, owner-ruled 2026-08-17):
    one build turn after every seventh reading word. A walk leaves it the way a
    grown-up would. It is COUNTED by its callers, so a breather that stops
@@ -152,20 +152,20 @@ const walkToLastSlot = async () => {
   fireEvent.click(screen.getByText("▶️ Begin Session"));
   await flush(0);
   let sentences = 0, breathers = 0;
-  for (let i = 0; i < 13; i += 1) {
+  for (let i = 0; i < 9; i += 1) {
     if (await leaveBuild()) breathers += 1;
     fireEvent.keyDown(screen.getByLabelText("✓ got it (hold)"), { key: "Enter" });
     await flush(REVEAL_MS + 50);
     if (await pressNext()) sentences += 1;
   }
   if (await leaveBuild()) breathers += 1;
-  /* One: after the seventh word. The fourteenth is the session's last, and
-     the breather never takes the last word's press. Literal (E4). */
+  /* One: after the seventh word. The tenth is the session's last, and the
+     breather never takes the last word's press. Literal (E4). */
   expect(breathers).toBe(1);
-  /* Two sentences in thirteen words, after the fifth and the tenth — the
-     after-fifteen slot sits past a 14-word session and never fires. Literal
-     (E4), so a walk that silently stops meeting them fails here. */
-  expect(sentences).toBe(2);
+  /* One sentence in nine grades - after the fifth; the after-ten slot is the
+     last word itself, whose press ends the session. Literal (E4), so a walk
+     that silently stops meeting it fails here. */
+  expect(sentences).toBe(1);
   return document.querySelector(".wq-word").textContent;
 };
 

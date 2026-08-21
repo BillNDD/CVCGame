@@ -138,7 +138,7 @@ export function lexiconDeltas(rows, E) {
   for (const r of rows) {
     if (r.word === "read#present") continue;
     const w = r.word === "read#past" ? "read" : r.word;
-    if (E.chunkWord(w).join("-") !== r.tiles.join("-")) wordTiles[w] = r.tiles;
+    if (E.ruleTilesFor(w).join("-") !== r.tiles.join("-")) wordTiles[w] = r.tiles;
     const base = E.ruleSoundsFor(r.tiles);
     const hand = E.WORD_SOUND[w] || {};
     const bends = {};

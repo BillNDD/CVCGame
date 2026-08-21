@@ -8,6 +8,7 @@
      8    a 150 ms hold does not grade; 9: a 700 ms hold grades
      10   Enter grades directly; 11: Space grades directly
      12   a session starts offline after one online load
+     13   an eight-tile reveal holds one row in 320 px (the shrink ruling)
    A negative control runs inline: the guard probe re-checked after the window
    must FAIL its disabled-assert, proving the probe reads live state.
    Run: npm run test:ui */
@@ -121,6 +122,11 @@ const pressNext = async (page) => {
     sentencesMet += 1;   // counted HERE, so no call site can meet one silently
     return true;
   }
+  /* D2: a Build-it breather takes the press after every seventh word. Leave
+     it the way a grown-up does and walk on - added when the level-69 crowd
+     walk became the first in this file to grade past seven words. */
+  const doneBtn = page.getByRole("button", { name: "✖️ Done" });
+  if (await doneBtn.isVisible().catch(() => false)) await doneBtn.click();
   try {
     await page.locator(".wq-word").waitFor({ timeout: 5000 });
   } catch (e) {
@@ -146,7 +152,7 @@ for (const height of [430, 555, 720, 950]) {
 /* 5 — the word's box is identical across ready, feedback, and the next ready */
 {
   const context = await browser.newContext();
-  const page = await startSession(context, { width: 390, height: 720 });
+  let page = await startSession(context, { width: 390, height: 720 });
   const word = page.locator(".wq-word");
   const b1 = await word.boundingBox();
   await gradeByKey(page, "✓ got it (hold)", "Enter");
@@ -267,17 +273,29 @@ for (const height of [430, 555, 720, 950]) {
   if (sentencesMet >= 1) ok(`the walk met a sentence within its promised window (${sentencesMet} so far)`);
   else fail("no sentence within six graded words", `sentencesMet=${sentencesMet}`);
 
-  /* Walk on to the next sentence and hold it on the screen to measure. */
+  /* Walk on to the next sentence and hold it on the screen to measure.
+     ON A LEVEL-77 SESSION: the converted Level 1 owns ONE text and ten
+     words, so the old walk - eight more hops on the same page - ran off the
+     session's end and waited thirty seconds for a word that was never
+     coming (cutover fallout, found the night the ladder shipped). Level 77
+     is the measured full shape, a 20-word queue with texts after the 5th,
+     10th and 15th words, so the second sentence this block measures is met
+     inside five grades. */
+  page = await context.newPage();
+  await page.setViewportSize({ width: 390, height: 720 });
+  const AT77 = JSON.stringify({ version: 5, level: 77, preLevel: 0, prePerfectStreak: 0,
+    sessionsCompleted: 0, perfectStreak: 0, words: {}, log: [], pre: {}, settings: { sound: true, childName: "", lang: "en-US" } });
+  await seedSave(page, AT77);
+  await page.getByRole("button", { name: "Begin Session" }).click();
+  await page.locator(".wq-word").waitFor();
   let atSentence = false;
   for (let hop = 0; hop < 8 && !atSentence; hop++) {
-    await page.waitForTimeout(500);
+    await page.waitForTimeout(200);
+    await gradeByKey(page, "✓ got it (hold)", "Enter");
+    await page.locator(".wq-tile").first().waitFor();
     await page.locator(".wq-rail .wq-cta").click();
     atSentence = await page.locator(".wq-sentence").isVisible().catch(() => false);
-    if (!atSentence) {
-      await page.locator(".wq-word").waitFor();
-      await gradeByKey(page, "✓ got it (hold)", "Enter");
-      await page.locator(".wq-tile").first().waitFor();
-    }
+    if (!atSentence) await page.locator(".wq-word").waitFor();
   }
   if (!atSentence) fail("could not reach a second sentence to measure", "eight hops");
   else {
@@ -324,8 +342,12 @@ for (const height of [430, 555, 720, 950]) {
     else fail("the reveal's advance made the grown-up wait", `live=${railLive} fill=${fillOnRail}`);
     /* A tap on another word opens it and closes the last, and says nothing —
        the silence is checked by the vitest suite; the geometry is checked here. */
-    const closed = words.nth(n - 1);
+    /* Click a word that is NOT the open one - on some texts the level's own
+       revealed word IS the last word, and clicking it would toggle it closed
+       instead of moving the open state (found on the level-77 re-seed). */
     const wasOpen = await page.locator(".wq-sword-open").first().textContent();
+    const lastText = await words.nth(n - 1).textContent();
+    const closed = words.nth(lastText === wasOpen ? n - 2 : n - 1);
     await closed.click();
     await page.waitForTimeout(150);
     const nowOpen = await page.locator(".wq-sword-open").first().textContent().catch(() => null);
@@ -614,6 +636,46 @@ for (const height of [430, 555, 720, 950]) {
     if (offlineWord) ok("a session starts offline after one online load");
     else fail("offline session failed", "word not visible");
   }
+  await context.close();
+}
+
+/* 13 - the owner's cutover shrink ruling, MEASURED (2026-08-20): an
+   eight-tile word's reveal holds ONE row inside a 320 px viewport. The old
+   four-tile cap was an assertion backed by this gate; the shrink that
+   replaced it (.wq-many/.wq-crowd) was a stylesheet nothing measured - the
+   honesty audit's words - so this check walks a real level-69 session to
+   "breakfast" (b-r-ea-k-f-a-s-t, the widest word the bank holds), grades it,
+   and measures the tiles the child actually sees. */
+{
+  const context = await browser.newContext();
+  const page = await context.newPage();
+  await page.setViewportSize({ width: 320, height: 720 });
+  const CROWD69 = JSON.stringify({ version: 5, level: 69, preLevel: 0, prePerfectStreak: 0,
+    sessionsCompleted: 0, perfectStreak: 0, words: {}, log: [], pre: {}, settings: { sound: true, childName: "", lang: "en-US" } });
+  await seedSave(page, CROWD69);
+  await page.getByRole("button", { name: "Begin Session" }).click();
+  await page.locator(".wq-word").waitFor();
+  let measured = null;
+  for (let i = 0; i < 12 && !measured; i++) {
+    const word = (await page.locator(".wq-word").innerText()).trim();
+    await gradeByKey(page, "✓ got it (hold)", "Enter");
+    if (word === "breakfast") {
+      await page.locator(".wq-slot-tiles.wq-crowd .wq-tile").first().waitFor();
+      measured = await page.evaluate(() => {
+        const tiles = [...document.querySelectorAll(".wq-slot-tiles .wq-tile")].map((el) => el.getBoundingClientRect());
+        return { count: tiles.length,
+          rows: new Set(tiles.map((r) => Math.round(r.top))).size,
+          span: Math.max(...tiles.map((r) => r.right)) - Math.min(...tiles.map((r) => r.left)),
+          minFont: Math.min(...[...document.querySelectorAll(".wq-slot-tiles .wq-tile")].map((el) => parseFloat(getComputedStyle(el).fontSize))) };
+      });
+      break;
+    }
+    await pressNext(page);
+  }
+  if (!measured) fail("crowd shrink unmeasured", "breakfast never served in a level-69 session");
+  else if (measured.count === 8 && measured.rows === 1 && measured.span <= 320 && measured.minFont >= 10)
+    ok(`breakfast's 8 reveal tiles hold one row in 320 px (span ${Math.round(measured.span)} px, font ${measured.minFont.toFixed(1)} px)`);
+  else fail("crowd shrink broken", JSON.stringify(measured));
   await context.close();
 }
 
@@ -923,7 +985,9 @@ for (const height of [430, 555, 720, 950]) {
    and ruled: one line where the width allows, two or three where it does not,
    never out of bounds, with "read so far" holding the start of the first line.
    Measured at real device widths, on the WORST case — a twenty-word session,
-   which a fresh Level 1 never produces because that level holds fourteen words.
+   which a fresh Level 1 never produces (ten words since the cutover). The
+   seed moved from level 20 to level 22 on 2026-08-20: the converted level 20
+   deals nineteen, and level 22 is a MEASURED twenty-word queue.
    The expected rows are literal, and so are the dots per row: the track is a
    grid of fixed columns, so what each width does is a fact, not an estimate.
    479 and 480 are here as a pair because they sit either side of the stated
@@ -934,7 +998,7 @@ for (const height of [430, 555, 720, 950]) {
   const storageSrc = readFileSync("app/src/storage.js", "utf8");
   const dbName = storageSrc.match(/DB_NAME = "([^"]+)"/)[1];
   const dbStore = storageSrc.match(/DB_STORE = "([^"]+)"/)[1];
-  const SAVE = JSON.stringify({ version: 4, level: 20, sessionsCompleted: 0,
+  const SAVE = JSON.stringify({ version: 4, level: 22, sessionsCompleted: 0,
     perfectStreak: 0, words: {}, settings: { sound: true } });
 
   const probe = (page) => page.evaluate(() => {

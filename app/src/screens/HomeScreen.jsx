@@ -1,4 +1,4 @@
-import { C, PRE_LEVELS } from "@engine";
+import { C, PRE_LEVELS, bankWords } from "@engine";
 import Frame from "../components/Frame.jsx";
 import Zone from "../components/Zone.jsx";
 import Toast from "../components/Toast.jsx";
@@ -19,7 +19,10 @@ function FreePlayChooser({ level, L, sound, preLevel, buildable, sentences, onCh
         {sentences > 0
           ? "Grown-up: read words, read sentences, or build a word from its sounds?"
           : "Grown-up: read words or build a word from its sounds?"}
-        {" "}Truly random serves any word from all 476 — easy and hard alike. Nothing is
+        {/* The count is derived, never typed: the owner's build-time ruling at
+            the cutover, after "all 476" sat one keystroke from stale for a
+            month. G27's stale_chooser_copy re-sources from the same derivation. */}
+        {" "}Truly random serves any word from all {bankWords().length} — easy and hard alike. Nothing is
         saved in free play, whichever you pick.
       </p>
       <div style={{ display: "grid", gap: 8 }}>

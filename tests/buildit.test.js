@@ -226,10 +226,11 @@ describe("Build-a-sound, for a child still on the ladder", () => {
   });
 
   it("10: the tray is exactly what the rung has taught, and grows with it", () => {
+    /* The three-rung ladder of the cutover: the ear, s-a-t-p, i-n. */
     expect(preLetters(2)).toEqual(["s", "a", "t", "p"]);
     expect(preLetters(3)).toEqual(["s", "a", "t", "p", "i", "n"]);
-    expect(preLetters(5).length).toBe(10);
-    for (const [rung, size] of [[2, 4], [3, 6], [4, 8], [5, 10]]) {
+    expect(preLetters(3).length).toBe(6);
+    for (const [rung, size] of [[2, 4], [3, 6]]) {
       const t = buildSoundTray(rung, () => 0.3);
       expect(t.tiles.length).toBe(size);
       expect(t.slots).toBe(1);
@@ -239,7 +240,7 @@ describe("Build-a-sound, for a child still on the ladder", () => {
 
   it("11: no tile is silent, and none is a letter the rung has not reached", () => {
     const shipped = new Set(Object.keys(JSON.parse(readFileSync("app/public/voice/manifest.json", "utf8"))));
-    for (const rung of [2, 3, 4, 5]) {
+    for (const rung of [2, 3]) {
       const t = buildSoundTray(rung, () => 0.5);
       expect(t.sounds.every((id) => shipped.has(id))).toBe(true);
       expect(t.tiles.every((c) => preLetters(rung).includes(c))).toBe(true);

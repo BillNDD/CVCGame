@@ -38,6 +38,13 @@ const pyDict = (name) => {
 };
 
 const DIR = "app/public/voice";
+/* The sentence-take ledger (tools/pending-words/pending-words.json): for every
+   shipped sentence take it records the text the child sees, the `say` text the
+   voice was actually given when they differ (the SAY/SHOW split the owner's
+   2026-08-19 "read" refusals forced - see tools/render_sbatch18.py), the round
+   and verdict, and the sha256 of the exact bytes the listener heard. */
+const SAY_LEDGER = existsSync("tools/pending-words/pending-words.json")
+  ? JSON.parse(readFileSync("tools/pending-words/pending-words.json", "utf8")) : {};
 const HERE = dirname(fileURLToPath(import.meta.url));
 const TREAT_PATH = join(HERE, "keepers-treatments.json");
 const TREATMENTS = existsSync(TREAT_PATH)
@@ -46,7 +53,7 @@ const TREATMENTS = existsSync(TREAT_PATH)
 /* the marker that tells a human the file is generated is not a word */
 for (const k of Object.keys(TREATMENTS)) if (k.startsWith("_")) delete TREATMENTS[k];
 
-function check(manifest, verifyFiles, lock = LOCK, csvText = CSV_TEXT, scriptOverride = null) {
+function check(manifest, verifyFiles, lock = LOCK, csvText = CSV_TEXT, scriptOverride = null, ledgerOverride = null) {
   const problems = [];
   /* scriptOverride exists for the self-test alone: since the praise line
      containing "read" was replaced (2026-08-03), no real sentence carries a
@@ -101,7 +108,12 @@ function check(manifest, verifyFiles, lock = LOCK, csvText = CSV_TEXT, scriptOve
          under 400 is a truncation. Both ends are still measured on the whole
          FILE, as they always have been - these clips are pinned and listened
          to as files, and nothing about them has changed. */
-      const ceiling = clip.id.startsWith("w:") ? 1500 : 8000;
+      /* The sentence ceiling was 8,000 ms in the one-breath world; the
+         2026-08-20 cutover shipped the owner's approved paragraphs, the
+         longest 33,264 ms (s:v3-l94-01). The ceiling is that take plus a
+         breath of margin - a clip past it is longer than anything an owner
+         ear has approved and goes back to a person. */
+      const ceiling = clip.id.startsWith("w:") ? 1500 : 34000;
       if (typeof m.ms !== "number" || m.ms < 400 || m.ms > ceiling)
         problems.push(`duration out of range: ${clip.id} at ${m.ms} ms (limit ${ceiling})`);
     }
@@ -327,12 +339,83 @@ function check(manifest, verifyFiles, lock = LOCK, csvText = CSV_TEXT, scriptOve
        synthesiser. The list of such words is read from the sentences
        themselves, so a new sentence is covered from the moment it is added. */
     const AMBIGUOUS = ["read", "live", "wind", "tear", "lead", "bow", "row", "close"];
+    /* Three proofs settle an ambiguous sentence, and a sentence with none of
+       them is refused. (1) It was rendered from explicit phonemes
+       (phoneme_sentences - how soundout-1 shipped). (2) The take ledger
+       records a `say` respelling: the voice was given the disambiguated text,
+       the child sees the true text, and the shipped bytes hash to what the
+       listener graded - the SAY/SHOW split of 2026-08-19, when the owner
+       refused three takes that said /riːd/ for a past-tense "read". The legal
+       respellings are typed here from that renderer's own table; a say that
+       leaves the ambiguous word unchanged proves nothing and is refused.
+       (3) The take is byte-pinned below: rendered before the say mechanism
+       existed, graded by the owner in a round held the same day he was
+       refusing wrong "read"s, and never re-rendered - the exact shape of
+       KEEPER_BYTES for words. Bytes that drift from a pin are refused. */
+    const HOMOGRAPH_SAY = { read: ["red", "reed"], live: ["liv", "lyve"], wind: ["wynd", "wind"],
+      tear: ["tair", "teer"], lead: ["led", "leed"], bow: ["boh", "bau"],
+      row: ["roh", "rau"], close: ["kloce", "kloze"] };
+    const HEARD_AMBIGUOUS = {
+      /* Present-tense "read", sentence batch 7, owner: perfect (2026-08-19).
+         The pin binds BYTES AND TEXT: the audio is /ri\u02D0d/, so if the shown
+         sentence ever drifts to a past-tense frame the same bytes become the
+         wrong reading - the axis the 2026-08-20 honesty audit named. */
+      "s:v3-l100-01": { sha: "d16b0dcd700f53f49f5f32a5a3b813984a2f5c2fa40211c0b572d22fbb6d77b2",
+        text: "Look how far you got, and look how fast you can read now." },
+    };
+    const bare = (w) => w.replace(/[.,!?:;'"]/g, "").toLowerCase();
+    /* Hardened by the 2026-08-20 honesty audit, which found two ways a say
+       could settle while proving nothing. The renderer's table lists "wind"
+       as its own legal respelling, so an identity say passed; now the say
+       token must DIFFER at every ambiguous position as well as being a
+       declared target. And a hyphenated token ("wind-up") tripped the
+       detector but slipped the whitespace tokenizer, settling vacuously;
+       both sides now split on hyphens too, keeping alignment. The row's own
+       round verdict is honoured: a take the listener refused settles
+       nothing, however right its say reads. */
+    const sayTokens = (s) => s.split(/[\s\u2013\u2014-]+/).filter(Boolean);
+    const saySettles = (row, text) => {
+      if (!row || typeof row.say !== "string") return false;
+      const v = String(row.verdict || "");
+      if (v !== "perfect" && !v.startsWith("accept")) return false;
+      const tw = sayTokens(text), sw = sayTokens(row.say);
+      if (tw.length !== sw.length) return false;
+      for (let i = 0; i < tw.length; i += 1) {
+        const w = bare(tw[i]);
+        if (!AMBIGUOUS.includes(w)) continue;
+        const s2 = bare(sw[i]);
+        if (s2 === w || !(HOMOGRAPH_SAY[w] || []).includes(s2)) return false;
+      }
+      return true;
+    };
+    const fileSha = (file) => {
+      const path = `${DIR}/${file}`;
+      return existsSync(path) ? createHash("sha256").update(readFileSync(path)).digest("hex") : null;
+    };
+    const ledger = ledgerOverride || SAY_LEDGER;
     const spoken = new Set(r.phoneme_sentences || []);
     for (const c of script) {
       if (c.id.startsWith("w:")) continue;
       const word = AMBIGUOUS.find((a) => new RegExp(`\\b${a}\\b`, "i").test(c.text));
-      if (word && !spoken.has(c.id))
-        problems.push(`sentence left to spelling though "${word}" has two pronunciations: ${c.id} ("${c.text}")`);
+      if (!word) continue;
+      if (spoken.has(c.id)) continue;
+      if (HEARD_AMBIGUOUS[c.id]) {
+        const pin = HEARD_AMBIGUOUS[c.id];
+        const got = manifest[c.id] && fileSha(manifest[c.id].file);
+        if (got !== pin.sha)
+          problems.push(`pinned ambiguous take changed bytes: ${c.id} - the pin is the take the owner heard`);
+        if (c.text !== pin.text)
+          problems.push(`pinned ambiguous take's text drifted: ${c.id} - the audio no longer matches the sentence shown`);
+        continue;
+      }
+      const row = ledger[c.id];
+      if (saySettles(row, c.text)) {
+        const got = manifest[c.id] && fileSha(manifest[c.id].file);
+        if (got !== row.sha256)
+          problems.push(`ambiguous take's shipped bytes are not the bytes the listener heard: ${c.id}`);
+        continue;
+      }
+      problems.push(`sentence left to spelling though "${word}" has two pronunciations: ${c.id} ("${c.text}")`);
     }
   }
 
@@ -406,6 +489,44 @@ if (process.argv.includes("--self-test")) {
   const reedManifest = { ...manifest, "p:99": { file: "p99.mp3", ms: 1500 } };
   const sawReed = check(reedManifest, false, LOCK, CSV_TEXT, reedScript)
     .problems.some((p) => p.startsWith('sentence left to spelling though "read"'));
+  /* The say path, both ways it can lie. A ledger row whose say leaves "read"
+     as "read" settles nothing and must read as left-to-spelling; a row whose
+     say is right but whose sha is not the shipped bytes is a take nobody
+     heard wearing an approved row's clothes. */
+  const gapLedger = { "p:99": { text: "You read that word!", say: "You read that word!", sha256: "0".repeat(64) } };
+  const sawSayGap = check(reedManifest, false, LOCK, CSV_TEXT, reedScript, gapLedger)
+    .problems.some((p) => p.startsWith('sentence left to spelling though "read"'));
+  const driftLedger = { "p:99": { text: "You read that word!", say: "You red that word!", verdict: "perfect", sha256: "0".repeat(64) } };
+  const driftManifest = { ...manifest, "p:99": { file: "s-v3-l69-02.mp3", ms: 3669 } };
+  const sawSayDrift = check(driftManifest, false, LOCK, CSV_TEXT, reedScript, driftLedger)
+    .problems.some((p) => p === "ambiguous take's shipped bytes are not the bytes the listener heard: p:99");
+  /* The identity hole the audit found: "wind" is its own legal respelling in
+     the renderer's table, so only the differ rule refuses an identity say. */
+  const windScript = [...voiceScript(), { id: "p:98", text: "The wind was cold!" }];
+  const windManifest = { ...manifest, "p:98": { file: "p98.mp3", ms: 1500 } };
+  const identLedger = { "p:98": { text: "The wind was cold!", say: "The wind was cold!", verdict: "perfect", sha256: "0".repeat(64) } };
+  const sawSayIdent = check(windManifest, false, LOCK, CSV_TEXT, windScript, identLedger)
+    .problems.some((p) => p.startsWith('sentence left to spelling though "wind"'));
+  /* The hyphen hole: "wind-up" trips the detector but slipped the whitespace
+     tokenizer, so an equal-count say settled vacuously before the split. */
+  const hyScript = [...voiceScript(), { id: "p:97", text: "It has a wind-up toy!" }];
+  const hyManifest = { ...manifest, "p:97": { file: "p97.mp3", ms: 1500 } };
+  const hyLedger = { "p:97": { text: "It has a wind-up toy!", say: "It has a wind-up toy!", verdict: "perfect", sha256: "0".repeat(64) } };
+  const sawSayHyphen = check(hyManifest, false, LOCK, CSV_TEXT, hyScript, hyLedger)
+    .problems.some((p) => p.startsWith('sentence left to spelling though "wind"'));
+  /* A row the listener REFUSED, wearing a perfect say: the verdict rules. */
+  const vetoLedger = { "p:99": { text: "You read that word!", say: "You red that word!", verdict: "no good", sha256: "0".repeat(64) } };
+  const sawSayVeto = check(reedManifest, false, LOCK, CSV_TEXT, reedScript, vetoLedger)
+    .problems.some((p) => p.startsWith('sentence left to spelling though "read"'));
+  /* The byte pin: point the pinned id at a different real file and the hash
+     no longer matches the take the owner heard. */
+  const pinDrift = { ...manifest, "s:v3-l100-01": { ...manifest["s:v3-l100-01"], file: "s-v3-l69-02.mp3" } };
+  const sawPinDrift = check(pinDrift, false)
+    .problems.some((p) => p.startsWith("pinned ambiguous take changed bytes: s:v3-l100-01"));
+  /* The pin's other axis: same bytes, drifted sentence text. */
+  const pinTextScript = voiceScript().map((c) => c.id === "s:v3-l100-01" ? { ...c, text: "Look how far you got, and look how fast you read now." } : c);
+  const sawPinText = check(manifest, false, LOCK, CSV_TEXT, pinTextScript)
+    .problems.some((p) => p.startsWith("pinned ambiguous take's text drifted: s:v3-l100-01"));
   /* The blind round's winners, quietly dropped or quietly widened: a word
      that stops being rendered as a sentence, and a word nobody heard given
      the same treatment. */
@@ -470,11 +591,11 @@ if (process.argv.includes("--self-test")) {
   const noRecipe = { ...manifest };
   delete noRecipe.__recipe;
   const sawNoRecipe = check(noRecipe, false).problems.some((p) => p.startsWith("the pack declares no recipe"));
-  if (sawMissing && sawOrphan && sawLie && sawRecipe && sawSpelling && sawNoRecipe && sawTrim && sawReed && sawRound9 && sawCarrier && sawAsr && sawGuard && sawLock && sawCsv && sawWordy && sentenceOk && fatSound && thinSound && shortSoundOk && sawNoEdges) {
-    console.log("self-test OK: a removed word clip, a planted orphan, a lying duration, a drifted recipe, a two-letter word left to spelling, a pack with no recipe at all, a trim nobody heard, a sentence with 'read' left to spelling, a listening round's result quietly changed, an approved carrier/ASR cut re-cut at values nobody heard, a guard changed or granted with no round behind it, a lock file that drifts or loses a word, a word-table row lost or an unlocked word quietly tuned, a word clip long enough to hold a sentence, a sound clip long enough to hold a word or short enough to be a truncation, and a pack that forgot to record its speech edges are caught");
+  if (sawMissing && sawOrphan && sawLie && sawRecipe && sawSpelling && sawNoRecipe && sawTrim && sawReed && sawSayGap && sawSayDrift && sawSayIdent && sawSayHyphen && sawSayVeto && sawPinDrift && sawPinText && sawRound9 && sawCarrier && sawAsr && sawGuard && sawLock && sawCsv && sawWordy && sentenceOk && fatSound && thinSound && shortSoundOk && sawNoEdges) {
+    console.log("self-test OK: a removed word clip, a planted orphan, a lying duration, a drifted recipe, a two-letter word left to spelling, a pack with no recipe at all, a trim nobody heard, a sentence with 'read' left to spelling, a say row that settles nothing, an identity say behind the renderer's own table, a hyphenated homograph the tokenizer slipped, a say row the listener refused, an ambiguous take whose bytes are not the graded bytes, a pinned ambiguous take whose bytes or text drifted, a listening round's result quietly changed, an approved carrier/ASR cut re-cut at values nobody heard, a guard changed or granted with no round behind it, a lock file that drifts or loses a word, a word-table row lost or an unlocked word quietly tuned, a word clip long enough to hold a sentence, a sound clip long enough to hold a word or short enough to be a truncation, and a pack that forgot to record its speech edges are caught");
     process.exit(0);
   }
-  console.error("self-test FAILED: " + JSON.stringify({ sawMissing, sawOrphan, sawLie, sawRecipe, sawSpelling, sawNoRecipe, sawTrim, sawReed, sawRound9, sawCarrier, sawAsr, sawGuard, sawLock, sawCsv, sawWordy, sentenceOk, fatSound, thinSound, shortSoundOk, sawNoEdges }));
+  console.error("self-test FAILED: " + JSON.stringify({ sawMissing, sawOrphan, sawLie, sawRecipe, sawSpelling, sawNoRecipe, sawTrim, sawReed, sawSayGap, sawSayDrift, sawSayIdent, sawSayHyphen, sawSayVeto, sawPinDrift, sawPinText, sawRound9, sawCarrier, sawAsr, sawGuard, sawLock, sawCsv, sawWordy, sentenceOk, fatSound, thinSound, shortSoundOk, sawNoEdges }));
   process.exit(1);
 }
 

@@ -211,7 +211,7 @@ describe("the sentence inside a session", () => {
     expect(played[0][0]).toBe("l:wrong");
     /* Every mark reaches the SAME reveal — a stuck child hears the sentence
        read to them, which is S3's invitation kept. */
-    expect(/^s:(mode-|cur-|r\d+-)/.test(played[0][2])).toBe(true);
+    expect(/^s:v3-/.test(played[0][2])).toBe(true);
   });
 
   it("0c: one attempt, one result — a second mark in the same window changes nothing", async () => {
@@ -240,7 +240,7 @@ describe("the sentence inside a session", () => {
        too long. */
     expect(plan[0].startsWith("p:")).toBe(true);
     expect(plan[1]).toBe("seam");
-    expect(/^s:(mode-|cur-|r\d+-)/.test(plan[2])).toBe(true);
+    expect(/^s:v3-/.test(plan[2])).toBe(true);
     expect(plan[3]).toBe("seam");
     /* Point 2: the invitation takes the place the praise line usually holds,
        so the reveal a child meets here is the reveal they already know. */
@@ -329,12 +329,12 @@ describe("the sentence inside a session", () => {
     for (const label of ["✓ got it (hold)", "~ close (hold)", "↻ not yet (hold)"]) {
       expect(screen.getByLabelText(label).disabled).toBe(true);
     }
-    const before = screen.getByText("5/14").textContent;
+    const before = screen.getByText("5/10").textContent;
     fireEvent.click(advance());
     await flush(0);
     expect(sentenceEl()).toBeNull();
     /* The count did not move: the sentence read no word and graded none. */
-    expect(screen.getByText("5/14").textContent).toBe(before);
+    expect(screen.getByText("5/10").textContent).toBe(before);
     /* And the press paid back the word it took: the child is on the SIXTH
        word, not back on the fifth they already read. */
     expect(document.querySelector(".wq-word")).toBeTruthy();
@@ -442,20 +442,21 @@ describe("the sentence inside a session", () => {
   });
 
   it("11 (free play): never runs out — the pool is dealt again from the top", async () => {
-    await openSentenceFreePlay();
-    /* Level 1 owns six sentences since round five seated "It is I!", so the
-       seventh press must come back round rather than ending the session or
-       showing an empty stage. */
+    await openSentenceFreePlay(2);
+    /* Free play pools CUMULATIVELY: level 2 owns three texts in the
+       converted world (one at level 1, two at 2), so the fourth press must
+       come back round rather than ending the session or showing an empty
+       stage. Re-derived at the cutover. */
     const seen = [];
-    for (let i = 0; i < 8; i += 1) {
+    for (let i = 0; i < 5; i += 1) {
       seen.push(swords().map((b) => b.textContent).join(" "));
       await markSentence();
       fireEvent.click(advance());
       await flush(0);
       expect(sentenceEl()).toBeTruthy();
     }
-    expect(new Set(seen.slice(0, 6)).size).toBe(6);      // all six, no repeat
-    expect(seen[6]).toBe(seen[0]);                        // then round again, in the same order
+    expect(new Set(seen.slice(0, 3)).size).toBe(3);      // all three, no repeat
+    expect(seen[3]).toBe(seen[0]);                        // then round again, in the same order
     expect(screen.queryByText("Session complete")).toBeNull();
   });
 
@@ -496,7 +497,7 @@ describe("the sentence inside a session", () => {
      The proof is the session's own progress dots: one dot per queued word, so
      a queue that grew by one after the sentence IS the retry, whatever the
      session's length or which word the draw picked. */
-  it("7b: a miss just before a sentence still queues the second look", async () => {
+  it("7b: a miss just before a sentence still earns the second look", async () => {
     render(createElement(App));
     await flush(0);
     fireEvent.click(screen.getByText("▶️ Begin Session"));
@@ -511,6 +512,7 @@ describe("the sentence inside a session", () => {
     const dots = () => document.querySelectorAll(".wq-seg").length;
     const before = dots();
     expect(before).toBeGreaterThan(5);
+    const missed = document.querySelector(".wq-word").textContent;
     fireEvent.keyDown(screen.getByLabelText("↻ not yet (hold)"), { key: "Enter" });
     await flush(REVEAL_MS + 50);
     fireEvent.click(advance());
@@ -519,35 +521,77 @@ describe("the sentence inside a session", () => {
     await markSentence();
     fireEvent.click(advance());
     await flush(0);
-    expect(dots()).toBe(before + 1);                     // the missed word is back in the queue
+    /* Two facts, split apart on 2026-08-20. The dot count used to serve as a
+       proxy for the re-queue and GREW - which at a ten-word level wrapped
+       the track and dropped the word 8 px mid-session, the move P0-2
+       forbids. The track now holds one dot per WORD, so the count stays
+       put... */
+    expect(dots()).toBe(before);
+    /* ...and the second look is asserted on the thing itself: the missed
+       word is served again before the session ends. */
+    let met = false;
+    for (let hop = 0; hop < 8 && !met; hop += 1) {
+      await leaveBuild();                                // D2 may hold a breather here
+      if (document.querySelector(".wq-word")?.textContent === missed) { met = true; break; }
+      fireEvent.keyDown(screen.getByLabelText("✓ got it (hold)"), { key: "Enter" });
+      await flush(REVEAL_MS + 50);
+      fireEvent.click(advance());
+      await flush(0);
+      if (sentenceEl()) { await markSentence(); fireEvent.click(advance()); await flush(0); }
+    }
+    expect(met).toBe(true);
   });
 
   /* The control for the test above: the SAME miss with no interruption also
      grows the queue by one. Without it, "+1" could be something the sentence
      does rather than something the retry does. */
-  it("7c (control): a miss with no sentence in the way grows the queue the same way", async () => {
+  it("7c (control): a miss with no sentence in the way earns the same second look", async () => {
     render(createElement(App));
     await flush(0);
     fireEvent.click(screen.getByText("▶️ Begin Session"));
     await flush(0);
     const dots = () => document.querySelectorAll(".wq-seg").length;
     const before = dots();
+    const missed = document.querySelector(".wq-word").textContent;
     fireEvent.keyDown(screen.getByLabelText("↻ not yet (hold)"), { key: "Enter" });
     await flush(REVEAL_MS + 50);
     fireEvent.click(advance());
     await flush(0);
     expect(sentenceEl()).toBeNull();                     // no interruption on the first word
-    expect(dots()).toBe(before + 1);
+    /* Same split as 7b: the count holds (one dot per word, P0-2) and the
+       second look is proven by meeting the word again. */
+    expect(dots()).toBe(before);
+    let met = false;
+    for (let hop = 0; hop < 8 && !met; hop += 1) {
+      await leaveBuild();                                // D2 may hold a breather here
+      if (document.querySelector(".wq-word")?.textContent === missed) { met = true; break; }
+      fireEvent.keyDown(screen.getByLabelText("✓ got it (hold)"), { key: "Enter" });
+      await flush(REVEAL_MS + 50);
+      fireEvent.click(advance());
+      await flush(0);
+      if (sentenceEl()) { await markSentence(); fireEvent.click(advance()); await flush(0); }
+    }
+    expect(met).toBe(true);
   });
 
   it("7: no sentence repeats inside one session", async () => {
+    /* Re-derived at the cutover, twice. A Level-1 session is ten words and
+       meets ONE sentence, too few to prove non-repetition. The first re-walk
+       used level 22 and measured 2 sentences against 3 planned slots - which
+       opened a fault (docs/open-faults.md W) that closed the same night: the
+       plan was honest all along, level 22 owns only TWO texts, and
+       sessionSentences gives fewer sentences than slots by design. The walk
+       now runs at level 77, MEASURED as the full shape: a 20-word queue,
+       seven texts, slots after the 5th, 10th and 15th words, breathers after
+       the seventh and fourteenth - so the third slot is finally exercised. */
+    stored = { ...newState(), preLevel: 0, level: 77 };
     render(createElement(App));
     await flush(0);
     fireEvent.click(screen.getByText("▶️ Begin Session"));
     await flush(0);
     const seen = [];
     let breathers = 0;
-    for (let i = 0; i < 11; i += 1) {
+    for (let i = 0; i < 19; i += 1) {
       /* Build-it's breather (D2) takes one press after every seventh word and
          hands the advance back when it ends; the walk leaves it as a grown-up
          would and counts it, so it cannot silently stop happening. */
@@ -563,9 +607,9 @@ describe("the sentence inside a session", () => {
         await flush(0);
       }
     }
-    expect(seen.length).toBe(2);                       // after the fifth and the tenth
+    expect(seen.length).toBe(3);                       // after the fifth, tenth and fifteenth - all three slots serve
     expect(new Set(seen).size).toBe(seen.length);
-    expect(breathers).toBe(1);                         // one build turn, after the seventh word
+    expect(breathers).toBe(2);                         // build turns after the seventh and fourteenth
   });
 });
 

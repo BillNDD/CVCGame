@@ -88,29 +88,11 @@ export function phrases(text) {
    One sentence was REFUSED and is not in the game: "My dad can pat me."
    (owner, 2026-08-13). It is the control in --self-test. */
 export const SCREENED_ON = "2026-08-13";
+/* PRUNED at the 2026-08-20 cutover: the 100-level conversion retired 210 of
+   the old world's texts, and this ledger must not outlive what it screens -
+   its own rule. The reads stay in git history; what remains here is every
+   old-world id that still ships (the reveal lines and nothing else). */
 export const SCREENED = [
-  "s:mode-b3-s01", "s:mode-b3-s02", "s:mode-b3-s03", "s:mode-b3-s04",
-  "s:mode-b3-s05", "s:mode-s01", "s:mode-s06", "s:mode-b3-s06",
-  "s:mode-b3-s07", "s:mode-b3-s08", "s:mode-b3-s09", "s:mode-wm-wm01",
-  "s:mode-wm-wm03", "s:mode-wm-wm04", "s:mode-wm-wm11", "s:mode-wm-wm12",
-  "s:mode-wm-wm14", "s:mode-wm-wm19", "s:mode-wm-wm21", "s:mode-wm-wm22",
-  "s:mode-s08", "s:mode-b2-s04", "s:mode-b2-s13", "s:mode-b3-s10",
-  "s:mode-b3-s11", "s:mode-b3-s12", "s:mode-wm-wm02", "s:mode-wm-wm06",
-  "s:mode-wm-wm09", "s:mode-wm-wm10", "s:mode-wm-wm15", "s:mode-wm-wm20",
-  "s:mode-s02", "s:mode-s03", "s:mode-s04", "s:mode-s05",
-  "s:mode-s07", "s:mode-s12", "s:mode-b2-s02", "s:mode-b2-s07",
-  "s:mode-b2-s14", "s:mode-b2-s18", "s:mode-wm-wm23", "s:mode-s10",
-  "s:mode-s16", "s:mode-b3-s13", "s:mode-b3-s14", "s:mode-b3-s15",
-  "s:mode-wm-wm07", "s:mode-wm-wm08", "s:mode-wm-wm17", "s:mode-s09",
-  "s:mode-b2-s05", "s:mode-b2-s10", "s:mode-b3-s16", "s:mode-b3-s17",
-  "s:mode-s11", "s:mode-s13", "s:mode-s14", "s:mode-s15",
-  "s:mode-s17", "s:mode-s18", "s:mode-s19", "s:mode-b2-s06",
-  "s:mode-b2-s11", "s:mode-b2-s12", "s:mode-b2-s17", "s:mode-b2-s19",
-  "s:mode-s20", "s:mode-b2-s01", "s:mode-b2-s08", "s:mode-b2-s09",
-  "s:mode-b3-s18", "s:mode-b3-s19", "s:mode-b2-s03", "s:mode-b2-s20",
-  "s:mode-b3-s20", "s:mode-b3-s21", "s:mode-b3-s22", "s:mode-b3-s23",
-  "s:mode-b3-s24", "s:mode-b3-s25", "s:mode-b3-s26", "s:mode-b3-s27",
-  "s:mode-b3-s28", "s:mode-b3-s29", "s:mode-b3-s30", "s:mode-b3-s31",
   "s:soundout-1", "s:soundout-2", "s:soundout-3",
 ];
 
@@ -123,39 +105,7 @@ export const SCREENED = [
    each sentence was DRAFTED at, which is history, not a seat — the arbiter
    (tools/decodable.mjs) owns seats, and two drafts landed elsewhere. */
 export const SCREENED_2026_08_15 = [
-  "s:cur-l1-01", "s:cur-l1-02", "s:cur-l2-01", "s:cur-l2-02",
-  "s:cur-l2-03", "s:cur-l2-04", "s:cur-l2-05", "s:cur-l3-01",
-  "s:cur-l3-02", "s:cur-l3-03", "s:cur-l4-01", "s:cur-l4-02",
-  "s:cur-l4-04", "s:cur-l4-05", "s:cur-l5-01", "s:cur-l5-02",
-  "s:cur-l5-03", "s:cur-l6-01", "s:cur-l6-02", "s:cur-l6-03",
-  "s:cur-l6-04", "s:cur-l6-05", "s:cur-l7-01", "s:cur-l7-02",
-  "s:cur-l7-03", "s:cur-l7-04", "s:cur-l7-05", "s:cur-l8-01",
-  "s:cur-l8-02", "s:cur-l8-03", "s:cur-l8-04", "s:cur-l8-05",
-  "s:cur-l9-01", "s:cur-l9-02", "s:cur-l9-03", "s:cur-l9-04",
-  "s:cur-l9-05", "s:cur-l10-01", "s:cur-l10-02", "s:cur-l10-03",
-  "s:cur-l10-04", "s:cur-l10-05", "s:cur-l11-01", "s:cur-l11-02",
-  "s:cur-l11-03", "s:cur-l11-04", "s:cur-l11-05", "s:cur-l12-01",
-  "s:cur-l12-02", "s:cur-l12-03", "s:cur-l12-04", "s:cur-l12-05",
-  "s:cur-l12-06",
-  /* Round five, read on its page the same day (the s:r5 ids carry no
-     level on the build reviewer's advice - a seat is the arbiter's fact,
-     not an id's). */
-  "s:r5-01", "s:r5-02", "s:r5-03", "s:r5-04",
-  "s:r5-05", "s:r5-06", "s:r5-07", "s:r5-08",
-  "s:r5-09", "s:r5-10", "s:r5-11", "s:r5-12",
-  "s:r5-13", "s:r5-14", "s:r5-15", "s:r5-16",
-  "s:r5-17", "s:r5-18", "s:r5-19", "s:r5-20",
-  "s:r5-21", "s:r5-22", "s:r5-23", "s:r5-24",
-  "s:r5-25", "s:r5-26", "s:r5-27", "s:r5-28",
-  "s:r5-29", "s:r5-30", "s:r5-31", "s:r5-32",
-  "s:r5-33", "s:r5-34", "s:r5-35", "s:r5-36",
-  "s:r5-37", "s:r5-38", "s:r5-39", "s:r5-40",
-  "s:r5-41", "s:r5-42", "s:r5-43", "s:r5-44",
-  "s:r5-45", "s:r5-46", "s:r5-47", "s:r5-48",
-  "s:r5-49",
-  /* Round six, read the same day. */
-  "s:r6-01", "s:r6-02", "s:r6-03", "s:r6-04",
-  "s:r6-05", "s:r6-06", "s:r6-07", "s:r6-08",
+
 ];
 
 /* Level 21's twelve, owner-read on the Cats and Dogs decision pages of
@@ -164,13 +114,15 @@ export const SCREENED_2026_08_15 = [
    four kept by name on round two. Every clip then graded perfect in
    listening round seven the same day. */
 export const SCREENED_2026_08_16 = [
-  "s:r7-01", "s:r7-02", "s:r7-03", "s:r7-04",
-  "s:r7-05", "s:r7-06", "s:r7-07", "s:r7-08",
-  "s:r7-09", "s:r7-10", "s:r7-11", "s:r7-12",
+
 ];
 
-/* THE READ SCREEN OF THE V3 TEXTS - owner-ruled 2026-08-20 on the audit page:
-   "read them on screening pages". The listening rounds graded AUDIO, and the
+/* THE READ SCREEN OF THE V3 TEXTS - owner-ruled 2026-08-20 on the audit page,
+   and SHIPPED at the cutover the same day: the seats these ids were awaiting
+   arrived when the 100-level conversion wrote the engine, so this list is now
+   the shipped screened ledger for the v3 world and the stale rule sweeps it
+   like the others. The name keeps its history. His ruling was "read them on
+   screening pages"; the listening rounds graded AUDIO, and the
    independent audit refused to let those stand as reads; these pages were
    text-only, one question per text - should a child meet this - which is the
    question CLAUDE.md's before-any-beta rule asks. These ids are AWAITING
@@ -284,12 +236,24 @@ export const SCREENED_2026_08_20_V3_AWAITING_SEAT = [
   "s:v3-l100-52", "s:v3-l100-53",
 ];
 
+/* SHAPE CLEARANCES. The shape heuristic scans the whole text for an
+   adult, then a contact verb, then the child - across sentence boundaries -
+   and two owner-read texts trip it on words that are not what it thinks:
+   each entry names the misread and cites the read that outranks it. A
+   clearance clears the SHAPE rule only; the banned-phrase rule still runs,
+   and an id not named here is refused exactly as before (both proved by
+   controls). Like every list here it binds by id (open-faults F4). */
+export const SHAPE_CLEARED = {
+  "s:v3-l44-02": "the kick is the BROTHER kicking a sand hill ('my brother ran up and did kick it'), no adult touches anyone; owner-read in screen batch 2, 2026-08-20, 69 ok",
+  "s:v3-l58-02": "the tap is a FAUCET ('fill it at the tap'), a noun the verb list misreads; owner-read in screen batch 3, 2026-08-20, 69 ok",
+};
+
 export function screen(sentences) {
   const problems = [];
   const known = new Set([...SCREENED, ...SCREENED_2026_08_15, ...SCREENED_2026_08_16, ...SCREENED_2026_08_20_V3_AWAITING_SEAT]);
   for (const { id, text } of sentences) {
     const s = shape(text);
-    if (s) problems.push(`refused by shape: ${id} ("${text}") — ${s}`);
+    if (s && !SHAPE_CLEARED[id]) problems.push(`refused by shape: ${id} ("${text}") — ${s}`);
     const p = phrases(text);
     if (p) problems.push(`refused by banned phrase: ${id} ("${text}") — ${p}`);
     if (!known.has(id)) problems.push(`never screened by a person: ${id} ("${text}") — read it, then add it to SCREENED`);
@@ -298,7 +262,7 @@ export function screen(sentences) {
      sentence the game no longer shows is a record of a read that no longer
      protects anything, and it hides the next removal. */
   const shipped = new Set(sentences.map((s) => s.id));
-  for (const id of [...SCREENED, ...SCREENED_2026_08_15, ...SCREENED_2026_08_16]) if (!shipped.has(id)) problems.push(`screened but not shipped: ${id} — remove it, or ship it`);
+  for (const id of [...SCREENED, ...SCREENED_2026_08_15, ...SCREENED_2026_08_16, ...SCREENED_2026_08_20_V3_AWAITING_SEAT]) if (!shipped.has(id)) problems.push(`screened but not shipped: ${id} — remove it, or ship it`);
   return problems;
 }
 
@@ -365,11 +329,22 @@ if (process.argv.includes("--self-test")) {
   const seatedOk = !seated.some((p) => p.includes("s:v3-l100-01"));
   console.log((seatedOk ? "ok   " : "FAIL ") + "control: a v3 id the owner read ships without a never-screened refusal");
   if (!seatedOk) failed += 1;
+  {
+    const clearedText = "Dad ran to the hill. My brother did kick it. I sat by me."; // adult..kick..child shape
+    const hit = screen([{ id: "s:v3-l44-02", text: clearedText }]);
+    const strange = screen([{ id: "s:v3-l00-98", text: clearedText }]);
+    const clearedOk = !hit.some((p) => p.startsWith("refused by shape")) && strange.some((p) => p.startsWith("refused by shape"));
+    console.log((clearedOk ? "ok   " : "FAIL ") + "control: a shape clearance clears its own id and no stranger");
+    if (!clearedOk) failed += 1;
+    const phraseStillRuns = screen([{ id: "s:v3-l44-02", text: "I pat the cat." }]).some((p) => p.includes("banned phrase"));
+    console.log((phraseStillRuns ? "ok   " : "FAIL ") + "control: a clearance clears the SHAPE rule only - the banned phrases still refuse");
+    if (!phraseStillRuns) failed += 1;
+  }
   const refused = screen([...shippedSentences(), { id: "s:v3-l00-99", text: "planted" }]);
   const refusedCaught = refused.some((p) => p.startsWith("never screened by a person: s:v3-l00-99"));
   console.log((refusedCaught ? "ok   " : "FAIL ") + "control: a v3 id OUTSIDE the read ledger is refused - the exemption is a list, not a spelling");
   if (!refusedCaught) failed += 1;
-  const total = cases.length + phraseCases.length + 5;
+  const total = cases.length + phraseCases.length + 7;
   console.log(`\nsentence-screen controls: ${total - failed} passed, ${failed} failed`);
   process.exit(failed ? 1 : 0);
 }

@@ -530,16 +530,16 @@ describe("G10 — free play never touches the save", () => {
 
   it("45: truly random draws from the whole bank, not the child's level", async () => {
     /* Math.random pinned high makes every draw take the end of the pool, so
-       the first word served is the bank's LAST word - "tops", the tail of
-       Level 21 (the seating pass appended inside earlier levels, so the
-       last word did not move). A fresh Level 1 save can never see it in a session or in
+       the first word served is the bank's LAST word - "teacher", the tail of
+       Level 100 since the 2026-08-20 cutover (index 1122 of 1123). A fresh
+       Level 1 save can never see it in a session or in
        level free play: buildSession serves Level 1 plus review only. The
        expected word is a literal on purpose (E4); if the bank ever gains a
        new last word, this is the line to update. */
     const spy = vi.spyOn(Math, "random").mockReturnValue(0.9999999);
     try {
       await enterFreePlay("🎲 Truly random");
-      expect(document.querySelector(".wq-word").textContent).toBe("tops");
+      expect(document.querySelector(".wq-word").textContent).toBe("teacher");
       /* control: the SAME pin through the level door serves a Level 1 word -
          the pin alone cannot conjure "ping"; only the random door can. */
       cleanup();
@@ -568,7 +568,7 @@ describe("G10 — free play never touches the save", () => {
 
   it("47: a spent random block rolls into a fresh draw that never repeats the boundary word", async () => {
     /* Pinned at the top of the pool, the first block is the bank's last 20
-       words in reverse - "tops" first, "trip" last - with no repeats, since
+       words in reverse - "teacher" first, "mouthful" twentieth - with no repeats, since
        a repeat inside a block would collide with its own first result and be
        graded as a retry.
 
@@ -635,10 +635,20 @@ describe("G10 — free play never touches the save", () => {
 
        The TENTH move (469 -> 476: seating pass two, "seat 7 of 7",
        2026-08-17) was simulated again. from joined Twin Drums' tail, so
-       the boundary word is now "trip". Unguarded, floor(0.955 x 476) =
-       454 is "trap"; guarded, floor(0.955 x 475) = 453 is "swim", and the
-       refilled pool's same index is "trap" — one index apart, tenth seat
-       kept.
+       the boundary word became "trip". Unguarded, floor(0.955 x 476) =
+       454 was "trap"; guarded, floor(0.955 x 475) = 453 was "swim" - one
+       index apart, tenth seat kept.
+
+       The ELEVENTH move is the 2026-08-20 CUTOVER (476 -> 1,123,
+       recomputed after put's late seat at level 75 - the first typing of
+       this paragraph said 1,122 and the fidelity audit caught it, this
+       block's own rule broken inside the block that states it): the
+       boundary word is "mouthful", the twentieth from the converted
+       bank's tail (index 1103). Unguarded, floor(0.955 x 1123) = 1072 is
+       "motion"; guarded, floor(0.955 x 1122) = 1071 is "ancient", and
+       the refilled pool's index 1071 is "motion" - one index apart,
+       eleventh seat kept. All three recomputed from the converted
+       ALL_WORDS by simulation, as this block's own rule demands.
 
        That the assertions never failed is the danger, not the comfort:
        nothing goes red while the reasoning quietly stops matching the code.
@@ -653,15 +663,15 @@ describe("G10 — free play never touches the save", () => {
         await gradeOne("✓ got it (hold)");
       }
       seen.push(document.querySelector(".wq-word").textContent);
-      expect(seen[0]).toBe("tops");
-      expect(seen[19]).toBe("trip");
+      expect(seen[0]).toBe("teacher");
+      expect(seen[19]).toBe("mouthful");
       expect(new Set(seen).size).toBe(20);
       spy.mockReturnValue(0.955);
       await gradeOne("✓ got it (hold)");
       expect(screen.getByText("20 words")).toBeTruthy();
-      expect(document.querySelector(".wq-word").textContent).toBe("swim");
+      expect(document.querySelector(".wq-word").textContent).toBe("ancient");
       await gradeOne("✓ got it (hold)");
-      expect(document.querySelector(".wq-word").textContent).toBe("trap");
+      expect(document.querySelector(".wq-word").textContent).toBe("motion");
     } finally { spy.mockRestore(); }
   });
 });

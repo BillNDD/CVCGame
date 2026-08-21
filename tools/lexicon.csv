@@ -699,7 +699,7 @@ pup,50,p-u-p,p short_u p,engine engine engine,bank+seat+text,
 puppet,49,p-u-pp-e-t,p short_u p short_e t,engine engine engine engine engine,seat+text,
 puppy,51,p-u-pp-y,p short_u p long_e,engine engine engine position,seat+text,
 purple,83,p-ur-p-le,p er p l,engine engine engine engine,seat+text,
-put,,p-u-t,p oo_book t,expert expert expert,text,
+put,75,p-u-t,p oo_book t,expert expert expert,text,seated at 75 at the cutover - the oo-book lesson is its own sound; it had slipped between the ship and the seating sweep
 quack,29,qu-a-ck,qu short_a k,engine engine engine,bank+seat+text,
 quick,29,qu-i-ck,qu short_i k,engine engine engine,bank+seat+text,
 quickly,53,qu-i-ck-l-y,qu short_i k l long_e,engine engine engine engine position,seat+text,

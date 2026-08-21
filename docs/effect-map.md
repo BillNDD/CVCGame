@@ -103,11 +103,11 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 2 | A stumble must not cost mastery (parent report, 2026-08-13) | a wrong then a correct lands on box 3, not box 1 |
 | 3 | A stumble must not cost mastery (parent report, 2026-08-13) | the parent |
 | 4 | A stumble must not cost mastery (parent report, 2026-08-13) | but the second correct still only steps one box, so the jump is not repeatable |
-| 5 | word bank | has 476 unique words across 21 levels |
-| 6 | word bank | starts with the ten VC words, then Level 1 |
+| 5 | word bank | has 1,123 unique words across the hundred levels |
+| 6 | word bank | starts with the converted ladder |
 | 7 | word bank | maps every word to its level |
 | 8 | word bank | flags the thirty-five tricky words — the originals, the heart notes, i, seating pass two |
-| 9 | word bank | keeps every word inside what the tile row can hold: 4 units at most, 5 letters at most |
+| 9 | word bank | keeps every word inside what the tile row can hold: 8 tiles, 9 letters |
 | 10 | chunkWord and dashed | fuses every digraph |
 | 11 | chunkWord and dashed | splits VC and plain CVC words |
 | 12 | chunkWord and dashed | renders hyphenated feedback text |
@@ -122,7 +122,7 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 21 | applyResult | uses the published interval ladder |
 | 22 | checkPromotion | promotes at exactly 80 percent on a ten-word level |
 | 23 | checkPromotion | uses box 3 as the solid threshold, not box 2 |
-| 24 | checkPromotion | needs 12 of 14 on the starter level, hearts counted |
+| 24 | checkPromotion | needs 8 of 10 on the starter level |
 | 25 | checkPromotion | never promotes past the last level |
 | 26 | checkPromotion | promotes after two perfect sessions; a partial session never moves the streak |
 | 27 | checkPromotion | an imperfect completed session resets the streak to zero |
@@ -131,7 +131,7 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 30 | checkPromotion | a stored streak alone never promotes on a session-less check |
 | 31 | checkPromotion | a manual level change resets the streak (source tripwire) |
 | 32 | checkPromotion | heal repairs a hostile perfectStreak |
-| 33 | buildSession | serves the 14 starter words - ten VC, four hearts - and nothing else on a fresh install |
+| 33 | buildSession | serves the ten starter words and nothing else on a fresh install |
 | 34 | buildSession | targets 20 words on a full level |
 | 35 | buildSession | never repeats a word |
 | 36 | buildSession | caps lower-level reviews at 5 |
@@ -151,17 +151,17 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 50 | migrate | leaves word data untouched |
 | 51 | migrate | is idempotent |
 | 52 | migrate | recomputes any pre-v4 level from the words, and clamps a v4 one |
-| 53 | migrate | computes the v4 level at the same boundary promotion uses |
+| 53 | migrate | computes the migrated level at the same boundary promotion uses |
 | 54 | migrate | never seats a migrated child below the ground they held |
 | 55 | migrate | survives hostile documents |
-| 56 | sentences | gives all twenty-one levels a list, and names no level that does not exist |
+| 56 | sentences | gives all hundred levels a list, and names no level that does not exist |
 | 57 | sentences | places every sentence where a child can actually read it |
 | 58 | sentences | places no sentence later than it needs to be |
 | 59 | sentences | gives every sentence a word the level teaches, for the reveal to sound out |
-| 60 | sentences | holds every sentence to one breath and one clip |
+| 60 | sentences | holds every text to one clip, and inside the longest approved read |
 | 61 | sentences | counts the words a child sees, not the punctuation a writer left |
 | 62 | sentences | ships three invitation lines, each with a clip and its own words |
-| 63 | buildMarkdown | reports the 476-word denominator and twenty-one level rows |
+| 63 | buildMarkdown | reports the 1,123-word denominator and one hundred level rows |
 | 64 | buildMarkdown | counts a word as mastered only from box 4 |
 | 65 | buildMarkdown | keeps a grapheme-safe name intact in the header |
 | 66 | buildMarkdown | marks a partial session |
@@ -282,8 +282,8 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 30 | Feature: Level promotion | Exactly 80 percent promotes |
 | 31 | Feature: Level promotion | Just under 80 percent does not promote |
 | 32 | Feature: Level promotion | Box 2 words are not solid |
-| 33 | Feature: Level promotion | The starter level needs 12 of its 14 words |
-| 34 | Feature: Level promotion | Eleven of the starter level |
+| 33 | Feature: Level promotion | The starter level needs 8 of its 10 words |
+| 34 | Feature: Level promotion | Seven of the starter level |
 | 35 | Feature: Level promotion | The last level has no promotion |
 | 36 | Feature: Level promotion | Two perfect sessions in a row promote |
 | 37 | Feature: Level promotion | One perfect session is not enough |
@@ -308,8 +308,8 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 56 | Feature: Building a session | No peeking while fresh words remain |
 | 57 | Feature: Building a session | Peeking starts when the level is fully seen |
 | 58 | Feature: Building a session | A level seen but not learned keeps the next level closed |
-| 59 | Feature: Building a session | The next level opens at 12 of the 14 words read correctly |
-| 60 | Feature: Building a session | Eleven of the 14 words does not open the next level |
+| 59 | Feature: Building a session | The next level opens at 8 of the 10 words read correctly |
+| 60 | Feature: Building a session | Seven of the 10 words does not open the next level |
 | 61 | Feature: Building a session | A word the child has already read comes back, whatever its level |
 | 62 | Feature: Building a session | Above-level review never takes over the session |
 
@@ -325,11 +325,11 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 
 | # | Suite | Effect (the test's own sentence) |
 |---|---|---|
-| 1 | the ladder | holds five rungs: the ear, then s-a-t-p, i-n, m-o, u-x |
+| 1 | the ladder | holds three rungs: the ear, then s-a-t-p, i-n |
 | 2 | the ladder | teaches exactly the letters Level 1 |
 | 3 | a pre-session | serves a fresh rung whole, in taught order, and never shuffles |
 | 4 | a pre-session | leads with up to five due letter reviews from earlier rungs |
-| 5 | a pre-session | caps at twelve and never repeats an item |
+| 5 | a pre-session | serves the whole rung, six items, and never repeats one |
 | 6 | winning a rung | promotes at the words |
 | 7 | winning a rung | promotes on the words |
 | 8 | winning a rung | passing the last rung leaves the ladder for Level 1 |
@@ -464,7 +464,7 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 |---|---|---|
 | 1 | buildSession and the next level | never hands the next level to a child who has read nothing correctly |
 | 2 | buildSession and the next level | does not count a close reading as learning the word |
-| 3 | buildSession and the next level | opens the next level at 12 of the 14 words, not at 11 |
+| 3 | buildSession and the next level | opens the next level at 8 of the 10 words, not at 7 |
 | 4 | buildSession and the next level | brings a graded next-level word back for review |
 | 5 | buildSession and the next level | caps above-level review at 2 words a session |
 
@@ -495,8 +495,8 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 13 | the sentence inside a session | 10 (free play): the controls are live for the SENTENCE, and no mark records anything |
 | 14 | the sentence inside a session | 11 (free play): never runs out — the pool is dealt again from the top |
 | 15 | the sentence inside a session | 12: the open word |
-| 16 | the sentence inside a session | 7b: a miss just before a sentence still queues the second look |
-| 17 | the sentence inside a session | 7c (control): a miss with no sentence in the way grows the queue the same way |
+| 16 | the sentence inside a session | 7b: a miss just before a sentence still earns the second look |
+| 17 | the sentence inside a session | 7c (control): a miss with no sentence in the way earns the same second look |
 | 18 | the sentence inside a session | 7: no sentence repeats inside one session |
 | 19 | free play deals from data that can be empty | 13: an empty pool turns the tap back rather than breaking the app |
 | 20 | free play deals from data that can be empty | 14: the chooser drops the sentence row where there is nothing to serve — and keeps it where there is |

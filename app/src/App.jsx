@@ -583,7 +583,12 @@ export default function App() {
 
   const currentWord = queue[qi];
   const answered = order.length;
-  const totalQ = queue.length || SESSION_SIZE;  // P1-5
+  /* Unique words, not queue slots: a wrong grade re-queues its word, and a
+     queue-length total made the count read 3/11 and drew an eleventh dot -
+     which at a ten-word level wraps the track to a second row and drops the
+     word 8 px mid-session, the move P0-2 forbids (measured by G7 check 5 the
+     night the ten-word Level 1 shipped). */
+  const totalQ = new Set(queue).size || SESSION_SIZE;  // P1-5
 
   /* Everything advanceDecision needs is already known in this render, so the
      label the child reads and the queue next() builds come from one value. */

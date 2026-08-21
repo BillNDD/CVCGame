@@ -118,27 +118,106 @@ test pins that absence as a decision.
 
 | Level | Name | Focus | Words |
 |------:|------|-------|-------|
-| 1 | Hatchlings | two sounds (VC) | is it in on at an up us am ax the a and i |
-| 2 | Sunny Start | VC finishes; short a begins | my we if ox cat sat ran can man dad hat mat fat |
-| 3 | Jam Jar | short a | me to had bag nap map cap tag jam ham pat bat |
-| 4 | Van Pals | short a | he no do sad mad bad rat pan fan van pal pad rag |
-| 5 | Zig Zap | short a | go so you tap wag lap tan zap yam cab ram dab rap out |
-| 6 | Dig Dog | short a finishes; short i and o begin | be said has dam nag sap vat yap sit dog big dig his they |
-| 7 | Mom and Pop | short i and o open up | of mom pop hot pot top not got did him pig for |
-| 8 | Six Pins | short i builds | sip dip tip pin win hit six fin bin lip |
-| 9 | Fox Box | short o builds | box fox log hop cot bit fit pit wig bib |
-| 10 | Fix It | short i and o finish | fix job rip hip lot nod hog tin rig mop |
-| 11 | Red Hen | odds and ends; short e begins | rob sob mob cop dim bed red hen pen ten |
-| 12 | Fun Run | short e and u | net leg wet jet men bus cup sun run fun but |
-| 13 | Rocket Words | short e and u | mud bug hug nut tub pet get let set cut pup web bun rug mug vet tug jug hum rub dug bud peg met yet bet keg hem nun pun jut gut hub |
-| 14 | Explorer | all five vowels | yes zip gum gas kid cub den dot fed fig fog gap hid hut jog kit lid mix wax yak jig jab jot lab lad led lit lug nab pep pod rib rim rod rot sag sub sum tab tot wed wit zig zag fax nix vex sax cod |
-| 15 | Super Sounds | sh and ch | ship shop shut fish dish wish cash chat chip chop rich much such chin shed shin mash rash chug chum dash sash hush rush mush chap wash push bush she bash gash gush lash lush posh sham shun |
-| 16 | Word Wizard | th, wh, ck, ng + tricky words | thin this that then them bath math with when whip duck sock kick back ring sing king long song was buck sung gong lung puck wick rung muck pack path sack tack neck luck tuck peck deck thud rock lock pick lick wing tick dock moth hang sang rang sick fang what whim wham bang hung ding ping |
-| 17 | Bells | ll, ss, ff, zz + qu + silent letters | bell tell well fell hill mill doll mess boss kiss miss loss fuss huff puff cuff buzz fuzz jazz fizz will quiz quit quip knit knob knot lamb |
-| 18 | Chicks | five-letter words | chick check chuck chess chill shack shock shell thick whack which whiff whizz quick quack quill knock wreck wrong thumb wrap wren limb |
-| 19 | Tent Camp | blends at the end | ant ask band belt bend best bolt bond bump camp cost damp dent desk dusk end fast fond gift gulf gulp hand help hint jump just kept lamp land last left lend lift list mask melt mend milk mint must nest pond pump raft rest risk romp sand sift silk soft task tent there think want went wilt |
-| 20 | Twin Drums | blends at the start | brag clap drop drum flag flat glad grab grin plan plum slam sled slid slip snap snug spin spot stem step stop swam swim trap trim trip twig twin black skip from |
-| 21 | Cats and Dogs | the plural s: /s/ after quiet endings, /z/ after voiced | beds bugs cats cups dogs hats hens kids lids maps pens pigs pots tops |
+| 1 | First Sounds | the first six sounds | an ant as at in it sat sit nap pan |
+| 2 | First Sounds | swapping one sound | i pin pit sip tin pat sap tan tap tip |
+| 3 | First Sounds | the short o | the into not on pot stop top pop spot tot |
+| 4 | First Sounds | the c sound | a can cat cop cap cot cost catnip |
+| 5 | First Sounds | the m sound | is am man mom mop map mat camp mint mist |
+| 6 | First Sounds | plural -s, and the s that buzzes | to cops pots spots tops maps cats |
+| 7 | First Sounds | the e sound | he comes men pet ten net pen set nest step tent pep |
+| 8 | First Sounds | the d sound | we and did end mad nod sad sand dad den dip damp dent mend pad pod |
+| 9 | First Sounds | the g sound | me gas gets got get gap pigpen dog dogs pig dig nag peg pigs sag tag |
+| 10 | First Sounds | MILESTONE - First Sounds | be had ham hand has hat hats hid him his hit hint hog |
+| 11 | Letter Land | the f sound | she fan fast fat fin find fit if fed gift soft fog fig fond sift |
+| 12 | Letter Land | the b sound | you bad bed bit bat bib bin cab best bet dab bag big beds bond nab sob tab |
+| 13 | Letter Land | the l sound | of land led left let lid lot lots animal leg flag last lend list melt |
+| 14 | Letter Land | the u sound | was but dust fun hunt mud must nut sun tub up bug bugs bump gulf gulp lug mug nun |
+| 15 | Letter Land | the r sound | said from her ram ran rat red rid rod rub run frog rag brag raft rib rig rim rob |
+| 16 | Letter Land | the v and k sounds | are ever lived kid van desk kids milk ask kit vat dusk keg kept mask risk silk task vet |
+| 17 | Letter Land | the j and w sounds | have jump jumps just swam swim want went wet win jig jog jug twig wag wed wig wilt wit |
+| 18 | Letter Land | the z and x sounds | they ax ox box fix fox six zap zip fax mix nix sax vex zag zig |
+| 19 | Letter Land | the y sound | my yes yam yak yap yet |
+| 20 | Letter Land | MILESTONE - All The Letters | do held hits hold hop hot old us laptop sunset bus log logs pump pun snug sub sum tug |
+| 21 | Letter Teams | doubled endings | go bill fell fill grass hill kiss smell tell buzz doll umbrella puff |
+| 22 | Letter Teams | the sh sound | no brush dish fish ship shop shot wish wash hush mash shrub posh push rash rush sash sham shin shun |
+| 23 | Letter Teams | the ch sound | so benches branches chop rich chin chip chat chest much such chill lunch bench munch chap chess |
+| 24 | Letter Teams | the quiet th | bathtub thank thankful thin think bath path moth thud thump cloth month math |
+| 25 | Letter Teams | the buzzy th | there that them then this with than brother other |
+| 26 | Letter Teams | the ck spelling | back black duck kick lick lock luck pick rack rock chick chicks check chuck neck peck puck shock |
+| 27 | Letter Teams | the wh sound | when what whack wham whiff whim whip whizz which |
+| 28 | Letter Teams | the ng sound | sing king long bang fang gong hang hung lung bring something ding ping rang ring rung sang song |
+| 29 | Letter Teams | the qu spelling | quick quit quack quiz quill quip squash |
+| 30 | Letter Teams | MILESTONE - Every First Spelling | rocks sack sacks shack sick sock socks well dug hug chug chum rot shut tack thick trim trip |
+| 31 | Busy Blends | one more sound at the end | help lamp lift pond rest romp band bank belt bend |
+| 32 | Busy Blends | more sounds at the end | hands tents nests belts lamps desks gifts next |
+| 33 | Busy Blends | two at the start: s- | sled slip spin skip slam slid snap stem swan swap |
+| 34 | Busy Blends | two at the start: l- and r- | clap drum flat glad grab grin drop plan plum trap |
+| 35 | Busy Blends | start and end together | blind stand stamp stomp plant drink trunk skunk print blend crust |
+| 36 | Busy Blends | three at the start | spring scrap scrub splash split strap string strip strong |
+| 37 | Busy Blends | the -ing ending | brushing fishing hunting singing yelling |
+| 38 | Busy Blends | the -er ending, the doer | helper jumper singer another mother |
+| 39 | Busy Blends | compounds | backpack dustbin hilltop sandbox |
+| 40 | Busy Blends | MILESTONE - Longer Words | will yell cub cup gum hen hum jam job lap rug undo sung tick tuck wick wing |
+| 41 | Word Builders | two beats | having never buses cobweb glasses illness muffin |
+| 42 | Word Builders | two beats with a digraph | windmill rocket pocket bucket jacket sandwich chicken thunder chipmunk whisper |
+| 43 | Word Builders | the -ed ending saying /t/ | jumped licked picked asked helped kicked mixed packed dressed brushed |
+| 44 | Word Builders | the -ed ending saying /d/ | filled yelled spilled spelled smelled buzzed drilled chilled grilled |
+| 45 | Word Builders | the -ed ending saying /id/ | ended landed lifted wanted |
+| 46 | Word Builders | two letters, one sound | getting quitting sitting stopped stopping swimming butter hammer ladder pepper biggest digging |
+| 47 | Word Builders | the -es ending | boxes brushes foxes wishes |
+| 48 | Word Builders | the -le ending | little apple bubble candle handle middle simple waffle |
+| 49 | Word Builders | the e at the end with a job | kitten dinner mitten puppet rabbit |
+| 50 | Word Builders | MILESTONE - Word Builder | mitt mess miss pack pal pup rap rip shed shell thing unlock |
+| 51 | Magic Letters | the -y that says the long e | finally every very funny happy jelly lucky penny puppy sandy silly |
+| 52 | Magic Letters | the -y that says the long i | fly by cry dry shy sky sly spy try why butterfly |
+| 53 | Magic Letters | y turns into i, and the -ly ending | cried dried happier spied tried gladly quickly softly |
+| 54 | Magic Letters | three beats | besides banana wonderful |
+| 55 | Magic Letters | a after w | wax wand water wallet |
+| 56 | Magic Letters | review: everything so far | web cups hens lids pens twin all bash bell boss sunny things |
+| 57 | Magic Letters | long a: a_e | ate cake cakes came game gate gates lake same save gave made waves |
+| 58 | Magic Letters | long a: ai and ay | day lay pail pain paint play rain say stay tail player way |
+| 59 | Magic Letters | long a: two more spellings | eight freight sleigh weigh weight grey hey obey |
+| 60 | Magic Letters | MILESTONE - The Long A | hate late make makes take tame buck bud bun bush unhappy windy |
+| 61 | Vowel Voyage | long e: ee | see deep feed feel feet green meet meets need seed seem seen |
+| 62 | Vowel Voyage | long e: ea | deal each eagle eagles eat eating leaf leave mean meat reader seat teaching |
+| 63 | Vowel Voyage | long e: three more spellings | these honey money monkey valley babies brief chief field niece pennies piece ponies preview |
+| 64 | Vowel Voyage | long o: o_e and oa | coat coats goat holes notes road broke hole home hope come love nose note some those |
+| 65 | Vowel Voyage | long o: ow and oe | slowly throw snow show grow slow toe goes window yellow pillow rainbow |
+| 66 | Vowel Voyage | long i: i_e | likes bite dime dive fine five hide inside like line mile nine shine side smile time white live |
+| 67 | Vowel Voyage | long i: igh and ie | bright flies high light might pie tie night right sight |
+| 68 | Vowel Voyage | long i before two sounds | kind mild mind wild child kindly behind cold gold fold sold told bolt |
+| 69 | Vowel Voyage | the same spelling, another job | read head bread ready heavy feather weather breakfast spread thread |
+| 70 | Vowel Voyage | MILESTONE - All Five Long Sounds | goats cash cod cuff cut dam dash deck dim dock sheep yesterday |
+| 71 | Sound Safari | the lazy vowel | sleeping holiday needed painted painter planted printed printer redo |
+| 72 | Sound Safari | open syllables in longer words | baby lady paper lazy bacon maple gravy later apron table over tiger tigers |
+| 73 | Sound Safari | dropping the e before an ending | liked noses saved biting smiled |
+| 74 | Sound Safari | the oo of moon | moon pool room soon too tooth zoom |
+| 75 | Sound Safari | the oo of book | good book look looked took put |
+| 76 | Sound Safari | long u: u_e, ew and ue | blue clue cube cute dew few glue mule new true use |
+| 77 | Sound Safari | the ou sound: ou and ow | found now out young could flowers cow down how loud house mouse our outside proud shouted sound sounds town wow |
+| 78 | Sound Safari | the oi sound: oi and oy | boy going toy boil coin enjoy join loyal point royal noise soil spoil |
+| 79 | Sound Safari | the ar sound | arm around barn car card cars dark far farm farms charm farmer hard park part start started tar yard |
+| 80 | Sound Safari | MILESTONE - Every Vowel | dot fall fizz fuss fuzz gash gush gut hem hip sleep teeth |
+| 81 | Secret Letters | the or sound: or and ore | for born corn more or shore sore store story tore horse torn worker |
+| 82 | Secret Letters | the aw sound: aw, au and augh | away caught claw crawl dinosaur draw haul jaw laugh lawn paw sauce saw straw yawn |
+| 83 | Secret Letters | the er sound: two more spellings | were birds girl bird burn curl dirt first purple shirt turn church nurse survey third |
+| 84 | Secret Letters | the ear sound | deer ear ears hear here near year |
+| 85 | Secret Letters | the air sound | where careful careless unfair |
+| 86 | Secret Letters | the all and alk family | talk talked talking talks walk walked walking |
+| 87 | Secret Letters | soft c and soft g | generous huge cities city cent pencil circle circus magic ginger princess gem germ |
+| 88 | Secret Letters | the -tch and -dge endings | catch badge bridge edge fetch fudge judge match matches pitch scratch watch |
+| 89 | Secret Letters | letters that stay quiet | knock knit knob knot lamb limb wrap wreck wren wrong climb thumb |
+| 90 | Secret Letters | MILESTONE - Every Sound | hub huff hut jab jazz jet jot jut lab lad tree trees |
+| 91 | Story Summit | the f sound: ph and gh | alphabet dolphin elephant graph phone photo |
+| 92 | Story Summit | the ough family | dough though through rough tough enough cough bought brought fought ought thought |
+| 93 | Story Summit | the -stle ending | bustle castle nestle rustle whistle wrestle thistle |
+| 94 | Story Summit | ch does another job | school anchor stomach chorus mechanic orchestra machine |
+| 95 | Story Summit | the sh sound in longer words | action ancient motion nation social special station |
+| 96 | Story Summit | the ch sound in longer words | adventure capture future mixture nature picture |
+| 97 | Story Summit | prefixes | under disagree dishes dislike precious remember rested retell return uncle |
+| 98 | Story Summit | the -ful ending | helpful playful useful handful cheerful joyful painful powerful awful spoonful mouthful peaceful |
+| 99 | Story Summit | the -less and -ness endings | darkness endless helpless hopeless kindness sadness |
+| 100 | Story Summit | MILESTONE - Reader | lash lip lit loss lush met mill mob muck mush teach teacher |
 
 The table above is the one owner of the level word lists, and gate G16 holds it to the
 engine's `LEVELS`. A summary line of per-level counts stood here until 2026-08-15 and is
@@ -170,11 +249,11 @@ absent wherever the adult judges every word, which is now every word.
 
 To extend the bank, add words to a level's list or add a level object:
 `{ n, name, emoji, focus, words }`. Level sizes can differ; the session builder serves 20
-words at a time regardless. Level 1 stays at 12 words — English has only a small set of clean
-short-vowel VC words. Words with consonant blends (like "stop" or "hand") live in Levels 10
-and 11, built 2026-08-12 with the four-tile layout they need; a sentence here called them "a
-future level" for three days after they shipped, which is why this paragraph now names the
-levels instead of a date that will pass.
+words at a time regardless. The hundred levels are generated from `tools/ladder/ladder-v4.json` by
+`tools/convert-ladder.mjs --write` (the 2026-08-20 cutover); a level's name and emoji are its
+decade's (`tools/ladder/decade-names.json`, owner-approved) and its focus line is the shape's
+own teaching description. Extending the bank means extending the ladder and re-running the
+writer, never hand-editing the generated literal.
 
 ## 4. Schedule engine
 
@@ -224,11 +303,11 @@ the current one.
 Mix the list. Move the word with the highest box to position 1. Each session starts with a
 probable success.
 
-A session can have fewer than 20 words. Example: the first session has the 14 Level 1 words.
+A session can have fewer than 20 words. Example: the first session has the 10 Level 1 words.
 
 Promotion. Do this check at the end of a full session. Count the current-level words that have
-box 3 or more. If the count is 80 percent or more, increase the level by 1. Example: Level 1 has 12 words, so
-the threshold is 10 words. The maximum level is 7. The adult can also set the level
+box 3 or more. If the count is 80 percent or more, increase the level by 1. Example: Level 1 has 10 words, so
+the threshold is 8 words. The maximum level is 100. The adult can also set the level
 in the "Grown-ups corner".
 
 A second path to promotion: two perfect sessions in a row. A completed session is perfect when
@@ -1300,6 +1379,20 @@ precedent) was upheld and the word held back. The ruled plural exclusions — ju
 nuts, crabs — were re-verified absent by measurement, and every one of the 210 sentences
 carries a person's dated read, the twelve new ones from that same page and its listening
 round. Nothing else was raised.
+
+**Re-screened 2026-08-20 at the hundred-level cutover, over the whole converted bank.**
+The bank counted **1,123 words** — every level's list read in full by the cutover's
+child-safety audit seat, not sampled, with this document's rulings in hand. Verified by
+measurement: every ruled-out word absent (jugs, buns, nuts, crabs, cans, gob, milt and
+the rest), every ruled-fine word standing unraised, no duplicate seats. Raised for the
+owner, none yet ruled: **chicks** (seated at 26 beside chick — the jug/jugs shape,
+shipped), **rack** (26), **sack** and **sacks** (30, sacks in s:v3-l59-01), **whizz**
+(27), **rim** (15), **clap** (34), **strip** (36), **lush** (100). The drug-slang
+second-sense cluster (bud, grass, tab, snow, trip, high, lit, line, fix, chug, buzzed)
+was considered and NOT raised, following the pot precedent — ordinary words whose adult
+sense needs adult knowledge to see. The nine raised words await the owner's decision
+page; until he rules, this paragraph is the screen's record and the bank's screening
+date, and a later screen does not re-raise what it lists.
 Every one of the **210 sentences** and the three invitation lines carries a person's
 dated read — 91 on 2026-08-13, the next batch on the 2026-08-15 round pages, and
 Level 21's twelve on the 2026-08-16 Cats and Dogs pages (one of them written by the

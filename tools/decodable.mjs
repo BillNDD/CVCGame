@@ -84,17 +84,18 @@ export function vocabularyUpTo(level) {
   const v = new Set();
   for (const l of LEVELS) if (l.n <= level) for (const w of l.words) v.add(w);
   for (const n of Object.keys(PROPOSED)) if (Number(n) <= level) for (const w of PROPOSED[n]) v.add(w);
-  /* The guard: every heart word must have a SEAT, and it must be one the
-     owner ruled. A heart word that drifted late would make this function
-     quietly correct and the game quietly wrong — the child would meet it long
-     after a sentence claimed they could read it. Under the 10-and-10
-     curriculum (owner-approved 2026-08-15, rounds one to three) the seats
-     span Levels 1 to 7 — "Move of to 7" is the owner's own outer bound, so
-     seven is the fence: an eighth-level heart is drift, not a ruling. */
+  /* The guard: every heart word must have a SEAT. The old fence - seats end
+     at 7, "Move of to 7" - died at the 2026-08-20 cutover: the shape's own
+     heart arrays seat hearts through the whole ladder (were at 83, the ough
+     hearts at 92), and the shape is the owner's ruling now. What remains
+     guarded is the drift the fence really caught: a heart with no seat at
+     all, which buildSession could never serve. The LATE half of the old
+     fence is not lost: a heart used in a text before its seat is refused by
+     check()'s own untaught rule, and the self-test now proves it with
+     "were" (seat 83) planted at level 15. */
   for (const w of HEART) {
     const seat = WORD_LEVEL[w];
     if (!seat) throw new Error(`heart word "${w}" has no level seat; buildSession can never serve it`);
-    if (seat > 7) throw new Error(`heart word "${w}" is seated at level ${seat}; the owner's rulings end at 7 ("Move of to 7") and a heart word is met early or it is not a heart word`);
   }
   waitingIsHonest(HEART);
   return v;
@@ -118,7 +119,11 @@ export function waitingIsHonest(seated, waiting = HEART_WAITING) {
 /* A word as the child meets it: case and punctuation are the writer's, not the
    child's problem. An apostrophe is NOT stripped — "can't" is a different word
    from "can" and is not taught. */
-export const words = (s) => s.toLowerCase().replace(/[.,!?;:"“”]/g, " ").split(/\s+/).filter(Boolean);
+/* A token with no letter is punctuation, not a word - the same rule the
+   engine's sentenceWords learned at the 2026-08-20 cutover ("Then - pop!"
+   yields no dash tile). The two tokenizers must agree or a text passes one
+   gate and fails the other. */
+export const words = (s) => s.toLowerCase().replace(/[.,!?;:"“”]/g, " ").split(/\s+/).filter((w) => /[a-z]/.test(w));
 
 /* The words the level itself introduces. A built level owns them; a level still
    only proposed keeps them in PROPOSED until it is built. Reading only PROPOSED
@@ -134,6 +139,11 @@ export function check(sentence, level, mustUse = []) {
   const problems = [];
   const unknown = ws.filter((w) => !v.has(w));
   if (unknown.length) problems.push(`not taught by level ${level}: ${[...new Set(unknown)].join(", ")}`);
+  /* The letterful tokenizer DROPS a token like "3", so without this line a
+     numeral would pass unexamined - the loosening the 2026-08-20 honesty
+     audit caught. A pre-reader decodes letters; a digit goes back to a
+     person. */
+  if (/[0-9]/.test(sentence)) problems.push("contains a numeral, which no level teaches and the tokenizer cannot see");
   /* The level's own new words are the point of the sentence. One is the rule
      the owner set; a sentence that happens to use none is practice for the
      level before it. */
@@ -142,7 +152,11 @@ export function check(sentence, level, mustUse = []) {
   for (const m of mustUse) if (!ws.includes(m)) problems.push(`does not use "${m}"`);
   /* A sentence a four-year-old reads aloud in one breath. Eight words is the
      ceiling the shipped sentence batches settled on. */
-  if (ws.length > 8) problems.push(`${ws.length} words is too long to hold`);
+  /* The one-breath bound (eight words) died at the 2026-08-20 cutover: the
+     owner's approved texts include 143 multi-sentence paragraphs, the longest
+     138 words (s:v3-l94-01), each one whole recording. The ceiling is what an
+     owner ear has held; past it, a text goes back to a person. */
+  if (ws.length > 138) problems.push(`${ws.length} words is longer than any text the owner has approved`);
   if (!/[.!?]$/.test(sentence.trim())) problems.push("no end punctuation");
   if (!/^[A-Z]/.test(sentence.trim())) problems.push("does not start with a capital");
   return { sentence, level, words: ws.length, fresh, problems };
@@ -150,18 +164,24 @@ export function check(sentence, level, mustUse = []) {
 
 if (process.argv.includes("--self-test")) {
   /* Every way a sentence can fail the promise, and one control that must pass. */
+  /* Fixture seats re-derived at the 2026-08-20 cutover: ran and red at 15,
+     kid 16, jump 17, hill 21, hen 40 (the converted ladder). The purposes
+     stand; only the words that carry them moved. */
   const cases = [
-    ["The dog ran fast.", 19, true, "a real one: every word taught, and 'fast' is new at 19"],
-    ["The dog ran quickly.", 19, false, "'quickly' is not taught anywhere — the fault the checker exists for"],
-    ["The dog ran up the hill.", 19, false, "every word taught, but none of them is new at level 19"],
-    ["The kid can stop.", 19, false, "'stop' is a level 20 word: a sentence must never arrive before its words"],
-    ["The kid can stop.", 20, true, "control: the same sentence is fine at level 20"],
-    ["The frog can jump.", 19, false, "'frog' is in no level at all — it caught this in my own fixture"],
-    ["You said the dog can jump.", 19, true, "heart words 'you' and 'said' are allowed"],
-    ["The dog ran fast", 19, false, "no end punctuation"],
-    ["the dog ran fast.", 19, false, "no capital"],
-    ["The big dog and the fat cat and the red hen ran fast.", 19, false, "too long to hold"],
-    ["The dog can't jump.", 19, false, "\"can't\" is not \"can\" — a contraction is a word of its own"],
+    ["The dog ran red.", 15, true, "a real one: every word taught, and 'ran' is new at 15"],
+    ["The dog ran quickly.", 15, false, "'quickly' is not taught anywhere — the fault the checker exists for"],
+    ["The dog can stop.", 15, false, "every word taught, but none of them is new at level 15"],
+    ["The kid can stop.", 15, false, "'kid' is a level 16 word: a sentence must never arrive before its words"],
+    ["The kid can stop.", 16, true, "control: the same sentence is fine at level 16"],
+    ["The zonk can stop.", 15, false, "'zonk' is in no level at all — it caught a stranger in my own fixture"],
+    ["You said the dog ran.", 15, true, "heart words 'you' and 'said' are allowed"],
+    ["The dog ran red", 15, false, "no end punctuation"],
+    ["the dog ran red.", 15, false, "no capital"],
+    ["The dog ran red. ".repeat(35).trim(), 15, false, "140 words is longer than any approved text"],
+    ["The dog can't stop.", 15, false, "\"can't\" is not \"can\" — a contraction is a word of its own"],
+    ["The dog ran 3.", 15, false, "a numeral: the letterful tokenizer drops it, so the text-level rule must refuse it"],
+    ["You were red.", 15, false, "heart 'were' seats at 83 — a heart used before its seat is refused as untaught (the late-drift the retired seat-fence guarded)"],
+    ["You were red.", 83, true, "control: the same heart sentence is fine at its seat, where 'were' is the level's own new word"],
   ];
   let failed = 0;
   /* The waiting list's own control, and it runs FIRST because everything below

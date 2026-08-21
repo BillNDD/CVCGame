@@ -2703,404 +2703,998 @@
   "voice": "af_heart",
   "word_speed": 0.85,
   "word_speed_override": {
+   "action": 0.7,
+   "adventure": 0.8,
+   "all": 0.7,
+   "alphabet": 0.75,
    "am": 0.82,
    "an": 0.82,
    "anchor": 0.7,
+   "ancient": 0.8,
    "and": 1,
+   "animal": 0.8,
+   "another": 0.8,
    "ant": 0.95,
+   "apple": 0.7,
+   "apron": 0.7,
    "are": 0.7,
+   "arm": 0.7,
+   "around": 0.75,
    "as": 0.7,
    "ask": 0.95,
+   "asked": 0.8,
    "at": 0.82,
+   "ate": 0.75,
+   "away": 0.7,
+   "awful": 0.75,
    "ax": 0.82,
+   "babies": 0.8,
+   "baby": 0.75,
    "back": 0.82,
+   "backpack": 0.7,
+   "bacon": 0.8,
+   "badge": 0.7,
    "bag": 0.82,
+   "banana": 0.9,
    "bang": 0.82,
+   "bank": 0.7,
+   "barn": 0.8,
    "bash": 0.82,
    "bat": 0.82,
    "bath": 0.82,
+   "bathtub": 0.7,
    "be": 0.65,
    "bed": 0.82,
    "beds": 0.8,
+   "behind": 0.75,
    "bell": 0.82,
+   "belts": 0.7,
+   "bench": 0.7,
+   "benches": 0.8,
+   "besides": 0.8,
    "best": 0.95,
    "bet": 0.82,
    "bib": 0.82,
    "big": 0.82,
+   "biggest": 0.7,
+   "bill": 0.7,
    "bin": 0.82,
+   "bird": 0.7,
+   "birds": 0.8,
    "bit": 0.82,
+   "bite": 0.7,
+   "biting": 0.75,
    "black": 1,
+   "blend": 0.8,
+   "blind": 0.8,
+   "blue": 0.75,
+   "boil": 0.75,
    "bolt": 0.9,
    "bond": 0.95,
+   "book": 0.75,
+   "born": 0.8,
    "boss": 0.82,
+   "bought": 0.7,
    "box": 0.82,
+   "boxes": 0.7,
+   "boy": 0.6,
+   "branches": 0.7,
+   "bread": 0.75,
+   "breakfast": 0.75,
+   "bridge": 0.7,
+   "brief": 0.8,
+   "bright": 0.7,
+   "bring": 0.75,
+   "broke": 0.75,
+   "brother": 0.8,
+   "brought": 0.8,
+   "brush": 0.7,
+   "brushed": 0.7,
+   "brushes": 0.8,
+   "brushing": 0.8,
+   "bubble": 0.75,
    "buck": 0.82,
+   "bucket": 0.7,
    "bud": 0.82,
    "bug": 0.82,
    "bugs": 0.8,
    "bump": 1,
    "bun": 0.82,
+   "burn": 0.8,
    "bus": 0.82,
+   "buses": 0.8,
    "bush": 0.82,
+   "bustle": 0.75,
    "but": 0.9,
+   "butter": 0.8,
+   "butterfly": 0.8,
    "buzz": 1,
+   "buzzed": 0.7,
+   "by": 0.7,
+   "cake": 0.75,
+   "cakes": 0.75,
+   "came": 0.7,
+   "candle": 0.7,
    "cap": 1,
+   "capture": 0.75,
+   "car": 0.7,
+   "card": 0.7,
+   "careful": 0.7,
+   "careless": 0.7,
+   "cars": 0.75,
    "cash": 0.82,
+   "castle": 0.7,
    "cat": 0.82,
+   "catnip": 0.8,
    "cats": 0.95,
+   "caught": 0.7,
+   "cent": 0.7,
    "chap": 0.82,
+   "charm": 0.75,
    "chat": 0.82,
    "check": 0.82,
+   "cheerful": 0.8,
    "chess": 0.82,
+   "chest": 0.8,
    "chick": 1,
+   "chicken": 0.8,
+   "chicks": 0.8,
+   "chief": 0.8,
+   "child": 0.75,
    "chill": 0.82,
+   "chilled": 0.75,
    "chin": 0.82,
    "chip": 0.82,
+   "chipmunk": 0.8,
    "chop": 0.82,
    "chorus": 0.7,
    "chuck": 1,
    "chug": 0.82,
    "chum": 1,
+   "church": 0.75,
+   "circle": 0.7,
+   "circus": 0.8,
+   "cities": 0.7,
+   "city": 0.75,
    "clap": 0.8,
+   "claw": 0.7,
+   "climb": 0.7,
+   "cloth": 0.7,
+   "clue": 0.7,
+   "coat": 0.7,
+   "coats": 0.75,
+   "cobweb": 0.75,
    "cod": 0.82,
+   "coin": 0.7,
+   "cold": 0.75,
    "come": 0.7,
+   "comes": 0.75,
    "cop": 0.82,
+   "cops": 0.75,
+   "corn": 0.7,
    "cot": 1,
    "cough": 0.7,
+   "cow": 0.7,
+   "crawl": 0.7,
+   "cried": 0.7,
+   "crust": 0.7,
+   "cry": 0.7,
    "cub": 1,
+   "cube": 0.7,
    "cuff": 0.82,
    "cup": 0.82,
+   "curl": 0.7,
    "cut": 0.82,
+   "cute": 0.7,
    "dam": 0.82,
    "damp": 0.95,
+   "dark": 0.75,
+   "darkness": 0.75,
    "dash": 0.82,
+   "day": 0.8,
+   "deal": 0.75,
    "deck": 0.82,
+   "deep": 0.8,
+   "deer": 0.7,
    "den": 0.82,
    "dent": 0.95,
+   "desks": 0.7,
+   "dew": 0.7,
    "did": 1,
    "dig": 0.82,
+   "digging": 0.8,
    "dim": 0.82,
+   "dime": 0.75,
    "ding": 0.82,
+   "dinner": 0.8,
+   "dinosaur": 0.8,
    "dip": 0.82,
+   "dirt": 0.7,
+   "disagree": 0.7,
    "dish": 1,
+   "dishes": 0.7,
+   "dislike": 0.7,
+   "dive": 0.8,
    "dock": 0.82,
    "dog": 0.82,
    "dogs": 0.8,
    "doll": 0.82,
+   "dolphin": 0.9,
    "dot": 0.82,
    "dough": 0.75,
+   "down": 0.75,
+   "draw": 0.8,
+   "dressed": 0.7,
+   "dried": 0.8,
+   "drilled": 0.8,
+   "drink": 0.7,
    "drop": 0.8,
    "drum": 0.8,
+   "dry": 0.8,
    "duck": 0.82,
    "dug": 1,
+   "dust": 0.75,
+   "dustbin": 0.75,
+   "each": 0.7,
+   "eagle": 0.75,
+   "eagles": 0.75,
+   "ear": 0.7,
+   "ears": 0.75,
+   "eat": 0.75,
+   "eating": 0.75,
+   "edge": 0.75,
+   "eight": 0.75,
+   "elephant": 0.8,
    "end": 0.95,
+   "ended": 0.7,
+   "endless": 0.7,
+   "enjoy": 0.75,
    "enough": 0.75,
+   "every": 0.7,
+   "fall": 0.95,
    "fan": 0.82,
    "fang": 0.82,
+   "far": 0.75,
+   "farm": 0.75,
+   "farmer": 0.7,
+   "farms": 0.8,
    "fast": 0.95,
    "fat": 1,
    "fax": 0.82,
+   "feather": 0.8,
    "fed": 0.82,
+   "feed": 0.7,
+   "feel": 0.7,
+   "feet": 0.75,
    "fell": 0.82,
+   "fetch": 0.7,
+   "few": 0.7,
+   "field": 0.8,
    "fig": 0.82,
+   "fill": 0.75,
+   "filled": 0.7,
    "fin": 0.82,
+   "finally": 0.8,
    "find": 0.8,
+   "fine": 0.8,
+   "first": 0.7,
    "fish": 0.82,
+   "fishing": 0.7,
    "fit": 0.82,
+   "five": 0.75,
    "fix": 0.82,
    "fizz": 1,
    "flag": 0.75,
    "flat": 0.95,
+   "flies": 0.7,
+   "flowers": 0.7,
+   "fly": 0.7,
    "fog": 0.82,
+   "fold": 0.8,
    "for": 0.7,
+   "fought": 0.75,
+   "found": 0.8,
    "fox": 0.82,
+   "foxes": 0.75,
+   "freight": 0.7,
+   "frog": 0.75,
+   "fudge": 0.8,
    "fun": 0.82,
+   "funny": 0.8,
    "fuss": 0.82,
+   "future": 0.7,
    "fuzz": 1,
+   "game": 0.75,
    "gap": 0.82,
    "gas": 0.82,
    "gash": 0.82,
+   "gate": 0.8,
+   "gates": 0.8,
+   "gave": 0.9,
+   "gem": 0.8,
+   "generous": 0.8,
+   "germ": 0.7,
    "get": 0.82,
+   "gets": 0.75,
+   "getting": 0.75,
+   "gifts": 0.7,
+   "ginger": 0.8,
+   "girl": 0.7,
    "glad": 0.8,
+   "gladly": 0.9,
+   "glasses": 0.75,
+   "glue": 0.75,
    "go": 0.6,
+   "goat": 0.75,
+   "goats": 0.8,
+   "goes": 0.75,
+   "going": 0.75,
+   "gold": 0.75,
    "gong": 0.82,
    "got": 0.82,
    "grab": 0.95,
+   "graph": 0.8,
+   "grass": 0.75,
+   "gravy": 0.8,
+   "green": 0.7,
+   "grey": 0.7,
+   "grilled": 0.7,
    "grin": 0.8,
+   "grow": 0.8,
    "gum": 0.82,
    "gush": 1,
    "gut": 1,
    "had": 0.82,
    "ham": 0.82,
+   "hammer": 0.75,
+   "handful": 0.7,
+   "handle": 0.8,
+   "hands": 0.7,
    "hang": 0.82,
+   "happier": 0.7,
+   "happy": 0.75,
+   "hard": 0.7,
    "has": 0.82,
    "hat": 0.82,
+   "hate": 0.8,
+   "haul": 0.75,
+   "having": 0.7,
    "he": 0.6,
+   "head": 0.8,
+   "hear": 0.7,
+   "heavy": 0.7,
+   "held": 0.8,
    "help": 0.95,
+   "helped": 0.8,
+   "helper": 0.75,
+   "helpful": 0.7,
+   "helpless": 0.8,
    "hem": 1,
    "hen": 0.82,
    "hens": 0.8,
+   "her": 0.8,
+   "here": 0.7,
+   "hey": 0.7,
    "hid": 1,
+   "hide": 0.75,
+   "high": 0.75,
    "hill": 1,
+   "hilltop": 0.9,
    "him": 0.82,
    "hip": 0.82,
    "his": 0.8,
    "hit": 1,
+   "hits": 0.8,
    "hog": 0.82,
    "hold": 0.8,
+   "hole": 0.7,
+   "holes": 0.75,
+   "holiday": 0.8,
+   "home": 0.7,
+   "honey": 0.7,
    "hop": 0.82,
+   "hope": 0.75,
+   "hopeless": 0.7,
+   "horse": 0.7,
    "hot": 0.82,
+   "house": 0.7,
+   "how": 0.8,
    "hub": 1,
    "huff": 1,
    "hug": 1,
+   "huge": 0.75,
    "hum": 0.82,
    "hung": 1,
+   "hunt": 0.75,
+   "hunting": 0.8,
    "hush": 0.82,
    "hut": 1,
    "i": 1,
    "if": 1,
+   "illness": 0.75,
    "in": 0.82,
+   "inside": 0.7,
    "into": 0.8,
    "is": 0.82,
    "it": 0.82,
    "jab": 0.82,
+   "jacket": 0.7,
    "jam": 0.82,
+   "jaw": 0.75,
    "jazz": 1,
+   "jelly": 0.75,
    "jet": 0.82,
    "jig": 0.82,
    "job": 0.82,
    "jog": 0.82,
+   "join": 0.9,
    "jot": 0.82,
+   "joyful": 0.7,
+   "judge": 0.8,
    "jug": 0.82,
+   "jumped": 0.7,
+   "jumper": 0.8,
+   "jumps": 0.75,
    "jut": 1,
    "keg": 1,
    "kick": 0.82,
+   "kicked": 0.7,
    "kid": 0.82,
    "kids": 0.8,
+   "kind": 0.7,
+   "kindly": 0.7,
+   "kindness": 0.7,
    "king": 0.82,
    "kiss": 0.82,
    "kit": 1,
+   "kitten": 0.75,
    "knit": 0.82,
    "knob": 1,
    "knock": 0.82,
    "knot": 1,
    "lab": 0.82,
    "lad": 0.82,
+   "ladder": 0.75,
+   "lady": 0.75,
+   "lake": 0.8,
    "lamb": 0.82,
+   "lamps": 0.8,
    "land": 1,
+   "landed": 0.7,
    "lap": 0.82,
+   "laptop": 0.9,
    "lash": 0.82,
    "last": 0.9,
+   "late": 0.75,
+   "later": 0.7,
+   "laugh": 0.75,
+   "lawn": 0.75,
+   "lay": 0.75,
+   "lazy": 0.75,
+   "leaf": 0.7,
+   "leave": 0.9,
    "led": 0.82,
    "leg": 0.82,
    "let": 1,
    "lick": 1,
+   "licked": 0.9,
    "lid": 0.82,
    "lids": 0.6,
+   "lifted": 0.8,
+   "light": 0.7,
+   "like": 0.75,
+   "liked": 0.8,
+   "likes": 0.8,
    "limb": 0.82,
+   "line": 0.75,
    "lip": 0.82,
    "list": 0.95,
    "lit": 1,
+   "little": 0.9,
+   "live": 0.75,
+   "lived": 0.8,
    "lock": 1,
    "log": 0.82,
+   "logs": 0.8,
    "long": 1,
+   "look": 0.7,
+   "looked": 0.7,
    "loss": 1,
    "lot": 0.82,
+   "lots": 0.7,
+   "loud": 0.75,
    "love": 0.7,
+   "loyal": 0.8,
    "luck": 1,
+   "lucky": 0.75,
    "lug": 1,
+   "lunch": 0.7,
    "lung": 0.82,
    "lush": 1,
+   "machine": 0.75,
    "mad": 0.82,
+   "made": 0.9,
+   "magic": 0.8,
+   "make": 0.7,
+   "makes": 0.8,
    "man": 0.82,
    "map": 0.82,
+   "maple": 0.8,
    "mash": 0.82,
    "mat": 0.82,
+   "match": 0.8,
+   "matches": 0.8,
    "math": 0.82,
    "me": 0.6,
+   "mean": 0.7,
+   "meat": 0.7,
+   "mechanic": 0.75,
+   "meet": 0.75,
+   "meets": 0.7,
    "men": 0.82,
    "mend": 0.8,
    "mess": 0.82,
    "met": 0.82,
+   "middle": 0.7,
+   "might": 0.7,
+   "mild": 0.75,
+   "mile": 0.7,
    "mill": 0.82,
+   "mind": 0.7,
    "miss": 0.82,
+   "mist": 0.7,
+   "mitt": 0.8,
+   "mitten": 0.8,
    "mix": 0.82,
+   "mixed": 0.7,
+   "mixture": 0.8,
    "mob": 1,
    "mom": 0.82,
+   "money": 0.8,
+   "monkey": 0.7,
    "month": 0.7,
+   "moon": 0.7,
    "mop": 0.82,
+   "more": 0.75,
    "moth": 0.82,
+   "mother": 0.75,
+   "motion": 0.75,
+   "mouse": 0.75,
+   "mouthful": 0.8,
    "much": 1,
    "muck": 0.82,
    "mud": 0.82,
+   "muffin": 0.8,
    "mug": 1,
+   "mule": 0.7,
+   "munch": 0.7,
    "mush": 0.82,
    "must": 0.9,
    "nab": 0.82,
+   "nation": 0.7,
+   "nature": 0.75,
+   "near": 0.75,
    "neck": 1,
+   "need": 0.75,
+   "needed": 0.7,
+   "nestle": 0.7,
+   "nests": 0.75,
    "net": 1,
+   "never": 0.75,
+   "new": 0.75,
+   "next": 0.8,
+   "niece": 0.7,
+   "night": 0.75,
+   "nine": 0.8,
    "nix": 0.82,
    "no": 0.7,
    "nod": 0.82,
+   "noise": 0.75,
+   "nose": 0.75,
+   "noses": 0.75,
    "not": 0.82,
+   "note": 0.75,
+   "now": 0.75,
    "nun": 1,
+   "nurse": 0.7,
    "nut": 1,
+   "obey": 0.8,
    "of": 0.9,
    "old": 0.7,
    "on": 0.82,
+   "or": 0.7,
+   "orchestra": 0.7,
+   "other": 0.75,
+   "ought": 0.75,
+   "our": 0.7,
    "out": 0.75,
+   "outside": 0.7,
+   "over": 0.75,
    "ox": 0.82,
    "pack": 0.82,
+   "packed": 0.75,
+   "pail": 0.7,
+   "pain": 0.75,
+   "painful": 0.8,
+   "paint": 0.75,
+   "painted": 0.8,
+   "painter": 0.8,
+   "paper": 0.7,
+   "park": 0.7,
+   "part": 0.75,
    "pat": 0.82,
    "path": 1,
+   "paw": 0.7,
+   "peaceful": 0.7,
    "peck": 0.82,
    "peg": 0.82,
    "pen": 0.82,
+   "pencil": 0.7,
+   "pennies": 0.65,
+   "penny": 0.7,
    "pens": 0.8,
    "pep": 0.82,
+   "pepper": 0.75,
    "pet": 0.82,
+   "phone": 0.75,
+   "photo": 0.8,
    "pick": 1,
+   "picked": 0.75,
+   "picture": 0.6,
+   "pie": 0.75,
+   "piece": 0.75,
    "pig": 0.82,
+   "pigpen": 0.75,
+   "pillow": 0.75,
    "pin": 0.82,
    "ping": 1,
    "pit": 0.82,
+   "pitch": 0.6,
+   "plant": 0.75,
+   "planted": 0.75,
+   "play": 0.75,
+   "player": 0.8,
+   "playful": 0.8,
+   "pocket": 0.7,
    "pod": 0.82,
+   "point": 0.7,
+   "ponies": 0.75,
+   "pool": 0.7,
    "pop": 0.82,
    "posh": 0.82,
    "pot": 0.8,
    "pots": 0.95,
+   "powerful": 0.8,
+   "precious": 0.7,
+   "preview": 0.75,
+   "princess": 0.7,
+   "print": 0.7,
+   "printed": 0.7,
+   "printer": 0.7,
+   "proud": 0.7,
    "puck": 1,
    "puff": 1,
    "pump": 0.95,
    "pun": 0.82,
    "pup": 0.82,
+   "puppet": 0.75,
+   "puppy": 0.7,
+   "purple": 0.7,
    "push": 1,
+   "put": 0.75,
    "quack": 0.82,
    "quick": 1,
+   "quickly": 0.75,
    "quill": 1,
    "quip": 1,
    "quit": 0.82,
+   "quitting": 0.8,
    "quiz": 1,
+   "rabbit": 0.75,
+   "rack": 0.75,
+   "rain": 0.7,
+   "rainbow": 0.8,
    "ram": 0.82,
    "ran": 0.88,
    "rang": 0.82,
    "rap": 0.82,
    "rash": 0.82,
    "rat": 0.82,
+   "reader": 0.7,
+   "ready": 0.8,
    "red": 0.82,
+   "redo": 0.7,
+   "remember": 0.7,
    "rest": 0.95,
+   "rested": 0.7,
+   "retell": 0.7,
+   "return": 0.7,
    "rib": 0.82,
    "rich": 0.8,
+   "rid": 0.7,
    "rig": 1,
+   "right": 0.75,
    "rim": 1,
    "ring": 0.82,
    "rip": 0.82,
+   "road": 0.75,
    "rob": 0.82,
    "rock": 0.82,
+   "rocket": 0.75,
+   "rocks": 0.8,
    "rod": 0.82,
+   "room": 0.7,
    "rot": 1,
    "rough": 0.8,
+   "royal": 0.7,
    "rub": 1,
    "rug": 1,
    "run": 0.82,
    "rung": 0.82,
    "rush": 1,
+   "rustle": 0.75,
    "sack": 0.82,
+   "sacks": 0.8,
    "sad": 0.82,
+   "sadness": 0.8,
    "sag": 0.82,
+   "same": 0.75,
+   "sandbox": 0.75,
+   "sandwich": 0.7,
+   "sandy": 0.75,
    "sang": 0.82,
    "sap": 0.82,
    "sash": 0.82,
    "sat": 0.82,
+   "sauce": 0.75,
+   "save": 0.7,
+   "saved": 0.75,
+   "saw": 0.75,
    "sax": 0.82,
+   "say": 0.75,
    "school": 0.7,
+   "scrap": 0.7,
+   "scratch": 0.8,
+   "scrub": 0.8,
+   "seat": 0.75,
+   "see": 0.9,
+   "seed": 0.7,
+   "seem": 0.75,
+   "seen": 0.75,
    "set": 0.82,
    "shack": 1,
    "sham": 0.82,
    "she": 0.82,
    "shed": 1,
+   "sheep": 0.75,
    "shell": 0.82,
    "shin": 0.82,
+   "shine": 0.75,
    "ship": 0.82,
+   "shirt": 0.75,
    "shock": 1,
    "shop": 0.82,
+   "shore": 0.75,
+   "shot": 0.75,
+   "shouted": 0.7,
+   "show": 0.75,
+   "shrub": 0.75,
    "shun": 1,
    "shut": 0.82,
+   "shy": 0.75,
    "sick": 1,
+   "side": 0.75,
+   "sight": 0.75,
    "silk": 0.8,
+   "silly": 0.75,
+   "simple": 0.7,
    "sing": 0.82,
+   "singer": 0.8,
+   "singing": 0.75,
    "sip": 0.82,
    "sit": 0.82,
+   "sitting": 0.75,
    "six": 0.82,
    "skip": 0.95,
+   "skunk": 0.7,
+   "sky": 0.7,
    "sled": 0.8,
+   "sleep": 0.7,
+   "sleeping": 0.7,
+   "sleigh": 0.7,
    "slid": 0.75,
    "slip": 0.95,
+   "slow": 0.8,
+   "slowly": 0.7,
+   "sly": 0.75,
+   "smell": 0.75,
+   "smelled": 0.8,
+   "smile": 0.75,
+   "smiled": 0.75,
    "snap": 0.95,
+   "snow": 0.8,
    "snug": 0.75,
    "so": 0.6,
    "sob": 1,
+   "social": 0.75,
    "sock": 1,
    "soft": 1.05,
+   "softly": 0.7,
+   "soil": 0.7,
+   "sold": 0.75,
    "some": 0.75,
+   "something": 0.8,
    "song": 0.82,
+   "soon": 0.75,
+   "sore": 0.7,
+   "sound": 0.7,
+   "sounds": 0.7,
+   "special": 0.8,
+   "spelled": 0.7,
+   "spied": 0.75,
+   "spilled": 0.75,
+   "splash": 0.75,
+   "split": 0.7,
+   "spoil": 0.75,
+   "spoonful": 0.75,
    "spot": 0.8,
+   "spots": 0.7,
+   "spread": 0.8,
+   "spring": 0.8,
+   "spy": 0.75,
+   "squash": 0.8,
+   "stamp": 0.75,
+   "stand": 0.75,
+   "start": 0.75,
+   "started": 0.8,
+   "station": 0.8,
+   "stay": 0.75,
+   "stomach": 0.8,
+   "stomp": 0.7,
    "stop": 0.95,
+   "stopped": 0.75,
+   "stopping": 0.75,
+   "store": 0.75,
+   "story": 0.8,
+   "strap": 0.7,
+   "straw": 0.75,
+   "string": 0.75,
+   "strip": 0.7,
+   "strong": 0.75,
    "sub": 1,
    "such": 1,
    "sum": 0.82,
    "sun": 0.82,
    "sung": 1,
+   "sunny": 0.75,
+   "sunset": 0.8,
+   "survey": 0.75,
    "swam": 0.75,
+   "swan": 0.7,
+   "swap": 0.7,
    "swim": 0.8,
+   "swimming": 0.75,
    "tab": 0.82,
+   "table": 0.8,
    "tack": 1,
    "tag": 0.82,
+   "tail": 0.75,
+   "take": 0.8,
+   "talk": 0.75,
+   "talked": 0.8,
+   "talking": 0.75,
+   "talks": 0.75,
+   "tame": 0.75,
    "tan": 0.82,
    "tap": 0.83,
+   "tar": 0.75,
+   "teach": 0.75,
+   "teacher": 0.7,
+   "teaching": 0.7,
+   "teeth": 0.7,
    "tell": 0.82,
    "ten": 0.82,
+   "tents": 0.7,
+   "than": 0.65,
+   "thank": 0.75,
+   "thankful": 0.7,
    "that": 0.82,
    "the": 1,
    "them": 1,
    "then": 0.82,
+   "these": 0.6,
    "thick": 1,
    "thin": 0.82,
+   "thing": 0.7,
+   "things": 0.6,
    "think": 0.8,
+   "third": 0.8,
    "this": 0.82,
+   "thistle": 0.75,
+   "those": 0.6,
    "though": 0.7,
+   "thought": 0.7,
+   "thread": 0.7,
    "through": 0.7,
+   "throw": 0.7,
    "thud": 0.82,
    "thumb": 0.82,
+   "thump": 0.7,
+   "thunder": 0.75,
    "tick": 0.82,
+   "tie": 0.75,
+   "tiger": 0.75,
+   "tigers": 0.75,
+   "time": 0.75,
    "tin": 0.82,
    "tip": 0.82,
    "to": 1,
+   "toe": 0.7,
+   "told": 0.7,
+   "too": 0.7,
+   "took": 0.8,
+   "tooth": 0.7,
    "top": 0.82,
    "tops": 0.8,
+   "tore": 0.75,
+   "torn": 0.7,
    "tot": 0.82,
    "tough": 0.7,
+   "town": 0.75,
+   "toy": 0.6,
    "trap": 0.8,
+   "tree": 0.7,
+   "trees": 0.7,
+   "tried": 0.75,
    "trip": 0.95,
+   "true": 0.7,
+   "trunk": 0.8,
+   "try": 0.7,
    "tub": 1,
    "tuck": 1,
    "tug": 1,
+   "turn": 0.7,
    "twig": 0.8,
    "twin": 0.95,
+   "umbrella": 0.7,
+   "uncle": 0.8,
+   "under": 0.9,
+   "undo": 0.8,
+   "unfair": 0.75,
+   "unhappy": 0.7,
+   "unlock": 0.7,
    "up": 0.82,
    "us": 0.82,
+   "use": 0.7,
+   "useful": 0.75,
+   "valley": 0.75,
    "van": 0.82,
    "vat": 0.82,
+   "very": 0.75,
    "vet": 0.82,
    "vex": 0.82,
+   "waffle": 0.75,
    "wag": 0.82,
+   "walk": 0.75,
+   "walked": 0.75,
+   "walking": 0.8,
+   "wallet": 0.7,
+   "wand": 0.75,
    "want": 0.75,
+   "wanted": 0.8,
    "was": 0.82,
    "wash": 0.82,
+   "watch": 0.8,
+   "water": 0.7,
+   "waves": 0.75,
    "wax": 0.82,
+   "way": 0.7,
    "we": 0.6,
+   "weather": 0.8,
    "web": 1,
    "wed": 1,
+   "weigh": 0.75,
+   "weight": 0.75,
    "well": 0.82,
    "went": 1,
    "were": 0.8,
@@ -3109,31 +3703,55 @@
    "wham": 0.82,
    "what": 0.82,
    "when": 0.82,
+   "where": 0.8,
    "which": 0.9,
    "whiff": 1,
    "whim": 0.82,
    "whip": 0.82,
+   "whisper": 0.7,
+   "whistle": 0.7,
+   "white": 0.75,
    "whizz": 0.82,
+   "why": 0.75,
    "wick": 1,
+   "wild": 0.8,
    "win": 0.82,
+   "windmill": 0.75,
+   "window": 0.7,
+   "windy": 0.7,
    "wing": 0.82,
    "wish": 0.82,
+   "wishes": 0.75,
    "wit": 0.82,
    "with": 0.82,
+   "wonderful": 0.75,
+   "worker": 0.8,
+   "wow": 0.7,
    "wrap": 0.82,
    "wreck": 1,
    "wren": 0.82,
+   "wrestle": 0.7,
    "wrong": 1,
    "yak": 0.82,
    "yam": 0.82,
    "yap": 0.82,
+   "yard": 0.7,
+   "yawn": 0.75,
+   "year": 0.7,
+   "yell": 0.75,
+   "yelled": 0.7,
+   "yelling": 0.7,
+   "yellow": 0.75,
    "yes": 0.82,
+   "yesterday": 0.7,
    "yet": 0.82,
    "you": 1,
+   "young": 0.75,
    "zag": 0.82,
    "zap": 0.82,
    "zig": 0.82,
-   "zip": 0.82
+   "zip": 0.82,
+   "zoom": 0.7
   }
  },
  "d:air": {
@@ -3147,6 +3765,12 @@
   "lead": 40,
   "ms": 408,
   "tail": 58
+ },
+ "d:aw": {
+  "file": "d-aw.mp3",
+  "lead": 50,
+  "ms": 288,
+  "tail": 8
  },
  "d:b": {
   "file": "d-b.mp3",
@@ -3165,6 +3789,12 @@
   "lead": 190,
   "ms": 768,
   "tail": 428
+ },
+ "d:ear": {
+  "file": "d-ear.mp3",
+  "lead": 100,
+  "ms": 624,
+  "tail": 94
  },
  "d:er": {
   "file": "d-er.mp3",
@@ -3238,6 +3868,12 @@
   "ms": 1080,
   "tail": 430
  },
+ "d:long_u": {
+  "file": "d-long_u.mp3",
+  "lead": 200,
+  "ms": 1032,
+  "tail": 412
+ },
  "d:m": {
   "file": "d-m.mp3",
   "lead": 40,
@@ -3261,6 +3897,12 @@
   "lead": 90,
   "ms": 576,
   "tail": 126
+ },
+ "d:oi": {
+  "file": "d-oi.mp3",
+  "lead": 200,
+  "ms": 1032,
+  "tail": 412
  },
  "d:oo_book": {
   "file": "d-oo_book.mp3",
@@ -3544,1277 +4186,17 @@
   "ms": 1980,
   "tail": 380
  },
- "s:cur-l1-01": {
-  "file": "s-cur-l1-01.mp3",
-  "lead": 80,
-  "ms": 917,
-  "tail": 224
- },
- "s:cur-l1-02": {
-  "file": "s-cur-l1-02.mp3",
-  "lead": 70,
-  "ms": 874,
-  "tail": 236
- },
- "s:cur-l10-01": {
-  "file": "s-cur-l10-01.mp3",
-  "lead": 90,
-  "ms": 1173,
-  "tail": 124
- },
- "s:cur-l10-02": {
-  "file": "s-cur-l10-02.mp3",
-  "lead": 100,
-  "ms": 1237,
-  "tail": 116
- },
- "s:cur-l10-03": {
-  "file": "s-cur-l10-03.mp3",
-  "lead": 110,
-  "ms": 1258,
-  "tail": 110
- },
- "s:cur-l10-04": {
-  "file": "s-cur-l10-04.mp3",
-  "lead": 120,
-  "ms": 1365,
-  "tail": 96
- },
- "s:cur-l10-05": {
-  "file": "s-cur-l10-05.mp3",
-  "lead": 80,
-  "ms": 874,
-  "tail": 106
- },
- "s:cur-l11-01": {
-  "file": "s-cur-l11-01.mp3",
-  "lead": 120,
-  "ms": 1024,
-  "tail": 150
- },
- "s:cur-l11-02": {
-  "file": "s-cur-l11-02.mp3",
-  "lead": 80,
-  "ms": 1088,
-  "tail": 172
- },
- "s:cur-l11-03": {
-  "file": "s-cur-l11-03.mp3",
-  "lead": 80,
-  "ms": 960,
-  "tail": 188
- },
- "s:cur-l11-04": {
-  "file": "s-cur-l11-04.mp3",
-  "lead": 90,
-  "ms": 1685,
-  "tail": 112
- },
- "s:cur-l11-05": {
-  "file": "s-cur-l11-05.mp3",
-  "lead": 110,
-  "ms": 1237,
-  "tail": 106
- },
- "s:cur-l12-01": {
-  "file": "s-cur-l12-01.mp3",
-  "lead": 90,
-  "ms": 1024,
-  "tail": 140
- },
- "s:cur-l12-02": {
-  "file": "s-cur-l12-02.mp3",
-  "lead": 80,
-  "ms": 1109,
-  "tail": 146
- },
- "s:cur-l12-03": {
-  "file": "s-cur-l12-03.mp3",
-  "lead": 100,
-  "ms": 1472,
-  "tail": 106
- },
- "s:cur-l12-04": {
-  "file": "s-cur-l12-04.mp3",
-  "lead": 80,
-  "ms": 1024,
-  "tail": 130
- },
- "s:cur-l12-05": {
-  "file": "s-cur-l12-05.mp3",
-  "lead": 90,
-  "ms": 1152,
-  "tail": 120
- },
- "s:cur-l12-06": {
-  "file": "s-cur-l12-06.mp3",
-  "lead": 100,
-  "ms": 1301,
-  "tail": 98
- },
- "s:cur-l2-01": {
-  "file": "s-cur-l2-01.mp3",
-  "lead": 90,
-  "ms": 938,
-  "tail": 218
- },
- "s:cur-l2-02": {
-  "file": "s-cur-l2-02.mp3",
-  "lead": 80,
-  "ms": 832,
-  "tail": 178
- },
- "s:cur-l2-03": {
-  "file": "s-cur-l2-03.mp3",
-  "lead": 90,
-  "ms": 960,
-  "tail": 158
- },
- "s:cur-l2-04": {
-  "file": "s-cur-l2-04.mp3",
-  "lead": 80,
-  "ms": 1002,
-  "tail": 126
- },
- "s:cur-l2-05": {
-  "file": "s-cur-l2-05.mp3",
-  "lead": 70,
-  "ms": 938,
-  "tail": 178
- },
- "s:cur-l3-01": {
-  "file": "s-cur-l3-01.mp3",
-  "lead": 100,
-  "ms": 1301,
-  "tail": 128
- },
- "s:cur-l3-02": {
-  "file": "s-cur-l3-02.mp3",
-  "lead": 120,
-  "ms": 1216,
-  "tail": 132
- },
- "s:cur-l3-03": {
-  "file": "s-cur-l3-03.mp3",
-  "lead": 100,
-  "ms": 1152,
-  "tail": 90
- },
- "s:cur-l4-01": {
-  "file": "s-cur-l4-01.mp3",
-  "lead": 90,
-  "ms": 960,
-  "tail": 168
- },
- "s:cur-l4-02": {
-  "file": "s-cur-l4-02.mp3",
-  "lead": 110,
-  "ms": 1322,
-  "tail": 142
- },
- "s:cur-l4-04": {
-  "file": "s-cur-l4-04.mp3",
-  "lead": 80,
-  "ms": 1194,
-  "tail": 98
- },
- "s:cur-l4-05": {
-  "file": "s-cur-l4-05.mp3",
-  "lead": 130,
-  "ms": 1365,
-  "tail": 86
- },
- "s:cur-l5-01": {
-  "file": "s-cur-l5-01.mp3",
-  "lead": 70,
-  "ms": 917,
-  "tail": 174
- },
- "s:cur-l5-02": {
-  "file": "s-cur-l5-02.mp3",
-  "lead": 80,
-  "ms": 853,
-  "tail": 152
- },
- "s:cur-l5-03": {
-  "file": "s-cur-l5-03.mp3",
-  "lead": 80,
-  "ms": 1109,
-  "tail": 106
- },
- "s:cur-l6-01": {
-  "file": "s-cur-l6-01.mp3",
-  "lead": 80,
-  "ms": 1109,
-  "tail": 136
- },
- "s:cur-l6-02": {
-  "file": "s-cur-l6-02.mp3",
-  "lead": 80,
-  "ms": 1173,
-  "tail": 124
- },
- "s:cur-l6-03": {
-  "file": "s-cur-l6-03.mp3",
-  "lead": 70,
-  "ms": 1258,
-  "tail": 110
- },
- "s:cur-l6-04": {
-  "file": "s-cur-l6-04.mp3",
-  "lead": 90,
-  "ms": 1194,
-  "tail": 128
- },
- "s:cur-l6-05": {
-  "file": "s-cur-l6-05.mp3",
-  "lead": 120,
-  "ms": 1386,
-  "tail": 90
- },
- "s:cur-l7-01": {
-  "file": "s-cur-l7-01.mp3",
-  "lead": 100,
-  "ms": 1344,
-  "tail": 82
- },
- "s:cur-l7-02": {
-  "file": "s-cur-l7-02.mp3",
-  "lead": 80,
-  "ms": 1109,
-  "tail": 166
- },
- "s:cur-l7-03": {
-  "file": "s-cur-l7-03.mp3",
-  "lead": 120,
-  "ms": 1109,
-  "tail": 156
- },
- "s:cur-l7-04": {
-  "file": "s-cur-l7-04.mp3",
-  "lead": 80,
-  "ms": 1109,
-  "tail": 146
- },
- "s:cur-l7-05": {
-  "file": "s-cur-l7-05.mp3",
-  "lead": 120,
-  "ms": 917,
-  "tail": 164
- },
- "s:cur-l8-01": {
-  "file": "s-cur-l8-01.mp3",
-  "lead": 90,
-  "ms": 1024,
-  "tail": 120
- },
- "s:cur-l8-02": {
-  "file": "s-cur-l8-02.mp3",
-  "lead": 100,
-  "ms": 1066,
-  "tail": 158
- },
- "s:cur-l8-03": {
-  "file": "s-cur-l8-03.mp3",
-  "lead": 80,
-  "ms": 1045,
-  "tail": 124
- },
- "s:cur-l8-04": {
-  "file": "s-cur-l8-04.mp3",
-  "lead": 100,
-  "ms": 1322,
-  "tail": 132
- },
- "s:cur-l8-05": {
-  "file": "s-cur-l8-05.mp3",
-  "lead": 70,
-  "ms": 1173,
-  "tail": 124
- },
- "s:cur-l9-01": {
-  "file": "s-cur-l9-01.mp3",
-  "lead": 110,
-  "ms": 1152,
-  "tail": 90
- },
- "s:cur-l9-02": {
-  "file": "s-cur-l9-02.mp3",
-  "lead": 100,
-  "ms": 1493,
-  "tail": 90
- },
- "s:cur-l9-03": {
-  "file": "s-cur-l9-03.mp3",
-  "lead": 110,
-  "ms": 1429,
-  "tail": 158
- },
- "s:cur-l9-04": {
-  "file": "s-cur-l9-04.mp3",
-  "lead": 90,
-  "ms": 1216,
-  "tail": 82
- },
- "s:cur-l9-05": {
-  "file": "s-cur-l9-05.mp3",
-  "lead": 100,
-  "ms": 1173,
-  "tail": 94
- },
  "s:is": {
   "file": "s-is.mp3",
   "lead": 170,
   "ms": 1297,
   "tail": 498
  },
- "s:mode-b2-s01": {
-  "file": "s-mode-b2-s01.mp3",
-  "lead": 200,
-  "ms": 2001,
-  "tail": 404
- },
- "s:mode-b2-s02": {
-  "file": "s-mode-b2-s02.mp3",
-  "lead": 150,
-  "ms": 1745,
-  "tail": 380
- },
- "s:mode-b2-s03": {
-  "file": "s-mode-b2-s03.mp3",
-  "lead": 180,
-  "ms": 1745,
-  "tail": 430
- },
- "s:mode-b2-s04": {
-  "file": "s-mode-b2-s04.mp3",
-  "lead": 180,
-  "ms": 1873,
-  "tail": 424
- },
- "s:mode-b2-s05": {
-  "file": "s-mode-b2-s05.mp3",
-  "lead": 180,
-  "ms": 1980,
-  "tail": 390
- },
- "s:mode-b2-s06": {
-  "file": "s-mode-b2-s06.mp3",
-  "lead": 200,
-  "ms": 2236,
-  "tail": 424
- },
- "s:mode-b2-s07": {
-  "file": "s-mode-b2-s07.mp3",
-  "lead": 210,
-  "ms": 1830,
-  "tail": 416
- },
- "s:mode-b2-s08": {
-  "file": "s-mode-b2-s08.mp3",
-  "lead": 180,
-  "ms": 1766,
-  "tail": 414
- },
- "s:mode-b2-s09": {
-  "file": "s-mode-b2-s09.mp3",
-  "lead": 190,
-  "ms": 2044,
-  "tail": 422
- },
- "s:mode-b2-s10": {
-  "file": "s-mode-b2-s10.mp3",
-  "lead": 210,
-  "ms": 2001,
-  "tail": 394
- },
- "s:mode-b2-s11": {
-  "file": "s-mode-b2-s11.mp3",
-  "lead": 210,
-  "ms": 2001,
-  "tail": 414
- },
- "s:mode-b2-s12": {
-  "file": "s-mode-b2-s12.mp3",
-  "lead": 170,
-  "ms": 1873,
-  "tail": 404
- },
- "s:mode-b2-s13": {
-  "file": "s-mode-b2-s13.mp3",
-  "lead": 180,
-  "ms": 1958,
-  "tail": 386
- },
- "s:mode-b2-s14": {
-  "file": "s-mode-b2-s14.mp3",
-  "lead": 190,
-  "ms": 2150,
-  "tail": 428
- },
- "s:mode-b2-s17": {
-  "file": "s-mode-b2-s17.mp3",
-  "lead": 170,
-  "ms": 2236,
-  "tail": 404
- },
- "s:mode-b2-s18": {
-  "file": "s-mode-b2-s18.mp3",
-  "lead": 170,
-  "ms": 1724,
-  "tail": 406
- },
- "s:mode-b2-s19": {
-  "file": "s-mode-b2-s19.mp3",
-  "lead": 180,
-  "ms": 1724,
-  "tail": 426
- },
- "s:mode-b2-s20": {
-  "file": "s-mode-b2-s20.mp3",
-  "lead": 190,
-  "ms": 1702,
-  "tail": 382
- },
- "s:mode-b3-s01": {
-  "file": "s-mode-b3-s01.mp3",
-  "lead": 170,
-  "ms": 1425,
-  "tail": 458
- },
- "s:mode-b3-s02": {
-  "file": "s-mode-b3-s02.mp3",
-  "lead": 180,
-  "ms": 1446,
-  "tail": 422
- },
- "s:mode-b3-s03": {
-  "file": "s-mode-b3-s03.mp3",
-  "lead": 160,
-  "ms": 1446,
-  "tail": 472
- },
- "s:mode-b3-s04": {
-  "file": "s-mode-b3-s04.mp3",
-  "lead": 160,
-  "ms": 1190,
-  "tail": 458
- },
- "s:mode-b3-s05": {
-  "file": "s-mode-b3-s05.mp3",
-  "lead": 160,
-  "ms": 1468,
-  "tail": 426
- },
- "s:mode-b3-s06": {
-  "file": "s-mode-b3-s06.mp3",
-  "lead": 190,
-  "ms": 1574,
-  "tail": 392
- },
- "s:mode-b3-s07": {
-  "file": "s-mode-b3-s07.mp3",
-  "lead": 200,
-  "ms": 1788,
-  "tail": 418
- },
- "s:mode-b3-s08": {
-  "file": "s-mode-b3-s08.mp3",
-  "lead": 190,
-  "ms": 1724,
-  "tail": 406
- },
- "s:mode-b3-s09": {
-  "file": "s-mode-b3-s09.mp3",
-  "lead": 170,
-  "ms": 1361,
-  "tail": 426
- },
- "s:mode-b3-s10": {
-  "file": "s-mode-b3-s10.mp3",
-  "lead": 200,
-  "ms": 1809,
-  "tail": 422
- },
- "s:mode-b3-s11": {
-  "file": "s-mode-b3-s11.mp3",
-  "lead": 170,
-  "ms": 1852,
-  "tail": 440
- },
- "s:mode-b3-s12": {
-  "file": "s-mode-b3-s12.mp3",
-  "lead": 200,
-  "ms": 1980,
-  "tail": 380
- },
- "s:mode-b3-s13": {
-  "file": "s-mode-b3-s13.mp3",
-  "lead": 170,
-  "ms": 1532,
-  "tail": 404
- },
- "s:mode-b3-s14": {
-  "file": "s-mode-b3-s14.mp3",
-  "lead": 160,
-  "ms": 1681,
-  "tail": 422
- },
- "s:mode-b3-s15": {
-  "file": "s-mode-b3-s15.mp3",
-  "lead": 180,
-  "ms": 1980,
-  "tail": 400
- },
- "s:mode-b3-s16": {
-  "file": "s-mode-b3-s16.mp3",
-  "lead": 200,
-  "ms": 1937,
-  "tail": 392
- },
- "s:mode-b3-s17": {
-  "file": "s-mode-b3-s17.mp3",
-  "lead": 200,
-  "ms": 1852,
-  "tail": 410
- },
- "s:mode-b3-s18": {
-  "file": "s-mode-b3-s18.mp3",
-  "lead": 200,
-  "ms": 1830,
-  "tail": 416
- },
- "s:mode-b3-s19": {
-  "file": "s-mode-b3-s19.mp3",
-  "lead": 180,
-  "ms": 1724,
-  "tail": 386
- },
- "s:mode-b3-s20": {
-  "file": "s-mode-b3-s20.mp3",
-  "lead": 190,
-  "ms": 1830,
-  "tail": 446
- },
- "s:mode-b3-s21": {
-  "file": "s-mode-b3-s21.mp3",
-  "lead": 160,
-  "ms": 1489,
-  "tail": 430
- },
- "s:mode-b3-s22": {
-  "file": "s-mode-b3-s22.mp3",
-  "lead": 170,
-  "ms": 1574,
-  "tail": 432
- },
- "s:mode-b3-s23": {
-  "file": "s-mode-b3-s23.mp3",
-  "lead": 180,
-  "ms": 1809,
-  "tail": 422
- },
- "s:mode-b3-s24": {
-  "file": "s-mode-b3-s24.mp3",
-  "lead": 180,
-  "ms": 1830,
-  "tail": 406
- },
- "s:mode-b3-s25": {
-  "file": "s-mode-b3-s25.mp3",
-  "lead": 170,
-  "ms": 1830,
-  "tail": 416
- },
- "s:mode-b3-s26": {
-  "file": "s-mode-b3-s26.mp3",
-  "lead": 180,
-  "ms": 1873,
-  "tail": 414
- },
- "s:mode-b3-s27": {
-  "file": "s-mode-b3-s27.mp3",
-  "lead": 180,
-  "ms": 1788,
-  "tail": 408
- },
- "s:mode-b3-s28": {
-  "file": "s-mode-b3-s28.mp3",
-  "lead": 180,
-  "ms": 1916,
-  "tail": 398
- },
- "s:mode-b3-s29": {
-  "file": "s-mode-b3-s29.mp3",
-  "lead": 160,
-  "ms": 2022,
-  "tail": 408
- },
- "s:mode-b3-s30": {
-  "file": "s-mode-b3-s30.mp3",
-  "lead": 160,
-  "ms": 1980,
-  "tail": 430
- },
- "s:mode-b3-s31": {
-  "file": "s-mode-b3-s31.mp3",
-  "lead": 180,
-  "ms": 1916,
-  "tail": 388
- },
- "s:mode-s01": {
-  "file": "s-mode-s01.mp3",
-  "lead": 180,
-  "ms": 1638,
-  "tail": 414
- },
- "s:mode-s02": {
-  "file": "s-mode-s02.mp3",
-  "lead": 170,
-  "ms": 1574,
-  "tail": 412
- },
- "s:mode-s03": {
-  "file": "s-mode-s03.mp3",
-  "lead": 200,
-  "ms": 1745,
-  "tail": 420
- },
- "s:mode-s04": {
-  "file": "s-mode-s04.mp3",
-  "lead": 180,
-  "ms": 1745,
-  "tail": 400
- },
- "s:mode-s05": {
-  "file": "s-mode-s05.mp3",
-  "lead": 160,
-  "ms": 1681,
-  "tail": 432
- },
- "s:mode-s06": {
-  "file": "s-mode-s06.mp3",
-  "lead": 210,
-  "ms": 1724,
-  "tail": 426
- },
- "s:mode-s07": {
-  "file": "s-mode-s07.mp3",
-  "lead": 160,
-  "ms": 1489,
-  "tail": 460
- },
- "s:mode-s08": {
-  "file": "s-mode-s08.mp3",
-  "lead": 180,
-  "ms": 1724,
-  "tail": 416
- },
- "s:mode-s09": {
-  "file": "s-mode-s09.mp3",
-  "lead": 180,
-  "ms": 1724,
-  "tail": 396
- },
- "s:mode-s10": {
-  "file": "s-mode-s10.mp3",
-  "lead": 160,
-  "ms": 1638,
-  "tail": 424
- },
- "s:mode-s11": {
-  "file": "s-mode-s11.mp3",
-  "lead": 170,
-  "ms": 1446,
-  "tail": 452
- },
- "s:mode-s12": {
-  "file": "s-mode-s12.mp3",
-  "lead": 190,
-  "ms": 1574,
-  "tail": 382
- },
- "s:mode-s13": {
-  "file": "s-mode-s13.mp3",
-  "lead": 160,
-  "ms": 1510,
-  "tail": 440
- },
- "s:mode-s14": {
-  "file": "s-mode-s14.mp3",
-  "lead": 170,
-  "ms": 1532,
-  "tail": 394
- },
- "s:mode-s15": {
-  "file": "s-mode-s15.mp3",
-  "lead": 170,
-  "ms": 1510,
-  "tail": 430
- },
- "s:mode-s16": {
-  "file": "s-mode-s16.mp3",
-  "lead": 150,
-  "ms": 1788,
-  "tail": 398
- },
- "s:mode-s17": {
-  "file": "s-mode-s17.mp3",
-  "lead": 160,
-  "ms": 1681,
-  "tail": 412
- },
- "s:mode-s18": {
-  "file": "s-mode-s18.mp3",
-  "lead": 190,
-  "ms": 1788,
-  "tail": 378
- },
- "s:mode-s19": {
-  "file": "s-mode-s19.mp3",
-  "lead": 160,
-  "ms": 1446,
-  "tail": 412
- },
- "s:mode-s20": {
-  "file": "s-mode-s20.mp3",
-  "lead": 190,
-  "ms": 1724,
-  "tail": 406
- },
- "s:mode-wm-wm01": {
-  "file": "s-mode-wm-wm01.mp3",
-  "lead": 150,
-  "ms": 1532,
-  "tail": 434
- },
- "s:mode-wm-wm02": {
-  "file": "s-mode-wm-wm02.mp3",
-  "lead": 170,
-  "ms": 1489,
-  "tail": 440
- },
- "s:mode-wm-wm03": {
-  "file": "s-mode-wm-wm03.mp3",
-  "lead": 170,
-  "ms": 1617,
-  "tail": 440
- },
- "s:mode-wm-wm04": {
-  "file": "s-mode-wm-wm04.mp3",
-  "lead": 140,
-  "ms": 1596,
-  "tail": 406
- },
- "s:mode-wm-wm06": {
-  "file": "s-mode-wm-wm06.mp3",
-  "lead": 160,
-  "ms": 1532,
-  "tail": 444
- },
- "s:mode-wm-wm07": {
-  "file": "s-mode-wm-wm07.mp3",
-  "lead": 180,
-  "ms": 1617,
-  "tail": 410
- },
- "s:mode-wm-wm08": {
-  "file": "s-mode-wm-wm08.mp3",
-  "lead": 160,
-  "ms": 1788,
-  "tail": 428
- },
- "s:mode-wm-wm09": {
-  "file": "s-mode-wm-wm09.mp3",
-  "lead": 140,
-  "ms": 1148,
-  "tail": 490
- },
- "s:mode-wm-wm10": {
-  "file": "s-mode-wm-wm10.mp3",
-  "lead": 160,
-  "ms": 1809,
-  "tail": 412
- },
- "s:mode-wm-wm11": {
-  "file": "s-mode-wm-wm11.mp3",
-  "lead": 170,
-  "ms": 1809,
-  "tail": 432
- },
- "s:mode-wm-wm12": {
-  "file": "s-mode-wm-wm12.mp3",
-  "lead": 160,
-  "ms": 1574,
-  "tail": 462
- },
- "s:mode-wm-wm14": {
-  "file": "s-mode-wm-wm14.mp3",
-  "lead": 130,
-  "ms": 1212,
-  "tail": 512
- },
- "s:mode-wm-wm15": {
-  "file": "s-mode-wm-wm15.mp3",
-  "lead": 180,
-  "ms": 1638,
-  "tail": 454
- },
- "s:mode-wm-wm17": {
-  "file": "s-mode-wm-wm17.mp3",
-  "lead": 170,
-  "ms": 1873,
-  "tail": 454
- },
- "s:mode-wm-wm19": {
-  "file": "s-mode-wm-wm19.mp3",
-  "lead": 130,
-  "ms": 1681,
-  "tail": 452
- },
- "s:mode-wm-wm20": {
-  "file": "s-mode-wm-wm20.mp3",
-  "lead": 160,
-  "ms": 1788,
-  "tail": 448
- },
- "s:mode-wm-wm21": {
-  "file": "s-mode-wm-wm21.mp3",
-  "lead": 130,
-  "ms": 1169,
-  "tail": 454
- },
- "s:mode-wm-wm22": {
-  "file": "s-mode-wm-wm22.mp3",
-  "lead": 160,
-  "ms": 1702,
-  "tail": 432
- },
- "s:mode-wm-wm23": {
-  "file": "s-mode-wm-wm23.mp3",
-  "lead": 140,
-  "ms": 1809,
-  "tail": 462
- },
  "s:pronounced": {
   "file": "s-pronounced.mp3",
   "lead": 120,
   "ms": 1104,
   "tail": 354
- },
- "s:r5-01": {
-  "file": "s-r5-01.mp3",
-  "lead": 70,
-  "ms": 896,
-  "tail": 230
- },
- "s:r5-02": {
-  "file": "s-r5-02.mp3",
-  "lead": 90,
-  "ms": 1088,
-  "tail": 102
- },
- "s:r5-03": {
-  "file": "s-r5-03.mp3",
-  "lead": 90,
-  "ms": 1045,
-  "tail": 154
- },
- "s:r5-04": {
-  "file": "s-r5-04.mp3",
-  "lead": 90,
-  "ms": 1130,
-  "tail": 140
- },
- "s:r5-05": {
-  "file": "s-r5-05.mp3",
-  "lead": 80,
-  "ms": 1130,
-  "tail": 100
- },
- "s:r5-06": {
-  "file": "s-r5-06.mp3",
-  "lead": 90,
-  "ms": 1386,
-  "tail": 120
- },
- "s:r5-07": {
-  "file": "s-r5-07.mp3",
-  "lead": 80,
-  "ms": 1237,
-  "tail": 126
- },
- "s:r5-08": {
-  "file": "s-r5-08.mp3",
-  "lead": 80,
-  "ms": 874,
-  "tail": 206
- },
- "s:r5-09": {
-  "file": "s-r5-09.mp3",
-  "lead": 80,
-  "ms": 981,
-  "tail": 152
- },
- "s:r5-10": {
-  "file": "s-r5-10.mp3",
-  "lead": 80,
-  "ms": 917,
-  "tail": 144
- },
- "s:r5-11": {
-  "file": "s-r5-11.mp3",
-  "lead": 110,
-  "ms": 1216,
-  "tail": 82
- },
- "s:r5-12": {
-  "file": "s-r5-12.mp3",
-  "lead": 90,
-  "ms": 1109,
-  "tail": 156
- },
- "s:r5-13": {
-  "file": "s-r5-13.mp3",
-  "lead": 80,
-  "ms": 874,
-  "tail": 186
- },
- "s:r5-14": {
-  "file": "s-r5-14.mp3",
-  "lead": 100,
-  "ms": 1322,
-  "tail": 102
- },
- "s:r5-15": {
-  "file": "s-r5-15.mp3",
-  "lead": 120,
-  "ms": 1066,
-  "tail": 158
- },
- "s:r5-16": {
-  "file": "s-r5-16.mp3",
-  "lead": 120,
-  "ms": 1216,
-  "tail": 82
- },
- "s:r5-17": {
-  "file": "s-r5-17.mp3",
-  "lead": 100,
-  "ms": 1152,
-  "tail": 130
- },
- "s:r5-18": {
-  "file": "s-r5-18.mp3",
-  "lead": 90,
-  "ms": 1152,
-  "tail": 130
- },
- "s:r5-19": {
-  "file": "s-r5-19.mp3",
-  "lead": 100,
-  "ms": 1344,
-  "tail": 102
- },
- "s:r5-20": {
-  "file": "s-r5-20.mp3",
-  "lead": 70,
-  "ms": 960,
-  "tail": 198
- },
- "s:r5-21": {
-  "file": "s-r5-21.mp3",
-  "lead": 70,
-  "ms": 1045,
-  "tail": 184
- },
- "s:r5-22": {
-  "file": "s-r5-22.mp3",
-  "lead": 110,
-  "ms": 1301,
-  "tail": 118
- },
- "s:r5-23": {
-  "file": "s-r5-23.mp3",
-  "lead": 70,
-  "ms": 1024,
-  "tail": 160
- },
- "s:r5-24": {
-  "file": "s-r5-24.mp3",
-  "lead": 110,
-  "ms": 1429,
-  "tail": 98
- },
- "s:r5-25": {
-  "file": "s-r5-25.mp3",
-  "lead": 90,
-  "ms": 1322,
-  "tail": 122
- },
- "s:r5-26": {
-  "file": "s-r5-26.mp3",
-  "lead": 80,
-  "ms": 1258,
-  "tail": 100
- },
- "s:r5-27": {
-  "file": "s-r5-27.mp3",
-  "lead": 90,
-  "ms": 960,
-  "tail": 158
- },
- "s:r5-28": {
-  "file": "s-r5-28.mp3",
-  "lead": 100,
-  "ms": 1322,
-  "tail": 102
- },
- "s:r5-29": {
-  "file": "s-r5-29.mp3",
-  "lead": 100,
-  "ms": 1280,
-  "tail": 124
- },
- "s:r5-30": {
-  "file": "s-r5-30.mp3",
-  "lead": 100,
-  "ms": 1365,
-  "tail": 86
- },
- "s:r5-31": {
-  "file": "s-r5-31.mp3",
-  "lead": 130,
-  "ms": 1258,
-  "tail": 120
- },
- "s:r5-32": {
-  "file": "s-r5-32.mp3",
-  "lead": 70,
-  "ms": 1557,
-  "tail": 108
- },
- "s:r5-33": {
-  "file": "s-r5-33.mp3",
-  "lead": 100,
-  "ms": 1450,
-  "tail": 122
- },
- "s:r5-34": {
-  "file": "s-r5-34.mp3",
-  "lead": 90,
-  "ms": 896,
-  "tail": 190
- },
- "s:r5-35": {
-  "file": "s-r5-35.mp3",
-  "lead": 110,
-  "ms": 1450,
-  "tail": 102
- },
- "s:r5-36": {
-  "file": "s-r5-36.mp3",
-  "lead": 110,
-  "ms": 1237,
-  "tail": 106
- },
- "s:r5-37": {
-  "file": "s-r5-37.mp3",
-  "lead": 90,
-  "ms": 1152,
-  "tail": 140
- },
- "s:r5-38": {
-  "file": "s-r5-38.mp3",
-  "lead": 110,
-  "ms": 1216,
-  "tail": 102
- },
- "s:r5-39": {
-  "file": "s-r5-39.mp3",
-  "lead": 130,
-  "ms": 1173,
-  "tail": 124
- },
- "s:r5-40": {
-  "file": "s-r5-40.mp3",
-  "lead": 110,
-  "ms": 1429,
-  "tail": 108
- },
- "s:r5-41": {
-  "file": "s-r5-41.mp3",
-  "lead": 90,
-  "ms": 1557,
-  "tail": 108
- },
- "s:r5-42": {
-  "file": "s-r5-42.mp3",
-  "lead": 120,
-  "ms": 1216,
-  "tail": 112
- },
- "s:r5-43": {
-  "file": "s-r5-43.mp3",
-  "lead": 80,
-  "ms": 1109,
-  "tail": 126
- },
- "s:r5-44": {
-  "file": "s-r5-44.mp3",
-  "lead": 100,
-  "ms": 1408,
-  "tail": 104
- },
- "s:r5-45": {
-  "file": "s-r5-45.mp3",
-  "lead": 90,
-  "ms": 1088,
-  "tail": 162
- },
- "s:r5-46": {
-  "file": "s-r5-46.mp3",
-  "lead": 110,
-  "ms": 1408,
-  "tail": 84
- },
- "s:r5-47": {
-  "file": "s-r5-47.mp3",
-  "lead": 100,
-  "ms": 1386,
-  "tail": 130
- },
- "s:r5-48": {
-  "file": "s-r5-48.mp3",
-  "lead": 70,
-  "ms": 1152,
-  "tail": 110
- },
- "s:r5-49": {
-  "file": "s-r5-49.mp3",
-  "lead": 80,
-  "ms": 1557,
-  "tail": 88
- },
- "s:r6-01": {
-  "file": "s-r6-01.mp3",
-  "lead": 100,
-  "ms": 1365,
-  "tail": 106
- },
- "s:r6-02": {
-  "file": "s-r6-02.mp3",
-  "lead": 130,
-  "ms": 1280,
-  "tail": 104
- },
- "s:r6-03": {
-  "file": "s-r6-03.mp3",
-  "lead": 90,
-  "ms": 1280,
-  "tail": 124
- },
- "s:r6-04": {
-  "file": "s-r6-04.mp3",
-  "lead": 140,
-  "ms": 1130,
-  "tail": 150
- },
- "s:r6-05": {
-  "file": "s-r6-05.mp3",
-  "lead": 130,
-  "ms": 1216,
-  "tail": 102
- },
- "s:r6-06": {
-  "file": "s-r6-06.mp3",
-  "lead": 100,
-  "ms": 1536,
-  "tail": 84
- },
- "s:r6-07": {
-  "file": "s-r6-07.mp3",
-  "lead": 90,
-  "ms": 1237,
-  "tail": 106
- },
- "s:r6-08": {
-  "file": "s-r6-08.mp3",
-  "lead": 100,
-  "ms": 1130,
-  "tail": 120
- },
- "s:r7-01": {
-  "file": "s-r7-01.mp3",
-  "lead": 180,
-  "ms": 1872,
-  "tail": 402
- },
- "s:r7-02": {
-  "file": "s-r7-02.mp3",
-  "lead": 180,
-  "ms": 1944,
-  "tail": 404
- },
- "s:r7-03": {
-  "file": "s-r7-03.mp3",
-  "lead": 190,
-  "ms": 1824,
-  "tail": 374
- },
- "s:r7-04": {
-  "file": "s-r7-04.mp3",
-  "lead": 200,
-  "ms": 1920,
-  "tail": 410
- },
- "s:r7-05": {
-  "file": "s-r7-05.mp3",
-  "lead": 150,
-  "ms": 1896,
-  "tail": 436
- },
- "s:r7-06": {
-  "file": "s-r7-06.mp3",
-  "lead": 190,
-  "ms": 2016,
-  "tail": 386
- },
- "s:r7-07": {
-  "file": "s-r7-07.mp3",
-  "lead": 180,
-  "ms": 1872,
-  "tail": 432
- },
- "s:r7-08": {
-  "file": "s-r7-08.mp3",
-  "lead": 180,
-  "ms": 1920,
-  "tail": 390
- },
- "s:r7-09": {
-  "file": "s-r7-09.mp3",
-  "lead": 150,
-  "ms": 2376,
-  "tail": 376
- },
- "s:r7-10": {
-  "file": "s-r7-10.mp3",
-  "lead": 160,
-  "ms": 2280,
-  "tail": 380
- },
- "s:r7-11": {
-  "file": "s-r7-11.mp3",
-  "lead": 160,
-  "ms": 2328,
-  "tail": 368
- },
- "s:r7-12": {
-  "file": "s-r7-12.mp3",
-  "lead": 160,
-  "ms": 2376,
-  "tail": 386
  },
  "s:soundout-1": {
   "file": "s-soundout-1.mp3",
@@ -4834,6 +4216,1650 @@
   "ms": 2022,
   "tail": 438
  },
+ "s:v3-l01-01": {
+  "file": "s-v3-l01-01.mp3",
+  "lead": 80,
+  "ms": 1056,
+  "tail": 156
+ },
+ "s:v3-l02-01": {
+  "file": "s-v3-l02-01.mp3",
+  "lead": 170,
+  "ms": 1248,
+  "tail": 478
+ },
+ "s:v3-l02-02": {
+  "file": "s-v3-l02-02.mp3",
+  "lead": 70,
+  "ms": 840,
+  "tail": 150
+ },
+ "s:v3-l03-01": {
+  "file": "s-v3-l03-01.mp3",
+  "lead": 190,
+  "ms": 1560,
+  "tail": 450
+ },
+ "s:v3-l03-02": {
+  "file": "s-v3-l03-02.mp3",
+  "lead": 110,
+  "ms": 1320,
+  "tail": 100
+ },
+ "s:v3-l04-01": {
+  "file": "s-v3-l04-01.mp3",
+  "lead": 160,
+  "ms": 1368,
+  "tail": 448
+ },
+ "s:v3-l04-02": {
+  "file": "s-v3-l04-02.mp3",
+  "lead": 120,
+  "ms": 1272,
+  "tail": 102
+ },
+ "s:v3-l05-01": {
+  "file": "s-v3-l05-01.mp3",
+  "lead": 170,
+  "ms": 1584,
+  "tail": 394
+ },
+ "s:v3-l05-02": {
+  "file": "s-v3-l05-02.mp3",
+  "lead": 120,
+  "ms": 1296,
+  "tail": 76
+ },
+ "s:v3-l05-51": {
+  "file": "s-v3-l05-51.mp3",
+  "lead": 80,
+  "ms": 3096,
+  "tail": 76
+ },
+ "s:v3-l05-52": {
+  "file": "s-v3-l05-52.mp3",
+  "lead": 70,
+  "ms": 792,
+  "tail": 152
+ },
+ "s:v3-l05-53": {
+  "file": "s-v3-l05-53.mp3",
+  "lead": 80,
+  "ms": 1368,
+  "tail": 98
+ },
+ "s:v3-l05-54": {
+  "file": "s-v3-l05-54.mp3",
+  "lead": 110,
+  "ms": 1392,
+  "tail": 112
+ },
+ "s:v3-l06-01": {
+  "file": "s-v3-l06-01.mp3",
+  "lead": 170,
+  "ms": 1488,
+  "tail": 438
+ },
+ "s:v3-l06-02": {
+  "file": "s-v3-l06-02.mp3",
+  "lead": 170,
+  "ms": 1704,
+  "tail": 424
+ },
+ "s:v3-l06-03": {
+  "file": "s-v3-l06-03.mp3",
+  "lead": 170,
+  "ms": 1728,
+  "tail": 398
+ },
+ "s:v3-l06-04": {
+  "file": "s-v3-l06-04.mp3",
+  "lead": 200,
+  "ms": 1752,
+  "tail": 412
+ },
+ "s:v3-l07-01": {
+  "file": "s-v3-l07-01.mp3",
+  "lead": 170,
+  "ms": 1584,
+  "tail": 424
+ },
+ "s:v3-l07-02": {
+  "file": "s-v3-l07-02.mp3",
+  "lead": 150,
+  "ms": 1728,
+  "tail": 438
+ },
+ "s:v3-l08-01": {
+  "file": "s-v3-l08-01.mp3",
+  "lead": 210,
+  "ms": 2016,
+  "tail": 436
+ },
+ "s:v3-l08-02": {
+  "file": "s-v3-l08-02.mp3",
+  "lead": 170,
+  "ms": 1728,
+  "tail": 408
+ },
+ "s:v3-l09-01": {
+  "file": "s-v3-l09-01.mp3",
+  "lead": 200,
+  "ms": 1728,
+  "tail": 418
+ },
+ "s:v3-l09-02": {
+  "file": "s-v3-l09-02.mp3",
+  "lead": 80,
+  "ms": 2544,
+  "tail": 84
+ },
+ "s:v3-l10-01": {
+  "file": "s-v3-l10-01.mp3",
+  "lead": 170,
+  "ms": 1944,
+  "tail": 414
+ },
+ "s:v3-l10-02": {
+  "file": "s-v3-l10-02.mp3",
+  "lead": 210,
+  "ms": 1776,
+  "tail": 386
+ },
+ "s:v3-l10-51": {
+  "file": "s-v3-l10-51.mp3",
+  "lead": 80,
+  "ms": 3696,
+  "tail": 66
+ },
+ "s:v3-l10-52": {
+  "file": "s-v3-l10-52.mp3",
+  "lead": 80,
+  "ms": 1248,
+  "tail": 108
+ },
+ "s:v3-l10-53": {
+  "file": "s-v3-l10-53.mp3",
+  "lead": 100,
+  "ms": 1416,
+  "tail": 106
+ },
+ "s:v3-l10-54": {
+  "file": "s-v3-l10-54.mp3",
+  "lead": 90,
+  "ms": 1200,
+  "tail": 140
+ },
+ "s:v3-l10-55": {
+  "file": "s-v3-l10-55.mp3",
+  "lead": 90,
+  "ms": 1536,
+  "tail": 126
+ },
+ "s:v3-l10-56": {
+  "file": "s-v3-l10-56.mp3",
+  "lead": 80,
+  "ms": 1200,
+  "tail": 100
+ },
+ "s:v3-l100-01": {
+  "file": "s-v3-l100-01.mp3",
+  "lead": 170,
+  "ms": 3504,
+  "tail": 364
+ },
+ "s:v3-l100-02": {
+  "file": "s-v3-l100-02.mp3",
+  "lead": 160,
+  "ms": 19224,
+  "tail": 394
+ },
+ "s:v3-l100-51": {
+  "file": "s-v3-l100-51.mp3",
+  "lead": 120,
+  "ms": 4704,
+  "tail": 74
+ },
+ "s:v3-l100-52": {
+  "file": "s-v3-l100-52.mp3",
+  "lead": 130,
+  "ms": 1344,
+  "tail": 104
+ },
+ "s:v3-l100-53": {
+  "file": "s-v3-l100-53.mp3",
+  "lead": 130,
+  "ms": 1080,
+  "tail": 140
+ },
+ "s:v3-l11-01": {
+  "file": "s-v3-l11-01.mp3",
+  "lead": 150,
+  "ms": 1704,
+  "tail": 414
+ },
+ "s:v3-l11-02": {
+  "file": "s-v3-l11-02.mp3",
+  "lead": 170,
+  "ms": 1656,
+  "tail": 406
+ },
+ "s:v3-l11-51": {
+  "file": "s-v3-l11-51.mp3",
+  "lead": 80,
+  "ms": 1152,
+  "tail": 172
+ },
+ "s:v3-l12-01": {
+  "file": "s-v3-l12-01.mp3",
+  "lead": 180,
+  "ms": 1776,
+  "tail": 396
+ },
+ "s:v3-l12-02": {
+  "file": "s-v3-l12-02.mp3",
+  "lead": 190,
+  "ms": 1728,
+  "tail": 418
+ },
+ "s:v3-l13-01": {
+  "file": "s-v3-l13-01.mp3",
+  "lead": 120,
+  "ms": 1656,
+  "tail": 96
+ },
+ "s:v3-l13-02": {
+  "file": "s-v3-l13-02.mp3",
+  "lead": 100,
+  "ms": 1440,
+  "tail": 100
+ },
+ "s:v3-l13-51": {
+  "file": "s-v3-l13-51.mp3",
+  "lead": 70,
+  "ms": 1344,
+  "tail": 134
+ },
+ "s:v3-l14-01": {
+  "file": "s-v3-l14-01.mp3",
+  "lead": 150,
+  "ms": 3432,
+  "tail": 382
+ },
+ "s:v3-l14-02": {
+  "file": "s-v3-l14-02.mp3",
+  "lead": 80,
+  "ms": 4632,
+  "tail": 72
+ },
+ "s:v3-l15-01": {
+  "file": "s-v3-l15-01.mp3",
+  "lead": 170,
+  "ms": 4440,
+  "tail": 390
+ },
+ "s:v3-l15-02": {
+  "file": "s-v3-l15-02.mp3",
+  "lead": 90,
+  "ms": 3600,
+  "tail": 90
+ },
+ "s:v3-l16-01": {
+  "file": "s-v3-l16-01.mp3",
+  "lead": 180,
+  "ms": 5544,
+  "tail": 394
+ },
+ "s:v3-l16-02": {
+  "file": "s-v3-l16-02.mp3",
+  "lead": 90,
+  "ms": 4464,
+  "tail": 94
+ },
+ "s:v3-l17-02": {
+  "file": "s-v3-l17-02.mp3",
+  "lead": 80,
+  "ms": 4968,
+  "tail": 88
+ },
+ "s:v3-l17-03": {
+  "file": "s-v3-l17-03.mp3",
+  "lead": 110,
+  "ms": 3672,
+  "tail": 102
+ },
+ "s:v3-l17-51": {
+  "file": "s-v3-l17-51.mp3",
+  "lead": 60,
+  "ms": 1224,
+  "tail": 104
+ },
+ "s:v3-l17-52": {
+  "file": "s-v3-l17-52.mp3",
+  "lead": 100,
+  "ms": 1512,
+  "tail": 122
+ },
+ "s:v3-l17-53": {
+  "file": "s-v3-l17-53.mp3",
+  "lead": 120,
+  "ms": 1104,
+  "tail": 164
+ },
+ "s:v3-l18-01": {
+  "file": "s-v3-l18-01.mp3",
+  "lead": 170,
+  "ms": 4176,
+  "tail": 386
+ },
+ "s:v3-l18-02": {
+  "file": "s-v3-l18-02.mp3",
+  "lead": 210,
+  "ms": 1968,
+  "tail": 368
+ },
+ "s:v3-l18-51": {
+  "file": "s-v3-l18-51.mp3",
+  "lead": 130,
+  "ms": 1584,
+  "tail": 64
+ },
+ "s:v3-l19-01": {
+  "file": "s-v3-l19-01.mp3",
+  "lead": 160,
+  "ms": 5160,
+  "tail": 380
+ },
+ "s:v3-l19-02": {
+  "file": "s-v3-l19-02.mp3",
+  "lead": 80,
+  "ms": 3696,
+  "tail": 56
+ },
+ "s:v3-l20-01": {
+  "file": "s-v3-l20-01.mp3",
+  "lead": 160,
+  "ms": 4080,
+  "tail": 370
+ },
+ "s:v3-l20-02": {
+  "file": "s-v3-l20-02.mp3",
+  "lead": 80,
+  "ms": 4128,
+  "tail": 78
+ },
+ "s:v3-l20-51": {
+  "file": "s-v3-l20-51.mp3",
+  "lead": 140,
+  "ms": 1296,
+  "tail": 116
+ },
+ "s:v3-l21-01": {
+  "file": "s-v3-l21-01.mp3",
+  "lead": 180,
+  "ms": 4248,
+  "tail": 368
+ },
+ "s:v3-l21-02": {
+  "file": "s-v3-l21-02.mp3",
+  "lead": 90,
+  "ms": 4416,
+  "tail": 86
+ },
+ "s:v3-l22-01": {
+  "file": "s-v3-l22-01.mp3",
+  "lead": 160,
+  "ms": 4248,
+  "tail": 398
+ },
+ "s:v3-l22-02": {
+  "file": "s-v3-l22-02.mp3",
+  "lead": 120,
+  "ms": 4272,
+  "tail": 72
+ },
+ "s:v3-l23-01": {
+  "file": "s-v3-l23-01.mp3",
+  "lead": 170,
+  "ms": 1752,
+  "tail": 412
+ },
+ "s:v3-l23-02": {
+  "file": "s-v3-l23-02.mp3",
+  "lead": 180,
+  "ms": 1800,
+  "tail": 410
+ },
+ "s:v3-l23-03": {
+  "file": "s-v3-l23-03.mp3",
+  "lead": 160,
+  "ms": 3480,
+  "tail": 380
+ },
+ "s:v3-l23-51": {
+  "file": "s-v3-l23-51.mp3",
+  "lead": 70,
+  "ms": 1032,
+  "tail": 172
+ },
+ "s:v3-l24-01": {
+  "file": "s-v3-l24-01.mp3",
+  "lead": 190,
+  "ms": 2904,
+  "tail": 384
+ },
+ "s:v3-l24-02": {
+  "file": "s-v3-l24-02.mp3",
+  "lead": 80,
+  "ms": 4656,
+  "tail": 96
+ },
+ "s:v3-l25-01": {
+  "file": "s-v3-l25-01.mp3",
+  "lead": 180,
+  "ms": 3144,
+  "tail": 374
+ },
+ "s:v3-l25-02": {
+  "file": "s-v3-l25-02.mp3",
+  "lead": 90,
+  "ms": 4224,
+  "tail": 84
+ },
+ "s:v3-l25-51": {
+  "file": "s-v3-l25-51.mp3",
+  "lead": 70,
+  "ms": 1104,
+  "tail": 124
+ },
+ "s:v3-l25-52": {
+  "file": "s-v3-l25-52.mp3",
+  "lead": 90,
+  "ms": 1008,
+  "tail": 178
+ },
+ "s:v3-l26-01": {
+  "file": "s-v3-l26-01.mp3",
+  "lead": 170,
+  "ms": 2520,
+  "tail": 410
+ },
+ "s:v3-l26-02": {
+  "file": "s-v3-l26-02.mp3",
+  "lead": 80,
+  "ms": 4824,
+  "tail": 84
+ },
+ "s:v3-l26-51": {
+  "file": "s-v3-l26-51.mp3",
+  "lead": 90,
+  "ms": 1272,
+  "tail": 112
+ },
+ "s:v3-l27-01": {
+  "file": "s-v3-l27-01.mp3",
+  "lead": 160,
+  "ms": 3432,
+  "tail": 382
+ },
+ "s:v3-l27-02": {
+  "file": "s-v3-l27-02.mp3",
+  "lead": 80,
+  "ms": 5040,
+  "tail": 60
+ },
+ "s:v3-l27-51": {
+  "file": "s-v3-l27-51.mp3",
+  "lead": 90,
+  "ms": 1104,
+  "tail": 154
+ },
+ "s:v3-l27-52": {
+  "file": "s-v3-l27-52.mp3",
+  "lead": 90,
+  "ms": 1104,
+  "tail": 154
+ },
+ "s:v3-l27-53": {
+  "file": "s-v3-l27-53.mp3",
+  "lead": 100,
+  "ms": 1392,
+  "tail": 152
+ },
+ "s:v3-l28-01": {
+  "file": "s-v3-l28-01.mp3",
+  "lead": 160,
+  "ms": 3624,
+  "tail": 384
+ },
+ "s:v3-l28-02": {
+  "file": "s-v3-l28-02.mp3",
+  "lead": 80,
+  "ms": 5496,
+  "tail": 66
+ },
+ "s:v3-l29-01": {
+  "file": "s-v3-l29-01.mp3",
+  "lead": 160,
+  "ms": 3216,
+  "tail": 406
+ },
+ "s:v3-l29-02": {
+  "file": "s-v3-l29-02.mp3",
+  "lead": 120,
+  "ms": 5304,
+  "tail": 74
+ },
+ "s:v3-l30-01": {
+  "file": "s-v3-l30-01.mp3",
+  "lead": 180,
+  "ms": 4560,
+  "tail": 390
+ },
+ "s:v3-l30-02": {
+  "file": "s-v3-l30-02.mp3",
+  "lead": 90,
+  "ms": 5736,
+  "tail": 76
+ },
+ "s:v3-l31-01": {
+  "file": "s-v3-l31-01.mp3",
+  "lead": 170,
+  "ms": 4632,
+  "tail": 362
+ },
+ "s:v3-l31-02": {
+  "file": "s-v3-l31-02.mp3",
+  "lead": 160,
+  "ms": 2952,
+  "tail": 392
+ },
+ "s:v3-l31-51": {
+  "file": "s-v3-l31-51.mp3",
+  "lead": 80,
+  "ms": 2568,
+  "tail": 88
+ },
+ "s:v3-l32-01": {
+  "file": "s-v3-l32-01.mp3",
+  "lead": 180,
+  "ms": 3960,
+  "tail": 390
+ },
+ "s:v3-l32-02": {
+  "file": "s-v3-l32-02.mp3",
+  "lead": 90,
+  "ms": 5760,
+  "tail": 80
+ },
+ "s:v3-l33-01": {
+  "file": "s-v3-l33-01.mp3",
+  "lead": 180,
+  "ms": 2976,
+  "tail": 386
+ },
+ "s:v3-l33-02": {
+  "file": "s-v3-l33-02.mp3",
+  "lead": 160,
+  "ms": 3504,
+  "tail": 374
+ },
+ "s:v3-l33-51": {
+  "file": "s-v3-l33-51.mp3",
+  "lead": 100,
+  "ms": 2592,
+  "tail": 82
+ },
+ "s:v3-l34-01": {
+  "file": "s-v3-l34-01.mp3",
+  "lead": 160,
+  "ms": 4272,
+  "tail": 372
+ },
+ "s:v3-l34-02": {
+  "file": "s-v3-l34-02.mp3",
+  "lead": 110,
+  "ms": 4800,
+  "tail": 80
+ },
+ "s:v3-l35-01": {
+  "file": "s-v3-l35-01.mp3",
+  "lead": 160,
+  "ms": 6024,
+  "tail": 364
+ },
+ "s:v3-l35-02": {
+  "file": "s-v3-l35-02.mp3",
+  "lead": 90,
+  "ms": 8016,
+  "tail": 76
+ },
+ "s:v3-l36-01": {
+  "file": "s-v3-l36-01.mp3",
+  "lead": 150,
+  "ms": 5976,
+  "tail": 406
+ },
+ "s:v3-l36-02": {
+  "file": "s-v3-l36-02.mp3",
+  "lead": 70,
+  "ms": 9624,
+  "tail": 74
+ },
+ "s:v3-l37-01": {
+  "file": "s-v3-l37-01.mp3",
+  "lead": 170,
+  "ms": 5784,
+  "tail": 374
+ },
+ "s:v3-l37-02": {
+  "file": "s-v3-l37-02.mp3",
+  "lead": 140,
+  "ms": 8784,
+  "tail": 74
+ },
+ "s:v3-l38-01": {
+  "file": "s-v3-l38-01.mp3",
+  "lead": 160,
+  "ms": 5664,
+  "tail": 364
+ },
+ "s:v3-l38-02": {
+  "file": "s-v3-l38-02.mp3",
+  "lead": 140,
+  "ms": 7728,
+  "tail": 88
+ },
+ "s:v3-l39-01": {
+  "file": "s-v3-l39-01.mp3",
+  "lead": 160,
+  "ms": 5976,
+  "tail": 396
+ },
+ "s:v3-l39-02": {
+  "file": "s-v3-l39-02.mp3",
+  "lead": 80,
+  "ms": 8232,
+  "tail": 82
+ },
+ "s:v3-l40-01": {
+  "file": "s-v3-l40-01.mp3",
+  "lead": 150,
+  "ms": 4704,
+  "tail": 384
+ },
+ "s:v3-l40-02": {
+  "file": "s-v3-l40-02.mp3",
+  "lead": 160,
+  "ms": 2040,
+  "tail": 410
+ },
+ "s:v3-l40-51": {
+  "file": "s-v3-l40-51.mp3",
+  "lead": 70,
+  "ms": 4320,
+  "tail": 80
+ },
+ "s:v3-l40-52": {
+  "file": "s-v3-l40-52.mp3",
+  "lead": 70,
+  "ms": 2424,
+  "tail": 84
+ },
+ "s:v3-l40-53": {
+  "file": "s-v3-l40-53.mp3",
+  "lead": 90,
+  "ms": 1680,
+  "tail": 80
+ },
+ "s:v3-l40-54": {
+  "file": "s-v3-l40-54.mp3",
+  "lead": 80,
+  "ms": 1104,
+  "tail": 144
+ },
+ "s:v3-l40-55": {
+  "file": "s-v3-l40-55.mp3",
+  "lead": 70,
+  "ms": 1248,
+  "tail": 138
+ },
+ "s:v3-l40-56": {
+  "file": "s-v3-l40-56.mp3",
+  "lead": 110,
+  "ms": 1776,
+  "tail": 96
+ },
+ "s:v3-l40-57": {
+  "file": "s-v3-l40-57.mp3",
+  "lead": 80,
+  "ms": 1800,
+  "tail": 90
+ },
+ "s:v3-l40-58": {
+  "file": "s-v3-l40-58.mp3",
+  "lead": 80,
+  "ms": 2496,
+  "tail": 86
+ },
+ "s:v3-l40-59": {
+  "file": "s-v3-l40-59.mp3",
+  "lead": 120,
+  "ms": 1776,
+  "tail": 86
+ },
+ "s:v3-l40-60": {
+  "file": "s-v3-l40-60.mp3",
+  "lead": 110,
+  "ms": 1104,
+  "tail": 154
+ },
+ "s:v3-l41-01": {
+  "file": "s-v3-l41-01.mp3",
+  "lead": 120,
+  "ms": 4920,
+  "tail": 60
+ },
+ "s:v3-l41-02": {
+  "file": "s-v3-l41-02.mp3",
+  "lead": 80,
+  "ms": 12360,
+  "tail": 70
+ },
+ "s:v3-l42-01": {
+  "file": "s-v3-l42-01.mp3",
+  "lead": 150,
+  "ms": 7560,
+  "tail": 370
+ },
+ "s:v3-l42-02": {
+  "file": "s-v3-l42-02.mp3",
+  "lead": 80,
+  "ms": 9192,
+  "tail": 82
+ },
+ "s:v3-l43-01": {
+  "file": "s-v3-l43-01.mp3",
+  "lead": 160,
+  "ms": 5208,
+  "tail": 368
+ },
+ "s:v3-l43-02": {
+  "file": "s-v3-l43-02.mp3",
+  "lead": 80,
+  "ms": 10104,
+  "tail": 64
+ },
+ "s:v3-l44-01": {
+  "file": "s-v3-l44-01.mp3",
+  "lead": 160,
+  "ms": 7800,
+  "tail": 380
+ },
+ "s:v3-l44-02": {
+  "file": "s-v3-l44-02.mp3",
+  "lead": 120,
+  "ms": 15144,
+  "tail": 84
+ },
+ "s:v3-l45-01": {
+  "file": "s-v3-l45-01.mp3",
+  "lead": 160,
+  "ms": 9240,
+  "tail": 390
+ },
+ "s:v3-l45-02": {
+  "file": "s-v3-l45-02.mp3",
+  "lead": 80,
+  "ms": 14736,
+  "tail": 76
+ },
+ "s:v3-l46-01": {
+  "file": "s-v3-l46-01.mp3",
+  "lead": 180,
+  "ms": 1512,
+  "tail": 452
+ },
+ "s:v3-l46-02": {
+  "file": "s-v3-l46-02.mp3",
+  "lead": 120,
+  "ms": 8376,
+  "tail": 86
+ },
+ "s:v3-l46-51": {
+  "file": "s-v3-l46-51.mp3",
+  "lead": 100,
+  "ms": 1128,
+  "tail": 148
+ },
+ "s:v3-l47-01": {
+  "file": "s-v3-l47-01.mp3",
+  "lead": 160,
+  "ms": 9744,
+  "tail": 374
+ },
+ "s:v3-l47-02": {
+  "file": "s-v3-l47-02.mp3",
+  "lead": 90,
+  "ms": 16776,
+  "tail": 56
+ },
+ "s:v3-l48-01": {
+  "file": "s-v3-l48-01.mp3",
+  "lead": 80,
+  "ms": 5784,
+  "tail": 94
+ },
+ "s:v3-l48-02": {
+  "file": "s-v3-l48-02.mp3",
+  "lead": 100,
+  "ms": 12912,
+  "tail": 102
+ },
+ "s:v3-l49-01": {
+  "file": "s-v3-l49-01.mp3",
+  "lead": 170,
+  "ms": 7536,
+  "tail": 366
+ },
+ "s:v3-l49-02": {
+  "file": "s-v3-l49-02.mp3",
+  "lead": 80,
+  "ms": 11976,
+  "tail": 76
+ },
+ "s:v3-l50-01": {
+  "file": "s-v3-l50-01.mp3",
+  "lead": 200,
+  "ms": 7560,
+  "tail": 370
+ },
+ "s:v3-l50-02": {
+  "file": "s-v3-l50-02.mp3",
+  "lead": 80,
+  "ms": 15936,
+  "tail": 66
+ },
+ "s:v3-l51-01": {
+  "file": "s-v3-l51-01.mp3",
+  "lead": 130,
+  "ms": 6960,
+  "tail": 80
+ },
+ "s:v3-l51-02": {
+  "file": "s-v3-l51-02.mp3",
+  "lead": 80,
+  "ms": 16080,
+  "tail": 80
+ },
+ "s:v3-l52-01": {
+  "file": "s-v3-l52-01.mp3",
+  "lead": 180,
+  "ms": 6552,
+  "tail": 362
+ },
+ "s:v3-l52-02": {
+  "file": "s-v3-l52-02.mp3",
+  "lead": 80,
+  "ms": 11952,
+  "tail": 52
+ },
+ "s:v3-l53-01": {
+  "file": "s-v3-l53-01.mp3",
+  "lead": 180,
+  "ms": 8760,
+  "tail": 390
+ },
+ "s:v3-l53-02": {
+  "file": "s-v3-l53-02.mp3",
+  "lead": 80,
+  "ms": 15984,
+  "tail": 84
+ },
+ "s:v3-l54-01": {
+  "file": "s-v3-l54-01.mp3",
+  "lead": 180,
+  "ms": 9072,
+  "tail": 382
+ },
+ "s:v3-l54-02": {
+  "file": "s-v3-l54-02.mp3",
+  "lead": 80,
+  "ms": 14592,
+  "tail": 82
+ },
+ "s:v3-l55-01": {
+  "file": "s-v3-l55-01.mp3",
+  "lead": 190,
+  "ms": 8472,
+  "tail": 382
+ },
+ "s:v3-l55-02": {
+  "file": "s-v3-l55-02.mp3",
+  "lead": 90,
+  "ms": 13728,
+  "tail": 58
+ },
+ "s:v3-l55-51": {
+  "file": "s-v3-l55-51.mp3",
+  "lead": 100,
+  "ms": 1392,
+  "tail": 152
+ },
+ "s:v3-l56-01": {
+  "file": "s-v3-l56-01.mp3",
+  "lead": 180,
+  "ms": 10032,
+  "tail": 362
+ },
+ "s:v3-l56-02": {
+  "file": "s-v3-l56-02.mp3",
+  "lead": 80,
+  "ms": 18144,
+  "tail": 64
+ },
+ "s:v3-l56-51": {
+  "file": "s-v3-l56-51.mp3",
+  "lead": 100,
+  "ms": 1632,
+  "tail": 82
+ },
+ "s:v3-l57-01": {
+  "file": "s-v3-l57-01.mp3",
+  "lead": 160,
+  "ms": 10800,
+  "tail": 360
+ },
+ "s:v3-l57-02": {
+  "file": "s-v3-l57-02.mp3",
+  "lead": 80,
+  "ms": 15384,
+  "tail": 84
+ },
+ "s:v3-l58-01": {
+  "file": "s-v3-l58-01.mp3",
+  "lead": 170,
+  "ms": 12192,
+  "tail": 362
+ },
+ "s:v3-l58-02": {
+  "file": "s-v3-l58-02.mp3",
+  "lead": 80,
+  "ms": 17520,
+  "tail": 60
+ },
+ "s:v3-l59-01": {
+  "file": "s-v3-l59-01.mp3",
+  "lead": 160,
+  "ms": 12360,
+  "tail": 370
+ },
+ "s:v3-l59-02": {
+  "file": "s-v3-l59-02.mp3",
+  "lead": 150,
+  "ms": 3984,
+  "tail": 374
+ },
+ "s:v3-l60-01": {
+  "file": "s-v3-l60-01.mp3",
+  "lead": 170,
+  "ms": 14400,
+  "tail": 370
+ },
+ "s:v3-l60-02": {
+  "file": "s-v3-l60-02.mp3",
+  "lead": 150,
+  "ms": 3744,
+  "tail": 384
+ },
+ "s:v3-l60-51": {
+  "file": "s-v3-l60-51.mp3",
+  "lead": 140,
+  "ms": 1320,
+  "tail": 110
+ },
+ "s:v3-l60-52": {
+  "file": "s-v3-l60-52.mp3",
+  "lead": 110,
+  "ms": 1440,
+  "tail": 90
+ },
+ "s:v3-l61-01": {
+  "file": "s-v3-l61-01.mp3",
+  "lead": 160,
+  "ms": 13464,
+  "tail": 374
+ },
+ "s:v3-l61-02": {
+  "file": "s-v3-l61-02.mp3",
+  "lead": 160,
+  "ms": 17688,
+  "tail": 388
+ },
+ "s:v3-l61-03": {
+  "file": "s-v3-l61-03.mp3",
+  "lead": 150,
+  "ms": 4536,
+  "tail": 386
+ },
+ "s:v3-l61-51": {
+  "file": "s-v3-l61-51.mp3",
+  "lead": 70,
+  "ms": 1416,
+  "tail": 106
+ },
+ "s:v3-l61-52": {
+  "file": "s-v3-l61-52.mp3",
+  "lead": 120,
+  "ms": 1200,
+  "tail": 150
+ },
+ "s:v3-l61-53": {
+  "file": "s-v3-l61-53.mp3",
+  "lead": 120,
+  "ms": 1320,
+  "tail": 150
+ },
+ "s:v3-l62-02": {
+  "file": "s-v3-l62-02.mp3",
+  "lead": 80,
+  "ms": 18648,
+  "tail": 88
+ },
+ "s:v3-l62-03": {
+  "file": "s-v3-l62-03.mp3",
+  "lead": 70,
+  "ms": 14112,
+  "tail": 72
+ },
+ "s:v3-l63-01": {
+  "file": "s-v3-l63-01.mp3",
+  "lead": 150,
+  "ms": 18264,
+  "tail": 394
+ },
+ "s:v3-l63-02": {
+  "file": "s-v3-l63-02.mp3",
+  "lead": 150,
+  "ms": 4248,
+  "tail": 388
+ },
+ "s:v3-l64-01": {
+  "file": "s-v3-l64-01.mp3",
+  "lead": 170,
+  "ms": 14904,
+  "tail": 374
+ },
+ "s:v3-l64-02": {
+  "file": "s-v3-l64-02.mp3",
+  "lead": 150,
+  "ms": 3888,
+  "tail": 368
+ },
+ "s:v3-l65-02": {
+  "file": "s-v3-l65-02.mp3",
+  "lead": 80,
+  "ms": 19824,
+  "tail": 104
+ },
+ "s:v3-l65-03": {
+  "file": "s-v3-l65-03.mp3",
+  "lead": 80,
+  "ms": 15408,
+  "tail": 98
+ },
+ "s:v3-l66-01": {
+  "file": "s-v3-l66-01.mp3",
+  "lead": 150,
+  "ms": 16656,
+  "tail": 376
+ },
+ "s:v3-l66-02": {
+  "file": "s-v3-l66-02.mp3",
+  "lead": 160,
+  "ms": 17568,
+  "tail": 378
+ },
+ "s:v3-l66-03": {
+  "file": "s-v3-l66-03.mp3",
+  "lead": 160,
+  "ms": 3936,
+  "tail": 366
+ },
+ "s:v3-l66-51": {
+  "file": "s-v3-l66-51.mp3",
+  "lead": 80,
+  "ms": 2544,
+  "tail": 94
+ },
+ "s:v3-l67-01": {
+  "file": "s-v3-l67-01.mp3",
+  "lead": 90,
+  "ms": 19824,
+  "tail": 64
+ },
+ "s:v3-l67-02": {
+  "file": "s-v3-l67-02.mp3",
+  "lead": 160,
+  "ms": 3240,
+  "tail": 390
+ },
+ "s:v3-l68-01": {
+  "file": "s-v3-l68-01.mp3",
+  "lead": 160,
+  "ms": 23448,
+  "tail": 378
+ },
+ "s:v3-l68-02": {
+  "file": "s-v3-l68-02.mp3",
+  "lead": 150,
+  "ms": 4488,
+  "tail": 388
+ },
+ "s:v3-l69-01": {
+  "file": "s-v3-l69-01.mp3",
+  "lead": 70,
+  "ms": 20400,
+  "tail": 90
+ },
+ "s:v3-l69-02": {
+  "file": "s-v3-l69-02.mp3",
+  "lead": 120,
+  "ms": 3720,
+  "tail": 70
+ },
+ "s:v3-l70-01": {
+  "file": "s-v3-l70-01.mp3",
+  "lead": 160,
+  "ms": 21000,
+  "tail": 370
+ },
+ "s:v3-l70-02": {
+  "file": "s-v3-l70-02.mp3",
+  "lead": 170,
+  "ms": 3960,
+  "tail": 370
+ },
+ "s:v3-l71-01": {
+  "file": "s-v3-l71-01.mp3",
+  "lead": 80,
+  "ms": 19224,
+  "tail": 84
+ },
+ "s:v3-l71-02": {
+  "file": "s-v3-l71-02.mp3",
+  "lead": 160,
+  "ms": 4632,
+  "tail": 362
+ },
+ "s:v3-l72-01": {
+  "file": "s-v3-l72-01.mp3",
+  "lead": 70,
+  "ms": 23928,
+  "tail": 58
+ },
+ "s:v3-l72-02": {
+  "file": "s-v3-l72-02.mp3",
+  "lead": 70,
+  "ms": 24864,
+  "tail": 74
+ },
+ "s:v3-l73-01": {
+  "file": "s-v3-l73-01.mp3",
+  "lead": 160,
+  "ms": 22536,
+  "tail": 356
+ },
+ "s:v3-l73-02": {
+  "file": "s-v3-l73-02.mp3",
+  "lead": 160,
+  "ms": 5016,
+  "tail": 366
+ },
+ "s:v3-l74-02": {
+  "file": "s-v3-l74-02.mp3",
+  "lead": 70,
+  "ms": 22152,
+  "tail": 52
+ },
+ "s:v3-l74-03": {
+  "file": "s-v3-l74-03.mp3",
+  "lead": 70,
+  "ms": 22128,
+  "tail": 78
+ },
+ "s:v3-l75-01": {
+  "file": "s-v3-l75-01.mp3",
+  "lead": 70,
+  "ms": 19488,
+  "tail": 68
+ },
+ "s:v3-l75-02": {
+  "file": "s-v3-l75-02.mp3",
+  "lead": 170,
+  "ms": 2712,
+  "tail": 362
+ },
+ "s:v3-l75-51": {
+  "file": "s-v3-l75-51.mp3",
+  "lead": 90,
+  "ms": 1320,
+  "tail": 110
+ },
+ "s:v3-l76-01": {
+  "file": "s-v3-l76-01.mp3",
+  "lead": 170,
+  "ms": 3672,
+  "tail": 362
+ },
+ "s:v3-l76-02": {
+  "file": "s-v3-l76-02.mp3",
+  "lead": 180,
+  "ms": 14736,
+  "tail": 386
+ },
+ "s:v3-l76-51": {
+  "file": "s-v3-l76-51.mp3",
+  "lead": 80,
+  "ms": 1968,
+  "tail": 98
+ },
+ "s:v3-l77-01": {
+  "file": "s-v3-l77-01.mp3",
+  "lead": 150,
+  "ms": 3768,
+  "tail": 398
+ },
+ "s:v3-l77-02": {
+  "file": "s-v3-l77-02.mp3",
+  "lead": 170,
+  "ms": 13824,
+  "tail": 384
+ },
+ "s:v3-l77-51": {
+  "file": "s-v3-l77-51.mp3",
+  "lead": 70,
+  "ms": 2544,
+  "tail": 94
+ },
+ "s:v3-l77-52": {
+  "file": "s-v3-l77-52.mp3",
+  "lead": 100,
+  "ms": 1824,
+  "tail": 94
+ },
+ "s:v3-l77-53": {
+  "file": "s-v3-l77-53.mp3",
+  "lead": 130,
+  "ms": 1392,
+  "tail": 122
+ },
+ "s:v3-l77-54": {
+  "file": "s-v3-l77-54.mp3",
+  "lead": 100,
+  "ms": 1296,
+  "tail": 106
+ },
+ "s:v3-l77-55": {
+  "file": "s-v3-l77-55.mp3",
+  "lead": 90,
+  "ms": 1272,
+  "tail": 112
+ },
+ "s:v3-l78-01": {
+  "file": "s-v3-l78-01.mp3",
+  "lead": 180,
+  "ms": 3528,
+  "tail": 398
+ },
+ "s:v3-l78-02": {
+  "file": "s-v3-l78-02.mp3",
+  "lead": 70,
+  "ms": 23088,
+  "tail": 68
+ },
+ "s:v3-l79-01": {
+  "file": "s-v3-l79-01.mp3",
+  "lead": 160,
+  "ms": 4152,
+  "tail": 382
+ },
+ "s:v3-l79-02": {
+  "file": "s-v3-l79-02.mp3",
+  "lead": 170,
+  "ms": 13392,
+  "tail": 372
+ },
+ "s:v3-l80-01": {
+  "file": "s-v3-l80-01.mp3",
+  "lead": 160,
+  "ms": 4752,
+  "tail": 372
+ },
+ "s:v3-l80-02": {
+  "file": "s-v3-l80-02.mp3",
+  "lead": 160,
+  "ms": 15528,
+  "tail": 368
+ },
+ "s:v3-l80-51": {
+  "file": "s-v3-l80-51.mp3",
+  "lead": 140,
+  "ms": 1416,
+  "tail": 116
+ },
+ "s:v3-l80-52": {
+  "file": "s-v3-l80-52.mp3",
+  "lead": 80,
+  "ms": 1776,
+  "tail": 106
+ },
+ "s:v3-l81-01": {
+  "file": "s-v3-l81-01.mp3",
+  "lead": 200,
+  "ms": 4440,
+  "tail": 390
+ },
+ "s:v3-l81-02": {
+  "file": "s-v3-l81-02.mp3",
+  "lead": 150,
+  "ms": 15000,
+  "tail": 360
+ },
+ "s:v3-l81-51": {
+  "file": "s-v3-l81-51.mp3",
+  "lead": 70,
+  "ms": 10080,
+  "tail": 70
+ },
+ "s:v3-l81-52": {
+  "file": "s-v3-l81-52.mp3",
+  "lead": 90,
+  "ms": 2736,
+  "tail": 96
+ },
+ "s:v3-l82-01": {
+  "file": "s-v3-l82-01.mp3",
+  "lead": 180,
+  "ms": 4632,
+  "tail": 372
+ },
+ "s:v3-l82-02": {
+  "file": "s-v3-l82-02.mp3",
+  "lead": 160,
+  "ms": 14808,
+  "tail": 378
+ },
+ "s:v3-l83-01": {
+  "file": "s-v3-l83-01.mp3",
+  "lead": 170,
+  "ms": 4368,
+  "tail": 378
+ },
+ "s:v3-l83-02": {
+  "file": "s-v3-l83-02.mp3",
+  "lead": 170,
+  "ms": 18672,
+  "tail": 372
+ },
+ "s:v3-l83-51": {
+  "file": "s-v3-l83-51.mp3",
+  "lead": 90,
+  "ms": 1632,
+  "tail": 92
+ },
+ "s:v3-l83-52": {
+  "file": "s-v3-l83-52.mp3",
+  "lead": 80,
+  "ms": 1368,
+  "tail": 128
+ },
+ "s:v3-l84-01": {
+  "file": "s-v3-l84-01.mp3",
+  "lead": 150,
+  "ms": 4632,
+  "tail": 372
+ },
+ "s:v3-l84-02": {
+  "file": "s-v3-l84-02.mp3",
+  "lead": 150,
+  "ms": 16584,
+  "tail": 374
+ },
+ "s:v3-l85-01": {
+  "file": "s-v3-l85-01.mp3",
+  "lead": 160,
+  "ms": 3144,
+  "tail": 394
+ },
+ "s:v3-l85-02": {
+  "file": "s-v3-l85-02.mp3",
+  "lead": 160,
+  "ms": 17760,
+  "tail": 380
+ },
+ "s:v3-l85-51": {
+  "file": "s-v3-l85-51.mp3",
+  "lead": 90,
+  "ms": 2064,
+  "tail": 124
+ },
+ "s:v3-l85-52": {
+  "file": "s-v3-l85-52.mp3",
+  "lead": 70,
+  "ms": 3456,
+  "tail": 76
+ },
+ "s:v3-l85-53": {
+  "file": "s-v3-l85-53.mp3",
+  "lead": 100,
+  "ms": 1056,
+  "tail": 136
+ },
+ "s:v3-l86-01": {
+  "file": "s-v3-l86-01.mp3",
+  "lead": 170,
+  "ms": 3792,
+  "tail": 372
+ },
+ "s:v3-l86-02": {
+  "file": "s-v3-l86-02.mp3",
+  "lead": 150,
+  "ms": 15432,
+  "tail": 362
+ },
+ "s:v3-l87-01": {
+  "file": "s-v3-l87-01.mp3",
+  "lead": 160,
+  "ms": 3456,
+  "tail": 386
+ },
+ "s:v3-l87-02": {
+  "file": "s-v3-l87-02.mp3",
+  "lead": 170,
+  "ms": 14808,
+  "tail": 388
+ },
+ "s:v3-l88-01": {
+  "file": "s-v3-l88-01.mp3",
+  "lead": 180,
+  "ms": 2784,
+  "tail": 424
+ },
+ "s:v3-l88-02": {
+  "file": "s-v3-l88-02.mp3",
+  "lead": 160,
+  "ms": 17640,
+  "tail": 370
+ },
+ "s:v3-l88-51": {
+  "file": "s-v3-l88-51.mp3",
+  "lead": 100,
+  "ms": 1560,
+  "tail": 100
+ },
+ "s:v3-l89-01": {
+  "file": "s-v3-l89-01.mp3",
+  "lead": 170,
+  "ms": 3480,
+  "tail": 370
+ },
+ "s:v3-l89-02": {
+  "file": "s-v3-l89-02.mp3",
+  "lead": 170,
+  "ms": 17592,
+  "tail": 392
+ },
+ "s:v3-l90-01": {
+  "file": "s-v3-l90-01.mp3",
+  "lead": 160,
+  "ms": 3792,
+  "tail": 372
+ },
+ "s:v3-l90-02": {
+  "file": "s-v3-l90-02.mp3",
+  "lead": 170,
+  "ms": 14832,
+  "tail": 372
+ },
+ "s:v3-l91-01": {
+  "file": "s-v3-l91-01.mp3",
+  "lead": 150,
+  "ms": 3552,
+  "tail": 372
+ },
+ "s:v3-l91-02": {
+  "file": "s-v3-l91-02.mp3",
+  "lead": 170,
+  "ms": 19560,
+  "tail": 380
+ },
+ "s:v3-l92-01": {
+  "file": "s-v3-l92-01.mp3",
+  "lead": 170,
+  "ms": 3624,
+  "tail": 384
+ },
+ "s:v3-l92-02": {
+  "file": "s-v3-l92-02.mp3",
+  "lead": 170,
+  "ms": 15336,
+  "tail": 376
+ },
+ "s:v3-l93-01": {
+  "file": "s-v3-l93-01.mp3",
+  "lead": 150,
+  "ms": 4584,
+  "tail": 394
+ },
+ "s:v3-l93-02": {
+  "file": "s-v3-l93-02.mp3",
+  "lead": 70,
+  "ms": 18840,
+  "tail": 80
+ },
+ "s:v3-l94-01": {
+  "file": "s-v3-l94-01.mp3",
+  "lead": 70,
+  "ms": 33264,
+  "tail": 84
+ },
+ "s:v3-l94-02": {
+  "file": "s-v3-l94-02.mp3",
+  "lead": 70,
+  "ms": 27048,
+  "tail": 88
+ },
+ "s:v3-l95-01": {
+  "file": "s-v3-l95-01.mp3",
+  "lead": 180,
+  "ms": 4344,
+  "tail": 374
+ },
+ "s:v3-l95-02": {
+  "file": "s-v3-l95-02.mp3",
+  "lead": 160,
+  "ms": 18888,
+  "tail": 368
+ },
+ "s:v3-l95-51": {
+  "file": "s-v3-l95-51.mp3",
+  "lead": 120,
+  "ms": 1992,
+  "tail": 112
+ },
+ "s:v3-l96-01": {
+  "file": "s-v3-l96-01.mp3",
+  "lead": 160,
+  "ms": 4176,
+  "tail": 396
+ },
+ "s:v3-l96-02": {
+  "file": "s-v3-l96-02.mp3",
+  "lead": 80,
+  "ms": 21768,
+  "tail": 78
+ },
+ "s:v3-l97-01": {
+  "file": "s-v3-l97-01.mp3",
+  "lead": 170,
+  "ms": 4056,
+  "tail": 386
+ },
+ "s:v3-l97-02": {
+  "file": "s-v3-l97-02.mp3",
+  "lead": 160,
+  "ms": 30600,
+  "tail": 370
+ },
+ "s:v3-l97-51": {
+  "file": "s-v3-l97-51.mp3",
+  "lead": 80,
+  "ms": 5904,
+  "tail": 84
+ },
+ "s:v3-l97-52": {
+  "file": "s-v3-l97-52.mp3",
+  "lead": 70,
+  "ms": 3936,
+  "tail": 66
+ },
+ "s:v3-l97-53": {
+  "file": "s-v3-l97-53.mp3",
+  "lead": 80,
+  "ms": 2304,
+  "tail": 84
+ },
+ "s:v3-l97-54": {
+  "file": "s-v3-l97-54.mp3",
+  "lead": 100,
+  "ms": 1848,
+  "tail": 78
+ },
+ "s:v3-l98-01": {
+  "file": "s-v3-l98-01.mp3",
+  "lead": 160,
+  "ms": 4200,
+  "tail": 390
+ },
+ "s:v3-l98-02": {
+  "file": "s-v3-l98-02.mp3",
+  "lead": 160,
+  "ms": 21552,
+  "tail": 372
+ },
+ "s:v3-l99-01": {
+  "file": "s-v3-l99-01.mp3",
+  "lead": 150,
+  "ms": 4128,
+  "tail": 378
+ },
+ "s:v3-l99-02": {
+  "file": "s-v3-l99-02.mp3",
+  "lead": 80,
+  "ms": 13800,
+  "tail": 60
+ },
  "s:was": {
   "file": "s-was.mp3",
   "lead": 150,
@@ -4845,6 +5871,30 @@
   "lead": 120,
   "ms": 792,
   "tail": 302
+ },
+ "w:action": {
+  "file": "w-action.mp3",
+  "lead": 120,
+  "ms": 1056,
+  "tail": 316
+ },
+ "w:adventure": {
+  "file": "w-adventure.mp3",
+  "lead": 120,
+  "ms": 1200,
+  "tail": 310
+ },
+ "w:all": {
+  "file": "w-all.mp3",
+  "lead": 120,
+  "ms": 960,
+  "tail": 450
+ },
+ "w:alphabet": {
+  "file": "w-alphabet.mp3",
+  "lead": 130,
+  "ms": 1104,
+  "tail": 334
  },
  "w:am": {
   "file": "w-am.mp3",
@@ -4864,11 +5914,29 @@
   "ms": 1080,
   "tail": 330
  },
+ "w:ancient": {
+  "file": "w-ancient.mp3",
+  "lead": 120,
+  "ms": 1080,
+  "tail": 330
+ },
  "w:and": {
   "file": "w-and.mp3",
   "lead": 120,
   "ms": 864,
   "tail": 314
+ },
+ "w:animal": {
+  "file": "w-animal.mp3",
+  "lead": 130,
+  "ms": 984,
+  "tail": 314
+ },
+ "w:another": {
+  "file": "w-another.mp3",
+  "lead": 120,
+  "ms": 936,
+  "tail": 326
  },
  "w:ant": {
   "file": "w-ant.mp3",
@@ -4876,11 +5944,35 @@
   "ms": 912,
   "tail": 322
  },
+ "w:apple": {
+  "file": "w-apple.mp3",
+  "lead": 130,
+  "ms": 1008,
+  "tail": 308
+ },
+ "w:apron": {
+  "file": "w-apron.mp3",
+  "lead": 120,
+  "ms": 1104,
+  "tail": 324
+ },
  "w:are": {
   "file": "w-are.mp3",
   "lead": 130,
   "ms": 816,
   "tail": 326
+ },
+ "w:arm": {
+  "file": "w-arm.mp3",
+  "lead": 120,
+  "ms": 840,
+  "tail": 330
+ },
+ "w:around": {
+  "file": "w-around.mp3",
+  "lead": 120,
+  "ms": 1008,
+  "tail": 308
  },
  "w:as": {
   "file": "w-as.mp3",
@@ -4894,11 +5986,35 @@
   "ms": 960,
   "tail": 330
  },
+ "w:asked": {
+  "file": "w-asked.mp3",
+  "lead": 130,
+  "ms": 960,
+  "tail": 310
+ },
  "w:at": {
   "file": "w-at.mp3",
   "lead": 200,
   "ms": 888,
   "tail": 328
+ },
+ "w:ate": {
+  "file": "w-ate.mp3",
+  "lead": 130,
+  "ms": 912,
+  "tail": 322
+ },
+ "w:away": {
+  "file": "w-away.mp3",
+  "lead": 120,
+  "ms": 984,
+  "tail": 314
+ },
+ "w:awful": {
+  "file": "w-awful.mp3",
+  "lead": 130,
+  "ms": 1056,
+  "tail": 316
  },
  "w:ax": {
   "file": "w-ax.mp3",
@@ -4906,11 +6022,35 @@
   "ms": 816,
   "tail": 326
  },
+ "w:babies": {
+  "file": "w-babies.mp3",
+  "lead": 130,
+  "ms": 1056,
+  "tail": 306
+ },
+ "w:baby": {
+  "file": "w-baby.mp3",
+  "lead": 120,
+  "ms": 1008,
+  "tail": 308
+ },
  "w:back": {
   "file": "w-back.mp3",
   "lead": 130,
   "ms": 1008,
   "tail": 398
+ },
+ "w:backpack": {
+  "file": "w-backpack.mp3",
+  "lead": 130,
+  "ms": 1224,
+  "tail": 324
+ },
+ "w:bacon": {
+  "file": "w-bacon.mp3",
+  "lead": 130,
+  "ms": 1032,
+  "tail": 312
  },
  "w:bad": {
   "file": "w-bad.mp3",
@@ -4918,11 +6058,23 @@
   "ms": 1233,
   "tail": 556
  },
+ "w:badge": {
+  "file": "w-badge.mp3",
+  "lead": 160,
+  "ms": 1080,
+  "tail": 310
+ },
  "w:bag": {
   "file": "w-bag.mp3",
   "lead": 140,
   "ms": 984,
   "tail": 314
+ },
+ "w:banana": {
+  "file": "w-banana.mp3",
+  "lead": 130,
+  "ms": 984,
+  "tail": 324
  },
  "w:band": {
   "file": "w-band.mp3",
@@ -4935,6 +6087,18 @@
   "lead": 120,
   "ms": 936,
   "tail": 316
+ },
+ "w:bank": {
+  "file": "w-bank.mp3",
+  "lead": 130,
+  "ms": 912,
+  "tail": 312
+ },
+ "w:barn": {
+  "file": "w-barn.mp3",
+  "lead": 120,
+  "ms": 960,
+  "tail": 330
  },
  "w:bash": {
   "file": "w-bash.mp3",
@@ -4954,6 +6118,12 @@
   "ms": 960,
   "tail": 310
  },
+ "w:bathtub": {
+  "file": "w-bathtub.mp3",
+  "lead": 130,
+  "ms": 1176,
+  "tail": 306
+ },
  "w:be": {
   "file": "w-be.mp3",
   "lead": 130,
@@ -4972,6 +6142,12 @@
   "ms": 984,
   "tail": 324
  },
+ "w:behind": {
+  "file": "w-behind.mp3",
+  "lead": 120,
+  "ms": 1152,
+  "tail": 322
+ },
  "w:bell": {
   "file": "w-bell.mp3",
   "lead": 130,
@@ -4984,11 +6160,35 @@
   "ms": 1008,
   "tail": 308
  },
+ "w:belts": {
+  "file": "w-belts.mp3",
+  "lead": 130,
+  "ms": 960,
+  "tail": 320
+ },
+ "w:bench": {
+  "file": "w-bench.mp3",
+  "lead": 130,
+  "ms": 960,
+  "tail": 330
+ },
+ "w:benches": {
+  "file": "w-benches.mp3",
+  "lead": 130,
+  "ms": 1128,
+  "tail": 298
+ },
  "w:bend": {
   "file": "w-bend.mp3",
   "lead": 200,
   "ms": 1008,
   "tail": 328
+ },
+ "w:besides": {
+  "file": "w-besides.mp3",
+  "lead": 130,
+  "ms": 1152,
+  "tail": 322
  },
  "w:best": {
   "file": "w-best.mp3",
@@ -5014,11 +6214,35 @@
   "ms": 960,
   "tail": 438
  },
+ "w:biggest": {
+  "file": "w-biggest.mp3",
+  "lead": 130,
+  "ms": 1056,
+  "tail": 316
+ },
+ "w:bill": {
+  "file": "w-bill.mp3",
+  "lead": 130,
+  "ms": 912,
+  "tail": 322
+ },
  "w:bin": {
   "file": "w-bin.mp3",
   "lead": 120,
   "ms": 888,
   "tail": 308
+ },
+ "w:bird": {
+  "file": "w-bird.mp3",
+  "lead": 130,
+  "ms": 984,
+  "tail": 324
+ },
+ "w:birds": {
+  "file": "w-birds.mp3",
+  "lead": 130,
+  "ms": 960,
+  "tail": 310
  },
  "w:bit": {
   "file": "w-bit.mp3",
@@ -5026,11 +6250,47 @@
   "ms": 1333,
   "tail": 592
  },
+ "w:bite": {
+  "file": "w-bite.mp3",
+  "lead": 130,
+  "ms": 960,
+  "tail": 310
+ },
+ "w:biting": {
+  "file": "w-biting.mp3",
+  "lead": 130,
+  "ms": 1080,
+  "tail": 310
+ },
  "w:black": {
   "file": "w-black.mp3",
   "lead": 120,
   "ms": 936,
   "tail": 326
+ },
+ "w:blend": {
+  "file": "w-blend.mp3",
+  "lead": 130,
+  "ms": 960,
+  "tail": 330
+ },
+ "w:blind": {
+  "file": "w-blind.mp3",
+  "lead": 120,
+  "ms": 1056,
+  "tail": 316
+ },
+ "w:blue": {
+  "file": "w-blue.mp3",
+  "lead": 130,
+  "ms": 912,
+  "tail": 312
+ },
+ "w:boil": {
+  "file": "w-boil.mp3",
+  "lead": 130,
+  "ms": 912,
+  "tail": 312
  },
  "w:bolt": {
   "file": "w-bolt.mp3",
@@ -5044,11 +6304,29 @@
   "ms": 984,
   "tail": 324
  },
+ "w:book": {
+  "file": "w-book.mp3",
+  "lead": 120,
+  "ms": 816,
+  "tail": 316
+ },
+ "w:born": {
+  "file": "w-born.mp3",
+  "lead": 120,
+  "ms": 888,
+  "tail": 308
+ },
  "w:boss": {
   "file": "w-boss.mp3",
   "lead": 170,
   "ms": 1104,
   "tail": 434
+ },
+ "w:bought": {
+  "file": "w-bought.mp3",
+  "lead": 120,
+  "ms": 936,
+  "tail": 326
  },
  "w:box": {
   "file": "w-box.mp3",
@@ -5056,17 +6334,125 @@
   "ms": 920,
   "tail": 324
  },
+ "w:boxes": {
+  "file": "w-boxes.mp3",
+  "lead": 120,
+  "ms": 1248,
+  "tail": 308
+ },
+ "w:boy": {
+  "file": "w-boy.mp3",
+  "lead": 120,
+  "ms": 1128,
+  "tail": 298
+ },
  "w:brag": {
   "file": "w-brag.mp3",
   "lead": 130,
   "ms": 960,
   "tail": 330
  },
+ "w:branches": {
+  "file": "w-branches.mp3",
+  "lead": 130,
+  "ms": 1320,
+  "tail": 330
+ },
+ "w:bread": {
+  "file": "w-bread.mp3",
+  "lead": 120,
+  "ms": 912,
+  "tail": 322
+ },
+ "w:breakfast": {
+  "file": "w-breakfast.mp3",
+  "lead": 130,
+  "ms": 1176,
+  "tail": 316
+ },
+ "w:bridge": {
+  "file": "w-bridge.mp3",
+  "lead": 120,
+  "ms": 1008,
+  "tail": 318
+ },
+ "w:brief": {
+  "file": "w-brief.mp3",
+  "lead": 120,
+  "ms": 960,
+  "tail": 310
+ },
+ "w:bright": {
+  "file": "w-bright.mp3",
+  "lead": 120,
+  "ms": 984,
+  "tail": 314
+ },
+ "w:bring": {
+  "file": "w-bring.mp3",
+  "lead": 130,
+  "ms": 912,
+  "tail": 312
+ },
+ "w:broke": {
+  "file": "w-broke.mp3",
+  "lead": 120,
+  "ms": 960,
+  "tail": 330
+ },
+ "w:brother": {
+  "file": "w-brother.mp3",
+  "lead": 120,
+  "ms": 960,
+  "tail": 310
+ },
+ "w:brought": {
+  "file": "w-brought.mp3",
+  "lead": 120,
+  "ms": 936,
+  "tail": 316
+ },
+ "w:brush": {
+  "file": "w-brush.mp3",
+  "lead": 120,
+  "ms": 960,
+  "tail": 310
+ },
+ "w:brushed": {
+  "file": "w-brushed.mp3",
+  "lead": 130,
+  "ms": 1056,
+  "tail": 326
+ },
+ "w:brushes": {
+  "file": "w-brushes.mp3",
+  "lead": 130,
+  "ms": 1104,
+  "tail": 324
+ },
+ "w:brushing": {
+  "file": "w-brushing.mp3",
+  "lead": 130,
+  "ms": 1056,
+  "tail": 326
+ },
+ "w:bubble": {
+  "file": "w-bubble.mp3",
+  "lead": 130,
+  "ms": 960,
+  "tail": 310
+ },
  "w:buck": {
   "file": "w-buck.mp3",
   "lead": 120,
   "ms": 936,
   "tail": 326
+ },
+ "w:bucket": {
+  "file": "w-bucket.mp3",
+  "lead": 130,
+  "ms": 1128,
+  "tail": 318
  },
  "w:bud": {
   "file": "w-bud.mp3",
@@ -5098,10 +6484,22 @@
   "ms": 910,
   "tail": 310
  },
+ "w:burn": {
+  "file": "w-burn.mp3",
+  "lead": 130,
+  "ms": 936,
+  "tail": 326
+ },
  "w:bus": {
   "file": "w-bus.mp3",
   "lead": 120,
   "ms": 960,
+  "tail": 330
+ },
+ "w:buses": {
+  "file": "w-buses.mp3",
+  "lead": 130,
+  "ms": 1080,
   "tail": 330
  },
  "w:bush": {
@@ -5110,11 +6508,29 @@
   "ms": 1080,
   "tail": 430
  },
+ "w:bustle": {
+  "file": "w-bustle.mp3",
+  "lead": 130,
+  "ms": 984,
+  "tail": 314
+ },
  "w:but": {
   "file": "w-but.mp3",
   "lead": 120,
   "ms": 864,
   "tail": 314
+ },
+ "w:butter": {
+  "file": "w-butter.mp3",
+  "lead": 130,
+  "ms": 960,
+  "tail": 320
+ },
+ "w:butterfly": {
+  "file": "w-butterfly.mp3",
+  "lead": 130,
+  "ms": 1224,
+  "tail": 324
  },
  "w:buzz": {
   "file": "w-buzz.mp3",
@@ -5122,11 +6538,41 @@
   "ms": 912,
   "tail": 312
  },
+ "w:buzzed": {
+  "file": "w-buzzed.mp3",
+  "lead": 130,
+  "ms": 1008,
+  "tail": 328
+ },
+ "w:by": {
+  "file": "w-by.mp3",
+  "lead": 130,
+  "ms": 960,
+  "tail": 330
+ },
  "w:cab": {
   "file": "w-cab.mp3",
   "lead": 170,
   "ms": 1212,
   "tail": 522
+ },
+ "w:cake": {
+  "file": "w-cake.mp3",
+  "lead": 130,
+  "ms": 960,
+  "tail": 310
+ },
+ "w:cakes": {
+  "file": "w-cakes.mp3",
+  "lead": 120,
+  "ms": 1056,
+  "tail": 316
+ },
+ "w:came": {
+  "file": "w-came.mp3",
+  "lead": 130,
+  "ms": 960,
+  "tail": 310
  },
  "w:camp": {
   "file": "w-camp.mp3",
@@ -5140,11 +6586,53 @@
   "ms": 940,
   "tail": 328
  },
+ "w:candle": {
+  "file": "w-candle.mp3",
+  "lead": 130,
+  "ms": 1128,
+  "tail": 328
+ },
  "w:cap": {
   "file": "w-cap.mp3",
   "lead": 160,
   "ms": 840,
   "tail": 310
+ },
+ "w:capture": {
+  "file": "w-capture.mp3",
+  "lead": 120,
+  "ms": 1128,
+  "tail": 318
+ },
+ "w:car": {
+  "file": "w-car.mp3",
+  "lead": 130,
+  "ms": 960,
+  "tail": 310
+ },
+ "w:card": {
+  "file": "w-card.mp3",
+  "lead": 120,
+  "ms": 1104,
+  "tail": 324
+ },
+ "w:careful": {
+  "file": "w-careful.mp3",
+  "lead": 130,
+  "ms": 1176,
+  "tail": 326
+ },
+ "w:careless": {
+  "file": "w-careless.mp3",
+  "lead": 120,
+  "ms": 1176,
+  "tail": 326
+ },
+ "w:cars": {
+  "file": "w-cars.mp3",
+  "lead": 120,
+  "ms": 1080,
+  "tail": 320
  },
  "w:cash": {
   "file": "w-cash.mp3",
@@ -5152,11 +6640,29 @@
   "ms": 1176,
   "tail": 426
  },
+ "w:castle": {
+  "file": "w-castle.mp3",
+  "lead": 130,
+  "ms": 1128,
+  "tail": 308
+ },
  "w:cat": {
   "file": "w-cat.mp3",
   "lead": 130,
   "ms": 984,
   "tail": 314
+ },
+ "w:catch": {
+  "file": "w-catch.mp3",
+  "lead": 120,
+  "ms": 1008,
+  "tail": 308
+ },
+ "w:catnip": {
+  "file": "w-catnip.mp3",
+  "lead": 130,
+  "ms": 1080,
+  "tail": 310
  },
  "w:cats": {
   "file": "w-cats.mp3",
@@ -5164,11 +6670,29 @@
   "ms": 936,
   "tail": 316
  },
+ "w:caught": {
+  "file": "w-caught.mp3",
+  "lead": 130,
+  "ms": 984,
+  "tail": 314
+ },
+ "w:cent": {
+  "file": "w-cent.mp3",
+  "lead": 120,
+  "ms": 960,
+  "tail": 330
+ },
  "w:chap": {
   "file": "w-chap.mp3",
   "lead": 120,
   "ms": 1152,
   "tail": 462
+ },
+ "w:charm": {
+  "file": "w-charm.mp3",
+  "lead": 130,
+  "ms": 1128,
+  "tail": 338
  },
  "w:chat": {
   "file": "w-chat.mp3",
@@ -5182,11 +6706,23 @@
   "ms": 912,
   "tail": 312
  },
+ "w:cheerful": {
+  "file": "w-cheerful.mp3",
+  "lead": 120,
+  "ms": 1128,
+  "tail": 318
+ },
  "w:chess": {
   "file": "w-chess.mp3",
   "lead": 120,
   "ms": 960,
   "tail": 330
+ },
+ "w:chest": {
+  "file": "w-chest.mp3",
+  "lead": 120,
+  "ms": 1008,
+  "tail": 318
  },
  "w:chick": {
   "file": "w-chick.mp3",
@@ -5194,11 +6730,41 @@
   "ms": 936,
   "tail": 326
  },
+ "w:chicken": {
+  "file": "w-chicken.mp3",
+  "lead": 130,
+  "ms": 1080,
+  "tail": 330
+ },
+ "w:chicks": {
+  "file": "w-chicks.mp3",
+  "lead": 150,
+  "ms": 1056,
+  "tail": 326
+ },
+ "w:chief": {
+  "file": "w-chief.mp3",
+  "lead": 120,
+  "ms": 960,
+  "tail": 330
+ },
+ "w:child": {
+  "file": "w-child.mp3",
+  "lead": 130,
+  "ms": 1080,
+  "tail": 330
+ },
  "w:chill": {
   "file": "w-chill.mp3",
   "lead": 140,
   "ms": 936,
   "tail": 326
+ },
+ "w:chilled": {
+  "file": "w-chilled.mp3",
+  "lead": 130,
+  "ms": 1056,
+  "tail": 306
  },
  "w:chin": {
   "file": "w-chin.mp3",
@@ -5211,6 +6777,12 @@
   "lead": 120,
   "ms": 1104,
   "tail": 454
+ },
+ "w:chipmunk": {
+  "file": "w-chipmunk.mp3",
+  "lead": 120,
+  "ms": 1200,
+  "tail": 330
  },
  "w:chop": {
   "file": "w-chop.mp3",
@@ -5242,10 +6814,82 @@
   "ms": 792,
   "tail": 312
  },
+ "w:church": {
+  "file": "w-church.mp3",
+  "lead": 130,
+  "ms": 1128,
+  "tail": 428
+ },
+ "w:circle": {
+  "file": "w-circle.mp3",
+  "lead": 120,
+  "ms": 1128,
+  "tail": 328
+ },
+ "w:circus": {
+  "file": "w-circus.mp3",
+  "lead": 120,
+  "ms": 1104,
+  "tail": 314
+ },
+ "w:cities": {
+  "file": "w-cities.mp3",
+  "lead": 120,
+  "ms": 1080,
+  "tail": 320
+ },
+ "w:city": {
+  "file": "w-city.mp3",
+  "lead": 120,
+  "ms": 1008,
+  "tail": 328
+ },
  "w:clap": {
   "file": "w-clap.mp3",
   "lead": 120,
   "ms": 936,
+  "tail": 326
+ },
+ "w:claw": {
+  "file": "w-claw.mp3",
+  "lead": 130,
+  "ms": 1008,
+  "tail": 318
+ },
+ "w:climb": {
+  "file": "w-climb.mp3",
+  "lead": 120,
+  "ms": 1152,
+  "tail": 322
+ },
+ "w:cloth": {
+  "file": "w-cloth.mp3",
+  "lead": 130,
+  "ms": 1056,
+  "tail": 316
+ },
+ "w:clue": {
+  "file": "w-clue.mp3",
+  "lead": 120,
+  "ms": 984,
+  "tail": 314
+ },
+ "w:coat": {
+  "file": "w-coat.mp3",
+  "lead": 120,
+  "ms": 984,
+  "tail": 324
+ },
+ "w:coats": {
+  "file": "w-coats.mp3",
+  "lead": 130,
+  "ms": 1056,
+  "tail": 326
+ },
+ "w:cobweb": {
+  "file": "w-cobweb.mp3",
+  "lead": 120,
+  "ms": 1056,
   "tail": 326
  },
  "w:cod": {
@@ -5254,17 +6898,47 @@
   "ms": 1008,
   "tail": 308
  },
+ "w:coin": {
+  "file": "w-coin.mp3",
+  "lead": 130,
+  "ms": 1008,
+  "tail": 328
+ },
+ "w:cold": {
+  "file": "w-cold.mp3",
+  "lead": 130,
+  "ms": 1008,
+  "tail": 318
+ },
  "w:come": {
   "file": "w-come.mp3",
   "lead": 130,
   "ms": 912,
   "tail": 312
  },
+ "w:comes": {
+  "file": "w-comes.mp3",
+  "lead": 130,
+  "ms": 1080,
+  "tail": 310
+ },
  "w:cop": {
   "file": "w-cop.mp3",
   "lead": 170,
   "ms": 984,
   "tail": 314
+ },
+ "w:cops": {
+  "file": "w-cops.mp3",
+  "lead": 130,
+  "ms": 1056,
+  "tail": 316
+ },
+ "w:corn": {
+  "file": "w-corn.mp3",
+  "lead": 120,
+  "ms": 1080,
+  "tail": 310
  },
  "w:cost": {
   "file": "w-cost.mp3",
@@ -5284,11 +6958,53 @@
   "ms": 984,
   "tail": 314
  },
+ "w:could": {
+  "file": "w-could.mp3",
+  "lead": 120,
+  "ms": 960,
+  "tail": 310
+ },
+ "w:cow": {
+  "file": "w-cow.mp3",
+  "lead": 130,
+  "ms": 984,
+  "tail": 324
+ },
+ "w:crawl": {
+  "file": "w-crawl.mp3",
+  "lead": 130,
+  "ms": 1008,
+  "tail": 318
+ },
+ "w:cried": {
+  "file": "w-cried.mp3",
+  "lead": 120,
+  "ms": 1080,
+  "tail": 330
+ },
+ "w:crust": {
+  "file": "w-crust.mp3",
+  "lead": 130,
+  "ms": 1032,
+  "tail": 322
+ },
+ "w:cry": {
+  "file": "w-cry.mp3",
+  "lead": 130,
+  "ms": 1032,
+  "tail": 312
+ },
  "w:cub": {
   "file": "w-cub.mp3",
   "lead": 170,
   "ms": 840,
   "tail": 310
+ },
+ "w:cube": {
+  "file": "w-cube.mp3",
+  "lead": 130,
+  "ms": 1008,
+  "tail": 308
  },
  "w:cuff": {
   "file": "w-cuff.mp3",
@@ -5308,11 +7024,23 @@
   "ms": 936,
   "tail": 326
  },
+ "w:curl": {
+  "file": "w-curl.mp3",
+  "lead": 120,
+  "ms": 1032,
+  "tail": 312
+ },
  "w:cut": {
   "file": "w-cut.mp3",
   "lead": 130,
   "ms": 888,
   "tail": 328
+ },
+ "w:cute": {
+  "file": "w-cute.mp3",
+  "lead": 130,
+  "ms": 1008,
+  "tail": 318
  },
  "w:dab": {
   "file": "w-dab.mp3",
@@ -5338,17 +7066,53 @@
   "ms": 912,
   "tail": 322
  },
+ "w:dark": {
+  "file": "w-dark.mp3",
+  "lead": 130,
+  "ms": 912,
+  "tail": 312
+ },
+ "w:darkness": {
+  "file": "w-darkness.mp3",
+  "lead": 120,
+  "ms": 1152,
+  "tail": 312
+ },
  "w:dash": {
   "file": "w-dash.mp3",
   "lead": 130,
   "ms": 1152,
   "tail": 432
  },
+ "w:day": {
+  "file": "w-day.mp3",
+  "lead": 130,
+  "ms": 888,
+  "tail": 328
+ },
+ "w:deal": {
+  "file": "w-deal.mp3",
+  "lead": 130,
+  "ms": 888,
+  "tail": 318
+ },
  "w:deck": {
   "file": "w-deck.mp3",
   "lead": 120,
   "ms": 1080,
   "tail": 430
+ },
+ "w:deep": {
+  "file": "w-deep.mp3",
+  "lead": 130,
+  "ms": 888,
+  "tail": 328
+ },
+ "w:deer": {
+  "file": "w-deer.mp3",
+  "lead": 130,
+  "ms": 912,
+  "tail": 322
  },
  "w:den": {
   "file": "w-den.mp3",
@@ -5368,6 +7132,18 @@
   "ms": 984,
   "tail": 314
  },
+ "w:desks": {
+  "file": "w-desks.mp3",
+  "lead": 120,
+  "ms": 1080,
+  "tail": 310
+ },
+ "w:dew": {
+  "file": "w-dew.mp3",
+  "lead": 130,
+  "ms": 840,
+  "tail": 310
+ },
  "w:did": {
   "file": "w-did.mp3",
   "lead": 200,
@@ -5380,11 +7156,23 @@
   "ms": 960,
   "tail": 438
  },
+ "w:digging": {
+  "file": "w-digging.mp3",
+  "lead": 130,
+  "ms": 960,
+  "tail": 310
+ },
  "w:dim": {
   "file": "w-dim.mp3",
   "lead": 120,
   "ms": 890,
   "tail": 330
+ },
+ "w:dime": {
+  "file": "w-dime.mp3",
+  "lead": 120,
+  "ms": 984,
+  "tail": 324
  },
  "w:ding": {
   "file": "w-ding.mp3",
@@ -5392,17 +7180,59 @@
   "ms": 1056,
   "tail": 446
  },
+ "w:dinner": {
+  "file": "w-dinner.mp3",
+  "lead": 130,
+  "ms": 912,
+  "tail": 312
+ },
+ "w:dinosaur": {
+  "file": "w-dinosaur.mp3",
+  "lead": 130,
+  "ms": 1200,
+  "tail": 310
+ },
  "w:dip": {
   "file": "w-dip.mp3",
   "lead": 130,
   "ms": 900,
   "tail": 320
  },
+ "w:dirt": {
+  "file": "w-dirt.mp3",
+  "lead": 130,
+  "ms": 960,
+  "tail": 330
+ },
+ "w:disagree": {
+  "file": "w-disagree.mp3",
+  "lead": 120,
+  "ms": 1296,
+  "tail": 316
+ },
  "w:dish": {
   "file": "w-dish.mp3",
   "lead": 120,
   "ms": 864,
   "tail": 314
+ },
+ "w:dishes": {
+  "file": "w-dishes.mp3",
+  "lead": 130,
+  "ms": 1104,
+  "tail": 324
+ },
+ "w:dislike": {
+  "file": "w-dislike.mp3",
+  "lead": 130,
+  "ms": 1224,
+  "tail": 324
+ },
+ "w:dive": {
+  "file": "w-dive.mp3",
+  "lead": 120,
+  "ms": 936,
+  "tail": 316
  },
  "w:do": {
   "file": "w-do.mp3",
@@ -5434,6 +7264,12 @@
   "ms": 960,
   "tail": 310
  },
+ "w:dolphin": {
+  "file": "w-dolphin.mp3",
+  "lead": 120,
+  "ms": 1056,
+  "tail": 316
+ },
  "w:dot": {
   "file": "w-dot.mp3",
   "lead": 120,
@@ -5446,6 +7282,42 @@
   "ms": 912,
   "tail": 312
  },
+ "w:down": {
+  "file": "w-down.mp3",
+  "lead": 120,
+  "ms": 960,
+  "tail": 310
+ },
+ "w:draw": {
+  "file": "w-draw.mp3",
+  "lead": 120,
+  "ms": 936,
+  "tail": 326
+ },
+ "w:dressed": {
+  "file": "w-dressed.mp3",
+  "lead": 120,
+  "ms": 984,
+  "tail": 324
+ },
+ "w:dried": {
+  "file": "w-dried.mp3",
+  "lead": 120,
+  "ms": 984,
+  "tail": 324
+ },
+ "w:drilled": {
+  "file": "w-drilled.mp3",
+  "lead": 120,
+  "ms": 936,
+  "tail": 316
+ },
+ "w:drink": {
+  "file": "w-drink.mp3",
+  "lead": 120,
+  "ms": 912,
+  "tail": 312
+ },
  "w:drop": {
   "file": "w-drop.mp3",
   "lead": 120,
@@ -5455,6 +7327,12 @@
  "w:drum": {
   "file": "w-drum.mp3",
   "lead": 130,
+  "ms": 960,
+  "tail": 320
+ },
+ "w:dry": {
+  "file": "w-dry.mp3",
+  "lead": 120,
   "ms": 960,
   "tail": 320
  },
@@ -5476,10 +7354,100 @@
   "ms": 984,
   "tail": 324
  },
+ "w:dust": {
+  "file": "w-dust.mp3",
+  "lead": 130,
+  "ms": 960,
+  "tail": 330
+ },
+ "w:dustbin": {
+  "file": "w-dustbin.mp3",
+  "lead": 120,
+  "ms": 1080,
+  "tail": 310
+ },
+ "w:each": {
+  "file": "w-each.mp3",
+  "lead": 120,
+  "ms": 864,
+  "tail": 324
+ },
+ "w:eagle": {
+  "file": "w-eagle.mp3",
+  "lead": 130,
+  "ms": 984,
+  "tail": 324
+ },
+ "w:eagles": {
+  "file": "w-eagles.mp3",
+  "lead": 120,
+  "ms": 1080,
+  "tail": 320
+ },
+ "w:ear": {
+  "file": "w-ear.mp3",
+  "lead": 130,
+  "ms": 864,
+  "tail": 324
+ },
+ "w:ears": {
+  "file": "w-ears.mp3",
+  "lead": 130,
+  "ms": 984,
+  "tail": 304
+ },
+ "w:eat": {
+  "file": "w-eat.mp3",
+  "lead": 130,
+  "ms": 888,
+  "tail": 308
+ },
+ "w:eating": {
+  "file": "w-eating.mp3",
+  "lead": 130,
+  "ms": 936,
+  "tail": 316
+ },
+ "w:edge": {
+  "file": "w-edge.mp3",
+  "lead": 120,
+  "ms": 840,
+  "tail": 330
+ },
+ "w:eight": {
+  "file": "w-eight.mp3",
+  "lead": 150,
+  "ms": 888,
+  "tail": 328
+ },
+ "w:elephant": {
+  "file": "w-elephant.mp3",
+  "lead": 130,
+  "ms": 1080,
+  "tail": 310
+ },
  "w:end": {
   "file": "w-end.mp3",
   "lead": 130,
   "ms": 840,
+  "tail": 310
+ },
+ "w:ended": {
+  "file": "w-ended.mp3",
+  "lead": 130,
+  "ms": 984,
+  "tail": 314
+ },
+ "w:endless": {
+  "file": "w-endless.mp3",
+  "lead": 120,
+  "ms": 1104,
+  "tail": 324
+ },
+ "w:enjoy": {
+  "file": "w-enjoy.mp3",
+  "lead": 120,
+  "ms": 1080,
   "tail": 310
  },
  "w:enough": {
@@ -5487,6 +7455,24 @@
   "lead": 120,
   "ms": 984,
   "tail": 314
+ },
+ "w:ever": {
+  "file": "w-ever.mp3",
+  "lead": 130,
+  "ms": 864,
+  "tail": 324
+ },
+ "w:every": {
+  "file": "w-every.mp3",
+  "lead": 130,
+  "ms": 1008,
+  "tail": 308
+ },
+ "w:fall": {
+  "file": "w-fall.mp3",
+  "lead": 120,
+  "ms": 792,
+  "tail": 292
  },
  "w:fan": {
   "file": "w-fan.mp3",
@@ -5499,6 +7485,30 @@
   "lead": 120,
   "ms": 936,
   "tail": 326
+ },
+ "w:far": {
+  "file": "w-far.mp3",
+  "lead": 130,
+  "ms": 1008,
+  "tail": 318
+ },
+ "w:farm": {
+  "file": "w-farm.mp3",
+  "lead": 130,
+  "ms": 1080,
+  "tail": 330
+ },
+ "w:farmer": {
+  "file": "w-farmer.mp3",
+  "lead": 120,
+  "ms": 1128,
+  "tail": 308
+ },
+ "w:farms": {
+  "file": "w-farms.mp3",
+  "lead": 120,
+  "ms": 1104,
+  "tail": 314
  },
  "w:fast": {
   "file": "w-fast.mp3",
@@ -5518,11 +7528,35 @@
   "ms": 1032,
   "tail": 352
  },
+ "w:feather": {
+  "file": "w-feather.mp3",
+  "lead": 130,
+  "ms": 1032,
+  "tail": 312
+ },
  "w:fed": {
   "file": "w-fed.mp3",
   "lead": 120,
   "ms": 984,
   "tail": 314
+ },
+ "w:feed": {
+  "file": "w-feed.mp3",
+  "lead": 130,
+  "ms": 1104,
+  "tail": 324
+ },
+ "w:feel": {
+  "file": "w-feel.mp3",
+  "lead": 130,
+  "ms": 1104,
+  "tail": 324
+ },
+ "w:feet": {
+  "file": "w-feet.mp3",
+  "lead": 120,
+  "ms": 864,
+  "tail": 324
  },
  "w:fell": {
   "file": "w-fell.mp3",
@@ -5530,11 +7564,41 @@
   "ms": 960,
   "tail": 330
  },
+ "w:fetch": {
+  "file": "w-fetch.mp3",
+  "lead": 120,
+  "ms": 1152,
+  "tail": 372
+ },
+ "w:few": {
+  "file": "w-few.mp3",
+  "lead": 130,
+  "ms": 1032,
+  "tail": 322
+ },
+ "w:field": {
+  "file": "w-field.mp3",
+  "lead": 130,
+  "ms": 1104,
+  "tail": 314
+ },
  "w:fig": {
   "file": "w-fig.mp3",
   "lead": 120,
   "ms": 1008,
   "tail": 328
+ },
+ "w:fill": {
+  "file": "w-fill.mp3",
+  "lead": 120,
+  "ms": 984,
+  "tail": 324
+ },
+ "w:filled": {
+  "file": "w-filled.mp3",
+  "lead": 130,
+  "ms": 1080,
+  "tail": 330
  },
  "w:fin": {
   "file": "w-fin.mp3",
@@ -5542,11 +7606,29 @@
   "ms": 888,
   "tail": 318
  },
+ "w:finally": {
+  "file": "w-finally.mp3",
+  "lead": 130,
+  "ms": 1200,
+  "tail": 310
+ },
  "w:find": {
   "file": "w-find.mp3",
   "lead": 120,
   "ms": 1152,
   "tail": 312
+ },
+ "w:fine": {
+  "file": "w-fine.mp3",
+  "lead": 120,
+  "ms": 1056,
+  "tail": 326
+ },
+ "w:first": {
+  "file": "w-first.mp3",
+  "lead": 120,
+  "ms": 1008,
+  "tail": 308
  },
  "w:fish": {
   "file": "w-fish.mp3",
@@ -5554,11 +7636,23 @@
   "ms": 888,
   "tail": 308
  },
+ "w:fishing": {
+  "file": "w-fishing.mp3",
+  "lead": 120,
+  "ms": 1104,
+  "tail": 324
+ },
  "w:fit": {
   "file": "w-fit.mp3",
   "lead": 120,
   "ms": 900,
   "tail": 350
+ },
+ "w:five": {
+  "file": "w-five.mp3",
+  "lead": 130,
+  "ms": 1128,
+  "tail": 328
  },
  "w:fix": {
   "file": "w-fix.mp3",
@@ -5584,11 +7678,35 @@
   "ms": 912,
   "tail": 322
  },
+ "w:flies": {
+  "file": "w-flies.mp3",
+  "lead": 130,
+  "ms": 1248,
+  "tail": 318
+ },
+ "w:flowers": {
+  "file": "w-flowers.mp3",
+  "lead": 130,
+  "ms": 1272,
+  "tail": 322
+ },
+ "w:fly": {
+  "file": "w-fly.mp3",
+  "lead": 130,
+  "ms": 1056,
+  "tail": 306
+ },
  "w:fog": {
   "file": "w-fog.mp3",
   "lead": 120,
   "ms": 984,
   "tail": 314
+ },
+ "w:fold": {
+  "file": "w-fold.mp3",
+  "lead": 130,
+  "ms": 1056,
+  "tail": 316
  },
  "w:fond": {
   "file": "w-fond.mp3",
@@ -5602,10 +7720,40 @@
   "ms": 912,
   "tail": 312
  },
+ "w:fought": {
+  "file": "w-fought.mp3",
+  "lead": 120,
+  "ms": 936,
+  "tail": 316
+ },
+ "w:found": {
+  "file": "w-found.mp3",
+  "lead": 120,
+  "ms": 1008,
+  "tail": 308
+ },
  "w:fox": {
   "file": "w-fox.mp3",
   "lead": 130,
   "ms": 940,
+  "tail": 328
+ },
+ "w:foxes": {
+  "file": "w-foxes.mp3",
+  "lead": 120,
+  "ms": 1272,
+  "tail": 302
+ },
+ "w:freight": {
+  "file": "w-freight.mp3",
+  "lead": 130,
+  "ms": 1080,
+  "tail": 310
+ },
+ "w:frog": {
+  "file": "w-frog.mp3",
+  "lead": 120,
+  "ms": 1128,
   "tail": 328
  },
  "w:from": {
@@ -5614,11 +7762,23 @@
   "ms": 888,
   "tail": 328
  },
+ "w:fudge": {
+  "file": "w-fudge.mp3",
+  "lead": 130,
+  "ms": 1056,
+  "tail": 326
+ },
  "w:fun": {
   "file": "w-fun.mp3",
   "lead": 120,
   "ms": 890,
   "tail": 330
+ },
+ "w:funny": {
+  "file": "w-funny.mp3",
+  "lead": 130,
+  "ms": 1008,
+  "tail": 318
  },
  "w:fuss": {
   "file": "w-fuss.mp3",
@@ -5626,11 +7786,23 @@
   "ms": 936,
   "tail": 316
  },
+ "w:future": {
+  "file": "w-future.mp3",
+  "lead": 120,
+  "ms": 1128,
+  "tail": 328
+ },
  "w:fuzz": {
   "file": "w-fuzz.mp3",
   "lead": 130,
   "ms": 888,
   "tail": 318
+ },
+ "w:game": {
+  "file": "w-game.mp3",
+  "lead": 130,
+  "ms": 960,
+  "tail": 330
  },
  "w:gap": {
   "file": "w-gap.mp3",
@@ -5650,11 +7822,59 @@
   "ms": 1008,
   "tail": 308
  },
+ "w:gate": {
+  "file": "w-gate.mp3",
+  "lead": 130,
+  "ms": 936,
+  "tail": 316
+ },
+ "w:gates": {
+  "file": "w-gates.mp3",
+  "lead": 130,
+  "ms": 1032,
+  "tail": 322
+ },
+ "w:gave": {
+  "file": "w-gave.mp3",
+  "lead": 120,
+  "ms": 936,
+  "tail": 336
+ },
+ "w:gem": {
+  "file": "w-gem.mp3",
+  "lead": 120,
+  "ms": 936,
+  "tail": 316
+ },
+ "w:generous": {
+  "file": "w-generous.mp3",
+  "lead": 120,
+  "ms": 1152,
+  "tail": 312
+ },
+ "w:germ": {
+  "file": "w-germ.mp3",
+  "lead": 120,
+  "ms": 984,
+  "tail": 314
+ },
  "w:get": {
   "file": "w-get.mp3",
   "lead": 200,
   "ms": 912,
   "tail": 322
+ },
+ "w:gets": {
+  "file": "w-gets.mp3",
+  "lead": 120,
+  "ms": 912,
+  "tail": 302
+ },
+ "w:getting": {
+  "file": "w-getting.mp3",
+  "lead": 130,
+  "ms": 1008,
+  "tail": 318
  },
  "w:gift": {
   "file": "w-gift.mp3",
@@ -5662,11 +7882,47 @@
   "ms": 1080,
   "tail": 330
  },
+ "w:gifts": {
+  "file": "w-gifts.mp3",
+  "lead": 130,
+  "ms": 1008,
+  "tail": 308
+ },
+ "w:ginger": {
+  "file": "w-ginger.mp3",
+  "lead": 120,
+  "ms": 1152,
+  "tail": 322
+ },
+ "w:girl": {
+  "file": "w-girl.mp3",
+  "lead": 120,
+  "ms": 888,
+  "tail": 318
+ },
  "w:glad": {
   "file": "w-glad.mp3",
   "lead": 130,
   "ms": 960,
   "tail": 310
+ },
+ "w:gladly": {
+  "file": "w-gladly.mp3",
+  "lead": 130,
+  "ms": 1008,
+  "tail": 328
+ },
+ "w:glasses": {
+  "file": "w-glasses.mp3",
+  "lead": 120,
+  "ms": 1200,
+  "tail": 320
+ },
+ "w:glue": {
+  "file": "w-glue.mp3",
+  "lead": 140,
+  "ms": 960,
+  "tail": 320
  },
  "w:go": {
   "file": "w-go.mp3",
@@ -5674,11 +7930,47 @@
   "ms": 870,
   "tail": 316
  },
+ "w:goat": {
+  "file": "w-goat.mp3",
+  "lead": 130,
+  "ms": 936,
+  "tail": 326
+ },
+ "w:goats": {
+  "file": "w-goats.mp3",
+  "lead": 130,
+  "ms": 960,
+  "tail": 310
+ },
+ "w:goes": {
+  "file": "w-goes.mp3",
+  "lead": 140,
+  "ms": 1056,
+  "tail": 326
+ },
+ "w:going": {
+  "file": "w-going.mp3",
+  "lead": 130,
+  "ms": 1008,
+  "tail": 318
+ },
+ "w:gold": {
+  "file": "w-gold.mp3",
+  "lead": 120,
+  "ms": 1008,
+  "tail": 308
+ },
  "w:gong": {
   "file": "w-gong.mp3",
   "lead": 160,
   "ms": 1104,
   "tail": 454
+ },
+ "w:good": {
+  "file": "w-good.mp3",
+  "lead": 130,
+  "ms": 840,
+  "tail": 320
  },
  "w:got": {
   "file": "w-got.mp3",
@@ -5692,11 +7984,53 @@
   "ms": 888,
   "tail": 308
  },
+ "w:graph": {
+  "file": "w-graph.mp3",
+  "lead": 120,
+  "ms": 984,
+  "tail": 314
+ },
+ "w:grass": {
+  "file": "w-grass.mp3",
+  "lead": 130,
+  "ms": 1032,
+  "tail": 322
+ },
+ "w:gravy": {
+  "file": "w-gravy.mp3",
+  "lead": 130,
+  "ms": 1008,
+  "tail": 318
+ },
+ "w:green": {
+  "file": "w-green.mp3",
+  "lead": 120,
+  "ms": 1008,
+  "tail": 308
+ },
+ "w:grey": {
+  "file": "w-grey.mp3",
+  "lead": 120,
+  "ms": 960,
+  "tail": 320
+ },
+ "w:grilled": {
+  "file": "w-grilled.mp3",
+  "lead": 120,
+  "ms": 1008,
+  "tail": 318
+ },
  "w:grin": {
   "file": "w-grin.mp3",
   "lead": 120,
   "ms": 936,
   "tail": 316
+ },
+ "w:grow": {
+  "file": "w-grow.mp3",
+  "lead": 130,
+  "ms": 960,
+  "tail": 330
  },
  "w:gulf": {
   "file": "w-gulf.mp3",
@@ -5740,17 +8074,59 @@
   "ms": 960,
   "tail": 320
  },
+ "w:hammer": {
+  "file": "w-hammer.mp3",
+  "lead": 120,
+  "ms": 1032,
+  "tail": 322
+ },
  "w:hand": {
   "file": "w-hand.mp3",
   "lead": 160,
   "ms": 1008,
   "tail": 328
  },
+ "w:handful": {
+  "file": "w-handful.mp3",
+  "lead": 120,
+  "ms": 1128,
+  "tail": 328
+ },
+ "w:handle": {
+  "file": "w-handle.mp3",
+  "lead": 120,
+  "ms": 1008,
+  "tail": 328
+ },
+ "w:hands": {
+  "file": "w-hands.mp3",
+  "lead": 120,
+  "ms": 1008,
+  "tail": 318
+ },
  "w:hang": {
   "file": "w-hang.mp3",
   "lead": 120,
   "ms": 936,
   "tail": 316
+ },
+ "w:happier": {
+  "file": "w-happier.mp3",
+  "lead": 120,
+  "ms": 1104,
+  "tail": 304
+ },
+ "w:happy": {
+  "file": "w-happy.mp3",
+  "lead": 120,
+  "ms": 1008,
+  "tail": 308
+ },
+ "w:hard": {
+  "file": "w-hard.mp3",
+  "lead": 120,
+  "ms": 1008,
+  "tail": 328
  },
  "w:has": {
   "file": "w-has.mp3",
@@ -5764,11 +8140,23 @@
   "ms": 960,
   "tail": 310
  },
+ "w:hate": {
+  "file": "w-hate.mp3",
+  "lead": 120,
+  "ms": 936,
+  "tail": 316
+ },
  "w:hats": {
   "file": "w-hats.mp3",
   "lead": 120,
   "ms": 936,
   "tail": 316
+ },
+ "w:haul": {
+  "file": "w-haul.mp3",
+  "lead": 120,
+  "ms": 840,
+  "tail": 310
  },
  "w:have": {
   "file": "w-have.mp3",
@@ -5776,17 +8164,71 @@
   "ms": 936,
   "tail": 326
  },
+ "w:having": {
+  "file": "w-having.mp3",
+  "lead": 120,
+  "ms": 1008,
+  "tail": 318
+ },
  "w:he": {
   "file": "w-he.mp3",
   "lead": 130,
   "ms": 880,
   "tail": 306
  },
+ "w:head": {
+  "file": "w-head.mp3",
+  "lead": 120,
+  "ms": 864,
+  "tail": 314
+ },
+ "w:hear": {
+  "file": "w-hear.mp3",
+  "lead": 120,
+  "ms": 936,
+  "tail": 326
+ },
+ "w:heavy": {
+  "file": "w-heavy.mp3",
+  "lead": 120,
+  "ms": 864,
+  "tail": 314
+ },
+ "w:held": {
+  "file": "w-held.mp3",
+  "lead": 120,
+  "ms": 864,
+  "tail": 314
+ },
  "w:help": {
   "file": "w-help.mp3",
   "lead": 120,
   "ms": 912,
   "tail": 322
+ },
+ "w:helped": {
+  "file": "w-helped.mp3",
+  "lead": 120,
+  "ms": 960,
+  "tail": 310
+ },
+ "w:helper": {
+  "file": "w-helper.mp3",
+  "lead": 120,
+  "ms": 1008,
+  "tail": 328
+ },
+ "w:helpful": {
+  "file": "w-helpful.mp3",
+  "lead": 120,
+  "ms": 1128,
+  "tail": 308
+ },
+ "w:helpless": {
+  "file": "w-helpless.mp3",
+  "lead": 120,
+  "ms": 1200,
+  "tail": 330
  },
  "w:hem": {
   "file": "w-hem.mp3",
@@ -5806,17 +8248,53 @@
   "ms": 1008,
   "tail": 328
  },
+ "w:her": {
+  "file": "w-her.mp3",
+  "lead": 120,
+  "ms": 744,
+  "tail": 314
+ },
+ "w:here": {
+  "file": "w-here.mp3",
+  "lead": 120,
+  "ms": 936,
+  "tail": 316
+ },
+ "w:hey": {
+  "file": "w-hey.mp3",
+  "lead": 120,
+  "ms": 840,
+  "tail": 310
+ },
  "w:hid": {
   "file": "w-hid.mp3",
   "lead": 130,
   "ms": 840,
   "tail": 330
  },
+ "w:hide": {
+  "file": "w-hide.mp3",
+  "lead": 120,
+  "ms": 960,
+  "tail": 330
+ },
+ "w:high": {
+  "file": "w-high.mp3",
+  "lead": 120,
+  "ms": 912,
+  "tail": 322
+ },
  "w:hill": {
   "file": "w-hill.mp3",
   "lead": 130,
   "ms": 840,
   "tail": 330
+ },
+ "w:hilltop": {
+  "file": "w-hilltop.mp3",
+  "lead": 120,
+  "ms": 1104,
+  "tail": 324
  },
  "w:him": {
   "file": "w-him.mp3",
@@ -5848,6 +8326,12 @@
   "ms": 840,
   "tail": 330
  },
+ "w:hits": {
+  "file": "w-hits.mp3",
+  "lead": 120,
+  "ms": 936,
+  "tail": 316
+ },
  "w:hog": {
   "file": "w-hog.mp3",
   "lead": 120,
@@ -5860,17 +8344,77 @@
   "ms": 960,
   "tail": 310
  },
+ "w:hole": {
+  "file": "w-hole.mp3",
+  "lead": 120,
+  "ms": 888,
+  "tail": 328
+ },
+ "w:holes": {
+  "file": "w-holes.mp3",
+  "lead": 120,
+  "ms": 1032,
+  "tail": 312
+ },
+ "w:holiday": {
+  "file": "w-holiday.mp3",
+  "lead": 120,
+  "ms": 1056,
+  "tail": 316
+ },
+ "w:home": {
+  "file": "w-home.mp3",
+  "lead": 120,
+  "ms": 936,
+  "tail": 316
+ },
+ "w:honey": {
+  "file": "w-honey.mp3",
+  "lead": 120,
+  "ms": 960,
+  "tail": 310
+ },
  "w:hop": {
   "file": "w-hop.mp3",
   "lead": 130,
   "ms": 912,
   "tail": 312
  },
+ "w:hope": {
+  "file": "w-hope.mp3",
+  "lead": 130,
+  "ms": 960,
+  "tail": 320
+ },
+ "w:hopeless": {
+  "file": "w-hopeless.mp3",
+  "lead": 120,
+  "ms": 1176,
+  "tail": 316
+ },
+ "w:horse": {
+  "file": "w-horse.mp3",
+  "lead": 120,
+  "ms": 1008,
+  "tail": 308
+ },
  "w:hot": {
   "file": "w-hot.mp3",
   "lead": 130,
   "ms": 960,
   "tail": 310
+ },
+ "w:house": {
+  "file": "w-house.mp3",
+  "lead": 120,
+  "ms": 1008,
+  "tail": 328
+ },
+ "w:how": {
+  "file": "w-how.mp3",
+  "lead": 120,
+  "ms": 888,
+  "tail": 308
  },
  "w:hub": {
   "file": "w-hub.mp3",
@@ -5890,6 +8434,12 @@
   "ms": 888,
   "tail": 328
  },
+ "w:huge": {
+  "file": "w-huge.mp3",
+  "lead": 120,
+  "ms": 1008,
+  "tail": 318
+ },
  "w:hum": {
   "file": "w-hum.mp3",
   "lead": 120,
@@ -5901,6 +8451,18 @@
   "lead": 150,
   "ms": 864,
   "tail": 314
+ },
+ "w:hunt": {
+  "file": "w-hunt.mp3",
+  "lead": 120,
+  "ms": 960,
+  "tail": 330
+ },
+ "w:hunting": {
+  "file": "w-hunting.mp3",
+  "lead": 130,
+  "ms": 1104,
+  "tail": 324
  },
  "w:hush": {
   "file": "w-hush.mp3",
@@ -5926,11 +8488,23 @@
   "ms": 816,
   "tail": 306
  },
+ "w:illness": {
+  "file": "w-illness.mp3",
+  "lead": 120,
+  "ms": 1056,
+  "tail": 326
+ },
  "w:in": {
   "file": "w-in.mp3",
   "lead": 130,
   "ms": 888,
   "tail": 328
+ },
+ "w:inside": {
+  "file": "w-inside.mp3",
+  "lead": 120,
+  "ms": 1224,
+  "tail": 304
  },
  "w:into": {
   "file": "w-into.mp3",
@@ -5956,17 +8530,35 @@
   "ms": 1104,
   "tail": 324
  },
+ "w:jacket": {
+  "file": "w-jacket.mp3",
+  "lead": 120,
+  "ms": 1056,
+  "tail": 326
+ },
  "w:jam": {
   "file": "w-jam.mp3",
   "lead": 180,
   "ms": 1104,
   "tail": 314
  },
+ "w:jaw": {
+  "file": "w-jaw.mp3",
+  "lead": 120,
+  "ms": 960,
+  "tail": 310
+ },
  "w:jazz": {
   "file": "w-jazz.mp3",
   "lead": 150,
   "ms": 960,
   "tail": 310
+ },
+ "w:jelly": {
+  "file": "w-jelly.mp3",
+  "lead": 120,
+  "ms": 1056,
+  "tail": 326
  },
  "w:jet": {
   "file": "w-jet.mp3",
@@ -5992,11 +8584,29 @@
   "ms": 1080,
   "tail": 320
  },
+ "w:join": {
+  "file": "w-join.mp3",
+  "lead": 160,
+  "ms": 1056,
+  "tail": 376
+ },
  "w:jot": {
   "file": "w-jot.mp3",
   "lead": 120,
   "ms": 1152,
   "tail": 452
+ },
+ "w:joyful": {
+  "file": "w-joyful.mp3",
+  "lead": 120,
+  "ms": 1128,
+  "tail": 308
+ },
+ "w:judge": {
+  "file": "w-judge.mp3",
+  "lead": 140,
+  "ms": 1128,
+  "tail": 358
  },
  "w:jug": {
   "file": "w-jug.mp3",
@@ -6009,6 +8619,24 @@
   "lead": 130,
   "ms": 1080,
   "tail": 310
+ },
+ "w:jumped": {
+  "file": "w-jumped.mp3",
+  "lead": 120,
+  "ms": 1032,
+  "tail": 312
+ },
+ "w:jumper": {
+  "file": "w-jumper.mp3",
+  "lead": 130,
+  "ms": 1128,
+  "tail": 308
+ },
+ "w:jumps": {
+  "file": "w-jumps.mp3",
+  "lead": 120,
+  "ms": 1080,
+  "tail": 320
  },
  "w:just": {
   "file": "w-just.mp3",
@@ -6040,6 +8668,12 @@
   "ms": 864,
   "tail": 324
  },
+ "w:kicked": {
+  "file": "w-kicked.mp3",
+  "lead": 140,
+  "ms": 1128,
+  "tail": 338
+ },
  "w:kid": {
   "file": "w-kid.mp3",
   "lead": 170,
@@ -6051,6 +8685,24 @@
   "lead": 120,
   "ms": 960,
   "tail": 310
+ },
+ "w:kind": {
+  "file": "w-kind.mp3",
+  "lead": 130,
+  "ms": 1080,
+  "tail": 310
+ },
+ "w:kindly": {
+  "file": "w-kindly.mp3",
+  "lead": 130,
+  "ms": 1152,
+  "tail": 312
+ },
+ "w:kindness": {
+  "file": "w-kindness.mp3",
+  "lead": 130,
+  "ms": 1296,
+  "tail": 316
  },
  "w:king": {
   "file": "w-king.mp3",
@@ -6069,6 +8721,12 @@
   "lead": 150,
   "ms": 840,
   "tail": 330
+ },
+ "w:kitten": {
+  "file": "w-kitten.mp3",
+  "lead": 120,
+  "ms": 1056,
+  "tail": 326
  },
  "w:knit": {
   "file": "w-knit.mp3",
@@ -6106,6 +8764,24 @@
   "ms": 1008,
   "tail": 308
  },
+ "w:ladder": {
+  "file": "w-ladder.mp3",
+  "lead": 120,
+  "ms": 1008,
+  "tail": 308
+ },
+ "w:lady": {
+  "file": "w-lady.mp3",
+  "lead": 120,
+  "ms": 1056,
+  "tail": 316
+ },
+ "w:lake": {
+  "file": "w-lake.mp3",
+  "lead": 120,
+  "ms": 888,
+  "tail": 318
+ },
  "w:lamb": {
   "file": "w-lamb.mp3",
   "lead": 230,
@@ -6118,16 +8794,34 @@
   "ms": 1080,
   "tail": 320
  },
+ "w:lamps": {
+  "file": "w-lamps.mp3",
+  "lead": 120,
+  "ms": 1008,
+  "tail": 308
+ },
  "w:land": {
   "file": "w-land.mp3",
   "lead": 130,
   "ms": 960,
   "tail": 330
  },
+ "w:landed": {
+  "file": "w-landed.mp3",
+  "lead": 120,
+  "ms": 1104,
+  "tail": 314
+ },
  "w:lap": {
   "file": "w-lap.mp3",
   "lead": 180,
   "ms": 1008,
+  "tail": 308
+ },
+ "w:laptop": {
+  "file": "w-laptop.mp3",
+  "lead": 130,
+  "ms": 1128,
   "tail": 308
  },
  "w:lash": {
@@ -6140,6 +8834,54 @@
   "file": "w-last.mp3",
   "lead": 120,
   "ms": 1008,
+  "tail": 328
+ },
+ "w:late": {
+  "file": "w-late.mp3",
+  "lead": 120,
+  "ms": 960,
+  "tail": 310
+ },
+ "w:later": {
+  "file": "w-later.mp3",
+  "lead": 120,
+  "ms": 1080,
+  "tail": 330
+ },
+ "w:laugh": {
+  "file": "w-laugh.mp3",
+  "lead": 120,
+  "ms": 984,
+  "tail": 314
+ },
+ "w:lawn": {
+  "file": "w-lawn.mp3",
+  "lead": 120,
+  "ms": 984,
+  "tail": 324
+ },
+ "w:lay": {
+  "file": "w-lay.mp3",
+  "lead": 130,
+  "ms": 960,
+  "tail": 330
+ },
+ "w:lazy": {
+  "file": "w-lazy.mp3",
+  "lead": 120,
+  "ms": 1032,
+  "tail": 322
+ },
+ "w:leaf": {
+  "file": "w-leaf.mp3",
+  "lead": 120,
+  "ms": 984,
+  "tail": 314
+ },
+ "w:leave": {
+  "file": "w-leave.mp3",
+  "lead": 120,
+  "ms": 888,
   "tail": 328
  },
  "w:led": {
@@ -6178,6 +8920,12 @@
   "ms": 888,
   "tail": 328
  },
+ "w:licked": {
+  "file": "w-licked.mp3",
+  "lead": 120,
+  "ms": 1080,
+  "tail": 450
+ },
  "w:lid": {
   "file": "w-lid.mp3",
   "lead": 120,
@@ -6196,11 +8944,47 @@
   "ms": 1080,
   "tail": 330
  },
+ "w:lifted": {
+  "file": "w-lifted.mp3",
+  "lead": 130,
+  "ms": 1128,
+  "tail": 328
+ },
+ "w:light": {
+  "file": "w-light.mp3",
+  "lead": 120,
+  "ms": 960,
+  "tail": 310
+ },
+ "w:like": {
+  "file": "w-like.mp3",
+  "lead": 120,
+  "ms": 960,
+  "tail": 310
+ },
+ "w:liked": {
+  "file": "w-liked.mp3",
+  "lead": 120,
+  "ms": 1056,
+  "tail": 316
+ },
+ "w:likes": {
+  "file": "w-likes.mp3",
+  "lead": 130,
+  "ms": 1056,
+  "tail": 326
+ },
  "w:limb": {
   "file": "w-limb.mp3",
   "lead": 230,
   "ms": 1032,
   "tail": 322
+ },
+ "w:line": {
+  "file": "w-line.mp3",
+  "lead": 120,
+  "ms": 984,
+  "tail": 314
  },
  "w:lip": {
   "file": "w-lip.mp3",
@@ -6220,6 +9004,24 @@
   "ms": 912,
   "tail": 322
  },
+ "w:little": {
+  "file": "w-little.mp3",
+  "lead": 190,
+  "ms": 1008,
+  "tail": 378
+ },
+ "w:live": {
+  "file": "w-live.mp3",
+  "lead": 120,
+  "ms": 960,
+  "tail": 330
+ },
+ "w:lived": {
+  "file": "w-lived.mp3",
+  "lead": 120,
+  "ms": 960,
+  "tail": 310
+ },
  "w:lock": {
   "file": "w-lock.mp3",
   "lead": 200,
@@ -6232,11 +9034,29 @@
   "ms": 920,
   "tail": 384
  },
+ "w:logs": {
+  "file": "w-logs.mp3",
+  "lead": 120,
+  "ms": 1056,
+  "tail": 326
+ },
  "w:long": {
   "file": "w-long.mp3",
   "lead": 180,
   "ms": 960,
   "tail": 330
+ },
+ "w:look": {
+  "file": "w-look.mp3",
+  "lead": 120,
+  "ms": 888,
+  "tail": 318
+ },
+ "w:looked": {
+  "file": "w-looked.mp3",
+  "lead": 120,
+  "ms": 1008,
+  "tail": 328
  },
  "w:loss": {
   "file": "w-loss.mp3",
@@ -6250,11 +9070,29 @@
   "ms": 1056,
   "tail": 326
  },
+ "w:lots": {
+  "file": "w-lots.mp3",
+  "lead": 120,
+  "ms": 1056,
+  "tail": 326
+ },
+ "w:loud": {
+  "file": "w-loud.mp3",
+  "lead": 120,
+  "ms": 960,
+  "tail": 310
+ },
  "w:love": {
   "file": "w-love.mp3",
   "lead": 120,
   "ms": 960,
   "tail": 310
+ },
+ "w:loyal": {
+  "file": "w-loyal.mp3",
+  "lead": 120,
+  "ms": 984,
+  "tail": 324
  },
  "w:luck": {
   "file": "w-luck.mp3",
@@ -6262,11 +9100,23 @@
   "ms": 960,
   "tail": 330
  },
+ "w:lucky": {
+  "file": "w-lucky.mp3",
+  "lead": 120,
+  "ms": 1104,
+  "tail": 324
+ },
  "w:lug": {
   "file": "w-lug.mp3",
   "lead": 150,
   "ms": 912,
   "tail": 322
+ },
+ "w:lunch": {
+  "file": "w-lunch.mp3",
+  "lead": 120,
+  "ms": 960,
+  "tail": 320
  },
  "w:lung": {
   "file": "w-lung.mp3",
@@ -6280,11 +9130,41 @@
   "ms": 960,
   "tail": 320
  },
+ "w:machine": {
+  "file": "w-machine.mp3",
+  "lead": 120,
+  "ms": 1176,
+  "tail": 326
+ },
  "w:mad": {
   "file": "w-mad.mp3",
   "lead": 190,
   "ms": 1032,
   "tail": 312
+ },
+ "w:made": {
+  "file": "w-made.mp3",
+  "lead": 120,
+  "ms": 888,
+  "tail": 318
+ },
+ "w:magic": {
+  "file": "w-magic.mp3",
+  "lead": 120,
+  "ms": 1128,
+  "tail": 328
+ },
+ "w:make": {
+  "file": "w-make.mp3",
+  "lead": 120,
+  "ms": 960,
+  "tail": 310
+ },
+ "w:makes": {
+  "file": "w-makes.mp3",
+  "lead": 120,
+  "ms": 1032,
+  "tail": 322
  },
  "w:man": {
   "file": "w-man.mp3",
@@ -6297,6 +9177,12 @@
   "lead": 190,
   "ms": 984,
   "tail": 314
+ },
+ "w:maple": {
+  "file": "w-maple.mp3",
+  "lead": 130,
+  "ms": 1080,
+  "tail": 320
  },
  "w:maps": {
   "file": "w-maps.mp3",
@@ -6322,6 +9208,18 @@
   "ms": 840,
   "tail": 320
  },
+ "w:match": {
+  "file": "w-match.mp3",
+  "lead": 120,
+  "ms": 984,
+  "tail": 314
+ },
+ "w:matches": {
+  "file": "w-matches.mp3",
+  "lead": 120,
+  "ms": 1176,
+  "tail": 316
+ },
  "w:math": {
   "file": "w-math.mp3",
   "lead": 190,
@@ -6333,6 +9231,36 @@
   "lead": 130,
   "ms": 880,
   "tail": 306
+ },
+ "w:mean": {
+  "file": "w-mean.mp3",
+  "lead": 120,
+  "ms": 960,
+  "tail": 320
+ },
+ "w:meat": {
+  "file": "w-meat.mp3",
+  "lead": 120,
+  "ms": 960,
+  "tail": 330
+ },
+ "w:mechanic": {
+  "file": "w-mechanic.mp3",
+  "lead": 120,
+  "ms": 1200,
+  "tail": 330
+ },
+ "w:meet": {
+  "file": "w-meet.mp3",
+  "lead": 120,
+  "ms": 960,
+  "tail": 330
+ },
+ "w:meets": {
+  "file": "w-meets.mp3",
+  "lead": 120,
+  "ms": 1056,
+  "tail": 326
  },
  "w:melt": {
   "file": "w-melt.mp3",
@@ -6364,6 +9292,30 @@
   "ms": 1008,
   "tail": 308
  },
+ "w:middle": {
+  "file": "w-middle.mp3",
+  "lead": 120,
+  "ms": 984,
+  "tail": 314
+ },
+ "w:might": {
+  "file": "w-might.mp3",
+  "lead": 120,
+  "ms": 1008,
+  "tail": 318
+ },
+ "w:mild": {
+  "file": "w-mild.mp3",
+  "lead": 120,
+  "ms": 1080,
+  "tail": 330
+ },
+ "w:mile": {
+  "file": "w-mile.mp3",
+  "lead": 120,
+  "ms": 1008,
+  "tail": 318
+ },
  "w:milk": {
   "file": "w-milk.mp3",
   "lead": 120,
@@ -6375,6 +9327,12 @@
   "lead": 240,
   "ms": 1056,
   "tail": 326
+ },
+ "w:mind": {
+  "file": "w-mind.mp3",
+  "lead": 120,
+  "ms": 1056,
+  "tail": 316
  },
  "w:mint": {
   "file": "w-mint.mp3",
@@ -6388,11 +9346,41 @@
   "ms": 840,
   "tail": 320
  },
+ "w:mist": {
+  "file": "w-mist.mp3",
+  "lead": 120,
+  "ms": 984,
+  "tail": 324
+ },
+ "w:mitt": {
+  "file": "w-mitt.mp3",
+  "lead": 120,
+  "ms": 912,
+  "tail": 312
+ },
+ "w:mitten": {
+  "file": "w-mitten.mp3",
+  "lead": 120,
+  "ms": 1152,
+  "tail": 372
+ },
  "w:mix": {
   "file": "w-mix.mp3",
   "lead": 120,
   "ms": 1056,
   "tail": 436
+ },
+ "w:mixed": {
+  "file": "w-mixed.mp3",
+  "lead": 120,
+  "ms": 960,
+  "tail": 310
+ },
+ "w:mixture": {
+  "file": "w-mixture.mp3",
+  "lead": 120,
+  "ms": 1128,
+  "tail": 328
  },
  "w:mob": {
   "file": "w-mob.mp3",
@@ -6406,11 +9394,29 @@
   "ms": 860,
   "tail": 362
  },
+ "w:money": {
+  "file": "w-money.mp3",
+  "lead": 130,
+  "ms": 960,
+  "tail": 320
+ },
+ "w:monkey": {
+  "file": "w-monkey.mp3",
+  "lead": 120,
+  "ms": 1248,
+  "tail": 358
+ },
  "w:month": {
   "file": "w-month.mp3",
   "lead": 120,
   "ms": 912,
   "tail": 322
+ },
+ "w:moon": {
+  "file": "w-moon.mp3",
+  "lead": 120,
+  "ms": 960,
+  "tail": 330
  },
  "w:mop": {
   "file": "w-mop.mp3",
@@ -6418,11 +9424,41 @@
   "ms": 840,
   "tail": 328
  },
+ "w:more": {
+  "file": "w-more.mp3",
+  "lead": 120,
+  "ms": 960,
+  "tail": 330
+ },
  "w:moth": {
   "file": "w-moth.mp3",
   "lead": 120,
   "ms": 1104,
   "tail": 394
+ },
+ "w:mother": {
+  "file": "w-mother.mp3",
+  "lead": 120,
+  "ms": 888,
+  "tail": 318
+ },
+ "w:motion": {
+  "file": "w-motion.mp3",
+  "lead": 120,
+  "ms": 1128,
+  "tail": 308
+ },
+ "w:mouse": {
+  "file": "w-mouse.mp3",
+  "lead": 120,
+  "ms": 1008,
+  "tail": 308
+ },
+ "w:mouthful": {
+  "file": "w-mouthful.mp3",
+  "lead": 120,
+  "ms": 1176,
+  "tail": 326
  },
  "w:much": {
   "file": "w-much.mp3",
@@ -6442,11 +9478,29 @@
   "ms": 960,
   "tail": 320
  },
+ "w:muffin": {
+  "file": "w-muffin.mp3",
+  "lead": 160,
+  "ms": 1128,
+  "tail": 318
+ },
  "w:mug": {
   "file": "w-mug.mp3",
   "lead": 160,
   "ms": 912,
   "tail": 322
+ },
+ "w:mule": {
+  "file": "w-mule.mp3",
+  "lead": 130,
+  "ms": 1008,
+  "tail": 308
+ },
+ "w:munch": {
+  "file": "w-munch.mp3",
+  "lead": 120,
+  "ms": 960,
+  "tail": 310
  },
  "w:mush": {
   "file": "w-mush.mp3",
@@ -6484,11 +9538,41 @@
   "ms": 1190,
   "tail": 548
  },
+ "w:nation": {
+  "file": "w-nation.mp3",
+  "lead": 120,
+  "ms": 1152,
+  "tail": 312
+ },
+ "w:nature": {
+  "file": "w-nature.mp3",
+  "lead": 120,
+  "ms": 1176,
+  "tail": 316
+ },
+ "w:near": {
+  "file": "w-near.mp3",
+  "lead": 130,
+  "ms": 936,
+  "tail": 316
+ },
  "w:neck": {
   "file": "w-neck.mp3",
   "lead": 200,
   "ms": 960,
   "tail": 330
+ },
+ "w:need": {
+  "file": "w-need.mp3",
+  "lead": 120,
+  "ms": 960,
+  "tail": 330
+ },
+ "w:needed": {
+  "file": "w-needed.mp3",
+  "lead": 120,
+  "ms": 1032,
+  "tail": 312
  },
  "w:nest": {
   "file": "w-nest.mp3",
@@ -6496,11 +9580,59 @@
   "ms": 1032,
   "tail": 322
  },
+ "w:nestle": {
+  "file": "w-nestle.mp3",
+  "lead": 120,
+  "ms": 1056,
+  "tail": 326
+ },
+ "w:nests": {
+  "file": "w-nests.mp3",
+  "lead": 120,
+  "ms": 1032,
+  "tail": 312
+ },
  "w:net": {
   "file": "w-net.mp3",
   "lead": 190,
   "ms": 912,
   "tail": 312
+ },
+ "w:never": {
+  "file": "w-never.mp3",
+  "lead": 120,
+  "ms": 984,
+  "tail": 314
+ },
+ "w:new": {
+  "file": "w-new.mp3",
+  "lead": 130,
+  "ms": 936,
+  "tail": 326
+ },
+ "w:next": {
+  "file": "w-next.mp3",
+  "lead": 120,
+  "ms": 1008,
+  "tail": 318
+ },
+ "w:niece": {
+  "file": "w-niece.mp3",
+  "lead": 120,
+  "ms": 960,
+  "tail": 320
+ },
+ "w:night": {
+  "file": "w-night.mp3",
+  "lead": 120,
+  "ms": 984,
+  "tail": 314
+ },
+ "w:nine": {
+  "file": "w-nine.mp3",
+  "lead": 120,
+  "ms": 984,
+  "tail": 314
  },
  "w:nix": {
   "file": "w-nix.mp3",
@@ -6520,11 +9652,47 @@
   "ms": 940,
   "tail": 398
  },
+ "w:noise": {
+  "file": "w-noise.mp3",
+  "lead": 120,
+  "ms": 1008,
+  "tail": 308
+ },
+ "w:nose": {
+  "file": "w-nose.mp3",
+  "lead": 120,
+  "ms": 1056,
+  "tail": 306
+ },
+ "w:noses": {
+  "file": "w-noses.mp3",
+  "lead": 120,
+  "ms": 1152,
+  "tail": 312
+ },
  "w:not": {
   "file": "w-not.mp3",
   "lead": 120,
   "ms": 940,
   "tail": 358
+ },
+ "w:note": {
+  "file": "w-note.mp3",
+  "lead": 120,
+  "ms": 936,
+  "tail": 316
+ },
+ "w:notes": {
+  "file": "w-notes.mp3",
+  "lead": 120,
+  "ms": 1056,
+  "tail": 316
+ },
+ "w:now": {
+  "file": "w-now.mp3",
+  "lead": 120,
+  "ms": 936,
+  "tail": 326
  },
  "w:nun": {
   "file": "w-nun.mp3",
@@ -6532,11 +9700,23 @@
   "ms": 936,
   "tail": 326
  },
+ "w:nurse": {
+  "file": "w-nurse.mp3",
+  "lead": 120,
+  "ms": 1008,
+  "tail": 328
+ },
  "w:nut": {
   "file": "w-nut.mp3",
   "lead": 190,
   "ms": 936,
   "tail": 316
+ },
+ "w:obey": {
+  "file": "w-obey.mp3",
+  "lead": 130,
+  "ms": 1008,
+  "tail": 308
  },
  "w:of": {
   "file": "w-of.mp3",
@@ -6556,11 +9736,53 @@
   "ms": 936,
   "tail": 316
  },
+ "w:or": {
+  "file": "w-or.mp3",
+  "lead": 120,
+  "ms": 840,
+  "tail": 330
+ },
+ "w:orchestra": {
+  "file": "w-orchestra.mp3",
+  "lead": 120,
+  "ms": 1176,
+  "tail": 316
+ },
+ "w:other": {
+  "file": "w-other.mp3",
+  "lead": 130,
+  "ms": 840,
+  "tail": 310
+ },
+ "w:ought": {
+  "file": "w-ought.mp3",
+  "lead": 120,
+  "ms": 864,
+  "tail": 314
+ },
+ "w:our": {
+  "file": "w-our.mp3",
+  "lead": 130,
+  "ms": 936,
+  "tail": 326
+ },
  "w:out": {
   "file": "w-out.mp3",
   "lead": 130,
   "ms": 888,
   "tail": 308
+ },
+ "w:outside": {
+  "file": "w-outside.mp3",
+  "lead": 120,
+  "ms": 1272,
+  "tail": 312
+ },
+ "w:over": {
+  "file": "w-over.mp3",
+  "lead": 120,
+  "ms": 1008,
+  "tail": 328
  },
  "w:ox": {
   "file": "w-ox.mp3",
@@ -6574,11 +9796,53 @@
   "ms": 1008,
   "tail": 318
  },
+ "w:packed": {
+  "file": "w-packed.mp3",
+  "lead": 130,
+  "ms": 1008,
+  "tail": 318
+ },
  "w:pad": {
   "file": "w-pad.mp3",
   "lead": 160,
   "ms": 1212,
   "tail": 552
+ },
+ "w:pail": {
+  "file": "w-pail.mp3",
+  "lead": 120,
+  "ms": 1032,
+  "tail": 322
+ },
+ "w:pain": {
+  "file": "w-pain.mp3",
+  "lead": 130,
+  "ms": 1080,
+  "tail": 310
+ },
+ "w:painful": {
+  "file": "w-painful.mp3",
+  "lead": 130,
+  "ms": 1128,
+  "tail": 308
+ },
+ "w:paint": {
+  "file": "w-paint.mp3",
+  "lead": 120,
+  "ms": 1008,
+  "tail": 318
+ },
+ "w:painted": {
+  "file": "w-painted.mp3",
+  "lead": 130,
+  "ms": 1080,
+  "tail": 320
+ },
+ "w:painter": {
+  "file": "w-painter.mp3",
+  "lead": 130,
+  "ms": 1200,
+  "tail": 360
  },
  "w:pal": {
   "file": "w-pal.mp3",
@@ -6592,6 +9856,24 @@
   "ms": 1212,
   "tail": 532
  },
+ "w:paper": {
+  "file": "w-paper.mp3",
+  "lead": 130,
+  "ms": 1104,
+  "tail": 314
+ },
+ "w:park": {
+  "file": "w-park.mp3",
+  "lead": 120,
+  "ms": 1056,
+  "tail": 326
+ },
+ "w:part": {
+  "file": "w-part.mp3",
+  "lead": 130,
+  "ms": 1056,
+  "tail": 316
+ },
  "w:pat": {
   "file": "w-pat.mp3",
   "lead": 120,
@@ -6603,6 +9885,18 @@
   "lead": 180,
   "ms": 936,
   "tail": 326
+ },
+ "w:paw": {
+  "file": "w-paw.mp3",
+  "lead": 130,
+  "ms": 984,
+  "tail": 314
+ },
+ "w:peaceful": {
+  "file": "w-peaceful.mp3",
+  "lead": 140,
+  "ms": 1176,
+  "tail": 316
  },
  "w:peck": {
   "file": "w-peck.mp3",
@@ -6622,6 +9916,24 @@
   "ms": 1080,
   "tail": 440
  },
+ "w:pencil": {
+  "file": "w-pencil.mp3",
+  "lead": 120,
+  "ms": 1080,
+  "tail": 320
+ },
+ "w:pennies": {
+  "file": "w-pennies.mp3",
+  "lead": 120,
+  "ms": 1176,
+  "tail": 326
+ },
+ "w:penny": {
+  "file": "w-penny.mp3",
+  "lead": 130,
+  "ms": 1080,
+  "tail": 330
+ },
  "w:pens": {
   "file": "w-pens.mp3",
   "lead": 120,
@@ -6634,16 +9946,58 @@
   "ms": 888,
   "tail": 328
  },
+ "w:pepper": {
+  "file": "w-pepper.mp3",
+  "lead": 130,
+  "ms": 1056,
+  "tail": 326
+ },
  "w:pet": {
   "file": "w-pet.mp3",
   "lead": 120,
   "ms": 816,
   "tail": 316
  },
+ "w:phone": {
+  "file": "w-phone.mp3",
+  "lead": 130,
+  "ms": 1056,
+  "tail": 326
+ },
+ "w:photo": {
+  "file": "w-photo.mp3",
+  "lead": 130,
+  "ms": 1080,
+  "tail": 320
+ },
  "w:pick": {
   "file": "w-pick.mp3",
   "lead": 170,
   "ms": 816,
+  "tail": 316
+ },
+ "w:picked": {
+  "file": "w-picked.mp3",
+  "lead": 130,
+  "ms": 984,
+  "tail": 324
+ },
+ "w:picture": {
+  "file": "w-picture.mp3",
+  "lead": 160,
+  "ms": 1344,
+  "tail": 314
+ },
+ "w:pie": {
+  "file": "w-pie.mp3",
+  "lead": 130,
+  "ms": 984,
+  "tail": 314
+ },
+ "w:piece": {
+  "file": "w-piece.mp3",
+  "lead": 140,
+  "ms": 1056,
   "tail": 316
  },
  "w:pig": {
@@ -6652,11 +10006,23 @@
   "ms": 880,
   "tail": 336
  },
+ "w:pigpen": {
+  "file": "w-pigpen.mp3",
+  "lead": 120,
+  "ms": 1128,
+  "tail": 308
+ },
  "w:pigs": {
   "file": "w-pigs.mp3",
   "lead": 130,
   "ms": 984,
   "tail": 314
+ },
+ "w:pillow": {
+  "file": "w-pillow.mp3",
+  "lead": 130,
+  "ms": 1008,
+  "tail": 318
  },
  "w:pin": {
   "file": "w-pin.mp3",
@@ -6676,11 +10042,47 @@
   "ms": 940,
   "tail": 388
  },
+ "w:pitch": {
+  "file": "w-pitch.mp3",
+  "lead": 170,
+  "ms": 1176,
+  "tail": 306
+ },
  "w:plan": {
   "file": "w-plan.mp3",
   "lead": 130,
   "ms": 960,
   "tail": 330
+ },
+ "w:plant": {
+  "file": "w-plant.mp3",
+  "lead": 130,
+  "ms": 1008,
+  "tail": 318
+ },
+ "w:planted": {
+  "file": "w-planted.mp3",
+  "lead": 130,
+  "ms": 1104,
+  "tail": 314
+ },
+ "w:play": {
+  "file": "w-play.mp3",
+  "lead": 130,
+  "ms": 1008,
+  "tail": 318
+ },
+ "w:player": {
+  "file": "w-player.mp3",
+  "lead": 130,
+  "ms": 1056,
+  "tail": 326
+ },
+ "w:playful": {
+  "file": "w-playful.mp3",
+  "lead": 130,
+  "ms": 1080,
+  "tail": 310
  },
  "w:plum": {
   "file": "w-plum.mp3",
@@ -6688,17 +10090,41 @@
   "ms": 912,
   "tail": 312
  },
+ "w:pocket": {
+  "file": "w-pocket.mp3",
+  "lead": 130,
+  "ms": 1080,
+  "tail": 310
+ },
  "w:pod": {
   "file": "w-pod.mp3",
   "lead": 120,
   "ms": 1056,
   "tail": 316
  },
+ "w:point": {
+  "file": "w-point.mp3",
+  "lead": 210,
+  "ms": 1128,
+  "tail": 328
+ },
  "w:pond": {
   "file": "w-pond.mp3",
   "lead": 120,
   "ms": 1032,
   "tail": 322
+ },
+ "w:ponies": {
+  "file": "w-ponies.mp3",
+  "lead": 130,
+  "ms": 1176,
+  "tail": 326
+ },
+ "w:pool": {
+  "file": "w-pool.mp3",
+  "lead": 120,
+  "ms": 1008,
+  "tail": 328
  },
  "w:pop": {
   "file": "w-pop.mp3",
@@ -6723,6 +10149,54 @@
   "lead": 120,
   "ms": 984,
   "tail": 324
+ },
+ "w:powerful": {
+  "file": "w-powerful.mp3",
+  "lead": 130,
+  "ms": 1272,
+  "tail": 322
+ },
+ "w:precious": {
+  "file": "w-precious.mp3",
+  "lead": 120,
+  "ms": 1056,
+  "tail": 326
+ },
+ "w:preview": {
+  "file": "w-preview.mp3",
+  "lead": 120,
+  "ms": 1128,
+  "tail": 318
+ },
+ "w:princess": {
+  "file": "w-princess.mp3",
+  "lead": 120,
+  "ms": 1248,
+  "tail": 318
+ },
+ "w:print": {
+  "file": "w-print.mp3",
+  "lead": 120,
+  "ms": 936,
+  "tail": 316
+ },
+ "w:printed": {
+  "file": "w-printed.mp3",
+  "lead": 120,
+  "ms": 1080,
+  "tail": 310
+ },
+ "w:printer": {
+  "file": "w-printer.mp3",
+  "lead": 170,
+  "ms": 1080,
+  "tail": 310
+ },
+ "w:proud": {
+  "file": "w-proud.mp3",
+  "lead": 130,
+  "ms": 1008,
+  "tail": 318
  },
  "w:puck": {
   "file": "w-puck.mp3",
@@ -6754,11 +10228,35 @@
   "ms": 888,
   "tail": 328
  },
+ "w:puppet": {
+  "file": "w-puppet.mp3",
+  "lead": 130,
+  "ms": 1032,
+  "tail": 312
+ },
+ "w:puppy": {
+  "file": "w-puppy.mp3",
+  "lead": 130,
+  "ms": 1080,
+  "tail": 310
+ },
+ "w:purple": {
+  "file": "w-purple.mp3",
+  "lead": 130,
+  "ms": 1056,
+  "tail": 336
+ },
  "w:push": {
   "file": "w-push.mp3",
   "lead": 150,
   "ms": 840,
   "tail": 320
+ },
+ "w:put": {
+  "file": "w-put.mp3",
+  "lead": 130,
+  "ms": 912,
+  "tail": 312
  },
  "w:quack": {
   "file": "w-quack.mp3",
@@ -6771,6 +10269,12 @@
   "lead": 140,
   "ms": 792,
   "tail": 312
+ },
+ "w:quickly": {
+  "file": "w-quickly.mp3",
+  "lead": 120,
+  "ms": 984,
+  "tail": 324
  },
  "w:quill": {
   "file": "w-quill.mp3",
@@ -6790,11 +10294,29 @@
   "ms": 936,
   "tail": 316
  },
+ "w:quitting": {
+  "file": "w-quitting.mp3",
+  "lead": 120,
+  "ms": 960,
+  "tail": 330
+ },
  "w:quiz": {
   "file": "w-quiz.mp3",
   "lead": 150,
   "ms": 864,
   "tail": 324
+ },
+ "w:rabbit": {
+  "file": "w-rabbit.mp3",
+  "lead": 120,
+  "ms": 1080,
+  "tail": 320
+ },
+ "w:rack": {
+  "file": "w-rack.mp3",
+  "lead": 120,
+  "ms": 960,
+  "tail": 320
  },
  "w:raft": {
   "file": "w-raft.mp3",
@@ -6807,6 +10329,18 @@
   "lead": 150,
   "ms": 1254,
   "tail": 590
+ },
+ "w:rain": {
+  "file": "w-rain.mp3",
+  "lead": 130,
+  "ms": 984,
+  "tail": 314
+ },
+ "w:rainbow": {
+  "file": "w-rainbow.mp3",
+  "lead": 130,
+  "ms": 1128,
+  "tail": 328
  },
  "w:ram": {
   "file": "w-ram.mp3",
@@ -6844,17 +10378,65 @@
   "ms": 1252,
   "tail": 540
  },
+ "w:read": {
+  "file": "w-read.mp3",
+  "lead": 130,
+  "ms": 960,
+  "tail": 330
+ },
+ "w:reader": {
+  "file": "w-reader.mp3",
+  "lead": 130,
+  "ms": 1152,
+  "tail": 372
+ },
+ "w:ready": {
+  "file": "w-ready.mp3",
+  "lead": 120,
+  "ms": 936,
+  "tail": 316
+ },
  "w:red": {
   "file": "w-red.mp3",
   "lead": 130,
   "ms": 960,
   "tail": 330
  },
+ "w:redo": {
+  "file": "w-redo.mp3",
+  "lead": 120,
+  "ms": 1080,
+  "tail": 310
+ },
+ "w:remember": {
+  "file": "w-remember.mp3",
+  "lead": 120,
+  "ms": 1176,
+  "tail": 316
+ },
  "w:rest": {
   "file": "w-rest.mp3",
   "lead": 120,
   "ms": 936,
   "tail": 326
+ },
+ "w:rested": {
+  "file": "w-rested.mp3",
+  "lead": 120,
+  "ms": 1128,
+  "tail": 328
+ },
+ "w:retell": {
+  "file": "w-retell.mp3",
+  "lead": 130,
+  "ms": 1104,
+  "tail": 324
+ },
+ "w:return": {
+  "file": "w-return.mp3",
+  "lead": 120,
+  "ms": 1200,
+  "tail": 330
  },
  "w:rib": {
   "file": "w-rib.mp3",
@@ -6868,11 +10450,23 @@
   "ms": 1368,
   "tail": 528
  },
+ "w:rid": {
+  "file": "w-rid.mp3",
+  "lead": 120,
+  "ms": 888,
+  "tail": 318
+ },
  "w:rig": {
   "file": "w-rig.mp3",
   "lead": 190,
   "ms": 864,
   "tail": 324
+ },
+ "w:right": {
+  "file": "w-right.mp3",
+  "lead": 130,
+  "ms": 960,
+  "tail": 310
  },
  "w:rim": {
   "file": "w-rim.mp3",
@@ -6898,6 +10492,12 @@
   "ms": 936,
   "tail": 316
  },
+ "w:road": {
+  "file": "w-road.mp3",
+  "lead": 120,
+  "ms": 936,
+  "tail": 316
+ },
  "w:rob": {
   "file": "w-rob.mp3",
   "lead": 160,
@@ -6909,6 +10509,18 @@
   "lead": 120,
   "ms": 1056,
   "tail": 416
+ },
+ "w:rocket": {
+  "file": "w-rocket.mp3",
+  "lead": 120,
+  "ms": 1080,
+  "tail": 320
+ },
+ "w:rocks": {
+  "file": "w-rocks.mp3",
+  "lead": 120,
+  "ms": 984,
+  "tail": 324
  },
  "w:rod": {
   "file": "w-rod.mp3",
@@ -6922,6 +10534,12 @@
   "ms": 984,
   "tail": 324
  },
+ "w:room": {
+  "file": "w-room.mp3",
+  "lead": 120,
+  "ms": 936,
+  "tail": 316
+ },
  "w:rot": {
   "file": "w-rot.mp3",
   "lead": 190,
@@ -6933,6 +10551,12 @@
   "lead": 130,
   "ms": 936,
   "tail": 316
+ },
+ "w:royal": {
+  "file": "w-royal.mp3",
+  "lead": 250,
+  "ms": 1224,
+  "tail": 314
  },
  "w:rub": {
   "file": "w-rub.mp3",
@@ -6964,17 +10588,35 @@
   "ms": 960,
   "tail": 320
  },
+ "w:rustle": {
+  "file": "w-rustle.mp3",
+  "lead": 120,
+  "ms": 1056,
+  "tail": 326
+ },
  "w:sack": {
   "file": "w-sack.mp3",
   "lead": 170,
   "ms": 1008,
   "tail": 308
  },
+ "w:sacks": {
+  "file": "w-sacks.mp3",
+  "lead": 120,
+  "ms": 1032,
+  "tail": 312
+ },
  "w:sad": {
   "file": "w-sad.mp3",
   "lead": 120,
   "ms": 980,
   "tail": 382
+ },
+ "w:sadness": {
+  "file": "w-sadness.mp3",
+  "lead": 130,
+  "ms": 1176,
+  "tail": 326
  },
  "w:sag": {
   "file": "w-sag.mp3",
@@ -6988,11 +10630,35 @@
   "ms": 864,
   "tail": 324
  },
+ "w:same": {
+  "file": "w-same.mp3",
+  "lead": 120,
+  "ms": 1032,
+  "tail": 312
+ },
  "w:sand": {
   "file": "w-sand.mp3",
   "lead": 130,
   "ms": 1080,
   "tail": 320
+ },
+ "w:sandbox": {
+  "file": "w-sandbox.mp3",
+  "lead": 130,
+  "ms": 1392,
+  "tail": 322
+ },
+ "w:sandwich": {
+  "file": "w-sandwich.mp3",
+  "lead": 130,
+  "ms": 1320,
+  "tail": 330
+ },
+ "w:sandy": {
+  "file": "w-sandy.mp3",
+  "lead": 130,
+  "ms": 1104,
+  "tail": 324
  },
  "w:sang": {
   "file": "w-sang.mp3",
@@ -7018,17 +10684,95 @@
   "ms": 1020,
   "tail": 440
  },
+ "w:sauce": {
+  "file": "w-sauce.mp3",
+  "lead": 120,
+  "ms": 1032,
+  "tail": 312
+ },
+ "w:save": {
+  "file": "w-save.mp3",
+  "lead": 130,
+  "ms": 1008,
+  "tail": 308
+ },
+ "w:saved": {
+  "file": "w-saved.mp3",
+  "lead": 120,
+  "ms": 1056,
+  "tail": 316
+ },
+ "w:saw": {
+  "file": "w-saw.mp3",
+  "lead": 120,
+  "ms": 960,
+  "tail": 310
+ },
  "w:sax": {
   "file": "w-sax.mp3",
   "lead": 120,
   "ms": 1152,
   "tail": 472
  },
+ "w:say": {
+  "file": "w-say.mp3",
+  "lead": 130,
+  "ms": 984,
+  "tail": 324
+ },
  "w:school": {
   "file": "w-school.mp3",
   "lead": 120,
   "ms": 1104,
   "tail": 314
+ },
+ "w:scrap": {
+  "file": "w-scrap.mp3",
+  "lead": 120,
+  "ms": 1104,
+  "tail": 324
+ },
+ "w:scratch": {
+  "file": "w-scratch.mp3",
+  "lead": 130,
+  "ms": 1176,
+  "tail": 326
+ },
+ "w:scrub": {
+  "file": "w-scrub.mp3",
+  "lead": 120,
+  "ms": 1080,
+  "tail": 320
+ },
+ "w:seat": {
+  "file": "w-seat.mp3",
+  "lead": 120,
+  "ms": 984,
+  "tail": 324
+ },
+ "w:see": {
+  "file": "w-see.mp3",
+  "lead": 120,
+  "ms": 960,
+  "tail": 320
+ },
+ "w:seed": {
+  "file": "w-seed.mp3",
+  "lead": 120,
+  "ms": 1008,
+  "tail": 308
+ },
+ "w:seem": {
+  "file": "w-seem.mp3",
+  "lead": 120,
+  "ms": 960,
+  "tail": 310
+ },
+ "w:seen": {
+  "file": "w-seen.mp3",
+  "lead": 120,
+  "ms": 1032,
+  "tail": 312
  },
  "w:set": {
   "file": "w-set.mp3",
@@ -7060,6 +10804,12 @@
   "ms": 912,
   "tail": 322
  },
+ "w:sheep": {
+  "file": "w-sheep.mp3",
+  "lead": 120,
+  "ms": 984,
+  "tail": 314
+ },
  "w:shell": {
   "file": "w-shell.mp3",
   "lead": 180,
@@ -7072,11 +10822,23 @@
   "ms": 984,
   "tail": 314
  },
+ "w:shine": {
+  "file": "w-shine.mp3",
+  "lead": 130,
+  "ms": 1032,
+  "tail": 302
+ },
  "w:ship": {
   "file": "w-ship.mp3",
   "lead": 130,
   "ms": 960,
   "tail": 320
+ },
+ "w:shirt": {
+  "file": "w-shirt.mp3",
+  "lead": 120,
+  "ms": 1008,
+  "tail": 308
  },
  "w:shock": {
   "file": "w-shock.mp3",
@@ -7090,6 +10852,36 @@
   "ms": 1056,
   "tail": 316
  },
+ "w:shore": {
+  "file": "w-shore.mp3",
+  "lead": 120,
+  "ms": 1008,
+  "tail": 308
+ },
+ "w:shot": {
+  "file": "w-shot.mp3",
+  "lead": 120,
+  "ms": 912,
+  "tail": 312
+ },
+ "w:shouted": {
+  "file": "w-shouted.mp3",
+  "lead": 130,
+  "ms": 1104,
+  "tail": 304
+ },
+ "w:show": {
+  "file": "w-show.mp3",
+  "lead": 120,
+  "ms": 960,
+  "tail": 320
+ },
+ "w:shrub": {
+  "file": "w-shrub.mp3",
+  "lead": 130,
+  "ms": 1008,
+  "tail": 318
+ },
  "w:shun": {
   "file": "w-shun.mp3",
   "lead": 170,
@@ -7102,11 +10894,23 @@
   "ms": 840,
   "tail": 310
  },
+ "w:shy": {
+  "file": "w-shy.mp3",
+  "lead": 130,
+  "ms": 1008,
+  "tail": 308
+ },
  "w:sick": {
   "file": "w-sick.mp3",
   "lead": 170,
   "ms": 888,
   "tail": 308
+ },
+ "w:side": {
+  "file": "w-side.mp3",
+  "lead": 130,
+  "ms": 1080,
+  "tail": 330
  },
  "w:sift": {
   "file": "w-sift.mp3",
@@ -7114,17 +10918,47 @@
   "ms": 1080,
   "tail": 320
  },
+ "w:sight": {
+  "file": "w-sight.mp3",
+  "lead": 120,
+  "ms": 960,
+  "tail": 310
+ },
  "w:silk": {
   "file": "w-silk.mp3",
   "lead": 120,
   "ms": 1008,
   "tail": 308
  },
+ "w:silly": {
+  "file": "w-silly.mp3",
+  "lead": 120,
+  "ms": 1008,
+  "tail": 318
+ },
+ "w:simple": {
+  "file": "w-simple.mp3",
+  "lead": 130,
+  "ms": 1152,
+  "tail": 322
+ },
  "w:sing": {
   "file": "w-sing.mp3",
   "lead": 170,
   "ms": 984,
   "tail": 314
+ },
+ "w:singer": {
+  "file": "w-singer.mp3",
+  "lead": 120,
+  "ms": 1008,
+  "tail": 318
+ },
+ "w:singing": {
+  "file": "w-singing.mp3",
+  "lead": 130,
+  "ms": 1032,
+  "tail": 312
  },
  "w:sip": {
   "file": "w-sip.mp3",
@@ -7138,6 +10972,12 @@
   "ms": 940,
   "tail": 328
  },
+ "w:sitting": {
+  "file": "w-sitting.mp3",
+  "lead": 130,
+  "ms": 1056,
+  "tail": 326
+ },
  "w:six": {
   "file": "w-six.mp3",
   "lead": 120,
@@ -7149,6 +10989,18 @@
   "lead": 120,
   "ms": 912,
   "tail": 312
+ },
+ "w:skunk": {
+  "file": "w-skunk.mp3",
+  "lead": 120,
+  "ms": 1008,
+  "tail": 318
+ },
+ "w:sky": {
+  "file": "w-sky.mp3",
+  "lead": 120,
+  "ms": 1056,
+  "tail": 326
  },
  "w:slam": {
   "file": "w-slam.mp3",
@@ -7162,6 +11014,24 @@
   "ms": 1056,
   "tail": 316
  },
+ "w:sleep": {
+  "file": "w-sleep.mp3",
+  "lead": 120,
+  "ms": 1056,
+  "tail": 326
+ },
+ "w:sleeping": {
+  "file": "w-sleeping.mp3",
+  "lead": 130,
+  "ms": 1272,
+  "tail": 322
+ },
+ "w:sleigh": {
+  "file": "w-sleigh.mp3",
+  "lead": 120,
+  "ms": 1080,
+  "tail": 320
+ },
  "w:slid": {
   "file": "w-slid.mp3",
   "lead": 120,
@@ -7174,11 +11044,59 @@
   "ms": 888,
   "tail": 308
  },
+ "w:slow": {
+  "file": "w-slow.mp3",
+  "lead": 120,
+  "ms": 1032,
+  "tail": 312
+ },
+ "w:slowly": {
+  "file": "w-slowly.mp3",
+  "lead": 130,
+  "ms": 1200,
+  "tail": 310
+ },
+ "w:sly": {
+  "file": "w-sly.mp3",
+  "lead": 130,
+  "ms": 1104,
+  "tail": 314
+ },
+ "w:smell": {
+  "file": "w-smell.mp3",
+  "lead": 120,
+  "ms": 1008,
+  "tail": 308
+ },
+ "w:smelled": {
+  "file": "w-smelled.mp3",
+  "lead": 120,
+  "ms": 1128,
+  "tail": 318
+ },
+ "w:smile": {
+  "file": "w-smile.mp3",
+  "lead": 120,
+  "ms": 1200,
+  "tail": 330
+ },
+ "w:smiled": {
+  "file": "w-smiled.mp3",
+  "lead": 140,
+  "ms": 1248,
+  "tail": 328
+ },
  "w:snap": {
   "file": "w-snap.mp3",
   "lead": 130,
   "ms": 960,
   "tail": 300
+ },
+ "w:snow": {
+  "file": "w-snow.mp3",
+  "lead": 130,
+  "ms": 1032,
+  "tail": 312
  },
  "w:snug": {
   "file": "w-snug.mp3",
@@ -7198,10 +11116,22 @@
   "ms": 984,
   "tail": 324
  },
+ "w:social": {
+  "file": "w-social.mp3",
+  "lead": 130,
+  "ms": 1152,
+  "tail": 322
+ },
  "w:sock": {
   "file": "w-sock.mp3",
   "lead": 170,
   "ms": 960,
+  "tail": 310
+ },
+ "w:socks": {
+  "file": "w-socks.mp3",
+  "lead": 120,
+  "ms": 1080,
   "tail": 310
  },
  "w:soft": {
@@ -7210,11 +11140,35 @@
   "ms": 1008,
   "tail": 308
  },
+ "w:softly": {
+  "file": "w-softly.mp3",
+  "lead": 130,
+  "ms": 1224,
+  "tail": 324
+ },
+ "w:soil": {
+  "file": "w-soil.mp3",
+  "lead": 230,
+  "ms": 1200,
+  "tail": 340
+ },
+ "w:sold": {
+  "file": "w-sold.mp3",
+  "lead": 130,
+  "ms": 1056,
+  "tail": 326
+ },
  "w:some": {
   "file": "w-some.mp3",
   "lead": 140,
   "ms": 984,
   "tail": 324
+ },
+ "w:something": {
+  "file": "w-something.mp3",
+  "lead": 120,
+  "ms": 1152,
+  "tail": 322
  },
  "w:song": {
   "file": "w-song.mp3",
@@ -7222,17 +11176,155 @@
   "ms": 1104,
   "tail": 324
  },
+ "w:soon": {
+  "file": "w-soon.mp3",
+  "lead": 130,
+  "ms": 1080,
+  "tail": 330
+ },
+ "w:sore": {
+  "file": "w-sore.mp3",
+  "lead": 120,
+  "ms": 960,
+  "tail": 330
+ },
+ "w:sound": {
+  "file": "w-sound.mp3",
+  "lead": 130,
+  "ms": 1056,
+  "tail": 316
+ },
+ "w:sounds": {
+  "file": "w-sounds.mp3",
+  "lead": 130,
+  "ms": 1152,
+  "tail": 312
+ },
+ "w:special": {
+  "file": "w-special.mp3",
+  "lead": 120,
+  "ms": 1128,
+  "tail": 328
+ },
+ "w:spelled": {
+  "file": "w-spelled.mp3",
+  "lead": 120,
+  "ms": 1056,
+  "tail": 316
+ },
+ "w:spied": {
+  "file": "w-spied.mp3",
+  "lead": 120,
+  "ms": 1152,
+  "tail": 312
+ },
+ "w:spilled": {
+  "file": "w-spilled.mp3",
+  "lead": 120,
+  "ms": 1128,
+  "tail": 308
+ },
  "w:spin": {
   "file": "w-spin.mp3",
   "lead": 120,
   "ms": 1008,
   "tail": 308
  },
+ "w:splash": {
+  "file": "w-splash.mp3",
+  "lead": 120,
+  "ms": 1176,
+  "tail": 316
+ },
+ "w:split": {
+  "file": "w-split.mp3",
+  "lead": 120,
+  "ms": 984,
+  "tail": 324
+ },
+ "w:spoil": {
+  "file": "w-spoil.mp3",
+  "lead": 120,
+  "ms": 1080,
+  "tail": 320
+ },
+ "w:spoonful": {
+  "file": "w-spoonful.mp3",
+  "lead": 120,
+  "ms": 1176,
+  "tail": 316
+ },
  "w:spot": {
   "file": "w-spot.mp3",
   "lead": 120,
   "ms": 1080,
   "tail": 310
+ },
+ "w:spots": {
+  "file": "w-spots.mp3",
+  "lead": 120,
+  "ms": 1200,
+  "tail": 330
+ },
+ "w:spread": {
+  "file": "w-spread.mp3",
+  "lead": 120,
+  "ms": 1104,
+  "tail": 314
+ },
+ "w:spring": {
+  "file": "w-spring.mp3",
+  "lead": 120,
+  "ms": 1128,
+  "tail": 328
+ },
+ "w:spy": {
+  "file": "w-spy.mp3",
+  "lead": 120,
+  "ms": 1128,
+  "tail": 328
+ },
+ "w:squash": {
+  "file": "w-squash.mp3",
+  "lead": 120,
+  "ms": 1152,
+  "tail": 322
+ },
+ "w:stamp": {
+  "file": "w-stamp.mp3",
+  "lead": 130,
+  "ms": 1080,
+  "tail": 320
+ },
+ "w:stand": {
+  "file": "w-stand.mp3",
+  "lead": 130,
+  "ms": 1080,
+  "tail": 310
+ },
+ "w:start": {
+  "file": "w-start.mp3",
+  "lead": 120,
+  "ms": 1104,
+  "tail": 324
+ },
+ "w:started": {
+  "file": "w-started.mp3",
+  "lead": 120,
+  "ms": 1176,
+  "tail": 326
+ },
+ "w:station": {
+  "file": "w-station.mp3",
+  "lead": 120,
+  "ms": 1152,
+  "tail": 312
+ },
+ "w:stay": {
+  "file": "w-stay.mp3",
+  "lead": 120,
+  "ms": 960,
+  "tail": 330
  },
  "w:stem": {
   "file": "w-stem.mp3",
@@ -7246,11 +11338,77 @@
   "ms": 960,
   "tail": 330
  },
+ "w:stomach": {
+  "file": "w-stomach.mp3",
+  "lead": 130,
+  "ms": 1104,
+  "tail": 324
+ },
+ "w:stomp": {
+  "file": "w-stomp.mp3",
+  "lead": 120,
+  "ms": 1080,
+  "tail": 320
+ },
  "w:stop": {
   "file": "w-stop.mp3",
   "lead": 120,
   "ms": 984,
   "tail": 314
+ },
+ "w:stopped": {
+  "file": "w-stopped.mp3",
+  "lead": 120,
+  "ms": 1080,
+  "tail": 330
+ },
+ "w:stopping": {
+  "file": "w-stopping.mp3",
+  "lead": 130,
+  "ms": 1224,
+  "tail": 314
+ },
+ "w:store": {
+  "file": "w-store.mp3",
+  "lead": 120,
+  "ms": 1080,
+  "tail": 330
+ },
+ "w:story": {
+  "file": "w-story.mp3",
+  "lead": 120,
+  "ms": 1104,
+  "tail": 324
+ },
+ "w:strap": {
+  "file": "w-strap.mp3",
+  "lead": 130,
+  "ms": 1104,
+  "tail": 324
+ },
+ "w:straw": {
+  "file": "w-straw.mp3",
+  "lead": 120,
+  "ms": 1056,
+  "tail": 316
+ },
+ "w:string": {
+  "file": "w-string.mp3",
+  "lead": 120,
+  "ms": 1104,
+  "tail": 324
+ },
+ "w:strip": {
+  "file": "w-strip.mp3",
+  "lead": 120,
+  "ms": 960,
+  "tail": 310
+ },
+ "w:strong": {
+  "file": "w-strong.mp3",
+  "lead": 130,
+  "ms": 1152,
+  "tail": 312
  },
  "w:sub": {
   "file": "w-sub.mp3",
@@ -7282,11 +11440,41 @@
   "ms": 888,
   "tail": 308
  },
+ "w:sunny": {
+  "file": "w-sunny.mp3",
+  "lead": 130,
+  "ms": 1032,
+  "tail": 312
+ },
+ "w:sunset": {
+  "file": "w-sunset.mp3",
+  "lead": 120,
+  "ms": 1176,
+  "tail": 326
+ },
+ "w:survey": {
+  "file": "w-survey.mp3",
+  "lead": 130,
+  "ms": 1176,
+  "tail": 316
+ },
  "w:swam": {
   "file": "w-swam.mp3",
   "lead": 130,
   "ms": 1128,
   "tail": 318
+ },
+ "w:swan": {
+  "file": "w-swan.mp3",
+  "lead": 130,
+  "ms": 1104,
+  "tail": 314
+ },
+ "w:swap": {
+  "file": "w-swap.mp3",
+  "lead": 130,
+  "ms": 1080,
+  "tail": 320
  },
  "w:swim": {
   "file": "w-swim.mp3",
@@ -7294,11 +11482,23 @@
   "ms": 1032,
   "tail": 312
  },
+ "w:swimming": {
+  "file": "w-swimming.mp3",
+  "lead": 120,
+  "ms": 1152,
+  "tail": 322
+ },
  "w:tab": {
   "file": "w-tab.mp3",
   "lead": 130,
   "ms": 1128,
   "tail": 448
+ },
+ "w:table": {
+  "file": "w-table.mp3",
+  "lead": 130,
+  "ms": 1008,
+  "tail": 308
  },
  "w:tack": {
   "file": "w-tack.mp3",
@@ -7312,6 +11512,48 @@
   "ms": 1020,
   "tail": 440
  },
+ "w:tail": {
+  "file": "w-tail.mp3",
+  "lead": 130,
+  "ms": 984,
+  "tail": 314
+ },
+ "w:take": {
+  "file": "w-take.mp3",
+  "lead": 120,
+  "ms": 1008,
+  "tail": 318
+ },
+ "w:talk": {
+  "file": "w-talk.mp3",
+  "lead": 130,
+  "ms": 1056,
+  "tail": 326
+ },
+ "w:talked": {
+  "file": "w-talked.mp3",
+  "lead": 120,
+  "ms": 1224,
+  "tail": 424
+ },
+ "w:talking": {
+  "file": "w-talking.mp3",
+  "lead": 130,
+  "ms": 1128,
+  "tail": 328
+ },
+ "w:talks": {
+  "file": "w-talks.mp3",
+  "lead": 120,
+  "ms": 1080,
+  "tail": 310
+ },
+ "w:tame": {
+  "file": "w-tame.mp3",
+  "lead": 130,
+  "ms": 1032,
+  "tail": 312
+ },
  "w:tan": {
   "file": "w-tan.mp3",
   "lead": 130,
@@ -7324,11 +11566,41 @@
   "ms": 910,
   "tail": 310
  },
+ "w:tar": {
+  "file": "w-tar.mp3",
+  "lead": 130,
+  "ms": 1080,
+  "tail": 320
+ },
  "w:task": {
   "file": "w-task.mp3",
   "lead": 120,
   "ms": 1104,
   "tail": 314
+ },
+ "w:teach": {
+  "file": "w-teach.mp3",
+  "lead": 120,
+  "ms": 912,
+  "tail": 312
+ },
+ "w:teacher": {
+  "file": "w-teacher.mp3",
+  "lead": 120,
+  "ms": 1200,
+  "tail": 330
+ },
+ "w:teaching": {
+  "file": "w-teaching.mp3",
+  "lead": 120,
+  "ms": 1200,
+  "tail": 310
+ },
+ "w:teeth": {
+  "file": "w-teeth.mp3",
+  "lead": 130,
+  "ms": 1008,
+  "tail": 308
  },
  "w:tell": {
   "file": "w-tell.mp3",
@@ -7347,6 +11619,30 @@
   "lead": 170,
   "ms": 1008,
   "tail": 308
+ },
+ "w:tents": {
+  "file": "w-tents.mp3",
+  "lead": 120,
+  "ms": 1008,
+  "tail": 328
+ },
+ "w:than": {
+  "file": "w-than.mp3",
+  "lead": 130,
+  "ms": 912,
+  "tail": 312
+ },
+ "w:thank": {
+  "file": "w-thank.mp3",
+  "lead": 130,
+  "ms": 1032,
+  "tail": 312
+ },
+ "w:thankful": {
+  "file": "w-thankful.mp3",
+  "lead": 120,
+  "ms": 1248,
+  "tail": 348
  },
  "w:that": {
   "file": "w-that.mp3",
@@ -7378,6 +11674,12 @@
   "ms": 1176,
   "tail": 516
  },
+ "w:these": {
+  "file": "w-these.mp3",
+  "lead": 120,
+  "ms": 1248,
+  "tail": 338
+ },
  "w:they": {
   "file": "w-they.mp3",
   "lead": 160,
@@ -7396,11 +11698,29 @@
   "ms": 888,
   "tail": 308
  },
+ "w:thing": {
+  "file": "w-thing.mp3",
+  "lead": 130,
+  "ms": 1008,
+  "tail": 318
+ },
+ "w:things": {
+  "file": "w-things.mp3",
+  "lead": 130,
+  "ms": 1248,
+  "tail": 338
+ },
  "w:think": {
   "file": "w-think.mp3",
   "lead": 130,
   "ms": 960,
   "tail": 330
+ },
+ "w:third": {
+  "file": "w-third.mp3",
+  "lead": 210,
+  "ms": 1152,
+  "tail": 322
  },
  "w:this": {
   "file": "w-this.mp3",
@@ -7408,17 +11728,47 @@
   "ms": 1032,
   "tail": 322
  },
+ "w:thistle": {
+  "file": "w-thistle.mp3",
+  "lead": 120,
+  "ms": 864,
+  "tail": 314
+ },
+ "w:those": {
+  "file": "w-those.mp3",
+  "lead": 210,
+  "ms": 1320,
+  "tail": 330
+ },
  "w:though": {
   "file": "w-though.mp3",
   "lead": 120,
   "ms": 1128,
   "tail": 318
  },
+ "w:thought": {
+  "file": "w-thought.mp3",
+  "lead": 120,
+  "ms": 1176,
+  "tail": 366
+ },
+ "w:thread": {
+  "file": "w-thread.mp3",
+  "lead": 130,
+  "ms": 1080,
+  "tail": 330
+ },
  "w:through": {
   "file": "w-through.mp3",
   "lead": 140,
   "ms": 1080,
   "tail": 320
+ },
+ "w:throw": {
+  "file": "w-throw.mp3",
+  "lead": 130,
+  "ms": 1080,
+  "tail": 310
  },
  "w:thud": {
   "file": "w-thud.mp3",
@@ -7432,11 +11782,47 @@
   "ms": 912,
   "tail": 322
  },
+ "w:thump": {
+  "file": "w-thump.mp3",
+  "lead": 120,
+  "ms": 936,
+  "tail": 316
+ },
+ "w:thunder": {
+  "file": "w-thunder.mp3",
+  "lead": 130,
+  "ms": 1152,
+  "tail": 312
+ },
  "w:tick": {
   "file": "w-tick.mp3",
   "lead": 120,
   "ms": 1080,
   "tail": 430
+ },
+ "w:tie": {
+  "file": "w-tie.mp3",
+  "lead": 210,
+  "ms": 1080,
+  "tail": 320
+ },
+ "w:tiger": {
+  "file": "w-tiger.mp3",
+  "lead": 120,
+  "ms": 1104,
+  "tail": 324
+ },
+ "w:tigers": {
+  "file": "w-tigers.mp3",
+  "lead": 130,
+  "ms": 1200,
+  "tail": 320
+ },
+ "w:time": {
+  "file": "w-time.mp3",
+  "lead": 130,
+  "ms": 1008,
+  "tail": 308
  },
  "w:tin": {
   "file": "w-tin.mp3",
@@ -7456,6 +11842,36 @@
   "ms": 840,
   "tail": 310
  },
+ "w:toe": {
+  "file": "w-toe.mp3",
+  "lead": 130,
+  "ms": 960,
+  "tail": 310
+ },
+ "w:told": {
+  "file": "w-told.mp3",
+  "lead": 120,
+  "ms": 1080,
+  "tail": 310
+ },
+ "w:too": {
+  "file": "w-too.mp3",
+  "lead": 130,
+  "ms": 984,
+  "tail": 324
+ },
+ "w:took": {
+  "file": "w-took.mp3",
+  "lead": 120,
+  "ms": 960,
+  "tail": 310
+ },
+ "w:tooth": {
+  "file": "w-tooth.mp3",
+  "lead": 130,
+  "ms": 1008,
+  "tail": 308
+ },
  "w:top": {
   "file": "w-top.mp3",
   "lead": 120,
@@ -7467,6 +11883,18 @@
   "lead": 120,
   "ms": 1056,
   "tail": 326
+ },
+ "w:tore": {
+  "file": "w-tore.mp3",
+  "lead": 210,
+  "ms": 1032,
+  "tail": 312
+ },
+ "w:torn": {
+  "file": "w-torn.mp3",
+  "lead": 120,
+  "ms": 1128,
+  "tail": 318
  },
  "w:tot": {
   "file": "w-tot.mp3",
@@ -7480,11 +11908,41 @@
   "ms": 960,
   "tail": 310
  },
+ "w:town": {
+  "file": "w-town.mp3",
+  "lead": 130,
+  "ms": 1008,
+  "tail": 308
+ },
+ "w:toy": {
+  "file": "w-toy.mp3",
+  "lead": 120,
+  "ms": 1248,
+  "tail": 318
+ },
  "w:trap": {
   "file": "w-trap.mp3",
   "lead": 130,
   "ms": 960,
   "tail": 310
+ },
+ "w:tree": {
+  "file": "w-tree.mp3",
+  "lead": 120,
+  "ms": 1032,
+  "tail": 322
+ },
+ "w:trees": {
+  "file": "w-trees.mp3",
+  "lead": 120,
+  "ms": 1176,
+  "tail": 326
+ },
+ "w:tried": {
+  "file": "w-tried.mp3",
+  "lead": 130,
+  "ms": 1032,
+  "tail": 312
  },
  "w:trim": {
   "file": "w-trim.mp3",
@@ -7496,6 +11954,24 @@
   "file": "w-trip.mp3",
   "lead": 130,
   "ms": 888,
+  "tail": 308
+ },
+ "w:true": {
+  "file": "w-true.mp3",
+  "lead": 130,
+  "ms": 984,
+  "tail": 314
+ },
+ "w:trunk": {
+  "file": "w-trunk.mp3",
+  "lead": 130,
+  "ms": 960,
+  "tail": 310
+ },
+ "w:try": {
+  "file": "w-try.mp3",
+  "lead": 120,
+  "ms": 1008,
   "tail": 308
  },
  "w:tub": {
@@ -7516,6 +11992,12 @@
   "ms": 840,
   "tail": 310
  },
+ "w:turn": {
+  "file": "w-turn.mp3",
+  "lead": 130,
+  "ms": 1008,
+  "tail": 328
+ },
  "w:twig": {
   "file": "w-twig.mp3",
   "lead": 130,
@@ -7527,6 +12009,48 @@
   "lead": 120,
   "ms": 888,
   "tail": 318
+ },
+ "w:umbrella": {
+  "file": "w-umbrella.mp3",
+  "lead": 130,
+  "ms": 1152,
+  "tail": 322
+ },
+ "w:uncle": {
+  "file": "w-uncle.mp3",
+  "lead": 150,
+  "ms": 1032,
+  "tail": 312
+ },
+ "w:under": {
+  "file": "w-under.mp3",
+  "lead": 140,
+  "ms": 912,
+  "tail": 312
+ },
+ "w:undo": {
+  "file": "w-undo.mp3",
+  "lead": 130,
+  "ms": 1080,
+  "tail": 320
+ },
+ "w:unfair": {
+  "file": "w-unfair.mp3",
+  "lead": 120,
+  "ms": 1104,
+  "tail": 314
+ },
+ "w:unhappy": {
+  "file": "w-unhappy.mp3",
+  "lead": 120,
+  "ms": 1224,
+  "tail": 304
+ },
+ "w:unlock": {
+  "file": "w-unlock.mp3",
+  "lead": 120,
+  "ms": 1080,
+  "tail": 320
  },
  "w:up": {
   "file": "w-up.mp3",
@@ -7540,6 +12064,24 @@
   "ms": 888,
   "tail": 328
  },
+ "w:use": {
+  "file": "w-use.mp3",
+  "lead": 160,
+  "ms": 1080,
+  "tail": 310
+ },
+ "w:useful": {
+  "file": "w-useful.mp3",
+  "lead": 120,
+  "ms": 1104,
+  "tail": 324
+ },
+ "w:valley": {
+  "file": "w-valley.mp3",
+  "lead": 120,
+  "ms": 960,
+  "tail": 320
+ },
  "w:van": {
   "file": "w-van.mp3",
   "lead": 120,
@@ -7550,6 +12092,12 @@
   "file": "w-vat.mp3",
   "lead": 120,
   "ms": 920,
+  "tail": 324
+ },
+ "w:very": {
+  "file": "w-very.mp3",
+  "lead": 130,
+  "ms": 984,
   "tail": 324
  },
  "w:vet": {
@@ -7564,17 +12112,59 @@
   "ms": 1128,
   "tail": 428
  },
+ "w:waffle": {
+  "file": "w-waffle.mp3",
+  "lead": 120,
+  "ms": 1056,
+  "tail": 326
+ },
  "w:wag": {
   "file": "w-wag.mp3",
   "lead": 120,
   "ms": 920,
   "tail": 394
  },
+ "w:walk": {
+  "file": "w-walk.mp3",
+  "lead": 120,
+  "ms": 960,
+  "tail": 320
+ },
+ "w:walked": {
+  "file": "w-walked.mp3",
+  "lead": 120,
+  "ms": 960,
+  "tail": 330
+ },
+ "w:walking": {
+  "file": "w-walking.mp3",
+  "lead": 120,
+  "ms": 1104,
+  "tail": 324
+ },
+ "w:wallet": {
+  "file": "w-wallet.mp3",
+  "lead": 120,
+  "ms": 1032,
+  "tail": 322
+ },
+ "w:wand": {
+  "file": "w-wand.mp3",
+  "lead": 120,
+  "ms": 936,
+  "tail": 326
+ },
  "w:want": {
   "file": "w-want.mp3",
   "lead": 120,
   "ms": 960,
   "tail": 320
+ },
+ "w:wanted": {
+  "file": "w-wanted.mp3",
+  "lead": 120,
+  "ms": 1056,
+  "tail": 326
  },
  "w:was": {
   "file": "w-was.mp3",
@@ -7588,17 +12178,47 @@
   "ms": 1056,
   "tail": 396
  },
+ "w:watch": {
+  "file": "w-watch.mp3",
+  "lead": 120,
+  "ms": 984,
+  "tail": 314
+ },
+ "w:water": {
+  "file": "w-water.mp3",
+  "lead": 120,
+  "ms": 984,
+  "tail": 314
+ },
+ "w:waves": {
+  "file": "w-waves.mp3",
+  "lead": 120,
+  "ms": 1056,
+  "tail": 316
+ },
  "w:wax": {
   "file": "w-wax.mp3",
   "lead": 120,
   "ms": 1128,
   "tail": 428
  },
+ "w:way": {
+  "file": "w-way.mp3",
+  "lead": 120,
+  "ms": 936,
+  "tail": 326
+ },
  "w:we": {
   "file": "w-we.mp3",
   "lead": 130,
   "ms": 780,
   "tail": 310
+ },
+ "w:weather": {
+  "file": "w-weather.mp3",
+  "lead": 120,
+  "ms": 960,
+  "tail": 320
  },
  "w:web": {
   "file": "w-web.mp3",
@@ -7611,6 +12231,18 @@
   "lead": 190,
   "ms": 912,
   "tail": 312
+ },
+ "w:weigh": {
+  "file": "w-weigh.mp3",
+  "lead": 120,
+  "ms": 960,
+  "tail": 330
+ },
+ "w:weight": {
+  "file": "w-weight.mp3",
+  "lead": 120,
+  "ms": 936,
+  "tail": 316
  },
  "w:well": {
   "file": "w-well.mp3",
@@ -7660,6 +12292,12 @@
   "ms": 888,
   "tail": 308
  },
+ "w:where": {
+  "file": "w-where.mp3",
+  "lead": 120,
+  "ms": 888,
+  "tail": 328
+ },
  "w:which": {
   "file": "w-which.mp3",
   "lead": 120,
@@ -7684,11 +12322,35 @@
   "ms": 960,
   "tail": 320
  },
+ "w:whisper": {
+  "file": "w-whisper.mp3",
+  "lead": 120,
+  "ms": 1032,
+  "tail": 312
+ },
+ "w:whistle": {
+  "file": "w-whistle.mp3",
+  "lead": 120,
+  "ms": 1008,
+  "tail": 318
+ },
+ "w:white": {
+  "file": "w-white.mp3",
+  "lead": 120,
+  "ms": 984,
+  "tail": 324
+ },
  "w:whizz": {
   "file": "w-whizz.mp3",
   "lead": 120,
   "ms": 768,
   "tail": 308
+ },
+ "w:why": {
+  "file": "w-why.mp3",
+  "lead": 120,
+  "ms": 936,
+  "tail": 316
  },
  "w:wick": {
   "file": "w-wick.mp3",
@@ -7701,6 +12363,12 @@
   "lead": 150,
   "ms": 1148,
   "tail": 520
+ },
+ "w:wild": {
+  "file": "w-wild.mp3",
+  "lead": 120,
+  "ms": 1032,
+  "tail": 322
  },
  "w:will": {
   "file": "w-will.mp3",
@@ -7720,6 +12388,24 @@
   "ms": 900,
   "tail": 420
  },
+ "w:windmill": {
+  "file": "w-windmill.mp3",
+  "lead": 120,
+  "ms": 1104,
+  "tail": 324
+ },
+ "w:window": {
+  "file": "w-window.mp3",
+  "lead": 120,
+  "ms": 1008,
+  "tail": 318
+ },
+ "w:windy": {
+  "file": "w-windy.mp3",
+  "lead": 120,
+  "ms": 960,
+  "tail": 320
+ },
  "w:wing": {
   "file": "w-wing.mp3",
   "lead": 130,
@@ -7732,6 +12418,12 @@
   "ms": 1032,
   "tail": 412
  },
+ "w:wishes": {
+  "file": "w-wishes.mp3",
+  "lead": 130,
+  "ms": 1104,
+  "tail": 324
+ },
  "w:wit": {
   "file": "w-wit.mp3",
   "lead": 120,
@@ -7743,6 +12435,24 @@
   "lead": 200,
   "ms": 912,
   "tail": 312
+ },
+ "w:wonderful": {
+  "file": "w-wonderful.mp3",
+  "lead": 120,
+  "ms": 1200,
+  "tail": 320
+ },
+ "w:worker": {
+  "file": "w-worker.mp3",
+  "lead": 120,
+  "ms": 1080,
+  "tail": 320
+ },
+ "w:wow": {
+  "file": "w-wow.mp3",
+  "lead": 120,
+  "ms": 912,
+  "tail": 322
  },
  "w:wrap": {
   "file": "w-wrap.mp3",
@@ -7761,6 +12471,12 @@
   "lead": 200,
   "ms": 1008,
   "tail": 308
+ },
+ "w:wrestle": {
+  "file": "w-wrestle.mp3",
+  "lead": 120,
+  "ms": 1080,
+  "tail": 330
  },
  "w:wrong": {
   "file": "w-wrong.mp3",
@@ -7786,11 +12502,59 @@
   "ms": 964,
   "tail": 502
  },
+ "w:yard": {
+  "file": "w-yard.mp3",
+  "lead": 130,
+  "ms": 984,
+  "tail": 314
+ },
+ "w:yawn": {
+  "file": "w-yawn.mp3",
+  "lead": 130,
+  "ms": 1008,
+  "tail": 318
+ },
+ "w:year": {
+  "file": "w-year.mp3",
+  "lead": 130,
+  "ms": 936,
+  "tail": 316
+ },
+ "w:yell": {
+  "file": "w-yell.mp3",
+  "lead": 120,
+  "ms": 936,
+  "tail": 326
+ },
+ "w:yelled": {
+  "file": "w-yelled.mp3",
+  "lead": 120,
+  "ms": 960,
+  "tail": 330
+ },
+ "w:yelling": {
+  "file": "w-yelling.mp3",
+  "lead": 120,
+  "ms": 1056,
+  "tail": 316
+ },
+ "w:yellow": {
+  "file": "w-yellow.mp3",
+  "lead": 120,
+  "ms": 1008,
+  "tail": 308
+ },
  "w:yes": {
   "file": "w-yes.mp3",
   "lead": 130,
   "ms": 1056,
   "tail": 436
+ },
+ "w:yesterday": {
+  "file": "w-yesterday.mp3",
+  "lead": 120,
+  "ms": 1296,
+  "tail": 316
  },
  "w:yet": {
   "file": "w-yet.mp3",
@@ -7803,6 +12567,12 @@
   "lead": 120,
   "ms": 864,
   "tail": 324
+ },
+ "w:young": {
+  "file": "w-young.mp3",
+  "lead": 130,
+  "ms": 960,
+  "tail": 330
  },
  "w:zag": {
   "file": "w-zag.mp3",
@@ -7827,5 +12597,11 @@
   "lead": 130,
   "ms": 1056,
   "tail": 316
+ },
+ "w:zoom": {
+  "file": "w-zoom.mp3",
+  "lead": 130,
+  "ms": 1008,
+  "tail": 318
  }
 }

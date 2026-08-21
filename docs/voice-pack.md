@@ -233,7 +233,21 @@ byte-pinned word rather than replacing accepted audio with a render.
   sidecar workspace archive on the owner's PC
   (handoff `word-quest-uplift-handoff-2026-08-07T1438Z`).
 
-## Approved and unshipped: 934 items still in the waiting room (through 2026-08-20)
+## Approved and unshipped: 245 items still in the waiting room (through 2026-08-20)
+
+**THE CUTOVER SHIPPED THE ROOM (2026-08-20, late):** 626 word clips, all 274
+sentence takes and the four waiting sounds moved into the pack in one motion
+with the 100-level conversion - 1,475 clips shipped, the 210 old-world
+sentence clips retired as orphans (bytes survive in git and their ledgers),
+and w:amused retired with them - its word never won a seat in the hundred
+levels, so a clip the bank cannot name left the pack the same way (its round
+history stays in the pending-words ledger). The four v3 sentences containing
+"read" ship on the SAY/SHOW split's recorded respellings, except
+s:v3-l100-01, which predates the mechanism and ships byte-pinned to the take
+the owner graded perfect (sentence batch 7, 2026-08-19) - the pin lives in
+tools/voice-check.mjs beside the rule it serves.
+What remains above is the text-only residue: rows for words no level seats
+and the superseded takes kept as provenance.
 
 **The move-bill repairs landed 2026-08-20 evening** - the eleven texts the seven seat
 moves invalidated were reworded, re-rendered and put to the owner on one page: ten

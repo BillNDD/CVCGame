@@ -15,21 +15,22 @@ const boxed = (keys, box) => Object.fromEntries(keys.map((k) => [k,
   { box, attempts: 2, correct: 2, close: 0, wrong: 0, dueAt: 0, lastSession: 0 }]));
 
 describe("the ladder's shape", () => {
-  it("holds five rungs: the ear, then s-a-t-p, i-n, m-o, u-x", () => {
-    expect(PRE_LEVELS.map((p) => p.n)).toEqual([1, 2, 3, 4, 5]);
-    expect(PRE_LEVELS.map((p) => p.kind)).toEqual(["ear", "letter", "letter", "letter", "letter"]);
+  it("holds three rungs: the ear, then s-a-t-p, i-n", () => {
+    /* Re-derived at the 2026-08-20 cutover: the converted Level 1 spells
+       exactly six letters, so the ladder shrank from five rungs to three;
+       m-o and u-x left with the letters Level 1 no longer assumes. */
+    expect(PRE_LEVELS.map((p) => p.n)).toEqual([1, 2, 3]);
+    expect(PRE_LEVELS.map((p) => p.kind)).toEqual(["ear", "letter", "letter"]);
     expect(preItems(2)).toEqual(["s", "a", "t", "p"]);
     expect(preItems(3)).toEqual(["i", "n"]);
-    expect(preItems(4)).toEqual(["m", "o"]);
-    expect(preItems(5)).toEqual(["u", "x"]);
-    expect(preItems(1)).toEqual(["am", "an", "in", "on", "at", "it", "up", "us", "is", "ax"]);
+    expect(preItems(1)).toEqual(["an", "at", "it", "in", "as", "sat"]);
     expect(preItems(0)).toEqual([]);   // off the ladder there is nothing to serve
   });
   it("teaches exactly the letters Level 1's decodables spell, and every item's sound ships", () => {
     const letters = PRE_LEVELS.filter((p) => p.kind === "letter").flatMap((p) => p.items).sort();
     const l1 = [...new Set(LEVELS[0].words.filter((w) => !HEART.includes(w)).join(""))].sort();
     expect(letters).toEqual(l1);
-    expect(letters).toEqual(["a", "i", "m", "n", "o", "p", "s", "t", "u", "x"]);
+    expect(letters).toEqual(["a", "i", "n", "p", "s", "t"]);
     /* The auditor's roster guard: an item whose sound is not in the shipped
        inventory would be the "default sound" fault arriving by ladder. */
     const inv = new Set(soundInventory());
@@ -41,7 +42,7 @@ describe("the ladder's shape", () => {
 describe("a pre-session", () => {
   it("serves a fresh rung whole, in taught order, and never shuffles", () => {
     expect(buildPreSession({ ...newState(), preLevel: 1 }))
-      .toEqual(["am", "an", "in", "on", "at", "it", "up", "us", "is", "ax"]);
+      .toEqual(["an", "at", "it", "in", "as", "sat"]);
     expect(buildPreSession({ ...newState(), preLevel: 2 })).toEqual(["s", "a", "t", "p"]);
   });
   it("leads with up to five due letter reviews from earlier rungs", () => {
@@ -51,20 +52,21 @@ describe("a pre-session", () => {
     s.pre.t.dueAt = 9; s.pre.p.dueAt = 9;
     expect(buildPreSession(s)).toEqual(["s", "a", "i", "n"]);
   });
-  it("caps at twelve and never repeats an item", () => {
+  it("serves the whole rung, six items, and never repeats one", () => {
     const s = { ...newState(), preLevel: 1, sessionsCompleted: 1, pre: boxed(preItems(1), 1) };
     const q = buildPreSession(s);
-    expect(q.length).toBe(10);
-    expect(new Set(q).size).toBe(10);
+    expect(q.length).toBe(6);
+    expect(new Set(q).size).toBe(6);
   });
 });
 
 describe("winning a rung", () => {
-  it("promotes at the words' boundary: 8 of the ear's 10, all 4 of s-a-t-p", () => {
-    const eight = { ...newState(), preLevel: 1, pre: boxed(preItems(1).slice(0, 8), 3) };
-    expect(checkPrePromotion(eight)).toBe(true); expect(eight.preLevel).toBe(2);
-    const seven = { ...newState(), preLevel: 1, pre: boxed(preItems(1).slice(0, 7), 3) };
-    expect(checkPrePromotion(seven)).toBe(false); expect(seven.preLevel).toBe(1);
+  it("promotes at the words' boundary: 5 of the ear's 6, all 4 of s-a-t-p", () => {
+    /* 80 per cent of six is 4.8, so five promotes and four does not. */
+    const five = { ...newState(), preLevel: 1, pre: boxed(preItems(1).slice(0, 5), 3) };
+    expect(checkPrePromotion(five)).toBe(true); expect(five.preLevel).toBe(2);
+    const four4 = { ...newState(), preLevel: 1, pre: boxed(preItems(1).slice(0, 4), 3) };
+    expect(checkPrePromotion(four4)).toBe(false); expect(four4.preLevel).toBe(1);
     /* Small rungs make 80 percent a full house — which is why the second
        path below exists. Pinned so the arithmetic is a stated fact. */
     const three = { ...newState(), preLevel: 2, pre: boxed(["s", "a", "t"], 3) };
@@ -84,7 +86,7 @@ describe("winning a rung", () => {
     expect(broken.prePerfectStreak).toBe(0);
   });
   it("passing the last rung leaves the ladder for Level 1", () => {
-    const s = { ...newState(), preLevel: 5, pre: boxed(["u", "x"], 3) };
+    const s = { ...newState(), preLevel: 3, pre: boxed(["i", "n"], 3) };
     expect(checkPrePromotion(s)).toBe(true);
     expect(s.preLevel).toBe(0);
     expect(checkPrePromotion(s)).toBe(false);   // off the ladder, nothing promotes
@@ -111,7 +113,7 @@ describe("migration v5 and the fresh-saves-only ruling", () => {
        Recovery now walks the ladder's own boxes — corruption with ladder
        marks lands at the first unsecure rung; a clean history still rules a
        save with no marks. All literals (E4). */
-    expect(migrate({ ...newState(), preLevel: 99 }).preLevel).toBe(5);      // too high clamps down, mid-ladder stays mid-ladder
+    expect(migrate({ ...newState(), preLevel: 99 }).preLevel).toBe(3);      // too high clamps down to the three-rung ladder
     const marks = { s: { box: 3, attempts: 2, correct: 2, close: 0, wrong: 0, dueAt: 0, lastSession: 0 } };
     expect(migrate({ ...newState(), preLevel: NaN, pre: marks }).preLevel).toBe(1);
     expect(migrate({ ...newState(), preLevel: -3, pre: marks }).preLevel).toBe(1);
@@ -169,7 +171,7 @@ describe("the ladder in the app", () => {
     fireEvent.keyDown(screen.getByLabelText("✓ got it (hold)"), { key: "Enter" });
     await flush(0);
     const saved = mockSave.mock.calls.at(-1)[0];
-    expect(saved.pre.am.correct).toBe(1);                 // the first ear item, taught order
+    expect(saved.pre.an.correct).toBe(1);                 // the first ear item, taught order
     expect(Object.keys(saved.words).length).toBe(0);      // and the word boxes untouched
   });
   it("the grown-up's pre control jumps the ladder and Words leaves it", async () => {

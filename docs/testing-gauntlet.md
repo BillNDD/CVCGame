@@ -305,7 +305,7 @@ every bound reads `LEVELS.length`, which is why adding a level needed no engine 
 ## G7. Interface measurements
 
 - Tool: Playwright against the built app (`vite preview`). Command: `npm run test:ui`.
-- Assert measurements and numbers. Never assert a screenshot. Key: `g7_interface_checks` (57).
+- Assert measurements and numbers. Never assert a screenshot. Key: `g7_interface_checks` (58).
 - **Every viewport here is a PAGE size, not a device size, since 2026-08-13.** An iPhone 13 is
   390x844 as a device; a page gets 390x664, because the browser keeps the rest. Six checks and
   three progress-track rows ran with 180 pixels of slack no child has ever had, and four rows
@@ -324,6 +324,10 @@ every bound reads `LEVELS.length`, which is why adding a level needed no engine 
 - Required checks, each with literal values:
   - No page scroll in a session at viewport heights 430, 555, 720, and 950 px:
     `scrollHeight <= clientHeight` on the document at default text size.
+  - An eight-tile reveal holds ONE row inside a 320 px viewport (added 2026-08-20 with the
+    cutover's shrink ruling: the four-tile cap the old assertion measured is gone, so the
+    check walks a level-69 session to "breakfast", the widest word the bank holds, and
+    measures the tiles a child actually sees - count, rows, span, and a 10 px font floor).
   - The word's bounding box is identical across the ready, feedback, and retry phases.
   - The advance control rejects activation for 400 ms after feedback starts, then accepts it.
   - An adult result control does not fire at a 150 ms hold. It fires at a 700 ms hold. The wide

@@ -32,10 +32,12 @@ Feature: Saved data survives anything
     When the save loads
     Then the player is on level 1
 
+  # 99 stopped being out of range at the 2026-08-20 cutover - the ladder has
+  # 100 levels - so the fault this scenario plants moved past the new top.
   Scenario: An out-of-range level clamps to the top
-    Given a version 4 save with level 99
+    Given a version 4 save with level 999
     When the save loads
-    Then the player is on level 21
+    Then the player is on level 100
 
   Scenario: An out-of-range box clamps
     Given a save where the word "cat" sits in box 99
