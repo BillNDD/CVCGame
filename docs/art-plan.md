@@ -234,6 +234,70 @@ and 15):**
 
 Each step is its own section here when it starts, in this shape.
 
+### Step 1 — the ceramic tile family (opened 2026-08-22, before the council's before pass)
+
+**What the child gets.** Every sound tile the game shows — the reveal's tiles under the
+word, the sentence reveal's tiles, Build-it's tray and slots, Find-the-sound's tiles — looks
+like glazed ceramic (bible 11): a warm matte face, a restrained bevel, a narrow darker edge,
+a slight contact shadow, letters as live text. Each of the eleven states in 11's table has
+its treatment, and the two rulings under it hold: the sounding outline and glow are drawn
+with `outline` and `box-shadow`, never a border or a size change, so the row holds still;
+Used and Disabled are real `disabled` controls. A multi-letter unit stays one visibly wider
+tile (S8, the census's unit-width cell). This is the first visible art change the project
+makes, and it is declared as one.
+
+**How it is made — the construction order, for a CSS family.** No file ships: the tile is
+tokens and stylesheet rules, so its byte share (524,288) is spent at 0 and stages 1 and 8
+are empty. Stage 0: the logical grid is the tile's CSS box (today 44–56 px, 27 px letter in
+Build-it; the reveal's `clamp(1.1rem, 3.2svh, 1.6rem)`); output is CSS. Stage 2: the notan —
+the reveal and Build-it screens as two and three values with the word and the controls
+drawn in, on the 320 × 658 and 390 × 664 profiles. Stage 3: the 9-slice is the border radius
+and the inset shadows, with the corner size in CSS px stated, so a width variant never
+stretches the bevel. Stage 4 (**checkpoint, the art director**): greyscale renders of the
+reveal, the sentence reveal and Build-it on the census profiles, with the word. Stage 5:
+`tileFace`, `tileHighlight`, `tileEdge`, `cyanStructural`, `cyanElectric`, `slot`, `purple`
+or `amber` for a different arrangement — tokens only; the ramp is face → highlight → edge.
+Stage 6: the edge hierarchy — the tile's edge at 3.78:1 on its face, ink on the face at
+8.64:1 (today's sun face is 8.28), and no tile detail finer than the word. Stage 7
+(**checkpoint**): the states, one by one. The sounding state replaces today's 4 px ink
+outline with the bible's 3–4 px `cyanStructural` outline (4.61–5.05:1 on the three stops)
+plus an electric-cyan glow and an 8–12 % luminance lift, still `steps(1,end)` for the
+measured clip length and still outside the box (the owner's 2026-08-11 choice of a hard
+ring over a hop or a fade stands; the colour and the glow are the bible's). Four audits:
+geometry (the row's boxes identical before and after, G7 and the phase walk), value (the
+greyscale renders), originality (a ceramic tile is a material, not a character — the 18.2
+combination test recorded in provenance), final (the eight profiles, and the QA script).
+
+**The scaffold stays and must stay perceivable.** Build-it's `ghost` is the owner-ruled
+cue of 2026-08-17 (SPEC section 6; `buildit.test.js` test 8): after the second miss the
+answer letter fades into its own slot at opacity .28 while its sound plays. Measured today:
+ink at .28 over the slot's ground is **1.65:1** on `slot` and 1.66:1 on paper-at-.55 — a
+deliberately faint cue, below any contrast rule. Step 1 states, at literal values, what the
+ghost renders at on the ceramic slot and what the Larger / Higher-Contrast setting (bible
+15.3) raises it to; it never removes the ghost.
+
+**Breaks (E11), named before the change.** G7 measures the tile row's boxes across the
+reveal and the sounding ring's stillness; G8 and the census's contrast walker read the tile
+text on its face; the unit-width cell reads tile widths; the phase walk and the widest-word
+cell read the row; `tests/tokens.test.js` pins `tileEdge` on `tileFace` (3.78); the quality
+control refuses any hex outside C; the monkey walks Build-it's tray; `tests/buildit.test.js`
+and `tests/models.test.js` drive the tray's controls by name (the names do not change);
+the aria snapshot of home does not change. Counts that may move: `census_novelty_cells` if
+a tile-state cell lands (the sounding tile's outline colour and glow, measured), `g1_*`
+for any new unit test, `g20_tests_mapped`, `g16_doc_rules` if the bible's 11 table is
+bound to the stylesheet.
+
+**Open for the owner (expected from the before pass):** which neutral the "different
+arrangement" state takes — `purple` (4.49:1 on the face) or `amber` (4.29:1) — bible 11
+allows either; and whether the sounding glow's electric cyan stays inside 9.1's budget on
+the sentence reveal, where up to eight tiles can sound in turn.
+
+**Done means.** Every tile the child meets renders the ceramic family's tokens and states;
+the row holds still through the reveal (G7, the phase walk); every tile text and edge
+measures at or above its literal ratio in `tests/tokens.test.js`; the ghost's ratios are
+stated and held; the check and the novelties scope are green; the art director's two
+checkpoints and the three-chair after pass are recorded here.
+
 ## The log — every pass, every verdict
 
 Newest last. A verdict names the chair, the step, the word, and the findings.
