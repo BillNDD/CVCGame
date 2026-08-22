@@ -81,6 +81,30 @@ From the review page, "The art bible, read against the game":
   the reveal screen and state 0 with placeholder geometry; art lands state by state as
   reviewed milestones; provenance is recorded per asset.
 
+From the page "The construction order" (2026-08-22), on the 53-step measured-painting
+method the owner brought:
+
+- **The order:** the nine-stage condensed order, scaled by asset class, as a ruling in
+  bible section 17 — 0 output conditions; 1 reference; 2 composition and notan; 3 geometry;
+  4 value; 5 colour; 6 materials and edges; 7 detail, last and budgeted; 8 export. Scene,
+  tiles, Glowseed and guide take all nine; icons take 0, 2, 4, 5, 7, 8. The garden's
+  stages 0 to 3 are decided once and shared by all eleven states.
+- **Five hard rules, as rulings:** one camera — one viewpoint, one ground plane, one
+  light direction, one module, locked before garden state 0 is drawn and shared by all
+  eleven states; notan with the word — every composition judged as 2 and 3 values with
+  the teaching word and the controls drawn in, before any colour; a reference board —
+  curated, each reference answers a named question, source and licence recorded in the
+  provenance file, nothing copied closely; three audits — geometry (flipped, on the grid),
+  value (greyscale with the word), final (on the census profiles and a real device) at the
+  thumbnail, normal and close sizes; master plus derivatives — layered lossless masters
+  kept outside the install, flattened exports only for delivery, a README per asset family
+  in provenance.
+- **Checkpoints:** two council checkpoints per asset family — after value, after detail —
+  by the art director chair; the other two chairs at the step's after pass as the rules
+  already say.
+- **Who writes it:** the art director chair gives one before-pass opinion on the
+  condensed order, then it is written as ruled in the bible.
+
 Amendments accepted with the review (the bible is followed except here): pixel-diff
 baselines are not a gate; a stated byte budget replaces an unstated one; pixel art is
 device-pixel-snapped on fractional-scale screens rather than "integer scales only"; the
