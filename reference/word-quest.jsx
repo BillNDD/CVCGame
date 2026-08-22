@@ -430,7 +430,7 @@ const C = {
      outside this object (the quality control), and alphas derive from it. */
   inkSecondary:     "#3c4f73",   // supporting text (bible 9)
   surfaceReading:   "#fff9e8",   // the word and sentence field
-  surfacePanel:     "#fffdf5",   // cards and controls
+  surfacePanel:     "#fffdf5",   // the crash screen's ground today; cards and controls when the grown-up-zone step moves them
   skyBlue:          "#8fd0fa",   // the outer gradient, first stop
   skyLavender:      "#b9c3fb",   // the outer gradient, second stop
   skyPurpleMist:    "#d9c6fb",   // the outer gradient, third stop
@@ -460,7 +460,7 @@ const C = {
      step 0: the hex literals the screens and the stylesheet still typed,
      each now a token so that no hex literal lives outside C. Two more were
      typed that day and withdrawn the same day by the re-judgement: the
-     empty slot's dashed edge (#94a8c0, 1.95:1 on its ground) and the
+     empty slot's dashed edge (#94a8c0, 1.94:1 on its ground) and the
      progress ring (#e0ac2b, 1.44:1 on sun) both failed the bible's 3:1 edge
      rule, so the slot reads boundary and the ring reads amber - a visible
      darkening of both, declared. */
@@ -473,7 +473,9 @@ const C = {
 
 /* A token with an alpha, for shadows, scrims and frosted fills: the triple
    is derived from the token at run time, so ink's 23,53,107 is typed once.
-   The quality control refuses rgb() and rgba() literals in an app source. */
+   The quality control refuses rgb() and rgba() literals in an app source.
+   Exported through the engine and imported by the app from there - one
+   definition in the tree (the third judgement of step 0, 2026-08-22). */
 function alpha(hex, a) {
   const n = parseInt(hex.slice(1), 16);
   return "rgba(" + ((n >> 16) & 255) + "," + ((n >> 8) & 255) + "," + (n & 255) + "," + a + ")";

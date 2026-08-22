@@ -447,7 +447,11 @@ every bound reads `LEVELS.length`, which is why adding a level needed no engine 
   surfacePanel, 2.10) and the two withdrawn edges (1.94, 1.44) as controls, and a sixth
   test that walks every `C.<key>` read in the app and the reference against C's keys with
   a planted one — `C.blue`, a key C never had, was read on the pre-done screen for weeks.
-  Key: `g1_token_tests` (6). Its companion in the check is the quality control that
+  Test 3b holds the one edge still below the rule - `line`, the adult controls', 1.26:1
+  on paper and 1.07:1 on chip - at its literals and requires `docs/open-faults.md` to carry
+  it (entry AA, the grown-up-zone step's change); test 7 pins `alpha()` to the literals it
+  replaced and holds the two theme colours the build cannot derive (`index.html`, the
+  manifest) to `skyBlue`. Key: `g1_token_tests` (8). Its companion in the check is the quality control that
   refuses a hex, rgb(), rgba() or hsl() literal in any app source (`.js`, `.jsx`, `.mjs`,
   `.css`) and in the reference outside its `C` block, with fixtures for each and for the
   `alpha()` helper it must not catch: the after pass found fourteen hex literals in the
@@ -603,8 +607,14 @@ the offline comparator's control caught its first real bug before the live cell 
   control whose centre is covered by something else is not a target (2026-08-22): the home
   screen's "Free play" stays in the DOM under the chooser it opens, and a seeded walk that
   tapped its centre three times through the chooser's box called it dead - a child's
-  finger lands on what is on top, so `tappable` asks `elementFromPoint` and the control
-  plants a covering layer and requires the covered button to leave the list.
+  finger lands on what is on top, so `tappable` asks `elementFromPoint`. Only a cover
+  inside an `aria-modal` dialog takes a control out of the walk; any other cover - a toast,
+  a stray layer - leaves it in and the walk reports `covered-control` naming the layer, the
+  fault the monkey exists to find (the third judgement: the first draft dropped every
+  covered control, which would have hidden a stray layer over a child's button). The
+  control plants both shapes: a bare transparent layer, under which the planted button is
+  reported, and the same layer inside an `aria-modal` element, under which it leaves the
+  list.
 - **offline equality** - the offline app is the same app, measured: geometry offline equals
   geometry online. This is the one cell that allows the service worker; every other census
   cell now BLOCKS it (2026-08-21), because ten cells each starting a 1,500-file precache
@@ -666,7 +676,9 @@ the offline comparator's control caught its first real bug before the live cell 
   because their subjects do not exist: the **guide** allow-list (home, done and milestone
   screens only, never over the stage, never animating while a clip plays) and the
   **device-pixel snap** of every `data-wq-art` element (whole device pixels per art pixel
-  on both axes, integer offsets, nearest-neighbour). Counts by a run on 2026-08-22:
+  on both axes - and per FILE pixel too, since a 2× or 3× file drawn at k device px per
+  logical px must land each file pixel whole (k = 5 on a 2× file is refused, 4 and 6 pass)
+  - integer offsets, nearest-neighbour). Counts by a run on 2026-08-22:
   `census_novelty_cells` 34 to 68, `census_novelty_controls` 8 to 12, `census_cells` 626
   to 664 (the first 0d commit wrote 651 for a count of 652; E6 says the count). The
   interval rule `popOverlap` has its own fixtures in the combined control - two pops that
@@ -1612,7 +1624,7 @@ other direction: the real pack, unchanged, must pass.
 
 ## G20. Effect map
 
-- Tool: `tools/effect-map.mjs`. Writes `docs/effect-map.md`. Keys: `g20_tests_mapped` (400).
+- Tool: `tools/effect-map.mjs`. Writes `docs/effect-map.md`. Keys: `g20_tests_mapped` (402).
 - One row per `it()` SITE — its file, suite, and the test's own sentence, which in this
   project IS the Given/When/Then effect, because tests are named as behaviour. A site inside
   a loop or a table runs many times, so the map's 310 rows describe the 324 tests Vitest executes;

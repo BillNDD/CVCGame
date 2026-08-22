@@ -224,18 +224,25 @@ export async function tappable(page) {
     .map((b) => {
       const r = b.getBoundingClientRect();
       const x = r.x + r.width / 2, y = r.y + r.height / 2;
-      /* A control whose centre is covered by something else is not a target
-         a tap can reach: the home screen's "Free play" stays in the DOM under
-         the chooser it opens, and a seeded walk that tapped its centre three
-         times through the chooser's box called it dead (2026-08-22, the
-         re-judgement's re-run). A child's finger lands on what is on top. */
+      /* What is on top at the control's centre. A control under an open
+         DIALOG is rightly out of reach - the home screen's "Free play" stays
+         in the DOM under the chooser it opens, and a seeded walk that tapped
+         its centre three times through the chooser's box called it dead
+         (2026-08-22) - so a dialog's cover takes it out of the walk. A cover
+         that is NOT a dialog is the fault the monkey exists to find, so that
+         control stays in the walk and is reported as covered (the reading
+         chair, the third judgement: the first draft dropped every covered
+         control, which would have hidden a stray layer over a child's button). */
       const top = document.elementFromPoint(x, y);
+      const own = !!top && b.contains(top);
+      const inDialog = !!top && !!top.closest("[aria-modal=\"true\"], [role=\"dialog\"]");
+      const cover = top && !own ? top.tagName.toLowerCase() + (top.className ? "." + String(top.className).split(" ").filter(Boolean).join(".") : "") : "";
       return { label: (b.getAttribute("aria-label") || b.textContent || "").trim().slice(0, 40),
-        x, y, w: r.width, h: r.height, own: !!top && b.contains(top),
+        x, y, w: r.width, h: r.height, own, coveredByDialog: !own && inDialog, cover,
         scrim: b.classList.contains("wq-scrim") };
     })
     .filter((c) => c.w > 0 && c.h > 0 && c.x > 0 && c.y > 0 && c.x < innerWidth && c.y < innerHeight)
-    .filter((c) => c.own)
+    .filter((c) => !c.coveredByDialog)
     /* The first walk's first finding (2026-08-22): the modal's scrim - a
        full-screen Close button BEHIND the box - "changed nothing 3 times",
        because its centre is the box. A child closes a dialog by tapping the
@@ -249,7 +256,7 @@ export async function monkey(page, { taps = 300, seed = 1, settle = 3000 }) {
   const findings = [];
   const errors = [];
   const noChange = new Map();
-  const seen = new Set();
+  const seen = new Set(), covered = new Set();
   const onError = (e) => errors.push("pageerror: " + String(e && e.message || e).slice(0, 160));
   const onConsole = (m) => { if (m.type() === "error") errors.push("console: " + m.text().slice(0, 160)); };
   page.on("pageerror", onError);
@@ -265,6 +272,7 @@ export async function monkey(page, { taps = 300, seed = 1, settle = 3000 }) {
       if (!controls.length) { findings.push({ kind: "dead-end", detail: `tap ${n}: nothing left to tap` }); break; }
       const pick = controls[Math.floor(rng() * controls.length)];
       seen.add(pick.label);
+      if (!pick.own && !covered.has(pick.label)) { covered.add(pick.label); findings.push({ kind: "covered-control", detail: `tap ${n}: "${pick.label}" is under ${pick.cover || "something"}, which is not a dialog - a finger cannot reach it` }); }
       const before = await snapshot(page);
       await page.mouse.click(pick.x, pick.y);
       const soundOnly = SOUND_ONLY.has(pick.label);
@@ -520,8 +528,11 @@ export async function artSnap(page) {
     const img = el instanceof HTMLImageElement ? el : null;
     const naturalW = Number(el.getAttribute("data-wq-art-w")) || (img ? img.naturalWidth : 0);
     const naturalH = Number(el.getAttribute("data-wq-art-h")) || (img ? img.naturalHeight : 0);
-    return { id: el.getAttribute("data-wq-art"), naturalW, naturalH, deviceW: r.width * dpr, deviceH: r.height * dpr,
-      left: r.left * dpr, top: r.top * dpr, rendering: getComputedStyle(el).imageRendering, dpr };
+    /* and the FILE's own pixels: under the 2x/3x export ruling a file pixel is
+       a fraction of a logical one, and nearest-neighbour must land each file
+       pixel on a whole number of device pixels too */
+    return { id: el.getAttribute("data-wq-art"), naturalW, naturalH, fileW: img ? img.naturalWidth : 0, fileH: img ? img.naturalHeight : 0,
+      deviceW: r.width * dpr, deviceH: r.height * dpr, left: r.left * dpr, top: r.top * dpr, rendering: getComputedStyle(el).imageRendering, dpr };
   }));
 }
 /* The tolerance is in DEVICE PIXELS over the whole sprite, never a ratio: at
@@ -544,6 +555,16 @@ export function snapHold(items) {
     const offX = Math.abs(a.deviceW - Math.round(kx) * a.naturalW), offY = Math.abs(a.deviceH - Math.round(ky) * a.naturalH);
     if (kx < 1 || ky < 1 || offX > 0.5 || offY > 0.5 || Math.round(kx) !== Math.round(ky))
       findings.push({ kind: "art-not-snapped", detail: a.id + ": " + kx.toFixed(3) + " x " + ky.toFixed(3) + " device px per art px at dpr " + a.dpr + " (" + offX.toFixed(2) + ", " + offY.toFixed(2) + " device px off a whole multiple)" });
+    /* A 2x or 3x FILE (bible 16.2 as ruled) drawn at k device px per logical
+       px puts k/2 or k/3 device px on each file pixel; unless that is whole,
+       nearest-neighbour draws some file pixels one device px wide and others
+       two - the unevenness 8.2 forbids, which a per-logical-pixel rule alone
+       would pass (the art director, the third judgement, 2026-08-22). */
+    else if (a.fileW && a.fileH) {
+      const fx = a.deviceW / a.fileW, fy = a.deviceH / a.fileH;
+      if (Math.abs(a.deviceW - Math.round(fx) * a.fileW) > 0.5 || Math.abs(a.deviceH - Math.round(fy) * a.fileH) > 0.5)
+        findings.push({ kind: "art-not-snapped", detail: a.id + ": " + fx.toFixed(3) + " x " + fy.toFixed(3) + " device px per FILE px - a " + (a.fileW / a.naturalW) + "x file at " + Math.round(kx) + " device px per logical px lands file pixels unevenly" });
+    }
     if (!near(a.left) || !near(a.top)) findings.push({ kind: "art-off-grid", detail: a.id + ": offset " + a.left.toFixed(2) + ", " + a.top.toFixed(2) + " device px" });
     if (a.rendering !== "pixelated" && a.rendering !== "crisp-edges") findings.push({ kind: "art-smoothed", detail: a.id + ": image-rendering is " + a.rendering });
   }

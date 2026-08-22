@@ -181,7 +181,11 @@ and 15):**
 ### Steps 1 to 11 — the bible's migration order, amended
 
 1. Ceramic tile styling (the bible's step 5, moved up: tiles are on every screen a child
-   learns on). 2. Glowseed tied to the real audio lifecycle. 3. The responsive reading
+   learns on) — and Build-it's dead `ghost` state: `BuildItScreen.jsx` holds a setter-less
+   state that would draw `tray.answer[i]` into an empty slot at opacity .28, the answer in
+   the art waiting for a setter; step 1 removes it or the owner rules a hint mechanism and
+   SPEC states it, with a test that an empty slot's text is empty after a miss (the reading
+   chair, the third judgement). 2. Glowseed tied to the real audio lifecycle. 3. The responsive reading
    surface and garden frame, out of flow — and bible 10.4's margins-before-font on the
    compact profiles: the stage spends 14 px a side before the principal word's glyphs
    shrink, so "something" fits at 56.1 px on 320 × 568 where the full width would give
@@ -318,3 +322,22 @@ Newest last. A verdict names the chair, the step, the word, and the findings.
   cell measured the loop error back at 320 × 568, so the frame stays; and bible 10.4's
   margins-before-font goes to step 3's brief, above. Re-judged fresh by all three chairs
   again; their verdicts follow.
+- 2026-08-22 — Step 0 judged a third time, fresh: **all three chairs still not satisfactory**,
+  two blocking findings, thirteen non-blocking; every one taken. **Blocking:** (1) the art
+  director and the antagonist, independently: "every edge the game draws clears 3:1" was
+  still an overclaim — `line`, the adult controls' edge, sits at 1.26:1 on paper and 1.07:1
+  on chip — so the claim now names exactly what it measures, test 3b holds `line` at those
+  literals below the rule, the 9.3 row says so, and `docs/open-faults.md` AA carries it for
+  the grown-up-zone step, where darkening it is the declared change; (2) the reading chair:
+  the monkey's covered-control rule dropped EVERY covered control from the walk, which would
+  have hidden a stray layer over a child's button — now only a cover inside an `aria-modal`
+  dialog takes a control out of the walk, any other cover stays in and is reported as
+  `covered-control` naming the layer, and the control plants both shapes. **Taken besides:**
+  `alpha()` once, exported through the engine and pinned to the literals it replaced; the
+  slot's ground derived from the tokens and pinned, and "palest" corrected to "least
+  luminous, lowest ratio" everywhere; the reference's two stale C comments; the 9.3 rows for
+  amber, boundary and slot say what each paints on HEAD; the snap rule also refuses a 2×/3×
+  file whose file pixels land unevenly (k = 5 on a 2× file refused, 4 and 6 pass); the
+  theme colours in `index.html` and the manifest held to `skyBlue` by test; bible 10.3's
+  three `dvh` rows say `svh`; the one-frame cost names the clipped frame; Build-it's dead
+  `ghost` state goes to step 1's brief. Judged a fourth time; the verdicts follow.

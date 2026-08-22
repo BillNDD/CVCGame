@@ -13,7 +13,7 @@
 import { describe, it, expect } from "vitest";
 import { execSync } from "node:child_process";
 import { readFileSync } from "node:fs";
-import { C } from "../src/engine.js";
+import { C, alpha } from "../src/engine.js";
 
 function luminance(hex) {
   const n = parseInt(hex.slice(1), 16);
@@ -26,6 +26,12 @@ function luminance(hex) {
 export function contrast(a, b) {
   const la = luminance(a), lb = luminance(b);
   return (Math.max(la, lb) + 0.05) / (Math.min(la, lb) + 0.05);
+}
+/* `over` at alpha `a` on `under`, per channel, as the browser composites it */
+export function mix(over, a, under) {
+  const ch = (h) => [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16));
+  const o = ch(over), u = ch(under);
+  return "#" + o.map((v, i) => Math.round(v * a + u[i] * (1 - a)).toString(16).padStart(2, "0")).join("");
 }
 
 describe("the palette is pinned", () => {
@@ -50,22 +56,42 @@ describe("the palette is pinned", () => {
     for (const [k, v] of Object.entries(C)) expect(v, k).toMatch(/^#[0-9a-f]{6}$/);
   });
 
-  it("3: every edge the game draws clears 3:1 on the surface it edges, at literal ratios - the bible's four, the empty slot's, the progress ring's", () => {
+  it("3: the bible's four structural edges, the empty slot's edge and the progress ring clear 3:1 on the surface each edges, at literal ratios", () => {
     expect(contrast(C.tileEdge, C.tileFace)).toBeCloseTo(3.78, 2);
     expect(contrast(C.boundary, C.surfacePanel)).toBeCloseTo(4.68, 2);
     expect(contrast(C.cyanStructural, C.surfaceReading)).toBeCloseTo(7.51, 2);
     expect(contrast(C.purpleStructural, C.surfaceReading)).toBeCloseTo(6.39, 2);
     /* The two edges the sweep first typed below the rule (the re-judgement
        of step 0): the empty slot's dashed border now reads boundary, on
-       paper and on its real ground - paper at .55 over the palest gradient
-       stop, #e0e4fd - and the progress ring reads amber, on sun. */
+       paper and on its real ground - paper at .55 over the lavender stop,
+       the LEAST luminous of the three and the one that gives the lowest
+       ratio (3.79 against 3.81 over skyBlue and 3.92 over the mist) - and
+       the progress ring reads amber, on sun. The ground is derived from the
+       tokens and pinned, so a moved stop cannot leave it stale. */
+    const slotGround = mix(C.paper, 0.55, C.skyLavender);
+    expect(slotGround).toBe("#e0e4fd");
     expect(contrast(C.boundary, C.paper)).toBeCloseTo(4.77, 2);
-    expect(contrast(C.boundary, "#e0e4fd")).toBeCloseTo(3.79, 2);
+    expect(contrast(C.boundary, slotGround)).toBeCloseTo(3.79, 2);
     expect(contrast(C.amber, C.sun)).toBeCloseTo(4.11, 2);
     for (const [edge, face] of [[C.tileEdge, C.tileFace], [C.boundary, C.surfacePanel], [C.cyanStructural, C.surfaceReading], [C.purpleStructural, C.surfaceReading],
-      [C.boundary, C.paper], [C.boundary, "#e0e4fd"], [C.amber, C.sun]]) {
+      [C.boundary, C.paper], [C.boundary, slotGround], [C.amber, C.sun]]) {
       expect(contrast(edge, face)).toBeGreaterThanOrEqual(3);
     }
+  });
+
+  it("3b: the adult controls' edge, line, is BELOW 3:1 today and is named in open-faults for the grown-up-zone step", () => {
+    /* The third judgement of step 0 found the claim "every edge the game
+       draws" false while line - the border of the corner's inputs and the
+       strip's buttons, the to-do progress ring on chip, the strip's top
+       edge - sat at 1.26:1 and 1.07:1. Darkening an adult-zone edge is
+       step 4's declared change; until then this test holds the truth and
+       docs/open-faults.md carries the fault. */
+    expect(contrast(C.line, C.paper)).toBeCloseTo(1.26, 2);
+    expect(contrast(C.line, C.chip)).toBeCloseTo(1.07, 2);
+    expect(contrast(C.line, C.paper)).toBeLessThan(3);
+    const faults = readFileSync("docs/open-faults.md", "utf8");
+    expect(faults).toContain("`line`");
+    expect(faults).toContain("1.26:1");
   });
 
   it("4: teaching text clears 7:1 and the action blue 4.5:1, at literal ratios", () => {
@@ -82,6 +108,19 @@ describe("the palette is pinned", () => {
     expect(contrast("#e0ac2b", C.sun)).toBeCloseTo(1.44, 2);       // the progress ring's first edge, on sun
     expect(contrast("#000000", "#ffffff")).toBe(21);
     expect(contrast("#777777", "#ffffff")).toBeCloseTo(4.48, 2);   // the classic just-under-4.5 grey
+  });
+
+  it("7: alpha() reproduces the literals it replaced, and the two theme colours the build cannot derive equal skyBlue", () => {
+    expect(alpha(C.ink, 0.18)).toBe("rgba(23,53,107,0.18)");
+    expect(alpha(C.paper, 0.55)).toBe("rgba(255,255,255,0.55)");
+    expect(alpha(C.ink, 0.42)).toBe("rgba(23,53,107,0.42)");
+    /* app/index.html and the manifest cannot import C; SPEC 9 declares them
+       as the two places skyBlue is retyped, and this holds them to it */
+    const html = readFileSync("app/index.html", "utf8");
+    const manifest = JSON.parse(readFileSync("app/public/manifest.webmanifest", "utf8"));
+    expect((html.match(/name="theme-color"\s+content="([^"]+)"/) || [])[1]).toBe(C.skyBlue);
+    expect(manifest.theme_color).toBe(C.skyBlue);
+    expect(manifest.background_color).toBe(C.skyBlue);
   });
 
   it("6: every C.<key> an app source or the reference reads is a key C has, and a planted one is refused", () => {

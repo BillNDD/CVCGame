@@ -8,7 +8,7 @@ Per-test rows carry the test's own sentence, which in this project IS the
 Given/When/Then effect. The requirement, oracle, platform, mutant family, evidence
 and known limits are declared per FILE, in the tool, where they stay true.
 
-Totals: 400 it() SITES across 21 files, plus 18 gates that are not test files.
+Totals: 402 it() SITES across 21 files, plus 18 gates that are not test files.
 
 A site inside a loop or a table runs many times, so these rows describe more tests than they number: Vitest executes 330. The rows count the places behaviour is asserted.
 
@@ -608,7 +608,7 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 4 | G14 — the service worker answers for the app, and only for the app | 4 (control): a clip request is still served from the cache, and a miss goes to the network |
 | 5 | G14 — the service worker answers for the app, and only for the app | 5 (control): the version check is never intercepted, so it always sees the live host |
 
-## tests/tokens.test.js — 6 tests (G1)
+## tests/tokens.test.js — 8 tests (G1)
 
 - **Requirement protected:** SPEC section 9 and the art bible's 9.3: C is the one statement of the palette; the thirteen original keys keep their literal values; every edge or boundary token clears 3:1 on the surface it edges
 - **Independent oracle:** Literal hex pins for the thirteen original keys, the key count, and this file's own WCAG relative-luminance arithmetic at literal expected ratios (3.78, 4.68, 7.51, 6.39, 11.36, 6.43, 5.57), with the one admitted sub-3:1 pair (2.10) as the control
@@ -622,10 +622,12 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 |---|---|---|
 | 1 | the palette is pinned | 1: the thirteen keys the game had before the bible keep their literal values |
 | 2 | the palette is pinned | 2: C holds exactly the keys the bible |
-| 3 | the palette is pinned | 3: every edge the game draws clears 3:1 on the surface it edges, at literal ratios - the bible |
-| 4 | the palette is pinned | 4: teaching text clears 7:1 and the action blue 4.5:1, at literal ratios |
-| 5 | the palette is pinned | 5 (control): the one pair the bible admits below 3:1 measures below it, the two withdrawn edges measure below it, and the arithmetic agrees with WCAG |
-| 6 | the palette is pinned | 6: every C.<key> an app source or the reference reads is a key C has, and a planted one is refused |
+| 3 | the palette is pinned | 3: the bible |
+| 4 | the palette is pinned | 3b: the adult controls |
+| 5 | the palette is pinned | 4: teaching text clears 7:1 and the action blue 4.5:1, at literal ratios |
+| 6 | the palette is pinned | 5 (control): the one pair the bible admits below 3:1 measures below it, the two withdrawn edges measure below it, and the arithmetic agrees with WCAG |
+| 7 | the palette is pinned | 7: alpha() reproduces the literals it replaced, and the two theme colours the build cannot derive equal skyBlue |
+| 8 | the palette is pinned | 6: every C.<key> an app source or the reference reads is a key C has, and a planted one is refused |
 
 ## tests/updates.test.js — 18 tests (G14)
 

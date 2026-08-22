@@ -5,8 +5,7 @@
    One deliberate divergence from the reference: .wq-btn-plain, .wq-segbtn and
    .wq-rowbtn are 44px tall, not 40px — SPEC rule 7 sets a 44px minimum for
    every adult control, and section 10 gates on it. */
-import { C } from "@engine";
-import { alpha } from "./colour.js";
+import { C, alpha } from "@engine";
 
 /* Every key of C as a custom property, --wq-<key>, so a screen can say
    var(--wq-tileEdge) and no hex is ever typed twice (art project step 0b,

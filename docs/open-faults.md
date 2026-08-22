@@ -2183,3 +2183,21 @@ is a ruling on what free play offers a pre-ladder child, and the chooser matchin
   costs a release cycle - run 12 produced an hour of evidence pointing at
   nothing. Both mutation controls now print every failing line and tell a
   failing suite from a crashed runner. Neither run was retried until green.
+
+## AA. The adult controls' edge is below the bible's 3:1 rule — opened 2026-08-22
+
+- **Where it lives** `C.line` (#dfe5f3) in `reference/word-quest.jsx`, drawn as the border
+  of the Grown-ups corner's text inputs (`.wq-input`), the strip's buttons (`.wq-sbtn`), the
+  strip's top edge, the corner's row dividers, and the to-do ring of the progress segments
+  (`.wq-seg-todo`, on `chip`).
+- **What a grown-up experiences today** Input fields and strip buttons whose edge measures
+  1.26:1 on paper, and progress segments whose ring measures 1.07:1 on chip — faint
+  boundaries, below the 3:1 the bible's section 15 asks of a control's edge. Nothing
+  child-facing: the child's controls are the CTAs and the tiles, which carry their own fills
+  and edges. Found by the council's third judgement of step 0, which refused the sentence
+  "every edge the game draws clears 3:1" while this one did not.
+- **What done means** `line` (or the edges that read it) at or above 3:1 on the surface each
+  edges, measured in `tests/tokens.test.js` at literal ratios, declared as the visible
+  change it is at the grown-up-zone step (art plan step 4), and this entry closed with the
+  value. Until then test 3b holds the two ratios at 1.26 and 1.07 so the gap cannot drift
+  silently, and the bible's 9.3 row for `line` says the same.

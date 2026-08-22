@@ -1,5 +1,4 @@
-import { C, PRE_LEVELS, bankWords } from "@engine";
-import { alpha } from "../colour.js";
+import { C, PRE_LEVELS, bankWords, alpha } from "@engine";
 import Frame from "../components/Frame.jsx";
 import Zone from "../components/Zone.jsx";
 import Toast from "../components/Toast.jsx";

@@ -1,6 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { C } from "@engine";
-import { alpha } from "../colour.js";
+import { C, alpha } from "@engine";
 import Frame from "../components/Frame.jsx";
 import Zone from "../components/Zone.jsx";
 

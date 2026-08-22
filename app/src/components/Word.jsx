@@ -52,7 +52,10 @@ export default function Word({ children, ...rest }) {
     /* The observer's callback schedules the fit for the next frame rather
        than running it inside the delivery. The cost, stated: on a rotation
        or a text-size change the word paints one frame (about 16 ms) at its
-       previous size before the fit lands - never at word entry, where the
+       previous size before the fit lands - and on landscape-to-portrait,
+       where the stylesheet's size rises first, that frame can show the word
+       wider than its line, clipped at the viewport's edge - never at word
+       entry, where the
        layout effect above fits before the first paint, and never within a
        phase. The reading chair asked whether the fit could run inside the
        delivery instead, now that the write cannot change the observed box;

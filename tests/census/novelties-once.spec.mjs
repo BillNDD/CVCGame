@@ -113,14 +113,29 @@ test("control: a dead control and a thrown error are both caught by the monkey",
   expect(result.findings.some((f) => f.kind === "dead-control" && f.detail.includes("planted dead control"))).toBe(true);
   expect(kinds).toContain("console-error");
   expect(result.findings.some((f) => f.detail.includes("planted page error"))).toBe(true);
-  /* and a control under something else is not a target: the planted button
-     is covered by a fixed layer and leaves the list; the home buttons stay */
-  await page.evaluate(() => { const d = document.createElement("div"); d.id = "wq-plant-cover"; d.style.cssText = "position:fixed;left:0;right:0;top:35%;height:30%;z-index:60;background:transparent"; document.body.appendChild(d); });
-  const labels = (await tappable(page)).map((c) => c.label);
-  expect(labels, labels.join(" | ")).not.toContain("planted dead control");
-  expect(labels).toContain("Begin Session");
-  await page.evaluate(() => document.getElementById("wq-plant-cover").remove());
+  /* Two covers, told apart. A bare transparent layer over the planted
+     button is NOT a dialog: the button stays in the walk and is reported as
+     covered, naming the layer. The same layer inside an element that says
+     aria-modal takes the button out of the walk, as the chooser does to
+     "Free play". */
+  await page.evaluate(() => { const d = document.createElement("div"); d.id = "wq-plant-cover"; d.className = "wq-plant-cover"; d.style.cssText = "position:fixed;left:0;right:0;top:35%;height:30%;z-index:60;background:transparent"; document.body.appendChild(d); });
+  const bare = await tappable(page);
+  const planted = bare.find((c) => c.label === "planted dead control");
+  expect(planted, bare.map((c) => c.label).join(" | ")).toBeTruthy();
+  expect(planted.own).toBe(false);
+  expect(planted.cover).toBe("div.wq-plant-cover");
+  await page.evaluate(() => { const d = document.getElementById("wq-plant-cover"); const m = document.createElement("div"); m.setAttribute("aria-modal", "true"); m.setAttribute("role", "dialog"); m.id = "wq-plant-dialog"; d.replaceWith(m); m.appendChild(d); });
+  const underDialog = (await tappable(page)).map((c) => c.label);
+  expect(underDialog, underDialog.join(" | ")).not.toContain("planted dead control");
+  expect(underDialog).toContain("Begin Session");
+  /* the dialog unwrapped, the bare cover back: a short walk must report the
+     covered control by name and by what covers it (the walk leaves home, so
+     this is the last thing the control does) */
+  await page.evaluate(() => { const m = document.getElementById("wq-plant-dialog"); const d = document.getElementById("wq-plant-cover"); m.replaceWith(d); });
   expect((await tappable(page)).map((c) => c.label)).toContain("planted dead control");
+  const walked = await monkey(page, { taps: 12, seed: 3, settle: 300 });
+  expect(walked.findings.map((f) => f.kind), JSON.stringify(walked.findings)).toContain("covered-control");
+  expect(walked.findings.some((f) => f.kind === "covered-control" && f.detail.includes("planted dead control") && f.detail.includes("div.wq-plant-cover"))).toBe(true);
 });
 
 test("control: every label the detectors key on still names exactly one control", async ({ page }) => {
@@ -258,6 +273,13 @@ test("control: a frame in flow, a looping animation, equal tile widths, a wrappe
   expect(snapHold([{ id: "wide", naturalW: 512, naturalH: 64, deviceW: 512 * 2.019, deviceH: 128, left: 16, top: 24, rendering: "pixelated", dpr: 2.625 }]).map((f) => f.kind)).toEqual(["art-not-snapped"]);
   expect(snapHold([{ id: "tall", naturalW: 64, naturalH: 64, deviceW: 128, deviceH: 150, left: 16, top: 24, rendering: "pixelated", dpr: 2.625 }]).map((f) => f.kind)).toEqual(["art-not-snapped"]);
   expect(snapHold([{ id: "good", naturalW: 64, naturalH: 64, deviceW: 512, deviceH: 512, left: 16, top: 24, rendering: "pixelated", dpr: 2.625 }])).toEqual([]);
+  /* a 2x FILE for a 64-logical sprite (128 file px): k = 5 per logical px is
+     2.5 per file px and is refused; k = 4 and k = 6 land file pixels whole */
+  const twoX = (k) => [{ id: "2x", naturalW: 64, naturalH: 64, fileW: 128, fileH: 128, deviceW: 64 * k, deviceH: 64 * k, left: 0, top: 0, rendering: "pixelated", dpr: 4.5 }];
+  expect(snapHold(twoX(5)).map((f) => f.kind)).toEqual(["art-not-snapped"]);
+  expect(snapHold(twoX(5))[0].detail).toContain("FILE px");
+  expect(snapHold(twoX(4))).toEqual([]);
+  expect(snapHold(twoX(6))).toEqual([]);
   /* a looping animation during the attempt, planted in the page and read
      back through the browser (the fixture lists below prove the hold's
      arithmetic; this proves the reader) */
