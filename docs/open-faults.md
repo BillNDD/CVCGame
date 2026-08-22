@@ -2188,8 +2188,11 @@ is a ruling on what free play offers a pre-ladder child, and the chooser matchin
 
 - **Where it lives** `C.line` (#dfe5f3) in `reference/word-quest.jsx`, drawn as the border
   of the Grown-ups corner's text inputs (`.wq-input`), the strip's buttons (`.wq-sbtn`), the
-  strip's top edge, the corner's row dividers, and the to-do ring of the progress segments
-  (`.wq-seg-todo`, on `chip`).
+  strip's top edge (1.10:1 on paper at .72 over the stops), the corner's row dividers, the
+  to-do ring of the progress segments (`.wq-seg-todo`, on `chip`), and the corner's mastery
+  legend swatches (`ParentScreen.jsx`, `1px solid` line on chipGreen, chipAmber, chipRed and
+  chip: 1.03, 1.06, 1.07 and 1.07:1 - the fifth judgement's count, so step 4 darkens every
+  one of them and not five of six).
 - **What a grown-up experiences today** Input fields and strip buttons whose edge measures
   1.26:1 on paper, and progress segments whose ring measures 1.07:1 on chip — faint
   boundaries, below the 3:1 the bible's section 15 asks of a control's edge. Nothing

@@ -24,15 +24,15 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 
 | # | Suite | Effect (the test's own sentence) |
 |---|---|---|
-| 1 | G10 safety — S5: every grown-up can give a result, and only a grown-up can | 20: a screen reader |
+| 1 | G10 safety — S5: every grown-up can give a result, and only a grown-up can | 20: a screen reader's activation records the result |
 | 2 | G10 safety — S5: every grown-up can give a result, and only a grown-up can | 21 (control): a stray touch, and a hold let go early, still record nothing |
 | 3 | G10 safety — S5: every grown-up can give a result, and only a grown-up can | 22: no gesture grades a word twice |
 | 4 | G10 safety — S5: every grown-up can give a result, and only a grown-up can | 23 (control): a disabled control answers to nothing at all |
 | 5 | G10 — P1-7: the keyboard keeps its place in the session | 25: focus reaches the advance control the moment it comes alive |
 | 6 | G10 — P1-7: the keyboard keeps its place in the session | 26 (control): a grown-up who moves focus during the wait keeps it |
 | 7 | G10 safety — S5: one attempt, one result | 24: two controls held at once record one result, not two |
-| 8 | G10 — the text a grown-up reads on the child | 27: one completed session counts as  |
-| 9 | G10 — the text a grown-up reads on the child | 28 (control): two sessions still count as  |
+| 8 | G10 — the text a grown-up reads on the child's screen | 27: one completed session counts as '1 session', not '1 sessions' |
+| 9 | G10 — the text a grown-up reads on the child's screen | 28 (control): two sessions still count as '2 sessions' |
 
 ## tests/buildit.test.js — 20 tests (G10)
 
@@ -49,22 +49,22 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 1 | Build-it writes nothing to the record | 1: source tripwire — the screen touches no state that is saved |
 | 2 | Build-it writes nothing to the record | 2: a completed build saves nothing — and the probe can see a save |
 | 3 | Build-it writes nothing to the record | 3: no adult mark exists anywhere on the screen (D4) |
-| 4 | Build-it | 4: the word is spoken first, and the tiles are not |
-| 5 | Build-it | 5: a tile plays the sound it makes IN THIS WORD, not the letter |
-| 6 | Build-it | 5b: no tray tile is ever silent |
-| 7 | Build-it | 6: a word whose sound repeats can still be built |
-| 8 | Build-it | 7: a miss says what the child actually built, and the tray is not locked |
-| 9 | Build-it | 8: after the second miss, the letter is shown in its own slot |
+| 4 | Build-it's loop | 4: the word is spoken first, and the tiles are not |
+| 5 | Build-it's loop | 5: a tile plays the sound it makes IN THIS WORD, not the letter's default |
+| 6 | Build-it's loop | 5b: no tray tile is ever silent |
+| 7 | Build-it's loop | 6: a word whose sound repeats can still be built |
+| 8 | Build-it's loop | 7: a miss says what the child actually built, and the tray is not locked |
+| 9 | Build-it's loop | 8: after the second miss, the letter is shown in its own slot |
 | 10 | Build-a-sound, for a child still on the ladder | 9: Pre 1 gets no tray at all — it has met no letters |
 | 11 | Build-a-sound, for a child still on the ladder | 10: the tray is exactly what the rung has taught, and grows with it |
 | 12 | Build-a-sound, for a child still on the ladder | 11: no tile is silent, and none is a letter the rung has not reached |
 | 13 | Build-a-sound, for a child still on the ladder | 12: finding the sound wins, and a wrong tile invites another try |
 | 14 | Build-a-sound, for a child still on the ladder | 13: a miss hands the tray back by itself - the wrong tile does not sit in the slot |
 | 15 | free play builds go on until Done | 19: a child at level 1 and at level 2 gets a build, not an error |
-| 16 | free play builds go on until Done | 18: every level |
-| 17 | free play builds go on until Done | 17: a long word |
-| 18 | free play builds go on until Done | 15:  |
-| 19 | free play builds go on until Done | 16:  |
+| 16 | free play builds go on until Done | 18: every level's build window holds words, the first two included |
+| 17 | free play builds go on until Done | 17: a long word's celebration is never cut off - the turn ends when the sound does |
+| 18 | free play builds go on until Done | 15: 'Build a level word' deals the level's own word, mastery elsewhere notwithstanding |
+| 19 | free play builds go on until Done | 16: 'Build any word' opens a build at all |
 | 20 | free play builds go on until Done | 14: a found sound is followed by another sound, and Done goes home |
 
 ## tests/chunker.test.js — 14 tests (G1)
@@ -90,8 +90,8 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 9 | the extended code | lets a bend outrank the rule, which is how come, some, love and have stay honest |
 | 10 | the extended code | does not fire where the shape is absent - the controls (E5) |
 | 11 | the extended code | keeps d:silent out of every audio path while S8 keeps its slot |
-| 12 | the extended code | carries the writer |
-| 13 | the extended code | gives the four single-taught spellings their level |
+| 12 | the extended code | carries the writer's two literals, filled at the cutover |
+| 13 | the extended code | gives the four single-taught spellings their level's own sound |
 | 14 | the extended code | reads no word out of bare punctuation |
 
 ## tests/engine.test.js — 106 tests (G1)
@@ -108,12 +108,12 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 |---|---|---|
 | 1 | A stumble must not cost mastery (parent report, 2026-08-13) | a close then a correct lands on box 3, not box 2 |
 | 2 | A stumble must not cost mastery (parent report, 2026-08-13) | a wrong then a correct lands on box 3, not box 1 |
-| 3 | A stumble must not cost mastery (parent report, 2026-08-13) | the parent |
+| 3 | A stumble must not cost mastery (parent report, 2026-08-13) | the parent's own words: two correct readings after a stumble reach mastery |
 | 4 | A stumble must not cost mastery (parent report, 2026-08-13) | but the second correct still only steps one box, so the jump is not repeatable |
 | 5 | word bank | has 1,123 unique words across the hundred levels |
-| 6 | word bank | starts with the converted ladder |
+| 6 | word bank | starts with the converted ladder's ten decodables, no hearts at Level 1 |
 | 7 | word bank | maps every word to its level |
-| 8 | word bank | flags the thirty-five tricky words — the originals, the heart notes, i, seating pass two |
+| 8 | word bank | flags the thirty-five tricky words — the originals, the heart notes, i, seating pass two's four, the hybrid ruling's four, and the magic-e rule's three |
 | 9 | word bank | keeps every word inside what the tile row can hold: 8 tiles, 9 letters |
 | 10 | chunkWord and dashed | fuses every digraph |
 | 11 | chunkWord and dashed | splits VC and plain CVC words |
@@ -167,7 +167,7 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 59 | buildMarkdown | marks a partial session |
 | 60 | voice packs | inventories one clip per word, the fixed sentences, and every sound a tile can ask for |
 | 61 | voice packs | covers every grapheme the whole bank can produce |
-| 62 | voice packs | the plural s splits by voicing: dogs buzzes, cats hisses (Level 21 |
+| 62 | voice packs | the plural s splits by voicing: dogs buzzes, cats hisses (Level 21's lesson) |
 | 63 | voice packs | bankWords covers every word the app names, not only the levels |
 | 64 | voice packs | ai and ou say what their levels teach, and the heart words still bend |
 | 65 | voice packs | gives every tricky word its true sounds, not its letters |
@@ -176,10 +176,10 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 68 | voice packs | plans the sound-out reveal on every outcome, at the literal 500 ms seam |
 | 69 | voice packs | knows a seam from a clip, and how long each one lasts |
 | 70 | voice packs | maps each tile sound to its own tile, in order |
-| 71 | voice packs | steps over a silent tile, so the ring after it lands on its own tile (beta 22 |
+| 71 | voice packs | steps over a silent tile, so the ring after it lands on its own tile (beta 22's fault) |
 | 72 | voice packs | resolves one source per utterance: family, then default, then none |
 | 73 | speech helpers | says full words only, never letter names, and never stretches the reveal |
-| 74 | speech helpers | hands system speech the SOUND of “a”, never the letter |
+| 74 | speech helpers | hands system speech the SOUND of “a”, never the letter's name |
 | 75 | speech helpers | stays silent when sound is off or no engine exists |
 | 76 | speech helpers | configures the utterance: rate 0.9, pitch 1.1, locale, cancel first |
 | 77 | speech helpers | pins the seventeen praise sentences, character for character |
@@ -198,14 +198,14 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 90 | G1 — the system voice is never given a word it says wrongly | 76: with no unsafe line listed, every praise index reaches the system voice unchanged |
 | 91 | G1 — the system voice is never given a word it says wrongly | 77: the clip plan carries the new line to the pack |
 | 92 | G1 — the system voice is never given a word it says wrongly | 78: the sentence praise roster is exactly the rows that never say \ |
-| 93 | G1 — the system voice is never given a word it says wrongly | 79: the sentence lead is the grade |
+| 93 | G1 — the system voice is never given a word it says wrongly | 79: the sentence lead is the grade's exact clip, and an off-roster index cannot praise with a word-line |
 | 94 | Build-it tray | gives the word its true number of slots, never a padded one |
 | 95 | Build-it tray | ramps the extra tiles: none, then one from Level 6, then two past 14 |
 | 96 | Build-it tray | always offers every tile the answer needs |
-| 97 | Build-it tray | never offers a distractor that is one of the word |
+| 97 | Build-it tray | never offers a distractor that is one of the word's own tiles |
 | 98 | Build-it tray | keeps units with no ruled default out of the pool |
 | 99 | Build-it tray | keeps the vowels, so a child can be offered i against a |
-| 100 | Build-it tray | refuses a distractor that would sound exactly like one of the word |
+| 100 | Build-it tray | refuses a distractor that would sound exactly like one of the word's own tiles |
 | 101 | Build-it tray | only draws graphemes a child at that level has met |
 | 102 | Build-it tray | gives every answer tile in the order the word is built |
 | 103 | Build-it tray | offers a tile for every slot, even when a sound repeats |
@@ -239,15 +239,15 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 12 | G9 faults — an unreadable save, and backups that must look like one | 7b: a save-shaped ARRAY is not a backup |
 | 13 | G9 faults — an unreadable save, and backups that must look like one | 7a (control): a genuine backup still restores |
 | 14 | G9 faults — wrong-shape JSON battery | 4: hostile shapes heal, and every engine function survives them |
-| 15 | G9 faults — the corner | commits a trimmed, 20-glyph name without bisecting a surrogate pair |
-| 16 | G9 faults — the corner | copies the log when the clipboard allows, and shows the box when it refuses |
-| 17 | G9 faults — the corner | saves a backup through the blob path without a throw |
-| 18 | G9 faults — the corner | jumping to a word level steps the child off the pre-ladder |
-| 19 | G9 faults — the corner | resets only through the second press, and the first can back out |
+| 15 | G9 faults — the corner's own actions survive their edges | commits a trimmed, 20-glyph name without bisecting a surrogate pair |
+| 16 | G9 faults — the corner's own actions survive their edges | copies the log when the clipboard allows, and shows the box when it refuses |
+| 17 | G9 faults — the corner's own actions survive their edges | saves a backup through the blob path without a throw |
+| 18 | G9 faults — the corner's own actions survive their edges | jumping to a word level steps the child off the pre-ladder |
+| 19 | G9 faults — the corner's own actions survive their edges | resets only through the second press, and the first can back out |
 | 20 | G9 faults — the error ring records on the device and never sends | scrubs every URL to its file name, caps the message, and keeps the last 20 |
-| 21 | G9 faults — the error ring records on the device and never sends | the browser |
+| 21 | G9 faults — the error ring records on the device and never sends | the browser's two catch-alls land in the ring with the screen name, and no origin |
 | 22 | G9 faults — the error ring records on the device and never sends | a render crash shows a way back to the start, not a blank page, and is recorded |
-| 23 | G9 faults — the error ring records on the device and never sends | the corner copies the report only on a grown-up |
+| 23 | G9 faults — the error ring records on the device and never sends | the corner copies the report only on a grown-up's press, apart from the log, and can clear it |
 
 ## tests/garden.test.js — 5 tests (G1)
 
@@ -262,7 +262,7 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | # | Suite | Effect (the test's own sentence) |
 |---|---|---|
 | 1 | the garden | 1: the state is the tenth of the levels completed - 0 through level 10, 1 at level 11, 9 through level 100 |
-| 2 | the garden | 2: the ladder is complete when level 100 |
+| 2 | the garden | 2: the ladder is complete when level 100's words are secure, and then the garden is 10 |
 | 3 | the garden | 3: the two-perfect-sessions path promotes between levels and never ends the ladder |
 | 4 | the garden | 4: a secure level 99 is not the end of the ladder |
 | 5 | the garden | 5: a hostile or empty state reads as the start |
@@ -312,7 +312,7 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 31 | Feature: Level promotion | Just under 80 percent does not promote |
 | 32 | Feature: Level promotion | Box 2 words are not solid |
 | 33 | Feature: Level promotion | The starter level needs 8 of its 10 words |
-| 34 | Feature: Level promotion | Seven of the starter level |
+| 34 | Feature: Level promotion | Seven of the starter level's 10 words is not enough |
 | 35 | Feature: Level promotion | The last level has no promotion |
 | 36 | Feature: Level promotion | Two perfect sessions in a row promote |
 | 37 | Feature: Level promotion | One perfect session is not enough |
@@ -322,7 +322,7 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 41 | Feature: Level promotion | A box promotion on a perfect session still resets the streak |
 | 42 | Feature: Level promotion | A stored streak alone never promotes without a completed session |
 | 43 | Feature: Saved data survives anything | A version 2 save seats where its own graded words put it |
-| 44 | Feature: Saved data survives anything | An old save lands where the child |
+| 44 | Feature: Saved data survives anything | An old save lands where the child's words put it |
 | 45 | Feature: Saved data survives anything | Migration runs only once |
 | 46 | Feature: Saved data survives anything | A hostile level heals to the start |
 | 47 | Feature: Saved data survives anything | An out-of-range level clamps to the top |
@@ -395,7 +395,7 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | # | Suite | Effect (the test's own sentence) |
 |---|---|---|
 | 1 | every control is named in plain words | 1: home, the chooser, the corner, a session and a build |
-| 2 | every control is named in plain words | 2: the done screens, the pre-ladder |
+| 2 | every control is named in plain words | 2: the done screens, the pre-ladder's first rung, and the way home from a crash |
 | 3 | every control is named in plain words | 3 (control): a hold named the old way, a bare emoji button, and a label round an input are each refused |
 
 ## tests/pre.test.js — 15 tests (G10)
@@ -410,21 +410,21 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 
 | # | Suite | Effect (the test's own sentence) |
 |---|---|---|
-| 1 | the ladder | holds three rungs: the ear, then s-a-t-p, i-n |
-| 2 | the ladder | teaches exactly the letters Level 1 |
+| 1 | the ladder's shape | holds three rungs: the ear, then s-a-t-p, i-n |
+| 2 | the ladder's shape | teaches exactly the letters Level 1's decodables spell, and every item's sound ships |
 | 3 | a pre-session | serves a fresh rung whole, in taught order, and never shuffles |
 | 4 | a pre-session | leads with up to five due letter reviews from earlier rungs |
 | 5 | a pre-session | serves the whole rung, six items, and never repeats one |
-| 6 | winning a rung | promotes at the words |
-| 7 | winning a rung | promotes on the words |
+| 6 | winning a rung | promotes at the words' boundary: 5 of the ear's 6, all 4 of s-a-t-p |
+| 7 | winning a rung | promotes on the words' second path too: two perfect sessions in a row |
 | 8 | winning a rung | passing the last rung leaves the ladder for Level 1 |
 | 9 | migration v5 and the fresh-saves-only ruling | a truly fresh save starts the ladder; every kind of history skips it |
 | 10 | migration v5 and the fresh-saves-only ruling | is idempotent, and a graduate stays graduated |
 | 11 | migration v5 and the fresh-saves-only ruling | a corrupted preLevel fails toward teaching, never past it |
 | 12 | migration v5 and the fresh-saves-only ruling | keeps pre boxes and word boxes in separate rooms — the letters a and i collide otherwise |
 | 13 | the ladder in the app | a fresh install boots to Pre 1 and Begin serves the ear, not a word |
-| 14 | the ladder in the app | only the adult |
-| 15 | the ladder in the app | the grown-up |
+| 14 | the ladder in the app | only the adult's hold records a pre result, into state.pre alone (S1) |
+| 15 | the ladder in the app | the grown-up's pre control jumps the ladder and Words leaves it |
 
 ## tests/properties.test.js — 10 tests (G2)
 
@@ -470,7 +470,7 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 7 | G10 — the child hears the word before the app lets them move on | 5: a miss on the last word says \ |
 | 8 | G10 — the child hears the word before the app lets them move on | 6 (pair): a correct last word says \ |
 | 9 | G10 — the child hears the word before the app lets them move on | 7: a tap on the grown-up skip does nothing — the reveal keeps its wait |
-| 10 | G10 — the child hears the word before the app lets them move on | 8: the adult |
+| 10 | G10 — the child hears the word before the app lets them move on | 8: the adult's skip advances early and silences the reveal at once |
 | 11 | G10 — the child hears the word before the app lets them move on | 9: each tile takes its ring as its own sound plays, for as long as that sound lasts |
 | 12 | G10 — the child hears the word before the app lets them move on | 10 (control): with no recorded reveal, no tile is ever ringed |
 | 13 | G10 — the child hears the word before the app lets them move on | 10a: a fallback tells the grown-up, and says why |
@@ -492,7 +492,7 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 
 | # | Suite | Effect (the test's own sentence) |
 |---|---|---|
-| 1 | G10 safety — S6: the splash update controls are adult holds | 49: a child |
+| 1 | G10 safety — S6: the splash update controls are adult holds | 49: a child's tap asks nothing; the adult's activation asks once, the app's own host |
 | 2 | G10 safety — S6: the splash update controls are adult holds | 50: Update now appears only after a newer version answers, and only the adult hold sends the consent message |
 | 3 | G10 safety — S6: the splash update controls are adult holds | 51: a newer build of the same version is offered in plain words |
 
@@ -509,31 +509,31 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | # | Suite | Effect (the test's own sentence) |
 |---|---|---|
 | 1 | G10 safety — S1: only an adult can record a result | 1: a whole session with no adult action records nothing |
-| 2 | G10 safety — S1: only an adult can record a result | 2 (control): the adult |
+| 2 | G10 safety — S1: only an adult can record a result | 2 (control): the adult's action DOES record, so test 1 can fail |
 | 3 | G10 safety — S1: only an adult can record a result | 2a: a wrong result also needs the adult, and records exactly one |
 | 4 | G10 safety — S1: only an adult can record a result | 3: source tripwire — EVERY grade fires only from an adult hold control |
 | 5 | G10 safety — S2: the word is never spoken before the attempt ends | 4: nothing is spoken in the ready phase, and replay is inert |
 | 6 | G10 safety — S2: the word is never spoken before the attempt ends | 4b: advancing to the next word silences any queued reveal |
 | 7 | G10 safety — S2: the word is never spoken before the attempt ends | 5 (control): after the attempt, speech says the full word and replay works |
 | 8 | A2-002: the exit dialog never changes underneath a grown-up | 17: all three controls are present on the first word, and Save is reserved and inert |
-| 9 | A2-002: the exit dialog never changes underneath a grown-up | 18: the dialog |
-| 10 | A2-002: the exit dialog never changes underneath a grown-up | 19 (control):  |
+| 9 | A2-002: the exit dialog never changes underneath a grown-up | 18: the dialog's geometry does not move once a word has been read |
+| 10 | A2-002: the exit dialog never changes underneath a grown-up | 19 (control): 'Keep reading' returns to the same word and records nothing |
 | 11 | G10 safety — W4c: an update never reloads under a child | 17b: the pre-ladder and a build are live sessions too |
 | 12 | G10 safety — W4c: an update never reloads under a child | 17: a new version mid-session waits for the session to end, then refreshes once |
 | 13 | G10 safety — W4c: an update never reloads under a child | 18 (control): with no session running the refresh is immediate, and a first install never reloads |
 | 14 | G10 safety — S4: no letter name ever reaches speech | 19: the note is never spoken — letter names must not reach speech |
 | 15 | G10 safety — S6 and S7: no network, big controls | 6: no app source makes a network call |
 | 16 | G10 safety — S6 and S7: no network, big controls | 7: the stylesheet keeps child controls at 56 px and adult controls at 44 px |
-| 17 | G10 safety — S6 and S7: no network, big controls | 8: no  |
+| 17 | G10 safety — S6 and S7: no network, big controls | 8: no `font:` shorthand ends in inherit, which would void the declaration |
 | 18 | G10 — free play never touches the save | 40: rights, wrongs and leaving write nothing at all |
 | 19 | G10 — free play never touches the save | 41 (control): the same grades in a real session DO reach the save |
 | 20 | G10 — free play never touches the save | 42: free play never says Finish and rolls into a new block |
 | 21 | G10 — free play never touches the save | 43: the header says FREE PLAY with a count-up, never x of 20 |
 | 22 | G10 — free play never touches the save | 44: a chooser stands between the tap and the game, and Back starts nothing |
-| 23 | G10 — free play never touches the save | 45: truly random draws from the whole bank, not the child |
+| 23 | G10 — free play never touches the save | 45: truly random draws from the whole bank, not the child's level |
 | 24 | G10 — free play never touches the save | 46: random play writes nothing and says what it is |
 | 25 | G10 — free play never touches the save | 47: a spent random block rolls into a fresh draw that never repeats the boundary word |
-| 26 | G10 safety — S6: the foreground check obeys the corner | 48: the check asks on a return to the foreground, and Off silences it at once |
+| 26 | G10 safety — S6: the foreground check obeys the corner's switch | 48: the check asks on a return to the foreground, and Off silences it at once |
 
 ## tests/scheduler.test.js — 6 tests (G1)
 
@@ -566,28 +566,28 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 
 | # | Suite | Effect (the test's own sentence) |
 |---|---|---|
-| 1 | the sentence reveal | sounds the open word out seam by seam, every id literal (E4) |
+| 1 | the sentence reveal's clip plan | sounds the open word out seam by seam, every id literal (E4) |
 | 2 | the sentence inside a session | 1: arrives after the fifth word, and only after a word is finished |
-| 3 | the sentence inside a session | 0: arrives SILENT with the child |
+| 3 | the sentence inside a session | 0: arrives SILENT with the child's turn first — prompt up, controls live, no way past but the mark |
 | 4 | the sentence inside a session | 0b: the mark decides only what the app says — praise that never says \ |
 | 5 | the sentence inside a session | 0c: one attempt, one result — a second mark in the same window changes nothing |
-| 6 | the sentence inside a session | 2: the mark starts the reveal: the whole sentence, the invitation, then the level |
+| 6 | the sentence inside a session | 2: the mark starts the reveal: the whole sentence, the invitation, then the level's word |
 | 7 | the sentence inside a session | 3: a tapped word shows its pieces and says NOTHING |
 | 8 | the sentence inside a session | 4: exactly one word is ever open, and tapping the open one closes it |
 | 9 | the sentence inside a session | 5: the sentence reads again to close, and a tap interrupts that read |
 | 10 | the sentence inside a session | 6: after the mark the grown-up ends it, nothing has to finish first, and no result is recorded |
 | 11 | the sentence inside a session | 8 (free play): opens on a sentence IN THE ATTEMPT, counts sentences, and its advance names one |
-| 12 | the sentence inside a session | 9 (free play): sounds out the LONGEST word, in tiles, and never the level |
+| 12 | the sentence inside a session | 9 (free play): sounds out the LONGEST word, in tiles, and never the level's |
 | 13 | the sentence inside a session | 9b: the longest word is a pure rule, and it is not the first word |
 | 14 | the sentence inside a session | 10 (free play): the controls are live for the SENTENCE, and no mark records anything |
 | 15 | the sentence inside a session | 11 (free play): never runs out — the pool is dealt again from the top |
-| 16 | the sentence inside a session | 12: the open word |
+| 16 | the sentence inside a session | 12: the open word's bent-sound note shows in the reveal — and only there |
 | 17 | the sentence inside a session | 7b: a miss just before a sentence still earns the second look |
 | 18 | the sentence inside a session | 7c (control): a miss with no sentence in the way earns the same second look |
 | 19 | the sentence inside a session | 7: no sentence repeats inside one session |
 | 20 | free play deals from data that can be empty | 13: an empty pool turns the tap back rather than breaking the app |
 | 21 | free play deals from data that can be empty | 16: a repeated word opens at ONE position - the tapped one |
-| 22 | free play deals from data that can be empty | 15: the grid |
+| 22 | free play deals from data that can be empty | 15: the grid's right column works - Any sentence opens a sentence, Build any word opens a build |
 | 23 | free play deals from data that can be empty | 14: the chooser drops the sentence row where there is nothing to serve — and keeps it where there is |
 
 ## tests/serviceworker.test.js — 5 tests (G14)
@@ -602,16 +602,16 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 
 | # | Suite | Effect (the test's own sentence) |
 |---|---|---|
-| 1 | G14 — the service worker answers for the app, and only for the app | 1: the app |
-| 2 | G14 — the service worker answers for the app, and only for the app | 2: another page in the same folder is NOT given the app |
-| 3 | G14 — the service worker answers for the app, and only for the app | 3: offline, that page falls back to its OWN cached page, never the app |
+| 1 | G14 — the service worker answers for the app, and only for the app | 1: the app's own page is served from the cache, so it opens offline |
+| 2 | G14 — the service worker answers for the app, and only for the app | 2: another page in the same folder is NOT given the app's page |
+| 3 | G14 — the service worker answers for the app, and only for the app | 3: offline, that page falls back to its OWN cached page, never the app's |
 | 4 | G14 — the service worker answers for the app, and only for the app | 4 (control): a clip request is still served from the cache, and a miss goes to the network |
 | 5 | G14 — the service worker answers for the app, and only for the app | 5 (control): the version check is never intercepted, so it always sees the live host |
 
 ## tests/tokens.test.js — 9 tests (G1)
 
-- **Requirement protected:** SPEC section 9 and the art bible's 9.3: C is the one statement of the palette; the thirteen original keys keep their literal values; every edge or boundary token clears 3:1 on the surface it edges
-- **Independent oracle:** Literal hex pins for the thirteen original keys, the key count, and this file's own WCAG relative-luminance arithmetic at literal expected ratios (3.78, 4.68, 7.51, 6.39, 11.36, 6.43, 5.57), with the one admitted sub-3:1 pair (2.10) as the control
+- **Requirement protected:** SPEC section 9 and the art bible's 9.3: C is the one statement of the palette; the thirteen original keys keep their literal values; the bible's four structural edges, the empty slot's edge and the progress ring clear 3:1 on the surface each edges, while line (1.26, 1.07) and the open sentence word's action ring on the gradient (2.95, 2.88, 3.15) are held BELOW the rule and carried in open-faults AA and AB for the steps that darken them; alpha() reproduces the literals it replaced; the two theme colours equal skyBlue; every C.<key> read exists
+- **Independent oracle:** Literal hex pins for the thirteen original keys, the key count, and this file's own WCAG relative-luminance arithmetic at literal expected ratios (3.78, 4.68, 7.51, 6.39, 4.77, 3.79 on a ground derived from the tokens, 4.11, 11.36, 6.43, 5.57; below the rule 1.26, 1.07, 2.95, 2.88), with three controls held below 3:1 (the admitted fill 2.10 and the two withdrawn edges 1.94, 1.44) and WCAG's own anchors (21, 4.48)
 - **Platform:** node
 - **Mutant family:** not yet in a G5 family
 - **Evidence produced:** Vitest count (floor g1_token_tests)
@@ -621,12 +621,12 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | # | Suite | Effect (the test's own sentence) |
 |---|---|---|
 | 1 | the palette is pinned | 1: the thirteen keys the game had before the bible keep their literal values |
-| 2 | the palette is pinned | 2: C holds exactly the keys the bible |
-| 3 | the palette is pinned | 3: the bible |
-| 4 | the palette is pinned | 3b: the adult controls |
-| 5 | the palette is pinned | 3c: the open sentence word |
+| 2 | the palette is pinned | 2: C holds exactly the keys the bible's table names - 13 of the game's, 28 of the bible's, 5 from the sweep |
+| 3 | the palette is pinned | 3: the bible's four structural edges, the empty slot's edge and the progress ring clear 3:1 on the surface each edges, at literal ratios |
+| 4 | the palette is pinned | 3b: the adult controls' edge, line, is BELOW 3:1 today and is named in open-faults for the grown-up-zone step |
+| 5 | the palette is pinned | 3c: the open sentence word's action ring on the gradient is BELOW 3:1 on two stops today, and is named in open-faults for the reading-surface step |
 | 6 | the palette is pinned | 4: teaching text clears 7:1 and the action blue 4.5:1, at literal ratios |
-| 7 | the palette is pinned | 5 (control): the one pair the bible admits below 3:1 measures below it, the two withdrawn edges measure below it, and the arithmetic agrees with WCAG |
+| 7 | the palette is pinned | 5 (control): the one pair the bible admits below 3:1 measures below it, the two withdrawn edges measure below it, and the arithmetic agrees with WCAG's own anchors |
 | 8 | the palette is pinned | 7: alpha() reproduces the literals it replaced, and the two theme colours the build cannot derive equal skyBlue |
 | 9 | the palette is pinned | 6: every C.<key> an app source or the reference reads is a key C has, and a planted one is refused |
 
@@ -653,10 +653,10 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 9 | applyUpdate | cleans up after itself: takeover removes the controllerchange listener |
 | 10 | applyUpdate | an installing worker that reaches waiting gets the consent message, once |
 | 11 | applyUpdate | a statechange after the timeout answers can never activate the worker |
-| 12 | installForegroundCheck (SPEC section 7a — S6 | a return to the foreground with the switch on asks for a newer worker |
-| 13 | installForegroundCheck (SPEC section 7a — S6 | Off means zero requests, and the switch is read at the event, not at install |
-| 14 | installForegroundCheck (SPEC section 7a — S6 | going to the background never asks |
-| 15 | installForegroundCheck (SPEC section 7a — S6 | survives a missing registration and a failing update, and the remover removes |
+| 12 | installForegroundCheck (SPEC section 7a — S6's second call) | a return to the foreground with the switch on asks for a newer worker |
+| 13 | installForegroundCheck (SPEC section 7a — S6's second call) | Off means zero requests, and the switch is read at the event, not at install |
+| 14 | installForegroundCheck (SPEC section 7a — S6's second call) | going to the background never asks |
+| 15 | installForegroundCheck (SPEC section 7a — S6's second call) | survives a missing registration and a failing update, and the remover removes |
 | 16 | update-system tripwires (source, with controls) | the service worker never activates itself: no skipWaiting at install, consent message only |
 | 17 | update-system tripwires (source, with controls) | the version check bypasses the service worker and the precache |
 | 18 | update-system tripwires (source, with controls) | the update module can never touch saved progress |
@@ -673,13 +673,13 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 
 | # | Suite | Effect (the test's own sentence) |
 |---|---|---|
-| 1 | voice-pack clip engine | rings the tile after a silent one on its own tile, never one early (beta 22 |
+| 1 | voice-pack clip engine | rings the tile after a silent one on its own tile, never one early (beta 22's fault) |
 | 2 | voice-pack clip engine | places speech 500 ms apart through the sound-out, whatever silence the files carry |
 | 3 | voice-pack clip engine | lays a hum under the sound-out only, and stops it with everything else |
 | 4 | voice-pack clip engine | falls back to system speech when the pack lacks a clip, and stays silent with sound off |
 | 5 | voice-pack clip engine | falls back before any sound when a clip fails to decode |
 | 6 | voice-pack clip engine | stopClips() halts a scheduled chain, and a new utterance silences the old one |
-| 7 | voice-pack clip engine | measures where the speech sits inside a clip, in the shipped pack |
+| 7 | voice-pack clip engine | measures where the speech sits inside a clip, in the shipped pack's own terms |
 | 8 | voice-pack clip engine | a stored family clip carries its measurements, and an undecodable one carries none |
 | 9 | voice-pack clip engine | prefers a complete family pack: family clips come from the device, not from fetch |
 | 10 | voice-pack clip engine | takes the audio session back from the microphone before the next reveal |

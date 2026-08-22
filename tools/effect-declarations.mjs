@@ -142,8 +142,8 @@ export const DECLARED = {
   },
   "tests/tokens.test.js": {
     safety: {},
-    gate: "G1", requirement: "SPEC section 9 and the art bible's 9.3: C is the one statement of the palette; the thirteen original keys keep their literal values; every edge or boundary token clears 3:1 on the surface it edges",
-    oracle: "Literal hex pins for the thirteen original keys, the key count, and this file's own WCAG relative-luminance arithmetic at literal expected ratios (3.78, 4.68, 7.51, 6.39, 11.36, 6.43, 5.57), with the one admitted sub-3:1 pair (2.10) as the control",
+    gate: "G1", requirement: "SPEC section 9 and the art bible's 9.3: C is the one statement of the palette; the thirteen original keys keep their literal values; the bible's four structural edges, the empty slot's edge and the progress ring clear 3:1 on the surface each edges, while line (1.26, 1.07) and the open sentence word's action ring on the gradient (2.95, 2.88, 3.15) are held BELOW the rule and carried in open-faults AA and AB for the steps that darken them; alpha() reproduces the literals it replaced; the two theme colours equal skyBlue; every C.<key> read exists",
+    oracle: "Literal hex pins for the thirteen original keys, the key count, and this file's own WCAG relative-luminance arithmetic at literal expected ratios (3.78, 4.68, 7.51, 6.39, 4.77, 3.79 on a ground derived from the tokens, 4.11, 11.36, 6.43, 5.57; below the rule 1.26, 1.07, 2.95, 2.88), with three controls held below 3:1 (the admitted fill 2.10 and the two withdrawn edges 1.94, 1.44) and WCAG's own anchors (21, 4.48)",
     platform: "node", mutants: "not yet in a G5 family",
     evidence: "Vitest count (floor g1_token_tests)",
     limits: "Pins values and ratios; whether a rendered control actually shows those colours is G7's contrast walker, and the hex-literal quality control refuses a colour typed anywhere else.",

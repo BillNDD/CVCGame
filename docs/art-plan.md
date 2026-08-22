@@ -374,3 +374,16 @@ Newest last. A verdict names the chair, the step, the word, and the findings.
   (step 3), the file-pixel snap rule for art that is not an `<img>` (step 6), and the
   report's seed naming the parent commit when the scope runs before the commit (cadence).
   Judged a fifth time; the verdicts follow.
+- 2026-08-22 — Step 0 judged a fifth time, fresh, by the two chairs that refused it at
+  the fourth: **reading and accessibility satisfactory**; the antagonist not satisfied on
+  one blocking finding, two more non-blocking; all taken. **Blocking:** the effect map —
+  the generated document that says what each test guards — still declared the withdrawn
+  claim "every edge or boundary token clears 3:1" for `tests/tokens.test.js`, and named one
+  control where the test holds three; the declaration now says what the file measures and
+  what it holds below the rule, and the map is regenerated. **Taken besides:** open-faults
+  AA's list of where `line` is drawn gains the corner's legend swatches (1.03 to 1.07:1),
+  after the chair's count of every border, outline and ring the app draws found no third
+  sub-3:1 edge beyond AA and AB; and the effect map's title reader now closes on the quote
+  that opened it, so a title with an apostrophe is read whole (71 rows of the map read
+  their full sentence; a self-test fixture holds it). Judged a sixth time by the
+  antagonist's chair; the verdict follows.
