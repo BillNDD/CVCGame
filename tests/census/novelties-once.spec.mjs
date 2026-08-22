@@ -6,9 +6,9 @@
  * for all five novelty detectors (E5). Every control exercises the SAME
  * helper the live cells run, from tools/census-novelties.mjs. */
 import { test, expect } from "@playwright/test";
-import { stage, holdGrade, waitForReveal, requireStaged, GRADE } from "../../tools/ux-census.mjs";
+import { stage, holdGrade, waitForReveal, requireStaged, seedGraduated, GRADE } from "../../tools/ux-census.mjs";
 import { landmarks, phaseHold, homeFurniture, chromeHold, offlineHold,
-         markStay, assertStayed, pokeForeground, hitTest } from "../../tools/census-novelties.mjs";
+         markStay, assertStayed, pokeForeground, hitTest, monkey } from "../../tools/census-novelties.mjs";
 
 /* ---- the live singleton cells ---- */
 
@@ -85,6 +85,32 @@ test("control: an invisible interceptor over a control is caught by the hit-test
   });
   const findings = await hitTest(page);
   expect(findings.map((f) => f.kind)).toContain("control-intercepted");
+});
+
+test("control: a dead control and a thrown error are both caught by the monkey", async ({ page }) => {
+  /* The monkey's own E5. A 56 px control that does nothing on tap - the
+     shape of beta 23's dead cells - is planted on the home screen where the
+     child's own two buttons sit, and a page error is thrown on the first
+     tap. Sixty seeded taps among four controls reach the plant well over
+     three times, and both kinds must be named. The seed is fixed so the walk
+     is the same every time this control runs. */
+  await page.goto("/", { waitUntil: "load" });
+  await seedGraduated(page);
+  await page.getByText("▶️ Begin Session").waitFor();
+  await page.evaluate(() => {
+    const b = document.createElement("button");
+    b.textContent = "planted dead control";
+    b.className = "wq-cta";
+    b.style.cssText = "position:fixed;left:16px;right:16px;top:40%;height:64px;z-index:50;";
+    b.addEventListener("click", () => { if (!window.__thrown) { window.__thrown = true; setTimeout(() => { throw new Error("planted page error"); }, 0); } });
+    document.body.appendChild(b);
+  });
+  const result = await monkey(page, { taps: 60, seed: 7, settle: 600 });
+  const kinds = result.findings.map((f) => f.kind);
+  expect(kinds, JSON.stringify(result.findings)).toContain("dead-control");
+  expect(result.findings.some((f) => f.kind === "dead-control" && f.detail.includes("planted dead control"))).toBe(true);
+  expect(kinds).toContain("console-error");
+  expect(result.findings.some((f) => f.detail.includes("planted page error"))).toBe(true);
 });
 
 test("control: a clean staged word reports none of the five", async ({ page }) => {

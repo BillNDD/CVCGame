@@ -51,6 +51,11 @@ export default function BuildItScreen({ tray, playSounds, playWord, onDone, onEx
   const [ghost, setGhost] = useState(null);
   const [msg, setMsg] = useState("");
   const [won, setWon] = useState(false);
+  /* True while a full build is being judged: the tray is locked, and the
+     screen SAYS so (aria-busy) rather than silently ignoring taps. The
+     census's monkey (2026-08-22) met the silent version as three "dead"
+     taps on a tile during a long sound-out. */
+  const [busy, setBusy] = useState(false);
   const timers = useRef([]);
   /* Written before the state it mirrors, so a second tap in the same frame
      sees the first one. */
@@ -102,8 +107,8 @@ export default function BuildItScreen({ tray, playSounds, playWord, onDone, onEx
        lift a tile inside that window and the finished build would still be
        judged - a celebration over an empty slot, or a miss against something
        already dismantled. */
-    if (full) judging.current = true;
-    playSounds([soundAt(idx)], full ? () => { judging.current = false; check(builtFrom(next), soundsFrom(next)); } : undefined);
+    if (full) { judging.current = true; setBusy(true); }
+    playSounds([soundAt(idx)], full ? () => { judging.current = false; setBusy(false); check(builtFrom(next), soundsFrom(next)); } : undefined);
   }
 
   function lift(i) {
@@ -202,9 +207,14 @@ export default function BuildItScreen({ tray, playSounds, playWord, onDone, onEx
           <button className="wq-cta" onClick={sayPrompt}
             style={{ minHeight: 56, marginBottom: 18 }}>{isSound ? "🔊 Hear the sound" : "🔊 Hear the word"}</button>
 
-          <div style={{ display: "flex", gap: 10, justifyContent: "center", flexWrap: "wrap" }}>
+          {/* An empty slot and a used tile are DISABLED, not merely inert: a
+              tap on either does nothing by design, and a control that does
+              nothing is a dead control to a finger and to a screen reader
+              alike. The census's monkey reported both as dead on its first
+              300-tap walk (2026-08-22); now they say what they are. */}
+          <div aria-busy={busy ? "true" : undefined} style={{ display: "flex", gap: 10, justifyContent: "center", flexWrap: "wrap" }}>
             {slots.map((tile, i) => (
-              <button key={i} onClick={() => lift(i)} aria-label={tile !== null ? "Take back " + at(tile) : "Empty space"}
+              <button key={i} onClick={() => lift(i)} disabled={tile === null || won} aria-label={tile !== null ? "Take back " + at(tile) : "Empty space"}
                 style={{ width: slotWidth(tray.answer[i]), height: SLOT, borderRadius: 14,
                   fontSize: 27, fontWeight: 800,
                   border: (tile !== null ? "3px solid " + C.ink2 : "3px dashed #94a8c0"),
@@ -221,7 +231,7 @@ export default function BuildItScreen({ tray, playSounds, playWord, onDone, onEx
 
           <div style={{ display: "flex", gap: 10, justifyContent: "center", flexWrap: "wrap", marginTop: 14 }}>
             {tray.tiles.map((tile, i) => (
-              <button key={tile + "-" + i} onClick={() => place(i)} aria-label={"Tile " + tile}
+              <button key={tile + "-" + i} onClick={() => place(i)} disabled={slots.includes(i) || won} aria-label={"Tile " + tile}
                 style={tileStyle(tile, slots.includes(i))}>{tile}</button>
             ))}
           </div>

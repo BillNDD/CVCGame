@@ -2,8 +2,9 @@
  *
  * 65 word cases covering all 37 layout-risk classes in the bank, across 8
  * device profiles: 584 cells from this file — 65 word cases, 3 screen cases
- * and 5 state cases, each on 8 profiles — plus 32 novelty cells in their own
- * two files and 41 controls, which run on one profile. (Counted 2026-08-22
+ * and 5 state cases, each on 8 profiles — plus 41 novelty cells in their own
+ * three files (the every-beta five, the eight monkey walks, their controls)
+ * and 41 controls, which run on one profile. (Counted 2026-08-22
  * with `playwright test --list`, after the class key moved to grapheme
  * LENGTH; by spelling the cutover had made it 2,809.) The control count in that sentence is asserted in
  * tests/census/controls.spec.mjs rather than typed and trusted: it read "9 more

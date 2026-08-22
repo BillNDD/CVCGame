@@ -545,6 +545,19 @@ the offline comparator's control caught its first real bug before the live cell 
   the phase the census's static screens never hold.
 - **update-stay** - a foreground poke never replaces the open page (S6: an update installs
   and waits).
+- **the monkey** (owner-ruled 2026-08-22, the bug-hunt page) - 300 seeded random taps as a
+  child on every profile, `tests/census/monkey.spec.mjs`, detector `monkey` in the
+  novelties library. Never a hold (S5) and never the corner; after every tap: no console
+  or page error, an enabled control of 44 px or more still on screen and the page not
+  blank, the principal word unmoved when it is the same word, and the tap did something
+  within 3 s unless the control only makes sound (five, named with reasons) - a control
+  that changes nothing three times is reported dead. The seed is the commit per profile,
+  `CENSUS_MONKEY_SEED` replays a walk, and both are written into the cell's annotations.
+  Its first three walks found three things: the modal's full-screen scrim reported dead
+  (its centre is the box; backdrops are now left out by shape), and Build-it's empty slots
+  and used tiles were enabled buttons that did nothing - both are now disabled, and the
+  tray says `aria-busy` while a build is judged instead of silently ignoring taps. Its
+  control plants a dead 64 px control and a page error and requires both to be named.
 - **offline equality** - the offline app is the same app, measured: geometry offline equals
   geometry online. This is the one cell that allows the service worker; every other census
   cell now BLOCKS it (2026-08-21), because ten cells each starting a 1,500-file precache
@@ -605,8 +618,8 @@ A runner with idle cores may measure differently; the same two runs decide it th
 **The census, as ruled.** The class key's third term is the widest unit's LENGTH
 (`tools/ux-census.mjs`, `signature`); `census_cells` rises from 416 to 616, counted with
 `playwright test --list` (584 word, screen and state cells, 24 novelty cells, 8
-singletons); the judge gained a `--novelties` scope with its own floors
-(`census_novelty_controls` 6, `census_novelty_cells` 26, six controls) and a `--run` path
+singletons), then to 625 with the monkey (below); the judge gained a `--novelties` scope
+with its own floors (`census_novelty_controls` 7, `census_novelty_cells` 34, seven controls) and a `--run` path
 that spawns Playwright through Node with no shell, so `npm run census` and the new
 `npm run census:novelties` start on Windows - the old script's `rm -f`, `{ ...; }` and
 `${CENSUS_PORT:-4187}` never had; and `.github/workflows/census.yml` runs either scope on
@@ -892,7 +905,7 @@ is why the file now counts itself, and counts the breakdown rather than only the
 `.census/report.json`, builds, runs the cells, and then runs `tools/census-report.mjs`
 whatever the runner's exit code was — so a run that produces no report, or a report from
 some other config, is refused rather than read. The floors it enforces are
-`census_controls` (41) and `census_cells` (616) in `.claude/gate-baseline.json`, under E6
+`census_controls` (41) and `census_cells` (625) in `.claude/gate-baseline.json`, under E6
 like every other floor. The gauntlet still does not call the census, and that stays
 deliberate: a flaky cell must inform a release, never block one.
 

@@ -54,9 +54,9 @@
   "g21_listening_checks": 5,
   "g13_edge_controls": 5,
   "census_controls": 41,
-  "census_cells": 616,
-  "census_novelty_controls": 6,
-  "census_novelty_cells": 26,
+  "census_cells": 625,
+  "census_novelty_controls": 7,
+  "census_novelty_cells": 34,
   "_retired": {
     "_why": "Floors whose SUBJECT left the product. A key that simply vanishes from this file cannot be told apart from a key deleted to make a build pass; a key recorded here with its last value, its date and its reason can. E6 forbids lowering a floor and this is not that: nothing these counted still exists to be counted.",
     "g15_recognizer_tests": {

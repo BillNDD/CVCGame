@@ -197,6 +197,12 @@ const taps = fc.commands([fc.oneof(
   { arbitrary: fc.constant(new Leave()), weight: 1 },
 )], { maxCommands: 40 });
 
+/* A FIXED seed. fast-check draws a fresh one each run by default, which
+   makes the vacuity guard below a coin toss: the same suite passed four
+   times and then failed once with "never reached: scaffolds", on a draw that
+   happened not to wait after a second miss. A gate must give the same answer
+   to the same tree. Change the seed on purpose to walk a different 200. */
+const SEED = 20260822;
 function runModel(trayArb, numRuns) {
   for (const k of Object.keys(reached)) reached[k] = 0;
   fc.assert(fc.property(trayArb, taps, (tray, cmds) => {
@@ -207,10 +213,10 @@ function runModel(trayArb, numRuns) {
       agree(m);
       fc.modelRun(() => ({ model: m, real }), cmds);
     } finally { cleanup(); vi.useRealTimers(); }
-  }), { numRuns });
+  }), { numRuns, seed: SEED });
   /* Every path the model knows was walked at least once, or the run proved
      less than it says. */
-  for (const [k, n] of Object.entries(reached)) expect(n, `the runs never reached: ${k}`).toBeGreaterThan(0);
+  for (const [k, n] of Object.entries(reached)) expect(n, `the runs never reached: ${k} (${JSON.stringify(reached)})`).toBeGreaterThan(0);
 }
 
 describe("model: Build-it and Find-the-sound never trap a child", () => {
