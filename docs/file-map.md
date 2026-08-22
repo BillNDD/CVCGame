@@ -56,6 +56,7 @@ verbatim) are exempt; the exemptions are declared in the tool.
 | `tools/keepers-treatments.json` | GENERATED | regenerate: `node tools/gen-voice-lock.mjs` |
 | `tools/pending-sounds/pending-sounds.json` | DATA | the sound ledger: every sound verdict the owner has given |
 | `tools/s9-vocab.json` | DATA | the known capitalized vocabulary of the tree (G24): a stranger to it fails the build |
+| `tools/art/provenance.json` | DATA | the art project's provenance: every family's lock, ramps, share, checkpoints and originality verdict (bible 17); read by tools/provenance-check.mjs |
 | `tools/s9-common-names.json` | DATA | the public common-names registry the tree must never contain (G24) |
 | `tools/s9-surnames.json` | DATA | the public census surnames for G24's pair rule: a first name beside one is a person |
 | `tools/pending-words/pending-words.json` | DATA | the waiting room's ledger: verdict, family, arm, round and byte pin for every approved-and-unshipped clip — docs/voice-pack.md tells each round's story |

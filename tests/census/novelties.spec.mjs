@@ -8,8 +8,9 @@ import { test, expect } from "@playwright/test";
 import { stage, holdGrade, waitForReveal, requireStaged, GRADE } from "../../tools/ux-census.mjs";
 import { landmarks, phaseHold, homeFurniture, chromeHold, hitTest,
          zoneSum, runningAnimations, motionHold, popSpans, popOverlap, tileWidths, unitWidthHold,
-         widestWord, wordBox, wordFits, wordGeometry, wordHold } from "../../tools/census-novelties.mjs";
-import { BANK_WORDS } from "../../tools/ux-census.mjs";
+         widestWord, wordBox, wordFits, wordGeometry, wordHold, soundingTile, soundingHold, buildControls, buildHold } from "../../tools/census-novelties.mjs";
+import { BANK_WORDS, stageBuild, requireBuilt } from "../../tools/ux-census.mjs";
+import { C } from "../../src/engine.js";
 
 test("phase walk: the screen holds still while a word moves through its phases", async ({ page }, testInfo) => {
   const { shown } = await stage(page, null, "sat", null);
@@ -140,4 +141,33 @@ test("the widest word: one line on this profile, and its box, glyph size and bas
   const reveal = await wordGeometry(page);
   const held = wordHold(ready, reveal, "ready and reveal");
   expect(held, JSON.stringify({ ready, reveal, held })).toEqual([]);
+});
+
+test.describe("with motion allowed, the sounding tile", () => {
+  test.use({ reducedMotion: "no-preference" });
+  test("the ceramic sounding state: a structural ring at offset 0, the band outside it, the face lifted 8-12%, nothing moved, nothing into a neighbour's letters", async ({ page }) => {
+    /* Bible 11 and 9.2 as measurements (art step 1). The reveal of "ship":
+       the resting row's boxes first, then the first pop caught live. */
+    const { shown } = await stage(page, null, "ship", null);
+    requireStaged("ship", shown);
+    await holdGrade(page, GRADE.correct, []);
+    await page.locator(".wq-tile").first().waitFor({ timeout: 8000 });
+    const resting = await page.evaluate(() => [...document.querySelectorAll(".wq-slot-tiles .wq-tile")].map((t) => { const b = t.getBoundingClientRect(); return [b.x, b.y, b.width, b.height].map((v) => +v.toFixed(2)); }));
+    await page.waitForFunction(() => !!document.querySelector(".wq-slot-tiles .wq-tile.wq-pop"), null, { timeout: 8000 });
+    const s = await soundingTile(page);
+    const findings = soundingHold(s, C, resting);
+    expect(findings, JSON.stringify({ s, findings })).toEqual([]);
+    expect(s.text, "the first sounding tile of ship is sh").toBe("sh");
+  });
+});
+
+test("Build-it: every tile and slot is a 56 px child control, and a multi-letter tray tile is wider than a single-letter one", async ({ page }) => {
+  /* S7 and S8 on the one screen no G7 check opened (the before pass on step
+     1): "ship" dealt through the dice, its tray read as controls. */
+  const dealt = await stageBuild(page, "ship");
+  requireBuilt("ship", dealt);
+  const controls = await buildControls(page);
+  const findings = buildHold(controls, 56);
+  expect(findings, JSON.stringify({ controls, findings })).toEqual([]);
+  expect(controls.filter((c) => c.slot).length).toBe(3);
 });

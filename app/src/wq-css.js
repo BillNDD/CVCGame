@@ -75,6 +75,36 @@ const CSS = VARS + `
 .wq-word{font-size:clamp(2.25rem,11vh,5.5rem);font-size:clamp(2.25rem,11svh,5.5rem);
   font-weight:700;line-height:1.05;color:${C.ink};margin:4px 0 0;white-space:nowrap}
 .wq-slot-tiles{min-height:52px;display:flex;align-items:center;justify-content:center;gap:6px;margin-top:8px}
+
+/* BUILD-IT'S TILES AND SLOTS (art step 1): the same ceramic, as CONTROLS - a
+   sibling class, so the reveal's .wq-tile readers (the census's tile count
+   and empty-tile rule, popSpans, the density rules) never meet a slot.
+   Sizes stay inline (64 px, S7's floor and then some; a multi-letter tile is
+   as wide as its slot). The states of bible 11's table:
+   available - the ceramic; pressed - the face darkens by the edge at .08
+   under the rim and the elevation drops, no movement; used - the slot
+   token's face, no elevation, the letter still ink so a child can see which
+   tile they spent, and a real disabled control; the empty slot - the slot
+   fill under a dashed boundary edge (3.51:1 on it), a real disabled
+   control; cue - the scaffold's slot wears the structural ring while its
+   sound plays, one at a time; arrangement - a purpleStructural ring round
+   the filled slots while the built sounds play back, never red; won - a
+   warm halo, static; focus - a DASHED ring at offset 2, so the keyboard's
+   mark and the sounding mark differ by shape, not only colour (15.2). */
+.wq-tilebtn{display:flex;align-items:center;justify-content:center;border:0;border-radius:14px;font-size:27px;font-weight:800;
+  color:${C.ink};background:${C.tileFace};cursor:pointer;
+  box-shadow:inset 0 1px 0 ${C.tileHighlight},inset 0 -1px 0 ${alpha(C.tileEdge, .35)},inset 0 0 0 1px ${C.tileEdge},0 1px 2px ${alpha(C.ink, .22)},0 1px 0 ${alpha(C.tileEdge, .5)}}
+.wq-tilebtn:active:not(:disabled){box-shadow:inset 0 0 0 1px ${C.tileEdge},inset 0 0 0 99px ${alpha(C.tileEdge, .08)}}
+.wq-tilebtn.wq-used{background:${C.slot};box-shadow:inset 0 0 0 1px ${C.tileEdge};cursor:default}
+.wq-tilebtn.wq-empty{background:${C.slot};box-shadow:none;border:3px dashed ${C.boundary};cursor:default}
+.wq-tilebtn.wq-cue{outline:3px solid ${C.cyanStructural};outline-offset:0}
+.wq-tilebtn.wq-arr{box-shadow:0 0 0 3px ${C.purpleStructural},inset 0 1px 0 ${C.tileHighlight},inset 0 -1px 0 ${alpha(C.tileEdge, .35)},inset 0 0 0 1px ${C.tileEdge}}
+.wq-tilebtn.wq-won{box-shadow:0 0 0 4px ${alpha(C.amberFill, .6)},inset 0 1px 0 ${C.tileHighlight},inset 0 -1px 0 ${alpha(C.tileEdge, .35)},inset 0 0 0 1px ${C.tileEdge}}
+.wq-tilebtn:focus-visible{outline:3px dashed ${C.cyanStructural};outline-offset:2px}
+/* The scaffold letter at .60: 3.28:1 on the slot, owner-ruled 2026-08-22 on
+   the ceramic-tiles page over the .28 (1.65:1) that had sat beside the
+   2026-08-17 ruling unruled - the cue now clears the 3:1 boundary rule. */
+.wq-ghost{opacity:.6}
 /* THE SENTENCE REVEAL (SPEC section 12 point 6). Every word is a control the
    child taps, so every word obeys S7: 56 px is the child-control floor and
    min-height holds it however short the word is. "a" is one character wide
@@ -87,12 +117,27 @@ const CSS = VARS + `
   font-size:clamp(1.35rem,5.2svh,2.4rem);font-weight:700;line-height:1.1;color:${C.ink};
   background:transparent;border:0;border-radius:12px;padding:6px 8px;min-height:56px;cursor:pointer}
 /* The open word is marked by the SAME ring the sound-out tiles take, so the
-   two never say different things about "this one, now". */
-.wq-sword-open{outline:3px solid ${C.action};outline-offset:-3px}
+   two never say different things about "this one, now" - in the same colour
+   since art step 1 (2026-08-22): cyanStructural, 4.73, 4.61 and 5.05:1 on the
+   gradient's three stops, where the action red measured 2.95, 2.88 and 3.15
+   (open-faults AB, closed by this step). */
+.wq-sword-open{outline:3px solid ${C.cyanStructural};outline-offset:-3px}
 .wq-sentence-tiles{margin-top:10px}
 .wq-sentence-hint{margin:8px 0 0;font-size:12.5px;font-weight:600}
-.wq-tile{background:${C.sun};color:${C.ink};border-radius:12px;padding:5px 12px;
-  font-size:clamp(1.1rem,3.2svh,1.6rem);font-weight:700;box-shadow:0 1px 3px ${alpha(C.ink, .18)}}
+/* THE CERAMIC TILE (art step 1, bible 11, 2026-08-22). A warm matte face, a
+   one-pixel bevel (highlight above, the edge's shade below), a one-pixel rim
+   in the edge token, and a contact shadow - all of it in box-shadow, none in
+   the box, so the row's geometry is what it was (G7, the phase walk). The
+   face is a solid colour, never a gradient or a filter, because the contrast
+   walker reads a background colour and nothing else under the letter; the
+   bevel and rim live in the padding ring, never under the glyphs. Every
+   inset has a zero blur, as pixel construction does; only the contact
+   shadow carries a blur. The 9-slice is the radius per variant: 12 here,
+   9 on wq-many, 7 on wq-crowd, 8 on the short stage. */
+.wq-tile{background:${C.tileFace};color:${C.ink};border-radius:12px;padding:5px 12px;
+  font-size:clamp(1.1rem,3.2svh,1.6rem);font-weight:700;
+  box-shadow:inset 0 1px 0 ${C.tileHighlight},inset 0 -1px 0 ${alpha(C.tileEdge, .35)},inset 0 0 0 1px ${C.tileEdge},0 1px 2px ${alpha(C.ink, .22)},0 1px 0 ${alpha(C.tileEdge, .5)};
+  --wqband:9px}
 /* The sound-out pop (owner-ruled 2026-08-04, shape chosen 2026-08-11 from four
    treatments heard against the real audio). A tile takes a hard outline for as
    long as its own sound plays, then drops it — no movement, no flash, no
@@ -121,11 +166,23 @@ const CSS = VARS + `
    keep one row rather than wrapping - display tiles, not controls, so S7's
    56 px floor does not bind them (Build-it's tappable tray wraps instead
    and keeps the floor). Two steps: six tiles and up, then eight. */
-.wq-slot-tiles.wq-many .wq-tile{padding:4px 8px;font-size:clamp(.85rem,2.4svh,1.15rem);border-radius:9px}
+.wq-slot-tiles.wq-many .wq-tile{padding:4px 8px;font-size:clamp(.85rem,2.4svh,1.15rem);border-radius:9px;--wqband:7px}
 .wq-slot-tiles.wq-many{gap:4px}
-.wq-slot-tiles.wq-crowd .wq-tile{padding:3px 5px;font-size:clamp(.7rem,2svh,.95rem);border-radius:7px}
+.wq-slot-tiles.wq-crowd .wq-tile{padding:3px 5px;font-size:clamp(.7rem,2svh,.95rem);border-radius:7px;--wqband:5px}
 .wq-slot-tiles.wq-crowd{gap:3px}
-@keyframes wqpop{0%,99%{outline:4px solid ${C.ink};outline-offset:3px}
+/* The sounding state (bible 11): a 3 px structural cyan ring at offset 0,
+   an electric band OUTSIDE it - the box-shadow's spread is ring + band, and
+   the outline paints over the shadow, so the band shows only beyond the
+   ring (9.2: the glow sits outside a darker edge, never inside it) - and
+   the face lifted to tileFaceLit. The band is --wqband minus the ring: 6 px
+   here, 4 on wq-many, 2 on wq-crowd, so ring and band never enter a
+   neighbouring tile's content box across the 6, 4 and 3 px gaps. The ring
+   was 4 px of ink at offset 3 from 2026-08-11 to this step; the owner's
+   choice of a hard ring over a hop or a fade stands - the colour and the
+   band are the bible's. Still one keyframe set, still steps(1,end), still
+   the measured clip length. */
+@keyframes wqpop{0%,99%{outline:3px solid ${C.cyanStructural};outline-offset:0;background-color:${C.tileFaceLit};
+  box-shadow:0 0 0 var(--wqband) ${C.cyanElectric},inset 0 1px 0 ${C.tileHighlight},inset 0 -1px 0 ${alpha(C.tileEdge, .35)},inset 0 0 0 1px ${C.tileEdge},0 1px 2px ${alpha(C.ink, .22)},0 1px 0 ${alpha(C.tileEdge, .5)}}
   100%{outline:0 solid transparent}}
 .wq-slot-msg{height:52px;min-height:52px;display:flex;flex-direction:column;align-items:center;justify-content:center;margin-top:4px}
 /* A3-014 — the dashed form is the teaching payload of the feedback sentence,

@@ -54,7 +54,7 @@
  */
 import { readFileSync } from "node:fs";
 import { devices } from "@playwright/test";
-import { LEVELS, chunkWord, PRAISE, SESSION_SIZE, STORE_KEY } from "../src/engine.js";
+import { LEVELS, chunkWord, PRAISE, SESSION_SIZE, STORE_KEY, bankWords, buildable } from "../src/engine.js";
 
 /* REAL DEVICES, NOT HAND-WRITTEN BOXES — item 2 of the build spec, and it
    corrected a number this census had been wrong about since the day it was
@@ -638,6 +638,12 @@ async function stage(context, viewport, word, watchers, opts = {}) {
    wrong screen - found by the first post-cutover census run (2026-08-21).
    Same seed shape as G7's GRADUATED, written through the app's own store. */
 async function seedGraduated(page) {
+  /* Written from a page that is NOT the app - /version.json, the same origin
+     - so the put never races the app's own first-boot write: a put that
+     landed before the boot's default save was overwritten by it, and the
+     reload showed Pre 1 (art step 1's Build-it control, 2026-08-22, once in
+     three runs). */
+  await page.goto("/version.json", { waitUntil: "load" });
   const storageSrc = readFileSync("app/src/storage.js", "utf8");
   const db = storageSrc.match(/DB_NAME = "([^"]+)"/)[1];
   const store = storageSrc.match(/DB_STORE = "([^"]+)"/)[1];
@@ -654,7 +660,33 @@ async function seedGraduated(page) {
     };
     rq.onerror = () => reject(rq.error);
   }), [db, store, STORE_KEY, save]);
-  await page.reload({ waitUntil: "load" });
+  await page.goto("/", { waitUntil: "load" });
+}
+
+/* A BUILD, staged: "Build any word" draws from the bank's buildable words
+   with one die, so the die that lands on `word` is set before the click, the
+   way stage() sets the word's (art step 1, 2026-08-22). The save is the
+   graduated one, so the Build row exists. */
+const BUILDABLE_WORDS = bankWords().filter(buildable);
+async function stageBuild(page, word) {
+  const wi = BUILDABLE_WORDS.indexOf(word);
+  if (wi < 0) throw new Error(`stageBuild: "${word}" is not a buildable bank word`);
+  await holdTheDice(page);
+  await seedGraduated(page);
+  await page.evaluate((v) => { window.__wqQueue = [v]; }, dieFor(wi, BUILDABLE_WORDS.length));
+  await page.getByRole("button", { name: "Free play" }).click({ timeout: 8000 });
+  await page.getByRole("button", { name: "Build any word" }).click({ timeout: 8000 });
+  await page.locator('button[aria-label^="Tile "]').first().waitFor({ timeout: 8000 });
+  const dealt = await page.evaluate(() => ({
+    slots: document.querySelectorAll('button[aria-label="Empty space"]').length,
+    tiles: [...document.querySelectorAll('button[aria-label^="Tile "]')].map((b) => b.textContent.trim()),
+  }));
+  return dealt;
+}
+export function requireBuilt(word, dealt) {
+  const need = chunkWord(word);
+  if (dealt.slots !== need.length || !need.every((g) => dealt.tiles.includes(g)))
+    throw new Error(`stageBuild: asked for "${word}" (${need.join("-")}), the tray dealt ${dealt.slots} slots and ${dealt.tiles.join(",")} - the die missed`);
 }
 
 /* Free play must never touch learning evidence (SPEC section 6). Read the
@@ -822,7 +854,7 @@ const PLANTS = [
    "text-too-big at the boundary: 35px against a 34px ceiling"],
 ];
 
-export { cases, signature, inspect, pseudoOverlays, axeViolations, stage, holdGrade, savedState, seedGraduated, holdTheDice, requireStaged,
+export { cases, signature, inspect, pseudoOverlays, axeViolations, stage, stageBuild, holdGrade, savedState, seedGraduated, holdTheDice, requireStaged,
          waitForReveal, GRADE, AXE_TAGS,
          FONT_FLOOR, FONT_CEIL, MODAL_BOUNDARY, OVERLAYS, OVERLAY_Z,
          PROFILES, VIEWPORTS, CHILD_MIN, ADULT_MIN, PLANTS, BANK_WORDS, LONGEST_PRAISE };

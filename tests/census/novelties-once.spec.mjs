@@ -6,11 +6,12 @@
  * for all five novelty detectors (E5). Every control exercises the SAME
  * helper the live cells run, from tools/census-novelties.mjs. */
 import { test, expect, devices } from "@playwright/test";
-import { stage, holdGrade, waitForReveal, requireStaged, seedGraduated, GRADE, BANK_WORDS } from "../../tools/ux-census.mjs";
+import { stage, stageBuild, requireBuilt, holdGrade, waitForReveal, requireStaged, seedGraduated, GRADE, BANK_WORDS } from "../../tools/ux-census.mjs";
 import { landmarks, phaseHold, homeFurniture, chromeHold, offlineHold,
          markStay, assertStayed, pokeForeground, hitTest, monkey, tappable, SOUND_ONLY,
          zoneSum, runningAnimations, motionHold, popOverlap, unitWidthHold, wordBox, wordFits, widestWord, wordGeometry, wordHold,
-         guideState, guideHold, artSnap, snapHold } from "../../tools/census-novelties.mjs";
+         guideState, guideHold, artSnap, snapHold, soundingTile, soundingHold, buildControls, buildHold, rgbOf } from "../../tools/census-novelties.mjs";
+import { C } from "../../src/engine.js";
 
 /* ---- the live singleton cells ---- */
 
@@ -433,4 +434,48 @@ test("control: a window error in the built page reaches the ring the 200% and ro
   expect(ring[0].screen).toBe("session");
   await page.evaluate(() => localStorage.removeItem("wq-errors"));
   expect(await page.evaluate(() => localStorage.getItem("wq-errors"))).toBeNull();
+});
+
+test.describe("with motion allowed, the sounding tile's controls", () => {
+  test.use({ reducedMotion: "no-preference" });
+  test("control: the old ink ring, a border in the keyframe, a sun face and a band inside the ring are each caught", async ({ page }) => {
+    /* Each plant is a stylesheet added to the live page and read back through
+       soundingTile, the same reader the cell uses (E5). */
+    const { shown } = await stage(page, null, "ship", null);
+    requireStaged("ship", shown);
+    const plant = async (css) => { const h = await page.addStyleTag({ content: css }); await holdGrade(page, GRADE.correct, []); await page.waitForFunction(() => !!document.querySelector(".wq-slot-tiles .wq-tile.wq-pop"), null, { timeout: 8000 }); const s = await soundingTile(page); await h.evaluate((e) => e.remove()); return s; };
+    /* the fixtures, on the reader's own output shape */
+    const good = { text: "sh", outline: { color: rgbOf(C.cyanStructural), width: "3px", style: "solid", offset: "0px" }, shadow: rgbOf(C.cyanElectric) + " 0px 0px 0px 9px", face: rgbOf(C.tileFaceLit), restingFace: rgbOf(C.tileFace), ink: rgbOf(C.ink), lift: 1.114, ringPx: 3, spreadPx: 9, intrudes: [], boxes: [[0, 0, 40, 30]] };
+    expect(soundingHold(good, C, [[0, 0, 40, 30]])).toEqual([]);
+    expect(soundingHold({ ...good, outline: { ...good.outline, color: rgbOf(C.ink), width: "4px", offset: "3px" } }, C).map((f) => f.kind)).toEqual(["ring-not-structural"]);
+    expect(soundingHold({ ...good, shadow: "none" }, C).map((f) => f.kind)).toEqual(["band-missing"]);
+    expect(soundingHold({ ...good, spreadPx: 2 }, C).map((f) => f.kind)).toEqual(["band-inside-ring"]);
+    expect(soundingHold({ ...good, lift: 1.234 }, C).map((f) => f.kind)).toEqual(["lift-off-band"]);
+    expect(soundingHold({ ...good, restingFace: rgbOf(C.sun) }, C).map((f) => f.kind)).toEqual(["face-not-token"]);
+    expect(soundingHold({ ...good, intrudes: ["i"] }, C).map((f) => f.kind)).toEqual(["ring-into-neighbour"]);
+    expect(soundingHold(good, C, [[0, 0, 40, 33]]).map((f) => f.kind)).toEqual(["tile-moved"]);
+    expect(soundingHold(null, C).map((f) => f.kind)).toEqual(["no-subject"]);
+    /* and the READER, against real plants in the page: the ring the app drew
+       until this step, and a face the bible retired */
+    const inkRing = await plant(".wq-slot-tiles .wq-tile.wq-pop{outline:4px solid " + C.ink + "!important;outline-offset:3px!important}");
+    expect(soundingHold(inkRing, C).map((f) => f.kind), JSON.stringify(inkRing)).toContain("ring-not-structural");
+    const { shown: again } = await stage(page, null, "ship", null);
+    requireStaged("ship", again);
+    const sunFace = await plant(".wq-slot-tiles .wq-tile{background:" + C.sun + "!important}");
+    expect(soundingHold(sunFace, C).map((f) => f.kind), JSON.stringify(sunFace)).toContain("face-not-token");
+  });
+});
+
+test("control: a 48 px tray tile and equal tray widths are caught by the Build-it reader", async ({ page }) => {
+  const dealt = await stageBuild(page, "ship");
+  requireBuilt("ship", dealt);
+  const real = await buildControls(page);
+  expect(buildHold(real, 56), JSON.stringify(real)).toEqual([]);
+  /* the plants, through the reader: a tile shrunk to 48 px and every tray
+     tile forced to one width */
+  await page.evaluate(() => { const b = document.querySelector('button[aria-label="Tile sh"]'); b.style.width = "48px"; b.style.height = "48px"; });
+  expect(buildHold(await buildControls(page), 56).map((f) => f.kind)).toEqual(["control-too-small", "unit-not-wider"]);
+  await page.evaluate(() => { for (const b of document.querySelectorAll('button[aria-label^="Tile "]')) { b.style.width = "64px"; b.style.height = "64px"; } });
+  expect(buildHold(await buildControls(page), 56).map((f) => f.kind)).toEqual(["unit-not-wider"]);
+  expect(buildHold([], 56).map((f) => f.kind)).toEqual(["no-subject"]);
 });

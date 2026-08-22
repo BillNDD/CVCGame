@@ -787,10 +787,11 @@ The minimum platform is iPadOS 15.4 or later, or an equivalent browser. The app 
   `skyPurpleMist`; teaching ink is `ink`.
 - Text and fills pass WCAG AA at 4.5:1 or more against their backgrounds, measured by
   G7's contrast walker; a control's edge is measured by `tests/tokens.test.js` at the
-  named pairs, and two edges are below the 3:1 the art bible's section 15 asks until the
-  steps that own them darken them — `docs/open-faults.md` AA (the adult controls' `line`,
-  step 4) and AB (the open sentence word's `action` ring, step 3). This sentence said "all
-  text and control colors" before either was measured (corrected 2026-08-22).
+  named pairs, and one edge is below the 3:1 the art bible's section 15 asks until the
+  step that owns it darkens it — `docs/open-faults.md` AA (the adult controls' `line`,
+  step 4); AB (the open sentence word's ring) closed the same day it opened, when art
+  step 1 moved the ring to `cyanStructural`. This sentence said "all text and control
+  colors" before either was measured (corrected 2026-08-22).
 - Word and interface font: `ui-rounded / system-ui` (SF Pro Rounded on Apple devices). The
   rounded forms stay friendly for children, and the letter shapes match everyday print,
   including the double-storey "a" that children see in books.

@@ -389,6 +389,67 @@ export function motionHold(phase, names) {
 export async function tileWidths(page) {
   return page.evaluate(() => [...document.querySelectorAll(".wq-tile")].map((t) => ({ text: t.textContent.trim(), w: t.getBoundingClientRect().width })));
 }
+/* THE SOUNDING TILE AS MEASUREMENTS (art step 1, bible 11, 9.2, 15.2). For
+   the first tile carrying .wq-pop: the ring's colour, width, style and
+   offset; the box-shadow's colours; the face's luminance lift over the
+   resting face; the box of every tile in the row before and during the
+   pop; and whether the ring plus the band reaches into a neighbour's
+   content box. Read from computed style and rects, never from pixels. */
+export async function soundingTile(page) {
+  return page.evaluate(() => {
+    const tiles = [...document.querySelectorAll(".wq-slot-tiles .wq-tile")];
+    const pop = tiles.find((t) => t.classList.contains("wq-pop"));
+    if (!pop) return null;
+    const lum = (rgb) => { const m = rgb.match(/\d+(\.\d+)?/g); if (!m) return null; const c = m.slice(0, 3).map((v) => { const s = Number(v) / 255; return s <= 0.03928 ? s / 12.92 : ((s + 0.055) / 1.055) ** 2.4; }); return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2]; };
+    const cs = getComputedStyle(pop);
+    const rest = tiles.find((t) => t !== pop) || pop;
+    const restCs = getComputedStyle(rest);
+    const r = pop.getBoundingClientRect();
+    const ring = parseFloat(cs.outlineWidth) + parseFloat(cs.outlineOffset);
+    const spread = (cs.boxShadow.match(/rgba?\([^)]*\) 0px 0px 0px (\d+(?:\.\d+)?)px/) || [])[1];
+    const reach = ring + Math.max(0, (Number(spread) || 0) - ring);   // the band paints under the ring; what shows is beyond it
+    const neighbours = tiles.filter((t) => t !== pop).map((t) => { const b = t.getBoundingClientRect(), s = getComputedStyle(t); return { text: t.textContent.trim(), content: { left: b.left + parseFloat(s.paddingLeft), right: b.right - parseFloat(s.paddingRight), top: b.top + parseFloat(s.paddingTop), bottom: b.bottom - parseFloat(s.paddingBottom) } }; });
+    const outer = { left: r.left - reach, right: r.right + reach, top: r.top - reach, bottom: r.bottom + reach };
+    const intrudes = neighbours.filter((n) => outer.left < n.content.right && outer.right > n.content.left && outer.top < n.content.bottom && outer.bottom > n.content.top).map((n) => n.text);
+    return { text: pop.textContent.trim(), outline: { color: cs.outlineColor, width: cs.outlineWidth, style: cs.outlineStyle, offset: cs.outlineOffset }, shadow: cs.boxShadow,
+      face: cs.backgroundColor, restingFace: restCs.backgroundColor, ink: cs.color, lift: lum(cs.backgroundColor) / lum(restCs.backgroundColor), ringPx: ring, spreadPx: Number(spread) || 0, intrudes,
+      boxes: tiles.map((t) => { const b = t.getBoundingClientRect(); return [b.x, b.y, b.width, b.height].map((v) => +v.toFixed(2)); }) };
+  });
+}
+export const rgbOf = (hex) => "rgb(" + [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16)).join(", ") + ")";
+export function soundingHold(s, tokens, restingBoxes) {
+  if (!s) return [{ kind: "no-subject", detail: "no sounding tile on the screen" }];
+  const findings = [];
+  if (s.outline.color !== rgbOf(tokens.cyanStructural) || s.outline.style !== "solid" || !["3px", "4px"].includes(s.outline.width) || s.outline.offset !== "0px")
+    findings.push({ kind: "ring-not-structural", detail: "the sounding ring is " + s.outline.width + " " + s.outline.style + " " + s.outline.color + " at " + s.outline.offset + "; bible 11 asks 3-4 px solid cyanStructural at offset 0" });
+  if (!s.shadow.includes(rgbOf(tokens.cyanElectric))) findings.push({ kind: "band-missing", detail: "the box-shadow names no cyanElectric: " + s.shadow.slice(0, 80) });
+  if (s.spreadPx && s.spreadPx < s.ringPx) findings.push({ kind: "band-inside-ring", detail: "the band's spread " + s.spreadPx + " px is inside the ring " + s.ringPx + " px (9.2)" });
+  if (!(s.lift >= 1.08 && s.lift <= 1.12)) findings.push({ kind: "lift-off-band", detail: "the face lifts " + ((s.lift - 1) * 100).toFixed(1) + "%; bible 11 asks 8-12%" });
+  if (s.restingFace !== rgbOf(tokens.tileFace)) findings.push({ kind: "face-not-token", detail: "a resting tile's face is " + s.restingFace + ", not tileFace" });
+  if (s.ink !== rgbOf(tokens.ink)) findings.push({ kind: "ink-not-token", detail: "the tile's letters are " + s.ink });
+  if (s.intrudes.length) findings.push({ kind: "ring-into-neighbour", detail: "the ring and band reach into the letters of " + s.intrudes.join(", ") });
+  if (restingBoxes) {
+    const moved = s.boxes.map((b, i) => restingBoxes[i] ? Math.max(...b.map((v, k) => Math.abs(v - restingBoxes[i][k]))) : 0);
+    if (moved.some((d) => d > 0.5)) findings.push({ kind: "tile-moved", detail: "a tile's box moved during the pop by " + Math.max(...moved).toFixed(2) + " px" });
+  }
+  return findings;
+}
+/* BUILD-IT'S CONTROLS (S7, S8, bible 11): every tray tile and slot at 56 px
+   or more on both axes, and every multi-letter tray tile wider than every
+   single-letter one. */
+export async function buildControls(page) {
+  return page.evaluate(() => [...document.querySelectorAll(".wq-tilebtn")].map((b) => { const r = b.getBoundingClientRect(); return { text: b.textContent.trim(), label: b.getAttribute("aria-label") || "", w: r.width, h: r.height, slot: /^(Take back|Empty space)/.test(b.getAttribute("aria-label") || "") }; }));
+}
+export function buildHold(controls, floor = 56) {
+  if (!controls.length) return [{ kind: "no-subject", detail: "no tile or slot on the screen" }];
+  const findings = [];
+  for (const c of controls) if (c.w < floor || c.h < floor) findings.push({ kind: "control-too-small", detail: '"' + c.label + '" is ' + c.w.toFixed(1) + " x " + c.h.toFixed(1) + " px, floor " + floor });
+  const tray = controls.filter((c) => !c.slot);
+  const multi = tray.filter((c) => c.text.length > 1), single = tray.filter((c) => c.text.length === 1);
+  if (!multi.length || !single.length) findings.push({ kind: "no-subject", detail: "the tray needs a multi-letter and a single-letter tile; got " + JSON.stringify(tray.map((c) => c.text)) });
+  else if (Math.min(...multi.map((c) => c.w)) <= Math.max(...single.map((c) => c.w))) findings.push({ kind: "unit-not-wider", detail: "a multi-letter tray tile is " + Math.min(...multi.map((c) => c.w)).toFixed(1) + " px wide and a single-letter one " + Math.max(...single.map((c) => c.w)).toFixed(1) });
+  return findings;
+}
 export function unitWidthHold(tiles) {
   const multi = tiles.filter((t) => t.text.length > 1), single = tiles.filter((t) => t.text.length === 1);
   if (!multi.length || !single.length) return [{ kind: "no-subject", detail: "need a multi-letter and a single-letter tile; got " + JSON.stringify(tiles.map((t) => t.text)) }];

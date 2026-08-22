@@ -234,7 +234,7 @@ and 15):**
 
 Each step is its own section here when it starts, in this shape.
 
-### Step 1 — the ceramic tile family (opened 2026-08-22, before the council's before pass)
+### Step 1 — the ceramic tile family (opened 2026-08-22; built the same day under the before pass and the owner's four rulings)
 
 **What the child gets.** Every sound tile the game shows — the reveal's tiles under the
 word, the sentence reveal's tiles, Build-it's tray and slots, Find-the-sound's tiles — looks
@@ -248,8 +248,11 @@ makes, and it is declared as one.
 
 **How it is made — the construction order, for a CSS family.** No file ships: the tile is
 tokens and stylesheet rules, so its byte share (524,288) is spent at 0 and stages 1 and 8
-are empty. Stage 0: the logical grid is the tile's CSS box (today 44–56 px, 27 px letter in
-Build-it; the reveal's `clamp(1.1rem, 3.2svh, 1.6rem)`); output is CSS. Stage 2: the notan —
+are empty (bible 8.1's row is amended to say the tile material is a CSS family, and why).
+Stage 0: the logical grid is the tile's CSS box — measured, not quoted: Build-it's tile and
+slot are 64 px (a multi-letter tile 64 + 26 per extra letter, so "sh" is 90), a reveal tile
+is its font clamp plus 10 px of padding, about 36 px tall at 390 × 664 and 47 × 42 for
+"sh" on the iPhone 13 profile by the census's own read; output is CSS. Stage 2: the notan —
 the reveal and Build-it screens as two and three values with the word and the controls
 drawn in, on the 320 × 658 and 390 × 664 profiles. Stage 3: the 9-slice is the border radius
 and the inset shadows, with the corner size in CSS px stated, so a width variant never
@@ -276,21 +279,36 @@ deliberately faint cue, below any contrast rule. Step 1 states, at literal value
 ghost renders at on the ceramic slot and what the Larger / Higher-Contrast setting (bible
 15.3) raises it to; it never removes the ghost.
 
-**Breaks (E11), named before the change.** G7 measures the tile row's boxes across the
-reveal and the sounding ring's stillness; G8 and the census's contrast walker read the tile
-text on its face; the unit-width cell reads tile widths; the phase walk and the widest-word
-cell read the row; `tests/tokens.test.js` pins `tileEdge` on `tileFace` (3.78); the quality
-control refuses any hex outside C; the monkey walks Build-it's tray; `tests/buildit.test.js`
-and `tests/models.test.js` drive the tray's controls by name (the names do not change);
-the aria snapshot of home does not change. Counts that may move: `census_novelty_cells` if
-a tile-state cell lands (the sounding tile's outline colour and glow, measured), `g1_*`
-for any new unit test, `g20_tests_mapped`, `g16_doc_rules` if the bible's 11 table is
-bound to the stylesheet.
+**Breaks (E11), named before the change — and corrected by the before pass.** G7
+measures the tile row's boxes across the reveal and the sounding ring's stillness; G8 and
+the census's contrast walker read the tile text on its face; the unit-width cell reads
+tile widths; the phase walk and the widest-word cell read the row; `tests/tokens.test.js`
+pins `tileEdge` on `tileFace` (3.78); the quality control refuses any hex outside C; the
+monkey walks Build-it's tray; `tests/buildit.test.js` and `tests/models.test.js` drive the
+tray's controls by name (the names do not change); the aria snapshot of home does not
+change. What the antagonist's blast-radius run found that the first draft did not name:
+`PreSessionScreen.jsx` renders a `.wq-tile` (the ear rung's revealed word) and goes
+ceramic with the rest; `tests/models.test.js` asserted a used tile's inline `opacity ===
+"0.22"` literally, and moved to the class and the `disabled` attribute; the reference's
+own `.wq-tile` rule, bound to the app's by nothing, is now compared character for
+character by a test. And a claim withdrawn: G7 holds no 56 px floor on Build-it's tiles —
+its size check reads `.wq-cta` and `.wq-sbtn` only, and no gate opened Build-it at all —
+so a census cell now deals "ship" through the dice and measures every tray tile and slot.
+Counts moved: `census_novelty_cells` 68 → 84 (two cells on eight profiles),
+`census_novelty_controls` 12 → 14, `census_cells` 664 → 682, `g1_token_tests` 9 → 12,
+`g10_buildit_tests` 13 → 25, `g16_doc_rules` 11 → 12, `g17_governing_files` 45 → 46,
+`g23_declared` 53 → 54, `g20_tests_mapped` 403 → 411; `g5_source_mutants` 74 with 0
+moved anchors, `g8_axe_violations_max` 0, the home snapshot unchanged.
 
-**Open for the owner (expected from the before pass):** which neutral the "different
-arrangement" state takes — `purple` (4.49:1 on the face) or `amber` (4.29:1) — bible 11
-allows either; and whether the sounding glow's electric cyan stays inside 9.1's budget on
-the sentence reveal, where up to eight tiles can sound in turn.
+**Ruled by the owner (2026-08-22, the ceramic-tiles page, each with the real render):**
+the sounding tile keeps the structural ring AND the electric band (6 / 4 / 2 px by
+density) — 9.1 settled by arithmetic, one tile sounds at a time (`popOverlap`), a band
+covers about 0.5 % of a 320 × 658 screen; a different arrangement is a 3 px
+`purpleStructural` ring round the filled slots during the playback (over a tint and over
+none; `purple` 4.49 and `amber` 4.29 on the face lost to 4.86); the scaffold letter
+renders at .60 (3.28:1 on the slot) over the .28 (1.65) that had sat unruled beside the
+2026-08-17 ruling; and the open sentence word's ring moves to `cyanStructural` in this
+step, closing open-faults AB (4.73 / 4.61 / 5.05).
 
 **Done means.** Every tile the child meets renders the ceramic family's tokens and states;
 the row holds still through the reveal (G7, the phase walk); every tile text and edge
@@ -506,3 +524,39 @@ Newest last. A verdict names the chair, the step, the word, and the findings.
   census's scenery statistic, and the byte share as integers per family summing to
   12,582,912. The chair's three refusals stand in the ruling as rules. The checks the
   ruling names are built in the step that lands the first file each reads.
+- 2026-08-22 — Step 1 before pass returned, 41 suggestions; every one answered. **Art
+  director**, 15: (1) declare the CSS tile as an 8.1 amendment, zero-blur insets — taken;
+  (2) the face, bevel, edge and contact shadow as tokens and px with the radii as the
+  9-slice — taken as written; (3) a solid face and a token for the lift, never a gradient
+  or a filter — taken, `tileFaceLit`; (4) both rings as box-shadow layers, offset 0, focus
+  dashed — taken with the outline for the ring and the shadow for the band (the outline
+  paints over the shadow, so the band shows only beyond the ring); (5) put the glow to the
+  owner with two live options — taken, ruled B; (6) settle 9.1 by arithmetic — taken, in
+  provenance; (7) the open word's ring to cyan now — put to the owner, ruled yes; (8)
+  purpleStructural as a ring — put to the owner, ruled yes; (9) the tray's multi-letter
+  width — taken; (10) Used as the slot face, letter at .6 — taken for the face, the letter
+  kept at full ink (8.80) so a child sees which tile was spent (the reading chair's point);
+  (11) the ghost stated honestly, the setting not invented — taken: open-faults AC, and
+  the opacity put to the owner, ruled .60; (12) the silhouette pinned on the stops — taken;
+  (13) what the checkpoints receive — taken, renders outside the repository; (14) the
+  provenance entry's shape and a reader — taken, with the reader in the check; (15) the
+  stage-0 numbers measured — taken. **Reading and accessibility**, 12: (1) letters on a
+  flat face, the 9-slice corner stated — taken; (2) one outline event, the band never
+  into a neighbour's letters — taken, the band narrows by density and the cell measures
+  the reach; (3) focus distinct by shape — taken, dashed; (4) the ghost at .60 — put to the
+  owner, ruled; (5) the slot rings while its sound plays — taken; (6) Used keeps a legible
+  letter — taken; (7) the tray tile as wide as its slot, the cell extended — taken; (8) the
+  arrangement as a fill, never an outline — put to the owner, who ruled the ring; (9) S7
+  on every tile — taken, the Build-it cell; (10) what a screen reader hears unchanged —
+  taken, the names tests pass unchanged; (11) the open word's ring — ruled cyan; (12)
+  every ratio pinned — taken, tokens test 8. **Engineering antagonist**, 14: (1) the E11
+  list corrected — taken, above; (2) the G7 claim withdrawn and a real measurement added
+  — taken; (3) one keyframe set, no transition, no pseudo-element — taken, the motion
+  cell names wqpop only; (4) edge and bevel in the paint, never the box — taken; (5) the
+  ring's geometry in px, the band outside — taken; (6) the lift as relative luminance,
+  never a filter — taken; (7) the rim on the stops pinned — taken; (8) the ghost's
+  literal and the setting's absence — taken, AC; (9) a sibling class for the controls —
+  taken, `.wq-tilebtn`; (10) doc-truth rule 12 — taken; (11) the tile-state cell with
+  controls through the reader — taken; (12) provenance.json as DATA with a reader — taken;
+  (13) the floors named — taken, above; (14) the states' animations listed — taken: none
+  of the new states animates, reduced motion changes nothing about them. Declined: none.

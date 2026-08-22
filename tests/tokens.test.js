@@ -53,8 +53,8 @@ describe("the palette is pinned", () => {
     expect(C.line).toBe("#dfe5f3");
   });
 
-  it("2: C holds exactly the keys the bible's table names - 13 of the game's, 28 of the bible's, 5 from the sweep", () => {
-    expect(Object.keys(C).length).toBe(46);
+  it("2: C holds exactly the keys the bible's table names - 13 of the game's, 28 of the bible's, 5 from the sweep, 1 from the tile step", () => {
+    expect(Object.keys(C).length).toBe(47);
     for (const [k, v] of Object.entries(C)) expect(v, k).toMatch(/^#[0-9a-f]{6}$/);
   });
 
@@ -96,19 +96,102 @@ describe("the palette is pinned", () => {
     expect(faults).toContain("1.26:1");
   });
 
-  it("3c: the open sentence word's action ring on the gradient is BELOW 3:1 on two stops today, and is named in open-faults for the reading-surface step", () => {
-    /* .wq-sword-open draws a 3 px action ring round the sentence word the
-       child is on, over the root gradient (the fourth judgement of step 0):
-       2.95 on skyBlue, 2.88 on skyLavender, 3.15 on the mist. A child-facing
-       "this one, now" boundary; darkening it is step 3's declared change. */
-    expect(contrast(C.action, C.skyBlue)).toBeCloseTo(2.95, 2);
+  it("3c: the open sentence word's ring is cyanStructural on the gradient, clearing 3:1 on every stop; the action red it replaced is held below as the control", () => {
+    /* .wq-sword-open drew a 3 px action ring round the sentence word the
+       child is on: 2.95, 2.88 and 3.15 on the gradient's stops (open-faults
+       AB). Art step 1 moved it to cyanStructural - the same mark the sounding
+       tile takes - owner-ruled 2026-08-22 on the ceramic-tiles page, closing
+       AB early. */
+    expect(contrast(C.cyanStructural, C.skyBlue)).toBeCloseTo(4.73, 2);
+    expect(contrast(C.cyanStructural, C.skyLavender)).toBeCloseTo(4.61, 2);
+    expect(contrast(C.cyanStructural, C.skyPurpleMist)).toBeCloseTo(5.05, 2);
+    for (const s of [C.skyBlue, C.skyLavender, C.skyPurpleMist]) expect(contrast(C.cyanStructural, s)).toBeGreaterThanOrEqual(3);
+    expect(contrast(C.action, C.skyBlue)).toBeCloseTo(2.95, 2);       // the control: what it was
     expect(contrast(C.action, C.skyLavender)).toBeCloseTo(2.88, 2);
-    expect(contrast(C.action, C.skyPurpleMist)).toBeCloseTo(3.15, 2);
-    expect(contrast(C.action, C.skyBlue)).toBeLessThan(3);
     expect(contrast(C.action, C.skyLavender)).toBeLessThan(3);
     const faults = readFileSync("docs/open-faults.md", "utf8");
-    expect(faults).toContain("wq-sword-open");
-    expect(faults).toContain("2.88:1");
+    expect(faults).toContain("AB. The open sentence word's ring");
+    expect(faults).toContain("CLOSED 2026-08-22");
+  });
+
+  it("8: the ceramic tile family (art step 1) - every face, edge, ring and state at its literal ratio on the surface it sits on", () => {
+    /* The contrast walker reads a background colour under text and nothing
+       else: not a box-shadow rim, not an outline, not a disabled control.
+       So every ratio the ceramic family relies on is pinned here (bible 9's
+       ruling, 11, 15; the before pass on step 1). */
+    const stops = [C.skyBlue, C.skyLavender, C.skyPurpleMist];
+    /* the face under the letters, the highlight, the rim on the face */
+    expect(contrast(C.ink, C.tileFace)).toBeCloseTo(8.64, 2);
+    expect(contrast(C.ink, C.tileHighlight)).toBeCloseTo(10.52, 2);
+    expect(contrast(C.tileEdge, C.tileFace)).toBeCloseTo(3.78, 2);
+    /* the rim is the ONLY boundary between a tile and the sky: the face and
+       the slot merge with the gradient (1.13-1.26), so the rim's ratio on
+       the three stops is what a child sees the tile by - 3.06 on lavender
+       is the margin */
+    expect(stops.map((s) => +contrast(C.tileEdge, s).toFixed(2))).toEqual([3.13, 3.06, 3.35]);
+    expect(stops.map((s) => +contrast(C.tileFace, s).toFixed(2))).toEqual([1.21, 1.24, 1.13]);
+    expect(stops.map((s) => +contrast(C.slot, s).toFixed(2))).toEqual([1.23, 1.26, 1.15]);
+    /* the sounding state: the structural ring on the stops, on the face and
+       on the slot; the electric band a glow and never a boundary (control);
+       the lifted face inside bible 11's 8-12% */
+    expect(contrast(C.cyanStructural, C.tileFace)).toBeCloseTo(5.71, 2);
+    expect(contrast(C.cyanStructural, C.slot)).toBeCloseTo(5.82, 2);
+    expect(contrast(C.cyanElectric, C.tileFace)).toBeCloseTo(1.04, 2);
+    expect(contrast(C.cyanElectric, C.tileFace)).toBeLessThan(3);
+    expect(mix(C.tileHighlight, 0.5, C.tileFace)).toBe(C.tileFaceLit);
+    const lift = luminance(C.tileFaceLit) / luminance(C.tileFace);
+    expect(lift).toBeCloseTo(1.114, 3);
+    expect(lift).toBeGreaterThanOrEqual(1.08);
+    expect(lift).toBeLessThanOrEqual(1.12);
+    expect(contrast(C.ink, C.tileFaceLit)).toBeCloseTo(9.55, 2);
+    /* pressed: the edge at .08 under the rim darkens the face 8.7% */
+    const pressed = mix(C.tileEdge, 0.08, C.tileFace);
+    expect(pressed).toBe("#eed07d");
+    expect(luminance(pressed) / luminance(C.tileFace)).toBeCloseTo(0.913, 3);
+    expect(contrast(C.ink, pressed)).toBeCloseTo(7.94, 2);
+    /* the slot: the empty slot's dashed boundary edge, a used tile's rim and
+       letter on the slot face */
+    expect(contrast(C.boundary, C.slot)).toBeCloseTo(3.51, 2);
+    expect(contrast(C.tileEdge, C.slot)).toBeCloseTo(3.85, 2);
+    expect(contrast(C.ink, C.slot)).toBeCloseTo(8.80, 2);
+    /* a different arrangement: the purpleStructural ring on the face, the
+       slot and the stops - never red */
+    expect(contrast(C.purpleStructural, C.tileFace)).toBeCloseTo(4.86, 2);
+    expect(contrast(C.purpleStructural, C.slot)).toBeCloseTo(4.95, 2);
+    expect(stops.map((s) => +contrast(C.purpleStructural, s).toFixed(2))).toEqual([4.02, 3.92, 4.29]);
+    for (const [a, b] of [[C.tileEdge, C.tileFace], [C.cyanStructural, C.tileFace], [C.cyanStructural, C.slot], [C.boundary, C.slot], [C.tileEdge, C.slot], [C.purpleStructural, C.tileFace], [C.purpleStructural, C.slot], ...stops.map((s) => [C.tileEdge, s]), ...stops.map((s) => [C.purpleStructural, s])]) {
+      expect(contrast(a, b)).toBeGreaterThanOrEqual(3);
+    }
+  });
+
+  it("9: the scaffold letter at .60 clears 3:1 on the slot and on the old ground; .28 is held below as the withdrawn control", () => {
+    /* Owner-ruled 2026-08-22 on the ceramic-tiles page: the letter that fades
+       into its own slot after the second miss renders at opacity .60 - it
+       sat at .28 (1.65:1) beside the 2026-08-17 ruling, unruled. */
+    const ghost = mix(C.ink, 0.6, C.slot);
+    expect(ghost).toBe("#6a7891");
+    expect(contrast(ghost, C.slot)).toBeCloseTo(3.28, 2);
+    expect(contrast(mix(C.ink, 0.6, mix(C.paper, 0.55, C.skyLavender)), mix(C.paper, 0.55, C.skyLavender))).toBeCloseTo(3.37, 2);
+    expect(contrast(ghost, C.slot)).toBeGreaterThanOrEqual(3);
+    expect(contrast(mix(C.ink, 0.28, C.slot), C.slot)).toBeCloseTo(1.65, 2);
+    expect(contrast(mix(C.ink, 0.28, C.slot), C.slot)).toBeLessThan(3);
+    /* and the stylesheet says .6, in both copies */
+    const css = readFileSync("app/src/wq-css.js", "utf8"), ref = readFileSync("reference/word-quest.jsx", "utf8");
+    expect(css).toContain(".wq-ghost{opacity:.6}");
+    expect(ref).toContain(".wq-ghost{opacity:.6}");
+  });
+
+  it("10: the two copies of the tile rules agree, character for character, and a planted one-character drift is refused", () => {
+    /* E2: the reference build stays one file, and its stylesheet copy
+       carries the same .wq-tile, @keyframes wqpop and .wq-tilebtn blocks the
+       app ships; nothing bound the two before this step. */
+    const css = readFileSync("app/src/wq-css.js", "utf8"), ref = readFileSync("reference/word-quest.jsx", "utf8");
+    const block = (src, start) => { const i = src.indexOf(start); expect(i, start).toBeGreaterThan(-1); const j = src.indexOf("}\n", src.indexOf("{", i) + 1); return src.slice(i, j + 1); };
+    for (const start of [".wq-tile{", ".wq-tilebtn{", ".wq-tilebtn.wq-used{", ".wq-tilebtn.wq-empty{", ".wq-tilebtn.wq-cue{", ".wq-tilebtn.wq-arr{", ".wq-tilebtn.wq-won{", ".wq-tilebtn:focus-visible{", ".wq-ghost{"]) {
+      expect(block(ref, start), start).toBe(block(css, start));
+    }
+    const drifted = block(css, ".wq-tile{").replace("tileFace", "tileFace2");
+    expect(drifted).not.toBe(block(ref, ".wq-tile{"));
   });
 
   it("4: teaching text clears 7:1 and the action blue 4.5:1, at literal ratios", () => {

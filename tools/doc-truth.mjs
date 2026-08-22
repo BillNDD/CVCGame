@@ -119,6 +119,8 @@ const real = {
   baseline: readFileSync(".claude/gate-baseline.json", "utf8"),
   voiceDoc: readFileSync("docs/voice-pack.md", "utf8"),
   bible: readFileSync("docs/art-bible.md", "utf8"),
+  css: readFileSync("app/src/wq-css.js", "utf8"),
+  reference: readFileSync("reference/word-quest.jsx", "utf8"),
   ledger: readFileSync("tools/pending-words/pending-words.json", "utf8"),
   tokens: C,
 };
@@ -339,7 +341,50 @@ function run(d) {
   }
   for (const k of Object.keys(d.tokens)) if (!table.some(([t]) => t === k)) found.push(`C has "${k}", which the art bible's token table does not name`);
 
+  rules += 1;
+  /* Rule 12 (art step 1, 2026-08-22): bible 11's state table is the
+     repository's - each row's selector must exist in the app's stylesheet
+     AND in the reference's copy, and the block must name every token the
+     row lists as ${C.token}. Prose cells ("3 px") are not bound. Fewer than
+     8 rows is a moved anchor. The sword rule lives only in the app (the
+     reference has no sentence stage), and the table says so by selector. */
+  const states = stateTable(d.bible);
+  if (states.length < 8) found.push(`the art bible's section 11 state table parses to ${states.length} rows - the anchor moved, and this rule is checking nothing`);
+  const APP_ONLY = new Set([".wq-sword-open", "@keyframes wqpop"]);   // the reference build has no sentence stage and no sound-out animation
+  for (const [state, selector, tokens] of states) {
+    for (const [name, src] of [["app/src/wq-css.js", d.css], ["the reference", d.reference]]) {
+      if (name === "the reference" && APP_ONLY.has(selector)) continue;
+      const block = cssBlock(src, selector);
+      if (block === null) { found.push(`the art bible's tile table names "${selector}" (${state}), which ${name} does not have`); continue; }
+      for (const t of tokens) if (!block.includes("${C." + t + "}") && !block.includes("${alpha(C." + t + ",")) found.push(`the art bible says ${state} (${selector}) paints ${t}; ${name}'s block does not name it`);
+    }
+  }
+
   return { found, rules };
+}
+
+/* The rows of the section 11 state table: `| state | \`selector\` | a, b, c |`. */
+function stateTable(bible) {
+  const start = bible.indexOf("| state | selector | tokens |");
+  if (start < 0) return [];
+  const end = bible.indexOf("\n## ", start);
+  const body = bible.slice(start, end < 0 ? undefined : end);
+  return [...body.matchAll(/^\| ([^|`]+?) \| `([^`]+)` \| ([^|]+) \|/gm)].map((m) => [m[1].trim(), m[2].trim(), m[3].split(",").map((t) => t.trim()).filter(Boolean)]);
+}
+/* The text of `selector{...}` - the first block whose rule starts with the
+   selector followed by `{`, or the keyframes block for an @keyframes name;
+   null when absent. */
+function cssBlock(src, selector) {
+  const i = src.indexOf(selector + "{");
+  if (i < 0) return null;
+  /* brace-aware, because the sheet is a template: `${C.ink}` carries a
+     brace of its own, so "the first }" ends a block mid-declaration */
+  let depth = 0, j = i;
+  for (; j < src.length; j++) {
+    if (src[j] === "{") depth++;
+    else if (src[j] === "}") { depth--; if (depth === 0) break; }
+  }
+  return src.slice(i, j + 1);
 }
 
 /* The rows of the section 9.3 table: `| key | #hex | note |`, from the
@@ -353,7 +398,7 @@ function tokenTable(bible) {
 }
 
 if (process.argv.includes("--self-test")) {
-  const seen = { spec: false, blind: false, qa: false, hold: false, recipe: false, bank: false, floor: false, unshipped: false, superseded: false, table: false, tableOrder: false, orphanDoc: false, orphanCmd: false, tokenDrift: false, tokenStranger: false, tokenMissing: false, tokenBlind: false };
+  const seen = { spec: false, blind: false, qa: false, hold: false, recipe: false, bank: false, floor: false, unshipped: false, superseded: false, table: false, tableOrder: false, orphanDoc: false, orphanCmd: false, tokenDrift: false, tokenStranger: false, tokenMissing: false, tokenBlind: false, stateToken: false, stateSelector: false, stateBlind: false, stateReference: false };
 
   /* Both ways a tool gets orphaned. The first is the one that actually
      happens: somebody tidies a governing document, the sentence naming the
@@ -463,8 +508,19 @@ if (process.argv.includes("--self-test")) {
   const noTable = { ...real, bible: real.bible.replace("### 9.3 ", "### 9.9 ") };
   seen.tokenBlind = run(noTable).found.some((p) => p.includes("parses to 0 rows"));
 
+  /* Rule 12's four plants: a token the block lacks, a selector the sheet
+     lacks, a moved anchor, and the reference's copy drifting from the app's. */
+  const lackingToken = { ...real, bible: real.bible.replace("| used | `.wq-tilebtn.wq-used` | slot, tileEdge |", "| used | `.wq-tilebtn.wq-used` | slot, tileEdge, cyanElectric |") };
+  seen.stateToken = run(lackingToken).found.some((p) => p.includes("says used (.wq-tilebtn.wq-used) paints cyanElectric"));
+  const lackingSelector = { ...real, bible: real.bible.replace("| used | `.wq-tilebtn.wq-used` |", "| used | `.wq-tilebtn.wq-gone` |") };
+  seen.stateSelector = run(lackingSelector).found.some((p) => p.includes('names ".wq-tilebtn.wq-gone" (used), which app/src/wq-css.js does not have'));
+  const noStates = { ...real, bible: real.bible.replace("| state | selector | tokens |", "| kind | rule | colours |") };
+  seen.stateBlind = run(noStates).found.some((p) => p.includes("section 11 state table parses to 0 rows"));
+  const driftedReference = { ...real, reference: real.reference.replace(".wq-tilebtn.wq-used{background:${C.slot};", ".wq-tilebtn.wq-used{background:${C.paper};") };
+  seen.stateReference = run(driftedReference).found.some((p) => p.includes("paints slot; the reference's block does not name it"));
+
   if (Object.values(seen).every(Boolean)) {
-    console.log("self-test OK: a reworded SPEC sentence, a SPEC block whose anchor moved so the rule would check nothing, a reworded QA promise, a changed hold constant, a stale recipe number in the document, a stale bank count in the chooser, a drifted gate floor, an unshipped count that lags or runs ahead of the ledger, a level row that lost a word, a level row in the wrong order, a governing document that has stopped naming a tool agents are told to run, a command that has stopped running that tool's controls, a drifted token value, a token the table names that C lacks, a token C has that the table lacks, and a token table whose anchor moved are all caught");
+    console.log("self-test OK: a reworded SPEC sentence, a SPEC block whose anchor moved so the rule would check nothing, a reworded QA promise, a changed hold constant, a stale recipe number in the document, a stale bank count in the chooser, a drifted gate floor, an unshipped count that lags or runs ahead of the ledger, a level row that lost a word, a level row in the wrong order, a governing document that has stopped naming a tool agents are told to run, a command that has stopped running that tool's controls, a drifted token value, a token the table names that C lacks, a token C has that the table lacks, a token table whose anchor moved, a tile state whose block lacks a token it claims, a tile selector the stylesheet lacks, a tile table whose anchor moved, and a reference copy that drifted from the app's are all caught");
     process.exit(0);
   }
   console.error("self-test FAILED: " + JSON.stringify(seen));

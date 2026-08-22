@@ -455,7 +455,18 @@ every bound reads `LEVELS.length`, which is why adding a level needed no engine 
   `action` ring on the gradient, 2.95, 2.88 and 3.15 on the three stops (entry AB, the
   reading-surface step's change, found by the fourth judgement); test 7 pins `alpha()` to
   the literals it replaced and holds the two theme colours the build cannot derive
-  (`index.html`, the manifest) to `skyBlue`. Key: `g1_token_tests` (9). Its companion in the check is the quality control that
+  (`index.html`, the manifest) to `skyBlue`. Art step 1 (2026-08-22) added tests 8 to 10:
+  every face, edge, ring and state of the ceramic tile family at its literal ratio on the
+  surface it sits on (ink on tileFace 8.64, tileEdge on the three gradient stops 3.13 /
+  3.06 / 3.35 — the rim is the only boundary between a tile and the sky, since the face
+  measures 1.13–1.26 against it — cyanStructural on the face 5.71, the lifted face at
+  1.114 of the resting luminance inside bible 11's 8–12 %, the pressed composite, the slot's
+  edges, purpleStructural on the face and the stops, with cyanElectric on the face at 1.04
+  held below 3 as a glow that is never a boundary), the scaffold letter at .60 (3.28 on the
+  slot, owner-ruled) with .28 (1.65) as the withdrawn control, and the app's and the
+  reference's tile rules compared character for character with a planted drift; test 3c
+  now holds the open sentence word's cyan ring at 4.73 / 4.61 / 5.05 (open-faults AB
+  closed) with the action figures as its control. Key: `g1_token_tests` (12). Its companion in the check is the quality control that
   refuses a hex, rgb(), rgba() or hsl() literal in any app source (`.js`, `.jsx`, `.mjs`,
   `.css`) and in the reference outside its `C` block, with fixtures for each and for the
   `alpha()` helper it must not catch: the after pass found fourteen hex literals in the
@@ -629,6 +640,23 @@ the offline comparator's control caught its first real bug before the live cell 
   cell now BLOCKS it (2026-08-21), because ten cells each starting a 1,500-file precache
   against one single-threaded preview crashed the shared browser and made green-alone cells
   fail in file order.
+- **the ceramic tile family, as measurements** (art step 1, 2026-08-22). On every
+  profile: **the sounding tile** — with motion allowed, the first pop of "ship" read from
+  computed style and rects: a 3–4 px solid `cyanStructural` ring at offset 0, a
+  box-shadow naming `cyanElectric` whose spread is outside the ring (9.2), the face lifted
+  8–12 % over a resting tile's, resting faces `tileFace` and letters `ink`, every tile's
+  box within 0.5 px of its resting box, and ring plus band reaching into no neighbour's
+  letters (the content box inside its padding); and **Build-it** — "ship" dealt through
+  the dice (`stageBuild`, the buildable bank's die), every tray tile and slot a 56 px
+  control on both axes and every multi-letter tray tile wider than every single-letter
+  one, the screen no G7 check had ever opened. Controls, once: the hold's fixtures for each
+  finding kind, then the READER against real plants in the page — the ink ring the app
+  drew until this step (as an `!important` rule, since a later `@keyframes` of the same
+  name does not replace a running animation) and a `sun` face; and for Build-it a tray
+  tile shrunk to 48 px and every tray tile forced to one width. `seedGraduated` now writes
+  the save from `/version.json`, a page that is not the app, because a put that landed
+  before the app's own first-boot write was overwritten by it once in three runs and the
+  reload showed Pre 1.
 - **the art bible's claims, as measurements** (art project step 0d, owner-ruled
   2026-08-22, the council's before pass; detectors in the novelties library, every one
   refusing a screen with no subject). On every profile: **frame** - the header, stage and
@@ -1083,6 +1111,18 @@ deliberate: a flaky cell must inform a release, never block one.
 - Baseline floors: `g13_clips` (760) and `g13_engine_tests` (13).
 - To re-render the pack after the bank grows: `docs/voice-pack.md`.
 
+## G14c. The provenance reader (art step 1, 2026-08-22)
+
+`tools/art/provenance.json` is the art project's record — one entry per asset family:
+its kind, step, sources, byte share (the shares table's integers sum to at most the 16.2
+ceiling), what it spent, its lock, ramps and states by token name, its pinned ratios with
+the test that pins each, its checkpoints and its originality verdict (bible 17's ruling).
+Data nobody reads is the drift G23 refuses, so `tools/provenance-check.mjs` runs in
+`npm run check`: every family's shape, every token name against `C`, spent inside the
+share, and a closed family refused without both checkpoints and an originality verdict.
+Six controls. Declared DATA in the file map; the reader is its reader. No README file per
+family exists or may: the entry is what the ruling calls the README.
+
 ## G14b. The art budget (art project step 0c, owner-ruled 2026-08-22)
 
 - Tool: `tools/art-budget.mjs`. In `npm run check`: the tracked bytes under `app/public/art/`
@@ -1167,7 +1207,7 @@ it was seen.
   dependency rule.
 - Negative control: `--self-test` plants a `PROGRESS.md` and a stray `status.json`; the
   detector must report both and still accept the real tree.
-- Baseline floor: `g17_governing_files` (45). It moved from 23 on 2026-08-11, when the
+- Baseline floor: `g17_governing_files` (46). It moved from 23 on 2026-08-11, when the
   owner approved `docs/open-faults.md` into the owned set — the list of what is still
   wrong, so that a fault cannot be lost to a context compaction — from 24 on 2026-08-15
   for `docs/file-map.md`, the generated ownership map (G23), and to 28 the same day for
@@ -1218,7 +1258,7 @@ the tool would be fault F2 re-committed.
   `filemap_history_max` (1) — a ceiling only the owner moves (E6). Today's one:
   `docs/voice-goldens-packs1-3.json`, whose 11-of-57 recipe disagreements make it a trap if
   read as live.
-- Keys: `g23_declared` (53), `g23_facts` (4), `g23_controls` (40), problems capped at 0,
+- Keys: `g23_declared` (54), `g23_facts` (4), `g23_controls` (40), problems capped at 0,
   ceiling `filemap_history_max` (1).
 - Run: `node tools/file-map.mjs --check` and `--self-test`; both are in `npm run check`.
 
@@ -1464,7 +1504,15 @@ promised a fallback the code never performed; G12 counted the step and saw nothi
 - Negative control: `--self-test` rewords a SPEC sentence, rewords a QA promise, changes a
   timing, changes the hold constant, leaves a stale speed in SPEC, takes the lookup's name out
   of `CLAUDE.md`, and takes its controls out of `npm run check`; every detector must fire.
-- Baseline floor: `g16_doc_rules` (11).
+- Baseline floor: `g16_doc_rules` (12). Rule 12 (art step 1, 2026-08-22) binds the art
+  bible's section 11 state table — `| state | selector | tokens |` — to the stylesheet:
+  every selector must exist in `app/src/wq-css.js` and in the reference build's copy
+  (the sentence-word rule and the sound-out keyframes are app-only, and the rule says
+  which), and each block must name every token its row lists as `${C.token}` or
+  `${alpha(C.token, …)}`; the block reader is brace-aware, since `${C.ink}` carries a
+  brace of its own. Fewer than 8 rows is a moved anchor. Prose cells are not bound. Four
+  plants: a token the block lacks, a selector the sheet lacks, a moved anchor, a reference
+  copy that drifted from the app's.
 
 ### E11 lookup-mutants — the controls of the lookup, not a gate
 
@@ -1633,7 +1681,7 @@ other direction: the real pack, unchanged, must pass.
 
 ## G20. Effect map
 
-- Tool: `tools/effect-map.mjs`. Writes `docs/effect-map.md`. Keys: `g20_tests_mapped` (403).
+- Tool: `tools/effect-map.mjs`. Writes `docs/effect-map.md`. Keys: `g20_tests_mapped` (411).
 - One row per `it()` SITE — its file, suite, and the test's own sentence, which in this
   project IS the Given/When/Then effect, because tests are named as behaviour. A site inside
   a loop or a table runs many times, so the map's 310 rows describe the 324 tests Vitest executes;

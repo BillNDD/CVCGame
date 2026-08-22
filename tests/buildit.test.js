@@ -217,6 +217,94 @@ describe("Build-it's loop", () => {
   });
 });
 
+/* THE CERAMIC STATES (art step 1, bible 11, owner-ruled 2026-08-22 on the
+   ceramic-tiles page). Each state is a class the stylesheet paints; what a
+   screen reader hears does not change. */
+describe("the ceramic tile states", () => {
+  it("20: a used tray tile keeps its letter, is a real disabled control, and is not dimmed", async () => {
+    const tray = mount("cat", 8);
+    const first = tileFor(tray.answer[0])[0];
+    fireEvent.click(first);
+    expect(first.classList.contains("wq-used")).toBe(true);
+    expect(first.disabled).toBe(true);
+    expect(first.style.opacity).toBe("");
+    expect(first.textContent).toBe(tray.answer[0]);
+    /* the slot that took it is a filled ceramic slot, named the same as before */
+    expect(screen.getByLabelText("Take back " + tray.answer[0]).classList.contains("wq-empty")).toBe(false);
+    expect(screen.getAllByLabelText("Empty space").every((b) => b.classList.contains("wq-empty") && b.disabled)).toBe(true);
+  });
+
+  it("21: a multi-letter tray tile is as wide as its slot - sh is 90 px where s is 64", () => {
+    const tray = mount("ship", 8);
+    const sh = tileFor("sh")[0], i = tileFor("i")[0];
+    expect(sh.style.width).toBe("90px");
+    expect(i.style.width).toBe("64px");
+    expect(sh.style.height).toBe("64px");
+    expect(screen.getByLabelText("Tile sh")).toBe(sh);
+    expect(tray.answer[0]).toBe("sh");
+  });
+
+  it("22: after a miss the filled slots wear the arrangement ring while the built sounds play, and lose it when the tray is handed back", async () => {
+    /* a player that HOLDS its callback, so the playback has a duration */
+    const held = [];
+    const tray = trayFor("cat", 8);
+    render(createElement(BuildItScreen, {
+      tray, playWord: (w, then) => { if (then) then(); },
+      playSounds: (ids, then) => { if (then) held.push(then); },
+      soundIdsOf: (w) => chunkWord(w).map((c) => "d:" + c), onDone: () => {}, onExit: () => {},
+    }));
+    const wrong = tiles().find((b) => !tray.answer.includes(b.textContent));
+    fireEvent.click(wrong);
+    for (const t of tray.answer.slice(0, 2)) fireEvent.click(tileFor(t)[0]);
+    /* the last tile's own sound finishes: the build is judged, a miss */
+    await act(async () => { held.pop()(); });
+    await flush(10);
+    expect(screen.getByText(/listen again/)).toBeTruthy();
+    const filled = screen.getAllByLabelText(/^Take back/);
+    expect(filled.length).toBe(3);
+    expect(filled.every((b) => b.classList.contains("wq-arr"))).toBe(true);
+    expect(filled.some((b) => b.classList.contains("wq-won"))).toBe(false);
+    /* the built sounds finish: the tray is handed back and the ring goes */
+    await act(async () => { held.pop()(); });
+    await flush(10);
+    expect(screen.getAllByLabelText("Empty space").length).toBe(3);
+    expect(document.querySelectorAll(".wq-arr").length).toBe(0);
+  });
+
+  it("23: the scaffold rings one slot at a time, in sound order, with the letter at .6 inside it", async () => {
+    const tray = mount("cat", 8);
+    const wrong = tiles().find((b) => !tray.answer.includes(b.textContent));
+    for (let go = 0; go < 2; go += 1) {
+      fireEvent.click(wrong);
+      for (const t of tray.answer.slice(0, 2)) fireEvent.click(tileFor(t)[0]);
+      await flush(60);
+      if (go === 0) slots().forEach((s) => fireEvent.click(s));
+    }
+    await flush(1000);
+    const cued = () => [...document.querySelectorAll(".wq-tilebtn.wq-cue")];
+    expect(cued().length).toBe(1);
+    expect(cued()[0]).toBe(slots()[0]);
+    expect(cued()[0].querySelector(".wq-ghost").textContent).toBe(tray.answer[0]);
+    await flush(900);
+    expect(cued().length).toBe(1);
+    expect(cued()[0]).toBe(slots()[1]);
+    expect(cued()[0].querySelector(".wq-ghost").textContent).toBe(tray.answer[1]);
+    await flush(2000);
+    expect(cued().length).toBe(0);
+    expect(document.querySelectorAll(".wq-ghost").length).toBe(0);
+  });
+
+  it("24: a completed word wears the warm halo on its filled slots, and every tile is a disabled control", async () => {
+    const tray = mount("cat");
+    for (const t of tray.answer) fireEvent.click(tileFor(t)[0]);
+    await flush(50);
+    const filled = screen.getAllByLabelText(/^Take back/);
+    expect(filled.length).toBe(3);
+    expect(filled.every((b) => b.classList.contains("wq-won") && b.disabled)).toBe(true);
+    expect(tiles().every((b) => b.disabled)).toBe(true);
+  });
+});
+
 /* BUILD-A-SOUND (open-faults Q6, owner-ruled 2026-08-17). The ladder's version:
    one slot, a spoken sound for a prompt, and a tray of the letters the child
    has been taught. */

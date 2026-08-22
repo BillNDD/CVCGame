@@ -293,7 +293,9 @@ exclusions are recorded in SPEC section 12.
   (`tools/blast-radius.mjs --self-test`, a fifth of a second) plus the type checker
   (`tools/type-check.mjs`, owner-ruled 2026-08-22: TypeScript reads the plain JavaScript,
   both sides at zero) plus the art budget (`tools/art-budget.mjs`: the tracked art's bytes
-  under the 12 MB the owner ruled on 2026-08-22), about half a minute. A red
+  under the 12 MB the owner ruled on 2026-08-22) plus the provenance reader
+  (`tools/provenance-check.mjs`: every art family's record in the shape the bible's
+  section 17 ruling asks, its tokens against `C`), about half a minute. A red
   check blocks the change. The quality lint joined the check on 2026-08-12, owner-ruled, after the gap it left
   cost two defects in one day: a `font:` shorthand the quality controls have refused since
   2026-07-29 shipped a label at four times its intended size, and a file went over the

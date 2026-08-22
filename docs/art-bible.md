@@ -269,7 +269,7 @@ its own; a silent pack's backstop ends it the way it ends the turn.
 | Decorative frames | Grapheme text in tiles |
 | Original icons | Child instructions and button labels |
 | Milestone art | Adult data, settings, and reports |
-| Glowseed and tile material | Focus geometry and accessibility text |
+| Glowseed; tile material as a CSS family since art step 1 (2026-08-22: a raster 9-slice cannot follow svh-sized boxes on the 2.625 and 4.5 profiles without the stretch 8.2 forbids; letters are live text either way) | Focus geometry and accessibility text |
 | Optional guide | All teaching copy |
 
 **Hard rule.** Never rasterize a teaching word into scene art and never apply a pixelation
@@ -350,13 +350,13 @@ border #94a8c0, 1.94:1 on its ground, and the progress ring #e0ac2b, 1.44:1 on s
 were withdrawn; the slot reads `boundary` (4.77:1 on paper, 3.79:1 on its lowest-ratio ground, the lavender stop)
 and the ring reads `amber` (4.11:1 on sun), a visible darkening of both, declared.
 `tests/tokens.test.js` asserts the bible's four structural edges, the slot's edge and the
-ring at their literal ratios and holds the two withdrawn values below 3:1 as controls. Two
-edges the game draws are still below the rule and are not hidden by that sentence: `line`,
+ring at their literal ratios and holds the two withdrawn values below 3:1 as controls. One
+edge the game draws is still below the rule and is not hidden by that sentence: `line`,
 the adult controls' edge, 1.26:1 on paper and 1.07:1 on chip (the third judgement of step
-0, 2026-08-22; `docs/open-faults.md` AA, the grown-up-zone step's declared change), and
-the open sentence word's `action` ring on the gradient, 2.95:1, 2.88:1 and 3.15:1 on the
-three stops (the fourth judgement; open-faults AB, the reading-surface step's declared
-change) - each held at its literals by the same test.
+0, 2026-08-22; `docs/open-faults.md` AA, the grown-up-zone step's declared change), held
+at its literals by the same test. The open sentence word's `action` ring (2.95, 2.88 and
+3.15:1 on the stops; the fourth judgement, open-faults AB) was moved to `cyanStructural`
+by art step 1 the same day, 4.73 / 4.61 / 5.05:1, and AB is closed.
 
 ### 9.3 The repository's tokens (ruled 2026-08-22)
 
@@ -373,7 +373,7 @@ and values as the record of what the PDF said.
 | ink2 | #3e5aa6 | the game's own, unchanged |
 | muted | #5a6ba8 | the game's own, unchanged |
 | strip | #455073 | the game's own, unchanged |
-| action | #c9402f | the game's own, unchanged; as the open sentence word's 3 px ring it measures 2.95, 2.88 and 3.15:1 on the gradient's three stops - below 3:1 on two, recorded in open-faults AB for the reading-surface step (step 3) |
+| action | #c9402f | the game's own, unchanged; it drew the open sentence word's ring at 2.95, 2.88 and 3.15:1 on the gradient's stops until art step 1 moved that ring to cyanStructural (open-faults AB, closed 2026-08-22) |
 | green | #0f7a4f | the game's own, unchanged |
 | amber | #8a5a00 | the game's own, unchanged; and since 2026-08-22 the ring round the current progress segment (4.11:1 on sun) |
 | amberInk | #6b4600 | the game's own, unchanged |
@@ -409,7 +409,8 @@ and values as the record of what the PDF said.
 | tileFace | #f6d985 | the ceramic tile's face |
 | tileHighlight | #fff1b5 | the tile's highlight |
 | tileEdge | #8f6420 | the bible's #B8832E darkened: 2.40:1 to 3.78:1 on tileFace |
-| slot | #e6dccb | the bible's empty-slot fill, for the ceramic tile step; unread today - the empty slot on HEAD is paper at .55 under a boundary edge |
+| slot | #e6dccb | the empty slot's fill and a used tile's face since art step 1 (2026-08-22); boundary on it 3.51:1, ink on it 8.80:1 |
+| tileFaceLit | #fbe59d | the sounding tile's face: tileHighlight at .5 over tileFace, an 11.4 % lift in relative luminance (bible 11's 8-12 %), ink on it 9.55:1 (art step 1, 2026-08-22) |
 | paper | #ffffff | white surfaces: cards, inputs, the modal, the CTA's text (entered 2026-08-22, the after pass on step 0) |
 | warningDeep | #96261d | the home strip's storage warning, 4.5:1 on the gradient (2026-08-22) |
 | chipGreen | #c6f2dd | the corner's mastery chip: read right twice (2026-08-22) |
@@ -517,6 +518,44 @@ phonics colour code.
 outline, never with a border or a size change, so the tile row holds still (G7 measures
 it). Build-it's "Used" and "Disabled" states are real `disabled` controls since beta 26,
 not merely dimmed ones.
+
+**Rulings (2026-08-22, art step 1 — the ceramic family as built).** The tile is a CSS
+family (8.1's row is amended): a solid `tileFace`, a one-pixel `tileHighlight` above and
+the edge's shade below, a one-pixel `tileEdge` rim, a contact shadow — every inset at zero
+blur, the rim and bevel in the padding ring and never under the letters, the 9-slice the
+radius per density (12, 9, 7; 8 on the short stage; 14 in Build-it). **Sounding:** a 3 px
+solid `cyanStructural` ring at offset 0, a `cyanElectric` band **outside** it of 6 px (4 at
+six tiles, 2 at eight, so ring and band never enter a neighbour's letters), and the face
+lifted to `tileFaceLit` (+11.4 % luminance) — one `wqpop` keyframe set, `steps(1,end)`, the
+measured clip length; owner-ruled on the ceramic-tiles page over the ring alone. The same
+cyan ring marks the open sentence word. **Pressed:** the edge at .08 under the rim, the
+elevation dropped, no movement. **Used:** the `slot` face, no elevation, the letter still
+ink (8.80:1), a real `disabled` control. **Empty slot:** the `slot` fill under a dashed
+`boundary` edge (3.51:1). **Scaffold:** the slot wears the structural ring while its sound
+plays, one at a time, with the letter inside at opacity .60 (3.28:1, owner-ruled over the
+.28 that measured 1.65). **Different arrangement:** a 3 px `purpleStructural` ring round
+the filled slots while the built sounds play back, owner-ruled over a tint and over none.
+**Completed:** a static `amberFill` halo. **Focus:** a dashed `cyanStructural` ring at
+offset 2, so the keyboard's mark and the sounding mark differ by shape. None of the new
+states animates; reduced motion changes nothing about them.
+
+The table below is the repository's: doc-truth rule 12 reads it and requires every
+selector to exist in `app/src/wq-css.js` and in the reference build's copy, naming every
+token the row lists as `${C.token}`. Prose cells are not bound.
+
+| state | selector | tokens |
+|---|---|---|
+| available | `.wq-tile` | tileFace, ink, tileHighlight, tileEdge |
+| sounding | `@keyframes wqpop` | cyanStructural, cyanElectric, tileFaceLit, tileHighlight, tileEdge |
+| control | `.wq-tilebtn` | ink, tileFace, tileHighlight, tileEdge |
+| pressed | `.wq-tilebtn:active:not(:disabled)` | tileEdge |
+| used | `.wq-tilebtn.wq-used` | slot, tileEdge |
+| empty slot | `.wq-tilebtn.wq-empty` | slot, boundary |
+| scaffold | `.wq-tilebtn.wq-cue` | cyanStructural |
+| different arrangement | `.wq-tilebtn.wq-arr` | purpleStructural, tileHighlight, tileEdge |
+| completed | `.wq-tilebtn.wq-won` | amberFill, tileHighlight, tileEdge |
+| focus | `.wq-tilebtn:focus-visible` | cyanStructural |
+| open sentence word | `.wq-sword-open` | cyanStructural |
 
 ## 12. Optional nonhuman guide
 

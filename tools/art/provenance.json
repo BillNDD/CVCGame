@@ -1,0 +1,65 @@
+{
+  "_comment": "The art project's provenance record (docs/art-bible.md section 17's ruling): one entry per asset family, and rows per asset as they land. Read by tools/provenance-check.mjs in npm run check. A family's entry is what the construction-order ruling calls its README: the lock, the ramps, the master and reference paths by hash, the checkpoints, the originality verdict. Byte shares are integers that sum to at most 12,582,912 (bible 16.2).",
+  "shares": {
+    "scene": 8388608,
+    "guide": 1048576,
+    "app-icon-splash-title": 1048576,
+    "tiles": 524288,
+    "glowseed": 524288,
+    "icons": 524288,
+    "effects-textures": 524288
+  },
+  "families": {
+    "tiles": {
+      "kind": "css",
+      "opened": "2026-08-22",
+      "step": 1,
+      "source": ["app/src/wq-css.js", "reference/word-quest.jsx", "app/src/screens/BuildItScreen.jsx"],
+      "share": 524288,
+      "spent": 0,
+      "files": [],
+      "master": null,
+      "masterReason": "a CSS family ships no file; the stylesheet is the master",
+      "reference": [],
+      "lock": {
+        "radii": { "reveal": 12, "many": 9, "crowd": 7, "shortStage": 8, "buildit": 14 },
+        "rim": 1,
+        "highlight": 1,
+        "contactShadow": "0 1px 2px ink@.22, 0 1px 0 tileEdge@.5",
+        "ring": 3,
+        "ringOffset": 0,
+        "band": { "reveal": 6, "many": 4, "crowd": 2 },
+        "builditBox": 64,
+        "extraPerLetter": 26
+      },
+      "ramps": { "face": ["tileHighlight", "tileFace", "tileEdge"] },
+      "states": {
+        "available": ["tileFace", "ink", "tileHighlight", "tileEdge"],
+        "pressed": ["tileEdge"],
+        "sounding": ["cyanStructural", "cyanElectric", "tileFaceLit"],
+        "placed": ["tileFace", "ink"],
+        "used": ["slot", "ink", "tileEdge"],
+        "removable": ["cyanStructural"],
+        "different arrangement": ["purpleStructural"],
+        "scaffold": ["cyanStructural", "ink"],
+        "completed": ["amberFill"],
+        "disabled": ["slot", "ink", "tileEdge"],
+        "empty slot": ["slot", "boundary"]
+      },
+      "ratios": [
+        { "pair": "ink on tileFace", "value": 8.64, "test": "tokens 8" },
+        { "pair": "tileEdge on tileFace", "value": 3.78, "test": "tokens 3" },
+        { "pair": "tileEdge on skyLavender", "value": 3.06, "test": "tokens 8" },
+        { "pair": "cyanStructural on skyLavender", "value": 4.61, "test": "tokens 3c" },
+        { "pair": "ink on tileFaceLit", "value": 9.55, "test": "tokens 8" },
+        { "pair": "boundary on slot", "value": 3.51, "test": "tokens 8" },
+        { "pair": "ink on slot", "value": 8.8, "test": "tokens 8" },
+        { "pair": "purpleStructural on tileFace", "value": 4.86, "test": "tokens 8" },
+        { "pair": "ghost at .60 on slot", "value": 3.28, "test": "tokens 9" }
+      ],
+      "electricArea": { "formula": "2*(w+h+band)*band over the viewport, one tile sounding at a time (popOverlap)", "320x658": 0.5 },
+      "checkpoints": [],
+      "originality": null
+    }
+  }
+}

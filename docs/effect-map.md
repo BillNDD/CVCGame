@@ -8,7 +8,7 @@ Per-test rows carry the test's own sentence, which in this project IS the
 Given/When/Then effect. The requirement, oracle, platform, mutant family, evidence
 and known limits are declared per FILE, in the tool, where they stay true.
 
-Totals: 403 it() SITES across 21 files, plus 18 gates that are not test files.
+Totals: 411 it() SITES across 21 files, plus 18 gates that are not test files.
 
 A site inside a loop or a table runs many times, so these rows describe more tests than they number: Vitest executes 330. The rows count the places behaviour is asserted.
 
@@ -34,7 +34,7 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 8 | G10 — the text a grown-up reads on the child's screen | 27: one completed session counts as '1 session', not '1 sessions' |
 | 9 | G10 — the text a grown-up reads on the child's screen | 28 (control): two sessions still count as '2 sessions' |
 
-## tests/buildit.test.js — 20 tests (G10)
+## tests/buildit.test.js — 25 tests (G10)
 
 - **Requirement protected:** SPEC section 12: Build-it writes nothing to the record, speaks the word before the tiles, and ends every attempt in success
 - **Independent oracle:** A source tripwire with fixture controls and a real-source mutation, plus a walked loop with a held tray
@@ -55,17 +55,22 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 7 | Build-it's loop | 6: a word whose sound repeats can still be built |
 | 8 | Build-it's loop | 7: a miss says what the child actually built, and the tray is not locked |
 | 9 | Build-it's loop | 8: after the second miss, the letter is shown in its own slot |
-| 10 | Build-a-sound, for a child still on the ladder | 9: Pre 1 gets no tray at all — it has met no letters |
-| 11 | Build-a-sound, for a child still on the ladder | 10: the tray is exactly what the rung has taught, and grows with it |
-| 12 | Build-a-sound, for a child still on the ladder | 11: no tile is silent, and none is a letter the rung has not reached |
-| 13 | Build-a-sound, for a child still on the ladder | 12: finding the sound wins, and a wrong tile invites another try |
-| 14 | Build-a-sound, for a child still on the ladder | 13: a miss hands the tray back by itself - the wrong tile does not sit in the slot |
-| 15 | free play builds go on until Done | 19: a child at level 1 and at level 2 gets a build, not an error |
-| 16 | free play builds go on until Done | 18: every level's build window holds words, the first two included |
-| 17 | free play builds go on until Done | 17: a long word's celebration is never cut off - the turn ends when the sound does |
-| 18 | free play builds go on until Done | 15: 'Build a level word' deals the level's own word, mastery elsewhere notwithstanding |
-| 19 | free play builds go on until Done | 16: 'Build any word' opens a build at all |
-| 20 | free play builds go on until Done | 14: a found sound is followed by another sound, and Done goes home |
+| 10 | the ceramic tile states | 20: a used tray tile keeps its letter, is a real disabled control, and is not dimmed |
+| 11 | the ceramic tile states | 21: a multi-letter tray tile is as wide as its slot - sh is 90 px where s is 64 |
+| 12 | the ceramic tile states | 22: after a miss the filled slots wear the arrangement ring while the built sounds play, and lose it when the tray is handed back |
+| 13 | the ceramic tile states | 23: the scaffold rings one slot at a time, in sound order, with the letter at .6 inside it |
+| 14 | the ceramic tile states | 24: a completed word wears the warm halo on its filled slots, and every tile is a disabled control |
+| 15 | Build-a-sound, for a child still on the ladder | 9: Pre 1 gets no tray at all — it has met no letters |
+| 16 | Build-a-sound, for a child still on the ladder | 10: the tray is exactly what the rung has taught, and grows with it |
+| 17 | Build-a-sound, for a child still on the ladder | 11: no tile is silent, and none is a letter the rung has not reached |
+| 18 | Build-a-sound, for a child still on the ladder | 12: finding the sound wins, and a wrong tile invites another try |
+| 19 | Build-a-sound, for a child still on the ladder | 13: a miss hands the tray back by itself - the wrong tile does not sit in the slot |
+| 20 | free play builds go on until Done | 19: a child at level 1 and at level 2 gets a build, not an error |
+| 21 | free play builds go on until Done | 18: every level's build window holds words, the first two included |
+| 22 | free play builds go on until Done | 17: a long word's celebration is never cut off - the turn ends when the sound does |
+| 23 | free play builds go on until Done | 15: 'Build a level word' deals the level's own word, mastery elsewhere notwithstanding |
+| 24 | free play builds go on until Done | 16: 'Build any word' opens a build at all |
+| 25 | free play builds go on until Done | 14: a found sound is followed by another sound, and Done goes home |
 
 ## tests/chunker.test.js — 14 tests (G1)
 
@@ -608,7 +613,7 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 4 | G14 — the service worker answers for the app, and only for the app | 4 (control): a clip request is still served from the cache, and a miss goes to the network |
 | 5 | G14 — the service worker answers for the app, and only for the app | 5 (control): the version check is never intercepted, so it always sees the live host |
 
-## tests/tokens.test.js — 9 tests (G1)
+## tests/tokens.test.js — 12 tests (G1)
 
 - **Requirement protected:** SPEC section 9 and the art bible's 9.3: C is the one statement of the palette; the thirteen original keys keep their literal values; the bible's four structural edges, the empty slot's edge and the progress ring clear 3:1 on the surface each edges, while line (1.26, 1.07) and the open sentence word's action ring on the gradient (2.95, 2.88, 3.15) are held BELOW the rule and carried in open-faults AA and AB for the steps that darken them; alpha() reproduces the literals it replaced; the two theme colours equal skyBlue; every C.<key> read exists
 - **Independent oracle:** Literal hex pins for the thirteen original keys, the key count, and this file's own WCAG relative-luminance arithmetic at literal expected ratios (3.78, 4.68, 7.51, 6.39, 4.77, 3.79 on a ground derived from the tokens, 4.11, 11.36, 6.43, 5.57; below the rule 1.26, 1.07, 2.95, 2.88), with three controls held below 3:1 (the admitted fill 2.10 and the two withdrawn edges 1.94, 1.44) and WCAG's own anchors (21, 4.48)
@@ -621,14 +626,17 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | # | Suite | Effect (the test's own sentence) |
 |---|---|---|
 | 1 | the palette is pinned | 1: the thirteen keys the game had before the bible keep their literal values |
-| 2 | the palette is pinned | 2: C holds exactly the keys the bible's table names - 13 of the game's, 28 of the bible's, 5 from the sweep |
+| 2 | the palette is pinned | 2: C holds exactly the keys the bible's table names - 13 of the game's, 28 of the bible's, 5 from the sweep, 1 from the tile step |
 | 3 | the palette is pinned | 3: the bible's four structural edges, the empty slot's edge and the progress ring clear 3:1 on the surface each edges, at literal ratios |
 | 4 | the palette is pinned | 3b: the adult controls' edge, line, is BELOW 3:1 today and is named in open-faults for the grown-up-zone step |
-| 5 | the palette is pinned | 3c: the open sentence word's action ring on the gradient is BELOW 3:1 on two stops today, and is named in open-faults for the reading-surface step |
-| 6 | the palette is pinned | 4: teaching text clears 7:1 and the action blue 4.5:1, at literal ratios |
-| 7 | the palette is pinned | 5 (control): the one pair the bible admits below 3:1 measures below it, the two withdrawn edges measure below it, and the arithmetic agrees with WCAG's own anchors |
-| 8 | the palette is pinned | 7: alpha() reproduces the literals it replaced, and the two theme colours the build cannot derive equal skyBlue |
-| 9 | the palette is pinned | 6: every C.<key> an app source or the reference reads is a key C has, and a planted one is refused |
+| 5 | the palette is pinned | 3c: the open sentence word's ring is cyanStructural on the gradient, clearing 3:1 on every stop; the action red it replaced is held below as the control |
+| 6 | the palette is pinned | 8: the ceramic tile family (art step 1) - every face, edge, ring and state at its literal ratio on the surface it sits on |
+| 7 | the palette is pinned | 9: the scaffold letter at .60 clears 3:1 on the slot and on the old ground; .28 is held below as the withdrawn control |
+| 8 | the palette is pinned | 10: the two copies of the tile rules agree, character for character, and a planted one-character drift is refused |
+| 9 | the palette is pinned | 4: teaching text clears 7:1 and the action blue 4.5:1, at literal ratios |
+| 10 | the palette is pinned | 5 (control): the one pair the bible admits below 3:1 measures below it, the two withdrawn edges measure below it, and the arithmetic agrees with WCAG's own anchors |
+| 11 | the palette is pinned | 7: alpha() reproduces the literals it replaced, and the two theme colours the build cannot derive equal skyBlue |
+| 12 | the palette is pinned | 6: every C.<key> an app source or the reference reads is a key C has, and a planted one is refused |
 
 ## tests/updates.test.js — 18 tests (G14)
 

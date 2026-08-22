@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { C, alpha } from "@engine";
+import { C } from "@engine";
 import Frame from "../components/Frame.jsx";
 import Zone from "../components/Zone.jsx";
 
@@ -49,6 +49,10 @@ export default function BuildItScreen({ tray, playSounds, playWord, onDone, onEx
   const [slots, setSlots] = useState(() => tray.answer.map(() => null));
   const [misses, setMisses] = useState(0);
   const [ghost, setGhost] = useState(null);
+  /* True while the built sounds play back after a miss: the filled slots wear
+     the "different arrangement" ring (bible 11, 3.4 - neutral, never red)
+     until the tray is handed back. Art step 1, 2026-08-22. */
+  const [arr, setArr] = useState(false);
   const [msg, setMsg] = useState("");
   const [won, setWon] = useState(false);
   /* True while a full build is being judged: the tray is locked, and the
@@ -155,8 +159,10 @@ export default function BuildItScreen({ tray, playSounds, playWord, onDone, onEx
     setMsg(isSound ? "That is a different sound… listen again." : "That says " + built.join("‑") + "… listen again.");
     /* What the child BUILT, in their own tiles, then the target. A miss the
        child can hear is a miss the child can fix. */
+    setArr(true);
     playSounds(builtSounds, () => {
       if (!alive.current) return;
+      setArr(false);
       /* The tray is HANDED BACK after a miss: the slots clear once the child
          has heard what they built, so "listen again" is something they can
          act on. Beta 22 left the wrong tiles sitting in the slots, and with
@@ -185,12 +191,11 @@ export default function BuildItScreen({ tray, playSounds, playWord, onDone, onEx
     });
   }
 
-  const tileStyle = (tile, used) => ({
-    width: TILE, height: TILE, borderRadius: 14, fontSize: 27, fontWeight: 800,
-    display: "flex", alignItems: "center", justifyContent: "center",
-    border: "3px solid " + C.ink2, background: C.paper,
-    color: C.ink, opacity: used ? 0.22 : 1, cursor: used ? "default" : "pointer",
-  });
+  /* The ceramic is the stylesheet's (.wq-tilebtn, art step 1); only the
+     box is inline. A multi-letter tile is as wide as the slot it fits, so
+     "sh" is visibly wider than "s" in the tray as well as in the word (S8,
+     bible 11) - it used to be the same 64 px as every other tile. */
+  const tileStyle = (tile) => ({ width: slotWidth(tile), height: TILE });
 
   return (
     <Frame>
@@ -215,13 +220,9 @@ export default function BuildItScreen({ tray, playSounds, playWord, onDone, onEx
           <div aria-busy={busy ? "true" : undefined} style={{ display: "flex", gap: 10, justifyContent: "center", flexWrap: "wrap" }}>
             {slots.map((tile, i) => (
               <button key={i} onClick={() => lift(i)} disabled={tile === null || won} aria-label={tile !== null ? "Take back " + at(tile) : "Empty space"}
-                style={{ width: slotWidth(tray.answer[i]), height: SLOT, borderRadius: 14,
-                  fontSize: 27, fontWeight: 800,
-                  border: (tile !== null ? "3px solid " + C.ink2 : "3px dashed " + C.boundary),
-                  background: tile !== null ? C.paper : alpha(C.paper, .55), color: C.ink,
-                  display: "flex", alignItems: "center", justifyContent: "center",
-                  cursor: tile !== null ? "pointer" : "default" }}>
-                {at(tile) || (ghost === i ? <span style={{ opacity: 0.28 }}>{tray.answer[i]}</span> : "")}
+                className={"wq-tilebtn" + (tile === null ? " wq-empty" : "") + (ghost === i ? " wq-cue" : "") + (arr && tile !== null ? " wq-arr" : "") + (won && tile !== null ? " wq-won" : "")}
+                style={{ width: slotWidth(tray.answer[i]), height: SLOT }}>
+                {at(tile) || (ghost === i ? <span className="wq-ghost">{tray.answer[i]}</span> : "")}
               </button>
             ))}
           </div>
@@ -232,7 +233,7 @@ export default function BuildItScreen({ tray, playSounds, playWord, onDone, onEx
           <div style={{ display: "flex", gap: 10, justifyContent: "center", flexWrap: "wrap", marginTop: 14 }}>
             {tray.tiles.map((tile, i) => (
               <button key={tile + "-" + i} onClick={() => place(i)} disabled={slots.includes(i) || won} aria-label={"Tile " + tile}
-                style={tileStyle(tile, slots.includes(i))}>{tile}</button>
+                className={"wq-tilebtn" + (slots.includes(i) ? " wq-used" : "")} style={tileStyle(tile)}>{tile}</button>
             ))}
           </div>
         </div>

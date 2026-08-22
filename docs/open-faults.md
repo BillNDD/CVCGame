@@ -2206,7 +2206,7 @@ is a ruling on what free play offers a pre-ladder child, and the chooser matchin
   value. Until then test 3b holds the two ratios at 1.26 and 1.07 so the gap cannot drift
   silently, and the bible's 9.3 row for `line` says the same.
 
-## AB. The open sentence word's ring is below 3:1 on two of the three gradient stops — opened 2026-08-22
+## AB. The open sentence word's ring is below 3:1 on two of the three gradient stops — opened 2026-08-22, CLOSED 2026-08-22 by art step 1
 
 - **Where it lives** `.wq-sword-open{outline:3px solid ${C.action}}` in `app/src/wq-css.js`
   (and the reference's copy), drawn round the sentence word the child is on, on a
@@ -2218,6 +2218,22 @@ is a ruling on what free play offers a pre-ladder child, and the chooser matchin
   "one edge is still below the rule" while this one was too.
 - **What done means** The ring at or above 3:1 on all three stops (a darker token, or a
   ring with its own ground), measured in `tests/tokens.test.js` at literal ratios,
-  declared as the visible change it is at the reading-surface step (art plan step 3), and
-  this entry closed with the values. Until then test 3c holds the three ratios so the gap
-  cannot drift silently, and the bible's 9.3 row for `action` says the same.
+  declared as the visible change it is, and this entry closed with the values.
+- **CLOSED 2026-08-22, by art step 1 rather than step 3** (owner-ruled on the ceramic-tiles
+  page): the ring reads `cyanStructural`, the same mark the sounding tile takes, and
+  measures **4.73, 4.61 and 5.05:1** on skyBlue, skyLavender and skyPurpleMist. Test 3c
+  holds those literals and keeps the action figures (2.95, 2.88) below 3 as its control.
+
+## AC. No Larger / Higher-Contrast Reading setting exists, and the scaffold letter's raise under it is unstated — opened 2026-08-22
+
+- **Where it lives** Bible 15.3 names a Larger / Higher-Contrast Reading setting that
+  strengthens boundaries; `app/src` has no such setting (zero hits for it in the sources,
+  counted by the council's before pass on art step 1). Art plan step 10 owns the sensory
+  settings.
+- **What a child experiences today** Nothing different from yesterday: the scaffold letter
+  renders at opacity .60 (3.28:1 on the slot, owner-ruled 2026-08-22) for every child, and
+  a child who needs more contrast has no control that gives it.
+- **What done means** Step 10 builds the setting, states at a literal what it raises the
+  scaffold letter to (opacity 1 is 8.80:1 on the slot) and what else it strengthens, with a
+  test that reads the value under the setting; this entry closes with the values.
+
