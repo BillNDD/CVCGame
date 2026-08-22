@@ -424,6 +424,16 @@ step("G6 quality", "npx eslint . && node tools/dep-cycles.mjs && node tools/qual
 ]);
 
 step("app build", "npm --prefix app run build");
+/* The art budget's built half (step 0c, 2026-08-22): the worker's precache
+   count under its ceiling, and every tracked art file byte-identical in
+   app/dist to its source, so the bytes the check measured are the bytes the
+   worker installs. The source half runs in npm run check without a build. */
+step("G14 art-budget", "node tools/art-budget.mjs --dist && node tools/art-budget.mjs --self-test", [
+  { label: "art_bytes", regex: /Art budget: \d+ tracked art files, (\d+) bytes/, maxKey: "art_bytes_max" },
+  { label: "precache", regex: /precache (\d+) files/, maxKey: "precache_files_max" },
+  { label: "problems", regex: /, (\d+) problems/, max: 0 },
+  { label: "controls", regex: /art-budget controls: (\d+) passed/, min: 7 },
+], {}, ["13 MB of planted art is refused", "a built file whose bytes differ from its source is refused"]);
 
 step("G7 interface", "node tests/ui/interface.mjs", [
   { label: "checks", regex: /(\d+) checks passed/, floorKey: "g7_interface_checks" },
@@ -563,7 +573,7 @@ const REQUIRED_GATES = [
   "G5 source-mutants", "G19 app-mutants", "E11 lookup-mutants", "G6 coverage", "G6 quality",
   "G7 interface", "G8 accessibility", "G18 network", "G16 doc-truth",
   "G12 qa-procedure", "G13 voice-pack", "G13 voice-edges", "G20 effect-map", "G17 governing", "G23 file-map",
-  "G24 s9-names", "G6 coverage-control", "G21 listening-page", "app build",
+  "G24 s9-names", "G6 coverage-control", "G21 listening-page", "app build", "G14 art-budget",
 ];
 const sh = (cmd) => { try { return execSync(cmd, { encoding: "utf8", stdio: "pipe" }).trim(); } catch { return null; } };
 

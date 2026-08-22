@@ -60,6 +60,8 @@
   "census_novelty_cells": 34,
   "tsc_app_errors_max": 0,
   "tsc_tools_errors_max": 0,
+  "art_bytes_max": 12582912,
+  "precache_files_max": 1650,
   "_retired": {
     "_why": "Floors whose SUBJECT left the product. A key that simply vanishes from this file cannot be told apart from a key deleted to make a build pass; a key recorded here with its last value, its date and its reason can. E6 forbids lowering a floor and this is not that: nothing these counted still exists to be counted.",
     "g15_recognizer_tests": {

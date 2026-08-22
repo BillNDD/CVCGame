@@ -957,6 +957,22 @@ deliberate: a flaky cell must inform a release, never block one.
 - Baseline floors: `g13_clips` (760) and `g13_engine_tests` (13).
 - To re-render the pack after the bank grows: `docs/voice-pack.md`.
 
+## G14b. The art budget (art project step 0c, owner-ruled 2026-08-22)
+
+- Tool: `tools/art-budget.mjs`. In `npm run check`: the tracked bytes under `app/public/art/`
+  against `art_bytes_max` (12,582,912 — "12 MB for all art"), deterministic and identical
+  on the runner and here, no build needed. In the gauntlet as "G14 art-budget", after
+  `app build`, with `--dist`: the service worker's precache count against
+  `precache_files_max` (1,650; 1,488 today, and the census crashed a browser at a 1,500-file
+  precache), and every tracked art file byte-identical in `app/dist` to its source, so the
+  bytes the check measured are the bytes the worker installs. Ceilings under E6: never
+  raised casually. The ceiling is over the ART, never the whole build — the engineering
+  chair's finding: a whole-dist ceiling would be spent by the voice pack (39 of 40 MB,
+  growing with every listening round).
+- Controls (7): a 13 MB file planted in a scratch directory is refused; a precache list one
+  over the ceiling is refused and one at it passes; a built file whose bytes differ from its
+  source is refused; the real tree passes; the precache reader finds the worker's list.
+
 ## G19. App mutation
 
 - Tool: `tools/app-mutants.mjs`. Command: `npm run test:app-mutants`. Requirement: 0
