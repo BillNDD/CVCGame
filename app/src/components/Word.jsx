@@ -50,8 +50,15 @@ export default function Word({ children, ...rest }) {
     };
     fit();
     /* The observer's callback schedules the fit for the next frame rather
-       than running it inside the delivery, so no write of any kind happens
-       while the browser is still reporting sizes. */
+       than running it inside the delivery. The cost, stated: on a rotation
+       or a text-size change the word paints one frame (about 16 ms) at its
+       previous size before the fit lands - never at word entry, where the
+       layout effect above fits before the first paint, and never within a
+       phase. The reading chair asked whether the fit could run inside the
+       delivery instead, now that the write cannot change the observed box;
+       it was tried on 2026-08-22 and the rotation cell measured the loop
+       error back at 320 x 568 - forcing layout inside a delivery during a
+       viewport change is enough to raise it - so the frame stays. */
     let frame = 0;
     const ro = new ResizeObserver(() => { cancelAnimationFrame(frame); frame = requestAnimationFrame(fit); });
     ro.observe(el);

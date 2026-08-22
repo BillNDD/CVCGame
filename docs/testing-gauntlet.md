@@ -439,17 +439,27 @@ every bound reads `LEVELS.length`, which is why adding a level needed no engine 
   after pass on step 0 found it missing, 2026-08-22): the thirteen keys the game had before
   the bible pinned to their literal values — doc-truth rule 11 only asks that C and the
   bible's table agree, which a change to both would satisfy, and E4 asks for the literal —
-  the key count (48), and the bible's 3:1 boundary rule asserted with the file's own WCAG
-  arithmetic at literal ratios (tileEdge on tileFace 3.78, boundary on surfacePanel 4.68,
-  cyanStructural and purpleStructural on surfaceReading 7.51 and 6.39, ink on
-  surfaceReading 11.36), with the one admitted sub-3:1 pair (disabled on surfacePanel,
-  2.10) as the control. Key: `g1_token_tests` (5). Its companion in the check is the
-  quality control that refuses a hex literal in any app source: the same after pass found
-  fourteen in the screens and the stylesheet's gradient typed beside the tokens it emits,
-  and seven tokens entered C for them (paper, slotEdge, warningDeep, chipGreen, chipAmber,
-  chipRed, sunEdge). Two values moved to the bible's own in the sweep and are declared:
-  Build-it's "won" message from #15803d to `success` #18794e, and the crash screen's ground
-  from #fdfcfa to `surfacePanel` #fffdf5.
+  the key count (46), and the bible's 3:1 edge rule asserted with the file's own WCAG
+  arithmetic at literal ratios for every edge the game draws (tileEdge on tileFace 3.78,
+  boundary on surfacePanel 4.68, cyanStructural and purpleStructural on surfaceReading
+  7.51 and 6.39, boundary on paper 4.77 and on the empty slot's palest ground 3.79, amber
+  on sun 4.11, ink on surfaceReading 11.36), with the admitted sub-3:1 pair (disabled on
+  surfacePanel, 2.10) and the two withdrawn edges (1.94, 1.44) as controls, and a sixth
+  test that walks every `C.<key>` read in the app and the reference against C's keys with
+  a planted one — `C.blue`, a key C never had, was read on the pre-done screen for weeks.
+  Key: `g1_token_tests` (6). Its companion in the check is the quality control that
+  refuses a hex, rgb(), rgba() or hsl() literal in any app source (`.js`, `.jsx`, `.mjs`,
+  `.css`) and in the reference outside its `C` block, with fixtures for each and for the
+  `alpha()` helper it must not catch: the after pass found fourteen hex literals in the
+  screens and the stylesheet's gradient typed beside the tokens it emits, and the
+  re-judgement found seven shadows restating ink in decimal; five tokens entered C for
+  them (paper, warningDeep, chipGreen, chipAmber, chipRed), every alpha now derives from a
+  token through `app/src/colour.js`, and two edges first typed as tokens were withdrawn
+  the same day because they failed the bible's own rule — the empty slot's dashed border
+  now reads `boundary` (#94a8c0 to #5f7493) and the progress ring `amber` (#e0ac2b to
+  #8a5a00), both declared as the visible darkenings they are. Two other values moved to
+  the bible's own in the sweep and are declared: Build-it's "won" message from #15803d to
+  `success` #18794e, and the crash screen's ground from #fdfcfa to `surfacePanel` #fffdf5.
 - `tests/models.test.js` (owner-ruled 2026-08-22, the bug-hunt page): fast-check drives
   the REAL Build-it and Find-the-sound screens through 200 random tap sequences each,
   over the whole bank, and after every tap compares the screen with a model of slots,
@@ -589,7 +599,12 @@ the offline comparator's control caught its first real bug before the live cell 
   (its centre is the box; backdrops are now left out by shape), and Build-it's empty slots
   and used tiles were enabled buttons that did nothing - both are now disabled, and the
   tray says `aria-busy` while a build is judged instead of silently ignoring taps. Its
-  control plants a dead 64 px control and a page error and requires both to be named.
+  control plants a dead 64 px control and a page error and requires both to be named. A
+  control whose centre is covered by something else is not a target (2026-08-22): the home
+  screen's "Free play" stays in the DOM under the chooser it opens, and a seeded walk that
+  tapped its centre three times through the chooser's box called it dead - a child's
+  finger lands on what is on top, so `tappable` asks `elementFromPoint` and the control
+  plants a covering layer and requires the covered button to leave the list.
 - **offline equality** - the offline app is the same app, measured: geometry offline equals
   geometry online. This is the one cell that allows the service worker; every other census
   cell now BLOCKS it (2026-08-21), because ten cells each starting a 1,500-file precache
@@ -635,7 +650,9 @@ the offline comparator's control caught its first real bug before the live cell 
   document's timeline and refuses two that intersect, and its title says sampled, because
   a pop shorter than a sample can still be missed. Once: **the fit across a rotation** -
   the widest word through 390 x 844, 320 x 568, 844 x 390 and back, refitting each time
-  with the error ring still empty. The controls: the combined one plants a 40 px frame, a
+  with the error ring still empty - and a control that dispatches a window error in the
+  built page and reads it back from that ring, so a null there means no error and not no
+  ring. The controls: the combined one plants a 40 px frame, a
   guide on the stage, a looping animation IN THE PAGE read back through the browser, two
   sounding tiles, equal tile widths, a word that overflows the screen and a word that
   wraps, and the snap's arithmetic on fixtures (k = 2.019 over 512 art pixels, 1,033.7
@@ -650,8 +667,11 @@ the offline comparator's control caught its first real bug before the live cell 
   screens only, never over the stage, never animating while a clip plays) and the
   **device-pixel snap** of every `data-wq-art` element (whole device pixels per art pixel
   on both axes, integer offsets, nearest-neighbour). Counts by a run on 2026-08-22:
-  `census_novelty_cells` 34 to 68, `census_novelty_controls` 8 to 11, `census_cells` 626
-  to 663 (the first 0d commit wrote 651 for a count of 652; E6 says the count). The
+  `census_novelty_cells` 34 to 68, `census_novelty_controls` 8 to 12, `census_cells` 626
+  to 664 (the first 0d commit wrote 651 for a count of 652; E6 says the count). The
+  interval rule `popOverlap` has its own fixtures in the combined control - two pops that
+  cross, two that touch, one sampled twice, none - after the re-judgement found it shipped
+  without one. The
   report's staleness scan now watches `tools/census-novelties.mjs`, with its self-test
   line.
 
@@ -1592,7 +1612,7 @@ other direction: the real pack, unchanged, must pass.
 
 ## G20. Effect map
 
-- Tool: `tools/effect-map.mjs`. Writes `docs/effect-map.md`. Keys: `g20_tests_mapped` (398).
+- Tool: `tools/effect-map.mjs`. Writes `docs/effect-map.md`. Keys: `g20_tests_mapped` (400).
 - One row per `it()` SITE — its file, suite, and the test's own sentence, which in this
   project IS the Given/When/Then effect, because tests are named as behaviour. A site inside
   a loop or a table runs many times, so the map's 310 rows describe the 324 tests Vitest executes;

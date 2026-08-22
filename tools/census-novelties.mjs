@@ -218,16 +218,24 @@ async function snapshot(page) {
     };
   });
 }
-async function tappable(page) {
+export async function tappable(page) {
   return page.evaluate(() => [.../** @type {NodeListOf<HTMLButtonElement>} */ (document.querySelectorAll("button, [role=button]"))]
     .filter((b) => !b.disabled && !b.classList.contains("wq-hold"))   // the class is the hold; the name no longer says so (step 0a)
     .map((b) => {
       const r = b.getBoundingClientRect();
+      const x = r.x + r.width / 2, y = r.y + r.height / 2;
+      /* A control whose centre is covered by something else is not a target
+         a tap can reach: the home screen's "Free play" stays in the DOM under
+         the chooser it opens, and a seeded walk that tapped its centre three
+         times through the chooser's box called it dead (2026-08-22, the
+         re-judgement's re-run). A child's finger lands on what is on top. */
+      const top = document.elementFromPoint(x, y);
       return { label: (b.getAttribute("aria-label") || b.textContent || "").trim().slice(0, 40),
-        x: r.x + r.width / 2, y: r.y + r.height / 2, w: r.width, h: r.height,
+        x, y, w: r.width, h: r.height, own: !!top && b.contains(top),
         scrim: b.classList.contains("wq-scrim") };
     })
     .filter((c) => c.w > 0 && c.h > 0 && c.x > 0 && c.y > 0 && c.x < innerWidth && c.y < innerHeight)
+    .filter((c) => c.own)
     /* The first walk's first finding (2026-08-22): the modal's scrim - a
        full-screen Close button BEHIND the box - "changed nothing 3 times",
        because its centre is the box. A child closes a dialog by tapping the

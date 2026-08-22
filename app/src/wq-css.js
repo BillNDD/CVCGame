@@ -6,6 +6,7 @@
    .wq-rowbtn are 44px tall, not 40px — SPEC rule 7 sets a 44px minimum for
    every adult control, and section 10 gates on it. */
 import { C } from "@engine";
+import { alpha } from "./colour.js";
 
 /* Every key of C as a custom property, --wq-<key>, so a screen can say
    var(--wq-tileEdge) and no hex is ever typed twice (art project step 0b,
@@ -61,7 +62,7 @@ const CSS = VARS + `
 /* N-5: extra bottom padding keeps controls out of the home-indicator swipe band */
 .wq-strip{flex:0 0 auto;display:flex;align-items:center;gap:8px;flex-wrap:wrap;
   padding:8px 12px calc(18px + env(safe-area-inset-bottom));
-  background:rgba(255,255,255,.72);border-top:1px solid ${C.line};backdrop-filter:blur(6px)}
+  background:${alpha(C.paper, .72)};border-top:1px solid ${C.line};backdrop-filter:blur(6px)}
 .wq-center{height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center}
 
 /* stage content: fixed slots so nothing shifts (P0-2) */
@@ -92,7 +93,7 @@ const CSS = VARS + `
 .wq-sentence-tiles{margin-top:10px}
 .wq-sentence-hint{margin:8px 0 0;font-size:12.5px;font-weight:600}
 .wq-tile{background:${C.sun};color:${C.ink};border-radius:12px;padding:5px 12px;
-  font-size:clamp(1.1rem,3.2svh,1.6rem);font-weight:700;box-shadow:0 1px 3px rgba(23,53,107,.18)}
+  font-size:clamp(1.1rem,3.2svh,1.6rem);font-weight:700;box-shadow:0 1px 3px ${alpha(C.ink, .18)}}
 /* The sound-out pop (owner-ruled 2026-08-04, shape chosen 2026-08-11 from four
    treatments heard against the real audio). A tile takes a hard outline for as
    long as its own sound plays, then drops it — no movement, no flash, no
@@ -138,7 +139,7 @@ const CSS = VARS + `
 
 /* controls */
 .wq-cta{display:block;width:100%;border:0;border-radius:999px;background:${C.action};color:${C.paper};padding:16px 18px;cursor:pointer;
-  box-shadow:0 3px 10px rgba(23,53,107,.18);min-height:56px;position:relative;overflow:hidden;isolation:isolate}
+  box-shadow:0 3px 10px ${alpha(C.ink, .18)};min-height:56px;position:relative;overflow:hidden;isolation:isolate}
 /* A2-011 — an inert control keeps a readable label. White on the pale grey
    measured 2.14:1, and 2.87:1 where the fill band crosses it; the ink reads
    5.57:1 and 4.14:1 in the same two places. WCAG exempts an inactive control,
@@ -157,7 +158,7 @@ const CSS = VARS + `
    paints over the control's background and under its label without wrapping
    the label in anything — the label stays the control's own text.
    Found by an audit of the running build, 2026-07-29. */
-.wq-ctafill{position:absolute;inset:0;z-index:-1;width:var(--wqfillfrom,0%);background:rgba(23,53,107,.2);
+.wq-ctafill{position:absolute;inset:0;z-index:-1;width:var(--wqfillfrom,0%);background:${alpha(C.ink, .2)};
   animation:wqfill var(--wqfill,400ms) linear forwards}
 @keyframes wqfill{from{width:var(--wqfillfrom,0%)}to{width:100%}}
 /* line-height matches .wq-cta exactly: the prompt REPLACES the record control,
@@ -165,9 +166,9 @@ const CSS = VARS + `
    against the control's 56px, which shifted the word by 1.19px between an
    ordinary word and an adult-judged one. */
 .wq-prompt{text-align:center;font-weight:800;color:${C.ink};padding:16px 0;min-height:56px}
-.wq-btn-plain{border:0;background:rgba(255,255,255,.85);color:${C.ink};
+.wq-btn-plain{border:0;background:${alpha(C.paper, .85)};color:${C.ink};
   padding:11px 13px;border-radius:999px;cursor:pointer;min-height:44px}
-.wq-chip{background:rgba(255,255,255,.85);color:${C.ink};padding:7px 10px;border-radius:999px;display:inline-block}
+.wq-chip{background:${alpha(C.paper, .85)};color:${C.ink};padding:7px 10px;border-radius:999px;display:inline-block}
 .wq-striplabel{letter-spacing:.12em;text-transform:uppercase;color:${C.strip};opacity:.85}
 .wq-sbtn{background:${C.paper};border:1.5px solid ${C.line};border-radius:9px;color:${C.strip};padding:0 12px;min-height:44px;min-width:44px;cursor:pointer} /* N-6 */
 .wq-hold{position:relative;overflow:hidden;touch-action:none}
@@ -210,7 +211,7 @@ const CSS = VARS + `
 @media (max-width:319px){.wq-prog{grid-template-columns:repeat(7,13px)}}
 .wq-seg{width:13px;height:13px;border-radius:50%}
 .wq-seg-todo{background:${C.chip};box-shadow:inset 0 0 0 1px ${C.line}}
-.wq-seg-now{background:${C.sun};box-shadow:inset 0 0 0 1px ${C.sunEdge}}
+.wq-seg-now{background:${C.sun};box-shadow:inset 0 0 0 1px ${C.amber}}
 .wq-seg-ok{background:${C.green}}
 .wq-seg-mid{background:repeating-linear-gradient(135deg,${C.sun} 0 3px,${C.paper} 3px 6px)}
 .wq-seg-bad{background:repeating-linear-gradient(90deg,${C.red} 0 2px,${C.paper} 2px 4px)}
@@ -259,7 +260,7 @@ const CSS = VARS + `
 }
 
 /* cards / forms */
-.wq-card{background:${C.paper};border-radius:18px;box-shadow:0 2px 10px rgba(23,53,107,.12);text-align:center}
+.wq-card{background:${C.paper};border-radius:18px;box-shadow:0 2px 10px ${alpha(C.ink, .12)};text-align:center}
 .wq-lbl{display:block;letter-spacing:.06em;text-transform:uppercase;color:${C.muted};margin-bottom:5px}
 .wq-help{margin:6px 0 0;font-size:12.5px;line-height:1.45;color:${C.muted}}
 .wq-input{width:100%;border:1.5px solid ${C.line};border-radius:10px;padding:11px 12px;color:${C.ink};background:${C.paper};min-height:44px}
@@ -267,7 +268,7 @@ const CSS = VARS + `
 .wq-seggroup{display:flex;gap:4px;background:${C.chip};border-radius:11px;padding:3px;flex-wrap:wrap}
 .wq-segbtn{flex:1 1 auto;min-width:44px;min-height:44px;border:0;background:transparent;border-radius:8px;
   color:${C.strip};cursor:pointer}
-.wq-segbtn.on{background:${C.paper};color:${C.ink};box-shadow:0 1px 3px rgba(23,53,107,.2)}
+.wq-segbtn.on{background:${C.paper};color:${C.ink};box-shadow:0 1px 3px ${alpha(C.ink, .2)}}
 .wq-rowbtn{display:flex;align-items:center;width:100%;border:0;background:transparent;padding:4px 0;cursor:pointer;min-height:44px}
 .wq-meter{display:flex;height:6px;border-radius:3px;background:${C.chip};overflow:hidden;margin-top:6px}
 .wq-trophy{display:inline-flex;align-items:center;justify-content:center;border:4px solid transparent;
@@ -286,9 +287,9 @@ const CSS = VARS + `
   background:${C.ink};color:${C.paper};padding:10px 16px;border-radius:999px;
   max-width:88%;text-align:center;z-index:70}
 .wq-modalwrap{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:18px;z-index:80}
-.wq-scrim{position:absolute;inset:0;background:rgba(23,53,107,.42);border:0;order:-1}
+.wq-scrim{position:absolute;inset:0;background:${alpha(C.ink, .42)};border:0;order:-1}
 .wq-modal{position:relative;z-index:1;background:${C.paper};border-radius:18px;padding:18px;max-width:380px;width:100%;
-  box-shadow:0 12px 40px rgba(23,53,107,.3)}
+  box-shadow:0 12px 40px ${alpha(C.ink, .3)}}
 
 /* NO TEXT SELECTION ON THE CHILD'S SCREEN.
    Reported by the owner from a real iPhone 13 on 2026-08-13, with a screenshot:

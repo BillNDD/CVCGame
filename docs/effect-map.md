@@ -8,7 +8,7 @@ Per-test rows carry the test's own sentence, which in this project IS the
 Given/When/Then effect. The requirement, oracle, platform, mutant family, evidence
 and known limits are declared per FILE, in the tool, where they stay true.
 
-Totals: 398 it() SITES across 21 files, plus 18 gates that are not test files.
+Totals: 400 it() SITES across 21 files, plus 18 gates that are not test files.
 
 A site inside a loop or a table runs many times, so these rows describe more tests than they number: Vitest executes 330. The rows count the places behaviour is asserted.
 
@@ -213,7 +213,7 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 105 | Build-it tray | never offers a word whose own tiles spell a ruled-out one |
 | 106 | Build-it tray | is reproducible: the same rand builds the same tray |
 
-## tests/faults.test.js — 22 tests (G9)
+## tests/faults.test.js — 23 tests (G9)
 
 - **Requirement protected:** SPEC section 7: damaged saves, silent storage, late data, hostile shapes, and backups that lie
 - **Independent oracle:** Stated expected outcomes per fault, each with a control proving the probe can see a write
@@ -234,19 +234,20 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 7 | G9 faults — the real IndexedDB adapter | 2a: a broken storage backend reports SILENCE, not absence |
 | 8 | G9 faults — an unreadable save, and backups that must look like one | 2b: an unreadable save is never overwritten, and the visit stays read-only |
 | 9 | G9 faults — an unreadable save, and backups that must look like one | 2c (control): a genuinely absent save DOES initialise and write |
-| 10 | G9 faults — an unreadable save, and backups that must look like one | 7: ${label} is refused, and nothing is written |
-| 11 | G9 faults — an unreadable save, and backups that must look like one | 7b: a save-shaped ARRAY is not a backup |
-| 12 | G9 faults — an unreadable save, and backups that must look like one | 7a (control): a genuine backup still restores |
-| 13 | G9 faults — wrong-shape JSON battery | 4: hostile shapes heal, and every engine function survives them |
-| 14 | G9 faults — the corner | commits a trimmed, 20-glyph name without bisecting a surrogate pair |
-| 15 | G9 faults — the corner | copies the log when the clipboard allows, and shows the box when it refuses |
-| 16 | G9 faults — the corner | saves a backup through the blob path without a throw |
-| 17 | G9 faults — the corner | jumping to a word level steps the child off the pre-ladder |
-| 18 | G9 faults — the corner | resets only through the second press, and the first can back out |
-| 19 | G9 faults — the error ring records on the device and never sends | scrubs every URL to its file name, caps the message, and keeps the last 20 |
-| 20 | G9 faults — the error ring records on the device and never sends | the browser |
-| 21 | G9 faults — the error ring records on the device and never sends | a render crash shows a way back to the start, not a blank page, and is recorded |
-| 22 | G9 faults — the error ring records on the device and never sends | the corner copies the report only on a grown-up |
+| 10 | G9 faults — an unreadable save, and backups that must look like one | 8: the Load backup file button opens the picker - one click on the file input, from the keyboard |
+| 11 | G9 faults — an unreadable save, and backups that must look like one | 7: ${label} is refused, and nothing is written |
+| 12 | G9 faults — an unreadable save, and backups that must look like one | 7b: a save-shaped ARRAY is not a backup |
+| 13 | G9 faults — an unreadable save, and backups that must look like one | 7a (control): a genuine backup still restores |
+| 14 | G9 faults — wrong-shape JSON battery | 4: hostile shapes heal, and every engine function survives them |
+| 15 | G9 faults — the corner | commits a trimmed, 20-glyph name without bisecting a surrogate pair |
+| 16 | G9 faults — the corner | copies the log when the clipboard allows, and shows the box when it refuses |
+| 17 | G9 faults — the corner | saves a backup through the blob path without a throw |
+| 18 | G9 faults — the corner | jumping to a word level steps the child off the pre-ladder |
+| 19 | G9 faults — the corner | resets only through the second press, and the first can back out |
+| 20 | G9 faults — the error ring records on the device and never sends | scrubs every URL to its file name, caps the message, and keeps the last 20 |
+| 21 | G9 faults — the error ring records on the device and never sends | the browser |
+| 22 | G9 faults — the error ring records on the device and never sends | a render crash shows a way back to the start, not a blank page, and is recorded |
+| 23 | G9 faults — the error ring records on the device and never sends | the corner copies the report only on a grown-up |
 
 ## tests/garden.test.js — 5 tests (G1)
 
@@ -607,7 +608,7 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 4 | G14 — the service worker answers for the app, and only for the app | 4 (control): a clip request is still served from the cache, and a miss goes to the network |
 | 5 | G14 — the service worker answers for the app, and only for the app | 5 (control): the version check is never intercepted, so it always sees the live host |
 
-## tests/tokens.test.js — 5 tests (G1)
+## tests/tokens.test.js — 6 tests (G1)
 
 - **Requirement protected:** SPEC section 9 and the art bible's 9.3: C is the one statement of the palette; the thirteen original keys keep their literal values; every edge or boundary token clears 3:1 on the surface it edges
 - **Independent oracle:** Literal hex pins for the thirteen original keys, the key count, and this file's own WCAG relative-luminance arithmetic at literal expected ratios (3.78, 4.68, 7.51, 6.39, 11.36, 6.43, 5.57), with the one admitted sub-3:1 pair (2.10) as the control
@@ -621,9 +622,10 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 |---|---|---|
 | 1 | the palette is pinned | 1: the thirteen keys the game had before the bible keep their literal values |
 | 2 | the palette is pinned | 2: C holds exactly the keys the bible |
-| 3 | the palette is pinned | 3: every edge or boundary token clears 3:1 on the surface it edges, at literal ratios |
+| 3 | the palette is pinned | 3: every edge the game draws clears 3:1 on the surface it edges, at literal ratios - the bible |
 | 4 | the palette is pinned | 4: teaching text clears 7:1 and the action blue 4.5:1, at literal ratios |
-| 5 | the palette is pinned | 5 (control): the one pair the bible admits below 3:1 measures below it, and the arithmetic agrees with WCAG |
+| 5 | the palette is pinned | 5 (control): the one pair the bible admits below 3:1 measures below it, the two withdrawn edges measure below it, and the arithmetic agrees with WCAG |
+| 6 | the palette is pinned | 6: every C.<key> an app source or the reference reads is a key C has, and a planted one is refused |
 
 ## tests/updates.test.js — 18 tests (G14)
 

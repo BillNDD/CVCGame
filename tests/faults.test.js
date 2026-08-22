@@ -181,6 +181,25 @@ describe("G9 faults — an unreadable save, and backups that must look like one"
     expect(mockSave.mock.calls.length).toBeGreaterThan(0);
   });
 
+  it("8: the Load backup file button opens the picker - one click on the file input, from the keyboard", async () => {
+    /* A named button that clicks a hidden input (the after pass on step 0);
+       its wiring is an element id, and a typo there would leave a keyboard
+       user a button that does nothing with every gate green (the re-judgement). */
+    render(createElement(App));
+    await flush(0);
+    fireEvent.click(screen.getByLabelText("Grown-ups corner"));
+    await flush(0);
+    const input = document.querySelector('input[type="file"]');
+    const clicks = vi.spyOn(input, "click").mockImplementation(() => {});
+    const button = screen.getByLabelText("Load backup file");
+    expect(button.tagName).toBe("BUTTON");
+    fireEvent.keyDown(button, { key: "Enter" });
+    fireEvent.click(button);   // what Enter and Space do to a focused button
+    expect(clicks).toHaveBeenCalledTimes(1);
+    expect(input.getAttribute("aria-hidden")).toBe("true");
+    expect(input.tabIndex).toBe(-1);
+  });
+
   const importFile = async (text) => {
     render(createElement(App));
     await flush(0);

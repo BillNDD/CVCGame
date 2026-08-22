@@ -40,7 +40,10 @@ export function offences(root = document) {
      buttons alone (the council's after pass on step 0, 2026-08-22) */
   const controls = [...root.querySelectorAll("button"), ...[...root.querySelectorAll("label")].filter((l) => l.querySelector("input"))];
   for (const b of controls) {
-    const label = b.getAttribute("aria-label");
+    /* a label's own aria-label does not name the input it wraps - the input
+       is named from the label's text - so a label is judged by its text
+       whatever it carries (the re-judgement of step 0, 2026-08-22) */
+    const label = b.tagName === "LABEL" ? null : b.getAttribute("aria-label");
     const text = (b.textContent || "").trim();
     if (label !== null) {
       if (!PLAIN.test(label)) out.push(`"${label}" is not plain words`);
@@ -124,10 +127,15 @@ describe("every control is named in plain words", () => {
     wrapped.textContent = "⬆️ Load backup file";
     wrapped.appendChild(document.createElement("input"));
     document.body.appendChild(wrapped);
+    const dressed = document.createElement("label");
+    dressed.setAttribute("aria-label", "Load backup file");   // names the label, never its input
+    dressed.textContent = "⬆️ Load backup file";
+    dressed.appendChild(document.createElement("input"));
+    document.body.appendChild(dressed);
     const found = offences();
     expect(found.some((o) => o.includes("not plain words"))).toBe(true);
     expect(found.some((o) => o.includes("pointer hold"))).toBe(true);
-    expect(found.filter((o) => o.includes("reads the emoji")).length, "the bare button AND the label round an input").toBe(2);
-    bare.remove(); wrapped.remove();
+    expect(found.filter((o) => o.includes("reads the emoji")).length, "the bare button, the label round an input, and the label that thinks its aria-label names the input").toBe(3);
+    bare.remove(); wrapped.remove(); dressed.remove();
   });
 });

@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { C } from "@engine";
+import { alpha } from "../colour.js";
 import Frame from "../components/Frame.jsx";
 import Zone from "../components/Zone.jsx";
 
@@ -217,8 +218,8 @@ export default function BuildItScreen({ tray, playSounds, playWord, onDone, onEx
               <button key={i} onClick={() => lift(i)} disabled={tile === null || won} aria-label={tile !== null ? "Take back " + at(tile) : "Empty space"}
                 style={{ width: slotWidth(tray.answer[i]), height: SLOT, borderRadius: 14,
                   fontSize: 27, fontWeight: 800,
-                  border: (tile !== null ? "3px solid " + C.ink2 : "3px dashed " + C.slotEdge),
-                  background: tile !== null ? C.paper : "rgba(255,255,255,.55)", color: C.ink,
+                  border: (tile !== null ? "3px solid " + C.ink2 : "3px dashed " + C.boundary),
+                  background: tile !== null ? C.paper : alpha(C.paper, .55), color: C.ink,
                   display: "flex", alignItems: "center", justifyContent: "center",
                   cursor: tile !== null ? "pointer" : "default" }}>
                 {at(tile) || (ghost === i ? <span style={{ opacity: 0.28 }}>{tray.answer[i]}</span> : "")}

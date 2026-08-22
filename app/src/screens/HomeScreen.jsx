@@ -1,4 +1,5 @@
 import { C, PRE_LEVELS, bankWords } from "@engine";
+import { alpha } from "../colour.js";
 import Frame from "../components/Frame.jsx";
 import Zone from "../components/Zone.jsx";
 import Toast from "../components/Toast.jsx";
@@ -128,7 +129,7 @@ export default function HomeScreen({ state, L, kid, masteredCount, persistent, r
             A full 56 px child control (S7), styled quieter than the one
             session control so the main path stays unmistakable. */}
         <button className="wq-cta" onClick={onFreePlay} aria-label="Free play"
-          style={{ marginTop: 10, background: "rgba(255,255,255,.85)", color: C.ink, boxShadow: "none" }}>
+          style={{ marginTop: 10, background: alpha(C.paper, .85), color: C.ink, boxShadow: "none" }}>
           🎈 Free play
         </button>
       </Zone.Rail>

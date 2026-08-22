@@ -426,7 +426,8 @@ const C = {
      promises no visible change. Two bible values that failed its own 3:1
      boundary rule are darkened (tileEdge, boundary) and one is admitted as a
      fill only (disabled). The CSS custom properties --wq-<key> are emitted
-     from this object in app/src/wq-css.js; nothing types a colour twice. */
+     from this object in app/src/wq-css.js; no hex or rgb() literal lives
+     outside this object (the quality control), and alphas derive from it. */
   inkSecondary:     "#3c4f73",   // supporting text (bible 9)
   surfaceReading:   "#fff9e8",   // the word and sentence field
   surfacePanel:     "#fffdf5",   // cards and controls
@@ -455,17 +456,28 @@ const C = {
   tileHighlight:    "#fff1b5",   // the tile's highlight
   tileEdge:         "#8f6420",   // the bible's #B8832E darkened: 2.40:1 to 3.78:1 on tileFace
   slot:             "#e6dccb",   // an empty slot
-  /* The seven below entered on 2026-08-22, the council's after pass on
+  /* The five below entered on 2026-08-22, the council's after pass on
      step 0: the hex literals the screens and the stylesheet still typed,
-     each now a token so that no file outside C states a colour. */
+     each now a token so that no hex literal lives outside C. Two more were
+     typed that day and withdrawn the same day by the re-judgement: the
+     empty slot's dashed edge (#94a8c0, 1.95:1 on its ground) and the
+     progress ring (#e0ac2b, 1.44:1 on sun) both failed the bible's 3:1 edge
+     rule, so the slot reads boundary and the ring reads amber - a visible
+     darkening of both, declared. */
   paper:            "#ffffff",   // white surfaces: cards, inputs, the modal, the CTA's text
-  slotEdge:         "#94a8c0",   // Build-it's dashed empty-slot border
   warningDeep:      "#96261d",   // the home strip's storage warning: 4.5:1 on the gradient
   chipGreen:        "#c6f2dd",   // the corner's mastery chip: read right twice
   chipAmber:        "#ffe9b3",   // read right once
   chipRed:          "#ffd4d0",   // not yet
-  sunEdge:          "#e0ac2b",   // the ring round the current progress segment
 };
+
+/* A token with an alpha, for shadows, scrims and frosted fills: the triple
+   is derived from the token at run time, so ink's 23,53,107 is typed once.
+   The quality control refuses rgb() and rgba() literals in an app source. */
+function alpha(hex, a) {
+  const n = parseInt(hex.slice(1), 16);
+  return "rgba(" + ((n >> 16) & 255) + "," + ((n >> 8) & 255) + "," + (n & 255) + "," + a + ")";
+}
 
 const LANGS = [
   { code: "en-US", label: "English (US)" },
@@ -2660,7 +2672,7 @@ export default function WordQuest() {
                     <div style={{ display: "flex", flexWrap: "wrap", gap: 5, marginTop: 8 }}>
                       {l.words.map(w => {
                         const ws = state.words[w];
-                        const bg = !ws || ws.attempts === 0 ? C.chip : ws.box >= 4 ? "#c6f2dd" : ws.box >= 2 ? "#ffe9b3" : "#ffd4d0";
+                        const bg = !ws || ws.attempts === 0 ? C.chip : ws.box >= 4 ? C.chipGreen : ws.box >= 2 ? C.chipAmber : C.chipRed;
                         return <span key={w} style={{ background: bg, color: C.ink, borderRadius: 6, padding: "3px 7px", fontSize: 12, fontWeight: 700 }}>{displayWord(w)}</span>;
                       })}
                     </div>
@@ -2768,7 +2780,7 @@ function Word({ children, ...rest }) {
       }
     };
     fit();
-    let frame = 0;
+    let frame = 0;   // the fit lands next frame, never inside the delivery: see Word.jsx
     const ro = new ResizeObserver(() => { cancelAnimationFrame(frame); frame = requestAnimationFrame(fit); });
     ro.observe(el);
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(fit, () => {});
@@ -2891,7 +2903,7 @@ const CSS = `
 /* N-5: extra bottom padding keeps controls out of the home-indicator swipe band */
 .wq-strip{flex:0 0 auto;display:flex;align-items:center;gap:8px;flex-wrap:wrap;
   padding:8px 12px calc(18px + env(safe-area-inset-bottom));
-  background:rgba(255,255,255,.72);border-top:1px solid ${C.line};backdrop-filter:blur(6px)}
+  background:${alpha(C.paper, .72)};border-top:1px solid ${C.line};backdrop-filter:blur(6px)}
 .wq-center{height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center}
 
 /* stage content: fixed slots so nothing shifts (P0-2) */
@@ -2906,18 +2918,18 @@ const CSS = `
   font-weight:700;line-height:1.05;color:${C.ink};margin:4px 0 0;white-space:nowrap}
 .wq-slot-tiles{min-height:52px;display:flex;align-items:center;justify-content:center;gap:6px;margin-top:8px}
 .wq-tile{background:${C.sun};color:${C.ink};border-radius:12px;padding:5px 12px;
-  font-size:clamp(1.1rem,3.2svh,1.6rem);font-weight:700;box-shadow:0 1px 3px rgba(23,53,107,.18)}
+  font-size:clamp(1.1rem,3.2svh,1.6rem);font-weight:700;box-shadow:0 1px 3px ${alpha(C.ink, .18)}}
 .wq-slot-msg{height:52px;min-height:52px;display:flex;flex-direction:column;align-items:center;justify-content:center;margin-top:4px}
 
 /* controls */
 .wq-cta{display:block;width:100%;border:0;border-radius:999px;background:${C.action};color:${C.paper};
   font:800 clamp(1rem,2.4svh,1.25rem)/1.1 inherit;padding:16px 18px;cursor:pointer;
-  box-shadow:0 3px 10px rgba(23,53,107,.18);min-height:56px}
+  box-shadow:0 3px 10px ${alpha(C.ink, .18)};min-height:56px}
 .wq-cta:disabled{cursor:default;box-shadow:none}
 .wq-prompt{text-align:center;font-weight:800;color:${C.ink};font-size:clamp(.95rem,2.2svh,1.1rem);padding:16px 0;min-height:56px}
-.wq-btn-plain{border:0;background:rgba(255,255,255,.85);color:${C.ink};font:700 13px/1 inherit;
+.wq-btn-plain{border:0;background:${alpha(C.paper, .85)};color:${C.ink};font:700 13px/1 inherit;
   padding:11px 13px;border-radius:999px;cursor:pointer;min-height:40px}
-.wq-chip{background:rgba(255,255,255,.85);color:${C.ink};font:800 12.5px/1 inherit;padding:7px 10px;border-radius:999px;display:inline-block}
+.wq-chip{background:${alpha(C.paper, .85)};color:${C.ink};font:800 12.5px/1 inherit;padding:7px 10px;border-radius:999px;display:inline-block}
 .wq-striplabel{font:800 9.5px/1 inherit;letter-spacing:.12em;text-transform:uppercase;color:${C.strip};opacity:.85}
 .wq-sbtn{background:${C.paper};border:1.5px solid ${C.line};border-radius:9px;color:${C.strip};
   font:700 12.5px/1 inherit;padding:0 12px;min-height:44px;min-width:44px;cursor:pointer} /* N-6 */
@@ -2930,13 +2942,13 @@ const CSS = `
 /* progress (P1-6: colour + pattern) */
 .wq-prog{display:flex;gap:2px;width:100%}
 .wq-seg{flex:1;height:9px;border-radius:2px;min-width:3px}
-.wq-seg-todo{background:rgba(255,255,255,.55)}
+.wq-seg-todo{background:${alpha(C.paper, .55)}}
 .wq-seg-ok{background:${C.green}}
 .wq-seg-mid{background:repeating-linear-gradient(135deg,${C.sun} 0 3px,${C.paper} 3px 6px)}
 .wq-seg-bad{background:repeating-linear-gradient(90deg,${C.red} 0 2px,${C.paper} 2px 4px)}
 
 /* cards / forms */
-.wq-card{background:${C.paper};border-radius:18px;box-shadow:0 2px 10px rgba(23,53,107,.12);text-align:center}
+.wq-card{background:${C.paper};border-radius:18px;box-shadow:0 2px 10px ${alpha(C.ink, .12)};text-align:center}
 .wq-lbl{display:block;font:800 11px/1.3 inherit;letter-spacing:.06em;text-transform:uppercase;color:${C.muted};margin-bottom:5px}
 .wq-help{margin:6px 0 0;font-size:12.5px;line-height:1.45;color:${C.muted}}
 .wq-input{width:100%;border:1.5px solid ${C.line};border-radius:10px;padding:11px 12px;
@@ -2945,7 +2957,7 @@ const CSS = `
 .wq-seggroup{display:flex;gap:4px;background:${C.chip};border-radius:11px;padding:3px;flex-wrap:wrap}
 .wq-segbtn{flex:1 1 auto;min-width:44px;min-height:40px;border:0;background:transparent;border-radius:8px;
   color:${C.strip};font:800 13px/1 inherit;cursor:pointer}
-.wq-segbtn.on{background:${C.paper};color:${C.ink};box-shadow:0 1px 3px rgba(23,53,107,.2)}
+.wq-segbtn.on{background:${C.paper};color:${C.ink};box-shadow:0 1px 3px ${alpha(C.ink, .2)}}
 .wq-segbtn:disabled{opacity:.4;cursor:default}
 .wq-rowbtn{display:flex;align-items:center;width:100%;border:0;background:transparent;padding:4px 0;cursor:pointer;min-height:40px}
 .wq-meter{display:flex;height:6px;border-radius:3px;background:${C.chip};overflow:hidden;margin-top:6px}
@@ -2958,9 +2970,9 @@ const CSS = `
   background:${C.ink};color:${C.paper};padding:10px 16px;border-radius:999px;font:700 13px/1.3 inherit;
   max-width:88%;text-align:center;z-index:70}
 .wq-modalwrap{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:18px;z-index:80}
-.wq-scrim{position:absolute;inset:0;background:rgba(23,53,107,.42);border:0;order:-1}
+.wq-scrim{position:absolute;inset:0;background:${alpha(C.ink, .42)};border:0;order:-1}
 .wq-modal{position:relative;z-index:1;background:${C.paper};border-radius:18px;padding:18px;max-width:380px;width:100%;
-  box-shadow:0 12px 40px rgba(23,53,107,.3)}
+  box-shadow:0 12px 40px ${alpha(C.ink, .3)}}
 
 /* a11y + motion */
 button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid ${C.ink};outline-offset:2px}

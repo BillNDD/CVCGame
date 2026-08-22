@@ -271,7 +271,7 @@ function selfTest() {
      from these two numbers, so they cannot be the floors themselves — that is
      precisely the fault an auditor exploited by lowering FLOOR to {controls: 2}
      and watching every control still pass. */
-  const CONTROLS = 41, CELLS = 663;
+  const CONTROLS = 41, CELLS = 664;
   ok.push(["the baseline states the floors this file was written against",
     FLOOR.controls === CONTROLS && FLOOR.cells === CELLS]);
 
@@ -316,18 +316,18 @@ function selfTest() {
       { configFile: "/repo/some-other.config.mjs" }), FRESH).problems
       .some((p) => p.includes("some-other.config.mjs"))]);
 
-  /* THE NOVELTIES SCOPE. Literals again (E4): 11 planted-fault controls, 56
+  /* THE NOVELTIES SCOPE. Literals again (E4): 12 planted-fault controls, 56
      profile cells (seven on each of eight profiles), 8 monkey walks and 4
-     singletons - 79 in all, counted by a run on 2026-08-22. A novelties run
+     singletons - 80 in all, counted by a run on 2026-08-22. A novelties run
      judged as the body is refused, because it is not one; judged as
      novelties it passes only whole. */
-  const NOVELTY_CONTROLS = 11, NOVELTY_CELLS = 68;
+  const NOVELTY_CONTROLS = 12, NOVELTY_CELLS = 68;
   ok.push(["the baseline states the novelty floors this file was written against",
     NOVELTY_FLOOR.controls === NOVELTY_CONTROLS && NOVELTY_FLOOR.cells === NOVELTY_CELLS]);
   const novControls = Array.from({ length: NOVELTY_CONTROLS }, (_, i) => cell(NOVELTY_PROJECT, `control: planted fault ${i}`));
   const novCells = [...many("desktop", NOVELTY_CELLS - 2), cell(NOVELTY_PROJECT, "update-stay"), cell(NOVELTY_PROJECT, "offline equality")];
   const novelties = build([...novControls, ...novCells]);
-  ok.push(["a novelties run judged as the body is refused - 79 cells are not a census",
+  ok.push(["a novelties run judged as the body is refused - 80 cells are not a census",
     judge(novelties, FRESH).problems.some((p) => p.includes("census cells ran"))]);
   ok.push(["a whole novelties run is accepted in its own scope",
     judge(novelties, FRESH, SCOPES.novelties).problems.length === 0]);

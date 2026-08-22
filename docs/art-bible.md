@@ -344,6 +344,13 @@ own 3:1 boundary rule (section 15) when measured — tileEdge #B8832E on tileFac
 carries the corrected values (tileEdge #8f6420 at 3.78:1, boundary #5f7493 at 4.68:1;
 disabled kept as a fill under ink only). Measured and passing: ink on
 surfaceReading 11.36:1, cyanStructural on surfaceReading 7.51:1, action with white 6.43:1.
+The rule met its own sweep the same day (the re-judgement of step 0): two edges the game
+already drew were typed into C as tokens without being measured — the empty slot's dashed
+border #94a8c0, 1.94:1 on its ground, and the progress ring #e0ac2b, 1.44:1 on sun — and
+were withdrawn; the slot reads `boundary` (4.77:1 on paper, 3.79:1 on its palest ground)
+and the ring reads `amber` (4.11:1 on sun), a visible darkening of both, declared.
+`tests/tokens.test.js` asserts every edge the game draws at its literal ratio and holds
+the two withdrawn values below 3:1 as controls.
 
 ### 9.3 The repository's tokens (ruled 2026-08-22)
 
@@ -371,8 +378,8 @@ and values as the record of what the PDF said.
 | line | #dfe5f3 | the game's own, unchanged |
 | inkSecondary | #3c4f73 | supporting text (bible 9) |
 | surfaceReading | #fff9e8 | the word and sentence field |
-| surfacePanel | #fffdf5 | cards and controls |
-| skyBlue | #8fd0fa | the outer gradient, first stop |
+| surfacePanel | #fffdf5 | the crash screen's ground today; cards and controls when the grown-up-zone step moves them off paper (the re-judgement of step 0, 2026-08-22: the table named cards under two tokens) |
+| skyBlue | #8fd0fa | the outer gradient, first stop; retyped by value in `app/index.html` and `app/public/manifest.webmanifest` as the theme colour, the two files that cannot import C |
 | skyLavender | #b9c3fb | the outer gradient, second stop |
 | skyPurpleMist | #d9c6fb | the outer gradient, third stop |
 | gardenNight | #1d2c50 | deep framing |
@@ -398,12 +405,10 @@ and values as the record of what the PDF said.
 | tileEdge | #8f6420 | the bible's #B8832E darkened: 2.40:1 to 3.78:1 on tileFace |
 | slot | #e6dccb | an empty slot |
 | paper | #ffffff | white surfaces: cards, inputs, the modal, the CTA's text (entered 2026-08-22, the after pass on step 0) |
-| slotEdge | #94a8c0 | Build-it's dashed empty-slot border (2026-08-22) |
 | warningDeep | #96261d | the home strip's storage warning, 4.5:1 on the gradient (2026-08-22) |
 | chipGreen | #c6f2dd | the corner's mastery chip: read right twice (2026-08-22) |
 | chipAmber | #ffe9b3 | read right once (2026-08-22) |
 | chipRed | #ffd4d0 | not yet (2026-08-22) |
-| sunEdge | #e0ac2b | the ring round the current progress segment (2026-08-22) |
 
 ## 10. Teaching typography
 

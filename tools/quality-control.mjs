@@ -79,8 +79,18 @@ const DVH = /dvh\b/;   // no leading \b: in "11dvh" a digit precedes the d, so \
    after the stylesheet sweep - the reference's copy had moved to svh and the
    app's had not, which this control could not see while it read one file
    (the council's after pass on step 0, 2026-08-22). */
-const APP_SOURCES = execSync("git ls-files app/src", { encoding: "utf8" }).split(/\r?\n/).filter((f) => /\.(jsx?|mjs)$/.test(f));
+const APP_SOURCES = execSync("git ls-files app/src", { encoding: "utf8" }).split(/\r?\n/).filter((f) => /\.(jsx?|mjs|css)$/.test(f));
 const stripped = (f) => readFileSync(f, "utf8").replace(/\/\*[\s\S]*?\*\//g, "").replace(/^\s*\/\/.*$/gm, "");
+/* The reference build too, outside the block that IS the palette: the
+   corner's chips were still typed there after the app's had moved to C
+   (the re-judgement of step 0, 2026-08-22). */
+const REFERENCE = "reference/word-quest.jsx";
+const referenceOutsideC = () => {
+  const src = stripped(REFERENCE);
+  const i = src.indexOf("const C = {"), j = src.indexOf("};", i);
+  if (i < 0 || j < 0) { console.error("control FAILED: the reference's C block was not found"); process.exit(1); }
+  return src.slice(0, i) + src.slice(j + 2);
+};
 const dvhHits = APP_SOURCES.filter((f) => DVH.test(stripped(f)));
 if (dvhHits.length) {
   console.error("control FAILED: `dvh` is back in " + dvhHits.join(", ") + "; the word would change size when a phone's address bar moves. Use svh.");
@@ -101,14 +111,24 @@ if (!DVH.test(".wq-word{font-size:clamp(2.25rem,11dvh,5.5rem)}") || !DVH.test('<
    tokens it emits (2026-08-22). Comments are stripped first, so a comment
    may name a colour; code may not. */
 const HEX = /#[0-9a-fA-F]{3,8}\b/;
-const hexHits = APP_SOURCES.flatMap((f) => stripped(f).split("\n").map((l, i) => ({ f, n: i + 1, l })).filter((h) => HEX.test(h.l)).map((h) => h.f + ":" + h.n + " " + h.l.trim().slice(0, 80)));
-if (hexHits.length) {
-  console.error("control FAILED: a colour is typed outside C - add it to C in reference/word-quest.jsx and the bible's 9.3 table, and read C.<name>:\n  " + hexHits.join("\n  "));
+/* And rgb(), rgba(), hsl(), hsla() with a number inside: ink was restated as
+   23,53,107 in seven shadows while SPEC section 9 said nothing restates a
+   colour. An alpha over a token comes from alpha() in app/src/colour.js. */
+const FUNC = /\b(?:rgb|rgba|hsl|hsla)\(\s*\d/;
+const hits = (text, f) => text.split("\n").map((l, i) => ({ f, n: i + 1, l })).filter((h) => HEX.test(h.l) || FUNC.test(h.l)).map((h) => h.f + ":" + h.n + " " + h.l.trim().slice(0, 80));
+const colourHits = [...APP_SOURCES.flatMap((f) => hits(stripped(f), f)), ...hits(referenceOutsideC(), REFERENCE + " (outside C)")];
+if (colourHits.length) {
+  console.error("control FAILED: a colour literal is typed outside C - add it to C in reference/word-quest.jsx and the bible's 9.3 table and read C.<name>, or derive an alpha with alpha():\n  " + colourHits.join("\n  "));
   process.exit(1);
 }
-if (!HEX.test('style={{ background: advanceReady ? C.green : "#9fb4c4" }}') || !HEX.test(".wq-x{color:#fff}") || HEX.test("/* #96261d */".replace(/\/\*[\s\S]*?\*\//g, ""))) {   // controls
-  console.error("control FAILED: the hex-literal detector does not catch its fixtures, or catches a comment");
+if (!HEX.test('style={{ background: advanceReady ? C.green : "#9fb4c4" }}') || !HEX.test(".wq-x{color:#fff}") || HEX.test("/* #96261d */".replace(/\/\*[\s\S]*?\*\//g, ""))
+    || !FUNC.test("box-shadow:0 1px 3px rgba(23,53,107,.18)") || !FUNC.test("color: hsl(210, 40%, 30%)") || FUNC.test('"rgba(" + r + "," + g')) {   // controls
+  console.error("control FAILED: the colour-literal detector does not catch its fixtures, or catches a comment or the alpha() helper");
+  process.exit(1);
+}
+if (!hits(".wq-plant{color:#e0ac2b}", "plant.css").length || !hits(referenceOutsideC() + '\nconst plant = "#c6f2dd";', REFERENCE).length) {   // controls: a css file, the reference outside C
+  console.error("control FAILED: a hex in a css source or below the reference's C block is not caught");
   process.exit(1);
 }
 
-console.log("quality controls OK: complexity fixture rejected, planted cycle found, config matches the baseline ceilings, no dead font shorthand, no dvh in " + APP_SOURCES.length + " app sources, no colour typed outside C");
+console.log("quality controls OK: complexity fixture rejected, planted cycle found, config matches the baseline ceilings, no dead font shorthand, no dvh in " + APP_SOURCES.length + " app sources, no hex or rgb()/hsl() literal in an app source or in the reference outside C");

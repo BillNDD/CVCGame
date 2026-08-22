@@ -182,7 +182,12 @@ and 15):**
 
 1. Ceramic tile styling (the bible's step 5, moved up: tiles are on every screen a child
    learns on). 2. Glowseed tied to the real audio lifecycle. 3. The responsive reading
-   surface and garden frame, out of flow. 4. The responsive grown-up zone. 5. Home and the
+   surface and garden frame, out of flow — and bible 10.4's margins-before-font on the
+   compact profiles: the stage spends 14 px a side before the principal word's glyphs
+   shrink, so "something" fits at 56.1 px on 320 × 568 where the full width would give
+   about 61.5 px; step 3's brief names what the word may reclaim and its per-profile cell
+   records the fitted px before and after, the after at or above the before (the reading
+   chair, the re-judgement of step 0). 4. The responsive grown-up zone. 5. Home and the
    original icon family (the second half of the icons ruling). 6. Garden state 0 and the
    milestone reveal screen, built once. 7 to 9. States 1 to 10, one reviewed milestone at a
    time, each a drop-in judged by the install gate, the frame gate and the census the day
@@ -288,3 +293,28 @@ Newest last. A verdict names the chair, the step, the word, and the findings.
   `g23_declared` 53, `g17_governing_files` 45, each the gate's printed count; (9)
   `widestWord` wrote into React's live element — it probes a detached clone. Re-judged
   fresh by all three chairs after the fixes; their verdicts follow.
+- 2026-08-22 — Step 0 re-judged, fresh: **all three chairs still not satisfactory**, two
+  blocking findings, twelve non-blocking; every one taken. **Blocking:** (1) the art
+  director and the antagonist, independently: two edge tokens entered C below the 3:1 rule
+  the same commit's test claimed for every edge — slotEdge 1.94:1 on its ground, sunEdge
+  1.44:1 on sun — withdrawn; the slot reads `boundary`, the ring reads `amber`, both
+  darkenings declared as the visible changes they are, the test asserts every edge the game
+  draws at literal ratios and holds the withdrawn values below 3:1 as controls; (2) the
+  reading chair: the new interval detector `popOverlap` shipped with no control — fixtures
+  for two pops that cross, two that touch, one sampled twice, and none. **Taken besides:**
+  the quality control now reads `.css` sources, the reference outside its `C` block, and
+  refuses rgb()/rgba()/hsl() literals — seven shadows and scrims restated ink in decimal —
+  with `alpha()` deriving every alpha from a token, and SPEC 9 says exactly what is
+  guarded, naming the two files that retype skyBlue; the reference's corner chips read the
+  tokens; `C.blue`, a key C never had, read for weeks on the pre-done screen — now
+  `C.action`, which is what it always showed, and a test walks every `C.<key>` read in the
+  app and the reference against C's keys with a planted one; the 9.3 table no longer names
+  cards under two tokens and the skyBlue row names its two retypings; the names walker
+  judges a label by its text whatever aria-label it carries, with a planted dressed label;
+  a test presses "Load backup file" from the keyboard and counts one click on the input; a
+  census control dispatches a window error in the built page and reads it back from the
+  ring the 200% and rotation cells check; the one-frame cost of the next-frame fit is
+  stated in Word.jsx — the synchronous fit the chair proposed was tried and the rotation
+  cell measured the loop error back at 320 × 568, so the frame stays; and bible 10.4's
+  margins-before-font goes to step 3's brief, above. Re-judged fresh by all three chairs
+  again; their verdicts follow.

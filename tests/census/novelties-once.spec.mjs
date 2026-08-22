@@ -8,8 +8,8 @@
 import { test, expect, devices } from "@playwright/test";
 import { stage, holdGrade, waitForReveal, requireStaged, seedGraduated, GRADE, BANK_WORDS } from "../../tools/ux-census.mjs";
 import { landmarks, phaseHold, homeFurniture, chromeHold, offlineHold,
-         markStay, assertStayed, pokeForeground, hitTest, monkey, SOUND_ONLY,
-         zoneSum, runningAnimations, motionHold, unitWidthHold, wordBox, wordFits, widestWord, wordGeometry, wordHold,
+         markStay, assertStayed, pokeForeground, hitTest, monkey, tappable, SOUND_ONLY,
+         zoneSum, runningAnimations, motionHold, popOverlap, unitWidthHold, wordBox, wordFits, widestWord, wordGeometry, wordHold,
          guideState, guideHold, artSnap, snapHold } from "../../tools/census-novelties.mjs";
 
 /* ---- the live singleton cells ---- */
@@ -113,6 +113,14 @@ test("control: a dead control and a thrown error are both caught by the monkey",
   expect(result.findings.some((f) => f.kind === "dead-control" && f.detail.includes("planted dead control"))).toBe(true);
   expect(kinds).toContain("console-error");
   expect(result.findings.some((f) => f.detail.includes("planted page error"))).toBe(true);
+  /* and a control under something else is not a target: the planted button
+     is covered by a fixed layer and leaves the list; the home buttons stay */
+  await page.evaluate(() => { const d = document.createElement("div"); d.id = "wq-plant-cover"; d.style.cssText = "position:fixed;left:0;right:0;top:35%;height:30%;z-index:60;background:transparent"; document.body.appendChild(d); });
+  const labels = (await tappable(page)).map((c) => c.label);
+  expect(labels, labels.join(" | ")).not.toContain("planted dead control");
+  expect(labels).toContain("Begin Session");
+  await page.evaluate(() => document.getElementById("wq-plant-cover").remove());
+  expect((await tappable(page)).map((c) => c.label)).toContain("planted dead control");
 });
 
 test("control: every label the detectors key on still names exactly one control", async ({ page }) => {
@@ -263,6 +271,13 @@ test("control: a frame in flow, a looping animation, equal tile widths, a wrappe
   expect(motionHold("attempt", planted).map((f) => f.detail), JSON.stringify(planted)).toEqual([expect.stringContaining("div.wq-plant-loop:wqplant")]);
   await page.evaluate(() => { document.getElementById("wq-plant-loop").remove(); document.getElementById("wq-plant-style").remove(); });
   expect(motionHold("attempt", ["div.wq-float:wqf"]).map((f) => f.kind)).toEqual(["motion-during-attempt"]);
+  /* the interval rule: two pops that intersect by 100 ms, two that merely
+     touch, and none at all (the re-judgement: a detector with no control) */
+  const crossing = popOverlap([{ tile: 0, start: 0, end: 700 }, { tile: 1, start: 600, end: 1300 }]);
+  expect(crossing.findings.map((f) => f.kind)).toEqual(["two-sounding-tiles"]);
+  expect(popOverlap([{ tile: 0, start: 0, end: 700 }, { tile: 1, start: 700, end: 1300 }])).toEqual({ findings: [], pops: 2 });
+  expect(popOverlap([{ tile: 0, start: 0, end: 700 }, { tile: 0, start: 0, end: 700 }]).pops, "the same pop sampled twice is one pop").toBe(1);
+  expect(popOverlap([]).pops).toBe(0);
   expect(motionHold("reveal", ["span.wq-tile.wq-pop:wqpop", "span.wq-tile.wq-pop:wqpop"]).map((f) => f.kind)).toEqual(["two-sounding-tiles"]);
   expect(motionHold("reveal", ["span.wq-tile.wq-pop:wqpop", "div.wq-ctafill:wqfill"])).toEqual([]);
   /* equal tile widths, and a reveal with no multi-letter unit at all */
@@ -372,4 +387,21 @@ test("control: unsnapped art on the Pixel 7 is caught by the reader, and snapped
     const right = snapHold(await artSnap(page));
     expect(right, JSON.stringify(await artSnap(page))).toEqual([]);
   } finally { await ctx.close(); }
+});
+
+test("control: a window error in the built page reaches the ring the 200% and rotation cells read", async ({ page }) => {
+  /* Those cells assert the ring is null. This proves a null means no error
+     rather than no ring: an ErrorEvent dispatched in the staged page lands
+     in localStorage under the key they read, with its message, and clears
+     (the re-judgement of step 0, 2026-08-22). */
+  const { shown } = await stage(page, null, "sat", null);
+  requireStaged("sat", shown);
+  expect(await page.evaluate(() => localStorage.getItem("wq-errors"))).toBeNull();
+  await page.evaluate(() => window.dispatchEvent(new ErrorEvent("error", { message: "wq-plant-error", filename: "plant.js", lineno: 1 })));
+  const ring = await page.evaluate(() => JSON.parse(localStorage.getItem("wq-errors") || "null"));
+  expect(ring && ring.length, JSON.stringify(ring)).toBe(1);
+  expect(ring[0].message).toContain("wq-plant-error");
+  expect(ring[0].screen).toBe("session");
+  await page.evaluate(() => localStorage.removeItem("wq-errors"));
+  expect(await page.evaluate(() => localStorage.getItem("wq-errors"))).toBeNull();
 });

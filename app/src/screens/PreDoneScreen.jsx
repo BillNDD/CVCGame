@@ -21,7 +21,10 @@ export default function PreDoneScreen({ preDone, onHome }) {
         </section>
       </Zone.Stage>
       <Zone.Rail>
-        <button className="wq-cta" onClick={onHome} style={{ background: C.blue }} aria-label="Back home">🏠 Back home</button>
+        {/* C.action, which is what this control has always shown: the line used
+            to read C.blue, a key C never had, and the undefined fell back to
+            .wq-cta's own action colour (the council's re-judgement, 2026-08-22). */}
+        <button className="wq-cta" onClick={onHome} style={{ background: C.action }} aria-label="Back home">🏠 Back home</button>
       </Zone.Rail>
     </Frame>
   );
