@@ -141,6 +141,12 @@ const MUTANTS = [
   ["with loses the voiced th the owner chose", 'them: { 0: "th_this" }, with: { 2: "th_this" },', 'them: { 0: "th_this" }, with: { 2: "th_quiet" },'],
   ["was loses its American vowel", 'was: { 1: "short_u", 2: "z" },', 'was: { 1: "short_o", 2: "z" },'],
   ["a digraph loses its single sound", 'ck: "k", ff: "f", ll: "l", ss: "s", zz: "z",', 'ff: "f", ll: "l", ss: "s", zz: "z",'],
+  /* The garden (art project step 0e, 2026-08-22): the ladder completes only
+     when the last level's words are secure. A mutant that completes it
+     regardless lights the sanctuary on arrival at level 100. */
+  ["the ladder completes without its words being secure",
+    "  return isSecure(words.filter(w => state.words && state.words[w] && state.words[w].box >= 3).length, words.length);",
+    "  return true;"],
 ];
 
 /* The last failure this helper swallowed, so the pristine control can SAY

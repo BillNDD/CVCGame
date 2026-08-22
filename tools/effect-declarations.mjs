@@ -124,6 +124,14 @@ export const DECLARED = {
     evidence: "Vitest counts (summed floor g10_safety_tests)",
     limits: "Proves the screen never reaches the record and that the loop runs; it cannot say whether a child understands the tray, and it hears nothing.",
   },
+  "tests/garden.test.js": {
+    safety: {},
+    gate: "G1", requirement: "SPEC section 7: the ladder is complete when level 100's words are secure by the promotion rule and only then; the garden state is the tenth of the levels completed, 10 when complete",
+    oracle: "Literal expected values over hand-built saves at the measured word counts (level 100 holds 12 words, level 99 six)",
+    platform: "node", mutants: "G5: the ladder completes without its words being secure",
+    evidence: "Vitest count (floor g1_garden_tests)",
+    limits: "Proves the two functions; whether a garden state is ever SHOWN is the frame's cell, not this.",
+  },
   "tests/models.test.js": {
     safety: { S7: "unit" },
     gate: "G10", requirement: "SPEC section 12 (Build-it, Find-the-sound) and section 6 (the free-play grid): no sequence of a child's taps reaches a screen with no way out",

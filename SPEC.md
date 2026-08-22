@@ -625,6 +625,14 @@ One state object:
 The bug report ring is separate from the state: localStorage key `wq-errors`, at most 20
 entries, never exported with the log or the backup, cleared only by the corner's control.
 
+Two facts are derived from the state and never stored (art project, owner-ruled
+2026-08-22). The ladder is complete when the child is at level 100 and that level's words
+are secure by the same rule promotion uses between levels (`isSecure`: at least 80 percent
+of the level's words at box 3 or above) — and only that: the two-perfect-sessions path
+promotes between levels and never ends the ladder. The garden state, which the art bible's
+section 6 draws, is the tenth of the levels completed — `floor((level − 1) / 10)`, so 0
+through level 10 and 9 through level 100 — and 10 when the ladder is complete.
+
 Write the state after each result and at the end of a session. A page refresh in a session must
 not remove results. The log number `n` is the log row count. `sessionsCompleted` counts full
 sessions only.

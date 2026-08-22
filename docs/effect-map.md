@@ -8,7 +8,7 @@ Per-test rows carry the test's own sentence, which in this project IS the
 Given/When/Then effect. The requirement, oracle, platform, mutant family, evidence
 and known limits are declared per FILE, in the tool, where they stay true.
 
-Totals: 385 it() SITES across 18 files, plus 18 gates that are not test files.
+Totals: 390 it() SITES across 19 files, plus 18 gates that are not test files.
 
 A site inside a loop or a table runs many times, so these rows describe more tests than they number: Vitest executes 330. The rows count the places behaviour is asserted.
 
@@ -247,6 +247,24 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 20 | G9 faults — the error ring records on the device and never sends | the browser |
 | 21 | G9 faults — the error ring records on the device and never sends | a render crash shows a way back to the start, not a blank page, and is recorded |
 | 22 | G9 faults — the error ring records on the device and never sends | the corner copies the report only on a grown-up |
+
+## tests/garden.test.js — 5 tests (G1)
+
+- **Requirement protected:** SPEC section 7: the ladder is complete when level 100's words are secure by the promotion rule and only then; the garden state is the tenth of the levels completed, 10 when complete
+- **Independent oracle:** Literal expected values over hand-built saves at the measured word counts (level 100 holds 12 words, level 99 six)
+- **Platform:** node
+- **Mutant family:** G5: the ladder completes without its words being secure
+- **Evidence produced:** Vitest count (floor g1_garden_tests)
+- **Known limits — what these tests do NOT prove:** Proves the two functions; whether a garden state is ever SHOWN is the frame's cell, not this.
+- **Safety rules proved here:** none
+
+| # | Suite | Effect (the test's own sentence) |
+|---|---|---|
+| 1 | the garden | 1: the state is the tenth of the levels completed - 0 through level 10, 1 at level 11, 9 through level 100 |
+| 2 | the garden | 2: the ladder is complete when level 100 |
+| 3 | the garden | 3: the two-perfect-sessions path promotes between levels and never ends the ladder |
+| 4 | the garden | 4: a secure level 99 is not the end of the ladder |
+| 5 | the garden | 5: a hostile or empty state reads as the start |
 
 ## tests/generated/acceptance.test.js — 62 tests (G3)
 

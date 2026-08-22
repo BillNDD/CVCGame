@@ -16,7 +16,7 @@ if (cut < 0) { console.error("Component banner not found in " + SRC); process.ex
 const body = src.slice(0, cut).replace(/^import .*from "react";$/m, "");
 const EXPORTS = ["LEVELS","TRICKY","DIGRAPHS","TRIGRAPHS","QUADGRAPHS","HEART","INTERVALS","SESSION_SIZE","PROMPT_CAP",
   "WORD_LEVEL","chunkWord","dashed","displayWord","displayChunk","freshWordState","applyResult","shuffle","buildSession",
-  "checkPromotion","isSecure","heal","migrate","newState","PRE_LEVELS","preItems","buildPreSession","checkPrePromotion","buildMarkdown","loadState","saveState","feedbackParts",
+  "checkPromotion","isSecure","ladderComplete","gardenState","heal","migrate","newState","PRE_LEVELS","preItems","buildPreSession","checkPrePromotion","buildMarkdown","loadState","saveState","feedbackParts",
   "ADVANCE_GUARD_MS","SPLASH_TIMEOUT_MS","STORE_KEY","C","LANGS","speak","hush","buzz","feedbackSpeech","PRAISE",
   "SEAM_MS","SOUNDOUT_SEAM_MS","SOUNDOUT_POP_MS","TILE_SOUND","WORD_SOUND","WORD_TILES","LEX_BENDS","ruleSoundsFor","ruleTilesFor","SOUND_TEXT","soundIdFor","soundIdsFor","bankWords","soundInventory","VOICE_SENTENCES","SENTENCES","SENTENCE_EVERY","sessionSentences","REVEAL_LINES","REVEAL_LINE_TEXT","SENTENCE_PRAISE","sentenceLead","sentenceWords","revealWord","revealWordLongest","sentencesUpTo","voiceScript","clipPlan","sentencePlan","sentenceClosePlan","tileSlots","buildTray","trayPool","trayExtras","trayClash","NEVER_BUILD","trayForbidden","buildable","buildSoundTray","preLetters","PRE_TRAY_FROM","isSeam","seamMs","resolvePack","TTS_UNSAFE_PRAISE","ttsSafePraise","TTS_UNSAFE_WORD","ttsSafeWord"];
 

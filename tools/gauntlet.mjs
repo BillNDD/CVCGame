@@ -296,6 +296,7 @@ const suiteOut = step("G1+G2+G9+G10 tests", "npx vitest run --coverage", [
   /* The model-based screens (2026-08-22, bug-hunt ruling): random tap
      sequences against Build-it, Find-the-sound and the free-play chooser. */
   { label: "models", regex: /models\.test\.js\s+\((\d+) tests\)/, floorKey: "g10_model_tests" },
+  { label: "garden", regex: /garden\.test\.js\s+\((\d+) tests\)/, floorKey: "g1_garden_tests" },
   { label: "adult_controls", regex: /adult-controls\.test\.js\s+\((\d+) tests\)/, floorKey: "g10_adult_control_tests" },
   { label: "reveal", regex: /reveal\.test\.js\s+\((\d+) tests\)/, floorKey: "g10_reveal_tests" },
   { label: "sentence", regex: /sentence\.test\.js\s+\((\d+) tests\)/, floorKey: "g10_sentence_tests" },

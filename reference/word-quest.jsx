@@ -624,6 +624,27 @@ function checkPromotion(state, session) {
   return false;
 }
 
+/* ---------- the garden (art project step 0e, owner-ruled 2026-08-22) ----------
+   The ladder is COMPLETE when the child is at the last level and its words are
+   secure by the same rule promotion uses between levels - and only that. The
+   two-perfect-sessions path promotes between levels and never ends the ladder
+   (SPEC section 7): checkPromotion returns false at the last level before it
+   would consult the streak, and so does this.
+   The garden state is the tenth of the levels completed: floor((level - 1) / 10),
+   and 10 when the ladder is complete. No cap on the division - the level is
+   clamped to 1..100 everywhere it is written (migrate, jumpLevel), so a cap here
+   would be code no test could reach and a mutant that could only survive. */
+function ladderComplete(state) {
+  if (!state || state.level !== LEVELS.length) return false;
+  const words = LEVELS[LEVELS.length - 1].words;
+  return isSecure(words.filter(w => state.words && state.words[w] && state.words[w].box >= 3).length, words.length);
+}
+function gardenState(state) {
+  if (ladderComplete(state)) return 10;
+  const level = state && Number.isFinite(state.level) ? state.level : 1;
+  return Math.floor((level - 1) / 10);
+}
+
 /* ---------- storage ---------- */
 const mem = {};
 async function loadState() {

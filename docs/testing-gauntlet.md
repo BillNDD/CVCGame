@@ -418,6 +418,12 @@ every bound reads `LEVELS.length`, which is why adding a level needed no engine 
   mis-keyed raises were reverted rather than "lowered" (their tests were never here),
   and every vitest file now carries its own counter (`g1_chunker_tests`,
   `g10_buildit_tests`, `g1_pre_tests`) so a raise always has a right key to land on.
+- `tests/garden.test.js` (art project step 0e, 2026-08-22): the two derived facts SPEC
+  section 7 states — the ladder complete only when level 100's words are secure, the
+  garden state the tenth of the levels completed — at literal values over the measured word
+  counts, including the line that the two-perfect-sessions path never ends the ladder. Key:
+  `g1_garden_tests` (5). G5 gained "the ladder completes without its words being secure"
+  (73 to 74).
 - `tests/models.test.js` (owner-ruled 2026-08-22, the bug-hunt page): fast-check drives
   the REAL Build-it and Find-the-sound screens through 200 random tap sequences each,
   over the whole bank, and after every tap compares the screen with a model of slots,
