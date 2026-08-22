@@ -28,6 +28,7 @@
   "g1_chunker_tests": 14,
   "g10_buildit_tests": 13,
   "g1_pre_tests": 15,
+  "g10_model_tests": 5,
   "g10_adult_control_tests": 9,
   "g10_reveal_tests": 18,
   "g10_sentence_tests": 20,

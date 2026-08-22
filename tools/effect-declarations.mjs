@@ -124,6 +124,14 @@ export const DECLARED = {
     evidence: "Vitest counts (summed floor g10_safety_tests)",
     limits: "Proves the screen never reaches the record and that the loop runs; it cannot say whether a child understands the tray, and it hears nothing.",
   },
+  "tests/models.test.js": {
+    safety: { S7: "unit" },
+    gate: "G10", requirement: "SPEC section 12 (Build-it, Find-the-sound) and section 6 (the free-play grid): no sequence of a child's taps reaches a screen with no way out",
+    oracle: "fast-check model runs: the real screen driven through random tap sequences, compared after every tap with a model of slots, misses, won and done; the chooser opened on random saves, every live cell opened and left",
+    platform: "node/jsdom", mutants: "not yet in a G19 family",
+    evidence: "Vitest count (floor g10_model_tests); each run asserts it reached wins, misses, the help, the end and the exit, so a vacuous run fails",
+    limits: "Players hand back at once, so nothing here is about timing against a real clip; and a model only finds what it was told to expect.",
+  },
   "tests/pre.test.js": {
     safety: { S1: "unit" },
     gate: "G10", requirement: "SPEC section 12 item 8: the pre-level ladder - its five rungs, sessions, promotions, and the fresh-saves-only migration",

@@ -8,7 +8,7 @@ Per-test rows carry the test's own sentence, which in this project IS the
 Given/When/Then effect. The requirement, oracle, platform, mutant family, evidence
 and known limits are declared per FILE, in the tool, where they stay true.
 
-Totals: 380 it() SITES across 17 files, plus 18 gates that are not test files.
+Totals: 385 it() SITES across 18 files, plus 18 gates that are not test files.
 
 A site inside a loop or a table runs many times, so these rows describe more tests than they number: Vitest executes 330. The rows count the places behaviour is asserted.
 
@@ -344,6 +344,24 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 7 | migrate | computes the migrated level at the same boundary promotion uses |
 | 8 | migrate | never seats a migrated child below the ground they held |
 | 9 | migrate | survives hostile documents |
+
+## tests/models.test.js — 5 tests (G10)
+
+- **Requirement protected:** SPEC section 12 (Build-it, Find-the-sound) and section 6 (the free-play grid): no sequence of a child's taps reaches a screen with no way out
+- **Independent oracle:** fast-check model runs: the real screen driven through random tap sequences, compared after every tap with a model of slots, misses, won and done; the chooser opened on random saves, every live cell opened and left
+- **Platform:** node/jsdom
+- **Mutant family:** not yet in a G19 family
+- **Evidence produced:** Vitest count (floor g10_model_tests); each run asserts it reached wins, misses, the help, the end and the exit, so a vacuous run fails
+- **Known limits — what these tests do NOT prove:** Players hand back at once, so nothing here is about timing against a real clip; and a model only finds what it was told to expect.
+- **Safety rules proved here:** S7 (unit)
+
+| # | Suite | Effect (the test's own sentence) |
+|---|---|---|
+| 1 | model: Build-it and Find-the-sound never trap a child | 1: Build-it - 200 random tap sequences over the whole bank keep the screen on the model |
+| 2 | model: Build-it and Find-the-sound never trap a child | 2: Find-the-sound - one slot, every sound stays pickable after a miss, Done always there |
+| 3 | model: Build-it and Find-the-sound never trap a child | 3 (control): a screen that kept the wrong tile after a miss is refused by the model |
+| 4 | model: every free-play cell opens something, and every something can be left | 4: on a random save, the grid shows the cells the rules say, each opens a screen, and each screen has a way home |
+| 5 | model: every free-play cell opens something, and every something can be left | 5 (control): a cell that opens nothing is refused |
 
 ## tests/pre.test.js — 15 tests (G10)
 

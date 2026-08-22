@@ -418,6 +418,14 @@ every bound reads `LEVELS.length`, which is why adding a level needed no engine 
   mis-keyed raises were reverted rather than "lowered" (their tests were never here),
   and every vitest file now carries its own counter (`g1_chunker_tests`,
   `g10_buildit_tests`, `g1_pre_tests`) so a raise always has a right key to land on.
+- `tests/models.test.js` (owner-ruled 2026-08-22, the bug-hunt page): fast-check drives
+  the REAL Build-it and Find-the-sound screens through 200 random tap sequences each,
+  over the whole bank, and after every tap compares the screen with a model of slots,
+  misses, won and done; the free-play chooser is opened on random saves and every live
+  cell is opened and left. Each run must reach a win, a miss, the help, the end and the
+  exit, or it fails as vacuous - and it did, on its first run: 200 sequences of random
+  taps reached zero wins, which is why the command set carries a "solve" and a "build it
+  wrong" a real child would make. Key: `g10_model_tests` (5).
 - The splash update controls (SPEC section 7a) have their own file because the safety file
   reached the file-length ceiling, 900 lines at the time, on 2026-08-07:
   `safety-splash.test.js` proves a
