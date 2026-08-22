@@ -163,7 +163,13 @@ function runTests() {
        .cmd without a shell outright). Every mutant run then "failed", and the
        pristine-suite control - doing exactly its job - refused the gate.
        Found 2026-08-15, the fourth Windows-only gate fault of the move. */
-    execFileSync(process.execPath, ["node_modules/vitest/vitest.mjs", "run", "--reporter=dot"],
+    /* --bail 1 (P1 of the speed plan, 2026-08-21): a mutant is killed by ONE
+       failing test, and the suite used to run all 380 to find it. vitest
+       stops at the first failure and still prints the "Tests N failed" row
+       this runner reads, so the verdict is unchanged and only the time moves.
+       The pristine control above runs WITHOUT bail: a clean suite has nothing
+       to stop at, and that run must prove every file green. */
+    execFileSync(process.execPath, ["node_modules/vitest/vitest.mjs", "run", "--reporter=dot", "--bail", "1"],
       { stdio: "pipe", encoding: "utf8", maxBuffer: 64 * 1024 * 1024,
         env: { ...process.env, NO_COLOR: "1" } });
     return { passed: true, failed: 0 };

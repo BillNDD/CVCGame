@@ -4,8 +4,48 @@
    name, command, pass or fail, counts. A red gauntlet blocks the change (E7).
    Run: npm run gauntlet */
 import { execSync } from "node:child_process";
-import { readFileSync, writeFileSync, mkdirSync, rmdirSync } from "node:fs";
+import { readFileSync, writeFileSync, mkdirSync, rmdirSync, readdirSync, statSync, existsSync } from "node:fs";
+import { createRequire } from "node:module";
 import { createHash } from "node:crypto";
+
+/* THE CANONICAL FORM of an evidence file (P0 of the speed plan, 2026-08-21):
+   everything a second run of the SAME bytes must reproduce, and nothing a
+   clock or a process order can change. Durations go, step order goes (the
+   results sort by gate), the per-step command stays (it is part of what was
+   proved), and the commit, payload hash, dirty flag, counts, metrics and the
+   tool versions all stay. Two runs - serial and laned - are the same proof
+   exactly when their canonical forms are byte-identical. */
+export function canonicalEvidence(ev) {
+  const results = [...(ev.results || [])]
+    .map(({ gate, command, status, counts, metrics, missing, required }) => ({ gate, command, status, counts, metrics, missing, required }))
+    .sort((x, y) => (x.gate < y.gate ? -1 : x.gate > y.gate ? 1 : 0));
+  return JSON.stringify({
+    schema: ev.schema, status: ev.status, commit: ev.commit, dirty: ev.dirty, payload: ev.payload,
+    platform: ev.platform, suites: ev.suites, gates: ev.gates, results, residual_risks: ev.residual_risks,
+  }, null, 2);
+}
+/* Its control, run on every start (E5): a copy that differs only in
+   durations and step order canonicalises identically; a copy whose one
+   count moved does not. */
+{
+  const base = { schema: "x", status: "PASS", commit: "c", dirty: false, payload: { hash: "h" }, platform: {}, suites: {},
+    gates: { failed: 0 }, results: [{ gate: "B", command: "b", status: "PASS", counts: "n=1", durationMs: 5 },
+      { gate: "A", command: "a", status: "PASS", counts: "n=2", durationMs: 9 }], residual_risks: [] };
+  const reordered = { ...base, results: [{ ...base.results[1], durationMs: 100 }, { ...base.results[0], durationMs: 1 }] };
+  const moved = { ...base, results: [base.results[0], { ...base.results[1], counts: "n=3" }] };
+  if (canonicalEvidence(base) !== canonicalEvidence(reordered) || canonicalEvidence(base) === canonicalEvidence(moved)) {
+    console.error("control FAILED: the canonical form must ignore durations and order and must see a moved count");
+    process.exit(1);
+  }
+}
+/* `--canonical` prints the canonical form of the evidence on disk and
+   exits - it never runs a gate and never takes the lock, so two evidence
+   files can be compared while a gauntlet runs elsewhere. */
+if (process.argv.includes("--canonical")) {
+  const file = process.argv[process.argv.indexOf("--canonical") + 1] || ".gauntlet-evidence.json";
+  process.stdout.write(canonicalEvidence(JSON.parse(readFileSync(file, "utf8"))) + String.fromCharCode(10));
+  process.exit(0);
+}
 
 /* One gauntlet at a time: G4 mutates tests/generated mid-run, so a second
    concurrent run sees mutant residue and fails for the wrong reason. */
@@ -71,14 +111,24 @@ let failures = 0;
 const summary = [];
 const results = [];
 
+/* Every result carries durationMs (P0 of the speed plan, 2026-08-21): the
+   gauntlet had recorded no timing at all, so "where do the minutes go" was a
+   question only a stopwatch beside the log could answer. The summary shows
+   seconds beside each gate; the evidence carries the milliseconds. */
 function report(gate, command, ok, counts, extra = {}) {
   if (!ok) failures += 1;
-  summary.push(`${ok ? "PASS" : "FAIL"}  ${gate.padEnd(22)} ${counts}`);
-  console.log(`${ok ? "PASS" : "FAIL"}  ${gate}  [${command}]  ${counts}`);
+  const secs = extra.durationMs != null ? `  ${(extra.durationMs / 1000).toFixed(1)}s` : "";
+  summary.push(`${ok ? "PASS" : "FAIL"}  ${gate.padEnd(22)} ${counts}${secs}`);
+  console.log(`${ok ? "PASS" : "FAIL"}  ${gate}  [${command}]  ${counts}${secs}`);
   results.push({ gate, command, status: ok ? "PASS" : "FAIL", counts, ...extra });
 }
 
-function step(gate, command, counts = [], env = {}, required = []) {
+/* `opts.output`: parse a run that already happened instead of spawning one.
+   P1 of the speed plan (2026-08-21): G6's coverage numbers come from the
+   very same suite G1 runs, so G1 now runs it once WITH --coverage and G6
+   reads the saved output. One full-suite run fewer per gauntlet, identical
+   counts, and the evidence still carries both gates by name. */
+function step(gate, command, counts = [], env = {}, required = [], opts = {}) {
   /* Refuse a malformed call before running anything: a stray argument slid
      into the G24 call on 2026-08-17 (7d512b3) and sat unnoticed until the
      next gauntlet - four days later - died mid-run on required.filter. A
@@ -87,12 +137,18 @@ function step(gate, command, counts = [], env = {}, required = []) {
       || typeof env !== "object" || Array.isArray(env) || !Array.isArray(required))
     throw new Error(`malformed step call for ${JSON.stringify(gate)}: (gate, command, counts[], env{}, required[])`);
   let out = "", ok = true;
-  try {
-    out = execSync(command, { stdio: "pipe", encoding: "utf8", env: { ...process.env, NO_COLOR: "1", ...env } });
-  } catch (e) {
-    out = String(e.stdout || "") + String(e.stderr || "");
-    ok = false;
+  const startedAt = Date.now();
+  if (typeof opts.output === "string") {
+    out = opts.output;
+  } else {
+    try {
+      out = execSync(command, { stdio: "pipe", encoding: "utf8", env: { ...process.env, NO_COLOR: "1", ...env } });
+    } catch (e) {
+      out = String(e.stdout || "") + String(e.stderr || "");
+      ok = false;
+    }
   }
+  const durationMs = Date.now() - startedAt;
   out = out.replace(ANSI, "");
   const absent = missingNames(out, required);
   if (absent.length) ok = false;
@@ -117,7 +173,7 @@ function step(gate, command, counts = [], env = {}, required = []) {
                    pass });
   }
   if (absent.length) parts.push(`MISSING CHECKS: ${absent.join(" | ")} <-- FAIL`);
-  report(gate, command, ok, parts.join(", "), { metrics, missing: absent, required });
+  report(gate, command, ok, parts.join(", "), { metrics, missing: absent, required , durationMs });
   if (!ok) console.log("---- output tail ----\n" + out.split("\n").slice(-15).join("\n"));
   return out;
 }
@@ -135,7 +191,7 @@ step("G11 copy", "node tools/copy-lint.mjs && node tools/copy-lint.mjs --self-te
   { label: "problems", regex: /(\d+) problems/, max: 0 },
 ]);
 
-step("G1+G2+G9+G10 tests", "npx vitest run", [
+const suiteOut = step("G1+G2+G9+G10 tests", "npx vitest run --coverage", [
   /* engine.test.js split on 2026-08-21 (the recompute rails pushed it past
      the 1,400-line ceiling); the SUM keeps the floor whole, the safety-split
      pattern. The first regex cannot match the second file's name. */
@@ -249,7 +305,7 @@ step("G19 app-mutants", "node tools/app-mutants.mjs", [
   "killed: free play writes to the save",
 ]);
 
-step("G6 coverage", "npx vitest run --coverage", [
+step("G6 coverage", "(the G1 run, with --coverage - parsed, not re-run)", [
   { label: "branches", regex: /engine\.js\s*\|\s*[\d.]+\s*\|\s*([\d.]+)/, floorKey: "g6_branches_min" },
   { label: "lines", regex: /engine\.js\s*\|\s*[\d.]+\s*\|\s*[\d.]+\s*\|\s*[\d.]+\s*\|\s*([\d.]+)/, floorKey: "g6_lines_min" },
   { label: "app_branches", regex: /App\.jsx\s*\|\s*[\d.]+\s*\|\s*([\d.]+)/, floorKey: "g6_appjsx_branches_min" },
@@ -263,7 +319,7 @@ step("G6 coverage", "npx vitest run --coverage", [
      whitespace, so the app/src/screens row cannot answer for it. */
   { label: "appdir_branches", regex: /\n\s*app\/src\s+\|\s*[\d.]+\s*\|\s*([\d.]+)/, floorKey: "g6_app_branches_min" },
   { label: "appdir_lines", regex: /\n\s*app\/src\s+\|\s*[\d.]+\s*\|\s*[\d.]+\s*\|\s*[\d.]+\s*\|\s*([\d.]+)/, floorKey: "g6_app_lines_min" },
-]);
+], {}, [], { output: suiteOut });
 
 /* G6's calibration: the meter itself, checked against fixtures whose true
    coverage is known by construction. Every other detector here ships a
@@ -451,8 +507,22 @@ if (skipped.length) {
    the working tree matched the commit when the gates ran — a green report
    from a modified tree certifies nothing. */
 
+/* A Node walk, sorted by POSIX path. The first version shelled out to
+   `find ... | LC_ALL=C sort`, which a Windows shell has never had, so every
+   evidence file this machine wrote said "payload not built" while the build
+   sat right there (found by the speed audit, 2026-08-21). Forward slashes
+   whatever the platform, so the same bytes hash the same everywhere. */
+const walk = (dir) => {
+  const out = [];
+  for (const name of readdirSync(dir)) {
+    const p = `${dir}/${name}`;
+    if (statSync(p).isDirectory()) out.push(...walk(p)); else out.push(p);
+  }
+  return out;
+};
 const payloadHash = (() => {
-  const files = (sh("find app/dist -type f | LC_ALL=C sort") || "").split("\n").filter(Boolean);
+  if (!existsSync("app/dist")) return null;
+  const files = walk("app/dist").sort();
   if (!files.length) return null;
   const h = createHash("sha256");
   for (const f of files) { h.update(f); h.update(createHash("sha256").update(readFileSync(f)).digest("hex")); }
@@ -481,8 +551,9 @@ const report_ = {
      runs of the same commit can otherwise use different vitest, playwright or
      axe builds with nothing recording which one produced the evidence. */
   suites: Object.fromEntries(["vitest", "playwright", "axe-core", "fast-check"].map((n) => {
-    const v = sh(`node -p "require('./node_modules/${n}/package.json').version" 2>/dev/null`);
-    return [n, v || null];
+    /* Read in-process: the shelled `node -p ... 2>/dev/null` wrote null for
+       all four on Windows (same audit, same day). */
+    try { return [n, createRequire(import.meta.url)(`${n}/package.json`).version || null]; } catch { return [n, null]; }
   })),
   /* required = the closed list that must run; ran = every step executed,
      which is larger because helpers like "extract engine" and "app build"
