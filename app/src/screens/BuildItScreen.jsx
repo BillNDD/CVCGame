@@ -137,6 +137,10 @@ export default function BuildItScreen({ tray, playSounds, playWord, onDone, onEx
          is queued below, after the clear. */
       timers.current.forEach(clearTimeout);
       timers.current = [];
+      /* and the scaffold's ring with them: the cleared timer was the one that
+         would have taken the cue off, and the won slot kept the ring (the
+         checkpoint renders, 2026-08-22) */
+      setGhost(null);
       setWon(true);
       setMsg(isSound ? "🎉 You found it!" : "🎉 You built " + tray.word + "!");
       /* The turn ends when the CELEBRATION ends, never on a fixed timer: the
@@ -220,7 +224,7 @@ export default function BuildItScreen({ tray, playSounds, playWord, onDone, onEx
           <div aria-busy={busy ? "true" : undefined} style={{ display: "flex", gap: 10, justifyContent: "center", flexWrap: "wrap" }}>
             {slots.map((tile, i) => (
               <button key={i} onClick={() => lift(i)} disabled={tile === null || won} aria-label={tile !== null ? "Take back " + at(tile) : "Empty space"}
-                className={"wq-tilebtn" + (tile === null ? " wq-empty" : "") + (ghost === i ? " wq-cue" : "") + (arr && tile !== null ? " wq-arr" : "") + (won && tile !== null ? " wq-won" : "")}
+                className={"wq-tilebtn" + (tile === null ? " wq-empty" : "") + (ghost === i && tile === null ? " wq-cue" : "") + (arr && tile !== null ? " wq-arr" : "") + (won && tile !== null ? " wq-won" : "")}
                 style={{ width: slotWidth(tray.answer[i]), height: SLOT }}>
                 {at(tile) || (ghost === i ? <span className="wq-ghost">{tray.answer[i]}</span> : "")}
               </button>

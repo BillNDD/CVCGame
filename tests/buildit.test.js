@@ -303,6 +303,26 @@ describe("the ceramic tile states", () => {
     expect(filled.every((b) => b.classList.contains("wq-won") && b.disabled)).toBe(true);
     expect(tiles().every((b) => b.disabled)).toBe(true);
   });
+
+  it("25: a win during the scaffold takes the cue ring off the slot it was on", async () => {
+    /* the checkpoint renders caught a won slot still ringed: the win cleared
+       the timer that would have cleared the cue */
+    const tray = mount("cat", 8);
+    const wrong = tiles().find((b) => !tray.answer.includes(b.textContent));
+    for (let go = 0; go < 2; go += 1) {
+      fireEvent.click(wrong);
+      for (const t of tray.answer.slice(0, 2)) fireEvent.click(tileFor(t)[0]);
+      await flush(60);
+      if (go === 0) slots().forEach((s) => fireEvent.click(s));
+    }
+    await flush(1000);
+    expect(document.querySelectorAll(".wq-tilebtn.wq-cue").length).toBe(1);
+    for (const t of tray.answer) fireEvent.click(tileFor(t)[0]);
+    await flush(50);
+    expect(screen.getByText(/You built/)).toBeTruthy();
+    expect(document.querySelectorAll(".wq-tilebtn.wq-cue").length).toBe(0);
+    expect(document.querySelectorAll(".wq-tilebtn.wq-won").length).toBe(3);
+  });
 });
 
 /* BUILD-A-SOUND (open-faults Q6, owner-ruled 2026-08-17). The ladder's version:
