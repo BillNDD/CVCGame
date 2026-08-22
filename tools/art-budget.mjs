@@ -43,8 +43,12 @@ const ART = "app/public/art";
 /* Tracked art files and their byte sizes - git's list, so an untracked stray
    on one machine cannot move the number. */
 export function trackedArt(dir = ART) {
-  let names = "";
-  try { names = execFileSync("git", ["ls-files", "-z", "--", dir], { encoding: "utf8" }); } catch { return []; }
+  /* NEVER FAIL OPEN. The first draft returned [] when git could not be
+     asked, which printed the same "0 tracked art files, 0 problems" line a
+     tree with no art prints - a gate that measures nothing and says it
+     passed (the council's after pass on step 0, 2026-08-22). A reader that
+     cannot read throws, and the caller reports it as a problem. */
+  const names = execFileSync("git", ["ls-files", "-z", "--", dir], { encoding: "utf8" });
   return names.split("\0").filter(Boolean).map((f) => ({ file: f, bytes: existsSync(f) ? statSync(f).size : 0 }));
 }
 
@@ -90,6 +94,24 @@ function selfTest() {
     judge({ artFiles: [], ceiling, precacheMax: pmax, copies: [{ file: "app/public/art/x.png", same: false, why: "10 bytes in source, 9 built" }] }).problems.some((p) => p.includes("differs from the source"))]);
   const list = existsSync("app/dist/sw.js") ? precacheList("app/dist/sw.js") : "no build";
   ok.push(["the precache reader finds the worker's list, when there is a build to read", list === "no build" || (Array.isArray(list) && list.length > 0)]);
+  /* The reader itself, on a directory that IS tracked: git's list must name
+     the files that are there, with statSync's own sizes. Until the first art
+     file lands, app/public/voice is the tracked directory that stands in. */
+  const voice = trackedArt("app/public/voice");
+  ok.push(["the tracked-file reader reads a real tracked directory, with real sizes",
+    voice.length >= 1 && voice.every((f) => f.bytes > 0 && f.bytes === statSync(f.file).size)]);
+  let threw = false;
+  try { trackedArt("a-path-no-process-can-take\0"); } catch { threw = true; }   // a NUL byte: the spawn itself refuses, as a missing git would
+  ok.push(["a reader that cannot ask git throws rather than reporting zero", threw === true]);
+  /* The copy comparison on one real built file: the voice clip in app/dist
+     must be byte-identical to its source, and a source with no built copy
+     is refused. */
+  if (existsSync("app/dist/sw.js") && voice.length) {
+    const real = compareCopies([voice[0]]);
+    ok.push(["the copy comparison accepts a real built file that matches its source", real.length === 1 && real[0].same === true]);
+    const ghost = compareCopies([{ file: "app/public/art/WQ_GHOST_v000.png", bytes: 1 }]);
+    ok.push(["and refuses a source with no built copy", ghost[0].same === false && ghost[0].why === "missing from app/dist"]);
+  }
   for (const [name, pass] of ok) console.log((pass ? "ok   " : "FAIL ") + name);
   const failed = ok.filter(([, p]) => !p).length;
   console.log(`\nart-budget controls: ${ok.length - failed} passed, ${failed} failed`);
@@ -98,7 +120,8 @@ function selfTest() {
 
 if (process.argv.includes("--self-test")) process.exit(selfTest() ? 1 : 0);
 
-const art = trackedArt();
+let art;
+try { art = trackedArt(); } catch (e) { console.log("PROBLEM: git could not list the tracked art: " + (e && e.message ? e.message.split("\n")[0] : e)); process.exit(1); }
 const facts = { artFiles: art, ceiling: BASELINE.art_bytes_max, precacheMax: BASELINE.precache_files_max };
 if (process.argv.includes("--dist")) {
   const list = existsSync("app/dist/sw.js") ? precacheList("app/dist/sw.js") : null;

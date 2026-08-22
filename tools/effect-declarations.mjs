@@ -140,6 +140,14 @@ export const DECLARED = {
     evidence: "Vitest count (floor g1_garden_tests)",
     limits: "Proves the two functions; whether a garden state is ever SHOWN is the frame's cell, not this.",
   },
+  "tests/tokens.test.js": {
+    safety: {},
+    gate: "G1", requirement: "SPEC section 9 and the art bible's 9.3: C is the one statement of the palette; the thirteen original keys keep their literal values; every edge or boundary token clears 3:1 on the surface it edges",
+    oracle: "Literal hex pins for the thirteen original keys, the key count, and this file's own WCAG relative-luminance arithmetic at literal expected ratios (3.78, 4.68, 7.51, 6.39, 11.36, 6.43, 5.57), with the one admitted sub-3:1 pair (2.10) as the control",
+    platform: "node", mutants: "not yet in a G5 family",
+    evidence: "Vitest count (floor g1_token_tests)",
+    limits: "Pins values and ratios; whether a rendered control actually shows those colours is G7's contrast walker, and the hex-literal quality control refuses a colour typed anywhere else.",
+  },
   "tests/models.test.js": {
     safety: { S7: "unit" },
     gate: "G10", requirement: "SPEC section 12 (Build-it, Find-the-sound) and section 6 (the free-play grid): no sequence of a child's taps reaches a screen with no way out",

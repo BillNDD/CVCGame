@@ -35,7 +35,11 @@ const PLAIN = /^[A-Za-z0-9 ,.'’!?()-]+$/;
 /* The rule, over every button on the screen. Returns the offences. */
 export function offences(root = document) {
   const out = [];
-  for (const b of root.querySelectorAll("button")) {
+  /* buttons, and any label that wraps an input - the shape the corner's
+     "Load backup file" had, which this walker could not see while it read
+     buttons alone (the council's after pass on step 0, 2026-08-22) */
+  const controls = [...root.querySelectorAll("button"), ...[...root.querySelectorAll("label")].filter((l) => l.querySelector("input"))];
+  for (const b of controls) {
     const label = b.getAttribute("aria-label");
     const text = (b.textContent || "").trim();
     if (label !== null) {
@@ -107,7 +111,7 @@ describe("every control is named in plain words", () => {
     quiet.mockRestore();
   });
 
-  it("3 (control): a hold named the old way, and a bare emoji button, are both refused", () => {
+  it("3 (control): a hold named the old way, a bare emoji button, and a label round an input are each refused", () => {
     render(createElement(HoldButton, { onFire: () => {}, color: "#0f7a4f", label: "✓ got it" }));
     /* HoldButton now names itself plainly; the control plants the OLD name
        over it and a bare emoji button beside it. */
@@ -116,10 +120,14 @@ describe("every control is named in plain words", () => {
     const bare = document.createElement("button");
     bare.textContent = "▶️ Begin Session";
     document.body.appendChild(bare);
+    const wrapped = document.createElement("label");
+    wrapped.textContent = "⬆️ Load backup file";
+    wrapped.appendChild(document.createElement("input"));
+    document.body.appendChild(wrapped);
     const found = offences();
     expect(found.some((o) => o.includes("not plain words"))).toBe(true);
     expect(found.some((o) => o.includes("pointer hold"))).toBe(true);
-    expect(found.some((o) => o.includes("reads the emoji"))).toBe(true);
-    bare.remove();
+    expect(found.filter((o) => o.includes("reads the emoji")).length, "the bare button AND the label round an input").toBe(2);
+    bare.remove(); wrapped.remove();
   });
 });

@@ -5,11 +5,12 @@
  * Two live cells (offline equality, update-stay) plus the negative controls
  * for all five novelty detectors (E5). Every control exercises the SAME
  * helper the live cells run, from tools/census-novelties.mjs. */
-import { test, expect } from "@playwright/test";
+import { test, expect, devices } from "@playwright/test";
 import { stage, holdGrade, waitForReveal, requireStaged, seedGraduated, GRADE, BANK_WORDS } from "../../tools/ux-census.mjs";
 import { landmarks, phaseHold, homeFurniture, chromeHold, offlineHold,
          markStay, assertStayed, pokeForeground, hitTest, monkey, SOUND_ONLY,
-         zoneSum, motionHold, unitWidthHold, wordBox, wordFits, widestWord, guideState, guideHold, snapHold } from "../../tools/census-novelties.mjs";
+         zoneSum, runningAnimations, motionHold, unitWidthHold, wordBox, wordFits, widestWord, wordGeometry, wordHold,
+         guideState, guideHold, artSnap, snapHold } from "../../tools/census-novelties.mjs";
 
 /* ---- the live singleton cells ---- */
 
@@ -167,10 +168,14 @@ test("200%: the widest bank word stays one line at 320 x 568 - at 100%, under re
      Three arms. 100% at 320 x 568 is the WCAG reflow width, where the height-
      sized word split seven bank words before the fit existed (and thirty-four
      on a 390 px phone). Rem scaling is a phone's text-size setting. Zoom is
-     the desktop's 200%, CSS zoom as G8 applies it - on a 640 x 1136 viewport,
-     because zoom halves the CSS pixels a screen has and 320 zoomed is a
-     160 px screen no device owns; 640 zoomed is the same 320 CSS px as the
-     first arm, reached by the other mechanism, with svh resolving through it. */
+     CSS zoom at 2 as G8 applies it, on a 640 x 1136 viewport: it halves the
+     CSS pixels a line has (320 zoomed would be a 160 px line no device owns)
+     and it does NOT scale svh - measured 2026-08-22, a 100svh root under
+     html{zoom:2} is 2,272 px tall on a 1,136 px screen and the clamp still
+     computes 88 px - so this arm measures the word's WIDTH under zoom and
+     nothing about the shell; the first draft's comment claimed more. Every
+     arm also reads the error ring: a refit must never write a phantom
+     error into the grown-up's bug report. */
   await page.setViewportSize({ width: 320, height: 568 });
   const { shown } = await stage(page, null, "sat", null);
   requireStaged("sat", shown);
@@ -193,7 +198,35 @@ test("200%: the widest bank word stays one line at 320 x 568 - at 100%, under re
     report[how] = { box, findings };
     expect(findings, how + ": " + JSON.stringify(report)).toEqual([]);
     expect(box.textPx, how + ": the word must have rendered wider than nothing").toBeGreaterThan(100);
+    expect(await page.evaluate(() => localStorage.getItem("wq-errors")), how + ": the error ring must stay empty").toBeNull();
   }
+});
+
+test("the fit across a rotation: the word refits and the error ring stays empty", async ({ page }) => {
+  /* The first Word.jsx set its size from inside its own ResizeObserver
+     delivery, and every refit raised "ResizeObserver loop completed with
+     undelivered notifications" as a window error, which the app's error ring
+     recorded - a phantom bug in the grown-up's report on every rotation
+     (the reading chair, measured on the built app, 2026-08-22). Three
+     viewports, the widest word, the ring read after each. */
+  await page.setViewportSize({ width: 390, height: 844 });
+  const { shown } = await stage(page, null, "sat", null);
+  requireStaged("sat", shown);
+  const widest = await widestWord(page, BANK_WORDS);
+  const staged = await stage(page, null, widest.word, null);
+  requireStaged(widest.word, staged.shown);
+  const sizes = [];
+  for (const [w, h] of [[390, 844], [320, 568], [844, 390], [390, 844]]) {
+    await page.setViewportSize({ width: w, height: h });
+    await page.waitForTimeout(250);
+    const box = await wordBox(page);
+    sizes.push(w + "x" + h + ":" + box.fontPx);
+    expect(wordFits(box, 36), w + "x" + h + ": " + JSON.stringify(box)).toEqual([]);
+    expect(await page.evaluate(() => localStorage.getItem("wq-errors")), w + "x" + h + ": the error ring must stay empty; sizes so far " + sizes.join(" ")).toBeNull();
+  }
+  /* and the word actually refitted across those viewports, or the cell
+     exercised nothing */
+  expect(new Set(sizes.map((x) => x.split(":")[1])).size, "the word never changed size across four viewports: " + sizes.join(" ")).toBeGreaterThan(1);
 });
 
 test("control: a frame in flow, a looping animation, equal tile widths, a wrapped word, a guide on the stage and unsnapped art are each caught", async ({ page }) => {
@@ -210,12 +243,25 @@ test("control: a frame in flow, a looping animation, equal tile widths, a wrappe
   expect(guide.map((f) => f.kind)).toEqual(expect.arrayContaining(["guide-on-forbidden-screen", "guide-over-stage"]));
   expect(guideHold([], true).map((f) => f.kind), "no guide where one is expected is a finding, not a pass").toEqual(["no-subject"]);
   await page.evaluate(() => document.getElementById("wq-plant-guide").remove());
-  /* unsnapped art: a 300 px wide sprite of 64 art pixels at a fractional dpr */
-  const snap = snapHold([{ id: "plant", k: (300 * 2.625) / 64, left: 3.1, top: 0, rendering: "auto", dpr: 2.625 }]);
-  expect(snap.map((f) => f.kind).sort()).toEqual(["art-not-snapped", "art-off-grid", "art-smoothed"]);
+  /* the snap's arithmetic on fixtures: a ratio tolerance would pass
+     k = 2.019 over 512 art pixels (1,033.7 device px against 1,024); the
+     device-pixel tolerance refuses it, and a stretched height alone */
   expect(snapHold([]).map((f) => f.kind)).toEqual(["no-subject"]);
-  expect(snapHold([{ id: "good", k: 8, left: 16, top: 24, rendering: "pixelated", dpr: 2.625 }])).toEqual([]);
-  /* a looping animation during the attempt, and two tiles sounding at once */
+  expect(snapHold([{ id: "wide", naturalW: 512, naturalH: 64, deviceW: 512 * 2.019, deviceH: 128, left: 16, top: 24, rendering: "pixelated", dpr: 2.625 }]).map((f) => f.kind)).toEqual(["art-not-snapped"]);
+  expect(snapHold([{ id: "tall", naturalW: 64, naturalH: 64, deviceW: 128, deviceH: 150, left: 16, top: 24, rendering: "pixelated", dpr: 2.625 }]).map((f) => f.kind)).toEqual(["art-not-snapped"]);
+  expect(snapHold([{ id: "good", naturalW: 64, naturalH: 64, deviceW: 512, deviceH: 512, left: 16, top: 24, rendering: "pixelated", dpr: 2.625 }])).toEqual([]);
+  /* a looping animation during the attempt, planted in the page and read
+     back through the browser (the fixture lists below prove the hold's
+     arithmetic; this proves the reader) */
+  await page.evaluate(() => {
+    const st = document.createElement("style"); st.id = "wq-plant-style"; st.textContent = "@keyframes wqplant{from{opacity:1}to{opacity:.4}}";
+    const d = document.createElement("div"); d.id = "wq-plant-loop"; d.className = "wq-plant-loop"; d.style.cssText = "position:absolute;width:8px;height:8px;animation:wqplant 1s linear infinite";
+    document.head.appendChild(st); document.querySelector(".wq-shell").appendChild(d);
+  });
+  await page.waitForTimeout(50);
+  const planted = await runningAnimations(page);
+  expect(motionHold("attempt", planted).map((f) => f.detail), JSON.stringify(planted)).toEqual([expect.stringContaining("div.wq-plant-loop:wqplant")]);
+  await page.evaluate(() => { document.getElementById("wq-plant-loop").remove(); document.getElementById("wq-plant-style").remove(); });
   expect(motionHold("attempt", ["div.wq-float:wqf"]).map((f) => f.kind)).toEqual(["motion-during-attempt"]);
   expect(motionHold("reveal", ["span.wq-tile.wq-pop:wqpop", "span.wq-tile.wq-pop:wqpop"]).map((f) => f.kind)).toEqual(["two-sounding-tiles"]);
   expect(motionHold("reveal", ["span.wq-tile.wq-pop:wqpop", "div.wq-ctafill:wqfill"])).toEqual([]);
@@ -273,4 +319,57 @@ test("offline equality: the offline app is the same app, measured", async ({ pag
     await context.setOffline(false);
   }
 });
+});
+
+test("control: a word that changes size or moves between ready and reveal is caught", async ({ page }) => {
+  const { shown } = await stage(page, null, "ship", null);
+  requireStaged("ship", shown);
+  const ready = await wordGeometry(page);
+  await holdGrade(page, GRADE.correct, []);
+  await waitForReveal(page);
+  /* the plant: the glyphs shrink mid-word, the way a refit during the reveal would */
+  await page.evaluate(() => { const t = document.querySelector(".wq-word .wq-word-text"); t.style.fontSize = "20px"; });
+  const shrunk = await wordGeometry(page);
+  expect(wordHold(ready, shrunk, "ready and reveal").map((f) => f.kind), JSON.stringify({ ready, shrunk })).toEqual(expect.arrayContaining(["word-resized"]));
+  await page.evaluate(() => { document.querySelector(".wq-word .wq-word-text").style.fontSize = ""; document.querySelector(".wq-word").style.marginTop = "9px"; });
+  const moved = await wordGeometry(page);
+  expect(wordHold(ready, moved, "ready and reveal").map((f) => f.kind)).toEqual(expect.arrayContaining(["word-moved", "baseline-moved"]));
+  await page.evaluate(() => { document.querySelector(".wq-word").style.marginTop = ""; });
+  expect(wordHold(ready, await wordGeometry(page), "ready and reveal")).toEqual([]);
+  expect(wordHold(null, ready).map((f) => f.kind)).toEqual(["no-subject"]);
+  expect(wordHold(ready, { ...ready, text: "other" }).map((f) => f.kind)).toEqual(["no-subject"]);
+});
+
+test("control: unsnapped art on the Pixel 7 is caught by the reader, and snapped art passes it", async ({ browser }) => {
+  /* A REAL element on a REAL 2.625 context (the Pixel 7), read through
+     artSnap's browser half: a 64 x 64 PNG drawn at 300 CSS px wide with the
+     browser's smoothing is refused on all three counts; resized to eight
+     device pixels per art pixel, at an integer device offset, pixelated, it
+     passes. The first draft fed snapHold hand-typed numbers and never ran
+     the reader (the council's after pass on step 0, 2026-08-22). */
+  const ctx = await browser.newContext({ ...devices["Pixel 7"], baseURL: "http://localhost:" + (process.env.CENSUS_PORT || 4187) + "/", serviceWorkers: "block", reducedMotion: "reduce" });
+  try {
+    const page = await ctx.newPage();
+    const { shown } = await stage(page, null, "sat", null);
+    requireStaged("sat", shown);
+    expect(await page.evaluate(() => devicePixelRatio)).toBe(2.625);
+    await page.evaluate(() => {
+      const cv = document.createElement("canvas"); cv.width = cv.height = 64;
+      const x = cv.getContext("2d"); for (let i = 0; i < 64; i++) { x.fillStyle = i % 2 ? "#1d2c50" : "#7fa660"; x.fillRect(i, 0, 1, 64); }
+      const img = document.createElement("img"); img.id = "wq-plant-art"; img.setAttribute("data-wq-art", "plant"); img.src = cv.toDataURL("image/png");
+      img.style.cssText = "position:absolute;left:3.1px;top:0;width:300px;height:300px;image-rendering:auto";
+      document.querySelector(".wq-shell").appendChild(img);
+      return new Promise((res) => { img.onload = res; });
+    });
+    const wrong = snapHold(await artSnap(page));
+    expect(wrong.map((f) => f.kind).sort(), JSON.stringify(wrong)).toEqual(["art-not-snapped", "art-off-grid", "art-smoothed"]);
+    await page.evaluate(() => {
+      const img = document.getElementById("wq-plant-art"); const k = 8, dpr = devicePixelRatio;
+      img.style.width = img.style.height = (64 * k) / dpr + "px";
+      img.style.left = 262 / dpr + "px"; img.style.top = 105 / dpr + "px";
+      img.style.imageRendering = "pixelated";
+    });
+    const right = snapHold(await artSnap(page));
+    expect(right, JSON.stringify(await artSnap(page))).toEqual([]);
+  } finally { await ctx.close(); }
 });

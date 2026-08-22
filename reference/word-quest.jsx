@@ -455,6 +455,16 @@ const C = {
   tileHighlight:    "#fff1b5",   // the tile's highlight
   tileEdge:         "#8f6420",   // the bible's #B8832E darkened: 2.40:1 to 3.78:1 on tileFace
   slot:             "#e6dccb",   // an empty slot
+  /* The seven below entered on 2026-08-22, the council's after pass on
+     step 0: the hex literals the screens and the stylesheet still typed,
+     each now a token so that no file outside C states a colour. */
+  paper:            "#ffffff",   // white surfaces: cards, inputs, the modal, the CTA's text
+  slotEdge:         "#94a8c0",   // Build-it's dashed empty-slot border
+  warningDeep:      "#96261d",   // the home strip's storage warning: 4.5:1 on the gradient
+  chipGreen:        "#c6f2dd",   // the corner's mastery chip: read right twice
+  chipAmber:        "#ffe9b3",   // read right once
+  chipRed:          "#ffd4d0",   // not yet
+  sunEdge:          "#e0ac2b",   // the ring round the current progress segment
 };
 
 const LANGS = [
@@ -2440,8 +2450,8 @@ export default function WordQuest() {
                 <span>🗓️ {state.sessionsCompleted} sessions</span><span>🌟 {masteredCount} mastered</span>
               </div>
             </div>
-            {/* #96261d: warning red dark enough for 4.5:1 on the gradient */}
-            {(!persistent || readOnly) && <p style={{ marginTop: 14, fontSize: 12.5, fontWeight: 700, color: "#96261d" }}>
+            {/* C.warningDeep: warning red dark enough for 4.5:1 on the gradient */}
+            {(!persistent || readOnly) && <p style={{ marginTop: 14, fontSize: 12.5, fontWeight: 700, color: C.warningDeep }}>
               ⚠️ {readOnly ? "Saved progress could not be read. Nothing is being saved." : "Saving unavailable — progress lasts this visit only."}</p>}
           </div>
         </Zone.Stage>
@@ -2507,7 +2517,7 @@ export default function WordQuest() {
         <Zone.Rail>
           {phase === "feedback" ? (
             <button ref={advanceRef} className="wq-cta" onClick={next} disabled={!advanceReady}
-              style={{ background: advanceReady ? C.green : "#9fb4c4" }}>
+              style={{ background: advanceReady ? C.green : C.disabled }}>
               {qi + 1 >= queue.length ? "🏁 Finish!" : "Next word ➡️"}
             </button>
           ) : (
@@ -2540,7 +2550,7 @@ export default function WordQuest() {
             </p>
             <div style={{ display: "grid", gap: 8 }}>
               {answered > 0 && <button className="wq-cta" style={{ background: C.green }} onClick={() => handleExit("save")}>Save {answered} as a short session</button>}
-              <button className="wq-cta" style={{ background: "#fff", color: C.red, border: "2px solid " + C.red }} onClick={() => handleExit("discard")}>Discard and go home</button>
+              <button className="wq-cta" style={{ background: C.paper, color: C.red, border: "2px solid " + C.red }} onClick={() => handleExit("discard")}>Discard and go home</button>
               <button className="wq-btn-plain" onClick={() => handleExit("cancel")} style={{ justifySelf: "center" }}>Keep reading</button>
             </div>
           </Modal>
@@ -2743,21 +2753,30 @@ function Word({ children, ...rest }) {
   useLayoutEffect(() => {
     const el = ref.current;
     if (!el || typeof ResizeObserver === "undefined") return undefined;
+    const inner = el.firstElementChild;
+    /* The stylesheet's size stays on .wq-word and the fitted size goes on the
+       inner span, so the box and the baseline are the same for every word;
+       app/src/components/Word.jsx carries the full account. */
     const fit = () => {
-      el.style.fontSize = "";
-      const room = el.clientWidth, need = el.scrollWidth;
+      inner.style.fontSize = "";
+      /* both as client rects: under CSS zoom a rect is scaled and clientWidth
+         is not, and a room in one unit against a need in the other halved the
+         word for nothing (the zoom arm, 2026-08-22) */
+      const room = el.getBoundingClientRect().width, need = inner.getBoundingClientRect().width;
       if (room > 0 && need > room) {
-        el.style.fontSize = (parseFloat(getComputedStyle(el).fontSize) * (room - 1) / need).toFixed(2) + "px";
+        inner.style.fontSize = (parseFloat(getComputedStyle(el).fontSize) * (room - 1) / need).toFixed(2) + "px";
       }
     };
     fit();
-    const ro = new ResizeObserver(fit);
+    let frame = 0;
+    const ro = new ResizeObserver(() => { cancelAnimationFrame(frame); frame = requestAnimationFrame(fit); });
     ro.observe(el);
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(fit, () => {});
-    return () => ro.disconnect();
+    return () => { ro.disconnect(); cancelAnimationFrame(frame); };
   }, [text]);
-  return <div ref={ref} className="wq-display wq-word" aria-live="off" {...rest}>{children}</div>;
+  return <div ref={ref} className="wq-display wq-word" aria-live="off" {...rest}><span className="wq-word-text">{children}</span></div>;
 }
+
 function Toast({ children }) { return <div className="wq-toast" role="status">{children}</div>; }
 
 function Modal({ title, children, onClose }) {
@@ -2853,7 +2872,7 @@ function Seg({ options, value, onChange, disabled = [] }) {
 const CSS = `
 .wq-root{
   height:100vh; height:100svh; width:100%; overflow:hidden;
-  background:linear-gradient(160deg,#8fd0fa 0%,#b9c3fb 55%,#d9c6fb 100%);
+  background:linear-gradient(160deg,${C.skyBlue} 0%,${C.skyLavender} 55%,${C.skyPurpleMist} 100%);
   font-family:ui-rounded,'SF Pro Rounded',system-ui,-apple-system,'Segoe UI',sans-serif;
   color:${C.ink};
 }
@@ -2891,7 +2910,7 @@ const CSS = `
 .wq-slot-msg{height:52px;min-height:52px;display:flex;flex-direction:column;align-items:center;justify-content:center;margin-top:4px}
 
 /* controls */
-.wq-cta{display:block;width:100%;border:0;border-radius:999px;background:${C.action};color:#fff;
+.wq-cta{display:block;width:100%;border:0;border-radius:999px;background:${C.action};color:${C.paper};
   font:800 clamp(1rem,2.4svh,1.25rem)/1.1 inherit;padding:16px 18px;cursor:pointer;
   box-shadow:0 3px 10px rgba(23,53,107,.18);min-height:56px}
 .wq-cta:disabled{cursor:default;box-shadow:none}
@@ -2900,7 +2919,7 @@ const CSS = `
   padding:11px 13px;border-radius:999px;cursor:pointer;min-height:40px}
 .wq-chip{background:rgba(255,255,255,.85);color:${C.ink};font:800 12.5px/1 inherit;padding:7px 10px;border-radius:999px;display:inline-block}
 .wq-striplabel{font:800 9.5px/1 inherit;letter-spacing:.12em;text-transform:uppercase;color:${C.strip};opacity:.85}
-.wq-sbtn{background:#fff;border:1.5px solid ${C.line};border-radius:9px;color:${C.strip};
+.wq-sbtn{background:${C.paper};border:1.5px solid ${C.line};border-radius:9px;color:${C.strip};
   font:700 12.5px/1 inherit;padding:0 12px;min-height:44px;min-width:44px;cursor:pointer} /* N-6 */
 .wq-hold{position:relative;overflow:hidden;touch-action:none}
 .wq-holdfill{position:absolute;inset:0;width:0;opacity:.22}
@@ -2913,20 +2932,20 @@ const CSS = `
 .wq-seg{flex:1;height:9px;border-radius:2px;min-width:3px}
 .wq-seg-todo{background:rgba(255,255,255,.55)}
 .wq-seg-ok{background:${C.green}}
-.wq-seg-mid{background:repeating-linear-gradient(135deg,${C.sun} 0 3px,#fff 3px 6px)}
-.wq-seg-bad{background:repeating-linear-gradient(90deg,${C.red} 0 2px,#fff 2px 4px)}
+.wq-seg-mid{background:repeating-linear-gradient(135deg,${C.sun} 0 3px,${C.paper} 3px 6px)}
+.wq-seg-bad{background:repeating-linear-gradient(90deg,${C.red} 0 2px,${C.paper} 2px 4px)}
 
 /* cards / forms */
-.wq-card{background:#fff;border-radius:18px;box-shadow:0 2px 10px rgba(23,53,107,.12);text-align:center}
+.wq-card{background:${C.paper};border-radius:18px;box-shadow:0 2px 10px rgba(23,53,107,.12);text-align:center}
 .wq-lbl{display:block;font:800 11px/1.3 inherit;letter-spacing:.06em;text-transform:uppercase;color:${C.muted};margin-bottom:5px}
 .wq-help{margin:6px 0 0;font-size:12.5px;line-height:1.45;color:${C.muted}}
 .wq-input{width:100%;border:1.5px solid ${C.line};border-radius:10px;padding:11px 12px;
-  font:600 15px/1.3 inherit;color:${C.ink};background:#fff;min-height:44px}
+  font:600 15px/1.3 inherit;color:${C.ink};background:${C.paper};min-height:44px}
 .wq-fieldrow{margin-top:14px}
 .wq-seggroup{display:flex;gap:4px;background:${C.chip};border-radius:11px;padding:3px;flex-wrap:wrap}
 .wq-segbtn{flex:1 1 auto;min-width:44px;min-height:40px;border:0;background:transparent;border-radius:8px;
   color:${C.strip};font:800 13px/1 inherit;cursor:pointer}
-.wq-segbtn.on{background:#fff;color:${C.ink};box-shadow:0 1px 3px rgba(23,53,107,.2)}
+.wq-segbtn.on{background:${C.paper};color:${C.ink};box-shadow:0 1px 3px rgba(23,53,107,.2)}
 .wq-segbtn:disabled{opacity:.4;cursor:default}
 .wq-rowbtn{display:flex;align-items:center;width:100%;border:0;background:transparent;padding:4px 0;cursor:pointer;min-height:40px}
 .wq-meter{display:flex;height:6px;border-radius:3px;background:${C.chip};overflow:hidden;margin-top:6px}
@@ -2936,11 +2955,11 @@ const CSS = `
 /* overlays */
 /* P2-2: toast sits above the action rail, never over the header */
 .wq-toast{position:absolute;left:50%;transform:translateX(-50%);bottom:calc(112px + env(safe-area-inset-bottom));
-  background:${C.ink};color:#fff;padding:10px 16px;border-radius:999px;font:700 13px/1.3 inherit;
+  background:${C.ink};color:${C.paper};padding:10px 16px;border-radius:999px;font:700 13px/1.3 inherit;
   max-width:88%;text-align:center;z-index:70}
 .wq-modalwrap{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:18px;z-index:80}
 .wq-scrim{position:absolute;inset:0;background:rgba(23,53,107,.42);border:0;order:-1}
-.wq-modal{position:relative;z-index:1;background:#fff;border-radius:18px;padding:18px;max-width:380px;width:100%;
+.wq-modal{position:relative;z-index:1;background:${C.paper};border-radius:18px;padding:18px;max-width:380px;width:100%;
   box-shadow:0 12px 40px rgba(23,53,107,.3)}
 
 /* a11y + motion */

@@ -363,8 +363,11 @@ async function inspect(page, viewport, label, opts = {}) {
   /* The word a child is asked to read, which is the one piece of text on the
      screen the whole game exists for. */
   const wordFont = await page.evaluate(() => {
+    /* the glyphs' own size: the fitted span inside .wq-word, whose box keeps
+       the stylesheet's size (Word.jsx) */
     const el = document.querySelector(".wq-word");
-    return el ? parseFloat(getComputedStyle(el).fontSize) : null;
+    const t = el && (el.querySelector(".wq-word-text") || el);
+    return t ? parseFloat(getComputedStyle(t).fontSize) : null;
   });
   if (wordFont !== null && wordFont < FONT_FLOOR.word)
     push("word-too-small", `the target word renders at ${wordFont}px, floor ${FONT_FLOOR.word}px`);

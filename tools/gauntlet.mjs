@@ -297,6 +297,7 @@ const suiteOut = step("G1+G2+G9+G10 tests", "npx vitest run --coverage", [
      sequences against Build-it, Find-the-sound and the free-play chooser. */
   { label: "models", regex: /models\.test\.js\s+\((\d+) tests\)/, floorKey: "g10_model_tests" },
   { label: "garden", regex: /garden\.test\.js\s+\((\d+) tests\)/, floorKey: "g1_garden_tests" },
+  { label: "tokens", regex: /tokens\.test\.js\s+\((\d+) tests\)/, floorKey: "g1_token_tests" },
   { label: "names", regex: /names\.test\.js\s+\((\d+) tests\)/, floorKey: "g10_name_tests" },
   { label: "adult_controls", regex: /adult-controls\.test\.js\s+\((\d+) tests\)/, floorKey: "g10_adult_control_tests" },
   { label: "reveal", regex: /reveal\.test\.js\s+\((\d+) tests\)/, floorKey: "g10_reveal_tests" },
@@ -433,7 +434,7 @@ step("G14 art-budget", "node tools/art-budget.mjs --dist && node tools/art-budge
   { label: "art_bytes", regex: /Art budget: \d+ tracked art files, (\d+) bytes/, maxKey: "art_bytes_max" },
   { label: "precache", regex: /precache (\d+) files/, maxKey: "precache_files_max" },
   { label: "problems", regex: /, (\d+) problems/, max: 0 },
-  { label: "controls", regex: /art-budget controls: (\d+) passed/, min: 7 },
+  { label: "controls", regex: /art-budget controls: (\d+) passed/, min: 11 },
 ], {}, ["13 MB of planted art is refused", "a built file whose bytes differ from its source is refused"]);
 
 step("G7 interface", "node tests/ui/interface.mjs", [

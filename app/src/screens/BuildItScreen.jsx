@@ -188,7 +188,7 @@ export default function BuildItScreen({ tray, playSounds, playWord, onDone, onEx
   const tileStyle = (tile, used) => ({
     width: TILE, height: TILE, borderRadius: 14, fontSize: 27, fontWeight: 800,
     display: "flex", alignItems: "center", justifyContent: "center",
-    border: "3px solid " + C.ink2, background: "#fff",
+    border: "3px solid " + C.ink2, background: C.paper,
     color: C.ink, opacity: used ? 0.22 : 1, cursor: used ? "default" : "pointer",
   });
 
@@ -217,8 +217,8 @@ export default function BuildItScreen({ tray, playSounds, playWord, onDone, onEx
               <button key={i} onClick={() => lift(i)} disabled={tile === null || won} aria-label={tile !== null ? "Take back " + at(tile) : "Empty space"}
                 style={{ width: slotWidth(tray.answer[i]), height: SLOT, borderRadius: 14,
                   fontSize: 27, fontWeight: 800,
-                  border: (tile !== null ? "3px solid " + C.ink2 : "3px dashed #94a8c0"),
-                  background: tile !== null ? "#fff" : "rgba(255,255,255,.55)", color: C.ink,
+                  border: (tile !== null ? "3px solid " + C.ink2 : "3px dashed " + C.slotEdge),
+                  background: tile !== null ? C.paper : "rgba(255,255,255,.55)", color: C.ink,
                   display: "flex", alignItems: "center", justifyContent: "center",
                   cursor: tile !== null ? "pointer" : "default" }}>
                 {at(tile) || (ghost === i ? <span style={{ opacity: 0.28 }}>{tray.answer[i]}</span> : "")}
@@ -227,7 +227,7 @@ export default function BuildItScreen({ tray, playSounds, playWord, onDone, onEx
           </div>
 
           <div style={{ minHeight: 26, marginTop: 14, fontWeight: 700, fontSize: 15,
-            color: won ? "#15803d" : C.ink }}>{msg}</div>
+            color: won ? C.success : C.ink }}>{msg}</div>
 
           <div style={{ display: "flex", gap: 10, justifyContent: "center", flexWrap: "wrap", marginTop: 14 }}>
             {tray.tiles.map((tile, i) => (

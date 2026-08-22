@@ -96,8 +96,8 @@ export default function ParentScreen({
             </p>
             <div style={{ display: "flex", flexWrap: "wrap", gap: 10, margin: "0 0 12px",
               fontSize: 12, color: C.ink2 }}>
-              {[["#c6f2dd", "read right twice"], ["#ffe9b3", "read right once"],
-                ["#ffd4d0", "not yet"], [C.chip, "not tried"]].map(([bg, label]) => (
+              {[[C.chipGreen, "read right twice"], [C.chipAmber, "read right once"],
+                [C.chipRed, "not yet"], [C.chip, "not tried"]].map(([bg, label]) => (
                 <span key={label} style={{ display: "inline-flex", alignItems: "center", gap: 5 }}>
                   <span style={{ background: bg, width: 15, height: 15, borderRadius: 4,
                     border: "1px solid " + C.line, display: "inline-block" }} />{label}
@@ -125,7 +125,7 @@ export default function ParentScreen({
                     <div style={{ display: "flex", flexWrap: "wrap", gap: 5, marginTop: 8 }}>
                       {l.words.map(w => {
                         const ws = state.words[w];
-                        const bg = !ws || ws.attempts === 0 ? C.chip : ws.box >= 4 ? "#c6f2dd" : ws.box >= 2 ? "#ffe9b3" : "#ffd4d0";
+                        const bg = !ws || ws.attempts === 0 ? C.chip : ws.box >= 4 ? C.chipGreen : ws.box >= 2 ? C.chipAmber : C.chipRed;
                         return <span key={w} style={{ background: bg, color: C.ink, borderRadius: 6, padding: "3px 7px", fontSize: 12, fontWeight: 700 }}>{displayWord(w)}</span>;
                       })}
                     </div>
@@ -182,11 +182,15 @@ export default function ParentScreen({
             <p className="wq-help" style={{ margin: "0 0 10px" }}>Save all progress to a file, or load a saved file. The file stays on this device.</p>
             <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
               <button className="wq-sbtn" onClick={onExportJSON} aria-label="Save backup file">⬇️ Save backup file</button>
-              <label className="wq-sbtn" style={{ display: "inline-flex", alignItems: "center", cursor: "pointer" }}>
-                ⬆️ Load backup file
-                <input type="file" accept="application/json,.json" style={{ display: "none" }}
-                  onChange={e => { const f = e.target.files && e.target.files[0]; if (f) onImportJSON(f); e.target.value = ""; }} />
-              </label>
+              {/* A BUTTON that opens the picker, not a label round a hidden
+                  input: a label is not focusable and a display:none input is
+                  not reachable, so the keyboard had no way to load a file
+                  and the names walker (which reads buttons) never saw the
+                  pictograph in its name - the council's after pass on step
+                  0, 2026-08-22. */}
+              <button className="wq-sbtn" aria-label="Load backup file" onClick={() => { const i = document.getElementById("wq-import-file"); if (i) i.click(); }}>⬆️ Load backup file</button>
+              <input id="wq-import-file" type="file" accept="application/json,.json" style={{ display: "none" }} tabIndex={-1} aria-hidden="true"
+                onChange={e => { const f = e.target.files && e.target.files[0]; if (f) onImportJSON(f); e.target.value = ""; }} />
             </div>
             <p className="wq-help">A loaded file replaces the progress on this device.</p>
           </section>

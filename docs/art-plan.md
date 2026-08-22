@@ -103,7 +103,12 @@ Each chair's findings and the answer to each are in the log at the end of this d
   aria snapshot is regenerated and its diff must be names only. Breaks: `controls.spec`'s
   aria snapshot, `safety-splash` test 42, G7 and G8 name locators, the census. What a
   screen reader hears changes (bible 15.2): "Begin Session", not "▶️ Begin Session". Done:
-  body text identical before and after on every census state; zero emoji in locators.
+  body text identical before and after on every census state, with one declared adult-side
+  exception - the corner's mastery rows, "0/10 read · 0 green" to "0 of 10 read, 0 green",
+  so their accessible name is their visible words; zero emoji in locators. Measured after
+  the after pass (2026-08-22), ab5155c against f85ed6b, body `innerText` per screen: home
+  and the chooser differ only in the commit stamp, session ready and reveal are identical,
+  and the corner differs in exactly those rows.
 - **0b Tokens.** `C` in `reference/word-quest.jsx` gains the bible's tokens as ADDITIONS:
   the three names that already exist at other values (`action`, `line`, `amber`) enter as
   `actionBlue`, `boundary`, `amberFill`; a test pins the thirteen existing keys' literal
@@ -142,7 +147,10 @@ Each chair's findings and the answer to each are in the log at the end of this d
   the screen is home, done or milestone; never over the stage; no running animation while
   a clip plays; a positive control finds it on home, else the cell is vacuous) and the
   device-pixel snap (every art element's width × dpr ÷ naturalWidth an integer, offsets on
-  device pixels, `image-rendering: pixelated`; control forces a 300 px width on the 2.625
+  device pixels on both axes, `image-rendering: pixelated`; control plants a real 64 x 64
+  PNG on a real Pixel 7 context at a 300 px width and the browser's smoothing, and then
+  snapped - built in the after pass, the first draft fed the hold hand-typed numbers;
+  the first text here said "control forces a 300 px width on the 2.625
   profile).
 - **0e Engine fact.** `ladderComplete(state)` — at level 100 and its words secure by
   `isSecure`, and ONLY that: SPEC section 7 states that the two-perfect-sessions path
@@ -237,8 +245,46 @@ Newest last. A verdict names the chair, the step, the word, and the findings.
   that fitted before changes size. Measured: "something" 56.1 px on 320 × 568, 69.5 px on
   390 × 844, 581 px of text under zoom 2 on 640; "sat" keeps the 88 px cap. The cell's zoom
   arm moved from 320 × 568 to 640 × 1136 because CSS zoom halves a screen's CSS pixels and
-  320 zoomed is a 160 px screen no device owns. Counts by a run: novelties scope 68 cells
+  320 zoomed is a 160 px screen no device owns - and the zoom arm measures the word's
+  width only, since CSS zoom does not scale svh (the engineering chair, measured). Counts
+  by a run at that commit: novelties scope 68 cells
   (59 + 9 controls), all green on chromium. Bible 10's ruling amended to match.
 - 2026-08-22 — The two open items ruled by the owner on the two-rulings page: export B (2×
   and 3× files as written, over the recommendation of 1× masters; measurements shown) and
   tile name A (the grapheme). Recorded in the bible, sections 16.2 and 15, and above.
+- 2026-08-22 — Step 0 after pass returned: **all three chairs not satisfactory**, six
+  blocking findings, fourteen non-blocking, every one taken. **Art director** (3 blocking):
+  (1) 0b's hex sweep, its quality control and the literal contrast tests were logged as
+  taken and never built — built: seven tokens enter `C` for the literals the screens still
+  typed, the stylesheet's gradient reads the tokens it emits, the quality control refuses a
+  hex literal in any app source with a fixture, `tests/tokens.test.js` pins the thirteen
+  original keys and the 3:1 rule at literal ratios with the admitted sub-3:1 pair as its
+  control, and SPEC 9's sentence is now true by that control; (2) the snap reader had no
+  control, one axis and a ratio tolerance — both axes, device-pixel tolerance, a fixture at
+  k = 2.019 over 512, and a real PNG planted on a real Pixel 7 context; (3) the fitted
+  word's geometry was never measured across phases — `Word.jsx` now keeps the stylesheet's
+  size on the box and fits an inner span, so the box and the baseline are constant across
+  words by construction, and a per-profile cell holds the widest word's box, glyph size and
+  text bottom between ready and reveal with a control; (4) `dvh` in DoneScreen — fixed, the
+  control reads every app source; (5) art-budget's reader had no positive control and
+  failed open — it throws, and four controls read a real tracked directory and a real built
+  file; (6) 0a's done line was not measured — measured and amended above. **Reading and
+  accessibility** (1 blocking): (1) every refit raised a ResizeObserver loop error that the
+  error ring recorded as a phantom bug — fixed twice over (the fit is scheduled for the
+  next frame, and the observed box no longer changes), with a rotation cell that reads the
+  ring and every 200% arm reading it too; (2) "⬆️ Load backup file" was a label round a
+  hidden input, unreachable by keyboard and unseen by the names walker — a named button
+  now, the walker reads labels round inputs, the control plants one; (3) the motion cell
+  sampled — it also records pops as intervals and its title says sampled; (4) the fit was
+  held to one line only once — now on every profile; (5) 3.2 for a refitting word — the
+  per-profile cell. **Engineering antagonist** (2 blocking): (1) the hex sweep — as above;
+  (2) art-budget fails open — as above; (3) `census_cells` 651 for a count of 652, stale
+  self-test labels — 663 now, counted, labels true; (4) DoneScreen dvh — as above; (5) the
+  motion control planted nothing in the page — a looping animation is planted and read
+  back; (6) the zoom arm's premise — CSS zoom does not scale svh; the comment, this
+  document and the gauntlet doc say so; (7) evidence predating the detector file —
+  `tools/census-novelties.mjs` joins the staleness scan with a self-test line, and the
+  scope is re-run on the committed files; (8) floors not raised — `g20_tests_mapped` 398,
+  `g23_declared` 53, `g17_governing_files` 45, each the gate's printed count; (9)
+  `widestWord` wrote into React's live element — it probes a detached clone. Re-judged
+  fresh by all three chairs after the fixes; their verdicts follow.

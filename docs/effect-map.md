@@ -8,7 +8,7 @@ Per-test rows carry the test's own sentence, which in this project IS the
 Given/When/Then effect. The requirement, oracle, platform, mutant family, evidence
 and known limits are declared per FILE, in the tool, where they stay true.
 
-Totals: 393 it() SITES across 20 files, plus 18 gates that are not test files.
+Totals: 398 it() SITES across 21 files, plus 18 gates that are not test files.
 
 A site inside a loop or a table runs many times, so these rows describe more tests than they number: Vitest executes 330. The rows count the places behaviour is asserted.
 
@@ -395,7 +395,7 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 |---|---|---|
 | 1 | every control is named in plain words | 1: home, the chooser, the corner, a session and a build |
 | 2 | every control is named in plain words | 2: the done screens, the pre-ladder |
-| 3 | every control is named in plain words | 3 (control): a hold named the old way, and a bare emoji button, are both refused |
+| 3 | every control is named in plain words | 3 (control): a hold named the old way, a bare emoji button, and a label round an input are each refused |
 
 ## tests/pre.test.js — 15 tests (G10)
 
@@ -606,6 +606,24 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 3 | G14 — the service worker answers for the app, and only for the app | 3: offline, that page falls back to its OWN cached page, never the app |
 | 4 | G14 — the service worker answers for the app, and only for the app | 4 (control): a clip request is still served from the cache, and a miss goes to the network |
 | 5 | G14 — the service worker answers for the app, and only for the app | 5 (control): the version check is never intercepted, so it always sees the live host |
+
+## tests/tokens.test.js — 5 tests (G1)
+
+- **Requirement protected:** SPEC section 9 and the art bible's 9.3: C is the one statement of the palette; the thirteen original keys keep their literal values; every edge or boundary token clears 3:1 on the surface it edges
+- **Independent oracle:** Literal hex pins for the thirteen original keys, the key count, and this file's own WCAG relative-luminance arithmetic at literal expected ratios (3.78, 4.68, 7.51, 6.39, 11.36, 6.43, 5.57), with the one admitted sub-3:1 pair (2.10) as the control
+- **Platform:** node
+- **Mutant family:** not yet in a G5 family
+- **Evidence produced:** Vitest count (floor g1_token_tests)
+- **Known limits — what these tests do NOT prove:** Pins values and ratios; whether a rendered control actually shows those colours is G7's contrast walker, and the hex-literal quality control refuses a colour typed anywhere else.
+- **Safety rules proved here:** none
+
+| # | Suite | Effect (the test's own sentence) |
+|---|---|---|
+| 1 | the palette is pinned | 1: the thirteen keys the game had before the bible keep their literal values |
+| 2 | the palette is pinned | 2: C holds exactly the keys the bible |
+| 3 | the palette is pinned | 3: every edge or boundary token clears 3:1 on the surface it edges, at literal ratios |
+| 4 | the palette is pinned | 4: teaching text clears 7:1 and the action blue 4.5:1, at literal ratios |
+| 5 | the palette is pinned | 5 (control): the one pair the bible admits below 3:1 measures below it, and the arithmetic agrees with WCAG |
 
 ## tests/updates.test.js — 18 tests (G14)
 

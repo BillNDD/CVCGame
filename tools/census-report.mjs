@@ -81,7 +81,7 @@ const DECLARED_SKIPS = ["CDP is Chromium-only", "engine not installed", "chromiu
    too: change a detector or a viewport and the last run is no longer about
    this census. */
 const WATCHED = ["app/dist", "app/src", "app/public", "src", "reference",
-                 "tools/ux-census.mjs", "tools/census-report.mjs", "tests/census", CONFIG,
+                 "tools/ux-census.mjs", "tools/census-novelties.mjs", "tools/census-report.mjs", "tests/census", CONFIG,
                  /* The two that BUILD the bundle and the one that sets the
                     floors this file enforces. An auditor named all three: they
                     change the app or the verdict and app/dist only catches the
@@ -271,7 +271,7 @@ function selfTest() {
      from these two numbers, so they cannot be the floors themselves — that is
      precisely the fault an auditor exploited by lowering FLOOR to {controls: 2}
      and watching every control still pass. */
-  const CONTROLS = 41, CELLS = 651;
+  const CONTROLS = 41, CELLS = 663;
   ok.push(["the baseline states the floors this file was written against",
     FLOOR.controls === CONTROLS && FLOOR.cells === CELLS]);
 
@@ -316,16 +316,18 @@ function selfTest() {
       { configFile: "/repo/some-other.config.mjs" }), FRESH).problems
       .some((p) => p.includes("some-other.config.mjs"))]);
 
-  /* THE NOVELTIES SCOPE. Literals again (E4): 8 planted-fault controls, 24
-     profile cells, 8 monkey walks and 2 singletons. A novelties run judged as the body is
-     refused, because it is not one; judged as novelties it passes only whole. */
-  const NOVELTY_CONTROLS = 9, NOVELTY_CELLS = 59;
+  /* THE NOVELTIES SCOPE. Literals again (E4): 11 planted-fault controls, 56
+     profile cells (seven on each of eight profiles), 8 monkey walks and 4
+     singletons - 79 in all, counted by a run on 2026-08-22. A novelties run
+     judged as the body is refused, because it is not one; judged as
+     novelties it passes only whole. */
+  const NOVELTY_CONTROLS = 11, NOVELTY_CELLS = 68;
   ok.push(["the baseline states the novelty floors this file was written against",
     NOVELTY_FLOOR.controls === NOVELTY_CONTROLS && NOVELTY_FLOOR.cells === NOVELTY_CELLS]);
   const novControls = Array.from({ length: NOVELTY_CONTROLS }, (_, i) => cell(NOVELTY_PROJECT, `control: planted fault ${i}`));
   const novCells = [...many("desktop", NOVELTY_CELLS - 2), cell(NOVELTY_PROJECT, "update-stay"), cell(NOVELTY_PROJECT, "offline equality")];
   const novelties = build([...novControls, ...novCells]);
-  ok.push(["a novelties run judged as the body is refused - 42 cells are not a census",
+  ok.push(["a novelties run judged as the body is refused - 79 cells are not a census",
     judge(novelties, FRESH).problems.some((p) => p.includes("census cells ran"))]);
   ok.push(["a whole novelties run is accepted in its own scope",
     judge(novelties, FRESH, SCOPES.novelties).problems.length === 0]);
@@ -401,7 +403,7 @@ function selfTest() {
      one that matters: the census serves the BUILT bundle through vite preview,
      so a source edit with no rebuild is invisible unless the bundle is watched. */
   for (const root of ["app/dist", "app/src", "app/public", "src", "tools/ux-census.mjs",
-                      "tests/census", "playwright.config.mjs"])
+                      "tools/census-novelties.mjs", "tests/census", "playwright.config.mjs"])
     ok.push([`the staleness scan watches ${root}`, WATCHED.includes(root)]);
   /* And that the walker can read them. Three of the roots are single FILES,
      and readdirSync throws on a file — the version that only walked

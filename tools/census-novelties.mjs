@@ -325,6 +325,32 @@ export async function runningAnimations(page) {
     return (el ? el.tagName.toLowerCase() + "." + String(el.className).split(" ").filter(Boolean).join(".") : "?") + ":" + name;
   }));
 }
+/* THE SOUNDING TILES AS INTERVALS. A sample every 100 ms sees what is running
+   at that instant; two pops that overlapped for less than a sample would
+   pass it. So each sampled pop is also recorded as an interval on the
+   document's timeline - the tile, the animation's start time and its
+   duration - and the cell asserts no two intervals intersect over the whole
+   reveal. A pop shorter than a sample can still be missed entirely, which is
+   why the cell's title says sampled (the council's after pass, 2026-08-22). */
+export async function popSpans(page) {
+  return page.evaluate(() => document.getAnimations().flatMap((a) => {
+    if (!(a instanceof CSSAnimation) || a.animationName !== "wqpop" || !(a.effect instanceof KeyframeEffect) || !a.effect.target) return [];
+    const tiles = [...document.querySelectorAll(".wq-tile")];
+    const d = a.effect.getTiming().duration, start = typeof a.startTime === "number" ? a.startTime : null;
+    return [{ tile: tiles.indexOf(a.effect.target), start, end: start === null || typeof d !== "number" ? null : start + d }];
+  }));
+}
+export function popOverlap(spans) {
+  const seen = new Map();
+  for (const s of spans) if (s.start !== null && s.end !== null) seen.set(s.tile + "@" + s.start.toFixed(1), s);
+  const list = [...seen.values()].sort((a, b) => a.start - b.start);
+  const findings = [];
+  for (let i = 1; i < list.length; i++) {
+    const a = list[i - 1], b = list[i];
+    if (b.start < a.end - 0.5) findings.push({ kind: "two-sounding-tiles", detail: "tile " + a.tile + " sounds " + a.start.toFixed(0) + ".." + a.end.toFixed(0) + " ms and tile " + b.tile + " starts at " + b.start.toFixed(0) });
+  }
+  return { findings, pops: list.length };
+}
 export function motionHold(phase, names) {
   const findings = [];
   if (phase === "attempt" && names.length) findings.push({ kind: "motion-during-attempt", detail: names.length + " animation(s) running while the child reads: " + names.join(", ") });
@@ -361,14 +387,44 @@ export async function wordBox(page) {
   return page.evaluate(() => {
     const w = document.querySelector(".wq-word");
     if (!w) return null;
-    const range = document.createRange(); range.selectNodeContents(w);
+    /* the glyphs' own size is the inner span's (Word.jsx); the box keeps the
+       stylesheet's. The range is over the span's contents - over the outer
+       element it would list the span's box and its text as two rects. */
+    const t = w.querySelector(".wq-word-text") || w;
+    const range = document.createRange(); range.selectNodeContents(t);
     const rects = [...range.getClientRects()].filter((r) => r.width > 0);
     /* left and right are the TEXT's extent, not the element's: a word that
        overflows its box is off the screen however well its box sits. */
     const left = Math.min(...rects.map((r) => r.left)), right = Math.max(...rects.map((r) => r.right));
     return { text: w.textContent.trim(), lines: rects.length, textPx: rects.reduce((a, r) => a + r.width, 0),
-      left, right, fontPx: parseFloat(getComputedStyle(w).fontSize), vw: innerWidth };
+      left, right, fontPx: parseFloat(getComputedStyle(t).fontSize), vw: innerWidth };
   });
+}
+/* THE WORD'S GEOMETRY WITHIN A WORD (bible 3.2, P0-2): the box, the glyph
+   size and the text's first line box, read in one phase to be compared with
+   another phase of the SAME word. Between words the box and the baseline are
+   constant by construction and the glyph size may differ (Word.jsx). */
+export async function wordGeometry(page) {
+  return page.evaluate(() => {
+    const w = document.querySelector(".wq-word");
+    if (!w) return null;
+    const t = w.querySelector(".wq-word-text") || w;
+    const r = w.getBoundingClientRect();
+    const range = document.createRange(); range.selectNodeContents(t);
+    const first = [...range.getClientRects()].find((x) => x.width > 0);
+    return { text: w.textContent.trim(), box: { x: r.x, y: r.y, w: r.width, h: r.height },
+      fontPx: parseFloat(getComputedStyle(t).fontSize), textBottom: first ? first.bottom : null };
+  });
+}
+export function wordHold(a, b, phases = "the two phases") {
+  if (!a || !b) return [{ kind: "no-subject", detail: "no principal word in one of " + phases }];
+  const findings = [];
+  if (a.text !== b.text) return [{ kind: "no-subject", detail: "different words in " + phases + ': "' + a.text + '" and "' + b.text + '"' }];
+  const moved = ["x", "y", "w", "h"].filter((k) => Math.abs(a.box[k] - b.box[k]) > 0.5);
+  if (moved.length) findings.push({ kind: "word-moved", detail: '"' + a.text + '" box differs between ' + phases + " in " + moved.join(",") + ": " + JSON.stringify(a.box) + " -> " + JSON.stringify(b.box) });
+  if (Math.abs(a.fontPx - b.fontPx) > 0.01) findings.push({ kind: "word-resized", detail: '"' + a.text + '" is ' + a.fontPx + " px then " + b.fontPx + " px between " + phases });
+  if (a.textBottom !== null && b.textBottom !== null && Math.abs(a.textBottom - b.textBottom) > 0.5) findings.push({ kind: "baseline-moved", detail: '"' + a.text + '" text bottom ' + a.textBottom.toFixed(2) + " -> " + b.textBottom.toFixed(2) + " between " + phases });
+  return findings;
 }
 /* The widest word by RENDERED width, in em so the fit cannot hide it: each
    candidate is written into the live word element in turn and its line boxes
@@ -378,17 +434,26 @@ export async function widestWord(page, words) {
   return page.evaluate((list) => {
     const w = /** @type {HTMLElement | null} */ (document.querySelector(".wq-word"));
     if (!w) return null;
-    const was = w.textContent, wasSize = w.style.fontSize;
-    w.style.fontSize = "";
-    const em = parseFloat(getComputedStyle(w).fontSize);
+    /* A DETACHED CLONE, never the live element: writing textContent into
+       React's own node replaces the text node React holds, and its next
+       render would land on a detached one (the council's after pass on step
+       0). The clone sits beside the word with the same computed style,
+       invisible, and is removed before this returns. */
+    const probe = /** @type {HTMLElement} */ (w.cloneNode(true));
+    probe.removeAttribute("aria-live"); probe.setAttribute("aria-hidden", "true");
+    probe.style.position = "absolute"; probe.style.visibility = "hidden"; probe.style.left = "0"; probe.style.width = w.clientWidth + "px";
+    w.parentElement.appendChild(probe);
+    const t = /** @type {HTMLElement} */ (probe.querySelector(".wq-word-text") || probe);
+    t.style.fontSize = "";
+    const em = parseFloat(getComputedStyle(probe).fontSize);
     let best = null, bestEm = 0;
     for (const word of list) {
-      w.textContent = word;
-      const range = document.createRange(); range.selectNodeContents(w);
+      t.textContent = word;
+      const range = document.createRange(); range.selectNodeContents(t);
       const px = [...range.getClientRects()].reduce((a, r) => a + r.width, 0) / em;
       if (px > bestEm) { bestEm = px; best = word; }
     }
-    w.textContent = was; w.style.fontSize = wasSize;
+    probe.remove();
     return { word: best, em: bestEm };
   }, words);
 }
@@ -442,18 +507,35 @@ export function guideHold(states, expectOne = false) {
 export async function artSnap(page) {
   return page.evaluate(() => [...document.querySelectorAll("[data-wq-art]")].map((el) => {
     const r = el.getBoundingClientRect(), dpr = devicePixelRatio;
-    /* an <img> knows its natural width; any other element declares it */
-    const natural = Number(el.getAttribute("data-wq-art-w")) || (el instanceof HTMLImageElement ? el.naturalWidth : 0);
-    return { id: el.getAttribute("data-wq-art"), k: natural ? (r.width * dpr) / natural : 0, left: r.left * dpr, top: r.top * dpr,
-      rendering: getComputedStyle(el).imageRendering, dpr };
+    /* an <img> knows its natural size; any other element declares it. Both
+       axes: a sprite can be stretched in height alone. */
+    const img = el instanceof HTMLImageElement ? el : null;
+    const naturalW = Number(el.getAttribute("data-wq-art-w")) || (img ? img.naturalWidth : 0);
+    const naturalH = Number(el.getAttribute("data-wq-art-h")) || (img ? img.naturalHeight : 0);
+    return { id: el.getAttribute("data-wq-art"), naturalW, naturalH, deviceW: r.width * dpr, deviceH: r.height * dpr,
+      left: r.left * dpr, top: r.top * dpr, rendering: getComputedStyle(el).imageRendering, dpr };
   }));
 }
+/* The tolerance is in DEVICE PIXELS over the whole sprite, never a ratio: at
+   k = 2.019 a 512-art-pixel sprite is 1,033.7 device px against 1,024, ten
+   duplicated columns across its width, which a 0.02 tolerance on k would
+   have passed (the council's after pass on step 0, 2026-08-22). */
 export function snapHold(items) {
   if (!items.length) return [{ kind: "no-subject", detail: "no pixel art on this screen" }];
   const findings = [];
-  const near = (v) => Math.abs(v - Math.round(v)) <= 0.02;
+  /* An offset is on the grid within the browser's own layout precision:
+     Chromium lays out on a 1/64 CSS px grid, so at a fractional ratio the
+     nearest reachable offset can miss a device pixel by up to dpr/64 (0.041
+     at 2.625, 0.07 at 4.5) - measured with the planted element below, 262
+     device px asked for and 261.967 laid out. The raster snaps the box to
+     whole device pixels from there. */
   for (const a of items) {
-    if (!near(a.k) || a.k < 1) findings.push({ kind: "art-not-snapped", detail: a.id + ": " + a.k.toFixed(3) + " device px per art px at dpr " + a.dpr });
+    const near = (v) => Math.abs(v - Math.round(v)) <= a.dpr / 64 + 0.0001;
+    if (!a.naturalW || !a.naturalH) { findings.push({ kind: "art-unsized", detail: a.id + ": no natural size to snap to (data-wq-art-w/h or an <img>)" }); continue; }
+    const kx = a.deviceW / a.naturalW, ky = a.deviceH / a.naturalH;
+    const offX = Math.abs(a.deviceW - Math.round(kx) * a.naturalW), offY = Math.abs(a.deviceH - Math.round(ky) * a.naturalH);
+    if (kx < 1 || ky < 1 || offX > 0.5 || offY > 0.5 || Math.round(kx) !== Math.round(ky))
+      findings.push({ kind: "art-not-snapped", detail: a.id + ": " + kx.toFixed(3) + " x " + ky.toFixed(3) + " device px per art px at dpr " + a.dpr + " (" + offX.toFixed(2) + ", " + offY.toFixed(2) + " device px off a whole multiple)" });
     if (!near(a.left) || !near(a.top)) findings.push({ kind: "art-off-grid", detail: a.id + ": offset " + a.left.toFixed(2) + ", " + a.top.toFixed(2) + " device px" });
     if (a.rendering !== "pixelated" && a.rendering !== "crisp-edges") findings.push({ kind: "art-smoothed", detail: a.id + ": image-rendering is " + a.rendering });
   }

@@ -13,9 +13,9 @@ export default function DoneScreen({ doneStats, kid, onHome, toast }) {
         <div style={{ textAlign: "center", maxWidth: 420, width: "100%" }}>
           {/* P2-12 — level-up folded into the trophy, not stacked beneath it */}
           <div className="wq-trophy" style={{ borderColor: promoted ? C.purple : "transparent" }}>
-            <span style={{ fontSize: "clamp(2.5rem,8dvh,4rem)" }}>🏆</span>
+            <span style={{ fontSize: "clamp(2.5rem,8svh,4rem)" }}>🏆</span>
           </div>
-          <h2 className="wq-display" style={{ margin: "10px 0 0", color: promoted ? C.purple : C.ink, fontSize: "clamp(1.5rem,5dvh,2.2rem)" }}>
+          <h2 className="wq-display" style={{ margin: "10px 0 0", color: promoted ? C.purple : C.ink, fontSize: "clamp(1.5rem,5svh,2.2rem)" }}>
             {promoted ? "Level up!" : doneStats.partial ? "Good stop" : kid ? "All done, " + kid + "!" : "All done!"}
           </h2>
           {promoted && <p style={{ margin: "2px 0 0", fontWeight: 800, color: C.purple, fontSize: 14 }}>

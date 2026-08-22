@@ -397,6 +397,13 @@ and values as the record of what the PDF said.
 | tileHighlight | #fff1b5 | the tile's highlight |
 | tileEdge | #8f6420 | the bible's #B8832E darkened: 2.40:1 to 3.78:1 on tileFace |
 | slot | #e6dccb | an empty slot |
+| paper | #ffffff | white surfaces: cards, inputs, the modal, the CTA's text (entered 2026-08-22, the after pass on step 0) |
+| slotEdge | #94a8c0 | Build-it's dashed empty-slot border (2026-08-22) |
+| warningDeep | #96261d | the home strip's storage warning, 4.5:1 on the gradient (2026-08-22) |
+| chipGreen | #c6f2dd | the corner's mastery chip: read right twice (2026-08-22) |
+| chipAmber | #ffe9b3 | read right once (2026-08-22) |
+| chipRed | #ffd4d0 | not yet (2026-08-22) |
+| sunEdge | #e0ac2b | the ring round the current progress segment (2026-08-22) |
 
 ## 10. Teaching typography
 
@@ -458,7 +465,13 @@ The census measures the widest bank word by rendered width — probed in em over
 bank, "something" at 5.19 em, not "butterfly" — at 100%, under rem scaling at 200%, and
 under CSS zoom at 2 on 640 × 1136, holding it to one line box inside the viewport at 36 px
 or larger. Measured 2026-08-22: "something" 56.1 px on 320 × 568 and 69.5 px on 390 × 844;
-"sat" keeps the 88 px cap.
+"sat" keeps the 88 px cap. **And the geometry, stated in full** (the council's after pass,
+the same day): the word's box and its baseline are the same for every word — the
+stylesheet's size stays on the box, the fitted size goes on the glyphs inside it — so a
+word that shrinks to fit sits where every other word sits; within a word nothing changes
+between attempt and feedback (3.2, measured on every profile); between words only the
+glyph size may differ. The zoom arm measures the word's width only: CSS zoom does not
+scale `svh`.
 
 ## 11. Sound tiles
 

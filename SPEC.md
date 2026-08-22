@@ -776,8 +776,11 @@ The minimum platform is iPadOS 15.4 or later, or an equivalent browser. The app 
 
 - The palette is the object `C` in the reference build, and its one statement in prose is
   the token table in `docs/art-bible.md` section 9.3, which doc-truth binds to `C` by name
-  and value (art project, 2026-08-22). Nothing else restates a colour. The background is
-  the gradient of `skyBlue`, `skyLavender` and `skyPurpleMist`; teaching ink is `ink`.
+  and value (art project, 2026-08-22). Nothing else restates a colour: the quality control
+  refuses a hex literal in any app source (true by that control since 2026-08-22 — the
+  sentence was written before it was, and the council's after pass on step 0 found
+  fourteen literals still typed). The background is the gradient of `skyBlue`,
+  `skyLavender` and `skyPurpleMist`; teaching ink is `ink`.
 - All text and control colors pass WCAG AA at 4.5:1 or more against their backgrounds.
 - Word and interface font: `ui-rounded / system-ui` (SF Pro Rounded on Apple devices). The
   rounded forms stay friendly for children, and the letter shapes match everyday print,

@@ -435,6 +435,21 @@ every bound reads `LEVELS.length`, which is why adding a level needed no engine 
   counts, including the line that the two-perfect-sessions path never ends the ladder. Key:
   `g1_garden_tests` (5). G5 gained "the ladder completes without its words being secure"
   (73 to 74).
+- `tests/tokens.test.js` (art project step 0b as the council amended it, built after the
+  after pass on step 0 found it missing, 2026-08-22): the thirteen keys the game had before
+  the bible pinned to their literal values — doc-truth rule 11 only asks that C and the
+  bible's table agree, which a change to both would satisfy, and E4 asks for the literal —
+  the key count (48), and the bible's 3:1 boundary rule asserted with the file's own WCAG
+  arithmetic at literal ratios (tileEdge on tileFace 3.78, boundary on surfacePanel 4.68,
+  cyanStructural and purpleStructural on surfaceReading 7.51 and 6.39, ink on
+  surfaceReading 11.36), with the one admitted sub-3:1 pair (disabled on surfacePanel,
+  2.10) as the control. Key: `g1_token_tests` (5). Its companion in the check is the
+  quality control that refuses a hex literal in any app source: the same after pass found
+  fourteen in the screens and the stylesheet's gradient typed beside the tokens it emits,
+  and seven tokens entered C for them (paper, slotEdge, warningDeep, chipGreen, chipAmber,
+  chipRed, sunEdge). Two values moved to the bible's own in the sweep and are declared:
+  Build-it's "won" message from #15803d to `success` #18794e, and the crash screen's ground
+  from #fdfcfa to `surfacePanel` #fffdf5.
 - `tests/models.test.js` (owner-ruled 2026-08-22, the bug-hunt page): fast-check drives
   the REAL Build-it and Find-the-sound screens through 200 random tap sequences each,
   over the whole bank, and after every tap compares the screen with a model of slots,
@@ -592,24 +607,53 @@ the offline comparator's control caught its first real bug before the live cell 
   probed in em over the whole bank (`widestWord`; "something", 5.19 em), staged for real
   and held to one line box, inside the viewport, 36 px or larger, on three arms - 100%,
   rem scaling at 200% (a phone's text setting) and CSS zoom at 2 on 640 x 1136 (the
-  desktop's, as G8 applies it; 320 zoomed would be a 160 px screen no device has). Its
-  first draft measured the element's box instead of the text's and read 292 px for every
-  word; the corrected probe found that the principal word, sized by height alone
-  (`11svh`), already broke into two fragments at 100%: seven bank words on 320 px, thirty-
-  four on a 390 x 844 phone ("swimmin" over "g"). The fix is `app/src/components/Word.jsx`
-  and its mirror in the reference: the stylesheet's size is the ceiling, the rendered
-  word is measured after layout and shrunk in proportion only when wider than its line,
-  under a ResizeObserver and `document.fonts.ready`; `.wq-word` is `white-space:nowrap`
-  so the overflow is measurable. "something" now renders at 56.1 px on 320 and 69.5 px on
-  390, "sat" keeps the 88 px cap. The combined control plants a 40 px frame, a guide on
-  the stage, unsnapped art at a fractional width, a looping animation, two sounding tiles,
-  equal tile widths, a word that overflows the screen and a word that wraps, and requires
-  each to be named. Two detectors ship with controls and no live cell yet, because their
-  subjects do not exist: the **guide** allow-list (home, done and milestone screens only,
-  never over the stage, never animating while a clip plays) and the **device-pixel snap**
-  of every `data-wq-art` element (whole device pixels per art pixel, integer offsets,
-  nearest-neighbour). `census_novelty_cells` 34 to 59, `census_novelty_controls` 8 to 9,
-  `census_cells` 626 to 651, all counted by a run.
+  desktop's, as G8 applies it; 320 zoomed would be a 160 px screen no device has). The
+  zoom arm measures the word's WIDTH under zoom and nothing about the shell: CSS zoom does
+  not scale `svh` - measured 2026-08-22, a `100svh` root under `html{zoom:2}` is 2,272 px
+  tall on a 1,136 px screen and the clamp still computes 88 px - and the cell's first
+  comment claimed more (the engineering chair's finding). Its first draft measured the
+  element's box instead of the text's and read 292 px for every word; the corrected probe
+  found that the principal word, sized by height alone (`11svh`), already broke into two
+  fragments at 100%: seven bank words on 320 px, thirty-four on a 390 x 844 phone
+  ("swimmin" over "g"). The fix is `app/src/components/Word.jsx` and its mirror in the
+  reference: the stylesheet's size stays on `.wq-word`, whose line box is therefore the
+  same height for every word, and the fitted size goes on an inner span whose smaller
+  glyphs sit on the outer line's baseline - so the box and the baseline are constant
+  across words and only the glyphs of a word wider than its line shrink (P0-2, bible 3.2),
+  measured after layout under a ResizeObserver and `document.fonts.ready`, with the fit
+  scheduled for the next frame and never run inside the observer's delivery. The first
+  draft set the size on the observed element itself, which moved the box between words
+  and raised "ResizeObserver loop completed with undelivered notifications" on every
+  refit - a window error the app's error ring recorded as a phantom bug in the grown-up's
+  report (the reading chair, measured on the built app). `.wq-word` is
+  `white-space:nowrap` so the overflow is measurable. "something" renders at 56.1 px on
+  320 and 69.5 px on 390, "sat" keeps the 88 px cap. Also on every profile since the after
+  pass: **the widest word** - the probe's word staged on THIS profile, one line at 36 px
+  or more, and its box (0.5 px), glyph size (0.01 px) and text bottom (0.5 px) identical
+  between ready and reveal (`wordGeometry`, `wordHold`; control plants a mid-word shrink
+  and a 9 px shift); the motion cell also records every sampled pop as an interval on the
+  document's timeline and refuses two that intersect, and its title says sampled, because
+  a pop shorter than a sample can still be missed. Once: **the fit across a rotation** -
+  the widest word through 390 x 844, 320 x 568, 844 x 390 and back, refitting each time
+  with the error ring still empty. The controls: the combined one plants a 40 px frame, a
+  guide on the stage, a looping animation IN THE PAGE read back through the browser, two
+  sounding tiles, equal tile widths, a word that overflows the screen and a word that
+  wraps, and the snap's arithmetic on fixtures (k = 2.019 over 512 art pixels, 1,033.7
+  device px against 1,024, which a ratio tolerance passed; a height stretched alone);
+  the word-geometry control; and the snap reader's own control, a real 64 x 64 PNG planted
+  on a real Pixel 7 context (2.625) at 300 CSS px with the browser's smoothing, refused
+  on all three counts, then resized to eight device pixels per art pixel at an integer
+  device offset, pixelated, and passed - with the offset tolerance set to the browser's
+  own 1/64 CSS px layout grid (dpr/64 device px), which the plant measured: 262 device px
+  asked for, 261.967 laid out. Two detectors ship with controls and no live cell yet,
+  because their subjects do not exist: the **guide** allow-list (home, done and milestone
+  screens only, never over the stage, never animating while a clip plays) and the
+  **device-pixel snap** of every `data-wq-art` element (whole device pixels per art pixel
+  on both axes, integer offsets, nearest-neighbour). Counts by a run on 2026-08-22:
+  `census_novelty_cells` 34 to 68, `census_novelty_controls` 8 to 11, `census_cells` 626
+  to 663 (the first 0d commit wrote 651 for a count of 652; E6 says the count). The
+  report's staleness scan now watches `tools/census-novelties.mjs`, with its self-test
+  line.
 
 Two Windows lessons from the first run on the owner's machine: vite is spawned through
 node itself (the .bin shim is a POSIX script, the same fault G7 and the mutant runners met
@@ -1082,7 +1126,7 @@ it was seen.
   dependency rule.
 - Negative control: `--self-test` plants a `PROGRESS.md` and a stray `status.json`; the
   detector must report both and still accept the real tree.
-- Baseline floor: `g17_governing_files` (41). It moved from 23 on 2026-08-11, when the
+- Baseline floor: `g17_governing_files` (45). It moved from 23 on 2026-08-11, when the
   owner approved `docs/open-faults.md` into the owned set — the list of what is still
   wrong, so that a fault cannot be lost to a context compaction — from 24 on 2026-08-15
   for `docs/file-map.md`, the generated ownership map (G23), and to 28 the same day for
@@ -1133,7 +1177,7 @@ the tool would be fault F2 re-committed.
   `filemap_history_max` (1) — a ceiling only the owner moves (E6). Today's one:
   `docs/voice-goldens-packs1-3.json`, whose 11-of-57 recipe disagreements make it a trap if
   read as live.
-- Keys: `g23_declared` (51), `g23_facts` (4), `g23_controls` (40), problems capped at 0,
+- Keys: `g23_declared` (53), `g23_facts` (4), `g23_controls` (40), problems capped at 0,
   ceiling `filemap_history_max` (1).
 - Run: `node tools/file-map.mjs --check` and `--self-test`; both are in `npm run check`.
 
@@ -1548,7 +1592,7 @@ other direction: the real pack, unchanged, must pass.
 
 ## G20. Effect map
 
-- Tool: `tools/effect-map.mjs`. Writes `docs/effect-map.md`. Keys: `g20_tests_mapped` (349).
+- Tool: `tools/effect-map.mjs`. Writes `docs/effect-map.md`. Keys: `g20_tests_mapped` (398).
 - One row per `it()` SITE — its file, suite, and the test's own sentence, which in this
   project IS the Given/When/Then effect, because tests are named as behaviour. A site inside
   a loop or a table runs many times, so the map's 310 rows describe the 324 tests Vitest executes;

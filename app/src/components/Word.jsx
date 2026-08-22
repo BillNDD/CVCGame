@@ -25,18 +25,38 @@ export default function Word({ children, ...rest }) {
   useLayoutEffect(() => {
     const el = ref.current;
     if (!el || typeof ResizeObserver === "undefined") return undefined;
+    const inner = el.firstElementChild;
+    /* THE BOX AND THE BASELINE NEVER MOVE; ONLY THE GLYPHS SHRINK. The
+       stylesheet's size stays on .wq-word, whose line box is therefore the
+       same height for every word; the fitted size goes on the inner span,
+       whose smaller text sits on the outer line's baseline. So a word that
+       fits shares its box and its baseline with every word that does not
+       (P0-2, bible 3.2), G7 and the phase walk measure one box across words,
+       and the observer below never sees its own write - a smaller inline
+       span cannot change the box it is observing. The first draft set the
+       size on the observed element itself, which moved the box between
+       words and raised a ResizeObserver loop error on every refit that the
+       error ring recorded as a phantom bug (the council's after pass on step
+       0, 2026-08-22). */
     const fit = () => {
-      el.style.fontSize = "";
-      const room = el.clientWidth, need = el.scrollWidth;
+      inner.style.fontSize = "";
+      /* both as client rects: under CSS zoom a rect is scaled and clientWidth
+         is not, and a room in one unit against a need in the other halved the
+         word for nothing (the zoom arm, 2026-08-22) */
+      const room = el.getBoundingClientRect().width, need = inner.getBoundingClientRect().width;
       if (room > 0 && need > room) {
-        el.style.fontSize = (parseFloat(getComputedStyle(el).fontSize) * (room - 1) / need).toFixed(2) + "px";
+        inner.style.fontSize = (parseFloat(getComputedStyle(el).fontSize) * (room - 1) / need).toFixed(2) + "px";
       }
     };
     fit();
-    const ro = new ResizeObserver(fit);
+    /* The observer's callback schedules the fit for the next frame rather
+       than running it inside the delivery, so no write of any kind happens
+       while the browser is still reporting sizes. */
+    let frame = 0;
+    const ro = new ResizeObserver(() => { cancelAnimationFrame(frame); frame = requestAnimationFrame(fit); });
     ro.observe(el);
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(fit, () => {});
-    return () => ro.disconnect();
+    return () => { ro.disconnect(); cancelAnimationFrame(frame); };
   }, [text]);
-  return <div ref={ref} className="wq-display wq-word" aria-live="off" {...rest}>{children}</div>;
+  return <div ref={ref} className="wq-display wq-word" aria-live="off" {...rest}><span className="wq-word-text">{children}</span></div>;
 }

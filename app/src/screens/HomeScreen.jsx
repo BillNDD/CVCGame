@@ -18,7 +18,7 @@ function FreePlayChooser({ level, L, sound, preLevel, buildable, sentences, onCh
      level cell only: "any sound" would offer letters the rung has not taught,
      which the 2026-08-17 Build-a-sound ruling forbids, so that cell waits on
      the owner rather than guessing. Every cell is a 56 px child control (S7). */
-  const left = { background: "#fff", color: C.ink, border: "2px solid " + C.ink2, boxShadow: "none", padding: "12px 10px", fontSize: 15 };
+  const left = { background: C.paper, color: C.ink, border: "2px solid " + C.ink2, boxShadow: "none", padding: "12px 10px", fontSize: 15 };
   const right = { padding: "12px 10px", fontSize: 15 };
   const rowLabel = { margin: "10px 0 6px", font: "700 11px/1 ui-sans-serif, system-ui, sans-serif", letterSpacing: ".1em", textTransform: "uppercase", color: C.ink2 };
   const row = { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 };
@@ -116,8 +116,8 @@ export default function HomeScreen({ state, L, kid, masteredCount, persistent, r
               <span>🗓️ {state.sessionsCompleted} {state.sessionsCompleted === 1 ? "session" : "sessions"}</span><span>🌟 {masteredCount} mastered</span>
             </div>
           </div>
-          {/* #96261d: warning red dark enough for 4.5:1 on the gradient */}
-          {(!persistent || readOnly) && <p style={{ marginTop: 14, fontSize: 12.5, fontWeight: 700, color: "#96261d" }}>
+          {/* C.warningDeep: warning red dark enough for 4.5:1 on the gradient */}
+          {(!persistent || readOnly) && <p style={{ marginTop: 14, fontSize: 12.5, fontWeight: 700, color: C.warningDeep }}>
             ⚠️ {readOnly ? "Saved progress could not be read. Nothing is being saved." : "Saving unavailable — progress lasts this visit only."}</p>}
         </div>
       </Zone.Stage>

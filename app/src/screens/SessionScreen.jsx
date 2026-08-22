@@ -73,7 +73,7 @@ function SessionRail({ kid, phase, advanceReady, waitMs, waitFrom, finishes, nex
     <Zone.Rail>
       {phase === "feedback" ? (
         <button aria-label={finishes ? "Finish!" : "Next word"} ref={advanceRef} className="wq-cta" onClick={next} disabled={!advanceReady}
-          style={{ background: advanceReady ? C.green : "#9fb4c4" }}>
+          style={{ background: advanceReady ? C.green : C.disabled }}>
           {/* A1-004 — the wait is visible: a fill crosses the control over the
               reveal's own length and lands as the control comes alive. The
               fill appears only once a length is KNOWN (waitMs > 0): before
@@ -195,10 +195,10 @@ function ExitDialog({ answered, handleExit }) {
             slot stays anyway, because a dialog that cannot move is a promise
             worth keeping whatever is behind it. */}
         <button className="wq-cta" disabled={answered === 0} onClick={() => handleExit("save")}
-          style={{ background: answered === 0 ? "#9fb4c4" : C.green }}>
+          style={{ background: answered === 0 ? C.disabled : C.green }}>
           {answered === 0 ? "Save as a short session" : "Save " + answered + " as a short session"}
         </button>
-        <button className="wq-cta" style={{ background: "#fff", color: C.red, border: "2px solid " + C.red }} onClick={() => handleExit("discard")}>Discard and go home</button>
+        <button className="wq-cta" style={{ background: C.paper, color: C.red, border: "2px solid " + C.red }} onClick={() => handleExit("discard")}>Discard and go home</button>
         <button className="wq-btn-plain" onClick={() => handleExit("cancel")} style={{ justifySelf: "center" }}>Keep reading</button>
       </div>
     </Modal>

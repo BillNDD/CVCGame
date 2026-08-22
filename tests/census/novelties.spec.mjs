@@ -7,7 +7,9 @@
 import { test, expect } from "@playwright/test";
 import { stage, holdGrade, waitForReveal, requireStaged, GRADE } from "../../tools/ux-census.mjs";
 import { landmarks, phaseHold, homeFurniture, chromeHold, hitTest,
-         zoneSum, runningAnimations, motionHold, tileWidths, unitWidthHold } from "../../tools/census-novelties.mjs";
+         zoneSum, runningAnimations, motionHold, popSpans, popOverlap, tileWidths, unitWidthHold,
+         widestWord, wordBox, wordFits, wordGeometry, wordHold } from "../../tools/census-novelties.mjs";
+import { BANK_WORDS } from "../../tools/ux-census.mjs";
 
 test("phase walk: the screen holds still while a word moves through its phases", async ({ page }, testInfo) => {
   const { shown } = await stage(page, null, "sat", null);
@@ -80,7 +82,7 @@ test("unit width: a multi-letter tile is visibly wider than a single-letter one 
 
 test.describe("with motion allowed", () => {
   test.use({ reducedMotion: "no-preference" });
-  test("one event at a time: nothing animates during an attempt; one sounding tile and the fill during a reveal", async ({ page }) => {
+  test("one event at a time: nothing animates during an attempt; one sounding tile and the fill during a reveal, sampled every 100 ms and as intervals", async ({ page }) => {
     /* The census runs with reduced motion everywhere, which blinds every other
        cell to ambient motion; this one allows it and counts. */
     const { shown } = await stage(page, null, "sat", null);
@@ -91,18 +93,51 @@ test.describe("with motion allowed", () => {
     /* Sampled DURING the reveal - from the first tile until the advance goes
        live - because that is when the sounding tiles and the fill run. */
     await page.locator(".wq-tile").first().waitFor({ timeout: 8000 });
-    const samples = [];
+    const samples = [], spans = [];
     const t0 = Date.now();
     while (Date.now() - t0 < 12000) {
       samples.push(await runningAnimations(page));
+      spans.push(...await popSpans(page));
       const live = await page.evaluate(() => { const b = document.querySelector(".wq-rail .wq-cta"); return !!b && !b.disabled; });
       if (live && samples.length > 3) break;
-      await page.waitForTimeout(120);
+      await page.waitForTimeout(100);
     }
     const findings = samples.flatMap((s) => motionHold("reveal", s));
     expect(findings, JSON.stringify(samples)).toEqual([]);
+    /* And as intervals on the document's timeline: no two sampled pops
+       overlap, however briefly, and at least one pop was timed. */
+    const overlap = popOverlap(spans);
+    expect(overlap.findings, JSON.stringify(spans)).toEqual([]);
+    expect(overlap.pops, "no pop was ever timed").toBeGreaterThan(0);
     /* And the samples saw a sounding tile at all, or the cell measured a
        silent reveal and proved nothing about one. */
     expect(samples.some((s) => s.some((n) => n.includes("wqpop"))), "no sounding tile was ever seen during the reveal").toBe(true);
   });
+});
+
+test("the widest word: one line on this profile, and its box, glyph size and baseline hold from attempt to feedback", async ({ page }) => {
+  /* Bible 3.2 and 19.1 for the one word whose glyph size is computed at
+     runtime. The phase walk stages "sat", which the fit never touches; this
+     cell stages the widest bank word by rendered width (the probe), holds
+     it to one line at 36 px or more on THIS profile, and then measures the
+     same word in ready and in reveal: the box to 0.5 px, the glyph size to
+     0.01 px, the text's bottom to 0.5 px. Between words the box and the
+     baseline are constant by construction (Word.jsx) and only the glyphs
+     may differ - the phase walk's next-ready comparison already holds the
+     box across words. */
+  const { shown } = await stage(page, null, "sat", null);
+  requireStaged("sat", shown);
+  const widest = await widestWord(page, BANK_WORDS);
+  expect(widest && widest.em, "the probe must measure a word").toBeGreaterThan(4);
+  const staged = await stage(page, null, widest.word, null);
+  requireStaged(widest.word, staged.shown);
+  const ready = await wordGeometry(page);
+  const fit = wordFits(await wordBox(page), 36);
+  expect(fit, JSON.stringify({ widest, ready, fit })).toEqual([]);
+  await holdGrade(page, GRADE.correct, []);
+  await waitForReveal(page);
+  await page.waitForTimeout(300);   // a late layout or a font event, if any, lands here
+  const reveal = await wordGeometry(page);
+  const held = wordHold(ready, reveal, "ready and reveal");
+  expect(held, JSON.stringify({ ready, reveal, held })).toEqual([]);
 });

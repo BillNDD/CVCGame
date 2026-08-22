@@ -25,7 +25,7 @@ const CSS = VARS + `
    Found by an audit of the running build, 2026-07-29. */
 .wq-root{
   height:100vh; height:100svh; width:100%; overflow:hidden;
-  background:linear-gradient(160deg,#8fd0fa 0%,#b9c3fb 55%,#d9c6fb 100%);
+  background:linear-gradient(160deg,${C.skyBlue} 0%,${C.skyLavender} 55%,${C.skyPurpleMist} 100%);
   font-family:ui-rounded,'SF Pro Rounded',system-ui,-apple-system,'Segoe UI',sans-serif;
   color:${C.ink};
 }
@@ -137,7 +137,7 @@ const CSS = VARS + `
 .wq-dashed{white-space:nowrap}
 
 /* controls */
-.wq-cta{display:block;width:100%;border:0;border-radius:999px;background:${C.action};color:#fff;padding:16px 18px;cursor:pointer;
+.wq-cta{display:block;width:100%;border:0;border-radius:999px;background:${C.action};color:${C.paper};padding:16px 18px;cursor:pointer;
   box-shadow:0 3px 10px rgba(23,53,107,.18);min-height:56px;position:relative;overflow:hidden;isolation:isolate}
 /* A2-011 — an inert control keeps a readable label. White on the pale grey
    measured 2.14:1, and 2.87:1 where the fill band crosses it; the ink reads
@@ -169,7 +169,7 @@ const CSS = VARS + `
   padding:11px 13px;border-radius:999px;cursor:pointer;min-height:44px}
 .wq-chip{background:rgba(255,255,255,.85);color:${C.ink};padding:7px 10px;border-radius:999px;display:inline-block}
 .wq-striplabel{letter-spacing:.12em;text-transform:uppercase;color:${C.strip};opacity:.85}
-.wq-sbtn{background:#fff;border:1.5px solid ${C.line};border-radius:9px;color:${C.strip};padding:0 12px;min-height:44px;min-width:44px;cursor:pointer} /* N-6 */
+.wq-sbtn{background:${C.paper};border:1.5px solid ${C.line};border-radius:9px;color:${C.strip};padding:0 12px;min-height:44px;min-width:44px;cursor:pointer} /* N-6 */
 .wq-hold{position:relative;overflow:hidden;touch-action:none}
 .wq-holdfill{position:absolute;inset:0;width:0;opacity:.22}
 .wq-hold.holding .wq-holdfill{width:100%;transition:width .45s linear}
@@ -210,10 +210,10 @@ const CSS = VARS + `
 @media (max-width:319px){.wq-prog{grid-template-columns:repeat(7,13px)}}
 .wq-seg{width:13px;height:13px;border-radius:50%}
 .wq-seg-todo{background:${C.chip};box-shadow:inset 0 0 0 1px ${C.line}}
-.wq-seg-now{background:${C.sun};box-shadow:inset 0 0 0 1px #e0ac2b}
+.wq-seg-now{background:${C.sun};box-shadow:inset 0 0 0 1px ${C.sunEdge}}
 .wq-seg-ok{background:${C.green}}
-.wq-seg-mid{background:repeating-linear-gradient(135deg,${C.sun} 0 3px,#fff 3px 6px)}
-.wq-seg-bad{background:repeating-linear-gradient(90deg,${C.red} 0 2px,#fff 2px 4px)}
+.wq-seg-mid{background:repeating-linear-gradient(135deg,${C.sun} 0 3px,${C.paper} 3px 6px)}
+.wq-seg-bad{background:repeating-linear-gradient(90deg,${C.red} 0 2px,${C.paper} 2px 4px)}
 
 /* home stage sizing lives here, not inline, so the short-screen rules below
    can reach it */
@@ -259,15 +259,15 @@ const CSS = VARS + `
 }
 
 /* cards / forms */
-.wq-card{background:#fff;border-radius:18px;box-shadow:0 2px 10px rgba(23,53,107,.12);text-align:center}
+.wq-card{background:${C.paper};border-radius:18px;box-shadow:0 2px 10px rgba(23,53,107,.12);text-align:center}
 .wq-lbl{display:block;letter-spacing:.06em;text-transform:uppercase;color:${C.muted};margin-bottom:5px}
 .wq-help{margin:6px 0 0;font-size:12.5px;line-height:1.45;color:${C.muted}}
-.wq-input{width:100%;border:1.5px solid ${C.line};border-radius:10px;padding:11px 12px;color:${C.ink};background:#fff;min-height:44px}
+.wq-input{width:100%;border:1.5px solid ${C.line};border-radius:10px;padding:11px 12px;color:${C.ink};background:${C.paper};min-height:44px}
 .wq-fieldrow{margin-top:14px}
 .wq-seggroup{display:flex;gap:4px;background:${C.chip};border-radius:11px;padding:3px;flex-wrap:wrap}
 .wq-segbtn{flex:1 1 auto;min-width:44px;min-height:44px;border:0;background:transparent;border-radius:8px;
   color:${C.strip};cursor:pointer}
-.wq-segbtn.on{background:#fff;color:${C.ink};box-shadow:0 1px 3px rgba(23,53,107,.2)}
+.wq-segbtn.on{background:${C.paper};color:${C.ink};box-shadow:0 1px 3px rgba(23,53,107,.2)}
 .wq-rowbtn{display:flex;align-items:center;width:100%;border:0;background:transparent;padding:4px 0;cursor:pointer;min-height:44px}
 .wq-meter{display:flex;height:6px;border-radius:3px;background:${C.chip};overflow:hidden;margin-top:6px}
 .wq-trophy{display:inline-flex;align-items:center;justify-content:center;border:4px solid transparent;
@@ -283,11 +283,11 @@ const CSS = VARS + `
    which has neither zone and so measures zero. */
 .wq-toast{position:absolute;left:50%;transform:translateX(-50%);
   bottom:calc(var(--wq-bottomzones,112px) + 12px + env(safe-area-inset-bottom));
-  background:${C.ink};color:#fff;padding:10px 16px;border-radius:999px;
+  background:${C.ink};color:${C.paper};padding:10px 16px;border-radius:999px;
   max-width:88%;text-align:center;z-index:70}
 .wq-modalwrap{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:18px;z-index:80}
 .wq-scrim{position:absolute;inset:0;background:rgba(23,53,107,.42);border:0;order:-1}
-.wq-modal{position:relative;z-index:1;background:#fff;border-radius:18px;padding:18px;max-width:380px;width:100%;
+.wq-modal{position:relative;z-index:1;background:${C.paper};border-radius:18px;padding:18px;max-width:380px;width:100%;
   box-shadow:0 12px 40px rgba(23,53,107,.3)}
 
 /* NO TEXT SELECTION ON THE CHILD'S SCREEN.
