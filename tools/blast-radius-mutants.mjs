@@ -165,9 +165,9 @@ const MUTANTS = [
     'const GIT_VARS = ["GIT_DIR", "GIT_WORK_TREE", "GIT_INDEX_FILE", "GIT_OBJECT_DIRECTORY",',
     'const GIT_VARS = ["GIT_DIR", "GIT_WORK_TREE", "GIT_INDEX_FILE"]; const UNUSED = ["GIT_OBJECT_DIRECTORY",'],
   ["the hook controls are never called",
-    '  if (!ARGS.includes("--nested")) hookControls(ok);', "  void hookControls;"],
+    '  if (!ARGS.includes("--nested") && !bailed()) hookControls(ok);', "  void hookControls;"],
   ["the nested guard is inverted, so the hook controls run only when nested",
-    '  if (!ARGS.includes("--nested")) hookControls(ok);', '  if (ARGS.includes("--nested")) hookControls(ok);'],
+    '  if (!ARGS.includes("--nested") && !bailed()) hookControls(ok);', '  if (ARGS.includes("--nested") && !bailed()) hookControls(ok);'],
   ["run() stops scrubbing, so every subprocess control inherits a hook's git",
     "  const opt = { cwd: box, encoding: \"utf8\", env: cleanEnv(), timeout: 60000, stdio: [\"ignore\", \"pipe\", \"pipe\"] };",
     "  const opt = { cwd: box, encoding: \"utf8\", timeout: 60000, stdio: [\"ignore\", \"pipe\", \"pipe\"] };",
@@ -192,8 +192,8 @@ const MUTANTS = [
     "  for (let k = i + 1; k < lines.length && /^ {6}\\S/.test(lines[k]); k++) rest.push(lines[k]);",
     "  for (let k = i + 1; k < lines.length; k++) rest.push(lines[k]);"],
   ["nestedness is taken from the environment again, where anyone can set it",
-    '  if (!ARGS.includes("--nested")) hookControls(ok);',
-    "  if (!process.env.BLAST_RADIUS_NESTED) hookControls(ok);"],
+    '  if (!ARGS.includes("--nested") && !bailed()) hookControls(ok);',
+    "  if (!process.env.BLAST_RADIUS_NESTED && !bailed()) hookControls(ok);"],
 ];
 
 /* A COPY of the working tree's file, in a scratch directory — not a git clone.
@@ -249,6 +249,14 @@ if (!/controls: \d+ passed, 0 failed/.test(baseline)) {
 }
 console.log(`baseline: ${/controls: (\d+) passed/.exec(baseline)[1]} controls green under a hostile global gitignore\n`);
 
+/* THE BAIL CONTROL (E5 for the --bail flag itself). The mutant loop below
+   runs every planted fault with --bail, so a fault is declared caught by its
+   first failing control and the nested hook re-run is skipped. That is only
+   honest if bail never changes a verdict. The first fault in the list is
+   therefore run BOTH ways, and the two verdicts must agree - and the whole
+   run must also be slower than the bailed one, or the flag is doing nothing. */
+let bailControl = null;
+
 let survived = 0, moved = 0, equivalent = 0;
 for (const [name, from, to, why] of MUTANTS) {
   const n = original.split(from).length - 1;
@@ -261,8 +269,22 @@ for (const [name, from, to, why] of MUTANTS) {
   let out = "";
   /* A timeout, so a fault that loops fails as a survivor with something to read
      rather than hanging a release run with nothing. */
-  try { out = execFileSync("node", [target, "--self-test"], { cwd: box, encoding: "utf8", env: ENV, timeout: 300000, stdio: ["ignore", "pipe", "pipe"] }); }
-  catch (e) { out = (e.stdout || "") + (e.stderr || ""); }
+  const selfTest = (extra) => {
+    try { return execFileSync("node", [target, "--self-test", ...extra], { cwd: box, encoding: "utf8", env: ENV, timeout: 300000, stdio: ["ignore", "pipe", "pipe"] }); }
+    catch (e) { return (e.stdout || "") + (e.stderr || ""); }
+  };
+  const t0 = Date.now();
+  out = selfTest(["--bail"]);
+  const bailMs = Date.now() - t0;
+  if (bailControl === null) {
+    const t1 = Date.now();
+    const whole = selfTest([]);
+    const wholeMs = Date.now() - t1;
+    const wm = /controls: (\d+) passed, (\d+) failed/.exec(whole);
+    const bm = /controls: (\d+) passed, (\d+) failed/.exec(out);
+    bailControl = !!(wm && bm && (Number(wm[2]) > 0) === (Number(bm[2]) > 0) && wholeMs > bailMs);
+    console.log(`bail control: ${bailControl ? "ok" : "FAILED"} - the first fault is ${wm && Number(wm[2]) > 0 ? "caught" : "missed"} whole (${wholeMs} ms) and ${bm && Number(bm[2]) > 0 ? "caught" : "missed"} bailed (${bailMs} ms)`);
+  }
   const m = /controls: (\d+) passed, (\d+) failed/.exec(out);
   /* A crash is NOT a kill. A control that only fails by throwing has told you
      the tool is broken, not that the fault was detected, and the two look
@@ -279,4 +301,5 @@ console.log(`\n${MUTANTS.length} planted faults in ${REL}: ${survived} survived,
 console.log(readFileSync(live, "utf8") === original
   ? "The working tree is byte-for-byte as it was: every mutant lived in a scratch copy."
   : "WARNING: the working tree changed while this ran. Check it before committing.");
-process.exit(survived + moved ? 1 : 0);
+if (bailControl === false) console.log("The bail control FAILED: --bail changed a verdict or saved no time. The loop above is not to be trusted.");
+process.exit(survived + moved || bailControl === false ? 1 : 0);

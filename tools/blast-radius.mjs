@@ -821,29 +821,40 @@ async function selfTest() {
   const ok = [];
   const real = process.cwd();
   const box = sandbox();
+  /* --bail: stop after the first group with a failure. ONLY the mutant harness
+     passes it (P1 of the speed plan, 2026-08-22): a planted fault is caught by
+     its first failing control, and the groups after it - above all the hook
+     control, which re-runs this whole self-test nested and is more than half
+     the cost of a pass - prove nothing more about that fault. A clean run
+     never bails, because a clean run has nothing to stop at: the harness's
+     baseline and npm run check both run without it, and the summary line
+     names a bailed run so it can never be mistaken for a whole one. */
+  const bailed = () => ARGS.includes("--bail") && ok.some(([, p]) => !p);
   try {
     ROOT = box;
     searchControls(ok);
-    numberControls(ok);
-    symbolTextControls(ok);
-    await countControls(ok);
+    if (!bailed()) numberControls(ok);
+    if (!bailed()) symbolTextControls(ok);
+    if (!bailed()) await countControls(ok);
     /* Run from a subdirectory: a cwd-relative walk answers with that subtree
        only, counts still right — wrong where nobody would check. */
-    ROOT = null;
-    process.chdir(join(box, "app"));
-    const below = files(hits("zzq")).length;
-    process.chdir(real);
-    ROOT = box;
-    ok.push(["the answer is the same run from a subdirectory as from the root",
-      below === files(hits("zzq")).length && below === 7]);
-    outputControls(ok, box);
+    if (!bailed()) {
+      ROOT = null;
+      process.chdir(join(box, "app"));
+      const below = files(hits("zzq")).length;
+      process.chdir(real);
+      ROOT = box;
+      ok.push(["the answer is the same run from a subdirectory as from the root",
+        below === files(hits("zzq")).length && below === 7]);
+      outputControls(ok, box);
+    }
   } finally {
     process.chdir(real);
     ROOT = null;
     rmSync(box, { recursive: true, force: true });
   }
-  classifyControls(ok);
-  if (!ARGS.includes("--nested")) hookControls(ok);
+  if (!bailed()) classifyControls(ok);
+  if (!ARGS.includes("--nested") && !bailed()) hookControls(ok);
   /* The guard exists to stop the hook control recursing into itself. It must
      not be a switch that quietly removes controls: set in the ambient
      environment, or deleted by an edit, it would take three controls away and
@@ -853,13 +864,16 @@ async function selfTest() {
       "GIT_ALTERNATE_OBJECT_DIRECTORIES", "GIT_COMMON_DIR", "GIT_NAMESPACE",
       "GIT_CEILING_DIRECTORIES", "GIT_PREFIX", "GIT_INTERNAL_SUPER_PREFIX"]
       .every((v) => GIT_VARS.includes(v))]);
-  ok.push(["the git-hook controls actually ran, rather than being skipped",
+  /* Under a bail that has fired this assertion is not pushed at all: it would
+     be a second FAIL caused by the first, not a finding. A bailed run is
+     already red by definition and says so in its summary line. */
+  if (!bailed()) ok.push(["the git-hook controls actually ran, rather than being skipped",
     ARGS.includes("--nested")
     || ok.some(([n]) => n.includes("stages nothing into that hook's repository"))]);
 
   for (const [name, pass] of ok) console.log((pass ? "ok   " : "FAIL ") + name);
   const failed = ok.filter(([, p]) => !p).length;
-  console.log(`\nblast-radius controls: ${ok.length - failed} passed, ${failed} failed`);
+  console.log(`\nblast-radius controls: ${ok.length - failed} passed, ${failed} failed${bailed() ? " (bailed at the first failure - not a whole run)" : ""}`);
   return failed;
 }
 

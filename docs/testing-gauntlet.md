@@ -1236,8 +1236,15 @@ promised a fallback the code never performed; G12 counted the step and saw nothi
   `tools/blast-radius.mjs` and requires the lookup's own controls to catch every one. It
   carries no G number deliberately: G22 is this repository's cautionary tale about a number
   written into a document before the gate existed.
-- It is here rather than in `npm run check` because it takes about thirty seconds, and the
-  check is half a minute in total.
+- It is here rather than in `npm run check` because of its cost: "about thirty seconds" when
+  this line was written, 14 min 4 s in run 15 on 2026-08-22 (41 per cent of the gauntlet -
+  the first instrumented run's first finding). Each of its 65 self-test passes (the baseline
+  and 64 faults) re-runs itself once nested for the git-hook control, 9 s a pass against 3.9
+  without. So the fault loop runs the self-test with `--bail` - stop after the first control
+  group with a failure, which for a caught fault skips the nested re-run - and the baseline
+  runs whole, as does `npm run check`. A bailed run names itself in its summary line. The
+  first fault is run both ways as the flag's own control: the verdicts must agree and the
+  whole run must be the slower, or the gate fails. Measured standalone on 2026-08-22, same tree, back to back: 13 min 30 s whole, 6 min 1 s bailed, 63 killed and 1 equivalent both times; three planted hook faults recurse to their timeout either way and set the floor.
 - Baseline floors: `e11_lookup_controls` (97), `e11_lookup_mutants` (64). Ceilings:
   `e11_lookup_survivors_max` (0), `e11_lookup_anchors_max` (0), `e11_lookup_equivalent_max` (1). A survivor means some part of
   the lookup can be wrong while every control stays green. A moved anchor means a planted
