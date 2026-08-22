@@ -23,7 +23,47 @@ const LEDGER = "tools/art/provenance.json";
 const BASELINE = JSON.parse(readFileSync(".claude/gate-baseline.json", "utf8"));
 const KINDS = new Set(["css", "raster", "svg"]);
 
-export function judge(ledger, tokens = C, ceiling = BASELINE.art_bytes_max) {
+/* THE LOCK IS READ, NOT TRUSTED (the antagonist's after pass on step 1): a
+   family's lock must equal what the stylesheet and the screen state, or the
+   entry the ruling calls the README drifts from the code it describes. */
+/* a rule's block, brace-aware: `${C.ink}` carries a brace of its own, and a
+   selector is matched at a line start so ".wq-tile{" never means the
+   wq-many rule that ends in the same characters */
+function cssBlock(src, selector) {
+  const at = src.indexOf("\n" + selector + "{");
+  if (at < 0) return null;
+  let depth = 0, k = at + 1;
+  for (; k < src.length; k++) { if (src[k] === "{") depth++; else if (src[k] === "}") { depth--; if (depth === 0) break; } }
+  return src.slice(at + 1, k + 1);
+}
+const num = (block, re) => { const m = block && block.match(re); return m ? Number(m[1]) : null; };
+export function lockFromSources(css = readFileSync("app/src/wq-css.js", "utf8"), screen = readFileSync("app/src/screens/BuildItScreen.jsx", "utf8")) {
+  const blocks = {
+    reveal: cssBlock(css, ".wq-tile"), many: cssBlock(css, ".wq-slot-tiles.wq-many .wq-tile"), crowd: cssBlock(css, ".wq-slot-tiles.wq-crowd .wq-tile"),
+    shortStage: cssBlock(css, "  .wq-tile"), buildit: cssBlock(css, ".wq-tilebtn"), pop: cssBlock(css, "@keyframes wqpop"),
+  };
+  const r = num(blocks.pop, /outline:(\d+)px/);
+  const spread = Object.fromEntries(["reveal", "many", "crowd", "shortStage"].map((k) => [k, num(blocks[k], /--wqband:(\d+)px/)]));
+  return {
+    radii: Object.fromEntries(["reveal", "many", "crowd", "shortStage", "buildit"].map((k) => [k, num(blocks[k], /border-radius:(\d+)px/)])),
+    ring: r, ringOffset: num(blocks.pop, /outline-offset:(\d+)/),
+    band: Object.fromEntries(Object.entries(spread).map(([k, v]) => [k, v === null || r === null ? null : v - r])),
+    builditBox: num(screen, /const SLOT = (\d+), TILE = \d+/),
+    extraPerLetter: num(screen, /\(tile \|\| ""\)\.length\) - 1\) \* (\d+)/),
+  };
+}
+export function lockDrift(lock, fromSources) {
+  const out = [];
+  for (const [k, v] of Object.entries(fromSources.radii)) if (lock.radii?.[k] !== v) out.push(`lock.radii.${k} is ${lock.radii?.[k]}, the stylesheet says ${v}`);
+  if (lock.ring !== fromSources.ring) out.push(`lock.ring is ${lock.ring}, the keyframes say ${fromSources.ring}`);
+  if (lock.ringOffset !== fromSources.ringOffset) out.push(`lock.ringOffset is ${lock.ringOffset}, the keyframes say ${fromSources.ringOffset}`);
+  for (const [k, v] of Object.entries(fromSources.band)) if (lock.band?.[k] !== v) out.push(`lock.band.${k} is ${lock.band?.[k]}, the stylesheet says ${v}`);
+  if (lock.builditBox !== fromSources.builditBox) out.push(`lock.builditBox is ${lock.builditBox}, the screen says ${fromSources.builditBox}`);
+  if (lock.extraPerLetter !== fromSources.extraPerLetter) out.push(`lock.extraPerLetter is ${lock.extraPerLetter}, the screen says ${fromSources.extraPerLetter}`);
+  return out;
+}
+
+export function judge(ledger, tokens = C, ceiling = BASELINE.art_bytes_max, sources = null) {
   const problems = [];
   const shares = ledger.shares || {};
   const sum = Object.values(shares).reduce((n, v) => n + (Number.isInteger(v) ? v : NaN), 0);
@@ -39,6 +79,7 @@ export function judge(ledger, tokens = C, ceiling = BASELINE.art_bytes_max) {
     for (const [state, names] of Object.entries(f.states || {})) for (const t of names) if (!(t in tokens)) at(`state "${state}" names ${t}, which C does not have`);
     for (const r of f.ratios || []) if (typeof r.value !== "number" || !r.test || !r.pair) at(`a ratio row lacks a pair, a value or the test that pins it: ${JSON.stringify(r)}`);
     for (const c of f.checkpoints || []) if (!c.stage || !c.chair || !c.date || !c.verdict) at(`a checkpoint lacks stage, chair, date or verdict: ${JSON.stringify(c)}`);
+    if (name === "tiles" && f.lock) for (const d of lockDrift(f.lock, sources || lockFromSources())) at(d);
     if (f.closed) {
       const o = f.originality;
       if (!o || !o.test || !o.verdict || !o.chair || !o.date) at("closed without an originality verdict {test, verdict, chair, date}");
@@ -62,6 +103,13 @@ if (process.argv.includes("--self-test")) {
   ok.push(["a closed family with no originality verdict or checkpoints is refused", judge(closed).some((p) => p.includes("closed without an originality")) && judge(closed).some((p) => p.includes("closed without both checkpoints"))]);
   const drift = JSON.parse(JSON.stringify(real)); drift.families.tiles.share = 1;
   ok.push(["a family share that differs from the table is refused", judge(drift).some((p) => p.includes("is not the shares table's"))]);
+  /* the lock against the sources: the reader finds every number, and a
+     planted band of 7 is refused */
+  const src = lockFromSources();
+  ok.push(["the lock reader finds the ring, the offset, every band and radius, the box and the letter step in the sources",
+    src.ring === 3 && src.ringOffset === 0 && Object.values(src.band).every((v) => Number.isInteger(v)) && Object.values(src.radii).every((v) => Number.isInteger(v)) && src.builditBox === 64 && src.extraPerLetter === 26]);
+  const wideBand = JSON.parse(JSON.stringify(real)); wideBand.families.tiles.lock.band.reveal = 7;
+  ok.push(["a lock whose band differs from the stylesheet is refused", judge(wideBand).some((p) => p.includes("lock.band.reveal is 7"))]);
   for (const [name, pass] of ok) console.log((pass ? "ok   " : "FAIL ") + name);
   const failed = ok.filter(([, p]) => !p).length;
   console.log(`\nprovenance controls: ${ok.length - failed} passed, ${failed} failed`);

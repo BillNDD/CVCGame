@@ -181,17 +181,38 @@ describe("the palette is pinned", () => {
     expect(ref).toContain(".wq-ghost{opacity:.6}");
   });
 
-  it("10: the two copies of the tile rules agree, character for character, and a planted one-character drift is refused", () => {
+  it("10: the eleven tile blocks the two stylesheet copies share agree character for character; a drift in a block's last line is refused through the reader; the band literals are pinned", () => {
     /* E2: the reference build stays one file, and its stylesheet copy
-       carries the same .wq-tile, @keyframes wqpop and .wq-tilebtn blocks the
-       app ships; nothing bound the two before this step. */
+       carries the tile rules the app ships. Compared here, by block: .wq-tile,
+       .wq-tilebtn, its :active, .wq-used, .wq-empty, .wq-cue, .wq-empty.wq-cue,
+       .wq-arr, :focus-visible, .wq-ghost, .wq-slotrow and .wq-slotrow.wq-won.
+       NOT compared, because the reference has neither: @keyframes wqpop, the
+       density rules (wq-many, wq-crowd, the short stage) and .wq-sword-open -
+       doc-truth rule 12 says the same by name. The reader is brace-aware,
+       since ${C.ink} carries a brace of its own. */
     const css = readFileSync("app/src/wq-css.js", "utf8"), ref = readFileSync("reference/word-quest.jsx", "utf8");
-    const block = (src, start) => { const i = src.indexOf(start); expect(i, start).toBeGreaterThan(-1); const j = src.indexOf("}\n", src.indexOf("{", i) + 1); return src.slice(i, j + 1); };
-    for (const start of [".wq-tile{", ".wq-tilebtn{", ".wq-tilebtn.wq-used{", ".wq-tilebtn.wq-empty{", ".wq-tilebtn.wq-cue{", ".wq-tilebtn.wq-arr{", ".wq-tilebtn.wq-won{", ".wq-tilebtn:focus-visible{", ".wq-ghost{"]) {
-      expect(block(ref, start), start).toBe(block(css, start));
-    }
-    const drifted = block(css, ".wq-tile{").replace("tileFace", "tileFace2");
-    expect(drifted).not.toBe(block(ref, ".wq-tile{"));
+    const block = (src, start) => {
+      const i = src.indexOf(start); expect(i, start).toBeGreaterThan(-1);
+      let depth = 0, j = i;
+      for (; j < src.length; j++) { if (src[j] === "{") depth++; else if (src[j] === "}") { depth--; if (depth === 0) break; } }
+      return src.slice(i, j + 1);
+    };
+    const SHARED = [".wq-tile{", ".wq-tilebtn{", ".wq-tilebtn:active:not(:disabled){", ".wq-tilebtn.wq-used{", ".wq-tilebtn.wq-empty{", ".wq-tilebtn.wq-cue{", ".wq-tilebtn.wq-empty.wq-cue{", ".wq-tilebtn.wq-arr{", ".wq-tilebtn:focus-visible{", ".wq-ghost{", ".wq-slotrow{", ".wq-slotrow.wq-won{"];
+    for (const start of SHARED) expect(block(ref, start), start).toBe(block(css, start));
+    /* the control goes THROUGH the reader: one character changed in the last
+       line of a block of a copy of the reference source must be read as a
+       different block - a reader that stopped early would miss it */
+    const tileBlock = block(ref, ".wq-tile{");
+    const lastLine = tileBlock.slice(tileBlock.lastIndexOf("\n") + 1);
+    const driftedSrc = ref.replace(tileBlock, tileBlock.slice(0, tileBlock.lastIndexOf("\n") + 1) + lastLine.replace("--wqband:8px", "--wqband:9px"));
+    expect(driftedSrc).not.toBe(ref);
+    expect(block(driftedSrc, ".wq-tile{")).not.toBe(block(css, ".wq-tile{"));
+    /* the band, pinned: ring 3 plus band 5 / 4 / 2 / 4 by density */
+    expect(block(css, ".wq-tile{")).toContain("--wqband:8px");
+    expect(block(ref, ".wq-tile{")).toContain("--wqband:8px");
+    expect(css).toContain("border-radius:9px;--wqband:7px");
+    expect(css).toContain("border-radius:7px;--wqband:5px");
+    expect(css).toContain("font-size:clamp(.85rem,4svh,1.1rem);--wqband:7px");
   });
 
   it("4: teaching text clears 7:1 and the action blue 4.5:1, at literal ratios", () => {

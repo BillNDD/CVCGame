@@ -221,14 +221,18 @@ export default function BuildItScreen({ tray, playSounds, playWord, onDone, onEx
               nothing is a dead control to a finger and to a screen reader
               alike. The census's monkey reported both as dead on its first
               300-tap walk (2026-08-22); now they say what they are. */}
-          <div aria-busy={busy ? "true" : undefined} style={{ display: "flex", gap: 10, justifyContent: "center", flexWrap: "wrap" }}>
+          <div aria-busy={busy ? "true" : undefined} style={{ display: "flex", justifyContent: "center" }}>
+            {/* the slot row is its own box, so the completed word's halo is one
+                band round the assembled word and not three round three slots */}
+            <span className={"wq-slotrow" + (won ? " wq-won" : "")}>
             {slots.map((tile, i) => (
               <button key={i} onClick={() => lift(i)} disabled={tile === null || won} aria-label={tile !== null ? "Take back " + at(tile) : "Empty space"}
-                className={"wq-tilebtn" + (tile === null ? " wq-empty" : "") + (ghost === i && tile === null ? " wq-cue" : "") + (arr && tile !== null ? " wq-arr" : "") + (won && tile !== null ? " wq-won" : "")}
+                className={"wq-tilebtn" + (tile === null ? " wq-empty" : "") + (ghost === i && tile === null ? " wq-cue" : "") + (arr && tile !== null ? " wq-arr" : "")}
                 style={{ width: slotWidth(tray.answer[i]), height: SLOT }}>
                 {at(tile) || (ghost === i ? <span className="wq-ghost">{tray.answer[i]}</span> : "")}
               </button>
             ))}
+            </span>
           </div>
 
           <div style={{ minHeight: 26, marginTop: 14, fontWeight: 700, fontSize: 15,
@@ -237,7 +241,7 @@ export default function BuildItScreen({ tray, playSounds, playWord, onDone, onEx
           <div style={{ display: "flex", gap: 10, justifyContent: "center", flexWrap: "wrap", marginTop: 14 }}>
             {tray.tiles.map((tile, i) => (
               <button key={tile + "-" + i} onClick={() => place(i)} disabled={slots.includes(i) || won} aria-label={"Tile " + tile}
-                className={"wq-tilebtn" + (slots.includes(i) ? " wq-used" : "")} style={tileStyle(tile)}>{tile}</button>
+                className={"wq-tilebtn" + (slots.includes(i) || won ? " wq-used" : "")} style={tileStyle(tile)}>{tile}</button>
             ))}
           </div>
         </div>

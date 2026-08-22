@@ -369,7 +369,7 @@ function stateTable(bible) {
   if (start < 0) return [];
   const end = bible.indexOf("\n## ", start);
   const body = bible.slice(start, end < 0 ? undefined : end);
-  return [...body.matchAll(/^\| ([^|`]+?) \| `([^`]+)` \| ([^|]+) \|/gm)].map((m) => [m[1].trim(), m[2].trim(), m[3].split(",").map((t) => t.trim()).filter(Boolean)]);
+  return [...body.matchAll(/^\| ([^|`]+?) \| `([^`]+)` \| ([^|]+) \|/gm)].map((m) => [m[1].trim(), m[2].trim(), m[3].split(",").map((t) => t.trim()).filter((t) => t && t !== "none")]);
 }
 /* The text of `selector{...}` - the first block whose rule starts with the
    selector followed by `{`, or the keyframes block for an @keyframes name;
@@ -510,7 +510,7 @@ if (process.argv.includes("--self-test")) {
 
   /* Rule 12's four plants: a token the block lacks, a selector the sheet
      lacks, a moved anchor, and the reference's copy drifting from the app's. */
-  const lackingToken = { ...real, bible: real.bible.replace("| used | `.wq-tilebtn.wq-used` | slot, tileEdge |", "| used | `.wq-tilebtn.wq-used` | slot, tileEdge, cyanElectric |") };
+  const lackingToken = { ...real, bible: real.bible.replace("| used | `.wq-tilebtn.wq-used` | slot, boundary |", "| used | `.wq-tilebtn.wq-used` | slot, boundary, cyanElectric |") };
   seen.stateToken = run(lackingToken).found.some((p) => p.includes("says used (.wq-tilebtn.wq-used) paints cyanElectric"));
   const lackingSelector = { ...real, bible: real.bible.replace("| used | `.wq-tilebtn.wq-used` |", "| used | `.wq-tilebtn.wq-gone` |") };
   seen.stateSelector = run(lackingSelector).found.some((p) => p.includes('names ".wq-tilebtn.wq-gone" (used), which app/src/wq-css.js does not have'));

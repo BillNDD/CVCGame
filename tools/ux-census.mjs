@@ -661,6 +661,11 @@ async function seedGraduated(page) {
     rq.onerror = () => reject(rq.error);
   }), [db, store, STORE_KEY, save]);
   await page.goto("/", { waitUntil: "load" });
+  /* and the app must have BOOTED on that save: a lost race reads as "the
+     seed did not take", never as a cell on the wrong screen (the antagonist's
+     after pass on step 1) */
+  const level = await page.getByText(/Level \d+|Pre \d+/).first().textContent({ timeout: 8000 }).catch(() => "");
+  if (!/Level 1\b/.test(level)) throw new Error(`seedGraduated: the app booted on "${level.trim()}", not the seeded Level 1 save - the put did not take`);
 }
 
 /* A BUILD, staged: "Build any word" draws from the bank's buildable words

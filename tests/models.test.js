@@ -80,7 +80,7 @@ function agree(m) {
   const used = new Set(m.slots.filter((x) => x !== null));
   /* a used tile is the slot-faced, disabled control of art step 1 - not the
      dimmed one it was (opacity .22 left the letter at 1.45:1) */
-  tilesOnScreen().forEach((b, i) => { expect(b.classList.contains("wq-used")).toBe(used.has(i)); expect(b.disabled).toBe(used.has(i) || m.won); });
+  tilesOnScreen().forEach((b, i) => { expect(b.classList.contains("wq-used")).toBe(used.has(i) || m.won); expect(b.disabled).toBe(used.has(i) || m.won); });
   expect(screen.getByLabelText(/leave building/i)).toBeTruthy();
   expect(screen.getByText(/Hear the (word|sound)/)).toBeTruthy();
 }

@@ -524,24 +524,36 @@ family (8.1's row is amended): a solid `tileFace`, a one-pixel `tileHighlight` a
 the edge's shade below, a one-pixel `tileEdge` rim, a contact shadow — every inset at zero
 blur, the rim and bevel in the padding ring and never under the letters, the 9-slice the
 radius per density (12, 9, 7; 8 on the short stage; 14 in Build-it). **Sounding:** a 3 px
-solid `cyanStructural` ring at offset 0, a `cyanElectric` band **outside** it of 6 px (4 at
-six tiles, 2 at eight, so ring and band never enter a neighbour's letters), and the face
-lifted to `tileFaceLit` (+11.4 % luminance) — one `wqpop` keyframe set, `steps(1,end)`, the
-measured clip length; owner-ruled on the ceramic-tiles page over the ring alone. The same
+solid `cyanStructural` ring at offset 0, a `cyanElectric` band **outside** it of 5 px (4 at
+six tiles, 2 at eight, 4 on the short stage — so ring and band never enter a neighbour's
+letters and one CSS px of sky always stays between the band and the next tile's rim; the
+owner's page said 6, and the art director's checkpoint found a 6 px band abutting the
+neighbour's edge, which is the amendment), and the face lifted to `tileFaceLit` (+11.4 %
+luminance) — one `wqpop` keyframe set, `steps(1,end)`, the measured clip length;
+owner-ruled on the ceramic-tiles page over the ring alone. The same
 cyan ring marks the open sentence word. **Pressed:** the edge at .08 under the rim, the
-elevation dropped, no movement. **Used:** the `slot` face, no elevation, the letter still
-ink (8.80:1), a real `disabled` control. **Empty slot:** the `slot` fill under a dashed
-`boundary` edge (3.51:1). **Scaffold:** the slot wears the structural ring while its sound
-plays, one at a time, with the letter inside at opacity .60 (3.28:1, owner-ruled over the
-.28 that measured 1.65). **Different arrangement:** a 3 px `purpleStructural` ring round
-the filled slots while the built sounds play back, owner-ruled over a tint and over none.
-**Completed:** a static `amberFill` halo. **Focus:** a dashed `cyanStructural` ring at
+elevation dropped, no movement. **Used:** the `slot` face under the same dashed
+`boundary` edge the empty slot wears — a non-colour mark (15.1), because the slot face
+alone was invisible in greyscale at the checkpoint — no elevation, the letter still ink
+(8.80:1), a real `disabled` control; every tray tile takes it on a win, since a disabled
+tile must not look available. **Empty slot:** the `slot` fill under the dashed `boundary`
+edge (3.51:1). **Scaffold:** the slot wears the structural ring while its sound plays, one
+at a time, its dashes transparent so the ring is the one edge, with the letter inside at
+opacity .60 (3.28:1, owner-ruled over the .28 that measured 1.65). **Different
+arrangement:** a 3 px `purpleStructural` ring round the filled slots while the built sounds
+play back, owner-ruled over a tint and over none. **Completed:** one static `amberFill`
+halo round the assembled word, drawn on the slot row. **Focus:** a dashed `cyanStructural` ring at
 offset 2, so the keyboard's mark and the sounding mark differ by shape. None of the new
 states animates; reduced motion changes nothing about them.
 
 The table below is the repository's: doc-truth rule 12 reads it and requires every
-selector to exist in `app/src/wq-css.js` and in the reference build's copy, naming every
-token the row lists as `${C.token}`. Prose cells are not bound.
+selector to exist in `app/src/wq-css.js` and — except the two the reference build has no
+screen for, `@keyframes wqpop` (no sound-out animation there) and `.wq-sword-open` (no
+sentence stage) — in the reference's copy, naming every token the row lists as `${C.token}`;
+a row whose tokens cell says `none` binds the selector's existence only. Prose cells are
+not bound. For a family that lands no file, checkpoint 2 is judged on the pinned ratios,
+the census's sounding-state cell and sampled device pixels; the scenery statistic section
+17 names is first built by the step that lands a PNG, the garden scene.
 
 | state | selector | tokens |
 |---|---|---|
@@ -549,11 +561,12 @@ token the row lists as `${C.token}`. Prose cells are not bound.
 | sounding | `@keyframes wqpop` | cyanStructural, cyanElectric, tileFaceLit, tileHighlight, tileEdge |
 | control | `.wq-tilebtn` | ink, tileFace, tileHighlight, tileEdge |
 | pressed | `.wq-tilebtn:active:not(:disabled)` | tileEdge |
-| used | `.wq-tilebtn.wq-used` | slot, tileEdge |
+| used | `.wq-tilebtn.wq-used` | slot, boundary |
 | empty slot | `.wq-tilebtn.wq-empty` | slot, boundary |
 | scaffold | `.wq-tilebtn.wq-cue` | cyanStructural |
+| scaffold, one edge | `.wq-tilebtn.wq-empty.wq-cue` | none |
 | different arrangement | `.wq-tilebtn.wq-arr` | purpleStructural, tileHighlight, tileEdge |
-| completed | `.wq-tilebtn.wq-won` | amberFill, tileHighlight, tileEdge |
+| completed | `.wq-slotrow.wq-won` | amberFill |
 | focus | `.wq-tilebtn:focus-visible` | cyanStructural |
 | open sentence word | `.wq-sword-open` | cyanStructural |
 

@@ -296,9 +296,16 @@ its size check reads `.wq-cta` and `.wq-sbtn` only, and no gate opened Build-it 
 so a census cell now deals "ship" through the dice and measures every tray tile and slot.
 Counts moved: `census_novelty_cells` 68 → 84 (two cells on eight profiles),
 `census_novelty_controls` 12 → 14, `census_cells` 664 → 682, `g1_token_tests` 9 → 12,
-`g10_buildit_tests` 13 → 25, `g16_doc_rules` 11 → 12, `g17_governing_files` 45 → 46,
-`g23_declared` 53 → 54, `g20_tests_mapped` 403 → 411; `g5_source_mutants` 74 with 0
+`g10_buildit_tests` 13 → 26, `g16_doc_rules` 11 → 12, `g17_governing_files` 45 → 46,
+`g23_declared` 53 → 54, `g20_tests_mapped` 403 → 412; `g5_source_mutants` 74 with 0
 moved anchors, `g8_axe_violations_max` 0, the home snapshot unchanged.
+
+**How checkpoint 2 was judged for a family that lands no file.** The scenery statistic
+section 17 names is first built by the step that lands a PNG (the garden scene); the tile
+family's checkpoint 2 was judged on tokens tests 8–10, the census's sounding-state cell,
+and device pixels sampled on the renders (ring 13, band at 4.5 dpr, rim 4; the lifted face
+#fbe59d) — stated here, in the bible's section 11 and in the provenance row, so the
+section 17 sentence does not imply a measurement that did not happen.
 
 **Ruled by the owner (2026-08-22, the ceramic-tiles page, each with the real render):**
 the sounding tile keeps the structural ring AND the electric band (6 / 4 / 2 px by
@@ -560,3 +567,28 @@ Newest last. A verdict names the chair, the step, the word, and the findings.
   controls through the reader — taken; (12) provenance.json as DATA with a reader — taken;
   (13) the floors named — taken, above; (14) the states' animations listed — taken: none
   of the new states animates, reduced motion changes nothing about them. Declined: none.
+- 2026-08-22 — Step 1 checkpoints and after pass. **Checkpoint 1 (value): pass** — "the
+  ground is quiet and the word is the darkest, largest, highest-contrast thing on the
+  screen"; the ring and band sampled at 13 / 27 device px on the Galaxy render, 3 and 6 CSS
+  px exactly. **Checkpoint 2 (detail): fail**, on the capture and the record, not the tiles:
+  the arrangement renders were shot inside the judging lock before the purple ring appears
+  (the owner-page render shows it), and the provenance row's checkpoints and originality
+  were empty. The 18.2 verdict given: "a material, not a character — passes". **After
+  pass:** reading chair satisfactory; art director and antagonist not, three blocking
+  findings in all (the two above, and a control whose title claimed a border-in-keyframe
+  plant that did not exist). Every finding taken: the arrangement re-captured after the
+  miss message; the control plants a real border on the sounding tile and requires
+  `tile-moved`, its title naming what it plants; the provenance row filled at the re-
+  judgement; a used tile wears the empty slot's dashed `boundary` rim (15.1: the slot face
+  alone was invisible in greyscale); the cue slot's dashes go transparent so the ring is the
+  one edge; the band narrowed to 5 px (the owner's page said 6; at 6 it abutted the next
+  tile's rim) and the short stage's band set to 4, with the --wqband literals pinned; one
+  halo round the assembled word, drawn on the slot row, and every tray tile used on a win;
+  the sentence render re-captured mid-pop; how checkpoint 2 was judged stated; bible 11's
+  rule-12 sentence names the two app-only selectors and tokens test 10 names the twelve
+  blocks it compares, with its drift control through the reader; the provenance lock read
+  from the stylesheet and the screen by `lockFromSources` with a planted band refused;
+  `seedGraduated` reads its save back and throws on a lost race; the plan's counts
+  corrected; the open sentence word's keyboard focus recorded as open-faults AD for the
+  reading-surface step. Re-judged by the art director (checkpoint 2 and the after pass)
+  and the antagonist, fresh; their verdicts follow.

@@ -28,7 +28,7 @@
         "contactShadow": "0 1px 2px ink@.22, 0 1px 0 tileEdge@.5",
         "ring": 3,
         "ringOffset": 0,
-        "band": { "reveal": 6, "many": 4, "crowd": 2 },
+        "band": { "reveal": 5, "many": 4, "crowd": 2, "shortStage": 4 },
         "builditBox": 64,
         "extraPerLetter": 26
       },
@@ -38,12 +38,12 @@
         "pressed": ["tileEdge"],
         "sounding": ["cyanStructural", "cyanElectric", "tileFaceLit"],
         "placed": ["tileFace", "ink"],
-        "used": ["slot", "ink", "tileEdge"],
+        "used": ["slot", "ink", "boundary"],
         "removable": ["cyanStructural"],
         "different arrangement": ["purpleStructural"],
         "scaffold": ["cyanStructural", "ink"],
         "completed": ["amberFill"],
-        "disabled": ["slot", "ink", "tileEdge"],
+        "disabled": ["slot", "ink", "boundary"],
         "empty slot": ["slot", "boundary"]
       },
       "ratios": [
@@ -57,7 +57,8 @@
         { "pair": "purpleStructural on tileFace", "value": 4.86, "test": "tokens 8" },
         { "pair": "ghost at .60 on slot", "value": 3.28, "test": "tokens 9" }
       ],
-      "electricArea": { "formula": "2*(w+h+band)*band over the viewport, one tile sounding at a time (popOverlap)", "320x658": 0.5 },
+      "electricArea": { "formula": "2*(w+h+band)*band over the viewport, one tile sounding at a time (popOverlap)", "320x658": 0.4 },
+      "checkpointBasis": "a CSS family lands no file: checkpoint 2 was judged on tokens tests 8-10, the census's sounding-state cell and sampled device pixels on the renders; the scenery statistic is first built by the garden-scene step",
       "checkpoints": [],
       "originality": null
     }

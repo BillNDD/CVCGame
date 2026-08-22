@@ -2237,3 +2237,18 @@ is a ruling on what free play offers a pre-ladder child, and the chooser matchin
   scaffold letter to (opacity 1 is 8.80:1 on the slot) and what else it strengthens, with a
   test that reads the value under the setting; this entry closes with the values.
 
+## AD. Keyboard focus on the open sentence word replaces its ring — opened 2026-08-22
+
+- **Where it lives** `button:focus-visible{outline:3px solid ink;outline-offset:2px}` in
+  `app/src/wq-css.js` against `.wq-sword-open{outline:3px solid cyanStructural;
+  outline-offset:-3px}`: both write `outline`, and the focus rule wins on the focused
+  open word.
+- **What a child experiences today** A keyboard child sees the "this one, now" mark change
+  shape and colour the moment the open word takes focus; a touch child sees nothing
+  different. Pre-existing (the action ring lost to focus the same way); named by the
+  reading chair at art step 1's after pass. The tile controls got their own dashed focus
+  rule in step 1 and are fine.
+- **What done means** The reading-surface step (art plan step 3) gives `.wq-sword:focus-
+  visible` a dashed `cyanStructural` ring at a positive offset, drawn so the open mark and
+  the focus mark coexist (a box-shadow for one of them), with a test that reads both; this
+  entry closes with it.

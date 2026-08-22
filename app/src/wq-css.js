@@ -83,23 +83,30 @@ const CSS = VARS + `
    as wide as its slot). The states of bible 11's table:
    available - the ceramic; pressed - the face darkens by the edge at .08
    under the rim and the elevation drops, no movement; used - the slot
-   token's face, no elevation, the letter still ink so a child can see which
-   tile they spent, and a real disabled control; the empty slot - the slot
-   fill under a dashed boundary edge (3.51:1 on it), a real disabled
-   control; cue - the scaffold's slot wears the structural ring while its
-   sound plays, one at a time; arrangement - a purpleStructural ring round
-   the filled slots while the built sounds play back, never red; won - a
-   warm halo, static; focus - a DASHED ring at offset 2, so the keyboard's
-   mark and the sounding mark differ by shape, not only colour (15.2). */
+   token's face under the SAME dashed boundary edge the empty slot wears
+   (a non-colour mark, 15.1: the slot face alone was invisible in greyscale,
+   the checkpoint found), the letter still ink so a child can see which tile
+   they spent, and a real disabled control - and every tray tile takes it
+   on a win, since a disabled tile must not look available; the empty slot -
+   the slot fill under the dashed boundary edge (3.51:1 on it), a real
+   disabled control; cue - the scaffold's slot wears the structural ring
+   while its sound plays, one at a time, and its dashes go transparent so
+   the ring is the one edge; arrangement - a purpleStructural ring round
+   the filled slots while the built sounds play back, never red; won - one
+   warm halo round the assembled word, on the slot row, static; focus - a
+   DASHED ring at offset 2, so the keyboard's mark and the sounding mark
+   differ by shape, not only colour (15.2). */
 .wq-tilebtn{display:flex;align-items:center;justify-content:center;border:0;border-radius:14px;font-size:27px;font-weight:800;
   color:${C.ink};background:${C.tileFace};cursor:pointer;
   box-shadow:inset 0 1px 0 ${C.tileHighlight},inset 0 -1px 0 ${alpha(C.tileEdge, .35)},inset 0 0 0 1px ${C.tileEdge},0 1px 2px ${alpha(C.ink, .22)},0 1px 0 ${alpha(C.tileEdge, .5)}}
 .wq-tilebtn:active:not(:disabled){box-shadow:inset 0 0 0 1px ${C.tileEdge},inset 0 0 0 99px ${alpha(C.tileEdge, .08)}}
-.wq-tilebtn.wq-used{background:${C.slot};box-shadow:inset 0 0 0 1px ${C.tileEdge};cursor:default}
+.wq-tilebtn.wq-used{background:${C.slot};box-shadow:none;border:3px dashed ${C.boundary};cursor:default}
 .wq-tilebtn.wq-empty{background:${C.slot};box-shadow:none;border:3px dashed ${C.boundary};cursor:default}
 .wq-tilebtn.wq-cue{outline:3px solid ${C.cyanStructural};outline-offset:0}
+.wq-tilebtn.wq-empty.wq-cue{border-color:transparent}
 .wq-tilebtn.wq-arr{box-shadow:0 0 0 3px ${C.purpleStructural},inset 0 1px 0 ${C.tileHighlight},inset 0 -1px 0 ${alpha(C.tileEdge, .35)},inset 0 0 0 1px ${C.tileEdge}}
-.wq-tilebtn.wq-won{box-shadow:0 0 0 4px ${alpha(C.amberFill, .6)},inset 0 1px 0 ${C.tileHighlight},inset 0 -1px 0 ${alpha(C.tileEdge, .35)},inset 0 0 0 1px ${C.tileEdge}}
+.wq-slotrow{display:inline-flex;gap:10px;justify-content:center;flex-wrap:wrap;border-radius:18px}
+.wq-slotrow.wq-won{box-shadow:0 0 0 6px ${alpha(C.amberFill, .6)}}
 .wq-tilebtn:focus-visible{outline:3px dashed ${C.cyanStructural};outline-offset:2px}
 /* The scaffold letter at .60: 3.28:1 on the slot, owner-ruled 2026-08-22 on
    the ceramic-tiles page over the .28 (1.65:1) that had sat beside the
@@ -137,7 +144,7 @@ const CSS = VARS + `
 .wq-tile{background:${C.tileFace};color:${C.ink};border-radius:12px;padding:5px 12px;
   font-size:clamp(1.1rem,3.2svh,1.6rem);font-weight:700;
   box-shadow:inset 0 1px 0 ${C.tileHighlight},inset 0 -1px 0 ${alpha(C.tileEdge, .35)},inset 0 0 0 1px ${C.tileEdge},0 1px 2px ${alpha(C.ink, .22)},0 1px 0 ${alpha(C.tileEdge, .5)};
-  --wqband:9px}
+  --wqband:8px}
 /* The sound-out pop (owner-ruled 2026-08-04, shape chosen 2026-08-11 from four
    treatments heard against the real audio). A tile takes a hard outline for as
    long as its own sound plays, then drops it — no movement, no flash, no
@@ -174,9 +181,14 @@ const CSS = VARS + `
    an electric band OUTSIDE it - the box-shadow's spread is ring + band, and
    the outline paints over the shadow, so the band shows only beyond the
    ring (9.2: the glow sits outside a darker edge, never inside it) - and
-   the face lifted to tileFaceLit. The band is --wqband minus the ring: 6 px
-   here, 4 on wq-many, 2 on wq-crowd, so ring and band never enter a
-   neighbouring tile's content box across the 6, 4 and 3 px gaps. The ring
+   the face lifted to tileFaceLit. The band is --wqband minus the ring: 5 px
+   here, 4 on wq-many, 2 on wq-crowd, 4 on the short stage, so ring and band
+   never enter a neighbouring tile's content box across the 6, 4, 3 and 4 px
+   gaps, and a band never abuts the next tile's rim: one CSS px of sky stays
+   between them (the art director's checkpoint, 2026-08-22: at 6 the band ran
+   straight into the neighbour's edge and the sounding tile's silhouette was
+   not closed on that side - the owner's page said 6, and this is the
+   amendment). The ring
    was 4 px of ink at offset 3 from 2026-08-11 to this step; the owner's
    choice of a hard ring over a hop or a fade stands - the colour and the
    band are the bible's. Still one keyframe set, still steps(1,end), still
@@ -417,7 +429,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 @media (max-height:520px){
   .wq-stage{padding:2px 10px}
   .wq-word{font-size:clamp(1.5rem,13svh,2.4rem);margin:0}
-  .wq-tile{padding:2px 7px;border-radius:8px;font-size:clamp(.85rem,4svh,1.1rem)}
+  .wq-tile{padding:2px 7px;border-radius:8px;font-size:clamp(.85rem,4svh,1.1rem);--wqband:7px}
   .wq-slot-tiles{min-height:30px;margin-top:3px;gap:4px}
   .wq-slot-msg{height:34px;min-height:34px;margin-top:2px}
   .wq-msg{font-size:.95rem;line-height:1.2}

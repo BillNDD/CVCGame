@@ -2944,11 +2944,13 @@ const CSS = `
   color:${C.ink};background:${C.tileFace};cursor:pointer;
   box-shadow:inset 0 1px 0 ${C.tileHighlight},inset 0 -1px 0 ${alpha(C.tileEdge, .35)},inset 0 0 0 1px ${C.tileEdge},0 1px 2px ${alpha(C.ink, .22)},0 1px 0 ${alpha(C.tileEdge, .5)}}
 .wq-tilebtn:active:not(:disabled){box-shadow:inset 0 0 0 1px ${C.tileEdge},inset 0 0 0 99px ${alpha(C.tileEdge, .08)}}
-.wq-tilebtn.wq-used{background:${C.slot};box-shadow:inset 0 0 0 1px ${C.tileEdge};cursor:default}
+.wq-tilebtn.wq-used{background:${C.slot};box-shadow:none;border:3px dashed ${C.boundary};cursor:default}
 .wq-tilebtn.wq-empty{background:${C.slot};box-shadow:none;border:3px dashed ${C.boundary};cursor:default}
 .wq-tilebtn.wq-cue{outline:3px solid ${C.cyanStructural};outline-offset:0}
+.wq-tilebtn.wq-empty.wq-cue{border-color:transparent}
 .wq-tilebtn.wq-arr{box-shadow:0 0 0 3px ${C.purpleStructural},inset 0 1px 0 ${C.tileHighlight},inset 0 -1px 0 ${alpha(C.tileEdge, .35)},inset 0 0 0 1px ${C.tileEdge}}
-.wq-tilebtn.wq-won{box-shadow:0 0 0 4px ${alpha(C.amberFill, .6)},inset 0 1px 0 ${C.tileHighlight},inset 0 -1px 0 ${alpha(C.tileEdge, .35)},inset 0 0 0 1px ${C.tileEdge}}
+.wq-slotrow{display:inline-flex;gap:10px;justify-content:center;flex-wrap:wrap;border-radius:18px}
+.wq-slotrow.wq-won{box-shadow:0 0 0 6px ${alpha(C.amberFill, .6)}}
 .wq-tilebtn:focus-visible{outline:3px dashed ${C.cyanStructural};outline-offset:2px}
 /* The scaffold letter at .60: 3.28:1 on the slot, owner-ruled 2026-08-22 on
    the ceramic-tiles page over the .28 (1.65:1) that had sat beside the
@@ -2967,7 +2969,7 @@ const CSS = `
 .wq-tile{background:${C.tileFace};color:${C.ink};border-radius:12px;padding:5px 12px;
   font-size:clamp(1.1rem,3.2svh,1.6rem);font-weight:700;
   box-shadow:inset 0 1px 0 ${C.tileHighlight},inset 0 -1px 0 ${alpha(C.tileEdge, .35)},inset 0 0 0 1px ${C.tileEdge},0 1px 2px ${alpha(C.ink, .22)},0 1px 0 ${alpha(C.tileEdge, .5)};
-  --wqband:9px}
+  --wqband:8px}
 .wq-slot-msg{height:52px;min-height:52px;display:flex;flex-direction:column;align-items:center;justify-content:center;margin-top:4px}
 
 /* controls */

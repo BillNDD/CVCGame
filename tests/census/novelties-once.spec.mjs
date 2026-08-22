@@ -438,9 +438,10 @@ test("control: a window error in the built page reaches the ring the 200% and ro
 
 test.describe("with motion allowed, the sounding tile's controls", () => {
   test.use({ reducedMotion: "no-preference" });
-  test("control: the old ink ring, a border in the keyframe, a sun face and a band inside the ring are each caught", async ({ page }) => {
-    /* Each plant is a stylesheet added to the live page and read back through
-       soundingTile, the same reader the cell uses (E5). */
+  test("control: the old ink ring, a sun face and a border on the sounding tile are each caught through the reader; every other finding kind on fixtures", async ({ page }) => {
+    /* Three plants are stylesheets added to the live page and read back
+       through soundingTile, the same reader the cell uses (E5); the rest of
+       the hold's kinds are fixtures on the reader's own output shape. */
     const { shown } = await stage(page, null, "ship", null);
     requireStaged("ship", shown);
     const plant = async (css) => { const h = await page.addStyleTag({ content: css }); await holdGrade(page, GRADE.correct, []); await page.waitForFunction(() => !!document.querySelector(".wq-slot-tiles .wq-tile.wq-pop"), null, { timeout: 8000 }); const s = await soundingTile(page); await h.evaluate((e) => e.remove()); return s; };
@@ -463,6 +464,19 @@ test.describe("with motion allowed, the sounding tile's controls", () => {
     requireStaged("ship", again);
     const sunFace = await plant(".wq-slot-tiles .wq-tile{background:" + C.sun + "!important}");
     expect(soundingHold(sunFace, C).map((f) => f.kind), JSON.stringify(sunFace)).toContain("face-not-token");
+    /* a BORDER on the sounding tile - the size change bible 11's ruling
+       forbids - moves its box, and the reader's resting boxes, captured
+       before the pop, must say so */
+    const { shown: third } = await stage(page, null, "ship", null);
+    requireStaged("ship", third);
+    await holdGrade(page, GRADE.correct, []);
+    await page.locator(".wq-tile").first().waitFor({ timeout: 8000 });
+    const resting = await page.evaluate(() => [...document.querySelectorAll(".wq-slot-tiles .wq-tile")].map((t) => { const b = t.getBoundingClientRect(); return [b.x, b.y, b.width, b.height].map((v) => +v.toFixed(2)); }));
+    const h = await page.addStyleTag({ content: ".wq-slot-tiles .wq-tile.wq-pop{border:3px solid " + C.ink + "!important}" });
+    await page.waitForFunction(() => !!document.querySelector(".wq-slot-tiles .wq-tile.wq-pop"), null, { timeout: 8000 });
+    const bordered = await soundingTile(page);
+    await h.evaluate((e) => e.remove());
+    expect(soundingHold(bordered, C, resting).map((f) => f.kind), JSON.stringify({ resting, boxes: bordered.boxes })).toContain("tile-moved");
   });
 });
 

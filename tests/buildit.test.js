@@ -300,8 +300,14 @@ describe("the ceramic tile states", () => {
     await flush(50);
     const filled = screen.getAllByLabelText(/^Take back/);
     expect(filled.length).toBe(3);
-    expect(filled.every((b) => b.classList.contains("wq-won") && b.disabled)).toBe(true);
-    expect(tiles().every((b) => b.disabled)).toBe(true);
+    expect(filled.every((b) => b.disabled)).toBe(true);
+    /* one halo round the assembled word - on the slot row, not per slot */
+    expect(document.querySelectorAll(".wq-slotrow.wq-won").length).toBe(1);
+    expect(document.querySelector(".wq-slotrow.wq-won").querySelectorAll(".wq-tilebtn").length).toBe(3);
+    /* and every tray tile, spent or not, is a disabled control that LOOKS
+       disabled: the used face under the dashed rim (the checkpoint found the
+       unspent ones wearing the available ceramic) */
+    expect(tiles().every((b) => b.disabled && b.classList.contains("wq-used"))).toBe(true);
   });
 
   it("25: a win during the scaffold takes the cue ring off the slot it was on", async () => {
@@ -321,7 +327,7 @@ describe("the ceramic tile states", () => {
     await flush(50);
     expect(screen.getByText(/You built/)).toBeTruthy();
     expect(document.querySelectorAll(".wq-tilebtn.wq-cue").length).toBe(0);
-    expect(document.querySelectorAll(".wq-tilebtn.wq-won").length).toBe(3);
+    expect(document.querySelectorAll(".wq-slotrow.wq-won").length).toBe(1);
   });
 });
 
