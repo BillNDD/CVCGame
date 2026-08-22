@@ -894,7 +894,9 @@ deliberate: a flaky cell must inform a release, never block one.
 ## G19. App mutation
 
 - Tool: `tools/app-mutants.mjs`. Command: `npm run test:app-mutants`. Requirement: 0
-  survivors. Keys: `g19_app_mutants` (11), `g19_survivors_max` (0).
+  survivors. Keys: `g19_app_mutants` (14), `g19_survivors_max` (0). Three joined on
+  2026-08-22 for the bug-report ring: a ring that never writes, a ring that keeps one entry,
+  and a render boundary that shows the way home without recording the crash.
 - G5 mutates the engine. Nothing mutated the half of the product the child actually
   touches, so the app's tests were known to PASS and not known to BITE. G19 breaks one
   rule at a time in the files the engine never sees: the grade-once rule (that nothing

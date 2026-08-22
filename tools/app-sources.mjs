@@ -59,6 +59,7 @@ export const EXCLUDED = {
     "app/src/components/Toast.jsx": "a shell; its text comes from the caller",
     "app/src/components/HoldButton.jsx": "a control; its label comes from the caller",
     "app/src/components/UpdateRow.jsx": "grown-up copy, gated with ParentScreen's",
+    "app/src/errors.js": "the error ring; its one text is the report a grown-up copies, which must say the word error",
   },
   /* The network scan reads every file, because any file could reach the
      network — that is the point of S6. Nothing is excluded; the two files

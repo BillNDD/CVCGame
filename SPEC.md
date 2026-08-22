@@ -599,6 +599,14 @@ Grown-ups corner. This screen shows these items:
 - The level control, with a help line.
 - The mastery map. Each level has one summary row and an expand control.
 - The session log and the export control.
+- The bug report (owner-ruled 2026-08-22). The app keeps the last 20 problems it met - an
+  uncaught error, a rejected promise, a render crash - on the device, with the time, the
+  version, the screen, the message and one stack line; every web address is cut to its file
+  name and no name is ever written. It is NOT part of the session log. The corner shows
+  only the count, says in plain words that nothing is sent by itself, and offers "Copy bug
+  report" and "Clear". A grown-up copies it and chooses whether to send it anywhere (S6:
+  the app itself makes no request). A render crash shows the child one sentence and one
+  56 px control back to the start, never a blank page.
 - The reset control. The reset asks a
 question. The confirm control and the cancel control are in different positions. The cancel
 control is larger.
@@ -613,6 +621,9 @@ One state object:
   words: Record<string, WordState>,
   log: [ { n, date, level, c, k, w, acc, items:[{ w, r, retries }], partial } ] }
 ```
+
+The bug report ring is separate from the state: localStorage key `wq-errors`, at most 20
+entries, never exported with the log or the backup, cleared only by the corner's control.
 
 Write the state after each result and at the end of a session. A page refresh in a session must
 not remove results. The log number `n` is the log row count. `sessionsCompleted` counts full

@@ -113,6 +113,16 @@ const MUTANTS = [
   ["the starting gun returns: the guard arms at grade time", APP,
     "if (!s.settings.sound) armAdvance(ADVANCE_GUARD_MS);",
     "armAdvance(ADVANCE_GUARD_MS); if (!s.settings.sound) armAdvance(ADVANCE_GUARD_MS);"],
+  /* THE ERROR RING (2026-08-22). The ring's whole value is that it writes
+     every time; a ring that drops entries is a crash reporter that reports
+     calm. And the boundary's whole value is that a crash is written down
+     before the child is shown the way home. */
+  ["the error ring never writes", "app/src/errors.js",
+    "  list.push(entry);", "  void entry;"],
+  ["the error ring keeps only the newest entry", "app/src/errors.js",
+    "  while (list.length > CAP) list.shift();", "  while (list.length > 1) list.shift();"],
+  ["a render crash is shown the way home but never recorded", "app/src/components/ErrorBoundary.jsx",
+    "    record({", "    void record; void ({"],
 ];
 
 /* The last failure this helper swallowed, so the pristine control can SAY

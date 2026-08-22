@@ -8,7 +8,7 @@ Per-test rows carry the test's own sentence, which in this project IS the
 Given/When/Then effect. The requirement, oracle, platform, mutant family, evidence
 and known limits are declared per FILE, in the tool, where they stay true.
 
-Totals: 376 it() SITES across 17 files, plus 18 gates that are not test files.
+Totals: 380 it() SITES across 17 files, plus 18 gates that are not test files.
 
 A site inside a loop or a table runs many times, so these rows describe more tests than they number: Vitest executes 330. The rows count the places behaviour is asserted.
 
@@ -213,7 +213,7 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 105 | Build-it tray | never offers a word whose own tiles spell a ruled-out one |
 | 106 | Build-it tray | is reproducible: the same rand builds the same tray |
 
-## tests/faults.test.js — 18 tests (G9)
+## tests/faults.test.js — 22 tests (G9)
 
 - **Requirement protected:** SPEC section 7: damaged saves, silent storage, late data, hostile shapes, and backups that lie
 - **Independent oracle:** Stated expected outcomes per fault, each with a control proving the probe can see a write
@@ -243,6 +243,10 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 16 | G9 faults — the corner | saves a backup through the blob path without a throw |
 | 17 | G9 faults — the corner | jumping to a word level steps the child off the pre-ladder |
 | 18 | G9 faults — the corner | resets only through the second press, and the first can back out |
+| 19 | G9 faults — the error ring records on the device and never sends | scrubs every URL to its file name, caps the message, and keeps the last 20 |
+| 20 | G9 faults — the error ring records on the device and never sends | the browser |
+| 21 | G9 faults — the error ring records on the device and never sends | a render crash shows a way back to the start, not a blank page, and is recorded |
+| 22 | G9 faults — the error ring records on the device and never sends | the corner copies the report only on a grown-up |
 
 ## tests/generated/acceptance.test.js — 62 tests (G3)
 

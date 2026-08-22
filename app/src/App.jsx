@@ -11,6 +11,7 @@ import {
 } from "@engine";
 /* W3 — the storage adapter is IndexedDB in the standalone app. */
 import { loadState, saveState } from "./storage.js";
+import { readErrors, clearErrors, errorReport } from "./errors.js";
 
 /* B17's backstop, in milliseconds. Above the longest legitimate reveal ever
    measured (~8.7 s on a cold start), so it can only fire on a path where the
@@ -1077,6 +1078,19 @@ export default function App() {
     const md = buildMarkdown(state);
     try { await navigator.clipboard.writeText(md); setToast("Log copied ✓"); } catch (e) { setCopyBox(md); }
   }
+  /* The error report is a SEPARATE copy from the log, on purpose (owner-ruled
+     2026-08-22: the parent chooses whether it goes anywhere). It is never
+     folded into the session log a family might share for other reasons. */
+  /* Read when the corner is open, fresh each time it is: a crash on the
+     session screen a minute ago must show in the count now, not after a
+     reload. Cleared through the tick, which is the only other writer. */
+  const [errorTick, setErrorTick] = useState(0);
+  const errorCount = useMemo(() => (screen === "parent" ? readErrors().length : 0), [screen, errorTick]);
+  async function copyErrors() {
+    const text = errorReport(readErrors(), __APP_VERSION__);
+    try { await navigator.clipboard.writeText(text); setToast("Bug report copied ✓"); } catch (e) { setCopyBox(text); }
+  }
+  function clearErrorRing() { clearErrors(); setErrorTick((n) => n + 1); setToast("Bug report cleared."); }
   function doReset() {
     const s = newState();
     setState(s); persist(s); setNameDraft(""); setResetStage(0); setToast("All progress cleared.");
@@ -1198,6 +1212,7 @@ export default function App() {
       commitName={commitName} setSound={setSound} setLang={setLang} setUpdateCheck={setUpdateCheck}
       jumpLevel={jumpLevel} jumpPreLevel={jumpPreLevel} openLevels={openLevels} setOpenLevels={setOpenLevels}
       copyLog={copyLog} copyBox={copyBox} resetStage={resetStage} setResetStage={setResetStage}
+      errorCount={errorCount} copyErrors={copyErrors} clearErrors={clearErrorRing}
       doReset={doReset} onBack={() => { setResetStage(0); setCopyBox(""); setScreen("home"); }}
       voiceFallback={voiceFallback} onExportJSON={exportJSON} onImportJSON={importJSON} toast={toast} />;
   }

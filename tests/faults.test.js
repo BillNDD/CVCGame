@@ -357,3 +357,92 @@ describe("G9 faults — the corner's own actions survive their edges", () => {
     expect(saved.log).toEqual([]);
   });
 });
+
+describe("G9 faults — the error ring records on the device and never sends", () => {
+  /* Owner-ruled 2026-08-22 (bug-hunt page, errors: A, with the condition
+     that outranks it: "I don't want the bug report to be sent automatically.
+     I want the parent to choose"). These prove the ring, the scrub, the
+     boundary, and the separation from the session log. */
+  const seed = () => ({ version: 6, level: 1, preLevel: 0, prePerfectStreak: 0,
+    sessionsCompleted: 0, perfectStreak: 0, words: {}, log: [], pre: {},
+    settings: { sound: true, childName: "", lang: "en-US" } });
+  beforeEach(() => { vi.useFakeTimers(); localStorage.removeItem("wq-errors"); });
+  afterEach(() => { vi.useRealTimers(); cleanup(); localStorage.removeItem("wq-errors"); });
+
+  it("scrubs every URL to its file name, caps the message, and keeps the last 20", async () => {
+    const { scrub, record, readErrors, CAP, MAX_MESSAGE } = await import("../app/src/errors.js");
+    expect(scrub("failed at https://family.example/word-quest/assets/App-3f2a.js?x=1#y then http://10.0.0.2/sw.js"))
+      .toBe("failed at App-3f2a.js then sw.js");
+    expect(scrub("x".repeat(500)).length).toBe(MAX_MESSAGE);
+    for (let i = 0; i < 25; i++) record({ kind: "error", message: "e" + i, where: "", screen: "home", version: "t" });
+    const list = readErrors();
+    expect(list.length).toBe(CAP);
+    expect(list[0].message).toBe("e5");
+    expect(list.at(-1).message).toBe("e24");
+    /* A storage that holds rubbish reads as empty, never as a throw. */
+    localStorage.setItem("wq-errors", "{not json");
+    expect(readErrors()).toEqual([]);
+  });
+
+  it("the browser's two catch-alls land in the ring with the screen name, and no origin", async () => {
+    const { install, readErrors } = await import("../app/src/errors.js");
+    const remove = install(window, { screen: () => "session", version: "1.0.0-test" });
+    const err = new Error("boom at https://host.example/app/src/App.jsx");
+    err.stack = "Error: boom\n    at tapSentenceWord (https://host.example/assets/App-abc.js:12:3)";
+    window.dispatchEvent(Object.assign(new Event("error"), { message: err.message, error: err, filename: "https://host.example/assets/App-abc.js", lineno: 12 }));
+    window.dispatchEvent(Object.assign(new Event("unhandledrejection"), { reason: new Error("no clip") }));
+    remove();
+    const list = readErrors();
+    expect(list.map((e) => [e.kind, e.screen, e.v])).toEqual([["error", "session", "1.0.0-test"], ["rejection", "session", "1.0.0-test"]]);
+    expect(list[0].message).toBe("boom at App.jsx");
+    expect(list[0].where).toContain("App-abc.js:12:3");
+    expect(JSON.stringify(list)).not.toMatch(/https?:/);
+  });
+
+  it("a render crash shows a way back to the start, not a blank page, and is recorded", async () => {
+    const { default: ErrorBoundary } = await import("../app/src/components/ErrorBoundary.jsx");
+    const { readErrors } = await import("../app/src/errors.js");
+    let explode = true;
+    function throwingChild() { if (explode) throw new Error("render boom"); return createElement("p", null, "alive again"); }
+    const quiet = vi.spyOn(console, "error").mockImplementation(() => {});
+    render(createElement(ErrorBoundary, { screen: () => "build", version: "t" }, createElement(throwingChild)));
+    const back = screen.getByText("🏠 Back to the start");
+    expect(back.className).toContain("wq-cta");                       // a child's control, 56 px by class (S7)
+    expect(readErrors().map((e) => [e.kind, e.screen, e.message])).toEqual([["render", "build", "render boom"]]);
+    explode = false;
+    fireEvent.click(back);
+    expect(screen.getByText("alive again")).toBeTruthy();
+    quiet.mockRestore();
+  });
+
+  it("the corner copies the report only on a grown-up's press, apart from the log, and can clear it", async () => {
+    const { record } = await import("../app/src/errors.js");
+    record({ kind: "error", message: "ring-one", where: "A.js:1", screen: "home", version: "t" });
+    record({ kind: "rejection", message: "second", where: "", screen: "session", version: "t" });
+    mockLoad.mockResolvedValueOnce(seed());
+    await boot(0);
+    fireEvent.click(screen.getByLabelText("Grown-ups corner"));
+    await flush(0);
+    expect(screen.getByText(/2 problems recorded on this device/)).toBeTruthy();
+    const written = [];
+    Object.assign(navigator, { clipboard: { writeText: vi.fn(async (t) => { written.push(t); }) } });
+    /* The session log is its own copy and carries none of it: a family that
+       shares the log for any other reason shares no error text. */
+    fireEvent.click(screen.getByText("📋 Copy log (Markdown)"));
+    await flush(0);
+    expect(written[0]).not.toContain("bug report");
+    expect(written[0]).not.toContain("ring-one");
+    fireEvent.click(screen.getByText("📋 Copy bug report"));
+    await flush(0);
+    expect(written[1]).toContain("# Word Quest bug report");
+    expect(written[1]).toContain("Nothing in this report was sent anywhere");
+    expect(written[1]).toContain("1. ");
+    expect(written[1]).toContain("home · error: ring-one");
+    expect(written[1]).toContain("at A.js:1");
+    expect(written[1]).toContain("session · rejection: second");
+    fireEvent.click(screen.getByText("Clear"));
+    await flush(0);
+    expect(screen.getByText(/No problems recorded on this device/)).toBeTruthy();
+    expect(screen.getByText("📋 Copy bug report").disabled).toBe(true);
+  });
+});

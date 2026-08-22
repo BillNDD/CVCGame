@@ -9,6 +9,7 @@ export default function ParentScreen({
   state, nameDraft, setNameDraft, commitName, setSound, setLang, setUpdateCheck, jumpLevel, jumpPreLevel,
   openLevels, setOpenLevels, copyLog, copyBox, resetStage, setResetStage, doReset,
   onBack, onExportJSON, onImportJSON, toast, voiceFallback,
+  errorCount = 0, copyErrors, clearErrors,
 }) {
   return (
     <Frame>
@@ -154,6 +155,23 @@ export default function ParentScreen({
               <p className="wq-lbl" style={{ marginTop: 10 }}>Clipboard blocked — select all and copy</p>
               <textarea readOnly value={copyBox} onFocus={e => e.target.select()} rows={6} className="wq-input wq-mono" style={{ fontSize: 11.5 }} />
             </>}
+          </section>
+
+          {/* THE ERROR REPORT, owner-ruled 2026-08-22: recorded on the device,
+              never sent, and a separate copy from the session log so that a
+              grown-up CHOOSES whether it goes anywhere. The count is the only
+              thing shown until they press Copy. */}
+          <section className="wq-card" style={{ padding: 16, textAlign: "left" }}>
+            <H3>Bug report</H3>
+            <p className="wq-help" style={{ marginTop: 4 }}>
+              {errorCount === 0 ? "No problems recorded on this device." : `${errorCount} problem${errorCount === 1 ? "" : "s"} recorded on this device.`}
+              {" "}Nothing is sent anywhere by itself. If the game misbehaves, copy the report and choose
+              whether to send it to the game&rsquo;s maker. It carries no name and no web address.
+            </p>
+            <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginTop: 8 }}>
+              <button className="wq-sbtn" onClick={copyErrors} disabled={errorCount === 0}>📋 Copy bug report</button>
+              {errorCount > 0 && <button className="wq-sbtn" onClick={clearErrors}>Clear</button>}
+            </div>
           </section>
 
           {/* W3 — full-state backup: JSON export and import */}
