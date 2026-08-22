@@ -197,12 +197,15 @@ const CSS = VARS + `
    ring (9.2: the glow sits outside a darker edge, never inside it) - and
    the face lifted to tileFaceLit. The band is --wqband minus the ring: 6 px
    here, 4 on wq-many, 2 on wq-crowd, 4 on the short stage - the owner's
-   ruled numbers. What RENDERS, measured on the checkpoint renders
-   (2026-08-22): the full band shows above, below and on a tile's open
-   sides; toward EITHER neighbour it shows gap minus ring - 3, 1, 0 and 1
-   CSS px on the reveal, wq-many, wq-crowd and the short stage - and the
-   rest lies beneath the neighbour's box, because the live tile paints
-   beneath its siblings (below). The band is a glow and never a boundary
+   ruled numbers. What RENDERS, measured with a middle tile sounding at
+   every density, both sides (2026-08-22): the full band shows above, below
+   and on a tile's open sides; toward EITHER neighbour it shows gap minus
+   ring - 3, 1, 0 and 1 CSS px on the reveal, wq-many, wq-crowd and the
+   short stage (13-14, 4-5, 0 and 3 device px on the rendered profiles, the
+   neighbour's contact shadow tinting the sliver) - and the rest lies
+   beneath the neighbour's box, because the live tile paints beneath its
+   siblings (below); the neighbour's rim is whole on every render. The band
+   is a glow and never a boundary
    (the tokens test holds it at 1.04:1 on the face); the ring is closed on
    all four sides at every density, and ring plus band never enter a
    neighbour's letters (the census's sounding cell measures the reach). A

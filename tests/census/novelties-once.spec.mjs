@@ -438,7 +438,7 @@ test("control: a window error in the built page reaches the ring the 200% and ro
 
 test.describe("with motion allowed, the sounding tile's controls", () => {
   test.use({ reducedMotion: "no-preference" });
-  test("control: the old ink ring, a sun face and a border on the sounding tile are each caught through the reader; every other finding kind on fixtures", async ({ page }) => {
+  test("control: the old ink ring, a sun face, a border, a bandless tile and a sounding tile painted above its siblings are each caught through the reader; every other finding kind on fixtures", async ({ page }) => {
     /* Three plants are stylesheets added to the live page and read back
        through soundingTile, the same reader the cell uses (E5); the rest of
        the hold's kinds are fixtures on the reader's own output shape. */
@@ -446,14 +446,18 @@ test.describe("with motion allowed, the sounding tile's controls", () => {
     requireStaged("ship", shown);
     const plant = async (css) => { const h = await page.addStyleTag({ content: css }); await holdGrade(page, GRADE.correct, []); await page.waitForFunction(() => !!document.querySelector(".wq-slot-tiles .wq-tile.wq-pop"), null, { timeout: 8000 }); const s = await soundingTile(page); await h.evaluate((e) => e.remove()); return s; };
     /* the fixtures, on the reader's own output shape */
-    const good = { text: "sh", density: "reveal", outline: { color: rgbOf(C.cyanStructural), width: "3px", style: "solid", offset: "0px" }, shadow: rgbOf(C.cyanElectric) + " 0px 0px 0px 9px", face: rgbOf(C.tileFaceLit), restingFace: rgbOf(C.tileFace), ink: rgbOf(C.ink), lift: 1.114, ringPx: 3, spreadPx: 9, intrudes: [], boxes: [[0, 0, 40, 30]] };
+    const good = { text: "sh", wqband: 9, gap: 6, live: { marked: true, zIndex: "-1", isolation: "isolate" }, outline: { color: rgbOf(C.cyanStructural), width: "3px", style: "solid", offset: "0px" }, shadow: rgbOf(C.cyanElectric) + " 0px 0px 0px 9px", face: rgbOf(C.tileFaceLit), restingFace: rgbOf(C.tileFace), ink: rgbOf(C.ink), lift: 1.114, ringPx: 3, spreadPx: 9, intrudes: [], boxes: [[0, 0, 40, 30]] };
     expect(soundingHold(good, C, [[0, 0, 40, 30]])).toEqual([]);
     expect(soundingHold({ ...good, outline: { ...good.outline, color: rgbOf(C.ink), width: "4px", offset: "3px" } }, C).map((f) => f.kind)).toEqual(["ring-not-structural"]);
     expect(soundingHold({ ...good, shadow: "none" }, C).map((f) => f.kind)).toEqual(["band-missing"]);
     expect(soundingHold({ ...good, spreadPx: 2 }, C).map((f) => f.kind)).toEqual(["band-inside-ring", "band-not-ruled"]);
     expect(soundingHold({ ...good, spreadPx: 0 }, C).map((f) => f.kind), "a zero spread is refused").toEqual(["band-inside-ring", "band-not-ruled"]);
-    expect(soundingHold({ ...good, density: "many", spreadPx: 9 }, C).map((f) => f.kind), "the reveal's spread on the six-tile row").toEqual(["band-not-ruled"]);
-    expect(soundingHold({ ...good, density: "many", spreadPx: 7 }, C)).toEqual([]);
+    expect(soundingHold({ ...good, wqband: 7, spreadPx: 9 }, C).map((f) => f.kind), "a spread that is not the resolved variable").toEqual(["band-not-ruled"]);
+    expect(soundingHold({ ...good, wqband: 8, spreadPx: 8 }, C).map((f) => f.kind), "a variable that is not a ruled value").toEqual(["band-not-ruled"]);
+    expect(soundingHold({ ...good, wqband: 7, spreadPx: 7 }, C)).toEqual([]);
+    expect(soundingHold({ ...good, live: { marked: false, zIndex: "-1", isolation: "isolate" } }, C).map((f) => f.kind)).toEqual(["live-not-beneath"]);
+    expect(soundingHold({ ...good, live: { marked: true, zIndex: "auto", isolation: "isolate" } }, C).map((f) => f.kind)).toEqual(["live-not-beneath"]);
+    expect(soundingHold({ ...good, live: { marked: true, zIndex: "-1", isolation: "auto" } }, C).map((f) => f.kind)).toEqual(["live-not-beneath"]);
     expect(soundingHold({ ...good, lift: 1.234 }, C).map((f) => f.kind)).toEqual(["lift-off-band"]);
     expect(soundingHold({ ...good, restingFace: rgbOf(C.sun) }, C).map((f) => f.kind)).toEqual(["face-not-token"]);
     expect(soundingHold({ ...good, intrudes: ["i"] }, C).map((f) => f.kind)).toEqual(["ring-into-neighbour"]);
@@ -485,6 +489,12 @@ test.describe("with motion allowed, the sounding tile's controls", () => {
     requireStaged("ship", fourth);
     const noBand = await plant(".wq-slot-tiles .wq-tile.wq-pop{box-shadow:0 0 0 0 " + C.cyanElectric + "!important}");
     expect(soundingHold(noBand, C).map((f) => f.kind), JSON.stringify(noBand)).toEqual(expect.arrayContaining(["band-inside-ring", "band-not-ruled"]));
+    /* the live construction dropped, through the reader: the sounding tile
+       back above its siblings */
+    const { shown: fifth } = await stage(page, null, "ship", null);
+    requireStaged("ship", fifth);
+    const above = await plant(".wq-tile.wq-live{z-index:auto!important}");
+    expect(soundingHold(above, C).map((f) => f.kind), JSON.stringify(above.live)).toContain("live-not-beneath");
   });
 });
 

@@ -412,8 +412,13 @@ export async function soundingTile(page) {
     const outer = { left: r.left - reach, right: r.right + reach, top: r.top - reach, bottom: r.bottom + reach };
     const intrudes = neighbours.filter((n) => outer.left < n.content.right && outer.right > n.content.left && outer.top < n.content.bottom && outer.bottom > n.content.top).map((n) => n.text);
     const row = pop.closest(".wq-slot-tiles");
-    const density = innerHeight <= 520 ? "shortStage" : row && row.classList.contains("wq-crowd") ? "crowd" : row && row.classList.contains("wq-many") ? "many" : "reveal";
-    return { text: pop.textContent.trim(), density, outline: { color: cs.outlineColor, width: cs.outlineWidth, style: cs.outlineStyle, offset: cs.outlineOffset }, shadow: cs.boxShadow,
+    const rowCs = row ? getComputedStyle(row) : null;
+    /* the band the stylesheet RESOLVED for this tile (--wqband after the
+       cascade), never a guess from classes and heights; and the live
+       construction that puts the sounding tile beneath its siblings */
+    const wqband = parseFloat(cs.getPropertyValue("--wqband")) || 0;
+    const live = { marked: pop.classList.contains("wq-live"), zIndex: cs.zIndex, isolation: rowCs ? rowCs.isolation : "" };
+    return { text: pop.textContent.trim(), wqband, gap: rowCs ? parseFloat(rowCs.columnGap || rowCs.gap) || 0 : 0, live, outline: { color: cs.outlineColor, width: cs.outlineWidth, style: cs.outlineStyle, offset: cs.outlineOffset }, shadow: cs.boxShadow,
       face: cs.backgroundColor, restingFace: restCs.backgroundColor, ink: cs.color, lift: lum(cs.backgroundColor) / lum(restCs.backgroundColor), ringPx: ring, spreadPx: Number(spread) || 0, intrudes,
       boxes: tiles.map((t) => { const b = t.getBoundingClientRect(); return [b.x, b.y, b.width, b.height].map((v) => +v.toFixed(2)); }) };
   });
@@ -426,10 +431,16 @@ export function soundingHold(s, tokens, restingBoxes) {
     findings.push({ kind: "ring-not-structural", detail: "the sounding ring is " + s.outline.width + " " + s.outline.style + " " + s.outline.color + " at " + s.outline.offset + "; bible 11 asks 3-4 px solid cyanStructural at offset 0" });
   if (!s.shadow.includes(rgbOf(tokens.cyanElectric))) findings.push({ kind: "band-missing", detail: "the box-shadow names no cyanElectric: " + s.shadow.slice(0, 80) });
   if (s.spreadPx < s.ringPx) findings.push({ kind: "band-inside-ring", detail: "the band's spread " + s.spreadPx + " px is inside the ring " + s.ringPx + " px (9.2) - a zero spread is no band" });
-  /* and the spread is ring plus the ruled band for the row's density: 9 on
-     the reveal row, 7 at six tiles, 5 at eight, 7 on the short stage */
-  const want = { reveal: 9, many: 7, crowd: 5, shortStage: 7 }[s.density || "reveal"];
-  if (s.spreadPx !== want) findings.push({ kind: "band-not-ruled", detail: "the spread is " + s.spreadPx + " px on the " + (s.density || "reveal") + " density; ring plus the ruled band is " + want });
+  /* and the spread is exactly the --wqband the stylesheet resolved for this
+     tile (9 / 7 / 5 / 7 by density, after the cascade), and that variable is
+     one of the ruled values */
+  if (![9, 7, 5].includes(s.wqband)) findings.push({ kind: "band-not-ruled", detail: "--wqband resolved to " + s.wqband + " px; the ruled values are 9, 7 and 5" });
+  else if (s.spreadPx !== s.wqband) findings.push({ kind: "band-not-ruled", detail: "the spread is " + s.spreadPx + " px where --wqband resolved to " + s.wqband });
+  /* the live construction: the sounding tile marked live, beneath its
+     siblings in a row that isolates its stacking - without it the band
+     buries the previous tile's rim (a8872ee) */
+  if (!s.live || !s.live.marked || s.live.zIndex !== "-1" || s.live.isolation !== "isolate")
+    findings.push({ kind: "live-not-beneath", detail: "the sounding tile is " + (s.live && s.live.marked ? "" : "not ") + "marked live, z-index " + (s.live ? s.live.zIndex : "?") + ", row isolation " + (s.live ? s.live.isolation : "?") + " - it must paint beneath its siblings" });
   if (!(s.lift >= 1.08 && s.lift <= 1.12)) findings.push({ kind: "lift-off-band", detail: "the face lifts " + ((s.lift - 1) * 100).toFixed(1) + "%; bible 11 asks 8-12%" });
   if (s.restingFace !== rgbOf(tokens.tileFace)) findings.push({ kind: "face-not-token", detail: "a resting tile's face is " + s.restingFace + ", not tileFace" });
   if (s.ink !== rgbOf(tokens.ink)) findings.push({ kind: "ink-not-token", detail: "the tile's letters are " + s.ink });

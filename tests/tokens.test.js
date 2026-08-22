@@ -207,6 +207,18 @@ describe("the palette is pinned", () => {
     const driftedSrc = ref.replace(tileBlock, tileBlock.slice(0, tileBlock.lastIndexOf("\n") + 1) + lastLine.replace("--wqband:9px", "--wqband:8px"));
     expect(driftedSrc).not.toBe(ref);
     expect(block(driftedSrc, ".wq-tile{")).not.toBe(block(css, ".wq-tile{"));
+    /* the rim FIRST in every tile stack, so it closes all four sides and
+       the highlight sits inside it (the fourth judgement: a highlight-first
+       stack left the top row at 1.4:1 on the stops, and nothing pinned the
+       order); a swapped copy is refused through the same reader */
+    const RIM = "inset 0 0 0 1px ${C.tileEdge},inset 0 2px 0 ${C.tileHighlight}";
+    for (const [src, name] of [[css, "app"], [ref, "reference"]]) {
+      for (const start of [".wq-tile{", ".wq-tilebtn{"]) expect(block(src, start), name + " " + start).toContain("box-shadow:" + RIM);
+      expect(block(src, ".wq-tilebtn.wq-arr{"), name).toContain("${C.purpleStructural}," + RIM);
+    }
+    expect(block(css, "@keyframes wqpop{"), "the keyframes, after the band").toContain("${C.cyanElectric}," + RIM);
+    const swapped = block(css, ".wq-tile{").replace(RIM, "inset 0 2px 0 ${C.tileHighlight},inset 0 0 0 1px ${C.tileEdge}");
+    expect(swapped).not.toContain("box-shadow:" + RIM);
     /* the band, pinned: ring 3 plus band 6 / 4 / 2 / 4 by density, the
        owner's ruled numbers; toward either neighbour the band shows gap
        minus ring (3 / 1 / 0 / 1) and the rest lies beneath the neighbour's

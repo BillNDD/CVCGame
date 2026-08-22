@@ -51,6 +51,8 @@ export function lockFromSources(css = readFileSync("app/src/wq-css.js", "utf8"),
     builditBox: num(screen, /const SLOT = (\d+), TILE = \d+/),
     extraPerLetter: num(screen, /\(tile \|\| ""\)\.length\) - 1\) \* (\d+)/),
     haloInset: num(cssBlock(css, ".wq-slotrow"), /padding:(\d+)px[;}]/),   // a single-value padding only: "4px 8px" would not be the inset on every side
+    rim: num(blocks.reveal, /inset 0 0 0 (\d+)px \$\{C\.tileEdge\}/),
+    highlightInset: num(blocks.reveal, /inset 0 (\d+)px 0 \$\{C\.tileHighlight\}/),
   };
 }
 export function lockDrift(lock, fromSources) {
@@ -62,6 +64,9 @@ export function lockDrift(lock, fromSources) {
   if (lock.builditBox !== fromSources.builditBox) out.push(`lock.builditBox is ${lock.builditBox}, the screen says ${fromSources.builditBox}`);
   if (lock.extraPerLetter !== fromSources.extraPerLetter) out.push(`lock.extraPerLetter is ${lock.extraPerLetter}, the screen says ${fromSources.extraPerLetter}`);
   if (lock.haloInset !== fromSources.haloInset) out.push(`lock.haloInset is ${lock.haloInset}, the stylesheet says ${fromSources.haloInset}`);
+  if (lock.rim !== fromSources.rim) out.push(`lock.rim is ${lock.rim}, the stylesheet says ${fromSources.rim}`);
+  if (lock.highlightInset !== fromSources.highlightInset) out.push(`lock.highlightInset is ${lock.highlightInset}, the stylesheet says ${fromSources.highlightInset}`);
+  if (fromSources.rim !== null && fromSources.highlightInset !== null && lock.highlight !== fromSources.highlightInset - fromSources.rim) out.push(`lock.highlight (the visible pixel) is ${lock.highlight}, the stylesheet's inset ${fromSources.highlightInset} minus the rim ${fromSources.rim} is ${fromSources.highlightInset - fromSources.rim}`);
   return out;
 }
 
@@ -113,6 +118,8 @@ if (process.argv.includes("--self-test")) {
     && JSON.stringify(src.radii) === JSON.stringify({ reveal: 12, many: 9, crowd: 7, shortStage: 8, buildit: 14 }) && src.builditBox === 64 && src.extraPerLetter === 26 && src.haloInset === 4]);
   const twoValue = lockFromSources(readFileSync("app/src/wq-css.js", "utf8").replace(".wq-slotrow{display:inline-flex;gap:10px;justify-content:center;flex-wrap:wrap;border-radius:18px;padding:4px}", ".wq-slotrow{display:inline-flex;gap:10px;justify-content:center;flex-wrap:wrap;border-radius:18px;padding:4px 8px}"));
   ok.push(["a two-value padding on the slot row is not read as the halo inset, so the lock is refused", twoValue.haloInset === null && lockDrift(real.families.tiles.lock, twoValue).some((p) => p.includes("lock.haloInset is 4, the stylesheet says null"))]);
+  const thickRim = lockFromSources(readFileSync("app/src/wq-css.js", "utf8").replaceAll("box-shadow:inset 0 0 0 1px ${C.tileEdge},inset 0 2px 0 ${C.tileHighlight}", "box-shadow:inset 0 0 0 2px ${C.tileEdge},inset 0 3px 0 ${C.tileHighlight}"));
+  ok.push(["a 2 px rim and a 3 px highlight inset in the stylesheet are refused against the lock, naming both numbers", thickRim.rim === 2 && lockDrift(real.families.tiles.lock, thickRim).some((p) => p.includes("lock.rim is 1, the stylesheet says 2")) && lockDrift(real.families.tiles.lock, thickRim).some((p) => p.includes("lock.highlightInset is 2, the stylesheet says 3"))]);
   const wideBand = JSON.parse(JSON.stringify(real)); wideBand.families.tiles.lock.band.reveal = 7;
   ok.push(["a lock whose band differs from the stylesheet is refused, naming both numbers", judge(wideBand).some((p) => p.includes("lock.band.reveal is 7, the stylesheet says 6"))]);
   const closedEmpty = JSON.parse(JSON.stringify(real)); closedEmpty.families.tiles.closed = "2026-08-22"; closedEmpty.families.tiles.checkpoints = []; closedEmpty.families.tiles.originality = null;

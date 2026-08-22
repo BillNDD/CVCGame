@@ -46,8 +46,10 @@
         },
         "builditBox": 64,
         "extraPerLetter": 26,
-        "bandRenders": "the full band on the open sides; toward either neighbour gap minus ring: 3 / 1 / 0 / 1 CSS px by density, the rest beneath the neighbour's box (the live tile paints beneath its siblings)",
-        "haloInset": 4
+        "bandRenders": "measured with a middle tile sounding at every density, both sides: toward either neighbour gap minus ring - 3 / 1 / 0 / 1 CSS px (13-14 / 4-5 / 0 / 3 device px on the Galaxy at 4.5 and the short stage at 3), the rest beneath the neighbour's box (the live tile paints beneath its siblings); the neighbour's rim whole every time; the full band on the open sides",
+        "haloInset": 4,
+        "highlightInset": 2,
+        "highlightNote": "drawn 2 px, of which 1 shows inside the 1 px rim; the lower shade likewise"
       },
       "ramps": {
         "face": [

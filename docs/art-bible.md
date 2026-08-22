@@ -520,23 +520,28 @@ it). Build-it's "Used" and "Disabled" states are real `disabled` controls since 
 not merely dimmed ones.
 
 **Rulings (2026-08-22, art step 1 — the ceramic family as built).** The tile is a CSS
-family (8.1's row is amended): a solid `tileFace`, a one-pixel `tileHighlight` above and
-the edge's shade below, a one-pixel `tileEdge` rim, a contact shadow — every inset at zero
+family (8.1's row is amended): a solid `tileFace`, a `tileHighlight` above and the
+edge's shade below (2 px insets of which 1 px shows inside the rim), a one-pixel `tileEdge`
+rim, a contact shadow — every inset at zero
 blur, the rim and bevel in the padding ring and never under the letters, the 9-slice the
 radius per density (12, 9, 7; 8 on the short stage; 14 in Build-it). **Sounding:** a 3 px
 solid `cyanStructural` ring at offset 0, a `cyanElectric` band **outside** it of 6 px (4 at
 six tiles, 2 at eight, 4 on the short stage — the owner's ruled numbers), and the face
 lifted to `tileFaceLit` (+11.4 % luminance) — one `wqpop` keyframe set, `steps(1,end)`, the
 measured clip length; owner-ruled on the ceramic-tiles page over the ring alone. What
-renders, measured on the checkpoint renders: the full band shows above, below and on a
-tile's open sides; toward either neighbour it shows gap minus ring — 3, 1, 0 and 1 CSS px
-on the reveal, six tiles, eight tiles and the short stage — and the rest lies beneath the
-neighbour's box, because the tile sounding now paints beneath its siblings (the row
-isolates its stacking and the live tile takes z-index −1; without that a later sibling
-paints over an earlier one's shadow, and the band buried the previous tile's rim by
-spread minus gap — the antagonist's third after pass); it is a glow, never a boundary,
-and the ring is closed on all four sides at every density. The rim is listed first in
-the shadow stack, so it closes all four sides, with the highlight inside it. (A first record claimed one pixel of sky between the band and the next
+renders, measured with a middle tile sounding at every density (the Galaxy S9+ at 4.5 and a
+390 × 500 short stage at 3, the runs read through the ring on both sides, 2026-08-22): the
+full band shows above, below and on a tile's open sides; toward either neighbour it shows
+gap minus ring — 3 CSS px at three tiles (13–14 device px at 4.5, the neighbour's contact
+shadow tinting the sliver), 1 at six tiles (4–5), 0 at eight tiles (the ring meets the rim),
+1 on the short stage (3 at 3×) — and the rest lies beneath the neighbour's box, because the
+tile sounding now paints beneath its siblings (the row isolates its stacking and the live
+tile takes z-index −1; without that a later sibling paints over an earlier one's shadow,
+and the band buried the previous tile's rim by spread minus gap — the antagonist's third
+after pass); the neighbour's rim, 4 device px at 4.5, is whole on every render. The band is
+a glow, never a boundary, and the ring is closed on all four sides at every density. The
+rim is listed first in the shadow stack, so it closes all four sides; the highlight and
+the lower shade are drawn as 2 px insets of which 1 px shows inside the 1 px rim. (A first record claimed one pixel of sky between the band and the next
 rim, and a 5 px band to keep it; the pixels showed none and the arithmetic allows none
 while ring plus band exceed the gap, so the band is the ruled 6 and the record says what
 is there.) The same

@@ -303,9 +303,13 @@ moved anchors, `g8_axe_violations_max` 0, the home snapshot unchanged.
 **How checkpoint 2 was judged for a family that lands no file.** The scenery statistic
 section 17 names is first built by the step that lands a PNG (the garden scene); the tile
 family's checkpoint 2 was judged on tokens tests 8–10, the census's sounding-state cell,
-and device pixels sampled on the renders at 4.5 dpr (ring 13 device px, band 27 on an open side and 13–14
-toward either neighbour — 3 CSS px — rim 4; the lifted face #fbe59d; pressed, a static
-:active state, is not captured and is judged from the rule and tokens test 8) — stated here, in the bible's section 11 and in the provenance row, so the
+and device pixels sampled on the renders: on the 34355ed checkpoint set at 4.5 dpr, ring 13 device px, band 27
+on an open side and 13 toward the next tile, rim 4, the lifted face #fbe59d; and on the
+density renders made after the live-tile construction — a middle tile sounding at three,
+six and eight tiles on the Galaxy and on a 390 × 500 short stage — the band toward either
+neighbour at 13–14 / 4–5 / 0 / 3 device px (3 / 1 / 0 / 1 CSS px), the neighbour's rim whole
+each time; pressed, a static :active state, is not captured and is judged from the rule
+and tokens test 8) — stated here, in the bible's section 11 and in the provenance row, so the
 section 17 sentence does not imply a measurement that did not happen.
 
 **Ruled by the owner (2026-08-22, the ceramic-tiles page, each with the real render):**
@@ -630,3 +634,18 @@ Newest last. A verdict names the chair, the step, the word, and the findings.
   a single-value padding, with a planted two-value one refused; the plan's device-pixel
   figure says 13–14; pressed is recorded as uncaptured; the provenance row carries
   checkpoint 2 and the family closes. The antagonist judges the construction once more.
+- 2026-08-22 — Step 1, fourth judgement: the art director and the antagonist each not
+  satisfied on one blocking finding, both guards rather than pixels; six more, all taken.
+  The antagonist: the records attributed "toward either neighbour" to the checkpoint renders,
+  which only ever show a first tile sounding, and quoted 1 / 0 / 1 for the other densities as
+  if rendered — so every density was rendered with a MIDDLE tile sounding and the runs read
+  on both sides (3 / 1 / 0 / 1 CSS px; the rim whole every time), and the records say what
+  was measured where. The art director: the live construction had no guard — the census's
+  sounding cell now reads the live mark, the tile's z-index and the row's isolation and
+  refuses `live-not-beneath`, with a planted `z-index:auto` through the reader; the reader
+  also takes the band from the tile's resolved `--wqband` rather than guessing the density
+  from classes and heights (the antagonist's cascade point). Also taken: the rim-first order
+  pinned in tokens test 10 with a swapped copy refused; the lock reads the rim and the
+  highlight inset from the stylesheet, with a planted 2 px rim refused; the bible states the
+  highlight as a 2 px inset of which 1 shows; the contact-shadow tint named. Judged again by
+  both chairs.
