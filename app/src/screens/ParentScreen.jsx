@@ -1,4 +1,5 @@
 import { C, LANGS, LEVELS, PRE_LEVELS, displayWord } from "@engine";
+import { plainLabel } from "../labels.js";
 import Frame from "../components/Frame.jsx";
 import Zone from "../components/Zone.jsx";
 import Toast from "../components/Toast.jsx";
@@ -14,7 +15,7 @@ export default function ParentScreen({
   return (
     <Frame>
       <Zone.Header>
-        <button className="wq-btn-plain" onClick={onBack}>← Back</button>
+        <button className="wq-btn-plain" onClick={onBack} aria-label="Back">← Back</button>
         <span style={{ fontWeight: 800, color: C.ink, fontSize: 15, marginLeft: 8 }}>Grown-ups corner</span>
       </Zone.Header>
 
@@ -109,12 +110,13 @@ export default function ParentScreen({
               const isOpen = !!openLevels[l.n];
               return (
                 <div key={l.n} style={{ borderTop: "1px solid " + C.line, paddingTop: 9, marginTop: 9 }}>
-                  <button className="wq-rowbtn" onClick={() => setOpenLevels(o => ({ ...o, [l.n]: !isOpen }))} aria-expanded={isOpen}>
+                  <button className="wq-rowbtn" onClick={() => setOpenLevels(o => ({ ...o, [l.n]: !isOpen }))} aria-expanded={isOpen}
+                    aria-label={plainLabel(`Level ${l.n} ${l.emoji} ${seen} of ${l.words.length} read, ${done} green`)}>
                     <span style={{ fontWeight: 800, color: C.ink, fontSize: 14 }}>Level {l.n} {l.emoji}</span>
                     {/* Two numbers, not one. "2/12 mastered" alone told a
                         parent their child had failed ten words they had in
                         fact read correctly. What the child DID comes first. */}
-                    <span className="wq-mono" style={{ fontSize: 12.5, color: C.muted, marginLeft: "auto" }}>{seen}/{l.words.length} read · {done} green</span>
+                    <span className="wq-mono" style={{ fontSize: 12.5, color: C.muted, marginLeft: "auto" }}>{seen} of {l.words.length} read, {done} green</span>
                     <span style={{ color: C.ink2, marginLeft: 8, fontSize: 12 }}>{isOpen ? "▲" : "▼"}</span>
                   </button>
                   <div className="wq-meter"><div style={{ width: (done / l.words.length) * 100 + "%", background: C.green, height: "100%" }} />
@@ -149,7 +151,7 @@ export default function ParentScreen({
                   </table>
                   {state.log.some(s => s.partial) && <p className="wq-help">* ended early</p>}
                 </div>}
-            <button className="wq-cta" style={{ marginTop: 12, background: C.ink, fontSize: 14, padding: "11px 14px" }} onClick={copyLog}>📋 Copy log (Markdown)</button>
+            <button className="wq-cta" style={{ marginTop: 12, background: C.ink, fontSize: 14, padding: "11px 14px" }} onClick={copyLog} aria-label="Copy log (Markdown)">📋 Copy log (Markdown)</button>
             {/* P2-15 */}
             {copyBox && <>
               <p className="wq-lbl" style={{ marginTop: 10 }}>Clipboard blocked — select all and copy</p>
@@ -169,7 +171,7 @@ export default function ParentScreen({
               whether to send it to the game&rsquo;s maker. It carries no name and no web address.
             </p>
             <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginTop: 8 }}>
-              <button className="wq-sbtn" onClick={copyErrors} disabled={errorCount === 0}>📋 Copy bug report</button>
+              <button className="wq-sbtn" onClick={copyErrors} disabled={errorCount === 0} aria-label="Copy bug report">📋 Copy bug report</button>
               {errorCount > 0 && <button className="wq-sbtn" onClick={clearErrors}>Clear</button>}
             </div>
           </section>
@@ -179,7 +181,7 @@ export default function ParentScreen({
             <H3>Backup</H3>
             <p className="wq-help" style={{ margin: "0 0 10px" }}>Save all progress to a file, or load a saved file. The file stays on this device.</p>
             <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-              <button className="wq-sbtn" onClick={onExportJSON}>⬇️ Save backup file</button>
+              <button className="wq-sbtn" onClick={onExportJSON} aria-label="Save backup file">⬇️ Save backup file</button>
               <label className="wq-sbtn" style={{ display: "inline-flex", alignItems: "center", cursor: "pointer" }}>
                 ⬆️ Load backup file
                 <input type="file" accept="application/json,.json" style={{ display: "none" }}
@@ -193,7 +195,7 @@ export default function ParentScreen({
           <section className="wq-card" style={{ padding: 16, textAlign: "left" }}>
             <H3>Danger zone</H3>
             {resetStage === 0
-              ? <button className="wq-sbtn" style={{ borderColor: C.muted, color: C.muted }} onClick={() => setResetStage(1)}>🗑️ Reset all progress</button>
+              ? <button className="wq-sbtn" style={{ borderColor: C.muted, color: C.muted }} onClick={() => setResetStage(1)} aria-label="Reset all progress">🗑️ Reset all progress</button>
               : <div style={{ display: "grid", gap: 8, marginTop: 4 }}>
                   <p style={{ margin: 0, fontSize: 13.5, color: C.ink, fontWeight: 700 }}>Erase every session, word score and setting?</p>
                   <button className="wq-cta" style={{ background: C.ink2 }} onClick={() => setResetStage(0)}>Keep my progress</button>

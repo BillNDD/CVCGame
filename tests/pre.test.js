@@ -154,21 +154,21 @@ describe("the ladder in the app", () => {
     render(createElement(App));
     await flush(0);
     expect(screen.getByText(/Pre 1/)).toBeTruthy();
-    fireEvent.click(screen.getByText("▶️ Begin Session"));
+    fireEvent.click(screen.getByLabelText("Begin Session"));
     await flush(0);
     expect(screen.getByText("What word do the sounds make?")).toBeTruthy();
-    expect(screen.getByText("👂")).toBeTruthy();
+    expect(document.querySelector(".wq-word")).toBeTruthy();
     expect(document.body.textContent.includes("Read this word")).toBe(false);
   });
   it("only the adult's hold records a pre result, into state.pre alone (S1)", async () => {
     render(createElement(App));
     await flush(0);
-    fireEvent.click(screen.getByText("▶️ Begin Session"));
+    fireEvent.click(screen.getByLabelText("Begin Session"));
     await flush(0);
     const writes = mockSave.mock.calls.length;
     await flush(30000);                                   // a long quiet wait records nothing
     expect(mockSave.mock.calls.length).toBe(writes);
-    fireEvent.keyDown(screen.getByLabelText("✓ got it (hold)"), { key: "Enter" });
+    fireEvent.keyDown(screen.getByLabelText("got it"), { key: "Enter" });
     await flush(0);
     const saved = mockSave.mock.calls.at(-1)[0];
     expect(saved.pre.an.correct).toBe(1);                 // the first ear item, taught order
@@ -178,7 +178,7 @@ describe("the ladder in the app", () => {
     mockLoad.mockResolvedValueOnce({ ...newState(), preLevel: 0 });
     render(createElement(App));
     await flush(0);
-    fireEvent.click(screen.getByText("⚙️ Grown-ups"));
+    fireEvent.click(screen.getByLabelText("Grown-ups corner"));
     await flush(0);
     fireEvent.click(screen.getByText("P3"));
     await flush(0);

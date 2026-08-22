@@ -71,7 +71,7 @@ function SessionRail({ kid, phase, advanceReady, waitMs, waitFrom, finishes, nex
   return (
     <Zone.Rail>
       {phase === "feedback" ? (
-        <button ref={advanceRef} className="wq-cta" onClick={next} disabled={!advanceReady}
+        <button aria-label={finishes ? "Finish!" : "Next word"} ref={advanceRef} className="wq-cta" onClick={next} disabled={!advanceReady}
           style={{ background: advanceReady ? C.green : "#9fb4c4" }}>
           {/* A1-004 — the wait is visible: a fill crosses the control over the
               reveal's own length and lands as the control comes alive. The
@@ -124,7 +124,7 @@ function SessionBody({ sentence, sentencePhase, openWord, openAt, onTapWord, end
         <Zone.Rail>
           {attempt
             ? <div className="wq-prompt">{kid ? kid + ", read the sentence out loud! 📣" : "Read the sentence out loud! 📣"}</div>
-            : <button className="wq-cta" onClick={endSentence} style={{ background: C.green }}>
+            : <button aria-label={nextIsSentence ? "Next sentence" : "Next word"} className="wq-cta" onClick={endSentence} style={{ background: C.green }}>
                 {/* The label says what the press brings (A2-003). In sentence
                     free play the next item IS a sentence, and the owner read
                     "Next word" there from a real phone (2026-08-15): a label

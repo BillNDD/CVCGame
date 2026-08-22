@@ -39,7 +39,7 @@ describe("G10 safety — S6: the splash update controls are adult holds", () => 
     try {
       render(createElement(App));
       await flush(0);
-      const btn = screen.getByLabelText("↻ Check for updates (hold)");
+      const btn = screen.getByLabelText("Check for updates");
       fireEvent.click(btn, { detail: 1 });               // the child's tap
       await flush(600);
       fireEvent.pointerDown(btn);                        // a press that lets go too soon
@@ -52,7 +52,7 @@ describe("G10 safety — S6: the splash update controls are adult holds", () => 
       expect(versionAsks()).toBe(1);
       expect(fetchSpy).toHaveBeenCalledWith("version.json", { cache: "no-store" });
       screen.getByText("You have the latest version.");  // same version: current, nothing offered
-      expect(screen.queryByLabelText("⬆️ Update now (hold)")).toBeNull();
+      expect(screen.queryByLabelText("Update now")).toBeNull();
     } finally { vi.unstubAllGlobals(); }
   });
 
@@ -70,11 +70,11 @@ describe("G10 safety — S6: the splash update controls are adult holds", () => 
     try {
       render(createElement(App));
       await flush(0);
-      expect(screen.queryByLabelText("⬆️ Update now (hold)")).toBeNull();  // never offered unasked
-      fireEvent.keyDown(screen.getByLabelText("↻ Check for updates (hold)"), { key: "Enter" });
+      expect(screen.queryByLabelText("Update now")).toBeNull();  // never offered unasked
+      fireEvent.keyDown(screen.getByLabelText("Check for updates"), { key: "Enter" });
       await flush(0);
       screen.getByText("Version 9.9.9 is ready — press and hold.");
-      const up = screen.getByLabelText("⬆️ Update now (hold)");
+      const up = screen.getByLabelText("Update now");
       fireEvent.click(up, { detail: 1 });                // the child's tap on the one control that restarts the app
       await flush(600);
       expect(posted).toEqual([]);
@@ -96,10 +96,10 @@ describe("G10 safety — S6: the splash update controls are adult holds", () => 
     try {
       render(createElement(App));
       await flush(0);
-      fireEvent.keyDown(screen.getByLabelText("↻ Check for updates (hold)"), { key: "Enter" });
+      fireEvent.keyDown(screen.getByLabelText("Check for updates"), { key: "Enter" });
       await flush(0);
       screen.getByText("An update is ready — press and hold.");
-      expect(screen.queryByLabelText("⬆️ Update now (hold)")).not.toBeNull();
+      expect(screen.queryByLabelText("Update now")).not.toBeNull();
     } finally { vi.unstubAllGlobals(); }
   });
 });

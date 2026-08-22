@@ -35,7 +35,7 @@ test(`monkey: ${TAPS} random taps as a child, four invariants after each`, async
   testInfo.annotations.push({ type: "seed", description: `${seed} (commit ${commit}; replay with CENSUS_MONKEY_SEED=${seed})` });
   await page.goto("/", { waitUntil: "load" });
   await seedGraduated(page);
-  await page.getByText("▶️ Begin Session").waitFor();
+  await page.getByRole("button", { name: "Begin Session" }).waitFor();
   const result = await monkey(page, { taps: TAPS, seed });
   testInfo.annotations.push({ type: "walk", description: `${result.taps} taps over ${result.seen.length} distinct controls: ${result.seen.join(" | ")}` });
   expect(result.taps).toBe(TAPS);

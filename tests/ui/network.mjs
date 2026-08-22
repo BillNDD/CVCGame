@@ -125,7 +125,7 @@ const foreign = (seen) => seen.filter((r) => !sameOrigin(r.url));
   await page.goto(URL, { waitUntil: "load" });
   await page.getByRole("button", { name: "Begin Session" }).click();
   await page.locator(".wq-word").waitFor();
-  const grade = page.getByRole("button", { name: "✓ got it (hold)" });
+  const grade = page.getByRole("button", { name: "got it" });
   await grade.focus();
   await grade.press("Enter");
   await page.locator(".wq-tile").first().waitFor();
@@ -164,7 +164,7 @@ const foreign = (seen) => seen.filter((r) => !sameOrigin(r.url));
   const page = await context.newPage();
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto(URL, { waitUntil: "load" });
-  const check = page.getByRole("button", { name: "↻ Check for updates (hold)" });
+  const check = page.getByRole("button", { name: "Check for updates" });
   await check.waitFor({ state: "visible", timeout: 15000 }).catch(() => {});
   if (await check.count()) {
     const box = await check.first().boundingBox();

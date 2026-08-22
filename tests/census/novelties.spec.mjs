@@ -29,13 +29,13 @@ test("phase walk: the screen holds still while a word moves through its phases",
 
 test("home furniture: the child's two big buttons sit where they sat, after a visit", async ({ page }) => {
   await page.goto("/", { waitUntil: "load" });
-  await page.getByText("▶️ Begin Session").waitFor();
+  await page.getByRole("button", { name: "Begin Session" }).waitFor();
   const before = await homeFurniture(page);
-  await page.getByText("🎈 Free play").click();
-  await page.getByText("🎲 Any word").click();
+  await page.getByRole("button", { name: "Free play" }).click();
+  await page.getByRole("button", { name: "Any word" }).click();
   await page.locator(".wq-word").waitFor();
   await page.locator(".wq-header button").first().click();   // 🏠 home
-  await page.getByText("▶️ Begin Session").waitFor();
+  await page.getByRole("button", { name: "Begin Session" }).waitFor();
   const after = await homeFurniture(page);
   const findings = chromeHold(before, after);
   expect(findings, JSON.stringify(findings)).toEqual([]);

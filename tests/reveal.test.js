@@ -104,9 +104,9 @@ const goHome = async () => {
 const gradeOneWord = async () => {
   render(createElement(App));
   await flush(0);
-  fireEvent.click(screen.getByText("▶️ Begin Session"));
+  fireEvent.click(screen.getByLabelText("Begin Session"));
   await flush(0);
-  fireEvent.keyDown(screen.getByLabelText("✓ got it (hold)"), { key: "Enter" });
+  fireEvent.keyDown(screen.getByLabelText("got it"), { key: "Enter" });
   await flush(0);
 };
 
@@ -120,7 +120,7 @@ const pressNext = async () => {
   fireEvent.click(advance());
   await flush(0);
   if (document.querySelector(".wq-sentence")) {
-    fireEvent.keyDown(screen.getByLabelText("✓ got it (hold)"), { key: "Enter" });
+    fireEvent.keyDown(screen.getByLabelText("got it"), { key: "Enter" });
     await flush(0);
     fireEvent.click(advance());
     await flush(0);
@@ -139,7 +139,7 @@ const pressNext = async () => {
    appearing, or one that appears where it must not, fails a test rather than
    passing quietly. */
 const leaveBuild = async () => {
-  const out = screen.queryByLabelText("Leave building");
+  const out = screen.queryByLabelText(/leave building/i);
   if (!out) return false;
   fireEvent.click(out);
   await flush(0);
@@ -149,12 +149,12 @@ const leaveBuild = async () => {
 const walkToLastSlot = async () => {
   render(createElement(App));
   await flush(0);
-  fireEvent.click(screen.getByText("▶️ Begin Session"));
+  fireEvent.click(screen.getByLabelText("Begin Session"));
   await flush(0);
   let sentences = 0, breathers = 0;
   for (let i = 0; i < 9; i += 1) {
     if (await leaveBuild()) breathers += 1;
-    fireEvent.keyDown(screen.getByLabelText("✓ got it (hold)"), { key: "Enter" });
+    fireEvent.keyDown(screen.getByLabelText("got it"), { key: "Enter" });
     await flush(REVEAL_MS + 50);
     if (await pressNext()) sentences += 1;
   }
@@ -259,7 +259,7 @@ describe("G10 — the child hears the word before the app lets them move on", ()
      there really does end the session. The pair has to move together. */
   it("5: a miss on the last word says \"Next word\", and the second look follows", async () => {
     const word = await walkToLastSlot();
-    fireEvent.keyDown(screen.getByLabelText("↻ not yet (hold)"), { key: "Enter" });
+    fireEvent.keyDown(screen.getByLabelText("not yet"), { key: "Enter" });
     await flush(REVEAL_MS + 50);
     expect(advance().textContent).toBe("Next word ➡️");
     fireEvent.click(advance());
@@ -270,7 +270,7 @@ describe("G10 — the child hears the word before the app lets them move on", ()
 
   it("6 (pair): a correct last word says \"Finish!\", and the press ends the session", async () => {
     await walkToLastSlot();
-    fireEvent.keyDown(screen.getByLabelText("✓ got it (hold)"), { key: "Enter" });
+    fireEvent.keyDown(screen.getByLabelText("got it"), { key: "Enter" });
     await flush(REVEAL_MS + 50);
     expect(advance().textContent).toBe("🏁 Finish!");
     fireEvent.click(advance());
@@ -288,7 +288,7 @@ describe("G10 — the child hears the word before the app lets them move on", ()
     await gradeOneWord();
     const word = document.querySelector(".wq-word").textContent;
     await flush(1000);
-    fireEvent.click(screen.getByLabelText("⏭ skip (hold)"), { detail: 1 });   // the child's tap
+    fireEvent.click(screen.getByLabelText("skip"), { detail: 1 });   // the child's tap
     await flush(600);
     expect(advance().disabled).toBe(true);            // still mid-reveal
     expect(document.querySelector(".wq-word").textContent).toBe(word);
@@ -300,7 +300,7 @@ describe("G10 — the child hears the word before the app lets them move on", ()
     const word = document.querySelector(".wq-word").textContent;
     await flush(1000);                                // the praise is still playing
     stopClips.mockClear();
-    fireEvent.keyDown(screen.getByLabelText("⏭ skip (hold)"), { key: "Enter" });
+    fireEvent.keyDown(screen.getByLabelText("skip"), { key: "Enter" });
     await flush(0);
     expect(stopClips).toHaveBeenCalled();             // the reveal falls silent (S2)
     expect(document.querySelector(".wq-word").textContent).not.toBe(word);

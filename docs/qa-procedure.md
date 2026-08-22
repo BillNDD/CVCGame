@@ -176,5 +176,14 @@ This document follows the Microsoft Writing Style Guide.
 
 36. On the iPad, turn VoiceOver on. Start a session, swipe to the "✓ got it" control, double-tap it, then repeat with "✗ not yet".
     Expected: Each double-tap records the result once and starts the feedback phase, exactly
-    as a 450 ms hold does. Turn VoiceOver off: a stray single tap on a result control still
-    records nothing.
+    as a 450 ms hold does. VoiceOver says "got it" and "not yet" - the words on the control
+    and nothing else: no symbol read aloud, no "hold" (art project step 0a, 2026-08-22).
+    Turn VoiceOver off: a stray single tap on a result control still records nothing.
+
+## The address bar
+
+43. On the iPhone in Safari, start a session with the address bar expanded, then while a word is on the screen swipe so the bar collapses, and expand it again.
+    Expected: The word, the tile row and the controls stay exactly where and how large they
+    were. Nothing resizes or shifts as the bar moves (the stylesheet uses the small viewport
+    height, `svh`, everywhere; art project step 0b, 2026-08-22). A headless browser has no
+    bar, so only a real phone can prove this.

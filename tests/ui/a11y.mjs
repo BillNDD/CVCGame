@@ -172,7 +172,7 @@ await audit("session");
 
 /* feedback */
 {
-  const b = page.getByRole("button", { name: "✓ got it (hold)" });
+  const b = page.getByRole("button", { name: "got it" });
   await b.focus(); await b.press("Enter");
   await page.locator(".wq-tile").first().waitFor();
   await page.waitForTimeout(500);
@@ -206,7 +206,7 @@ await audit("session");
      shipped; it now reads as a starred line carrying the word's own note,
      read here from the live engine so a re-worded note moves the check with
      it (found by the first post-cutover G8 run, 2026-08-21). */
-  const note = page.locator(`text=⭐ ${TRICKY[TRICKY_WORD]}`);
+  const note = page.locator(`text=${TRICKY[TRICKY_WORD]}`);
   if (await note.count() > 0) ok("the tricky-word note is on the audited feedback screen");
   else fail("tricky-word note missing", "the seeded tricky word did not show its note");
   await audit("feedback");
@@ -246,7 +246,7 @@ await audit("grown-ups");
      mic one was the default; there is one now, so the switch went with the
      mode on 2026-08-12 and the audit keeps its own subject — the zoom, below,
      which nothing else covers. */
-  await page.getByRole("button", { name: "← Back" }).click();
+  await page.getByRole("button", { name: "Back" }).click();
   await page.getByRole("button", { name: "Begin Session" }).click();
   await page.locator(".wq-word").waitFor();
   await page.getByText("Say the word out loud!").waitFor();
@@ -266,7 +266,7 @@ await audit("grown-ups");
 
 /* reduced motion kills every animation; without it the hold fill animates */
 {
-  const hold = page.getByRole("button", { name: "~ close (hold)" });
+  const hold = page.getByRole("button", { name: "close" });
   const box = await hold.boundingBox();
   await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2);
   await page.mouse.down();
@@ -284,7 +284,7 @@ await audit("grown-ups");
   await rmPage.getByRole("button", { name: "Begin Session" }).click();
   await rmPage.locator(".wq-word").waitFor();
   const rmSession = await rmPage.evaluate(() => document.getAnimations().length);
-  const rmHold = rmPage.getByRole("button", { name: "~ close (hold)" });
+  const rmHold = rmPage.getByRole("button", { name: "close" });
   const rmBox = await rmHold.boundingBox();
   await rmPage.mouse.move(rmBox.x + rmBox.width / 2, rmBox.y + rmBox.height / 2);
   await rmPage.mouse.down();

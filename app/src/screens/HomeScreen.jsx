@@ -35,8 +35,8 @@ function FreePlayChooser({ level, L, sound, preLevel, buildable, sentences, onCh
       <div style={{ display: "grid", gap: 2 }}>
         <div style={rowLabel}>Words</div>
         <div style={row}>
-          <button className="wq-cta" onClick={() => onChoose("level")} style={left}>🎯 Level {level} {L.emoji} words</button>
-          <button className="wq-cta" onClick={() => onChoose("random")} style={right}>🎲 Any word</button>
+          <button className="wq-cta" onClick={() => onChoose("level")} style={left} aria-label={`Level ${level} words`}>🎯 Level {level} {L.emoji} words</button>
+          <button className="wq-cta" onClick={() => onChoose("random")} style={right} aria-label="Any word">🎲 Any word</button>
         </div>
         {/* Sentences: the left cell serves every sentence up to this level and
             GOES when that pool is empty (a level whose text is not written yet
@@ -47,9 +47,9 @@ function FreePlayChooser({ level, L, sound, preLevel, buildable, sentences, onCh
         <div style={rowLabel}>Sentences</div>
         <div style={row}>
           {sentences > 0
-            ? <button className="wq-cta" onClick={() => onChoose("sentences")} style={left}>📖 Level {level} sentences</button>
+            ? <button className="wq-cta" onClick={() => onChoose("sentences")} style={left} aria-label={`Level ${level} sentences`}>📖 Level {level} sentences</button>
             : <span aria-hidden="true" />}
-          <button className="wq-cta" onClick={() => onChoose("sentences-any")} style={right}>🎲 Any sentence</button>
+          <button className="wq-cta" onClick={() => onChoose("sentences-any")} style={right} aria-label="Any sentence">🎲 Any sentence</button>
         </div>
         {/* Build (SPEC section 12, owner-ruled 2026-08-17, D1): the app speaks
             a word and the child assembles it. With sound switched off the mode
@@ -59,16 +59,16 @@ function FreePlayChooser({ level, L, sound, preLevel, buildable, sentences, onCh
         {buildable && preLevel > 0 && <>
           <div style={rowLabel}>Sounds</div>
           <div style={row}>
-            <button className="wq-cta" onClick={() => onChoose("build")} disabled={!sound}
+            <button className="wq-cta" onClick={() => onChoose("build")} disabled={!sound} aria-label={`Find a Pre ${preLevel} sound`}
               style={{ ...left, opacity: sound ? 1 : 0.55, gridColumn: "1 / -1" }}>🔎 Find a Pre {preLevel} sound</button>
           </div>
         </>}
         {buildable && preLevel === 0 && <>
           <div style={rowLabel}>Build</div>
           <div style={row}>
-            <button className="wq-cta" onClick={() => onChoose("build")} disabled={!sound}
+            <button className="wq-cta" onClick={() => onChoose("build")} disabled={!sound} aria-label={`Build a level ${level} word`}
               style={{ ...left, opacity: sound ? 1 : 0.55 }}>🧱 Build a level {level} word</button>
-            <button className="wq-cta" onClick={() => onChoose("build-any")} disabled={!sound}
+            <button className="wq-cta" onClick={() => onChoose("build-any")} disabled={!sound} aria-label="Build any word"
               style={{ ...right, opacity: sound ? 1 : 0.55 }}>🎲 Build any word</button>
           </div>
         </>}
@@ -123,11 +123,11 @@ export default function HomeScreen({ state, L, kid, masteredCount, persistent, r
       </Zone.Stage>
 
       <Zone.Rail>
-        <button className="wq-cta" onClick={onBegin}>▶️ Begin Session</button>
+        <button className="wq-cta" onClick={onBegin} aria-label="Begin Session">▶️ Begin Session</button>
         {/* Free play: the same loop, endless, and nothing is ever written.
             A full 56 px child control (S7), styled quieter than the one
             session control so the main path stays unmistakable. */}
-        <button className="wq-cta" onClick={onFreePlay}
+        <button className="wq-cta" onClick={onFreePlay} aria-label="Free play"
           style={{ marginTop: 10, background: "rgba(255,255,255,.85)", color: C.ink, boxShadow: "none" }}>
           🎈 Free play
         </button>

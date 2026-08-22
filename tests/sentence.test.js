@@ -96,7 +96,7 @@ const tiles = () => [...document.querySelectorAll(".wq-sentence-tiles .wq-tile")
 /* Build-it's breather (SPEC section 12, D2) can take a press inside a walk;
    a walk leaves it the way a grown-up would. */
 const leaveBuild = async () => {
-  const out = screen.queryByLabelText("Leave building");
+  const out = screen.queryByLabelText(/leave building/i);
   if (!out) return false;
   fireEvent.click(out);
   await flush(0);
@@ -106,11 +106,11 @@ const leaveBuild = async () => {
 const walkToSentence = async () => {
   render(createElement(App));
   await flush(0);
-  fireEvent.click(screen.getByText("▶️ Begin Session"));
+  fireEvent.click(screen.getByLabelText("Begin Session"));
   await flush(0);
   for (let i = 0; i < 5; i += 1) {
     await leaveBuild();
-    fireEvent.keyDown(screen.getByLabelText("✓ got it (hold)"), { key: "Enter" });
+    fireEvent.keyDown(screen.getByLabelText("got it"), { key: "Enter" });
     await flush(REVEAL_MS + 50);
     fireEvent.click(advance());
     await flush(0);
@@ -118,7 +118,7 @@ const walkToSentence = async () => {
 };
 /* The grown-up's mark on the sentence — a keyboard press, because S5 gives a
    keyboard direct operation of the adult controls. */
-const markSentence = async (label = "✓ got it (hold)") => {
+const markSentence = async (label = "got it") => {
   fireEvent.keyDown(screen.getByLabelText(label), { key: "Enter" });
   await flush(0);
 };
@@ -145,18 +145,18 @@ describe("the sentence inside a session", () => {
   it("1: arrives after the fifth word, and only after a word is finished", async () => {
     render(createElement(App));
     await flush(0);
-    fireEvent.click(screen.getByText("▶️ Begin Session"));
+    fireEvent.click(screen.getByLabelText("Begin Session"));
     await flush(0);
     for (let i = 0; i < 4; i += 1) {
       expect(sentenceEl()).toBeNull();
-      fireEvent.keyDown(screen.getByLabelText("✓ got it (hold)"), { key: "Enter" });
+      fireEvent.keyDown(screen.getByLabelText("got it"), { key: "Enter" });
       await flush(REVEAL_MS + 50);
       expect(sentenceEl()).toBeNull();        // never during a reveal
       fireEvent.click(advance());
       await flush(0);
     }
     expect(sentenceEl()).toBeNull();           // four words is not yet five
-    fireEvent.keyDown(screen.getByLabelText("✓ got it (hold)"), { key: "Enter" });
+    fireEvent.keyDown(screen.getByLabelText("got it"), { key: "Enter" });
     await flush(REVEAL_MS + 50);
     fireEvent.click(advance());
     await flush(0);
@@ -173,13 +173,13 @@ describe("the sentence inside a session", () => {
        Every clip ever played would be in `played`, and there are none. */
     expect(played.length).toBe(0);
     /* The prompt is the word prompt's exact shape, with the ruled words. */
-    expect(screen.getByText("Read the sentence out loud! 📣")).toBeTruthy();
+    expect(screen.getByText(/Read the sentence out loud!/)).toBeTruthy();
     expect(screen.getByText("Read this sentence")).toBeTruthy();
     /* The three grade controls are LIVE — this is the turn the owner said the
        child never got. And there is no advance control at all: the mark is
        the only way forward, exactly as it is for a word. No separate skip
        (owner-ruled 2026-08-14). */
-    for (const label of ["✓ got it (hold)", "~ close (hold)", "↻ not yet (hold)"]) {
+    for (const label of ["got it", "close", "not yet"]) {
       expect(screen.getByLabelText(label).disabled).toBe(false);
     }
     expect(screen.queryByText(/Next word|Next sentence|Finish!/)).toBeNull();
@@ -199,7 +199,7 @@ describe("the sentence inside a session", () => {
       expect(saveState.mock.calls.length).toBe(before);
     };
     await walkToSentence();
-    await unrecorded("✓ got it (hold)");
+    await unrecorded("got it");
     /* The lead is a praise clip drawn ONLY from the rows that never say the
        word "word" — the child read a sentence, and the app must not
        mis-describe what they did. */
@@ -217,12 +217,12 @@ describe("the sentence inside a session", () => {
     await flush(REVEAL_MS + 800);
     cleanup(); played = [];
     await walkToSentence();
-    await unrecorded("~ close (hold)");
+    await unrecorded("close");
     expect(played[0][0]).toBe("l:close");
     await flush(REVEAL_MS + 800);
     cleanup(); played = [];
     await walkToSentence();
-    await unrecorded("↻ not yet (hold)");
+    await unrecorded("not yet");
     expect(played[0][0]).toBe("l:wrong");
     /* Every mark reaches the SAME reveal — a stuck child hears the sentence
        read to them, which is S3's invitation kept. */
@@ -231,16 +231,16 @@ describe("the sentence inside a session", () => {
 
   it("0c: one attempt, one result — a second mark in the same window changes nothing", async () => {
     await walkToSentence();
-    await markSentence("✓ got it (hold)");
+    await markSentence("got it");
     expect(played.length).toBe(1);
     /* Both holds maturing in one commit window was the double-count fault the
        words already guard against; the sentence takes the same guard. */
-    await markSentence("~ close (hold)");
-    await markSentence("↻ not yet (hold)");
+    await markSentence("close");
+    await markSentence("not yet");
     expect(played.length).toBe(1);
     /* After the mark the controls are dead — the reveal is not a second
        chance to grade, for the sentence or the word behind it. */
-    for (const label of ["✓ got it (hold)", "~ close (hold)", "↻ not yet (hold)"]) {
+    for (const label of ["got it", "close", "not yet"]) {
       expect(screen.getByLabelText(label).disabled).toBe(true);
     }
   });
@@ -341,7 +341,7 @@ describe("the sentence inside a session", () => {
        SAYS and nothing else. The session count is untouched, so the reveal's
        controls are dead: the word behind the sentence can never be graded a
        second time. */
-    for (const label of ["✓ got it (hold)", "~ close (hold)", "↻ not yet (hold)"]) {
+    for (const label of ["got it", "close", "not yet"]) {
       expect(screen.getByLabelText(label).disabled).toBe(true);
     }
     const before = screen.getByText("5/10").textContent;
@@ -353,7 +353,7 @@ describe("the sentence inside a session", () => {
     /* And the press paid back the word it took: the child is on the SIXTH
        word, not back on the fifth they already read. */
     expect(document.querySelector(".wq-word")).toBeTruthy();
-    expect(screen.getByLabelText("✓ got it (hold)").disabled).toBe(false);
+    expect(screen.getByLabelText("got it").disabled).toBe(false);
   });
 
   /* FREE PLAY (SPEC section 12 point 7, owner-ruled 2026-08-13). The same
@@ -364,9 +364,9 @@ describe("the sentence inside a session", () => {
     if (level !== 1) stored = { ...newState(), preLevel: 0, level };
     render(createElement(App));
     await flush(0);
-    fireEvent.click(screen.getByText("🎈 Free play"));
+    fireEvent.click(screen.getByLabelText("Free play"));
     await flush(0);
-    fireEvent.click(screen.getByText(`📖 Level ${level} sentences`));   // the grid's left cell names the level
+    fireEvent.click(screen.getByLabelText(`Level ${level} sentences`));   // the grid's left cell names the level
     await flush(0);
   };
 
@@ -378,7 +378,7 @@ describe("the sentence inside a session", () => {
        phone: the reveal used to "play without providing the child a chance
        to figure it out". Silent arrival, prompt up, no advance anywhere. */
     expect(played.length).toBe(0);
-    expect(screen.getByText("Read the sentence out loud! 📣")).toBeTruthy();
+    expect(screen.getByText(/Read the sentence out loud!/)).toBeTruthy();
     expect(screen.queryByText(/Next word|Next sentence|Finish!/)).toBeNull();
     /* "0 sentences", never "0 words": a child who has read four sentences
        being told "4 words" is being told something untrue about their own
@@ -387,7 +387,7 @@ describe("the sentence inside a session", () => {
     await markSentence();
     /* The reveal's advance says what the press brings: the next item IS a
        sentence here, and the owner read "Next word" off a real phone. */
-    expect(screen.getByText("Next sentence ➡️")).toBeTruthy();
+    expect(screen.getByLabelText("Next sentence")).toBeTruthy();
     fireEvent.click(advance());
     await flush(0);
     expect(screen.getByText("1 sentence")).toBeTruthy();
@@ -443,10 +443,10 @@ describe("the sentence inside a session", () => {
        and free play's promise did not move an inch: nothing is written, ever
        (design rule 1 and S1). Six sentences, each marked with a different
        grade, and the record is exactly as it was. */
-    for (const label of ["✓ got it (hold)", "~ close (hold)", "↻ not yet (hold)"]) {
+    for (const label of ["got it", "close", "not yet"]) {
       expect(screen.getByLabelText(label).disabled).toBe(false);
     }
-    const grades = ["✓ got it (hold)", "~ close (hold)", "↻ not yet (hold)"];
+    const grades = ["got it", "close", "not yet"];
     for (let i = 0; i < 6; i += 1) {
       await markSentence(grades[i % 3]);
       fireEvent.click(advance());
@@ -515,10 +515,10 @@ describe("the sentence inside a session", () => {
   it("7b: a miss just before a sentence still earns the second look", async () => {
     render(createElement(App));
     await flush(0);
-    fireEvent.click(screen.getByText("▶️ Begin Session"));
+    fireEvent.click(screen.getByLabelText("Begin Session"));
     await flush(0);
     for (let i = 0; i < 4; i += 1) {
-      fireEvent.keyDown(screen.getByLabelText("✓ got it (hold)"), { key: "Enter" });
+      fireEvent.keyDown(screen.getByLabelText("got it"), { key: "Enter" });
       await flush(REVEAL_MS + 50);
       fireEvent.click(advance());
       await flush(0);
@@ -528,7 +528,7 @@ describe("the sentence inside a session", () => {
     const before = dots();
     expect(before).toBeGreaterThan(5);
     const missed = document.querySelector(".wq-word").textContent;
-    fireEvent.keyDown(screen.getByLabelText("↻ not yet (hold)"), { key: "Enter" });
+    fireEvent.keyDown(screen.getByLabelText("not yet"), { key: "Enter" });
     await flush(REVEAL_MS + 50);
     fireEvent.click(advance());
     await flush(0);
@@ -548,7 +548,7 @@ describe("the sentence inside a session", () => {
     for (let hop = 0; hop < 8 && !met; hop += 1) {
       await leaveBuild();                                // D2 may hold a breather here
       if (document.querySelector(".wq-word")?.textContent === missed) { met = true; break; }
-      fireEvent.keyDown(screen.getByLabelText("✓ got it (hold)"), { key: "Enter" });
+      fireEvent.keyDown(screen.getByLabelText("got it"), { key: "Enter" });
       await flush(REVEAL_MS + 50);
       fireEvent.click(advance());
       await flush(0);
@@ -558,7 +558,7 @@ describe("the sentence inside a session", () => {
     /* And the second look is GRADED, because the retry path's own bookkeeping
        (the near-due re-schedule for a word won on its second try) had never
        run under a test until the 2026-08-21 coverage rehearsal looked. */
-    fireEvent.keyDown(screen.getByLabelText("✓ got it (hold)"), { key: "Enter" });
+    fireEvent.keyDown(screen.getByLabelText("got it"), { key: "Enter" });
     await flush(REVEAL_MS + 50);
     expect(document.querySelector(".wq-word").textContent).toBe(missed);   // still the retried word, in its reveal
   });
@@ -569,12 +569,12 @@ describe("the sentence inside a session", () => {
   it("7c (control): a miss with no sentence in the way earns the same second look", async () => {
     render(createElement(App));
     await flush(0);
-    fireEvent.click(screen.getByText("▶️ Begin Session"));
+    fireEvent.click(screen.getByLabelText("Begin Session"));
     await flush(0);
     const dots = () => document.querySelectorAll(".wq-seg").length;
     const before = dots();
     const missed = document.querySelector(".wq-word").textContent;
-    fireEvent.keyDown(screen.getByLabelText("↻ not yet (hold)"), { key: "Enter" });
+    fireEvent.keyDown(screen.getByLabelText("not yet"), { key: "Enter" });
     await flush(REVEAL_MS + 50);
     fireEvent.click(advance());
     await flush(0);
@@ -586,7 +586,7 @@ describe("the sentence inside a session", () => {
     for (let hop = 0; hop < 8 && !met; hop += 1) {
       await leaveBuild();                                // D2 may hold a breather here
       if (document.querySelector(".wq-word")?.textContent === missed) { met = true; break; }
-      fireEvent.keyDown(screen.getByLabelText("✓ got it (hold)"), { key: "Enter" });
+      fireEvent.keyDown(screen.getByLabelText("got it"), { key: "Enter" });
       await flush(REVEAL_MS + 50);
       fireEvent.click(advance());
       await flush(0);
@@ -608,7 +608,7 @@ describe("the sentence inside a session", () => {
     stored = { ...newState(), preLevel: 0, level: 77 };
     render(createElement(App));
     await flush(0);
-    fireEvent.click(screen.getByText("▶️ Begin Session"));
+    fireEvent.click(screen.getByLabelText("Begin Session"));
     await flush(0);
     const seen = [];
     let breathers = 0;
@@ -617,7 +617,7 @@ describe("the sentence inside a session", () => {
          hands the advance back when it ends; the walk leaves it as a grown-up
          would and counts it, so it cannot silently stop happening. */
       if (await leaveBuild()) breathers += 1;
-      fireEvent.keyDown(screen.getByLabelText("✓ got it (hold)"), { key: "Enter" });
+      fireEvent.keyDown(screen.getByLabelText("got it"), { key: "Enter" });
       await flush(REVEAL_MS + 50);
       fireEvent.click(advance());
       await flush(0);
@@ -658,17 +658,17 @@ describe("free play deals from data that can be empty", () => {
     try {
       render(createElement(App));
       await flush(0);
-      fireEvent.click(screen.getByText("🎈 Free play"));
+      fireEvent.click(screen.getByLabelText("Free play"));
       await flush(0);
-      const row = screen.getByText("📖 Level 1 sentences");
+      const row = screen.getByLabelText("Level 1 sentences");
       noSentences = true;
       fireEvent.click(row);
       await flush(0);
       expect(thrown).toEqual([]);
       expect(sentenceEl()).toBeNull();                             // no stage was entered
-      expect(screen.getByText("▶️ Begin Session")).toBeTruthy();   // still home
+      expect(screen.getByLabelText("Begin Session")).toBeTruthy();   // still home
       expect(screen.getByText("Nothing to read there yet. Pick another free play choice.")).toBeTruthy();
-      expect(screen.queryByText("🎲 Any word")).toBeNull();    // and the chooser closed
+      expect(screen.queryByLabelText("Any word")).toBeNull();    // and the chooser closed
     } finally {
       window.removeEventListener("error", catcher);
     }
@@ -705,45 +705,45 @@ describe("free play deals from data that can be empty", () => {
        screen here. */
     render(createElement(App));
     await flush(0);
-    fireEvent.click(screen.getByText("🎈 Free play"));
+    fireEvent.click(screen.getByLabelText("Free play"));
     await flush(0);
-    fireEvent.click(screen.getByText("🎲 Any sentence"));
+    fireEvent.click(screen.getByLabelText("Any sentence"));
     await flush(0);
     expect(sentenceEl()).toBeTruthy();                           // a sentence, in the attempt
     expect(screen.getByLabelText("random sentences")).toBeTruthy();   // the header's dice chip names the mode
     cleanup();
     render(createElement(App));
     await flush(0);
-    fireEvent.click(screen.getByText("🎈 Free play"));
+    fireEvent.click(screen.getByLabelText("Free play"));
     await flush(0);
-    fireEvent.click(screen.getByText("🎲 Build any word"));
+    fireEvent.click(screen.getByLabelText("Build any word"));
     await flush(0);
-    expect(screen.getByText("🧱 Build a word")).toBeTruthy();      // the build screen's own header
+    expect(screen.getByText(/Build a word/)).toBeTruthy();      // the build screen's own header
   });
 
   it("14: the chooser drops the sentence row where there is nothing to serve — and keeps it where there is", async () => {
     noSentences = true;
     render(createElement(App));
     await flush(0);
-    fireEvent.click(screen.getByText("🎈 Free play"));
+    fireEvent.click(screen.getByLabelText("Free play"));
     await flush(0);
-    expect(screen.queryByText("📖 Level 1 sentences")).toBeNull();
+    expect(screen.queryByLabelText("Level 1 sentences")).toBeNull();
     /* Re-derived for the 2026-08-21 grid: only the LEVEL cell goes. The
        right column's "Any sentence" serves the whole game's texts and stays,
        and the lede no longer lists activities, so it no longer has to change
        with them. A chooser that empties itself is not a fix: the other
        cells serve words, which this level has. */
-    expect(screen.getByText("🎲 Any sentence")).toBeTruthy();
-    expect(screen.getByText("🎲 Any word")).toBeTruthy();
-    expect(screen.getByText("🧱 Build a level 1 word")).toBeTruthy();
+    expect(screen.getByLabelText("Any sentence")).toBeTruthy();
+    expect(screen.getByLabelText("Any word")).toBeTruthy();
+    expect(screen.getByLabelText("Build a level 1 word")).toBeTruthy();
     cleanup();
     /* THE CONTROL (E5): the same walk with sentences to serve keeps the row.
        A hider that hides in every world hides nothing. */
     noSentences = false;
     render(createElement(App));
     await flush(0);
-    fireEvent.click(screen.getByText("🎈 Free play"));
+    fireEvent.click(screen.getByLabelText("Free play"));
     await flush(0);
-    expect(screen.getByText("📖 Level 1 sentences")).toBeTruthy();
+    expect(screen.getByLabelText("Level 1 sentences")).toBeTruthy();
   });
 });

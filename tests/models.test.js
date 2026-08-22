@@ -79,7 +79,7 @@ function agree(m) {
   expect(filledOnScreen()).toBe(m.slots.filter((x) => x !== null).length);
   const used = new Set(m.slots.filter((x) => x !== null));
   tilesOnScreen().forEach((b, i) => expect(b.style.opacity === "0.22").toBe(used.has(i)));
-  expect(screen.getByLabelText("Leave building")).toBeTruthy();
+  expect(screen.getByLabelText(/leave building/i)).toBeTruthy();
   expect(screen.getByText(/Hear the (word|sound)/)).toBeTruthy();
 }
 function judge(m) {
@@ -181,7 +181,7 @@ class Miss {
 }
 class Leave {
   check(m) { return !m.done; }
-  run(m, real) { fireEvent.click(screen.getByLabelText("Leave building")); m.done = true; reached.left += 1; expect(real.exit).toBe(1); }
+  run(m, real) { fireEvent.click(screen.getByLabelText(/leave building/i)); m.done = true; reached.left += 1; expect(real.exit).toBe(1); }
   toString() { return "leave"; }
 }
 /* Indices are drawn up to a bound and filtered by check(): fast-check's
@@ -265,7 +265,7 @@ describe("model: every free-play cell opens something, and every something can b
     preLevel: fc.integer({ min: 0, max: 5 }),
     sound: fc.boolean(),
   });
-  const home = () => screen.queryByText("🎈 Free play") !== null;
+  const home = () => screen.queryByLabelText("Free play") !== null;
   const cellsOnScreen = () => [...document.querySelectorAll(".wq-cta")].filter((b) => /Level \d+|Any word|Any sentence|Build|Find a Pre/.test(b.textContent));
   const opened = () => screen.queryByText(/Grown-up: pick what to practise/) === null && !home();
 
@@ -279,7 +279,7 @@ describe("model: every free-play cell opens something, and every something can b
         render(createElement(App));
         await flushAsync(0);
         expect(home()).toBe(true);
-        fireEvent.click(screen.getByText("🎈 Free play"));
+        fireEvent.click(screen.getByLabelText("Free play"));
         await flushAsync(0);
         const cells = cellsOnScreen();
         /* The rules of the grid (SPEC section 6): a sentences cell only when
@@ -298,7 +298,7 @@ describe("model: every free-play cell opens something, and every something can b
         fireEvent.click(cell);
         await flushAsync(0);
         expect(opened(), `"${label}" opened nothing`).toBe(true);
-        const leave = screen.queryByLabelText("Leave building") || screen.queryByLabelText("Leave session");
+        const leave = screen.queryByLabelText(/leave building/i) || screen.queryByLabelText("Leave session");
         expect(leave, `no way home after "${label}"`).toBeTruthy();
         fireEvent.click(leave);
         await flushAsync(0);
@@ -314,7 +314,7 @@ describe("model: every free-play cell opens something, and every something can b
     stored = { ...newState(), level: 1, preLevel: 0 };
     render(createElement(App));
     await flushAsync(0);
-    fireEvent.click(screen.getByText("🎈 Free play"));
+    fireEvent.click(screen.getByLabelText("Free play"));
     await flushAsync(0);
     const cell = cellsOnScreen().find((c) => /Any word/.test(c.textContent));
     const dead = cell.cloneNode(true);                         // no React handler survives a clone

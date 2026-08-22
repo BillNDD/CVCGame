@@ -271,7 +271,7 @@ function selfTest() {
      from these two numbers, so they cannot be the floors themselves — that is
      precisely the fault an auditor exploited by lowering FLOOR to {controls: 2}
      and watching every control still pass. */
-  const CONTROLS = 41, CELLS = 625;
+  const CONTROLS = 41, CELLS = 626;
   ok.push(["the baseline states the floors this file was written against",
     FLOOR.controls === CONTROLS && FLOOR.cells === CELLS]);
 
@@ -316,16 +316,16 @@ function selfTest() {
       { configFile: "/repo/some-other.config.mjs" }), FRESH).problems
       .some((p) => p.includes("some-other.config.mjs"))]);
 
-  /* THE NOVELTIES SCOPE. Literals again (E4): 7 planted-fault controls, 24
+  /* THE NOVELTIES SCOPE. Literals again (E4): 8 planted-fault controls, 24
      profile cells, 8 monkey walks and 2 singletons. A novelties run judged as the body is
      refused, because it is not one; judged as novelties it passes only whole. */
-  const NOVELTY_CONTROLS = 7, NOVELTY_CELLS = 34;
+  const NOVELTY_CONTROLS = 8, NOVELTY_CELLS = 34;
   ok.push(["the baseline states the novelty floors this file was written against",
     NOVELTY_FLOOR.controls === NOVELTY_CONTROLS && NOVELTY_FLOOR.cells === NOVELTY_CELLS]);
   const novControls = Array.from({ length: NOVELTY_CONTROLS }, (_, i) => cell(NOVELTY_PROJECT, `control: planted fault ${i}`));
   const novCells = [...many("desktop", NOVELTY_CELLS - 2), cell(NOVELTY_PROJECT, "update-stay"), cell(NOVELTY_PROJECT, "offline equality")];
   const novelties = build([...novControls, ...novCells]);
-  ok.push(["a novelties run judged as the body is refused - 41 cells are not a census",
+  ok.push(["a novelties run judged as the body is refused - 42 cells are not a census",
     judge(novelties, FRESH).problems.some((p) => p.includes("census cells ran"))]);
   ok.push(["a whole novelties run is accepted in its own scope",
     judge(novelties, FRESH, SCOPES.novelties).problems.length === 0]);

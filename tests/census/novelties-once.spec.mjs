@@ -8,7 +8,7 @@
 import { test, expect } from "@playwright/test";
 import { stage, holdGrade, waitForReveal, requireStaged, seedGraduated, GRADE } from "../../tools/ux-census.mjs";
 import { landmarks, phaseHold, homeFurniture, chromeHold, offlineHold,
-         markStay, assertStayed, pokeForeground, hitTest, monkey } from "../../tools/census-novelties.mjs";
+         markStay, assertStayed, pokeForeground, hitTest, monkey, SOUND_ONLY } from "../../tools/census-novelties.mjs";
 
 /* ---- the live singleton cells ---- */
 
@@ -45,7 +45,7 @@ test("control: a phase-dependent style moves the word, and phaseHold says so", a
 
 test("control: home furniture that moved across a visit is caught", async ({ page }) => {
   await page.goto("/", { waitUntil: "load" });
-  await page.getByText("▶️ Begin Session").waitFor();
+  await page.getByRole("button", { name: "Begin Session" }).waitFor();
   const before = await homeFurniture(page);
   await page.addStyleTag({ content: ".wq-cta{margin-top:9px!important}" });
   await page.waitForTimeout(100);
@@ -56,7 +56,7 @@ test("control: home furniture that moved across a visit is caught", async ({ pag
 
 test("control: an offline screen that differs is caught by the comparator", async ({ page }) => {
   await page.goto("/", { waitUntil: "load" });
-  await page.getByText("▶️ Begin Session").waitFor();
+  await page.getByRole("button", { name: "Begin Session" }).waitFor();
   const online = { home: await homeFurniture(page) };
   await page.addStyleTag({ content: ".wq-cta{min-height:80px!important}" });
   await page.waitForTimeout(100);
@@ -67,10 +67,10 @@ test("control: an offline screen that differs is caught by the comparator", asyn
 
 test("control: a page that reloads under the child is caught", async ({ page }) => {
   await page.goto("/", { waitUntil: "load" });
-  await page.getByText("▶️ Begin Session").waitFor();
+  await page.getByRole("button", { name: "Begin Session" }).waitFor();
   await markStay(page);
   await page.reload({ waitUntil: "load" });
-  await page.getByText("▶️ Begin Session").waitFor();
+  await page.getByRole("button", { name: "Begin Session" }).waitFor();
   const findings = await assertStayed(page);
   expect(findings.map((f) => f.kind)).toContain("update-takeover");
 });
@@ -96,7 +96,7 @@ test("control: a dead control and a thrown error are both caught by the monkey",
      is the same every time this control runs. */
   await page.goto("/", { waitUntil: "load" });
   await seedGraduated(page);
-  await page.getByText("▶️ Begin Session").waitFor();
+  await page.getByRole("button", { name: "Begin Session" }).waitFor();
   await page.evaluate(() => {
     const b = document.createElement("button");
     b.textContent = "planted dead control";
@@ -111,6 +111,30 @@ test("control: a dead control and a thrown error are both caught by the monkey",
   expect(result.findings.some((f) => f.kind === "dead-control" && f.detail.includes("planted dead control"))).toBe(true);
   expect(kinds).toContain("console-error");
   expect(result.findings.some((f) => f.detail.includes("planted page error"))).toBe(true);
+});
+
+test("control: every label the detectors key on still names exactly one control", async ({ page }) => {
+  /* Art project step 0a (2026-08-22). GRADE and SOUND_ONLY are keyed by
+     accessible names; a sweep that renamed a control and not its key would
+     leave the monkey calling the replay dead and holdGrade pressing nothing.
+     Each key must resolve to exactly one control on the screen it belongs
+     to: the grades on a staged word, the Build-it prompt in a build, the
+     pre-ladder's replay on a pre session. */
+  const { shown } = await stage(page, null, "sat", null);
+  requireStaged("sat", shown);
+  for (const name of Object.values(GRADE)) expect(await page.getByRole("button", { name, exact: true }).count(), name).toBe(1);
+  expect(await page.getByRole("button", { name: "Hear the word again", exact: true }).count()).toBe(1);
+  /* A graduated save: the staged one sits on the pre-ladder, whose chooser
+     has no Build row (SPEC section 6). */
+  await page.goto("/", { waitUntil: "load" });
+  await seedGraduated(page);
+  await page.getByRole("button", { name: "Free play" }).click();
+  await page.getByRole("button", { name: /Build a level \d+ word/ }).click();
+  expect(await page.getByRole("button", { name: "Hear the word", exact: true }).count()).toBe(1);
+  await page.getByLabel("Leave building").click();
+  /* And the keys are exactly the set the app can show: a key nothing renders
+     is a stale key. */
+  expect([...SOUND_ONLY.keys()].sort()).toEqual(["Hear it again", "Hear the sound", "Hear the word", "Hear the word again"]);
 });
 
 test("control: a clean staged word reports none of the five", async ({ page }) => {
@@ -141,7 +165,7 @@ test("offline equality: the offline app is the same app, measured", async ({ pag
      then the cord is pulled. */
   test.setTimeout(300_000);
   await page.goto("/", { waitUntil: "load" });
-  await page.getByText("▶️ Begin Session").waitFor();
+  await page.getByRole("button", { name: "Begin Session" }).waitFor();
   await page.evaluate(() => navigator.serviceWorker.ready.then(() => undefined));
   await page.reload({ waitUntil: "load" });
   await page.waitForFunction(() => navigator.serviceWorker.controller !== null);
@@ -149,7 +173,7 @@ test("offline equality: the offline app is the same app, measured", async ({ pag
   await context.setOffline(true);
   try {
     await page.reload({ waitUntil: "load" });
-    await page.getByText("▶️ Begin Session").waitFor();
+    await page.getByRole("button", { name: "Begin Session" }).waitFor();
     const offline = { home: await homeFurniture(page) };
     const findings = offlineHold(online, offline);
     expect(findings, JSON.stringify(findings)).toEqual([]);

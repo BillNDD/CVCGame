@@ -21,7 +21,7 @@ export default function PreDoneScreen({ preDone, onHome }) {
         </section>
       </Zone.Stage>
       <Zone.Rail>
-        <button className="wq-cta" onClick={onHome} style={{ background: C.blue }}>🏠 Back home</button>
+        <button className="wq-cta" onClick={onHome} style={{ background: C.blue }} aria-label="Back home">🏠 Back home</button>
       </Zone.Rail>
     </Frame>
   );

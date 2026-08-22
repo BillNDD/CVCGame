@@ -32,7 +32,7 @@ export default class ErrorBoundary extends Component {
       <main style={{ minHeight: "100vh", display: "grid", placeItems: "center", padding: 24, textAlign: "center", background: "#fdfcfa", color: "#17356b" }}>
         <div>
           <p style={{ fontSize: 22, fontWeight: 700, margin: "0 0 18px", lineHeight: 1.4 }}>Let&rsquo;s go back to the start.</p>
-          <button className="wq-cta" style={{ minHeight: 64, fontSize: 20, padding: "16px 28px" }}
+          <button className="wq-cta" style={{ minHeight: 64, fontSize: 20, padding: "16px 28px" }} aria-label="Back to the start"
             onClick={() => this.setState((s) => ({ crashed: false, n: s.n + 1 }))}>🏠 Back to the start</button>
         </div>
       </main>

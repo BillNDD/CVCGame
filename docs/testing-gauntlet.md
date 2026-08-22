@@ -418,6 +418,17 @@ every bound reads `LEVELS.length`, which is why adding a level needed no engine 
   mis-keyed raises were reverted rather than "lowered" (their tests were never here),
   and every vitest file now carries its own counter (`g1_chunker_tests`,
   `g10_buildit_tests`, `g1_pre_tests`) so a raise always has a right key to land on.
+- `tests/names.test.js` (art project step 0a, 2026-08-22): every button on the real screens
+  - home, the chooser, the corner, a session, a build, the done screens, the pre-ladder,
+  the crash screen - is named in plain words: an aria-label with no pictograph, no symbol,
+  no "(hold)", containing its visible words; a button with no aria-label carries no
+  pictograph in its text. A planted old-style hold name and a bare emoji button are
+  refused. Key: `g10_name_tests` (3). Its companion in the check is
+  `tools/locator-scan.mjs`: every test and census tool is read and any locator whose string
+  names a pictograph is refused (7 controls), so the coming icon swap cannot break a locator
+  it never knew about. What a screen reader hears changed with this step (bible 15.2):
+  "Begin Session", "got it", "Check for updates" - the words, nothing else - and the home
+  screen's pinned accessible tree was regenerated, names only.
 - `tests/garden.test.js` (art project step 0e, 2026-08-22): the two derived facts SPEC
   section 7 states — the ladder complete only when level 100's words are secure, the
   garden state the tenth of the levels completed — at literal values over the measured word
@@ -625,7 +636,7 @@ A runner with idle cores may measure differently; the same two runs decide it th
 (`tools/ux-census.mjs`, `signature`); `census_cells` rises from 416 to 616, counted with
 `playwright test --list` (584 word, screen and state cells, 24 novelty cells, 8
 singletons), then to 625 with the monkey (below); the judge gained a `--novelties` scope
-with its own floors (`census_novelty_controls` 7, `census_novelty_cells` 34, seven controls) and a `--run` path
+with its own floors (`census_novelty_controls` 8, `census_novelty_cells` 34, eight controls) and a `--run` path
 that spawns Playwright through Node with no shell, so `npm run census` and the new
 `npm run census:novelties` start on Windows - the old script's `rm -f`, `{ ...; }` and
 `${CENSUS_PORT:-4187}` never had; and `.github/workflows/census.yml` runs either scope on
@@ -950,7 +961,7 @@ is why the file now counts itself, and counts the breakdown rather than only the
 `.census/report.json`, builds, runs the cells, and then runs `tools/census-report.mjs`
 whatever the runner's exit code was — so a run that produces no report, or a report from
 some other config, is refused rather than read. The floors it enforces are
-`census_controls` (41) and `census_cells` (625) in `.claude/gate-baseline.json`, under E6
+`census_controls` (41) and `census_cells` (626) in `.claude/gate-baseline.json`, under E6
 like every other floor. The gauntlet still does not call the census, and that stays
 deliberate: a flaky cell must inform a release, never block one.
 

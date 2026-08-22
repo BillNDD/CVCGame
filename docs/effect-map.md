@@ -8,7 +8,7 @@ Per-test rows carry the test's own sentence, which in this project IS the
 Given/When/Then effect. The requirement, oracle, platform, mutant family, evidence
 and known limits are declared per FILE, in the tool, where they stay true.
 
-Totals: 390 it() SITES across 19 files, plus 18 gates that are not test files.
+Totals: 393 it() SITES across 20 files, plus 18 gates that are not test files.
 
 A site inside a loop or a table runs many times, so these rows describe more tests than they number: Vitest executes 330. The rows count the places behaviour is asserted.
 
@@ -380,6 +380,22 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 3 | model: Build-it and Find-the-sound never trap a child | 3 (control): a screen that kept the wrong tile after a miss is refused by the model |
 | 4 | model: every free-play cell opens something, and every something can be left | 4: on a random save, the grid shows the cells the rules say, each opens a screen, and each screen has a way home |
 | 5 | model: every free-play cell opens something, and every something can be left | 5 (control): a cell that opens nothing is refused |
+
+## tests/names.test.js — 3 tests (G10)
+
+- **Requirement protected:** Bible 15.2 and S5: every control's accessible name is its visible words - no pictograph, no symbol, no '(hold)' for the users who never hold
+- **Independent oracle:** Every button on the real screens (home, chooser, corner, session, build, done, pre-ladder, the crash screen) checked by one rule, with a planted old-style name and a bare emoji button refused
+- **Platform:** node/jsdom
+- **Mutant family:** not yet in a G19 family
+- **Evidence produced:** Vitest count (floor g10_name_tests)
+- **Known limits — what these tests do NOT prove:** Checks names, not what a screen reader makes of them; the census's axe pass and a person with a screen reader own the rest.
+- **Safety rules proved here:** S5 (unit), S7 (unit)
+
+| # | Suite | Effect (the test's own sentence) |
+|---|---|---|
+| 1 | every control is named in plain words | 1: home, the chooser, the corner, a session and a build |
+| 2 | every control is named in plain words | 2: the done screens, the pre-ladder |
+| 3 | every control is named in plain words | 3 (control): a hold named the old way, and a bare emoji button, are both refused |
 
 ## tests/pre.test.js — 15 tests (G10)
 

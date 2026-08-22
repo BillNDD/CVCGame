@@ -186,12 +186,16 @@ export async function hitTest(page) {
        or it is gone. A control that changes nothing three times is reported
        as dead.
    Seeded with a small PRNG so the same seed and build walk the same taps. */
-const SOUND_ONLY = new Map([
-  ["🔊", "the reveal's replay: it speaks, it shows nothing new"],
-  ["Hear the word again", "the same replay, by its label"],
+/* Keyed by the control's PLAIN accessible name (app/src/labels.js): since art
+   project step 0a every control's aria-label is its words without the
+   pictograph, and tappable() reads the aria-label first. A novelties-once
+   control proves every key here still resolves to exactly one control in the
+   built app, so a relabelled replay cannot quietly become a "dead" one. */
+export const SOUND_ONLY = new Map([
+  ["Hear the word again", "the reveal's replay: it speaks, it shows nothing new"],
   ["Hear it again", "the pre-ladder's replay"],
-  ["🔊 Hear the word", "Build-it's prompt: the word again, nothing to show"],
-  ["🔊 Hear the sound", "Find-the-sound's prompt, the same"],
+  ["Hear the word", "Build-it's prompt: the word again, nothing to show"],
+  ["Hear the sound", "Find-the-sound's prompt, the same"],
 ]);
 export function mulberry32(seed) {
   let a = seed >>> 0;
@@ -216,7 +220,7 @@ async function snapshot(page) {
 }
 async function tappable(page) {
   return page.evaluate(() => [.../** @type {NodeListOf<HTMLButtonElement>} */ (document.querySelectorAll("button, [role=button]"))]
-    .filter((b) => !b.disabled && !b.classList.contains("wq-hold") && !/\(hold\)$/.test(b.getAttribute("aria-label") || ""))
+    .filter((b) => !b.disabled && !b.classList.contains("wq-hold"))   // the class is the hold; the name no longer says so (step 0a)
     .map((b) => {
       const r = b.getBoundingClientRect();
       return { label: (b.getAttribute("aria-label") || b.textContent || "").trim().slice(0, 40),

@@ -124,7 +124,7 @@ const pressNext = async (page) => {
        by keyboard (S5) and then presses the reveal's always-live advance.
        The first version of this helper pressed a second time and waited on a
        control the attempt deliberately does not have. */
-    await gradeByKey(page, "✓ got it (hold)", "Enter");
+    await gradeByKey(page, "got it", "Enter");
     await page.locator(".wq-rail .wq-cta").click();
     await page.locator(".wq-word").waitFor();
     sentencesMet += 1;   // counted HERE, so no call site can meet one silently
@@ -170,7 +170,7 @@ for (const height of [430, 555, 720, 950]) {
   let page = await startSession(context, { width: 390, height: 720 });
   const word = page.locator(".wq-word");
   const b1 = await word.boundingBox();
-  await gradeByKey(page, "✓ got it (hold)", "Enter");
+  await gradeByKey(page, "got it", "Enter");
   await page.locator(".wq-tile").first().waitFor();
   const b2 = await word.boundingBox();
   await page.waitForTimeout(500);
@@ -179,7 +179,7 @@ for (const height of [430, 555, 720, 950]) {
   const same = (a, b) => a.x === b.x && a.y === b.y && a.width === b.width && a.height === b.height;
   // the retry path: a wrong grade re-queues this word three positions later
   const retriedWord = await word.textContent();
-  await gradeByKey(page, "↻ not yet (hold)", "Enter");
+  await gradeByKey(page, "not yet", "Enter");
   await page.locator(".wq-tile").first().waitFor();
   const bWrong = await word.boundingBox();
   let bRetry = null;
@@ -187,7 +187,7 @@ for (const height of [430, 555, 720, 950]) {
     await page.waitForTimeout(500);
     await pressNext(page);
     if ((await word.textContent()) === retriedWord) { bRetry = await word.boundingBox(); break; }
-    await gradeByKey(page, "✓ got it (hold)", "Enter");
+    await gradeByKey(page, "got it", "Enter");
     await page.locator(".wq-tile").first().waitFor();
   }
   if (same(b1, b2) && same(b1, b3) && same(b1, bWrong) && bRetry && same(b1, bRetry))
@@ -202,7 +202,7 @@ for (const height of [430, 555, 720, 950]) {
      to the short guard, whose length nothing can know in advance. Both are
      asserted strictly; the check reports which path ran. Guessing one would
      make this gate flaky on a machine that differs from the last one. */
-  await gradeByKey(page, "✓ got it (hold)", "Enter");
+  await gradeByKey(page, "got it", "Enter");
   await page.locator(".wq-tile").first().waitFor();
   const advance = page.locator(".wq-rail .wq-cta");
   const duringGuard = await advance.isDisabled();
@@ -232,7 +232,7 @@ for (const height of [430, 555, 720, 950]) {
 
   /* 8-9 — a 150 ms hold does not grade; a 700 ms hold grades */
   await pressNext(page);
-  const hold = page.getByRole("button", { name: "~ close (hold)" });
+  const hold = page.getByRole("button", { name: "close" });
   const box = await hold.boundingBox();
   await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2);
   await page.mouse.down();
@@ -252,13 +252,13 @@ for (const height of [430, 555, 720, 950]) {
   /* 10-11 — the keyboard grades directly, no hold */
   await page.waitForTimeout(500);
   await pressNext(page);
-  await gradeByKey(page, "✓ got it (hold)", "Enter");
+  await gradeByKey(page, "got it", "Enter");
   const viaEnter = await page.locator(".wq-tile").first().isVisible().catch(() => false);
   if (viaEnter) ok("Enter grades directly");
   else fail("Enter did not grade", "no tiles");
   await page.waitForTimeout(500);
   await pressNext(page);
-  await gradeByKey(page, "~ close (hold)", " ");
+  await gradeByKey(page, "close", " ");
   const viaSpace = await page.locator(".wq-tile").first().isVisible().catch(() => false);
   if (viaSpace) ok("Space grades directly");
   else fail("Space did not grade", "no tiles");
@@ -281,7 +281,7 @@ for (const height of [430, 555, 720, 950]) {
     await page.waitForTimeout(500);
     await pressNext(page);
     if (sentencesMet === 0) {
-      await gradeByKey(page, "✓ got it (hold)", "Enter");
+      await gradeByKey(page, "got it", "Enter");
       await page.locator(".wq-tile").first().waitFor();
     }
   }
@@ -306,7 +306,7 @@ for (const height of [430, 555, 720, 950]) {
   let atSentence = false;
   for (let hop = 0; hop < 8 && !atSentence; hop++) {
     await page.waitForTimeout(200);
-    await gradeByKey(page, "✓ got it (hold)", "Enter");
+    await gradeByKey(page, "got it", "Enter");
     await page.locator(".wq-tile").first().waitFor();
     await page.locator(".wq-rail .wq-cta").click();
     atSentence = await page.locator(".wq-sentence").isVisible().catch(() => false);
@@ -343,7 +343,7 @@ for (const height of [430, 555, 720, 950]) {
     if (openAtArrival === 0 && promptOnRail === 1 && ctaInAttempt === 0)
       ok("the attempt arrives silent: no open word, the prompt on the rail, no advance to press");
     else fail("the attempt phase is not the child's turn", JSON.stringify({ openAtArrival, promptOnRail, ctaInAttempt }));
-    await gradeByKey(page, "✓ got it (hold)", "Enter");
+    await gradeByKey(page, "got it", "Enter");
     await page.locator(".wq-sword-open").first().waitFor();
     const openCount = await page.locator(".wq-sword-open").count();
     if (openCount === 1) ok("exactly one word is open once the mark starts the reveal");
@@ -451,7 +451,7 @@ for (const height of [430, 555, 720, 950]) {
        guard where none can. Fixed 400/1200 ms sleeps assumed the long case and
        read past the end of the short one, so this check failed under load and
        passed on a re-run — a gate nobody could trust. */
-    await gradeByKey(page, "✓ got it (hold)", "Enter");
+    await gradeByKey(page, "got it", "Enter");
     await page.locator(".wq-tile").first().waitFor();
     await page.locator(".wq-rail .wq-ctafill").waitFor({ timeout: 5000 });
     const early = await readFill();
@@ -466,7 +466,7 @@ for (const height of [430, 555, 720, 950]) {
     await page.addStyleTag({ content: ".wq-root .wq-ctafill{animation:none!important}" });
     await page.waitForFunction(() => { const b = document.querySelector(".wq-rail .wq-cta"); return !!b && !b.disabled; }, null, { timeout: 12000 }).catch(() => {});
     await pressNext(page);
-    await gradeByKey(page, "✓ got it (hold)", "Enter");
+    await gradeByKey(page, "got it", "Enter");
     await page.locator(".wq-tile").first().waitFor();
     await page.locator(".wq-rail .wq-ctafill").waitFor({ timeout: 5000 }).catch(() => {});
     const stillEarly = await readFill();
@@ -490,7 +490,7 @@ for (const height of [430, 555, 720, 950]) {
     const context = await browser.newContext();
     const page = await startSession(context, vp);
     const wordBefore = await page.locator(".wq-word").boundingBox();
-    await gradeByKey(page, "✓ got it (hold)", "Enter");
+    await gradeByKey(page, "got it", "Enter");
     await page.locator(".wq-tile").first().waitFor();
     const probe = () => page.evaluate(() => {
       const mid = (el) => { const r = el.getBoundingClientRect(); return r.left + r.width / 2; };
@@ -562,13 +562,13 @@ for (const height of [430, 555, 720, 950]) {
       const page = await context.newPage();
       await page.setViewportSize(vp);
       await page.goto(URL, { waitUntil: "load" });
-      await page.getByRole("button", { name: "▶️ Begin Session" }).waitFor();
+      await page.getByRole("button", { name: "Begin Session" }).waitFor();
       const seen = [];
       seen.push(...await measure(page));                        // home, with the grown-up strip
-      await page.getByRole("button", { name: "▶️ Begin Session" }).click();
+      await page.getByRole("button", { name: "Begin Session" }).click();
       await page.locator(".wq-word").waitFor();
       seen.push(...await measure(page));                        // session, ready phase
-      await gradeByKey(page, "✓ got it (hold)", "Enter");
+      await gradeByKey(page, "got it", "Enter");
       await page.locator(".wq-tile").first().waitFor();
       seen.push(...await measure(page));                        // session, feedback phase
       const tooSmall = short(seen);
@@ -608,7 +608,7 @@ for (const height of [430, 555, 720, 950]) {
     const context = await browser.newContext();
     const page = await startSession(context, { width: 768, height: 1024 });
     const before = await page.locator(".wq-word").boundingBox();
-    await gradeByKey(page, "✓ got it (hold)", "Enter");
+    await gradeByKey(page, "got it", "Enter");
     await page.locator(".wq-tile").first().waitFor();
     const m = await page.evaluate(() => {
       const mid = (el) => { const r = el.getBoundingClientRect(); return r.left + r.width / 2; };
@@ -673,7 +673,7 @@ for (const height of [430, 555, 720, 950]) {
   let measured = null;
   for (let i = 0; i < 12 && !measured; i++) {
     const word = (await page.locator(".wq-word").innerText()).trim();
-    await gradeByKey(page, "✓ got it (hold)", "Enter");
+    await gradeByKey(page, "got it", "Enter");
     if (word === "breakfast") {
       await page.locator(".wq-slot-tiles.wq-crowd .wq-tile").first().waitFor();
       measured = await page.evaluate(() => {
@@ -846,7 +846,7 @@ for (const height of [430, 555, 720, 950]) {
 {
   const context = await browser.newContext();
   const page = await startSession(context, { width: 390, height: 720 });
-  await gradeByKey(page, "✓ got it (hold)", "Enter");
+  await gradeByKey(page, "got it", "Enter");
   await page.locator(".wq-dashed").waitFor();
   const dashed = page.locator(".wq-dashed");
   const ws = await dashed.evaluate((el) => getComputedStyle(el).whiteSpace);
@@ -961,7 +961,7 @@ for (const height of [430, 555, 720, 950]) {
   await page.reload({ waitUntil: "load" });
   await page.getByRole("button", { name: "Begin Session" }).click();
   await page.locator(".wq-word").waitFor();
-  await gradeByKey(page, "✓ got it (hold)", "Enter");
+  await gradeByKey(page, "got it", "Enter");
   await page.locator(".wq-tile").first().waitFor();
   const seen = await page.locator(".wq-word").textContent();
   const tiles = await page.locator(".wq-tile").count();
@@ -1140,9 +1140,13 @@ for (const height of [430, 555, 720, 950]) {
      and the bare word "mastered" gone from the per-level row, because that is
      the word that read as a verdict on the child. */
   const rowCounts = await page.locator(".wq-rowbtn .wq-mono").allInnerTexts();
-  const shaped = rowCounts.filter((t) => /\d+\/\d+ read · \d+ green/.test(t));
+  /* "N of M read, N green" since art project step 0a (2026-08-22): the row
+     is its own accessible name, and a name is plain words - no slash, no
+     middle dot - so the visible text became plain words too. The shape
+     still leads with what the child did. */
+  const shaped = rowCounts.filter((t) => /\d+ of \d+ read, \d+ green/.test(t));
   if (shaped.length === rowCounts.length && rowCounts.length >= 11)
-    ok(`all ${rowCounts.length} level rows read "N/M read · N green" (${rowCounts[0]})`);
+    ok(`all ${rowCounts.length} level rows read "N of M read, N green" (${rowCounts[0]})`);
   else fail("a level row still reports a bare mastered count", JSON.stringify(rowCounts.slice(0, 3)));
   await context.close();
 }

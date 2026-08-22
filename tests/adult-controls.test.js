@@ -42,14 +42,14 @@ describe("G10 safety — S5: every grown-up can give a result, and only a grown-
   const openSession = async () => {
     render(createElement(App));
     await flush(0);
-    fireEvent.click(screen.getByText("▶️ Begin Session"));
+    fireEvent.click(screen.getByLabelText("Begin Session"));
     await flush(0);
-    return screen.getByLabelText("✓ got it (hold)");
+    return screen.getByLabelText("got it");
   };
   const spied = (props) => {
     const count = { n: 0 };
     render(createElement(HoldButton, { onFire: () => { count.n += 1; }, color: "#0f7a4f", label: "✓ got it", ...props }));
-    return [screen.getByLabelText("✓ got it (hold)"), count];
+    return [screen.getByLabelText("got it"), count];
   };
 
   it("20: a screen reader's activation records the result", async () => {
@@ -106,9 +106,9 @@ describe("G10 — P1-7: the keyboard keeps its place in the session", () => {
   const gradeAndWait = async () => {
     render(createElement(App));
     await flush(0);
-    fireEvent.click(screen.getByText("▶️ Begin Session"));
+    fireEvent.click(screen.getByLabelText("Begin Session"));
     await flush(0);
-    fireEvent.keyDown(screen.getByLabelText("✓ got it (hold)"), { key: "Enter" });
+    fireEvent.keyDown(screen.getByLabelText("got it"), { key: "Enter" });
     await flush(0);
     expect(document.activeElement).toBe(document.body);   // the control is not live yet
     await flush(500);                                     // the reveal wait passes
@@ -121,15 +121,15 @@ describe("G10 — P1-7: the keyboard keeps its place in the session", () => {
     expect(document.activeElement).toBe(advance);
     fireEvent.click(document.activeElement);               // what Enter does in a browser
     await flush(0);
-    expect(screen.getByLabelText("✓ got it (hold)").disabled).toBe(false);  // the next word is ready
+    expect(screen.getByLabelText("got it").disabled).toBe(false);  // the next word is ready
   });
 
   it("26 (control): a grown-up who moves focus during the wait keeps it", async () => {
     render(createElement(App));
     await flush(0);
-    fireEvent.click(screen.getByText("▶️ Begin Session"));
+    fireEvent.click(screen.getByLabelText("Begin Session"));
     await flush(0);
-    fireEvent.keyDown(screen.getByLabelText("✓ got it (hold)"), { key: "Enter" });
+    fireEvent.keyDown(screen.getByLabelText("got it"), { key: "Enter" });
     await flush(100);                                     // inside the wait
     const leave = screen.getByLabelText("Leave session");
     leave.focus();
@@ -150,10 +150,10 @@ describe("G10 safety — S5: one attempt, one result", () => {
   it("24: two controls held at once record one result, not two", async () => {
     render(createElement(App));
     await flush(0);
-    fireEvent.click(screen.getByText("▶️ Begin Session"));
+    fireEvent.click(screen.getByLabelText("Begin Session"));
     await flush(0);
-    const yes = screen.getByLabelText("✓ got it (hold)");
-    const no = screen.getByLabelText("↻ not yet (hold)");
+    const yes = screen.getByLabelText("got it");
+    const no = screen.getByLabelText("not yet");
     fireEvent.pointerDown(yes);
     await flush(10);                              // the second finger lands
     fireEvent.pointerDown(no);
@@ -182,13 +182,13 @@ describe("G10 — the text a grown-up reads on the child's screen", () => {
 
   it("27: one completed session counts as '1 session', not '1 sessions'", async () => {
     await openHome(saved({ sessionsCompleted: 1 }));
-    expect(screen.getByText("🗓️ 1 session")).toBeTruthy();
-    expect(screen.queryByText("🗓️ 1 sessions")).toBe(null);
+    expect(screen.getByText(/1 session$/)).toBeTruthy();
+    expect(screen.queryByText(/1 sessions$/)).toBe(null);
   });
 
   it("28 (control): two sessions still count as '2 sessions'", async () => {
     await openHome(saved({ sessionsCompleted: 2 }));
-    expect(screen.getByText("🗓️ 2 sessions")).toBeTruthy();
-    expect(screen.queryByText("🗓️ 2 session")).toBe(null);
+    expect(screen.getByText(/2 sessions$/)).toBeTruthy();
+    expect(screen.queryByText(/2 session$/)).toBe(null);
   });
 });

@@ -124,6 +124,14 @@ export const DECLARED = {
     evidence: "Vitest counts (summed floor g10_safety_tests)",
     limits: "Proves the screen never reaches the record and that the loop runs; it cannot say whether a child understands the tray, and it hears nothing.",
   },
+  "tests/names.test.js": {
+    safety: { S5: "unit", S7: "unit" },
+    gate: "G10", requirement: "Bible 15.2 and S5: every control's accessible name is its visible words - no pictograph, no symbol, no '(hold)' for the users who never hold",
+    oracle: "Every button on the real screens (home, chooser, corner, session, build, done, pre-ladder, the crash screen) checked by one rule, with a planted old-style name and a bare emoji button refused",
+    platform: "node/jsdom", mutants: "not yet in a G19 family",
+    evidence: "Vitest count (floor g10_name_tests)",
+    limits: "Checks names, not what a screen reader makes of them; the census's axe pass and a person with a screen reader own the rest.",
+  },
   "tests/garden.test.js": {
     safety: {},
     gate: "G1", requirement: "SPEC section 7: the ladder is complete when level 100's words are secure by the promotion rule and only then; the garden state is the tenth of the levels completed, 10 when complete",

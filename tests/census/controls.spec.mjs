@@ -106,7 +106,7 @@ test("detector fires: overlap, when something lands ON a control", async ({ page
      the case in its own title. It asserts the DETAIL now, not the kind: a
      finding of the right kind from the wrong pair is not evidence. */
   await page.goto("/", { waitUntil: "load" });
-  await page.getByRole("button", { name: "▶️ Begin Session" }).waitFor({ timeout: 8000 });
+  await page.getByRole("button", { name: "Begin Session" }).waitFor({ timeout: 8000 });
   await page.evaluate(() => {
     const b = [...document.querySelectorAll("button")].find((x) => x.textContent.includes("Begin Session"));
     const r = b.getBoundingClientRect();
@@ -129,7 +129,7 @@ test("detector fires: control-obscured, from a badge on the CENTRE alone", async
   /* Requiring two of five sample points was a regression on the case the
      single-centre version already caught. On screen this reads "B NEW ssion". */
   await page.goto("/", { waitUntil: "load" });
-  await page.getByRole("button", { name: "▶️ Begin Session" }).waitFor({ timeout: 8000 });
+  await page.getByRole("button", { name: "Begin Session" }).waitFor({ timeout: 8000 });
   await page.evaluate(() => {
     const b = [...document.querySelectorAll("button")].find((x) => x.textContent.includes("Begin Session"));
     const r = b.getBoundingClientRect();
@@ -173,7 +173,7 @@ test("detector fires: missing, when a screen loses a control it must have", asyn
      viewports stayed green, because the screen cells passed `{}` to inspect and
      so asserted the existence of nothing. */
   await page.goto("/", { waitUntil: "load" });
-  await page.getByRole("button", { name: "▶️ Begin Session" }).waitFor({ timeout: 8000 });
+  await page.getByRole("button", { name: "Begin Session" }).waitFor({ timeout: 8000 });
   /* The node is REMOVED, which is the fault. An earlier version of this plant
      used addStyleTag with `button:has-text(...)` - a Playwright selector, not
      CSS - and one invalid selector voids the whole rule, so nothing was hidden
@@ -361,7 +361,7 @@ test("a toast that buries content is REPORTED, and is not called a collision", a
      live content on purpose, so it must not redden a cell — and it must not
      vanish either, which is what naming it an overlay did. */
   await page.goto("/", { waitUntil: "load" });
-  await page.getByRole("button", { name: "▶️ Begin Session" }).waitFor({ timeout: 8000 });
+  await page.getByRole("button", { name: "Begin Session" }).waitFor({ timeout: 8000 });
   await page.evaluate(() => {
     const b = [...document.querySelectorAll("button")].find((x) => x.textContent.includes("Begin Session"));
     const r = b.getBoundingClientRect();
@@ -391,7 +391,7 @@ test("detector fires: overlap, from a TEXTLESS bar burying a control's label", a
      did not. The same bar with two characters of text in it was caught, which
      is what made the gap obvious once it was found. */
   await page.goto("/", { waitUntil: "load" });
-  await page.getByRole("button", { name: "▶️ Begin Session" }).waitFor({ timeout: 8000 });
+  await page.getByRole("button", { name: "Begin Session" }).waitFor({ timeout: 8000 });
   await page.evaluate(() => {
     const b = [...document.querySelectorAll("button")].find((x) => x.textContent.includes("Begin Session"));
     const r = b.getBoundingClientRect();
@@ -470,7 +470,7 @@ test("the home screen's accessible tree is the one we last agreed", async ({ pag
      The census still attaches the tree of every cell as evidence; this is the
      one that fails when it changes. */
   await page.goto("/", { waitUntil: "load" });
-  await page.getByRole("button", { name: "▶️ Begin Session" }).waitFor({ timeout: 8000 });
+  await page.getByRole("button", { name: "Begin Session" }).waitFor({ timeout: 8000 });
   await expect(page.locator("body")).toMatchAriaSnapshot({ name: "home-screen.aria.yml" });
 });
 

@@ -30,7 +30,7 @@ export default function DoneScreen({ doneStats, kid, onHome, toast }) {
           </p>
         </div>
       </Zone.Stage>
-      <Zone.Rail><button className="wq-cta" onClick={onHome}>🏠 Back home</button></Zone.Rail>
+      <Zone.Rail><button className="wq-cta" onClick={onHome} aria-label="Back home">🏠 Back home</button></Zone.Rail>
       <Zone.Strip>
         <span className="wq-striplabel">grown-up</span>
         <span style={{ fontSize: 12, color: C.strip }}>

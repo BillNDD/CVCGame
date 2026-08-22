@@ -122,8 +122,8 @@ describe("Build-it writes nothing to the record", () => {
 
   it("3: no adult mark exists anywhere on the screen (D4)", () => {
     mount("cat");
-    expect(screen.queryByLabelText("✓ got it (hold)")).toBeNull();
-    expect(screen.queryByLabelText("↻ not yet (hold)")).toBeNull();
+    expect(screen.queryByLabelText("got it")).toBeNull();
+    expect(screen.queryByLabelText("not yet")).toBeNull();
     expect(screen.queryByLabelText(/close/i)).toBeNull();
   });
 });
@@ -318,12 +318,12 @@ describe("free play builds go on until Done", () => {
         stored = { ...newState(), preLevel: 0, level };
         render(createElement(App));
         await flush(0);
-        fireEvent.click(screen.getByText("🎈 Free play"));
+        fireEvent.click(screen.getByLabelText("Free play"));
         await flush(0);
-        fireEvent.click(screen.getByText(`🧱 Build a level ${level} word`));
+        fireEvent.click(screen.getByLabelText(`Build a level ${level} word`));
         await flush(0);
         expect(thrown).toEqual([]);
-        expect(screen.getByText("🧱 Build a word")).toBeTruthy();
+        expect(screen.getByText(/Build a word/)).toBeTruthy();
         const spoken = played.find((x) => x.startsWith("word:"));
         expect(spoken).toBeTruthy();
         const met = LEVELS.slice(0, level).flatMap((l) => l.words);
@@ -408,11 +408,11 @@ describe("free play builds go on until Done", () => {
     stored = early;
     render(createElement(App));
     await flush(0);
-    fireEvent.click(screen.getByText("🎈 Free play"));
+    fireEvent.click(screen.getByLabelText("Free play"));
     await flush(0);
-    fireEvent.click(screen.getByText("🧱 Build a level 75 word"));   // the cell names the level (2026-08-21)
+    fireEvent.click(screen.getByLabelText("Build a level 75 word"));   // the cell names the level (2026-08-21)
     await flush(0);
-    expect(screen.getByText("🧱 Build a word")).toBeTruthy();
+    expect(screen.getByText(/Build a word/)).toBeTruthy();
     const spoken = played.find((x) => x.startsWith("word:"));
     expect(spoken).toBeTruthy();
     const { LEVELS } = await import("../src/engine.js");
@@ -430,11 +430,11 @@ describe("free play builds go on until Done", () => {
     stored = { ...newState(), preLevel: 0, level: 1 };
     render(createElement(App));
     await flush(0);
-    fireEvent.click(screen.getByText("🎈 Free play"));
+    fireEvent.click(screen.getByLabelText("Free play"));
     await flush(0);
-    fireEvent.click(screen.getByText("🎲 Build any word"));
+    fireEvent.click(screen.getByLabelText("Build any word"));
     await flush(0);
-    expect(screen.getByText("🧱 Build a word")).toBeTruthy();
+    expect(screen.getByText(/Build a word/)).toBeTruthy();
     expect(played.find((x) => x.startsWith("word:"))).toBeTruthy();
   });
   it("14: a found sound is followed by another sound, and Done goes home", async () => {
@@ -442,11 +442,11 @@ describe("free play builds go on until Done", () => {
     stored = { ...newState(), preLevel: 3 };
     render(createElement(App));
     await flush(0);
-    fireEvent.click(screen.getByText("🎈 Free play"));
+    fireEvent.click(screen.getByLabelText("Free play"));
     await flush(0);
-    fireEvent.click(screen.getByText("🔎 Find a Pre 3 sound"));
+    fireEvent.click(screen.getByLabelText("Find a Pre 3 sound"));
     await flush(0);
-    expect(screen.getByText("🔎 Find the sound")).toBeTruthy();
+    expect(screen.getByText(/Find the sound/)).toBeTruthy();
     const findIt = async () => {
       const n = tiles().length;
       for (let i = 0; i < n; i += 1) {
@@ -466,12 +466,12 @@ describe("free play builds go on until Done", () => {
     await flush(300);
     expect(screen.getByText(/You found it/)).toBeTruthy();
     await flush(2700);                                         // the win's pause, then the NEXT sound
-    expect(screen.queryByText("▶️ Begin Session")).toBeNull();   // not home
-    expect(screen.getByText("🔎 Find the sound")).toBeTruthy();  // another round
+    expect(screen.queryByLabelText("Begin Session")).toBeNull();   // not home
+    expect(screen.getByText(/Find the sound/)).toBeTruthy();  // another round
     expect(slots()[0].textContent).toBe("");                     // fresh slot
-    fireEvent.click(screen.getByLabelText("Leave building"));    // Done
+    fireEvent.click(screen.getByLabelText(/leave building/i));    // Done
     await flush(0);
-    expect(screen.getByText("▶️ Begin Session")).toBeTruthy();   // now home
+    expect(screen.getByLabelText("Begin Session")).toBeTruthy();   // now home
     expect(saves.filter((s) => s && s.words && Object.keys(s.words).length)).toEqual([]);   // practice only, still
   });
 });

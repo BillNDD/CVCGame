@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { plainLabel } from "../labels.js";
 
 /* Carried-1 — deliberate adult gesture: pointer hold ~450ms; keyboard activates
    directly. A screen reader activates it directly too: see below. */
@@ -42,7 +43,7 @@ export default function HoldButton({ onFire, disabled, color, label }) {
     <button className={"wq-sbtn wq-hold" + (holding ? " holding" : "")} disabled={disabled}
       style={{ borderColor: color, color }}
       onPointerDown={down} onPointerUp={clear} onPointerLeave={clear} onPointerCancel={clear}
-      onKeyDown={key} onClick={click} aria-label={label + " (hold)"}
+      onKeyDown={key} onClick={click} aria-label={plainLabel(label)}
     >
       <span className="wq-holdfill" style={{ background: color }} aria-hidden="true" />
       <span style={{ position: "relative" }}>{label}</span>

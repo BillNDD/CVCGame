@@ -46,7 +46,7 @@ const startWord = async () => {
   mockLoad.mockResolvedValueOnce(graduated());
   render(createElement(App));
   await flush(0);
-  fireEvent.click(screen.getByText("▶️ Begin Session"));
+  fireEvent.click(screen.getByLabelText("Begin Session"));
   await flush(0);
   /* Entering is setup, not subject: nothing spoken on the way in may count as
      speech during the attempt under test. */
@@ -112,7 +112,7 @@ describe("G10 safety — S1: only an adult can record a result", () => {
 
   it("2 (control): the adult's action DOES record, so test 1 can fail", async () => {
     const word = await startWord();
-    await adultGrades("✓ got it (hold)");
+    await adultGrades("got it");
     expect(screen.getAllByText(/Great job! That is/).length).toBeGreaterThan(0);
     /* The card shows the DISPLAY form ("I"); the save keys the bank form
        ("i") — the one word where they differ, and a random first draw of it
@@ -125,7 +125,7 @@ describe("G10 safety — S1: only an adult can record a result", () => {
 
   it("2a: a wrong result also needs the adult, and records exactly one", async () => {
     const word = await startWord();
-    await adultGrades("↻ not yet (hold)");
+    await adultGrades("not yet");
     const saved = mockSave.mock.calls.at(-1)[0].words[word === "I" ? "i" : word];
     expect(saved.wrong).toBe(1);
     expect(saved.correct).toBe(0);
@@ -177,7 +177,7 @@ describe("G10 safety — S2: the word is never spoken before the attempt ends", 
   it("4b: advancing to the next word silences any queued reveal", async () => {
     await startWord();
     const draw = vi.spyOn(Math, "random").mockReturnValue(0);
-    try { await adultGrades("✓ got it (hold)"); } finally { draw.mockRestore(); } // attempt ends; reveal is queued
+    try { await adultGrades("got it"); } finally { draw.mockRestore(); } // attempt ends; reveal is queued
     await flush(500);                                       // past the 400 ms advance guard
     const before = cancels.n;
     fireEvent.click(screen.getByText(/Next word|Finish!/));
@@ -194,7 +194,7 @@ describe("G10 safety — S2: the word is never spoken before the attempt ends", 
     const word = await startWord();
     /* Pin the praise draw: 0.95 -> index 9, so the assertion stays literal. */
     const draw = vi.spyOn(Math, "random").mockReturnValue(0.95);
-    try { await adultGrades("✓ got it (hold)"); } finally { draw.mockRestore(); } // attempt ends, correct
+    try { await adultGrades("got it"); } finally { draw.mockRestore(); } // attempt ends, correct
     expect(utterances.at(-2)).toBe("Every sound in its place — wonderful!"); // praise, after the attempt
     /* The two words the fallback must not hand over raw: "a" would be the
        letter's name (S4), so it says "uh"; "i" goes as the capital, whose
@@ -253,7 +253,7 @@ describe("A2-002: the exit dialog never changes underneath a grown-up", () => {
 
   it("18: the dialog's geometry does not move once a word has been read", async () => {
     await startWord();
-    await adultGrades("✓ got it (hold)");
+    await adultGrades("got it");
     await flush(500);
     fireEvent.click(screen.getByText(/Next word|Finish!/));
     await flush(0);
@@ -446,7 +446,7 @@ describe("G10 — free play never touches the save", () => {
   const enterFreePlay = async (choice = /🎯 Level/) => {
     render(createElement(App));
     await flush(0);
-    fireEvent.click(screen.getByText("🎈 Free play"));
+    fireEvent.click(screen.getByLabelText("Free play"));
     await flush(0);
     fireEvent.click(screen.getByText(choice));
     await flush(0);
@@ -461,25 +461,25 @@ describe("G10 — free play never touches the save", () => {
   it("40: rights, wrongs and leaving write nothing at all", async () => {
     await enterFreePlay();
     const before = mockSave.mock.calls.length;
-    await gradeOne("✓ got it (hold)");
-    await gradeOne("↻ not yet (hold)");
-    await gradeOne("~ close (hold)");
+    await gradeOne("got it");
+    await gradeOne("not yet");
+    await gradeOne("close");
     expect(mockSave.mock.calls.length).toBe(before);
     fireEvent.click(screen.getByLabelText("Leave session"));
     await flush(0);
     expect(mockSave.mock.calls.length).toBe(before);
     /* straight home - no save/discard dialog, because there is nothing to save */
-    expect(screen.getByText("▶️ Begin Session")).toBeTruthy();
+    expect(screen.getByLabelText("Begin Session")).toBeTruthy();
     expect(screen.queryByText("Finish early?")).toBeNull();
   });
 
   it("41 (control): the same grades in a real session DO reach the save", async () => {
     render(createElement(App));
     await flush(0);
-    fireEvent.click(screen.getByText("▶️ Begin Session"));
+    fireEvent.click(screen.getByLabelText("Begin Session"));
     await flush(0);
     const before = mockSave.mock.calls.length;
-    fireEvent.keyDown(screen.getByLabelText("✓ got it (hold)"), { key: "Enter" });
+    fireEvent.keyDown(screen.getByLabelText("got it"), { key: "Enter" });
     await flush(500);
     expect(mockSave.mock.calls.length).toBeGreaterThan(before);
   });
@@ -487,13 +487,13 @@ describe("G10 — free play never touches the save", () => {
   it("42: free play never says Finish and rolls into a new block", async () => {
     await enterFreePlay();
     /* a fresh save on Level 1 builds a 12-word block; walk it to the end */
-    for (let i = 0; i < 11; i++) await gradeOne("✓ got it (hold)");
-    fireEvent.keyDown(screen.getByLabelText("✓ got it (hold)"), { key: "Enter" });
+    for (let i = 0; i < 11; i++) await gradeOne("got it");
+    fireEvent.keyDown(screen.getByLabelText("got it"), { key: "Enter" });
     await flush(500);
     /* the last slot of the block still says Next word - free play has no end */
-    expect(screen.getByText("Next word ➡️")).toBeTruthy();
+    expect(screen.getByLabelText("Next word")).toBeTruthy();
     expect(screen.queryByText(/Finish!/)).toBeNull();
-    fireEvent.click(screen.getByText("Next word ➡️"));
+    fireEvent.click(screen.getByLabelText("Next word"));
     await flush(0);
     /* a new block began seamlessly: still in the session, no Done screen */
     expect(document.querySelector(".wq-word")).toBeTruthy();
@@ -505,7 +505,7 @@ describe("G10 — free play never touches the save", () => {
     await enterFreePlay();
     expect(screen.getByText("FREE PLAY")).toBeTruthy();
     expect(screen.getByText("0 words")).toBeTruthy();
-    await gradeOne("✓ got it (hold)");
+    await gradeOne("got it");
     expect(screen.getByText("1 word")).toBeTruthy();
     expect(screen.queryByText(/\/12|\/20/)).toBeNull();
   });
@@ -514,16 +514,16 @@ describe("G10 — free play never touches the save", () => {
     render(createElement(App));
     await flush(0);
     const before = mockSave.mock.calls.length;
-    fireEvent.click(screen.getByText("🎈 Free play"));
+    fireEvent.click(screen.getByLabelText("Free play"));
     await flush(0);
     /* no word yet - the grown-up's choice comes first */
     expect(document.querySelector(".wq-word")).toBeNull();
-    expect(screen.getByText("🎲 Any word")).toBeTruthy();
+    expect(screen.getByLabelText("Any word")).toBeTruthy();
     expect(screen.getByText(/🎯 Level 1/)).toBeTruthy();
     fireEvent.click(screen.getByText("Back"));
     await flush(0);
-    expect(screen.getByText("▶️ Begin Session")).toBeTruthy();
-    expect(screen.queryByText("🎲 Any word")).toBeNull();
+    expect(screen.getByLabelText("Begin Session")).toBeTruthy();
+    expect(screen.queryByLabelText("Any word")).toBeNull();
     expect(document.querySelector(".wq-word")).toBeNull();
     expect(mockSave.mock.calls.length).toBe(before);
   });
@@ -553,16 +553,16 @@ describe("G10 — free play never touches the save", () => {
     await enterFreePlay("🎲 Any word");
     expect(screen.getByText("FREE PLAY")).toBeTruthy();
     /* the dice chip: the level chip would claim a level this mode is not serving */
-    expect(screen.getByText("🎲")).toBeTruthy();
+    expect(screen.getByLabelText(/random (words|sentences)/)).toBeTruthy();
     expect(screen.queryByText(/1 🐣/)).toBeNull();
     const before = mockSave.mock.calls.length;
-    await gradeOne("✓ got it (hold)");
-    await gradeOne("↻ not yet (hold)");
+    await gradeOne("got it");
+    await gradeOne("not yet");
     expect(mockSave.mock.calls.length).toBe(before);
     fireEvent.click(screen.getByLabelText("Leave session"));
     await flush(0);
     expect(mockSave.mock.calls.length).toBe(before);
-    expect(screen.getByText("▶️ Begin Session")).toBeTruthy();
+    expect(screen.getByLabelText("Begin Session")).toBeTruthy();
     expect(screen.queryByText("Finish early?")).toBeNull();
   });
 
@@ -660,17 +660,17 @@ describe("G10 — free play never touches the save", () => {
       const seen = [];
       for (let i = 0; i < 19; i++) {
         seen.push(document.querySelector(".wq-word").textContent);
-        await gradeOne("✓ got it (hold)");
+        await gradeOne("got it");
       }
       seen.push(document.querySelector(".wq-word").textContent);
       expect(seen[0]).toBe("teacher");
       expect(seen[19]).toBe("mouthful");
       expect(new Set(seen).size).toBe(20);
       spy.mockReturnValue(0.955);
-      await gradeOne("✓ got it (hold)");
+      await gradeOne("got it");
       expect(screen.getByText("20 words")).toBeTruthy();
       expect(document.querySelector(".wq-word").textContent).toBe("ancient");
-      await gradeOne("✓ got it (hold)");
+      await gradeOne("got it");
       expect(document.querySelector(".wq-word").textContent).toBe("motion");
     } finally { spy.mockRestore(); }
   });

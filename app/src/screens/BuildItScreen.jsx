@@ -197,14 +197,14 @@ export default function BuildItScreen({ tray, playSounds, playWord, onDone, onEx
       <Zone.Header>
         <span style={{ fontWeight: 800, color: C.ink, fontSize: 15 }}>{isSound ? "🔎 Find the sound" : "🧱 Build a word"}</span>
         <span className="wq-chip" style={{ fontSize: 10.5, padding: "5px 8px" }}>practice</span>
-        <button className="wq-btn-plain" onClick={onExit} aria-label="Leave building">✖️ Done</button>
+        <button className="wq-btn-plain" onClick={onExit} aria-label="Done (leave building)">✖️ Done</button>
       </Zone.Header>
 
       <Zone.Stage>
         <div style={{ textAlign: "center", width: "100%", maxWidth: 420 }}>
           {/* The word button is a child control (S7) and repeats the prompt as
               often as a child wants: the word is never the secret here. */}
-          <button className="wq-cta" onClick={sayPrompt}
+          <button className="wq-cta" onClick={sayPrompt} aria-label={isSound ? "Hear the sound" : "Hear the word"}
             style={{ minHeight: 56, marginBottom: 18 }}>{isSound ? "🔊 Hear the sound" : "🔊 Hear the word"}</button>
 
           {/* An empty slot and a used tile are DISABLED, not merely inert: a

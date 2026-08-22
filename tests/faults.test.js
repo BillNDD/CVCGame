@@ -29,9 +29,9 @@ const boot = async (ms = 0) => { render(createElement(App)); await flush(ms); };
    so a fresh-boot fault test grades the ladder's first item — that IS the
    first thing a real fresh install grades. The adult strip is the same one. */
 const gradeFirstWord = async () => {
-  fireEvent.click(screen.getByText("▶️ Begin Session"));
+  fireEvent.click(screen.getByLabelText("Begin Session"));
   await flush(0);
-  const gotIt = screen.getByRole("button", { name: "✓ got it (hold)" });
+  const gotIt = screen.getByRole("button", { name: "got it" });
   fireEvent.keyDown(gotIt, { key: "Enter" });
   await flush(0);
 };
@@ -91,7 +91,7 @@ describe("G9 faults — the app boot", () => {
     });
     await boot();
     await gradeFirstWord();
-    expect(screen.getAllByText("🎉 Great job!").length).toBeGreaterThan(0);   // the exact pre feedback line, pinned
+    expect(screen.getAllByText(/Great job!/).length).toBeGreaterThan(0);   // the exact pre feedback line, pinned
     delete window.speechSynthesis;
   });
 
@@ -166,9 +166,9 @@ describe("G9 faults — an unreadable save, and backups that must look like one"
     await flush(0);
     expect(screen.getByText(/Couldn’t read saved progress/)).toBeTruthy();
     expect(mockSave.mock.calls.length).toBe(0);          // the old save is left alone
-    fireEvent.click(screen.getByText("▶️ Begin Session"));
+    fireEvent.click(screen.getByLabelText("Begin Session"));
     await flush(0);
-    fireEvent.keyDown(screen.getByLabelText("✓ got it (hold)"), { key: "Enter" });
+    fireEvent.keyDown(screen.getByLabelText("got it"), { key: "Enter" });
     await flush(500);
     expect(mockSave.mock.calls.length).toBe(0);          // and playing writes nothing either
   });
@@ -300,11 +300,11 @@ describe("G9 faults — the corner's own actions survive their edges", () => {
   it("copies the log when the clipboard allows, and shows the box when it refuses", async () => {
     await openCorner();
     Object.assign(navigator, { clipboard: { writeText: vi.fn(async () => undefined) } });
-    fireEvent.click(screen.getByText("📋 Copy log (Markdown)"));
+    fireEvent.click(screen.getByLabelText("Copy log (Markdown)"));
     await flush(0);
-    expect(screen.getByText("Log copied ✓")).toBeTruthy();
+    expect(screen.getByText(/Log copied/)).toBeTruthy();
     navigator.clipboard.writeText = vi.fn(async () => { throw new Error("denied"); });
-    fireEvent.click(screen.getByText("📋 Copy log (Markdown)"));
+    fireEvent.click(screen.getByLabelText("Copy log (Markdown)"));
     await flush(0);
     /* The fallback the owner met on his own phone the same morning: the
        markdown lands in a select-all box instead of vanishing. */
@@ -318,7 +318,7 @@ describe("G9 faults — the corner's own actions survive their edges", () => {
     let made = null;
     URL.createObjectURL = vi.fn((blob) => { made = blob; return "blob:wq-test"; });
     URL.revokeObjectURL = vi.fn();
-    fireEvent.click(screen.getByText("⬇️ Save backup file"));
+    fireEvent.click(screen.getByLabelText("Save backup file"));
     await flush(1200);
     expect(screen.getByText("Backup file saved.")).toBeTruthy();
     expect(URL.createObjectURL).toHaveBeenCalledTimes(1);
@@ -342,12 +342,12 @@ describe("G9 faults — the corner's own actions survive their edges", () => {
   });
   it("resets only through the second press, and the first can back out", async () => {
     await openCorner();
-    fireEvent.click(screen.getByText("🗑️ Reset all progress"));
+    fireEvent.click(screen.getByLabelText("Reset all progress"));
     await flush(0);
     fireEvent.click(screen.getByText("Keep my progress"));
     await flush(0);
-    expect(screen.getByText("🗑️ Reset all progress")).toBeTruthy();   // backed out whole
-    fireEvent.click(screen.getByText("🗑️ Reset all progress"));
+    expect(screen.getByLabelText("Reset all progress")).toBeTruthy();   // backed out whole
+    fireEvent.click(screen.getByLabelText("Reset all progress"));
     await flush(0);
     fireEvent.click(screen.getByText("Yes, erase everything"));
     await flush(0);
@@ -406,7 +406,7 @@ describe("G9 faults — the error ring records on the device and never sends", (
     function throwingChild() { if (explode) throw new Error("render boom"); return createElement("p", null, "alive again"); }
     const quiet = vi.spyOn(console, "error").mockImplementation(() => {});
     render(createElement(ErrorBoundary, { screen: () => "build", version: "t" }, createElement(throwingChild)));
-    const back = screen.getByText("🏠 Back to the start");
+    const back = screen.getByLabelText("Back to the start");
     expect(back.className).toContain("wq-cta");                       // a child's control, 56 px by class (S7)
     expect(readErrors().map((e) => [e.kind, e.screen, e.message])).toEqual([["render", "build", "render boom"]]);
     explode = false;
@@ -428,11 +428,11 @@ describe("G9 faults — the error ring records on the device and never sends", (
     Object.assign(navigator, { clipboard: { writeText: vi.fn(async (t) => { written.push(t); }) } });
     /* The session log is its own copy and carries none of it: a family that
        shares the log for any other reason shares no error text. */
-    fireEvent.click(screen.getByText("📋 Copy log (Markdown)"));
+    fireEvent.click(screen.getByLabelText("Copy log (Markdown)"));
     await flush(0);
     expect(written[0]).not.toContain("bug report");
     expect(written[0]).not.toContain("ring-one");
-    fireEvent.click(screen.getByText("📋 Copy bug report"));
+    fireEvent.click(screen.getByLabelText("Copy bug report"));
     await flush(0);
     expect(written[1]).toContain("# Word Quest bug report");
     expect(written[1]).toContain("Nothing in this report was sent anywhere");
@@ -443,6 +443,6 @@ describe("G9 faults — the error ring records on the device and never sends", (
     fireEvent.click(screen.getByText("Clear"));
     await flush(0);
     expect(screen.getByText(/No problems recorded on this device/)).toBeTruthy();
-    expect(screen.getByText("📋 Copy bug report").disabled).toBe(true);
+    expect(screen.getByLabelText("Copy bug report").disabled).toBe(true);
   });
 });

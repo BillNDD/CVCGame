@@ -618,8 +618,8 @@ async function stage(context, viewport, word, watchers, opts = {}) {
   await page.goto(opts.url || "/", { waitUntil: "load" });
   /* Loaded, boot's own dice spent, and only now is the draw decided. */
   await page.evaluate((v) => { window.__wqQueue = [v]; }, dieFor(wi, BANK_WORDS.length));
-  await page.getByText("🎈 Free play").click({ timeout: 8000 });
-  await page.getByText("🎲 Any word").click({ timeout: 8000 });   // the grid's right Words cell (2026-08-21)
+  await page.getByRole("button", { name: "Free play" }).click({ timeout: 8000 });
+  await page.getByRole("button", { name: "Any word" }).click({ timeout: 8000 });   // the grid's right Words cell (2026-08-21)
   await page.locator(".wq-word").waitFor({ timeout: 8000 });
   const shown = (await page.locator(".wq-word").textContent()).trim();
   /* The praise line for this cell is the longest one, because the longest is
@@ -753,9 +753,9 @@ async function waitForReveal(page, timeout = 25000) {
    saved progress is unchanged: it deliberately saves a short session, which is
    what the app's own "Finish early" dialog offers. */
 const GRADE = {
-  correct: "✓ got it (hold)",
-  close: "~ close (hold)",
-  wrong: "↻ not yet (hold)",
+  correct: "got it",
+  close: "close",
+  wrong: "not yet",
 };
 
 /* The planted defects the controls run against. Each one is a fault this

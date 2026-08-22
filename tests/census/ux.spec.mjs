@@ -65,7 +65,7 @@ for (const [which, open, mustBeVisible, mustExist] of [
   ["home", async () => {}, ['button:has-text("Begin Session")', '[aria-label="Grown-ups corner"]']],
   ["grown-ups corner", async (page) => page.getByRole("button", { name: "Grown-ups corner" }).click(), null,
     ['button:has-text("Copy log")', 'button:has-text("Reset all progress")']],
-  ["free-play chooser", async (page) => page.getByText("🎈 Free play").click(), ['button:has-text("Any word")']],
+  ["free-play chooser", async (page) => page.getByRole("button", { name: "Free play" }).click(), ['button:has-text("Any word")']],
 ]) {
   test(`screen: ${which}`, async ({ page }, testInfo) => {
     const viewport = VP[testInfo.project.name];
@@ -229,11 +229,11 @@ test("state: done screen", async ({ page }, testInfo) => {
   page.on("console", (m) => { if (m.type() === "error") errors.push("console: " + m.text().slice(0, 160)); });
 
   await page.goto("/", { waitUntil: "load" });
-  await page.getByRole("button", { name: "▶️ Begin Session" }).waitFor({ timeout: 8000 });
+  await page.getByRole("button", { name: "Begin Session" }).waitFor({ timeout: 8000 });
   /* Graduated seed: a fresh save begins at Pre 1 since the pre-ladder, and
      this cell means the WORD session's done screen (2026-08-21). */
   await seedGraduated(page);
-  await page.getByRole("button", { name: "▶️ Begin Session" }).click({ timeout: 8000 });
+  await page.getByRole("button", { name: "Begin Session" }).click({ timeout: 8000 });
   await page.locator(".wq-word").waitFor({ timeout: 8000 });
 
   /* One word read, because "Save as a short session" is disabled at zero — the
@@ -277,21 +277,21 @@ test("state: update row, before and after a check", async ({ page }, testInfo) =
 
   await page.goto("/", { waitUntil: "load" });
   const idle = await inspect(page, viewport, "update-row idle", {
-    mustBeVisible: ['button[aria-label="↻ Check for updates (hold)"]'],
+    mustBeVisible: ['button[aria-label="Check for updates"]'],
   });
   for (const f of idle.findings) expect.soft(f, `[update idle] ${f.kind}: ${f.detail}`).toBeUndefined();
 
   /* The 450 ms adult hold (S5), given the way a grown-up gives it. */
   const findings = [];
-  const held = await holdGrade(page, "↻ Check for updates (hold)", findings);
+  const held = await holdGrade(page, "Check for updates", findings);
   for (const f of findings) expect.soft(f, `[update] ${f.kind}: ${f.detail}`).toBeUndefined();
   expect.soft(held, "the update check could not be held where it sits").toBe(true);
   if (!held) return;
 
-  const apply = page.getByRole("button", { name: "⬆️ Update now (hold)" });
+  const apply = page.getByRole("button", { name: "Update now" });
   await apply.waitFor({ timeout: 8000 });
   const ready = await inspect(page, viewport, "update-row ready", {
-    mustBeVisible: ['button[aria-label="⬆️ Update now (hold)"]'], axe: true,
+    mustBeVisible: ['button[aria-label="Update now"]'], axe: true,
   });
   await testInfo.attach("aria", { body: ready.aria, contentType: "text/plain" });
   for (const f of ready.findings) expect.soft(f, `[update ready] ${f.kind}: ${f.detail}`).toBeUndefined();
@@ -326,7 +326,7 @@ for (const c of CASES) {
     for (const f of prompt.findings) expect.soft(f, `[word] ${f.kind}: ${f.detail}`).toBeUndefined();
 
     const findings = [];
-    const held = await holdGrade(page, "✓ got it (hold)", findings);
+    const held = await holdGrade(page, "got it", findings);
     for (const f of findings) expect.soft(f, `[grading] ${f.kind}: ${f.detail}`).toBeUndefined();
 
     if (held) {
