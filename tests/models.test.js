@@ -226,12 +226,16 @@ describe("model: Build-it and Find-the-sound never trap a child", () => {
   const wordTray = fc.constantFrom(...words).map(([w, n]) => buildTray(w, n, () => 0.3));
   const soundTray = fc.integer({ min: 2, max: 5 }).map((p) => buildSoundTray(p)).filter(Boolean);
 
+  /* A budget, not a guess: 200 model runs take 6-10 s here and up to three
+     times that under a mutation sweep's instrumented build, which is where
+     the default 5 s first timed test 4 out (2026-08-22). */
+  const BUDGET = 90_000;
   it("1: Build-it - 200 random tap sequences over the whole bank keep the screen on the model", () => {
     runModel(wordTray, 200);
-  });
+  }, BUDGET);
   it("2: Find-the-sound - one slot, every sound stays pickable after a miss, Done always there", () => {
     runModel(soundTray, 200);
-  });
+  }, BUDGET);
   it("3 (control): a screen that kept the wrong tile after a miss is refused by the model", () => {
     /* The model turned against beta 22's behaviour. A real screen is driven
        to one miss; the model is then told what beta 22 showed - the wrong
@@ -301,7 +305,7 @@ describe("model: every free-play cell opens something, and every something can b
         expect(home(), `"${label}" did not come home`).toBe(true);
       } finally { cleanup(); vi.useRealTimers(); }
     }), { numRuns: 60 });
-  });
+  }, 90_000);
   it("5 (control): a cell that opens nothing is refused", async () => {
     /* Planted: a cell with its handler detached - the shape of beta 23's
        dead cells. The model's "opened" check must say no. */

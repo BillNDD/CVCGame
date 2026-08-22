@@ -15,6 +15,22 @@ This document follows the Microsoft Writing Style Guide.
 Version 6 adds the standalone progressive web app. The reference build does not change.
 The first app version is 1.0.0-beta.1. The app stays in beta until version 1.0 is ready.
 
+- New in 1.0.0-beta.26: a bug report, kept on the device and never sent by itself. If the
+  game goes wrong on your phone, the Grown-ups corner now shows how many problems it has
+  met, and "Copy bug report" puts a short plain-text report on your clipboard — what broke,
+  where, and when, with no name and no web address in it. Nothing leaves the device until
+  you copy it and choose where it goes. It is separate from the session log. And if a
+  screen ever breaks while a child is playing, they see "Let's go back to the start" and one
+  big button home, never a blank page.
+- Changed in 1.0.0-beta.26: in Build-it, an empty space and a tile already used now look
+  the same but no longer act like buttons — tapping them did nothing before, and a control
+  that does nothing is confusing to a finger and to a screen reader alike.
+- Under the hood in 1.0.0-beta.26: the checks that guard the game grew four new kinds of
+  eyes — random tap sequences against Build-it, Find-the-sound and the free-play chooser
+  that must always leave a way out; a "monkey" that taps 300 random controls on every
+  device size before a release; a type checker over the whole app; and a sweep of
+  automatically generated faults read for the ones no test would catch. The release check
+  itself runs in 26 minutes instead of 34.
 - Fixed in 1.0.0-beta.25: building a longer word cut its own celebration off. "biting"
   sounded out b-i-t-i and stopped, because the turn ended on a fixed pause that was
   shorter than the celebration. The turn now ends when the sounds do, with a beat after
