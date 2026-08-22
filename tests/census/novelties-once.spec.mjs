@@ -446,11 +446,14 @@ test.describe("with motion allowed, the sounding tile's controls", () => {
     requireStaged("ship", shown);
     const plant = async (css) => { const h = await page.addStyleTag({ content: css }); await holdGrade(page, GRADE.correct, []); await page.waitForFunction(() => !!document.querySelector(".wq-slot-tiles .wq-tile.wq-pop"), null, { timeout: 8000 }); const s = await soundingTile(page); await h.evaluate((e) => e.remove()); return s; };
     /* the fixtures, on the reader's own output shape */
-    const good = { text: "sh", outline: { color: rgbOf(C.cyanStructural), width: "3px", style: "solid", offset: "0px" }, shadow: rgbOf(C.cyanElectric) + " 0px 0px 0px 9px", face: rgbOf(C.tileFaceLit), restingFace: rgbOf(C.tileFace), ink: rgbOf(C.ink), lift: 1.114, ringPx: 3, spreadPx: 9, intrudes: [], boxes: [[0, 0, 40, 30]] };
+    const good = { text: "sh", density: "reveal", outline: { color: rgbOf(C.cyanStructural), width: "3px", style: "solid", offset: "0px" }, shadow: rgbOf(C.cyanElectric) + " 0px 0px 0px 9px", face: rgbOf(C.tileFaceLit), restingFace: rgbOf(C.tileFace), ink: rgbOf(C.ink), lift: 1.114, ringPx: 3, spreadPx: 9, intrudes: [], boxes: [[0, 0, 40, 30]] };
     expect(soundingHold(good, C, [[0, 0, 40, 30]])).toEqual([]);
     expect(soundingHold({ ...good, outline: { ...good.outline, color: rgbOf(C.ink), width: "4px", offset: "3px" } }, C).map((f) => f.kind)).toEqual(["ring-not-structural"]);
     expect(soundingHold({ ...good, shadow: "none" }, C).map((f) => f.kind)).toEqual(["band-missing"]);
-    expect(soundingHold({ ...good, spreadPx: 2 }, C).map((f) => f.kind)).toEqual(["band-inside-ring"]);
+    expect(soundingHold({ ...good, spreadPx: 2 }, C).map((f) => f.kind)).toEqual(["band-inside-ring", "band-not-ruled"]);
+    expect(soundingHold({ ...good, spreadPx: 0 }, C).map((f) => f.kind), "a zero spread is refused").toEqual(["band-inside-ring", "band-not-ruled"]);
+    expect(soundingHold({ ...good, density: "many", spreadPx: 9 }, C).map((f) => f.kind), "the reveal's spread on the six-tile row").toEqual(["band-not-ruled"]);
+    expect(soundingHold({ ...good, density: "many", spreadPx: 7 }, C)).toEqual([]);
     expect(soundingHold({ ...good, lift: 1.234 }, C).map((f) => f.kind)).toEqual(["lift-off-band"]);
     expect(soundingHold({ ...good, restingFace: rgbOf(C.sun) }, C).map((f) => f.kind)).toEqual(["face-not-token"]);
     expect(soundingHold({ ...good, intrudes: ["i"] }, C).map((f) => f.kind)).toEqual(["ring-into-neighbour"]);
@@ -477,6 +480,11 @@ test.describe("with motion allowed, the sounding tile's controls", () => {
     const bordered = await soundingTile(page);
     await h.evaluate((e) => e.remove());
     expect(soundingHold(bordered, C, resting).map((f) => f.kind), JSON.stringify({ resting, boxes: bordered.boxes })).toContain("tile-moved");
+    /* a band with no spread at all, through the reader */
+    const { shown: fourth } = await stage(page, null, "ship", null);
+    requireStaged("ship", fourth);
+    const noBand = await plant(".wq-slot-tiles .wq-tile.wq-pop{box-shadow:0 0 0 0 " + C.cyanElectric + "!important}");
+    expect(soundingHold(noBand, C).map((f) => f.kind), JSON.stringify(noBand)).toEqual(expect.arrayContaining(["band-inside-ring", "band-not-ruled"]));
   });
 });
 

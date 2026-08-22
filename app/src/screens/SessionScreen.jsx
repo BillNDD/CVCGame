@@ -42,7 +42,7 @@ function SessionStage({ state, currentWord, phase, fb, liveRef, pops = [] }) {
                  ring, and the reveal is simply the one it always was without
                  sound. */
               <span key={i + ":" + (pops[i]?.n || 0)}
-                className={"wq-display wq-tile" + (pops[i]?.ms > 0 ? " wq-pop" : "")}
+                className={"wq-display wq-tile" + (pops[i]?.ms > 0 ? " wq-pop" : "") + (pops[i]?.live ? " wq-live" : "")}
                 style={pops[i]?.ms > 0 ? { "--wqpop": pops[i].ms + "ms" } : undefined}>{displayChunk(currentWord, g)}</span>
             ))}
           </div>

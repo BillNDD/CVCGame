@@ -46,7 +46,7 @@
         },
         "builditBox": 64,
         "extraPerLetter": 26,
-        "bandRenders": "the full band on the open sides; toward a neighbour gap minus ring: 3 / 1 / 0 / 1 CSS px by density, the rest under the neighbour's box",
+        "bandRenders": "the full band on the open sides; toward either neighbour gap minus ring: 3 / 1 / 0 / 1 CSS px by density, the rest beneath the neighbour's box (the live tile paints beneath its siblings)",
         "haloInset": 4
       },
       "ramps": {
@@ -165,6 +165,15 @@
           "renders": "D:/CVCGame-ops/art/step1/checkpoint",
           "commit": "3a89bb4 then 7c55dfb",
           "basis": "value on the luminance-greyscale renders with the word on them: the tile is a form by its rim and contact shadow alone, the letters on a flat face, the sounding tile one event"
+        },
+        {
+          "stage": 7,
+          "chair": "digital art director",
+          "date": "2026-08-22",
+          "verdict": "pass",
+          "renders": "D:/CVCGame-ops/art/step1/checkpoint",
+          "commit": "34355ed",
+          "basis": "Judged on the 64 renders of commit 34355ed (hashes.json), with device pixels sampled on the Galaxy S9+ sounding, completed, focus, scaffold, sentence, arrangement and one-placed-grey renders against the lock (ring 3, band 6, rim 1, haloInset 4, bandRenders), plus tokens tests 8-10, provenance-check and doc-truth green; pressed (:active) not captured - a static state judged from the rule and tokens test 8. The live tile's z-index followed this verdict and changes which side occludes the band, not the band."
         }
       ],
       "originality": {
@@ -174,7 +183,8 @@
         "date": "2026-08-22",
         "renders": "D:/CVCGame-ops/art/step1/checkpoint",
         "commit": "7c55dfb"
-      }
+      },
+      "closed": "2026-08-22"
     }
   }
 }

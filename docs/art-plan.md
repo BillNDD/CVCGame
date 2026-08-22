@@ -303,8 +303,9 @@ moved anchors, `g8_axe_violations_max` 0, the home snapshot unchanged.
 **How checkpoint 2 was judged for a family that lands no file.** The scenery statistic
 section 17 names is first built by the step that lands a PNG (the garden scene); the tile
 family's checkpoint 2 was judged on tokens tests 8–10, the census's sounding-state cell,
-and device pixels sampled on the renders at 4.5 dpr (ring 13 device px, band 27 on an open side and 13
-toward a neighbour, rim 4; the lifted face #fbe59d) — stated here, in the bible's section 11 and in the provenance row, so the
+and device pixels sampled on the renders at 4.5 dpr (ring 13 device px, band 27 on an open side and 13–14
+toward either neighbour — 3 CSS px — rim 4; the lifted face #fbe59d; pressed, a static
+:active state, is not captured and is judged from the rule and tokens test 8) — stated here, in the bible's section 11 and in the provenance row, so the
 section 17 sentence does not imply a measurement that did not happen.
 
 **Ruled by the owner (2026-08-22, the ceramic-tiles page, each with the real render):**
@@ -611,3 +612,21 @@ Newest last. A verdict names the chair, the step, the word, and the findings.
   says twelve; buildit test 24's title says where the halo is; doc-truth's rule-12 comment
   names both app-only selectors; the next capture round adds a focus render. Re-judged by
   the art director (checkpoint 2 on the final set, and the step) and the antagonist.
+- 2026-08-22 — Step 1, third judgement: **checkpoint 2 pass** on the final set of 64
+  renders ("every row of bible 11's table as amended renders as written"); the **art
+  director satisfactory**; the antagonist not satisfied on one blocking finding, four
+  more, all taken. The blocking one: the band's record described the next-tile side only
+  — toward the previous tile the band painted over that tile's rim by spread minus gap,
+  since a later sibling paints over an earlier one's shadow. Taken by construction rather
+  than by recording the asymmetry: the row isolates its stacking and the tile sounding now
+  (`wq-live`, set by the player as each pop lands — only the live one, since the pop class
+  stays on a tile after its pop) paints beneath its siblings, so the band is occluded
+  symmetrically and no rim is ever buried; measured on the Galaxy with "i" sounding: sh's
+  rim 4 device px intact, 14 of band, the ring 13. Also taken: the rim listed first in the
+  shadow stack so it closes all four sides, the highlight inside it (the art director's
+  finding: the top row had been the highlight at 1.4:1 on the stops); the census's
+  sounding cell refuses a zero-spread band and holds the spread to ring plus the ruled band
+  for the row's density, with a planted zero spread; the lock reader's halo inset requires
+  a single-value padding, with a planted two-value one refused; the plan's device-pixel
+  figure says 13–14; pressed is recorded as uncaptured; the provenance row carries
+  checkpoint 2 and the family closes. The antagonist judges the construction once more.

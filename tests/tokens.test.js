@@ -208,8 +208,11 @@ describe("the palette is pinned", () => {
     expect(driftedSrc).not.toBe(ref);
     expect(block(driftedSrc, ".wq-tile{")).not.toBe(block(css, ".wq-tile{"));
     /* the band, pinned: ring 3 plus band 6 / 4 / 2 / 4 by density, the
-       owner's ruled numbers; toward a neighbour the band shows gap minus
-       ring (3 / 1 / 0 / 1) and the rest lies under the neighbour's box */
+       owner's ruled numbers; toward either neighbour the band shows gap
+       minus ring (3 / 1 / 0 / 1) and the rest lies beneath the neighbour's
+       box, the live tile painting beneath its siblings */
+    expect(css).toContain(".wq-tile.wq-live{position:relative;z-index:-1}");
+    expect(css).toContain(".wq-slot-tiles{isolation:isolate}");
     expect(block(css, ".wq-tile{")).toContain("--wqband:9px");
     expect(block(ref, ".wq-tile{")).toContain("--wqband:9px");
     expect(css).toContain("border-radius:9px;--wqband:7px");

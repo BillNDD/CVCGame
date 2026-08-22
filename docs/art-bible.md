@@ -529,10 +529,14 @@ six tiles, 2 at eight, 4 on the short stage — the owner's ruled numbers), and 
 lifted to `tileFaceLit` (+11.4 % luminance) — one `wqpop` keyframe set, `steps(1,end)`, the
 measured clip length; owner-ruled on the ceramic-tiles page over the ring alone. What
 renders, measured on the checkpoint renders: the full band shows above, below and on a
-tile's open sides; toward a neighbour it shows gap minus ring — 3, 1, 0 and 1 CSS px on
-the reveal, six tiles, eight tiles and the short stage — and the rest lies under the
-neighbour's box; it is a glow, never a boundary, and the ring is closed on all four sides
-at every density. (A first record claimed one pixel of sky between the band and the next
+tile's open sides; toward either neighbour it shows gap minus ring — 3, 1, 0 and 1 CSS px
+on the reveal, six tiles, eight tiles and the short stage — and the rest lies beneath the
+neighbour's box, because the tile sounding now paints beneath its siblings (the row
+isolates its stacking and the live tile takes z-index −1; without that a later sibling
+paints over an earlier one's shadow, and the band buried the previous tile's rim by
+spread minus gap — the antagonist's third after pass); it is a glow, never a boundary,
+and the ring is closed on all four sides at every density. The rim is listed first in
+the shadow stack, so it closes all four sides, with the highlight inside it. (A first record claimed one pixel of sky between the band and the next
 rim, and a 5 px band to keep it; the pixels showed none and the arithmetic allows none
 while ring plus band exceed the gap, so the band is the ruled 6 and the record says what
 is there.) The same

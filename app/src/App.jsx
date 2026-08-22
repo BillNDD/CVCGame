@@ -609,7 +609,13 @@ export default function App() {
        by list position is exactly how beta 22 ringed the e of "kicked" while
        /d/ played and never ringed the d at all. */
     popTimers.current = tiles.map((t, i) => setTimeout(
-      () => setPops(p => { const n = p.slice(); const k = t.tile ?? i; n[k] = { n: (n[k]?.n || 0) + 1, ms: t.ms }; return n; }), t.at));
+      () => setPops(p => {
+        /* `live` marks the tile sounding NOW - the one the stylesheet paints
+           beneath its siblings so its band never covers a neighbour's rim
+           (art step 1); the last one keeps it, harmlessly, since its band is
+           gone with its ring */
+        const n = p.map((e) => (e ? { ...e, live: false } : e)); const k = t.tile ?? i; n[k] = { n: (n[k]?.n || 0) + 1, ms: t.ms, live: true }; return n;
+      }), t.at));
   }
 
   /* `real` marks the reveal's own measured length, which always wins. Without

@@ -81,7 +81,7 @@ export default function SentenceStage({ sentence, openWord, openAt, pops = [], o
              and no rings, which is the honest picture of "here is how this
              word is built" without claiming to say it. */
           <span key={i + ":" + (pops[i]?.n || 0)}
-            className={"wq-display wq-tile" + (pops[i]?.ms > 0 ? " wq-pop" : "")}
+            className={"wq-display wq-tile" + (pops[i]?.ms > 0 ? " wq-pop" : "") + (pops[i]?.live ? " wq-live" : "")}
             style={pops[i]?.ms > 0 ? { "--wqpop": pops[i].ms + "ms" } : undefined}>{displayChunk(openWord, g)}</span>
         ))}
       </div>

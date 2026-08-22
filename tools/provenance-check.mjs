@@ -50,7 +50,7 @@ export function lockFromSources(css = readFileSync("app/src/wq-css.js", "utf8"),
     band: Object.fromEntries(Object.entries(spread).map(([k, v]) => [k, v === null || r === null ? null : v - r])),
     builditBox: num(screen, /const SLOT = (\d+), TILE = \d+/),
     extraPerLetter: num(screen, /\(tile \|\| ""\)\.length\) - 1\) \* (\d+)/),
-    haloInset: num(cssBlock(css, ".wq-slotrow"), /padding:(\d+)px/),
+    haloInset: num(cssBlock(css, ".wq-slotrow"), /padding:(\d+)px[;}]/),   // a single-value padding only: "4px 8px" would not be the inset on every side
   };
 }
 export function lockDrift(lock, fromSources) {
@@ -111,6 +111,8 @@ if (process.argv.includes("--self-test")) {
   ok.push(["the lock reader finds the ring, the offset, every band and radius, the box, the letter step and the halo inset in the sources, at their literals",
     src.ring === 3 && src.ringOffset === 0 && JSON.stringify(src.band) === JSON.stringify({ reveal: 6, many: 4, crowd: 2, shortStage: 4 })
     && JSON.stringify(src.radii) === JSON.stringify({ reveal: 12, many: 9, crowd: 7, shortStage: 8, buildit: 14 }) && src.builditBox === 64 && src.extraPerLetter === 26 && src.haloInset === 4]);
+  const twoValue = lockFromSources(readFileSync("app/src/wq-css.js", "utf8").replace(".wq-slotrow{display:inline-flex;gap:10px;justify-content:center;flex-wrap:wrap;border-radius:18px;padding:4px}", ".wq-slotrow{display:inline-flex;gap:10px;justify-content:center;flex-wrap:wrap;border-radius:18px;padding:4px 8px}"));
+  ok.push(["a two-value padding on the slot row is not read as the halo inset, so the lock is refused", twoValue.haloInset === null && lockDrift(real.families.tiles.lock, twoValue).some((p) => p.includes("lock.haloInset is 4, the stylesheet says null"))]);
   const wideBand = JSON.parse(JSON.stringify(real)); wideBand.families.tiles.lock.band.reveal = 7;
   ok.push(["a lock whose band differs from the stylesheet is refused, naming both numbers", judge(wideBand).some((p) => p.includes("lock.band.reveal is 7, the stylesheet says 6"))]);
   const closedEmpty = JSON.parse(JSON.stringify(real)); closedEmpty.families.tiles.closed = "2026-08-22"; closedEmpty.families.tiles.checkpoints = []; closedEmpty.families.tiles.originality = null;

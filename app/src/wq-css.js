@@ -98,13 +98,13 @@ const CSS = VARS + `
    differ by shape, not only colour (15.2). */
 .wq-tilebtn{display:flex;align-items:center;justify-content:center;border:0;border-radius:14px;font-size:27px;font-weight:800;
   color:${C.ink};background:${C.tileFace};cursor:pointer;
-  box-shadow:inset 0 1px 0 ${C.tileHighlight},inset 0 -1px 0 ${alpha(C.tileEdge, .35)},inset 0 0 0 1px ${C.tileEdge},0 1px 2px ${alpha(C.ink, .22)},0 1px 0 ${alpha(C.tileEdge, .5)}}
+  box-shadow:inset 0 0 0 1px ${C.tileEdge},inset 0 2px 0 ${C.tileHighlight},inset 0 -2px 0 ${alpha(C.tileEdge, .35)},0 1px 2px ${alpha(C.ink, .22)},0 1px 0 ${alpha(C.tileEdge, .5)}}
 .wq-tilebtn:active:not(:disabled){box-shadow:inset 0 0 0 1px ${C.tileEdge},inset 0 0 0 99px ${alpha(C.tileEdge, .08)}}
 .wq-tilebtn.wq-used{background:${C.slot};box-shadow:none;border:3px dashed ${C.boundary};cursor:default}
 .wq-tilebtn.wq-empty{background:${C.slot};box-shadow:none;border:3px dashed ${C.boundary};cursor:default}
 .wq-tilebtn.wq-cue{outline:3px solid ${C.cyanStructural};outline-offset:0}
 .wq-tilebtn.wq-empty.wq-cue{border-color:transparent}
-.wq-tilebtn.wq-arr{box-shadow:0 0 0 3px ${C.purpleStructural},inset 0 1px 0 ${C.tileHighlight},inset 0 -1px 0 ${alpha(C.tileEdge, .35)},inset 0 0 0 1px ${C.tileEdge}}
+.wq-tilebtn.wq-arr{box-shadow:0 0 0 3px ${C.purpleStructural},inset 0 0 0 1px ${C.tileEdge},inset 0 2px 0 ${C.tileHighlight},inset 0 -2px 0 ${alpha(C.tileEdge, .35)}}
 .wq-slotrow{display:inline-flex;gap:10px;justify-content:center;flex-wrap:wrap;border-radius:18px;padding:4px}
 .wq-slotrow.wq-won{box-shadow:0 0 0 6px ${alpha(C.amberFill, .6)}}
 .wq-tilebtn:focus-visible{outline:3px dashed ${C.cyanStructural};outline-offset:2px}
@@ -143,7 +143,7 @@ const CSS = VARS + `
    9 on wq-many, 7 on wq-crowd, 8 on the short stage. */
 .wq-tile{background:${C.tileFace};color:${C.ink};border-radius:12px;padding:5px 12px;
   font-size:clamp(1.1rem,3.2svh,1.6rem);font-weight:700;
-  box-shadow:inset 0 1px 0 ${C.tileHighlight},inset 0 -1px 0 ${alpha(C.tileEdge, .35)},inset 0 0 0 1px ${C.tileEdge},0 1px 2px ${alpha(C.ink, .22)},0 1px 0 ${alpha(C.tileEdge, .5)};
+  box-shadow:inset 0 0 0 1px ${C.tileEdge},inset 0 2px 0 ${C.tileHighlight},inset 0 -2px 0 ${alpha(C.tileEdge, .35)},0 1px 2px ${alpha(C.ink, .22)},0 1px 0 ${alpha(C.tileEdge, .5)};
   --wqband:9px}
 /* The sound-out pop (owner-ruled 2026-08-04, shape chosen 2026-08-11 from four
    treatments heard against the real audio). A tile takes a hard outline for as
@@ -168,6 +168,20 @@ const CSS = VARS + `
    --wqpop makes the shorthand invalid and no animation runs at all, which is
    the behaviour wanted; the component declines to add the class in the first
    place, and this is the second lock on the same door. */
+/* THE SOUNDING TILE PAINTS BENEATH ITS SIBLINGS: the row isolates its
+   stacking, and the tile sounding NOW (wq-live, set by the player as each
+   pop lands) takes z-index -1 inside it, so its band is occluded by the
+   tiles on BOTH sides alike - gap minus ring shows toward each neighbour -
+   and never paints over a neighbour's rim. Without this the band buried
+   the previous tile's rim and face by spread minus gap (3 / 3 / 2 / 3 px
+   by density) while the next tile's box hid it, since a later sibling
+   paints over an earlier one's shadow (the antagonist's third after pass,
+   2026-08-22). Only the live tile, not every popped one: the wq-pop class
+   stays on a tile after its pop, and two tiles at the same depth would
+   bury each other's rims in document order. The tile's own box is never
+   overlapped; no geometry changes. */
+.wq-slot-tiles{isolation:isolate}
+.wq-tile.wq-live{position:relative;z-index:-1}
 .wq-tile.wq-pop{animation:wqpop var(--wqpop) steps(1,end)}
 /* The owner's cutover ruling, 2026-08-20: a long word's reveal SHRINKS to
    keep one row rather than wrapping - display tiles, not controls, so S7's
@@ -185,13 +199,12 @@ const CSS = VARS + `
    here, 4 on wq-many, 2 on wq-crowd, 4 on the short stage - the owner's
    ruled numbers. What RENDERS, measured on the checkpoint renders
    (2026-08-22): the full band shows above, below and on a tile's open
-   sides; toward a neighbour it shows gap minus ring - 3, 1, 0 and 1 CSS px
-   on the reveal, wq-many, wq-crowd and the short stage - and the rest of it
-   lies under the neighbour's box, since a later sibling paints over an
-   earlier one's shadow; toward the previous tile it overpaints that tile's
-   rim by spread minus gap. The band is a glow and never a boundary (the
-   tokens test holds it at 1.04:1 on the face); the ring is closed on all
-   four sides at every density, and ring plus band never enter a
+   sides; toward EITHER neighbour it shows gap minus ring - 3, 1, 0 and 1
+   CSS px on the reveal, wq-many, wq-crowd and the short stage - and the
+   rest lies beneath the neighbour's box, because the live tile paints
+   beneath its siblings (below). The band is a glow and never a boundary
+   (the tokens test holds it at 1.04:1 on the face); the ring is closed on
+   all four sides at every density, and ring plus band never enter a
    neighbour's letters (the census's sounding cell measures the reach). A
    first record here claimed one pixel of sky between the band and the next
    rim; the pixels said none, and the arithmetic says none is possible while
@@ -201,7 +214,7 @@ const CSS = VARS + `
    band are the bible's. Still one keyframe set, still steps(1,end), still
    the measured clip length. */
 @keyframes wqpop{0%,99%{outline:3px solid ${C.cyanStructural};outline-offset:0;background-color:${C.tileFaceLit};
-  box-shadow:0 0 0 var(--wqband) ${C.cyanElectric},inset 0 1px 0 ${C.tileHighlight},inset 0 -1px 0 ${alpha(C.tileEdge, .35)},inset 0 0 0 1px ${C.tileEdge},0 1px 2px ${alpha(C.ink, .22)},0 1px 0 ${alpha(C.tileEdge, .5)}}
+  box-shadow:0 0 0 var(--wqband) ${C.cyanElectric},inset 0 0 0 1px ${C.tileEdge},inset 0 2px 0 ${C.tileHighlight},inset 0 -2px 0 ${alpha(C.tileEdge, .35)},0 1px 2px ${alpha(C.ink, .22)},0 1px 0 ${alpha(C.tileEdge, .5)}}
   100%{outline:0 solid transparent}}
 .wq-slot-msg{height:52px;min-height:52px;display:flex;flex-direction:column;align-items:center;justify-content:center;margin-top:4px}
 /* A3-014 — the dashed form is the teaching payload of the feedback sentence,

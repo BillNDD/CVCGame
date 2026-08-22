@@ -411,7 +411,9 @@ export async function soundingTile(page) {
     const neighbours = tiles.filter((t) => t !== pop).map((t) => { const b = t.getBoundingClientRect(), s = getComputedStyle(t); return { text: t.textContent.trim(), content: { left: b.left + parseFloat(s.paddingLeft), right: b.right - parseFloat(s.paddingRight), top: b.top + parseFloat(s.paddingTop), bottom: b.bottom - parseFloat(s.paddingBottom) } }; });
     const outer = { left: r.left - reach, right: r.right + reach, top: r.top - reach, bottom: r.bottom + reach };
     const intrudes = neighbours.filter((n) => outer.left < n.content.right && outer.right > n.content.left && outer.top < n.content.bottom && outer.bottom > n.content.top).map((n) => n.text);
-    return { text: pop.textContent.trim(), outline: { color: cs.outlineColor, width: cs.outlineWidth, style: cs.outlineStyle, offset: cs.outlineOffset }, shadow: cs.boxShadow,
+    const row = pop.closest(".wq-slot-tiles");
+    const density = innerHeight <= 520 ? "shortStage" : row && row.classList.contains("wq-crowd") ? "crowd" : row && row.classList.contains("wq-many") ? "many" : "reveal";
+    return { text: pop.textContent.trim(), density, outline: { color: cs.outlineColor, width: cs.outlineWidth, style: cs.outlineStyle, offset: cs.outlineOffset }, shadow: cs.boxShadow,
       face: cs.backgroundColor, restingFace: restCs.backgroundColor, ink: cs.color, lift: lum(cs.backgroundColor) / lum(restCs.backgroundColor), ringPx: ring, spreadPx: Number(spread) || 0, intrudes,
       boxes: tiles.map((t) => { const b = t.getBoundingClientRect(); return [b.x, b.y, b.width, b.height].map((v) => +v.toFixed(2)); }) };
   });
@@ -423,7 +425,11 @@ export function soundingHold(s, tokens, restingBoxes) {
   if (s.outline.color !== rgbOf(tokens.cyanStructural) || s.outline.style !== "solid" || !["3px", "4px"].includes(s.outline.width) || s.outline.offset !== "0px")
     findings.push({ kind: "ring-not-structural", detail: "the sounding ring is " + s.outline.width + " " + s.outline.style + " " + s.outline.color + " at " + s.outline.offset + "; bible 11 asks 3-4 px solid cyanStructural at offset 0" });
   if (!s.shadow.includes(rgbOf(tokens.cyanElectric))) findings.push({ kind: "band-missing", detail: "the box-shadow names no cyanElectric: " + s.shadow.slice(0, 80) });
-  if (s.spreadPx && s.spreadPx < s.ringPx) findings.push({ kind: "band-inside-ring", detail: "the band's spread " + s.spreadPx + " px is inside the ring " + s.ringPx + " px (9.2)" });
+  if (s.spreadPx < s.ringPx) findings.push({ kind: "band-inside-ring", detail: "the band's spread " + s.spreadPx + " px is inside the ring " + s.ringPx + " px (9.2) - a zero spread is no band" });
+  /* and the spread is ring plus the ruled band for the row's density: 9 on
+     the reveal row, 7 at six tiles, 5 at eight, 7 on the short stage */
+  const want = { reveal: 9, many: 7, crowd: 5, shortStage: 7 }[s.density || "reveal"];
+  if (s.spreadPx !== want) findings.push({ kind: "band-not-ruled", detail: "the spread is " + s.spreadPx + " px on the " + (s.density || "reveal") + " density; ring plus the ruled band is " + want });
   if (!(s.lift >= 1.08 && s.lift <= 1.12)) findings.push({ kind: "lift-off-band", detail: "the face lifts " + ((s.lift - 1) * 100).toFixed(1) + "%; bible 11 asks 8-12%" });
   if (s.restingFace !== rgbOf(tokens.tileFace)) findings.push({ kind: "face-not-token", detail: "a resting tile's face is " + s.restingFace + ", not tileFace" });
   if (s.ink !== rgbOf(tokens.ink)) findings.push({ kind: "ink-not-token", detail: "the tile's letters are " + s.ink });
