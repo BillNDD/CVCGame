@@ -226,7 +226,13 @@ describe("G2 properties", () => {
         const m1 = migrate(clone(x));
         const m2 = migrate(clone(m1));
         expect(m2).toEqual(m1);
-        if (m1.level < 1 || m1.level > 21) return false;
+        /* 100, not 21: the ladder's own size, re-derived at the 2026-08-20
+           cutover and MISSED here. The property draws hostile inputs at
+           random, so it only fails when a draw migrates above 21 - which is
+           why it passed eleven runs in a row and then failed twice in one
+           evening (open-faults Z). A literal, per E4, and the one number in
+           this file that must move when the ladder does. */
+        if (m1.level < 1 || m1.level > 100) return false;
         if (!Number.isInteger(m1.perfectStreak) || m1.perfectStreak < 0 || m1.perfectStreak > 2) return false;
         if (!Object.values(m1.words).every((ws) => ws.box >= 0 && ws.box <= 5)) return false;
         const q = buildSession(m1);

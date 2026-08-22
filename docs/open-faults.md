@@ -2144,7 +2144,7 @@ is a ruling on what free play offers a pre-ladder child, and the chooser matchin
   re-derive. An engineering change, deferred past the cutover commit so the
   audited tree ships exactly as audited.
 
-## Z. G19's pristine control failed once, unreproducibly (2026-08-21)
+## Z. A random property caught a stale bound, and the gate could not say so - opened and CLOSED 2026-08-21
 
 - **Where it lives** `tools/app-mutants.mjs`, the pristine-suite control that
   runs before the mutant loop.
@@ -2165,11 +2165,21 @@ is a ruling on what free play offers a pre-ladder child, and the chooser matchin
   than as a suite that does not pass. That distinction is the mutant loop's
   own three-outcome rule (killed / survived / errored), which the control
   guarding it had never had.
-- **What done means** The next occurrence names a test or names the runner.
-  If it names a test, that test is the fault. If it names the runner and
-  repeats, the cause is the environment - the first suspects, in order: a
-  vitest worker from the previous gate still exiting on Windows, the shared
-  vite cache under node_modules, and machine starvation after G5's
-  seventy-three consecutive suite runs. Until it recurs with a name, this
-  entry is the record; it was NOT retried until green, and the run that
-  found it stands in the log as FAIL.
+- **CLOSED the same evening, and the environment hypothesis was WRONG.**
+  Run 13 - the single re-run the deflaking rule allows after a correction -
+  failed at G1 instead, and G1 prints its child's output: a property in
+  `tests/properties.test.js` asserted `m1.level <= 21`, the PRE-CUTOVER
+  ladder's size, which the 2026-08-20 conversion missed. The property draws
+  hostile saves at random, so it fails only when a draw carries a level
+  above 21 - plain JSON draws never do (measured: 4,000 of them reach level
+  2 at most), and only the shaped hostile record with its own `level` field
+  does. That is the whole shape of the incident: eleven clean runs, then two
+  failures in one evening, in two different gates. G19's control was the
+  first to meet it and could only say "the suite does not pass"; the naming
+  it gained in this entry's fix is what let the second occurrence be read in
+  seconds. The bound is now 100, a literal per E4, with the ladder's size
+  named in the comment; five randomized runs of the property suite pass.
+- **What the incident is kept for** A gate that cannot name its failure
+  costs a release cycle - run 12 produced an hour of evidence pointing at
+  nothing. Both mutation controls now print every failing line and tell a
+  failing suite from a crashed runner. Neither run was retried until green.
