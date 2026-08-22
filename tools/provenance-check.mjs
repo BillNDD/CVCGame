@@ -50,6 +50,7 @@ export function lockFromSources(css = readFileSync("app/src/wq-css.js", "utf8"),
     band: Object.fromEntries(Object.entries(spread).map(([k, v]) => [k, v === null || r === null ? null : v - r])),
     builditBox: num(screen, /const SLOT = (\d+), TILE = \d+/),
     extraPerLetter: num(screen, /\(tile \|\| ""\)\.length\) - 1\) \* (\d+)/),
+    haloInset: num(cssBlock(css, ".wq-slotrow"), /padding:(\d+)px/),
   };
 }
 export function lockDrift(lock, fromSources) {
@@ -60,6 +61,7 @@ export function lockDrift(lock, fromSources) {
   for (const [k, v] of Object.entries(fromSources.band)) if (lock.band?.[k] !== v) out.push(`lock.band.${k} is ${lock.band?.[k]}, the stylesheet says ${v}`);
   if (lock.builditBox !== fromSources.builditBox) out.push(`lock.builditBox is ${lock.builditBox}, the screen says ${fromSources.builditBox}`);
   if (lock.extraPerLetter !== fromSources.extraPerLetter) out.push(`lock.extraPerLetter is ${lock.extraPerLetter}, the screen says ${fromSources.extraPerLetter}`);
+  if (lock.haloInset !== fromSources.haloInset) out.push(`lock.haloInset is ${lock.haloInset}, the stylesheet says ${fromSources.haloInset}`);
   return out;
 }
 
@@ -99,17 +101,20 @@ if (process.argv.includes("--self-test")) {
   ok.push(["shares that break the ceiling are refused", judge(over).some((p) => p.includes("over the"))]);
   const spent = JSON.parse(JSON.stringify(real)); spent.families.tiles.spent = -1;
   ok.push(["a negative spent is refused", judge(spent).some((p) => p.includes("outside 0.."))]);
-  const closed = JSON.parse(JSON.stringify(real)); closed.families.tiles.closed = "2026-08-22";
-  ok.push(["a closed family with no originality verdict or checkpoints is refused", judge(closed).some((p) => p.includes("closed without an originality")) && judge(closed).some((p) => p.includes("closed without both checkpoints"))]);
+  const closed = JSON.parse(JSON.stringify(real)); closed.families.tiles.closed = "2026-08-22"; closed.families.tiles.checkpoints = closed.families.tiles.checkpoints.filter((c) => c.stage !== 7);
+  ok.push(["a closed family with only checkpoint 1 is refused", judge(closed).some((p) => p.includes("closed without both checkpoints"))]);
   const drift = JSON.parse(JSON.stringify(real)); drift.families.tiles.share = 1;
   ok.push(["a family share that differs from the table is refused", judge(drift).some((p) => p.includes("is not the shares table's"))]);
   /* the lock against the sources: the reader finds every number, and a
      planted band of 7 is refused */
   const src = lockFromSources();
-  ok.push(["the lock reader finds the ring, the offset, every band and radius, the box and the letter step in the sources",
-    src.ring === 3 && src.ringOffset === 0 && Object.values(src.band).every((v) => Number.isInteger(v)) && Object.values(src.radii).every((v) => Number.isInteger(v)) && src.builditBox === 64 && src.extraPerLetter === 26]);
+  ok.push(["the lock reader finds the ring, the offset, every band and radius, the box, the letter step and the halo inset in the sources, at their literals",
+    src.ring === 3 && src.ringOffset === 0 && JSON.stringify(src.band) === JSON.stringify({ reveal: 6, many: 4, crowd: 2, shortStage: 4 })
+    && JSON.stringify(src.radii) === JSON.stringify({ reveal: 12, many: 9, crowd: 7, shortStage: 8, buildit: 14 }) && src.builditBox === 64 && src.extraPerLetter === 26 && src.haloInset === 4]);
   const wideBand = JSON.parse(JSON.stringify(real)); wideBand.families.tiles.lock.band.reveal = 7;
-  ok.push(["a lock whose band differs from the stylesheet is refused", judge(wideBand).some((p) => p.includes("lock.band.reveal is 7"))]);
+  ok.push(["a lock whose band differs from the stylesheet is refused, naming both numbers", judge(wideBand).some((p) => p.includes("lock.band.reveal is 7, the stylesheet says 6"))]);
+  const closedEmpty = JSON.parse(JSON.stringify(real)); closedEmpty.families.tiles.closed = "2026-08-22"; closedEmpty.families.tiles.checkpoints = []; closedEmpty.families.tiles.originality = null;
+  ok.push(["a closed family with an empty checkpoints array or a null originality is refused", judge(closedEmpty).filter((p) => p.includes("closed without")).length === 2]);
   for (const [name, pass] of ok) console.log((pass ? "ok   " : "FAIL ") + name);
   const failed = ok.filter(([, p]) => !p).length;
   console.log(`\nprovenance controls: ${ok.length - failed} passed, ${failed} failed`);

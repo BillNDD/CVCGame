@@ -346,8 +346,10 @@ function run(d) {
      repository's - each row's selector must exist in the app's stylesheet
      AND in the reference's copy, and the block must name every token the
      row lists as ${C.token}. Prose cells ("3 px") are not bound. Fewer than
-     8 rows is a moved anchor. The sword rule lives only in the app (the
-     reference has no sentence stage), and the table says so by selector. */
+     8 rows is a moved anchor. Two selectors live only in the app and are
+     exempt from the reference check by name: .wq-sword-open (the reference
+     has no sentence stage) and @keyframes wqpop (no sound-out animation);
+     the bible's sentence under the table names the same two. */
   const states = stateTable(d.bible);
   if (states.length < 8) found.push(`the art bible's section 11 state table parses to ${states.length} rows - the anchor moved, and this rule is checking nothing`);
   const APP_ONLY = new Set([".wq-sword-open", "@keyframes wqpop"]);   // the reference build has no sentence stage and no sound-out animation

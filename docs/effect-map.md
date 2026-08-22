@@ -59,7 +59,7 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 11 | the ceramic tile states | 21: a multi-letter tray tile is as wide as its slot - sh is 90 px where s is 64 |
 | 12 | the ceramic tile states | 22: after a miss the filled slots wear the arrangement ring while the built sounds play, and lose it when the tray is handed back |
 | 13 | the ceramic tile states | 23: the scaffold rings one slot at a time, in sound order, with the letter at .6 inside it |
-| 14 | the ceramic tile states | 24: a completed word wears the warm halo on its filled slots, and every tile is a disabled control |
+| 14 | the ceramic tile states | 24: a completed word wears one halo on the slot row round the assembled word, and every tray tile is disabled and used |
 | 15 | the ceramic tile states | 25: a win during the scaffold takes the cue ring off the slot it was on |
 | 16 | Build-a-sound, for a child still on the ladder | 9: Pre 1 gets no tray at all — it has met no letters |
 | 17 | Build-a-sound, for a child still on the ladder | 10: the tray is exactly what the rung has taught, and grows with it |
@@ -633,7 +633,7 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 5 | the palette is pinned | 3c: the open sentence word's ring is cyanStructural on the gradient, clearing 3:1 on every stop; the action red it replaced is held below as the control |
 | 6 | the palette is pinned | 8: the ceramic tile family (art step 1) - every face, edge, ring and state at its literal ratio on the surface it sits on |
 | 7 | the palette is pinned | 9: the scaffold letter at .60 clears 3:1 on the slot and on the old ground; .28 is held below as the withdrawn control |
-| 8 | the palette is pinned | 10: the eleven tile blocks the two stylesheet copies share agree character for character; a drift in a block's last line is refused through the reader; the band literals are pinned |
+| 8 | the palette is pinned | 10: the twelve tile blocks the two stylesheet copies share agree character for character; a drift in a block's last line is refused through the reader; the band literals are pinned |
 | 9 | the palette is pinned | 4: teaching text clears 7:1 and the action blue 4.5:1, at literal ratios |
 | 10 | the palette is pinned | 5 (control): the one pair the bible admits below 3:1 measures below it, the two withdrawn edges measure below it, and the arithmetic agrees with WCAG's own anchors |
 | 11 | the palette is pinned | 7: alpha() reproduces the literals it replaced, and the two theme colours the build cannot derive equal skyBlue |

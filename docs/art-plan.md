@@ -303,8 +303,8 @@ moved anchors, `g8_axe_violations_max` 0, the home snapshot unchanged.
 **How checkpoint 2 was judged for a family that lands no file.** The scenery statistic
 section 17 names is first built by the step that lands a PNG (the garden scene); the tile
 family's checkpoint 2 was judged on tokens tests 8–10, the census's sounding-state cell,
-and device pixels sampled on the renders (ring 13, band at 4.5 dpr, rim 4; the lifted face
-#fbe59d) — stated here, in the bible's section 11 and in the provenance row, so the
+and device pixels sampled on the renders at 4.5 dpr (ring 13 device px, band 27 on an open side and 13
+toward a neighbour, rim 4; the lifted face #fbe59d) — stated here, in the bible's section 11 and in the provenance row, so the
 section 17 sentence does not imply a measurement that did not happen.
 
 **Ruled by the owner (2026-08-22, the ceramic-tiles page, each with the real render):**
@@ -581,8 +581,8 @@ Newest last. A verdict names the chair, the step, the word, and the findings.
   `tile-moved`, its title naming what it plants; the provenance row filled at the re-
   judgement; a used tile wears the empty slot's dashed `boundary` rim (15.1: the slot face
   alone was invisible in greyscale); the cue slot's dashes go transparent so the ring is the
-  one edge; the band narrowed to 5 px (the owner's page said 6; at 6 it abutted the next
-  tile's rim) and the short stage's band set to 4, with the --wqband literals pinned; one
+  one edge; the band narrowed to 5 px (withdrawn the next round: see below) and the short
+  stage's band set to 4, with the --wqband literals pinned; one
   halo round the assembled word, drawn on the slot row, and every tray tile used on a win;
   the sentence render re-captured mid-pop; how checkpoint 2 was judged stated; bible 11's
   rule-12 sentence names the two app-only selectors and tokens test 10 names the twelve
@@ -592,3 +592,22 @@ Newest last. A verdict names the chair, the step, the word, and the findings.
   corrected; the open sentence word's keyboard focus recorded as open-faults AD for the
   reading-surface step. Re-judged by the art director (checkpoint 2 and the after pass)
   and the antagonist, fresh; their verdicts follow.
+- 2026-08-22 — Step 1 re-judged: **checkpoint 2 fail** on two points, both the record's;
+  the art director and the antagonist not satisfied on the same two, seven more taken.
+  (1) The previous round's "one CSS px of sky between the band and the next rim" — and the
+  5 px band made for it — was arithmetic no pixel supported: toward a neighbour the band
+  shows gap minus ring (3 / 1 / 0 / 1 CSS px by density) whatever its width, and lies under
+  the neighbour's box for the rest; the round-1 finding's own "done means" (band 5 for one
+  pixel of sky) rested on the same mistake. Taken the honest way: the band is the owner's
+  ruled 6 again, and the stylesheet comment, bible 11, this plan and the provenance row say
+  exactly what renders. (2) The provenance row's checkpoints and originality filled from
+  the verdicts — checkpoint 1 pass (value, greyscale), the 18.2 verdict "a material, not a
+  character — passes", checkpoint 2's verdict recorded as given and re-judged on the final
+  set — and the family closes with a date, so the reader's refusals bind it. Also taken:
+  the halo sits 4 px off the rims (a padding on the slot row, derived into the lock by
+  `lockFromSources`); the lock self-test holds every band and radius at its literal and the
+  refused band names both numbers; a closed family with an empty checkpoints array is
+  refused; the electric-area figure states its tile and profile; tokens test 10's title
+  says twelve; buildit test 24's title says where the halo is; doc-truth's rule-12 comment
+  names both app-only selectors; the next capture round adds a focus render. Re-judged by
+  the art director (checkpoint 2 on the final set, and the step) and the antagonist.

@@ -524,13 +524,18 @@ family (8.1's row is amended): a solid `tileFace`, a one-pixel `tileHighlight` a
 the edge's shade below, a one-pixel `tileEdge` rim, a contact shadow — every inset at zero
 blur, the rim and bevel in the padding ring and never under the letters, the 9-slice the
 radius per density (12, 9, 7; 8 on the short stage; 14 in Build-it). **Sounding:** a 3 px
-solid `cyanStructural` ring at offset 0, a `cyanElectric` band **outside** it of 5 px (4 at
-six tiles, 2 at eight, 4 on the short stage — so ring and band never enter a neighbour's
-letters and one CSS px of sky always stays between the band and the next tile's rim; the
-owner's page said 6, and the art director's checkpoint found a 6 px band abutting the
-neighbour's edge, which is the amendment), and the face lifted to `tileFaceLit` (+11.4 %
-luminance) — one `wqpop` keyframe set, `steps(1,end)`, the measured clip length;
-owner-ruled on the ceramic-tiles page over the ring alone. The same
+solid `cyanStructural` ring at offset 0, a `cyanElectric` band **outside** it of 6 px (4 at
+six tiles, 2 at eight, 4 on the short stage — the owner's ruled numbers), and the face
+lifted to `tileFaceLit` (+11.4 % luminance) — one `wqpop` keyframe set, `steps(1,end)`, the
+measured clip length; owner-ruled on the ceramic-tiles page over the ring alone. What
+renders, measured on the checkpoint renders: the full band shows above, below and on a
+tile's open sides; toward a neighbour it shows gap minus ring — 3, 1, 0 and 1 CSS px on
+the reveal, six tiles, eight tiles and the short stage — and the rest lies under the
+neighbour's box; it is a glow, never a boundary, and the ring is closed on all four sides
+at every density. (A first record claimed one pixel of sky between the band and the next
+rim, and a 5 px band to keep it; the pixels showed none and the arithmetic allows none
+while ring plus band exceed the gap, so the band is the ruled 6 and the record says what
+is there.) The same
 cyan ring marks the open sentence word. **Pressed:** the edge at .08 under the rim, the
 elevation dropped, no movement. **Used:** the `slot` face under the same dashed
 `boundary` edge the empty slot wears — a non-colour mark (15.1), because the slot face
@@ -542,7 +547,7 @@ at a time, its dashes transparent so the ring is the one edge, with the letter i
 opacity .60 (3.28:1, owner-ruled over the .28 that measured 1.65). **Different
 arrangement:** a 3 px `purpleStructural` ring round the filled slots while the built sounds
 play back, owner-ruled over a tint and over none. **Completed:** one static `amberFill`
-halo round the assembled word, drawn on the slot row. **Focus:** a dashed `cyanStructural` ring at
+halo round the assembled word, drawn on the slot row, 4 px off the tiles' rims. **Focus:** a dashed `cyanStructural` ring at
 offset 2, so the keyboard's mark and the sounding mark differ by shape. None of the new
 states animates; reduced motion changes nothing about them.
 

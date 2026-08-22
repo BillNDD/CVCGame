@@ -294,7 +294,7 @@ describe("the ceramic tile states", () => {
     expect(document.querySelectorAll(".wq-ghost").length).toBe(0);
   });
 
-  it("24: a completed word wears the warm halo on its filled slots, and every tile is a disabled control", async () => {
+  it("24: a completed word wears one halo on the slot row round the assembled word, and every tray tile is disabled and used", async () => {
     const tray = mount("cat");
     for (const t of tray.answer) fireEvent.click(tileFor(t)[0]);
     await flush(50);

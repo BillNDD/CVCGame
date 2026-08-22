@@ -181,7 +181,7 @@ describe("the palette is pinned", () => {
     expect(ref).toContain(".wq-ghost{opacity:.6}");
   });
 
-  it("10: the eleven tile blocks the two stylesheet copies share agree character for character; a drift in a block's last line is refused through the reader; the band literals are pinned", () => {
+  it("10: the twelve tile blocks the two stylesheet copies share agree character for character; a drift in a block's last line is refused through the reader; the band literals are pinned", () => {
     /* E2: the reference build stays one file, and its stylesheet copy
        carries the tile rules the app ships. Compared here, by block: .wq-tile,
        .wq-tilebtn, its :active, .wq-used, .wq-empty, .wq-cue, .wq-empty.wq-cue,
@@ -204,12 +204,14 @@ describe("the palette is pinned", () => {
        different block - a reader that stopped early would miss it */
     const tileBlock = block(ref, ".wq-tile{");
     const lastLine = tileBlock.slice(tileBlock.lastIndexOf("\n") + 1);
-    const driftedSrc = ref.replace(tileBlock, tileBlock.slice(0, tileBlock.lastIndexOf("\n") + 1) + lastLine.replace("--wqband:8px", "--wqband:9px"));
+    const driftedSrc = ref.replace(tileBlock, tileBlock.slice(0, tileBlock.lastIndexOf("\n") + 1) + lastLine.replace("--wqband:9px", "--wqband:8px"));
     expect(driftedSrc).not.toBe(ref);
     expect(block(driftedSrc, ".wq-tile{")).not.toBe(block(css, ".wq-tile{"));
-    /* the band, pinned: ring 3 plus band 5 / 4 / 2 / 4 by density */
-    expect(block(css, ".wq-tile{")).toContain("--wqband:8px");
-    expect(block(ref, ".wq-tile{")).toContain("--wqband:8px");
+    /* the band, pinned: ring 3 plus band 6 / 4 / 2 / 4 by density, the
+       owner's ruled numbers; toward a neighbour the band shows gap minus
+       ring (3 / 1 / 0 / 1) and the rest lies under the neighbour's box */
+    expect(block(css, ".wq-tile{")).toContain("--wqband:9px");
+    expect(block(ref, ".wq-tile{")).toContain("--wqband:9px");
     expect(css).toContain("border-radius:9px;--wqband:7px");
     expect(css).toContain("border-radius:7px;--wqband:5px");
     expect(css).toContain("font-size:clamp(.85rem,4svh,1.1rem);--wqband:7px");
