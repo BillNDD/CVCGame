@@ -630,6 +630,14 @@ Explain storage, update, or audio failures plainly and calmly.
 | Child target | 56 px minimum |
 | Adult target | 44 px minimum |
 
+**Ruling (2026-08-22, the two-rulings page): a Build-it tile's accessible name is its
+grapheme** — `Tile sh`, `Tile i`, `Tile p` — as it is today. The reading chair asked for a
+ruling because a screen reader spells a string it has no word for, and S4 keeps letter
+names out of the app's own voice; the owner ruled that S4 binds what the app says and not
+the assistive technology, and that a grown-up driving the tray by ear needs to know which
+tile is which. A positional name ("sound tile 2 of 4") was costed and refused: it says
+nothing about the sound, so the word could not be built by ear at all.
+
 ### 15.1 Non-colour cues
 
 Every instructional colour state also uses an outline, position, label, icon, timing,
@@ -681,6 +689,18 @@ surface elevation, or pattern. Neon glow does not count as the required structur
 12 MB for all of it, with 2× and 3× assets for every state and crop, as a ceiling in the
 baseline that a gate after the build enforces. Measured at the ruling: the install is 40 MB
 in 1,490 files, 39 MB of it the voice pack.
+
+**Ruling (2026-08-22, the two-rulings page): the export ships as written.** The council's
+art director asked that the install carry 1× masters only, snapped in code; the owner was
+shown the measurements — the browser's nearest-neighbour render of a 1× master at k = 2
+and k = 3 is pixel-identical to the 2× and 3× files, and the pair costs 3.1× the master's
+bytes on a 64 × 64 test sprite — and chose the ruling as written: **2× and 3× files for
+every state and crop, picked by device pixel ratio and scaled.** Section 8.2's snap stands
+beside it: whichever file is picked, its CSS size is snapped so every logical pixel lands on
+a whole number of device pixels, and a 2× or 3× file snapped that way renders the same
+pixels as a snapped master would. What this ruling spends is bytes, inside the 12 MB; the
+census's snap cell reads the logical width from `data-wq-art-w`, so it measures the same
+thing whichever file is on the screen.
 
 ## 17. AI-assisted art workflow
 

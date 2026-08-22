@@ -158,16 +158,17 @@ Each chair's findings and the answer to each are in the log at the end of this d
   `g16_doc_rules` 10 to 11, `g24_vocab`, the engine's 2400-line ceiling (2,167 today), and
   `docs/file-map.md`'s gate count.
 
-**Open for the owner (council findings that contradict or need a ruling):**
+**Ruled by the owner (2026-08-22, the two-rulings page; recorded in the bible, 16.2
+and 15):**
 
-1. The budget ruling said 2× and 3× files for every state and crop. The art director:
-   shipping scaled files is the wrong mechanism — on the Pixel 7 (2.625) a 3× file scales by
-   8/3, the uneven-pixel artefact the bible rejects; ship 1× masters and let the code snap
-   each art pixel to a whole number of device pixels, which the census then measures. The
-   snapping is built either way; the export question waits on the owner.
-2. What a screen reader calls a Build-it tile. Today "Tile sh", which a screen reader
-   spells as letter names. The reading chair asks for a ruling: the grapheme as today, a
-   positional name ("sound tile 2"), or deferred to the icon step.
+1. The export ships **as the budget ruling was written — 2× and 3× files for every state
+   and crop, picked by device pixel ratio and scaled** — over the art director's and the
+   implementer's recommendation of 1× masters snapped in code. The owner was shown the
+   measurements (pixel-identical at k = 2 and k = 3; 3.1× the bytes) and chose B. The
+   8.2 snap stands beside it, so the screen shows the same pixels either way; the cost is
+   bytes, inside the 12 MB.
+2. A Build-it tile's accessible name stays its **grapheme, "Tile sh"**. S4 binds the
+   app's voice, not the assistive technology; a positional name was refused.
 
 ### Steps 1 to 11 — the bible's migration order, amended
 
@@ -238,3 +239,6 @@ Newest last. A verdict names the chair, the step, the word, and the findings.
   arm moved from 320 × 568 to 640 × 1136 because CSS zoom halves a screen's CSS pixels and
   320 zoomed is a 160 px screen no device owns. Counts by a run: novelties scope 68 cells
   (59 + 9 controls), all green on chromium. Bible 10's ruling amended to match.
+- 2026-08-22 — The two open items ruled by the owner on the two-rulings page: export B (2×
+  and 3× files as written, over the recommendation of 1× masters; measurements shown) and
+  tile name A (the grapheme). Recorded in the bible, sections 16.2 and 15, and above.
