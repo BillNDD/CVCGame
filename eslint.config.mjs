@@ -19,7 +19,7 @@ export default [
   {
     ignores: [
       "node_modules/", "app/node_modules/", "app/dist/", "coverage/",
-      "reference/", "tests/generated/", "tools/fixtures/",
+      "reference/", "tests/generated/", "tools/fixtures/", ".stryker-tmp/",
     ],
   },
   {

@@ -7,6 +7,7 @@ import { execSync, spawn } from "node:child_process";
 import { readFileSync, writeFileSync, mkdirSync, rmdirSync, readdirSync, statSync, existsSync, rmSync } from "node:fs";
 import { createRequire } from "node:module";
 import { createHash } from "node:crypto";
+import { payloadHash as hashPayload } from "./payload-hash.mjs";
 
 /* THE CANONICAL FORM of an evidence file (P0 of the speed plan, 2026-08-21):
    everything a second run of the SAME bytes must reproduce, and nothing a
@@ -597,22 +598,7 @@ if (skipped.length) {
    evidence file this machine wrote said "payload not built" while the build
    sat right there (found by the speed audit, 2026-08-21). Forward slashes
    whatever the platform, so the same bytes hash the same everywhere. */
-const walk = (dir) => {
-  const out = [];
-  for (const name of readdirSync(dir)) {
-    const p = `${dir}/${name}`;
-    if (statSync(p).isDirectory()) out.push(...walk(p)); else out.push(p);
-  }
-  return out;
-};
-const payloadHash = (() => {
-  if (!existsSync("app/dist")) return null;
-  const files = walk("app/dist").sort();
-  if (!files.length) return null;
-  const h = createHash("sha256");
-  for (const f of files) { h.update(f); h.update(createHash("sha256").update(readFileSync(f)).digest("hex")); }
-  return `sha256:${h.digest("hex")}`;
-})();
+const payloadHash = hashPayload("app/dist");   // tools/payload-hash.mjs: the release command reads the same function
 /* A run over a modified tree certifies nothing: the gates measured files
    that are not the commit. docs/testing-gauntlet.md promised this and the
    status ignored it until a review pointed it out, 2026-08-10. Exit code

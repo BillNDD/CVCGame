@@ -27,7 +27,10 @@ export default defineConfig({
        them, and `npm run check` goes red for a reason that has nothing to do
        with the game. The census must never become a gate by accident: it is a
        one-off investigation, run on demand with `npm run census`. */
-    exclude: ["**/node_modules/**", "**/dist/**", "tests/census/**"],
+    /* .stryker-tmp is the mutation sweep's sandbox: a COPY of this tree with
+       mutant switches in it. The real check must never run the copy's tests
+       (2026-08-22: it did, and failed on the copied census specs). */
+    exclude: ["**/node_modules/**", "**/dist/**", "tests/census/**", "**/.stryker-tmp/**"],
     coverage: {
       provider: "v8",
       include: ["src/engine.js", "app/src/**/*.{js,jsx}"],

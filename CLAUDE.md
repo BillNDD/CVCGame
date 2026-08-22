@@ -299,7 +299,12 @@ exclusions are recorded in SPEC section 12.
   release. Six seconds bought both back.
   The full `npm run gauntlet` — mutants, coverage, the build and the browser gates — runs
   when the owner asks for a beta or a version release, and a release is cut only from a
-  green gauntlet. CI runs the full gauntlet only at that same occasion - the release's v* tag
+  green gauntlet — by `npm run release` (owner-ruled 2026-08-22, hardening decision 1),
+  which refuses a dirty tree, evidence that is not PASS on HEAD, a rebuild whose bytes
+  differ from the proved bytes, a version with no changelog entry, an existing tag, or a
+  push that would not fast-forward, and otherwise pushes main and cuts the tag and the
+  release at HEAD itself. Beta 24 and beta 25 were both tagged at a stale main by hand;
+  that step no longer exists. CI runs the full gauntlet only at that same occasion - the release's v* tag
   triggers it, a recorded second opinion on the exact released commit - and on demand from
   the Actions tab. A red there is fixed before anything else moves. Between releases, a push
   is covered by the check and by the deploy workflow's test suite, nothing more: that is the

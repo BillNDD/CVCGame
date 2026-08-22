@@ -695,6 +695,22 @@ three (320/390/1280). Two mandatory fixes ride with any ruling: `census_cells` 4
 2,809 (E6, six times stale), and a `census:novelties` entry point so the every-beta
 ruling is runnable without the every-other-beta body.
 
+### The release command (hardening decision 1, owner-ruled 2026-08-22)
+
+`npm run release` (`tools/release.mjs --go`; `npm run release:dry` prints the checks and
+stops) is the only way a release is cut. It gathers facts - branch, porcelain, the
+evidence file, a fresh build's payload hash through `tools/payload-hash.mjs` (the same
+function the gauntlet writes with, so the two cannot drift), the app version, the family
+changelog's entry for it, the tags local and remote, and whether origin/main is an
+ancestor of HEAD - and a pure `judge` refuses on any of thirteen grounds, each proved by a
+planted fact in `--self-test` (15 controls). The one that earned it: evidence for a commit
+that is not HEAD, the beta 24 and beta 25 shape. With `--go` it pushes main, creates the
+tag and the GitHub release at HEAD's full sha with the changelog entry as notes, reads
+the remote back and refuses after the fact if the tag is not at HEAD. Its first dry run,
+on the tree that had just released beta 26 by hand, refused on three true grounds (a
+dirty tree, the tag existing locally and remotely) and accepted the evidence, the commit
+and the rebuilt bytes.
+
 ### Owner-queued: harden and deflake the gates (2026-08-21, after beta 22)
 
 The owner queued a twelve-point programme the same day - one schema-validated gate
