@@ -143,7 +143,17 @@ const MUTANTS = [
   ["a digraph loses its single sound", 'ck: "k", ff: "f", ll: "l", ss: "s", zz: "z",', 'ff: "f", ll: "l", ss: "s", zz: "z",'],
 ];
 
-const run = (cmd, args) => { try { execFileSync(cmd, args, { stdio: "pipe" }); return true; } catch { return false; } };
+/* The last failure this helper swallowed, so the pristine control can SAY
+   what went wrong instead of only that something did. Beta 25's gauntlet
+   spent a run on "the pristine suite does not pass" with no name attached,
+   and the suite passed three times in a row afterwards - a report that
+   cannot name the failure cannot be diagnosed (the owner's deflaking rule,
+   2026-08-21). */
+let lastRunOutput = "";
+const run = (cmd, args) => {
+  try { execFileSync(cmd, args, { stdio: "pipe" }); lastRunOutput = ""; return true; }
+  catch (e) { lastRunOutput = String(e.stdout || "") + String(e.stderr || ""); return false; }
+};
 
 /* A mutant is KILLED only when a TEST FAILED. A non-zero exit alone is not
    proof: a mutant that crashes the runner or breaks the environment exits
@@ -208,7 +218,22 @@ let missing = 0;
    reads as "every mutant killed" while no mutation testing happened. */
 run("node", ["tools/extract-engine.mjs"]);
 if (!run(process.execPath, ["node_modules/vitest/vitest.mjs", "run", "--reporter=dot"])) {
-  console.error("Runner control FAILED: the pristine suite does not pass; mutation results would be meaningless.");
+  /* TWO different failures, told apart (2026-08-21). A non-zero exit alone
+     does not mean a test failed: the runner can crash, run out of a handle,
+     or be starved of the machine, and calling that "the pristine suite does
+     not pass" sent a whole gauntlet chasing a suite that then passed eleven
+     times in a row. The mutant loop below has always made this distinction -
+     killed, survived, ERRORED - and the control that guards it did not.
+     Both still FAIL the gate, closed; they now fail by different names, and
+     the failing lines are printed either way. */
+  const out = lastRunOutput.replace(ANSI, "");
+  const failed = testsFailed(out);
+  console.error(failed > 0
+    ? `Runner control FAILED: ${failed} test(s) fail on the pristine tree; mutation results would be meaningless.`
+    : "Runner control ERRORED: the runner exited non-zero with NO failing test - the environment, not the suite. Re-run; if it repeats, it is a real fault.");
+  const lines = out.split(String.fromCharCode(10));
+  for (const l of lines) if (/(FAIL|×|✕|AssertionError|Error:)/.test(l)) console.error("  " + l.trim().slice(0, 200));
+  console.error("  ---- tail ----" + String.fromCharCode(10) + lines.slice(-25).join(String.fromCharCode(10)));
   process.exit(1);
 }
 

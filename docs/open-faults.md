@@ -2143,3 +2143,33 @@ is a ruling on what free play offers a pre-ladder child, and the chooser matchin
   their clips retire by the amused pattern, and the sentence-count pins
   re-derive. An engineering change, deferred past the cutover commit so the
   audited tree ships exactly as audited.
+
+## Z. G19's pristine control failed once, unreproducibly (2026-08-21)
+
+- **Where it lives** `tools/app-mutants.mjs`, the pristine-suite control that
+  runs before the mutant loop.
+- **What happened** Gauntlet run 12 (beta 25, commit 5406c48) reported
+  "Runner control FAILED: the pristine suite does not pass" and refused the
+  gate. G6 ran the SAME full suite minutes later in the same gauntlet and
+  passed, with 97.3 per cent app-line coverage. Afterwards the suite passed
+  eleven times in a row (three interactive, eight back-to-back in a detached
+  runner) and G19 alone killed all eleven of its mutants, exit 0.
+- **What a child or grown-up experiences today** Nothing. No product code is
+  implicated; the failure is in the gate's own runner, and the gate fails
+  CLOSED, which is the safe direction.
+- **What was learned, and fixed** The control could not say WHAT failed - it
+  printed one sentence and exited - so a whole release run produced no
+  diagnosable evidence. Both mutation gates now print every failing line and
+  the tail, and they tell a failing SUITE from a crashed RUNNER: a non-zero
+  exit with zero failing tests is now named as an environment error rather
+  than as a suite that does not pass. That distinction is the mutant loop's
+  own three-outcome rule (killed / survived / errored), which the control
+  guarding it had never had.
+- **What done means** The next occurrence names a test or names the runner.
+  If it names a test, that test is the fault. If it names the runner and
+  repeats, the cause is the environment - the first suspects, in order: a
+  vitest worker from the previous gate still exiting on Windows, the shared
+  vite cache under node_modules, and machine starvation after G5's
+  seventy-three consecutive suite runs. Until it recurs with a name, this
+  entry is the record; it was NOT retried until green, and the run that
+  found it stands in the log as FAIL.
