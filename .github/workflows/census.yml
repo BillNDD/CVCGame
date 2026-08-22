@@ -1,0 +1,58 @@
+# The deep UX census on a GitHub runner, started by hand from the Actions tab.
+# Owner-ruled 2026-08-21 (the speed plan's census decisions): "Both: a dispatch
+# workflow on a runner, and a measured worker count here". The body of the
+# census - every layout class on every device profile - runs every other beta
+# and had no runner at all; this gives it ubuntu-latest's four cores without
+# tying up the owner's machine. The novelties scope runs every beta and fits
+# here too, for a second opinion. Nothing starts on its own: no push, no tag,
+# no schedule. A flaky cell informs a release, it never blocks one, which is
+# why the gauntlet does not call the census either (docs/testing-gauntlet.md).
+name: Census
+
+on:
+  workflow_dispatch:
+    inputs:
+      scope:
+        description: "full = the every-other-beta body; novelties = the every-beta five"
+        type: choice
+        options: [full, novelties]
+        default: full
+      workers:
+        description: "Playwright workers (the 2026-08-21 plan measures 2 and 4 here)"
+        default: "2"
+
+concurrency:
+  group: census-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  census:
+    runs-on: ubuntu-latest
+    timeout-minutes: 240
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install dependencies
+        run: |
+          npm ci
+          npm ci --prefix app
+      - name: Install the census browser
+        run: npx playwright install --with-deps chromium
+      - name: Run the census and judge its report
+        env:
+          CENSUS_WORKERS: ${{ inputs.workers }}
+        run: |
+          if [ "${{ inputs.scope }}" = "novelties" ]; then npm run census:novelties; else npm run census; fi
+      # The report, the HTML and every failing cell's trace, whatever the verdict:
+      # a red census with no artefact is a red nobody can read.
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: census-${{ inputs.scope }}-${{ github.sha }}
+          path: |
+            .census/report.json
+            .census/html
+            .census/artifacts
+          if-no-files-found: warn

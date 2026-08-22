@@ -11,11 +11,12 @@
  * tile beside a one-letter tile, the longest praise line wrapping under a
  * 56 px control: none of those are covered by a check that renders "cat".
  *
- * WHY NOT BRUTE FORCE. 439 words x 6 viewports x every state is roughly 17,000
- * renders, hours of machine time and a pile of evidence nobody reads. Instead
- * the bank is reduced to LAYOUT-RISK SIGNATURES — tile count, letter count and
- * the widest multi-letter unit — which is 29 classes, not 439. Every class is
- * rendered, plus the widest-glyph extreme inside each class.
+ * WHY NOT BRUTE FORCE. 1,123 words x 8 profiles x every state is tens of
+ * thousands of renders, hours of machine time and a pile of evidence nobody
+ * reads. Instead the bank is reduced to LAYOUT-RISK SIGNATURES — tile count,
+ * letter count and the LENGTH of the widest multi-letter unit — which is 37
+ * classes, not 1,123 (measured 2026-08-22). Every class is rendered, plus the
+ * widest-glyph extreme inside each class.
  *
  * THE SIGNATURE IS MEASURED FROM THE ENGINE, never hand-listed, so a word added
  * tomorrow either falls into a class already covered or creates a new one that
@@ -108,7 +109,15 @@ const WIDE = /[mwq]/g;                       // the widest glyphs in most faces
 function signature(word) {
   const units = chunkWord(word);
   const multi = units.filter((u) => u.length > 1).sort((a, b) => b.length - a.length);
-  return `${units.length}t-${word.length}L-${multi[0] || "none"}`;
+  /* The third term is the widest unit's LENGTH, not its spelling. Owner-ruled
+     2026-08-21 ("Key by grapheme length; keep all 8 profiles"): after the
+     hundred-level cutover the spelling took 66 values and the 29 classes
+     became 256, 2,809 cells, 8.7 hours at one worker - and a class is a
+     LAYOUT risk, so ea and ee in the same slot are the same class. By
+     length the bank falls into 37 classes. The self-extending property is
+     unchanged: a word whose widest unit is a length the bank has never
+     tiled still makes a class of its own. */
+  return `${units.length}t-${word.length}L-${multi[0] ? multi[0].length + "w" : "none"}`;
 }
 
 /* One representative per class, plus the widest-glyph member when it differs.

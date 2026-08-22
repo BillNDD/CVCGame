@@ -23,8 +23,23 @@
  * one engine is not the same sentence as "0 findings" over twenty-one.
  *
  * Run: npm run census:report      Controls: npm run census:report -- --self-test
+ *
+ * TWO SCOPES, owner-ruled 2026-08-21 with the speed plan's census decisions:
+ * the every-other-beta BODY, and the every-beta NOVELTIES (three cells on each
+ * profile, two singletons, six planted-fault controls), which used to be
+ * trapped inside the body. `--novelties` judges the second against its own
+ * floors; without it a novelties-only report is refused by the body's floors,
+ * which is right, because 32 cells are not a census.
+ *
+ * `--run` SPAWNS THE RUNNER FIRST, through Node with no shell, deletes the old
+ * report before it starts and judges whatever the run produced whatever its
+ * exit code was. The npm script used to do that with `rm -f`, a `{ ...; }`
+ * group and `${CENSUS_PORT:-4187}` - three POSIX forms cmd.exe either fails
+ * on or hands over as literal text - so `npm run census` had never once
+ * started on the owner's own machine (found 2026-08-22).
  */
 import { readFileSync, writeFileSync, existsSync, statSync, readdirSync, mkdtempSync, rmSync } from "node:fs";
+import { spawnSync } from "node:child_process";
 import { join } from "node:path";
 import { tmpdir } from "node:os";
 
@@ -40,7 +55,22 @@ const CONFIG = "playwright.config.mjs";
    lowering one goes red here AND shows as a diff in an owner-visible file. */
 const BASE = JSON.parse(readFileSync(new URL("../.claude/gate-baseline.json", import.meta.url), "utf8"));
 const FLOOR = { controls: BASE.census_controls, cells: BASE.census_cells };
+const NOVELTY_FLOOR = { controls: BASE.census_novelty_controls, cells: BASE.census_novelty_cells };
 const CONTROL_PROJECT = "controls";
+const NOVELTY_PROJECT = "novelties-once";
+const NOVELTY_SPECS = ["tests/census/novelties.spec.mjs", "tests/census/novelties-once.spec.mjs"];
+/* A scope names its floors, which cells are its negative controls, and which
+   project must exist for anything to have been proved. The body's controls
+   are a project of their own; the novelties' controls live inside the
+   singleton project and announce themselves by title. */
+const SCOPES = {
+  full: { name: "census", floor: FLOOR, project: CONTROL_PROJECT,
+          isControl: (c) => c.project === CONTROL_PROJECT },
+  novelties: { name: "novelties", floor: NOVELTY_FLOOR, project: NOVELTY_PROJECT,
+          isControl: (c) => c.project === NOVELTY_PROJECT && c.title.startsWith("control:") },
+};
+const SCOPE = process.argv.includes("--novelties") ? SCOPES.novelties : SCOPES.full;
+const RUN = process.argv.includes("--run");
 /* Reasons a cell may legitimately skip. Anything else is a coverage hole. */
 const DECLARED_SKIPS = ["CDP is Chromium-only", "engine not installed", "chromium settles it"];
 
@@ -109,7 +139,7 @@ function newestSource(roots = WATCHED) {
   return { newest, where, bundle: existsSync(BUNDLE) };
 }
 
-function judge(report, now = newestSource()) {
+function judge(report, now = newestSource(), scope = SCOPES.full) {
   const all = cells(report);
   const problems = [];
 
@@ -138,18 +168,18 @@ function judge(report, now = newestSource()) {
   if (!from.endsWith(CONFIG))
     problems.push(`this report was produced by ${from || "an unrecorded config"}, not by ${CONFIG}`);
 
-  const controls = all.filter((c) => c.project === CONTROL_PROJECT);
-  const census = all.filter((c) => c.project !== CONTROL_PROJECT);
+  const controls = all.filter(scope.isControl);
+  const census = all.filter((c) => !scope.isControl(c));
   const failed = all.filter((c) => c.status !== c.expected && c.status !== "skipped");
   const skipped = all.filter((c) => c.status === "skipped");
   const projects = [...new Set(all.map((c) => c.project))];
 
   if (!controls.length)
-    problems.push(`no "${CONTROL_PROJECT}" project ran — the census proved nothing about its own detectors`);
-  else if (controls.length < FLOOR.controls)
-    problems.push(`${controls.length} negative controls ran, floor ${FLOOR.controls}`);
-  if (census.length < FLOOR.cells)
-    problems.push(`${census.length} census cells ran, floor ${FLOOR.cells}`);
+    problems.push(`no "${scope.project}" project ran — the ${scope.name} proved nothing about its own detectors`);
+  else if (controls.length < scope.floor.controls)
+    problems.push(`${controls.length} negative controls ran, floor ${scope.floor.controls}`);
+  if (census.length < scope.floor.cells)
+    problems.push(`${census.length} ${scope.name} cells ran, floor ${scope.floor.cells}`);
   for (const f of failed) problems.push(`FAILED ${f.project} › ${f.title}: ${f.errors[0] || f.status}`);
   /* THE ONE-LINE E3 BYPASS. test.fail() sets the cell's expectation to failure,
      so a broken app reports "1 passed", exit 0 — and the comparison above,
@@ -241,7 +271,7 @@ function selfTest() {
      from these two numbers, so they cannot be the floors themselves — that is
      precisely the fault an auditor exploited by lowering FLOOR to {controls: 2}
      and watching every control still pass. */
-  const CONTROLS = 41, CELLS = 416;
+  const CONTROLS = 41, CELLS = 616;
   ok.push(["the baseline states the floors this file was written against",
     FLOOR.controls === CONTROLS && FLOOR.cells === CELLS]);
 
@@ -285,6 +315,32 @@ function selfTest() {
     judge(build([...many(CONTROL_PROJECT, CONTROLS), ...many("desktop", CELLS)], {},
       { configFile: "/repo/some-other.config.mjs" }), FRESH).problems
       .some((p) => p.includes("some-other.config.mjs"))]);
+
+  /* THE NOVELTIES SCOPE. Literals again (E4): 6 planted-fault controls, 24
+     profile cells and 2 singletons. A novelties run judged as the body is
+     refused, because it is not one; judged as novelties it passes only whole. */
+  const NOVELTY_CONTROLS = 6, NOVELTY_CELLS = 26;
+  ok.push(["the baseline states the novelty floors this file was written against",
+    NOVELTY_FLOOR.controls === NOVELTY_CONTROLS && NOVELTY_FLOOR.cells === NOVELTY_CELLS]);
+  const novControls = Array.from({ length: NOVELTY_CONTROLS }, (_, i) => cell(NOVELTY_PROJECT, `control: planted fault ${i}`));
+  const novCells = [...many("desktop", NOVELTY_CELLS - 2), cell(NOVELTY_PROJECT, "update-stay"), cell(NOVELTY_PROJECT, "offline equality")];
+  const novelties = build([...novControls, ...novCells]);
+  ok.push(["a novelties run judged as the body is refused - 32 cells are not a census",
+    judge(novelties, FRESH).problems.some((p) => p.includes("census cells ran"))]);
+  ok.push(["a whole novelties run is accepted in its own scope",
+    judge(novelties, FRESH, SCOPES.novelties).problems.length === 0]);
+  ok.push(["a novelties run that lost a planted-fault control is refused",
+    judge(build([...novControls.slice(1), ...novCells]), FRESH, SCOPES.novelties).problems
+      .some((p) => p.includes("floor " + NOVELTY_CONTROLS))]);
+  ok.push(["a novelties run that lost a profile's cells is refused",
+    judge(build([...novControls, ...novCells.slice(3)]), FRESH, SCOPES.novelties).problems
+      .some((p) => p.includes("novelties cells ran"))]);
+  ok.push(["a novelties run with no singleton project proved nothing, and says so",
+    judge(build(many("desktop", NOVELTY_CELLS)), FRESH, SCOPES.novelties).problems
+      .some((p) => p.includes(`no "${NOVELTY_PROJECT}" project ran`))]);
+  ok.push(["a failed novelty cell is refused",
+    judge(build([...novControls, ...novCells.slice(1), cell("desktop", "phase walk", "failed")]), FRESH, SCOPES.novelties)
+      .problems.some((p) => p.startsWith("FAILED"))]);
 
   const flaky = build([...many(CONTROL_PROJECT, CONTROLS), ...many("desktop", CELLS)], { flaky: 2 });
   ok.push(["a cell that passed only on a retry is refused, as the config promises",
@@ -371,6 +427,17 @@ function selfTest() {
 
 if (process.argv.includes("--self-test")) process.exit(selfTest() ? 1 : 0);
 
-const judgement = judge(read(REPORT));
+if (RUN) {
+  /* The old report goes first: a run that produces none must be judged as
+     none, not as last time. The runner's exit code is deliberately ignored -
+     the judgement below reads every cell and is stricter than the exit code. */
+  rmSync(REPORT, { force: true });
+  const args = ["node_modules/@playwright/test/cli.js", "test", "--config", CONFIG,
+                ...(SCOPE === SCOPES.novelties ? NOVELTY_SPECS : []),
+                ...process.argv.slice(2).filter((a) => a !== "--run" && a !== "--novelties")];
+  console.log(`census ${SCOPE.name}: ${process.execPath} ${args.join(" ")}`);
+  spawnSync(process.execPath, args, { stdio: "inherit" });
+}
+const judgement = judge(read(REPORT), undefined, SCOPE);
 console.log(render(judgement));
 process.exit(judgement.problems.length ? 1 : 0);

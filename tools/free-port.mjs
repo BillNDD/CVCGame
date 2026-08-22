@@ -270,9 +270,14 @@ function selfTest() {
 
 if (process.argv.includes("--self-test")) process.exit(await selfTest());
 
-const port = Number(process.argv[2]);
+/* No argument means the census port: CENSUS_PORT, else 4187 - the same
+   default playwright.config.mjs uses, so the two cannot disagree. The npm
+   scripts used to pass `${CENSUS_PORT:-4187}`, a POSIX expansion that cmd.exe
+   hands over as a literal string, which is Number(NaN) and a refusal - so
+   `npm run census` had never once started on the owner's machine (2026-08-22). */
+const port = Number(process.argv[2] ?? process.env.CENSUS_PORT ?? 4187);
 if (!Number.isInteger(port) || port <= 0) {
-  console.error("usage: node tools/free-port.mjs <port>");
+  console.error("usage: node tools/free-port.mjs [port]   (default: CENSUS_PORT or 4187)");
   process.exit(1);
 }
 try {

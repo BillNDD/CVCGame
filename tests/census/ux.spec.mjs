@@ -1,9 +1,11 @@
 /* THE DEEP UX CENSUS — one test per layout class, per viewport.
  *
- * 44 words covering all 29 layout-risk classes in the bank, across 8 device
- * profiles: 416 cells from this file — 44 word cases, 3 screen cases and 5
- * state cases, each on 8 profiles — and 41 more from the controls, which run
- * on one. The control count in that sentence is asserted in
+ * 65 word cases covering all 37 layout-risk classes in the bank, across 8
+ * device profiles: 584 cells from this file — 65 word cases, 3 screen cases
+ * and 5 state cases, each on 8 profiles — plus 32 novelty cells in their own
+ * two files and 41 controls, which run on one profile. (Counted 2026-08-22
+ * with `playwright test --list`, after the class key moved to grapheme
+ * LENGTH; by spelling the cutover had made it 2,809.) The control count in that sentence is asserted in
  * tests/census/controls.spec.mjs rather than typed and trusted: it read "9 more
  * from the controls" while 18 ran, which is how a document stops describing the
  * thing it names.

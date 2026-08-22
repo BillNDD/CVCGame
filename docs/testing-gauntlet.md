@@ -246,13 +246,21 @@ every bound reads `LEVELS.length`, which is why adding a level needed no engine 
   never demonstrated. There are three outcomes — killed, survived, and ERRORED — and an
   errored mutant fails the gate rather than passing as a kill. G19 works the same way.
 - This gate exists. Add mutants for new invariants; re-point moved anchors; never delete one.
+- Every mutant run carries `--bail 1` (P1 of the speed plan, 2026-08-22): a mutant is
+  killed by ONE failing test, so the suite stops at the first. The "Tests N failed" row the
+  runner reads still prints, the verdict is unchanged, and the pristine control still runs
+  WITHOUT bail, because a clean suite has nothing to stop at and must prove every file
+  green. Measured on the owner's machine, same tree, back to back: 34 min 18 s without
+  bail, 7 min 6 s with it, 73 of 73 killed both times.
 - Run G4 and G5 one after the other, never at the same time. Each rewrites files the other
   reads — G4 regenerates `tests/generated`, G5 regenerates `src/engine.js` — so a parallel run
   reports a broken environment instead of a result. The gauntlet runs every gate in sequence.
 
 ## G6. Coverage and quality metrics
 
-- Tool: Vitest coverage (v8 provider). Command: `npm run test:coverage`.
+- Tool: Vitest coverage (v8 provider). Command: `npm run test:coverage`. In the gauntlet the
+  coverage numbers are read from G1's own run, which carries `--coverage` (P1, 2026-08-22):
+  one full-suite run fewer, identical counts, both gates still named in the evidence.
 - Floors on `src/engine.js`: 95 percent lines, 90 percent branches. Coverage is a floor, not a
   goal. Keys: `g6_lines_min`, `g6_branches_min`.
 - Floors on `app/src/**`: 82 percent lines, 84 percent branches, enforced in BOTH places on the
@@ -504,10 +512,11 @@ engine, never a hand-kept list.
 
 ## The UX census — not a gate, and deliberately so
 
-`npm run census` renders every layout-risk class in the bank on seven viewports, in the
-prompt state and the reveal state, and reports every defect a measurement can see. It is an
-INVESTIGATION, not a gate: it never runs in `npm run check` and it is not one of the 22
-gauntlet gates. Vitest is told to leave `tests/census/` alone, because collecting a Playwright
+`npm run census` renders every layout-risk class in the bank on eight device profiles, in
+the prompt state and the reveal state, and reports every defect a measurement can see.
+`npm run census:novelties` runs the every-beta five alone (below), judged in their own
+scope. It is an INVESTIGATION, not a gate: it never runs in `npm run check` and it is not
+one of the gauntlet's gates. Vitest is told to leave `tests/census/` alone, because collecting a Playwright
 spec turns the fast check red for a reason that has nothing to do with the game.
 
 ### The beta-cadence novelties (owner-ruled 2026-08-20, built 2026-08-21)
@@ -534,15 +543,54 @@ the offline comparator's control caught its first real bug before the live cell 
   against one single-threaded preview crashed the shared browser and made green-alone cells
   fail in file order.
 
-Two Windows lessons from the first run on the owner's machine, both now in the config: vite
-is spawned through node itself (the .bin shim is a POSIX script, the same fault G7 and the
-mutant runners met on 2026-08-15), and `npm run census`'s `${CENSUS_PORT:-4187}` expansion
-is POSIX-only, so on Windows the playwright command runs directly.
+Two Windows lessons from the first run on the owner's machine: vite is spawned through
+node itself (the .bin shim is a POSIX script, the same fault G7 and the mutant runners met
+on 2026-08-15), and the npm scripts' `${CENSUS_PORT:-4187}`, `rm -f` and `{ ...; }` were
+POSIX-only, so `npm run census` had never started here - since 2026-08-22 the judge's
+`--run` path spawns the runner itself and `tools/free-port.mjs` defaults its own port, and
+both entry points start on either platform.
 
-### The speed plan — measured 2026-08-21, awaiting the owner's rulings, NOT YET BUILT
+### The speed plan — measured 2026-08-21, ruled the same day, P0 and P1 built 2026-08-22
 
 Three read-only audits and one stamped gauntlet run (run 7, 32 min 16 s on the owner's
 machine, 28 gates green) measured where the time goes before anything was proposed.
+
+**Ruled 2026-08-21, on the speed-plan page, all four the recommendation:** the gauntlet -
+"Instrument, then do less, then lanes only if they earn 20%"; the census key - "Key by
+grapheme length; keep all 8 profiles"; the census sound - "Keep the sound on; take the time
+back through Decision 2 and workers"; where it runs - "Both: a dispatch workflow on a
+runner, and a measured worker count here".
+
+**What shipped on 2026-08-22, and what it measured.** P0: every evidence result carries
+`durationMs` and the summary prints seconds beside each gate; the payload hash is a Node
+walk (it had been null on Windows since the evidence was born - POSIX `find | sort`); the
+suite versions are read in-process (also null on Windows before); `--canonical` prints the
+evidence with timing and order stripped, with a planted-divergence control. P1: `--bail 1`
+on the G5 and G19 mutant loops, never on their pristine controls - G5 34 min 18 s to
+7 min 6 s, G19 3 min 35 s to 3:37 (no gain - its time is the transform cache, not the
+tests), verdicts identical, measured back to back on the same
+tree on the owner's machine (a full-suite run took ~28 s that night with a browser pane
+and a preview server open, so the ratio is the honest number and the absolutes are that
+night's); and G6
+reads its coverage numbers from G1's run, which now carries `--coverage`. G4's generator
+stays a spawn: measured at 115 ms a launch, 102 launches are ~12 s of a gate whose
+time is its 102 vitest runs. P2, the lanes, is NOT built: its ceiling was the ~7 minutes of
+read-only gates that could hide behind G5, and G5 is now 7 minutes, so the most a lane can
+hide is the whole of a gate that no longer dominates. The 20 per cent rule is judged
+against the first instrumented post-P1 gauntlet, whose per-gate durations are the baseline
+P2 would have to beat; until that comparison is made, lanes stay unbuilt rather than built
+and left off.
+
+**The census, as ruled.** The class key's third term is the widest unit's LENGTH
+(`tools/ux-census.mjs`, `signature`); `census_cells` rises from 416 to 616, counted with
+`playwright test --list` (584 word, screen and state cells, 24 novelty cells, 8
+singletons); the judge gained a `--novelties` scope with its own floors
+(`census_novelty_controls` 6, `census_novelty_cells` 26, six controls) and a `--run` path
+that spawns Playwright through Node with no shell, so `npm run census` and the new
+`npm run census:novelties` start on Windows - the old script's `rm -f`, `{ ...; }` and
+`${CENSUS_PORT:-4187}` never had; and `.github/workflows/census.yml` runs either scope on
+a runner by hand from the Actions tab, uploading the report and every failing trace
+whatever the verdict. The worker count is measured below, never assumed.
 
 **Where the gauntlet's minutes are.** The mutation block is about 72 per cent of the
 wall: G4 + G5 inside the first 12:54 (with the fast gates), E11 5:12, G19 6:36. Browser
@@ -818,7 +866,7 @@ is why the file now counts itself, and counts the breakdown rather than only the
 `.census/report.json`, builds, runs the cells, and then runs `tools/census-report.mjs`
 whatever the runner's exit code was — so a run that produces no report, or a report from
 some other config, is refused rather than read. The floors it enforces are
-`census_controls` (41) and `census_cells` (416) in `.claude/gate-baseline.json`, under E6
+`census_controls` (41) and `census_cells` (616) in `.claude/gate-baseline.json`, under E6
 like every other floor. The gauntlet still does not call the census, and that stays
 deliberate: a flaky cell must inform a release, never block one.
 
@@ -835,7 +883,12 @@ deliberate: a flaky cell must inform a release, never block one.
   records a result without an adult), the 450 ms adult hold, the update comparison's build stamp,
   the backup validator's shape checks, and free play's promise to write nothing.
 - Runner control: the pristine suite must pass before any mutant runs, so a broken
-  environment fails loudly instead of reading as "every mutant killed".
+  environment fails loudly instead of reading as "every mutant killed". Since 2026-08-21 it
+  names what failed and tells a failing suite from a runner that crashed.
+- `--bail 1` on every mutant run, as G5 (2026-08-22), kept for consistency and measured as
+  buying NOTHING here: 3 min 35 s without bail, 3:37 with it, 11 of 11 killed both times.
+  G19's cost is the transform cache rebuilding after every rewrite of `app/src`, not the
+  tests that follow.
 - What it caught on the day it was written (2026-08-10): three survivors in the backup
   validator. Every existing malformed-backup case was refused by several clauses at once,
   so removing any single clause changed nothing. `tests/faults.test.js` gained seven files
