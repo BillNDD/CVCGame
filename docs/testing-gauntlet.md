@@ -1314,7 +1314,7 @@ promised a fallback the code never performed; G12 counted the step and saw nothi
 - Negative control: `--self-test` rewords a SPEC sentence, rewords a QA promise, changes a
   timing, changes the hold constant, leaves a stale speed in SPEC, takes the lookup's name out
   of `CLAUDE.md`, and takes its controls out of `npm run check`; every detector must fire.
-- Baseline floor: `g16_doc_rules` (10).
+- Baseline floor: `g16_doc_rules` (11).
 
 ### E11 lookup-mutants — the controls of the lookup, not a gate
 

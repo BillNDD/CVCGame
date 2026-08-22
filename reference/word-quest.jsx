@@ -418,6 +418,43 @@ const C = {
   sun:     "#ffd166",   // navy on it = 8.28:1
   chip:    "#e8ecf7",
   line:    "#dfe5f3",
+  /* THE ART BIBLE'S TOKENS (docs/art-bible.md section 9.3, owner-ruled
+     2026-08-22), ADDITIONS ONLY. The thirteen keys above keep their values:
+     three bible names collided with them at other values (action, line,
+     amber) and enter here as actionBlue, boundary and amberFill, because a
+     renamed value would repaint the CTA and every border in a step that
+     promises no visible change. Two bible values that failed its own 3:1
+     boundary rule are darkened (tileEdge, boundary) and one is admitted as a
+     fill only (disabled). The CSS custom properties --wq-<key> are emitted
+     from this object in app/src/wq-css.js; nothing types a colour twice. */
+  inkSecondary:     "#3c4f73",   // supporting text (bible 9)
+  surfaceReading:   "#fff9e8",   // the word and sentence field
+  surfacePanel:     "#fffdf5",   // cards and controls
+  skyBlue:          "#8fd0fa",   // the outer gradient, first stop
+  skyLavender:      "#b9c3fb",   // the outer gradient, second stop
+  skyPurpleMist:    "#d9c6fb",   // the outer gradient, third stop
+  gardenNight:      "#1d2c50",   // deep framing
+  gardenTeal:       "#2e7d78",   // foliage shadow and water
+  gardenMoss:       "#5e8057",   // ground and foliage
+  gardenLeaf:       "#7fa660",   // leaf
+  stone:            "#b9b1a0",   // stone
+  wood:             "#97684f",   // wood
+  actionBlue:       "#2057c9",   // the bible's principal child action; C.action stays the CTA's red until a step changes the CTA
+  success:          "#18794e",   // completion
+  warning:          "#8a4b00",   // warning text
+  danger:           "#a83737",   // danger
+  boundary:         "#5f7493",   // the bible's line #92A5BF darkened: 2.47:1 to 4.68:1 on surfacePanel
+  disabled:         "#9fb4c4",   // a FILL under ink (5.57:1); never an edge - it is 2.10:1 on the panel
+  cyanStructural:   "#005a67",   // the accessible edge beneath a glow, 7.51:1 on surfaceReading
+  cyanElectric:     "#4eebff",   // playback glow only, never a boundary
+  purpleStructural: "#5b3fd6",   // the accessible purple edge
+  purpleElectric:   "#9b75ff",   // rare milestone and Glowseed rim
+  coralElectric:    "#ff775e",   // warm decorative light
+  amberFill:        "#f4b942",   // the bible's amber; C.amber stays the amber TEXT
+  tileFace:         "#f6d985",   // the ceramic tile's face
+  tileHighlight:    "#fff1b5",   // the tile's highlight
+  tileEdge:         "#8f6420",   // the bible's #B8832E darkened: 2.40:1 to 3.78:1 on tileFace
+  slot:             "#e6dccb",   // an empty slot
 };
 
 const LANGS = [
@@ -2391,7 +2428,7 @@ export default function WordQuest() {
 
         <Zone.Stage>
           <div style={{ textAlign: "center", maxWidth: 420, width: "100%" }}>
-            <h1 className="wq-display" style={{ margin: 0, color: C.ink, fontSize: "clamp(2rem,7dvh,3rem)", lineHeight: 1.1 }}>
+            <h1 className="wq-display" style={{ margin: 0, color: C.ink, fontSize: "clamp(2rem,7svh,3rem)", lineHeight: 1.1 }}>
               Word Quest
             </h1>
             <p style={{ margin: "8px 0 0", color: C.ink, fontWeight: 700, fontSize: 16 }}>
@@ -2523,9 +2560,9 @@ export default function WordQuest() {
           <div style={{ textAlign: "center", maxWidth: 420, width: "100%" }}>
             {/* P2-12 — level-up folded into the trophy, not stacked beneath it */}
             <div className="wq-trophy" style={{ borderColor: promoted ? C.purple : "transparent" }}>
-              <span style={{ fontSize: "clamp(2.5rem,8dvh,4rem)" }}>🏆</span>
+              <span style={{ fontSize: "clamp(2.5rem,8svh,4rem)" }}>🏆</span>
             </div>
-            <h2 className="wq-display" style={{ margin: "10px 0 0", color: promoted ? C.purple : C.ink, fontSize: "clamp(1.5rem,5dvh,2.2rem)" }}>
+            <h2 className="wq-display" style={{ margin: "10px 0 0", color: promoted ? C.purple : C.ink, fontSize: "clamp(1.5rem,5svh,2.2rem)" }}>
               {promoted ? "Level up!" : doneStats.partial ? "Good stop" : kid ? "All done, " + kid + "!" : "All done!"}
             </h2>
             {promoted && <p style={{ margin: "2px 0 0", fontWeight: 800, color: C.purple, fontSize: 14 }}>
@@ -2790,7 +2827,7 @@ function Seg({ options, value, onChange, disabled = [] }) {
 
 const CSS = `
 .wq-root{
-  height:100vh; height:100dvh; width:100%; overflow:hidden;
+  height:100vh; height:100svh; width:100%; overflow:hidden;
   background:linear-gradient(160deg,#8fd0fa 0%,#b9c3fb 55%,#d9c6fb 100%);
   font-family:ui-rounded,'SF Pro Rounded',system-ui,-apple-system,'Segoe UI',sans-serif;
   color:${C.ink};
@@ -2815,19 +2852,19 @@ const CSS = `
 
 /* stage content: fixed slots so nothing shifts (P0-2) */
 .wq-stagegrid{width:100%;max-width:440px}
-.wq-word{font-size:clamp(2.25rem,11vh,5.5rem);font-size:clamp(2.25rem,11dvh,5.5rem);
+.wq-word{font-size:clamp(2.25rem,11vh,5.5rem);font-size:clamp(2.25rem,11svh,5.5rem);
   font-weight:700;line-height:1.05;color:${C.ink};margin:4px 0 0;word-break:break-word}
 .wq-slot-tiles{min-height:52px;display:flex;align-items:center;justify-content:center;gap:6px;margin-top:8px}
 .wq-tile{background:${C.sun};color:${C.ink};border-radius:12px;padding:5px 12px;
-  font-size:clamp(1.1rem,3.2dvh,1.6rem);font-weight:700;box-shadow:0 1px 3px rgba(23,53,107,.18)}
+  font-size:clamp(1.1rem,3.2svh,1.6rem);font-weight:700;box-shadow:0 1px 3px rgba(23,53,107,.18)}
 .wq-slot-msg{height:52px;min-height:52px;display:flex;flex-direction:column;align-items:center;justify-content:center;margin-top:4px}
 
 /* controls */
 .wq-cta{display:block;width:100%;border:0;border-radius:999px;background:${C.action};color:#fff;
-  font:800 clamp(1rem,2.4dvh,1.25rem)/1.1 inherit;padding:16px 18px;cursor:pointer;
+  font:800 clamp(1rem,2.4svh,1.25rem)/1.1 inherit;padding:16px 18px;cursor:pointer;
   box-shadow:0 3px 10px rgba(23,53,107,.18);min-height:56px}
 .wq-cta:disabled{cursor:default;box-shadow:none}
-.wq-prompt{text-align:center;font-weight:800;color:${C.ink};font-size:clamp(.95rem,2.2dvh,1.1rem);padding:16px 0;min-height:56px}
+.wq-prompt{text-align:center;font-weight:800;color:${C.ink};font-size:clamp(.95rem,2.2svh,1.1rem);padding:16px 0;min-height:56px}
 .wq-btn-plain{border:0;background:rgba(255,255,255,.85);color:${C.ink};font:700 13px/1 inherit;
   padding:11px 13px;border-radius:999px;cursor:pointer;min-height:40px}
 .wq-chip{background:rgba(255,255,255,.85);color:${C.ink};font:800 12.5px/1 inherit;padding:7px 10px;border-radius:999px;display:inline-block}
@@ -2887,7 +2924,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
   .wq-stage{padding:6px 22px}
   .wq-stagegrid{max-width:820px;display:grid;grid-template-columns:1.1fr 1fr;gap:26px;align-items:center}
   .wq-stagegrid>div{text-align:left}
-  .wq-word{font-size:clamp(3rem,17dvh,7rem)}
+  .wq-word{font-size:clamp(3rem,17svh,7rem)}
   .wq-slot-tiles,.wq-slot-msg{justify-content:flex-start;align-items:flex-start;text-align:left}
 }
 `;

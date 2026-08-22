@@ -47,7 +47,7 @@
 import { readFileSync } from "node:fs";
 import { sourcesFor } from "./app-sources.mjs";
 
-const { LEVELS, NEVER_BUILD } = await import("../src/engine.js");
+const { C, LEVELS, NEVER_BUILD } = await import("../src/engine.js");
 
 const problems = [];
 const rule = (okay, name, detail) => {
@@ -118,7 +118,9 @@ const real = {
   gauntletJs: readFileSync("tools/gauntlet.mjs", "utf8"),
   baseline: readFileSync(".claude/gate-baseline.json", "utf8"),
   voiceDoc: readFileSync("docs/voice-pack.md", "utf8"),
+  bible: readFileSync("docs/art-bible.md", "utf8"),
   ledger: readFileSync("tools/pending-words/pending-words.json", "utf8"),
+  tokens: C,
 };
 
 /* How many approved items are still waiting for a level. Every key in the
@@ -323,11 +325,35 @@ function run(d) {
       found.push(`npm run ${t.script} no longer runs ${t.file} (${t.why}) — it can now rot without anything going red`);
   }
 
+  rules += 1;
+  /* Rule 11 (art project step 0b, 2026-08-22): the palette's one prose
+     statement is the token table in docs/art-bible.md section 9.3, bound to
+     C in the engine by name and value, BOTH directions, case-insensitive. A
+     table that parses to fewer than 29 rows is a moved anchor, and a rule
+     reading nothing must say so (the G25 lesson) rather than pass. */
+  const table = tokenTable(d.bible);
+  if (table.length < 29) found.push(`the art bible's section 9.3 token table parses to ${table.length} rows - the anchor moved, and this rule is checking nothing`);
+  for (const [k, v] of table) {
+    if (!(k in d.tokens)) found.push(`the art bible's token table names "${k}", which C does not have`);
+    else if (String(d.tokens[k]).toLowerCase() !== v.toLowerCase()) found.push(`the art bible says ${k} is ${v}; C says ${d.tokens[k]}`);
+  }
+  for (const k of Object.keys(d.tokens)) if (!table.some(([t]) => t === k)) found.push(`C has "${k}", which the art bible's token table does not name`);
+
   return { found, rules };
 }
 
+/* The rows of the section 9.3 table: `| key | #hex | note |`, from the
+   heading to the next one. */
+function tokenTable(bible) {
+  const start = bible.indexOf("### 9.3 ");
+  if (start < 0) return [];
+  const end = bible.indexOf("\n## ", start);
+  const body = bible.slice(start, end < 0 ? undefined : end);
+  return [...body.matchAll(/^\| ([A-Za-z][A-Za-z0-9]*) \| (#[0-9a-fA-F]{6}) \|/gm)].map((m) => [m[1], m[2]]);
+}
+
 if (process.argv.includes("--self-test")) {
-  const seen = { spec: false, blind: false, qa: false, hold: false, recipe: false, bank: false, floor: false, unshipped: false, superseded: false, table: false, tableOrder: false, orphanDoc: false, orphanCmd: false };
+  const seen = { spec: false, blind: false, qa: false, hold: false, recipe: false, bank: false, floor: false, unshipped: false, superseded: false, table: false, tableOrder: false, orphanDoc: false, orphanCmd: false, tokenDrift: false, tokenStranger: false, tokenMissing: false, tokenBlind: false };
 
   /* Both ways a tool gets orphaned. The first is the one that actually
      happens: somebody tidies a governing document, the sentence naming the
@@ -426,8 +452,19 @@ if (process.argv.includes("--self-test")) {
   const orderCorrupt = { ...real, spec: real.spec.replace(` ${lvl2.join(" ")} |`, ` ${swapped.join(" ")} |`) };
   seen.tableOrder = run(orderCorrupt).found.some((p) => p.includes("same words, different order"));
 
+  /* Rule 11's three plants: a drifted value, a key the table names that C
+     lacks, and a table whose anchor moved (zero rows). */
+  const driftedHex = { ...real, bible: real.bible.replace("| ink | #17356b |", "| ink | #17356c |") };
+  seen.tokenDrift = run(driftedHex).found.some((p) => p.includes("the art bible says ink is #17356c"));
+  const strangeKey = { ...real, bible: real.bible.replace("| ink | #17356b |", "| ink | #17356b |\n| zzqToken | #000000 |") };
+  seen.tokenStranger = run(strangeKey).found.some((p) => p.includes('names "zzqToken", which C does not have'));
+  const missingKey = { ...real, bible: real.bible.replace("| slot | #e6dccb |", "") };
+  seen.tokenMissing = run(missingKey).found.some((p) => p.includes('C has "slot", which the art bible'));
+  const noTable = { ...real, bible: real.bible.replace("### 9.3 ", "### 9.9 ") };
+  seen.tokenBlind = run(noTable).found.some((p) => p.includes("parses to 0 rows"));
+
   if (Object.values(seen).every(Boolean)) {
-    console.log("self-test OK: a reworded SPEC sentence, a SPEC block whose anchor moved so the rule would check nothing, a reworded QA promise, a changed hold constant, a stale recipe number in the document, a stale bank count in the chooser, a drifted gate floor, an unshipped count that lags or runs ahead of the ledger, a level row that lost a word, a level row in the wrong order, a governing document that has stopped naming a tool agents are told to run, and a command that has stopped running that tool's controls are all caught");
+    console.log("self-test OK: a reworded SPEC sentence, a SPEC block whose anchor moved so the rule would check nothing, a reworded QA promise, a changed hold constant, a stale recipe number in the document, a stale bank count in the chooser, a drifted gate floor, an unshipped count that lags or runs ahead of the ledger, a level row that lost a word, a level row in the wrong order, a governing document that has stopped naming a tool agents are told to run, a command that has stopped running that tool's controls, a drifted token value, a token the table names that C lacks, a token C has that the table lacks, and a token table whose anchor moved are all caught");
     process.exit(0);
   }
   console.error("self-test FAILED: " + JSON.stringify(seen));

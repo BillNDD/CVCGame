@@ -340,9 +340,63 @@ properties are generated from `C` at build and never typed a second time; doc-tr
 cross-checks the values in appendix A below against `C`. Three tokens failed the bible's
 own 3:1 boundary rule (section 15) when measured — tileEdge #B8832E on tileFace #F6D985 at
 2.40:1, line #92A5BF on surfacePanel at 2.47:1, disabled #9FB4C4 on surfacePanel at 2.10:1
-— and are darkened to clear 3:1 before they are typed into any file; the values below are
-v1.0's and the corrected ones are recorded here when chosen. Measured and passing: ink on
+— and are darkened to clear 3:1 before they are typed into any file: section 9.3 below
+carries the corrected values (tileEdge #8f6420 at 3.78:1, boundary #5f7493 at 4.68:1;
+disabled kept as a fill under ink only). Measured and passing: ink on
 surfaceReading 11.36:1, cyanStructural on surfaceReading 7.51:1, action with white 6.43:1.
+
+### 9.3 The repository's tokens (ruled 2026-08-22)
+
+The one statement of the palette in prose. `C` in `reference/word-quest.jsx` is the source;
+this table is bound to it by doc-truth rule 11, by name and value, in both directions, so
+the two cannot disagree. The thirteen keys the game already had come first, unchanged;
+the bible's tokens follow as additions, under the repository's names where a bible name
+collided or a value was darkened (section 9's ruling above). Appendix A keeps v1.0's names
+and values as the record of what the PDF said.
+
+| key | value | note |
+|---|---|---|
+| ink | #17356b | the game's own, unchanged |
+| ink2 | #3e5aa6 | the game's own, unchanged |
+| muted | #5a6ba8 | the game's own, unchanged |
+| strip | #455073 | the game's own, unchanged |
+| action | #c9402f | the game's own, unchanged |
+| green | #0f7a4f | the game's own, unchanged |
+| amber | #8a5a00 | the game's own, unchanged |
+| amberInk | #6b4600 | the game's own, unchanged |
+| red | #c8342f | the game's own, unchanged |
+| purple | #6b4bbf | the game's own, unchanged |
+| sun | #ffd166 | the game's own, unchanged |
+| chip | #e8ecf7 | the game's own, unchanged |
+| line | #dfe5f3 | the game's own, unchanged |
+| inkSecondary | #3c4f73 | supporting text (bible 9) |
+| surfaceReading | #fff9e8 | the word and sentence field |
+| surfacePanel | #fffdf5 | cards and controls |
+| skyBlue | #8fd0fa | the outer gradient, first stop |
+| skyLavender | #b9c3fb | the outer gradient, second stop |
+| skyPurpleMist | #d9c6fb | the outer gradient, third stop |
+| gardenNight | #1d2c50 | deep framing |
+| gardenTeal | #2e7d78 | foliage shadow and water |
+| gardenMoss | #5e8057 | ground and foliage |
+| gardenLeaf | #7fa660 | leaf |
+| stone | #b9b1a0 | stone |
+| wood | #97684f | wood |
+| actionBlue | #2057c9 | the bible's principal child action; C.action stays the CTA's red until a step changes the CTA |
+| success | #18794e | completion |
+| warning | #8a4b00 | warning text |
+| danger | #a83737 | danger |
+| boundary | #5f7493 | the bible's line #92A5BF darkened: 2.47:1 to 4.68:1 on surfacePanel |
+| disabled | #9fb4c4 | a FILL under ink (5.57:1); never an edge - it is 2.10:1 on the panel |
+| cyanStructural | #005a67 | the accessible edge beneath a glow, 7.51:1 on surfaceReading |
+| cyanElectric | #4eebff | playback glow only, never a boundary |
+| purpleStructural | #5b3fd6 | the accessible purple edge |
+| purpleElectric | #9b75ff | rare milestone and Glowseed rim |
+| coralElectric | #ff775e | warm decorative light |
+| amberFill | #f4b942 | the bible's amber; C.amber stays the amber TEXT |
+| tileFace | #f6d985 | the ceramic tile's face |
+| tileHighlight | #fff1b5 | the tile's highlight |
+| tileEdge | #8f6420 | the bible's #B8832E darkened: 2.40:1 to 3.78:1 on tileFace |
+| slot | #e6dccb | an empty slot |
 
 ## 10. Teaching typography
 
@@ -741,7 +795,7 @@ interface and attend to the letters. The garden provides belonging, the electric
 provides precise feedback, and every decorative decision remains subordinate to learning
 to read.
 
-## Appendix A — Core tokens
+## Appendix A — Core tokens (v1.0, as the PDF stated them; section 9.3 is the repository's table)
 
 | Token | Value |
 |---|---|

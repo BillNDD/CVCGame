@@ -68,4 +68,19 @@ if (!DEAD_FONT.test(".wq-cta{font:800 12px/1 inherit;padding:0}")) {   // contro
   process.exit(1);
 }
 
-console.log("quality controls OK: complexity fixture rejected, planted cycle found, config matches the baseline ceilings, no dead font shorthand");
+/* `dvh` in a teaching size resizes the word when a phone's address bar
+   retracts, against the art bible's fixed word geometry (3.2) and the
+   census's phase walk - and headless cannot see it, because a headless
+   viewport has no bar. Refused at the source since art project step 0b
+   (2026-08-22): every clamp in the stylesheet says svh. */
+const DVH = /dvh\b/;   // no leading \b: in "11dvh" a digit precedes the d, so \b would never match there
+if (DVH.test(css)) {
+  console.error("control FAILED: `dvh` is back in wq-css.js; the word would change size when a phone's address bar moves. Use svh.");
+  process.exit(1);
+}
+if (!DVH.test(".wq-word{font-size:clamp(2.25rem,11dvh,5.5rem)}")) {   // control
+  console.error("control FAILED: the dvh detector does not catch its own fixture");
+  process.exit(1);
+}
+
+console.log("quality controls OK: complexity fixture rejected, planted cycle found, config matches the baseline ceilings, no dead font shorthand, no dvh");

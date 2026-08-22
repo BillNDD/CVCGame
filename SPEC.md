@@ -493,7 +493,7 @@ A per-word adult note lived here, for the five words recognition could not judge
 ruled to belong to microphone mode only and to be absent wherever the adult judges every
 word; on 2026-08-12 that became every word, and the note retired with the microphone.
 
-Layout. Each screen has three fixed zones in a `100dvh` shell: a header, a stage, and an action
+Layout. Each screen has three fixed zones in a `100svh` shell: a header, a stage, and an action
 rail with the "grown-up" strip below it. The word position in the stage does not move, and
 the word sits at the visual centre of the stage: the stage's top spacer carries the reserved
 rows' worth of extra basis, so the word's midline meets the stage's midline on a phone and
@@ -774,10 +774,10 @@ The minimum platform is iPadOS 15.4 or later, or an equivalent browser. The app 
 
 ## 9. Visual identity
 
-- Background: `linear-gradient(160deg, #8fd0fa, #b9c3fb, #d9c6fb)`.
-- Ink: navy `#17356b`. Secondary `#3e5aa6`. Muted `#5a6ba8`. Strip text `#455073`.
-- Action `#c9402f`. Green `#0f7a4f`. Red `#c8342f`. Purple `#6b4bbf`. Sun tiles `#ffd166` with
-  navy text.
+- The palette is the object `C` in the reference build, and its one statement in prose is
+  the token table in `docs/art-bible.md` section 9.3, which doc-truth binds to `C` by name
+  and value (art project, 2026-08-22). Nothing else restates a colour. The background is
+  the gradient of `skyBlue`, `skyLavender` and `skyPurpleMist`; teaching ink is `ink`.
 - All text and control colors pass WCAG AA at 4.5:1 or more against their backgrounds.
 - Word and interface font: `ui-rounded / system-ui` (SF Pro Rounded on Apple devices). The
   rounded forms stay friendly for children, and the letter shapes match everyday print,

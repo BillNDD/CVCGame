@@ -7,7 +7,13 @@
    every adult control, and section 10 gates on it. */
 import { C } from "@engine";
 
-const CSS = `
+/* Every key of C as a custom property, --wq-<key>, so a screen can say
+   var(--wq-tileEdge) and no hex is ever typed twice (art project step 0b,
+   2026-08-22). Built as a plain string: the census's stylesheet reader
+   refuses a brace inside an interpolation, and this block is all braces. */
+const VARS = ":root{" + Object.entries(C).map(([k, v]) => "--wq-" + k + ":" + v).join(";") + "}\n";
+
+const CSS = VARS + `
 /* No rule here uses the CSS \`font:\` shorthand. Ten of them once did, each
    ending in \`inherit\` — which is not a legal font-family, so every one of
    those declarations was invalid and the browser discarded the lot. The app
@@ -18,7 +24,7 @@ const CSS = `
    fails the build if a \`font:\` shorthand ending in \`inherit\` appears again.
    Found by an audit of the running build, 2026-07-29. */
 .wq-root{
-  height:100vh; height:100dvh; width:100%; overflow:hidden;
+  height:100vh; height:100svh; width:100%; overflow:hidden;
   background:linear-gradient(160deg,#8fd0fa 0%,#b9c3fb 55%,#d9c6fb 100%);
   font-family:ui-rounded,'SF Pro Rounded',system-ui,-apple-system,'Segoe UI',sans-serif;
   color:${C.ink};
@@ -60,7 +66,7 @@ const CSS = `
 
 /* stage content: fixed slots so nothing shifts (P0-2) */
 .wq-stagegrid{width:100%;max-width:440px}
-.wq-word{font-size:clamp(2.25rem,11vh,5.5rem);font-size:clamp(2.25rem,11dvh,5.5rem);
+.wq-word{font-size:clamp(2.25rem,11vh,5.5rem);font-size:clamp(2.25rem,11svh,5.5rem);
   font-weight:700;line-height:1.05;color:${C.ink};margin:4px 0 0;word-break:break-word}
 .wq-slot-tiles{min-height:52px;display:flex;align-items:center;justify-content:center;gap:6px;margin-top:8px}
 /* THE SENTENCE REVEAL (SPEC section 12 point 6). Every word is a control the
@@ -72,7 +78,7 @@ const CSS = `
 .wq-sentence{width:100%;max-width:440px;text-align:center}
 .wq-sentence-line{margin:0;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:2px 4px}
 .wq-sword{font-family:ui-rounded,'SF Pro Rounded',system-ui,-apple-system,'Segoe UI',sans-serif;
-  font-size:clamp(1.35rem,5.2dvh,2.4rem);font-weight:700;line-height:1.1;color:${C.ink};
+  font-size:clamp(1.35rem,5.2svh,2.4rem);font-weight:700;line-height:1.1;color:${C.ink};
   background:transparent;border:0;border-radius:12px;padding:6px 8px;min-height:56px;cursor:pointer}
 /* The open word is marked by the SAME ring the sound-out tiles take, so the
    two never say different things about "this one, now". */
@@ -80,7 +86,7 @@ const CSS = `
 .wq-sentence-tiles{margin-top:10px}
 .wq-sentence-hint{margin:8px 0 0;font-size:12.5px;font-weight:600}
 .wq-tile{background:${C.sun};color:${C.ink};border-radius:12px;padding:5px 12px;
-  font-size:clamp(1.1rem,3.2dvh,1.6rem);font-weight:700;box-shadow:0 1px 3px rgba(23,53,107,.18)}
+  font-size:clamp(1.1rem,3.2svh,1.6rem);font-weight:700;box-shadow:0 1px 3px rgba(23,53,107,.18)}
 /* The sound-out pop (owner-ruled 2026-08-04, shape chosen 2026-08-11 from four
    treatments heard against the real audio). A tile takes a hard outline for as
    long as its own sound plays, then drops it — no movement, no flash, no
@@ -109,9 +115,9 @@ const CSS = `
    keep one row rather than wrapping - display tiles, not controls, so S7's
    56 px floor does not bind them (Build-it's tappable tray wraps instead
    and keeps the floor). Two steps: six tiles and up, then eight. */
-.wq-slot-tiles.wq-many .wq-tile{padding:4px 8px;font-size:clamp(.85rem,2.4dvh,1.15rem);border-radius:9px}
+.wq-slot-tiles.wq-many .wq-tile{padding:4px 8px;font-size:clamp(.85rem,2.4svh,1.15rem);border-radius:9px}
 .wq-slot-tiles.wq-many{gap:4px}
-.wq-slot-tiles.wq-crowd .wq-tile{padding:3px 5px;font-size:clamp(.7rem,2dvh,.95rem);border-radius:7px}
+.wq-slot-tiles.wq-crowd .wq-tile{padding:3px 5px;font-size:clamp(.7rem,2svh,.95rem);border-radius:7px}
 .wq-slot-tiles.wq-crowd{gap:3px}
 @keyframes wqpop{0%,99%{outline:4px solid ${C.ink};outline-offset:3px}
   100%{outline:0 solid transparent}}
@@ -205,7 +211,7 @@ const CSS = `
 
 /* home stage sizing lives here, not inline, so the short-screen rules below
    can reach it */
-.wq-home-title{font-size:clamp(2rem,7dvh,3rem);line-height:1.1;margin:0}
+.wq-home-title{font-size:clamp(2rem,7svh,3rem);line-height:1.1;margin:0}
 .wq-home-hi{margin:8px 0 0;font-weight:700;font-size:16px}
 .wq-home-card{margin-top:18px;padding:16px}
 /* The update row: a second strip line on a phone; inline on a wide screen,
@@ -224,7 +230,7 @@ const CSS = `
    on the home stage it only pushed the level card toward the action rail. */
 .wq-stage-home::before{flex-basis:0}
 @media (max-height:620px){
-  .wq-home-title{font-size:clamp(1.4rem,6dvh,2rem)}
+  .wq-home-title{font-size:clamp(1.4rem,6svh,2rem)}
   .wq-home-hi{margin-top:2px;font-size:14px}
   .wq-home-card{margin-top:8px;padding:10px 16px}
 }
@@ -336,7 +342,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 @media (orientation:landscape) and (min-width:640px) and (min-height:420px){ /* N-7 */
   .wq-shell{max-width:960px}
   .wq-stage{padding:6px 22px}
-  .wq-word{font-size:clamp(3rem,17dvh,7rem)}
+  .wq-word{font-size:clamp(3rem,17svh,7rem)}
 }
 
 /* A short stage, which is what 200% text size leaves behind: the word, the
@@ -347,8 +353,8 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
    stay equal in both phases, so the word still does not move (SPEC section 6). */
 @media (max-height:520px){
   .wq-stage{padding:2px 10px}
-  .wq-word{font-size:clamp(1.5rem,13dvh,2.4rem);margin:0}
-  .wq-tile{padding:2px 7px;border-radius:8px;font-size:clamp(.85rem,4dvh,1.1rem)}
+  .wq-word{font-size:clamp(1.5rem,13svh,2.4rem);margin:0}
+  .wq-tile{padding:2px 7px;border-radius:8px;font-size:clamp(.85rem,4svh,1.1rem)}
   .wq-slot-tiles{min-height:30px;margin-top:3px;gap:4px}
   .wq-slot-msg{height:34px;min-height:34px;margin-top:2px}
   .wq-msg{font-size:.95rem;line-height:1.2}
