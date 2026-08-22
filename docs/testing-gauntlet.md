@@ -574,12 +574,17 @@ and a preview server open, so the ratio is the honest number and the absolutes a
 night's); and G6
 reads its coverage numbers from G1's run, which now carries `--coverage`. G4's generator
 stays a spawn: measured at 115 ms a launch, 102 launches are ~12 s of a gate whose
-time is its 102 vitest runs. P2, the lanes, is NOT built: its ceiling was the ~7 minutes of
-read-only gates that could hide behind G5, and G5 is now 7 minutes, so the most a lane can
-hide is the whole of a gate that no longer dominates. The 20 per cent rule is judged
-against the first instrumented post-P1 gauntlet, whose per-gate durations are the baseline
-P2 would have to beat; until that comparison is made, lanes stay unbuilt rather than built
-and left off.
+time is its 102 vitest runs. P2, the lanes, is built behind `--workers 2` (or
+`GAUNTLET_WORKERS=2`), default 1: `tools/gauntlet-lane.mjs` is a child the parent spawns
+as G5 starts, running the twelve read-only gates (E11, G21, G16, G16b, G12, both G13s, G20,
+G17, G23, G24, G25) one after another beside G5 and nowhere else - the parent waits for
+the lane before G19, the next tracked-file mutator, and a guard with its own control
+refuses any mutator, the build or a browser gate in the lane list. The parent stays the
+sole reader of the baseline and sole writer of the evidence: it parses the lane's stored
+output through the same step() in its own order, so a laned run and a serial run are the
+same proof exactly when `--canonical` says so. Adoption is the owner's rule: 2 becomes the
+default only if it cuts wall time by 20 per cent against the serial post-P1 run with
+byte-identical canonical evidence. LANES_MEASURED
 
 **The census, as ruled.** The class key's third term is the widest unit's LENGTH
 (`tools/ux-census.mjs`, `signature`); `census_cells` rises from 416 to 616, counted with
@@ -590,7 +595,12 @@ that spawns Playwright through Node with no shell, so `npm run census` and the n
 `npm run census:novelties` start on Windows - the old script's `rm -f`, `{ ...; }` and
 `${CENSUS_PORT:-4187}` never had; and `.github/workflows/census.yml` runs either scope on
 a runner by hand from the Actions tab, uploading the report and every failing trace
-whatever the verdict. The worker count is measured below, never assumed.
+whatever the verdict. The worker count was measured, not assumed: nine runs of the 32-cell
+novelties scope on the owner's machine, three each at 1, 2 and 4 workers, 288 cells, zero
+failures and zero retries - 2:22/2:19/2:23, 1:26/1:25/1:23, 1:03/1:02/1:02 - so the config
+now defaults to 4 here, the highest count that never churned, with `CENSUS_WORKERS` still
+overriding and the runner workflow passing its own. The next full body confirms it at 616
+cells or lowers it.
 
 **Where the gauntlet's minutes are.** The mutation block is about 72 per cent of the
 wall: G4 + G5 inside the first 12:54 (with the fast gates), E11 5:12, G19 6:36. Browser

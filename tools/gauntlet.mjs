@@ -3,8 +3,8 @@
    the floors and ceilings in .claude/gate-baseline.json. One line per gate:
    name, command, pass or fail, counts. A red gauntlet blocks the change (E7).
    Run: npm run gauntlet */
-import { execSync } from "node:child_process";
-import { readFileSync, writeFileSync, mkdirSync, rmdirSync, readdirSync, statSync, existsSync } from "node:fs";
+import { execSync, spawn } from "node:child_process";
+import { readFileSync, writeFileSync, mkdirSync, rmdirSync, readdirSync, statSync, existsSync, rmSync } from "node:fs";
 import { createRequire } from "node:module";
 import { createHash } from "node:crypto";
 
@@ -56,6 +56,75 @@ try {
   process.exit(1);
 }
 process.on("exit", () => { try { rmdirSync(".gauntlet.lock"); } catch {} });
+
+/* THE SECOND LANE (P2 of the speed plan, owner-ruled 2026-08-21, built
+   2026-08-22). `--workers 2` runs the gates below in a child
+   (tools/gauntlet-lane.mjs) BESIDE G5 and nowhere else: they read the tree
+   and write nothing tracked, and G5 rewrites only the untracked engine. The
+   parent waits for the lane before G19, the next tracked-file mutator, so the
+   lane never overlaps G3, G4, G19, the build or a browser gate. Default 1 -
+   serial, exactly as before - and the owner's rule decides whether 2 is ever
+   set: adopted only if it cuts wall time by 20 per cent against the serial
+   post-P1 run with byte-identical `--canonical` evidence. The lane's results
+   are reported by the parent, in the parent's order, through the same step()
+   and the same parser, so the evidence is the same proof either way. */
+const WORKERS = Number(process.env.GAUNTLET_WORKERS
+  || (process.argv.includes("--workers") ? process.argv[process.argv.indexOf("--workers") + 1] : 1));
+if (![1, 2].includes(WORKERS)) { console.error(`--workers must be 1 or 2, not ${WORKERS}`); process.exit(1); }
+const LANE_B = new Map([
+  ["E11 lookup-mutants", "node tools/blast-radius-mutants.mjs"],
+  ["G21 listening-page", "node tests/ui/listening-page.mjs"],
+  ["G16 doc-truth", "node tools/doc-truth.mjs && node tools/doc-truth.mjs --self-test"],
+  ["G16b ledger-truth", "node tools/ledger-truth.mjs && node tools/ledger-truth.mjs --self-test"],
+  ["G12 qa-procedure", "node tools/qa-check.mjs && node tools/qa-check.mjs --self-test"],
+  ["G13 voice-pack", "node tools/voice-check.mjs && node tools/voice-check.mjs --self-test"],
+  ["G13 voice-edges", "python3 tools/voice-edges.py --check && python3 tools/voice-edges.py --self-test"],
+  ["G20 effect-map", "node tools/effect-map.mjs --check && node tools/effect-map.mjs --self-test"],
+  ["G17 governing", "node tools/check-governing.mjs && node tools/check-governing.mjs --self-test"],
+  ["G23 file-map", "node tools/file-map.mjs --check && node tools/file-map.mjs --self-test"],
+  ["G24 s9-names", "node tools/s9-names.mjs && node tools/s9-names.mjs --self-test"],
+  ["G25 safety-cover", "node tools/safety-cover.mjs && node tools/safety-cover.mjs --self-test"],
+]);
+/* The gates that may never ride the lane, by the dependency graph in
+   docs/testing-gauntlet.md: everything that mutates a tracked file or the
+   untracked engine, the build, and the three browser gates that hold a port
+   and assert geometry. A lane list naming one of them is refused before
+   anything runs, and the control below proves the refusal. */
+const NEVER_LANED = /^(G1\+|G3 |G4 |G5 |G19 |G6 |app build|G7 |G8 |G18 |extract)/;
+const laneGuard = (names) => {
+  const bad = names.filter((n) => NEVER_LANED.test(n));
+  if (bad.length) throw new Error(`these gates may not run in the lane: ${bad.join(", ")}`);
+};
+{
+  let refused = false;
+  try { laneGuard(["G19 app-mutants"]); } catch { refused = true; }
+  if (!refused) { console.error("control FAILED: the lane guard let a tracked-file mutator into the lane"); process.exit(1); }
+  laneGuard([...LANE_B.keys()]);
+}
+/* Filled by the lane child when --workers 2; step() reads a gate from here
+   instead of running it. Empty when serial, so every step runs itself. */
+const laneResults = new Map();
+let laneDone = null;
+function startLane() {
+  const list = ".gauntlet-lane-list.json", out = ".gauntlet-lane-results.json";
+  writeFileSync(list, JSON.stringify([...LANE_B.entries()]));
+  try { rmSync(out, { force: true }); } catch {}
+  const child = spawn(process.execPath, ["tools/gauntlet-lane.mjs", list, out],
+    { stdio: ["ignore", "ignore", "pipe"], env: { ...process.env, NO_COLOR: "1" } });
+  let err = "";
+  child.stderr.on("data", (d) => { err += d; });
+  laneDone = new Promise((resolve) => child.on("close", (code) => {
+    if (code !== 0 || !existsSync(out)) {
+      /* A lane that died is every lane gate FAILED, by name, never a silent
+         serial fallback: the evidence must say what did not run. */
+      for (const g of LANE_B.keys()) laneResults.set(g, { out: `lane child exited ${code}\n${err}`, ok: false, durationMs: 0 });
+    } else {
+      for (const r of JSON.parse(readFileSync(out, "utf8"))) laneResults.set(r.gate, r);
+    }
+    try { rmSync(list, { force: true }); rmSync(out, { force: true }); } catch {}
+    resolve();
+  }));
+}
 
 const baseline = JSON.parse(readFileSync(".claude/gate-baseline.json", "utf8"));
 
@@ -138,8 +207,14 @@ function step(gate, command, counts = [], env = {}, required = [], opts = {}) {
     throw new Error(`malformed step call for ${JSON.stringify(gate)}: (gate, command, counts[], env{}, required[])`);
   let out = "", ok = true;
   const startedAt = Date.now();
+  let durationMs;
   if (typeof opts.output === "string") {
     out = opts.output;
+  } else if (laneResults.has(gate)) {
+    /* Ran in the lane beside G5; the parent only parses. The duration is the
+       lane's own, so the summary still says what the gate cost. */
+    const r = laneResults.get(gate);
+    out = r.out; ok = r.ok; durationMs = r.durationMs;
   } else {
     try {
       out = execSync(command, { stdio: "pipe", encoding: "utf8", env: { ...process.env, NO_COLOR: "1", ...env } });
@@ -148,7 +223,7 @@ function step(gate, command, counts = [], env = {}, required = [], opts = {}) {
       ok = false;
     }
   }
-  const durationMs = Date.now() - startedAt;
+  durationMs ??= Date.now() - startedAt;
   out = out.replace(ANSI, "");
   const absent = missingNames(out, required);
   if (absent.length) ok = false;
@@ -254,10 +329,15 @@ step("G4 acceptance-mutants", "node tools/acceptance-mutants.mjs --self-test && 
   { label: "survived", regex: /(\d+) survived/, maxKey: "g4_survivors_max" },
 ]);
 
+if (WORKERS === 2) startLane();
 step("G5 source-mutants", "node tools/mutants.mjs", [
   { label: "mutants", regex: /gate: (\d+) mutants/, floorKey: "g5_source_mutants" },
   { label: "survived", regex: /(\d+) survived/, maxKey: "g5_survivors_max" },
 ]);
+
+/* The lane, if one ran, must be finished before G19 touches app/src - and E11
+   is the first lane gate reported, so the wait sits here. */
+if (laneDone) await laneDone;
 
 /* Coverage watches the engine AND the app sources. vitest itself enforces the
    app-wide floors (vitest.config.mjs); these counts pin the engine and App.jsx,
@@ -271,7 +351,7 @@ step("G5 source-mutants", "node tools/mutants.mjs", [
    Faults are planted in a scratch copy of the file, never in the tree. This
    carries no G number on purpose: G22 is already a cautionary tale about a
    number written into a document before a gate existed (open-faults C4). */
-step("E11 lookup-mutants", "node tools/blast-radius-mutants.mjs", [
+step("E11 lookup-mutants", LANE_B.get("E11 lookup-mutants"), [
   { label: "controls", regex: /baseline: (\d+) controls/, floorKey: "e11_lookup_controls" },
   { label: "planted", regex: /(\d+) planted faults/, floorKey: "e11_lookup_mutants" },
   { label: "survived", regex: /(\d+) survived/, maxKey: "e11_lookup_survivors_max" },
@@ -368,7 +448,7 @@ const netOut = step("G18 network", "node tests/ui/network.mjs", [
    2026-08-11 a whole round's marks were lost to a copy button that could not
    work inside an embedded viewer, and nothing here noticed because nothing
    drove the page. This drives it, with the clipboard denied. */
-step("G21 listening-page", "node tests/ui/listening-page.mjs", [
+step("G21 listening-page", LANE_B.get("G21 listening-page"), [
   { label: "checks", regex: /(\d+) checks passed/, floorKey: "g21_listening_checks" },
   { label: "failed", regex: /(\d+) failed/, max: 0 },
 ], {}, [
@@ -379,7 +459,7 @@ step("G21 listening-page", "node tests/ui/listening-page.mjs", [
   "control OK: a page that does not save marks is caught",
 ]);
 
-step("G16 doc-truth", "node tools/doc-truth.mjs && node tools/doc-truth.mjs --self-test", [
+step("G16 doc-truth", LANE_B.get("G16 doc-truth"), [
   { label: "rules", regex: /Doc-truth gate: (\d+) rules/, floorKey: "g16_doc_rules" },
   { label: "problems", regex: /(\d+) problems/, max: 0 },
 ]);
@@ -388,17 +468,17 @@ step("G16 doc-truth", "node tools/doc-truth.mjs && node tools/doc-truth.mjs --se
    gate rather than a rule inside doc-truth: doc-truth answers "do the
    documents match the code", and this answers "do the documents match what a
    PERSON approved". Different evidence, different failure, different fix. */
-step("G16b ledger-truth", "node tools/ledger-truth.mjs && node tools/ledger-truth.mjs --self-test", [
+step("G16b ledger-truth", LANE_B.get("G16b ledger-truth"), [
   { label: "sounds", regex: /Ledger truth: (\d+) sounds/, floorKey: "g16b_sounds" },
   { label: "problems", regex: /(\d+) problems/, max: 0 },
   { label: "controls", regex: /ledger-truth controls: (\d+) passed/, floorKey: "g16b_controls" },
 ]);
 
-step("G12 qa-procedure", "node tools/qa-check.mjs && node tools/qa-check.mjs --self-test", [
+step("G12 qa-procedure", LANE_B.get("G12 qa-procedure"), [
   { label: "steps", regex: /(\d+) steps/, floorKey: "g12_qa_steps" },
 ]);
 
-step("G13 voice-pack", "node tools/voice-check.mjs && node tools/voice-check.mjs --self-test", [
+step("G13 voice-pack", LANE_B.get("G13 voice-pack"), [
   { label: "clips", regex: /(\d+) clips required/, floorKey: "g13_clips" },
   { label: "problems", regex: /(\d+) problems/, max: 0 },
 ]);
@@ -407,18 +487,18 @@ step("G13 voice-pack", "node tools/voice-check.mjs && node tools/voice-check.mjs
    500 ms is a gap between SOUNDS, so a manifest that misstates where a clip's
    speech begins plays a rhythm nobody approved — silently, since every file
    is present and the right length. */
-step("G13 voice-edges", "python3 tools/voice-edges.py --check && python3 tools/voice-edges.py --self-test", [
+step("G13 voice-edges", LANE_B.get("G13 voice-edges"), [
   { label: "clips", regex: /Voice edges: (\d+) clips measured/, floorKey: "g13_clips" },
   { label: "problems", regex: /(\d+) problems/, max: 0 },
   { label: "controls", regex: /voice-edges controls: (\d+) passed/, floorKey: "g13_edge_controls" },
 ], {}, ["ok   caught: a lead that is 200 ms longer than the audio"]);
 
-step("G20 effect-map", "node tools/effect-map.mjs --check && node tools/effect-map.mjs --self-test", [
+step("G20 effect-map", LANE_B.get("G20 effect-map"), [
   { label: "tests_mapped", regex: /Effect map: (\d+) tests/, floorKey: "g20_tests_mapped" },
   { label: "problems", regex: /(\d+) problems/, max: 0 },
 ], {}, ["self-test OK: an undeclared test file is reported"]);
 
-step("G17 governing", "node tools/check-governing.mjs && node tools/check-governing.mjs --self-test", [
+step("G17 governing", LANE_B.get("G17 governing"), [
   { label: "files", regex: /(\d+) governing files/, floorKey: "g17_governing_files" },
   { label: "strays", regex: /(\d+) strays/, max: 0 },
 ]);
@@ -428,7 +508,7 @@ step("G17 governing", "node tools/check-governing.mjs && node tools/check-govern
    tracked file fails; a DATA file no code reads fails unless declared
    HISTORY, whose count is a ceiling. Born red against the pre-fix tree:
    seven real hits at the HEAD of 2026-08-15. */
-step("G23 file-map", "node tools/file-map.mjs --check && node tools/file-map.mjs --self-test", [
+step("G23 file-map", LANE_B.get("G23 file-map"), [
   { label: "declared", regex: /File map: (\d+) declared/, floorKey: "g23_declared" },
   { label: "facts", regex: /(\d+) owned facts/, floorKey: "g23_facts" },
   { label: "problems", regex: /(\d+) problems/, max: 0 },
@@ -442,7 +522,7 @@ step("G23 file-map", "node tools/file-map.mjs --check && node tools/file-map.mjs
    would BE the leak. Where no list exists (CI above all), the structural
    controls still run and the summary says "0 names" rather than implying a
    protection that is not there. */
-step("G24 s9-names", "node tools/s9-names.mjs && node tools/s9-names.mjs --self-test", [
+step("G24 s9-names", LANE_B.get("G24 s9-names"), [
   { label: "files", regex: /(\d+) files scanned/, floorKey: "g24_files" },
   { label: "problems", regex: /(\d+) problems/, max: 0 },
   { label: "controls", regex: /s9 controls: (\d+) passed/, floorKey: "g24_controls" },
@@ -451,7 +531,7 @@ step("G24 s9-names", "node tools/s9-names.mjs && node tools/s9-names.mjs --self-
 /* G25: which safety rule has no executable proof. The floors are counts that
    grow as rules and proofs are added; the two _max keys are DEBT, recorded at
    today's honest number so it cannot grow quietly (E6). */
-step("G25 safety-cover", "node tools/safety-cover.mjs && node tools/safety-cover.mjs --self-test", [
+step("G25 safety-cover", LANE_B.get("G25 safety-cover"), [
   /* All four of these read (d+) - a mangled escape - from the day this gate
      was born (7d512b3, the same 2026-08-17 session as the stray step
      arguments), so G25 had never parsed a single number until the fourth

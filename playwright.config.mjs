@@ -52,16 +52,20 @@ export default defineConfig({
   fullyParallel: true,
   forbidOnly: true,
   retries: 0,
-  /* ONE by default, and the number is a property of the MACHINE rather than of
-     the census. At four workers this container failed cells with "Target page,
-     context or browser has been closed", and at two it still failed one or two
-     per run: Chromium contexts are expensive and the box is small. Every one of
-     those cells passes when run on its own, which is the signature of churn
-     rather than of a defect - and it is dangerous, because it looks exactly
-     like flakiness in the game and would let a real finding hide inside the
-     noise. A census that cannot repeat its own answer is worth nothing.
-     Raise it with CENSUS_WORKERS on a bigger machine. */
-  workers: Number(process.env.CENSUS_WORKERS || 1),
+  /* FOUR by default since 2026-08-22, and the number is a property of the
+     MACHINE rather than of the census. The 1 it shipped with was a verdict on
+     a small Linux container: at four workers it failed cells with "Target
+     page, context or browser has been closed", and at two it still failed
+     one or two per run - churn, not defects, every one green alone, and
+     dangerous because it looks exactly like flakiness in the game. The owner
+     ruled the count be MEASURED here rather than inherited (speed plan,
+     2026-08-21): nine runs of the 32-cell novelties scope on the owner's
+     machine, three at each of 1, 2 and 4 workers, 288 cells, zero failures,
+     zero retries - 2:22/2:19/2:23, 1:26/1:25/1:23, 1:03/1:02/1:02 - and the
+     rule adopts the highest count that never churned. The measurement is the
+     novelties scope; the next full body confirms it at 616 cells or lowers
+     it. CENSUS_WORKERS overrides either way; census.yml passes its own. */
+  workers: Number(process.env.CENSUS_WORKERS || 4),
   reporter: [["list"], ["json", { outputFile: ".census/report.json" }],
              ["html", { outputFolder: ".census/html", open: "never" }]],
   outputDir: ".census/artifacts",
