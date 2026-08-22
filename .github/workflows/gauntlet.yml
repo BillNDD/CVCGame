@@ -30,5 +30,16 @@ jobs:
           npm ci --prefix app
       - name: Install the gate browser
         run: npx playwright install --with-deps chromium
+      # G13 voice-edges is Python: it decodes every clip in the pack with PyAV
+      # and measures its edges with NumPy. The runner ships neither, and every
+      # tagged release's run was red on that one gate while the other 27 were
+      # green (found 2026-08-22, reading the beta.23 and beta.24 runs). Pinned
+      # to the versions the owner's machine measured the edges with, so the
+      # second opinion decodes the same bytes the same way.
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install the voice-edge gate's decoder
+        run: python3 -m pip install "av==18.1.0" "numpy==2.5.2"
       - name: Run the gauntlet
         run: npm run gauntlet
