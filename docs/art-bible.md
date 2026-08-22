@@ -744,6 +744,78 @@ final teaching text, sound decomposition, interface copy, or production-critical
 7. Test every reference viewport.
 8. Record provenance and approval.
 
+**Rulings (2026-08-22, the construction order).** The owner brought a 53-step
+measured-cartoon method for photoreal painting of architecture and, on the page "The
+construction order", ruled its discipline in and its mechanism out: structure before
+surface, value before colour, detail last — scaled to pixel art at 64-px sprites and 32-px
+icons, under the budget of 16.2 and the snap of 8.2. The art director chair read the draft
+before it was written here (the plan's log, the same day) and its ten amendments are in.
+Every pixel-constructed asset (8.1's left column) is made in this order; the eight steps
+above are the AI-assisted path through the same stages.
+
+| stage | what it produces | who takes it |
+|---|---|---|
+| 0 Output conditions | the logical grid size; for an icon, **PNG-pixel or SVG decided per icon** (8.1 lists icons as pixel-constructed and 16.2 exports clean icons as SVG — stage 0 resolves it, and the snap check and the 2×/3× export apply to the raster ones only); the three crops per state (16); the 2× and 3× export as ruled (16.2); the family's **byte share** from the table below; a provenance row opened; for the guide, the census absence cell the section 12 ruling requires before its first pose | all |
+| 1 Reference | a curated board where each reference answers a named question (geometry, material, light, scale); source and licence recorded in `tools/art/provenance.json`; the board itself lives outside the repository (18.1: no third-party image in the package), recorded by path and hash; nothing copied closely (18) | scene, tiles, Glowseed, guide |
+| 2 Composition and notan | thumbnails, then two- and three-value studies **with the teaching word and the controls drawn in** — the art is judged as a ground for the word before it has any colour | all |
+| 3 Geometry | **the scene's numeric lock, decided once and shared by all eleven states:** the ground plane's elevation ratio (for example 2:1), the key light as the pixel offset of a cast shadow and the lit and shade sides of a module cube, the module in logical px, the ground-line y on each of the three crops — recorded in provenance, never a sentence. One **key-light** direction, locked; the light a state adds (the blooms of states 1 and 7, the lattice of 9, the sanctuary of 10, the Glowseed's core) is an **emitter**, added per state inside 9.1's budget, casting no shadow on an earlier form and never moving the shade side of one. Large forms, then secondary forms, then repeats from the module; a curve (the basin's ellipse, state 4) is constructed from the locked ground plane on the grid. For tiles: a 9-slice with the corner size in logical px, so a width variant never stretches the bevel (11). For icons: the keyline, once per family — the 32-px grid, stroke weight, corner radius, optical bounds — drawn with the text label beside it on the panel surface and on the gradient | scene, tiles, Glowseed, guide; icons once per family |
+| 4 Value | monochrome value clusters; **aerial perspective as a value rule, never a painted layer:** a far element (the trellis's far edge, the canopy's upper edge) sits in a narrower value range than a near one (8.3); the value audit — greyscale, with the word on it | all · **checkpoint** |
+| 5 Colour | tokens only (9.3), inside the electric budget (9.1); **every material is a ramp of three to five steps whose end colours are named tokens**, hue-shifted toward gardenTeal in shade and toward the electric family in light, recorded per family in provenance; **no dithering** (4.1); sky gradients are CSS, never pixels | all |
+| 6 Materials and edges | 8.3's hierarchy: value and hue separate scenery, dark accents at contact boundaries only, no object with finer detail or more local contrast than the word; **scenery alpha is binary (0 or 255)** — a sprite sits on the CSS gradient, and a half-transparent edge is a different colour on each of the three stops, which defeats the edge ratios section 9's ruling measured | scene, tiles, Glowseed, guide |
+| 7 Detail | last, and budgeted by the edge hierarchy; the first thing cut | all · **checkpoint** |
+| 8 Export | indexed or 8-bit sRGB PNG with **no gAMA or iCCP chunk** (so the browser does not colour-manage a token pixel to a hex beside the CSS token it must match) and a sampled pixel equal to its token; binary alpha for scenery; the 2× and 3× files **pixel-identical to nearest-neighbour of the 1× master**, which is tracked outside the install (`tools/art/masters/`) so a check can regenerate and compare them; the file-pixel snap (k = 5 on a 2× file refused); the art budget gate (16.2); the provenance row closed with the approvals | all |
+
+**Three checkpoints**, judged by the art director chair: the **camera lock**, once, for
+the scene — after its stage 3 and before any state-0 pixel is placed, because the camera
+is the one irreversible decision eleven states, the Glowseed and the guide share; then
+**after stage 4** and **after stage 7**, per asset family. The other two chairs judge at
+the step's after pass as the plan's rules say. Checkpoint 2 is judged on the census's
+scenery statistic (19.3's promise: "no object with finer detail or more local contrast
+than the word", measured on the greyscale at stage 4 and in colour at stage 7), not by eye.
+
+**Four audits**, each before the checkpoint it feeds: **geometry** (flipped, on the grid,
+against the locked camera; for every state 1 to 10, "the shade side of every earlier form
+unchanged from state 0"); **value** (greyscale, with the word on it); **originality and
+answer-clue** (17's step 3 and 18.2's combination test, at checkpoint 1 and again at the
+final audit, the chair and date written into the provenance row's `originality` field);
+**final**, on the census's eight profiles — the Pixel 7 (2.625) and the Galaxy S9+
+(320 × 658, 4.5) among them — and on a real device by the QA script. "Thumbnail, normal,
+close" means those sizes.
+
+**Masters and derivatives.** The flat 1× master is tracked under `tools/art/masters/`,
+outside the install; the layered master and the reference board live outside the
+repository and are recorded in provenance by path and hash; the 2× and 3× files under
+`app/public/art/` are the only art the install carries; the budget check regenerates each
+derivative from its master and refuses one that differs, with a planted off-by-one-pixel
+2× as its control. There is no README file per family: the family's entry in
+`tools/art/provenance.json` — the camera lock, the ramps, the 9-slice, the master's path
+and hash, the reference rows — is what the owner's ruling called the README, and a new
+status file is what CLAUDE.md forbids.
+
+**The byte share**, integers that sum to the 16.2 ceiling of 12,582,912: the garden
+scene 8,388,608 (eleven states × three crops × two scales, 66 files); the guide 1,048,576;
+the app icon, maskable icon, splash and title 1,048,576; the tile family 524,288; the
+Glowseed 524,288; the icon family 524,288; effects and textures 524,288. A family that
+needs more takes it from another in writing, here.
+
+**What the method brought and this art does not take**, so nobody reaches for it: a lens
+or camera model, perspective construction past the one locked viewpoint, ellipse and
+cylinder construction beyond the grid-constructed curve above, 16-bit masters,
+soft-proofing, resampling and output sharpening (the artefacts 8.2 forbids), glazing and
+blend modes, texture projected in perspective, weathering, haze as a painted layer, and
+the 2-D copying grid (18 forbids close copying). The sounding glow stays CSS (11's
+ruling), never baked.
+
+**The chair's refusals, as standing rules:** no state 1 to 10, and no Glowseed or guide
+pose, is drawn before the scene's numeric camera lock is in provenance and has passed its
+checkpoint; no 2× or 3× file ships that is not pixel-identical to nearest-neighbour of its
+tracked master, and no scenery PNG ships with non-binary alpha, a gAMA or iCCP chunk, or a
+sampled pixel that does not equal its token; no asset passes checkpoint 2 without the
+scenery statistic measured against the word and the 18.2 combination test recorded in its
+provenance row. The checks named here — alpha, chunks, pixel-equals-token, derivative
+equality, the scenery statistic — are built in the step that lands the first file each
+one reads, each with a planted fixture (E5), and named in the plan's step brief.
+
 ### 17.1 Automatic rejection
 
 - Invented or misspelled text.

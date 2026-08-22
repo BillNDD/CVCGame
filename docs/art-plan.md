@@ -101,7 +101,8 @@ method the owner brought:
   in provenance.
 - **Checkpoints:** two council checkpoints per asset family — after value, after detail —
   by the art director chair; the other two chairs at the step's after pass as the rules
-  already say.
+  already say. The art director's read added a third, once, for the scene: the camera lock,
+  after the garden's stage 3 and before any state-0 pixel (the bible's section 17 ruling).
 - **Who writes it:** the art director chair gives one before-pass opinion on the
   condensed order, then it is written as ruled in the bible.
 
@@ -421,3 +422,23 @@ Newest last. A verdict names the chair, the step, the word, and the findings.
   garbled sentence reads whole. Six judgements, 2 + 4 + … findings: 20, 14, 15, 12, 3, 5 —
   every one taken or refused with its reason, one finding withdrawn as mistaken. The
   verdicts are recorded here and in the closing commit, as the rules ask. Step 1 opens.
+- 2026-08-22 — The art director chair's before-pass read of the construction order: **write
+  it with the amendments**, ten suggestions, all taken into the bible's section 17 ruling:
+  (1) stage 3 as a numeric lock record, stage 5 as token-ended ramps with no dither, stage
+  6 with binary alpha; (2) a third, once-only camera-lock checkpoint for the scene;
+  (3) one key light, emitters per state that cast no shadow on an earlier form — the reveal
+  and Quiet Display change emitters only; (4) icons take stage 3 as a keyline once per
+  family, stage 0 decides PNG or SVG per icon (8.1 against 16.2 resolved), tiles take a
+  9-slice, the guide's stage 0 includes its absence cell; (5) three things back in reduced
+  form — sRGB PNG without gAMA/iCCP and pixel-equals-token, aerial perspective as a value
+  rule, the basin's ellipse from the locked ground plane; (6) the final audit on all eight
+  census profiles, naming the Pixel 7 at 2.625 and the Galaxy S9+ at 320 × 658 and 4.5 —
+  the draft's "320 × 568" and "the Pixel 7 at 1×" were wrong; (7) a fourth audit,
+  originality and answer-clue, with an `originality` field in the provenance row; (8) no
+  README file — the family's entry in `provenance.json` is what the ruling called the
+  README; (9) the 1× master tracked outside the install under `tools/art/masters/`, the
+  layered master and the reference board outside the repository by path and hash, and a
+  derivative-equality check with a planted off-by-one 2×; (10) checkpoint 2 judged on the
+  census's scenery statistic, and the byte share as integers per family summing to
+  12,582,912. The chair's three refusals stand in the ruling as rules. The checks the
+  ruling names are built in the step that lands the first file each reads.
