@@ -785,7 +785,12 @@ The minimum platform is iPadOS 15.4 or later, or an equivalent browser. The app 
   hex literals and seven decimal restatements of ink on 2026-08-22, and the control now
   covers both.) The background is the gradient of `skyBlue`, `skyLavender` and
   `skyPurpleMist`; teaching ink is `ink`.
-- All text and control colors pass WCAG AA at 4.5:1 or more against their backgrounds.
+- Text and fills pass WCAG AA at 4.5:1 or more against their backgrounds, measured by
+  G7's contrast walker; a control's edge is measured by `tests/tokens.test.js` at the
+  named pairs, and two edges are below the 3:1 the art bible's section 15 asks until the
+  steps that own them darken them — `docs/open-faults.md` AA (the adult controls' `line`,
+  step 4) and AB (the open sentence word's `action` ring, step 3). This sentence said "all
+  text and control colors" before either was measured (corrected 2026-08-22).
 - Word and interface font: `ui-rounded / system-ui` (SF Pro Rounded on Apple devices). The
   rounded forms stay friendly for children, and the letter shapes match everyday print,
   including the double-storey "a" that children see in books.

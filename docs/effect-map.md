@@ -197,7 +197,7 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 89 | G1 — the system voice is never given a word it says wrongly | 75: no praise line contains a word with two pronunciations |
 | 90 | G1 — the system voice is never given a word it says wrongly | 76: with no unsafe line listed, every praise index reaches the system voice unchanged |
 | 91 | G1 — the system voice is never given a word it says wrongly | 77: the clip plan carries the new line to the pack |
-| 92 | G1 — the system voice is never given a word it says wrongly | 78: the sentence praise roster is exactly the rows that never say \ |
+| 92 | G1 — the system voice is never given a word it says wrongly | 78: the sentence praise roster is exactly the rows that never say "word", both halves pinned |
 | 93 | G1 — the system voice is never given a word it says wrongly | 79: the sentence lead is the grade's exact clip, and an off-roster index cannot praise with a word-line |
 | 94 | Build-it tray | gives the word its true number of slots, never a padded one |
 | 95 | Build-it tray | ramps the extra tiles: none, then one from Level 6, then two past 14 |
@@ -306,8 +306,8 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 25 | Feature: Sound units and feedback text | Feedback for a correct reading |
 | 26 | Feature: Sound units and feedback text | Feedback for a close reading |
 | 27 | Feature: Sound units and feedback text | Feedback for a missed reading |
-| 28 | Feature: Sound units and feedback text | The tricky word \ |
-| 29 | Feature: Sound units and feedback text | The tricky word \ |
+| 28 | Feature: Sound units and feedback text | The tricky word "was" carries its note |
+| 29 | Feature: Sound units and feedback text | The tricky word "is" carries its note |
 | 30 | Feature: Level promotion | Exactly 80 percent promotes |
 | 31 | Feature: Level promotion | Just under 80 percent does not promote |
 | 32 | Feature: Level promotion | Box 2 words are not solid |
@@ -467,8 +467,8 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 4 | G10 — the child hears the word before the app lets them move on | 3b: with sound OFF there is no reveal to wait for, and the guard arms at once |
 | 5 | G10 — the child hears the word before the app lets them move on | 14 (B17): a slow reveal never opens the mid-sound-out window |
 | 6 | G10 — the child hears the word before the app lets them move on | 14b: the guard is a FLOOR — a reveal shorter than 400 ms still waits 400 |
-| 7 | G10 — the child hears the word before the app lets them move on | 5: a miss on the last word says \ |
-| 8 | G10 — the child hears the word before the app lets them move on | 6 (pair): a correct last word says \ |
+| 7 | G10 — the child hears the word before the app lets them move on | 5: a miss on the last word says "Next word", and the second look follows |
+| 8 | G10 — the child hears the word before the app lets them move on | 6 (pair): a correct last word says "Finish!", and the press ends the session |
 | 9 | G10 — the child hears the word before the app lets them move on | 7: a tap on the grown-up skip does nothing — the reveal keeps its wait |
 | 10 | G10 — the child hears the word before the app lets them move on | 8: the adult's skip advances early and silences the reveal at once |
 | 11 | G10 — the child hears the word before the app lets them move on | 9: each tile takes its ring as its own sound plays, for as long as that sound lasts |
@@ -569,7 +569,7 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 1 | the sentence reveal's clip plan | sounds the open word out seam by seam, every id literal (E4) |
 | 2 | the sentence inside a session | 1: arrives after the fifth word, and only after a word is finished |
 | 3 | the sentence inside a session | 0: arrives SILENT with the child's turn first — prompt up, controls live, no way past but the mark |
-| 4 | the sentence inside a session | 0b: the mark decides only what the app says — praise that never says \ |
+| 4 | the sentence inside a session | 0b: the mark decides only what the app says — praise that never says "word", or the word-reveal leads |
 | 5 | the sentence inside a session | 0c: one attempt, one result — a second mark in the same window changes nothing |
 | 6 | the sentence inside a session | 2: the mark starts the reveal: the whole sentence, the invitation, then the level's word |
 | 7 | the sentence inside a session | 3: a tapped word shows its pieces and says NOTHING |

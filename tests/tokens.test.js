@@ -7,9 +7,11 @@
    bible's 3:1 boundary rule (section 9's ruling) is asserted with this file's
    own WCAG relative-luminance arithmetic at literal expected ratios, so a
    token darkened to clear the rule cannot quietly drift back under it. The
-   control is the one pair the bible admits BELOW 3:1 - disabled as a fill
-   under ink, never as an edge - which must measure below, or the arithmetic
-   is not measuring. */
+   controls are three pairs held BELOW 3:1 - disabled as a fill under ink
+   (2.10), and the two edges the sweep first typed and withdrew (1.94, 1.44) -
+   plus WCAG's own anchors (21:1, the #777 grey at 4.48), which must measure
+   so, or the arithmetic is not measuring. Tests 3b and 3c hold the two edges
+   the game still draws below the rule at their literals. */
 import { describe, it, expect } from "vitest";
 import { execSync } from "node:child_process";
 import { readFileSync } from "node:fs";

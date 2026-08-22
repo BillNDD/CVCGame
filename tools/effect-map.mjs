@@ -38,6 +38,10 @@ files.sort();
 function readTests(file) {
   return readTestsFrom(readFileSync(file, "utf8"));
 }
+/* a backslash-escaped quote inside a name is the quote, not the end of the
+   name (the sixth judgement of art step 0: six rows read a fragment and a
+   stray backslash) */
+const unescape = (name) => name.replace(/\\(["'`\\])/g, "$1");
 function readTestsFrom(src) {
   const out = [];
   let suite = "";
@@ -45,10 +49,10 @@ function readTestsFrom(src) {
     /* the quote that opened the name closes it - a title with an apostrophe
        used to end at the apostrophe ("3c: the open sentence word", the
        fifth judgement of art step 0) */
-    const d = line.match(/^\s*describe\(\s*(["'`])(.+?)\1/);
-    if (d) { suite = d[2]; continue; }
-    const t = line.match(/^\s*it\(\s*(["'`])(.+?)\1/);
-    if (t) out.push({ suite, name: t[2] });
+    const d = line.match(/^\s*describe\(\s*(["'`])((?:\\.|(?!\1).)+?)\1/);
+    if (d) { suite = unescape(d[2]); continue; }
+    const t = line.match(/^\s*it\(\s*(["'`])((?:\\.|(?!\1).)+?)\1/);
+    if (t) out.push({ suite, name: unescape(t[2]) });
     else {
       const g = line.match(/^\s*it\(\s*`\$\{(.+?)\}(.*?)`/);
       if (g) out.push({ suite, name: `(generated family) …${g[2]}`.trim() });
@@ -174,9 +178,11 @@ if (process.argv.includes("--self-test")) {
        step 0: "3c: the open sentence word" was all the map kept) */
     apostropheKept: readTestsFrom('describe("the palette", () => {\n  it("3c: the word\'s ring is BELOW 3:1", () => {});\n});\n')
       .map((t) => t.suite + " / " + t.name).join() === "the palette / 3c: the word's ring is BELOW 3:1",
+    escapedQuoteKept: readTestsFrom('describe("reveal", () => {\n  it("The tricky word \\"said\\" is read whole", () => {});\n});\n')
+      .map((t) => t.suite + " / " + t.name).join() === 'reveal / The tricky word "said" is read whole',
   };
   if (Object.values(checks).every(Boolean)) {
-    console.log("self-test OK: an undeclared test file is reported, a declaration for a vanished file is reported, a missed it() site is reported, a stale map is detected, a title with an apostrophe is read whole, and the real tree is accepted");
+    console.log("self-test OK: an undeclared test file is reported, a declaration for a vanished file is reported, a missed it() site is reported, a stale map is detected, a title with an apostrophe or an escaped quote is read whole, and the real tree is accepted");
     process.exit(0);
   }
   console.error("self-test FAILED: " + JSON.stringify(checks));

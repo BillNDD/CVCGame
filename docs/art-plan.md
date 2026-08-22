@@ -155,9 +155,9 @@ Each chair's findings and the answer to each are in the log at the end of this d
   device-pixel snap (every art element's width × dpr ÷ naturalWidth an integer, offsets on
   device pixels on both axes, `image-rendering: pixelated`; control plants a real 64 x 64
   PNG on a real Pixel 7 context at a 300 px width and the browser's smoothing, and then
-  snapped - built in the after pass, the first draft fed the hold hand-typed numbers;
-  the first text here said "control forces a 300 px width on the 2.625
-  profile).
+  snapped. That control was built in the after pass: the first draft fed `snapHold`
+  hand-typed numbers and never ran the reader, while this paragraph's first text
+  claimed "control forces a 300 px width on the 2.625 profile").
 - **0e Engine fact.** `ladderComplete(state)` — at level 100 and its words secure by
   `isSecure`, and ONLY that: SPEC section 7 states that the two-perfect-sessions path
   promotes between levels and never ends the ladder, pinned by a literal test (level 100,
@@ -387,3 +387,13 @@ Newest last. A verdict names the chair, the step, the word, and the findings.
   that opened it, so a title with an apostrophe is read whole (71 rows of the map read
   their full sentence; a self-test fixture holds it). Judged a sixth time by the
   antagonist's chair; the verdict follows.
+- 2026-08-22 — Step 0 judged a sixth time by the antagonist's chair, fresh: **satisfactory.**
+  With the art director (fourth) and the reading chair (fifth), **Step 0 is closed by all
+  three chairs.** Five non-blocking findings taken in the closing commit: the effect map's
+  reader keeps a backslash-escaped quote inside a name (six rows read whole; a self-test
+  fixture holds it); the tokens test's header names its three sub-3:1 controls; open-faults
+  AA gives the strip's top edge its three ratios; SPEC section 9's "all text and control
+  colors pass 4.5:1" now says what is measured and points at AA and AB; the 0d paragraph's
+  garbled sentence reads whole. Six judgements, 2 + 4 + … findings: 20, 14, 15, 12, 3, 5 —
+  every one taken or refused with its reason, one finding withdrawn as mistaken. The
+  verdicts are recorded here and in the closing commit, as the rules ask. Step 1 opens.
