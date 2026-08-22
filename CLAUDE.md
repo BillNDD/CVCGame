@@ -259,7 +259,9 @@ exclusions are recorded in SPEC section 12.
   lookup, not a gate: it never fails a build and it cannot tell you whether the change is
   right. `node tools/mutants.mjs --anchors` reports every mutant whose anchor has moved in
   milliseconds, where finding the same thing through a gauntlet costs twelve minutes and
-  usually happens at the worst moment.
+  usually happens at the worst moment; `node tools/app-mutants.mjs --anchors` does the
+  same for G19 (added 2026-08-22, after the lookup was asked of a tool that had no such
+  mode and a killed run left a mutant in the tree).
 
   The third lookup is the map, owner-ruled 2026-08-15: before any change to any file — a
   fact altered, a fact invented, any `.md`, `.json` or `.csv` touched — consult

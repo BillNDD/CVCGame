@@ -271,7 +271,7 @@ function selfTest() {
      from these two numbers, so they cannot be the floors themselves — that is
      precisely the fault an auditor exploited by lowering FLOOR to {controls: 2}
      and watching every control still pass. */
-  const CONTROLS = 41, CELLS = 626;
+  const CONTROLS = 41, CELLS = 651;
   ok.push(["the baseline states the floors this file was written against",
     FLOOR.controls === CONTROLS && FLOOR.cells === CELLS]);
 
@@ -319,7 +319,7 @@ function selfTest() {
   /* THE NOVELTIES SCOPE. Literals again (E4): 8 planted-fault controls, 24
      profile cells, 8 monkey walks and 2 singletons. A novelties run judged as the body is
      refused, because it is not one; judged as novelties it passes only whole. */
-  const NOVELTY_CONTROLS = 8, NOVELTY_CELLS = 34;
+  const NOVELTY_CONTROLS = 9, NOVELTY_CELLS = 59;
   ok.push(["the baseline states the novelty floors this file was written against",
     NOVELTY_FLOOR.controls === NOVELTY_CONTROLS && NOVELTY_FLOOR.cells === NOVELTY_CELLS]);
   const novControls = Array.from({ length: NOVELTY_CONTROLS }, (_, i) => cell(NOVELTY_PROJECT, `control: planted fault ${i}`));

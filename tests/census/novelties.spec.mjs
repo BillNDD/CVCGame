@@ -6,7 +6,8 @@
  * not geometry, so one profile settles them. */
 import { test, expect } from "@playwright/test";
 import { stage, holdGrade, waitForReveal, requireStaged, GRADE } from "../../tools/ux-census.mjs";
-import { landmarks, phaseHold, homeFurniture, chromeHold, hitTest } from "../../tools/census-novelties.mjs";
+import { landmarks, phaseHold, homeFurniture, chromeHold, hitTest,
+         zoneSum, runningAnimations, motionHold, tileWidths, unitWidthHold } from "../../tools/census-novelties.mjs";
 
 test("phase walk: the screen holds still while a word moves through its phases", async ({ page }, testInfo) => {
   const { shown } = await stage(page, null, "sat", null);
@@ -46,4 +47,62 @@ test("ready hit-test: every live control owns its own centre", async ({ page }) 
   requireStaged("sat", shown);
   const findings = await hitTest(page);
   expect(findings, JSON.stringify(findings)).toEqual([]);
+});
+
+/* ---------------------------------------------------------------- step 0d
+   The art bible's claims as measurements, on every profile, before any art
+   exists (art project step 0d, owner-ruled 2026-08-22). Each cell refuses a
+   screen with no subject; the planted-fault controls are in
+   novelties-once.spec.mjs. */
+
+test("frame: the header, stage and rail fill the shell, and nothing else takes layout", async ({ page }) => {
+  /* On the compact profile the session screen has spent its height; a frame
+     in flow would push the rail off the screen. Measured on the session
+     screen with a word up, the screen a child spends the most time on. */
+  const { shown } = await stage(page, null, "sat", null);
+  requireStaged("sat", shown);
+  const r = await zoneSum(page);
+  expect(r.zones, "the three zones must exist").toBeTruthy();
+  expect(r.findings, JSON.stringify(r)).toEqual([]);
+});
+
+test("unit width: a multi-letter tile is visibly wider than a single-letter one in the reveal", async ({ page }) => {
+  /* Bible 11 and S8's observed proof, which safety-cover records as missing:
+     "ship" reveals sh as one tile beside i and p. */
+  const { shown } = await stage(page, null, "ship", null);
+  requireStaged("ship", shown);
+  await holdGrade(page, GRADE.correct, []);
+  await waitForReveal(page);
+  const tiles = await tileWidths(page);
+  const findings = unitWidthHold(tiles);
+  expect(findings, JSON.stringify({ tiles, findings })).toEqual([]);
+});
+
+test.describe("with motion allowed", () => {
+  test.use({ reducedMotion: "no-preference" });
+  test("one event at a time: nothing animates during an attempt; one sounding tile and the fill during a reveal", async ({ page }) => {
+    /* The census runs with reduced motion everywhere, which blinds every other
+       cell to ambient motion; this one allows it and counts. */
+    const { shown } = await stage(page, null, "sat", null);
+    requireStaged("sat", shown);
+    const attempt = await runningAnimations(page);
+    expect(motionHold("attempt", attempt), JSON.stringify(attempt)).toEqual([]);
+    await holdGrade(page, GRADE.correct, []);
+    /* Sampled DURING the reveal - from the first tile until the advance goes
+       live - because that is when the sounding tiles and the fill run. */
+    await page.locator(".wq-tile").first().waitFor({ timeout: 8000 });
+    const samples = [];
+    const t0 = Date.now();
+    while (Date.now() - t0 < 12000) {
+      samples.push(await runningAnimations(page));
+      const live = await page.evaluate(() => { const b = document.querySelector(".wq-rail .wq-cta"); return !!b && !b.disabled; });
+      if (live && samples.length > 3) break;
+      await page.waitForTimeout(120);
+    }
+    const findings = samples.flatMap((s) => motionHold("reveal", s));
+    expect(findings, JSON.stringify(samples)).toEqual([]);
+    /* And the samples saw a sounding tile at all, or the cell measured a
+       silent reveal and proved nothing about one. */
+    expect(samples.some((s) => s.some((n) => n.includes("wqpop"))), "no sounding tile was ever seen during the reveal").toBe(true);
+  });
 });

@@ -131,10 +131,12 @@ Each chair's findings and the answer to each are in the log at the end of this d
   eight profiles; control plants a 40 px static div); a non-reduced-motion cell (zero
   animations during an attempt; at most one sounding tile and one fill during a reveal;
   control plants a looping animation); the multi-letter tile wider than every single-letter
-  tile in the reveal (control plants equal widths); the 200% cell (rem scaling AND zoom, at
-  320 × 568, on the bank word of greatest rendered width, one line box, inside the viewport,
-  font-size at or above a literal floor; control plants a letter-spacing that forces a
-  wrap); the contrast walker reports "unknown background" under a raster or a painted
+  tile in the reveal (control plants equal widths); the 200% cell (three arms — 100%, rem
+  scaling, and CSS zoom on 640 × 1136, which is 320 CSS px by the desktop's mechanism — on
+  the bank word of greatest rendered width, probed in em over the whole bank, one line box,
+  inside the viewport, font-size at or above a literal floor; control plants an overflow
+  and a wrap in the word's place. Built 2026-08-22, it found the word already breaking at
+  100%, and `app/src/components/Word.jsx` is the fix — see the log); the contrast walker reports "unknown background" under a raster or a painted
   non-ancestor layer (control plants a fixed dark div under the strip). Detectors with
   controls now, live cells when their subjects exist: the guide allow-list (absent unless
   the screen is home, done or milestone; never over the stage; no running animation while
@@ -220,3 +222,19 @@ Newest last. A verdict names the chair, the step, the word, and the findings.
   streak path never ends the ladder — taken; (12) the cap's mutant is equivalent; mutate
   the isSecure clause instead; place the functions after checkPromotion — taken;
   (13) the floors that move — named above.
+- 2026-08-22 — Step 0d built. The 200% cell's first draft measured the element's box and
+  called every word 292 px; corrected to the text's own line boxes, the probe found a fault
+  older than the art project: the principal word is sized by HEIGHT alone (`11svh`), so at
+  100% text size seven bank words split into two fragments on the 320 px profile and
+  thirty-four on a 390 × 844 phone ("swimmin" over "g", "somethin" over "g"). The width
+  floor first tried (`min(2.25rem,19vw)`) was computed from the box, not the text, and fixed
+  nothing. The fix is a measured fit, not a stylesheet guess — a word's width is its
+  glyphs', not its letter count's: `Word.jsx` (mirrored in the reference) measures the
+  rendered word after layout and shrinks it in proportion only when it is wider than its
+  line, under a ResizeObserver and `document.fonts.ready`; `.wq-word` is `white-space:
+  nowrap` so the overflow is measurable; the stylesheet's clamp is the ceiling and nothing
+  that fitted before changes size. Measured: "something" 56.1 px on 320 × 568, 69.5 px on
+  390 × 844, 581 px of text under zoom 2 on 640; "sat" keeps the 88 px cap. The cell's zoom
+  arm moved from 320 × 568 to 640 × 1136 because CSS zoom halves a screen's CSS pixels and
+  320 zoomed is a 160 px screen no device owns. Counts by a run: novelties scope 68 cells
+  (59 + 9 controls), all green on chromium. Bible 10's ruling amended to match.

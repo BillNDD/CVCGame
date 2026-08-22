@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useMemo, useCallback } from "react";
+import { useState, useEffect, useLayoutEffect, useRef, useMemo, useCallback } from "react";
 
 /* ============================================================
    WORD QUEST v2 — CVC spaced-repetition phonics game
@@ -2481,7 +2481,7 @@ export default function WordQuest() {
               <p style={{ margin: 0, fontSize: 11.5, fontWeight: 800, letterSpacing: ".14em",
                 textTransform: "uppercase", color: C.ink }}>Read this word</p>
               {/* P0-2 — word baseline is fixed; everything else lives in reserved slots below */}
-              <div className="wq-display wq-word" aria-live="off">{displayWord(currentWord)}</div>
+              <Word>{displayWord(currentWord)}</Word>
 
               <div className="wq-slot-tiles" aria-hidden={phase !== "feedback"}>
                 {phase === "feedback" && chunkWord(currentWord).map((g, i) => (
@@ -2733,6 +2733,31 @@ function ProgressBar({ order, firstResults, total }) {
   );
 }
 
+/* THE PRINCIPAL WORD FITS ITS LINE (art project step 0d, 2026-08-22). The
+   stylesheet's size is a ceiling set by the screen's height; the word is
+   measured after layout and shrunk in proportion only when it is wider than
+   its line. app/src/components/Word.jsx carries the full account. */
+function Word({ children, ...rest }) {
+  const ref = useRef(null);
+  const text = String(children);
+  useLayoutEffect(() => {
+    const el = ref.current;
+    if (!el || typeof ResizeObserver === "undefined") return undefined;
+    const fit = () => {
+      el.style.fontSize = "";
+      const room = el.clientWidth, need = el.scrollWidth;
+      if (room > 0 && need > room) {
+        el.style.fontSize = (parseFloat(getComputedStyle(el).fontSize) * (room - 1) / need).toFixed(2) + "px";
+      }
+    };
+    fit();
+    const ro = new ResizeObserver(fit);
+    ro.observe(el);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(fit, () => {});
+    return () => ro.disconnect();
+  }, [text]);
+  return <div ref={ref} className="wq-display wq-word" aria-live="off" {...rest}>{children}</div>;
+}
 function Toast({ children }) { return <div className="wq-toast" role="status">{children}</div>; }
 
 function Modal({ title, children, onClose }) {
@@ -2852,8 +2877,14 @@ const CSS = `
 
 /* stage content: fixed slots so nothing shifts (P0-2) */
 .wq-stagegrid{width:100%;max-width:440px}
+/* ONE LINE, NEVER A WRAP (art project step 0d, 2026-08-22). The size here is
+   the CEILING, set by the screen's height; the width is fitted by the Word
+   component, which measures the rendered word and shrinks it only when it is
+   wider than its line. nowrap is what makes that measurable - with a wrap
+   allowed, scrollWidth never exceeds the line and a word could split into
+   "swimmin" over "g", which thirty-four bank words did on a 390 px phone. */
 .wq-word{font-size:clamp(2.25rem,11vh,5.5rem);font-size:clamp(2.25rem,11svh,5.5rem);
-  font-weight:700;line-height:1.05;color:${C.ink};margin:4px 0 0;word-break:break-word}
+  font-weight:700;line-height:1.05;color:${C.ink};margin:4px 0 0;white-space:nowrap}
 .wq-slot-tiles{min-height:52px;display:flex;align-items:center;justify-content:center;gap:6px;margin-top:8px}
 .wq-tile{background:${C.sun};color:${C.ink};border-radius:12px;padding:5px 12px;
   font-size:clamp(1.1rem,3.2svh,1.6rem);font-weight:700;box-shadow:0 1px 3px rgba(23,53,107,.18)}

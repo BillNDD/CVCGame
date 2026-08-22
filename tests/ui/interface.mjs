@@ -914,7 +914,7 @@ for (const height of [430, 555, 720, 950]) {
   if (bounded.length === 4 && bounded.every((d) => d.bg !== d.cardBg || d.border >= 2 || d.shadow !== "none"))
     ok("all four free-play cells of a fresh save are visibly bounded on the card");
   else fail("a free-play cell melts into the card, or the fresh-save count moved", JSON.stringify(bounded));
-  await page.getByRole("button", { name: "Back" }).click();
+  await page.getByRole("button", { name: "Back", exact: true }).click();
   const home = await page.getByRole("button", { name: "Begin Session" }).isVisible();
   const modals = await page.locator(".wq-modal").count();
   if (home && modals === 0) ok("Back closes the chooser and starts nothing");

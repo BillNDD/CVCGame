@@ -449,6 +449,17 @@ breakfast, yesterday) cannot fit 320 px at 11 rem, so the rule is stated measura
 200% the principal word may fall to the size that fits the longest word in the bank on the
 smallest profile, never smaller, and the census measures it on "butterfly" at 320 × 568.
 
+**Ruling amended the same day, by measurement (step 0d).** The clamp sizes the word by
+height alone, and the census's corrected probe found it splitting at 100%: seven bank
+words on 320 px, thirty-four on a 390 × 844 phone. The rule is now: the clamp is the
+word's CEILING; the word is measured after layout and shrunk in proportion only when wider
+than its line (`app/src/components/Word.jsx`), and it never wraps (`white-space: nowrap`).
+The census measures the widest bank word by rendered width — probed in em over the whole
+bank, "something" at 5.19 em, not "butterfly" — at 100%, under rem scaling at 200%, and
+under CSS zoom at 2 on 640 × 1136, holding it to one line box inside the viewport at 36 px
+or larger. Measured 2026-08-22: "something" 56.1 px on 320 × 568 and 69.5 px on 390 × 844;
+"sat" keeps the 88 px cap.
+
 ## 11. Sound tiles
 
 Sound tiles resemble glazed ceramic. The warm matte face, restrained bevel, narrow darker

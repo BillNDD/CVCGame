@@ -66,8 +66,14 @@ const CSS = VARS + `
 
 /* stage content: fixed slots so nothing shifts (P0-2) */
 .wq-stagegrid{width:100%;max-width:440px}
+/* ONE LINE, NEVER A WRAP (art project step 0d, 2026-08-22). The size here is
+   the CEILING, set by the screen's height; the width is fitted by the Word
+   component, which measures the rendered word and shrinks it only when it is
+   wider than its line. nowrap is what makes that measurable - with a wrap
+   allowed, scrollWidth never exceeds the line and a word could split into
+   "swimmin" over "g", which thirty-four bank words did on a 390 px phone. */
 .wq-word{font-size:clamp(2.25rem,11vh,5.5rem);font-size:clamp(2.25rem,11svh,5.5rem);
-  font-weight:700;line-height:1.05;color:${C.ink};margin:4px 0 0;word-break:break-word}
+  font-weight:700;line-height:1.05;color:${C.ink};margin:4px 0 0;white-space:nowrap}
 .wq-slot-tiles{min-height:52px;display:flex;align-items:center;justify-content:center;gap:6px;margin-top:8px}
 /* THE SENTENCE REVEAL (SPEC section 12 point 6). Every word is a control the
    child taps, so every word obeys S7: 56 px is the child-control floor and

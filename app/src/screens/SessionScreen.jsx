@@ -7,6 +7,7 @@ import Modal from "../components/Modal.jsx";
 import ProgressBar from "../components/ProgressBar.jsx";
 import HoldButton from "../components/HoldButton.jsx";
 import SentenceStage from "../components/SentenceStage.jsx";
+import Word from "../components/Word.jsx";
 
 /* The stage: word, tile slot, message slot. Split from the screen shell so no
    function passes the G6 complexity ceiling; the rendered output is identical. */
@@ -18,7 +19,7 @@ function SessionStage({ state, currentWord, phase, fb, liveRef, pops = [] }) {
           <p style={{ margin: 0, fontSize: 11.5, fontWeight: 800, letterSpacing: ".14em",
             textTransform: "uppercase", color: C.ink }}>Read this word</p>
           {/* P0-2 — word baseline is fixed; everything else lives in reserved slots below */}
-          <div className="wq-display wq-word" aria-live="off">{displayWord(currentWord)}</div>
+          <Word>{displayWord(currentWord)}</Word>
 
           {/* The sound-out: a tile takes its ring as its own sound plays. The
               key carries the tile's mark count, so the browser runs the

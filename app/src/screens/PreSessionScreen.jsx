@@ -2,6 +2,7 @@ import { C, PRE_LEVELS } from "@engine";
 import Frame from "../components/Frame.jsx";
 import Zone from "../components/Zone.jsx";
 import HoldButton from "../components/HoldButton.jsx";
+import Word from "../components/Word.jsx";
 
 /* THE PRE-LEVEL SESSION (owner-ruled 2026-08-15). One item at a time:
    a letter fills the stage and its approved sound is the PROMPT, or — in the
@@ -36,7 +37,7 @@ export default function PreSessionScreen({
             {/* The ear shows an ear and never letters: the whole point of
                 Pre 1 is blending by sound before print exists. A letter item
                 shows its letter in the word slot, one glyph, tile-sized. */}
-            <div className="wq-display wq-word" aria-live="off">{isEar ? "👂" : item}</div>
+            <Word>{isEar ? "👂" : item}</Word>
             <div className="wq-slot-tiles" aria-hidden={!(dead && isEar)}>
               {/* In feedback the ear item reveals its word in print — the
                   child has already said it, and seeing it after is exposure,

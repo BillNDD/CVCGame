@@ -330,6 +330,10 @@ export default function App() {
      (app/src/swrefresh.js decides when it is safe). */
   useEffect(() => {
     try { window.dispatchEvent(new CustomEvent("wq-screen", { detail: screen })); } catch (e) { /* no window */ }
+    /* The screen's name on the root, for the census's detectors (the guide
+       allow-list, art project step 0d): a measurement that asks "which
+       screen is this" must read it from the page, never infer it. */
+    try { document.documentElement.setAttribute("data-wq-screen", screen); } catch (e) { /* no document */ }
   }, [screen]);
 
   const persist = useCallback(async (s) => {

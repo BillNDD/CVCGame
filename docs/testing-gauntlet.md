@@ -580,6 +580,36 @@ the offline comparator's control caught its first real bug before the live cell 
   cell now BLOCKS it (2026-08-21), because ten cells each starting a 1,500-file precache
   against one single-threaded preview crashed the shared browser and made green-alone cells
   fail in file order.
+- **the art bible's claims, as measurements** (art project step 0d, owner-ruled
+  2026-08-22, the council's before pass; detectors in the novelties library, every one
+  refusing a screen with no subject). On every profile: **frame** - the header, stage and
+  rail heights sum to the shell's within a pixel, so a frame that takes layout is a gap;
+  **unit width** - in the reveal of "ship" the multi-letter tile is wider than every
+  single-letter tile; **one event at a time** - the only cells that run WITHOUT reduced
+  motion: zero running animations during the attempt, and during the reveal at most one
+  sounding tile beside the advance control's fill, with the sounding tile required to
+  have been seen. Once, at 320 x 568: **200%** - the widest bank word by rendered width,
+  probed in em over the whole bank (`widestWord`; "something", 5.19 em), staged for real
+  and held to one line box, inside the viewport, 36 px or larger, on three arms - 100%,
+  rem scaling at 200% (a phone's text setting) and CSS zoom at 2 on 640 x 1136 (the
+  desktop's, as G8 applies it; 320 zoomed would be a 160 px screen no device has). Its
+  first draft measured the element's box instead of the text's and read 292 px for every
+  word; the corrected probe found that the principal word, sized by height alone
+  (`11svh`), already broke into two fragments at 100%: seven bank words on 320 px, thirty-
+  four on a 390 x 844 phone ("swimmin" over "g"). The fix is `app/src/components/Word.jsx`
+  and its mirror in the reference: the stylesheet's size is the ceiling, the rendered
+  word is measured after layout and shrunk in proportion only when wider than its line,
+  under a ResizeObserver and `document.fonts.ready`; `.wq-word` is `white-space:nowrap`
+  so the overflow is measurable. "something" now renders at 56.1 px on 320 and 69.5 px on
+  390, "sat" keeps the 88 px cap. The combined control plants a 40 px frame, a guide on
+  the stage, unsnapped art at a fractional width, a looping animation, two sounding tiles,
+  equal tile widths, a word that overflows the screen and a word that wraps, and requires
+  each to be named. Two detectors ship with controls and no live cell yet, because their
+  subjects do not exist: the **guide** allow-list (home, done and milestone screens only,
+  never over the stage, never animating while a clip plays) and the **device-pixel snap**
+  of every `data-wq-art` element (whole device pixels per art pixel, integer offsets,
+  nearest-neighbour). `census_novelty_cells` 34 to 59, `census_novelty_controls` 8 to 9,
+  `census_cells` 626 to 651, all counted by a run.
 
 Two Windows lessons from the first run on the owner's machine: vite is spawned through
 node itself (the .bin shim is a POSIX script, the same fault G7 and the mutant runners met
@@ -961,7 +991,7 @@ is why the file now counts itself, and counts the breakdown rather than only the
 `.census/report.json`, builds, runs the cells, and then runs `tools/census-report.mjs`
 whatever the runner's exit code was — so a run that produces no report, or a report from
 some other config, is refused rather than read. The floors it enforces are
-`census_controls` (41) and `census_cells` (626) in `.claude/gate-baseline.json`, under E6
+`census_controls` (41) and `census_cells` (651) in `.claude/gate-baseline.json`, under E6
 like every other floor. The gauntlet still does not call the census, and that stays
 deliberate: a flaky cell must inform a release, never block one.
 
@@ -1009,6 +1039,14 @@ deliberate: a flaky cell must inform a release, never block one.
   the array clause — which the file input cannot reach, because a JSON array carries no
   named properties. The mutants were kept and the tests were strengthened, never the
   reverse.
+
+**`--anchors` (2026-08-22).** `node tools/app-mutants.mjs --anchors` checks every anchor
+against its file and mutates nothing, the lookup `tools/mutants.mjs` has had since
+2026-08-12. It was added the evening the lookup was asked of this tool, which ran the
+whole gate instead; the caller's two-minute timeout killed it mid-mutant and left
+`return { state: "current" }` in `app/src/updates.js` for the next commit to sweep up.
+The working tree was compared against HEAD before that commit, which is the only reason
+it was seen.
 
 ## G18. Network audit
 
@@ -1231,7 +1269,7 @@ happened to read the output.
   halves repository language is the tree talking, one stranger half is a person. The
   stated residue: someone named entirely in repository words is skipped here, exactly as
   each half already was by the single-word layers.
-- Keys: `g24_files` (266), `g24_controls` (47), `g24_vocab` (209), `g24_common` (888),
+- Keys: `g24_files` (266), `g24_controls` (47), `g24_vocab` (210), `g24_common` (888),
   `g24_common` moved 889 to 888 on 2026-08-19, owner-ruled on the `Hope` precedent of
   2026-08-16: **Joy** is an ordinary English word that is also a given name, and it
   appears in a listening round's carrier phrase. The alternative was rewording a record

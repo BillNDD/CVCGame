@@ -192,6 +192,20 @@ const originals = new Map();
 for (const f of new Set(MUTANTS.map((m) => m[1]))) originals.set(f, readFileSync(f, "utf8"));
 const restore = () => { for (const [f, src] of originals) writeFileSync(f, src); };
 
+/* --anchors: the same lookup tools/mutants.mjs has had since 2026-08-12 -
+   every anchor checked against its file, nothing mutated, milliseconds.
+   Added 2026-08-22 after the lookup was asked of THIS tool, which had no such
+   mode: it ran the whole gate instead, the caller's two-minute timeout killed
+   it mid-mutant, and "if (!r.ok) return { state: "current" }" was left in
+   app/src/updates.js for the next commit to sweep up. A lookup that mutates
+   is the fault E11 exists to prevent. */
+if (process.argv.includes("--anchors")) {
+  const moved = MUTANTS.filter(([, file, from]) => !originals.get(file).includes(from));
+  for (const [name, file] of moved) console.log("ANCHOR MOVED: " + name + " (" + file + ")");
+  console.log(`${MUTANTS.length} app mutants, ${moved.length} anchor(s) no longer in the source`);
+  process.exit(moved.length ? 1 : 0);
+}
+
 /* THIS TOOL EDITS TRACKED PRODUCTION FILES IN PLACE. If it dies between
    writing a mutant and restoring it - an exception, Ctrl-C, a killed
    container - it leaves app/src mutated in the working tree, where the next

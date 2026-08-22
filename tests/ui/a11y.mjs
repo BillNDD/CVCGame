@@ -87,6 +87,17 @@ const WALKER = `(() => {
     let alpha = 1; let node = el;
     while (node && node.nodeType === 1) { alpha *= parseFloat(getComputedStyle(node).opacity) || 1; node = node.parentElement; }
     const fg = parse(cs.color); if (!fg) continue;
+    /* What the walker cannot compose, it must SAY rather than assume white
+       (art project step 0d, 2026-08-22, the art director's finding): a raster
+       background on any ancestor, or a painted layer UNDER the text that is
+       not an ancestor - the garden frame will be exactly that - leaves the
+       true background unknown. Reported as a finding, never guessed. */
+    let raster = false; let up = el;
+    while (up && up.nodeType === 1) { const bi = getComputedStyle(up).backgroundImage; if (bi && bi.includes("url(")) { raster = true; break; } up = up.parentElement; }
+    if (raster) { bad.push(text.trim().slice(0, 30) + " @ unknown background (a raster image behind it)"); continue; }
+    const under = document.elementsFromPoint(r.left + r.width / 2, r.top + r.height / 2)
+      .find((n) => n !== el && !n.contains(el) && !el.contains(n) && (() => { const s = getComputedStyle(n); const c = parse(s.backgroundColor); return (c && c.a > 0) || (s.backgroundImage && s.backgroundImage !== "none"); })());
+    if (under) { bad.push(text.trim().slice(0, 30) + " @ unknown background (a painted layer underneath: " + under.tagName.toLowerCase() + "." + String(under.className).split(" ")[0] + ")"); continue; }
     const worst = Math.min(...bgCandidates(el).map((bg) => ratio(mix(fg.rgb, fg.a * alpha, bg), bg)));
     if (worst < 4.5) bad.push(text.trim().slice(0, 30) + " @ " + worst.toFixed(2));
   }
@@ -126,6 +137,20 @@ await audit("home");
   else fail("axe negative control broken", "planted violation not reported");
   if (contrast.length > 0) console.log("control OK: the walker flags the planted grey-on-white line");
   else fail("contrast negative control broken", "planted low contrast not flagged");
+  /* And the step-0d plant: a dark fixed layer slid UNDER the grown-up strip,
+     the shape the garden frame will have. The walker must report the strip's
+     text as "unknown background", never measure it against white. */
+  await page.evaluate(() => {
+    const strip = document.querySelector(".wq-strip") || document.querySelector(".wq-rail");
+    const r = strip.getBoundingClientRect();
+    const d = document.createElement("div"); d.id = "wq-control-c";
+    d.style.cssText = "position:fixed;left:0;right:0;top:" + r.top + "px;height:" + r.height + "px;background:#1d2c50;z-index:0;";
+    document.body.insertBefore(d, document.body.firstChild);
+  });
+  const under = await page.evaluate(WALKER);
+  await page.evaluate(() => document.getElementById("wq-control-c").remove());
+  if (under.some((s) => s.includes("unknown background"))) console.log("control OK: the walker reports text over a painted layer it cannot compose as unknown, not as white");
+  else fail("unknown-background control broken", "a dark layer planted under the strip was measured as if it were white");
 }
 
 /* Seed a save whose most secure word is tricky, so the session opens with
@@ -246,7 +271,7 @@ await audit("grown-ups");
      mic one was the default; there is one now, so the switch went with the
      mode on 2026-08-12 and the audit keeps its own subject — the zoom, below,
      which nothing else covers. */
-  await page.getByRole("button", { name: "Back" }).click();
+  await page.getByRole("button", { name: "Back", exact: true }).click();
   await page.getByRole("button", { name: "Begin Session" }).click();
   await page.locator(".wq-word").waitFor();
   await page.getByText("Say the word out loud!").waitFor();

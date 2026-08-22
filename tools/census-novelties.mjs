@@ -284,3 +284,178 @@ export async function monkey(page, { taps = 300, seed = 1, settle = 3000 }) {
   for (const e of errors) findings.push({ kind: "console-error", detail: e });
   return { findings, taps: n, seen: [...seen], soundOnly: [...SOUND_ONLY.keys()] };
 }
+
+/* ---------------------------------------------------------------- step 0d
+   The art bible's claims, as measurements, before any art exists (art
+   project step 0d, owner-ruled 2026-08-22, amended by the council: "every
+   cell refuses zero subjects"). Each detector returns findings; each has a
+   planted-fault control in novelties-once.spec.mjs. */
+
+/* THE FRAME ADDS NOTHING. The shell is header + stage + rail, and on the
+   compact profile the session screen has already spent its height: a frame
+   that takes even one row of layout pushes the rail off the screen. Rule:
+   the three zones' heights sum to the shell's, within a pixel. Anything a
+   frame adds in flow shows up here as a gap. */
+export async function zoneSum(page) {
+  return page.evaluate(() => {
+    const shell = document.querySelector(".wq-shell");
+    if (!shell) return { findings: [{ kind: "no-subject", detail: "no .wq-shell on this screen" }] };
+    const h = (sel) => { const el = document.querySelector(sel); return el ? el.getBoundingClientRect().height : 0; };
+    const zones = { header: h(".wq-header"), stage: h(".wq-stage"), rail: h(".wq-rail") + h(".wq-strip") };
+    const sum = zones.header + zones.stage + zones.rail;
+    const shellH = shell.getBoundingClientRect().height;
+    const findings = [];
+    if (Math.abs(sum - shellH) > 1) findings.push({ kind: "frame-in-flow", detail: "header " + zones.header.toFixed(1) + " + stage " + zones.stage.toFixed(1) + " + rail " + zones.rail.toFixed(1) + " = " + sum.toFixed(1) + ", shell is " + shellH.toFixed(1) + " - something else takes " + (shellH - sum).toFixed(1) + " px of layout" });
+    return { findings, zones, shellH };
+  });
+}
+
+/* ONE EVENT AT A TIME (bible 3.3, 13.3, 14). The census runs with reduced
+   motion everywhere, which makes every other cell blind to ambient motion;
+   this one runs with motion allowed and samples the document's running
+   animations: none during an attempt, and during a reveal at most one
+   sounding tile and the advance control's own fill. */
+export async function runningAnimations(page) {
+  return page.evaluate(() => document.getAnimations().filter((a) => a.playState === "running").map((a) => {
+    /* a CSS animation's effect is a KeyframeEffect with a target, and the
+       animation itself is a CSSAnimation with a name; a Web Animations API
+       animation has neither, and names itself "anim" */
+    const el = a.effect instanceof KeyframeEffect ? a.effect.target : null;
+    const name = a instanceof CSSAnimation ? a.animationName : (a.id || "anim");
+    return (el ? el.tagName.toLowerCase() + "." + String(el.className).split(" ").filter(Boolean).join(".") : "?") + ":" + name;
+  }));
+}
+export function motionHold(phase, names) {
+  const findings = [];
+  if (phase === "attempt" && names.length) findings.push({ kind: "motion-during-attempt", detail: names.length + " animation(s) running while the child reads: " + names.join(", ") });
+  if (phase === "reveal") {
+    const pops = names.filter((n) => n.includes("wqpop")).length;
+    const others = names.filter((n) => !n.includes("wqpop") && !n.includes("wqfill"));
+    if (pops > 1) findings.push({ kind: "two-sounding-tiles", detail: pops + " tiles sounding at once" });
+    if (others.length) findings.push({ kind: "motion-during-reveal", detail: "besides the tile and the fill: " + others.join(", ") });
+  }
+  return findings;
+}
+
+/* A MULTI-LETTER UNIT IS VISIBLY WIDER (bible 11; S8's observed proof, which
+   safety-cover records as missing). In a reveal with a digraph, every
+   multi-letter tile is wider than every single-letter tile. */
+export async function tileWidths(page) {
+  return page.evaluate(() => [...document.querySelectorAll(".wq-tile")].map((t) => ({ text: t.textContent.trim(), w: t.getBoundingClientRect().width })));
+}
+export function unitWidthHold(tiles) {
+  const multi = tiles.filter((t) => t.text.length > 1), single = tiles.filter((t) => t.text.length === 1);
+  if (!multi.length || !single.length) return [{ kind: "no-subject", detail: "need a multi-letter and a single-letter tile; got " + JSON.stringify(tiles.map((t) => t.text)) }];
+  const narrowest = Math.min(...multi.map((t) => t.w)), widest = Math.max(...single.map((t) => t.w));
+  return narrowest > widest ? [] : [{ kind: "unit-not-wider", detail: "a multi-letter tile is " + narrowest.toFixed(1) + " px wide and a single-letter tile " + widest.toFixed(1) }];
+}
+
+/* 200% TEXT SCALING (bible 15, 19.2). The principal word must stay ONE line
+   box, inside the viewport, at or above a floor - a wrap is the failure the
+   reading chair named ("butter/fly" is two fragments, worse than shrinking).
+   `lines` counts the text's own line boxes and `textPx` sums their widths:
+   the element's box is the line's width whatever the text does inside it,
+   which is how a first draft of this detector called every word 292 px wide
+   and "something", split in two, the widest by a tie. */
+export async function wordBox(page) {
+  return page.evaluate(() => {
+    const w = document.querySelector(".wq-word");
+    if (!w) return null;
+    const range = document.createRange(); range.selectNodeContents(w);
+    const rects = [...range.getClientRects()].filter((r) => r.width > 0);
+    /* left and right are the TEXT's extent, not the element's: a word that
+       overflows its box is off the screen however well its box sits. */
+    const left = Math.min(...rects.map((r) => r.left)), right = Math.max(...rects.map((r) => r.right));
+    return { text: w.textContent.trim(), lines: rects.length, textPx: rects.reduce((a, r) => a + r.width, 0),
+      left, right, fontPx: parseFloat(getComputedStyle(w).fontSize), vw: innerWidth };
+  });
+}
+/* The widest word by RENDERED width, in em so the fit cannot hide it: each
+   candidate is written into the live word element in turn and its line boxes
+   summed, then the staged word is put back. A probe, not a render - the cell
+   then stages the winner for real and measures that. */
+export async function widestWord(page, words) {
+  return page.evaluate((list) => {
+    const w = /** @type {HTMLElement | null} */ (document.querySelector(".wq-word"));
+    if (!w) return null;
+    const was = w.textContent, wasSize = w.style.fontSize;
+    w.style.fontSize = "";
+    const em = parseFloat(getComputedStyle(w).fontSize);
+    let best = null, bestEm = 0;
+    for (const word of list) {
+      w.textContent = word;
+      const range = document.createRange(); range.selectNodeContents(w);
+      const px = [...range.getClientRects()].reduce((a, r) => a + r.width, 0) / em;
+      if (px > bestEm) { bestEm = px; best = word; }
+    }
+    w.textContent = was; w.style.fontSize = wasSize;
+    return { word: best, em: bestEm };
+  }, words);
+}
+export function wordFits(box, floorPx) {
+  if (!box) return [{ kind: "no-subject", detail: "no principal word on the screen" }];
+  const findings = [];
+  if (box.lines !== 1) findings.push({ kind: "word-wrapped", detail: '"' + box.text + '" renders as ' + box.lines + " line boxes" });
+  if (box.left < 0 || box.right > box.vw) findings.push({ kind: "word-off-screen", detail: '"' + box.text + '" spans ' + box.left.toFixed(1) + ".." + box.right.toFixed(1) + " in a " + box.vw + " px viewport" });
+  if (box.fontPx < floorPx) findings.push({ kind: "word-too-small", detail: '"' + box.text + '" is ' + box.fontPx.toFixed(1) + " px, floor " + floorPx });
+  return findings;
+}
+
+/* THE GUIDE, fail closed (bible 12, 13.3): it may appear only on home, done
+   and milestone screens, never over the stage, never animating while a clip
+   plays. No guide exists yet; the detector ships with its controls and the
+   live cell lands with its subject. A screen with no guide reports
+   "no-subject" so a vacuous pass cannot be mistaken for a proof. */
+export const GUIDE = ".wq-guide";
+export const GUIDE_SCREENS = ["home", "done", "milestone"];
+export async function guideState(page) {
+  return page.evaluate(([sel, allowed]) => {
+    const guides = [...document.querySelectorAll(sel)];
+    const screen = document.documentElement.getAttribute("data-wq-screen") || document.body.getAttribute("data-wq-screen") || "";
+    const stage = document.querySelector(".wq-stage");
+    const s = stage ? stage.getBoundingClientRect() : null;
+    const playing = !!document.querySelector("[aria-busy='true'], .wq-tile.wq-pop");
+    return guides.map((g) => {
+      const r = g.getBoundingClientRect();
+      const overStage = !!s && r.left < s.right && r.right > s.left && r.top < s.bottom && r.bottom > s.top;
+      const animating = g.getAnimations().some((a) => a.playState === "running");
+      return { screen, allowed: allowed.includes(screen), overStage, animating, playing };
+    });
+  }, [GUIDE, GUIDE_SCREENS]);
+}
+export function guideHold(states, expectOne = false) {
+  if (!states.length) return expectOne ? [{ kind: "no-subject", detail: "no guide on a screen that should show one" }] : [];
+  const findings = [];
+  for (const g of states) {
+    if (!g.allowed) findings.push({ kind: "guide-on-forbidden-screen", detail: 'the guide is on "' + (g.screen || "an unmarked screen") + '"' });
+    if (g.overStage) findings.push({ kind: "guide-over-stage", detail: "the guide's box intersects the stage" });
+    if (g.animating && g.playing) findings.push({ kind: "guide-moves-while-clip-plays", detail: "the guide animates while a clip plays" });
+  }
+  return findings;
+}
+
+/* DEVICE-PIXEL SNAP (bible 8.2 as amended): every piece of pixel art lands on
+   a whole number of device pixels per art pixel, at integer offsets, with
+   nearest-neighbour scaling. No art exists yet; the detector reads every
+   element marked data-wq-art and the control plants one at a fractional
+   width on the 2.625 profile. */
+export async function artSnap(page) {
+  return page.evaluate(() => [...document.querySelectorAll("[data-wq-art]")].map((el) => {
+    const r = el.getBoundingClientRect(), dpr = devicePixelRatio;
+    /* an <img> knows its natural width; any other element declares it */
+    const natural = Number(el.getAttribute("data-wq-art-w")) || (el instanceof HTMLImageElement ? el.naturalWidth : 0);
+    return { id: el.getAttribute("data-wq-art"), k: natural ? (r.width * dpr) / natural : 0, left: r.left * dpr, top: r.top * dpr,
+      rendering: getComputedStyle(el).imageRendering, dpr };
+  }));
+}
+export function snapHold(items) {
+  if (!items.length) return [{ kind: "no-subject", detail: "no pixel art on this screen" }];
+  const findings = [];
+  const near = (v) => Math.abs(v - Math.round(v)) <= 0.02;
+  for (const a of items) {
+    if (!near(a.k) || a.k < 1) findings.push({ kind: "art-not-snapped", detail: a.id + ": " + a.k.toFixed(3) + " device px per art px at dpr " + a.dpr });
+    if (!near(a.left) || !near(a.top)) findings.push({ kind: "art-off-grid", detail: a.id + ": offset " + a.left.toFixed(2) + ", " + a.top.toFixed(2) + " device px" });
+    if (a.rendering !== "pixelated" && a.rendering !== "crisp-edges") findings.push({ kind: "art-smoothed", detail: a.id + ": image-rendering is " + a.rendering });
+  }
+  return findings;
+}
