@@ -2201,3 +2201,19 @@ is a ruling on what free play offers a pre-ladder child, and the chooser matchin
   change it is at the grown-up-zone step (art plan step 4), and this entry closed with the
   value. Until then test 3b holds the two ratios at 1.26 and 1.07 so the gap cannot drift
   silently, and the bible's 9.3 row for `line` says the same.
+
+## AB. The open sentence word's ring is below 3:1 on two of the three gradient stops — opened 2026-08-22
+
+- **Where it lives** `.wq-sword-open{outline:3px solid ${C.action}}` in `app/src/wq-css.js`
+  (and the reference's copy), drawn round the sentence word the child is on, on a
+  transparent button over the root gradient (`SentenceStage.jsx`).
+- **What a child experiences today** The "this one, now" ring round the current sentence
+  word measures 2.95:1 on skyBlue, 2.88:1 on skyLavender and 3.15:1 on skyPurpleMist —
+  below the 3:1 the bible's section 15 asks of an important boundary on two of the three
+  stops. Found by the council's fourth judgement of step 0, which refused the sentence
+  "one edge is still below the rule" while this one was too.
+- **What done means** The ring at or above 3:1 on all three stops (a darker token, or a
+  ring with its own ground), measured in `tests/tokens.test.js` at literal ratios,
+  declared as the visible change it is at the reading-surface step (art plan step 3), and
+  this entry closed with the values. Until then test 3c holds the three ratios so the gap
+  cannot drift silently, and the bible's 9.3 row for `action` says the same.

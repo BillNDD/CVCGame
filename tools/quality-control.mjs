@@ -113,7 +113,8 @@ if (!DVH.test(".wq-word{font-size:clamp(2.25rem,11dvh,5.5rem)}") || !DVH.test('<
 const HEX = /#[0-9a-fA-F]{3,8}\b/;
 /* And rgb(), rgba(), hsl(), hsla() with a number inside: ink was restated as
    23,53,107 in seven shadows while SPEC section 9 said nothing restates a
-   colour. An alpha over a token comes from alpha() in app/src/colour.js. */
+   colour. An alpha over a token comes from alpha() in the reference, exported
+   by the engine. */
 const FUNC = /\b(?:rgb|rgba|hsl|hsla)\(\s*\d/;
 const hits = (text, f) => text.split("\n").map((l, i) => ({ f, n: i + 1, l })).filter((h) => HEX.test(h.l) || FUNC.test(h.l)).map((h) => h.f + ":" + h.n + " " + h.l.trim().slice(0, 80));
 const colourHits = [...APP_SOURCES.flatMap((f) => hits(stripped(f), f)), ...hits(referenceOutsideC(), REFERENCE + " (outside C)")];

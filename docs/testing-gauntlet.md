@@ -440,25 +440,30 @@ every bound reads `LEVELS.length`, which is why adding a level needed no engine 
   the bible pinned to their literal values — doc-truth rule 11 only asks that C and the
   bible's table agree, which a change to both would satisfy, and E4 asks for the literal —
   the key count (46), and the bible's 3:1 edge rule asserted with the file's own WCAG
-  arithmetic at literal ratios for every edge the game draws (tileEdge on tileFace 3.78,
-  boundary on surfacePanel 4.68, cyanStructural and purpleStructural on surfaceReading
-  7.51 and 6.39, boundary on paper 4.77 and on the empty slot's palest ground 3.79, amber
-  on sun 4.11, ink on surfaceReading 11.36), with the admitted sub-3:1 pair (disabled on
+  arithmetic at literal ratios for the bible's four structural edges, the empty slot's
+  edge and the progress ring (tileEdge on tileFace 3.78, boundary on surfacePanel 4.68,
+  cyanStructural and purpleStructural on surfaceReading 7.51 and 6.39, boundary on paper
+  4.77 and on the empty slot's lowest-ratio ground - paper at .55 over the lavender stop,
+  the least luminous of the three, derived from the tokens and pinned - 3.79, amber on sun
+  4.11, ink on surfaceReading 11.36), with the admitted sub-3:1 pair (disabled on
   surfacePanel, 2.10) and the two withdrawn edges (1.94, 1.44) as controls, and a sixth
   test that walks every `C.<key>` read in the app and the reference against C's keys with
   a planted one — `C.blue`, a key C never had, was read on the pre-done screen for weeks.
-  Test 3b holds the one edge still below the rule - `line`, the adult controls', 1.26:1
-  on paper and 1.07:1 on chip - at its literals and requires `docs/open-faults.md` to carry
-  it (entry AA, the grown-up-zone step's change); test 7 pins `alpha()` to the literals it
-  replaced and holds the two theme colours the build cannot derive (`index.html`, the
-  manifest) to `skyBlue`. Key: `g1_token_tests` (8). Its companion in the check is the quality control that
+  Tests 3b and 3c hold the two edges still below the rule at their literals and require
+  `docs/open-faults.md` to carry each: `line`, the adult controls', 1.26:1 on paper and
+  1.07:1 on chip (entry AA, the grown-up-zone step's change), and the open sentence word's
+  `action` ring on the gradient, 2.95, 2.88 and 3.15 on the three stops (entry AB, the
+  reading-surface step's change, found by the fourth judgement); test 7 pins `alpha()` to
+  the literals it replaced and holds the two theme colours the build cannot derive
+  (`index.html`, the manifest) to `skyBlue`. Key: `g1_token_tests` (9). Its companion in the check is the quality control that
   refuses a hex, rgb(), rgba() or hsl() literal in any app source (`.js`, `.jsx`, `.mjs`,
   `.css`) and in the reference outside its `C` block, with fixtures for each and for the
   `alpha()` helper it must not catch: the after pass found fourteen hex literals in the
   screens and the stylesheet's gradient typed beside the tokens it emits, and the
   re-judgement found seven shadows restating ink in decimal; five tokens entered C for
   them (paper, warningDeep, chipGreen, chipAmber, chipRed), every alpha now derives from a
-  token through `app/src/colour.js`, and two edges first typed as tokens were withdrawn
+  token through `alpha()` in the reference, exported by the engine, and two edges first
+  typed as tokens were withdrawn
   the same day because they failed the bible's own rule — the empty slot's dashed border
   now reads `boundary` (#94a8c0 to #5f7493) and the progress ring `amber` (#e0ac2b to
   #8a5a00), both declared as the visible darkenings they are. Two other values moved to
@@ -608,13 +613,17 @@ the offline comparator's control caught its first real bug before the live cell 
   screen's "Free play" stays in the DOM under the chooser it opens, and a seeded walk that
   tapped its centre three times through the chooser's box called it dead - a child's
   finger lands on what is on top, so `tappable` asks `elementFromPoint`. Only a cover
-  inside an `aria-modal` dialog takes a control out of the walk; any other cover - a toast,
-  a stray layer - leaves it in and the walk reports `covered-control` naming the layer, the
-  fault the monkey exists to find (the third judgement: the first draft dropped every
-  covered control, which would have hidden a stray layer over a child's button). The
-  control plants both shapes: a bare transparent layer, under which the planted button is
-  reported, and the same layer inside an `aria-modal` element, under which it leaves the
-  list.
+  inside an element that says `aria-modal="true"` takes a control out of the walk - a
+  `role="dialog"` without it is a non-modal dialog, behind which content is meant to stay
+  reachable, so it does not (the fourth judgement tightened the selector); any other cover
+  - a toast, a stray layer, a non-modal dialog - leaves it in and the walk reports
+  `covered-control` naming the layer the moment it LISTS the control, not only when the
+  dice pick it, the fault the monkey exists to find (the third judgement: the first draft
+  dropped every covered control, which would have hidden a stray layer over a child's
+  button). The control plants three shapes: a bare transparent layer, under which the
+  planted button is reported by a walk seeded never to pick it; the same layer inside a
+  `role="dialog"` without `aria-modal`, under which it is still reported; and inside an
+  `aria-modal` element, under which it leaves the list.
 - **offline equality** - the offline app is the same app, measured: geometry offline equals
   geometry online. This is the one cell that allows the service worker; every other census
   cell now BLOCKS it (2026-08-21), because ten cells each starting a 1,500-file precache
@@ -1624,7 +1633,7 @@ other direction: the real pack, unchanged, must pass.
 
 ## G20. Effect map
 
-- Tool: `tools/effect-map.mjs`. Writes `docs/effect-map.md`. Keys: `g20_tests_mapped` (402).
+- Tool: `tools/effect-map.mjs`. Writes `docs/effect-map.md`. Keys: `g20_tests_mapped` (403).
 - One row per `it()` SITE — its file, suite, and the test's own sentence, which in this
   project IS the Given/When/Then effect, because tests are named as behaviour. A site inside
   a loop or a table runs many times, so the map's 310 rows describe the 324 tests Vitest executes;

@@ -350,11 +350,13 @@ border #94a8c0, 1.94:1 on its ground, and the progress ring #e0ac2b, 1.44:1 on s
 were withdrawn; the slot reads `boundary` (4.77:1 on paper, 3.79:1 on its lowest-ratio ground, the lavender stop)
 and the ring reads `amber` (4.11:1 on sun), a visible darkening of both, declared.
 `tests/tokens.test.js` asserts the bible's four structural edges, the slot's edge and the
-ring at their literal ratios and holds the two withdrawn values below 3:1 as controls. One
-edge the game draws is still below the rule and is not hidden by that sentence: `line`,
+ring at their literal ratios and holds the two withdrawn values below 3:1 as controls. Two
+edges the game draws are still below the rule and are not hidden by that sentence: `line`,
 the adult controls' edge, 1.26:1 on paper and 1.07:1 on chip (the third judgement of step
-0, 2026-08-22) - held at those literals by the same test, recorded in `docs/open-faults.md`,
-and the grown-up-zone step's declared change.
+0, 2026-08-22; `docs/open-faults.md` AA, the grown-up-zone step's declared change), and
+the open sentence word's `action` ring on the gradient, 2.95:1, 2.88:1 and 3.15:1 on the
+three stops (the fourth judgement; open-faults AB, the reading-surface step's declared
+change) - each held at its literals by the same test.
 
 ### 9.3 The repository's tokens (ruled 2026-08-22)
 
@@ -371,7 +373,7 @@ and values as the record of what the PDF said.
 | ink2 | #3e5aa6 | the game's own, unchanged |
 | muted | #5a6ba8 | the game's own, unchanged |
 | strip | #455073 | the game's own, unchanged |
-| action | #c9402f | the game's own, unchanged |
+| action | #c9402f | the game's own, unchanged; as the open sentence word's 3 px ring it measures 2.95, 2.88 and 3.15:1 on the gradient's three stops - below 3:1 on two, recorded in open-faults AB for the reading-surface step (step 3) |
 | green | #0f7a4f | the game's own, unchanged |
 | amber | #8a5a00 | the game's own, unchanged; and since 2026-08-22 the ring round the current progress segment (4.11:1 on sun) |
 | amberInk | #6b4600 | the game's own, unchanged |
@@ -443,13 +445,13 @@ the mat.`
 | Principal word | clamp(2.25rem, 11svh, 5.5rem); ~700; line-height ~1.05 |
 | Tappable sentence word | clamp(1.35rem, 5.2svh, 2.4rem); 56 px minimum target |
 | Feedback tile | clamp(1.1rem, 3.2svh, 1.6rem) |
-
-The PDF's table said `dvh` in those three rows; the ruling under 10.4 changed every teaching
-clamp to `svh` on 2026-08-22, the quality control refuses `dvh` in any app source, and the
-rows above say what the app says.
 | Build It tile | Approximately 27 px in a 64 px-high control |
 | Adult target | 44 px minimum |
 | Child target | 56 px minimum |
+
+The PDF's table said `dvh` in the three clamp rows; the ruling under 10.4 changed every
+teaching clamp to `svh` on 2026-08-22, the quality control refuses `dvh` in any app source,
+and the rows above say what the app says.
 
 ### 10.4 Sentence wrapping
 

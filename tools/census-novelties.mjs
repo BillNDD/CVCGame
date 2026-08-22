@@ -235,7 +235,9 @@ export async function tappable(page) {
          control, which would have hidden a stray layer over a child's button). */
       const top = document.elementFromPoint(x, y);
       const own = !!top && b.contains(top);
-      const inDialog = !!top && !!top.closest("[aria-modal=\"true\"], [role=\"dialog\"]");
+      /* aria-modal only: a role="dialog" without it is a non-modal dialog, and
+         content behind a non-modal dialog is meant to stay reachable */
+      const inDialog = !!top && !!top.closest("[aria-modal=\"true\"]");
       const cover = top && !own ? top.tagName.toLowerCase() + (top.className ? "." + String(top.className).split(" ").filter(Boolean).join(".") : "") : "";
       return { label: (b.getAttribute("aria-label") || b.textContent || "").trim().slice(0, 40),
         x, y, w: r.width, h: r.height, own, coveredByDialog: !own && inDialog, cover,
@@ -270,9 +272,11 @@ export async function monkey(page, { taps = 300, seed = 1, settle = 3000 }) {
       await page.waitForFunction(() => !document.querySelector("[aria-busy=\"true\"]"), null, { timeout: 8000 }).catch(() => {});
       const controls = await tappable(page);
       if (!controls.length) { findings.push({ kind: "dead-end", detail: `tap ${n}: nothing left to tap` }); break; }
+      /* every covered control the walk can SEE is reported, once by label,
+         whether or not the dice ever pick it (the fourth judgement) */
+      for (const c of controls) if (!c.own && !covered.has(c.label)) { covered.add(c.label); findings.push({ kind: "covered-control", detail: `tap ${n}: "${c.label}" is under ${c.cover || "something"}, which is not a modal dialog - a finger cannot reach it` }); }
       const pick = controls[Math.floor(rng() * controls.length)];
       seen.add(pick.label);
-      if (!pick.own && !covered.has(pick.label)) { covered.add(pick.label); findings.push({ kind: "covered-control", detail: `tap ${n}: "${pick.label}" is under ${pick.cover || "something"}, which is not a dialog - a finger cannot reach it` }); }
       const before = await snapshot(page);
       await page.mouse.click(pick.x, pick.y);
       const soundOnly = SOUND_ONLY.has(pick.label);

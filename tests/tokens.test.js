@@ -94,6 +94,21 @@ describe("the palette is pinned", () => {
     expect(faults).toContain("1.26:1");
   });
 
+  it("3c: the open sentence word's action ring on the gradient is BELOW 3:1 on two stops today, and is named in open-faults for the reading-surface step", () => {
+    /* .wq-sword-open draws a 3 px action ring round the sentence word the
+       child is on, over the root gradient (the fourth judgement of step 0):
+       2.95 on skyBlue, 2.88 on skyLavender, 3.15 on the mist. A child-facing
+       "this one, now" boundary; darkening it is step 3's declared change. */
+    expect(contrast(C.action, C.skyBlue)).toBeCloseTo(2.95, 2);
+    expect(contrast(C.action, C.skyLavender)).toBeCloseTo(2.88, 2);
+    expect(contrast(C.action, C.skyPurpleMist)).toBeCloseTo(3.15, 2);
+    expect(contrast(C.action, C.skyBlue)).toBeLessThan(3);
+    expect(contrast(C.action, C.skyLavender)).toBeLessThan(3);
+    const faults = readFileSync("docs/open-faults.md", "utf8");
+    expect(faults).toContain("wq-sword-open");
+    expect(faults).toContain("2.88:1");
+  });
+
   it("4: teaching text clears 7:1 and the action blue 4.5:1, at literal ratios", () => {
     expect(contrast(C.ink, C.surfaceReading)).toBeCloseTo(11.36, 2);
     expect(contrast(C.actionBlue, C.paper)).toBeCloseTo(6.43, 2);

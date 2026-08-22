@@ -124,16 +124,23 @@ test("control: a dead control and a thrown error are both caught by the monkey",
   expect(planted, bare.map((c) => c.label).join(" | ")).toBeTruthy();
   expect(planted.own).toBe(false);
   expect(planted.cover).toBe("div.wq-plant-cover");
-  await page.evaluate(() => { const d = document.getElementById("wq-plant-cover"); const m = document.createElement("div"); m.setAttribute("aria-modal", "true"); m.setAttribute("role", "dialog"); m.id = "wq-plant-dialog"; d.replaceWith(m); m.appendChild(d); });
+  /* a role="dialog" WITHOUT aria-modal is a non-modal dialog: the button
+     stays in the walk (the fourth judgement) */
+  await page.evaluate(() => { const d = document.getElementById("wq-plant-cover"); const m = document.createElement("div"); m.setAttribute("role", "dialog"); m.id = "wq-plant-dialog"; d.replaceWith(m); m.appendChild(d); });
+  expect((await tappable(page)).map((c) => c.label)).toContain("planted dead control");
+  await page.evaluate(() => document.getElementById("wq-plant-dialog").setAttribute("aria-modal", "true"));
   const underDialog = (await tappable(page)).map((c) => c.label);
   expect(underDialog, underDialog.join(" | ")).not.toContain("planted dead control");
   expect(underDialog).toContain("Begin Session");
-  /* the dialog unwrapped, the bare cover back: a short walk must report the
-     covered control by name and by what covers it (the walk leaves home, so
-     this is the last thing the control does) */
+  /* the dialog unwrapped, the bare cover back: ONE tap, seeded so the dice
+     pick "Begin Session" and never the plant, must still report the covered
+     control by name and by what covers it - it is reported when listed, not
+     when picked (the walk leaves home, so this is the last thing the control
+     does) */
   await page.evaluate(() => { const m = document.getElementById("wq-plant-dialog"); const d = document.getElementById("wq-plant-cover"); m.replaceWith(d); });
   expect((await tappable(page)).map((c) => c.label)).toContain("planted dead control");
-  const walked = await monkey(page, { taps: 12, seed: 3, settle: 300 });
+  const walked = await monkey(page, { taps: 1, seed: 11, settle: 300 });
+  expect(walked.seen, "the one tap must have picked a control other than the plant").not.toContain("planted dead control");
   expect(walked.findings.map((f) => f.kind), JSON.stringify(walked.findings)).toContain("covered-control");
   expect(walked.findings.some((f) => f.kind === "covered-control" && f.detail.includes("planted dead control") && f.detail.includes("div.wq-plant-cover"))).toBe(true);
 });

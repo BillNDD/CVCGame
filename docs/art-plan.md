@@ -49,6 +49,12 @@ The rules:
   the log below and in the commit that closes the step.
 - **No chair writes code, tests, or documents.** A chair's suggestion becomes the
   implementer's change, judged by the gates like any other, and then by the council.
+- **A finding is verified before it is taken.** A chair can be wrong: the third judgement
+  of Step 0 called Build-it's owner-ruled scaffold a dead state to be removed, the
+  implementer wrote that into a step's brief without reading the code, and the fourth
+  judgement caught it. "Taken" means the implementer read the file and line the finding
+  names and agrees; a finding the implementer cannot confirm is declined with the reason,
+  the same as one it disagrees with.
 - **The gauntlet outranks the council.** A step the council calls satisfactory still ships
   only on a green check, and a beta only on a green gauntlet (E7). A step the council
   refuses does not ship on a green gauntlet either.
@@ -181,11 +187,14 @@ and 15):**
 ### Steps 1 to 11 — the bible's migration order, amended
 
 1. Ceramic tile styling (the bible's step 5, moved up: tiles are on every screen a child
-   learns on) — and Build-it's dead `ghost` state: `BuildItScreen.jsx` holds a setter-less
-   state that would draw `tray.answer[i]` into an empty slot at opacity .28, the answer in
-   the art waiting for a setter; step 1 removes it or the owner rules a hint mechanism and
-   SPEC states it, with a test that an empty slot's text is empty after a miss (the reading
-   chair, the third judgement). 2. Glowseed tied to the real audio lifecycle. 3. The responsive reading
+   learns on) — and Build-it's `ghost`, which is the owner-ruled scaffold of 2026-08-17
+   (SPEC section 6; `tests/buildit.test.js` test 8): after the second miss the correct
+   letter fades into its own slot at opacity .28 while its sound plays. Step 1's job is to
+   keep it perceivable under ceramic tile styling — its rendered ratio on the slot's real
+   ground stated at a literal value, and what the Larger / Higher-Contrast setting does to
+   it — never to remove it. (The third judgement called it a setter-less dead state to be
+   removed; the implementer took that without checking and the fourth judgement withdrew
+   it: `setGhost` is called at lines 183 and 184.) 2. Glowseed tied to the real audio lifecycle. 3. The responsive reading
    surface and garden frame, out of flow — and bible 10.4's margins-before-font on the
    compact profiles: the stage spends 14 px a side before the principal word's glyphs
    shrink, so "something" fits at 56.1 px on 320 × 568 where the full width would give
@@ -339,5 +348,29 @@ Newest last. A verdict names the chair, the step, the word, and the findings.
   amber, boundary and slot say what each paints on HEAD; the snap rule also refuses a 2×/3×
   file whose file pixels land unevenly (k = 5 on a 2× file refused, 4 and 6 pass); the
   theme colours in `index.html` and the manifest held to `skyBlue` by test; bible 10.3's
-  three `dvh` rows say `svh`; the one-frame cost names the clipped frame; Build-it's dead
-  `ghost` state goes to step 1's brief. Judged a fourth time; the verdicts follow.
+  three `dvh` rows say `svh`; the one-frame cost names the clipped frame; Build-it's
+  `ghost` went to step 1's brief as a dead state — **mistakenly**: the fourth judgement
+  found it is the owner-ruled scaffold (SPEC section 6, buildit test 8) with its setter in
+  use, so the third judgement's finding was withdrawn and the brief corrected to "keep it
+  perceivable", and the lesson is recorded in the rules above — a chair's finding is
+  verified before it is taken. Judged a fourth time; the verdicts follow.
+- 2026-08-22 — Step 0 judged a fourth time, fresh: **art director satisfactory**; the other
+  two chairs not satisfactory, one blocking finding each, ten non-blocking; every one taken
+  or, in one case, refused with the reason. **Blocking:** (1) the reading chair: the step 1
+  brief written the round before called Build-it's ghost a dead state to be removed, and
+  it is the owner-ruled scaffold with its setter in use — corrected, and the council rule
+  above gained "a finding is verified before it is taken"; (2) the antagonist: the 3:1
+  claim was still wider than its measurement — the open sentence word's `action` ring on
+  the gradient measures 2.95, 2.88 and 3.15 on the three stops, a child-facing boundary
+  below the rule on two of them — held at those literals by test 3c, named in the bible's
+  section 9 sentence and the 9.3 `action` row, and carried in `docs/open-faults.md` AB for
+  the reading-surface step; the gauntlet doc's residue ("every edge", "palest") corrected.
+  **Taken besides:** the bible's 10.3 table rejoined; the two references to the deleted
+  `colour.js` corrected; the monkey's dialog selector tightened to `aria-modal` only, with
+  a role-only dialog planted and required to be reported; a covered control is reported
+  when the walk LISTS it, not only when the rng picks it, with the control's walk seeded so
+  it never picks the plant. **Named for later steps, as the rules allow:** the ghost's
+  rendered contrast (step 1), the one-frame clipped word on a landscape-to-portrait turn
+  (step 3), the file-pixel snap rule for art that is not an `<img>` (step 6), and the
+  report's seed naming the parent commit when the scope runs before the commit (cadence).
+  Judged a fifth time; the verdicts follow.
