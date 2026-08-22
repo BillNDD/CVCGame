@@ -306,6 +306,7 @@ const suiteOut = step("G1+G2+G9+G10 tests", "npx vitest run --coverage", [
 /* G2 structural check: every property runs through the shared RUNS constant,
    and RUNS carries at least the baseline case count. */
 {
+  const startedAt = Date.now();
   const src = readFileSync("tests/properties.test.js", "utf8");
   const def = src.match(/const RUNS = \{ numRuns: (\d+) \}/);
   const cases = def ? Number(def[1]) : 0;
@@ -314,7 +315,8 @@ const suiteOut = step("G1+G2+G9+G10 tests", "npx vitest run --coverage", [
   const single = (src.match(/numRuns/g) || []).length === 1;
   const ok = cases >= baseline.g2_cases_per_property && asserts > 0 && runsUses === asserts && single;
   report("G2 cases", "structural check of tests/properties.test.js", ok,
-    `cases_per_property=${cases} (floor ${baseline.g2_cases_per_property}), asserts=${asserts}, via_RUNS=${runsUses}`);
+    `cases_per_property=${cases} (floor ${baseline.g2_cases_per_property}), asserts=${asserts}, via_RUNS=${runsUses}`,
+    { durationMs: Date.now() - startedAt });
 }
 
 /* The porcelain check also catches a committed deletion of a generated file:

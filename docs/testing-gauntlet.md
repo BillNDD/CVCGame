@@ -584,7 +584,15 @@ sole reader of the baseline and sole writer of the evidence: it parses the lane'
 output through the same step() in its own order, so a laned run and a serial run are the
 same proof exactly when `--canonical` says so. Adoption is the owner's rule: 2 becomes the
 default only if it cuts wall time by 20 per cent against the serial post-P1 run with
-byte-identical canonical evidence. LANES_MEASURED
+byte-identical canonical evidence. MEASURED 2026-08-22 on one commit, b671dab, back to
+back on the owner's machine: run 16 serial 26 min 13 s, run 17 `--workers 2` 22 min 49 s,
+both 28 of 28 green, `--canonical` forms byte-identical - a 13 per cent saving, under the
+bar. The reason is in the per-gate numbers: beside G5, E11 went from 7:23 to 11:29 and G5
+itself from 6:39 to 7:54, because every vitest run already uses every core and the lane
+only adds contention; the lane (12:52 under contention) outlasted G5 by five minutes and
+the parent waited. So serial stays the default, the flag stays set by nobody, and the
+honest summary of P2 is: built, proved identical, not worth its minutes on this machine.
+A runner with idle cores may measure differently; the same two runs decide it there.
 
 **The census, as ruled.** The class key's third term is the widest unit's LENGTH
 (`tools/ux-census.mjs`, `signature`); `census_cells` rises from 416 to 616, counted with
