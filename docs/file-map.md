@@ -38,6 +38,8 @@ verbatim) are exempt; the exemptions are declared in the tool.
 | `.claude/skills/council-adult-ux/SKILL.md` | OWNER | the brief for the council's adult-experience seat: whose experience it judges and what it is suspicious of |
 | `.claude/skills/drift-check/SKILL.md` | OWNER | how to run the comprehensive drift check: which gates and lookups, in what order, and what a green run does not mean |
 | `docs/redesign-plan.md` | OWNER | the plan for the curriculum redesign: every step still to do, what each breaks, and what it waits on |
+| `docs/art-plan.md` | OWNER | the art project: how its council of three works, the owner's rulings, every step with what it breaks, and the council's verdicts |
+| `docs/art-bible.md` | OWNER | the visual and interaction rules (the art bible v1.0) and every ruling made on them, under the section each changes |
 | `docs/install-ios.md` | OWNER | the iOS install steps a parent follows |
 | `docs/install-windows.md` | OWNER | the Windows install steps a parent follows |
 | `docs/phonics-handoff-defects.md` | OWNER | the historical handoff defect record; its instructions are history, not tasks |

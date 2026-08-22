@@ -48,6 +48,8 @@ export const GOVERNING = [
      this file only by being fixed, and its result is recorded in whichever
      document owns the fact. */
   "docs/redesign-plan.md",
+  "docs/art-plan.md",            /* the art project: council rules, rulings, steps, verdicts - owner-approved 2026-08-22 */
+  "docs/art-bible.md",           /* the art bible v1.0 in the repository, with the rulings under each section - owner-instructed 2026-08-22 */
   "docs/open-faults.md",
   "docs/settled.md",
   "docs/testing-gauntlet.md",
