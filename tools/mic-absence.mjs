@@ -211,7 +211,7 @@ async function runtime() {
     if (!(await b.count())) break;
     await b.focus(); await b.press("Enter"); graded += 1;
     await page.locator(".wq-tile").first().waitFor().catch(() => {});
-    await page.waitForFunction(() => { const x = document.querySelector(".wq-rail .wq-cta"); return !!x && !x.disabled; },
+    await page.waitForFunction(() => { const x = /** @type {HTMLButtonElement | null} */ (document.querySelector(".wq-rail .wq-cta")); return !!x && !x.disabled; },
       null, { timeout: 12000 }).catch(() => {});
     await page.locator(".wq-rail .wq-cta").click().catch(() => {});
     await page.locator(".wq-word").waitFor().catch(() => {});

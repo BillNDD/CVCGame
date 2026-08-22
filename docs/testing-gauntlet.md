@@ -714,6 +714,22 @@ found exactly its class - G25's counters blind since birth, three floor raises o
 wrong key, stray step arguments, a null payload hash - and the recommendation, costed
 against that record, is owed after the beta push and after the speed plan above.
 
+### The type checker (owner-ruled 2026-08-22, the bug-hunt page)
+
+`tools/type-check.mjs` runs in `npm run check`: TypeScript's `checkJs` over the plain
+JavaScript, no conversion, through `app/jsconfig.json` (the app, DOM types, the build's
+globals declared once in `app/src/globals.d.ts`) and `jsconfig.json` (the tools, Node
+types). The fault class it refuses at authoring time is the 2026-08-17 one - a call with its
+arguments shifted one place - and its control plants exactly that and requires the count.
+Zero on both sides: `tsc_app_errors_max` and `tsc_tools_errors_max` are 0, ceilings under
+E6 so they stay there. On arrival the app had 36 findings (build globals, CSS custom
+properties, vendor audio APIs, and Zone's optional props, which JS destructuring had left
+reading as required) and the tools 153, of which 113 were `window` and `document` inside
+`page.evaluate` - the DOM lib - and the rest fixture unions, browser probes and one reader
+parameter; all were fixed the same hour. A first draft gave the tools side a ceiling of 27
+and the owner refused it in one line - "this sounds like test faking" - which it was: a
+checker allowed to pass with findings in it. About six seconds, both configs.
+
 ### Never run `npm run check` while a gauntlet is running
 
 Owner-facing consequence: nothing. Agent-facing consequence: a false result, in both
@@ -1159,7 +1175,7 @@ happened to read the output.
   halves repository language is the tree talking, one stranger half is a person. The
   stated residue: someone named entirely in repository words is skipped here, exactly as
   each half already was by the single-word layers.
-- Keys: `g24_files` (266), `g24_controls` (47), `g24_vocab` (186), `g24_common` (888),
+- Keys: `g24_files` (266), `g24_controls` (47), `g24_vocab` (188), `g24_common` (888),
   `g24_common` moved 889 to 888 on 2026-08-19, owner-ruled on the `Hope` precedent of
   2026-08-16: **Joy** is an ordinary English word that is also a given name, and it
   appears in a listening round's carrier phrase. The alternative was rewording a record

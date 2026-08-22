@@ -13,6 +13,7 @@ const N = (v) => String(Number(v));
 
 /* Each entry: regex over the step text -> lines of code. The generator, not
    the runner, resolves the mapping, so the output is plain Vitest. */
+/** @type {Array<[RegExp, (m: RegExpMatchArray) => string[]]>} */
 const STEPS = [
   // ---- grading ----
   [/^a word the child has never attempted$/, () => [

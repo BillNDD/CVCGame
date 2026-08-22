@@ -733,7 +733,7 @@ async function axeViolations(page) {
 async function waitForReveal(page, timeout = 25000) {
   await page.locator(".wq-tile").first().waitFor({ timeout: 8000 });
   await page.waitForFunction(() => {
-    const b = document.querySelector(".wq-rail .wq-cta");
+    const b = /** @type {HTMLButtonElement | null} */ (document.querySelector(".wq-rail .wq-cta"));
     if (!b || b.disabled) { window.__wqStable = 0; return false; }
     window.__wqStable = (window.__wqStable || 0) + 1;
     return window.__wqStable >= 5;

@@ -10,7 +10,7 @@ import "./styles.css";
    unhandled rejection is written to the device, never sent. The screen name
    comes from the same wq-screen event the update module listens to. */
 let currentScreen = "home";
-window.addEventListener("wq-screen", (e) => { currentScreen = String(e.detail); });
+window.addEventListener("wq-screen", (e) => { currentScreen = String(/** @type {CustomEvent} */ (e).detail); });
 installErrorRing(window, { screen: () => currentScreen, version: __APP_VERSION__ });
 
 createRoot(document.getElementById("root")).render(
@@ -27,7 +27,7 @@ if (import.meta.env.PROD && "serviceWorker" in navigator) {
   installRefresh({
     nav: navigator.serviceWorker,
     reload: () => window.location.reload(),
-    onScreen: (fn) => window.addEventListener("wq-screen", (e) => fn(e.detail)),
+    onScreen: (fn) => window.addEventListener("wq-screen", (e) => fn(/** @type {CustomEvent} */ (e).detail)),
   });
   window.addEventListener("load", () => {
     navigator.serviceWorker.register("sw.js").catch(() => {});

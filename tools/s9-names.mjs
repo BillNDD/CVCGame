@@ -105,7 +105,8 @@ export function loadNames(read = readFileSync, exists = existsSync, env = proces
 
    The declared titles are the ones pinned in tools/corpus/sources.json - the
    same manifest G26 rule 5 checks citations against. One list, two gates. */
-export function loadCorpus(read = readFileSync, exists = existsSync) {
+/** @param {(f: string, enc?: "utf8") => string} [read] @param {(f: string) => boolean} [exists] */
+export function loadCorpus(read = (f) => readFileSync(f, "utf8"), exists = existsSync) {
   const out = [];
   if (!exists(CORPUS_MANIFEST)) return out;
   const man = JSON.parse(read(CORPUS_MANIFEST, "utf8"));

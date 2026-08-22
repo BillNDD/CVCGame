@@ -54,6 +54,7 @@ export function applyUpdate() {
   return new Promise((resolve) => {
     if (!("serviceWorker" in navigator)) { resolve(false); return; }
     let done = false;
+    /** @type {ReturnType<typeof setTimeout> | 0} */
     let timer = 0;
     const onControl = () => finish(true);
     const finish = (ok) => {

@@ -215,7 +215,7 @@ async function snapshot(page) {
   });
 }
 async function tappable(page) {
-  return page.evaluate(() => [...document.querySelectorAll("button, [role=button]")]
+  return page.evaluate(() => [.../** @type {NodeListOf<HTMLButtonElement>} */ (document.querySelectorAll("button, [role=button]"))]
     .filter((b) => !b.disabled && !b.classList.contains("wq-hold") && !/\(hold\)$/.test(b.getAttribute("aria-label") || ""))
     .map((b) => {
       const r = b.getBoundingClientRect();

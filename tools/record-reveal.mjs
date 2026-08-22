@@ -46,8 +46,8 @@ const server = createServer((req, res) => {
   res.writeHead(200, { "content-type": TYPES[extname(file)] || "application/octet-stream" });
   res.end(readFileSync(file));
 });
-await new Promise((r) => server.listen(0, r));
-const base = "http://127.0.0.1:" + server.address().port + "/";
+await new Promise((r) => server.listen(0, () => r(undefined)));
+const base = "http://127.0.0.1:" + /** @type {import("node:net").AddressInfo} */ (server.address()).port + "/";
 
 const browser = await chromium.launch({
   /* The same launch the browser gates use: this image ships one Chromium at a
@@ -71,7 +71,10 @@ const ctx = await browser.newContext({
 await ctx.addInitScript(() => {
   const Real = window.AudioContext;
   window.__tap = { chunks: [], ready: null };
-  window.AudioContext = class extends Real {
+  /* A subclass that hands its graph a recording bus. The checker cannot
+     type a class expression assigned over a DOM constructor, so the
+     assignment is widened: this is a test shim in a throwaway page. */
+  /** @type {any} */ (window).AudioContext = class extends Real {
     constructor(...a) {
       super(...a);
       const bus = super.createGain();
@@ -86,7 +89,7 @@ await ctx.addInitScript(() => {
       window.__tap.start = () => mr.start(100);
       window.__tap.stop = () => new Promise((res) => { mr.onstop = res; mr.stop(); });
     }
-    get destination() { return this.__bus || super.destination; }
+    get destination() { return /** @type {any} */ (this).__bus || super.destination; }
   };
   window.WebkitAudioContext = window.AudioContext;
 });
@@ -141,7 +144,7 @@ await page.evaluate(() => {
   window.__s = [];
   window.__iv = setInterval(() => {
     window.__s.push({ at: Math.round(performance.now() - window.__t0),
-      tiles: [...document.querySelectorAll(".wq-tile")].map((e) => ({
+      tiles: [.../** @type {NodeListOf<HTMLElement>} */ (document.querySelectorAll(".wq-tile"))].map((e) => ({
         g: e.textContent, on: e.classList.contains("wq-pop"),
         ms: e.style.getPropertyValue("--wqpop") })) });
   }, 25);

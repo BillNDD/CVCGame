@@ -83,6 +83,7 @@ function arms(text) {
 
 const cards = WANT.map((text) => {
   const built = arms(text).map((a) => {
+    /** @type {Array<{ seam?: number, id?: string, b64?: string, lead?: number, tail?: number, ms?: number }>} */
     const clips = a.plan.map((p) => (isSeam(p) ? { seam: seamMs(p) } : clip(p)));
     let ms = 0;
     clips.forEach((c, i) => {

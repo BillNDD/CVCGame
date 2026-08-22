@@ -132,6 +132,9 @@ const MACHINERY = [
   /^app\/src\//,
   /^tests\/generated\//,
   /(^|\/)package(-lock)?\.json$/,
+  /* The type checker's two configs (2026-08-22, the bug-hunt ruling on
+     @ts-check): compiler settings, not a document that states a fact. */
+  /(^|\/)jsconfig\.json$/,
 ];
 
 export function check(tracked) {
@@ -192,7 +195,10 @@ const NOT = /^\*\*It does not own\*\*/m;
 export const GENERATED_DOCS = ["docs/effect-map.md"];
 
 export function ownership(files, read) {
-  const missing = [], logs = [];
+  /** @type {string[] & { logs?: string[] }} */
+  const missing = [];
+  /** @type {string[]} */
+  const logs = [];
   for (const f of files) {
     if (!f.endsWith(".md") || GENERATED_DOCS.includes(f)) continue;
     const head = read(f).split("\n").slice(0, HEAD_LINES).join("\n");

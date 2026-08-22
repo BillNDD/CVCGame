@@ -527,6 +527,7 @@ const linesOf = (rows, f) => (rows.find((r) => r.file === f)?.found || []).map((
    release run with nothing to read. */
 let LAST_STATUS = 0;
 const run = (box, ...argv) => {
+  /** @type {import("node:child_process").ExecFileSyncOptionsWithStringEncoding} */
   const opt = { cwd: box, encoding: "utf8", env: cleanEnv(), timeout: 60000, stdio: ["ignore", "pipe", "pipe"] };
   try { LAST_STATUS = 0; return execFileSync(process.execPath, [TOOL, ...argv], opt); }
   catch (e) { LAST_STATUS = e.status ?? -1; return (e.stdout || "") + (e.stderr || ""); }
@@ -818,6 +819,7 @@ function hookControls(ok) {
 }
 
 async function selfTest() {
+  /** @type {Array<[string, boolean]>} */
   const ok = [];
   const real = process.cwd();
   const box = sandbox();

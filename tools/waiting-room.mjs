@@ -222,6 +222,7 @@ if (process.argv.includes("--self-test")) {
   const clone = (o) => JSON.parse(JSON.stringify(o));
   const withRow = (mut) => { const l = clone(base); mut(l); return l; };
 
+  /** @type {Array<[string, () => string[], number]>} */
   const cases = [
     ["control: a clean waiting room passes all six rules", () => check(base, files, bytes, sources), 0],
 

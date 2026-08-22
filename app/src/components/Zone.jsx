@@ -9,7 +9,7 @@ const Zone = {
      scrollable-region-focusable, serious - found 254 times over by the first
      post-cutover census, one finding echoed by every landscape cell). On the
      tall screens it is a harmless extra tab stop before the buttons. */
-  Stage: ({ children, scroll, home }) => (
+  Stage: ({ children, scroll = false, home = false }) => (
     <main tabIndex={0} className={"wq-stage" + (scroll ? " wq-scroll" : "") + (home ? " wq-stage-home" : "")}>{children}</main>
   ),
   Rail: ({ children }) => <div className="wq-rail">{children}</div>,

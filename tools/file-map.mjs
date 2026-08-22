@@ -264,6 +264,9 @@ export function govGaps(governing = GOVERNING, declared = DECLARED) {
    The ceiling comes from the baseline, and a MISSING ceiling is a failure in
    its own right: `history > undefined` is false for every count, which is a
    ceiling that stopped existing with every gate green (reviewer finding). */
+/** @typedef {{ path: string, kind: string, owns?: string, regen?: string, why?: string, quotesFaults?: boolean }} Declaration */
+/** @typedef {Record<string, { owner: string, forbidden: RegExp[] }>} Facts */
+/** @param {Declaration[]} declared */
 export function orphans(tree, declared = DECLARED, ceiling = null, readBaseline = null) {
   const problems = [];
   let history = 0;
@@ -306,6 +309,7 @@ export function tombstones(exists = existsSync, stones = TOMBSTONES) {
    not own it. Logs are exempt (dated entries keep their numbers, owner-ruled
    2026-08-14); open-faults is exempt because quoting wrong sentences is its
    job, and the exemption is declared on its entry above. */
+/** @param {Declaration[]} declared @param {Facts} facts */
 export function copies(tree, declared = DECLARED, facts = FACTS) {
   const problems = [];
   const scan = declared.filter((d) => (d.kind === "OWNER") && !d.quotesFaults);
@@ -330,6 +334,7 @@ export function copies(tree, declared = DECLARED, facts = FACTS) {
    construction; what CAN happen is two DECLARED rows claiming the same owns
    line, or a family's forbidden shape matching inside a DIFFERENT family's
    owner — a de-facto second owner wearing the first one's words. */
+/** @param {Declaration[]} declared @param {Facts} facts */
 export function duplicates(tree, declared = DECLARED, facts = FACTS) {
   const problems = [];
   const seen = {};
