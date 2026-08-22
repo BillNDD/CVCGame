@@ -748,6 +748,13 @@ checker allowed to pass with findings in it. About six seconds, both configs.
 
 ### Never run `npm run check` while a gauntlet is running
 
+Enforced since 2026-08-22 (hardening decision 3, owner-ruled): `tools/lock-guard.mjs` is
+the first line of `npm run check` and the whole of the pre-commit hook in `tools/hooks/`
+(installed once with `git config core.hooksPath tools/hooks`). While `.gauntlet.lock`
+exists both refuse, naming the gate that holds the lock and since when - the gauntlet
+writes that into the lock as each step starts. Five controls. G4 now restores its
+planted mutants on every exit signal, as G19 already did. The paragraph below is why.
+
 Owner-facing consequence: nothing. Agent-facing consequence: a false result, in both
 directions, and it is new as of 2026-08-12.
 

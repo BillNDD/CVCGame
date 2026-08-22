@@ -68,6 +68,15 @@ function applyMutant(site) {
 }
 
 const restore = () => { writeFileSync(IR, pristine); run("node", ["tools/gen-acceptance.mjs"]); };
+/* Restore on EVERY exit path, as G19 does (hardening decision 3, 2026-08-22):
+   an exception, Ctrl-C or a killed shell between a write and its restore
+   leaves tests/generated mutated in the working tree, where the next commit
+   sweeps it up - open-faults C2, and it has happened. */
+let restoredOnExit = false;
+const restoreOnce = () => { if (!restoredOnExit) { restoredOnExit = true; restore(); } };
+process.on("exit", restoreOnce);
+for (const sig of ["SIGINT", "SIGTERM", "SIGHUP"]) process.on(sig, () => { restoreOnce(); process.exit(130); });
+process.on("uncaughtException", (e) => { restoreOnce(); console.error(e); process.exit(1); });
 const sites = collectSites(JSON.parse(pristine));
 
 if (selfTest) {

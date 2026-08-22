@@ -1,0 +1,5 @@
+#!/bin/sh
+# The lock as a guard (hardening decision 3, owner-ruled 2026-08-22): a commit
+# while a gauntlet holds .gauntlet.lock would sweep up a planted mutant.
+# Installed once with: git config core.hooksPath tools/hooks
+node tools/lock-guard.mjs || exit 1

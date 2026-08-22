@@ -56,7 +56,7 @@ try {
   console.error("Another gauntlet appears to be running. Remove .gauntlet.lock if it is stale.");
   process.exit(1);
 }
-process.on("exit", () => { try { rmdirSync(".gauntlet.lock"); } catch {} });
+process.on("exit", () => { try { rmSync(".gauntlet.lock", { recursive: true, force: true }); } catch {} });
 
 /* THE SECOND LANE (P2 of the speed plan, owner-ruled 2026-08-21, built
    2026-08-22). `--workers 2` runs the gates below in a child
@@ -208,6 +208,10 @@ function step(gate, command, counts = [], env = {}, required = [], opts = {}) {
     throw new Error(`malformed step call for ${JSON.stringify(gate)}: (gate, command, counts[], env{}, required[])`);
   let out = "", ok = true;
   const startedAt = Date.now();
+  /* The lock names its holder, so a refused commit or check can say which
+     gate is running and since when (tools/lock-guard.mjs). */
+  try { writeFileSync(".gauntlet.lock/current", `${gate} since ${new Date(startedAt).toTimeString().slice(0, 5)}
+`); } catch { /* the lock is the parent's; a child never writes it */ }
   let durationMs;
   if (typeof opts.output === "string") {
     out = opts.output;
