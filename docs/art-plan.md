@@ -304,11 +304,13 @@ moved anchors, `g8_axe_violations_max` 0, the home snapshot unchanged.
 **How checkpoint 2 was judged for a family that lands no file.** The scenery statistic
 section 17 names is first built by the step that lands a PNG (the garden scene); the tile
 family's checkpoint 2 was judged on tokens tests 8–10, the census's sounding-state cell,
-and device pixels sampled on the renders: on the 3c11232 set at 4.5 dpr, the column through a
-sounding "i" read at the fifth judgement — band 26 + 1 blend above, ring 13, rim 4, highlight
-4, the lifted face #fbe59d, and 13 toward the next tile (the 34355ed set this was first read
-on was overwritten at the same path by the 3c11232 capture, and the verdict was re-given on
-that set); and on the
+and device pixels sampled on the renders: on the 0d887f3 set (`D:/CVCGame-ops/art/step1/0d887f3/`)
+at 4.5 dpr, the column through a sounding "i" — band 26 + 1 blend above, ring 13, rim 4,
+highlight 4, the lifted face #fbe59d, and 13 toward the next tile — first read on the
+34355ed set at the fifth judgement and reproduced on the 0d887f3 set at the sixth (the
+34355ed and 3c11232 sets were overwritten at the one path then in use; since the sixth
+judgement every set lives in a folder named for its commit, and a judged set is never
+overwritten); and on the
 density renders made after the live-tile construction — a middle tile sounding at three,
 six and eight tiles on the Galaxy and on a 390 × 500 short stage — the band toward either
 neighbour at 13–14 / 4–5 / 0 / 3 device px (3 / 1 / 0 / 1 CSS px), the neighbour's rim whole
@@ -708,3 +710,29 @@ Newest last. A verdict names the chair, the step, the word, and the findings.
   arrangement rings meeting edge to edge are recorded in bible 11; the sentence-with-a-
   descender render goes to AF's round, since no deal produced one. Judged again by both
   chairs.
+- 2026-08-22 — Step 1, sixth judgement: the art director **checkpoint 2 PASS on the
+  0d887f3 set** (every hashed render matching its hash, the seven run-notes found verbatim in
+  their PNGs, the only pixels differing from the 3c11232 set in the descender junctions,
+  where the letter is now whole) and **the step SATISFIED** ("word above, clearance later" is
+  the right order of paint: the thing being taught is never covered by its cue; pressed reads
+  as pressed), with three SHOULDs and three notes; the antagonist **not satisfied** on one
+  blocking finding, with four SHOULDs and five notes. Taken, each verified first: (1) the
+  descender records said band only — the set shows the tail crossing the RING's top edge on
+  the Pixel 7, the short stage, the desktop and the landscape phone, and the g, the lowest
+  descender, was in no record; both descenders were read on six profiles with a tight
+  colour match (the band's first row under the tile's columns against attempt-phase ink) and
+  the pre-fix hiding reproduced on the same set with the word's layer planted away, so every
+  number now names a surviving set and a method: AF carries both letters, the ring rows
+  covered, the desktop's g (3 px into its own tile), the box-to-tile clearances and the
+  shortfalls, and the stylesheet, bible 11 and the provenance row state the trade. (2) The
+  reader also reads the ROW's layer, so a positioned row above the word is refused, with a
+  plant. (3) Render sets live in one folder per commit from now on (`D:/CVCGame-ops/art/step1/
+  0d887f3/`), the provenance row names that set and the overwrites before it, the close
+  crops are cut from the hashed renders' own bytes, and the ops ledger's stale pressed note
+  and first-pass junction reads are gone. (4) AE's fit arithmetic corrected to the engine's
+  deal (510 for one row of breakfast's slots; a tray of 634 to 674 by the distractors), "below
+  the stage's 307 px edge", the measured 334 px span; the landscape pin also requires every
+  tray tile under nothing, and the "still open" check reads the heading and refuses CLOSED or
+  FIXED, with fixture controls. (5) "The ring stays" corrected to "the class stays" in the
+  reader, the cell and the gauntlet. Judged again by the antagonist; the art director's
+  verdict stands on the construction, the records being what changed.

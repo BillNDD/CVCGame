@@ -2258,61 +2258,87 @@ is a ruling on what free play offers a pre-ladder child, and the chooser matchin
 - **Where it lives** `app/src/screens/BuildItScreen.jsx`: the slot rows and the tray stack
   vertically in a 420 px container inside the stage. On the phone-landscape profile (iPhone
   13 landscape — a **750 × 342** page, not the device's 844 × 390) the stage is **245 px**
-  tall between the 62 px header and the 35 px strip, and the 640 px shell leaves 620 px of
-  stage width after the short-stage padding. (The entry first said "844 × 390" and "a 268 px
-  stage" — the device, and a number recalled rather than measured; the council's antagonist
-  refused it on 2026-08-22 and these are the page's own numbers.)
+  tall between the 62 px header and the 35 px strip (its lower edge at y = 307), and the
+  640 px shell leaves 620 px of stage width after the short-stage padding. (The entry first
+  said "844 × 390" and "a 268 px stage" — the device, and a number recalled rather than
+  measured; the council's antagonist refused it on 2026-08-22 and these are the page's own
+  numbers, read on the profile.)
 - **What a child experiences today** With "breakfast" (eight slots, ten tiles) the slots take
   two rows of five and three 64 px boxes from y = 142, and the tray's two rows of five begin
-  at y = 338 and 412 — below the 342 px fold. The stage scrolls 171 px, but a child will not
+  at y = 338 and 412 — below the stage's 307 px edge, the first row straddling the page's
+  342 px fold under the strip, the second wholly past it; from the first slot's top to the
+  last tile's bottom is 334 px (142 → 476). The stage scrolls 171 px, but a child will not
   think to scroll and nothing says there is more. Measured by the census's Build-it cell on
-  2026-08-22: all ten tray tiles off the screen, none under anything, every slot in reach. The
-  cell holds exactly that shape on the landscape phone — the ten tray tiles by name, the
-  page's own innerHeight, stage and lowest-control numbers in its report, and this entry
-  still open — and zero unreachable controls on every other profile. Older than the ceramic
-  step: two slot rows and two tray rows of 64 px boxes are 286 px before the prompt and the
-  message. The Galaxy S9+ needed the compact build (art step 1) to fit in portrait; the
-  iPhone 13 and the Pixel 7 fitted at 64 px before it (lowest control 607 px against the
-  strip at 613, and 715 against 788).
+  2026-08-22: all ten tray tiles with their bottoms past innerHeight, none under anything,
+  every slot in reach. The cell holds exactly that shape on the landscape phone — the ten
+  tray tiles by name, each under nothing, the page's own innerHeight, stage and
+  lowest-control numbers in its report, and this entry's heading still open (not CLOSED) —
+  and zero unreachable controls on every other profile. Older than the ceramic step. The
+  Galaxy S9+ needed the compact build (art step 1) to fit in portrait; the iPhone 13 and the
+  Pixel 7 fitted at 64 px before it (lowest control 607 px against the strip at 613, and 715
+  against 788).
 - **What done means** The Build-it layout step (bible 13.7, the garden-workshop surface —
   art plan step 4 or the step the owner assigns) composes the screen for a 245 × 620 stage.
-  What the code's own sizes say: at 56 px boxes one row of eight slots is 530 px
-  (6 × 56 + 2 × 76 + 7 × 6) and a ten-tile tray is 654, so the slots could take one row if
-  the container widened past 420 and the tray could not; two tray rows of five at 56 are
-  118 px. Whether a 56 px slot row, two tray rows, the prompt and the message fit 245 px is
-  the step's to measure, not this entry's to assume — or the stage gets a scroll affordance a
-  child understands. Done is the census's Build-it cell holding zero unreachable controls on
-  the landscape phone, at which point the landscape pin in that cell is removed with this
-  entry.
+  What the code's own sizes say, for the deal the engine makes: "breakfast" chunks to
+  b-r-ea-k-f-a-s-t, one multi-letter unit, so one row of its eight slots at 56 px is 510 px
+  (7 × 56 + 76 + 7 × 6) — it could take one row only if the container widened past 420 —
+  and a ten-tile tray is 634 to 674 px by the distractors dealt (634 with two single-letter
+  ones, 674 with two multi-letter ones, as the Galaxy render's deal had), which no row of
+  the 620 px stage holds; two tray rows of five at 56 are 118 px. Whether a 56 px slot row,
+  two tray rows, the prompt and the message fit 245 px is the step's to measure, not this
+  entry's to assume — or the stage gets a scroll affordance a child understands. Done is
+  the census's Build-it cell holding zero unreachable controls on the landscape phone, at
+  which point the landscape pin in that cell is removed with this entry.
 
-## AF. The sounding band reaches into the word's descenders — opened 2026-08-22
+## AF. The sounding band and ring reach into the word's descenders — opened 2026-08-22
 
-- **Where it lives** `app/src/wq-css.js`: `.wq-slot-tiles{margin-top:8px}` under
-  `.wq-word{margin:4px 0 0;line-height:1.05}` (on the short stage, 3 and 0); the band's
-  reach above a tile is ring 3 + band 6 = 9 CSS px (7 on the short stage and at six tiles).
+- **Where it lives** `app/src/wq-css.js`: `.wq-slot-tiles{margin-top:8px;min-height:52px}`
+  under `.wq-word{margin:4px 0 0;line-height:1.05}` (on the short stage, margin 3, min-height
+  30, the word's margin 0); the band's reach above a tile is ring 3 + band 6 = 9 CSS px (7 on
+  the short stage and at six tiles). The clearance from the word's box to the tile's box
+  today — the margin plus the row's centring slack — is 13.2 / 9.8 / 13.1 / 11.7 / 3 / 5.7
+  CSS px on the Galaxy S9+, the Pixel 7, the iPhone 13, the desktop, the 390 × 500 short
+  stage and the landscape phone.
 - **What a child experiences today** When the tile under a descender letter (p, g, j, q, y)
-  sounds, its ring and band cross the bottom of the letter's tail. Measured 2026-08-22 on
-  "pig" with the p tile sounding — attempt-phase ink against the sounding render in the
-  tile's columns, the word not moving between phases: the p's tail runs 8.7 / 9.6 / 8.4 /
-  3.3 / 3.1 CSS px below the word's box (the Galaxy S9+ at a 72.4 px word, the Pixel 7 at 88,
-  the iPhone 13 at 73, the 390 × 500 short stage and the landscape phone at 38.4) and the
-  band's top row lies 4.2 / 9.1 / 4.3 / 7.3 / 4.3 CSS px above the tail's end; on the desktop
-  the 112 px word's p sits left of its tile's columns and the band misses it. Until the
-  fifth judgement the band painted OVER the tail and hid it (931 ink pixels in the band's
-  rows on the Galaxy in the attempt phase, 3 while the tile sounded); since then the word
-  paints above the row (`.wq-word{position:relative;z-index:1}`, read by the census's
-  sounding cell as `word-not-above`), so the glow passes behind the tail and hides no ink —
-  but the two still touch. Older than the ceramic step: the 7 px ink outline reached the
-  same rows, ink over ink, invisible; the step made it cyan. Found by the council's art
-  director from pixel rows, then rendered.
+  sounds, its band and ring cross the bottom of the letter's tail. Measured 2026-08-22 on
+  the set `D:/CVCGame-ops/art/step1/0d887f3/` (hashes.json, `junction` and
+  `junctionLayerRemoved`), on "pig" with the p tile and then the g tile sounding: the
+  word's lowest ink row in the tile's own columns read on the attempt phase (no tiles, the
+  word not moving between phases) against the band's first row under those columns. The
+  tails run below the word's box by 8.7 / 9.6 / 8.4 / — / 3.3 / 3.1 CSS px (p) and 9.1 /
+  10.0 / 8.8 / 14.3 / 3.7 / 3.4 (g; the g is the lowest on every profile); the p crosses
+  the band by 4.4 / 9.1 / 4.7 / 0 / 7.7 / 4.7 and the g by 4.9 / 9.5 / 5.0 / 12 / 8.0 / 5.0
+  (on the desktop the 112 px word's p sits left of its tile's columns; its g does not, and
+  its bowl runs 3 px into its own tile's box, 0.7 px on the short stage). Where the tail
+  reaches the ring it crosses the ring's rows: 3 / 3.4 CSS px (p / g) on the Pixel 7, 3.7 /
+  4 on the short stage, 0 / 3 on the desktop, 0.7 / 1 on the landscape phone, none on the
+  Galaxy or the iPhone 13. Until the fifth judgement the band and ring painted OVER the
+  tail and hid it — reproduced on the same set with the word's layer planted away
+  (`.wq-word{z-index:auto}`): of the p's ink pixels in the band's rows, 980 / 744 / 462 /
+  — / 352 / 224 in the attempt phase, 11 / 91 / 11 / — / 0 / 0 left while the tile sounded;
+  of the g's, 1766 / 1834 / 817 / 297 / 510 / 399 and 242 / 86 / 106 / 11 / 0 / 20. Since
+  then the word paints above the row (`.wq-word{position:relative;z-index:1}`, read by the
+  census's sounding cell as `word-not-above`, the row's own layer included), so the glow
+  passes behind the tail and hides no ink — the same counts in the attempt phase and while
+  the tile sounds, 980 / 744 / 462 and 1766 / 1471 / 817 to antialiasing — **but the trade
+  stands until the clearance lands: where a tail reaches the ring, the tail now paints over
+  the ring's top edge** (the four profiles above), and on the desktop the g's bowl covers
+  its tile's band, ring and rim across about 25 of the tile's 44 px. The art director judged
+  the trade on the set (the thing being taught is never covered by its cue); the owner has
+  not been asked, since the reading surface step removes it. Older than the ceramic step:
+  the 7 px ink outline reached the same rows, ink over ink, invisible; the step made it
+  cyan. Found by the council's art director from pixel rows, then rendered; the ring
+  crossing named by the antagonist.
 - **What done means** The reading surface step (art step 3, which owns the stage's vertical
-  composition and bible 10.4's margins) gives the row a clearance of at least the
-  descender's overflow plus the band's reach on every profile — about 18 px at a 73 px word,
-  19 at 88, 11 on the short stage and the landscape phone, against today's 8 and 3 — with
-  the stage spacer moved by the same amount so the word's midline holds (the owner's
-  2026-08-03 choice), G7 and the phase walk green. Proof: a render of "pig" with the p tile
-  sounding on the Galaxy, the Pixel 7, the iPhone 13, the short stage and the landscape
-  phone showing the band's top row below the word's lowest ink row, and the word's layer
-  kept as defence in depth. The same round shows a sentence whose open word carries a
-  descender against the open word's ring at offset −3 (the art director's note; no deal of
-  "Any sentence" produced one in 14 tries on two profiles on 2026-08-22).
+  composition and bible 10.4's margins) gives the row a box-to-tile clearance of at least
+  the g's overflow plus the band's reach on every profile — about 18 / 19 / 18 / 23 / 11 /
+  11 CSS px against today's 13.2 / 9.8 / 13.1 / 11.7 / 3 / 5.7, so the row moves by about
+  5 / 9 / 5 / 12 / 8 / 5 — with the stage spacer moved by the same amount so the word's
+  midline holds (the owner's 2026-08-03 choice), G7 and the phase walk green. Proof: the
+  same junction read on "pig" with the g tile sounding (the p too) on all six profiles
+  showing the band's first row below the word's lowest ink row, the ring whole on all four
+  sides again, and the word's layer kept as defence in depth. The same round shows a
+  sentence whose open word carries a descender against the open word's ring at offset −3
+  (the art director's note; no deal of "Any sentence" produced one in 14 tries on two
+  profiles on 2026-08-22), the desktop first, where the slack under the line box is about
+  7 px.

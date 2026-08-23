@@ -10,7 +10,7 @@ import { stage, stageBuild, requireBuilt, holdGrade, waitForReveal, requireStage
 import { landmarks, phaseHold, homeFurniture, chromeHold, offlineHold,
          markStay, assertStayed, pokeForeground, hitTest, monkey, tappable, SOUND_ONLY,
          zoneSum, runningAnimations, motionHold, popOverlap, unitWidthHold, wordBox, wordFits, widestWord, wordGeometry, wordHold,
-         guideState, guideHold, artSnap, snapHold, soundingTile, soundingHold, buildControls, buildHold, rgbOf } from "../../tools/census-novelties.mjs";
+         guideState, guideHold, artSnap, snapHold, soundingTile, soundingHold, faultOpen, buildControls, buildHold, rgbOf } from "../../tools/census-novelties.mjs";
 import { C } from "../../src/engine.js";
 
 /* ---- the live singleton cells ---- */
@@ -465,6 +465,15 @@ test.describe("with motion allowed, the sounding tile's controls", () => {
     expect(soundingHold({ ...good, word: { position: "static", zIndex: "auto" } }, C).map((f) => f.kind)).toEqual(["word-not-above"]);
     expect(soundingHold({ ...good, word: { position: "relative", zIndex: "0" } }, C).map((f) => f.kind), "a layer at 0 is not above a row at 0").toEqual(["word-not-above"]);
     expect(soundingHold({ ...good, word: null }, C).map((f) => f.kind)).toEqual(["word-not-above"]);
+    expect(soundingHold({ ...good, word: { ...good.word, rowPosition: "relative", rowZIndex: "2" } }, C).map((f) => f.kind), "a row lifted above the word").toEqual(["word-not-above"]);
+    expect(soundingHold({ ...good, word: { ...good.word, rowPosition: "relative", rowZIndex: "0" } }, C), "a row at 0 under the word's 1").toEqual([]);
+    /* the open-faults reader behind the landscape pin: a heading marked
+       CLOSED or FIXED is not open, a missing heading is not open */
+    expect(faultOpen("## AE. A fault - opened 2026-08-22\n\ntext", "AE")).toBe(true);
+    expect(faultOpen("## AE. A fault - opened 2026-08-22, CLOSED 2026-08-23\n", "AE")).toBe(false);
+    expect(faultOpen("## AE. A fault - FIXED in step 4\n", "AE")).toBe(false);
+    expect(faultOpen("## AF. Another\n", "AE")).toBe(false);
+    expect(faultOpen("## AEX. Not this one - opened\n", "AE")).toBe(false);
     expect(soundingHold({ ...good, lift: 1.234 }, C).map((f) => f.kind)).toEqual(["lift-off-band"]);
     expect(soundingHold({ ...good, restingFace: rgbOf(C.sun) }, C).map((f) => f.kind)).toEqual(["face-not-token"]);
     expect(soundingHold({ ...good, intrudes: ["i"] }, C).map((f) => f.kind)).toEqual(["ring-into-neighbour"]);
@@ -508,7 +517,7 @@ test.describe("with motion allowed, the sounding tile's controls", () => {
        the last two are new kinds. Each is a stylesheet (or one class) on
        the live page, read back through soundingTile. */
     const plant = async (css) => { const h = await page.addStyleTag({ content: css }); await holdGrade(page, GRADE.correct, []); await page.waitForFunction(() => !!document.querySelector(".wq-slot-tiles .wq-tile.wq-pop"), null, { timeout: 8000 }); const s = await soundingTile(page); await h.evaluate((e) => e.remove()); return s; };
-    for (const [css, kind] of [[".wq-slot-tiles{isolation:auto!important}", "live-not-beneath"], [".wq-slot-tiles .wq-tile.wq-pop{color:" + C.sun + "!important}", "ink-not-token"], [".wq-slot-tiles .wq-tile.wq-pop{background-color:" + C.tileHighlight + "!important}", "lift-off-band"], [".wq-word{z-index:auto!important}", "word-not-above"]]) {
+    for (const [css, kind] of [[".wq-slot-tiles{isolation:auto!important}", "live-not-beneath"], [".wq-slot-tiles .wq-tile.wq-pop{color:" + C.sun + "!important}", "ink-not-token"], [".wq-slot-tiles .wq-tile.wq-pop{background-color:" + C.tileHighlight + "!important}", "lift-off-band"], [".wq-word{z-index:auto!important}", "word-not-above"], [".wq-slot-tiles{position:relative!important;z-index:2!important}", "word-not-above"]]) {
       const { shown: next } = await stage(page, null, "ship", null);
       requireStaged("ship", next);
       const read = await plant(css);

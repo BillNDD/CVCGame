@@ -650,22 +650,25 @@ the offline comparator's control caught its first real bug before the live cell 
   every tile's box within 0.5 px of its resting box, ring plus band reaching into no
   neighbour's letters (the content box inside its padding), the sounding tile marked live
   at z-index −1 in a row that isolates its stacking (`live-not-beneath`), exactly one tile
-  live (`live-not-one`) and the word in its own layer above the row (`word-not-above`);
-  then the SECOND pop, where the mark must have moved to "i" with two tiles ringed; then
+  live (`live-not-one`) and the word in its own layer above the row, the row not lifted
+  above it (`word-not-above`); then the SECOND pop, where the mark must have moved to "i"
+  with two tiles carrying the class and one ring showing; then
   "animal" and "breakfast", whose bands must resolve to 7 and 5. And **Build-it** — "ship"
   dealt through the dice (`stageBuild`, the buildable bank's die), every tray tile and
   slot a 56 px control on both axes, every multi-letter tray tile wider than every
   single-letter one and every control owning its centre and on the screen
   (`control-unreachable`), then "breakfast", the largest tray, held the same — except on
   the landscape phone, where the tray is below the fold (open-faults AE) and the cell pins
-  exactly that shape: the ten tray tiles off the screen by name, nothing else, the page's
-  own numbers in its report, and the AE entry still open. The screen no G7 check had ever
+  exactly that shape: the ten tray tiles off the screen by name and under nothing, nothing
+  else, the page's own numbers in its report, and the AE heading still open — not CLOSED or
+  FIXED, read by `faultOpen`, with fixture controls. The screen no G7 check had ever
   opened. Controls, once: the hold's fixtures for every finding kind, then the READER
   against real plants in the page — the ink ring the app drew until this step (as an
   `!important` rule, since a later `@keyframes` of the same name does not replace a running
   animation), a `sun` face, a border (the box moves), a zero-spread band, the live tile at
   `z-index:auto`, a row at `isolation:auto`, `sun` letters, a `tileHighlight` face (a lift
-  off the band), the word at `z-index:auto`, and a second live mark added as a class once
+  off the band), the word at `z-index:auto`, the row lifted to `z-index:2`, and a second
+  live mark added as a class once
   the second pop has landed; and for Build-it a tray tile shrunk to 48 px, every tray tile
   forced to one width, a lid over a tile and a tile sunk below the screen. `seedGraduated` now writes
   the save from `/version.json`, a page that is not the app, because a put that landed

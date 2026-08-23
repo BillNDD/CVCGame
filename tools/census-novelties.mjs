@@ -399,9 +399,10 @@ export async function soundingTile(page) {
   return page.evaluate(() => {
     const tiles = [...document.querySelectorAll(".wq-slot-tiles .wq-tile")];
     /* the tile SOUNDING NOW: the one whose wqpop animation is running. From
-       the second pop on the earlier tiles still carry .wq-pop (the ring
-       stays), so the first .wq-pop is the wrong subject; the last ringed
-       tile is the fallback when no animation runs (a finished pop). */
+       the second pop on the earlier tiles still carry .wq-pop (the CLASS
+       stays; the ring ends with the animation's last frame), so the first
+       .wq-pop is the wrong subject; the last tile carrying the class is
+       the fallback when no animation runs (a finished pop). */
     const running = document.getAnimations().filter((a) => /** @type {CSSAnimation} */ (a).animationName === "wqpop" && a.playState === "running").map((a) => /** @type {KeyframeEffect} */ (a.effect).target);
     const popped = tiles.filter((t) => t.classList.contains("wq-pop"));
     const pop = tiles.find((t) => running.includes(t)) || popped[popped.length - 1];
@@ -424,10 +425,13 @@ export async function soundingTile(page) {
        construction that puts the sounding tile beneath its siblings */
     const wqband = parseFloat(cs.getPropertyValue("--wqband")) || 0;
     const live = { marked: pop.classList.contains("wq-live"), count: tiles.filter((t) => t.classList.contains("wq-live")).length, zIndex: cs.zIndex, isolation: rowCs ? rowCs.isolation : "" };
-    /* the word's own layer above the row, so a band never covers a descender */
+    /* the word's own layer above the row, so a band never covers a
+       descender - and the ROW's layer, since a positioned row at a higher
+       z-index would put the band back over the word with the word's own
+       numbers unchanged (the sixth judgement) */
     const wordEl = document.querySelector(".wq-word");
     const wordCs = wordEl ? getComputedStyle(wordEl) : null;
-    const word = wordCs ? { position: wordCs.position, zIndex: wordCs.zIndex } : null;
+    const word = wordCs ? { position: wordCs.position, zIndex: wordCs.zIndex, rowPosition: rowCs ? rowCs.position : "", rowZIndex: rowCs ? rowCs.zIndex : "" } : null;
     return { text: pop.textContent.trim(), popped: popped.length, wqband, gap: rowCs ? parseFloat(rowCs.columnGap || rowCs.gap) || 0 : 0, live, word, outline: { color: cs.outlineColor, width: cs.outlineWidth, style: cs.outlineStyle, offset: cs.outlineOffset }, shadow: cs.boxShadow,
       face: cs.backgroundColor, restingFace: restCs.backgroundColor, ink: cs.color, lift: lum(cs.backgroundColor) / lum(restCs.backgroundColor), ringPx: ring, spreadPx: Number(spread) || 0, intrudes,
       boxes: tiles.map((t) => { const b = t.getBoundingClientRect(); return [b.x, b.y, b.width, b.height].map((v) => +v.toFixed(2)); }) };
@@ -455,9 +459,12 @@ export function soundingHold(s, tokens, restingBoxes) {
      in schedulePops); two at the same depth bury each other's rims */
   if (s.live && s.live.count !== 1)
     findings.push({ kind: "live-not-one", detail: s.live.count + " tiles are marked live; exactly one - the tile sounding now - may be" });
-  /* the word's layer: above the row, or a band covers a descender */
+  /* the word's layer: above the row, or a band covers a descender - and the
+     row not lifted above it by a layer of its own */
   if (!s.word || s.word.position === "static" || !(Number(s.word.zIndex) >= 1))
     findings.push({ kind: "word-not-above", detail: "the word is " + (s.word ? s.word.position + " with z-index " + s.word.zIndex : "missing") + " - it must paint above the tile row" });
+  else if (s.word.rowPosition !== "static" && s.word.rowZIndex !== "auto" && Number(s.word.rowZIndex) >= Number(s.word.zIndex))
+    findings.push({ kind: "word-not-above", detail: "the tile row is " + s.word.rowPosition + " at z-index " + s.word.rowZIndex + ", at or above the word's " + s.word.zIndex + " - the band would paint over a descender again" });
   if (!(s.lift >= 1.08 && s.lift <= 1.12)) findings.push({ kind: "lift-off-band", detail: "the face lifts " + ((s.lift - 1) * 100).toFixed(1) + "%; bible 11 asks 8-12%" });
   if (s.restingFace !== rgbOf(tokens.tileFace)) findings.push({ kind: "face-not-token", detail: "a resting tile's face is " + s.restingFace + ", not tileFace" });
   if (s.ink !== rgbOf(tokens.ink)) findings.push({ kind: "ink-not-token", detail: "the tile's letters are " + s.ink });
@@ -481,6 +488,13 @@ export async function buildControls(page) {
     const cover = top && !b.contains(top) ? top.tagName.toLowerCase() + (top.className ? "." + String(top.className).split(" ").filter(Boolean).join(".") : "") : "";
     return { text: b.textContent.trim(), label: b.getAttribute("aria-label") || "", w: r.width, h: r.height, slot: /^(Take back|Empty space)/.test(b.getAttribute("aria-label") || ""), cover, offscreen: r.bottom > innerHeight || r.top < 0 };
   }));
+}
+/* An open-faults entry is OPEN while its heading carries no CLOSED or FIXED:
+   closed entries keep their headings ("## AB. ... CLOSED 2026-08-22"), so a
+   bare heading match would hold nothing (the sixth judgement). */
+export function faultOpen(md, id) {
+  const line = md.split(/\r?\n/).find((l) => l.startsWith("## " + id + ". "));
+  return !!line && !/\b(CLOSED|FIXED)\b/i.test(line);
 }
 export function buildHold(controls, floor = 56) {
   if (!controls.length) return [{ kind: "no-subject", detail: "no tile or slot on the screen" }];

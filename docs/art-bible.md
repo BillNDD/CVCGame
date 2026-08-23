@@ -539,7 +539,10 @@ tile sounding now paints beneath its siblings (the row isolates its stacking and
 tile takes z-index −1; without that a later sibling paints over an earlier one's shadow,
 and the band buried the previous tile's rim by spread minus gap — the antagonist's third
 after pass); the neighbour's rim, 4 device px at 4.5, is whole on every render. The band is
-a glow, never a boundary, and the ring is closed on all four sides at every density. The
+a glow, never a boundary, and the ring is closed on all four sides at every density —
+except where a descender of the word above reaches it, which paints over the ring's top
+edge until open-faults AF's clearance lands (the paragraph "The word paints above the row"
+below). The
 rim is listed first in the shadow stack, so it closes all four sides; the highlight and
 the lower shade are drawn as 2 px insets of which 1 px shows inside the 1 px rim. (A first record claimed one pixel of sky between the band and the next
 rim, and a 5 px band to keep it; the pixels showed none and the arithmetic allows none
@@ -568,14 +571,25 @@ director, fifth judgement). **Focus:** a dashed `cyanStructural` ring at
 offset 2, so the keyboard's mark and the sounding mark differ by shape. None of the new
 states animates; reduced motion changes nothing about them.
 
-**The word paints above the row** (the fifth judgement, 2026-08-22). The tile row is later
-in tree order and isolates its stacking, so a sounding tile's band painted over the word's
-descenders: on "pig" with the p tile sounding it hid 4.2 / 9.1 / 4.3 / 7.3 / 4.3 CSS px of
-the tail on the Galaxy S9+, the Pixel 7, the iPhone 13, the short stage and the landscape
-phone — invisible before the step (an ink outline over ink), visible after it. `.wq-word`
-carries `position:relative;z-index:1`, so the glow passes behind a letter and never over it;
-the census's sounding cell reads the construction as `word-not-above`. The clearance that
-keeps the two apart is the reading surface's, open-faults AF.
+**The word paints above the row** (the fifth and sixth judgements, 2026-08-22). The tile
+row is later in tree order and isolates its stacking, so a sounding tile's band and ring
+painted over the word's descenders. Measured on the 0d887f3 set (the band's first row
+under the tile's own columns against the word's lowest ink row, read on the attempt
+phase): on "pig" the p's tail crosses the band by 4.4 / 9.1 / 4.7 / 0 / 7.7 / 4.7 CSS px
+and the g's by 4.9 / 9.5 / 5.0 / 12 / 8.0 / 5.0 on the Galaxy S9+, the Pixel 7, the iPhone
+13, the desktop, the short stage and the landscape phone, and with the word's layer planted
+away the band hid the p's tail whole on the phones (980 of 980 ink pixels on the Galaxy,
+11 left) — invisible before the step (an ink outline over ink), visible after it.
+`.wq-word` carries `position:relative;z-index:1`, so the glow passes behind a letter and
+never over it; the census's sounding cell reads the construction as `word-not-above`, the
+row's own layer included. The trade, until the clearance lands: where the tail reaches the
+ring it now paints over the ring's top edge (3 / 3.4 CSS px of ring rows, p / g, on the
+Pixel 7; 3.7 / 4 on the short stage; 0 / 3 on the desktop, where the g's bowl runs 3 px into
+its own tile and covers band, ring and rim across about 25 of its 44 px; 0.7 / 1 on the
+landscape phone; none on the Galaxy or the iPhone 13) — the letter whole, the cue's edge
+broken under it, judged on the set by the art director: the thing being taught is never
+covered by its cue. The clearance that keeps the two apart is the reading surface's,
+open-faults AF, with the box-to-tile numbers.
 
 The table below is the repository's: doc-truth rule 12 reads it and requires every
 selector to exist in `app/src/wq-css.js` and — except the two the reference build has no

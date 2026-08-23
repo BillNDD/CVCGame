@@ -9,7 +9,7 @@ import { readFileSync } from "node:fs";
 import { stage, holdGrade, waitForReveal, requireStaged, GRADE } from "../../tools/ux-census.mjs";
 import { landmarks, phaseHold, homeFurniture, chromeHold, hitTest,
          zoneSum, runningAnimations, motionHold, popSpans, popOverlap, tileWidths, unitWidthHold,
-         widestWord, wordBox, wordFits, wordGeometry, wordHold, soundingTile, soundingHold, buildControls, buildHold } from "../../tools/census-novelties.mjs";
+         widestWord, wordBox, wordFits, wordGeometry, wordHold, soundingTile, soundingHold, buildControls, buildHold, faultOpen } from "../../tools/census-novelties.mjs";
 import { BANK_WORDS, stageBuild, requireBuilt } from "../../tools/ux-census.mjs";
 import { C } from "../../src/engine.js";
 
@@ -161,16 +161,17 @@ test.describe("with motion allowed, the sounding tile", () => {
     expect(findings, JSON.stringify({ s, findings })).toEqual([]);
     expect(s.text, "the first sounding tile of ship is sh").toBe("sh");
     expect(s.wqband, "the reveal's band: 9, or 7 on a short stage").toBe(page.viewportSize().height < 520 ? 7 : 9);
-    /* THE SECOND POP: the mark moves. The first tile keeps its ring (.wq-pop
-       stays on) but hands the live mark on, so exactly one tile is beneath
-       its siblings at a time - the reset in schedulePops, which a read at
-       the first pop can never see (the fifth judgement). */
+    /* THE SECOND POP: the mark moves. The first tile keeps the .wq-pop class
+       (its ring ended with its animation's last frame) but hands the live
+       mark on, so exactly one tile is beneath its siblings at a time - the
+       reset in schedulePops, which a read at the first pop can never see
+       (the fifth judgement). */
     await page.waitForFunction(() => document.querySelectorAll(".wq-slot-tiles .wq-tile.wq-pop").length >= 2, null, { timeout: 8000 });
     const second = await soundingTile(page);
     const secondFindings = soundingHold(second, C, resting);
     expect(secondFindings, JSON.stringify({ second, secondFindings })).toEqual([]);
     expect(second.text, "the second sounding tile of ship is i").toBe("i");
-    expect(second.popped, "two tiles ringed, one of them live").toBe(2);
+    expect(second.popped, "two tiles carrying the class, one ring showing, one live").toBe(2);
     /* THE DENSITIES: six tiles resolve the band to 7 and eight to 5 on every
        profile, short stage included - the cascade's work, read rather than
        pinned (the fifth judgement: the cell had only ever seen "ship") */
@@ -211,9 +212,10 @@ test("Build-it: every tile and slot is a 56 px child control a finger can reach,
      starts below the fold (its first row at y = 338 on 2026-08-22) -
      docs/open-faults.md AE, the Build-it layout step's. Measured here and
      reported, not hidden: the landscape phone must show exactly that shape -
-     the ten TRAY tiles off the screen, every slot in reach, nothing under
-     anything - with the page's own numbers in the report and the entry
-     still open; everywhere else, nothing. */
+     the ten TRAY tiles off the screen (their bottoms past innerHeight) and
+     under nothing, every slot in reach - with the page's own numbers in the
+     report and the entry's heading still open, not CLOSED; everywhere
+     else, nothing. */
   const landscape = page.viewportSize().width > page.viewportSize().height && page.viewportSize().height < 520;
   if (landscape) {
     const geometry = await page.evaluate(() => { const st = document.querySelector(".wq-stage").getBoundingClientRect(); const cs = [...document.querySelectorAll(".wq-tilebtn")]; return { innerWidth, innerHeight, stage: [Math.round(st.top), Math.round(st.bottom)], lowestBottom: Math.round(Math.max(...cs.map((b) => b.getBoundingClientRect().bottom))) }; });
@@ -221,7 +223,8 @@ test("Build-it: every tile and slot is a 56 px child control a finger can reach,
     expect(offScreen, JSON.stringify({ geometry, bigFindings })).toEqual(largest.filter((c) => !c.slot).map((c) => c.label).sort());
     expect(bigFindings.length, "the ten tray tiles and nothing else: " + JSON.stringify(geometry)).toBe(10);
     expect(geometry.lowestBottom, "the tray's last row below the fold: " + JSON.stringify(geometry)).toBeGreaterThan(geometry.innerHeight);
-    expect(readFileSync(new URL("../../docs/open-faults.md", import.meta.url), "utf8"), "the fault this shape is pinned to must still be open").toContain("## AE.");
+    expect(largest.filter((c) => !c.slot).map((c) => c.label + ":" + c.cover), "off the screen, under nothing - a lid would be a different fault").toEqual(largest.filter((c) => !c.slot).map((c) => c.label + ":"));
+    expect(faultOpen(readFileSync(new URL("../../docs/open-faults.md", import.meta.url), "utf8"), "AE"), "the fault this shape is pinned to must still be open - its heading not CLOSED").toBe(true);
   } else {
     expect(bigFindings, JSON.stringify({ largest: largest.map((c) => c.label + ":" + c.w.toFixed(0) + "x" + c.h.toFixed(0) + (c.cover ? " under " + c.cover : "") + (c.offscreen ? " offscreen" : "")), bigFindings })).toEqual([]);
   }
