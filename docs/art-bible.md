@@ -382,7 +382,11 @@ day so the next art step does not re-derive it: at #FF775E it is luma 146 and on
 mark a child must find — those need about 4:1 and land near luma 80, which is why the
 Glowseed's rim and Build-it's arrangement ring share a value. Coral's place is what its row
 already says: a warm light ON something, over a dark or mid ground where its own contrast
-comes from the thing beneath it, not from the sky.
+comes from the thing beneath it, not from the sky. **Its job is settled: the garden, at
+step 6** (owner-ruled 2026-08-23, "Agreed great idea"). The garden is the one surface in the
+migration that brings its own dark and mid ground, and coral is the palette's only warm
+electric, so a bloom-light there reads as different IN KIND from the cyan and purple every
+teaching signal wears. The art plan's step 6 entry carries what its brief must state.
 
 ### 9.1 Electric-colour budget
 

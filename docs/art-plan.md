@@ -237,7 +237,14 @@ and 15):**
    records the fitted px before and after, the after at or above the before (the reading
    chair, the re-judgement of step 0). 4. The responsive grown-up zone. 5. Home and the
    original icon family (the second half of the icons ruling). 6. Garden state 0 and the
-   milestone reveal screen, built once. 7 to 9. States 1 to 10, one reviewed milestone at a
+   milestone reveal screen, built once — **and `coralElectric`'s first job, owner-ruled
+   2026-08-23** ("Agreed great idea"): the garden is the one surface in this plan that
+   brings its own dark and mid ground, and coral is the palette's only warm electric, so a
+   bloom-light there reads as different IN KIND from the cyan and purple every teaching
+   signal uses. It cannot be an edge, a rim or any mark a child must find — at 1.56 / 1.52 /
+   1.67:1 against the sky stops it would vanish; its contrast has to come from what sits
+   beneath it. Step 6's brief must state where the light lands, what ground it lands on, its
+   measured ratio against THAT ground, and its share of the electric budget (bible 9.1). 7 to 9. States 1 to 10, one reviewed milestone at a
    time, each a drop-in judged by the install gate, the frame gate and the census the day
    it arrives. 10. Quiet Display and reduced-motion coverage. 11. The full gauntlet and the
    council's final pass.
