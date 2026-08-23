@@ -552,6 +552,23 @@ does a screen reader or any other assistive technology: an activation that carri
 behind it counts as a keyboard press, never as a touch. The controls are muted in color and
 small in appearance, with a minimum target of 44 px.
 
+The ladder refuses a session it cannot ask (2026-08-23). EVERY rung of the pre-level ladder
+asks its question with a sound and nothing else: rung 1 is ear items, and from `PRE_TRAY_FROM`
+(rung 2) onward the item is a Build-a-sound tray whose prompt is a spoken sound, with no
+printed word anywhere on the screen. So the refusal covers the whole ladder rather than its
+first rung, and it covers it because of what the rungs ARE — a test holds that, so a future
+rung a child could answer from print would fail rather than be silently refused. With sound
+off such a session cannot be answered, and every grade the adult gave was still written to the
+child's ladder record. So "Begin Session" is refused while the child is on the ladder and
+sound is off, and the chooser says why in its own voice, in exactly these words:
+
+> The first steps need sound. Turn sound on in the Grown-ups corner.
+
+The sentence is named by the control it explains, so a screen reader reaches it from the
+button rather than by sweeping the page, and it is dark enough to read on the sky at every
+gradient stop. Free play and every printed word are untouched: a child past the ladder reads
+print, so words are unaffected, and nothing about this refusal writes to a record.
+
 The strip marker line. The strip keeps one line below its controls, whether or not there is
 anything to show, so the strip height never changes and the word never moves between phases.
 The line is reserved in every phase so the strip height never changes. Outside the feedback phase, a

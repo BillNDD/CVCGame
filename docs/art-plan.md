@@ -580,7 +580,7 @@ listener in its own try), proved in `tests/voicepacks.test.js` in the real modul
 component (`app/src/components/Glowseed.jsx`, one persistent element switching a class,
 `aria-hidden`), carried by `Zone.Stage seed` on the word reveal, the sentence reveal, the
 pre-ladder and Build-it; the stylesheet's three looks with no transition, absent under a
-400 px stage; the sound-off state (the replay and pre-ladder controls disabled, the marker
+400 px viewport - a max-height query, the window and not the stage; the sound-off state (the replay and pre-ladder controls disabled, the marker
 line's sentence, the breather skipping itself); the scaffold's quiet rule; the corner's
 note; tokens test 13; the census's Glowseed cell on every profile with the audio probe and
 its control's three plants; the provenance row with its lock reader; SPEC section 5's

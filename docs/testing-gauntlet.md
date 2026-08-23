@@ -529,6 +529,15 @@ every bound reads `LEVELS.length`, which is why adding a level needed no engine 
   4. Speech strings never spell letter names and never contain single-letter tokens.
   5. No tracked file contains an email address, and the default child name is empty (safety
      rule S9). Lockfiles are exempt: they carry npm authors' public emails, not personal data.
+  6. The ladder's refusal sentence in the app is SPEC section 6's, word for word — the only
+     thing telling an adult why a session was refused, and until 2026-08-23 no gate pinned
+     it. The rule READS the words from SPEC rather than typing them, so the document stays
+     the source, and a control removes SPEC's quotation to prove the rule can go blind.
+- The JSX corpus reads a text run ACROSS line ends (2026-08-23). It stopped at a newline
+  until then, so any sentence wrapped for readability was invisible to every rule in this
+  gate: the ladder's refusal was written on its own line and rule 6 could not see it. Widening
+  it took the corpus from 176 strings to 189 — thirteen sentences a child or an adult can read
+  that no rule had ever checked.
 - The reported rule count is computed from the rule families that actually ran, so a deleted
   rule cannot keep reporting itself.
 - Negative control: `node tools/copy-lint.mjs --self-test` injects one banned word and one

@@ -8,6 +8,8 @@
       the 260 bank words: speech says full words, never letter names.
    5. No tracked file contains an email address, and the default child name
       is empty (safety rule S9: no personal data in the repository).
+   6. The ladder's refusal sentence in the app is SPEC section 6's, word for
+      word - the only thing telling an adult why a session was refused.
    The reported rule count is computed from the rule families that actually
    ran, so a deleted rule cannot keep reporting itself.
    Negative control: --self-test corrupts copies in memory and requires the
@@ -42,13 +44,22 @@ function childCopy() {
     // spans with code tokens are fragments the regex caught between two strings
     for (const m of src.matchAll(/"([^"\n]*[a-z] [a-z][^"\n]*)"/gi))
       if (!/[(){};|=]/.test(m[1])) texts.push({ f, t: m[1] });
-    for (const m of src.matchAll(/>([^<>{}\n]*[a-z] [a-z][^<>{}\n]*)</gi)) texts.push({ f, t: m[1] });
+    /* JSX text, INCLUDING a run that wraps over line ends. It used to stop at
+       a newline, so any sentence a developer wrapped for readability was
+       invisible to every rule in this file - the ladder's refusal was written
+       on its own line and no rule could see it (the council's re-judgement,
+       2026-08-23). Whitespace is flattened so the corpus holds the sentence a
+       parent reads rather than the source's indentation. */
+    for (const m of src.matchAll(/>([^<>{}]*[a-z] [a-z][^<>{}]*)</gi)) {
+      const t = m[1].replace(/\s+/g, " ").trim();
+      if (t) texts.push({ f, t });
+    }
   }
   return texts;
 }
 
 function run(d) {
-  const { leads, notes, corpus, tracked, praise, voice } = d;
+  const { leads, notes, corpus, tracked, praise, voice, spec } = d;
   const found = [];
   const rules = new Set();
   const check = (okay, name, detail) => { if (!okay) found.push(name + " — " + detail); };
@@ -137,6 +148,23 @@ function run(d) {
   for (const s of staleExclusions()) check(false, "stale scan exclusion", s);
   for (const { f, t } of corpus) check(!BANNED.test(t), "banned word in child copy", `${f}: "${t.trim()}"`);
   for (const p of praise) check(!BANNED.test(p), "banned word in praise", p);
+
+  /* 6. THE LADDER'S REFUSAL, word for word (the council's re-judgement,
+     2026-08-23). It is the only thing telling an adult why the app just
+     refused their child's session, it is the newest parent-facing sentence in
+     the app, and no gate pinned it - so a tidy-up could reword it and nothing
+     would notice. SPEC section 6 owns the words; this reads them from there
+     rather than typing them, so the document stays the source. */
+  if (spec !== undefined) {
+    rules.add("ladder-refusal");
+    const want = /refused while the child is on the ladder and[\s\S]*?\n> (.+?)\n/.exec(String(spec).replace(/\r/g, ""));
+    check(!!want, "ladder refusal sentence", "SPEC section 6 no longer quotes it, so this rule is checking nothing");
+    if (want) {
+      const sentence = want[1].trim();
+      check(corpus.some(({ t }) => t.replace(/\s+/g, " ").includes(sentence)),
+        "ladder refusal sentence", `the app does not carry SPEC's words: "${sentence}"`);
+    }
+  }
 
   // 3. the tricky-word notes, exact
   rules.add("tricky-notes");
@@ -230,6 +258,7 @@ const real = {
   tracked: trackedTextFiles(),
   praise: PRAISE,
   voice: VOICE_SENTENCES,
+  spec: readFileSync("SPEC.md", "utf8"),
 };
 
 if (process.argv.includes("--self-test")) {
@@ -249,11 +278,17 @@ if (process.argv.includes("--self-test")) {
   const sawPraise = found.some((p) => p.startsWith("praise list")) && found.some((p) => p.startsWith("banned word in praise"));
   const sawLetter = found.some((p) => p.startsWith("letter name in praise"));
   const sawVoice = found.some((p) => p.startsWith("voice sentences"));
-  if (sawLead && sawBanned && sawEmail && sawPraise && sawLetter && sawVoice) {
-    console.log("self-test OK: a changed sentence, a banned word, a planted email, a reworded praise, a letter-name praise, and a swapped voice stem are all caught");
+  /* the refusal reworded in the app while SPEC keeps its words, and SPEC
+     losing the quotation so the rule would check nothing */
+  const reworded = { ...real, corpus: real.corpus.map(({ f, t }) => ({ f, t: t.split("The first steps need sound.").join("Sound is needed.") })) };
+  const sawRefusal = run(reworded).found.some((p) => p.startsWith("ladder refusal sentence"));
+  const unquoted = { ...real, spec: real.spec.split("refused while the child is on the ladder and").join("refused when it cannot ask and") };
+  const sawRefusalBlind = run(unquoted).found.some((p) => p.includes("checking nothing"));
+  if (sawLead && sawBanned && sawEmail && sawPraise && sawLetter && sawVoice && sawRefusal && sawRefusalBlind) {
+    console.log("self-test OK: a changed sentence, a banned word, a planted email, a reworded praise, a letter-name praise, a swapped voice stem, the ladder refusal reworded in the app, and SPEC losing the words the rule reads are all caught");
     process.exit(0);
   }
-  console.error("self-test FAILED: " + JSON.stringify({ sawLead, sawBanned, sawEmail, sawPraise, sawLetter, sawVoice }));
+  console.error("self-test FAILED: " + JSON.stringify({ sawLead, sawBanned, sawEmail, sawPraise, sawLetter, sawVoice, sawRefusal, sawRefusalBlind }));
   process.exit(1);
 }
 

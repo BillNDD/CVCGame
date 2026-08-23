@@ -13,7 +13,7 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { render, screen, fireEvent, act, cleanup } from "@testing-library/react";
 import { createElement } from "react";
-import { chunkWord, newState } from "../src/engine.js";
+import { chunkWord, newState, PRE_LEVELS, PRE_TRAY_FROM, buildPreSession } from "../src/engine.js";
 import { markerLine } from "../app/src/screens/SessionScreen.jsx";
 
 const REVEAL_MS = 5200;                       // a real reveal, measured from the pack
@@ -269,6 +269,28 @@ describe("G10 — the child hears the word before the app lets them move on", ()
     await flush(0);
     expect(screen.getByLabelText("Begin Session"), "a disabled control deals nothing").toBeTruthy();
   });
+  it("15h: the blanket refusal is right because EVERY rung asks with a sound - if one ever does not, this fails", async () => {
+    /* The refusal keys on `preLevel > 0`, which is a proxy for "this rung
+       cannot be answered without sound" (the council's antagonist,
+       2026-08-23). It is a TRUE proxy today and this test is why it may stay
+       one: rung 1 is ear items, and from PRE_TRAY_FROM onward every item is a
+       Build-a-sound tray whose prompt is a spoken sound with nothing printed.
+       Add a rung a child could answer from print and this fails, rather than
+       that child being silently refused a session they could have done. */
+    expect(PRE_TRAY_FROM).toBe(2);
+    expect(PRE_LEVELS.length).toBeGreaterThanOrEqual(3);
+    /* rung 1: the question is a sound, so the session is a list of letters to
+       hear rather than anything to read */
+    for (let rung = 1; rung <= PRE_LEVELS.length; rung += 1) {
+      const items = buildPreSession({ preLevel: rung }, () => 0.3);
+      expect(Array.isArray(items), `Pre ${rung} deals a list of items`).toBe(true);
+      expect(items.length, `Pre ${rung} deals something`).toBeGreaterThan(0);
+      /* every item is a single sound unit - a letter or a taught unit - never
+         a printed word the child could read without hearing anything */
+      for (const it of items) expect(typeof it === "string" && it.length <= 3, `Pre ${rung} item "${it}" is a sound unit, not a printed word`).toBe(true);
+    }
+  });
+
   it("15g: with sound off AND a second look, the strip says both on one line", async () => {
     /* The joined line is the only behaviour its commit changed and nothing
        asserted it (the engineering seat's after pass, 2026-08-23): every
