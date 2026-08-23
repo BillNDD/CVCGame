@@ -315,9 +315,37 @@
         "note": "measured by the art director on the 87f9272 renders (the after pass, 2026-08-23), replacing the arithmetic estimate of 0.51 / 0.62; the budget is 1-3 % (bible 9.1) and this is the band plus the object together while a tile sounds"
       },
       "checkpointBasis": "checkpoint 1 on greyscale renders of the reveal with a tile sounding, the sentence reveal, Build-it and the pre-ladder's ear prompt with the word; checkpoint 2 on colour renders of every look on the eight profiles, the census's Glowseed cell (the object against the page's own AudioContext) and tokens test 13",
-      "checkpoints": [],
-      "originality": null,
-      "closed": null,
+      "checkpoints": [
+        {
+          "stage": 4,
+          "chair": "digital art director",
+          "date": "2026-08-23",
+          "verdict": "pass",
+          "renders": "D:/CVCGame-ops/art/step2/b34420b (72 renders, six profiles, colour and greyscale) and the 3x crops beside them",
+          "commit": "b34420b",
+          "basis": "box 16 x 20 CSS px exactly; the core's centroid 1.50 px right and 2.51 px down of the box centre over 6,786 core pixels, with the top-right the tightest corner (left gap 87 crop px against the right's 42 at 5% of the height) - a seed with a tip and an off-centre eye, not a bullseye; idle 1.25-1.26:1 against the local sky; lit rim 3.94-3.97:1 with a dark edge of 39.6-45.3 CSS px2 against the sounding tile ring's 420-434; the word darkest, largest and highest-contrast on every profile"
+        },
+        {
+          "stage": 7,
+          "chair": "digital art director",
+          "date": "2026-08-23",
+          "verdict": "pass",
+          "renders": "D:/CVCGame-ops/art/step2/524e0ff (78 renders, including the arrangement playback shot at the owner's ruling, plus the reduced-motion pair)",
+          "commit": "524e0ff",
+          "basis": "the tokens sit at their literals in 9.2's order and the three looks are distinguishable; the box and every zone height are identical across all three looks and all captured states including arrangement playback, so no look moves layout. THE COLLISION THIS CHECKPOINT EXISTS TO TEST - Build-it's arrangement playback, the one screen carrying the object's lit rim and the slots' arrangement ring at the same instant - was shot on 2026-08-23 at the owner's ruling ('shoot it and judge') and does NOT occur: the two marks share purpleStructural and nothing else, and the sharing is thin at both ends. The object's rim owns 42.8 / 38.9 / 35.0 CSS px2 of the screen's 1945 / 2276 / 2094 (2.2% / 1.7% / 1.7%), the three rings carrying 44-59x it; and purpleStructural is a MINORITY of the object itself at 20-22% of its lit ink. purpleElectric and cyanElectric occur ONLY inside the object's 20 x 24 footprint and nowhere else in the frame - measured by pixel census by the art director and independently through the CSSOM across every element and pseudo-element, which found purpleElectric on exactly one node (.wq-glowseed-lit) and cyanElectric on exactly one (.wq-glowseed-lit::after). The marks sit 201-288 CSS px apart in different zones. The object's total lit ink is 176-196 CSS px2 against the miss sentence's 713-917 and the rings' 1902-2237, so it never out-competes the teaching signal"
+        }
+      ],
+      "originality": {
+        "test": "Every colour is a C token and every dimension is in this row's lock, so the object can be rebuilt from the record alone; the silhouette was authored from bible 7's description and measured after the fact, never traced, sampled or derived from external artwork. Checked by reading the four .wq-glowseed rules against C and against the lock.",
+        "verdict": "original - a token-drawn placeholder, owner-approved under order D (2026-08-23). The pixel seed the garden's step will draw to the locked camera replaces it at step 6; the place, the three looks and the timing are what a child learns, and those do not change when the paint does.",
+        "chair": "digital art director",
+        "date": "2026-08-23"
+      },
+      "closed": {
+        "date": "2026-08-23",
+        "by": "all three council chairs satisfied after two judgement rounds",
+        "note": "Opened and built 2026-08-23. The first after pass returned three NOT SATISFIED verdicts and seven fixes were taken; the re-judgement returned three more, all on one theme - the code fixes were real and three of them were guarded by tests that passed identically on the broken build. Those guards now fail on their own fault, watched failing by hand, and three Glowseed app mutants exist where the family had none. Checkpoint 1 and checkpoint 2 both PASS on measurement. The reduced-motion render, the last open deliverable, was shot on two phones and is BYTE-IDENTICAL to the lit render in colour and in greyscale - the criterion proved rather than argued."
+      },
       "rulings": {
         "date": "2026-08-23",
         "order": "D - the placeholder now, the pixel seed at step 6 to the locked camera",
@@ -325,7 +353,8 @@
         "fallback": "a - idle on every system-speech path (recorded audio only); the Grown-ups corner's note says the listening light stays dark",
         "soundOff": "\"Parent: sound is off\" on the strip's reserved marker line, the replay controls disabled, the object muted"
       },
-      "silhouette": "an ovoid with one asymmetric tip at the top right (the tightest corner radius, 34% against the top left's 70%) and the core offset 1.5 CSS px right and 2.5 px down from the box's centre - NOT a circle with a centred core. The first draft was four concentric ovals, the core exactly centred in x and 2 px low in y, both caps 6 px at 1x: the art director failed checkpoint 1 on it as the eye / LED / bullseye form bible 17.1 forbids, and both verifiers measured the same thing. Order D says the step-6 pixel seed keeps this shape, so the radius and the offset are in the lock and read from the stylesheet by glowseedLockFromSources; a core back on either axis is refused by name."
+      "silhouette": "an ovoid with one asymmetric tip at the top right (the tightest corner radius, 34% against the top left's 70%) and the core offset 1.5 CSS px right and 2.5 px down from the box's centre - NOT a circle with a centred core. The first draft was four concentric ovals, the core exactly centred in x and 2 px low in y, both caps 6 px at 1x: the art director failed checkpoint 1 on it as the eye / LED / bullseye form bible 17.1 forbids, and both verifiers measured the same thing. Order D says the step-6 pixel seed keeps this shape, so the radius and the offset are in the lock and read from the stylesheet by glowseedLockFromSources; a core back on either axis is refused by name.",
+      "againstTheDesign": "RECORDED RATHER THAN BURIED (the art director, checkpoint 2, 2026-08-23): in greyscale the object's lit rim and Build-it's arrangement ring are the SAME VALUE - rim mean 80.1 / 80.2 / 80.2 against ring mean 80.0 / 80.0 / 80.0. Value does NOT tell the two marks apart. What tells them apart is shape (an asymmetric egg against a flat rounded rectangle enclosing a letter), size (44-59x on the shared token), internal structure (a light-halo / dark-rim / cream-core / grey-dot ramp against a single flat band) and position (201-288 CSS px apart, different zones), checked by eye at 12x on the grey render. Any later claim that greyscale separates them by tone is false, and measured false."
     }
   }
 }

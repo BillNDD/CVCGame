@@ -345,7 +345,7 @@ measures at or above its literal ratio in `tests/tokens.test.js`; the ghost's ra
 stated and held; the check and the novelties scope are green; the art director's two
 checkpoints and the three-chair after pass are recorded here.
 
-### Step 2 — the Glowseed tied to the real audio lifecycle (opened 2026-08-23; the before pass returned the same day and rewrote this section; the owner ruled all four questions the same day, each as the council recommended)
+### Step 2 — the Glowseed tied to the real audio lifecycle (opened 2026-08-23; the before pass returned the same day and rewrote this section; the owner ruled all four questions the same day, each as the council recommended; CLOSED 2026-08-23 at 524e0ff after two judgement rounds, checkpoints 1 and 7 both PASS on measurement)
 
 **What the child gets.** One small object in the child's field — inside the stage, out of
 flow, in the same top corner on every screen it appears on (the word reveal, the sentence
@@ -1145,3 +1145,26 @@ Newest last. A verdict names the chair, the step, the word, and the findings.
   writing: **checkpoint 2's missing render** — Build-it's arrangement playback, the one
   screen where the object's lit rim and the slots' arrangement ring are the same token — put
   to the owner as a decision.
+- 2026-08-23 — **Step 2 CLOSED.** The owner ruled the one open decision — the collision at
+  Build-it's arrangement playback — with "shoot it and judge". It was shot on three phones,
+  colour and greyscale, and the collision does not occur. The two marks share
+  `purpleStructural` and nothing else, and the sharing is thin at both ends: the object's rim
+  owns 1.7–2.2 % of the screen's purpleStructural, the three rings carrying 44–59× it, and
+  that token is only 20–22 % of the object's own lit ink. `purpleElectric` and `cyanElectric`
+  occur ONLY inside the object's 20 × 24 footprint — measured twice by different instruments,
+  the art director's pixel census over the frame and an independent CSSOM sweep across every
+  element and pseudo-element, which found each token on exactly one node. The marks sit
+  201–288 CSS px apart in different zones, and the object's total lit ink (176–196 CSS px²)
+  never approaches the miss sentence's (713–917) or the rings' (1,902–2,237). Checkpoint 2
+  PASSES; no token change was required.
+  **One measurement went against the design and is recorded rather than buried:** in
+  greyscale the two marks are the SAME VALUE, 80 against 80. Value does not tell them apart —
+  shape, size, internal structure and position do, checked by eye at 12× on the grey render.
+  A later claim that greyscale separates them by tone would be false, and is measured false.
+  **The reduced-motion render, the last open deliverable, was shot** rather than retired: on
+  two phones it is BYTE-IDENTICAL to the lit render, in colour and in greyscale, so stage 7's
+  criterion is proved rather than argued from the absence of motion properties.
+  Coverage limit, stated rather than estimated: arrangement playback exists on three phone
+  profiles only. Desktop and the short iPhone have no Build-it renders in any set — the same
+  coverage checkpoint 1 accepted — and on the landscape phone the object is `display:none`
+  under the 400 px rule, so no collision is possible there.
