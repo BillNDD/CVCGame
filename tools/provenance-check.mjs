@@ -49,7 +49,8 @@ export function lockFromSources(css = readFileSync("app/src/wq-css.js", "utf8"),
     ring: r, ringOffset: num(blocks.pop, /outline-offset:(\d+)/),
     band: Object.fromEntries(Object.entries(spread).map(([k, v]) => [k, v === null || r === null ? null : v - r])),
     builditBox: num(screen, /const SLOT = (\d+), TILE = \d+/),
-    extraPerLetter: num(screen, /\(tile \|\| ""\)\.length\) - 1\) \* (\d+)/),
+    extraPerLetter: num(screen, /compact\(\) \? \d+ : (\d+)\)/),
+    compact: { below: num(screen, /const COMPACT_BELOW = (\d+)/), box: num(screen, /compact\(\) \? (\d+) : SLOT\)/), step: num(screen, /compact\(\) \? (\d+) : 26\)/), gap: num(screen, /compact\(\) \? (\d+) : 10\)/) },
     haloInset: num(cssBlock(css, ".wq-slotrow"), /padding:(\d+)px[;}]/),   // a single-value padding only: "4px 8px" would not be the inset on every side
     rim: num(blocks.reveal, /inset 0 0 0 (\d+)px \$\{C\.tileEdge\}/),
     highlightInset: num(blocks.reveal, /inset 0 (\d+)px 0 \$\{C\.tileHighlight\}/),
@@ -63,6 +64,7 @@ export function lockDrift(lock, fromSources) {
   for (const [k, v] of Object.entries(fromSources.band)) if (lock.band?.[k] !== v) out.push(`lock.band.${k} is ${lock.band?.[k]}, the stylesheet says ${v}`);
   if (lock.builditBox !== fromSources.builditBox) out.push(`lock.builditBox is ${lock.builditBox}, the screen says ${fromSources.builditBox}`);
   if (lock.extraPerLetter !== fromSources.extraPerLetter) out.push(`lock.extraPerLetter is ${lock.extraPerLetter}, the screen says ${fromSources.extraPerLetter}`);
+  for (const k of ["below", "box", "step", "gap"]) if (!lock.compact || lock.compact[k] !== fromSources.compact[k]) out.push(`lock.compact.${k} is ${lock.compact && lock.compact[k]}, the screen says ${fromSources.compact[k]}`);
   if (lock.haloInset !== fromSources.haloInset) out.push(`lock.haloInset is ${lock.haloInset}, the stylesheet says ${fromSources.haloInset}`);
   if (lock.rim !== fromSources.rim) out.push(`lock.rim is ${lock.rim}, the stylesheet says ${fromSources.rim}`);
   if (lock.highlightInset !== fromSources.highlightInset) out.push(`lock.highlightInset is ${lock.highlightInset}, the stylesheet says ${fromSources.highlightInset}`);
@@ -115,7 +117,7 @@ if (process.argv.includes("--self-test")) {
   const src = lockFromSources();
   ok.push(["the lock reader finds the ring, the offset, every band and radius, the box, the letter step and the halo inset in the sources, at their literals",
     src.ring === 3 && src.ringOffset === 0 && JSON.stringify(src.band) === JSON.stringify({ reveal: 6, many: 4, crowd: 2, shortStage: 4 })
-    && JSON.stringify(src.radii) === JSON.stringify({ reveal: 12, many: 9, crowd: 7, shortStage: 8, buildit: 14 }) && src.builditBox === 64 && src.extraPerLetter === 26 && src.haloInset === 4]);
+    && JSON.stringify(src.radii) === JSON.stringify({ reveal: 12, many: 9, crowd: 7, shortStage: 8, buildit: 14 }) && src.builditBox === 64 && src.extraPerLetter === 26 && src.haloInset === 4 && JSON.stringify(src.compact) === JSON.stringify({ below: 360, box: 56, step: 20, gap: 6 })]);
   const twoValue = lockFromSources(readFileSync("app/src/wq-css.js", "utf8").replace(".wq-slotrow{display:inline-flex;gap:10px;justify-content:center;flex-wrap:wrap;border-radius:18px;padding:4px}", ".wq-slotrow{display:inline-flex;gap:10px;justify-content:center;flex-wrap:wrap;border-radius:18px;padding:4px 8px}"));
   ok.push(["a two-value padding on the slot row is not read as the halo inset, so the lock is refused", twoValue.haloInset === null && lockDrift(real.families.tiles.lock, twoValue).some((p) => p.includes("lock.haloInset is 4, the stylesheet says null"))]);
   const thickRim = lockFromSources(readFileSync("app/src/wq-css.js", "utf8").replaceAll("box-shadow:inset 0 0 0 1px ${C.tileEdge},inset 0 2px 0 ${C.tileHighlight}", "box-shadow:inset 0 0 0 2px ${C.tileEdge},inset 0 3px 0 ${C.tileHighlight}"));

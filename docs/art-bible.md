@@ -556,7 +556,12 @@ at a time, its dashes transparent so the ring is the one edge, with the letter i
 opacity .60 (3.28:1, owner-ruled over the .28 that measured 1.65). **Different
 arrangement:** a 3 px `purpleStructural` ring round the filled slots while the built sounds
 play back, owner-ruled over a tint and over none. **Completed:** one static `amberFill`
-halo round the assembled word, drawn on the slot row, 4 px off the tiles' rims. **Focus:** a dashed `cyanStructural` ring at
+halo round the assembled word, drawn on the slot row, 4 px off the tiles' rims. **The
+compact build** (below 360 px wide): boxes of 56 px — S7's floor — a 20 px letter step and
+6 px gaps, because a ten-tile tray under eight slots ran under the grown-up strip on the
+320 px profile (the monkey found "breakfast" there; the arithmetic overflowed at 64 px
+before the wider tiles, and the census's Build-it cell now holds the largest tray
+reachable on every profile). **Focus:** a dashed `cyanStructural` ring at
 offset 2, so the keyboard's mark and the sounding mark differ by shape. None of the new
 states animates; reduced motion changes nothing about them.
 

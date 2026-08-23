@@ -510,4 +510,13 @@ test("control: a 48 px tray tile and equal tray widths are caught by the Build-i
   await page.evaluate(() => { for (const b of document.querySelectorAll('button[aria-label^="Tile "]')) { b.style.width = "64px"; b.style.height = "64px"; } });
   expect(buildHold(await buildControls(page), 56).map((f) => f.kind)).toEqual(["unit-not-wider"]);
   expect(buildHold([], 56).map((f) => f.kind)).toEqual(["no-subject"]);
+  /* a control a finger cannot reach: a layer over one tile, and one pushed
+     below the screen, each through the reader */
+  await page.evaluate(() => { const b = document.querySelector('button[aria-label="Tile sh"]'); b.style.width = ""; b.style.height = ""; const d = document.createElement("div"); d.id = "wq-plant-lid"; d.className = "wq-plant-lid"; const r = b.getBoundingClientRect(); d.style.cssText = "position:fixed;left:" + r.x + "px;top:" + r.y + "px;width:" + r.width + "px;height:" + r.height + "px;z-index:90;background:transparent"; document.body.appendChild(d); });
+  const lidded = buildHold(await buildControls(page), 56);
+  expect(lidded.map((f) => f.kind), JSON.stringify(lidded)).toContain("control-unreachable");
+  expect(lidded.some((f) => f.detail.includes("Tile sh") && f.detail.includes("div.wq-plant-lid"))).toBe(true);
+  await page.evaluate(() => { document.getElementById("wq-plant-lid").remove(); document.querySelector('button[aria-label="Tile p"]').style.marginTop = "2000px"; });
+  const sunk = buildHold(await buildControls(page), 56);
+  expect(sunk.some((f) => f.kind === "control-unreachable" && f.detail.includes("Tile p") && f.detail.includes("off the screen")), JSON.stringify(sunk)).toBe(true);
 });

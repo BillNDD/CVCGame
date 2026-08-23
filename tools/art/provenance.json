@@ -49,7 +49,14 @@
         "bandRenders": "measured with a middle tile sounding at every density, both sides: toward either neighbour gap minus ring - 3 / 1 / 0 / 1 CSS px (13-14 / 4-5 / 0 / 3 device px on the Galaxy at 4.5 and the short stage at 3), the rest beneath the neighbour's box (the live tile paints beneath its siblings); the neighbour's rim whole every time; the full band on the open sides",
         "haloInset": 4,
         "highlightInset": 2,
-        "highlightNote": "drawn 2 px, of which 1 shows inside the 1 px rim; the lower shade likewise"
+        "highlightNote": "drawn 2 px, of which 1 shows inside the 1 px rim; the lower shade likewise",
+        "compact": {
+          "below": 360,
+          "box": 56,
+          "step": 20,
+          "gap": 6,
+          "why": "a ten-tile tray under eight slots ran under the grown-up strip at 320 px; at S7's floor it fits (the monkey, 2026-08-22)"
+        }
       },
       "ramps": {
         "face": [

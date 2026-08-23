@@ -649,3 +649,13 @@ Newest last. A verdict names the chair, the step, the word, and the findings.
   highlight inset from the stylesheet, with a planted 2 px rim refused; the bible states the
   highlight as a 2 px inset of which 1 shows; the contact-shadow tint named. Judged again by
   both chairs.
+- 2026-08-22 — Found by the monkey on the novelties run after the fifth round, on the
+  narrow-extreme profile: three tiles of a ten-tile tray under the grown-up strip, out of a
+  finger's reach. A real fault, older than the step (the arithmetic overflowed the 519 px
+  stage at 64 px boxes for "breakfast") and made worse by the step (wider multi-letter
+  tiles, a fourth tray row). Fixed in the step: below 360 px Build-it's boxes are S7's floor
+  of 56, the letter step 20 and the gaps 6, so the largest tray fits above the strip; the
+  census's Build-it cell now also deals "breakfast" on every profile and refuses a control
+  a finger cannot reach (under anything, or off the screen), with a planted lid and a
+  planted sunk tile through the reader; the compact sizes are in the provenance lock and
+  read from the screen.

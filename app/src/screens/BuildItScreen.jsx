@@ -24,12 +24,27 @@ import Zone from "../components/Zone.jsx";
    while each sound plays, and the child copies them: every attempt ends in
    success, which is the whole reason the mode is practice-only. */
 const SLOT = 64, TILE = 64;
+/* THE COMPACT BUILD (art step 1, 2026-08-22). On a 320 px screen a ten-tile
+   tray under eight slots ran below the stage and under the grown-up strip:
+   the monkey reached "breakfast" on the Galaxy S9+ and reported three tiles
+   a finger could not reach. The arithmetic overflowed at 64 px boxes
+   already (62 header + 90 prompt + 2 slot rows + 40 + 3 tray rows = 562 in a
+   519 px stage); the wider multi-letter tiles of the ceramic step made it a
+   fourth row. Below 360 px the boxes are S7's floor, 56, the letter step
+   20 and the gaps 6: breakfast's slots take two rows and its tray three,
+   492 px, and everything is above the strip. Measured by the census's
+   Build-it cell on the largest tray, every profile. */
+const COMPACT_BELOW = 360;
+const compact = () => typeof window !== "undefined" && window.innerWidth < COMPACT_BELOW;
+const box = () => (compact() ? 56 : SLOT);
+const step = () => (compact() ? 20 : 26);
+const gap = () => (compact() ? 6 : 10);
 /* A slot is wider when its sound is written with more than one letter, so the
    SHAPE of the word is visible before a single sound plays. Owner-chosen on
    2026-08-17 from three live layouts. It is a real clue and that is the point:
    a child meeting sh-i-p can see that the first sound is a wide one. The extra
    width is per letter beyond the first, so a trigraph is wider still. */
-const slotWidth = (tile) => SLOT + (Math.max(1, (tile || "").length) - 1) * 26;
+const slotWidth = (tile) => box() + (Math.max(1, (tile || "").length) - 1) * step();
 
 /* `tray.sounds` is parallel to `tray.tiles`: the sound each tile makes in THIS
    word, decided when the tray was built. The screen never derives a sound from
@@ -199,7 +214,7 @@ export default function BuildItScreen({ tray, playSounds, playWord, onDone, onEx
      box is inline. A multi-letter tile is as wide as the slot it fits, so
      "sh" is visibly wider than "s" in the tray as well as in the word (S8,
      bible 11) - it used to be the same 64 px as every other tile. */
-  const tileStyle = (tile) => ({ width: slotWidth(tile), height: TILE });
+  const tileStyle = (tile) => ({ width: slotWidth(tile), height: box() });
 
   return (
     <Frame>
@@ -224,11 +239,11 @@ export default function BuildItScreen({ tray, playSounds, playWord, onDone, onEx
           <div aria-busy={busy ? "true" : undefined} style={{ display: "flex", justifyContent: "center" }}>
             {/* the slot row is its own box, so the completed word's halo is one
                 band round the assembled word and not three round three slots */}
-            <span className={"wq-slotrow" + (won ? " wq-won" : "")}>
+            <span className={"wq-slotrow" + (won ? " wq-won" : "")} style={compact() ? { gap: 6 } : undefined}>
             {slots.map((tile, i) => (
               <button key={i} onClick={() => lift(i)} disabled={tile === null || won} aria-label={tile !== null ? "Take back " + at(tile) : "Empty space"}
                 className={"wq-tilebtn" + (tile === null ? " wq-empty" : "") + (ghost === i && tile === null ? " wq-cue" : "") + (arr && tile !== null ? " wq-arr" : "")}
-                style={{ width: slotWidth(tray.answer[i]), height: SLOT }}>
+                style={{ width: slotWidth(tray.answer[i]), height: box() }}>
                 {at(tile) || (ghost === i ? <span className="wq-ghost">{tray.answer[i]}</span> : "")}
               </button>
             ))}
@@ -238,7 +253,7 @@ export default function BuildItScreen({ tray, playSounds, playWord, onDone, onEx
           <div style={{ minHeight: 26, marginTop: 14, fontWeight: 700, fontSize: 15,
             color: won ? C.success : C.ink }}>{msg}</div>
 
-          <div style={{ display: "flex", gap: 10, justifyContent: "center", flexWrap: "wrap", marginTop: 14 }}>
+          <div style={{ display: "flex", gap: gap(), justifyContent: "center", flexWrap: "wrap", marginTop: compact() ? 10 : 14 }}>
             {tray.tiles.map((tile, i) => (
               <button key={tile + "-" + i} onClick={() => place(i)} disabled={slots.includes(i) || won} aria-label={"Tile " + tile}
                 className={"wq-tilebtn" + (slots.includes(i) || won ? " wq-used" : "")} style={tileStyle(tile)}>{tile}</button>

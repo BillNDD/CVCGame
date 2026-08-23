@@ -455,12 +455,21 @@ export function soundingHold(s, tokens, restingBoxes) {
    or more on both axes, and every multi-letter tray tile wider than every
    single-letter one. */
 export async function buildControls(page) {
-  return page.evaluate(() => [...document.querySelectorAll(".wq-tilebtn")].map((b) => { const r = b.getBoundingClientRect(); return { text: b.textContent.trim(), label: b.getAttribute("aria-label") || "", w: r.width, h: r.height, slot: /^(Take back|Empty space)/.test(b.getAttribute("aria-label") || "") }; }));
+  return page.evaluate(() => [...document.querySelectorAll(".wq-tilebtn")].map((b) => {
+    const r = b.getBoundingClientRect();
+    /* what a finger lands on at the control's centre: the strip, the stage's
+       edge, anything else, and the control is out of reach (the monkey found
+       breakfast's last tray row under the strip on the 320 px profile) */
+    const top = document.elementFromPoint(r.x + r.width / 2, r.y + r.height / 2);
+    const cover = top && !b.contains(top) ? top.tagName.toLowerCase() + (top.className ? "." + String(top.className).split(" ").filter(Boolean).join(".") : "") : "";
+    return { text: b.textContent.trim(), label: b.getAttribute("aria-label") || "", w: r.width, h: r.height, slot: /^(Take back|Empty space)/.test(b.getAttribute("aria-label") || ""), cover, offscreen: r.bottom > innerHeight || r.top < 0 };
+  }));
 }
 export function buildHold(controls, floor = 56) {
   if (!controls.length) return [{ kind: "no-subject", detail: "no tile or slot on the screen" }];
   const findings = [];
   for (const c of controls) if (c.w < floor || c.h < floor) findings.push({ kind: "control-too-small", detail: '"' + c.label + '" is ' + c.w.toFixed(1) + " x " + c.h.toFixed(1) + " px, floor " + floor });
+  for (const c of controls) if (c.cover || c.offscreen) findings.push({ kind: "control-unreachable", detail: '"' + c.label + '" is ' + (c.offscreen ? "off the screen" : "under " + c.cover) + " - a finger cannot reach it" });
   const tray = controls.filter((c) => !c.slot);
   const multi = tray.filter((c) => c.text.length > 1), single = tray.filter((c) => c.text.length === 1);
   if (!multi.length || !single.length) findings.push({ kind: "no-subject", detail: "the tray needs a multi-letter and a single-letter tile; got " + JSON.stringify(tray.map((c) => c.text)) });

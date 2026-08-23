@@ -161,13 +161,22 @@ test.describe("with motion allowed, the sounding tile", () => {
   });
 });
 
-test("Build-it: every tile and slot is a 56 px child control, and a multi-letter tray tile is wider than a single-letter one", async ({ page }) => {
+test("Build-it: every tile and slot is a 56 px child control a finger can reach, on the smallest and the largest tray, and a multi-letter tray tile is wider", async ({ page }) => {
   /* S7 and S8 on the one screen no G7 check opened (the before pass on step
-     1): "ship" dealt through the dice, its tray read as controls. */
+     1): "ship" dealt through the dice, its tray read as controls; then
+     "breakfast", the largest tray the bank deals (eight slots, ten tiles),
+     which the monkey found running under the grown-up strip on the 320 px
+     profile - every control must own its centre and sit on the screen. */
   const dealt = await stageBuild(page, "ship");
   requireBuilt("ship", dealt);
   const controls = await buildControls(page);
   const findings = buildHold(controls, 56);
   expect(findings, JSON.stringify({ controls, findings })).toEqual([]);
   expect(controls.filter((c) => c.slot).length).toBe(3);
+  const big = await stageBuild(page, "breakfast");
+  requireBuilt("breakfast", big);
+  const largest = await buildControls(page);
+  expect(largest.length, "eight slots and ten tiles").toBe(18);
+  const bigFindings = buildHold(largest, 56);
+  expect(bigFindings, JSON.stringify({ largest: largest.map((c) => c.label + ":" + c.w.toFixed(0) + "x" + c.h.toFixed(0) + (c.cover ? " under " + c.cover : "") + (c.offscreen ? " offscreen" : "")), bigFindings })).toEqual([]);
 });
