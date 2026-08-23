@@ -30,8 +30,18 @@ The three chairs:
 2. **Early-reading and accessibility specialist** — synthetic phonics and what a
    four-to-seven-year-old attends to; the child reads first; no answer in the art; fixed
    word geometry; contrast, reduced motion, target sizes, screen readers.
-3. **Engineering antagonist** — what each change breaks (E11), honesty (E3 to E5), drift
-   (G16, G20, G23), the S6 install budget, and whether a new gate measures what it claims.
+3. **Software engineering and programming expert, seated as the antagonist**
+   (owner-ruled 2026-08-23: "Keep adversarial mandate but switch to a software engineering
+   and programming expert") — the mandate is unchanged and adversarial, because in two
+   steps it caught blocking faults nothing else did: a premise the whole brief rested on
+   that the code did not support, a reset no guard covered, numbers quoted from a render
+   set that no longer existed. What the seat brings to it is a practising engineer's
+   reading: what each change breaks (E11), honesty (E3 to E5), drift (G16, G20, G23),
+   the S6 install budget, whether a new gate measures what it claims, and the ordinary
+   engineering questions a specialist asks — lifecycles and their edges, event ordering,
+   error paths, resource release, the difference between a test that proves a behaviour
+   and one that repeats the implementation. Seated from the step 3 before pass onward;
+   step 2's passes were run under the older framing, which changed no rule.
 
 The rules:
 
@@ -1086,3 +1096,11 @@ Newest last. A verdict names the chair, the step, the word, and the findings.
   **"Parent: sound is off"**. Nothing changed in the code on their return; the rulings are
   recorded in this section, in bible 7, in the provenance row (whose placeholder is now
   owner-approved rather than pending) and in the comments that cited the page.
+- 2026-08-23 — Owner-ruled, the council's third seat: "Keep adversarial mandate but switch
+  to a software engineering and programming expert". The mandate does not change - it has
+  earned itself, catching in two steps a false premise the whole step 2 brief rested on, a
+  reset no guard covered, and numbers quoted from a render set that no longer existed - and
+  the seat is now a practising engineer's, with the ordinary specialist questions (lifecycle
+  edges, event ordering, error paths, resource release, a test that proves a behaviour
+  against one that repeats it) added to what it already asked. Seated from step 3's before
+  pass; step 2's passes ran under the older framing and no rule moved.

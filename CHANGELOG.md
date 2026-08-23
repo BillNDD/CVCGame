@@ -15,6 +15,42 @@ This document follows the Microsoft Writing Style Guide.
 Version 6 adds the standalone progressive web app. The reference build does not change.
 The first app version is 1.0.0-beta.1. The app stays in beta until version 1.0 is ready.
 
+- New in 1.0.0-beta.27: a listening light. A small light sits in the top corner of the play
+  area. It is lit exactly while the game is speaking with its recorded voice, and it goes
+  out when the sound does — so a child can see when to listen and when it is their turn. It
+  stays dark when your device's own voice is standing in for the recorded one; the
+  Grown-ups corner says when that is happening. It is not a button, and a screen reader
+  ignores it.
+- Changed in 1.0.0-beta.27: every letter tile now looks like a glazed ceramic tile — under
+  the word, in a sentence, and in Build-it. The tile whose sound is playing takes a bright
+  ring and a soft glow around it, in place of the plain dark outline it had before. In
+  Build-it, when the letters go in a different order from the answer, the filled spaces
+  wear a purple ring while the game plays back what was built; a finished word gets one
+  warm halo around the whole word; and a tile already used looks spent.
+- Fixed in 1.0.0-beta.27: on a small phone, a long word's letter tiles in Build-it sat
+  partly underneath the grown-ups strip, where a finger could not reach them — the tiles
+  are now smaller on those phones so the whole tray fits above the strip. The letter the
+  game shows after two misses is easier to see. The glow of a sounding tile no longer
+  covers the tail of a letter above it, such as a p or a g. And with sound switched off,
+  the speaker button is now greyed out instead of doing nothing when pressed, the listening
+  light shows as off, the strip says "Parent: sound is off", and the game no longer offers
+  a Build-it break, which needs sound.
+- Known in 1.0.0-beta.27: hold the phone upright. Held sideways, a phone's play area is
+  very short: the letter tiles under a word are cut off at the bottom, the sentence the
+  game says after a word can be out of view below them, and in Build-it the tiles sit partly
+  under the grown-ups strip — a long word's can be off the bottom of the screen. None of
+  this is new in this release; it is now measured and written down, and the next piece of
+  work on the reading surface is what fixes it.
+- Nothing about the teaching changed in 1.0.0-beta.27: the same words, the same levels, the
+  same sounds and the same voice, and your child's progress is untouched. What changed is
+  how it all looks and one new light.
+- Under the hood in 1.0.0-beta.27: the checks grew again. The listening light is measured
+  against the device's own sound engine rather than a stopwatch — a check watches every
+  sound the game schedules and every sound that ends, and refuses a light that comes on
+  early, stays on late, or goes out on a timer while the sound is still playing. Every
+  state of every tile is measured on eight screen shapes, with the pictures kept for each
+  release so a claim about them can always be checked. Three faults found on the way are
+  written down rather than left to be rediscovered.
 - New in 1.0.0-beta.26: a bug report, kept on the device and never sent by itself. If the
   game goes wrong on your phone, the Grown-ups corner now shows how many problems it has
   met, and "Copy bug report" puts a short plain-text report on your clipboard — what broke,
