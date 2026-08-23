@@ -254,10 +254,51 @@ control.
 
 *Figure 4 (PDF): locked Glowseed anatomy and behavioural limits.*
 
-**Rulings (2026-08-22).** The audio lifecycle it hangs off already exists: the players
-report when they finish (`playSounds(ids, then)`), the pops land on measured clip edges,
-and the turn ends when the sound does. The Glowseed reads those events and no clock of
-its own; a silent pack's backstop ends it the way it ends the turn.
+**Rulings (2026-08-22, corrected 2026-08-23).** The 2026-08-22 ruling said the players
+"already report when they finish"; the council's before pass on step 2 found that false —
+`playClips` reported a length once, at schedule time, and every end the app used was a
+timer on that length — so the lifecycle is built in step 2 as events: `onAudio` in
+`app/src/voicepacks.js` delivers a start when an utterance's plan is scheduled (50 ms before
+the first sample, the first clip's lead before any voice) and an end when every node of
+that utterance, the hum's oscillators included, has fired `onended`, keyed by the
+utterance's token, or when `stopClips()` ends it. The Glowseed reads those events and no
+clock of its own; a silent pack never starts it, the system-speech fallback never starts it
+(recorded teaching audio only, and the Grown-ups corner says so), and a lost end — a
+context closed mid-utterance — lasts until the next `stopClips()`, which every utterance and
+every exit path calls. Probed under headless Chromium before the design was committed:
+`onended` fires at a buffer's natural end, on `stop()`, and 1,500 ms late through a context
+suspended that long, which is how the census's Glowseed cell tells an event from a timer.
+The pops still land on the measured clip edges, and the turn still ends when the sound does.
+
+**The repository's Glowseed (art step 2, 2026-08-23; the owner's page on the order).** A
+token-drawn placeholder for the pixel seed the garden's step draws to the locked camera,
+under the owner's "who draws" ruling — the place, the three looks and the timing are what a
+child learns, and those do not change when the paint does. It sits out of flow in the
+stage's top corner, 0 px of layout (the census holds every zone's height and the word's box
+equal with it planted away), on the word reveal, the sentence reveal, the pre-ladder and
+Build-it — not home, the done screens or the corner — and is absent on a stage under 400 px
+tall (the landscape phone, open-faults AG). A 16 × 20 px ovoid with the core offset toward
+the cradle end, a 1 px rim thinner than the tile's 3 px ring: **idle**, a `slot` core in a
+`stone` rim, within one value step of the sky (1.28 / 1.24 / 1.36:1 on the stops) — scenery;
+**lit**, the core `cyanElectric`, the rim `purpleStructural` — the value step from stone,
+3.15:1, is the cue a child sees, since the cyan core is 1.06:1 against the idle core in
+greyscale; 4.02 / 3.92 / 4.29:1 on the three stops — and a 2 px `purpleElectric` light
+outside the rim (9.2's order; purple, so a child never reads it as a tile's cyan band);
+**muted** (sound off), the core gone and the rim empty, beside the replay control now
+`disabled` and "Parent: sound is off" on the strip's reserved marker line. Nothing animates
+or transitions: the edge of the sound is the edge of the light, and reduced motion changes
+nothing. It is decoration to assistive technology (`aria-hidden`, no role, no tab stop,
+`pointer-events:none`) and never a control. During Build-it's scaffold it stays idle — the
+slot's cue ring is the one event there (the owner's page, ruling 2). The table below is the
+repository's, read by doc-truth rule 12 like section 11's; all three selectors are app-only,
+the reference build having no Glowseed.
+
+| state | selector | tokens |
+|---|---|---|
+| idle | `.wq-glowseed` | slot, stone |
+| lit | `.wq-glowseed-lit` | purpleStructural, purpleElectric |
+| lit core | `.wq-glowseed-lit::after` | cyanElectric |
+| muted | `.wq-glowseed-muted` | none |
 
 ## 8. Pixel construction and rendering
 
@@ -403,7 +444,7 @@ and values as the record of what the PDF said.
 | cyanStructural | #005a67 | the accessible edge beneath a glow, 7.51:1 on surfaceReading |
 | cyanElectric | #4eebff | playback glow only, never a boundary |
 | purpleStructural | #5b3fd6 | the accessible purple edge |
-| purpleElectric | #9b75ff | rare milestone and Glowseed rim |
+| purpleElectric | #9b75ff | rare milestone and the Glowseed's light outside its rim (step 2: the rim is purpleStructural, since an electric hue is never the boundary — 9.1) |
 | coralElectric | #ff775e | warm decorative light |
 | amberFill | #f4b942 | the bible's amber; C.amber stays the amber TEXT |
 | tileFace | #f6d985 | the ceramic tile's face |

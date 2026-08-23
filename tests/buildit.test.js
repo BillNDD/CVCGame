@@ -25,12 +25,18 @@ import { buildTray, buildSoundTray, preLetters, chunkWord } from "../src/engine.
 /* The pack is replaced so the loop can be walked without an audio device, and
    so a completion callback fires at once rather than after a real clip. */
 const played = [];
+const audioListeners = new Set();
+const emitAudio = (e) => { for (const fn of [...audioListeners]) fn(e); };
 vi.mock("../app/src/voicepacks.js", () => ({
   initVoicePacks: async () => {},
   unlockVoice: () => {},
   stopClips: () => {},
   microphoneUsed: () => {},
   familyClipIds: () => new Set(),
+  /* the Glowseed subscribes to the lifecycle; the double keeps the listeners
+     so a test can hand them a start by hand (the real source is proved in
+     voicepacks.test.js, never through this double) */
+  onAudio: (fn) => { audioListeners.add(fn); return () => audioListeners.delete(fn); },
   speakVoice: (kind, word) => { played.push("word:" + word); },
   playClips: (plan, enabled, fallback, onScheduled = () => {}) => {
     played.push("clips:" + plan.join(","));
@@ -292,6 +298,47 @@ describe("the ceramic tile states", () => {
     await flush(2000);
     expect(cued().length).toBe(0);
     expect(document.querySelectorAll(".wq-ghost").length).toBe(0);
+  });
+
+  it("26: the Glowseed stays idle through the scaffold's one-clip-per-slot plays, lights for a play after it, and wears the muted look when the screen is muted", async () => {
+    /* art step 2, the owner's page ruling 2 (a): the scaffold's sounds would
+       blink the object once per 900 ms slot - the repeated pulse bible 7
+       forbids - so the stage asks it to stay quiet until the last ghost
+       clears; the slot's cue ring is the one event there. */
+    const tray = mount("cat", 8);
+    const seed = () => document.querySelector(".wq-glowseed");
+    expect(seed().getAttribute("data-wq-glowseed")).toBe("idle");
+    const wrong = tiles().find((b) => !tray.answer.includes(b.textContent));
+    for (let go = 0; go < 2; go += 1) {
+      fireEvent.click(wrong);
+      for (const t of tray.answer.slice(0, 2)) fireEvent.click(tileFor(t)[0]);
+      await flush(60);
+      if (go === 0) slots().forEach((s) => fireEvent.click(s));
+    }
+    await flush(1000);                                   // the scaffold is on its first slot
+    expect(document.querySelectorAll(".wq-tilebtn.wq-cue").length).toBe(1);
+    await act(async () => { emitAudio({ state: "start", token: 3, ms: 300 }); });
+    expect(seed().getAttribute("data-wq-glowseed")).toBe("idle");   // quiet: lit underneath, idle to the child
+    await act(async () => { emitAudio({ state: "end", token: 3 }); });
+    await flush(900);
+    await act(async () => { emitAudio({ state: "start", token: 4, ms: 300 }); });
+    expect(seed().getAttribute("data-wq-glowseed")).toBe("idle");
+    await act(async () => { emitAudio({ state: "end", token: 4 }); });
+    await flush(2000);                                   // the scaffold is over, the ghost gone
+    expect(document.querySelectorAll(".wq-ghost").length).toBe(0);
+    await act(async () => { emitAudio({ state: "start", token: 5, ms: 300 }); });
+    expect(seed().getAttribute("data-wq-glowseed")).toBe("lit");
+    await act(async () => { emitAudio({ state: "end", token: 5 }); });
+    expect(seed().getAttribute("data-wq-glowseed")).toBe("idle");
+    expect(seed().getAttribute("aria-hidden")).toBe("true");
+  });
+  it("26b: a muted build (sound off) wears the muted look whatever plays", async () => {
+    const tray = trayFor("cat", 2);
+    render(createElement(BuildItScreen, { tray, playWord: () => {}, playSounds: () => {}, soundIdsOf: (w) => chunkWord(w).map((c) => "d:" + c), onDone: () => {}, onExit: () => {}, muted: true }));
+    const seed = document.querySelector(".wq-glowseed");
+    expect(seed.getAttribute("data-wq-glowseed")).toBe("muted");
+    await act(async () => { emitAudio({ state: "start", token: 9, ms: 300 }); });
+    expect(seed.getAttribute("data-wq-glowseed")).toBe("muted");
   });
 
   it("24: a completed word wears one halo on the slot row round the assembled word, and every tray tile is disabled and used", async () => {

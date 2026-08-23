@@ -483,7 +483,10 @@ pack cannot fully cover falls back to the default pack. When the word bank grows
 pack contains personal data beyond the recorded voice itself.
 
 The replay control (a speaker symbol in the "grown-up" strip) operates only in the feedback
-phase. The app never says the word before the attempt.
+phase, and only while sound is on: with sound off it is disabled, the Glowseed (the listening
+light in the stage's corner, art step 2) wears its muted look, and the strip's marker line
+says "Parent: sound is off" (2026-08-23; before that the control was live and silent). The
+app never says the word before the attempt.
 
 ## 6. Screens and modes
 
@@ -732,7 +735,7 @@ The reference build runs in a chat host. A standalone build changes four items:
    ```
    heading   "The recorded voice"
    what      "The game is using your device's own voice at the moment, not its recorded one."
-   cost      "but the sound-out will not light up letter by letter."
+   cost      "but the sound-out will not light up letter by letter, and the listening light stays dark."
    ```
 
    Every fallback names its own reason and the reason is shown with those sentences. There
@@ -812,7 +815,7 @@ The minimum platform is iPadOS 15.4 or later, or an equivalent browser. The app 
       never goes above 26.
 - [ ] The feedback text is equal to section 5, character for character. "ship" shows as sh-i-p.
       "was" shows the tricky-word note. Speech output never says letter names.
-- [ ] The replay control operates only in the feedback phase.
+- [ ] The replay control operates only in the feedback phase, and only while sound is on.
 - [ ] A perfect first session gives Level 2.
 - [ ] Early exit: save keeps the session counter constant and adds a "partial" log row; discard
       restores the exact word data.

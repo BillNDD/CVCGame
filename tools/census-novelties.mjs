@@ -192,7 +192,7 @@ export async function hitTest(page) {
    control proves every key here still resolves to exactly one control in the
    built app, so a relabelled replay cannot quietly become a "dead" one. */
 export const SOUND_ONLY = new Map([
-  ["Hear the word again", "the reveal's replay: it speaks, it shows nothing new"],
+  ["Hear the word again", "the reveal's replay: it speaks and lights the Glowseed, which the signature cannot read"],
   ["Hear it again", "the pre-ladder's replay"],
   ["Hear the word", "Build-it's prompt: the word again, nothing to show"],
   ["Hear the sound", "Find-the-sound's prompt, the same"],
@@ -490,6 +490,100 @@ export function soundingHold(s, tokens, restingBoxes) {
   }
   return findings;
 }
+/* THE GLOWSEED AGAINST THE AUDIO ITSELF (art step 2, bible 7 and 14). The
+   object must be lit exactly while recorded audio plays - "begins and ends
+   with actual audio start and completion events" - and a class that changes
+   when the code says so proves nothing about that: a timer of the audio's
+   own length looks the same from the DOM. So the probe below, installed
+   before the page loads, wraps the page's own AudioContext - every node's
+   start() call and every node's ended event, stamped on the page clock -
+   and a MutationObserver stamps the object's every change of look. The hold
+   then reads lit against the first start() call, idle against the last
+   ended event, and the controls plant the three ways a fake would differ:
+   lit before any node started, lit past the last end, and dark before the
+   end after the context was suspended for a literal 1,500 ms - a timer
+   darkens at the measured length, an event waits (the antagonist's before
+   pass; probed 2026-08-23). */
+export const GLOWSEED_PROBE = `(() => {
+  const log = window.__wqAudio = { starts: [], ends: [], looks: [], ctx: null };
+  const AC = window.AudioContext; if (!AC) return;
+  const wrap = (name) => {
+    const orig = AC.prototype[name];
+    AC.prototype[name] = function (...a) {
+      const node = orig.apply(this, a); const ctx = this; log.ctx = ctx;
+      const start = node.start.bind(node);
+      node.start = (t) => { log.starts.push({ kind: name, at: performance.now(), when: t === undefined ? null : t, ctxNow: ctx.currentTime }); return start(t); };
+      node.addEventListener("ended", () => log.ends.push({ kind: name, at: performance.now(), ctxNow: ctx.currentTime }));
+      return node;
+    };
+  };
+  wrap("createBufferSource"); wrap("createOscillator");
+  const mo = new MutationObserver((ms) => { for (const m of ms) if (m.attributeName === "data-wq-glowseed") log.looks.push({ look: m.target.getAttribute("data-wq-glowseed"), at: performance.now() }); });
+  const observe = () => mo.observe(document.documentElement, { subtree: true, attributes: true, attributeFilter: ["data-wq-glowseed"] });
+  if (document.documentElement) observe(); else document.addEventListener("DOMContentLoaded", observe);
+})();`;
+export async function glowseedRead(page) {
+  return page.evaluate(() => {
+    const e = document.querySelector(".wq-glowseed");
+    const stage = document.querySelector(".wq-stage");
+    const zones = [...document.querySelectorAll(".wq-header,.wq-stage,.wq-rail,.wq-strip")].map((z) => +z.getBoundingClientRect().height.toFixed(2));
+    if (!e) return { present: false, zones, log: window.__wqAudio || null };
+    const r = e.getBoundingClientRect(), cs = getComputedStyle(e), st = stage ? stage.getBoundingClientRect() : { left: 0, top: 0 };
+    const rect = { left: r.left, top: r.top, right: r.right, bottom: r.bottom };
+    const hits = (sel) => [...document.querySelectorAll(sel)].filter((o) => o !== e && !e.contains(o)).map((o) => o.getBoundingClientRect()).filter((b) => b.width > 0 && b.height > 0 && rect.left < b.right && rect.right > b.left && rect.top < b.bottom && rect.bottom > b.top).length;
+    return {
+      present: true, look: e.getAttribute("data-wq-glowseed"), hidden: e.getAttribute("aria-hidden"), role: e.getAttribute("role"), tabIndex: /** @type {HTMLElement} */ (e).tabIndex,
+      display: cs.display, pointer: cs.pointerEvents, transition: cs.transitionDuration, animation: cs.animationName,
+      box: [+(r.left - st.left).toFixed(2), +(r.top - st.top).toFixed(2), +r.width.toFixed(2), +r.height.toFixed(2)],
+      overlaps: { controls: hits("button, a, input, [role=button]"), word: hits(".wq-word"), tiles: hits(".wq-slot-tiles, .wq-tile, .wq-tilebtn, .wq-slotrow"), message: hits(".wq-slot-msg"), text: hits(".wq-label, .wq-prompt, .wq-sentence, h1, h2, h3, p") },
+      zones, log: window.__wqAudio || null,
+    };
+  });
+}
+/* `read` is glowseedRead's output after the reveal's audio has ended (or
+   after an attempt, with phase "attempt"); `looks` in its log run from the
+   page's load, so a cell passes the index where its own reveal began. */
+export function glowseedHold(read, { phase = "reveal", sinceLook = 0, endTolerance = 100 } = {}) {
+  if (!read) return [{ kind: "no-subject", detail: "nothing read" }];
+  const findings = [];
+  if (!read.present) return [{ kind: "seed-missing", detail: "no .wq-glowseed on the screen" }];
+  if (read.display === "none") return [{ kind: "seed-absent", detail: "the object is display:none on this stage (absent where it cannot fit)" }];
+  if (read.hidden !== "true" || read.role !== null || read.tabIndex >= 0 || read.pointer !== "none")
+    findings.push({ kind: "seed-reachable", detail: "aria-hidden " + read.hidden + ", role " + read.role + ", tabIndex " + read.tabIndex + ", pointer-events " + read.pointer + " - it must be decoration, never a control" });
+  if (read.transition !== "0s" || read.animation !== "none")
+    findings.push({ kind: "seed-animates", detail: "transition " + read.transition + ", animation " + read.animation + " - the edge of the sound is the edge of the light" });
+  const o = read.overlaps;
+  if (o.controls || o.word || o.tiles || o.message || o.text)
+    findings.push({ kind: "seed-overlaps", detail: "the object's box meets " + JSON.stringify(o) + " - it sits in free sky or not at all" });
+  if (phase === "attempt") {
+    if (read.look !== "idle") findings.push({ kind: "seed-lit-on-attempt", detail: "the object is " + read.look + " on the attempt; nothing plays before the grade (bible 13.3)" });
+    return findings;
+  }
+  const log = read.log;
+  if (!log) return [...findings, { kind: "no-subject", detail: "the audio probe is not installed (page.addInitScript(GLOWSEED_PROBE) before the page loads)" }];
+  const looks = log.looks.slice(sinceLook);
+  const starts = log.starts.map((s) => s.at), ends = log.ends.map((s) => s.at);
+  if (!starts.length) return [...findings, { kind: "no-subject", detail: "no audio node started - the reveal played nothing" }];
+  const firstStart = Math.min(...starts), lastEnd = ends.length ? Math.max(...ends) : null;
+  const lit = looks.filter((l) => l.look === "lit"), idle = looks.filter((l) => l.look === "idle");
+  if (looks.length !== 2 || looks[0].look !== "lit" || looks[1].look !== "idle")
+    findings.push({ kind: "state-changes", detail: "the object changed look " + looks.length + " times over the reveal (" + looks.map((l) => l.look).join(",") + "); exactly lit then idle" });
+  if (lit.length && lit[0].at < firstStart - 5) findings.push({ kind: "lit-before-audio", detail: "lit " + (firstStart - lit[0].at).toFixed(0) + " ms before the first node started" });
+  if (!lit.length) findings.push({ kind: "never-lit", detail: "audio played and the object never lit" });
+  if (lastEnd === null) findings.push({ kind: "no-subject", detail: "no node reported its end - the read came too early" });
+  else {
+    /* the FIRST idle after the light went on is when the child saw it go
+       dark; a later one (a re-render to the same look) is not */
+    const litAt = lit.length ? lit[0].at : -Infinity;
+    const dark = idle.find((l) => l.at > litAt);
+    const last = dark ? dark.at : null;
+    if (last === null) findings.push({ kind: "lit-after-audio", detail: "the object is still lit after the last node ended" });
+    else if (last > lastEnd + endTolerance) findings.push({ kind: "lit-after-audio", detail: "idle " + (last - lastEnd).toFixed(0) + " ms after the last node ended (tolerance " + endTolerance + ")" });
+    else if (last < lastEnd - 5) findings.push({ kind: "dark-before-audio-ended", detail: "idle " + (lastEnd - last).toFixed(0) + " ms before the last node ended - a clock, not the audio" });
+  }
+  return findings;
+}
+
 /* BUILD-IT'S CONTROLS (S7, S8, bible 11): every tray tile and slot at 56 px
    or more on both axes, and every multi-letter tray tile wider than every
    single-letter one. */

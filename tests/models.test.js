@@ -28,6 +28,7 @@ vi.mock("../app/src/voicepacks.js", () => ({
   stopClips: () => {},
   microphoneUsed: () => {},
   familyClipIds: () => new Set(),
+  onAudio: () => () => {},   // the Glowseed subscribes; a mock reports nothing, so it stays idle here (the real source is proved in voicepacks.test.js)
   speakVoice: (kind, word) => { played.push("word:" + word); },
   playClips: (plan, enabled, fallback, onScheduled = () => {}) => { onScheduled(0, []); },
 }));

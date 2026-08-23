@@ -449,7 +449,7 @@ const C = {
   cyanStructural:   "#005a67",   // the accessible edge beneath a glow, 7.51:1 on surfaceReading
   cyanElectric:     "#4eebff",   // playback glow only, never a boundary
   purpleStructural: "#5b3fd6",   // the accessible purple edge
-  purpleElectric:   "#9b75ff",   // rare milestone and Glowseed rim
+  purpleElectric:   "#9b75ff",   // rare milestone and the Glowseed's light outside its rim (its rim is purpleStructural)
   coralElectric:    "#ff775e",   // warm decorative light
   amberFill:        "#f4b942",   // the bible's amber; C.amber stays the amber TEXT
   tileFace:         "#f6d985",   // the ceramic tile's face

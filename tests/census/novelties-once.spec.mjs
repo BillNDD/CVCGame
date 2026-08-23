@@ -10,7 +10,8 @@ import { stage, stageBuild, requireBuilt, holdGrade, waitForReveal, requireStage
 import { landmarks, phaseHold, homeFurniture, chromeHold, offlineHold,
          markStay, assertStayed, pokeForeground, hitTest, monkey, tappable, SOUND_ONLY,
          zoneSum, runningAnimations, motionHold, popOverlap, unitWidthHold, wordBox, wordFits, widestWord, wordGeometry, wordHold,
-         guideState, guideHold, artSnap, snapHold, soundingTile, soundingHold, faultOpen, buildControls, buildHold, rgbOf } from "../../tools/census-novelties.mjs";
+         guideState, guideHold, artSnap, snapHold, soundingTile, soundingHold, faultOpen, buildControls, buildHold, rgbOf,
+         GLOWSEED_PROBE, glowseedRead, glowseedHold } from "../../tools/census-novelties.mjs";
 import { C } from "../../src/engine.js";
 
 /* ---- the live singleton cells ---- */
@@ -550,6 +551,106 @@ test.describe("with motion allowed, the sounding tile's controls", () => {
     const twoLive = await soundingTile(page);
     expect(soundingHold(twoLive, C).map((f) => f.kind), JSON.stringify(twoLive.live)).toContain("live-not-one");
   });
+});
+
+test("control: a Glowseed lit before the audio, lit past its end, darkened by a clock under a suspended context, animated, reachable, in flow or lit on the attempt is caught through the reader; every kind on fixtures", async ({ page }) => {
+  /* The three plants that separate an event-driven light from a timer, each
+     through the probe and the reader on the live page: (1) the object lit
+     before any node started; (2) a look set lit again 400 ms after the last
+     node ended; (3) the context suspended for a literal 1,500 ms mid-
+     utterance while a clock of the measured length darkens the object - a
+     timer darkens before the delayed end, the real object (the positive
+     proof beside it) waits for it. Then the static plants: a transition, a
+     tab stop, a box in flow, a lit class on the attempt. */
+  await page.addInitScript(GLOWSEED_PROBE);
+  const { shown } = await stage(page, null, "pig", null);
+  requireStaged("pig", shown);
+  /* the observer logs a change of look in a microtask, so the count is read
+     BEFORE the plant and the log is awaited after it */
+  const since1 = await page.evaluate(() => window.__wqAudio.looks.length);
+  await page.evaluate(() => document.querySelector(".wq-glowseed").setAttribute("data-wq-glowseed", "lit"));
+  await page.waitForFunction((n) => window.__wqAudio.looks.length >= n + 1, since1, { timeout: 2000 });
+  const early = await glowseedRead(page);
+  expect(glowseedHold(early, { phase: "attempt" }).map((f) => f.kind), JSON.stringify(early.look)).toEqual(["seed-lit-on-attempt"]);
+  await page.evaluate(() => document.querySelector(".wq-glowseed").setAttribute("data-wq-glowseed", "idle"));
+  await page.waitForFunction((n) => window.__wqAudio.looks.length >= n + 2, since1, { timeout: 2000 });
+  /* (1) lit before the audio: the plant's own "lit" mark stands in the look log before the grade */
+  await holdGrade(page, GRADE.correct, []);
+  await page.waitForFunction(() => { const a = window.__wqAudio; return a.starts.length > 0 && a.ends.length >= a.starts.length && document.querySelector(".wq-glowseed[data-wq-glowseed='idle']"); }, null, { timeout: 30000 });
+  await page.waitForTimeout(150);
+  const r1 = await glowseedRead(page);
+  const f1 = glowseedHold(r1, { phase: "reveal", sinceLook: since1 });
+  expect(f1.map((f) => f.kind), JSON.stringify(f1)).toEqual(expect.arrayContaining(["lit-before-audio", "state-changes"]));
+  /* the same reveal read from its own first look: the real object is clean */
+  const clean = glowseedHold(r1, { phase: "reveal", sinceLook: since1 + 2 });
+  expect(clean, JSON.stringify({ looks: r1.log.looks, clean })).toEqual([]);
+  /* (2) lit past the end: a look set lit 400 ms after the last node ended */
+  const since2 = r1.log.looks.length;
+  await page.evaluate(() => { const e = document.querySelector(".wq-glowseed"); e.setAttribute("data-wq-glowseed", "lit"); e.setAttribute("data-wq-glowseed", "idle"); });
+  await page.waitForFunction((n) => window.__wqAudio.looks.length >= n + 2, since2, { timeout: 2000 });
+  const r2 = await glowseedRead(page);
+  const f2 = glowseedHold(r2, { phase: "reveal", sinceLook: since2 });
+  expect(f2.map((f) => f.kind), JSON.stringify(f2)).toContain("lit-after-audio");
+  /* (3) the clock: a fresh reveal; the context suspended 1,500 ms once the
+     audio has started; a timer sets the object idle at the scheduled length
+     while the real one, lit underneath, waits for the delayed end */
+  const again = await stage(page, null, "pig", null);
+  requireStaged("pig", again.shown);
+  const since3 = await page.evaluate(() => window.__wqAudio.looks.length);
+  await holdGrade(page, GRADE.correct, []);
+  await page.waitForFunction(() => window.__wqAudio && window.__wqAudio.starts.length > 0, null, { timeout: 15000 });
+  const planted = await page.evaluate(async () => {
+    const a = window.__wqAudio; const ctx = a.ctx;
+    /* the utterance's scheduled end on the context clock, from the last start() call's `when` plus its buffer - read off the probe's starts */
+    await new Promise((r) => setTimeout(r, 200));
+    const t0 = performance.now();
+    await ctx.suspend();
+    setTimeout(() => ctx.resume(), 1500);
+    /* the clock: the object forced idle 1,000 ms from now, before the delayed end can arrive */
+    setTimeout(() => { const e = document.querySelector(".wq-glowseed"); if (e.getAttribute("data-wq-glowseed") === "lit") e.setAttribute("data-wq-glowseed", "idle"); }, 1000);
+    return { suspendedAt: t0 };
+  });
+  await page.waitForFunction(() => { const a = window.__wqAudio; return a.ends.length >= a.starts.length; }, null, { timeout: 40000 });
+  await page.waitForTimeout(200);
+  const r3 = await glowseedRead(page);
+  const f3 = glowseedHold(r3, { phase: "reveal", sinceLook: since3 });
+  expect(f3.map((f) => f.kind), JSON.stringify({ planted, looks: r3.log.looks.slice(since3), ends: r3.log.ends.length, f3 })).toContain("dark-before-audio-ended");
+  /* and the suspension itself: the last end arrived at least 1,400 ms after the suspend */
+  const lastEnd = Math.max(...r3.log.ends.map((e) => e.at));
+  expect(lastEnd - planted.suspendedAt, "the end waited for the suspended context").toBeGreaterThan(1400);
+  /* the static plants through the reader */
+  const plant = async (css) => { const h = await page.addStyleTag({ content: css }); const r = await glowseedRead(page); await h.evaluate((e) => e.remove()); return glowseedHold(r, { phase: "attempt" }).map((f) => f.kind); };
+  expect(await plant(".wq-glowseed{transition:opacity 200ms!important}")).toContain("seed-animates");
+  expect(await plant(".wq-glowseed{pointer-events:auto!important}")).toContain("seed-reachable");
+  expect(await plant(".wq-glowseed{top:45%!important;right:45%!important}"), "the object moved onto the word").toEqual(expect.arrayContaining(["seed-overlaps"]));
+  /* in flow: the cell compares the word's box and the zones with the object
+     planted away; an object put back into the flow moves the word */
+  const wordBox = () => page.evaluate(() => { const b = document.querySelector(".wq-word").getBoundingClientRect(); return [b.x, b.y, b.width, b.height].map((v) => +v.toFixed(2)); });
+  const wordWith = await wordBox();
+  const inFlow = await page.addStyleTag({ content: ".wq-glowseed{position:static!important;display:block!important}" });
+  const wordInFlow = await wordBox();
+  await inFlow.evaluate((e) => e.remove());
+  expect(wordInFlow, "an object in the flow moves the word: " + JSON.stringify({ wordWith, wordInFlow })).not.toEqual(wordWith);
+  await page.evaluate(() => document.querySelector(".wq-glowseed").setAttribute("tabindex", "0"));
+  expect(glowseedHold(await glowseedRead(page), { phase: "attempt" }).map((f) => f.kind)).toContain("seed-reachable");
+  await page.evaluate(() => document.querySelector(".wq-glowseed").removeAttribute("tabindex"));
+  /* fixtures on the reader's own shape */
+  const good = { present: true, look: "idle", hidden: "true", role: null, tabIndex: -1, display: "block", pointer: "none", transition: "0s", animation: "none", box: [290, 8, 16, 20], overlaps: { controls: 0, word: 0, tiles: 0, message: 0, text: 0 }, zones: [62, 346.5, 70, 179.5], log: { starts: [{ at: 1000 }], ends: [{ at: 3000 }], looks: [{ look: "lit", at: 1001 }, { look: "idle", at: 3050 }] } };
+  expect(glowseedHold(good, { phase: "reveal" })).toEqual([]);
+  expect(glowseedHold({ ...good, log: { ...good.log, looks: [{ look: "lit", at: 900 }, { look: "idle", at: 3050 }] } }).map((f) => f.kind)).toEqual(["lit-before-audio"]);
+  expect(glowseedHold({ ...good, log: { ...good.log, looks: [{ look: "lit", at: 1001 }, { look: "idle", at: 3200 }] } }).map((f) => f.kind)).toEqual(["lit-after-audio"]);
+  expect(glowseedHold({ ...good, log: { ...good.log, looks: [{ look: "lit", at: 1001 }, { look: "idle", at: 2500 }] } }).map((f) => f.kind)).toEqual(["dark-before-audio-ended"]);
+  expect(glowseedHold({ ...good, log: { ...good.log, looks: [{ look: "lit", at: 1001 }] } }).map((f) => f.kind)).toEqual(["state-changes", "lit-after-audio"]);
+  expect(glowseedHold({ ...good, log: { ...good.log, looks: [] } }).map((f) => f.kind)).toEqual(["state-changes", "never-lit", "lit-after-audio"]);
+  expect(glowseedHold({ ...good, log: { ...good.log, looks: [{ look: "lit", at: 1001 }, { look: "idle", at: 1500 }, { look: "lit", at: 1600 }, { look: "idle", at: 3050 }] } }).map((f) => f.kind), "a blink: four changes, and its first dark came before the audio's end").toEqual(["state-changes", "dark-before-audio-ended"]);
+  expect(glowseedHold({ ...good, hidden: null }).map((f) => f.kind)).toEqual(["seed-reachable"]);
+  expect(glowseedHold({ ...good, transition: "0.2s" }).map((f) => f.kind)).toEqual(["seed-animates"]);
+  expect(glowseedHold({ ...good, overlaps: { ...good.overlaps, word: 1 } }).map((f) => f.kind)).toEqual(["seed-overlaps"]);
+  expect(glowseedHold({ ...good, look: "lit" }, { phase: "attempt" }).map((f) => f.kind)).toEqual(["seed-lit-on-attempt"]);
+  expect(glowseedHold({ ...good, present: false }).map((f) => f.kind)).toEqual(["seed-missing"]);
+  expect(glowseedHold({ ...good, display: "none" }).map((f) => f.kind)).toEqual(["seed-absent"]);
+  expect(glowseedHold({ ...good, log: null }).map((f) => f.kind)).toEqual(["no-subject"]);
+  expect(glowseedHold(null).map((f) => f.kind)).toEqual(["no-subject"]);
 });
 
 test("control: a 48 px tray tile and equal tray widths are caught by the Build-it reader", async ({ page }) => {

@@ -350,9 +350,13 @@ function run(d) {
      exempt from the reference check by name: .wq-sword-open (the reference
      has no sentence stage) and @keyframes wqpop (no sound-out animation);
      the bible's sentence under the table names the same two. */
+  /* Since art step 2 the bible carries TWO such tables - section 7's
+     (the Glowseed, three looks and its core) and section 11's (the tiles) -
+     and this rule reads every one; the Glowseed's selectors are app-only
+     too, since the reference build has no Glowseed. */
   const states = stateTable(d.bible);
-  if (states.length < 8) found.push(`the art bible's section 11 state table parses to ${states.length} rows - the anchor moved, and this rule is checking nothing`);
-  const APP_ONLY = new Set([".wq-sword-open", "@keyframes wqpop"]);   // the reference build has no sentence stage and no sound-out animation
+  if (states.length < 12) found.push(`the art bible's state tables (sections 7 and 11) parse to ${states.length} rows - an anchor moved, and this rule is checking less than it claims`);
+  const APP_ONLY = new Set([".wq-sword-open", "@keyframes wqpop", ".wq-glowseed", ".wq-glowseed-lit", ".wq-glowseed-lit::after", ".wq-glowseed-muted"]);   // the reference build has no sentence stage, no sound-out animation and no Glowseed
   for (const [state, selector, tokens] of states) {
     for (const [name, src] of [["app/src/wq-css.js", d.css], ["the reference", d.reference]]) {
       if (name === "the reference" && APP_ONLY.has(selector)) continue;
@@ -365,13 +369,20 @@ function run(d) {
   return { found, rules };
 }
 
-/* The rows of the section 11 state table: `| state | \`selector\` | a, b, c |`. */
+/* The rows of every state table: `| state | \`selector\` | a, b, c |`,
+   each read from its header to the next section heading. */
 function stateTable(bible) {
-  const start = bible.indexOf("| state | selector | tokens |");
-  if (start < 0) return [];
-  const end = bible.indexOf("\n## ", start);
-  const body = bible.slice(start, end < 0 ? undefined : end);
-  return [...body.matchAll(/^\| ([^|`]+?) \| `([^`]+)` \| ([^|]+) \|/gm)].map((m) => [m[1].trim(), m[2].trim(), m[3].split(",").map((t) => t.trim()).filter((t) => t && t !== "none")]);
+  const rows = [];
+  let from = 0;
+  for (;;) {
+    const start = bible.indexOf("| state | selector | tokens |", from);
+    if (start < 0) break;
+    const end = bible.indexOf("\n## ", start);
+    const body = bible.slice(start, end < 0 ? undefined : end);
+    for (const m of body.matchAll(/^\| ([^|`]+?) \| `([^`]+)` \| ([^|]+) \|/gm)) rows.push([m[1].trim(), m[2].trim(), m[3].split(",").map((t) => t.trim()).filter((t) => t && t !== "none")]);
+    from = end < 0 ? bible.length : end;
+  }
+  return rows;
 }
 /* The text of `selector{...}` - the first block whose rule starts with the
    selector followed by `{`, or the keyframes block for an @keyframes name;
@@ -516,8 +527,8 @@ if (process.argv.includes("--self-test")) {
   seen.stateToken = run(lackingToken).found.some((p) => p.includes("says used (.wq-tilebtn.wq-used) paints cyanElectric"));
   const lackingSelector = { ...real, bible: real.bible.replace("| used | `.wq-tilebtn.wq-used` |", "| used | `.wq-tilebtn.wq-gone` |") };
   seen.stateSelector = run(lackingSelector).found.some((p) => p.includes('names ".wq-tilebtn.wq-gone" (used), which app/src/wq-css.js does not have'));
-  const noStates = { ...real, bible: real.bible.replace("| state | selector | tokens |", "| kind | rule | colours |") };
-  seen.stateBlind = run(noStates).found.some((p) => p.includes("section 11 state table parses to 0 rows"));
+  const noStates = { ...real, bible: real.bible.replaceAll("| state | selector | tokens |", "| kind | rule | colours |") };
+  seen.stateBlind = run(noStates).found.some((p) => p.includes("state tables (sections 7 and 11) parse to 0 rows"));
   const driftedReference = { ...real, reference: real.reference.replace(".wq-tilebtn.wq-used{background:${C.slot};", ".wq-tilebtn.wq-used{background:${C.paper};") };
   seen.stateReference = run(driftedReference).found.some((p) => p.includes("paints slot; the reference's block does not name it"));
 

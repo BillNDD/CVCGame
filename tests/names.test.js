@@ -17,7 +17,7 @@ import { plainLabel } from "../app/src/labels.js";
 
 vi.mock("../app/src/voicepacks.js", () => ({
   initVoicePacks: async () => {}, unlockVoice: () => {}, stopClips: () => {}, microphoneUsed: () => {},
-  familyClipIds: () => new Set(), speakVoice: () => {}, playClips: (plan, enabled, fallback, onScheduled = () => {}) => { onScheduled(0, []); },
+  familyClipIds: () => new Set(), onAudio: () => () => {}, speakVoice: () => {}, playClips: (plan, enabled, fallback, onScheduled = () => {}) => { onScheduled(0, []); },
 }));
 vi.mock("../app/src/storage.js", () => ({ loadState: () => stored, saveState: () => {} }));
 let stored;

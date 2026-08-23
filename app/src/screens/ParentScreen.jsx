@@ -74,7 +74,7 @@ export default function ParentScreen({
               <p className="wq-help" style={{ margin: 0 }}>
                 The game is using your device's own voice at the moment, not its recorded one.
                 The reading still works and nothing is lost — words are spoken and results are
-                saved as usual — but the sound-out will not light up letter by letter.
+                saved as usual — but the sound-out will not light up letter by letter, and the listening light stays dark.
               </p>
               <p className="wq-help" style={{ margin: "8px 0 0", opacity: 0.85 }}>
                 Reason: {voiceFallback}

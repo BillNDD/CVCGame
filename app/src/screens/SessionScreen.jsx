@@ -13,7 +13,7 @@ import Word from "../components/Word.jsx";
    function passes the G6 complexity ceiling; the rendered output is identical. */
 function SessionStage({ state, currentWord, phase, fb, liveRef, pops = [] }) {
   return (
-    <Zone.Stage>
+    <Zone.Stage seed muted={!state.settings.sound}>
       <div className="wq-stagegrid">
         <div style={{ textAlign: "center" }}>
           <p style={{ margin: 0, fontSize: 11.5, fontWeight: 800, letterSpacing: ".14em",
@@ -113,7 +113,7 @@ function SessionBody({ sentence, sentencePhase, openWord, openAt, onTapWord, end
     const attempt = sentencePhase === "attempt";
     return (
       <>
-        <Zone.Stage><SentenceStage sentence={sentence} openWord={openWord} openAt={openAt} pops={pops}
+        <Zone.Stage seed muted={!state.settings.sound}><SentenceStage sentence={sentence} openWord={openWord} openAt={openAt} pops={pops}
           onTapWord={onTapWord} attempt={attempt} /></Zone.Stage>
         {/* THE CHILD'S TURN FIRST (owner-ruled 2026-08-14, open-faults N).
             During the attempt the rail carries the prompt, exactly as a
@@ -214,7 +214,10 @@ export default function SessionScreen({
 }) {
   const liveRef = useRef(null);
   const fb = lastGrade ? feedbackParts(lastGrade, currentWord) : null;
-  const canReplay = phase === "feedback" && !sentence;   // N-1
+  /* N-1; and only while sound is on (art step 2): with sound off the control
+     used to be live and silent, and nothing said why - now it is disabled,
+     the Glowseed wears its muted look, and the marker line says so. */
+  const canReplay = phase === "feedback" && !sentence && !!state.settings.sound;
   return (
     <Frame>
       <SessionHeader onExitAsk={onExitAsk} freePlay={freePlay} fpCount={fpCount} fpMode={fpMode}
@@ -271,7 +274,7 @@ export default function SessionScreen({
         {/* N-12 + P0-2: one reserved marker line, so the strip height never changes
             and the word never moves between phases */}
         <span className="wq-mark wq-mono">
-          {seenTwice[currentWord] && phase !== "feedback" ? "Parent: second look" : " "}
+          {!state.settings.sound ? "Parent: sound is off" : seenTwice[currentWord] && phase !== "feedback" ? "Parent: second look" : " "}
         </span>
       </Zone.Strip>
 

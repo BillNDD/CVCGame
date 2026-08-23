@@ -59,6 +59,7 @@ vi.mock("../app/src/voicepacks.js", () => ({
   unlockVoice: vi.fn(),
   stopClips: vi.fn(),
   familyClipIds: () => new Set(),
+  onAudio: () => () => {},   // the Glowseed subscribes; a mock reports nothing, so it stays idle here (the real source is proved in voicepacks.test.js)
   idbPutClip: vi.fn(async () => true),
   idbDeleteClip: vi.fn(async () => true),
   speakVoice: (kind, word, praiseIdx, enabled, fallback, onScheduled) => {

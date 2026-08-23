@@ -49,11 +49,17 @@ vi.mock("../app/src/storage.js", () => ({
    double carries one too, and the test below requires it to reach the
    Grown-ups corner. */
 const FALLBACK_REASON = "the recorded voice has no clip for d:short_a";
+const audioListeners = new Set();
+const emitAudio = (e) => { for (const fn of [...audioListeners]) fn(e); };
 vi.mock("../app/src/voicepacks.js", () => ({
   initVoicePacks: vi.fn(async () => {}),
   unlockVoice: vi.fn(),
   stopClips: vi.fn(),
   familyClipIds: () => new Set(),
+  /* the Glowseed subscribes to the lifecycle; the double keeps the listeners
+     so a test can hand them a start and an end by hand (the real source is
+     proved in voicepacks.test.js, never through this double) */
+  onAudio: (fn) => { audioListeners.add(fn); return () => audioListeners.delete(fn); },
   idbPutClip: vi.fn(async () => true),
   idbDeleteClip: vi.fn(async () => true),
   /* onScheduled is optional in the real module — the done and level-up lines
@@ -146,7 +152,7 @@ const leaveBuild = async () => {
   return true;
 };
 
-const walkToLastSlot = async () => {
+const walkToLastSlot = async (expectedBreathers = 1) => {
   render(createElement(App));
   await flush(0);
   fireEvent.click(screen.getByLabelText("Begin Session"));
@@ -160,8 +166,10 @@ const walkToLastSlot = async () => {
   }
   if (await leaveBuild()) breathers += 1;
   /* One: after the seventh word. The tenth is the session's last, and the
-     breather never takes the last word's press. Literal (E4). */
-  expect(breathers).toBe(1);
+     breather never takes the last word's press. Literal (E4). With sound off
+     there is none at all (art step 2): the chooser refuses a build then, and
+     a breather would hand the child "Hear the word" with nothing behind it. */
+  expect(breathers).toBe(expectedBreathers);
   /* One sentence in nine grades - after the fifth; the after-ten slot is the
      last word itself, whose press ends the session. Literal (E4), so a walk
      that silently stops meeting it fails here. */
@@ -220,6 +228,54 @@ describe("G10 — the child hears the word before the app lets them move on", ()
     expect(advance().disabled).toBe(true);
     await flush(450);                                // literal (E4): the 400 ms guard
     expect(advance().disabled).toBe(false);
+  });
+
+  /* THE GLOWSEED (art step 2, bible 7): one object in the stage, decoration
+     to assistive technology, lit by the player's start event and darkened by
+     the end event of the SAME utterance - an end for another token is not
+     its end - and muted, with the replay control disabled and the marker
+     line saying so, when sound is off. */
+  it("15: the Glowseed is in the stage, hidden from assistive technology, idle on the attempt, lit and darkened by the lifecycle's own events", async () => {
+    await gradeOneWord();
+    const seed = () => document.querySelector(".wq-glowseed");
+    expect(seed()).not.toBeNull();
+    expect(seed().closest("main.wq-stage")).not.toBeNull();
+    expect(seed().getAttribute("aria-hidden")).toBe("true");
+    expect(seed().getAttribute("role")).toBeNull();
+    expect(seed().getAttribute("data-wq-glowseed")).toBe("idle");       // the mocked player reports nothing
+    await act(async () => { emitAudio({ state: "start", token: 7, ms: 1200 }); });
+    expect(seed().getAttribute("data-wq-glowseed")).toBe("lit");
+    await act(async () => { emitAudio({ state: "end", token: 6 }); });   // a stopped earlier utterance's late end
+    expect(seed().getAttribute("data-wq-glowseed")).toBe("lit");
+    await act(async () => { emitAudio({ state: "end", token: 7 }); });
+    expect(seed().getAttribute("data-wq-glowseed")).toBe("idle");
+    expect(screen.getByRole("button", { name: "Hear the word again" }).disabled).toBe(false);
+    expect(document.querySelector(".wq-mark").textContent).toBe(" ");
+  });
+  it("15d: the pre-ladder carries the Glowseed; with sound OFF its replay control is disabled and its marker line tells the parent", async () => {
+    stored = { ...newState(), settings: { ...newState().settings, sound: false } };   // a fresh save: Pre 1
+    render(createElement(App));
+    await flush(0);
+    fireEvent.click(screen.getByLabelText("Begin Session"));
+    await flush(0);
+    const replay = screen.getByRole("button", { name: "Hear it again" });
+    expect(replay.disabled).toBe(true);
+    expect(document.querySelector(".wq-glowseed").getAttribute("data-wq-glowseed")).toBe("muted");
+    expect(document.querySelector(".wq-glowseed").closest("main.wq-stage")).not.toBeNull();
+    expect(document.querySelector(".wq-mark").textContent).toBe("Parent: sound is off");
+  });
+  it("15c: with sound OFF the session takes no Build-it breather - the dead end the chooser already refuses", async () => {
+    stored = { ...newState(), preLevel: 0, settings: { ...newState().settings, sound: false } };
+    await walkToLastSlot(0);
+  });
+  it("15b: with sound OFF the replay control is disabled, the Glowseed is muted and the marker line tells the parent", async () => {
+    stored = { ...newState(), preLevel: 0, settings: { ...newState().settings, sound: false } };
+    await gradeOneWord();
+    expect(screen.getByRole("button", { name: "Hear the word again" }).disabled).toBe(true);
+    expect(document.querySelector(".wq-glowseed").getAttribute("data-wq-glowseed")).toBe("muted");
+    expect(document.querySelector(".wq-mark").textContent).toBe("Parent: sound is off");
+    await act(async () => { emitAudio({ state: "start", token: 9, ms: 500 }); });   // nothing plays with sound off; a start would be a fault upstream, and muted wins regardless
+    expect(document.querySelector(".wq-glowseed").getAttribute("data-wq-glowseed")).toBe("muted");
   });
 
   it("14 (B17): a slow reveal never opens the mid-sound-out window", async () => {

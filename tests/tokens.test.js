@@ -277,4 +277,31 @@ describe("the palette is pinned", () => {
     expect(files.length).toBeGreaterThan(20);
     expect(reads('style={{ background: C.nosuch }} color: C.ink').filter((k) => !(k in C))).toEqual(["nosuch"]);
   });
+
+  it("13: the Glowseed's lit state is carried by its rim's value step, not its core; the lit rim clears 3:1 on every sky stop; the idle rim is declared decorative below it; the light outside the rim is never the boundary", () => {
+    /* Art step 2, bible 7, 9.2 and 15.1 (the council's before pass,
+       2026-08-23). The cyan core against the idle core is 1.06:1 - invisible
+       in greyscale - so the cue a child sees is the rim going from stone to
+       purpleStructural, a 3.15:1 step, and the lit rim on the three stops
+       clears the 3:1 boundary rule. The idle rim sits within one value step
+       of its ground (scenery, bible 8.3), declared here below 3:1 as the
+       decorative edge it is. purpleElectric is the LIGHT outside the rim:
+       below 3:1 on every stop, never the boundary (9.1). All literal (E4). */
+    const stops = [C.skyBlue, C.skyLavender, C.skyPurpleMist];
+    expect(stops.map((s) => contrast(C.purpleStructural, s))).toEqual([4.02, 3.92, 4.29].map((v) => expect.closeTo(v, 2)));
+    expect(contrast(C.stone, C.purpleStructural)).toBeCloseTo(3.15, 2);
+    expect(contrast(C.cyanElectric, C.slot)).toBeCloseTo(1.06, 2);
+    expect(stops.map((s) => contrast(C.stone, s))).toEqual([1.28, 1.24, 1.36].map((v) => expect.closeTo(v, 2)));
+    expect(stops.every((s) => contrast(C.stone, s) < 3)).toBe(true);
+    expect(stops.map((s) => contrast(C.slot, s))).toEqual([1.23, 1.26, 1.15].map((v) => expect.closeTo(v, 2)));
+    expect(stops.map((s) => contrast(C.purpleElectric, s))).toEqual([1.97, 1.92, 2.10].map((v) => expect.closeTo(v, 2)));
+    /* and the stylesheet draws exactly that: the rim purpleStructural, the
+       light purpleElectric outside it, the core cyanElectric, the idle rim
+       stone on a slot face, no transition */
+    const css = readFileSync("app/src/wq-css.js", "utf8");
+    expect(css).toContain(".wq-glowseed-lit{border-color:${C.purpleStructural};box-shadow:0 0 0 2px ${C.purpleElectric}}");
+    expect(css).toContain(".wq-glowseed-lit::after{background:${C.cyanElectric}}");
+    expect(css).toContain("border:1px solid ${C.stone};background:${C.slot};pointer-events:none");
+    expect(/\.wq-glowseed[^{]*\{[^}]*transition/.test(css)).toBe(false);
+  });
 });

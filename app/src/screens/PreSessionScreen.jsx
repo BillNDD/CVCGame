@@ -27,7 +27,7 @@ export default function PreSessionScreen({
         <span className="wq-chip">Pre {P.n} {P.emoji}</span>
       </Zone.Header>
 
-      <Zone.Stage>
+      <Zone.Stage seed muted={!state.settings.sound}>
         <div className="wq-stagegrid">
           <div style={{ textAlign: "center" }}>
             <p style={{ margin: 0, fontSize: 11.5, fontWeight: 800, letterSpacing: ".14em",
@@ -65,13 +65,13 @@ export default function PreSessionScreen({
 
       <Zone.Strip>
         <span className="wq-striplabel">grown-up · hold to grade</span>
-        <button className="wq-sbtn" onClick={replayPrompt} aria-label="Hear it again">🔊</button>
+        <button className="wq-sbtn" onClick={replayPrompt} disabled={!state.settings.sound} aria-label="Hear it again">🔊</button>
         <div style={{ display: "flex", gap: 6, marginLeft: "auto" }}>
           <HoldButton onFire={() => grade("correct")} disabled={dead} color={C.green} label="✓ got it" />
           <HoldButton onFire={() => grade("close")} disabled={dead} color={C.amber} label="~ close" />
           <HoldButton onFire={() => grade("wrong")} disabled={dead} color={C.red} label="↻ not yet" />
         </div>
-        <span className="wq-mark wq-mono"> </span>
+        <span className="wq-mark wq-mono">{state.settings.sound ? " " : "Parent: sound is off"}</span>
       </Zone.Strip>
     </Frame>
   );

@@ -541,6 +541,27 @@ breather deals Build-it with sound off (the chooser refuses it) — the breather
 when sound is off; and the pre-ladder with sound off plays no prompt — its marker line says
 so.
 
+**Built 2026-08-23, ahead of the owner's page, on its recommendations (D, a, a, "Parent:
+sound is off") so the checkpoint renders are real; whichever way the owner rules, the wiring
+and the cells stand.** The event source in `voicepacks.js` (`onAudio`: start at the schedule,
+end when every node has fired `onended`, keyed by token; `stopClips()` ends it; each
+listener in its own try), proved in `tests/voicepacks.test.js` in the real module; the
+component (`app/src/components/Glowseed.jsx`, one persistent element switching a class,
+`aria-hidden`), carried by `Zone.Stage seed` on the word reveal, the sentence reveal, the
+pre-ladder and Build-it; the stylesheet's three looks with no transition, absent under a
+400 px stage; the sound-off state (the replay and pre-ladder controls disabled, the marker
+line's sentence, the breather skipping itself); the scaffold's quiet rule; the corner's
+note; tokens test 13; the census's Glowseed cell on every profile with the audio probe and
+its control's three plants; the provenance row with its lock reader; SPEC section 5's
+replay rule amended; doc-truth rule 12 reading section 7's table too. Counts moved:
+`g13_engine_tests` 13 → 18, `g10_reveal_tests` 18 → 22, `g10_buildit_tests` 26 → 28,
+`g1_token_tests` 12 → 13, `g20_tests_mapped` 412 → 423, `census_novelty_cells` 84 → 92,
+`census_novelty_controls` 15 → 16, `census_cells` 683 → 692. Measured on the first renders
+(`D:/CVCGame-ops/art/step2/`): the object at (290, 8) on the Galaxy and (360, 8) on the
+iPhone 13 from the stage's corner, 16 × 20; every zone's height the same across idle, lit
+and muted (62 / 346.5 / 70 / 179.5 on the Galaxy); lit by the real audio events in headless
+Chromium; absent on the landscape phone.
+
 **Done means.** Cells, on the eight profiles, each with a plant: **attempt** — idle at every
 100 ms sample from stage to grade on the word and the sentence attempt; the pre-ladder's
 ready-phase prompt is the named exception and lights it; a planted lit class on the attempt
@@ -1041,3 +1062,10 @@ Newest last. A verdict names the chair, the step, the word, and the findings.
   notan criterion, the tokens with 9.3's note amended, the four rulings for the owner's page
   (the order; the scaffold (a)/(b); the fallback (a)/(b); the sound-off sentence), the E11
   list with five mocks and the gates the first draft missed, and the cells of done means.
+- 2026-08-23 — Step 2 built ahead of the page on the council's recommendations (the section
+  records what and the counts). The event source, the component, the three looks, the
+  sound-off state, the scaffold's quiet rule, the cell with the audio probe and its three
+  separating plants, the provenance row and its lock reader, tokens test 13, the records.
+  Checkpoint 1 (the greyscale notan with the word) and the after pass requested next; the
+  owner's page may change the scaffold, the fallback or the sentence, each a small change
+  on a green build.

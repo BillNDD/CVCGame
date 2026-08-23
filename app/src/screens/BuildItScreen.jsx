@@ -49,7 +49,7 @@ const slotWidth = (tile) => box() + (Math.max(1, (tile || "").length) - 1) * ste
 /* `tray.sounds` is parallel to `tray.tiles`: the sound each tile makes in THIS
    word, decided when the tray was built. The screen never derives a sound from
    a letter - that is what made five words' tiles silent. */
-export default function BuildItScreen({ tray, playSounds, playWord, onDone, onExit, soundIdsOf }) {
+export default function BuildItScreen({ tray, playSounds, playWord, onDone, onExit, soundIdsOf, muted = false }) {
   const isSound = tray.kind === "sound";
   /* The prompt: a word through the pack's word path, or one sound. Either way
      it is spoken FIRST and never assembled from the tiles. */
@@ -64,6 +64,12 @@ export default function BuildItScreen({ tray, playSounds, playWord, onDone, onEx
   const [slots, setSlots] = useState(() => tray.answer.map(() => null));
   const [misses, setMisses] = useState(0);
   const [ghost, setGhost] = useState(null);
+  /* the scaffold plays the answer's sounds one clip per 900 ms slot, and a
+     Glowseed lit per utterance would blink once per sound on that beat - the
+     repeated pulse bible 7 forbids. During the scaffold the slot's cue ring
+     is the one event, and the seed stays idle (art step 2, the council's
+     reading chair; the owner's page, ruling 2). */
+  const [quiet, setQuiet] = useState(false);
   /* True while the built sounds play back after a miss: the filled slots wear
      the "different arrangement" ring (bible 11, 3.4 - neutral, never red)
      until the tray is handed back. Art step 1, 2026-08-22. */
@@ -204,10 +210,12 @@ export default function BuildItScreen({ tray, playSounds, playWord, onDone, onEx
     setMsg(isSound ? "Watch which tile it is, then tap it." : "Watch where each sound goes, then copy it.");
     slotsRef.current = tray.answer.map(() => null);
     setSlots(slotsRef.current);
+    setQuiet(true);
     tray.answer.forEach((tile, i) => {
       later(() => { setGhost(i); playSounds([tray.sounds[tray.tiles.indexOf(tile)]]); }, i * 900);
       later(() => setGhost(null), i * 900 + 700);
     });
+    later(() => setQuiet(false), (tray.answer.length - 1) * 900 + 700);
   }
 
   /* The ceramic is the stylesheet's (.wq-tilebtn, art step 1); only the
@@ -224,7 +232,7 @@ export default function BuildItScreen({ tray, playSounds, playWord, onDone, onEx
         <button className="wq-btn-plain" onClick={onExit} aria-label="Done (leave building)">✖️ Done</button>
       </Zone.Header>
 
-      <Zone.Stage>
+      <Zone.Stage seed muted={muted} quiet={quiet}>
         <div style={{ textAlign: "center", width: "100%", maxWidth: 420 }}>
           {/* The word button is a child control (S7) and repeats the prompt as
               often as a child wants: the word is never the secret here. */}

@@ -1,3 +1,5 @@
+import Glowseed from "./Glowseed.jsx";
+
 const Zone = {
   Header: ({ children }) => <header className="wq-header">{children}</header>,
   /* home marks the one stage without the session's 94 px word-centering
@@ -9,8 +11,15 @@ const Zone = {
      scrollable-region-focusable, serious - found 254 times over by the first
      post-cutover census, one finding echoed by every landscape cell). On the
      tall screens it is a harmless extra tab stop before the buttons. */
-  Stage: ({ children, scroll = false, home = false }) => (
-    <main tabIndex={0} className={"wq-stage" + (scroll ? " wq-scroll" : "") + (home ? " wq-stage-home" : "")}>{children}</main>
+  /* seed: the Glowseed sits in this stage, out of flow in its top corner -
+     the word reveal, the sentence reveal, the pre-ladder and Build-it carry
+     it; home, the done screens and the corner do not (bible 13.1: home
+     "may", not must). muted: sound is off, so it wears the muted look. */
+  Stage: ({ children, scroll = false, home = false, seed = false, muted = false, quiet = false }) => (
+    <main tabIndex={0} className={"wq-stage" + (scroll ? " wq-scroll" : "") + (home ? " wq-stage-home" : "")}>
+      {seed ? <Glowseed muted={muted} quiet={quiet} /> : null}
+      {children}
+    </main>
   ),
   Rail: ({ children }) => <div className="wq-rail">{children}</div>,
   Strip: ({ children }) => <div className="wq-strip">{children}</div>,

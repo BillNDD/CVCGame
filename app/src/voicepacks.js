@@ -187,10 +187,46 @@ function reclaimOutput() {
   unlockVoice();
 }
 
+/* THE AUDIO LIFECYCLE, AS EVENTS (art step 2, bible 7; the council's before
+   pass of 2026-08-23). The Glowseed is lit exactly while recorded audio
+   plays, and bible 7 says its active state "begins and ends with actual
+   audio start and completion events". Until this step nothing here reported
+   a completion: onScheduled fires once, at schedule time, with a length, and
+   every end the app used was a setTimeout on that length. So: `onAudio`
+   delivers { state: "start", token, ms } the moment an utterance's plan has
+   been scheduled (50 ms before the first sample and the first clip's lead
+   before any voice - the hum's own edges), and { state: "end", token } when
+   every node of that utterance - the clips and the hum's oscillators - has
+   fired `onended`, counted to zero and keyed by the utterance's token so a
+   stopped utterance's late onended never darkens the next; stopClips() emits
+   the end itself as well, because a closed context (reclaimOutput, an iOS
+   interruption that never resumes) fires no onended - so a lost end lasts
+   until the next stopClips(), which every utterance and every exit path
+   calls. A silent pack never starts. The system-speech fallback never
+   starts (recorded audio only - the owner's page, ruling 3). Each listener
+   runs in its own try, so a listener can never leave clips scheduled and
+   call the fallback over them. Probed under headless Chromium before this
+   was written: onended fires at a natural end, on stop(), and 1,500 ms
+   late through a context suspended that long - which is how the census's
+   Glowseed cell tells an event from a timer. */
+const audioListeners = new Set();
+let litToken = null;                 // the utterance whose start was emitted and not yet ended
+export function onAudio(listener) {
+  audioListeners.add(listener);
+  return () => { audioListeners.delete(listener); };
+}
+function emitAudio(evt) {
+  for (const fn of [...audioListeners]) { try { fn(evt); } catch { /* a listener never breaks the voice */ } }
+}
+function audioStarted(my, ms) { litToken = my; emitAudio({ state: "start", token: my, ms }); }
+function audioEnded(my) { if (litToken !== my) return; litToken = null; emitAudio({ state: "end", token: my }); }
+
 export function stopClips() {
+  const ending = token;
   token += 1;
   for (const s of live) { try { s.stop(); } catch { /* not started yet */ } }
   live = [];
+  audioEnded(ending);
 }
 
 async function bufferFor(tier, id) {
@@ -280,6 +316,7 @@ const measured = (tier, id) => {
 };
 
 async function playPlan(plan, tier, my, fallback, onScheduled, tileSounds = null) {
+  let scheduledMs = -1;              // the utterance's scheduled length once its nodes are in flight
   try {
     const decoded = await Promise.all(plan.map((id) => (isSeam(id) ? null : bufferFor(tier, id))));
     if (my !== token) return;                    // a newer utterance took over
@@ -346,7 +383,12 @@ async function playPlan(plan, tier, my, fallback, onScheduled, tileSounds = null
        it, which is a fifth of a second of a tile marked before anything is
        audible. The length is the SPEECH, not the file, for the same reason —
        /sh/ is a 792 ms file holding 170 ms of sound. */
-    onScheduled(Math.round((at - now) * 1000), slots.map((s) => {
+    /* every node of this utterance, the hum's included, reports its own end;
+       the utterance ends when the last of them has (the lifecycle above) */
+    let pending = live.length;
+    for (const node of live) node.onended = () => { pending -= 1; if (pending === 0) audioEnded(my); };
+    scheduledMs = Math.round((at - now) * 1000);
+    onScheduled(scheduledMs, slots.map((s) => {
       const id = plan[s.index];
       /* A ring's length is the SPEECH, and only a measured clip has one. An
          unmeasured clip reports 0, the component declines to ring at all, and
@@ -364,6 +406,9 @@ async function playPlan(plan, tier, my, fallback, onScheduled, tileSounds = null
     // nothing has played yet: speech instead, and say why (B7)
     if (my === token) fallback("the recorded voice failed to play: " + (e && e.message ? e.message : e));
   }
+  /* the start is emitted outside the try above: a listener that throws must
+     never be mistaken for a failed player */
+  if (scheduledMs >= 0 && my === token) audioStarted(my, scheduledMs);
 }
 
 /* Speak one utterance through the packs, or hand it to `fallback` (system

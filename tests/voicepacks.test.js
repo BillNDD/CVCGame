@@ -26,8 +26,12 @@ class FakeCtx {
     }
     return { duration: 1 };                    // every clip decodes to exactly 1 s
   }
+  /* A real AudioBufferSourceNode fires `onended` at its buffer's end and on
+     stop(); the Glowseed's end event counts those (art step 2), so the double
+     fires it on stop() and lets a test end a node by hand with `end()`. */
   createBufferSource() {
-    const s = { buffer: null, connect() {}, start(t) { s.start_at = t; scheduled.push(s); }, stop() { s.stopped = true; } };
+    const s = { buffer: null, onended: null, connect() {}, start(t) { s.start_at = t; scheduled.push(s); },
+      stop() { s.stopped = true; if (s.onended) queueMicrotask(() => s.onended()); }, end() { if (s.onended) s.onended(); } };
     return s;
   }
   /* The sound-out lays a hum under the whole utterance. It is built from
@@ -36,8 +40,8 @@ class FakeCtx {
      else, or a silenced reveal would leave a drone playing under the next
      word. */
   createOscillator() {
-    const o = { frequency: { value: 0 }, connect() {}, start(t) { o.start_at = t; oscillators.push(o); },
-      stop(t) { o.stop_at = t; o.stopped = true; } };
+    const o = { frequency: { value: 0 }, onended: null, connect() {}, start(t) { o.start_at = t; oscillators.push(o); },
+      stop(t) { o.stop_at = t; o.stopped = true; if (o.onended) queueMicrotask(() => o.onended()); }, end() { if (o.onended) o.onended(); } };
     return o;
   }
   createGain() {
@@ -73,7 +77,7 @@ vi.stubGlobal("fetch", vi.fn(async (url) => {
   return { ok: true, arrayBuffer: async () => new ArrayBuffer(8) };
 }));
 const pack = await import("../app/src/voicepacks.js");
-const { initVoicePacks, speakVoice, stopClips, unlockVoice, idbPutClip, idbDeleteClip, microphoneUsed, measureEdges } = pack;
+const { initVoicePacks, speakVoice, stopClips, unlockVoice, idbPutClip, idbDeleteClip, microphoneUsed, measureEdges, onAudio } = pack;
 
 const settle = () => new Promise((r) => setTimeout(r, 0));
 const fb = vi.fn();
@@ -194,6 +198,78 @@ describe("voice-pack clip engine", () => {
     await settle(); await settle();
     expect(scheduled.length).toBe(8);                    // the replay clip joined
     expect(fb).not.toHaveBeenCalled();
+  });
+
+  /* THE AUDIO LIFECYCLE AS EVENTS (art step 2, bible 7). The Glowseed is lit
+     from an utterance's schedule to its last node's end, never by a clock of
+     its own; these prove the source in the real module - the five test files
+     that mock voicepacks.js fire onScheduled(0, []) synchronously and can
+     prove nothing about it ("never present a mock as proof"). */
+  it("emits start once the plan is scheduled, with its length, and end only when every node of the utterance has ended", async () => {
+    stopClips();                                         // whatever an earlier test left lit ends here, unheard
+    const log = [];
+    const off = onAudio((e) => log.push(e.state + (e.ms !== undefined ? ":" + e.ms : "") + (e.token ? "" : "?")));
+    speakVoice("correct", "cat", 0, true, fb);
+    expect(log).toEqual([]);                             // nothing before the schedule
+    await settle(); await settle();
+    expect(log).toEqual(["start:8360"]);                 // the measured length, the hum's own edges
+    expect(scheduled.length).toBe(7);
+    expect(oscillators.length).toBe(4);
+    scheduled.slice(0, 6).forEach((s) => s.end());
+    oscillators.forEach((o) => o.end());
+    expect(log).toEqual(["start:8360"]);                 // one clip still playing
+    scheduled[6].end();
+    expect(log).toEqual(["start:8360", "end"]);
+    scheduled[6].end();                                  // a second report of the same node changes nothing
+    expect(log).toEqual(["start:8360", "end"]);
+    off();
+  });
+  it("stopClips() ends the lit utterance once, and the stopped nodes' own reports do not end it again", async () => {
+    stopClips();
+    const log = [];
+    const off = onAudio((e) => log.push(e.state));
+    speakVoice("replay", "cat", 0, true, fb);
+    await settle(); await settle();
+    expect(log).toEqual(["start"]);
+    stopClips();
+    expect(log).toEqual(["start", "end"]);
+    await settle();                                      // the double's stopped sources report in a microtask
+    expect(log).toEqual(["start", "end"]);
+    stopClips();                                         // nothing lit: nothing emitted
+    expect(log).toEqual(["start", "end"]);
+    /* a new utterance: the old one's end (through stopClips) then the new start */
+    speakVoice("replay", "cat", 0, true, fb);
+    await settle(); await settle();
+    expect(log).toEqual(["start", "end", "start"]);
+    off();
+  });
+  it("never starts on the system-speech fallback, with sound off, or on a decode failure", async () => {
+    stopClips();
+    const log = [];
+    const off = onAudio((e) => log.push(e.state + ":" + e.token));
+    speakVoice("correct", "zap", 0, true, fb);           // w:zap is not in the manifest: fallback
+    await settle(); await settle();
+    speakVoice("correct", "cat", 0, false, fb);          // sound off
+    await settle(); await settle();
+    decodeFail = true;
+    speakVoice("levelup", "", 0, true, fb);              // e:levelup, decoded by no earlier test: the decode fails, fallback before any sound
+    await settle(); await settle();
+    expect(scheduled.length).toBe(0);
+    expect(log).toEqual([]);
+    expect(fb).toHaveBeenCalledTimes(2);
+    off();
+  });
+  it("a listener that throws neither breaks the schedule nor calls the fallback, and the next listener still hears", async () => {
+    stopClips();
+    const heard = [];
+    const off1 = onAudio(() => { throw new Error("a bad listener"); });
+    const off2 = onAudio((e) => heard.push(e.state));
+    speakVoice("replay", "cat", 0, true, fb);
+    await settle(); await settle();
+    expect(scheduled.length).toBe(1);                    // the replay is one clip
+    expect(fb).not.toHaveBeenCalled();
+    expect(heard).toEqual(["start"]);
+    off1(); off2();
   });
 
   /* B6 — a family clip is MEASURED on the way in, with the same method the

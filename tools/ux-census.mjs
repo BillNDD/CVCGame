@@ -618,11 +618,15 @@ async function stage(context, viewport, word, watchers, opts = {}) {
     ? (BANK_WORDS.indexOf(word) + 7) % BANK_WORDS.length     // deliberately not the word asked for
     : BANK_WORDS.indexOf(word);
   await holdTheDice(page);
-  await page.goto(opts.url || "/", { waitUntil: "load" });
+  /* sound off (art step 2): a graduated save written with the setting off,
+     so a cell can read the muted Glowseed, the disabled replay control and
+     the marker line - the app's own first boot always writes sound on */
+  if (opts.sound === false) await seedGraduated(page, { sound: false });
+  else await page.goto(opts.url || "/", { waitUntil: "load" });
   /* Loaded, boot's own dice spent, and only now is the draw decided. */
   await page.evaluate((v) => { window.__wqQueue = [v]; }, dieFor(wi, BANK_WORDS.length));
   await page.getByRole("button", { name: "Free play" }).click({ timeout: 8000 });
-  await page.getByRole("button", { name: "Any word" }).click({ timeout: 8000 });   // the grid's right Words cell (2026-08-21)
+  await page.getByRole("button", { name: "Any word", exact: true }).click({ timeout: 8000 });   // the grid's right Words cell (2026-08-21); exact, since a graduated save also shows "Build any word"
   await page.locator(".wq-word").waitFor({ timeout: 8000 });
   const shown = (await page.locator(".wq-word").textContent()).trim();
   /* The praise line for this cell is the longest one, because the longest is
@@ -637,7 +641,7 @@ async function stage(context, viewport, word, watchers, opts = {}) {
    truly fresh save begins at Pre 1, and the done cell was measuring the
    wrong screen - found by the first post-cutover census run (2026-08-21).
    Same seed shape as G7's GRADUATED, written through the app's own store. */
-async function seedGraduated(page) {
+async function seedGraduated(page, { sound = true } = {}) {
   /* Written from a page that is NOT the app - /version.json, the same origin
      - so the put never races the app's own first-boot write: a put that
      landed before the boot's default save was overwritten by it, and the
@@ -648,7 +652,7 @@ async function seedGraduated(page) {
   const db = storageSrc.match(/DB_NAME = "([^"]+)"/)[1];
   const store = storageSrc.match(/DB_STORE = "([^"]+)"/)[1];
   const save = JSON.stringify({ version: 5, level: 1, preLevel: 0, prePerfectStreak: 0,
-    sessionsCompleted: 0, perfectStreak: 0, words: {}, log: [], pre: {}, settings: { sound: true, childName: "", lang: "en-US" } });
+    sessionsCompleted: 0, perfectStreak: 0, words: {}, log: [], pre: {}, settings: { sound, childName: "", lang: "en-US" } });
   await page.evaluate(([d, s, key, v]) => new Promise((resolve, reject) => {
     const rq = indexedDB.open(d, 1);
     rq.onupgradeneeded = () => rq.result.createObjectStore(s);

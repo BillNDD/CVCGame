@@ -9,7 +9,8 @@ import { readFileSync } from "node:fs";
 import { stage, holdGrade, waitForReveal, requireStaged, GRADE } from "../../tools/ux-census.mjs";
 import { landmarks, phaseHold, homeFurniture, chromeHold, hitTest,
          zoneSum, runningAnimations, motionHold, popSpans, popOverlap, tileWidths, unitWidthHold,
-         widestWord, wordBox, wordFits, wordGeometry, wordHold, soundingTile, soundingHold, buildControls, buildHold, faultOpen } from "../../tools/census-novelties.mjs";
+         widestWord, wordBox, wordFits, wordGeometry, wordHold, soundingTile, soundingHold, buildControls, buildHold, faultOpen,
+         GLOWSEED_PROBE, glowseedRead, glowseedHold } from "../../tools/census-novelties.mjs";
 import { BANK_WORDS, stageBuild, requireBuilt } from "../../tools/ux-census.mjs";
 import { C } from "../../src/engine.js";
 
@@ -201,6 +202,66 @@ test.describe("with motion allowed, the sounding tile", () => {
       expect(dense.wqband, word + "'s resolved band").toBe(band);
     }
   });
+});
+
+test("the Glowseed: idle on the attempt, lit from the audio's first start to its last end and not by a clock, decoration out of flow in free sky, muted with sound off", async ({ page }) => {
+  /* Art step 2, bible 7 and 14, as measurements against the page's own
+     AudioContext (GLOWSEED_PROBE, installed before the page loads). The
+     attempt: idle at every sample. The reveal: lit no earlier than the first
+     node's start() call, idle within 100 ms of the last node's ended event
+     and never before it, exactly two changes of look. Out of flow: header,
+     stage, rail and strip measure the same with the object planted away;
+     its box meets no control, text, tile or message. Sound off: the object
+     muted, the replay control disabled, the marker line for the parent. On
+     the landscape phone the object is absent (display:none - its 85 px
+     reveal stage has no free sky; open-faults AG) and that is the whole
+     read there. */
+  await page.addInitScript(GLOWSEED_PROBE);
+  const { shown } = await stage(page, null, "pig", null);
+  requireStaged("pig", shown);
+  const first = await glowseedRead(page);
+  const landscape = page.viewportSize().width > page.viewportSize().height && page.viewportSize().height < 520;
+  if (landscape) {
+    expect(glowseedHold(first, { phase: "attempt" }).map((f) => f.kind), JSON.stringify(first)).toEqual(["seed-absent"]);
+    return;
+  }
+  /* the attempt: idle at five samples over a second */
+  for (let i = 0; i < 5; i++) {
+    const r = await glowseedRead(page);
+    expect(glowseedHold(r, { phase: "attempt" }), JSON.stringify(r)).toEqual([]);
+    await page.waitForTimeout(200);
+  }
+  /* out of flow: every zone the same height with the object planted away */
+  const wordBox = () => page.evaluate(() => { const b = document.querySelector(".wq-word").getBoundingClientRect(); return [b.x, b.y, b.width, b.height].map((v) => +v.toFixed(2)); });
+  const withSeed = first.zones;
+  const wordBefore = await wordBox();
+  const h = await page.addStyleTag({ content: ".wq-glowseed{display:none!important}" });
+  const without = (await glowseedRead(page)).zones;
+  const wordWithout = await wordBox();
+  await h.evaluate((e) => e.remove());
+  expect(without.map((z, i) => Math.abs(z - withSeed[i]) <= 1), "zone heights with and without the object: " + JSON.stringify({ withSeed, without })).toEqual(withSeed.map(() => true));
+  expect(wordWithout, "the word's box with and without the object: 0 px of layout").toEqual(wordBefore);
+  /* the reveal: graded, and read once the audio has ended */
+  const sinceLook = first.log.looks.length;
+  await holdGrade(page, GRADE.correct, []);
+  await page.waitForFunction(() => window.__wqAudio && window.__wqAudio.starts.length > 0, null, { timeout: 15000 });
+  await page.waitForFunction(() => { const a = window.__wqAudio; return a.ends.length >= a.starts.length && document.querySelector(".wq-glowseed[data-wq-glowseed='idle']"); }, null, { timeout: 30000 }).catch(() => {});
+  await page.waitForTimeout(150);
+  const after = await glowseedRead(page);
+  const findings = glowseedHold(after, { phase: "reveal", sinceLook });
+  expect(findings, JSON.stringify({ after: { ...after, log: { starts: after.log.starts.length, ends: after.log.ends.length, looks: after.log.looks.slice(sinceLook) } }, findings })).toEqual([]);
+  expect(after.box, "the box did not move between the attempt and the reveal").toEqual(first.box);
+  const wordAfter = await page.evaluate(() => { const b = document.querySelector(".wq-word").getBoundingClientRect(); return [b.x, b.y, b.width, b.height].map((v) => +v.toFixed(2)); });
+  expect(wordAfter, "the word did not move").toEqual(wordBefore);
+  /* sound off: muted, the control disabled, the parent told */
+  const off = await stage(page, null, "pig", null, { sound: false });
+  requireStaged("pig", off.shown);
+  const muted = await glowseedRead(page);
+  expect(muted.look, JSON.stringify(muted)).toBe("muted");
+  expect(muted.box, "the muted box is the idle box").toEqual(first.box);
+  expect(muted.zones, "sound off moves no zone").toEqual(first.zones);
+  expect(await page.getByRole("button", { name: "Hear the word again" }).isDisabled(), "the replay control is disabled with sound off").toBe(true);
+  expect((await page.locator(".wq-mark").textContent()).trim(), "the marker line").toBe("Parent: sound is off");
 });
 
 test("Build-it: every tile and slot is a 56 px child control a finger can reach, on the smallest and the largest tray, and a multi-letter tray tile is wider", async ({ page }) => {

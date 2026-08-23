@@ -194,6 +194,124 @@
         "commit": "7c55dfb"
       },
       "closed": "2026-08-22"
+    },
+    "glowseed": {
+      "kind": "css",
+      "opened": "2026-08-23",
+      "step": 2,
+      "source": [
+        "app/src/components/Glowseed.jsx",
+        "app/src/components/Zone.jsx",
+        "app/src/voicepacks.js",
+        "app/src/wq-css.js"
+      ],
+      "share": 524288,
+      "spent": 0,
+      "files": [],
+      "master": null,
+      "masterReason": "a token-drawn placeholder ships no file; the stylesheet is the master until the garden's step draws the pixel seed to the locked camera",
+      "placeholder": "D, the council's recommendation on the owner's page of 2026-08-23 (A / B / D; C refused by bible 17's standing rule): a token-drawn placeholder under the owner's 'who draws' ruling ('state 0 with placeholder geometry'), bible 8.1's row untouched; the pixel seed lands at step 6 as a drop-in paint on the same component, place, looks and cells. The owner's approval of the placeholder: pending the page's return - the build went ahead on the recommendation so the checkpoint renders are real.",
+      "reference": [],
+      "lifecycle": "lit at the utterance's schedule (voicepacks.js onAudio start: 50 ms before the first sample and the first clip's lead before any voice), idle when every node of the utterance - the clips and the hum's oscillators - has fired onended, counted to zero and keyed by the utterance's token, or when stopClips() ends it; never on the system-speech fallback, with sound off, or on a decode failure; a lost end (a closed context) lasts until the next stopClips(). Probed under headless Chromium 2026-08-23: onended fires at a natural end, on stop(), and 1,500 ms late through a context suspended that long.",
+      "lock": {
+        "box": {
+          "w": 16,
+          "h": 20
+        },
+        "corner": {
+          "top": 8,
+          "right": 14
+        },
+        "rim": 1,
+        "light": 2,
+        "core": {
+          "left": 3,
+          "top": 7,
+          "w": 8,
+          "h": 8
+        },
+        "absentBelow": 400,
+        "transition": false
+      },
+      "place": "out of flow in the stage's top-right corner, 0 px of layout (the census's Glowseed cell holds every zone's height and the word's box equal with the object planted away); in the free sky measured on the 0d887f3 renders (46-181 CSS px on the Galaxy S9+, 46-279 Pixel 7, 46-199 iPhone 13, 46-232 desktop, 46-167 short stage); absent on a stage under 400 px tall (the landscape phone, open-faults AG); on the word reveal, the sentence reveal, the pre-ladder and Build-it - not home, the done screens or the corner; right rather than left is the placeholder's choice, the notan's to settle",
+      "ramps": {
+        "rim": [
+          "stone",
+          "purpleStructural"
+        ],
+        "core": [
+          "slot",
+          "cyanElectric"
+        ],
+        "light": [
+          "purpleElectric"
+        ]
+      },
+      "states": {
+        "idle": [
+          "slot",
+          "stone"
+        ],
+        "lit": [
+          "cyanElectric",
+          "purpleStructural",
+          "purpleElectric"
+        ],
+        "muted": [
+          "stone"
+        ],
+        "quiet": [
+          "slot",
+          "stone"
+        ]
+      },
+      "ratios": [
+        {
+          "pair": "purpleStructural on skyBlue",
+          "value": 4.02,
+          "test": "tokens 13"
+        },
+        {
+          "pair": "purpleStructural on skyLavender",
+          "value": 3.92,
+          "test": "tokens 13"
+        },
+        {
+          "pair": "purpleStructural on skyPurpleMist",
+          "value": 4.29,
+          "test": "tokens 13"
+        },
+        {
+          "pair": "stone to purpleStructural (the idle-to-lit rim step, the non-colour cue)",
+          "value": 3.15,
+          "test": "tokens 13"
+        },
+        {
+          "pair": "cyanElectric on slot (the core alone is no cue)",
+          "value": 1.06,
+          "test": "tokens 13"
+        },
+        {
+          "pair": "stone on skyBlue (the idle rim, declared decorative below 3:1)",
+          "value": 1.28,
+          "test": "tokens 13"
+        },
+        {
+          "pair": "purpleElectric on skyLavender (the light, never the boundary)",
+          "value": 1.92,
+          "test": "tokens 13"
+        }
+      ],
+      "electricArea": {
+        "formula": "the band's figure plus the core (8 x 8 px) plus the light (a 2 px ring round a 16 x 20 box, about 140 px squared) over the viewport",
+        "iphone13-390x664": 0.51,
+        "galaxy-320x658": 0.62,
+        "note": "arithmetic from the lock and the tile family's measured band (0.44 on the iPhone 13); to be read on the checkpoint renders"
+      },
+      "checkpointBasis": "checkpoint 1 on greyscale renders of the reveal with a tile sounding, the sentence reveal, Build-it and the pre-ladder's ear prompt with the word; checkpoint 2 on colour renders of every look on the eight profiles, the census's Glowseed cell (the object against the page's own AudioContext) and tokens test 13",
+      "checkpoints": [],
+      "originality": null,
+      "closed": null
     }
   }
 }

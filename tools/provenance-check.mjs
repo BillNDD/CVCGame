@@ -72,7 +72,36 @@ export function lockDrift(lock, fromSources) {
   return out;
 }
 
-export function judge(ledger, tokens = C, ceiling = BASELINE.art_bytes_max, sources = null) {
+/* THE GLOWSEED'S LOCK, read from the stylesheet (art step 2): the object's
+   box, its corner offsets, the rim, the light outside it, the core's box,
+   and the stage height below which it is absent. A row that stated these
+   and nothing read them would be trusted, not read (step 1's antagonist). */
+export function glowseedLockFromSources(css = readFileSync("app/src/wq-css.js", "utf8")) {
+  const seed = cssBlock(css, ".wq-glowseed"), core = cssBlock(css, ".wq-glowseed::after"), lit = cssBlock(css, ".wq-glowseed-lit");
+  const absent = css.match(/@media \(max-height:(\d+)px\)\{\.wq-glowseed\{display:none\}\}/);
+  return {
+    box: { w: num(seed, /width:(\d+)px/), h: num(seed, /height:(\d+)px/) },
+    corner: { top: num(seed, /top:(\d+)px/), right: num(seed, /right:(\d+)px/) },
+    rim: num(seed, /border:(\d+)px solid/),
+    light: num(lit, /box-shadow:0 0 0 (\d+)px/),
+    core: { left: num(core, /left:(\d+)px/), top: num(core, /top:(\d+)px/), w: num(core, /width:(\d+)px/), h: num(core, /height:(\d+)px/) },
+    absentBelow: absent ? Number(absent[1]) : null,
+    transition: seed ? /transition/.test(seed) || (lit ? /transition/.test(lit) : false) : null,
+  };
+}
+export function glowseedDrift(lock, fromSources) {
+  const out = [];
+  for (const k of ["w", "h"]) if (!lock.box || lock.box[k] !== fromSources.box[k]) out.push(`lock.box.${k} is ${lock.box && lock.box[k]}, the stylesheet says ${fromSources.box[k]}`);
+  for (const k of ["top", "right"]) if (!lock.corner || lock.corner[k] !== fromSources.corner[k]) out.push(`lock.corner.${k} is ${lock.corner && lock.corner[k]}, the stylesheet says ${fromSources.corner[k]}`);
+  if (lock.rim !== fromSources.rim) out.push(`lock.rim is ${lock.rim}, the stylesheet says ${fromSources.rim}`);
+  if (lock.light !== fromSources.light) out.push(`lock.light is ${lock.light}, the stylesheet says ${fromSources.light}`);
+  for (const k of ["left", "top", "w", "h"]) if (!lock.core || lock.core[k] !== fromSources.core[k]) out.push(`lock.core.${k} is ${lock.core && lock.core[k]}, the stylesheet says ${fromSources.core[k]}`);
+  if (lock.absentBelow !== fromSources.absentBelow) out.push(`lock.absentBelow is ${lock.absentBelow}, the stylesheet says ${fromSources.absentBelow}`);
+  if (fromSources.transition) out.push("the stylesheet gives the Glowseed a transition; its looks are hard-edged (bible 7, 14)");
+  return out;
+}
+
+export function judge(ledger, tokens = C, ceiling = BASELINE.art_bytes_max, sources = null, seedSources = null) {
   const problems = [];
   const shares = ledger.shares || {};
   const sum = Object.values(shares).reduce((n, v) => n + (Number.isInteger(v) ? v : NaN), 0);
@@ -89,6 +118,8 @@ export function judge(ledger, tokens = C, ceiling = BASELINE.art_bytes_max, sour
     for (const r of f.ratios || []) if (typeof r.value !== "number" || !r.test || !r.pair) at(`a ratio row lacks a pair, a value or the test that pins it: ${JSON.stringify(r)}`);
     for (const c of f.checkpoints || []) if (!c.stage || !c.chair || !c.date || !c.verdict) at(`a checkpoint lacks stage, chair, date or verdict: ${JSON.stringify(c)}`);
     if (name === "tiles" && f.lock) for (const d of lockDrift(f.lock, sources || lockFromSources())) at(d);
+    if (name === "glowseed" && f.lock) for (const d of glowseedDrift(f.lock, seedSources || glowseedLockFromSources())) at(d);
+    if (name === "glowseed" && !f.placeholder) at("the Glowseed family must declare its placeholder (or its absence) - the owner's page, ruling 1");
     if (f.closed) {
       const o = f.originality;
       if (!o || !o.test || !o.verdict || !o.chair || !o.date) at("closed without an originality verdict {test, verdict, chair, date}");
@@ -124,6 +155,17 @@ if (process.argv.includes("--self-test")) {
   ok.push(["a 2 px rim and a 3 px highlight inset in the stylesheet are refused against the lock, naming both numbers", thickRim.rim === 2 && lockDrift(real.families.tiles.lock, thickRim).some((p) => p.includes("lock.rim is 1, the stylesheet says 2")) && lockDrift(real.families.tiles.lock, thickRim).some((p) => p.includes("lock.highlightInset is 2, the stylesheet says 3"))]);
   const wideBand = JSON.parse(JSON.stringify(real)); wideBand.families.tiles.lock.band.reveal = 7;
   ok.push(["a lock whose band differs from the stylesheet is refused, naming both numbers", judge(wideBand).some((p) => p.includes("lock.band.reveal is 7, the stylesheet says 6"))]);
+  /* the Glowseed's lock against the stylesheet: every number found at its
+     literal, a planted 3 px light and a planted transition refused */
+  const seed = glowseedLockFromSources();
+  ok.push(["the Glowseed lock reader finds the box, the corner, the rim, the light, the core and the absent-below height in the stylesheet, at their literals",
+    JSON.stringify(seed) === JSON.stringify({ box: { w: 16, h: 20 }, corner: { top: 8, right: 14 }, rim: 1, light: 2, core: { left: 3, top: 7, w: 8, h: 8 }, absentBelow: 400, transition: false })]);
+  const wideLight = glowseedLockFromSources(readFileSync("app/src/wq-css.js", "utf8").replace("box-shadow:0 0 0 2px ${C.purpleElectric}", "box-shadow:0 0 0 3px ${C.purpleElectric}"));
+  ok.push(["a 3 px light in the stylesheet is refused against the lock, naming both numbers", wideLight.light === 3 && glowseedDrift(real.families.glowseed.lock, wideLight).some((p) => p.includes("lock.light is 2, the stylesheet says 3"))]);
+  const fading = glowseedLockFromSources(readFileSync("app/src/wq-css.js", "utf8").replace(".wq-glowseed-lit{border-color", ".wq-glowseed-lit{transition:opacity .2s;border-color"));
+  ok.push(["a transition on the Glowseed is refused", fading.transition === true && glowseedDrift(real.families.glowseed.lock, fading).some((p) => p.includes("transition"))]);
+  const noPlaceholder = JSON.parse(JSON.stringify(real)); delete noPlaceholder.families.glowseed.placeholder;
+  ok.push(["a Glowseed row that does not declare its placeholder is refused", judge(noPlaceholder).some((p) => p.includes("must declare its placeholder"))]);
   const closedEmpty = JSON.parse(JSON.stringify(real)); closedEmpty.families.tiles.closed = "2026-08-22"; closedEmpty.families.tiles.checkpoints = []; closedEmpty.families.tiles.originality = null;
   ok.push(["a closed family with an empty checkpoints array or a null originality is refused", judge(closedEmpty).filter((p) => p.includes("closed without")).length === 2]);
   for (const [name, pass] of ok) console.log((pass ? "ok   " : "FAIL ") + name);

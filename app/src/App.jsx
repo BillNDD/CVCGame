@@ -883,8 +883,12 @@ export default function App() {
        of their own session. Caught by the G10 pair tests, which walk a
        14-word Level 1 session whose last word is the fourteenth - a multiple
        of seven. */
+    /* and never with sound off (art step 2): the chooser refuses a build
+       then, and a breather would hand the child "Hear the word" with nothing
+       behind it - the dead end the council's reading chair found */
     if (!freePlay && order.length > 0 && order.length % BUILD_EVERY === 0
         && qi + 1 < queue.length
+        && stateRef.current.settings.sound
         && !builtAfter.current.has(order.length)) {
       const right = order.filter((w) => firstResults[w] === "correct");
       const offerable = right.filter(buildable);
@@ -1173,7 +1177,7 @@ export default function App() {
 
     if (screen === "build" && build) {
       return <BuildItScreen key={buildSeq.current} tray={build} playWord={playBuildWord} playSounds={playBuildSounds}
-        soundIdsOf={soundIdsFor} onDone={nextBuild} onExit={endBuild} />;
+        soundIdsOf={soundIdsFor} onDone={nextBuild} onExit={endBuild} muted={!state.settings.sound} />;
     }
 
     if (screen === "home") {

@@ -466,7 +466,7 @@ every bound reads `LEVELS.length`, which is why adding a level needed no engine 
   slot, owner-ruled) with .28 (1.65) as the withdrawn control, and the app's and the
   reference's tile rules compared character for character with a planted drift; test 3c
   now holds the open sentence word's cyan ring at 4.73 / 4.61 / 5.05 (open-faults AB
-  closed) with the action figures as its control. Key: `g1_token_tests` (12). Its companion in the check is the quality control that
+  closed) with the action figures as its control. Key: `g1_token_tests` (13). Its companion in the check is the quality control that
   refuses a hex, rgb(), rgba() or hsl() literal in any app source (`.js`, `.jsx`, `.mjs`,
   `.css`) and in the reference outside its `C` block, with fixtures for each and for the
   `alpha()` helper it must not catch: the after pass found fourteen hex literals in the
@@ -684,6 +684,31 @@ the offline comparator's control caught its first real bug before the live cell 
   the save from `/version.json`, a page that is not the app, because a put that landed
   before the app's own first-boot write was overwritten by it once in three runs and the
   reload showed Pre 1.
+- **the Glowseed against the audio itself** (art step 2, 2026-08-23). On every profile: a
+  probe installed before the page loads (`GLOWSEED_PROBE`) wraps the page's own
+  `AudioContext` — every node's `start()` call and every node's `ended` event, stamped on
+  the page clock — and a MutationObserver stamps the object's every change of look; the
+  attempt is idle at five samples over a second; with the object planted away every zone's
+  height and the word's box are unchanged (0 px of layout); the reveal lights it no earlier
+  than the first node's `start()`, darkens it within 100 ms of the last node's `ended` and
+  never before it, exactly two changes of look, the box unmoved; with sound off the object
+  is muted, the replay control disabled and the marker line says "Parent: sound is off";
+  on the landscape phone the object is absent (display none) and that is the whole read.
+  Controls, once: the three plants that separate an event from a timer, through the probe
+  and the reader on the live page — a look set lit before the grade (`lit-before-audio`), a
+  look set lit again after the last end (`lit-after-audio`), and a clock that darkens the
+  object 1,000 ms after the context is suspended for a literal 1,500 ms mid-utterance
+  (`dark-before-audio-ended`; the real object, lit underneath, is shown to wait for the
+  delayed end) — then a transition, `pointer-events:auto`, a tab stop, the object moved onto
+  the word and the object put back into the flow (the word moves), and fixtures for every
+  finding kind. The unit side: `tests/voicepacks.test.js` proves the event source in the
+  real module (start once scheduled with the length; end only when every node has ended;
+  `stopClips()` ends once; no start on the fallback, with sound off or on a decode failure;
+  a throwing listener neither breaks the schedule nor calls the fallback), since the five
+  suites that mock `voicepacks.js` can prove nothing about it; `tests/reveal.test.js` proves
+  the component's keying by token, the sound-off state on the session and the pre-ladder,
+  and the breather skipping itself with sound off; `tests/buildit.test.js` proves the
+  scaffold's quiet rule and the muted build; `tests/tokens.test.js` 13 pins the rim's ratios.
 - **the art bible's claims, as measurements** (art project step 0d, owner-ruled
   2026-08-22, the council's before pass; detectors in the novelties library, every one
   refusing a screen with no subject). On every profile: **frame** - the header, stage and
@@ -1135,7 +1160,7 @@ some other config, is refused rather than read. The floors it enforces are
 like every other floor. The gauntlet still does not call the census, and that stays
 deliberate: a flaky cell must inform a release, never block one.
 
-- Baseline floors: `g13_clips` (760) and `g13_engine_tests` (13).
+- Baseline floors: `g13_clips` (760) and `g13_engine_tests` (18).
 - To re-render the pack after the bank grows: `docs/voice-pack.md`.
 
 ## G14c. The provenance reader (art step 1, 2026-08-22)
@@ -1150,8 +1175,11 @@ share, and a closed family refused without both checkpoints and an originality v
 Its lock reader `lockFromSources` derives the ring, its offset, the band per density, the
 radii, the rim, the highlight inset, Build-it's box and letter step, the halo inset and the
 compact build's sizes from `app/src/wq-css.js` and `app/src/screens/BuildItScreen.jsx`, so
-a number changed in the source and not in the record is refused. Eleven controls, among
-them a planted 2 px rim, a two-value padding and a 7 px reveal band. Declared DATA in the
+a number changed in the source and not in the record is refused. Since art step 2 a second
+reader, `glowseedLockFromSources`, derives the Glowseed's box, corner, rim, light, core and
+absent-below height the same way and refuses a transition on it, and a Glowseed row must
+declare its placeholder. Fifteen controls, among them a planted 2 px rim, a two-value
+padding, a 7 px reveal band, a 3 px light and a transition. Declared DATA in the
 file map; the reader is its reader. No README file per family exists or may: the entry is
 what the ruling calls the README.
 
@@ -1713,7 +1741,7 @@ other direction: the real pack, unchanged, must pass.
 
 ## G20. Effect map
 
-- Tool: `tools/effect-map.mjs`. Writes `docs/effect-map.md`. Keys: `g20_tests_mapped` (412).
+- Tool: `tools/effect-map.mjs`. Writes `docs/effect-map.md`. Keys: `g20_tests_mapped` (423).
 - One row per `it()` SITE — its file, suite, and the test's own sentence, which in this
   project IS the Given/When/Then effect, because tests are named as behaviour. A site inside
   a loop or a table runs many times, so the map's 310 rows describe the 324 tests Vitest executes;
