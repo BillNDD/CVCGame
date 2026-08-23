@@ -254,8 +254,17 @@ function run(d) {
      from the prose either. What is refused is a key that is neither live nor
      retired — a floor quoted from nowhere. */
   const retired = baseline._retired || {};
-  for (const m of d.gauntletDoc.matchAll(/`((?:g\d+|census)[a-z0-9_]*)`\s*\((\d+)\)/g)) {
-    const [, key, stated] = m;
+  /* TWO BLIND SPOTS, both found by the release sweep on 2026-08-23 and one of
+     them hiding a LIVE drift. The first: the closing backtick had to sit
+     BETWEEN the key and the number, so a line writing the whole thing inside
+     one pair - `g25_proofs (25)` - was invisible, and that line said 25 while
+     the baseline enforced 28. The second: the key had to begin g<digits> or
+     census, so seven keys quoted in this document were never checked at all.
+     Both forms are read now, and every key the baseline holds is in scope. */
+  for (const m of d.gauntletDoc.matchAll(/`([a-z][a-z0-9_]*)`\s*\((\d+)\)|`([a-z][a-z0-9_]*)\s*\((\d+)\)`/g)) {
+    const key = m[1] || m[3];
+    const stated = m[2] || m[4];
+    if (!(key in baseline) && !(key in (baseline._retired || {}))) continue;   /* a number beside a word that is not a floor is not this rule's business */
     if (key in retired) {
       if (Number(stated) !== retired[key].was)
         found.push(`the gate specification says ${key} retired at ${stated}, the baseline records ${retired[key].was}`);
@@ -372,6 +381,20 @@ function run(d) {
       ...laterWords, ...billed]);
     if (rationale && plurals) for (const w of NEVER_BUILD) if (!justified.has(w))
       found.push(`the engine guards "${w}" and SPEC's reasoning about the guard never names it - the declared list is its only source, so dropping it from both files would pass unnoticed`);
+    /* AND THE DEMAND MUST RUN THE OTHER WAY TOO (the release sweep,
+       2026-08-23). The loop above iterates NEVER_BUILD, so the moment a word
+       LEAVES NEVER_BUILD the loop stops looking for it - which is exactly the
+       coordinated deletion the check was written to catch, and my first
+       version of it did not catch at all. This loop iterates SPEC's own
+       reasoning instead: a word the document says is build-guarded must be in
+       the declared list AND in the engine's, so removing it from both files
+       still leaves the sentence that names it, and the gate goes red. */
+    const demanded = new Set([...fromProse, ...(rationale ? items(rationale[1]).concat([rationale[2]]) : [])]);
+    for (const w of demanded) {
+      if (!spellableLength(w)) continue;
+      if (!guardList.includes(w)) found.push(`SPEC's reasoning says "${w}" is build-guarded and the declared list does not carry it: the sentence and the list disagree`);
+      if (!NEVER_BUILD.includes(w)) found.push(`SPEC's reasoning says "${w}" is build-guarded and the engine does not guard it: add it to NEVER_BUILD in reference/word-quest.jsx`);
+    }
     for (const w of fromProse) if (spellableLength(w) && !guardList.includes(w))
       found.push(`SPEC's prose refuses "${w}" for child-appropriateness and a tray could spell it, but the declared build-guard list does not carry it`);
     /* THE ONE WORD THE ENGINE MAY TEACH THOUGH A LIST REFUSED IT, read from
@@ -529,7 +552,7 @@ function tokenTable(bible) {
 
 if (process.argv.includes("--self-test")) {
   const seen = { spec: false, blind: false, qa: false, hold: false, recipe: false, bank: false, floor: false, unshipped: false, superseded: false, table: false, tableOrder: false, orphanDoc: false, orphanCmd: false, stateTableGone: false, laterRefusal: false, candidateNotGuarded: false, taughtRefusal: false,
-    taughtNoException: false, wordBehindAnd: false, guardOneSourceOnly: false, guardDeclaredOnly: false, guardEngineMissing: false, guardBlind: false, exceptionNotAGuardHole: false, tokenDrift: false, tokenStranger: false, tokenMissing: false, tokenBlind: false, stateToken: false, stateSelector: false, stateBlind: false, stateReference: false };
+    taughtNoException: false, floorWrapped: false, wordBehindAnd: false, guardOneSourceOnly: false, guardDeclaredOnly: false, guardEngineMissing: false, guardBlind: false, exceptionNotAGuardHole: false, tokenDrift: false, tokenStranger: false, tokenMissing: false, tokenBlind: false, stateToken: false, stateSelector: false, stateBlind: false, stateReference: false };
 
   /* Both ways a tool gets orphaned. The first is the one that actually
      happens: somebody tidies a governing document, the sentence naming the
@@ -579,6 +602,14 @@ if (process.argv.includes("--self-test")) {
      baseline: the exact drift found on 2026-08-10. */
   const floorCorrupt = { ...real, gauntletDoc: real.gauntletDoc.replace(/`g20_tests_mapped` \(\d+\)/, "`g20_tests_mapped` (1)") };
   seen.floor = run(floorCorrupt).found.some((p) => p.includes("g20_tests_mapped"));
+  /* AND THE SAME DRIFT WRITTEN THE OTHER WAY (the release sweep, 2026-08-23).
+     This rule needed the closing backtick BETWEEN the key and the number, so a
+     line that wrapped the whole thing - `g25_proofs (25)` - was invisible to
+     it, and one such line had been wrong by three for long enough that nobody
+     knew. A control for each form now, or the rule can go half-blind again
+     without anything saying so. */
+  const wrappedCorrupt = { ...real, gauntletDoc: real.gauntletDoc.replace(/`g25_proofs \(\d+\)`/, "`g25_proofs (1)`") };
+  seen.floorWrapped = run(wrappedCorrupt).found.some((p) => p.includes("g25_proofs"));
 
   /* A word the owner rules out must be a word no tray can spell. Both halves
      are planted: a SPEC that names a word the engine does not refuse must be
@@ -700,8 +731,16 @@ if (process.argv.includes("--self-test")) {
      leaving the declaration alone. */
   const oneSource = { ...real, spec: real.spec.replace("The 2026-08-07 sentence, gob, gun and", "The 2026-08-07 sentence, gun and") };
   seen.guardOneSourceOnly = run(oneSource).found.some((p) => p.includes("gob") && p.includes("reasoning about the guard never names it"));
+  /* THE SAME WORD ON BOTH SIDES (the release sweep, 2026-08-23). The first
+     version of this control put "ho" in the taught exception and "zzzguard"
+     in the declared list, then required the finding about ZZZGUARD - which the
+     guardList loop produces whether or not the exception disarms anything, so
+     the assertion was independent of the mutation it planted and was really
+     guardEngineMissing wearing a second name. Now the planted word is the
+     exception, so only a rule that refuses to let an exception excuse the
+     build guard can produce the finding. */
   seen.exceptionNotAGuardHole = (() => {
-    const both = real.spec.replace("owner-ruled 2026-08-23: ding.**", "owner-ruled 2026-08-23: ding, ho.**");
+    const both = real.spec.replace("owner-ruled 2026-08-23: ding.**", "owner-ruled 2026-08-23: ding, zzzguard.**");
     return run({ ...real, spec: both.replace("crabs, ho, gun, fight", "crabs, ho, zzzguard, gun, fight") }).found.some((p) => p.includes('SPEC declares "zzzguard" build-guarded'));
   })();
   seen.stateTableGone = run(seedTableGone).found.some((p) => p.includes("section 7 state table parses to 0 rows"));
@@ -709,7 +748,7 @@ if (process.argv.includes("--self-test")) {
   seen.stateReference = run(driftedReference).found.some((p) => p.includes("paints slot; the reference's block does not name it"));
 
   if (Object.values(seen).every(Boolean)) {
-    console.log("self-test OK: a reworded SPEC sentence, a SPEC block whose anchor moved so the rule would check nothing, a reworded QA promise, a changed hold constant, a stale recipe number in the document, a stale bank count in the chooser, a drifted gate floor, an unshipped count that lags or runs ahead of the ledger, a level row that lost a word, a level row in the wrong order, a governing document that has stopped naming a tool agents are told to run, a command that has stopped running that tool's controls, a drifted token value, a token the table names that C lacks, a token C has that the table lacks, a token table whose anchor moved, a tile state whose block lacks a token it claims, a tile selector the stylesheet lacks, a tile table whose anchor moved, the Glowseed's own state table deleted whole, an appropriateness refusal made after 2026-08-07 and left out of the build guard, a candidate refusal wrongly demanded of it, a refused word the engine still teaches, a taught exception naming the wrong word or missing, a declared guard the engine lacks, a guard the engine keeps that nobody declared, an exception that tries to excuse the build guard, a refusal hidden behind an \"and\" with no comma of its own, a guarded word whose only source is the declared list, and a reference copy that drifted from the app's are all caught");
+    console.log("self-test OK: a reworded SPEC sentence, a SPEC block whose anchor moved so the rule would check nothing, a reworded QA promise, a changed hold constant, a stale recipe number in the document, a stale bank count in the chooser, a drifted gate floor in either of the two forms it is written in, an unshipped count that lags or runs ahead of the ledger, a level row that lost a word, a level row in the wrong order, a governing document that has stopped naming a tool agents are told to run, a command that has stopped running that tool's controls, a drifted token value, a token the table names that C lacks, a token C has that the table lacks, a token table whose anchor moved, a tile state whose block lacks a token it claims, a tile selector the stylesheet lacks, a tile table whose anchor moved, the Glowseed's own state table deleted whole, an appropriateness refusal made after 2026-08-07 and left out of the build guard, a candidate refusal wrongly demanded of it, a refused word the engine still teaches, a taught exception naming the wrong word or missing, a declared guard the engine lacks, a guard the engine keeps that nobody declared, an exception that tries to excuse the build guard, a refusal hidden behind an \"and\" with no comma of its own, a guarded word whose only source is the declared list, and a reference copy that drifted from the app's are all caught");
     process.exit(0);
   }
   console.error("self-test FAILED: " + JSON.stringify(seen));

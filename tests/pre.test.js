@@ -157,7 +157,19 @@ describe("the ladder in the app", () => {
     fireEvent.click(screen.getByLabelText("Begin Session"));
     await flush(0);
     expect(screen.getByText("What word do the sounds make?")).toBeTruthy();
-    expect(document.querySelector(".wq-word")).toBeTruthy();
+    /* THE EAR SHOWS AN EAR AND NEVER LETTERS - the whole point of Pre 1 is
+       blending by sound before print exists, and PreSessionScreen's own
+       comment still says so. This assertion was weakened to "a word element
+       exists" by step 0a's emoji-locator sweep (f85ed6b), which was right
+       about LOCATORS and wrong to take the CONTENT check with it: from that
+       commit until 2026-08-23 nothing in the tree held the property, and
+       mutating the render to print the answer left every test green. Found by
+       the release sweep. The check is on the stage's own text, not on a
+       locator, so it does not reintroduce an emoji locator. */
+    const word = document.querySelector(".wq-word");
+    expect(word).toBeTruthy();
+    expect(word.textContent, "the ear rung shows the ear, not its answer").toBe("\u{1F442}");
+    for (const letter of "sat") expect(word.textContent.includes(letter), `the question never prints "${letter}"`).toBe(false);
     expect(document.body.textContent.includes("Read this word")).toBe(false);
   });
   it("only the adult's hold records a pre result, into state.pre alone (S1)", async () => {

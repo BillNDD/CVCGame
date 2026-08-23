@@ -553,12 +553,18 @@ behind it counts as a keyboard press, never as a touch. The controls are muted i
 small in appearance, with a minimum target of 44 px.
 
 The ladder refuses a session it cannot ask (2026-08-23). EVERY rung of the pre-level ladder
-asks its question with a sound and nothing else: rung 1 is ear items, and from `PRE_TRAY_FROM`
-(rung 2) onward the item is a Build-a-sound tray whose prompt is a spoken sound, with no
-printed word anywhere on the screen. So the refusal covers the whole ladder rather than its
-first rung, and it covers it because of what the rungs ARE — a test holds that, so a future
-rung a child could answer from print would fail rather than be silently refused. With sound
-off such a session cannot be answered, and every grade the adult gave was still written to the
+asks its question with a SOUND, and nothing on a pre-level screen is ever read — which is the
+same thing section 12's 2026-08-15 ruling says, and the reason S2 does not apply there. An
+ear rung shows an ear and plays the sounds to blend; a letter rung shows its one letter while
+that letter's approved sound plays as the PROMPT, and the child says it back. The letter is
+shown, not read: it is the answer in print beside the question in sound. So with sound off
+there is no prompt to echo on any rung, and the refusal covers the whole ladder rather than
+its first one. A test holds this by the rung's own declared `kind` and by what the screen
+actually draws, so a future rung a child could answer from print would fail rather than that
+child being silently refused. (An earlier draft of this paragraph claimed the rungs deal a
+Build-a-sound tray with nothing printed; that was wrong — `PRE_TRAY_FROM` governs free
+play's Find-the-sound mode, never a session — and it contradicted section 12. Corrected
+2026-08-23 by the release sweep.) With sound off such a session cannot be answered, and every grade the adult gave was still written to the
 child's ladder record. So "Begin Session" is refused while the child is on the ladder and
 sound is off, and the chooser says why in its own voice, in exactly these words:
 

@@ -269,26 +269,45 @@ describe("G10 — the child hears the word before the app lets them move on", ()
     await flush(0);
     expect(screen.getByLabelText("Begin Session"), "a disabled control deals nothing").toBeTruthy();
   });
-  it("15h: the blanket refusal is right because EVERY rung asks with a sound - if one ever does not, this fails", async () => {
-    /* The refusal keys on `preLevel > 0`, which is a proxy for "this rung
-       cannot be answered without sound" (the council's antagonist,
-       2026-08-23). It is a TRUE proxy today and this test is why it may stay
-       one: rung 1 is ear items, and from PRE_TRAY_FROM onward every item is a
-       Build-a-sound tray whose prompt is a spoken sound with nothing printed.
-       Add a rung a child could answer from print and this fails, rather than
-       that child being silently refused a session they could have done. */
-    expect(PRE_TRAY_FROM).toBe(2);
-    expect(PRE_LEVELS.length).toBeGreaterThanOrEqual(3);
-    /* rung 1: the question is a sound, so the session is a list of letters to
-       hear rather than anything to read */
-    for (let rung = 1; rung <= PRE_LEVELS.length; rung += 1) {
-      const items = buildPreSession({ preLevel: rung }, () => 0.3);
-      expect(Array.isArray(items), `Pre ${rung} deals a list of items`).toBe(true);
-      expect(items.length, `Pre ${rung} deals something`).toBeGreaterThan(0);
-      /* every item is a single sound unit - a letter or a taught unit - never
-         a printed word the child could read without hearing anything */
-      for (const it of items) expect(typeof it === "string" && it.length <= 3, `Pre ${rung} item "${it}" is a sound unit, not a printed word`).toBe(true);
-    }
+  it("15h: the blanket refusal is right because EVERY rung asks with a SOUND - if one ever does not, this fails", async () => {
+    /* The refusal keys on `preLevel > 0`, which stands for "this rung cannot
+       be answered without sound" (the council's antagonist, 2026-08-23). It is
+       a TRUE proxy and this test is why it may stay one.
+
+       ITS FIRST VERSION DID NOT TEST THAT (the release sweep, 2026-08-23). It
+       asserted `item.length <= 3` over buildPreSession - a length check on an
+       item KEY, which says nothing about what the screen draws - and it rested
+       on a sentence I had written into SPEC claiming the rungs deal a
+       Build-a-sound tray with nothing printed. That was false: PRE_TRAY_FROM
+       governs free play's Find-the-sound mode, never a session, and a letter
+       rung PRINTS its letter. What is true, and what SPEC section 12's
+       2026-08-15 ruling already said, is that the letter is shown and never
+       READ: the sound is the question and the child says it back. So this
+       reads the rung's own declared kind and then the rendered screen. */
+    const kinds = PRE_LEVELS.map((p) => p.kind);
+    for (const k of kinds) expect(["ear", "letter"], `rung kind "${k}" is unknown - decide whether it needs sound before the ladder refuses it`).toContain(k);
+    expect(kinds[0]).toBe("ear");
+    /* the ear rung: the sounds ARE the question, and the stage shows an ear */
+    stored = { ...newState(), settings: { ...newState().settings, sound: true } };
+    render(createElement(App));
+    await flush(0);
+    fireEvent.click(screen.getByLabelText("Begin Session"));
+    await flush(0);
+    expect(screen.getByText("What word do the sounds make?"), "rung 1 asks by ear").toBeTruthy();
+    expect(document.querySelector(".wq-word").textContent, "and shows an ear, never the answer").toBe("\u{1F442}");
+    cleanup();
+    /* a letter rung: one letter shown while its sound plays as the prompt, and
+       the label asks the child to SAY it - never to read it */
+    const letterRung = PRE_LEVELS.find((p) => p.kind === "letter");
+    expect(letterRung, "there is a letter rung to check").toBeTruthy();
+    stored = { ...newState(), preLevel: letterRung.n, settings: { ...newState().settings, sound: true } };
+    render(createElement(App));
+    await flush(0);
+    fireEvent.click(screen.getByLabelText("Begin Session"));
+    await flush(0);
+    expect(screen.getByText("Say the sound"), "a letter rung asks for the SOUND, so the prompt is the question").toBeTruthy();
+    expect(document.body.textContent.includes("Read this word"), "nothing on a pre-level screen is ever read").toBe(false);
+    expect(document.querySelector(".wq-word").textContent.length, "one glyph: the answer in print beside the question in sound").toBe(1);
   });
 
   it("15g: with sound off AND a second look, the strip says both on one line", async () => {

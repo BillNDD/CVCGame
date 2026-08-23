@@ -495,7 +495,7 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 4 | G10 — the child hears the word before the app lets them move on | 3b: with sound OFF there is no reveal to wait for, and the guard arms at once |
 | 5 | G10 — the child hears the word before the app lets them move on | 15: the Glowseed is in the stage, hidden from assistive technology, idle on the attempt, lit and darkened by the lifecycle's own events |
 | 6 | G10 — the child hears the word before the app lets them move on | 15d: with sound OFF a child on the ladder is never dealt a session they cannot answer - the control refuses and says why |
-| 7 | G10 — the child hears the word before the app lets them move on | 15h: the blanket refusal is right because EVERY rung asks with a sound - if one ever does not, this fails |
+| 7 | G10 — the child hears the word before the app lets them move on | 15h: the blanket refusal is right because EVERY rung asks with a SOUND - if one ever does not, this fails |
 | 8 | G10 — the child hears the word before the app lets them move on | 15g: with sound off AND a second look, the strip says both on one line |
 | 9 | G10 — the child hears the word before the app lets them move on | 15f: the refusal's reason is reachable from the control it explains, and dark enough to read on the sky |
 | 10 | G10 — the child hears the word before the app lets them move on | 15e: with sound ON the ladder deals as it always did, and its stage carries the Glowseed idle |
