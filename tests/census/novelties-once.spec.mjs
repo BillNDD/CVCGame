@@ -448,7 +448,7 @@ test.describe("with motion allowed, the sounding tile's controls", () => {
     requireStaged("ship", shown);
     const plant = async (css) => { const h = await page.addStyleTag({ content: css }); await holdGrade(page, GRADE.correct, []); await page.waitForFunction(() => !!document.querySelector(".wq-slot-tiles .wq-tile.wq-pop"), null, { timeout: 8000 }); const s = await soundingTile(page); await h.evaluate((e) => e.remove()); return s; };
     /* the fixtures, on the reader's own output shape */
-    const good = { text: "sh", popped: 1, wqband: 9, gap: 6, live: { marked: true, count: 1, zIndex: "-1", isolation: "isolate" }, word: { position: "relative", zIndex: "1" }, outline: { color: rgbOf(C.cyanStructural), width: "3px", style: "solid", offset: "0px" }, shadow: rgbOf(C.cyanElectric) + " 0px 0px 0px 9px", face: rgbOf(C.tileFaceLit), restingFace: rgbOf(C.tileFace), ink: rgbOf(C.ink), lift: 1.114, ringPx: 3, spreadPx: 9, intrudes: [], boxes: [[0, 0, 40, 30]] };
+    const good = { text: "sh", popped: 1, wqband: 9, gap: 6, live: { marked: true, count: 1, zIndex: "-1", isolation: "isolate" }, word: { position: "relative", zIndex: "1", rowPosition: "static", rowZIndex: "auto" }, clip: { stageBottom: 600, rowBottom: 500, msgBottom: 560 }, outline: { color: rgbOf(C.cyanStructural), width: "3px", style: "solid", offset: "0px" }, shadow: rgbOf(C.cyanElectric) + " 0px 0px 0px 9px", face: rgbOf(C.tileFaceLit), restingFace: rgbOf(C.tileFace), ink: rgbOf(C.ink), lift: 1.114, ringPx: 3, spreadPx: 9, intrudes: [], boxes: [[0, 0, 40, 30]] };
     expect(soundingHold(good, C, [[0, 0, 40, 30]])).toEqual([]);
     expect(soundingHold({ ...good, outline: { ...good.outline, color: rgbOf(C.ink), width: "4px", offset: "3px" } }, C).map((f) => f.kind)).toEqual(["ring-not-structural"]);
     expect(soundingHold({ ...good, shadow: "none" }, C).map((f) => f.kind)).toEqual(["band-missing"]);
@@ -466,14 +466,28 @@ test.describe("with motion allowed, the sounding tile's controls", () => {
     expect(soundingHold({ ...good, word: { position: "relative", zIndex: "0" } }, C).map((f) => f.kind), "a layer at 0 is not above a row at 0").toEqual(["word-not-above"]);
     expect(soundingHold({ ...good, word: null }, C).map((f) => f.kind)).toEqual(["word-not-above"]);
     expect(soundingHold({ ...good, word: { ...good.word, rowPosition: "relative", rowZIndex: "2" } }, C).map((f) => f.kind), "a row lifted above the word").toEqual(["word-not-above"]);
+    expect(soundingHold({ ...good, word: { ...good.word, rowPosition: "relative", rowZIndex: "1" } }, C).map((f) => f.kind), "a row at the word's own level paints later in the tree, so above it").toEqual(["word-not-above"]);
+    expect(soundingHold({ ...good, word: { ...good.word, rowPosition: "static", rowZIndex: "2" } }, C).map((f) => f.kind), "a static row's z-index, which a flex parent would honour").toEqual(["word-not-above"]);
+    expect(soundingHold({ ...good, word: { ...good.word, rowPosition: "relative", rowZIndex: "auto" } }, C), "a positioned row at auto forms no layer above the word").toEqual([]);
     expect(soundingHold({ ...good, word: { ...good.word, rowPosition: "relative", rowZIndex: "0" } }, C), "a row at 0 under the word's 1").toEqual([]);
-    /* the open-faults reader behind the landscape pin: a heading marked
-       CLOSED or FIXED is not open, a missing heading is not open */
-    expect(faultOpen("## AE. A fault - opened 2026-08-22\n\ntext", "AE")).toBe(true);
-    expect(faultOpen("## AE. A fault - opened 2026-08-22, CLOSED 2026-08-23\n", "AE")).toBe(false);
-    expect(faultOpen("## AE. A fault - FIXED in step 4\n", "AE")).toBe(false);
-    expect(faultOpen("## AF. Another\n", "AE")).toBe(false);
-    expect(faultOpen("## AEX. Not this one - opened\n", "AE")).toBe(false);
+    expect(soundingHold({ ...good, clip: { ...good.clip, rowBottom: 601 } }, C).map((f) => f.kind), "the row past the stage's edge").toEqual(["row-clipped"]);
+    expect(soundingHold({ ...good, clip: { ...good.clip, msgBottom: 601 } }, C).map((f) => f.kind), "the message past the stage's edge").toEqual(["message-clipped"]);
+    expect(soundingHold({ ...good, clip: { stageBottom: 600, rowBottom: 600.4, msgBottom: 600.5 } }, C), "half a pixel is layout precision, not a clip").toEqual([]);
+    expect(soundingHold({ ...good, clip: null }, C), "no stage to clip against reads nothing").toEqual([]);
+    /* the open-faults reader behind the landscape pin: open is a heading
+       that ENDS at its opening date; every way this file closes an entry -
+       CLOSED, FIXED, GATED, BUILT, a wrapped "- opened and / ## CLOSED" - is
+       a suffix or a missing date, and a missing or renamed heading is not
+       open either */
+    expect(faultOpen("## AE. A fault — opened 2026-08-22\n\ntext", "AE")).toBe(true);
+    expect(faultOpen("## AE. A fault - opened 2026-08-22\n", "AE"), "a plain hyphen too").toBe(true);
+    expect(faultOpen("## AE. A fault — opened 2026-08-22, CLOSED 2026-08-23\n", "AE")).toBe(false);
+    expect(faultOpen("## AE. A fault — FIXED in step 4\n", "AE")).toBe(false);
+    expect(faultOpen("## AE. A fault — opened 2026-08-22, BUILT 2026-09-01 by art step 4\n", "AE")).toBe(false);
+    expect(faultOpen("## AE. A fault — S9, GATED 2026-08-15\n", "AE")).toBe(false);
+    expect(faultOpen("## AE. A fault - opened and\n## CLOSED 2026-08-20, the same night\n", "AE")).toBe(false);
+    expect(faultOpen("## AF. Another — opened 2026-08-22\n", "AE")).toBe(false);
+    expect(faultOpen("## AEX. Not this one — opened 2026-08-22\n", "AE")).toBe(false);
     expect(soundingHold({ ...good, lift: 1.234 }, C).map((f) => f.kind)).toEqual(["lift-off-band"]);
     expect(soundingHold({ ...good, restingFace: rgbOf(C.sun) }, C).map((f) => f.kind)).toEqual(["face-not-token"]);
     expect(soundingHold({ ...good, intrudes: ["i"] }, C).map((f) => f.kind)).toEqual(["ring-into-neighbour"]);
@@ -517,7 +531,7 @@ test.describe("with motion allowed, the sounding tile's controls", () => {
        the last two are new kinds. Each is a stylesheet (or one class) on
        the live page, read back through soundingTile. */
     const plant = async (css) => { const h = await page.addStyleTag({ content: css }); await holdGrade(page, GRADE.correct, []); await page.waitForFunction(() => !!document.querySelector(".wq-slot-tiles .wq-tile.wq-pop"), null, { timeout: 8000 }); const s = await soundingTile(page); await h.evaluate((e) => e.remove()); return s; };
-    for (const [css, kind] of [[".wq-slot-tiles{isolation:auto!important}", "live-not-beneath"], [".wq-slot-tiles .wq-tile.wq-pop{color:" + C.sun + "!important}", "ink-not-token"], [".wq-slot-tiles .wq-tile.wq-pop{background-color:" + C.tileHighlight + "!important}", "lift-off-band"], [".wq-word{z-index:auto!important}", "word-not-above"], [".wq-slot-tiles{position:relative!important;z-index:2!important}", "word-not-above"]]) {
+    for (const [css, kind] of [[".wq-slot-tiles{isolation:auto!important}", "live-not-beneath"], [".wq-slot-tiles .wq-tile.wq-pop{color:" + C.sun + "!important}", "ink-not-token"], [".wq-slot-tiles .wq-tile.wq-pop{background-color:" + C.tileHighlight + "!important}", "lift-off-band"], [".wq-word{z-index:auto!important}", "word-not-above"], [".wq-slot-tiles{position:relative!important;z-index:2!important}", "word-not-above"], [".wq-stage{height:110px!important;max-height:110px!important}", "row-clipped"], [".wq-stage{height:110px!important;max-height:110px!important}", "message-clipped"]]) {
       const { shown: next } = await stage(page, null, "ship", null);
       requireStaged("ship", next);
       const read = await plant(css);
@@ -559,4 +573,22 @@ test("control: a 48 px tray tile and equal tray widths are caught by the Build-i
   await page.evaluate(() => { document.getElementById("wq-plant-lid").remove(); document.querySelector('button[aria-label="Tile p"]').style.marginTop = "2000px"; });
   const sunk = buildHold(await buildControls(page), 56);
   expect(sunk.some((f) => f.kind === "control-unreachable" && f.detail.includes("Tile p") && f.detail.includes("off the screen")), JSON.stringify(sunk)).toBe(true);
+  /* a control cut at the stage's edge, the landscape phone's shape: the
+     stage's bottom brought to 43 px below a tray tile's top, so its box and
+     centre stay in reach and 43 of its 64 px show - through the reader */
+  await page.evaluate(() => { document.querySelector('button[aria-label="Tile p"]').style.marginTop = ""; });
+  const planted = await page.evaluate(() => {
+    const st = document.querySelector(".wq-stage"), b = document.querySelector('button[aria-label="Tile sh"]');
+    /* the stage's spacers re-centre the tray as the stage shrinks, so the
+       height is settled by iteration: the tile's top after the last layout */
+    let h = 0, rounds = 0;
+    for (; rounds < 40; rounds++) { const r = b.getBoundingClientRect(), s = st.getBoundingClientRect(); if (Math.abs(s.bottom - (r.top + 43)) < 0.5) break; h = r.top + 43 - s.top; st.style.setProperty("height", h + "px", "important"); st.style.setProperty("max-height", h + "px", "important"); st.style.setProperty("flex", "0 0 " + h + "px", "important"); void st.offsetHeight; }
+    const r = b.getBoundingClientRect(), s = st.getBoundingClientRect(); return { h, rounds, tileTop: r.top, tileBottom: r.bottom, stageBottom: s.bottom };
+  });
+  const cut = buildHold(await buildControls(page), 56);
+  await page.evaluate(() => { const st = document.querySelector(".wq-stage"); st.style.removeProperty("height"); st.style.removeProperty("max-height"); st.style.removeProperty("flex"); });
+  expect(cut.some((f) => f.kind === "control-clipped" && f.detail.startsWith('"Tile sh" shows only') && f.detail.includes("x 43 px of its")), JSON.stringify({ planted, cut })).toBe(true);
+  const tray = (h) => [{ text: "sh", label: "Tile sh", w: 90, h: 64, slot: false, cover: "", offscreen: false, visible: { w: 90, h }, stageBottom: 307 }, { text: "x", label: "Tile x", w: 64, h: 64, slot: false, cover: "", offscreen: false, visible: { w: 64, h }, stageBottom: 307 }];
+  expect(buildHold(tray(43), 56).map((f) => f.kind), "43 px showing of 64").toEqual(["control-clipped", "control-clipped"]);
+  expect(buildHold(tray(64), 56), "whole on the stage").toEqual([]);
 });

@@ -35,7 +35,11 @@ const CSS = VARS + `
 
 /* zones — P0-1 / P1-8: fixed three-zone shell, page never scrolls in a session */
 .wq-header{flex:0 0 auto;min-height:52px;display:flex;align-items:center;gap:6px;padding:8px 12px}
-/* N-4: overflow-y auto never engages at default text sizes, but gives 200% text a way out */
+/* N-4: overflow-y auto gives 200% text a way out; at default text sizes it
+   engages on one profile - the landscape phone (750 x 342), where the
+   reveal's stage is about 85 px tall and cuts the tile row and the
+   sentence (open-faults AG, the reading surface's; the census's sounding
+   cell pins the shape there and refuses it elsewhere) */
 .wq-stage{flex:1 1 auto;min-height:0;display:flex;flex-direction:column;align-items:center;
   padding:6px 14px;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
 /* The stage centres its content with two flexible spacers rather than with auto
@@ -78,25 +82,25 @@ const CSS = VARS + `
    descenders. Measured on the 0d887f3 set (D:/CVCGame-ops/art/step1/0d887f3,
    hashes.json "junction" and "junctionLayerRemoved": the band's first row
    under the tile's own columns against the word's lowest ink row, read on
-   the attempt phase): with "pig", the p's tail crosses the band by 4.4 /
-   9.1 / 4.7 / 0 / 7.7 / 4.7 CSS px and the g's by 4.9 / 9.5 / 5.0 / 12 /
-   8.0 / 5.0 on the Galaxy, the Pixel 7, the iPhone 13, the desktop, the
-   390 x 500 short stage and the landscape phone; with this layer planted
-   away the band hid 980 of 980 ink pixels of the p's tail on the Galaxy,
-   744 of 744 on the Pixel 7, 462 of 462 on the iPhone 13 (11 / 91 / 11
-   left). Invisible before the step (an ink outline over ink), visible
-   after it (cyan over ink). The word takes its own layer above the row,
-   so the glow passes behind a letter and never over it - and, until the
-   clearance lands, the TAIL NOW PAINTS OVER THE RING'S TOP EDGE where it
-   reaches it: 3 / 3.4 CSS px of ring rows (p / g) on the Pixel 7, 3.7 / 4
-   on the short stage, 0 / 3 on the desktop (where the g's bowl runs 3 px
-   into its own tile), 0.7 / 1 on the landscape phone, none on the Galaxy
-   or the iPhone 13. That trade - the letter whole, the cue's edge broken
-   under it - was judged by the art director on the 0d887f3 set (the thing
-   being taught is never covered by its cue). The clearance that keeps the
-   two apart is the reading surface's (open-faults AF, art step 3). The
-   census's sounding cell reads the construction as word-not-above, the
-   row's own layer included. */
+   the attempt phase; the band's first row taken from the layer-removed
+   render, where no ink hides it - it differs from the kept-layer read on
+   the Pixel 7 g and the desktop g only): with "pig", the p's tail crosses
+   the band by 4.4 / 9.1 / 4.7 / 0 / 7.7 / 4.7 CSS px and the g's by 4.9 /
+   9.5 / 5.0 / 12 / 8.0 / 5.0 on the Galaxy, the Pixel 7, the iPhone 13,
+   the desktop, the 390 x 500 short stage and the landscape phone; with
+   this layer planted away the band hid the p's tail all but a wedge at
+   its rounded corner - 969 of 980 ink pixels in the band's rows on the
+   Galaxy, 653 of 744 on the Pixel 7, 451 of 462 on the iPhone 13.
+   Invisible before the step (an ink outline over ink), visible after it
+   (cyan over ink). The word takes its own layer above the row, so the
+   glow passes behind a letter and never over it - and, until the
+   clearance lands, THE TAIL NOW PAINTS OVER THE RING where it reaches it:
+   it crosses the whole 3 px ring on the Pixel 7 (p and g), the short stage (p and g) and the desktop (the g), entering the tile's box by 0.3 / 0.7 px on the short stage and 3 px on the desktop, where the g's bowl covers the ring's and the rim's whole top runs (the ring's 26–28 columns and the rim's 16 in the layer-removed render; the bowl about 30 px wide at the rim row); touches the ring on the landscape phone (0.7 / 1 px); reaches no ring on the Galaxy or the iPhone 13. That trade - the letter whole, the cue's edge
+   broken under it - was judged by the art director and the reading chair
+   on the 0d887f3 set (the thing being taught is never covered by its cue).
+   The clearance that keeps the two apart is the reading surface's
+   (open-faults AF, art step 3). The census's sounding cell reads the
+   construction as word-not-above, the row's own layer included. */
 .wq-word{font-size:clamp(2.25rem,11vh,5.5rem);font-size:clamp(2.25rem,11svh,5.5rem);
   font-weight:700;line-height:1.05;color:${C.ink};margin:4px 0 0;white-space:nowrap;position:relative;z-index:1}
 .wq-slot-tiles{min-height:52px;display:flex;align-items:center;justify-content:center;gap:6px;margin-top:8px}
@@ -234,7 +238,9 @@ const CSS = VARS + `
    (the tokens test holds it at 1.04:1 on the face); the ring is closed on
    all four sides at every density - except where a descender of the word
    above reaches it, which paints over the ring's top edge until the
-   clearance of open-faults AF lands (the .wq-word comment above) - and
+   clearance of open-faults AF lands (the .wq-word comment above), and
+   except on the landscape phone, where the stage's clip edge cuts the
+   row's bottom side away (open-faults AG) - and
    ring plus band never enter a neighbour's letters (the census's sounding
    cell measures the reach). A
    first record here claimed one pixel of sky between the band and the next

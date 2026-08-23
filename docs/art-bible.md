@@ -542,7 +542,10 @@ after pass); the neighbour's rim, 4 device px at 4.5, is whole on every render. 
 a glow, never a boundary, and the ring is closed on all four sides at every density —
 except where a descender of the word above reaches it, which paints over the ring's top
 edge until open-faults AF's clearance lands (the paragraph "The word paints above the row"
-below). The
+below), and except on the landscape phone (750 × 342), where the reveal's stage is about
+85 px tall and its clip edge cuts the row's bottom side and the sentence away — open-faults
+AG, the reading surface's, pinned by the census's sounding cell on that profile and refused
+on every other. The
 rim is listed first in the shadow stack, so it closes all four sides; the highlight and
 the lower shade are drawn as 2 px insets of which 1 px shows inside the 1 px rim. (A first record claimed one pixel of sky between the band and the next
 rim, and a 5 px band to keep it; the pixels showed none and the arithmetic allows none
@@ -558,8 +561,14 @@ edge (3.51:1). **Scaffold:** the slot wears the structural ring while its sound 
 at a time, its dashes transparent so the ring is the one edge, with the letter inside at
 opacity .60 (3.28:1, owner-ruled over the .28 that measured 1.65). **Different
 arrangement:** a 3 px `purpleStructural` ring round the filled slots while the built sounds
-play back, owner-ruled over a tint and over none. **Completed:** one static `amberFill`
-halo round the assembled word, drawn on the slot row, 4 px off the tiles' rims. **The
+play back, owner-ruled over a tint and over none; in greyscale its value is near the cue
+ring's, so its colour-free carriers (15.1) are count, position and timing — every filled
+slot at once, with the playback message — where the cue is one empty slot with the ghost
+inside; a later step must not give one ring the other's shape. **Completed:** one static
+`amberFill` halo round the assembled word, drawn on the slot row, 4 px off the tiles' rims;
+the halo is 1.03–1.13:1 on the sky stops and all but vanishes in greyscale, so the state's
+colour-free carriers are the label ("You built …!") and the spent tray (the reading chair,
+the seventh judgement). **The
 compact build** (below 360 px wide): boxes of 56 px — S7's floor — a 20 px letter step and
 6 px gaps, because a ten-tile tray under eight slots ran under the grown-up strip on the
 320 px profile (the monkey found "breakfast" there; the arithmetic overflowed at 64 px
@@ -574,21 +583,20 @@ states animates; reduced motion changes nothing about them.
 **The word paints above the row** (the fifth and sixth judgements, 2026-08-22). The tile
 row is later in tree order and isolates its stacking, so a sounding tile's band and ring
 painted over the word's descenders. Measured on the 0d887f3 set (the band's first row
-under the tile's own columns against the word's lowest ink row, read on the attempt
-phase): on "pig" the p's tail crosses the band by 4.4 / 9.1 / 4.7 / 0 / 7.7 / 4.7 CSS px
-and the g's by 4.9 / 9.5 / 5.0 / 12 / 8.0 / 5.0 on the Galaxy S9+, the Pixel 7, the iPhone
-13, the desktop, the short stage and the landscape phone, and with the word's layer planted
-away the band hid the p's tail whole on the phones (980 of 980 ink pixels on the Galaxy,
-11 left) — invisible before the step (an ink outline over ink), visible after it.
-`.wq-word` carries `position:relative;z-index:1`, so the glow passes behind a letter and
-never over it; the census's sounding cell reads the construction as `word-not-above`, the
-row's own layer included. The trade, until the clearance lands: where the tail reaches the
-ring it now paints over the ring's top edge (3 / 3.4 CSS px of ring rows, p / g, on the
-Pixel 7; 3.7 / 4 on the short stage; 0 / 3 on the desktop, where the g's bowl runs 3 px into
-its own tile and covers band, ring and rim across about 25 of its 44 px; 0.7 / 1 on the
-landscape phone; none on the Galaxy or the iPhone 13) — the letter whole, the cue's edge
-broken under it, judged on the set by the art director: the thing being taught is never
-covered by its cue. The clearance that keeps the two apart is the reading surface's,
+under the tile's own columns — taken from the render with the word's layer planted away,
+where no ink hides it — against the word's lowest ink row, read on the attempt phase): on
+"pig" the p's tail crosses the band by 4.4 / 9.1 / 4.7 / 0 / 7.7 / 4.7 CSS px and the g's by
+4.9 / 9.5 / 5.0 / 12 / 8.0 / 5.0 on the Galaxy S9+, the Pixel 7, the iPhone 13, the desktop,
+the short stage and the landscape phone, and with the word's layer planted away the band
+hid the p's tail all but a wedge at its rounded corner (969 of 980 ink pixels in the band's
+rows on the Galaxy, 653 of 744 on the Pixel 7, 451 of 462 on the iPhone 13) — invisible
+before the step (an ink outline over ink), visible after it. `.wq-word` carries
+`position:relative;z-index:1`, so the glow passes behind a letter and never over it; the
+census's sounding cell reads the construction as `word-not-above`, the row's own layer
+included. The trade, until the clearance lands: where the tail reaches the ring it now
+paints over it — it crosses the whole 3 px ring on the Pixel 7 (p and g), the short stage (p and g) and the desktop (the g), entering the tile's box by 0.3 / 0.7 px on the short stage and 3 px on the desktop, where the g's bowl covers the ring's and the rim's whole top runs (the ring's 26–28 columns and the rim's 16 in the layer-removed render; the bowl about 30 px wide at the rim row); touches the ring on the landscape phone (0.7 / 1 px); reaches no ring on the Galaxy or the iPhone 13 — the letter whole, the cue's edge broken under it,
+judged on the set by the art director and the reading chair: the thing being taught is
+never covered by its cue. The clearance that keeps the two apart is the reading surface's,
 open-faults AF, with the box-to-tile numbers.
 
 The table below is the repository's: doc-truth rule 12 reads it and requires every

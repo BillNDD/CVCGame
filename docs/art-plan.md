@@ -684,7 +684,11 @@ Newest last. A verdict names the chair, the step, the word, and the findings.
   the clearance to a descender's tail; "pig" was rendered with the p tile sounding on six
   profiles and attempt-phase ink read against the sounding render: the band hid 4.2 / 9.1 /
   4.3 / 7.3 / 4.3 CSS px of the tail (the Galaxy, the Pixel 7, the iPhone 13, the short
-  stage, the landscape phone; the desktop's p misses its tile's columns). The word now
+  stage, the landscape phone; the desktop's p misses its tile's columns). (Those were the
+  first read's numbers, a loose colour match on a set since overwritten; the tight read on
+  the surviving 0d887f3 set says 4.4 / 9.1 / 4.7 / 0 / 7.7 / 4.7 for the p and 4.9 / 9.5 /
+  5.0 / 12 / 8.0 / 5.0 for the g, the desktop's g included — the sixth and seventh
+  judgements.) The word now
   paints above the row (`.wq-word{position:relative;z-index:1}`, read by the sounding cell
   as `word-not-above`, with a plant), so no ink is hidden; the clearance itself is the
   reading surface's and is open-faults AF with the measurements. (2) The landscape record:
@@ -712,8 +716,7 @@ Newest last. A verdict names the chair, the step, the word, and the findings.
   chairs.
 - 2026-08-22 — Step 1, sixth judgement: the art director **checkpoint 2 PASS on the
   0d887f3 set** (every hashed render matching its hash, the seven run-notes found verbatim in
-  their PNGs, the only pixels differing from the 3c11232 set in the descender junctions,
-  where the letter is now whole) and **the step SATISFIED** ("word above, clearance later" is
+  their PNGs; the letter whole in the descender junctions) and **the step SATISFIED** ("word above, clearance later" is
   the right order of paint: the thing being taught is never covered by its cue; pressed reads
   as pressed), with three SHOULDs and three notes; the antagonist **not satisfied** on one
   blocking finding, with four SHOULDs and five notes. Taken, each verified first: (1) the
@@ -736,3 +739,39 @@ Newest last. A verdict names the chair, the step, the word, and the findings.
   FIXED, with fixture controls. (5) "The ring stays" corrected to "the class stays" in the
   reader, the cell and the gauntlet. Judged again by the antagonist; the art director's
   verdict stands on the construction, the records being what changed.
+- 2026-08-23 — Step 1, seventh judgement: the antagonist **satisfied** ("the sixth
+  judgement's blocking finding is closed in substance … what remains is record precision
+  and guard coverage, none of it changing what renders"), six SHOULDs and five notes, all
+  taken: the g's band top is taken from the layer-removed read and the records say so,
+  naming the two cells where the kept-layer read differs; "980 of 980 … 11 left" became
+  "969 of 980, a wedge at the band's corner" and "whole" was dropped for the Pixel 7; "about
+  25 of 44 px" became the measured coverage (the ring's and the rim's whole top runs, the
+  bowl about 30 px wide at the rim row — re-read on the hashed render before it was
+  written); `faultOpen` took the positive form (a heading that ends at its opening date;
+  BUILT, GATED and the wrapped "## CLOSED" now close it, with fixtures); the stage-4 and
+  originality rows say their set does not survive and the stage-7 row counts the surviving
+  one; the landscape pin's "under nothing" went (a cover cannot be read off the screen); the
+  row-layer rule reads a static row's z-index too; the attempt-phase renders are written and
+  hashed; the "only pixels differing from the 3c11232 set" claim went, the set being gone.
+  The reading chair **satisfied** at its final pass ("every state of the ceramic family
+  reads as what it is to a pre-reader, the word is never covered by its cue"; the descender
+  trade "the right trade for a child reading" — before the fix the g's loop was sliced flat
+  into a 9-like shape at the moment the child heard that sound; the ghost at .60 right; the
+  compact build usable, 56 px being 12 mm on the Galaxy), with two SHOULDs on the landscape
+  phone's older composition, both taken as records and gates: (1) the reveal's tile row is
+  cut at the stage's clip edge there and the sentence lies out of view — and the full
+  census's close and wrong reveal cells have been red on that profile since real devices
+  were adopted, which nothing recorded (the gauntlet does not call the census, so no release
+  was blocked) — open-faults AG for the reading surface step, the sounding cell reading the
+  row and the message against the stage's edge (`row-clipped`, `message-clipped`) and pinning
+  exactly that shape on the landscape phone, refusing it elsewhere, with a planted 110 px
+  stage; (2) every Build-it tray on that phone sits 21 px under the strip with its box and
+  centre in reach, 43 px showing of 56 — the Build-it reader now reads the visible part of
+  each control inside the stage's edge (`control-clipped`), AE carries the short-word shape
+  and its done means every word's tray above the strip, the cell pins "ship"'s five clipped
+  tiles there, and a control brings the stage's edge to 43 px below a tile's top through
+  the reader. Also recorded: the completed halo's and the arrangement ring's colour-free
+  carriers in bible 11 (the halo all but vanishes in greyscale; the two rings share a
+  shape). Noted for the layout step, not the material's: no per-slot mark shows which slot
+  is sounding during the arrangement playback. **Step 1 closes** with all three chairs
+  satisfied; the closing commit records it.

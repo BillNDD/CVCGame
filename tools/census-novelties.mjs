@@ -432,7 +432,15 @@ export async function soundingTile(page) {
     const wordEl = document.querySelector(".wq-word");
     const wordCs = wordEl ? getComputedStyle(wordEl) : null;
     const word = wordCs ? { position: wordCs.position, zIndex: wordCs.zIndex, rowPosition: rowCs ? rowCs.position : "", rowZIndex: rowCs ? rowCs.zIndex : "" } : null;
-    return { text: pop.textContent.trim(), popped: popped.length, wqband, gap: rowCs ? parseFloat(rowCs.columnGap || rowCs.gap) || 0 : 0, live, word, outline: { color: cs.outlineColor, width: cs.outlineWidth, style: cs.outlineStyle, offset: cs.outlineOffset }, shadow: cs.boxShadow,
+    /* the stage's clip edge against the row and the message: the stage
+       scrolls, so what lies past its bottom is cut away with nothing to say
+       it is there - on the landscape phone the tiles lose their bottom rim
+       and the sentence is out of view (the reading chair, the seventh
+       judgement; open-faults AG) */
+    const stageEl = document.querySelector(".wq-stage");
+    const msgEl = document.querySelector(".wq-slot-msg");
+    const clip = stageEl && row ? { stageBottom: +stageEl.getBoundingClientRect().bottom.toFixed(1), rowBottom: +row.getBoundingClientRect().bottom.toFixed(1), msgBottom: msgEl ? +msgEl.getBoundingClientRect().bottom.toFixed(1) : null } : null;
+    return { text: pop.textContent.trim(), popped: popped.length, wqband, gap: rowCs ? parseFloat(rowCs.columnGap || rowCs.gap) || 0 : 0, live, word, clip, outline: { color: cs.outlineColor, width: cs.outlineWidth, style: cs.outlineStyle, offset: cs.outlineOffset }, shadow: cs.boxShadow,
       face: cs.backgroundColor, restingFace: restCs.backgroundColor, ink: cs.color, lift: lum(cs.backgroundColor) / lum(restCs.backgroundColor), ringPx: ring, spreadPx: Number(spread) || 0, intrudes,
       boxes: tiles.map((t) => { const b = t.getBoundingClientRect(); return [b.x, b.y, b.width, b.height].map((v) => +v.toFixed(2)); }) };
   });
@@ -463,9 +471,16 @@ export function soundingHold(s, tokens, restingBoxes) {
      row not lifted above it by a layer of its own */
   if (!s.word || s.word.position === "static" || !(Number(s.word.zIndex) >= 1))
     findings.push({ kind: "word-not-above", detail: "the word is " + (s.word ? s.word.position + " with z-index " + s.word.zIndex : "missing") + " - it must paint above the tile row" });
-  else if (s.word.rowPosition !== "static" && s.word.rowZIndex !== "auto" && Number(s.word.rowZIndex) >= Number(s.word.zIndex))
+  /* the row carries no z-index today; one at or above the word's is refused
+     whatever its position, since a flex or grid parent would honour it on a
+     static item too (the seventh judgement) */
+  else if (s.word.rowZIndex !== "auto" && Number(s.word.rowZIndex) >= Number(s.word.zIndex))
     findings.push({ kind: "word-not-above", detail: "the tile row is " + s.word.rowPosition + " at z-index " + s.word.rowZIndex + ", at or above the word's " + s.word.zIndex + " - the band would paint over a descender again" });
   if (!(s.lift >= 1.08 && s.lift <= 1.12)) findings.push({ kind: "lift-off-band", detail: "the face lifts " + ((s.lift - 1) * 100).toFixed(1) + "%; bible 11 asks 8-12%" });
+  /* the row and the message inside the stage's clip edge, or a child sees
+     tiles without their bottom rim and no sentence at all */
+  if (s.clip && s.clip.rowBottom > s.clip.stageBottom + 0.5) findings.push({ kind: "row-clipped", detail: "the tile row's bottom at " + s.clip.rowBottom + " px is past the stage's clip edge at " + s.clip.stageBottom });
+  if (s.clip && s.clip.msgBottom !== null && s.clip.msgBottom > s.clip.stageBottom + 0.5) findings.push({ kind: "message-clipped", detail: "the message's bottom at " + s.clip.msgBottom + " px is past the stage's clip edge at " + s.clip.stageBottom });
   if (s.restingFace !== rgbOf(tokens.tileFace)) findings.push({ kind: "face-not-token", detail: "a resting tile's face is " + s.restingFace + ", not tileFace" });
   if (s.ink !== rgbOf(tokens.ink)) findings.push({ kind: "ink-not-token", detail: "the tile's letters are " + s.ink });
   if (s.intrudes.length) findings.push({ kind: "ring-into-neighbour", detail: "the ring and band reach into the letters of " + s.intrudes.join(", ") });
@@ -486,21 +501,36 @@ export async function buildControls(page) {
        breakfast's last tray row under the strip on the 320 px profile) */
     const top = document.elementFromPoint(r.x + r.width / 2, r.y + r.height / 2);
     const cover = top && !b.contains(top) ? top.tagName.toLowerCase() + (top.className ? "." + String(top.className).split(" ").filter(Boolean).join(".") : "") : "";
-    return { text: b.textContent.trim(), label: b.getAttribute("aria-label") || "", w: r.width, h: r.height, slot: /^(Take back|Empty space)/.test(b.getAttribute("aria-label") || ""), cover, offscreen: r.bottom > innerHeight || r.top < 0 };
+    /* what a finger can SEE of it: the control clipped by the stage's own
+       edge (the stage scrolls, so a control past its bottom is cut there,
+       under the strip) and by the viewport - on the landscape phone every
+       tray sat 21 px under the strip with its box and centre in reach (the
+       reading chair, the seventh judgement) */
+    const stage = b.closest(".wq-stage") || document.querySelector(".wq-stage");
+    const s = stage ? stage.getBoundingClientRect() : { top: 0, bottom: innerHeight, left: 0, right: innerWidth };
+    const visible = { w: Math.max(0, Math.min(r.right, s.right, innerWidth) - Math.max(r.left, s.left, 0)), h: Math.max(0, Math.min(r.bottom, s.bottom, innerHeight) - Math.max(r.top, s.top, 0)) };
+    return { text: b.textContent.trim(), label: b.getAttribute("aria-label") || "", w: r.width, h: r.height, slot: /^(Take back|Empty space)/.test(b.getAttribute("aria-label") || ""), cover, offscreen: r.bottom > innerHeight || r.top < 0, visible, stageBottom: s.bottom };
   }));
 }
-/* An open-faults entry is OPEN while its heading carries no CLOSED or FIXED:
-   closed entries keep their headings ("## AB. ... CLOSED 2026-08-22"), so a
-   bare heading match would hold nothing (the sixth judgement). */
+/* An open-faults entry is OPEN while its heading ENDS at its opening date -
+   "... — opened 2026-08-22" and nothing after it. Closed entries keep their
+   headings and close them in more than one vocabulary ("CLOSED 2026-08-22 by
+   art step 1", "GATED 2026-08-15", "BUILT 2026-08-15", a wrapped "- opened
+   and / ## CLOSED ..."), so the positive form is the only one that holds: any
+   suffix closes it (the sixth and seventh judgements). */
 export function faultOpen(md, id) {
   const line = md.split(/\r?\n/).find((l) => l.startsWith("## " + id + ". "));
-  return !!line && !/\b(CLOSED|FIXED)\b/i.test(line);
+  return !!line && /[—-] opened \d{4}-\d{2}-\d{2}\s*$/.test(line);
 }
 export function buildHold(controls, floor = 56) {
   if (!controls.length) return [{ kind: "no-subject", detail: "no tile or slot on the screen" }];
   const findings = [];
   for (const c of controls) if (c.w < floor || c.h < floor) findings.push({ kind: "control-too-small", detail: '"' + c.label + '" is ' + c.w.toFixed(1) + " x " + c.h.toFixed(1) + " px, floor " + floor });
   for (const c of controls) if (c.cover || c.offscreen) findings.push({ kind: "control-unreachable", detail: '"' + c.label + '" is ' + (c.offscreen ? "off the screen" : "under " + c.cover) + " - a finger cannot reach it" });
+  /* on the screen and owning its centre, but cut by the stage's edge: what
+     shows of it is below the floor */
+  for (const c of controls) if (!c.cover && !c.offscreen && c.visible && (c.visible.h < c.h - 0.5 || c.visible.w < c.w - 0.5) && (c.visible.h < floor || c.visible.w < floor))
+    findings.push({ kind: "control-clipped", detail: '"' + c.label + '" shows only ' + c.visible.w.toFixed(0) + " x " + c.visible.h.toFixed(0) + " px of its " + c.w.toFixed(0) + " x " + c.h.toFixed(0) + " on the stage (floor " + floor + ") - the rest is cut at the stage's edge" });
   const tray = controls.filter((c) => !c.slot);
   const multi = tray.filter((c) => c.text.length > 1), single = tray.filter((c) => c.text.length === 1);
   if (!multi.length || !single.length) findings.push({ kind: "no-subject", detail: "the tray needs a multi-letter and a single-letter tile; got " + JSON.stringify(tray.map((c) => c.text)) });
