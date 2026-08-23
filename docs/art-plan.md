@@ -659,3 +659,8 @@ Newest last. A verdict names the chair, the step, the word, and the findings.
   a finger cannot reach (under anything, or off the screen), with a planted lid and a
   planted sunk tile through the reader; the compact sizes are in the provenance lock and
   read from the screen.
+- 2026-08-22 — The Build-it cell's largest tray found a second, older fault on the
+  phone-landscape profile: the whole tray below the fold (a 268 px stage cannot hold two
+  slot rows and three tray rows at S7's floor). Not the tile material's: recorded as
+  open-faults AE for the Build-it layout step, and the cell holds exactly that shape on the
+  landscape phone and zero unreachable controls everywhere else.

@@ -2252,3 +2252,23 @@ is a ruling on what free play offers a pre-ladder child, and the chooser matchin
   visible` a dashed `cyanStructural` ring at a positive offset, drawn so the open mark and
   the focus mark coexist (a box-shadow for one of them), with a test that reads both; this
   entry closes with it.
+
+## AE. A long word's Build-it tray is below the fold on a phone in landscape — opened 2026-08-22
+
+- **Where it lives** `app/src/screens/BuildItScreen.jsx`: the slot rows and the tray stack
+  vertically inside the stage; on the phone-landscape profile (iPhone 13 landscape,
+  844 × 390) the stage is about 268 px tall under the header and above the grown-up strip.
+- **What a child experiences today** With "breakfast" (eight slots, ten tiles) every tray
+  tile sits below the fold: the stage scrolls, but a child will not think to scroll, and
+  nothing says there is more. Measured by the census's Build-it cell on 2026-08-22 (all ten
+  tiles off the screen, none under anything); the cell holds exactly that shape on the
+  landscape phone so the fault cannot change silently, and holds zero unreachable controls
+  on every other profile. Portrait phones fit since the compact build (art step 1: 56 px
+  boxes below 360 px). Older than the ceramic step — two slot rows and three tray rows at
+  S7's floor are 304 px before the prompt and the message, which no tile size fixes.
+- **What done means** Build-it's layout step (bible 13.7, the garden-workshop surface —
+  art plan step 4 or the step the owner assigns) lays the slots and the tray out for a
+  short, wide stage (slots and tray each in one row at 56 px fit 844 px: 530 and 654 px)
+  or gives the stage a visible scroll affordance a child understands; the census's
+  Build-it cell then holds zero unreachable controls on the landscape phone too, and this
+  entry closes.
