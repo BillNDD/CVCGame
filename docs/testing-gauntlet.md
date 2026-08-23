@@ -1204,6 +1204,18 @@ what the ruling calls the README.
 
 ## G14b. The art budget (art project step 0c, owner-ruled 2026-08-22)
 
+- Tool: `tools/verify-published.mjs`. In `npm run check` as `--self-test` (13 controls).
+  It holds the two judgements the website's deploy makes: whether the downloaded artefact is
+  the one the gauntlet proved (the evidence says PASS, carries a hash, and that hash equals
+  the one recomputed from the extracted files), and whether what a family can then download
+  is what was released (the live `version.json` reports the proved commit and the tag's
+  version). Both were inline JavaScript inside `.github/workflows/pages.yml` until
+  2026-08-23, with no control and no run behind them — the release sweep found the whole
+  chain had never executed once. They are pure functions over plain data now, and the
+  workflow calls this file rather than thinking for itself. The controls plant each fault:
+  a FAIL evidence, a missing hash, a hash mismatch, a site still serving the previous build,
+  a site serving another version, and a deploy that cannot say what it published.
+
 - Tool: `tools/art-budget.mjs`. In `npm run check`: the tracked bytes under `app/public/art/`
   against `art_bytes_max` (12,582,912 — "12 MB for all art"), deterministic and identical
   on the runner and here, no build needed. In the gauntlet as "G14 art-budget", after

@@ -120,20 +120,15 @@ jobs:
           test -n "$COMMIT"
           echo "commit=$COMMIT" >> "$GITHUB_OUTPUT"
       - name: Refuse to publish anything the gauntlet did not prove
-        run: |
-          set -euo pipefail
-          node --input-type=module -e '
-            import { readFileSync } from "node:fs";
-            const { payloadHash } = await import("./tools/payload-hash.mjs");
-            const evidence = JSON.parse(readFileSync("/tmp/evidence.json", "utf8"));
-            const want = evidence.payload && evidence.payload.hash;
-            const got = payloadHash("app/dist");
-            const commit = evidence.commit_short || evidence.commit;
-            if (evidence.status !== "PASS") { console.error(`REFUSED: the evidence says ${evidence.status}, not PASS`); process.exit(1); }
-            if (!want) { console.error("REFUSED: the evidence carries no payload hash"); process.exit(1); }
-            if (got !== want) { console.error(`REFUSED: the downloaded build hashes ${got}, the evidence proved ${want} - these are not the bytes that were measured`); process.exit(1); }
-            console.log(`publishing the bytes proved on ${commit}: ${got}`);
-          '
+        # The judgement lives in tools/verify-published.mjs, with controls that
+        # plant each fault. It used to be inline JavaScript inside this YAML:
+        # untestable, and the release sweep of 2026-08-23 found the whole chain
+        # had never executed once. A detector nobody can call is a detector
+        # nobody can test (E5).
+        env:
+          EVIDENCE_FILE: /tmp/evidence.json
+          DIST_DIR: app/dist
+        run: node tools/verify-published.mjs --payload
       - uses: actions/upload-pages-artifact@v3
         with:
           path: app/dist
@@ -165,14 +160,5 @@ jobs:
             echo "the site has not published yet (try $i)"; sleep 10
           done
           cat /tmp/live.json
-          node --input-type=module -e '
-            import { readFileSync } from "node:fs";
-            const live = JSON.parse(readFileSync("/tmp/live.json", "utf8"));
-            const sha = process.env.RELEASE_SHA || "";
-            const tag = process.env.RELEASE_TAG || "";
-            if (!live.version || !live.build) { console.error("REFUSED AFTER THE FACT: the live site served no version and build to read"); process.exit(1); }
-            if (!sha.startsWith(live.build)) { console.error(`REFUSED AFTER THE FACT: the live site reports build ${live.build}, which is not the commit the gauntlet proved, ${sha.slice(0, 12)}`); process.exit(1); }
-            if (!tag || !sha) { console.error("REFUSED AFTER THE FACT: the deploy could not say which release it published, so there is nothing to check it against"); process.exit(1); }
-            if (tag !== "v" + live.version) { console.error(`REFUSED AFTER THE FACT: the live site reports ${live.version}, the release is ${tag}`); process.exit(1); }
-            console.log(`the live site reports ${live.version} at ${live.build}, the released commit`);
-          '
+          LIVE_FILE=/tmp/live.json node tools/verify-published.mjs --live
+

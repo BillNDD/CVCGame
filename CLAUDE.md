@@ -295,7 +295,11 @@ exclusions are recorded in SPEC section 12.
   both sides at zero) plus the art budget (`tools/art-budget.mjs`: the tracked art's bytes
   under the 12 MB the owner ruled on 2026-08-22) plus the provenance reader
   (`tools/provenance-check.mjs`: every art family's record in the shape the bible's
-  section 17 ruling asks, its tokens against `C`), about half a minute. A red
+  section 17 ruling asks, its tokens against `C`) plus the release command's own controls
+  and the deploy's (`tools/release.mjs --self-test` and
+  `tools/verify-published.mjs --self-test`, added 2026-08-23 after a sweep found that the
+  refusals standing between a bad artefact and a child's device ran in no gate at all and
+  had never once executed), about half a minute. A red
   check blocks the change. The quality lint joined the check on 2026-08-12, owner-ruled, after the gap it left
   cost two defects in one day: a `font:` shorthand the quality controls have refused since
   2026-07-29 shipped a label at four times its intended size, and a file went over the
