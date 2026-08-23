@@ -2387,28 +2387,3 @@ is a ruling on what free play offers a pre-ladder child, and the chooser matchin
   rail's and the strip's height back in landscape — and the census's sounding cell holds
   zero findings on the landscape phone, the full census's close and wrong reveal cells are
   green there, and the landscape pin in the sounding cell is removed with this entry.
-
-## AH. "ding" is taught at Level 28 and recorded as refused — opened 2026-08-23
-
-- **Where it lives** `SPEC.md` teaches it: section 3's level table gives Level 28 (the ng
-  sound) as "sing king long bang fang gong hang hung lung bring something ding ping rang
-  ring rung sang song", and the word has a shipped clip in the voice pack. The same
-  document refuses it: section 12's target-vocabulary ruling of 2026-08-16 records the
-  owner refusing fifteen of the primer's 434 words, "thirteen book-artifacts and character
-  names (blap, ruck, **ding**, blam, biff, beagle, boo, zzzz, ho, sam, let's, eagle's,
-  don't)", and `docs/settled.md` records the same. One document says both things.
-- **What a child experiences today** A child at Level 28 is taught "ding" and hears it
-  spoken, and a Build-it tray can deal it. Nothing is unsafe about the word itself — it is
-  an ordinary English word (a ding in a car door, ding-dong) — which is why this is a
-  contradiction to settle rather than a fault to fix in a hurry: the refusal was of the
-  primer's comic-book sound effect, and the level's use may be the ordinary word. Found by
-  the beta 27 readiness audit on 2026-08-23, when the refusal gate was widened from the
-  single 2026-08-07 sentence to every dated refusal SPEC carries and immediately named it.
-- **What done means** The owner rules: either "ding" stays a taught Level 28 word and
-  SPEC's refusal list records the exception with its reason (the refusal was the primer's
-  artifact, not the word), or it leaves Level 28 the way "gob" left Level 5 — from the
-  level, the pack, the word table and the waiting room, so it cannot return by accident.
-  Whichever way, `SPEC.md`'s level table, its refusal list, `docs/settled.md` and the
-  engine agree, and doc-truth's refusal rule stops skipping "ding" by name — the skip is
-  written against THIS entry and lasts only while it is open.
-

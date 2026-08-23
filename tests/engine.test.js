@@ -1329,11 +1329,16 @@ describe("Build-it tray", () => {
        speaks what was built; "gun" (2026-08-16) and fight, hustle and grind
        (2026-08-18) were unguarded for the same reason - nothing had read a
        refusal list since the day this one was typed. Literal (E4). */
-    for (const w of ["ho", "sam", "gun", "fight", "hustle", "grind"]) expect(NEVER_BUILD, w).toContain(w);
-    expect(NEVER_BUILD.length).toBe(15);   // hunt came off the list 2026-08-17; six joined it 2026-08-23
+    for (const w of ["ho", "gun", "fight", "hustle", "grind"]) expect(NEVER_BUILD, w).toContain(w);
+    expect(NEVER_BUILD.length).toBe(14);   // hunt came off 2026-08-17; five joined 2026-08-23
     /* and a book-artifact refusal is NOT here: a child spelling "blap" is no
-       safety matter, and guarding it would take buildable words off the board */
+       safety matter, and guarding it would take buildable words off the board.
+       "sam" is not here either, owner-ruled 2026-08-23 ("Ho I want out. Sam is
+       fine."): it was refused as a book character's name, a candidate turned
+       down rather than a word a child must never spell. An absence nothing
+       asserts is an absence a later audit re-adds. */
     expect(NEVER_BUILD).not.toContain("blap");
+    expect(NEVER_BUILD).not.toContain("sam");
   });
 
   it("is reproducible: the same rand builds the same tray", () => {

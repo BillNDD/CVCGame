@@ -2014,3 +2014,24 @@ found ("Mom asked, milk?") was fixed as a sentence edit in the same ruling, not 
 convention change. A screen or a round does not raise either pattern again this beta;
 the literacy question - whether did-past helps or hurts a pre-reader - is queued for
 the next one.
+
+## "ding" is taught, and the refusal was of the primer's sound effect — owner-ruled 2026-08-23
+
+The beta 27 readiness audit found `SPEC.md` saying two things about the same word: Level 28
+(the `ng` sound) teaches **ding**, with a clip approved in listening round 33, while section
+12's target-vocabulary ruling of 2026-08-16 lists it among the fifteen words the owner
+refused from the primer's index — thirteen of them book artifacts and character names.
+
+The owner ruled: **it stays taught.** The refusal was of the primer's comic-book sound
+effect, not of the English word (a ding in a car door, ding-dong). SPEC section 12 now
+carries the exception as its own dated sentence, and `tools/doc-truth.mjs` READS that
+sentence rather than being told a word to ignore — the exception excuses the taught check
+only, never the build guard, so a later exception cannot silently disarm what a tray may
+spell. Open-faults AH closed with this ruling.
+
+Ruled on the same day, from the same audit: **sam is not build-guarded** ("Ho I want out.
+Sam is fine."). It was refused on 2026-08-16 as a book character's name — a candidate
+turned down, not a word a child must never spell — so it is neither taught nor guarded.
+**ho stays guarded**, with gun, fight, hustle and grind, all of which a tray could spell and
+none of which anything guarded until that night. A later screen does not raise these again.
+

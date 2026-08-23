@@ -1367,6 +1367,26 @@ turned down. A later screen does not raise these four again. The screen also rem
 and corrected the British "neighbour" to "neighbor" before offering it, because SPEC section
 12a rules General American.
 
+**Taught despite the refusal, owner-ruled 2026-08-23: ding.** The 2026-08-16 refusal was
+of the primer's comic-book sound effect, not of the English word; Level 28 teaches the
+ordinary word (a ding in a car door, ding-dong), its clip was approved in listening round
+33, and it needs no build guard. This is the only word on any refusal list that the engine
+may teach, and `tools/doc-truth.mjs` reads this sentence rather than being told a word to
+ignore.
+
+**Build-guarded (a tray must never let a child spell these), as of 2026-08-23:** fist,
+limp, bone, buns, dump, milt, gob, jugs, crabs, ho, gun, fight, hustle, grind. This is the
+list `NEVER_BUILD` must equal, in both directions: a word here that the engine does not
+guard is a hole, and a word the engine guards that is not here is a guard nobody ruled.
+The 2026-08-07 sentence, gob, gun and the 2026-08-18 three are here because they are
+appropriateness refusals; **ho** is here because it carries adult slang, and **sam is NOT**
+— owner-ruled 2026-08-23, "Ho I want out. Sam is fine.": sam was refused on 2026-08-16 as
+a book character's name, a candidate turned down rather than a word a child must never
+spell, so it is not taught and needs no tray guard. Book artifacts (blap, ruck, blam,
+biff, beagle, boo, zzzz, let's, eagle's, don't) are refused the same way and are guarded
+the same way: not at all. A child spelling "blap" is no safety matter, and guarding it
+would take buildable words off the board for nothing.
+
 Ruled FINE by the owner on 2026-08-19, when the redesign's screen raised them from the
 hundred-level ladder: **bet, gut, jab, lash, loss, mob, muck, mush** and **whip**. The
 owner's words were "keep them", given on a decision page that costed the alternative in

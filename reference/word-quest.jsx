@@ -2121,21 +2121,30 @@ const NO_TRAY_UNITS = ["ai", "ou", "ey", "ere", "ea", "oo", "ow", "ie", "ugh"]; 
    Found by an independent review of Build-it, 2026-08-17. */
 /* The 2026-08-07 appropriateness list, plus gob and the two ruled-out
    plurals - and since 2026-08-23 the refusals from the 2026-08-16 target
-   vocabulary that a TRAY could spell: "ho", which carries adult slang, and
-   "sam", which is a given name the S9 gate refuses anywhere else in the
-   repository. The beta 27 readiness audit found them reachable: a two-slot
-   build whose tray carries an h and an o spells ho, and 184 three-tile bank
-   words are two distractors away from sam - and Build-it then prints and
-   speaks what the child built. "gun" joins them: the owner refused it on
-   2026-08-16 by the appropriateness screen, and it was guarded nowhere.
-   The three the owner refused on 2026-08-18 for the same reason - fight for
-   violence, hustle and grind for adult slang - join them.
-   The list had held only the 2026-08-07 words,
-   because it was written that day and no refusal since had been added to
-   it. "ding" is NOT here: it is a taught Level 28 word AND recorded as
-   refused, a contradiction only the owner can settle (open-faults AH). */
+   vocabulary that a TRAY could spell: "ho", which carries adult slang. The
+   beta 27 readiness audit found it reachable - a two-slot build whose tray
+   carries an h and an o spells it, and Build-it then prints and speaks what
+   the child built. "gun" joins it: the owner refused it on 2026-08-16 by the
+   appropriateness screen, and it was guarded nowhere. So do the three the
+   owner refused on 2026-08-18 for the same reason - fight for violence,
+   hustle and grind for adult slang. The list had held only the 2026-08-07
+   words, because it was written that day and no refusal since had been
+   added to it.
+
+   TWO WORDS ARE DELIBERATELY NOT HERE, both owner-ruled 2026-08-23. "sam"
+   was refused on 2026-08-16 as a book character's name - a candidate turned
+   down, not a word a child must never spell - and the owner ruled "Ho I want
+   out. Sam is fine.", so it is not taught and needs no tray guard. "ding" is
+   a taught Level 28 word: the refusal was of the primer's comic-book sound
+   effect, not of the English word.
+
+   THIS LIST IS NOT THE AUTHORITY - SPEC section 12's dated "Build-guarded"
+   sentence is, and doc-truth requires the two to be EQUAL in both
+   directions: a word declared there and missing here is a hole, a word here
+   and undeclared there is a guard nobody ruled. No word is typed into the
+   gate itself any more; it reads the document that owns the fact. */
 const NEVER_BUILD = ["fist", "limp", "bone", "buns", "dump", "milt", "gob",
-  "jugs", "crabs", "ho", "sam", "gun", "fight", "hustle", "grind"];
+  "jugs", "crabs", "ho", "gun", "fight", "hustle", "grind"];
 /* Can these tiles, in some order, spell a word from that list? A tray is a
    multiset, so a tile is consumed once per slot: "dad" holds two d tiles and
    spells nothing with one. */
