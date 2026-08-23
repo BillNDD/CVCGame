@@ -55,6 +55,12 @@ This document follows the Microsoft Writing Style Guide.
     Expected: The speaker control is dimmed, and a tap makes no sound.
 12. During feedback, tap the speaker control.
     Expected: The app says the full word clearly, at a natural speed, never letter names.
+12b. In the "Grown-ups corner", switch sound off, then start a session, grade one word, and hold the phone upright.
+    Expected: The speaker control in the strip is grey and does nothing to a tap or a hold.
+    The small light in the top corner of the play area shows its off look: an outline with a
+    dashed edge and no lit middle. The grown-up line under the controls reads "Parent: sound
+    is off". The word, the tiles and the controls sit exactly where they did with sound on —
+    nothing moves. Switch sound back on before the next step.
 13. With a keyboard attached, press Tab to a result control, then Enter.
     Expected: The result records at once, with no hold.
 
@@ -124,6 +130,12 @@ This document follows the Microsoft Writing Style Guide.
     Expected: There is no "The recorded voice" box, because nothing has fallen back. Grade
     one word with sound on, listen to the whole reveal, and come back: still no box, and the
     sound-out lit up letter by letter as each sound played.
+
+32b. With sound on, grade a word correct and watch the small light in the top corner of the play area while the game speaks; then put the app in the background while a reveal is still speaking, come back, and grade another word without touching anything else.
+    Expected: The light comes on as the voice starts and is out again by the time the voice
+    stops. It is never lit while the screen is silent, and it does not flicker on and off
+    between the sounds of a word. After coming back, if the "Grown-ups corner" now shows the
+    recorded-voice box, the light stays dark for that whole reveal.
 
 ## Updates
 
