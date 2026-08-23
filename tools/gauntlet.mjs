@@ -273,9 +273,12 @@ step("G11 copy", "node tools/copy-lint.mjs && node tools/copy-lint.mjs --self-te
 
 const suiteOut = step("G1+G2+G9+G10 tests", "npx vitest run --coverage", [
   /* engine.test.js split on 2026-08-21 (the recompute rails pushed it past
-     the 1,400-line ceiling); the SUM keeps the floor whole, the safety-split
-     pattern. The first regex cannot match the second file's name. */
-  { label: "unit", regexes: [/(?<!migrate\.)engine\.test\.js\s+\((\d+) tests\)/, /migrate\.test\.js\s+\((\d+) tests\)/], floorKey: "g1_unit_tests" },
+     the 1,400-line ceiling) and AGAIN on 2026-08-23, when the build guard's
+     new whole-bank and build-size tests pushed it back over: the Build-it
+     tray's block became build-tray.test.js. The SUM keeps the floor whole, the
+     safety-split pattern, and a ceiling is never raised to avoid a split (E6).
+     The first regex cannot match the other two file names. */
+  { label: "unit", regexes: [/(?<!migrate\.)engine\.test\.js\s+\((\d+) tests\)/, /migrate\.test\.js\s+\((\d+) tests\)/, /build-tray\.test\.js\s+\((\d+) tests\)/], floorKey: "g1_unit_tests" },
   { label: "scheduler", regex: /scheduler\.test\.js\s+\((\d+) tests\)/, floorKey: "g1_scheduler_tests" },
   { label: "properties", regex: /properties\.test\.js\s+\((\d+) tests\)/, floorKey: "g2_properties" },
   { label: "faults", regex: /faults\.test\.js\s+\((\d+) tests\)/, floorKey: "g9_fault_tests" },

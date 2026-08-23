@@ -209,6 +209,24 @@ function reclaimOutput() {
    was written: onended fires at a natural end, on stop(), and 1,500 ms
    late through a context suspended that long - which is how the census's
    Glowseed cell tells an event from a timer. */
+/* THE LOST END, ACTUALLY WIRED (the council's re-judgement, 2026-08-23). The
+   paragraph above said a lost end "lasts until the next stopClips()", and the
+   art plan said the turn's own 10 s guard caught it. It did not: that guard
+   arms the advance control and never touches the audio, so a context closed
+   mid-utterance - reclaimOutput, an iOS interruption that never resumes -
+   left `pending` above zero for ever and the object LIT for ever, over
+   silence, until the child was moved on by hand. The object must never be lit
+   while the screen is silent, so the player itself carries the net: when a
+   start is emitted, a timer is armed at the utterance's own SCHEDULED length
+   plus ten seconds, and if the nodes have still not reported by then the end
+   is emitted anyway. It is keyed to the measured length rather than to a flat
+   delay, so it can never fire during a real utterance however long the word
+   is; ten seconds of slack also leaves the census's 1,500 ms suspend control
+   telling an event from a timer, as it must. It ends the LIGHT and stops
+   nothing: if audio is somehow still playing, cutting it off would be the
+   worse fault. */
+const LOST_END_SLACK_MS = 10000;
+let lostEnd = null;
 const audioListeners = new Set();
 let litToken = null;                 // the utterance whose start was emitted and not yet ended
 export function onAudio(listener) {
@@ -218,8 +236,14 @@ export function onAudio(listener) {
 function emitAudio(evt) {
   for (const fn of [...audioListeners]) { try { fn(evt); } catch { /* a listener never breaks the voice */ } }
 }
-function audioStarted(my, ms) { litToken = my; emitAudio({ state: "start", token: my, ms }); }
-function audioEnded(my) { if (litToken !== my) return; litToken = null; emitAudio({ state: "end", token: my }); }
+function clearLostEnd() { if (lostEnd) { clearTimeout(lostEnd); lostEnd = null; } }
+function audioStarted(my, ms) {
+  litToken = my;
+  clearLostEnd();
+  lostEnd = setTimeout(() => { lostEnd = null; audioEnded(my); }, Math.max(0, ms || 0) + LOST_END_SLACK_MS);
+  emitAudio({ state: "start", token: my, ms });
+}
+function audioEnded(my) { if (litToken !== my) return; litToken = null; clearLostEnd(); emitAudio({ state: "end", token: my }); }
 
 export function stopClips() {
   const ending = token;

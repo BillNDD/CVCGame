@@ -392,9 +392,17 @@ every scheduled node of the utterance, the hum's oscillators included, has fired
 counted to zero and keyed by the utterance's token so a stopped utterance's late `onended`
 never darkens the next; `stopClips()` ends it too (its stop fires `onended`, so it needs no
 hook). A silent pack never starts, so it never lights. A lost end — a context closed by
-`reclaimOutput`, an iOS interruption that never resumes — is caught by the turn's own long
-backstop (B17's 10 s), recorded as the safety net it is and long enough that the 1,500 ms
-suspend control still separates an event from a timer. The object subscribes and switches a
+`reclaimOutput`, an iOS interruption that never resumes — is caught by a net the PLAYER
+carries: a timer armed at the utterance's own measured length plus ten seconds, which emits
+the end if the nodes never report. This paragraph named the turn's long backstop (B17's
+10 s) until 2026-08-23, and that was WRONG — the turn's guard arms the advance control and
+never touches the audio, so nothing caught a lost end and the object stayed lit over silence
+until the child was moved on by hand. The council's engineering seat found it by reading the
+backstop rather than the sentence. Keying the net to the measured length means it can never
+fire during a real utterance however long the word is, and ten seconds of slack leaves the
+1,500 ms suspend control still separating an event from a timer. It ends the LIGHT and stops
+nothing. Guarded in the real module by voicepacks.test.js, whose control removes the net and
+watches the test fail. The object subscribes and switches a
 class; nothing else reads the events. The system-speech fallback (`speak` in the reference
 build) stays **idle**: recorded audio only, as bible 7 scopes it, no engine change, and the
 corner's B7 note gains "and the listening light stays dark" (the reading chair's (a); the
@@ -445,10 +453,12 @@ reading order); absent where it cannot fit, the layout never moved. Byte share 5
 spent at 0 under B or D (a provenance row opened, declared a placeholder under D; at step 6
 one sprite, three painted states × two scales = 6 indexed PNGs of a few hundred bytes —
 about 2.3 KB measured on a synthetic seed — no crops, which are the garden's). The electric
-figure per profile goes in the provenance row beside the band's 0.44 %: the band plus an
-8 px core (≈0.02 %) plus a 2 px light (≈0.05 %) is about 0.51 % on the iPhone 13 and 0.62 %
-on the Galaxy, under 9.1's 1–3 % with room — value weight, not the budget, is the
-constraint.
+figure per profile goes in the provenance row beside the band's 0.44 %. That row now holds a
+MEASURED figure and this paragraph defers to it rather than repeating an estimate it has
+outlived: 0.417 % on the iPhone 13 and 0.512 % on the Galaxy, counted on the checkpoint
+renders, against an arithmetic guess of 0.51 / 0.62 made from a core that shipped at 7 px
+rather than the 8 px the guess assumed. Both are under 9.1's 1–3 % with room — value weight,
+not the budget, is the constraint.
 
 **Stage 2, the notan, and checkpoint 1.** Greyscale renders with the word on the Galaxy and
 the iPhone 13 at least, of the reveal with a tile sounding, the sentence reveal, Build-it
@@ -1104,3 +1114,34 @@ Newest last. A verdict names the chair, the step, the word, and the findings.
   edges, event ordering, error paths, resource release, a test that proves a behaviour
   against one that repeats it) added to what it already asked. Seated from step 3's before
   pass; step 2's passes ran under the older framing and no rule moved.
+- 2026-08-23 — **Step 2's first after pass** (the three chairs on the built object, before
+  any owner ruling). Verdicts: art director NOT SATISFIED, reading chair NOT SATISFIED,
+  antagonist NOT SATISFIED. Seven fixes were taken, each verified before it was taken: the
+  silhouette went off-axis in both directions and into the provenance lock as `radius` plus
+  `coreOffset`, with a control that refuses it by name when the core returns to an axis; the
+  scaffold's quiet stopped ending on a clock and started ending on the last slot's own
+  report; a win landing mid-scaffold lifted the quiet, so the celebration is not spoken over
+  a dark object; a child on the first rungs with sound off is refused a session they cannot
+  answer, in the chooser's own voice; the census graded the replay control AFTER the grade
+  rather than before; `glowseedHold` sliced all three logs; and doc-truth's state-table rule
+  became per-table with a control that deletes the Glowseed's own table. Two findings were
+  verified FALSE and NOT taken — an audit that claimed the word bank had never been screened
+  since the 461→1,123 cutover (SPEC records a dated whole-bank screen on 2026-08-20, all
+  1,123 read, and the bank has not changed a word since), and a chair calling a live Build-it
+  state dead.
+- 2026-08-23 — **Step 2's re-judgement**, the three chairs on the fixed build with 72 renders
+  shot from it, then two independent verification lenses over all 29 findings. The lenses
+  agreed on every one but two severities, and **withdrew one**. Verdicts: all three chairs
+  NOT SATISFIED, and on one theme — the code fixes were real and three of them were guarded
+  by tests that passed identically on the broken build. Taken and closed: buildit 26c holds
+  the scaffold's last slot's report and stands past the old clock (it fails on the reverted
+  build, measured); 26d wins mid-scaffold and reads the object; three Glowseed app mutants
+  were added, the family having had none, each applied by hand and watched to fail its named
+  test; the refusal sentence moved from `ink2` (3.91 / 3.81 / 4.17 on the sky stops, under
+  the 4.5 floor at 12.5 px) to `strip` (4.75 / 4.63 / 5.07) and is now named by the control
+  it explains, with reveal 15f asserting both; and the lost audio end, which this plan
+  claimed the turn's 10 s guard caught and it did not, is caught by a net the player carries,
+  guarded in the real module with a control that removes it. Still open at the time of
+  writing: **checkpoint 2's missing render** — Build-it's arrangement playback, the one
+  screen where the object's lit rim and the slots' arrangement ring are the same token — put
+  to the owner as a decision.

@@ -30,7 +30,7 @@
  *      node tools/release.mjs --self-test
  */
 import { execFileSync } from "node:child_process";
-import { readFileSync, writeFileSync, existsSync, mkdtempSync, rmSync } from "node:fs";
+import { readFileSync, writeFileSync, existsSync, mkdtempSync, mkdirSync, rmSync } from "node:fs";
 import { join } from "node:path";
 import { tmpdir } from "node:os";
 import { pathToFileURL } from "node:url";
@@ -144,6 +144,34 @@ function selfTest() {
   ok.push(["a remote with no such tag reads as nothing, and nothing is not HEAD", remoteTagSha("1.0.0-beta.27", () => "") === "" && "" !== head]);
   ok.push(["the read-back asks the remote for the tag, not the local repository",
     (() => { let asked = null; remoteTagSha("1.0.0-beta.27", (...a) => { asked = a; return lightweight(); }); return !!asked && asked[0] === "ls-remote" && asked[1] === "origin"; })()]);
+  /* THE ASSET HALF HAD NO CONTROL OF ANY KIND (the engineering seat's after
+     pass, 2026-08-23): this command now attaches the proved app/dist as a
+     tarball and the website publishes those exact bytes, and the whole chain
+     rests on one property nobody was guarding - payload-hash mixes each file's
+     CWD-RELATIVE PATH STRING into the digest, so a tarball that extracts one
+     directory away hashes differently for no reason and the deploy refuses a
+     correct build. It was measured by hand once. Here it is measured every
+     check, on a planted tree rather than on a build. */
+  ok.push(...(() => {
+    const dir = mkdtempSync(join(tmpdir(), "wq-hash-"));
+    try {
+      const bytes = "<!doctype html><title>t</title>";
+      for (const rel of ["app/dist", "dist"]) {
+        mkdirSync(join(dir, rel), { recursive: true });
+        writeFileSync(join(dir, rel, "index.html"), bytes);
+      }
+      const here = process.cwd();
+      process.chdir(dir);
+      const atAppDist = payloadHash("app/dist");
+      const again = payloadHash("app/dist");
+      const oneUp = payloadHash("dist");
+      process.chdir(here);
+      return [
+        ["the payload hash of the same tree is the same twice", atAppDist === again],
+        ["the payload hash is tied to the path the bytes land at, so the tarball must extract to app/dist", atAppDist !== oneUp],
+      ];
+    } finally { rmSync(dir, { recursive: true, force: true }); }
+  })());
   for (const [name, pass] of ok) console.log((pass ? "ok   " : "FAIL ") + name);
   const failed = ok.filter(([, p]) => !p).length;
   console.log(`\nrelease controls: ${ok.length - failed} passed, ${failed} failed`);

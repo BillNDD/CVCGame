@@ -8,7 +8,7 @@ Per-test rows carry the test's own sentence, which in this project IS the
 Given/When/Then effect. The requirement, oracle, platform, mutant family, evidence
 and known limits are declared per FILE, in the tool, where they stay true.
 
-Totals: 427 it() SITES across 21 files, plus 18 gates that are not test files.
+Totals: 434 it() SITES across 22 files, plus 18 gates that are not test files.
 
 A site inside a loop or a table runs many times, so these rows describe more tests than they number: Vitest executes 330. The rows count the places behaviour is asserted.
 
@@ -34,7 +34,35 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 8 | G10 — the text a grown-up reads on the child's screen | 27: one completed session counts as '1 session', not '1 sessions' |
 | 9 | G10 — the text a grown-up reads on the child's screen | 28 (control): two sessions still count as '2 sessions' |
 
-## tests/buildit.test.js — 30 tests (G10)
+## tests/build-tray.test.js — 15 tests (G1)
+
+- **Requirement protected:** SPEC section 12's Build-it tray: what a tray may hold, and that no tray a child is dealt can be laid out as a build-guarded word at ANY build size
+- **Independent oracle:** Literal expected values and seeded sweeps written from SPEC by hand (E4): the guarded list is asserted by length and by member, and the sweeps assert zero hits over deals whose seed is fixed so a failure is reproducible.
+- **Platform:** node
+- **Mutant family:** G5 build-guard family (the accumulating distractor check, the guard itself, the teaching-split restriction)
+- **Evidence produced:** Vitest counts (summed into floor g1_unit_tests with engine.test.js and migrate.test.js - the 2026-08-23 split)
+- **Known limits — what these tests do NOT prove:** Proves no DEALT tray spells a guarded word; it does not decide WHICH words should be guarded, which is SPEC's dated sentence and the owner's ruling.
+- **Safety rules proved here:** S8 (unit)
+
+| # | Suite | Effect (the test's own sentence) |
+|---|---|---|
+| 1 | Build-it tray | gives the word its true number of slots, never a padded one |
+| 2 | Build-it tray | ramps the extra tiles: none, then one from Level 6, then two past 14 |
+| 3 | Build-it tray | always offers every tile the answer needs |
+| 4 | Build-it tray | never offers a distractor that is one of the word's own tiles |
+| 5 | Build-it tray | keeps units with no ruled default out of the pool |
+| 6 | Build-it tray | keeps the vowels, so a child can be offered i against a |
+| 7 | Build-it tray | refuses a distractor that would sound exactly like one of the word's own tiles |
+| 8 | Build-it tray | only draws graphemes a child at that level has met |
+| 9 | Build-it tray | gives every answer tile in the order the word is built |
+| 10 | Build-it tray | offers a tile for every slot, even when a sound repeats |
+| 11 | Build-it tray | refuses a distractor that would let a child spell a ruled-out word |
+| 12 | Build-it tray | never offers a word whose own tiles spell a ruled-out one |
+| 13 | Build-it tray | no dealt tray spells a forbidden word, however the distractors fall - the whole bank, many deals |
+| 14 | Build-it tray | a guarded word is unreachable at EVERY build size, not only the one its teaching split uses |
+| 15 | Build-it tray | is reproducible: the same rand builds the same tray |
+
+## tests/buildit.test.js — 32 tests (G10)
 
 - **Requirement protected:** SPEC section 12: Build-it writes nothing to the record, speaks the word before the tiles, and ends every attempt in success
 - **Independent oracle:** A source tripwire with fixture controls and a real-source mutation, plus a walked loop with a held tray
@@ -61,21 +89,23 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 13 | the ceramic tile states | 23: the scaffold rings one slot at a time, in sound order, with the letter at .6 inside it |
 | 14 | the ceramic tile states | 26: the Glowseed stays idle through the scaffold's one-clip-per-slot plays, lights for a play after it, and wears the muted look when the screen is muted |
 | 15 | the ceramic tile states | 26b: a muted build (sound off) wears the muted look whatever plays |
-| 16 | the ceramic tile states | 27: the tray's sizes follow the phone, not the render that drew them - a rotation resizes the tiles with no tap in between |
-| 17 | the ceramic tile states | 27b: with no matchMedia at all - jsdom, and any browser too old for it - the tray still sizes itself from the width |
-| 18 | the ceramic tile states | 24: a completed word wears one halo on the slot row round the assembled word, and every tray tile is disabled and used |
-| 19 | the ceramic tile states | 25: a win during the scaffold takes the cue ring off the slot it was on |
-| 20 | Build-a-sound, for a child still on the ladder | 9: Pre 1 gets no tray at all — it has met no letters |
-| 21 | Build-a-sound, for a child still on the ladder | 10: the tray is exactly what the rung has taught, and grows with it |
-| 22 | Build-a-sound, for a child still on the ladder | 11: no tile is silent, and none is a letter the rung has not reached |
-| 23 | Build-a-sound, for a child still on the ladder | 12: finding the sound wins, and a wrong tile invites another try |
-| 24 | Build-a-sound, for a child still on the ladder | 13: a miss hands the tray back by itself - the wrong tile does not sit in the slot |
-| 25 | free play builds go on until Done | 19: a child at level 1 and at level 2 gets a build, not an error |
-| 26 | free play builds go on until Done | 18: every level's build window holds words, the first two included |
-| 27 | free play builds go on until Done | 17: a long word's celebration is never cut off - the turn ends when the sound does |
-| 28 | free play builds go on until Done | 15: 'Build a level word' deals the level's own word, mastery elsewhere notwithstanding |
-| 29 | free play builds go on until Done | 16: 'Build any word' opens a build at all |
-| 30 | free play builds go on until Done | 14: a found sound is followed by another sound, and Done goes home |
+| 16 | the ceramic tile states | 26c: the scaffold's quiet ends on the last slot's own report, never on a clock |
+| 17 | the ceramic tile states | 26d: a win during the scaffold lets the celebration light the object |
+| 18 | the ceramic tile states | 27: the tray's sizes follow the phone, not the render that drew them - a rotation resizes the tiles with no tap in between |
+| 19 | the ceramic tile states | 27b: with no matchMedia at all - jsdom, and any browser too old for it - the tray still sizes itself from the width |
+| 20 | the ceramic tile states | 24: a completed word wears one halo on the slot row round the assembled word, and every tray tile is disabled and used |
+| 21 | the ceramic tile states | 25: a win during the scaffold takes the cue ring off the slot it was on |
+| 22 | Build-a-sound, for a child still on the ladder | 9: Pre 1 gets no tray at all — it has met no letters |
+| 23 | Build-a-sound, for a child still on the ladder | 10: the tray is exactly what the rung has taught, and grows with it |
+| 24 | Build-a-sound, for a child still on the ladder | 11: no tile is silent, and none is a letter the rung has not reached |
+| 25 | Build-a-sound, for a child still on the ladder | 12: finding the sound wins, and a wrong tile invites another try |
+| 26 | Build-a-sound, for a child still on the ladder | 13: a miss hands the tray back by itself - the wrong tile does not sit in the slot |
+| 27 | free play builds go on until Done | 19: a child at level 1 and at level 2 gets a build, not an error |
+| 28 | free play builds go on until Done | 18: every level's build window holds words, the first two included |
+| 29 | free play builds go on until Done | 17: a long word's celebration is never cut off - the turn ends when the sound does |
+| 30 | free play builds go on until Done | 15: 'Build a level word' deals the level's own word, mastery elsewhere notwithstanding |
+| 31 | free play builds go on until Done | 16: 'Build any word' opens a build at all |
+| 32 | free play builds go on until Done | 14: a found sound is followed by another sound, and Done goes home |
 
 ## tests/chunker.test.js — 14 tests (G1)
 
@@ -104,7 +134,7 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 13 | the extended code | gives the four single-taught spellings their level's own sound |
 | 14 | the extended code | reads no word out of bare punctuation |
 
-## tests/engine.test.js — 107 tests (G1)
+## tests/engine.test.js — 93 tests (G1)
 
 - **Requirement protected:** SPEC sections 3-4: the word bank, levels, chunking, the Leitner ladder, session shape and the reveal plan
 - **Independent oracle:** Literal expected values written from SPEC by hand (E4). Never the constant under test.
@@ -209,20 +239,6 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 91 | G1 — the system voice is never given a word it says wrongly | 77: the clip plan carries the new line to the pack |
 | 92 | G1 — the system voice is never given a word it says wrongly | 78: the sentence praise roster is exactly the rows that never say "word", both halves pinned |
 | 93 | G1 — the system voice is never given a word it says wrongly | 79: the sentence lead is the grade's exact clip, and an off-roster index cannot praise with a word-line |
-| 94 | Build-it tray | gives the word its true number of slots, never a padded one |
-| 95 | Build-it tray | ramps the extra tiles: none, then one from Level 6, then two past 14 |
-| 96 | Build-it tray | always offers every tile the answer needs |
-| 97 | Build-it tray | never offers a distractor that is one of the word's own tiles |
-| 98 | Build-it tray | keeps units with no ruled default out of the pool |
-| 99 | Build-it tray | keeps the vowels, so a child can be offered i against a |
-| 100 | Build-it tray | refuses a distractor that would sound exactly like one of the word's own tiles |
-| 101 | Build-it tray | only draws graphemes a child at that level has met |
-| 102 | Build-it tray | gives every answer tile in the order the word is built |
-| 103 | Build-it tray | offers a tile for every slot, even when a sound repeats |
-| 104 | Build-it tray | refuses a distractor that would let a child spell a ruled-out word |
-| 105 | Build-it tray | never offers a word whose own tiles spell a ruled-out one |
-| 106 | Build-it tray | no dealt tray spells a forbidden word, however the distractors fall - the whole bank, many deals |
-| 107 | Build-it tray | is reproducible: the same rand builds the same tray |
 
 ## tests/faults.test.js — 23 tests (G9)
 
@@ -460,7 +476,7 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 9 | G2 properties | P9: the session opens with the most secure word |
 | 10 | G2 properties | P10: migrate is total and idempotent, and its output survives the engine |
 
-## tests/reveal.test.js — 23 tests (G10)
+## tests/reveal.test.js — 25 tests (G10)
 
 - **Requirement protected:** SPEC section 5: the reveal, its pauses, the skip, and silence before the attempt ends
 - **Independent oracle:** The literal clip plan and stated timings
@@ -478,23 +494,25 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 4 | G10 — the child hears the word before the app lets them move on | 3b: with sound OFF there is no reveal to wait for, and the guard arms at once |
 | 5 | G10 — the child hears the word before the app lets them move on | 15: the Glowseed is in the stage, hidden from assistive technology, idle on the attempt, lit and darkened by the lifecycle's own events |
 | 6 | G10 — the child hears the word before the app lets them move on | 15d: with sound OFF a child on the ladder is never dealt a session they cannot answer - the control refuses and says why |
-| 7 | G10 — the child hears the word before the app lets them move on | 15e: with sound ON the ladder deals as it always did, and its stage carries the Glowseed idle |
-| 8 | G10 — the child hears the word before the app lets them move on | 15c: with sound OFF the session takes no Build-it breather - the dead end the chooser already refuses |
-| 9 | G10 — the child hears the word before the app lets them move on | 15b: with sound OFF the replay control is disabled, the Glowseed is muted and the marker line tells the parent |
-| 10 | G10 — the child hears the word before the app lets them move on | 14 (B17): a slow reveal never opens the mid-sound-out window |
-| 11 | G10 — the child hears the word before the app lets them move on | 14b: the guard is a FLOOR — a reveal shorter than 400 ms still waits 400 |
-| 12 | G10 — the child hears the word before the app lets them move on | 5: a miss on the last word says "Next word", and the second look follows |
-| 13 | G10 — the child hears the word before the app lets them move on | 6 (pair): a correct last word says "Finish!", and the press ends the session |
-| 14 | G10 — the child hears the word before the app lets them move on | 7: a tap on the grown-up skip does nothing — the reveal keeps its wait |
-| 15 | G10 — the child hears the word before the app lets them move on | 8: the adult's skip advances early and silences the reveal at once |
-| 16 | G10 — the child hears the word before the app lets them move on | 9: each tile takes its ring as its own sound plays, for as long as that sound lasts |
-| 17 | G10 — the child hears the word before the app lets them move on | 10 (control): with no recorded reveal, no tile is ever ringed |
-| 18 | G10 — the child hears the word before the app lets them move on | 10a: a fallback tells the grown-up, and says why |
-| 19 | G10 — the child hears the word before the app lets them move on | 10b (control): with the recorded pack, the grown-up is told nothing |
-| 20 | G10 — the child hears the word before the app lets them move on | 11: replay clears the rings it silenced |
-| 21 | G10 — the child hears the word before the app lets them move on | 12: asking to finish early stops the reveal and its rings |
-| 22 | G10 — the child hears the word before the app lets them move on | 13: a length arriving after the backstop takes the control back, and the fill never runs backwards |
-| 23 | G10 — the child hears the word before the app lets them move on | 4: the wait carries a fill for exactly as long as the reveal |
+| 7 | G10 — the child hears the word before the app lets them move on | 15g: with sound off AND a second look, the strip says both on one line |
+| 8 | G10 — the child hears the word before the app lets them move on | 15f: the refusal's reason is reachable from the control it explains, and dark enough to read on the sky |
+| 9 | G10 — the child hears the word before the app lets them move on | 15e: with sound ON the ladder deals as it always did, and its stage carries the Glowseed idle |
+| 10 | G10 — the child hears the word before the app lets them move on | 15c: with sound OFF the session takes no Build-it breather - the dead end the chooser already refuses |
+| 11 | G10 — the child hears the word before the app lets them move on | 15b: with sound OFF the replay control is disabled, the Glowseed is muted and the marker line tells the parent |
+| 12 | G10 — the child hears the word before the app lets them move on | 14 (B17): a slow reveal never opens the mid-sound-out window |
+| 13 | G10 — the child hears the word before the app lets them move on | 14b: the guard is a FLOOR — a reveal shorter than 400 ms still waits 400 |
+| 14 | G10 — the child hears the word before the app lets them move on | 5: a miss on the last word says "Next word", and the second look follows |
+| 15 | G10 — the child hears the word before the app lets them move on | 6 (pair): a correct last word says "Finish!", and the press ends the session |
+| 16 | G10 — the child hears the word before the app lets them move on | 7: a tap on the grown-up skip does nothing — the reveal keeps its wait |
+| 17 | G10 — the child hears the word before the app lets them move on | 8: the adult's skip advances early and silences the reveal at once |
+| 18 | G10 — the child hears the word before the app lets them move on | 9: each tile takes its ring as its own sound plays, for as long as that sound lasts |
+| 19 | G10 — the child hears the word before the app lets them move on | 10 (control): with no recorded reveal, no tile is ever ringed |
+| 20 | G10 — the child hears the word before the app lets them move on | 10a: a fallback tells the grown-up, and says why |
+| 21 | G10 — the child hears the word before the app lets them move on | 10b (control): with the recorded pack, the grown-up is told nothing |
+| 22 | G10 — the child hears the word before the app lets them move on | 11: replay clears the rings it silenced |
+| 23 | G10 — the child hears the word before the app lets them move on | 12: asking to finish early stops the reveal and its rings |
+| 24 | G10 — the child hears the word before the app lets them move on | 13: a length arriving after the backstop takes the control back, and the fill never runs backwards |
+| 25 | G10 — the child hears the word before the app lets them move on | 4: the wait carries a fill for exactly as long as the reveal |
 
 ## tests/safety-splash.test.js — 3 tests (G10)
 
@@ -681,7 +699,7 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 17 | update-system tripwires (source, with controls) | the version check bypasses the service worker and the precache |
 | 18 | update-system tripwires (source, with controls) | the update module can never touch saved progress |
 
-## tests/voicepacks.test.js — 18 tests (G13)
+## tests/voicepacks.test.js — 20 tests (G13)
 
 - **Requirement protected:** The voice pack's engine-side contract: every word has a clip and every clip a recipe
 - **Independent oracle:** tools/voice-words.csv, the human-edited source of truth
@@ -700,17 +718,19 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 5 | voice-pack clip engine | falls back before any sound when a clip fails to decode |
 | 6 | voice-pack clip engine | stopClips() halts a scheduled chain, and a new utterance silences the old one |
 | 7 | voice-pack clip engine | emits start once the plan is scheduled, with its length, and end only when every node of the utterance has ended |
-| 8 | voice-pack clip engine | stopClips() ends the lit utterance once, and the stopped nodes' own reports do not end it again |
-| 9 | voice-pack clip engine | never starts on the system-speech fallback, with sound off, or on a decode failure |
-| 10 | voice-pack clip engine | a listener that throws neither breaks the schedule nor calls the fallback, and the next listener still hears |
-| 11 | voice-pack clip engine | measures where the speech sits inside a clip, in the shipped pack's own terms |
-| 12 | voice-pack clip engine | a stored family clip carries its measurements, and an undecodable one carries none |
-| 13 | voice-pack clip engine | prefers a complete family pack: family clips come from the device, not from fetch |
-| 14 | voice-pack clip engine | takes the audio session back from the microphone before the next reveal |
-| 15 | voice-pack clip engine | declares a playback session before anything sounds, so the silent switch cannot mute the words |
-| 16 | voice-pack clip engine | (control): with no microphone use the context is left alone |
-| 17 | voice-pack clip engine | App.jsx wires the packs at every speech site (source tripwire with control) |
-| 18 | voice-pack clip engine | the audio-route repair survives with no caller, ready for the family recorder |
+| 8 | voice-pack clip engine | a lost end is caught: nodes that never report leave the object dark, not lit for ever |
+| 9 | voice-pack clip engine | a normal utterance is never cut short by the net: its own report clears it |
+| 10 | voice-pack clip engine | stopClips() ends the lit utterance once, and the stopped nodes' own reports do not end it again |
+| 11 | voice-pack clip engine | never starts on the system-speech fallback, with sound off, or on a decode failure |
+| 12 | voice-pack clip engine | a listener that throws neither breaks the schedule nor calls the fallback, and the next listener still hears |
+| 13 | voice-pack clip engine | measures where the speech sits inside a clip, in the shipped pack's own terms |
+| 14 | voice-pack clip engine | a stored family clip carries its measurements, and an undecodable one carries none |
+| 15 | voice-pack clip engine | prefers a complete family pack: family clips come from the device, not from fetch |
+| 16 | voice-pack clip engine | takes the audio session back from the microphone before the next reveal |
+| 17 | voice-pack clip engine | declares a playback session before anything sounds, so the silent switch cannot mute the words |
+| 18 | voice-pack clip engine | (control): with no microphone use the context is left alone |
+| 19 | voice-pack clip engine | App.jsx wires the packs at every speech site (source tripwire with control) |
+| 20 | voice-pack clip engine | the audio-route repair survives with no caller, ready for the family recorder |
 
 ## Gates that are not test files
 

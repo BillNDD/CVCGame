@@ -293,7 +293,13 @@ function run(d) {
      never silently. */
   rules += 1;
   {
-    const items = (text) => text.split(",").map((w) => w.replace(/^\s*and\s+/, "").replace(/\*\*/g, "").trim().toLowerCase())
+    /* AND AN ITEM CAN HOLD TWO WORDS. "**hustle** and **grind**" is a single
+       comma-item, so splitting on commas alone produced "hustle and grind",
+       which fails the word test and was DISCARDED - the rule's own comment
+       said it read 2026-08-18's fight, hustle and grind, and it read fight.
+       Found by the engineering seat's after pass, 2026-08-23. */
+    const items = (text) => text.split(",").flatMap((part) => part.split(/\s+and\s+/))
+      .map((w) => w.replace(/^\s*and\s+/, "").replace(/\*\*/g, "").trim().toLowerCase())
       .map((w) => (/^[a-z']+$/.test(w) ? w : "")).filter(Boolean);
     /* "hunt, fist, limp, bone, buns, dump, and milt" - the Oxford comma
        leaves "and milt" on the last item, so the word is stripped per ITEM
@@ -314,8 +320,6 @@ function run(d) {
     const laterWords = later ? items(later[1].replace(/\([^)]*\)/g, " ").replace(/,\s*which[\s\S]*$/, "")) : [];
     if (!later) found.push("SPEC's 2026-08-18 refusal list could not be read, so this rule is checking less than it claims");
     const taught = new Set(LEVELS.flatMap((l) => l.words));
-    const every = [...new Set(ruled.concat(["gob"], billed, laterWords))];
-    if (every.length < 20) found.push(`the refusal lists parse to ${every.length} words, fewer than the twenty SPEC records - an anchor moved, and this rule is checking less than it claims`);
     /* TWO DERIVATIONS THAT MUST AGREE, and NO WORD TYPED IN THIS FILE (the
        engineering seat's before pass, 2026-08-23). The first is SPEC's
        DECLARED build-guard list, which `NEVER_BUILD` must equal in BOTH
@@ -333,6 +337,11 @@ function run(d) {
     const guardList = declared ? items(declared[1]) : [];
     for (const w of guardList) if (!NEVER_BUILD.includes(w)) found.push(`SPEC declares "${w}" build-guarded and the engine does not guard it: add it to NEVER_BUILD in reference/word-quest.jsx`);
     for (const w of NEVER_BUILD) if (guardList.length && !guardList.includes(w)) found.push(`the engine guards "${w}" and SPEC declares no such ruling: add it to the build-guarded sentence or take it out of NEVER_BUILD`);
+    /* "gob" was TYPED here until 2026-08-23, three lines under a comment
+       saying no word is typed in this file. It is in the declared list the
+       rule has just parsed, so it is read from there like every other. */
+    const every = [...new Set(ruled.concat(guardList, billed, laterWords))];
+    if (every.length < 20) found.push(`the refusal lists parse to ${every.length} words, fewer than the twenty SPEC records - an anchor moved, and this rule is checking less than it claims`);
     /* the prose half: the 2026-08-18 sentence's appropriateness words are
        everything before ", and **neighbor**, which is not an appropriateness
        refusal at all" */
@@ -340,6 +349,29 @@ function run(d) {
     if (!slangy) found.push("SPEC's 2026-08-18 appropriateness sentence could not be read, so this rule guards fewer words than it claims");
     const laterAppropriate = slangy ? items(slangy[1].replace(/\([^)]*\)/g, " ")) : [];
     const fromProse = new Set(ruled.concat(bill ? [bill[2]] : [], laterAppropriate));
+    /* THE SECOND SOURCE FOR EVERY GUARDED WORD (the engineering seat's after
+       pass, 2026-08-23). The equality above reads ONE sentence: delete a word
+       from it AND from NEVER_BUILD in the same change and this rule stays
+       green - which is WEAKER than the typed literals it replaced, on the very
+       night the owner ruled one of those words in ("Ho I want out"). So every
+       guarded word must also be NAMED in SPEC's reasoning about the guard,
+       which is written in different sentences by different hands on different
+       dates: the 2026-08-07 refusal list, the 2026-08-16 bill, the 2026-08-18
+       appropriateness sentence, the paragraph that says WHY each guard is
+       there, and the plural-exclusion sentence. This set is deliberately WIDER
+       than fromProse - it holds "nuts", which is excluded from the bank and not
+       build-guarded - so it is used for this direction only, never to demand a
+       guard nobody ruled. */
+    const rationale = /The 2026-08-07 sentence, (.*?) are here because they are appropriateness refusals; \*\*([a-z]+)\*\* is here because/.exec(flat);
+    if (!rationale) found.push("SPEC's paragraph saying why each word is build-guarded could not be read, so every guard rests on one sentence alone");
+    const plurals = /The ruled plural exclusions \W+([a-z, ]+?)\W+were re-verified absent/.exec(flat);
+    if (!plurals) found.push("SPEC's ruled-plural sentence could not be read, so the plural guards rest on one sentence alone");
+    const justified = new Set([...fromProse,
+      ...(rationale ? items(rationale[1]).concat([rationale[2]]) : []),
+      ...(plurals ? items(plurals[1]) : []),
+      ...laterWords, ...billed]);
+    if (rationale && plurals) for (const w of NEVER_BUILD) if (!justified.has(w))
+      found.push(`the engine guards "${w}" and SPEC's reasoning about the guard never names it - the declared list is its only source, so dropping it from both files would pass unnoticed`);
     for (const w of fromProse) if (spellableLength(w) && !guardList.includes(w))
       found.push(`SPEC's prose refuses "${w}" for child-appropriateness and a tray could spell it, but the declared build-guard list does not carry it`);
     /* THE ONE WORD THE ENGINE MAY TEACH THOUGH A LIST REFUSED IT, read from
@@ -497,7 +529,7 @@ function tokenTable(bible) {
 
 if (process.argv.includes("--self-test")) {
   const seen = { spec: false, blind: false, qa: false, hold: false, recipe: false, bank: false, floor: false, unshipped: false, superseded: false, table: false, tableOrder: false, orphanDoc: false, orphanCmd: false, stateTableGone: false, laterRefusal: false, candidateNotGuarded: false, taughtRefusal: false,
-    taughtNoException: false, guardDeclaredOnly: false, guardEngineMissing: false, guardBlind: false, exceptionNotAGuardHole: false, tokenDrift: false, tokenStranger: false, tokenMissing: false, tokenBlind: false, stateToken: false, stateSelector: false, stateBlind: false, stateReference: false };
+    taughtNoException: false, wordBehindAnd: false, guardOneSourceOnly: false, guardDeclaredOnly: false, guardEngineMissing: false, guardBlind: false, exceptionNotAGuardHole: false, tokenDrift: false, tokenStranger: false, tokenMissing: false, tokenBlind: false, stateToken: false, stateSelector: false, stateBlind: false, stateReference: false };
 
   /* Both ways a tool gets orphaned. The first is the one that actually
      happens: somebody tidies a governing document, the sentence naming the
@@ -655,6 +687,19 @@ if (process.argv.includes("--self-test")) {
   /* and the exception must not excuse the BUILD guard: a word that is both a
      declared guard and the taught exception, dropped from the engine's list,
      must still be reported as unguarded */
+  /* THE AND-SPLIT: a word joined to the last item by "and" with no comma of
+     its own was silently discarded, so the rule read fewer refusals than its
+     own comment claimed. Planted here as a word the prose refuses and the
+     guard list does not: without the split it is swallowed and nothing is
+     found. */
+  const behindAnd = { ...real, spec: real.spec.replace("**hustle** and **grind** (adult slang", "**hustle** and **zzzand** (adult slang") };
+  seen.wordBehindAnd = run(behindAnd).found.some((p) => p.includes("prose refuses") && p.includes("zzzand"));
+  /* THE ONE-SOURCE GUARD: a word whose only mention is the declared list can
+     be dropped from that sentence and from NEVER_BUILD in one change with the
+     gate green. Planted by taking a real guard out of SPEC's reasoning while
+     leaving the declaration alone. */
+  const oneSource = { ...real, spec: real.spec.replace("The 2026-08-07 sentence, gob, gun and", "The 2026-08-07 sentence, gun and") };
+  seen.guardOneSourceOnly = run(oneSource).found.some((p) => p.includes("gob") && p.includes("reasoning about the guard never names it"));
   seen.exceptionNotAGuardHole = (() => {
     const both = real.spec.replace("owner-ruled 2026-08-23: ding.**", "owner-ruled 2026-08-23: ding, ho.**");
     return run({ ...real, spec: both.replace("crabs, ho, gun, fight", "crabs, ho, zzzguard, gun, fight") }).found.some((p) => p.includes('SPEC declares "zzzguard" build-guarded'));
@@ -664,7 +709,7 @@ if (process.argv.includes("--self-test")) {
   seen.stateReference = run(driftedReference).found.some((p) => p.includes("paints slot; the reference's block does not name it"));
 
   if (Object.values(seen).every(Boolean)) {
-    console.log("self-test OK: a reworded SPEC sentence, a SPEC block whose anchor moved so the rule would check nothing, a reworded QA promise, a changed hold constant, a stale recipe number in the document, a stale bank count in the chooser, a drifted gate floor, an unshipped count that lags or runs ahead of the ledger, a level row that lost a word, a level row in the wrong order, a governing document that has stopped naming a tool agents are told to run, a command that has stopped running that tool's controls, a drifted token value, a token the table names that C lacks, a token C has that the table lacks, a token table whose anchor moved, a tile state whose block lacks a token it claims, a tile selector the stylesheet lacks, a tile table whose anchor moved, the Glowseed's own state table deleted whole, an appropriateness refusal made after 2026-08-07 and left out of the build guard, a candidate refusal wrongly demanded of it, a refused word the engine still teaches, a taught exception naming the wrong word or missing, a declared guard the engine lacks, a guard the engine keeps that nobody declared, and an exception that tries to excuse the build guard, and a reference copy that drifted from the app's are all caught");
+    console.log("self-test OK: a reworded SPEC sentence, a SPEC block whose anchor moved so the rule would check nothing, a reworded QA promise, a changed hold constant, a stale recipe number in the document, a stale bank count in the chooser, a drifted gate floor, an unshipped count that lags or runs ahead of the ledger, a level row that lost a word, a level row in the wrong order, a governing document that has stopped naming a tool agents are told to run, a command that has stopped running that tool's controls, a drifted token value, a token the table names that C lacks, a token C has that the table lacks, a token table whose anchor moved, a tile state whose block lacks a token it claims, a tile selector the stylesheet lacks, a tile table whose anchor moved, the Glowseed's own state table deleted whole, an appropriateness refusal made after 2026-08-07 and left out of the build guard, a candidate refusal wrongly demanded of it, a refused word the engine still teaches, a taught exception naming the wrong word or missing, a declared guard the engine lacks, a guard the engine keeps that nobody declared, an exception that tries to excuse the build guard, a refusal hidden behind an \"and\" with no comma of its own, a guarded word whose only source is the declared list, and a reference copy that drifted from the app's are all caught");
     process.exit(0);
   }
   console.error("self-test FAILED: " + JSON.stringify(seen));

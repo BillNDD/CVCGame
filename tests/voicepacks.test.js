@@ -224,6 +224,50 @@ describe("voice-pack clip engine", () => {
     expect(log).toEqual(["start:8360", "end"]);
     off();
   });
+  it("a lost end is caught: nodes that never report leave the object dark, not lit for ever", async () => {
+    /* THE FAULT THIS CLOSES (the council's re-judgement, 2026-08-23): a
+       context closed mid-utterance - reclaimOutput, an iOS interruption that
+       never resumes - fires no onended, so `pending` never reached zero and
+       the end was never emitted. The object stayed LIT over silence until the
+       child was moved on by hand. The plan claimed the turn's 10 s guard
+       caught it; that guard arms the advance control and never touches the
+       audio, so nothing caught it. The net is now the player's own, armed at
+       the utterance's measured length plus ten seconds. */
+    stopClips();
+    /* settle() is itself a setTimeout(0), so the clock must keep advancing on
+       its own or the plan never resolves; shouldAdvanceTime does that while
+       still letting a long delay be jumped by hand. */
+    vi.useFakeTimers({ shouldAdvanceTime: true });
+    try {
+      const log = [];
+      const off = onAudio((e) => log.push(e.state));
+      speakVoice("correct", "cat", 0, true, fb);
+      await settle(); await settle();
+      expect(log, "the utterance started").toEqual(["start"]);
+      /* not one node reports: this is the interrupted context */
+      vi.advanceTimersByTime(8360 + 9000);
+      expect(log, "still inside the utterance plus its slack, so nothing is forced").toEqual(["start"]);
+      vi.advanceTimersByTime(2000);
+      expect(log, "the nodes never reported, so the net ended it").toEqual(["start", "end"]);
+      off();
+    } finally { vi.useRealTimers(); }
+  });
+  it("a normal utterance is never cut short by the net: its own report clears it", async () => {
+    stopClips();
+    vi.useFakeTimers({ shouldAdvanceTime: true });
+    try {
+      const log = [];
+      const off = onAudio((e) => log.push(e.state));
+      speakVoice("correct", "cat", 0, true, fb);
+      await settle(); await settle();
+      scheduled.forEach((s) => s.end());
+      oscillators.forEach((o) => o.end());
+      expect(log).toEqual(["start", "end"]);
+      vi.advanceTimersByTime(60000);                     // long past the net
+      expect(log, "the net was cleared by the real end, so it emits nothing").toEqual(["start", "end"]);
+      off();
+    } finally { vi.useRealTimers(); }
+  });
   it("stopClips() ends the lit utterance once, and the stopped nodes' own reports do not end it again", async () => {
     stopClips();
     const log = [];

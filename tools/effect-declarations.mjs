@@ -31,6 +31,14 @@ export const DECLARED = {
     evidence: "Vitest counts (summed into floor g1_unit_tests with engine.test.js - the 2026-08-21 split)",
     limits: "Proves the seat arithmetic, never that the seat is pedagogically right - that was the owner's page to rule.",
   },
+  "tests/build-tray.test.js": {
+    safety: { S8: "unit" },
+    gate: "G1", requirement: "SPEC section 12's Build-it tray: what a tray may hold, and that no tray a child is dealt can be laid out as a build-guarded word at ANY build size",
+    oracle: "Literal expected values and seeded sweeps written from SPEC by hand (E4): the guarded list is asserted by length and by member, and the sweeps assert zero hits over deals whose seed is fixed so a failure is reproducible.",
+    platform: "node", mutants: "G5 build-guard family (the accumulating distractor check, the guard itself, the teaching-split restriction)",
+    evidence: "Vitest counts (summed into floor g1_unit_tests with engine.test.js and migrate.test.js - the 2026-08-23 split)",
+    limits: "Proves no DEALT tray spells a guarded word; it does not decide WHICH words should be guarded, which is SPEC's dated sentence and the owner's ruling.",
+  },
   "tests/engine.test.js": {
     safety: { S4: "unit", S8: "unit" },
     gate: "G1", requirement: "SPEC sections 3-4: the word bank, levels, chunking, the Leitner ladder, session shape and the reveal plan",

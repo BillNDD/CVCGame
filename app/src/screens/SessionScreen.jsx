@@ -20,7 +20,7 @@ import Word from "../components/Word.jsx";
    engineering seat's before pass, 2026-08-23).
    Both literals stay whole in this file so the copy gate and doc-truth read
    what a parent reads; the join drops the second "Parent: " rather than
-   composing a third string. The line stays ONE line - measured at 300 px by
+   composing a third string. The line stays ONE line - measured at 320 px by
    G7, because a second line grows the strip and moves the word (N-12, P0-2). */
 const SOUND_OFF_MARK = "Parent: sound is off";
 const SECOND_LOOK_MARK = "Parent: second look";

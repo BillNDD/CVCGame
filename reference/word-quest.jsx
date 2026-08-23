@@ -2149,20 +2149,39 @@ const NEVER_BUILD = ["fist", "limp", "bone", "buns", "dump", "milt", "gob",
    multiset, so a tile is consumed once per slot: "dad" holds two d tiles and
    spells nothing with one. */
 function traySpells(tiles, word, slots) {
-  const want = chunkWord(word);
   /* The child fills SLOTS, not the whole tray, so a forbidden word is reachable
      when it is the right LENGTH for the slots and its tiles are available -
      never when it merely matches the tray's own size. Checking tray length was
      the first version's fault: it reported dog + b as safe, and dog + b is how
-     a child spells gob. */
-  if (want.length !== slots) return false;
+     a child spells gob.
+
+     AND A WORD IS NOT ITS CHUNKING. The second version asked whether the tray
+     held chunkWord(word) - the ONE split the game would use to TEACH that word.
+     A child laying out tiles has never heard of that split. "fight" chunks
+     f-igh-t, three units, so only three-slot builds were ever checked and every
+     other size was invisible: a five-slot "gifts" tray carrying an h lays out
+     f-i-g-h-t, and the game then says "That says f-i-g-h-t... listen again."
+     Twenty-seven of five hundred dealt gifts trays carried that h. So the
+     question asked here is the one the child can actually act on: can ANY split
+     of this word into exactly `slots` pieces be taken from these tiles? The walk
+     tries every prefix at each position and puts each tile back before trying
+     the next, so a tray is a multiset - "dad" holds two d tiles and spells
+     nothing with one. */
   const left = tiles.slice();
-  return want.every((c) => {
-    const at = left.indexOf(c);
-    if (at < 0) return false;
-    left.splice(at, 1);
-    return true;
-  });
+  const walk = (pos, used) => {
+    if (pos === word.length) return used === slots;
+    if (used === slots) return false;
+    for (let n = 1; pos + n <= word.length; n += 1) {
+      const at = left.indexOf(word.slice(pos, pos + n));
+      if (at < 0) continue;
+      const piece = left.splice(at, 1)[0];
+      const spelt = walk(pos + n, used + 1);
+      left.splice(at, 0, piece);
+      if (spelt) return true;
+    }
+    return false;
+  };
+  return walk(0, 0);
 }
 const trayForbidden = (tiles, slots) => NEVER_BUILD.some((w) => traySpells(tiles, w, slots));
 /* A word whose OWN tiles spell a forbidden one cannot be made safe by choosing

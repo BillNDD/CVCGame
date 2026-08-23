@@ -136,6 +136,28 @@ const MUTANTS = [
     'void onChange;'],
   ["a render crash is shown the way home but never recorded", "app/src/components/ErrorBoundary.jsx",
     "    record({", "    void record; void ({"],
+  /* THE GLOWSEED HAD NO APP MUTANT AT ALL until 2026-08-23 - the council's
+     re-judgement of art step 2 found three of its fixes guarded by tests that
+     passed identically on the broken build, which is the same fault one layer
+     up: a guard nobody had tried to break. Each of these three was applied by
+     hand and the named test was watched to fail before it was written down. */
+  /* The scaffold's quiet on a clock again, which is the fault the fix closed:
+     for any clip longer than its slot the object blinks mid-word. Killed by
+     buildit 26c, which HOLDS the last slot's report and stands past the old
+     clock's moment - test 26 cannot see it, because its double reports every
+     sound finished the instant it starts. */
+  ["the scaffold's last slot never reports in, so the quiet never ends", BUILDIT,
+    "i === last ? () => setQuiet(false) : undefined",
+    "(tray.answer.length ? undefined : undefined)"],
+  /* A win landing mid-scaffold leaves the quiet on for the rest of the turn,
+     so the celebration speaks over a dark object. Killed by buildit 26d. */
+  ["a win during the scaffold leaves the object dark for the celebration", BUILDIT,
+    "      setQuiet(false);", "      void 0;"],
+  /* And the object ignoring the request altogether: it then blinks once per
+     slot through every scaffold. Killed by buildit 26 and 26c. */
+  ["the object ignores a screen's request to stay quiet", "app/src/components/Glowseed.jsx",
+    'const look = muted ? "muted" : lit && !quiet ? "lit" : "idle";',
+    'const look = muted ? "muted" : lit ? "lit" : "idle";'],
 ];
 
 /* The last failure this helper swallowed, so the pristine control can SAY

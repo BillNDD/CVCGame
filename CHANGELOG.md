@@ -37,7 +37,8 @@ The first app version is 1.0.0-beta.1. The app stays in beta until version 1.0 i
   partly underneath the grown-ups strip, where a finger could not reach them — the tiles
   are now smaller on those phones so the whole tray fits above the strip. The letter the
   game shows after two misses is easier to see. The glow of a sounding tile no longer
-  covers the tail of a letter above it, such as a p or a g. And with sound switched off,
+  covers the tail of a letter above it, such as a p or a g — the tail is drawn over the ring
+  now, and the Known note below says what is left of it. And with sound switched off,
   the speaker button is now greyed out instead of doing nothing when pressed, the listening
   light shows as off, the strip says "Parent: sound is off", the first steps of the ladder
   are not offered at all, because they can only be answered by listening, and the game no
@@ -46,7 +47,11 @@ The first app version is 1.0.0-beta.1. The app stays in beta until version 1.0 i
   very short: the letter tiles under a word are cut off at the bottom, the sentence the
   game says after a word can be out of view below them, and in Build-it the tiles sit partly
   under the grown-ups strip — a long word's can be off the bottom of the screen. On some
-  phones the tail of a letter can cross the top of the ring on the tile below it. None of
+  phones the tail of a letter can still cross the top of the ring on the tile below it: that
+  is the same small gap as the fix above, seen from the other side, and the work on the
+  reading surface closes both at once. And if you play with a keyboard rather than a finger,
+  moving focus onto the word your child is reading in a sentence replaces its ring with the
+  keyboard's own outline, so the two marks cannot be told apart while it is focused. None of
   this is new in this release; it is now measured and written down, and the next piece of
   work on the reading surface is what fixes it.
 - Nothing about the teaching changed in 1.0.0-beta.27: the same words, the same levels, the
@@ -56,8 +61,8 @@ The first app version is 1.0.0-beta.1. The app stays in beta until version 1.0 i
   against the device's own sound engine rather than a stopwatch — a check watches every
   sound the game schedules and every sound that ends, and refuses a light that comes on
   early, stays on late, or goes out on a timer while the sound is still playing. Every
-  state of every tile is measured on eight screen shapes, with the pictures kept for each
-  release so a claim about them can always be checked. The four faults this release found and could not fix in it — a phone held
+  state of every tile is measured on eight screen shapes, and the pictures are kept with
+  each step of the work. The four faults this release found and could not fix in it — a phone held
   sideways cutting the tiles off, its Build-it tiles under the grown-ups strip, a letter's
   tail crossing the ring below it, and the keyboard outline replacing a sentence word's
   ring — are written down rather than left to be rediscovered, and the Known note above

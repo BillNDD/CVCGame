@@ -279,13 +279,19 @@ stage's top corner, 0 px of layout (the census holds every zone's height and the
 equal with it planted away), on the word reveal, the sentence reveal, the pre-ladder and
 Build-it — not home, the done screens or the corner — and is absent on a stage under 400 px
 tall (the landscape phone, open-faults AG). A 16 × 20 px ovoid with the core offset toward
-the cradle end, a 1 px rim thinner than the tile's 3 px ring: **idle**, a `slot` core in a
+the cradle end — measured on the shipped renders, the core's centroid sits 1.50 px right and
+2.51 px down of the box's centre, and the top-right is the tightest corner, so it is a seed
+with a tip and an off-centre eye rather than a bullseye — a 1 px rim thinner than the tile's
+3 px ring. Every ratio below is a TOKEN-PAIR WCAG figure computed from the two colours, not
+a value read off a render: **idle**, a `slot` core in a
 `stone` rim, within one value step of the sky (1.28 / 1.24 / 1.36:1 on the stops) — scenery;
 **lit**, the core `cyanElectric`, the rim `purpleStructural` — the value step from stone,
 3.15:1, is the cue a child sees, since the cyan core is 1.06:1 against the idle core in
 greyscale; 4.02 / 3.92 / 4.29:1 on the three stops — and a 2 px `purpleElectric` light
 outside the rim (9.2's order; purple, so a child never reads it as a tile's cyan band);
-**muted** (sound off), the core gone and the rim empty, beside the replay control now
+**muted** (sound off), the core gone and the rim empty — a dashed `stone` outline with the
+sky showing through, which is what tells it from idle with no colour at all — beside the
+replay control now
 `disabled` and "Parent: sound is off" on the strip's reserved marker line. Nothing animates
 or transitions: the edge of the sound is the edge of the light, and reduced motion changes
 nothing. It is decoration to assistive technology (`aria-hidden`, no role, no tab stop,

@@ -132,9 +132,19 @@ export default function HomeScreen({ state, L, kid, masteredCount, persistent, r
             record. The control now refuses in the chooser's own voice and
             for the chooser's own reason; a child past the ladder reads
             print, so words are unaffected. */}
+        {/* THE REASON IS THE ONLY THING TELLING AN ADULT WHY THE APP JUST
+            REFUSED THEIR CHILD'S SESSION, so it carries the contrast and the
+            association a refusal needs (the council's re-judgement,
+            2026-08-23). `ink2` measured 3.91 / 3.81 / 4.17 against the three
+            sky stops - below this project's own 4.5 floor on the middle one,
+            at 12.5 px, which is not large text at any weight. `strip` is
+            4.75 / 4.63 / 5.07 and clears every stop. And it is named by the
+            control it explains, so a screen reader reaches the reason from
+            the button rather than only by sweeping the page. */}
         <button className="wq-cta" onClick={onBegin} disabled={ladderNeedsSound} aria-label="Begin Session"
+          aria-describedby={ladderNeedsSound ? "wq-ladder-needs-sound" : undefined}
           style={ladderNeedsSound ? { opacity: 0.55 } : undefined}>▶️ Begin Session</button>
-        {ladderNeedsSound && <p style={{ margin: "6px 0 0", fontSize: 12.5, color: C.ink2, textAlign: "center" }}>
+        {ladderNeedsSound && <p id="wq-ladder-needs-sound" style={{ margin: "6px 0 0", fontSize: 12.5, color: C.strip, textAlign: "center" }}>
           The first steps need sound. Turn sound on in the Grown-ups corner.
         </p>}
         {/* Free play: the same loop, endless, and nothing is ever written.

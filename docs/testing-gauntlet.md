@@ -1212,9 +1212,14 @@ what the ruling calls the README.
 ## G19. App mutation
 
 - Tool: `tools/app-mutants.mjs`. Command: `npm run test:app-mutants`. Requirement: 0
-  survivors. Keys: `g19_app_mutants` (15), `g19_survivors_max` (0). Three joined on
+  survivors. Keys: `g19_app_mutants` (18), `g19_survivors_max` (0). Three joined on
   2026-08-22 for the bug-report ring: a ring that never writes, a ring that keeps one entry,
-  and a render boundary that shows the way home without recording the crash.
+  and a render boundary that shows the way home without recording the crash. Three more on
+  2026-08-23 for the Glowseed, which had none at all until the art council's re-judgement
+  found three of its fixes guarded by tests that passed identically on the broken build: the
+  scaffold's last slot never reporting in, a win mid-scaffold leaving the object dark through
+  the celebration, and the object ignoring a screen's request to stay quiet. Each was applied
+  by hand and watched to fail its named test before it was written down.
 - G5 mutates the engine. Nothing mutated the half of the product the child actually
   touches, so the app's tests were known to PASS and not known to BITE. G19 breaks one
   rule at a time in the files the engine never sees: the grade-once rule (that nothing
@@ -1687,7 +1692,10 @@ found it by remembering, which is the mechanism these gates exist to replace.
   baseline comparison.
 - The runner is `tools/gauntlet.mjs`. Run `npm run gauntlet`. The runner takes a lock, so two
   gauntlets cannot race each other over the generated files.
-- CI: `.github/workflows/gauntlet.yml` runs the same command on every push and pull request.
+- CI: `.github/workflows/gauntlet.yml` runs the same command when a release's `v*` tag is
+  pushed, and on demand from the Actions tab. It does not run on ordinary pushes or on pull
+  requests: the owner's 2026-08-02 cadence is the local `npm run check` between releases and
+  the full gauntlet at one.
 - The gauntlet prints one line per gate: name, command, pass or fail, and the counts.
 - Bootstrap: the floor for a gate that is not built yet starts at 0. Raise it in the same
   commit that lands the gate. A landed gate never keeps a 0 floor.
@@ -1751,7 +1759,7 @@ other direction: the real pack, unchanged, must pass.
 
 ## G20. Effect map
 
-- Tool: `tools/effect-map.mjs`. Writes `docs/effect-map.md`. Keys: `g20_tests_mapped` (423).
+- Tool: `tools/effect-map.mjs`. Writes `docs/effect-map.md`. Keys: `g20_tests_mapped` (434).
 - One row per `it()` SITE — its file, suite, and the test's own sentence, which in this
   project IS the Given/When/Then effect, because tests are named as behaviour. A site inside
   a loop or a table runs many times, so the map's 310 rows describe the 324 tests Vitest executes;

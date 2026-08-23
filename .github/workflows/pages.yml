@@ -44,6 +44,16 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    # What the readback in the deploy job must compare against. github.sha is
+    # NOT that: on a workflow_dispatch it is the dispatched ref's HEAD, i.e.
+    # main, while the assets below come from the latest RELEASE - so whenever
+    # main is ahead of the last release, which is its normal state, the
+    # readback would have failed a correct publish. These two travel with the
+    # bytes instead: the tag actually resolved, and the commit the evidence
+    # says it proved, which is the commit version.json was built from.
+    outputs:
+      tag: ${{ steps.proved.outputs.tag }}
+      commit: ${{ steps.proved.outputs.commit }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/configure-pages@v5
@@ -59,6 +69,7 @@ jobs:
           npm ci
           npm test
       - name: Take the proved build and the evidence that proved it
+        id: proved
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
@@ -74,6 +85,12 @@ jobs:
           # at app/dist/... and the hash's path strings match what was proved.
           tar -xzf /tmp/app-dist.tar.gz -C app/dist
           test -f app/dist/index.html
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+          # jq, not node -p: this repository is an ES module, so require() is
+          # not available to a one-liner. jq ships on the ubuntu runner.
+          COMMIT="$(jq -r '.commit // .commit_short // ""' /tmp/evidence.json)"
+          test -n "$COMMIT"
+          echo "commit=$COMMIT" >> "$GITHUB_OUTPUT"
       - name: Refuse to publish anything the gauntlet did not prove
         run: |
           set -euo pipefail
@@ -111,8 +128,8 @@ jobs:
       - name: Read the live site back
         env:
           PAGE_URL: ${{ steps.deployment.outputs.page_url }}
-          RELEASE_SHA: ${{ github.sha }}
-          RELEASE_TAG: ${{ github.event.release.tag_name }}
+          RELEASE_SHA: ${{ needs.build.outputs.commit }}
+          RELEASE_TAG: ${{ needs.build.outputs.tag }}
         run: |
           set -euo pipefail
           for i in $(seq 1 18); do
@@ -126,7 +143,8 @@ jobs:
             const sha = process.env.RELEASE_SHA || "";
             const tag = process.env.RELEASE_TAG || "";
             if (!live.version || !live.build) { console.error("REFUSED AFTER THE FACT: the live site served no version and build to read"); process.exit(1); }
-            if (!sha.startsWith(live.build)) { console.error(`REFUSED AFTER THE FACT: the live site reports build ${live.build}, which is not the released commit ${sha.slice(0, 12)}`); process.exit(1); }
-            if (tag && tag !== "v" + live.version) { console.error(`REFUSED AFTER THE FACT: the live site reports ${live.version}, the release is ${tag}`); process.exit(1); }
+            if (!sha.startsWith(live.build)) { console.error(`REFUSED AFTER THE FACT: the live site reports build ${live.build}, which is not the commit the gauntlet proved, ${sha.slice(0, 12)}`); process.exit(1); }
+            if (!tag || !sha) { console.error("REFUSED AFTER THE FACT: the deploy could not say which release it published, so there is nothing to check it against"); process.exit(1); }
+            if (tag !== "v" + live.version) { console.error(`REFUSED AFTER THE FACT: the live site reports ${live.version}, the release is ${tag}`); process.exit(1); }
             console.log(`the live site reports ${live.version} at ${live.build}, the released commit`);
           '

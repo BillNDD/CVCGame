@@ -106,7 +106,11 @@ const MUTANTS = [
      over 62,520 deals. Killed by the engine suite's whole-bank sweep. */
   ["distractors are taken without looking at the ones already taken", "if (trayForbidden(own.concat(extras, [c]), own.length)) continue;", ""],
   ["the tray's forbidden-word guard always says no", "const trayForbidden = (tiles, slots) => NEVER_BUILD.some((w) => traySpells(tiles, w, slots));", "const trayForbidden = () => false;"],
-  ["a forbidden word shorter than the slots is treated as unreachable", "if (want.length !== slots) return false;", "if (want.length > slots) return false;"],
+  /* THE DECOMPOSITION HOLE (2026-08-23, the after pass): the guard asked
+     whether the tray held chunkWord(forbidden) - the split the game TEACHES -
+     so a forbidden word was invisible at every other build size. This mutant
+     puts that restriction back. */
+  ["the guard only looks at builds the size of the forbidden word's teaching split", "return walk(0, 0);", "return chunkWord(word).length === slots && walk(0, 0);"],
   ["hush does nothing", 'function hush() { try { if ("speechSynthesis" in window) window.speechSynthesis.cancel(); } catch (e) {} }', "function hush() {}"],
   ["streak threshold 2 to 3", "(session && state.perfectStreak >= 2)", "(session && state.perfectStreak >= 3)"],
   ["streak reset after promotion dropped", "{ state.level += 1; state.perfectStreak = 0; return true; }", "{ state.level += 1; return true; }"],

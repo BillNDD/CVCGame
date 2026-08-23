@@ -67,14 +67,39 @@ afterEach(() => { cleanup(); vi.useRealTimers(); });
 /* A tray with a held rand, so the tiles are known and the walk is not a guess. */
 const trayFor = (word, level = 2) => buildTray(word, level, () => 0.3);
 
-function mount(word, level = 2, onDone = () => {}) {
+/* THE DOUBLE THAT CAN FAIL (the council's after pass, 2026-08-23). The
+   synchronous double below reports a sound finished the instant it starts, so
+   a screen that lifts its quiet on the sound's own report and a screen that
+   lifts it on a 900 ms clock behave IDENTICALLY under it - and test 26 passed
+   byte-identical on both. `deferred` holds each report instead, so a test can
+   stand inside the gap where a real clip is still playing. */
+const heldReports = [];
+let deferring = false;
+/* A SWITCH RATHER THAN A MOUNT OPTION, and the first attempt taught why: a
+   TILE TAP plays one sound and waits for its report before it will take the
+   next tap, so holding every one-sound report from the start meant the child
+   never placed a second tile, never missed twice, and never reached the
+   scaffold - the test then measured a screen that had not started. It is
+   turned on once the misses are done. */
+function holdSounds(on) { deferring = on; if (on) heldReports.length = 0; }
+function fireDeferred() { const t = heldReports.shift(); if (t) t(); return !!t; }
+function mount(word, level = 2, onDone = () => {}, opts = {}) {
   const tray = trayFor(word, level);
+  deferring = false;
+  heldReports.length = 0;
+  const report = (then, single) => { if (!then) return; if (deferring && single) heldReports.push(then); else then(); };
   render(createElement(BuildItScreen, {
     tray,
+    /* playWord is NEVER deferred: the prompt's own report is what starts the
+       scaffold, so holding it would mean testing a screen that never got
+       there - which is exactly what it did on the first attempt. */
     playWord: (w, then) => { played.push("word:" + w); if (then) then(); },
-    playSounds: (ids, then) => { played.push("sounds:" + ids.join(",")); if (then) then(); },
+    /* and only a SINGLE-sound call is held: that is what a scaffold slot
+       plays. A tile tap and the built-word playback report normally, or the
+       build itself would stall and the test would be measuring nothing. */
+    playSounds: (ids, then) => { played.push("sounds:" + ids.join(",")); report(then, ids.length === 1); },
     soundIdsOf: (w) => chunkWord(w).map((c) => "d:" + c),
-    onDone, onExit: onDone,
+    onDone, onExit: onDone, ...(opts.props || {}),
   }));
   return tray;
 }
@@ -339,6 +364,67 @@ describe("the ceramic tile states", () => {
     expect(seed.getAttribute("data-wq-glowseed")).toBe("muted");
     await act(async () => { emitAudio({ state: "start", token: 9, ms: 300 }); });
     expect(seed.getAttribute("data-wq-glowseed")).toBe("muted");
+  });
+
+  it("26c: the scaffold's quiet ends on the last slot's own report, never on a clock", async () => {
+    /* THIS IS THE TEST 26 COULD NOT BE. Its double reports every sound
+       finished the instant it starts, so the fixed screen and the
+       (n-1)*900+700 screen it replaced are indistinguishable under it -
+       measured: reverting the implementation leaves 26 green. Here the
+       scaffold's last slot is HELD, so the clock's moment passes while the
+       sound is still playing. "cat" is three slots: the scaffold is queued
+       900 ms after the second miss and plays a slot every 900 ms, so the last
+       one starts 2,700 ms after the miss and the old clock lifted the quiet
+       at 2,500. Standing at 4,000 is past that clock and still inside the
+       held clip. */
+    const tray = mount("cat", 8);
+    const seed = () => document.querySelector(".wq-glowseed");
+    const wrong = tiles().find((b) => !tray.answer.includes(b.textContent));
+    for (let go = 0; go < 2; go += 1) {
+      fireEvent.click(wrong);
+      for (const t of tray.answer.slice(0, 2)) fireEvent.click(tileFor(t)[0]);
+      await flush(60);
+      if (go === 0) slots().forEach((s) => fireEvent.click(s));
+    }
+    holdSounds(true);                    // from here a slot's report is held
+    await flush(4000);
+    expect(heldReports.length, "a scaffold slot's report is being held, so the screen is inside a clip").toBeGreaterThan(0);
+    expect(document.querySelectorAll(".wq-ghost").length, "the scaffold has run").toBe(0);
+    await act(async () => { emitAudio({ state: "start", token: 31, ms: 300 }); });
+    expect(seed().getAttribute("data-wq-glowseed"), "the clip has not reported, so the quiet must still hold").toBe("idle");
+    await act(async () => { emitAudio({ state: "end", token: 31 }); });
+    await act(async () => { while (fireDeferred()) { /* the slot reports in */ } });
+    await flush(60);
+    holdSounds(false);
+    await act(async () => { emitAudio({ state: "start", token: 32, ms: 300 }); });
+    expect(seed().getAttribute("data-wq-glowseed"), "the scaffold has reported in, so a later play lights it").toBe("lit");
+  });
+
+  it("26d: a win during the scaffold lets the celebration light the object", async () => {
+    /* The win path clears the scaffold's quiet as well as its timers. Without
+       that line the child wins mid-scaffold and the celebration speaks over a
+       dark object, which is the one thing the object must never do: be dark
+       while the game is talking. Test 25 walks this path and reads only the
+       cue ring, so the line could be deleted with every test green. */
+    const tray = mount("cat", 8);
+    const seed = () => document.querySelector(".wq-glowseed");
+    const wrong = tiles().find((b) => !tray.answer.includes(b.textContent));
+    for (let go = 0; go < 2; go += 1) {
+      fireEvent.click(wrong);
+      for (const t of tray.answer.slice(0, 2)) fireEvent.click(tileFor(t)[0]);
+      await flush(60);
+      if (go === 0) slots().forEach((s) => fireEvent.click(s));
+    }
+    await flush(1000);
+    expect(document.querySelectorAll(".wq-tilebtn.wq-cue").length, "the scaffold is running").toBe(1);
+    await act(async () => { emitAudio({ state: "start", token: 41, ms: 300 }); });
+    expect(seed().getAttribute("data-wq-glowseed"), "quiet, because the scaffold is speaking").toBe("idle");
+    await act(async () => { emitAudio({ state: "end", token: 41 }); });
+    for (const t of tray.answer) fireEvent.click(tileFor(t)[0]);
+    await flush(50);
+    expect(screen.getByText(/You built/), "the child won mid-scaffold").toBeTruthy();
+    await act(async () => { emitAudio({ state: "start", token: 42, ms: 300 }); });
+    expect(seed().getAttribute("data-wq-glowseed"), "the celebration is speaking, so the object is lit").toBe("lit");
   });
 
   it("27: the tray's sizes follow the phone, not the render that drew them - a rotation resizes the tiles with no tap in between", async () => {

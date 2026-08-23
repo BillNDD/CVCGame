@@ -14,6 +14,7 @@ import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { render, screen, fireEvent, act, cleanup } from "@testing-library/react";
 import { createElement } from "react";
 import { chunkWord, newState } from "../src/engine.js";
+import { markerLine } from "../app/src/screens/SessionScreen.jsx";
 
 const REVEAL_MS = 5200;                       // a real reveal, measured from the pack
 /* The shape the real player reports: one entry per tile of THIS word, each
@@ -268,6 +269,43 @@ describe("G10 — the child hears the word before the app lets them move on", ()
     await flush(0);
     expect(screen.getByLabelText("Begin Session"), "a disabled control deals nothing").toBeTruthy();
   });
+  it("15g: with sound off AND a second look, the strip says both on one line", async () => {
+    /* The joined line is the only behaviour its commit changed and nothing
+       asserted it (the engineering seat's after pass, 2026-08-23): every
+       .wq-mark assertion in the suite is either sound-on, or read in the
+       feedback phase where the second-look arm is off by construction, so
+       reverting markerLine to the old pick-one behaviour left the whole check
+       green. The order and the separator are the thing: sound first, because
+       it is the one an adult must act on, and the second marker drops its own
+       "Parent:" so the line does not say it twice. */
+    expect(markerLine(true, false)).toBe("\u00a0");
+    expect(markerLine(false, false)).toBe("Parent: sound is off");
+    expect(markerLine(true, true)).toBe("Parent: second look");
+    expect(markerLine(false, true)).toBe("Parent: sound is off \u00b7 second look");
+  });
+
+  it("15f: the refusal's reason is reachable from the control it explains, and dark enough to read on the sky", async () => {
+    /* The reason is the only thing telling an adult why the app just refused
+       their child's session. It was `ink2`, which measures 3.81:1 against the
+       middle sky stop at 12.5 px - under this project's own 4.5 floor - and it
+       was not named by the button, so a screen reader reached the button, was
+       told nothing, and had to sweep the page for a paragraph. Both closed by
+       the council's re-judgement, 2026-08-23. */
+    stored = { ...newState(), settings: { ...newState().settings, sound: false } };
+    render(createElement(App));
+    await flush(0);
+    const begin = screen.getByLabelText("Begin Session");
+    const id = begin.getAttribute("aria-describedby");
+    expect(id, "the control names the reason it is refusing for").toBeTruthy();
+    const reason = document.getElementById(id);
+    expect(reason, "and that name resolves to an element on the page").toBeTruthy();
+    expect(reason.textContent).toMatch(/The first steps need sound/);
+    /* the literal the fix chose, written out rather than read from the
+       constant under test (E4): #455073 is `strip`, which measures
+       4.75 / 4.63 / 5.07 against the three sky stops */
+    expect(reason.getAttribute("style")).toContain("color: rgb(69, 80, 115)");
+  });
+
   it("15e: with sound ON the ladder deals as it always did, and its stage carries the Glowseed idle", async () => {
     stored = { ...newState() };   // a fresh save: Pre 1, sound on
     render(createElement(App));
