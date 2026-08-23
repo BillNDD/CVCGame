@@ -341,6 +341,48 @@ describe("the ceramic tile states", () => {
     expect(seed.getAttribute("data-wq-glowseed")).toBe("muted");
   });
 
+  it("27: the tray's sizes follow the phone, not the render that drew them - a rotation resizes the tiles with no tap in between", async () => {
+    /* The fault, measured on a real browser before the fix (2026-08-23): at
+       740 px wide the tiles are 90 x 64, and after rotating to 320 they were
+       STILL 90 x 64 - the compact build was read once at render and nothing
+       was subscribed. Here the media query is driven directly, so the test
+       fails if the subscription is ever dropped. */
+    const listeners = new Set();
+    const query = { matches: true, addEventListener: (_, fn) => listeners.add(fn), removeEventListener: (_, fn) => listeners.delete(fn) };
+    const real = window.matchMedia;
+    window.matchMedia = (q) => { query.query = q; return query; };
+    try {
+      const tray = mount("cat");
+      expect(query.query, "the boundary is asked as a min-width, so it is the same CSS pixel the old innerWidth read used").toBe("(min-width: 360px)");
+      const slotBox = () => { const r = slots()[0].getAttribute("style") || ""; return r.replace(/\s/g, ""); };
+      expect(slotBox()).toContain("width:64px");
+      expect(slotBox()).toContain("height:64px");
+      /* the phone turns: the query changes, nothing is tapped */
+      query.matches = false;
+      await act(async () => { for (const fn of [...listeners]) fn(); });
+      expect(slotBox(), "no tap in between").toContain("width:56px");
+      expect(slotBox()).toContain("height:56px");
+      /* a multi-letter tile follows the smaller letter step too */
+      const wide = tiles().find((b) => b.textContent.length > 1);
+      if (wide) expect(wide.getAttribute("style").replace(/\s/g, "")).toContain("width:76px");
+      /* and back */
+      query.matches = true;
+      await act(async () => { for (const fn of [...listeners]) fn(); });
+      expect(slotBox()).toContain("width:64px");
+      expect(tray.answer.length).toBe(3);
+    } finally { window.matchMedia = real; }
+  });
+  it("27b: with no matchMedia at all - jsdom, and any browser too old for it - the tray still sizes itself from the width", async () => {
+    const real = window.matchMedia;
+    delete window.matchMedia;
+    try {
+      mount("cat");
+      const style = (slots()[0].getAttribute("style") || "").replace(/\s/g, "");
+      expect(style, "jsdom reports 1024 px, so the full-size build").toContain("width:64px");
+      expect(window.innerWidth).toBeGreaterThanOrEqual(360);
+    } finally { window.matchMedia = real; }
+  });
+
   it("24: a completed word wears one halo on the slot row round the assembled word, and every tray tile is disabled and used", async () => {
     const tray = mount("cat");
     for (const t of tray.answer) fireEvent.click(tileFor(t)[0]);

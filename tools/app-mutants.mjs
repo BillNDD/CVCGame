@@ -23,6 +23,7 @@ import { execFileSync } from "node:child_process";
 const APP = "app/src/App.jsx";
 const HOLD = "app/src/components/HoldButton.jsx";
 const UPD = "app/src/updates.js";
+const BUILDIT = "app/src/screens/BuildItScreen.jsx";
 
 /* [name, file, from, to] — one narrow rule broken per mutant. */
 const MUTANTS = [
@@ -121,6 +122,18 @@ const MUTANTS = [
     "  list.push(entry);", "  void entry;"],
   ["the error ring keeps only the newest entry", "app/src/errors.js",
     "  while (list.length > CAP) list.shift();", "  while (list.length > 1) list.shift();"],
+  /* THE ROTATION (2026-08-23). Build-it's tile sizes were read once at
+     render with nothing subscribed, so a phone rotated into portrait
+     mid-build kept the wide tiles until the child's next tap - measured at
+     740 px wide giving 90 x 64 and still 90 x 64 after a rotation to 320.
+     The fix is a subscribed media query, and a subscription is exactly the
+     kind of line a later tidy-up deletes without noticing: the state still
+     initialises correctly, so every test that only renders once still
+     passes. Killed by buildit test 27, which turns the query with no tap in
+     between. */
+  ["the tray stops listening for the phone turning", BUILDIT,
+    'q.addEventListener("change", onChange);',
+    'void onChange;'],
   ["a render crash is shown the way home but never recorded", "app/src/components/ErrorBoundary.jsx",
     "    record({", "    void record; void ({"],
 ];

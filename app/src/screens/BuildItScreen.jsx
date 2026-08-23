@@ -35,16 +35,49 @@ const SLOT = 64;
    492 px, and everything is above the strip. Measured by the census's
    Build-it cell on the largest tray, every profile. */
 const COMPACT_BELOW = 360;
-const compact = () => typeof window !== "undefined" && window.innerWidth < COMPACT_BELOW;
-const box = () => (compact() ? 56 : SLOT);
-const step = () => (compact() ? 20 : 26);
-const gap = () => (compact() ? 6 : 10);
+/* AND IT SURVIVES A ROTATION (the engineering seat's before pass, 2026-08-23).
+   The width was read at RENDER time with nothing subscribed, so a phone
+   rotated into portrait mid-build kept the wide sizes until the child's next
+   tap changed state - measured: 740 px wide gives 90 x 64 tiles, and after
+   setViewportSize to 320 they were still 90 x 64, where the compact build
+   asks for 76 x 56. Two symptoms, both bad: tiles a finger cannot reach until
+   the child taps one, and every tile jumping size mid-turn when they do.
+   It is a media QUERY now, subscribed, so the answer changes when the phone
+   does. `min-width` and negate rather than `max-width: 359.98px`: the
+   boundary is then the same CSS pixel the old `innerWidth < 360` used, with
+   no epsilon to get wrong. The state holds the BOOLEAN, never the width, so
+   the iOS URL bar collapsing (which moves innerHeight) cannot re-render the
+   tray. jsdom has no matchMedia at all - three suites render this screen -
+   so the read falls back to innerWidth the way Word.jsx falls back for
+   ResizeObserver. */
+const smallQuery = () => (typeof window !== "undefined" && typeof window.matchMedia === "function"
+  ? window.matchMedia("(min-width: " + COMPACT_BELOW + "px)") : null);
+const compactNow = () => {
+  if (typeof window === "undefined") return false;
+  const q = smallQuery();
+  return q ? !q.matches : window.innerWidth < COMPACT_BELOW;
+};
+function useCompact() {
+  const [small, setSmall] = useState(compactNow);
+  useEffect(() => {
+    const q = smallQuery();
+    if (!q) return undefined;
+    const onChange = () => setSmall(!q.matches);
+    onChange();
+    q.addEventListener("change", onChange);
+    return () => q.removeEventListener("change", onChange);
+  }, []);
+  return small;
+}
+const box = (small) => (small ? 56 : SLOT);
+const step = (small) => (small ? 20 : 26);
+const gap = (small) => (small ? 6 : 10);
 /* A slot is wider when its sound is written with more than one letter, so the
    SHAPE of the word is visible before a single sound plays. Owner-chosen on
    2026-08-17 from three live layouts. It is a real clue and that is the point:
    a child meeting sh-i-p can see that the first sound is a wide one. The extra
    width is per letter beyond the first, so a trigraph is wider still. */
-const slotWidth = (tile) => box() + (Math.max(1, (tile || "").length) - 1) * step();
+const slotWidth = (small, tile) => box(small) + (Math.max(1, (tile || "").length) - 1) * step(small);
 
 /* `tray.sounds` is parallel to `tray.tiles`: the sound each tile makes in THIS
    word, decided when the tray was built. The screen never derives a sound from
@@ -82,6 +115,7 @@ export default function BuildItScreen({ tray, playSounds, playWord, onDone, onEx
      quiet on for the rest of the turn and the object dark through the
      celebration - the loudest teaching audio of the turn. */
   const [quiet, setQuiet] = useState(false);
+  const small = useCompact();
   /* True while the built sounds play back after a miss: the filled slots wear
      the "different arrangement" ring (bible 11, 3.4 - neutral, never red)
      until the tray is handed back. Art step 1, 2026-08-22. */
@@ -239,7 +273,7 @@ export default function BuildItScreen({ tray, playSounds, playWord, onDone, onEx
      box is inline. A multi-letter tile is as wide as the slot it fits, so
      "sh" is visibly wider than "s" in the tray as well as in the word (S8,
      bible 11) - it used to be the same 64 px as every other tile. */
-  const tileStyle = (tile) => ({ width: slotWidth(tile), height: box() });
+  const tileStyle = (tile) => ({ width: slotWidth(small, tile), height: box(small) });
 
   return (
     <Frame>
@@ -264,11 +298,11 @@ export default function BuildItScreen({ tray, playSounds, playWord, onDone, onEx
           <div aria-busy={busy ? "true" : undefined} style={{ display: "flex", justifyContent: "center" }}>
             {/* the slot row is its own box, so the completed word's halo is one
                 band round the assembled word and not three round three slots */}
-            <span className={"wq-slotrow" + (won ? " wq-won" : "")} style={compact() ? { gap: gap() } : undefined}>
+            <span className={"wq-slotrow" + (won ? " wq-won" : "")} style={small ? { gap: gap(small) } : undefined}>
             {slots.map((tile, i) => (
               <button key={i} onClick={() => lift(i)} disabled={tile === null || won} aria-label={tile !== null ? "Take back " + at(tile) : "Empty space"}
                 className={"wq-tilebtn" + (tile === null ? " wq-empty" : "") + (ghost === i && tile === null ? " wq-cue" : "") + (arr && tile !== null ? " wq-arr" : "")}
-                style={{ width: slotWidth(tray.answer[i]), height: box() }}>
+                style={{ width: slotWidth(small, tray.answer[i]), height: box(small) }}>
                 {at(tile) || (ghost === i ? <span className="wq-ghost">{tray.answer[i]}</span> : "")}
               </button>
             ))}
@@ -278,7 +312,7 @@ export default function BuildItScreen({ tray, playSounds, playWord, onDone, onEx
           <div style={{ minHeight: 26, marginTop: 14, fontWeight: 700, fontSize: 15,
             color: won ? C.success : C.ink }}>{msg}</div>
 
-          <div style={{ display: "flex", gap: gap(), justifyContent: "center", flexWrap: "wrap", marginTop: compact() ? 10 : 14 }}>
+          <div style={{ display: "flex", gap: gap(small), justifyContent: "center", flexWrap: "wrap", marginTop: small ? 10 : 14 }}>
             {tray.tiles.map((tile, i) => (
               <button key={tile + "-" + i} onClick={() => place(i)} disabled={slots.includes(i) || won} aria-label={"Tile " + tile}
                 className={"wq-tilebtn" + (slots.includes(i) || won ? " wq-used" : "")} style={tileStyle(tile)}>{tile}</button>
