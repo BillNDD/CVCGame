@@ -413,7 +413,22 @@ export default function App() {
       setTimeout(then, ms);
     };
     playClips(ids, stateRef.current.settings.sound, noteFallback, (ms) => once(ms + 140));
-    setTimeout(() => once(0), 400 * ids.length + 700);
+    /* THE BACKSTOP MUST NOT RACE THE SOUND (the council's reading chair,
+       2026-08-23). It was 400 per sound plus 700, so a single sound had 1,100
+       ms while its own report lands at the clip plus 140 - and FIVE of the
+       fifty-one sound clips are longer than the 960 ms that leaves them
+       (long_o 1080, air and ow 1056, long_u and oi 1032, measured from the
+       voice manifest). For those five the backstop won, the caller was told
+       the sound had finished while it was still playing, and Build-it's
+       scaffold lifted its quiet up to 120 ms early - a blink of the object at
+       the tail of the word, which is the exact thing the quiet exists to
+       prevent. A backstop is a NET: it is now longer than any clip plus its
+       lead can be, so a real report always wins.
+       And with sound OFF there is nothing to wait for at all - playClips calls
+       the fallback and never reports - so the wait was 1,100 ms of dead time
+       per sound in a silent build. It hands straight back now. */
+    const soundOn = stateRef.current.settings.sound;
+    setTimeout(() => once(0), soundOn ? 1000 * ids.length + 900 : 0);
   }, []);
 
   /* Which word to build. Mastered first (box 4 and up), because the mode's

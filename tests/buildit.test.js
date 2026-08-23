@@ -366,6 +366,31 @@ describe("the ceramic tile states", () => {
     expect(seed.getAttribute("data-wq-glowseed")).toBe("muted");
   });
 
+  it("26e: the sound backstop cannot beat a real clip, so a slot's report always arrives first", async () => {
+    /* THE FAULT (the council's reading chair, 2026-08-23): playBuildSounds
+       backstopped at 400 per sound plus 700, so ONE sound had 1,100 ms while
+       its own report lands at the clip plus 140 - and five of the fifty-one
+       sound clips are longer than the 960 ms that leaves. For those five the
+       backstop won, the screen was told the sound had finished while it was
+       still playing, and the scaffold lifted its quiet up to 120 ms early: a
+       blink of the object at the tail of the word. The formula is READ from
+       the source rather than repeated here, so lowering it fails this test
+       instead of passing it twice. */
+    const manifest = JSON.parse(readFileSync("app/public/voice/manifest.json", "utf8"));
+    const sounds = Object.entries(manifest).filter(([k]) => k.startsWith("d:"));
+    expect(sounds.length, "the sound tier is present").toBeGreaterThan(40);
+    const longest = Math.max(...sounds.map(([, v]) => (v && v.ms) || 0));
+    expect(longest, "d:long_o, the longest single sound, measured from the manifest").toBe(1080);
+    const src = readFileSync("app/src/App.jsx", "utf8");
+    const m = /once\(0\), soundOn \? (\d+) \* ids\.length \+ (\d+) : 0\)/.exec(src);
+    expect(m, "playBuildSounds still backstops on a sound-guarded budget").toBeTruthy();
+    const budget = Number(m[1]) * 1 + Number(m[2]);
+    /* the report fires at the clip's scheduled length plus the 140 ms lead */
+    expect(budget, `a one-sound backstop of ${budget} ms must outlast ${longest} + 140`).toBeGreaterThan(longest + 140);
+    /* and with sound off there is nothing to wait for */
+    expect(src).toContain("soundOn ? ");
+  });
+
   it("26c: the scaffold's quiet ends on the last slot's own report, never on a clock", async () => {
     /* THIS IS THE TEST 26 COULD NOT BE. Its double reports every sound
        finished the instant it starts, so the fixed screen and the
