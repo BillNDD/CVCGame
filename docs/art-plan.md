@@ -335,7 +335,7 @@ measures at or above its literal ratio in `tests/tokens.test.js`; the ghost's ra
 stated and held; the check and the novelties scope are green; the art director's two
 checkpoints and the three-chair after pass are recorded here.
 
-### Step 2 — the Glowseed tied to the real audio lifecycle (opened 2026-08-23; the before pass returned the same day and rewrote this section; the owner's page on the order follows)
+### Step 2 — the Glowseed tied to the real audio lifecycle (opened 2026-08-23; the before pass returned the same day and rewrote this section; the owner ruled all four questions the same day, each as the council recommended)
 
 **What the child gets.** One small object in the child's field — inside the stage, out of
 flow, in the same top corner on every screen it appears on (the word reveal, the sentence
@@ -484,7 +484,18 @@ across idle, lit and muted and across ready, reveal and next on every profile, a
 1 px shift refused), the Glowseed cell green, the electric figure in the row, and the row
 declaring the placeholder, the checkpoints, the originality field and a closing date.
 
-**Four rulings the page asks of the owner.** (1) The order: A, B or D; C refused.
+**Four rulings, made by the owner on 2026-08-23 (the Glowseed page), each as the council
+recommended and each as the build had already been made — so nothing changed on their
+return, and what follows is the ruling with the question it answered.** (1) **The order: D**
+— the wiring, the states and the cells now, with a token-drawn placeholder approved under
+the "who draws" ruling; bible 8.1 keeps the Glowseed pixel-constructed; the pixel seed is
+drawn at step 6 to the locked camera as a drop-in on the same component, place and cells.
+(2) **The scaffold: (a)** the object stays idle during the scaffold — the slot's cue ring is
+the one event there; the scaffold's timing is untouched. (3) **The fallback voice: (a)** the
+object stays idle on every system-speech path (recorded audio only); the Grown-ups corner's
+note gains "and the listening light stays dark". (4) **Sound off: "Parent: sound is off"**
+on the strip's reserved marker line, with the replay controls disabled and the object muted.
+The questions as they were put: (1) The order: A, B or D; C refused.
 (2) The scaffold: after the second miss Build-it plays the answer's sounds one clip per
 900 ms slot while the ghost letter fades in (owner-ruled 2026-08-17) — under the lifecycle
 rule the object would blink once per sound on that metronome, in step with the cue ring,
@@ -542,8 +553,8 @@ when sound is off; and the pre-ladder with sound off plays no prompt — its mar
 so.
 
 **Built 2026-08-23, ahead of the owner's page, on its recommendations (D, a, a, "Parent:
-sound is off") so the checkpoint renders are real; whichever way the owner rules, the wiring
-and the cells stand.** The event source in `voicepacks.js` (`onAudio`: start at the schedule,
+sound is off") so the checkpoint renders would be real; the owner then ruled all four the
+same way, so the build stands unchanged and the renders are the ruled build's.** The event source in `voicepacks.js` (`onAudio`: start at the schedule,
 end when every node has fired `onended`, keyed by token; `stopClips()` ends it; each
 listener in its own try), proved in `tests/voicepacks.test.js` in the real module; the
 component (`app/src/components/Glowseed.jsx`, one persistent element switching a class,
@@ -1069,3 +1080,9 @@ Newest last. A verdict names the chair, the step, the word, and the findings.
   Checkpoint 1 (the greyscale notan with the word) and the after pass requested next; the
   owner's page may change the scaffold, the fallback or the sentence, each a small change
   on a green build.
+- 2026-08-23 — The owner ruled all four of step 2's questions, each as the council
+  recommended and each as the build had already been made: **order D** (the placeholder
+  approved, the pixel seed at step 6), **the scaffold quiet**, **the device voice dark**,
+  **"Parent: sound is off"**. Nothing changed in the code on their return; the rulings are
+  recorded in this section, in bible 7, in the provenance row (whose placeholder is now
+  owner-approved rather than pending) and in the comments that cited the page.

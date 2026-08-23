@@ -270,9 +270,10 @@ every exit path calls. Probed under headless Chromium before the design was comm
 suspended that long, which is how the census's Glowseed cell tells an event from a timer.
 The pops still land on the measured clip edges, and the turn still ends when the sound does.
 
-**The repository's Glowseed (art step 2, 2026-08-23; the owner's page on the order).** A
+**The repository's Glowseed (art step 2, owner-ruled 2026-08-23: order D, the scaffold
+quiet, the device voice dark, "Parent: sound is off").** A
 token-drawn placeholder for the pixel seed the garden's step draws to the locked camera,
-under the owner's "who draws" ruling — the place, the three looks and the timing are what a
+approved by the owner under the "who draws" ruling — the place, the three looks and the timing are what a
 child learns, and those do not change when the paint does. It sits out of flow in the
 stage's top corner, 0 px of layout (the census holds every zone's height and the word's box
 equal with it planted away), on the word reveal, the sentence reveal, the pre-ladder and
@@ -289,7 +290,7 @@ outside the rim (9.2's order; purple, so a child never reads it as a tile's cyan
 or transitions: the edge of the sound is the edge of the light, and reduced motion changes
 nothing. It is decoration to assistive technology (`aria-hidden`, no role, no tab stop,
 `pointer-events:none`) and never a control. During Build-it's scaffold it stays idle — the
-slot's cue ring is the one event there (the owner's page, ruling 2). The table below is the
+slot's cue ring is the one event there (owner-ruled 2026-08-23). The table below is the
 repository's, read by doc-truth rule 12 like section 11's; all three selectors are app-only,
 the reference build having no Glowseed.
 

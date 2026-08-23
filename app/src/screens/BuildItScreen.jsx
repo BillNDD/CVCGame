@@ -68,7 +68,7 @@ export default function BuildItScreen({ tray, playSounds, playWord, onDone, onEx
      Glowseed lit per utterance would blink once per sound on that beat - the
      repeated pulse bible 7 forbids. During the scaffold the slot's cue ring
      is the one event, and the seed stays idle (art step 2, the council's
-     reading chair; the owner's page, ruling 2). */
+     reading chair; owner-ruled 2026-08-23). */
   const [quiet, setQuiet] = useState(false);
   /* True while the built sounds play back after a miss: the filled slots wear
      the "different arrangement" ring (bible 11, 3.4 - neutral, never red)

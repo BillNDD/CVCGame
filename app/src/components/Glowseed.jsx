@@ -12,7 +12,7 @@ import { onAudio } from "../voicepacks.js";
    no tab stop, pointer-events none in the stylesheet) and never a control:
    the speaker controls in the grown-up strip keep their names and their
    44 px. A token-drawn PLACEHOLDER for the pixel seed the garden's step
-   draws to the locked camera (the owner's page on the order, 2026-08-23);
+   draws to the locked camera (owner-ruled 2026-08-23, order D);
    the place, the three looks and the timing are what a child learns, and
    those do not change when the paint does. */
 /* quiet: a screen asks the object to stay idle through a run of short plays

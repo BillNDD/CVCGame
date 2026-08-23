@@ -210,7 +210,7 @@
       "files": [],
       "master": null,
       "masterReason": "a token-drawn placeholder ships no file; the stylesheet is the master until the garden's step draws the pixel seed to the locked camera",
-      "placeholder": "D, the council's recommendation on the owner's page of 2026-08-23 (A / B / D; C refused by bible 17's standing rule): a token-drawn placeholder under the owner's 'who draws' ruling ('state 0 with placeholder geometry'), bible 8.1's row untouched; the pixel seed lands at step 6 as a drop-in paint on the same component, place, looks and cells. The owner's approval of the placeholder: pending the page's return - the build went ahead on the recommendation so the checkpoint renders are real.",
+      "placeholder": "D, owner-ruled 2026-08-23 on the Glowseed page (the questions were A / B / D; C refused by bible 17's standing rule; the council recommended D and the owner ruled D): a token-drawn placeholder approved under the owner's 'who draws' ruling ('state 0 with placeholder geometry'), bible 8.1's row untouched; the pixel seed lands at step 6 as a drop-in paint on the same component, place, looks and cells. The build was made on the recommendation before the ruling returned, so the checkpoint renders would be real; the ruling matched it and nothing changed.",
       "reference": [],
       "lifecycle": "lit at the utterance's schedule (voicepacks.js onAudio start: 50 ms before the first sample and the first clip's lead before any voice), idle when every node of the utterance - the clips and the hum's oscillators - has fired onended, counted to zero and keyed by the utterance's token, or when stopClips() ends it; never on the system-speech fallback, with sound off, or on a decode failure; a lost end (a closed context) lasts until the next stopClips(). Probed under headless Chromium 2026-08-23: onended fires at a natural end, on stop(), and 1,500 ms late through a context suspended that long.",
       "lock": {
@@ -311,7 +311,14 @@
       "checkpointBasis": "checkpoint 1 on greyscale renders of the reveal with a tile sounding, the sentence reveal, Build-it and the pre-ladder's ear prompt with the word; checkpoint 2 on colour renders of every look on the eight profiles, the census's Glowseed cell (the object against the page's own AudioContext) and tokens test 13",
       "checkpoints": [],
       "originality": null,
-      "closed": null
+      "closed": null,
+      "rulings": {
+        "date": "2026-08-23",
+        "order": "D - the placeholder now, the pixel seed at step 6 to the locked camera",
+        "scaffold": "a - the object stays idle through Build-it's scaffold; the slot's cue ring is the one event there; the scaffold's timing untouched",
+        "fallback": "a - idle on every system-speech path (recorded audio only); the Grown-ups corner's note says the listening light stays dark",
+        "soundOff": "\"Parent: sound is off\" on the strip's reserved marker line, the replay controls disabled, the object muted"
+      }
     }
   }
 }
