@@ -1168,3 +1168,16 @@ Newest last. A verdict names the chair, the step, the word, and the findings.
   profiles only. Desktop and the short iPhone have no Build-it renders in any set — the same
   coverage checkpoint 1 accepted — and on the landscape phone the object is `display:none`
   under the 400 px rule, so no collision is possible there.
+- 2026-08-23 — Owner-ruled, the Glowseed's lit rim: **keep `purpleStructural`**. Offered the
+  alternative of another approved neon, the owner asked what it would cost and the
+  measurement answered: the value collision the art director recorded is ARITHMETIC, not a
+  choice — a rim dark enough to read on the pale sky must be near luma 80, and the
+  arrangement ring is near luma 80 for the same reason, so no approved neon escapes it.
+  `coralElectric` is the only one nothing else uses and it is 1.56:1 against the sky, which
+  would make the rim nearly invisible; `amber` is the only viable swap and is both slightly
+  lower contrast than today and already the "now" segment's marker. Keeping it costs nothing
+  a child can see, and the separation the chair measured — 44–59× the ink, 201–288 CSS px
+  apart, in different zones, with two tokens exclusive to the object — does the work.
+  The owner added a standing wish with it: **"I want to find a use for that unused neon
+  too sometime."** Recorded in bible 9 beside coral's own row, with what it can and cannot
+  be, so a later step reaches for it rather than a later tidy-up deleting it.

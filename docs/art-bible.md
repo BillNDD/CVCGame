@@ -369,7 +369,20 @@ only" is a rule for the export, never for the screen.
 | Electric cyan | cyanElectric | #4EEBFF | Playback glow only |
 | Structural purple | purpleStructural | #5B3FD6 | Accessible purple edge |
 | ultraviolet | purpleElectric | #9B75FF | Rare milestone/Glowseed rim |
-| Coral-orange | coralElectric | #FF775E | Warm decorative light |
+| Coral-orange | coralElectric | #FF775E | Warm decorative light — APPROVED AND UNUSED, see below |
+
+**`coralElectric` is approved and has no job yet, and the owner wants it to find one**
+(owner-ruled 2026-08-23, on the decision that kept the Glowseed's lit rim at
+`purpleStructural`). It is the only electric token nothing in the app uses: measured that
+day, `coralElectric` had 0 uses against `cyanElectric`'s 2, `purpleElectric`'s 1 and
+`purpleStructural`'s 2. This note exists so a later tidy-up does not delete it for being
+dead code — it is unspent, not unwanted. What it can and cannot be, measured on the same
+day so the next art step does not re-derive it: at #FF775E it is luma 146 and only
+1.56 / 1.52 / 1.67:1 against the three sky stops, so it can never be an edge, a rim or any
+mark a child must find — those need about 4:1 and land near luma 80, which is why the
+Glowseed's rim and Build-it's arrangement ring share a value. Coral's place is what its row
+already says: a warm light ON something, over a dark or mid ground where its own contrast
+comes from the thing beneath it, not from the sky.
 
 ### 9.1 Electric-colour budget
 
