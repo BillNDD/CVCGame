@@ -485,7 +485,8 @@ pack contains personal data beyond the recorded voice itself.
 The replay control (a speaker symbol in the "grown-up" strip) operates only in the feedback
 phase, and only while sound is on: with sound off it is disabled, the Glowseed (the listening
 light in the stage's corner, art step 2) wears its muted look, and the strip's marker line
-says "Parent: sound is off" (2026-08-23; before that the control was live and silent). The
+says "Parent: sound is off" (2026-08-23; before that the control was live and silent), which
+it shares with a second look rather than replacing it — section 6 owns the order. The
 app never says the word before the attempt.
 
 ## 6. Screens and modes
@@ -554,7 +555,15 @@ small in appearance, with a minimum target of 44 px.
 The strip marker line. The strip keeps one line below its controls, whether or not there is
 anything to show, so the strip height never changes and the word never moves between phases.
 The line is reserved in every phase so the strip height never changes. Outside the feedback phase, a
-word the child is seeing again shows "Parent: second look". Every marker on this line names the
+word the child is seeing again shows "Parent: second look". When sound is off as well, the line
+carries both, sound first: "Parent: sound is off · second look" — the second marker drops its
+own "Parent:" rather than repeating it. Sound-off used to replace the second look outright,
+which meant that in a silent session the adult was never told a word was a repeat: of the two
+it is the one available nowhere else, while sound-off is a standing state the speaker control,
+the listening light and the Grown-ups corner all show at the same instant (2026-08-23). The
+line stays one line at every supported width, because a second line grows the strip and moves
+the word. The pre-ladder's strip carries the sound-off marker only; it has no repeat to report.
+Every marker on this line names the
 adult as its reader, the same as the tricky-word notes. A child can
 see this line, so a marker that reads as a verdict on the child's own attempt does not belong
 here: the words say who they are for.

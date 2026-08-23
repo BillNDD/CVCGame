@@ -887,7 +887,13 @@ for (const height of [430, 555, 720, 950]) {
      number nobody reads. Two cells share a row at 390 px, so each must still
      clear the 56 px child floor on its own. */
   const rand = await page.getByRole("button", { name: "Any word" }).boundingBox();
-  const lvl = await page.getByRole("button", { name: /Level \d+ .+ words/ }).boundingBox();
+  /* The accessible name lost its emoji when step 0a named every control in
+     plain words (f85ed6b): the cell READS "🎯 Level 1 🐣 words" and is NAMED
+     "Level 1 words", so a pattern that required something between the number
+     and "words" stopped matching. This check could not find its subject for
+     forty commits, because G7 runs only in the gauntlet - found on the way
+     to beta 27, 2026-08-23. */
+  const lvl = await page.getByRole("button", { name: /Level \d+ words/ }).boundingBox();
   const sent = await page.getByRole("button", { name: /Level \d+ sentences/ }).boundingBox();
   const anySent = await page.getByRole("button", { name: "Any sentence" }).boundingBox();
   if (rand && lvl && sent && anySent && [rand, lvl, sent, anySent].every((b) => b.height >= 56))
@@ -999,6 +1005,45 @@ for (const height of [430, 555, 720, 950]) {
     const wideLeft = Math.min(...wide.map((b) => b.x));
     if (wideRight > doc.w || wideLeft < 0) ok("control: the fit probe reports an over-wide tile row off the screen");
     else fail("the fit probe passed a row it should have refused", JSON.stringify({ wideLeft, wideRight, w: doc.w }));
+  }
+
+  /* THE STRIP'S ONE RESERVED LINE, at the narrowest screen this app supports.
+     Since 2026-08-23 that line can carry both of its markers at once -
+     "Parent: sound is off · second look" - and a second line would grow the
+     strip and move the word, which is the whole reason the line is reserved
+     (N-12 + P0-2). The longest text the app can put there is measured HERE,
+     in the shipped stylesheet, rather than estimated from a character count. */
+  {
+    const both = "Parent: sound is off \u00b7 second look";
+    const line = await page.evaluate((text) => {
+      const el = document.querySelector(".wq-mark");
+      if (!el) return null;
+      const strip = el.closest(".wq-strip");
+      /* A Range over the TEXT counts line boxes; getClientRects on the
+         element itself returns one rect however many lines it holds, because
+         .wq-mark is a flex item and lays out as a block - which this probe's
+         own control caught before it could pass anything. */
+      const lineBoxes = () => { const r = document.createRange(); r.selectNodeContents(el); return r.getClientRects().length; };
+      const before = { mark: el.getBoundingClientRect().height, strip: strip.getBoundingClientRect().height, word: document.querySelector(".wq-word").getBoundingClientRect().y };
+      const was = el.textContent;
+      el.textContent = text;
+      const after = { lines: lineBoxes(), mark: el.getBoundingClientRect().height, strip: strip.getBoundingClientRect().height, word: document.querySelector(".wq-word").getBoundingClientRect().y, width: Math.round(el.getBoundingClientRect().width), room: Math.round(strip.getBoundingClientRect().width) };
+      /* and the control: a marker too long for the line MUST report two lines
+         and a taller strip, or this probe is reading the wrong box */
+      el.textContent = text + " " + text + " " + text;
+      const over = { lines: lineBoxes(), strip: strip.getBoundingClientRect().height, mark: el.getBoundingClientRect().height };
+      el.textContent = was;
+      return { before, after, over };
+    }, both);
+    if (!line) fail("the strip has no reserved marker line to measure", "no .wq-mark on the session screen");
+    else {
+      if (line.after.lines === 1 && line.after.strip === line.before.strip && line.after.word === line.before.word)
+        ok(`both markers share the reserved line at 320 px on one line (${line.after.width} px of ${line.after.room}), and neither the strip nor the word moves`);
+      else fail("the strip's marker line wrapped, or the strip or the word moved with it", JSON.stringify(line));
+      if (line.over.lines > 1 && line.over.mark > line.before.mark)
+        ok(`control: an over-long marker is reported as ${line.over.lines} lines and a taller line box`);
+      else fail("the marker probe passed a marker it should have refused", JSON.stringify(line.over));
+    }
   }
   await context.close();
 }

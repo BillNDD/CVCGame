@@ -9,6 +9,28 @@ import HoldButton from "../components/HoldButton.jsx";
 import SentenceStage from "../components/SentenceStage.jsx";
 import Word from "../components/Word.jsx";
 
+/* THE STRIP'S ONE RESERVED LINE, and both things it can have to say at once.
+   Sound-off used to win outright, so in a silent session the adult was never
+   told a word was a repeat - and of the two, "second look" is the one that is
+   available NOWHERE else and changes what the adult does in the next ten
+   seconds, while "sound is off" is a standing state they set themselves and
+   can see in three other places at that instant: the speaker control is grey,
+   the Glowseed is muted, and the corner says so. The transient, unique,
+   actionable marker was losing to the persistent, thrice-redundant one (the
+   engineering seat's before pass, 2026-08-23).
+   Both literals stay whole in this file so the copy gate and doc-truth read
+   what a parent reads; the join drops the second "Parent: " rather than
+   composing a third string. The line stays ONE line - measured at 300 px by
+   G7, because a second line grows the strip and moves the word (N-12, P0-2). */
+const SOUND_OFF_MARK = "Parent: sound is off";
+const SECOND_LOOK_MARK = "Parent: second look";
+export function markerLine(sound, secondLook) {
+  const marks = [];
+  if (!sound) marks.push(SOUND_OFF_MARK);
+  if (secondLook) marks.push(sound ? SECOND_LOOK_MARK : SECOND_LOOK_MARK.replace("Parent: ", ""));
+  return marks.join(" · ") || " ";
+}
+
 /* The stage: word, tile slot, message slot. Split from the screen shell so no
    function passes the G6 complexity ceiling; the rendered output is identical. */
 function SessionStage({ state, currentWord, phase, fb, liveRef, pops = [] }) {
@@ -273,9 +295,7 @@ export default function SessionScreen({
         </div>
         {/* N-12 + P0-2: one reserved marker line, so the strip height never changes
             and the word never moves between phases */}
-        <span className="wq-mark wq-mono">
-          {!state.settings.sound ? "Parent: sound is off" : seenTwice[currentWord] && phase !== "feedback" ? "Parent: second look" : " "}
-        </span>
+        <span className="wq-mark wq-mono">{markerLine(state.settings.sound, seenTwice[currentWord] && phase !== "feedback")}</span>
       </Zone.Strip>
 
       {exitAsk && <ExitDialog answered={answered} handleExit={handleExit} />}
