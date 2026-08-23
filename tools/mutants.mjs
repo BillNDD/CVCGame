@@ -100,6 +100,11 @@ const MUTANTS = [
      before pass found zero mutants naming NEVER_BUILD, trayForbidden,
      traySpells or buildable, on the night a live hole in it was found and
      closed (2026-08-23). Both of these must die to tests/engine.test.js. */
+  /* THE COMBINATION HOLE (2026-08-23): taking the distractors without
+     checking each against the ones already taken is what let two
+     distractors complete a forbidden word between them - 44 reachable pairs
+     over 62,520 deals. Killed by the engine suite's whole-bank sweep. */
+  ["distractors are taken without looking at the ones already taken", "if (trayForbidden(own.concat(extras, [c]), own.length)) continue;", ""],
   ["the tray's forbidden-word guard always says no", "const trayForbidden = (tiles, slots) => NEVER_BUILD.some((w) => traySpells(tiles, w, slots));", "const trayForbidden = () => false;"],
   ["a forbidden word shorter than the slots is treated as unreachable", "if (want.length !== slots) return false;", "if (want.length > slots) return false;"],
   ["hush does nothing", 'function hush() { try { if ("speechSynthesis" in window) window.speechSynthesis.cancel(); } catch (e) {} }', "function hush() {}"],

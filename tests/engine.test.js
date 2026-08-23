@@ -1341,6 +1341,50 @@ describe("Build-it tray", () => {
     expect(NEVER_BUILD).not.toContain("sam");
   });
 
+  it("no dealt tray spells a forbidden word, however the distractors fall - the whole bank, many deals", () => {
+    /* THE HOLE THIS CLOSES (2026-08-23, found by a measurement the owner
+       asked for): the pool filter asks whether the word's own tiles plus ONE
+       candidate spell something forbidden - the dog + b shape it was written
+       for - and cannot see TWO distractors that complete a forbidden word
+       between them. Measured over 62,520 simulated deals before the fix: 44
+       distinct (word -> forbidden) pairs were reachable, none through the
+       word's own tiles. "ax" was dealt a, x, h and o - which is how a child
+       spells "ho" in two slots - and slam reached milt, just reached fist,
+       jump reached jugs, hop reached gob. The child then sees what they
+       built printed, and hears it spoken.
+       This sweep is the proof, and it is a sweep rather than an example
+       because the fault was invisible to every example anyone had written. */
+    const bank = [...new Set(LEVELS.flatMap((l) => l.words))].filter(buildable);
+    const levelOf = (w) => LEVELS.findIndex((l) => l.words.includes(w)) + 1;
+    const spells = (tiles, word, slots) => {
+      const need = chunkWord(word);
+      if (need.length !== slots) return false;
+      const left = tiles.slice();
+      return need.every((c) => { const i = left.indexOf(c); if (i < 0) return false; left.splice(i, 1); return true; });
+    };
+    /* a seeded rand, so a failure is reproducible and a held rand still ends */
+    let seed = 20260823;
+    const rand = () => { seed = (seed * 1103515245 + 12345) % 2147483648; return seed / 2147483648; };
+    const bad = [];
+    let deals = 0, shortfalls = 0;
+    const wanted = (lv) => (lv <= 5 ? 0 : lv <= 14 ? 1 : 2);
+    for (const w of bank) {
+      const lv = levelOf(w), slots = chunkWord(w).length;
+      for (let i = 0; i < 6; i += 1) {
+        const tray = buildTray(w, lv, rand);
+        deals += 1;
+        if (tray.tiles.length - slots < wanted(lv)) shortfalls += 1;
+        for (const f of NEVER_BUILD) if (spells(tray.tiles, f, slots)) bad.push(w + " -> " + f + " [" + tray.tiles.join(",") + "]");
+      }
+    }
+    expect(deals).toBeGreaterThan(6000);
+    expect(bad.slice(0, 5), bad.length + " trays spell a forbidden word").toEqual([]);
+    /* and the guard must not starve a tray: every level still gets the
+       distractors it asks for, or "no forbidden word" is bought by dealing
+       the answer alone */
+    expect(shortfalls, "trays with fewer distractors than the level asks").toBe(0);
+  });
+
   it("is reproducible: the same rand builds the same tray", () => {
     const a = buildTray("ship", 8, held(0.42));
     const b = buildTray("ship", 8, held(0.42));

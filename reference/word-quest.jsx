@@ -2207,8 +2207,28 @@ function buildTray(word, level, rand = Math.random) {
     && !trayForbidden(own.concat([c]), own.length));
   /* Drawn by shuffling and taking, never by retrying until the picks differ:
      a retry loop cannot end when rand is held still, and a held rand is
-     exactly what a test uses. This one hung the suite before it was caught. */
-  const extras = shuffle(pool, rand).slice(0, Math.min(trayExtras(level), pool.length));
+     exactly what a test uses. This one hung the suite before it was caught.
+
+     AND TAKEN ONE AT A TIME, each checked against the tiles already taken
+     (2026-08-23). The pool filter above asks whether the word's own tiles
+     plus ONE candidate spell something forbidden - which is the dog + b
+     shape it was written for - and it cannot see two distractors that
+     complete a forbidden word between them. Measured over 62,520 simulated
+     deals of the whole bank: 44 distinct (word -> forbidden) pairs were
+     reachable that way, none of them through the word's own tiles - "ax"
+     dealt a and x with h and o beside them, which is how a child spells
+     "ho"; "slam" reached milt, "just" reached fist, "jump" reached jugs,
+     "hop" reached gob. The accumulating check below closes it: a tile that
+     would complete a forbidden word with what is already in the tray is
+     skipped and the next one taken. One pass, so a held rand still ends. */
+  const shuffled = shuffle(pool, rand);
+  const extras = [];
+  const room = Math.min(trayExtras(level), pool.length);
+  for (const c of shuffled) {
+    if (extras.length >= room) break;
+    if (trayForbidden(own.concat(extras, [c]), own.length)) continue;
+    extras.push(c);
+  }
   /* EVERY TILE CARRIES ITS OWN SOUND, decided here and never re-derived from
      the letter later. A tile that belongs to the word plays the sound it makes
      IN THAT WORD - his's s says /z/ - and a distractor, which has no word

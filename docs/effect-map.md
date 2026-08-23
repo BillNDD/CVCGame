@@ -8,7 +8,7 @@ Per-test rows carry the test's own sentence, which in this project IS the
 Given/When/Then effect. The requirement, oracle, platform, mutant family, evidence
 and known limits are declared per FILE, in the tool, where they stay true.
 
-Totals: 426 it() SITES across 21 files, plus 18 gates that are not test files.
+Totals: 427 it() SITES across 21 files, plus 18 gates that are not test files.
 
 A site inside a loop or a table runs many times, so these rows describe more tests than they number: Vitest executes 330. The rows count the places behaviour is asserted.
 
@@ -104,7 +104,7 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 13 | the extended code | gives the four single-taught spellings their level's own sound |
 | 14 | the extended code | reads no word out of bare punctuation |
 
-## tests/engine.test.js — 106 tests (G1)
+## tests/engine.test.js — 107 tests (G1)
 
 - **Requirement protected:** SPEC sections 3-4: the word bank, levels, chunking, the Leitner ladder, session shape and the reveal plan
 - **Independent oracle:** Literal expected values written from SPEC by hand (E4). Never the constant under test.
@@ -221,7 +221,8 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 103 | Build-it tray | offers a tile for every slot, even when a sound repeats |
 | 104 | Build-it tray | refuses a distractor that would let a child spell a ruled-out word |
 | 105 | Build-it tray | never offers a word whose own tiles spell a ruled-out one |
-| 106 | Build-it tray | is reproducible: the same rand builds the same tray |
+| 106 | Build-it tray | no dealt tray spells a forbidden word, however the distractors fall - the whole bank, many deals |
+| 107 | Build-it tray | is reproducible: the same rand builds the same tray |
 
 ## tests/faults.test.js — 23 tests (G9)
 
