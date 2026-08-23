@@ -335,104 +335,242 @@ measures at or above its literal ratio in `tests/tokens.test.js`; the ghost's ra
 stated and held; the check and the novelties scope are green; the art director's two
 checkpoints and the three-chair after pass are recorded here.
 
-### Step 2 — the Glowseed tied to the real audio lifecycle (opened 2026-08-23; the council's before pass first, then the owner's page on the order)
+### Step 2 — the Glowseed tied to the real audio lifecycle (opened 2026-08-23; the before pass returned the same day and rewrote this section; the owner's page on the order follows)
 
-**What the child gets.** One small object in the reading frame that is lit exactly while
-recorded teaching audio plays and dark otherwise (bible 7): a pale low-contrast core with a
-muted stone rim at rest; an electric-cyan core inside a thin ultraviolet rim while a word
-plays, steady, no pulse; the same but subordinate to the sounding tile while single sounds
-play; a muted object beside a disabled speaker control and a plain sentence when audio is
-unavailable; an immediate static change under reduced motion. No face, mouth, eyes, limbs,
-grille, text or character behaviour. It never replaces the speaker control ("Hear the word
-again", "Hear it again", "Hear the word", "Hear the sound"), which keeps its accessible
-name and its 44 px; it is secondary to the sounding tile, which keeps the child's eye.
-Active begins and ends with the audio's own start and completion — the players already
-report both (`speakVoice` and `playClips` call `onScheduled(ms)` once their clips are
-scheduled; `stopClips` ends them; the silent pack's backstop ends the turn), and the
-Glowseed reads those events and no clock of its own (7's ruling). On the system-speech
-fallback, whose length nobody reports, it shows the steady active state from the
-utterance's start event to its end event if the browser gives them, and otherwise stays
-idle — "unknown duration means no guessed timed animation" (14).
+**What the child gets.** One small object in the child's field — inside the stage, out of
+flow, in the same top corner on every screen it appears on (the word reveal, the sentence
+reveal, the pre-ladder, Build-it; not home, not the done screen, not the corner; bible 13.1
+says home "may", not must) — that is lit exactly while recorded teaching audio plays and dark
+otherwise (bible 7). Three looks, all hard-edged, none animated: **idle**, a pale core
+(`slot`) inside a stone rim, within one value step of its ground so it reads as scenery and
+never as a fourth tile; **lit**, the core `cyanElectric`, the rim `purpleStructural`, a thin
+`purpleElectric` light outside the rim (9.2's order: electric glow outside a darker
+structural edge — purple, so a child never reads it as a tile's cyan band), steady, no pulse;
+**muted** (sound off), the core gone and the rim empty, beside the replay control now
+`disabled` and a sentence on the strip's reserved marker line that a parent reads. Reduced
+motion changes nothing, because nothing moves: the edge of the sound is the edge of the
+light, as it is for the tiles' ring (owner, 2026-08-11). It never replaces the speaker
+controls — "Hear the word again", "Hear it again", "Hear the word", "Hear the sound" keep
+their names and their 44 px — and it is decoration to assistive technology: `aria-hidden`,
+no role, no live region, no tab stop, `pointer-events:none`, never a second replay control.
+The sounding tile keeps the child's eye: the object's rim is thinner than the tile's 3 px
+ring and its dark-edge area is below the ring's (≈63 px² against ≈534 on the iPhone 13), and
+during a sound-out the object stays lit across the whole utterance — one span across the
+seams, the hum's own edges — while the pops mark the tiles. It says nothing about the word
+(answer-clue: nothing about it varies with the word), shows no text, and is identical for a
+correct, close and wrong reveal (3.4).
 
-**The question the before pass settles first, for the owner.** Section 17's ruling locks
+**The corrected premise.** The first draft said the players "already report when they
+finish". They do not: `playClips` calls `onScheduled(ms)` once, at schedule time, with the
+measured length; no audio node carries `onended`; every "end" the app uses today is a
+`setTimeout` on that length (App.jsx `playBuildWord`, `playBuildSounds`, the advance timer),
+and the replay, the done line and the pre-ladder prompt pass no callback at all. So "no
+clock of its own" is honest only with real completion events, and bible 7's ruling
+paragraph is corrected in this step to say so. Probed on 2026-08-23 under Playwright's
+headless Chromium before the design was committed: `AudioBufferSourceNode.onended` fires at
+a buffer's natural end, fires on `stop()`, and through a context suspended for 1,500 ms
+mid-play arrives 1,500 ms late — which is what lets a cell tell an event from a timer.
+
+**The wiring, which is the step whichever way the owner rules.** The event source lives in
+`app/src/voicepacks.js` only: `onAudio(listener)` delivering `{ state: "start" | "end",
+token }`. Start is emitted when the utterance's plan has been scheduled — the same moment
+`onScheduled` fires and the hum starts, 50 ms before the first sample and the first clip's
+lead (40–290 ms across the pack) before any voice — and is emitted outside `playPlan`'s
+try, each listener in its own try, so a throwing listener can never leave clips scheduled
+and call the system-speech fallback over them (a test plants one). End is emitted when
+every scheduled node of the utterance, the hum's oscillators included, has fired `onended`,
+counted to zero and keyed by the utterance's token so a stopped utterance's late `onended`
+never darkens the next; `stopClips()` ends it too (its stop fires `onended`, so it needs no
+hook). A silent pack never starts, so it never lights. A lost end — a context closed by
+`reclaimOutput`, an iOS interruption that never resumes — is caught by the turn's own long
+backstop (B17's 10 s), recorded as the safety net it is and long enough that the 1,500 ms
+suspend control still separates an event from a timer. The object subscribes and switches a
+class; nothing else reads the events. The system-speech fallback (`speak` in the reference
+build) stays **idle**: recorded audio only, as bible 7 scopes it, no engine change, and the
+corner's B7 note gains "and the listening light stays dark" (the reading chair's (a); the
+owner's page carries the alternative). Edges, stated: the light spans the files, not the
+speech — on a replay of "sat" it is lit about 1,070 ms for 460 ms of voice (lead 120, tail
+440) — the same clock as the hum and the advance control, so three indicators never
+disagree.
+
+**The order question, for the owner (one decision, a page).** Section 17's ruling locks
 the camera — one viewpoint, one ground plane, one key-light direction, one module — at the
 garden's stage 3, "before any state-0 pixel is placed, because the camera is the one
-irreversible decision eleven states, the Glowseed and the guide share". The owner-ruled
-order puts the Glowseed at step 2 and the garden at step 6. A pixel Glowseed drawn now
-would be drawn to a light that does not exist yet. Three ways, costed for the owner on a
-page: **A** — bring the garden's stages 0 to 3 forward into this step (output conditions,
-the reference board, the notan with the word, the numeric lock), take the camera-lock
-checkpoint, then draw the Glowseed to it; **B** — this step is the wiring and the states,
-with the object drawn as a CSS family from tokens (a core, a rim, a glow) like the tiles,
-and a pixel Glowseed only if the garden's step finds the CSS one wanting — which amends
-8.1's row the way the tile row was amended; **C** — a pixel Glowseed with a light of its
-own, to be redrawn at step 6 (draws an asset twice and breaks "one key light" — not
-recommended). The implementer's recommendation goes on the page with the measurements:
-how many bytes and files each way, what the census can already measure (the snap cell's
-first real subject under A or C, nothing new under B), and what each way leaves for the
-garden's step.
+irreversible decision eleven states, the Glowseed and the guide share", and the chair's
+standing refusal under it says no Glowseed pose is drawn before that lock is in provenance
+and has passed its checkpoint. The owner-ruled order has the Glowseed at step 2 and the
+garden at step 6. The council's before pass (all three chairs, 2026-08-23): **A** — bring
+the garden's stages 0 to 3 into this step (a reference board, the eleven states' notans on
+three crops with the word, the numeric lock, the camera-lock checkpoint), then draw the
+Glowseed to it: about 5 to 7 working days before any wiring is judged, a camera decided
+before the frame step has fixed where the bands are (the decision most likely to be
+re-taken), and four file checks and a per-profile snap cell built for a 20 px bead;
+**B** — this step is the wiring and the states, the object a CSS family from tokens, bible
+8.1's row amended as the tile row was, a pixel Glowseed only if the garden's step finds the
+CSS one wanting (the antagonist's choice: about 15 to 18 files, no file gates; its cost is
+that a flat token disc becomes the permanent material unless "found wanting", which nobody
+measures, and a pixel cradle round a vector seed is 17.1's inconsistent scale at the one
+junction a child looks at when the voice speaks); **C** — a pixel Glowseed to a light of
+its own, redrawn at step 6: refused by bible 17's standing rule, not costed as a way;
+**D** — B's build declared as a placeholder under the owner's own "who draws" ruling
+("state 0 with placeholder geometry"), 8.1's row untouched, the pixel seed drawn at step 6
+to the locked camera as a drop-in paint on the same component, classes, position and cells
+(the art director's choice; the reading chair's B-with-a-condition is the same build: the
+place decided now and kept by the frame and the cradle). The council recommends **D**; a
+placeholder needs the owner's approval and a named entry in the owning document (CLAUDE.md),
+which the page asks for. Three more decisions ride on the same page: the scaffold, the
+fallback and the sound-off sentence, below.
 
-**How it is made — the construction order.** Stage 0: the logical grid is the object's
-box in CSS px on the three crops, measured in the frame beside the speaker control; the
-byte share 524,288 (A or C: two states × three crops × two scales; B: spent at 0, as the
-tiles'); a provenance row opened. Stage 1 (A or C): a reference board — a seed, a glass
-bead, a pilot lamp — each reference answering a named question, source and licence in the
-provenance row, nothing copied. Stage 2: the notan — the reveal, the sentence reveal and
-Build-it as two and three values with the word, the tiles and the speaker control drawn
-in, the Glowseed at rest and lit, on 320 × 658 and 390 × 664: the lit core must be the
-second brightest thing after the word's ground and never the first. Stage 3 (A): the lock
-— the key light's offset and the module, in provenance as numbers. Stage 4
-(**checkpoint**): greyscale renders with the word. Stage 5: `cyanElectric` core,
-`purpleStructural` rim (the "thin ultraviolet rim"; 9.2: electric glow always outside a
-darker structural edge), `slot` and `boundary` or `disabled` for the muted states — tokens
-only, a three-step ramp per material, inside 9.1's 1–3 % for an ordinary screen **with the
-sounding tile's band counted in the same budget**, since both are lit during a sound-out.
-Stage 6: binary alpha (A or C). Stage 7 (**checkpoint**): the states one by one, each a
-render. Stage 8 (A or C): 1× master under `tools/art/masters/`, 2× and 3× under
-`app/public/art/`, no gAMA or iCCP, pixel-equals-token, the derivative check's control.
-Four audits: geometry (the box identical across states — an indicator that changes size
-is a pulse), value, originality and answer-clue (a lit seed says nothing about the word),
-final on the eight profiles.
+**Stage 0, measured.** The object's CSS box is at most 20 px — at most 60 % of the reveal
+tile's measured height (39 / 46 / 38 / 42 CSS px on the Galaxy S9+, the Pixel 7, the iPhone
+13 and the desktop; 28 on the short stage) — absolutely positioned inside the stage with
+0 px of layout, so header, stage, rail and strip measure identical with it present and
+planted away; in the stage's top corner, where the sky is free on every profile (the stage's
+top sky above the "Read this word" label runs 46–181 CSS px on the Galaxy, 46–279 Pixel 7,
+46–199 iPhone 13, 46–232 desktop, 46–167 short stage, 46–69 landscape phone; the tile rows
+sit at 287–326 / 398–444 / 307–345 / 379–421 / 223–251 / 128–147), never between the word
+and the tile row, never over a control's box, a text line or a tile, never in the strip;
+left or right is the notan's to settle (the art director leans right, after the word in
+reading order); absent where it cannot fit, the layout never moved. Byte share 524,288,
+spent at 0 under B or D (a provenance row opened, declared a placeholder under D; at step 6
+one sprite, three painted states × two scales = 6 indexed PNGs of a few hundred bytes —
+about 2.3 KB measured on a synthetic seed — no crops, which are the garden's). The electric
+figure per profile goes in the provenance row beside the band's 0.44 %: the band plus an
+8 px core (≈0.02 %) plus a 2 px light (≈0.05 %) is about 0.51 % on the iPhone 13 and 0.62 %
+on the Galaxy, under 9.1's 1–3 % with room — value weight, not the budget, is the
+constraint.
 
-**The wiring, which is the step whichever way the owner rules.** `voicepacks.js` gains
-one small event source — `onAudio(listener)` reporting `{ state: "start" | "end",
-kind }` — fed by the three places that already know: `playClips` when it schedules (start,
-and end at the measured length it already reports), `stopClips` (end), and the callers'
-backstops in `App.jsx` (`playBuildWord`, `playBuildSounds`, the reveal's once-with-a-
-backstop) when they fire first. The Glowseed component subscribes and renders a state
-class; nothing else changes. Reduced motion: the CSS transition is zero under
-`prefers-reduced-motion`. The "audio unavailable" state follows the existing pack-missing
-and sound-off paths (`noteFallback`, the settings' sound switch): the object muted, the
-speaker control disabled with its existing explanation.
+**Stage 2, the notan, and checkpoint 1.** Greyscale renders with the word on the Galaxy and
+the iPhone 13 at least, of the reveal with a tile sounding, the sentence reveal, Build-it
+ready and prompting, and the pre-ladder's ear prompt (the one screen where the object is
+not secondary to a tile — no tile is on the stage there, bible 13.2). Judged on: in two
+values the lit object is one small dark-rimmed mark whose rim clears 3:1 on all three sky
+stops and whose dark-edge area is below the sounding tile's ring; in three values the core
+sits in the sky's value group, never the tile faces'; the idle object sits within one value
+step of its ground (stone 1.28 / 1.24 / 1.36:1 on the stops, `slot` 1.23 / 1.26 / 1.15) and
+does not read as a fourth tile at thumbnail size; the word stays the darkest, largest,
+highest-contrast thing on the screen; the silhouette is not a circle with a centred core
+(an eye, an LED, a bullseye — 17.1's face risk): an ovoid with the core offset toward the
+cradle end and one asymmetric tip; the 18.2 verdict written into the row. The first draft's
+criterion — "the lit core must be the second brightest thing after the word's ground" — is
+deleted: measured from C, `cyanElectric` (0.683) is the seventh value on the screen and
+1.06:1 against the idle core, invisible in greyscale. What carries the lit state in value is
+the RIM: stone (0.443) to `purpleStructural` (0.106) is a 3.15:1 step, and the lit rim
+measures 4.02 / 3.92 / 4.29:1 on the three stops.
 
-**Breaks (E11), named before the change.** Seven test files mock `voicepacks.js`
-(`tests/buildit.test.js`, `models`, `names`, `reveal`, `safety`, `sentence`,
-`voicepacks`): a new export must be in every mock or the component throws at render — the
-lookup `node tools/blast-radius.mjs --symbol playClips` lists them. The monkey's
-`SOUND_ONLY` exemption says the replay controls "show nothing new": with the Glowseed they
-light it, which the monkey's signature (text length, element count, active element) does
-not read — the reason text changes, the exemption stands. `tests/census/novelties.spec.mjs`'s
-motion cell counts running animations during a clip: a CSS transition on the Glowseed is
-not an animation, and the cell must say why it is allowed (14: synchronize only the
-sounding tile, the Glowseed and a conventional indicator). The snap cell gets its first
-real subject under A or C (`data-wq-art`, `data-wq-art-w/h`, `image-rendering:
-pixelated`, the 2×/3× file picked by dpr and snapped in code). The electric-area figure in
-provenance (0.44 % for the band alone) becomes band plus core. The aria snapshot of home
-does not change (the Glowseed is not on home's chrome until the garden lands — to be
-confirmed by the before pass against 13.1). G11's copy lint reads any new parent-facing
-sentence ("Sound is off" beside the muted object). `docs/effect-map.md` gains the
-Glowseed's effects. Counts that move: `census_novelty_cells` and `_controls` (a Glowseed
-cell: lit exactly between the start and end events, with a planted clock-driven light and
-a planted light-before-start refused; the reduced-motion cell), `g20_tests_mapped`,
-`g17_governing_files` if a new file is declared, `g23_declared` for the masters and the
-exports.
+**Stage 5, tokens.** Core `cyanElectric`; rim `purpleStructural`; light `purpleElectric`
+outside the rim; idle core `slot`; idle rim stone, declared in tokens test 3b's company as a
+decorative edge below 3:1 (8.3: scenery by value and hue, never an instructional boundary);
+muted: the core gone, an empty rim (the `disabled` token, 0.440, is the same value as stone
+and cannot carry it; shape does). The rim's three ratios and the idle-to-lit step are pinned
+at literals in `tests/tokens.test.js`. Bible 9.3's use note and C's comment, which call
+`purpleElectric` the "Glowseed rim", are amended in the same commit to "Glowseed light":
+`purpleElectric` is 1.97 / 1.92 / 2.10:1 on the stops, and 9.1 says an electric hue is
+never the sole boundary. Stages 1, 3, 6 and 8 are empty under B or D; under A they are the
+garden's and the step must also build the four file checks bible 17 assigns to the step
+that lands the first file (binary alpha, no gAMA or iCCP, pixel-equals-token, derivative
+equality) and a per-profile snap cell — none of which exists today (`tools/art-budget.mjs`
+sums bytes; `tools/provenance-check.mjs` reads shapes and tokens, never a file).
 
-**Done means.** The object is lit from the audio's own start to its own end and never
-otherwise, on the pack and on the fallback, with the silent-pack backstop ending it; the
-four states render as bible 7's table as amended by the owner's ruling; the snap cell (A
-or C) and the motion cell are green; the art budget and the derivative check are green;
-the art director's two checkpoints (and, under A, the camera lock) and the three-chair
-after pass are recorded here; the provenance row is closed.
+**Stage 7 and checkpoint 2.** Colour renders on the eight profiles, one per state and
+screen: idle on the attempt; lit on the word playback; lit beside a sounding tile (band and
+light in one budget figure); muted with the disabled control and the marker-line sentence;
+the pre-ladder's ear prompt; Build-it's prompt and its arrangement playback (the slots'
+`purpleStructural` ring and the object's rim on one screen, distinct by shape and size); a
+reduced-motion render identical to the lit one. Judged on tokens sampled at their literals,
+9.2's order on the pixels (light outside a darker rim, core inside, no blur, no gradient),
+no transition or animation at any phase, the geometry audit (box and offset identical
+across idle, lit and muted and across ready, reveal and next on every profile, a planted
+1 px shift refused), the Glowseed cell green, the electric figure in the row, and the row
+declaring the placeholder, the checkpoints, the originality field and a closing date.
+
+**Four rulings the page asks of the owner.** (1) The order: A, B or D; C refused.
+(2) The scaffold: after the second miss Build-it plays the answer's sounds one clip per
+900 ms slot while the ghost letter fades in (owner-ruled 2026-08-17) — under the lifecycle
+rule the object would blink once per sound on that metronome, in step with the cue ring,
+which bible 7 forbids in plain words; either (a) the object stays idle during the scaffold,
+the slot's cue ring being the one event there (the council's recommendation for this step),
+or (b) the scaffold becomes one utterance — the answer's sounds with the sound-out's seam
+between them — with the ghost timed from the schedule's own slots, one lit span and today's
+guessed 900 and 700 ms clocks gone (bible 14's rule, which the scaffold breaks today; the
+Build-it layout step's to take if not now). (3) The fallback voice: (a) the object idle on
+every system-speech path, the corner's note saying so (recommended), or (b) the utterance
+events wired in the engine's `speak` — an engine change, the parts bridged into one span so
+the praise-then-word queue does not flicker, the `hush()` mutant re-anchored. (4) Sound
+off: the replay control and the pre-ladder's control render `disabled`, the object muted,
+and the marker line says "Parent: sound is off" (recommended wording; the page offers
+others) — a visible change to SPEC section 5's replay rule, declared.
+
+**Breaks (E11), named before the change, corrected by the before pass.** Five test files
+mock `voicepacks.js` — `tests/buildit.test.js`, `models`, `names`, `reveal`, `sentence` — and
+a missing export throws on access; `tests/safety.test.js` drives the real module's fallback
+in jsdom and `tests/voicepacks.test.js`'s `FakeCtx` sources have no `onended` and a `stop()`
+that only sets a flag, so the double gains `onended` on stop and on the oscillators, and the
+real source is proved there and nowhere through a mock ("never present a mock as proof").
+`tests/reveal.test.js` 3b's sound-off path and `tests/safety.test.js` 4 and 5 read the
+replay control's disabled state; SPEC section 5's "the replay control operates only in the
+feedback phase" gains "and only while sound is on", and S2's sentence in CLAUDE.md stays
+true. The monkey's `SOUND_ONLY` reason text changes to "it speaks and lights the seed,
+which the signature cannot read" (the signature is text length, element count and active
+element; the object is one persistent element switching a class, never mounted or removed
+— a mount would be a layout event and make the exemption silently false); its `dead-end`
+rule is re-checked with the replay disabled under sound-off (the grade controls stay live).
+The motion cell counts CSS transitions — `document.getAnimations()` returns them and
+`motionHold` names any stranger `motion-during-reveal` — so the object has none, and a
+planted transition on it is refused through the reader. `tests/tokens.test.js` test 10 and
+doc-truth rule 12 name the app-only selectors: `.wq-glowseed` is declared app-only in both
+or mirrored in the reference; `g1_token_tests` moves with the rim's pins. The census helper
+`stage()` gains a sound-off option; the Glowseed cell adds one cell per profile and its
+plants add controls (`census_novelty_cells` 84 → 92, `census_novelty_controls` 15 → 17 or
+so, `census_cells` to follow); a new vitest file would need a gauntlet counter, a baseline
+key and an effect-declarations entry, so the tests go into existing files
+(`g10_reveal_tests`, `g13_engine_tests`) and `g20_tests_mapped` moves with them — the
+gauntlet document quotes that count (412) and doc-truth holds the quote to the baseline.
+`node tools/app-mutants.mjs --anchors`: the mutant anchored on the grade line `if
+(!s.settings.sound) armAdvance(ADVANCE_GUARD_MS);` stays byte-identical; `node
+tools/mutants.mjs --anchors`: the engine mutant anchored on `hush()`'s exact text is
+untouched under fallback ruling (a). The object must not carry `.wq-sbtn` (the interface
+gate measures every one at 44 px). `tools/provenance-check.mjs` gains a Glowseed lock
+reader (the box, the rim and the light in CSS px read from the stylesheet), so the row is
+read and not trusted. The aria snapshot of home does not change; the session's accessible
+tree changes by nothing (the object is hidden). `tools/file-map.mjs`'s bulk globs cover a
+new component under `app/src/` (`g23_declared` does not move for it). G11 reads the
+marker-line sentence. `docs/effect-map.md` gains the object's effects. Two pre-existing dead
+ends become visible under the muted state and are in this step's scope: the session
+breather deals Build-it with sound off (the chooser refuses it) — the breather skips itself
+when sound is off; and the pre-ladder with sound off plays no prompt — its marker line says
+so.
+
+**Done means.** Cells, on the eight profiles, each with a plant: **attempt** — idle at every
+100 ms sample from stage to grade on the word and the sentence attempt; the pre-ladder's
+ready-phase prompt is the named exception and lights it; a planted lit class on the attempt
+refused. **Reveal** — observed against the audio itself: an init script wraps
+`AudioContext.prototype.createBufferSource` to log every `start(t)` and `onended` on the
+context's clock, and a MutationObserver timestamps the object's class changes; the object is
+lit over every pop interval, never before the first `start()` call, dark within 100 ms of the
+last `onended`, exactly two state changes per word reveal; plants: `lit-before-audio`,
+`lit-after-audio`, and `dark-before-audio-ended` with the context suspended for a literal
+1,500 ms mid-utterance — a timer of the audio's length darkens early, an event does not.
+**Stop** — idle within one frame after a "skip" hold or `next()`, a light that survives
+`stopClips()` refused. **Geometry** — box and offset identical (≤ 0.5 px) across idle, lit
+and muted and across ready, reveal and next; header, stage, rail and strip heights and the
+word's box identical with the object planted away, the 200 % arms and the landscape phone
+included; the box intersects no control's, the word's, the tile row's or the message slot's.
+**Sound off** — the replay and pre-ladder controls `disabled`, the object muted, the sentence
+on the marker line, strip height and word box equal to sound-on's, G11 clean. **Non-colour**
+— rim step idle to lit ≥ 3:1 (3.15 pinned), the lit rim on each stop ≥ 3:1, the muted shape
+readable from computed style and visible in the greyscale render; in greyscale the object's
+local contrast below the sounding tile's ring and the word. **Grades** — lit styles identical
+for correct, close and wrong. **Motion** — no animation and no transition on the object at
+any phase under both motion settings; the motion cell reports nothing new. **Build-it** —
+the scaffold's state changes as the owner rules (zero under (a), at most two under (b)); a
+tap's span ends with its sound; "Hear the word" and "Hear the sound" keep name and box.
+**Assistive technology** — `aria-hidden`, no role, absent from `tappable()`, the four replay
+names and their ≥ 44 × 44 boxes unchanged, axe 0. **Fallback** — never lit on a planted
+pack refusal; the silent pack never lights. **Budget** — band plus core plus light ≤ 3 % on
+320 × 658, the figure in provenance. The art director's two checkpoints and the three-chair
+after pass recorded here; the provenance row closed with the placeholder declared (D) or the
+8.1 amendment recorded (B).
 
 ## The log — every pass, every verdict
 
@@ -878,3 +1016,28 @@ Newest last. A verdict names the chair, the step, the word, and the findings.
   the E11 lookups (`--symbol playClips`, `--symbol stopClips`, `--text "data-wq-art"`);
   the before pass requested from all three chairs, the camera-lock order question first,
   so the owner's page can carry the council's costed opinion.
+- 2026-08-23 — Step 2 before pass returned, all three chairs, and the section rewritten.
+  **Art director: order D** (the wiring, the states and the cells now with a token-only
+  placeholder under the owner's "who draws" ruling; the pixel seed at step 6 to the locked
+  camera; A about 5–7 working days before any wiring is judged and a camera decided before
+  the frame; C refused by bible 17's standing rule); three blocking: the place ("beside the
+  speaker control" is the grown-up strip, a wrapping one, on two screens and a full-width CTA
+  on the third — out of flow in the stage's top corner instead, the free sky measured per
+  profile), the notan criterion ("second brightest" is false: cyanElectric is the seventh
+  value on the screen; the rim's 3.15:1 step carries the lit state), no transition (the
+  motion cell counts CSSTransitions). **Reading chair: B with the place decided now and
+  kept** (the same build as D); three blocking: the place, the "audio unavailable" state that
+  does not exist (with sound off the replay control is live and silent — `canReplay` never
+  reads `settings.sound`), and the scaffold's one-clip-per-900-ms plays that would blink the
+  object. **Antagonist: B**; six blocking: the premise — the players report no completion
+  (`onScheduled` once, with a length; no `onended`; every end a `setTimeout`), so "no clock
+  of its own" needs real events or an honest timer; the planted-clock control unprovable by
+  timing alone — the detector must watch the AudioContext (a wrapped `createBufferSource`, a
+  MutationObserver, a 1,500 ms suspend as the timer/event separator); the transition; the
+  unavailable state; the place; the derivative check that nobody built. Every finding
+  verified against the code and taken; `onended` probed under headless Chromium before the
+  design was committed (natural end, stop, and a 1,500 ms suspension delaying it by 1,500 ms).
+  The section now carries the corrected premise, the event source, stage 0 measured, the
+  notan criterion, the tokens with 9.3's note amended, the four rulings for the owner's page
+  (the order; the scaffold (a)/(b); the fallback (a)/(b); the sound-off sentence), the E11
+  list with five mocks and the gates the first draft missed, and the cells of done means.
