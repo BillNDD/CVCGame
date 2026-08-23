@@ -1322,7 +1322,18 @@ describe("Build-it tray", () => {
     expect(buildable("dog")).toBe(true);
     expect(NEVER_BUILD).toContain("gob");
     expect(NEVER_BUILD).toContain("milt");
-    expect(NEVER_BUILD.length).toBe(9);   // hunt came off the list 2026-08-17
+    /* Every word the owner refused for CHILD-APPROPRIATENESS, on any date, is
+       here - not only the 2026-08-07 list this began as. The beta 27 readiness
+       audit found a child could spell "ho" from a two-slot tray and "sam"
+       from 184 three-tile words' trays, and that Build-it then prints and
+       speaks what was built; "gun" (2026-08-16) and fight, hustle and grind
+       (2026-08-18) were unguarded for the same reason - nothing had read a
+       refusal list since the day this one was typed. Literal (E4). */
+    for (const w of ["ho", "sam", "gun", "fight", "hustle", "grind"]) expect(NEVER_BUILD, w).toContain(w);
+    expect(NEVER_BUILD.length).toBe(15);   // hunt came off the list 2026-08-17; six joined it 2026-08-23
+    /* and a book-artifact refusal is NOT here: a child spelling "blap" is no
+       safety matter, and guarding it would take buildable words off the board */
+    expect(NEVER_BUILD).not.toContain("blap");
   });
 
   it("is reproducible: the same rand builds the same tray", () => {

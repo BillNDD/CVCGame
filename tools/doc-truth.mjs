@@ -47,7 +47,12 @@
 import { readFileSync } from "node:fs";
 import { sourcesFor } from "./app-sources.mjs";
 
-const { C, LEVELS, NEVER_BUILD } = await import("../src/engine.js");
+const { C, LEVELS, NEVER_BUILD, chunkWord } = await import("../src/engine.js");
+/* A refused word is reachable from a TRAY only if a build ever deals its
+   number of slots: the bank's own words decide that, so a one-tile or a
+   nine-tile refusal is not something a child could spell. */
+const BUILD_SLOT_COUNTS = new Set(LEVELS.flatMap((l) => l.words).map((w) => chunkWord(w).length));
+const spellableLength = (w) => BUILD_SLOT_COUNTS.has(chunkWord(w).length);
 
 const problems = [];
 const rule = (okay, name, detail) => {
@@ -122,6 +127,7 @@ const real = {
   css: readFileSync("app/src/wq-css.js", "utf8"),
   reference: readFileSync("reference/word-quest.jsx", "utf8"),
   ledger: readFileSync("tools/pending-words/pending-words.json", "utf8"),
+  faults: readFileSync("docs/open-faults.md", "utf8"),
   tokens: C,
 };
 
@@ -260,25 +266,82 @@ function run(d) {
       found.push(`the gate specification says ${key} is ${stated}, the baseline enforces ${baseline[key]}`);
   }
 
-  /* Every word SPEC rules out for child-appropriateness must be a word the
-     engine refuses to let a child BUILD. The two lists lived apart for a day
-     and a tray handed gob back - the word SPEC says was removed "so it cannot
-     return by accident". A subset check, not equality: the engine may be
-     stricter (it also refuses the ruled-out plurals), never looser. */
+  /* Every word SPEC rules out must be a word the engine refuses to let a
+     child BUILD, and must not be a word the engine TEACHES. The two lists
+     lived apart for a day and a tray handed gob back - the word SPEC says was
+     removed "so it cannot return by accident". A subset check, not equality:
+     the engine may be stricter (it also refuses the ruled-out plurals),
+     never looser.
+
+     IT READS EVERY DATED REFUSAL, NOT ONE SENTENCE (the beta 27 readiness
+     audit, 2026-08-23). The first version read only the 2026-08-07 sentence,
+     so every refusal the owner has made since - the thirteen book-artifacts
+     and character names of 2026-08-16, gun with them, the four of 2026-08-18
+     - was guarded by nothing, and a child could build two of them while this
+     rule ran green. SPEC draws the line this rule reads: a refusal for
+     APPROPRIATENESS (the 2026-08-07 list, gun, and 2026-08-18's fight,
+     hustle and grind) must also be in NEVER_BUILD, because a tray must
+     never let a child spell it; a refusal that merely turns a CANDIDATE
+     down (a book artifact like blap, a character name, neighbor) must not
+     be taught, and needs no build guard - a child spelling "blap" is not a
+     safety matter, and guarding it would take buildable words off the
+     board for nothing. Two of the 2026-08-16 artifacts are on both sides,
+     by SPEC's own words: ho carries adult slang and sam "is also a given
+     name the S9 gate refuses".
+     A contradiction the owner has not yet settled is named in
+     docs/open-faults.md and skipped here BY NAME while that entry is open -
+     never silently. */
   rules += 1;
   {
-    const said = /Words ruled out for child-appropriateness \(2026-08-07\): ([^;]+);/.exec(d.spec);
+    const items = (text) => text.split(",").map((w) => w.replace(/^\s*and\s+/, "").replace(/\*\*/g, "").trim().toLowerCase())
+      .map((w) => (/^[a-z']+$/.test(w) ? w : "")).filter(Boolean);
     /* "hunt, fist, limp, bone, buns, dump, and milt" - the Oxford comma
        leaves "and milt" on the last item, so the word is stripped per ITEM
        rather than from the sentence. The first version reported that the
        engine would let a child build "and milt". */
-    const ruled = said
-      ? said[1].split(",").map((w) => w.replace(/^\s*and\s+/, "").trim()).filter(Boolean)
-      : [];
+    /* SPEC wraps; every anchor below reads a whitespace-flattened copy, or a
+       sentence that runs over a line end reads as missing. */
+    const flat = d.spec.replace(/\s+/g, " ");
+    const said = /Words ruled out for child-appropriateness \(2026-08-07\): ([^;]+);/.exec(flat);
+    const ruled = said ? items(said[1]) : [];
     if (!ruled.length) found.push("SPEC's child-appropriateness sentence could not be read, so this rule is checking nothing");
-    for (const w of ruled.concat(["gob"]))
-      if (!NEVER_BUILD.includes(w))
-        found.push(`SPEC rules out "${w}" but the engine would let a child build it: add it to NEVER_BUILD in reference/word-quest.jsx`);
+    /* the 2026-08-16 bill: thirteen book-artifacts and character names, and gun */
+    const bill = /refused fifteen on a decision page: thirteen book-artifacts and character names \(([^)]+)\)[^.]*?, and (gun)/.exec(flat);
+    if (!bill) found.push("SPEC's 2026-08-16 refusal list could not be read, so this rule is checking less than it claims");
+    const billed = bill ? items(bill[1].replace(/ - .*$/s, "")).concat([bill[2]]) : [];
+    /* the 2026-08-18 bill */
+    const later = /Refused by the owner on 2026-08-18[^:]*: (.*?)\. A later screen/.exec(flat);
+    const laterWords = later ? items(later[1].replace(/\([^)]*\)/g, " ").replace(/,\s*which[\s\S]*$/, "")) : [];
+    if (!later) found.push("SPEC's 2026-08-18 refusal list could not be read, so this rule is checking less than it claims");
+    const faults = d.faults || "";
+    const openFault = (id) => { const line = faults.split(/\r?\n/).find((l) => l.startsWith("## " + id + ". ")); return !!line && /[—-] opened \d{4}-\d{2}-\d{2}\s*$/.test(line); };
+    const taught = new Set(LEVELS.flatMap((l) => l.words));
+    const every = [...new Set(ruled.concat(["gob"], billed, laterWords))];
+    if (every.length < 20) found.push(`the refusal lists parse to ${every.length} words, fewer than the twenty SPEC records - an anchor moved, and this rule is checking less than it claims`);
+    /* the appropriateness half: the 2026-08-07 sentence, gob and gun, the
+       three of 2026-08-18, and the two SPEC itself names as slang and as a
+       given name */
+    /* DERIVED from SPEC, never a list typed here, or the control below could
+       not plant anything: the 2026-08-18 sentence's appropriateness half is
+       everything before ", and **neighbor**, which is not an appropriateness
+       refusal at all". */
+    const slangy = /Refused by the owner on 2026-08-18[^:]*: (.*?), and \*\*neighbor\*\*, which is not an appropriateness refusal/.exec(flat);
+    if (!slangy) found.push("SPEC's 2026-08-18 appropriateness sentence could not be read, so this rule guards fewer words than it claims");
+    const laterAppropriate = slangy ? items(slangy[1].replace(/\([^)]*\)/g, " ")) : [];
+    /* and the two the 2026-08-16 artifact list carries for a second reason,
+       in SPEC's own words */
+    const samNamed = /sam is also a given name the S9 gate refuses/.test(flat);
+    if (!samNamed) found.push("SPEC no longer says why sam is refused twice over, so this rule's build guard for it rests on nothing");
+    const forAppropriateness = new Set(ruled.concat(["gob", "ho"], samNamed ? ["sam"] : [], bill ? [bill[2]] : [], laterAppropriate));
+    for (const w of every) {
+      /* the one contradiction the owner has not settled: ding is taught at
+         Level 28 and recorded refused. Skipped by name only while its
+         open-faults entry is open. */
+      if (w === "ding" && openFault("AH")) continue;
+      if (taught.has(w)) found.push(`SPEC records "${w}" as refused, and the engine teaches it as a bank word`);
+      if (forAppropriateness.has(w) && !NEVER_BUILD.includes(w) && spellableLength(w))
+        found.push(`SPEC refuses "${w}" for child-appropriateness and a tray could spell it, but the engine would let a child build it: add it to NEVER_BUILD in reference/word-quest.jsx`);
+    }
   }
 
   /* The approved backlog the voice-pack document reports must be the backlog
@@ -424,7 +487,7 @@ function tokenTable(bible) {
 }
 
 if (process.argv.includes("--self-test")) {
-  const seen = { spec: false, blind: false, qa: false, hold: false, recipe: false, bank: false, floor: false, unshipped: false, superseded: false, table: false, tableOrder: false, orphanDoc: false, orphanCmd: false, stateTableGone: false, tokenDrift: false, tokenStranger: false, tokenMissing: false, tokenBlind: false, stateToken: false, stateSelector: false, stateBlind: false, stateReference: false };
+  const seen = { spec: false, blind: false, qa: false, hold: false, recipe: false, bank: false, floor: false, unshipped: false, superseded: false, table: false, tableOrder: false, orphanDoc: false, orphanCmd: false, stateTableGone: false, laterRefusal: false, candidateNotGuarded: false, taughtRefusal: false, tokenDrift: false, tokenStranger: false, tokenMissing: false, tokenBlind: false, stateToken: false, stateSelector: false, stateBlind: false, stateReference: false };
 
   /* Both ways a tool gets orphaned. The first is the one that actually
      happens: somebody tidies a governing document, the sentence naming the
@@ -484,7 +547,7 @@ if (process.argv.includes("--self-test")) {
     "Words ruled out for child-appropriateness (2026-08-07): hunt, fist, and zzztest;") };
   const blindSpec = { ...real, spec: real.spec.replace(
     /Words ruled out for child-appropriateness \(2026-08-07\):/, "Words once ruled out:") };
-  seen.neverBuild = run(looseSpec).found.some((p) => p.includes('rules out "zzztest"'))
+  seen.neverBuild = run(looseSpec).found.some((p) => p.includes('refuses "zzztest" for child-appropriateness'))
     && run(blindSpec).found.some((p) => p.includes("checking nothing"))
     && !run(real).found.some((p) => p.includes("rules out"));
 
@@ -548,12 +611,29 @@ if (process.argv.includes("--self-test")) {
   const seedTableHeading = "| state | selector | tokens |";
   const seedAt = real.bible.indexOf(seedTableHeading), seedEnd = real.bible.indexOf("## ", seedAt);
   const seedTableGone = { ...real, bible: real.bible.slice(0, seedAt) + [seedTableHeading, "|---|---|---|", "", ""].join(String.fromCharCode(10)) + real.bible.slice(seedEnd) };
+  /* THE LATER REFUSALS: a word the owner refused after 2026-08-07 and left
+     out of NEVER_BUILD is caught - the hole the beta 27 readiness audit
+     found, where the rule read one sentence and every refusal since was
+     guarded by nothing. Planted on the 2026-08-18 list, whose three are
+     appropriateness refusals. */
+  const laterUnguarded = { ...real, engineNeverBuild: null };
+  seen.laterRefusal = (() => {
+    const noFight = real.spec.replace("**fight** (violence), **hustle** and **grind** (adult slang", "**zzzfight** (violence), **hustle** and **grind** (adult slang");
+    return run({ ...real, spec: noFight }).found.some((p) => p.includes('refuses "zzzfight" for child-appropriateness'));
+  })();
+  /* and a refusal that is a CANDIDATE turned down, not an appropriateness
+     one, is NOT demanded of the build guard - the rule would otherwise take
+     buildable words off the board for nothing */
+  seen.candidateNotGuarded = !run(real).found.some((p) => p.includes('"blap"'));
+  /* the taught-and-refused contradiction is caught, and skipped only while
+     its open-faults entry is open */
+  seen.taughtRefusal = run({ ...real, faults: real.faults.replace("## AH. ", "## AH-closed. ") }).found.some((p) => p.includes('records "ding" as refused, and the engine teaches it'));
   seen.stateTableGone = run(seedTableGone).found.some((p) => p.includes("section 7 state table parses to 0 rows"));
   const driftedReference = { ...real, reference: real.reference.replace(".wq-tilebtn.wq-used{background:${C.slot};", ".wq-tilebtn.wq-used{background:${C.paper};") };
   seen.stateReference = run(driftedReference).found.some((p) => p.includes("paints slot; the reference's block does not name it"));
 
   if (Object.values(seen).every(Boolean)) {
-    console.log("self-test OK: a reworded SPEC sentence, a SPEC block whose anchor moved so the rule would check nothing, a reworded QA promise, a changed hold constant, a stale recipe number in the document, a stale bank count in the chooser, a drifted gate floor, an unshipped count that lags or runs ahead of the ledger, a level row that lost a word, a level row in the wrong order, a governing document that has stopped naming a tool agents are told to run, a command that has stopped running that tool's controls, a drifted token value, a token the table names that C lacks, a token C has that the table lacks, a token table whose anchor moved, a tile state whose block lacks a token it claims, a tile selector the stylesheet lacks, a tile table whose anchor moved, the Glowseed's own state table deleted whole, and a reference copy that drifted from the app's are all caught");
+    console.log("self-test OK: a reworded SPEC sentence, a SPEC block whose anchor moved so the rule would check nothing, a reworded QA promise, a changed hold constant, a stale recipe number in the document, a stale bank count in the chooser, a drifted gate floor, an unshipped count that lags or runs ahead of the ledger, a level row that lost a word, a level row in the wrong order, a governing document that has stopped naming a tool agents are told to run, a command that has stopped running that tool's controls, a drifted token value, a token the table names that C lacks, a token C has that the table lacks, a token table whose anchor moved, a tile state whose block lacks a token it claims, a tile selector the stylesheet lacks, a tile table whose anchor moved, the Glowseed's own state table deleted whole, an appropriateness refusal made after 2026-08-07 and left out of the build guard, a candidate refusal wrongly demanded of it, a refused word the engine still teaches, and a reference copy that drifted from the app's are all caught");
     process.exit(0);
   }
   console.error("self-test FAILED: " + JSON.stringify(seen));

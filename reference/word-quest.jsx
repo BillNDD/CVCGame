@@ -2119,8 +2119,23 @@ const NO_TRAY_UNITS = ["ai", "ou", "ey", "ere", "ea", "oo", "ow", "ie", "ugh"]; 
    A doc-truth rule holds this list against SPEC's own sentence, so a word the
    owner rules out later cannot be ruled out in one place only.
    Found by an independent review of Build-it, 2026-08-17. */
+/* The 2026-08-07 appropriateness list, plus gob and the two ruled-out
+   plurals - and since 2026-08-23 the refusals from the 2026-08-16 target
+   vocabulary that a TRAY could spell: "ho", which carries adult slang, and
+   "sam", which is a given name the S9 gate refuses anywhere else in the
+   repository. The beta 27 readiness audit found them reachable: a two-slot
+   build whose tray carries an h and an o spells ho, and 184 three-tile bank
+   words are two distractors away from sam - and Build-it then prints and
+   speaks what the child built. "gun" joins them: the owner refused it on
+   2026-08-16 by the appropriateness screen, and it was guarded nowhere.
+   The three the owner refused on 2026-08-18 for the same reason - fight for
+   violence, hustle and grind for adult slang - join them.
+   The list had held only the 2026-08-07 words,
+   because it was written that day and no refusal since had been added to
+   it. "ding" is NOT here: it is a taught Level 28 word AND recorded as
+   refused, a contradiction only the owner can settle (open-faults AH). */
 const NEVER_BUILD = ["fist", "limp", "bone", "buns", "dump", "milt", "gob",
-  "jugs", "crabs"];
+  "jugs", "crabs", "ho", "sam", "gun", "fight", "hustle", "grind"];
 /* Can these tiles, in some order, spell a word from that list? A tray is a
    multiset, so a tile is consumed once per slot: "dad" holds two d tiles and
    spells nothing with one. */
