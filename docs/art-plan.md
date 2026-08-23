@@ -234,7 +234,7 @@ and 15):**
 
 Each step is its own section here when it starts, in this shape.
 
-### Step 1 — the ceramic tile family (opened 2026-08-22; built the same day under the before pass and the owner's four rulings)
+### Step 1 — the ceramic tile family (opened 2026-08-22; built the same day under the before pass and the owner's four rulings; CLOSED 2026-08-23 at cc8abdd, all three chairs satisfied after seven judgements)
 
 **What the child gets.** Every sound tile the game shows — the reveal's tiles under the
 word, the sentence reveal's tiles, Build-it's tray and slots, Find-the-sound's tiles — looks
@@ -334,6 +334,105 @@ the row holds still through the reveal (G7, the phase walk); every tile text and
 measures at or above its literal ratio in `tests/tokens.test.js`; the ghost's ratios are
 stated and held; the check and the novelties scope are green; the art director's two
 checkpoints and the three-chair after pass are recorded here.
+
+### Step 2 — the Glowseed tied to the real audio lifecycle (opened 2026-08-23; the council's before pass first, then the owner's page on the order)
+
+**What the child gets.** One small object in the reading frame that is lit exactly while
+recorded teaching audio plays and dark otherwise (bible 7): a pale low-contrast core with a
+muted stone rim at rest; an electric-cyan core inside a thin ultraviolet rim while a word
+plays, steady, no pulse; the same but subordinate to the sounding tile while single sounds
+play; a muted object beside a disabled speaker control and a plain sentence when audio is
+unavailable; an immediate static change under reduced motion. No face, mouth, eyes, limbs,
+grille, text or character behaviour. It never replaces the speaker control ("Hear the word
+again", "Hear it again", "Hear the word", "Hear the sound"), which keeps its accessible
+name and its 44 px; it is secondary to the sounding tile, which keeps the child's eye.
+Active begins and ends with the audio's own start and completion — the players already
+report both (`speakVoice` and `playClips` call `onScheduled(ms)` once their clips are
+scheduled; `stopClips` ends them; the silent pack's backstop ends the turn), and the
+Glowseed reads those events and no clock of its own (7's ruling). On the system-speech
+fallback, whose length nobody reports, it shows the steady active state from the
+utterance's start event to its end event if the browser gives them, and otherwise stays
+idle — "unknown duration means no guessed timed animation" (14).
+
+**The question the before pass settles first, for the owner.** Section 17's ruling locks
+the camera — one viewpoint, one ground plane, one key-light direction, one module — at the
+garden's stage 3, "before any state-0 pixel is placed, because the camera is the one
+irreversible decision eleven states, the Glowseed and the guide share". The owner-ruled
+order puts the Glowseed at step 2 and the garden at step 6. A pixel Glowseed drawn now
+would be drawn to a light that does not exist yet. Three ways, costed for the owner on a
+page: **A** — bring the garden's stages 0 to 3 forward into this step (output conditions,
+the reference board, the notan with the word, the numeric lock), take the camera-lock
+checkpoint, then draw the Glowseed to it; **B** — this step is the wiring and the states,
+with the object drawn as a CSS family from tokens (a core, a rim, a glow) like the tiles,
+and a pixel Glowseed only if the garden's step finds the CSS one wanting — which amends
+8.1's row the way the tile row was amended; **C** — a pixel Glowseed with a light of its
+own, to be redrawn at step 6 (draws an asset twice and breaks "one key light" — not
+recommended). The implementer's recommendation goes on the page with the measurements:
+how many bytes and files each way, what the census can already measure (the snap cell's
+first real subject under A or C, nothing new under B), and what each way leaves for the
+garden's step.
+
+**How it is made — the construction order.** Stage 0: the logical grid is the object's
+box in CSS px on the three crops, measured in the frame beside the speaker control; the
+byte share 524,288 (A or C: two states × three crops × two scales; B: spent at 0, as the
+tiles'); a provenance row opened. Stage 1 (A or C): a reference board — a seed, a glass
+bead, a pilot lamp — each reference answering a named question, source and licence in the
+provenance row, nothing copied. Stage 2: the notan — the reveal, the sentence reveal and
+Build-it as two and three values with the word, the tiles and the speaker control drawn
+in, the Glowseed at rest and lit, on 320 × 658 and 390 × 664: the lit core must be the
+second brightest thing after the word's ground and never the first. Stage 3 (A): the lock
+— the key light's offset and the module, in provenance as numbers. Stage 4
+(**checkpoint**): greyscale renders with the word. Stage 5: `cyanElectric` core,
+`purpleStructural` rim (the "thin ultraviolet rim"; 9.2: electric glow always outside a
+darker structural edge), `slot` and `boundary` or `disabled` for the muted states — tokens
+only, a three-step ramp per material, inside 9.1's 1–3 % for an ordinary screen **with the
+sounding tile's band counted in the same budget**, since both are lit during a sound-out.
+Stage 6: binary alpha (A or C). Stage 7 (**checkpoint**): the states one by one, each a
+render. Stage 8 (A or C): 1× master under `tools/art/masters/`, 2× and 3× under
+`app/public/art/`, no gAMA or iCCP, pixel-equals-token, the derivative check's control.
+Four audits: geometry (the box identical across states — an indicator that changes size
+is a pulse), value, originality and answer-clue (a lit seed says nothing about the word),
+final on the eight profiles.
+
+**The wiring, which is the step whichever way the owner rules.** `voicepacks.js` gains
+one small event source — `onAudio(listener)` reporting `{ state: "start" | "end",
+kind }` — fed by the three places that already know: `playClips` when it schedules (start,
+and end at the measured length it already reports), `stopClips` (end), and the callers'
+backstops in `App.jsx` (`playBuildWord`, `playBuildSounds`, the reveal's once-with-a-
+backstop) when they fire first. The Glowseed component subscribes and renders a state
+class; nothing else changes. Reduced motion: the CSS transition is zero under
+`prefers-reduced-motion`. The "audio unavailable" state follows the existing pack-missing
+and sound-off paths (`noteFallback`, the settings' sound switch): the object muted, the
+speaker control disabled with its existing explanation.
+
+**Breaks (E11), named before the change.** Seven test files mock `voicepacks.js`
+(`tests/buildit.test.js`, `models`, `names`, `reveal`, `safety`, `sentence`,
+`voicepacks`): a new export must be in every mock or the component throws at render — the
+lookup `node tools/blast-radius.mjs --symbol playClips` lists them. The monkey's
+`SOUND_ONLY` exemption says the replay controls "show nothing new": with the Glowseed they
+light it, which the monkey's signature (text length, element count, active element) does
+not read — the reason text changes, the exemption stands. `tests/census/novelties.spec.mjs`'s
+motion cell counts running animations during a clip: a CSS transition on the Glowseed is
+not an animation, and the cell must say why it is allowed (14: synchronize only the
+sounding tile, the Glowseed and a conventional indicator). The snap cell gets its first
+real subject under A or C (`data-wq-art`, `data-wq-art-w/h`, `image-rendering:
+pixelated`, the 2×/3× file picked by dpr and snapped in code). The electric-area figure in
+provenance (0.44 % for the band alone) becomes band plus core. The aria snapshot of home
+does not change (the Glowseed is not on home's chrome until the garden lands — to be
+confirmed by the before pass against 13.1). G11's copy lint reads any new parent-facing
+sentence ("Sound is off" beside the muted object). `docs/effect-map.md` gains the
+Glowseed's effects. Counts that move: `census_novelty_cells` and `_controls` (a Glowseed
+cell: lit exactly between the start and end events, with a planted clock-driven light and
+a planted light-before-start refused; the reduced-motion cell), `g20_tests_mapped`,
+`g17_governing_files` if a new file is declared, `g23_declared` for the masters and the
+exports.
+
+**Done means.** The object is lit from the audio's own start to its own end and never
+otherwise, on the pack and on the fallback, with the silent-pack backstop ending it; the
+four states render as bible 7's table as amended by the owner's ruling; the snap cell (A
+or C) and the motion cell are green; the art budget and the derivative check are green;
+the art director's two checkpoints (and, under A, the camera lock) and the three-chair
+after pass are recorded here; the provenance row is closed.
 
 ## The log — every pass, every verdict
 
@@ -775,3 +874,7 @@ Newest last. A verdict names the chair, the step, the word, and the findings.
   shape). Noted for the layout step, not the material's: no per-slot mark shows which slot
   is sounding during the arrangement playback. **Step 1 closes** with all three chairs
   satisfied; the closing commit records it.
+- 2026-08-23 — Step 2 opened: the section above written from bible 7, 8.1, 14 and 16 and
+  the E11 lookups (`--symbol playClips`, `--symbol stopClips`, `--text "data-wq-art"`);
+  the before pass requested from all three chairs, the camera-lock order question first,
+  so the owner's page can carry the council's costed opinion.
