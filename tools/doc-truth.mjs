@@ -374,8 +374,16 @@ function run(d) {
     const rationale = /The 2026-08-07 sentence, (.*?) are here because they are appropriateness refusals; \*\*([a-z]+)\*\* is here because/.exec(flat);
     if (!rationale) found.push("SPEC's paragraph saying why each word is build-guarded could not be read, so every guard rests on one sentence alone");
     const plurals = /The ruled plural exclusions \W+([a-z, ]+?)\W+were re-verified absent/.exec(flat);
+    /* THE PLURAL RULING'S OWN SENTENCE (owner-ruled 2026-08-23, "guard both").
+       jug, nut and can are taught and their plurals are not; the sentence that
+       says so is a SECOND source for those four, so dropping one from the
+       declared list and from NEVER_BUILD together still leaves it named here
+       and the gate goes red. */
+    const pluralGuard = /Build-guarded plurals, owner-ruled \d{4}-\d{2}-\d{2}:\*\* ([^.]+?) are$/m.exec(flat) || /Build-guarded plurals, owner-ruled \d{4}-\d{2}-\d{2}:\*\* ([a-z, ]+?) are build-guarded/.exec(flat);
+    if (!pluralGuard) found.push("SPEC's build-guarded plurals sentence could not be read, so those guards rest on the declared list alone");
     if (!plurals) found.push("SPEC's ruled-plural sentence could not be read, so the plural guards rest on one sentence alone");
-    const justified = new Set([...fromProse,
+    const pluralWords = pluralGuard ? items(pluralGuard[1]) : [];
+    const justified = new Set([...pluralWords, ...fromProse,
       ...(rationale ? items(rationale[1]).concat([rationale[2]]) : []),
       ...(plurals ? items(plurals[1]) : []),
       ...laterWords, ...billed]);
@@ -389,7 +397,7 @@ function run(d) {
        reasoning instead: a word the document says is build-guarded must be in
        the declared list AND in the engine's, so removing it from both files
        still leaves the sentence that names it, and the gate goes red. */
-    const demanded = new Set([...fromProse, ...(rationale ? items(rationale[1]).concat([rationale[2]]) : [])]);
+    const demanded = new Set([...fromProse, ...pluralWords, ...(rationale ? items(rationale[1]).concat([rationale[2]]) : [])]);
     for (const w of demanded) {
       if (!spellableLength(w)) continue;
       if (!guardList.includes(w)) found.push(`SPEC's reasoning says "${w}" is build-guarded and the declared list does not carry it: the sentence and the list disagree`);

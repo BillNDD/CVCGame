@@ -2144,7 +2144,7 @@ const NO_TRAY_UNITS = ["ai", "ou", "ey", "ere", "ea", "oo", "ow", "ie", "ugh"]; 
    and undeclared there is a guard nobody ruled. No word is typed into the
    gate itself any more; it reads the document that owns the fact. */
 const NEVER_BUILD = ["fist", "limp", "bone", "buns", "dump", "milt", "gob",
-  "jugs", "crabs", "ho", "gun", "fight", "hustle", "grind"];
+  "jugs", "crabs", "ho", "gun", "fight", "hustle", "grind", "nuts", "cans"];
 /* Can these tiles, in some order, spell a word from that list? A tray is a
    multiset, so a tile is consumed once per slot: "dad" holds two d tiles and
    spells nothing with one. */

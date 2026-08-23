@@ -1407,7 +1407,21 @@ may teach, and `tools/doc-truth.mjs` reads this sentence rather than being told 
 ignore.
 
 **Build-guarded (a tray must never let a child spell these), as of 2026-08-23:** fist,
-limp, bone, buns, dump, milt, gob, jugs, crabs, ho, gun, fight, hustle, grind. This is the
+limp, bone, buns, dump, milt, gob, jugs, crabs, ho, gun, fight, hustle, grind, nuts,
+cans.
+
+**Build-guarded plurals, owner-ruled 2026-08-23:** jugs, crabs, nuts and cans are
+build-guarded although jug, nut and can are ordinary taught words — the plural carries an
+adult meaning the singular does not, so a tray must never let a child spell one. jugs and
+crabs were guarded from the start; nuts and cans were ruled out of the BANK and never added
+to the TRAY guard, which are two different rules, and only the second one has a gate. Put to
+the owner on a decision page with the measurement and ruled "guard both": over 41,680
+simulated deals a child could lay out nuts from seven target words (hunt, must, just, hits,
+snug, snap, goats) and cans from five (cats, sand, snap, swan, castle), and the game would
+then print what they built and speak it back. Guarding both makes no bank word unbuildable
+and starves no tray; it swaps one distractor tile for another in 30 of those 41,680 deals.
+
+This is the
 list `NEVER_BUILD` must equal, in both directions: a word here that the engine does not
 guard is a hole, and a word the engine guards that is not here is a guard nobody ruled.
 The 2026-08-07 sentence, gob, gun and the 2026-08-18 three are here because they are

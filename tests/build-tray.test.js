@@ -152,7 +152,13 @@ describe("Build-it tray", () => {
        (2026-08-18) were unguarded for the same reason - nothing had read a
        refusal list since the day this one was typed. Literal (E4). */
     for (const w of ["ho", "gun", "fight", "hustle", "grind"]) expect(NEVER_BUILD, w).toContain(w);
-    expect(NEVER_BUILD.length).toBe(14);   // hunt came off 2026-08-17; five joined 2026-08-23
+    expect(NEVER_BUILD.length).toBe(16);   // hunt came off 2026-08-17; five joined 2026-08-23, then nuts and cans
+    /* nuts and cans were ruled OUT OF THE BANK and never added to the TRAY
+       guard - two different rules, only the second with a gate. Measured over
+       41,680 deals: nuts was reachable from seven target words and cans from
+       five. Owner-ruled "guard both" on a decision page, 2026-08-23. */
+    expect(NEVER_BUILD).toContain("nuts");
+    expect(NEVER_BUILD).toContain("cans");
     /* and a book-artifact refusal is NOT here: a child spelling "blap" is no
        safety matter, and guarding it would take buildable words off the board.
        "sam" is not here either, owner-ruled 2026-08-23 ("Ho I want out. Sam is
