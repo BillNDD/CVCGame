@@ -8,7 +8,7 @@ Per-test rows carry the test's own sentence, which in this project IS the
 Given/When/Then effect. The requirement, oracle, platform, mutant family, evidence
 and known limits are declared per FILE, in the tool, where they stay true.
 
-Totals: 436 it() SITES across 22 files, plus 18 gates that are not test files.
+Totals: 437 it() SITES across 22 files, plus 18 gates that are not test files.
 
 A site inside a loop or a table runs many times, so these rows describe more tests than they number: Vitest executes 330. The rows count the places behaviour is asserted.
 
@@ -62,7 +62,7 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 14 | Build-it tray | a guarded word is unreachable at EVERY build size, not only the one its teaching split uses |
 | 15 | Build-it tray | is reproducible: the same rand builds the same tray |
 
-## tests/buildit.test.js — 33 tests (G10)
+## tests/buildit.test.js — 34 tests (G10)
 
 - **Requirement protected:** SPEC section 12: Build-it writes nothing to the record, speaks the word before the tiles, and ends every attempt in success
 - **Independent oracle:** A source tripwire with fixture controls and a real-source mutation, plus a walked loop with a held tray
@@ -89,24 +89,25 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 13 | the ceramic tile states | 23: the scaffold rings one slot at a time, in sound order, with the letter at .6 inside it |
 | 14 | the ceramic tile states | 26: the Glowseed stays idle through the scaffold's one-clip-per-slot plays, lights for a play after it, and wears the muted look when the screen is muted |
 | 15 | the ceramic tile states | 26b: a muted build (sound off) wears the muted look whatever plays |
-| 16 | the ceramic tile states | 26e: the sound backstop cannot beat a real clip, so a slot's report always arrives first |
-| 17 | the ceramic tile states | 26c: the scaffold's quiet ends on the last slot's own report, never on a clock |
-| 18 | the ceramic tile states | 26d: a win during the scaffold lets the celebration light the object |
-| 19 | the ceramic tile states | 27: the tray's sizes follow the phone, not the render that drew them - a rotation resizes the tiles with no tap in between |
-| 20 | the ceramic tile states | 27b: with no matchMedia at all - jsdom, and any browser too old for it - the tray still sizes itself from the width |
-| 21 | the ceramic tile states | 24: a completed word wears one halo on the slot row round the assembled word, and every tray tile is disabled and used |
-| 22 | the ceramic tile states | 25: a win during the scaffold takes the cue ring off the slot it was on |
-| 23 | Build-a-sound, for a child still on the ladder | 9: Pre 1 gets no tray at all — it has met no letters |
-| 24 | Build-a-sound, for a child still on the ladder | 10: the tray is exactly what the rung has taught, and grows with it |
-| 25 | Build-a-sound, for a child still on the ladder | 11: no tile is silent, and none is a letter the rung has not reached |
-| 26 | Build-a-sound, for a child still on the ladder | 12: finding the sound wins, and a wrong tile invites another try |
-| 27 | Build-a-sound, for a child still on the ladder | 13: a miss hands the tray back by itself - the wrong tile does not sit in the slot |
-| 28 | free play builds go on until Done | 19: a child at level 1 and at level 2 gets a build, not an error |
-| 29 | free play builds go on until Done | 18: every level's build window holds words, the first two included |
-| 30 | free play builds go on until Done | 17: a long word's celebration is never cut off - the turn ends when the sound does |
-| 31 | free play builds go on until Done | 15: 'Build a level word' deals the level's own word, mastery elsewhere notwithstanding |
-| 32 | free play builds go on until Done | 16: 'Build any word' opens a build at all |
-| 33 | free play builds go on until Done | 14: a found sound is followed by another sound, and Done goes home |
+| 16 | the ceramic tile states | 26f: a miss landing inside the scaffold lifts the quiet, so the playback is never spoken over a dark object |
+| 17 | the ceramic tile states | 26e: the sound backstop cannot beat a real clip, so a slot's report always arrives first |
+| 18 | the ceramic tile states | 26c: the scaffold's quiet ends on the last slot's own report, never on a clock |
+| 19 | the ceramic tile states | 26d: a win during the scaffold lets the celebration light the object |
+| 20 | the ceramic tile states | 27: the tray's sizes follow the phone, not the render that drew them - a rotation resizes the tiles with no tap in between |
+| 21 | the ceramic tile states | 27b: with no matchMedia at all - jsdom, and any browser too old for it - the tray still sizes itself from the width |
+| 22 | the ceramic tile states | 24: a completed word wears one halo on the slot row round the assembled word, and every tray tile is disabled and used |
+| 23 | the ceramic tile states | 25: a win during the scaffold takes the cue ring off the slot it was on |
+| 24 | Build-a-sound, for a child still on the ladder | 9: Pre 1 gets no tray at all — it has met no letters |
+| 25 | Build-a-sound, for a child still on the ladder | 10: the tray is exactly what the rung has taught, and grows with it |
+| 26 | Build-a-sound, for a child still on the ladder | 11: no tile is silent, and none is a letter the rung has not reached |
+| 27 | Build-a-sound, for a child still on the ladder | 12: finding the sound wins, and a wrong tile invites another try |
+| 28 | Build-a-sound, for a child still on the ladder | 13: a miss hands the tray back by itself - the wrong tile does not sit in the slot |
+| 29 | free play builds go on until Done | 19: a child at level 1 and at level 2 gets a build, not an error |
+| 30 | free play builds go on until Done | 18: every level's build window holds words, the first two included |
+| 31 | free play builds go on until Done | 17: a long word's celebration is never cut off - the turn ends when the sound does |
+| 32 | free play builds go on until Done | 15: 'Build a level word' deals the level's own word, mastery elsewhere notwithstanding |
+| 33 | free play builds go on until Done | 16: 'Build any word' opens a build at all |
+| 34 | free play builds go on until Done | 14: a found sound is followed by another sound, and Done goes home |
 
 ## tests/chunker.test.js — 14 tests (G1)
 

@@ -229,6 +229,18 @@ export default function BuildItScreen({ tray, playSounds, playWord, onDone, onEx
     }
     const n = misses + 1;
     setMisses(n);
+    /* A MISS CAN LAND INSIDE A SCAFFOLD. The tray's tiles stay enabled while
+       the scaffold runs, so a child can fill the slots during it - and until
+       2026-08-23 this branch neither cleared the scaffold's queued timers nor
+       lowered its quiet. The queued ghosts then landed over the handed-back
+       tray, and the miss played back with the object DARK, which is the one
+       thing it must never be: dark while the game is speaking. The win branch
+       has cleared both since the checkpoint renders; this is the same clear,
+       for the same reason. Found by the release sweep. */
+    timers.current.forEach(clearTimeout);
+    timers.current = [];
+    setGhost(null);
+    setQuiet(false);
     setMsg(isSound ? "That is a different sound… listen again." : "That says " + built.join("‑") + "… listen again.");
     /* What the child BUILT, in their own tiles, then the target. A miss the
        child can hear is a miss the child can fix. */

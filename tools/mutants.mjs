@@ -4,6 +4,10 @@
 import { readFileSync, writeFileSync, copyFileSync, existsSync } from "node:fs";
 import { execFileSync } from "node:child_process";
 
+import { mkdirSync, rmSync as rmLock } from "node:fs";
+import { join as joinLock } from "node:path";
+import { LOCK, holderOf } from "./lock-guard.mjs";
+
 const REF = "reference/word-quest.jsx";
 const TMP = "reference/.mutant.jsx";
 const original = readFileSync(REF, "utf8");
@@ -236,6 +240,22 @@ if (process.argv.includes("--anchors")) {
   console.log(`${MUTANTS.length} mutants, ${moved.length} anchor(s) no longer in the source`);
   process.exit(moved.length ? 1 : 0);
 }
+
+/* THE LOCK IS TAKEN BY WHATEVER PLANTS MUTANTS (the release sweep,
+   2026-08-23). Hardening decision 3 made .gauntlet.lock refuse a commit or a
+   check while mutants are planted - but only tools/gauntlet.mjs ever created
+   it, and this file is exposed directly as an npm script that rewrites the
+   same tracked files. A mutant reaching the repository is not hypothetical:
+   it happened once, when a commit was made while a gate held a file mutated
+   (E11's own record). The lock belongs to the thing doing the planting. */
+try {
+  mkdirSync(LOCK);
+  writeFileSync(joinLock(LOCK, "current"), "G5 source-mutants since " + new Date().toISOString().slice(11, 16) + String.fromCharCode(10));
+} catch {
+  console.error("Another run appears to hold " + LOCK + " - " + (holderOf(LOCK) || "no holder named") + ". Remove it if it is stale.");
+  process.exit(1);
+}
+process.on("exit", () => { try { rmLock(LOCK, { recursive: true, force: true }); } catch {} });
 
 const survivors = [], errored = [];
 let missing = 0;

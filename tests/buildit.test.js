@@ -366,6 +366,38 @@ describe("the ceramic tile states", () => {
     expect(seed.getAttribute("data-wq-glowseed")).toBe("muted");
   });
 
+  it("26f: a miss landing inside the scaffold lifts the quiet, so the playback is never spoken over a dark object", async () => {
+    /* THE GAP (the release sweep, 2026-08-23): the tray's tiles stay enabled
+       while the scaffold runs, so a child can fill the slots during it. The
+       miss branch raised the arrangement ring and played the built word back
+       WITHOUT lowering the scaffold's quiet, so the object stayed dark through
+       a playback - dark while the game is speaking, the one state it must
+       never be in - and the scaffold's queued ghosts landed over the
+       handed-back tray. The win branch had cleared both since the checkpoint
+       renders; the miss branch had not. */
+    const tray = mount("cat", 8);
+    const seed = () => document.querySelector(".wq-glowseed");
+    const wrong = tiles().find((b) => !tray.answer.includes(b.textContent));
+    for (let go = 0; go < 2; go += 1) {
+      fireEvent.click(wrong);
+      for (const t of tray.answer.slice(0, 2)) fireEvent.click(tileFor(t)[0]);
+      await flush(60);
+      if (go === 0) slots().forEach((s) => fireEvent.click(s));
+    }
+    await flush(1000);
+    expect(document.querySelectorAll(".wq-tilebtn.wq-cue").length, "the scaffold is running").toBe(1);
+    await act(async () => { emitAudio({ state: "start", token: 51, ms: 300 }); });
+    expect(seed().getAttribute("data-wq-glowseed"), "quiet, because the scaffold is speaking").toBe("idle");
+    await act(async () => { emitAudio({ state: "end", token: 51 }); });
+    /* the child fills the slots DURING the scaffold and misses again */
+    fireEvent.click(wrong);
+    for (const t of tray.answer.slice(0, 2)) fireEvent.click(tileFor(t)[0]);
+    await flush(60);
+    expect(document.querySelectorAll(".wq-ghost").length, "the scaffold's queued ghosts are cleared").toBe(0);
+    await act(async () => { emitAudio({ state: "start", token: 52, ms: 300 }); });
+    expect(seed().getAttribute("data-wq-glowseed"), "the miss is being played back, so the object is lit").toBe("lit");
+  });
+
   it("26e: the sound backstop cannot beat a real clip, so a slot's report always arrives first", async () => {
     /* THE FAULT (the council's reading chair, 2026-08-23): playBuildSounds
        backstopped at 400 per sound plus 700, so ONE sound had 1,100 ms while

@@ -435,7 +435,7 @@ every bound reads `LEVELS.length`, which is why adding a level needed no engine 
   pictograph in its text. A planted old-style hold name and a bare emoji button are
   refused. Key: `g10_name_tests` (3). Its companion in the check is
   `tools/locator-scan.mjs`: every test and census tool is read and any locator whose string
-  names a pictograph is refused (7 controls), so the coming icon swap cannot break a locator
+  names a pictograph is refused (9 controls), so the coming icon swap cannot break a locator
   it never knew about. What a screen reader hears changed with this step (bible 15.2):
   "Begin Session", "got it", "Check for updates" - the words, nothing else - and the home
   screen's pinned accessible tree was regenerated, names only.
@@ -1197,7 +1197,7 @@ compact build's sizes from `app/src/wq-css.js` and `app/src/screens/BuildItScree
 a number changed in the source and not in the record is refused. Since art step 2 a second
 reader, `glowseedLockFromSources`, derives the Glowseed's box, corner, rim, light, core and
 absent-below height the same way and refuses a transition on it, and a Glowseed row must
-declare its placeholder. Fifteen controls, among them a planted 2 px rim, a two-value
+declare its placeholder. Eighteen controls, among them a planted 2 px rim, a two-value
 padding, a 7 px reveal band, a 3 px light and a transition. Declared DATA in the
 file map; the reader is its reader. No README file per family exists or may: the entry is
 what the ruling calls the README.
@@ -1768,7 +1768,7 @@ other direction: the real pack, unchanged, must pass.
 
 ## G20. Effect map
 
-- Tool: `tools/effect-map.mjs`. Writes `docs/effect-map.md`. Keys: `g20_tests_mapped` (436).
+- Tool: `tools/effect-map.mjs`. Writes `docs/effect-map.md`. Keys: `g20_tests_mapped` (437).
 - One row per `it()` SITE — its file, suite, and the test's own sentence, which in this
   project IS the Given/When/Then effect, because tests are named as behaviour. A site inside
   a loop or a table runs many times, so the map's 310 rows describe the 324 tests Vitest executes;

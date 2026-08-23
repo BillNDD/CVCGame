@@ -519,7 +519,10 @@ describe("G10 — free play never touches the save", () => {
     /* no word yet - the grown-up's choice comes first */
     expect(document.querySelector(".wq-word")).toBeNull();
     expect(screen.getByLabelText("Any word")).toBeTruthy();
-    expect(screen.getByText(/🎯 Level 1/)).toBeTruthy();
+    /* the WORDS, not the icon: an icon swap must not break a locator. These
+       two were REGEX locators, which that gate could not see until 2026-08-23,
+       when the release sweep widened it and it found them at once. */
+    expect(screen.getAllByText(/Level 1/).length, "the level chip is shown").toBeGreaterThan(0);
     fireEvent.click(screen.getByText("Back"));
     await flush(0);
     expect(screen.getByLabelText("Begin Session")).toBeTruthy();
@@ -554,7 +557,7 @@ describe("G10 — free play never touches the save", () => {
     expect(screen.getByText("FREE PLAY")).toBeTruthy();
     /* the dice chip: the level chip would claim a level this mode is not serving */
     expect(screen.getByLabelText(/random (words|sentences)/)).toBeTruthy();
-    expect(screen.queryByText(/1 🐣/)).toBeNull();
+    expect(screen.queryByText(/\\bLevel 1\\b/)).toBeNull();
     const before = mockSave.mock.calls.length;
     await gradeOne("got it");
     await gradeOne("not yet");

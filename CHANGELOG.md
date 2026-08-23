@@ -42,7 +42,10 @@ The first app version is 1.0.0-beta.1. The app stays in beta until version 1.0 i
   the speaker button is now greyed out instead of doing nothing when pressed, the listening
   light shows as off, the strip says "Parent: sound is off", the first steps of the ladder
   are not offered at all, because they can only be answered by listening, and the game no
-  longer offers a Build-it break, which needs sound.
+  longer offers a Build-it break, which needs sound. And in Build-it, the letters your child
+  is offered can no longer be arranged into a handful of words we would rather they did not
+  meet: four separate gaps in that check were found and closed in this release, the last of
+  them two words that had been kept out of the lesson list but not out of the letter tray.
 - Known in 1.0.0-beta.27: hold the phone upright. Held sideways, a phone's play area is
   very short: the letter tiles under a word are cut off at the bottom, the sentence the
   game says after a word can be out of view below them, and in Build-it the tiles sit partly
@@ -55,8 +58,9 @@ The first app version is 1.0.0-beta.1. The app stays in beta until version 1.0 i
   this is new in this release; it is now measured and written down, and the next piece of
   work on the reading surface is what fixes it.
 - Nothing about the teaching changed in 1.0.0-beta.27: the same words, the same levels, the
-  same sounds and the same voice, and your child's progress is untouched. What changed is
-  how it all looks and one new light.
+  same sounds and the same voice, and your child's progress is untouched. What changed is how
+  it all looks, one new light, and the few things listed under Fixed that the game now
+  declines to offer when sound is switched off.
 - Under the hood in 1.0.0-beta.27: the checks grew again. The listening light is measured
   against the device's own sound engine rather than a stopwatch — a check watches every
   sound the game schedules and every sound that ends, and refuses a light that comes on

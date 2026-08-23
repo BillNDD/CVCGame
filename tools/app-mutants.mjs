@@ -19,6 +19,9 @@
    skipped and fail the gate — they are re-pointed, never deleted (E3). */
 import { readFileSync, writeFileSync } from "node:fs";
 import { execFileSync } from "node:child_process";
+import { mkdirSync, rmSync as rmLock } from "node:fs";
+import { join as joinLock } from "node:path";
+import { LOCK, holderOf } from "./lock-guard.mjs";
 
 const APP = "app/src/App.jsx";
 const HOLD = "app/src/components/HoldButton.jsx";
@@ -273,6 +276,22 @@ if (!run(process.execPath, ["node_modules/vitest/vitest.mjs", "run", "--reporter
   console.error("  ---- tail ----" + String.fromCharCode(10) + lines.slice(-25).join(String.fromCharCode(10)));
   process.exit(1);
 }
+
+/* THE LOCK IS TAKEN BY WHATEVER PLANTS MUTANTS (the release sweep,
+   2026-08-23). Hardening decision 3 made .gauntlet.lock refuse a commit or a
+   check while mutants are planted - but only tools/gauntlet.mjs ever created
+   it, and this file is exposed directly as an npm script that rewrites the
+   same tracked APP files. A mutant reaching the repository is not
+   hypothetical: it happened once, when a commit was made while a gate held a
+   file mutated (E11's own record). */
+try {
+  mkdirSync(LOCK);
+  writeFileSync(joinLock(LOCK, "current"), "G19 app-mutants since " + new Date().toISOString().slice(11, 16) + String.fromCharCode(10));
+} catch {
+  console.error("Another run appears to hold " + LOCK + " - " + (holderOf(LOCK) || "no holder named") + ". Remove it if it is stale.");
+  process.exit(1);
+}
+process.on("exit", () => { try { rmLock(LOCK, { recursive: true, force: true }); } catch {} });
 
 const survivors = [], errored = [];
 let missing = 0;

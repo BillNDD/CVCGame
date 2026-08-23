@@ -18,8 +18,14 @@
 # to main, so a family installed mid-work commits: a half-finished art step
 # reached real children the moment it was pushed. It fires on a published
 # release now, so the site carries releases only. workflow_dispatch stays, so
-# a deploy can be re-run by hand against the latest release without cutting
-# another one.
+# a deploy can be re-run by hand - and it now TAKES A TAG, because the release
+# sweep found the hand path could not work at all: it resolved the latest
+# release and then hard-required two assets from it, while every release that
+# existed predated the assets. A blank tag still means the latest release. A
+# release with no assets fails on the download with a plain message rather
+# than a puzzle; the recovery for one of those is to cut a new release, since
+# there are no proved bytes to publish for an old one and building fresh ones
+# here is the thing this workflow exists to refuse.
 #
 # THE PATH MATTERS: tools/payload-hash.mjs hashes the cwd-relative path
 # STRING with each file's bytes, so the tarball must land at exactly
@@ -31,6 +37,11 @@ on:
   release:
     types: [published]
   workflow_dispatch:
+    inputs:
+      tag:
+        description: "Release tag to publish (e.g. v1.0.0-beta.27). Leave blank for the latest release."
+        required: false
+        type: string
 
 permissions:
   contents: read
@@ -72,10 +83,27 @@ jobs:
         id: proved
         env:
           GH_TOKEN: ${{ github.token }}
+          # THE TAG ARRIVES AS AN ENVIRONMENT VALUE, NEVER AS SCRIPT TEXT.
+          # Actions expands ${{ }} into the body of `run:` before bash sees it,
+          # so a tag name is script-injection input - and git ref rules permit
+          # $, backticks, parentheses, quotes, ; & and | in a tag. This step
+          # holds GH_TOKEN and can publish to Pages, so the injection would be
+          # worth having. Through env it is data that bash never parses.
+          # (The release sweep, 2026-08-23.)
+          EVENT_TAG: ${{ github.event.release.tag_name }}
+          DISPATCH_TAG: ${{ inputs.tag }}
         run: |
           set -euo pipefail
-          TAG="${{ github.event.release.tag_name }}"
+          TAG="${EVENT_TAG:-}"
+          if [ -z "$TAG" ]; then TAG="${DISPATCH_TAG:-}"; fi
           if [ -z "$TAG" ]; then TAG="$(gh release view --json tagName -q .tagName)"; fi
+          # A tag name is used as an argument to gh and as a file-free string
+          # only; refuse anything that is not a plain release tag, so nothing
+          # exotic reaches a command line even as an argument.
+          case "$TAG" in
+            v[0-9]*) : ;;
+            *) echo "REFUSED: \"$TAG\" is not a release tag of the form v*"; exit 1 ;;
+          esac
           echo "publishing the build proved for $TAG"
           rm -rf app/dist
           mkdir -p app/dist
