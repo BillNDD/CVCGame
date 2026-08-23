@@ -190,18 +190,42 @@ if (process.argv.includes("--self-test")) process.exit(selfTest() ? 1 : 0);
 if (!RUN_AS_COMMAND) { /* imported for its exports: do nothing at all */ }
 else {
 
+/* THE RELEASE IS SPLIT (owner-ruled 2026-08-23): push, then the owner's check
+   on a real device, then the tag. The reason is what each step means. Pushing
+   main changes nothing a family can see - the website updates at releases only
+   - so it is safe to do first and it puts the code where a device can be
+   pointed at it. Cutting the tag is what publishes, so it waits until a person
+   has held the thing in their hand. `--go` still does both in one step for a
+   release that needs no device check. EVERY REFUSAL IS RE-RUN AT --tag, on the
+   tree as it stands then: the checks that mattered at push time are exactly the
+   ones that could have rotted while somebody was looking at a phone. */
 const GO = process.argv.includes("--go");
+const PUSH_ONLY = process.argv.includes("--push");
+const TAG_ONLY = process.argv.includes("--tag");
+if (PUSH_ONLY && TAG_ONLY) { console.error("--push and --tag are the two halves of a split release; pass one or the other, or --go for both."); process.exit(1); }
 const facts = gather();
 const refusals = judge(facts);
 console.log(`release ${facts.version} from ${facts.head.slice(0, 7)} on ${facts.branch}: ${refusals.length ? "REFUSED" : "ready"}`);
 for (const r of refusals) console.log("  - " + r);
 if (refusals.length) process.exit(1);
 console.log(`  evidence ${facts.evidence.commit_short || facts.evidence.commit.slice(0, 7)} PASS, payload ${facts.freshHash.slice(0, 20)}… rebuilt and identical`);
-console.log(`  origin/main ${facts.remoteMain.slice(0, 7)} -> ${facts.head.slice(0, 7)} (fast-forward, ${git("rev-list", "--count", `${facts.remoteMain}..${facts.head}`)} commits)`);
+const ahead = git("rev-list", "--count", `${facts.remoteMain}..${facts.head}`);
+console.log(ahead === "0"
+  ? `  origin/main is already at ${facts.head.slice(0, 7)} - nothing to push`
+  : `  origin/main ${facts.remoteMain.slice(0, 7)} -> ${facts.head.slice(0, 7)} (fast-forward, ${ahead} commits)`);
 console.log(`  tag v${facts.version} at ${facts.head}\n  notes:\n${facts.notes.split("\n").map((l) => "    " + l).join("\n")}`);
-if (!GO) { console.log("\ndry run - add --go to push main and cut the release"); process.exit(0); }
+if (!GO && !PUSH_ONLY && !TAG_ONLY) { console.log("\ndry run - add --go to push main and cut the release, or --push then --tag to split them"); process.exit(0); }
 
-execFileSync("git", ["push", "origin", "main"], { stdio: "inherit" });
+if (!TAG_ONLY) {
+  execFileSync("git", ["push", "origin", "main"], { stdio: "inherit" });
+  console.log(`\npushed main to ${facts.head.slice(0, 7)}.`);
+}
+if (PUSH_ONLY) {
+  console.log("The website has NOT changed: it updates at releases only, and no release is cut yet.");
+  console.log("Check the build on a real device, then cut the tag with:  npm run release:tag");
+  console.log("Every refusal above is re-run then, on the tree as it stands, so nothing rots while you look.");
+  process.exit(0);
+}
 const tmp = mkdtempSync(join(tmpdir(), "wq-release-"));
 const notesFile = join(tmp, "notes.md");
 writeFileSync(notesFile, facts.notes + "\n\nPlay it: https://billndd.github.io/CVCGame/\n");

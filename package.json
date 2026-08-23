@@ -35,7 +35,9 @@
     "census": "node tools/extract-engine.mjs && npm --prefix app run build && node tools/free-port.mjs && node tools/census-report.mjs --run",
     "census:novelties": "node tools/extract-engine.mjs && npm --prefix app run build && node tools/free-port.mjs && node tools/census-report.mjs --run --novelties",
     "census:controls": "node tools/extract-engine.mjs && npm --prefix app run build && node tools/free-port.mjs && playwright test --config playwright.config.mjs tests/census/controls.spec.mjs",
-    "census:report": "node tools/census-report.mjs"
+    "census:report": "node tools/census-report.mjs",
+    "release:push": "node tools/release.mjs --push",
+    "release:tag": "node tools/release.mjs --tag"
   },
   "devDependencies": {
     "@playwright/test": "^1.62.0",
