@@ -83,6 +83,7 @@ function FreePlayChooser({ level, L, sound, preLevel, buildable, sentences, onCh
 
 export default function HomeScreen({ state, L, kid, masteredCount, persistent, readOnly, onBegin, onFreePlay, onParent,
   fpChooser, onFreePlayChoose, onFreePlayCancel, sentences, toast }) {
+  const ladderNeedsSound = state.preLevel > 0 && !state.settings.sound;
   return (
     <Frame>
       <Zone.Header>
@@ -123,7 +124,19 @@ export default function HomeScreen({ state, L, kid, masteredCount, persistent, r
       </Zone.Stage>
 
       <Zone.Rail>
-        <button className="wq-cta" onClick={onBegin} aria-label="Begin Session">▶️ Begin Session</button>
+        {/* THE LADDER NEEDS SOUND (the after pass, 2026-08-23). A child on
+            the pre-letter ladder is asked to hear: Pre 1 is nothing but ear
+            items, where the sounds ARE the question and nothing is shown to
+            read. With sound off that session cannot be answered, and every
+            grade the adult gave was still written to the child's ladder
+            record. The control now refuses in the chooser's own voice and
+            for the chooser's own reason; a child past the ladder reads
+            print, so words are unaffected. */}
+        <button className="wq-cta" onClick={onBegin} disabled={ladderNeedsSound} aria-label="Begin Session"
+          style={ladderNeedsSound ? { opacity: 0.55 } : undefined}>▶️ Begin Session</button>
+        {ladderNeedsSound && <p style={{ margin: "6px 0 0", fontSize: 12.5, color: C.ink2, textAlign: "center" }}>
+          The first steps need sound. Turn sound on in the Grown-ups corner.
+        </p>}
         {/* Free play: the same loop, endless, and nothing is ever written.
             A full 56 px child control (S7), styled quieter than the one
             session control so the main path stays unmistakable. */}

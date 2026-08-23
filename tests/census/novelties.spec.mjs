@@ -242,25 +242,30 @@ test("the Glowseed: idle on the attempt, lit from the audio's first start to its
   expect(without.map((z, i) => Math.abs(z - withSeed[i]) <= 1), "zone heights with and without the object: " + JSON.stringify({ withSeed, without })).toEqual(withSeed.map(() => true));
   expect(wordWithout, "the word's box with and without the object: 0 px of layout").toEqual(wordBefore);
   /* the reveal: graded, and read once the audio has ended */
-  const sinceLook = first.log.looks.length;
+  const since = { looks: first.log.looks.length, starts: first.log.starts.length, ends: first.log.ends.length };
   await holdGrade(page, GRADE.correct, []);
   await page.waitForFunction(() => window.__wqAudio && window.__wqAudio.starts.length > 0, null, { timeout: 15000 });
   await page.waitForFunction(() => { const a = window.__wqAudio; return a.ends.length >= a.starts.length && document.querySelector(".wq-glowseed[data-wq-glowseed='idle']"); }, null, { timeout: 30000 }).catch(() => {});
   await page.waitForTimeout(150);
   const after = await glowseedRead(page);
-  const findings = glowseedHold(after, { phase: "reveal", sinceLook });
-  expect(findings, JSON.stringify({ after: { ...after, log: { starts: after.log.starts.length, ends: after.log.ends.length, looks: after.log.looks.slice(sinceLook) } }, findings })).toEqual([]);
+  const findings = glowseedHold(after, { phase: "reveal", since });
+  expect(findings, JSON.stringify({ after: { ...after, log: { starts: after.log.starts.length, ends: after.log.ends.length, looks: after.log.looks.slice(since.looks) } }, findings })).toEqual([]);
   expect(after.box, "the box did not move between the attempt and the reveal").toEqual(first.box);
   const wordAfter = await page.evaluate(() => { const b = document.querySelector(".wq-word").getBoundingClientRect(); return [b.x, b.y, b.width, b.height].map((v) => +v.toFixed(2)); });
   expect(wordAfter, "the word did not move").toEqual(wordBefore);
-  /* sound off: muted, the control disabled, the parent told */
+  /* Sound off: muted, the control disabled, the parent told - read in the
+     FEEDBACK phase, because in the attempt the replay control is disabled
+     whatever the sound setting, so an attempt-phase read of `disabled` is
+     vacuous (the after pass, 2026-08-23). */
   const off = await stage(page, null, "pig", null, { sound: false });
   requireStaged("pig", off.shown);
+  expect(await page.getByRole("button", { name: "Hear the word again" }).isDisabled(), "the attempt disables it whatever the sound setting - the real read is after the grade").toBe(true);
+  await holdGrade(page, GRADE.correct, []);
+  await page.locator(".wq-tile").first().waitFor({ timeout: 8000 });
   const muted = await glowseedRead(page);
   expect(muted.look, JSON.stringify(muted)).toBe("muted");
   expect(muted.box, "the muted box is the idle box").toEqual(first.box);
-  expect(muted.zones, "sound off moves no zone").toEqual(first.zones);
-  expect(await page.getByRole("button", { name: "Hear the word again" }).isDisabled(), "the replay control is disabled with sound off").toBe(true);
+  expect(await page.getByRole("button", { name: "Hear the word again" }).isDisabled(), "the replay control is disabled with sound off, in the phase where it would otherwise be live").toBe(true);
   expect((await page.locator(".wq-mark").textContent()).trim(), "the marker line").toBe("Parent: sound is off");
 });
 

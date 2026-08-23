@@ -252,17 +252,34 @@ describe("G10 — the child hears the word before the app lets them move on", ()
     expect(screen.getByRole("button", { name: "Hear the word again" }).disabled).toBe(false);
     expect(document.querySelector(".wq-mark").textContent).toBe(" ");
   });
-  it("15d: the pre-ladder carries the Glowseed; with sound OFF its replay control is disabled and its marker line tells the parent", async () => {
+  it("15d: with sound OFF a child on the ladder is never dealt a session they cannot answer - the control refuses and says why", async () => {
+    /* Pre 1 is nothing but ear items: the sounds ARE the question and nothing
+       is shown to read, so with sound off the session cannot be answered -
+       and every grade the adult gave was still written to the child's ladder
+       record. The council's after pass found it on 2026-08-23; the control now
+       refuses in the chooser's own voice, for the chooser's own reason. */
     stored = { ...newState(), settings: { ...newState().settings, sound: false } };   // a fresh save: Pre 1
     render(createElement(App));
     await flush(0);
+    const begin = screen.getByLabelText("Begin Session");
+    expect(begin.disabled).toBe(true);
+    expect(screen.getByText(/The first steps need sound/)).toBeTruthy();
+    fireEvent.click(begin);
+    await flush(0);
+    expect(screen.getByLabelText("Begin Session"), "a disabled control deals nothing").toBeTruthy();
+  });
+  it("15e: with sound ON the ladder deals as it always did, and its stage carries the Glowseed idle", async () => {
+    stored = { ...newState() };   // a fresh save: Pre 1, sound on
+    render(createElement(App));
+    await flush(0);
+    expect(screen.getByLabelText("Begin Session").disabled).toBe(false);
     fireEvent.click(screen.getByLabelText("Begin Session"));
     await flush(0);
-    const replay = screen.getByRole("button", { name: "Hear it again" });
-    expect(replay.disabled).toBe(true);
-    expect(document.querySelector(".wq-glowseed").getAttribute("data-wq-glowseed")).toBe("muted");
-    expect(document.querySelector(".wq-glowseed").closest("main.wq-stage")).not.toBeNull();
-    expect(document.querySelector(".wq-mark").textContent).toBe("Parent: sound is off");
+    expect(screen.getByRole("button", { name: "Hear it again" }).disabled).toBe(false);
+    const seed = document.querySelector(".wq-glowseed");
+    expect(seed.getAttribute("data-wq-glowseed")).toBe("idle");
+    expect(seed.closest("main.wq-stage")).not.toBeNull();
+    expect(document.querySelector(".wq-mark").textContent).toBe(" ");
   });
   it("15c: with sound OFF the session takes no Build-it breather - the dead end the chooser already refuses", async () => {
     stored = { ...newState(), preLevel: 0, settings: { ...newState().settings, sound: false } };

@@ -47,26 +47,37 @@ const CSS = VARS + `
    and no word moves with it - in the free sky above the word's label, which
    the renders measured at 46-181 CSS px on the Galaxy S9+, 46-279 Pixel 7,
    46-199 iPhone 13, 46-232 desktop, 46-167 on the short stage. A 16 x 20 px
-   ovoid, the core offset toward the cradle end (bottom) so it is never an
-   eye or a bullseye; a 1 px rim, thinner than the tile's 3 px ring. Idle:
+   ovoid, the core offset toward the cradle end (bottom) AND off the
+   vertical axis, with one asymmetric tip at the top right, so it is never an
+   eye, an LED or a bullseye (17.1's face risk). The first draft was four
+   concentric ovals with the core dead-centre in x and 2 px low in y: the art
+   director failed checkpoint 1 on it and both verifiers measured the same
+   thing - the caps 6 px each at 1x, the core's x-centre exactly the box's -
+   so the shape is asymmetric in both axes now and the silhouette is recorded
+   in the provenance lock, since order D says the step-6 seed keeps it.
+   A 1 px rim, thinner than the tile's 3 px ring. Idle:
    slot face, stone rim - within one value step of the sky (stone 1.28 /
    1.24 / 1.36:1 on the stops), scenery. Lit: the core cyanElectric, the rim
    purpleStructural (3.15:1 against the idle rim - the non-colour cue, since
    the cyan core is 1.06:1 against the idle core in greyscale; 4.02 / 3.92 /
    4.29:1 on the stops), a 2 px purpleElectric light OUTSIDE the rim (9.2:
    electric glow outside a darker structural edge). Muted (sound off): the
-   core gone, an empty rim. No transition, no animation at any phase: the
+   core gone and the rim DASHED - a shape, since a fill alone measured
+   1.25:1 against the sky and vanished in greyscale (the after pass). No transition, no animation at any phase: the
    edge of the sound is the edge of the light, as for the tiles' ring, so
    reduced motion has nothing to change. pointer-events none, aria-hidden:
    never a control. Absent on a stage under 400 px tall (the landscape
    phone's 85 px reveal stage has no sky for it; open-faults AG). A
    token-drawn placeholder for the pixel seed the garden's step draws. */
-.wq-glowseed{position:absolute;top:8px;right:14px;width:16px;height:20px;border-radius:50% 50% 50% 50%/55% 55% 45% 45%;
+.wq-glowseed{position:absolute;top:8px;right:14px;width:16px;height:20px;border-radius:70% 34% 46% 54%/64% 56% 42% 38%;
   border:1px solid ${C.stone};background:${C.slot};pointer-events:none;z-index:0}
-.wq-glowseed::after{content:"";position:absolute;left:3px;top:7px;width:8px;height:8px;border-radius:50%;background:${C.slot}}
+.wq-glowseed::after{content:"";position:absolute;left:5px;top:8px;width:7px;height:7px;border-radius:50%;background:${C.slot}}
 .wq-glowseed-lit{border-color:${C.purpleStructural};box-shadow:0 0 0 2px ${C.purpleElectric}}
 .wq-glowseed-lit::after{background:${C.cyanElectric}}
-.wq-glowseed-muted{background:transparent}
+/* muted (sound off) takes a SHAPE, not only a fill: the dashed rim the used
+   tile wears for the same reason - a fill alone was 1.25:1 against the sky
+   and invisible in greyscale, which the after pass measured (2026-08-23) */
+.wq-glowseed-muted{background:transparent;border-style:dashed}
 .wq-glowseed-muted::after{display:none}
 @media (max-height:400px){.wq-glowseed{display:none}}
 /* The stage centres its content with two flexible spacers rather than with auto

@@ -68,7 +68,19 @@ export default function BuildItScreen({ tray, playSounds, playWord, onDone, onEx
      Glowseed lit per utterance would blink once per sound on that beat - the
      repeated pulse bible 7 forbids. During the scaffold the slot's cue ring
      is the one event, and the seed stays idle (art step 2, the council's
-     reading chair; owner-ruled 2026-08-23). */
+     reading chair; owner-ruled 2026-08-23).
+
+     QUIET ENDS WITH THE SOUND IT HIDES, NEVER ON A CLOCK (the after pass,
+     2026-08-23). It first ended at (n-1)*900+700, which is 700 ms after the
+     LAST slot's sound STARTED - and most clips run longer than that, so the
+     object lit for the rest of the utterance and went out again: the blink
+     the ruling exists to prevent, on the majority of bank words. It now ends
+     on the last slot's own report (playSounds' `then`, which fires at the
+     utterance's measured length plus 140 ms), so quiet always OUTLASTS the
+     light rather than cutting it short. A win ends it too: the win clears
+     every queued timer, so a scaffold interrupted by a win used to leave
+     quiet on for the rest of the turn and the object dark through the
+     celebration - the loudest teaching audio of the turn. */
   const [quiet, setQuiet] = useState(false);
   /* True while the built sounds play back after a miss: the filled slots wear
      the "different arrangement" ring (bible 11, 3.4 - neutral, never red)
@@ -160,8 +172,10 @@ export default function BuildItScreen({ tray, playSounds, playWord, onDone, onEx
       timers.current = [];
       /* and the scaffold's ring with them: the cleared timer was the one that
          would have taken the cue off, and the won slot kept the ring (the
-         checkpoint renders, 2026-08-22) */
+         checkpoint renders, 2026-08-22) - and its quiet, or the object would
+         stay dark through the whole celebration (the after pass, 2026-08-23) */
       setGhost(null);
+      setQuiet(false);
       setWon(true);
       setMsg(isSound ? "🎉 You found it!" : "🎉 You built " + tray.word + "!");
       /* The turn ends when the CELEBRATION ends, never on a fixed timer: the
@@ -211,11 +225,14 @@ export default function BuildItScreen({ tray, playSounds, playWord, onDone, onEx
     slotsRef.current = tray.answer.map(() => null);
     setSlots(slotsRef.current);
     setQuiet(true);
+    const last = tray.answer.length - 1;
     tray.answer.forEach((tile, i) => {
-      later(() => { setGhost(i); playSounds([tray.sounds[tray.tiles.indexOf(tile)]]); }, i * 900);
+      later(() => {
+        setGhost(i);
+        playSounds([tray.sounds[tray.tiles.indexOf(tile)]], i === last ? () => setQuiet(false) : undefined);
+      }, i * 900);
       later(() => setGhost(null), i * 900 + 700);
     });
-    later(() => setQuiet(false), (tray.answer.length - 1) * 900 + 700);
   }
 
   /* The ceramic is the stylesheet's (.wq-tilebtn, art step 1); only the

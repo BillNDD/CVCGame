@@ -248,7 +248,7 @@ function run(d) {
      from the prose either. What is refused is a key that is neither live nor
      retired — a floor quoted from nowhere. */
   const retired = baseline._retired || {};
-  for (const m of d.gauntletDoc.matchAll(/`(g\d+[a-z0-9_]*)`\s*\((\d+)\)/g)) {
+  for (const m of d.gauntletDoc.matchAll(/`((?:g\d+|census)[a-z0-9_]*)`\s*\((\d+)\)/g)) {
     const [, key, stated] = m;
     if (key in retired) {
       if (Number(stated) !== retired[key].was)
@@ -354,8 +354,17 @@ function run(d) {
      (the Glowseed, three looks and its core) and section 11's (the tiles) -
      and this rule reads every one; the Glowseed's selectors are app-only
      too, since the reference build has no Glowseed. */
-  const states = stateTable(d.bible);
-  if (states.length < 12) found.push(`the art bible's state tables (sections 7 and 11) parse to ${states.length} rows - an anchor moved, and this rule is checking less than it claims`);
+  /* PER TABLE, not in total: the first anchor was `< 12`, which is exactly
+     section 11's own row count, so section 7's four Glowseed rows could be
+     deleted whole and the rule stayed green - a guard that could not detect
+     the removal of its own subject (the after pass, 2026-08-23). */
+  const tables = stateTables(d.bible);
+  const states = tables.flat();
+  if (tables.length < 2) found.push(`the art bible has ${tables.length} state table(s), not the two this rule reads (section 7's Glowseed and section 11's tiles) - an anchor moved`);
+  else {
+    if (tables[0].length < 4) found.push(`the art bible's section 7 state table parses to ${tables[0].length} rows, fewer than the 4 the Glowseed has - an anchor moved, and this rule is checking less than it claims`);
+    if (tables[1].length < 12) found.push(`the art bible's section 11 state table parses to ${tables[1].length} rows, fewer than the 12 the tiles have - an anchor moved, and this rule is checking less than it claims`);
+  }
   const APP_ONLY = new Set([".wq-sword-open", "@keyframes wqpop", ".wq-glowseed", ".wq-glowseed-lit", ".wq-glowseed-lit::after", ".wq-glowseed-muted"]);   // the reference build has no sentence stage, no sound-out animation and no Glowseed
   for (const [state, selector, tokens] of states) {
     for (const [name, src] of [["app/src/wq-css.js", d.css], ["the reference", d.reference]]) {
@@ -369,20 +378,24 @@ function run(d) {
   return { found, rules };
 }
 
-/* The rows of every state table: `| state | \`selector\` | a, b, c |`,
-   each read from its header to the next section heading. */
-function stateTable(bible) {
-  const rows = [];
+/* Every state table, in document order, each as its own array of rows:
+   `| state | \`selector\` | a, b, c |`, read from its header to the next
+   section heading. Section 7's (the Glowseed) comes first, section 11's
+   (the tiles) second. */
+function stateTables(bible) {
+  const tables = [];
   let from = 0;
   for (;;) {
     const start = bible.indexOf("| state | selector | tokens |", from);
     if (start < 0) break;
     const end = bible.indexOf("\n## ", start);
     const body = bible.slice(start, end < 0 ? undefined : end);
+    const rows = [];
     for (const m of body.matchAll(/^\| ([^|`]+?) \| `([^`]+)` \| ([^|]+) \|/gm)) rows.push([m[1].trim(), m[2].trim(), m[3].split(",").map((t) => t.trim()).filter((t) => t && t !== "none")]);
+    tables.push(rows);
     from = end < 0 ? bible.length : end;
   }
-  return rows;
+  return tables;
 }
 /* The text of `selector{...}` - the first block whose rule starts with the
    selector followed by `{`, or the keyframes block for an @keyframes name;
@@ -411,7 +424,7 @@ function tokenTable(bible) {
 }
 
 if (process.argv.includes("--self-test")) {
-  const seen = { spec: false, blind: false, qa: false, hold: false, recipe: false, bank: false, floor: false, unshipped: false, superseded: false, table: false, tableOrder: false, orphanDoc: false, orphanCmd: false, tokenDrift: false, tokenStranger: false, tokenMissing: false, tokenBlind: false, stateToken: false, stateSelector: false, stateBlind: false, stateReference: false };
+  const seen = { spec: false, blind: false, qa: false, hold: false, recipe: false, bank: false, floor: false, unshipped: false, superseded: false, table: false, tableOrder: false, orphanDoc: false, orphanCmd: false, stateTableGone: false, tokenDrift: false, tokenStranger: false, tokenMissing: false, tokenBlind: false, stateToken: false, stateSelector: false, stateBlind: false, stateReference: false };
 
   /* Both ways a tool gets orphaned. The first is the one that actually
      happens: somebody tidies a governing document, the sentence naming the
@@ -528,12 +541,19 @@ if (process.argv.includes("--self-test")) {
   const lackingSelector = { ...real, bible: real.bible.replace("| used | `.wq-tilebtn.wq-used` |", "| used | `.wq-tilebtn.wq-gone` |") };
   seen.stateSelector = run(lackingSelector).found.some((p) => p.includes('names ".wq-tilebtn.wq-gone" (used), which app/src/wq-css.js does not have'));
   const noStates = { ...real, bible: real.bible.replaceAll("| state | selector | tokens |", "| kind | rule | colours |") };
-  seen.stateBlind = run(noStates).found.some((p) => p.includes("state tables (sections 7 and 11) parse to 0 rows"));
+  seen.stateBlind = run(noStates).found.some((p) => p.includes("state table(s), not the two this rule reads"));
+  /* and the removal of ONE table: section 7's Glowseed rows deleted whole,
+     which the first anchor (a total of 12, exactly section 11's own count)
+     could not see */
+  const seedTableHeading = "| state | selector | tokens |";
+  const seedAt = real.bible.indexOf(seedTableHeading), seedEnd = real.bible.indexOf("## ", seedAt);
+  const seedTableGone = { ...real, bible: real.bible.slice(0, seedAt) + [seedTableHeading, "|---|---|---|", "", ""].join(String.fromCharCode(10)) + real.bible.slice(seedEnd) };
+  seen.stateTableGone = run(seedTableGone).found.some((p) => p.includes("section 7 state table parses to 0 rows"));
   const driftedReference = { ...real, reference: real.reference.replace(".wq-tilebtn.wq-used{background:${C.slot};", ".wq-tilebtn.wq-used{background:${C.paper};") };
   seen.stateReference = run(driftedReference).found.some((p) => p.includes("paints slot; the reference's block does not name it"));
 
   if (Object.values(seen).every(Boolean)) {
-    console.log("self-test OK: a reworded SPEC sentence, a SPEC block whose anchor moved so the rule would check nothing, a reworded QA promise, a changed hold constant, a stale recipe number in the document, a stale bank count in the chooser, a drifted gate floor, an unshipped count that lags or runs ahead of the ledger, a level row that lost a word, a level row in the wrong order, a governing document that has stopped naming a tool agents are told to run, a command that has stopped running that tool's controls, a drifted token value, a token the table names that C lacks, a token C has that the table lacks, a token table whose anchor moved, a tile state whose block lacks a token it claims, a tile selector the stylesheet lacks, a tile table whose anchor moved, and a reference copy that drifted from the app's are all caught");
+    console.log("self-test OK: a reworded SPEC sentence, a SPEC block whose anchor moved so the rule would check nothing, a reworded QA promise, a changed hold constant, a stale recipe number in the document, a stale bank count in the chooser, a drifted gate floor, an unshipped count that lags or runs ahead of the ledger, a level row that lost a word, a level row in the wrong order, a governing document that has stopped naming a tool agents are told to run, a command that has stopped running that tool's controls, a drifted token value, a token the table names that C lacks, a token C has that the table lacks, a token table whose anchor moved, a tile state whose block lacks a token it claims, a tile selector the stylesheet lacks, a tile table whose anchor moved, the Glowseed's own state table deleted whole, and a reference copy that drifted from the app's are all caught");
     process.exit(0);
   }
   console.error("self-test FAILED: " + JSON.stringify(seen));

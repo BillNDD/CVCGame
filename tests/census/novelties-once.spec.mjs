@@ -599,6 +599,32 @@ test("control: a Glowseed lit before the audio, lit past its end, darkened by a 
   const since3 = await page.evaluate(() => window.__wqAudio.looks.length);
   await holdGrade(page, GRADE.correct, []);
   await page.waitForFunction(() => window.__wqAudio && window.__wqAudio.starts.length > 0, null, { timeout: 15000 });
+  /* FIRST, with no plant at all: the real object stays lit across the whole
+     1,500 ms hole and darkens only when the delayed end arrives. Without this
+     arm the suspension proves only that a planted clock is caught, never that
+     the object itself is event-driven (the after pass, 2026-08-23). */
+  const held = await page.evaluate(async () => {
+    const ctx = window.__wqAudio.ctx; const t0 = performance.now();
+    await ctx.suspend(); setTimeout(() => ctx.resume(), 1500);
+    await new Promise((r) => setTimeout(r, 900));
+    const lookNow = document.querySelector(".wq-glowseed").getAttribute("data-wq-glowseed");
+    return { suspendedAt: t0, lookMidHole: lookNow };
+  });
+  expect(held.lookMidHole, "the object is still lit 900 ms into a 1,500 ms suspension - a clock of the audio's own length would have gone out").toBe("lit");
+  await page.waitForFunction(() => { const a = window.__wqAudio; return a.ends.length >= a.starts.length; }, null, { timeout: 40000 });
+  await page.waitForTimeout(200);
+  const clean3 = await glowseedRead(page);
+  const cleanF = glowseedHold(clean3, { phase: "reveal", since: { looks: since3, starts: 0, ends: 0 } });
+  expect(cleanF, JSON.stringify({ held, looks: clean3.log.looks.slice(since3), cleanF })).toEqual([]);
+  const heldEnd = Math.max(...clean3.log.ends.map((e) => e.at));
+  expect(heldEnd - held.suspendedAt, "the end waited for the suspended context").toBeGreaterThan(1400);
+
+  /* THEN the clock plant, on a fresh reveal */
+  const again2 = await stage(page, null, "pig", null);
+  requireStaged("pig", again2.shown);
+  const since4 = await page.evaluate(() => window.__wqAudio.looks.length);
+  await holdGrade(page, GRADE.correct, []);
+  await page.waitForFunction(() => window.__wqAudio && window.__wqAudio.starts.length > 0, null, { timeout: 15000 });
   const planted = await page.evaluate(async () => {
     const a = window.__wqAudio; const ctx = a.ctx;
     /* the utterance's scheduled end on the context clock, from the last start() call's `when` plus its buffer - read off the probe's starts */
@@ -613,11 +639,8 @@ test("control: a Glowseed lit before the audio, lit past its end, darkened by a 
   await page.waitForFunction(() => { const a = window.__wqAudio; return a.ends.length >= a.starts.length; }, null, { timeout: 40000 });
   await page.waitForTimeout(200);
   const r3 = await glowseedRead(page);
-  const f3 = glowseedHold(r3, { phase: "reveal", sinceLook: since3 });
-  expect(f3.map((f) => f.kind), JSON.stringify({ planted, looks: r3.log.looks.slice(since3), ends: r3.log.ends.length, f3 })).toContain("dark-before-audio-ended");
-  /* and the suspension itself: the last end arrived at least 1,400 ms after the suspend */
-  const lastEnd = Math.max(...r3.log.ends.map((e) => e.at));
-  expect(lastEnd - planted.suspendedAt, "the end waited for the suspended context").toBeGreaterThan(1400);
+  const f3 = glowseedHold(r3, { phase: "reveal", since: { looks: since4, starts: 0, ends: 0 } });
+  expect(f3.map((f) => f.kind), JSON.stringify({ planted, looks: r3.log.looks.slice(since4), ends: r3.log.ends.length, f3 })).toContain("dark-before-audio-ended");
   /* the static plants through the reader */
   const plant = async (css) => { const h = await page.addStyleTag({ content: css }); const r = await glowseedRead(page); await h.evaluate((e) => e.remove()); return glowseedHold(r, { phase: "attempt" }).map((f) => f.kind); };
   expect(await plant(".wq-glowseed{transition:opacity 200ms!important}")).toContain("seed-animates");

@@ -51,6 +51,16 @@ export function changelogEntry(changelog, version) {
   return out.join("\n").trim();
 }
 
+/* The commit a tag points at ON THE REMOTE - peeling an annotated tag to
+   its commit. A pure helper so the read-back can be proved on planted
+   output (E5). */
+export const remoteTagSha = (version, run = git) => {
+  const out = run("ls-remote", "origin", "refs/tags/v" + version, "refs/tags/v" + version + "^{}");
+  const rows = out.split(String.fromCharCode(10)).map((l) => l.trim()).filter(Boolean).map((l) => l.split(String.fromCharCode(9)));
+  const peeled = rows.find((r) => r[1] && r[1].endsWith("^{}"));
+  return (peeled || rows[0] || [])[0] || "";
+};
+
 /* The pure judgement over a bag of facts, so every refusal can be proved on
    a planted fact without a repository. */
 export function judge(f) {
@@ -121,6 +131,18 @@ function selfTest() {
   ok.push(["the changelog entry is every bullet naming the version, with its wrapped lines, and nothing else",
     entry.includes("a thing.") && entry.includes("More of it.") && entry.includes("another.") && !entry.includes("old.")]);
   ok.push(["the changelog entry for an unknown version is empty", changelogEntry(log, "9.9.9") === ""]);
+  /* THE READ-BACK, which had never run: it must take the REMOTE's sha, peel
+     an annotated tag to its commit, and survive a remote that answers with
+     nothing - the local tag `gh release create` never makes is not evidence
+     of anything (the beta 27 readiness audit, 2026-08-23). */
+  const head = "a".repeat(40), other = "b".repeat(40);
+  const lightweight = () => head + String.fromCharCode(9) + "refs/tags/v1.0.0-beta.27" + String.fromCharCode(10);
+  const annotated = () => other + String.fromCharCode(9) + "refs/tags/v1.0.0-beta.27" + String.fromCharCode(10) + head + String.fromCharCode(9) + "refs/tags/v1.0.0-beta.27^{}" + String.fromCharCode(10);
+  ok.push(["the read-back takes the remote's sha for a lightweight tag", remoteTagSha("1.0.0-beta.27", lightweight) === head]);
+  ok.push(["the read-back peels an annotated tag to its commit, never the tag object", remoteTagSha("1.0.0-beta.27", annotated) === head]);
+  ok.push(["a remote with no such tag reads as nothing, and nothing is not HEAD", remoteTagSha("1.0.0-beta.27", () => "") === "" && "" !== head]);
+  ok.push(["the read-back asks the remote for the tag, not the local repository",
+    (() => { let asked = null; remoteTagSha("1.0.0-beta.27", (...a) => { asked = a; return lightweight(); }); return !!asked && asked[0] === "ls-remote" && asked[1] === "origin"; })()]);
   for (const [name, pass] of ok) console.log((pass ? "ok   " : "FAIL ") + name);
   const failed = ok.filter(([, p]) => !p).length;
   console.log(`\nrelease controls: ${ok.length - failed} passed, ${failed} failed`);
@@ -148,8 +170,17 @@ try {
   execFileSync("gh", ["release", "create", `v${facts.version}`, "--target", facts.head, "--title", `v${facts.version}`, "--notes-file", notesFile], { stdio: "inherit", shell: true });
 } finally { rmSync(tmp, { recursive: true, force: true }); }
 /* Read the remote back: the tag must point at HEAD, or the release is not
-   what this command promised. */
-const remoteTag = git("ls-remote", "origin", `refs/tags/v${facts.version}`).split(/\s/)[0];
-const tagCommit = remoteTag ? git("rev-list", "-n", "1", `v${facts.version}`) : "";
-if (tagCommit !== facts.head) { console.error(`REFUSED AFTER THE FACT: the remote tag v${facts.version} is at ${tagCommit.slice(0, 7)}, not ${facts.head.slice(0, 7)}`); process.exit(1); }
+   what this command promised. THE READ IS THE REMOTE'S, NOT A LOCAL TAG'S
+   (found by the beta 27 readiness audit, 2026-08-23, before this command had
+   ever been run with --go): `gh release create` cuts the tag through the
+   GitHub API and creates NOTHING locally, so the old line resolved
+   `git rev-list -n 1 v<version>`, which exits 128 - and `git()` is
+   execFileSync, so the process died with an uncaught stack trace AFTER main
+   was pushed and the release cut, and this check, the one that closes the
+   beta 24 and 25 hole end to end, never ran once. It now reads the remote's
+   own refs and peels an annotated tag to its commit. */
+let tagCommit = "";
+try { tagCommit = remoteTagSha(facts.version); }
+catch (e) { console.error(`REFUSED AFTER THE FACT: the remote could not be read back (${e && e.message ? e.message.split(String.fromCharCode(10))[0] : e}) - check the tag by hand`); process.exit(1); }
+if (tagCommit !== facts.head) { console.error(`REFUSED AFTER THE FACT: the remote tag v${facts.version} is at ${(tagCommit || "nothing").slice(0, 7)}, not ${facts.head.slice(0, 7)}`); process.exit(1); }
 console.log(`released v${facts.version} at ${facts.head.slice(0, 7)}; the tag's gauntlet runs on the remote now`);

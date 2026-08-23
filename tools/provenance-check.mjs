@@ -77,7 +77,7 @@ export function lockDrift(lock, fromSources) {
    and the stage height below which it is absent. A row that stated these
    and nothing read them would be trusted, not read (step 1's antagonist). */
 export function glowseedLockFromSources(css = readFileSync("app/src/wq-css.js", "utf8")) {
-  const seed = cssBlock(css, ".wq-glowseed"), core = cssBlock(css, ".wq-glowseed::after"), lit = cssBlock(css, ".wq-glowseed-lit");
+  const seed = cssBlock(css, ".wq-glowseed"), core = cssBlock(css, ".wq-glowseed::after"), lit = cssBlock(css, ".wq-glowseed-lit"), muted = cssBlock(css, ".wq-glowseed-muted");
   const absent = css.match(/@media \(max-height:(\d+)px\)\{\.wq-glowseed\{display:none\}\}/);
   return {
     box: { w: num(seed, /width:(\d+)px/), h: num(seed, /height:(\d+)px/) },
@@ -85,6 +85,21 @@ export function glowseedLockFromSources(css = readFileSync("app/src/wq-css.js", 
     rim: num(seed, /border:(\d+)px solid/),
     light: num(lit, /box-shadow:0 0 0 (\d+)px/),
     core: { left: num(core, /left:(\d+)px/), top: num(core, /top:(\d+)px/), w: num(core, /width:(\d+)px/), h: num(core, /height:(\d+)px/) },
+    /* THE SILHOUETTE is part of the lock (the after pass, 2026-08-23): order
+       D says the step-6 pixel seed keeps the placeholder's shape, so the
+       shape has to be recorded and guarded, not just its box. The radius as
+       written, and the core's offset from the BORDER BOX's centre in CSS px
+       - positive right and down - which is what makes it an ovoid with an
+       offset core rather than the bullseye checkpoint 1 refused. */
+    radius: (seed && (seed.match(/border-radius:([^;}]+)/) || [])[1] || "").trim() || null,
+    coreOffset: (() => {
+      const n = (b, re) => { const m = b && b.match(re); return m ? Number(m[1]) : null; };
+      const L = n(core, /left:(\d+)px/), T = n(core, /top:(\d+)px/), W = n(core, /width:(\d+)px/), H = n(core, /height:(\d+)px/);
+      const bw = n(seed, /width:(\d+)px/), bh = n(seed, /height:(\d+)px/), rim = n(seed, /border:(\d+)px solid/);
+      if ([L, T, W, H, bw, bh, rim].some((v) => v === null)) return null;
+      return { x: +(rim + L + W / 2 - bw / 2).toFixed(1), y: +(rim + T + H / 2 - bh / 2).toFixed(1) };
+    })(),
+    mutedBorderStyle: (muted && (muted.match(/border-style:(\w+)/) || [])[1]) || null,
     absentBelow: absent ? Number(absent[1]) : null,
     transition: seed ? /transition/.test(seed) || (lit ? /transition/.test(lit) : false) : null,
   };
@@ -96,6 +111,10 @@ export function glowseedDrift(lock, fromSources) {
   if (lock.rim !== fromSources.rim) out.push(`lock.rim is ${lock.rim}, the stylesheet says ${fromSources.rim}`);
   if (lock.light !== fromSources.light) out.push(`lock.light is ${lock.light}, the stylesheet says ${fromSources.light}`);
   for (const k of ["left", "top", "w", "h"]) if (!lock.core || lock.core[k] !== fromSources.core[k]) out.push(`lock.core.${k} is ${lock.core && lock.core[k]}, the stylesheet says ${fromSources.core[k]}`);
+  if (lock.radius !== fromSources.radius) out.push(`lock.radius is ${JSON.stringify(lock.radius)}, the stylesheet says ${JSON.stringify(fromSources.radius)}`);
+  for (const k of ["x", "y"]) if (!lock.coreOffset || !fromSources.coreOffset || lock.coreOffset[k] !== fromSources.coreOffset[k]) out.push(`lock.coreOffset.${k} is ${lock.coreOffset && lock.coreOffset[k]}, the stylesheet's geometry says ${fromSources.coreOffset && fromSources.coreOffset[k]}`);
+  if (fromSources.coreOffset && (fromSources.coreOffset.x === 0 || fromSources.coreOffset.y === 0)) out.push(`the core sits on the object's ${fromSources.coreOffset.x === 0 ? "vertical" : "horizontal"} axis - checkpoint 1 refused the centred core (an eye, an LED, a bullseye; bible 17.1)`);
+  if (lock.mutedBorderStyle !== fromSources.mutedBorderStyle) out.push(`lock.mutedBorderStyle is ${lock.mutedBorderStyle}, the stylesheet says ${fromSources.mutedBorderStyle}`);
   if (lock.absentBelow !== fromSources.absentBelow) out.push(`lock.absentBelow is ${lock.absentBelow}, the stylesheet says ${fromSources.absentBelow}`);
   if (fromSources.transition) out.push("the stylesheet gives the Glowseed a transition; its looks are hard-edged (bible 7, 14)");
   return out;
@@ -158,8 +177,18 @@ if (process.argv.includes("--self-test")) {
   /* the Glowseed's lock against the stylesheet: every number found at its
      literal, a planted 3 px light and a planted transition refused */
   const seed = glowseedLockFromSources();
-  ok.push(["the Glowseed lock reader finds the box, the corner, the rim, the light, the core and the absent-below height in the stylesheet, at their literals",
-    JSON.stringify(seed) === JSON.stringify({ box: { w: 16, h: 20 }, corner: { top: 8, right: 14 }, rim: 1, light: 2, core: { left: 3, top: 7, w: 8, h: 8 }, absentBelow: 400, transition: false })]);
+  ok.push(["the Glowseed lock reader finds the box, the corner, the rim, the light, the core, the silhouette and the absent-below height in the stylesheet, at their literals",
+    JSON.stringify(seed) === JSON.stringify({ box: { w: 16, h: 20 }, corner: { top: 8, right: 14 }, rim: 1, light: 2, core: { left: 5, top: 8, w: 7, h: 7 },
+      radius: "70% 34% 46% 54%/64% 56% 42% 38%", coreOffset: { x: 1.5, y: 2.5 }, mutedBorderStyle: "dashed", absentBelow: 400, transition: false })]);
+  /* the silhouette: a core put back on either axis is refused BY NAME (the
+     bullseye checkpoint 1 refused), a changed radius is refused, and a muted
+     rim that stops being dashed is refused */
+  const centred = glowseedLockFromSources(readFileSync("app/src/wq-css.js", "utf8").replace('.wq-glowseed::after{content:"";position:absolute;left:5px;top:8px;width:7px;height:7px', '.wq-glowseed::after{content:"";position:absolute;left:3px;top:8px;width:8px;height:7px'));
+  ok.push(["a core back on the object's vertical axis is refused by name", centred.coreOffset.x === 0 && glowseedDrift(real.families.glowseed.lock, centred).some((p) => p.includes("vertical axis") && p.includes("bullseye"))]);
+  const roundish = glowseedLockFromSources(readFileSync("app/src/wq-css.js", "utf8").replace("border-radius:70% 34% 46% 54%/64% 56% 42% 38%", "border-radius:50% 50% 50% 50%/55% 55% 45% 45%"));
+  ok.push(["a silhouette rounded back to four concentric ovals is refused, naming both radii", roundish.radius === "50% 50% 50% 50%/55% 55% 45% 45%" && glowseedDrift(real.families.glowseed.lock, roundish).some((p) => p.includes("lock.radius is") && p.includes("50% 50%"))]);
+  const solidMuted = glowseedLockFromSources(readFileSync("app/src/wq-css.js", "utf8").replace(".wq-glowseed-muted{background:transparent;border-style:dashed}", ".wq-glowseed-muted{background:transparent}"));
+  ok.push(["a muted rim that stops being dashed is refused - the shape is what carries the muted state in greyscale", solidMuted.mutedBorderStyle === null && glowseedDrift(real.families.glowseed.lock, solidMuted).some((p) => p.includes("mutedBorderStyle"))]);
   const wideLight = glowseedLockFromSources(readFileSync("app/src/wq-css.js", "utf8").replace("box-shadow:0 0 0 2px ${C.purpleElectric}", "box-shadow:0 0 0 3px ${C.purpleElectric}"));
   ok.push(["a 3 px light in the stylesheet is refused against the lock, naming both numbers", wideLight.light === 3 && glowseedDrift(real.families.glowseed.lock, wideLight).some((p) => p.includes("lock.light is 2, the stylesheet says 3"))]);
   const fading = glowseedLockFromSources(readFileSync("app/src/wq-css.js", "utf8").replace(".wq-glowseed-lit{border-color", ".wq-glowseed-lit{transition:opacity .2s;border-color"));

@@ -316,11 +316,12 @@ function selfTest() {
       { configFile: "/repo/some-other.config.mjs" }), FRESH).problems
       .some((p) => p.includes("some-other.config.mjs"))]);
 
-  /* THE NOVELTIES SCOPE. Literals again (E4): 14 planted-fault controls, 72
-     profile cells (nine on each of eight profiles), 8 monkey walks and 4
-     singletons - 98 in all, counted by a run on 2026-08-22 (art step 1). A
-     novelties run judged as the body is refused, because it is not one;
-     judged as novelties it passes only whole. */
+  /* THE NOVELTIES SCOPE. Literals again (E4): 16 planted-fault controls, 80
+     profile cells (ten on each of eight profiles), 8 monkey walks and 4
+     singletons - 108 in all, counted by the run on 2026-08-23 (art step 2,
+     which added the Glowseed's cell and its control). A novelties run judged
+     as the body is refused, because it is not one; judged as novelties it
+     passes only whole. */
   const NOVELTY_CONTROLS = 16, NOVELTY_CELLS = 92;
   ok.push(["the baseline states the novelty floors this file was written against",
     NOVELTY_FLOOR.controls === NOVELTY_CONTROLS && NOVELTY_FLOOR.cells === NOVELTY_CELLS]);

@@ -543,7 +543,13 @@ export async function glowseedRead(page) {
 /* `read` is glowseedRead's output after the reveal's audio has ended (or
    after an attempt, with phase "attempt"); `looks` in its log run from the
    page's load, so a cell passes the index where its own reveal began. */
-export function glowseedHold(read, { phase = "reveal", sinceLook = 0, endTolerance = 100 } = {}) {
+/* `since` is an index into ALL THREE logs, not only the looks: a read that
+   sliced the looks but took `firstStart` from the whole page's history made
+   `lit-before-audio` vacuous for every reveal after the first (the after
+   pass, 2026-08-23). A cell that watches its own reveal passes the counts it
+   saw before it began. */
+export function glowseedHold(read, { phase = "reveal", since = null, sinceLook = 0, endTolerance = 100 } = {}) {
+  const from = since || { looks: sinceLook, starts: 0, ends: 0 };
   if (!read) return [{ kind: "no-subject", detail: "nothing read" }];
   const findings = [];
   if (!read.present) return [{ kind: "seed-missing", detail: "no .wq-glowseed on the screen" }];
@@ -561,8 +567,8 @@ export function glowseedHold(read, { phase = "reveal", sinceLook = 0, endToleran
   }
   const log = read.log;
   if (!log) return [...findings, { kind: "no-subject", detail: "the audio probe is not installed (page.addInitScript(GLOWSEED_PROBE) before the page loads)" }];
-  const looks = log.looks.slice(sinceLook);
-  const starts = log.starts.map((s) => s.at), ends = log.ends.map((s) => s.at);
+  const looks = log.looks.slice(from.looks || 0);
+  const starts = log.starts.slice(from.starts || 0).map((s) => s.at), ends = log.ends.slice(from.ends || 0).map((s) => s.at);
   if (!starts.length) return [...findings, { kind: "no-subject", detail: "no audio node started - the reveal played nothing" }];
   const firstStart = Math.min(...starts), lastEnd = ends.length ? Math.max(...ends) : null;
   const lit = looks.filter((l) => l.look === "lit"), idle = looks.filter((l) => l.look === "idle");
