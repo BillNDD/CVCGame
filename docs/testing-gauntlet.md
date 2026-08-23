@@ -983,8 +983,21 @@ Enforced since 2026-08-22 (hardening decision 3, owner-ruled): `tools/lock-guard
 the first line of `npm run check` and the whole of the pre-commit hook in `tools/hooks/`
 (installed once with `git config core.hooksPath tools/hooks`). While `.gauntlet.lock`
 exists both refuse, naming the gate that holds the lock and since when - the gauntlet
-writes that into the lock as each step starts. Five controls. G4 now restores its
+writes that into the lock as each step starts. Ten controls. G4 now restores its
 planted mutants on every exit signal, as G19 already did. The paragraph below is why.
+
+**And the gauntlet is no longer the only thing that creates it** (2026-08-23). The three
+mutant runners are exposed directly as npm scripts - `test:mutants`, `test:app-mutants` and
+`test:acceptance-mutants` - and each rewrites files while it runs, so each takes the lock
+itself. **G4 is the one that matters most**: its two files, `tests/generated/acceptance-ir.json`
+and `tests/generated/acceptance.test.js`, are TRACKED, so a concurrent commit sweeps a
+planted mutant into the repository. G5's two files are gitignored, so it cannot leave one
+there, but a concurrent check would still read a mutated engine. The gauntlet marks the lock
+as held through the environment and its own steps do not take it again; only the exact token
+`WQ_GAUNTLET_LOCK=held` bypasses, because that direction fails OPEN and so has its own
+controls. A direct mutant run therefore prints "a gauntlet is running - G4 acceptance-mutants
+since HH:MM" to anyone who tries to commit, which is accurate about the danger if loose about
+the word "gauntlet".
 
 Owner-facing consequence: nothing. Agent-facing consequence: a false result, in both
 directions, and it is new as of 2026-08-12.
@@ -1202,7 +1215,7 @@ padding, a 7 px reveal band, a 3 px light and a transition. Declared DATA in the
 file map; the reader is its reader. No README file per family exists or may: the entry is
 what the ruling calls the README.
 
-## G14b. The art budget (art project step 0c, owner-ruled 2026-08-22)
+## G14a2. The website's two refusals (2026-08-23)
 
 - Tool: `tools/verify-published.mjs`. In `npm run check` as `--self-test` (13 controls).
   It holds the two judgements the website's deploy makes: whether the downloaded artefact is
@@ -1215,6 +1228,8 @@ what the ruling calls the README.
   workflow calls this file rather than thinking for itself. The controls plant each fault:
   a FAIL evidence, a missing hash, a hash mismatch, a site still serving the previous build,
   a site serving another version, and a deploy that cannot say what it published.
+
+## G14b. The art budget (art project step 0c, owner-ruled 2026-08-22)
 
 - Tool: `tools/art-budget.mjs`. In `npm run check`: the tracked bytes under `app/public/art/`
   against `art_bytes_max` (12,582,912 — "12 MB for all art"), deterministic and identical

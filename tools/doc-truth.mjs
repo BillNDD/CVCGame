@@ -368,8 +368,9 @@ function run(d) {
        dates: the 2026-08-07 refusal list, the 2026-08-16 bill, the 2026-08-18
        appropriateness sentence, the paragraph that says WHY each guard is
        there, and the plural-exclusion sentence. This set is deliberately WIDER
-       than fromProse - it holds "nuts", which is excluded from the bank and not
-       build-guarded - so it is used for this direction only, never to demand a
+       than fromProse - it holds "buns" from the plural sentence by a different
+       route than the 2026-08-07 list, and it once held "nuts" before the owner
+       ruled it into the guard - so it is used for this direction only, never to demand a
        guard nobody ruled. */
     const rationale = /The 2026-08-07 sentence, (.*?) are here because they are appropriateness refusals; \*\*([a-z]+)\*\* is here because/.exec(flat);
     if (!rationale) found.push("SPEC's paragraph saying why each word is build-guarded could not be read, so every guard rests on one sentence alone");

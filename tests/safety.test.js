@@ -557,7 +557,7 @@ describe("G10 — free play never touches the save", () => {
     expect(screen.getByText("FREE PLAY")).toBeTruthy();
     /* the dice chip: the level chip would claim a level this mode is not serving */
     expect(screen.getByLabelText(/random (words|sentences)/)).toBeTruthy();
-    expect(screen.queryByText(/\\bLevel 1\\b/)).toBeNull();
+    expect(screen.queryByText(/\bLevel 1\b/)).toBeNull();
     const before = mockSave.mock.calls.length;
     await gradeOne("got it");
     await gradeOne("not yet");

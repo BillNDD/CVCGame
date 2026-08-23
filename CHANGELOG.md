@@ -60,7 +60,8 @@ The first app version is 1.0.0-beta.1. The app stays in beta until version 1.0 i
 - Nothing about the teaching changed in 1.0.0-beta.27: the same words, the same levels, the
   same sounds and the same voice, and your child's progress is untouched. What changed is how
   it all looks, one new light, and the few things listed under Fixed that the game now
-  declines to offer when sound is switched off.
+  declines to offer — some of them when sound is switched off, and one of them a handful of
+  words your child will simply never be handed the letters for.
 - Under the hood in 1.0.0-beta.27: the checks grew again. The listening light is measured
   against the device's own sound engine rather than a stopwatch — a check watches every
   sound the game schedules and every sound that ends, and refuses a light that comes on

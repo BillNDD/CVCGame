@@ -155,8 +155,14 @@ describe("Build-it tray", () => {
     expect(NEVER_BUILD.length).toBe(16);   // hunt came off 2026-08-17; five joined 2026-08-23, then nuts and cans
     /* nuts and cans were ruled OUT OF THE BANK and never added to the TRAY
        guard - two different rules, only the second with a gate. Measured over
-       41,680 deals: nuts was reachable from seven target words and cans from
-       five. Owner-ruled "guard both" on a decision page, 2026-08-23. */
+       41,680 deals, nuts surfaced from seven target words and cans from five;
+       exhaustively, over every distractor combination buildTray can deal -
+       with the pool filtered as the code filters it, trayClash included - it
+       is 42 and 24 at each word's own level and 64 and 34 at the top level,
+       where the pool is largest. The sampled figure was written into SPEC as
+       a total, and the first correction left trayClash out of the model and
+       overstated it again; the after pass caught both. Owner-ruled "guard both" on a
+       decision page, 2026-08-23. */
     expect(NEVER_BUILD).toContain("nuts");
     expect(NEVER_BUILD).toContain("cans");
     /* and a book-artifact refusal is NOT here: a child spelling "blap" is no

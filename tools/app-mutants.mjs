@@ -21,7 +21,7 @@ import { readFileSync, writeFileSync } from "node:fs";
 import { execFileSync } from "node:child_process";
 import { mkdirSync, rmSync as rmLock } from "node:fs";
 import { join as joinLock } from "node:path";
-import { LOCK, holderOf } from "./lock-guard.mjs";
+import { LOCK, holderOf, shouldTakeLock } from "./lock-guard.mjs";
 
 const APP = "app/src/App.jsx";
 const HOLD = "app/src/components/HoldButton.jsx";
@@ -256,7 +256,7 @@ if (process.argv.includes("--anchors")) {
    gauntlet's own child and fail the gate. The parent says so through the
    environment; a direct `npm run test:mutants` has no such parent and takes
    the lock itself. */
-const LOCK_HELD_BY_PARENT = process.env.WQ_GAUNTLET_LOCK === "held";
+const LOCK_HELD_BY_PARENT = !shouldTakeLock(process.env);
 if (!LOCK_HELD_BY_PARENT) {
 try {
   mkdirSync(LOCK);

@@ -1415,11 +1415,21 @@ build-guarded although jug, nut and can are ordinary taught words — the plural
 adult meaning the singular does not, so a tray must never let a child spell one. jugs and
 crabs were guarded from the start; nuts and cans were ruled out of the BANK and never added
 to the TRAY guard, which are two different rules, and only the second one has a gate. Put to
-the owner on a decision page with the measurement and ruled "guard both": over 41,680
-simulated deals a child could lay out nuts from seven target words (hunt, must, just, hits,
-snug, snap, goats) and cans from five (cats, sand, snap, swan, castle), and the game would
-then print what they built and speak it back. Guarding both makes no bank word unbuildable
-and starves no tray; it swaps one distractor tile for another in 30 of those 41,680 deals.
+the owner on a decision page with the measurement and ruled "guard both". The measurement
+first shown was a SAMPLE — 41,680 seeded deals, in which nuts surfaced from seven target
+words and cans from five — and it was written into this paragraph as though it were the
+total; the after pass caught that and the exhaustive figures are these. Enumerating every
+distractor combination the shipped `buildTray` can deal — the pool filtered as the code
+filters it, which means `trayClash` as well as the guard, since a tile whose sound the word
+already says is never dealt — a child could lay out **nuts from 42 target words and cans
+from 24** when each word is served at its own level, and **64 and 34** when a review serves
+a word at the top level, where the tray pool is at its largest (84 units, two extras).
+"cats" reaches both. (The first correction of this paragraph left `trayClash` out of the
+model and so counted trays the code cannot deal — 44, 31, 66 and 41. The after pass caught
+that too, and named the filter, which is why it is named here.) The game would then
+print what the child built and speak it back. Guarding both makes no bank word unbuildable
+and starves no tray — measured after the ruling: 1,042 words buildable, exactly as before,
+and no tray at any level short of the distractors its level asks for.
 
 This is the
 list `NEVER_BUILD` must equal, in both directions: a word here that the engine does not

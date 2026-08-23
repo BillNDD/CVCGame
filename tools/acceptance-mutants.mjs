@@ -10,6 +10,9 @@
    Run: npm run test:acceptance-mutants   Requirement: 0 survivors. */
 import { readFileSync, writeFileSync } from "node:fs";
 import { execFileSync } from "node:child_process";
+import { mkdirSync, rmSync as rmLock } from "node:fs";
+import { join as joinLock } from "node:path";
+import { LOCK, holderOf, shouldTakeLock } from "./lock-guard.mjs";
 
 const IR = "tests/generated/acceptance-ir.json";
 const TEST = "tests/generated/acceptance.test.js";
@@ -19,6 +22,34 @@ const selfTest = process.argv.includes("--self-test");
 const run = (cmd, args) => {
   try { execFileSync(cmd, args, { stdio: "pipe" }); return true; } catch { return false; }
 };
+
+/* THE LOCK, AND THIS IS THE RUNNER THAT MOST NEEDED IT (the after pass,
+   2026-08-23). The lock's founding comment names G4 first - "G4 mutates
+   tests/generated mid-run" - and both files this tool rewrites are TRACKED,
+   while the two runners locked earlier the same night write only
+   reference/.mutant.jsx and src/engine.js, which are both gitignored. So the
+   batch that set out to close the mutation window locked two tools that
+   cannot leave a mutant in the repository and left open the one that can.
+   A concurrent `npm run check` or commit would sweep a planted acceptance
+   mutant straight in - open-faults C2, verbatim.
+   The gauntlet holds the lock for its own run and says so through the
+   environment; a direct `npm run test:acceptance-mutants` takes it itself.
+   THE SELF-TEST TAKES IT TOO: it plants a mutant in the same tracked IR to
+   prove the staleness control, so it carries the same hazard (the after pass's
+   own residual note). And the lock sits ABOVE the gherkin-parse call below,
+   which rewrites that IR: those are pristine bytes, so nothing could be swept
+   up, but the lock reads more honestly over everything that writes. */
+const LOCK_HELD_BY_PARENT = !shouldTakeLock(process.env);
+if (!LOCK_HELD_BY_PARENT) {
+  try {
+    mkdirSync(LOCK);
+    writeFileSync(joinLock(LOCK, "current"), "G4 acceptance-mutants since " + new Date().toISOString().slice(11, 16) + String.fromCharCode(10));
+  } catch {
+    console.error("Another run appears to hold " + LOCK + " - " + (holderOf(LOCK) || "no holder named") + ". Remove it if it is stale.");
+    process.exit(1);
+  }
+  process.on("exit", () => { try { rmLock(LOCK, { recursive: true, force: true }); } catch {} });
+}
 
 run("node", ["tools/gherkin-parse.mjs"]); // fresh IR from the feature files
 const pristine = readFileSync(IR, "utf8");

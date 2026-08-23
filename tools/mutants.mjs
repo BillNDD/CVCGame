@@ -6,7 +6,7 @@ import { execFileSync } from "node:child_process";
 
 import { mkdirSync, rmSync as rmLock } from "node:fs";
 import { join as joinLock } from "node:path";
-import { LOCK, holderOf } from "./lock-guard.mjs";
+import { LOCK, holderOf, shouldTakeLock } from "./lock-guard.mjs";
 
 const REF = "reference/word-quest.jsx";
 const TMP = "reference/.mutant.jsx";
@@ -244,8 +244,13 @@ if (process.argv.includes("--anchors")) {
 /* THE LOCK IS TAKEN BY WHATEVER PLANTS MUTANTS (the release sweep,
    2026-08-23). Hardening decision 3 made .gauntlet.lock refuse a commit or a
    check while mutants are planted - but only tools/gauntlet.mjs ever created
-   it, and this file is exposed directly as an npm script that rewrites the
-   same tracked files. A mutant reaching the repository is not hypothetical:
+   it, and this file is exposed directly as an npm script. It rewrites
+   reference/.mutant.jsx and src/engine.js, which are gitignored - so this one
+   cannot leave a mutant in the REPOSITORY, and the lock is here because a
+   concurrent check or commit would still read a mutated engine. The runner
+   that can leave one in the repository is tools/acceptance-mutants.mjs, whose
+   two files are tracked; it was locked in the same batch once the after pass
+   pointed out that this comment named the wrong hazard. A mutant reaching the repository is not hypothetical:
    it happened once, when a commit was made while a gate held a file mutated
    (E11's own record). The lock belongs to the thing doing the planting. */
 /* THE GAUNTLET ALREADY HOLDS IT. It takes .gauntlet.lock for the whole run and
@@ -253,7 +258,7 @@ if (process.argv.includes("--anchors")) {
    gauntlet's own child and fail the gate. The parent says so through the
    environment; a direct `npm run test:mutants` has no such parent and takes
    the lock itself. */
-const LOCK_HELD_BY_PARENT = process.env.WQ_GAUNTLET_LOCK === "held";
+const LOCK_HELD_BY_PARENT = !shouldTakeLock(process.env);
 if (!LOCK_HELD_BY_PARENT) {
 try {
   mkdirSync(LOCK);
@@ -263,6 +268,11 @@ try {
   process.exit(1);
 }
 process.on("exit", () => { try { rmLock(LOCK, { recursive: true, force: true }); } catch {} });
+  /* and on a signal, as G4 and G19 already do: default SIGINT/SIGTERM
+     termination does not run exit handlers on POSIX, so a Ctrl-C on a twelve
+     minute gate would leave the lock behind and refuse every later check and
+     commit until someone deleted it by hand (the after pass, 2026-08-23). */
+  for (const sig of ["SIGINT", "SIGTERM", "SIGHUP"]) process.on(sig, () => process.exit(130));
 }
 
 const survivors = [], errored = [];
