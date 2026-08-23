@@ -203,6 +203,40 @@ The failure this prevents is not carelessness. It is the ordinary shape of a sma
 system where one fact is written in eight places: the edit is right, and the eighth place is
 still saying yesterday's truth.
 
+## The engineering seat, before and after every change (owner-ruled 2026-08-23)
+
+The owner's words, given while ruling on a release fix: "have a read only context
+independent agent in role of software engineering expert perform both BEFORE and AFTER
+passes on everything you want to change (give advice on what to do, then check if what you
+did breaks anything etc etc)."
+
+This generalises the art council's third seat to every change, not only the art steps. The
+seat is the same one the owner named the same day — a software engineering and programming
+expert, adversarial mandate unchanged (`docs/art-plan.md`, "How the council works").
+
+- **Read only, context independent.** A fresh agent each pass, with no memory of the last
+  one. It reads the repository, `CLAUDE.md`, `SPEC.md`, the gauntlet document and the map,
+  and it never edits, commits, pushes or tags. Give it the change you INTEND, not a diff
+  you have already made.
+- **The before pass advises.** For each change: what to do and why, what it breaks — gates,
+  tests, floors, documents, by path, using the E11 lookups rather than memory — what would
+  prove it, and what it would refuse to let ship. It also gives the ORDER, and says which
+  changes it would not make now.
+- **The after pass checks.** The same seat, fresh, receives the diff and the commit and
+  asks whether what was done broke anything: a gate that now measures less than it claims,
+  a count that moved without its floor, a document that still says yesterday's truth, a
+  test that would pass with the behaviour broken.
+- **A finding is verified before it is taken** (the council's rule, and it has earned
+  itself twice: an audit called a live Build-it state dead, and another said the word bank
+  had never been screened when SPEC carried the dated screen). Read the file and line the
+  finding names. A finding you cannot confirm is declined with the reason, in the commit
+  message, the same as one you disagree with.
+- **Batch the work, not the seat.** One before pass over the batch of changes you are about
+  to make, one after pass over what you made. Not one agent per change, and never one per
+  finding (E9).
+
+The gauntlet still outranks the seat: advice does not ship anything, a green check does.
+
 ## The two failures this repository is built around
 
 **A machine cannot hear a word.** Every automated check passed while the pack
