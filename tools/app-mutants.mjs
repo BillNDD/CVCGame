@@ -244,6 +244,30 @@ if (process.argv.includes("--anchors")) {
   process.exit(moved.length ? 1 : 0);
 }
 
+/* THE LOCK IS TAKEN BY WHATEVER PLANTS MUTANTS (the release sweep,
+   2026-08-23). Hardening decision 3 made .gauntlet.lock refuse a commit or a
+   check while mutants are planted - but only tools/gauntlet.mjs ever created
+   it, and this file is exposed directly as an npm script that rewrites the
+   same tracked APP files. A mutant reaching the repository is not
+   hypothetical: it happened once, when a commit was made while a gate held a
+   file mutated (E11's own record). */
+/* THE GAUNTLET ALREADY HOLDS IT. It takes .gauntlet.lock for the whole run and
+   then invokes this file as a step, so taking the lock again would refuse the
+   gauntlet's own child and fail the gate. The parent says so through the
+   environment; a direct `npm run test:mutants` has no such parent and takes
+   the lock itself. */
+const LOCK_HELD_BY_PARENT = process.env.WQ_GAUNTLET_LOCK === "held";
+if (!LOCK_HELD_BY_PARENT) {
+try {
+  mkdirSync(LOCK);
+  writeFileSync(joinLock(LOCK, "current"), "G19 app-mutants since " + new Date().toISOString().slice(11, 16) + String.fromCharCode(10));
+} catch {
+  console.error("Another run appears to hold " + LOCK + " - " + (holderOf(LOCK) || "no holder named") + ". Remove it if it is stale.");
+  process.exit(1);
+}
+process.on("exit", () => { try { rmLock(LOCK, { recursive: true, force: true }); } catch {} });
+}
+
 /* THIS TOOL EDITS TRACKED PRODUCTION FILES IN PLACE. If it dies between
    writing a mutant and restoring it - an exception, Ctrl-C, a killed
    container - it leaves app/src mutated in the working tree, where the next
@@ -276,22 +300,6 @@ if (!run(process.execPath, ["node_modules/vitest/vitest.mjs", "run", "--reporter
   console.error("  ---- tail ----" + String.fromCharCode(10) + lines.slice(-25).join(String.fromCharCode(10)));
   process.exit(1);
 }
-
-/* THE LOCK IS TAKEN BY WHATEVER PLANTS MUTANTS (the release sweep,
-   2026-08-23). Hardening decision 3 made .gauntlet.lock refuse a commit or a
-   check while mutants are planted - but only tools/gauntlet.mjs ever created
-   it, and this file is exposed directly as an npm script that rewrites the
-   same tracked APP files. A mutant reaching the repository is not
-   hypothetical: it happened once, when a commit was made while a gate held a
-   file mutated (E11's own record). */
-try {
-  mkdirSync(LOCK);
-  writeFileSync(joinLock(LOCK, "current"), "G19 app-mutants since " + new Date().toISOString().slice(11, 16) + String.fromCharCode(10));
-} catch {
-  console.error("Another run appears to hold " + LOCK + " - " + (holderOf(LOCK) || "no holder named") + ". Remove it if it is stale.");
-  process.exit(1);
-}
-process.on("exit", () => { try { rmLock(LOCK, { recursive: true, force: true }); } catch {} });
 
 const survivors = [], errored = [];
 let missing = 0;

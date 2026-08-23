@@ -57,6 +57,10 @@ try {
   process.exit(1);
 }
 process.on("exit", () => { try { rmSync(".gauntlet.lock", { recursive: true, force: true }); } catch {} });
+/* Every step this run spawns inherits this: the mutant runners take the lock
+   themselves when run directly (npm run test:mutants), and must NOT try to
+   take it again as this run's children. */
+process.env.WQ_GAUNTLET_LOCK = "held";
 
 /* THE SECOND LANE (P2 of the speed plan, owner-ruled 2026-08-21, built
    2026-08-22). `--workers 2` runs the gates below in a child

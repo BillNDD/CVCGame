@@ -248,6 +248,13 @@ if (process.argv.includes("--anchors")) {
    same tracked files. A mutant reaching the repository is not hypothetical:
    it happened once, when a commit was made while a gate held a file mutated
    (E11's own record). The lock belongs to the thing doing the planting. */
+/* THE GAUNTLET ALREADY HOLDS IT. It takes .gauntlet.lock for the whole run and
+   then invokes this file as a step, so taking the lock again would refuse the
+   gauntlet's own child and fail the gate. The parent says so through the
+   environment; a direct `npm run test:mutants` has no such parent and takes
+   the lock itself. */
+const LOCK_HELD_BY_PARENT = process.env.WQ_GAUNTLET_LOCK === "held";
+if (!LOCK_HELD_BY_PARENT) {
 try {
   mkdirSync(LOCK);
   writeFileSync(joinLock(LOCK, "current"), "G5 source-mutants since " + new Date().toISOString().slice(11, 16) + String.fromCharCode(10));
@@ -256,6 +263,7 @@ try {
   process.exit(1);
 }
 process.on("exit", () => { try { rmLock(LOCK, { recursive: true, force: true }); } catch {} });
+}
 
 const survivors = [], errored = [];
 let missing = 0;

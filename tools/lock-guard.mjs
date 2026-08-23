@@ -20,6 +20,7 @@
 import { existsSync, readFileSync, mkdirSync, writeFileSync, rmSync, mkdtempSync } from "node:fs";
 import { join } from "node:path";
 import { tmpdir } from "node:os";
+import { pathToFileURL } from "node:url";
 
 export const LOCK = ".gauntlet.lock";
 
@@ -54,7 +55,17 @@ function selfTest() {
   return failed;
 }
 
-if (process.argv.includes("--self-test")) process.exit(selfTest() ? 1 : 0);
+/* THE COMMAND HALF IS GUARDED (2026-08-23). Without this, IMPORTING this file
+   ran the refusal and killed the importing process - so any tool that wanted
+   `LOCK` or `holderOf` could not have them while a lock existed, which is the
+   one moment they are needed. Found the moment the mutant runners began taking
+   the lock themselves: both refused as a gauntlet child, and the message came
+   from this file's import, not from their own check. The same fault the
+   release sweep found in tools/locator-scan.mjs the same night. */
+const RUN_AS_COMMAND = import.meta.url === pathToFileURL(process.argv[1] || "").href;
 
-const refusal = guard(existsSync(LOCK), holderOf(LOCK));
-if (refusal) { console.error(refusal); process.exit(1); }
+if (RUN_AS_COMMAND) {
+  if (process.argv.includes("--self-test")) process.exit(selfTest() ? 1 : 0);
+  const refusal = guard(existsSync(LOCK), holderOf(LOCK));
+  if (refusal) { console.error(refusal); process.exit(1); }
+}
