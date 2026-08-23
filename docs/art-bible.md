@@ -561,9 +561,21 @@ compact build** (below 360 px wide): boxes of 56 px — S7's floor — a 20 px l
 6 px gaps, because a ten-tile tray under eight slots ran under the grown-up strip on the
 320 px profile (the monkey found "breakfast" there; the arithmetic overflowed at 64 px
 before the wider tiles, and the census's Build-it cell now holds the largest tray
-reachable on every profile). **Focus:** a dashed `cyanStructural` ring at
+reachable on every profile); in it the arrangement rings of adjacent filled slots meet edge
+to edge (3 + 3 = the 6 px gap) and read as one purple outline round the built word, where
+the 64 px build shows three rings with sky between — distinguishable either way (the art
+director, fifth judgement). **Focus:** a dashed `cyanStructural` ring at
 offset 2, so the keyboard's mark and the sounding mark differ by shape. None of the new
 states animates; reduced motion changes nothing about them.
+
+**The word paints above the row** (the fifth judgement, 2026-08-22). The tile row is later
+in tree order and isolates its stacking, so a sounding tile's band painted over the word's
+descenders: on "pig" with the p tile sounding it hid 4.2 / 9.1 / 4.3 / 7.3 / 4.3 CSS px of
+the tail on the Galaxy S9+, the Pixel 7, the iPhone 13, the short stage and the landscape
+phone — invisible before the step (an ink outline over ink), visible after it. `.wq-word`
+carries `position:relative;z-index:1`, so the glow passes behind a letter and never over it;
+the census's sounding cell reads the construction as `word-not-above`. The clearance that
+keeps the two apart is the reading surface's, open-faults AF.
 
 The table below is the repository's: doc-truth rule 12 reads it and requires every
 selector to exist in `app/src/wq-css.js` and — except the two the reference build has no

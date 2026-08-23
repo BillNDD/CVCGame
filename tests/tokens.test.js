@@ -138,7 +138,8 @@ describe("the palette is pinned", () => {
     expect(contrast(C.cyanStructural, C.slot)).toBeCloseTo(5.82, 2);
     expect(contrast(C.cyanElectric, C.tileFace)).toBeCloseTo(1.04, 2);
     expect(contrast(C.cyanElectric, C.tileFace)).toBeLessThan(3);
-    expect(mix(C.tileHighlight, 0.5, C.tileFace)).toBe(C.tileFaceLit);
+    expect(mix(C.tileHighlight, 0.5, C.tileFace)).toBe("#fbe59d");
+    expect(C.tileFaceLit).toBe("#fbe59d");
     const lift = luminance(C.tileFaceLit) / luminance(C.tileFace);
     expect(lift).toBeCloseTo(1.114, 3);
     expect(lift).toBeGreaterThanOrEqual(1.08);
@@ -217,6 +218,9 @@ describe("the palette is pinned", () => {
       expect(block(src, ".wq-tilebtn.wq-arr{"), name).toContain("${C.purpleStructural}," + RIM);
     }
     expect(block(css, "@keyframes wqpop{"), "the keyframes, after the band").toContain("${C.cyanElectric}," + RIM);
+    /* the pin is order-sensitive: the same two insets the other way round
+       do not satisfy it. A demonstration of what the pin reads, not a
+       detector control - a string pin has no fault to plant beyond its text. */
     const swapped = block(css, ".wq-tile{").replace(RIM, "inset 0 2px 0 ${C.tileHighlight},inset 0 0 0 1px ${C.tileEdge}");
     expect(swapped).not.toContain("box-shadow:" + RIM);
     /* the band, pinned: ring 3 plus band 6 / 4 / 2 / 4 by density, the

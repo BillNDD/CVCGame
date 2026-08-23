@@ -2921,8 +2921,9 @@ const CSS = `
    wider than its line. nowrap is what makes that measurable - with a wrap
    allowed, scrollWidth never exceeds the line and a word could split into
    "swimmin" over "g", which thirty-four bank words did on a 390 px phone. */
+/* the word paints above the tile row (art step 1): a glow passes behind a letter, never over it */
 .wq-word{font-size:clamp(2.25rem,11vh,5.5rem);font-size:clamp(2.25rem,11svh,5.5rem);
-  font-weight:700;line-height:1.05;color:${C.ink};margin:4px 0 0;white-space:nowrap}
+  font-weight:700;line-height:1.05;color:${C.ink};margin:4px 0 0;white-space:nowrap;position:relative;z-index:1}
 .wq-slot-tiles{min-height:52px;display:flex;align-items:center;justify-content:center;gap:6px;margin-top:8px}
 
 /* BUILD-IT'S TILES AND SLOTS (art step 1): the same ceramic, as CONTROLS - a

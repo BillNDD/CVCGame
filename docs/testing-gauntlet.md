@@ -641,19 +641,33 @@ the offline comparator's control caught its first real bug before the live cell 
   against one single-threaded preview crashed the shared browser and made green-alone cells
   fail in file order.
 - **the ceramic tile family, as measurements** (art step 1, 2026-08-22). On every
-  profile: **the sounding tile** — with motion allowed, the first pop of "ship" read from
-  computed style and rects: a 3–4 px solid `cyanStructural` ring at offset 0, a
-  box-shadow naming `cyanElectric` whose spread is outside the ring (9.2), the face lifted
-  8–12 % over a resting tile's, resting faces `tileFace` and letters `ink`, every tile's
-  box within 0.5 px of its resting box, and ring plus band reaching into no neighbour's
-  letters (the content box inside its padding); and **Build-it** — "ship" dealt through
-  the dice (`stageBuild`, the buildable bank's die), every tray tile and slot a 56 px
-  control on both axes and every multi-letter tray tile wider than every single-letter
-  one, the screen no G7 check had ever opened. Controls, once: the hold's fixtures for each
-  finding kind, then the READER against real plants in the page — the ink ring the app
-  drew until this step (as an `!important` rule, since a later `@keyframes` of the same
-  name does not replace a running animation) and a `sun` face; and for Build-it a tray
-  tile shrunk to 48 px and every tray tile forced to one width. `seedGraduated` now writes
+  profile: **the sounding tile** — with motion allowed, the reveal of "ship" read from
+  computed style and rects, the subject being the tile whose `wqpop` animation is running:
+  a 3–4 px solid `cyanStructural` ring at offset 0, a box-shadow naming `cyanElectric`
+  whose spread equals the `--wqband` the stylesheet resolved for the tile (9, 7 or 5 —
+  read after the cascade, never guessed from classes; 9 on the reveal, 7 on a short stage),
+  the face lifted 8–12 % over a resting tile's, resting faces `tileFace` and letters `ink`,
+  every tile's box within 0.5 px of its resting box, ring plus band reaching into no
+  neighbour's letters (the content box inside its padding), the sounding tile marked live
+  at z-index −1 in a row that isolates its stacking (`live-not-beneath`), exactly one tile
+  live (`live-not-one`) and the word in its own layer above the row (`word-not-above`);
+  then the SECOND pop, where the mark must have moved to "i" with two tiles ringed; then
+  "animal" and "breakfast", whose bands must resolve to 7 and 5. And **Build-it** — "ship"
+  dealt through the dice (`stageBuild`, the buildable bank's die), every tray tile and
+  slot a 56 px control on both axes, every multi-letter tray tile wider than every
+  single-letter one and every control owning its centre and on the screen
+  (`control-unreachable`), then "breakfast", the largest tray, held the same — except on
+  the landscape phone, where the tray is below the fold (open-faults AE) and the cell pins
+  exactly that shape: the ten tray tiles off the screen by name, nothing else, the page's
+  own numbers in its report, and the AE entry still open. The screen no G7 check had ever
+  opened. Controls, once: the hold's fixtures for every finding kind, then the READER
+  against real plants in the page — the ink ring the app drew until this step (as an
+  `!important` rule, since a later `@keyframes` of the same name does not replace a running
+  animation), a `sun` face, a border (the box moves), a zero-spread band, the live tile at
+  `z-index:auto`, a row at `isolation:auto`, `sun` letters, a `tileHighlight` face (a lift
+  off the band), the word at `z-index:auto`, and a second live mark added as a class once
+  the second pop has landed; and for Build-it a tray tile shrunk to 48 px, every tray tile
+  forced to one width, a lid over a tile and a tile sunk below the screen. `seedGraduated` now writes
   the save from `/version.json`, a page that is not the app, because a put that landed
   before the app's own first-boot write was overwritten by it once in three runs and the
   reload showed Pre 1.
@@ -1120,8 +1134,13 @@ the test that pins each, its checkpoints and its originality verdict (bible 17's
 Data nobody reads is the drift G23 refuses, so `tools/provenance-check.mjs` runs in
 `npm run check`: every family's shape, every token name against `C`, spent inside the
 share, and a closed family refused without both checkpoints and an originality verdict.
-Six controls. Declared DATA in the file map; the reader is its reader. No README file per
-family exists or may: the entry is what the ruling calls the README.
+Its lock reader `lockFromSources` derives the ring, its offset, the band per density, the
+radii, the rim, the highlight inset, Build-it's box and letter step, the halo inset and the
+compact build's sizes from `app/src/wq-css.js` and `app/src/screens/BuildItScreen.jsx`, so
+a number changed in the source and not in the record is refused. Eleven controls, among
+them a planted 2 px rim, a two-value padding and a 7 px reveal band. Declared DATA in the
+file map; the reader is its reader. No README file per family exists or may: the entry is
+what the ruling calls the README.
 
 ## G14b. The art budget (art project step 0c, owner-ruled 2026-08-22)
 

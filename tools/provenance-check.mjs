@@ -48,7 +48,7 @@ export function lockFromSources(css = readFileSync("app/src/wq-css.js", "utf8"),
     radii: Object.fromEntries(["reveal", "many", "crowd", "shortStage", "buildit"].map((k) => [k, num(blocks[k], /border-radius:(\d+)px/)])),
     ring: r, ringOffset: num(blocks.pop, /outline-offset:(\d+)/),
     band: Object.fromEntries(Object.entries(spread).map(([k, v]) => [k, v === null || r === null ? null : v - r])),
-    builditBox: num(screen, /const SLOT = (\d+), TILE = \d+/),
+    builditBox: num(screen, /const SLOT = (\d+);/),
     extraPerLetter: num(screen, /compact\(\) \? \d+ : (\d+)\)/),
     compact: { below: num(screen, /const COMPACT_BELOW = (\d+)/), box: num(screen, /compact\(\) \? (\d+) : SLOT\)/), step: num(screen, /compact\(\) \? (\d+) : 26\)/), gap: num(screen, /compact\(\) \? (\d+) : 10\)/) },
     haloInset: num(cssBlock(css, ".wq-slotrow"), /padding:(\d+)px[;}]/),   // a single-value padding only: "4px 8px" would not be the inset on every side

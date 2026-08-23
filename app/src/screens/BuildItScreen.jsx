@@ -23,7 +23,7 @@ import Zone from "../components/Zone.jsx";
    rather than a buzz. After the second miss the right tiles glow in order
    while each sound plays, and the child copies them: every attempt ends in
    success, which is the whole reason the mode is practice-only. */
-const SLOT = 64, TILE = 64;
+const SLOT = 64;
 /* THE COMPACT BUILD (art step 1, 2026-08-22). On a 320 px screen a ten-tile
    tray under eight slots ran below the stage and under the grown-up strip:
    the monkey reached "breakfast" on the Galaxy S9+ and reported three tiles
@@ -239,7 +239,7 @@ export default function BuildItScreen({ tray, playSounds, playWord, onDone, onEx
           <div aria-busy={busy ? "true" : undefined} style={{ display: "flex", justifyContent: "center" }}>
             {/* the slot row is its own box, so the completed word's halo is one
                 band round the assembled word and not three round three slots */}
-            <span className={"wq-slotrow" + (won ? " wq-won" : "")} style={compact() ? { gap: 6 } : undefined}>
+            <span className={"wq-slotrow" + (won ? " wq-won" : "")} style={compact() ? { gap: gap() } : undefined}>
             {slots.map((tile, i) => (
               <button key={i} onClick={() => lift(i)} disabled={tile === null || won} aria-label={tile !== null ? "Take back " + at(tile) : "Empty space"}
                 className={"wq-tilebtn" + (tile === null ? " wq-empty" : "") + (ghost === i && tile === null ? " wq-cue" : "") + (arr && tile !== null ? " wq-arr" : "")}

@@ -398,7 +398,13 @@ export async function tileWidths(page) {
 export async function soundingTile(page) {
   return page.evaluate(() => {
     const tiles = [...document.querySelectorAll(".wq-slot-tiles .wq-tile")];
-    const pop = tiles.find((t) => t.classList.contains("wq-pop"));
+    /* the tile SOUNDING NOW: the one whose wqpop animation is running. From
+       the second pop on the earlier tiles still carry .wq-pop (the ring
+       stays), so the first .wq-pop is the wrong subject; the last ringed
+       tile is the fallback when no animation runs (a finished pop). */
+    const running = document.getAnimations().filter((a) => /** @type {CSSAnimation} */ (a).animationName === "wqpop" && a.playState === "running").map((a) => /** @type {KeyframeEffect} */ (a.effect).target);
+    const popped = tiles.filter((t) => t.classList.contains("wq-pop"));
+    const pop = tiles.find((t) => running.includes(t)) || popped[popped.length - 1];
     if (!pop) return null;
     const lum = (rgb) => { const m = rgb.match(/\d+(\.\d+)?/g); if (!m) return null; const c = m.slice(0, 3).map((v) => { const s = Number(v) / 255; return s <= 0.03928 ? s / 12.92 : ((s + 0.055) / 1.055) ** 2.4; }); return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2]; };
     const cs = getComputedStyle(pop);
@@ -417,8 +423,12 @@ export async function soundingTile(page) {
        cascade), never a guess from classes and heights; and the live
        construction that puts the sounding tile beneath its siblings */
     const wqband = parseFloat(cs.getPropertyValue("--wqband")) || 0;
-    const live = { marked: pop.classList.contains("wq-live"), zIndex: cs.zIndex, isolation: rowCs ? rowCs.isolation : "" };
-    return { text: pop.textContent.trim(), wqband, gap: rowCs ? parseFloat(rowCs.columnGap || rowCs.gap) || 0 : 0, live, outline: { color: cs.outlineColor, width: cs.outlineWidth, style: cs.outlineStyle, offset: cs.outlineOffset }, shadow: cs.boxShadow,
+    const live = { marked: pop.classList.contains("wq-live"), count: tiles.filter((t) => t.classList.contains("wq-live")).length, zIndex: cs.zIndex, isolation: rowCs ? rowCs.isolation : "" };
+    /* the word's own layer above the row, so a band never covers a descender */
+    const wordEl = document.querySelector(".wq-word");
+    const wordCs = wordEl ? getComputedStyle(wordEl) : null;
+    const word = wordCs ? { position: wordCs.position, zIndex: wordCs.zIndex } : null;
+    return { text: pop.textContent.trim(), popped: popped.length, wqband, gap: rowCs ? parseFloat(rowCs.columnGap || rowCs.gap) || 0 : 0, live, word, outline: { color: cs.outlineColor, width: cs.outlineWidth, style: cs.outlineStyle, offset: cs.outlineOffset }, shadow: cs.boxShadow,
       face: cs.backgroundColor, restingFace: restCs.backgroundColor, ink: cs.color, lift: lum(cs.backgroundColor) / lum(restCs.backgroundColor), ringPx: ring, spreadPx: Number(spread) || 0, intrudes,
       boxes: tiles.map((t) => { const b = t.getBoundingClientRect(); return [b.x, b.y, b.width, b.height].map((v) => +v.toFixed(2)); }) };
   });
@@ -441,6 +451,13 @@ export function soundingHold(s, tokens, restingBoxes) {
      buries the previous tile's rim (a8872ee) */
   if (!s.live || !s.live.marked || s.live.zIndex !== "-1" || s.live.isolation !== "isolate")
     findings.push({ kind: "live-not-beneath", detail: "the sounding tile is " + (s.live && s.live.marked ? "" : "not ") + "marked live, z-index " + (s.live ? s.live.zIndex : "?") + ", row isolation " + (s.live ? s.live.isolation : "?") + " - it must paint beneath its siblings" });
+  /* exactly ONE tile is live: the mark is handed on at every pop (the reset
+     in schedulePops); two at the same depth bury each other's rims */
+  if (s.live && s.live.count !== 1)
+    findings.push({ kind: "live-not-one", detail: s.live.count + " tiles are marked live; exactly one - the tile sounding now - may be" });
+  /* the word's layer: above the row, or a band covers a descender */
+  if (!s.word || s.word.position === "static" || !(Number(s.word.zIndex) >= 1))
+    findings.push({ kind: "word-not-above", detail: "the word is " + (s.word ? s.word.position + " with z-index " + s.word.zIndex : "missing") + " - it must paint above the tile row" });
   if (!(s.lift >= 1.08 && s.lift <= 1.12)) findings.push({ kind: "lift-off-band", detail: "the face lifts " + ((s.lift - 1) * 100).toFixed(1) + "%; bible 11 asks 8-12%" });
   if (s.restingFace !== rgbOf(tokens.tileFace)) findings.push({ kind: "face-not-token", detail: "a resting tile's face is " + s.restingFace + ", not tileFace" });
   if (s.ink !== rgbOf(tokens.ink)) findings.push({ kind: "ink-not-token", detail: "the tile's letters are " + s.ink });

@@ -181,8 +181,8 @@
           "date": "2026-08-22",
           "verdict": "pass",
           "renders": "D:/CVCGame-ops/art/step1/checkpoint",
-          "commit": "34355ed",
-          "basis": "Judged on the 64 renders of commit 34355ed (hashes.json), with device pixels sampled on the Galaxy S9+ sounding, completed, focus, scaffold, sentence, arrangement and one-placed-grey renders against the lock (ring 3, band 6, rim 1, haloInset 4, bandRenders), plus tokens tests 8-10, provenance-check and doc-truth green; pressed (:active) not captured - a static state judged from the rule and tokens test 8. The live tile's z-index followed this verdict and changes which side occludes the band, not the band."
+          "commit": "3c11232 (app bytes identical through the fifth judgement; first given on 34355ed)",
+          "basis": "First given on the 64 renders of commit 34355ed, a set the 3c11232 capture then overwrote at the same path; re-given at the fifth judgement (2026-08-22) on the 85 renders of 3c11232 (hashes.json) plus the 16-render descender supplement, which is the set the verdict now rests on and which includes the compact 56 px variant (judged: the ruled ceramic at 56 and 64 px, a multi-letter unit one wider tile at 76 as at 90). Device pixels sampled on the Galaxy S9+ (4.5), the Pixel 7 (2.625), the iPhone 13 (3) and the desktop (1) sounding, density, completed, focus, scaffold, sentence, arrangement and one-placed renders against the lock (ring 3, band 6 / 4 / 2 / 4, rim 1, highlight 1 showing, haloInset 4, bandRenders), plus tokens tests 8-10, provenance-check and doc-truth green; pressed captured on the Galaxy and the iPhone 13: the face renders #edd07d, the arithmetic's #eed07d to one unit of the compositor's rounding, the bevel gone and the rim kept. The live tile's z-index and the word's own layer (the fifth judgement: a sounding band hid a descender's tail by 4.2 / 9.1 / 4.3 / 7.3 / 4.3 CSS px on five profiles; the clearance is open-faults AF) change which side occludes the band and whether a letter is covered, not the band."
         }
       ],
       "originality": {

@@ -250,7 +250,8 @@ makes, and it is declared as one.
 tokens and stylesheet rules, so its byte share (524,288) is spent at 0 and stages 1 and 8
 are empty (bible 8.1's row is amended to say the tile material is a CSS family, and why).
 Stage 0: the logical grid is the tile's CSS box — measured, not quoted: Build-it's tile and
-slot are 64 px (a multi-letter tile 64 + 26 per extra letter, so "sh" is 90), a reveal tile
+slot are 64 px (a multi-letter tile 64 + 26 per extra letter, so "sh" is 90; below 360 px
+the compact build's 56, 20 and 6 px gaps, so "sh" is 76), a reveal tile
 is its font clamp plus 10 px of padding, about 36 px tall at 390 × 664 and 47 × 42 for
 "sh" on the iPhone 13 profile by the census's own read; output is CSS. Stage 2: the notan —
 the reveal and Build-it screens as two and three values with the word and the controls
@@ -295,7 +296,7 @@ character by a test. And a claim withdrawn: G7 holds no 56 px floor on Build-it'
 its size check reads `.wq-cta` and `.wq-sbtn` only, and no gate opened Build-it at all —
 so a census cell now deals "ship" through the dice and measures every tray tile and slot.
 Counts moved: `census_novelty_cells` 68 → 84 (two cells on eight profiles),
-`census_novelty_controls` 12 → 14, `census_cells` 664 → 682, `g1_token_tests` 9 → 12,
+`census_novelty_controls` 12 → 14 (15 at the fifth judgement), `census_cells` 664 → 682 (683), `g1_token_tests` 9 → 12,
 `g10_buildit_tests` 13 → 26, `g16_doc_rules` 11 → 12, `g17_governing_files` 45 → 46,
 `g23_declared` 53 → 54, `g20_tests_mapped` 403 → 412; `g5_source_mutants` 74 with 0
 moved anchors, `g8_axe_violations_max` 0, the home snapshot unchanged.
@@ -303,13 +304,17 @@ moved anchors, `g8_axe_violations_max` 0, the home snapshot unchanged.
 **How checkpoint 2 was judged for a family that lands no file.** The scenery statistic
 section 17 names is first built by the step that lands a PNG (the garden scene); the tile
 family's checkpoint 2 was judged on tokens tests 8–10, the census's sounding-state cell,
-and device pixels sampled on the renders: on the 34355ed checkpoint set at 4.5 dpr, ring 13 device px, band 27
-on an open side and 13 toward the next tile, rim 4, the lifted face #fbe59d; and on the
+and device pixels sampled on the renders: on the 3c11232 set at 4.5 dpr, the column through a
+sounding "i" read at the fifth judgement — band 26 + 1 blend above, ring 13, rim 4, highlight
+4, the lifted face #fbe59d, and 13 toward the next tile (the 34355ed set this was first read
+on was overwritten at the same path by the 3c11232 capture, and the verdict was re-given on
+that set); and on the
 density renders made after the live-tile construction — a middle tile sounding at three,
 six and eight tiles on the Galaxy and on a 390 × 500 short stage — the band toward either
 neighbour at 13–14 / 4–5 / 0 / 3 device px (3 / 1 / 0 / 1 CSS px), the neighbour's rim whole
-each time; pressed, a static :active state, is not captured and is judged from the rule
-and tokens test 8) — stated here, in the bible's section 11 and in the provenance row, so the
+each time; pressed captured at the fifth judgement on the Galaxy and the iPhone 13 — the face
+renders #edd07d, the arithmetic's #eed07d to one unit of the compositor's rounding, the
+bevel gone and the rim kept) — stated here, in the bible's section 11 and in the provenance row, so the
 section 17 sentence does not imply a measurement that did not happen.
 
 **Ruled by the owner (2026-08-22, the ceramic-tiles page, each with the real render):**
@@ -660,7 +665,46 @@ Newest last. A verdict names the chair, the step, the word, and the findings.
   planted sunk tile through the reader; the compact sizes are in the provenance lock and
   read from the screen.
 - 2026-08-22 — The Build-it cell's largest tray found a second, older fault on the
-  phone-landscape profile: the whole tray below the fold (a 268 px stage cannot hold two
-  slot rows and three tray rows at S7's floor). Not the tile material's: recorded as
-  open-faults AE for the Build-it layout step, and the cell holds exactly that shape on the
-  landscape phone and zero unreachable controls everywhere else.
+  phone-landscape profile: the whole tray below the fold. Not the tile material's: recorded
+  as open-faults AE for the Build-it layout step, and the cell holds exactly that shape on
+  the landscape phone and zero unreachable controls everywhere else. (This line first said
+  "a 268 px stage" and "three tray rows" — recalled; the profile's page is 750 × 342 with a
+  245 px stage and the tray's two rows of five start at y = 338, measured at the fifth
+  judgement after the antagonist refused the numbers.)
+- 2026-08-22 — Step 1, fifth judgement: the art director **checkpoint 2 PASS on the 3c11232
+  set** ("every row of bible 11's amended state table measured ... at 1, 2.625, 3 and 4.5 dpr,
+  with the live tile beneath its siblings and both neighbours' rims whole on every density
+  render") and **the step SATISFIED**, the compact 56 px variant included ("the ruled ceramic
+  at 56 and 64 px, a multi-letter unit one wider tile at 76 as at 90"); two SHOULDs and three
+  notes. The antagonist **not satisfied** on two blocking findings, both guards and records
+  rather than pixels, with two SHOULDs and five notes. Taken, each verified first: (1) the
+  descender — the art director deduced from pixel rows that the band's 9 px reach exceeds
+  the clearance to a descender's tail; "pig" was rendered with the p tile sounding on six
+  profiles and attempt-phase ink read against the sounding render: the band hid 4.2 / 9.1 /
+  4.3 / 7.3 / 4.3 CSS px of the tail (the Galaxy, the Pixel 7, the iPhone 13, the short
+  stage, the landscape phone; the desktop's p misses its tile's columns). The word now
+  paints above the row (`.wq-word{position:relative;z-index:1}`, read by the sounding cell
+  as `word-not-above`, with a plant), so no ink is hidden; the clearance itself is the
+  reading surface's and is open-faults AF with the measurements. (2) The landscape record:
+  AE, the cell's comment and this log said "844 × 390" and "a 268 px stage" — the device, not
+  the page, and a fit arithmetic no size in the code produces; measured on the profile
+  (750 × 342, a 245 px stage, the tray's first row at y = 338) and rewritten, the cell now
+  reporting the page's own numbers, pinning the ten tray tiles by name and requiring AE to
+  be open. (3) The live reset: the sounding cell reads the second pop too (the subject taken
+  from the running `wqpop` animation, the mark handed on, exactly one live tile —
+  `live-not-one`), reveal test 9 asserts the live mark at every pop, and a second mark is
+  planted as a class through the reader. (4) The densities: the cell stages "animal" and
+  "breakfast" and reads the band at 7 and 5 (9 on the reveal, 7 on a short stage) on every
+  profile; the isolation, ink and lift controls are plants through the reader. (5) The
+  provenance row's checkpoint 2 names the 3c11232 set (85 renders plus the 16-render
+  descender supplement) and records that the 34355ed set it was first given on was
+  overwritten by that capture; pressed captured on the Galaxy and the iPhone 13 (the face
+  renders #edd07d — the arithmetic's #eed07d to one unit of the compositor's rounding — the
+  bevel gone, the rim kept). (6) `docs/testing-gauntlet.md` describes what the cells and the
+  reader now measure and plant; G14c says eleven controls and names the lock reader.
+  (7) Tokens test 8 pins #fbe59d literally; test 10's swap is described as the demonstration
+  it is; `TILE` is gone from Build-it and the lock reads `SLOT`; the slot row's compact gap
+  comes from `gap()`; the Stage 0 paragraph states the compact exception; the compact
+  arrangement rings meeting edge to edge are recorded in bible 11; the sentence-with-a-
+  descender render goes to AF's round, since no deal produced one. Judged again by both
+  chairs.

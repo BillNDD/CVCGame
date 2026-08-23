@@ -327,6 +327,12 @@ describe("G10 — the child hears the word before the app lets them move on", ()
          sound-out marks the word left to right, one piece at a time. */
       expect(tiles().map((t) => t.classList.contains("wq-pop")))
         .toEqual(tiles().map((_, j) => j <= i));
+      /* and exactly THIS tile is live - beneath its siblings - the mark
+         handed on at every pop by schedulePops' reset: without it two tiles
+         share the depth and bury each other's rims (art step 1, the fifth
+         judgement, which found the reset guarded nowhere) */
+      expect(tiles().map((t) => t.classList.contains("wq-live")))
+        .toEqual(tiles().map((_, j) => j === i));
       expect(tiles()[i].style.getPropertyValue("--wqpop")).toBe(TILE_MS[i % 4] + "ms");
     }
   });

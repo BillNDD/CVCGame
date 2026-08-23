@@ -72,8 +72,20 @@ const CSS = VARS + `
    wider than its line. nowrap is what makes that measurable - with a wrap
    allowed, scrollWidth never exceeds the line and a word could split into
    "swimmin" over "g", which thirty-four bank words did on a 390 px phone. */
+/* THE WORD PAINTS ABOVE THE TILE ROW (art step 1, the fifth judgement,
+   2026-08-22). The row is later in tree order and isolates its stacking, so
+   a sounding tile's band painted OVER the word's descenders: with "pig" and
+   the p tile sounding, the band hid the bottom 4.2 / 9.1 / 4.3 / 7.3 / 4.3
+   CSS px of the p's tail on the Galaxy, the Pixel 7, the iPhone 13, the
+   390 x 500 short stage and the landscape phone - 931 ink pixels under the
+   band's rows in the attempt phase on the Galaxy, 3 left while the tile
+   sounded. Invisible before the step (an ink outline over ink), visible
+   now (cyan over ink). The word takes its own layer above the row, so the
+   glow passes behind a letter and never over it; the clearance that keeps
+   the two apart is the reading surface's (open-faults AF, art step 3). The
+   census's sounding cell reads the construction as word-not-above. */
 .wq-word{font-size:clamp(2.25rem,11vh,5.5rem);font-size:clamp(2.25rem,11svh,5.5rem);
-  font-weight:700;line-height:1.05;color:${C.ink};margin:4px 0 0;white-space:nowrap}
+  font-weight:700;line-height:1.05;color:${C.ink};margin:4px 0 0;white-space:nowrap;position:relative;z-index:1}
 .wq-slot-tiles{min-height:52px;display:flex;align-items:center;justify-content:center;gap:6px;margin-top:8px}
 
 /* BUILD-IT'S TILES AND SLOTS (art step 1): the same ceramic, as CONTROLS - a

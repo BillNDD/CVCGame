@@ -438,15 +438,17 @@ test("control: a window error in the built page reaches the ring the 200% and ro
 
 test.describe("with motion allowed, the sounding tile's controls", () => {
   test.use({ reducedMotion: "no-preference" });
-  test("control: the old ink ring, a sun face, a border, a bandless tile and a sounding tile painted above its siblings are each caught through the reader; every other finding kind on fixtures", async ({ page }) => {
-    /* Three plants are stylesheets added to the live page and read back
-       through soundingTile, the same reader the cell uses (E5); the rest of
-       the hold's kinds are fixtures on the reader's own output shape. */
+  test("control: the old ink ring, a sun face, a border, a bandless tile and a sounding tile painted above its siblings are each caught through the reader; every finding kind on fixtures", async ({ page }) => {
+    /* Plants are stylesheets added to the live page and read back through
+       soundingTile, the same reader the cell uses (E5); every finding kind
+       is also a fixture on the reader's own output shape. The next control
+       carries the fifth judgement's plants, since ten staged reveals in one
+       test outran its minute. */
     const { shown } = await stage(page, null, "ship", null);
     requireStaged("ship", shown);
     const plant = async (css) => { const h = await page.addStyleTag({ content: css }); await holdGrade(page, GRADE.correct, []); await page.waitForFunction(() => !!document.querySelector(".wq-slot-tiles .wq-tile.wq-pop"), null, { timeout: 8000 }); const s = await soundingTile(page); await h.evaluate((e) => e.remove()); return s; };
     /* the fixtures, on the reader's own output shape */
-    const good = { text: "sh", wqband: 9, gap: 6, live: { marked: true, zIndex: "-1", isolation: "isolate" }, outline: { color: rgbOf(C.cyanStructural), width: "3px", style: "solid", offset: "0px" }, shadow: rgbOf(C.cyanElectric) + " 0px 0px 0px 9px", face: rgbOf(C.tileFaceLit), restingFace: rgbOf(C.tileFace), ink: rgbOf(C.ink), lift: 1.114, ringPx: 3, spreadPx: 9, intrudes: [], boxes: [[0, 0, 40, 30]] };
+    const good = { text: "sh", popped: 1, wqband: 9, gap: 6, live: { marked: true, count: 1, zIndex: "-1", isolation: "isolate" }, word: { position: "relative", zIndex: "1" }, outline: { color: rgbOf(C.cyanStructural), width: "3px", style: "solid", offset: "0px" }, shadow: rgbOf(C.cyanElectric) + " 0px 0px 0px 9px", face: rgbOf(C.tileFaceLit), restingFace: rgbOf(C.tileFace), ink: rgbOf(C.ink), lift: 1.114, ringPx: 3, spreadPx: 9, intrudes: [], boxes: [[0, 0, 40, 30]] };
     expect(soundingHold(good, C, [[0, 0, 40, 30]])).toEqual([]);
     expect(soundingHold({ ...good, outline: { ...good.outline, color: rgbOf(C.ink), width: "4px", offset: "3px" } }, C).map((f) => f.kind)).toEqual(["ring-not-structural"]);
     expect(soundingHold({ ...good, shadow: "none" }, C).map((f) => f.kind)).toEqual(["band-missing"]);
@@ -455,9 +457,14 @@ test.describe("with motion allowed, the sounding tile's controls", () => {
     expect(soundingHold({ ...good, wqband: 7, spreadPx: 9 }, C).map((f) => f.kind), "a spread that is not the resolved variable").toEqual(["band-not-ruled"]);
     expect(soundingHold({ ...good, wqband: 8, spreadPx: 8 }, C).map((f) => f.kind), "a variable that is not a ruled value").toEqual(["band-not-ruled"]);
     expect(soundingHold({ ...good, wqband: 7, spreadPx: 7 }, C)).toEqual([]);
-    expect(soundingHold({ ...good, live: { marked: false, zIndex: "-1", isolation: "isolate" } }, C).map((f) => f.kind)).toEqual(["live-not-beneath"]);
-    expect(soundingHold({ ...good, live: { marked: true, zIndex: "auto", isolation: "isolate" } }, C).map((f) => f.kind)).toEqual(["live-not-beneath"]);
-    expect(soundingHold({ ...good, live: { marked: true, zIndex: "-1", isolation: "auto" } }, C).map((f) => f.kind)).toEqual(["live-not-beneath"]);
+    expect(soundingHold({ ...good, live: { ...good.live, marked: false } }, C).map((f) => f.kind)).toEqual(["live-not-beneath"]);
+    expect(soundingHold({ ...good, live: { ...good.live, zIndex: "auto" } }, C).map((f) => f.kind)).toEqual(["live-not-beneath"]);
+    expect(soundingHold({ ...good, live: { ...good.live, isolation: "auto" } }, C).map((f) => f.kind)).toEqual(["live-not-beneath"]);
+    expect(soundingHold({ ...good, live: { ...good.live, count: 2 } }, C).map((f) => f.kind), "two live tiles").toEqual(["live-not-one"]);
+    expect(soundingHold({ ...good, live: { ...good.live, count: 0 } }, C).map((f) => f.kind), "none live while one is marked is a contradiction the reader cannot produce, but the hold refuses it").toEqual(["live-not-one"]);
+    expect(soundingHold({ ...good, word: { position: "static", zIndex: "auto" } }, C).map((f) => f.kind)).toEqual(["word-not-above"]);
+    expect(soundingHold({ ...good, word: { position: "relative", zIndex: "0" } }, C).map((f) => f.kind), "a layer at 0 is not above a row at 0").toEqual(["word-not-above"]);
+    expect(soundingHold({ ...good, word: null }, C).map((f) => f.kind)).toEqual(["word-not-above"]);
     expect(soundingHold({ ...good, lift: 1.234 }, C).map((f) => f.kind)).toEqual(["lift-off-band"]);
     expect(soundingHold({ ...good, restingFace: rgbOf(C.sun) }, C).map((f) => f.kind)).toEqual(["face-not-token"]);
     expect(soundingHold({ ...good, intrudes: ["i"] }, C).map((f) => f.kind)).toEqual(["ring-into-neighbour"]);
@@ -495,6 +502,30 @@ test.describe("with motion allowed, the sounding tile's controls", () => {
     requireStaged("ship", fifth);
     const above = await plant(".wq-tile.wq-live{z-index:auto!important}");
     expect(soundingHold(above, C).map((f) => f.kind), JSON.stringify(above.live)).toContain("live-not-beneath");
+  });
+  test("control: a row that does not isolate, off-token ink, a lift off the band, the word beneath the row and a second live mark are each caught through the reader", async ({ page }) => {
+    /* The fifth judgement's plants: the first three had been fixtures only,
+       the last two are new kinds. Each is a stylesheet (or one class) on
+       the live page, read back through soundingTile. */
+    const plant = async (css) => { const h = await page.addStyleTag({ content: css }); await holdGrade(page, GRADE.correct, []); await page.waitForFunction(() => !!document.querySelector(".wq-slot-tiles .wq-tile.wq-pop"), null, { timeout: 8000 }); const s = await soundingTile(page); await h.evaluate((e) => e.remove()); return s; };
+    for (const [css, kind] of [[".wq-slot-tiles{isolation:auto!important}", "live-not-beneath"], [".wq-slot-tiles .wq-tile.wq-pop{color:" + C.sun + "!important}", "ink-not-token"], [".wq-slot-tiles .wq-tile.wq-pop{background-color:" + C.tileHighlight + "!important}", "lift-off-band"], [".wq-word{z-index:auto!important}", "word-not-above"]]) {
+      const { shown: next } = await stage(page, null, "ship", null);
+      requireStaged("ship", next);
+      const read = await plant(css);
+      expect(soundingHold(read, C).map((f) => f.kind), css + " -> " + JSON.stringify(read)).toContain(kind);
+    }
+    /* a SECOND live mark, planted as a class on the first tile once the
+       second pop has landed: the reader counts two and the hold refuses */
+    const { shown: last } = await stage(page, null, "ship", null);
+    requireStaged("ship", last);
+    await holdGrade(page, GRADE.correct, []);
+    await page.waitForFunction(() => document.querySelectorAll(".wq-slot-tiles .wq-tile.wq-pop").length >= 2, null, { timeout: 8000 });
+    const clean = await soundingTile(page);
+    expect(soundingHold(clean, C).map((f) => f.kind), "the real second pop: one live, " + JSON.stringify(clean.live)).toEqual([]);
+    expect(clean.text).toBe("i");
+    await page.evaluate(() => document.querySelectorAll(".wq-slot-tiles .wq-tile.wq-pop")[0].classList.add("wq-live"));
+    const twoLive = await soundingTile(page);
+    expect(soundingHold(twoLive, C).map((f) => f.kind), JSON.stringify(twoLive.live)).toContain("live-not-one");
   });
 });
 
