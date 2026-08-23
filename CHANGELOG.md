@@ -57,10 +57,11 @@ The first app version is 1.0.0-beta.1. The app stays in beta until version 1.0 i
   sound the game schedules and every sound that ends, and refuses a light that comes on
   early, stays on late, or goes out on a timer while the sound is still playing. Every
   state of every tile is measured on eight screen shapes, with the pictures kept for each
-  release so a claim about them can always be checked. The three faults this release found and could not fix in it — a phone held sideways cutting
-  the tiles off, its Build-it tiles under the grown-ups strip, and a letter's tail crossing
-  the ring below it — are written down rather than left to be rediscovered, and the Known
-  note above says what they mean for you.
+  release so a claim about them can always be checked. The four faults this release found and could not fix in it — a phone held
+  sideways cutting the tiles off, its Build-it tiles under the grown-ups strip, a letter's
+  tail crossing the ring below it, and the keyboard outline replacing a sentence word's
+  ring — are written down rather than left to be rediscovered, and the Known note above
+  says what they mean for you.
 - New in 1.0.0-beta.26: a bug report, kept on the device and never sent by itself. If the
   game goes wrong on your phone, the Grown-ups corner now shows how many problems it has
   met, and "Copy bug report" puts a short plain-text report on your clipboard — what broke,
