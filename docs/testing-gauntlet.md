@@ -163,10 +163,20 @@ the owner's call. Until the owner rules, it is proven at every push and not at r
 The full gauntlet — mutants, coverage, the build, and the browser gates — runs at release
 time only: locally when the owner asks for a beta or a version release, and on CI when the
 release's v* tag is published, as a recorded second opinion on the exact released commit.
-A release is cut only from a green full gauntlet. Between releases the deploy workflow runs
-the test suite before publishing, and nothing runs the expensive gates — that is the owner's
-chosen trade, dated 2026-08-02. The gates themselves never weaken (E3), only the moment the
-expensive ones fire.
+A release is cut only from a green full gauntlet, and since 2026-08-23 the release CARRIES
+the bytes that gauntlet proved: `tools/release.mjs` attaches a tarball of the proved
+`app/dist` and the `.gauntlet-evidence.json` beside the tag, in the same call, and
+`.github/workflows/pages.yml` publishes those exact bytes — it downloads both, recomputes
+the payload hash from the extracted files with `tools/payload-hash.mjs`, and refuses to
+publish anything that differs. It used to build the app a second time on the runner and
+ship whatever came out, which was the one artefact in the chain that nothing had measured.
+The website therefore updates at releases only (owner-ruled 2026-08-23): between releases a
+push is covered by `npm run check` and nothing else, and nothing a family can see changes —
+that is the owner's chosen trade, dated 2026-08-02 and narrowed here. Measured before it
+shipped: the same commit built twice on one machine hashes identically, and the tarball
+extracted to `app/dist` reproduces the proved hash while the same tarball extracted one
+directory higher does not — which is why the extract step pins its path. The gates
+themselves never weaken (E3), only the moment the expensive ones fire.
 
 ## G1. Unit tests
 

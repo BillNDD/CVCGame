@@ -33,6 +33,7 @@ import { execFileSync } from "node:child_process";
 import { readFileSync, writeFileSync, existsSync, mkdtempSync, rmSync } from "node:fs";
 import { join } from "node:path";
 import { tmpdir } from "node:os";
+import { pathToFileURL } from "node:url";
 import { payloadHash } from "./payload-hash.mjs";
 
 const git = (...args) => execFileSync("git", args, { encoding: "utf8", stdio: ["ignore", "pipe", "pipe"] }).trim();
@@ -149,7 +150,17 @@ function selfTest() {
   return failed;
 }
 
+/* THE COMMAND HALF RUNS ONLY WHEN THIS FILE IS THE COMMAND (2026-08-23).
+   `gather()` below builds the app and fetches origin, and both used to happen
+   on IMPORT: anything reaching for the exported `changelogEntry` or
+   `remoteTagSha` - a test, an agent reading the notes, a tool - rebuilt
+   app/dist and moved the remote-tracking refs as a side effect. The
+   engineering seat's before pass hit it and disclosed it; it had hit me
+   earlier the same night. Importing this file is free now. */
+const RUN_AS_COMMAND = import.meta.url === pathToFileURL(process.argv[1] || "").href;
 if (process.argv.includes("--self-test")) process.exit(selfTest() ? 1 : 0);
+if (!RUN_AS_COMMAND) { /* imported for its exports: do nothing at all */ }
+else {
 
 const GO = process.argv.includes("--go");
 const facts = gather();
@@ -166,8 +177,21 @@ execFileSync("git", ["push", "origin", "main"], { stdio: "inherit" });
 const tmp = mkdtempSync(join(tmpdir(), "wq-release-"));
 const notesFile = join(tmp, "notes.md");
 writeFileSync(notesFile, facts.notes + "\n\nPlay it: https://billndd.github.io/CVCGame/\n");
+/* THE RELEASE CARRIES THE BYTES IT PROVED (owner-ruled 2026-08-23). The
+   website used to build the app AGAIN on GitHub's runner and publish
+   whatever came out, so what a family installed was a second build that
+   nothing had checked - while this command's whole promise is that a fresh
+   build of HEAD hashes to exactly what the gauntlet measured. Both assets go
+   up in the SAME create call: one API call, so there is no window in which a
+   tag exists without the payload it promises. The tarball is made from
+   INSIDE app/dist, so it extracts to app/dist and the payload hash's
+   cwd-relative path strings match the ones that were proved. */
+const distTar = join(tmp, "app-dist.tar.gz");
+execFileSync("tar", ["-czf", distTar, "-C", "app/dist", "."], { stdio: "inherit" });
+const evidenceCopy = join(tmp, "gauntlet-evidence.json");
+writeFileSync(evidenceCopy, readFileSync(".gauntlet-evidence.json", "utf8"));
 try {
-  execFileSync("gh", ["release", "create", `v${facts.version}`, "--target", facts.head, "--title", `v${facts.version}`, "--notes-file", notesFile], { stdio: "inherit", shell: true });
+  execFileSync("gh", ["release", "create", `v${facts.version}`, "--target", facts.head, "--title", `v${facts.version}`, "--notes-file", notesFile, distTar, evidenceCopy], { stdio: "inherit", shell: true });
 } finally { rmSync(tmp, { recursive: true, force: true }); }
 /* Read the remote back: the tag must point at HEAD, or the release is not
    what this command promised. THE READ IS THE REMOTE'S, NOT A LOCAL TAG'S
@@ -184,3 +208,4 @@ try { tagCommit = remoteTagSha(facts.version); }
 catch (e) { console.error(`REFUSED AFTER THE FACT: the remote could not be read back (${e && e.message ? e.message.split(String.fromCharCode(10))[0] : e}) - check the tag by hand`); process.exit(1); }
 if (tagCommit !== facts.head) { console.error(`REFUSED AFTER THE FACT: the remote tag v${facts.version} is at ${(tagCommit || "nothing").slice(0, 7)}, not ${facts.head.slice(0, 7)}`); process.exit(1); }
 console.log(`released v${facts.version} at ${facts.head.slice(0, 7)}; the tag's gauntlet runs on the remote now`);
+}

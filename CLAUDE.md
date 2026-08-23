@@ -308,11 +308,21 @@ exclusions are recorded in SPEC section 12.
   differ from the proved bytes, a version with no changelog entry, an existing tag, or a
   push that would not fast-forward, and otherwise pushes main and cuts the tag and the
   release at HEAD itself. Beta 24 and beta 25 were both tagged at a stale main by hand;
-  that step no longer exists. CI runs the full gauntlet only at that same occasion - the release's v* tag
+  that step no longer exists. The release also CARRIES the bytes it proved (owner-ruled
+  2026-08-23): the same `gh release create` call attaches a tarball of the proved
+  `app/dist` and the `.gauntlet-evidence.json` that proved it, and the website's deploy
+  publishes those exact bytes rather than building the app a second time on a runner
+  nothing measured - it downloads both assets, recomputes the payload hash from the
+  extracted files and refuses to publish anything that differs. CI runs the full gauntlet
+  only at that same occasion - the release's v* tag
   triggers it, a recorded second opinion on the exact released commit - and on demand from
   the Actions tab. A red there is fixed before anything else moves. Between releases, a push
-  is covered by the check and by the deploy workflow's test suite, nothing more: that is the
-  owner's chosen trade, dated 2026-08-02.
+  is covered by the check, nothing more: that is the owner's chosen trade, dated
+  2026-08-02. **The website updates at releases only, owner-ruled 2026-08-23.** It used to
+  deploy on every push to main, so a family installed mid-work commits - a half-finished art
+  step reached real children the moment it was pushed - and publishing only proved bytes
+  means publishing only when there are proved bytes. A push between releases changes
+  nothing a family can see.
 - E8. Do not change game behavior, the word bank, the feedback text, or the layout in a testing
   task. Do not add PWA work in a testing task.
 - E10. Read `docs/settled.md` before any change to the voice, the audio pipeline, or the word

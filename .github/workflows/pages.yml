@@ -1,10 +1,35 @@
-# Builds the standalone app and publishes it with GitHub Pages (work item W7).
-# The test suite runs first. A failed test stops the deploy.
+# Publishes the app that the gauntlet PROVED, and nothing else (work item W7).
+#
+# Until 2026-08-23 this workflow built the app again on the runner and shipped
+# whatever came out. The release command's whole promise is that a fresh build
+# of the released commit hashes to exactly what the gauntlet measured - and
+# then the artefact a family installed was a SECOND build, made on a different
+# machine, that nothing had checked. Cross-platform byte-identity was never
+# measured; the owner's machine is win32/node 24, this runner is
+# ubuntu/node 22, and both vite's esbuild and Tailwind's Lightning CSS ship
+# platform-native binaries.
+#
+# So the release attaches two assets - a tarball of the proved app/dist and
+# the .gauntlet-evidence.json that proved it - and this workflow downloads
+# them, recomputes the payload hash from the extracted files, refuses to
+# publish if it differs, and uploads those exact bytes.
+#
+# THE TRIGGER CHANGED WITH IT, owner-ruled 2026-08-23. It fired on every push
+# to main, so a family installed mid-work commits: a half-finished art step
+# reached real children the moment it was pushed. It fires on a published
+# release now, so the site carries releases only. workflow_dispatch stays, so
+# a deploy can be re-run by hand against the latest release without cutting
+# another one.
+#
+# THE PATH MATTERS: tools/payload-hash.mjs hashes the cwd-relative path
+# STRING with each file's bytes, so the tarball must land at exactly
+# "app/dist" or every hash differs for no reason. The extract step below is
+# written to make that impossible to get wrong by accident.
 name: Deploy to GitHub Pages
 
 on:
-  push:
-    branches: [main]
+  release:
+    types: [published]
   workflow_dispatch:
 
 permissions:
@@ -27,14 +52,43 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-      - name: Run the engine test suite
+      # This proves the CHECKOUT, not the artefact that ships. The artefact is
+      # the one the gauntlet measured, downloaded below.
+      - name: Run the engine test suite on the released commit
         run: |
           npm ci
           npm test
-      - name: Build the app
+      - name: Take the proved build and the evidence that proved it
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
-          npm ci --prefix app
-          npm run build --prefix app
+          set -euo pipefail
+          TAG="${{ github.event.release.tag_name }}"
+          if [ -z "$TAG" ]; then TAG="$(gh release view --json tagName -q .tagName)"; fi
+          echo "publishing the build proved for $TAG"
+          rm -rf app/dist
+          mkdir -p app/dist
+          gh release download "$TAG" --pattern 'app-dist.tar.gz' --output /tmp/app-dist.tar.gz --clobber
+          gh release download "$TAG" --pattern 'gauntlet-evidence.json' --output /tmp/evidence.json --clobber
+          # -C app/dist with a tarball made from inside app/dist: the files land
+          # at app/dist/... and the hash's path strings match what was proved.
+          tar -xzf /tmp/app-dist.tar.gz -C app/dist
+          test -f app/dist/index.html
+      - name: Refuse to publish anything the gauntlet did not prove
+        run: |
+          set -euo pipefail
+          node --input-type=module -e '
+            import { readFileSync } from "node:fs";
+            const { payloadHash } = await import("./tools/payload-hash.mjs");
+            const evidence = JSON.parse(readFileSync("/tmp/evidence.json", "utf8"));
+            const want = evidence.payload && evidence.payload.hash;
+            const got = payloadHash("app/dist");
+            const commit = evidence.commit_short || evidence.commit;
+            if (evidence.status !== "PASS") { console.error(`REFUSED: the evidence says ${evidence.status}, not PASS`); process.exit(1); }
+            if (!want) { console.error("REFUSED: the evidence carries no payload hash"); process.exit(1); }
+            if (got !== want) { console.error(`REFUSED: the downloaded build hashes ${got}, the evidence proved ${want} - these are not the bytes that were measured`); process.exit(1); }
+            console.log(`publishing the bytes proved on ${commit}: ${got}`);
+          '
       - uses: actions/upload-pages-artifact@v3
         with:
           path: app/dist
@@ -48,3 +102,31 @@ jobs:
     steps:
       - id: deployment
         uses: actions/deploy-pages@v4
+      # The only check in the chain that reads what a family actually
+      # downloads. version.json is written at build time from the commit, so
+      # the live site must report the released commit's own build. It polls
+      # rather than sleeping once, and it FAILS rather than warning: a check
+      # that cannot go red is not a check (the engineering seat, 2026-08-23).
+      - uses: actions/checkout@v4
+      - name: Read the live site back
+        env:
+          PAGE_URL: ${{ steps.deployment.outputs.page_url }}
+          RELEASE_SHA: ${{ github.sha }}
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
+        run: |
+          set -euo pipefail
+          for i in $(seq 1 18); do
+            if curl -fsSL "${PAGE_URL}version.json" -o /tmp/live.json; then break; fi
+            echo "the site has not published yet (try $i)"; sleep 10
+          done
+          cat /tmp/live.json
+          node --input-type=module -e '
+            import { readFileSync } from "node:fs";
+            const live = JSON.parse(readFileSync("/tmp/live.json", "utf8"));
+            const sha = process.env.RELEASE_SHA || "";
+            const tag = process.env.RELEASE_TAG || "";
+            if (!live.version || !live.build) { console.error("REFUSED AFTER THE FACT: the live site served no version and build to read"); process.exit(1); }
+            if (!sha.startsWith(live.build)) { console.error(`REFUSED AFTER THE FACT: the live site reports build ${live.build}, which is not the released commit ${sha.slice(0, 12)}`); process.exit(1); }
+            if (tag && tag !== "v" + live.version) { console.error(`REFUSED AFTER THE FACT: the live site reports ${live.version}, the release is ${tag}`); process.exit(1); }
+            console.log(`the live site reports ${live.version} at ${live.build}, the released commit`);
+          '
