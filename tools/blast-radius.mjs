@@ -814,8 +814,22 @@ function hookControls(ok) {
     objects === objectsBefore]);
   ok.push(["and leaves no sandbox file behind in its working tree",
     !untracked.includes("SPEC.md") && !untracked.includes("engine.js")]);
-  ok.push(["and still passes its own controls there, rather than going red for the environment",
-    /controls: \d+ passed, 0 failed/.test(out)]);
+  /* WHEN THIS ONE FAILS IT MUST SAY WHY (open fault AM, 2026-08-24). It went
+     red once inside `npm run check` and passed 97 of 97 run directly twice
+     straight after, and nothing could be learned from it because the nested
+     run's output was thrown away. A flake nobody can diagnose teaches everyone
+     to re-run, which is how a real red gets waved through. No retry and no
+     weakened assertion: the same check, with its evidence kept. */
+  const nestedOk = /controls: \d+ passed, 0 failed/.test(out);
+  if (!nestedOk) {
+    const lines = String(out).replace(new RegExp(String.fromCharCode(27) + "\\[[0-9;]*m", "g"), "").split(String.fromCharCode(10));
+    console.error("  the nested self-test did not report a clean run. Its own output, last 25 lines:");
+    for (const l of lines.slice(-25)) console.error("    | " + l);
+    const failed = lines.filter((l) => /^FAIL/.test(l.trim()));
+    if (failed.length) console.error("  the nested controls that failed: " + failed.length);
+    else console.error("  no FAIL line in it at all - so it did not finish: a timeout, a crash, or a killed process.");
+  }
+  ok.push(["and still passes its own controls there, rather than going red for the environment", nestedOk]);
 }
 
 async function selfTest() {

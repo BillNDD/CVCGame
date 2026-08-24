@@ -299,6 +299,18 @@ The rule, accepted by the owner on the forensic audit of 2026-08-19:
   pen on `git commit`.
 - **Parallel agents get read-only briefs, or their own worktree.** A read-only
   agent reports; it never edits, stages or commits.
+- **READ-ONLY IS ABOUT EDITING, NOT ABOUT RUNNING, and that distinction costs something**
+  (2026-08-24). A read-only agent still runs `npm run check`, `npx vitest`, the gauntlet's
+  tools and the mutant runners to verify what it claims — which is exactly what makes its
+  findings worth having. But two vitest runs share `node_modules/.vite`, two checks
+  regenerate the same files, and the mutant runners rewrite tracked ones. Both of the random
+  reds recorded in open fault AM happened while a council agent was running, and neither
+  reproduced alone. So: **do not run `npm run check` or a gauntlet while an agent is
+  working**, and do not launch an agent into a tree you are about to run one in. Wait for it,
+  or accept that a red may be the collision rather than the code — which is the habit that
+  makes a real red survivable, and the one this rule exists to prevent. The mutant runners
+  already refuse each other through `.gauntlet.lock`; the check does not, and until it does
+  this is a rule people keep rather than a gate that holds.
 - **Verify the tree you commit, not the tree you checked.** If anything else
   can write, build the prospective commit as a tree object and run the check
   against that exact tree, the way the are/were shipping commit did. "The

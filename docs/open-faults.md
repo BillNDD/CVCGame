@@ -2538,10 +2538,29 @@ is a ruling on what free play offers a pre-ladder child, and the chooser matchin
   2026-08-24 a commit was made on a red check because the failure was assumed to be the flake
   it turned out to be. Assuming correctly is not the same as checking, and the habit is the
   damage.
-- **What is suspected, not proven** Both failures are in the parts of the check that spawn
-  their own processes or touch the filesystem while ~30 other tools run beside them. Neither
-  has been reproduced deliberately, and neither cause is established. That is the first piece
-  of work, not a conclusion to build a fix on.
+- **WHAT HAS BEEN RULED OUT, by measurement (2026-08-24)** The first work was to reproduce
+  each on purpose. It did not succeed, and what failed to reproduce is itself evidence:
+  - *A timeout in the nested run.* The sandbox control spawns `blast-radius --self-test
+    --nested` with a 120 s limit. Measured unloaded, three runs: 4.6 / 5.2 / 5.3 s, 93
+    controls, 0 failed. A timeout would need a 23x slowdown.
+  - *CPU contention.* Eight busy-loop processes on this machine: four runs at 8.2-10.1 s,
+    every one 93 passed / 0 failed. Slower, never wrong.
+  - *A concurrent regeneration of the generated engine.* `node tools/extract-engine.mjs` in a
+    tight loop of forty while the self-test ran three times: 97 passed / 0 failed each time.
+  So neither flake is explained by load or by the generated files moving underneath.
+- **WHAT REMAINS SUSPECTED, and it is about how the work is done rather than the gates**
+  Both failures happened while a read-only COUNCIL AGENT was running. Those agents are
+  read-only about editing and are not read-only about RUNNING: they run `npm run check`,
+  `npx vitest` and the repo's tools to verify their findings. Two vitest runs at once share
+  `node_modules/.vite`, and two checks at once regenerate the same files. That fits both
+  observations — the flake appears only inside a full check, never when the same control is
+  run alone, and both occurrences coincide with an agent. It is not proven, and it will not
+  be asserted until it is.
+- **WHAT WAS DONE INSTEAD OF A GUESS** The sandbox control now PRINTS the nested run's own
+  output when it fails - the last 25 lines, the count of nested FAIL lines, and, when there
+  is no FAIL line at all, that it did not finish, which distinguishes a crash or a kill from
+  a real failure. Nothing was retried and no assertion was weakened. The next occurrence will
+  say what it was; today's could not, which is why today's is still open.
 - **What done means** Each flake is reproduced ON PURPOSE — under the same contention, until
   it fails on demand — and then fixed at its cause rather than by a retry, since a retry
   around a flake is a gate that cannot fail. Until a cause is known, the check reports WHICH
