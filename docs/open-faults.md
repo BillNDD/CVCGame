@@ -2388,7 +2388,16 @@ is a ruling on what free play offers a pre-ladder child, and the chooser matchin
   zero findings on the landscape phone, the full census's close and wrong reveal cells are
   green there, and the landscape pin in the sounding cell is removed with this entry.
 
-## AH. A pre-level item never plays its own question — opened 2026-08-24
+## AH. A pre-level item never plays its own question — opened 2026-08-24, CLOSED 2026-08-24 in beta 28
+
+**CLOSED** by the owner on the device that found it, checking beta 28: "ear now speaks its
+sounds by itself. timing feels right". The question is asked out loud on arrival and on each
+new item, `tests/pre.test.js` holds it by asserting on the PLAYER rather than the light (the
+light cannot see it in jsdom), and removing the call turns that test red. The timing question
+the entry left open — how long after the screen appears it should play — is answered by the
+same check: as the screen arrives, and it reads right to a person.
+
+## AH-history. A pre-level item never plays its own question — opened 2026-08-24
 
 - **Where** `app/src/usePre.js` — `beginPre()` sets the screen and `nextPre()` advances the
   item, and neither calls `playPrePrompt()`. The function exists and is correct; it is wired
@@ -2427,7 +2436,19 @@ is a ruling on what free play offers a pre-ladder child, and the chooser matchin
   Whether the prompt should also repeat on a re-entry, and how long after the screen appears
   it should play, is the owner's to rule.
 
-## AI. The sound-off light is invisible to a person looking for it — opened 2026-08-24, owner-ruled the same day
+## AI. The sound-off light is invisible to a person looking for it — opened 2026-08-24, CLOSED 2026-08-24 in beta 28
+
+**CLOSED, and only the owner could close it.** Its own "what done means" said so: not on a
+measurement, but on the eye that could not see it before. Checking beta 28 on that phone:
+"A visible now". Alongside it, the 1.5x size he ruled: "looks perfect".
+The record of what it took: the rim went from `stone` (1.28 / 1.24 / 1.36:1 against the sky,
+inherited and never declared) to `muted` (3.06 / 2.99 / 3.27:1), measured on the shipped
+renders at 3.02:1 against the real local sky — 2.4x the contrast and 2.77x the luminance
+energy, with the shape and all eleven dashes untouched. The art director confirmed it is
+still unmistakably not lit and step 2 stayed closed. But the gate that mattered was a person
+looking at a phone, which is the whole lesson of this entry.
+
+## AI-history. The sound-off light is invisible to a person looking for it — opened 2026-08-24, owner-ruled the same day
 
 - **Where** `app/src/wq-css.js` — `.wq-glowseed-muted{background:transparent;border-style:dashed}` over
   `.wq-glowseed{...border:1px solid ${C.stone}...}`. The muted rim is therefore `stone`,
@@ -2456,7 +2477,15 @@ is a ruling on what free play offers a pre-ladder child, and the chooser matchin
   before. Until that last part, this is not closed — the whole fault is that a measurement said
   yes and a person said no.
 
-## AJ. "Skip" can never be used while a sentence is read — opened 2026-08-24, owner-ruled the same day
+## AJ. "Skip" can never be used while a sentence is read — opened 2026-08-24, CLOSED 2026-08-24 in beta 28
+
+**CLOSED** in beta 28. Skip is live in a sentence's reveal and dark in its attempt, it ends
+the sentence rather than merely advancing the word queue underneath it, and both halves are
+mutation-proven: reverting the guard fails "this sentence ended and another began", reverting
+the button fails "live once the reveal has started". SPEC section 6 and section 12 both say
+what is true now.
+
+## AJ-history. "Skip" can never be used while a sentence is read — opened 2026-08-24, owner-ruled the same day
 
 - **Where** `app/src/screens/SessionScreen.jsx` — `<HoldButton onFire={skipReveal}
   disabled={phase !== "feedback"} ... label="⏭ skip" />`. During a sentence `app/src/App.jsx`
@@ -2627,3 +2656,40 @@ is a ruling on what free play offers a pre-ladder child, and the chooser matchin
   around a flake is a gate that cannot fail. Until a cause is known, the check reports WHICH
   step failed in a form a reader cannot mistake for a real failure. The owner has a queued
   twelve-point deflake programme; this entry is the evidence for opening it.
+
+## AN. A reveal interrupted by leaving the app never finishes — opened 2026-08-24, measured on the owner's device
+
+- **What a child experiences** The grown-up grades a word, the game starts speaking, and the
+  app goes to the background — a home press, a notification, a call. On coming back, **the
+  rest of the message never plays**. What is lost is usually the sound-out: the part where the
+  child hears the word broken into its sounds, which is the teaching moment the reveal exists
+  for. Nothing says anything is missing. The grown-up can press the speaker in the strip to
+  play it again, but nothing tells them to, and a parent who was not watching has no way to
+  know the child heard half a lesson.
+- **Found by the owner** on 2026-08-24 in beta 27, and MEASURED by him on beta 28 with the
+  question put precisely: "after coming back from home button the sentence doesn't continue,
+  but the seed is no longer lit."
+- **That measurement is the decisive one, and it rules out the worse case.** The listening
+  light goes DARK rather than staying lit over silence. So the player's lost-end net, added
+  the day before for exactly this situation, is doing its job: the utterance is ended
+  honestly rather than left glowing over a sound that will never come. The light is right;
+  the sound is gone.
+- **Not reproducible on this machine.** Chromium's page-freeze does not suspend the audio
+  clock: measured across a four-second freeze, 5,501 ms of audio elapsed against 5,534 ms of
+  wall time, the context stayed `running`, and every node reported its end. Whatever iOS does
+  to a suspended audio context, no browser here does it. That is why this entry carries a
+  measurement from a phone and not from a test.
+- **The mechanism, from reading rather than from running.** The whole utterance is scheduled
+  up front on the AudioContext clock; everything the app does afterwards runs on the wall
+  clock. Nothing in `app/src` listens for the page becoming visible again — the only
+  `visibilitychange` in the app is the S6 update check — so nothing resumes a suspended
+  context. And the first thing that would resume it, `playClips`, begins with `stopClips()`,
+  which discards the remainder by construction. Hence: silent, and honestly dark.
+- **What done means, and the part that is the owner's** A child who comes back does not
+  silently lose the sound-out. WHICH behaviour that is remains his to rule, because it is
+  what a child meets: playing the remainder alone would give the tail of a word with no head,
+  which for a sound-out is worse than nothing; starting the whole reveal again is kinder and
+  simpler to reason about but speaks unasked to a child who may have moved on; and leaving it
+  to the grown-up's replay is honest but asks a parent to notice an absence. A test drives an
+  interruption and proves the child is not left in silence, and the fix is verified on the
+  device that found it, since no browser here reproduces the interruption.
