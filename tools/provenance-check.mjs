@@ -100,6 +100,12 @@ export function glowseedLockFromSources(css = readFileSync("app/src/wq-css.js", 
       return { x: +(rim + L + W / 2 - bw / 2).toFixed(1), y: +(rim + T + H / 2 - bh / 2).toFixed(1) };
     })(),
     mutedBorderStyle: (muted && (muted.match(/border-style:(\w+)/) || [])[1]) || null,
+    /* AND ITS COLOUR (open fault AI, 2026-08-24). The reader took the muted
+       block's border-STYLE and never its colour, so a completely wrong token
+       passed every gate in this repository - the council's before pass proved
+       it by planting one and watching the whole check stay green. The muted
+       rim is a ruled value now, so it is read and refused like every other. */
+    mutedRim: (muted && (muted.match(/border-color:\$\{C\.(\w+)\}/) || [])[1]) || null,
     absentBelow: absent ? Number(absent[1]) : null,
     transition: seed ? /transition/.test(seed) || (lit ? /transition/.test(lit) : false) : null,
   };
@@ -115,6 +121,7 @@ export function glowseedDrift(lock, fromSources) {
   for (const k of ["x", "y"]) if (!lock.coreOffset || !fromSources.coreOffset || lock.coreOffset[k] !== fromSources.coreOffset[k]) out.push(`lock.coreOffset.${k} is ${lock.coreOffset && lock.coreOffset[k]}, the stylesheet's geometry says ${fromSources.coreOffset && fromSources.coreOffset[k]}`);
   if (fromSources.coreOffset && (fromSources.coreOffset.x === 0 || fromSources.coreOffset.y === 0)) out.push(`the core sits on the object's ${fromSources.coreOffset.x === 0 ? "vertical" : "horizontal"} axis - checkpoint 1 refused the centred core (an eye, an LED, a bullseye; bible 17.1)`);
   if (lock.mutedBorderStyle !== fromSources.mutedBorderStyle) out.push(`lock.mutedBorderStyle is ${lock.mutedBorderStyle}, the stylesheet says ${fromSources.mutedBorderStyle}`);
+  if (lock.mutedRim !== fromSources.mutedRim) out.push(`lock.mutedRim is ${JSON.stringify(lock.mutedRim)}, the stylesheet says ${JSON.stringify(fromSources.mutedRim)}`);
   if (lock.absentBelow !== fromSources.absentBelow) out.push(`lock.absentBelow is ${lock.absentBelow}, the stylesheet says ${fromSources.absentBelow}`);
   if (fromSources.transition) out.push("the stylesheet gives the Glowseed a transition; its looks are hard-edged (bible 7, 14)");
   return out;
@@ -179,7 +186,7 @@ if (process.argv.includes("--self-test")) {
   const seed = glowseedLockFromSources();
   ok.push(["the Glowseed lock reader finds the box, the corner, the rim, the light, the core, the silhouette and the absent-below height in the stylesheet, at their literals",
     JSON.stringify(seed) === JSON.stringify({ box: { w: 16, h: 20 }, corner: { top: 8, right: 14 }, rim: 1, light: 2, core: { left: 5, top: 8, w: 7, h: 7 },
-      radius: "70% 34% 46% 54%/64% 56% 42% 38%", coreOffset: { x: 1.5, y: 2.5 }, mutedBorderStyle: "dashed", absentBelow: 400, transition: false })]);
+      radius: "70% 34% 46% 54%/64% 56% 42% 38%", coreOffset: { x: 1.5, y: 2.5 }, mutedBorderStyle: "dashed", mutedRim: "muted", absentBelow: 400, transition: false })]);
   /* the silhouette: a core put back on either axis is refused BY NAME (the
      bullseye checkpoint 1 refused), a changed radius is refused, and a muted
      rim that stops being dashed is refused */
@@ -187,8 +194,19 @@ if (process.argv.includes("--self-test")) {
   ok.push(["a core back on the object's vertical axis is refused by name", centred.coreOffset.x === 0 && glowseedDrift(real.families.glowseed.lock, centred).some((p) => p.includes("vertical axis") && p.includes("bullseye"))]);
   const roundish = glowseedLockFromSources(readFileSync("app/src/wq-css.js", "utf8").replace("border-radius:70% 34% 46% 54%/64% 56% 42% 38%", "border-radius:50% 50% 50% 50%/55% 55% 45% 45%"));
   ok.push(["a silhouette rounded back to four concentric ovals is refused, naming both radii", roundish.radius === "50% 50% 50% 50%/55% 55% 45% 45%" && glowseedDrift(real.families.glowseed.lock, roundish).some((p) => p.includes("lock.radius is") && p.includes("50% 50%"))]);
-  const solidMuted = glowseedLockFromSources(readFileSync("app/src/wq-css.js", "utf8").replace(".wq-glowseed-muted{background:transparent;border-style:dashed}", ".wq-glowseed-muted{background:transparent}"));
+  const solidMuted = glowseedLockFromSources(readFileSync("app/src/wq-css.js", "utf8").replace(".wq-glowseed-muted{background:transparent;border-style:dashed;border-color:${C.muted}}", ".wq-glowseed-muted{background:transparent;border-color:${C.muted}}"));
   ok.push(["a muted rim that stops being dashed is refused - the shape is what carries the muted state in greyscale", solidMuted.mutedBorderStyle === null && glowseedDrift(real.families.glowseed.lock, solidMuted).some((p) => p.includes("mutedBorderStyle"))]);
+  /* AND ITS COLOUR (open fault AI, 2026-08-24). Until the rim became a ruled
+     value this reader took the muted block's STYLE and never its colour, so a
+     completely wrong token passed every gate in the repository - the council's
+     before pass proved it by planting one and watching the whole check stay
+     green. Two plants, because the second is the way a careful person would
+     most likely write it wrong. */
+  const realCss = readFileSync("app/src/wq-css.js", "utf8");
+  const wrongMutedRim = glowseedLockFromSources(realCss.replace("border-style:dashed;border-color:${C.muted}", "border-style:dashed;border-color:${C.coralElectric}"));
+  ok.push(["a muted rim painted in the wrong token is refused BY NAME", wrongMutedRim.mutedRim === "coralElectric" && glowseedDrift(real.families.glowseed.lock, wrongMutedRim).some((p) => p.includes("mutedRim") && p.includes("coralElectric"))]);
+  const shorthandMuted = glowseedLockFromSources(realCss.replace("background:transparent;border-style:dashed;border-color:${C.muted}", "background:transparent;border:1px dashed ${C.muted}"));
+  ok.push(["the border SHORTHAND is refused: it takes the ruled colour but loses the dash this state is carried by", shorthandMuted.mutedRim === null && shorthandMuted.mutedBorderStyle === null && glowseedDrift(real.families.glowseed.lock, shorthandMuted).length >= 2]);
   const wideLight = glowseedLockFromSources(readFileSync("app/src/wq-css.js", "utf8").replace("box-shadow:0 0 0 2px ${C.purpleElectric}", "box-shadow:0 0 0 3px ${C.purpleElectric}"));
   ok.push(["a 3 px light in the stylesheet is refused against the lock, naming both numbers", wideLight.light === 3 && glowseedDrift(real.families.glowseed.lock, wideLight).some((p) => p.includes("lock.light is 2, the stylesheet says 3"))]);
   const fading = glowseedLockFromSources(readFileSync("app/src/wq-css.js", "utf8").replace(".wq-glowseed-lit{border-color", ".wq-glowseed-lit{transition:opacity .2s;border-color"));

@@ -292,8 +292,15 @@ a value read off a render: **idle**, a `slot` core in a
 3.15:1, is the cue a child sees, since the cyan core is 1.06:1 against the idle core in
 greyscale; 4.02 / 3.92 / 4.29:1 on the three stops — and a 2 px `purpleElectric` light
 outside the rim (9.2's order; purple, so a child never reads it as a tile's cyan band);
-**muted** (sound off), the core gone and the rim empty — a dashed `stone` outline with the
-sky showing through, which is what tells it from idle with no colour at all — beside the
+**muted** (sound off), the core gone and the rim empty — a dashed `muted` outline with the
+sky showing through: the DASH is what tells it from idle without relying on colour, and the
+token is what makes it visible at all. It was `stone` until 2026-08-24, inherited from the
+base rule and never declared, at 1.28 / 1.24 / 1.36:1 — and the owner, who knew the state
+existed and where to look, could not see it on a phone. `muted` is 3.06 / 2.99 / 3.27:1,
+about 2.4 times that, and deliberately still BELOW the lit rim's 4.02 / 3.92 / 4.29, so off
+stays quieter than speaking. It clears 3:1 on two of the three stops and not the third; the
+object sits in the top-right corner, where the 160° gradient puts the local ground between
+the first two — beside the
 replay control now
 `disabled` and "Parent: sound is off" on the strip's reserved marker line. Nothing animates
 or transitions: the edge of the sound is the edge of the light, and reduced motion changes
@@ -308,7 +315,7 @@ the reference build having no Glowseed.
 | idle | `.wq-glowseed` | slot, stone |
 | lit | `.wq-glowseed-lit` | purpleStructural, purpleElectric |
 | lit core | `.wq-glowseed-lit::after` | cyanElectric |
-| muted | `.wq-glowseed-muted` | none |
+| muted | `.wq-glowseed-muted` | muted |
 
 ## 8. Pixel construction and rendering
 

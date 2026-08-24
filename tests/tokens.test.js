@@ -293,6 +293,20 @@ describe("the palette is pinned", () => {
     expect(contrast(C.cyanElectric, C.slot)).toBeCloseTo(1.06, 2);
     expect(stops.map((s) => contrast(C.stone, s))).toEqual([1.28, 1.24, 1.36].map((v) => expect.closeTo(v, 2)));
     expect(stops.every((s) => contrast(C.stone, s) < 3)).toBe(true);
+    /* THE MUTED RIM (open fault AI, owner-ruled 2026-08-24). It was `stone`,
+       inherited from the base rule and never declared, and the owner could not
+       see it on a phone knowing exactly where to look - the numbers on the line
+       above are why. `muted` is about 2.4x that. Stated exactly rather than
+       rounded up: it clears the 3:1 boundary on the first and third stops and
+       MISSES on the second, which is written down here so nobody later reads
+       this state as clearing the rule everywhere. The object sits in the
+       top-right corner, where the 160deg gradient puts its local ground
+       between the first two stops. It is deliberately still below the lit
+       rim, so off stays quieter than speaking. */
+    expect(stops.map((s) => contrast(C.muted, s))).toEqual([3.06, 2.99, 3.27].map((v) => expect.closeTo(v, 2)));
+    expect(contrast(C.muted, C.skyLavender) < 3, "honest: the middle stop is below the boundary rule").toBe(true);
+    expect(stops.every((s) => contrast(C.muted, s) > contrast(C.stone, s)), "visible where stone was not").toBe(true);
+    expect(stops.every((s) => contrast(C.muted, s) < contrast(C.purpleStructural, s)), "and still quieter than the lit rim").toBe(true);
     expect(stops.map((s) => contrast(C.slot, s))).toEqual([1.23, 1.26, 1.15].map((v) => expect.closeTo(v, 2)));
     expect(stops.map((s) => contrast(C.purpleElectric, s))).toEqual([1.97, 1.92, 2.10].map((v) => expect.closeTo(v, 2)));
     /* and the stylesheet draws exactly that: the rim purpleStructural, the

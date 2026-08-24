@@ -363,7 +363,9 @@ otherwise (bible 7). Three looks, all hard-edged, none animated: **idle**, a pal
 never as a fourth tile; **lit**, the core `cyanElectric`, the rim `purpleStructural`, a thin
 `purpleElectric` light outside the rim (9.2's order: electric glow outside a darker
 structural edge — purple, so a child never reads it as a tile's cyan band), steady, no pulse;
-**muted** (sound off), the core gone and the rim empty, beside the replay control now
+**muted** (sound off), the core gone and the rim empty and DASHED in the `muted` token —
+`stone` until 2026-08-24, when the owner could not see it on a phone knowing where to look
+(open fault AI) — beside the replay control now
 `disabled` and a sentence on the strip's reserved marker line that a parent reads. Reduced
 motion changes nothing, because nothing moves: the edge of the sound is the edge of the
 light, as it is for the tiles' ring (owner, 2026-08-11). It never replaces the speaker
@@ -1188,3 +1190,18 @@ Newest last. A verdict names the chair, the step, the word, and the findings.
   The owner added a standing wish with it: **"I want to find a use for that unused neon
   too sometime."** Recorded in bible 9 beside coral's own row, with what it can and cannot
   be, so a later step reaches for it rather than a later tidy-up deleting it.
+- 2026-08-24 — **The owner's device check found three faults the whole apparatus could not**,
+  and the third is the one worth keeping. Beta 27 shipped green on everything: gauntlet 29/29,
+  census 108/108, `npm run check`, a five-lens adversarial sweep with two verifiers a finding,
+  three council chairs, two engineering passes. He then held the phone for five minutes.
+  (1) A pre-level item never played its own question — the screen asked "What word do the
+  sounds make?", showed an ear, and was silent, because nothing ever called the prompt on
+  arrival. usePre.js had SAID it did since the ladder shipped. (2) Skip could never be used
+  while a sentence was read. (3) **The muted Glowseed was invisible.** Every gate passed and
+  every one of them was measuring the right thing: the census read the DOM state, provenance
+  derived the lock, and the art director measured 434 rim pixels against idle's 826 and was
+  CORRECT that they differ. What none of them asked — what none of them CAN ask — is whether a
+  person can see it. That is the boundary of this apparatus, found by a parent's eye in five
+  minutes, and it is why the QA script on a real device is a gate and not a courtesy.
+  All three ruled by the owner the same day and fixed under a before pass that named, in
+  advance, the two crashes and the live-no-op control the naive fixes would have shipped.

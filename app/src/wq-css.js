@@ -76,8 +76,28 @@ const CSS = VARS + `
 .wq-glowseed-lit::after{background:${C.cyanElectric}}
 /* muted (sound off) takes a SHAPE, not only a fill: the dashed rim the used
    tile wears for the same reason - a fill alone was 1.25:1 against the sky
-   and invisible in greyscale, which the after pass measured (2026-08-23) */
-.wq-glowseed-muted{background:transparent;border-style:dashed}
+   and invisible in greyscale, which the after pass measured (2026-08-23).
+
+   AND ITS OWN COLOUR (open fault AI, owner-ruled 2026-08-24). The shape was
+   right and the rim was still stone, INHERITED from the base rule and never
+   declared - 1.28 / 1.24 / 1.36:1 against the three sky stops. The owner
+   found it on a real phone during the beta 27 device check, knowing the state
+   existed, knowing where in the frame to look, having been told what it would
+   look like: "it is so faint a human eye wouldn't see it". Every gate passed,
+   and each was measuring the right thing; none of them asks whether a person
+   can SEE something, and none of them can.
+
+   The muted token is 3.06 / 2.99 / 3.27:1 - about 2.4x, and still BELOW the
+   lit rim's purpleStructural (4.02 / 3.92 / 4.29), so off stays quieter than
+   speaking, which is the hierarchy the art director approved. It clears 3:1
+   on two of the three stops and not the third; that is stated rather than
+   rounded up, and the object sits in the top-right corner where the 160deg
+   gradient puts the local ground between the first two.
+   NOT the border shorthand, which would replace border-style and cost the
+   provenance reader the dash it guards - a control plants exactly that.
+   And no backticks in this comment: the whole file is one template literal,
+   so a backtick here ends the stylesheet. */
+.wq-glowseed-muted{background:transparent;border-style:dashed;border-color:${C.muted}}
 .wq-glowseed-muted::after{display:none}
 @media (max-height:400px){.wq-glowseed{display:none}}
 /* The stage centres its content with two flexible spacers rather than with auto

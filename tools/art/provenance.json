@@ -237,7 +237,8 @@
           "x": 1.5,
           "y": 2.5
         },
-        "mutedBorderStyle": "dashed"
+        "mutedBorderStyle": "dashed",
+        "mutedRim": "muted"
       },
       "place": "out of flow in the stage's top-right corner, 0 px of layout (the census's Glowseed cell holds every zone's height and the word's box equal with the object planted away); in the free sky measured on the 0d887f3 renders (46-181 CSS px on the Galaxy S9+, 46-279 Pixel 7, 46-199 iPhone 13, 46-232 desktop, 46-167 short stage); absent on a VIEWPORT under 400 px tall - a max-height media query asks the window, not the stage, and a stage is shorter than its window by the header and the strip (the landscape phone, open-faults AG; corrected 2026-08-23); on the word reveal, the sentence reveal, the pre-ladder and Build-it - not home, the done screens or the corner; right rather than left is settled (the art director, the after pass 2026-08-23): measured on galaxy-s9plus-attempt-idle-grey.png the header's own weight is left-heavy (mean |grey-197| of 19.8 left against 9.7 right), so a mark on the right loads the lighter side, and with the object lit the stage's top band reads 0.2 left against 1.1 right",
       "ramps": {
@@ -264,7 +265,7 @@
           "purpleElectric"
         ],
         "muted": [
-          "stone"
+          "muted"
         ],
         "quiet": [
           "slot",
