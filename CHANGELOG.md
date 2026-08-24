@@ -15,6 +15,30 @@ This document follows the Microsoft Writing Style Guide.
 Version 6 adds the standalone progressive web app. The reference build does not change.
 The first app version is 1.0.0-beta.1. The app stays in beta until version 1.0 is ready.
 
+- Fixed in 1.0.0-beta.28: the ladder's first steps now ask their question out loud. Before
+  this, the screen said "What word do the sounds make?", showed an ear, and played nothing —
+  the sounds only came if a grown-up pressed the small speaker, which is labelled "Hear it
+  again" and so promised a first time that never happened. On those first steps the sounds
+  ARE the question, so a child was being asked something they could not hear. The question
+  now plays as the screen arrives, and again for each new one.
+- Fixed in 1.0.0-beta.28: "skip" works while a paragraph is read. It sat in the grown-ups
+  strip and could never be pressed during a sentence, in any part of it. It now works once
+  the game starts reading the sentence back, and stays off while your child is still having
+  their turn — the same as it has always behaved for a single word. Nobody was ever stuck:
+  the green "Next sentence" control did the same job, and still does.
+- Changed in 1.0.0-beta.28: the listening light is half again as big, and its "sound is off"
+  look can actually be seen. With sound switched off the light shows a dashed outline, and
+  that outline was so faint it read as nothing at all — it is a good deal darker now. The
+  light itself is larger on every screen, while staying small enough that it never competes
+  with the word your child is reading. Nothing about it moved: it sits in the same corner and
+  takes up no room on the screen.
+- Under the hood in 1.0.0-beta.28: every one of the above was found by a person holding a
+  phone, not by a check. All of the automatic checks were green when the last release went
+  out, and they stayed green while these four faults sat in the game — a check can measure
+  what is on the screen, and it cannot tell you whether a screen asks its question, or
+  whether a mark is faint enough that a person will miss it. Each fix now carries a test that
+  was watched failing on the broken version first, so none of them can quietly come back.
+
 - New in 1.0.0-beta.27: a listening light. A small light sits in the top corner of the play
   area. It is lit exactly while the game is speaking with its recorded voice, and it goes
   out when the sound does — so a child can see when to listen and when it is their turn. It
