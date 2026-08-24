@@ -2548,14 +2548,29 @@ is a ruling on what free play offers a pre-ladder child, and the chooser matchin
   - *A concurrent regeneration of the generated engine.* `node tools/extract-engine.mjs` in a
     tight loop of forty while the self-test ran three times: 97 passed / 0 failed each time.
   So neither flake is explained by load or by the generated files moving underneath.
-- **WHAT REMAINS SUSPECTED, and it is about how the work is done rather than the gates**
-  Both failures happened while a read-only COUNCIL AGENT was running. Those agents are
-  read-only about editing and are not read-only about RUNNING: they run `npm run check`,
-  `npx vitest` and the repo's tools to verify their findings. Two vitest runs at once share
-  `node_modules/.vite`, and two checks at once regenerate the same files. That fits both
-  observations — the flake appears only inside a full check, never when the same control is
-  run alone, and both occurrences coincide with an agent. It is not proven, and it will not
-  be asserted until it is.
+- **THE CAUSE, FOUND 2026-08-24, and much better than the first guess: the SMALL DRIVE was
+  running out of room.** A full gauntlet came back with five failed gates whose numbers were
+  either correct or unparseable, and the log carried the answer in plain words: `ENOSPC: no
+  space left on device` from an ordinary writeFileSync. D: had 2.9 TB free at that moment and
+  the repository lives on D: — but `os.tmpdir()` on this machine is `C:\\Users\\aaron\\AppData\\Local\\Temp`, and
+  C: was down to about 5 GB. TEMP and TMP are per-USER settings on Windows, pointing inside
+  the user profile, so they follow the account and not the working directory: moving the game
+  to D: on 2026-08-22 moved the repository off the small drive and left every scratch file
+  behind on it. The tooling leans on temp hard — the blast-radius sandbox control makes a temp
+  git repo, the release command builds its tarball there, vitest caches there, Playwright
+  writes artefacts there.
+  **Both flakes in this entry are that shape.** The blast-radius control that failed makes a
+  temp directory; the vitest run that failed caches into one. Intermittent failure to write is
+  exactly what a nearly-full drive produces, and it is why neither reproduced alone minutes
+  later.
+  The earlier suspicion — concurrent council agents — is WITHDRAWN as the explanation. It was
+  a fair reading of a coincidence and it was wrong. The measurements that ruled out timeouts,
+  CPU load and a moving engine still stand, and are what left room for the real answer.
+- **FIXED** `tools/run-with-tmp.mjs` sets TEMP, TMP and TMPDIR to `<repo>/.tmp` and runs the
+  npm script it is given; every child process inherits the environment, which is what makes
+  one wrapper enough for a chain of thirty tools rather than an edit in each. `check`,
+  `gauntlet`, `census` and `census:novelties` go through it. Proved rather than assumed: a
+  child reports `C:\\Users\\aaron\\AppData\\Local\\Temp` without the wrapper and `D:\\CVCGame\\.tmp` through it.
 - **WHAT WAS DONE INSTEAD OF A GUESS** The sandbox control now PRINTS the nested run's own
   output when it fails - the last 25 lines, the count of nested FAIL lines, and, when there
   is no FAIL line at all, that it did not finish, which distinguishes a crash or a kill from

@@ -96,3 +96,6 @@ tools/draft-sentences.json
 # (holds the raw hits). The 2026-08-20 near-staging is why this line exists.
 tools/corpus/excisions.json
 .stryker-tmp/
+
+# temp files for every heavy command, kept off the small drive (tools/run-with-tmp.mjs)
+.tmp/
