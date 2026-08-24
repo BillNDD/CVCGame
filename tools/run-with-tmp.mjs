@@ -1,7 +1,7 @@
 /* EVERY TEMPORARY FILE THIS REPOSITORY'S TOOLING WRITES GOES TO D:, NOT C:.
  *
  * Node writes temp files to os.tmpdir(), which on this machine is
- * C:\Users\aaron\AppData\Local\Temp - a different drive from the repository.
+ * the Temp folder inside the user profile on C: - a different drive from the repository.
  * The tooling leans on that directory hard: the blast-radius sandbox control
  * makes a temp git repo there, the release command builds its tarball there,
  * vitest caches there, and Playwright puts its artefacts there. C: is small

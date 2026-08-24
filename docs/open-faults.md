@@ -2552,7 +2552,7 @@ is a ruling on what free play offers a pre-ladder child, and the chooser matchin
   running out of room.** A full gauntlet came back with five failed gates whose numbers were
   either correct or unparseable, and the log carried the answer in plain words: `ENOSPC: no
   space left on device` from an ordinary writeFileSync. D: had 2.9 TB free at that moment and
-  the repository lives on D: — but `os.tmpdir()` on this machine is `C:\\Users\\aaron\\AppData\\Local\\Temp`, and
+  the repository lives on D: — but `os.tmpdir()` on this machine is the Temp folder inside the user profile on C:, and
   C: was down to about 5 GB. TEMP and TMP are per-USER settings on Windows, pointing inside
   the user profile, so they follow the account and not the working directory: moving the game
   to D: on 2026-08-22 moved the repository off the small drive and left every scratch file
@@ -2560,7 +2560,7 @@ is a ruling on what free play offers a pre-ladder child, and the chooser matchin
   git repo, the release command builds its tarball there, vitest caches there, Playwright
   writes artefacts there.
   **Both flakes in this entry are that shape.** The blast-radius control that failed makes a
-  temp directory; the vitest run that failed caches into one. Intermittent failure to write is
+  temp directory; the vitest run that failed caches into one. An intermittent failure to write is
   exactly what a nearly-full drive produces, and it is why neither reproduced alone minutes
   later.
   The earlier suspicion — concurrent council agents — is WITHDRAWN as the explanation. It was
@@ -2570,7 +2570,7 @@ is a ruling on what free play offers a pre-ladder child, and the chooser matchin
   npm script it is given; every child process inherits the environment, which is what makes
   one wrapper enough for a chain of thirty tools rather than an edit in each. `check`,
   `gauntlet`, `census` and `census:novelties` go through it. Proved rather than assumed: a
-  child reports `C:\\Users\\aaron\\AppData\\Local\\Temp` without the wrapper and `D:\\CVCGame\\.tmp` through it.
+  child reports the Temp folder inside the user profile on C: without the wrapper and `D:\\CVCGame\\.tmp` through it.
 - **WHAT WAS DONE INSTEAD OF A GUESS** The sandbox control now PRINTS the nested run's own
   output when it fails - the last 25 lines, the count of nested FAIL lines, and, when there
   is no FAIL line at all, that it did not finish, which distinguishes a crash or a kill from
