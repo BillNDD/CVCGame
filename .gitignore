@@ -97,5 +97,3 @@ tools/draft-sentences.json
 tools/corpus/excisions.json
 .stryker-tmp/
 
-# temp files for every heavy command, kept off the small drive (tools/run-with-tmp.mjs)
-.tmp/

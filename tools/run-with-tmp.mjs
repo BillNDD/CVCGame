@@ -28,7 +28,7 @@
  */
 import { mkdirSync } from "node:fs";
 import { spawnSync } from "node:child_process";
-import { resolve } from "node:path";
+import { resolve, dirname, basename, join } from "node:path";
 
 const target = process.argv[2];
 if (!target) {
@@ -36,7 +36,14 @@ if (!target) {
   process.exit(1);
 }
 
-const TMP = resolve(process.cwd(), ".tmp");
+/* BESIDE THE REPOSITORY, NEVER INSIDE IT. The first version of this put .tmp
+   in the working tree and a gauntlet immediately proved why that is wrong: the
+   blast-radius control builds a temp GIT REPOSITORY in the temp directory, and
+   nineteen of its files turned up inside this project - staged, no less. Two
+   gates caught it at once, which is what they are for: G17 refuses a stray
+   file and G23 refuses an undeclared one. A scratch directory that the tools
+   themselves scan is not a scratch directory. */
+const TMP = join(dirname(resolve(process.cwd())), basename(resolve(process.cwd())) + "-tmp");
 mkdirSync(TMP, { recursive: true });
 
 /* All three names, because the platforms disagree: Windows reads TEMP and TMP,
