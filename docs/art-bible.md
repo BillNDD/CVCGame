@@ -285,8 +285,13 @@ and the strip, so the two are not the same threshold and this line said stage un
 the cradle end — the core's centroid sits 2.5 px right and 3.5 px down of the box's centre,
 and the top-right is the tightest corner, so it is a seed with a tip and an off-centre eye
 rather than a bullseye. (At 16 × 20 the measured centroid was 1.50 right and 2.51 down; the
-1.5× ruling of 2026-08-24 scales the geometry, and the figures above are the lock's, to be
-re-measured on the render set that judges the new size) — a 1 px rim thinner than the tile's
+1.5× ruling of 2026-08-24 scales the geometry, and the art director measured the shipped
+result at +2.3 right and +3.3 down on every profile, with the shape scaled exactly — an IoU
+of 0.99 against the old silhouette normalised, the top-left tip still cut 35 % against about
+16 % at the other three corners.) **The 1 px rim and the 2 px light do NOT scale with the
+box.** That is what kept the lit ink's growth to 1.65× rather than 2.25× when the box grew by
+half: the core scales by area, the rim and the light by perimeter. Scaling them would put the
+object's ink beside the feedback sentence's, which is the comparison checkpoint 2 turns on — a 1 px rim thinner than the tile's
 3 px ring. Every ratio below is a TOKEN-PAIR WCAG figure computed from the two colours, not
 a value read off a render: **idle**, a `slot` core in a
 `stone` rim, within one value step of the sky (1.28 / 1.24 / 1.36:1 on the stops) — scenery;
