@@ -215,8 +215,8 @@
       "lifecycle": "lit at the utterance's schedule (voicepacks.js onAudio start: 50 ms before the first sample and the first clip's lead before any voice), idle when every node of the utterance - the clips and the hum's oscillators - has fired onended, counted to zero and keyed by the utterance's token, or when stopClips() ends it; never on the system-speech fallback, with sound off, or on a decode failure; a lost end (a closed context) lasts until the next stopClips(). Probed under headless Chromium 2026-08-23: onended fires at a natural end, on stop(), and 1,500 ms late through a context suspended that long.",
       "lock": {
         "box": {
-          "w": 16,
-          "h": 20
+          "w": 24,
+          "h": 30
         },
         "corner": {
           "top": 8,
@@ -225,17 +225,17 @@
         "rim": 1,
         "light": 2,
         "core": {
-          "left": 5,
-          "top": 8,
-          "w": 7,
-          "h": 7
+          "left": 8,
+          "top": 12,
+          "w": 11,
+          "h": 11
         },
         "absentBelow": 400,
         "transition": false,
         "radius": "70% 34% 46% 54%/64% 56% 42% 38%",
         "coreOffset": {
-          "x": 1.5,
-          "y": 2.5
+          "x": 2.5,
+          "y": 3.5
         },
         "mutedBorderStyle": "dashed",
         "mutedRim": "muted"
@@ -313,7 +313,7 @@
         "formula": "pixels within 30 of each electric token over the whole frame, counted on the checkpoint renders",
         "iphone13-390x664": 0.417,
         "galaxy-320x658": 0.512,
-        "note": "measured by the art director on the 87f9272 renders (the after pass, 2026-08-23), replacing the arithmetic estimate of 0.51 / 0.62; the budget is 1-3 % (bible 9.1) and this is the band plus the object together while a tile sounds"
+        "note": "SUPERSEDED 2026-08-24 by the 1.5x size ruling - these figures were measured on the 16 x 20 object and are kept only so the change has a before. Re-measure on the ef7f9c4+ set. measured by the art director on the 87f9272 renders (the after pass, 2026-08-23), replacing the arithmetic estimate of 0.51 / 0.62; the budget is 1-3 % (bible 9.1) and this is the band plus the object together while a tile sounds"
       },
       "checkpointBasis": "checkpoint 1 on greyscale renders of the reveal with a tile sounding, the sentence reveal, Build-it and the pre-ladder's ear prompt with the word; checkpoint 2 on colour renders of every look on the eight profiles, the census's Glowseed cell (the object against the page's own AudioContext) and tokens test 13",
       "checkpoints": [
@@ -355,7 +355,8 @@
         "soundOff": "\"Parent: sound is off\" on the strip's reserved marker line, the replay controls disabled, the object muted"
       },
       "silhouette": "an ovoid with one asymmetric tip at the top right (the tightest corner radius, 34% against the top left's 70%) and the core offset 1.5 CSS px right and 2.5 px down from the box's centre - NOT a circle with a centred core. The first draft was four concentric ovals, the core exactly centred in x and 2 px low in y, both caps 6 px at 1x: the art director failed checkpoint 1 on it as the eye / LED / bullseye form bible 17.1 forbids, and both verifiers measured the same thing. Order D says the step-6 pixel seed keeps this shape, so the radius and the offset are in the lock and read from the stylesheet by glowseedLockFromSources; a core back on either axis is refused by name.",
-      "againstTheDesign": "RECORDED RATHER THAN BURIED (the art director, checkpoint 2, 2026-08-23): in greyscale the object's lit rim and Build-it's arrangement ring are the SAME VALUE - rim mean 80.1 / 80.2 / 80.2 against ring mean 80.0 / 80.0 / 80.0. Value does NOT tell the two marks apart. What tells them apart is shape (an asymmetric egg against a flat rounded rectangle enclosing a letter), size (44-59x on the shared token), internal structure (a light-halo / dark-rim / cream-core / grey-dot ramp against a single flat band) and position (201-288 CSS px apart, different zones), checked by eye at 12x on the grey render. Any later claim that greyscale separates them by tone is false, and measured false."
+      "againstTheDesign": "RECORDED RATHER THAN BURIED (the art director, checkpoint 2, 2026-08-23): in greyscale the object's lit rim and Build-it's arrangement ring are the SAME VALUE - rim mean 80.1 / 80.2 / 80.2 against ring mean 80.0 / 80.0 / 80.0. Value does NOT tell the two marks apart. What tells them apart is shape (an asymmetric egg against a flat rounded rectangle enclosing a letter), size (44-59x on the shared token), internal structure (a light-halo / dark-rim / cream-core / grey-dot ramp against a single flat band) and position (201-288 CSS px apart, different zones), checked by eye at 12x on the grey render. Any later claim that greyscale separates them by tone is false, and measured false.",
+      "sizeRuling": "Owner-ruled 2026-08-24, on his own eye after the beta 27 device check: \"the seed should be twice as big\", then 1.5x on the measurement. TWICE would have quadrupled the object's ink to about 704-784 CSS px2, level with the miss sentence's 713-917 - and checkpoint 2 passed precisely because the object was the SMALLEST saturated thing on screen at 176-196. 1.5x (24 x 30) keeps it comfortably below the teaching text while being half again the size. The rim stays 1 px and the light 2 px, so ink grows with the perimeter rather than the area; the core scales with the box and keeps its offset OFF both axes (2.5 right, 3.5 down), which is the bullseye checkpoint 1 refused."
     }
   }
 }

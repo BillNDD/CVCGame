@@ -69,9 +69,9 @@ const CSS = VARS + `
    never a control. Absent on a stage under 400 px tall (the landscape
    phone's 85 px reveal stage has no sky for it; open-faults AG). A
    token-drawn placeholder for the pixel seed the garden's step draws. */
-.wq-glowseed{position:absolute;top:8px;right:14px;width:16px;height:20px;border-radius:70% 34% 46% 54%/64% 56% 42% 38%;
+.wq-glowseed{position:absolute;top:8px;right:14px;width:24px;height:30px;border-radius:70% 34% 46% 54%/64% 56% 42% 38%;
   border:1px solid ${C.stone};background:${C.slot};pointer-events:none;z-index:0}
-.wq-glowseed::after{content:"";position:absolute;left:5px;top:8px;width:7px;height:7px;border-radius:50%;background:${C.slot}}
+.wq-glowseed::after{content:"";position:absolute;left:8px;top:12px;width:11px;height:11px;border-radius:50%;background:${C.slot}}
 .wq-glowseed-lit{border-color:${C.purpleStructural};box-shadow:0 0 0 2px ${C.purpleElectric}}
 .wq-glowseed-lit::after{background:${C.cyanElectric}}
 /* muted (sound off) takes a SHAPE, not only a fill: the dashed rim the used

@@ -598,7 +598,7 @@ replay rule amended; doc-truth rule 12 reading section 7's table too. Counts mov
 `g1_token_tests` 12 → 13, `g20_tests_mapped` 412 → 423, `census_novelty_cells` 84 → 92,
 `census_novelty_controls` 15 → 16, `census_cells` 683 → 692. Measured on the first renders
 (`D:/CVCGame-ops/art/step2/`): the object at (290, 8) on the Galaxy and (360, 8) on the
-iPhone 13 from the stage's corner, 16 × 20; every zone's height the same across idle, lit
+iPhone 13 from the stage's corner, 24 × 30 since the owner's 1.5× ruling of 2026-08-24 (16 × 20 before it); every zone's height the same across idle, lit
 and muted (62 / 346.5 / 70 / 179.5 on the Galaxy); lit by the real audio events in headless
 Chromium; absent on the landscape phone.
 

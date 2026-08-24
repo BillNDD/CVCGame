@@ -185,12 +185,12 @@ if (process.argv.includes("--self-test")) {
      literal, a planted 3 px light and a planted transition refused */
   const seed = glowseedLockFromSources();
   ok.push(["the Glowseed lock reader finds the box, the corner, the rim, the light, the core, the silhouette and the absent-below height in the stylesheet, at their literals",
-    JSON.stringify(seed) === JSON.stringify({ box: { w: 16, h: 20 }, corner: { top: 8, right: 14 }, rim: 1, light: 2, core: { left: 5, top: 8, w: 7, h: 7 },
-      radius: "70% 34% 46% 54%/64% 56% 42% 38%", coreOffset: { x: 1.5, y: 2.5 }, mutedBorderStyle: "dashed", mutedRim: "muted", absentBelow: 400, transition: false })]);
+    JSON.stringify(seed) === JSON.stringify({ box: { w: 24, h: 30 }, corner: { top: 8, right: 14 }, rim: 1, light: 2, core: { left: 8, top: 12, w: 11, h: 11 },
+      radius: "70% 34% 46% 54%/64% 56% 42% 38%", coreOffset: { x: 2.5, y: 3.5 }, mutedBorderStyle: "dashed", mutedRim: "muted", absentBelow: 400, transition: false })]);
   /* the silhouette: a core put back on either axis is refused BY NAME (the
      bullseye checkpoint 1 refused), a changed radius is refused, and a muted
      rim that stops being dashed is refused */
-  const centred = glowseedLockFromSources(readFileSync("app/src/wq-css.js", "utf8").replace('.wq-glowseed::after{content:"";position:absolute;left:5px;top:8px;width:7px;height:7px', '.wq-glowseed::after{content:"";position:absolute;left:3px;top:8px;width:8px;height:7px'));
+  const centred = glowseedLockFromSources(readFileSync("app/src/wq-css.js", "utf8").replace('.wq-glowseed::after{content:"";position:absolute;left:8px;top:12px;width:11px;height:11px', '.wq-glowseed::after{content:"";position:absolute;left:6px;top:12px;width:10px;height:11px'));
   ok.push(["a core back on the object's vertical axis is refused by name", centred.coreOffset.x === 0 && glowseedDrift(real.families.glowseed.lock, centred).some((p) => p.includes("vertical axis") && p.includes("bullseye"))]);
   const roundish = glowseedLockFromSources(readFileSync("app/src/wq-css.js", "utf8").replace("border-radius:70% 34% 46% 54%/64% 56% 42% 38%", "border-radius:50% 50% 50% 50%/55% 55% 45% 45%"));
   ok.push(["a silhouette rounded back to four concentric ovals is refused, naming both radii", roundish.radius === "50% 50% 50% 50%/55% 55% 45% 45%" && glowseedDrift(real.families.glowseed.lock, roundish).some((p) => p.includes("lock.radius is") && p.includes("50% 50%"))]);

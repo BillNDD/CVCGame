@@ -2476,3 +2476,74 @@ is a ruling on what free play offers a pre-ladder child, and the chooser matchin
   ends the audio and moves on cleanly, leaving no state behind. A test drives a sentence to its
   reveal, fires skip, and asserts both; another asserts it stays dark during the attempt; and
   the app-mutant family gains one that reverts the condition, so the guard can fail.
+
+## AK. The render harness's notes disagree with its own renders — opened 2026-08-24
+
+- **Where** `D:/CVCGame-ops/shots-glowseed.tmp.mjs` — the harness writes a DOM probe's reading
+  (`seedRead`, which returns `data-wq-glowseed`) into `hashes.json`'s notes, and takes the
+  screenshot in a separate step. The two are sampled at different moments.
+- **What it costs** The note and the picture filed beside it can say different things, and the
+  note is the thing a later reader quotes. Found by the art director on 2026-08-24 while
+  judging the ef7f9c4 set: for `pixel7-buildit-prompting` the notes record `look=idle`, the
+  render is BYTE-IDENTICAL to the previous set's, and its pixels show the seed unmistakably
+  LIT — halo, purple rim, cyan core, 2,688 ink pixels at 3.01:1. The art is right and the note
+  is wrong. The probe races the prompt: it reads after the audio has ended while the
+  screenshot caught the moment it was playing, or the reverse.
+- **Why it matters more than one stale line** A judgement that cites a note rather than a
+  render is citing something that has now contradicted its own evidence. Twice this month a
+  chair has been asked to trust these notes. This is exactly the shape of the faults this
+  project keeps finding — a measurement that is true of something other than the thing it is
+  filed against.
+- **A second, related one from the same judgement** The `*-reveal-lit-tile-sounding` renders
+  capture a DIFFERENT tile between runs (the diff is a clean ring around a different letter),
+  so that shot is not a stable baseline and a real tile-ring regression could hide inside the
+  noise. The harness does not pin which tile is sounding when it shoots.
+- **What done means** The probe reads and the screenshot is taken at the SAME moment — one
+  evaluate that returns the state and then shoots without an await between them, or the note
+  is derived from the render rather than from the DOM. The sounding-tile shot pins its tile.
+  And a note that cannot be tied to its render is not written at all, since a missing note is
+  honest and a wrong one is not.
+
+## AL. `C.muted` now carries two unrelated meanings — opened 2026-08-24
+
+- **Where** `reference/word-quest.jsx`'s palette. `C.muted` is a TEXT token — the colour of
+  `.wq-lbl` and `.wq-help`, the grown-up strip's own labels, warranted at 5.12:1 on white.
+  Since 2026-08-24 it is also the Glowseed's sound-off rim, on the sky, at 3.02:1 measured.
+- **What it costs** Two unrelated senses of one word share a token. If anyone later re-tunes
+  `C.muted` for text legibility on the pale strip — an ordinary, reasonable thing to do — the
+  sound-off rim moves with it silently, on a ground where it already sits at 3.02:1 and has
+  only just stopped being invisible. Nothing would report it: the provenance lock records the
+  token's NAME, not its value, so a changed hex passes.
+- **Found by** the art director, judging the change that introduced it (2026-08-24), and named
+  as "the same shape of fault that just cost a beta".
+- **What done means** Either the rim gets its own token whose warrant is the sky rather than
+  white, or the lock records the muted rim's VALUE as well as its name so a re-tune is refused
+  by the gate that already reads it. The second is cheaper and closes the silent half.
+
+## AM. The check goes red at random under load — opened 2026-08-24
+
+- **What happens** `npm run check` reports a failure that does not reproduce. Twice in one
+  session on 2026-08-24, in different places:
+  - `tools/blast-radius.mjs --self-test` reported "96 passed, 1 failed" inside the check —
+    the failing control being the one that runs the tool in a sandbox working directory,
+    "and still passes its own controls there, rather than going red for the environment".
+    Run directly, immediately afterwards, twice: 97 passed, 0 failed.
+  - `tests/names.test.js` "1: home, the chooser, the corner, a session and a build" failed
+    inside the check. Run alone: 3 passed. The whole vitest suite run on its own straight
+    after: 22 files, exit 0.
+- **What it costs, and why it is a fault rather than an annoyance** A gate that goes red at
+  random teaches everyone who sees it — person or agent — to treat red as noise and re-run.
+  That is precisely how a REAL red gets waved through, and this repository's whole method
+  rests on a red check blocking a change (E7). It has already cost something concrete: on
+  2026-08-24 a commit was made on a red check because the failure was assumed to be the flake
+  it turned out to be. Assuming correctly is not the same as checking, and the habit is the
+  damage.
+- **What is suspected, not proven** Both failures are in the parts of the check that spawn
+  their own processes or touch the filesystem while ~30 other tools run beside them. Neither
+  has been reproduced deliberately, and neither cause is established. That is the first piece
+  of work, not a conclusion to build a fix on.
+- **What done means** Each flake is reproduced ON PURPOSE — under the same contention, until
+  it fails on demand — and then fixed at its cause rather than by a retry, since a retry
+  around a flake is a gate that cannot fail. Until a cause is known, the check reports WHICH
+  step failed in a form a reader cannot mistake for a real failure. The owner has a queued
+  twelve-point deflake programme; this entry is the evidence for opening it.

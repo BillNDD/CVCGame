@@ -281,10 +281,12 @@ Build-it — not home, the done screens or the corner — and is absent on a VIE
 tall (the landscape phone, open-faults AG) — the rule is a `max-height` media query, which
 asks the window and not the stage; a stage is always shorter than its window by the header
 and the strip, so the two are not the same threshold and this line said stage until
-2026-08-23. A 16 × 20 px ovoid with the core offset toward
-the cradle end — measured on the shipped renders, the core's centroid sits 1.50 px right and
-2.51 px down of the box's centre, and the top-right is the tightest corner, so it is a seed
-with a tip and an off-centre eye rather than a bullseye — a 1 px rim thinner than the tile's
+2026-08-23. A 24 × 30 px ovoid with the core offset toward
+the cradle end — the core's centroid sits 2.5 px right and 3.5 px down of the box's centre,
+and the top-right is the tightest corner, so it is a seed with a tip and an off-centre eye
+rather than a bullseye. (At 16 × 20 the measured centroid was 1.50 right and 2.51 down; the
+1.5× ruling of 2026-08-24 scales the geometry, and the figures above are the lock's, to be
+re-measured on the render set that judges the new size) — a 1 px rim thinner than the tile's
 3 px ring. Every ratio below is a TOKEN-PAIR WCAG figure computed from the two colours, not
 a value read off a render: **idle**, a `slot` core in a
 `stone` rim, within one value step of the sky (1.28 / 1.24 / 1.36:1 on the stops) — scenery;
