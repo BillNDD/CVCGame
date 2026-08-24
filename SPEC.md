@@ -615,12 +615,22 @@ screen reader announces the control as soon as it can be used. If the grown-up h
 another control while the wait ran, or the early-exit dialog is open, their choice stands.
 
 The grown-up can end the reveal early. A "⏭ skip" control sits in the grown-up strip beside
-the replay control, active only in the feedback phase, and takes the same 450 ms pointer hold
-as the grading controls; a keyboard or assistive technology operates it directly. The wait
-exists so the child hears the word, so a child's tap on the skip does nothing. The held press
-does exactly what the advance control does when it comes alive: the reveal falls silent at
-once and the next word — or the session end — follows. The slot is reserved in every phase,
-disabled outside feedback, so no control moves under a finger.
+the replay control, active in a REVEAL of either kind — a word's feedback phase, or a
+sentence's reveal — and takes the same 450 ms pointer hold as the grading controls; a
+keyboard or assistive technology operates it directly. The wait exists so the child hears the
+word, so a child's tap on the skip does nothing. The held press does exactly what the advance
+control does when it comes alive: the reveal falls silent at once and the next word — or the
+session end — follows. On a sentence it does what the green control does, ending the sentence
+and paying back the turn it took, and never merely advancing the word queue underneath a
+sentence still on the screen. The slot is reserved in every phase, disabled in either
+ATTEMPT, so no control moves under a finger and no child is cut off before their turn.
+
+The sentence half was owner-ruled 2026-08-24, on open fault AJ. Until then the control was
+tied to the word's feedback phase alone, and a sentence sets the phase to its own value, so
+the control was dark for that whole mode — found by the owner on a real phone: "when a
+paragraph is read you can't skip". Nobody was trapped, since the green control always ended
+the sentence; it was a control that could never be used, with nothing to say that was
+meant.
 
 Done. This screen shows a trophy, the three counters, and the accuracy. A praise line has three
 steps: 90 percent or more, 70 percent or more, and below 70 percent. A level-up shows in the trophy zone, not as an
@@ -1216,7 +1226,9 @@ sentences are made of the words that level teaches.
    label "Read this sentence" and the rail prompt "Read the sentence out loud! 📣" (the
    child's name in front when one is set) — the word prompt's exact shape. The child reads
    it aloud. The three grade controls are live and are the ONLY way forward: no advance
-   control exists during the attempt and there is no separate skip — the mark is the path,
+   control exists during the attempt and there is no separate skip THERE — the skip is dark
+   for the whole attempt, and comes alive only in the reveal that follows (section 6, ruled
+   2026-08-24); during the attempt the mark is the path,
    exactly as "not yet" is for a stuck child on a word. The words are plain text during the
    attempt: no tap targets and no tiles, because a scaffold offered mid-attempt would be
    the app helping before the child has tried. S2 extends from the word to the sentence:

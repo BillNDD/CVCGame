@@ -142,6 +142,23 @@ vi.mock("../app/src/storage.js", () => ({
   loadState: vi.fn(async () => null),
   saveState: vi.fn(async () => true),
 }));
+/* THE PLAYER, NOT THE LIGHT. The prompt has to be asserted where it actually
+   happens: the Glowseed cannot see it in jsdom (the suites that mock
+   voicepacks fire onScheduled with no audio events at all, so the object
+   never leaves idle and an assertion on it passes either way - the council's
+   before pass, 2026-08-24). So this mock records the PLANS handed to the
+   player, and the tests read those. */
+const played = [];
+vi.mock("../app/src/voicepacks.js", async (real) => {
+  const mod = await real();
+  return { ...mod,
+    unlockVoice: vi.fn(),
+    stopClips: vi.fn(),
+    playClips: vi.fn((plan) => { played.push(plan.join(",")); }),
+    speakVoice: vi.fn((kind, word, i, enabled, fallback, onScheduled) => { if (onScheduled) onScheduled(0, []); }),
+    onAudio: () => () => {},
+  };
+});
 import { saveState as mockSave, loadState as mockLoad } from "../app/src/storage.js";
 const { default: App } = await import("../app/src/App.jsx");
 const flush = async (ms = 0) => act(async () => { await vi.advanceTimersByTimeAsync(ms); });
@@ -172,6 +189,34 @@ describe("the ladder in the app", () => {
     for (const letter of "sat") expect(word.textContent.includes(letter), `the question never prints "${letter}"`).toBe(false);
     expect(document.body.textContent.includes("Read this word")).toBe(false);
   });
+  it("a pre-level item asks its own question - on arrival, and on the NEXT item, never the one just finished", async () => {
+    /* OPEN FAULT AH, closed 2026-08-24. The screen asked "What word do the
+       sounds make?", showed an ear, and played nothing: the question was
+       posed and never asked, and the only way to hear it was an adult
+       pressing a speaker labelled "Hear it AGAIN". Found by the owner on a
+       real phone. This asserts on the PLAYER, because the light cannot see it
+       here (see the mock above), and it asserts the ITEM rather than the
+       index: reading preQ[preQi] on entry throws on undefined, and reading it
+       on advance plays the item just finished. */
+    played.length = 0;
+    render(createElement(App));
+    await flush(0);
+    fireEvent.click(screen.getByLabelText("Begin Session"));
+    await flush(0);
+    expect(played.length, "the first item asks itself on arrival").toBeGreaterThan(0);
+    const first = played[0];
+    expect(first.length, "and it asked something, not nothing").toBeGreaterThan(0);
+    /* grade it and advance: the prompt that follows is the NEXT item's */
+    const hold = async (name) => { const b = screen.getByLabelText(name);
+      fireEvent.pointerDown(b); await flush(500); fireEvent.pointerUp(b); await flush(0); };
+    await hold("got it");
+    await flush(4000);
+    played.length = 0;
+    const advance = screen.queryByLabelText("Next") || screen.queryByLabelText("Next word") || screen.queryByLabelText("Finish!");
+    if (advance) { fireEvent.click(advance); await flush(0); }
+    if (played.length) expect(played[0], "the next item's prompt, not the one just graded").not.toBe(first);
+  });
+
   it("only the adult's hold records a pre result, into state.pre alone (S1)", async () => {
     render(createElement(App));
     await flush(0);

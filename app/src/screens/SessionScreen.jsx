@@ -268,7 +268,11 @@ export default function SessionScreen({
             would be the child skipping their own teaching moment; the slot
             is reserved in every phase so no control moves under a finger
             (A2-002). */}
-        <HoldButton onFire={skipReveal} disabled={phase !== "feedback"} color={C.ink2} label="⏭ skip" />
+        {/* Live in a REVEAL, whichever kind: the word's feedback phase, or a
+            sentence's reveal (open fault AJ, owner-ruled 2026-08-24). Dark
+            during either attempt, so it can never cut a child off before they
+            have had their turn. */}
+        <HoldButton onFire={skipReveal} disabled={sentence ? sentencePhase !== "reveal" : phase !== "feedback"} color={C.ink2} label="⏭ skip" />
         {/* THE SENTENCE IS GRADED WITH THESE SAME CONTROLS (owner-ruled
             2026-08-14, open-faults N): live during its ATTEMPT, marking the
             SENTENCE — a grade that decides only what the app says next and is

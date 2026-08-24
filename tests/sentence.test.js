@@ -371,6 +371,34 @@ describe("the sentence inside a session", () => {
     await flush(0);
   };
 
+  it("skip is live in a sentence's REVEAL, dark in its attempt, and ends the sentence cleanly", async () => {
+    /* OPEN FAULT AJ, owner-ruled 2026-08-24 after he found it on a real phone:
+       "when a paragraph is read you can't skip". Skip was wired to the WORD's
+       feedback phase, and a sentence sets the phase to "sentence", so it was
+       dark for that whole mode.
+       THE HALF THAT MATTERS: the button's state and skipReveal's own guard had
+       to move TOGETHER. Changing only the button gives a control that lights,
+       takes a 450 ms hold, and does nothing - worse than the fault it fixes
+       (the council's before pass). And it must END the sentence rather than
+       call next(), or the screen keeps drawing the sentence over the next word
+       with a second read still queued behind it. */
+    await openSentenceFreePlay();
+    expect(sentenceEl(), "a sentence is up").toBeTruthy();
+    expect(screen.getByLabelText("skip").disabled, "dark in the attempt: the child has not had their turn").toBe(true);
+    await markSentence("got it");
+    expect(screen.getByLabelText("skip").disabled, "live once the reveal has started").toBe(false);
+    const was = sentenceEl().textContent;
+    const skip = screen.getByLabelText("skip");
+    fireEvent.pointerDown(skip); await flush(500); fireEvent.pointerUp(skip);
+    await flush(60);
+    /* In sentence free play the NEXT item is another sentence, so the test is
+       that this one ended and a fresh attempt began - not that the screen is
+       empty. Both halves matter: a next() would have left the old sentence
+       drawn with the queue moved underneath it. */
+    expect(sentenceEl().textContent, "this sentence ended and another began").not.toBe(was);
+    expect(screen.getByLabelText("skip").disabled, "and the new one is an attempt again, so skip is dark").toBe(true);
+  });
+
   it("8 (free play): opens on a sentence IN THE ATTEMPT, counts sentences, and its advance names one", async () => {
     await openSentenceFreePlay();
     expect(sentenceEl()).toBeTruthy();

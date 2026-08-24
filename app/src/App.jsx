@@ -192,6 +192,13 @@ export default function App() {
      graded). The attempt phase is what open-faults N was opened about. */
   const [sentencePhase, setSentencePhase] = useState(null);
   const sentenceGraded = useRef(false);
+  /* Is a sentence's reveal running, and has nothing ended it yet? A REF, not
+     state, because the skip hold's timer closes over the render it began in
+     and must read the fact as it is when it MATURES - the same reason
+     advanceLive is a ref. Two live advance controls now share this reveal
+     (the green one and skip), and endSentence has no double-fire guard of its
+     own; this is it (the council's before pass, 2026-08-24). */
+  const sentenceRef = useRef(null);
   const [shownSentences, setShownSentences] = useState([]);
   const [openWord, setOpenWord] = useState(null);
   const [openAt, setOpenAt] = useState(null);   // which occurrence is open; null = the first
@@ -848,6 +855,7 @@ export default function App() {
     unlockVoice();
     const praiseIdx = SENTENCE_PRAISE[Math.floor(Math.random() * SENTENCE_PRAISE.length)];
     setSentencePhase("reveal");
+    sentenceRef.current = { live: true };          // skippable from here until something ends it
     playSentenceReveal(sentence, openWord, sentenceLead(result, praiseIdx));
   }
   /* Point 3 and point 4: a tapped word shows its pieces SILENTLY, and opening
@@ -864,6 +872,7 @@ export default function App() {
      items already follow, and it means a grown-up never waits out a sentence
      to move on. */
   function endSentence() {
+    sentenceRef.current = null;                    // whoever got here first, the reveal is over
     hush(); stopClips(); clearPops();
     clearTimeout(closeTimer.current);
     setSentence(null); setOpenWord(null);
@@ -997,6 +1006,34 @@ export default function App() {
      already does — the silence, the retry queue, the finish — happens
      through the same next(). */
   function skipReveal() {
+    /* A SENTENCE'S REVEAL IS A REVEAL TOO (open fault AJ, owner-ruled
+       2026-08-24). Skip was wired to the word's feedback phase, and a sentence
+       sets the phase to "sentence", so the control was dark for that whole
+       mode - found by the owner on the phone: "when a paragraph is read you
+       can't skip". Its job is the same in both places: an adult ending a
+       teaching moment a child has had enough of.
+
+       THE GUARD MOVES WITH THE PROP, or the fix is worse than the fault. The
+       council's before pass caught exactly that: change only the button's
+       disabled state and the control lights, the 450 ms hold completes, and
+       this early return swallows it - "it is dark" becomes "I held it and
+       nothing happened".
+
+       AND IT ENDS THE SENTENCE, NEVER next(). next() would leave `sentence`,
+       `openWord` and `sentencePhase` set while the word queue advanced
+       underneath, so the screen would keep drawing the sentence over the next
+       word - and closeTimer would still be armed, reading the sentence a
+       second time over it. endSentence is what the green control already
+       calls, and it clears all of that. The ref, not the state, decides:
+       the hold's timer closes over the render it started in, so a child
+       tapping the green control mid-hold would otherwise fire this with a
+       stale phase (the before pass again). */
+    if (sentenceRef.current) {
+      if (!sentenceRef.current.live) return;
+      sentenceRef.current.live = false;
+      endSentence();
+      return;
+    }
     if (phase !== "feedback") return;
     clearTimeout(advanceTimer.current);
     clearTimeout(advanceBackstop.current);

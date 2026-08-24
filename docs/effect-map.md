@@ -8,7 +8,7 @@ Per-test rows carry the test's own sentence, which in this project IS the
 Given/When/Then effect. The requirement, oracle, platform, mutant family, evidence
 and known limits are declared per FILE, in the tool, where they stay true.
 
-Totals: 437 it() SITES across 22 files, plus 18 gates that are not test files.
+Totals: 439 it() SITES across 22 files, plus 18 gates that are not test files.
 
 A site inside a loop or a table runs many times, so these rows describe more tests than they number: Vitest executes 330. The rows count the places behaviour is asserted.
 
@@ -427,7 +427,7 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 2 | every control is named in plain words | 2: the done screens, the pre-ladder's first rung, and the way home from a crash |
 | 3 | every control is named in plain words | 3 (control): a hold named the old way, a bare emoji button, and a label round an input are each refused |
 
-## tests/pre.test.js — 15 tests (G10)
+## tests/pre.test.js — 16 tests (G10)
 
 - **Requirement protected:** SPEC section 12 item 8: the pre-level ladder - its five rungs, sessions, promotions, and the fresh-saves-only migration
 - **Independent oracle:** Literal rung rosters, literal boundary counts, and the shipped sound inventory
@@ -452,8 +452,9 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 11 | migration v5 and the fresh-saves-only ruling | a corrupted preLevel fails toward teaching, never past it |
 | 12 | migration v5 and the fresh-saves-only ruling | keeps pre boxes and word boxes in separate rooms — the letters a and i collide otherwise |
 | 13 | the ladder in the app | a fresh install boots to Pre 1 and Begin serves the ear, not a word |
-| 14 | the ladder in the app | only the adult's hold records a pre result, into state.pre alone (S1) |
-| 15 | the ladder in the app | the grown-up's pre control jumps the ladder and Words leaves it |
+| 14 | the ladder in the app | a pre-level item asks its own question - on arrival, and on the NEXT item, never the one just finished |
+| 15 | the ladder in the app | only the adult's hold records a pre result, into state.pre alone (S1) |
+| 16 | the ladder in the app | the grown-up's pre control jumps the ladder and Words leaves it |
 
 ## tests/properties.test.js — 10 tests (G2)
 
@@ -591,7 +592,7 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 5 | buildSession and the next level | brings a graded next-level word back for review |
 | 6 | buildSession and the next level | caps above-level review at 2 words a session |
 
-## tests/sentence.test.js — 23 tests (G10)
+## tests/sentence.test.js — 24 tests (G10)
 
 - **Requirement protected:** SPEC section 12 points 2 to 6: where a sentence falls in a session, what it plays, what a tap does, and what ends it
 - **Independent oracle:** The literal clip plan and the level's own word lists
@@ -613,19 +614,20 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 8 | the sentence inside a session | 4: exactly one word is ever open, and tapping the open one closes it |
 | 9 | the sentence inside a session | 5: the sentence reads again to close, and a tap interrupts that read |
 | 10 | the sentence inside a session | 6: after the mark the grown-up ends it, nothing has to finish first, and no result is recorded |
-| 11 | the sentence inside a session | 8 (free play): opens on a sentence IN THE ATTEMPT, counts sentences, and its advance names one |
-| 12 | the sentence inside a session | 9 (free play): sounds out the LONGEST word, in tiles, and never the level's |
-| 13 | the sentence inside a session | 9b: the longest word is a pure rule, and it is not the first word |
-| 14 | the sentence inside a session | 10 (free play): the controls are live for the SENTENCE, and no mark records anything |
-| 15 | the sentence inside a session | 11 (free play): never runs out — the pool is dealt again from the top |
-| 16 | the sentence inside a session | 12: the open word's bent-sound note shows in the reveal — and only there |
-| 17 | the sentence inside a session | 7b: a miss just before a sentence still earns the second look |
-| 18 | the sentence inside a session | 7c (control): a miss with no sentence in the way earns the same second look |
-| 19 | the sentence inside a session | 7: no sentence repeats inside one session |
-| 20 | free play deals from data that can be empty | 13: an empty pool turns the tap back rather than breaking the app |
-| 21 | free play deals from data that can be empty | 16: a repeated word opens at ONE position - the tapped one |
-| 22 | free play deals from data that can be empty | 15: the grid's right column works - Any sentence opens a sentence, Build any word opens a build |
-| 23 | free play deals from data that can be empty | 14: the chooser drops the sentence row where there is nothing to serve — and keeps it where there is |
+| 11 | the sentence inside a session | skip is live in a sentence's REVEAL, dark in its attempt, and ends the sentence cleanly |
+| 12 | the sentence inside a session | 8 (free play): opens on a sentence IN THE ATTEMPT, counts sentences, and its advance names one |
+| 13 | the sentence inside a session | 9 (free play): sounds out the LONGEST word, in tiles, and never the level's |
+| 14 | the sentence inside a session | 9b: the longest word is a pure rule, and it is not the first word |
+| 15 | the sentence inside a session | 10 (free play): the controls are live for the SENTENCE, and no mark records anything |
+| 16 | the sentence inside a session | 11 (free play): never runs out — the pool is dealt again from the top |
+| 17 | the sentence inside a session | 12: the open word's bent-sound note shows in the reveal — and only there |
+| 18 | the sentence inside a session | 7b: a miss just before a sentence still earns the second look |
+| 19 | the sentence inside a session | 7c (control): a miss with no sentence in the way earns the same second look |
+| 20 | the sentence inside a session | 7: no sentence repeats inside one session |
+| 21 | free play deals from data that can be empty | 13: an empty pool turns the tap back rather than breaking the app |
+| 22 | free play deals from data that can be empty | 16: a repeated word opens at ONE position - the tapped one |
+| 23 | free play deals from data that can be empty | 15: the grid's right column works - Any sentence opens a sentence, Build any word opens a build |
+| 24 | free play deals from data that can be empty | 14: the chooser drops the sentence row where there is nothing to serve — and keeps it where there is |
 
 ## tests/serviceworker.test.js — 5 tests (G14)
 

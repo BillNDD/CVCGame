@@ -3,7 +3,7 @@ import {
   buildPreSession, checkPrePromotion, freshWordState, applyResult,
   soundIdFor, soundIdsFor, PRAISE, ADVANCE_GUARD_MS,
 } from "@engine";
-import { playClips, stopClips } from "./voicepacks.js";
+import { playClips, stopClips, unlockVoice } from "./voicepacks.js";
 
 /* THE PRE-LEVEL SESSION LOOP (owner-ruled 2026-08-15), in its own hook so the
    App component stays under the G6 complexity ceiling and the ladder reads as
@@ -31,10 +31,29 @@ export default function usePreSession({ stateRef, setState, persist, setScreen, 
     it.length === 1
       ? [soundIdFor(it)]
       : soundIdsFor(it).filter((id) => id !== "d:silent").flatMap((id, i) => (i ? ["seam2", id] : [id]));
-  const playPrePrompt = () => {
+  /* THE PROMPT ASKS ITSELF (open fault AH, closed 2026-08-24). The paragraph
+     at the top of this file has said since the ladder shipped that the prompt
+     plays "on arrival and on the speaker at any moment" - and nothing ever
+     called it on arrival. A child met "What word do the sounds make?", an ear,
+     and silence, with the only way to hear the question being an adult
+     pressing a speaker labelled "Hear it AGAIN". Found by the owner on a real
+     phone in the first minute of the beta 27 device check; no gate could see
+     it, because every gate asks what is DRAWN and none asks whether the screen
+     asks its question.
+
+     IT TAKES THE ITEM, NEVER THE INDEX. Reading preQ[preQi] out of the closure
+     is wrong twice over, and the council's before pass named both before a
+     line was written: on entry preQ is still [] from this render, so
+     prePromptPlan(undefined) throws INSIDE A CLICK HANDLER - a white screen
+     and a lost session - and on advance the index has not yet moved, so it
+     would play the item the child has just finished. Silent, plausible, and
+     it would teach the wrong sound. */
+  const playPromptFor = (item) => {
+    if (!item) return;                     // nothing is not an item
     stopClips();
-    playClips(prePromptPlan(preQ[preQi]), stateRef.current.settings.sound, noteFallback);
+    playClips(prePromptPlan(item), stateRef.current.settings.sound, noteFallback);
   };
+  const playPrePrompt = () => playPromptFor(preQ[preQi]);
 
   function beginPre() {
     const s = structuredClone(stateRef.current);
@@ -43,6 +62,14 @@ export default function usePreSession({ stateRef, setState, persist, setScreen, 
     setPrePhase("ready"); setPreGrade(null); setPreAdvanceReady(true);
     preGradedRef.current = null; preResultsRef.current = {}; setPreDone(null);
     setScreen("pre");
+    /* The press of "Begin Session" is the gesture the browser wants, so the
+       context is unlocked here as showSentence does it - without this the very
+       first prompt of a fresh install can fall back instead of playing,
+       because playClips does not CREATE a context, it refuses without one
+       (the before pass, 2026-08-24). Then the first item asks itself, from
+       the local q rather than from state this render cannot see yet. */
+    unlockVoice();
+    playPromptFor(q[0]);
   }
 
   function gradePre(result) {
@@ -76,6 +103,7 @@ export default function usePreSession({ stateRef, setState, persist, setScreen, 
     if (preQi + 1 < preQ.length) {
       setPreQi(preQi + 1); setPrePhase("ready"); setPreGrade(null);
       preGradedRef.current = null; setPreAdvanceReady(true);
+      playPromptFor(preQ[preQi + 1]);   // the NEXT item, never the one just finished
       return;
     }
     const s = structuredClone(stateRef.current);
