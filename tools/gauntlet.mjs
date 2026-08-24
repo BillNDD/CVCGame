@@ -202,6 +202,22 @@ function report(gate, command, ok, counts, extra = {}) {
    very same suite G1 runs, so G1 now runs it once WITH --coverage and G6
    reads the saved output. One full-suite run fewer per gauntlet, identical
    counts, and the evidence still carries both gates by name. */
+/* WHAT A RED STEP SHOWS. This printed the last FIFTEEN lines, and a vitest
+   failure block is twenty to forty - so on a --coverage run the window held
+   the coverage table and nothing else. On 2026-08-24 that cost two hours: the
+   evidence file recorded failed=3 while the visible tail showed one arbitrary
+   fragment, and the fault was diagnosed from the fragment rather than from the
+   number. A reporter that cannot show a failure is not a reporter. It now
+   finds vitest's own "Failed Tests" section when there is one, and otherwise
+   shows a window wide enough to hold a failure whole. */
+function failingPart(out) {
+  const lines = String(out).split(String.fromCharCode(10));
+  const bare = (s) => s.replace(new RegExp(String.fromCharCode(27) + "\[[0-9;]*m", "g"), "");
+  const at = lines.findIndex((l) => /Failed Tests/.test(bare(l)));
+  if (at >= 0) return lines.slice(at, at + 120).join(String.fromCharCode(10));
+  return lines.slice(-80).join(String.fromCharCode(10));
+}
+
 function step(gate, command, counts = [], env = {}, required = [], opts = {}) {
   /* Refuse a malformed call before running anything: a stray argument slid
      into the G24 call on 2026-08-17 (7d512b3) and sat unnoticed until the
@@ -258,7 +274,7 @@ function step(gate, command, counts = [], env = {}, required = [], opts = {}) {
   }
   if (absent.length) parts.push(`MISSING CHECKS: ${absent.join(" | ")} <-- FAIL`);
   report(gate, command, ok, parts.join(", "), { metrics, missing: absent, required , durationMs });
-  if (!ok) console.log("---- output tail ----\n" + out.split("\n").slice(-15).join("\n"));
+  if (!ok) console.log("---- output tail ----" + String.fromCharCode(10) + failingPart(out));
   return out;
 }
 

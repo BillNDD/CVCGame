@@ -2520,7 +2520,53 @@ is a ruling on what free play offers a pre-ladder child, and the chooser matchin
   white, or the lock records the muted rim's VALUE as well as its name so a re-tune is refused
   by the gate that already reads it. The second is cheaper and closes the silent half.
 
-## AM. The check goes red at random under load — opened 2026-08-24
+## AM. A test timeout poisons React's act scope, and one red becomes seventy — opened 2026-08-24, cause found the same day
+
+- **THE MECHANISM, reproduced on demand by the council's before pass.** A test that exceeds
+  vitest's timeout is aborted **mid `act(async …)`**. React increments its act scope depth on
+  entry and pops it only when the returned thenable settles, so an aborted async test leaves
+  the depth non-zero — and from then on every `render` in that file takes React's synchronous
+  act path, which flushes only when the depth is zero. **The work is queued and never
+  committed.** The page stays empty, and the failure surfaces somewhere else entirely: in this
+  case a `TypeError: Cannot read properties of null` from a `document.querySelector` three
+  tests downstream, which is where the diagnosis went hunting.
+  One timeout produced **70 failed tests across 5 files** in a loaded run, with React's own
+  "You seem to have overlapping act() calls" on stderr in four of them. The amplification is
+  the fault; the timeout is only the trigger.
+- **THE REAL DEFECT IS A MARGIN.** `tests/names.test.js` test 1 runs 1,271 ms alone and
+  **3,423 ms in the full suite unloaded** — against a 5,000 ms default. A guard at 1.46x on a
+  twelve-core machine is a coin toss. Under contention it goes over.
+- **FIXED** `vitest.config.mjs` sets `testTimeout: 60000`, with every measurement written into
+  the comment beside it, because the deflaking rule's line is "never widen a timeout WITHOUT
+  MEASUREMENT" and the measurements are the licence. Worst async test observed under eight-way
+  load: 23,512 ms. It weakens no assertion and masks no hang.
+- **AND THE REPORTER THAT HID IT IS FIXED TOO.** `tools/gauntlet.mjs` printed the last FIFTEEN
+  lines of a failed step. A vitest failure block is twenty to forty, and on a `--coverage` run
+  those fifteen lines are the coverage table. So the evidence file recorded `failed=3` while
+  the visible tail showed one arbitrary fragment — and the fault was diagnosed from the
+  fragment. It now prints vitest's own "Failed Tests" section when there is one, and an
+  eighty-line window otherwise.
+- **AND FOUR GUARDS THAT COULD NOT FAIL, found in passing.** `offences()` returns `[]` for a
+  page with no controls, so "nothing is misnamed" and "nothing rendered" were the same answer
+  — and four renders in `tests/names.test.js` had no other assertion. A `walked()` count now
+  sits beside each; planting a render that commits nothing turns them red, which was proved
+  before it was written down.
+- **WHAT I GOT WRONG, recorded because the wrong answer was confident.** I attributed this to
+  a full disk. A genuine `ENOSPC` DID kill a different gauntlet run that day — that stands,
+  and the temp-directory fix stands with it — but it cannot explain this, which reproduces on
+  demand with 2.9 TB free. I also guessed `--coverage` was the discriminator; it is not.
+  Coverage merely doubles the wall time (64 s against 38 s) and pushes a 1.46x margin over the
+  edge. Each wrong answer was a reasonable reading of a coincidence, and each was reached
+  without running the experiment that would have settled it.
+- **STILL OPEN, and why this entry is not closed.** The timeout enforces nothing on the
+  suite's three heaviest tests: `models.test.js` test 1 (72 s under load) and
+  `build-tray.test.js` (62 s) are synchronous after their imports, so vitest can never
+  interrupt them at any timeout value. If either genuinely hangs, the run hangs for ever. And
+  the same `document.querySelector`-on-an-assumed-element shape exists elsewhere —
+  `tests/buildit.test.js:363` and `:538` among them — with 40 further `queryBy…toBeNull()`
+  assertions across 8 files that also pass on an empty page.
+
+## AM-original. The check goes red at random under load — opened 2026-08-24
 
 - **What happens** `npm run check` reports a failure that does not reproduce. Twice in one
   session on 2026-08-24, in different places:

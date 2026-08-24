@@ -32,6 +32,16 @@ const flush = async (ms = 0) => act(async () => { await vi.advanceTimersByTimeAs
 const PICTOGRAPH = /[←-⇿⌀-⏿■-➿⬀-⯿\u{1F000}-\u{1FAFF}]/u;
 const PLAIN = /^[A-Za-z0-9 ,.'’!?()-]+$/;
 
+/* HOW MANY CONTROLS THE WALKER FOUND. offences() returns [] for a page with no
+   controls at all, so "nothing is misnamed" and "nothing rendered" are the same
+   answer - and four renders in this file had no other assertion, which made
+   them guards that could not fail (the council's before pass, 2026-08-24). A
+   count beside each one turns an empty page into a failure. */
+export function walked(root = document) {
+  return root.querySelectorAll("button").length
+    + [...root.querySelectorAll("label")].filter((l) => l.querySelector("input")).length;
+}
+
 /* The rule, over every button on the screen. Returns the offences. */
 export function offences(root = document) {
   const out = [];
@@ -57,14 +67,35 @@ export function offences(root = document) {
   return out;
 }
 
+/* THE APP BOOTS THROUGH A SPLASH, AND A TEST SHOULD WAIT FOR IT RATHER THAN
+   ASSUME. App.jsx starts on screen "splash" and leaves it when its async boot
+   finishes, or when a SPLASH_TIMEOUT_MS fallback fires. A single flush(0)
+   advances no time and drains only the microtasks queued at that moment.
+   HONESTY ABOUT WHY THIS IS HERE: I first wrote it believing the splash was
+   the CAUSE of this file's intermittent failure. It was not. The council's
+   before pass reproduced the real mechanism on demand - test 1 exceeding the
+   5,000 ms default timeout under contention, aborted mid act(async), leaving
+   React's act scope depth non-zero so every later render in the file committed
+   nothing. The splash still on screen was a SYMPTOM of that, not its source;
+   the fix is the measured testTimeout in vitest.config.mjs.
+   This is kept because waiting for a condition beats assuming it, and because
+   it FAILS LOUDLY with a sentence if the app never reaches home - where the
+   old code produced a TypeError five lines from its cause. It advances no
+   time, so it cannot fire the app's own fallback timer and change what is
+   being tested. */
+const renderApp = async () => {
+  render(createElement(App));
+  for (let i = 0; i < 20 && !screen.queryByLabelText("Begin Session"); i += 1) await flush(0);
+  expect(screen.queryByLabelText("Begin Session"), "the app left its splash and reached home").toBeTruthy();
+};
+
 describe("every control is named in plain words", () => {
   afterEach(() => { vi.useRealTimers(); cleanup(); });
 
   it("1: home, the chooser, the corner, a session and a build", async () => {
     vi.useFakeTimers();
     stored = { ...newState(), level: 3, preLevel: 0 };
-    render(createElement(App));
-    await flush(0);
+    await renderApp();
     expect(offences(), "home").toEqual([]);
     fireEvent.click(screen.getByLabelText("Free play"));
     await flush(0);
@@ -89,36 +120,47 @@ describe("every control is named in plain words", () => {
   it("2: the done screens, the pre-ladder's first rung, and the way home from a crash", async () => {
     vi.useFakeTimers();
     render(createElement(DoneScreen, { doneStats: { c: 3, k: 1, w: 0, acc: 75, promoted: false, level: 3 }, kid: "", onHome: () => {}, toast: "" }));
+    expect(walked(), "the done screen rendered controls to judge").toBeGreaterThan(0);
     expect(offences(), "done").toEqual([]);
     cleanup();
     render(createElement(PreDoneScreen, { preDone: { c: 3, k: 0, w: 0, n: 3, level: 1 }, onHome: () => {} }));
+    expect(walked(), "the pre-done screen rendered controls to judge").toBeGreaterThan(0);
     expect(offences(), "pre done").toEqual([]);
     cleanup();
     stored = { ...newState(), level: 1, preLevel: 1 };
-    render(createElement(App));
-    await flush(0);
+    await renderApp();
     fireEvent.click(screen.getByLabelText("Begin Session"));
     await flush(0);
     expect(offences(), "pre session").toEqual([]);
     cleanup();
     const tray = buildTray("sat", 1, () => 0.3);
     render(createElement(BuildItScreen, { tray, playWord: () => {}, playSounds: () => {}, soundIdsOf: () => [], onDone: () => {}, onExit: () => {} }));
+    expect(walked(), "Build-it rendered controls to judge").toBeGreaterThan(0);
     expect(offences(), "build-it").toEqual([]);
     cleanup();
     let explode = true;
     function throwingChild() { if (explode) throw new Error("boom"); return null; }
     const quiet = vi.spyOn(console, "error").mockImplementation(() => {});
     render(createElement(ErrorBoundary, { screen: () => "home", version: "t" }, createElement(throwingChild)));
+    expect(walked(), "the crash screen rendered a control to judge").toBeGreaterThan(0);
     expect(offences(), "crash screen").toEqual([]);
     explode = false;
     quiet.mockRestore();
   });
 
   it("3 (control): a hold named the old way, a bare emoji button, and a label round an input are each refused", () => {
-    render(createElement(HoldButton, { onFire: () => {}, color: "#0f7a4f", label: "✓ got it" }));
+    const { container } = render(createElement(HoldButton, { onFire: () => {}, color: "#0f7a4f", label: "✓ got it" }));
     /* HoldButton now names itself plainly; the control plants the OLD name
-       over it and a bare emoji button beside it. */
-    const hold = document.querySelector("button");
+       over it and a bare emoji button beside it.
+       THE CONTAINER, NOT THE DOCUMENT (2026-08-24). This took the first button
+       in the whole page, so it addressed whatever happened to be there - and
+       when a render had committed nothing it was null, which surfaced as a
+       TypeError five lines from its cause and sent the diagnosis after the
+       wrong test entirely. Asking the render for its own container addresses
+       the thing just rendered, and the assertion below turns a null into a
+       sentence naming what was expected. */
+    const hold = container.querySelector("button");
+    expect(hold, "HoldButton rendered a button to plant the old name on").toBeTruthy();
     hold.setAttribute("aria-label", "✓ got it (hold)");
     const bare = document.createElement("button");
     bare.textContent = "▶️ Begin Session";

@@ -22,6 +22,24 @@ export default defineConfig({
     dedupe: ["react", "react-dom"],
   },
   test: {
+    /* MEASURED 2026-08-24, NOT GUESSED (open fault AM). The default is 5000 ms
+       and names.test.js test 1 runs 1271 ms alone but 3423 ms in the full
+       suite unloaded - a margin of 1.46x on a twelve-core machine. Under
+       contention it exceeded 5000, and vitest aborted it MID act(async): React
+       increments its act scope depth on entry and pops it only when the
+       returned thenable settles, so an aborted async test leaves the depth
+       non-zero and every later render in that file silently commits nothing.
+       That is why the visible symptom was a null from document.querySelector
+       three tests later, and why it looked like one test's fragility. One
+       timeout produced 70 failed tests across 5 files in a loaded run, with
+       React's own "You seem to have overlapping act() calls" on stderr.
+       These tests are CPU-bound and bounded; the wall clock here measures the
+       machine, not the code. Worst async test observed under eight-way load:
+       23512 ms. 60000 keeps a genuine hang failing and stops a contended
+       machine reading as a defect. It weakens no assertion and masks no hang -
+       the deflaking rule's line is "never widen a timeout WITHOUT
+       MEASUREMENT", and the measurements are above. */
+    testTimeout: 60000,
     /* The UX census is Playwright, not vitest, and lives in tests/census.
        Without this line vitest collects those .spec.mjs files, fails to parse
        them, and `npm run check` goes red for a reason that has nothing to do
