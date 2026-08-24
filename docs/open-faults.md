@@ -2387,3 +2387,92 @@ is a ruling on what free play offers a pre-ladder child, and the chooser matchin
   rail's and the strip's height back in landscape — and the census's sounding cell holds
   zero findings on the landscape phone, the full census's close and wrong reveal cells are
   green there, and the landscape pin in the sounding cell is removed with this entry.
+
+## AH. A pre-level item never plays its own question — opened 2026-08-24
+
+- **Where** `app/src/usePre.js` — `beginPre()` sets the screen and `nextPre()` advances the
+  item, and neither calls `playPrePrompt()`. The function exists and is correct; it is wired
+  only to the 🔊 in the grown-up strip (`app/src/screens/PreSessionScreen.jsx:68`,
+  `aria-label="Hear it again"`).
+- **What a child and a grown-up experience today** The screen asks
+  "What word do the sounds make?", shows an ear, and the rail says
+  "Listen… then say the word! 📣" — and nothing plays. On Pre 1 the sounds ARE the question,
+  so a child is asked something they cannot hear, and nothing on the screen tells the adult
+  that pressing the small speaker is what asks it. The button's own label says "Hear it
+  AGAIN", which promises a first time that never happened. The same is true from rung 2
+  onward, where the letter is shown and its sound is the prompt the child must echo: the
+  letter appears in silence and there is nothing to say back.
+- **Found by** the owner, on the first minute of the beta 27 device check (2026-08-24),
+  reported as "this says what word do the sounds make but all you see is a picture of an ear".
+  The EAR is correct and deliberate — nothing is ever printed to read on a pre-level screen
+  (SPEC section 12's 2026-08-15 ruling), and `tests/pre.test.js` holds it. The SILENCE is
+  the fault.
+- **Not a beta 27 regression** `git log -S "playPrePrompt()"` finds no commit that ever
+  called it on entry, and `git show v1.0.0-beta.26:app/src/usePre.js` has the same
+  `beginPre`. It has been this way since the ladder shipped in `abd4268`, through every
+  listening round and every gauntlet, because no gate asks whether a screen ASKS its
+  question — the census measures what is drawn, and the QA script's ladder steps did not
+  cover a fresh Pre 1 entry.
+- **My own part in it** The step 2 render harness carries the comment "the prompt plays on
+  the adult's press of 'Hear it again' (the prompt is the question; nothing plays on entry)".
+  I observed exactly this while shooting the checkpoint renders on 2026-08-23, wrote it down
+  as a fact about how to drive the screen, and never asked whether it should be true.
+- **What done means** A pre-level item plays its own prompt when it appears and when the
+  session advances to the next one — S2 is not in the way, since on an ear rung the prompt is
+  the SOUNDS and never the target word, and on a letter rung it is that letter's own sound,
+  which is the thing the child is asked to say back. The play must survive the browser's
+  autoplay rule (the press of "Begin Session" is the gesture; `unlockVoice()` already runs).
+  A test drives a fresh pre-session and asserts the prompt was played without any further
+  press, and fails if it was not. The 🔊 keeps its "Hear it again" label, which becomes true.
+  Whether the prompt should also repeat on a re-entry, and how long after the screen appears
+  it should play, is the owner's to rule.
+
+## AI. The sound-off light is invisible to a person looking for it — opened 2026-08-24, owner-ruled the same day
+
+- **Where** `app/src/wq-css.js` — `.wq-glowseed-muted{background:transparent;border-style:dashed}` over
+  `.wq-glowseed{...border:1px solid ${C.stone}...}`. The muted rim is therefore `stone`,
+  measured 1.28 / 1.24 / 1.36:1 against the three `.wq-root` sky stops.
+- **What a grown-up experiences today** Nothing. With sound off the light is meant to show an
+  off look — a dashed rim with no fill — and it cannot be seen. The owner found this on a real
+  phone during the beta 27 device check, KNOWING the state existed, knowing where in the frame
+  to look, and having been told what it would look like: "it is so faint a human eye wouldn't
+  see it". A parent who does not know it exists has no chance at all.
+- **Why the gates all passed** Every one of them measures the right things and none of them
+  asks this question. The census reads `data-wq-glowseed="muted"` from the DOM and is satisfied;
+  `tools/provenance-check.mjs` derives the lock from the stylesheet and is satisfied; the art
+  director judged the three looks distinguishable and was right — 434 rim pixels against idle's
+  826 IS a difference, measured. What nobody asked was whether a HUMAN can see it on a phone,
+  and that is not a thing a machine can answer. It took the owner's eye, on the device, at the
+  first attempt.
+- **Owner-ruled 2026-08-24**, on a decision page with the alternatives costed: the muted rim
+  becomes `C.muted` (#5a6ba8, measured 3.06 / 2.99 / 3.27:1) — 2.4x today's contrast, and still
+  BELOW the lit rim's `purpleStructural` (4.02 / 3.92 / 4.29), so "off" stays quieter than
+  "speaking", which is the hierarchy the art director approved. The dashes and the empty middle
+  are kept: they are what stops it reading as lit.
+- **What done means** The muted rim carries the ruled token; the provenance lock and bible 7's
+  state table say so and `tools/provenance-check.mjs` refuses a drift from it; a token test pins
+  the literal; the art director re-judges the three looks on a fresh render set and confirms
+  muted is still unmistakably not lit; and the owner sees it on the phone that could not see it
+  before. Until that last part, this is not closed — the whole fault is that a measurement said
+  yes and a person said no.
+
+## AJ. "Skip" can never be used while a sentence is read — opened 2026-08-24, owner-ruled the same day
+
+- **Where** `app/src/screens/SessionScreen.jsx` — `<HoldButton onFire={skipReveal}
+  disabled={phase !== "feedback"} ... label="⏭ skip" />`. During a sentence `app/src/App.jsx`
+  sets `setPhase("sentence")`, so the condition is never true for the whole of a sentence,
+  in its attempt or its reveal.
+- **What a grown-up experiences today** A control that is visible in the strip and can never
+  be used in this mode, with nothing to say that is intended. Found by the owner on the phone
+  during the beta 27 device check: "when a paragraph is read you can't skip".
+- **Not new** `git show v1.0.0-beta.26:app/src/screens/SessionScreen.jsx` carries the identical
+  condition. It has been so since sentences were graded with these controls.
+- **Nobody is stuck** During a sentence's reveal the green "Next sentence" / "Next word" control
+  is present and ends the sentence, so the adult can always move on. This is a puzzle, not a trap.
+- **Owner-ruled 2026-08-24:** make skip work during a sentence's REVEAL, and keep it dark during
+  the attempt — the same shape as a word, where it is live only once the teaching moment has
+  started and the child has had their turn.
+- **What done means** Skip fires during a sentence's reveal and does what it does for a word:
+  ends the audio and moves on cleanly, leaving no state behind. A test drives a sentence to its
+  reveal, fires skip, and asserts both; another asserts it stays dark during the attempt; and
+  the app-mutant family gains one that reverts the condition, so the guard can fail.
