@@ -2693,3 +2693,35 @@ what is true now.
   to the grown-up's replay is honest but asks a parent to notice an absence. A test drives an
   interruption and proves the child is not left in silence, and the fix is verified on the
   device that found it, since no browser here reproduces the interruption.
+
+## AO. SPEC describes a five-rung pre-level ladder; the game has three — opened 2026-08-24
+
+- **Where it lives.** `SPEC.md:1043` ("lettered \"Pre 1\" to \"Pre 5\"") and `SPEC.md:1138`
+  ("four tiles at Pre 2, six at Pre 3, eight at Pre 4, ten at Pre 5"); the reference build's
+  own prose at `reference/word-quest.jsx:1819` and `:2074`;
+  `tools/effect-declarations.mjs:169` ("its five rungs"); `docs/effect-map.md:432`; and
+  `docs/open-faults.md` itself, in fault S, which speaks of "a child at Pre 1 to Pre 4".
+- **What is actually true.** `PRE_LEVELS` has three rungs — Little Ears, First Sounds
+  (s a t p), New Sounds (i n). `tests/pre.test.js:22` pins exactly `[1, 2, 3]`. The engine,
+  the reference build's code, and the tests all agree. **The code is right and the prose is
+  stale.**
+- **How it happened, and it was not a mistake at the time.** The 2026-08-20 hundred-level
+  cutover re-derived Level 1 to spell exactly a, i, n, p, s and t, so the letter rungs
+  correctly shrank from ten letters to six and from five rungs to three. The comment at
+  `reference/word-quest.jsx:1780` explains the shrink in full. What did not happen was the
+  sweep of the documents that stated the old number.
+- **What a child or a grown-up experiences today.** Nothing. No child-facing behaviour is
+  wrong; the three shipped rungs are the correct three. This is a documentation fault, and it
+  is recorded because SPEC.md is the master source for behaviour and on this point it
+  describes a game that does not exist — including a Build-a-sound tray specification for two
+  rungs a child can never reach.
+- **Why no gate caught it, which is the part worth keeping.** `tools/doc-truth.mjs` pins
+  nothing about the ladder, so there was no check to go red. This is exactly the honest limit
+  written into the file map's own header and into fault F3: a stale paragraph in fresh words
+  still needs a human reader. It drifted for four days and was found only because the owner
+  asked for a change "over five levels" and the number was checked before answering.
+- **What done means.** Every site above states three rungs, or states the true number at the
+  time it is written; and `tools/doc-truth.mjs` grows a pin that reads the rung count from the
+  engine and refuses any document that disagrees, with a negative control that proves the pin
+  catches a wrong number (E5). The pin is the part that matters: correcting six files without
+  it leaves the next cutover free to do this again.
