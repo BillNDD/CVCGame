@@ -2035,3 +2035,51 @@ turned down, not a word a child must never spell — so it is neither taught nor
 **ho stays guarded**, with gun, fight, hustle and grind, all of which a tray could spell and
 none of which anything guarded until that night. A later screen does not raise these again.
 
+
+## The chunk ladder supersedes the CV-drill refusal (2026-08-25) — closed
+
+**This entry SUPERSEDES a settled ruling rather than filling a gap**, and follows the form the
+ai/ou entry set: the earlier entry stays exactly as written, both rulings are quoted, and the
+rule document carries both dates.
+
+On 2026-08-16 the owner was offered consonant-vowel syllable drills with three costs — an S4
+extension, a listening round per unit, and a new item kind — and ruled **"Yeah let's skip
+them."** That entry stands above and is not edited. On 2026-08-24 he re-opened it deliberately,
+and the new ruling wins: the pre-levels become a reading ladder on two-letter chunks. What
+changed is that he accepted the audio cost in his own words — "I'll need to listen to new clips
+then it isn't a big deal" — and, more importantly, he answered the objection that had made the
+CV shape wrong rather than merely expensive.
+
+**The objection, and his answer, are the part worth keeping.** Two seats independently refused
+the shape he first asked for — pre-levels showing "Ta". A single vowel letter in an OPEN
+syllable takes its LONG sound in English (*no, go, ta-ble, ti-ger*), so a printed `ta` read as
+a whole syllable says "tay". The game's own level 72 teaches exactly that, and its roster
+contains *table*, whose tiles play d:t then d:long_a. Teaching `ta` = "tah" would have taught a
+rule English does not have and that the ladder itself later contradicts. His answer dissolved
+it: these are **not syllables but chunks inside closed syllables**, "explained as phonics
+building blocks not words" — and the *ta* in *tap* genuinely does say "tah". Every chunk
+therefore carries an **anchor word** showing it doing that job, which is what makes the framing
+true rather than a form of words.
+
+**The mechanical derivation was refused, and the refusal was right.** Asked for "all reasonable
+CV and VC sounds", the first attempt generated them — 19 consonants against 5 vowels in both
+orders, minus what English cannot make — giving 161 chunks. Requiring a real anchor word from
+the bank cut it to 137 and, in passing, rediscovered a real spelling rule from the data: /k/ is
+spelled **c** before a, o and u and **k** before e and i, so zero of 1,123 bank words begin
+*ka*, *ko* or *ku*. But 137 was still wrong, and the owner said so: "I think your list of
+phonics sounds VC and CV is unrealistically too long... Please consult public domain phonics
+books and reduce the CV and VC list down to what is reasonable and expected." The lesson is
+the method, not the number: **a list derived from what the alphabet permits is not a curriculum**,
+and no filter applied afterwards makes it one. The roster is now the thirty two-letter word
+families that published sequences actually teach, at 24 new clips instead of 113.
+
+**A chunk may never be introduced after the child already reads a word containing it**
+(owner-ruled 2026-08-25): "if a child reads up at level 14 there is no need to reintroduce the
+sound as something new at level 40." Seating is derived from the levels themselves and bounded
+at both ends — not before its letters are taught, not after its words are read. That rule moved
+*in* to level 1 and *up* to level 14.
+
+SPEC section 12 carries the built shape, the roster and the seating. Six chunks sit before
+Level 1 needing two new clips; the other 24 ride alongside levels 3 to 14. **The owner ruled on
+2026-08-25 that this is the primary task for the next beta.** Still open, and not to be assumed
+either way: whether any consonant-vowel chunks are taught at all.
