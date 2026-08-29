@@ -1513,3 +1513,18 @@ name. "Still way too fast not teacher speak" refused the phrase takes at sentenc
 
 No third round is offered until the review lands and every candidate passes a mechanical
 pre-screen the record already knows how to build.
+
+## Round CHUNK-3 — the carve family half-lands, and the owner sends for an expert (2026-08-29)
+
+161 arms, all through the mechanical pre-screen. Two more acceptances — **en** (nasal-coda
+carve, both trim depths perfect) and **ip**, which **completes the pre-ladder six**. The
+owner stopped early again and his order is now the brief: "ask an expert what you are doing
+wrong. What would an expert in digital audio product say to do." His verdicts-with-comments
+sit verbatim in `tools/pending-chunks/round3-verdicts.txt`, and they carry the sharpest
+diagnoses yet: the CV carves "say gap / jab / mad" — a coda cut at its closure is still
+HEARD, because the vowel's own transitions announce it; the repetition cuts "say na but cut
+off most of a" — the model-clock end of a vowel is not its perceptual end in connected
+speech; the voiced-coda carves are "otherwise fine" behind "weird static" — plausibly the
+RMS level-match gaining the noise floor audible; and mid-utterance cuts read "too fast"
+even at 0.72. Unjudged arms count as refused-by-pattern (his instruction) and every
+unaccepted chunk is retried only under the expert's protocol.

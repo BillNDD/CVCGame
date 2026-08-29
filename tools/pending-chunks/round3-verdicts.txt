@@ -1,0 +1,33 @@
+ROUND CHUNK-3 verdicts as given, 2026-08-29. Owner: "I couldn't bare to listen to most
+because it was the same mistake sequences over and over again. Please, ask an expert what
+you are doing wrong. What would an expert in digital audio product say to do. Anyone I
+didn't rate you still need to try again as I am sure it follows the same old pattern"
+
+ad A nogood | B nogood | C nogood | D iterate: too fast but sound is right
+en A PERFECT | B PERFECT | C nogood | D nogood
+id A iterate: weird static at end but otherwise fine | B-D nogood
+ig A iterate: weird static at end but otherwise fine | B-D nogood
+im A iterate: weird static in middle but otherwise fine | B-D nogood
+ip A PERFECT | B nogood | C nogood
+ob A nogood: way too fast | B nogood
+og A nogood: way too fast and robotic | B nogood
+ot A nogood | B nogood: no t sound
+ub A nogood: sounds like ub then eh | B-D nogood
+ug A iterate: weird static at end but otherwise fine | B-D nogood
+um A iterate: weird static at end but otherwise fine | B-D nogood
+un A iterate: weird static at end but otherwise fine | B-D nogood
+ga A nogood: says "gap" | B-C nogood
+ja A nogood: says jab | B-C nogood
+la A nogood: says lab | B-C nogood
+ma A nogood: says mad. Please be careful with these cuts | B-C nogood
+na A nogood: says nab | B nogood: say na but cuts off most of a | C nogood
+pa A nogood: says pad | B nogood: say pa but cuts off most of a | C nogood
+ra A unjudged: says rag | B unjudged: says ra but cuts off most of a | C unjudged
+bi A nogood: says bib | B unjudged: says bi but cuts off most of i | C unjudged
+di A nogood: says did. Same mistake for most first position sounds. Your cut was terrible
+   B unjudged: says di but cuts off most of the i. same mistake for most b option sounds for all sounds.
+   C unjudged
+sa ta le ne re ye fi hi ki li mi pi ri si ti wi bo co fo lo mo ro cu du hu ju mu su tu: unjudged
+   (owner: unjudged arms follow the same pattern and must be retried)
+s:that-is C unjudged: uh at front
+s:like-in A unjudged: way to fast and weird. please. ask an expert what to do
