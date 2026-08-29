@@ -1453,3 +1453,32 @@ for that the earlier measurements still stand.
 Kokoro's weights are Apache-2.0 and its training data is permissively sourced, so the
 rendered audio ships freely with this MIT-licensed game. The GPL phonemizer inside the
 rendering stack runs only on the developer machine; no part of it ships.
+
+## Round CHUNK-1 — the chunk ladder's first listening round (2026-08-29)
+
+Seventy-five arms: the 72 roster chunks needing clips, plus the three carrier phrases
+("Your turn!", "That is:", "Like in:"). One candidate per arm — a design the owner refused
+the same day he judged it, and AGENTS.md now carries his rule: every sound gets more than
+one candidate and every arm gets a comment box, because a failed single-candidate arm says
+no without saying why.
+
+**The recipe.** Every chunk was cut from a carrier at the accepted two-letter family's own
+numbers — af_heart, speed 0.82, energy cut margin 80 / floor −20 / gap 20, lead 80 /
+tail 300 / fade 10, 96 kbps — and no plain render was offered (settled, 2026-08-07). The
+phonemisation census ran first, per the "a" lesson: **54 of 79 chunks misread from
+spelling** ("bi" says "by", "id" says "eye-dee"), and those 54 were rendered from the whole
+carrier's phonemes with only the chunk's token corrected. One chunk, **si**, gave no energy
+gap in any carrier — its fricative onset fuses with the carrier — and was cut by the model's
+own duration clock instead (settled, 2026-08-12): 0.45 s, kept 0.20.
+
+**The verdicts: 18 of 75 accepted.** Perfect: ag ed op ba ca da fa ha de fe te bu fu gu lu
+ru, and the phrase "Your turn!". Good: jo. Their exact bytes and recipes sit in
+`tools/pending-chunks/` — ledger.jsonl plus one mp3 per acceptance — because a rebake is
+never byte-identical and an approved sound must not be re-rendered. Iterate: et im ip og um
+un ut ga ja pa ta si co fo du hu ju, and both reveal phrases. No good: the other 37.
+
+**No family-level pattern separates the verdicts** — spelling-pass and phoneme-corrected
+renders both appear among the perfects and among the refusals — so the faults are per-clip
+and only the owner's round-2 comments can name them. Round CHUNK-2 offers multiple
+candidates per remaining chunk with a comment space on every arm, and, per the round
+guard's own rule, never re-offers a family the owner has already refused for that chunk.

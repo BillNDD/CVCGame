@@ -178,7 +178,13 @@ posted a really long wall of text and I dont even know where to start."
 
 The same form carries listening rounds, which are decisions about sound:
 verdict buttons reading *perfect / good / iterate on this / no good option* on
-every arm, and the copy-all at the end.
+every arm, and the copy-all at the end. **Every sound gets more than one
+candidate, and every arm gets a comment box** (owner-ruled 2026-08-29, after
+the chunk round offered one candidate per sound and no comment space: "Next
+time give me more than one option per sound and give me a comment space for
+each so I can tell you what is wrong"). A single-candidate arm wastes the
+listen when it fails - the verdict says no without saying why, and the round
+must be rebuilt blind.
 
 ## Before you change anything (owner-ruled 2026-08-13)
 

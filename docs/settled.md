@@ -2158,3 +2158,27 @@ letters, the common-names list does not carry it, and the private denylist refus
 under three characters — so the chunk ships on the owner's word alone, with no gate behind
 it in either direction. It is the *ed* of *bed*, *fed* and *red*, the most-taught family in
 the set, lowercase everywhere it appears. Do not re-open without a new ruling.
+
+## Round CHUNK-1: what its 75 arms settled (2026-08-29) — closed
+
+- **Eighteen acceptances stand and are never re-rendered**: the chunks ag, ed, op, ba, ca,
+  da, fa, ha, de, fe, te, bu, fu, gu, lu, ru, jo, and the phrase "Your turn!". Their bytes
+  and recipes are pinned in `tools/pending-chunks/ledger.jsonl`; a rebake is never
+  byte-identical, so the file IS the approval.
+- **Single-candidate rounds are closed**, owner-ruled the day he judged one: "Next time give
+  me more than one option per sound and give me a comment space for each so I can tell you
+  what is wrong." AGENTS.md carries the rule with the quote. The cost the ruling names is
+  real and was paid in this round: 56 arms came back refused or iterate with no way to know
+  why, and round 2 must diversify blind.
+- **The phonemisation census is now standing practice for any new spoken unit**: 54 of 79
+  chunks misread from spelling ("bi" says "by", "id" says "eye-dee"), each caught before a
+  render existed. The fix — phonemise the whole carrier, correct only the target token —
+  produced accepted clips (ba, ca, da, fa, ha and more), so the technique is validated by
+  ear, not only by mechanism.
+- **The model-clock cut is validated as the fallback where energy fails**: si, whose
+  fricative onset never leaves a gap, was cut by the duration tensor and came back
+  "iterate", not "no good" — the boundary was right; the sound needs work.
+- **No family-level pattern separates accept from refuse** — both render families appear in
+  every verdict bucket — so per-clip listening, not recipe theory, decides a chunk. Round 2
+  designs from this: multiple candidates per chunk, comments per arm, and a family the owner
+  refused for a chunk is never offered for that chunk again.
