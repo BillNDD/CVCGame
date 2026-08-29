@@ -1,4 +1,5 @@
-import { C, LANGS, LEVELS, PRE_LEVELS, displayWord } from "@engine";
+import { useState } from "react";
+import { C, LEVELS, PRE_LEVELS, displayWord, isChunkItem, chunkText } from "@engine";
 import { plainLabel } from "../labels.js";
 import Frame from "../components/Frame.jsx";
 import Zone from "../components/Zone.jsx";
@@ -6,12 +7,70 @@ import Toast from "../components/Toast.jsx";
 import H3 from "../components/H3.jsx";
 import Seg from "../components/Seg.jsx";
 
+function WordList({ state, openDecades, setOpenDecades }) {
+  const decades = [];
+  for (let d = 0; d < LEVELS.length; d += 10) decades.push(LEVELS.slice(d, d + 10));
+  const allOpen = decades.every((g, i) => openDecades[i]);
+  const preLetterRow = (p) => p.items.filter((it) => !isChunkItem(it)).join(", ");
+  const preChunkRow = (p) => p.items.filter(isChunkItem).map(chunkText).join(", ");
+  return (
+    <section className="wq-card" style={{ padding: 16, textAlign: "left" }}>
+      <H3>What each level teaches</H3>
+      <p className="wq-help" style={{ margin: "0 0 8px" }}>
+        Every level and the words it introduces, so you can see what your reader has met and
+        what is coming. Your reader is at {state.preLevel > 0 ? `Pre ${state.preLevel}` : `Level ${state.level}`}.
+      </p>
+      <button className="wq-rowbtn" style={{ marginBottom: 6 }} aria-expanded={allOpen}
+        aria-label={allOpen ? "Close it all" : "See it all"}
+        onClick={() => setOpenDecades(Object.fromEntries(decades.map((g, i) => [i, !allOpen])))}>
+        <span style={{ fontWeight: 800, color: C.ink2, fontSize: 12.5 }}>{allOpen ? "Close it all ▲" : "See it all ▼"}</span>
+      </button>
+      <div style={{ borderTop: "1px solid " + C.line, paddingTop: 8 }}>
+        <div style={{ fontWeight: 800, fontSize: 13, color: C.ink }}>
+          Before Level 1 — the chunk ladder{state.preLevel > 0 ? " ← here" : ""}
+        </div>
+        {PRE_LEVELS.map((p) => (
+          <p key={p.n} className="wq-help" style={{ margin: "4px 0 0" }}>
+            Pre {p.n} · {p.name} {p.emoji}: the letter sounds {preLetterRow(p)}, then reading
+            the chunks {preChunkRow(p)} — building blocks, not words.
+          </p>
+        ))}
+      </div>
+      {decades.map((g, i) => {
+        const words = g.reduce((n, l) => n + l.words.length, 0);
+        const here = state.preLevel === 0 && state.level >= g[0].n && state.level <= g[g.length - 1].n;
+        const isOpen = !!openDecades[i];
+        return (
+          <div key={i} style={{ borderTop: "1px solid " + C.line, paddingTop: 8, marginTop: 8 }}>
+            <button className="wq-rowbtn" onClick={() => setOpenDecades(o => ({ ...o, [i]: !isOpen }))}
+              aria-expanded={isOpen}
+              aria-label={plainLabel(`Levels ${g[0].n} to ${g[g.length - 1].n}${here ? " here" : ""} ${words} new words`)}>
+              <span style={{ fontWeight: 800, color: C.ink, fontSize: 13.5 }}>
+                Levels {g[0].n} to {g[g.length - 1].n}{here ? " ← here" : ""}
+              </span>{" "}
+              <span className="wq-mono" style={{ fontSize: 12, color: C.muted, marginLeft: "auto" }}>{words} new words</span>
+              <span style={{ color: C.ink2, marginLeft: 8, fontSize: 12 }}>{isOpen ? "▲" : "▼"}</span>
+            </button>
+            {isOpen && g.map((l) => (
+              <p key={l.n} className="wq-help" style={{ margin: "5px 0 0" }}>
+                <b style={{ color: C.ink }}>{l.n} {l.emoji}{state.preLevel === 0 && state.level === l.n ? " ← here" : ""}</b>{" "}
+                {l.words.map(displayWord).join(", ")}
+              </p>
+            ))}
+          </div>
+        );
+      })}
+    </section>
+  );
+}
+
 export default function ParentScreen({
-  state, nameDraft, setNameDraft, commitName, setSound, setLang, setUpdateCheck, jumpLevel, jumpPreLevel,
+  state, nameDraft, setNameDraft, commitName, setSound, setUpdateCheck, jumpLevel, jumpPreLevel,
   openLevels, setOpenLevels, copyLog, copyBox, resetStage, setResetStage, doReset,
   onBack, onExportJSON, onImportJSON, toast, voiceFallback,
   errorCount = 0, copyErrors, clearErrors,
 }) {
+  const [openDecades, setOpenDecades] = useState({});
   return (
     <Frame>
       <Zone.Header>
@@ -36,13 +95,24 @@ export default function ParentScreen({
               <Seg options={[[true, "🔊 On"], [false, "🔇 Off"]]} value={state.settings.sound} onChange={setSound} />
             </div>
 
-            {/* P2-5 — native select for locale */}
-            <div className="wq-fieldrow">
-              <label className="wq-lbl" htmlFor="wq-lang">Voice &amp; accent</label>
-              <select id="wq-lang" className="wq-input" value={state.settings.lang} onChange={e => setLang(e.target.value)}>
-                {LANGS.map(l => <option key={l.code} value={l.code}>{l.label}</option>)}
-              </select>
+            {/* The "Voice & accent" list stood here until 2026-08-29 and was
+                removed on the owner's 2026-08-24 ruling: the game has ONE
+                recorded voice, and the list only ever set the system
+                FALLBACK's language while looking like it chose the voice a
+                child hears - a control claiming something it does not
+                deliver. The fallback keeps the stored default, en-US. If a
+                second recorded voice is ever built, the choice returns,
+                naming voices that exist. SPEC section 6 carries the ruling. */}
+
+            {/* The pre-level ladder sits ABOVE Jump to level (owner-ruled
+                2026-08-24): the order a parent reads is the order a child
+                travels. Words means the child reads words; P1 and P2 put the
+                next session on the chunk ladder. */}
+            <div style={{ marginTop: 10 }}>
+              <div style={{ fontWeight: 800, fontSize: 13, color: C.ink, marginBottom: 4 }}>Pre-levels (sounds before words)</div>
+              <Seg options={[[0, "Words"], ...PRE_LEVELS.map(p => [p.n, "P" + p.n])]} value={state.preLevel} onChange={jumpPreLevel} />
             </div>
+            <p className="wq-help">Words: sessions serve reading. P1 and P2: sessions teach letter sounds and the first reading chunks, graded by you.</p>
 
             {/* P2-5 — segmented level control; P2-14 — helper text */}
             <div className="wq-fieldrow">
@@ -50,15 +120,6 @@ export default function ParentScreen({
               <Seg options={LEVELS.map(l => [l.n, String(l.n)])} value={state.level} onChange={jumpLevel} />
             </div>
             <p className="wq-help">Changes only which words come up next. Mastery already earned is kept, and the engine still promotes on its own.</p>
-            {/* The pre-level ladder (owner-ruled 2026-08-15): Off means the
-                child reads words; 1 to 5 puts the next session inside the
-                ladder. Fresh saves arrive at 1 on their own; this is the
-                grown-up's way back in, or out. */}
-            <div style={{ marginTop: 10 }}>
-              <div style={{ fontWeight: 800, fontSize: 13, color: C.ink, marginBottom: 4 }}>Pre-levels (sounds before words)</div>
-              <Seg options={[[0, "Words"], ...PRE_LEVELS.map(p => [p.n, "P" + p.n])]} value={state.preLevel} onChange={jumpPreLevel} />
-            </div>
-            <p className="wq-help">Words: sessions serve reading. P1 and P2: sessions teach letter sounds and the first reading chunks, graded by you.</p>
           </section>
 
           {/* P2-4 — collapsed mastery map with summary rows */}
@@ -134,6 +195,18 @@ export default function ParentScreen({
               );
             })}
           </section>
+
+          {/* THE WORD LIST A PARENT CAN CONSULT (owner-ruled 2026-08-24:
+              "a list of every pre level and real level, and what words they
+              introduce"). DERIVED from the engine's own levels at render -
+              a typed copy would drift the first time a word moved. Collapsed
+              by decade because a hundred levels is a long scroll on a phone
+              and the ladder already thinks in tens; "See it all" is the
+              escape hatch, ruled the same day. The pre-level rungs come
+              first as their own short group - they teach letters and chunks,
+              not words, so the decade shape would misdescribe them. Adult-
+              facing; reads nothing aloud; no S2 concern. */}
+          <WordList state={state} openDecades={openDecades} setOpenDecades={setOpenDecades} />
 
           <section className="wq-card" style={{ padding: 16, textAlign: "left" }}>
             <H3>Session log</H3>

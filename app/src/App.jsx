@@ -1170,7 +1170,6 @@ export default function App() {
   const mutate = (fn) => { const s = structuredClone(stateRef.current); fn(s); setState(s); persist(s); };
   const setSound = (on) => mutate(s => { s.settings.sound = on; });
   const setUpdateCheck = (on) => mutate(s => { s.settings.updateCheck = on; });
-  const setLang = (code) => mutate(s => { s.settings.lang = code; });
   /* Picking a WORD level steps the child off the pre-letter ladder as well:
      the ladder wins over the level whenever preLevel > 0, so a grown-up who
      tapped "26" while P3 was set was sent back to i and e (the owner, on his
@@ -1320,7 +1319,7 @@ export default function App() {
     }
 
     return <ParentScreen state={state} nameDraft={nameDraft} setNameDraft={setNameDraft}
-      commitName={commitName} setSound={setSound} setLang={setLang} setUpdateCheck={setUpdateCheck}
+      commitName={commitName} setSound={setSound} setUpdateCheck={setUpdateCheck}
       jumpLevel={jumpLevel} jumpPreLevel={jumpPreLevel} openLevels={openLevels} setOpenLevels={setOpenLevels}
       copyLog={copyLog} copyBox={copyBox} resetStage={resetStage} setResetStage={setResetStage}
       errorCount={errorCount} copyErrors={copyErrors} clearErrors={clearErrorRing}

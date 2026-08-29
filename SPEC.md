@@ -642,9 +642,23 @@ Grown-ups corner. This screen shows these items:
 
 - The name field. The field saves on blur.
 - The mode control and the sound control.
-- The locale list.
+- The pre-level control, ABOVE the level control (owner-ruled 2026-08-24, built 2026-08-29:
+  "the ladder comes before the levels in a child's journey, so it comes before them on the
+  page" — the order a parent reads is the order a child travels).
 - The level control, with a help line.
 - The mastery map. Each level has one summary row and an expand control.
+- The word list a parent can consult (owner-ruled 2026-08-24, built 2026-08-29: "a list of
+  every pre level and real level, and what words they introduce at that level to children,
+  so parents can consult it whenever they want"). DERIVED from the engine's levels at the
+  moment it is shown — a typed copy would be wrong the first time a word moved. Collapsed
+  by decade, each header carrying its range and its count of new words, because a hundred
+  levels is a long scroll on a phone and the ladder already thinks in tens; a "See it all"
+  control opens every decade at once, the escape hatch ruled the same day. The pre-level
+  rungs come first as their own short group — they teach letter sounds and reading chunks,
+  not words, so the decade shape would misdescribe them — and the reader's current place is
+  marked, so "where are we" is answerable at a glance. A level shows the words it
+  INTRODUCES, which is the question a parent is asking. Adult-facing; reads nothing aloud;
+  no S2 concern.
 - The session log and the export control.
 - The bug report (owner-ruled 2026-08-22). The app keeps the last 20 problems it met - an
   uncaught error, a rejected promise, a render crash - on the device, with the time, the
@@ -654,6 +668,14 @@ Grown-ups corner. This screen shows these items:
   report" and "Clear". A grown-up copies it and chooses whether to send it anywhere (S6:
   the app itself makes no request). A render crash shows the child one sentence and one
   56 px control back to the start, never a blank page.
+- The "Voice & accent" list stood among these items until 2026-08-29 and was REMOVED,
+  owner-ruled 2026-08-24: "there shouldn't be a drop down 'choose your desired accent',
+  since at present we have no choice, we only have the af_heart we have build." It was not
+  merely useless but misleading — `settings.lang` is read on one path only, the system-
+  speech fallback used when a recorded clip cannot play, so the list named the game's voice
+  and changed something else. The fallback still needs a language and one is kept without
+  being asked about: the stored default, en-US. If a second recorded voice is ever built,
+  the choice returns, naming voices that actually exist and changing the one a child hears.
 - The reset control. The reset asks a
 question. The confirm control and the cancel control are in different positions. The cancel
 control is larger.
