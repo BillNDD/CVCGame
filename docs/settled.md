@@ -2149,3 +2149,12 @@ no-rung-over-20 ceiling (structure is now two pre-rungs plus ride-alongside, wit
 six-a-sitting session cap); "all 113 clips in one big round" (the figure is now 72; the
 one-big-round preference stands); the lit-inside anchor display (now the grown word); and
 "rung names on their own page later" (now ruled: First Sounds and New Sounds stay).
+
+## The chunk ed stays (2026-08-25) — closed
+
+"Ed -keep it," the owner's words. The question existed because Ed is a personal name and the
+engineering pass measured that S9's machinery cannot see it — the stranger scan wants three
+letters, the common-names list does not carry it, and the private denylist refuses entries
+under three characters — so the chunk ships on the owner's word alone, with no gate behind
+it in either direction. It is the *ed* of *bed*, *fed* and *red*, the most-taught family in
+the set, lowercase everywhere it appears. Do not re-open without a new ruling.

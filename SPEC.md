@@ -1711,8 +1711,10 @@ roster:** the public-domain books are LONGER, not shorter — Webster and the Ne
 Primer carry the full nineteen-by-five matrix, and Webster's CV tables are LONG-vowel (his
 *ba* says "bay", marked with a macron), a different artefact from these chunks. The cut
 rests on the sound collisions and modern practice, not on the books' page count, and the
-record should not pretend otherwise. And **`ed` is a personal name**, so S9 will have an
-opinion when the roster reaches code.
+record should not pretend otherwise. And **`ed` stays, on the owner's word alone** —
+"Ed -keep it", ruled 2026-08-25. His word was needed because Ed is a name and S9's machinery
+is mechanically blind to two-letter names, so no gate stands behind this chunk either way;
+it is the *ed* of *bed*, *fed* and *red*, lowercase everywhere it appears.
 
 ### The parent tutorial — approved 2026-08-11, unbuilt, FOR THE NEXT BETA
 
