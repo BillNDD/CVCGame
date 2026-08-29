@@ -2696,9 +2696,14 @@ what is true now.
 - **The behaviour is now ruled** (owner, 2026-08-25, from the roster-and-reveal decision
   page): **the whole reveal restarts when the app returns to the foreground.** Coming back
   is itself a deliberate act, the screen returned to is still the feedback screen, and a
-  fresh start is kinder than a tail with no head. What remains is the build: a
-  visibilitychange listener that re-issues the reveal plan, the test that fakes the
-  interruption, and the owner's device check. The entry closes on that check, not before.
+  fresh start is kinder than a tail with no head. The build landed the same
+  day: a visibilitychange listener marks the interruption at HIDDEN time - the only moment
+  it can be known honestly, since after a freeze every timer fires late and lies - and
+  coming back visible replays the same reveal from the top. Advancing, ending the sentence,
+  or a fallback voice clears the record, so a replay can never speak into the next attempt
+  (S2), and three tests in the reveal suite drive the interruption, the S2 guard, and the
+  finished-reveal negative. What remains is the owner's device check on the phone that
+  found it. The entry closes on that check, not before.
 
 ## AO. SPEC describes a five-rung pre-level ladder; the game has three — opened 2026-08-24
 

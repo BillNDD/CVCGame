@@ -157,6 +157,26 @@ export default function App() {
   const [seenTwice, setSeenTwice] = useState({});   // P2-11
   const [promptCount, setPromptCount] = useState(0);
   const [phase, setPhase] = useState("ready");
+  /* FAULT AN (owner-ruled 2026-08-25): a reveal interrupted by leaving the
+     app RESTARTS WHOLE when the app returns to the foreground. Coming back
+     is itself a deliberate act, the screen returned to is still the feedback
+     screen, and a fresh start is kinder than a tail with no head. The shape:
+     whoever starts a reveal records how to start it again and stays "live"
+     until the reveal's own scheduled length has elapsed; going HIDDEN while
+     live marks the interruption at the only moment it can be known honestly
+     (after a freeze, every timer fires late and lies); coming back visible
+     replays. Advancing, ending a sentence, or a fallback voice clears the
+     record - a replay must never speak into the NEXT attempt (S2). */
+  const revealLive = useRef(null);
+  useEffect(() => {
+    const onVis = () => {
+      const r = revealLive.current;
+      if (document.visibilityState === "hidden") { if (r && r.live) r.interrupted = true; return; }
+      if (r && r.live && r.interrupted) { r.interrupted = false; unlockVoice(); r.replay(); }
+    };
+    document.addEventListener("visibilitychange", onVis);
+    return () => document.removeEventListener("visibilitychange", onVis);
+  }, []);
   const [lastGrade, setLastGrade] = useState(null);
   const [advanceReady, setAdvanceReady] = useState(true); // P0-3
   /* How long the child is being asked to wait, so the control can show it
@@ -765,11 +785,17 @@ export default function App() {
     if (result === "correct") buzz(28);           // N-11: no error rumble
     unlockVoice();
     const praiseIdx = Math.floor(Math.random() * PRAISE.length);
-    speakVoice(result, word, praiseIdx, s.settings.sound,
+    const sayReveal = () => speakVoice(result, word, praiseIdx, s.settings.sound,
       /* The system voice says "reed" for "read". The recorded clip does not,
-         so only this fallback is remapped to a praise line it can say. */
-      (why) => { noteFallback(why); speak(feedbackSpeech(result, word, ttsSafePraise(praiseIdx)), true, s.settings.lang); armAdvance(ADVANCE_GUARD_MS); },
-      (ms, tiles) => { armAdvance(Math.max(ms, ADVANCE_GUARD_MS), true); schedulePops(tiles); });
+         so only this fallback is remapped to a praise line it can say. The
+         fallback also clears the AN record: a system-spoken reveal has no
+         clips to restart and the lost half cannot be named. */
+      (why) => { revealLive.current = null; noteFallback(why); speak(feedbackSpeech(result, word, ttsSafePraise(praiseIdx)), true, s.settings.lang); armAdvance(ADVANCE_GUARD_MS); },
+      (ms, tiles) => { armAdvance(Math.max(ms, ADVANCE_GUARD_MS), true); schedulePops(tiles);
+        const r = revealLive.current;
+        if (r) { clearTimeout(r.doneT); r.doneT = setTimeout(() => { r.live = false; }, ms); } });
+    if (s.settings.sound) revealLive.current = { live: true, interrupted: false, replay: sayReveal };
+    sayReveal();
     /* P1-7 lives in the effect below: this is the moment the control is
        disabled, so focusing it from here does nothing at all. */
   }
@@ -813,6 +839,11 @@ export default function App() {
      grade). One function, because two copies of this plan is how a queue and
      a session count stop agreeing. */
   function playSentenceReveal(item, w, leadId) {
+    /* AN: the sentence reveal is the one the owner's phone caught frozen.
+       Restarting clears the pending close read first, or the old close
+       timer would speak over the restarted reveal when it thaws. */
+    if (stateRef.current.settings.sound) revealLive.current = { live: true, interrupted: false,
+      replay: () => { clearTimeout(closeTimer.current); playSentenceReveal(item, w, leadId); } };
     const line = REVEAL_LINES[Math.floor(Math.random() * REVEAL_LINES.length)];
     const plan = leadId ? [leadId, "seam", ...sentencePlan(item.id, w, line)]
       : sentencePlan(item.id, w, line);
@@ -832,6 +863,7 @@ export default function App() {
            utterance, timed to start when the first has finished, so a tap can
            interrupt it without touching what came before. */
         closeTimer.current = setTimeout(() => {
+          if (revealLive.current) revealLive.current.live = false;   // the reveal proper is over; the close read is its own utterance
           playClips(sentenceClosePlan(item.id), stateRef.current.settings.sound, noteFallback);
         }, ms + SEAM_MS);
       }, w ? soundIdsFor(w) : null);
@@ -873,6 +905,7 @@ export default function App() {
      to move on. */
   function endSentence() {
     sentenceRef.current = null;                    // whoever got here first, the reveal is over
+    revealLive.current = null;                     // AN: nothing left to restart
     hush(); stopClips(); clearPops();
     clearTimeout(closeTimer.current);
     setSentence(null); setOpenWord(null);
@@ -885,6 +918,7 @@ export default function App() {
 
   function next() {
     hush(); stopClips(); clearPops();                // S2 — silence the last reveal before the next attempt, and unmark its tiles
+    revealLive.current = null;                       // AN: an advanced-past reveal must never replay into the next attempt (S2)
     /* A sentence due here takes this press, and the child stays on the word
        they just read until the sentence is done. `order` counts FIRST results
        only, so a word put back for a second look does not push a sentence

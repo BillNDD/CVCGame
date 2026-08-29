@@ -8,7 +8,7 @@ Per-test rows carry the test's own sentence, which in this project IS the
 Given/When/Then effect. The requirement, oracle, platform, mutant family, evidence
 and known limits are declared per FILE, in the tool, where they stay true.
 
-Totals: 444 it() SITES across 22 files, plus 18 gates that are not test files.
+Totals: 447 it() SITES across 22 files, plus 18 gates that are not test files.
 
 A site inside a loop or a table runs many times, so these rows describe more tests than they number: Vitest executes 330. The rows count the places behaviour is asserted.
 
@@ -484,7 +484,7 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 9 | G2 properties | P9: the session opens with the most secure word |
 | 10 | G2 properties | P10: migrate is total and idempotent, and its output survives the engine |
 
-## tests/reveal.test.js — 26 tests (G10)
+## tests/reveal.test.js — 29 tests (G10)
 
 - **Requirement protected:** SPEC section 5: the reveal, its pauses, the skip, and silence before the attempt ends
 - **Independent oracle:** The literal clip plan and stated timings
@@ -522,6 +522,9 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 24 | G10 — the child hears the word before the app lets them move on | 12: asking to finish early stops the reveal and its rings |
 | 25 | G10 — the child hears the word before the app lets them move on | 13: a length arriving after the backstop takes the control back, and the fill never runs backwards |
 | 26 | G10 — the child hears the word before the app lets them move on | 4: the wait carries a fill for exactly as long as the reveal |
+| 27 | fault AN - a reveal interrupted by leaving the app restarts whole on return | replays the word reveal it was cut off from, and only that |
+| 28 | fault AN - a reveal interrupted by leaving the app restarts whole on return | never replays into the next attempt - advancing clears the record (S2) |
+| 29 | fault AN - a reveal interrupted by leaving the app restarts whole on return | a finished reveal does not replay - live ends when the scheduled length elapses |
 
 ## tests/safety-splash.test.js — 3 tests (G10)
 

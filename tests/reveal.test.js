@@ -39,6 +39,8 @@ let stored = null;
    so a test can deliver the length whenever it likes. */
 let pendingScheduled = null;
 let lateWord = "";
+/* Every reveal the double is asked to speak, for the AN restart test. */
+const spoke = [];
 const lateReveal = (ms) => { if (pendingScheduled) pendingScheduled(ms, tilesFor(lateWord)); };
 
 vi.mock("../app/src/storage.js", () => ({
@@ -75,6 +77,7 @@ vi.mock("../app/src/voicepacks.js", () => ({
      so its absence was found by `npm run check` and not by a red test. */
   playClips: (plan, enabled, fallback, onScheduled) => { if (onScheduled) onScheduled(0, []); },
   speakVoice: (kind, word, praiseIdx, enabled, fallback, onScheduled) => {
+    spoke.push(kind + ":" + word);
     /* The real module returns before ANY callback when sound is off — the
        caller knows the setting and arms the guard itself. A double that fired
        onScheduled anyway handed the sound-off test a phantom reveal length
@@ -580,5 +583,68 @@ describe("G10 — the child hears the word before the app lets them move on", ()
     await flush(REVEAL_MS + 50);
     expect(advance().disabled).toBe(false);
     expect(fill()).toBeNull();                       // nothing left over on a live control
+  });
+});
+
+describe("fault AN - a reveal interrupted by leaving the app restarts whole on return", () => {
+  /* Owner-ruled 2026-08-25 from the roster-and-reveal page, measured by him
+     on beta 28: "after coming back from home button the sentence doesn't
+     continue, but the seed is no longer lit". The device fault is an audio
+     clock this environment cannot suspend, so the test drives the SIGNAL
+     path instead: hidden while a reveal is live marks the interruption, and
+     visible replays the same reveal from the top. The owner verifies the
+     sound itself on the device that found it, and fault AN stays open until
+     he does. */
+  const vis = (state) => act(() => {
+    Object.defineProperty(document, "visibilityState", { configurable: true, get: () => state });
+    document.dispatchEvent(new Event("visibilitychange"));
+  });
+  it("replays the word reveal it was cut off from, and only that", async () => {
+    stored = { ...newState(), preLevel: 0, level: 1 };
+    voiceMode = "pack";
+    render(createElement(App));
+    await flush(0);
+    fireEvent.click(screen.getByLabelText("Begin Session"));
+    await flush(0);
+    spoke.length = 0;
+    fireEvent.keyDown(screen.getByLabelText("got it"), { key: "Enter" });
+    await flush(0);
+    expect(spoke.length, "the reveal spoke once").toBe(1);
+    const first = spoke[0];
+    await vis("hidden");
+    await vis("visible");
+    expect(spoke.length, "coming back restarts the whole reveal").toBe(2);
+    expect(spoke[1], "the SAME reveal - same outcome, same word").toBe(first);
+  });
+  it("never replays into the next attempt - advancing clears the record (S2)", async () => {
+    stored = { ...newState(), preLevel: 0, level: 1 };
+    voiceMode = "quick";
+    render(createElement(App));
+    await flush(0);
+    fireEvent.click(screen.getByLabelText("Begin Session"));
+    await flush(0);
+    fireEvent.keyDown(screen.getByLabelText("got it"), { key: "Enter" });
+    await flush(0);
+    await vis("hidden");                      // interrupted mid-reveal...
+    await flush(5000);
+    fireEvent.click(screen.getByLabelText(/Next|Finish/));   // ...but the grown-up advanced
+    await flush(0);
+    spoke.length = 0;
+    await vis("visible");
+    expect(spoke.length, "an advanced-past reveal stays silent").toBe(0);
+  });
+  it("a finished reveal does not replay - live ends when the scheduled length elapses", async () => {
+    stored = { ...newState(), preLevel: 0, level: 1 };
+    voiceMode = "quick";                      // 150 ms reveal
+    render(createElement(App));
+    await flush(0);
+    fireEvent.click(screen.getByLabelText("Begin Session"));
+    await flush(0);
+    fireEvent.keyDown(screen.getByLabelText("got it"), { key: "Enter" });
+    await flush(1000);                        // the 150 ms reveal has long finished
+    spoke.length = 0;
+    await vis("hidden");
+    await vis("visible");
+    expect(spoke.length, "nothing was interrupted, so nothing replays").toBe(0);
   });
 });
