@@ -567,17 +567,21 @@ describe("the ceramic tile states", () => {
    one slot, a spoken sound for a prompt, and a tray of the letters the child
    has been taught. */
 describe("Build-a-sound, for a child still on the ladder", () => {
-  it("9: Pre 1 gets no tray at all — it has met no letters", () => {
-    expect(buildSoundTray(1, () => 0.3)).toBeNull();
-    expect(preLetters(1)).toEqual([]);
+  it("9: below the ladder's first rung there is no tray, and a chunk is never a tile", () => {
+    expect(buildSoundTray(0, () => 0.3)).toBeNull();
+    expect(preLetters(0)).toEqual([]);
+    /* A chunk is READ, never dealt as a tray tile: the pool filters by
+       declaration, so no c: item can reach a slot (the chunk rebuild). */
+    expect(preLetters(2).every((t) => t.length === 1)).toBe(true);
   });
 
   it("10: the tray is exactly what the rung has taught, and grows with it", () => {
-    /* The three-rung ladder of the cutover: the ear, s-a-t-p, i-n. */
-    expect(preLetters(2)).toEqual(["s", "a", "t", "p"]);
-    expect(preLetters(3)).toEqual(["s", "a", "t", "p", "i", "n"]);
-    expect(preLetters(3).length).toBe(6);
-    for (const [rung, size] of [[2, 4], [3, 6]]) {
+    /* The chunk ladder's two rungs: s-a-t-p from the first session, i-n at
+       the second (letters only - the rungs' chunks are read, not dealt). */
+    expect(preLetters(1)).toEqual(["s", "a", "t", "p"]);
+    expect(preLetters(2)).toEqual(["s", "a", "t", "p", "i", "n"]);
+    expect(preLetters(2).length).toBe(6);
+    for (const [rung, size] of [[1, 4], [2, 6]]) {
       const t = buildSoundTray(rung, () => 0.3);
       expect(t.tiles.length).toBe(size);
       expect(t.slots).toBe(1);
@@ -587,7 +591,7 @@ describe("Build-a-sound, for a child still on the ladder", () => {
 
   it("11: no tile is silent, and none is a letter the rung has not reached", () => {
     const shipped = new Set(Object.keys(JSON.parse(readFileSync("app/public/voice/manifest.json", "utf8"))));
-    for (const rung of [2, 3]) {
+    for (const rung of [1, 2]) {
       const t = buildSoundTray(rung, () => 0.5);
       expect(t.sounds.every((id) => shipped.has(id))).toBe(true);
       expect(t.tiles.every((c) => preLetters(rung).includes(c))).toBe(true);
@@ -597,7 +601,7 @@ describe("Build-a-sound, for a child still on the ladder", () => {
   });
 
   it("12: finding the sound wins, and a wrong tile invites another try", async () => {
-    const tray = buildSoundTray(3, () => 0.3);
+    const tray = buildSoundTray(2, () => 0.3);
     render(createElement(BuildItScreen, {
       tray,
       playWord: (w, then) => { played.push("word:" + w); if (then) then(); },
@@ -622,7 +626,7 @@ describe("Build-a-sound, for a child still on the ladder", () => {
        wrong tile in the single slot and the only way on was a tap nothing
        explained. After the miss is heard, the slot is empty again with no
        tap at all, and the next tile goes straight in. */
-    const tray = buildSoundTray(3, () => 0.3);
+    const tray = buildSoundTray(2, () => 0.3);
     render(createElement(BuildItScreen, {
       tray,
       playWord: (w, then) => { played.push("word:" + w); if (then) then(); },
@@ -785,12 +789,12 @@ describe("free play builds go on until Done", () => {
   });
   it("14: a found sound is followed by another sound, and Done goes home", async () => {
     const App = (await import("../app/src/App.jsx")).default;
-    stored = { ...newState(), preLevel: 3 };
+    stored = { ...newState(), preLevel: 2 };
     render(createElement(App));
     await flush(0);
     fireEvent.click(screen.getByLabelText("Free play"));
     await flush(0);
-    fireEvent.click(screen.getByLabelText("Find a Pre 3 sound"));
+    fireEvent.click(screen.getByLabelText("Find a Pre 2 sound"));
     await flush(0);
     expect(screen.getByText(/Find the sound/)).toBeTruthy();
     const findIt = async () => {

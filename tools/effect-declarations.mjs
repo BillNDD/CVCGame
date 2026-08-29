@@ -166,7 +166,7 @@ export const DECLARED = {
   },
   "tests/pre.test.js": {
     safety: { S1: "unit" },
-    gate: "G10", requirement: "SPEC section 12 item 8: the pre-level ladder - its five rungs, sessions, promotions, and the fresh-saves-only migration",
+    gate: "G10", requirement: "SPEC section 12: the chunk ladder - its two rungs of letters and chunks, sessions, promotions, and the place-by-mastery migration",
     oracle: "Literal rung rosters, literal boundary counts, and the shipped sound inventory", platform: "node/jsdom with fake timers",
     mutants: "none yet - the ladder shipped 2026-08-15 and its mutant family is a named follow-up", evidence: "Vitest counts (mapped by G20)",
     limits: "Proves the ladder's arithmetic and wiring, never how a sound lands in a child's ear - the clips it plays were each graded in their own rounds.",

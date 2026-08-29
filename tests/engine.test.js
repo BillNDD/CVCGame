@@ -425,7 +425,7 @@ describe("heal", () => {
   it("repairs a hostile version so the migration check cannot crash", () => {
     expect(() => migrate({ version: { toString: null } })).not.toThrow();
     const m = migrate({ version: { toString: null }, level: 2 });
-    expect(m.version).toBe(6);
+    expect(m.version).toBe(7);   // v7, the chunk-ladder rebuild (2026-08-25)
     expect(m.level).toBe(6);   // healed to no version, bumped 2 to 3 by v3, floored at old 3's new ground
   });
   it("repairs a hostile or fractional level so the engine cannot crash", () => {

@@ -289,9 +289,9 @@ describe("model: every free-play cell opens something, and every something can b
            the level has text; the Sounds row only on the pre-ladder; the
            Build row only off it; build cells dimmed without sound. */
         expect(cells.some((c) => /Level \d+ sentences/.test(c.textContent))).toBe(sentencesUpTo(save.level).length > 0);
-        /* Pre 1 has met no letters, so there is nothing to find (open-faults
-           Q6, owner-ruled 2026-08-17): the Sounds row starts at Pre 2. */
-        expect(cells.some((c) => /Find a Pre/.test(c.textContent))).toBe(save.preLevel >= 2);
+        /* Since the chunk rebuild every rung teaches letters, so the Sounds
+           row exists from the first rung (PRE_TRAY_FROM 1). */
+        expect(cells.some((c) => /Find a Pre/.test(c.textContent))).toBe(save.preLevel >= 1);
         expect(cells.some((c) => /Build a level/.test(c.textContent))).toBe(save.preLevel === 0);
         cells.filter((c) => /Build|Find a Pre/.test(c.textContent)).forEach((c) => expect(c.disabled).toBe(!save.sound));
         const live = cells.filter((c) => !c.disabled);

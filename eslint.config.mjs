@@ -1,7 +1,7 @@
 /* Quality metrics (gate G6). Only two rules, both limits from
    docs/testing-gauntlet.md: cyclomatic complexity 15 or less per function in
    the engine and the app; file length 1400 lines or less for every source
-   file except the generated engine, whose own ceiling is 2400.
+   file except the generated engine, whose own ceiling is 2600.
    reference/word-quest.jsx is exempt (it must stay one file), and
    generated files are not source — the generated engine is linted anyway,
    deliberately, so the module the app actually imports stays under the
@@ -11,7 +11,9 @@
    ("Increase it to 1400 on my authority" — the auditor found this header
    still saying 900 while the enforced number had moved twice; CLAUDE.md E6
    is the record). On 2026-08-16 the owner split the engine out: "Increase
-   the engine specific line max to 2400" — the engine alone rises to 2400,
+   the engine specific line max to 2400" — the engine alone rose to 2400, and
+   on 2026-08-25 to 2600 ("Increase engine max length to 2600 lines") for the
+   chunk-ladder roster,
    every other file keeps 1400. tools/quality-control.mjs reads all the
    numbers from .claude/gate-baseline.json and fails if this config
    disagrees with it. */
@@ -30,7 +32,7 @@ export default [
     },
     rules: {
       complexity: ["error", 15],
-      "max-lines": ["error", 2400],
+      "max-lines": ["error", 2600],
     },
   },
   {

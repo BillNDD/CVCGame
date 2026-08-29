@@ -552,20 +552,22 @@ does a screen reader or any other assistive technology: an activation that carri
 behind it counts as a keyboard press, never as a touch. The controls are muted in color and
 small in appearance, with a minimum target of 44 px.
 
-The ladder refuses a session it cannot ask (2026-08-23). EVERY rung of the pre-level ladder
-asks its question with a SOUND, and nothing on a pre-level screen is ever read — which is the
-same thing section 12's 2026-08-15 ruling says, and the reason S2 does not apply there. An
-ear rung shows an ear and plays the sounds to blend; a letter rung shows its one letter while
-that letter's approved sound plays as the PROMPT, and the child says it back. The letter is
-shown, not read: it is the answer in print beside the question in sound. So with sound off
-there is no prompt to echo on any rung, and the refusal covers the whole ladder rather than
-its first one. A test holds this by the rung's own declared `kind` and by what the screen
-actually draws, so a future rung a child could answer from print would fail rather than that
-child being silently refused. (An earlier draft of this paragraph claimed the rungs deal a
-Build-a-sound tray with nothing printed; that was wrong — `PRE_TRAY_FROM` governs free
-play's Find-the-sound mode, never a session — and it contradicted section 12. Corrected
-2026-08-23 by the release sweep.) With sound off such a session cannot be answered, and every grade the adult gave was still written to the
-child's ladder record. So "Begin Session" is refused while the child is on the ladder and
+The ladder refuses a session it cannot ask (2026-08-23; re-derived 2026-08-25 for the chunk
+ladder, under the owner's ruling that the refusal lifts for reading rungs and stays for any
+rung that asks with a sound). Every rung is now MIXED: its letter items ask with a SOUND —
+the letter shown, not read, the approved sound as the prompt, the child saying it back — and
+its chunk items are READ, printed on a silent screen, answerable without sound. A rung needs
+sound exactly when it carries a letter item, and both rungs do, so the blanket refusal keyed
+on being anywhere on the ladder remains TRUE of every rung a child can hold — but the reason
+is now per-item, and a test derives it from the items themselves rather than trusting this
+sentence: a future all-chunk rung would fail the derivation rather than a reading child
+being silently refused. The alongside chunk drills a graduate meets inside word sessions are
+pure reading and are never refused for sound. (An earlier draft of the 2026-08-23 paragraph
+claimed the rungs deal a Build-a-sound tray with nothing printed; that was wrong —
+`PRE_TRAY_FROM` governs free play's Find-the-sound mode, never a session. Corrected
+2026-08-23 by the release sweep.) With sound off a letter item cannot be answered, and every
+grade the adult gave was still written to the child's ladder record. So "Begin Session" is
+refused while the child is on the ladder and
 sound is off, and the chooser says why in its own voice, in exactly these words:
 
 > The first steps need sound. Turn sound on in the Grown-ups corner.

@@ -8,7 +8,7 @@ Per-test rows carry the test's own sentence, which in this project IS the
 Given/When/Then effect. The requirement, oracle, platform, mutant family, evidence
 and known limits are declared per FILE, in the tool, where they stay true.
 
-Totals: 439 it() SITES across 22 files, plus 18 gates that are not test files.
+Totals: 444 it() SITES across 22 files, plus 18 gates that are not test files.
 
 A site inside a loop or a table runs many times, so these rows describe more tests than they number: Vitest executes 330. The rows count the places behaviour is asserted.
 
@@ -97,7 +97,7 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 21 | the ceramic tile states | 27b: with no matchMedia at all - jsdom, and any browser too old for it - the tray still sizes itself from the width |
 | 22 | the ceramic tile states | 24: a completed word wears one halo on the slot row round the assembled word, and every tray tile is disabled and used |
 | 23 | the ceramic tile states | 25: a win during the scaffold takes the cue ring off the slot it was on |
-| 24 | Build-a-sound, for a child still on the ladder | 9: Pre 1 gets no tray at all — it has met no letters |
+| 24 | Build-a-sound, for a child still on the ladder | 9: below the ladder's first rung there is no tray, and a chunk is never a tile |
 | 25 | Build-a-sound, for a child still on the ladder | 10: the tray is exactly what the rung has taught, and grows with it |
 | 26 | Build-a-sound, for a child still on the ladder | 11: no tile is silent, and none is a letter the rung has not reached |
 | 27 | Build-a-sound, for a child still on the ladder | 12: finding the sound wins, and a wrong tile invites another try |
@@ -427,9 +427,9 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 2 | every control is named in plain words | 2: the done screens, the pre-ladder's first rung, and the way home from a crash |
 | 3 | every control is named in plain words | 3 (control): a hold named the old way, a bare emoji button, and a label round an input are each refused |
 
-## tests/pre.test.js — 16 tests (G10)
+## tests/pre.test.js — 21 tests (G10)
 
-- **Requirement protected:** SPEC section 12 item 8: the pre-level ladder - its five rungs, sessions, promotions, and the fresh-saves-only migration
+- **Requirement protected:** SPEC section 12: the chunk ladder - its two rungs of letters and chunks, sessions, promotions, and the place-by-mastery migration
 - **Independent oracle:** Literal rung rosters, literal boundary counts, and the shipped sound inventory
 - **Platform:** node/jsdom with fake timers
 - **Mutant family:** none yet - the ladder shipped 2026-08-15 and its mutant family is a named follow-up
@@ -439,22 +439,27 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 
 | # | Suite | Effect (the test's own sentence) |
 |---|---|---|
-| 1 | the ladder's shape | holds three rungs: the ear, then s-a-t-p, i-n |
-| 2 | the ladder's shape | teaches exactly the letters Level 1's decodables spell, and every item's sound ships |
-| 3 | a pre-session | serves a fresh rung whole, in taught order, and never shuffles |
-| 4 | a pre-session | leads with up to five due letter reviews from earlier rungs |
-| 5 | a pre-session | serves the whole rung, six items, and never repeats one |
-| 6 | winning a rung | promotes at the words' boundary: 5 of the ear's 6, all 4 of s-a-t-p |
-| 7 | winning a rung | promotes on the words' second path too: two perfect sessions in a row |
-| 8 | winning a rung | passing the last rung leaves the ladder for Level 1 |
-| 9 | migration v5 and the fresh-saves-only ruling | a truly fresh save starts the ladder; every kind of history skips it |
-| 10 | migration v5 and the fresh-saves-only ruling | is idempotent, and a graduate stays graduated |
-| 11 | migration v5 and the fresh-saves-only ruling | a corrupted preLevel fails toward teaching, never past it |
-| 12 | migration v5 and the fresh-saves-only ruling | keeps pre boxes and word boxes in separate rooms — the letters a and i collide otherwise |
-| 13 | the ladder in the app | a fresh install boots to Pre 1 and Begin serves the ear, not a word |
-| 14 | the ladder in the app | a pre-level item asks its own question - on arrival, and on the NEXT item, never the one just finished |
-| 15 | the ladder in the app | only the adult's hold records a pre result, into state.pre alone (S1) |
-| 16 | the ladder in the app | the grown-up's pre control jumps the ladder and Words leaves it |
+| 1 | the ladder's shape | holds two mixed rungs: letters first, then their chunks |
+| 2 | the ladder's shape | every item declares its kind - a letter or a c: chunk, decided by declaration and never by length |
+| 3 | the ladder's shape | teaches exactly the letters Level 1's decodables spell, and every item's sounds ship |
+| 4 | a pre-session | serves a fresh rung whole, in taught order, and never shuffles |
+| 5 | a pre-session | leads with due reviews from the earlier rung - letters and chunks both |
+| 6 | a pre-session | serves the whole rung, six items, and never repeats one |
+| 7 | winning a rung | promotes at the words' boundary: five of a rung's six, never four |
+| 8 | winning a rung | promotes on the words' second path too: two perfect sessions in a row |
+| 9 | winning a rung | passing the last rung leaves the ladder for Level 1 |
+| 10 | the chunk roster and its derived seats | seats every chunk, the pre six at zero and the riders where their words live |
+| 11 | the chunk roster and its derived seats | the due picker serves only clipped chunks the child's level has earned, capped, keys prefixed |
+| 12 | migration and the fresh-saves-only ruling | a truly fresh save starts the ladder; every kind of history skips it |
+| 13 | migration and the fresh-saves-only ruling | is idempotent, and a graduate stays graduated |
+| 14 | migration and the fresh-saves-only ruling | v7 re-seats a mid-ladder child by their accepted mastery, never by the old rung number |
+| 15 | migration and the fresh-saves-only ruling | a corrupted preLevel fails toward teaching, never past it |
+| 16 | migration and the fresh-saves-only ruling | keeps pre boxes and word boxes in separate rooms - and a chunk's key is its own room too |
+| 17 | the ladder in the app | a fresh install boots to Pre 1 and Begin serves the first letter, sound first |
+| 18 | the ladder in the app | a chunk arrives in SILENCE, printed, and its speaker plays the sounds apart - never the answer (S2) |
+| 19 | the ladder in the app | grading a chunk writes to its own prefixed key and the reveal blends at last |
+| 20 | the ladder in the app | only the adult's hold records a pre result, into state.pre alone (S1) |
+| 21 | the ladder in the app | the grown-up's pre control jumps the ladder and Words leaves it |
 
 ## tests/properties.test.js — 10 tests (G2)
 
@@ -497,7 +502,7 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 4 | G10 — the child hears the word before the app lets them move on | 3b: with sound OFF there is no reveal to wait for, and the guard arms at once |
 | 5 | G10 — the child hears the word before the app lets them move on | 15: the Glowseed is in the stage, hidden from assistive technology, idle on the attempt, lit and darkened by the lifecycle's own events |
 | 6 | G10 — the child hears the word before the app lets them move on | 15d: with sound OFF a child on the ladder is never dealt a session they cannot answer - the control refuses and says why |
-| 7 | G10 — the child hears the word before the app lets them move on | 15h: the blanket refusal is right because EVERY rung asks with a SOUND - if one ever does not, this fails |
+| 7 | G10 — the child hears the word before the app lets them move on | 15h: the refusal is right because every rung still ASKS with a sound - derived from the items, never trusted |
 | 8 | G10 — the child hears the word before the app lets them move on | 15g: with sound off AND a second look, the strip says both on one line |
 | 9 | G10 — the child hears the word before the app lets them move on | 15f: the refusal's reason is reachable from the control it explains, and dark enough to read on the sky |
 | 10 | G10 — the child hears the word before the app lets them move on | 15e: with sound ON the ladder deals as it always did, and its stage carries the Glowseed idle |

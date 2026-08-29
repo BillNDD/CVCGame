@@ -58,7 +58,7 @@ export default function ParentScreen({
               <div style={{ fontWeight: 800, fontSize: 13, color: C.ink, marginBottom: 4 }}>Pre-levels (sounds before words)</div>
               <Seg options={[[0, "Words"], ...PRE_LEVELS.map(p => [p.n, "P" + p.n])]} value={state.preLevel} onChange={jumpPreLevel} />
             </div>
-            <p className="wq-help">Words: sessions serve reading. P1 to P3: sessions teach listening and letter sounds first, graded by you.</p>
+            <p className="wq-help">Words: sessions serve reading. P1 and P2: sessions teach letter sounds and the first reading chunks, graded by you.</p>
           </section>
 
           {/* P2-4 — collapsed mastery map with summary rows */}

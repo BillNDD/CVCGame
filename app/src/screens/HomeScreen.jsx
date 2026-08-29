@@ -163,7 +163,7 @@ export default function HomeScreen({ state, L, kid, masteredCount, persistent, r
         <UpdateRow />
       </Zone.Strip>
       {fpChooser && <FreePlayChooser level={state.level} L={L} sound={state.settings.sound}
-        preLevel={state.preLevel} buildable={state.preLevel === 0 || state.preLevel >= 2}
+        preLevel={state.preLevel} buildable={true /* every rung teaches letters since the chunk rebuild (PRE_TRAY_FROM 1) */}
         sentences={sentences}
         onChoose={onFreePlayChoose} onCancel={onFreePlayCancel} />}
       {toast && <Toast>{toast}</Toast>}

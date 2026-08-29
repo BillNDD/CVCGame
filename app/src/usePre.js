@@ -1,7 +1,7 @@
 import { useState, useRef } from "react";
 import {
   buildPreSession, checkPrePromotion, freshWordState, applyResult,
-  soundIdFor, soundIdsFor, PRAISE, ADVANCE_GUARD_MS,
+  soundIdFor, soundIdsFor, PRAISE, ADVANCE_GUARD_MS, isChunkItem, chunkText, bankWords,
 } from "@engine";
 import { playClips, stopClips, unlockVoice } from "./voicepacks.js";
 
@@ -12,11 +12,16 @@ import { playClips, stopClips, unlockVoice } from "./voicepacks.js";
    the adult with the same strip. Boxes live in state.pre; the word queue is
    never touched.
 
-   The prompt IS the question here — a sound to echo, never a word to read —
-   so playing it on arrival and on 🔊 at any moment does not touch S2, which
-   guards reading attempts (SPEC section 12 item 8 carries the ruling).
-   Letters play their one approved sound; an ear item plays its word's sounds
-   apart on the sound-out's own seam. */
+   TWO KINDS OF ITEM, AND S2 ARRIVED WITH THE SECOND (the chunk rebuild,
+   owner-ruled 2026-08-24/25). A LETTER item's prompt is its sound - the
+   question, never the answer - so it plays on arrival and on 🔊 at any
+   moment. A CHUNK item is READ: the screen is silent on arrival (speaking
+   the chunk would hand a reading child the answer - S2 in full), and the 🔊
+   plays the chunk's sounds SEPARATED, never blended, which is the ruled
+   home of the retired ear rung's oral blend: a stuck child gets the
+   listening help on demand, and if they then say the chunk, their ear is
+   fine and the print is what is new. The "Your turn!" spoken cue lands with
+   the clip round; until then silence is the whole arrival. */
 export default function usePreSession({ stateRef, setState, persist, setScreen, noteFallback }) {
   const [preQ, setPreQ] = useState([]);
   const [preQi, setPreQi] = useState(0);
@@ -27,10 +32,19 @@ export default function usePreSession({ stateRef, setState, persist, setScreen, 
   const preGradedRef = useRef(null);
   const preResultsRef = useRef({});
 
-  const prePromptPlan = (it) =>
-    it.length === 1
-      ? [soundIdFor(it)]
-      : soundIdsFor(it).filter((id) => id !== "d:silent").flatMap((id, i) => (i ? ["seam2", id] : [id]));
+  /* KIND, NEVER LENGTH: a chunk and the retired ear items are both two
+     letters, and a length test is how a chunk would have sounded itself out
+     on arrival. Arrival: a letter asks itself; a chunk is silent (null).
+     The speaker: a letter's sound again; a chunk's sounds APART. */
+  const separated = (text) =>
+    soundIdsFor(text).filter((id) => id !== "d:silent").flatMap((id, i) => (i ? ["seam2", id] : [id]));
+  const arrivalPlan = (it) => (isChunkItem(it) ? null : [soundIdFor(it)]);
+  const speakerPlan = (it) => (isChunkItem(it) ? separated(chunkText(it)) : [soundIdFor(it)]);
+  /* A whole-chunk clip exists exactly when the chunk is a bank word - the
+     seven ruled reuses. The rest arrive with the u: round; until then a
+     chunk's feedback ends on its separated sounds and nothing is demanded
+     of a clip that does not exist (the dormancy rule, SPEC section 12). */
+  const wordClipFor = (it) => (isChunkItem(it) && bankWords().includes(chunkText(it)) ? "w:" + chunkText(it) : null);
   /* THE PROMPT ASKS ITSELF (open fault AH, closed 2026-08-24). The paragraph
      at the top of this file has said since the ladder shipped that the prompt
      plays "on arrival and on the speaker at any moment" - and nothing ever
@@ -50,10 +64,17 @@ export default function usePreSession({ stateRef, setState, persist, setScreen, 
      it would teach the wrong sound. */
   const playPromptFor = (item) => {
     if (!item) return;                     // nothing is not an item
+    const plan = arrivalPlan(item);
+    if (!plan) return;                     // a chunk arrives in silence (S2)
     stopClips();
-    playClips(prePromptPlan(item), stateRef.current.settings.sound, noteFallback);
+    playClips(plan, stateRef.current.settings.sound, noteFallback);
   };
-  const playPrePrompt = () => playPromptFor(preQ[preQi]);
+  const playPrePrompt = () => {
+    const item = preQ[preQi];
+    if (!item) return;
+    stopClips();
+    playClips(speakerPlan(item), stateRef.current.settings.sound, noteFallback);
+  };
 
   function beginPre() {
     const s = structuredClone(stateRef.current);
@@ -83,14 +104,19 @@ export default function usePreSession({ stateRef, setState, persist, setScreen, 
     setState(s); persist(s);
     setPreGrade(result); setPrePhase("feedback"); setPreAdvanceReady(false);
     /* Feedback speaks with shipped clips only: praise or the retry line,
-       then the prompt again, and — for an ear item read correctly — the
-       whole word, the reveal the child has just earned. The advance arms
-       when the clips' real length is known, with the guard as a floor. */
+       then the sounds - and for a chunk with an approved whole-chunk clip,
+       the blend itself, the reveal the child has just earned. The sound-out
+       fires on EVERY outcome, close and not yet included: a child who
+       missed it needs the sounding-out at least as much (SPEC section 5's
+       own rule). The full ruled reveal - "That is a-t, at. Like in cat.",
+       the anchor word growing under the tiles - lands with the clip round;
+       this is the same reveal built from what already ships. */
     const praise = "p:" + Math.floor(Math.random() * PRAISE.length);
-    const prompt = prePromptPlan(item);
+    const prompt = isChunkItem(item) ? separated(chunkText(item)) : [soundIdFor(item)];
+    const whole = wordClipFor(item);
     const plan = result === "correct"
-      ? [praise, "seam", ...prompt, ...(item.length > 1 ? ["seam", "w:" + item] : [])]
-      : [result === "close" ? "l:close" : "l:wrong", "seam", ...prompt];
+      ? [praise, "seam", ...prompt, ...(whole ? ["seam", whole] : [])]
+      : [result === "close" ? "l:close" : "l:wrong", "seam", ...prompt, ...(whole ? ["seam", whole] : [])];
     if (!s.settings.sound) { setPreAdvanceReady(true); return; }
     playClips(plan, true,
       (why) => { noteFallback(why); setTimeout(() => setPreAdvanceReady(true), ADVANCE_GUARD_MS); },

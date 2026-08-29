@@ -902,17 +902,33 @@ function migrateV6(s) {
   s.level = graded ? lvl : Math.min(s.level || 1, LEVELS.length);
   s.version = 6;
 }
+/* v7, the chunk-ladder rebuild (owner-ruled 2026-08-25: "Place them based on
+   their already accepted mastery"). The rungs changed underneath a beta-28
+   child - the ear rung is gone and every rung now carries chunks - so an old
+   rung NUMBER means something different on the new ladder, which is fault
+   X's exact lesson (2026-08-21: "Recompute the seat from the child's own
+   graded words"). Every save still ON the ladder is re-seated by the same
+   box walk recovery uses: letter marks carry and lift the child past what
+   they hold, orphaned ear marks match no item and count for nothing, and
+   chunk boxes start empty because reading print is evidence no listening
+   mark can stand in for. A graduate (preLevel 0) is never touched. */
+function migrateV7(s) {
+  if (s.version >= 7) return;
+  if (typeof s.preLevel === "number" && s.preLevel > 0) s.preLevel = recoverPreLevel(s);
+  s.version = 7;
+}
 function migrate(s) {
   s = heal(s);
   migrateV3(s); migrateV4(s); migrateV5(s); migrateV6(s);
   if (typeof s.preLevel !== "number") s.preLevel = recoverPreLevel(s);
+  migrateV7(s);
   s.level = Math.min(Math.max(1, s.level || 1), LEVELS.length);  // defensive clamp, always
   s.preLevel = Math.min(Math.max(0, s.preLevel || 0), PRE_LEVELS.length);
   return s;
 }
 
 const newState = () => ({
-  version: 6, level: 1, preLevel: 1, sessionsCompleted: 0, perfectStreak: 0, prePerfectStreak: 0,
+  version: 7, level: 1, preLevel: 1, sessionsCompleted: 0, perfectStreak: 0, prePerfectStreak: 0,
   settings: { sound: true, childName: "", lang: "en-US" },
   words: {}, log: [], pre: {},
 });
@@ -1777,18 +1793,32 @@ const HEART = ["i", "the", "a", "is", "to", "he", "we", "me", "be", "she",
    Boxes live in state.pre, NEVER state.words — the letters "a" and "i"
    would collide with the words "a" and "i". The five rung names were
    owner-approved on 2026-08-15 ("Approve pre level names"). */
-/* Re-derived at the 2026-08-20 cutover: the pre-ladder teaches everything
-   LEVEL 1 assumes, and the converted Level 1 spells exactly a, i, n, p, s
-   and t (an ant as at in it sat sit nap pan). The ear rung keeps the VC
-   blends of the new first words; the letter rungs shrink from ten letters
-   to six, in the s-a-t-p / i-n order the old rungs already taught. */
+/* THE CHUNK LADDER (owner-ruled across three decision pages, 2026-08-24 and
+   2026-08-25; SPEC section 12 carries the full design). The ear rung retired
+   with the rebuild: teaching sound-awareness WITH letters is worth roughly
+   twice teaching it by ear alone, and the oral blend survives as the
+   speaker's separated-sounds help. Each rung opens with its new letters
+   alone, then the two-letter CHUNKS built from them - phonics building
+   blocks, never words. A chunk item wears the "c:" prefix so nothing ever
+   again discriminates by LENGTH (the ear items and the chunks are both two
+   letters, and length-reading is how a chunk would have rendered as an ear
+   and sounded itself out on arrival). The prefix is also the state.pre key,
+   which is what keeps a chunk's reading marks out of the old ear marks'
+   room: a beta-28 child who blended "at" by EAR is not credited with
+   READING it. The rung names survive from the 2026-08-15 ruling because
+   each rung still opens with letter sounds; "Little Ears" retired with the
+   ear (owner-ruled 2026-08-25). */
 const PRE_LEVELS = [
-  { n: 1, name: "Little Ears", emoji: "👂", focus: "hear two sounds, say the word", kind: "ear",
-    items: ["an", "at", "it", "in", "as", "sat"] },
-  { n: 2, name: "First Sounds", emoji: "✨", focus: "s, a, t and p", kind: "letter", items: ["s", "a", "t", "p"] },
-  { n: 3, name: "New Sounds", emoji: "🌱", focus: "i and n", kind: "letter", items: ["i", "n"] },
+  { n: 1, name: "First Sounds", emoji: "✨", focus: "s, a, t and p - and the first chunks", kind: "mixed",
+    items: ["s", "a", "t", "p", "c:at", "c:ap"] },
+  { n: 2, name: "New Sounds", emoji: "🌱", focus: "i and n - and their chunks", kind: "mixed",
+    items: ["i", "n", "c:an", "c:in", "c:it", "c:ip"] },
 ];
 const preItems = (n) => (PRE_LEVELS.find((p) => p.n === n) || { items: [] }).items;
+/* A chunk item versus a letter item, decided by declaration and never by
+   length. chunkText strips the marker for display, sounds and clip lookup. */
+const isChunkItem = (it) => typeof it === "string" && it.startsWith("c:");
+const chunkText = (it) => (isChunkItem(it) ? it.slice(2) : it);
 
 /* A pre-session: up to five due letter reviews from the levels already won,
    then this level's items — the fresh ones in taught order, the rest lowest
@@ -1800,7 +1830,7 @@ function buildPreSession(state) {
   const sNum = state.sessionsCompleted + 1;
   const picked = new Set();
   const take = (arr, k) => { const got = []; for (const w of arr) { if (got.length >= k) break; if (!picked.has(w)) { picked.add(w); got.push(w); } } return got; };
-  const dueEarlier = PRE_LEVELS.filter((p) => p.kind === "letter" && p.n < state.preLevel).flatMap((p) => p.items)
+  const dueEarlier = PRE_LEVELS.filter((p) => p.n < state.preLevel).flatMap((p) => p.items)
     .filter((k) => pre[k] && pre[k].attempts > 0 && pre[k].box < 5 && pre[k].dueAt <= sNum)
     .sort((a, b) => pre[a].box - pre[b].box);
   const list = [];
@@ -1816,8 +1846,8 @@ function buildPreSession(state) {
    did for words: the rungs are small (the auditor measured 80 percent of a
    two-letter rung as two of two), so the boxes alone would make a bar the
    verdict never described. On a rung a child cannot crack, the grown-up's
-   jump control is the door. Passing Pre 5 leaves the ladder (preLevel 0)
-   and Level 1 begins. */
+   jump control is the door. Passing the last rung leaves the ladder
+   (preLevel 0) and Level 1 begins. */
 function checkPrePromotion(state, session) {
   if (!state.preLevel) return false;
   const pre = state.pre || {};
@@ -2063,21 +2093,100 @@ function tileSlots(plan, tileSounds = null) {
    instead says a SOUND and asks them to find its tile among the letters they
    have been taught - the same idea at the ladder's scale.
 
-   IT STARTS AT PRE 2, and that is the whole design constraint. Pre 1 is "Little
-   Ears": listening only, no letters anywhere, deliberately. A tray needs tiles
-   and the honest inventory at Pre 1 is empty, so the mode is not offered there
-   rather than borrowing letters the ladder has not reached. Drawing on Pre 2's
-   roster early would teach s, a, t and p ahead of the rung that introduces
-   them, and that order is stated pedagogy.
-
-   The tray is exactly what the child has been taught, nothing more: four tiles
-   at Pre 2, six at Pre 3, eight at Pre 4, ten at Pre 5. Every one of those ten
-   letters already has a shipped clip, so this mode adds no audio at all. */
-const PRE_TRAY_FROM = 2;
+   IT STARTS AT PRE 1 since the chunk rebuild: the first rung teaches letters
+   now, so the honest inventory exists from the first session - four tiles at
+   Pre 1, six at Pre 2. (Before 2026-08-25 it started at Pre 2, because the
+   retired ear rung taught no letters at all.) The pool is the taught rungs'
+   LETTER items alone - a chunk is read, never dealt as a tray tile, and the
+   filter is by declaration, not length. Every letter already has a shipped
+   clip, so this mode still adds no audio at all. */
+const PRE_TRAY_FROM = 1;
 function preLetters(preLevel) {
-  return PRE_LEVELS.filter((p) => p.kind === "letter" && p.n >= PRE_TRAY_FROM && p.n <= preLevel)
-    .flatMap((p) => p.items);
+  return PRE_LEVELS.filter((p) => p.n >= PRE_TRAY_FROM && p.n <= preLevel)
+    .flatMap((p) => p.items).filter((it) => !isChunkItem(it));
 }
+/* ------------------------- the chunk roster --------------------------------
+   Owner-ruled 2026-08-25 (SPEC section 12 carries the design and the three
+   decision pages behind it): 26 VC word families plus 53 CV chunks, taught
+   as phonics building blocks and never as words. The LIST is curriculum and
+   is typed; everything ABOUT a chunk - its seat, its dormancy - is derived,
+   so it cannot drift. The guards that shaped the CV side: no chunk that is
+   itself a word saying something else (be, do, go, he, me, no, so, to, we
+   are excluded - the collision set), anchors sound-verified by the engine
+   rather than by spelling, fewer than three verified anchors drops the
+   chunk. Refused outright by the owner: pu, pe, po, ho (2026-08-24) and the
+   soft spellings ce, ci, ge, gi. ed stays on the owner's word alone
+   (2026-08-25, "Ed -keep it"). */
+const CHUNK_ROSTER = [
+  "ad", "ag", "am", "an", "ap", "at", "ed", "en", "et", "id", "ig", "im",
+  "in", "ip", "it", "ob", "og", "op", "ot", "ox", "ub", "ug", "um", "un",
+  "us", "ut",
+  "ba", "ca", "da", "fa", "ga", "ha", "ja", "la", "ma", "na", "pa", "ra",
+  "sa", "ta", "ya", "de", "fe", "le", "ne", "re", "te", "ye", "bi", "di",
+  "fi", "hi", "ki", "li", "mi", "pi", "ri", "si", "ti", "wi", "bo", "co",
+  "fo", "jo", "lo", "mo", "ro", "bu", "cu", "du", "fu", "gu", "hu", "ju",
+  "lu", "mu", "ru", "su", "tu",
+];
+/* A word HOLDS a chunk when the chunk's two letters stand as two consecutive
+   single tiles in the word's own walk and the word's own sound at the vowel
+   tile is the SHORT vowel. The engine judges, never the spelling: a
+   third-letter-consonant rule accepted "side" for si and "tiger" for ti,
+   and soundIdsFor refuses both (settled.md 2026-08-25, "spelling cannot
+   judge an anchor"). */
+function wordHoldsChunk(word, chunk) {
+  const tiles = chunkWord(word), ids = soundIdsFor(word);
+  const vAt = "aeiou".includes(chunk[0]) ? 0 : 1;
+  for (let i = 0; i + 1 < tiles.length; i++)
+    if (tiles[i] === chunk[0] && tiles[i + 1] === chunk[1] && ids[i + vAt] === "d:short_" + chunk[vAt])
+      return true;
+  return false;
+}
+/* A chunk's seat. Two clauses, in ruling order. A chunk the RUNGS themselves
+   carry sits in the pre-ladder (seat 0) - membership in the ruled rungs,
+   never letter coverage, because a letters-based clause also caught sa, ta
+   and five more CV chunks whose ruled seats are Levels 1 and 2, and a seat-0
+   chunk outside the rungs is served nowhere at all. (This clause, not the
+   level rule, is what seats ip before Level 1: no Level 1 word contains it.)
+   Every other chunk seats at the earliest level whose own roster holds it -
+   which is also the owner's deadline rule ("never after the child already
+   reads a word containing it", 2026-08-25) folded into one walk, because
+   the first holding word IS the deadline. */
+const PRE_RUNG_CHUNKS = new Set(PRE_LEVELS.flatMap((p) => p.items).filter(isChunkItem).map(chunkText));
+function chunkSeat(chunk) {
+  if (PRE_RUNG_CHUNKS.has(chunk)) return 0;
+  for (const l of LEVELS) if (l.words.some((w) => wordHoldsChunk(w, chunk))) return l.n;
+  return null;
+}
+function chunkSeats() {
+  const out = {};
+  for (const c of CHUNK_ROSTER) out[c] = chunkSeat(c);
+  return out;
+}
+/* Dormancy, DERIVED: a chunk without an approved whole-chunk clip is never
+   served outside the pre-rungs and never demanded of the voice pack, so
+   G13 stays symmetric while zero chunk clips exist (owner ruled the whole
+   engine lands first, clips later in one round). Today the only approved
+   chunk clips are the seven that are bank words, so bank membership IS the
+   derivation; the commit that lands the u: clips replaces this with the
+   round's own ledger. The pre-rungs still serve ap and ip - their reveal
+   simply omits the whole-chunk clip until it exists, and nothing releases
+   before it does. */
+const chunkHasClip = (c) => bankWords().includes(c);
+/* The alongside drills' picker: due chunks a child at this level has
+   earned, seated at or below it, clip in hand, lowest box first, capped so
+   the McGuffey six-a-sitting benchmark binds the sitting and never the
+   level. Keys wear the item prefix - the same room the rungs write. */
+function dueChunks(state, cap = 3) {
+  const pre = state.pre || {}, sNum = state.sessionsCompleted + 1;
+  return CHUNK_ROSTER
+    .filter((c) => { const seat = chunkSeat(c); return seat !== null && seat > 0 && seat <= (state.level || 1); })
+    .filter((c) => chunkHasClip(c))
+    .filter((c) => { const b = pre["c:" + c]; return !b || (b.box < 5 && b.dueAt <= sNum); })
+    .sort((a, b) => (((pre["c:" + a] || {}).box || 0) - ((pre["c:" + b] || {}).box || 0)) || chunkSeat(a) - chunkSeat(b))
+    .slice(0, cap)
+    .map((c) => "c:" + c);
+}
+
 /* Null below Pre 2, so a caller cannot accidentally build a tray for a child
    who has met no letters - the check lives here rather than in every caller. */
 function buildSoundTray(preLevel, rand = Math.random) {

@@ -152,9 +152,12 @@ exclusions are recorded in SPEC section 12.
   only in the feedback phase.
 - S3. Feedback uses the exact SPEC section 5 sentences. A miss is an invitation to try again,
   never a failure message.
-- S4. Speech output says full words, and the single sounds of the approved sound library
-  (owner-approved 2026-08-10, for the level introduction and the sound-it-out reveal). It
-  never says letter names.
+- S4. Speech output says full words, the single sounds of the approved sound library
+  (owner-approved 2026-08-10, for the level introduction and the sound-it-out reveal), and —
+  owner-ruled 2026-08-24 on the chunk-ladder decision page, carried into the rule by the
+  commit that built the ladder — blended two-letter phonics chunks whose two sounds are both
+  in the approved library, each chunk clip heard and approved in a listening round like
+  everything else. It never says letter names.
 - S5. Adult result controls need a 450 ms pointer hold. A keyboard operates them directly.
 - S6. The app makes no network calls after load, has no accounts, and has no analytics. All data
   stays on the device. Two exceptions, each a request to the app's own host that carries no
@@ -240,8 +243,10 @@ exclusions are recorded in SPEC section 12.
   Keys that end in `_max` are ceilings: never raise one. E6 governs the baseline file only;
   the file-length limit is one of the G6 ceilings the file protects, not the meaning of E6.
   That limit is 1400 lines, and since 2026-08-16 the generated engine alone carries its own
-  ceiling of 2400 ("Increase the engine specific line max to 2400" — the engine grows with
-  teaching content, and it is the one file that kept hitting the general limit). The general
+  ceiling, 2400 then ("Increase the engine specific line max to 2400" — the engine grows with
+  teaching content, and it is the one file that kept hitting the general limit), raised to
+  2600 on 2026-08-25 ("Increase engine max length to 2600 lines") for the chunk-ladder
+  roster. The general
   limit was raised from 600 to 900 on 2026-07-29, from 900 to
   1200 on 2026-08-12, and from 1200 to 1400 on 2026-08-15 ("Increase it to 1400 on my
   authority", when the pre-level ladder would not fit the generated engine); only the owner

@@ -1,23 +1,25 @@
-import { C, PRE_LEVELS } from "@engine";
+import { C, PRE_LEVELS, isChunkItem, chunkText } from "@engine";
 import Frame from "../components/Frame.jsx";
 import Zone from "../components/Zone.jsx";
 import HoldButton from "../components/HoldButton.jsx";
 import Word from "../components/Word.jsx";
 
-/* THE PRE-LEVEL SESSION (owner-ruled 2026-08-15). One item at a time:
-   a letter fills the stage and its approved sound is the PROMPT, or — in the
-   ear items — the sounds of a Level 1 word play apart and nothing is shown to
-   read at all. The child says it back; the adult grades with the identical
-   hold strip a word uses, so S1 is the same sentence here it is everywhere.
-   The 🔊 replays the PROMPT and is live in every phase: the prompt is the
-   question, not the answer, which is why S2 is not in play — nothing on this
-   screen is being read (SPEC section 12 item 8). */
+/* THE PRE-LEVEL SESSION, rebuilt as the chunk ladder (owner-ruled
+   2026-08-24/25; SPEC section 12). One item at a time, two kinds by
+   declaration and never by length. A LETTER fills the stage and its
+   approved sound is the PROMPT - shown, not read, S2 not in play. A CHUNK
+   is READ: two letters printed, the screen silent, and S2 applies in full -
+   the 🔊 plays the sounds SEPARATED, never the blended answer, so the help
+   is the retired ear rung's oral blend on demand and never the answer. The
+   adult grades with the identical hold strip a word uses, so S1 is the same
+   sentence here it is everywhere. */
 export default function PreSessionScreen({
   state, item, phase, lastGrade, answered, totalQ,
   advanceReady, finishes, onExitAsk, grade, next, replayPrompt,
 }) {
   const P = PRE_LEVELS.find((p) => p.n === state.preLevel) || PRE_LEVELS[0];
-  const isEar = item.length > 1;
+  const isChunk = isChunkItem(item);
+  const shown = chunkText(item);
   const dead = phase === "feedback";
   return (
     <Frame>
@@ -32,18 +34,13 @@ export default function PreSessionScreen({
           <div style={{ textAlign: "center" }}>
             <p style={{ margin: 0, fontSize: 11.5, fontWeight: 800, letterSpacing: ".14em",
               textTransform: "uppercase", color: C.ink }}>
-              {isEar ? "What word do the sounds make?" : "Say the sound"}
+              {isChunk ? "What does it say?" : "Say the sound"}
             </p>
-            {/* The ear shows an ear and never letters: the whole point of
-                Pre 1 is blending by sound before print exists. A letter item
-                shows its letter in the word slot, one glyph, tile-sized. */}
-            <Word>{isEar ? "👂" : item}</Word>
-            <div className="wq-slot-tiles" aria-hidden={!(dead && isEar)}>
-              {/* In feedback the ear item reveals its word in print — the
-                  child has already said it, and seeing it after is exposure,
-                  not a test. Letters have nothing more to reveal. */}
-              {dead && isEar && <span className="wq-display wq-tile">{item}</span>}
-            </div>
+            {/* A letter shows one glyph while its sound asks the question.
+                A chunk shows its two letters and NOTHING plays: the print is
+                the question and the child's reading is the answer (S2). */}
+            <Word>{shown}</Word>
+            <div className="wq-slot-tiles" aria-hidden="true"></div>
             <div className="wq-slot-msg">
               {dead && (
                 <p style={{ margin: 0, fontSize: 15.5, fontWeight: 600, color: C.ink, lineHeight: 1.35 }}>
@@ -60,7 +57,7 @@ export default function PreSessionScreen({
           ? <button className="wq-cta" onClick={next} disabled={!advanceReady}
               style={{ background: C.green, opacity: advanceReady ? 1 : 0.55 }}>
               {finishes ? "🏁 Finish!" : "Next one ➡️"}</button>
-          : <div className="wq-prompt">{isEar ? "Listen… then say the word! 📣" : "Say it back! 📣"}</div>}
+          : <div className="wq-prompt">{isChunk ? "Your turn… read it out loud! 📣" : "Say it back! 📣"}</div>}
       </Zone.Rail>
 
       <Zone.Strip>
