@@ -634,7 +634,13 @@ describe("the sentence inside a session", () => {
        now runs at level 77, MEASURED as the full shape: a 20-word queue,
        seven texts, slots after the 5th, 10th and 15th words, breathers after
        the seventh and fourteenth - so the third slot is finally exercised. */
-    stored = { ...newState(), preLevel: 0, level: 77 };
+    /* The rider chunks would open this session (level 77 has am, us and ox
+       due) and this walk is about SENTENCES - so the fixture's riders are
+       already mastered, box 5, exactly as a real level-77 child's would be.
+       The riders' own walk is proved in the pre suite. */
+    stored = { ...newState(), preLevel: 0, level: 77,
+      pre: Object.fromEntries(["c:am", "c:us", "c:ox"].map((k) => [k,
+        { box: 5, attempts: 4, correct: 4, close: 0, wrong: 0, dueAt: 99, lastSession: 0 }])) };
     render(createElement(App));
     await flush(0);
     fireEvent.click(screen.getByLabelText("Begin Session"));

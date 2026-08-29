@@ -8,7 +8,7 @@ Per-test rows carry the test's own sentence, which in this project IS the
 Given/When/Then effect. The requirement, oracle, platform, mutant family, evidence
 and known limits are declared per FILE, in the tool, where they stay true.
 
-Totals: 447 it() SITES across 22 files, plus 18 gates that are not test files.
+Totals: 449 it() SITES across 22 files, plus 18 gates that are not test files.
 
 A site inside a loop or a table runs many times, so these rows describe more tests than they number: Vitest executes 330. The rows count the places behaviour is asserted.
 
@@ -427,7 +427,7 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 2 | every control is named in plain words | 2: the done screens, the pre-ladder's first rung, and the way home from a crash |
 | 3 | every control is named in plain words | 3 (control): a hold named the old way, a bare emoji button, and a label round an input are each refused |
 
-## tests/pre.test.js — 21 tests (G10)
+## tests/pre.test.js — 23 tests (G10)
 
 - **Requirement protected:** SPEC section 12: the chunk ladder - its two rungs of letters and chunks, sessions, promotions, and the place-by-mastery migration
 - **Independent oracle:** Literal rung rosters, literal boundary counts, and the shipped sound inventory
@@ -460,6 +460,8 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 19 | the ladder in the app | grading a chunk writes to its own prefixed key and the reveal blends at last |
 | 20 | the ladder in the app | only the adult's hold records a pre result, into state.pre alone (S1) |
 | 21 | the ladder in the app | the grown-up's pre control jumps the ladder and Words leaves it |
+| 22 | the rider chunks - a graduate's session opens with what their level has earned | a level-5 graduate meets c:am first, the clock never ticks, and the words follow |
+| 23 | the rider chunks - a graduate's session opens with what their level has earned | a graduate with nothing due goes straight to the words |
 
 ## tests/properties.test.js — 10 tests (G2)
 

@@ -26,7 +26,7 @@ export default function PreSessionScreen({
       <Zone.Header>
         <button className="wq-sbtn" onClick={onExitAsk} aria-label="Home">🏠</button>
         <span className="wq-chip wq-mono">{answered}/{totalQ}</span>
-        <span className="wq-chip">Pre {P.n} {P.emoji}</span>
+        <span className="wq-chip">{state.preLevel > 0 ? `Pre ${P.n} ${P.emoji}` : "chunks 🧱"}</span>
       </Zone.Header>
 
       <Zone.Stage seed muted={!state.settings.sound}>

@@ -76,7 +76,22 @@ export default function usePreSession({ stateRef, setState, persist, setScreen, 
     playClips(speakerPlan(item), stateRef.current.settings.sound, noteFallback);
   };
 
+  /* RIDER MODE: due chunks opening a graduate's word session. The same
+     items, the same grading, the same strip - but finishing hands control
+     to the word session instead of the ladder's own done screen, and the
+     walk never increments the session clock or asks promotion anything:
+     there is no rung to promote, mastery is the boxes alone. */
+  const riderAfter = useRef(null);
+  function beginRiders(q, after) {
+    riderAfter.current = after;
+    setPreQ(q); setPreQi(0);
+    setPrePhase("ready"); setPreGrade(null); setPreAdvanceReady(true);
+    preGradedRef.current = null; preResultsRef.current = {}; setPreDone(null);
+    setScreen("pre");
+    playPromptFor(q[0]);   // a chunk: silence, by design (S2)
+  }
   function beginPre() {
+    riderAfter.current = null;                 // the ladder's own walk, never a rider's
     const s = structuredClone(stateRef.current);
     const q = buildPreSession(s);
     setState(s); setPreQ(q); setPreQi(0);
@@ -132,6 +147,11 @@ export default function usePreSession({ stateRef, setState, persist, setScreen, 
       playPromptFor(preQ[preQi + 1]);   // the NEXT item, never the one just finished
       return;
     }
+    if (riderAfter.current) {
+      const after = riderAfter.current; riderAfter.current = null;
+      after();                  // the words begin; the clock is theirs to tick
+      return;
+    }
     const s = structuredClone(stateRef.current);
     s.sessionsCompleted += 1;   // the ladder's reviews ride the same session clock
     const from = s.preLevel;
@@ -144,7 +164,7 @@ export default function usePreSession({ stateRef, setState, persist, setScreen, 
     setScreen("predone");
   }
 
-  const exitPre = () => { stopClips(); setScreen("home"); };
+  const exitPre = () => { riderAfter.current = null; stopClips(); setScreen("home"); };
 
-  return { preQ, preQi, prePhase, preGrade, preAdvanceReady, preDone, beginPre, gradePre, nextPre, exitPre, playPrePrompt };
+  return { preQ, preQi, prePhase, preGrade, preAdvanceReady, preDone, beginPre, beginRiders, gradePre, nextPre, exitPre, playPrePrompt };
 }

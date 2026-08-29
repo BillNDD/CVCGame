@@ -322,3 +322,48 @@ describe("the ladder in the app", () => {
     expect(saved.preLevel).toBe(2);
   });
 });
+
+describe("the rider chunks - a graduate's session opens with what their level has earned", () => {
+  it("a level-5 graduate meets c:am first, the clock never ticks, and the words follow", async () => {
+    /* dueChunks at level 5 serves exactly ["c:am"] - the only clipped rider
+       seated at or below 5 (the engine half pins that literal). The walk is
+       the session's OPENING, not a session: sessionsCompleted stays where it
+       was, or every word's due date would silently compress. */
+    /* Sound OFF, deliberately: the player double never fires the arming
+       callback, and with sound off the advance arms at once - while every
+       assertion here keeps its meaning, because a chunk's arrival silence
+       is the PLAN never being issued, which the double records either way.
+       (A rider session with sound off is legal: reading needs no sound.) */
+    mockLoad.mockResolvedValueOnce({ ...newState(), preLevel: 0, level: 5, sessionsCompleted: 3,
+      settings: { ...newState().settings, sound: false } });
+    played.length = 0;
+    render(createElement(App));
+    await flush(0);
+    fireEvent.click(screen.getByLabelText("Begin Session"));
+    await flush(0);
+    expect(screen.getByText("What does it say?")).toBeTruthy();
+    expect(document.querySelector(".wq-word").textContent).toBe("am");
+    expect(screen.getByText(/chunks/)).toBeTruthy();          // the honest chip: not a Pre rung
+    expect(played.length, "a chunk arrives silent, rider or rung").toBe(0);
+    fireEvent.keyDown(screen.getByLabelText("got it"), { key: "Enter" });
+    await flush(0);
+    const afterGrade = mockSave.mock.calls.at(-1)[0];
+    expect(afterGrade.pre["c:am"].correct).toBe(1);
+    expect(afterGrade.sessionsCompleted, "grading a rider never ticks the clock").toBe(3);
+    fireEvent.click(screen.getByText(/Finish/));
+    await flush(0);
+    expect(screen.queryByText("What does it say?"), "the riders are done").toBeNull();
+    expect(screen.getByText(/Read this word/), "and the words begin").toBeTruthy();
+    const last = mockSave.mock.calls.at(-1)[0];
+    expect(last.sessionsCompleted, "the rider walk was an opening, not a session").toBe(3);
+  });
+  it("a graduate with nothing due goes straight to the words", async () => {
+    mockLoad.mockResolvedValueOnce({ ...newState(), preLevel: 0, level: 1 });
+    render(createElement(App));
+    await flush(0);
+    fireEvent.click(screen.getByLabelText("Begin Session"));
+    await flush(0);
+    expect(screen.queryByText("What does it say?")).toBeNull();
+    expect(screen.getByText(/Read this word/)).toBeTruthy();
+  });
+});

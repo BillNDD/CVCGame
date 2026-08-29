@@ -2,7 +2,7 @@ import { useState, useEffect, useRef, useMemo, useCallback } from "react";
 /* All game logic comes from the generated engine module. The components in
    this app never re-implement it (work item W1). */
 import {
-  LEVELS, PRE_LEVELS, SESSION_SIZE, PROMPT_CAP, ADVANCE_GUARD_MS, SPLASH_TIMEOUT_MS,
+  LEVELS, PRE_LEVELS, SESSION_SIZE, PROMPT_CAP, ADVANCE_GUARD_MS, SPLASH_TIMEOUT_MS, dueChunks,
   C, SEAM_MS, freshWordState, applyResult, buildSession, checkPromotion,
   migrate, newState, buildMarkdown, feedbackSpeech, PRAISE, speak, hush, buzz, ttsSafePraise, ttsSafeWord,
   sessionSentences, sentencePlan, sentenceClosePlan, revealWord, revealWordLongest,
@@ -372,8 +372,19 @@ export default function App() {
   function beginSession() {
     unlockVoice();                 // a real tap: the audio engine may play from here on
     /* A save inside the ladder begins a PRE session; everyone else gets the
-       words. One button, one meaning: begin where the child is. */
+       words. One button, one meaning: begin where the child is. A graduate
+       with due RIDER CHUNKS (SPEC section 12, the chunk ladder: seated at
+       the levels whose words hold them) meets those first, as the session's
+       opening - the same grading strip, and then the words begin. The rider
+       walk is NOT a session of its own: it never touches the session clock,
+       or every word's due date would silently compress (the engineering
+       pass's first trap, 2026-08-25). */
     if (stateRef.current.preLevel > 0) { beginPre(); return; }
+    const riders = dueChunks(stateRef.current);
+    if (riders.length) { beginRiders(riders, startWords); return; }
+    startWords();
+  }
+  function startWords() {
     const s = structuredClone(state);
     const q = buildSession(s);
     setState(s); setQueue(q); setQi(0);
@@ -1240,7 +1251,7 @@ export default function App() {
   /* The pre-level ladder lives in its own hook (G6: App stays under the
      complexity ceiling; the ladder reads as one piece in usePre.js). */
   const { preQ, preQi, prePhase, preGrade, preAdvanceReady, preDone,
-    beginPre, gradePre, nextPre, exitPre, playPrePrompt } =
+    beginPre, beginRiders, gradePre, nextPre, exitPre, playPrePrompt } =
     usePreSession({ stateRef, setState, persist, setScreen, noteFallback });
 
   const masteredCount = useMemo(() => state ? Object.values(state.words).filter(ws => ws.box >= 4).length : 0, [state]);
