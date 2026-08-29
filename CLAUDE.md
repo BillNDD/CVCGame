@@ -245,7 +245,7 @@ exclusions are recorded in SPEC section 12.
   That limit is 1400 lines, and since 2026-08-16 the generated engine alone carries its own
   ceiling, 2400 then ("Increase the engine specific line max to 2400" — the engine grows with
   teaching content, and it is the one file that kept hitting the general limit), raised to
-  2600 on 2026-08-25 ("Increase engine max length to 2600 lines") for the chunk-ladder
+  2600 on 2026-08-29 ("Increase engine max length to 2600 lines") for the chunk-ladder
   roster. The general
   limit was raised from 600 to 900 on 2026-07-29, from 900 to
   1200 on 2026-08-12, and from 1200 to 1400 on 2026-08-15 ("Increase it to 1400 on my

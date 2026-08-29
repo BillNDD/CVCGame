@@ -273,7 +273,7 @@ describe("G10 — the child hears the word before the app lets them move on", ()
     expect(screen.getByLabelText("Begin Session"), "a disabled control deals nothing").toBeTruthy();
   });
   it("15h: the refusal is right because every rung still ASKS with a sound - derived from the items, never trusted", async () => {
-    /* Re-derived for the chunk ladder (owner-ruled 2026-08-25): the refusal
+    /* Re-derived for the chunk ladder (the owner's 2026-08-24 ruling): the refusal
        LIFTS for reading rungs and STAYS for any rung that asks with a sound.
        A rung asks with a sound exactly when it carries a LETTER item, and
        both mixed rungs do, so the blanket preLevel > 0 key remains a true
@@ -587,7 +587,7 @@ describe("G10 — the child hears the word before the app lets them move on", ()
 });
 
 describe("fault AN - a reveal interrupted by leaving the app restarts whole on return", () => {
-  /* Owner-ruled 2026-08-25 from the roster-and-reveal page, measured by him
+  /* Owner-ruled 2026-08-25 from the roster-and-reveal page, ruled 2026-08-29, measured by him
      on beta 28: "after coming back from home button the sentence doesn't
      continue, but the seed is no longer lit". The device fault is an audio
      clock this environment cannot suspend, so the test drives the SIGNAL

@@ -552,8 +552,8 @@ does a screen reader or any other assistive technology: an activation that carri
 behind it counts as a keyboard press, never as a touch. The controls are muted in color and
 small in appearance, with a minimum target of 44 px.
 
-The ladder refuses a session it cannot ask (2026-08-23; re-derived 2026-08-25 for the chunk
-ladder, under the owner's ruling that the refusal lifts for reading rungs and stays for any
+The ladder refuses a session it cannot ask (2026-08-23; re-derived 2026-08-29 for the chunk
+ladder, under the owner's 2026-08-24 ruling that the refusal lifts for reading rungs and stays for any
 rung that asks with a sound). Every rung is now MIXED: its letter items ask with a SOUND —
 the letter shown, not read, the approved sound as the prompt, the child saying it back — and
 its chunk items are READ, printed on a silent screen, answerable without sound. A rung needs
@@ -1638,15 +1638,14 @@ sentence; and how the tap-to-hear reading of an untaught word is spoken without 
 design rule 8, which permits full words and the approved single sounds and never letter
 names. None of these is blocked by the ruling above; none may be assumed.
 
-### The chunk ladder — approved 2026-08-25, unbuilt, FOR THE NEXT BETA
+### The chunk ladder — approved 2026-08-25, engine built 2026-08-29, FOR BETA 29
 
 The pre-levels stop being a listening ladder and become a **reading ladder on two-letter
 phonics chunks**. A chunk is shown in print, the screen is silent, the child reads it aloud,
 the grown-up grades on the usual hold strip, and the reveal says praise, then
 *"That is a-t, at. Like in cat."* — the tiles walking one at a time, and the **anchor word
 GROWN in front of the child**: the chunk stands, the missing letters slide in, and the word
-completes as it is spoken. Owner-ruled 2026-08-25, replacing the lit-inside form of the day
-before: growing trains left-to-right, which is Blend Phonics' whole method — the chunk lives
+completes as it is spoken. Owner-ruled 2026-08-29, replacing the lit-inside form ruled on 2026-08-24: growing trains left-to-right, which is Blend Phonics' whole method — the chunk lives
 for one beat and is finished into the word. A chunk is never presented as a word: the
 owner's words on 2026-08-24 were "all reasonable CV and VC combos, which are explained as
 phonics building blocks not words". The ear rung goes; the speaker instead plays the chunk's
@@ -1659,7 +1658,7 @@ every vowel, both orders — and produced 161 chunks including *je*, *vu*, *wu* 
 owner refused it on 2026-08-25 ("unrealistically too long... reduce the CV and VC list down
 to what is reasonable and expected") and the VC side became the classic word families,
 trimmed by their own anchor rule to twenty-six. The early-literacy seat then recommended no
-CV at all, and the owner overruled it the same day — "Shouldn't the roster also include CV
+CV at all, and the owner overruled it on 2026-08-29 — "Shouldn't the roster also include CV
 and teach those in the same way?" — with three guards that answer the seat's objections
 rather than ignoring them. **A CV chunk may not itself be a word**, which excludes *be do go
 he me no so to we* — the entire collision set the seat found, where the chunk sound and the
@@ -1701,12 +1700,26 @@ McGuffey's six-a-lesson benchmark — level 14's short-u wave brings fifteen —
 that a level spans many SESSIONS and the session builder caps chunk drills per sitting, so
 the benchmark binds the sitting, never the level.
 
-**The rung names are ruled** (2026-08-25): the two pre-level rungs keep *First Sounds* and
+**The rung names are ruled** (2026-08-29): the two pre-level rungs keep *First Sounds* and
 *New Sounds*, and *Little Ears* retires with the ear. **The CV question is closed by the
 overrule above**, and the seat's contrary findings stay recorded in `docs/settled.md` with
-the ruling that answered them. **Fault AN's fix is ruled the same day** — an interrupted
+the ruling that answered them. **Fault AN's fix is ruled 2026-08-29** — an interrupted
 reveal restarts whole when the app returns to the foreground — and lives in
 `docs/open-faults.md` until built and device-verified.
+
+**Beta 29's scope is ruled** (2026-08-29, the three-calls page): the chunk ladder, the AN
+fix, and the three Grown-ups-corner items already ruled on 2026-08-24 — the word list by
+decade, pre-levels above Jump to level, and the removal of the "Voice & accent" list. Art
+step 3, the responsive reading surface, goes to beta 30 with its own device check. **The
+four printed sentences the build added are approved** — "What does it say?", "Your turn…
+read it out loud! 📣", the rider chip "chunks 🧱", and the P-jump helper line — **with one
+condition in the owner's words: "make sure read is pronounced like reed not red."** The
+rail line is print-only and nothing spoken in the chunk work contains the word "read"; for
+anything rendered, the renderer's own gate already refuses a line carrying a
+two-pronunciation word without explicit phonemes (the soundout-1 lesson, SPEC section 9),
+so the condition is enforced where the audio is made, not remembered. **The listening
+round is confirmed as one sitting of about 75 arms** — the 72 chunk clips plus the three
+carrier phrases, each chunk's anchor word heard inside its own "Like in…" clip.
 
 **One finding kept because it is true and cuts against the instruction that produced the
 roster:** the public-domain books are LONGER, not shorter — Webster and the New England
@@ -1714,7 +1727,7 @@ Primer carry the full nineteen-by-five matrix, and Webster's CV tables are LONG-
 *ba* says "bay", marked with a macron), a different artefact from these chunks. The cut
 rests on the sound collisions and modern practice, not on the books' page count, and the
 record should not pretend otherwise. And **`ed` stays, on the owner's word alone** —
-"Ed -keep it", ruled 2026-08-25. His word was needed because Ed is a name and S9's machinery
+"Ed -keep it", ruled 2026-08-29. His word was needed because Ed is a name and S9's machinery
 is mechanically blind to two-letter names, so no gate stands behind this chunk either way;
 it is the *ed* of *bed*, *fed* and *red*, lowercase everywhere it appears.
 

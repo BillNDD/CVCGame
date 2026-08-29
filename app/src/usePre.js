@@ -13,7 +13,7 @@ import { playClips, stopClips, unlockVoice } from "./voicepacks.js";
    never touched.
 
    TWO KINDS OF ITEM, AND S2 ARRIVED WITH THE SECOND (the chunk rebuild,
-   owner-ruled 2026-08-24/25). A LETTER item's prompt is its sound - the
+   owner-ruled 2026-08-24 to 2026-08-29). A LETTER item's prompt is its sound - the
    question, never the answer - so it plays on arrival and on 🔊 at any
    moment. A CHUNK item is READ: the screen is silent on arrival (speaking
    the chunk would hand a reading child the answer - S2 in full), and the 🔊

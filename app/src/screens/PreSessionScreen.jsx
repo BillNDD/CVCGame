@@ -5,7 +5,7 @@ import HoldButton from "../components/HoldButton.jsx";
 import Word from "../components/Word.jsx";
 
 /* THE PRE-LEVEL SESSION, rebuilt as the chunk ladder (owner-ruled
-   2026-08-24/25; SPEC section 12). One item at a time, two kinds by
+   2026-08-24 to 2026-08-29; SPEC section 12). One item at a time, two kinds by
    declaration and never by length. A LETTER fills the stage and its
    approved sound is the PROMPT - shown, not read, S2 not in play. A CHUNK
    is READ: two letters printed, the screen silent, and S2 applies in full -

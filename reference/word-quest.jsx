@@ -902,7 +902,7 @@ function migrateV6(s) {
   s.level = graded ? lvl : Math.min(s.level || 1, LEVELS.length);
   s.version = 6;
 }
-/* v7, the chunk-ladder rebuild (owner-ruled 2026-08-25: "Place them based on
+/* v7, the chunk-ladder rebuild (owner-ruled 2026-08-24: "Place them based on
    their already accepted mastery"). The rungs changed underneath a beta-28
    child - the ear rung is gone and every rung now carries chunks - so an old
    rung NUMBER means something different on the new ladder, which is fault
@@ -1793,8 +1793,8 @@ const HEART = ["i", "the", "a", "is", "to", "he", "we", "me", "be", "she",
    Boxes live in state.pre, NEVER state.words — the letters "a" and "i"
    would collide with the words "a" and "i". The five rung names were
    owner-approved on 2026-08-15 ("Approve pre level names"). */
-/* THE CHUNK LADDER (owner-ruled across three decision pages, 2026-08-24 and
-   2026-08-25; SPEC section 12 carries the full design). The ear rung retired
+/* THE CHUNK LADDER (owner-ruled across decision pages from 2026-08-24 to
+   2026-08-29; SPEC section 12 carries the full design). The ear rung retired
    with the rebuild: teaching sound-awareness WITH letters is worth roughly
    twice teaching it by ear alone, and the oral blend survives as the
    speaker's separated-sounds help. Each rung opens with its new letters
@@ -1807,7 +1807,7 @@ const HEART = ["i", "the", "a", "is", "to", "he", "we", "me", "be", "she",
    room: a beta-28 child who blended "at" by EAR is not credited with
    READING it. The rung names survive from the 2026-08-15 ruling because
    each rung still opens with letter sounds; "Little Ears" retired with the
-   ear (owner-ruled 2026-08-25). */
+   ear (owner-ruled 2026-08-29). */
 const PRE_LEVELS = [
   { n: 1, name: "First Sounds", emoji: "✨", focus: "s, a, t and p - and the first chunks", kind: "mixed",
     items: ["s", "a", "t", "p", "c:at", "c:ap"] },
@@ -2095,7 +2095,7 @@ function tileSlots(plan, tileSounds = null) {
 
    IT STARTS AT PRE 1 since the chunk rebuild: the first rung teaches letters
    now, so the honest inventory exists from the first session - four tiles at
-   Pre 1, six at Pre 2. (Before 2026-08-25 it started at Pre 2, because the
+   Pre 1, six at Pre 2. (Before 2026-08-29 it started at Pre 2, because the
    retired ear rung taught no letters at all.) The pool is the taught rungs'
    LETTER items alone - a chunk is read, never dealt as a tray tile, and the
    filter is by declaration, not length. Every letter already has a shipped
@@ -2106,8 +2106,8 @@ function preLetters(preLevel) {
     .flatMap((p) => p.items).filter((it) => !isChunkItem(it));
 }
 /* ------------------------- the chunk roster --------------------------------
-   Owner-ruled 2026-08-25 (SPEC section 12 carries the design and the three
-   decision pages behind it): 26 VC word families plus 53 CV chunks, taught
+   Owner-ruled 2026-08-25 and 2026-08-29 (SPEC section 12 carries the design
+   and the decision pages behind it): 26 VC word families plus 53 CV chunks, taught
    as phonics building blocks and never as words. The LIST is curriculum and
    is typed; everything ABOUT a chunk - its seat, its dormancy - is derived,
    so it cannot drift. The guards that shaped the CV side: no chunk that is
@@ -2116,7 +2116,7 @@ function preLetters(preLevel) {
    rather than by spelling, fewer than three verified anchors drops the
    chunk. Refused outright by the owner: pu, pe, po, ho (2026-08-24) and the
    soft spellings ce, ci, ge, gi. ed stays on the owner's word alone
-   (2026-08-25, "Ed -keep it"). */
+   (2026-08-29, "Ed -keep it"). */
 const CHUNK_ROSTER = [
   "ad", "ag", "am", "an", "ap", "at", "ed", "en", "et", "id", "ig", "im",
   "in", "ip", "it", "ob", "og", "op", "ot", "ox", "ub", "ug", "um", "un",
@@ -2131,7 +2131,7 @@ const CHUNK_ROSTER = [
    single tiles in the word's own walk and the word's own sound at the vowel
    tile is the SHORT vowel. The engine judges, never the spelling: a
    third-letter-consonant rule accepted "side" for si and "tiger" for ti,
-   and soundIdsFor refuses both (settled.md 2026-08-25, "spelling cannot
+   and soundIdsFor refuses both (settled.md 2026-08-29, "spelling cannot
    judge an anchor"). */
 function wordHoldsChunk(word, chunk) {
   const tiles = chunkWord(word), ids = soundIdsFor(word);

@@ -12,7 +12,7 @@
    still saying 900 while the enforced number had moved twice; CLAUDE.md E6
    is the record). On 2026-08-16 the owner split the engine out: "Increase
    the engine specific line max to 2400" — the engine alone rose to 2400, and
-   on 2026-08-25 to 2600 ("Increase engine max length to 2600 lines") for the
+   on 2026-08-29 to 2600 ("Increase engine max length to 2600 lines") for the
    chunk-ladder roster,
    every other file keeps 1400. tools/quality-control.mjs reads all the
    numbers from .claude/gate-baseline.json and fails if this config

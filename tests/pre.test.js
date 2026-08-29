@@ -1,4 +1,4 @@
-/* Word Quest — the chunk ladder (owner-ruled 2026-08-24/25 across three
+/* Word Quest — the chunk ladder (owner-ruled 2026-08-24 to 2026-08-29 across four
    decision pages; SPEC section 12 carries the design). Two mixed rungs of
    letters and reading chunks, adult-graded, the words' own promotion rule,
    place-by-mastery migration, and the derived seats of the alongside roster.
@@ -19,7 +19,7 @@ const boxed = (keys, box) => Object.fromEntries(keys.map((k) => [k,
 
 describe("the ladder's shape", () => {
   it("holds two mixed rungs: letters first, then their chunks", () => {
-    /* The chunk rebuild (2026-08-25): the ear rung retired, each rung opens
+    /* The chunk rebuild (2026-08-29): the ear rung retired, each rung opens
        with its new letters alone and then the chunks built from them. */
     expect(PRE_LEVELS.map((p) => p.n)).toEqual([1, 2]);
     expect(PRE_LEVELS.map((p) => p.kind)).toEqual(["mixed", "mixed"]);
@@ -157,7 +157,7 @@ describe("migration and the fresh-saves-only ruling", () => {
     expect(migrate({ ...newState(), preLevel: 0 }).preLevel).toBe(0);
   });
   it("v7 re-seats a mid-ladder child by their accepted mastery, never by the old rung number", () => {
-    /* Owner-ruled 2026-08-25 ("Place them based on their already accepted
+    /* Owner-ruled 2026-08-24 ("Place them based on their already accepted
        mastery"), the fault-X recompute precedent. A beta-28 child's letter
        marks carry; orphaned ear marks match no item and count for nothing;
        chunk boxes start empty because reading print is evidence no

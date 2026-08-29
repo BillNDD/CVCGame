@@ -2693,7 +2693,7 @@ what is true now.
   to the grown-up's replay is honest but asks a parent to notice an absence. A test drives an
   interruption and proves the child is not left in silence, and the fix is verified on the
   device that found it, since no browser here reproduces the interruption.
-- **The behaviour is now ruled** (owner, 2026-08-25, from the roster-and-reveal decision
+- **The behaviour is now ruled** (owner, 2026-08-29, from the roster-and-reveal decision
   page): **the whole reveal restarts when the app returns to the foreground.** Coming back
   is itself a deliberate act, the screen returned to is still the feedback screen, and a
   fresh start is kinder than a tail with no head. The build landed the same

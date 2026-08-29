@@ -157,7 +157,7 @@ export default function App() {
   const [seenTwice, setSeenTwice] = useState({});   // P2-11
   const [promptCount, setPromptCount] = useState(0);
   const [phase, setPhase] = useState("ready");
-  /* FAULT AN (owner-ruled 2026-08-25): a reveal interrupted by leaving the
+  /* FAULT AN (owner-ruled 2026-08-29): a reveal interrupted by leaving the
      app RESTARTS WHOLE when the app returns to the foreground. Coming back
      is itself a deliberate act, the screen returned to is still the feedback
      screen, and a fresh start is kinder than a tail with no head. The shape:
@@ -378,7 +378,7 @@ export default function App() {
        opening - the same grading strip, and then the words begin. The rider
        walk is NOT a session of its own: it never touches the session clock,
        or every word's due date would silently compress (the engineering
-       pass's first trap, 2026-08-25). */
+       pass's first trap, 2026-08-29). */
     if (stateRef.current.preLevel > 0) { beginPre(); return; }
     const riders = dueChunks(stateRef.current);
     if (riders.length) { beginRiders(riders, startWords); return; }

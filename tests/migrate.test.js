@@ -29,7 +29,7 @@ describe("migrate", () => {
        true when written. v4 also drops settings.mode, the microphone-era
        leftover (J2). */
     const m = migrate(v2());
-    expect(m.version).toBe(7);   // v7, the chunk-ladder rebuild (2026-08-25) expect(m.level).toBe(1); expect(m.log[0].level).toBe(2);
+    expect(m.version).toBe(7);   // v7, the chunk-ladder rebuild (2026-08-29) expect(m.level).toBe(1); expect(m.log[0].level).toBe(2);
     expect(m.settings.mode).toBeUndefined();
   });
   it("leaves word data untouched", () => {

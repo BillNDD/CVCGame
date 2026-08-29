@@ -2084,7 +2084,7 @@ Level 1 needing two new clips; the other 24 ride alongside levels 3 to 14. **The
 2026-08-25 that this is the primary task for the next beta.** Still open, and not to be assumed
 either way: whether any consonant-vowel chunks are taught at all.
 
-## The roster and the reveal — six rulings, and CV joins over the seat's objection (2026-08-25) — closed
+## The roster and the reveal — six rulings, and CV joins over the seat's objection (2026-08-29) — closed
 
 Ruled on the third clickable page of the chunk-ladder redesign, all six questions answered.
 
@@ -2108,14 +2108,14 @@ Ruled on the third clickable page of the chunk-ladder redesign, all six question
 6. **Fault AN's fix**: an interrupted reveal restarts whole when the app returns to the
    foreground. The fault entry carries it; open until built and device-verified.
 
-**The lesson this page adds to the record: spelling cannot judge an anchor.** The first CV
+**The lesson this page adds to the record (2026-08-29): spelling cannot judge an anchor.** The first CV
 measurement accepted *side* for si, *tiger* for ti and *walk* for wa — a third-letter
 consonant looked closed, and the vowel was long or bent anyway. The fix asks the engine:
 a word anchors a chunk only if its own tile walk begins with the chunk's letters as two
 tiles AND its own second sound is the short vowel. `soundIdsFor` is the judge; the false
 anchors all fail it. Any future anchor derivation starts from sounds, never letters.
 
-## The chunk-ladder rulings of 2026-08-24, recorded late (2026-08-25) — closed
+## The chunk-ladder rulings of 2026-08-24, recorded late (2026-08-29) — closed
 
 A fresh-context recheck found that SPEC pointed at this document for the 2026-08-24 rulings
 and this document did not carry them — they lived only in a session memory file outside the
@@ -2142,7 +2142,7 @@ day's pages superseded marked, because an honest record beats a tidy one.
 10. The first rungs sit before Level 1 and later chunks ride alongside the levels that
     introduce their letters.
 
-**Superseded by the 2026-08-25 pages, and by which ruling:** the "all reasonable CV and VC"
+**Superseded by the later pages (the roster cut of 2026-08-25; the roster-and-reveal page of 2026-08-29), and by which ruling:** the "all reasonable CV and VC"
 roster of 161-then-137 (refused as unrealistically long; now 26 VC + 53 CV = 79, the
 roster-and-reveal entry above); the 13-rung one-vowel-at-a-time order and its
 no-rung-over-20 ceiling (structure is now two pre-rungs plus ride-alongside, with the
@@ -2150,9 +2150,9 @@ six-a-sitting session cap); "all 113 clips in one big round" (the figure is now 
 one-big-round preference stands); the lit-inside anchor display (now the grown word); and
 "rung names on their own page later" (now ruled: First Sounds and New Sounds stay).
 
-## The chunk ed stays (2026-08-25) — closed
+## The chunk ed stays (2026-08-29) — closed
 
-"Ed -keep it," the owner's words. The question existed because Ed is a personal name and the
+"Ed -keep it," the owner's words, 2026-08-29. The question existed because Ed is a personal name and the
 engineering pass measured that S9's machinery cannot see it — the stranger scan wants three
 letters, the common-names list does not carry it, and the private denylist refuses entries
 under three characters — so the chunk ships on the owner's word alone, with no gate behind
