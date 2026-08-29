@@ -1492,9 +1492,15 @@ lessons learned from old sessions and sounds before trying again." That order is
 owner's own voice, and the round's real product is his comments, preserved verbatim in
 `tools/pending-chunks/round2-verdicts.txt`.
 
-**Four more acceptances, all banked byte-exact in the waiting room:** ap (the listen
-carrier — the pre-ladder now waits on ip alone), et (the double-margin "breath" arm), ut
-(the 0.90 "pace" arm), ya (the listen carrier). 22 clips now wait.
+**Four more acceptances, all banked byte-exact in the waiting room:** ap and ya (the spell
+carrier cut at the MODEL'S OWN CLOCK — the ledger's family names, which outrank this prose;
+an earlier draft of this entry said "listen carrier" and the fresh-context review caught
+it), et (the double-margin "breath" arm), ut (the 0.90 "pace" arm). The pre-ladder now
+waits on ip alone; 22 clips wait in all. The pattern the review then proved: all four are
+chunks whose phonotactics never collide with utterance-final position — ap, et and ut end
+in unvoiced stops whose closure self-terminates, and ya ends on a vowel English happily
+ends utterances with. The same recipe failed every voiced-coda VC chunk and the whole
+lax-vowel CV i-row, and the record had already diagnosed both shapes.
 
 **The complaint patterns, counted:** "robotic and weird trill or static at END" dominates
 the VC chunks — an end-artifact complaint, the shape the KEEPER trims (hip-uh, cub-e) were
