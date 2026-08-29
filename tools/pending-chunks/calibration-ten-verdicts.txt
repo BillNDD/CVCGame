@@ -1,0 +1,11 @@
+THE CALIBRATION TEN verdicts, 2026-08-29, verbatim.
+fi A nogood: Says it | B nogood: Says fi ah | C nogood: Can't even tell what it says
+ga A nogood: Gat | B iterate | C nogood: Ga hey
+mo A nogood: Ot | B nogood: Oh | C nogood: Oh hey
+du A nogood | B nogood | C nogood
+le A nogood | B iterate | C nogood
+ig A GOOD | B iterate
+um A iterate | B nogood
+ot A good | B PERFECT
+s:that-is A GOOD | B good: Too fast. Should be said like a teacher not someone rushing to work
+s:like-in A nogood | B PERFECT

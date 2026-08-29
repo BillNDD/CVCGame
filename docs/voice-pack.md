@@ -1528,3 +1528,21 @@ speech; the voiced-coda carves are "otherwise fine" behind "weird static" — pl
 RMS level-match gaining the noise floor audible; and mid-utterance cuts read "too fast"
 even at 0.72. Unjudged arms count as refused-by-pattern (his instruction) and every
 unaccepted chunk is retried only under the expert's protocol.
+
+## The Calibration Ten — the protocol proves half of itself (2026-08-29)
+
+Ten sounds, 25 arms, ten minutes, as promised after round 3. The mastering fix is CONFIRMED
+by ear: ig went from "weird static at end" to "good" with nothing changed but the gain (none)
+and the tail fade (50 ms shaped); um moved to iterate. ot's shipped release took "perfect"
+with 40 ms of air. Both reveal phrases landed from the pre-pausal teacher-sentence cut —
+that-is at 0.90 "good", like-in at 0.85 "perfect" — so with round 1's "Your turn!", ALL
+THREE PHRASES ARE DONE. Banked byte-exact: ig, ot, s:that-is, s:like-in. 26 chunks and 3
+phrases now wait.
+
+The CV engineered tails FAILED, each leaving its own fingerprint in the owner's comments:
+the glottal catch is heard as an unreleased T ("says it", "gat", "ot"), the breath offglide
+as a syllable ("ga hey", "oh hey"), and the held vowel — the closest, two iterates — breaks
+into "fi ah" or rounds to "Oh". The expert's caveat on ʔ materialized exactly. The consult
+is iterating on the CV recipe with these percepts as data; the VC row scales meanwhile on
+the proven en geometry. Verdicts verbatim in
+`tools/pending-chunks/calibration-ten-verdicts.txt`.
