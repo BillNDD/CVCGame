@@ -1,0 +1,142 @@
+ad A nogood Sounds like at
+ad B nogood
+ap A perfect
+en A nogood Weird static at end
+en B nogood
+et A nogood Too low and quick
+et B perfect
+et C nogood
+id A nogood Extra sound at front
+id B nogood Robotic without warmth
+id C nogood Robotic
+ig A nogood Robotic and weird trill or static at end
+ig B nogood Robotic and weird trill or static at end
+im A nogood Static at end and robotic
+im B nogood Extra sound at front
+im C nogood Trill at end
+im D iterate
+ip A nogood Very short and whisper like
+ip B nogood Robotic
+ip C nogood Robotic
+ip D nogood Like a whisper and quick
+ob A nogood Doesn't sound like ob
+ob B nogood Robotic and weird trill or static at end
+ob C nogood Robotic and "eh" at end
+og A iterate
+og B nogood
+og C iterate
+og D nogood Robotic
+ot A nogood Robotic
+ot B nogood Doesn't sound like ot
+ub A nogood Robotic and weird trill or static at end
+ub B unjudged Doesn't sound like ob
+ug A nogood Doesn't sound like ug
+ug B nogood Robotic and weird trill or static at end
+ug C nogood Robotic and weird trill or static at end
+um A nogood Robotic and weird trill or static at end
+um B nogood Extra sound at start and Robotic and weird trill or static at end
+um C nogood Robotic and weird trill or static at end
+um D iterate
+un A nogood Trill at end
+un B nogood Extra sound at front
+un C nogood Trill at end
+un D iterate
+ut A nogood Like a whisper and most of u cut off
+ut B nogood Way too quick and robotic
+ut C iterate
+ut D perfect
+ga A nogood
+ga B nogood Extra sound at front
+ga C iterate
+ga D iterate
+ja A iterate
+ja B nogood
+ja C nogood
+ja D nogood
+la A iterate
+la B nogood
+ma A iterate
+ma B nogood
+na A iterate
+na B nogood
+pa A iterate
+pa B iterate
+pa C iterate Trill at end for all these
+pa D iterate
+ra A iterate
+ra B nogood
+sa A nogood
+sa B iterate
+sa C nogood
+ta A iterate
+ta B nogood
+ta C iterate
+ta D iterate
+ya A perfect
+ya B nogood
+le A iterate
+le B nogood
+ne A iterate
+ne B nogood
+re A iterate
+re B nogood
+ye A iterate
+ye B nogood
+bi A iterate
+bi B nogood
+di A nogood
+di B unjudged Sounds like d instead of di
+di C nogood
+fi A nogood
+fi B nogood
+fi C nogood All sound like word "fee" instead of fi
+hi A nogood Robotic and weird trill or static at end
+hi B nogood
+ki A nogood
+ki B nogood
+ki C nogood
+li A nogood
+li B nogood
+mi A iterate
+mi B nogood
+pi A nogood
+pi B unjudged Sounds like "pea" no phonics sounds P and short I together
+pi C nogood
+ri A nogood
+ri B nogood
+si A nogood Sounds like "sea" not the two phonics sounds together
+si B unjudged
+si C nogood The printed word is sea
+ti A nogood
+ti B nogood
+ti C nogood
+ti D nogood
+wi A nogood
+wi B nogood
+bo A nogood
+bo B iterate
+bo C nogood
+co A nogood Sounds like ha
+co B nogood
+co C iterate
+co D nogood
+fo A nogood
+fo B iterate
+fo C nogood
+fo D iterate
+lo A iterate
+lo B nogood
+mo A iterate
+mo B nogood
+ro A iterate
+ro B nogood
+cu A nogood
+cu B nogood
+cu C nogood
+cu D nogood
+du A iterate
+du B nogood
+du C nogood
+du D nogood
+s:that-is D nogood Still way too fast not teacher speak
+s:like-in A nogood

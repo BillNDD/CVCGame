@@ -1482,3 +1482,28 @@ renders both appear among the perfects and among the refusals — so the faults 
 and only the owner's round-2 comments can name them. Round CHUNK-2 offers multiple
 candidates per remaining chunk with a comment space on every arm, and, per the round
 guard's own rule, never re-offers a family the owner has already refused for that chunk.
+
+## Round CHUNK-2 — refused in the owner's words, and the words are the yield (2026-08-29)
+
+165 arms over 57 sounds, several candidates each with a comment box (the format the owner
+ruled after round 1). He stopped partway — "I stopped rating them they were so bad" — and
+ordered a full review of the record before any third round: "Go back and review all the old
+lessons learned from old sessions and sounds before trying again." That order is E10 in the
+owner's own voice, and the round's real product is his comments, preserved verbatim in
+`tools/pending-chunks/round2-verdicts.txt`.
+
+**Four more acceptances, all banked byte-exact in the waiting room:** ap (the listen
+carrier — the pre-ladder now waits on ip alone), et (the double-margin "breath" arm), ut
+(the 0.90 "pace" arm), ya (the listen carrier). 22 clips now wait.
+
+**The complaint patterns, counted:** "robotic and weird trill or static at END" dominates
+the VC chunks — an end-artifact complaint, the shape the KEEPER trims (hip-uh, cub-e) were
+invented for and which this round never applied. "Extra sound at FRONT" marks cut margins
+eating the carrier's previous phoneme. And the CV i-row — "sounds like fee / pea / sea, not
+the two phonics sounds together" — is a structural finding: the corrected phonemes put a
+LAX vowel utterance-final, a position English never gives it, so the voice tenses ɪ into
+"ee" exactly as the settled "a" entry describes an isolated article becoming the letter
+name. "Still way too fast not teacher speak" refused the phrase takes at sentence speed.
+
+No third round is offered until the review lands and every candidate passes a mechanical
+pre-screen the record already knows how to build.
