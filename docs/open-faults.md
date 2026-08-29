@@ -2693,6 +2693,12 @@ what is true now.
   to the grown-up's replay is honest but asks a parent to notice an absence. A test drives an
   interruption and proves the child is not left in silence, and the fix is verified on the
   device that found it, since no browser here reproduces the interruption.
+- **The behaviour is now ruled** (owner, 2026-08-25, from the roster-and-reveal decision
+  page): **the whole reveal restarts when the app returns to the foreground.** Coming back
+  is itself a deliberate act, the screen returned to is still the feedback screen, and a
+  fresh start is kinder than a tail with no head. What remains is the build: a
+  visibilitychange listener that re-issues the reveal plan, the test that fakes the
+  interruption, and the owner's device check. The entry closes on that check, not before.
 
 ## AO. SPEC describes a five-rung pre-level ladder; the game has three — opened 2026-08-24
 

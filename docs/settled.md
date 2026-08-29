@@ -2083,3 +2083,69 @@ SPEC section 12 carries the built shape, the roster and the seating. Six chunks 
 Level 1 needing two new clips; the other 24 ride alongside levels 3 to 14. **The owner ruled on
 2026-08-25 that this is the primary task for the next beta.** Still open, and not to be assumed
 either way: whether any consonant-vowel chunks are taught at all.
+
+## The roster and the reveal — six rulings, and CV joins over the seat's objection (2026-08-25) — closed
+
+Ruled on the third clickable page of the chunk-ladder redesign, all six questions answered.
+
+1. **The VC roster is the 26** — the thirty word families trimmed by their own anchor rule
+   (out: ab eg ib od ud, and up, whose chunk would have arrived on the same level as the word
+   *up* itself; in: ox and us). Nineteen new clips.
+2. **CV joins, overruling the early-literacy seat.** The seat recommended no CV at any size;
+   the owner's words — "Shouldn't the roster also include CV and teach those in the same
+   way?" — are the ruling, and the seat's findings stay recorded in SPEC beside it. Three
+   guards answer the objections rather than ignoring them: a CV chunk may not itself be a
+   word (which excludes *be do go he me no so to we* — the entire collision set, where chunk
+   sound and word sound disagree); every anchor is sound-verified by the engine rather than
+   by spelling; and a chunk with fewer than three such anchors is dropped. Fifty-three CV
+   chunks survive, every one needing a new clip.
+3. **The reveal GROWS the anchor word** — the chunk stands, the missing letters slide in, the
+   word completes as it speaks. Replaces the lit-inside form ruled the day before.
+4. **The seven word-chunks are deliberate** — an, at, in, it, am, ox, us are chunks AND bank
+   words, chunk sound equal to word sound, met as blocks first. Their approved clips are
+   reused, not re-recorded.
+5. **Rung names**: First Sounds and New Sounds stay; Little Ears retires with the ear.
+6. **Fault AN's fix**: an interrupted reveal restarts whole when the app returns to the
+   foreground. The fault entry carries it; open until built and device-verified.
+
+**The lesson this page adds to the record: spelling cannot judge an anchor.** The first CV
+measurement accepted *side* for si, *tiger* for ti and *walk* for wa — a third-letter
+consonant looked closed, and the vowel was long or bent anyway. The fix asks the engine:
+a word anchors a chunk only if its own tile walk begins with the chunk's letters as two
+tiles AND its own second sound is the short vowel. `soundIdsFor` is the judge; the false
+anchors all fail it. Any future anchor derivation starts from sounds, never letters.
+
+## The chunk-ladder rulings of 2026-08-24, recorded late (2026-08-25) — closed
+
+A fresh-context recheck found that SPEC pointed at this document for the 2026-08-24 rulings
+and this document did not carry them — they lived only in a session memory file outside the
+repository, which is a record this project loses. Recorded here late, with what the next
+day's pages superseded marked, because an honest record beats a tidy one.
+
+**From the two decision pages of 2026-08-24, still standing:**
+1. A chunk is shown in print; the screen is silent on arrival plus one identical spoken cue,
+   "Your turn!", never varied; the grown-up's rail line tells them what to say.
+2. The child reads aloud; the grown-up grades on the standard 450 ms hold strip (S1, S5
+   untouched).
+3. The reveal: praise, then "That is a-t, at. Like in cat." — with the anchor word.
+4. The ear rung goes. The speaker on a reading rung plays the chunk's sounds SEPARATED,
+   never the blended answer — the oral blend survives as help on demand, and it still
+   separates "cannot hear it" from "cannot read it".
+5. Each rung opens with its new letters alone, then the chunks built from them.
+6. **S4 is extended** to admit blended two-letter units built from approved sounds, each
+   heard in a listening round; letter names stay forbidden. CLAUDE.md S4 takes its
+   both-dates amendment in the commit that builds the ladder, S8-style.
+7. **The sound-off refusal is lifted for reading rungs** and kept for any rung that asks its
+   question with a sound; a reading rung is answerable in silence.
+8. A child already mid-ladder is **placed by their accepted mastery**, not restarted.
+9. Refused outright: **pu, pe, po, ho**.
+10. The first rungs sit before Level 1 and later chunks ride alongside the levels that
+    introduce their letters.
+
+**Superseded by the 2026-08-25 pages, and by which ruling:** the "all reasonable CV and VC"
+roster of 161-then-137 (refused as unrealistically long; now 26 VC + 53 CV = 79, the
+roster-and-reveal entry above); the 13-rung one-vowel-at-a-time order and its
+no-rung-over-20 ceiling (structure is now two pre-rungs plus ride-alongside, with the
+six-a-sitting session cap); "all 113 clips in one big round" (the figure is now 72; the
+one-big-round preference stands); the lit-inside anchor display (now the grown word); and
+"rung names on their own page later" (now ruled: First Sounds and New Sounds stay).

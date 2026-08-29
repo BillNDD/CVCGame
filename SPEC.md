@@ -1641,88 +1641,78 @@ names. None of these is blocked by the ruling above; none may be assumed.
 The pre-levels stop being a listening ladder and become a **reading ladder on two-letter
 phonics chunks**. A chunk is shown in print, the screen is silent, the child reads it aloud,
 the grown-up grades on the usual hold strip, and the reveal says praise, then
-*"That is a-t, at. Like in cat."* — the tiles walking one at a time, and the **anchor word**
-shown beneath them with the chunk lit inside it. A chunk is never presented as a word: the
+*"That is a-t, at. Like in cat."* — the tiles walking one at a time, and the **anchor word
+GROWN in front of the child**: the chunk stands, the missing letters slide in, and the word
+completes as it is spoken. Owner-ruled 2026-08-25, replacing the lit-inside form of the day
+before: growing trains left-to-right, which is Blend Phonics' whole method — the chunk lives
+for one beat and is finished into the word. A chunk is never presented as a word: the
 owner's words on 2026-08-24 were "all reasonable CV and VC combos, which are explained as
 phonics building blocks not words". The ear rung goes; the speaker instead plays the chunk's
 sounds SEPARATED and never the blended answer, so the oral blend survives as help on demand.
 Each rung opens with its new letters alone, then the chunks built from them.
 
-**The roster is the classic word families, not a derived matrix.** The first draft was
-generated mechanically — every consonant against every vowel, both orders, minus what English
-cannot make — and produced 161 chunks including *je*, *vu*, *wu*, *yi*, *ze* and *ku*, which
-no published sequence teaches. The owner refused it on 2026-08-25: "I think your list of
-phonics sounds VC and CV is unrealistically too long... reduce the CV and VC list down to what
-is reasonable and expected." The roster is now the **thirty two-letter word families**, the
-units that actually appear in published phonics sequences, grouped by vowel:
+**The roster: twenty-six word families and fifty-three consonant-vowel chunks.** Two
+refusals shaped it. The first draft was generated mechanically — every consonant against
+every vowel, both orders — and produced 161 chunks including *je*, *vu*, *wu* and *ze*; the
+owner refused it on 2026-08-25 ("unrealistically too long... reduce the CV and VC list down
+to what is reasonable and expected") and the VC side became the classic word families,
+trimmed by their own anchor rule to twenty-six. The early-literacy seat then recommended no
+CV at all, and the owner overruled it the same day — "Shouldn't the roster also include CV
+and teach those in the same way?" — with three guards that answer the seat's objections
+rather than ignoring them. **A CV chunk may not itself be a word**, which excludes *be do go
+he me no so to we* — the entire collision set the seat found, where the chunk sound and the
+word sound disagree. **Every anchor is sound-verified by the engine, not by spelling**: a
+word anchors a chunk only if its own tile walk starts with the chunk's two letters as two
+tiles and its own second sound is the short vowel — the check that refused *side* for si,
+*tiger* for ti and *walk* for wa, which a third-letter-consonant rule had let through.
+**A chunk with fewer than three such anchors is dropped**, the same discipline that trimmed
+the thirty. For the seven VC chunks that ARE words — an, at, in, it, am, ox, us — the owner
+ruled the overlap deliberate: chunk sound and word sound agree, so the child meets the block
+first and discovers the word later, "a gift, not a leak". Their clips are reused, not
+re-recorded — the bytes were already heard and approved — with a test asserting every
+servable chunk's plan resolves in the manifest, so a bank-word removal cannot silently
+orphan a chunk (the gob lesson).
 
-| vowel | units |
-| --- | --- |
-| short a | ab ad ag am an ap at |
-| short e | ed eg en et |
-| short i | ib id ig im in ip it |
-| short o | ob od og op ot |
-| short u | ub ud ug um un up ut |
+| | units | grouped by vowel |
+| --- | --- | --- |
+| VC, 26 | 19 new clips | a: ad ag am an ap at &middot; e: ed en et &middot; i: id ig im in ip it &middot; o: ob og op ot ox &middot; u: ub ug um un us ut |
+| CV, 53 | 53 new clips | a: ba ca da fa ga ha ja la ma na pa ra sa ta ya &middot; e: de fe le ne re te ye &middot; i: bi di fi hi ki li mi pi ri si ti wi &middot; o: bo co fo jo lo mo ro &middot; u: bu cu du fu gu hu ju lu mu ru su tu |
 
-Six of the thirty already ship as recorded words, so **twenty-four need a new clip** and each
-needs the owner's ear before it reaches a child.
+Seventy-nine chunks, **seventy-two new clips** (nineteen VC, fifty-three CV; the seven
+word-chunks reuse their approved bytes), each needing the owner's ear before it
+reaches a child. Refused and staying refused: *pu pe po ho* (2026-08-24), the soft spellings
+*ce ci ge gi* (English reads those soft), and everything with fewer than three sound-verified
+anchors — se, nu, ke, va, ve, ji, wa, ni, za, zi, je and their kind.
 
-**Where each one is taught is derived, never typed.** A chunk is seated at the earliest level
-whose own roster contains a word holding that chunk in a closed syllable. Two rules bound it.
-A chunk may not be taught before its letters are known; and — owner-ruled 2026-08-25 — **a
-chunk may not be introduced after the child already reads a word containing it**: "if a child
-reads up at level 14 there is no need to reintroduce the sound as something new at level 40."
-That second rule pulled *in* forward from level 2 to level 1, and *up* from level 40, where
-its anchor *cup* first appears, back to level 14, where the child first reads the word *up*
-itself. Where the deadline arrives before any anchor word does, the chunk is shown in the word
-the child is already reading.
+**Where each one is taught is derived, never typed.** A chunk whose letters all belong to
+the pre-rungs' own set (s a t p i n) sits in the pre-ladder, on the rung that completes its
+letters — that clause, not the level rule, is what seats *ip* before Level 1, since no
+Level-1 word contains it and *sip* waits at Level 2. Every other chunk seats at the earliest
+level whose own roster contains a sound-verified word holding it. Two rules bound the level
+seats: not before its letters are known, and — owner-ruled 2026-08-25 — **never after the
+child already reads a word containing it**: "if a child reads up at level 14 there is no need to reintroduce the
+sound as something new at level 40." That rule pulled *in* to level 1 and *up* back to level
+14. **Six chunks sit before Level 1** — an, ap, at, in, it, ip — needing **two new clips**,
+*ap* and *ip*; the pre-ladder ships long before the rest of the audio exists. The other
+seventy-three ride alongside levels 2 through 40. Where a level's arrivals outnumber
+McGuffey's six-a-lesson benchmark — level 14's short-u wave brings fifteen — the load rule is
+that a level spans many SESSIONS and the session builder caps chunk drills per sitting, so
+the benchmark binds the sitting, never the level.
 
-**Six chunks sit before Level 1** — an, ap, at, in, it and ip — and they need **two new
-clips**, *ap* and *ip*. The remaining twenty-four ride alongside the level that seats them:
-levels 3, 5, 7, 8, 9, 10, 11, 12 and 14. The pre-ladder is therefore small and shippable long
-before the rest of the audio exists.
+**The rung names are ruled** (2026-08-25): the two pre-level rungs keep *First Sounds* and
+*New Sounds*, and *Little Ears* retires with the ear. **The CV question is closed by the
+overrule above**, and the seat's contrary findings stay recorded in `docs/settled.md` with
+the ruling that answered them. **Fault AN's fix is ruled the same day** — an interrupted
+reveal restarts whole when the app returns to the foreground — and lives in
+`docs/open-faults.md` until built and device-verified.
 
-**What is settled and what is not.** Sixteen rulings across two decision pages on 2026-08-24
-fix the screen, the grading, the reveal wording, the removal of the ear rung, the extension of
-S4 to admit blended two-letter units, the lifting of the sound-off refusal for reading rungs,
-and the placement of a child already mid-ladder by their accepted mastery; `docs/settled.md`
-carries them. The thirty-unit roster above is the one the owner accepted on 2026-08-25.
-
-**Five findings from the early-literacy seat await the owner and may move the roster again.**
-They are recorded here rather than acted on, because the roster is his.
-
-1. **No consonant-vowel chunks, at any size.** Webster's CV syllabary is a LONG-vowel table —
-   his lesson 1 carries macrons, `bā bē bī bō bū`, and his short vowels live in the separate VC
-   tables with breves. It is a different artefact from a short-vowel chunk. Worse, the
-   collision is inside this product: eleven CV chunks are already bank words saying something
-   else — *to* at level 6, *he* 7, *we* 8, *me* 9, *be* 10, *my* 19, *do* 20, *go* 21, *no* 22,
-   *so* 23, *by* 52 — so a child would be drilled on `he` as h-plus-short-e within weeks of the
-   level that teaches it as "hee". The bank proves the rule empirically: every two-letter CV
-   word in it takes a long vowel or a schwa, and none takes a short one.
-2. **Twenty VC units rather than thirty**, cutting the eleven whose anchor words are scarce or
-   late — *eb* has only *web* at level 56, *ib* only *bib* and *rib* — and adding *ox*. That
-   would put the new clips at fourteen rather than twenty-four.
-3. **Eight rungs, not thirteen.** The ruled rungs for r h, b f, l j, v w and y z carry no honest
-   VC chunk at all, because h, j, q, v, w and y cannot close an English syllable.
-4. **Six items a rung, not twenty.** McGuffey states the benchmark in his own primer — "only
-   about six new words are to be mastered in each lesson" — and Letters and Sounds gives four
-   letters a week. Ruling 10's ceiling of twenty is about three times both.
-5. **The reveal should GROW the word, not light a chunk inside it.** Showing `at`, then sliding
-   `c` in front while the chunk stays lit, teaches left-to-right; lighting *at* inside a
-   finished *cat* does not. This is Blend Phonics' whole point, and its drill items are always
-   whole words — the chunk lives on the board for one beat and is finished into the word.
-
-**And one finding that cuts against the instruction that produced this roster, kept because it
-is true.** The public-domain books are LONGER, not shorter: Webster and the New England Primer
-contain the full nineteen-by-five matrix that was called unrealistic, *je* and *vu* and *ze*
-included. Consulting them cannot itself justify the cut. The cut rests on the long/short
-collision above and on modern practice, and the record should not pretend otherwise.
-
-Two smaller notes for whoever builds this. **Six of the twenty are bank words already** — at,
-an, in, it, am, ox — so "never presented as a word" is already false for them; that may be
-ideal, the chunk met first and the word discovered later, but it needs ruling rather than
-happening by accident. And **`ed` is a personal name**, so S9 will have an opinion about it.
-The rung names are also unruled, because "Little Ears" will no longer describe anything.
+**One finding kept because it is true and cuts against the instruction that produced the
+roster:** the public-domain books are LONGER, not shorter — Webster and the New England
+Primer carry the full nineteen-by-five matrix, and Webster's CV tables are LONG-vowel (his
+*ba* says "bay", marked with a macron), a different artefact from these chunks. The cut
+rests on the sound collisions and modern practice, not on the books' page count, and the
+record should not pretend otherwise. And **`ed` is a personal name**, so S9 will have an
+opinion when the roster reaches code.
 
 ### The parent tutorial — approved 2026-08-11, unbuilt, FOR THE NEXT BETA
 
