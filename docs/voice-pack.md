@@ -1574,3 +1574,29 @@ vowel did not fix it. What has never been HEARD for this row is the set of mecha
 knob matrix offered fi and the owner did not reach: the closure frame at 0.65, the
 double-say second island, the pre-comma carrier and the en-GB conditioning. Those are the
 i-row's remaining honest options, and they are validated families elsewhere in this pack.
+
+## The chunk pack is complete (2026-08-29)
+
+**Every sound in the 67-chunk roster has an owner-approved clip**: 60 rendered and accepted
+across thirteen rounds, and 7 reusing the approved word clips they are also words of - am,
+an, at, in, it, ox and us. All three reveal phrases are done. Nothing in the chunk ladder
+now waits on an ear.
+
+**The two findings that closed it, both measured rather than guessed.** The dullness the
+owner named as "listening through a pillow" was measured against his own accepted clips:
+they average a spectral centroid of 1745 Hz with 14.9 percent of energy above 3 kHz, the
+refused arms sat at 1399 Hz and 10.0 percent, and ta measured 1381 Hz and 7.1 percent
+against ra's 1899 and 16.1 on the identical recipe. Applying the pack's own brightening
+filter - the one-pole pre-emphasis that won "sip" - to the whole clip instead of its head,
+with a pre-screen refusing anything outside his accepted band, took ta and hu the same day.
+
+**And the last four fell to a fix that had been on record since July.** im "sounds like
+imp", ob "ob then uh", ub "weird trilling at end", tu "crackling at u at end" are one fault:
+the synthesiser's word-final voiced release, the same "hip-uh" and "cub + e" the KEEPER
+trims were invented for. Every round until then had used a FADE, which quietens the
+artefact and leaves it; the record's fix is a TRIM, which removes it. At 130 ms - the depth
+chosen by ear in July - im, ob and ub took perfect together. tu closed on a held vowel at
+690 ms after the owner specified the length he wanted by ear.
+
+Verdicts verbatim in `tools/pending-chunks/`; every clip is byte-pinned in `ledger.jsonl`
+and none may be re-rendered.

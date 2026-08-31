@@ -2207,3 +2207,58 @@ The rendering question is closed; what remains is the owner's ruling on whether 
 English does not make belongs in the ladder at all, given that the row's VC counterparts -
 id, ig, im, in, ip, it - are all accepted and teach the short i in the position the
 language actually uses.
+
+## The ladder's ORDER is sound; do not re-order it (2026-08-29) — closed
+
+The owner asked what the research says about the order of the pre-levels and the levels, and
+what the synthesised schedule for sound introduction should be. The answer is that the order
+already built is as good as the evidence can justify, and the effort belongs elsewhere.
+
+**There is no evidence for any letter order.** Piasta and Wagner's meta-analysis of alphabet
+learning (2010) could not code sequence at all: the order in which letters were taught is
+listed among the moderators that "could not be answered because of lack of information",
+because no study in it compared one order against another. Letter-sound instruction itself
+has a solid effect, d = 0.65; WHICH order has none. A re-order would swap one convention for
+another and pay a second conversion cost for a coin-flip.
+
+**s-a-t-p-i-n is within three words of the mathematical optimum on this game's own bank.**
+Measured by walking all 1,123 bank words through the engine's own `ruleTilesFor` and
+`soundIdsFor` - the anchor lesson applied, sounds judging rather than spellings: satpin makes
+20 bank words fully decodable, and an exhaustive search over the twenty commonest
+single-letter correspondences finds the best possible six make 23. Reading Mastery's opening
+six make 7 on this bank; Akin's make 7. The opening is convention, but it is well-chosen
+convention and nothing better exists to move to.
+
+**Levels 1 to 29 already track UFLI Foundations lesson-for-lesson in shape** - all the single
+letters, then the doubled-letter rule, then the consonant digraphs, then final-e - which is
+the alignment the owner ruled for on 2026-08-17, plus the morphology graft that puts plural
+-s fourteen lessons earlier than UFLI does. That graft is the best-evidenced feature of the
+pathway (Bowers, Kirby and Deacon 2010, 22 studies, larger for younger and less able
+readers).
+
+**The diminishing-returns elbow reproduces in-house at exactly the published place.** Walking
+the bank in frequency-greedy order: the first 65 correspondences buy 13.4 bank words each and
+the next 80 buy 3.1 - a 4.3x cliff with the elbow at 65, which is Vousden, Ellefson, Solity
+and Chater's own 60-70 finding, arrived at on this game's vocabulary without needing their
+paywalled table.
+
+**The one change that could be measured was worth having and not worth doing.** Pulling the
+digraphs forward into levels 6-15, the Letters-and-Sounds shape, would take decodable bank
+words from 395 to 557 at level 15 - and the two orders converge by level 29, 687 against 707.
+It buys about ten levels of pacing, at the cost of re-seating some 150 words, a sentence
+re-screen, moved mutant anchors and moved chunk seats. Refused on that arithmetic.
+
+**The pre-levels stay exactly as built, and their chunks are the best-evidenced decision in
+the opening.** Vadasy and Sanders (2020) taught kindergarteners eleven single-letter
+correspondences plus FOUR TWO-LETTER ones against single letters alone: median d = 0.86 on
+the two-letter items with no loss on the shared single letters. Two-letter units inside a
+beginner's first fifteen correspondences is tested, and it works. A third rung of m-d was
+costed and refused: it would take decodable words from 20 to 40, but am, ad, id, ma and da
+already seat at levels 5 to 11, so the child meets them within a fortnight anyway and the
+rung would cost new clips and a new listening round.
+
+**Where the effort belongs instead**, on the research's own reasoning: Share (2004) measured
+durable orthographic learning from a SINGLE encounter, so whether a child gets the exposure
+at all dominates which week it falls in - which makes faults AP, AQ and AR (the leech, the
+230-session retirement, and the 13 percent met once) worth more than any re-ordering. AP and
+AR are one sort key between them.
