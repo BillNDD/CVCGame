@@ -977,7 +977,7 @@ derivative from its master and refuses one that differs, with a planted off-by-o
 2× as its control. There is no README file per family: the family's entry in
 `tools/art/provenance.json` — the camera lock, the ramps, the 9-slice, the master's path
 and hash, the reference rows — is what the owner's ruling called the README, and a new
-status file is what CLAUDE.md forbids.
+status file is what AGENTS.md forbids.
 
 **The byte share**, integers that sum to the 16.2 ceiling of 12,582,912: the garden
 scene 8,388,608 (eleven states × three crops × two scales, 66 files); the guide 1,048,576;

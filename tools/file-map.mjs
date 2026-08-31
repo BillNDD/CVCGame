@@ -191,7 +191,7 @@ export const DECLARED = [
   { path: "tools/conversion-rehearsal.mjs", kind: "SOURCE", owns: "G27: what the 100-level ladder would break in the real engine - the substitution, the probes over every level, and the ceiling each finding class is held to" },
   { path: "tools/ladder-status.mjs", kind: "SOURCE", owns: "the lookup that reports what the redesign ladder holds, measured from its own files" },
   { path: "tools/ladder-fill.mjs", kind: "SOURCE", owns: "the rule for where a word may sit in the ladder - its greedy longest-match segmentation, the level that first teaches each unit, and the check that every target word has a seat" },
-  { path: "tools/claude-md-shape.mjs", kind: "SOURCE", owns: "G28b: the shape CLAUDE.md is allowed to have - its four sections, the S1-S9 set, and the pointer to the controller" },
+  { path: "tools/claude-md-shape.mjs", kind: "SOURCE", owns: "G28b: the shape CLAUDE.md is allowed to have - its three sections, the S1-S9 set, and the pointer to the controller" },
   { path: "tools/sound-load.mjs", kind: "SOURCE", owns: "G28: how many new sounds one word may teach at once - the pair decomposition, the strictly-earlier-levels rule, and the two-way ledger check" },
   { path: "tools/sound-load-ledger.json", kind: "DATA", owns: "the declared list of words that introduce two new sounds at once (G28), each with its reason" },
   { path: "tools/ladder/README.md", kind: "OWNER", owns: "what each curriculum-redesign design artefact is, where it came from, and how far it can be trusted" },
@@ -523,11 +523,11 @@ function selfTest() {
   T("two files declaring the same owns line are caught",
     duplicates(mk({}), [{ path: "a.md", kind: "OWNER", owns: "the thing" }, { path: "b.md", kind: "OWNER", owns: "the thing" }], {}).length === 1);
   T("a fact's shape appearing inside a DIFFERENT fact's owner is caught",
-    duplicates(mk({ "CLAUDE.md": "The word bank has 9 words" }), [],
-      { bank: { owner: "SPEC.md", forbidden: [/word bank has \d+ words/i] }, e7: { owner: "CLAUDE.md", forbidden: [/x^/] } }).length === 1);
+    duplicates(mk({ "AGENTS.md": "The word bank has 9 words" }), [],
+      { bank: { owner: "SPEC.md", forbidden: [/word bank has \d+ words/i] }, e7: { owner: "AGENTS.md", forbidden: [/x^/] } }).length === 1);
   T("distinct owners with distinct shapes pass",
-    duplicates(mk({ "CLAUDE.md": "checks run before a push", "SPEC.md": "the bank" }), [],
-      { bank: { owner: "SPEC.md", forbidden: [/word bank has \d+ words/i] }, e7: { owner: "CLAUDE.md", forbidden: [/x^/] } }).length === 0);
+    duplicates(mk({ "AGENTS.md": "checks run before a push", "SPEC.md": "the bank" }), [],
+      { bank: { owner: "SPEC.md", forbidden: [/word bank has \d+ words/i] }, e7: { owner: "AGENTS.md", forbidden: [/x^/] } }).length === 0);
 
   /* The real tree, through the real readers — the lesson this repository
      learned three times on 2026-08-14 alone: an injected fixture proves the

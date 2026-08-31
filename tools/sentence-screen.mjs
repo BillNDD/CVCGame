@@ -6,10 +6,10 @@
  * mechanical gate had passed it: every word taught, the level right, the
  * audio clean. A sentence carries a meaning that none of its words does.
  *
- * CLAUDE.md has held this rule for WORDS since "milt" reached a listening
+ * AGENTS.md has held this rule for WORDS since "milt" reached a listening
  * round: before any beta, the whole bank is re-screened for sexual, crude or
  * violent meaning, plurals and near-misspellings included. Sentences were
- * never brought under it. This file is that rule for sentences, and CLAUDE.md
+ * never brought under it. This file is that rule for sentences, and AGENTS.md
  * now says so.
  *
  * TWO HALVES, AND NEITHER IS ENOUGH ALONE.
@@ -147,7 +147,7 @@ export const SCREENED_2026_08_16 = [
    screening pages"; the listening rounds graded AUDIO, and the
    independent audit refused to let those stand as reads; these pages were
    text-only, one question per text - should a child meet this - which is the
-   question CLAUDE.md's before-any-beta rule asks. These ids are AWAITING
+   question AGENTS.md's before-any-beta rule asks. These ids are AWAITING
    SEATS: screened and approved for reading, not yet shipped, because the
    engine is still the 21-level one. The stale rule below exempts exactly this
    list and nothing else, and a control proves the exemption is not a blanket:

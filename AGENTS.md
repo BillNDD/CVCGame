@@ -307,7 +307,7 @@ seat is the same one the owner named the same day — a software engineering and
 expert, adversarial mandate unchanged (`docs/art-plan.md`, "How the council works").
 
 - **Read only, context independent.** A fresh agent each pass, with no memory of the last
-  one. It reads the repository, `CLAUDE.md`, `SPEC.md`, the gauntlet document and the map,
+  one. It reads the repository, this document, `CLAUDE.md`, `SPEC.md`, the gauntlet document and the map,
   and it never edits, commits, pushes or tags. Give it the change you INTEND, not a diff
   you have already made.
 - **The before pass advises.** For each change: what to do and why, what it breaks — gates,

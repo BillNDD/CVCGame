@@ -9,7 +9,7 @@ description: Spin the council's engineering seat — a fresh-context reviewer fo
 told, what it may and may not do, and how its findings come back.
 
 **It does not own** any fact about the product. Everything the reviewer needs to know about
-behaviour it reads from `SPEC.md`, `CLAUDE.md` and the gates themselves — this brief only
+behaviour it reads from `SPEC.md`, `AGENTS.md`, `CLAUDE.md` and the gates themselves — this brief only
 tells it where to look and what to be suspicious of.
 
 ## Why this seat exists
@@ -41,8 +41,8 @@ just changed.
 > `git log`/`git show`/`git diff`, run `node -e` snippets that only read, and run a single
 > targeted `npx vitest run <file>` to confirm a test's behaviour.
 >
-> READ FIRST: `CLAUDE.md` (safety rules S1–S9, engineering rules E1–E11, "What counts as
-> finished work"), `SPEC.md` (behaviour; section 12a owns the teaching pathway),
+> READ FIRST: `AGENTS.md` (the controller: engineering rules E1–E11, "What counts as
+> finished work", the read order), `CLAUDE.md` (safety rules S1–S9), `SPEC.md` (behaviour; section 12a owns the teaching pathway),
 > `docs/testing-gauntlet.md` (every gate), `docs/open-faults.md` (what is known broken).
 > Note especially E1 (never hand-edit `src/engine.js`; it is generated from
 > `reference/word-quest.jsx`), E3 and E4 (never weaken a test, never take an expected value

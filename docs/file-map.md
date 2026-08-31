@@ -70,7 +70,7 @@ verbatim) are exempt; the exemptions are declared in the tool.
 | `tools/conversion-rehearsal.mjs` | SOURCE | G27: what the 100-level ladder would break in the real engine - the substitution, the probes over every level, and the ceiling each finding class is held to |
 | `tools/ladder-status.mjs` | SOURCE | the lookup that reports what the redesign ladder holds, measured from its own files |
 | `tools/ladder-fill.mjs` | SOURCE | the rule for where a word may sit in the ladder - its greedy longest-match segmentation, the level that first teaches each unit, and the check that every target word has a seat |
-| `tools/claude-md-shape.mjs` | SOURCE | G28b: the shape CLAUDE.md is allowed to have - its four sections, the S1-S9 set, and the pointer to the controller |
+| `tools/claude-md-shape.mjs` | SOURCE | G28b: the shape CLAUDE.md is allowed to have - its three sections, the S1-S9 set, and the pointer to the controller |
 | `tools/sound-load.mjs` | SOURCE | G28: how many new sounds one word may teach at once - the pair decomposition, the strictly-earlier-levels rule, and the two-way ledger check |
 | `tools/sound-load-ledger.json` | DATA | the declared list of words that introduce two new sounds at once (G28), each with its reason |
 | `tools/ladder/README.md` | OWNER | what each curriculum-redesign design artefact is, where it came from, and how far it can be trusted |

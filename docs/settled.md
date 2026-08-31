@@ -823,7 +823,7 @@ pauses, and warm spectral tilt (attenuated low harmonics read as cold).
   goes through the word path, which is deterministic — same seeds, same
   speeds, same output. Only the labels changed, because the field had been
   reordered. This is the round-8 fault (two identical files offered as
-  different candidates) in a cross-round form, and CLAUDE.md bans it.
+  different candidates) in a cross-round form, and AGENTS.md bans it.
   Two rules follow. A generator must compare its arms against the previous
   round's hashes and either drop a repeat or label it as a re-hearing. And the
   fact that the SAME audio drew "closest" and then "perfect" from the same

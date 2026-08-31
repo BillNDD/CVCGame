@@ -51,9 +51,9 @@ const BASELINE = JSON.parse(readFileSync(".claude/gate-baseline.json", "utf8"));
 const KINDS = ["unit", "source", "observed"];
 const FLOORS = { rules: BASELINE.g25_rules, proofs: BASELINE.g25_proofs };
 
-/* The rules, read from the file that OWNS them. Never a list typed here: a
-   list typed here would be a copy of CLAUDE.md's own facts, which G23
-   refuses, and it would go stale the day a rule is added. */
+/* The safety rules, read from the file that OWNS them. Never a list typed
+   here: a list typed here would be a copy of CLAUDE.md's own safety facts,
+   which G23 refuses, and it would go stale the day a rule is added. */
 export function parseRules(claudeText) {
   const start = claudeText.indexOf("## Safety rules");
   if (start < 0) return [];

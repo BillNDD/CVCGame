@@ -1,5 +1,5 @@
 {
-  "comment": "Limits for the testing gauntlet. Plain keys are floors: raise when counts grow, never lower. Keys ending in _max are ceilings: lower when quality improves, never raise (CLAUDE.md E6). 'What counts as finished work' (CLAUDE.md) governs every change.",
+  "comment": "Limits for the testing gauntlet. Plain keys are floors: raise when counts grow, never lower. Keys ending in _max are ceilings: lower when quality improves, never raise (AGENTS.md E6). 'What counts as finished work' (AGENTS.md) governs every change.",
   "g1_unit_tests": 117,
   "g1_scheduler_tests": 9,
   "g2_properties": 10,

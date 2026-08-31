@@ -455,7 +455,7 @@ function run(d) {
      is only as real as the sentence that tells them. Nothing in this
      repository used to notice if that sentence was edited away, and an agent
      resuming after a context compaction knows only what the governing
-     documents say — so a tool dropped from CLAUDE.md is a tool that has
+     documents say — so a tool dropped from AGENTS.md is a tool that has
      stopped existing, however green its own controls are.
 
      Both halves are checked, because a tool can be orphaned in two

@@ -1001,7 +1001,7 @@ make it three words larger and more likely to be met.
 On 2026-08-13 the owner refused "My dad can pat me." with two words: *not appropriate*.
 Every mechanical gate passed it — every word taught, the level correct, the audio clean —
 because `tools/decodable.mjs` asks whether a child CAN read a sentence and nothing asks
-whether a child SHOULD meet it. CLAUDE.md already carries this rule for WORDS, under
+whether a child SHOULD meet it. AGENTS.md already carries this rule for WORDS, under
 "Before any beta is pushed": the whole bank is re-screened for sexual, crude or violent
 meaning, and "milt" reaching a listening round is the incident that earned it. Sentences
 were never brought under it, and a sentence can carry a meaning that none of its words
@@ -1559,7 +1559,7 @@ silence, clipped, or the neighbouring phoneme. Each is a factual error a machine
 and each has reached the owner at least once.
 
 **What it must NEVER do, and a future agent must not talk itself past this.** It cannot
-decide whether a sound is GOOD. CLAUDE.md is explicit that spoken-word correctness is
+decide whether a sound is GOOD. AGENTS.md is explicit that spoken-word correctness is
 proved by a listening round and nothing else, and G13 refuses any recipe no person heard.
 The distinction is the one `sound_agreement.py` already records about itself: a REFUSAL,
 not a proof. A machine saying "this clip says red" removes a wrong arm before it wastes an

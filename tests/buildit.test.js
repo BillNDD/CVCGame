@@ -144,7 +144,7 @@ describe("Build-it writes nothing to the record", () => {
        so an empty `saves` would be empty however the screen behaved — the
        assertion above proves nothing by itself. Firing the mocked saver proves
        the probe is wired and CAN report a write. Without this the test is a
-       mock presented as proof the real feature works, which CLAUDE.md refuses
+       mock presented as proof the real feature works, which AGENTS.md refuses
        by name. */
     const { saveState } = await import("../app/src/storage.js");
     saveState({ marker: 1 });

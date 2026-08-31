@@ -38,6 +38,44 @@ cannot catch an `either-is-fine` row collapsed to `perfect`, because that is a
 legal value; the limit has its own control that asserts the miss rather than
 hiding it. Sub-second over ~960 rows, so it runs in `npm run check`.
 
+## G28b - CLAUDE.md takes no new rules, and nobody may credit it with old ones
+
+`node tools/claude-md-shape.mjs`, with `--self-test` for its eighteen controls. Owner-ruled
+2026-08-31, twice: first "I want you to suggest some way for future agents, who go looking to
+add rules to claude.md instead of agents.md, are always redirected", and then "I don't want to
+do anything else until claude.md and agents.md is sorted out forever".
+
+**What it protects.** AGENTS.md is the controller and CLAUDE.md owns the nine child-facing
+safety rules and nothing else. That split is worth nothing if it decays, and prose is what
+decayed last time: this repository ran for weeks with a CLAUDE.md that named AGENTS.md four
+times and never once told anyone to open it.
+
+**Half one - nothing new gets written INTO CLAUDE.md.** A section heading the file is not
+declared to have, an E-numbered rule written there, a safety rule outside S1-S9 in either
+direction (a tenth is the owner's to add; a DELETED one is caught too, so the file cannot
+quietly shrink), and the pointer to the controller being removed **or softened** - "read it in
+full" weakened to "may be of interest" is refused, because naming a file is not the same as
+being told to read it.
+
+**Half two - nobody CREDITS CLAUDE.md with a rule that moved.** This is the half that had no
+gate and needed one. G23 refuses a document carrying a fact it does not own; prose naming the
+WRONG owner is not that shape, which is fault F3, and on the day of the split it bit twenty-two
+times - twice inside AGENTS.md's own opening paragraph. It became checkable only because the
+split left CLAUDE.md owning exactly one thing: a line that credits CLAUDE.md with a rule must
+be about a safety rule, and an E-number named beside it is stale with no verb needed.
+
+**Why the window is three lines.** The first version read only the line and the one after it,
+and its first four findings were all wrong - "Safety rule S8 in / CLAUDE.md owns the list of
+those units" wraps so the verb lands below the word that makes it true. A gate whose opening
+run cries wolf four times is a gate somebody switches off, so it reads a sentence's worth of
+context in both directions. Both false-alarm shapes are now controls that must PASS.
+
+**What it cannot do,** stated so nobody quotes it for more than it is: it cannot catch a
+sentence crediting CLAUDE.md with a safety rule it does not actually have. That is still a
+person's job - but there are nine rules, they fit on one screen, and this gate makes that the
+only reading left to do. Scans 277 tracked text files in under a second, so it runs in
+`npm run check`.
+
 ## G28 - how many new sounds one word may teach
 
 `node tools/sound-load.mjs`, with `--self-test` for its nine controls and `--list` for the
@@ -1663,13 +1701,13 @@ promised a fallback the code never performed; G12 counted the step and saw nothi
   tells an agent to run must still be named in every document that names it, and must still be
   wired into the command that runs its controls. It exists because an agent resuming after a
   context compaction knows only what the governing documents say. A tool dropped from
-  `CLAUDE.md` by a later tidy-up has stopped existing for every agent after that, however
+  `AGENTS.md` by a later tidy-up has stopped existing for every agent after that, however
   green its own controls are; and a tool dropped from `npm run check` can go wrong and stay
   green. `tools/blast-radius.mjs` and `tools/mutants.mjs` are covered today. The rule found a
   real gap the moment it was written: `README.md` did not name the lookup at all.
 - Negative control: `--self-test` rewords a SPEC sentence, rewords a QA promise, changes a
   timing, changes the hold constant, leaves a stale speed in SPEC, takes the lookup's name out
-  of `CLAUDE.md`, and takes its controls out of `npm run check`; every detector must fire.
+  of `AGENTS.md`, and takes its controls out of `npm run check`; every detector must fire.
 - Baseline floor: `g16_doc_rules` (12). Rule 12 (art step 1, 2026-08-22) binds the art
   bible's section 11 state table — `| state | selector | tokens |` — to the stylesheet:
   every selector must exist in `app/src/wq-css.js` and in the reference build's copy

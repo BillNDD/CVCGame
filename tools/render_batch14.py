@@ -8,7 +8,7 @@
 # path only, and lids goes through the word path, which is deterministic - same
 # seeds, same speeds, same bytes. Only the labels moved. That is round 8's
 # fault (identical files offered as different candidates) in a cross-round
-# form, and CLAUDE.md bans it.
+# form, and AGENTS.md bans it.
 #
 # THE HASH GUARD. This generator loads every arm hash from batches 12 and 13
 # and refuses to offer any of them again. It is not a comment or an intention;
