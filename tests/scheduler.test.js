@@ -10,7 +10,7 @@
        instead of being read once and parked until promotion. */
 import { describe, it, expect } from "vitest";
 import {
-  LEVELS, WORD_LEVEL, freshWordState, applyResult, buildSession, newState,
+  LEVELS, WORD_LEVEL, freshWordState, applyResult, buildSession, newState, checkPromotion,
 } from "../src/engine.js";
 
 describe("buildSession and the next level", () => {
@@ -93,5 +93,74 @@ describe("buildSession and the next level", () => {
     const q = buildSession(s);
     expect(q.filter(w => WORD_LEVEL[w] === 2).length).toBe(2);
     expect(q.length).toBe(12);
+  });
+});
+
+/* THE AGING TERM (faults AP and AR, owner-ruled 2026-08-31 on the ox decision
+   page). dueBelow used to sort by box alone. INTERVALS[0] and INTERVALS[1] are
+   both 1, so a word the child keeps missing is due every session AND sorts to
+   the front - which meant a word they had read correctly could never outrank
+   one they were still failing. The owner found it in his own play: "ox is
+   offered at almost every level so much."
+
+   The lane takes five. These tests are written on that five, because it is the
+   only place the ordering is observable: buildSession shuffles what it returns,
+   so WHICH words survive the cut is the behaviour, not what order they arrive
+   in. */
+describe("the review lane does not belong to the words a child cannot read", () => {
+  const stuck = ["an", "ant", "as", "at", "in", "it"];   // six, for five slots
+
+  it("serves a long-overdue word ahead of the words the child keeps missing", () => {
+    const s = newState(); s.level = 3; s.sessionsCompleted = 30;
+    stuck.forEach(w => { s.words[w] = { ...freshWordState(), box: 0, attempts: 4, wrong: 4, dueAt: 31 }; });
+    /* read correctly long ago, and waited 20 sessions past its due date */
+    s.words.pin = { ...freshWordState(), box: 3, attempts: 1, correct: 1, dueAt: 11 };
+    const q = buildSession(s);
+    expect(q).toContain("pin");
+    expect(q.filter(w => stuck.includes(w)).length).toBe(4);
+  });
+
+  it("control: a word only just overdue does NOT jump the queue - box order still governs", () => {
+    /* The same state with one number changed: due at 29 instead of 11, so it is
+       2 sessions overdue rather than 20. Without this the test above would pass
+       against a rule that always favours box 3, which is not the rule. */
+    const s = newState(); s.level = 3; s.sessionsCompleted = 30;
+    stuck.forEach(w => { s.words[w] = { ...freshWordState(), box: 0, attempts: 4, wrong: 4, dueAt: 31 }; });
+    s.words.pin = { ...freshWordState(), box: 3, attempts: 1, correct: 1, dueAt: 29 };
+    const q = buildSession(s);
+    expect(q).not.toContain("pin");
+    expect(q.filter(w => stuck.includes(w)).length).toBe(5);
+  });
+
+  it("holds over forty sessions: a word the child never gets is served 3 times, not 19", () => {
+    /* The measurement fault AP was opened with, re-run as an assertion. The
+       control is the number in the fault entry: this same drive, before the
+       aging term, served the word 19 times across 19 CONSECUTIVE sessions and
+       gave the three stuck words 7.3 percent of every review slot in the game. */
+    const STUCK = ["ox", "wag", "yes"];
+    const s = newState(); s.level = 1;
+    const seen = new Map();
+    for (let i = 0; i < 40; i += 1) {
+      const q = buildSession(s);
+      const sNum = s.sessionsCompleted + 1;
+      for (const w of q) {
+        if (!s.words[w]) s.words[w] = freshWordState();
+        if (!seen.has(w)) seen.set(w, []);
+        seen.get(w).push(sNum);
+        applyResult(s.words[w], STUCK.includes(w) ? "wrong" : "correct", sNum);
+      }
+      s.sessionsCompleted += 1;
+      checkPromotion(s, { perfect: false, partial: false });
+    }
+    const longestRun = (a) => {
+      let best = 1, cur = 1;
+      for (let i = 1; i < a.length; i += 1) { cur = a[i] === a[i - 1] + 1 ? cur + 1 : 1; best = Math.max(best, cur); }
+      return a.length ? best : 0;
+    };
+    const served = STUCK.map(w => seen.get(w) || []);
+    expect(Math.max(...served.map(a => a.length))).toBe(3);
+    expect(Math.max(...served.map(longestRun))).toBe(2);
+    const total = [...seen.values()].reduce((a, b) => a + b.length, 0);
+    expect(Math.round(1000 * served.reduce((a, b) => a + b.length, 0) / total)).toBe(10);  // 1.0%
   });
 });

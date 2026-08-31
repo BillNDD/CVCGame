@@ -8,7 +8,7 @@ Per-test rows carry the test's own sentence, which in this project IS the
 Given/When/Then effect. The requirement, oracle, platform, mutant family, evidence
 and known limits are declared per FILE, in the tool, where they stay true.
 
-Totals: 449 it() SITES across 22 files, plus 18 gates that are not test files.
+Totals: 452 it() SITES across 22 files, plus 18 gates that are not test files.
 
 A site inside a loop or a table runs many times, so these rows describe more tests than they number: Vitest executes 330. The rows count the places behaviour is asserted.
 
@@ -583,7 +583,7 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 25 | G10 — free play never touches the save | 47: a spent random block rolls into a fresh draw that never repeats the boundary word |
 | 26 | G10 safety — S6: the foreground check obeys the corner's switch | 48: the check asks on a return to the foreground, and Off silences it at once |
 
-## tests/scheduler.test.js — 6 tests (G1)
+## tests/scheduler.test.js — 9 tests (G1)
 
 - **Requirement protected:** SPEC section 4: promotion and the level rules of the session builder
 - **Independent oracle:** Hand-computed queues from stated states
@@ -601,6 +601,9 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 4 | buildSession and the next level | holds the peek at 80 per cent, not 75 - the boundary only a 16-word level can see |
 | 5 | buildSession and the next level | brings a graded next-level word back for review |
 | 6 | buildSession and the next level | caps above-level review at 2 words a session |
+| 7 | the review lane does not belong to the words a child cannot read | serves a long-overdue word ahead of the words the child keeps missing |
+| 8 | the review lane does not belong to the words a child cannot read | control: a word only just overdue does NOT jump the queue - box order still governs |
+| 9 | the review lane does not belong to the words a child cannot read | holds over forty sessions: a word the child never gets is served 3 times, not 19 |
 
 ## tests/sentence.test.js — 24 tests (G10)
 

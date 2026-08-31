@@ -2737,7 +2737,7 @@ what is true now.
   catches a wrong number (E5). The pin is the part that matters: correcting six files without
   it leaves the next cutover free to do this again.
 
-## AP. A word a child keeps missing is served for ever, and crowds the review lane — opened 2026-08-29
+## AP. A word a child keeps missing is served for ever, and crowds the review lane — opened 2026-08-29, CLOSED 2026-08-31
 
 - **Where it lives.** `buildSession` in the reference build: `dueBelow` selects graded words
   from below the child's level, sorts them `box` ascending, and takes five. `INTERVALS` is
@@ -2817,7 +2817,7 @@ what is true now.
   its provenance before any code reads it, the same discipline the art provenance record
   follows. Until that source is named and approved, this fault stays open.
 
-## AR. Thirteen percent of words are met exactly once, ever — opened 2026-08-29
+## AR. Thirteen percent of words are met exactly once, ever — opened 2026-08-29, CLOSED 2026-08-31
 
 - **Where it lives.** The same `dueBelow` selector, which is a strict priority queue sorted by
   box ascending with **no aging term**. A word the child READ CORRECTLY (box 3 or above) can
@@ -2840,6 +2840,22 @@ what is true now.
 - **RULED 2026-08-31 with AP: the aging term.** One sort key carries both. In the same
   measured run the share of words met exactly once falls from **44.5 percent to 32.7**, which
   is the half of this fault the aging term reaches directly.
+- **BUILT and CLOSED 2026-08-31.** `OVERDUE_SESSIONS = 8` in the reference build, and one term
+  added ahead of the box comparison in `dueBelow`'s sort: a word more than eight sessions past
+  its due date is served before the words the child is still failing. Re-measured on the
+  SHIPPED engine, not on a splice - the same child, the same forty sessions: the stuck word
+  falls from **19 appearances to 3**, from **19 consecutive sessions to 2**, from **7.3 percent
+  of every review slot to 1.0**, and words met exactly once from **44.5 percent to 33.2**. The
+  same 391 distinct words are still met, so nothing was bought by shrinking the game.
+- **Three tests in `tests/scheduler.test.js`,** written on the five-word lane because that is
+  where the ordering is observable - `buildSession` shuffles what it returns, so which words
+  survive the cut IS the behaviour. One proves a twenty-sessions-overdue word takes a slot from
+  the six stuck words; one is the control, the same state with a single number changed so the
+  word is only two sessions overdue, and it must NOT take a slot - without it the first test
+  would pass against a rule that simply always favours a higher box, which is not the rule; and
+  one re-runs the forty-session drive this fault was opened with and asserts the 3 and the 2,
+  with the 19 and the 19 written into the test as the control they came from. Floor
+  `g1_scheduler_tests` raised 5 to 9.
 
 ## AS. Fifteen words hand a child two new sounds at once — opened 2026-08-31
 

@@ -407,6 +407,20 @@ function unitOk(g, w, p) {
    every word — which is now every word, always, so the SPEC's own rule deletes
    it. Kept only if a reason survived the recogniser; none did. */
 const INTERVALS = [1, 1, 2, 4, 7, 12];
+/* THE AGING TERM (fault AP/AR, owner-ruled 2026-08-31 on the ox decision page).
+   A word overdue by more than this many sessions outranks a word that is merely
+   stuck. Without it, dueBelow sorts by box alone: INTERVALS[0] and INTERVALS[1]
+   are both 1, so a word the child keeps missing is due EVERY session and sits at
+   the front of the review lane for ever, while a word they read correctly can
+   never outrank it. Measured on the shipped scheduler - a child who misses three
+   words over forty sessions - the stuck word fell from 19 appearances to 3, from
+   19 consecutive sessions to 2, and from 7.3 percent of every review slot to 1.0,
+   and the share of words met exactly once fell from 44.5 percent to 32.7.
+   Chosen over a leech threshold, which rests the word and needs a grown-up
+   control to bring it back, and over a widening interval, which measured weaker.
+   Nothing is recorded about the child and no word is ever abandoned (S1): this
+   only reorders a queue. */
+const OVERDUE_SESSIONS = 8;
 const SESSION_SIZE = 20;
 const PROMPT_CAP = 26;
 const ADVANCE_GUARD_MS = 400;   // P0-3
@@ -582,8 +596,10 @@ function buildSession(state) {
   const sNum = state.sessionsCompleted + 1, level = state.level, picked = new Set();
   const take = (arr, k) => { const got = []; for (const w of arr) { if (got.length >= k) break; if (!picked.has(w)) { picked.add(w); got.push(w); } } return got; };
   const entries = Object.entries(state.words);
+  /* 0 sorts first: a long-overdue word is served before the stuck ones. */
+  const aged = (ws) => (sNum - ws.dueAt > OVERDUE_SESSIONS ? 0 : 1);
   const dueBelow = entries.filter(([w, ws]) => ws.attempts > 0 && ws.dueAt <= sNum && ws.box < 5 && WORD_LEVEL[w] < level)
-    .sort((a, b) => a[1].box - b[1].box || a[1].dueAt - b[1].dueAt).map(([w]) => w);
+    .sort((a, b) => aged(a[1]) - aged(b[1]) || a[1].box - b[1].box || a[1].dueAt - b[1].dueAt).map(([w]) => w);
   const confidence = shuffle(entries.filter(([w, ws]) => ws.box >= 4 && WORD_LEVEL[w] <= level).map(([w]) => w));
   const curDue = entries.filter(([w, ws]) => ws.attempts > 0 && ws.dueAt <= sNum && ws.box < 5 && WORD_LEVEL[w] === level)
     .sort((a, b) => a[1].box - b[1].box).map(([w]) => w);
