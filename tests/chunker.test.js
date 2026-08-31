@@ -107,13 +107,31 @@ describe("the extended code", () => {
     expect(chunkWord("tub")).toEqual(["t","u","b"]);         // tu needs -re
     expect(chunkWord("tuck")).toEqual(["t","u","ck"]);
     expect(chunkWord("tug")).toEqual(["t","u","g"]);
-    expect(chunkWord("pal")).toEqual(["p","a","l"]);         // al needs a following l or k
-    /* Where they DO belong. "all" is two sounds, /aw/ and /l/, so al-l is the
-       honest tiling and a-ll would teach the short a it does not say. */
+    expect(chunkWord("pal")).toEqual(["p","a","l"]);         // al needs a following k
     expect(chunkWord("nation")).toEqual(["n","a","ti","o","n"]);
     expect(chunkWord("picture")).toEqual(["p","i","c","tu","re"]);
     expect(chunkWord("walk")).toEqual(["w","al","k"]);
-    expect(chunkWord("all")).toEqual(["al","l"]);
+    /* THE -ALL FAMILY, owner-ruled 2026-08-29 from a screenshot: "all" showed
+       al + l and the reveal said "al-l". Every other doubled ending is one
+       tile - bell, will, doll, miss, off, buzz - so the -all family was the
+       single place S8 did not hold. The comment that used to sit here argued
+       a-ll "would teach the short a it does not say"; the bend table disproves
+       it, and these assertions prove the disproof: the tiles change and not
+       one SOUND does. */
+    expect(chunkWord("all")).toEqual(["a","ll"]);
+    expect(soundIdsFor("all")).toEqual(["d:aw","d:l"]);
+    expect(chunkWord("fall")).toEqual(["f","a","ll"]);
+    expect(soundIdsFor("fall")).toEqual(["d:f","d:aw","d:l"]);
+    /* The three that already bent this tile keep their indices, because al+l
+       and a+ll occupy the same two slots - which is why no bend moved. */
+    expect(chunkWord("valley")).toEqual(["v","a","ll","ey"]);
+    expect(soundIdsFor("valley")).toEqual(["d:v","d:short_a","d:l","d:long_e"]);
+    expect(chunkWord("wallet")).toEqual(["w","a","ll","e","t"]);
+    expect(soundIdsFor("wallet")).toEqual(["d:w","d:short_o","d:l","d:short_e","d:t"]);
+    expect(chunkWord("finally")).toEqual(["f","i","n","a","ll","y"]);
+    /* The control: al survives where it belongs, before a K. */
+    expect(chunkWord("talking")).toEqual(["t","al","k","i","ng"]);
+    expect(soundIdsFor("talk")).toEqual(["d:t","d:aw","d:k"]);
   });
   it("keeps the silent-letter pairs to the ends they belong to", () => {
     /* mb says /m/ only at the end of a word; kn, wr and gn only at an end.

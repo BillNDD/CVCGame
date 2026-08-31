@@ -1,0 +1,17 @@
+THE LAW SCALES verdicts, 2026-08-29, verbatim. 23 acceptances - the largest round.
+ACCEPTED: ga-A na-B pa-B le-A ne-B re-B ye-A bo-B co-A lo-B mo-B ro-B ju-A mu-A perfect;
+cu-B du-B su-B good; ad-A id-A og-A ug-A un-A um-A perfect.
+STILL OPEN, with the owner's comments:
+ra A iterate, B nogood | ta A nogood, B iterate
+hu A iterate "static at end", B nogood | tu A "lots of static at middle and end but
+otherwise fine", B nogood | im A iterate, B nogood | ub A iterate, B nogood
+ob A nogood, B nogood "says job" (the peer-carve leaked its onset)
+THE I-ROW, all twelve nogood on both arms, and the comments name the target exactly:
+  fi "should be fi like finish" | hi "sounds like he not hi like hit"
+  ki "see hi criticism" | li "see hi criticism" | mi "should be mi like mike"
+  pi "should be pi like pitch not pi like pea" | ri "should be ri like rick, but sounds
+  like r+e letter sound" | di "just d sound" | bi si ti wi nogood
+The barred-i substitution did NOT fix the tensing. Every i-row arm so far has been the
+spell-it carrier or a vowel substitution inside it; the closure frame, the double-say
+second island, the pre-comma and the en-GB conditioning were offered for fi in the knob
+matrix and went UNJUDGED - they remain the untested mechanisms for this row.

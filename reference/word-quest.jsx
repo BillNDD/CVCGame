@@ -385,7 +385,17 @@ function unitOk(g, w, p) {
   if (START_ONLY.includes(g)) return p === 0 || end === w.length;
   if (g === "tu") return rest === "re";
   if (g === "ti" || g === "ci") return TI_FOLLOWERS.some((t) => rest.startsWith(t));
-  if (g === "al") return rest.startsWith("l") || rest.startsWith("k");
+  /* `al` belongs before a K and nowhere else (owner-ruled 2026-08-29, from a
+     screenshot of the word "all" tiling as al-l). The rule used to admit a
+     following L too, which made the -all family the ONE place a doubled
+     ending is not a single tile: bell, will, doll, miss, off and buzz all
+     show ll/ss/ff/zz whole, and "all" alone showed al + l. That is an S8
+     breach, and the comment defending it - "a-ll would teach the short a it
+     does not say" - rested on a premise the bend table disproves: the `a` in
+     wallet already says short_o by bend, so the `a` in all and fall says aw
+     the same way. Tile COUNT is unchanged by this (two tiles either way), so
+     every existing per-word bend keeps its index. */
+  if (g === "al") return rest.startsWith("k");
   return true;
 }
 /* The microphone is gone (owner-ruled 2026-08-11, safety; removed 2026-08-12), and
@@ -1156,6 +1166,12 @@ const WORD_SOUND = {
      2026-08-18 and which is waiting to ship. He ruled `are` differently the
      same day; that one is not here. */
   were: { 1: "er" },
+  /* all and fall, owner-ruled 2026-08-29 with the tiling above. Their `a` is
+     the /aw/ of walk, not the short a of pal, and with `ll` now whole the
+     vowel carries the sound alone. finally, valley and wallet already bend
+     this tile in LEX_BENDS and keep their indices unchanged. */
+  all: { 0: "aw" },
+  fall: { 1: "aw" },
   she: { 1: "long_e" },                    // e says its name
   the: { 0: "th_this", 1: "schwa" },       // the buzzy th, then the lazy uh
   push: { 1: "oo_book" }, bush: { 1: "oo_book" },

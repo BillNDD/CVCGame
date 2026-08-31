@@ -1546,3 +1546,31 @@ into "fi ah" or rounds to "Oh". The expert's caveat on ʔ materialized exactly. 
 is iterating on the CV recipe with these percepts as data; the VC row scales meanwhile on
 the proven en geometry. Verdicts verbatim in
 `tools/pending-chunks/calibration-ten-verdicts.txt`.
+
+## The Remainder Round and the smoker diagnosis (2026-08-29)
+
+132 arms. ja and la took PERFECT from the plain-family arm — and the owner's name for the
+round did the diagnostic work: "heavy smoker". The rasp lives at speed 0.78; every CV
+acceptance this project has — thirteen in round 1, ja and la here — is the same family at
+0.82. The held-vowel arms failed wholesale and the family is dead. On the VC side his ear
+caught the shallow cuts amputating codas ("just oh, b is cut off") — depths chosen when
+deep meant static, which the mastering fix has since cured — and the "way too fast"
+iterates ask for the full span back. Round 6, "The Winning Pace", offers every remaining
+sound in exactly two shapes: the winning family at 0.82 and 0.85 for CV, and deep
+whole-coda carves for VC. Verdicts verbatim in
+`tools/pending-chunks/remainder-verdicts.txt`; 27 chunks and all 3 phrases banked.
+
+## The Law Scales — 23 acceptances, and the i-row alone stands (2026-08-29)
+
+The spell-it law swept: **ga na pa le ne re ye bo co lo mo ro ju mu ad id og ug un um**
+perfect, **cu du su** good — 23 in one round, taking the pack to 53 of 72 chunks with all
+three phrases done. The expert's law held everywhere it was offered except three classes,
+and the owner's comments name each: a residual "static at end" on hu, tu and the u-row's
+edges; "says job" where ob's peer-carve leaked its anchor's onset; and **the entire i-row,
+twelve chunks, still tensing to "ee"**. His comments pin the target better than any
+measurement has: "should be fi like finish", "sounds like he not hi like hit", "pi like
+pitch not pi like pea", "ri like rick, but sounds like r+e letter sound". The barred-i
+vowel did not fix it. What has never been HEARD for this row is the set of mechanisms the
+knob matrix offered fi and the owner did not reach: the closure frame at 0.65, the
+double-say second island, the pre-comma carrier and the en-GB conditioning. Those are the
+i-row's remaining honest options, and they are validated families elsewhere in this pack.

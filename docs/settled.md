@@ -2182,3 +2182,28 @@ the set, lowercase everywhere it appears. Do not re-open without a new ruling.
   every verdict bucket — so per-clip listening, not recipe theory, decides a chunk. Round 2
   designs from this: multiple candidates per chunk, comments per arm, and a family the owner
   refused for a chunk is never offered for that chunk again.
+
+## The i-row cannot be rendered, and the reason is English (2026-08-29) — closed
+
+Twelve CV chunks with the short i - bi di fi hi ki li mi pi ri si ti wi - were offered
+across five rounds and roughly forty arms each: the spell-it carrier that won every other
+row, the corrected phonemes, the barred-i and no-stress substitutions, the held vowel at
+three depths, the glottal and breath tails, the anchor-word carve, the repetition middle,
+the 0.65 closure frame, the double-say second island, the pre-comma carrier, and en-GB
+conditioning of the same voice. **Every one fails, and the owner's ear names the same
+fault each time**: "all these options just say the letter b", "just say f + letter sound of
+e", "sounds like he not hi like hit", "pi like pea".
+
+**The cause is phonotactic, not technical, and it is why no knob reaches it.** English has
+no open syllable with a lax vowel: /fɪ/, /bɪ/, /dɪ/ are not possible English syllables, so
+the synthesiser was never trained on one and collapses each to the nearest legal
+neighbour - the tense /fi/ "fee", or the letter name. The same law explains why every other
+row succeeded: /æ/, /ʌ/, /ɑ/ and /ɛ/ have no tense twin waiting to absorb them in that
+position, which is why ba, ca, da, mo, ju, le and their cousins were accepted from the very
+first family tried.
+
+**Do not spend another round on this row without a new voice or a new mechanism class.**
+The rendering question is closed; what remains is the owner's ruling on whether a sound
+English does not make belongs in the ladder at all, given that the row's VC counterparts -
+id, ig, im, in, ip, it - are all accepted and teach the short i in the position the
+language actually uses.

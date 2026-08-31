@@ -2736,3 +2736,35 @@ what is true now.
   engine and refuses any document that disagrees, with a negative control that proves the pin
   catches a wrong number (E5). The pin is the part that matters: correcting six files without
   it leaves the next cutover free to do this again.
+
+## AP. A word a child keeps missing is served for ever, and crowds the review lane — opened 2026-08-29
+
+- **Where it lives.** `buildSession` in the reference build: `dueBelow` selects graded words
+  from below the child's level, sorts them `box` ascending, and takes five. `INTERVALS` is
+  `[1, 1, 2, 4, 7, 12]`, so a word at box 0 or 1 is due again the very next session — and a
+  word read wrong never leaves box 0.
+- **What a child and a grown-up experience today.** Measured, not guessed: a simulated child
+  who misses three words across forty sessions meets each of them **18 times**, in **18
+  consecutive sessions**, while a word they read correctly is served five times. The three
+  stuck words take **19 percent of every review slot in the game**, and they follow the child
+  up through every level — thirty levels, in the simulation. **Found by the owner from his own
+  play**: "I notice ox is offered as a word at almost every level so much."
+- **Why it is a fault and not spaced repetition working.** The interval schedule is correct
+  and is not the fault. The fault is that nothing bounds a word that is never learned. Every
+  spaced-repetition system that ships to real learners has a leech rule for exactly this
+  case, because a card the learner cannot get, repeated for ever, is demoralising and — the
+  measurable half — it eats the slots the rest of the material needs. Here the cost is
+  concentrated: five review slots, and one stuck word takes one of them for ever.
+- **It is worse for the child this game is for.** A four-year-old meeting the same word they
+  cannot read, in nearly every session, for weeks, is the opposite of what S3's whole
+  vocabulary is built to protect — every miss is meant to be an invitation to try again, and
+  the invitation stops being kind when it is the same word for the fortieth time.
+- **What done means, and the part that is the owner's.** A word that has been read wrong many
+  times stops monopolising the lane, WITHOUT the app ever recording a judgement about the
+  child (S1) and without the word being silently abandoned — a grown-up should be able to see
+  what has happened and put it back. WHICH rule that is belongs to the owner, because it is
+  what a child meets: a cap on consecutive appearances, a leech threshold that rests a word
+  after N wrong readings and tells the grown-up in the corner, a cap on how many stuck words
+  may hold review slots at once, or a widening interval that never fully stops. A test drives
+  a child who misses a word forty times and proves the rule holds, with the measurement above
+  as its control.
