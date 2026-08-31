@@ -1,18 +1,22 @@
 # For agents and humans working in this repository
 
-**This document owns** how agents work here: the prose rules for what is written down,
-the dependency rule, and the shape of a listening round or a decision page put to the owner.
-**It does not own** the rules that bind the CHANGE itself — that is `CLAUDE.md`, which is
-the stricter document and wins wherever the two touch.
+**This document owns** everything that binds a change: what counts as finished work, the
+engineering rules E1 to E11, the order to read things in, the rule for reaching for existing
+code before writing new code, the prose rules for what is written down, and the shape of a
+listening round or a decision page put to the owner. It is the controller — owner-ruled
+2026-08-31, so that one file holds the practice and a sidecar reading it gets all of it.
+**It does not own** the nine child-facing safety rules S1 to S9, which are `CLAUDE.md`'s and
+are not negotiable; they stayed there because only that file is loaded automatically and
+re-loaded after a context compaction. Read them: they win wherever the two documents touch.
 
 This document follows the Microsoft Writing Style Guide.
 
 Read these, in this order, before you change anything:
 
-1. **`CLAUDE.md`** — the rules that bind every change, and "What counts as
-   finished work", which defines what may be called done. S1-S9 are child-safety
-   rules and are not negotiable and live in CLAUDE.md. E1-E11 are engineering rules; this
-   document owns
+1. **`CLAUDE.md`** — the nine child-facing safety rules S1 to S9, and nothing
+   else. They are not negotiable, they outrank everything in this document, and
+   they are short: read them. "What counts as finished work" and the engineering
+   rules E1 to E11 moved HERE on 2026-08-31 and this document owns
    their exact text, and this list deliberately restates none of it — an earlier
    version of this sentence paraphrased E7 wrongly for days, naming the heavier
    release-time run as the step before every push, while the correct words sat
