@@ -2138,11 +2138,26 @@ const CHUNK_ROSTER = [
   "in", "ip", "it", "ob", "og", "op", "ot", "ox", "ub", "ug", "um", "un",
   "us", "ut",
   "ba", "ca", "da", "fa", "ga", "ha", "ja", "la", "ma", "na", "pa", "ra",
-  "sa", "ta", "ya", "de", "fe", "le", "ne", "re", "te", "ye", "bi", "di",
-  "fi", "hi", "ki", "li", "mi", "pi", "ri", "si", "ti", "wi", "bo", "co",
+  "sa", "ta", "ya", "de", "fe", "le", "ne", "re", "te", "ye", "bo", "co",
   "fo", "jo", "lo", "mo", "ro", "bu", "cu", "du", "fu", "gu", "hu", "ju",
   "lu", "mu", "ru", "su", "tu",
 ];
+/* THE I-ROW IS NOT HERE, and its absence is a ruling (owner, 2026-08-29):
+   "maybe they shouldn't be taught as sounds like fi and bi then, just taught
+   organically through words." bi di fi hi ki li mi pi ri si ti wi were
+   offered across five rounds and roughly forty arms each - every carrier,
+   every cut, every vowel substitution this pack has ever won with - and every
+   one came back saying the letter name or the tense vowel: "all these options
+   just say the letter b", "just say f + letter sound of e". The cause is the
+   language, not the renderer: English has NO open syllable with a lax vowel,
+   so /fɪ/ is not a possible English syllable, the voice was never trained on
+   one, and it collapses to the nearest legal neighbour. A sound English does
+   not make is not a building block a child should be drilled on. Short i is
+   taught where the language puts it - the VC chunks id, ig, im, in, ip and
+   it, all accepted - and then in whole words. settled.md carries the full
+   record. Every other row survives because its vowel has no tense twin
+   waiting in that position, which is why ba, ca, mo and ju were accepted from
+   the first family tried. */
 /* A word HOLDS a chunk when the chunk's two letters stand as two consecutive
    single tiles in the word's own walk and the word's own sound at the vowel
    tile is the SHORT vowel. The engine judges, never the spelling: a

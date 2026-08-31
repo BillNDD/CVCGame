@@ -2768,3 +2768,47 @@ what is true now.
   may hold review slots at once, or a widening interval that never fully stops. A test drives
   a child who misses a word forty times and proves the rule holds, with the measurement above
   as its control.
+
+## AQ. A mastered word never comes back — box 5 is permanent retirement — opened 2026-08-29
+
+- **Where it lives.** `buildSession` in the reference build: `dueBelow`, `curDue` and
+  `dueAbove` all filter `ws.box < 5`, so a word that reaches box 5 is invisible to every due
+  lane. The only route back is the `confidence` lane — a UNIFORM shuffle of every box-4-and-up
+  word at or below the child's level, take two.
+- **What a child experiences.** Measured on the real scheduler against the shipped bank: with
+  about 460 words at box 4 or above, the expected wait for one to be drawn is **460 / 2 = 230
+  sessions**. At the game's own five-minutes-a-day shape that is most of a year. In one
+  200-session simulation the box-4 below-level pool received **zero of 250 review slots**.
+  A word the child learned in week two is, in practice, never seen again.
+- **Why the ceiling exists at all, which is the part worth keeping.** Keeping 1,123 words alive
+  at the top interval of twelve sessions needs about **93 review slots a session**, and the
+  session has five. Retirement is therefore not a bug to delete but **a budget to allocate**:
+  the fault is that the allocation is a uniform lottery, which spends the budget equally on
+  the word a child meets in every book and the word they will never meet again.
+- **What done means, and the part that is the owner's.** A mastered word returns on a schedule
+  someone chose, not by lottery. WHICH schedule is his, because it is what a child meets, and
+  the research names the axis: everyday words earn more of the maintenance budget than rare
+  ones. A test measures the expected return interval for a high-frequency and a low-frequency
+  word and proves they differ in the ruled direction, with today's 230-session lottery as its
+  control.
+
+## AR. Thirteen percent of words are met exactly once, ever — opened 2026-08-29
+
+- **Where it lives.** The same `dueBelow` selector, which is a strict priority queue sorted by
+  box ascending with **no aging term**. A word the child READ CORRECTLY (box 3 or above) can
+  never outrank a word the child keeps missing (box 0 or 1), and a missed word is due again
+  every single session because `INTERVALS[0]` and `INTERVALS[1]` are both 1.
+- **What a child experiences.** Measured: a strong reader meets **146 of 1,121 words exactly
+  once in 200 sessions — 13 percent** — and the mean lifetime exposure is 3.2. With five or
+  more stuck words live, no successfully-read below-level word is ever reviewed again. This is
+  textbook priority-queue starvation and it is the same two lines of code that cause fault AP.
+- **The honest scale of it.** Two findings temper this and belong in the entry so nobody
+  over-corrects. First, orthographic learning happens fast: Share (2004) measured **reliable
+  learning from a SINGLE encounter**, still present a month later, with little gain from more.
+  Second, real decodable readers do worse — **41 percent of their words appear only once**. So
+  13 percent is not a crisis and this is the least urgent of the three scheduler faults.
+- **What done means.** The review sort carries an aging term, so a word that has waited long
+  enough cannot be outranked for ever by a word that is never learned. A test drives a child
+  with several stuck words and proves a correctly-read word still returns; the 13 percent and
+  the zero-of-250 measurement above are its controls. Fixing AP's sort key fixes this at the
+  same time, which is why they should be ruled on together.

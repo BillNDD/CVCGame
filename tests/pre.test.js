@@ -109,7 +109,17 @@ describe("winning a rung", () => {
 describe("the chunk roster and its derived seats", () => {
   it("seats every chunk, the pre six at zero and the riders where their words live", () => {
     const seats = chunkSeats();
-    expect(CHUNK_ROSTER.length).toBe(79);
+    expect(CHUNK_ROSTER.length).toBe(67);
+    /* THE I-ROW IS ABSENT BY RULING (owner, 2026-08-29): "maybe they
+       shouldn't be taught as sounds like fi and bi then, just taught
+       organically through words." English has no open syllable with a lax
+       vowel, so /fɪ/ is not a possible English syllable and five rounds of
+       every validated family produced only the letter name or "fee". Short i
+       is taught where the language puts it - the VC chunks below. */
+    for (const c of ["bi", "di", "fi", "hi", "ki", "li", "mi", "pi", "ri", "si", "ti", "wi"])
+      expect(CHUNK_ROSTER.includes(c), `${c} is an open lax syllable English does not make`).toBe(false);
+    for (const c of ["id", "ig", "im", "in", "ip", "it"])
+      expect(CHUNK_ROSTER.includes(c), `${c} teaches short i where English puts it`).toBe(true);
     for (const c of CHUNK_ROSTER) expect(seats[c], `chunk "${c}" has no seat`).not.toBe(null);
     /* The pre-ladder six, by rung membership and nothing else. */
     expect(Object.keys(seats).filter((c) => seats[c] === 0).sort())

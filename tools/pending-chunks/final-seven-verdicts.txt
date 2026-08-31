@@ -1,0 +1,17 @@
+THE FINAL SEVEN verdicts, 2026-08-29, verbatim.
+ra A good, B good, C PERFECT, D nogood  -> banked
+ta A-D nogood: "all very gravely, all feel like listening to someone say ta with your
+   ears covered with pillows"
+hu A-D nogood: "all have weird static and trilling at end"
+tu A-D nogood: 'same "listening through a pillow" or all'
+im A-C nogood: "all have a weird p at end"
+ob A-C nogood: "all sound mechanical and have a static at end"
+ub A-C nogood: "all sound robotic"
+
+THE COMPLAINT CLASS IS NEW AND IT IS NOT MIS-PRONUNCIATION. Every earlier refusal named a
+WRONG SOUND - "says gap", "sounds like fee", "just the letter b". These six name DULLNESS:
+gravely, muffled, through a pillow, mechanical, robotic, static at the end. The sounds are
+right and the quality is wrong. Six sounds have now resisted ten rounds on recipes that
+took their own siblings to perfect - ra took perfect from the same render ta was refused
+on. That is the shape of a per-item synthesiser fault, not a recipe fault, and no knob in
+this pack's history has moved it.
