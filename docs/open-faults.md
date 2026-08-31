@@ -1497,7 +1497,7 @@ changes. Its first half (ownership and pointers) was reviewed, corrected, and bu
   counts) was already closed by other means. Before any of it is built, the question is:
   what goes wrong today that this fixes?
 - **It rewrites E10 as a step inside a migration.** Freezing the one file a person edits
-  after a listening round means rewriting a CLAUDE.md engineering rule — the owner's call,
+  after a listening round means rewriting an AGENTS.md engineering rule — the owner's call,
   taken at the top, never a bullet in a plan.
 - **The pin-storage branch is the real risk.** If LFS is not in use, audio in git inflates
   the repository permanently; the fallback (gitignore `pins/`, read bytes from a CI zip)
@@ -1858,7 +1858,7 @@ header, and the header overlapping the content behind it. Neither is a defect.
 
 ### G4. E11 is a rule with only one mechanical helper — BUILT 2026-08-13
 
-- **Where** `CLAUDE.md` E11 asks for the gates a change will touch to be named before the edit.
+- **Where** `AGENTS.md` E11 asks for the gates a change will touch to be named before the edit.
   Until this was built, only one part of that was mechanical: `node tools/mutants.mjs
   --anchors`, which reports moved mutant anchors in milliseconds and found one nobody had
   predicted on the rule's first use.
@@ -1894,7 +1894,7 @@ header, and the header overlapping the content behind it. Neither is a defect.
 This is a fault, not an idea, and it sits at the head of this section because it is what
 produced the idea below.
 
-- **Where** Rule E10 in `CLAUDE.md`; the reading order in `AGENTS.md`, where `docs/settled.md`
+- **Where** Rule E10 in `AGENTS.md`; the reading order in `AGENTS.md`, where `docs/settled.md`
   is item 3 with its reason attached.
 - **The fault** Every other load-bearing rule in this project has a gate. E10 has none. It is
   the one rule that depends entirely on an agent choosing to comply, and on 2026-08-12 it
@@ -2768,6 +2768,16 @@ what is true now.
   may hold review slots at once, or a widening interval that never fully stops. A test drives
   a child who misses a word forty times and proves the rule holds, with the measurement above
   as its control.
+- **RULED 2026-08-31, on the decision page: the aging term.** A word that has waited long
+  enough outranks a word that is merely stuck. Measured against the shipped `buildSession`
+  with one line spliced, a child who misses three words over forty sessions: the stuck word
+  goes from **19 appearances to 3**, from **19 consecutive sessions to 2**, and from **7.3
+  percent of every review slot to 1.0**. It was chosen over the leech threshold (19 to 8, but
+  the word then vanishes at session 32 and needs a grown-up control to return), over the
+  widening interval (19 to 5), and over the slot cap, which was measured and barely moves it
+  (still 19 appearances; only the share falls, 7.3 to 5.2). The aging term also closes fault
+  AR, which is why the two were ruled together. **Nothing is ever recorded about the child and
+  no word is ever abandoned, so S1 is untouched** - the rule only reorders a queue.
 
 ## AQ. A mastered word never comes back — box 5 is permanent retirement — opened 2026-08-29
 
@@ -2791,6 +2801,21 @@ what is true now.
   ones. A test measures the expected return interval for a high-frequency and a low-frequency
   word and proves they differ in the ruled direction, with today's 230-session lottery as its
   control.
+- **The 230 sessions were re-measured on 2026-08-31 and the number has grown to 551.** The
+  figure above was taken when the bank was smaller; against the hundred-level ladder a child
+  who reads everything correctly meets 1,102 words, every one of them lands in the confidence
+  lane's pool, and the lane draws two a session. Measured in the same 200-session run:
+  the median gap since a word was last seen is **85 sessions**, and **759 of 1,102 words - 69
+  percent - have gone unseen for 50 sessions or more**. The lottery is the control for
+  whatever replaces it; the 230 is superseded and is kept here only so a reader meeting it in
+  an older commit knows why it moved.
+- **RULED 2026-08-31, on the decision page: frequency-banded maintenance.** Everyday words
+  return more often than rare ones, so the budget goes to the words a child actually meets in
+  books - `ox` being the word that started this, and exactly the kind that should not hold a
+  maintenance slot `the` or `said` needs. **Unfinished and blocking: the frequency source is
+  not chosen.** It must be a public-domain or openly-licensed list, brought to the owner with
+  its provenance before any code reads it, the same discipline the art provenance record
+  follows. Until that source is named and approved, this fault stays open.
 
 ## AR. Thirteen percent of words are met exactly once, ever — opened 2026-08-29
 
@@ -2812,3 +2837,92 @@ what is true now.
   with several stuck words and proves a correctly-read word still returns; the 13 percent and
   the zero-of-250 measurement above are its controls. Fixing AP's sort key fixes this at the
   same time, which is why they should be ruled on together.
+- **RULED 2026-08-31 with AP: the aging term.** One sort key carries both. In the same
+  measured run the share of words met exactly once falls from **44.5 percent to 32.7**, which
+  is the half of this fault the aging term reaches directly.
+
+## AS. Fifteen words hand a child two new sounds at once — opened 2026-08-31
+
+- **Where it lives.** The hundred-level ladder's word lists, measured by
+  `tools/sound-load.mjs` and declared line by line in `tools/sound-load-ledger.json`. The
+  gate is G28; this entry is the teaching question the gate cannot answer.
+- **What a child experiences today.** Nineteen words introduce two grapheme-sound pairs the
+  child has not met at any earlier level. Four are heart words — `the`, `he`, `find`, `you` —
+  which the game already teaches by sight, so a child is never asked to sound them out cold;
+  those are exempt by design and are listed rather than skipped so the exemption stays
+  visible. The other fifteen are plain decodable words the child is asked to sound out:
+
+  | level | word | the two new sounds |
+  | --- | --- | --- |
+  | 7 | comes | `o`=short u, `e`=silent |
+  | 48 | bubble | `bb`=b, `le`=l |
+  | 51 | finally | `a`=schwa, `y`=long e |
+  | 51 | very | `er`=air, `y`=long e |
+  | 63 | preview | `ie`=long u, `w`=silent |
+  | 76 | use | `u`=long u, `se`=s |
+  | 77 | could | `ou`=oo as in book, `l`=silent |
+  | 87 | generous | `g`=j, `ou`=schwa |
+  | 94 | machine | `ch`=sh, `i`=long e |
+  | 96 | adventure, capture, future, mixture, nature, picture | `tu`=ch, `re`=er |
+
+- **Why it is a fault.** A word carrying two unknowns teaches neither cleanly. A child who
+  reads it wrong has been given no way to know which half they missed, and a child who reads
+  it right may have guessed one of them. Every other level in the ladder introduces its new
+  sound against a word whose remaining letters the child already owns; these fifteen do not.
+- **The two worth ruling on first.** `comes` at Level 7 is the earliest and lands on the
+  youngest child in the game. Level 96 is the heaviest: six words, all asking for `tu`=ch and
+  `re`=er together, with no word anywhere teaching either one alone first — so the family is
+  introduced entirely by words that presuppose it.
+- **Why no gate caught it, which is the part worth keeping.** The engine has always known
+  every word's sounds. Nothing asked. It was found on 2026-08-31 by a hand count, when the
+  owner asked whether sounds are introduced before the words that need them — and the hand
+  count was wrong twice before it was right, once by ignoring the pre-levels and once by
+  counting `mom`'s two m's as two new sounds. That is the argument for the gate, and the
+  gate now exists.
+- **What done means, and the part that is the owner's.** WHICH fix belongs to the owner,
+  because it is what a child meets: a single-unknown word could be added ahead of each of
+  these to teach the new sound alone (a `-ture` word cannot be built that way, so Level 96
+  may need a different answer), or a word could move later, or the owner may rule that a
+  particular double is acceptable at that age and it stays declared with the ruling written
+  into its ledger line. The gate holds the line either way — nothing new can join this list
+  without a name and a reason.
+
+## AT. "Got it" is not what the grown-up's screen calls done — ruled 2026-08-31, unbuilt
+
+- **Where it lives.** The mastery map in the parent screen, which colours a word green at box 4
+  and amber at box 3.
+- **What a grown-up experiences today.** Measured 2026-08-31: a clean word needs **3 meetings
+  spanning 23 sessions** to turn green, and a word missed once needs **4 meetings spanning 24
+  sessions**. So a grown-up who has pressed "got it" sees the word still amber, and reads that
+  as the game not having registered them. It is the same report B14 closed on 2026-08-12 with a
+  legend, arriving a second time from the owner's own play - which is the evidence that the
+  legend was not enough.
+- **What was ruled, and what was NOT.** The owner asked for "got it" to mean mastered outright.
+  That was measured before it was ruled on, and the measurement refused it: making one correct
+  reading retire a word to box 5 takes the stuck word from **19 appearances to 24**, from 19
+  consecutive sessions to **24**, and takes the share of words met exactly once, ever, from
+  **44.5 percent to 80.7** - because the review lane empties of everything except the words the
+  child cannot read. Shown that number, the owner ruled the other way on the same page: **keep
+  the box ladder, and change what the screen calls it.** The scheduler is untouched.
+- **What done means.** The grown-up's screen names a word done after one confident "got it"
+  (box 3), the wording of the legend follows, and the B14 ruling that mastery-in-the-scheduler
+  stays at two readings is preserved and re-stated where it can be found. A G7 check measures
+  the rendered screen, not the source, the same way checks 36 and 37 do for the legend.
+
+## AU. A grown-up cannot see, or reach, a word the game has stopped pushing — ruled 2026-08-31, unbuilt
+
+- **Where it lives.** The "Grown-ups corner". Nothing there says anything about the review queue.
+- **What was ruled.** A "words we are resting" line, with a control that brings one back.
+- **The interaction the ruling creates, which is the owner's to settle.** The same page ruled
+  the **aging term** for fault AP, and the aging term never rests or hides anything - it only
+  reorders a queue, which is precisely why it needed no S1 work. So under the rule that was
+  chosen, a literal "words we are resting" list would be **empty for ever**. The faithful
+  reading, and the one this entry is written against until the owner says otherwise: the line
+  lists the words the child keeps missing - the ones the aging term is deliberately serving
+  less often - and the control pushes a chosen word back to the front of the next session. That
+  keeps the grown-up informed and in charge, which is what the ruling was for, without
+  inventing a resting state the chosen rule does not have.
+- **What done means.** The corner shows those words in a grown-up's words, with a control at or
+  above 44 px (S7), and pressing it puts the word in the next session. The app still records
+  nothing about the child by itself (S1): a grown-up chose. A test proves the listed word is
+  served next session, and a control proves an unlisted word is not.

@@ -87,7 +87,7 @@ export const FACTS = {
     ],
   },
   "when the checks run and what a red one blocks (E7)": {
-    owner: "CLAUDE.md",
+    owner: "AGENTS.md",
     /* Earned by AGENTS.md paraphrasing E7 as running the full gauntlet
        before every push, and README crediting the gauntlet with blocking a
        change — both contradicting the owner's 2026-08-02 cadence ruling that
@@ -142,9 +142,9 @@ export const TOMBSTONES = [
    that is its job — so the fact scan must not read a quoted fault as a
    fresh copy. The exemption is named here, argued once, and controlled. */
 export const DECLARED = [
-  { path: "AGENTS.md", kind: "OWNER", owns: "how agents work here: the prose rules, the dependency rule, and the shape of a round or decision page" },
+  { path: "AGENTS.md", kind: "OWNER", owns: "the controller: what counts as finished work, the engineering rules E1-E11, the read order, the dependency rule, how to write to the owner, the shape of a round or decision page, and what is re-checked before a beta" },
   { path: "CHANGELOG.md", kind: "LOG", owns: "what shipped in each release, in a parent's words" },
-  { path: "CLAUDE.md", kind: "OWNER", owns: "the safety rules S1-S9, the engineering rules E1-E11, and what counts as finished work" },
+  { path: "CLAUDE.md", kind: "OWNER", owns: "the child-facing safety rules S1-S9, and nothing else - AGENTS.md is the controller (owner-ruled 2026-08-31; G28b holds the shape)" },
   { path: "README.md", kind: "OWNER", owns: "the front door: what the game is, and pointers to every owner" },
   { path: "SPEC.md", kind: "OWNER", owns: "behaviour: the bank and levels, the engine, the screens, the feedback text, and the road ahead" },
   { path: ".claude/gate-baseline.json", kind: "DATA", owns: "every floor and ceiling the gates hold (E6)" },
@@ -191,6 +191,9 @@ export const DECLARED = [
   { path: "tools/conversion-rehearsal.mjs", kind: "SOURCE", owns: "G27: what the 100-level ladder would break in the real engine - the substitution, the probes over every level, and the ceiling each finding class is held to" },
   { path: "tools/ladder-status.mjs", kind: "SOURCE", owns: "the lookup that reports what the redesign ladder holds, measured from its own files" },
   { path: "tools/ladder-fill.mjs", kind: "SOURCE", owns: "the rule for where a word may sit in the ladder - its greedy longest-match segmentation, the level that first teaches each unit, and the check that every target word has a seat" },
+  { path: "tools/claude-md-shape.mjs", kind: "SOURCE", owns: "G28b: the shape CLAUDE.md is allowed to have - its four sections, the S1-S9 set, and the pointer to the controller" },
+  { path: "tools/sound-load.mjs", kind: "SOURCE", owns: "G28: how many new sounds one word may teach at once - the pair decomposition, the strictly-earlier-levels rule, and the two-way ledger check" },
+  { path: "tools/sound-load-ledger.json", kind: "DATA", owns: "the declared list of words that introduce two new sounds at once (G28), each with its reason" },
   { path: "tools/ladder/README.md", kind: "OWNER", owns: "what each curriculum-redesign design artefact is, where it came from, and how far it can be trusted" },
   { path: "tools/ladder/shape-v3.json", kind: "DATA", owns: "the 100-level shape: what each level teaches, its graphemes, rule, heart words and text demand" },
   { path: "tools/ladder/ladder-v4.json", kind: "DATA", owns: "the words the rebuilt generator placed at each of the 100 levels" },

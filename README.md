@@ -95,14 +95,14 @@ generated file, a gate floor, a mutant anchor, an acceptance scenario doing arit
 number, a document, and the copy a parent reads. The tool lists every tracked file that names
 the thing, sorted by what each file is, with the counts that would move and the gate floors
 that follow. It takes a fifth of a second, it is a lookup rather than a gate, and it never
-fails a build. `CLAUDE.md` rule E11 explains why it exists, and it is not optional.
+fails a build. `AGENTS.md` rule E11 explains why it exists, and it is not optional.
 
 ## How to test
 
 Run `npm test` for the unit, property, acceptance, fault, and safety suites. Run
 `npm run check` before every push — the quality lint, the tests, the sub-minute gates and the
 controls of `tools/blast-radius.mjs`, about half a minute. When each check runs, and what a
-red one blocks, is engineering rule E7 in CLAUDE.md, which owns that rule; the short form is
+red one blocks, is engineering rule E7 in AGENTS.md, which owns that rule; the short form is
 that a red check blocks a push, and the full `npm run gauntlet` runs at a release.
 `docs/testing-gauntlet.md` defines each gate.
 

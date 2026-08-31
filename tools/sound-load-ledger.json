@@ -1,0 +1,39 @@
+{
+  "comment": [
+    "Words that introduce TWO new grapheme-sound pairs at once. Gate G28",
+    "(tools/sound-load.mjs) refuses any word not on this list, and refuses any",
+    "entry here that has stopped being true. Measured 2026-08-31 against the",
+    "hundred-level ladder; nothing was added by hand and nothing may be.",
+    "",
+    "heart: true marks a word the game already teaches as a sight exception, so",
+    "the child is never asked to sound it out cold. Those four are exempt by",
+    "design and are listed rather than skipped, so the exemption is visible.",
+    "",
+    "The other fifteen are a TEACHING-ORDER question the owner has not yet",
+    "ruled on. They are recorded here as faults with a name, not as approvals.",
+    "Level 96 is the heaviest: six words, all asking for tu=ch and re=er",
+    "together, with no word teaching either one alone first."
+  ],
+  "words": [
+    { "level": 3,  "word": "the",       "pairs": ["e=d:schwa", "th=d:th_this"],   "heart": true,  "why": "heart word - taught by sight, never sounded out cold" },
+    { "level": 7,  "word": "he",        "pairs": ["e=d:long_e", "h=d:h"],         "heart": true,  "why": "heart word - taught by sight" },
+    { "level": 11, "word": "find",      "pairs": ["f=d:f", "i=d:long_i"],         "heart": true,  "why": "tricky word - the game states the i says its name" },
+    { "level": 12, "word": "you",       "pairs": ["ou=d:oo_moon", "y=d:y"],       "heart": true,  "why": "heart word - taught by sight" },
+
+    { "level": 7,  "word": "comes",     "pairs": ["e=d:silent", "o=d:short_u"],   "heart": false, "why": "the earliest plain double, and the one landing on the youngest child: an o that says short u AND a silent e, at level 7" },
+    { "level": 48, "word": "bubble",    "pairs": ["bb=d:b", "le=d:l"],            "heart": false, "why": "level 48 teaches the -le ending; bb arrives in the same word" },
+    { "level": 51, "word": "finally",   "pairs": ["a=d:schwa", "y=d:long_e"],     "heart": false, "why": "a schwa and a y saying long e together" },
+    { "level": 51, "word": "very",      "pairs": ["er=d:air", "y=d:long_e"],      "heart": false, "why": "er saying air is itself rare, paired with the new y" },
+    { "level": 63, "word": "preview",   "pairs": ["ie=d:long_u", "w=d:silent"],   "heart": false, "why": "ie saying long u and a silent w" },
+    { "level": 76, "word": "use",       "pairs": ["se=d:s", "u=d:long_u"],        "heart": false, "why": "long u and se saying s" },
+    { "level": 77, "word": "could",     "pairs": ["l=d:silent", "ou=d:oo_book"],  "heart": false, "why": "ou as in book plus a silent l" },
+    { "level": 87, "word": "generous",  "pairs": ["g=d:j", "ou=d:schwa"],         "heart": false, "why": "soft g and an ou that reduces to schwa" },
+    { "level": 94, "word": "machine",   "pairs": ["ch=d:sh", "i=d:long_e"],       "heart": false, "why": "ch saying sh and i saying long e - both French, both new here" },
+    { "level": 96, "word": "adventure", "pairs": ["re=d:er", "tu=d:ch"],          "heart": false, "why": "level 96 -ture family: tu=ch and re=er arrive together, six times over" },
+    { "level": 96, "word": "capture",   "pairs": ["re=d:er", "tu=d:ch"],          "heart": false, "why": "level 96 -ture family" },
+    { "level": 96, "word": "future",    "pairs": ["re=d:er", "tu=d:ch"],          "heart": false, "why": "level 96 -ture family" },
+    { "level": 96, "word": "mixture",   "pairs": ["re=d:er", "tu=d:ch"],          "heart": false, "why": "level 96 -ture family" },
+    { "level": 96, "word": "nature",    "pairs": ["re=d:er", "tu=d:ch"],          "heart": false, "why": "level 96 -ture family" },
+    { "level": 96, "word": "picture",   "pairs": ["re=d:er", "tu=d:ch"],          "heart": false, "why": "level 96 -ture family" }
+  ]
+}

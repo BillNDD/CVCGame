@@ -73,11 +73,19 @@ const SOURCES = [...sourcesFor("docs"), "src/engine.js"];
    day what stops it being quietly orphaned by a later edit or forgotten across
    a context compaction. This is that stop. Add a tool here when a governing
    document starts telling agents to run it. */
+/* CLAUDE.md was dropped from every map below on 2026-08-31, when the owner made
+   AGENTS.md the controller and cut CLAUDE.md down to the child-facing safety
+   rules S1-S9. E11 - the rule that asks for these tools - moved with everything
+   else, so requiring CLAUDE.md to name them would demand that a file which owns
+   only the safety rules name an engineering tool. The orphan rule itself is
+   unchanged and still bites: AGENTS.md is now the document an agent must be
+   able to find these tools in, and tools/claude-md-shape.mjs is what keeps
+   CLAUDE.md from quietly growing the rules back. */
 const AGENT_TOOLS = [
   {
     file: "tools/blast-radius.mjs",
     why: "the E11 lookup: what does this change break",
-    docs: { "CLAUDE.md": "claude", "AGENTS.md": "agents", "README.md": "readme" },
+    docs: { "AGENTS.md": "agents", "README.md": "readme" },
     script: "check",
     command: "tools/blast-radius.mjs --self-test",
   },
@@ -99,7 +107,7 @@ const AGENT_TOOLS = [
   {
     file: "tools/mutants.mjs",
     why: "the mutation gate, and its --anchors dry run that E11 asks for first",
-    docs: { "CLAUDE.md": "claude", "AGENTS.md": "agents" },
+    docs: { "AGENTS.md": "agents" },
     script: null,
     command: null,
   },
@@ -567,8 +575,12 @@ if (process.argv.includes("--self-test")) {
      happens: somebody tidies a governing document, the sentence naming the
      tool goes with the tidying, and every agent after that reads a repository
      where the tool does not exist. */
-  const docOrphan = { ...real, claude: real.claude.split("tools/blast-radius.mjs").join("tools/nothing.mjs") };
-  seen.orphanDoc = run(docOrphan).found.some((p) => p.startsWith("CLAUDE.md no longer names tools/blast-radius.mjs"));
+  /* Planted in AGENTS.md since 2026-08-31: it is the controller, and the
+     document an agent must be able to find these tools in. The control used to
+     plant in CLAUDE.md, which now owns only the safety rules and names no
+     engineering tool - so planting there would prove nothing. */
+  const docOrphan = { ...real, agents: real.agents.split("tools/blast-radius.mjs").join("tools/nothing.mjs") };
+  seen.orphanDoc = run(docOrphan).found.some((p) => p.startsWith("AGENTS.md no longer names tools/blast-radius.mjs"));
 
   /* The second is quieter: the tool is still named, still recommended, and
      nothing runs its controls any more, so it can go wrong and stay green. */

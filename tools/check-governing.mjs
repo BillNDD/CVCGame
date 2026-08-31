@@ -1,4 +1,4 @@
-/* Governing-files gate (G17). "What counts as finished work" (CLAUDE.md) bans
+/* Governing-files gate (G17). "What counts as finished work" (AGENTS.md) bans
    new status files, progress logs, roadmaps and session summaries: most work
    must change something a child or grown-up can see, hear, or do, and every
    fact already has one owning document. This gate makes the ban mechanical.
@@ -56,6 +56,14 @@ export const GOVERNING = [
   "docs/voice-pack.md",
   "docs/voice-goldens-packs1-3.json",
   "tools/keeper-bytes.json",
+  /* G28's ledger, created 2026-08-31 when the owner asked for a gate that
+     makes the two-new-sounds-at-once fault impossible to reach a child
+     unnoticed. It is a fault list with reasons, not an approval list: the
+     four heart words are exempt by design, and the other fifteen are a
+     teaching-order question the owner has not yet ruled on. It grows only by
+     owner-visible diff, and G28 refuses an entry that has stopped being
+     true, so it cannot decay into a blanket permission. */
+  "tools/sound-load-ledger.json",
   "tools/keepers-treatments.json",
   /* The two pending ledgers are E10's "Approved and unshipped" mechanism:
      owner-accepted bytes with their verdicts, waiting for the level or the

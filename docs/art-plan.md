@@ -444,7 +444,7 @@ its own, redrawn at step 6: refused by bible 17's standing rule, not costed as a
 to the locked camera as a drop-in paint on the same component, classes, position and cells
 (the art director's choice; the reading chair's B-with-a-condition is the same build: the
 place decided now and kept by the frame and the cradle). The council recommends **D**; a
-placeholder needs the owner's approval and a named entry in the owning document (CLAUDE.md),
+placeholder needs the owner's approval and a named entry in the owning document (AGENTS.md),
 which the page asks for. Three more decisions ride on the same page: the scaffold, the
 fallback and the sound-off sentence, below.
 

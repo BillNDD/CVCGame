@@ -15,7 +15,7 @@ owner, and declare a new file in the same commit that creates it.
 | fact | one owner | enforcement |
 |---|---|---|
 | the word bank's size and levels | `SPEC.md` | 2 refused shapes |
-| when the checks run and what a red one blocks (E7) | `CLAUDE.md` | 2 refused shapes |
+| when the checks run and what a red one blocks (E7) | `AGENTS.md` | 2 refused shapes |
 | the network rule (S6) | `CLAUDE.md` | 3 refused shapes |
 | the gate count | `docs/testing-gauntlet.md` | 1 refused shape |
 
@@ -27,9 +27,9 @@ verbatim) are exempt; the exemptions are declared in the tool.
 
 | file | kind | owns / regen / why kept |
 |---|---|---|
-| `AGENTS.md` | OWNER | how agents work here: the prose rules, the dependency rule, and the shape of a round or decision page |
+| `AGENTS.md` | OWNER | the controller: what counts as finished work, the engineering rules E1-E11, the read order, the dependency rule, how to write to the owner, the shape of a round or decision page, and what is re-checked before a beta |
 | `CHANGELOG.md` | LOG | what shipped in each release, in a parent's words |
-| `CLAUDE.md` | OWNER | the safety rules S1-S9, the engineering rules E1-E11, and what counts as finished work |
+| `CLAUDE.md` | OWNER | the child-facing safety rules S1-S9, and nothing else - AGENTS.md is the controller (owner-ruled 2026-08-31; G28b holds the shape) |
 | `README.md` | OWNER | the front door: what the game is, and pointers to every owner |
 | `SPEC.md` | OWNER | behaviour: the bank and levels, the engine, the screens, the feedback text, and the road ahead |
 | `.claude/gate-baseline.json` | DATA | every floor and ceiling the gates hold (E6) |
@@ -70,6 +70,9 @@ verbatim) are exempt; the exemptions are declared in the tool.
 | `tools/conversion-rehearsal.mjs` | SOURCE | G27: what the 100-level ladder would break in the real engine - the substitution, the probes over every level, and the ceiling each finding class is held to |
 | `tools/ladder-status.mjs` | SOURCE | the lookup that reports what the redesign ladder holds, measured from its own files |
 | `tools/ladder-fill.mjs` | SOURCE | the rule for where a word may sit in the ladder - its greedy longest-match segmentation, the level that first teaches each unit, and the check that every target word has a seat |
+| `tools/claude-md-shape.mjs` | SOURCE | G28b: the shape CLAUDE.md is allowed to have - its four sections, the S1-S9 set, and the pointer to the controller |
+| `tools/sound-load.mjs` | SOURCE | G28: how many new sounds one word may teach at once - the pair decomposition, the strictly-earlier-levels rule, and the two-way ledger check |
+| `tools/sound-load-ledger.json` | DATA | the declared list of words that introduce two new sounds at once (G28), each with its reason |
 | `tools/ladder/README.md` | OWNER | what each curriculum-redesign design artefact is, where it came from, and how far it can be trusted |
 | `tools/ladder/shape-v3.json` | DATA | the 100-level shape: what each level teaches, its graphemes, rule, heart words and text demand |
 | `tools/ladder/ladder-v4.json` | DATA | the words the rebuilt generator placed at each of the 100 levels |

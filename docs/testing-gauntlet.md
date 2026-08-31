@@ -3,7 +3,7 @@
 **This document owns** the gates: what each one proves, what it cannot prove, and the floor
 or ceiling it holds in `.claude/gate-baseline.json`.
 **It does not own** the behaviour under test — that is `SPEC.md` — nor the rules that say a
-gate may never be weakened, which are `CLAUDE.md` E3 to E6.
+gate may never be weakened, which are `AGENTS.md` E3 to E6.
 
 This document defines the quality gates for Word Quest. The owner reviews this document, not
 every line of code. The gates are the contract. `npm run gauntlet` runs every automatic gate.
@@ -37,6 +37,61 @@ only `tools/record-takes.py` can, by refusing at the moment of writing. It
 cannot catch an `either-is-fine` row collapsed to `perfect`, because that is a
 legal value; the limit has its own control that asserts the miss rather than
 hiding it. Sub-second over ~960 rows, so it runs in `npm run check`.
+
+## G28 - how many new sounds one word may teach
+
+`node tools/sound-load.mjs`, with `--self-test` for its nine controls and `--list` for the
+report a person reads. Owner-asked 2026-08-31, on being shown the fault by hand: "shouldn't
+we have some test or gauntlet that prevents this from ever happening, since we already know
+what sounds go into what words".
+
+**What it protects.** A word may introduce at most ONE grapheme-sound pair the child has not
+met at an earlier level. Two at once teaches neither cleanly: a child who reads it wrong has
+no way to know which half they missed, and a child who reads it right may have guessed. The
+engine has always known every word's sounds, so this question never needed a person to
+answer it - and yet on 2026-08-31 a person answered it, by hand, because no gate asked. That
+is the hole this closes.
+
+**How it works.** Every word is decomposed into pairs by joining `chunkWord` to
+`soundIdsFor` - the tiles the child sees against the sounds they make, which are the same
+length for every bank word. The pairs the pre-levels teach are counted first. Then the
+ladder is walked, and a pair is new if no EARLIER level taught it.
+
+**Counted against strictly earlier levels, never against the level's own words.** Within a
+level the words are shuffled, so a child may meet "picture" before "adventure"; letting
+level-mates cover for each other would credit a teaching order no child is promised. That
+distinction is worth two words on its own: counting within-level order as help reports ten
+words, and counting honestly reports nineteen. A control asserts all six of Level 96's
+`-ture` words are flagged, not just the one the array happens to list first.
+
+**A repeated pair is one pair.** "mom" spells m twice and teaches m once. Counting it twice
+was a real artifact of the hand count that preceded this gate, and is now a control.
+
+**The ledger, `tools/sound-load-ledger.json`,** declares the nineteen words that need two,
+each with its reason - four heart words, which the game already teaches by sight and which
+are listed rather than skipped so the exemption is visible, and fifteen that are a
+teaching-order question the owner has not ruled on. They are recorded as named faults, not
+as approvals.
+
+**It is checked in both directions.** An undeclared word is red; so is a declared word that
+no longer needs its line, and so is a declared word whose pairs have moved. A ledger that
+keeps entries after they stop being true decays into a blanket permission, which is how a
+list of exceptions becomes a list of nothing.
+
+**The sentence half was already guarded** and is asserted here anyway. `tools/decodable.mjs`
+and two tests in `tests/engine.test.js` prove every sentence uses only words taught at or
+before its level, in both directions - no sentence early, and none parked later than it needs
+to be, with the thirteen review texts pinned by name rather than skipped. Since a word's
+sounds arrive with the word, the sound-level claim follows today. G28 asserts it regardless,
+because the two run off different engine data: the day the word list and the sound
+decomposition stop agreeing, this is the check that says so instead of a child meeting the
+difference.
+
+**What it cannot do.** It cannot say whether a double is bad TEACHING - only that it exists
+and was declared. Whether Level 96 should hand a child `tu`=ch and `re`=er together six
+times over is the owner's question, and the gate's job is only to make sure nobody has to
+find it by hand again. Sub-second over 100 levels and ~1,100 words, so it runs in
+`npm run check`.
 
 ## G27 - the conversion rehearsal
 
@@ -1310,7 +1365,7 @@ it was seen.
 
 ## G17. Governing files
 
-- "What counts as finished work" (CLAUDE.md) bans new status files, progress logs and
+- "What counts as finished work" (AGENTS.md) bans new status files, progress logs and
   session summaries: every fact has one owning document. This gate makes the ban
   mechanical: every tracked `.md`, `.json` and `.csv` must be a named governing file or
   product machinery matched by an allowed pattern; anything else fails the build until the

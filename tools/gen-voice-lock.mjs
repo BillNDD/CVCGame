@@ -118,7 +118,7 @@ if (isMain) {
   } catch { /* env absent: versions stay unknown */ }
 
   const lock = {
-    rule: "Derived from tools/voice-words.csv - the permanent repository a person edits. Regenerate: node tools/gen-voice-lock.mjs. G13 fails the build if any gated section disagrees with the CSV or the shipped pack. 'What counts as finished work' (CLAUDE.md) governs every change.",
+    rule: "Derived from tools/voice-words.csv - the permanent repository a person edits. Regenerate: node tools/gen-voice-lock.mjs. G13 fails the build if any gated section disagrees with the CSV or the shipped pack. 'What counts as finished work' (AGENTS.md) governs every change.",
     generated_from: "tools/voice-words.csv + app/public/voice/manifest.json + tools/render-voice-pack.py",
     recipe,
     phoneme_strings: { words: pyDict("PHONEMES"), sentences: pyDict("SENTENCE_PHONEMES") },

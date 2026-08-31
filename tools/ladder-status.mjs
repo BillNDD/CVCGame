@@ -10,7 +10,7 @@
 
    It is also the reader that makes tools/ladder/*.json honest data rather than
    orphans (G23 rule 4). That is a consequence, not the purpose: a tool written
-   only to satisfy a gate would be exactly the paperwork CLAUDE.md refuses.
+   only to satisfy a gate would be exactly the paperwork AGENTS.md refuses.
 
    Run: node tools/ladder-status.mjs
         node tools/ladder-status.mjs --self-test */

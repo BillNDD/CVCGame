@@ -14,7 +14,7 @@ words. Every line is something a person already spent a listening round on, or
 a measurement already closed. Re-opening one costs a round that could have gone
 to a word nobody has heard yet.
 
-Rule E10 in CLAUDE.md requires this file to be read before voice work and
+Rule E10 in AGENTS.md requires this file to be read before voice work and
 updated whenever a round lands.
 
 ## A grapheme and the word spelled the same way can take different sounds (2026-08-19)
@@ -1666,7 +1666,7 @@ session, a log row, a level set above the start — begins past the ladder). SPE
 12 item 8 carries the full ruling; the rung names (Little Ears, First Sounds, New Sounds,
 More Sounds, Last Sounds) were approved the same evening — "Approve pre level names", the
 owner's words — so nothing in the ladder ships unruled. The same evening the owner raised the G6 file-length ceiling to 1400 in
-their own words — "Increase it to 1400 on my authority" — recorded in CLAUDE.md E6, and a
+their own words — "Increase it to 1400 on my authority" — recorded in AGENTS.md E6, and a
 comment-stripping workaround written before that ruling was reverted; the auditor's
 autopsy of that stripper (two silent desync triggers) stands in the session record as the
 reason such a strip must never return casually.
