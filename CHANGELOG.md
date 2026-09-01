@@ -15,6 +15,47 @@ This document follows the Microsoft Writing Style Guide.
 Version 6 adds the standalone progressive web app. The reference build does not change.
 The first app version is 1.0.0-beta.1. The app stays in beta until version 1.0 is ready.
 
+- Fixed in 1.0.0-beta.29: a word your child keeps missing no longer takes over every session.
+  Before this, a word read wrong came back the very next session, every session, and pushed
+  ahead of every word your child HAD read — so three stuck words could hold nearly a fifth of
+  all the review in the game and follow a child up through level after level. A word that has
+  been waiting a long time now goes first instead. Measured on a child who misses three words
+  over forty sessions: the stuck word went from being served 18 times, in 18 sessions in a row,
+  to 3 times. Nothing is given up on and nothing is recorded about your child — the game simply
+  stops asking the same thing over and over.
+- Fixed in 1.0.0-beta.29: words your child has mastered come back on a schedule that favours
+  the words they will actually meet. Mastered words used to return only by lottery, and with a
+  bank this size that is a wait of about 551 sessions — most of a year — with the same chance
+  given to "the" and to "ox". Everyday words now come back roughly every 225 sessions and rare
+  ones much less often. How common a word is comes from the fourteen public-domain children's
+  books this game already uses; nothing new was added and nothing about your child leaves the
+  device.
+- Changed in 1.0.0-beta.29: one confident "got it" now turns a word green on the Mastery map.
+  It used to take two readings on different days, so a grown-up who had just watched their
+  child read a word right saw it stay amber, which read as failure. Green now means read right.
+  The colours were renamed together, because moving one alone would have made another wrong:
+  they are "read right", "was doing well, slipped", "not yet" and "not tried". Only the screen
+  changed — how the game chooses and reviews words is exactly as it was.
+- New in 1.0.0-beta.29: "Words we are working on", in the Grown-ups corner. It lists the words
+  your child is finding hard, hardest first, and beside each one a control that puts it in the
+  next session. Press and hold it, the way every grown-up control works. It never records a
+  result and never changes a colour — it only decides what comes next, so the game's own
+  judgement can be overruled by yours.
+- Fixed in 1.0.0-beta.29, before anyone met it: a child already partway through the game would
+  have been sent back to sound out single chunks. The first steps of the ladder were rebuilt
+  since the last release, and a save made before that rebuild carried no record of them — so
+  the game would have offered a fluent reader "am", "us" and "ox" to sound out, three a
+  session, for about 23 sessions before reaching their own words again. Progress made before
+  this release is now credited. Nothing is lost and no level is reset. This one was caught by
+  the release checks rather than by a person, and there is a new step in the testing procedure
+  that installs a new version over a real save on a real device, because no automated test can.
+- Changed in 1.0.0-beta.29: one word left the game. "preview" was taught on a level about the
+  long e sound, and it was the only word there where those letters said something else — a
+  counter-example sitting on the level that teaches the rule. The level now has thirteen words.
+- Changed in 1.0.0-beta.29: "comes", "could" and "machine" are now marked as tricky words, the
+  same as "the" and "come" already were. Each asks a child to learn two new things at once and
+  no other word in the game teaches either of them on its own, so they are shown as words to
+  know by sight rather than to sound out.
 - Fixed in 1.0.0-beta.28: the ladder's first steps now ask their question out loud. Before
   this, the screen said "What word do the sounds make?", showed an ear, and played nothing —
   the sounds only came if a grown-up pressed the small speaker, which is labelled "Hear it
