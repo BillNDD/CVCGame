@@ -633,6 +633,97 @@ pack refusal; the silent pack never lights. **Budget** — band plus core plus l
 after pass recorded here; the provenance row closed with the placeholder declared (D) or the
 8.1 amendment recorded (B).
 
+### Step 3 — the responsive reading surface and garden frame, out of flow (opened 2026-09-01; the owner ruled all four questions the same day on the decision page, each as recommended; before pass pending)
+
+**What the step is for.** Three things the ruled order names together, because they are one
+surface: the reading surface's bounds (bible 5.2), the garden frame as a fixed layer that costs
+the stage nothing (bible 5, ruling of 2026-08-22), and bible 10.4's margins-before-font on the
+compact profiles, which the reading chair sent here at the step-0 re-judgement with a condition:
+the brief names what the principal word may reclaim, and the per-profile cell records the fitted
+size before and after, the after at or above the before. A fourth item was named for this step
+at the third judgement of step 0: the one-frame clipped word on a landscape-to-portrait turn.
+
+**What is measured today, before anything moves** (`app/src/wq-css.js`, `Word.jsx`, the census):
+
+| fact | value |
+|---|---|
+| stage side padding | 14 px each side (`.wq-stage{padding:6px 14px}`) |
+| principal word ceiling | `clamp(2.25rem, 11svh, 5.5rem)` on `.wq-word`, fitted span inside |
+| "something" (5.19 em, the bank's widest) on 320 × 568 | 56.1 px, line 292 px |
+| "something" on 390 × 844 | 69.5 px, line 362 px |
+| shell width | 640 px max (960 from the wide breakpoint) |
+| word stage preferred maximum (bible 5.2) | 520 px — not yet enforced as a bound |
+| garden frame | none; no layer, no zones |
+| art bytes installed | 0 of 12,582,912 |
+| precache | 1,487 of 1,650 |
+| census profiles | 8, Chromium only |
+
+**The four rulings (owner, 2026-09-01, from the decision page), in his words as pasted back:**
+
+1. *Beta 30 ships now as is; beta 31 carries the QA build-out FIRST and then art step 3, judged by
+   the stronger census.* So the order is fixed: beta 30 → the QA build-out (WebKit and Firefox, the
+   eleven census capabilities of the 2026-08-12 ruling, the hand-rolled monkey) → this step →
+   beta 31. The chairs judge step 3 on the engine the owner's phone uses.
+2. *The principal word reclaims the stage's 14 px side margins on compact and phone profiles
+   (under 480 px); tiles, message and controls keep theirs.*
+3. *The frame layer and its geometry only: fixed, out of flow, 0 px layout height on all 8
+   profiles as a census cell, zones per breakpoint class, palette tokens only, no bitmap; art
+   lands in step 6.*
+4. *On a width change, hide the fitted glyphs for the one frame until the fit lands, keeping the
+   word's box and baseline in place; a census rotation cell asserts no frame paints wider than
+   the line.*
+
+**The brief, item by item.**
+
+1. **The reclaim (bible 10.4).** On profiles under 480 px the principal word's line becomes the
+   stage's full width — the word alone; tiles, message slot and controls keep their 14 px. The
+   arithmetic, to be confirmed by the cell: 320 × 568 goes from 56.1 to about 61.5 px (+9.6%),
+   390 × 844 from 69.5 to about 74.9 px (+7.7%); at 768 px and above the clamp's ceiling wins
+   before the line does, so nothing changes and nothing is reclaimed there. The ceiling is not
+   touched. **Done means:** the census's word cell carries `fittedBefore` and `fittedAfter` per
+   profile as literals, with `after >= before` asserted on every profile and the two small ones
+   showing the gain; the stage's other children measure the same 14 px they did.
+2. **The reading surface's bounds (bible 5.2).** The word stage is bounded at 520 CSS px, the
+   sentence stage at 640 with natural wrapping, Build-it at 540 — as maxima on the stage content,
+   not on the shell, so the extra width on tablet and desktop goes to the frame (bible 5: "the
+   extra space belongs to garden framing and the grown-up zone, not to long lines of teaching
+   text"). **Done means:** a census cell on the 768-and-wider profiles measures each stage's
+   content width at or under its maximum, and on the compact profiles measures it unchanged.
+3. **The garden frame layer (bible 5, 6).** A fixed, out-of-flow layer behind the stage — a
+   sibling of the shell, `position: fixed`, `inset: 0`, `z-index` below the shell, pointer
+   events none — carrying four zones from the breakpoint classes: compact (< 480) corners and
+   edge bands only; medium (480–767) the same, modestly narrower bands; wide (768–1199) the side
+   margins outside the reading field; extra-wide (≥ 1200) the side margins with the reading field
+   still bounded. Palette tokens from `C` only, no bitmap, no gradient that is not a token pair;
+   the frame draws NOTHING inside the reading field and nothing that resembles a letter (bible
+   6, state 9's constraint applies to every state). This is the surface step 6 paints state 0
+   onto; it ships here as geometry. **Done means:** a census cell on all 8 profiles asserts the
+   stage's layout height with the layer present equals its height with the layer removed — the
+   bible's own "adds 0 px" ruling, as a measurement — and a second asserts nothing the layer
+   paints intersects the reading field's box. Art budget after: still 0 bytes.
+4. **The rotation clip.** On a width change the fitted span's glyphs are hidden for the one frame
+   between the stylesheet's new size and the next-frame fit, then shown; the outer `.wq-word` box
+   and baseline do not move (bible 3.2). The synchronous fit is not tried again — it raised the
+   ResizeObserver loop error the ring recorded, and that is in the log. **Done means:** the
+   census rotation cell (landscape → portrait on the phone profiles) asserts no painted frame's
+   word is wider than its line, with the pre-fix failure as the control.
+
+**What this step does not do.** No image, no bitmap, no state-0 art, no Glowseed change, no
+change to the clamp, no change to tiles. Those are steps 6 and later, and the "who draws" ruling.
+
+**Floors that move (E6, up only):** the census cell count (every new cell), `g7_interface_checks`
+if any check lands there rather than in the census, `g14` precache unchanged at 1,487 (no asset).
+
+**What the chairs are asked.** The art director: whether the four zones and their proportions are
+the right placeholder for state 0's crops, and whether "corners and edge bands" on compact should be
+sized in px or in a share of the short edge. The reading chair: the reclaim's before/after per
+profile, the 520 px bound against the 5.19 em word at 200%, and whether the blank frame on rotation
+is acceptable against the clipped one. The engineering seat (its first seat, by the 2026-08-23
+ruling): what the fixed layer does to `svh`, the safe-area insets, the home-indicator band, the
+scroll container on the grown-up screens, and the one-frame hide's interaction with the
+ResizeObserver; which tests, gates and documents the change breaks, by path; and the three things
+it would refuse to let ship.
+
 ## The log — every pass, every verdict
 
 Newest last. A verdict names the chair, the step, the word, and the findings.

@@ -77,6 +77,84 @@ words cluster at high levels and are excluded while the child is on them. The en
 caught it on 2026-09-01 and measured the same 49.9/35.1/15.1 independently. The fall-through
 still matters and has its own test: an empty band gives its slot on rather than wasting it.
 
+## The QA build-out — definition of done (owner-ruled 2026-09-01, for beta 31)
+
+The owner's words: "I also want to make qa part of gates or CLs or tests. I want to minimize
+how much personal QA I need to do." Ruled the same day, together with the census build-out of
+2026-08-12 ("all of it, and the other browsers first") which this absorbs. Every item below is
+a measurable done; none is a wish.
+
+**What is true at the start (2026-09-01).** `docs/qa-procedure.md` holds 48 numbered steps.
+G12 checks that each carries an `Expected:` line and never runs one. The browser gates run on
+Chromium only; WebKit 26.5 and Firefox 153 are now installed and launch. Of the 48 steps, about
+30 can be proved by a machine today, about 9 need a real device by their nature (an install
+container, an address bar, a screen reader), and about 9 need ears or eyes - and the record
+already carries the boundary: beta 27 passed every gate and the owner found the invisible muted
+Glowseed in five minutes on a phone.
+
+### 1. Three engines, one census
+
+- G7, G8 and G18 run on Chromium, WebKit and Firefox. WebKit is the engine of every iPhone
+  and iPad, the devices the owner QAs on; until this lands no gate has ever run it.
+- **Done means:** each of the three gates reports a per-engine count, the floors hold on every
+  engine, and a control proves an engine-specific fault is caught (a `-webkit-` property with no
+  standard fallback, planted, must fail on WebKit and pass on Chromium).
+- The eleven capabilities of the 2026-08-12 ruling land here, each as a cell or a check with a
+  control: `toHaveCSS` on font sizes; `toBeInViewport({ratio})` (this alone would have found the
+  buried working-on list); `toMatchAriaSnapshot`; `page.clock`; the four unvisited states (the
+  close reveal, the wrong reveal, the done screen, the update row); rectangle overlap beyond a
+  control's centre; `setEmulatedVisionDeficiency` on the result controls; `emulateMedia` for
+  forced colours, contrast and colour scheme; CPU throttling, network conditions and a routed
+  delay for the loading-state class of fault; `@axe-core/playwright` on every cell; the device
+  descriptors with their own `deviceScaleFactor`.
+
+### 2. The monkey - what a four-year-old does to it
+
+- `tests/ui/monkey.mjs`, promoted from the scratchpad draft: a seeded storm of random taps,
+  double-taps, drags and key presses across the screens, on the two phone profiles, on all three
+  engines.
+- **Done means:** after the storm - no page error, no console error, the shell still present,
+  `state.words` in IndexedDB byte-identical to the seed (S1: no random gesture is an adult holding
+  a result control), and the session count unmoved. Seeded RNG so a failing storm replays. The
+  negative control plants a programmatic `applyResult` and the same probe must fail.
+
+### 3. Every QA step proves itself, or says why it cannot
+
+- Each of the 48 steps gains a `Proof:` line, one of two shapes:
+  `Proof: G7 check 63` - a named check in a gate, or
+  `Proof: human - <why no machine can>` - the reason, in words.
+- G12 grows three rules, each with a control: a step with no `Proof:` is refused; a `Proof:`
+  naming a gate check that does not exist in `docs/effect-map.md` is refused (a step that claims
+  a proof it does not have is a lie the script would otherwise keep); and a `human` reason must
+  name a capability from a fixed list - install container, address bar, screen reader, ears,
+  eyes - so "human" cannot become the easy default.
+- The ~30 tier-A steps become rendered checks with controls, on all three engines, and their
+  `Proof:` lines point at them. The script's step count does not fall - a proved step stays in
+  the script as the record of WHAT is proved - but its human count does.
+
+### 4. The owner's checklist, derived, never hand-kept
+
+- `node tools/qa-check.mjs --human` prints the steps whose proof is `human`, with their reasons,
+  as the release-day device pass. It is generated from the script every time, so it can neither
+  drift from the script nor grow quietly: a step joins it only by carrying a `human` proof that
+  names its capability, which is an owner-visible diff.
+- **Done means:** the printed list is at or under **12 steps** at the beta-31 cut, every one
+  naming its capability, and `docs/qa-procedure.md`'s header says the checklist is derived and
+  how to print it. The number is a ceiling in the baseline (`g12_human_steps_max`), so the human
+  share can only shrink without an owner-visible diff.
+
+### What this cannot do, stated so nobody quotes it for more
+
+The machines prove geometry, ratios, state, bytes, network and order. They cannot prove that a
+person perceived something - the muted Glowseed is the standing example, and it is why the
+derived checklist has a floor above zero and why the release still ends with a phone in a hand.
+The build-out's job is to make that hand's list short and true, not to pretend it away.
+
+**Floors that move (E6):** `g7_interface_checks`, `g8_checks`, `g18_checks` (per engine),
+`g12_qa_steps` up, a new `g12_human_steps_max` ceiling, `g20_tests_mapped`, and the census cell
+count. **Order:** engines first (the 2026-08-12 ruling), then the monkey, then the proofs; then
+art step 3 is judged on the result; then beta 31.
+
 ## G28b - CLAUDE.md takes no new rules, and nobody may credit it with old ones
 
 `node tools/claude-md-shape.mjs`, with `--self-test` for its twenty-one controls (floor `g28b_controls`). Owner-ruled
