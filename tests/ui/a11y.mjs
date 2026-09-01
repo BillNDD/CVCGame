@@ -163,6 +163,35 @@ await audit("home");
    session served ten untricky words and the note was never on the screen
    this gate audited. Now the seed sits AT the tricky word's own level and
    the audit follows the bank wherever it moves. */
+
+/* A save PAST BOTH LADDERS, for any walk that means to measure the word
+   session. A fresh install begins at Pre 1, and since the chunk ladder a
+   graduate's first sessions open with chunk riders - neither renders a
+   .wq-tile, so a walk that grades and waits for one hangs. Version 6 and level
+   2: version 6 is what beta 28 shipped, so migrate credits the seated chunks
+   (fault AW), and level 2 clears the level-1 gate that credit is keyed to.
+   Found by the release gauntlet on 2026-09-01, which was the first full run
+   since the ladder landed. */
+async function seedPastLadders(page) {
+  const storageSrc = readFileSync("app/src/storage.js", "utf8");
+  const db = storageSrc.match(/DB_NAME = "([^"]+)"/)[1];
+  const store = storageSrc.match(/DB_STORE = "([^"]+)"/)[1];
+  const save = JSON.stringify({ version: 6, level: 2, preLevel: 0, prePerfectStreak: 0,
+    sessionsCompleted: 0, perfectStreak: 0, words: {}, log: [], pre: {},
+    settings: { sound: true, childName: "", lang: "en-US" } });
+  await page.getByRole("button", { name: "Begin Session" }).waitFor();
+  await page.waitForTimeout(400);
+  await page.evaluate(([d, st, k, v]) => new Promise((res, rej) => {
+    const rq = indexedDB.open(d, 1);
+    rq.onupgradeneeded = () => rq.result.createObjectStore(st);
+    rq.onsuccess = () => { const tx = rq.result.transaction(st, "readwrite");
+      tx.objectStore(st).put(v, k); tx.oncomplete = () => res(true); tx.onerror = () => rej(tx.error); };
+    rq.onerror = () => rej(rq.error);
+  }), [db, store, STORE_KEY, save]);
+  await page.reload({ waitUntil: "load" });
+  await page.getByRole("button", { name: "Begin Session" }).waitFor();
+}
+
 const TRICKY_WORD = Object.keys(TRICKY).find((w) => WORD_LEVEL[w]);
 if (!TRICKY_WORD) throw new Error("no tricky word holds a level seat - the note audit has nothing honest to seed");
 {
@@ -305,6 +334,7 @@ await audit("grown-ups");
   const rmContext = await browser.newContext({ reducedMotion: "reduce" });
   const rmPage = await rmContext.newPage();
   await rmPage.goto(URL, { waitUntil: "load" });
+  await seedPastLadders(rmPage);
   const rmHome = await rmPage.evaluate(() => document.getAnimations().length);
   await rmPage.getByRole("button", { name: "Begin Session" }).click();
   await rmPage.locator(".wq-word").waitFor();

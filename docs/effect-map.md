@@ -8,7 +8,7 @@ Per-test rows carry the test's own sentence, which in this project IS the
 Given/When/Then effect. The requirement, oracle, platform, mutant family, evidence
 and known limits are declared per FILE, in the tool, where they stay true.
 
-Totals: 464 it() SITES across 22 files, plus 18 gates that are not test files.
+Totals: 468 it() SITES across 22 files, plus 18 gates that are not test files.
 
 A site inside a loop or a table runs many times, so these rows describe more tests than they number: Vitest executes 330. The rows count the places behaviour is asserted.
 
@@ -371,7 +371,7 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 61 | Feature: Building a session | A word the child has already read comes back, whatever its level |
 | 62 | Feature: Building a session | Above-level review never takes over the session |
 
-## tests/migrate.test.js — 9 tests (G1)
+## tests/migrate.test.js — 13 tests (G1)
 
 - **Requirement protected:** SPEC saves rule: an old save migrates once, seats by the owner's 2026-08-21 recompute ruling, and heals before any use
 - **Independent oracle:** Literal expected values written from the ruling by hand (E4): the graduate walks to 6, a hand-set save keeps its number.
@@ -392,6 +392,10 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 7 | migrate | computes the migrated level at the same boundary promotion uses |
 | 8 | migrate | never seats a migrated child below the ground they held |
 | 9 | migrate | survives hostile documents |
+| 10 | a returning player is not sent back to the chunk ladder (fault AW) | credits a save written before the chunk ladder existed |
+| 11 | a returning player is not sent back to the chunk ladder (fault AW) | control: a graduate on a LADDER build still gets the ladder |
+| 12 | a returning player is not sent back to the chunk ladder (fault AW) | control: a child still ON level 1 is not credited out of the ladder |
+| 13 | a returning player is not sent back to the chunk ladder (fault AW) | credits only chunks at or below the level the child had reached |
 
 ## tests/models.test.js — 5 tests (G10)
 

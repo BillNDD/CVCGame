@@ -62,6 +62,12 @@ const browser = await chromium.launch({ executablePath, args: ["--no-sandbox"] }
 const storageSrcTop = readFileSync("app/src/storage.js", "utf8");
 const dbName = storageSrcTop.match(/DB_NAME = "([^"]+)"/)[1];
 const dbStore = storageSrcTop.match(/DB_STORE = "([^"]+)"/)[1];
+/* Out of the pre-levels AND past the chunk riders: version 5 means migrate
+   credits the seated chunks (fault AW), and level 2 puts the child past the
+   level-1 gate that credit is keyed to. Without this a walk measures the pre
+   screen or a chunk rider and never sees a word. */
+const GRADUATED_PAST_CHUNKS = JSON.stringify({ version: 5, level: 2, preLevel: 0, prePerfectStreak: 0,
+  sessionsCompleted: 0, perfectStreak: 0, words: {}, log: [], pre: {}, settings: { sound: true, childName: "", lang: "en-US" } });
 const GRADUATED = JSON.stringify({ version: 5, level: 1, preLevel: 0, prePerfectStreak: 0,
   sessionsCompleted: 0, perfectStreak: 0, words: {}, log: [], pre: {}, settings: { sound: true, childName: "", lang: "en-US" } });
 async function seedSave(page, save) {
@@ -561,7 +567,13 @@ for (const height of [430, 555, 720, 950]) {
       const context = await browser.newContext();
       const page = await context.newPage();
       await page.setViewportSize(vp);
-      await page.goto(URL, { waitUntil: "load" });
+      /* SEEDED, like every other word-session walk in this file. A truly fresh
+         install begins at Pre 1 since the pre-level ladder, and since the chunk
+         ladder a graduate's session opens with chunk riders - neither renders a
+         .wq-tile, so this walk hung waiting for one. The file's own note at the
+         top of seedSave warns about exactly this and this walk had never been
+         brought under it; the release gauntlet found it on 2026-09-01. */
+      await seedSave(page, GRADUATED_PAST_CHUNKS);
       await page.getByRole("button", { name: "Begin Session" }).waitFor();
       const seen = [];
       seen.push(...await measure(page));                        // home, with the grown-up strip
@@ -912,13 +924,16 @@ for (const height of [430, 555, 720, 950]) {
       return { bg: s.backgroundColor, border: parseFloat(s.borderTopWidth) || 0, shadow: s.boxShadow, cardBg };
     });
   });
-  /* FOUR cells on this page's FRESH save: the Words and Sentences rows of
-     two each. The save sits at Pre 1, where the Build/Sounds row goes by the
-     2026-08-17 Build-a-sound ruling (no letters met, nothing honest for a
-     tray to hold) - so four is the truth here, not a shortfall. The grid of
-     2026-08-21; a graduated save would show six. */
-  if (bounded.length === 4 && bounded.every((d) => d.bg !== d.cardBg || d.border >= 2 || d.shadow !== "none"))
-    ok("all four free-play cells of a fresh save are visibly bounded on the card");
+  /* FIVE cells on this page's FRESH save, and it was four until the chunk
+     ladder landed. The 2026-08-17 Build-a-sound ruling hides the sound tray
+     when no letters have been met, and on the OLD Pre 1 - an ear rung - none
+     had. The chunk ladder rebuilt Pre 1 to teach `s a t p` outright and set
+     PRE_TRAY_FROM to 1, so a Pre 1 child has met four letters and a tray is
+     honest: the fifth cell is the ladder working, not a leak. Measured, not
+     assumed - preLetters(1) returns s a t p. A graduated save shows more.
+     The ASSERTION is unchanged: every cell must still be visibly bounded. */
+  if (bounded.length === 5 && bounded.every((d) => d.bg !== d.cardBg || d.border >= 2 || d.shadow !== "none"))
+    ok("all five free-play cells of a fresh save are visibly bounded on the card");
   else fail("a free-play cell melts into the card, or the fresh-save count moved", JSON.stringify(bounded));
   await page.getByRole("button", { name: "Back", exact: true }).click();
   const home = await page.getByRole("button", { name: "Begin Session" }).isVisible();
@@ -1188,7 +1203,14 @@ for (const height of [430, 555, 720, 950]) {
   /* The count must lead with what the child DID. "N read" before "N green",
      and the bare word "mastered" gone from the per-level row, because that is
      the word that read as a verdict on the child. */
-  const rowCounts = await page.locator(".wq-rowbtn .wq-mono").allInnerTexts();
+  /* SCOPED TO THE MASTERY MAP. Without that scope it also caught the "what each level
+     teaches" list added on 2026-08-24, whose decade rows carry the same
+     .wq-rowbtn .wq-mono classes and read "112 new words" - so ten of the 110
+     matches never could satisfy a rule about level counts. A selector that
+     silently widened when a sibling section arrived; found by the release
+     gauntlet on 2026-09-01, not by the check going red at the time. */
+  const masteryMap = page.locator("section").filter({ hasText: "Mastery map" }).first();
+  const rowCounts = await masteryMap.locator(".wq-rowbtn .wq-mono").allInnerTexts();
   /* "N of M read, N green" since art project step 0a (2026-08-22): the row
      is its own accessible name, and a name is plain words - no slash, no
      middle dot - so the visible text became plain words too. The shape
@@ -1197,8 +1219,6 @@ for (const height of [430, 555, 720, 950]) {
   if (shaped.length === rowCounts.length && rowCounts.length >= 11)
     ok(`all ${rowCounts.length} level rows read "N of M read, N green" (${rowCounts[0]})`);
   else fail("a level row still reports a bare mastered count", JSON.stringify(rowCounts.slice(0, 3)));
-  await context.close();
-}
 
   /* GREEN IS BOX 3, MEASURED IN THE RENDERED PAGE (fault AT, owner-ruled
      2026-08-31). Asserting the source would prove nothing - the whole point of
@@ -1233,6 +1253,10 @@ for (const height of [430, 555, 720, 950]) {
     if (hex(green).toLowerCase() === wantGreen.toLowerCase()) ok("a word read right once carries the green token");
     else fail("box 3 is not painted with chipGreen", `${hex(green)} vs ${wantGreen}`);
   }
+  await context.close();
+}
+
+
 
 await browser.close();
 stopServer();

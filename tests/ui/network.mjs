@@ -23,7 +23,36 @@
    Run: npm run test:network */
 import { chromium } from "playwright";
 import { spawn, execSync } from "node:child_process";
-import { existsSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
+import { STORE_KEY } from "../../src/engine.js";
+
+/* A save PAST BOTH LADDERS, for any walk that means to measure the word
+   session. A fresh install begins at Pre 1, and since the chunk ladder a
+   graduate's first sessions open with chunk riders - neither renders a
+   .wq-tile, so a walk that grades and waits for one hangs. Version 6 and level
+   2: version 6 is what beta 28 shipped, so migrate credits the seated chunks
+   (fault AW), and level 2 clears the level-1 gate that credit is keyed to.
+   Found by the release gauntlet on 2026-09-01, which was the first full run
+   since the ladder landed. */
+async function seedPastLadders(page) {
+  const storageSrc = readFileSync("app/src/storage.js", "utf8");
+  const db = storageSrc.match(/DB_NAME = "([^"]+)"/)[1];
+  const store = storageSrc.match(/DB_STORE = "([^"]+)"/)[1];
+  const save = JSON.stringify({ version: 6, level: 2, preLevel: 0, prePerfectStreak: 0,
+    sessionsCompleted: 0, perfectStreak: 0, words: {}, log: [], pre: {},
+    settings: { sound: true, childName: "", lang: "en-US" } });
+  await page.getByRole("button", { name: "Begin Session" }).waitFor();
+  await page.waitForTimeout(400);
+  await page.evaluate(([d, st, k, v]) => new Promise((res, rej) => {
+    const rq = indexedDB.open(d, 1);
+    rq.onupgradeneeded = () => rq.result.createObjectStore(st);
+    rq.onsuccess = () => { const tx = rq.result.transaction(st, "readwrite");
+      tx.objectStore(st).put(v, k); tx.oncomplete = () => res(true); tx.onerror = () => rej(tx.error); };
+    rq.onerror = () => rej(rq.error);
+  }), [db, store, STORE_KEY, save]);
+  await page.reload({ waitUntil: "load" });
+  await page.getByRole("button", { name: "Begin Session" }).waitFor();
+}
 
 const PORT = 4185;
 const ORIGIN = `http://localhost:${PORT}`;
@@ -123,6 +152,7 @@ const foreign = (seen) => seen.filter((r) => !sameOrigin(r.url));
   const page = await context.newPage();
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto(URL, { waitUntil: "load" });
+  await seedPastLadders(page);
   await page.getByRole("button", { name: "Begin Session" }).click();
   await page.locator(".wq-word").waitFor();
   const grade = page.getByRole("button", { name: "got it" });

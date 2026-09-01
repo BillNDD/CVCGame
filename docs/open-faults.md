@@ -3073,3 +3073,36 @@ what is true now.
   mode is never a dead end at any point.
 - **Not before the beta.** Ruled the same day AT closed, with AU still unbuilt and the release
   gauntlet not yet run.
+
+## AW. Every returning player was about to be handed weeks of chunk drill — found by the gauntlet 2026-09-01, FIXED the same day
+
+- **What a child would have experienced.** Measured on the shipped engine before the fix: a save
+  written before the chunk ladder existed carries no chunk records, and `dueChunks` serves every
+  chunk seated at or below the child's level that has no record — three a session, ahead of their
+  words. A level-77 reader was handed `am`, `us` and `ox` to sound out. With 67 chunks in the
+  roster that is about **23 sessions of chunk drill before a level-100 reader reaches their own
+  words**. A child at level 77 has read hundreds of words containing those sounds.
+- **Where it lives.** `dueChunks` in the reference build filters on the absence of a `pre` record,
+  and `migrateV7` re-seated `preLevel` for a mid-ladder child but never credited the chunks. The
+  ladder arrived after those saves were written; nothing taught the migration about them.
+- **How it was found, which is the part worth keeping.** Not by a person and not by `npm run check`
+  — by the **release gauntlet**, in G7, G8 and G18, all three reporting `checks=?` because the
+  browser walk never finished. The walk seeds a level-77 save, presses "got it", and waits for the
+  sound-out tiles; it timed out because the app was serving a CHUNK, which has no tiles. Three
+  gates failed and the cause was one line of behaviour none of them names.
+  **It had been waiting since the chunk ladder landed.** The only gauntlet run since was cancelled
+  at the owner's request on 2026-08-31 to free the tree, so nothing had exercised the migration
+  against a real browser. `npm run check` was green throughout and could not have caught it: no
+  unit test drives a pre-ladder save into a session.
+- **The fix, and the version gate is the whole of it.** `creditSeatedChunks` runs inside
+  `migrateV7` and marks every chunk seated at or below the child's level as mastered, for a save
+  out of the pre-levels and past level 1. **Version 7 is an exact line, not a guess**: version 7
+  arrived WITH the chunk ladder (`f0995b1`), and the last released build, beta 28, shipped version
+  6 — checked in the tag, not remembered. So every save a real child owns is 6 or lower and
+  predates the ladder, and every version-7 save was written by a build that has it.
+- **The wrong fix, and what caught it.** The first attempt keyed on the DATA instead — "out of the
+  pre-levels, past level 1, and not one chunk record" — on the reasoning that no route through the
+  ladder leaves no trace. It is true and it is useless, because a **level-5 graduate** with no
+  chunk records is exactly the child the ladder is FOR, and that rule credited them out of it.
+  `tests/pre.test.js` caught it in one run: "a level-5 graduate meets c:am first". The two cases
+  are identical in the data and only the version tells them apart.

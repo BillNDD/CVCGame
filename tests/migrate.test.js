@@ -5,8 +5,7 @@
    pattern, so no test can vanish from either. */
 import { describe, it, expect } from "vitest";
 import {
-  LEVELS, freshWordState, buildSession, migrate, newState, buildMarkdown, bankWords,
-} from "../src/engine.js";
+  LEVELS, freshWordState, buildSession, migrate, newState, buildMarkdown, bankWords, dueChunks, chunkSeat } from "../src/engine.js";
 
 const clone = (o) => JSON.parse(JSON.stringify(o));
 
@@ -117,5 +116,45 @@ describe("migrate", () => {
   it("survives hostile documents", () => {
     for (const bad of [{}, null, undefined, { version: "2" }, { log: null }, { words: [] }])
       expect(() => migrate(clone(bad === undefined ? {} : bad) || {})).not.toThrow();
+  });
+});
+
+describe("a returning player is not sent back to the chunk ladder (fault AW)", () => {
+  /* Found by the release gauntlet, not by any unit test - three browser gates
+     failed because the walk's level-77 save was served a CHUNK, which has no
+     sound-out tiles. Measured before the fix: 3 riders a session against a
+     67-chunk roster is about 23 sessions of drill before a level-100 reader
+     reaches their own words. These tests are what would have caught it. */
+  const save = (version, level, pre = {}) => ({
+    version, level, preLevel: 0, prePerfectStreak: 0, sessionsCompleted: 100,
+    perfectStreak: 0, words: {}, log: [], pre,
+    settings: { sound: true, childName: "", lang: "en-US" },
+  });
+
+  it("credits a save written before the chunk ladder existed", () => {
+    /* Version 6 is what beta 28 shipped - checked in the tag. Every save a real
+       child owns is 6 or lower, so this is the case that reaches every player
+       on update. */
+    expect(dueChunks(migrate(save(6, 77))).length).toBe(0);
+    expect(dueChunks(migrate(save(5, 77))).length).toBe(0);
+  });
+
+  it("control: a graduate on a LADDER build still gets the ladder", () => {
+    /* The control that killed the first fix. A level-5 graduate with no chunk
+       records is indistinguishable in the data from a pre-ladder save - only the
+       version separates them, and this is the child the ladder is for. */
+    expect(dueChunks(migrate(save(7, 5))).length).toBeGreaterThan(0);
+  });
+
+  it("control: a child still ON level 1 is not credited out of the ladder", () => {
+    const justOut = migrate(save(6, 1));
+    expect(Object.keys(justOut.pre).filter((k) => k.startsWith("c:")).length).toBe(0);
+  });
+
+  it("credits only chunks at or below the level the child had reached", () => {
+    const m = migrate(save(6, 3));
+    const seats = Object.keys(m.pre).filter((k) => k.startsWith("c:"));
+    expect(seats.length).toBeGreaterThan(0);
+    expect(seats.every((k) => chunkSeat(k.slice(2)) <= 3)).toBe(true);
   });
 });

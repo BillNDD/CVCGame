@@ -1049,7 +1049,27 @@ function migrateV6(s) {
 function migrateV7(s) {
   if (s.version >= 7) return;
   if (typeof s.preLevel === "number" && s.preLevel > 0) s.preLevel = recoverPreLevel(s);
+  creditSeatedChunks(s);   /* fault AW - only a pre-ladder save reaches here */
   s.version = 7;
+}
+
+/* THE CREDIT ITSELF, outside the version gate on purpose. Keying it to
+   `version < 7` missed the saves that already carry 7 - which is every save
+   written since the chunk ladder was built, including the owner's own test
+   device. The condition that is actually safe is about the DATA, not the
+   number: a child who is out of the pre-levels, past level 1, and has NOT ONE
+   chunk record cannot be a child working through the chunk ladder - there is no
+   route through it that leaves no trace. A child genuinely on the ladder has
+   records, and is untouched. */
+function creditSeatedChunks(s) {
+  if (s.preLevel !== 0 || (s.level || 1) <= 1) return;
+  s.pre = s.pre || {};
+  if (Object.keys(s.pre).some((k) => k.startsWith("c:"))) return;
+  for (const c of CHUNK_ROSTER) {
+    const seat = chunkSeat(c);
+    if (seat === null || seat <= 0 || seat > s.level) continue;
+    s.pre["c:" + c] = { box: 5, attempts: 0, correct: 0, close: 0, wrong: 0, dueAt: 1, lastSession: 0 };
+  }
 }
 function migrate(s) {
   s = heal(s);
