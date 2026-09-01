@@ -38,6 +38,43 @@ cannot catch an `either-is-fine` row collapsed to `perfect`, because that is a
 legal value; the limit has its own control that asserts the miss rather than
 hiding it. Sub-second over ~960 rows, so it runs in `npm run check`.
 
+## G29 - the maintenance bands are in step with the books they come from
+
+`node tools/word-bands.mjs --check`, with `--self-test` for its ten controls and no flag for the
+report a person reads. Owner-ruled 2026-08-31 (fault AQ): frequency-banded maintenance, ranked
+from the fourteen public-domain books already pinned in `tools/corpus/sources.json`.
+
+**What it protects.** A mastered word leaves every due lane, and the only way back is the
+confidence lane's two slots a session. Drawn flat over 1,102 words that was a 551-session wait
+for every word alike - the same budget spent on `ox` as on `the`. The bands decide how the
+budget is spent instead. The gate makes sure the lists compiled into the engine still match the
+books they were derived from: edit a corpus file, or hand-edit the literals, and this goes red.
+
+**Why those books.** SUBTLEX-US covers more (~100 percent against 84.5) and its author permits
+any use; Dolch 1936 is public domain outright. Both were costed on the decision page and both
+need a new file, a new licence note and a new provenance argument. These books need none - they
+are already owner-approved, byte-pinned and screened, and they are what a child reads in this
+game. It is also what rung 1 of the dependency rule asks for: look in the repository first.
+
+**The gap, stated rather than hidden.** 174 bank words appear in none of the books - `mom`,
+`sip`, `pad`, `pigpen` and their kind, invented for phonics drill and rare in real prose. An
+unranked word takes the MIDDLE band, never the rare one, so nothing disappears through a hole in
+the data. Two controls hold that: one proves an unranked word is not rare, and one proves it
+appears in neither emitted list, which is how it inherits the middle by default.
+
+**Band sizes are fractions of the WHOLE bank, not of the ranked part,** and that distinction was
+paid for. Sizing by rank put all 174 unranked words on top of a middle band already 30 percent
+of the ranked list, swelling middle to 459 words and its wait to 656 sessions - worse than the
+551 it exists to improve, and not the 481 the owner was shown when he ruled. Caught by measuring
+the built bands instead of trusting the decision page's arithmetic. A control now pins it.
+
+**The split is the engine's, not this tool's.** 50/35/15, written as an exact twenty-slot cycle
+(ten common, seven middle, three rare) so the share is a fact a test can assert rather than an
+average it has to sample. Measured on the shipped engine once all three bands are populated:
+54.0 / 32.6 / 13.4. While the child is still climbing, rare words are not yet below their level,
+so those slots fall through to common rather than going unused - which is why the lifetime
+average leans commoner than the cycle. That is the fall-through working, and it has its own test.
+
 ## G28b - CLAUDE.md takes no new rules, and nobody may credit it with old ones
 
 `node tools/claude-md-shape.mjs`, with `--self-test` for its eighteen controls. Owner-ruled

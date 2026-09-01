@@ -2816,6 +2816,22 @@ what is true now.
   not chosen.** It must be a public-domain or openly-licensed list, brought to the owner with
   its provenance before any code reads it, the same discipline the art provenance record
   follows. Until that source is named and approved, this fault stays open.
+- **SOURCE AND SPLIT RULED 2026-08-31, second decision page.** The source is the **fourteen
+  public-domain books this repository already pins** in `tools/corpus/sources.json` - no new
+  file, no new licence, no new provenance argument, and the source that matches what a child
+  actually reads in THIS game. Measured: 326,391 running words, ranking **949 of the 1,123
+  bank words (84.5 percent)**. The signal is strong where it matters - `the` appears 19,665
+  times and `ox` appears 3. The 174 it cannot rank are almost all Level 1 to 20 phonics drill
+  words (`mom`, `sip`, `pad`, `pigpen`): invented for teaching, rare in real books, and served
+  constantly anyway because the child is on those levels. **They take the MIDDLE band, never
+  the rare one**, so nothing disappears through a gap in the data. SUBTLEX-US (~100 percent,
+  freely distributable by its author) and Dolch 1936 (public domain, 28 percent) were both
+  costed; both need a new file and a new licence note that the pinned books do not.
+- **The split is 50 / 35 / 15.** The owner chose the gentle band over the sharper one
+  recommended here, on the stated ground that **nothing should fully retire**. Measured against
+  today's flat 551 sessions: common words return every **225** sessions, middle every **481**,
+  rare every **1,870**. The 60/30/10 alternative would have bought common words 188 sessions
+  and pushed rare ones to 2,805 - effectively never - and that is the trade he declined.
 
 ## AR. Thirteen percent of words are met exactly once, ever — opened 2026-08-29, CLOSED 2026-08-31
 

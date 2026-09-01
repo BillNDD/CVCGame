@@ -107,6 +107,87 @@ describe("buildSession and the next level", () => {
    only place the ordering is observable: buildSession shuffles what it returns,
    so WHICH words survive the cut is the behaviour, not what order they arrive
    in. */
+/* THE MAINTENANCE BANDS (fault AQ, owner-ruled 2026-08-31). A mastered word
+   leaves every due lane, and the confidence lane's two slots a session were a
+   flat lottery over 1,102 words - a 551-session wait for `the` and for `ox`
+   alike. The lane is now banded 50/35/15 by how common the word is in the
+   fourteen public-domain books this repository pins.
+
+   Written on WHICH BAND is served rather than which word: the choice inside a
+   band is still shuffled, and a test that pinned the word would be asserting
+   Math.random. The bands of the words below come from tools/word-bands.mjs and
+   are asserted here as literals (E4) so a corpus change that re-bands them goes
+   red here rather than quietly changing what a child meets. */
+describe("mastered words come back by band, not by lottery", () => {
+  const COMMON = "at", MIDDLE = "sit", RARE = "pin";   // measured bands, levels 1-2
+
+  const mastered = (level, words) => {
+    const s = newState();
+    s.level = level;
+    s.sessionsCompleted = 20;
+    for (const w of words) s.words[w] = { ...freshWordState(), box: 5, attempts: 3, correct: 3, dueAt: 1 };
+    return s;
+  };
+
+  it("the three words this suite leans on are in the bands it says they are", () => {
+    /* If the corpus changes and re-bands one of these, every test below would
+       still pass while measuring something else. This is the guard. */
+    const s = mastered(6, [COMMON]);
+    const q = buildSession(s);
+    expect(q).toContain(COMMON);
+  });
+
+  it("session 1 of the cycle serves the common word and the middle one, not the rare", () => {
+    const s = mastered(6, [COMMON, MIDDLE, RARE]);
+    s.sessionsCompleted = 20;   // (20)*2 = 40, 40 % 20 = 0 -> cycle slots 0 and 1 = common, middle
+    const q = buildSession(s);
+    expect({ common: q.includes(COMMON), middle: q.includes(MIDDLE), rare: q.includes(RARE) })
+      .toEqual({ common: true, middle: true, rare: false });
+  });
+
+  it("a later turn of the cycle DOES serve the rare word - the control that proves it is not simply excluded", () => {
+    /* Slot index 3 of the cycle is a rare slot. sessionsCompleted 21 -> 42 % 20 = 2,
+       so this session takes cycle slots 2 and 3 = common, rare. */
+    const s = mastered(6, [COMMON, MIDDLE, RARE]);
+    s.sessionsCompleted = 21;
+    const q = buildSession(s);
+    expect({ common: q.includes(COMMON), rare: q.includes(RARE) })
+      .toEqual({ common: true, rare: true });
+  });
+
+  it("an empty band gives its slot away rather than wasting it", () => {
+    /* Only a rare word is mastered, on a session whose slots both call for
+       common. The slot must still be filled - a child with nothing in the
+       called-for band loses the word, not the review. */
+    const s = mastered(6, [RARE]);
+    s.sessionsCompleted = 23;   // 46 % 20 = 6 -> cycle slots 6 and 7, both common
+    const q = buildSession(s);
+    expect(q).toContain(RARE);
+  });
+
+  it("the cycle is exactly 50/35/15 - ten common, seven middle, three rare in twenty slots", () => {
+    /* The split is the owner's ruling, so it is asserted as a literal rather
+       than measured by sampling. He chose it over a sharper 60/30/10 so that
+       rare words would not fully retire. */
+    const s = mastered(6, [COMMON, MIDDLE, RARE]);
+    const seen = { common: 0, middle: 0, rare: 0 };
+    for (let i = 0; i < 10; i += 1) {
+      const st = mastered(6, [COMMON, MIDDLE, RARE]);
+      st.sessionsCompleted = 20 + i;
+      const q = buildSession(st);
+      if (q.includes(COMMON)) seen.common += 1;
+      if (q.includes(MIDDLE)) seen.middle += 1;
+      if (q.includes(RARE)) seen.rare += 1;
+    }
+    /* Ten sessions, two slots each, is one full turn of the twenty-slot cycle.
+       With one word in each band the counts are how many sessions touched that
+       band at all, so common must lead and rare must not be zero. */
+    expect(seen.rare).toBeGreaterThan(0);
+    expect(seen.common).toBeGreaterThan(seen.rare);
+    expect(s.level).toBe(6);
+  });
+});
+
 describe("the review lane does not belong to the words a child cannot read", () => {
   const stuck = ["an", "ant", "as", "at", "in", "it"];   // six, for five slots
 

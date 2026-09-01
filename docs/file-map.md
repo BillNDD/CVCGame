@@ -71,6 +71,7 @@ verbatim) are exempt; the exemptions are declared in the tool.
 | `tools/ladder-status.mjs` | SOURCE | the lookup that reports what the redesign ladder holds, measured from its own files |
 | `tools/ladder-fill.mjs` | SOURCE | the rule for where a word may sit in the ladder - its greedy longest-match segmentation, the level that first teaches each unit, and the check that every target word has a seat |
 | `tools/claude-md-shape.mjs` | SOURCE | G28b: the shape CLAUDE.md is allowed to have - its three sections, the S1-S9 set, and the pointer to the controller |
+| `tools/word-bands.mjs` | SOURCE | G29: which maintenance band each bank word sits in, ranked from the pinned public-domain books - the band sizes, the unranked-goes-middle rule, and the splice into the reference build |
 | `tools/sound-load.mjs` | SOURCE | G28: how many new sounds one word may teach at once - the pair decomposition, the strictly-earlier-levels rule, and the two-way ledger check |
 | `tools/sound-load-ledger.json` | DATA | the declared list of words that introduce two new sounds at once (G28), each with its reason |
 | `tools/ladder/README.md` | OWNER | what each curriculum-redesign design artefact is, where it came from, and how far it can be trusted |

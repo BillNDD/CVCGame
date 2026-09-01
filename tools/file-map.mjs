@@ -192,6 +192,7 @@ export const DECLARED = [
   { path: "tools/ladder-status.mjs", kind: "SOURCE", owns: "the lookup that reports what the redesign ladder holds, measured from its own files" },
   { path: "tools/ladder-fill.mjs", kind: "SOURCE", owns: "the rule for where a word may sit in the ladder - its greedy longest-match segmentation, the level that first teaches each unit, and the check that every target word has a seat" },
   { path: "tools/claude-md-shape.mjs", kind: "SOURCE", owns: "G28b: the shape CLAUDE.md is allowed to have - its three sections, the S1-S9 set, and the pointer to the controller" },
+  { path: "tools/word-bands.mjs", kind: "SOURCE", owns: "G29: which maintenance band each bank word sits in, ranked from the pinned public-domain books - the band sizes, the unranked-goes-middle rule, and the splice into the reference build" },
   { path: "tools/sound-load.mjs", kind: "SOURCE", owns: "G28: how many new sounds one word may teach at once - the pair decomposition, the strictly-earlier-levels rule, and the two-way ledger check" },
   { path: "tools/sound-load-ledger.json", kind: "DATA", owns: "the declared list of words that introduce two new sounds at once (G28), each with its reason" },
   { path: "tools/ladder/README.md", kind: "OWNER", owns: "what each curriculum-redesign design artefact is, where it came from, and how far it can be trusted" },
