@@ -199,3 +199,27 @@ This document follows the Microsoft Writing Style Guide.
     were. Nothing resizes or shifts as the bar moves (the stylesheet uses the small viewport
     height, `svh`, everywhere; art project step 0b, 2026-08-22). A headless browser has no
     bar, so only a real phone can prove this.
+
+## Updating over an existing save — the migration a returning child meets
+
+44. Note your child's level from the Grown-ups corner, then install beta 29 OVER the existing install — do not clear site data, do not use a fresh profile — and start a session.
+    Expected: The session opens with your child's own WORDS, at the level they were on. It does
+    NOT open with chunks: no "What does it say?" screen showing `am`, `us` or `ox`. Fault AW —
+    before the fix, a save written by beta 28 carried no chunk records, so the ladder offered
+    every chunk seated at or below the child's level, three a session, which is about 23 sessions
+    of drill before a level-100 reader reached their own words. Four migrate tests cover it and
+    the release gauntlet is what found it, but nothing automated installs a real beta over a real
+    save on a real device, which is why this step exists.
+
+45. In the same updated install, open the Grown-ups corner and read the Mastery map.
+    Expected: The level rows and word chips show the same progress as before the update — nothing
+    reset, nothing lost. The four colours read "read right", "was doing well, slipped", "not yet"
+    and "not tried", and a word your child has read right once is GREEN (fault AT, ruled
+    2026-08-31). If a word that was green before the update is no longer green, stop and report
+    it: the display threshold moved DOWN, so green can only have grown.
+
+46. Still in the corner, look for "Words we are working on", and if it is there, press and hold the control beside one word.
+    Expected: The section lists words your child has missed three or more times, hardest first,
+    never more than ten. Holding the control puts that word in the NEXT session and changes
+    nothing else — no result recorded, no colour changed on the mastery map (S1, fault AU). If
+    your child has no such words the section is absent entirely, which is correct and not a fault.
