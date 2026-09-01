@@ -1619,7 +1619,23 @@ including all 371 census cells, has run on an engine an iPad user never touches.
 environment is configured not to download browsers, so closing it needs a different machine:
 a CI runner, or the owner's own. It is the single largest hole in this project's evidence.
 
-**Owner-ruled 2026-08-12: all of it, and the other browsers first.** The census runs on
+**Owner-ruled 2026-08-12: all of it, and the other browsers first.** **Re-confirmed and widened
+2026-09-01**, after a deep-research pass the owner asked for ("consider any other MIT license or
+equiv software... that could let you perform a fulsome qa test yourself"): the research found
+that nearly everything wanted was already owned - Playwright carries the whole capability list,
+WebKit and Firefox are a browser download rather than a dependency, and visual regression is
+built in (`toHaveScreenshot`, pixelmatch inside). The one genuinely new outside idea, monkey
+testing (gremlins.js, MIT), was declined AS A DEPENDENCY - last released ~6 years ago - and
+adopted AS AN IDEA: a hand-rolled Playwright monkey, random taps and swipes across every screen
+with the S1 invariant asserted after the storm (`state.words` byte-identical). Owner picked, in
+clickable form: the other browsers, the eleven capabilities, and the monkey - in that spirit of
+order - with visual-regression baselines the one item left out (churn in git on every deliberate
+restyle). **Scheduled after beta 30 ships**, folded together with the queued gate-hardening
+programme. Lighthouse was considered and declined
+as the weakest addition; the two older browser-automation frameworks (the `cypress` and
+`selenium` packages) are strictly worse than the owned tooling; and the installed but unwired
+mutation framework (`stryker`, in package.json) stays unwired - the repo's own mutants tooling
+is better fitted. The census runs on
 Chromium, Firefox and WebKit before the next beta. Lighthouse and element-scoped screenshot
 baselines are in scope too, with the caveat that a baseline made on one machine is a statement
 about that machine — so baselines are stored per browser and per runner, and a mismatch on a
