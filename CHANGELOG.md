@@ -15,6 +15,12 @@ This document follows the Microsoft Writing Style Guide.
 Version 6 adds the standalone progressive web app. The reference build does not change.
 The first app version is 1.0.0-beta.1. The app stays in beta until version 1.0 is ready.
 
+- Fixed in 1.0.0-beta.30: "Words we are working on" now sits near the top of the Grown-ups
+  corner, just under Settings. It shipped in beta 29 below the Mastery map's hundred level rows —
+  about eleven phone screens down — and the first person to look for it reported it missing,
+  which was fair: a control you cannot find is a control that does not exist. The release checks
+  now measure where it sits, not just that it exists.
+
 - Fixed in 1.0.0-beta.29: a word your child keeps missing no longer takes over every session.
   Before this, a word read wrong came back the very next session, every session, and pushed
   ahead of every word your child HAD read — so three stuck words could hold nearly a fifth of
