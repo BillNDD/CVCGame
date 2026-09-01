@@ -59,8 +59,8 @@ export const GOVERNING = [
   /* G28's ledger, created 2026-08-31 when the owner asked for a gate that
      makes the two-new-sounds-at-once fault impossible to reach a child
      unnoticed. It is a fault list with reasons, not an approval list: the
-     four heart words are exempt by design, and the other fifteen are a
-     teaching-order question the owner has not yet ruled on. It grows only by
+     seven heart and tricky words are exempt by design, and of the rest only
+     four carry a sound the child has never met. It grows only by
      owner-visible diff, and G28 refuses an entry that has stopped being
      true, so it cannot decay into a blanket permission. */
   "tools/sound-load-ledger.json",

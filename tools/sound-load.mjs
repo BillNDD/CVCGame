@@ -1,4 +1,4 @@
-/* How many NEW sounds may one word ask a child to learn at once?
+/* How many NEW letter-to-sound mappings may one word ask a child to learn at once?
  *
  * The engine knows every word's sounds, so nothing about this question ever
  * needed a human to check it — and yet on 2026-08-31 it was checked by hand,
@@ -27,7 +27,7 @@
  *
  * Usage:
  *   node tools/sound-load.mjs              check the shipped ladder
- *   node tools/sound-load.mjs --list       print every word and its new sounds
+ *   node tools/sound-load.mjs --list       print every word, its new mappings and their kind
  *   node tools/sound-load.mjs --self-test  prove the checker catches (E5)
  */
 import { readFileSync } from "node:fs";
@@ -63,10 +63,28 @@ export function preTaught(pre = PRE_LEVELS) {
   return known;
 }
 
-/* Walk the ladder and report every word carrying two or more new pairs. */
+/* Walk the ladder and report every word carrying two or more new pairs.
+ *
+ * A NEW PAIR IS NOT ALWAYS A NEW SOUND, and until 2026-09-01 this tool could
+ * not tell the difference - which meant it reported less than it claimed. The
+ * owner asked, of the -ture family, "isn't cher just ch and er together, which
+ * we already have tiles and sounds for?" It is. A child meets `ch` at Level 23
+ * and `er` at Level 15; by Level 96 the only new thing about `picture` is that
+ * `tu` SPELLS ch and `re` SPELLS er, on a level whose focus is, in its own
+ * words, "the ch sound in longer words". Learning a new spelling for a sound
+ * owned since Level 23 is not the load of meeting a sound for the first time,
+ * and a gate that prints them identically is measuring a thing it is not.
+ *
+ * THE REFUSAL IS UNCHANGED, deliberately (E3). Two new mappings in one word is
+ * still two, and a child who reads it wrong still cannot tell which half they
+ * missed. What changes is that every finding now says WHICH KIND it is, so a
+ * ledger line can be honest about severity rather than implying every double is
+ * the same fault. Measured the day this was added: of fifteen declared doubles,
+ * ten involve no new sound at all. */
 /** @param {any[]} [levels] @param {any[]} [pre] */
 export function heavyWords(levels = LEVELS, pre = PRE_LEVELS) {
   const known = preTaught(pre);
+  const knownSounds = new Set([...known].map((p) => p.split("=")[1]));
   const heart = new Set([...HEART, ...Object.keys(TRICKY)]);
   const heavy = [];
   const broken = [];
@@ -77,11 +95,16 @@ export function heavyWords(levels = LEVELS, pre = PRE_LEVELS) {
       if (!ps) { broken.push({ level: L.n, word: w }); continue; }
       const fresh = [...new Set(ps.filter((p) => !known.has(p)))];
       if (fresh.length >= 2) {
-        heavy.push({ level: L.n, word: w, pairs: fresh.sort(), heart: heart.has(w) });
+        const newSounds = fresh.filter((p) => !knownSounds.has(p.split("=")[1])).sort();
+        heavy.push({
+          level: L.n, word: w, pairs: fresh.sort(), heart: heart.has(w), newSounds,
+          kind: newSounds.length === 0 ? "spellings-only"
+            : newSounds.length === fresh.length ? "all-new-sounds" : "mixed",
+        });
       }
       for (const p of ps) arriving.add(p);
     }
-    for (const p of arriving) known.add(p);
+    for (const p of arriving) { known.add(p); knownSounds.add(p.split("=")[1]); }
   }
   return { heavy, broken };
 }
@@ -132,7 +155,9 @@ export function audit({ levels = LEVELS, pre = PRE_LEVELS, ledger = [], sentence
   for (const [k, e] of found) {
     const d = declared.get(k);
     if (!d) {
-      problems.push(`UNDECLARED: L${e.level} "${e.word}" introduces ${e.pairs.length} new sounds at once (${e.pairs.join(", ")})`);
+      const kind = e.kind === "spellings-only" ? "new spellings of sounds already known"
+        : e.kind === "all-new-sounds" ? "sounds the child has never met" : "one new sound and one new spelling";
+      problems.push(`UNDECLARED: L${e.level} "${e.word}" introduces ${e.pairs.length} new mappings at once - ${kind} (${e.pairs.join(", ")})`);
     } else if (d.pairs.slice().sort().join(",") !== e.pairs.join(",")) {
       problems.push(`DRIFTED: L${e.level} "${e.word}" declares ${d.pairs.join(", ")} but now needs ${e.pairs.join(", ")}`);
     }
@@ -156,7 +181,8 @@ export function readLedger(path = LEDGER_PATH) {
 function selfTest() {
   const ledger = readLedger();
   const fails = [];
-  const expect = (name, cond, got) => { if (!cond) fails.push(`${name}: ${got}`); };
+  let RANC = 0;
+  const expect = (name, cond, got) => { RANC += 1; if (!cond) fails.push(`${name}: ${got}`); };
   const hits = (r, needle) => r.problems.some((p) => p.includes(needle));
 
   /* 1. POSITIVE CONTROL. The shipped ladder and its ledger agree. */
@@ -203,15 +229,37 @@ function selfTest() {
   const ture = real.heavy.filter((h) => h.level === 96 && h.word.endsWith("ture"));
   expect("level-mates cannot cover for each other", ture.length === 6, `only ${ture.length} of 6 flagged`);
 
-  /* 9. A sentence may not need a sound its level has not taught. */
+  /* 9. The KIND is told apart, and the -ture six are the case that earned it.
+        A gate that called a new SPELLING of a sound owned since Level 23 the
+        same thing as a sound never met was reporting less than it claimed. */
+  const kinds = Object.fromEntries(real.heavy.map((h) => [h.word, h.kind]));
+  expect("a new spelling of a long-known sound is not called a new sound",
+    kinds.picture === "spellings-only" && kinds.adventure === "spellings-only", `picture=${kinds.picture}`);
+  expect("a word whose sounds really are new is still called that",
+    kinds.he === "all-new-sounds" && kinds.find === "all-new-sounds", `he=${kinds.he}`);
+  expect("a word with one of each is called mixed, not rounded to either",
+    kinds.you === "mixed", `you=${kinds.you}`);
+
+  /* 10. A sentence may not need a sound its level has not taught. */
   const badSentence = { 1: [{ id: "s:control", text: "the machine", level: 1 }] };
   expect("catches a sentence needing an untaught sound",
     hits(audit({ ledger, sentences: badSentence }), "not yet taught"), "stayed quiet");
 
+  const ran = RANC;
+  /* THE CONTROL COUNT IS A FLOOR (E6). Without it a control can be deleted and
+     the gate still prints "all caught" - the shape open fault C4 is about, and
+     the engineering seat found all three of these new gates floorless on
+     2026-09-01. The number lives in .claude/gate-baseline.json so raising it is
+     an owner-visible diff like every other floor. */
+  const FLOOR = JSON.parse(readFileSync(".claude/gate-baseline.json", "utf8")).g28_controls;
+  if (ran < FLOOR) {
+    console.error(`  FAIL only ${ran} controls ran, floor is ${FLOOR} - a control has been removed`);
+    return 1;
+  }
   for (const f of fails) console.error("  FAIL " + f);
   console.log(fails.length === 0
-    ? "sound-load self-test: 9 controls, all caught"
-    : `sound-load self-test: ${fails.length} of 9 controls FAILED`);
+    ? "sound-load self-test: 12 controls, all caught"
+    : `sound-load self-test: ${fails.length} of 12 controls FAILED`);
   return fails.length === 0 ? 0 : 1;
 }
 
@@ -223,7 +271,8 @@ if (invoked) {
   } else if (arg === "--list") {
     const { heavy } = heavyWords();
     for (const h of heavy) {
-      console.log(`L${String(h.level).padStart(3)} ${h.word.padEnd(11)} ${h.heart ? "HEART" : "     "} ${h.pairs.join("  ")}`);
+      const kind = h.kind === "spellings-only" ? "new spelling only" : h.kind === "all-new-sounds" ? "NEW SOUNDS" : "one of each";
+      console.log(`L${String(h.level).padStart(3)} ${h.word.padEnd(11)} ${h.heart ? "HEART" : "     "} ${kind.padEnd(18)} ${h.pairs.join("  ")}`);
     }
     console.log(`\n${heavy.length} words introduce two new sounds at once.`);
   } else {
@@ -235,6 +284,9 @@ if (invoked) {
       console.error("with the reason. A word that no longer needs its line must lose it.");
       process.exit(1);
     }
-    console.log("sound-load: every word introduces at most one new sound, or is declared.");
+    const { heavy } = audit({ ledger: readLedger() });
+    const k = (n) => heavy.filter((h) => h.kind === n).length;
+    console.log("sound-load: every word introduces at most one new mapping, or is declared. "
+      + `${heavy.length} declared: ${k("all-new-sounds")} carrying new sounds, ${k("mixed")} mixed, ${k("spellings-only")} new spellings of sounds already known.`);
   }
 }

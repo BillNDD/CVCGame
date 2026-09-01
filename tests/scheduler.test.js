@@ -11,7 +11,12 @@
 import { describe, it, expect } from "vitest";
 import {
   LEVELS, WORD_LEVEL, freshWordState, applyResult, buildSession, newState, checkPromotion,
+  BAND_CYCLE,
 } from "../src/engine.js";
+/* The band generator, read at its SOURCE: the guard below checks the bands
+   where they are decided rather than through the engine's compiled literals, so
+   a corpus change that re-bands a word this suite leans on is caught. */
+import { bands, corpusCounts } from "../tools/word-bands.mjs";
 
 describe("buildSession and the next level", () => {
   /* The peek used to open on exposure: "every word has been seen", which a
@@ -130,11 +135,20 @@ describe("mastered words come back by band, not by lottery", () => {
   };
 
   it("the three words this suite leans on are in the bands it says they are", () => {
-    /* If the corpus changes and re-bands one of these, every test below would
-       still pass while measuring something else. This is the guard. */
-    const s = mastered(6, [COMMON]);
-    const q = buildSession(s);
-    expect(q).toContain(COMMON);
+    /* If the corpus re-bands one of these, every test below would still pass
+       while measuring something else. This is the guard - and its first version
+       could not fail: it mastered ONE word and asserted the session contained
+       it, which the band fall-through does whatever band the word sits in. The
+       engineering seat killed it on 2026-09-01 by mutating bandOf so `at`
+       returned rare, and the assertion still passed.
+       It now reads the bands themselves, from the same generator the engine's
+       literals are built by, so a re-banding is caught at its source. */
+    const b = bands([...new Set(LEVELS.flatMap((L) => L.words))], corpusCounts());
+    expect({
+      common: b.common.includes(COMMON),
+      middle: !b.common.includes(MIDDLE) && !b.rare.includes(MIDDLE),
+      rare: b.rare.includes(RARE),
+    }).toEqual({ common: true, middle: true, rare: true });
   });
 
   it("session 1 of the cycle serves the common word and the middle one, not the rare", () => {
@@ -179,12 +193,19 @@ describe("mastered words come back by band, not by lottery", () => {
       if (q.includes(MIDDLE)) seen.middle += 1;
       if (q.includes(RARE)) seen.rare += 1;
     }
-    /* Ten sessions, two slots each, is one full turn of the twenty-slot cycle.
-       With one word in each band the counts are how many sessions touched that
-       band at all, so common must lead and rare must not be zero. */
-    expect(seen.rare).toBeGreaterThan(0);
-    expect(seen.common).toBeGreaterThan(seen.rare);
-    expect(s.level).toBe(6);
+    /* Ten sessions of two slots is one full turn of the twenty-slot cycle, so
+       these counts are exact, not a sample. Measured then re-typed (E4).
+       Common is 9 and not 10 because one common slot falls through: with a
+       single word in each band, a band emptied earlier in the same session
+       gives its slot on. The first version of this test asserted only
+       "rare > 0" and "common > rare" under a title claiming 10/7/3, plus
+       `expect(s.level).toBe(6)` on a state the loop never touched - a
+       tautology. A cycle of nineteen zeros and one two would have passed it.
+       The engineering seat found all three on 2026-09-01. */
+    expect(seen).toEqual({ common: 9, middle: 7, rare: 4 });
+    /* And the ruling itself, asserted where it cannot drift: the cycle is
+       10/7/3 of twenty slots, which IS 50/35/15. */
+    expect([0, 1, 2].map((b) => BAND_CYCLE.filter((x) => x === b).length)).toEqual([10, 7, 3]);
   });
 });
 

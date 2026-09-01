@@ -257,7 +257,10 @@ describe("the extended code", () => {
       away: ["a", "w", "ay"], ginger: ["g", "i", "n", "g", "er"],
       going: ["g", "o", "i", "ng"], laugh: ["l", "a", "ugh"],
     });
-    expect(Object.keys(LEX_BENDS).length).toBe(273);
+    /* 273 -> 272 on 2026-09-01: `preview` was dropped from the bank closing
+       fault AS, and its bend row went with it once tools/lexicon.csv lost the
+       dead seat row the engineering seat found still sitting there. */
+    expect(Object.keys(LEX_BENDS).length).toBe(272);
     expect(LEX_BENDS.laugh).toEqual({ 2: "f" });
     expect(LEX_BENDS.machine).toEqual({ 2: "sh", 3: "long_e" });   // its short a IS the default - only the diffs emit
   });

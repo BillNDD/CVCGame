@@ -40,7 +40,7 @@ hiding it. Sub-second over ~960 rows, so it runs in `npm run check`.
 
 ## G29 - the maintenance bands are in step with the books they come from
 
-`node tools/word-bands.mjs --check`, with `--self-test` for its ten controls and no flag for the
+`node tools/word-bands.mjs --check`, with `--self-test` for its ten controls (floor `g29_controls`) and no flag for the
 report a person reads. Owner-ruled 2026-08-31 (fault AQ): frequency-banded maintenance, ranked
 from the fourteen public-domain books already pinned in `tools/corpus/sources.json`.
 
@@ -56,7 +56,7 @@ need a new file, a new licence note and a new provenance argument. These books n
 are already owner-approved, byte-pinned and screened, and they are what a child reads in this
 game. It is also what rung 1 of the dependency rule asks for: look in the repository first.
 
-**The gap, stated rather than hidden.** 174 bank words appear in none of the books - `mom`,
+**The gap, stated rather than hidden.** 173 bank words appear in none of the books - `mom`,
 `sip`, `pad`, `pigpen` and their kind, invented for phonics drill and rare in real prose. An
 unranked word takes the MIDDLE band, never the rare one, so nothing disappears through a hole in
 the data. Two controls hold that: one proves an unranked word is not rare, and one proves it
@@ -69,15 +69,17 @@ of the ranked list, swelling middle to 459 words and its wait to 656 sessions - 
 the built bands instead of trusting the decision page's arithmetic. A control now pins it.
 
 **The split is the engine's, not this tool's.** 50/35/15, written as an exact twenty-slot cycle
-(ten common, seven middle, three rare) so the share is a fact a test can assert rather than an
-average it has to sample. Measured on the shipped engine once all three bands are populated:
-54.0 / 32.6 / 13.4. While the child is still climbing, rare words are not yet below their level,
-so those slots fall through to common rather than going unused - which is why the lifetime
-average leans commoner than the cycle. That is the fall-through working, and it has its own test.
+(ten common, seven middle, three rare) so the share is a fact a test asserts rather than an
+average it samples. Measured by tallying the lane's ACTUAL picks over 400 sessions:
+**49.9 / 35.1 / 15.1**. An earlier figure of 54.0/32.6/13.4 stood here and was wrong - it came
+from a proxy that counted box-5 words below the child's level, which is biased because rare
+words cluster at high levels and are excluded while the child is on them. The engineering seat
+caught it on 2026-09-01 and measured the same 49.9/35.1/15.1 independently. The fall-through
+still matters and has its own test: an empty band gives its slot on rather than wasting it.
 
 ## G28b - CLAUDE.md takes no new rules, and nobody may credit it with old ones
 
-`node tools/claude-md-shape.mjs`, with `--self-test` for its eighteen controls. Owner-ruled
+`node tools/claude-md-shape.mjs`, with `--self-test` for its twenty-one controls (floor `g28b_controls`). Owner-ruled
 2026-08-31, twice: first "I want you to suggest some way for future agents, who go looking to
 add rules to claude.md instead of agents.md, are always redirected", and then "I don't want to
 do anything else until claude.md and agents.md is sorted out forever".
@@ -110,12 +112,12 @@ context in both directions. Both false-alarm shapes are now controls that must P
 **What it cannot do,** stated so nobody quotes it for more than it is: it cannot catch a
 sentence crediting CLAUDE.md with a safety rule it does not actually have. That is still a
 person's job - but there are nine rules, they fit on one screen, and this gate makes that the
-only reading left to do. Scans 277 tracked text files in under a second, so it runs in
+only reading left to do. Scans 278 tracked text files in under a second, so it runs in
 `npm run check`.
 
 ## G28 - how many new sounds one word may teach
 
-`node tools/sound-load.mjs`, with `--self-test` for its nine controls and `--list` for the
+`node tools/sound-load.mjs`, with `--self-test` for its twelve controls (floor `g28_controls`) and `--list` for the
 report a person reads. Owner-asked 2026-08-31, on being shown the fault by hand: "shouldn't
 we have some test or gauntlet that prevents this from ever happening, since we already know
 what sounds go into what words".
@@ -142,11 +144,11 @@ words, and counting honestly reports nineteen. A control asserts all six of Leve
 **A repeated pair is one pair.** "mom" spells m twice and teaches m once. Counting it twice
 was a real artifact of the hand count that preceded this gate, and is now a control.
 
-**The ledger, `tools/sound-load-ledger.json`,** declares the nineteen words that need two,
-each with its reason - four heart words, which the game already teaches by sight and which
-are listed rather than skipped so the exemption is visible, and fifteen that are a
-teaching-order question the owner has not ruled on. They are recorded as named faults, not
-as approvals.
+**The ledger, `tools/sound-load-ledger.json`,** declares the fifteen words that need two,
+each with its reason. Seven are heart or tricky words the game already teaches by sight, and
+they are listed rather than skipped so the exemption stays visible. Of the fifteen, only four
+carry a sound the child has never met and one carries a single new sound - the other ten are
+new SPELLINGS of sounds already known, which the gate now says on every line.
 
 **It is checked in both directions.** An undeclared word is red; so is a declared word that
 no longer needs its line, and so is a declared word whose pairs have moved. A ledger that
@@ -1448,7 +1450,7 @@ it was seen.
   dependency rule.
 - Negative control: `--self-test` plants a `PROGRESS.md` and a stray `status.json`; the
   detector must report both and still accept the real tree.
-- Baseline floor: `g17_governing_files` (46). It moved from 23 on 2026-08-11, when the
+- Baseline floor: `g17_governing_files` (47). It moved from 23 on 2026-08-11, when the
   owner approved `docs/open-faults.md` into the owned set — the list of what is still
   wrong, so that a fault cannot be lost to a context compaction — from 24 on 2026-08-15
   for `docs/file-map.md`, the generated ownership map (G23), and to 28 the same day for
@@ -1499,7 +1501,7 @@ the tool would be fault F2 re-committed.
   `filemap_history_max` (1) — a ceiling only the owner moves (E6). Today's one:
   `docs/voice-goldens-packs1-3.json`, whose 11-of-57 recipe disagreements make it a trap if
   read as live.
-- Keys: `g23_declared` (54), `g23_facts` (4), `g23_controls` (40), problems capped at 0,
+- Keys: `g23_declared` (60), `g23_facts` (4), `g23_controls` (40), problems capped at 0,
   ceiling `filemap_history_max` (1).
 - Run: `node tools/file-map.mjs --check` and `--self-test`; both are in `npm run check`.
 

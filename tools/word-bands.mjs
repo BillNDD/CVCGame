@@ -14,7 +14,7 @@
  * screened, and they are what a child actually reads in THIS game. It is also
  * what rung 1 of the dependency rule says to do - look in the repository first.
  *
- * THE GAP, STATED RATHER THAN HIDDEN. 174 bank words appear in none of the
+ * THE GAP, STATED RATHER THAN HIDDEN. 173 bank words appear in none of the
  * books: `mom`, `sip`, `pad`, `pigpen` and their kind. They are phonics drill
  * words, invented for teaching and rare in real prose, and a child meets them
  * constantly anyway because they sit in the early levels. An unranked word
@@ -40,12 +40,12 @@ const CORPUS = "tools/corpus/";
 const REF = "reference/word-quest.jsx";
 
 /* The band sizes are fractions of the WHOLE BANK, not of the ranked part, and
-   that distinction was paid for. Sizing by rank instead put all 174 unranked
+   that distinction was paid for. Sizing by rank instead put all 173 unranked
    words on top of a middle band already 30 percent of the ranked list, which
    swelled middle to 459 words and pushed its return interval to 656 sessions -
    WORSE than the 551 it was meant to improve, and not the 481 the owner was
    shown when he ruled. Sizing by the whole bank keeps the promise: the middle
-   band is 30 percent of 1,123 whether or not the corpus could rank its
+   band is 30 percent of 1,122 whether or not the corpus could rank its
    members, and the unranked words take seats inside it rather than beside it.
    Separate from the SLOT split (50/35/15) in the engine, which says how often
    each band is drawn rather than how many words it holds. */
@@ -107,7 +107,8 @@ function bankWords() {
 
 function selfTest() {
   const fails = [];
-  const T = (n, c) => { if (!c) fails.push(n); };
+  let RANC = 0;
+  const T = (n, c) => { RANC += 1; if (!c) fails.push(n); };
   const counts = new Map([["the", 100], ["cat", 50], ["ox", 3], ["gem", 1]]);
   const bank = ["the", "cat", "ox", "gem", "pigpen"];
   const b = bands(bank, counts);
@@ -137,6 +138,17 @@ function selfTest() {
       return big.common.length === 2 && big.middle.length === 0 && big.unranked.length === 5
         && big.rare.length === 3; })());
 
+  const ran = RANC;
+  /* THE CONTROL COUNT IS A FLOOR (E6). Without it a control can be deleted and
+     the gate still prints "all caught" - the shape open fault C4 is about, and
+     the engineering seat found all three of these new gates floorless on
+     2026-09-01. The number lives in .claude/gate-baseline.json so raising it is
+     an owner-visible diff like every other floor. */
+  const FLOOR = JSON.parse(readFileSync(".claude/gate-baseline.json", "utf8")).g29_controls;
+  if (ran < FLOOR) {
+    console.error(`  FAIL only ${ran} controls ran, floor is ${FLOOR} - a control has been removed`);
+    return 1;
+  }
   for (const f of fails) console.error("  FAIL " + f);
   console.log(fails.length === 0
     ? "word-bands self-test: 10 controls, all caught"

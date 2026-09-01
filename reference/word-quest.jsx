@@ -649,14 +649,16 @@ function buildSession(state) {
      child with no rare mastered words loses nothing - the budget moves rather
      than the slot going unused.
 
-     `!picked` is load-bearing. A box-4 word can sit in dueBelow AND here, so
-     without it the cycle's chosen word was sometimes already taken, `take` walked
-     on down the ordering, and the slot went to whatever band happened to be
-     there. Measured over 400 sessions that pulled the split to 55.5/33.4/11.1
-     against the ruled 50/35/15 - and it cost the RARE band most, which is the
-     one the owner protected when he chose this split over the sharper one. */
+     A `!picked` filter used to stand here, with a comment calling it
+     load-bearing and citing a 55.5/33.4/11.1 drift without it. Both were wrong,
+     and the engineering seat caught them on 2026-09-01: `picked` is empty at
+     this line - the first `take` call is thirty lines below - so the filter
+     excluded nothing, and the drift it claimed to fix was an artifact of the
+     measurement that produced it, not of the lane. Tallying the lane's actual
+     picks gives 49.9/35.1/15.1, and 49.9/35.0/15.1 with the filter applied for
+     real. It is gone rather than left as a comfort that does nothing. */
   const pools = [[], [], []];
-  for (const w of shuffle(entries.filter(([w2, ws]) => ws.box >= 4 && WORD_LEVEL[w2] <= level && !picked.has(w2)).map(([w2]) => w2))) pools[bandOf(w)].push(w);
+  for (const w of shuffle(entries.filter(([w2, ws]) => ws.box >= 4 && WORD_LEVEL[w2] <= level).map(([w2]) => w2))) pools[bandOf(w)].push(w);
   const confidence = [];
   for (let i = 0; pools[0].length || pools[1].length || pools[2].length; i += 1) {
     const want = BAND_CYCLE[((sNum - 1) * 2 + i) % BAND_CYCLE.length];
@@ -1701,7 +1703,6 @@ const LEX_BENDS = {
  "pool": {"1":"oo_moon"},
  "powerful": {"1":"ow"},
  "precious": {"4":"schwa"},
- "preview": {"2":"long_e","4":"long_u","5":"silent"},
  "princess": {"4":"s"},
  "pronounced": {"6":"s","7":"silent","8":"t"},
  "puppy": {"3":"long_e"},

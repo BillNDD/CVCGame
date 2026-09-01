@@ -2871,7 +2871,7 @@ what is true now.
   would pass against a rule that simply always favours a higher box, which is not the rule; and
   one re-runs the forty-session drive this fault was opened with and asserts the 3 and the 2,
   with the 19 and the 19 written into the test as the control they came from. Floor
-  `g1_scheduler_tests` raised 5 to 9.
+  `g1_scheduler_tests` raised 5 to 14 by the time the band tests landed beside them.
 
 ## AS. Fifteen words hand a child two new sounds at once — opened 2026-08-31, PART-CLOSED the same day
 

@@ -12,9 +12,10 @@
  * somewhere to write down a new rule will find CLAUDE.md first, because it is
  * the file their harness hands them. So the redirect is a gate, not a sentence.
  *
- * Four refusals, and each one is a way the split could rot:
- *   1. A heading that is not one of the four allowed - a new rule needs a home,
- *      and a new home here is the whole failure.
+ * Five refusals, and each one is a way the split could rot:
+ *   1. A heading, at any depth, that is not one of the three allowed - a new
+ *      rule needs a home, and a new home here is the whole failure.
+ *   1b. A rule written as a bare list item under a heading that IS allowed.
  *   2. An engineering rule (E-numbered) written here instead of AGENTS.md.
  *   3. A safety rule outside S1-S9. A tenth is the owner's to add, and adding it
  *      means editing the list below, which is an owner-visible diff.
@@ -39,14 +40,34 @@ export function check(text) {
   const problems = [];
   const lines = text.split("\n");
 
-  /* 1. headings */
+  /* 1. headings, at ANY depth. The first version tested only `## ` and the
+     engineering seat walked straight past it on 2026-09-01: a `### ` or a `# `
+     heading, or a rule written as a bare list item under an allowed heading,
+     each added a rule to CLAUDE.md and the gate said 0 problems. The document
+     and the gauntlet both claim it refuses "a section heading the file is not
+     declared to have", so refusing only one depth was measuring less than it
+     said. All three shapes are now controls. */
   for (const l of lines) {
-    if (l.startsWith("## ") && !ALLOWED_HEADINGS.includes(l.trim())) {
-      problems.push(`new section "${l.trim()}" - CLAUDE.md takes no new rules; it belongs in AGENTS.md`);
+    const h = l.match(/^(#{1,6})\s+\S/);
+    if (!h) continue;
+    const t = l.trim();
+    if (h[1] === "#") { if (t !== "# Rules for this repository") problems.push(`new top-level heading "${t}" - CLAUDE.md takes no new rules; it belongs in AGENTS.md`); continue; }
+    if (!ALLOWED_HEADINGS.includes(t)) {
+      problems.push(`new section "${t}" - CLAUDE.md takes no new rules; it belongs in AGENTS.md`);
     }
   }
 
-  /* 2. engineering rules do not live here */
+  /* 1b. A rule does not need a heading to be a rule. A numbered or lettered
+     list item that is not one of the nine safety rules is a rule arriving
+     under cover of an allowed section. */
+  for (const l of lines) {
+    const m = l.match(/^\s*-\s+([A-Z]{1,2}\d+)\./);
+    if (m && !SAFETY_RULES.includes(m[1])) {
+      problems.push(`rule ${m[1]} is written in CLAUDE.md - only the safety rules S1-S9 live here`);
+    }
+  }
+
+  /* 2. engineering rules by name, so the message says where they belong */
   for (const l of lines) {
     const m = l.match(/^\s*-\s+(E\d+)\./);
     if (m) problems.push(`engineering rule ${m[1]} is written in CLAUDE.md - E-rules live in AGENTS.md`);
@@ -136,7 +157,8 @@ export function attributions(files) {
 function selfTest() {
   const real = readFileSync("CLAUDE.md", "utf8");
   const fails = [];
-  const T = (name, cond) => { if (!cond) fails.push(name); };
+  let RANC = 0;
+  const T = (name, cond) => { RANC += 1; if (!cond) fails.push(name); };
   const hits = (t, needle) => check(t).some((p) => p.includes(needle));
 
   T("the real CLAUDE.md passes - a control set that only goes red proves nothing",
@@ -153,8 +175,22 @@ function selfTest() {
     hits(real.replace(/AGENTS\.md/g, "SOMEWHERE.md"), "controller pointer has been deleted"));
   T("softening the pointer is refused - naming the file is not the same as being told to read it",
     hits(real.replace(/read it in full/i, "it may be of interest"), "in full"));
-  T("control: a checker that returns nothing catches none of the six planted faults",
-    [real + "\n## New\n", real + "\n- E12. x\n"].every(() => true) && check("").length > 0);
+  /* The three shapes that walked straight past the first version of the heading
+     check, found by the engineering seat on 2026-09-01 and each reproduced
+     against the real file before this control was written. */
+  T("a deeper heading is refused too - ### was invisible to the first version",
+    hits(real + "\n### The new deployment rules\n\nSome rule.\n", "new section"));
+  T("a top-level heading is refused - # was invisible too",
+    hits(real + "\n# New rules\n\nSome rule.\n", "new top-level heading"));
+  T("a rule needs no heading to be caught - a bare list item under an allowed section",
+    hits(real + "\n- R1. Always deploy on a green check.\n", "rule R1"));
+  /* This control used to read "a checker that returns nothing catches none of
+     the six planted faults" and its condition was `[...].every(() => true) &&
+     check("").length > 0` - a tautology ANDed with the only real half. The seat
+     found it the same day. What is left is the real half, named for what it
+     does. */
+  T("control: an EMPTY file is refused, so the checker is not vacuously quiet",
+    check("").length > 0);
 
   /* The stale-credit half. Each planted line is one this repository ACTUALLY
      carried on 2026-08-31, after the split had already made it false. */
@@ -180,10 +216,21 @@ function selfTest() {
   T("control: the real tree is clean, so the detector is not simply always red",
     A(trackedText()).length === 0);
 
+  const ran = RANC;
+  /* THE CONTROL COUNT IS A FLOOR (E6). Without it a control can be deleted and
+     the gate still prints "all caught" - the shape open fault C4 is about, and
+     the engineering seat found all three of these new gates floorless on
+     2026-09-01. The number lives in .claude/gate-baseline.json so raising it is
+     an owner-visible diff like every other floor. */
+  const FLOOR = JSON.parse(readFileSync(".claude/gate-baseline.json", "utf8")).g28b_controls;
+  if (ran < FLOOR) {
+    console.error(`  FAIL only ${ran} controls ran, floor is ${FLOOR} - a control has been removed`);
+    return 1;
+  }
   for (const f of fails) console.error("  FAIL " + f);
   console.log(fails.length === 0
-    ? "claude-md-shape self-test: 18 controls, all caught"
-    : `claude-md-shape self-test: ${fails.length} of 18 controls FAILED`);
+    ? "claude-md-shape self-test: 21 controls, all caught"
+    : `claude-md-shape self-test: ${fails.length} of 21 controls FAILED`);
   return fails.length ? 1 : 0;
 }
 

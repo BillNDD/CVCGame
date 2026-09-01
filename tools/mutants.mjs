@@ -65,7 +65,14 @@ const MUTANTS = [
   ["chunker tu rule dropped", 'if (g === "tu") return rest === "re";', 'if (g === "tu") return true;'],
   ["chunker ti rule dropped", 'if (g === "ti" || g === "ci") return TI_FOLLOWERS.some((t) => rest.startsWith(t));',
     'if (g === "ti" || g === "ci") return true;'],
-  ["chunker al rule dropped", 'if (g === "al") return rest.startsWith("l") || rest.startsWith("k");',
+  /* RE-POINTED 2026-09-01. The anchor still named the pre-2026-08-30 rule
+     (`rest.startsWith("l") || rest.startsWith("k")`), which the `all` tiling fix
+     replaced with the k-only form the owner's screenshot asked for. The mutant
+     had been SKIPPING ever since, so G5 reported 77 and ran 76 - a gate
+     measuring less than it claims. Re-pointed, never deleted (E3). Found by the
+     engineering seat's before pass, which ran `--anchors` before touching
+     anything, which is what that flag is for. */
+  ["chunker al rule dropped", 'if (g === "al") return rest.startsWith("k");',
     'if (g === "al") return true;'],
   ["migrate +1 to +2", "s.level = (s.level || 1) + 1;", "s.level = (s.level || 1) + 2;"],
   ["migrate log shift dropped", "(s.log || []).forEach(r => { r.level += 1; });", ""],
