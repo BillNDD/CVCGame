@@ -18,7 +18,7 @@
             },
             {
               "kind": "Then",
-              "text": "the export contains \"0/1123\""
+              "text": "the export contains \"0/1122\""
             }
           ],
           "examples": []
@@ -37,7 +37,7 @@
             },
             {
               "kind": "Then",
-              "text": "the export contains \"2/1123\""
+              "text": "the export contains \"2/1122\""
             }
           ],
           "examples": []

@@ -156,7 +156,7 @@ describe("the extended code", () => {
     /* The converted bank, 2026-08-20 - measured, re-typed. The four-tile cap
        died with the owner's shrink ruling; eight is breakfast, the measured
        ceiling of everything he has approved. */
-    expect(by).toEqual({ 1: 5, 2: 89, 3: 507, 4: 289, 5: 136, 6: 64, 7: 31, 8: 2 });   // +put (p-u-t) at 75, the cutover straggler that slipped the sweep
+    expect(by).toEqual({ 1: 5, 2: 89, 3: 507, 4: 289, 5: 136, 6: 63, 7: 31, 8: 2 });   // +put (p-u-t) at 75, the cutover straggler that slipped the sweep. 64 -> 63 on 2026-08-31: preview (p-r-e-v-ie-w) was dropped closing fault AS - two sounds found in no other bank word, on the level that teaches ie=long e, where it alone said long u
     expect(Math.max(...bankWords().map((w) => chunkWord(w).length))).toBe(8);
     /* And every word of every shipped sentence, which the bank does not
        contain and which the sentence stage tiles the same way. */

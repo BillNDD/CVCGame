@@ -874,13 +874,13 @@
     20
    ],
    "bin": [
-    "Listen\u2014bin.",
+    "Listen—bin.",
     80,
     -20,
     20
    ],
    "buck": [
-    "Listen\u2014buck.",
+    "Listen—buck.",
     80,
     -20,
     20
@@ -904,7 +904,7 @@
     20
    ],
    "bus": [
-    "Not bun\u2014bus.",
+    "Not bun—bus.",
     80,
     -20,
     20
@@ -1066,7 +1066,7 @@
     20
    ],
    "fang": [
-    "Listen\u2014fang.",
+    "Listen—fang.",
     80,
     -20,
     20
@@ -1120,7 +1120,7 @@
     20
    ],
    "fuss": [
-    "Listen\u2014fuss.",
+    "Listen—fuss.",
     80,
     -20,
     20
@@ -1138,13 +1138,13 @@
     20
    ],
    "gash": [
-    "Listen\u2014gash.",
+    "Listen—gash.",
     80,
     -20,
     20
    ],
    "get": [
-    "Listen\u2014get.",
+    "Listen—get.",
     80,
     -20,
     20
@@ -1300,13 +1300,13 @@
     20
    ],
    "in": [
-    "Listen\u2014in.",
+    "Listen—in.",
     80,
     -20,
     20
    ],
    "is": [
-    "Listen\u2014is.",
+    "Listen—is.",
     80,
     -20,
     20
@@ -1552,7 +1552,7 @@
     20
    ],
    "men": [
-    "Listen\u2014men.",
+    "Listen—men.",
     80,
     -20,
     20
@@ -1654,7 +1654,7 @@
     20
    ],
    "peg": [
-    "Listen\u2014peg.",
+    "Listen—peg.",
     80,
     -20,
     20
@@ -1762,7 +1762,7 @@
     20
    ],
    "rash": [
-    "Listen\u2014rash.",
+    "Listen—rash.",
     80,
     -20,
     20
@@ -1792,7 +1792,7 @@
     20
    ],
    "rip": [
-    "Listen\u2014rip.",
+    "Listen—rip.",
     80,
     -20,
     20
@@ -1858,7 +1858,7 @@
     20
    ],
    "sap": [
-    "Not lap\u2014sap.",
+    "Not lap—sap.",
     80,
     -20,
     20
@@ -1924,7 +1924,7 @@
     20
    ],
    "shut": [
-    "Not shot\u2014shut.",
+    "Not shot—shut.",
     80,
     -20,
     20
@@ -2092,7 +2092,7 @@
     20
    ],
    "up": [
-    "Listen\u2014up.",
+    "Listen—up.",
     80,
     -20,
     20
@@ -2188,7 +2188,7 @@
     20
    ],
    "wrap": [
-    "Listen\u2014wrap.",
+    "Listen—wrap.",
     80,
     -20,
     20
@@ -2218,7 +2218,7 @@
     20
    ],
    "yet": [
-    "Listen\u2014yet.",
+    "Listen—yet.",
     80,
     -20,
     20
@@ -3366,7 +3366,6 @@
    "pots": 0.95,
    "powerful": 0.8,
    "precious": 0.7,
-   "preview": 0.75,
    "princess": 0.7,
    "print": 0.7,
    "printed": 0.7,
@@ -10161,12 +10160,6 @@
   "lead": 120,
   "ms": 1056,
   "tail": 326
- },
- "w:preview": {
-  "file": "w-preview.mp3",
-  "lead": 120,
-  "ms": 1128,
-  "tail": 318
  },
  "w:princess": {
   "file": "w-princess.mp3",

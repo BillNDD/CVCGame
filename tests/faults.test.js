@@ -327,7 +327,7 @@ describe("G9 faults — the corner's own actions survive their edges", () => {
     await flush(0);
     /* The fallback the owner met on his own phone the same morning: the
        markdown lands in a select-all box instead of vanishing. */
-    expect(document.querySelector("textarea.wq-input").value).toContain("0/1123");
+    expect(document.querySelector("textarea.wq-input").value).toContain("0/1122");
   });
   it("saves a backup through the blob path without a throw", async () => {
     await openCorner();

@@ -233,7 +233,17 @@ byte-pinned word rather than replacing accepted audio with a render.
   sidecar workspace archive on the owner's PC
   (handoff `word-quest-uplift-handoff-2026-08-07T1438Z`).
 
-## Approved and unshipped: 245 items still in the waiting room (through 2026-08-20)
+## Approved and unshipped: 246 items still in the waiting room (through 2026-08-31)
+
+**ONE CAME BACK (2026-08-31).** `preview` was dropped from Level 63 closing
+fault AS - its `ie`=long u and silent `w` occur in no other bank word, and it
+sat on the level that teaches `ie`=long e, where it alone said something else.
+The clip is owner-approved and stays approved: its bytes were already in the
+waiting room, byte-identical, and only the shipped copy, the `voice-words.csv`
+row and the manifest entry were removed. 245 items became 246, and the pack
+1,475 clips became 1,474. There is no tool for this: `tools/ship-words.py`
+ships and cannot unship, so the manifest entry was pruned by hand - recorded as
+a fault rather than left as a quiet precedent.
 
 **THE CUTOVER SHIPPED THE ROOM (2026-08-20, late):** 626 word clips, all 274
 sentence takes and the four waiting sounds moved into the pack in one motion

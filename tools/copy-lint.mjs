@@ -207,7 +207,7 @@ function run(d) {
   check(notes.no === "Tricky word! The o says its name — no.", "tricky note (no)", notes.no);
   check(notes.so === "Tricky word! The o says its name — so.", "tricky note (so)", notes.so);
   check(notes.i === "Tricky word! The i says its name — I.", "tricky note (i)", notes.i);
-  check(Object.keys(notes).length === 35, "tricky note count", String(Object.keys(notes).length));  // 28 -> 32 on 2026-08-20: into, find, old, hold - the hybrid ruling's four; 32 -> 35 the same evening: come, some, love - the magic-e rule's tricky three ("come love some marked tricky", owner), re-typed by hand. have bends without a note: its sound never changes, the bend only shields it from the rule.
+  check(Object.keys(notes).length === 38, "tricky note count", String(Object.keys(notes).length));  // 28 -> 32 on 2026-08-20: into, find, old, hold - the hybrid ruling's four; 32 -> 35 the same evening: come, some, love - the magic-e rule's tricky three ("come love some marked tricky", owner), re-typed by hand. have bends without a note: its sound never changes, the bend only shields it from the rule. 35 -> 38 on 2026-08-31 (fault AS): comes, could, machine, each handing a child two unmet sounds at once where the bank teaches neither alone, so no reordering rescues them - owner-ruled sight words.
 
   /* Rule 3b lived here: the five adult notes, pinned word for word. It
      retired with the microphone on 2026-08-12 — the note existed to explain

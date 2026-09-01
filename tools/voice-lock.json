@@ -3368,7 +3368,6 @@
    "pots": 0.95,
    "powerful": 0.8,
    "precious": 0.7,
-   "preview": 0.75,
    "princess": 0.7,
    "print": 0.7,
    "printed": 0.7,
@@ -4681,7 +4680,6 @@
   "pool": "684d0291067eff68c1713dc904067482dc231333498b42e90cab4a82698c8e38",
   "powerful": "4b49a26f39ebc5fdb899af9673877989cabd47c8edf353bfc9cc4d0950191c52",
   "precious": "5ee07b41856df140df7969e8389cefe7a27d8e74930b38a7cd10e5083f54551f",
-  "preview": "de809584e9301e41b56de1e776108f491acb91f84592e428f4419d7b01d36a4b",
   "princess": "5adc339ef89fd2bdd46931225d1807aac4fd7f512597d40721d4a19605cf4f67",
   "print": "d33ae90c36be371af79a9760343783d31199ae208246f733d5432d3a9dd3d44b",
   "printed": "789b1ddbb67ab0ccc9942c571b560f5ca5682796a4f885e90409cd1cf3e9cdb5",
@@ -11205,13 +11203,6 @@
    "round": "batch 21 round final / 2026-08-18",
    "listen_context": "clip",
    "byte_pin_sha256": "5ee07b41856df140df7969e8389cefe7a27d8e74930b38a7cd10e5083f54551f"
-  },
-  "preview": {
-   "verdict": "perfect",
-   "ear_notes": "owner perfect preview_2; family say_sp0.75; recipe in the batch renderer, not in these columns",
-   "round": "batch 21 round 10 / 2026-08-18",
-   "listen_context": "clip",
-   "byte_pin_sha256": "de809584e9301e41b56de1e776108f491acb91f84592e428f4419d7b01d36a4b"
   },
   "princess": {
    "verdict": "perfect",

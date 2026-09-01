@@ -163,12 +163,12 @@ test pins that absence as a decision.
 | 43 | Word Builders | the -ed ending saying /t/ | jumped licked picked asked helped kicked mixed packed dressed brushed |
 | 44 | Word Builders | the -ed ending saying /d/ | filled yelled spilled spelled smelled buzzed drilled chilled grilled |
 | 45 | Word Builders | the -ed ending saying /id/ | ended landed lifted wanted |
-| 46 | Word Builders | two letters, one sound | getting quitting sitting stopped stopping swimming butter hammer ladder pepper biggest digging |
+| 46 | Word Builders | two letters, one sound | getting quitting sitting stopped stopping swimming butter hammer ladder pepper biggest digging rabbit |
 | 47 | Word Builders | the -es ending | boxes brushes foxes wishes |
-| 48 | Word Builders | the -le ending | little apple bubble candle handle middle simple waffle |
-| 49 | Word Builders | the e at the end with a job | kitten dinner mitten puppet rabbit |
+| 48 | Word Builders | the -le ending | little apple candle handle middle simple waffle bubble |
+| 49 | Word Builders | the e at the end with a job | kitten dinner mitten puppet |
 | 50 | Word Builders | MILESTONE - Word Builder | mitt mess miss pack pal pup rap rip shed shell thing unlock |
-| 51 | Magic Letters | the -y that says the long e | finally every very funny happy jelly lucky penny puppy sandy silly |
+| 51 | Magic Letters | the -y that says the long e | finally very funny happy jelly lucky penny puppy sandy silly every |
 | 52 | Magic Letters | the -y that says the long i | fly by cry dry shy sky sly spy try why butterfly |
 | 53 | Magic Letters | y turns into i, and the -ly ending | cried dried happier spied tried gladly quickly softly |
 | 54 | Magic Letters | three beats | besides banana wonderful |
@@ -180,7 +180,7 @@ test pins that absence as a decision.
 | 60 | Magic Letters | MILESTONE - The Long A | hate late make makes take tame buck bud bun bush unhappy windy |
 | 61 | Vowel Voyage | long e: ee | see deep feed feel feet green meet meets need seed seem seen |
 | 62 | Vowel Voyage | long e: ea | deal each eagle eagles eat eating leaf leave mean meat reader seat teaching |
-| 63 | Vowel Voyage | long e: three more spellings | these honey money monkey valley babies brief chief field niece pennies piece ponies preview |
+| 63 | Vowel Voyage | long e: three more spellings | these honey money monkey valley babies brief chief field niece pennies piece ponies |
 | 64 | Vowel Voyage | long o: o_e and oa | coat coats goat holes notes road broke hole home hope come love nose note some those |
 | 65 | Vowel Voyage | long o: ow and oe | slowly throw snow show grow slow toe goes window yellow pillow rainbow |
 | 66 | Vowel Voyage | long i: i_e | likes bite dime dive fine five hide inside like line mile nine shine side smile time white live |
@@ -192,8 +192,8 @@ test pins that absence as a decision.
 | 72 | Sound Safari | open syllables in longer words | baby lady paper lazy bacon maple gravy later apron table over tiger tigers |
 | 73 | Sound Safari | dropping the e before an ending | liked noses saved biting smiled |
 | 74 | Sound Safari | the oo of moon | moon pool room soon too tooth zoom |
-| 75 | Sound Safari | the oo of book | good book look looked took put |
-| 76 | Sound Safari | long u: u_e, ew and ue | blue clue cube cute dew few glue mule new true use |
+| 75 | Sound Safari | the oo of book | good book look looked took put cube |
+| 76 | Sound Safari | long u: u_e, ew and ue | blue clue cute dew few glue mule new true use |
 | 77 | Sound Safari | the ou sound: ou and ow | found now out young could flowers cow down how loud house mouse our outside proud shouted sound sounds town wow |
 | 78 | Sound Safari | the oi sound: oi and oy | boy going toy boil coin enjoy join loyal point royal noise soil spoil |
 | 79 | Sound Safari | the ar sound | arm around barn car card cars dark far farm farms charm farmer hard park part start started tar yard |
@@ -203,8 +203,8 @@ test pins that absence as a decision.
 | 83 | Secret Letters | the er sound: two more spellings | were birds girl bird burn curl dirt first purple shirt turn church nurse survey third |
 | 84 | Secret Letters | the ear sound | deer ear ears hear here near year |
 | 85 | Secret Letters | the air sound | where careful careless unfair |
-| 86 | Secret Letters | the all and alk family | talk talked talking talks walk walked walking |
-| 87 | Secret Letters | soft c and soft g | generous huge cities city cent pencil circle circus magic ginger princess gem germ |
+| 86 | Secret Letters | the all and alk family | talk talked talking talks walk walked walking magic |
+| 87 | Secret Letters | soft c and soft g | generous huge cities city cent pencil circle circus ginger princess gem germ |
 | 88 | Secret Letters | the -tch and -dge endings | catch badge bridge edge fetch fudge judge match matches pitch scratch watch |
 | 89 | Secret Letters | letters that stay quiet | knock knit knob knot lamb limb wrap wreck wren wrong climb thumb |
 | 90 | Secret Letters | MILESTONE - Every Sound | hub huff hut jab jazz jet jot jut lab lad tree trees |

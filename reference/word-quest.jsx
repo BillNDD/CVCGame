@@ -68,12 +68,12 @@ const LEVELS = [
  {"n":43,"name":"Word Builders","emoji":"🧱","focus":"the -ed ending saying /t/","words":["jumped","licked","picked","asked","helped","kicked","mixed","packed","dressed","brushed"]},
  {"n":44,"name":"Word Builders","emoji":"🧱","focus":"the -ed ending saying /d/","words":["filled","yelled","spilled","spelled","smelled","buzzed","drilled","chilled","grilled"]},
  {"n":45,"name":"Word Builders","emoji":"🧱","focus":"the -ed ending saying /id/","words":["ended","landed","lifted","wanted"]},
- {"n":46,"name":"Word Builders","emoji":"🧱","focus":"two letters, one sound","words":["getting","quitting","sitting","stopped","stopping","swimming","butter","hammer","ladder","pepper","biggest","digging"]},
+ {"n":46,"name":"Word Builders","emoji":"🧱","focus":"two letters, one sound","words":["getting","quitting","sitting","stopped","stopping","swimming","butter","hammer","ladder","pepper","biggest","digging","rabbit"]},
  {"n":47,"name":"Word Builders","emoji":"🧱","focus":"the -es ending","words":["boxes","brushes","foxes","wishes"]},
- {"n":48,"name":"Word Builders","emoji":"🧱","focus":"the -le ending","words":["little","apple","bubble","candle","handle","middle","simple","waffle"]},
- {"n":49,"name":"Word Builders","emoji":"🧱","focus":"the e at the end with a job","words":["kitten","dinner","mitten","puppet","rabbit"]},
+ {"n":48,"name":"Word Builders","emoji":"🧱","focus":"the -le ending","words":["little","apple","candle","handle","middle","simple","waffle","bubble"]},
+ {"n":49,"name":"Word Builders","emoji":"🧱","focus":"the e at the end with a job","words":["kitten","dinner","mitten","puppet"]},
  {"n":50,"name":"Word Builders","emoji":"🧱","focus":"MILESTONE - Word Builder","words":["mitt","mess","miss","pack","pal","pup","rap","rip","shed","shell","thing","unlock"]},
- {"n":51,"name":"Magic Letters","emoji":"✨","focus":"the -y that says the long e","words":["finally","every","very","funny","happy","jelly","lucky","penny","puppy","sandy","silly"]},
+ {"n":51,"name":"Magic Letters","emoji":"✨","focus":"the -y that says the long e","words":["finally","very","funny","happy","jelly","lucky","penny","puppy","sandy","silly","every"]},
  {"n":52,"name":"Magic Letters","emoji":"✨","focus":"the -y that says the long i","words":["fly","by","cry","dry","shy","sky","sly","spy","try","why","butterfly"]},
  {"n":53,"name":"Magic Letters","emoji":"✨","focus":"y turns into i, and the -ly ending","words":["cried","dried","happier","spied","tried","gladly","quickly","softly"]},
  {"n":54,"name":"Magic Letters","emoji":"✨","focus":"three beats","words":["besides","banana","wonderful"]},
@@ -85,7 +85,7 @@ const LEVELS = [
  {"n":60,"name":"Magic Letters","emoji":"✨","focus":"MILESTONE - The Long A","words":["hate","late","make","makes","take","tame","buck","bud","bun","bush","unhappy","windy"]},
  {"n":61,"name":"Vowel Voyage","emoji":"⛵","focus":"long e: ee","words":["see","deep","feed","feel","feet","green","meet","meets","need","seed","seem","seen"]},
  {"n":62,"name":"Vowel Voyage","emoji":"⛵","focus":"long e: ea","words":["deal","each","eagle","eagles","eat","eating","leaf","leave","mean","meat","reader","seat","teaching"]},
- {"n":63,"name":"Vowel Voyage","emoji":"⛵","focus":"long e: three more spellings","words":["these","honey","money","monkey","valley","babies","brief","chief","field","niece","pennies","piece","ponies","preview"]},
+ {"n":63,"name":"Vowel Voyage","emoji":"⛵","focus":"long e: three more spellings","words":["these","honey","money","monkey","valley","babies","brief","chief","field","niece","pennies","piece","ponies"]},
  {"n":64,"name":"Vowel Voyage","emoji":"⛵","focus":"long o: o_e and oa","words":["coat","coats","goat","holes","notes","road","broke","hole","home","hope","come","love","nose","note","some","those"]},
  {"n":65,"name":"Vowel Voyage","emoji":"⛵","focus":"long o: ow and oe","words":["slowly","throw","snow","show","grow","slow","toe","goes","window","yellow","pillow","rainbow"]},
  {"n":66,"name":"Vowel Voyage","emoji":"⛵","focus":"long i: i_e","words":["likes","bite","dime","dive","fine","five","hide","inside","like","line","mile","nine","shine","side","smile","time","white","live"]},
@@ -97,8 +97,8 @@ const LEVELS = [
  {"n":72,"name":"Sound Safari","emoji":"🦁","focus":"open syllables in longer words","words":["baby","lady","paper","lazy","bacon","maple","gravy","later","apron","table","over","tiger","tigers"]},
  {"n":73,"name":"Sound Safari","emoji":"🦁","focus":"dropping the e before an ending","words":["liked","noses","saved","biting","smiled"]},
  {"n":74,"name":"Sound Safari","emoji":"🦁","focus":"the oo of moon","words":["moon","pool","room","soon","too","tooth","zoom"]},
- {"n":75,"name":"Sound Safari","emoji":"🦁","focus":"the oo of book","words":["good","book","look","looked","took","put"]},
- {"n":76,"name":"Sound Safari","emoji":"🦁","focus":"long u: u_e, ew and ue","words":["blue","clue","cube","cute","dew","few","glue","mule","new","true","use"]},
+ {"n":75,"name":"Sound Safari","emoji":"🦁","focus":"the oo of book","words":["good","book","look","looked","took","put","cube"]},
+ {"n":76,"name":"Sound Safari","emoji":"🦁","focus":"long u: u_e, ew and ue","words":["blue","clue","cute","dew","few","glue","mule","new","true","use"]},
  {"n":77,"name":"Sound Safari","emoji":"🦁","focus":"the ou sound: ou and ow","words":["found","now","out","young","could","flowers","cow","down","how","loud","house","mouse","our","outside","proud","shouted","sound","sounds","town","wow"]},
  {"n":78,"name":"Sound Safari","emoji":"🦁","focus":"the oi sound: oi and oy","words":["boy","going","toy","boil","coin","enjoy","join","loyal","point","royal","noise","soil","spoil"]},
  {"n":79,"name":"Sound Safari","emoji":"🦁","focus":"the ar sound","words":["arm","around","barn","car","card","cars","dark","far","farm","farms","charm","farmer","hard","park","part","start","started","tar","yard"]},
@@ -108,8 +108,8 @@ const LEVELS = [
  {"n":83,"name":"Secret Letters","emoji":"🕵","focus":"the er sound: two more spellings","words":["were","birds","girl","bird","burn","curl","dirt","first","purple","shirt","turn","church","nurse","survey","third"]},
  {"n":84,"name":"Secret Letters","emoji":"🕵","focus":"the ear sound","words":["deer","ear","ears","hear","here","near","year"]},
  {"n":85,"name":"Secret Letters","emoji":"🕵","focus":"the air sound","words":["where","careful","careless","unfair"]},
- {"n":86,"name":"Secret Letters","emoji":"🕵","focus":"the all and alk family","words":["talk","talked","talking","talks","walk","walked","walking"]},
- {"n":87,"name":"Secret Letters","emoji":"🕵","focus":"soft c and soft g","words":["generous","huge","cities","city","cent","pencil","circle","circus","magic","ginger","princess","gem","germ"]},
+ {"n":86,"name":"Secret Letters","emoji":"🕵","focus":"the all and alk family","words":["talk","talked","talking","talks","walk","walked","walking","magic"]},
+ {"n":87,"name":"Secret Letters","emoji":"🕵","focus":"soft c and soft g","words":["generous","huge","cities","city","cent","pencil","circle","circus","ginger","princess","gem","germ"]},
  {"n":88,"name":"Secret Letters","emoji":"🕵","focus":"the -tch and -dge endings","words":["catch","badge","bridge","edge","fetch","fudge","judge","match","matches","pitch","scratch","watch"]},
  {"n":89,"name":"Secret Letters","emoji":"🕵","focus":"letters that stay quiet","words":["knock","knit","knob","knot","lamb","limb","wrap","wreck","wren","wrong","climb","thumb"]},
  {"n":90,"name":"Secret Letters","emoji":"🕵","focus":"MILESTONE - Every Sound","words":["hub","huff","hut","jab","jazz","jet","jot","jut","lab","lad","tree","trees"]},
@@ -297,6 +297,16 @@ const TRICKY = {
      added since the curriculum was approved. Same shape as the long vowels
      above; the word IS the letter's name, which is why it is a heart. */
   i: "Tricky word! The i says its name \u2014 I.",
+  /* THE THREE SIGHT WORDS (fault AS, owner-ruled 2026-08-31). Each hands a
+     child TWO sounds they have never met, in one word, and the bank holds no
+     word teaching either of the two alone - so unlike the words fixed by
+     moving a teacher a level earlier, no ordering rescues these. They are on
+     every sight-word list ever printed, and naming a word tricky is what this
+     game already does for `come`, `some` and `what`. Shown only, never spoken:
+     S4 is untouched, exactly as the note above this one says. */
+  comes: "Tricky word! The o sounds like \u201cuh\u201d \u2014 kumz.",
+  could: "Tricky word! The l is quiet and ou sounds like \u201coo\u201d \u2014 kood.",
+  machine: "Tricky word! The ch sounds like \u201csh\u201d \u2014 muh-sheen.",
 };
 /* One tile per unit (S8). Beyond the six spoken digraphs: qu says kw, the
    silent-letter pairs kn wr mb say their surviving letter, and the doubled
@@ -428,7 +438,7 @@ const INTERVALS = [1, 1, 2, 4, 7, 12];
    makes the default safe: the 174 bank words no book ranks are phonics drill
    words, and they land in the middle band rather than falling into rare. */
 /* GENERATED by tools/word-bands.mjs - do not edit by hand */
-const BAND_COMMON = new Set("the and to a he of was in it i you his that said for she as so her had they with but at him on is all not be little this when there what then have were my out them by me do will up if old are now very man from see no could went we came down which time day go good an into did come well back like how king some just can over or thought long away way never where made house more saw must think get home asked mother last has am much other head put say girl than looked took here rabbit tell soon tree first found got make going too take told ever young through let us gave boy these water find look night such ran men every cried why big right yes set something another thing happy left lived next each side hand help white green kind bed might things sat dog far love room seen our fast monkey fell child bird end brought sun new land third story fine princess gold cat lady behind though hands trees under eat run tin red black castle near walked city hard ready try best horse lay tried bring reader having money want box fish light play five high enough feet birds glad mind wanted ask live rest those".split(" "));
+const BAND_COMMON = new Set("the and to a he of was in it i you his that said for she as so her had they with but at him on is all not be little this when there what then have were my out them by me do will up if old are now very man from see no could went we came down which time day go good an into did come well back like how king some just can over or thought long away way never where made house more saw must think get home asked mother last has am much other head put say girl than looked took here rabbit tell soon tree first found got make going too take told ever young through let us gave boy these water find look night such ran men every cried why big right yes set something another thing happy left lived next each side hand help white green kind bed might things sat dog far love room seen our fast monkey fell child bird end brought sun new land third story fine princess gold cat lady behind though hands trees under eat run tin red black castle near walked city hard ready try best horse lay tried bring reader having money want box fish light play five high enough feet birds glad mind wanted ask live rest".split(" "));
 const BAND_RARE = new Set("cup fun liked proud spread waves silk talking fat spring frog helped throw miss nix outside funny leg seem climb fox hid rat string band bush thick kindness paw uncle blind chief ear plan trap useful hide paper pick sand teach doll fishing fond silly smile chin edge hush lifted makes start deer dry eating eight hunting leaf shouted simple teeth whistle bought butter cakes deal drop rocks teacher careful fetch fought mill pet precious bite line obey pain pit shell swim besides born charm church hunt kitten plant point pots sick thumb yesterday dried fill later likes smiled softly gates lake path rough sounds unhappy yard darkness lap nine pie powerful task wet barn buzz ding draw ladder lot bat dogs elephant gift join month painted pool sack swimming wren dishes fit game kiss lazy log meat pigs seed shed smell dish eagle fan feed nut pat sore thread tick weather awful bang biggest cats cheerful cloth fed grey hum whisper win bath chop duck helpful holes mile needed pen rob seat stopping swan tent weight bump handle hit lamp rid sung talked wishes chick dig ended gladly hut mat mend mist pail rang shot special store thin adventure candle clap finally gets hop landed lock loss nurse plum push rested royal shine sunset thump thunder tiger tore tub wilt careless dust farm feather flag flies hammer lend lit match mud note pillow pin raft sleeping tip torn trunk umbrella wing apron dug goat happier job knock lid mouthful nag pencil puff purple shop sold sunny teaching thistle tops valley wed ancient brushed chicken dime enjoy hey lucky lunch mad printed spin spoil alphabet ax bend bill cost curl damp digging hang lift logs nod pan peck ram rod slip swam tie beds belt chest crust deck dirt flat future goats hats hens huff jacket kicked lick mild motion nature peaceful sadness splash split boil bucket cars circle dew glasses lamb lots paint rap scratch snug spots tigers trip wag wand wit wow wrestle babies brush capture car cough dam dash farms gem hate helpless holiday hopeless illness joyful judge jumps licked matches meets nests noses picture pop pup quack quit rush soil stem stomach strip sum tame tap twig van web wreck bubble butterfly circus coats den desk dough endless fig fog gap gifts jig nap park planted rung sauce skip slow spied spilled talks thankful wallet weigh whack wig boxes brushing camp chat clue cups dusk fold gas glue gulf handful maple melt mixed ox pennies pepper rub sandy shirt shy sly strap toe tot tug wax action ant bacon bin biting bolt brushes bun card chap chicks chilled chorus claw cot crawl dim dock dot drum fin fix generous gong grin ham hem hog kick lawn lip list machine mixture moth muck mule net nun packed peg pens pep pump rag rainbow rim romp rug sacks sap scrub shin sled slid spelled spoonful spy sub tough trim tuck unlock wick windy yell badge bench bet bib brag bud bugs bustle buzzed cash check cities cobweb coin dip drilled eagles grab grilled haul hint hug jaw jog jug kid kit knit loyal mask mess muffin nation notes pack painful pal pitch playful pod print puppy rash risk rustle sandwich sash sham shock shrub singer slam smelled snap social station tack tar toy vex worker wrap yelled yelling zip".split(" "));
 /* end generated bands */
 

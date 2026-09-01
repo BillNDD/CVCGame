@@ -61,21 +61,33 @@ describe("A stumble must not cost mastery (parent report, 2026-08-13)", () => {
 });
 
 describe("word bank", () => {
-  it("has 1,123 unique words across the hundred levels", () => {
+  it("has 1,122 unique words across the hundred levels", () => {
     /* Re-derived at the 2026-08-20 cutover from the converted ladder -
        measured, then re-typed, the histogram precedent. */
     const all = LEVELS.flatMap(l => l.words);
-    expect(all.length).toBe(1123);
-    expect(new Set(all).size).toBe(1123);
+    expect(all.length).toBe(1122);
+    expect(new Set(all).size).toBe(1122);
     expect(LEVELS.map(l => l.n)).toEqual(Array.from({ length: 100 }, (_, i) => i + 1));
+    /* Nine level sizes moved on 2026-08-31 closing fault AS, measured then
+       re-typed: rabbit 49->46 (bb belongs on the doubled-consonant level, and
+       it must precede bubble, whose -le IS level 48's own teaching point);
+       cube 76->75 and magic 87->86, each a TEACHER moved one level earlier so
+       use and generous stop arriving with two unknowns; and preview dropped
+       from 63 by the owner's ruling. Moving the WORD later was tried first and
+       broke approved sentences that use it at its old seat; moving the teacher
+       earlier breaks none - EXCEPT where the sound IS the level's own teaching
+       point. `every` was moved 51->50 for finally and very and had to come
+       back: y=long e is level 51's whole focus, so every at 50 is a word the
+       child cannot yet decode, and tools/ladder-fill.mjs said so. Those two
+       stay declared. */
     expect(LEVELS.map(l => l.words.length)).toEqual(
-      [10,10,10,8,10,7,12,16,16,13,15,18,15,19,19,19,19,16,6,19,13,20,17,13,9,18,9,18,7,18,10,8,10,10,11,9,5,5,4,17,7,10,10,9,4,12,4,8,5,12,11,11,8,3,4,12,13,12,8,12,12,13,14,16,12,18,10,13,10,12,9,13,5,7,6,11,20,13,19,12,13,15,15,7,4,7,13,12,12,12,6,12,7,7,7,6,10,12,6,12]);
+      [10,10,10,8,10,7,12,16,16,13,15,18,15,19,19,19,19,16,6,19,13,20,17,13,9,18,9,18,7,18,10,8,10,10,11,9,5,5,4,17,7,10,10,9,4,13,4,8,4,12,11,11,8,3,4,12,13,12,8,12,12,13,13,16,12,18,10,13,10,12,9,13,5,7,7,10,20,13,19,12,13,15,15,7,4,8,12,12,12,12,6,12,7,7,7,6,10,12,6,12]);
   });
   it("starts with the converted ladder's ten decodables, no hearts at Level 1", () => {
     expect(LEVELS[0].words).toEqual(["an","ant","as","at","in","it","sat","sit","nap","pan"]);
   });
   it("maps every word to its level", () => {
-    expect(Object.keys(WORD_LEVEL).length).toBe(1123);
+    expect(Object.keys(WORD_LEVEL).length).toBe(1122);
     expect(WORD_LEVEL.at).toBe(1); expect(WORD_LEVEL.cat).toBe(4); expect(WORD_LEVEL.was).toBe(14);
     expect(WORD_LEVEL.has).toBe(10); expect(WORD_LEVEL.she).toBe(11);
     /* Heart seats are where the CHILD MEETS the word - the shape's own
@@ -85,7 +97,7 @@ describe("word bank", () => {
     expect(WORD_LEVEL.bell).toBe(56); expect(WORD_LEVEL.chick).toBe(26);
     expect(WORD_LEVEL.are).toBe(16); expect(WORD_LEVEL.were).toBe(83);
   });
-  it("flags the thirty-five tricky words — the originals, the heart notes, i, seating pass two's four, the hybrid ruling's four, and the magic-e rule's three", () => {
+  it("flags the thirty-eight tricky words — the originals, the heart notes, i, seating pass two's four, the hybrid ruling's four, the magic-e rule's three, and fault AS's three sight words", () => {
     /* into, find, old and hold joined 2026-08-20 under the owner's hybrid
        ruling: function words stay seated where children meet them, marked
        tricky with true-sound bends, instead of moving to their code levels
@@ -95,9 +107,16 @@ describe("word bank", () => {
        ruled them marked tricky ("come love some marked tricky"), their o
        saying the u of up despite the e. Re-typed by hand, as this pin
        demands of every arrival. */
+    /* comes, could and machine joined 2026-08-31 closing fault AS. Each hands
+       a child two unmet sounds in one word, and the bank teaches neither of
+       the two alone - so no reordering rescues them, which is what separates
+       these three from the five that were fixed by moving a teacher earlier.
+       Shown only, never spoken: S4 is untouched. Re-typed by hand, as this pin
+       demands of every arrival. */
     expect(Object.keys(TRICKY).sort()).toEqual([
-      "a","be","bush","come","do","find","for","go","has","he","hold","i","into","is","love","me","my","no","of",
-      "old","out","push","said","she","so","some","the","there","they","to","was","wash","we","what","you",
+      "a","be","bush","come","comes","could","do","find","for","go","has","he","hold","i","into","is","love",
+      "machine","me","my","no","of","old","out","push","said","she","so","some","the","there","they","to",
+      "was","wash","we","what","you",
     ]);
     /* "and" is the one heart word with no note, because it bends nothing —
        pinned so a note cannot arrive for it without a person deciding, and
@@ -582,16 +601,16 @@ describe("sentences", () => {
 
 /* ---------------- export ---------------- */
 describe("buildMarkdown", () => {
-  it("reports the 1,123-word denominator and one hundred level rows", () => {
+  it("reports the 1,122-word denominator and one hundred level rows", () => {
     const md = buildMarkdown(newState());
-    expect(md).toContain("0/1123");
+    expect(md).toContain("0/1122");
     expect(md.match(/\*\*Level \d+ .+ \(/g).length).toBe(100);
   });
   it("counts a word as mastered only from box 4", () => {
     const three = seeded(["cat", "dog"], { box: 3, attempts: 2 });
-    expect(buildMarkdown(three)).toContain("0/1123");
+    expect(buildMarkdown(three)).toContain("0/1122");
     const four = seeded(["cat", "dog"], { box: 4, attempts: 2 });
-    expect(buildMarkdown(four)).toContain("2/1123");
+    expect(buildMarkdown(four)).toContain("2/1122");
   });
   it("keeps a grapheme-safe name intact in the header", () => {
     // lone surrogate = an unpaired HIGH surrogate, or a LOW surrogate with no high before it
@@ -619,10 +638,10 @@ describe("voice packs", () => {
     /* Counts re-derived at the 2026-08-20 cutover: 1,123 bank words (every
        one now holds a level seat - are at 16 and were at 83 included) and
        51 sounds. Re-counted from the pack, never from voiceScript(). */
-expect(script.length).toBe(1475);                       // 6 fixed + 17 praise + 1,123 words + 274 texts + 3 invitations + "Pronounced:" + 51 sounds - re-derived at the 2026-08-20 cutover, measured then re-typed
-    expect(script.filter((c) => c.id.startsWith("w:")).length).toBe(1123);
+expect(script.length).toBe(1474);                       // 6 fixed + 17 praise + 1,123 words + 274 texts + 3 invitations + "Pronounced:" + 51 sounds - re-derived at the 2026-08-20 cutover, measured then re-typed
+    expect(script.filter((c) => c.id.startsWith("w:")).length).toBe(1122);
     expect(script.filter((c) => c.id.startsWith("d:")).length).toBe(51);
-    expect(new Set(script.map((c) => c.id)).size).toBe(1475);
+    expect(new Set(script.map((c) => c.id)).size).toBe(1474);
     /* The magic-e rule's silent marker must never become a clip to render:
        no script row, no inventory entry (S8 keeps its SLOT in soundIdsFor;
        the audio consumers skip it). */
@@ -722,7 +741,7 @@ expect(script.length).toBe(1475);                       // 6 fixed + 17 praise +
     /* Since the cutover every named word holds a level seat (are at 16,
        were at 83 - the old world named them only in WORD_SOUND), so the
        words-minus-inLevels gap below is exactly zero - now the point. */
-    expect(words.length).toBe(1123);
+    expect(words.length).toBe(1122);
     expect([...new Set(words)].length).toBe(words.length);       // no duplicates
     expect([...words].sort()).toEqual(words);                    // stable order
     const inLevels = new Set();
@@ -737,7 +756,7 @@ expect(script.length).toBe(1475);                       // 6 fixed + 17 praise +
        three sets were identical, which is exactly what made the old
        LEVELS-only derivation look correct. `are` and `were` are the first
        two words the app names without seating them in a level. */
-    expect(inLevels.size).toBe(1123);
+    expect(inLevels.size).toBe(1122);
     /* Zero at the cutover: the ladder seats every word the by-word tables
        name - are, were and the ough hearts all hold shape seats now - and
        LEX_BENDS is deliberately NOT unioned (a bend row for a text-only word

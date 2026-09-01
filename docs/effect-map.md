@@ -152,10 +152,10 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 2 | A stumble must not cost mastery (parent report, 2026-08-13) | a wrong then a correct lands on box 3, not box 1 |
 | 3 | A stumble must not cost mastery (parent report, 2026-08-13) | the parent's own words: two correct readings after a stumble reach mastery |
 | 4 | A stumble must not cost mastery (parent report, 2026-08-13) | but the second correct still only steps one box, so the jump is not repeatable |
-| 5 | word bank | has 1,123 unique words across the hundred levels |
+| 5 | word bank | has 1,122 unique words across the hundred levels |
 | 6 | word bank | starts with the converted ladder's ten decodables, no hearts at Level 1 |
 | 7 | word bank | maps every word to its level |
-| 8 | word bank | flags the thirty-five tricky words — the originals, the heart notes, i, seating pass two's four, the hybrid ruling's four, and the magic-e rule's three |
+| 8 | word bank | flags the thirty-eight tricky words — the originals, the heart notes, i, seating pass two's four, the hybrid ruling's four, the magic-e rule's three, and fault AS's three sight words |
 | 9 | word bank | keeps every word inside what the tile row can hold: 8 tiles, 9 letters |
 | 10 | chunkWord and dashed | fuses every digraph |
 | 11 | chunkWord and dashed | splits VC and plain CVC words |
@@ -203,7 +203,7 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 53 | sentences | holds every text to one clip, and inside the longest approved read |
 | 54 | sentences | counts the words a child sees, not the punctuation a writer left |
 | 55 | sentences | ships three invitation lines, each with a clip and its own words |
-| 56 | buildMarkdown | reports the 1,123-word denominator and one hundred level rows |
+| 56 | buildMarkdown | reports the 1,122-word denominator and one hundred level rows |
 | 57 | buildMarkdown | counts a word as mastered only from box 4 |
 | 58 | buildMarkdown | keeps a grapheme-safe name intact in the header |
 | 59 | buildMarkdown | marks a partial session |

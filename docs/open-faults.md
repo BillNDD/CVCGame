@@ -2873,7 +2873,7 @@ what is true now.
   with the 19 and the 19 written into the test as the control they came from. Floor
   `g1_scheduler_tests` raised 5 to 9.
 
-## AS. Fifteen words hand a child two new sounds at once — opened 2026-08-31
+## AS. Fifteen words hand a child two new sounds at once — opened 2026-08-31, PART-CLOSED the same day
 
 - **Where it lives.** The hundred-level ladder's word lists, measured by
   `tools/sound-load.mjs` and declared line by line in `tools/sound-load-ledger.json`. The
@@ -2911,6 +2911,33 @@ what is true now.
   count was wrong twice before it was right, once by ignoring the pre-levels and once by
   counting `mom`'s two m's as two new sounds. That is the argument for the gate, and the
   gate now exists.
+- **RULED AND BUILT 2026-08-31.** Fifteen became eleven, and the eleven that remain are
+  declared for reasons that are now measured rather than assumed.
+  - **Three fixed by moving a TEACHER a level earlier**, never the word: `rabbit` 49 to 46
+    (its `bb` belongs on the doubled-consonant level anyway, and must precede `bubble`),
+    `cube` 76 to 75 for `use`, `magic` 87 to 86 for `generous`. Moving the WORD later was
+    tried first and broke approved sentences that use it at its old seat - L48's own sentence
+    says "A little bubble went up".
+  - **One dropped**, owner-ruled: `preview`. Its `ie`=long u and silent `w` occur in NO other
+    bank word, it appears in no sentence and in none of the fourteen pinned books, and it sat
+    on the level teaching `ie`=long e where it alone said long u - a counterexample to the
+    rule its own level teaches. Level 63 went from 14 words to 13, and it was the ladder's
+    only 14-word level while ten already hold 13. Its approved clip was NOT destroyed: the
+    bytes were already in `tools/pending-words/`, byte-identical, and only the shipped copy,
+    the `voice-words.csv` row and the manifest entry were removed.
+  - **Three became sight words**, owner-ruled: `comes`, `could`, `machine`. No word in the
+    bank teaches either of their two sounds alone, so no ordering rescues them, and all three
+    are on every sight-word list ever printed. Shown only, never spoken - S4 untouched.
+  - **Two could NOT be reordered, and that corrected this entry's own earlier claim.**
+    `finally` and `very` were listed as having a teacher (`every`, `funny`, `happy` for
+    `y`=long e) - but all of those sit at Level 51 WITH them, and within a level the words are
+    shuffled, so a same-level teacher cannot help. Moving `every` down to 50 was tried and
+    `tools/ladder-fill.mjs` refused it: `y`=long e is Level 51's whole teaching point, so
+    `every` at 50 is a word the child cannot yet decode. Their second sounds - an unstressed
+    `a` saying schwa, and `er` saying air - are taught by no word in the bank. They stay
+    declared, deliberately.
+  - **The `-ture` six are unchanged and are the next piece of work**, under the owner's
+    ruling to tile `ture` as one unit.
 - **What done means, and the part that is the owner's.** WHICH fix belongs to the owner,
   because it is what a child meets: a single-unknown word could be added ahead of each of
   these to teach the new sound alone (a `-ture` word cannot be built that way, so Level 96

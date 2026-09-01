@@ -1247,11 +1247,13 @@
    "ladder",
    "pepper",
    "biggest",
-   "digging"
+   "digging",
+   "rabbit"
   ],
   "filled": [
    "biggest",
-   "digging"
+   "digging",
+   "rabbit"
   ]
  },
  {
@@ -1278,14 +1280,16 @@
   "words": [
    "little",
    "apple",
-   "bubble",
    "candle",
    "handle",
    "middle",
    "simple",
-   "waffle"
+   "waffle",
+   "bubble"
   ],
-  "filled": []
+  "filled": [
+   "bubble"
+  ]
  },
  {
   "n": 49,
@@ -1298,8 +1302,7 @@
    "kitten",
    "dinner",
    "mitten",
-   "puppet",
-   "rabbit"
+   "puppet"
   ]
  },
  {
@@ -1337,7 +1340,6 @@
   "cands": 14,
   "words": [
    "finally",
-   "every",
    "very",
    "funny",
    "happy",
@@ -1346,11 +1348,13 @@
    "penny",
    "puppy",
    "sandy",
-   "silly"
+   "silly",
+   "every"
   ],
   "filled": [
    "sandy",
-   "silly"
+   "silly",
+   "every"
   ]
  },
  {
@@ -1635,8 +1639,7 @@
    "niece",
    "pennies",
    "piece",
-   "ponies",
-   "preview"
+   "ponies"
   ],
   "filled": [
    "babies",
@@ -1646,8 +1649,7 @@
    "niece",
    "pennies",
    "piece",
-   "ponies",
-   "preview"
+   "ponies"
   ]
  },
  {
@@ -1978,7 +1980,8 @@
    "look",
    "looked",
    "took",
-   "put"
+   "put",
+   "cube"
   ]
  },
  {
@@ -1991,7 +1994,6 @@
   "words": [
    "blue",
    "clue",
-   "cube",
    "cute",
    "dew",
    "few",
@@ -2287,7 +2289,8 @@
    "talks",
    "walk",
    "walked",
-   "walking"
+   "walking",
+   "magic"
   ]
  },
  {
@@ -2306,7 +2309,6 @@
    "pencil",
    "circle",
    "circus",
-   "magic",
    "ginger",
    "princess",
    "gem",

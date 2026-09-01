@@ -6895,7 +6895,7 @@
   "sha256": "de809584e9301e41b56de1e776108f491acb91f84592e428f4419d7b01d36a4b",
   "round": "batch 21 round 10 / 2026-08-18",
   "verdict": "perfect",
-  "level": "unseated - ladder redesign"
+  "level": "unseated - ladder redesign; dropped from level 63 on 2026-08-31 closing fault AS (ie=long u and w=silent occur in no other bank word, on the level that teaches ie=long e)"
  },
  "printed": {
   "arm": "printed_1",
