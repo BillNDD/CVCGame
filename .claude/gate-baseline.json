@@ -20,7 +20,7 @@
  "g6_file_lines_max": 1400,
  "g6_engine_file_lines_max": 2600,
  "g6_dependency_cycles_max": 0,
- "g7_interface_checks": 62,
+ "g7_interface_checks": 66,
  "g8_checks": 18,
  "g8_axe_violations_max": 0,
  "g9_fault_tests": 37,

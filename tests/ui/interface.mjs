@@ -1253,6 +1253,71 @@ for (const height of [430, 555, 720, 950]) {
     if (hex(green).toLowerCase() === wantGreen.toLowerCase()) ok("a word read right once carries the green token");
     else fail("box 3 is not painted with chipGreen", `${hex(green)} vs ${wantGreen}`);
   }
+
+  /* "WORDS WE ARE WORKING ON" IS THERE, AND A GROWN-UP CAN REACH IT (fault AU).
+     Three things, and the third is the one that was actually broken. The engine
+     selector and the lane had unit tests; nothing rendered the section, so
+     nobody noticed it had been placed BELOW the hundred-row mastery map -
+     measured at 9,049 pixels down an 11,195-pixel stage, about eleven phone
+     screens. The owner looked for it on the first beta that carried it and
+     reported it missing. A control a grown-up cannot find is a control that
+     does not exist, so its POSITION is now a measured fact, not a layout
+     opinion. */
+  {
+    const stuck = { box: 0, attempts: 5, correct: 0, close: 1, wrong: 4, dueAt: 1, lastSession: 30 };
+    const done = { box: 5, attempts: 3, correct: 3, close: 0, wrong: 0, dueAt: 99, lastSession: 30 };
+    const [w1, w2, w3] = LEVELS[0].words;
+    const openCorner = async (words) => {
+      const seeded = JSON.parse(GRADUATED);
+      seeded.level = 12;
+      seeded.words = words;
+      const pg = await context.newPage();
+      await seedSave(pg, JSON.stringify(seeded));
+      await pg.getByRole("button", { name: "Grown-ups corner" }).click();
+      await pg.getByText("Mastery map").waitFor();
+      return pg;
+    };
+
+    const withStuck = await openCorner({ [w1]: stuck, [w2]: stuck, [w3]: done });
+    const seen = await withStuck.evaluate(() => {
+      const sec = [...document.querySelectorAll("section")]
+        .find((s) => { const h = s.querySelector("h3"); return h && h.textContent === "Words we are working on"; });
+      if (!sec) return { present: false };
+      const stage = document.querySelector(".wq-scroll") || document.scrollingElement;
+      const map = [...document.querySelectorAll("section")]
+        .find((x) => { const h = x.querySelector("h3"); return h && h.textContent === "Mastery map"; });
+      return { present: true, holds: sec.querySelectorAll("button").length,
+        top: Math.round(sec.getBoundingClientRect().top - stage.getBoundingClientRect().top),
+        beforeMap: !!map && (sec.compareDocumentPosition(map) & Node.DOCUMENT_POSITION_FOLLOWING) !== 0 };
+    });
+    await withStuck.close();
+
+    if (seen.present && seen.holds === 2) ok(`the working-on list shows both stuck words, each with a hold control`);
+    else fail("the working-on list is missing or has no controls", JSON.stringify(seen));
+
+    /* TWO assertions, because the pixel number alone is a layout opinion and the
+       order alone would not notice the page above it growing.
+       ORDER is the real requirement: the list must come before the Mastery map,
+       whose hundred rows are what buried it. That is structural and survives
+       any restyling.
+       The CEILING is two phone screens (844 is the tallest this gate drives).
+       Measured at 974px today, one screen and a little - the Settings card sits
+       above it, which is right. It was 9,049px before the move, so this catches
+       burial without pretending the section must be the very first thing. */
+    if (seen.present && seen.beforeMap) ok("the working-on list comes before the hundred-row mastery map");
+    else fail("the working-on list sits after the mastery map again", JSON.stringify(seen));
+    if (seen.present && seen.top < 844 * 2) ok(`a grown-up meets the working-on list ${seen.top}px in, not screens down`);
+    else fail("the working-on list is buried", `${seen.top}px from the top of the corner`);
+
+    /* The control: a child with nothing stuck must see NO section at all -
+       without this, the checks above pass against a section that always shows. */
+    const noneStuck = await openCorner({ [w1]: done, [w2]: done });
+    const absent = await noneStuck.evaluate(() => ![...document.querySelectorAll("section h3")]
+      .some((h) => h.textContent === "Words we are working on"));
+    await noneStuck.close();
+    if (absent) ok("control: a child with nothing stuck sees no working-on list at all");
+    else fail("the working-on list shows when nothing is stuck", "section present with no qualifying word");
+  }
   await context.close();
 }
 

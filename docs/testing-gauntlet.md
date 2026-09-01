@@ -455,7 +455,7 @@ every bound reads `LEVELS.length`, which is why adding a level needed no engine 
 ## G7. Interface measurements
 
 - Tool: Playwright against the built app (`vite preview`). Command: `npm run test:ui`.
-- Assert measurements and numbers. Never assert a screenshot. Key: `g7_interface_checks` (62).
+- Assert measurements and numbers. Never assert a screenshot. Key: `g7_interface_checks` (66).
 - **Every viewport here is a PAGE size, not a device size, since 2026-08-13.** An iPhone 13 is
   390x844 as a device; a page gets 390x664, because the browser keeps the rest. Six checks and
   three progress-track rows ran with 180 pixels of slack no child has ever had, and four rows

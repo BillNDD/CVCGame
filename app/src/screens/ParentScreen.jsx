@@ -192,6 +192,16 @@ export default function ParentScreen({
             </section>
           )}
 
+          {/* ABOVE the mastery map, deliberately. It sat below it until
+              2026-09-01, and measured in the rendered page that put it 9,049
+              pixels down a stage 11,195 pixels tall - about eleven phone
+              screens, behind a hundred level rows. The owner looked for it on
+              the first beta that had it and reported it missing, which is the
+              only report that matters: a control a grown-up cannot find is a
+              control that does not exist. The mastery map is reference; this is
+              the one thing on the page they can ACT on, so it goes first. */}
+          <WorkingOn state={state} onBringForward={onBringForward} />
+
           <section className="wq-card" style={{ padding: 16, textAlign: "left" }}>
             <H3>Mastery map</H3>
             {/* A parent read "2/12 mastered" after their child read all twelve
@@ -258,7 +268,6 @@ export default function ParentScreen({
             })}
           </section>
 
-          <WorkingOn state={state} onBringForward={onBringForward} />
 
           {/* THE WORD LIST A PARENT CAN CONSULT (owner-ruled 2026-08-24:
               "a list of every pre level and real level, and what words they

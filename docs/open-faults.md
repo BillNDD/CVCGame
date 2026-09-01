@@ -3025,6 +3025,20 @@ what is true now.
   - **Seven tests**, floor `g1_scheduler_tests` 14 to 21. The one that matters most is the control:
     the chosen word is the SIXTH of six stuck words competing for five slots, so it is
     deterministically the one that misses out - it is served when chosen and absent when not.
+- **AND THEN IT WAS INVISIBLE, which is the same as absent (2026-09-01).** The owner opened the
+  first beta that carried it and reported the section missing. It was not missing: it was placed
+  BELOW the mastery map, and measured in the rendered page that put it **9,049 pixels down a
+  stage 11,195 pixels tall** - about eleven phone screens, behind a hundred level rows. Every
+  test passed. The engine selector had unit tests and the lane had seven, and not one of them
+  rendered the page, so nothing could see where the section had landed.
+  Moved above the mastery map: the map is reference, this is the one thing on the page a
+  grown-up can act on. Now 974 pixels in - one screen and a little, with the Settings card above
+  it, which is right.
+  **Three rendered checks now hold it**, and the position is a measured fact rather than a
+  layout opinion: the section appears with a hold control per stuck word; it comes BEFORE the
+  mastery map (structural, so it survives restyling); and it sits within two phone screens. The
+  fourth is the control - a child with nothing stuck must see no section at all, without which
+  the other three pass against a section that always shows. Floor g7_interface_checks 62 to 66.
 - **What done means.** The corner shows those words in a grown-up's words, with a control at or
   above 44 px (S7), and pressing it puts the word in the next session. The app still records
   nothing about the child by itself (S1): a grown-up chose. A test proves the listed word is
