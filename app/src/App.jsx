@@ -7,7 +7,7 @@ import {
   migrate, newState, buildMarkdown, feedbackSpeech, PRAISE, speak, hush, buzz, ttsSafePraise, ttsSafeWord,
   sessionSentences, sentencePlan, sentenceClosePlan, revealWord, revealWordLongest,
   sentencesUpTo, shuffle, REVEAL_LINES, SENTENCE_PRAISE, sentenceLead,
-  buildTray, buildSoundTray, soundIdFor, soundIdsFor, buildable, WORD_LEVEL, bankWords,
+  buildTray, buildSoundTray, soundIdFor, soundIdsFor, buildable, WORD_LEVEL, bankWords, displayWord,
 } from "@engine";
 /* W3 — the storage adapter is IndexedDB in the standalone app. */
 import { loadState, saveState } from "./storage.js";
@@ -1097,6 +1097,12 @@ export default function App() {
     const k = items.filter(i => i.r === "close").length;
     const w = items.filter(i => i.r === "wrong").length;
     const acc = items.length ? Math.round((c / items.length) * 100) : 0;
+    /* A grown-up's bring-forward request is spent HERE, not when the session was
+       built, and only for the words the session actually served (fault AU).
+       Spending it at build time would lose the request if the child wandered off
+       before starting - and discardSession restores only s.words, so nothing
+       would give it back. */
+    s.bringForward = (s.bringForward || []).filter((bw) => !order.includes(bw));
     const promoted = checkPromotion(s, { partial, perfect: items.length > 0 && w === 0 && k === 0 });
     s.log.push({ n: s.log.length + 1, date: new Date().toISOString().slice(0, 10),
       level: promoted ? s.level - 1 : s.level, c, k, w, acc, items, partial });
@@ -1180,6 +1186,18 @@ export default function App() {
     setToast("Level set to " + n + " " + LEVELS[n - 1].emoji + (wasPre ? " · sessions serve words" : ""));
   };
   const jumpPreLevel = (n) => { mutate(s => { s.preLevel = n; s.prePerfectStreak = 0; }); setToast(n === 0 ? "Sessions serve words" : "Next session: Pre " + n); };
+  /* A grown-up asks for a word to come back (fault AU). This writes NO result:
+     no box, no attempt, no count, nothing the child did. It appends to a queue
+     that buildSession reads and commitSession spends, and it is a SET - ten
+     taps by a four-year-old must equal one, which the includes() guard is for.
+     Capped at ten to match what the list can show. */
+  const bringForward = (w) => {
+    mutate(s => {
+      if (!Array.isArray(s.bringForward)) s.bringForward = [];
+      if (!s.bringForward.includes(w) && s.bringForward.length < 10) s.bringForward.push(w);
+    });
+    setToast(displayWord(w) + " is in the next session");
+  };
   function commitName() {
     const clean = Array.from(nameDraft.trim()).slice(0, 20).join("");   // P7 — never bisect a surrogate pair
     mutate(s => { s.settings.childName = clean; });
@@ -1321,6 +1339,7 @@ export default function App() {
     return <ParentScreen state={state} nameDraft={nameDraft} setNameDraft={setNameDraft}
       commitName={commitName} setSound={setSound} setUpdateCheck={setUpdateCheck}
       jumpLevel={jumpLevel} jumpPreLevel={jumpPreLevel} openLevels={openLevels} setOpenLevels={setOpenLevels}
+      onBringForward={bringForward}
       copyLog={copyLog} copyBox={copyBox} resetStage={resetStage} setResetStage={setResetStage}
       errorCount={errorCount} copyErrors={copyErrors} clearErrors={clearErrorRing}
       doReset={doReset} onBack={() => { setResetStage(0); setCopyBox(""); setScreen("home"); }}

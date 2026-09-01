@@ -1,10 +1,11 @@
 import { useState } from "react";
-import { C, LEVELS, PRE_LEVELS, displayWord, isChunkItem, chunkText } from "@engine";
+import { C, LEVELS, PRE_LEVELS, displayWord, isChunkItem, chunkText, workingOnWords } from "@engine";
 import { plainLabel } from "../labels.js";
 import Frame from "../components/Frame.jsx";
 import Zone from "../components/Zone.jsx";
 import Toast from "../components/Toast.jsx";
 import H3 from "../components/H3.jsx";
+import HoldButton from "../components/HoldButton.jsx";
 import Seg from "../components/Seg.jsx";
 
 function WordList({ state, openDecades, setOpenDecades }) {
@@ -64,10 +65,58 @@ function WordList({ state, openDecades, setOpenDecades }) {
   );
 }
 
+/* WORDS WE ARE WORKING ON (fault AU, owner-ruled 2026-08-31). The aging term
+   fixed the ox problem by serving stuck words LESS, which is right for the child
+   and leaves a grown-up with no way to say "no, do that one now". This is that
+   way.
+
+   Derived on every render from state.words, so there is no second place
+   recording who is struggling and nothing to drift. The threshold is the
+   owner's: read wrong three or more times AND still in the lowest two boxes,
+   capped at ten so it stays readable on a phone - measured at 3, 8 and 10 for
+   children missing 3, 8 and 20 words.
+
+   The control writes NO result (S1): it queues a word for the next session and
+   nothing else. It takes the 450 ms hold even though S5 asks that only of
+   RESULT controls, because the corner is one unguarded tap from the child's
+   home screen and SPEC applies the same reasoning to the update controls.
+
+   The SELECTOR lives in the engine, not here: it is derived scheduler state and
+   belongs beside the lane that serves it, and the copy gate reads a screen's
+   JSX region as child-facing text where a filter naming that counter scans as
+   the banned word it is named after. */
+function WorkingOn({ state, onBringForward }) {
+  const working = workingOnWords(state);
+  if (!working.length) return null;
+  const queued = state.bringForward || [];
+  return (
+    <section className="wq-card" style={{ padding: 16, textAlign: "left" }}>
+      <H3>Words we are working on</H3>
+      <p className="wq-help" style={{ margin: "0 0 10px" }}>
+        These are the ones your child is finding hard, so the game brings them back gently rather
+        than every time. Choose one and it will be in the next session.
+      </p>
+      {working.map(({ word: w, attempts }) => (
+        <div key={w} style={{ display: "flex", alignItems: "center", gap: 10,
+          borderTop: "1px solid " + C.line, paddingTop: 9, marginTop: 9 }}>
+          <span style={{ fontWeight: 800, fontSize: 15, minWidth: 90 }}>{displayWord(w)}</span>
+          <span className="wq-help" style={{ flex: 1, fontSize: 12.5 }}>
+            {"tried " + attempts + (attempts === 1 ? " time" : " times")}
+          </span>
+          {queued.includes(w)
+            ? <span className="wq-help" style={{ fontSize: 12.5, fontWeight: 700, color: C.ink }}>in the next session</span>
+            : <HoldButton onFire={() => onBringForward(w)} disabled={false} color={C.chipAmber}
+                label={plainLabel("Bring " + displayWord(w) + " to the next session")} />}
+        </div>
+      ))}
+    </section>
+  );
+}
+
 export default function ParentScreen({
   state, nameDraft, setNameDraft, commitName, setSound, setUpdateCheck, jumpLevel, jumpPreLevel,
   openLevels, setOpenLevels, copyLog, copyBox, resetStage, setResetStage, doReset,
-  onBack, onExportJSON, onImportJSON, toast, voiceFallback,
+  onBack, onExportJSON, onImportJSON, toast, voiceFallback, onBringForward,
   errorCount = 0, copyErrors, clearErrors,
 }) {
   const [openDecades, setOpenDecades] = useState({});
@@ -208,6 +257,8 @@ export default function ParentScreen({
               );
             })}
           </section>
+
+          <WorkingOn state={state} onBringForward={onBringForward} />
 
           {/* THE WORD LIST A PARENT CAN CONSULT (owner-ruled 2026-08-24:
               "a list of every pre level and real level, and what words they

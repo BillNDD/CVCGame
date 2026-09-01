@@ -464,6 +464,30 @@ const bandOf = (w) => (BAND_COMMON.has(w) ? 0 : BAND_RARE.has(w) ? 2 : 1);
    Nothing is recorded about the child and no word is ever abandoned (S1): this
    only reorders a queue. */
 const OVERDUE_SESSIONS = 8;
+
+/* How many of a grown-up's chosen words one session may carry (fault AU). Three,
+   not the ten the list may hold: the list is what a grown-up sees, this is what
+   a child meets, and they are not the same number. */
+const BRING_FORWARD_LANE = 3;
+
+/* The words a grown-up is shown as "words we are working on" (fault AU). The
+   owner's threshold: read wrong three or more times AND still in the lowest two
+   boxes, hardest first, capped at ten so it stays readable on a phone. Measured
+   on the shipped scheduler at 3, 8 and 10 for children missing 3, 8 and 20.
+
+   It lives here rather than in the screen for two reasons. It is derived
+   scheduler state and belongs beside the lane that serves it; and the copy gate
+   reads a screen's JSX region as child-facing text, where a filter naming
+   `wrong` scans as the banned word it is named after. */
+const WORKING_ON_MISSES = 3;
+const WORKING_ON_CAP = 10;
+function workingOnWords(state) {
+  return Object.entries(state.words || {})
+    .filter(([, ws]) => ws.wrong >= WORKING_ON_MISSES && ws.box <= 1)
+    .sort((a, b) => b[1].wrong - a[1].wrong || (a[0] < b[0] ? -1 : 1))
+    .slice(0, WORKING_ON_CAP)
+    .map(([w, ws]) => ({ word: w, attempts: ws.attempts }));
+}
 const SESSION_SIZE = 20;
 const PROMPT_CAP = 26;
 const ADVANCE_GUARD_MS = 400;   // P0-3
@@ -641,6 +665,14 @@ function buildSession(state) {
   const entries = Object.entries(state.words);
   /* 0 sorts first: a long-overdue word is served before the stuck ones. */
   const aged = (ws) => (sNum - ws.dueAt > OVERDUE_SESSIONS ? 0 : 1);
+  /* THE GROWN-UP'S LANE (fault AU). A word a child keeps missing sits at box 0
+     or 1, so `aged` scores it 1 and it sorts BEHIND every long-overdue word -
+     which is exactly what fault AP's fix was for, and exactly why no sort tweak
+     can surface it on request. It needs a lane of its own, and it goes first so
+     that a grown-up's deliberate choice outranks every automatic one.
+     Capped at BRING_FORWARD_LANE, not at the ten the list may hold: ten queued
+     words at the front of a twenty-word session is fault AP rebuilt by hand.
+     Anything over the cap stays queued for the session after. */
   const dueBelow = entries.filter(([w, ws]) => ws.attempts > 0 && ws.dueAt <= sNum && ws.box < 5 && WORD_LEVEL[w] < level)
     .sort((a, b) => aged(a[1]) - aged(b[1]) || a[1].box - b[1].box || a[1].dueAt - b[1].dueAt).map(([w]) => w);
   /* The confidence lane, banded (AQ). The pool is shuffled first, so the word
@@ -689,6 +721,7 @@ function buildSession(state) {
   const curLevelWords = LEVELS[level - 1].words;
   const learned = curLevelWords.filter(w => state.words[w] && state.words[w].box >= 2).length / curLevelWords.length >= 0.8;
   const list = [];
+  list.push(...take((state.bringForward || []).filter((w) => WORD_LEVEL[w] !== undefined), BRING_FORWARD_LANE));
   list.push(...take(dueBelow, 5));
   if (state.sessionsCompleted >= 2) list.push(...take(confidence, 2));
   list.push(...take(dueAbove, 2));
@@ -841,6 +874,15 @@ function healWords(s) {
   if (!s.words || typeof s.words !== "object" || Array.isArray(s.words)) s.words = {};
   healBoxes(s.words);
   if (!s.pre || typeof s.pre !== "object" || Array.isArray(s.pre)) s.pre = {};
+  /* THE GROWN-UP'S QUEUE (fault AU, owner-ruled 2026-08-31). Healed into
+     existence rather than migrated, the same way s.pre was: a migrateVN exists
+     to re-interpret a stored meaning that CHANGED, and a field defaulting to
+     empty changes none. A bump would also break two pinned version assertions
+     for no gain. The filter is load-bearing - a stale entry naming a word that
+     has left the bank would reach the session screen with no level, no clip and
+     no tiles - and the cap is the store's own bound, separate from the lane's. */
+  if (!Array.isArray(s.bringForward)) s.bringForward = [];
+  s.bringForward = s.bringForward.filter((w) => typeof w === "string" && WORD_LEVEL[w] !== undefined).slice(0, 10);
   healBoxes(s.pre);
   // a hostile or negative preLevel reads as absent; migrate recovers it
   if (typeof s.preLevel !== "number" || !isFinite(s.preLevel) || s.preLevel < 0) delete s.preLevel;
@@ -1022,7 +1064,7 @@ function migrate(s) {
 const newState = () => ({
   version: 7, level: 1, preLevel: 1, sessionsCompleted: 0, perfectStreak: 0, prePerfectStreak: 0,
   settings: { sound: true, childName: "", lang: "en-US" },
-  words: {}, log: [], pre: {},
+  words: {}, log: [], pre: {}, bringForward: [],
 });
 
 /* ---------- speech ---------- */

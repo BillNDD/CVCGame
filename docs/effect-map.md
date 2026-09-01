@@ -8,7 +8,7 @@ Per-test rows carry the test's own sentence, which in this project IS the
 Given/When/Then effect. The requirement, oracle, platform, mutant family, evidence
 and known limits are declared per FILE, in the tool, where they stay true.
 
-Totals: 457 it() SITES across 22 files, plus 18 gates that are not test files.
+Totals: 464 it() SITES across 22 files, plus 18 gates that are not test files.
 
 A site inside a loop or a table runs many times, so these rows describe more tests than they number: Vitest executes 330. The rows count the places behaviour is asserted.
 
@@ -583,7 +583,7 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 25 | G10 — free play never touches the save | 47: a spent random block rolls into a fresh draw that never repeats the boundary word |
 | 26 | G10 safety — S6: the foreground check obeys the corner's switch | 48: the check asks on a return to the foreground, and Off silences it at once |
 
-## tests/scheduler.test.js — 14 tests (G1)
+## tests/scheduler.test.js — 21 tests (G1)
 
 - **Requirement protected:** SPEC section 4: promotion and the level rules of the session builder
 - **Independent oracle:** Hand-computed queues from stated states
@@ -601,14 +601,21 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 4 | buildSession and the next level | holds the peek at 80 per cent, not 75 - the boundary only a 16-word level can see |
 | 5 | buildSession and the next level | brings a graded next-level word back for review |
 | 6 | buildSession and the next level | caps above-level review at 2 words a session |
-| 7 | mastered words come back by band, not by lottery | the three words this suite leans on are in the bands it says they are |
-| 8 | mastered words come back by band, not by lottery | session 1 of the cycle serves the common word and the middle one, not the rare |
-| 9 | mastered words come back by band, not by lottery | a later turn of the cycle DOES serve the rare word - the control that proves it is not simply excluded |
-| 10 | mastered words come back by band, not by lottery | an empty band gives its slot away rather than wasting it |
-| 11 | mastered words come back by band, not by lottery | the cycle is exactly 50/35/15 - ten common, seven middle, three rare in twenty slots |
-| 12 | the review lane does not belong to the words a child cannot read | serves a long-overdue word ahead of the words the child keeps missing |
-| 13 | the review lane does not belong to the words a child cannot read | control: a word only just overdue does NOT jump the queue - box order still governs |
-| 14 | the review lane does not belong to the words a child cannot read | holds over forty sessions: a word the child never gets is served 3 times, not 19 |
+| 7 | a grown-up can bring a word forward, and it writes nothing | serves a word a grown-up chose - the one that would otherwise miss out |
+| 8 | a grown-up can bring a word forward, and it writes nothing | control: the SAME word is NOT served when nobody chose it |
+| 9 | a grown-up can bring a word forward, and it writes nothing | reaches a word no other lane can - two levels above the child |
+| 10 | a grown-up can bring a word forward, and it writes nothing | carries at most three chosen words into one session, however many are queued |
+| 11 | a grown-up can bring a word forward, and it writes nothing | writes NOTHING about the child - not a box, not an attempt, not a count |
+| 12 | a grown-up can bring a word forward, and it writes nothing | control: that snapshot DOES catch a write, so it is not vacuously equal |
+| 13 | a grown-up can bring a word forward, and it writes nothing | a stale word that has left the bank is dropped, not handed to the session |
+| 14 | mastered words come back by band, not by lottery | the three words this suite leans on are in the bands it says they are |
+| 15 | mastered words come back by band, not by lottery | session 1 of the cycle serves the common word and the middle one, not the rare |
+| 16 | mastered words come back by band, not by lottery | a later turn of the cycle DOES serve the rare word - the control that proves it is not simply excluded |
+| 17 | mastered words come back by band, not by lottery | an empty band gives its slot away rather than wasting it |
+| 18 | mastered words come back by band, not by lottery | the cycle is exactly 50/35/15 - ten common, seven middle, three rare in twenty slots |
+| 19 | the review lane does not belong to the words a child cannot read | serves a long-overdue word ahead of the words the child keeps missing |
+| 20 | the review lane does not belong to the words a child cannot read | control: a word only just overdue does NOT jump the queue - box order still governs |
+| 21 | the review lane does not belong to the words a child cannot read | holds over forty sessions: a word the child never gets is served 3 times, not 19 |
 
 ## tests/sentence.test.js — 24 tests (G10)
 

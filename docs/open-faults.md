@@ -2991,7 +2991,7 @@ what is true now.
   stays at two readings is preserved and re-stated where it can be found. A G7 check measures
   the rendered screen, not the source, the same way checks 36 and 37 do for the legend.
 
-## AU. A grown-up cannot see, or reach, a word the game has stopped pushing — ruled 2026-08-31, unbuilt
+## AU. A grown-up cannot see, or reach, a word the game has stopped pushing — ruled 2026-08-31, CLOSED 2026-09-01
 
 - **Where it lives.** The "Grown-ups corner". Nothing there says anything about the review queue.
 - **What was ruled.** A "words we are resting" line, with a control that brings one back.
@@ -3004,7 +3004,72 @@ what is true now.
   less often - and the control pushes a chosen word back to the front of the next session. That
   keeps the grown-up informed and in charge, which is what the ruling was for, without
   inventing a resting state the chosen rule does not have.
+- **BUILT AND CLOSED 2026-09-01**, to the engineering seat's before-pass design.
+  - **It is a LANE, not a sort tweak, and the seat is why.** A word a child keeps missing sits at
+    box 0 or 1, so the aging term scores it behind every long-overdue word - which is exactly what
+    fault AP's fix was for. No reordering can surface it on request. `buildSession` now takes a
+    grown-up's chosen words FIRST, before every automatic lane, so a deliberate choice outranks
+    every derived one.
+  - **Capped at three, not the ten the list may hold.** The list is what a grown-up sees; the lane
+    is what a child meets. Ten at the front of a twenty-word session is fault AP rebuilt by hand
+    three days after it closed. Surplus stays queued for the next session.
+  - **Spent at commit, not at build.** A request survives a session the child abandons -
+    `discardSession` restores only `s.words`, so spending it at build time would lose it silently.
+  - **Healed, not migrated.** `bringForward` defaults to empty and changes no stored meaning, so it
+    joins `s.pre`'s precedent rather than bumping a version and breaking two pinned assertions. The
+    heal drops any word that has left the bank, which would otherwise reach the screen with no
+    level, no clip and no tiles.
+  - **It writes nothing (S1)**, and that is asserted as a deep-equality snapshot of `state.words`
+    across a build - with a control that plants a real write and requires the same comparison to
+    reject it, because a probe that cannot fail proves nothing.
+  - **Seven tests**, floor `g1_scheduler_tests` 14 to 21. The one that matters most is the control:
+    the chosen word is the SIXTH of six stuck words competing for five slots, so it is
+    deterministically the one that misses out - it is served when chosen and absent when not.
 - **What done means.** The corner shows those words in a grown-up's words, with a control at or
   above 44 px (S7), and pressing it puts the word in the next session. The app still records
   nothing about the child by itself (S1): a grown-up chose. A test proves the listed word is
   served next session, and a control proves an unlisted word is not.
+
+## AV. "The Rematch" — a game of every word that ever beat you — owner-ruled 2026-09-01, for after the beta
+
+- **What the owner asked for, in his words.** "A bank of every word you have ever not gotten on
+  the first try, even if you later mastered it. Before words are mastered it would just be random
+  words, but after the user has completed enough levels for them to have a bank of >=5 words that
+  have been a challenge at least once, the game becomes just a game of all the words that have
+  ever been found hard by the user." Named by him from five options on 2026-09-01.
+- **The bank already exists, and this is the part that makes it cheap.** Measured before the name
+  was chosen: `freshWordState()` carries `wrong` and `close`, and `applyResult` only ever
+  increments them — nothing resets either, not promotion, not mastery, not the box dropping to 5.
+  A word missed once and then read right five times ends at `box 5, wrong 1`; a word never missed
+  ends at `box 5, wrong 0`. So "ever not gotten on the first try" is exactly
+  `ws.wrong > 0 || ws.close > 0`, over the save every child already has. **No new state, no
+  migration, no version bump**, and every existing save is already carrying its own bank.
+- **The threshold is a count, not a mode flag.** Fewer than five such words and the game serves
+  random words as it does today; five or more and it serves only the bank. Deriving it each time
+  means there is no second place where "am I in rematch mode" is stored and could disagree.
+- **The safety line this must not cross, and it is the same one Build-it and free play sit
+  behind.** S1: the app never records a result by itself. A game mode is not a session — it must
+  never reach the Leitner boxes, `sessionsCompleted`, promotion or storage. That is the engineering
+  seat's first lens and the subject of the G19 mutant "free play writes to the save"
+  (`tools/app-mutants.mjs`). The Rematch needs the same proof: a deep-equality snapshot of
+  `state.words` across a whole round, with a control that the probe fails when a write IS planted.
+- **What done means.** The mode lives in the games area beside Build-it and free play; it draws
+  from `wrong > 0 || close > 0`; it switches from random to bank-only at five; it writes nothing;
+  and a test proves both the switch and the silence, each with a control. The name shown to a
+  child is **The Rematch**.
+- **THE EMPTY AND NEARLY-EMPTY BANK IS THE FAILURE TO DESIGN FOR** (owner, 2026-09-01: "we need
+  to make sure there arent any failure for that game when the kid is in pre levels and early
+  levels"). Three states, and each needs an answer before a line is written:
+  - **In the pre-levels the bank cannot exist.** A child on Pre 1 or Pre 2 has met no bank WORDS
+    at all - `state.words` is empty and every count is zero. The mode must not be reachable, or
+    must be reachable and honest, but it must not be a screen that offers nothing.
+  - **Early levels: a real but tiny bank.** One or two challenge words is worse than none, because
+    the same word comes back immediately - the ox fault in miniature, and the reason the owner set
+    the threshold at five rather than one.
+  - **Below five it serves random words**, which is the owner's own ruling and needs its own source:
+    random from WHERE. Words at or below the child's level is the only answer that cannot serve a
+    word the child has never been taught, and that is a decodability question, not a shuffle.
+  A test drives a brand-new save through the pre-levels and the first few levels and proves the
+  mode is never a dead end at any point.
+- **Not before the beta.** Ruled the same day AT closed, with AU still unbuilt and the release
+  gauntlet not yet run.

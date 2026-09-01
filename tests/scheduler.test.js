@@ -123,6 +123,95 @@ describe("buildSession and the next level", () => {
    Math.random. The bands of the words below come from tools/word-bands.mjs and
    are asserted here as literals (E4) so a corpus change that re-bands them goes
    red here rather than quietly changing what a child meets. */
+/* THE GROWN-UP'S LANE (fault AU, owner-ruled 2026-08-31). The aging term fixed
+   the ox problem by serving a stuck word LESS - which is right for the child and
+   leaves a grown-up no way to say "no, that one, now". This is that way, and
+   these tests are the proof it works AND the proof it writes nothing.
+
+   Written to the engineering seat's before-pass list: the serving test alone
+   would pass against a lane that serves everything, so the not-served control
+   is what makes it mean anything. */
+describe("a grown-up can bring a word forward, and it writes nothing", () => {
+  const stuckSave = (level, stuck, bringForward = []) => {
+    const s = newState();
+    s.level = level;
+    s.sessionsCompleted = 30;
+    for (const w of stuck) s.words[w] = { ...freshWordState(), box: 0, attempts: 4, wrong: 4, dueAt: 31 };
+    s.bringForward = bringForward;
+    return s;
+  };
+  const SIX = ["an", "ant", "as", "at", "in", "it"];   // six stuck words, five review slots
+
+  /* SIX stuck words compete for five review slots, and dueBelow's sort is
+     total here - same box, same dueAt - so the sixth is deterministically the
+     one that misses out. That word is the subject: if the lane works, choosing
+     it rescues it, and if it does not, nothing else would have. */
+  const LEFT_OUT = "it";
+
+  it("serves a word a grown-up chose - the one that would otherwise miss out", () => {
+    expect(buildSession(stuckSave(3, SIX, [LEFT_OUT]))).toContain(LEFT_OUT);
+  });
+
+  it("control: the SAME word is NOT served when nobody chose it", () => {
+    /* Without this, the test above passes against a lane that serves every
+       stuck word - which is the very thing the aging term stopped doing. */
+    expect(buildSession(stuckSave(3, SIX, []))).not.toContain(LEFT_OUT);
+  });
+
+  it("reaches a word no other lane can - two levels above the child", () => {
+    /* dueBelow needs WORD_LEVEL < level, curDue needs === level, dueAbove needs
+       === level + 1. A word two levels up is outside all three, so if it arrives
+       the lane is what brought it. */
+    const s = newState();
+    s.level = 3; s.sessionsCompleted = 30;
+    const far = LEVELS[4].words[0];              // level 5, the child is on 3
+    s.words[far] = { ...freshWordState(), box: 0, attempts: 4, wrong: 4, dueAt: 31 };
+    expect(WORD_LEVEL[far]).toBe(5);
+    expect(buildSession({ ...s, bringForward: [far] })).toContain(far);
+    expect(buildSession({ ...s, bringForward: [] })).not.toContain(far);
+  });
+
+  it("carries at most three chosen words into one session, however many are queued", () => {
+    /* The list may hold ten. The LANE takes three. Ten at the front of a
+       twenty-word session is fault AP rebuilt by hand, three days after it
+       closed. The rest stay queued for the session after. */
+    const q = buildSession(stuckSave(3, SIX, SIX));
+    expect(SIX.filter((w) => q.includes(w)).length).toBeGreaterThanOrEqual(3);
+    const s2 = stuckSave(3, SIX, SIX);
+    const before = s2.bringForward.length;
+    buildSession(s2);
+    expect(s2.bringForward.length).toBe(before);   // building spends nothing
+  });
+
+  it("writes NOTHING about the child - not a box, not an attempt, not a count", () => {
+    /* S1. Asserted as a deep-equality snapshot rather than a source scan,
+       because what matters is that no value moved, not that no line looks
+       like it would. */
+    const s = stuckSave(3, SIX, [LEFT_OUT]);
+    const before = structuredClone(s.words);
+    buildSession(s);
+    expect(s.words).toEqual(before);
+  });
+
+  it("control: that snapshot DOES catch a write, so it is not vacuously equal", () => {
+    /* A probe that cannot fail proves nothing. This plants the write the test
+       above forbids and requires the same comparison to reject it. */
+    const s = stuckSave(3, SIX, [LEFT_OUT]);
+    const before = structuredClone(s.words);
+    applyResult(s.words[LEFT_OUT], "wrong", 31);
+    expect(s.words).not.toEqual(before);
+  });
+
+  it("a stale word that has left the bank is dropped, not handed to the session", () => {
+    /* A queued word with no level would reach the screen with no clip and no
+       tiles. heal filters it; the lane filters it again. */
+    const s = stuckSave(3, SIX, [LEFT_OUT, "notabankword"]);
+    const q = buildSession(s);
+    expect(q).toContain(LEFT_OUT);
+    expect(q).not.toContain("notabankword");
+  });
+});
+
 describe("mastered words come back by band, not by lottery", () => {
   const COMMON = "at", MIDDLE = "sit", RARE = "pin";   // measured bands, levels 1-2
 
