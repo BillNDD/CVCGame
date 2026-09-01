@@ -238,8 +238,17 @@ writeFileSync(notesFile, facts.notes + "\n\nPlay it: https://billndd.github.io/C
    tag exists without the payload it promises. The tarball is made from
    INSIDE app/dist, so it extracts to app/dist and the payload hash's
    cwd-relative path strings match the ones that were proved. */
+/* THE ARCHIVE NAME MUST NOT CARRY A DRIVE LETTER. On Windows, node resolves
+   `tar` to Git's GNU tar, which reads an -f argument containing a colon as a
+   REMOTE HOST spec - so `D:\tmp\app-dist.tar.gz` became host "D", and the
+   release died with "Cannot connect to D: resolve failed" after main had
+   already been pushed. Running from inside the temp directory keeps -f a bare
+   filename; -C may stay absolute, because only the archive name is parsed that
+   way. Found cutting beta 29 on 2026-09-01, the first release from this
+   machine. */
 const distTar = join(tmp, "app-dist.tar.gz");
-execFileSync("tar", ["-czf", distTar, "-C", "app/dist", "."], { stdio: "inherit" });
+execFileSync("tar", ["-czf", "app-dist.tar.gz", "-C", join(process.cwd(), "app", "dist"), "."],
+  { stdio: "inherit", cwd: tmp });
 const evidenceCopy = join(tmp, "gauntlet-evidence.json");
 writeFileSync(evidenceCopy, readFileSync(".gauntlet-evidence.json", "utf8"));
 try {
