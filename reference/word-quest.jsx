@@ -1765,7 +1765,7 @@ const LEX_BENDS = {
  "undo": {"3":"oo_moon"},
  "unhappy": {"5":"long_e"},
  "useful": {"0":"long_u","2":"silent"},
- "valley": {"1":"short_a","3":"long_e"},
+ "valley": {"3":"long_e"},
  "very": {"1":"air","2":"long_e"},
  "waffle": {"1":"short_o"},
  "walked": {"3":"silent","4":"t"},

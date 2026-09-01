@@ -4,7 +4,7 @@ a,4,a,schwa_a,engine,bank+seat+text,
 action,95,a-c-ti-o-n,short_a k sh schwa n,expert expert expert expert expert,seat+text,open-syllable candidate at 72+ - expert decides the vowel; likely-tier accepted: -tion o is schwa
 adventure,96,a-d-v-e-n-tu-re,short_a d v short_e n ch er,engine engine engine engine engine engine engine,seat+text,open-syllable candidate at 72+ - expert decides the vowel
 aesop,,a-e-s-o-p,long_e silent s short_o p,expert expert expert expert expert,text,
-all,56,al-l,aw l,engine engine,seat+text,
+all,56,a-ll,aw l,engine engine,seat+text,
 alphabet,91,a-l-ph-a-b-e-t,short_a l f short_a b short_e t,engine engine engine engine engine engine engine,seat,open-syllable candidate at 72+ - expert decides the vowel
 am,5,a-m,short_a m,engine engine,bank+seat+text,
 amused,,a-m-u-s-e-d,short_a m long_u z silent d,expert expert expert expert expert expert,text,
@@ -261,7 +261,7 @@ enjoy,78,e-n-j-oy,short_e n j oi,engine engine engine engine,seat+text,
 enough,92,e-n-ough,short_e n uf,engine engine engine,bank+seat+text,
 ever,16,e-v-er,short_e v er,engine engine engine,seat+text,
 every,51,e-v-er-y,short_e v er long_e,engine engine engine position,seat+text,
-fall,80,f-al-l,f aw l,engine engine engine,seat+text,
+fall,80,f-a-ll,f aw l,engine engine engine,seat+text,
 fan,11,f-a-n,f short_a n,engine engine engine,bank+seat+text,
 fang,28,f-a-ng,f short_a ng,engine engine engine,bank+seat,
 far,79,f-ar,f ar,engine engine,seat+text,
@@ -284,7 +284,7 @@ fig,11,f-i-g,f short_i g,engine engine engine,bank+text+seat,"seated by the fill
 fill,21,f-i-ll,f short_i l,engine engine engine,seat+text,
 filled,44,f-i-ll-e-d,f short_i l silent d,expert expert expert expert expert,seat+text,"the -ed of level 44: voiced stem, e silent, d stays d"
 fin,11,f-i-n,f short_i n,engine engine engine,bank+seat,
-finally,51,f-i-n-al-l-y,f long_i n schwa l long_e,expert expert expert expert expert expert,seat+text,
+finally,51,f-i-n-a-ll-y,f long_i n schwa l long_e,expert expert expert expert expert expert,seat+text,
 find,11,f-i-n-d,f long_i n d,engine engine engine engine,bank+seat+text,
 fine,66,f-i-n-e,f long_i n silent,engine engine engine engine,seat+text,
 first,83,f-ir-s-t,f er s t,engine engine engine engine,seat+text,
@@ -972,7 +972,7 @@ up,14,u-p,short_u p,engine engine,bank+seat+text,
 us,20,u-s,short_u s,engine engine,bank+seat+text,
 use,76,u-se,long_u s,engine engine,seat,adjudicated 2026-08-20: the noun s KEPT; zero texts constrain it
 useful,98,u-s-e-f-u-l,long_u s silent f short_u l,expert expert expert expert expert expert,seat+text,open-syllable candidate at 72+ - expert decides the vowel
-valley,63,v-al-l-ey,v short_a l long_e,expert expert expert expert,seat+text,
+valley,63,v-a-ll-ey,v short_a l long_e,expert expert expert expert,seat+text,
 van,16,v-a-n,v short_a n,engine engine engine,bank+seat+text,
 vat,16,v-a-t,v short_a t,engine engine engine,bank+seat,
 very,51,v-er-y,v air long_e,owner owner owner,seat+text,"adjudicated 2026-08-20: the air of there, both reviewers"
@@ -980,7 +980,7 @@ waffle,48,w-a-ff-le,w short_o f l,expert expert expert expert,seat,
 walk,86,w-al-k,w aw k,engine engine engine,seat,
 walked,86,w-al-k-e-d,w aw k silent t,expert expert expert expert expert,seat+text,"the -ed of level 43: voiceless stem, e silent, d says t"
 walking,86,w-al-k-i-ng,w aw k short_i ng,engine engine engine engine engine,seat,
-wallet,55,w-al-l-e-t,w short_o l short_e t,expert expert expert expert expert,seat,judgment-call accepted: GA short_o
+wallet,55,w-a-ll-e-t,w short_o l short_e t,expert expert expert expert expert,seat,judgment-call accepted: GA short_o
 wand,55,w-a-n-d,w short_o n d,expert expert expert expert,seat+text,
 want,17,w-a-n-t,w short_o n t,engine engine engine engine,bank+seat+text,
 wanted,45,w-a-n-t-e-d,w short_o n t short_e d,expert expert expert expert expert expert,seat+text,
