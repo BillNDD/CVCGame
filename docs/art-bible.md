@@ -495,7 +495,7 @@ and values as the record of what the PDF said.
 | tileFaceLit | #fbe59d | the sounding tile's face: tileHighlight at .5 over tileFace, an 11.4 % lift in relative luminance (bible 11's 8-12 %), ink on it 9.55:1 (art step 1, 2026-08-22) |
 | paper | #ffffff | white surfaces: cards, inputs, the modal, the CTA's text (entered 2026-08-22, the after pass on step 0) |
 | warningDeep | #96261d | the home strip's storage warning, 4.5:1 on the gradient (2026-08-22) |
-| chipGreen | #c6f2dd | the corner's mastery chip: read right twice (2026-08-22) |
+| chipGreen | #c6f2dd | the corner's mastery chip: read right (2026-08-22; green moved to one reading 2026-08-31) |
 | chipAmber | #ffe9b3 | read right once (2026-08-22) |
 | chipRed | #ffd4d0 | not yet (2026-08-22) |
 

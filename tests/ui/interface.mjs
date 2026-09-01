@@ -15,7 +15,7 @@
 import { chromium } from "playwright";
 import { spawn, execSync } from "node:child_process";
 import { existsSync, readFileSync } from "node:fs";
-import { ADVANCE_GUARD_MS, STORE_KEY, chunkWord } from "../../src/engine.js";
+import { ADVANCE_GUARD_MS, STORE_KEY, chunkWord, LEVELS, C } from "../../src/engine.js";
 
 const PORT = 4183;
 const URL = `http://localhost:${PORT}/`;
@@ -1176,7 +1176,11 @@ for (const height of [430, 555, 720, 950]) {
   await page.getByRole("button", { name: "Grown-ups corner" }).click();
   await page.getByText("Mastery map").waitFor();
   const body = await page.locator("body").innerText();
-  const legend = ["read right twice", "read right once", "not yet", "not tried"]
+  /* Re-pointed 2026-08-31 when the owner ruled green at one "got it". The
+     four labels changed; the assertion did not - it still demands all four
+     and still fails on three. Amber says "slipped" because after the move,
+     box 2 is reachable only by a word that was green and then missed. */
+  const legend = ["read right", "was doing well, slipped", "not yet", "not tried"]
     .filter((t) => body.includes(t));
   if (legend.length === 4) ok(`the mastery map names all four of its colours (${legend.join(", ")})`);
   else fail("the mastery map has colours with no key", `found ${legend.length} of 4: ${legend}`);
@@ -1195,6 +1199,40 @@ for (const height of [430, 555, 720, 950]) {
   else fail("a level row still reports a bare mastered count", JSON.stringify(rowCounts.slice(0, 3)));
   await context.close();
 }
+
+  /* GREEN IS BOX 3, MEASURED IN THE RENDERED PAGE (fault AT, owner-ruled
+     2026-08-31). Asserting the source would prove nothing - the whole point of
+     B14 and AT is that the SCREEN said something untrue. So a save is seeded
+     with one word at box 3 and one at box 2 in the same level, the level is
+     expanded, and the two chips are read off the DOM.
+
+     The box-2 word is the control and it is what makes this check mean
+     anything: without it the assertion passes against a screen that paints
+     every chip green. The two must differ, and they must differ in the ruled
+     direction. */
+  {
+    const seeded = JSON.parse(GRADUATED);
+    const [greenWord, amberWord] = LEVELS[0].words;
+    seeded.words[greenWord] = { box: 3, attempts: 1, correct: 1, close: 0, wrong: 0, dueAt: 9, lastSession: 1 };
+    seeded.words[amberWord] = { box: 2, attempts: 3, correct: 1, close: 0, wrong: 1, dueAt: 9, lastSession: 1 };
+    const p2 = await context.newPage();
+    await seedSave(p2, JSON.stringify(seeded));
+    await p2.getByRole("button", { name: "Grown-ups corner" }).click();
+    await p2.getByText("Mastery map").waitFor();
+    await p2.locator(".wq-rowbtn").first().click();
+    const chipBg = async (w) => p2.locator(`span:text-is("${w}")`).first()
+      .evaluate((el) => getComputedStyle(el).backgroundColor);
+    const green = await chipBg(greenWord);
+    const amber = await chipBg(amberWord);
+    await p2.close();
+    if (green !== amber) ok(`one "got it" is green and a slipped word is not (${green} vs ${amber})`);
+    else fail("the mastery map paints box 3 and box 2 the same", `both ${green}`);
+    /* and the ruled direction: green is the green token, not merely different */
+    const wantGreen = C.chipGreen;
+    const hex = (rgb) => "#" + rgb.match(/\d+/g).slice(0, 3).map((n) => (+n).toString(16).padStart(2, "0")).join("");
+    if (hex(green).toLowerCase() === wantGreen.toLowerCase()) ok("a word read right once carries the green token");
+    else fail("box 3 is not painted with chipGreen", `${hex(green)} vs ${wantGreen}`);
+  }
 
 await browser.close();
 stopServer();

@@ -533,7 +533,7 @@ const C = {
      darkening of both, declared. */
   paper:            "#ffffff",   // white surfaces: cards, inputs, the modal, the CTA's text
   warningDeep:      "#96261d",   // the home strip's storage warning: 4.5:1 on the gradient
-  chipGreen:        "#c6f2dd",   // the corner's mastery chip: read right twice
+  chipGreen:        "#c6f2dd",   // the corner's mastery chip: read right (one "got it", 2026-08-31)
   chipAmber:        "#ffe9b3",   // read right once
   chipRed:          "#ffd4d0",   // not yet
   /* Art step 1 (2026-08-22): the sounding tile's face, tileHighlight at .5

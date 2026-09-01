@@ -411,6 +411,16 @@ Moving mastery to box 3 would also have made the screen look better and was deli
 done: one reading is not mastery, `buildSession`'s confidence pool is defined on box 4, and a
 display fault is not a reason to change what the game teaches.
 
+**Half of that held and half of it did not, and 2026-08-31 is where the line was redrawn.** The
+complaint came back twice more, from the owner's own play. What was ruled then is narrower than
+what was declined here: the **display** moved to box 3 and the **scheduler did not**. Every
+sentence above about `buildSession` still stands - the confidence pool is still defined on box 4,
+and fault AQ's frequency banding is now built on top of it. So is the markdown export's count and
+the home screen's star, both deliberately left at box 4 with three tests and a G5 mutant anchor
+pinning them. What changed is one screen's threshold and its four labels, and the three colours
+were re-ruled as a SET rather than one at a time - because moving green alone would have made
+amber a fresh lie: box 2 is reachable only by a word that WAS green and then slipped. See AT.
+
 ### B15. Two words where the tiles and the voice disagreed — CLOSED 2026-08-12
 
 Both moved to meet the voice, ruled by the owner after hearing each sound-out both ways.
@@ -2946,7 +2956,7 @@ what is true now.
   into its ledger line. The gate holds the line either way — nothing new can join this list
   without a name and a reason.
 
-## AT. "Got it" is not what the grown-up's screen calls done — ruled 2026-08-31, unbuilt
+## AT. "Got it" is not what the grown-up's screen calls done — ruled 2026-08-31, CLOSED 2026-09-01
 
 - **Where it lives.** The mastery map in the parent screen, which colours a word green at box 4
   and amber at box 3.
@@ -2963,6 +2973,19 @@ what is true now.
   **44.5 percent to 80.7** - because the review lane empties of everything except the words the
   child cannot read. Shown that number, the owner ruled the other way on the same page: **keep
   the box ladder, and change what the screen calls it.** The scheduler is untouched.
+- **BUILT AND CLOSED 2026-09-01.** Green is `box >= 3` in `app/src/screens/ParentScreen.jsx`, and
+  the four labels were re-ruled together: **read right / was doing well, slipped / not yet / not
+  tried**. The middle one is the part that needed the owner, and the engineering seat's before pass
+  is what found it: with green at box 3, amber means box 2 EXACTLY, and box 2 is reachable by one
+  route only - a word that reached box 4 and was then read wrong. "Read right once" would have
+  been a fresh lie in the opposite direction, so the set moved, not the one colour.
+- **What deliberately did NOT move, and why it is written here.** The markdown export
+  (`reference/word-quest.jsx:2510` and `:2530`), the home screen's star
+  (`app/src/App.jsx:1256`) and Build-it's pool (`app/src/App.jsx:492`) all still count box 4. The
+  seat traced every reader of that threshold and refused the tidy-looking follow-through: three
+  tests pin the export's number and `tools/mutants.mjs` anchors a mutant on that exact line, so
+  changing it would have turned a live mutant into the shipped code. The ruling was about one
+  screen; it was kept to one screen, and the divergence is recorded rather than left to be found.
 - **What done means.** The grown-up's screen names a word done after one confident "got it"
   (box 3), the wording of the legend follows, and the B14 ruling that mastery-in-the-scheduler
   stays at two readings is preserved and re-stated where it can be found. A G7 check measures

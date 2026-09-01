@@ -146,18 +146,27 @@ export default function ParentScreen({
           <section className="wq-card" style={{ padding: 16, textAlign: "left" }}>
             <H3>Mastery map</H3>
             {/* A parent read "2/12 mastered" after their child read all twelve
-                correctly and reported it as a bug (2026-08-12). It was not one:
-                a first correct reading reaches box 3 and mastery is box 4, so
-                every amber word is one the child GOT RIGHT. The screen had
-                three colours, no key, and a single number that reads as
-                failure. Both are answered here, in the grown-up's words. */}
+                correctly and reported it as a bug (2026-08-12, fault B14). It
+                was not one: a first correct reading reached box 3 and green was
+                box 4, so every amber word was one the child GOT RIGHT. B14
+                answered it with a key and two numbers, and kept green at two
+                readings.
+                It came back. The owner hit it himself twice more, and on
+                2026-08-31 ruled the display: green now means ONE confident
+                "got it". Only the display moved - the scheduler still promotes,
+                retires and reviews on the same boxes it always did, which is
+                what B14 declined to change and fault AQ's banding is built on.
+                The three colours were re-ruled as a SET, because moving green
+                alone would have made amber a fresh lie: box 2 is reachable only
+                by a word that WAS green and then slipped. */}
             <p className="wq-help" style={{ margin: "0 0 10px" }}>
-              Two correct readings, on different days, make a word green. The gap between them is
-              deliberate — waiting is what moves a word into long-term memory.
+              One confident “got it” turns a word green — it is a word your child can read, and it
+              counts toward moving up a level. The game still brings green words back later to be
+              sure, and that gap is deliberate: waiting is what moves a word into long-term memory.
             </p>
             <div style={{ display: "flex", flexWrap: "wrap", gap: 10, margin: "0 0 12px",
               fontSize: 12, color: C.ink2 }}>
-              {[[C.chipGreen, "read right twice"], [C.chipAmber, "read right once"],
+              {[[C.chipGreen, "read right"], [C.chipAmber, "was doing well, slipped"],
                 [C.chipRed, "not yet"], [C.chip, "not tried"]].map(([bg, label]) => (
                 <span key={label} style={{ display: "inline-flex", alignItems: "center", gap: 5 }}>
                   <span style={{ background: bg, width: 15, height: 15, borderRadius: 4,
@@ -166,7 +175,11 @@ export default function ParentScreen({
               ))}
             </div>
             {LEVELS.map(l => {
-              const done = l.words.filter(w => state.words[w] && state.words[w].box >= 4).length;
+              /* GREEN IS BOX 3, the display's own threshold since 2026-08-31. The
+                 markdown export and the home screen's star still count box 4 and
+                 deliberately were not moved with it: three tests and a G5 mutant
+                 anchor pin that number, and the ruling was about this screen. */
+              const done = l.words.filter(w => state.words[w] && state.words[w].box >= 3).length;
               const seen = l.words.filter(w => state.words[w] && state.words[w].attempts > 0).length;
               const isOpen = !!openLevels[l.n];
               return (
@@ -186,7 +199,7 @@ export default function ParentScreen({
                     <div style={{ display: "flex", flexWrap: "wrap", gap: 5, marginTop: 8 }}>
                       {l.words.map(w => {
                         const ws = state.words[w];
-                        const bg = !ws || ws.attempts === 0 ? C.chip : ws.box >= 4 ? C.chipGreen : ws.box >= 2 ? C.chipAmber : C.chipRed;
+                        const bg = !ws || ws.attempts === 0 ? C.chip : ws.box >= 3 ? C.chipGreen : ws.box === 2 ? C.chipAmber : C.chipRed;
                         return <span key={w} style={{ background: bg, color: C.ink, borderRadius: 6, padding: "3px 7px", fontSize: 12, fontWeight: 700 }}>{displayWord(w)}</span>;
                       })}
                     </div>
