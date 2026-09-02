@@ -47,7 +47,7 @@
 import { readFileSync } from "node:fs";
 import { sourcesFor } from "./app-sources.mjs";
 
-const { C, LEVELS, NEVER_BUILD, chunkWord } = await import("../src/engine.js");
+const { C, LEVELS, NEVER_BUILD, chunkWord, WORD_TILES } = await import("../src/engine.js");
 /* A refused word is reachable from a TRAY only if a build ever deals its
    number of slots: the bank's own words decide that, so a one-tile or a
    nine-tile refusal is not something a child could spell. */
@@ -129,6 +129,8 @@ const real = {
   corpus: SOURCES.map((f) => readFileSync(f, "utf8")).join("\n"),
   gauntletDoc: readFileSync("docs/testing-gauntlet.md", "utf8"),
   gauntletJs: readFileSync("tools/gauntlet.mjs", "utf8"),
+  pathway: readFileSync("tools/ladder/shape-v3.json", "utf8"),
+  s9tool: readFileSync("tools/s9-names.mjs", "utf8"),
   baseline: readFileSync(".claude/gate-baseline.json", "utf8"),
   voiceDoc: readFileSync("docs/voice-pack.md", "utf8"),
   bible: readFileSync("docs/art-bible.md", "utf8"),
@@ -201,6 +203,49 @@ const num = (src, name) => {
 function run(d) {
   const found = [];
   let rules = 0;
+
+  rules += 1;
+  /* SAFETY RULE S8 AGAINST THE CHUNKER AND THE PATHWAY (2026-09-02). S8 names
+     the units the owner ruled by name, once said ph was "considered and left
+     out", and since 2026-09-02 says every other tiled unit is a spelling the
+     hundred-level pathway teaches. Level 91 had taught ph since 2026-08-17
+     and six bank words tiled it while the sentence stood - two agents editing
+     two files, nothing reading one against the other. Owner: "we need to
+     somehow correct the inconsistency between claude.md and agents.md".
+     Three checks, every expected value read from the documents: a unit S8
+     names in a parenthesised list must be a tile the chunker emits; a unit
+     S8 says was left out must not be emitted unless the next sentence says
+     it was superseded; and every unit the chunker emits must be named in S8
+     or appear in some pathway level's `new` field. */
+  /* Read with its line wraps folded: S8's lists wrap mid-parenthesis. */
+  const s8 = ((d.claude.match(/- S8\.[\s\S]*?(?=\n- S9\.)/) || [""])[0]).replace(/\n\s+/g, " ");
+  const emitted = new Set(LEVELS.flatMap((l) => l.words).flatMap((w) => chunkWord(w)).filter((t) => t.length > 1));
+  if (!s8) found.push("CLAUDE.md has no S8 paragraph - the rule is checking nothing");
+  const named = new Set();
+  for (const m of s8.matchAll(/\(([a-z]{2,4}(?:, [a-z]{2,4})+)\)/g)) for (const u of m[1].split(", ")) named.add(u);
+  for (const m of s8.matchAll(/\b(ai|ou|ey|or|ere|qu)\b(?= (?:\(|and|join|alone|\d))/g)) named.add(m[1]);
+  for (const u of named) if (!emitted.has(u)) found.push(`S8 names ${u} as a tiling unit and the chunker never emits it for any bank word`);
+  for (const m of s8.matchAll(/\b([a-z]{2,4}) was considered and left out\b[^.]*\.(\s*Superseded)?/g)) {
+    if (!m[2] && emitted.has(m[1])) found.push(`S8 says ${m[1]} was left out, and the chunker emits it - the note is stale, or the ruling moved without S8 saying so`);
+  }
+  const taught = new Set();
+  for (const row of JSON.parse(d.pathway)) for (const tok of String(row.new || "").split(/\s+/)) if (tok) taught.add(tok.split("=")[0]);
+  /* The third owner of a unit is a per-word tiling in the lexicon - laugh's
+     one-use "ugh" tile, ruled at the cutover with no default on purpose - so
+     a unit declared for a word there is accounted for, and a unit none of
+     the three own is the drift. */
+  const perWord = new Set(Object.values(WORD_TILES || {}).flat().filter((t) => t.length > 1));
+  for (const u of emitted) if (!named.has(u) && !taught.has(u) && !perWord.has(u)) found.push(`the chunker tiles ${u} and neither S8, a pathway level nor a per-word tiling in the lexicon owns it`);
+
+  rules += 1;
+  /* S9's own count of G24's corpus controls, read from S9 and counted in the
+     tool: "seven controls" stood while the gate held thirteen. */
+  const s9 = (d.claude.match(/- S9\.[\s\S]*?(?=\n## |$)/) || [""])[0];
+  const words = { seven: 7, eight: 8, nine: 9, ten: 10, eleven: 11, twelve: 12, thirteen: 13, fourteen: 14, fifteen: 15 };
+  const cm = s9.match(/rule and (\w+) controls/);
+  const corpusControls = (d.s9tool.match(/T\("(BREACH|window|corpus)/g) || []).length;
+  if (!cm) found.push("S9 no longer states G24's control count - the rule is checking nothing");
+  else if (corpusControls > 0 && words[cm[1]] !== corpusControls) found.push(`S9 says G24 carries ${cm[1]} controls, the corpus section of tools/s9-names.mjs holds ${corpusControls}`);
 
   rules += 1;
   /* A rule that checks nothing must SAY so, not pass. See specSentences. */
@@ -568,7 +613,7 @@ function tokenTable(bible) {
 }
 
 if (process.argv.includes("--self-test")) {
-  const seen = { spec: false, blind: false, qa: false, hold: false, recipe: false, bank: false, floor: false, unshipped: false, superseded: false, table: false, tableOrder: false, orphanDoc: false, orphanCmd: false, stateTableGone: false, laterRefusal: false, candidateNotGuarded: false, taughtRefusal: false,
+  const seen = { s8LeftOut: false, s8Unit: false, s8Untaught: false, s9Count: false, spec: false, blind: false, qa: false, hold: false, recipe: false, bank: false, floor: false, unshipped: false, superseded: false, table: false, tableOrder: false, orphanDoc: false, orphanCmd: false, stateTableGone: false, laterRefusal: false, candidateNotGuarded: false, taughtRefusal: false,
     taughtNoException: false, floorWrapped: false, wordBehindAnd: false, guardOneSourceOnly: false, guardDeclaredOnly: false, guardEngineMissing: false, guardBlind: false, exceptionNotAGuardHole: false, tokenDrift: false, tokenStranger: false, tokenMissing: false, tokenBlind: false, stateToken: false, stateSelector: false, stateBlind: false, stateReference: false };
 
   /* Both ways a tool gets orphaned. The first is the one that actually
@@ -579,6 +624,18 @@ if (process.argv.includes("--self-test")) {
      document an agent must be able to find these tools in. The control used to
      plant in CLAUDE.md, which now owns only the safety rules and names no
      engineering tool - so planting there would prove nothing. */
+  /* S8 against the chunker and the pathway, three ways, and S9's count. */
+  const s8Stale = { ...real, claude: real.claude.replace(/\n  Superseded 2026-08-17 by level 91[^\n]*\n[^\n]*from there \(owner-ruled 2026-09-02, when the note was found stale\)\. ai and/, "\n  ai and") };
+  seen.s8LeftOut = run(s8Stale).found.some((p) => p.startsWith("S8 says ph was left out"));
+  const s8Unit = { ...real, claude: real.claude.replace("(sh, ch, th, wh, ck,", "(sh, ch, th, wh, xq,") };
+  seen.s8Unit = run(s8Unit).found.some((p) => p.startsWith("S8 names xq as a tiling unit"));
+  const s8Untaught = { ...real, pathway: real.pathway.replace("tch=ch dge=j", "dge=j") };
+  seen.s8Untaught = run(s8Untaught).found.some((p) => p.startsWith("the chunker tiles tch and neither S8"));
+  /* and the unit S8 names by prose - "ere" rides ai's seat - must be read
+     when its line wraps, which is the plant above proving the fold */
+  const s9Count = { ...real, claude: real.claude.replace("rule and thirteen controls", "rule and seven controls") };
+  seen.s9Count = run(s9Count).found.some((p) => p.startsWith("S9 says G24 carries seven controls"));
+
   const docOrphan = { ...real, agents: real.agents.split("tools/blast-radius.mjs").join("tools/nothing.mjs") };
   seen.orphanDoc = run(docOrphan).found.some((p) => p.startsWith("AGENTS.md no longer names tools/blast-radius.mjs"));
 
@@ -769,7 +826,7 @@ if (process.argv.includes("--self-test")) {
   seen.stateReference = run(driftedReference).found.some((p) => p.includes("paints slot; the reference's block does not name it"));
 
   if (Object.values(seen).every(Boolean)) {
-    console.log("self-test OK: a reworded SPEC sentence, a SPEC block whose anchor moved so the rule would check nothing, a reworded QA promise, a changed hold constant, a stale recipe number in the document, a stale bank count in the chooser, a drifted gate floor in either of the two forms it is written in, an unshipped count that lags or runs ahead of the ledger, a level row that lost a word, a level row in the wrong order, a governing document that has stopped naming a tool agents are told to run, a command that has stopped running that tool's controls, a drifted token value, a token the table names that C lacks, a token C has that the table lacks, a token table whose anchor moved, a tile state whose block lacks a token it claims, a tile selector the stylesheet lacks, a tile table whose anchor moved, the Glowseed's own state table deleted whole, an appropriateness refusal made after 2026-08-07 and left out of the build guard, a candidate refusal wrongly demanded of it, a refused word the engine still teaches, a taught exception naming the wrong word or missing, a declared guard the engine lacks, a guard the engine keeps that nobody declared, an exception that tries to excuse the build guard, a refusal hidden behind an \"and\" with no comma of its own, a guarded word whose only source is the declared list, and a reference copy that drifted from the app's are all caught");
+    console.log("self-test OK: a safety-rule unit the chunker never emits, a left-out unit the chunker emits with no supersession, a tiled unit neither S8 nor the pathway teaches, a safety-rule control count the gate does not hold, a reworded SPEC sentence, a SPEC block whose anchor moved so the rule would check nothing, a reworded QA promise, a changed hold constant, a stale recipe number in the document, a stale bank count in the chooser, a drifted gate floor in either of the two forms it is written in, an unshipped count that lags or runs ahead of the ledger, a level row that lost a word, a level row in the wrong order, a governing document that has stopped naming a tool agents are told to run, a command that has stopped running that tool's controls, a drifted token value, a token the table names that C lacks, a token C has that the table lacks, a token table whose anchor moved, a tile state whose block lacks a token it claims, a tile selector the stylesheet lacks, a tile table whose anchor moved, the Glowseed's own state table deleted whole, an appropriateness refusal made after 2026-08-07 and left out of the build guard, a candidate refusal wrongly demanded of it, a refused word the engine still teaches, a taught exception naming the wrong word or missing, a declared guard the engine lacks, a guard the engine keeps that nobody declared, an exception that tries to excuse the build guard, a refusal hidden behind an \"and\" with no comma of its own, a guarded word whose only source is the declared list, and a reference copy that drifted from the app's are all caught");
     process.exit(0);
   }
   console.error("self-test FAILED: " + JSON.stringify(seen));

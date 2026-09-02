@@ -200,8 +200,9 @@ The build-out's job is to make that hand's list short and true, not to pretend i
 
 **Floors that move (E6):** `g7_interface_checks`, `g8_checks`, `g18_network_checks`, `g30_monkey_checks`, each with a `_webkit` key and - G7 excepted, for now - a `_firefox` key (per engine),
 `g12_qa_steps` up, a new `g12_human_steps_max` ceiling, `g20_tests_mapped`, and the census cell
-count. **Order:** engines first (the 2026-08-12 ruling), then the monkey, then the proofs; then
-art step 3 is judged on the result; then beta 31.
+count. **Order:** engines first (the 2026-08-12 ruling), then the monkey - both landed 2026-09-02 -
+then, re-ruled 2026-09-02 for the owner's eagerness to reach the art, art step 3, then the proofs
+and the derived checklist; then beta 31.
 
 ## G28b - CLAUDE.md takes no new rules, and nobody may credit it with old ones
 
@@ -1877,7 +1878,7 @@ promised a fallback the code never performed; G12 counted the step and saw nothi
 - Negative control: `--self-test` rewords a SPEC sentence, rewords a QA promise, changes a
   timing, changes the hold constant, leaves a stale speed in SPEC, takes the lookup's name out
   of `AGENTS.md`, and takes its controls out of `npm run check`; every detector must fire.
-- Baseline floor: `g16_doc_rules` (12). Rule 12 (art step 1, 2026-08-22) binds the art
+- Baseline floor: `g16_doc_rules` (14). Rules 13 and 14 (2026-09-02) read safety rule S8 against the chunker and the hundred-level pathway, and S9's control count against G24's own source - the drift two agents editing two files let stand for a fortnight. Rule 12 (art step 1, 2026-08-22) binds the art
   bible's section 11 state table — `| state | selector | tokens |` — to the stylesheet:
   every selector must exist in `app/src/wq-css.js` and in the reference build's copy
   (the sentence-word rule and the sound-out keyframes are app-only, and the rule says

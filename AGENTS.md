@@ -441,9 +441,10 @@ lives only in a chat log is one this project loses.
   because their anchors moved under an unrelated edit.
 - E7. Run `npm run check` before every push: the quality lint (ESLint with the complexity and
   file-length ceilings, the dependency-cycle scan, and the quality controls) plus the full test
-  suite plus the sub-minute gates (copy, doc-truth, QA count, voice pack, governing files,
-  effect map, the word-gate island control, and the coverage lookup with its
-  clips-waiting-for-seats line, owner-ruled 2026-08-16) plus the controls of the E11 lookup
+  suite plus every sub-minute gate `check:all` in `package.json` names - copy, doc-truth, QA
+  count, voice pack, governing files, effect map, the word-gate island control, the coverage
+  lookup with its clips-waiting-for-seats line (owner-ruled 2026-08-16), and the twenty-odd
+  that joined since; the script is the list, this sentence is not - plus the controls of the E11 lookup
   (`tools/blast-radius.mjs --self-test`, a fifth of a second) plus the type checker
   (`tools/type-check.mjs`, owner-ruled 2026-08-22: TypeScript reads the plain JavaScript,
   both sides at zero) plus the art budget (`tools/art-budget.mjs`: the tracked art's bytes
@@ -563,13 +564,14 @@ The rule, accepted by the owner on the forensic audit of 2026-08-19:
   tools and the mutant runners to verify what it claims — which is exactly what makes its
   findings worth having. But two vitest runs share `node_modules/.vite`, two checks
   regenerate the same files, and the mutant runners rewrite tracked ones. Both of the random
-  reds recorded in open fault AM happened while a council agent was running, and neither
-  reproduced alone. So: **do not run `npm run check` or a gauntlet while an agent is
+  reds recorded in open fault AM-original happened while a council agent was running, and
+  neither reproduced alone (AM itself was later found to be a test timeout and fixed). So: **do not run `npm run check` or a gauntlet while an agent is
   working**, and do not launch an agent into a tree you are about to run one in. Wait for it,
   or accept that a red may be the collision rather than the code — which is the habit that
   makes a real red survivable, and the one this rule exists to prevent. The mutant runners
-  already refuse each other through `.gauntlet.lock`; the check does not, and until it does
-  this is a rule people keep rather than a gate that holds.
+  refuse each other through `.gauntlet.lock`, and so does the check: `tools/lock-guard.mjs`
+  is the first line of `npm run check` and refuses to run beside a gauntlet (a sentence here
+  said the opposite for a week; corrected 2026-09-02).
 - **Verify the tree you commit, not the tree you checked.** If anything else
   can write, build the prospective commit as a tree object and run the check
   against that exact tree, the way the are/were shipping commit did. "The

@@ -73,7 +73,9 @@ Fix it, record it honestly, and carry on.
   units join S8, tiling only", with ere riding there's approved seat description; or
   alone ships its true default sound, graded in the sound rounds — the other four bend
   per word). Owner-approved 2026-08-04 with Levels 8
-  and 9; ph was considered and left out because no word obeys the bank's own rules. ai and
+  and 9; ph was considered and left out because no word obeys the bank's own rules.
+  Superseded 2026-08-17 by level 91 of the hundred-level pathway, which teaches ph=f; ph
+  tiles as one unit from there (owner-ruled 2026-09-02, when the note was found stale). ai and
   ou joined on 2026-08-12, approved by ear in the heart-word sound-out round: without them
   "said" tiles as s-a-i-d and "you" as y-o-u, and the tiles would spell words no child will
   ever hear. Neither had a ruled default sound — in the wider language ai says the long a of
@@ -84,8 +86,12 @@ Fix it, record it honestly, and carry on.
   the 2026-08-12 ruling predated, so ai and ou carry those defaults and the test now
   enforces the new ruling — including that said and you keep their per-word bends, which
   win over the defaults exactly as before.
-  These two are units for TILING only; teaching vowel teams as code stays ruled out
-  (SPEC section 12).
+  These heart-word units are units for TILING only; teaching vowel teams as code stays
+  ruled out (SPEC section 12). Every other multi-letter unit a child sees as one tile - tch,
+  dge, igh, ough, le and the rest - is a spelling the hundred-level pathway teaches at a
+  named level, and the pathway file `tools/ladder/shape-v3.json` owns that list (owner-ruled
+  2026-09-02: "S8 points at the pathway as the owner"). Gate G16 reads this rule both ways:
+  every unit named here tiles, and every unit that tiles is named here or taught there.
 - S9. No file in the repository contains a personal name. The child's name is a device-local
   setting only. Two exceptions. First, owner-approved 2026-08-11: the name of a published
   author may appear, and be spoken, in the book credit of the passage stage (SPEC section
@@ -114,7 +120,8 @@ Fix it, record it honestly, and carry on.
   of text that is verbatim in a declared title, because "this name occurs in
   some book" would excuse every name in English. A declared source file is
   itself exempt, being the text the others are checked against. G24 carries the
-  rule and seven controls that prove its refusals rather than its permissions.
+  rule and thirteen controls, eleven proving refusals and two proving permissions
+  (count corrected 2026-09-02, owner-approved).
   The exemption was attacked by the council's engineering seat hours after it
   shipped and had THREE breaches, all the same shape: the exemption was decided
   from a position that was not the position of the hit. Eighteen characters of a

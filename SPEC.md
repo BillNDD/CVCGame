@@ -101,7 +101,7 @@ ch, th, wh, ck, ng), qu (one tile, says "kw"), the silent-letter pairs kn, wr an
 says its surviving letter), the doubled endings ll, ss, ff and zz (each says its
 single) — adopted with Levels 8 and 9 on 2026-08-04; ph was considered and left out
 because no word obeys the bank's rules — and, since 2026-08-12, the two vowel teams ai
-and ou.
+and ou. Superseded 2026-08-17 by level 91 of the hundred-level pathway, which teaches ph=f; ph tiles as one unit from there (owner-ruled 2026-09-02).
 
 This document said "the bank holds no vowel teams" until that day, and the sentence was
 true when written. It stopped being true when "said" and "you" joined the heart roster.

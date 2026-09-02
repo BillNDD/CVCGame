@@ -663,7 +663,11 @@ at the third judgement of step 0: the one-frame clipped word on a landscape-to-p
 1. *Beta 30 ships now as is; beta 31 carries the QA build-out FIRST and then art step 3, judged by
    the stronger census.* So the order is fixed: beta 30 → the QA build-out (WebKit and Firefox, the
    eleven census capabilities of the 2026-08-12 ruling, the hand-rolled monkey) → this step →
-   beta 31. The chairs judge step 3 on the engine the owner's phone uses.
+   beta 31. The chairs judge step 3 on the engine the owner's phone uses. **Re-ruled
+   2026-09-02** ("I am really eager to get back to the art work"): with items 1 and 2 of the
+   build-out landed (three engines, the monkey), step 3 comes NEXT and items 3 and 4 (the
+   Proof lines, the derived checklist) follow it, all inside beta 31. The chairs judge step 3
+   on the three-engine census as it stands.
 2. *The principal word reclaims the stage's 14 px side margins on compact and phone profiles
    (under 480 px); tiles, message and controls keep theirs.*
 3. *The frame layer and its geometry only: fixed, out of flow, 0 px layout height on all 8
