@@ -264,13 +264,25 @@ export function inScope(file, scope) {
   return scope.some((s) => s.endsWith("/") ? file.startsWith(s) : file === s);
 }
 
+/* A JavaScript unicode escape glued to a word is not a word: "\u201Ceye"
+   (a curly quote before eye, in the tricky-word notes) tokenised as the
+   capitalized stranger "Ceye". It passed for weeks only because a base64
+   blob somewhere in the tree happened to contain the lowercase run "ceye",
+   and the day that blob changed (2026-09-02, a voice supersession) the gate
+   went red on a line nobody had touched. The escape is dropped before
+   tokenising; the control below proves the stranger is still caught when it
+   is a real word. */
+export function unescaped(t) {
+  return t.replace(/\\u[0-9a-fA-F]{4}/g, " ");
+}
+
 /* camelCase splits first, so an identifier carrying a glued name still
    surrenders it — an identifier was one of the incident's six landings. */
 export function languageOf(tree) {
   const lower = new Set();
   for (const [f, t] of Object.entries(tree)) {
     if (MACHINERY.test(f)) continue;
-    for (const w of t.replace(/([a-z])([A-Z])/g, "$1 $2").split(/[^A-Za-z]+/)) {
+    for (const w of unescaped(t).replace(/([a-z])([A-Z])/g, "$1 $2").split(/[^A-Za-z]+/)) {
       if (/^[a-z]+$/.test(w)) lower.add(w);
     }
   }
@@ -283,7 +295,7 @@ export function strangers(tree, vocab, passage = null, corpus = []) {
   const caps = new Map();
   for (const [f, t] of Object.entries(tree)) {
     if (MACHINERY.test(f)) continue;
-    for (const w of t.replace(/([a-z])([A-Z])/g, "$1 $2").split(/[^A-Za-z]+/)) {
+    for (const w of unescaped(t).replace(/([a-z])([A-Z])/g, "$1 $2").split(/[^A-Za-z]+/)) {
       if (/^[a-z]+$/.test(w)) lower.add(w);
       else if (/^[A-Z][a-z]{2,}$/.test(w)) { if (!caps.has(w)) caps.set(w, new Set()); caps.get(w).add(f); }
     }
@@ -592,6 +604,10 @@ function selfTest() {
     const known = mk(67, 104, 97, 114, 108, 101, 115);          // in the corpus
     const invented = mk(90, 101, 98, 101, 100, 105, 97, 104);   // in no book
     const quoted = { "docs/x.md": "It reads: There was once a boy named " + known + " who lived in that land." };
+    T("escape: a unicode escape glued to a word is not a stranger (the \u201Ceye of 2026-09-02)",
+      strangers({ "docs/x.md": "the a sounds like \u201Ceye\u201D here" }, [], null, []).length === 0);
+    T("escape: the same token as a real word is still caught",
+      strangers({ "docs/x.md": "Ceye reviewed this file today." }, [], null, []).length === 1);
     T("corpus: a name written casually is still refused",
       scan({ "docs/x.md": known + " reviewed this file today." }, [known], null, c).length === 1);
     T("corpus: a PRIVATELY DENYLISTED name is refused even inside book text", (() => {
