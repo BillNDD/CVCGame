@@ -24,6 +24,7 @@
     "release:dry": "node tools/release.mjs",
     "check": "node tools/run-with-tmp.mjs check:all",
     "test:network": "node tools/extract-engine.mjs && node tests/ui/network.mjs",
+    "test:monkey": "node tools/extract-engine.mjs && node tests/ui/monkey.mjs",
     "test:app-mutants": "node tools/extract-engine.mjs && node tools/app-mutants.mjs",
     "effect-map": "node tools/effect-map.mjs",
     "check:coverage-control": "node tools/coverage-control.mjs",

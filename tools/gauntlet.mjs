@@ -95,7 +95,7 @@ const LANE_B = new Map([
    untracked engine, the build, and the three browser gates that hold a port
    and assert geometry. A lane list naming one of them is refused before
    anything runs, and the control below proves the refusal. */
-const NEVER_LANED = /^(G1\+|G3 |G4 |G5 |G19 |G6 |app build|G7 |G8 |G18 |extract)/;
+const NEVER_LANED = /^(G1\+|G3 |G4 |G5 |G19 |G6 |app build|G7 |G8 |G18 |G30 |extract)/;
 const laneGuard = (names) => {
   const bad = names.filter((n) => NEVER_LANED.test(n));
   if (bad.length) throw new Error(`these gates may not run in the lane: ${bad.join(", ")}`);
@@ -525,6 +525,15 @@ for (const [engine, label, suffix] of ENGINES) {
     { label: "checks", regex: /(\d+) checks passed/, floorKey: "g18_network_checks" + suffix },
     { label: "failed", regex: /(\d+) failed/, max: 0 },
   ], env, [line, ...G18_REQUIRED]));
+
+  /* G30, the monkey (QA build-out item 2): a hand's storm, S1 watched. The
+     gesture count is required BY NAME so a shortened run cannot pass as the
+     real one, and the control line proves the probe saw the app's own write. */
+  step(engineName("G30 monkey", engine), "node tests/ui/monkey.mjs", [
+    { label: "checks", regex: /(\d+) checks passed/, floorKey: "g30_monkey_checks" + suffix },
+    { label: "failed", regex: /(\d+) failed/, max: 0 },
+  ], env, [line, "300 gestures", "S1 held", "the storm reached the session",
+    "control OK: the S1 probe sees the app's own write after an adult keyboard grade"]);
 }
 
 /* G21: the round page is how every listening verdict reaches this project. On
@@ -635,7 +644,8 @@ const REQUIRED_GATES = [
   "G5 source-mutants", "G19 app-mutants", "E11 lookup-mutants", "G6 coverage", "G6 quality",
   "G7 interface", "G8 accessibility", "G18 network",
   "G7 interface (webkit)", "G8 accessibility (webkit)", "G18 network (webkit)",
-  "G8 accessibility (firefox)", "G18 network (firefox)", "G16 doc-truth",
+  "G8 accessibility (firefox)", "G18 network (firefox)",
+  "G30 monkey", "G30 monkey (webkit)", "G30 monkey (firefox)", "G16 doc-truth",
   "G12 qa-procedure", "G13 voice-pack", "G13 voice-edges", "G20 effect-map", "G17 governing", "G23 file-map",
   "G24 s9-names", "G6 coverage-control", "G21 listening-page", "app build", "G14 art-budget",
 ];

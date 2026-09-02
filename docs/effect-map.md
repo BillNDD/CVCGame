@@ -8,7 +8,7 @@ Per-test rows carry the test's own sentence, which in this project IS the
 Given/When/Then effect. The requirement, oracle, platform, mutant family, evidence
 and known limits are declared per FILE, in the tool, where they stay true.
 
-Totals: 473 it() SITES across 22 files, plus 18 gates that are not test files.
+Totals: 473 it() SITES across 22 files, plus 19 gates that are not test files.
 
 A site inside a loop or a table runs many times, so these rows describe more tests than they number: Vitest executes 330. The rows count the places behaviour is asserted.
 
@@ -778,6 +778,7 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | G7 | `tests/ui/interface.mjs` | Rendered geometry: no scroll, fixed word box, control floors, tablet and landscape shapes | Literal measurements in a real browser | Cannot judge whether the screen is understandable — that is human QA. | S5 (observed), S7 (observed) |
 | G8 | `tests/ui/a11y.mjs` | Keyboard operation, focus order, contrast, reduced motion | axe plus literal geometry | Automated a11y finds rule violations, not confusion. | S5 (observed) |
 | G18 | `tests/ui/network.mjs` | S6 observed: every request the built app makes | The browser's own request events | Covers the paths the script drives; an untested screen is untested. | S6 (observed) |
+| G30 | `tests/ui/monkey.mjs` | S1 observed under a hand's storm: 300 seeded random gestures per phone profile, per engine, change no result field and no session count | The save read back from IndexedDB, field by field, with an adult keyboard grade as the control the probe must see | Proves survival and a clean save, never that the screen looked right while battered; Enter and Space are deliberately not in the mix, because S5 makes them adult actions. | S1 (observed) |
 | G5 | `tools/mutants.mjs` | That the engine tests bite | Killed mutants | A killed mutant proves detection of THAT fault only. | none |
 | G19 | `tools/app-mutants.mjs` | That the app tests bite | Killed mutants | Same limit, on the app half. | none |
 | G11 | `tools/copy-lint.mjs` | Every child-facing string against SPEC section 5 | The SPEC sentences | Wording is checked, not whether a child understands it. | S3 (source), S9 (source) |

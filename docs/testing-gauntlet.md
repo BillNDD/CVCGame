@@ -38,6 +38,44 @@ cannot catch an `either-is-fine` row collapsed to `perfect`, because that is a
 legal value; the limit has its own control that asserts the miss rather than
 hiding it. Sub-second over ~960 rows, so it runs in `npm run check`.
 
+## G30 - the monkey: what a hand does to the app, and what it may never write
+
+- Tool: `tests/ui/monkey.mjs` against the built app, one gauntlet step per engine (`G30
+  monkey`, `G30 monkey (webkit)`, `G30 monkey (firefox)`). Command: `npm run test:monkey`.
+  Keys: `g30_monkey_checks` (8), `g30_monkey_checks_webkit` (8), `g30_monkey_checks_firefox`
+  (8). QA build-out item 2, owner-ruled 2026-09-01; built 2026-09-02.
+- **What it proves.** On two phone profiles (390 x 664, 320 x 568), 300 seeded random gestures
+  - taps, double-taps, triple-taps, drags, and the keys Tab, Escape and ArrowRight - land on
+  whatever screen the app is showing, the corner included. After the storm settles (the save is
+  read twice half a second apart until it holds still): no page error and no console error; the
+  storm reached the session and the shell is still on screen; **S1 held field by field** - every
+  word present before and after has the same box, attempts, correct, close and wrong, no word
+  appeared, and none vanished; and the session count did not move. The gauntlet requires the
+  gesture count by name ("300 gestures"), so a shortened run cannot pass as the real one.
+- **What it deliberately leaves out, and why.** Enter and Space: S5 names the keyboard an adult
+  action, a focused result control grades on Enter directly, and the app moves focus to the
+  advance control after every reveal - so a storm pressing Enter would grade and finish a
+  session lawfully, and a gate that called that an S1 breach would be muted on its first false
+  red. The keyboard grade is proved by `tests/adult-controls.test.js` and exercised by G18. A
+  pointer that dwells 450 ms inside a hold control is a real hold whatever opened it: every
+  pointer gesture's dwell is measured, and a CHANGED RESULT after a dwell at or past the hold
+  length is INCONCLUSIVE with its seed rather than a verdict - a long dwell that changed
+  nothing is S1 holding, and a stalled harness (883 ms on Chromium, once) is not a finding. The corner's two-tap Reset is reachable by
+  design; a save with words gone is INCONCLUSIVE too, with its seed, because a comparison of
+  nothing must never print "held" (the after pass, 2026-09-02). A harness throw is reported as
+  the harness's, apart from the app's errors.
+- **The control (E5).** After the storm, the gate does the one adult act the app exposes -
+  focus "got it", press Enter - and the same probe must see the change within three seconds.
+  That proves the probe reads the app's own write, not that IndexedDB round-trips, and that the
+  save was writable at all: under a timed-out boot every write is a silent no-op (F3), and the
+  gate reads the home screen after the re-seed and refuses one that says "Nothing is being
+  saved."
+- **Its sibling.** The census monkey (`tests/census/monkey.spec.mjs`) walks the control LIST by
+  name - never a hold, never the corner - and judges what the app said. G30 is coordinates: it
+  tests what a hand does off-target. Both stand; neither is a duplicate of the other.
+- **What it cannot prove:** that the screen looked right while it was battered. The census's
+  cells and the human checklist own that.
+
 ## G29 - the maintenance bands are in step with the books they come from
 
 `node tools/word-bands.mjs --check`, with `--self-test` for its ten controls (floor `g29_controls`) and no flag for the
@@ -110,13 +148,23 @@ Glowseed in five minutes on a phone.
 
 ### 2. The monkey - what a four-year-old does to it
 
-- `tests/ui/monkey.mjs`, promoted from the scratchpad draft: a seeded storm of random taps,
-  double-taps, drags and key presses across the screens, on the two phone profiles, on all three
-  engines.
-- **Done means:** after the storm - no page error, no console error, the shell still present,
-  `state.words` in IndexedDB byte-identical to the seed (S1: no random gesture is an adult holding
-  a result control), and the session count unmoved. Seeded RNG so a failing storm replays. The
-  negative control plants a programmatic `applyResult` and the same probe must fail.
+- **DONE 2026-09-02:** `tests/ui/monkey.mjs`, gate G30, one gauntlet step per engine. A seeded
+  storm of 300 random taps, double-taps, drags and keys across the screens, on the two phone
+  profiles, on all three engines - the coordinate instrument beside the census monkey's
+  control-list walk (see G30 for why both exist).
+- **Done meant, as built:** after the storm settles - no page error, no console error, the storm
+  reached the session and the shell is still on screen, S1 held field by field (no result field
+  of any surviving word moved and no word appeared), and the session count unmoved. The RNG is
+  the census's own `mulberry32`, seeded, so a failing storm replays with `MONKEY_SEED`. The
+  negative control as first drafted - a planted write, re-read - proved only that IndexedDB
+  round-trips (the engineering seat's before pass); the control as built does the one adult act
+  the app exposes, a keyboard grade, and the same probe must SEE it, which also proves the save
+  was writable at all (under a timed-out boot every write is a silent no-op, F3). Enter and
+  Space are not in the mix: S5 makes them adult actions, and a gate that called a lawful
+  keyboard grade an S1 breach would be muted on its first false red. **The wording of done
+  moved, and the owner should see it:** "byte-identical to the seed" became "no result field
+  moved, no word appeared, none vanished" - the app may lawfully write settings, a level and a
+  bring-forward list under a hand, and only the RESULTS are what S1 protects.
 
 ### 3. Every QA step proves itself, or says why it cannot
 
@@ -150,7 +198,7 @@ person perceived something - the muted Glowseed is the standing example, and it 
 derived checklist has a floor above zero and why the release still ends with a phone in a hand.
 The build-out's job is to make that hand's list short and true, not to pretend it away.
 
-**Floors that move (E6):** `g7_interface_checks`, `g8_checks`, `g18_network_checks`, each with a `_webkit` key and - G7 excepted, for now - a `_firefox` key (per engine),
+**Floors that move (E6):** `g7_interface_checks`, `g8_checks`, `g18_network_checks`, `g30_monkey_checks`, each with a `_webkit` key and - G7 excepted, for now - a `_firefox` key (per engine),
 `g12_qa_steps` up, a new `g12_human_steps_max` ceiling, `g20_tests_mapped`, and the census cell
 count. **Order:** engines first (the 2026-08-12 ruling), then the monkey, then the proofs; then
 art step 3 is judged on the result; then beta 31.
@@ -841,7 +889,8 @@ the offline comparator's control caught its first real bug before the live cell 
   and waits).
 - **the monkey** (owner-ruled 2026-08-22, the bug-hunt page) - 300 seeded random taps as a
   child on every profile, `tests/census/monkey.spec.mjs`, detector `monkey` in the
-  novelties library. Never a hold (S5) and never the corner; after every tap: no console
+  novelties library. Its sibling since 2026-09-02 is gate G30, the COORDINATE storm in the
+  gauntlet: this one walks the control list by name, that one lands where a hand lands. Never a hold (S5) and never the corner; after every tap: no console
   or page error, an enabled control of 44 px or more still on screen and the page not
   blank, the principal word unmoved when it is the same word, and the tap did something
   within 3 s unless the control only makes sound (five, named with reasons) - a control
@@ -1640,7 +1689,7 @@ has moved reports "0 of 0 uncovered" and passes — doc-truth learned that on 20
 **What it reports under a ceiling instead.** Two debts, each at today's honest number so
 neither can grow quietly. `g25_source_only_max (1)` counts rules whose every proof reads
 source: today that is S9 alone, and for S9 a source scan IS the real proof, which is why
-this reports rather than refuses. `g25_unobserved_max (6)` counts rules no browser has ever
+this reports rather than refuses. `g25_unobserved_max (5)` counts rules no browser has ever
 seen: today S1, S2, S3, S4, S8 and S9. S8 is the sharpest of them — "multi-letter units
 always show as one tile" is a claim about a rendered screen, and every proof of it is
 engine-level. A ceiling only falls.
@@ -1651,7 +1700,7 @@ a person can say the rule is the right rule. A proof nobody declared is invisibl
 which is why every number here is a floor rather than an equality.
 
 - Tool: `tools/safety-cover.mjs`. Command: `node tools/safety-cover.mjs && node tools/safety-cover.mjs --self-test`.
-- Keys: `g25_rules (9)`, `g25_proofs (33)`, `g25_controls (12)`, `g25_source_only_max (1)`, `g25_unobserved_max (6)`.
+- Keys: `g25_rules (9)`, `g25_proofs (34)`, `g25_controls (12)`, `g25_source_only_max (1)`, `g25_unobserved_max (5)` - S1 gained an observed proof with G30 the monkey on 2026-09-02, so the unobserved ceiling came down by one.
 - Controls: twelve, and the important one is that the six planted faults run through a
   parameterised detector, so the same cases can be put to a stub that always reports
   nothing. It must answer none of them. Two controls in this repository once passed with
@@ -1936,7 +1985,8 @@ found it by remembering, which is the mechanism these gates exist to replace.
   only.
 - It then runs, in order: G11, G1+G2+G9+G10+G14+G15 (one Vitest run), G3 regeneration check,
   G4, G5, G19 app mutation, G6 coverage and quality, build, G7, G8 and G18 network on each
-  of three engines (Chromium, WebKit, Firefox - eight steps since 2026-09-01, G7 held out on Firefox), G21
+  of three engines (Chromium, WebKit, Firefox - eight steps since 2026-09-01, G7 held out on Firefox), G30
+  the monkey on each of the three (2026-09-02), G21
   listening page, G16 doc
   truth, G12 structure check, G13 voice pack, G20 effect map, G17 governing files, and the
   baseline comparison.
