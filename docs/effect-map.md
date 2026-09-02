@@ -8,7 +8,7 @@ Per-test rows carry the test's own sentence, which in this project IS the
 Given/When/Then effect. The requirement, oracle, platform, mutant family, evidence
 and known limits are declared per FILE, in the tool, where they stay true.
 
-Totals: 468 it() SITES across 22 files, plus 18 gates that are not test files.
+Totals: 473 it() SITES across 22 files, plus 18 gates that are not test files.
 
 A site inside a loop or a table runs many times, so these rows describe more tests than they number: Vitest executes 330. The rows count the places behaviour is asserted.
 
@@ -242,7 +242,7 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 92 | G1 — the system voice is never given a word it says wrongly | 78: the sentence praise roster is exactly the rows that never say "word", both halves pinned |
 | 93 | G1 — the system voice is never given a word it says wrongly | 79: the sentence lead is the grade's exact clip, and an off-roster index cannot praise with a word-line |
 
-## tests/faults.test.js — 23 tests (G9)
+## tests/faults.test.js — 28 tests (G9)
 
 - **Requirement protected:** SPEC section 7: damaged saves, silent storage, late data, hostile shapes, and backups that lie
 - **Independent oracle:** Stated expected outcomes per fault, each with a control proving the probe can see a write
@@ -256,27 +256,32 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 |---|---|---|
 | 1 | G9 faults — the app boot | 1: a damaged save reads as fresh, with the damage message, and stays writable |
 | 2 | G9 faults — the app boot | 2: a storage timeout starts fresh, warns, and writes nothing for the visit |
-| 3 | G9 faults — the app boot | 3: late data never renders and is never written over |
-| 4 | G9 faults — the app boot | 5: a throwing speech service does not stop grading |
-| 5 | G9 faults — the app boot | 6: a backward clock cannot crash a session, and the log date stays ISO |
-| 6 | G9 faults — the real IndexedDB adapter | 1a: a non-JSON value is copied to :corrupt and reported, never repaired in place |
-| 7 | G9 faults — the real IndexedDB adapter | 2a: a broken storage backend reports SILENCE, not absence |
-| 8 | G9 faults — an unreadable save, and backups that must look like one | 2b: an unreadable save is never overwritten, and the visit stays read-only |
-| 9 | G9 faults — an unreadable save, and backups that must look like one | 2c (control): a genuinely absent save DOES initialise and write |
-| 10 | G9 faults — an unreadable save, and backups that must look like one | 8: the Load backup file button opens the picker - one click on the file input, from the keyboard |
-| 11 | G9 faults — an unreadable save, and backups that must look like one | 7: ${label} is refused, and nothing is written |
-| 12 | G9 faults — an unreadable save, and backups that must look like one | 7b: a save-shaped ARRAY is not a backup |
-| 13 | G9 faults — an unreadable save, and backups that must look like one | 7a (control): a genuine backup still restores |
-| 14 | G9 faults — wrong-shape JSON battery | 4: hostile shapes heal, and every engine function survives them |
-| 15 | G9 faults — the corner's own actions survive their edges | commits a trimmed, 20-glyph name without bisecting a surrogate pair |
-| 16 | G9 faults — the corner's own actions survive their edges | copies the log when the clipboard allows, and shows the box when it refuses |
-| 17 | G9 faults — the corner's own actions survive their edges | saves a backup through the blob path without a throw |
-| 18 | G9 faults — the corner's own actions survive their edges | jumping to a word level steps the child off the pre-ladder |
-| 19 | G9 faults — the corner's own actions survive their edges | resets only through the second press, and the first can back out |
-| 20 | G9 faults — the error ring records on the device and never sends | scrubs every URL to its file name, caps the message, and keeps the last 20 |
-| 21 | G9 faults — the error ring records on the device and never sends | the browser's two catch-alls land in the ring with the screen name, and no origin |
-| 22 | G9 faults — the error ring records on the device and never sends | a render crash shows a way back to the start, not a blank page, and is recorded |
-| 23 | G9 faults — the error ring records on the device and never sends | the corner copies the report only on a grown-up's press, apart from the log, and can clear it |
+| 3 | G9 faults — the app boot | 3: a late read after the child has LEFT HOME is refused - not adopted, not written |
+| 4 | G9 faults — the app boot | 3f: a late read after the grown-up opened the corner is refused, and says so |
+| 5 | G9 faults — the app boot | 3b: a late read before anything has happened is adopted silently, and the visit saves |
+| 6 | G9 faults — the app boot | 3c: a late 'no save at all' is adopted too, and a first-time child's visit saves |
+| 7 | G9 faults — the app boot | 3d: a late read after a settings change in the corner is refused - the corner is off home, and the write it asked for stays refused |
+| 8 | G9 faults — the app boot | 3e: a late UNREADABLE read adopts nothing and does not claim a save was found |
+| 9 | G9 faults — the app boot | 5: a throwing speech service does not stop grading |
+| 10 | G9 faults — the app boot | 6: a backward clock cannot crash a session, and the log date stays ISO |
+| 11 | G9 faults — the real IndexedDB adapter | 1a: a non-JSON value is copied to :corrupt and reported, never repaired in place |
+| 12 | G9 faults — the real IndexedDB adapter | 2a: a broken storage backend reports SILENCE, not absence |
+| 13 | G9 faults — an unreadable save, and backups that must look like one | 2b: an unreadable save is never overwritten, and the visit stays read-only |
+| 14 | G9 faults — an unreadable save, and backups that must look like one | 2c (control): a genuinely absent save DOES initialise and write |
+| 15 | G9 faults — an unreadable save, and backups that must look like one | 8: the Load backup file button opens the picker - one click on the file input, from the keyboard |
+| 16 | G9 faults — an unreadable save, and backups that must look like one | 7: ${label} is refused, and nothing is written |
+| 17 | G9 faults — an unreadable save, and backups that must look like one | 7b: a save-shaped ARRAY is not a backup |
+| 18 | G9 faults — an unreadable save, and backups that must look like one | 7a (control): a genuine backup still restores |
+| 19 | G9 faults — wrong-shape JSON battery | 4: hostile shapes heal, and every engine function survives them |
+| 20 | G9 faults — the corner's own actions survive their edges | commits a trimmed, 20-glyph name without bisecting a surrogate pair |
+| 21 | G9 faults — the corner's own actions survive their edges | copies the log when the clipboard allows, and shows the box when it refuses |
+| 22 | G9 faults — the corner's own actions survive their edges | saves a backup through the blob path without a throw |
+| 23 | G9 faults — the corner's own actions survive their edges | jumping to a word level steps the child off the pre-ladder |
+| 24 | G9 faults — the corner's own actions survive their edges | resets only through the second press, and the first can back out |
+| 25 | G9 faults — the error ring records on the device and never sends | scrubs every URL to its file name, caps the message, and keeps the last 20 |
+| 26 | G9 faults — the error ring records on the device and never sends | the browser's two catch-alls land in the ring with the screen name, and no origin |
+| 27 | G9 faults — the error ring records on the device and never sends | a render crash shows a way back to the start, not a blank page, and is recorded |
+| 28 | G9 faults — the error ring records on the device and never sends | the corner copies the report only on a grown-up's press, apart from the log, and can clear it |
 
 ## tests/garden.test.js — 5 tests (G1)
 

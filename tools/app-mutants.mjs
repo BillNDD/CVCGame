@@ -103,6 +103,23 @@ const MUTANTS = [
     "!!b && typeof b === \"object\" && !Array.isArray(b) &&",
     "!!b && typeof b === \"object\" &&"],
 
+  /* The late save read (open fault AZ, owner-ruled 2026-09-01): adopted only
+     while the visit has not committed. Adopting after a write was asked for
+     or after the child left home swaps the state beneath a running session
+     and writes over a save that was never on screen - F3's exact fault. */
+  ["a late read is adopted after the visit has committed", APP,
+    "if (committed.current) { setToast(\"Saved progress found. Reload to continue it.\"); return; }",
+    ""],
+  ["leaving home never commits the visit", APP,
+    "if (screen !== \"home\" && screen !== \"splash\") committed.current = true;",
+    ""],
+  /* NO MUTANT for the persist-entry commit, and the reason is written down:
+     no control on the home screen writes without navigating, so today no
+     test can tell that line from the screen line, and a mutant nothing can
+     kill is a planted survivor (the after pass, 2026-09-02). The line stays
+     as the invariant for a home-screen write added later; the mutant joins
+     the day such a write exists. */
+
   /* Free play's whole promise to the parent: nothing is ever written. */
   ["free play writes to the save", APP,
     "if (!freePlay) { setState(s); persist(s); }",

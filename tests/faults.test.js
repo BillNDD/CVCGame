@@ -2,7 +2,7 @@
    The six destructive scenarios, permanent:
      1  damaged save            -> copy kept at :corrupt, fresh start, message
      2  storage timeout (3 s)   -> fresh start, read-only, zero writes
-     3  late storage response   -> never renders, never written over
+     3  late storage response   -> adopted before the visit commits (AZ); refused after
      4  wrong-shape JSON        -> heals; no function throws
      5  throwing speech service -> grading still completes
      6  backward clock          -> no throw; the log row still gets an ISO date
@@ -71,15 +71,87 @@ describe("G9 faults — the app boot", () => {
     expect(mockSave.mock.calls.length).toBe(0);                          // but nothing was written
   });
 
-  it("3: late data never renders and is never written over", async () => {
-    mockLoad.mockImplementation(() => new Promise((res) =>
-      setTimeout(() => res({ ...newState(), preLevel: 0, level: 5, sessionsCompleted: 9 }), 3500)));
+  /* OPEN FAULT AZ (owner-ruled 2026-09-01, "adopt a late read before any
+     write"): the three-second deadline decides what is SHOWN, not what is
+     written for the visit. Measured on Firefox, whose fresh profile takes
+     3.7 to 6.3 s to open IndexedDB the first time: before this every such
+     visit played unsaved and told the grown-up to reload. */
+  const lateSave = (ms, value = { ...newState(), preLevel: 0, level: 5, sessionsCompleted: 9 }) =>
+    mockLoad.mockImplementation(() => new Promise((res) => setTimeout(() => res(value), ms)));
+
+  /* The late save carries 9 sessions; a fresh state carries 0. The home
+     card's count is what tells the two apart - the old assertion here looked
+     for a level name that no longer exists and could never fail. */
+  it("3: a late read after the child has LEFT HOME is refused - not adopted, not written", async () => {
+    lateSave(3500);
     await boot(3000);
     expect(screen.getByText(/Pre 1/)).toBeTruthy();          // fresh state rendered
-    await flush(600);                                        // the late answer arrives
-    expect(screen.queryByText(/Zig Zap/)).toBeNull();        // level 5 never renders
+    fireEvent.click(screen.getByLabelText("Begin Session")); // the child is on the ladder
+    await flush(600);                                        // the late answer arrives mid-session
+    fireEvent.keyDown(screen.getByLabelText("got it"), { key: "Enter" });
+    await flush(500);
+    expect(mockSave.mock.calls.length).toBe(0);              // still read-only: nothing adopted, nothing written
+    fireEvent.click(screen.getByLabelText("Home"));
+    await flush(0);
+    expect(screen.getByText(/0 sessions/)).toBeTruthy();     // the fresh state, not the 9-session save
+  });
+
+  it("3f: a late read after the grown-up opened the corner is refused, and says so", async () => {
+    lateSave(3500);
+    await boot(3000);
+    fireEvent.click(screen.getByLabelText("Grown-ups corner"));
+    await flush(600);
     expect(screen.getByText("Saved progress found. Reload to continue it.")).toBeTruthy();
-    expect(mockSave.mock.calls.length).toBe(0);              // and is never written over
+    expect(mockSave.mock.calls.length).toBe(0);
+  });
+
+  it("3b: a late read before anything has happened is adopted silently, and the visit saves", async () => {
+    lateSave(3500);
+    await boot(3000);
+    expect(screen.getByText(/Pre 1/)).toBeTruthy();          // the deadline still shows home
+    expect(screen.getByText(/could not be read/)).toBeTruthy();
+    await flush(600);                                        // the late answer arrives, nothing tapped
+    expect(screen.getByText(/9 sessions/)).toBeTruthy();     // the late save IS the state now
+    expect(screen.queryByText("Saved progress found. Reload to continue it.")).toBeNull();
+    expect(screen.queryByText(/Nothing will be saved/)).toBeNull();   // the standing toast is cleared
+    expect(screen.queryByText(/could not be read/)).toBeNull();       // and the warning line
+    expect(mockSave.mock.calls.length).toBe(0);              // a current-version save is not rewritten
+    await gradeFirstWord();
+    expect(mockSave.mock.calls.length).toBeGreaterThan(0);   // and the visit is writable again
+    expect(mockSave.mock.calls.at(-1)[0].level).toBe(5);     // writing the adopted save, not the fresh one
+  });
+
+  it("3c: a late 'no save at all' is adopted too, and a first-time child's visit saves", async () => {
+    lateSave(3500, null);
+    await boot(3000);
+    await flush(600);
+    expect(screen.queryByText(/could not be read/)).toBeNull();
+    expect(mockSave.mock.calls.length).toBe(1);              // the fresh state is initialised, as an on-time read does
+    await gradeFirstWord();
+    expect(mockSave.mock.calls.length).toBeGreaterThan(1);
+  });
+
+  it("3d: a late read after a settings change in the corner is refused - the corner is off home, and the write it asked for stays refused", async () => {
+    lateSave(3500);
+    await boot(3000);
+    fireEvent.click(screen.getByLabelText("Grown-ups corner"));
+    await flush(0);
+    fireEvent.click(screen.getAllByLabelText("Off")[0]);      // the sound switch: a settings write, refused under read-only
+    await flush(0);
+    expect(mockSave.mock.calls.length).toBe(0);
+    await flush(600);
+    expect(screen.getByText("Saved progress found. Reload to continue it.")).toBeTruthy();
+    expect(mockSave.mock.calls.length).toBe(0);
+  });
+
+  it("3e: a late UNREADABLE read adopts nothing and does not claim a save was found", async () => {
+    lateSave(3500, { __unreadable: true });
+    await boot(3000);
+    await flush(600);
+    expect(screen.queryByText("Saved progress found. Reload to continue it.")).toBeNull();
+    expect(screen.getByText(/could not be read/)).toBeTruthy();   // still read-only, still said
+    await gradeFirstWord();
+    expect(mockSave.mock.calls.length).toBe(0);
   });
 
   it("5: a throwing speech service does not stop grading", async () => {

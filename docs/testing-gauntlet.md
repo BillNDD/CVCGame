@@ -615,8 +615,10 @@ every bound reads `LEVELS.length`, which is why adding a level needed no engine 
      key, starts fresh, and shows the damage message.
   2. Storage timeout: no answer for 3000 ms. The app starts fresh, sets read-only, and performs
      zero writes for that visit.
-  3. Late storage response: data arrives after the timeout. The late data never renders and is
-     never written over.
+  3. Late storage response: data arrives after the timeout. Before the visit commits - nothing
+     written, the child still on home - the late data is adopted silently and writes resume (open
+     fault AZ, owner-ruled 2026-09-01); after it, the late data never renders and is never written
+     over, and the app says "Saved progress found. Reload to continue it.".
   4. Wrong-shape JSON: arrays, numbers, nulls, and hostile objects. `migrate` heals them; no
      function throws.
   5. Throwing speech service: `speechSynthesis` that throws. Grading still completes.
@@ -1459,7 +1461,7 @@ what the ruling calls the README.
 ## G19. App mutation
 
 - Tool: `tools/app-mutants.mjs`. Command: `npm run test:app-mutants`. Requirement: 0
-  survivors. Keys: `g19_app_mutants` (18), `g19_survivors_max` (0). Three joined on
+  survivors. Keys: `g19_app_mutants` (20), `g19_survivors_max` (0). Two joined on 2026-09-02 for the late save read (open fault AZ): adopting after the visit has committed, and leaving home never committing. Three joined on
   2026-08-22 for the bug-report ring: a ring that never writes, a ring that keeps one entry,
   and a render boundary that shows the way home without recording the crash. Three more on
   2026-08-23 for the Glowseed, which had none at all until the art council's re-judgement
@@ -2007,7 +2009,7 @@ other direction: the real pack, unchanged, must pass.
 
 ## G20. Effect map
 
-- Tool: `tools/effect-map.mjs`. Writes `docs/effect-map.md`. Keys: `g20_tests_mapped` (449).
+- Tool: `tools/effect-map.mjs`. Writes `docs/effect-map.md`. Keys: `g20_tests_mapped` (473).
 - One row per `it()` SITE — its file, suite, and the test's own sentence, which in this
   project IS the Given/When/Then effect, because tests are named as behaviour. A site inside
   a loop or a table runs many times, so the map's 310 rows describe the 324 tests Vitest executes;

@@ -15,6 +15,14 @@ This document follows the Microsoft Writing Style Guide.
 Version 6 adds the standalone progressive web app. The reference build does not change.
 The first app version is 1.0.0-beta.1. The app stays in beta until version 1.0 is ready.
 
+- Fixed in 1.0.0-beta.31: on a device where reading the saved progress takes more than three
+  seconds, the app no longer plays the whole visit without saving. It still opens at three
+  seconds, but when the saved progress arrives a moment later - before anything has been
+  played or changed - it switches to it quietly and saving carries on. A brand-new child on a
+  slow device gets a saved first visit too. If the child has already started, the app says
+  "Saved progress found. Reload to continue it." as before. Found the first time the release
+  checks ran on Firefox.
+
 - Fixed in 1.0.0-beta.31: an update never reloads the app over the "Finish!" screen. The
   save was already safe, but the "All done! Great reading today!" message and the level-up
   could be cut off mid-celebration when a new version happened to take over at that moment.

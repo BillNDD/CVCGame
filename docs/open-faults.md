@@ -3229,7 +3229,7 @@ what is true now.
   the `my !== token` return in `playPlan` - the one exit that reports nothing to the caller -
   is the first place to look.
 
-## AZ. A first boot whose save read takes more than 3 seconds plays the whole visit unsaved — found 2026-09-01 by the Firefox gates, OPEN
+## AZ. A first boot whose save read takes more than 3 seconds plays the whole visit unsaved — found 2026-09-01 by the Firefox gates, CLOSED 2026-09-02
 
 - **What a grown-up experiences.** The app opens to a fresh home screen with "Pre 1", a toast
   says "Couldn't read saved progress. Nothing will be saved this visit.", and a few seconds
@@ -3249,3 +3249,15 @@ what is true now.
   map's P2-6/F3 row and any test that pins "Reload to continue it" as the only late-read
   outcome, and needs its own control proving a save is NOT adopted after the first write.
   Not changed in the engines batch: it is a design ruling, and the owner's.
+- **RULED AND BUILT (owner, 2026-09-01: "Adopt a late read before any write", and "Adopt it and
+  start saving" for a late read that finds no save at all).** The deadline now decides what is
+  SHOWN at three seconds, not what is written for the visit. The visit COMMITS to the state on
+  screen the moment a write is asked for (`persist`, before its read-only guard, so a refused
+  write still counts as intent) or the child leaves home (the screen effect, so every route out
+  is covered by one line). A late read that lands before that is adopted silently: state,
+  migration, the read-only flag lifted, the standing toast and warning cleared; a late "no save"
+  is adopted as a fresh, saveable start. After it, the old answer stands: "Saved progress found.
+  Reload to continue it." A late unreadable or damaged read adopts nothing and no longer claims
+  a save was found. `tests/faults.test.js` 3, 3b, 3c, 3d, 3e, 3f; three G19 app mutants (adopt
+  after commit, leaving home never commits, asking to write never commits); SPEC section 7 says
+  it in its own words.

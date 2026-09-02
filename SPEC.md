@@ -722,8 +722,12 @@ box to the range 0 to 5.
 If the stored data is not valid JSON, the app keeps a copy at the key `{KEY}:corrupt`. The app
 then starts fresh and gives a message.
 
-If the storage does not answer in three seconds, the app starts fresh and stops all writes. This
-prevents damage to a saved file that the app cannot read.
+If the storage does not answer in three seconds, the app shows a fresh start and stops all
+writes. This prevents damage to a saved file that the app cannot read. If the storage then
+answers before anything has been written and before the child leaves the home screen, the app
+adopts the answer silently - the saved progress, or a fresh start that may now be saved - and
+writes resume. Once something has been written or the child has left home, a late answer is
+only announced: "Saved progress found. Reload to continue it." (Owner-ruled 2026-09-01.)
 
 The name is optional, with a maximum of 20 characters. The name never leaves the device.
 

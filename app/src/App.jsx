@@ -293,31 +293,57 @@ export default function App() {
   stateRef.current = state;
 
   /* boot with timeout — P2-6 */
+  /* THE VISIT COMMITS TO THE STATE ON SCREEN the moment anything depends on
+     it (open fault AZ, owner-ruled 2026-09-01): a write is asked for, or the
+     child leaves home. Until then a late save read may still be adopted. A
+     ref, not state: it is read inside the boot's promise, and it is shared
+     across StrictMode's double-invoked effect on purpose. */
+  const committed = useRef(false);
   useEffect(() => {
-    let alive = true, settled = false;
+    let alive = true, shown = false;
     clearMicMarkers();
-    const finish = (s) => {
-      if (!alive || settled) return; settled = true;
+    const settle = (s) => {
       if (!s.settings.lang) s.settings.lang = "en-US";
       if (s.settings.childName === undefined) s.settings.childName = "";
       /* S6's second call (owner-approved 2026-08-03) defaults on; the corner
          holds the off switch, and old saves heal to the default here. */
       if (s.settings.updateCheck === undefined) s.settings.updateCheck = true;
-      setState(s); setNameDraft(s.settings.childName || ""); setScreen("home");
+      setState(s); setNameDraft(s.settings.childName || "");
+    };
+    const finish = (s) => {
+      if (!alive || shown) return; shown = true;
+      settle(s); setScreen("home");
     };
     const timer = setTimeout(() => {
       setReadOnly(true);                       // F3 — never write over a save we could not read
       finish(newState());
       setToast("Couldn’t read saved progress. Nothing will be saved this visit.");
     }, SPLASH_TIMEOUT_MS);
+    /* THE LATE READ (AZ). The deadline decides what is SHOWN at three
+       seconds, no longer what is WRITTEN for the visit. A read that lands
+       after home is up is adopted silently - state, migration, the read-only
+       flag lifted, the standing warning cleared - as long as the visit has
+       not committed: nothing has asked to write and the child is still on
+       home. Once it has, the old answer stands: F3 forbids writing over a
+       save that was never on screen, and a session built from the fresh
+       state must not have its state swapped beneath it. Measured on Firefox,
+       where a fresh profile's first IndexedDB open takes 3.7 to 6.3 s: before
+       this, every such visit played unsaved. An unreadable or damaged late
+       read adopts nothing and claims nothing. */
+    const lateRead = async (d) => {
+      if (d && (d.__unreadable || d.__corrupt)) return;
+      if (committed.current) { setToast("Saved progress found. Reload to continue it."); return; }
+      let late = newState(), lateChanged = false;
+      if (d) { late = migrate(d); lateChanged = d.version !== late.version; }
+      settle(late); setReadOnly(false); setToast("");
+      if (!d || lateChanged) { const ok = await saveState(late); if (alive) setPersistent(ok); }
+    };
     (async () => {
       initVoicePacks();                        // SPEC §5a — never blocks the boot
       const d = await loadState();
       clearTimeout(timer);
-      if (settled || !alive) {                 // F3 — late data must not render or write
-        if (d && !d.__corrupt) setToast("Saved progress found. Reload to continue it.");
-        return;
-      }
+      if (!alive) return;                      // a dead effect renders and writes nothing
+      if (shown) { await lateRead(d); return; }
       let s, changed = false;
       /* An unreadable save is not an absent one. Play this visit, write
          nothing, and leave the save on disk for the next attempt. */
@@ -361,9 +387,18 @@ export default function App() {
        allow-list, art project step 0d): a measurement that asks "which
        screen is this" must read it from the page, never infer it. */
     try { document.documentElement.setAttribute("data-wq-screen", screen); } catch (e) { /* no document */ }
+    /* Leaving home commits the visit (AZ): every route out - a session, the
+       ladder, riders, free play, Build-it, the corner - changes the screen,
+       so this one line covers routes added later too. */
+    if (screen !== "home" && screen !== "splash") committed.current = true;
   }, [screen]);
 
   const persist = useCallback(async (s) => {
+    /* The INTENT to write commits the visit (AZ), before the read-only guard:
+       under read-only a write is a silent no-op, and a late read must never
+       discard a grown-up's action - a backup load, a name - just because the
+       write it asked for was refused. */
+    committed.current = true;
     if (readOnly) return;                     // F3 — a timed-out boot never overwrites
     setPersistent(await saveState(s));
   }, [readOnly]);
