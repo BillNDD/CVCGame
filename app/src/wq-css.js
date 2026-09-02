@@ -29,7 +29,68 @@ const CSS = VARS + `
   font-family:ui-rounded,'SF Pro Rounded',system-ui,-apple-system,'Segoe UI',sans-serif;
   color:${C.ink};
 }
-.wq-shell{height:100%;max-width:640px;margin:0 auto;display:flex;flex-direction:column;min-height:0}
+/* position:relative; z-index:1 since art step 3: the garden frame is a fixed
+   sibling at z-index:0, and .wq-root is no stacking context, so a frame at a
+   negative z-index would paint UNDER the root's own gradient (the art
+   director and the engineering seat, both, 2026-09-02). */
+.wq-shell{height:100%;max-width:640px;margin:0 auto;display:flex;flex-direction:column;min-height:0;position:relative;z-index:1}
+
+/* THE GARDEN FRAME, GEOMETRY ONLY (art step 3, owner-ruled 2026-09-01; the
+   three chairs' before pass, 2026-09-02). A fixed layer beneath the shell,
+   out of flow - 0 px of layout height on every profile, which the census's
+   frame-in-flow rule measures - carrying the zones step 6 will paint state 0
+   onto. Palette tokens only, no bitmap, nothing inside the reading field,
+   nothing that resembles a letter (bible 6): a corner is a filled tapered
+   quadrant, never a two-stroke bracket.
+   THE BOX. height:100svh, never inset:0 - inset:0 sizes to the layout
+   viewport, and with the iOS URL bar shown the layer would overhang the shell
+   by 60 to 115 px into the home-indicator band. The drawing is inset by the
+   safe-area insets and stops above the rail and strip (--wq-bottomzones,
+   which Frame.jsx measures and publishes on the root as well as the shell),
+   so the strip's translucent paper is never tinted by a band beneath it.
+   THE MARGIN IS THE SHELL'S, NOT THE VIEWPORT'S. The space a side zone may
+   use is (100vw - shell) / 2: 0 on every phone, 55 on the landscape phone,
+   64 and 97 on the iPads, 32 on the landscape iPad Mini, 160 on the desktop.
+   Below 48 px a side zone paints NOTHING (the art director's collapse floor)
+   - the min/max pair below is 0 under 48 px and the whole margin at or over.
+   Compact profiles (under 480 px) get corners and edge bands sized as a share
+   of the short edge - 18 percent clamped 48 to 96 px for a corner, 4 percent
+   clamped 8 to 20 px for a band - so the box scales with the device and the
+   bitmap inside it can stay integer-snapped later (bible 8.2, 8.3).
+   pointer-events:none on the layer and every descendant, aria-hidden, no
+   focusable node: a child's finger must never find it (S5, S7), and the
+   census proves that with elementFromPoint over every control. */
+.wq-frame{position:fixed;top:0;left:0;right:0;height:100vh;height:100svh;z-index:0;pointer-events:none;overflow:hidden;
+  --wq-frame-shell:640px;
+  --wq-frame-margin:max(0px,calc((100vw - var(--wq-frame-shell)) / 2));
+  --wq-frame-side:max(0px,min(var(--wq-frame-margin),calc((var(--wq-frame-margin) - 47.99px) * 1000)));
+  --wq-frame-corner:clamp(48px,18vmin,96px);
+  --wq-frame-band:clamp(8px,4vmin,20px)}
+.wq-frame *{pointer-events:none}
+.wq-frame-box{position:absolute;left:env(safe-area-inset-left,0px);right:env(safe-area-inset-right,0px);
+  top:env(safe-area-inset-top,0px);bottom:var(--wq-bottomzones,0px)}
+.wq-frame-side{position:absolute;top:0;bottom:0;width:var(--wq-frame-side);background:${C.gardenMoss}}
+.wq-frame-side.left{left:0}
+.wq-frame-side.right{right:0}
+.wq-frame-band,.wq-frame-corner{display:none}
+@media (max-width:479px){
+  .wq-frame-band{display:block;position:absolute;left:0;right:0;height:var(--wq-frame-band);background:${C.gardenMoss}}
+  .wq-frame-band.top{top:0}
+  .wq-frame-band.bottom{bottom:0}
+  .wq-frame-corner{display:block;position:absolute;width:var(--wq-frame-corner);height:var(--wq-frame-corner);background:${C.stone}}
+  .wq-frame-corner.tl{top:0;left:0;border-bottom-right-radius:100%}
+  .wq-frame-corner.tr{top:0;right:0;border-bottom-left-radius:100%}
+  /* No bottom corners on the compact profiles: measured on the first
+     render, a 58 px quadrant at the stage's foot sat under the message slot
+     on the 320 and 390 phones (the census's frame-over-field cell), and the
+     reading field wins over scenery every time (bible 5, 10.4). The top
+     corners live in the free sky above the word's label; the markup carries
+     only the two. */
+}
+/* Short screens shed the frame before the type (bible 5.1): the bands at or
+   under 620 px, the whole layer at or under 520. */
+@media (max-height:620px){.wq-frame-band,.wq-frame-corner{display:none}}
+@media (max-height:520px){.wq-frame{display:none}}
 .wq-display{font-family:ui-rounded,'SF Pro Rounded',system-ui,-apple-system,'Segoe UI',sans-serif;letter-spacing:.02em}
 .wq-mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-variant-numeric:tabular-nums}
 
@@ -127,7 +188,11 @@ const CSS = VARS + `
 .wq-center{height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center}
 
 /* stage content: fixed slots so nothing shifts (P0-2) */
-.wq-stagegrid{width:100%;max-width:440px}
+/* 32.5rem, not 520 px (bible 5.2, re-stated by the reading chair and
+   owner-ruled 2026-09-02): 520 px at the default text size, and it scales
+   with the child's text size, so a 200 percent child is never handed a
+   smaller word to buy a wider margin (10.4: margins before font). */
+.wq-stagegrid{width:100%;max-width:32.5rem}
 /* ONE LINE, NEVER A WRAP (art project step 0d, 2026-08-22). The size here is
    the CEILING, set by the screen's height; the width is fitted by the Word
    component, which measures the rendered word and shrinks it only when it is
@@ -161,6 +226,26 @@ const CSS = VARS + `
    construction as word-not-above, the row's own layer included. */
 .wq-word{font-size:clamp(2.25rem,11vh,5.5rem);font-size:clamp(2.25rem,11svh,5.5rem);
   font-weight:700;line-height:1.05;color:${C.ink};margin:4px 0 0;white-space:nowrap;position:relative;z-index:1}
+/* The fitted span is an inline-block on the line's own height (art step 3):
+   as a plain inline its client rect was the font's content area - 97 px for
+   a 73 px word - reaching 11 px above the word's box into the label's line,
+   and the census's overlap scan read every long word on a phone as the
+   label and the word colliding. The glyphs never did; the rect did. An
+   inline-block's rect is its line box, inside the word's box, on the same
+   baseline; the fit reads its width exactly as before. */
+.wq-word-text{display:inline-block;line-height:1.05;vertical-align:baseline}
+/* THE RECLAIM (bible 10.4; owner-ruled 2026-09-01, refined 2026-09-02): on the
+   compact profiles the principal word alone takes back the stage's 14 px
+   side margins, down to a 6 px edge guard or the phone's safe-area inset,
+   whichever is larger - the outermost letters are the ones decoding depends
+   on, and they sit where thumbs and a case lip live (the reading chair).
+   Tiles, message and controls keep their 14 px. A negative margin reaches
+   into the stage's padding box, which is not overflow, so the stage never
+   scrolls sideways; and the fit in Word.jsx reads the box's width, so the
+   wider box IS the wider line. "something" on 320 x 568: 56.1 to 59.3 px. */
+@media (max-width:479px){
+  .wq-word{margin-left:calc(-14px + max(6px,env(safe-area-inset-left,0px)));margin-right:calc(-14px + max(6px,env(safe-area-inset-right,0px)))}
+}
 .wq-slot-tiles{min-height:52px;display:flex;align-items:center;justify-content:center;gap:6px;margin-top:8px}
 
 /* BUILD-IT'S TILES AND SLOTS (art step 1): the same ceramic, as CONTROLS - a
@@ -205,7 +290,7 @@ const CSS = VARS + `
    and still has to be as easy to hit as "twin".
    The words WRAP, because a sentence of eight words does not fit one phone
    line and a sentence that scrolls sideways is a sentence a child loses. */
-.wq-sentence{width:100%;max-width:440px;text-align:center}
+.wq-sentence{width:100%;max-width:640px;text-align:center}
 .wq-sentence-line{margin:0;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:2px 4px}
 .wq-sword{font-family:ui-rounded,'SF Pro Rounded',system-ui,-apple-system,'Segoe UI',sans-serif;
   font-size:clamp(1.35rem,5.2svh,2.4rem);font-weight:700;line-height:1.1;color:${C.ink};
@@ -469,7 +554,11 @@ const CSS = VARS + `
   bottom:calc(var(--wq-bottomzones,112px) + 12px + env(safe-area-inset-bottom));
   background:${C.ink};color:${C.paper};padding:10px 16px;border-radius:999px;
   max-width:88%;text-align:center;z-index:70}
-.wq-modalwrap{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:18px;z-index:80}
+/* position:fixed since art step 3 (the engineering seat's after pass): the
+   shell became a stacking context, which made it the containing block of an
+   absolute dialog, and on a 1280 px desktop the scrim dimmed 640 of 1280.
+   A dialog covers the viewport, frame and all. */
+.wq-modalwrap{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;padding:18px;z-index:80}
 .wq-scrim{position:absolute;inset:0;background:${alpha(C.ink, .42)};border:0;order:-1}
 .wq-modal{position:relative;z-index:1;background:${C.paper};border-radius:18px;padding:18px;max-width:380px;width:100%;
   box-shadow:0 12px 40px ${alpha(C.ink, .3)}}
@@ -531,6 +620,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
    Found by an audit of the running build, 2026-07-29. */
 @media (orientation:landscape) and (min-width:640px) and (min-height:420px){ /* N-7 */
   .wq-shell{max-width:960px}
+  .wq-frame{--wq-frame-shell:960px}
   .wq-stage{padding:6px 22px}
   .wq-word{font-size:clamp(3rem,17svh,7rem)}
 }

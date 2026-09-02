@@ -330,6 +330,97 @@ export async function zoneSum(page) {
   });
 }
 
+/* THE GARDEN FRAME'S GEOMETRY (art step 3, owner-ruled 2026-09-01; the three
+   chairs' before pass, 2026-09-02). The layer is fixed and out of flow (the
+   frame-in-flow rule above still holds on every profile), sized to the small
+   viewport, never painted over the reading field - the word stage's content,
+   the sentence, the tray - nor over the rail and the strip, and never a
+   target: no focusable node, aria-hidden, pointer-events none on every
+   element. A painted zone is one with a box and a background. The HEADER is
+   not a field on purpose: the art director's compact corners sit in the
+   header's corners, beneath its controls, which paint over them (the shell
+   is the higher stacking context) - scenery behind chrome, not a collision;
+   the per-profile hit-test cell proves every control still owns its centre.
+   The box check reads the layer against the viewport; in a headless run
+   that cannot tell inset:0 from height:100svh, so the stylesheet's own line
+   is the guard there, and the check catches a layer that is not full-size. */
+export async function frameHold(page) {
+  return page.evaluate(() => {
+    const findings = [];
+    const layer = document.querySelector(".wq-frame");
+    if (!layer) return { findings: [{ kind: "no-subject", detail: "no .wq-frame layer on this screen" }] };
+    const cs = getComputedStyle(layer);
+    if (cs.display === "none") {
+      /* Hidden is right only on a short screen (bible 5.1: at or under 520 px). */
+      if (innerHeight > 520) findings.push({ kind: "frame-hidden", detail: "the frame layer is display:none on a " + innerHeight + " px tall screen" });
+      return { findings, hidden: true, painted: [] };
+    }
+    if (cs.position !== "fixed") findings.push({ kind: "frame-not-fixed", detail: "the frame layer is position:" + cs.position + ", not fixed" });
+    const lr = layer.getBoundingClientRect();
+    if (Math.abs(lr.height - innerHeight) > 1 || Math.abs(lr.width - innerWidth) > 1)
+      findings.push({ kind: "frame-box", detail: "the layer is " + lr.width.toFixed(0) + "x" + lr.height.toFixed(0) + " in a " + innerWidth + "x" + innerHeight + " viewport" });
+    if (layer.getAttribute("aria-hidden") !== "true") findings.push({ kind: "frame-reachable", detail: "the layer is not aria-hidden" });
+    const focusable = layer.querySelectorAll("a,button,input,select,textarea,[tabindex]").length;
+    if (focusable) findings.push({ kind: "frame-reachable", detail: focusable + " focusable node(s) inside the frame" });
+    for (const el of [layer, ...layer.querySelectorAll("*")]) {
+      if (getComputedStyle(el).pointerEvents !== "none") { findings.push({ kind: "frame-reachable", detail: "<" + el.className + "> takes pointer events" }); break; }
+    }
+    const boxOf = (sel) => { const el = document.querySelector(sel); if (!el) return null; const r = el.getBoundingClientRect(); return r.width > 0 && r.height > 0 ? r : null; };
+    const fields = [".wq-stagegrid", ".wq-sentence", ".wq-tray", ".wq-rail", ".wq-strip"].map((sel) => [sel, boxOf(sel)]).filter(([, r]) => r);
+    const painted = [];
+    for (const z of layer.querySelectorAll(".wq-frame-side,.wq-frame-band,.wq-frame-corner")) {
+      const zs = getComputedStyle(z);
+      const r = z.getBoundingClientRect();
+      if (zs.display === "none" || r.width <= 0 || r.height <= 0) continue;
+      if (zs.backgroundColor === "rgba(0, 0, 0, 0)" && zs.backgroundImage === "none") continue;
+      painted.push({ zone: z.className, x: Math.round(r.x), y: Math.round(r.y), w: Math.round(r.width), h: Math.round(r.height) });
+      for (const [sel, f] of fields) {
+        const hit = r.left < f.right && r.right > f.left && r.top < f.bottom && r.bottom > f.top;
+        if (hit) findings.push({ kind: "frame-over-field", detail: z.className + " (" + Math.round(r.width) + "x" + Math.round(r.height) + " at " + Math.round(r.x) + "," + Math.round(r.y) + ") paints over " + sel });
+      }
+    }
+    return { findings, hidden: false, painted, margin: Math.round((innerWidth - document.querySelector(".wq-shell").getBoundingClientRect().width) / 2) };
+  });
+}
+
+/* THE WORD'S LINE, AND WHAT BOUNDS IT (bible 10.4, the reclaim; the reading
+   chair's condition, 2026-09-02): the fitted glyph size, the line the fit had,
+   the stylesheet's ceiling, and a literal saying which of the two decided the
+   size - "width" when the word was shrunk to its line, "ceiling" when the
+   clamp's ceiling was smaller than the line allowed. A reclaim that buys
+   nothing on a profile says so here. */
+export async function wordBound(page) {
+  return page.evaluate(() => {
+    const w = document.querySelector(".wq-word");
+    if (!w) return null;
+    const t = w.querySelector(".wq-word-text") || w;
+    const ceiling = parseFloat(getComputedStyle(w).fontSize);
+    const fitted = parseFloat(getComputedStyle(t).fontSize);
+    const line = w.getBoundingClientRect().width;
+    return { text: w.textContent.trim(), fitted, ceiling, line: Math.round(line), boundBy: fitted < ceiling - 0.01 ? "width" : "ceiling", opacity: getComputedStyle(t).opacity };
+  });
+}
+
+/* THE FRAMES ACROSS A VIEWPORT CHANGE (art step 3, ruling 4): twelve frames
+   sampled AFTER each commits - a timeout queued from the frame callback, not
+   the callback itself, because the ResizeObserver that hides the glyphs runs
+   after the callback and before paint, so a read inside the callback sees a
+   state that never reaches the screen. A visible inner span wider than its
+   box by more than the fit's own precision (1.5 px) is the clip that was
+   ruled out. Start it, change the viewport, then await it. */
+export function wideFrames(page) {
+  return page.evaluate(() => new Promise((res) => {
+    const w = document.querySelector(".wq-word"), t = w.querySelector(".wq-word-text");
+    const seen = []; let n = 0;
+    const tick = () => setTimeout(() => {
+      const room = w.getBoundingClientRect().width, need = t.getBoundingClientRect().width, op = getComputedStyle(t).opacity;
+      if (need > room + 1.5 && op !== "0") seen.push({ frame: n, room: Math.round(room), need: Math.round(need), opacity: op });
+      if (++n < 12) requestAnimationFrame(tick); else res(seen);
+    }, 0);
+    requestAnimationFrame(tick);
+  }));
+}
+
 /* ONE EVENT AT A TIME (bible 3.3, 13.3, 14). The census runs with reduced
    motion everywhere, which makes every other cell blind to ambient motion;
    this one runs with motion allowed and samples the document's running

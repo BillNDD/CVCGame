@@ -1451,7 +1451,7 @@ is why the file now counts itself, and counts the breakdown rather than only the
 `.census/report.json`, builds, runs the cells, and then runs `tools/census-report.mjs`
 whatever the runner's exit code was — so a run that produces no report, or a report from
 some other config, is refused rather than read. The floors it enforces are
-`census_controls` (41) and `census_cells` (692) in `.claude/gate-baseline.json`, under E6
+`census_controls` (41) and `census_cells` (708) in `.claude/gate-baseline.json`, under E6
 like every other floor. The gauntlet still does not call the census, and that stays
 deliberate: a flaky cell must inform a release, never block one.
 

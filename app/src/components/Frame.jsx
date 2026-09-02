@@ -21,6 +21,10 @@ export default function Frame({ children }) {
         h += zone.getBoundingClientRect().height;
       });
       el.style.setProperty("--wq-bottomzones", h + "px");
+      /* the garden frame is the shell's sibling, so it reads the same
+         measure from the root (art step 3): its drawing stops above the
+         rail and the strip */
+      el.parentElement?.style.setProperty("--wq-bottomzones", h + "px");
     };
     measure();
     window.addEventListener("resize", measure);
@@ -30,9 +34,19 @@ export default function Frame({ children }) {
       window.removeEventListener("orientationchange", measure);
     };
   });
+  /* The garden frame (art step 3): fixed, out of flow, geometry only, and
+     never a target - aria-hidden, no focusable node, pointer-events none on
+     every element. Its zones are empty boxes step 6 paints state 0 onto. */
   return (
     <div className="wq-root">
       <style>{CSS}</style>
+      <div className="wq-frame" aria-hidden="true">
+        <div className="wq-frame-box">
+          <div className="wq-frame-side left" /><div className="wq-frame-side right" />
+          <div className="wq-frame-band top" /><div className="wq-frame-band bottom" />
+          <div className="wq-frame-corner tl" /><div className="wq-frame-corner tr" />
+        </div>
+      </div>
       <div className="wq-shell" ref={shell}>{children}</div>
     </div>
   );

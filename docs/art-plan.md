@@ -728,6 +728,99 @@ scroll container on the grown-up screens, and the one-frame hide's interaction w
 ResizeObserver; which tests, gates and documents the change breaks, by path; and the three things
 it would refuse to let ship.
 
+### Step 3 before pass — three chairs, 2026-09-02 (recorded by the session lead; each finding read at its file and line before it was taken)
+
+**Art director — not satisfactory as written; the step is right, item 3's geometry is restated.**
+- The zone classes were keyed on viewport width; the margin the frame may use is set by the SHELL (640 px, 960 from `min-width:640` and `min-height:420`), which is keyed on orientation. Measured per side on the census's eight profiles: 0 px on all three phones, 55 (iPhone landscape), 64 (iPad Mini), 97 (iPad Pro 11), 32 (iPad Mini landscape), 160 (desktop). Key the zone on `max(0, (100vw − shell) / 2)` with a hard floor: **below 48 px the side zone paints nothing.**
+- "Outside the reading field" must read "outside the shell's outer edge": inside the shell live the header, rail and strip.
+- Short height (bible 5.1): at or under 620 px drop the top and bottom bands; at or under 520 px hide the layer entirely.
+- Compact sizing as a share of the short edge, not px: corner block 18 percent clamped 48–96 px, edge band 4 percent clamped 8–20 px (320 → 58/13; 390 → 70/16; 412 → 74/16). The share is the box; the bitmap inside it stays integer-snapped (8.2, 8.3).
+- Three crops, not four (bible 16): extra-wide reuses the wide crop with a wider margin.
+- Stacking: `.wq-root` is no stacking context, so a negative z-index paints under the root's gradient. Layer `z-index:0`, shell `position:relative; z-index:1`. And `inset:0` tracks the large viewport while the root is `100svh`: use `top:0; left:0; right:0; height:100svh`.
+- Tokens: `stone` corners, `gardenMoss` bands, `gardenTeal` as the one seam, `wood` sparingly; refuse `gardenNight` at compact sizes and every electric token.
+- Refusals: no corner drawn as a two-stroke bracket (an L a child scans; bible 6); no px-literal zone table without the shell-derived margin and the 48 px floor; no frame below 520 px height.
+
+**Reading chair — conditionally satisfactory; three refusals.**
+- Ruling 2's arithmetic holds (292/5.19 = 56.3; 320/5.19 = 61.7; 362/5.19 = 69.8; 390/5.19 = 75.1). But the gain is collected only while the clamp's ceiling (`11svh`) is above the width fit: at 320 that needs svh ≥ 561, at 390 svh ≥ 683. The census renders at 568, so it lands with 1 px to spare; on a real phone with browser chrome svh is 470–500 and the reclaim yields nothing. **Done must record per profile the clamp's computed ceiling and a literal `boundBy: "width" | "ceiling"`.**
+- Flush to the glass is worse at 0 px: the outermost letters are the ones decoding depends on, and they sit where thumbs, a case lip and a curved edge live. **Reclaim to `max(env(safe-area-inset-*), 6px)`, not to 0**: 320 → 308 px line → 59.3 px (+5.7 percent); 390 unchanged at 75.1 where the inset is 0.
+- The 520 px bound at 200 percent text shrinks the word (clamp gives 112.6 px, width 584 px; a 520 px bound refits to 100.2 px): bible 10.4 inverted. **State the word stage's bound as 32.5rem**; Build-it likewise; the sentence stage stays 640 px, where a bound wraps rather than shrinks.
+- The blank frame is the right trade (a clipped word is a different word; 16 ms of absence is below a child's event threshold), on the condition below.
+- "something" is pinned, not proven: `swimming` and `remember` are within about 1 percent; the cell must assert the probe still names the widest word.
+- Refusals: glyphs to the physical edge with no safe-area or edge guard; a 520 px bound in px on the word stage; a rotation hide with no guaranteed un-hide, or done with `display:none`, `visibility:hidden` or a transition — `opacity:0` on the inner span only, the box and baseline unmoved, the text kept in the accessibility tree.
+
+**Engineering seat (its first art seat) — ten findings, three refusals.**
+- `inset:0` sizes to the layout viewport; with the iOS URL bar shown the layer overhangs the shell's bottom by 60–115 px and paints into the home-indicator band. `top:0; left:0; right:0; height:100svh` (`dvh` is refused by the quality control), and the zones' drawing inset by `env(safe-area-inset-*)`.
+- The strip is `alpha(paper, .72)` with a blur: any band under it tints the grown-up controls. Assert the layer paints nothing below the shell's bottom minus the strip's height, and re-run axe on the strip.
+- Stacking as the art director said; and giving `.wq-shell` a stacking context makes it the containing block for `.wq-modalwrap` and `.wq-scrim`, which today resolve against `.wq-stage`: measure the scrim's box before and after.
+- Scroll is safe under `pointer-events:none` only if no descendant re-arms it.
+- `pointer-events:none` alone is not S5/S7: require it on the layer and every descendant, `aria-hidden="true"`, zero focusable nodes, and a census cell that runs `document.elementFromPoint` at the centre of every hold, rail and strip control and asserts the layer is never returned, with a planted `pointer-events:auto` control.
+- The one-frame hide: set in the ResizeObserver callback before the rAF, reading only `contentRect.width`; cleared as the FIRST statement of `fit()`, which covers all three call sites; gated on `contentRect.width !== lastRoom` so the observer's immediate first delivery does not blank every word on entry; cleared in the effect cleanup too, because React reuses the span across words and a torn-down effect could leave the next word invisible. Proof: the novelties rotation cell reads the span's computed opacity after each viewport, a new cell changes the word within one frame of a viewport change, and a hide that never clears is the control.
+- The reclaim is NOT a negative margin: `overflow-y:auto` on the stage makes `overflow-x` auto, so a negative margin becomes sideways scroll that checks 1–4 and 21–22 read; `.wq-stage.wq-scroll > *` outranks `.wq-word`; and the word is inside `.wq-stagegrid`, not a stage child. Under 480 px: `.wq-stage{padding:6px 0}` and `padding:0 14px` restored on the non-word children; never on `.wq-stagegrid` (no `box-sizing:border-box`, `width:100%` → 28 px overflow). And `.wq-stagegrid{max-width:440px}` caps the line: 320 and 390 gain as stated, 440–479 px gain nothing unless the cap is lifted for the word alone.
+- The 520/640/540 maxima bound the stage CONTENT per screen, never the shell; `.wq-stagegrid`'s 440 px already sits under 520, so a "≤ 520" cell needs a planted 560 px control or it measures nothing.
+- Blast radius: `wq-css.js`, `Word.jsx`, `Frame.jsx`; `tools/census-novelties.mjs` (`zoneSum`, `frame-in-flow`), `tests/census/novelties-once.spec.mjs` and its controls, `tests/ui/interface.mjs` checks 1–5, 13, 21–22; `census_cells` 692, `g7_interface_checks` 67 / `_webkit` 66 (up only); art budget unchanged at 0 bytes; `docs/art-bible.md` 5.2 and 10.4, `docs/art-plan.md`, `docs/open-faults.md` AF/AG, the file map for any new component, SPEC if the reclaim becomes stated layout.
+- Refusals: `inset:0` on the layer; `pointer-events:none` as the only guard with no `elementFromPoint` cell and no planted control; a glyph hide with no clear in the cleanup and no first-observe guard.
+
+**The lead's reading of the three together.** They agree on the layer's box (`height:100svh`, safe-area insets, `z-index:0` under a `z-index:1` shell) and on the hide's shape (inner span only, cleared first in `fit()`, guarded on first observe and in cleanup — the reading chair asks for `opacity:0`, the seat for `visibility:hidden`; opacity keeps the text in the accessibility tree and moves no box, so opacity). Two findings modify the owner's rulings and are put to him: the reclaim stops at the safe-area inset or 6 px, not the glass; and the word stage's bound is 32.5rem, not 520 px.
+
+**Owner, 2026-09-02, on the two refinements:** "Accept the 6 px guard" — the word reclaims to `max(env(safe-area-inset-*), 6px)`, not the glass; and "State it as 32.5rem" — the word stage's maximum is 32.5rem (520 px at normal text, scaling with the child's text size), Build-it likewise, the sentence stage stays 640 px.
+
+**What landed (2026-09-02), measured.** The frame layer: fixed, `height:100svh`, inset by the
+safe-area insets, stopping above the rail and strip, `z-index:0` beneath a `z-index:1` shell,
+aria-hidden, pointer-events none on every node; side zones keyed on the shell's own margin
+with the 48 px collapse floor; on the compact profiles two top corners (a share of the short
+edge, 58 px at 320) and two bands - the bottom corners were dropped on the first render, where
+the census's frame-over-field cell found them under the message slot on both phones. Zero
+layout height on all eight profiles (the frame-in-flow rule). The reclaim: the principal word
+alone, to a 6 px guard - "something" 56.1 → 58.72 px at 320 x 658, 69.6 → 72.67 at 390 x 664,
+73.8 → 76.53 at 412 x 839, each width-bound; the landscape phone and both iPads are
+ceiling-bound and collect nothing, which the cell now records per profile. The reading
+surface's bounds: the word stage 32.5rem (the line grows 440 → 520 on the tablets and desktop,
+where the fit follows: iPad Mini landscape and desktop 99.63 px), the sentence stage 640 px. The
+one-frame hide: `opacity:0` on the inner span from the ResizeObserver's delivery to the first
+line of the next fit, gated on a real width change, cleared in the cleanup; the fit itself took
+a second pass, because glyph widths do not scale quite linearly and one pass left "something"
+2 px wider than its box. The census's rotation cell samples twelve frames after each commits
+and refuses a visible frame wider than its line; its control switches the hide off and must
+see the clip. Art bytes: still 0.
+
+**Step 3 after pass — three chairs, 2026-09-02, each finding read at its line before it was taken.**
+
+- **Art director: satisfactory.** Every ask done, one done better: no fourth crop at all, the
+  side zone simply widens with the shell's margin. `gardenTeal` unused and rightly so - a seam is
+  a join between two materials and this step ships one material per zone; step 6 inherits the
+  reservation. The missing bottom corners accepted as a valid state-0 placeholder, on one
+  condition for step 6: author the compact crop for two corners, never crop four to two. Two
+  findings for step 6: the bottom band's foot follows `--wq-bottomzones`, so it sits at a
+  different height on different screens (invisible as moss, visible as painted art); and the
+  bible's Build It row, reconciled the same day.
+- **Reading chair: conditionally satisfactory, one blocking finding, taken.** The reclaim floor
+  was keyed on the reclaimed line itself, so a lost reclaim changed the key and the cell skipped
+  its own assertion - re-keyed on the profile name, every profile pinned, the widest word
+  asserted by name. The 1.5 px tolerance and the fit's second pass both right: a clip is a
+  letter cut at the glass, and the control (844 → 320 with the hide off) proves the sampler still
+  sees one. The tablet line widening from 440 to 520 is a gain (one word, never a wrap). Build-it
+  restated in rem with the word stage. The header left out of the frame cell's fields on
+  purpose, recorded in the detector.
+- **Engineering seat: three refusals, all taken.** The shell's new stacking context had made it
+  the containing block of the dialog wrap, so on a 1280 px desktop the scrim dimmed 640 of 1280:
+  the wrap is `position:fixed` now and a control measures it against the viewport. The reclaim
+  floor's self-keying, as above. Two controls that could not fail: the `opacity:0!important`
+  plant proved `!important`, not the app, and is gone; the `position:absolute` plant was
+  labelled "in flow" and collided with the frame-in-flow kind, so the layer's own faults have
+  their own kinds (`frame-not-fixed`, `frame-hidden` on a tall screen). Also taken: the hide's
+  width guard mixed a client rect with the observer's unzoomed content rect and would have
+  blanked every word on entry under zoom - both sides are rounded client widths now; the 48 px
+  collapse floor was an off-by-one; AG carries a line saying the landscape phone is untouched.
+  Its finding on the negative-margin reclaim was reversed on the spec's own words: a box inside
+  the padding box adds nothing to the scrollable overflow area, so the seat's before-pass refusal
+  of the negative margin is withdrawn and the margin stands. Declined with reasons: an
+  `elementFromPoint` proof of its own (the per-profile hit-test cell already runs one over every
+  control); a `≤ 520` content-bound cell (the bound is 32.5rem, and the word cell's per-profile
+  line records it). Two fixture repairs ride with the commit and are named there: the census's
+  hold-control locator still said "✓ got it (hold)" from before the locator sweep, and the home
+  screen's accessible-tree snapshot still said "Little Ears" from before the chunk ladder - both
+  from earlier commits, both found because this step ran the census whole.
+
 ## The log — every pass, every verdict
 
 Newest last. A verdict names the chair, the step, the word, and the findings.
@@ -767,7 +860,9 @@ Newest last. A verdict names the chair, the step, the word, and the findings.
   specifics — taken; (11) ladderComplete is a third promotion rule unless SPEC says the
   streak path never ends the ladder — taken; (12) the cap's mutant is equivalent; mutate
   the isSecure clause instead; place the functions after checkPromotion — taken;
-  (13) the floors that move — named above.
+  (13) the floors that move: `census_novelty_cells` 92 → 108 and `census_cells` 692 → 708,
+  measured by the runs of 2026-09-02 (novelties 124 cells with 16 controls, 0 problems; the
+  full census 749 cells, red only on AG's landscape reveal and the toast cell, both red on HEAD).
 - 2026-08-22 — Step 0d built. The 200% cell's first draft measured the element's box and
   called every word 292 px; corrected to the text's own line boxes, the probe found a fault
   older than the art project: the principal word is sized by HEIGHT alone (`11svh`), so at

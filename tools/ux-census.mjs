@@ -190,6 +190,11 @@ async function pseudoOverlays(page) {
     };
     const out = [];
     for (const el of document.querySelectorAll("*")) {
+      /* The Glowseed's core IS a positioned ::after by design (bible 7, art
+         step 2): an 11 px disc inside its own 16 x 20 px ovoid, painting over
+         nothing but itself. Its own census cell reads it; this scan is for a
+         pseudo-element that lands on something else. */
+      if (el.classList && el.classList.contains("wq-glowseed")) continue;
       for (const which of ["::before", "::after"]) {
         const cs = getComputedStyle(el, which);
         /* An element with no such pseudo-element reports "none" in Chromium
@@ -413,6 +418,13 @@ async function inspect(page, viewport, label, opts = {}) {
          backdrop, not content: excluding the whole dialog would hide real
          collisions between the controls inside it. */
       if (el.matches(".wq-scrim")) return false;
+      /* The garden frame (art step 3) is scenery beneath the shell by
+         construction - fixed, z-index 0 under the shell's 1, aria-hidden,
+         pointer-events none - and its own census cell measures what it may
+         not cross (the reading field, the rail, the strip). Counting its
+         bands as ink here paired a 13 px moss band with every header control
+         above it and called a clean home screen an overlap. */
+      if (el.closest(".wq-frame")) return false;
       const s = getComputedStyle(el);
       if (s.visibility === "hidden" || s.display === "none" || Number(s.opacity) === 0) return false;
       const r = el.getBoundingClientRect();

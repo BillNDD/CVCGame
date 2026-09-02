@@ -2384,6 +2384,7 @@ is a ruling on what free play offers a pre-ladder child, and the chooser matchin
   7 px.
 
 ## AG. The landscape phone's reveal is cut at the stage's edge — opened 2026-08-23
+- **Art step 3 (2026-09-02) leaves this profile exactly as it was:** the garden frame is hidden whole on any screen 520 px short or less (bible 5.1), and the census's frame cell records the layer as hidden there.
 
 
 - **Where it lives** `app/src/wq-css.js`: the three-zone shell (header, stage, rail and

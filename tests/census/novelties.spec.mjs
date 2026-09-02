@@ -8,7 +8,7 @@ import { test, expect } from "@playwright/test";
 import { readFileSync } from "node:fs";
 import { stage, holdGrade, waitForReveal, requireStaged, GRADE } from "../../tools/ux-census.mjs";
 import { landmarks, phaseHold, homeFurniture, chromeHold, hitTest,
-         zoneSum, runningAnimations, motionHold, popSpans, popOverlap, tileWidths, unitWidthHold,
+         zoneSum, frameHold, wordBound, runningAnimations, motionHold, popSpans, popOverlap, tileWidths, unitWidthHold,
          widestWord, wordBox, wordFits, wordGeometry, wordHold, soundingTile, soundingHold, buildControls, buildHold, faultOpen,
          GLOWSEED_PROBE, glowseedRead, glowseedHold } from "../../tools/census-novelties.mjs";
 import { BANK_WORDS, stageBuild, requireBuilt } from "../../tools/ux-census.mjs";
@@ -69,6 +69,62 @@ test("frame: the header, stage and rail fill the shell, and nothing else takes l
   const r = await zoneSum(page);
   expect(r.zones, "the three zones must exist").toBeTruthy();
   expect(r.findings, JSON.stringify(r)).toEqual([]);
+});
+
+test("the garden frame: fixed to the small viewport, out of flow, never over the reading field, never a target", async ({ page }) => {
+  /* Art step 3 (2026-09-01/02): the layer exists on every profile as
+     geometry; on the tall screens it is present and may paint nothing
+     (the art director's 48 px collapse floor on the side zones; the bands
+     and corners are the compact profiles'), and on a screen 520 px short or
+     less it is hidden whole (bible 5.1). What it paints must never cross the
+     word stage's content, the sentence, the tray, the rail or the strip. */
+  const { shown } = await stage(page, null, "sat", null);
+  requireStaged("sat", shown);
+  const r = await frameHold(page);
+  expect(r.findings, JSON.stringify(r)).toEqual([]);
+  const layout = await zoneSum(page);
+  expect(layout.findings, "0 px of layout: " + JSON.stringify(layout)).toEqual([]);
+  await holdGrade(page, GRADE.correct, []);
+  await waitForReveal(page);
+  const reveal = await frameHold(page);
+  expect(reveal.findings, "in the reveal: " + JSON.stringify(reveal)).toEqual([]);
+});
+
+test("the widest word's line: what bounds its size on this profile, and the reclaim's gain where the width does", async ({ page }) => {
+  /* The reading chair's condition on the reclaim (2026-09-02): the census
+     records, per profile, the fitted size, the ceiling and which of the two
+     decided - a profile whose ceiling binds collects nothing from a wider
+     line, and the record must say so rather than imply a gain. The literal
+     gains below are the ones measured when the reclaim landed; a profile
+     whose fit later drops below its literal is a regression of the reading
+     surface. */
+  const { shown } = await stage(page, null, "sat", null);
+  requireStaged("sat", shown);
+  const widest = await widestWord(page, BANK_WORDS);
+  const staged = await stage(page, null, widest.word, null);
+  requireStaged(widest.word, staged.shown);
+  const b = await wordBound(page);
+  expect(b, "the probe must read the word").toBeTruthy();
+  expect(b.opacity, "the glyphs are shown").toBe("1");
+  /* RECLAIM_FLOOR: the fitted size measured on 2026-09-02 with the reclaim
+     in place, per profile, rounded DOWN to a tenth - a floor, never a target.
+     Filled from the census run that landed the step; a null means the
+     profile's ceiling binds and the width is not what decides. */
+  /* Keyed on the PROFILE, never on the measured line: keyed on the line, a
+     lost reclaim changed the key and the lookup skipped itself (the reading
+     chair's after pass). Every profile has an entry; a ceiling-bound profile
+     records its ceiling as the floor, so a lowered clamp is caught there. */
+  const RECLAIM_FLOOR = {
+    "phone-portrait": 72.6, "phone-android": 76.5, "narrow-extreme": 58.7,   // measured 2026-09-02: 69.6 -> 72.67, 73.8 -> 76.53, 56.1 -> 58.72
+    "phone-landscape": 38.4, "tablet-portrait": 88, "tablet-large": 88,       // ceiling-bound: the clamp decides
+    "tablet-landscape": 99.6, "desktop": 99.6,                                // width-bound on the 520 px line
+  };
+  const floor = RECLAIM_FLOOR[test.info().project.name];
+  expect(floor, "every profile pins its widest word's size: " + test.info().project.name).toBeDefined();
+  expect(b.text, "the widest bank word is still the one the floors were measured on").toBe("something");
+  expect(b.fitted, JSON.stringify(b)).toBeGreaterThanOrEqual(floor);
+  test.info().annotations.push({ type: "word-bound", description: JSON.stringify(b) });
+  console.log("word-bound " + test.info().project.name + " " + JSON.stringify(b));
 });
 
 test("unit width: a multi-letter tile is visibly wider than a single-letter one in the reveal", async ({ page }) => {

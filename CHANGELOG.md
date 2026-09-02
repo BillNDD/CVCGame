@@ -24,6 +24,13 @@ The first app version is 1.0.0-beta.1. The app stays in beta until version 1.0 i
   "Saved progress found. Reload to continue it." as before. Found the first time the release
   checks ran on Firefox.
 
+- New in 1.0.0-beta.31: on small phones the word your child reads is a little bigger - it now
+  uses the space at the sides of the screen that the tiles and buttons still keep, stopping a
+  few pixels short of the edge. Turning the phone no longer flashes a too-wide word for an
+  instant. And the first outline of the garden frame is in place: soft green bands and two
+  stone corners on phones, side panels on tablets and desktops - the shape the garden art will
+  be painted onto in a later beta. It takes no space from the reading area and cannot be tapped.
+
 - Fixed in 1.0.0-beta.31: an update never reloads the app over the "Finish!" screen. The
   save was already safe, but the "All done! Great reading today!" message and the level-up
   could be cut off mid-celebration when a new version happened to take over at that moment.

@@ -38,14 +38,40 @@ export default function Word({ children, ...rest }) {
        words and raised a ResizeObserver loop error on every refit that the
        error ring recorded as a phantom bug (the council's after pass on step
        0, 2026-08-22). */
+    /* THE ONE-FRAME HIDE (art step 3, owner-ruled 2026-09-01; the seat's
+       shape, 2026-09-02). Between a width change and the next-frame fit the
+       word painted once at its old size - on landscape-to-portrait, wider
+       than its line and clipped at the glass. The glyphs are hidden for that
+       frame and shown again as the FIRST thing fit() does, which covers all
+       three callers (the layout effect, the observer's frame, fonts.ready).
+       opacity, never display or visibility: the outer box and baseline hold
+       (bible 3.2) and the text stays in the accessibility tree. Gated on the
+       width actually changing, so the observer's immediate first delivery
+       never blanks a word on entry; and cleared in the cleanup, because React
+       reuses this span across words and a torn-down effect must not leave the
+       next word invisible. */
+    let lastRoom = -1;
     const fit = () => {
+      inner.style.opacity = "";
       inner.style.fontSize = "";
       /* both as client rects: under CSS zoom a rect is scaled and clientWidth
          is not, and a room in one unit against a need in the other halved the
          word for nothing (the zoom arm, 2026-08-22) */
       const room = el.getBoundingClientRect().width, need = inner.getBoundingClientRect().width;
+      /* The guard's memory is clientWidth, rounded: the observer reports
+         contentRect in the same unzoomed CSS pixels, while a client rect is
+         scaled under CSS zoom - the zoom lesson above, applied to the guard
+         (the engineering seat's after pass). */
+      lastRoom = Math.round(el.clientWidth);
       if (room > 0 && need > room) {
         inner.style.fontSize = (parseFloat(getComputedStyle(el).fontSize) * (room - 1) / need).toFixed(2) + "px";
+        /* A second pass (art step 3, 2026-09-02): glyph widths do not scale
+           quite linearly with size - hinting and letter-spacing round per
+           glyph - and one proportional pass left "something" 2 px wider than
+           its box at 390 px. Measured again and scaled once more if it still
+           overhangs; the census's rotation cell reads the result to a pixel. */
+        const again = inner.getBoundingClientRect().width;
+        if (again > room) inner.style.fontSize = (parseFloat(inner.style.fontSize) * (room - 1) / again).toFixed(2) + "px";
       }
     };
     fit();
@@ -63,10 +89,24 @@ export default function Word({ children, ...rest }) {
        error back at 320 x 568 - forcing layout inside a delivery during a
        viewport change is enough to raise it - so the frame stays. */
     let frame = 0;
-    const ro = new ResizeObserver(() => { cancelAnimationFrame(frame); frame = requestAnimationFrame(fit); });
+    const ro = new ResizeObserver((entries) => {
+      const w = entries[0] && entries[0].contentRect ? Math.round(entries[0].contentRect.width) : lastRoom;
+      if (lastRoom >= 0 && w !== lastRoom) inner.style.opacity = "0";   // the width moved: hide until the fit lands
+      cancelAnimationFrame(frame); frame = requestAnimationFrame(fit);
+    });
     ro.observe(el);
+    /* THE HIDE ALSO RIDES THE RESIZE EVENT. The observer delivers after
+       layout, which is after every animation-frame callback of that frame:
+       the census's rotation sampler, and anything else reading the word in a
+       frame callback, could still meet the old glyphs at the new width with
+       opacity 1 (the novelties run of 2026-09-02 did, once, at 320 x 568).
+       A resize event is dispatched before the frame callbacks, so the hide
+       lands first. Reading clientWidth here forces one layout at the new
+       size, outside any observer delivery, which the loop guard allows. */
+    const onResize = () => { if (lastRoom >= 0 && Math.round(el.clientWidth) !== lastRoom) inner.style.opacity = "0"; };
+    window.addEventListener("resize", onResize);
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(fit, () => {});
-    return () => { ro.disconnect(); cancelAnimationFrame(frame); };
+    return () => { ro.disconnect(); window.removeEventListener("resize", onResize); cancelAnimationFrame(frame); inner.style.opacity = ""; };
   }, [text]);
   return <div ref={ref} className="wq-display wq-word" aria-live="off" {...rest}><span className="wq-word-text">{children}</span></div>;
 }

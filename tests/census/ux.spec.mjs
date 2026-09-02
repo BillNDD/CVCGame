@@ -321,7 +321,7 @@ for (const c of CASES) {
     const before = await savedState(page);
 
     const prompt = await inspect(page, viewport, "word", {
-      mustBeVisible: [".wq-word", "button[aria-label='✓ got it (hold)']"],
+      mustBeVisible: [".wq-word", "button[aria-label='got it']"],
     });
     for (const f of prompt.findings) expect.soft(f, `[word] ${f.kind}: ${f.detail}`).toBeUndefined();
 

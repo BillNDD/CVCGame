@@ -4,8 +4,8 @@
 - main:
   - heading "Word Quest" [level=1]
   - paragraph: Ready to read? 📖
-  - text: Pre 1 👂 Little Ears 🗓️ 0 sessions 🌟 0 mastered
+  - text: Pre 1 ✨ First Sounds 🗓️ 0 sessions 🌟 0 mastered
 - button "Begin Session": ▶️ Begin Session
 - button "Free play": 🎈 Free play
 - text: /grown-up up to \d+ words · about 5 minutes · you judge v[\d.]+-beta\.\d+ · [0-9a-f]+/
-- button "Check for updates"
+- button "Check for updates": ↻ Check for updates

@@ -178,9 +178,9 @@ excessively long lines of teaching text.
 
 | Content | Preferred maximum |
 |---|---|
-| Word stage | 520 CSS px |
+| Word stage | 32.5rem (520 CSS px at the default text size; scales with the child's text size - owner-ruled 2026-09-02 on the reading chair's finding that a px bound shrinks a 200 percent child's word) |
 | Sentence stage | 640 CSS px; natural wrapping |
-| Build It stage | 540 CSS px |
+| Build It stage | 32.5rem, the word stage's bound (the tray's own tile and slot sizes are inline in the screen; re-stated with the word stage on 2026-09-02 so a 200 percent child's tray is never shrunk to widen a margin) |
 | Child target | 56 px minimum |
 | Adult target | 44 px minimum |
 
@@ -544,6 +544,7 @@ and the rows above say what the app says.
 - Do not justify or horizontally scroll teaching text.
 - Keep wrapping stable within a prompt state.
 - Reduce scenery and margins before reducing the approved font.
+- **Ruling (2026-09-01, refined 2026-09-02).** On the compact profiles (under 480 px) the principal word alone reclaims the stage's 14 px side margins down to a 6 px edge guard or the safe-area inset, whichever is larger; tiles, message and controls keep their 14 px. Art step 3 built it; the census records per profile what bounds the word's size, the width or the clamp's ceiling.
 
 **Rulings (2026-08-22).** The stack and the principal word's clamp are the app's own
 (`app/src/wq-css.js`), copied back by the bible. The clamp's `dvh` becomes `svh`: the

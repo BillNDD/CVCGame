@@ -9,7 +9,7 @@ import { test, expect, devices } from "@playwright/test";
 import { stage, stageBuild, requireBuilt, holdGrade, waitForReveal, requireStaged, seedGraduated, GRADE, BANK_WORDS } from "../../tools/ux-census.mjs";
 import { landmarks, phaseHold, homeFurniture, chromeHold, offlineHold,
          markStay, assertStayed, pokeForeground, hitTest, monkey, tappable, SOUND_ONLY,
-         zoneSum, runningAnimations, motionHold, popOverlap, unitWidthHold, wordBox, wordFits, widestWord, wordGeometry, wordHold,
+         zoneSum, frameHold, wordBound, wideFrames, runningAnimations, motionHold, popOverlap, unitWidthHold, wordBox, wordFits, widestWord, wordGeometry, wordHold,
          guideState, guideHold, artSnap, snapHold, soundingTile, soundingHold, faultOpen, buildControls, buildHold, rgbOf,
          GLOWSEED_PROBE, glowseedRead, glowseedHold } from "../../tools/census-novelties.mjs";
 import { C } from "../../src/engine.js";
@@ -249,11 +249,20 @@ test("the fit across a rotation: the word refits and the error ring stays empty"
   requireStaged(widest.word, staged.shown);
   const sizes = [];
   for (const [w, h] of [[390, 844], [320, 568], [844, 390], [390, 844]]) {
+    /* THE ONE-FRAME CLIP (art step 3, ruling 4): during the change the
+       glyphs may be hidden for a frame, never painted wider than their line.
+       Sampled every animation frame across the change: a visible inner span
+       wider than its box is the clip that was ruled out. */
+    const wide = wideFrames(page);
     await page.setViewportSize({ width: w, height: h });
+    const clipped = await wide;
+    expect(clipped, w + "x" + h + ": a frame painted the word wider than its line: " + JSON.stringify(clipped)).toEqual([]);
     await page.waitForTimeout(250);
     const box = await wordBox(page);
     sizes.push(w + "x" + h + ":" + box.fontPx);
     expect(wordFits(box, 36), w + "x" + h + ": " + JSON.stringify(box)).toEqual([]);
+    /* and the hide never sticks: after the fit the glyphs are shown */
+    expect((await wordBound(page)).opacity, w + "x" + h + ": the glyphs are shown after the fit").toBe("1");
     expect(await page.evaluate(() => localStorage.getItem("wq-errors")), w + "x" + h + ": the error ring must stay empty; sizes so far " + sizes.join(" ")).toBeNull();
   }
   /* and the word actually refitted across those viewports, or the cell
@@ -269,6 +278,18 @@ test("control: a frame in flow, a looping animation, equal tile widths, a wrappe
   const frame = await zoneSum(page);
   expect(frame.findings.map((f) => f.kind)).toContain("frame-in-flow");
   await page.evaluate(() => document.getElementById("wq-plant-frame").remove());
+  /* the garden frame's refusals (art step 3), planted after the older
+     plants so those run in the page they were written for: a side zone widened over
+     the word stage's content, a zone that takes pointer events, and a layer
+     that reaches into the layout viewport - each caught by frameHold */
+  await page.addStyleTag({ content: ".wq-frame-side{width:120px!important;background:#000!important}" });
+  expect((await frameHold(page)).findings.map((f) => f.kind), "a zone over the reading field").toContain("frame-over-field");
+  await page.addStyleTag({ content: ".wq-frame-box{pointer-events:auto!important}" });
+  expect((await frameHold(page)).findings.map((f) => f.kind), "a zone that takes pointer events").toContain("frame-reachable");
+  await page.addStyleTag({ content: ".wq-frame{position:absolute!important}" });
+  expect((await frameHold(page)).findings.map((f) => f.kind), "a layer that is not fixed").toContain("frame-not-fixed");
+  await page.addStyleTag({ content: ".wq-frame{display:none!important}" });
+  expect((await frameHold(page)).findings.map((f) => f.kind), "a layer hidden on a tall screen").toContain("frame-hidden");
   /* guide on the stage during an attempt, on a screen the allow-list forbids */
   await page.evaluate(() => { const g = document.createElement("div"); g.className = "wq-guide"; g.id = "wq-plant-guide"; g.style.cssText = "position:absolute;width:40px;height:40px"; document.querySelector(".wq-stage").appendChild(g); });
   const guide = guideHold(await guideState(page));
@@ -331,6 +352,27 @@ test("control: a frame in flow, a looping animation, equal tile widths, a wrappe
   expect(wrapped.map((f) => f.kind), JSON.stringify(wrapped)).toContain("word-wrapped");
   expect(wordFits(null, 36).map((f) => f.kind)).toEqual(["no-subject"]);
   expect(wordFits({ text: "sat", lines: 1, left: 10, right: 200, fontPx: 30, vw: 320 }, 36).map((f) => f.kind)).toEqual(["word-too-small"]);
+  /* the one-frame hide's two failure shapes: the CLIP ITSELF with the hide
+     switched off - the widest word, landscape to portrait, the sampler must
+     see a visible frame wider than its line - and a hide that never clears */
+  await page.setViewportSize({ width: 844, height: 390 });
+  const widest = await widestWord(page, BANK_WORDS);
+  const wideStaged = await stage(page, null, widest.word, null);
+  requireStaged(widest.word, wideStaged.shown);
+  await page.addStyleTag({ content: ".wq-word-text{opacity:1!important}" });   // the hide, off
+  const sampling = wideFrames(page);
+  await page.setViewportSize({ width: 320, height: 568 });
+  const clip = await sampling;
+  expect(clip.length, "with the hide off, the rotation paints the old-size word wider than its line at least once: " + JSON.stringify(clip)).toBeGreaterThan(0);
+  /* a dialog covers the VIEWPORT, not the shell (the shell is a stacking
+     context since step 3): the free-play chooser's wrap against a window
+     twice the shell's width */
+  await page.setViewportSize({ width: 1280, height: 720 });
+  await page.goto("/", { waitUntil: "load" });
+  await page.getByRole("button", { name: "Free play" }).click();
+  const wrap = await page.locator(".wq-modalwrap").boundingBox();
+  expect(wrap && Math.round(wrap.width) === 1280 && Math.round(wrap.height) === 720, "the dialog's wrap covers the whole viewport: " + JSON.stringify(wrap)).toBe(true);
+  await page.setViewportSize({ width: 390, height: 844 });
 });
 
 /* LAST ON PURPOSE: the worker's install precaches about 1,500 files through
