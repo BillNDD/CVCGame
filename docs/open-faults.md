@@ -3136,3 +3136,116 @@ what is true now.
   chunk records is exactly the child the ladder is FOR, and that rule credited them out of it.
   `tests/pre.test.js` caught it in one run: "a level-5 graduate meets c:am first". The two cases
   are identical in the data and only the version tells them apart.
+
+## AX. The inheritance walk of 2026-09-01 — three findings, all FIXED the same day
+
+- **Why a walk.** The owner, after beta 30: "you are a more capable model than the one that
+  built the code base. Perhaps you should walk through and look for any obvious bugs now that
+  you inherit it." About 2,300 lines were read from HEAD while the gauntlet held the tree:
+  `App.jsx` (the session loop, the advance, the exit paths, the settings), `usePre.js`,
+  `storage.js`, `HoldButton.jsx`, `Word.jsx`, `PreSessionScreen.jsx`, `SessionScreen.jsx`,
+  `swrefresh.js`, `updates.js`. Nothing severe; nothing that loses data or breaks a safety
+  rule. Three real findings, and the owner ruled all three fixed ("All three").
+- **1. The pre-level's Next control had no guard with sound off.** A word grade arms the 400 ms
+  `ADVANCE_GUARD_MS` on the sound-off path (P0-3, `App.jsx` grade); the pre-level's grade set
+  the control live at once, so a child's tap could take "Let's try that again" off the screen
+  before anyone had read it. Fixed in `usePre.js` with the same guard. The path that reaches
+  it: Begin Session refuses the pre-levels without sound, but a graduate's due chunk riders
+  open the session on the same screen with no refusal - so G7 check 67 drives a version-7
+  level-5 graduate (c:am is the first seated chunk with a clip) with sound off and proves
+  inert-then-alive, with the same negative control as check 6; `tests/pre.test.js` pins the
+  400 as a literal.
+- **2. An update could reload the page over the Finish screen.** `swrefresh.js` held the reload
+  during `session`, `pre` and `build` only. On `done` and `predone` the save is already written,
+  so nothing is lost — but "All done! Great reading today!" and the level-up buzz were cut
+  mid-celebration. Both screens join `LIVE`; `tests/safety.test.js` 17 and 17b now say so, with
+  the `parent` screen as the control that a non-live screen still reloads at once.
+- **3. A comment that had become false.** The A3-002 note in the engine said "nothing further
+  ahead is ever served, whatever a save happens to hold." The bring-forward lane ruled for AU
+  deliberately does, capped at three, and `tests/scheduler.test.js` "reaches a word no other
+  lane can" proves it. The comment now names the lane. Behaviour unchanged.
+- **Checked and rejected**, so nobody re-walks them: the bring-forward lane serving a word two
+  levels up (intended and tested); `HoldButton` firing after a mid-hold disable (every `onFire`
+  handler has its own ref guard); the IndexedDB read leak on a request error (the abort path
+  closes the database).
+
+## AY. What the second and third engines found on their first day — 2026-09-01, three fixed, two open, one held out
+
+- **Why now.** QA build-out item 1 (owner-ruled 2026-09-01, "engines first") ran G7, G8 and G18
+  on WebKit 26.5 and Firefox 153 for the first time. Every browser gate had run on Chromium
+  alone since the project began, and WebKit is the engine of every iPhone and iPad.
+- **FIXED: the recorded-voice notice in the corner was under the contrast floor.** The
+  Grown-ups corner shows "The recorded voice" only after the pack has actually fallen back to
+  the device's own voice - and Chromium plays the pack, so no gate had ever rendered it.
+  Headless WebKit has no `AudioContext`, fell back at once, and G8's walker measured its
+  Reason line at **3.79:1**: `wq-help` at 5.12:1 under an inline `opacity: 0.85`. The opacity
+  is gone; the line measures 5.12. The engineering seat's before pass named this the one
+  finding it would refuse to see reclassified as a WebKit quirk, and it was right: the ratio
+  was real, on a real screen, that one engine never reaches.
+- **FIXED: Firefox's cold load took 8 to 15 seconds, and G8 died at its first `goto`.** Not
+  the app: vite's preview bound `::1` alone on the owner's machine and Firefox tries
+  127.0.0.1 first. Bound explicitly to 127.0.0.1 the same load is 1.6 s. Every gate's server
+  now binds so; Chromium and WebKit never showed it.
+- **FIXED: two gate assumptions that were Chromium's.** G8 slept 500 ms before measuring the
+  inert advance control, and on the fallback path (400 ms guard, no pack) the control was
+  already live - the inert look was never measured on WebKit at all; it is measured the moment
+  the tiles appear now. G7's sentence check put a word with NO box and a word with a SHORT box
+  in one bucket and would have thrown on the null; Firefox reports a 56 px line box as
+  55.99998, and the check now allows the same half-pixel the control-floor check always has,
+  with a missing box reported as its own fault.
+- **DECLARED, NOT PROVED: the offline promise on WebKit.** Playwright's WebKit build crashes
+  ("WebKit encountered an internal error") on the offline reload of a service-worker page. G7
+  check 12 prints a declared skip there and counts nothing; the gauntlet requires that exact
+  line of the WebKit step and the real check of the other two. A session starting offline is
+  proved on Chromium and Firefox and stated unproved on the engine every iPhone runs.
+- **HELD OUT: G7 on Firefox.** It passed 23 checks and then, twice in three runs, a grade by
+  Enter never produced the feedback tiles - the walk hung with no red - once at the 1080 x 810
+  landscape check and once in the fill check. Not pinned - and eight isolated repeats of the
+  same seed, grade and viewports in fresh contexts were clean, so it shows only deep into one
+  long browser process (twenty-odd contexts in), which points at the harness before the app.
+  G8 and G18 run on Firefox in the
+  gauntlet; G7 does not until this and the backstop below are understood, and the gauntlet
+  says so rather than carrying a step that is red for reasons nobody can name.
+- **FOUND, AND A REAL-DEVICE RISK (open fault AZ): a first boot whose save read takes more
+  than 3 s plays the whole visit unsaved.** Measured on Firefox: a fresh profile's first
+  IndexedDB open takes 3.7 to 6.3 s, later opens 30 to 100 ms. `SPLASH_TIMEOUT_MS` is 3,000,
+  and at the deadline the app shows a fresh state, sets read-only, and writes nothing for the
+  visit; when the real save then arrives late it toasts "Saved progress found. Reload to
+  continue it." That is the F3 design working as written - never write over a save you could
+  not read - but on a device whose storage is always that slow a child would never load their
+  save at all, and a grown-up who misses a 3.2 s toast starts a session that is not saved.
+  The seat should be asked whether the deadline can move the SPLASH without moving the
+  write decision: show home at 3 s, but adopt a late read that lands before any write.
+- **OPEN: on Firefox the reveal sometimes reaches the 10-second backstop.** Twice in the
+  first day's runs the advance control stayed dead for about 10 s after a grade - neither the
+  pack scheduled nor the fallback reported, so `ADVANCE_BACKSTOP_MS` was what freed it - and
+  five instrumented runs then went to the fallback in under 1.2 s every time. What is known:
+  headless Firefox's `AudioContext` starts `suspended`, every clip decodes, and the player then
+  hands the word to system speech, which is the 400 ms path. What is not known is what the
+  two slow runs did instead; both happened under load, one under reduced motion. G7's timing
+  check now names the backstop as a third path and fails on it on every engine, so a
+  recurrence is a red step with the engine in its message rather than a puzzle. If it recurs
+  on Firefox alone it is Firefox's audio start-up; if it recurs elsewhere it is the app's, and
+  the `my !== token` return in `playPlan` - the one exit that reports nothing to the caller -
+  is the first place to look.
+
+## AZ. A first boot whose save read takes more than 3 seconds plays the whole visit unsaved — found 2026-09-01 by the Firefox gates, OPEN
+
+- **What a grown-up experiences.** The app opens to a fresh home screen with "Pre 1", a toast
+  says "Couldn't read saved progress. Nothing will be saved this visit.", and a few seconds
+  later a second toast says "Saved progress found. Reload to continue it." Both last 3.2 s. A
+  grown-up who misses them starts a session that is not saved; a device whose storage is
+  always that slow never loads the child's save at all.
+- **Where it lives.** The boot effect in `app/src/App.jsx`: at `SPLASH_TIMEOUT_MS` (3,000) the
+  timer sets read-only, shows a fresh state and settles; the late `loadState` then sees
+  `settled` and can only toast. F3 ("never write over a save you could not read") is working
+  exactly as written. Measured on Firefox: a fresh profile's first IndexedDB open takes 3.7 to
+  6.3 s and later opens 30 to 100 ms - so the Firefox gates met it on every first boot.
+- **What done means.** The engineering seat's recommended shape, to be ruled on: keep the 3 s
+  deadline for SHOWING home, but stop making it the write decision - a late read that lands
+  before any write and before the child leaves home is adopted (state, migration, read-only
+  cleared) instead of toasted; once a session has started or a result has been written, the
+  current toast stays right. It splits `settled` into shown and committed, moves the effect
+  map's P2-6/F3 row and any test that pins "Reload to continue it" as the only late-read
+  outcome, and needs its own control proving a save is NOT adopted after the first write.
+  Not changed in the engines batch: it is a design ruling, and the owner's.

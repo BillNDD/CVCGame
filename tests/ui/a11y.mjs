@@ -5,13 +5,13 @@
    - an injected low-contrast line must be flagged by the walker;
    - a mid-hold snapshot without reduced motion must show a live animation.
    Run: npm run test:a11y */
-import { chromium } from "playwright";
+import { launchEngine } from "./engine.mjs";
 import { spawn, execSync } from "node:child_process";
-import { existsSync, readFileSync } from "node:fs";
+import { readFileSync } from "node:fs";
 import { STORE_KEY, TRICKY, WORD_LEVEL } from "../../src/engine.js";
 
 const PORT = 4184;
-const URL = `http://localhost:${PORT}/`;
+const URL = `http://127.0.0.1:${PORT}/`;
 const AXE = readFileSync("node_modules/axe-core/axe.min.js", "utf8");
 let failures = 0, checks = 0;
 const ok = (name) => { checks += 1; console.log(`ok ${checks}: ${name}`); };
@@ -21,7 +21,12 @@ if (!process.env.WQ_SKIP_BUILD) execSync("npm --prefix app run build", { stdio: 
 /* vite through node itself: "npx" is not spawnable on Windows (ENOENT), the
    same fault the mutant runners fixed on 2026-08-15. The bin path is the
    app's own vite, resolved from the cwd the server runs in. */
-const server = spawn(process.execPath, ["node_modules/vite/bin/vite.js", "preview", "--port", String(PORT), "--strictPort"], {
+/* BOUND TO 127.0.0.1, NOT LEFT TO VITE (2026-09-01): on this machine the
+   preview binds ::1 alone, and Firefox tries 127.0.0.1 first - its cold load
+   measured 8 to 15 s, past the harness's 30 s more often than not, and G8 on
+   Firefox died at its first goto. Bound explicitly, the same load is 1.6 s.
+   Chromium and WebKit never showed it, which is the whole case for engines. */
+const server = spawn(process.execPath, ["node_modules/vite/bin/vite.js", "preview", "--host", "127.0.0.1", "--port", String(PORT), "--strictPort"], {
   cwd: "app", stdio: "ignore", detached: true,
 });
 const stopServer = () => { try { process.platform === "win32" ? server.kill() : process.kill(-server.pid); } catch {} };
@@ -37,8 +42,10 @@ for (let i = 0; i < 300 && !serverUp; i++) {
   if (!serverUp) await new Promise((r) => setTimeout(r, 200));
 }
 if (!serverUp) { stopServer(); throw new Error(`the preview server never answered on ${URL} within 60 s - nothing below was measured`); }
-const executablePath = existsSync("/opt/pw-browsers/chromium") ? "/opt/pw-browsers/chromium" : undefined;
-const browser = await chromium.launch({ executablePath, args: ["--no-sandbox"] });
+/* The engine is chosen in ONE place (tests/ui/engine.mjs): CENSUS_ENGINE names
+   it, it is refused if not installed, and the helper prints the browser line
+   the gauntlet records. WebKit is the engine of every iPhone and iPad. */
+const { browser } = await launchEngine();
 
 async function runAxe(page) {
   await page.addScriptTag({ content: AXE });
@@ -204,19 +211,29 @@ if (!TRICKY_WORD) throw new Error("no tricky word holds a level seat - the note 
     words: { [TRICKY_WORD]: { box: 5, attempts: 3, correct: 3, close: 0, wrong: 0, dueAt: 0, lastSession: 0 } },
     log: [], pre: {},
   });
-  await page.evaluate(([db, store, key, value]) => new Promise((resolve, reject) => {
+  /* Let the app's own first-boot write land before this one, then READ IT
+     BACK and retry once (2026-09-01): a put that races the boot can lose, on
+     Firefox it did, and a lost seed here failed the tricky-note check with a
+     misleading message. Same shape as G7's seedSave. */
+  const idb = (mode) => page.evaluate(([db, store, key, value, m]) => new Promise((resolve, reject) => {
     const rq = indexedDB.open(db, 1);
     rq.onupgradeneeded = () => rq.result.createObjectStore(store);
     rq.onsuccess = () => {
-      const tx = rq.result.transaction(store, "readwrite");
-      tx.objectStore(store).put(value, key);
-      tx.oncomplete = () => resolve(true);
-      tx.onerror = () => reject(tx.error);
+      const os = rq.result.transaction(store, m).objectStore(store);
+      const r = m === "readwrite" ? os.put(value, key) : os.get(key);
+      r.onsuccess = () => resolve(r.result); r.onerror = () => reject(r.error);
     };
     rq.onerror = () => reject(rq.error);
-  }), [dbName, dbStore, STORE_KEY, seeded]);
-  await page.reload();
-  await page.getByRole("button", { name: "Begin Session" }).waitFor();
+  }), [dbName, dbStore, STORE_KEY, seeded, mode]);
+  let landed = false;
+  for (let attempt = 0; attempt < 2 && !landed; attempt++) {
+    await page.waitForTimeout(400);
+    await idb("readwrite");
+    await page.reload();
+    await page.getByRole("button", { name: "Begin Session" }).waitFor();
+    landed = JSON.parse(await idb("readonly") || "{}").level === WORD_LEVEL[TRICKY_WORD];
+  }
+  if (!landed) throw new Error("the tricky-word seed never landed: the app kept overwriting it");
 }
 
 /* session (ready) */
@@ -229,7 +246,11 @@ await audit("session");
   const b = page.getByRole("button", { name: "got it" });
   await b.focus(); await b.press("Enter");
   await page.locator(".wq-tile").first().waitFor();
-  await page.waitForTimeout(500);
+  /* MEASURED AT ONCE, inside the 400 ms guard every path arms (P0-3), not
+     after a 500 ms sleep: on an engine with no audio player - headless
+     WebKit has no AudioContext at all - the reveal falls back to the short
+     guard and the control was already LIVE when the old sleep ended, so the
+     inert look was never measured there (the engineering seat, 2026-09-01). */
   /* A2-011 — the inert advance control, measured on purpose. WCAG exempts an
      inactive component and the walker above skips it by design, but this one
      waits about six seconds on every word and it is the control the grown-up

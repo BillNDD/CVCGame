@@ -460,35 +460,72 @@ step("G14 art-budget", "node tools/art-budget.mjs --dist && node tools/art-budge
   { label: "controls", regex: /art-budget controls: (\d+) passed/, min: 11 },
 ], {}, ["13 MB of planted art is refused", "a built file whose bytes differ from its source is refused"]);
 
-step("G7 interface", "node tests/ui/interface.mjs", [
-  { label: "checks", regex: /(\d+) checks passed/, floorKey: "g7_interface_checks" },
-  { label: "failed", regex: /(\d+) failed/, max: 0 },
-], { WQ_SKIP_BUILD: "1" }, [
+/* THREE ENGINES (QA build-out item 1, owner-ruled 2026-09-01: "engines
+   first"). The browser gates ran on Chromium alone; WebKit is the engine of
+   every iPhone and iPad, the devices the owner QAs on, and no gate had ever
+   run it. Each gate now runs once per engine as its OWN step - a distinct
+   name, so `ran` (a Set over gate names) counts three and a missing engine is
+   INCOMPLETE - and each step keeps the "G7 " / "G8 " / "G18 " prefix that
+   NEVER_LANED matches, so none of them slips into the lane beside G5.
+   PER-ENGINE FLOORS: one shared key would be the minimum across engines, and
+   WebKit carries a declared skip (the offline reload crashes Playwright's
+   WebKit), so a shared key could never rise past WebKit's count - a floor held
+   down with no owner-visible diff, which is E6's spirit. Chromium keeps the
+   keys it always had; the other two carry their own.
+   THE ENGINE LINE IS REQUIRED: a step must print `browser: WebKit/` to pass
+   as the WebKit step, so Chromium can never run under a WebKit label
+   (tools/census-report.mjs records the incident this guards against). */
+const ENGINES = [["chromium", "Chromium", ""], ["webkit", "WebKit", "_webkit"], ["firefox", "Firefox", "_firefox"]];
+const engineName = (gate, engine) => (engine === "chromium" ? gate : `${gate} (${engine})`);
+const G7_REQUIRED = [
   "controls all render at or above their floor",
   "tablet portrait 768x1024",
   "landscape 1280x800",
-  "a session starts offline after one online load",
   "control OK: the probe reads rendered size",
-]);
-
-step("G8 accessibility", "node tests/ui/a11y.mjs", [
-  { label: "checks", regex: /(\d+) checks passed/, floorKey: "g8_checks" },
-  { label: "failed", regex: /(\d+) failed/, maxKey: "g8_axe_violations_max" },
-], { WQ_SKIP_BUILD: "1" });
-
-/* S6 watched rather than read: the source scan in tests/safety.test.js stays
-   as the fast pre-filter, and this records what the browser actually asks
-   for. A gate that can see a request from a dependency or a stylesheet. */
-const netOut = step("G18 network", "node tests/ui/network.mjs", [
-  { label: "checks", regex: /(\d+) checks passed/, floorKey: "g18_network_checks" },
-  { label: "failed", regex: /(\d+) failed/, max: 0 },
-], { WQ_SKIP_BUILD: "1" }, [
+];
+/* The offline promise is proved on Chromium and Firefox and DECLARED unproved
+   on WebKit, in the gate's own printed words; the requirement follows. */
+const G7_OFFLINE = "a session starts offline after one online load";
+const G18_REQUIRED = [
   "a full word and its whole reveal ask nothing of the network",
   "the Grown-ups corner asks nothing of the network",
   "the update check asks its own host only",
   "returning to the foreground stays on the app's own host",
   "control OK: the recorder catches a planted fetch",
-]);
+];
+const netOuts = [];
+for (const [engine, label, suffix] of ENGINES) {
+  const env = { WQ_SKIP_BUILD: "1", CENSUS_ENGINE: engine };
+  const line = `browser: ${label}/`;
+  /* G7 ON FIREFOX IS HELD OUT, STATED HERE AND IN THE DOC (open fault AY,
+     2026-09-01). It reached 23 green checks and then lost a grade twice in
+     three runs - a walk that hangs on a tile after Enter, with no red - and
+     the reveal twice reached the 10 s backstop. A gate that is red for
+     reasons nobody has pinned is a flaky gate, and a flaky pass is a finding,
+     not a pass. G8 and G18 run on Firefox; G7 joins when the two faults are
+     understood. It is NOT in REQUIRED_GATES, so its absence is honest. */
+  /* The engine helper's own nine controls run once, ahead of the first G7:
+     a self-test no gate runs is a control that rots (the after pass). */
+  const g7cmd = (engine === "chromium" ? "node tests/ui/engine.mjs --self-test && " : "") + "node tests/ui/interface.mjs";
+  if (engine !== "firefox") step(engineName("G7 interface", engine), g7cmd, [
+    { label: "checks", regex: /(\d+) checks passed/, floorKey: "g7_interface_checks" + suffix },
+    { label: "failed", regex: /(\d+) failed/, max: 0 },
+    ...(engine === "chromium" ? [{ label: "engine_controls", regex: /engine self-test: (\d+) controls, all caught/, min: 9 }] : []),
+  ], env, [line, ...G7_REQUIRED, engine === "webkit" ? `skip (declared): ${G7_OFFLINE}` : G7_OFFLINE]);
+
+  step(engineName("G8 accessibility", engine), "node tests/ui/a11y.mjs", [
+    { label: "checks", regex: /(\d+) checks passed/, floorKey: "g8_checks" + suffix },
+    { label: "failed", regex: /(\d+) failed/, maxKey: "g8_axe_violations_max" },
+  ], env, [line]);
+
+  /* S6 watched rather than read: the source scan in tests/safety.test.js stays
+     as the fast pre-filter, and this records what the browser actually asks
+     for. A gate that can see a request from a dependency or a stylesheet. */
+  netOuts.push(step(engineName("G18 network", engine), "node tests/ui/network.mjs", [
+    { label: "checks", regex: /(\d+) checks passed/, floorKey: "g18_network_checks" + suffix },
+    { label: "failed", regex: /(\d+) failed/, max: 0 },
+  ], env, [line, ...G18_REQUIRED]));
+}
 
 /* G21: the round page is how every listening verdict reaches this project. On
    2026-08-11 a whole round's marks were lost to a copy button that could not
@@ -596,7 +633,9 @@ step("G25 safety-cover", LANE_B.get("G25 safety-cover"), [
 const REQUIRED_GATES = [
   "G11 copy", "G1+G2+G9+G10 tests", "G3 regeneration", "G4 acceptance-mutants",
   "G5 source-mutants", "G19 app-mutants", "E11 lookup-mutants", "G6 coverage", "G6 quality",
-  "G7 interface", "G8 accessibility", "G18 network", "G16 doc-truth",
+  "G7 interface", "G8 accessibility", "G18 network",
+  "G7 interface (webkit)", "G8 accessibility (webkit)", "G18 network (webkit)",
+  "G8 accessibility (firefox)", "G18 network (firefox)", "G16 doc-truth",
   "G12 qa-procedure", "G13 voice-pack", "G13 voice-edges", "G20 effect-map", "G17 governing", "G23 file-map",
   "G24 s9-names", "G6 coverage-control", "G21 listening-page", "app build", "G14 art-budget",
 ];
@@ -656,7 +695,9 @@ const report_ = {
   platform: {
     node: process.version,
     os: `${process.platform} ${process.arch}`,
-    browser: (netOut.match(/browser: (\S+)/) || [])[1] || null,
+    /* Every engine that saw the app, so a report can never be read as
+       covering a platform it never ran on. */
+    browsers: netOuts.map((o) => (o.match(/browser: (\S+)/) || [])[1] || null),
   },
   /* The RESOLVED tool versions, not the caret ranges in package.json: two
      runs of the same commit can otherwise use different vitest, playwright or

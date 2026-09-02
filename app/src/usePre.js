@@ -132,7 +132,13 @@ export default function usePreSession({ stateRef, setState, persist, setScreen, 
     const plan = result === "correct"
       ? [praise, "seam", ...prompt, ...(whole ? ["seam", whole] : [])]
       : [result === "close" ? "l:close" : "l:wrong", "seam", ...prompt, ...(whole ? ["seam", whole] : [])];
-    if (!s.settings.sound) { setPreAdvanceReady(true); return; }
+    /* Sound off takes the same 400 ms guard a word takes (App.jsx grade, P0-3):
+       the control used to go live the instant the adult's hold matured, so a
+       child's tap could take "Let's try that again" off the screen before
+       anyone had read it. playClips fires neither callback when disabled, so
+       the guard is armed here, exactly as the word path does it (the walk of
+       2026-09-01). */
+    if (!s.settings.sound) { setTimeout(() => setPreAdvanceReady(true), ADVANCE_GUARD_MS); return; }
     playClips(plan, true,
       (why) => { noteFallback(why); setTimeout(() => setPreAdvanceReady(true), ADVANCE_GUARD_MS); },
       (ms) => setTimeout(() => setPreAdvanceReady(true), Math.max(ms, ADVANCE_GUARD_MS)));

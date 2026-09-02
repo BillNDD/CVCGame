@@ -340,10 +340,12 @@ describe("the rider chunks - a graduate's session opens with what their level ha
        the session's OPENING, not a session: sessionsCompleted stays where it
        was, or every word's due date would silently compress. */
     /* Sound OFF, deliberately: the player double never fires the arming
-       callback, and with sound off the advance arms at once - while every
-       assertion here keeps its meaning, because a chunk's arrival silence
-       is the PLAN never being issued, which the double records either way.
-       (A rider session with sound off is legal: reading needs no sound.) */
+       callback, and with sound off the advance arms on the same 400 ms guard
+       a word takes (open fault AX, 2026-09-01; it used to arm at once) -
+       while every assertion here keeps its meaning, because a chunk's
+       arrival silence is the PLAN never being issued, which the double
+       records either way. (A rider session with sound off is legal: reading
+       needs no sound.) */
     mockLoad.mockResolvedValueOnce({ ...newState(), preLevel: 0, level: 5, sessionsCompleted: 3,
       settings: { ...newState().settings, sound: false } });
     played.length = 0;
@@ -360,6 +362,13 @@ describe("the rider chunks - a graduate's session opens with what their level ha
     const afterGrade = mockSave.mock.calls.at(-1)[0];
     expect(afterGrade.pre["c:am"].correct).toBe(1);
     expect(afterGrade.sessionsCompleted, "grading a rider never ticks the clock").toBe(3);
+    /* The guard, as a literal (E4): a tap inside 400 ms does nothing, the
+       control is disabled, and at 400 ms it is live. */
+    fireEvent.click(screen.getByText(/Finish/));
+    await flush(399);
+    expect(screen.getByText(/Finish/).disabled, "the sound-off guard holds for 400 ms (AX)").toBe(true);
+    expect(screen.getByText("What does it say?"), "a tap inside the guard advances nothing").toBeTruthy();
+    await flush(1);
     fireEvent.click(screen.getByText(/Finish/));
     await flush(0);
     expect(screen.queryByText("What does it say?"), "the riders are done").toBeNull();

@@ -150,7 +150,7 @@ person perceived something - the muted Glowseed is the standing example, and it 
 derived checklist has a floor above zero and why the release still ends with a phone in a hand.
 The build-out's job is to make that hand's list short and true, not to pretend it away.
 
-**Floors that move (E6):** `g7_interface_checks`, `g8_checks`, `g18_checks` (per engine),
+**Floors that move (E6):** `g7_interface_checks`, `g8_checks`, `g18_network_checks`, each with a `_webkit` key and - G7 excepted, for now - a `_firefox` key (per engine),
 `g12_qa_steps` up, a new `g12_human_steps_max` ceiling, `g20_tests_mapped`, and the census cell
 count. **Order:** engines first (the 2026-08-12 ruling), then the monkey, then the proofs; then
 art step 3 is judged on the result; then beta 31.
@@ -533,7 +533,8 @@ every bound reads `LEVELS.length`, which is why adding a level needed no engine 
 ## G7. Interface measurements
 
 - Tool: Playwright against the built app (`vite preview`). Command: `npm run test:ui`.
-- Assert measurements and numbers. Never assert a screenshot. Key: `g7_interface_checks` (66).
+- Assert measurements and numbers. Never assert a screenshot. Key: `g7_interface_checks` (67) on Chromium and `g7_interface_checks_webkit` (66), each its own gauntlet step. **G7 does not yet run on Firefox** (open fault AY): it reached 23 green checks there and then lost a grade twice in three runs and twice reached the reveal's 10 s backstop, none of it pinned - and a gate red for unpinned reasons is a flaky gate. G8 and G18 run on Firefox; G7 joins when both faults are understood.
+- **Three engines since 2026-09-01** (QA build-out item 1, the owner's "engines first"). `CENSUS_ENGINE` names the engine and `tests/ui/engine.mjs` launches it - refusing, never substituting, an engine that is not installed, and printing the `browser:` line the gauntlet requires of each per-engine step. **WebKit's count is one lower by a declared skip**: Playwright's WebKit crashes on the offline reload of a service-worker page, so check 12 prints `skip (declared): a session starts offline after one online load` there and counts nothing. The offline promise is therefore proved on Chromium and Firefox and **not on WebKit, the engine of every iPhone** - stated here so nobody quotes "three engines" for more than it is. The preview server is bound to 127.0.0.1 for every gate: left to vite it bound `::1` alone on the owner's machine and Firefox's cold load took 8 to 15 seconds, which read as a broken app.
 - **Every viewport here is a PAGE size, not a device size, since 2026-08-13.** An iPhone 13 is
   390x844 as a device; a page gets 390x664, because the browser keeps the rest. Six checks and
   three progress-track rows ran with 180 pixels of slack no child has ever had, and four rows
@@ -594,7 +595,7 @@ every bound reads `LEVELS.length`, which is why adding a level needed no engine 
 
 ## G8. Accessibility
 
-- Tool: Playwright with `axe-core`. Command: `npm run test:a11y`. Key: `g8_checks`.
+- Tool: Playwright with `axe-core`. Command: `npm run test:a11y`. Key: `g8_checks` (Chromium), `g8_checks_webkit`, `g8_checks_firefox` - one gauntlet step per engine since 2026-09-01 (see G7). The inert advance control is measured the moment the tiles appear, inside the 400 ms guard every reveal path arms: on an engine with no audio player - headless WebKit has no `AudioContext` - the reveal falls back to the short guard, and a probe that slept 500 ms first found the control already live and never measured the inert look. WebKit was also the first engine to RENDER the corner's recorded-voice notice, which Chromium never shows because Chromium plays the pack: its Reason line measured 3.79:1 under an `opacity: 0.85` and is fixed at the source (open fault AY).
 - Zero axe violations on the home, session, feedback, done, and grown-ups screens. Key:
   `g8_axe_violations_max`, ceiling 0.
 - Contrast: compute the ratio from the rendered colors. Every text node is 4.5:1 or more against
@@ -1515,7 +1516,7 @@ it was seen.
 - Negative control: a cross-origin `fetch` and a cross-origin `<img src>` are planted in
   the live page and the recorder must catch both. Without it, a recorder that saw nothing
   would look exactly like an app that asked for nothing.
-- Baseline floor: `g18_network_checks` (4).
+- Baseline floor: `g18_network_checks` (4) on Chromium, `g18_network_checks_webkit` (4), `g18_network_checks_firefox` (4) - one gauntlet step per engine since 2026-09-01 (see G7).
 - Run: `npm run test:network`
 
 ## G17. Governing files
@@ -1932,7 +1933,8 @@ found it by remembering, which is the mechanism these gates exist to replace.
   that needs the engine chains the extractor itself; the npm `pretest` hook covers `npm test`
   only.
 - It then runs, in order: G11, G1+G2+G9+G10+G14+G15 (one Vitest run), G3 regeneration check,
-  G4, G5, G19 app mutation, G6 coverage and quality, build, G7, G8, G18 network, G21
+  G4, G5, G19 app mutation, G6 coverage and quality, build, G7, G8 and G18 network on each
+  of three engines (Chromium, WebKit, Firefox - eight steps since 2026-09-01, G7 held out on Firefox), G21
   listening page, G16 doc
   truth, G12 structure check, G13 voice pack, G20 effect map, G17 governing files, and the
   baseline comparison.
@@ -1961,7 +1963,7 @@ found it by remembering, which is the mechanism these gates exist to replace.
 
 - The gauntlet writes `.gauntlet-evidence.json` (untracked — it is evidence of one run, not
   a source file). It records the commit, whether the working tree was dirty when the gates
-  ran, a hash over the built payload in `app/dist`, the node and browser identity, every
+  ran, a hash over the built payload in `app/dist`, the node identity and every browser engine that saw the app, every
   gate with its counts and bounds, the gates that did not run, and an overall status of
   PASS, FAIL or INCOMPLETE.
 - Why: a printed summary is read once and then gone, so "publish only what was certified"

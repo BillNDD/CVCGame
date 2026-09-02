@@ -707,9 +707,9 @@ function buildSession(state) {
      once and then parked for good: a Level 1 child who read nothing correctly
      collected all 39 Level 2 words that way, and none of the 39 was ever served
      again. Two slots at most, so the child's own level still IS the session,
-     and one level ahead at most, which the peek is the only source of: nothing
-     further ahead is ever served, whatever a save happens to hold.
-     Found by an audit of the running build, 2026-07-29. */
+     and one level ahead at most, which the peek is the only source of: no
+     REVIEW lane serves further ahead - only the bring-forward lane above, for
+     a word a grown-up asked for by name (AU). Audit of the build, 2026-07-29. */
   const dueAbove = entries.filter(([w, ws]) => ws.attempts > 0 && ws.dueAt <= sNum && ws.box < 5 && WORD_LEVEL[w] === level + 1)
     .sort((a, b) => a[1].box - b[1].box || a[1].dueAt - b[1].dueAt).map(([w]) => w);
   const freshCur = LEVELS[level - 1].words.filter(w => !state.words[w] || state.words[w].attempts === 0);

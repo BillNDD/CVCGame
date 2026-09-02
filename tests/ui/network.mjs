@@ -21,9 +21,9 @@
    nothing would look identical to an app that asked for nothing.
 
    Run: npm run test:network */
-import { chromium } from "playwright";
+import { launchEngine } from "./engine.mjs";
 import { spawn, execSync } from "node:child_process";
-import { existsSync, readFileSync } from "node:fs";
+import { readFileSync } from "node:fs";
 import { STORE_KEY } from "../../src/engine.js";
 
 /* A save PAST BOTH LADDERS, for any walk that means to measure the word
@@ -55,7 +55,7 @@ async function seedPastLadders(page) {
 }
 
 const PORT = 4185;
-const ORIGIN = `http://localhost:${PORT}`;
+const ORIGIN = `http://127.0.0.1:${PORT}`;
 const URL = `${ORIGIN}/`;
 let failures = 0, checks = 0;
 const ok = (name) => { checks += 1; console.log(`ok ${checks}: ${name}`); };
@@ -66,7 +66,12 @@ if (!process.env.WQ_SKIP_BUILD) execSync("npm --prefix app run build", { stdio: 
 /* vite through node itself: "npx" is not spawnable on Windows (ENOENT), the
    same fault the mutant runners fixed on 2026-08-15. The bin path is the
    app's own vite, resolved from the cwd the server runs in. */
-const server = spawn(process.execPath, ["node_modules/vite/bin/vite.js", "preview", "--port", String(PORT), "--strictPort"], {
+/* BOUND TO 127.0.0.1, NOT LEFT TO VITE (2026-09-01): on this machine the
+   preview binds ::1 alone, and Firefox tries 127.0.0.1 first - its cold load
+   measured 8 to 15 s, past the harness's 30 s more often than not, and G8 on
+   Firefox died at its first goto. Bound explicitly, the same load is 1.6 s.
+   Chromium and WebKit never showed it, which is the whole case for engines. */
+const server = spawn(process.execPath, ["node_modules/vite/bin/vite.js", "preview", "--host", "127.0.0.1", "--port", String(PORT), "--strictPort"], {
   cwd: "app", stdio: "ignore", detached: true,
 });
 const stopServer = () => { try { process.platform === "win32" ? server.kill() : process.kill(-server.pid); } catch {} };
@@ -83,8 +88,10 @@ for (let i = 0; i < 300 && !serverUp; i++) {
 }
 if (!serverUp) { stopServer(); throw new Error(`the preview server never answered on ${URL} within 60 s - nothing below was measured`); }
 
-const executablePath = existsSync("/opt/pw-browsers/chromium") ? "/opt/pw-browsers/chromium" : undefined;
-const browser = await chromium.launch({ executablePath, args: ["--no-sandbox"] });
+/* The engine is chosen in ONE place (tests/ui/engine.mjs): CENSUS_ENGINE names
+   it, it is refused if not installed, and the helper prints the browser line
+   the gauntlet records. WebKit is the engine of every iPhone and iPad. */
+const { browser } = await launchEngine();
 
 /* Teardown on EVERY path. Closing only on success leaked a detached
    `vite preview` holding port 4185 and a live Chromium whenever anything
@@ -98,8 +105,8 @@ for (const sig of ["SIGINT", "SIGTERM", "SIGHUP"])
 process.on("uncaughtException", (e) => { shutdown(); console.error(e); process.exit(1); });
 process.on("unhandledRejection", (e) => { shutdown(); console.error(e); process.exit(1); });
 /* The gauntlet's evidence file records WHICH browser saw this, so a report
-   can never be read as covering a platform it never ran on. */
-console.log(`browser: Chromium/${browser.version()}`);
+   can never be read as covering a platform it never ran on: the browser line
+   is printed by launchEngine, for every engine. */
 
 /* Every request the context makes, from any page, worker or service worker.
    Recorded as {url, resourceType, from} so a failure names the offender. */
@@ -116,8 +123,8 @@ function recorder(context) {
   });
   return seen;
 }
-/* Compare ORIGINS, not string prefixes. `startsWith("http://localhost:4185")`
-   also accepts http://localhost:41850 (a different origin) and
+/* Compare ORIGINS, not string prefixes. `startsWith("http://127.0.0.1:4185")`
+   also accepts http://127.0.0.1:41850 (a different origin) and
    a userinfo URL whose real host is elsewhere. Demonstrated by
    review, 2026-08-10. data: and blob: carry no network request. */
 const sameOrigin = (u) => {
@@ -129,8 +136,8 @@ const foreign = (seen) => seen.filter((r) => !sameOrigin(r.url));
   /* The userinfo case is assembled rather than written out: a literal
      port-at-host literal reads as an email address to the copy gate, which
      bans those in tracked files. */
-  const userinfo = `http://localhost:${PORT}` + "@" + "evil.invalid/track";
-  const bad = [`http://localhost:${PORT}0/collect`, userinfo, "https://x.test/a"];
+  const userinfo = `${ORIGIN}` + "@" + "evil.invalid/track";
+  const bad = [`${ORIGIN}0/collect`, userinfo, "https://x.test/a"];   // the port-prefix fault, on the bound host
   const good = [`${ORIGIN}/voice/w-cat.mp3`, `${ORIGIN}/version.json`, "data:audio/mp3;base64,AA"];
   if (bad.some(sameOrigin) || !good.every(sameOrigin)) {
     console.error("control FAILED: the origin test must reject another port, a userinfo host and a remote host, and accept the app's own");

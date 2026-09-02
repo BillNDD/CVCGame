@@ -15,6 +15,20 @@ This document follows the Microsoft Writing Style Guide.
 Version 6 adds the standalone progressive web app. The reference build does not change.
 The first app version is 1.0.0-beta.1. The app stays in beta until version 1.0 is ready.
 
+- Fixed in 1.0.0-beta.31: an update never reloads the app over the "Finish!" screen. The
+  save was already safe, but the "All done! Great reading today!" message and the level-up
+  could be cut off mid-celebration when a new version happened to take over at that moment.
+  The app now waits until you are back on the home screen.
+
+- Fixed in 1.0.0-beta.31: the "recorded voice" note in the Grown-ups corner - shown only when the
+  game has had to use your device's own voice - is easier to read. Its reason line was fainter
+  than the rest of the corner. Found the first time the release checks ran on the engine
+  iPhones and iPads use; they now run on three browser engines, not one.
+
+- Fixed in 1.0.0-beta.31: on the pre-levels with sound off, the "Next one" control now waits
+  the same short moment it does everywhere else before it goes live, so a quick tap cannot
+  take the feedback line off the screen before anyone has read it.
+
 - Fixed in 1.0.0-beta.30: "Words we are working on" now sits near the top of the Grown-ups
   corner, just under Settings. It shipped in beta 29 below the Mastery map's hundred level rows —
   about eleven phone screens down — and the first person to look for it reported it missing,

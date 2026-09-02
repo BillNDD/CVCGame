@@ -12,9 +12,16 @@
    to be added, which is the fault this had: "build" was added on 2026-08-17 and
    nothing here learned about it (open-faults Q5).
 
+   AND THE TWO ENDINGS (the walk of 2026-09-01): "done" and "predone" are the
+   Finish screens, where the save is already written but the child is still
+   being told "All done! Great reading today!" and a level-up is still
+   buzzing. A reload there loses no data and takes the celebration away
+   mid-sentence, which is the same taking-away this file exists to prevent.
+   Home is the first safe moment after a session, and it is one tap on.
+
    A first install has no previous controller and never reloads: nothing is
    stale on the very first load. */
-export const LIVE = ["session", "pre", "build"];
+export const LIVE = ["session", "pre", "build", "done", "predone"];
 
 export function installRefresh({ nav, reload, onScreen }) {
   if (!nav) return;

@@ -12,13 +12,13 @@
    A negative control runs inline: the guard probe re-checked after the window
    must FAIL its disabled-assert, proving the probe reads live state.
    Run: npm run test:ui */
-import { chromium } from "playwright";
+import { launchEngine } from "./engine.mjs";
 import { spawn, execSync } from "node:child_process";
-import { existsSync, readFileSync } from "node:fs";
+import { readFileSync } from "node:fs";
 import { ADVANCE_GUARD_MS, STORE_KEY, chunkWord, LEVELS, C } from "../../src/engine.js";
 
 const PORT = 4183;
-const URL = `http://localhost:${PORT}/`;
+const URL = `http://127.0.0.1:${PORT}/`;
 let failures = 0, checks = 0;
 const ok = (name) => { checks += 1; console.log(`ok ${checks}: ${name}`); };
 const fail = (name, detail) => { failures += 1; console.error(`FAIL: ${name} — ${detail}`); };
@@ -32,7 +32,12 @@ if (!process.env.WQ_SKIP_BUILD) execSync("npm --prefix app run build", { stdio: 
 /* vite through node itself: "npx" is not spawnable on Windows (ENOENT), the
    same fault the mutant runners fixed on 2026-08-15. The bin path is the
    app's own vite, resolved from the cwd the server runs in. */
-const server = spawn(process.execPath, ["node_modules/vite/bin/vite.js", "preview", "--port", String(PORT), "--strictPort"], {
+/* BOUND TO 127.0.0.1, NOT LEFT TO VITE (2026-09-01): on this machine the
+   preview binds ::1 alone, and Firefox tries 127.0.0.1 first - its cold load
+   measured 8 to 15 s, past the harness's 30 s more often than not, and G8 on
+   Firefox died at its first goto. Bound explicitly, the same load is 1.6 s.
+   Chromium and WebKit never showed it, which is the whole case for engines. */
+const server = spawn(process.execPath, ["node_modules/vite/bin/vite.js", "preview", "--host", "127.0.0.1", "--port", String(PORT), "--strictPort"], {
   cwd: "app", stdio: "ignore", detached: true,
 });
 const stopServer = () => { try { process.platform === "win32" ? server.kill() : process.kill(-server.pid); } catch {} };
@@ -49,8 +54,10 @@ for (let i = 0; i < 300 && !serverUp; i++) {
 }
 if (!serverUp) { stopServer(); throw new Error(`the preview server never answered on ${URL} within 60 s - nothing below was measured`); }
 
-const executablePath = existsSync("/opt/pw-browsers/chromium") ? "/opt/pw-browsers/chromium" : undefined;
-const browser = await chromium.launch({ executablePath, args: ["--no-sandbox"] });
+/* The engine is chosen in ONE place (tests/ui/engine.mjs): CENSUS_ENGINE names
+   it, it is refused if not installed, and the helper prints the browser line
+   the gauntlet records. WebKit is the engine of every iPhone and iPad. */
+const { browser, engine } = await launchEngine();
 
 /* A GRADUATED save is seeded before every word-session walk: since the
    pre-level ladder (2026-08-15) a truly fresh install begins at Pre 1, and
@@ -74,22 +81,32 @@ async function seedSave(page, save) {
   await page.goto(URL, { waitUntil: "load" });
   /* The app's own first boot writes a fresh save; a put that races it can
      lose and the walk then measures the pre-level screen (found when this
-     gate stranded on "Great listening today!"). Let the boot settle, then
-     overwrite, then reload into the seeded state. */
+     gate stranded on "Great listening today!"). Let the boot settle, put,
+     reload - and READ IT BACK (2026-09-01): on Firefox 400 ms was not always
+     enough, and a lost put is silent until a walk hangs on a tile the pre
+     screen never draws. A lost race is retried twice; a real fault throws. */
   await page.getByRole("button", { name: "Begin Session" }).waitFor();
-  await page.waitForTimeout(400);
-  await page.evaluate(([db, store, key, s]) => new Promise((resolve, reject) => {
+  const idb = (mode, fn) => page.evaluate(([db, store, key, s, m]) => new Promise((resolve, reject) => {
     const rq = indexedDB.open(db, 1);
     rq.onupgradeneeded = () => rq.result.createObjectStore(store);
     rq.onsuccess = () => {
-      const tx = rq.result.transaction(store, "readwrite");
-      tx.objectStore(store).put(s, key);
-      tx.oncomplete = () => resolve(true);
-      tx.onerror = () => reject(tx.error);
+      const os = rq.result.transaction(store, m).objectStore(store);
+      const r = m === "readwrite" ? os.put(s, key) : os.get(key);
+      r.onsuccess = () => resolve(r.result); r.onerror = () => reject(r.error);
     };
     rq.onerror = () => reject(rq.error);
-  }), [dbName, dbStore, STORE_KEY, save]);
-  await page.reload({ waitUntil: "load" });
+  }), [dbName, dbStore, STORE_KEY, save, mode]).then(fn);
+  const want = JSON.parse(save);
+  for (let attempt = 0; attempt < 3; attempt++) {
+    await page.waitForTimeout(400);
+    await idb("readwrite", () => true);
+    await page.reload({ waitUntil: "load" });
+    await page.getByRole("button", { name: "Begin Session" }).waitFor();
+    const got = await idb("readonly", (r) => JSON.parse(r || "{}"));
+    if (got.level === want.level && got.preLevel === want.preLevel && got.settings?.sound === want.settings.sound) return;
+    console.log(`seed lost a race with the app's own write (attempt ${attempt + 1}); putting it again`);
+  }
+  throw new Error("the seed never landed: the app kept overwriting it");
 }
 async function startSession(context, viewport) {
   const page = await context.newPage();
@@ -223,7 +240,11 @@ for (const height of [430, 555, 720, 950]) {
   const live = await advance.isEnabled();
   if (duringGuard && live) ok(`advance control inert while the reveal plays, alive after (${waited} ms, ${revealPath ? "recorded pack" : "fallback guard"})`);
   else fail("advance guard wrong", `during=${duringGuard} live=${live} waited=${waited}`);
-  if (revealPath ? waited >= 3000 && waited <= 9000 : waited <= 1600)
+  /* The third path, named (2026-09-01): a wait past 9,500 ms is the 10 s
+     BACKSTOP - neither the pack nor the fallback reported. Never a pass. */
+  const backstop = waited >= 9500;
+  if (backstop) fail("the advance control waited for the 10 s backstop", `neither the pack nor the fallback reported on ${engine} (waited=${waited})`);
+  else if (revealPath ? waited >= 3000 && waited <= 9000 : waited <= 1600)
     ok(`advance timing matches the path that ran: ${revealPath ? "waited for the word" : "short guard"} at ${waited} ms`);
   else fail("advance timing wrong for the path", `revealPath=${revealPath} waited=${waited}`);
   /* negative control: the same disabled-probe must FAIL now that the guard passed */
@@ -326,8 +347,13 @@ for (const height of [430, 555, 720, 950]) {
     for (let i = 0; i < n; i++) boxes.push(await words.nth(i).boundingBox());
     /* S7: every word is a control the child taps, so every word is 56 px or
        more — including "a", which is one character wide. */
-    const small = boxes.filter((b) => !b || b.height < 56);
-    if (n >= 2 && small.length === 0) ok(`every sentence word is a child-sized control (${n} words, shortest ${Math.min(...boxes.map((b) => b.height)).toFixed(1)}px >= 56)`);
+    /* Two faults told apart (2026-09-01): NO box is off-stage, a SHORT box is
+       under S7; the half-pixel is the control-floor check's own allowance
+       (Firefox reports a 56 px line box as 55.99998). */
+    const missing = boxes.filter((b) => !b);
+    const small = boxes.filter((b) => b && b.height + 0.5 < 56);
+    if (missing.length) fail("a sentence word has no box - off the stage or unrendered", JSON.stringify({ n, missing: missing.length }));
+    else if (n >= 2 && small.length === 0) ok(`every sentence word is a child-sized control (${n} words, shortest ${Math.min(...boxes.map((b) => b.height)).toFixed(1)}px >= 56)`);
     else fail("a sentence word is below the child floor", JSON.stringify({ n, small }));
     /* The page must not scroll, and the sentence must not run off the side.
        Eight words do not fit one phone line, so they WRAP — and a sentence
@@ -653,7 +679,16 @@ for (const height of [430, 555, 720, 950]) {
   await page.reload({ waitUntil: "load" }); // online reload -> the page is SW-controlled
   await page.waitForFunction(() => navigator.serviceWorker.controller !== null);
   await context.setOffline(true);
-  await page.reload({ waitUntil: "load" });
+  /* A DECLARED SKIP on WebKit, printed and counted nowhere (2026-09-01):
+     Playwright's WebKit crashes on the offline reload of a service-worker
+     page, so the offline promise is NOT proved on the iPhone's engine (open
+     fault AY). The other engines still fail loudly on a throw. */
+  const offlineReload = await page.reload({ waitUntil: "load" }).then(() => "ok")   // the NAMED crash only
+    .catch((e) => (engine === "webkit" && /internal error/.test(String(e)) ? "webkit-crash" : Promise.reject(e)));
+  if (offlineReload === "webkit-crash") {
+    console.log("skip (declared): a session starts offline after one online load - not proved on WebKit, whose offline reload crashes the harness");
+    await context.close();
+  } else {
   const offlineHome = await page.getByRole("button", { name: "Begin Session" })
     .waitFor({ timeout: 10000 }).then(() => true).catch(() => false);
   if (!offlineHome) fail("offline session failed", "home did not load offline");
@@ -664,6 +699,7 @@ for (const height of [430, 555, 720, 950]) {
     else fail("offline session failed", "word not visible");
   }
   await context.close();
+  }
 }
 
 /* 13 - the owner's cutover shrink ruling, MEASURED (2026-08-20): an
@@ -1322,6 +1358,41 @@ for (const height of [430, 555, 720, 950]) {
 }
 
 
+
+/* 67 - THE LADDER SCREEN'S NEXT CONTROL TAKES THE 400 ms GUARD WITH SOUND OFF
+   (open fault AX): its grade set it live at once, so a child's tap could take
+   "Let's try that again" away unread. Begin Session refuses the pre-levels
+   without sound, but a graduate's due CHUNK RIDERS open the session on the
+   same screen with no refusal: the seed is a version-7 level-5 graduate (c:am
+   is the first seated chunk with a clip), sound off. Same shape as check 6. */
+{
+  const PRE_SILENT = JSON.stringify({ version: 7, level: 5, preLevel: 0, prePerfectStreak: 0,
+    sessionsCompleted: 0, perfectStreak: 0, words: {}, log: [], pre: {}, settings: { sound: false, childName: "", lang: "en-US" } });
+  const context = await browser.newContext();
+  const page = await context.newPage();
+  await page.setViewportSize({ width: 390, height: 844 });
+  await seedSave(page, PRE_SILENT);
+  await page.getByRole("button", { name: "Begin Session" }).click();
+  await page.locator(".wq-word").waitFor();
+  const onPre = await page.getByText("What does it say?").count();   // a chunk rider, not a word
+  await gradeByKey(page, "got it", "Enter");
+  const preNext = page.locator(".wq-rail .wq-cta");
+  await preNext.waitFor();
+  const preGuarded = await preNext.isDisabled();
+  const t0 = Date.now();
+  await page.waitForFunction(
+    () => { const b = document.querySelector(".wq-rail .wq-cta"); return !!b && !b.disabled; },
+    null, { timeout: 4000 },
+  ).catch(() => {});
+  const preWaited = Date.now() - t0;
+  const preLive = await preNext.isEnabled();
+  if (onPre === 1 && preGuarded && preLive && preWaited <= 1600)
+    ok(`pre-level Next control inert for the guard with sound off, alive after (${preWaited} ms)`);
+  else fail("pre-level sound-off guard wrong", `onPre=${onPre} during=${preGuarded} live=${preLive} waited=${preWaited}`);
+  if (await preNext.isDisabled()) fail("negative control broken", "pre disabled-probe still true after the guard");
+  else console.log("control OK: the pre guard probe reads live state (disabled-assert fails after the window)");
+  await context.close();
+}
 
 await browser.close();
 stopServer();

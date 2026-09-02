@@ -570,7 +570,7 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 8 | A2-002: the exit dialog never changes underneath a grown-up | 17: all three controls are present on the first word, and Save is reserved and inert |
 | 9 | A2-002: the exit dialog never changes underneath a grown-up | 18: the dialog's geometry does not move once a word has been read |
 | 10 | A2-002: the exit dialog never changes underneath a grown-up | 19 (control): 'Keep reading' returns to the same word and records nothing |
-| 11 | G10 safety — W4c: an update never reloads under a child | 17b: the pre-ladder and a build are live sessions too |
+| 11 | G10 safety — W4c: an update never reloads under a child | 17b: the pre-ladder, a build, and both Finish screens are live sessions too |
 | 12 | G10 safety — W4c: an update never reloads under a child | 17: a new version mid-session waits for the session to end, then refreshes once |
 | 13 | G10 safety — W4c: an update never reloads under a child | 18 (control): with no session running the refresh is immediate, and a first install never reloads |
 | 14 | G10 safety — S4: no letter name ever reaches speech | 19: the note is never spoken — letter names must not reach speech |

@@ -186,7 +186,7 @@ export default function ParentScreen({
                 The reading still works and nothing is lost — words are spoken and results are
                 saved as usual — but the sound-out will not light up letter by letter, and the listening light stays dark.
               </p>
-              <p className="wq-help" style={{ margin: "8px 0 0", opacity: 0.85 }}>
+              <p className="wq-help" style={{ margin: "8px 0 0" }}>
                 Reason: {voiceFallback}
               </p>
             </section>

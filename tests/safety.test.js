@@ -304,8 +304,12 @@ describe("G10 safety — W4c: an update never reloads under a child", () => {
      pre-letter ladder and Build-it's breather are both moments a reload would
      take the screen away from a child mid-task, and "build" was added without
      this file learning about it - which is the fault, not the omission. */
-  it("17b: the pre-ladder and a build are live sessions too", async () => {
-    for (const screen of ["pre", "build"]) {
+  /* And the two Finish screens (the walk of 2026-09-01): the save is written
+     by then, but "All done! Great reading today!" is still being said and a
+     level-up is still buzzing. Nothing is lost by a reload there except the
+     celebration, which is the child's. */
+  it("17b: the pre-ladder, a build, and both Finish screens are live sessions too", async () => {
+    for (const screen of ["pre", "build", "done", "predone"]) {
       const sw = refreshDouble({ screen });
       sw.takeover();
       expect(sw.reloads).toBe(0);            // never mid-task
@@ -324,8 +328,10 @@ describe("G10 safety — W4c: an update never reloads under a child", () => {
     sw.takeover();
     expect(sw.reloads).toBe(0);              // the child keeps playing
     sw.goTo("done");
+    expect(sw.reloads).toBe(0);              // the Finish screen is still the child's (2026-09-01)
+    sw.goTo("home");
     expect(sw.reloads).toBe(1);              // safe moment: the new code takes over
-    sw.goTo("home"); sw.takeover();
+    sw.takeover();
     expect(sw.reloads).toBe(1);              // and only ever once
   });
 
