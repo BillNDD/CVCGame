@@ -103,7 +103,10 @@ async function seedSave(page, save) {
     await page.reload({ waitUntil: "load" });
     await page.getByRole("button", { name: "Begin Session" }).waitFor();
     const got = await idb("readonly", (r) => JSON.parse(r || "{}"));
-    if (got.level === want.level && got.preLevel === want.preLevel && got.settings?.sound === want.settings.sound) return;
+    /* Not the level: the cutover migration recomputes an old save's level from
+       its graded words, by rule. The words, the rung and the sound switch stay. */
+    const sameWords = JSON.stringify(Object.keys(got.words || {}).sort()) === JSON.stringify(Object.keys(want.words).sort());
+    if (sameWords && got.preLevel === want.preLevel && (got.settings?.sound ?? true) === (want.settings.sound ?? true)) return;
     console.log(`seed lost a race with the app's own write (attempt ${attempt + 1}); putting it again`);
   }
   throw new Error("the seed never landed: the app kept overwriting it");
@@ -679,10 +682,9 @@ for (const height of [430, 555, 720, 950]) {
   await page.reload({ waitUntil: "load" }); // online reload -> the page is SW-controlled
   await page.waitForFunction(() => navigator.serviceWorker.controller !== null);
   await context.setOffline(true);
-  /* A DECLARED SKIP on WebKit, printed and counted nowhere (2026-09-01):
-     Playwright's WebKit crashes on the offline reload of a service-worker
-     page, so the offline promise is NOT proved on the iPhone's engine (open
-     fault AY). The other engines still fail loudly on a throw. */
+  /* A DECLARED SKIP on WebKit, printed and counted nowhere (2026-09-01): its
+     harness crashes on the offline reload of a service-worker page, so the
+     offline promise is NOT proved on the iPhone's engine (AY). Others throw. */
   const offlineReload = await page.reload({ waitUntil: "load" }).then(() => "ok")   // the NAMED crash only
     .catch((e) => (engine === "webkit" && /internal error/.test(String(e)) ? "webkit-crash" : Promise.reject(e)));
   if (offlineReload === "webkit-crash") {
@@ -1360,11 +1362,8 @@ for (const height of [430, 555, 720, 950]) {
 
 
 /* 67 - THE LADDER SCREEN'S NEXT CONTROL TAKES THE 400 ms GUARD WITH SOUND OFF
-   (open fault AX): its grade set it live at once, so a child's tap could take
-   "Let's try that again" away unread. Begin Session refuses the pre-levels
-   without sound, but a graduate's due CHUNK RIDERS open the session on the
-   same screen with no refusal: the seed is a version-7 level-5 graduate (c:am
-   is the first seated chunk with a clip), sound off. Same shape as check 6. */
+   (AX). Begin Session refuses the pre-levels without sound, but a graduate's
+   due CHUNK RIDERS open on the same screen: a v7 level-5 seed (c:am), sound off. */
 {
   const PRE_SILENT = JSON.stringify({ version: 7, level: 5, preLevel: 0, prePerfectStreak: 0,
     sessionsCompleted: 0, perfectStreak: 0, words: {}, log: [], pre: {}, settings: { sound: false, childName: "", lang: "en-US" } });
