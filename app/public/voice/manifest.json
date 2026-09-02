@@ -3110,7 +3110,7 @@
    "hunting": 0.8,
    "hush": 0.82,
    "hut": 1,
-   "i": 1,
+   "i": 0.75,
    "if": 1,
    "illness": 0.75,
    "in": 0.82,
@@ -3390,7 +3390,7 @@
    "quip": 1,
    "quit": 0.82,
    "quitting": 0.8,
-   "quiz": 1,
+   "quiz": 0.75,
    "rabbit": 0.75,
    "rack": 0.75,
    "rain": 0.7,
@@ -3423,7 +3423,7 @@
    "rock": 0.82,
    "rocket": 0.75,
    "rocks": 0.8,
-   "rod": 0.82,
+   "rod": 0.8,
    "room": 0.7,
    "rot": 1,
    "rough": 0.8,
@@ -3701,7 +3701,7 @@
    "were": 0.8,
    "wet": 1,
    "whack": 1,
-   "wham": 0.82,
+   "wham": 0.75,
    "what": 0.82,
    "when": 0.82,
    "where": 0.8,
@@ -3712,7 +3712,7 @@
    "whisper": 0.7,
    "whistle": 0.7,
    "white": 0.75,
-   "whizz": 0.82,
+   "whizz": 0.75,
    "why": 0.75,
    "wick": 1,
    "wild": 0.8,
@@ -4039,9 +4039,9 @@
  },
  "d:w": {
   "file": "d-w.mp3",
-  "lead": 40,
-  "ms": 240,
-  "tail": 20
+  "lead": 200,
+  "ms": 960,
+  "tail": 440
  },
  "d:x": {
   "file": "d-x.mp3",
@@ -4051,9 +4051,9 @@
  },
  "d:y": {
   "file": "d-y.mp3",
-  "lead": 200,
-  "ms": 768,
-  "tail": 428
+  "lead": 190,
+  "ms": 960,
+  "tail": 460
  },
  "d:z": {
   "file": "d-z.mp3",
@@ -8479,9 +8479,9 @@
  },
  "w:i": {
   "file": "w-i.mp3",
-  "lead": 80,
-  "ms": 682,
-  "tail": 224
+  "lead": 130,
+  "ms": 912,
+  "tail": 322
  },
  "w:if": {
   "file": "w-if.mp3",
@@ -10297,9 +10297,9 @@
  },
  "w:quiz": {
   "file": "w-quiz.mp3",
-  "lead": 150,
-  "ms": 864,
-  "tail": 324
+  "lead": 120,
+  "ms": 960,
+  "tail": 330
  },
  "w:rabbit": {
   "file": "w-rabbit.mp3",
@@ -10519,9 +10519,9 @@
  },
  "w:rod": {
   "file": "w-rod.mp3",
-  "lead": 190,
-  "ms": 1032,
-  "tail": 312
+  "lead": 120,
+  "ms": 960,
+  "tail": 320
  },
  "w:romp": {
   "file": "w-romp.mp3",
@@ -12271,9 +12271,9 @@
  },
  "w:wham": {
   "file": "w-wham.mp3",
-  "lead": 230,
-  "ms": 1104,
-  "tail": 324
+  "lead": 120,
+  "ms": 1008,
+  "tail": 318
  },
  "w:what": {
   "file": "w-what.mp3",
@@ -12337,9 +12337,9 @@
  },
  "w:whizz": {
   "file": "w-whizz.mp3",
-  "lead": 120,
-  "ms": 768,
-  "tail": 308
+  "lead": 130,
+  "ms": 984,
+  "tail": 314
  },
  "w:why": {
   "file": "w-why.mp3",

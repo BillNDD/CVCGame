@@ -3112,7 +3112,7 @@
    "hunting": 0.8,
    "hush": 0.82,
    "hut": 1,
-   "i": 1,
+   "i": 0.75,
    "if": 1,
    "illness": 0.75,
    "in": 0.82,
@@ -3392,7 +3392,7 @@
    "quip": 1,
    "quit": 0.82,
    "quitting": 0.8,
-   "quiz": 1,
+   "quiz": 0.75,
    "rabbit": 0.75,
    "rack": 0.75,
    "rain": 0.7,
@@ -3425,7 +3425,7 @@
    "rock": 0.82,
    "rocket": 0.75,
    "rocks": 0.8,
-   "rod": 0.82,
+   "rod": 0.8,
    "room": 0.7,
    "rot": 1,
    "rough": 0.8,
@@ -3703,7 +3703,7 @@
    "were": 0.8,
    "wet": 1,
    "whack": 1,
-   "wham": 0.82,
+   "wham": 0.75,
    "what": 0.82,
    "when": 0.82,
    "where": 0.8,
@@ -3714,7 +3714,7 @@
    "whisper": 0.7,
    "whistle": 0.7,
    "white": 0.75,
-   "whizz": 0.82,
+   "whizz": 0.75,
    "why": 0.75,
    "wick": 1,
    "wild": 0.8,
@@ -3944,7 +3944,7 @@
   "pod": "4803b1f9e97a1552ce474f8fa732c08d728cd366b9e652f5051736bb4c420203",
   "rib": "8d0e9d4988be162327ac9463bc82fa46626f4d90877f6943aa422f4021d6d220",
   "rim": "f3a25fe97cfba5ba73807332796043148596f2a517819ebdec0c656b7267cb48",
-  "rod": "f4bb2589769777dec53abb2d0d0d65a9d974809bc204d3bb3f436dffe0d42eee",
+  "rod": "223844f4625fc713ad457d2de7c398753a6fd0aa994f602a553ee25e64268f62",
   "rot": "d06a2943ded13b880630e7f5af418ef9fa0bf59e8a13f398191522bffaa8efdd",
   "sag": "593f7c79652ef9da28fad2cc3c14ae2a3475fef56600ce0ddd6e8cb547573dfe",
   "sub": "e12a25e2ceaa96ac6612d65853f88076fad68ad24a74956bc82a45f7a41ea7ce",
@@ -4076,7 +4076,7 @@
   "sham": "35de7eeed34adaf301270d56f869f3bee970fea6459b744b840f2f5d769ba5e7",
   "shun": "4ad30a903e850f16828a35933d8c24a6022c2cddd8d4883816dfe9e023aaa1eb",
   "whim": "1d87c1f0a8de1d401d8e9e4c7da37c72233fa870cdb996a6e99a9499bf144027",
-  "wham": "6a15d6993e91704d7654546303f6b25ebff1e1a8a008dae4acf0eb9fd84aa4a9",
+  "wham": "bf6ae16da34761f93eaa7e302b833030abcde4020357415d7e87043aeef316df",
   "bang": "8c8cf6c5305b328bc5809c40c2f0526fe800b78a7e2eced47ceb59b254574de7",
   "hung": "17800fc06548bcca0653a81f418268048ff1bcf4771e578053524da8509c6180",
   "ding": "501c5aa6e5f8f6e9a64deec66cde4fe76d886f98a5d56ba68eb2f5f5ed44d191",
@@ -4101,7 +4101,7 @@
   "fuzz": "7819500932fd8defb8fe966afa7fa6356033c66d183c53d49823e766a3d1dbd2",
   "jazz": "5e954c3622dd5ed4832e13ae9c6422d37f486d9fbbc339d63ea12605789dc076",
   "fizz": "ecea642a234d45d5ec7e8e1f46b74dfaf93f9f87ae15e6ce3b93750b1eb03dc9",
-  "quiz": "1e3e7e4259156c8d86724809c4b22cab32df8607e74a2edb3b4aa927c69d8d7d",
+  "quiz": "49efc6236dd481641b6360b7464bf268d6e5af5e31c057f98f96554dbc9fbeea",
   "quit": "ead4d4bd02989671832dd58235014e6ad8b1cf6b7aac83476d8f113f2566c76c",
   "quip": "72f8b64e9415ca6ca9a889f3b37c198d5f7b7bf4f2789cbbb9f3af381263be48",
   "knit": "d65fe569d276f608bc5eafc57bc80e7abbf0ef3e00866ec68317171048ac67d9",
@@ -4119,7 +4119,7 @@
   "thick": "4194000e17994684b055048502e635f56cedb945a63e7d0a77952b6922a51df0",
   "whack": "995161a2d6e415caa9871d3582c337118439214a968ff2056e3d969b1d0d5e38",
   "whiff": "cf87a7aaccd61390553b0bfdf129b8f258427e39b3d2e19f51b03fa7d552930a",
-  "whizz": "6bf4e914cc7afc11dc16f8fc354014928c0ef255424f4ddf995f00a7d2f61d05",
+  "whizz": "e3d8b6c5a03b3ed9e037f095035fab77284d485c566a227acd24305c3c6c9d64",
   "quick": "155255629463a4bc1c15facc2c0b9626079ea79b3a97d68b1672c4b54ece01af",
   "quack": "efce063a404a2c93f00a69060712862e408334ef0e11f2c3bdba1932bf054054",
   "quill": "3cf843b1c979eb91d0071aa5ca06d8b9f6bf48709a81334286fac7a2c2b9ef19",
@@ -4227,7 +4227,7 @@
   "go": "67a88a57ab20c746982544fddea07204d4fc4093ba7076dff581d6cfc6f38b09",
   "no": "5a8921e2428b17334cb0858b57c01efec3157d9dbe0faae2bd06c51aeeb78d88",
   "so": "30ca49b878aa4f0a632ae0c04e7b4f201e5c6b63f42ce0d11575b19ba40247ed",
-  "i": "51d76557a73de5488c8a407d7cdea7d8f5d7a1f94122cb1e3d75182afa94cf9b",
+  "i": "ff24ee49bde7ef4416c3c93f5457a537d95cfcb0ddf51462fe6a805439d9e154",
   "beds": "3ee45d632eac3328e64e1d162a873c6d103c5d794d593442711788bcc7ea79f4",
   "bugs": "1ae9cdcd01fd3aa0bf7fcd1b523a7fd042b49e2972a5125137a6aa64587ab282",
   "cats": "429514704978a3476a47bf1aa6a35ad308ff0308b0b33f1ed226f9fec8512c81",
@@ -6042,10 +6042,10 @@
   },
   "rod": {
    "verdict": "perfect",
-   "ear_notes": "owner perfect rod_7 [UP3]; family carrier_spell",
-   "round": "UPLIFT-EXPERIMENT-3 / 2026-08-06",
+   "ear_notes": "owner perfect rod_3 [R50]; family A_word_sp0.8_G-tight-tail; recipe in tools/render_batch22.py; supersedes carrier_spell of UPLIFT-EXPERIMENT-3 / 2026-08-06",
+   "round": "round 50-5 / 2026-09-02",
    "listen_context": "clip",
-   "byte_pin_sha256": "f4bb2589769777dec53abb2d0d0d65a9d974809bc204d3bb3f436dffe0d42eee"
+   "byte_pin_sha256": "223844f4625fc713ad457d2de7c398753a6fd0aa994f602a553ee25e64268f62"
   },
   "rot": {
    "verdict": "perfect",
@@ -6966,10 +6966,10 @@
   },
   "wham": {
    "verdict": "perfect",
-   "ear_notes": "perfect",
-   "round": "33",
-   "listen_context": "round33 wham_2 (double_energy_120)",
-   "byte_pin_sha256": "6a15d6993e91704d7654546303f6b25ebff1e1a8a008dae4acf0eb9fd84aa4a9"
+   "ear_notes": "owner perfect wham_2 [R50]; family A_word_sp0.75; recipe in tools/render_batch22.py; supersedes the prior clip of 33",
+   "round": "round 50-5 / 2026-09-02",
+   "listen_context": "clip",
+   "byte_pin_sha256": "bf6ae16da34761f93eaa7e302b833030abcde4020357415d7e87043aeef316df"
   },
   "bang": {
    "verdict": "perfect",
@@ -7141,10 +7141,10 @@
   },
   "quiz": {
    "verdict": "perfect",
-   "ear_notes": "owner perfect quiz_3 [US2]; family spell_speed1; spell_speed1 (CS00 text @ speed 1.0)",
-   "round": "UPLIFT-SWEEP-2 / 2026-08-06",
+   "ear_notes": "owner perfect quiz_3 [R50]; family A_listen_sp0.75_G-tight-tail; recipe in tools/render_batch22.py; supersedes spell_speed1 of UPLIFT-SWEEP-2 / 2026-08-06",
+   "round": "round 50-5 / 2026-09-02",
    "listen_context": "clip",
-   "byte_pin_sha256": "1e3e7e4259156c8d86724809c4b22cab32df8607e74a2edb3b4aa927c69d8d7d"
+   "byte_pin_sha256": "49efc6236dd481641b6360b7464bf268d6e5af5e31c057f98f96554dbc9fbeea"
   },
   "quit": {
    "verdict": "perfect",
@@ -7267,10 +7267,10 @@
   },
   "whizz": {
    "verdict": "perfect",
-   "ear_notes": "owner perfect whizz_6 [UH8]; family peer_carve_quiz; peer_carve_quiz; assembly pin (CSV carrier_cut_mode=assembly)",
-   "round": "UPLIFT-HARD-8 / 2026-08-07",
+   "ear_notes": "owner perfect whizz_2 [R50]; family A_listen_sp0.75; recipe in tools/render_batch22.py; supersedes peer_carve_quiz of UPLIFT-HARD-8 / 2026-08-07",
+   "round": "round 50-5 / 2026-09-02",
    "listen_context": "clip",
-   "byte_pin_sha256": "6bf4e914cc7afc11dc16f8fc354014928c0ef255424f4ddf995f00a7d2f61d05"
+   "byte_pin_sha256": "e3d8b6c5a03b3ed9e037f095035fab77284d485c566a227acd24305c3c6c9d64"
   },
   "quick": {
    "verdict": "perfect",
@@ -8023,10 +8023,10 @@
   },
   "i": {
    "verdict": "perfect",
-   "ear_notes": "owner arm C, whole word at sentence speed - the word says the letter's own name; family listen_sp1.0; sound-out is this same recording (d:long_i_i), the word-a rule",
-   "round": "round 4 / 2026-08-15",
+   "ear_notes": "owner perfect i_1 [R50]; family A_word_sp0.75; recipe in tools/render_batch22.py; supersedes listen_sp1.0 of round 4 / 2026-08-15",
+   "round": "round 50-5 / 2026-09-02",
    "listen_context": "clip",
-   "byte_pin_sha256": "51d76557a73de5488c8a407d7cdea7d8f5d7a1f94122cb1e3d75182afa94cf9b"
+   "byte_pin_sha256": "ff24ee49bde7ef4416c3c93f5457a537d95cfcb0ddf51462fe6a805439d9e154"
   },
   "beds": {
    "verdict": "perfect",

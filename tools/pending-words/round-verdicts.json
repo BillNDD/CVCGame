@@ -959,5 +959,42 @@
    "verdict": "perfect twin_3",
    "note": ""
   }
+ ],
+ "round 50-5 / 2026-09-02": [
+  {
+   "id": "quiz",
+   "verdict": "perfect quiz_3",
+   "note": ""
+  },
+  {
+   "id": "rod",
+   "verdict": "perfect rod_3",
+   "note": ""
+  },
+  {
+   "id": "wham",
+   "verdict": "perfect wham_2",
+   "note": ""
+  },
+  {
+   "id": "whizz",
+   "verdict": "perfect whizz_2",
+   "note": ""
+  },
+  {
+   "id": "with",
+   "verdict": "closest with_3",
+   "note": ""
+  },
+  {
+   "id": "i",
+   "verdict": "perfect i_1",
+   "note": ""
+  },
+  {
+   "id": "if",
+   "verdict": "closest if_1",
+   "note": ""
+  }
  ]
 }

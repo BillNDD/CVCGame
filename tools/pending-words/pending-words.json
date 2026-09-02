@@ -2543,11 +2543,11 @@
   "text": "The men got on the bus."
  },
  "i": {
-  "arm": "i_c",
-  "family": "listen_sp1.0",
-  "ms": 682,
-  "sha256": "51d76557a73de5488c8a407d7cdea7d8f5d7a1f94122cb1e3d75182afa94cf9b",
-  "round": "round 4 / 2026-08-15",
+  "arm": "i_1",
+  "family": "A_word_sp0.75",
+  "ms": 912,
+  "sha256": "ff24ee49bde7ef4416c3c93f5457a537d95cfcb0ddf51462fe6a805439d9e154",
+  "round": "round 50-5 / 2026-09-02",
   "verdict": "perfect",
   "level": "heart-style word (new, seats L1 in the new curriculum)",
   "verdict_as_written": "arm C approved"

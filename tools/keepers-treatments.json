@@ -3288,7 +3288,7 @@
   "rod": {
     "word": "rod",
     "verdict": "perfect",
-    "speed": 0.82,
+    "speed": 0.8,
     "lead_ms": 80,
     "period": false,
     "onset_trim": false,
@@ -6001,7 +6001,7 @@
   "wham": {
     "word": "wham",
     "verdict": "perfect",
-    "speed": 0.82,
+    "speed": 0.75,
     "lead_ms": 80,
     "period": false,
     "onset_trim": false,
@@ -6518,7 +6518,7 @@
   "quiz": {
     "word": "quiz",
     "verdict": "perfect",
-    "speed": 1,
+    "speed": 0.75,
     "lead_ms": 80,
     "period": false,
     "onset_trim": false,
@@ -6895,7 +6895,7 @@
   "whizz": {
     "word": "whizz",
     "verdict": "perfect",
-    "speed": 0.82,
+    "speed": 0.75,
     "lead_ms": 80,
     "period": false,
     "onset_trim": false,
@@ -8673,7 +8673,7 @@
   "i": {
     "word": "i",
     "verdict": "perfect",
-    "speed": 1,
+    "speed": 0.75,
     "lead_ms": 0,
     "period": false,
     "onset_trim": false,

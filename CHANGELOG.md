@@ -15,7 +15,7 @@ This document follows the Microsoft Writing Style Guide.
 Version 6 adds the standalone progressive web app. The reference build does not change.
 The first app version is 1.0.0-beta.1. The app stays in beta until version 1.0 is ready.
 
-- Voice: the fifty least human-like clips, rounds 50-1 to 50-4 and 50-S1 to 50-S4 (open fault BA) - 27 word clips superseded by owner-accepted takes, and the sounds x, b, d, g, qu, j and p re-shipped at citation length.
+- Voice: the fifty least human-like clips, rounds 50-1 to 50-5 and 50-S1 to 50-S5 (open fault BA) - 32 word clips superseded by owner-accepted takes, and the sounds x, b, d, g, qu, j, p, w and y re-shipped at citation length.
 - Fixed in 1.0.0-beta.31: on a device where reading the saved progress takes more than three
   seconds, the app no longer plays the whole visit without saving. It still opens at three
   seconds, but when the saved progress arrives a moment later - before anything has been

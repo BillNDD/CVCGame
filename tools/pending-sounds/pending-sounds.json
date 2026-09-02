@@ -397,13 +397,13 @@
  },
  "w": {
   "as_in": "web, win",
-  "family": "word-was120-m1.0-d0.111",
+  "family": "C_carrier-own-vowel",
   "how": "a rounded w · as in web",
-  "ms": 880,
-  "note": "af_heart, chosen by an objective distance to the owner's reference then matched on duration, pitch and frame-median formants. No owner recording involved.",
-  "round": "SND19 (sound round 19, 2026-08-11)",
-  "sha256": "b326b2d647e85da300f42d8e800ebbd6a8caaae9e49c670bc36ada3d472c5aea",
-  "verdict": "perfect (owner); replaced 2026-08-18 with a fresh af_heart bake the owner accepted by ear, superseding 8553acab8e97 - the prior verdict stands for the bytes it judged, not for these",
+  "ms": 890,
+  "note": "round 50-S5: accepted blind as w_2, family C_carrier-own-vowel (recipe tools/render_sounds26.py: the glide into its own vowel inside the carrier, faded from 40%, no schwa); supersedes word-was120-m1.0-d0.111 of SND19 (sound round 19, 2026-08-11). Rounds 50-S1..S4 refused ('hear uh').",
+  "round": "round 50-S5 (2026-09-02)",
+  "sha256": "6ed936e584f0a12780b88374fb706f03f4b8182f3b93e01d9bd54f9fe928b0ba",
+  "verdict": "perfect (owner)",
   "supersedes_sha256": "8553acab8e97e6d8c47e678e1e0d8c95e3fbd6d870180ac6dc7b43ca83bf8507",
   "master_sha256": "c4583fae6f701b94536eaa4c2f1034093d9b3c43be60cb1251d20da4b92a6256",
   "bake": "fresh af_heart synthesis, blind round 0005 option B, candidate cand-34fe64d5c178; carrier crop audio[9000:13200], 10 ms entry and 30 ms exit shoulders, normalised to -20.5 dBFS RMS",
@@ -412,8 +412,7 @@
    "sha256": "c4ac49cbb3b45a644fee528d13a3f914224465cfa7b0513812c1437fd1911a01",
    "ms": 690,
    "note": "closest, but not right - the onset run of the shipped 'wet' clip; a full field is owed"
-  },
-  "last_round": "none (round 50-S4: 'hear uh' - the schwa carrier is wrong for a glide)"
+  }
  },
  "x": {
   "as_in": "ax, fox",
@@ -427,14 +426,13 @@
  },
  "y": {
   "as_in": "yes, yak",
-  "family": "softest",
+  "family": "C_carrier-own-vowel",
   "how": "a y-glide · as in yes",
-  "ms": 700,
-  "note": "cut by the bake's carrier-sentence method, then its edges rounded with the accepted /h/ \"feathered human edges\" parameters. No owner recording involved.",
-  "round": "SND14 (sound round 14, 2026-08-11)",
-  "sha256": "239a545a83cf39e38a5ab6a31861df30b926945f9b855e75ea3b8ca4cd125935",
-  "verdict": "perfect (owner)",
-  "last_round": "none (round 50-S4: 'hear uh' - the schwa carrier is wrong for a glide)"
+  "ms": 890,
+  "note": "round 50-S5: accepted blind as y_1, family C_carrier-own-vowel (recipe tools/render_sounds26.py: the glide into its own vowel inside the carrier, faded from 40%, no schwa); supersedes softest of SND14 (sound round 14, 2026-08-11). Rounds 50-S1..S4 refused ('hear uh').",
+  "round": "round 50-S5 (2026-09-02)",
+  "sha256": "6886e290d293067abe6ba05e0efd4651d19fbdc7272d476f94ba05743be63ad6",
+  "verdict": "perfect (owner)"
  },
  "z": {
   "as_in": "zip, zag",

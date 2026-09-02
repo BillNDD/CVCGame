@@ -3332,6 +3332,15 @@ what is true now.
   glide does not, so the schwa carrier is the wrong form for a glide. Next for w and y
   (`tools/render_sounds26.py`): the glide sliding into its own vowel ("wwoo", "yyee") with
   that vowel faded, schwa-free, three ways.
+- **Round 50-5 and 50-S5 judged 2026-09-02 - the fifty are done.** Words: quiz_3 and rod_3
+  perfect (the tight tail, mechanism G, won both comebacks), wham_2, whizz_2, i_1 perfect, all
+  superseded; with_3 and if_1 closest (logged, not shipped). Sounds: w_2 and y_1 perfect and
+  shipped, both the glide into its own vowel inside the carrier with the vowel faded - so
+  every stop, the affricate, qu and both glides now ship at citation length from one family
+  of mechanism, chosen blind. Tally over the five rounds: 32 word clips and 9 sounds (x, b,
+  d, g, qu, j, p, w, y) superseded by owner-accepted takes; 3 words closest and kept as they
+  were (hush, with, if); 7 parked for a mechanism of their own (from, her, of, that, to, fax,
+  h). The fault stays open for the parked seven.
 - **Two tool faults found by the check, both closed the same day.** (1) The waiting room
   keeps its own copy of every ledgered clip and rule 1 hashes THAT copy; the first run of
   `tools/supersede-words.py` re-pinned the ledger and left seven copies stale - the tool now
