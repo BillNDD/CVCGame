@@ -6,7 +6,7 @@
  "air": {
   "as_in": "chair, bear",
   "family": "rep_sp0.8_q240-180",
-  "how": "r-controlled 'air' \u00b7 as in chair, bear, hair",
+  "how": "r-controlled 'air' · as in chair, bear, hair",
   "ms": 990,
   "round": "SND6 (sound round 6, 2026-08-10)",
   "sha256": "00c067dec3a9602eb361c3c131690e75fe51b058088c9a70ebce0e25443596f6",
@@ -14,7 +14,7 @@
  },
  "ar": {
   "as_in": "car, star",
-  "how": "r-controlled \"ar\" \u00b7 as in car, star",
+  "how": "r-controlled \"ar\" · as in car, star",
   "round": "P45-B05",
   "sha256": "90431afd0eb34452d63153fbc02805ece57257cd73c24a98944cc8ffd34c448e",
   "verdict": "perfect (owner); replaced 2026-08-18 with a fresh af_heart bake the owner accepted by ear, superseding 5bbf0fa449f9 - the prior verdict stands for the bytes it judged, not for these",
@@ -24,25 +24,25 @@
  },
  "aw": {
   "as_in": "saw, paw, law",
-  "how": "open \"aw\" \u00b7 as in saw, paw, law",
+  "how": "open \"aw\" · as in saw, paw, law",
   "round": "P45-B04",
   "sha256": "ad0f4d413141d854a52460ab7397a183558bf168fa0696fb4878061ecfcceb87",
   "verdict": "ok (owner ship review); sound round 2, 2026-08-10: closest of its field - owner ruled iterate on this clip, better arms owed; sound round 3, 2026-08-10: perfect - the accepted clip beat its own iterate field, closed"
  },
  "b": {
   "as_in": "bus, bib",
-  "family": "bake-g-decay-shallow",
-  "how": "a quick b-push \u00b7 as in bus",
-  "ms": 670,
-  "note": "cut by the bake's carrier-sentence method, then its edges rounded with the accepted /h/ \"feathered human edges\" parameters. No owner recording involved.",
-  "round": "SND14 (sound round 14, 2026-08-11)",
-  "sha256": "4485272881047b7396c6766c21c30edc5ee996146855822b7123925986408827",
+  "family": "S_citation-schwa-faded",
+  "how": "a quick b-push · as in bus",
+  "ms": 761,
+  "note": "round 50-S3: accepted blind as b_3, family S_citation-schwa-faded (recipe tools/render_sounds24.py, citation length); supersedes bake-g-decay-shallow of SND14 (sound round 14, 2026-08-11). Rounds 50-S1 and 50-S2 were refused as clipped and too short.",
+  "round": "round 50-S3 (2026-09-02)",
+  "sha256": "30c83cd5301aa4dfcd63e5a6f894c4aba67e7303daf3c1f91d27ae0428e99d45",
   "verdict": "perfect (owner)"
  },
  "ch": {
   "as_in": "chat, much",
   "family": "pack_such_tail150",
-  "how": "a t-click snapping into shush \u2014 one sound \u00b7 as in chat, much",
+  "how": "a t-click snapping into shush — one sound · as in chat, much",
   "ms": 700,
   "round": "SND2 (sound round 2, 2026-08-10)",
   "sha256": "3d57d3626fc8c49b3d7c1b1127ae0a9e0b029c3cec9b04f413943b9c39ea44b2",
@@ -51,18 +51,18 @@
  },
  "d": {
   "as_in": "dad, did",
-  "family": "bake-g-full-chain",
-  "how": "a quick d-tap \u00b7 as in dad",
-  "ms": 700,
-  "note": "cut by the bake's carrier-sentence method, then its edges rounded with the accepted /h/ \"feathered human edges\" parameters. No owner recording involved.",
-  "round": "SND14 (sound round 14, 2026-08-11)",
-  "sha256": "089e7416b223c10a5783f6c0096f85854e2dc3bd434e60f9aa5000273eb07d93",
+  "family": "S_citation-schwa-faded",
+  "how": "a quick d-tap · as in dad",
+  "ms": 760,
+  "note": "round 50-S3: accepted blind as d_3, family S_citation-schwa-faded (recipe tools/render_sounds24.py, citation length); supersedes bake-g-full-chain of SND14 (sound round 14, 2026-08-11). Rounds 50-S1 and 50-S2 were refused as clipped and too short.",
+  "round": "round 50-S3 (2026-09-02)",
+  "sha256": "e679e3686f0cd27c5c3c811e9d0ad9bbe30a7bba2a2205a0cbb2bf5cc89685c4",
   "verdict": "perfect (owner)"
  },
  "ear": {
   "as_in": "ear, deer",
   "family": "rep_sp0.8_q40-120",
-  "how": "r-controlled 'ear' \u00b7 as in ear, deer, near",
+  "how": "r-controlled 'ear' · as in ear, deer, near",
   "ms": 970,
   "round": "SND6 (sound round 6, 2026-08-10)",
   "sha256": "adc3ac9292f7f3ac4de83100a1e141c9c3cab6edaaec7b9f1785ec667608199c",
@@ -73,7 +73,7 @@
  },
  "er": {
   "as_in": "her, bird",
-  "how": "r-controlled \"er\" \u00b7 as in her, bird",
+  "how": "r-controlled \"er\" · as in her, bird",
   "round": "P45-B05",
   "sha256": "74cc174fc3528edbb74b8ba01cb260b3d9972e8ceb4a2688178bbe376fbcfd6f",
   "verdict": "perfect (owner); replaced 2026-08-18 with a fresh af_heart bake the owner accepted by ear, superseding 08536b707195 - the prior verdict stands for the bytes it judged, not for these",
@@ -83,25 +83,25 @@
  },
  "f": {
   "as_in": "fan, if",
-  "how": "a clean lip-and-teeth hiss, no voice \u00b7 as in fan, if",
+  "how": "a clean lip-and-teeth hiss, no voice · as in fan, if",
   "round": "P45-HARD-SOL1",
   "sha256": "f14bfbf4a6339aa969afbe3dc505d279eb5bc74434d95dacad17b827e83de39f",
   "verdict": "ok (owner ship review)"
  },
  "g": {
   "as_in": "gap, got",
-  "family": "cut-got-250",
-  "how": "a g-catch \u00b7 as in gap",
-  "ms": 760,
-  "note": "af_heart only \u2014 no owner recording. v and z were bent to formants measured from the owner's reference; n, ng and g are straight cuts from approved word clips with no resynthesis.",
-  "round": "SND16 (sound round 16, 2026-08-11)",
-  "sha256": "d020af7d3ca83625c06bca8db625c28b436458f1d4d2739f4f3ac4f6047b203a",
+  "family": "S_citation-schwa-faded",
+  "how": "a g-catch · as in gap",
+  "ms": 839,
+  "note": "round 50-S3: accepted blind as g_2, family S_citation-schwa-faded (recipe tools/render_sounds24.py, citation length); supersedes cut-got-250 of SND16 (sound round 16, 2026-08-11). Rounds 50-S1 and 50-S2 were refused as clipped and too short.",
+  "round": "round 50-S3 (2026-09-02)",
+  "sha256": "e7f8133871581ffa4e52038a811e57c4b9f4c4916696528e156393726f78670f",
   "verdict": "perfect (owner)"
  },
  "h": {
   "as_in": "hat, hop",
   "family": "word-hug120-m1.0-d0.356",
-  "how": "a light quick breath \u00b7 as in hat",
+  "how": "a light quick breath · as in hat",
   "ms": 760,
   "note": "af_heart, chosen by an objective distance to the owner's reference then matched on duration, pitch and frame-median formants. No owner recording involved.",
   "round": "SND19 (sound round 19, 2026-08-11)",
@@ -114,31 +114,31 @@
  },
  "j": {
   "as_in": "jam, jet",
-  "family": "longcut-jug-240",
-  "how": "a soft j-push \u00b7 as in jam",
-  "ms": 790,
-  "note": "synthesised; no owner recording involved.",
-  "round": "SND15 (sound round 15, 2026-08-11)",
-  "sha256": "759ecd13eb72a8e515915c993edf67bf1a1635de0b63f4f7111f284592461a57",
+  "family": "S3_say-it_sp1.0",
+  "how": "a soft j-push · as in jam",
+  "ms": 820,
+  "note": "round 50-S4: accepted blind as j_1, family S3_say-it_sp1.0 (recipe tools/render_sounds25.py: the sound said alone in a carrier, schwa faded from 45%); supersedes longcut-jug-240 of SND15 (sound round 15, 2026-08-11). Rounds 50-S1..S3 refused.",
+  "round": "round 50-S4 (2026-09-02)",
+  "sha256": "e4e0e556265ce1cbb46fc6c09748f91acc5f26808fe10a53fc44b659aa5928e6",
   "verdict": "perfect (owner)"
  },
  "k": {
   "as_in": "cat, duck",
-  "how": "a click at the back of the mouth, air only \u00b7 as in cat, duck",
+  "how": "a click at the back of the mouth, air only · as in cat, duck",
   "round": "P45-JOT-LUCK-APPROVED",
   "sha256": "94b7923374608db811b061363bd4b1a2c889ed03b0dfa0f1e36a9ba6e0654322",
   "verdict": "ok (owner ship review)"
  },
  "l": {
   "as_in": "lap, bell",
-  "how": "tongue up, a singable \"l\" \u00b7 as in lap, bell",
+  "how": "tongue up, a singable \"l\" · as in lap, bell",
   "round": "P45-JOT-LUCK-APPROVED",
   "sha256": "2c545700cdf3b146d9ca5c97c5ac6a3a3eb3d51948f23c705df011ad32936bb6",
   "verdict": "ok (owner ship review)"
  },
  "long_a": {
   "as_in": "cake, name",
-  "how": "letter-name \"ay\" \u00b7 as in cake, name (long-vowel exception)",
+  "how": "letter-name \"ay\" · as in cake, name (long-vowel exception)",
   "round": "P45-B04",
   "sha256": "125c1831e828ce5b5109c819d202715834f28c8019628b494511a0952a1afdbf",
   "verdict": "ok (owner ship review); sound round 2, 2026-08-10: closest of its field - owner ruled iterate on this clip, better arms owed; sound round 3, 2026-08-10: perfect - the accepted clip beat its own iterate field, closed"
@@ -146,7 +146,7 @@
  "long_e": {
   "as_in": "me, see",
   "family": "pack_she_45",
-  "how": "letter-name \"ee\" \u00b7 as in me, see (long-vowel exception)",
+  "how": "letter-name \"ee\" · as in me, see (long-vowel exception)",
   "ms": 847,
   "round": "SND2 (sound round 2, 2026-08-10)",
   "sha256": "e7d3a3fe69d770113bfc5a6d0f8fc1221045daceefcf65861c62f5964c57cd10",
@@ -157,7 +157,7 @@
  "long_i": {
   "as_in": "time, my",
   "family": "rep_sp0.7_q180-50",
-  "how": "letter-name \u201ceye\u201d \u00b7 as in time, my (long-vowel exception)",
+  "how": "letter-name “eye” · as in time, my (long-vowel exception)",
   "ms": 910,
   "note": "cut from the sound's own pure word between measured silences",
   "round": "SND5 (sound round 5, 2026-08-10)",
@@ -167,7 +167,7 @@
  "long_o": {
   "as_in": "go, home",
   "family": "rep_sp0.7_q100-170",
-  "how": "letter-name \u201coh\u201d \u00b7 as in go, home (long-vowel exception)",
+  "how": "letter-name “oh” · as in go, home (long-vowel exception)",
   "ms": 1010,
   "note": "cut from the sound's own pure word between measured silences",
   "round": "SND5 (sound round 5, 2026-08-10)",
@@ -177,7 +177,7 @@
  "long_u": {
   "as_in": "use, cube",
   "family": "you_asis",
-  "how": "letter-name \u201cyou\u201d \u00b7 as in use, cube (long-vowel exception)",
+  "how": "letter-name “you” · as in use, cube (long-vowel exception)",
   "ms": 970,
   "note": "the core of the owner-accepted pending word 'you' - the word IS the sound",
   "round": "SND3 (sound round 3, 2026-08-10)",
@@ -186,7 +186,7 @@
  },
  "m": {
   "as_in": "man, am",
-  "how": "a closed-lip hum \u00b7 as in man, am",
+  "how": "a closed-lip hum · as in man, am",
   "round": "P45-HARD-SOL1",
   "sha256": "b53c6b07e418f00ef8bd2eca0332143cc7348f3bcee814b1e19a85c1bf992085",
   "verdict": "ok (owner ship review)"
@@ -194,9 +194,9 @@
  "n": {
   "as_in": "net, nut",
   "family": "cut-nut-200",
-  "how": "a humming n \u00b7 as in net",
+  "how": "a humming n · as in net",
   "ms": 740,
-  "note": "af_heart only \u2014 no owner recording. v and z were bent to formants measured from the owner's reference; n, ng and g are straight cuts from approved word clips with no resynthesis.",
+  "note": "af_heart only — no owner recording. v and z were bent to formants measured from the owner's reference; n, ng and g are straight cuts from approved word clips with no resynthesis.",
   "round": "SND16 (sound round 16, 2026-08-11)",
   "sha256": "7dd38ae8471e52a42d0b9f52c7111829da1ed9966d191f2552bb51cd42d06e59",
   "verdict": "perfect (owner)"
@@ -204,9 +204,9 @@
  "ng": {
   "as_in": "ring, sing",
   "family": "cut-sing-270",
-  "how": "a humming ng \u00b7 as in ring",
+  "how": "a humming ng · as in ring",
   "ms": 810,
-  "note": "af_heart only \u2014 no owner recording. v and z were bent to formants measured from the owner's reference; n, ng and g are straight cuts from approved word clips with no resynthesis.",
+  "note": "af_heart only — no owner recording. v and z were bent to formants measured from the owner's reference; n, ng and g are straight cuts from approved word clips with no resynthesis.",
   "round": "SND16 (sound round 16, 2026-08-11)",
   "sha256": "135b56c418fa7aec0e04f4b93a6dce261e482060242b58b9c3704590b0ac4adf",
   "verdict": "perfect (owner)"
@@ -214,7 +214,7 @@
  "oi": {
   "as_in": "coin, boy",
   "family": "rep_sp0.7_q40-160_warm",
-  "how": "the glide of coin and boy \u00b7 as in coin, boy",
+  "how": "the glide of coin and boy · as in coin, boy",
   "ms": 980,
   "note": "cut from the sound's own pure word between measured silences",
   "round": "SND5 (sound round 5, 2026-08-10)",
@@ -224,9 +224,9 @@
  "oo_book": {
   "as_in": "push, bush, book",
   "family": "warp_bush20-most-F617-1114",
-  "how": "the short 'oo' of book, push, took \u2014 quick, rounded, relaxed",
+  "how": "the short 'oo' of book, push, took — quick, rounded, relaxed",
   "ms": 500,
-  "note": "cut from the shipped, owner-approved 'bush' clip, then formant-warped toward F1 520 / F2 1140 \u2014 measured by LPC from a human recording the owner supplied. Closed on its fourth round after three failed; the shipped bytes measure F1 625, F2 1117.",
+  "note": "cut from the shipped, owner-approved 'bush' clip, then formant-warped toward F1 520 / F2 1140 — measured by LPC from a human recording the owner supplied. Closed on its fourth round after three failed; the shipped bytes measure F1 625, F2 1117.",
   "round": "SND11 (sound round 11, 2026-08-11)",
   "sha256": "826ebdc7deafb8423ba5392f2ff98e2aefc846172dd4d83c98a58cc09afdf0fb",
   "verdict": "perfect (owner)",
@@ -234,14 +234,14 @@
  },
  "oo_moon": {
   "as_in": "moon, food, boot",
-  "how": "long oo \u00b7 as in moon, food, boot",
+  "how": "long oo · as in moon, food, boot",
   "round": "P45-B04",
   "sha256": "3a4c9e0e7ccf664999e05c049769e911019243fff039fe209dd660f6e5d5afe5",
   "verdict": "ok (owner ship review)"
  },
  "or": {
   "as_in": "for, corn",
-  "how": "r-controlled \"or\" \u00b7 as in for, corn",
+  "how": "r-controlled \"or\" · as in for, corn",
   "round": "P45-B05",
   "sha256": "f97d26c2a80aae6fd76f2e8c9e1fcd434b9b37891bedce81343e059d87c34925",
   "verdict": "ok (owner ship review); re-confirmed perfect blind, sound round 2, 2026-08-10"
@@ -249,7 +249,7 @@
  "ow": {
   "as_in": "cow, out",
   "family": "seed_warm",
-  "how": "the glide of cow and out \u00b7 as in cow, out",
+  "how": "the glide of cow and out · as in cow, out",
   "ms": 990,
   "round": "SND6 (sound round 6, 2026-08-10)",
   "sha256": "90164b117464629c924d3480cf4a3ef1834bb5dce04f46b9bbd93503e3657020",
@@ -257,28 +257,34 @@
  },
  "p": {
   "as_in": "map, pin",
-  "how": "a crisp lip pop, air only \u00b7 as in map, pin",
-  "round": "P45-HARD-SOL1",
-  "sha256": "e56f01ae2f52c0264b2dc34375bdfb50c3e63ccd37c40406dcfbd469dbc87720",
-  "verdict": "ok (owner ship review)"
+  "how": "a crisp lip pop, air only · as in map, pin",
+  "round": "round 50-S4 (2026-09-02)",
+  "sha256": "0e0f9006a320db8f4b8ea5a1e6c1a19db8ef65aeea11ffe273c50a68738fbbda",
+  "verdict": "perfect (owner)",
+  "family": "S3_say-it_sp1.0",
+  "ms": 780,
+  "note": "round 50-S4: accepted blind as p_1, family S3_say-it_sp1.0 (recipe tools/render_sounds25.py: the sound said alone in a carrier, schwa faded from 45%); supersedes ? of P45-HARD-SOL1. Rounds 50-S1..S3 refused."
  },
  "qu": {
   "as_in": "quiz, quick",
-  "how": "a k-click sliding into w: \"kw\" \u00b7 as in quiz, quick",
-  "round": "P45-HARD-GROK1",
-  "sha256": "38f7f9df40156abc97fdb5ebd1983ebab425c1fc5526d79f2d30fea3626c65c7",
-  "verdict": "ok (owner ship review)"
+  "how": "a k-click sliding into w: \"kw\" · as in quiz, quick",
+  "round": "round 50-S3 (2026-09-02)",
+  "sha256": "a6e60f2ed0b8e69f73e8a0e3bb194a9529424b19b86416405eabcebfd03e2f49",
+  "verdict": "perfect (owner)",
+  "family": "D_decay-quit",
+  "ms": 831,
+  "note": "round 50-S3: accepted blind as qu_1, family D_decay-quit (recipe tools/render_sounds24.py, citation length); supersedes ? of P45-HARD-GROK1. Rounds 50-S1 and 50-S2 were refused as clipped and too short."
  },
  "r": {
   "as_in": "rat",
-  "how": "the curled-tongue growl \u00b7 as in rat",
+  "how": "the curled-tongue growl · as in rat",
   "round": "P45-HARD-SOL1",
   "sha256": "aed072c89af163fc6634bd470d6a2a24a8e0da1f80a2642964c730f5fe458d16",
   "verdict": "ok (owner ship review)"
  },
  "s": {
   "as_in": "sun, us",
-  "how": "a clean snake-hiss \u00b7 as in sun, us",
+  "how": "a clean snake-hiss · as in sun, us",
   "round": "P45-B01-IT1",
   "sha256": "15f90594896da99484b8103151aa7bb9e5439b02411fa0095885003b0fe5a506",
   "verdict": "ok (owner ship review)"
@@ -286,7 +292,7 @@
  "schwa": {
   "as_in": "the, about",
   "family": "pack-the-40-150-shaped",
-  "how": "the lazy little 'uh' of 'the', 'a', 'about' \u00b7 as in the",
+  "how": "the lazy little 'uh' of 'the', 'a', 'about' · as in the",
   "ms": 520,
   "note": "cut from the SHIPPED, owner-approved word clip, the recipe that closed long_e and ch. Closed on its seventh round after six synthesis rounds failed.",
   "round": "SND9 (sound round 9, 2026-08-11)",
@@ -297,7 +303,7 @@
  "sh": {
   "as_in": "ship, shop",
   "family": "fadeonly-tight",
-  "how": "a quiet shush \u00b7 as in ship",
+  "how": "a quiet shush · as in ship",
   "ms": 730,
   "note": "synthesised; no owner recording involved.",
   "round": "SND15 (sound round 15, 2026-08-11)",
@@ -306,7 +312,7 @@
  },
  "short_a": {
   "as_in": "cat, at",
-  "how": "mouth open and wide, a bright flat \"a\" \u00b7 as in cat, at",
+  "how": "mouth open and wide, a bright flat \"a\" · as in cat, at",
   "round": "P45-B01",
   "sha256": "f4b85b8bb74a215dba001910e7958ce16394576470a0f3cad761a401bf5753af",
   "verdict": "ok (owner ship review)",
@@ -315,7 +321,7 @@
  "short_e": {
   "as_in": "hen, bed",
   "family": "bake-n-envelope",
-  "how": "the short e \u00b7 as in hen, bed",
+  "how": "the short e · as in hen, bed",
   "ms": 800,
   "note": "cut by the bake's carrier-sentence method, then its edges rounded with the accepted /h/ \"feathered human edges\" parameters. No owner recording involved.",
   "round": "SND14 (sound round 14, 2026-08-11)",
@@ -325,7 +331,7 @@
  },
  "short_i": {
   "as_in": "sit, in",
-  "how": "the short \"i\" sound \u00b7 as in sit, in",
+  "how": "the short \"i\" sound · as in sit, in",
   "round": "P45-HARD-SOL1",
   "sha256": "702660fa5ec9c211b7ca6c9cdf5e3828244453903c7b08263559ab508cd4574b",
   "verdict": "ok (owner ship review)",
@@ -333,7 +339,7 @@
  },
  "short_o": {
   "as_in": "hot, ox",
-  "how": "short o \u00b7 as in hot, ox",
+  "how": "short o · as in hot, ox",
   "round": "P45-JOT-LUCK-APPROVED",
   "sha256": "820a5025f119a235bc4ec02549f53286e946218d01228b0474023cc07afcd463",
   "verdict": "ok (owner ship review)",
@@ -342,7 +348,7 @@
  "short_u": {
   "as_in": "bus, cup",
   "family": "bake-g-naturaldecay",
-  "how": "the short u \u00b7 as in bus, cup",
+  "how": "the short u · as in bus, cup",
   "ms": 830,
   "note": "cut by the bake's carrier-sentence method, then its edges rounded with the accepted /h/ \"feathered human edges\" parameters. No owner recording involved.",
   "round": "SND14 (sound round 14, 2026-08-11)",
@@ -352,7 +358,7 @@
  },
  "t": {
   "as_in": "tip, rat",
-  "how": "a tongue tick behind the teeth, air only \u00b7 as in tip, rat",
+  "how": "a tongue tick behind the teeth, air only · as in tip, rat",
   "round": "P45-JOT-LUCK-APPROVED",
   "sha256": "3b4673e25419570c3868388e115fd54eb32172e5bf31346c4462dae2f3a8e3bd",
   "verdict": "ok (owner ship review)"
@@ -360,7 +366,7 @@
  "th_quiet": {
   "as_in": "thin, math",
   "family": "puff_moth_110ms",
-  "how": "a soft short puff of air between the teeth, no voice \u00b7 as in thin, math",
+  "how": "a soft short puff of air between the teeth, no voice · as in thin, math",
   "ms": 660,
   "note": "the frication run of the approved pack word moth, shaped: cut to 110 ms, 15 ms attack, 45 ms decay, peak -9 dBFS. Held flat frication reads as hiss; the shaping is what won.",
   "round": "SND4 (sound round 4, 2026-08-10)",
@@ -370,10 +376,10 @@
  "th_this": {
   "as_in": "this, that, then, them, the, with",
   "family": "carrier-citation",
-  "how": "a buzzing th with the voice ON \u00b7 as in this, that, the",
-  "method": "kokoro af_heart carrier sentence \"h\u02c8\u026a\u0279 \u026az \u00f0\u0259 s\u02c8a\u028and: \u00f0\u00f0\u00f0\u00f0.\" cut at its last energy island",
+  "how": "a buzzing th with the voice ON · as in this, that, the",
+  "method": "kokoro af_heart carrier sentence \"hˈɪɹ ɪz ðə sˈaʊnd: ðððð.\" cut at its last energy island",
   "ms": 210,
-  "note": "The voiced /\u00f0/. Until this round every th tile played th_quiet, the VOICELESS th of \"thin\", so this, that, then, them, the and with were all sounded out with the wrong sound. Found by an audit of the reveal on 2026-08-11, not by a gate.",
+  "note": "The voiced /ð/. Until this round every th tile played th_quiet, the VOICELESS th of \"thin\", so this, that, then, them, the and with were all sounded out with the wrong sound. Found by an audit of the reveal on 2026-08-11, not by a gate.",
   "round": "SND22 (sound round 22, 2026-08-11)",
   "sha256": "35abc47433f9bd0af8487be15cf3a6577ec917e4a5595a558b8b00a2d0177919",
   "verdict": "perfect (owner)",
@@ -382,9 +388,9 @@
  "v": {
   "as_in": "van, vet",
   "family": "match-vex260-most1",
-  "how": "a buzzing v \u00b7 as in van",
+  "how": "a buzzing v · as in van",
   "ms": 800,
-  "note": "af_heart only \u2014 no owner recording. v and z were bent to formants measured from the owner's reference; n, ng and g are straight cuts from approved word clips with no resynthesis. RESTORED 2026-08-12: this clip was briefly replaced across the whole bank by the softened v of the \"of\" round, on a false reading of its record. It was graded perfect (owner) here, and it sits within 0.7 dB of its neighbours in van, vet and vex, where the softened one sits 6.5 to 9.6 dB below them. Only \"of\" takes the softened clip, which is d:v_soft.",
+  "note": "af_heart only — no owner recording. v and z were bent to formants measured from the owner's reference; n, ng and g are straight cuts from approved word clips with no resynthesis. RESTORED 2026-08-12: this clip was briefly replaced across the whole bank by the softened v of the \"of\" round, on a false reading of its record. It was graded perfect (owner) here, and it sits within 0.7 dB of its neighbours in van, vet and vex, where the softened one sits 6.5 to 9.6 dB below them. Only \"of\" takes the softened clip, which is d:v_soft.",
   "round": "SND16 (sound round 16, 2026-08-11)",
   "sha256": "7a650b4bf6f4b1c45bfa68f2e50d59164cd59a03cb5856a63ec8b8d0635dda63",
   "verdict": "perfect (owner)"
@@ -392,7 +398,7 @@
  "w": {
   "as_in": "web, win",
   "family": "word-was120-m1.0-d0.111",
-  "how": "a rounded w \u00b7 as in web",
+  "how": "a rounded w · as in web",
   "ms": 880,
   "note": "af_heart, chosen by an objective distance to the owner's reference then matched on duration, pitch and frame-median formants. No owner recording involved.",
   "round": "SND19 (sound round 19, 2026-08-11)",
@@ -400,38 +406,49 @@
   "verdict": "perfect (owner); replaced 2026-08-18 with a fresh af_heart bake the owner accepted by ear, superseding 8553acab8e97 - the prior verdict stands for the bytes it judged, not for these",
   "supersedes_sha256": "8553acab8e97e6d8c47e678e1e0d8c95e3fbd6d870180ac6dc7b43ca83bf8507",
   "master_sha256": "c4583fae6f701b94536eaa4c2f1034093d9b3c43be60cb1251d20da4b92a6256",
-  "bake": "fresh af_heart synthesis, blind round 0005 option B, candidate cand-34fe64d5c178; carrier crop audio[9000:13200], 10 ms entry and 30 ms exit shoulders, normalised to -20.5 dBFS RMS"
+  "bake": "fresh af_heart synthesis, blind round 0005 option B, candidate cand-34fe64d5c178; carrier crop audio[9000:13200], 10 ms entry and 30 ms exit shoulders, normalised to -20.5 dBFS RMS",
+  "closest_round50_1": {
+   "family": "P_from-wet",
+   "sha256": "c4ac49cbb3b45a644fee528d13a3f914224465cfa7b0513812c1437fd1911a01",
+   "ms": 690,
+   "note": "closest, but not right - the onset run of the shipped 'wet' clip; a full field is owed"
+  },
+  "last_round": "none (round 50-S4: 'hear uh' - the schwa carrier is wrong for a glide)"
  },
  "x": {
   "as_in": "ax, fox",
-  "how": "a k-click sliding into s: \"ks\" \u00b7 as in ax, fox",
-  "round": "P45-B03",
-  "sha256": "ceac622cb423f463f9b78f333769d4d4360aa11f8b807b43347498bcad6a5092",
-  "verdict": "ok (owner ship review)"
+  "how": "a k-click sliding into s: \"ks\" · as in ax, fox",
+  "round": "round 50-1 (2026-09-02)",
+  "sha256": "8ee4d28bc3714097080d71a4893b083f09f3f9794eb43c57b97fc479d10ab027",
+  "verdict": "perfect (owner)",
+  "family": "P_from-box",
+  "ms": 770,
+  "note": "round 50-1: accepted blind over the shipped x (owner 'ok', x_ks_gap8_s+80); the ks tail of the shipped 'box' clip"
  },
  "y": {
   "as_in": "yes, yak",
   "family": "softest",
-  "how": "a y-glide \u00b7 as in yes",
+  "how": "a y-glide · as in yes",
   "ms": 700,
   "note": "cut by the bake's carrier-sentence method, then its edges rounded with the accepted /h/ \"feathered human edges\" parameters. No owner recording involved.",
   "round": "SND14 (sound round 14, 2026-08-11)",
   "sha256": "239a545a83cf39e38a5ab6a31861df30b926945f9b855e75ea3b8ca4cd125935",
-  "verdict": "perfect (owner)"
+  "verdict": "perfect (owner)",
+  "last_round": "none (round 50-S4: 'hear uh' - the schwa carrier is wrong for a glide)"
  },
  "z": {
   "as_in": "zip, zag",
   "family": "match-zig260-most1",
-  "how": "a buzzing z \u00b7 as in zip",
+  "how": "a buzzing z · as in zip",
   "ms": 810,
-  "note": "af_heart only \u2014 no owner recording. v and z were bent to formants measured from the owner's reference; n, ng and g are straight cuts from approved word clips with no resynthesis.",
+  "note": "af_heart only — no owner recording. v and z were bent to formants measured from the owner's reference; n, ng and g are straight cuts from approved word clips with no resynthesis.",
   "round": "SND16 (sound round 16, 2026-08-11)",
   "sha256": "4b37cac91454bfca3f8a772c41e3dd3024b7a1adc138d43b7f86736a69cdf43a",
   "verdict": "perfect (owner)"
  },
  "zh": {
   "as_in": "measure, treasure",
-  "how": "voiced \"zh\" (buzzing shush) \u00b7 as in measure, treasure",
+  "how": "voiced \"zh\" (buzzing shush) · as in measure, treasure",
   "round": "P45-HARD-GROK1",
   "sha256": "a004d3d1a1e442bc9b593c919e0cd24b63be0549ab8b13690ab9698081359b3c",
   "verdict": "ok (owner ship review); re-confirmed perfect blind, sound round 2, 2026-08-10"
@@ -450,11 +467,11 @@
  "v_soft": {
   "as_in": "of",
   "family": "of3-quieter-rounder",
-  "how": "a buzzing v, quieter and rounder - the v of \u201cof\u201d only",
+  "how": "a buzzing v, quieter and rounder - the v of “of” only",
   "ms": 696,
   "round": "of round 3 (2026-08-12)",
-  "verdict": "perfect (owner), judged in company inside \u201cof\u201d",
-  "note": "SND16's v re-cut after the owner called it shouting beside the vowel in \u201cof\u201d: measured 6.2 dB louder and 400 Hz brighter than the sound next to it. Recipe, from the shipped d:v's own body: gain -7 dB, one-pole low-pass at 1800 Hz, re-peaked to -3.5 dBFS, 40 ms fades, then the pack's 80/300 ms padding. ONLY \u201cof\u201d takes it. van, vet, vat and vex keep d:v, which was graded perfect for them in SND16 and sits within 0.7 dB of its neighbours there. Reproduce with tools/build_of_round.py --ship, which refuses unless the source and the result both hash to the values recorded here.",
+  "verdict": "perfect (owner), judged in company inside “of”",
+  "note": "SND16's v re-cut after the owner called it shouting beside the vowel in “of”: measured 6.2 dB louder and 400 Hz brighter than the sound next to it. Recipe, from the shipped d:v's own body: gain -7 dB, one-pole low-pass at 1800 Hz, re-peaked to -3.5 dBFS, 40 ms fades, then the pack's 80/300 ms padding. ONLY “of” takes it. van, vet, vat and vex keep d:v, which was graded perfect for them in SND16 and sits within 0.7 dB of its neighbours there. Reproduce with tools/build_of_round.py --ship, which refuses unless the source and the result both hash to the values recorded here.",
   "sha256": "0489d6c0e1bf964389f75b35f904e629794acf708831299a092d50d10412a85e"
  },
  "long_i_i": {

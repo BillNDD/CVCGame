@@ -3,7 +3,7 @@
   "am": {
     "word": "am",
     "verdict": "perfect",
-    "speed": 0.82,
+    "speed": 0.8,
     "lead_ms": 80,
     "period": false,
     "onset_trim": false,
@@ -503,7 +503,7 @@
   "hat": {
     "word": "hat",
     "verdict": "perfect",
-    "speed": 0.82,
+    "speed": 0.8,
     "lead_ms": 80,
     "period": false,
     "onset_trim": false,
@@ -587,7 +587,7 @@
   "man": {
     "word": "man",
     "verdict": "perfect",
-    "speed": 0.82,
+    "speed": 0.75,
     "lead_ms": 80,
     "period": false,
     "onset_trim": false,
@@ -608,7 +608,7 @@
   "map": {
     "word": "map",
     "verdict": "perfect",
-    "speed": 0.82,
+    "speed": 0.75,
     "lead_ms": 80,
     "period": false,
     "onset_trim": false,
@@ -1350,7 +1350,7 @@
   "hit": {
     "word": "hit",
     "verdict": "perfect",
-    "speed": 1,
+    "speed": 0.72,
     "lead_ms": 80,
     "period": false,
     "onset_trim": false,
@@ -1413,7 +1413,7 @@
   "hot": {
     "word": "hot",
     "verdict": "perfect",
-    "speed": 0.82,
+    "speed": 0.75,
     "lead_ms": 80,
     "period": false,
     "onset_trim": false,
@@ -2246,7 +2246,7 @@
   "mud": {
     "word": "mud",
     "verdict": "perfect",
-    "speed": 0.82,
+    "speed": 0.75,
     "lead_ms": 80,
     "period": false,
     "onset_trim": false,
@@ -3019,7 +3019,7 @@
   "kit": {
     "word": "kit",
     "verdict": "perfect",
-    "speed": 1,
+    "speed": 0.75,
     "lead_ms": 80,
     "period": false,
     "onset_trim": false,
@@ -3123,7 +3123,7 @@
   "lit": {
     "word": "lit",
     "verdict": "perfect",
-    "speed": 1,
+    "speed": 0.8,
     "lead_ms": 80,
     "period": false,
     "onset_trim": false,
@@ -3144,7 +3144,7 @@
   "lug": {
     "word": "lug",
     "verdict": "perfect",
-    "speed": 1,
+    "speed": 0.75,
     "lead_ms": 80,
     "period": false,
     "onset_trim": false,
@@ -3185,7 +3185,7 @@
   "nab": {
     "word": "nab",
     "verdict": "perfect",
-    "speed": 0.82,
+    "speed": 0.8,
     "lead_ms": 80,
     "period": false,
     "onset_trim": false,
@@ -4746,7 +4746,7 @@
   "ring": {
     "word": "ring",
     "verdict": "perfect",
-    "speed": 0.82,
+    "speed": 0.72,
     "lead_ms": 80,
     "period": false,
     "onset_trim": false,
@@ -5616,7 +5616,7 @@
   "nun": {
     "word": "nun",
     "verdict": "perfect",
-    "speed": 1,
+    "speed": 0.75,
     "lead_ms": 80,
     "period": false,
     "onset_trim": false,
@@ -5740,7 +5740,7 @@
   "nix": {
     "word": "nix",
     "verdict": "perfect",
-    "speed": 0.82,
+    "speed": 0.72,
     "lead_ms": 220,
     "period": false,
     "onset_trim": false,
@@ -6043,7 +6043,7 @@
   "hung": {
     "word": "hung",
     "verdict": "perfect",
-    "speed": 1,
+    "speed": 0.75,
     "lead_ms": 80,
     "period": false,
     "onset_trim": false,
@@ -7137,7 +7137,7 @@
   "ant": {
     "word": "ant",
     "verdict": "perfect",
-    "speed": 0.95,
+    "speed": 0.75,
     "lead_ms": 80,
     "period": false,
     "onset_trim": false,
@@ -7233,7 +7233,7 @@
   "bolt": {
     "word": "bolt",
     "verdict": "perfect",
-    "speed": 0.9,
+    "speed": 0.72,
     "lead_ms": 80,
     "period": false,
     "onset_trim": false,
@@ -7553,7 +7553,7 @@
   "grab": {
     "word": "grab",
     "verdict": "perfect",
-    "speed": 0.95,
+    "speed": 0.72,
     "lead_ms": 80,
     "period": false,
     "onset_trim": false,
@@ -7873,7 +7873,7 @@
   "milk": {
     "word": "milk",
     "verdict": "perfect",
-    "speed": 0.85,
+    "speed": 0.72,
     "lead_ms": 80,
     "period": false,
     "onset_trim": false,
@@ -8193,7 +8193,7 @@
   "soft": {
     "word": "soft",
     "verdict": "perfect",
-    "speed": 1.05,
+    "speed": 0.8,
     "lead_ms": 80,
     "period": false,
     "onset_trim": false,
@@ -8417,7 +8417,7 @@
   "twin": {
     "word": "twin",
     "verdict": "perfect",
-    "speed": 0.95,
+    "speed": 0.72,
     "lead_ms": 80,
     "period": false,
     "onset_trim": false,
@@ -8929,7 +8929,7 @@
   "black": {
     "word": "black",
     "verdict": "perfect",
-    "speed": 1,
+    "speed": 0.8,
     "lead_ms": 80,
     "period": false,
     "onset_trim": false,
@@ -9089,7 +9089,7 @@
   "out": {
     "word": "out",
     "verdict": "perfect",
-    "speed": 0.75,
+    "speed": 0.8,
     "lead_ms": 80,
     "period": false,
     "onset_trim": false,
@@ -9473,7 +9473,7 @@
   "have": {
     "word": "have",
     "verdict": "perfect",
-    "speed": 0.85,
+    "speed": 0.8,
     "lead_ms": 80,
     "period": false,
     "onset_trim": false,

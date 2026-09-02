@@ -874,13 +874,13 @@
     20
    ],
    "bin": [
-    "Listen—bin.",
+    "Listen\u2014bin.",
     80,
     -20,
     20
    ],
    "buck": [
-    "Listen—buck.",
+    "Listen\u2014buck.",
     80,
     -20,
     20
@@ -904,7 +904,7 @@
     20
    ],
    "bus": [
-    "Not bun—bus.",
+    "Not bun\u2014bus.",
     80,
     -20,
     20
@@ -1066,7 +1066,7 @@
     20
    ],
    "fang": [
-    "Listen—fang.",
+    "Listen\u2014fang.",
     80,
     -20,
     20
@@ -1120,7 +1120,7 @@
     20
    ],
    "fuss": [
-    "Listen—fuss.",
+    "Listen\u2014fuss.",
     80,
     -20,
     20
@@ -1138,13 +1138,13 @@
     20
    ],
    "gash": [
-    "Listen—gash.",
+    "Listen\u2014gash.",
     80,
     -20,
     20
    ],
    "get": [
-    "Listen—get.",
+    "Listen\u2014get.",
     80,
     -20,
     20
@@ -1300,13 +1300,13 @@
     20
    ],
    "in": [
-    "Listen—in.",
+    "Listen\u2014in.",
     80,
     -20,
     20
    ],
    "is": [
-    "Listen—is.",
+    "Listen\u2014is.",
     80,
     -20,
     20
@@ -1552,7 +1552,7 @@
     20
    ],
    "men": [
-    "Listen—men.",
+    "Listen\u2014men.",
     80,
     -20,
     20
@@ -1654,7 +1654,7 @@
     20
    ],
    "peg": [
-    "Listen—peg.",
+    "Listen\u2014peg.",
     80,
     -20,
     20
@@ -1762,7 +1762,7 @@
     20
    ],
    "rash": [
-    "Listen—rash.",
+    "Listen\u2014rash.",
     80,
     -20,
     20
@@ -1792,7 +1792,7 @@
     20
    ],
    "rip": [
-    "Listen—rip.",
+    "Listen\u2014rip.",
     80,
     -20,
     20
@@ -1858,7 +1858,7 @@
     20
    ],
    "sap": [
-    "Not lap—sap.",
+    "Not lap\u2014sap.",
     80,
     -20,
     20
@@ -1924,7 +1924,7 @@
     20
    ],
    "shut": [
-    "Not shot—shut.",
+    "Not shot\u2014shut.",
     80,
     -20,
     20
@@ -2092,7 +2092,7 @@
     20
    ],
    "up": [
-    "Listen—up.",
+    "Listen\u2014up.",
     80,
     -20,
     20
@@ -2188,7 +2188,7 @@
     20
    ],
    "wrap": [
-    "Listen—wrap.",
+    "Listen\u2014wrap.",
     80,
     -20,
     20
@@ -2218,7 +2218,7 @@
     20
    ],
    "yet": [
-    "Listen—yet.",
+    "Listen\u2014yet.",
     80,
     -20,
     20
@@ -2707,14 +2707,14 @@
    "adventure": 0.8,
    "all": 0.7,
    "alphabet": 0.75,
-   "am": 0.82,
+   "am": 0.8,
    "an": 0.82,
    "anchor": 0.7,
    "ancient": 0.8,
    "and": 1,
    "animal": 0.8,
    "another": 0.8,
-   "ant": 0.95,
+   "ant": 0.75,
    "apple": 0.7,
    "apron": 0.7,
    "are": 0.7,
@@ -2764,12 +2764,12 @@
    "bit": 0.82,
    "bite": 0.7,
    "biting": 0.75,
-   "black": 1,
+   "black": 0.8,
    "blend": 0.8,
    "blind": 0.8,
    "blue": 0.75,
    "boil": 0.75,
-   "bolt": 0.9,
+   "bolt": 0.72,
    "bond": 0.95,
    "book": 0.75,
    "born": 0.8,
@@ -3032,7 +3032,7 @@
    "gold": 0.75,
    "gong": 0.82,
    "got": 0.82,
-   "grab": 0.95,
+   "grab": 0.72,
    "graph": 0.8,
    "grass": 0.75,
    "gravy": 0.8,
@@ -3055,9 +3055,10 @@
    "happy": 0.75,
    "hard": 0.7,
    "has": 0.82,
-   "hat": 0.82,
+   "hat": 0.8,
    "hate": 0.8,
    "haul": 0.75,
+   "have": 0.8,
    "having": 0.7,
    "he": 0.6,
    "head": 0.8,
@@ -3083,7 +3084,7 @@
    "him": 0.82,
    "hip": 0.82,
    "his": 0.8,
-   "hit": 1,
+   "hit": 0.72,
    "hits": 0.8,
    "hog": 0.82,
    "hold": 0.8,
@@ -3096,7 +3097,7 @@
    "hope": 0.75,
    "hopeless": 0.7,
    "horse": 0.7,
-   "hot": 0.82,
+   "hot": 0.75,
    "house": 0.7,
    "how": 0.8,
    "hub": 1,
@@ -3104,7 +3105,7 @@
    "hug": 1,
    "huge": 0.75,
    "hum": 0.82,
-   "hung": 1,
+   "hung": 0.75,
    "hunt": 0.75,
    "hunting": 0.8,
    "hush": 0.82,
@@ -3146,7 +3147,7 @@
    "kindness": 0.7,
    "king": 0.82,
    "kiss": 0.82,
-   "kit": 1,
+   "kit": 0.75,
    "kitten": 0.75,
    "knit": 0.82,
    "knob": 1,
@@ -3189,7 +3190,7 @@
    "line": 0.75,
    "lip": 0.82,
    "list": 0.95,
-   "lit": 1,
+   "lit": 0.8,
    "little": 0.9,
    "live": 0.75,
    "lived": 0.8,
@@ -3207,7 +3208,7 @@
    "loyal": 0.8,
    "luck": 1,
    "lucky": 0.75,
-   "lug": 1,
+   "lug": 0.75,
    "lunch": 0.7,
    "lung": 0.82,
    "lush": 1,
@@ -3217,8 +3218,8 @@
    "magic": 0.8,
    "make": 0.7,
    "makes": 0.8,
-   "man": 0.82,
-   "map": 0.82,
+   "man": 0.75,
+   "map": 0.75,
    "maple": 0.8,
    "mash": 0.82,
    "mat": 0.82,
@@ -3239,6 +3240,7 @@
    "might": 0.7,
    "mild": 0.75,
    "mile": 0.7,
+   "milk": 0.72,
    "mill": 0.82,
    "mind": 0.7,
    "miss": 0.82,
@@ -3263,14 +3265,14 @@
    "mouthful": 0.8,
    "much": 1,
    "muck": 0.82,
-   "mud": 0.82,
+   "mud": 0.75,
    "muffin": 0.8,
    "mug": 1,
    "mule": 0.7,
    "munch": 0.7,
    "mush": 0.82,
    "must": 0.9,
-   "nab": 0.82,
+   "nab": 0.8,
    "nation": 0.7,
    "nature": 0.75,
    "near": 0.75,
@@ -3286,7 +3288,7 @@
    "niece": 0.7,
    "night": 0.75,
    "nine": 0.8,
-   "nix": 0.82,
+   "nix": 0.72,
    "no": 0.7,
    "nod": 0.82,
    "noise": 0.75,
@@ -3295,7 +3297,7 @@
    "not": 0.82,
    "note": 0.75,
    "now": 0.75,
-   "nun": 1,
+   "nun": 0.75,
    "nurse": 0.7,
    "nut": 1,
    "obey": 0.8,
@@ -3307,7 +3309,7 @@
    "other": 0.75,
    "ought": 0.75,
    "our": 0.7,
-   "out": 0.75,
+   "out": 0.8,
    "outside": 0.7,
    "over": 0.75,
    "ox": 0.82,
@@ -3414,7 +3416,7 @@
    "rig": 1,
    "right": 0.75,
    "rim": 1,
-   "ring": 0.82,
+   "ring": 0.72,
    "rip": 0.82,
    "road": 0.75,
    "rob": 0.82,
@@ -3517,7 +3519,7 @@
    "sob": 1,
    "social": 0.75,
    "sock": 1,
-   "soft": 1.05,
+   "soft": 0.8,
    "softly": 0.7,
    "soil": 0.7,
    "sold": 0.75,
@@ -3654,7 +3656,7 @@
    "tug": 1,
    "turn": 0.7,
    "twig": 0.8,
-   "twin": 0.95,
+   "twin": 0.72,
    "umbrella": 0.7,
    "uncle": 0.8,
    "under": 0.9,
@@ -3774,8 +3776,8 @@
  "d:b": {
   "file": "d-b.mp3",
   "lead": 200,
-  "ms": 720,
-  "tail": 410
+  "ms": 816,
+  "tail": 436
  },
  "d:ch": {
   "file": "d-ch.mp3",
@@ -3786,8 +3788,8 @@
  "d:d": {
   "file": "d-d.mp3",
   "lead": 190,
-  "ms": 768,
-  "tail": 428
+  "ms": 816,
+  "tail": 426
  },
  "d:ear": {
   "file": "d-ear.mp3",
@@ -3810,8 +3812,8 @@
  "d:g": {
   "file": "d-g.mp3",
   "lead": 190,
-  "ms": 816,
-  "tail": 416
+  "ms": 888,
+  "tail": 428
  },
  "d:h": {
   "file": "d-h.mp3",
@@ -3822,8 +3824,8 @@
  "d:j": {
   "file": "d-j.mp3",
   "lead": 200,
-  "ms": 840,
-  "tail": 400
+  "ms": 888,
+  "tail": 448
  },
  "d:k": {
   "file": "d-k.mp3",
@@ -3929,15 +3931,15 @@
  },
  "d:p": {
   "file": "d-p.mp3",
-  "lead": 40,
-  "ms": 120,
-  "tail": 0
+  "lead": 190,
+  "ms": 840,
+  "tail": 440
  },
  "d:qu": {
   "file": "d-qu.mp3",
-  "lead": 50,
-  "ms": 288,
-  "tail": 8
+  "lead": 200,
+  "ms": 888,
+  "tail": 418
  },
  "d:r": {
   "file": "d-r.mp3",
@@ -4043,9 +4045,9 @@
  },
  "d:x": {
   "file": "d-x.mp3",
-  "lead": 50,
-  "ms": 240,
-  "tail": 0
+  "lead": 250,
+  "ms": 888,
+  "tail": 428
  },
  "d:y": {
   "file": "d-y.mp3",
@@ -5897,8 +5899,8 @@
  },
  "w:am": {
   "file": "w-am.mp3",
-  "lead": 130,
-  "ms": 984,
+  "lead": 180,
+  "ms": 864,
   "tail": 324
  },
  "w:an": {
@@ -5939,9 +5941,9 @@
  },
  "w:ant": {
   "file": "w-ant.mp3",
-  "lead": 120,
-  "ms": 912,
-  "tail": 322
+  "lead": 180,
+  "ms": 960,
+  "tail": 310
  },
  "w:apple": {
   "file": "w-apple.mp3",
@@ -6013,7 +6015,7 @@
   "file": "w-awful.mp3",
   "lead": 130,
   "ms": 1056,
-  "tail": 316
+  "tail": 326
  },
  "w:ax": {
   "file": "w-ax.mp3",
@@ -6263,9 +6265,9 @@
  },
  "w:black": {
   "file": "w-black.mp3",
-  "lead": 120,
-  "ms": 936,
-  "tail": 326
+  "lead": 170,
+  "ms": 1008,
+  "tail": 328
  },
  "w:blend": {
   "file": "w-blend.mp3",
@@ -6294,8 +6296,8 @@
  "w:bolt": {
   "file": "w-bolt.mp3",
   "lead": 120,
-  "ms": 984,
-  "tail": 314
+  "ms": 1032,
+  "tail": 322
  },
  "w:bond": {
   "file": "w-bond.mp3",
@@ -6313,7 +6315,7 @@
   "file": "w-born.mp3",
   "lead": 120,
   "ms": 888,
-  "tail": 308
+  "tail": 328
  },
  "w:boss": {
   "file": "w-boss.mp3",
@@ -7979,9 +7981,9 @@
  },
  "w:grab": {
   "file": "w-grab.mp3",
-  "lead": 130,
-  "ms": 888,
-  "tail": 308
+  "lead": 120,
+  "ms": 960,
+  "tail": 310
  },
  "w:graph": {
   "file": "w-graph.mp3",
@@ -8135,7 +8137,7 @@
  },
  "w:hat": {
   "file": "w-hat.mp3",
-  "lead": 150,
+  "lead": 170,
   "ms": 960,
   "tail": 310
  },
@@ -8160,8 +8162,8 @@
  "w:have": {
   "file": "w-have.mp3",
   "lead": 120,
-  "ms": 936,
-  "tail": 326
+  "ms": 960,
+  "tail": 330
  },
  "w:having": {
   "file": "w-having.mp3",
@@ -8321,9 +8323,9 @@
  },
  "w:hit": {
   "file": "w-hit.mp3",
-  "lead": 140,
-  "ms": 840,
-  "tail": 330
+  "lead": 120,
+  "ms": 888,
+  "tail": 328
  },
  "w:hits": {
   "file": "w-hits.mp3",
@@ -8399,9 +8401,9 @@
  },
  "w:hot": {
   "file": "w-hot.mp3",
-  "lead": 130,
-  "ms": 960,
-  "tail": 310
+  "lead": 170,
+  "ms": 1008,
+  "tail": 338
  },
  "w:house": {
   "file": "w-house.mp3",
@@ -8447,9 +8449,9 @@
  },
  "w:hung": {
   "file": "w-hung.mp3",
-  "lead": 150,
-  "ms": 864,
-  "tail": 314
+  "lead": 170,
+  "ms": 1008,
+  "tail": 338
  },
  "w:hunt": {
   "file": "w-hunt.mp3",
@@ -8717,9 +8719,9 @@
  },
  "w:kit": {
   "file": "w-kit.mp3",
-  "lead": 150,
-  "ms": 840,
-  "tail": 330
+  "lead": 130,
+  "ms": 960,
+  "tail": 320
  },
  "w:kitten": {
   "file": "w-kitten.mp3",
@@ -8999,9 +9001,9 @@
  },
  "w:lit": {
   "file": "w-lit.mp3",
-  "lead": 190,
+  "lead": 130,
   "ms": 912,
-  "tail": 322
+  "tail": 312
  },
  "w:little": {
   "file": "w-little.mp3",
@@ -9107,9 +9109,9 @@
  },
  "w:lug": {
   "file": "w-lug.mp3",
-  "lead": 150,
-  "ms": 912,
-  "tail": 322
+  "lead": 170,
+  "ms": 984,
+  "tail": 324
  },
  "w:lunch": {
   "file": "w-lunch.mp3",
@@ -9167,15 +9169,15 @@
  },
  "w:man": {
   "file": "w-man.mp3",
-  "lead": 150,
-  "ms": 960,
-  "tail": 330
+  "lead": 170,
+  "ms": 1032,
+  "tail": 322
  },
  "w:map": {
   "file": "w-map.mp3",
-  "lead": 190,
-  "ms": 984,
-  "tail": 314
+  "lead": 120,
+  "ms": 912,
+  "tail": 322
  },
  "w:maple": {
   "file": "w-maple.mp3",
@@ -9317,9 +9319,9 @@
  },
  "w:milk": {
   "file": "w-milk.mp3",
-  "lead": 120,
-  "ms": 984,
-  "tail": 314
+  "lead": 130,
+  "ms": 960,
+  "tail": 310
  },
  "w:mill": {
   "file": "w-mill.mp3",
@@ -9473,9 +9475,9 @@
  },
  "w:mud": {
   "file": "w-mud.mp3",
-  "lead": 160,
-  "ms": 960,
-  "tail": 320
+  "lead": 120,
+  "ms": 912,
+  "tail": 312
  },
  "w:muffin": {
   "file": "w-muffin.mp3",
@@ -9522,8 +9524,8 @@
  "w:nab": {
   "file": "w-nab.mp3",
   "lead": 120,
-  "ms": 1032,
-  "tail": 432
+  "ms": 984,
+  "tail": 314
  },
  "w:nag": {
   "file": "w-nag.mp3",
@@ -9635,9 +9637,9 @@
  },
  "w:nix": {
   "file": "w-nix.mp3",
-  "lead": 290,
-  "ms": 1488,
-  "tail": 568
+  "lead": 120,
+  "ms": 960,
+  "tail": 330
  },
  "w:no": {
   "file": "w-no.mp3",
@@ -9695,9 +9697,9 @@
  },
  "w:nun": {
   "file": "w-nun.mp3",
-  "lead": 180,
-  "ms": 936,
-  "tail": 326
+  "lead": 120,
+  "ms": 960,
+  "tail": 320
  },
  "w:nurse": {
   "file": "w-nurse.mp3",
@@ -9751,7 +9753,7 @@
   "file": "w-other.mp3",
   "lead": 130,
   "ms": 840,
-  "tail": 310
+  "tail": 300
  },
  "w:ought": {
   "file": "w-ought.mp3",
@@ -9767,9 +9769,9 @@
  },
  "w:out": {
   "file": "w-out.mp3",
-  "lead": 130,
-  "ms": 888,
-  "tail": 308
+  "lead": 120,
+  "ms": 936,
+  "tail": 316
  },
  "w:outside": {
   "file": "w-outside.mp3",
@@ -10469,9 +10471,9 @@
  },
  "w:ring": {
   "file": "w-ring.mp3",
-  "lead": 190,
-  "ms": 1008,
-  "tail": 328
+  "lead": 120,
+  "ms": 912,
+  "tail": 312
  },
  "w:rip": {
   "file": "w-rip.mp3",
@@ -11130,8 +11132,8 @@
  "w:soft": {
   "file": "w-soft.mp3",
   "lead": 120,
-  "ms": 1008,
-  "tail": 308
+  "ms": 1032,
+  "tail": 312
  },
  "w:softly": {
   "file": "w-softly.mp3",
@@ -12000,8 +12002,8 @@
  "w:twin": {
   "file": "w-twin.mp3",
   "lead": 120,
-  "ms": 888,
-  "tail": 318
+  "ms": 1032,
+  "tail": 322
  },
  "w:umbrella": {
   "file": "w-umbrella.mp3",

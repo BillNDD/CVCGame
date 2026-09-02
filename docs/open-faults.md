@@ -2385,6 +2385,7 @@ is a ruling on what free play offers a pre-ladder child, and the chooser matchin
 
 ## AG. The landscape phone's reveal is cut at the stage's edge — opened 2026-08-23
 
+
 - **Where it lives** `app/src/wq-css.js`: the three-zone shell (header, stage, rail and
   strip) with `.wq-stage{overflow-y:auto}` and the short-stage rules under
   `@media (max-height:520px)`. On the phone-landscape profile (iPhone 13 landscape, a
@@ -3261,3 +3262,81 @@ what is true now.
   a save was found. `tests/faults.test.js` 3, 3b, 3c, 3d, 3e, 3f; three G19 app mutants (adopt
   after commit, leaving home never commits, asking to write never commits); SPEC section 7 says
   it in its own words.
+
+## BA. The fifty least human-like approved recordings — queued by the owner 2026-09-02, for a later beta
+
+- **The owner's words:** "You look through all my approved recordings (sounds or individual
+  words) and tell me which 50 you think are the worst (least human like) and we try to improve
+  those."
+- **What must be decided first, and why.** This repository's first standing rule is that a
+  machine cannot hear a word: every automated check passed while the pack said "at" for
+  "cat", and two measured proxies for audio quality have already failed and are recorded in
+  `docs/settled.md`. So "which 50 I think are the worst" cannot honestly be a listening
+  judgement of mine. What it can be: a ranking by the evidence the repository already holds
+  per clip - how many listening rounds a word took to pass, the knobs it needed
+  (`tools/voice-words.csv`), the measured lead and tail silences and edge sharpness
+  (`tools/voice-edges.py`), the phoneme timings against the synthesiser's own predictions
+  (`tools/phoneme_timings.py`), and the words the owner or the sound sidecar flagged as
+  borderline in the round records - with the owner's ear as the judge of the shortlist. The
+  decision page: rank by round history, by the edge and timing measures, by a fresh blind
+  listening round over the whole pack, or some mix; and whether a re-render or a new take is
+  the improvement.
+- **Not before beta 31.** The QA build-out's remaining items and art step 3 come first (owner,
+  2026-09-02).
+- **Round 50-1 served 2026-09-02.** The first ten words (lug, hot, man, am, ant, black, fax,
+  hat, hung, in) and the first ten sounds (b, j, qu, d, g, x, y, w, h, p) of the ranked fifty,
+  three mechanisms each, blind and round-robin: for a word, a teacher frame it has not shipped
+  from, the closure frame "Stop. {Word}. Stop." located by template (the synthesiser does not
+  pause before the word), and a contrast sentence "I said {word}, not {neighbour}." - with the
+  never-used frames ("{Word}. {Word}.") where the closure cut refused the gate (hot, hat, in);
+  for a sound, a cut from an approved word clip that begins with it, the citation carrier's
+  tail, and the last instance of a minimal-pair carrier. Every arm's speech level matched to
+  its shipped clip; the hash guard read the pack's bytes and both waiting-room ledgers. Held
+  back: fax (every carrier cut came back as a 210 ms fragment of a 550 ms word - it needs its
+  own mechanism) and h (the pack cuts are the prevocalic breath the record rules the wrong
+  form; the shipped h is round 21's matched breath). Renderers: `tools/render_batch22.py`,
+  `tools/render_batch22_thin.py`, `tools/render_sounds22.py`; the method key for the blind
+  labels sits beside the round's page in the session scratchpad.
+- **Round 50-1 judged 2026-09-02.** Words: eight of ten accepted and superseded (lug, hot,
+  man, am, ant, black, hat, hung); in refused ("sounds like ind"); fax held. Sounds: x_2
+  perfect and shipped; w_2 closest; every other sound refused - "none good clipping terrible
+  you need to rethink your strategy for letter phonics sounds and consult an expert". The
+  word mechanisms hold ("Your word choices are great"); the sound mechanisms did not.
+- **Round 50-2 judged 2026-09-02.** Words: awful_1, bolt_1, born_3, grab_3, have_2, hit_1,
+  kit_3 perfect and superseded; from and hush "All poorly clipped"; her "Non contain the
+  word her" - the template locator cannot find a word this short. Sounds (round 50-S2,
+  `tools/render_sounds23.py`, shaped to the phonetics of a stop inside a word): b and d
+  "All are only a fraction of the time that would be needed for the actual sound"; j none;
+  the rest unreviewed - "the pattern of failure was clear so I stopped". The fault was
+  LENGTH: a stop said on its own runs two to five times longer than the same stop inside
+  a word, and round 23 cut to the in-word length.
+- **Round 50-3 judged 2026-09-02.** Words: lit_2, map_3, milk_1, mud_3, nab_3, nix_1, nun_3
+  perfect and superseded; hush_3 closest (logged, not shipped); from and her refused a
+  second time ("poorly clipped additional words and sounds"; "either not the right word or
+  extra sounds") even cut by the carrier's own silences - they join fax and h as words
+  that need their own mechanism, and are parked rather than served a third identical way.
+  Sounds (round 50-S3, `tools/render_sounds24.py`, at CITATION length: 210-320 ms, the
+  release heard dying away): b_3, d_3, g_2, qu_1 perfect and shipped; w_3 and y_3 closest;
+  j and p none. Three of the four accepts were the same mechanism - the model saying the
+  sound alone in a carrier ("here is the sound: bə.") with the schwa faded from its
+  midpoint - which is the lead for j, p, w and y next.
+- **Round 50-4 judged 2026-09-02.** Words: other_2, out_2, ring_1, soft_1, twin_3 perfect and
+  superseded; quiz_2 and rod_1 closest ("extra sound at end" - the frame's next word or the
+  synthesiser's release inside the 25 ms pad; they come back with the tail walked to 30 dB
+  below the word's peak, mechanism G in `tools/render_batch22.py`); of ("none contain the
+  word of"), that ("just says te") and to ("extra sounds") refused - the short function
+  words join from, her, fax and h in the parked set that needs its own mechanism. Sounds
+  (round 50-S4, `tools/render_sounds25.py`, the winning carrier three ways): j_1 and p_1
+  perfect and shipped; w and y "hear uh" - a stop needs its release to be heard at all, a
+  glide does not, so the schwa carrier is the wrong form for a glide. Next for w and y
+  (`tools/render_sounds26.py`): the glide sliding into its own vowel ("wwoo", "yyee") with
+  that vowel faded, schwa-free, three ways.
+- **Two tool faults found by the check, both closed the same day.** (1) The waiting room
+  keeps its own copy of every ledgered clip and rule 1 hashes THAT copy; the first run of
+  `tools/supersede-words.py` re-pinned the ledger and left seven copies stale - the tool now
+  writes the copy with the pack. (2) S9's stranger scan tokenised the JavaScript escape
+  `“eye` (a curly quote before eye, in the tricky-word notes) as the capitalized
+  stranger "Ceye". It had passed for weeks only because a base64 blob in the sound ledger
+  happened to contain the lowercase run "ceye"; the day that blob changed, the gate went
+  red on a line nobody had touched. Escapes are dropped before tokenising, with two
+  controls: the escaped form passes, the same token as a real word is still caught.

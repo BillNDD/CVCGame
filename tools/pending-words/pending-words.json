@@ -154,11 +154,11 @@
   "level": "heart word / open syllable"
  },
  "milk": {
-  "arm": "milk_10",
-  "family": "spell_m10_front90",
-  "ms": 930,
-  "sha256": "48e41df7b1f57ede5262b31fde167a5b683ba0326d7e835dd71f600866245af0",
-  "round": "batch 4 / 2026-08-07",
+  "arm": "milk_1",
+  "family": "B_stop-frame_sp0.72",
+  "ms": 960,
+  "sha256": "96465be65f775e34a2c79ec70f0cc96f4af716ebd9687c7bc83af790aa260cf6",
+  "round": "round 50-3 / 2026-09-02",
   "verdict": "perfect",
   "level": "L10 final blends"
  },
@@ -172,11 +172,11 @@
   "level": "L10 final blends"
  },
  "ant": {
-  "arm": "ant_4",
-  "family": "spell_sp0.95_f90",
-  "ms": 850,
-  "sha256": "7d0745310d33194f284b77f0f9e2edca7dd5d19621e2e91fffdc91e68681d5fe",
-  "round": "batch 5 / 2026-08-07",
+  "arm": "ant_1",
+  "family": "A_word_sp0.75",
+  "ms": 960,
+  "sha256": "8a2488b547f967939be7d455f876b2bed58add30014b7c2d3bc33b5462770aa9",
+  "round": "round 50-1 / 2026-09-02",
   "verdict": "perfect",
   "level": "L10 final blends"
  },
@@ -317,11 +317,11 @@
   "level": "heart word"
  },
  "soft": {
-  "arm": "soft_12",
-  "family": "spell_sp1.05_front30",
-  "ms": 960,
-  "sha256": "f70e46ab9b255c4849f2d644ce2bf608eb485d7db27dad572bc0b9426290a5fd",
-  "round": "batch 6 / 2026-08-07",
+  "arm": "soft_1",
+  "family": "A_listen_sp0.8",
+  "ms": 1032,
+  "sha256": "85e62d1ceb0c8032271c35f4970fb0a2f8a8491d1a15427c2a7d14d0fd719c03",
+  "round": "round 50-4 / 2026-09-02",
   "verdict": "perfect",
   "level": "L10 final blends"
  },
@@ -434,11 +434,11 @@
   "level": "L10 final blends"
  },
  "bolt": {
-  "arm": "bolt_4",
-  "family": "quoted_sp0.9_front90",
-  "ms": 930,
-  "sha256": "639b31e00a3f116a1a2536879c876ae88c02286b1411c93b584faf1b89fd2399",
-  "round": "batch 7 / 2026-08-07",
+  "arm": "bolt_1",
+  "family": "B_stop-frame_sp0.72",
+  "ms": 1032,
+  "sha256": "2e145cfdff573abebc57573f123a23293de32a4ca27ba9d08a1bec11cf274f37",
+  "round": "round 50-2 / 2026-09-02",
   "verdict": "perfect",
   "level": "L10 final blends"
  },
@@ -680,11 +680,11 @@
   "level": "initial blends (SPEC section 12)"
  },
  "twin": {
-  "arm": "twin_8",
-  "sha256": "56a0dab87cab273c44488110e32470464eade7a2b8e4120bba780c6b0cfc7cd6",
-  "family": "listen_sp0.95",
-  "ms": 830,
-  "round": "batch 9 (2026-08-10)",
+  "arm": "twin_3",
+  "sha256": "683487f20df5244a80263216d551026e6d5e6f453463fe043a8997ff7855f355",
+  "family": "B_stop-frame_sp0.72",
+  "ms": 1032,
+  "round": "round 50-4 / 2026-09-02",
   "verdict": "perfect",
   "level": "initial blends (SPEC section 12)"
  },
@@ -743,11 +743,11 @@
   "level": "initial blends (SPEC section 12)"
  },
  "grab": {
-  "arm": "grab_7",
-  "family": "listen_sp0.95",
-  "ms": 840,
-  "sha256": "52ef3964c919e254f622ece3d8cd9fcbd5fef1073f0d85c1fbf57e77664d4d3d",
-  "round": "batch 10 (2026-08-11)",
+  "arm": "grab_3",
+  "family": "B_stop-frame_sp0.72",
+  "ms": 960,
+  "sha256": "ae3d6e1d49f920c40a94c86ad019b3c306959f3cf47aa599a154383c03f5f59d",
+  "round": "round 50-2 / 2026-09-02",
   "verdict": "perfect",
   "level": "initial blends (SPEC section 12)"
  },
@@ -3588,11 +3588,11 @@
  "black": {
   "file": "w-black.mp3",
   "word": "black",
-  "arm": "black_8",
-  "family": "listen_sp1.0",
-  "ms": 870,
-  "sha256": "531c06505c276b151be39655e4eb44a4c0d9eedc0455a87b4854d9fac5bb2353",
-  "round": "batch 15 / 2026-08-16",
+  "arm": "black_1",
+  "family": "A_word_sp0.8",
+  "ms": 1008,
+  "sha256": "3c2f57c813edb7fc34191ffb9398306364d09b304822b2ff1bc398ef19011128",
+  "round": "round 50-1 / 2026-09-02",
   "verdict": "perfect",
   "level": "passage tap-to-hear (unbuilt)"
  },
@@ -3720,11 +3720,11 @@
  "have": {
   "file": "w-have.mp3",
   "word": "have",
-  "arm": "have_7",
-  "family": "listen_sp0.85",
-  "ms": 870,
-  "sha256": "8c2e650b6924c521bfc9250cd07406fe6ae5cf75b5155f462153b72bdff2632f",
-  "round": "batch 15 / 2026-08-16",
+  "arm": "have_2",
+  "family": "A_word_sp0.8",
+  "ms": 960,
+  "sha256": "c6b1dd4330e2cf810d264ddaf55c45648348cfde34c01aa1f7290693b8b8591a",
+  "round": "round 50-2 / 2026-09-02",
   "verdict": "perfect",
   "level": "passage tap-to-hear (unbuilt)"
  },
@@ -3952,10 +3952,10 @@
   "file": "w-out.mp3",
   "word": "out",
   "arm": "out_2",
-  "family": "listen_sp0.75",
-  "ms": 840,
-  "sha256": "967d414d6c7828e9c3266b3ea5f3ea8a284a1df193a16a69b8d30c917c6a9db4",
-  "round": "batch 17 / 2026-08-16",
+  "family": "A_word_sp0.8",
+  "ms": 936,
+  "sha256": "6d0d638e089d9b074583b4dd9bb9a397d9de39b328cbb7bab84552191391e80e",
+  "round": "round 50-4 / 2026-09-02",
   "verdict": "perfect",
   "level": "awaiting seat (tier list, 2026-08-16)"
  },
@@ -4828,11 +4828,11 @@
   "level": "unseated - ladder redesign"
  },
  "born": {
-  "arm": "born_8",
-  "family": "solo_trimmed_sp0.8",
-  "ms": 840,
-  "sha256": "8263f42d6c7c5d8b0d238eaa976ce65ba4f554fbcf735fbd62a75b6c11c9ba36",
-  "round": "batch 21 round 1 / 2026-08-18",
+  "arm": "born_3",
+  "family": "B_stop-frame_sp0.8",
+  "ms": 888,
+  "sha256": "c9730c1d51e472ecd1db3942d661c016621e569b9e1021a6ab5394dac742899b",
+  "round": "round 50-2 / 2026-09-02",
   "verdict": "perfect",
   "level": "unseated - ladder redesign"
  },
@@ -6646,11 +6646,11 @@
   "level": "unseated - ladder redesign"
  },
  "other": {
-  "arm": "other_5",
-  "family": "listen_sp0.75",
-  "ms": 780,
-  "sha256": "90e0ff49229dd4193ca7f9a6105a81e4133f149b1e287a15dd5ae3fe0f3189a8",
-  "round": "batch 21 round 9 / 2026-08-18",
+  "arm": "other_2",
+  "family": "A_word_sp0.75",
+  "ms": 840,
+  "sha256": "01b2330c10cae1e32ad260d6b09cec5dab93060ec735f9d595dc1b434a4360b0",
+  "round": "round 50-4 / 2026-09-02",
   "verdict": "perfect",
   "level": "unseated - ladder redesign"
  },
@@ -11272,13 +11272,13 @@
   "arm": "anchor_1"
  },
  "awful": {
-  "ms": 1000,
-  "sha256": "99de86763d631515543d9c1ccc841af281a480a3a9c785a6be4c9f893b188213",
-  "round": "R1 round 1 / 2026-08-19",
+  "ms": 1056,
+  "sha256": "05097360946ef09bacf8fa2f843f25318594e8f4d17fbaf9e3147e751205a2c6",
+  "round": "round 50-2 / 2026-09-02",
   "verdict": "perfect",
   "level": "unseated - ladder redesign",
-  "family": "listen_sp0.75",
-  "arm": "awful_3"
+  "family": "A_word_sp0.75",
+  "arm": "awful_1"
  },
  "baby": {
   "ms": 960,

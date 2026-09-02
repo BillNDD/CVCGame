@@ -776,5 +776,188 @@
    "arm": "pack_red_reuse",
    "note": "the pack red clip reused as the past tense of level 69; the superseded /reed/ take is the present-tense record"
   }
+ ],
+ "round 50-1 / 2026-09-02": [
+  {
+   "id": "lug",
+   "verdict": "perfect lug_1",
+   "note": ""
+  },
+  {
+   "id": "hot",
+   "verdict": "perfect hot_3",
+   "note": ""
+  },
+  {
+   "id": "man",
+   "verdict": "perfect man_1",
+   "note": ""
+  },
+  {
+   "id": "am",
+   "verdict": "perfect am_3",
+   "note": ""
+  },
+  {
+   "id": "ant",
+   "verdict": "perfect ant_1",
+   "note": ""
+  },
+  {
+   "id": "black",
+   "verdict": "perfect black_1",
+   "note": ""
+  },
+  {
+   "id": "hat",
+   "verdict": "perfect hat_2",
+   "note": ""
+  },
+  {
+   "id": "hung",
+   "verdict": "perfect hung_2",
+   "note": ""
+  }
+ ],
+ "round 50-2 / 2026-09-02": [
+  {
+   "id": "awful",
+   "verdict": "perfect awful_1",
+   "note": ""
+  },
+  {
+   "id": "bolt",
+   "verdict": "perfect bolt_1",
+   "note": ""
+  },
+  {
+   "id": "born",
+   "verdict": "perfect born_3",
+   "note": ""
+  },
+  {
+   "id": "grab",
+   "verdict": "perfect grab_3",
+   "note": ""
+  },
+  {
+   "id": "have",
+   "verdict": "perfect have_2",
+   "note": ""
+  },
+  {
+   "id": "hit",
+   "verdict": "perfect hit_1",
+   "note": ""
+  },
+  {
+   "id": "kit",
+   "verdict": "perfect kit_3",
+   "note": ""
+  }
+ ],
+ "round 50-3 / 2026-09-02": [
+  {
+   "id": "from",
+   "verdict": "none are right",
+   "note": "poorly clipped additional words and sounds"
+  },
+  {
+   "id": "her",
+   "verdict": "none are right",
+   "note": "poorly clipped, either not the right word or extra sounds"
+  },
+  {
+   "id": "hush",
+   "verdict": "closest hush_3",
+   "note": ""
+  },
+  {
+   "id": "lit",
+   "verdict": "perfect lit_2",
+   "note": ""
+  },
+  {
+   "id": "map",
+   "verdict": "perfect map_3",
+   "note": ""
+  },
+  {
+   "id": "milk",
+   "verdict": "perfect milk_1",
+   "note": ""
+  },
+  {
+   "id": "mud",
+   "verdict": "perfect mud_3",
+   "note": ""
+  },
+  {
+   "id": "nab",
+   "verdict": "perfect nab_3",
+   "note": ""
+  },
+  {
+   "id": "nix",
+   "verdict": "perfect nix_1",
+   "note": ""
+  },
+  {
+   "id": "nun",
+   "verdict": "perfect nun_3",
+   "note": ""
+  }
+ ],
+ "round 50-4 / 2026-09-02": [
+  {
+   "id": "of",
+   "verdict": "none are right",
+   "note": "none contain the word of"
+  },
+  {
+   "id": "other",
+   "verdict": "perfect other_2",
+   "note": ""
+  },
+  {
+   "id": "out",
+   "verdict": "perfect out_2",
+   "note": ""
+  },
+  {
+   "id": "quiz",
+   "verdict": "closest quiz_2",
+   "note": "weird extra sound at end"
+  },
+  {
+   "id": "ring",
+   "verdict": "perfect ring_1",
+   "note": ""
+  },
+  {
+   "id": "rod",
+   "verdict": "closest rod_1",
+   "note": "extra sound at end"
+  },
+  {
+   "id": "soft",
+   "verdict": "perfect soft_1",
+   "note": ""
+  },
+  {
+   "id": "that",
+   "verdict": "none are right",
+   "note": "just says \"te\""
+  },
+  {
+   "id": "to",
+   "verdict": "none are right",
+   "note": "extra sounds"
+  },
+  {
+   "id": "twin",
+   "verdict": "perfect twin_3",
+   "note": ""
+  }
  ]
 }

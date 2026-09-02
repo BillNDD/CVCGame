@@ -1,36 +1,34 @@
-# Sound round 22: the voiced th, the one sound the sound-out is still missing.
+# Sound round 22: the ten SOUNDS with the most evidence against them, three
+# mechanisms each - from the record's own winning shapes, not from processing.
 #
-# Found by an audit of the reveal on 2026-08-11, not by a gate. The tile map
-# sent every `th` to `th_quiet`, which is the VOICELESS th of "thin" - a soft
-# puff of air with no voice in it. Six bank words take the VOICED th of "this":
-# this, that, then, them, the, and with. Those six were being sounded out with
-# the wrong sound, which is the opposite of teaching.
+# THE TEN: b j qu d g x y w h p (open fault BA, 2026-09-02). The sound ledger
+# already records its doubts about them: b "marginal: still rather fuzzy",
+# j and qu "marginal", d g y h "half blend", w "three-quarter blend", p and t
+# "full cut"; the shipped files show abrupt edges on most.
 #
-# tools/voice-sounds.csv already carries a th_this row (ipa ð, as_in "this")
-# from round S7, but no synthesised clip exists for it, so nothing could ship.
-# This round produces one.
+# WHAT THE RECORD SAYS WORKS for a sound, in order of strength:
+#   1. A sound is cut from an approved WORD CLIP the owner has called perfect
+#      ("look at the pack first, always"): long_e from she, ch from such.
+#   2. A sound is spoken in a PHONEME CARRIER SENTENCE and lifted from its
+#      last energy island - citation "here is the sound: X", contrastive,
+#      minimal pair "bin, pin, tin." (the P45 bake's method).
+#   3. Match duration and level to the accepted clips; a citation sound runs
+#      110-620 ms; -3 dB peak; a 12 ms fade and, for a sound excised mid-word,
+#      a natural rise and a slower fall (the one honest envelope).
+# What is CLOSED and not done here: formant warps, time-stretch, second
+# voices, blends, loops - "warmth is not a transform".
 #
-# Three sources, because the two that have worked before disagree about what a
-# citation th should be, and the ear settles it:
+# THE THREE MECHANISMS:
+#   P  pack cut: the sound's onset lifted from an approved word clip that
+#      begins with it (three source words tried, the cleanest kept) - for a
+#      stop, the closure release and the first 40 ms of transition; for a
+#      glide or /h/, the onset run; for x, the ks tail of box/fox/six;
+#   C  citation carrier: "hˈɪɹ ɪz ðə sˈaʊnd: X." rendered as phonemes at 1.0,
+#      the last island lifted;
+#   M  minimal-pair carrier: "Xˈɪn, tˈɪn, Xˈɪn." - the target twice around a
+#      neighbour, the LAST instance's onset lifted (never the first island).
 #
-#   A  CUT FROM AN APPROVED WORD. The pack already holds this, that, then,
-#      them, the and with, every one of them listened to and accepted. The
-#      opening ð is right there in audio the owner has already passed. This is
-#      the method the 2026-08-06 ruling itself named for three of its seven
-#      sounds, and it cannot drift from the voice the rest of the pack uses.
-#   B  THE CARRIER SENTENCE, tripled. kokoro will not render a lone consonant
-#      phoneme but renders a held one, so the carrier says "here is the sound:
-#      ððð" and the last energy island is cut. This closed b, d, g, j, n, v, w,
-#      z and h.
-#   C  THE CONTRAST. "θθθ? no. ððð." puts the wrong sound beside the right one
-#      in the same breath, which pushed the synthesiser off the voiceless
-#      neighbour it kept sliding into. This closed v against f.
-#
-# An onset ð is short - 60 to 110 ms in the pack - so each cut is also offered
-# lengthened by grain extension, the treatment that made /g/ and /n/ speakable
-# when their bursts were "still too quick".
-#
-# Usage: python render_sounds22.py <out_dir>
+# Usage: py -3.12 tools/render_sounds22.py <out_dir>
 import base64
 import hashlib
 import json
@@ -40,207 +38,179 @@ import sys
 import av
 import lameenc
 import numpy as np
+from kokoro_onnx import Kokoro
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
 import soundgate as G
+import wordcut as wc
 
-SCRATCH = "/tmp/claude-0/-home-user-CVCFame/e6f72ac3-eaf2-5b4a-aa69-540f121df052/scratchpad"
-ROUNDS = pathlib.Path(SCRATCH) / "rounds"
 REPO = pathlib.Path(__file__).resolve().parent.parent
 PACK = REPO / "app" / "public" / "voice"
 OUT = pathlib.Path(sys.argv[1]); OUT.mkdir(parents=True, exist_ok=True)
-PAD_HEAD_MS, PAD_TAIL_MS, GAIN_DB = 150, 400, -3.0
-SR = 24000
+VOICE = "af_heart"
+PAD_HEAD_MS, PAD_TAIL_MS, GAIN_DB, FADE_MS = 150, 400, -3.0, 12
+k = Kokoro(str(REPO / "kokoro-v1.0.onnx"), str(REPO / "voices-v1.0.bin"))
+
+SOUNDS = {
+    # sound: (ipa, kind, source words, neighbour for the minimal pair)
+    "b": ("b", "stop", ["bat", "bag", "big"], "t"),
+    "j": ("ʤ", "stop", ["jam", "jug", "jog"], "t"),
+    "qu": ("kw", "stop", ["quit", "quiz", "quick"], "t"),
+    "d": ("d", "stop", ["dog", "dig", "dad"], "t"),
+    "g": ("ɡ", "stop", ["got", "gap", "gum"], "t"),
+    "x": ("ks", "tail", ["box", "fox", "six"], "t"),
+    "y": ("j", "glide", ["yes", "yam", "yet"], "t"),
+    "w": ("w", "glide", ["wet", "web", "win"], "t"),
+    "h": ("h", "breath", ["hat", "hop", "hum"], "t"),
+    "p": ("p", "stop", ["pat", "pig", "pot"], "b"),
+}
+
+PRIOR = set()
+for p in PACK.glob("d-*.mp3"):
+    PRIOR.add(hashlib.sha256(p.read_bytes()).hexdigest())
+_pend = json.loads((REPO / "tools/pending-sounds/pending-sounds.json").read_text(encoding="utf-8"))
+PRIOR |= {v["sha256"] for v in _pend.values() if isinstance(v, dict) and v.get("sha256")}
 
 
-def decode_file(p):
+def load(p):
     c = av.open(str(p)); s = c.streams.audio[0]
-    x = np.concatenate([f.to_ndarray().flatten() for f in c.decode(s)]).astype(np.float32)
+    fr = [f.to_ndarray() for f in c.decode(s)]
     sr = s.codec_context.sample_rate; c.close()
+    x = np.concatenate([f.mean(axis=0) if f.ndim > 1 else f for f in fr]).astype(np.float32)
     return (x / 32768.0 if np.abs(x).max() > 2 else x), sr
+
+
+def say(t, sp=1.0, phonemes=False):
+    a, sr = k.create(t, voice=VOICE, speed=sp, lang="en-us", is_phonemes=phonemes)
+    return np.asarray(a, np.float32), sr
 
 
 def encode(a, sr):
     pcm = (np.clip(a, -1, 1) * 32767).astype(np.int16)
     e = lameenc.Encoder(); e.set_bit_rate(96); e.set_in_sample_rate(sr)
     e.set_channels(1); e.set_quality(2)
-    return e.encode(pcm.tobytes()) + e.flush()
+    return e.encode(pcm.tobytes()) + e.flush(), int(len(pcm) * 1000 / sr)
 
 
-def present(a, sr):
-    """Padded and levelled for a listening round, never for the pack."""
-    a = a * (10 ** (GAIN_DB / 20) / max(float(np.abs(a).max()), 1e-6))
-    f = int(sr * 0.008)
-    a = a.copy(); a[:f] *= np.linspace(0, 1, f); a[-f:] *= np.linspace(1, 0, f)
+def envelope(a, sr, rise_ms=FADE_MS, fall_ms=None):
+    """The one honest envelope: a quick rise and a slower fall, the shape a
+    spoken sound has when its consonant neighbours are gone."""
+    a = np.asarray(a, np.float32).copy()
+    fall_ms = fall_ms or max(FADE_MS, int(len(a) / sr * 1000 * 0.25))
+    ri = min(int(sr * rise_ms / 1000), len(a) // 3); fo = min(int(sr * fall_ms / 1000), len(a) // 2)
+    if ri > 1:
+        a[:ri] *= (0.5 - 0.5 * np.cos(np.linspace(0, np.pi, ri))).astype(np.float32)
+    if fo > 1:
+        a[-fo:] *= (0.5 + 0.5 * np.cos(np.linspace(0, np.pi, fo))).astype(np.float32)
+    return a
+
+
+def pad(a, sr):
+    a = a * ((10 ** (GAIN_DB / 20)) / max(float(np.abs(a).max()), 1e-6))
     return np.concatenate([np.zeros(int(sr * PAD_HEAD_MS / 1000), np.float32), a,
                            np.zeros(int(sr * PAD_TAIL_MS / 1000), np.float32)])
 
 
-def islands(a, sr, floor_db=-38, min_ms=45, merge_ms=60):
-    n = int(sr * 0.010)
-    fr = [a[i:i + n] for i in range(0, max(1, len(a) - n + 1), n)]
-    rms = np.array([np.sqrt(np.mean(f.astype(np.float64) ** 2)) for f in fr])
-    db = 20 * np.log10(np.maximum(rms, 1e-9) / max(rms.max(), 1e-9))
-    on = db > floor_db
-    runs, i = [], 0
-    while i < len(on):
-        if on[i]:
-            j = i
-            while j < len(on) and on[j]:
-                j += 1
-            runs.append([i, j]); i = j
-        else:
-            i += 1
-    merged = []
-    for r in runs:
-        if merged and (r[0] - merged[-1][1]) * 10 < merge_ms:
-            merged[-1][1] = r[1]
-        else:
-            merged.append(r)
-    return [(s * n, e * n) for s, e in merged if (e - s) * 10 >= min_ms]
+def islands(a, sr, floor_db=-38, min_gap_ms=50, min_ms=40):
+    s0, s1, db, n = wc.speech_span(a, sr)
+    out, run, start = [], 0, None
+    for i in range(len(db)):
+        if db[i] > floor_db:
+            if start is None:
+                start = i
+            run = 0
+        elif start is not None:
+            run += 1
+            if run >= max(1, min_gap_ms // 10):
+                end = i - run + 1
+                if (end - start) * 10 >= min_ms:
+                    out.append((start * n, end * n))
+                start, run = None, 0
+    if start is not None and (len(db) - start) * 10 >= min_ms:
+        out.append((start * n, len(db) * n))
+    return out
 
 
-def onset(a, sr, ms):
-    """The word's first sound, from where speech begins."""
-    isl = islands(a, sr)
-    if not isl:
+def onset_piece(x, sr, kind):
+    """The sound's own piece at the front of a word: for a stop the release
+    and the first 40 ms of transition; for a glide or breath the onset run."""
+    s0, s1, _, _ = wc.speech_span(x, sr)
+    core = x[s0:s1]
+    if kind == "stop":
+        run = G.unvoiced_run(core, sr)
+        n = int(sr * 0.04)
+        if run is not None and len(run) >= int(sr * 0.015):
+            return np.concatenate([run, core[len(run):len(run) + n]])
+        return core[:int(sr * 0.09)]
+    if kind == "breath":
+        run = G.unvoiced_run(core, sr)
+        return run if run is not None and len(run) >= int(sr * 0.03) else core[:int(sr * 0.12)]
+    return core[:int(sr * 0.14)]     # glide: the transition IS the sound
+
+
+def tail_piece(x, sr):
+    """x: the ks at the end of box/fox/six - from the vowel's fall to the end."""
+    s0, s1, _, _ = wc.speech_span(x, sr)
+    core = x[s0:s1]
+    return core[max(0, len(core) - int(sr * 0.22)):]
+
+
+def arm(sound, family, piece, sr, band=(60, 620)):
+    if piece is None or len(piece) < sr * band[0] / 1000 or len(piece) > sr * band[1] / 1000:
         return None
-    s = isl[0][0]
-    return a[s:s + int(sr * ms / 1000)]
-
-
-def grain_extend(seed, sr, target_ms, grain_ms=22, hop_ms=7):
-    """Lengthen by overlapping short grains of the sound's own steady middle,
-    so a held version is made of the sound itself rather than a stretch."""
-    target = int(sr * target_ms / 1000)
-    if len(seed) >= target:
-        return seed
-    g = int(sr * grain_ms / 1000); hop = int(sr * hop_ms / 1000)
-    mid = seed[max(0, len(seed) // 2 - g):max(0, len(seed) // 2 - g) + g]
-    if len(mid) < 8:
-        return seed
-    win = np.hanning(len(mid)).astype(np.float32)
-    out = np.zeros(target + g, np.float32)
-    out[:len(seed)] += seed
-    at = max(0, len(seed) - g)
-    while at < target:
-        out[at:at + len(mid)] += mid * win
-        at += hop
-    out = out[:target]
-    return out / max(float(np.abs(out).max()), 1e-6) * float(np.abs(seed).max())
-
-
-import kokoro_onnx
-k = kokoro_onnx.Kokoro(f"{SCRATCH}/kokoro-v1.0.onnx", f"{SCRATCH}/voices-v1.0.bin")
-
-# Every arm any earlier round has offered, so a candidate the owner has
-# already heard and rejected is never sent back with a new label.
-ALREADY = {}
-for d in sorted(ROUNDS.glob("out-*")):
-    if d.resolve() == OUT.resolve():
-        continue
-    f = d / "batch-data.json"
-    if f.exists():
-        try:
-            for it in json.loads(f.read_text(encoding="utf-8")).get("items", []):
-                for a in it.get("arms", []):
-                    ALREADY.setdefault(a["sha"], f"{d.name}:{a['id']}")
-        except Exception:
-            pass
-print(f"hash guard: {len(ALREADY)} arms already offered\n")
-
-# The template the gate measures content against: a plain held ð.
-tp, sr0 = k.create("ðððð", voice="af_heart", speed=0.85, lang="en-us", is_phonemes=True)
-tp = G.core(np.asarray(tp, np.float32), sr0)
-m0 = int(len(tp) * 0.2)
-tpl = tp[m0:len(tp) - m0] if len(tp) - 2 * m0 > int(0.04 * sr0) else tp
-
-CARRIERS = [
-    ("carrier-citation", "hˈɪɹ ɪz ðə sˈaʊnd: ðððð."),
-    ("carrier-citation-slow", "hˈɪɹ ɪz ðə sˈaʊnd: ððððð."),
-    ("contrast-thin-this", "θθθ? nˈoʊ. ðððð."),
-    ("carrier-spelling", "ðə lˈɛtɚz TH kæn sˈeɪ ðððð."),
-]
-WORDS = ["this", "that", "then", "them", "the"]
-
-cands, failures = [], []
-
-
-def add(family, seg, seg_sr):
-    if seg is None or len(seg) < int(0.04 * seg_sr):
-        failures.append((family, "nothing to cut")); return
-    cut = G.core(np.asarray(seg, np.float32), seg_sr)
-    ok, why, d = G.verify_sound(cut, tpl, seg_sr, kind="voiced", form="citation")
-    if not ok:
-        failures.append((family, why)); return
-    cands.append((family, cut, seg_sr, d))
-
-
-# A — the sound cut out of a word the owner has already accepted.
-for w in WORDS:
-    p = PACK / f"w-{w}.mp3"
-    if not p.exists():
-        continue
-    a, sr = decode_file(p)
-    for ms in (110, 150):
-        seg = onset(a, sr, ms)
-        add(f"pack-{w}-{ms}ms", seg, sr)
-        if seg is not None:
-            add(f"pack-{w}-{ms}ms-held", grain_extend(seg, sr, 220), sr)
-
-# B and C — the carrier sentences, cut at their last energy island.
-for fam, ipa in CARRIERS:
-    au, sr = k.create(ipa, voice="af_heart", speed=0.85, lang="en-us", is_phonemes=True)
-    au = np.asarray(au, np.float32)
-    isl = islands(au, sr)
-    if not isl:
-        failures.append((fam, "no islands")); continue
-    s, e = isl[-1]
-    add(fam, au[s:e], sr)
-    add(f"{fam}-held", grain_extend(au[s:e], sr, 240), sr)
-
-# Round-robin by METHOD, not by distance. Sorting the field by likeness to
-# one reference is how rounds 12 and 13 wasted arms: every slot went to the
-# family that happened to resemble the template, and the family that actually
-# won the sound was never offered. Each method sends its best first.
-def method(f):
-    return "pack" if f.startswith("pack-") else "contrast" if f.startswith("contrast") else "carrier"
-
-
-buckets = {}
-for c in sorted(cands, key=lambda c: c[3]):
-    buckets.setdefault(method(c[0]), []).append(c)
-ordered, i = [], 0
-while any(buckets.values()):
-    for m in ("pack", "carrier", "contrast"):
-        if buckets.get(m):
-            ordered.append(buckets[m].pop(0))
-
-arms, seen_sha = [], set()
-for family, cut, sr, d in ordered:
-    mp3 = encode(present(cut, sr), sr)
+    mp3, ms = encode(pad(envelope(piece, sr), sr), sr)
     sha = hashlib.sha256(mp3).hexdigest()
-    if sha in seen_sha or sha in ALREADY:
-        continue
-    seen_sha.add(sha)
-    arms.append({"id": f"th_this_{len(arms) + 1}", "family": family, "sha": sha,
-                 "ms": round(len(cut) / sr * 1000), "dtw": round(d, 3),
-                 "b64": base64.b64encode(mp3).decode()})
-    if len(arms) >= 10:
-        break
+    if sha in PRIOR:
+        print(f"    {sound}/{family}: identical to bytes already judged - refused")
+        return None
+    PRIOR.add(sha)
+    return {"family": family, "ms": ms, "b64": base64.b64encode(mp3).decode(), "sha": sha, "sha256": sha}
 
-data = {"title": "Sound round 22 — the voiced th",
-        "items": [{
-            "kind": "word", "text": "th (voiced)",
-            "note": "the th in this, that, then, them, the",
-            "how": "a buzzing th with the voice ON, as in <b>this</b> — the tongue between the teeth and the throat humming",
-            "reject": "it sounds like the quiet th of <b>thin</b> (no voice), or like a d, or like a v, or it is too short to hear",
-            "arms": arms}]}
-(OUT / "batch-data.json").write_text(json.dumps(data), encoding="utf-8")
-print(f"th (voiced): {len(arms)} arms")
-for a in arms:
-    print(f"  {a['id']:12} {a['family']:28} {a['ms']:4}ms  dtw {a['dtw']}")
-if failures:
-    print("\nrefused by the gate:")
-    for f, why in failures:
-        print(f"  {f:28} {why}")
+
+def build():
+    items = []
+    for sound, (ipa, kind, words, nb) in SOUNDS.items():
+        arms = []
+        # P - the pack, first
+        best = None
+        for w in words:
+            p = PACK / f"w-{w}.mp3"
+            if not p.exists():
+                continue
+            x, sr = load(p)
+            piece = tail_piece(x, sr) if kind == "tail" else onset_piece(x, sr, kind)
+            a = arm(sound, f"P_from-{w}", piece, sr)
+            if a and (best is None or abs(a["ms"] - 200 - PAD_HEAD_MS - PAD_TAIL_MS) < abs(best["ms"] - 200 - PAD_HEAD_MS - PAD_TAIL_MS)):
+                best = a
+        if best:
+            arms.append(best)
+        # C - the citation carrier. The sound sits at the END of the carrier
+        # and never gets its own island (a stop's release is 20 ms; measured
+        # 2026-09-02: one island of 1,020 ms), so the tail of the speech span
+        # is taken and the gate's core() trims it to the energetic part.
+        car, csr = say(f"hˈɪɹ ɪz ðə sˈaʊnd: {ipa}.", 1.0, phonemes=True)
+        s0, s1, _, _ = wc.speech_span(car, csr)
+        tail = car[max(s0, s1 - int(csr * 0.26)):s1]
+        a = arm(sound, "C_citation", G.core(tail, csr), csr)
+        if a:
+            arms.append(a)
+        # M - the minimal pair "bin, tin, bin": the LAST instance is the last
+        # ~320 ms of the span, and its onset is the sound
+        car, csr = say(f"{ipa}ˈɪn, {nb}ˈɪn, {ipa}ˈɪn.", 1.0, phonemes=True)
+        s0, s1, _, _ = wc.speech_span(car, csr)
+        last = car[max(s0, s1 - int(csr * 0.32)):s1]
+        piece = onset_piece(last, csr, "stop" if kind in ("stop", "tail") else kind)
+        a = arm(sound, "M_minimal-pair", piece, csr)
+        if a:
+            arms.append(a)
+        for i, a in enumerate(arms, 1):
+            a["id"] = f"{sound}_{i}"
+        items.append({"kind": "word", "text": sound, "arms": arms})
+        print(f"  {sound}: {len(arms)} arms  " + " ".join(a["family"] for a in arms), flush=True)
+    (OUT / "sounds22-audio.json").write_text(json.dumps({i["text"]: i["arms"] for i in items}), encoding="utf-8")
+    return items
+
+
+if __name__ == "__main__":
+    items = build()
+    print("wrote sounds22-audio.json;", sum(len(i["arms"]) for i in items), "arms over", len(items), "sounds")
