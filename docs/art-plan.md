@@ -916,11 +916,68 @@ hidden under 520 px of usable height, a tablet in landscape at 1024 x 768 has ze
 panels, and every profile under 620 px loses the bands and corners. Recorded before the bytes
 are spent rather than after.
 
-**Open, and each on the 2026-09-03 decision page with a recommended default:** the source and
-licence; the key light; whether the five foliage tokens are ruled and at what values; whether
-the bottom band may run to the physical bottom of the screen; whether the two bottom corners
-return; SVG or PNG; and whether step 6 is state 0 only — which the bible licenses as no more
-than a seed terrace, a moss edge, a young sapling and the Glowseed cradle.
+**RULED BY THE OWNER ON THE DECISION PAGE OF 2026-09-03**, seven of eight, each as
+recommended except the last:
+
+- **The picture is his, or licensed** ("It is mine, or I have a licence for it"). So bible
+  18.1 does not bite: it is recorded as an owner-supplied reference and the five colours
+  named below may take the values measured from it. Everything derived from the image is
+  legitimate, and the provenance row in `tools/art/provenance.json` says so when that file
+  opens.
+- **THE KEY LIGHT IS UPPER RIGHT, LOCKED.** Under bible 17 stage 3 this now binds all eleven
+  garden states, the Glowseed and the guide, and it may not be revisited without unpicking
+  every drawn form. The three measurements that produced the recommendation are above.
+- **All five foliage tokens are ruled**: gardenShade (the frame's largest area), gardenStem
+  (the middle rung; two earlier names for it, a colour and a plant, were
+  both refused by S9 as personal names, and this one is a word the repository already
+  knows), gardenTip (the fresh spring yellow-green - the hue the palette has
+  nowhere between amber and leaf green), gardenBark (the arbutus cinnamon) and gardenHeart
+  (the warm dot inside a cool bloom). Their values, their contrast on the garden's own dark
+  ground, and their rows in bible 9.3 are the first build task of step 6.
+- **The bottom band runs to the physical bottom of the screen.** Today the frame box stops at
+  `--wq-bottomzones`, so on a phone the band floats 30-37% up; painted, that reads as a
+  horizon across the child's reading line. It sits behind the rail and the strip, which are
+  already opaque, so nothing a child touches changes.
+- **The two bottom corners come back**, with a compact crop AUTHORED for two corners - the
+  art director's own condition of 2026-09-02, never four cropped down to two. They were
+  dropped in step 3 because a 58 px opaque quadrant sat under the message slot at 320 and
+  390 px, so the compact crop is what makes them safe.
+- **Step 6 is NOT state 0 only** (the owner chose the third option: "More than that - I want
+  the garden fuller at the start"). This is the one ruling that was not the recommendation,
+  and it changes what the states mean: the garden is the levels' reward, so a fuller start
+  spends some of it early. What it does NOT change is that growth must remain legible - a
+  child has to be able to see the garden answer their reading. The shape put to the owner in
+  reply, and to be confirmed before any pixel: state 0 carries the full frame - the far
+  treeline, the moss edge, the seed terrace, the rocks where the frame turns and a first
+  scatter of the small white ox-eye - and every later state adds a NEW KIND of thing rather
+  than more of the same, so the arbutus limb, the first blooms, the trellis and the water
+  each arrive as an event.
+- **SVG or PNG: still open**, and the only one still open. The owner asked to be told why
+  rather than choose blind ("tell me why I should choose one or the other"), and the answer
+  is measured below.
+
+**THE FORMAT MEASUREMENT, and a correction to this record's own earlier number.** The 1.71x
+figure above measures the REFERENCE's own pixels - 644,328 colours and the organic mottle
+this record refuses. It is not what we would ship. The same panel drawn as the rules here
+describe, on a five-rung ramp with no mottle, was built twice from one fixed seed - once as
+SVG text, once as the ruled PNG pair - at the widest real side panel, 160 x 1045:
+
+| the garden's density | marks | SVG, raw | SVG, gzipped | PNG 1x + 2x |
+| --- | --- | --- | --- | --- |
+| state 0 as briefed | 1,700 | 99,153 | 8,604 | 14,845 |
+| fuller, three times the marks | 5,100 | 297,173 | 24,190 | 30,734 |
+| six times the marks | 10,200 | 594,163 | 47,471 | 46,711 |
+
+Across a FULLER garden at eleven states and three crops: SVG 9,806,709 bytes, which is 1.17x
+the garden's whole share; PNG 1,014,222 bytes, which is 0.12x. PNG wins by eight times at the
+density the owner has just ruled, and it wins because our drawing is flat indexed art with
+large repeating areas, which is precisely what PNG was made for - while an SVG pays about 59
+bytes for every leaf dab and therefore grows linearly with exactly the fullness the owner
+asked for. The gzip column is the one place SVG leads, and it does not count:
+`tools/art-budget.mjs` measures `statSync(file).size`, the bytes on disk, and the service
+worker precaches those same bytes. RECOMMENDATION: keep the bible's export rule as it stands
+and ship PNG. Nothing needs amending, the stage-8 sampled-pixel-equals-token check keeps
+working, and the ruled fuller garden costs an eighth of its share.
 
 ## The log — every pass, every verdict
 
