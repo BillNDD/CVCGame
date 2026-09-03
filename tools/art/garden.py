@@ -93,10 +93,23 @@ def stamp(d, rows, x, y, pal=PAL):
                 d.point((x + i, y + j), fill=c)
 
 
-def island(rows):
-    """Nothing detached. The owner found the first frond's tip floating and
-    asked that "no one piece is disconnected from the whole"; this is that,
-    made checkable."""
+def island(rows, diagonal=True):
+    """How many pixels are not attached to the whole.
+
+    THE OWNER FOUND THE FLAW IN THIS CHECK BY LOOKING, twice - "Green orbs
+    unconnected to anything on right" and "Two blades break up then connect
+    again" - on two sprites that passed it. It counted a CORNER touch as
+    attachment, which is topologically true and visually false: a single
+    diagonal pixel is invisible at 1:1, so a leaf hanging off one reads as a
+    leaf floating in the air. One of the sprites he caught was eleven separate
+    pieces to the eye and one piece to this function.
+
+    So it takes a `diagonal` flag. With it, the old 8-connected question: is
+    anything wholly adrift. Without it, the strict one the eye actually asks.
+    Both matter, because 4-connection is too harsh as a blanket rule - a bare
+    winter twig steps diagonally and reads perfectly well as a line - which is
+    why the useful measure is masses(), below.
+    """
     on = {(i, j) for j, r in enumerate(rows) for i, c in enumerate(r) if c != "."}
     if not on:
         return 0
@@ -108,10 +121,39 @@ def island(rows):
             continue
         seen.add(p)
         x, y = p
-        for q in ((x+1,y),(x-1,y),(x,y+1),(x,y-1),(x+1,y+1),(x-1,y-1),(x+1,y-1),(x-1,y+1)):
+        nb = [(x + 1, y), (x - 1, y), (x, y + 1), (x, y - 1)]
+        if diagonal:
+            nb += [(x + 1, y + 1), (x - 1, y - 1), (x + 1, y - 1), (x - 1, y + 1)]
+        for q in nb:
             if q in on and q not in seen:
                 stack.append(q)
     return len(on) - len(seen)
+
+
+def masses(rows, floor=6):
+    """The check his eye was actually running: a MASS of `floor` pixels or more
+    that reaches the rest of the sprite only through a corner. A twig may step
+    diagonally and still read as a twig; a leaf may not, and a leaf is what he
+    saw floating. Returns the sizes of the offending masses, largest first."""
+    on = {(i, j) for j, r in enumerate(rows) for i, c in enumerate(r) if c != "."}
+    seen, groups = set(), []
+    for p in sorted(on):
+        if p in seen:
+            continue
+        grp, stack = 0, [p]
+        while stack:
+            q = stack.pop()
+            if q in seen:
+                continue
+            seen.add(q)
+            grp += 1
+            x, y = q
+            for r in ((x + 1, y), (x - 1, y), (x, y + 1), (x, y - 1)):
+                if r in on and r not in seen:
+                    stack.append(r)
+        groups.append(grp)
+    groups.sort(reverse=True)
+    return [n for n in groups[1:] if n >= floor]
 
 
 # ------------------------------------------------------------------ the maps
@@ -781,111 +823,6 @@ TREES = {
             "............bdddddb...............",
         ]},
     # --- conifers
-    "coast fir": {  # 20 x 60: The tablet and desktop side panels, standing full height where a 60 px tree has room - one per panel, set behind the shorter trees so its nodding lead REDRAWN FROM NOTHING 2026-09-03; the owner rejected the first, which was a filled triangle with a yellow staircase down one side. This one is built the way the shore pine he passed is built: seven tufts with SKY between them and the stem showing in every gap. Node pitch 4/5/6/8/8/8 and tuft depth 3/4/5/6/7/7/8 - nothing repeats. Reach left runs 2/5/6/4/9/8/8 against right 2/3/4/6/6/9/10, so the r22 node is shorter on the left than the one above it, the r30 node has no right limb at all but a dead stub where it was, and the leader stands over the base's RIGHT edge, which leans the whole tree.
-        "map": [
-            "...........tt.............",
-            ".........tt.tt............",
-            "..........dsst............",
-            "...........stt............",
-            "..........ssst............",
-            "..........dss.............",
-            "...........bh.............",
-            ".........ttbhtt...........",
-            "........sssbhst...........",
-            "........dsss.st...........",
-            "...........bh.............",
-            "........tttbhtt...........",
-            "......sssssbhsst..........",
-            "......dsssssbhsss.........",
-            ".......dssssbhss..........",
-            ".........s.bh.............",
-            "......ttt..bhtt...........",
-            "....ssssssbhssst..........",
-            "....ddssssbhssss..........",
-            ".....dssssbhsss...........",
-            "......dsssbhss............",
-            ".........s.bh.............",
-            ".......tt.bhttt...........",
-            "......sssssbhsstt.........",
-            "......dssssbhssssss.......",
-            ".......dsssbhsssss........",
-            "........dssbhssss.........",
-            "..........bhdss...........",
-            "..........bhds............",
-            ".........bh...............",
-            "..tttttt...bhtttt.........",
-            ".sssssssssbhssssstt.......",
-            "ddsssssssssbhssssss.......",
-            "dsssssssssbhsssss.bh......",
-            ".ddssssssssbhssss..b......",
-            "...dsssssssbhsss..........",
-            ".....dssssssbhss..........",
-            ".........bh...............",
-            "....tttt..bhttttt.........",
-            "..sssssssbhssssssstt......",
-            ".dsssssssbhssssssss.......",
-            "..ddssssssbhsssssss.......",
-            "...dsssssssbhsssss........",
-            ".....dsssssbhssss.........",
-            "........bhdss.............",
-            ".......bh.................",
-            "..ttttt..bhtttt...........",
-            "sssssss..bhsssssstt.......",
-            "dsssssss.bhssssssssssbhhmm",
-        ]},
-    "western red cedar": {  # 22 x 50: The tablet and desktop side panels, mid-panel where the fluted foot sits clear of other motifs and is not cropped - the flare is the species cue and c ITERATED 2026-09-03 on the owner's "too perfect. No variability". It stays dense, because that is the species difference from the fir beside it, but it is now built in NINE layers of unequal depth (4/4/4/3/4/3/3/4/4 rows), each with a lit frond top on the upper right and a shaded underside sloping down-left, so the mass has structure instead of being one triangle. Sky cuts notches into the right edge at four heights, the r35 layer is missing its outer half where a limb has gone, and a DEAD SPIKE TOP - what happens to an old cedar - stands above the living leader. The fluted foot is three ribs of unequal width, flaring only to the shaded left.
-        "map": [
-            "...............bh.....",
-            "...............bh.....",
-            "...............bh.....",
-            "...............bhb....",
-            "...........sss.bh.....",
-            "..........sssssbh.....",
-            "..........sssssbh.....",
-            ".........ssssssss.....",
-            ".........sssssstt.....",
-            ".........ssssssttt....",
-            ".........dddsss.......",
-            "........ssssssss......",
-            "........ssssssstt.....",
-            ".......ssssssssttt....",
-            ".......ddddsssss......",
-            "......sssssssssss.....",
-            "......sssssssssstt....",
-            "......sssssssssssttt..",
-            ".....dddsssssssss.....",
-            "....ssssssssssssss....",
-            "....ssssssssssssstt...",
-            "...ssssssssssssssttt..",
-            "....dddddsssssssss....",
-            "..sssssssssssssssss...",
-            "..sssssssssssssssstt..",
-            "..ssssssssssssssssttt.",
-            "..ddddssssssssssss....",
-            ".ssssssssssssssssss...",
-            ".sssssssssssssssssstt.",
-            "sssssssssssssssssssttt",
-            ".dddsssssssssssssss...",
-            "sssssssssssssssssstt..",
-            ".sssssssssssssssssttt.",
-            "dddddsssssssssssssss..",
-            "sssssssssssssssssssttt",
-            "...ssssssssssssss.....",
-            ".ddddssssssssssssss...",
-            "ssssssssssssssssssttt.",
-            ".ssssssssssssssssstt..",
-            "....dddsssssssssss....",
-            "......sssssssss.......",
-            ".........dbbh.........",
-            ".........dbbh.........",
-            "........dbbbh.........",
-            "........dbbhbh........",
-            ".......dbbhbbh........",
-            "......dbbhbbbh........",
-            "......dbhbbbhbh.......",
-            ".....dbbhbbbhbh.......",
-            "....dbbbhbbbhbbh......",
-        ]},
     "shore pine": {  # 18 x 30: The two bottom phone corners, on the rocks beside the crocus - it is the one conifer short enough to stand whole in a 70 px corner, and its open crown
         "map": [
             "..................",
@@ -956,53 +893,6 @@ TREES = {
             ".bh..",
         ]},
     # --- broadleaves
-    "big-leaf maple": {  # 40 x 44: The hero of a tablet or desktop side panel, low down where its 44 px of height can be afforded; on a phone it is the one motif big enough to own a who REDRAWN FROM NOTHING 2026-09-03; the owner rejected the first, which was a green cloud with no species in it. This one is an OPEN crown of six huge palmate leaf masses on limbs you can see through and between, which is what a big-leaf maple is and what nothing else in the set does. Every living limb is SHEATHED in moss - gardenStem along its top, gardenTip where the light strikes it, three beards of three lengths hanging beneath - because that moss is the most of this coast detail available and it costs no new colour. The bole leans left and carries its moss on the shaded flank, like the mossy rock's; the fork at r30 throws three limbs of three lengths; and one lower limb is a BARE DEAD STUB drooping left with no leaf on it at all.
-        "map": [
-            "..............ss.tt.tt..................",
-            "............s.ss.sssttt.................",
-            "...........sssssssssssttt...............",
-            "...........ssssssssssssss...............",
-            "............dsssssssssss.....ss.tt.t....",
-            "..s..stt.t...dsssssssss....s.ss.ssttt...",
-            ".sss.sssstt...dsssssss....ssssssssssttt.",
-            "sssssssssssss..dssssss....ssssssssssssss",
-            "sssssssssssss...dssss....dssssssssssssss",
-            "dsssssssssss.....dsss.....dssssssssssss.",
-            ".ddsssssssss......ss.......dssssssssss..",
-            "..dssssssss.......ts........dssssssss...",
-            "...dssssss........bb..........dsssss....",
-            "...dsssss........sbss.tt.tt....dssss....",
-            "....ssss.........b.ss.ssstt.t...sss.....",
-            "....bb..........sssssssssssttt..sss.....",
-            ".....bt.........bssssssssssssss.st......",
-            "...ss.tt.tt....sb.sssssssssssss.db......",
-            "..sss.sssst.t..bb..sssssssssss.sb.......",
-            ".ssssssssssssstb....sssssssss..bb.......",
-            ".dssssssssssssbb......sssss...tb........",
-            "..dsssssssssssbs.......sss...sb.........",
-            "...dssssssss.bbs............sb...ss.t.t.",
-            "....dsssssbssb.d...........sb..ss.sssttt",
-            "......dss..bbb............sss.sdssssssss",
-            "............bs...........tb..sdssssssss.",
-            ".............ds.........sb....bdssssss..",
-            "..............bs.......sb.....sddssss...",
-            "...............bt.....sb......d..sss....",
-            "..............s.ds...sb...........bs....",
-            "..............d..bsbsb..................",
-            ".................sbbh...................",
-            ".................dbbh...................",
-            "...............hbdbbh...................",
-            ".............bbb.sbbh...................",
-            "...........hbb...sbbh...................",
-            ".........bbb....dbbbh...................",
-            "................dbbbh...................",
-            "................sbbbh...................",
-            "................sbbbh...................",
-            "................dbbbbh..................",
-            "...............dbbbbbh..................",
-            "...............dbbbbbbh.................",
-            "..............dbbbbbbbh.................",
-        ]},
     "red alder": {  # 20 x 40: A side panel, standing in twos and threes at different heights: it is the only tree here that is mostly trunk, so it does the job of a vertical in a 6 REDRAWN FROM NOTHING 2026-09-03; the owner rejected the first. The trunk IS this tree - the only pale-barked thing in the set - so it gets the drawing and the crown gets out of its way, and nothing on the bole is warm now: gardenShade on the shaded flank, stone for the barrel, gardenRay on the lit edge. It leans, stepping right TWICE as it rises. The pale face is mottled in RUNS and never a chequer - lichen washes the full width at r20-22 and r30-31, the sunlit edge goes dull at r17-18, r26-28 and r35-36 - and four dark LENTICEL dashes cross it at four unequal heights, which is the mark that says alder and nothing else. Two dead stubs carry no leaf. Above, the branches go from bark to dark twig as they thin, so the crown is nine sprays hung in the dark and not a bundle of orange sticks.
         "map": [
             "........ttt.........",
@@ -1048,36 +938,36 @@ TREES = {
         ]},
     "pacific dogwood": {  # 24 x 30: The lit top-right corner or the sunny side panel, and only ONE of them anywhere in a frame - it is the brightest sprite in the set and a second copy w ITERATED 2026-09-03 on the owner's "close, centre too empty". The flower was the fault: four bracts around a HOLE. A dogwood flower is four white bracts around a small green BUTTON of true flowers, so every bloom now carries that button - gardenTip over gardenStem at its heart - and the sinus between the two upper bracts is cut, which is what tells a bract from a petal. Five blooms, not seven, at five heights and in two sizes, each set ON the leaf mass the way a dogwood flowers at its branch tips. The leaves went up and the bare armature came down, so the white has something to be bright against instead of empty ground.
         "map": [
-            "...............nw.ww....",
-            "...............nwwww....",
-            "...............cwtww....",
-            ".........sssttttcswss...",
-            "........sssssstttssss...",
-            ".......sssssssssss......",
-            ".......sssssssssss......",
-            "........sssssssss..nw.w.",
-            "nw.wwsttdsssssss...cwtw.",
-            "nwwwwssttdsssss.....cw..",
-            "cwtwwsssssdsss..sssttt..",
-            ".cswsssss..d...sssssttt.",
-            ".dsssssss..d..sssssssss.",
-            "..dsssss....d.ssssssss..",
-            "...dsss.....d..ssssss...",
-            ".....d......d.d.ssss....",
-            ".....d......d..d.ssd....",
-            "......ssssttt...d.d.d...",
-            ".....ssssssstt...bdd....",
-            ".....sssssssss..sssttt..",
-            ".....dsssssss...ssssss..",
-            "..nw.wdsssss...b.dsss...",
-            "..cwtw.dsssb..b..nwsww..",
-            "...cw.nw.wwb.b...nwwww..",
-            "......nwwwwbb....cwtww..",
-            "......cwtwwbh.....csw...",
-            ".......cswbbh...........",
-            ".........dbbbh..........",
-            "........dbbbbbh.........",
-            ".......dbbbbbbbh........",
+            "..............nww.......",
+            "......nww....nwwww......",
+            ".....nwwww.ttcwttwt.....",
+            ".....cwttw.tttcwwnt.....",
+            "......cwwntssssccstt....",
+            "....btsccstbbssssst.....",
+            "......sssssbbssssstnww..",
+            ".......ssstbb.sst.nwwww.",
+            ".nww......tbb.t...cwttw.",
+            "nwwww..ttttbh.tt..tcwwn.",
+            "cwttwttnwwtbhtttttsscct.",
+            ".cwwndnwwwwbbssttssssst.",
+            "..ccsscwttwbbsssttssst..",
+            ".sssssscwwnbb...sssnww..",
+            "..sss...sssbb....tnwwww.",
+            "..nww....ssbb.....cwttw.",
+            ".nwwww..sssbhttt.ttcwwn.",
+            ".cwttwsssssbhsnwwssscc..",
+            "..cwwnsssssbbnwwwwssstt.",
+            ".ssccssssssbbcwttwssst..",
+            "..ssssssnwwbbscwwn.sst..",
+            "...ssssnwwwwbss.........",
+            ".......cwttwbbss........",
+            "........cwwnbh..........",
+            ".........ccbbh..........",
+            "...........bbh..........",
+            "...........bbb..........",
+            "..........bbbb..........",
+            "..........bbbbb.........",
+            ".........bbbbbbb........",
         ]},
     "cascara": {  # 16 x 28: The understorey filler: tucked behind and between the bigger trees in a side panel, or standing alone in a phone corner where 16 px is all the width t REDRAWN FROM NOTHING 2026-09-03; the owner rejected the first, which was a generic bush. This one is drawn as what it is, an understorey tree: it LEANS towards the light, foot at col 3 and head at col 9, and it is mostly air, because a small tree standing under big ones is. Its leaf is the species cue - a large oblong blade, not a maple's hand and not an alder's spray - so there are only nine of them, hung ALTERNATELY and never opposite, on twigs of four different lengths that darken to gardenShade as they thin. One twig is dead and bare. The berries hang as a loose cluster of three on the sunlit side, not a ring.
         "map": [
@@ -1238,28 +1128,28 @@ TREES = {
         ]},
     "the nurse stump": {  # 24 x 22: The bottom corners of the phone frame and the foot of a side panel, sitting on the ground beside the rocks and the crocus - it is a ground motif and its foot must meet the ground line. Redrawn 2026-09-03; the owner rejected the first. This one did not get sawn, it broke, and it broke on a slant - splintered high on the shaded left, rotted away low on the lit right, so no two columns of its crown agree for long. The bite out of its left edge is a springboard notch, cut by a logger a lifetime ago, with its roof in shadow and its floor taking the light. Two seedlings of two sizes and moss on the low shoulder are what makes it a nurse.
         "map": [
-            "....t...................",
-            "...vtt..................",
-            "...vst..................",
-            "..vvsstt................",
-            "..vsssttt.....t.........",
-            ".vvssssttt...vtt........",
-            ".vsssssttt..vvstt.......",
-            "gvvsssstt...vsstt.......",
-            "...vvhww.....s..........",
-            "..nbbnnnnnnnnv..........",
-            ".nbbbhnnnnnnnnn.........",
-            ".dbbbbbbbbbnbbbnn.......",
-            ".ddddbbbbbbbbbhhnnnw....",
-            ".....dbbbbbbbbbbhnnnsss.",
-            ".....dbbbbbbbhnnnnnnngw.",
-            ".....dbbbbbbhnnnnnnnnnw.",
-            "dnnnwbbbbbbbbhnnnnnnnnnw",
-            "dbbbbbdbbbbbbbbbbbhnnnnw",
-            "dsbbbbdbbbbbbbbbbbhnnnnw",
-            "dsbbbbbbnnbbbbhhnnnnnnnw",
-            "dssbbbbbnwbbbbbbbhnnnnnw",
-            ".dbbbbbbbbbbbbhhnnnnnnw.",
+            "...........g............",
+            "..........sg............",
+            ".........vssg...........",
+            "..........ssg....g......",
+            "........vvssgg..sg......",
+            "..........ssg..vssg.....",
+            ".......vvsssgg..sg......",
+            "..........vsg..vssgg....",
+            "...........b.....b......",
+            "...........b.....b......",
+            ".........nhn.....b......",
+            ".......bhbbbhh.h.b......",
+            "......svbbbbhhnhnh......",
+            "......ddbbbbhhbhhhn.....",
+            "......ddbbbbhhbhhhn.....",
+            "......vsbhbbhhhhhhn.....",
+            "......svbbbbhhhhbhn.....",
+            "......vdbbbbhhhhbhhn....",
+            ".....ddbbhbbhhhhbhhn....",
+            "....ddbbhbbhhhhhhhhhn...",
+            "....ddbbbbbhhhhhhhhhn...",
+            "...dddddddddddddddddd...",
         ]},
     "the fire-scarred trunk": {  # 12 x 36: Tucked between two conifers in a side panel or the top-left shade corner, where its narrow 12 px slots into a gap; the scarred face must be turned int
         "map": [
@@ -1318,6 +1208,13 @@ TREES = {
 }
 
 
+# CUT BY THE OWNER, 2026-09-03, after two rounds each: bracket_fungus and
+# cone_scatter ("Let's just leave it out"), the coast fir ("Weird part in
+# middle"), the western red cedar and the big-leaf maple ("Leave out"). Five
+# passes on a bracket fungus is worse art economics than not having one, and a
+# garden with 73 good sprites is better than one with 78 of which five are
+# arguable. Nothing here depends on them: the drawn conifer, the shore pine, the
+# young fir and the far conifer cover the conifers between them.
 
 # --------------------------------------------------- the ground library
 # Forty-eight sprites, designed 2026-09-03 by six pixel artists: ground
@@ -1368,21 +1265,20 @@ SPRITES = {
         ]},
     "grass_tall": {  # front, 11 x 14: The tallest tuft, and the only ground-cover sprite that breaks the skyline of a carpet course
         "layer": "front", "map": [
-            ".....g.....",
-            "s....g.....",
-            ".s...g.....",
-            "..s.s......",
-            "..s.s....g.",
-            "...ss...s..",
-            "...s.s..s..",
-            "...s.s..s.g",
-            "...s.s..sg.",
-            "s..s.s..ss.",
-            "s..s.s.s...",
-            ".s.s.ss....",
-            "..ss.ss....",
-            "...vsss....",
-            "....vss....",
+            "......g....",
+            "......g....",
+            ".s....g....",
+            ".ss..ss.g..",
+            "..s..s..g..",
+            "..ss.s..g..",
+            "s..s.s.ss.g",
+            "ss.s.s.s..g",
+            ".s.s.s.s.ss",
+            ".v.vvsss.s.",
+            ".vv.vss.ss.",
+            "..vvvssss..",
+            "...vvvss...",
+            "....vvv....",
         ]},
     "sedge_clump": {  # mid, 12 x 12: Side panels and the bottom corners, on wetter-looking ground beside the rocks
         "layer": "mid", "map": [
@@ -1423,17 +1319,19 @@ SPRITES = {
         ]},
     "salal_spray": {  # mid, 13 x 8: Four leathery ovals in two ranks on a woody stem rising to the upper right
         "layer": "mid", "map": [
-            "....sgg.......",
-            "...ssssg...sg.",
-            "..vssssg.sssss",
-            "..vvsss.vssss.",
-            "...vss....vs..",
-            "..ssgg....ssg.",
-            ".ssssg..sssssg",
-            "vsssss.sssssss",
-            "vvsss..vvssss.",
-            ".vss....vsss..",
-            "...bbh........",
+            "...........gg..",
+            "..........ssgg.",
+            "..........vssg.",
+            "....gg....vvv..",
+            "...ssgg...s....",
+            "..vsssg...v....",
+            "...vvss..sv....",
+            ".....vvsss.....",
+            "........sv.....",
+            "..ggg...vssgg..",
+            ".sssg..vv.sssg.",
+            "vssssvvb..vsssg",
+            ".vvv...b...vvv.",
         ]},
     # --- flowers
     "trillium": {  # mid, 11 x 13: Bottom third of a side panel, and the bottom corners on a phone, always sitting ON the leaf mat with its lowest two rows
@@ -1521,22 +1419,23 @@ SPRITES = {
         ]},
     "oregon_grape": {  # mid, 12 x 14: The densest sprite in the set and the workhorse — use it wherever the mat alone leaves a thin patch, through the whole m
         "layer": "mid", "map": [
-            "........m.....",
-            ".......tm.....",
-            ".......mmm....",
-            ".......hm.....",
-            "...m..tmmm....",
-            "..tm..hmm.....",
-            "..mmmtmmmm....",
-            "..hm..hmm.....",
-            ".tmmm..ss.....",
-            "...s...ss.....",
-            ".t.st..t.st.t.",
-            "dsssstssssssst",
-            "dssst.sssssst.",
-            ".dsst.dsssst..",
-            "..dst..dsst...",
-            "...ds....ds...",
+            ".........m......",
+            "........tmm.....",
+            "........thm.....",
+            ".......tmmmm....",
+            ".......thmhm....",
+            ".......ttmmm....",
+            "........tmm.....",
+            ".....m...v..g...",
+            "....tmm..ssssg..",
+            "....thm..vssv...",
+            "...ttmm..s.v....",
+            "......ssvv..g..g",
+            "........vvvssssg",
+            ".g.g.g..v..vvvv.",
+            "ssssssvvs....v..",
+            ".vvvvv.vv.......",
+            "..v.v..v........",
         ]},
     "dandelion": {  # front, 9 x 10: The lowest courses of the panel, at the frame's inner edge where the reading area begins — its yellow is the brightest m
         "layer": "front", "map": [
@@ -1929,29 +1828,6 @@ SPRITES = {
             "....ddddddddddd...................",
             "..................................",
         ]},
-    "bracket_fungus": {  # front, 16 x 20: Against a trunk, anywhere up a side panel. Redrawn 2026-09-03 - four lobes of four sizes at three different gaps, each banded at its own radius, never three copies of one shelf
-        "layer": "front", "map": [
-            "pbhhhhbh........",
-            "pbbhhhhhhn......",
-            "ppbhppp.........",
-            "pbpp............",
-            "pbhhhhhbh.......",
-            "ppbhhhhhhhhbn...",
-            "pbphhhhbbhhhhhnn",
-            "pbbhbbbbbbbhhhn.",
-            "ppbhppppppp.....",
-            "ppbhppp.........",
-            "pbpp............",
-            "pbhh............",
-            "pbphhhhb........",
-            "ppbhhhhhhhn.....",
-            "pbbhhbbhhhhhn...",
-            "pbbhbbbbhhhn....",
-            "pbhhpppp........",
-            "pppp............",
-            "ppbhhhbn........",
-            "pbph............",
-        ]},
     "mushroom_cluster": {  # front, 16 x 11: The forest floor proper: the bottom 30 px of a side panel and the two bottom corners
         "layer": "front", "map": [
             "......bbh.......",
@@ -1980,23 +1856,6 @@ SPRITES = {
             "..nnww...",
             "..nnwww..",
             ".ddnnndd.",
-        ]},
-    "cone_scatter": {  # front, 18 x 14: On top of a log's back, in the crook where a stump meets the ground, or loose on the floor. Five cones, five sizes, three attitudes - standing, lying, end-on - and no two gaps alike
-        "layer": "front", "map": [
-            ".............h....",
-            "............bhh...",
-            "............bphh..",
-            "...........pbbhh..",
-            ".......bbhpppbph..",
-            "......bpbhh.ppb...",
-            ".....pphhp........",
-            "....pbbbp.........",
-            "...ppbb........bh.",
-            "..ppb.........pbbh",
-            "..bhdddddbh....pb.",
-            ".pbb...ppbbhhdddd.",
-            "......ppbpbbh.....",
-            "........ppbdd.....",
         ]},
     "fallen_branch": {  # back, 25 x 11: Thrown across a gap, at the back, wherever two masses do not quite meet. Thick and snapped at one end, whippy at the other, kinked in the middle, and its four twigs are four lengths at four angles
         "layer": "back", "map": [
@@ -2042,15 +1901,17 @@ SPRITES = {
         ]},
     "butterfly_rest": {  # front, 5 x 8: Foliage zone - the outer edge of the leaf cluster, or a frond pinna, or the arbutus trunk
         "layer": "front", "map": [
-            "...cw..",
-            "..ccw..",
-            "..cdw..",
-            ".cccw..",
-            "..ccw..",
-            "ccdcw.d",
-            ".cdcw.d",
-            "..ccwd.",
-            "...dd..",
+            "...dd...dd...",
+            ".....d.d.....",
+            ".cc..d.d..cw.",
+            ".cccccdccccw.",
+            "dcccccdcccccw",
+            "..dcccdcccw..",
+            ".dccccdccccw.",
+            ".dcdccdccdcw.",
+            "..dcccdcccw..",
+            "...dccdccw...",
+            ".....ddd.....",
         ]},
     "butterfly_fly": {  # front, 9 x 7: Open air between the flower bank and the canopy, upper-mid of a panel, over a gap in the vegetation
         "layer": "front", "map": [
@@ -2090,10 +1951,14 @@ SPRITES = {
         ]},
     "bird_far": {  # front, 9 x 4: Sky zone only - the top sixth of a tall panel or the phone's top band, above every canopy
         "layer": "front", "map": [
-            "v.........ss",
-            ".vvv....vv..",
-            "....vvvv....",
-            ".....vv.....",
+            "dd...............ss",
+            "vvd.............dvv",
+            "..vdd....dd...ddv..",
+            "...vvdddddddddvv...",
+            ".....vvvdddvvv.....",
+            "........ddd........",
+            "........vdv........",
+            ".........v.........",
         ]},
     "squirrel": {  # front, 12 x 12: Trunk or stone zone - sitting on an arbutus limb, a boulder or the path edge, mid to low height
         "layer": "front", "map": [

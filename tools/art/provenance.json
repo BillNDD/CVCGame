@@ -381,7 +381,7 @@
     "tools/art/garden.py"
    ],
    "sourceHash": {
-    "tools/art/garden.py": "976adbce3d2b6242f0a6904b8703ebdc09119bc67496b20dc72a2905f515fa1a"
+    "tools/art/garden.py": "5e2abc443cb234c2735b97c257f1d34e5cbfc306748dd50eef0699bb58d6d26f"
    },
    "share": 8388608,
    "spent": 0,
@@ -427,16 +427,38 @@
     "island": "every sprite is one 8-connected island, checked by garden.py's island()"
    },
    "counts": {
-    "sprites": 55,
-    "trees": 23
+    "sprites": 53,
+    "trees": 20,
+    "total": 73
    },
    "verdicts": {
-    "reviewed": "2026-09-03, all 78 judged by the owner one at a time",
-    "perfect": 33,
-    "iterate": 31,
-    "reject": 14,
-    "unjudged": 5,
-    "note": "his dominant criticism, said eleven times across six categories: too uniform, too perfect, obviously ai"
+    "reviewed": "2026-09-03, in three rounds, every sprite judged one at a time by the owner",
+    "round1": {
+     "perfect": 33,
+     "iterate": 31,
+     "reject": 14,
+     "unjudged": 5
+    },
+    "round2": {
+     "perfect": 40,
+     "iterate": 5,
+     "reject": 6
+    },
+    "round3": {
+     "perfect": 7,
+     "cut": 5
+    },
+    "outcome": "73 approved, 5 cut",
+    "cut": [
+     "bracket_fungus",
+     "cone_scatter",
+     "coast fir",
+     "western red cedar",
+     "big-leaf maple"
+    ],
+    "cutReason": "each had had two passes and was still wrong; the owner chose to leave them out rather than spend a third, which is the right economics and is recorded so nobody redraws them by accident",
+    "dominantNote": "his criticism across the whole first round, said eleven times in six categories: too uniform, too perfect, obviously ai",
+    "hisCheck": "he twice caught sprites that passed the connectivity check and still read as detached, which is why garden.py now carries masses() as well as island() - the first asks whether anything is adrift, the second asks whether a MASS hangs on a corner, and the second is the question his eye was running"
    },
    "renders": {
     "phone": "daf36c25de567436eede01506e537b1b70fe12c695f99e63f0e4e699cb39bf94",
