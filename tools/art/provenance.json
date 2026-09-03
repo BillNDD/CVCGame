@@ -1,376 +1,449 @@
 {
-  "_comment": "The art project's provenance record (docs/art-bible.md section 17's ruling): one entry per asset family, and rows per asset as they land. Read by tools/provenance-check.mjs in npm run check. A family's entry is what the construction-order ruling calls its README: the lock, the ramps, the master and reference paths by hash, the checkpoints, the originality verdict. Byte shares are integers that sum to at most 12,582,912 (bible 16.2).",
-  "shares": {
-    "scene": 8388608,
-    "guide": 1048576,
-    "app-icon-splash-title": 1048576,
-    "tiles": 524288,
-    "glowseed": 524288,
-    "icons": 524288,
-    "effects-textures": 524288
-  },
-  "families": {
-    "tiles": {
-      "kind": "css",
-      "opened": "2026-08-22",
-      "step": 1,
-      "source": [
-        "app/src/wq-css.js",
-        "reference/word-quest.jsx",
-        "app/src/screens/BuildItScreen.jsx"
-      ],
-      "share": 524288,
-      "spent": 0,
-      "files": [],
-      "master": null,
-      "masterReason": "a CSS family ships no file; the stylesheet is the master",
-      "reference": [],
-      "lock": {
-        "radii": {
-          "reveal": 12,
-          "many": 9,
-          "crowd": 7,
-          "shortStage": 8,
-          "buildit": 14
-        },
-        "rim": 1,
-        "highlight": 1,
-        "contactShadow": "0 1px 2px ink@.22, 0 1px 0 tileEdge@.5",
-        "ring": 3,
-        "ringOffset": 0,
-        "band": {
-          "reveal": 6,
-          "many": 4,
-          "crowd": 2,
-          "shortStage": 4
-        },
-        "builditBox": 64,
-        "extraPerLetter": 26,
-        "bandRenders": "measured with a middle tile sounding at every density, both sides: toward either neighbour gap minus ring - 3 / 1 / 0 / 1 CSS px (13-14 / 4-5 / 0 / 3 device px on the Galaxy at 4.5 and the short stage at 3), the rest beneath the neighbour's box (the live tile paints beneath its siblings); the neighbour's rim whole every time; the full band on the open sides",
-        "haloInset": 4,
-        "highlightInset": 2,
-        "highlightNote": "drawn 2 px, of which 1 shows inside the 1 px rim; the lower shade likewise",
-        "compact": {
-          "below": 360,
-          "box": 56,
-          "step": 20,
-          "gap": 6,
-          "why": "a ten-tile tray under eight slots ran under the grown-up strip at 320 px; at S7's floor it fits (the monkey, 2026-08-22)"
-        }
-      },
-      "ramps": {
-        "face": [
-          "tileHighlight",
-          "tileFace",
-          "tileEdge"
-        ]
-      },
-      "states": {
-        "available": [
-          "tileFace",
-          "ink",
-          "tileHighlight",
-          "tileEdge"
-        ],
-        "pressed": [
-          "tileEdge"
-        ],
-        "sounding": [
-          "cyanStructural",
-          "cyanElectric",
-          "tileFaceLit"
-        ],
-        "placed": [
-          "tileFace",
-          "ink"
-        ],
-        "used": [
-          "slot",
-          "ink",
-          "boundary"
-        ],
-        "removable": [
-          "cyanStructural"
-        ],
-        "different arrangement": [
-          "purpleStructural"
-        ],
-        "scaffold": [
-          "cyanStructural",
-          "ink"
-        ],
-        "completed": [
-          "amberFill"
-        ],
-        "disabled": [
-          "slot",
-          "ink",
-          "boundary"
-        ],
-        "empty slot": [
-          "slot",
-          "boundary"
-        ]
-      },
-      "ratios": [
-        {
-          "pair": "ink on tileFace",
-          "value": 8.64,
-          "test": "tokens 8"
-        },
-        {
-          "pair": "tileEdge on tileFace",
-          "value": 3.78,
-          "test": "tokens 3"
-        },
-        {
-          "pair": "tileEdge on skyLavender",
-          "value": 3.06,
-          "test": "tokens 8"
-        },
-        {
-          "pair": "cyanStructural on skyLavender",
-          "value": 4.61,
-          "test": "tokens 3c"
-        },
-        {
-          "pair": "ink on tileFaceLit",
-          "value": 9.55,
-          "test": "tokens 8"
-        },
-        {
-          "pair": "boundary on slot",
-          "value": 3.51,
-          "test": "tokens 8"
-        },
-        {
-          "pair": "ink on slot",
-          "value": 8.8,
-          "test": "tokens 8"
-        },
-        {
-          "pair": "purpleStructural on tileFace",
-          "value": 4.86,
-          "test": "tokens 8"
-        },
-        {
-          "pair": "ghost at .60 on slot",
-          "value": 3.28,
-          "test": "tokens 9"
-        }
-      ],
-      "electricArea": {
-        "formula": "2*(w+h+band)*band over the viewport, one tile sounding at a time (popOverlap)",
-        "tile": "sh on the iPhone 13 profile, 47 x 42 CSS px, band 6",
-        "iphone13-390x664": 0.44
-      },
-      "checkpointBasis": "a CSS family lands no file: checkpoint 2 was judged on tokens tests 8-10, the census's sounding-state cell and sampled device pixels on the renders; the scenery statistic is first built by the garden-scene step",
-      "checkpoints": [
-        {
-          "stage": 4,
-          "chair": "digital art director",
-          "date": "2026-08-22",
-          "verdict": "pass",
-          "renders": "D:/CVCGame-ops/art/step1/checkpoint (the single path then in use; its sets were overwritten by later captures and none survives - the 0d887f3 set at D:/CVCGame-ops/art/step1/0d887f3 is the one that does, and every set since lives in a folder named for its commit)",
-          "commit": "3a89bb4 then 7c55dfb",
-          "basis": "value on the luminance-greyscale renders with the word on them: the tile is a form by its rim and contact shadow alone, the letters on a flat face, the sounding tile one event"
-        },
-        {
-          "stage": 7,
-          "chair": "digital art director",
-          "date": "2026-08-22",
-          "verdict": "pass",
-          "renders": "D:/CVCGame-ops/art/step1/0d887f3",
-          "commit": "0d887f3 (re-given at the sixth judgement; first given on 34355ed, then 3c11232)",
-          "basis": "The verdict rests on the 0d887f3 set at D:/CVCGame-ops/art/step1/0d887f3 (hashes.json: 119 hashed renders - the 85 of the standing capture, the 12 descender renders with the word's layer and the 12 with it planted away, the 6 attempt-phase renders (one per profile) the junction reads take the word's ink from, pressed on two profiles, the landscape phone's two - plus 24 close crops cut from the hashed renders' own bytes, and the junction and junctionLayerRemoved reads), re-given at the sixth judgement on 2026-08-22 by the art director (every hashed render matching its hash, the seven run-notes found verbatim in their PNGs) and held by the reading chair at the seventh (2026-08-23). First given on the 64 renders of 34355ed and re-given at the fifth judgement on the 85 of 3c11232; both sets were overwritten at the one path then in use, so neither survives - since the sixth judgement every set lives in a folder named for its commit and a judged set is never overwritten. The compact 56 px variant is judged in (the ruled ceramic at 56 and 64 px, a multi-letter unit one wider tile at 76 as at 90). Device pixels sampled on the Galaxy S9+ (4.5), the Pixel 7 (2.625), the iPhone 13 (3) and the desktop (1) sounding, density, completed, focus, scaffold, sentence, arrangement and one-placed renders against the lock (ring 3, band 6 / 4 / 2 / 4, rim 1, highlight 1 showing, haloInset 4, bandRenders), plus tokens tests 8-10, provenance-check and doc-truth green; pressed captured on the Galaxy and the iPhone 13: the face renders #edd07d, the arithmetic's #eed07d to one unit of the compositor's rounding, the bevel gone and the rim kept. The live tile's z-index changes which side occludes the band, not the band. The word's own layer (the fifth judgement) changes what a descender meets: the band and ring no longer hide a tail (with the layer planted away they hid 969 of 980 ink pixels of the p's tail on the Galaxy, 653 of 744 on the Pixel 7, 451 of 462 on the iPhone 13), and until open-faults AF's clearance lands a tail paints over the ring where it reaches it - the whole 3 px ring on the Pixel 7, the short stage and the desktop (entering the tile by 0.3-0.7 px on the short stage and 3 px on the desktop), touching it on the landscape phone, none on the Galaxy or the iPhone 13 - a trade judged on this set by the art director and the reading chair: the thing being taught is never covered by its cue. Two exceptions to 'closed on all four sides' are recorded, both older than the step and both the reading surface's: a descender over the ring's top edge (AF) and the landscape phone's stage edge cutting the row's bottom side (AG)."
-        }
-      ],
-      "originality": {
-        "test": "bible 18.2 combination test on the family as rendered",
-        "verdict": "passes - a material, not a character: a rounded-rectangle glazed tile with a one-pixel highlight and rim, a contact shadow and the project's own token rings; no third-party game, interface, character or asset identifiable; nothing suggests an answer",
-        "chair": "digital art director",
-        "date": "2026-08-22",
-        "renders": "D:/CVCGame-ops/art/step1/checkpoint (the single path then in use; its sets were overwritten by later captures and none survives - the 0d887f3 set at D:/CVCGame-ops/art/step1/0d887f3 is the one that does, and every set since lives in a folder named for its commit)",
-        "commit": "7c55dfb"
-      },
-      "closed": "2026-08-22"
+ "_comment": "The art project's provenance record (docs/art-bible.md section 17's ruling): one entry per asset family, and rows per asset as they land. Read by tools/provenance-check.mjs in npm run check. A family's entry is what the construction-order ruling calls its README: the lock, the ramps, the master and reference paths by hash, the checkpoints, the originality verdict. Byte shares are integers that sum to at most 12,582,912 (bible 16.2).",
+ "shares": {
+  "scene": 8388608,
+  "guide": 1048576,
+  "app-icon-splash-title": 1048576,
+  "tiles": 524288,
+  "glowseed": 524288,
+  "icons": 524288,
+  "effects-textures": 524288
+ },
+ "families": {
+  "tiles": {
+   "kind": "css",
+   "opened": "2026-08-22",
+   "step": 1,
+   "source": [
+    "app/src/wq-css.js",
+    "reference/word-quest.jsx",
+    "app/src/screens/BuildItScreen.jsx"
+   ],
+   "share": 524288,
+   "spent": 0,
+   "files": [],
+   "master": null,
+   "masterReason": "a CSS family ships no file; the stylesheet is the master",
+   "reference": [],
+   "lock": {
+    "radii": {
+     "reveal": 12,
+     "many": 9,
+     "crowd": 7,
+     "shortStage": 8,
+     "buildit": 14
     },
-    "glowseed": {
-      "kind": "css",
-      "opened": "2026-08-23",
-      "step": 2,
-      "source": [
-        "app/src/components/Glowseed.jsx",
-        "app/src/components/Zone.jsx",
-        "app/src/voicepacks.js",
-        "app/src/wq-css.js"
-      ],
-      "share": 524288,
-      "spent": 0,
-      "files": [],
-      "master": null,
-      "masterReason": "a token-drawn placeholder ships no file; the stylesheet is the master until the garden's step draws the pixel seed to the locked camera",
-      "placeholder": "D, owner-ruled 2026-08-23 on the Glowseed page (the questions were A / B / D; C refused by bible 17's standing rule; the council recommended D and the owner ruled D): a token-drawn placeholder approved under the owner's 'who draws' ruling ('state 0 with placeholder geometry'), bible 8.1's row untouched; the pixel seed lands at step 6 as a drop-in paint on the same component, place, looks and cells. The build was made on the recommendation before the ruling returned, so the checkpoint renders would be real; the ruling matched it and nothing changed.",
-      "reference": [],
-      "lifecycle": "lit at the utterance's schedule (voicepacks.js onAudio start: 50 ms before the first sample and the first clip's lead before any voice), idle when every node of the utterance - the clips and the hum's oscillators - has fired onended, counted to zero and keyed by the utterance's token, or when stopClips() ends it; never on the system-speech fallback, with sound off, or on a decode failure; a lost end (a closed context) lasts until the next stopClips(). Probed under headless Chromium 2026-08-23: onended fires at a natural end, on stop(), and 1,500 ms late through a context suspended that long.",
-      "lock": {
-        "box": {
-          "w": 24,
-          "h": 30
-        },
-        "corner": {
-          "top": 8,
-          "right": 14
-        },
-        "rim": 1,
-        "light": 2,
-        "core": {
-          "left": 8,
-          "top": 12,
-          "w": 11,
-          "h": 11
-        },
-        "absentBelow": 400,
-        "transition": false,
-        "radius": "70% 34% 46% 54%/64% 56% 42% 38%",
-        "coreOffset": {
-          "x": 2.5,
-          "y": 3.5
-        },
-        "mutedBorderStyle": "dashed",
-        "mutedRim": "muted"
-      },
-      "place": "out of flow in the stage's top-right corner, 0 px of layout (the census's Glowseed cell holds every zone's height and the word's box equal with the object planted away); in the free sky measured on the 0d887f3 renders (46-181 CSS px on the Galaxy S9+, 46-279 Pixel 7, 46-199 iPhone 13, 46-232 desktop, 46-167 short stage); absent on a VIEWPORT under 400 px tall - a max-height media query asks the window, not the stage, and a stage is shorter than its window by the header and the strip (the landscape phone, open-faults AG; corrected 2026-08-23); on the word reveal, the sentence reveal, the pre-ladder and Build-it - not home, the done screens or the corner; right rather than left is settled (the art director, the after pass 2026-08-23): measured on galaxy-s9plus-attempt-idle-grey.png the header's own weight is left-heavy (mean |grey-197| of 19.8 left against 9.7 right), so a mark on the right loads the lighter side, and with the object lit the stage's top band reads 0.2 left against 1.1 right",
-      "ramps": {
-        "rim": [
-          "stone",
-          "purpleStructural"
-        ],
-        "core": [
-          "slot",
-          "cyanElectric"
-        ],
-        "light": [
-          "purpleElectric"
-        ]
-      },
-      "states": {
-        "idle": [
-          "slot",
-          "stone"
-        ],
-        "lit": [
-          "cyanElectric",
-          "purpleStructural",
-          "purpleElectric"
-        ],
-        "muted": [
-          "muted"
-        ],
-        "quiet": [
-          "slot",
-          "stone"
-        ]
-      },
-      "ratios": [
-        {
-          "pair": "purpleStructural on skyBlue",
-          "value": 4.02,
-          "test": "tokens 13"
-        },
-        {
-          "pair": "purpleStructural on skyLavender",
-          "value": 3.92,
-          "test": "tokens 13"
-        },
-        {
-          "pair": "purpleStructural on skyPurpleMist",
-          "value": 4.29,
-          "test": "tokens 13"
-        },
-        {
-          "pair": "stone to purpleStructural (the idle-to-lit rim step, the non-colour cue)",
-          "value": 3.15,
-          "test": "tokens 13"
-        },
-        {
-          "pair": "cyanElectric on slot (the core alone is no cue)",
-          "value": 1.06,
-          "test": "tokens 13"
-        },
-        {
-          "pair": "stone on skyBlue (the idle rim, declared decorative below 3:1)",
-          "value": 1.28,
-          "test": "tokens 13"
-        },
-        {
-          "pair": "purpleElectric on skyLavender (the light, never the boundary)",
-          "value": 1.92,
-          "test": "tokens 13"
-        }
-      ],
-      "electricArea": {
-        "formula": "pixels within 30 of each electric token over the whole frame, counted on the checkpoint renders",
-        "iphone13-390x664": 0.417,
-        "galaxy-320x658": 0.512,
-        "note": "SUPERSEDED 2026-08-24 by the 1.5x size ruling - these figures were measured on the 16 x 20 object and are kept only so the change has a before. Re-measure on the ef7f9c4+ set. measured by the art director on the 87f9272 renders (the after pass, 2026-08-23), replacing the arithmetic estimate of 0.51 / 0.62; the budget is 1-3 % (bible 9.1) and this is the band plus the object together while a tile sounds"
-      },
-      "checkpointBasis": "checkpoint 1 on greyscale renders of the reveal with a tile sounding, the sentence reveal, Build-it and the pre-ladder's ear prompt with the word; checkpoint 2 on colour renders of every look on the eight profiles, the census's Glowseed cell (the object against the page's own AudioContext) and tokens test 13",
-      "checkpoints": [
-        {
-          "stage": 4,
-          "chair": "digital art director",
-          "date": "2026-08-23",
-          "verdict": "pass",
-          "renders": "D:/CVCGame-ops/art/step2/b34420b (72 renders, six profiles, colour and greyscale) and the 3x crops beside them",
-          "commit": "b34420b",
-          "basis": "box 16 x 20 CSS px exactly; the core's centroid 1.50 px right and 2.51 px down of the box centre over 6,786 core pixels, with the top-right the tightest corner (left gap 87 crop px against the right's 42 at 5% of the height) - a seed with a tip and an off-centre eye, not a bullseye; idle 1.25-1.26:1 against the local sky; lit rim 3.94-3.97:1 with a dark edge of 39.6-45.3 CSS px2 against the sounding tile ring's 420-434; the word darkest, largest and highest-contrast on every profile"
-        },
-        {
-          "stage": 7,
-          "chair": "digital art director",
-          "date": "2026-08-23",
-          "verdict": "pass",
-          "renders": "D:/CVCGame-ops/art/step2/524e0ff (78 renders, including the arrangement playback shot at the owner's ruling, plus the reduced-motion pair)",
-          "commit": "524e0ff",
-          "basis": "the tokens sit at their literals in 9.2's order and the three looks are distinguishable; the box and every zone height are identical across all three looks and all captured states including arrangement playback, so no look moves layout. THE COLLISION THIS CHECKPOINT EXISTS TO TEST - Build-it's arrangement playback, the one screen carrying the object's lit rim and the slots' arrangement ring at the same instant - was shot on 2026-08-23 at the owner's ruling ('shoot it and judge') and does NOT occur: the two marks share purpleStructural and nothing else, and the sharing is thin at both ends. The object's rim owns 42.8 / 38.9 / 35.0 CSS px2 of the screen's 1945 / 2276 / 2094 (2.2% / 1.7% / 1.7%), the three rings carrying 44-59x it; and purpleStructural is a MINORITY of the object itself at 20-22% of its lit ink. purpleElectric and cyanElectric occur ONLY inside the object's 20 x 24 footprint and nowhere else in the frame - measured by pixel census by the art director and independently through the CSSOM across every element and pseudo-element, which found purpleElectric on exactly one node (.wq-glowseed-lit) and cyanElectric on exactly one (.wq-glowseed-lit::after). The marks sit 201-288 CSS px apart in different zones. The object's total lit ink is 176-196 CSS px2 against the miss sentence's 713-917 and the rings' 1902-2237, so it never out-competes the teaching signal"
-        }
-      ],
-      "originality": {
-        "test": "Every colour is a C token and every dimension is in this row's lock, so the object can be rebuilt from the record alone; the silhouette was authored from bible 7's description and measured after the fact, never traced, sampled or derived from external artwork. Checked by reading the four .wq-glowseed rules against C and against the lock.",
-        "verdict": "original - a token-drawn placeholder, owner-approved under order D (2026-08-23). The pixel seed the garden's step will draw to the locked camera replaces it at step 6; the place, the three looks and the timing are what a child learns, and those do not change when the paint does.",
-        "chair": "digital art director",
-        "date": "2026-08-23"
-      },
-      "closed": {
-        "date": "2026-08-23",
-        "by": "all three council chairs satisfied after two judgement rounds",
-        "note": "Opened and built 2026-08-23. The first after pass returned three NOT SATISFIED verdicts and seven fixes were taken; the re-judgement returned three more, all on one theme - the code fixes were real and three of them were guarded by tests that passed identically on the broken build. Those guards now fail on their own fault, watched failing by hand, and three Glowseed app mutants exist where the family had none. Checkpoint 1 and checkpoint 2 both PASS on measurement. The reduced-motion render, the last open deliverable, was shot on two phones and is BYTE-IDENTICAL to the lit render in colour and in greyscale - the criterion proved rather than argued."
-      },
-      "rulings": {
-        "date": "2026-08-23",
-        "order": "D - the placeholder now, the pixel seed at step 6 to the locked camera",
-        "scaffold": "a - the object stays idle through Build-it's scaffold; the slot's cue ring is the one event there; the scaffold's timing untouched",
-        "fallback": "a - idle on every system-speech path (recorded audio only); the Grown-ups corner's note says the listening light stays dark",
-        "soundOff": "\"Parent: sound is off\" on the strip's reserved marker line, the replay controls disabled, the object muted"
-      },
-      "silhouette": "an ovoid with one asymmetric tip at the top right (the tightest corner radius, 34% against the top left's 70%) and the core offset 1.5 CSS px right and 2.5 px down from the box's centre - NOT a circle with a centred core. The first draft was four concentric ovals, the core exactly centred in x and 2 px low in y, both caps 6 px at 1x: the art director failed checkpoint 1 on it as the eye / LED / bullseye form bible 17.1 forbids, and both verifiers measured the same thing. Order D says the step-6 pixel seed keeps this shape, so the radius and the offset are in the lock and read from the stylesheet by glowseedLockFromSources; a core back on either axis is refused by name.",
-      "againstTheDesign": "RECORDED RATHER THAN BURIED (the art director, checkpoint 2, 2026-08-23): in greyscale the object's lit rim and Build-it's arrangement ring are the SAME VALUE - rim mean 80.1 / 80.2 / 80.2 against ring mean 80.0 / 80.0 / 80.0. Value does NOT tell the two marks apart. What tells them apart is shape (an asymmetric egg against a flat rounded rectangle enclosing a letter), size (44-59x on the shared token), internal structure (a light-halo / dark-rim / cream-core / grey-dot ramp against a single flat band) and position (201-288 CSS px apart, different zones), checked by eye at 12x on the grey render. Any later claim that greyscale separates them by tone is false, and measured false.",
-      "sizeRuling": "Owner-ruled 2026-08-24, on his own eye after the beta 27 device check: \"the seed should be twice as big\", then 1.5x on the measurement. TWICE would have quadrupled the object's ink to about 704-784 CSS px2, level with the miss sentence's 713-917 - and checkpoint 2 passed precisely because the object was the SMALLEST saturated thing on screen at 176-196. 1.5x (24 x 30) keeps it comfortably below the teaching text while being half again the size. The rim stays 1 px and the light 2 px, so ink grows with the perimeter rather than the area; the core scales with the box and keeps its offset OFF both axes (2.5 right, 3.5 down), which is the bullseye checkpoint 1 refused.",
-      "strokesDoNotScale": "THE RIM STAYS 1 px AND THE LIGHT 2 px, WHATEVER THE BOX DOES. This is the single decision the 2026-08-24 size ruling rests on, measured by the art director: at 24 x 30 the lit ink grew 1.65x (218 -> 361 CSS px2) because the core scales by AREA while the rim and light scale by PERIMETER. Scale the strokes with the box and the ink jumps to about 490 at this size, and the comparison with the feedback sentence (684) gets uncomfortable. At the 2x the owner first asked for, with strokes still unscaled, it would have been about 873 - level with the sounding tile's band (889) and ABOVE the sentence - which is why 1.5x was ruled instead. Do not tidy these two numbers into proportions.",
-      "sizeJudgement": {
-        "date": "2026-08-24",
-        "chair": "digital art director",
-        "verdict": "size stands, step 2 stays closed",
-        "litInk": "361 CSS px2 (was 218 at 16 x 20), growth 1.65x",
-        "stillSmallest": "feedback sentence 1.9x it, sounding tile band 2.5x, full ring 3.6x, Build-it arrangement rings 5.3x, the word itself 7.9x",
-        "budget": "0.013% of the viewport on an ordinary screen, 0.555% on a feedback screen, against bible 9.1's 1-3% and 5%",
-        "silhouette": "scaled exactly - IoU 0.99 against the old shape normalised, the top-left tip still cut 35% against ~16% at the other three corners; core off BOTH axes at +2.3 right, +3.3 down on every profile",
-        "muted": "3.02:1 in colour, 3.04:1 in greyscale, at full pixel coverage",
-        "watchThis": "the margin to the nearest teaching signal HALVED, from 3.1x to 1.9x. Still a clear ordering, and the number to watch if anyone proposes growing this again.",
-        "alsoRecorded": "the IDLE state grew 2.25x - MORE than lit's 1.65x - because a filled shape scales by area while lit's ink is mostly stroke. So the object is most present precisely when it has nothing to say. It stays scenery (1.24:1 against the sky, no electric token) so it does not block, but the lit figures alone understate how much more sky it occupies while nothing is happening.",
-        "couldNotMeasure": "the muted state at DPR 1 - the harness renders no desktop muted frame; and the MISS sentence, which is not in the set, so the SUCCESS sentence (684, the more conservative comparison) was measured instead"
-      }
+    "rim": 1,
+    "highlight": 1,
+    "contactShadow": "0 1px 2px ink@.22, 0 1px 0 tileEdge@.5",
+    "ring": 3,
+    "ringOffset": 0,
+    "band": {
+     "reveal": 6,
+     "many": 4,
+     "crowd": 2,
+     "shortStage": 4
+    },
+    "builditBox": 64,
+    "extraPerLetter": 26,
+    "bandRenders": "measured with a middle tile sounding at every density, both sides: toward either neighbour gap minus ring - 3 / 1 / 0 / 1 CSS px (13-14 / 4-5 / 0 / 3 device px on the Galaxy at 4.5 and the short stage at 3), the rest beneath the neighbour's box (the live tile paints beneath its siblings); the neighbour's rim whole every time; the full band on the open sides",
+    "haloInset": 4,
+    "highlightInset": 2,
+    "highlightNote": "drawn 2 px, of which 1 shows inside the 1 px rim; the lower shade likewise",
+    "compact": {
+     "below": 360,
+     "box": 56,
+     "step": 20,
+     "gap": 6,
+     "why": "a ten-tile tray under eight slots ran under the grown-up strip at 320 px; at S7's floor it fits (the monkey, 2026-08-22)"
     }
+   },
+   "ramps": {
+    "face": [
+     "tileHighlight",
+     "tileFace",
+     "tileEdge"
+    ]
+   },
+   "states": {
+    "available": [
+     "tileFace",
+     "ink",
+     "tileHighlight",
+     "tileEdge"
+    ],
+    "pressed": [
+     "tileEdge"
+    ],
+    "sounding": [
+     "cyanStructural",
+     "cyanElectric",
+     "tileFaceLit"
+    ],
+    "placed": [
+     "tileFace",
+     "ink"
+    ],
+    "used": [
+     "slot",
+     "ink",
+     "boundary"
+    ],
+    "removable": [
+     "cyanStructural"
+    ],
+    "different arrangement": [
+     "purpleStructural"
+    ],
+    "scaffold": [
+     "cyanStructural",
+     "ink"
+    ],
+    "completed": [
+     "amberFill"
+    ],
+    "disabled": [
+     "slot",
+     "ink",
+     "boundary"
+    ],
+    "empty slot": [
+     "slot",
+     "boundary"
+    ]
+   },
+   "ratios": [
+    {
+     "pair": "ink on tileFace",
+     "value": 8.64,
+     "test": "tokens 8"
+    },
+    {
+     "pair": "tileEdge on tileFace",
+     "value": 3.78,
+     "test": "tokens 3"
+    },
+    {
+     "pair": "tileEdge on skyLavender",
+     "value": 3.06,
+     "test": "tokens 8"
+    },
+    {
+     "pair": "cyanStructural on skyLavender",
+     "value": 4.61,
+     "test": "tokens 3c"
+    },
+    {
+     "pair": "ink on tileFaceLit",
+     "value": 9.55,
+     "test": "tokens 8"
+    },
+    {
+     "pair": "boundary on slot",
+     "value": 3.51,
+     "test": "tokens 8"
+    },
+    {
+     "pair": "ink on slot",
+     "value": 8.8,
+     "test": "tokens 8"
+    },
+    {
+     "pair": "purpleStructural on tileFace",
+     "value": 4.86,
+     "test": "tokens 8"
+    },
+    {
+     "pair": "ghost at .60 on slot",
+     "value": 3.28,
+     "test": "tokens 9"
+    }
+   ],
+   "electricArea": {
+    "formula": "2*(w+h+band)*band over the viewport, one tile sounding at a time (popOverlap)",
+    "tile": "sh on the iPhone 13 profile, 47 x 42 CSS px, band 6",
+    "iphone13-390x664": 0.44
+   },
+   "checkpointBasis": "a CSS family lands no file: checkpoint 2 was judged on tokens tests 8-10, the census's sounding-state cell and sampled device pixels on the renders; the scenery statistic is first built by the garden-scene step",
+   "checkpoints": [
+    {
+     "stage": 4,
+     "chair": "digital art director",
+     "date": "2026-08-22",
+     "verdict": "pass",
+     "renders": "D:/CVCGame-ops/art/step1/checkpoint (the single path then in use; its sets were overwritten by later captures and none survives - the 0d887f3 set at D:/CVCGame-ops/art/step1/0d887f3 is the one that does, and every set since lives in a folder named for its commit)",
+     "commit": "3a89bb4 then 7c55dfb",
+     "basis": "value on the luminance-greyscale renders with the word on them: the tile is a form by its rim and contact shadow alone, the letters on a flat face, the sounding tile one event"
+    },
+    {
+     "stage": 7,
+     "chair": "digital art director",
+     "date": "2026-08-22",
+     "verdict": "pass",
+     "renders": "D:/CVCGame-ops/art/step1/0d887f3",
+     "commit": "0d887f3 (re-given at the sixth judgement; first given on 34355ed, then 3c11232)",
+     "basis": "The verdict rests on the 0d887f3 set at D:/CVCGame-ops/art/step1/0d887f3 (hashes.json: 119 hashed renders - the 85 of the standing capture, the 12 descender renders with the word's layer and the 12 with it planted away, the 6 attempt-phase renders (one per profile) the junction reads take the word's ink from, pressed on two profiles, the landscape phone's two - plus 24 close crops cut from the hashed renders' own bytes, and the junction and junctionLayerRemoved reads), re-given at the sixth judgement on 2026-08-22 by the art director (every hashed render matching its hash, the seven run-notes found verbatim in their PNGs) and held by the reading chair at the seventh (2026-08-23). First given on the 64 renders of 34355ed and re-given at the fifth judgement on the 85 of 3c11232; both sets were overwritten at the one path then in use, so neither survives - since the sixth judgement every set lives in a folder named for its commit and a judged set is never overwritten. The compact 56 px variant is judged in (the ruled ceramic at 56 and 64 px, a multi-letter unit one wider tile at 76 as at 90). Device pixels sampled on the Galaxy S9+ (4.5), the Pixel 7 (2.625), the iPhone 13 (3) and the desktop (1) sounding, density, completed, focus, scaffold, sentence, arrangement and one-placed renders against the lock (ring 3, band 6 / 4 / 2 / 4, rim 1, highlight 1 showing, haloInset 4, bandRenders), plus tokens tests 8-10, provenance-check and doc-truth green; pressed captured on the Galaxy and the iPhone 13: the face renders #edd07d, the arithmetic's #eed07d to one unit of the compositor's rounding, the bevel gone and the rim kept. The live tile's z-index changes which side occludes the band, not the band. The word's own layer (the fifth judgement) changes what a descender meets: the band and ring no longer hide a tail (with the layer planted away they hid 969 of 980 ink pixels of the p's tail on the Galaxy, 653 of 744 on the Pixel 7, 451 of 462 on the iPhone 13), and until open-faults AF's clearance lands a tail paints over the ring where it reaches it - the whole 3 px ring on the Pixel 7, the short stage and the desktop (entering the tile by 0.3-0.7 px on the short stage and 3 px on the desktop), touching it on the landscape phone, none on the Galaxy or the iPhone 13 - a trade judged on this set by the art director and the reading chair: the thing being taught is never covered by its cue. Two exceptions to 'closed on all four sides' are recorded, both older than the step and both the reading surface's: a descender over the ring's top edge (AF) and the landscape phone's stage edge cutting the row's bottom side (AG)."
+    }
+   ],
+   "originality": {
+    "test": "bible 18.2 combination test on the family as rendered",
+    "verdict": "passes - a material, not a character: a rounded-rectangle glazed tile with a one-pixel highlight and rim, a contact shadow and the project's own token rings; no third-party game, interface, character or asset identifiable; nothing suggests an answer",
+    "chair": "digital art director",
+    "date": "2026-08-22",
+    "renders": "D:/CVCGame-ops/art/step1/checkpoint (the single path then in use; its sets were overwritten by later captures and none survives - the 0d887f3 set at D:/CVCGame-ops/art/step1/0d887f3 is the one that does, and every set since lives in a folder named for its commit)",
+    "commit": "7c55dfb"
+   },
+   "closed": "2026-08-22"
+  },
+  "glowseed": {
+   "kind": "css",
+   "opened": "2026-08-23",
+   "step": 2,
+   "source": [
+    "app/src/components/Glowseed.jsx",
+    "app/src/components/Zone.jsx",
+    "app/src/voicepacks.js",
+    "app/src/wq-css.js"
+   ],
+   "share": 524288,
+   "spent": 0,
+   "files": [],
+   "master": null,
+   "masterReason": "a token-drawn placeholder ships no file; the stylesheet is the master until the garden's step draws the pixel seed to the locked camera",
+   "placeholder": "D, owner-ruled 2026-08-23 on the Glowseed page (the questions were A / B / D; C refused by bible 17's standing rule; the council recommended D and the owner ruled D): a token-drawn placeholder approved under the owner's 'who draws' ruling ('state 0 with placeholder geometry'), bible 8.1's row untouched; the pixel seed lands at step 6 as a drop-in paint on the same component, place, looks and cells. The build was made on the recommendation before the ruling returned, so the checkpoint renders would be real; the ruling matched it and nothing changed.",
+   "reference": [],
+   "lifecycle": "lit at the utterance's schedule (voicepacks.js onAudio start: 50 ms before the first sample and the first clip's lead before any voice), idle when every node of the utterance - the clips and the hum's oscillators - has fired onended, counted to zero and keyed by the utterance's token, or when stopClips() ends it; never on the system-speech fallback, with sound off, or on a decode failure; a lost end (a closed context) lasts until the next stopClips(). Probed under headless Chromium 2026-08-23: onended fires at a natural end, on stop(), and 1,500 ms late through a context suspended that long.",
+   "lock": {
+    "box": {
+     "w": 24,
+     "h": 30
+    },
+    "corner": {
+     "top": 8,
+     "right": 14
+    },
+    "rim": 1,
+    "light": 2,
+    "core": {
+     "left": 8,
+     "top": 12,
+     "w": 11,
+     "h": 11
+    },
+    "absentBelow": 400,
+    "transition": false,
+    "radius": "70% 34% 46% 54%/64% 56% 42% 38%",
+    "coreOffset": {
+     "x": 2.5,
+     "y": 3.5
+    },
+    "mutedBorderStyle": "dashed",
+    "mutedRim": "muted"
+   },
+   "place": "out of flow in the stage's top-right corner, 0 px of layout (the census's Glowseed cell holds every zone's height and the word's box equal with the object planted away); in the free sky measured on the 0d887f3 renders (46-181 CSS px on the Galaxy S9+, 46-279 Pixel 7, 46-199 iPhone 13, 46-232 desktop, 46-167 short stage); absent on a VIEWPORT under 400 px tall - a max-height media query asks the window, not the stage, and a stage is shorter than its window by the header and the strip (the landscape phone, open-faults AG; corrected 2026-08-23); on the word reveal, the sentence reveal, the pre-ladder and Build-it - not home, the done screens or the corner; right rather than left is settled (the art director, the after pass 2026-08-23): measured on galaxy-s9plus-attempt-idle-grey.png the header's own weight is left-heavy (mean |grey-197| of 19.8 left against 9.7 right), so a mark on the right loads the lighter side, and with the object lit the stage's top band reads 0.2 left against 1.1 right",
+   "ramps": {
+    "rim": [
+     "stone",
+     "purpleStructural"
+    ],
+    "core": [
+     "slot",
+     "cyanElectric"
+    ],
+    "light": [
+     "purpleElectric"
+    ]
+   },
+   "states": {
+    "idle": [
+     "slot",
+     "stone"
+    ],
+    "lit": [
+     "cyanElectric",
+     "purpleStructural",
+     "purpleElectric"
+    ],
+    "muted": [
+     "muted"
+    ],
+    "quiet": [
+     "slot",
+     "stone"
+    ]
+   },
+   "ratios": [
+    {
+     "pair": "purpleStructural on skyBlue",
+     "value": 4.02,
+     "test": "tokens 13"
+    },
+    {
+     "pair": "purpleStructural on skyLavender",
+     "value": 3.92,
+     "test": "tokens 13"
+    },
+    {
+     "pair": "purpleStructural on skyPurpleMist",
+     "value": 4.29,
+     "test": "tokens 13"
+    },
+    {
+     "pair": "stone to purpleStructural (the idle-to-lit rim step, the non-colour cue)",
+     "value": 3.15,
+     "test": "tokens 13"
+    },
+    {
+     "pair": "cyanElectric on slot (the core alone is no cue)",
+     "value": 1.06,
+     "test": "tokens 13"
+    },
+    {
+     "pair": "stone on skyBlue (the idle rim, declared decorative below 3:1)",
+     "value": 1.28,
+     "test": "tokens 13"
+    },
+    {
+     "pair": "purpleElectric on skyLavender (the light, never the boundary)",
+     "value": 1.92,
+     "test": "tokens 13"
+    }
+   ],
+   "electricArea": {
+    "formula": "pixels within 30 of each electric token over the whole frame, counted on the checkpoint renders",
+    "iphone13-390x664": 0.417,
+    "galaxy-320x658": 0.512,
+    "note": "SUPERSEDED 2026-08-24 by the 1.5x size ruling - these figures were measured on the 16 x 20 object and are kept only so the change has a before. Re-measure on the ef7f9c4+ set. measured by the art director on the 87f9272 renders (the after pass, 2026-08-23), replacing the arithmetic estimate of 0.51 / 0.62; the budget is 1-3 % (bible 9.1) and this is the band plus the object together while a tile sounds"
+   },
+   "checkpointBasis": "checkpoint 1 on greyscale renders of the reveal with a tile sounding, the sentence reveal, Build-it and the pre-ladder's ear prompt with the word; checkpoint 2 on colour renders of every look on the eight profiles, the census's Glowseed cell (the object against the page's own AudioContext) and tokens test 13",
+   "checkpoints": [
+    {
+     "stage": 4,
+     "chair": "digital art director",
+     "date": "2026-08-23",
+     "verdict": "pass",
+     "renders": "D:/CVCGame-ops/art/step2/b34420b (72 renders, six profiles, colour and greyscale) and the 3x crops beside them",
+     "commit": "b34420b",
+     "basis": "box 16 x 20 CSS px exactly; the core's centroid 1.50 px right and 2.51 px down of the box centre over 6,786 core pixels, with the top-right the tightest corner (left gap 87 crop px against the right's 42 at 5% of the height) - a seed with a tip and an off-centre eye, not a bullseye; idle 1.25-1.26:1 against the local sky; lit rim 3.94-3.97:1 with a dark edge of 39.6-45.3 CSS px2 against the sounding tile ring's 420-434; the word darkest, largest and highest-contrast on every profile"
+    },
+    {
+     "stage": 7,
+     "chair": "digital art director",
+     "date": "2026-08-23",
+     "verdict": "pass",
+     "renders": "D:/CVCGame-ops/art/step2/524e0ff (78 renders, including the arrangement playback shot at the owner's ruling, plus the reduced-motion pair)",
+     "commit": "524e0ff",
+     "basis": "the tokens sit at their literals in 9.2's order and the three looks are distinguishable; the box and every zone height are identical across all three looks and all captured states including arrangement playback, so no look moves layout. THE COLLISION THIS CHECKPOINT EXISTS TO TEST - Build-it's arrangement playback, the one screen carrying the object's lit rim and the slots' arrangement ring at the same instant - was shot on 2026-08-23 at the owner's ruling ('shoot it and judge') and does NOT occur: the two marks share purpleStructural and nothing else, and the sharing is thin at both ends. The object's rim owns 42.8 / 38.9 / 35.0 CSS px2 of the screen's 1945 / 2276 / 2094 (2.2% / 1.7% / 1.7%), the three rings carrying 44-59x it; and purpleStructural is a MINORITY of the object itself at 20-22% of its lit ink. purpleElectric and cyanElectric occur ONLY inside the object's 20 x 24 footprint and nowhere else in the frame - measured by pixel census by the art director and independently through the CSSOM across every element and pseudo-element, which found purpleElectric on exactly one node (.wq-glowseed-lit) and cyanElectric on exactly one (.wq-glowseed-lit::after). The marks sit 201-288 CSS px apart in different zones. The object's total lit ink is 176-196 CSS px2 against the miss sentence's 713-917 and the rings' 1902-2237, so it never out-competes the teaching signal"
+    }
+   ],
+   "originality": {
+    "test": "Every colour is a C token and every dimension is in this row's lock, so the object can be rebuilt from the record alone; the silhouette was authored from bible 7's description and measured after the fact, never traced, sampled or derived from external artwork. Checked by reading the four .wq-glowseed rules against C and against the lock.",
+    "verdict": "original - a token-drawn placeholder, owner-approved under order D (2026-08-23). The pixel seed the garden's step will draw to the locked camera replaces it at step 6; the place, the three looks and the timing are what a child learns, and those do not change when the paint does.",
+    "chair": "digital art director",
+    "date": "2026-08-23"
+   },
+   "closed": {
+    "date": "2026-08-23",
+    "by": "all three council chairs satisfied after two judgement rounds",
+    "note": "Opened and built 2026-08-23. The first after pass returned three NOT SATISFIED verdicts and seven fixes were taken; the re-judgement returned three more, all on one theme - the code fixes were real and three of them were guarded by tests that passed identically on the broken build. Those guards now fail on their own fault, watched failing by hand, and three Glowseed app mutants exist where the family had none. Checkpoint 1 and checkpoint 2 both PASS on measurement. The reduced-motion render, the last open deliverable, was shot on two phones and is BYTE-IDENTICAL to the lit render in colour and in greyscale - the criterion proved rather than argued."
+   },
+   "rulings": {
+    "date": "2026-08-23",
+    "order": "D - the placeholder now, the pixel seed at step 6 to the locked camera",
+    "scaffold": "a - the object stays idle through Build-it's scaffold; the slot's cue ring is the one event there; the scaffold's timing untouched",
+    "fallback": "a - idle on every system-speech path (recorded audio only); the Grown-ups corner's note says the listening light stays dark",
+    "soundOff": "\"Parent: sound is off\" on the strip's reserved marker line, the replay controls disabled, the object muted"
+   },
+   "silhouette": "an ovoid with one asymmetric tip at the top right (the tightest corner radius, 34% against the top left's 70%) and the core offset 1.5 CSS px right and 2.5 px down from the box's centre - NOT a circle with a centred core. The first draft was four concentric ovals, the core exactly centred in x and 2 px low in y, both caps 6 px at 1x: the art director failed checkpoint 1 on it as the eye / LED / bullseye form bible 17.1 forbids, and both verifiers measured the same thing. Order D says the step-6 pixel seed keeps this shape, so the radius and the offset are in the lock and read from the stylesheet by glowseedLockFromSources; a core back on either axis is refused by name.",
+   "againstTheDesign": "RECORDED RATHER THAN BURIED (the art director, checkpoint 2, 2026-08-23): in greyscale the object's lit rim and Build-it's arrangement ring are the SAME VALUE - rim mean 80.1 / 80.2 / 80.2 against ring mean 80.0 / 80.0 / 80.0. Value does NOT tell the two marks apart. What tells them apart is shape (an asymmetric egg against a flat rounded rectangle enclosing a letter), size (44-59x on the shared token), internal structure (a light-halo / dark-rim / cream-core / grey-dot ramp against a single flat band) and position (201-288 CSS px apart, different zones), checked by eye at 12x on the grey render. Any later claim that greyscale separates them by tone is false, and measured false.",
+   "sizeRuling": "Owner-ruled 2026-08-24, on his own eye after the beta 27 device check: \"the seed should be twice as big\", then 1.5x on the measurement. TWICE would have quadrupled the object's ink to about 704-784 CSS px2, level with the miss sentence's 713-917 - and checkpoint 2 passed precisely because the object was the SMALLEST saturated thing on screen at 176-196. 1.5x (24 x 30) keeps it comfortably below the teaching text while being half again the size. The rim stays 1 px and the light 2 px, so ink grows with the perimeter rather than the area; the core scales with the box and keeps its offset OFF both axes (2.5 right, 3.5 down), which is the bullseye checkpoint 1 refused.",
+   "strokesDoNotScale": "THE RIM STAYS 1 px AND THE LIGHT 2 px, WHATEVER THE BOX DOES. This is the single decision the 2026-08-24 size ruling rests on, measured by the art director: at 24 x 30 the lit ink grew 1.65x (218 -> 361 CSS px2) because the core scales by AREA while the rim and light scale by PERIMETER. Scale the strokes with the box and the ink jumps to about 490 at this size, and the comparison with the feedback sentence (684) gets uncomfortable. At the 2x the owner first asked for, with strokes still unscaled, it would have been about 873 - level with the sounding tile's band (889) and ABOVE the sentence - which is why 1.5x was ruled instead. Do not tidy these two numbers into proportions.",
+   "sizeJudgement": {
+    "date": "2026-08-24",
+    "chair": "digital art director",
+    "verdict": "size stands, step 2 stays closed",
+    "litInk": "361 CSS px2 (was 218 at 16 x 20), growth 1.65x",
+    "stillSmallest": "feedback sentence 1.9x it, sounding tile band 2.5x, full ring 3.6x, Build-it arrangement rings 5.3x, the word itself 7.9x",
+    "budget": "0.013% of the viewport on an ordinary screen, 0.555% on a feedback screen, against bible 9.1's 1-3% and 5%",
+    "silhouette": "scaled exactly - IoU 0.99 against the old shape normalised, the top-left tip still cut 35% against ~16% at the other three corners; core off BOTH axes at +2.3 right, +3.3 down on every profile",
+    "muted": "3.02:1 in colour, 3.04:1 in greyscale, at full pixel coverage",
+    "watchThis": "the margin to the nearest teaching signal HALVED, from 3.1x to 1.9x. Still a clear ordering, and the number to watch if anyone proposes growing this again.",
+    "alsoRecorded": "the IDLE state grew 2.25x - MORE than lit's 1.65x - because a filled shape scales by area while lit's ink is mostly stroke. So the object is most present precisely when it has nothing to say. It stays scenery (1.24:1 against the sky, no electric token) so it does not block, but the lit figures alone understate how much more sky it occupies while nothing is happening.",
+    "couldNotMeasure": "the muted state at DPR 1 - the harness renders no desktop muted frame; and the MISS sentence, which is not in the set, so the SUCCESS sentence (684, the more conservative comparison) was measured instead"
+   }
+  },
+  "scene": {
+   "kind": "raster",
+   "opened": "2026-09-03",
+   "step": 6,
+   "subject": "a Garry oak meadow, owner-ruled 2026-09-03",
+   "source": [
+    "tools/art/garden.py"
+   ],
+   "sourceHash": {
+    "tools/art/garden.py": "41000f08d94ce617286a8250bfc3056ec7a6958bf9bc302b103cdd76a182dd3b"
+   },
+   "share": 8388608,
+   "spent": 0,
+   "files": [],
+   "master": null,
+   "masterReason": "no file has landed yet; garden.py is the master and every PNG is generated from it",
+   "generated": {
+    "how": "PYTHONDONTWRITEBYTECODE=1 python tools/art/garden.py --profile <name> --out <file>",
+    "deterministic": "every motif is a hand-authored map or row table; nothing samples a random source, so the same source renders the same bytes on any machine",
+    "checkedBy": "tools/art-render.mjs, which regenerates each pinned file and refuses if one byte differs"
+   },
+   "reference": [
+    {
+     "what": "the owner's own inspiration painting: a Vancouver Island spring, an arbutus over a bank of crocuses, conifers, island-dotted water and a snow peak",
+     "path": "D:/CVCGame-ops/art/reference/owner-inspiration-2026-09-03.png",
+     "outsideTheRepository": true,
+     "bytes": 3266037,
+     "sha256": "8f18d4cb537e57b1fc3adbe8f0238c2a1407ec5ea68c5d588c097158fda6a25d",
+     "licence": "owner-supplied; he ruled on 2026-09-03 that it is his or licensed, which is what makes colours measured from it legitimate under bible 18.1",
+     "answers": [
+      "light",
+      "material",
+      "colour discipline"
+     ],
+     "doesNotAnswer": [
+      "geometry",
+      "scale"
+     ]
+    },
+    {
+     "what": "public-domain photographs of this coast, used to measure the ten later states' colours; the owner asked for them by name",
+     "sources": "recorded in docs/art-plan.md under 'The year's palette' - works of the US federal government (its park service and its land bureau), CC0 uploads, and CC0 photographs from inaturalist.org, each licence read rather than assumed",
+     "calibration": "the dry-months values are anchored to an NPS photograph whose clear sky measures #92d1fe, 1.4% from this app's own skyBlue, which is what makes its VALUES usable and not only its hues"
+    }
+   ],
+   "lock": {
+    "keyLight": "upper right, owner-ruled 2026-09-03 and irreversible across all eleven states, the Glowseed and the guide",
+    "keyLightEvidence": "three independent measurements of the reference: the snow peak's flanks 136.0 against 184.2, all three conifer groups brighter on their right third, and the brightest pixel in every arbutus limb right of centre by +0.12 and +0.23",
+    "camera": null,
+    "cameraReason": "not yet locked; bible 17's checkpoint 1 blocks every state-0 pixel behind it",
+    "ground": "the frame is the dark ring and the reading field the lit middle, which is the reference's own composition",
+    "values": "three for a leaf, four for a flower, no fifth; the ground layer's lit value is the stem/tip mix, never pure gardenTip, because tiled tip pixels knit into visible rows",
+    "island": "every sprite is one 8-connected island, checked by garden.py's island()"
+   },
+   "counts": {
+    "sprites": 55,
+    "trees": 23
+   },
+   "verdicts": {
+    "reviewed": "2026-09-03, all 78 judged by the owner one at a time",
+    "perfect": 33,
+    "iterate": 31,
+    "reject": 14,
+    "unjudged": 5,
+    "note": "his dominant criticism, said eleven times across six categories: too uniform, too perfect, obviously ai"
+   },
+   "renders": {
+    "phone": "daf36c25de567436eede01506e537b1b70fe12c695f99e63f0e4e699cb39bf94",
+    "phone-small": "36d912af9c6969db6bfdb7fdf9e0c743a8d963735f3fddb1c23c789fda8b089d",
+    "tablet": "ebc4fe17f077fc3faaed6af2839a0b369b1712196306bd08b7ffdb853d2422cf",
+    "desktop": "60efb6887a5b853f7e55f7cff85ddca38e634ff38d8a66d35d581b45047b31c1"
+   }
   }
+ }
 }

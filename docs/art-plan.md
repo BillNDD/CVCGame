@@ -1085,6 +1085,44 @@ see how much has grown since.
 | 9 | 90 | Deep winter. Snow on the oaks, a chickadee, and the first bulb tips showing beneath it. |
 | 10 | 100 | First spring again. The same meadow, one year on: the same catkins and the same camas, with every young tree grown and the oaks heavier. The circle closed. |
 
+### The year's palette, researched 2026-09-03 against public-domain photographs
+
+The owner asked for this in his own words - "Use public domain images of the pnw to help lock in
+your decisions" - because the palette was measured entirely from one spring picture and the later
+states need colours it does not contain. Four researchers took the dry months, the rains and leaf
+fall, winter, and the sky; a fifth reconciled them. Every source is a US federal work, a CC0
+upload or a photo from inaturalist.org whose licence was read from its interface rather than assumed, and each
+is named in the record with its URL.
+
+**THE CALIBRATION THAT MAKES THE NUMBERS TRUSTWORTHY, and nobody was asked for it.** A photograph
+tells you hue reliably and value only if you know its exposure. The dry-months researcher found a
+National Park Service image of a Garry oak prairie whose clear sky measures #92d1fe - **1.4% from
+this app's own skyBlue #8fd0fa** - and anchored every value in that season to it. That is the
+difference between a colour read off a picture and a colour that can be defended.
+
+**FOUR NEW TOKENS FOR ELEVEN STATES**, and three more were proposed and then cut by their own
+authors, each replaced by a ramp between tokens we already have - which the bible permits, since
+only a ramp's ENDS must be named.
+
+| token | hex | what it is | on gardenShade |
+| --- | --- | --- | --- |
+| gardenStraw | #9c8749 | the lit gold of the dry meadow, the year's largest new area | 4.87:1 |
+| gardenHusk | #61553f | the warm dark of everything dead and dry, all year - the husk of a seed head, dead bracken, wet bare wood | 2.31:1 |
+| gardenOvercast | #bfcbd6 | the pale cool ceiling and all that mirrors it - an overcast lid, fog, winter sea, puddles, wet stone | 10.37:1 |
+| gardenFrost | #c8d3d8 | frost, rime and lit snow, and the top sky stop in the winter states | 11.22:1 |
+
+**A live defect the research found on its way past.** The cool petal already in the palette,
+#a1b6c6, computes to the .86 rung of gardenShade toward gardenOvercast at the same hue and the
+same lightness - so it was never an independent colour, and the ramp says so.
+
+**THE SKY CHANGES WITH THE SEASON AND COSTS NOTHING.** It is a CSS gradient, not art: three hex
+values per state, no bytes at all, which makes it the cheapest seasonal signal available and
+probably the strongest. It runs from the spring blue of state 0, through a lid that lowers and
+greys as the year turns, to frost at the top in the winter states - and state 10 is byte for byte
+identical to state 0, which is what closes the circle.
+
+**Still the owner's to rule:** the four tokens, and whether the sky moves with the year.
+
 **Why the circle is the right shape, and not a flourish.** The garden is what a child earns for
 reading, and a year that ends in winter ends on a loss. A year that ends where it began ends on
 recognition - the child sees the same meadow they started in and can measure themselves against
