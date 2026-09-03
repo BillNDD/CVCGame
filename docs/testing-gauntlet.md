@@ -199,6 +199,10 @@ derived checklist has a floor above zero and why the release still ends with a p
 The build-out's job is to make that hand's list short and true, not to pretend it away.
 
 **Floors that move (E6):** `g7_interface_checks`, `g8_checks`, `g18_network_checks`, `g30_monkey_checks`, each with a `_webkit` key and - G7 excepted, for now - a `_firefox` key (per engine),
+
+A browser gate's cold-boot waits scale with the engine (`COLD_MS` in `tests/ui/network.mjs`):
+Firefox takes 99.8 s where WebKit takes 12.9 s on this machine, and under a gauntlet's load it
+went past Playwright's 30 s default and reported no checks at all (open fault BC, 2026-09-02).
 `g12_qa_steps` up, a new `g12_human_steps_max` ceiling, `g20_tests_mapped`, and the census cell
 count. **Order:** engines first (the 2026-08-12 ruling), then the monkey - both landed 2026-09-02 -
 then, re-ruled 2026-09-02 for the owner's eagerness to reach the art, art step 3, then the proofs

@@ -21,10 +21,21 @@
    nothing would look identical to an app that asked for nothing.
 
    Run: npm run test:network */
-import { launchEngine } from "./engine.mjs";
+import { launchEngine, requestedEngine } from "./engine.mjs";
 import { spawn, execSync } from "node:child_process";
 import { readFileSync } from "node:fs";
 import { STORE_KEY } from "../../src/engine.js";
+
+/* HOW LONG A COLD BOOT MAY TAKE, per engine. Playwright's default is 30 s and
+   Firefox went past it in the beta 31 release gauntlet: the gate printed its
+   browser line, timed out waiting for the first tile, and reported no checks
+   at all. Nothing was wrong with the app - this gate takes 12.9 s on WebKit
+   and 99.8 s on Firefox when it runs alone on this machine, and a gauntlet
+   runs it beside everything else. A fresh Firefox profile's first IndexedDB
+   open alone measures 3.7 to 6.3 s. The wait is generous only where the
+   engine is slow, so a real hang still fails the gate rather than hanging it. */
+const COLD_MS = requestedEngine() === "firefox" ? 120000 : 30000;
+
 
 /* A save PAST BOTH LADDERS, for any walk that means to measure the word
    session. A fresh install begins at Pre 1, and since the chunk ladder a
@@ -41,7 +52,7 @@ async function seedPastLadders(page) {
   const save = JSON.stringify({ version: 6, level: 2, preLevel: 0, prePerfectStreak: 0,
     sessionsCompleted: 0, perfectStreak: 0, words: {}, log: [], pre: {},
     settings: { sound: true, childName: "", lang: "en-US" } });
-  await page.getByRole("button", { name: "Begin Session" }).waitFor();
+  await page.getByRole("button", { name: "Begin Session" }).waitFor({ timeout: COLD_MS });
   await page.waitForTimeout(400);
   await page.evaluate(([d, st, k, v]) => new Promise((res, rej) => {
     const rq = indexedDB.open(d, 1);
@@ -51,7 +62,7 @@ async function seedPastLadders(page) {
     rq.onerror = () => rej(rq.error);
   }), [db, store, STORE_KEY, save]);
   await page.reload({ waitUntil: "load" });
-  await page.getByRole("button", { name: "Begin Session" }).waitFor();
+  await page.getByRole("button", { name: "Begin Session" }).waitFor({ timeout: COLD_MS });
 }
 
 const PORT = 4185;
@@ -161,11 +172,11 @@ const foreign = (seen) => seen.filter((r) => !sameOrigin(r.url));
   await page.goto(URL, { waitUntil: "load" });
   await seedPastLadders(page);
   await page.getByRole("button", { name: "Begin Session" }).click();
-  await page.locator(".wq-word").waitFor();
+  await page.locator(".wq-word").waitFor({ timeout: COLD_MS });
   const grade = page.getByRole("button", { name: "got it" });
   await grade.focus();
   await grade.press("Enter");
-  await page.locator(".wq-tile").first().waitFor();
+  await page.locator(".wq-tile").first().waitFor({ timeout: COLD_MS });
   /* the reveal is over when the advance control comes alive */
   await page.waitForFunction(
     () => { const b = document.querySelector(".wq-rail .wq-cta"); return !!b && !b.disabled; },

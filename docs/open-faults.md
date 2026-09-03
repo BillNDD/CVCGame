@@ -3264,6 +3264,23 @@ what is true now.
   after commit, leaving home never commits, asking to write never commits); SPEC section 7 says
   it in its own words.
 
+## BC. A browser gate that dies reports "checks=?" and nothing else — 2026-09-02
+
+- **Twice in three release gauntlets** a Firefox gate produced no checks at all. The gauntlet
+  says `checks=? (floor 4) <-- FAIL` and lists the checks it never saw, which is enough to
+  know the gate did not run and not enough to know why.
+- **The one that left a message** was G18 on the beta 31 fix: Playwright's default 30 s
+  timeout, waiting for the first tile. Nothing was wrong with the app. This gate takes 12.9 s
+  on WebKit and 99.8 s on Firefox alone on this machine, and a gauntlet runs it beside
+  everything else. Closed: the cold-boot waits take `COLD_MS`, 120 s on Firefox and the
+  default 30 s elsewhere, so a real hang still fails rather than hangs.
+- **The one that left nothing** was G30's monkey walk on the commit before, which printed its
+  browser line and stopped. It passed alone immediately afterwards and passed in the next two
+  gauntlets. A killed process is the likeliest cause and 25 browser processes were alive at
+  the time. STILL OPEN: no runner prints a diagnostic when it dies, so the next silent death
+  will be as blind as this one. The fix is a top-level trap in each runner that names the
+  engine and the error before the exit code is read.
+
 ## BB. The toast was placed against a height that could go stale — found and closed 2026-09-02
 
 - **How it was found.** The beta 31 release gauntlet went red on G7 WebKit: "the toast covers
