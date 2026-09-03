@@ -508,7 +508,7 @@ const C = {
   purple:  "#6b4bbf",   // 6.21:1 with white
   sun:     "#ffd166",   // navy on it = 8.28:1
   chip:    "#e8ecf7",
-  line:    "#dfe5f3",
+  line:    "#dfe5f3",   // RETIRED as an edge 2026-09-03 (step 4); kept as the contrast tests' control
   /* THE ART BIBLE'S TOKENS (docs/art-bible.md section 9.3, owner-ruled
      2026-08-22), ADDITIONS ONLY. The thirteen keys above keep their values:
      three bible names collided with them at other values (action, line,
@@ -528,7 +528,7 @@ const C = {
   gardenNight:      "#1d2c50",   // deep framing
   gardenTeal:       "#2e7d78",   // foliage shadow and water
   gardenMoss:       "#5e8057",   // ground and foliage
-  gardenLeaf:       "#7fa660",   // leaf
+  gardenLeaf: "#7fa660", gardenShade: "#0d1e23", gardenStem: "#45532b", gardenTip: "#b3b348", gardenBark: "#9b5f27", gardenHeart: "#cc853c",   // leaf, and the garden's five (2026-09-03; bible 9.3 has the rows). One line, because the generated engine sits ON its 2600-line ceiling and a ceiling never moves.
   stone:            "#b9b1a0",   // stone
   wood:             "#97684f",   // wood
   actionBlue:       "#2057c9",   // the bible's principal child action; C.action stays the CTA's red until a step changes the CTA
@@ -3013,7 +3013,7 @@ export default function WordQuest() {
               const seen = l.words.filter(w => state.words[w] && state.words[w].attempts > 0).length;
               const isOpen = !!openLevels[l.n];
               return (
-                <div key={l.n} style={{ borderTop: "1px solid " + C.line, paddingTop: 9, marginTop: 9 }}>
+                <div key={l.n} style={{ borderTop: "1px solid " + C.boundary, paddingTop: 9, marginTop: 9 }}>
                   <button className="wq-rowbtn" onClick={() => setOpenLevels(o => ({ ...o, [l.n]: !isOpen }))} aria-expanded={isOpen}>
                     <span style={{ fontWeight: 800, color: C.ink, fontSize: 14 }}>Level {l.n} {l.emoji}</span>
                     <span className="wq-mono" style={{ fontSize: 12.5, color: C.muted, marginLeft: "auto" }}>{done}/{l.words.length} mastered</span>
@@ -3044,7 +3044,7 @@ export default function WordQuest() {
                     <thead><tr style={{ textAlign: "left" }}>
                       <th>#</th><th>Date</th><th>Lvl</th><th>✅</th><th>🟡</th><th>🔁</th><th>Acc</th></tr></thead>
                     <tbody>{state.log.slice().reverse().map(s => (
-                      <tr key={s.n} style={{ borderTop: "1px solid " + C.line }}>
+                      <tr key={s.n} style={{ borderTop: "1px solid " + C.boundary }}>
                         <td>{s.n}{s.partial ? "*" : ""}</td><td>{s.date}</td><td>{s.level}</td>
                         <td>{s.c}</td><td>{s.k}</td><td>{s.w}</td><td style={{ fontWeight: 700 }}>{s.acc}%</td>
                       </tr>))}</tbody>
@@ -3256,7 +3256,7 @@ const CSS = `
 /* N-5: extra bottom padding keeps controls out of the home-indicator swipe band */
 .wq-strip{flex:0 0 auto;display:flex;align-items:center;gap:8px;flex-wrap:wrap;
   padding:8px 12px calc(18px + env(safe-area-inset-bottom));
-  background:${alpha(C.paper, .72)};border-top:1px solid ${C.line};backdrop-filter:blur(6px)}
+  background:${alpha(C.paper, .72)};border-top:1px solid ${C.strip};backdrop-filter:blur(6px)}   /* measured, step 4: boundary gave 2.88 here, C.strip 4.79 */
 .wq-center{height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center}
 
 /* stage content: fixed slots so nothing shifts (P0-2) */
@@ -3329,7 +3329,7 @@ const CSS = `
   padding:11px 13px;border-radius:999px;cursor:pointer;min-height:40px}
 .wq-chip{background:${alpha(C.paper, .85)};color:${C.ink};font:800 12.5px/1 inherit;padding:7px 10px;border-radius:999px;display:inline-block}
 .wq-striplabel{font:800 9.5px/1 inherit;letter-spacing:.12em;text-transform:uppercase;color:${C.strip};opacity:.85}
-.wq-sbtn{background:${C.paper};border:1.5px solid ${C.line};border-radius:9px;color:${C.strip};
+.wq-sbtn{background:${C.paper};border:1.5px solid ${C.boundary};border-radius:9px;color:${C.strip};
   font:700 12.5px/1 inherit;padding:0 12px;min-height:44px;min-width:44px;cursor:pointer} /* N-6 */
 .wq-hold{position:relative;overflow:hidden;touch-action:none}
 .wq-holdfill{position:absolute;inset:0;width:0;opacity:.22}
@@ -3349,7 +3349,7 @@ const CSS = `
 .wq-card{background:${C.paper};border-radius:18px;box-shadow:0 2px 10px ${alpha(C.ink, .12)};text-align:center}
 .wq-lbl{display:block;font:800 11px/1.3 inherit;letter-spacing:.06em;text-transform:uppercase;color:${C.muted};margin-bottom:5px}
 .wq-help{margin:6px 0 0;font-size:12.5px;line-height:1.45;color:${C.muted}}
-.wq-input{width:100%;border:1.5px solid ${C.line};border-radius:10px;padding:11px 12px;
+.wq-input{width:100%;border:1.5px solid ${C.boundary};border-radius:10px;padding:11px 12px;
   font:600 15px/1.3 inherit;color:${C.ink};background:${C.paper};min-height:44px}
 .wq-fieldrow{margin-top:14px}
 .wq-seggroup{display:flex;gap:4px;background:${C.chip};border-radius:11px;padding:3px;flex-wrap:wrap}

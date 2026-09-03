@@ -26,7 +26,7 @@ function WordList({ state, openDecades, setOpenDecades }) {
         onClick={() => setOpenDecades(Object.fromEntries(decades.map((g, i) => [i, !allOpen])))}>
         <span style={{ fontWeight: 800, color: C.ink2, fontSize: 12.5 }}>{allOpen ? "Close it all ▲" : "See it all ▼"}</span>
       </button>
-      <div style={{ borderTop: "1px solid " + C.line, paddingTop: 8 }}>
+      <div style={{ borderTop: "1px solid " + C.boundary, paddingTop: 8 }}>
         <div style={{ fontWeight: 800, fontSize: 13, color: C.ink }}>
           Before Level 1 — the chunk ladder{state.preLevel > 0 ? " ← here" : ""}
         </div>
@@ -42,7 +42,7 @@ function WordList({ state, openDecades, setOpenDecades }) {
         const here = state.preLevel === 0 && state.level >= g[0].n && state.level <= g[g.length - 1].n;
         const isOpen = !!openDecades[i];
         return (
-          <div key={i} style={{ borderTop: "1px solid " + C.line, paddingTop: 8, marginTop: 8 }}>
+          <div key={i} style={{ borderTop: "1px solid " + C.boundary, paddingTop: 8, marginTop: 8 }}>
             <button className="wq-rowbtn" onClick={() => setOpenDecades(o => ({ ...o, [i]: !isOpen }))}
               aria-expanded={isOpen}
               aria-label={plainLabel(`Levels ${g[0].n} to ${g[g.length - 1].n}${here ? " here" : ""} ${words} new words`)}>
@@ -98,7 +98,7 @@ function WorkingOn({ state, onBringForward }) {
       </p>
       {working.map(({ word: w, attempts }) => (
         <div key={w} style={{ display: "flex", alignItems: "center", gap: 10,
-          borderTop: "1px solid " + C.line, paddingTop: 9, marginTop: 9 }}>
+          borderTop: "1px solid " + C.boundary, paddingTop: 9, marginTop: 9 }}>
           <span style={{ fontWeight: 800, fontSize: 15, minWidth: 90 }}>{displayWord(w)}</span>
           <span className="wq-help" style={{ flex: 1, fontSize: 12.5 }}>
             {"tried " + attempts + (attempts === 1 ? " time" : " times")}
@@ -229,7 +229,7 @@ export default function ParentScreen({
                 [C.chipRed, "not yet"], [C.chip, "not tried"]].map(([bg, label]) => (
                 <span key={label} style={{ display: "inline-flex", alignItems: "center", gap: 5 }}>
                   <span style={{ background: bg, width: 15, height: 15, borderRadius: 4,
-                    border: "1px solid " + C.line, display: "inline-block" }} />{label}
+                    border: "1px solid " + C.boundary, display: "inline-block" }} />{label}
                 </span>
               ))}
             </div>
@@ -242,7 +242,7 @@ export default function ParentScreen({
               const seen = l.words.filter(w => state.words[w] && state.words[w].attempts > 0).length;
               const isOpen = !!openLevels[l.n];
               return (
-                <div key={l.n} style={{ borderTop: "1px solid " + C.line, paddingTop: 9, marginTop: 9 }}>
+                <div key={l.n} style={{ borderTop: "1px solid " + C.boundary, paddingTop: 9, marginTop: 9 }}>
                   <button className="wq-rowbtn" onClick={() => setOpenLevels(o => ({ ...o, [l.n]: !isOpen }))} aria-expanded={isOpen}
                     aria-label={plainLabel(`Level ${l.n} ${l.emoji} ${seen} of ${l.words.length} read, ${done} green`)}>
                     <span style={{ fontWeight: 800, color: C.ink, fontSize: 14 }}>Level {l.n} {l.emoji}</span>
@@ -290,7 +290,7 @@ export default function ParentScreen({
                     <thead><tr style={{ textAlign: "left" }}>
                       <th>#</th><th>Date</th><th>Lvl</th><th>✅</th><th>🟡</th><th>🔁</th><th>Acc</th></tr></thead>
                     <tbody>{state.log.slice().reverse().map(s => (
-                      <tr key={s.n} style={{ borderTop: "1px solid " + C.line }}>
+                      <tr key={s.n} style={{ borderTop: "1px solid " + C.boundary }}>
                         <td>{s.n}{s.partial ? "*" : ""}</td><td>{s.date}</td><td>{s.level}</td>
                         <td>{s.c}</td><td>{s.k}</td><td>{s.w}</td><td style={{ fontWeight: 700 }}>{s.acc}%</td>
                       </tr>))}</tbody>

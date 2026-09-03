@@ -323,10 +323,11 @@ function selfTest() {
      frame's hold and the word's bound on every profile, the wide frames on
      the four wide ones); the portrait ask added one cell and one control,
      since a title beginning "control:" is counted as a control and not as a
-     cell. A novelties run judged
+     cell. Art step 4 added the eighteenth control on 2026-09-03: the word's
+     reclaimed margin, a hole step 3 opened and frameHold could not see. A novelties run judged
      as the body is refused, because it is not one; judged as novelties it
      passes only whole. */
-  const NOVELTY_CONTROLS = 17, NOVELTY_CELLS = 109;
+  const NOVELTY_CONTROLS = 18, NOVELTY_CELLS = 109;
   ok.push(["the baseline states the novelty floors this file was written against",
     NOVELTY_FLOOR.controls === NOVELTY_CONTROLS && NOVELTY_FLOOR.cells === NOVELTY_CELLS]);
   const novControls = Array.from({ length: NOVELTY_CONTROLS }, (_, i) => cell(NOVELTY_PROJECT, `control: planted fault ${i}`));

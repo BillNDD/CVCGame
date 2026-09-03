@@ -845,3 +845,35 @@ test("control: the ask is what hides the game, and a device that has answered is
   await expect(p2.locator(".wq-turn"), "a device that has answered is not asked again").toBeHidden();
   await answered.close();
 });
+
+test("control: a frame zone in the word's reclaimed margin is refused", async ({ page }) => {
+  /* THE HOLE ART STEP 3 OPENED, and its control (2026-09-03). Under 480 px the
+     principal word reclaims the shell's 14 px of side padding down to a 6 px
+     edge guard, so it runs about 8 px past .wq-stagegrid on each side. Until
+     today frameHold's field list did not name the word, so paint in exactly
+     that strip - the one place the word sticks out - touched what a child is
+     reading and the detector said nothing. Planted into the LIVE page and read
+     back through the same exported detector: silent before, and naming
+     .wq-word after. */
+  await page.setViewportSize({ width: 390, height: 844 });
+  const { shown } = await stage(page, null, "something", null);
+  expect(shown, "the widest word is staged").toBeTruthy();
+  const clean = await frameHold(page);
+  expect(clean.findings.filter((f) => f.kind === "frame-over-field"), JSON.stringify(clean.findings)).toEqual([]);
+  /* a zone exactly where the word reclaims: 10 px wide at the left edge, over
+     the word's own band of the screen */
+  const planted = await page.evaluate(() => {
+    const w = document.querySelector(".wq-word").getBoundingClientRect();
+    const z = document.createElement("div");
+    z.className = "wq-frame-band wq-plant-reclaim";
+    z.style.cssText = `position:fixed;left:0;top:${Math.round(w.top + 2)}px;width:10px;height:${Math.round(Math.max(6, w.height - 4))}px;background:#0d1e23;pointer-events:none;z-index:0`;
+    document.querySelector(".wq-frame").appendChild(z);
+    return { left: Math.round(w.left), width: Math.round(w.width) };
+  });
+  expect(planted.left, "the word does reach into the reclaimed margin").toBeLessThan(14);
+  const hit = await frameHold(page);
+  await page.evaluate(() => document.querySelector(".wq-plant-reclaim").remove());
+  const over = hit.findings.filter((f) => f.kind === "frame-over-field");
+  expect(over.length, JSON.stringify(hit.findings)).toBeGreaterThan(0);
+  expect(over.some((f) => f.detail.includes(".wq-word")), JSON.stringify(over)).toBe(true);
+});

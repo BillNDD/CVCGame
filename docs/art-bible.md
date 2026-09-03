@@ -463,7 +463,7 @@ and values as the record of what the PDF said.
 | purple | #6b4bbf | the game's own, unchanged |
 | sun | #ffd166 | the game's own, unchanged |
 | chip | #e8ecf7 | the game's own, unchanged |
-| line | #dfe5f3 | the game's own, unchanged: the adult controls' edge - the corner's inputs and the strip's buttons on paper at 1.26:1, the to-do progress ring on chip at 1.07:1 - below the 3:1 rule, recorded in open-faults for the grown-up-zone step (step 4) to darken |
+| line | #dfe5f3 | RETIRED AS AN EDGE, 2026-09-03 by art step 4, and kept in the palette as the contrast tests' own negative control. Every one of the fifteen edges that read it now reads `boundary` (4.77 on paper, 4.03 on chip, and 3.89 / 3.99 / 3.54 / 4.68 on the chip family and surfacePanel), except the strip's top edge, whose ground was measured live and takes `C.strip` at 4.79 where `boundary` gives only 2.88. Fault AA closed with it. |
 | inkSecondary | #3c4f73 | supporting text (bible 9) |
 | surfaceReading | #fff9e8 | the word and sentence field |
 | surfacePanel | #fffdf5 | the crash screen's ground today; cards and controls when the grown-up-zone step moves them off paper (the re-judgement of step 0, 2026-08-22: the table named cards under two tokens) |
@@ -474,6 +474,11 @@ and values as the record of what the PDF said.
 | gardenTeal | #2e7d78 | foliage shadow and water |
 | gardenMoss | #5e8057 | ground and foliage |
 | gardenLeaf | #7fa660 | leaf |
+| gardenShade | #0d1e23 | THE GARDEN'S FIVE, owner-ruled 2026-09-03 and measured from his own reference image (his picture, his licence, so 18.1 does not bite). The frame's ground and its largest area; the reading field sits 16.27:1 above it, which is the composition the reference itself uses. |
+| gardenStem | #45532b | the foliage ramp's middle rung, from the reference's own crocus stems; 2.06:1 on gardenShade. Never carries text. |
+| gardenTip | #b3b348 | spring: the lit canopy's fresh yellow-green, the hue this palette had nowhere between tileHighlight at H49 and gardenLeaf at H93. 7.71:1 on gardenShade, the ramp's top. Tips and lit edges only, never a fill. |
+| gardenBark | #9b5f27 | the arbutus, from its key-lit face; 3.31:1 on gardenShade. Within 1.02 of tileEdge in VALUE - two browns a greyscale pass cannot separate - and kept apart from it by place, since no surface carries both. If a later step puts them together, one moves. |
+| gardenHeart | #cc853c | the warm dot inside a cool bloom, found by requiring purple on six of eight sides of it; 5.69:1 on gardenShade. Two colours per small flower is the reference's whole sparkle mechanism. |
 | stone | #b9b1a0 | stone |
 | wood | #97684f | wood |
 | actionBlue | #2057c9 | the bible's principal child action; C.action stays the CTA's red until a step changes the CTA |

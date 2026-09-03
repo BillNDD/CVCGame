@@ -53,9 +53,32 @@ describe("the palette is pinned", () => {
     expect(C.line).toBe("#dfe5f3");
   });
 
-  it("2: C holds exactly the keys the bible's table names - 13 of the game's, 28 of the bible's, 5 from the sweep, 1 from the tile step", () => {
-    expect(Object.keys(C).length).toBe(47);
+  it("2: C holds exactly the keys the bible's table names - 13 of the game's, 28 of the bible's, 5 from the sweep, 1 from the tile step, 5 from the garden", () => {
+    expect(Object.keys(C).length).toBe(52);
     for (const [k, v] of Object.entries(C)) expect(v, k).toMatch(/^#[0-9a-f]{6}$/);
+    /* The five the owner ruled on 2026-09-03, measured from his own reference
+       image. Their ground is gardenShade, not paper - the frame never shows
+       paper - so their ratios are stated against it, as literals (E4). */
+    expect(C.gardenShade).toBe("#0d1e23");
+    expect(C.gardenStem).toBe("#45532b");
+    expect(C.gardenTip).toBe("#b3b348");
+    expect(C.gardenBark).toBe("#9b5f27");
+    expect(C.gardenHeart).toBe("#cc853c");
+    expect(contrast(C.gardenStem, C.gardenShade)).toBeCloseTo(2.06, 2);
+    expect(contrast(C.gardenTip, C.gardenShade)).toBeCloseTo(7.71, 2);
+    expect(contrast(C.gardenBark, C.gardenShade)).toBeCloseTo(3.31, 2);
+    expect(contrast(C.gardenHeart, C.gardenShade)).toBeCloseTo(5.69, 2);
+    /* The reading field must stay the lightest thing on the screen: the frame
+       is the dark ring and the word is the lit middle, which is the owner's
+       own reference's composition. */
+    expect(contrast(C.surfaceReading, C.gardenShade)).toBeCloseTo(16.27, 2);
+    /* gardenBark and tileEdge are within 1.02 of each other in VALUE - two
+       browns a greyscale pass cannot separate - and they are kept apart by
+       place rather than by colour: bark is the frame's, tileEdge is the
+       ceramic tile's, and no surface carries both. Moving a measured colour
+       to dodge a collision that cannot occur would be inventing data. If a
+       later step ever puts them on one surface, one of them moves. */
+    expect(contrast(C.gardenBark, C.tileEdge)).toBeLessThan(1.05);
   });
 
   it("3: the bible's four structural edges, the empty slot's edge and the progress ring clear 3:1 on the surface each edges, at literal ratios", () => {
@@ -81,19 +104,45 @@ describe("the palette is pinned", () => {
     }
   });
 
-  it("3b: the adult controls' edge, line, is BELOW 3:1 today and is named in open-faults for the grown-up-zone step", () => {
-    /* The third judgement of step 0 found the claim "every edge the game
-       draws" false while line - the border of the corner's inputs and the
-       strip's buttons, the to-do progress ring on chip, the strip's top
-       edge - sat at 1.26:1 and 1.07:1. Darkening an adult-zone edge is
-       step 4's declared change; until then this test holds the truth and
-       docs/open-faults.md carries the fault. */
+  it("3b: every adult edge that read line now reads boundary, at literal ratios, with line kept as the control", () => {
+    /* WHAT THIS TEST USED TO SAY, and why it changed. The third judgement of
+       step 0 found the claim "every edge the game draws" false while `line` -
+       the border of the corner's inputs and the strip's buttons, the "not yet"
+       progress ring on chip, the strip's own top edge - sat at 1.26:1 and
+       1.07:1. It held that truth until the step that owned the fix arrived.
+       Art step 4 is that step (2026-09-03), so the test now pins the fix
+       rather than the fault: every one of those edges reads `boundary`, and
+       `line` stays in the palette, retired as an edge, as this test's own
+       negative control - the same shape 3c uses for the action red it
+       replaced. Fault AA closes in the same commit, which is why the strings
+       below still find it there. */
+    const grounds = { paper: C.paper, chip: C.chip, chipGreen: C.chipGreen, chipAmber: C.chipAmber, chipRed: C.chipRed, surfacePanel: C.surfacePanel };
+    expect(contrast(C.boundary, grounds.paper)).toBeCloseTo(4.77, 2);
+    expect(contrast(C.boundary, grounds.chip)).toBeCloseTo(4.03, 2);
+    expect(contrast(C.boundary, grounds.chipGreen)).toBeCloseTo(3.89, 2);
+    expect(contrast(C.boundary, grounds.chipAmber)).toBeCloseTo(3.99, 2);
+    expect(contrast(C.boundary, grounds.chipRed)).toBeCloseTo(3.54, 2);
+    expect(contrast(C.boundary, grounds.surfacePanel)).toBeCloseTo(4.68, 2);
+    for (const [name, g] of Object.entries(grounds)) expect(contrast(C.boundary, g), name).toBeGreaterThanOrEqual(3);
+    /* THE STRIP'S TOP EDGE IS NOT boundary, and it is the one edge decided by
+       a live measurement rather than by this arithmetic: its ground is the
+       root gradient's last third seen through the strip's own frosting, which
+       measured #c6c4fb to #ccc4fb across seven census profiles and #ffffff on
+       the landscape phone. boundary gives 2.88 there - under the rule - so
+       that edge takes C.strip, which gives 4.79. */
+    expect(contrast(C.boundary, "#c6c4fb")).toBeLessThan(3);
+    expect(contrast(C.strip, "#c6c4fb")).toBeCloseTo(4.79, 2);
+    /* THE CONTROL: the colour these edges used to be, still in the palette and
+       still below the rule, so a test that cannot fail is not what ships. */
     expect(contrast(C.line, C.paper)).toBeCloseTo(1.26, 2);
     expect(contrast(C.line, C.chip)).toBeCloseTo(1.07, 2);
     expect(contrast(C.line, C.paper)).toBeLessThan(3);
+    /* And the fault that owned this is closed rather than deleted: its entry
+       keeps the numbers, so this assertion still finds them. */
     const faults = readFileSync("docs/open-faults.md", "utf8");
     expect(faults).toContain("`line`");
     expect(faults).toContain("1.26:1");
+    expect(faults).toContain("CLOSED 2026-09-03");
   });
 
   it("3c: the open sentence word's ring is cyanStructural on the gradient, clearing 3:1 on every stop; the action red it replaced is held below as the control", () => {

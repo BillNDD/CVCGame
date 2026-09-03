@@ -366,7 +366,14 @@ export async function frameHold(page) {
       if (getComputedStyle(el).pointerEvents !== "none") { findings.push({ kind: "frame-reachable", detail: "<" + el.className + "> takes pointer events" }); break; }
     }
     const boxOf = (sel) => { const el = document.querySelector(sel); if (!el) return null; const r = el.getBoundingClientRect(); return r.width > 0 && r.height > 0 ? r : null; };
-    const fields = [".wq-stagegrid", ".wq-sentence", ".wq-tray", ".wq-rail", ".wq-strip"].map((sel) => [sel, boxOf(sel)]).filter(([, r]) => r);
+    /* ".wq-word" joins the field list on 2026-09-03, closing a hole art step 3
+       opened: under 480 px the principal word reclaims 8 px past .wq-stagegrid
+       on each side (the margin-left/right calc in wq-css.js), so frame paint in
+       that strip touches the word a child is reading and passed this detector
+       silently. The word is the one thing on the screen the frame may never
+       reach. ".wq-tray" is kept even though it currently matches nothing, so a
+       tray that returns is guarded from its first render. */
+    const fields = [".wq-stagegrid", ".wq-sentence", ".wq-word", ".wq-tray", ".wq-rail", ".wq-strip"].map((sel) => [sel, boxOf(sel)]).filter(([, r]) => r);
     const painted = [];
     for (const z of layer.querySelectorAll(".wq-frame-side,.wq-frame-band,.wq-frame-corner")) {
       const zs = getComputedStyle(z);

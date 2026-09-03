@@ -184,7 +184,16 @@ const CSS = VARS + `
 /* N-5: extra bottom padding keeps controls out of the home-indicator swipe band */
 .wq-strip{flex:0 0 auto;display:flex;align-items:center;gap:8px;flex-wrap:wrap;
   padding:8px 12px calc(18px + env(safe-area-inset-bottom));
-  background:${alpha(C.paper, .72)};border-top:1px solid ${C.line};backdrop-filter:blur(6px)}
+  background:${alpha(C.paper, .72)};border-top:1px solid ${C.strip};backdrop-filter:blur(6px)}
+/* THE ONE EDGE DECIDED BY MEASUREMENT, not by arithmetic (art step 4, item 3,
+   2026-09-03). Its ground is the root gradient's last third seen through this
+   strip's own frosting, and it is the only edge in the app whose two sides
+   differ. Read live on all eight census profiles: the ground above it measures
+   #c6c4fb to #ccc4fb on seven of them and #ffffff on the landscape phone. Against
+   that, boundary #5f7493 gives 2.88 to 2.92 - UNDER the 3:1 rule on seven
+   profiles - and C.strip #455073 gives 4.79 to 7.93. An earlier pass computed
+   this from the gradient's stops instead and got the direction backwards, which
+   is why the number here comes from a screenshot. */
 .wq-center{height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center}
 
 /* stage content: fixed slots so nothing shifts (P0-2) */
@@ -438,7 +447,7 @@ const CSS = VARS + `
   padding:11px 13px;border-radius:999px;cursor:pointer;min-height:44px}
 .wq-chip{background:${alpha(C.paper, .85)};color:${C.ink};padding:7px 10px;border-radius:999px;display:inline-block}
 .wq-striplabel{letter-spacing:.12em;text-transform:uppercase;color:${C.strip};opacity:.85}
-.wq-sbtn{background:${C.paper};border:1.5px solid ${C.line};border-radius:9px;color:${C.strip};padding:0 12px;min-height:44px;min-width:44px;cursor:pointer} /* N-6 */
+.wq-sbtn{background:${C.paper};border:1.5px solid ${C.boundary};border-radius:9px;color:${C.strip};padding:0 12px;min-height:44px;min-width:44px;cursor:pointer} /* N-6 */
 .wq-hold{position:relative;overflow:hidden;touch-action:none}
 .wq-holdfill{position:absolute;inset:0;width:0;opacity:.22}
 .wq-hold.holding .wq-holdfill{width:100%;transition:width .45s linear}
@@ -478,8 +487,19 @@ const CSS = VARS + `
 @media (max-width:479px){.wq-prog{grid-template-columns:repeat(10,13px)}}
 @media (max-width:319px){.wq-prog{grid-template-columns:repeat(7,13px)}}
 .wq-seg{width:13px;height:13px;border-radius:50%}
-.wq-seg-todo{background:${C.chip};box-shadow:inset 0 0 0 1px ${C.line}}
-.wq-seg-now{background:${C.sun};box-shadow:inset 0 0 0 1px ${C.amber}}
+.wq-seg-todo{background:${C.chip};box-shadow:inset 0 0 0 1px ${C.boundary}}
+/* "THIS ONE, NOW" IS TOLD APART BY ITS SHAPE, not by its colour - owner-ruled
+   2026-09-03 from three options rendered at the real 13 px, and he chose the
+   second ring. It is needed because step 4's darkening takes the "not yet"
+   ring from 1.068:1 to 4.034:1, while this one is 4.111:1: after the sweep the
+   two rings are the same to any eye and their fills separate by only 1.220:1,
+   which would leave hue as the only cue and P1-6 forbids that. The gap ring is
+   painted in the row's own ground and NOT in transparent - a transparent
+   shadow paints nothing, so the first draft rendered one solid 4 px band
+   rather than two rings, which the census's own judge caught. box-shadow does
+   not affect layout, so the row keeps its pitch and its 4 px gaps. */
+.wq-seg-now{background:${C.sun};
+  box-shadow:inset 0 0 0 1px ${C.amber}, 0 0 0 2px ${C.paper}, 0 0 0 3px ${C.amber}}
 .wq-seg-ok{background:${C.green}}
 .wq-seg-mid{background:repeating-linear-gradient(135deg,${C.sun} 0 3px,${C.paper} 3px 6px)}
 .wq-seg-bad{background:repeating-linear-gradient(90deg,${C.red} 0 2px,${C.paper} 2px 4px)}
@@ -531,7 +551,7 @@ const CSS = VARS + `
 .wq-card{background:${C.paper};border-radius:18px;box-shadow:0 2px 10px ${alpha(C.ink, .12)};text-align:center}
 .wq-lbl{display:block;letter-spacing:.06em;text-transform:uppercase;color:${C.muted};margin-bottom:5px}
 .wq-help{margin:6px 0 0;font-size:12.5px;line-height:1.45;color:${C.muted}}
-.wq-input{width:100%;border:1.5px solid ${C.line};border-radius:10px;padding:11px 12px;color:${C.ink};background:${C.paper};min-height:44px}
+.wq-input{width:100%;border:1.5px solid ${C.boundary};border-radius:10px;padding:11px 12px;color:${C.ink};background:${C.paper};min-height:44px}
 .wq-fieldrow{margin-top:14px}
 .wq-seggroup{display:flex;gap:4px;background:${C.chip};border-radius:11px;padding:3px;flex-wrap:wrap}
 .wq-segbtn{flex:1 1 auto;min-width:44px;min-height:44px;border:0;background:transparent;border-radius:8px;

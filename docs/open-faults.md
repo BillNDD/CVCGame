@@ -2210,7 +2210,7 @@ is a ruling on what free play offers a pre-ladder child, and the chooser matchin
   nothing. Both mutation controls now print every failing line and tell a
   failing suite from a crashed runner. Neither run was retried until green.
 
-## AA. The adult controls' edge is below the bible's 3:1 rule — opened 2026-08-22
+## AA. The adult controls' edge is below the bible's 3:1 rule — opened 2026-08-22, CLOSED 2026-09-03 by art step 4
 
 - **Where it lives** `C.line` (#dfe5f3) in `reference/word-quest.jsx`, drawn as the border
   of the Grown-ups corner's text inputs (`.wq-input`), the strip's buttons (`.wq-sbtn`), the
@@ -2222,15 +2222,34 @@ is a ruling on what free play offers a pre-ladder child, and the chooser matchin
   one of them and not five of six).
 - **What a grown-up experiences today** Input fields and strip buttons whose edge measures
   1.26:1 on paper, and progress segments whose ring measures 1.07:1 on chip — faint
-  boundaries, below the 3:1 the bible's section 15 asks of a control's edge. Nothing
-  child-facing: the child's controls are the CTAs and the tiles, which carry their own fills
-  and edges. Found by the council's third judgement of step 0, which refused the sentence
+  boundaries, below the 3:1 the bible's section 15 asks of a control's edge. **The sentence
+  that stood here until 2026-09-03 said "Nothing child-facing", and it was false**: the
+  "not yet" ring is drawn on the session screen's progress row, which is the screen the child
+  reads from, on all eight census profiles. It was corrected by the step that closed this
+  fault, not by the step that wrote it. Found by the council's third judgement of step 0, which refused the sentence
   "every edge the game draws clears 3:1" while this one did not.
 - **What done means** `line` (or the edges that read it) at or above 3:1 on the surface each
   edges, measured in `tests/tokens.test.js` at literal ratios, declared as the visible
   change it is at the grown-up-zone step (art plan step 4), and this entry closed with the
   value. Until then test 3b holds the two ratios at 1.26 and 1.07 so the gap cannot drift
   silently, and the bible's 9.3 row for `line` says the same.
+- **CLOSED 2026-09-03 by art step 4, at every one of the fifteen sites.** Ten in `app/src`
+  and five in `reference/word-quest.jsx`, each one an edge and none a fill, so no colour a
+  child sees as a surface changed. Fourteen took `boundary`: 1.26 → **4.77** on paper,
+  1.07 → **4.03** on chip, and 3.89, 3.99, 3.54 and 4.68 on chipGreen, chipAmber, chipRed and
+  surfacePanel. Every ground clears 3:1, and `tests/tokens.test.js` test 3b pins all six as
+  literals with `line` kept beside them as its negative control.
+- **The fifteenth was decided by measurement, and it went the other way.** The strip's top
+  edge is the one edge whose two sides differ, and an earlier pass computed it from the
+  gradient's stops and got the direction backwards. Read live on all eight profiles, the
+  ground above it is #c6c4fb to #ccc4fb (and #ffffff on the landscape phone), where
+  `boundary` gives **2.88** — under the rule — and `C.strip` gives **4.79**. That edge takes
+  `C.strip`.
+- **And the darkening's own side effect, caught before it shipped.** Taking the "not yet"
+  ring to 4.03 put it 0.077 away from the "this one, now" ring at 4.11, with the two fills
+  separating by only 1.220:1 — hue as the only cue, which P1-6 and bible 15.1 forbid. The
+  owner was shown three non-colour marks rendered at the real 13 px and ruled the second ring
+  with a gap (2026-09-03). `line` itself stays in the palette, retired as an edge.
 
 ## AB. The open sentence word's ring is below 3:1 on two of the three gradient stops — opened 2026-08-22, CLOSED 2026-08-22 by art step 1
 
