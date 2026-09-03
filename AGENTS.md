@@ -395,7 +395,14 @@ lives only in a chat log is one this project loses.
   ceiling, 2400 then ("Increase the engine specific line max to 2400" — the engine grows with
   teaching content, and it is the one file that kept hitting the general limit), raised to
   2600 on 2026-08-29 ("Increase engine max length to 2600 lines") for the chunk-ladder
-  roster. The general
+  roster, and to 3000 on 2026-09-03 ("Up the max lines for the engine to 3000") when the
+  garden's eight new colours met a file that was on 2600 to the line. That raise came with
+  its own repayment date, in the owner's words on the same day: "In a few betas we can do
+  some serious refactoring but for now let's keep the forward momentum." It is a debt, not
+  a new normal - the engine is one generated file carrying teaching content, a palette and
+  a component, and the refactor that splits it is owed. Whoever opens this after that
+  refactoring lands should bring the ceiling back down to what the split file actually
+  needs, and say so here. The general
   limit was raised from 600 to 900 on 2026-07-29, from 900 to
   1200 on 2026-08-12, and from 1200 to 1400 on 2026-08-15 ("Increase it to 1400 on my
   authority", when the pre-level ladder would not fit the generated engine); only the owner

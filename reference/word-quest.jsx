@@ -528,7 +528,16 @@ const C = {
   gardenNight:      "#1d2c50",   // deep framing
   gardenTeal:       "#2e7d78",   // foliage shadow and water
   gardenMoss:       "#5e8057",   // ground and foliage
-  gardenLeaf: "#7fa660", gardenShade: "#0d1e23", gardenStem: "#45532b", gardenTip: "#b3b348", gardenBark: "#9b5f27", gardenHeart: "#cc853c",   // leaf, and the garden's five (2026-09-03; bible 9.3 has the rows). One line, because the generated engine sits ON its 2600-line ceiling and a ceiling never moves.
+  gardenLeaf: "#7fa660",
+  // The garden's thirteen (bible 9.3 owns the rows). The reference image's five,
+  // ruled 2026-09-03; then the year's four, for a meadow that goes gold, a fall, a
+  // rain and a snow that one spring photograph never showed; then the four the
+  // sprites had already drawn before anything declared them. They sat on one packed
+  // line while the generated engine was on its 2600 ceiling to the line; the owner
+  // raised that to 3000 the same day, and one line of it was spent here.
+  gardenShade: "#0d1e23", gardenStem: "#45532b", gardenTip: "#b3b348", gardenBark: "#9b5f27", gardenHeart: "#cc853c",
+  gardenStraw: "#9c8749", gardenHusk: "#61553f", gardenOvercast: "#bfcbd6", gardenFrost: "#c8d3d8",
+  gardenRay: "#ccd4c4", gardenPeel: "#a83512", gardenRim: "#ebb312", gardenBerry: "#c12f21",
   stone:            "#b9b1a0",   // stone
   wood:             "#97684f",   // wood
   actionBlue:       "#2057c9",   // the bible's principal child action; C.action stays the CTA's red until a step changes the CTA

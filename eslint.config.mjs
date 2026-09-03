@@ -32,7 +32,7 @@ export default [
     },
     rules: {
       complexity: ["error", 15],
-      "max-lines": ["error", 2600],
+      "max-lines": ["error", 3000],
     },
   },
   {

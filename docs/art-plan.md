@@ -1107,9 +1107,31 @@ only a ramp's ENDS must be named.
 | token | hex | what it is | on gardenShade |
 | --- | --- | --- | --- |
 | gardenStraw | #9c8749 | the lit gold of the dry meadow, the year's largest new area | 4.87:1 |
-| gardenHusk | #61553f | the warm dark of everything dead and dry, all year - the husk of a seed head, dead bracken, wet bare wood | 2.31:1 |
+| gardenHusk | #61553f | the warm dark of everything dead and dry, all year - the husk of a seed head, dead bracken, wet bare wood | 2.35:1 |
 | gardenOvercast | #bfcbd6 | the pale cool ceiling and all that mirrors it - an overcast lid, fog, winter sea, puddles, wet stone | 10.37:1 |
 | gardenFrost | #c8d3d8 | frost, rime and lit snow, and the top sky stop in the winter states | 11.22:1 |
+
+**RULED IN, all four, on 2026-09-03**, on a decision page that showed each swatch on the two
+surfaces it actually meets - the garden's band and the reading field - with its measured ratio
+under it. The owner ruled the cool-petal fix and the flat rains sky in on the same page.
+
+**AND FOUR MORE LANDED WITH THEM, which were never a proposal but a gap.** gardenRay #ccd4c4,
+gardenPeel #a83512, gardenRim #ebb312 and gardenBerry #c12f21 were drawn in all 73 approved
+sprites and declared in no token anywhere, so nothing measured them and nothing stopped one
+drifting. They are in `C` and pinned in tests/tokens.test.js now, which makes the palette
+thirteen for the garden and sixty in all.
+
+The husk row above read 2.31:1 until 2026-09-03; the measured value is 2.3466, which is 2.35.
+No gate reads this table, which is exactly why it drifted - and why it is corrected by hand
+here rather than left as the second, quieter ledger of a number the bible already owns.
+
+**THE LEGEND HAD NO ROOM AND NOBODY HAD LOOKED.** All four artists drawing the seasons hit the
+same wall independently: the brief gave them `a k f o` for the four new colours, and
+`tools/art/garden.py` already binds all four - they are the RABBIT's fur, its lit side, its
+dark, its far and body tones. Pasting the maps as briefed would have silently repainted every
+rabbit in the garden. Four letters and seven digits were free. The four new colours take
+`4 5 6 7`, which buys a rule worth having: **letters are the year-round palette, digits are the
+colours that are not the meadow's own** - which `1 2 3`, the crocus's cool blues, already were.
 
 **A live defect the research found on its way past.** The cool petal already in the palette,
 #a1b6c6, computes to the .86 rung of gardenShade toward gardenOvercast at the same hue and the

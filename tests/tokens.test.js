@@ -53,8 +53,8 @@ describe("the palette is pinned", () => {
     expect(C.line).toBe("#dfe5f3");
   });
 
-  it("2: C holds exactly the keys the bible's table names - 13 of the game's, 28 of the bible's, 5 from the sweep, 1 from the tile step, 5 from the garden", () => {
-    expect(Object.keys(C).length).toBe(52);
+  it("2: C holds exactly the keys the bible's table names - 13 of the game's, 28 of the bible's, 5 from the sweep, 1 from the tile step, 5 from the garden's reference image, 4 for the year its states walk, 4 the sprites drew before anything declared them", () => {
+    expect(Object.keys(C).length).toBe(60);
     for (const [k, v] of Object.entries(C)) expect(v, k).toMatch(/^#[0-9a-f]{6}$/);
     /* The five the owner ruled on 2026-09-03, measured from his own reference
        image. Their ground is gardenShade, not paper - the frame never shows
@@ -68,6 +68,63 @@ describe("the palette is pinned", () => {
     expect(contrast(C.gardenTip, C.gardenShade)).toBeCloseTo(7.71, 2);
     expect(contrast(C.gardenBark, C.gardenShade)).toBeCloseTo(3.31, 2);
     expect(contrast(C.gardenHeart, C.gardenShade)).toBeCloseTo(5.69, 2);
+    /* THE EIGHT the owner ruled in on 2026-09-03. Four are the year's - straw,
+       husk, overcast and frost, for a meadow that goes gold, a fall, a rain
+       and a snow the reference image never showed. Four are older than their
+       own declaration: ray, peel, rim and berry were drawn in the sprites
+       first and named in no token at all, so nothing measured them until now.
+       Two grounds each, because these meet two: gardenShade under the frame,
+       surfaceReading where one sits beside the word. Literals (E4). */
+    expect(C.gardenStraw).toBe("#9c8749");
+    expect(C.gardenHusk).toBe("#61553f");
+    expect(C.gardenOvercast).toBe("#bfcbd6");
+    expect(C.gardenFrost).toBe("#c8d3d8");
+    expect(C.gardenRay).toBe("#ccd4c4");
+    expect(C.gardenPeel).toBe("#a83512");
+    expect(C.gardenRim).toBe("#ebb312");
+    expect(C.gardenBerry).toBe("#c12f21");
+    expect(contrast(C.gardenStraw, C.gardenShade)).toBeCloseTo(4.87, 2);
+    expect(contrast(C.gardenHusk, C.gardenShade)).toBeCloseTo(2.35, 2);
+    expect(contrast(C.gardenOvercast, C.gardenShade)).toBeCloseTo(10.37, 2);
+    expect(contrast(C.gardenFrost, C.gardenShade)).toBeCloseTo(11.22, 2);
+    expect(contrast(C.gardenRay, C.gardenShade)).toBeCloseTo(11.23, 2);
+    expect(contrast(C.gardenPeel, C.gardenShade)).toBeCloseTo(2.59, 2);
+    /* 8.955486, so 8.96 is the ONLY two-decimal value this passes at - 8.95 is
+       0.0055 away and toBeCloseTo(x, 2) admits only 0.005. Written down because
+       a one-step change to either colour breaks this line, and the next person
+       should know that is the assertion working, not the assertion being fussy. */
+    expect(contrast(C.gardenRim, C.gardenShade)).toBeCloseTo(8.96, 2);
+    expect(contrast(C.gardenBerry, C.gardenShade)).toBeCloseTo(3.01, 2);
+    expect(contrast(C.gardenStraw, C.surfaceReading)).toBeCloseTo(3.34, 2);
+    expect(contrast(C.gardenHusk, C.surfaceReading)).toBeCloseTo(6.93, 2);
+    expect(contrast(C.gardenOvercast, C.surfaceReading)).toBeCloseTo(1.57, 2);
+    expect(contrast(C.gardenFrost, C.surfaceReading)).toBeCloseTo(1.45, 2);
+    expect(contrast(C.gardenRay, C.surfaceReading)).toBeCloseTo(1.45, 2);
+    expect(contrast(C.gardenPeel, C.surfaceReading)).toBeCloseTo(6.27, 2);
+    expect(contrast(C.gardenRim, C.surfaceReading)).toBeCloseTo(1.82, 2);
+    expect(contrast(C.gardenBerry, C.surfaceReading)).toBeCloseTo(5.40, 2);
+    /* Bible 8.3: no decorative object carries more local contrast than the
+       teaching word. The word on its field is 11.36:1 and that is the ceiling
+       every one of the eight stays under on its own ground. Frost at 11.22 and
+       ray at 11.23 are the two that come close - 0.13 of headroom - and they
+       clear it. The loop is over THE EIGHT and not over C, deliberately: the
+       word's own ink and the two lightest surfaces measure above 11.36 against
+       gardenShade, and they are not scenery, so a blanket sweep would fail on
+       twelve tokens that 8.3 does not govern. */
+    expect(contrast(C.ink, C.surfaceReading)).toBeCloseTo(11.36, 2);
+    for (const [k, v] of Object.entries({ gardenStraw: C.gardenStraw, gardenHusk: C.gardenHusk,
+      gardenOvercast: C.gardenOvercast, gardenFrost: C.gardenFrost, gardenRay: C.gardenRay,
+      gardenPeel: C.gardenPeel, gardenRim: C.gardenRim, gardenBerry: C.gardenBerry })) {
+      expect(contrast(v, C.gardenShade), k).toBeLessThan(contrast(C.ink, C.surfaceReading));
+    }
+    /* gardenFrost and gardenRay measure 1.00 against each other - lit snow and
+       a lit petal arriving at the same value by accident of what each one is.
+       They are kept apart by PLACE, exactly as gardenBark and tileEdge are
+       below: no surface carries both, because one is weather and one is a
+       flower, and the states that hold snow hold no flowers. Moving a measured
+       colour to dodge a collision that cannot occur would be inventing data.
+       If a later state ever puts snow behind a petal, one of them moves. */
+    expect(contrast(C.gardenFrost, C.gardenRay)).toBeLessThan(1.05);
     /* The reading field must stay the lightest thing on the screen: the frame
        is the dark ring and the word is the lit middle, which is the owner's
        own reference's composition. */

@@ -479,6 +479,14 @@ and values as the record of what the PDF said.
 | gardenTip | #b3b348 | spring: the lit canopy's fresh yellow-green, the hue this palette had nowhere between tileHighlight at H49 and gardenLeaf at H93. 7.71:1 on gardenShade, the ramp's top. Tips and lit edges only, never a fill. |
 | gardenBark | #9b5f27 | the arbutus, from its key-lit face; 3.31:1 on gardenShade. Within 1.02 of tileEdge in VALUE - two browns a greyscale pass cannot separate - and kept apart from it by place, since no surface carries both. If a later step puts them together, one moves. |
 | gardenHeart | #cc853c | the warm dot inside a cool bloom, found by requiring purple on six of eight sides of it; 5.69:1 on gardenShade. Two colours per small flower is the reference's whole sparkle mechanism. |
+| gardenStraw | #9c8749 | the lit gold of a dry meadow, the year's largest new area; 4.87:1 on gardenShade, 3.34:1 on surfaceReading. States 2-6. Owner-ruled 2026-09-03, measured from public-domain photographs of this coast, anchored to one whose clear sky measures 1.4% from this app's own skyBlue. |
+| gardenHusk | #61553f | the warm dark of everything dead and dry - a seed head's husk, dead bracken, wet bare wood; 2.35:1 on gardenShade, 6.93:1 on surfaceReading. States 2-9. The one dry colour no ramp reaches: every measured dry-grass dark is warm at hue 41-47 and gardenShade is blue at 194. Never carries text. |
+| gardenOvercast | #bfcbd6 | the pale cool rain ceiling and all that mirrors it - fog, the winter sea, puddles, wet stone; 10.37:1 on gardenShade, 1.57:1 on surfaceReading. States 5-9, and the sky in eight states of eleven. Doing both jobs is why no sky-only token was needed. |
+| gardenFrost | #c8d3d8 | frost, rime and lit snow, and the top sky stop in the winter states; 11.22:1 on gardenShade, 1.45:1 on surfaceReading. States 8-9. Within 1.00 of gardenRay in value and kept apart from it by place, since no surface carries snow and a petal at once. |
+| gardenRay | #ccd4c4 | the lit petal; 11.23:1 on gardenShade, 1.45:1 on surfaceReading. Drawn in the sprites before anything declared it, and declared here on 2026-09-03 so the palette owns every colour the garden paints. |
+| gardenPeel | #a83512 | the arbutus's freshly bared bark under the peel; 2.59:1 on gardenShade, 6.27:1 on surfaceReading. A fill, never an edge. |
+| gardenRim | #ebb312 | a sunlit edge, and the brightest ink the garden owns; 8.96:1 on gardenShade, 1.82:1 on surfaceReading. Spent sparingly - a sprite carrying long runs of it competes with the word. |
+| gardenBerry | #c12f21 | fruit - the arbutus's berries, rose hips, huckleberries; 3.01:1 on gardenShade, 5.40:1 on surfaceReading. |
 | stone | #b9b1a0 | stone |
 | wood | #97684f | wood |
 | actionBlue | #2057c9 | the bible's principal child action; C.action stays the CTA's red until a step changes the CTA |

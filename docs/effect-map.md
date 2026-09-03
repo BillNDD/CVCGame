@@ -684,7 +684,7 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 ## tests/tokens.test.js — 13 tests (G1)
 
 - **Requirement protected:** SPEC section 9 and the art bible's 9.3: C is the one statement of the palette; the thirteen original keys keep their literal values; the bible's four structural edges, the empty slot's edge and the progress ring clear 3:1 on the surface each edges, while line (1.26, 1.07) and the open sentence word's action ring on the gradient (2.95, 2.88, 3.15) are held BELOW the rule and carried in open-faults AA and AB for the steps that darken them; alpha() reproduces the literals it replaced; the two theme colours equal skyBlue; every C.<key> read exists
-- **Independent oracle:** Literal hex pins for the thirteen original keys, the key count, and this file's own WCAG relative-luminance arithmetic at literal expected ratios (3.78, 4.68, 7.51, 6.39, 4.77, 3.79 on a ground derived from the tokens, 4.11, 11.36, 6.43, 5.57; below the rule 1.26, 1.07, 2.95, 2.88), with three controls held below 3:1 (the admitted fill 2.10 and the two withdrawn edges 1.94, 1.44) and WCAG's own anchors (21, 4.48)
+- **Independent oracle:** Literal hex pins for the thirteen original keys, the key count, and this file's own WCAG relative-luminance arithmetic at literal expected ratios (3.78, 4.68, 7.51, 6.39, 4.77, 3.79 on a ground derived from the tokens, 4.11, 11.36, 6.43, 5.57; below the rule 1.26, 1.07, 2.95, 2.88), with three controls held below 3:1 (the admitted fill 2.10 and the two withdrawn edges 1.94, 1.44) and WCAG's own anchors (21, 4.48); the garden's thirteen pinned as literals too - the reference image's five on gardenShade (2.06, 7.71, 3.31, 5.69) and the eight of 2026-09-03 on two grounds each (4.87, 2.35, 10.37, 11.22, 11.23, 2.59, 8.96, 3.01 on gardenShade; 3.34, 6.93, 1.57, 1.45, 1.45, 6.27, 1.82, 5.40 on surfaceReading), with bible 8.3 enforced as a loop holding all eight under the teaching word's own measured 11.36 rather than under a literal, and one declared place-exception (gardenFrost against gardenRay below 1.05, the second in the palette after gardenBark against tileEdge)
 - **Platform:** node
 - **Mutant family:** not yet in a G5 family
 - **Evidence produced:** Vitest count (floor g1_token_tests)
@@ -694,7 +694,7 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | # | Suite | Effect (the test's own sentence) |
 |---|---|---|
 | 1 | the palette is pinned | 1: the thirteen keys the game had before the bible keep their literal values |
-| 2 | the palette is pinned | 2: C holds exactly the keys the bible's table names - 13 of the game's, 28 of the bible's, 5 from the sweep, 1 from the tile step, 5 from the garden |
+| 2 | the palette is pinned | 2: C holds exactly the keys the bible's table names - 13 of the game's, 28 of the bible's, 5 from the sweep, 1 from the tile step, 5 from the garden's reference image, 4 for the year its states walk, 4 the sprites drew before anything declared them |
 | 3 | the palette is pinned | 3: the bible's four structural edges, the empty slot's edge and the progress ring clear 3:1 on the surface each edges, at literal ratios |
 | 4 | the palette is pinned | 3b: every adult edge that read line now reads boundary, at literal ratios, with line kept as the control |
 | 5 | the palette is pinned | 3c: the open sentence word's ring is cyanStructural on the gradient, clearing 3:1 on every stop; the action red it replaced is held below as the control |
