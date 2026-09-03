@@ -381,7 +381,7 @@
     "tools/art/garden.py"
    ],
    "sourceHash": {
-    "tools/art/garden.py": "5e2abc443cb234c2735b97c257f1d34e5cbfc306748dd50eef0699bb58d6d26f"
+    "tools/art/garden.py": "080611942115a28a566c0477c5ef634c1941bcafcb8207a9160407fa39f20762"
    },
    "share": 8388608,
    "spent": 0,
@@ -461,10 +461,10 @@
     "hisCheck": "he twice caught sprites that passed the connectivity check and still read as detached, which is why garden.py now carries masses() as well as island() - the first asks whether anything is adrift, the second asks whether a MASS hangs on a corner, and the second is the question his eye was running"
    },
    "renders": {
-    "phone": "daf36c25de567436eede01506e537b1b70fe12c695f99e63f0e4e699cb39bf94",
-    "phone-small": "36d912af9c6969db6bfdb7fdf9e0c743a8d963735f3fddb1c23c789fda8b089d",
-    "tablet": "ebc4fe17f077fc3faaed6af2839a0b369b1712196306bd08b7ffdb853d2422cf",
-    "desktop": "60efb6887a5b853f7e55f7cff85ddca38e634ff38d8a66d35d581b45047b31c1"
+    "phone": "4b310f0e5051caae7c895d0d6fd595e59e75de4e834ed3022798e140b29e8ffb",
+    "phone-small": "99766aaa1359d5572f5d168211903746d99b964879b4eaa3aaa1687d3e76e1f5",
+    "tablet": "67d3617e72052f16eaa723c731448f5baaed58670a1af107d292ea92ceb1f17d",
+    "desktop": "f8713fdbe054f16edf46a46f8806b22cbb819d5958a54e036459eb623e59eb26"
    }
   }
  }

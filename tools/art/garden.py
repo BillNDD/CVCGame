@@ -38,7 +38,11 @@ TIP = (179, 179, 72)          # gardenTip    #b3b348
 BARK = (155, 95, 39)          # gardenBark   #9b5f27
 HEART = (204, 133, 60)        # gardenHeart  #cc853c
 RAY = (204, 212, 196)         # gardenRay    #ccd4c4 - capped under the word's own contrast
-COOL = (161, 182, 198)        # the cool petal, already in the palette as `disabled`
+COOL = (159, 180, 196)        # the cool petal: C.disabled #9fb4c4, exactly. It read
+                              # (161, 182, 198) until 2026-09-03, with a comment saying
+                              # it was already `disabled` - two parts in 255 out on two
+                              # channels, so 73 sprites drew with a number no token owned
+                              # and no test could ever have caught. Owner-ruled: snap it.
 PEEL = (168, 53, 18)          # gardenPeel   - the arbutus's hallmark, freshly bared
 RIM = (235, 179, 18)          # gardenRim    - its sunlit edge
 BERRY = (193, 47, 33)         # gardenBerry  - the fruit
@@ -86,9 +90,22 @@ PAL = {
 
 
 def stamp(d, rows, x, y, pal=PAL):
+    """Draw a map. An ink the palette does not know is an ERROR, not a gap.
+
+    It asked politely - `pal.get(ch)` then `if c` - until 2026-09-03, when a
+    sweep found `salmonberry` painting six pixels with 'q', a letter PAL has
+    never defined. Those six drew nothing, in silence, through three owner
+    reviews and a provenance pin. A legend is a contract; a typo in one is a
+    hole in a sprite, and a hole nobody is told about is worse than a crash.
+    '.' is the one character that legitimately means nothing.
+    """
     for j, row in enumerate(rows):
         for i, ch in enumerate(row):
-            c = pal.get(ch)
+            if ch == ".":
+                continue
+            if ch not in pal:
+                raise KeyError(f"legend {ch!r} is in no palette (row {j}, column {i})")
+            c = pal[ch]
             if c:
                 d.point((x + i, y + j), fill=c)
 
@@ -1405,12 +1422,12 @@ SPRITES = {
     "salmonberry": {  # mid, 11 x 12: A woody twig, so it belongs at the back of the mid layer where a shrub would be — behind the trillium and the buttercups
         "layer": "mid", "map": [
             ".....ppw...",
-            "....q.pww..",
-            "...qpphpww.",
-            "...qpphhpw.",
-            "....qpppww.",
-            ".....q.pw..",
-            "......qp...",
+            "......pww..",
+            "....pphpww.",
+            "....pphhpw.",
+            ".....pppww.",
+            ".......pw..",
+            ".......p...",
             "......b....",
             "..dsssbt...",
             ".dssstbsst.",

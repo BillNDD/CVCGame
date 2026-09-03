@@ -122,7 +122,7 @@ function render() {
   L.push("");
   L.push(`Totals: ${rows.length} it() SITES across ${files.length} files, plus ${NON_TEST_GATES.length} gates that are not test files.`);
   L.push("");
-  L.push("A site inside a loop or a table runs many times, so these rows describe more tests than they number: Vitest executes 330. The rows count the places behaviour is asserted.");
+  L.push("A site inside a loop or a table runs many times, so these rows describe more tests than they number: Vitest executes 487. The rows count the places behaviour is asserted.");
   L.push("");
   for (const f of files) {
     const m = DECLARED[f];

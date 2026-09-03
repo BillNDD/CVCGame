@@ -10,7 +10,7 @@ and known limits are declared per FILE, in the tool, where they stay true.
 
 Totals: 473 it() SITES across 22 files, plus 19 gates that are not test files.
 
-A site inside a loop or a table runs many times, so these rows describe more tests than they number: Vitest executes 330. The rows count the places behaviour is asserted.
+A site inside a loop or a table runs many times, so these rows describe more tests than they number: Vitest executes 487. The rows count the places behaviour is asserted.
 
 ## tests/adult-controls.test.js — 9 tests (G10)
 
