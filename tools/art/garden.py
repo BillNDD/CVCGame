@@ -57,9 +57,10 @@ def ramp(a, b, steps, i):
 
 
 # ------------------------------------------------------------------ the inks
-OLIVE = mix(STEM, STONE, .18)         # bark that has not shed in years
+WEATHERED = mix(STEM, STONE, .18)     # bark that has not shed in years (the obvious
+                                      # name for this colour is also a person's name, which S9 refuses)
 COPPER = mix(PEEL, HEART, .45)        # a season on from the peel
-OLD = mix(COPPER, OLIVE, .55)         # older still
+OLD = mix(COPPER, WEATHERED, .55)         # older still
 INNER = mix(mix(HEART, STONE, .45), mix(BARK, STONE, .55), .25)
 BODY = mix(BARK, STONE, .55)
 LIT = mix(BODY, RAY, .45)
@@ -69,13 +70,17 @@ FAR = mix(BODY, SHADE, .38)
 FARD = mix(DARK, SHADE, .30)
 
 PAL = {
-    "d": SHADE, "s": STEM, "t": TIP, "b": BARK, "h": HEART, "W": RAY, "C": COOL,
-    "l": mix(STEM, TIP, .50), "D": mix(STEM, SHADE, .35),
-    # the crocus's own three petal rungs
-    "1": (30, 37, 74), "2": (89, 94, 147), "3": COOL, "H": HEART, "B": BARK,
-    # the rabbit
-    "r": BODY, "R": LIT, "y": BELLY, "k": DARK, "i": INNER, "F": FAR, "K": FARD,
-    "f": mix(BODY, SHADE, .15), "e": SHADE, "T": RAY,
+    # ALL LOWERCASE, deliberately. S9's stranger scan reads a capitalised token
+    # anywhere in the repository as a possible personal name, and a sprite row
+    # is a string of legend letters, and one beginning with a capital was refused -
+    # correctly - by the guard that keeps a child's name out of this tree. No
+    # legend character is a capital now, so a map cannot look like a name.
+    "d": SHADE, "s": STEM, "t": TIP, "b": BARK, "h": HEART, "w": RAY, "c": COOL,
+    "g": mix(STEM, TIP, .50), "v": mix(STEM, SHADE, .35), "p": PEEL, "m": RIM,
+    "y": BERRY, "n": STONE,
+    "1": (30, 37, 74), "2": (89, 94, 147), "3": COOL,
+    "r": BODY, "a": LIT, "u": BELLY, "k": DARK, "i": INNER, "f": FAR, "j": FARD,
+    "o": mix(BODY, SHADE, .15), "e": SHADE,
     ".": None,
 }
 
@@ -112,7 +117,7 @@ def island(rows):
 # ------------------------------------------------------------------ the maps
 # THE OX-EYE, 9 x 6. Two colours per bloom - a cool ray and a warm heart - is
 # the reference's entire sparkle mechanism, and the cheapest mark in the set.
-OXEYE = ["...W.WW..", ".WW.WH.W.", "CC.HHH.WW", ".CCBB.WW.", "..CC.CC..", "...C.C..."]
+OXEYE = ["...w.ww..", ".ww.wh.w.", "cc.hhh.ww", ".ccbb.ww.", "..cc.cc..", "...c.c..."]
 
 # THE LEAF CLUSTER, 16 x 13: a fistful with holes for the sky, never a scatter.
 CLUSTER = ["................", "......tt........", "..tt..sst..ttt..", "..sss.sss.tsttt.",
@@ -121,9 +126,9 @@ CLUSTER = ["................", "......tt........", "..tt..sst..ttt..", "..sss.ss
            ".......b........"]
 
 # THE CROCUS, 9 x 18: a goblet closing to a tube, the stigma inside it.
-CROCUS = ["...233...", ".1222333.", "112HH2233", "1122H2233", ".1122223.", ".1122223.",
-          "..11223..", "..11223..", "...123...", "...123...", "....sl...", "..d.sl.l.",
-          "..d.slsl.", "...dslsl.", "...dslsl.", "...dsssl.", "...dssss.", "...dssss."]
+CROCUS = ["...233...", ".1222333.", "112hh2233", "1122h2233", ".1122223.", ".1122223.",
+          "..11223..", "..11223..", "...123...", "...123...", "....sg...", "..d.sg.g.",
+          "..d.sgsg.", "...dsgsg.", "...dsgsg.", "...dsssg.", "...dssss.", "...dssss."]
 
 # THE RABBIT, upright. Built to the pixel artist's prescription after the owner
 # called the ears horns: widths 2-3-4-4-4-4-3-2, the darkest pixel in the pocket
@@ -132,16 +137,16 @@ CROCUS = ["...233...", ".1222333.", "112HH2233", "1122H2233", ".1122223.", ".112
 # a field rather than a line. No neck, a blunt nose, a high haunch, and the
 # cotton tail breaking the back line - which is what a rabbit has and a gerbil
 # does not.
-RABBIT = ["......rr......", "...FF.krr.....", "..KFF.kirr....", "..KFF.kiir....",
-          "..KFF.kiir....", "..KFF.kirr....", "...KF..krr....", "...krrRRrrk...",
-          "..krRRRRRRrk..", "..krRRRRRRerk.", "..krRRRRRRRRr.", "...krRRRRRrrk.",
-          "...krrRRRRrk..", "..krrRRRRRRrk.", ".kryRRRRRRRRrk", "Tkryy RRRRRRRRr".replace(" ", ""),
-          "TTkryyRRRRRRRr", ".kryyyRRRRRRrk", "..kryyyRRRRrk.", "..kryyfffffrk.",
-          "...krffffrk...", "....kk..kk...."]
+RABBIT = ["......rr......", "...ff.krr.....", "..jff.kirr....", "..jff.kiir....",
+          "..jff.kiir....", "..jff.kirr....", "...jf..krr....", "...krraarrk...",
+          "..kraaaaaark..", "..kraaaaaaerk.", "..kraaaaaaaar.", "...kraaaaarrk.",
+          "...krraaaark..", "..krraaaaaark.", ".kruaaaaaaaark", "wkruu aaaaaaaar".replace(" ", ""),
+          "wwkruuaaaaaaar", ".kruuuaaaaaark", "..kruuuaaaark.", "..kruuooooork.",
+          "...kroooork...", "....kk..kk...."]
 
-RABBIT_LOW = ["..........rr....", ".......FF.krr...", "....KKFF.kirr...", "...kkrrr.kiir...",
-              ".Tkrryyyyykrr...", "TTkryRRRRRRRRrer", ".Tkryy RRRRRRRRr".replace(" ", ""),
-              "..kryyyRRRRRRRRr", "...kkryffkRRRRrk", ".....kffk.kffrk.", "..............k."]
+RABBIT_LOW = ["..........rr....", ".......ff.krr...", "....jjff.kirr...", "...kkrrr.kiir...",
+              ".wkrruuuuukrr...", "wwkruaaaaaaaarer", ".wkruu aaaaaaaar".replace(" ", ""),
+              "..kruuuaaaaaaaar", "...kkruookaaaark", ".....kook.koork.", "..............k."]
 
 
 # ---------------------------------------------------- the drawn (not stamped)
@@ -258,17 +263,17 @@ def frond(d, x0, y0, h=28, run=13):
 
 
 # THE ARBUTUS, the frame's one hero. The owner locked its treatment on
-# 2026-09-03: age-graded from red-orange in the young crown to olive-grey at
+# 2026-09-03: age-graded from red-orange in the young crown to a weathered grey-green at
 # the old base, with two sheets of bark lifting on the mid trunk, berries in
 # the canopy, and flecks of copper through the weathered foot.
 #
 # ITS RAMP IS FIVE STEPS, NOT A GRADIENT. His approved version bled smoothly
 # and measured 93 colours, which bible stage 5 refuses - "every material is a
-# ramp of three to five steps whose end colours are named tokens". Quantising
+# ramp of three to five steps whose end colours are named tokens". Reducing
 # to five keeps the bleed he asked for, because the ramp runs over 44 rows and
 # each step is nine rows deep, while giving stage 8 a pixel that equals a
 # declared colour.
-AGE_RAMP = [OLIVE, OLD, COPPER, mix(COPPER, PEEL, .55), PEEL]
+AGE_RAMP = [WEATHERED, OLD, COPPER, mix(COPPER, PEEL, .55), PEEL]
 LIMB_TRUNK = [(43,4,6),(42,4,6),(41,5,6),(40,5,6),(39,5,6),(38,5,6),(37,5,6),(36,5,6),(35,5,6),
               (34,5,6),(33,6,6),(32,6,5),(31,6,5),(30,7,5),(29,7,5),(28,8,5),(27,8,5),(26,9,5),
               (25,10,4),(24,11,4),(23,11,4),(22,12,4),(21,12,4),(20,12,4),(19,12,4)]

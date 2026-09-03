@@ -1062,21 +1062,25 @@ climbing the levels watches the year turn rather than watching a border thicken.
 answer to the question his earlier ruling raised - that each state must add a NEW KIND of thing
 rather than more of the same - because a season change is exactly that, eleven times over.
 
-**The proposed mapping, one state per level decade, to be confirmed before any of it is drawn:**
+**RE-RULED THE SAME DAY, and for a reason worth recording: "I don't want to start with winter
+that is too bleak for the youngest kids."** The year now OPENS in spring rather than closing
+there, and deep winter moves to the end. The pre-levels - a child's first hours in the game,
+before Level 1 - carry state 0 with everything else, so the first garden any child ever sees is
+a spring one.
 
 | state | level | the meadow |
 | --- | --- | --- |
-| 0 | start | Deep winter. Bare oaks, moss at its greenest, osoberry in first leaf, the earliest bulb tips. |
-| 1 | 10 | First spring. The filbert in catkin, camas spears pushing, the first crocus. |
-| 2 | 20 | Spring. Camas in blue flower, shooting star, oak buds breaking. |
-| 3 | 30 | Full spring. The meadow at full bloom - ox-eye, buttercup, chocolate fritillary - and the rabbits out. |
-| 4 | 40 | First warmth. Grasses tall, salmonberry fruiting, the oaks in full leaf. |
-| 5 | 50 | The dry months. The meadow going gold and dry, deep shade under the oaks, dragonflies. |
-| 6 | 60 | The late dry months. Blackberries, seed heads, dust and stillness. |
-| 7 | 70 | First rains. The first rain, mushrooms up, oak leaves turning. |
-| 8 | 80 | Leaf fall. Leaf fall, arbutus berries red, geese going over. |
-| 9 | 90 | The turning year. Bare branches, frost, rose hips, bracket fungus. |
-| 10 | 100 | Deep winter again. Snow on the oaks, a chickadee - and the first bulb tips showing again, so the year closes where it opened. |
+| 0 | the pre-levels, and the start | First spring. The filbert in catkin, camas spears pushing, the first crocus, moss at its greenest. |
+| 1 | 10 | Spring. Camas in blue flower, shooting star, oak buds breaking. |
+| 2 | 20 | Full spring. Ox-eye, buttercup, chocolate fritillary, and the rabbits out. |
+| 3 | 30 | First warmth. Grasses tall, salmonberry fruiting, the oaks in full leaf. |
+| 4 | 40 | The dry months. The meadow going gold, deep shade under the oaks, dragonflies. |
+| 5 | 50 | The late dry months. Blackberries, seed heads, dust and stillness. |
+| 6 | 60 | First rains. The mushrooms up, oak leaves turning. |
+| 7 | 70 | Leaf fall. Arbutus berries red, geese going over. |
+| 8 | 80 | The turning year. Bare branches, frost, rose hips, bracket fungus. |
+| 9 | 90 | First snow. Snow settling on the oaks, a chickadee. |
+| 10 | 100 | Deep winter - and the first bulb tips showing beneath the snow, so the last thing the garden says to a child who has finished is that it will begin again. |
 
 **What this changes and what it does not.** It does not change the bible's rule that the garden
 brings its own dark ground, nor the key light, nor the palette, nor the byte share. It DOES
