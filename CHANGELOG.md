@@ -15,6 +15,11 @@ This document follows the Microsoft Writing Style Guide.
 Version 6 adds the standalone progressive web app. The reference build does not change.
 The first app version is 1.0.0-beta.1. The app stays in beta until version 1.0 is ready.
 
+- New in 1.0.0-beta.32: on a phone held sideways, the game now asks to be turned upright
+  instead of showing a screen too short to read on. A picture shows what to do. A grown-up
+  who needs to read sideways can press and hold "Read this way anyway", and the phone
+  remembers. Tablets are unaffected.
+
 - Fixed in 1.0.0-beta.31: a message from the app can no longer cover a button underneath it.
   When the text at the bottom of the screen grew onto a second line, the buttons moved up
   into the message. The message now follows them.

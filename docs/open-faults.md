@@ -2384,6 +2384,17 @@ is a ruling on what free play offers a pre-ladder child, and the chooser matchin
   7 px.
 
 ## AG. The landscape phone's reveal is cut at the stage's edge — opened 2026-08-23
+- **A child no longer meets this by accident (2026-09-03, owner-ruled).** On a landscape
+  screen 520 px high or less the app now asks to be turned upright instead of drawing the
+  game, so the cut reveal is reachable only when a grown-up presses and holds "Read this way
+  anyway" — a deliberate adult choice, remembered on that device. The fault STAYS OPEN and
+  its evidence stays live: the census's phone-landscape profile makes exactly that choice in
+  `playwright.config.mjs`, so its cells keep measuring the cut layout. What changed is who
+  meets it, not whether it is broken. The ask is not a lock: an iPhone cannot be locked by a
+  web app (`screen.orientation.lock` is unsupported in Safari, and the manifest's
+  `orientation` is not honoured for iOS home-screen apps), and WCAG 2.1 SC 1.3.4 forbids
+  restricting content to one orientation unless essential — the a11y gate runs the wcag21aa
+  tag set, which carries axe's own serious-impact rule for it.
 - **Art step 3 (2026-09-02) leaves this profile exactly as it was:** the garden frame is hidden whole on any screen 520 px short or less (bible 5.1), and the census's frame cell records the layer as hidden there.
 
 

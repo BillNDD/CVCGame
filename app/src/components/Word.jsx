@@ -64,14 +64,29 @@ export default function Word({ children, ...rest }) {
          (the engineering seat's after pass). */
       lastRoom = Math.round(el.clientWidth);
       if (room > 0 && need > room) {
-        inner.style.fontSize = (parseFloat(getComputedStyle(el).fontSize) * (room - 1) / need).toFixed(2) + "px";
+        let px = parseFloat(getComputedStyle(el).fontSize) * (room - 1) / need;
+        inner.style.fontSize = px.toFixed(2) + "px";
         /* A second pass (art step 3, 2026-09-02): glyph widths do not scale
            quite linearly with size - hinting and letter-spacing round per
            glyph - and one proportional pass left "something" 2 px wider than
            its box at 390 px. Measured again and scaled once more if it still
            overhangs; the census's rotation cell reads the result to a pixel. */
         const again = inner.getBoundingClientRect().width;
-        if (again > room) inner.style.fontSize = (parseFloat(inner.style.fontSize) * (room - 1) / again).toFixed(2) + "px";
+        if (again > room) { px = px * (room - 1) / again; }
+        /* AND THE SIZE IS CAPPED IN THE VIEWPORT'S OWN UNIT, so a narrower
+           screen shrinks the glyphs in the SAME layout that narrowed them
+           (2026-09-03). Everything above runs a frame late by design - the
+           comment below says why the fit cannot run inside the observer's
+           delivery - and the hide that covered that frame depends on a
+           resize event arriving before the frame callbacks, which is the
+           spec's order but not what a browser driven by CDP always does: the
+           rotation cell caught the old glyphs at their old size once in
+           three runs. A `min()` needs no event and no frame. The vw term is
+           this same fitted size expressed against today's viewport, so it
+           binds only when the viewport gets narrower, and the exact fit
+           still lands on the next frame. */
+        const vw = window.innerWidth > 0 ? (px / window.innerWidth) * 100 : 0;
+        inner.style.fontSize = vw > 0 ? `min(${px.toFixed(2)}px, ${vw.toFixed(3)}vw)` : px.toFixed(2) + "px";
       }
     };
     fit();

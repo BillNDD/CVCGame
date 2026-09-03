@@ -758,3 +758,90 @@ test("control: a 48 px tray tile and equal tray widths are caught by the Build-i
   expect(buildHold(tray(43), 56).map((f) => f.kind), "43 px showing of 64").toEqual(["control-clipped", "control-clipped"]);
   expect(buildHold(tray(64), 56), "whole on the stage").toEqual([]);
 });
+
+/* THE PORTRAIT ASK (owner-ruled 2026-09-03), from a device that has not
+   answered it. The eight profile projects cannot prove this: the landscape
+   phone's project answers the ask in playwright.config.mjs so its 70-odd
+   cells keep measuring the layout beneath (open fault AG's evidence), and no
+   other profile is short enough to raise it. So the ask, its way through and
+   the memory of that choice are proved here, in a context of their own.
+   Every number is a literal (E4): 750 x 342 is an iPhone 13 on its side,
+   44 px is S7's adult minimum, and 1024 x 768 is an iPad in landscape, which
+   must NEVER be asked to turn. */
+test("the portrait ask: shown on a landscape phone, never on a tablet, and a grown-up's hold clears it for good", async ({ browser }) => {
+  /* UNANSWERED, explicitly. A context made with browser.newContext() inside a
+     test inherits the project's own `use` options, and this project answers
+     the ask (playwright.config.mjs) so its rotating cells can measure the
+     layout beneath. These two cells are about the ask itself, so they clear
+     that inheritance and start from a device that has never been asked. */
+  const ctx = await browser.newContext({ viewport: { width: 750, height: 342 }, storageState: { cookies: [], origins: [] } });
+  const page = await ctx.newPage();
+  await page.goto("/", { waitUntil: "load" });
+  await page.getByRole("button", { name: "Begin Session" }).waitFor({ timeout: 20000 });
+  const ask = page.locator(".wq-turn");
+  await expect(ask, "a landscape phone is asked to turn").toBeVisible();
+  const card = await ask.boundingBox();
+  expect(card.width, "the ask covers the viewport's width").toBe(750);
+  expect(card.height, "and its height").toBe(342);
+  const hold = page.getByRole("button", { name: /Read this way anyway/ });
+  const hb = await hold.boundingBox();
+  expect(hb.height >= 44 && hb.width >= 44, `the way through is an adult control, ${Math.round(hb.width)} x ${Math.round(hb.height)} (S7 asks 44)`).toBe(true);
+  /* NOT A LOCK. Turning the phone upright is enough on its own - no choice
+     is stored, nothing is remembered, the ask simply does not apply. */
+  await page.setViewportSize({ width: 390, height: 844 });
+  await expect(ask, "upright, the ask is gone").toBeHidden();
+  expect(await page.evaluate(() => localStorage.getItem("wq-landscape-ok")), "and nothing was stored to make it so").toBeNull();
+  /* A TABLET IS NEVER ASKED: an iPad's landscape height is 768, far past the
+     520 px the rule keys on. */
+  await page.setViewportSize({ width: 1024, height: 768 });
+  await expect(ask, "a tablet in landscape reads as it always has").toBeHidden();
+  /* THE WAY THROUGH: the same 450 ms deliberate hold as every grown-up
+     control. A tap must not be enough - a child's stray touch is exactly
+     what that gesture exists to refuse. */
+  await page.setViewportSize({ width: 750, height: 342 });
+  await expect(ask).toBeVisible();
+  await hold.click({ delay: 0 });
+  await page.waitForTimeout(200);
+  await expect(ask, "a tap does not answer for the grown-up").toBeVisible();
+  await hold.hover();
+  await page.mouse.down();
+  await page.waitForTimeout(700);
+  await page.mouse.up();
+  await expect(ask, "the hold answers it").toBeHidden();
+  await expect(page.getByRole("button", { name: "Begin Session" }), "and the game is there underneath").toBeVisible();
+  await page.reload({ waitUntil: "load" });
+  await page.getByRole("button", { name: "Begin Session" }).waitFor({ timeout: 20000 });
+  await expect(ask, "the answer outlives the visit").toBeHidden();
+  expect(await page.evaluate(() => localStorage.getItem("wq-landscape-ok")), "kept on the device, not in the save").toBe("1");
+  await ctx.close();
+});
+
+test("control: the ask is what hides the game, and a device that has answered is not asked", async ({ browser }) => {
+  /* The negative control (E5) in both directions. First: with the ask
+     removed from a landscape phone, the census's own overlap scan sees the
+     game underneath - so it is the ask that covers the screen above, and not
+     some other layer that would have covered it anyway. */
+  const bare = await browser.newContext({ viewport: { width: 750, height: 342 }, storageState: { cookies: [], origins: [] } });
+  const p1 = await bare.newPage();
+  await p1.goto("/", { waitUntil: "load" });
+  const origin = new URL(p1.url()).origin;
+  await p1.getByRole("button", { name: "Begin Session" }).waitFor({ timeout: 20000 });
+  await expect(p1.locator(".wq-turn")).toBeVisible();
+  const covered = await p1.getByRole("button", { name: "Begin Session" }).isVisible();
+  await p1.evaluate(() => document.querySelector(".wq-turn").remove());
+  expect(covered && await p1.getByRole("button", { name: "Begin Session" }).isVisible(),
+    "the game was there all along, under the ask").toBe(true);
+  await bare.close();
+  /* Second: the answered device. This is the state every phone-landscape
+     census cell runs in, so if this were to start showing the ask, those
+     cells would be measuring a card and this control says so. */
+  const answered = await browser.newContext({
+    viewport: { width: 750, height: 342 },
+    storageState: { cookies: [], origins: [{ origin, localStorage: [{ name: "wq-landscape-ok", value: "1" }] }] },
+  });
+  const p2 = await answered.newPage();
+  await p2.goto("/", { waitUntil: "load" });
+  await p2.getByRole("button", { name: "Begin Session" }).waitFor({ timeout: 20000 });
+  await expect(p2.locator(".wq-turn"), "a device that has answered is not asked again").toBeHidden();
+  await answered.close();
+});

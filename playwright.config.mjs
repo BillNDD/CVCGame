@@ -118,7 +118,19 @@ export default defineConfig({
       name: "novelties-once",
       testMatch: /novelties-once\.spec\.mjs/,
       metadata: { role: "novelty-singletons", engine: ENGINE, device: VIEWPORTS[0].device },
-      use: { ...devices[VIEWPORTS[0].device], browserName: ENGINE },
+      use: {
+        ...devices[VIEWPORTS[0].device],
+        browserName: ENGINE,
+        /* ANSWERED, like the landscape phone above and for the same reason
+           (2026-09-03). This project's profile is a portrait phone, but three
+           of its cells rotate into 844 x 390 to measure what the app does
+           across a rotation and what a planted fault looks like there - and
+           the portrait ask is a card over everything, so unanswered it
+           intercepts their clicks and stands between them and what they
+           measure. The cells that prove the ask ITSELF build their own
+           contexts with browser.newContext, which does not inherit this. */
+        storageState: { cookies: [], origins: [{ origin: `http://localhost:${PORT}`, localStorage: [{ name: "wq-landscape-ok", value: "1" }] }] },
+      },
     },
     ...VIEWPORTS.map((v) => ({
       name: v.name,
@@ -127,7 +139,24 @@ export default defineConfig({
       /* The descriptor whole, so the user agent, the scale factor, touch and
          isMobile all come from the same device rather than three of them being
          set here and the fourth being whatever Playwright defaults to. */
-      use: { ...devices[v.device], browserName: ENGINE },
+      use: {
+        ...devices[v.device],
+        browserName: ENGINE,
+        /* THE PORTRAIT ASK IS ANSWERED FOR THE LANDSCAPE PHONE, and only for
+           it (2026-09-03). On that profile the app asks to be turned upright
+           and draws a card over everything, which would turn 70-odd cells
+           into 70 photographs of the same card. The census's job on this
+           profile is the evidence for open fault AG - what a child meets if a
+           grown-up chooses to read sideways anyway - so the census makes that
+           choice, exactly as a grown-up's 450 ms hold would. That the ask is
+           SHOWN by default, that its control clears it, and that the choice
+           survives a reload, are proved instead by their own cells in
+           tests/census/novelties-once.spec.mjs, which start from a context
+           that has not answered. */
+        ...(v.name === "phone-landscape"
+          ? { storageState: { cookies: [], origins: [{ origin: `http://localhost:${PORT}`, localStorage: [{ name: "wq-landscape-ok", value: "1" }] }] } }
+          : {}),
+      },
     })),
   ],
   webServer: {

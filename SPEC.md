@@ -510,6 +510,16 @@ screen and moves with the device's safe area; it is never a fixed number of pixe
 single centred column as a portrait screen, with a larger word. The tile row and the message row
 stay directly under the word, because they explain it.
 
+Orientation. On a landscape screen 520 px high or less — a phone on its side, never a tablet
+— the app does not draw the game. It shows a picture of a phone being turned upright, one
+line of words for the grown-up, and a control that takes a 450 ms hold to read that way
+anyway. The choice is kept on the device and survives a reload; turning the phone upright
+needs no choice at all. Two screens never ask: the splash, and the "Grown-ups corner", so
+that an adult who rotates the phone mid-setting is not shut out of it. The app never locks
+the orientation: an iPhone cannot be locked by a web app, and WCAG 2.1 SC 1.3.4 forbids
+restricting content to one orientation unless it is essential — which is why the way through
+exists and is visible. Owner-ruled 2026-09-03.
+
 Home. The title, an optional greeting with the name, the level, the counters, and the "Begin
 Session" control. Adult text shows in the strip, not below the child's control.
 

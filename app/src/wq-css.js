@@ -563,6 +563,30 @@ const CSS = VARS + `
 .wq-modal{position:relative;z-index:1;background:${C.paper};border-radius:18px;padding:18px;max-width:380px;width:100%;
   box-shadow:0 12px 40px ${alpha(C.ink, .3)}}
 
+/* THE PORTRAIT ASK (owner-ruled 2026-09-03), above the modal because it is
+   the one thing that must be readable whatever else is open. It is the only
+   rule in this file keyed to the ORIENTATION, and it is deliberately narrow:
+   a landscape screen 520 px short or less, which is a phone on its side and
+   never a tablet (an iPad's landscape height is 768) or a desktop. The same
+   520 px already hides the garden frame - one number, one meaning. Nothing is
+   rotated and nothing is hidden by this rule: it draws a card on top, and a
+   grown-up's 450 ms hold takes it away for good on that device, which is
+   what keeps the app inside WCAG 2.1 SC 1.3.4. */
+.wq-turn{display:none}
+@media (orientation:landscape) and (max-height:520px){
+  .wq-turn{position:fixed;inset:0;z-index:90;display:flex;align-items:center;justify-content:center;
+    padding:12px;background:${C.paper}}
+  .wq-turn-card{display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center;max-width:420px}
+  .wq-turn-art{position:relative;width:104px;height:64px;flex:0 0 auto}
+  /* a phone lying on its side, and the turn it is being asked to make */
+  .wq-turn-phone{position:absolute;left:16px;top:14px;width:72px;height:40px;border-radius:8px;
+    border:3px solid ${C.ink};transform:rotate(-8deg)}
+  .wq-turn-arrow{position:absolute;left:24px;top:6px;width:56px;height:52px;border-radius:50%;
+    border:3px solid ${C.action};border-right-color:transparent;border-bottom-color:transparent;
+    transform:rotate(38deg)}
+  .wq-turn-say{margin:0;font-weight:800;color:${C.ink};font-size:1.05rem}
+}
+
 /* NO TEXT SELECTION ON THE CHILD'S SCREEN.
    Reported by the owner from a real iPhone 13 on 2026-08-13, with a screenshot:
    touching between "skip" and "got it" started an iOS text selection — blue

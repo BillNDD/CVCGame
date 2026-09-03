@@ -317,14 +317,16 @@ function selfTest() {
       .some((p) => p.includes("some-other.config.mjs"))]);
 
   /* THE NOVELTIES SCOPE. Literals again (E4): 16 planted-fault controls and
-     108 cells beside them - 96 profile cells (twelve on each of eight
-     profiles), 8 monkey walks and 4 singletons - counted by the run on
-     2026-09-02 (art step 3, which added the frame's hold and the word's
-     bound on every profile, and the wide frames on the four wide ones; step
-     2 had counted 92). A novelties run judged
+     109 cells beside them - 96 profile cells (twelve on each of eight
+     profiles), 8 monkey walks and 5 singletons - counted by the runs of
+     2026-09-02 and 2026-09-03. Art step 3 took the cells from 92 to 108 (the
+     frame's hold and the word's bound on every profile, the wide frames on
+     the four wide ones); the portrait ask added one cell and one control,
+     since a title beginning "control:" is counted as a control and not as a
+     cell. A novelties run judged
      as the body is refused, because it is not one; judged as novelties it
      passes only whole. */
-  const NOVELTY_CONTROLS = 16, NOVELTY_CELLS = 108;
+  const NOVELTY_CONTROLS = 17, NOVELTY_CELLS = 109;
   ok.push(["the baseline states the novelty floors this file was written against",
     NOVELTY_FLOOR.controls === NOVELTY_CONTROLS && NOVELTY_FLOOR.cells === NOVELTY_CELLS]);
   const novControls = Array.from({ length: NOVELTY_CONTROLS }, (_, i) => cell(NOVELTY_PROJECT, `control: planted fault ${i}`));

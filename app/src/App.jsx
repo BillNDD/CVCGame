@@ -30,6 +30,8 @@ import DoneScreen from "./screens/DoneScreen.jsx";
 import ParentScreen from "./screens/ParentScreen.jsx";
 import PreSessionScreen from "./screens/PreSessionScreen.jsx";
 import PreDoneScreen from "./screens/PreDoneScreen.jsx";
+import TurnPrompt from "./components/TurnPrompt.jsx";
+import { readLandscapeOk, writeLandscapeOk } from "./landscape.js";
 import usePreSession from "./usePre.js";
 
 /* The microphone left three device-local markers behind on every install that
@@ -145,6 +147,8 @@ function anyBuildableWord(avoid) {
 
 export default function App() {
   const [screen, setScreen] = useState("splash");
+  const [landscapeOk, setLandscapeOk] = useState(readLandscapeOk);
+  const keepLandscape = useCallback(() => { writeLandscapeOk(); setLandscapeOk(true); }, []);
   const [state, setState] = useState(null);
   const [persistent, setPersistent] = useState(true);
   const [readOnly, setReadOnly] = useState(false);   // F3 — set when boot timed out; blocks all writes
@@ -1381,5 +1385,16 @@ export default function App() {
       voiceFallback={voiceFallback} onExportJSON={exportJSON} onImportJSON={importJSON} toast={toast} />;
   }
 
-  return renderScreen();
+  /* THE PORTRAIT ASK (2026-09-03) rides outside renderScreen: one rule for
+     every screen a child reaches. The splash and the "Grown-ups corner" are
+     exempt - an adult who rotates mid-setting must not be shut out. WHETHER
+     it draws is the stylesheet's (one media query); landscape.js owns where
+     the grown-up's answer is kept, and TurnPrompt.jsx why it is an ask. */
+  const askTurn = screen !== "splash" && screen !== "parent" && !landscapeOk;
+  return (
+    <>
+      {renderScreen()}
+      {askTurn ? <TurnPrompt onStay={keepLandscape} /> : null}
+    </>
+  );
 }
