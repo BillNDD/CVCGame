@@ -15,6 +15,9 @@ This document follows the Microsoft Writing Style Guide.
 Version 6 adds the standalone progressive web app. The reference build does not change.
 The first app version is 1.0.0-beta.1. The app stays in beta until version 1.0 is ready.
 
+- Fixed in 1.0.0-beta.31: a message from the app can no longer cover a button underneath it.
+  When the text at the bottom of the screen grew onto a second line, the buttons moved up
+  into the message. The message now follows them.
 - New in 1.0.0-beta.31: 32 words and 9 letter sounds are spoken more naturally. The fifty
   recordings that sounded least like a person were re-made, three new versions of each,
   and a grown-up chose the best by ear without knowing how each was made. The sounds b, d,

@@ -3264,6 +3264,28 @@ what is true now.
   after commit, leaving home never commits, asking to write never commits); SPEC section 7 says
   it in its own words.
 
+## BB. The toast was placed against a height that could go stale — found and closed 2026-09-02
+
+- **How it was found.** The beta 31 release gauntlet went red on G7 WebKit: "the toast covers
+  a child control at 390x664 - overlap 41px" and 25 px at 1280x800. The same bytes had passed
+  the same gate on the previous commit and passed twice more unloaded, which is the signature
+  of a race that only a slow machine opens.
+- **The fault.** `Frame.jsx` publishes the height of the rail and the strip as
+  `--wq-bottomzones`, and the toast sits above it. The measure ran on every render, on resize
+  and on rotation - and a zone can grow without any of the three. The strip's marker line
+  wraps onto a second row when the web font lands, which under load is after the boot's last
+  render: the rail's controls rose about 60 px into a toast that had not moved.
+- **The fix.** The zones are observed, and the observer watches the BORDER box, which is the
+  box the measure reads. A content-box observer - the default - misses a zone that grows by
+  padding, and the gate's own new control proved exactly that before the box was corrected.
+  The measure also re-runs on `document.fonts.ready`.
+- **The proof.** Three checks joined G7 (`g7_interface_checks` 67 → 70, `_webkit` 66 → 69):
+  the strip is grown 60 px after the toast is up, and the toast must still clear both child
+  controls. With the fix removed the three fail by 22 px; with it they pass with a 20 px gap.
+  The first version of the control grew the RAIL and was vacuous - its padding moves its own
+  controls down as far as its top edge moves up - and is recorded here because a control that
+  cannot fail is the fault this repository has paid for most often.
+
 ## BA. The fifty least human-like approved recordings — queued by the owner 2026-09-02, for a later beta
 
 - **The owner's words:** "You look through all my approved recordings (sounds or individual

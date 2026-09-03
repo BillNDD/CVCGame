@@ -13,6 +13,7 @@
    must FAIL its disabled-assert, proving the probe reads live state.
    Run: npm run test:ui */
 import { launchEngine } from "./engine.mjs";
+import { toastClearance } from "./toast-clearance.mjs";
 import { spawn, execSync } from "node:child_process";
 import { readFileSync } from "node:fs";
 import { ADVANCE_GUARD_MS, STORE_KEY, chunkWord, LEVELS, C } from "../../src/engine.js";
@@ -835,57 +836,12 @@ for (const height of [430, 555, 720, 950]) {
   await context.close();
 }
 
-/* 13-15 (A1-005) — a toast must clear the child's own control. The offset was
-   a magic 112 px, which is not the height of anything: on a phone the toast
-   covered the record control by 27 px and hid its label, and on iPad portrait
-   by 3 px. The toast is raised by a real boot here — a stored value that is
-   not valid JSON is read as damaged, and the app says so — and measured
-   against the live rail control at three real device sizes. */
-{
-  const storageSrc = readFileSync("app/src/storage.js", "utf8");
-  const dbName = storageSrc.match(/DB_NAME = "([^"]+)"/)[1];
-  const dbStore = storageSrc.match(/DB_STORE = "([^"]+)"/)[1];
-  const SIZES = [{ width: 390, height: 664 }, { width: 810, height: 1080 }, { width: 1280, height: 800 }];
-  for (const vp of SIZES) {
-    const context = await browser.newContext();
-    const page = await context.newPage();
-    await page.setViewportSize(vp);
-    await page.goto(URL, { waitUntil: "load" });
-    /* Let the boot finish before seeding: the app writes a fresh save of its
-       own on first load, and that write lands on top of an early seed. */
-    await page.getByRole("button", { name: "Begin Session" }).waitFor();
-    await page.evaluate(([db, store, key]) => new Promise((resolve, reject) => {
-      const rq = indexedDB.open(db, 1);
-      rq.onupgradeneeded = () => rq.result.createObjectStore(store);
-      rq.onsuccess = () => {
-        const tx = rq.result.transaction(store, "readwrite");
-        tx.objectStore(store).put("{not json at all", key);
-        tx.oncomplete = () => resolve(true);
-        tx.onerror = () => reject(tx.error);
-      };
-      rq.onerror = () => reject(rq.error);
-    }), [dbName, dbStore, STORE_KEY]);
-    await page.reload({ waitUntil: "load" });
-    const shown = await page.locator(".wq-toast").waitFor({ timeout: 3000 }).then(() => true).catch(() => false);
-    if (!shown) { fail(`no toast at ${vp.width}x${vp.height}`, "the damaged-save boot raised none"); await context.close(); continue; }
-    const t = await page.locator(".wq-toast").boundingBox();
-    /* The home rail holds two child controls — Begin Session and Free play —
-       and the toast must clear them BOTH, so the worst overlap is the verdict.
-       An empty or unmeasurable rail must FAIL, never pass vacuously: a
-       measurement of zero controls proves nothing about the toast. */
-    const boxes = [];
-    for (const btn of await page.locator(".wq-rail .wq-cta").all()) boxes.push(await btn.boundingBox());
-    if (boxes.length !== 2 || boxes.some((b) => !b)) {
-      fail(`the home rail did not offer two measurable child controls at ${vp.width}x${vp.height}`, `measured ${boxes.length}`);
-    } else {
-      let overlap = -Infinity;
-      for (const c of boxes) overlap = Math.max(overlap, Math.min(t.y + t.height, c.y + c.height) - Math.max(t.y, c.y));
-      if (overlap <= 0) ok(`the toast clears both child controls at ${vp.width}x${vp.height} (gap ${Math.round(-overlap)}px)`);
-      else fail(`the toast covers a child control at ${vp.width}x${vp.height}`, `overlap ${Math.round(overlap)}px`);
-    }
-    await context.close();
-  }
-}
+/* 13-15 (A1-005) - the toast clears the child's own control, and follows a
+   zone that grows after it is up. Its own module since 2026-09-02: the
+   third check took this file past the 1400-line ceiling, and a ceiling is
+   never raised (E6). */
+await toastClearance({ browser, URL, ok, fail, STORE_KEY });
+
 
 /* 16-17 (A3-014) — the dashed form is the teaching payload of the feedback
    sentence and never breaks across a line: "sh-i-" on one row and "p, ship."
