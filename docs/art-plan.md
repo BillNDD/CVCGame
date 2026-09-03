@@ -1062,11 +1062,14 @@ climbing the levels watches the year turn rather than watching a border thicken.
 answer to the question his earlier ruling raised - that each state must add a NEW KIND of thing
 rather than more of the same - because a season change is exactly that, eleven times over.
 
-**RE-RULED THE SAME DAY, and for a reason worth recording: "I don't want to start with winter
-that is too bleak for the youngest kids."** The year now OPENS in spring rather than closing
-there, and deep winter moves to the end. The pre-levels - a child's first hours in the game,
-before Level 1 - carry state 0 with everything else, so the first garden any child ever sees is
-a spring one.
+**RE-RULED TWICE THE SAME DAY, and both corrections stand.** First: "I don't want to start with
+winter that is too bleak for the youngest kids" - so the year OPENS in spring, and the
+pre-levels carry state 0 with everything else, which means the first garden any child ever sees
+is a spring one. Then: "I want the seasons to start at first spring and then end at first
+spring" - so the year CLOSES there too. The eleven states are a full circle, and the last one
+is the same meadow a year on: the same catkins and camas spears, with the young trees grown and
+the oaks a little heavier. A child who finishes the game arrives back where they started and can
+see how much has grown since.
 
 | state | level | the meadow |
 | --- | --- | --- |
@@ -1079,8 +1082,14 @@ a spring one.
 | 6 | 60 | First rains. The mushrooms up, oak leaves turning. |
 | 7 | 70 | Leaf fall. Arbutus berries red, geese going over. |
 | 8 | 80 | The turning year. Bare branches, frost, rose hips, bracket fungus. |
-| 9 | 90 | First snow. Snow settling on the oaks, a chickadee. |
-| 10 | 100 | Deep winter - and the first bulb tips showing beneath the snow, so the last thing the garden says to a child who has finished is that it will begin again. |
+| 9 | 90 | Deep winter. Snow on the oaks, a chickadee, and the first bulb tips showing beneath it. |
+| 10 | 100 | First spring again. The same meadow, one year on: the same catkins and the same camas, with every young tree grown and the oaks heavier. The circle closed. |
+
+**Why the circle is the right shape, and not a flourish.** The garden is what a child earns for
+reading, and a year that ends in winter ends on a loss. A year that ends where it began ends on
+recognition - the child sees the same meadow they started in and can measure themselves against
+it. It also gives state 10 a job no other state has: it is the only one that must be READ against
+another state rather than on its own.
 
 **What this changes and what it does not.** It does not change the bible's rule that the garden
 brings its own dark ground, nor the key light, nor the palette, nor the byte share. It DOES
