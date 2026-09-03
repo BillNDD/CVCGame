@@ -30,8 +30,15 @@ jobs:
         run: |
           npm ci
           npm ci --prefix app
-      - name: Install the gate browser
-        run: npx playwright install --with-deps chromium
+      # THREE ENGINES, because the gauntlet asks for three (2026-09-01, commit
+      # ac50690): G7 and G8 and G18 and G30 each run again on WebKit, which is
+      # the engine of every iPhone and iPad, and G8/G18/G30 on Firefox. The
+      # runner installed chromium only, so the beta 31 tag's run went red on
+      # five gates with "CENSUS_ENGINE=webkit was asked for and could not
+      # launch" - a missing browser, not a defect, and the gates were right to
+      # refuse rather than silently substitute one engine for another.
+      - name: Install the gate browsers
+        run: npx playwright install --with-deps chromium webkit firefox
       # G13 voice-edges is Python: it decodes every clip in the pack with PyAV
       # and measures its edges with NumPy. The runner ships neither, and every
       # tagged release's run was red on that one gate while the other 27 were

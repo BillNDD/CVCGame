@@ -3264,6 +3264,22 @@ what is true now.
   after commit, leaving home never commits, asking to write never commits); SPEC section 7 says
   it in its own words.
 
+## BD. The remote gauntlet had one browser and the gates asked for three — found and closed 2026-09-03
+
+- **The beta 31 tag's run went red** on five gates, every one saying
+  `CENSUS_ENGINE=webkit was asked for and could not launch - it is NOT substituted`. The
+  runner had chromium only: `.github/workflows/gauntlet.yml` installed one browser and had
+  not been touched when the gates learned to run on three (2026-09-01, ac50690).
+- **Nothing shipped was wrong.** The local gauntlet passed 37 of 37 on the released commit,
+  the release command rebuilt those bytes and matched their hash to the evidence, the deploy
+  succeeded and the live site reports beta.31 at a6547a8. The remote run is a second opinion
+  and it could not form one.
+- **The gates were right.** `tests/ui/engine.mjs` refuses to substitute an engine it was not
+  asked for, which is why this reads as five loud failures rather than five quiet passes on
+  the wrong browser.
+- **Closed** by installing chromium, webkit and firefox on the runner. The census workflow
+  still installs chromium alone, which is correct: the census is chromium-scoped by design.
+
 ## BC. A browser gate that dies reports "checks=?" and nothing else — 2026-09-02
 
 - **Twice in three release gauntlets** a Firefox gate produced no checks at all. The gauntlet
