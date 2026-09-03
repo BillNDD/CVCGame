@@ -633,7 +633,7 @@ pack refusal; the silent pack never lights. **Budget** — band plus core plus l
 after pass recorded here; the provenance row closed with the placeholder declared (D) or the
 8.1 amendment recorded (B).
 
-### Step 3 — the responsive reading surface and garden frame, out of flow (opened 2026-09-01; the owner ruled all four questions the same day on the decision page, each as recommended; before pass pending)
+### Step 3 — the responsive reading surface and garden frame, out of flow (opened 2026-09-01; the owner ruled all four questions the same day on the decision page, each as recommended; CLOSED 2026-09-02 at e120ac7, shipped in beta 31, all three chairs satisfactory)
 
 **What the step is for.** Three things the ruled order names together, because they are one
 surface: the reading surface's bounds (bible 5.2), the garden frame as a fixed layer that costs
@@ -952,9 +952,14 @@ recommended except the last:
   scatter of the small white ox-eye - and every later state adds a NEW KIND of thing rather
   than more of the same, so the arbutus limb, the first blooms, the trellis and the water
   each arrive as an event.
-- **SVG or PNG: still open**, and the only one still open. The owner asked to be told why
-  rather than choose blind ("tell me why I should choose one or the other"), and the answer
-  is measured below.
+- **PNG, ruled 2026-09-03 after the measurement below** ("so you recommend PNG?" - "go
+  ahead"). The owner declined to choose blind, was given the arithmetic, and ruled with it.
+  So the bible's export rule stands unamended, stage 8's sampled-pixel-equals-token check
+  keeps working, and the garden ships as the ruled 1x and 2x pair. The one cost, stated when
+  it was ruled: PNG is fixed to the scales we author, so a future 3x screen means authoring a
+  third file rather than getting it free - about 15 KB a panel, which is affordable.
+
+**All eight decisions are now closed. Nothing about the garden is open before it is drawn.**
 
 **THE FORMAT MEASUREMENT, and a correction to this record's own earlier number.** The 1.71x
 figure above measures the REFERENCE's own pixels - 644,328 colours and the organic mottle
@@ -978,6 +983,68 @@ asked for. The gzip column is the one place SVG leads, and it does not count:
 worker precaches those same bytes. RECOMMENDATION: keep the bible's export rule as it stands
 and ship PNG. Nothing needs amending, the stage-8 sampled-pixel-equals-token check keeps
 working, and the ruled fuller garden costs an eighth of its share.
+
+### Step 4 — the responsive grown-up zone, at zero geometry (opened 2026-09-03, as ruled)
+
+**What is measured before anything moves.** Every one of these is a number this section must
+carry before a line of app code changes, and each is being measured now rather than reasoned
+about: every site that draws with `C.line`, and whether each is an edge or a fill; the
+interpolated sky actually behind the strip's `border-top` on all eight census profiles, with
+`boundary` and `C.strip` scored against it; and every progress-dot state with its ring, its
+fill and its separation from its neighbours, rendered side by side at the real 13 px.
+
+**Why this step, now.** It is next in the order the owner ruled, and three separate places in
+the repository say step 4 owns the fault it closes (AA's what-done-means, bible 9.3's `line`
+row, and tokens test 3b's own comment). It moves no geometry and spends no bytes.
+
+**The brief, item by item, each with a measurable done.**
+
+1. `line` retires as an EDGE; every edge that read it reads `boundary` instead. Not a new
+   token: bible 9.3 already defines boundary as the bible's line darkened, and
+   `reference/word-quest.jsx` records why the darkening was deferred. Colour only - every
+   width and radius stays byte-identical. DONE: no border and no box-shadow anywhere reads
+   `C.line`, which is fault AA's own wording, "step 4 darkens every one of them and not five
+   of six".
+2. THE ONE FINDING THAT CAN STOP ITEM 1, and it must be settled first. The progress path's
+   "not yet" dot carries a ring at 1.068:1 today and 4.034:1 after the darkening, while
+   "this one, now" carries 4.111:1 - so the ring stops separating them and the fills separate
+   at only 1.220:1. "Now" would then be told apart by hue alone, which P1-6 and bible 15.1
+   exist to forbid. DONE: "now" gains a mark of its own that is not colour, its separation
+   pinned as a literal in `tests/tokens.test.js`, chosen from three costed options after the
+   five states are rendered side by side at 13 px.
+3. The strip's top edge is decided by MEASUREMENT, not argument: its ground is an
+   interpolation in the last third of the root gradient, not skyBlue. DONE: `boundary` if
+   every profile clears 3:1 against the measured ground, `C.strip` if any does not, with the
+   ratios pinned as literals beside the ground that was measured.
+4. Tokens test 3b is rewritten IN PLACE, so `g1_token_tests` stays 13 and the gauntlet doc's
+   quoted count is not touched. DONE: nine literal ratios on test 3c's pattern, a loop that
+   holds all nine at or above 3, and `line`'s own 1.26 and 1.07 kept as the named control.
+5. THE DOUBLE-PIN TRAP, written down so nobody loses an hour to it: `tests/tokens.test.js`
+   asserts that `docs/open-faults.md` still contains the strings "`line`" and "1.26:1", so
+   darkening the token without closing AA in the same commit turns 3b red on the DOCUMENT
+   rather than on the colour. DONE: AA closes in the same diff, its 1.26:1 sentence kept in
+   its history so the assertion still finds it.
+6. AA's "Nothing child-facing" sentence is CORRECTED in the same diff, because it is false:
+   the "not yet" dot is drawn on the session screen, which is the screen the child reads
+   from, on all eight profiles. DONE: the fault, this brief and the chairs' questions all say
+   so, and the dot states are rendered for the art director BEFORE the darkening ships.
+7. `.wq-word` joins `frameHold`'s field list, closing a hole step 3 opened: under 480 px the
+   word reclaims 8 px past `.wq-stagegrid` on each side, so frame paint in that strip touches
+   the principal word and passes today. DONE: one negative control, planted into the live
+   page and read back through the exported detector, silent before and raising
+   `frame-over-field` naming `.wq-word` after.
+
+**What this step does NOT do.** It moves no geometry, adds no art bytes, and touches nothing
+in the garden frame's shape. The five garden colours the owner ruled on 2026-09-03 are step
+6's, not this step's, though they are being measured alongside it so that step 6 opens with
+its palette ready.
+
+**The floors that move (E6):** named in the build commit, measured rather than guessed.
+
+**What each chair is asked.** Art director: whether the darkened edge and the new "now" mark
+read as one family at 13 px. Reading chair: whether a child can still tell "this one, now"
+from "not yet" at arm's length. Engineering seat: whether the sweep is complete, whether the
+control can fail, and whether the double pin is discharged in one diff.
 
 ## The log — every pass, every verdict
 
@@ -1553,3 +1620,25 @@ Newest last. A verdict names the chair, the step, the word, and the findings.
   minutes, and it is why the QA script on a real device is a gate and not a courtesy.
   All three ruled by the owner the same day and fixed under a before pass that named, in
   advance, the two crashes and the live-no-op control the naive fixes would have shipped.
+- 2026-09-02 — **Step 3 before pass**, all three chairs, recorded in the step's own section
+  above. Every finding was read at its file and line before it was taken.
+- 2026-09-02 — **Step 3 after pass**, all three chairs. **Art director**: satisfactory, with
+  two findings carried to step 6 (the bottom band's foot follows `--wq-bottomzones`, so it
+  sits at a different height on different screens; and the bible's Build It row, reconciled
+  the same day) and one condition on the bottom corners — author the compact crop for two,
+  never crop four down to two. **Reading chair**: conditionally satisfactory, one blocking
+  finding taken (the reclaim floor was keyed on the reclaimed line itself, so a lost reclaim
+  changed the key and the cell skipped its own assertion; re-keyed on the profile name).
+  **Engineering seat**: satisfactory after the one-frame hide was re-shaped and the guard's
+  memory changed to a rounded clientWidth. No chair returned "not satisfactory", so this
+  entry is hygiene rather than a gate.
+- 2026-09-03 — **Step 3's last defect, found by the beta 31 gauntlet and fixed in it**: on
+  WebKit under load the toast covered a child control by 41 px, because a zone can grow
+  without a render, a resize or a rotation and nothing re-measured. Open fault BB. The
+  rotation cell then caught the word's old glyphs once in three runs, and the fitted size is
+  now capped in the viewport's own unit as well, so a narrower screen shrinks the glyphs in
+  the same layout that narrowed them.
+- 2026-09-03 — **Step 6's reference stage opened early** from the owner's own inspiration
+  image, and all eight of its decisions ruled the same day. Step 6 itself stays closed until
+  step 4 is done.
+- 2026-09-03 — **Step 4 opened**, as ruled.
