@@ -1046,6 +1046,45 @@ read as one family at 13 px. Reading chair: whether a child can still tell "this
 from "not yet" at arm's length. Engineering seat: whether the sweep is complete, whether the
 control can fail, and whether the double pin is discharged in one diff.
 
+### Step 6's subject, ruled 2026-09-03: a Garry oak meadow, and the eleven states are a year
+
+Two rulings, both the owner's, both made while the first sprites were being drawn.
+
+**THE PLACE IS A GARRY OAK MEADOW.** He chose it from ten themes of this coast put to him.
+It is the emblem of the southern island - crooked wide-crowned oaks over a blue haze of camas,
+with spring gold, shooting star and chocolate fritillary - and it is an endangered ecosystem, which
+gives the garden something quietly worth saying to a child who grows up looking at it.
+
+**THE ELEVEN STATES WALK THROUGH THE YEAR.** Until now they were "the same place, fuller":
+state 0 a seed terrace, state 1 three blooms at level 10, state 2 a mosaic border at 20, and so
+on. The owner ruled instead that the garden should move through the seasons, so that a child
+climbing the levels watches the year turn rather than watching a border thicken. It is a better
+answer to the question his earlier ruling raised - that each state must add a NEW KIND of thing
+rather than more of the same - because a season change is exactly that, eleven times over.
+
+**The proposed mapping, one state per level decade, to be confirmed before any of it is drawn:**
+
+| state | level | the meadow |
+| --- | --- | --- |
+| 0 | start | Deep winter. Bare oaks, moss at its greenest, osoberry in first leaf, the earliest bulb tips. |
+| 1 | 10 | First spring. The filbert in catkin, camas spears pushing, the first crocus. |
+| 2 | 20 | Spring. Camas in blue flower, shooting star, oak buds breaking. |
+| 3 | 30 | Full spring. The meadow at full bloom - ox-eye, buttercup, chocolate fritillary - and the rabbits out. |
+| 4 | 40 | First warmth. Grasses tall, salmonberry fruiting, the oaks in full leaf. |
+| 5 | 50 | The dry months. The meadow going gold and dry, deep shade under the oaks, dragonflies. |
+| 6 | 60 | The late dry months. Blackberries, seed heads, dust and stillness. |
+| 7 | 70 | First rains. The first rain, mushrooms up, oak leaves turning. |
+| 8 | 80 | Leaf fall. Leaf fall, arbutus berries red, geese going over. |
+| 9 | 90 | The turning year. Bare branches, frost, rose hips, bracket fungus. |
+| 10 | 100 | Deep winter again. Snow on the oaks, a chickadee - and the first bulb tips showing again, so the year closes where it opened. |
+
+**What this changes and what it does not.** It does not change the bible's rule that the garden
+brings its own dark ground, nor the key light, nor the palette, nor the byte share. It DOES
+supersede bible section 6's state table, which is the owner's to supersede and which he has;
+the table above replaces it once he confirms the mapping. And it raises one question the old
+scheme never had: the palette was measured from a SPRING picture, so the later seasons will
+need colours it does not contain - a further ruling, at the state that first needs them.
+
 ## The log — every pass, every verdict
 
 Newest last. A verdict names the chair, the step, the word, and the findings.
