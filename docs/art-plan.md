@@ -821,6 +821,107 @@ see the clip. Art bytes: still 0.
   screen's accessible-tree snapshot still said "Little Ears" from before the chunk ladder - both
   from earlier commits, both found because this step ran the census whole.
 
+### Step 6's reference stage — the owner's own picture, opened early on 2026-09-03
+
+Step 6 has not started and its place in the order is not re-ruled. What HAS happened is that
+the owner sent an inspiration image and said what he wants from it, and the bible's stage 1
+(section 17) is a reference board — so the stage is recorded here now, before the step opens,
+because it is the one part of step 6 that can be done without touching a pixel or jumping the
+order. One objection to painting the garden next was that this stage had not been run. It has
+now; the other objections stand.
+
+**The owner's words, 2026-09-03.** "I want to provide an inspiration image for the game. The
+foliage and garden in particular. I love the foliage created here... The flowers. The
+arbutus. It is so reminiscent of spring and Vancouver island and snes games I played as a
+kid. I want the garden and the game art to have hopefulness and vegetation like this."
+
+**The file, pinned and OUTSIDE the package.** `D:\CVCGame-ops\art\reference\owner-inspiration-2026-09-03.png`,
+3,266,037 bytes, sha256 `8f18d4cb537e57b1fc3adbe8f0238c2a1407ec5ea68c5d588c097158fda6a25d`,
+1448 x 1086, 644,328 unique colours. It is not in the repository and spends none of the
+12,582,912-byte art budget. Bible 18.1 forbids a third-party screenshot in the production
+package, and this satisfies that by construction.
+
+**THE OPEN IP QUESTION, AND IT GATES THE COLOURS.** Bible 18.1 also forbids "direct palette
+extraction from a commercial asset". The provenance of this image is not known, and the study
+that produced this record DID sample its pixels. Everything structural below is an idea and
+carries no such risk — value organisation, hue discipline, where fresh growth sits, how an
+edge is separated. Sampled hex values do. So: no token takes a value derived from this image
+until the owner states its source and licence, and if it is a third party's work every colour
+is re-derived from the repository's own palette instead. Recorded as an owner-visible question
+on the decision page of 2026-09-03.
+
+**What the image answers well:** light, material behaviour, and colour discipline.
+**What it does not answer at all:** geometry and scale — it is a landscape painting and our
+zones are a 12.8-16.5 px band and a 58-74 px corner.
+
+**The measured rules.** Each is checkable, and each was measured rather than admired.
+
+- THE KEY LIGHT IS UPPER RIGHT, and under bible 17 stage 3 that is irreversible across all
+  eleven states, the Glowseed and the guide. Three independent tests, because two of five
+  readers said upper-left and were wrong: the snow peak's left flank averages 136.0 against
+  the right's 184.2; all three conifer groups are brighter on their right third (45.6/69.1,
+  44.4/71.4, 61.2/66.5); and the brightest pixel inside each arbutus bark run sits right of
+  centre, +0.12 over 731 lower-limb scanlines and +0.23 over 523 upper. It also falls out
+  conveniently: the shaded corner is the top-left, which already carries the home button.
+- THE PICTURE IS DARK, WHICH IS WHY IT LOOKS BRIGHT. Mean luminance by tenths, top to bottom:
+  0.218, 0.307, 0.225, 0.102, 0.073, 0.070, 0.062, 0.065, 0.069, 0.059. The near bank
+  averages 0.090 against the distance's 0.221. No flower is a pale colour; they read as light
+  because they sit on a near-black mass. This is the reference's agreement with the bible's
+  own ruling that the garden brings its own dark ground, and the frame must be the dark ring
+  with the reading field as the lit middle.
+- ONE COOL HUE, NEVER MOVED. Sky, water, distance and every shadow derive from H211-218; only
+  saturation and value move. Our palette already locks the same window (ink H219,
+  inkSecondary H219, gardenNight H222).
+- NEVER NEUTRALISE A SHADOW AND NEVER LET A DARK GO BLACK: the deepest pixel measures
+  #0a1417, hued at S57 V9.
+- NO OUTLINES; a 1-2 px rim-light on the SUN side does the contour's work — with its contrast
+  capped, because bible 8.3 forbids a decorative object out-contrasting the teaching word.
+- NO DITHER AND NO MOTTLE. The reference replaces dither with a plus-or-minus 8/255 organic
+  mottle. It is refused on four measured grounds: it is not a three-to-five-step ramp
+  (stage 5), no sampled pixel equals a token (stage 8), it costs 1.7x the bytes, and it makes
+  indexed PNG impossible — 150,691 colours in one 240 x 900 crop.
+- VALUES PER MATERIAL: three for a leaf, four for a flower, two for anything in the back
+  layer. The largest area is the darkest, coolest step — 17.3% of the reference's bottom
+  strip, more than every flower colour combined.
+- GREEN IN TWO REGISTERS, SKIPPING THE MIDDLE: bodies under V30, tips at V72-82 near H56-63.
+  The freshness is the interval, not the hue, and it is the one thing our palette cannot
+  currently paint.
+- ACCENT AREAS, to be taken as ratios at about a tenth of the element count: purple 2.38%,
+  warm orange 2.37%, yellow 1.83%, blue 1.15%, white 0.94%, red 0.34%. Every small white
+  flower carries one warm dot at its centre — two colours per bloom at twelve pixels, which
+  is the whole sparkle mechanism and the cheapest thing in this record.
+
+**What fits our real zones**, measured from `app/src/wq-css.js` across the eight profiles.
+Side panels are 64 / 97 / 160 px wide: the tiered conifer is the best fit in the exercise, a
+lupine raceme at 70-90 px the second, the statement crocus only at 160 px. The lit top-right
+corner (58-74 px) takes ONE arbutus branch tip — two S-curved stems and a single leaf
+fistful. The shaded top-left corner takes the least of anything, since the home button and
+the counter chip are already in it. The bands (12.8-16.5 px) take the far islands' saw-tooth
+crown and nothing else. The white ox-eye at 12 px - six petal strokes around a single
+two-pixel warm centre - fits every zone. (The flower's usual English name is also a personal
+name, so S9 refuses it and the botanical half is used throughout.) What fits nowhere: the
+depth strips, the island chains, the water, any horizon, the path — every one a horizontal
+recession device — and the arbutus AS A TREE on a phone, which needs about 120 x 200 px of
+clear panel and gets none.
+
+**The bytes, measured rather than estimated.** A 240 x 900 panel filled with this picture's
+own foliage is 111,600 bytes indexed to 32 colours and 322,001 at 2x; sixty-six such files
+are 14,308,833 bytes, which is 1.71x the garden's 8,388,608-byte share and 1.14x the entire
+art ceiling. At 16 colours the same set is 8,907,195 bytes — 1.06x the share, within six per
+cent. So this quality is affordable only with the palette held tight, and the SVG-versus-PNG
+question is on the decision page.
+
+**What a child on three of the eight profiles will see: nothing.** The whole frame layer is
+hidden under 520 px of usable height, a tablet in landscape at 1024 x 768 has zero-width side
+panels, and every profile under 620 px loses the bands and corners. Recorded before the bytes
+are spent rather than after.
+
+**Open, and each on the 2026-09-03 decision page with a recommended default:** the source and
+licence; the key light; whether the five foliage tokens are ruled and at what values; whether
+the bottom band may run to the physical bottom of the screen; whether the two bottom corners
+return; SVG or PNG; and whether step 6 is state 0 only — which the bible licenses as no more
+than a seed terrace, a moss edge, a young sapling and the Glowseed cradle.
+
 ## The log — every pass, every verdict
 
 Newest last. A verdict names the chair, the step, the word, and the findings.
