@@ -1091,8 +1091,35 @@ The owner asked for this in his own words - "Use public domain images of the pnw
 your decisions" - because the palette was measured entirely from one spring picture and the later
 states need colours it does not contain. Four researchers took the dry months, the rains and leaf
 fall, winter, and the sky; a fifth reconciled them. Every source is a US federal work, a CC0
-upload or a photo from inaturalist.org whose licence was read from its interface rather than assumed, and each
-is named in the record with its URL.
+upload or a photo from inaturalist.org whose licence was read from its interface rather than
+assumed.
+
+**THE URLS ARE NOT IN THIS REPOSITORY, AND THIS PARAGRAPH SAID THEY WERE UNTIL 2026-09-03.**
+It read "each is named in the record with its URL", and no URL existed in this file or in
+`tools/art/provenance.json` - the claim was false for a day, and it was found by an agent sent
+to attack a survey rather than agree with it. Writing them in was tried and REFUSED, correctly,
+by the S9 gate: thirty-nine sources were recovered and twelve of them carry a personal name
+inside the URL itself. Some are photographer credits sitting inside an image filename; some are
+place names on this coast that are also ordinary given names, and the gate cannot tell a bay
+from a person and should not try. S9 says no file in the repository contains a personal name, it
+is a child-safety rule, and it does not bend for a citation.
+
+The rule proved itself twice over here. A first attempt to WRITE THIS VERY PARAGRAPH was also
+refused, because it named two of those places as examples - so even the explanation of the
+problem could not be typed without becoming the problem. That is not the gate being clumsy. It
+is a rule that refuses a name whatever job the name is doing, which is the only kind of rule
+that actually keeps a child's name out of a tree.
+
+So the honest state is this. The thirty-nine sources exist, their licences were read, and they
+live in the researchers' saved working record OUTSIDE this tree. What can be said in here
+without breaking S9 is the shape: thirty of thirty-nine are on the same public media commons, four are
+observations from the natural-history site whose `license_code` was read as `cc0`, and five are
+direct federal works. **THIS IS A DECISION FOR THE OWNER, and it is his alone**, because S9 lives in
+`CLAUDE.md` and only he may add an exception to it. The precedent already exists and he wrote
+it: `tools/s9-passage-names.json` scopes character names inside verbatim public-domain teaching
+content, each entering as its own owner-visible diff with its source credited. An art-source
+ledger of the same shape would let the citations land. Until he rules, the claim is corrected
+rather than quietly satisfied.
 
 **THE CALIBRATION THAT MAKES THE NUMBERS TRUSTWORTHY, and nobody was asked for it.** A photograph
 tells you hue reliably and value only if you know its exposure. The dry-months researcher found a
