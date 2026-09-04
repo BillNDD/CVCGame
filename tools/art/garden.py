@@ -173,6 +173,169 @@ def masses(rows, floor=6):
     return [n for n in groups[1:] if n >= floor]
 
 
+# ------------------------------------------------------- variation, by CA
+# THE CAVE PROCESS, owner-taught 2026-09-03, after he looked at a ring of
+# mushrooms and said "Two of the mushrooms are exactly the same. Too much like
+# an ai pixel drawing." He was right, and so was the judge that drew it, which
+# had written the same thing in its own critique and shipped it anyway.
+#
+# It is the roguelike cave generator: fill a grid at random, then run smoothing
+# passes where a cell lives or dies by counting its eight neighbours. After
+# three or four passes the noise has collapsed into organic blobs that no rule
+# looks like it drew. What it is used for HERE is the part worth writing down:
+# NOT to generate a shape. The owner approved these silhouettes by eye, one at a
+# time, over two days, and a generator that redraws them throws that away. The
+# cave decides only WHERE to vary, and the variation is one rung along the
+# pixel's own material ramp. So the outline is untouched to the pixel, every
+# ink stays a declared token, the ramp stays three to five values (bible stage
+# 5), and the copy-paste signature dies.
+#
+# EVERY BIT OF IT IS SEEDED. tools/art/provenance.json pins a hash of each
+# rendered profile and `npm run check` regenerates and compares, so a random()
+# anywhere in this file would make the pin meaningless and the garden a
+# different garden every run. The seed is written beside the sprite; the
+# variation is authored once and reproducible forever, and two mushrooms differ
+# because a recorded number says so, not because a die was rolled at render.
+
+
+def rng(seed):
+    """A deterministic 32-bit xorshift. Python's own `random` is seedable but
+    its stream is a documented implementation detail, and this file's output is
+    pinned to the byte - so the generator is written out where it can be read."""
+    s = (seed * 2654435761) & 0xFFFFFFFF or 0x9E3779B9
+
+    def nxt():
+        nonlocal s
+        s ^= (s << 13) & 0xFFFFFFFF
+        s ^= s >> 17
+        s ^= (s << 5) & 0xFFFFFFFF
+        return s
+
+    return nxt
+
+
+def cave(w, h, seed, fill=45, passes=4, birth=5, survive=4):
+    """The cave mask: 1 where a pixel may vary, 0 where it may not.
+
+    Out-of-bounds counts as filled, which is what pulls the blobs in off the
+    edges instead of leaving them clipped - the standard trick, and the reason
+    the mask reads as organic rather than as noise with the corners cut."""
+    r = rng(seed)
+    g = [[1 if r() % 100 < fill else 0 for _ in range(w)] for _ in range(h)]
+    for _ in range(passes):
+        out = [[0] * w for _ in range(h)]
+        for y in range(h):
+            for x in range(w):
+                n = 0
+                for dy in (-1, 0, 1):
+                    for dx in (-1, 0, 1):
+                        if dy == 0 and dx == 0:
+                            continue
+                        yy, xx = y + dy, x + dx
+                        n += 1 if not (0 <= yy < h and 0 <= xx < w) else g[yy][xx]
+                out[y][x] = 1 if (n >= survive if g[y][x] else n >= birth) else 0
+        g = out
+    return g
+
+
+# WHERE A VARIED PIXEL MAY STEP, derived from the palette rather than typed by
+# hand. The first version of this was six hand-written strings and two of them
+# were wrong: "dcnw" stepped stone (hue 41) to the cool petal (hue 206), a 165
+# degree swing dressed up as a value step, and "jufria" put a pale blue-grey in
+# the middle of a run of browns. Derived, a step cannot do that, because the
+# rule is stated once instead of six times.
+#
+# A step must be SMALL AND WITHIN ONE MATERIAL: the same hue family, the nearest
+# rung by value, no more than VALUE_STEP of value and HUE_STEP of hue away. An
+# ink with no such neighbour does not vary at all, which is the right answer -
+# it means the palette has no rung there, and inventing one would leave the
+# ramp the bible's stage 5 governs.
+VALUE_STEP, HUE_STEP = 24, 20
+
+
+def _hsv(c):
+    r, g, b = (x / 255 for x in c)
+    mx, mn = max(r, g, b), min(r, g, b)
+    d = mx - mn
+    if d == 0:
+        h = 0.0
+    elif mx == r:
+        h = (60 * ((g - b) / d)) % 360
+    elif mx == g:
+        h = 60 * ((b - r) / d) + 120
+    else:
+        h = 60 * ((r - g) / d) + 240
+    return h, (0 if mx == 0 else d / mx) * 100, mx * 100
+
+
+def _family(c):
+    h, s, v = _hsv(c)
+    if v < 22:
+        return "ink"          # near-black: hue is not readable and is not a step
+    if s < 22:
+        return "grey" + ("warm" if h < 160 else "cool")   # a grey's hue is noise,
+    if h < 20 or h >= 330:                                # but its bias still shows
+        return "red"
+    if h < 52:
+        return "warm"
+    if h < 160:
+        return "green"
+    return "cool"
+
+
+def _neighbours(pal):
+    """For each ink, the nearest lighter and nearest darker ink it may become."""
+    inks = sorted(c for c, v in pal.items() if v and not c.isdigit())
+    out = {}
+    for c in inks:
+        fam, (hc, _, vc) = _family(pal[c]), _hsv(pal[c])
+        up = down = None
+        for o in inks:
+            if o == c or _family(pal[o]) != fam:
+                continue
+            ho, _, vo = _hsv(pal[o])
+            dh = abs(ho - hc)
+            dh = min(dh, 360 - dh)
+            if abs(vo - vc) > VALUE_STEP or (fam not in ("ink",) and dh > HUE_STEP):
+                continue
+            if vo > vc and (up is None or vo < _hsv(pal[up])[2]):
+                up = o
+            elif vo < vc and (down is None or vo > _hsv(pal[down])[2]):
+                down = o
+        out[c] = (down, up)
+    return out
+
+
+STEPS = _neighbours(PAL)
+
+
+def vary(rows, seed, amount=1):
+    """Nudge pixels one rung along their own ramp, where the cave says so.
+
+    Two masks, not one: the first says lighter, the second says darker, and a
+    pixel in both is left alone - so the result is three-state and never a flat
+    lightening of half the sprite. The silhouette cannot move, because only a
+    lit pixel is ever read and it is only ever replaced by another lit ink.
+    """
+    h, w = len(rows), max(len(r) for r in rows)
+    up = cave(w, h, seed)
+    down = cave(w, h, seed ^ 0x5BF03635)
+    out = []
+    for y, row in enumerate(rows):
+        line = []
+        for x, ch in enumerate(row):
+            if ch == ".":
+                line.append(ch)
+                continue
+            step = (up[y][x] and not down[y][x]) - (down[y][x] and not up[y][x])
+            if step:
+                darker, lighter = STEPS.get(ch, (None, None))
+                ch = (lighter if step > 0 else darker) or ch
+            line.append(ch)
+        out.append("".join(line))
+    return out
+
+
 # ------------------------------------------------------------------ the maps
 # THE OX-EYE, 9 x 6. Two colours per bloom - a cool ray and a warm heart - is
 # the reference's entire sparkle mechanism, and the cheapest mark in the set.
