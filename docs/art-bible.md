@@ -1037,6 +1037,30 @@ creators, studios, characters, interfaces, or assets as targets for imitation.
 
 ### 18.1 Prohibited
 
+**THE RULE IN ONE LINE, owner-ruled 2026-09-04: nothing enters the pipeline but our own pixels
+- our pixels, and ideas from art manuals that are public domain.**
+
+He wrote the second half himself, and it matters as much as the first. Ideas and techniques are
+not property: that a landscape's uprights are its darkest value, that distance fades toward the
+sky, that a cast shadow is what puts an object ON the ground rather than in front of it - these
+are facts about light, and a nineteenth-century painter writing them down did not thereby own
+them. So the manuals may be read and their PRINCIPLES used freely, on three conditions that are
+not negotiable:
+
+1. **The text must genuinely be in the public domain**, checked rather than assumed, and named
+   in the record so anyone can check it again.
+2. **No passage is reproduced and no image is copied.** What comes back is the principle, in our
+   own words. A rule restated is learning; a paragraph pasted is taking.
+3. **Not one pixel comes from anywhere else.** Every sprite in this garden is a hand-authored
+   ASCII map. The only library that touches them is Pillow, which is permissively licensed.
+   Tools may be used - an image editor open on the desk is a desk, not a dependency - but
+   nothing of a tool's own code, brushes or bundled assets enters this repository, and a
+   GPL tool's assets would bind the whole project if they did.
+
+The list below is the older, narrower statement of the same idea, kept because it names the
+specific traps.
+
+
 - "In the style of" prompts.
 - Third-party screenshots in the production package.
 - Image-to-image use of copyrighted game screenshots.
