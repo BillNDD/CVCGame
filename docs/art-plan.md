@@ -1754,3 +1754,55 @@ Newest last. A verdict names the chair, the step, the word, and the findings.
   image, and all eight of its decisions ruled the same day. Step 6 itself stays closed until
   step 4 is done.
 - 2026-09-03 — **Step 4 opened**, as ruled.
+
+## The cave process, and why every seed is written down
+
+**Owner-taught 2026-09-03.** He looked at a ring of mushrooms and said "Two of the
+mushrooms are exactly the same. Too much like an ai pixel drawing," then named the
+technique himself: the roguelike **CA cave generator**. Fill a grid at random, smooth it
+three or four passes by counting each cell's eight neighbours, and the noise collapses
+into organic blobs that no rule looks like it drew.
+
+**It is used to decide WHERE to vary, never to generate a shape.** The owner approved
+118 silhouettes by eye, one at a time, over two days. A generator that redraws them
+throws that away. So `cave()` produces a mask, and `vary()` steps each masked pixel ONE
+rung along its own material ramp - the outline is untouched to the pixel, every ink stays
+a declared token, and the ramp stays the three to five values bible stage 5 requires.
+
+**Every seed is written into the source, and he gave two reasons.** The first:
+*"having some sort of seed number that was saved durably that way you didn't risk your
+randomness drifting."* In this repository that is not a nicety - `tools/art/provenance.json`
+pins each rendered profile to the byte and `npm run check` regenerates and compares, so a
+`random()` in the art would make the pin meaningless and the garden a different garden
+every run. The second reason is the better one: *"your process for creating disorder could
+be consistent from art asset to art asset so your game would have a consistent visual
+feel."* **One rule, many seeds** - the parameters are the style, the seed is the instance,
+and a whole set sharing one grain of disorder is what makes it look like one hand drew it.
+
+The one correction to that, offered and accepted: the seed buys reproducibility, not
+humanity. What reads as human is the AXIS the variation is applied to. Tone variation
+could not touch the mushrooms, because their tell was two identical outlines and two
+identical heights - and `vary()` is built to hold a silhouette exactly. Flat jitter
+applied evenly is itself a pattern; a viewer reads "noise sprinkled uniformly" about as
+fast as they read copy-paste.
+
+**The ramps are derived, not typed.** The first version was six hand-written strings and
+two were wrong: `dcnw` stepped stone at hue 41 to the cool petal at hue 206, a 165-degree
+swing dressed as a value step. `STEPS` now computes, for every ink, the nearest darker and
+lighter ink in the same hue family within 24 of value and 20 degrees of hue. Measured
+worst step in the palette: 16 degrees, 19 of value. An ink with no legal neighbour does
+not vary - the cool petal and the ray are both alone in their families and both sit still.
+
+**Sixteen approved sprites contained the same pixels twice.** Found by
+`tools/art-repeats.py`, shown to the owner boxed, and ruled: **redraw all**. But not by
+redrawing - his instruction was *"you don't need to redraw the entire images, just use the
+seed to introduce local variation that eliminates the repeat"* and *"as lightly as
+possible"*. `unrepeat()` varies ONE of the two copies and nothing else. **Fifteen cleared
+with 207 pixels moved in total, an average of fourteen per sprite, and not one silhouette
+changed.** Each fixed sprite carries its `"unrepeat"` seed beside its map.
+
+The sixteenth, `stream_edge`, cannot be fixed this way and is in the ledger with the
+reason: its repeat is drawn entirely in the cool petal and the ray, the two inks with no
+neighbour, so there is no legal move and 500 seeds change nothing. It is owed either a
+rung between `#9fb4c4` and `#ccd4c4` as a named token - which would also give every future
+water and petal somewhere to step - or a person redrawing it by hand.

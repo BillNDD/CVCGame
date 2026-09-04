@@ -336,6 +336,111 @@ def vary(rows, seed, amount=1):
     return out
 
 
+# --------------------------------------------- finding a sprite's own copies
+# THE THREE RULES ARE WRITTEN OUT IN tools/art-repeats.py, which is the gate.
+# The finder lives HERE because this is the file that owns the sprites, and
+# because the gate and the fixer below must never disagree about what a repeat
+# is - two definitions of one question is how a gate starts passing what the
+# tool beside it is still trying to fix.
+REPORT_AT, REFUSE_AT = 12, 18
+
+
+def _at(rows, x, y, bw, bh):
+    """The block at (x, y), or None if it runs off the map."""
+    if y < 0 or x < 0 or y + bh > len(rows) or x + bw > max(len(r) for r in rows):
+        return None
+    return tuple(rows[y + j][x:x + bw] for j in range(bh))
+
+
+def _uniform(rows, block, x, y, bw, bh):
+    """True if this block also sits one pixel to a side.
+
+    The signature of a MATERIAL rather than a stamp: a uniform trunk or a flat
+    turf band matches itself at every offset, so finding it twice says nothing.
+    A copied object matches at exactly one other place and nowhere a pixel away.
+    """
+    return any(_at(rows, x + dx, y + dy, bw, bh) == block
+               for dx, dy in ((1, 0), (0, 1), (-1, 0), (0, -1)))
+
+
+def repeats(rows, floor=REPORT_AT):
+    """The largest block of drawn pixels appearing twice WITHOUT OVERLAP."""
+    if not rows:
+        return None
+    height, width = len(rows), max(len(r) for r in rows)
+    best = None
+    for bh in range(height, 1, -1):
+        for bw in range(width, 1, -1):
+            if best and bh * bw <= best[0] * best[1]:
+                continue
+            seen, hit = {}, False
+            for y in range(height - bh + 1):
+                for x in range(width - bw + 1):
+                    block = tuple(rows[y + j][x:x + bw] for j in range(bh))
+                    lit = sum(len(r) - r.count(".") for r in block)
+                    if lit < floor:
+                        continue
+                    for (px, py) in seen.get(block, []):
+                        if abs(px - x) < bw and abs(py - y) < bh:
+                            continue                     # overlapping: rule 1
+                        if _uniform(rows, block, px, py, bw, bh):
+                            continue                     # a material: rule 3
+                        best, hit = (bh, bw, lit, (px, py), (x, y)), True
+                        break
+                    else:
+                        seen.setdefault(block, []).append((x, y))
+                        continue
+                    break
+                if hit:
+                    break
+    return best
+
+
+def unrepeat(rows, seed, floor=REFUSE_AT, tries=96):
+    """Break a sprite's internal copy-paste WITHOUT redrawing it.
+
+    Owner-ruled 2026-09-03, and the ruling is the good part: "you don't need to
+    redraw the entire images, just use the seed to introduce local variation
+    that eliminates the repeat."
+
+    So this varies ONE of the two copies and nothing else. The rest of the
+    sprite - which he approved one at a time, by eye - is not touched by a
+    single pixel, and the copy that moves keeps its silhouette exactly, because
+    vary() only ever swaps an ink for its neighbour on the same ramp.
+
+    ESCALATION, measured rather than guessed. Varying only the second copy
+    cleared twelve of the sixteen sprites the gate found and left four where it
+    moved ZERO pixels, because every ink in that block was alone in its hue
+    family and had no legal neighbour. So it widens: the other copy, then a
+    skirt of one pixel, then two. The skirt is the smallest widening that can
+    work, which is the point - the owner asked for "as lightly as possible".
+
+    Returns (rows, seed_used), or (rows, None) if no seed clears it. Failing is
+    a real outcome and is reported rather than papered over: stream_edge's
+    repeat is drawn entirely in the cool petal and the ray, both of which are
+    ALONE in their hue families, so the palette has no rung for them to step to
+    and no number of seeds invents one. That sprite needs a person, or a token.
+    """
+    for n in range(tries):
+        hit = repeats(rows)
+        if not hit or hit[2] < floor:
+            return rows, (seed + n - 1 if n else None)
+        bh, bw, _, first, second = hit
+        pad = n // 24
+        bx, by = second if (n // 12) % 2 == 0 else first
+        x0, y0 = max(0, bx - pad), max(0, by - pad)
+        x1 = min(max(len(r) for r in rows), bx + bw + pad)
+        y1 = min(len(rows), by + bh + pad)
+        block = [row[x0:x1] for row in rows[y0:y1]]
+        varied = vary(block, seed + n)
+        if varied == block:
+            continue                      # this seed moved nothing; try the next
+        rows = [row[:x0] + varied[y - y0] + row[x1:] if y0 <= y < y1 else row
+                for y, row in enumerate(rows)]
+    hit = repeats(rows)
+    return rows, (None if hit and hit[2] >= floor else seed + tries - 1)
+
+
 # ------------------------------------------------------------------ the maps
 # THE OX-EYE, 9 x 6. Two colours per bloom - a cool ray and a warm heart - is
 # the reference's entire sparkle mechanism, and the cheapest mark in the set.
@@ -783,6 +888,7 @@ TREES = {
             "........bbbdbbbbbdbbbbhm..........",
         ]},
     "arbutus_wind": {  # 40 x 30: The bottom-right corner of a phone frame, or the foot of a right-hand side panel, rooted at its own bottom-left and leaning out across the corner over
+        "unrepeat": 1,  # 2026-09-03: 4 px varied to break a 24-pixel copy of itself
         "map": [
             ".................................stt....",
             "................................sstt....",
@@ -798,8 +904,8 @@ TREES = {
             "...............................sssstt...",
             "..................ssssysssst....hm.sstt.",
             "..................sssssssssttt..pm..stt.",
-            ".................ssssssssssttt.pm....hm.",
-            "................ssssssssssttt..pm..pphm.",
+            ".................vvssssssssttt.pm....hm.",
+            "................vvssssssssttt..pm..pphm.",
             "................dsssssssstt...sbppphhhm.",
             "......ssst......sssssssssbppppphhhhhm...",
             "....sssssst........sbpppphhhhhm.........",
@@ -841,6 +947,7 @@ TREES = {
     # thickest where it leaves the trunk. Nothing else in this map was touched; he called the rest
     # perfect.
     "garry-mature": {  # 44 x 40: The wide corner tree — as broad as it is tall, so it belongs where the frame has room: the top-left shade corner of a phone (replacing one of the two
+        "unrepeat": 5,  # 2026-09-03: 25 px varied to break a 26-pixel copy of itself
         "map": [
             "....................ttt.....................",
             "..................tssstt....................",
@@ -852,21 +959,21 @@ TREES = {
             ".........dddddssssstt..dddsssd..ttt.........",
             "............ddsssssssttttddd..tsssttt.......",
             ".............ddssssssssstd....sssssst.......",
-            "......ttt..tttdddddsssss..t..ddssssstt......",
-            "....tssst..ssstt..ddssst..dtttdsssssst......",
-            "....ssssdtssssstt.ddssst..ssstdddssssttt....",
-            ".ttddsssddssssstt..ddssdtsssssttddsssssst...",
-            ".sssdsssddssssssttt..ddddssssstd.ddssssstt..",
-            "dsssddddsddssssssbt...dddsssss....dsssssstt.",
+            "......ttt..tttdddddgggss..t..ddssssstt......",
+            "....tssst..ssstt..djggst..dtttdsssssst......",
+            "....ssssdtssggstt.ddgsst..gsstdddssssttt....",
+            ".ttddsssddsggggtt..ddssdtssgssttddsssssst...",
+            ".sssdsssddsggggsttt..ddddssssstd.ddssssstt..",
+            "dsssddddsddsggsssbt...dddsssss....dsssssstt.",
             ".dssss..dsdddddddsstt.b.ddssst.....dddsssst.",
             ".ddddt..sssss...dssstt.t..dddstttts..dddsst.",
             "...dddtssssst...ssssssst..t.sssssst..ssdssst",
             "...dddssssssbttddssssssststddssssdstssstddd.",
             "...ssddsddsbssssdddddsssbsttdssbsdssssssb...",
             ".tdsssdddddsssssssssdssbsstttdbdssdddssst...",
-            "..dddsssssdddsssssssddddsssssdtdb..ddssstt..",
-            "....dssssb...ddssssssbbddssssstb...bdssss...",
-            ".....ddddbh..bddsssssbbbddsssssbhhbbbddd....",
+            "..dddsssssdddsssssvsddddsssssdtdb..ddssstt..",
+            "....dssssb...ddssvvssbbddssssstb...bdssss...",
+            ".....ddddbh..bddssvssbbbddsssssbhhbbbddd....",
             ".........dbhbbbddddd.dbb..dddbbbbbbb........",
             "..........dbbbbb......dbh..bbbbbbb..........",
             "...........bdbbbhhb....dbhbbbbb.............",
@@ -1117,6 +1224,7 @@ TREES = {
             "....dnnnnnnww.......",
         ]},
     "pacific dogwood": {  # 24 x 30: The lit top-right corner or the sunny side panel, and only ONE of them anywhere in a frame - it is the brightest sprite in the set and a second copy w ITERATED 2026-09-03 on the owner's "close, centre too empty". The flower was the fault: four bracts around a HOLE. A dogwood flower is four white bracts around a small green BUTTON of true flowers, so every bloom now carries that button - gardenTip over gardenStem at its heart - and the sinus between the two upper bracts is cut, which is what tells a bract from a petal. Five blooms, not seven, at five heights and in two sizes, each set ON the leaf mass the way a dogwood flowers at its branch tips. The leaves went up and the bare armature came down, so the white has something to be bright against instead of empty ground.
+        "unrepeat": 1,  # 2026-09-03: 1 px varied to break a 26-pixel copy of itself
         "map": [
             "..............nww.......",
             "......nww....nwwww......",
@@ -1137,7 +1245,7 @@ TREES = {
             ".nwwww..sssbhttt.ttcwwn.",
             ".cwttwsssssbhsnwwssscc..",
             "..cwwnsssssbbnwwwwssstt.",
-            ".ssccssssssbbcwttwssst..",
+            ".svccssssssbbcwttwssst..",
             "..ssssssnwwbbscwwn.sst..",
             "...ssssnwwwwbss.........",
             ".......cwttwbbss........",
@@ -1181,6 +1289,7 @@ TREES = {
             "..dbbbbh........",
         ]},
     "filbert with catkins": {  # 18 x 24: Low and at the front, where a shrub belongs: the bottom of a side panel or a phone's bottom corner, in front of a conifer or beside the rocks, so its 
+        "unrepeat": 26,  # 2026-09-03: 10 px varied to break a 18-pixel copy of itself
         "map": [
             "......ttttt.......",
             "......sssst.......",
@@ -1188,16 +1297,16 @@ TREES = {
             ".....tsssstttttt..",
             "...ttssssssssstt..",
             "..ssdsssssssssstt.",
-            ".ssssssssssssssstt",
-            ".sssssssssssssssst",
-            ".sssssst...ssssttt",
+            ".ssssssssssssvsstt",
+            ".sssssssssssvvvsst",
+            ".sssssst...ssvsttt",
             ".sssssdt...sssstmt",
             ".tmsssds...ssssttt",
             ".ttssssssttssssttt",
             ".ttstm..sssttm.tt.",
             ".ttstt...ss.tt..t.",
-            "..t.tt...s..tt..t.",
-            "..t.ttb..b..tt....",
+            "..t.gg...s..tt..t.",
+            "..t.ggo..b..tt....",
             ".....tbh.bh..th...",
             ".....t.bhbh.bt....",
             ".......bhbh.bh....",
@@ -1209,6 +1318,7 @@ TREES = {
         ]},
     # --- snags
     "the broken snag": {  # 16 x 52: The tablet and desktop side panels, standing behind the conifers where its 52 px of height has room; on a phone it crops into the top-left shade corner. Revised 2026-09-03 after the owner's "too perfect": the crown is a splintered break, not a cut - a tall spike right of centre, a blunt torn one beside it, a hanging sliver, and a deep notch between them. The bark is gone in plates, not in a gradient: it stops at one column for a run of rows and then steps, four times up the trunk, and comes off entirely across the middle where the wood is silvered. Two shakes, neither plumb and neither full length; a woodpecker hole in the lit face; one broken limb stub on the right only.
+        "unrepeat": 1,  # 2026-09-03: 26 px varied to break a 65-pixel copy of itself
         "map": [
             ".........dbnw...",
             ".........dbnw...",
@@ -1243,19 +1353,19 @@ TREES = {
             ".dbbbbbhnnnnnnw.",
             ".dbbbbbhnnnnnnw.",
             ".dbbbbbbhnnnnnw.",
-            ".dbbbbbhnnnnnnw.",
-            ".dbbbhhnnnnnnnw.",
-            ".dbbbhhnnnnnnnw.",
+            ".doobbbhnnnnnnw.",
+            ".doobhhnnnnnnnw.",
+            ".doobhhnnnnnnnw.",
+            ".doobbbbhnnnnnw.",
+            ".dbobbbhnnnnnnw.",
             ".dbbbbbbhnnnnnw.",
-            ".dbbbbbhnnnnnnw.",
-            ".dbbbbbbhnnnnnw.",
-            ".dbbbbbbhnnnnnw.",
-            ".dbbbbbbhnndnnw.",
-            ".dbbbbbbhnndnnw.",
-            ".dbbbbhhnnnndnw.",
-            ".dbbbbhhnnnndnw.",
-            ".dbbbbbbbbhnnnw.",
-            ".dbbbbbbbhnnnnnw",
+            ".dbobbbbhnnnnnw.",
+            ".doobbbbhnndnnw.",
+            ".dooobbbhnndnnw.",
+            ".dooobhhnnnndnw.",
+            ".dooobhhnnnndnw.",
+            ".dooobbbbbhnnnw.",
+            ".doobbbbbhnnnnnw",
             "dbbbbbbbbbhnnnnw",
             "dbbbnnbbbbhnnnnw",
             "dbbbnwbbbbbhnnnw",
@@ -1307,6 +1417,7 @@ TREES = {
             "bbddbbbbnw....................",
         ]},
     "the nurse stump": {  # 24 x 22: The bottom corners of the phone frame and the foot of a side panel, sitting on the ground beside the rocks and the crocus - it is a ground motif and its foot must meet the ground line. Redrawn 2026-09-03; the owner rejected the first. This one did not get sawn, it broke, and it broke on a slant - splintered high on the shaded left, rotted away low on the lit right, so no two columns of its crown agree for long. The bite out of its left edge is a springboard notch, cut by a logger a lifetime ago, with its roof in shadow and its floor taking the light. Two seedlings of two sizes and moss on the low shoulder are what makes it a nurse.
+        "unrepeat": 25,  # 2026-09-03: 9 px varied to break a 18-pixel copy of itself
         "map": [
             "...........g............",
             "..........sg............",
@@ -1324,9 +1435,9 @@ TREES = {
             "......ddbbbbhhbhhhn.....",
             "......ddbbbbhhbhhhn.....",
             "......vsbhbbhhhhhhn.....",
-            "......svbbbbhhhhbhn.....",
-            "......vdbbbbhhhhbhhn....",
-            ".....ddbbhbbhhhhbhhn....",
+            "......svbbrrmhhhbhn.....",
+            "......vdbbrrmhhhbhhn....",
+            ".....ddbbhrrmhhhbhhn....",
             "....ddbbhbbhhhhhhhhhn...",
             "....ddbbbbbhhhhhhhhhn...",
             "...dddddddddddddddddd...",
@@ -1371,6 +1482,7 @@ TREES = {
             "dpdpppphbbbw",
         ]},
     "the driftwood log": {  # 48 x 12: The bottom band of the phone frame, which is 13-16 px, and the only place a motif this flat is native; it lies along the shoreline below the far trees. Revised 2026-09-03 for the owner's "more variety": the sea has worked three things into it that a straight cylinder had not. The left end is a splintered break, two splinters of two lengths with air between them. The middle is hollow, and the hollow's floor catches the low light. The right end forks, and the wedge between the two limbs widens all the way to the tip. Its grey varies along its length in runs, never column by column - the sand-stained end keeps some bark, the sunlit end has none left.
+        "unrepeat": 25,  # 2026-09-03: 26 px varied to break a 32-pixel copy of itself
         "map": [
             "............................................www.",
             "...........................wwnn........wwwwwnnnw",
@@ -1380,10 +1492,10 @@ TREES = {
             "..nnnnhhhhhhhhhhhhhhhdddhhbbbbbnnnnnhbbb........",
             "....hhbbbbbbbbbbbbbbbhhhbbbbbbbbhhhbbb..........",
             "......bbbbhhbbbbbbbbbbbbbbbbbbbbbbbb............",
-            ".......bbbhhbbbdddddbbbbbbbbbbbbbbbbwww.........",
-            "....hhh.bbbbbbbbbbbbbbbbbbbbbbdddddbnnnwww......",
-            "....bbbb.bbbbbbbbbbbbbbbbbbbdbbbbbbbnhhnndw.....",
-            ".............ddddbbbbbdddddd......bbhbddd.......",
+            ".......bbbhhbbbjjjddbbbbbbbbbbbbbbbbwww.........",
+            "....hhh.bbbbrrrrrrboooobbbbbbbdddddbnnnwww......",
+            "....bbbb.bbbrrrrrrboooobbbbbdbbbbbbbnhhnndw.....",
+            ".............jjjdbbbbbdddddd......bbhbddd.......",
         ]},
 }
 
@@ -1793,7 +1905,8 @@ SPRITES = {
             ".......dbn..........",
         ]},
     "filbert_catkins": {  # back, 21 x 34: Back of the side panels, paired with the alder but never adjacent to it - two brown-trunked small trees side by side rea
-        "layer": "back", "map": [
+        "layer": "back", "unrepeat": 1,  # 2026-09-03: 25 px varied to break a 41-pixel copy of itself
+        "map": [
             ".....sstt............",
             "....sssstt..db.......",
             "...ssssssst.dh.......",
@@ -1805,11 +1918,11 @@ SPRITES = {
             "...........bddd.sst..",
             "............dbdsssstt",
             "...sstt....db.dssssst",
-            "..sssstt...dbbbdsssss",
-            ".ssssssst..db...ddhm.",
-            "dssssssst..bb.....hh.",
-            ".dsssssss..db.sstthm.",
-            "..ddssss...dbssssthh.",
+            "..sssstg...dbbbdsssss",
+            ".svvvvvvg..db...ddhm.",
+            "dvvvvvvvg..bb.....hh.",
+            ".dvvvvvvv..db.sstthm.",
+            "..ddssvv...dbssssthh.",
             "...ddss....dsssssshm.",
             "...bbbb....dsssssssh.",
             "..hm...b..dbdsssssss.",
@@ -1927,7 +2040,8 @@ SPRITES = {
             "ds.........................",
         ]},
     "bramble_arch": {  # front, 34 x 20: A cane that arches over other sprites instead of standing among them, so it is the set's only true FOREGROUND accent
-        "layer": "front", "map": [
+        "layer": "front", "unrepeat": 3,  # 2026-09-03: 12 px varied to break a 18-pixel copy of itself
+        "map": [
             "............bbhbbb................",
             "...........bbbbbbbb...............",
             "..........bb..t...sstbbhbb........",
@@ -1937,14 +2051,14 @@ SPRITES = {
             "......sssstssssst.ddymssssstbb....",
             ".....dssssstddss....yy.ddss..bb...",
             ".....bdsssss...............sstbb..",
-            "....bb.ddss...............sssstth.",
-            "...bb....................dssssstbb",
-            "...b......................dssssstb",
+            "....bb.ddss...............sgggtth.",
+            "...bb....................dsgggstbb",
+            "...b......................dgggsstb",
             "...stt.....................ddym..b",
             "..ssstt......................yy..b",
-            "..dsssss.st.................stt..b",
-            "...ddss.sstt...............ssstt.b",
-            "...h...sssst...............dsssss.",
+            "..dsssss.st.................gtt..b",
+            "...ddss.sstt...............gsstt.b",
+            "...h...sssst...............dsvsss.",
             "..bb....dds.................ddss..",
             ".bbt..............................",
             "bb................................",
@@ -1967,26 +2081,28 @@ SPRITES = {
             "...ddddddddd........................",
         ]},
     "cut_stump": {  # mid, 18 x 16: Side panels' lower half and the bottom corners, sitting ON the ground line so the flared foot reads. The sawn face faces the sky but is end grain, so it stays duller and darker than the sunlit side (owner, 2026-09-03)
-        "layer": "mid", "map": [
+        "layer": "mid", "unrepeat": 25,  # 2026-09-03: 12 px varied to break a 18-pixel copy of itself
+        "map": [
             ".....bpbbbbpb.....",
             "...pbbbpbbpbbbp...",
             "..pbbbpbppbbpbbp..",
             "..bpbbbpbbpbbpbh..",
             "..pbbppppbpppphh..",
             "..pbbbbbpbhhbhhh..",
-            "..pbbpbbpbhhhhhh..",
-            "..pbbpbbpbhhhhbh..",
-            "..pbbpbbpbhbhhbh..",
-            "..pbbpbbpbhbhhbh..",
-            "..pbbpbnnbhbhhbh..",
-            "..pbbpnnbbhbhhhh..",
+            "..pbbpbbpbmmhhhh..",
+            "..pbbpbbprmmmhbh..",
+            "..pbbpbbprhbhhbh..",
+            "..pbbpbbprhbihbh..",
+            "..pbbpbnnrhbihbh..",
+            "..pbbpnnbbhohhhh..",
             "..vbbpbbbbhbhhhh..",
             ".vssbbbbbbhbhhhh..",
             ".vbbbbbbbbbhhhhh..",
             "ddbbdddbbbdddbbddd",
         ]},
     "nurse_log": {  # mid, 34 x 20: The hero of this set. Redrawn 2026-09-03 to earn its name: four seedlings of four heights rooted along its back, bark sloughed in two scars, two rot hollows, and a rotted end
-        "layer": "mid", "map": [
+        "layer": "mid", "unrepeat": 8,  # 2026-09-03: 2 px varied to break a 18-pixel copy of itself
+        "map": [
             "..................................",
             ".......g..........................",
             ".......s..........................",
@@ -2003,8 +2119,8 @@ SPRITES = {
             "nnpbbbbbbbbbbbnnnnbbbbbbbppbbbbbhh",
             "npbvsbbbbppbbbbbbbbbbbbbbnnnbbbbbb",
             "pnnvbbbbbbpbbbbbbbbbbpbbbbbpppvvvp",
-            "nnpppppppbbbbbbbbbppvvppppp.dddd..",
-            ".ppppppvvvvppppppp.dddddd.........",
+            "nnpppppppbbbrbbbbbppvvppppp.dddd..",
+            ".ppppppvvvvpyppppp.dddddd.........",
             "....ddddddddddd...................",
             "..................................",
         ]},
@@ -2168,7 +2284,8 @@ SPRITES = {
         ]},
     # --- stone-water
     "rock_boulder": {  # mid, 26 x 14: A glacial erratic, and the owner's "too perfect" answered. It is no longer a shell of concentric bands round an egg: three flat planes meet along straight arrises - a lit top, a mid right face, a shaded front - inside an eight-sided outline whose segments are all different lengths. One straight break has taken the crown's right shoulder clean off and left a narrow fresh face turned from the light, and the lichen crust is on the shaded flank only, because that is the damp one
-        "layer": "mid", "map": [
+        "layer": "mid", "unrepeat": 25,  # 2026-09-03: 21 px varied to break a 30-pixel copy of itself
+        "map": [
             "................nn........",
             "..............nnnnnn......",
             ".............nnnnnnnn.....",
@@ -2177,10 +2294,10 @@ SPRITES = {
             ".....fffffnnnnnnnooooooon.",
             "...fffffffffffoooooooooon.",
             "..fffffffffffffooooooooff.",
-            ".fvvvgffffffffffooooooofff",
-            "ffvvvvgfffffffffoooooooff.",
-            "foovvvfffffffffffoooooff..",
-            "kkkovfffffvffffffooofff...",
+            ".fvvvgfffffffuuuboooooofff",
+            "ffvvvvgfffffuuuubboooooff.",
+            "foovvvffffffuuuuubooooff..",
+            "kkkovfffffvfuuuuuooofff...",
             "..kkkffffvkkfffkkooff.....",
             "...kkkkkkkkkkkkkkkkk......",
         ]},
@@ -2206,14 +2323,15 @@ SPRITES = {
             ".kkkkko..",
         ]},
     "moss_rock": {  # mid, 20 x 12: The moss is on the shaded flank because that is where moss grows, which makes it the one rock that must NOT be mirrored. It is thickest at the foot where the water sits and thins as it climbs; its upper edge is lobed, not level, and only the sunward crown of each cushion is lit, which is what keeps it from reading as a flat green half
-        "layer": "mid", "map": [
+        "layer": "mid", "unrepeat": 25,  # 2026-09-03: 12 px varied to break a 18-pixel copy of itself
+        "map": [
             "............nnn.....",
-            ".........nnnnnnnn...",
-            "......nnnnnnooononn.",
-            "....nnonnoooooooooon",
-            "...fooooooooooooooon",
-            "..ffgsogooooooooooon",
-            ".fggssssfooooooooon.",
+            ".........aannnnnn...",
+            "......nnaaaaooononn.",
+            "....nnonaoooooooooon",
+            "...fooooboouooooooon",
+            "..ffgsogboouooooooon",
+            ".fggssssfouooooooon.",
             "fsssssssgffooooooon.",
             ".sssssssssffoooooo..",
             ".ssssssssssfoookk...",
@@ -2221,17 +2339,18 @@ SPRITES = {
             "...ssssssssssk......",
         ]},
     "pebble_mat": {  # mid, 26 x 11: TILES HORIZONTALLY, 26 px pitch, left to right - a cobble is cut across the x=25 to x=0 seam on purpose so a long run has no repeat to see. The owner's "doesnt look lke anything" was a field of noise with no stone in it; this is eleven stones, no two the same size or roundness, each with its own lit cap up-right and its own shadow down-left, lying in a matrix of wet grit
-        "layer": "mid", "map": [
+        "layer": "mid", "unrepeat": 28,  # 2026-09-03: 12 px varied to break a 22-pixel copy of itself
+        "map": [
             "...fffffffffffffffff......",
             ".fffffffffnnfffffffffffff.",
             "fffnnffffonnofffnnffffffkf",
             "ffoonnoffoooofffnnnffffnff",
             "fooooooffkkoofffkooffnnnff",
             "fkkooonnffffffffffffoonnof",
-            "ffffffooffffnnnffffffkooof",
-            "fffnnnfffffoonnfffffffffff",
-            "ffooonfffffkooofffffffnnff",
-            ".fkkooffffffffffffofffoo..",
+            "ffffffooffffnnnffffffkbbof",
+            "fffnnnffkffoonnffffffuffuf",
+            "ffooonfkkkfkooofffffffnnkf",
+            ".fkkooffkfffffffffoffuou..",
             ".....ffffffffffffooff.....",
         ]},
     "stream_edge": {  # back, 18 x 20: TILES VERTICALLY, 20 px pitch, top to bottom. Water, then the wet line, then the sand margin, then the bank's gravel. The margin is what the owner asked for - "a small amount of sand bordering and blending two parts" - so its width changes row by row, grains are carried out into the water and water lies in the sand, and no edge in it is a straight seam between two materials
@@ -2268,13 +2387,14 @@ SPRITES = {
             "........kkkkkk......",
         ]},
     "earth_bank": {  # back, 40 x 14: TILES HORIZONTALLY, 40 px pitch, left to right - the crest is 5 px down at both x=0 and x=39, so copies abut with no ste
-        "layer": "back", "map": [
+        "layer": "back", "unrepeat": 3,  # 2026-09-03: 10 px varied to break a 25-pixel copy of itself
+        "map": [
             "........................................",
             ".......h.........bh.....................",
             ".....bbbh......h.bbh....bh.....h........",
-            "..bh.bbnbh...bbbbnnbh..bbbh...bbh..h....",
-            ".bbbbnnnnbh.bbbnbnnnbbbbnnb.bbbnbbbbh...",
-            "bbnnbnnnnnbbbnnnnnnnnbbnnnnbbbnnnbbnbbbb",
+            "..bh.bbnbh...bbbbnnbh..bbbh...bbm..h....",
+            ".obbbnnnnbh.bbbnbnnnbbbbnnb.bbbarrbbh...",
+            "oonnbnnnnnbbbnnnnnnnnbbnnnnbbbnaarbnbbbb",
             "bnnnnnnnnnebnnnnnnnnnnnnnnnbnnnnnnnnnbbb",
             "nnnnnnnnnnneennnnnnnnnnnnnnnnennnnnnnnnn",
             "nnnnnnnnnnnnennnnnkgknnnnnnnnnennnnnnenn",
