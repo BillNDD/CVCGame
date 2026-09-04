@@ -694,7 +694,7 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | # | Suite | Effect (the test's own sentence) |
 |---|---|---|
 | 1 | the palette is pinned | 1: the thirteen keys the game had before the bible keep their literal values |
-| 2 | the palette is pinned | 2: C holds exactly the keys the bible's table names - 13 of the game's, 28 of the bible's, 5 from the sweep, 1 from the tile step, 5 from the garden's reference image, 4 for the year its states walk, 4 the sprites drew before anything declared them |
+| 2 | the palette is pinned | 2: C holds exactly the keys the bible's table names - 13 of the game's, 28 of the bible's, 5 from the sweep, 1 from the tile step, 5 from the garden's reference image, 4 for the year its states walk, 4 the sprites drew before anything declared them, 3 festive |
 | 3 | the palette is pinned | 3: the bible's four structural edges, the empty slot's edge and the progress ring clear 3:1 on the surface each edges, at literal ratios |
 | 4 | the palette is pinned | 3b: every adult edge that read line now reads boundary, at literal ratios, with line kept as the control |
 | 5 | the palette is pinned | 3c: the open sentence word's ring is cyanStructural on the gradient, clearing 3:1 on every stop; the action red it replaced is held below as the control |

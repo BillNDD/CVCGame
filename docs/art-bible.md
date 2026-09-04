@@ -487,6 +487,9 @@ and values as the record of what the PDF said.
 | gardenPeel | #a83512 | the arbutus's freshly bared bark under the peel; 2.59:1 on gardenShade, 6.27:1 on surfaceReading. A fill, never an edge. |
 | gardenRim | #ebb312 | a sunlit edge, and the brightest ink the garden owns; 8.96:1 on gardenShade, 1.82:1 on surfaceReading. Spent sparingly - a sprite carrying long runs of it competes with the word. |
 | gardenBerry | #c12f21 | fruit - the arbutus's berries, rose hips, huckleberries; 3.01:1 on gardenShade, 5.40:1 on surfaceReading. |
+| gardenEggRose | #e04b90 | THE THREE FESTIVE COLOURS, owner-ruled 2026-09-04. The warm dye of a painted egg; 4.55:1 on gardenShade, 3.58:1 on surfaceReading. 88 degrees from the nearest garden green, in the palette's one empty hue region - it is found by HUE and stays quiet in VALUE, which is how a plover's egg is found in grass. The eggs it replaces measured 11.23:1, or 98.9% of the 8.3 ceiling, while being invisible to the eye. |
+| gardenEggPlum | #a036b5 | the cool dye and the pair's dark; 3.01:1 on gardenShade, 5.41:1 on surfaceReading. 114 degrees from the nearest garden green. Hidden-egg sprites only, spring states, six placements in the whole game. |
+| gardenLantern | #f7690a | the carved lantern's flesh, one sprite and one per frame; 5.69:1 on gardenShade, 2.86:1 on surfaceReading. It replaces gardenHeart, which is the ARBUTUS'S bark - the lantern was wearing tree bark, which is why it never sang. 96% saturated against gardenHeart's 71 for FOUR HUNDREDTHS of contrast: the whole gain is on the saturation axis, which is what 8.3 does not govern. |
 | stone | #b9b1a0 | stone |
 | wood | #97684f | wood |
 | actionBlue | #2057c9 | the bible's principal child action; C.action stays the CTA's red until a step changes the CTA |

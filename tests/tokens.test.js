@@ -53,8 +53,8 @@ describe("the palette is pinned", () => {
     expect(C.line).toBe("#dfe5f3");
   });
 
-  it("2: C holds exactly the keys the bible's table names - 13 of the game's, 28 of the bible's, 5 from the sweep, 1 from the tile step, 5 from the garden's reference image, 4 for the year its states walk, 4 the sprites drew before anything declared them", () => {
-    expect(Object.keys(C).length).toBe(60);
+  it("2: C holds exactly the keys the bible's table names - 13 of the game's, 28 of the bible's, 5 from the sweep, 1 from the tile step, 5 from the garden's reference image, 4 for the year its states walk, 4 the sprites drew before anything declared them, 3 festive", () => {
+    expect(Object.keys(C).length).toBe(63);
     for (const [k, v] of Object.entries(C)) expect(v, k).toMatch(/^#[0-9a-f]{6}$/);
     /* The five the owner ruled on 2026-09-03, measured from his own reference
        image. Their ground is gardenShade, not paper - the frame never shows
@@ -125,6 +125,63 @@ describe("the palette is pinned", () => {
        colour to dodge a collision that cannot occur would be inventing data.
        If a later state ever puts snow behind a petal, one of them moves. */
     expect(contrast(C.gardenFrost, C.gardenRay)).toBeLessThan(1.05);
+    /* THE THREE FESTIVE COLOURS, owner-ruled 2026-09-04: "both the coloured
+       eggs (not the bird eggs) and the [...] lantern should get special
+       tokens. Kids will find that festive." The elision is S9 - his own words
+       name the lantern by a given name and the rule refuses one whatever job
+       it is doing, which is also why the sprite is called lantern_pumpkin.
+       They are an exception by intent
+       and they cost 8.3 nothing, because POP IS SATURATION AND THE CEILING IS
+       ON VALUE. The lantern gains 25 points of saturation over the arbutus
+       bark it replaces for four hundredths of contrast; the two dyes are
+       found by HUE, 88 and 114 degrees from the nearest garden green, while
+       sitting at a third of the ceiling. The eggs they replace sat at 98.9%
+       of it and were invisible to the eye anyway. Literals (E4). */
+    expect(C.gardenEggRose).toBe("#e04b90");
+    expect(C.gardenEggPlum).toBe("#a036b5");
+    expect(C.gardenLantern).toBe("#f7690a");
+    expect(contrast(C.gardenEggRose, C.gardenShade)).toBeCloseTo(4.55, 2);
+    expect(contrast(C.gardenEggPlum, C.gardenShade)).toBeCloseTo(3.01, 2);
+    expect(contrast(C.gardenLantern, C.gardenShade)).toBeCloseTo(5.69, 2);
+    expect(contrast(C.gardenEggRose, C.surfaceReading)).toBeCloseTo(3.58, 2);
+    expect(contrast(C.gardenEggPlum, C.surfaceReading)).toBeCloseTo(5.41, 2);
+    expect(contrast(C.gardenLantern, C.surfaceReading)).toBeCloseTo(2.86, 2);
+    for (const [k, v] of Object.entries({ gardenEggRose: C.gardenEggRose,
+      gardenEggPlum: C.gardenEggPlum, gardenLantern: C.gardenLantern })) {
+      expect(contrast(v, C.gardenShade), k).toBeLessThan(contrast(C.ink, C.surfaceReading));
+    }
+    /* THREE MORE PLACE-EXCEPTIONS, and each is declared because it is real
+       rather than waved through. A sweep of all 63 keys against each other
+       found exactly these three new pairs within 1.05 of one another.
+
+       gardenHeart against gardenLantern, 1.0011, is THE POINT rather than a
+       problem: the lantern replaces gardenHeart at the same value and 25
+       points more saturation, which is the whole design. They do share a
+       frame - the arbutus carries gardenHeart in every state - so state the
+       consequence honestly: in greyscale a lantern and a piece of bark are
+       the same value. The lantern still reads there, because what says
+       LANTERN is its carved face, and a carved opening is a HOLE drawn in
+       gardenShade. Its identity is a value step of its own, not its body.
+
+       gardenBerry against gardenEggPlum, 1.0017. The design note claimed no
+       spring sprite carries gardenBerry; that checked the seasonal set only.
+       SEVEN CORE sprites carry it and core sprites are year-round -
+       shooting_star, red_currant, huckleberry, bramble_arch, nurse_log,
+       red_mushroom and ladybird - so a red berry and a plum egg CAN share a
+       spring frame. Two objects of one value in one frame is not an 8.3
+       breach, since 8.3 governs LOCAL contrast; what would be wrong is the
+       two touching. The egg placement rule already keeps an egg 12 px from
+       red_mushroom and must keep it 12 px from the other six too.
+
+       amber against gardenEggPlum, 1.0413, is the easy one: amber is adult
+       UI text on paper or a panel, the egg is a garden ink on the band, and
+       no surface in the app carries both. */
+    expect(contrast(C.gardenHeart, C.gardenLantern)).toBeLessThan(1.05);
+    expect(contrast(C.gardenBerry, C.gardenEggPlum)).toBeLessThan(1.05);
+    expect(contrast(C.amber, C.gardenEggPlum)).toBeLessThan(1.05);
+    /* The control for all three: a pair that is NOT within 1.05, so the
+       assertions above measure something rather than always passing. */
+    expect(contrast(C.gardenLantern, C.gardenShade)).toBeGreaterThan(1.05);
     /* The reading field must stay the lightest thing on the screen: the frame
        is the dark ring and the word is the lit middle, which is the owner's
        own reference's composition. */

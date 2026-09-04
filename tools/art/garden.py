@@ -99,6 +99,11 @@ PAL = {
     # letters and seven digits were free; the digits carry a statable rule and
     # a letter would have carried none.
     "4": (156, 135, 73), "5": (97, 85, 63), "6": (191, 203, 214), "7": (200, 211, 216),
+    # THE THREE FESTIVE COLOURS, owner-ruled 2026-09-04. Digits by the same rule as the
+    # year's four - a festive colour is the clearest case there is of a colour that is not
+    # the meadow's own. 8 and 9 are the adjacent pair because the two dyes always read as
+    # a set; 0 is the lantern, which is alone.
+    "8": (224, 75, 144), "9": (160, 54, 181), "0": (247, 105, 10),
     ".": None,
 }
 
@@ -1178,23 +1183,22 @@ SEASONAL = {
         ]},
     "lantern_pumpkin": {  # fall, front, 15 x 15, states 7, 8. Front layer, sitting ON the ground line in a bottom corner or the foot of a side panel, one per frame and never at the panel's inner edge - the lit...
         "layer": "front", "season": "fall",
-        "unrepeat": 18,  # 1 px varied to break a 21-pixel copy of itself,
         "map": [
             ".......55......",
             "......d55b.....",
-            ".....phhhh.....",
-            "...pphhhhhhh...",
-            "..pphhhhhhhhh..",
-            ".pppphhhhhhhhh.",
-            "ppppmhhhhmmhhhh",
-            "pppmmmhhhmmmhhh",
-            "pppphhhhhhhhhhh",
-            "pppphhhmhhhhhhh",
-            "pppphhmmmhhhhhh",
-            ".dppmmhmmhmmhh.",
-            "..dphmmmmmhhh..",
-            "...ddpphhhhh...",
-            ".....ddphh.....",
+            ".....p000m.....",
+            "...pp000000m...",
+            "..pp00000000m..",
+            ".pppp00000000m.",
+            "ppppd0000dd0000",
+            "pppddd000ddd000",
+            "pppp0000000h000",
+            "pppp000d0000000",
+            "pppp00ddd000h00",
+            ".dppdd0dd0dd00.",
+            "..dp0ddddd000..",
+            "...ddpp00000...",
+            ".....ddp00.....",
         ]},
     "leaf_pile": {  # fall, mid, 24 x 8, states 8. Mid layer on the ground line, late fall only - it is the state-8 mark, the thing a child recognises as the end of the year's leaves. The mound peaks...
         "layer": "mid", "season": "fall",

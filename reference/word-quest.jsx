@@ -538,6 +538,15 @@ const C = {
   gardenShade: "#0d1e23", gardenStem: "#45532b", gardenTip: "#b3b348", gardenBark: "#9b5f27", gardenHeart: "#cc853c",
   gardenStraw: "#9c8749", gardenHusk: "#61553f", gardenOvercast: "#bfcbd6", gardenFrost: "#c8d3d8",
   gardenRay: "#ccd4c4", gardenPeel: "#a83512", gardenRim: "#ebb312", gardenBerry: "#c12f21",
+  // The three festive colours, owner-ruled 2026-09-04 - "both the coloured eggs (not the
+  // bird eggs) and the [...] lantern should get special tokens. Kids will find that
+  // festive." The elision is S9: his own words name the lantern by a given name, and the
+  // rule refuses one whatever job it is doing - it renamed the sprite for the same reason.
+  // They are an EXCEPTION by design and they cost the rule nothing: pop is
+  // saturation and the ceiling is on value, so the lantern gains 25 points of saturation
+  // over the bark it replaces for four hundredths of contrast, and the two dyes are found
+  // by HUE while sitting at a third of the ceiling. The eggs they replace sat at 98.9% of it.
+  gardenEggRose: "#e04b90", gardenEggPlum: "#a036b5", gardenLantern: "#f7690a",
   stone:            "#b9b1a0",   // stone
   wood:             "#97684f",   // wood
   actionBlue:       "#2057c9",   // the bible's principal child action; C.action stays the CTA's red until a step changes the CTA
