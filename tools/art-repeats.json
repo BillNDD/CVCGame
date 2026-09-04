@@ -1,7 +1,5 @@
 {
   "_comment": "Repeats the gate tools/art-repeats.py allows, each with the reason a person wrote. A RATCHET, not an amnesty: the key carries the exact measurement, so a sprite that is redrawn loses its exemption and has to earn a new one. A stale entry - one naming a repeat no longer in the tree - is itself reported as a problem, because an exemption that outlives its subject is a lie about the drawing.",
-  "_ruled": "The owner saw all sixteen of these on 2026-09-03, boxed, and ruled: redraw all. Fifteen were cleared by unrepeat() - local seeded variation on one of the two copies, 207 pixels moved across fifteen sprites, no silhouette touched. This is the one that could not be.",
-  "allowed": {
-    "stream_edge|4x5|20|1,6|0,13": "The block is drawn ENTIRELY in the cool petal and the ray, and those two inks are each ALONE in their hue family - STEPS gives neither a darker nor a lighter neighbour, so unrepeat() has no legal move and 500 seeds change nothing. It is not that this repeat is acceptable; it is that the palette has no rung between #9fb4c4 and #ccd4c4 for a pixel to step to. Two ways out, both needing the owner: a rung between them as a named token, which would also give every future water and petal somewhere to move, or a person redrawing the water by hand. Owed, not forgiven. Entered 2026-09-03."
-  }
+  "_ruled": "The owner saw sixteen sprites containing the same pixels twice on 2026-09-03, boxed, and ruled: redraw all. None was redrawn - his own instruction was to use the seed for local variation instead, as lightly as possible. All sixteen cleared. The last of them, stream_edge, was impossible until the four season colours he ruled in the same evening gave the cool petal the lighter neighbour it had never had.",
+  "allowed": {}
 }

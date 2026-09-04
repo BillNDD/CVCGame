@@ -81,7 +81,7 @@ def sprites():
     import garden
 
     out = {}
-    for family in ("SPRITES", "TREES"):
+    for family in ("SPRITES", "TREES", "SEASONAL"):
         for name, entry in getattr(garden, family).items():
             out[name] = entry["map"]
     return out

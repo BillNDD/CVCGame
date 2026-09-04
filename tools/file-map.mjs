@@ -177,6 +177,7 @@ export const DECLARED = [
   { path: "tools/keepers-treatments.json", kind: "GENERATED", regen: "node tools/gen-voice-lock.mjs" },
   { path: "tools/pending-sounds/pending-sounds.json", kind: "DATA", owns: "the sound ledger: every sound verdict the owner has given" },
   { path: "tools/s9-vocab.json", kind: "DATA", owns: "the known capitalized vocabulary of the tree (G24): a stranger to it fails the build" },
+  { path: "tools/art-repeats.json", kind: "DATA", owns: "the repeats gate's ledger (tools/art-repeats.py): every block of pixels a sprite is allowed to contain twice, keyed on its measurement so a redraw loses the exemption, and with the reason a person wrote. Empty since 2026-09-03, when all sixteen were cleared." },
   { path: "tools/art/provenance.json", kind: "DATA", owns: "the art project's provenance: every family's lock, ramps, share, checkpoints and originality verdict (bible 17); read by tools/provenance-check.mjs" },
   { path: "tools/s9-common-names.json", kind: "DATA", owns: "the public common-names registry the tree must never contain (G24)" },
   { path: "tools/s9-surnames.json", kind: "DATA", owns: "the public census surnames for G24's pair rule: a first name beside one is a person" },
