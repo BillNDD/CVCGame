@@ -76,7 +76,10 @@ export const GOVERNING = [
      the known capitalized vocabulary, and the public common-names registry.
      Both grow only by owner-visible diff; neither can hold a secret. */
   "tools/s9-vocab.json",
+  "tools/s9-art-sources.json",
   "tools/art-repeats.json",
+  "tools/art-lay.py",
+  "tools/art-frame-contrast.py",
   "tools/art/provenance.json",
   "tools/s9-common-names.json",
   "tools/s9-surnames.json",

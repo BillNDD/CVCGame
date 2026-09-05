@@ -1833,3 +1833,25 @@ reason: its repeat is drawn entirely in the cool petal and the ray, the two inks
 neighbour, so there is no legal move and 500 seeds change nothing. It is owed either a
 rung between `#9fb4c4` and `#ccd4c4` as a named token - which would also give every future
 water and petal somewhere to step - or a person redrawing it by hand.
+
+## Eleven rulings, 2026-09-04 evening
+
+The owner ruled on one page, and every line below is his, verbatim key and value:
+
+| ruling | his answer | what it unlocks |
+| --- | --- | --- |
+| light | combine | the council chair's mosaic ground, lit FROM THE PAGE - the reading field as the light source |
+| house_style | yes | "Glass in a laid floor" is the direction; its twelve rules stand, recorded in the bible |
+| embroidery | arbutus | thread is AUTHORED for the arbutus only; no stitch pass on any other sprite |
+| creatures | yes | a creature gets one lead pixel round its whole silhouette; a plant none - the figure's rank |
+| dither | yes | bible 4.1 forbids ISOTROPY, not directional two-ink texture; gated by run-length ratio |
+| seam | yes | two gates on the RENDER: no adjacent pair anywhere over 11.36:1; no sprite pixel within 3 px of the field |
+| mushroom | graft | the second ring's composition, only the duplicated cap regrown |
+| egg_plain | again | one more attempt, within the approved three's grammar |
+| photos | ledger | an S9 ledger for the thirty-nine art sources, a fifth S9 exception in the owner's gift |
+| gill | yes | read Gill's introduction and appendix to Beedham, and only those - the volume is severable |
+| scratch | fine | the harness's scratch directory stays where it is |
+
+And on the three layered craft attempts, the same evening: "I like the A test case but the
+mosaic shapes dont fit together well." A's character is the ground's target; the pieces must be
+cut to fit their neighbours.

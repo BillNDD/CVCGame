@@ -1,0 +1,203 @@
+{
+ "_comment": "S9's fifth exception, owner-ruled 2026-09-04 (\"make the ledger\"). A URL listed here may carry a personal name inside it - a photographer's credit in a filename, a place on this coast that is also a given name - and passes the S9 scans ONLY inside the content files below, and ONLY at the exact span of the URL. The same name anywhere else in the same file, or the same URL in any other file, is refused as before. The private denylist never consults this ledger: a real family name always wins. Each URL enters as its own owner-visible diff. These are the public-domain photographs the garden's season colours were measured from; nothing but the URL and its licence basis is recorded here, and no pixel of any of them enters the pipeline (art bible 18.1).",
+ "content_files": [
+  "tools/art/provenance.json"
+ ],
+ "urls": {
+  "https://commons.wikimedia.org/wiki/File:South_Beach_Trail_View_(607c0bac-4657-4c74-8aef-7cd5a6fe995a": {
+   "host": "Wikimedia Commons",
+   "read": "2026-09-03",
+   "licence": "read from the source page by the season researcher on 2026-09-03; see docs/art-plan.md, The year's palette"
+  },
+  "https://commons.wikimedia.org/wiki/File:San_Juan_Islands_04_(6550477291": {
+   "host": "Wikimedia Commons",
+   "read": "2026-09-03",
+   "licence": "read from the source page by the season researcher on 2026-09-03; see docs/art-plan.md, The year's palette"
+  },
+  "https://commons.wikimedia.org/wiki/File:Ebey%27s_Landing_Fall_2024.jpg": {
+   "host": "Wikimedia Commons",
+   "read": "2026-09-03",
+   "licence": "read from the source page by the season researcher on 2026-09-03; see docs/art-plan.md, The year's palette"
+  },
+  "https://www.inaturalist.org/observations/308236661": {
+   "host": "natural-history observations",
+   "read": "2026-09-03",
+   "licence": "read from the source page by the season researcher on 2026-09-03; see docs/art-plan.md, The year's palette"
+  },
+  "https://www.inaturalist.org/observations/125981634": {
+   "host": "natural-history observations",
+   "read": "2026-09-03",
+   "licence": "read from the source page by the season researcher on 2026-09-03; see docs/art-plan.md, The year's palette"
+  },
+  "https://www.inaturalist.org/observations/237182790": {
+   "host": "natural-history observations",
+   "read": "2026-09-03",
+   "licence": "read from the source page by the season researcher on 2026-09-03; see docs/art-plan.md, The year's palette"
+  },
+  "https://www.inaturalist.org/observations/90701682": {
+   "host": "natural-history observations",
+   "read": "2026-09-03",
+   "licence": "read from the source page by the season researcher on 2026-09-03; see docs/art-plan.md, The year's palette"
+  },
+  "https://commons.wikimedia.org/wiki/File:Himalayan_blackberry_(Rubus_armeniacus": {
+   "host": "Wikimedia Commons",
+   "read": "2026-09-03",
+   "licence": "read from the source page by the season researcher on 2026-09-03; see docs/art-plan.md, The year's palette"
+  },
+  "https://commons.wikimedia.org/wiki/File:Fall_morning_at_Ridgefield_National_Wildlife_Refuge_(51582310153": {
+   "host": "Wikimedia Commons",
+   "read": "2026-09-03",
+   "licence": "read from the source page by the season researcher on 2026-09-03; see docs/art-plan.md, The year's palette"
+  },
+  "https://commons.wikimedia.org/wiki/File:Fall_morning_at_Ridgefield_National_Wildlife_Refuge_(51583351205": {
+   "host": "Wikimedia Commons",
+   "read": "2026-09-03",
+   "licence": "read from the source page by the season researcher on 2026-09-03; see docs/art-plan.md, The year's palette"
+  },
+  "https://commons.wikimedia.org/wiki/File:Fall_morning_at_Ridgefield_National_Wildlife_Refuge_(51582757674": {
+   "host": "Wikimedia Commons",
+   "read": "2026-09-03",
+   "licence": "read from the source page by the season researcher on 2026-09-03; see docs/art-plan.md, The year's palette"
+  },
+  "https://commons.wikimedia.org/wiki/File:Fungi_-_Olympic_National_Forest_-_November_2017_02.jpg": {
+   "host": "Wikimedia Commons",
+   "read": "2026-09-03",
+   "licence": "read from the source page by the season researcher on 2026-09-03; see docs/art-plan.md, The year's palette"
+  },
+  "https://commons.wikimedia.org/wiki/File:Fungi_-_Olympic_National_Forest_-_November_2017.jpg": {
+   "host": "Wikimedia Commons",
+   "read": "2026-09-03",
+   "licence": "read from the source page by the season researcher on 2026-09-03; see docs/art-plan.md, The year's palette"
+  },
+  "https://commons.wikimedia.org/wiki/File:Fungi_-_Olympic_National_Forest_-_November_2017_01.jpg": {
+   "host": "Wikimedia Commons",
+   "read": "2026-09-03",
+   "licence": "read from the source page by the season researcher on 2026-09-03; see docs/art-plan.md, The year's palette"
+  },
+  "https://commons.wikimedia.org/wiki/File:T%D3%99n%D3%99s-khul-_ili%CA%94i_-_Autumn_(bc98cdeb-7d69-44c6-bc58-38f6364bf2ae": {
+   "host": "Wikimedia Commons",
+   "read": "2026-09-03",
+   "licence": "read from the source page by the season researcher on 2026-09-03; see docs/art-plan.md, The year's palette"
+  },
+  "https://commons.wikimedia.org/wiki/File:Cantharellus_formosus_331465012.jpg": {
+   "host": "Wikimedia Commons",
+   "read": "2026-09-03",
+   "licence": "read from the source page by the season researcher on 2026-09-03; see docs/art-plan.md, The year's palette"
+  },
+  "https://commons.wikimedia.org/wiki/File:Muscaria_mushroom_at_Yaquina_Head_Lighthouse_(15433053810": {
+   "host": "Wikimedia Commons",
+   "read": "2026-09-03",
+   "licence": "read from the source page by the season researcher on 2026-09-03; see docs/art-plan.md, The year's palette"
+  },
+  "https://commons.wikimedia.org/wiki/File:Mushrooms_in_Klamath_County": {
+   "host": "Wikimedia Commons",
+   "read": "2026-09-03",
+   "licence": "read from the source page by the season researcher on 2026-09-03; see docs/art-plan.md, The year's palette"
+  },
+  "https://commons.wikimedia.org/wiki/File:Fall_color_along_the_McKenzie_River_Trail": {
+   "host": "Wikimedia Commons",
+   "read": "2026-09-03",
+   "licence": "read from the source page by the season researcher on 2026-09-03; see docs/art-plan.md, The year's palette"
+  },
+  "https://commons.wikimedia.org/wiki/File:Fall_time_in_a_meadow": {
+   "host": "Wikimedia Commons",
+   "read": "2026-09-03",
+   "licence": "read from the source page by the season researcher on 2026-09-03; see docs/art-plan.md, The year's palette"
+  },
+  "https://commons.wikimedia.org/wiki/File:Oregon_white_oak_imported_from_iNaturalist_photo_65323285_on_5_February_2024.jpg": {
+   "host": "Wikimedia Commons",
+   "read": "2026-09-03",
+   "licence": "read from the source page by the season researcher on 2026-09-03; see docs/art-plan.md, The year's palette"
+  },
+  "https://commons.wikimedia.org/wiki/File:Winter_moringing_--_Upper_Queets_(22834555000": {
+   "host": "Wikimedia Commons",
+   "read": "2026-09-03",
+   "licence": "read from the source page by the season researcher on 2026-09-03; see docs/art-plan.md, The year's palette"
+  },
+  "https://upload.wikimedia.org/wikipedia/commons/4/47/Winter_moringing_--_Upper_Queets_%2822834555000%29.jpg": {
+   "host": "other",
+   "read": "2026-09-03",
+   "licence": "read from the source page by the season researcher on 2026-09-03; see docs/art-plan.md, The year's palette"
+  },
+  "https://commons.wikimedia.org/wiki/File:Snow_at_Yaquina_Head_on_the_Oregon_Coast_(31305543714": {
+   "host": "Wikimedia Commons",
+   "read": "2026-09-03",
+   "licence": "read from the source page by the season researcher on 2026-09-03; see docs/art-plan.md, The year's palette"
+  },
+  "https://upload.wikimedia.org/wikipedia/commons/6/6c/Snow_at_Yaquina_Head_on_the_Oregon_Coast_%2831305543714%29.jpg": {
+   "host": "other",
+   "read": "2026-09-03",
+   "licence": "read from the source page by the season researcher on 2026-09-03; see docs/art-plan.md, The year's palette"
+  },
+  "https://commons.wikimedia.org/wiki/File:Big_oak_in_snow": {
+   "host": "Wikimedia Commons",
+   "read": "2026-09-03",
+   "licence": "read from the source page by the season researcher on 2026-09-03; see docs/art-plan.md, The year's palette"
+  },
+  "https://upload.wikimedia.org/wikipedia/commons/e/e6/Big_oak_in_snow%2C_Willamette_Valley%2C_Oregon_%2840112243973%29.jpg": {
+   "host": "other",
+   "read": "2026-09-03",
+   "licence": "read from the source page by the season researcher on 2026-09-03; see docs/art-plan.md, The year's palette"
+  },
+  "https://commons.wikimedia.org/wiki/File:Winter_sunrise_in_Willamettte_Valley": {
+   "host": "Wikimedia Commons",
+   "read": "2026-09-03",
+   "licence": "read from the source page by the season researcher on 2026-09-03; see docs/art-plan.md, The year's palette"
+  },
+  "https://upload.wikimedia.org/wikipedia/commons/4/42/Winter_sunrise_in_Willamettte_Valley%2C_Oregon_%2846958839802%29.jpg": {
+   "host": "other",
+   "read": "2026-09-03",
+   "licence": "read from the source page by the season researcher on 2026-09-03; see docs/art-plan.md, The year's palette"
+  },
+  "https://commons.wikimedia.org/wiki/File:Thomas_Creek_in_snow": {
+   "host": "Wikimedia Commons",
+   "read": "2026-09-03",
+   "licence": "read from the source page by the season researcher on 2026-09-03; see docs/art-plan.md, The year's palette"
+  },
+  "https://upload.wikimedia.org/wikipedia/commons/8/85/Thomas_Creek_in_snow%2C_Oregon_-_Flickr_-_Bonnie_Moreland_%28free_images%29.jpg": {
+   "host": "other",
+   "read": "2026-09-03",
+   "licence": "read from the source page by the season researcher on 2026-09-03; see docs/art-plan.md, The year's palette"
+  },
+  "https://commons.wikimedia.org/wiki/File:The_redoubt_commanding_view_of_SJI_southern_tip_and_approach_from_Griffin_Bay_and_Strait_of_Juan_de_Fuca.jpg": {
+   "host": "Wikimedia Commons",
+   "read": "2026-09-03",
+   "licence": "read from the source page by the season researcher on 2026-09-03; see docs/art-plan.md, The year's palette"
+  },
+  "https://commons.wikimedia.org/wiki/File:Clouds_blue_sky_hurricane_ridge_mountains_alpine_c_bubar_august_01_2014_(17276883616": {
+   "host": "Wikimedia Commons",
+   "read": "2026-09-03",
+   "licence": "read from the source page by the season researcher on 2026-09-03; see docs/art-plan.md, The year's palette"
+  },
+  "https://commons.wikimedia.org/wiki/File:Lake_Crescent_Reflection_clouds_BBaccus_Nps_photo_2006_(24128172440": {
+   "host": "Wikimedia Commons",
+   "read": "2026-09-03",
+   "licence": "read from the source page by the season researcher on 2026-09-03; see docs/art-plan.md, The year's palette"
+  },
+  "https://commons.wikimedia.org/wiki/File:Hoh_mist_forest_trees_Hoh_NPS_Photo_j_preston_(17115216790": {
+   "host": "Wikimedia Commons",
+   "read": "2026-09-03",
+   "licence": "read from the source page by the season researcher on 2026-09-03; see docs/art-plan.md, The year's palette"
+  },
+  "https://commons.wikimedia.org/wiki/File:Fall_colors_in_Paradise_meadow._Clouds_around_Mt_Rainier._(c61e11b8a0fb48abb16d88bf0c7c52ec": {
+   "host": "Wikimedia Commons",
+   "read": "2026-09-03",
+   "licence": "read from the source page by the season researcher on 2026-09-03; see docs/art-plan.md, The year's palette"
+  },
+  "https://commons.wikimedia.org/wiki/File:Snow_sun_hurricane_ridge_winter_scenic_NPS_PhotoFeb_2011_(3": {
+   "host": "Wikimedia Commons",
+   "read": "2026-09-03",
+   "licence": "read from the source page by the season researcher on 2026-09-03; see docs/art-plan.md, The year's palette"
+  },
+  "https://commons.wikimedia.org/wiki/File:Queets_river_winter_scenic_snow_(23130389525": {
+   "host": "Wikimedia Commons",
+   "read": "2026-09-03",
+   "licence": "read from the source page by the season researcher on 2026-09-03; see docs/art-plan.md, The year's palette"
+  },
+  "https://commons.wikimedia.org/wiki/File:Autumn_around_the_Longmire_Administration_Building_(22311864236": {
+   "host": "Wikimedia Commons",
+   "read": "2026-09-03",
+   "licence": "read from the source page by the season researcher on 2026-09-03; see docs/art-plan.md, The year's palette"
+  }
+ }
+}

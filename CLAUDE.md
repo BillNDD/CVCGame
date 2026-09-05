@@ -134,3 +134,11 @@ Fix it, record it honestly, and carry on.
   whole sentence of at least 24 letters, so a short first-reader sentence cannot
   be quoted by accident - which means a name inside a sentence shorter than that
   is NOT exempt. It fails closed, and the escalation is the per-name ledger.
+  Fifth, owner-ruled 2026-09-04 ("make the ledger"): a URL that cites a public-domain
+  photograph used to measure the garden's colours may carry a personal name inside it -
+  a photographer's credit in a filename, a place on this coast that is also a given name -
+  scoped by `tools/s9-art-sources.json`. Each URL enters that ledger as its own owner-visible
+  diff with its licence stated, passes only inside `tools/art/provenance.json`, and stays
+  refused everywhere else. The private denylist still outranks it, so a real family name is
+  refused however it is dressed, and the exemption is by exact URL, not by word: a name that
+  appears in a ledgered URL is not thereby excused anywhere else in the file.

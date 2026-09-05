@@ -127,6 +127,20 @@ restated, and the art project adds cells rather than prose — see section 19's 
 - Welcoming to a four-year-old without appearing babyish to a seven-year-old.
 - Contemporary while retaining visible pixel construction.
 - Quiet enough for repeated five-to-eight-minute sessions.
+- **No dithering - and the rule means no ISOTROPY, owner-ruled 2026-09-04.** A chequerboard
+  of two inks faking a third is refused because a mark with no direction cannot be resolved
+  into marks, so the eye averages it into a colour the palette does not own. A mark that RUNS
+  in a direction is a line and was always legal: an engraver's lay, a stitch, a mosaic course.
+  Measured, a 50% chequer and a 50% line lay of the same two inks are identical in mean
+  luminance, in histogram and in maximum local contrast; the only thing that separates them is
+  the ratio of mean run length along one axis to the other - 1.00 for the chequer, 48 for the
+  lines. Thirteen swatches judged by eye fell either side of a clean gap, rejected at 1.00 to
+  1.48 and accepted at 2.27 to 48.5, so the line is drawn at **2.0**: a two-ink texture whose
+  run-length ratio is below 2.0 in both axes is a dither and is refused; one at or above it is
+  a lay and is not. Public-domain engraving manuals say the same in older words - Linton (1879) on mechanical
+  regularity deadening a tint, and Bewick's refusal of cross-hatching for plain parallel
+  lines, reported in the Hand-book of Wood Engraving (1881). `tools/art-lay.py` carries the
+  measure.
 
 ### 4.2 Exclusions
 
@@ -194,6 +208,59 @@ on every profile — a census cell, because on 320 × 568 the session screen has
 its height and a frame in flow would push the rail off the screen.
 
 ## 6. Garden world and milestone states
+
+### 6.0 The house style: glass in a laid floor (owner-ruled 2026-09-04)
+
+The owner named the style before anyone proposed it - "flower petals being stained glass and
+the stems and greenery being embroidery and the ground being mosaic" - and on 2026-09-04
+ruled the council chair's synthesis of it in, with two amendments of his own. It has one
+property that makes it affordable across eleven states: **it is a rendering pass over the
+approved maps, not a redraw.** Every approved pixel stays its approved ink; the style lives in
+how each ink is drawn and in the ground it stands on. The rules, short enough to hold:
+
+1. **The ground is a mosaic in four masses**, each a ramp step between two named tokens - the
+   far ground, the path, the turf verge, the shaded earth - and it is laid so the four value
+   bands over the revealed area are all occupied and none exceeds 55%. (The composition this
+   replaced measured 99.2 / 0.4 / 0.3 / 0.0: one value.)
+2. **The light comes from the page.** The reading field is the brightest thing on the screen
+   and it is the light source: brightness falls with distance from it, the tessera nearest the
+   field takes the lit end of its ramp and the outer screen edge the dark end. The outer edge
+   carries the repoussoir - the near dark mass the eye looks past toward the word. On a phone
+   the top band is the canopy and the bottom band the feet of things: the player stands in
+   the clearing. (Ruled "combine": the chair's ground, this light.)
+3. **Nothing out-contrasts the word, anywhere.** No two adjacent pixels in the rendered frame,
+   the seam included, exceed 11.36:1 - measured on the render, not on the palette, because
+   tokens.test.js can only check inks against gardenShade and the ground is no longer
+   gardenShade. And no sprite pixel lies within three of the reading field, so what touches
+   the page is always ground or sky. `tools/art-frame-contrast.py` carries both.
+4. **The contour course.** Every ground pixel within four of a sprite, a path edge or the
+   field is plain mass ink with no joint, and the fifth pixel out is a joint: each plant sits
+   in a socket of unbroken ground, interrupting the floor rather than lying on it. This is
+   opus vermiculatum and it is the literal answer to "sprites thrown on a flat background".
+5. **Courses run straight, never a lattice.** Heights drawn from a seeded table, the line
+   undulating by a seeded walk, pieces cut to FIT their neighbours with consistent joints and
+   no orphan pixels (owner, on the layered attempts: "the mosaic shapes dont fit together
+   well"), and the tesserae are not all one shape.
+6. **The joint is one rung toward the middle value** - lifted toward gardenRay in the dark
+   masses, sunk toward gardenShade in the pale ones - never more than 1.6:1 against its own
+   tessera.
+7. **Material is declared per sprite, one word: glass, figure or plant.** Glass - petals,
+   fruit, the eggs, water - gets one lead pixel on the ground side of each petal-ink pixel.
+   A FIGURE - every creature - gets one lead pixel round its whole silhouette (owner-ruled
+   2026-09-04): the crafts separate the figure from the field by rank, not by material, and
+   the creatures are what a child names first. A plant gets none.
+8. **Greenery and wood are not textured**, with one exception: the ARBUTUS carries authored
+   embroidered thread (owner-ruled 2026-09-04, "arbutus" only). The council killed
+   embroidery as a blind pass on two counts - the loudest legal stitch is a quarter the
+   strength of the quietest lead, and a pass over a map cannot know which way a leaf grows -
+   so thread survives only where a growth direction is authored, and only there.
+9. **The pass is a bijection**, asserted at render. A repeated instance of one sprite is varied
+   by `vary()` with a recorded seed; the first instance is as approved.
+10. **Integer and seeded.** No floating point in any pixel decision; the same seed gives the
+    same bytes on any machine, and `tools/art/provenance.json` pins them.
+
+What it forbids, stated so nobody adds it back by accident: embroidery as a pass, wood
+engraving, the dark frame, and any interior mark on any sprite but the lead.
 
 The game uses one persistent garden reading area. It begins as a simple seed terrace and
 becomes more complete after every tenth level. The reading field remains recognizably the

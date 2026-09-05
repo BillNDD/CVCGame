@@ -55,7 +55,10 @@ verbatim) are exempt; the exemptions are declared in the tool.
 | `tools/keeper-bytes.json` | GENERATED | regenerate: `node tools/gen-voice-lock.mjs` |
 | `tools/keepers-treatments.json` | GENERATED | regenerate: `node tools/gen-voice-lock.mjs` |
 | `tools/pending-sounds/pending-sounds.json` | DATA | the sound ledger: every sound verdict the owner has given |
+| `tools/s9-art-sources.json` | DATA | S9 fifth exception (owner-ruled 2026-09-04): the public-domain photograph URLs the season colours were measured from, scoped to provenance.json by exact URL; twelve carry a personal name inside them and pass nowhere else |
 | `tools/s9-vocab.json` | DATA | the known capitalized vocabulary of the tree (G24): a stranger to it fails the build |
+| `tools/art-lay.py` | GATE | the lay gate (bible 4.1, owner-ruled 2026-09-04): a two-ink texture is a dither only if it has no direction - run-length ratio under 2.0 in both axes; a lay, a stitch or a course passes. Not yet in check: waits for the composed scene. |
+| `tools/art-frame-contrast.py` | GATE | the frame gate (bible 8.3 on the RENDER, owner-ruled 2026-09-04): no adjacent pair anywhere in the composed frame over the word's own ratio, and no sprite pixel within 3 px of the reading field. Not yet in check: today's compose() fails it by 2160 pairs and the scene that replaces it is being composed. |
 | `tools/art-repeats.json` | DATA | the repeats gate's ledger (tools/art-repeats.py): every block of pixels a sprite is allowed to contain twice, keyed on its measurement so a redraw loses the exemption, and with the reason a person wrote. Empty since 2026-09-03, when all sixteen were cleared. |
 | `tools/art/provenance.json` | DATA | the art project's provenance: every family's lock, ramps, share, checkpoints and originality verdict (bible 17); read by tools/provenance-check.mjs |
 | `tools/s9-common-names.json` | DATA | the public common-names registry the tree must never contain (G24) |

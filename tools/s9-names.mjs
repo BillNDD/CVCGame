@@ -164,7 +164,7 @@ export function fromCorpus(text, index, corpus) {
   return corpus.some((c) => c.text.includes(window));
 }
 
-export function scan(tree, names, passage = null, corpus = []) {
+export function scan(tree, names, passage = null, corpus = [], art = null) {
   const problems = [];
   for (const name of names) {
     /* Leading boundary: any non-letter. Trailing boundary: any non-LOWERCASE,
@@ -201,6 +201,11 @@ export function scan(tree, names, passage = null, corpus = []) {
         /* A screened character name, met inside the teaching content it was
            screened FOR, is the passage ledger's whole purpose. */
         if (passage && passage.names[name] && inScope(file, passage.content_files)) continue;
+        /* A name inside a ledgered photograph URL, inside provenance, is a
+           citation - the fifth exception. By exact URL, at this hit. Never for
+           a privately denylisted name. */
+        if (art && !PRIVATE_DENIED.has(name.toLowerCase()) && inScope(file, art.content_files)
+            && inArtSource(text, m.index + m[1].length, art)) continue;
         /* The corpus exemption. A name inside verbatim book text is the book's,
            not a person's. Never reached for a privately denylisted name: those
            are refused before this line by the ordering in the runner below. */
@@ -241,7 +246,7 @@ export function loadTree() {
    vocabulary is self-satisfying by construction, and the common-names list
    holds 194 capitalized names ON PURPOSE — scanning the guard's own list
    would flag every bullet in it. */
-const MACHINERY = /package-lock\.json$|\.gitignore$|\.gitattributes$|s9-common-names\.json$|s9-surnames\.json$|s9-passage-names\.json$/;
+const MACHINERY = /package-lock\.json$|\.gitignore$|\.gitattributes$|s9-common-names\.json$|s9-surnames\.json$|s9-passage-names\.json$|s9-art-sources\.json$/;
 
 /* THE PASSAGE LEDGER (owner-approved 2026-08-16: "Can we adjust the rule so
    it doesn't catch names in the game sentences and paragraphs?"). Verbatim
@@ -259,6 +264,42 @@ export function loadPassageNames(read = readFileSync) {
     const j = JSON.parse(read("tools/s9-passage-names.json", "utf8"));
     return { content_files: j.content_files || [], names: j.names || {} };
   } catch { return { content_files: [], names: {} }; }
+}
+/* THE ART-SOURCES LEDGER (owner-ruled 2026-09-04: "make the ledger"), the
+   fifth exception. The garden's season colours were measured from thirty-nine
+   public-domain photographs, and twelve of their URLs carry a personal name
+   inside them - a photographer's credit in a filename, a place on this coast
+   that is also a given name. The gate cannot tell a bay from a person and
+   should not try, so it refused them, and then refused the paragraph that
+   explained why. This ledger scopes the citations. The exemption is by EXACT
+   URL and at the hit's own position: a name passes only where it sits inside
+   an occurrence of a ledgered URL, inside the ledger's content files. The same
+   name elsewhere in the same file, or the same URL in any other file, is
+   refused exactly as before. The private denylist never consults it. */
+export function loadArtSources(read = readFileSync) {
+  try {
+    const j = JSON.parse(read("tools/s9-art-sources.json", "utf8"));
+    return { content_files: j.content_files || [], urls: j.urls || {} };
+  } catch { return { content_files: [], urls: {} }; }
+}
+export function inArtSource(text, at, art) {
+  for (const url of Object.keys(art.urls)) {
+    let i = text.indexOf(url);
+    while (i >= 0) {
+      if (i <= at && at < i + url.length) return true;
+      i = text.indexOf(url, i + 1);
+    }
+  }
+  return false;
+}
+export function everyOccurrenceInArt(text, word, art) {
+  let at = text.indexOf(word);
+  if (at < 0) return false;
+  while (at >= 0) {
+    if (!inArtSource(text, at, art)) return false;
+    at = text.indexOf(word, at + 1);
+  }
+  return true;
 }
 export function inScope(file, scope) {
   return scope.some((s) => s.endsWith("/") ? file.startsWith(s) : file === s);
@@ -289,7 +330,7 @@ export function languageOf(tree) {
   return lower;
 }
 
-export function strangers(tree, vocab, passage = null, corpus = []) {
+export function strangers(tree, vocab, passage = null, corpus = [], art = null) {
   const known = new Set(vocab);
   const lower = new Set();
   const caps = new Map();
@@ -309,6 +350,18 @@ export function strangers(tree, vocab, passage = null, corpus = []) {
       for (const f of outside) out.push(`${f}: "${w}" is a passage name, and passage names pass only inside the content files the ledger scopes (S9) — it does not belong here.`);
       continue;
     }
+    /* The art-sources exemption: a stranger that appears ONLY inside ledgered
+       photograph URLs, in the ledger's content files, is a citation. Every
+       occurrence must qualify - one bare use anywhere in the file refuses it.
+       A corpus file qualifies on its own, exactly as the passage ledger treats
+       it: the first version demanded every file be in the ledger's scope, so a
+       month's name - in three photograph URLs AND in two public-domain fairy
+       tales - failed on the fairy tale and was reported against provenance.
+       (And this comment once spelled the month out, which this gate caught
+       in its own source, as its controls warn it will.) */
+    if (art && !PRIVATE_DENIED.has(w.toLowerCase())
+        && [...files].every((file) => isCorpusFile(file, corpus)
+          || (inScope(file, art.content_files) && everyOccurrenceInArt(tree[file], w, art)))) continue;
     const f = [...files][0];
     /* The corpus exemption, third and last rule to get it. A book is written in
        English, not in this repository's vocabulary: every proper noun in it is
@@ -461,6 +514,32 @@ function selfTest() {
     && strangers({ "tools/x.mjs": `const ${PC} = 1;` }, [], LEDGER).length === 1);
   T("a content-files prefix entry scopes a whole directory",
     scan({ "tests/generated/acceptance.test.js": `it("${PC} reads", () => {})` }, [PC], LEDGER).length === 0);
+  /* THE ART-SOURCES LEDGER's five controls (owner-ruled 2026-09-04). The
+     fixture URL carries the placeholder name where a real one would carry a
+     photographer's. */
+  const AU = "https://example.invalid/wiki/File:" + PC + "_meadow_in_spring.jpg";
+  const ART = { content_files: ["tools/art/provenance.json"], urls: { [AU]: { host: "fixture" } } };
+  T("a name inside a ledgered URL in provenance passes the common scan",
+    scan({ "tools/art/provenance.json": `"url": "${AU}"` }, [PC], null, [], ART).length === 0);
+  T("the same name in provenance but OUTSIDE the URL is refused",
+    scan({ "tools/art/provenance.json": `${PC} took it. "${AU}"` }, [PC], null, [], ART).length === 1);
+  T("the same ledgered URL in any other file is refused",
+    scan({ "docs/a.md": AU }, [PC], null, [], ART).length === 1);
+  T("a name inside an UNLEDGERED URL is refused even in provenance",
+    scan({ "tools/art/provenance.json": "https://example.invalid/wiki/File:" + PC + "_x.jpg" }, [PC], null, [], ART).length === 1);
+  T("a stranger passes only when every occurrence is inside a ledgered URL",
+    strangers({ "tools/art/provenance.json": `"url": "${AU}"` }, [], null, [], ART).length === 0
+    && strangers({ "tools/art/provenance.json": `${PC} "${AU}"` }, [], null, [], ART).length === 1);
+  {
+    /* The fault the first version had: the same token inside a ledgered URL
+       and inside a corpus book. The book is exempt by construction and must
+       not sink the citation. Skipped, not passed, on a machine with no corpus. */
+    const cc = loadCorpus();
+    const book = cc.length ? cc[0].file : null;
+    T("a token in a ledgered URL and in a corpus book passes both",
+      !book || strangers({ "tools/art/provenance.json": `"url": "${AU}"`, [book]: `${PC} went to market.` },
+                         [], null, cc, ART).length === 0);
+  }
   /* Optional chaining on purpose: with the scan dead this control must FAIL,
      not throw — a thrown self-test prints no summary and reads as "no
      output", which is how the first planting of a dead scan went unscored. */
@@ -516,7 +595,7 @@ function selfTest() {
   const vocab = loadVocab();
   T("the real vocabulary is sorted and unique, so a diff shows exactly the newcomer",
     JSON.stringify(vocab) === JSON.stringify([...new Set(vocab)].sort()));
-  T("the real tree holds no capitalized stranger", strangers(tree, vocab, loadPassageNames(), loadCorpus()).length === 0);
+  T("the real tree holds no capitalized stranger", strangers(tree, vocab, loadPassageNames(), loadCorpus(), loadArtSources()).length === 0);
   /* The common layer, through the real list — fixture names are DRAWN from
      it at run time, so this file never holds a name literal of its own. */
   const common = loadCommon();
@@ -534,7 +613,7 @@ function selfTest() {
   T("a name written ALL-CAPS but standing alone is still caught",
     scan({ "docs/a.md": "signed, " + common[0].toUpperCase() + " " }, common).length === 1);
   const scanTree = Object.fromEntries(Object.entries(tree).filter(([f]) => !MACHINERY.test(f)));
-  T("the real tree holds no common given name", scan(scanTree, common, loadPassageNames(), loadCorpus()).length === 0);
+  T("the real tree holds no common given name", scan(scanTree, common, loadPassageNames(), loadCorpus(), loadArtSources()).length === 0);
   /* The PAIR rule, fixture names drawn from the real lists at run time. */
   const surnames = loadSurnames();
   const universe = loadFirstUniverse();
@@ -652,6 +731,7 @@ if (isMain) {
   const scanTree = Object.fromEntries(Object.entries(tree).filter(([f]) => !MACHINERY.test(f)));
   const surnames = loadSurnames();
   const passage = loadPassageNames();
+  const art = loadArtSources();
   /* The PRIVATE list never sees the passage ledger - a real family name
      always wins, even inside a screened passage. */
   /* ORDER IS THE RULE (owner, 2026-08-16 and 2026-08-19). The private denylist
@@ -661,12 +741,12 @@ if (isMain) {
      statement made twice on purpose. */
   names.forEach((n) => PRIVATE_DENIED.add(n.toLowerCase()));
   const corpus = loadCorpus();
-  const hits = [...scan(scanTree, names), ...scan(scanTree, common, passage, corpus),
-    ...strangers(tree, vocab, passage, corpus),
+  const hits = [...scan(scanTree, names), ...scan(scanTree, common, passage, corpus, art),
+    ...strangers(tree, vocab, passage, corpus, art),
     ...pairs(tree, loadFirstUniverse(), surnames, languageOf(tree), corpus)];
   problems.forEach((p) => console.error("  PROBLEM: " + p));
   hits.forEach((h) => console.error("  PROBLEM: " + h));
-  console.log(`S9 names: ${names.length} names loaded, ${common.length} common names guarded, ${surnames.length} surnames paired, ${vocab.length} known tokens, ${Object.keys(passage.names).length} passage names scoped, ${Object.keys(tree).length} files scanned, ${problems.length + hits.length} problems`);
+  console.log(`S9 names: ${names.length} names loaded, ${common.length} common names guarded, ${surnames.length} surnames paired, ${vocab.length} known tokens, ${Object.keys(passage.names).length} passage names scoped, ${Object.keys(art.urls).length} art sources scoped, ${Object.keys(tree).length} files scanned, ${problems.length + hits.length} problems`);
   if (!names.length) console.log("  (no private/s9-names.txt and no S9_NAMES on this machine - structural controls only; the live scan runs where the owner keeps the list)");
   process.exit(problems.length + hits.length ? 1 : 0);
 }
