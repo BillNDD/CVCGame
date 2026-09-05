@@ -352,12 +352,21 @@ are the fix the owner chose.
 - **One creator.** It makes the thing, renders it, reads it back and measures it before it
   returns. On a retry it EDITS the same work, keeps what the panel accepted, and answers
   every criticism one by one, in the work and in its return.
-- **A panel of harsh experts, each with a written list of needs**, numbered, chosen so that
-  each seat judges from a different need: for the garden scene, composition, light, the
-  house style's craft, the natural history of the place, and the project's own gates. A
+- **A panel of harsh experts, each an expert in a field particular to the problem**
+  (owner, the same day: "the judges need to be experts in unique fields particular to the
+  problem"), each with a written, numbered list of needs it alone holds: for the garden
+  scene, pictorial composition, light and values, the crafts of the house style, the
+  natural history of the place, the pixel medium itself, and the project's own gates. A
   seat marks each need met or not with evidence it measured or saw itself. It never trusts
   the creator's numbers; it re-runs the tools and reads the renders. A need nearly met is
   not met, and the seat says exactly what would meet it.
+- **The same judges sit for every round** (owner, the same day: "I want the same judges to
+  stick around round to round for iterations"), and so does the creator. A judge reads its
+  own previous verdict and says, need by need, whether what it asked for was done; the
+  creator remembers what it built and why. A harness that spawns a fresh agent per call
+  cannot do this, so the panel is run as standing agents that are messaged each round, and
+  the exchange is by files - a snapshot per round, a verdict per seat beside it - so that
+  nothing depends on any one context surviving.
 - **100%, or again.** The work passes only when every seat finds every need met. Otherwise
   the unmet needs, verbatim, are the creator's next brief. Iterate until that is achieved.
 - **Nothing reaches the owner - or the agent running the panel - before the panel signs.**
