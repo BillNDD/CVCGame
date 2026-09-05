@@ -1855,3 +1855,24 @@ The owner ruled on one page, and every line below is his, verbatim key and value
 And on the three layered craft attempts, the same evening: "I like the A test case but the
 mosaic shapes dont fit together well." A's character is the ground's target; the pieces must be
 cut to fit their neighbours.
+
+### Gill's pages, read (owner-ruled 2026-09-04: "yes, Gill only")
+
+Beedham's *Wood Engraving* was refused on licence because Beedham (1879-1975) is in
+copyright until 2045 under life-plus-seventy. The owner ruled its two Gill sections
+severable and read. The split was established BY EYE on the boundary leaves of the
+archive.org scan, which turned out to be a seventh printing of 1948 by a later
+publisher, not the 1920 first edition the task named - corrected rather than carried:
+Gill's *Introduction to Second Edition* is pp. 7-12, signed "E. G."; his *Appendix* is
+pp. 51-53, credited to him on the title page and speaking of "this book" in the third
+person. Nothing from Beedham's pp. 13-50 or the six copyrighted plates is carried.
+
+The licence, stated for the record: Gill died in 1940, so his text is public
+domain in this project's own jurisdiction since 1991 (life-plus-fifty was the term when
+it expired, and the 2022 extension revived nothing) and in every life-plus-seventy
+jurisdiction since 2011; every edition from the original press (1920, 1921, 1925, 1929)
+is pre-1930, so it is public domain in the US too. The one residual doubt is confined
+to the US status of any post-1929 revision of the three appendix pages, which no online
+scan of a 1920s printing exists to settle; for this project's jurisdiction the split is
+clean either way. Two Beedham ideas that would have fitted the medium were noticed and
+left out, because they are his.

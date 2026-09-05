@@ -18,8 +18,9 @@ public-domain engraving manuals measured what the rule actually objects to:
   1.00 to 1.48, accepted 2.27 to 48.5, nothing between. The threshold is 2.0.
 
 Owner-ruled 2026-09-04: "yes, the rule means isotropy." Linton (1879) said it in
-older words - mechanical regularity deadens a tint, lines must be LAID - and
-Emerson (1881) reports Bewick refusing cross-hatching for plain parallel lines.
+older words - mechanical regularity deadens a tint, lines must be LAID - and the
+Hand-book of Wood Engraving (1881) reports Bewick refusing cross-hatching for
+plain parallel lines.
 
 WHAT IT MEASURES. For every ink in a render that covers at least FLOOR pixels,
 the mean run length of that ink along x and along y. An ink whose runs are
@@ -28,6 +29,19 @@ ink with a long run in either axis is a lay, or a solid field, and passes. A
 solid field passes because its runs are long in both directions; a chequer
 fails because its runs are one in both. The two cases that share every other
 number are separated by exactly this.
+
+WHAT IT MUST NOT MEASURE, learned on 2026-09-05 from its first real frame. Run
+over the whole tablet it flagged six inks - and four were gardenShade,
+gardenTip, gardenPeel and the mid-green, which are SPRITE inks. A leaf carries
+one pixel of gardenTip at its tip by design, eighty-seven sprites carry a few
+hundred such pixels between them, and a run-length measure over the whole
+frame reads that as speckle. Rendered without sprites, every flag vanished.
+So the gate measures the GROUND, which is the texture the rule governs, and
+leaves sprite pixels out through the same sprite_mask(profile) hook that
+tools/art-frame-contrast.py asks compose() for. Without a mask it measures
+everything and says so, because a gate that passes what it cannot see is
+worse than none - but it will over-report on a frame full of sprites, and
+that is now a known limit rather than a verdict.
 
 WHAT IT DOES NOT CATCH, said plainly. A dither of three or more inks, or one
 laid on an irregular period, can have runs above 1.5 and slip through. The
@@ -71,16 +85,20 @@ def runs(mask, axis):
     return total / count if count else 0.0
 
 
-def lays(im, floor=FLOOR):
-    """Every ink in the image with its coverage, x-run, y-run and ratio."""
+def lays(im, floor=FLOOR, exclude=None):
+    """Every ink in the image with its coverage, x-run, y-run and ratio.
+
+    `exclude` is a boolean array of pixels that are NOT texture - the sprites
+    - and they are left out of both the coverage and the runs."""
     a = np.asarray(im.convert("RGB"), dtype=np.uint8)
-    flat = a.reshape(-1, 3)
+    keep = np.ones(a.shape[:2], bool) if exclude is None else ~np.asarray(exclude, bool)
+    flat = a[keep].reshape(-1, 3)
     colours, counts = np.unique(flat, axis=0, return_counts=True)
     out = []
     for c, n in zip(colours, counts):
         if n < floor:
             continue
-        mask = np.all(a == c, axis=2)
+        mask = np.all(a == c, axis=2) & keep
         rx, ry = runs(mask, 0), runs(mask, 1)
         ratio = max(rx, ry) / max(1e-9, min(rx, ry))
         out.append({"ink": "#%02x%02x%02x" % tuple(int(v) for v in c), "pixels": int(n),
@@ -94,7 +112,10 @@ def check(listing=False):
 
     problems, total = [], 0
     for profile in sorted(garden.PROFILES):
-        for lay in lays(garden.compose(profile)):
+        mask = garden.sprite_mask(profile) if hasattr(garden, "sprite_mask") else None
+        if mask is None and listing:
+            print(f"  {profile:12} no sprite_mask - measuring the whole frame, sprites included")
+        for lay in lays(garden.compose(profile), exclude=mask):
             total += 1
             if listing:
                 print(f"  {profile:12} {lay['ink']} {lay['pixels']:>7} px  "
@@ -152,6 +173,20 @@ def self_test():
     ma = np.asarray(ca).astype(float).mean()
     mb = np.asarray(la).astype(float).mean()
     ok.append(("the chequer and the line lay have identical mean value", abs(ma - mb) < 1e-9))
+    # THE CONTROL FOR THE FIRST REAL FRAME: scattered sprite pixels on a solid
+    # ground are a dither to the unmasked gate and nothing to the masked one.
+    # Forty single pixels of one ink, no two adjacent, on a flat field.
+    a = np.zeros((n, n, 3), dtype=np.uint8); a[:] = A
+    spr = np.zeros((n, n), bool)
+    for i in range(40):
+        y, x = (i * 7) % n, (i * 11 + 3) % n
+        a[y, x] = B; spr[y, x] = True
+    tips = Image.fromarray(a)
+    unmasked = {l["ink"]: l["dither"] for l in lays(tips, floor=30)}
+    masked = {l["ink"]: l["dither"] for l in lays(tips, floor=30, exclude=spr)}
+    ok.append(("scattered sprite pixels ARE speckle to the unmasked gate", unmasked.get("#2d3c2d") is True))
+    ok.append(("...and are left out entirely once the sprite mask excludes them", "#2d3c2d" not in masked))
+
     # an ink under the floor is not measured at all
     ok.append(("an ink under the coverage floor is ignored", "#2d3c2d" not in {l["ink"] for l in lays(build("dots"), floor=10000)}))
 
