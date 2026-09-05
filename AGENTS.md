@@ -329,6 +329,50 @@ expert, adversarial mandate unchanged (`docs/art-plan.md`, "How the council work
 
 The gauntlet still outranks the seat: advice does not ship anything, a green check does.
 
+## The creator and the panel (owner-ruled 2026-09-05)
+
+Anything made to be judged by the owner's eye - a scene, a sprite, a page, a set of
+candidates - is made this way, and no other. The owner's words, given after the fifth
+garden composition passed every gate and was rejected in one look as a mirror:
+
+> "one creator and a panel of 5 expert you suggest, who judge the creator's work, if the
+> judges dont agree it 100% meets their specifications and needs, the creator agent must
+> try again having access to their criticisms, and the final image doesnt get sent to me
+> or you until all judge expert agents agree it meets 100% of their needs."
+
+And, confirming it as the standing rule the same day: "I've had great success with this
+'one creator, many very harsh judges who require 100% success and iterations until that
+is achieved' model and I think we should stick with it."
+
+Why it replaced what came before: the rejected scene was made by three composers and one
+judge. Every gate was green and one reader's say-so let through a fault no gate measured.
+Several judges who each hold a written list of needs, and each re-measure for themselves,
+are the fix the owner chose.
+
+- **One creator.** It makes the thing, renders it, reads it back and measures it before it
+  returns. On a retry it EDITS the same work, keeps what the panel accepted, and answers
+  every criticism one by one, in the work and in its return.
+- **A panel of harsh experts, each with a written list of needs**, numbered, chosen so that
+  each seat judges from a different need: for the garden scene, composition, light, the
+  house style's craft, the natural history of the place, and the project's own gates. A
+  seat marks each need met or not with evidence it measured or saw itself. It never trusts
+  the creator's numbers; it re-runs the tools and reads the renders. A need nearly met is
+  not met, and the seat says exactly what would meet it.
+- **100%, or again.** The work passes only when every seat finds every need met. Otherwise
+  the unmet needs, verbatim, are the creator's next brief. Iterate until that is achieved.
+- **Nothing reaches the owner - or the agent running the panel - before the panel signs.**
+  What the owner sees is the signed work and the round it took, not the drafts.
+- **A round cap of eight is a checkpoint, not an end** (owner-accepted 2026-09-05: "A cap
+  of eight rounds... If the panel hasn't converged by then, you get the dissent, not the
+  image"). The workflow stops to report after eight rounds so a panel that cannot converge
+  is seen rather than spent; the report carries the dissent, never the image, and the run
+  resumes from its cache.
+- **The gatekeeper seat is the engineering seat's after pass**, run against the made thing
+  with the gates named above, so the panel and the seat are one discipline, not two.
+
+The gauntlet still outranks the panel: five signatures do not ship anything, a green check
+does.
+
 ## The two failures this repository is built around
 
 **A machine cannot hear a word.** Every automated check passed while the pack
