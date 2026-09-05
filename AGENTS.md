@@ -363,10 +363,15 @@ are the fix the owner chose.
 - **The same judges sit for every round** (owner, the same day: "I want the same judges to
   stick around round to round for iterations"), and so does the creator. A judge reads its
   own previous verdict and says, need by need, whether what it asked for was done; the
-  creator remembers what it built and why. A harness that spawns a fresh agent per call
-  cannot do this, so the panel is run as standing agents that are messaged each round, and
-  the exchange is by files - a snapshot per round, a verdict per seat beside it - so that
-  nothing depends on any one context surviving.
+  creator remembers what it built and why. The exchange is by files - a snapshot per
+  round, a verdict per seat beside it, the creator's account beside that - so that nothing
+  depends on any one context surviving. Where the harness can keep an agent alive between
+  rounds, the seat is messaged each round with its context intact; where it cannot (found
+  2026-09-05: the desktop session had no way to continue an agent, and the panel's first
+  run met it), the seat is re-seated each round with its own complete verdict history in
+  front of it, and the creator with its own file and accounts. That is persistence of the
+  record rather than of the context, it is the closest such a harness allows, and it is
+  said so here rather than passed off as the same thing.
 - **100%, or again.** The work passes only when every seat finds every need met. Otherwise
   the unmet needs, verbatim, are the creator's next brief. Iterate until that is achieved.
 - **Nothing reaches the owner - or the agent running the panel - before the panel signs.**
