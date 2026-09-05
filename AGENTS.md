@@ -374,6 +374,15 @@ are the fix the owner chose.
   said so here rather than passed off as the same thing.
 - **100%, or again.** The work passes only when every seat finds every need met. Otherwise
   the unmet needs, verbatim, are the creator's next brief. Iterate until that is achieved.
+- **A pass expires with its round** (owner-ruled 2026-09-05: "if one judge votes yes in
+  round 1 that doesnt mean that changes that happen in round 4 shouldn't let them change
+  their vote to no at that point"). Every seat judges every round from the render in front
+  of it, needs it has already passed included, with evidence measured fresh on that
+  snapshot; a verdict is never carried forward and evidence is never copied, because a
+  number known to be unchanged is a number measured again. A seat withdraws a pass the
+  moment the work stops meeting the need, and says what moved. The work is signed only
+  when all six seats pass THE SAME round. This is what makes the panel a ratchet rather
+  than a collection: the creator cannot win a seat and then spend it.
 - **Nothing reaches the owner - or the agent running the panel - before the panel signs.**
   What the owner sees is the signed work and the round it took, not the drafts.
 - **A round cap of eight is a checkpoint, not an end** (owner-accepted 2026-09-05: "A cap
