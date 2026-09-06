@@ -390,6 +390,17 @@ are the fix the owner chose.
   image"). The workflow stops to report after eight rounds so a panel that cannot converge
   is seen rather than spent; the report carries the dissent, never the image, and the run
   resumes from its cache.
+- **Stage zero: every seat specifies before the creator begins** (owner-ruled 2026-09-06:
+  "Maybe they should each suggest something to do as a first stage before creator begins?
+  Like a stage zero?"). Before any work is made, each seat writes the complete and closed
+  set of conditions under which it will pass - each measurable, with its number and how to
+  measure it - plus the positive advice a test cannot carry, plus the conflicts it expects
+  with the other seats' fields. Then a second pass: each seat reads all the specifications
+  and reconciles its own, naming what it cannot resolve. A seat's specification then binds
+  it exactly as a mid-run one does; what it failed to think of is its own cost to bear in a
+  summary, not a refusal. This exists because the first panel spent rounds on targets that
+  moved: a seat refused work in which every number it had set was met, and only a written,
+  closed specification made the thing solvable. Better to pay for that on day one.
 - **The gatekeeper seat is the engineering seat's after pass**, run against the made thing
   with the gates named above, so the panel and the seat are one discipline, not two.
 
