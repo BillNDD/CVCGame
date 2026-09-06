@@ -137,6 +137,17 @@ This document follows the Microsoft Writing Style Guide.
     between the sounds of a word. After coming back, if the "Grown-ups corner" now shows the
     recorded-voice box, the light stays dark for that whole reveal.
 
+32c. ON A PHONE, and iOS above all. With sound on, grade a word and let its whole reveal play; put the app in the background mid-reveal, come back, and grade THE SAME WORD again - the same word, so every one of its clips is already in memory.
+    Expected: the sound-out lights letter by letter on the second reveal exactly as it did on
+    the first, and the "Grown-ups corner" shows NO new recorded-voice box.
+    Why this step exists: backgrounding is what puts an iOS audio player to sleep, and a word
+    heard once is a word whose clips need no loading. Together those were fault B18 - the app
+    asked the player to wake, did not wait, and judged it awake or asleep in the same instant.
+    A cached word lost its rings and an uncached one kept them, in the same session, which is
+    exactly what the owner saw on a phone on 2026-09-06. Step 32b above half-reproduces this
+    and its Expected still allows the dark light, because when it was written that was the
+    honest behaviour; from B18's fix it is not, on a player that wakes at all.
+
 ## Updates
 
 33. While online with the latest version, on the first screen give "Check for updates" in the grown-up strip a quick tap, then press and hold it.

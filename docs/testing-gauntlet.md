@@ -1459,7 +1459,14 @@ some other config, is refused rather than read. The floors it enforces are
 like every other floor. The gauntlet still does not call the census, and that stays
 deliberate: a flaky cell must inform a release, never block one.
 
-- Baseline floors: `g13_clips` (760) and `g13_engine_tests` (18).
+- Baseline floors: `g13_clips` (760) and `g13_engine_tests` (23).
+- Three of those 23 are B18's, and each was watched RED before the fix went in: a fully
+  cached word keeps its rings when the audio player wakes a task later (red against the
+  unfixed player, which judged it asleep in the same instant it asked it to wake); a
+  player that never wakes still hands over to system speech and still names `suspended`
+  (red against a bare await, which would trade a missing ring for ten seconds of
+  silence); and an utterance silenced during that wait schedules nothing (red against a
+  fix with no second token check, which let a stale reveal play over a newer one).
 - To re-render the pack after the bank grows: `docs/voice-pack.md`.
 
 ## G14c. The provenance reader (art step 1, 2026-08-22)
@@ -2064,7 +2071,7 @@ other direction: the real pack, unchanged, must pass.
 
 ## G20. Effect map
 
-- Tool: `tools/effect-map.mjs`. Writes `docs/effect-map.md`. Keys: `g20_tests_mapped` (473).
+- Tool: `tools/effect-map.mjs`. Writes `docs/effect-map.md`. Keys: `g20_tests_mapped` (476).
 - One row per `it()` SITE — its file, suite, and the test's own sentence, which in this
   project IS the Given/When/Then effect, because tests are named as behaviour. A site inside
   a loop or a table runs many times, so the map's 310 rows describe the 324 tests Vitest executes;

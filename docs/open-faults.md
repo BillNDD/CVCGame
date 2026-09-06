@@ -296,6 +296,34 @@ an asynchronous resume, and the reveal keeps its rings on a phone whose context 
 sleep. Checked on a real iOS device, because that is where it was found and the tests cannot
 see it.
 
+**The race is closed and controlled, 2026-09-06, and the entry STAYS OPEN.** `playClips` and
+`unlockVoice` now keep the promise `ctx.resume()` returns - the CALL stays inside the tap,
+which is what iOS requires - and `playPlan` settles it through `settleContext()` before it
+judges the state, as a race against a 250 ms timeout and never a bare await, re-checking the
+utterance token across the new suspension point. Three controls in
+`tests/voicepacks.test.js`, each watched red first against a different broken variant. The
+test double was the first thing fixed: its `resume()` returned `undefined` where production
+calls `.catch()` on it, so the `.catch` at `playClips` had never executed in the suite and
+the race could not occur in any test. Floors raised: `g13_engine_tests` 18 to 23,
+`g20_tests_mapped` 473 to 476, `g12_qa_steps` 48 to 49 for the new step 32c.
+
+**WHY IT STAYS OPEN.** Whether this race is what the owner saw is NOT established. The
+engineering seat's before-pass found the discriminator and it has not been read: on the
+fallback path there is NO sound-out at all - `feedbackSpeech` says the praise and "The word
+was cat" in the system voice and stops - so if the voice WAS sounding the word out letter by
+letter while the tiles stayed dark, this race is not the cause. The owner is asked to look
+for the "The recorded voice" box in the grown-ups corner after it happens: present, and this
+was it; absent, and the fault is downstream of `onScheduled` and still unfound. The entry's
+own Done also requires a real iOS device, and none was available here.
+
+**One rival hypothesis was tested and is dead.** The seat noted that the sounding tile is
+`z-index:-1` inside an `isolation:isolate` parent - a classic WebKit divergence - and that no
+gate in this repository has ever seen a painted ring in a real browser. The shipped rules
+were rendered in WebKit and in Chromium, with a plain ancestor, a positioned ancestor and an
+ancestor made its own stacking context: the ring paints in WebKit in all three, 366 pixels,
+identical across the variants. That is desktop WebKit and not an iPhone, so it is evidence
+and not proof.
+
 **Ruled out with evidence on 2026-09-06, so nobody re-walks it:** it is not the word data.
 All 1,122 words in the bank produce tiles, produce ring slots, place every ring inside the
 tile row, and resolve a complete pack for all three outcomes (correct, close, wrong) against

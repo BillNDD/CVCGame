@@ -14,7 +14,22 @@ let decodeFail = false;
 const contexts = [];    // every AudioContext ever built, in order
 class FakeCtx {
   constructor() { this.state = "suspended"; this.currentTime = 100; this.destination = {}; contexts.push(this); }
-  resume() { this.state = "running"; }
+  /* A REAL resume() returns a promise and settles on a later task; this double
+     used to set the state synchronously and return undefined, which is not the
+     shape production calls (`ctx.resume().catch(...)`). Two things hid behind
+     that: the .catch at playClips has never executed in this suite, and the
+     race B18 describes - a resume that has not landed by the time cached clips
+     have "decoded" - could not occur in any test, so no gate could see it.
+     Default stays instant so the twenty existing tests are untouched; a test
+     that wants the real shape sets `resumeOn` first. */
+  resume() {
+    if (this.resumeOn === "never") return new Promise(() => {});
+    if (this.resumeOn === "task") {
+      return new Promise((res) => setTimeout(() => { this.state = "running"; res(); }, 0));
+    }
+    this.state = "running";
+    return Promise.resolve();
+  }
   close() { this.closed = true; this.state = "closed"; }
   async decodeAudioData(bytes) {
     if (decodeFail) throw new Error("bad bytes");
@@ -457,6 +472,76 @@ describe("voice-pack clip engine", () => {
      EXIST and still WORK, and the two tests above prove the working part with
      a live control. What is gone is only the claim about where it is called
      from, which is a claim about a caller that no longer exists. */
+
+  /* ---------------- B18: the context that wakes on a later task -------------
+     Reported from a real device on 2026-09-06: on iOS some words populated no
+     phonics blocks during the sound-out while others did, in the same session.
+     The race: playClips asks the context to resume and does not await it (iOS
+     wants that call inside the tap), then playPlan awaits the clips and only
+     then tests the state. A clip already in the buffer cache returns in a
+     MICROTASK, so a fully cached plan reaches the test in the same task the tap
+     ran in and the resume has not landed; an uncached plan yields real tasks and
+     it has. Cached words lose their rings, uncached words keep them.
+     These three controls were written and watched RED before the fix. */
+  it("B18: a fully cached word keeps its rings when the context wakes on a later task", async () => {
+    /* first pass fills the cache with every clip of the plan */
+    speakVoice("correct", "cat", 0, true, fb, () => {});
+    await settle(); await settle(); await settle();
+    fb.mockClear();
+    /* the context goes to sleep, as iOS does, and will wake a task later */
+    const ctx = contexts.at(-1);
+    ctx.state = "suspended";
+    ctx.resumeOn = "task";
+    let tiles = null;
+    speakVoice("correct", "cat", 0, true, fb, (m, t) => { tiles = t; });
+    await settle(); await settle(); await settle();
+    /* the rings are the fault, so the rings are what is asserted - literally */
+    expect(fb).not.toHaveBeenCalled();
+    expect(tiles).toEqual([
+      { tile: 0, at: 3360, ms: 100 },
+      { tile: 1, at: 4760, ms: 120 },
+      { tile: 2, at: 6080, ms: 100 },
+    ]);
+  });
+  it("B18 (control): a context that never wakes still falls back, and still says why", async () => {
+    speakVoice("correct", "cat", 0, true, fb, () => {});
+    await settle(); await settle(); await settle();
+    fb.mockClear();
+    const ctx = contexts.at(-1);
+    ctx.state = "suspended";
+    ctx.resumeOn = "never";
+    /* settle() is a setTimeout(0), so the clock must keep advancing on its own
+       while the 250 ms wait is jumped by hand - the same pattern the lost-end
+       test above uses. Without the jump this control hangs on the timeout it
+       is here to prove. */
+    vi.useFakeTimers({ shouldAdvanceTime: true });
+    try {
+      speakVoice("correct", "cat", 0, true, fb, () => {});
+      await settle(); await settle();
+      await vi.advanceTimersByTimeAsync(300);
+      await settle(); await settle();
+      expect(fb, "a context that never wakes still hands over to system speech").toHaveBeenCalled();
+      expect(String(fb.mock.calls[0][0])).toContain("suspended");
+    } finally { vi.useRealTimers(); }
+  });
+  it("B18 (control): an utterance silenced during the wait schedules nothing", async () => {
+    speakVoice("correct", "cat", 0, true, fb, () => {});
+    await settle(); await settle(); await settle();
+    scheduled.length = 0; fb.mockClear();
+    const ctx = contexts.at(-1);
+    ctx.state = "suspended";
+    ctx.resumeOn = "task";
+    speakVoice("correct", "cat", 0, true, fb, () => {});
+    /* The interruption has to land INSIDE the resume wait, which means after
+       the cached clips have resolved (microtasks) and before the resume's own
+       task runs. A drain of microtasks only - never a setTimeout - puts us
+       exactly there; stopping earlier is caught by the check ABOVE the wait
+       and would prove nothing about the one below it. */
+    for (let i = 0; i < 4; i++) await Promise.resolve();
+    stopClips();                       // the next attempt begins mid-wait (S2)
+    for (let i = 0; i < 6; i++) await settle();
+    expect(scheduled.length, "a superseded utterance schedules nothing").toBe(0);
+  });
   it("the audio-route repair survives with no caller, ready for the family recorder", () => {
     const src = readFileSync("app/src/voicepacks.js", "utf8");
     expect(src.includes("export function microphoneUsed()")).toBe(true);

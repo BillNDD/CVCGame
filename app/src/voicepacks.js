@@ -21,6 +21,7 @@ let familyIds = new Set();
    unmeasured clip is a clip the sound-out must not pretend to know. */
 const familyEdges = new Map();
 let ctx = null;                    // AudioContext, created and resumed by unlockVoice()
+let resuming = null;               // the last resume() promise, settled before the state is judged (B18)
 let micUsed = false;               // the microphone has taken the audio session since the last reveal
 let token = 0;
 let live = [];
@@ -158,8 +159,10 @@ export function unlockVoice() {
     if (!AC) return;
     if (!ctx) ctx = new AC();
     /* Safari can leave the context "interrupted" after microphone capture,
-       not just "suspended" — resume from any non-running state. */
-    if (ctx.state !== "running") ctx.resume().catch(() => {});
+       not just "suspended" — resume from any non-running state. The promise is
+       kept rather than dropped, so the reveal can wait for it (B18); the CALL
+       stays here, inside the gesture, which is what iOS requires. */
+    if (ctx.state !== "running") resuming = ctx.resume().catch(() => {});
   } catch { /* stays locked; system speech covers it */ }
 }
 
@@ -339,14 +342,39 @@ const measured = (tier, id) => {
   return !!m && typeof m.lead === "number" && typeof m.tail === "number" && typeof m.ms === "number";
 };
 
+/* B18, reported from a phone on 2026-09-06: on iOS some words populated no
+   phonics blocks during the sound-out while others did, in the same session.
+   The context is asked to resume inside the tap and the promise was dropped;
+   playPlan then awaited the clips and judged the state. A clip already in the
+   buffer cache returns in a MICROTASK, so a fully cached plan reached that test
+   in the same task the tap ran in, before the resume could land, and fell back
+   to system speech with no rings — while an uncached plan yielded real tasks
+   and kept them. Cached words dark, uncached words lit.
+
+   The wait is a RACE and never a bare await. WebKit's resume() on an
+   interrupted context can leave a promise that never settles, and waiting on
+   that would trade a missing ring for up to ten seconds of silence with no
+   speech and no reason logged — worse than the fault. After the timeout the
+   state is judged as it stands, which is the behaviour that was there before. */
+const RESUME_WAIT_MS = 250;
+async function settleContext() {
+  if (!resuming) return;
+  const mine = resuming;
+  await Promise.race([mine, new Promise((r) => setTimeout(r, RESUME_WAIT_MS))]);
+  if (resuming === mine) resuming = null;
+}
+
 async function playPlan(plan, tier, my, fallback, onScheduled, tileSounds = null) {
   let scheduledMs = -1;              // the utterance's scheduled length once its nodes are in flight
   try {
     const decoded = await Promise.all(plan.map((id) => (isSeam(id) ? null : bufferFor(tier, id))));
     if (my !== token) return;                    // a newer utterance took over
-    /* A context rebuilt a moment ago may still be starting. Decoding gave it
-       time; if it is still not running, nothing would be heard, so hand the
-       utterance to system speech instead of playing into silence.
+    await settleContext();                       // B18: let the resume land before judging it
+    if (my !== token) return;                    // ...and again: the wait is a suspension point
+    /* A context rebuilt a moment ago may still be starting. The resume above
+       has been given until RESUME_WAIT_MS to land; if it is still not running,
+       nothing would be heard, so hand the utterance to system speech instead
+       of playing into silence.
        B7 closed on 2026-08-12 claiming every fallback path names its reason.
        There were FIVE paths and the claim was written against four: this one
        called fallback() with nothing, so the single most likely fallback on an
@@ -467,7 +495,7 @@ export function playClips(plan, enabled, fallback, onScheduled = () => {}, tileS
      runs inside the grown-up's tap or keypress, which is when a browser will
      let an audio context start. */
   reclaimOutput();
-  if (ctx && ctx.state !== "running") ctx.resume().catch(() => {});
+  if (ctx && ctx.state !== "running") resuming = ctx.resume().catch(() => {});
   /* B7 — every fallback says WHY. Falling through to system speech is correct
      behaviour and used to leave no trace anywhere: a pack that quietly stopped
      resolving looked like a design choice, because what a grown-up sees is a
