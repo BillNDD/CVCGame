@@ -254,6 +254,53 @@ it must not have been the thing that found it. A test pins the union with a nega
 a fixture where a word is named only in a tricky note, which the old LEVELS-only derivation
 misses and the new one does not.
 
+## B18. On iOS the sound-out loses its tile rings, and which words lose them depends on the clip cache
+
+**Reported from a real device, 2026-09-06**, by the owner, showing the game to a friend in the
+iOS browser on a phone: "some of the words in the levels didn't populate any phonics blocks
+for when the voice was explaining how to pronounce a word while others did." It was not
+captured at the time; what follows is a diagnosis from the code, NOT a reproduction, and the
+distinction matters until someone has it on a device.
+
+**What a child gets today.** The word is still spoken and the result is still saved, so
+nothing is lost from the reading. What goes is the sound-out's choreography: the tiles sit
+there and no tile lights as its own sound plays, for some words and not others in the same
+session. The letter-by-letter marking is the whole point of that reveal, so the child hears
+the word sounded out with nothing on screen tying a sound to its letters.
+
+**Where it lives.** `app/src/voicepacks.js`, `playClips` and `playPlan`.
+
+**The mechanism, and it is a race.** `playClips` calls `ctx.resume()` and does not await it
+(line ~470), because on iOS the call must happen inside the tap. `playPlan` then awaits the
+clips' decoding and only afterwards asks whether the context is running; if it is not, it
+falls back to system speech and the reveal has no rings. Whether the resume has landed by
+then depends entirely on how long the decoding took - and `bufferFor` returns a CACHED clip
+with no await at all. So a word whose clips are already in the 64-clip buffer cache gives
+the resume no time and loses its rings, while a word needing a fresh fetch gives it plenty
+and keeps them. That is the reported symptom exactly, it is not word-specific, and it should
+get WORSE deeper into a session as the cache fills.
+
+**Why no gate caught it.** `tests/voicepacks.test.js`'s fake context resumes synchronously -
+`resume() { this.state = "running"; }` - so in every test the context is running by the next
+line and the race cannot occur. The stand-in is more obliging than the browser. Any fix needs
+a control whose resume settles on a later turn, or the gate will keep passing a broken reveal.
+
+**What is already right and must stay.** The refusal to ring an unmeasured clip is correct (B5)
+and is not this fault. The fallback naming its reason is correct (B7) and is what would have
+told the owner, had anyone looked: the grown-ups corner shows a card headed "The recorded
+voice" after it happens, and its text names this symptom in as many words.
+
+**Done means:** the context's state is settled before it is judged - await the resume, or
+carry its promise into `playPlan` and await it before the check - with a control that models
+an asynchronous resume, and the reveal keeps its rings on a phone whose context had gone to
+sleep. Checked on a real iOS device, because that is where it was found and the tests cannot
+see it.
+
+**Ruled out with evidence on 2026-09-06, so nobody re-walks it:** it is not the word data.
+All 1,122 words in the bank produce tiles, produce ring slots, place every ring inside the
+tile row, and resolve a complete pack for all three outcomes (correct, close, wrong) against
+the 1,474 shipped clips. Nothing about particular words explains it.
+
 ## B17. The advance control goes live mid-reveal — FIXED 2026-08-15
 
 **Promised for the beta after 18, missed in 19, and delivered the beta after that promise
