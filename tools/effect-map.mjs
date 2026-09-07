@@ -122,7 +122,12 @@ function render() {
   L.push("");
   L.push(`Totals: ${rows.length} it() SITES across ${files.length} files, plus ${NON_TEST_GATES.length} gates that are not test files.`);
   L.push("");
-  L.push("A site inside a loop or a table runs many times, so these rows describe more tests than they number: Vitest executes 487. The rows count the places behaviour is asserted.");
+    /* The executed count used to be typed here. It rotted the moment any test
+     was added - it said 487 while Vitest ran 491 - and because this file is
+     GENERATED, the gate compared the document against a generator carrying a
+     stale constant and stayed green on a false number. The relationship is
+     what matters and it never rots; the live count is what Vitest prints. */
+  L.push("A site inside a loop or a table runs many times, so Vitest executes MORE tests than these rows number. The rows count the places behaviour is asserted; the executed count is whatever the suite prints, and the gauntlet holds its floors.");
   L.push("");
   for (const f of files) {
     const m = DECLARED[f];

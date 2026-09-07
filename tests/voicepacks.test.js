@@ -8,6 +8,7 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 import { readFileSync } from "node:fs";
 import "fake-indexeddb/auto";
 
+const SLOW_WAKE_MS = 120;   // a device that wakes late but within the player's patience
 const scheduled = [];   // { start, stopped } per created source, in creation order
 const oscillators = []; // the hum's own nodes, kept apart from the spoken clips
 let decodeFail = false;
@@ -26,6 +27,14 @@ class FakeCtx {
     if (this.resumeOn === "never") return new Promise(() => {});
     if (this.resumeOn === "task") {
       return new Promise((res) => setTimeout(() => { this.state = "running"; res(); }, 0));
+    }
+    /* A REAL device does not wake in one macrotask. "slow" wakes after
+       SLOW_WAKE_MS, which is the only shape that can pin RESUME_WAIT_MS: with
+       "task" the resume settles on a 0 ms timer scheduled before the race's
+       own, so it wins even at a wait of zero, and the constant carrying the
+       whole magnitude of the fix survived every mutation. */
+    if (this.resumeOn === "slow") {
+      return new Promise((res) => setTimeout(() => { this.state = "running"; res(); }, SLOW_WAKE_MS));
     }
     this.state = "running";
     return Promise.resolve();
@@ -502,6 +511,35 @@ describe("voice-pack clip engine", () => {
       { tile: 1, at: 4760, ms: 120 },
       { tile: 2, at: 6080, ms: 100 },
     ]);
+  });
+  it("B18: the wait is long enough to matter - a context 120 ms late keeps its rings", async () => {
+    /* THE CONSTANT IS THE FIX. Every other control proves the SHAPE of the
+       repair - that the resume is awaited, bounded, and re-checked - and all
+       three stay green with RESUME_WAIT_MS set to 0, which restores the fault
+       on every real device. This one proves its MAGNITUDE: a player that wakes
+       after 120 ms must still get its rings, so the constant may be raised and
+       never lowered past a device's real latency. E5 - a detector ships with a
+       control that proves it catches its target fault. */
+    speakVoice("correct", "cat", 0, true, fb, () => {});
+    await settle(); await settle(); await settle();
+    fb.mockClear();
+    const ctx = contexts.at(-1);
+    ctx.state = "suspended";
+    ctx.resumeOn = "slow";
+    vi.useFakeTimers({ shouldAdvanceTime: true });
+    try {
+      let tiles = null;
+      speakVoice("correct", "cat", 0, true, fb, (m, t) => { tiles = t; });
+      await settle(); await settle();
+      await vi.advanceTimersByTimeAsync(SLOW_WAKE_MS + 20);
+      await settle(); await settle();
+      expect(fb, "a player 120 ms late must not fall back").not.toHaveBeenCalled();
+      expect(tiles).toEqual([
+        { tile: 0, at: 3360, ms: 100 },
+        { tile: 1, at: 4760, ms: 120 },
+        { tile: 2, at: 6080, ms: 100 },
+      ]);
+    } finally { vi.useRealTimers(); }
   });
   it("B18 (control): a context that never wakes still falls back, and still says why", async () => {
     speakVoice("correct", "cat", 0, true, fb, () => {});

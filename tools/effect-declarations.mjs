@@ -184,11 +184,11 @@ export const DECLARED = {
     limits: "A simulated lifecycle; the real install-and-relaunch path is the QA procedure (G12).",
   },
   "tests/voicepacks.test.js": {
-    gate: "G13", requirement: "The voice pack's engine-side contract: every word has a clip and every clip a recipe",
-    oracle: "tools/voice-words.csv, the human-edited source of truth",
-    platform: "node", mutants: "none; G13's own self-test carries the controls",
+    gate: "G13", requirement: "The voice pack's engine-side contract - every word has a clip and every clip a recipe - AND the player's own lifecycle: an utterance is silenced when the next attempt begins (S2), a source that cannot play hands over to system speech and says why, and the sound-out's rings land on the right tiles even when the audio player wakes late (B18)",
+    oracle: "tools/voice-words.csv for the clips, the human-edited source of truth; for the lifecycle, a fake AudioContext whose resume() settles synchronously, on a later task, after 120 ms, or never - one shape per fault",
+    platform: "node", mutants: "none; G13's own self-test carries the controls, and B18's four controls were each watched RED against a different broken variant of the fix",
     evidence: "Vitest counts (floor g13_engine_tests) plus the G13 pack audit",
-    limits: "Proves a clip EXISTS and matches its pin. Whether it sounds like the word is settled by a listening round and nothing else.",
+    limits: "Proves a clip EXISTS and matches its pin. Whether it sounds like the word is settled by a listening round and nothing else. The lifecycle half is proved against a DOUBLE, not a browser: it cannot see a real WebKit suspension, so B18 stays open until a device confirms it, and the double still wakes synchronously by default, which is the shape no browser has.",
   },
 };
 

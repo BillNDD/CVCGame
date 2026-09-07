@@ -8,9 +8,9 @@ Per-test rows carry the test's own sentence, which in this project IS the
 Given/When/Then effect. The requirement, oracle, platform, mutant family, evidence
 and known limits are declared per FILE, in the tool, where they stay true.
 
-Totals: 476 it() SITES across 22 files, plus 19 gates that are not test files.
+Totals: 477 it() SITES across 22 files, plus 19 gates that are not test files.
 
-A site inside a loop or a table runs many times, so these rows describe more tests than they number: Vitest executes 487. The rows count the places behaviour is asserted.
+A site inside a loop or a table runs many times, so Vitest executes MORE tests than these rows number. The rows count the places behaviour is asserted; the executed count is whatever the suite prints, and the gauntlet holds its floors.
 
 ## tests/adult-controls.test.js — 9 tests (G10)
 
@@ -738,14 +738,14 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 17 | update-system tripwires (source, with controls) | the version check bypasses the service worker and the precache |
 | 18 | update-system tripwires (source, with controls) | the update module can never touch saved progress |
 
-## tests/voicepacks.test.js — 23 tests (G13)
+## tests/voicepacks.test.js — 24 tests (G13)
 
-- **Requirement protected:** The voice pack's engine-side contract: every word has a clip and every clip a recipe
-- **Independent oracle:** tools/voice-words.csv, the human-edited source of truth
+- **Requirement protected:** The voice pack's engine-side contract - every word has a clip and every clip a recipe - AND the player's own lifecycle: an utterance is silenced when the next attempt begins (S2), a source that cannot play hands over to system speech and says why, and the sound-out's rings land on the right tiles even when the audio player wakes late (B18)
+- **Independent oracle:** tools/voice-words.csv for the clips, the human-edited source of truth; for the lifecycle, a fake AudioContext whose resume() settles synchronously, on a later task, after 120 ms, or never - one shape per fault
 - **Platform:** node
-- **Mutant family:** none; G13's own self-test carries the controls
+- **Mutant family:** none; G13's own self-test carries the controls, and B18's four controls were each watched RED against a different broken variant of the fix
 - **Evidence produced:** Vitest counts (floor g13_engine_tests) plus the G13 pack audit
-- **Known limits — what these tests do NOT prove:** Proves a clip EXISTS and matches its pin. Whether it sounds like the word is settled by a listening round and nothing else.
+- **Known limits — what these tests do NOT prove:** Proves a clip EXISTS and matches its pin. Whether it sounds like the word is settled by a listening round and nothing else. The lifecycle half is proved against a DOUBLE, not a browser: it cannot see a real WebKit suspension, so B18 stays open until a device confirms it, and the double still wakes synchronously by default, which is the shape no browser has.
 - **Safety rules proved here:** none
 
 | # | Suite | Effect (the test's own sentence) |
@@ -770,9 +770,10 @@ A site inside a loop or a table runs many times, so these rows describe more tes
 | 18 | voice-pack clip engine | (control): with no microphone use the context is left alone |
 | 19 | voice-pack clip engine | App.jsx wires the packs at every speech site (source tripwire with control) |
 | 20 | voice-pack clip engine | B18: a fully cached word keeps its rings when the context wakes on a later task |
-| 21 | voice-pack clip engine | B18 (control): a context that never wakes still falls back, and still says why |
-| 22 | voice-pack clip engine | B18 (control): an utterance silenced during the wait schedules nothing |
-| 23 | voice-pack clip engine | the audio-route repair survives with no caller, ready for the family recorder |
+| 21 | voice-pack clip engine | B18: the wait is long enough to matter - a context 120 ms late keeps its rings |
+| 22 | voice-pack clip engine | B18 (control): a context that never wakes still falls back, and still says why |
+| 23 | voice-pack clip engine | B18 (control): an utterance silenced during the wait schedules nothing |
+| 24 | voice-pack clip engine | the audio-route repair survives with no caller, ready for the family recorder |
 
 ## Gates that are not test files
 
