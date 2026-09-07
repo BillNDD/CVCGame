@@ -381,7 +381,7 @@ are the fix the owner chose.
   snapshot; a verdict is never carried forward and evidence is never copied, because a
   number known to be unchanged is a number measured again. A seat withdraws a pass the
   moment the work stops meeting the need, and says what moved. The work is signed only
-  when all six seats pass THE SAME round. This is what makes the panel a ratchet rather
+  when EVERY seat passes the same round; each stage's brief owns how many seats it has. This is what makes the panel a ratchet rather
   than a collection: the creator cannot win a seat and then spend it.
 - **Nothing reaches the owner - or the agent running the panel - before the panel signs.**
   What the owner sees is the signed work and the round it took, not the drafts.
@@ -401,6 +401,70 @@ are the fix the owner chose.
   summary, not a refusal. This exists because the first panel spent rounds on targets that
   moved: a seat refused work in which every number it had set was met, and only a written,
   closed specification made the thing solvable. Better to pay for that on day one.
+- **Keep the iteration loop apart from the judging loop, once an instrument exists.** The
+  figures in these four rules come from the garden's sprite panel of 2026-09-06 and 07,
+  whose rounds are recorded in `docs/art-plan.md`. A panel
+  is expensive: its seats run in parallel, so the wall clock is under an hour, but the cost
+  in tokens and agent time is a full round of deep reading each. Where the
+  seats' conditions are written with their measurements - which stage zero requires - most
+  of them can be measured by a script, and that script becomes the creator's self-check.
+  The creator then iterates against it freely and the panel is convened only when the
+  instrument stops improving. What the panel judges is a candidate, never a draft. Build
+  the instrument by implementing the seats' own conditions and VERIFY IT against verdicts
+  they have already given: the sprite stage's harness decided 146 of 151 conditions and
+  agreed with all seven seats on every one of them, which is why it could be trusted, and
+  it still had a false pass that the seat owning that condition found.
+- **The instrument is the creator's self-check and a seat may never substitute it.** This is
+  what keeps the panel worth its cost. Its whole value is that several experts each measure
+  for themselves; hand them all one script and seven independent measurements collapse into
+  one, and the panel becomes an expensive way to run that script seven times. So a seat
+  measures for itself, always. Where a seat and the instrument disagree, the SEAT is right
+  by definition and the instrument has a defect, which is fixed before the next round - the
+  sprite stage's harness agreed with all seven seats when it was verified and still carried
+  a false pass that the seat owning that condition found. Re-verify the instrument against
+  every judging round, never only against the round it was built on.
+- **A ratchet must be mechanical, not disciplinary.** Telling a creator not to break what
+  passes is not a mechanism. The sprite stage's round 1 broke 27 passing conditions because
+  nothing stopped it, and its round 2 held only because the creator chose to. Make the
+  instrument refuse the snapshot.
+- **Count new ground, not things fixed.** A round that "fixed 31" had restored 21 of its own
+  previous damage and gained 10. Report four numbers and lead with the first: newly met (never met by
+  any seat in an earlier round), restored (met before, broken, now back), still never met,
+  and newly broken. A single fixed count hides a round that
+  ran on the spot, and it hid one here for a day.
+- **A specification binds its seat, and may be CHALLENGED only under these terms.** Binding
+  stops goalposts moving, a fault that cost the first panel several rounds. It also freezes
+  errors: a seat once admitted its own numbers "measured a bough's mass and never its form"
+  only after two rounds had been spent on them, and a later audit found a condition that
+  could not be satisfied at all and had been recorded as passing. So a condition may be
+  contested - but a rule that loosens a bar needs tighter guards than one that raises it,
+  and every clause below is a guard.
+  - **Who may contest, and on what.** The creator, on one of three grounds only: that the
+    condition is unreachable, that it contradicts another named condition, or that it does
+    not measure what its seat says it protects.
+  - **What a contest must contain.** The creator's BEST MEASURED RESULT against the
+    condition's own number, and what it tried to reach it. "Unreachable" without that is
+    unfalsifiable and is refused. Nothing here lets a creator lower a bar it has not tried
+    to clear, and that sentence is the point of the rule rather than a caveat on it.
+  - **When.** Against a condition, resolved BEFORE the next candidate is judged. The
+    condition stands unchanged for the round in flight. A contest filed inside the account
+    of a round that just failed is goalpost-moving in the other direction.
+  - **What a seat may do.** It upholds, saying why the evidence does not bear; or amends, writing
+    the new text exactly. Never merely restate. AN AMENDMENT MAY ONLY WEAKEN OR CLARIFY:
+    anything stronger is a new condition, and a new condition is what the seat failed to
+    think of at stage zero, which it bears in its summary and not in a refusal.
+  - **An amendment is broadcast.** Conditions cross-depend - that is why stage zero has a
+    reconciliation pass - so a seat that amends tells the others, and any seat whose own
+    condition rested on the old text may amend in turn under these same terms.
+  - **Who refuses a weak contest.** Not the party running the creator. The engineering seat,
+    read only and context independent, which already sits before and after every change.
+  - **Escalation takes the owner's own form.** A contest that seat and creator cannot settle
+    goes to the owner as a decision page under "Asking the owner to decide" - one decision
+    per screen, every option with its cost, a pick and a reason, an Other box, a copy-all,
+    verified in a browser first. Never as prose. AND CONTESTS ARE BATCHED: a stage sends one
+    page, not one per condition, because thirty-six screens is not a decision, it is a wall
+    of text with borders drawn on it.
+
 - **The gatekeeper seat is the engineering seat's after pass**, run against the made thing
   with the gates named above, so the panel and the seat are one discipline, not two.
 

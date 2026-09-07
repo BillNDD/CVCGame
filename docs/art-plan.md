@@ -1876,3 +1876,47 @@ to the US status of any post-1929 revision of the three appendix pages, which no
 scan of a 1920s printing exists to settle; for this project's jurisdiction the split is
 clean either way. Two Beedham ideas that would have fitted the medium were noticed and
 left out, because they are his.
+
+## The panels of 2026-09-05 to 07 - what the rounds actually cost
+
+The owner's creator-and-panel rule (AGENTS.md) was invented here and its numbers come from
+these two runs. They are recorded because the rules cite them and a figure that lives only
+in a chat log is a figure this project loses.
+
+**THE WORLD (the wood's edge), six seats, signed.** Nine rounds. Seats passing by round:
+0/6, then 2, 4, 3, 3, 3, 5, 5, and 6/6 at round 9 with zero unmet needs. Round 4 is the one
+that taught the most: the field ecologist refused a canopy in which every number it had set
+was met, because the numbers measured a bough's MASS and never its FORM. It was then seated
+to SPECIFY rather than judge, wrote forty closed conditions, and the stage converged. Rounds
+3 to 6 hold flat at 3 to 5 seats because seats kept withdrawing passes the creator had broken
+while fixing something else - the owner's expiring-pass rule catching regressions no gate in
+this repository would have seen. The last round was one sentence in one docstring.
+
+**THE SPRITES, seven seats, open.** Stage zero came first, on the owner's instruction: every
+seat wrote its complete conditions BEFORE the creator began - 151 of them - then read the
+others' and reconciled. The engineering seat's cross-check found 24 faults in the seven
+specifications, including a condition no mechanism in this repository could satisfy and two
+whose arithmetic could not both hold.
+
+  round 0: 61 conditions unmet, 0 of 7 seats passing.
+  round 1: 73 unmet. It answered all 61 criticisms by name and came out WORSE - 15 fixed,
+           27 broken. Three seats went backwards, and they were the three that judge how the
+           work LOOKS rather than what it measures.
+  round 2: 43 unmet, 31 fixed, 1 broken. But only 10 of those 31 were new ground; 21 were
+           merely undoing round 1's damage. Net progress across three rounds: 18 conditions.
+
+That last line is why the rule says to count new ground rather than things fixed: "31 fixed"
+read as a triumph and was ten.
+
+**THE INSTRUMENT.** A pre-flight harness implementing the seats' own measurable conditions
+decides 146 of the 151 and was verified against all seven seats' verdicts at 146 agreements
+and zero disagreements - and still carried a false pass on line endings, which the seat
+owning that condition found. Five conditions can never be mechanised; one of them is a
+seat's cold reading of the picture at native size, so no green pre-flight can ever promise
+a signed round.
+
+**THE FEASIBILITY AUDIT, after round 2.** Of the 43 remaining: 38 reachable, 0 unsatisfiable,
+3 mutually exclusive in pairs, 1 mis-specified, 1 only ever settleable by eye. So consensus
+is reachable, and the obstruction was three conditions rather than thirty-six. One of the
+three demanded that two seasons differ by more pixels than any two seasons could differ, and
+that number had been adopted from a figure another seat had already withdrawn in the open.
