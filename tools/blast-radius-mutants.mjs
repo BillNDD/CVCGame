@@ -233,10 +233,15 @@ const ENV = scrub({ ...process.env, GIT_CONFIG_GLOBAL: join(box, "gitconfig") })
 
 /* A harness that reports kills without first proving the UNMUTATED file passes
    is reporting nothing: every mutant would "die" against an already-red test. */
+/* Fifteen minutes, from five (2026-09-12): on a loaded machine three of the 64
+   self-tests went past 300000 ms and were scored CRASHED - counted as
+   survivors, which is right for a fault that loops and wrong for a machine
+   that is merely slow. A loop still fails, at fifteen minutes. */
+const SELF_TEST_MS = 900000;
 let baseline = "";
 try {
   baseline = execFileSync("node", [target, "--self-test"],
-    { cwd: box, encoding: "utf8", env: ENV, timeout: 300000, stdio: ["ignore", "pipe", "pipe"] });
+    { cwd: box, encoding: "utf8", env: ENV, timeout: SELF_TEST_MS, stdio: ["ignore", "pipe", "pipe"] });
 } catch (e) { baseline = (e.stdout || "") + (e.stderr || ""); }
 if (!/controls: \d+ passed, 0 failed/.test(baseline)) {
   /* Caught, not thrown: --self-test exits 1 when it is red, so an uncaught
@@ -270,7 +275,7 @@ for (const [name, from, to, why] of MUTANTS) {
   /* A timeout, so a fault that loops fails as a survivor with something to read
      rather than hanging a release run with nothing. */
   const selfTest = (extra) => {
-    try { return execFileSync("node", [target, "--self-test", ...extra], { cwd: box, encoding: "utf8", env: ENV, timeout: 300000, stdio: ["ignore", "pipe", "pipe"] }); }
+    try { return execFileSync("node", [target, "--self-test", ...extra], { cwd: box, encoding: "utf8", env: ENV, timeout: SELF_TEST_MS, stdio: ["ignore", "pipe", "pipe"] }); }
     catch (e) { return (e.stdout || "") + (e.stderr || ""); }
   };
   const t0 = Date.now();

@@ -203,6 +203,10 @@ The build-out's job is to make that hand's list short and true, not to pretend i
 A browser gate's cold-boot waits scale with the engine (`COLD_MS` in `tests/ui/network.mjs`):
 Firefox takes 99.8 s where WebKit takes 12.9 s on this machine, and under a gauntlet's load it
 went past Playwright's 30 s default and reported no checks at all (open fault BC, 2026-09-02).
+Since 2026-09-12 every browser gate's pages carry a 180 s default for navigation and waits
+(`WAIT_MS` in `tests/ui/engine.mjs`, set on each context the harness hands out), after the
+beta-32 gauntlet on a machine shared with other agents lost the Firefox monkey at its first
+page load and the Firefox accessibility run after eleven green checks. A real hang still fails.
 `g12_qa_steps` up, a new `g12_human_steps_max` ceiling, `g20_tests_mapped`, and the census cell
 count. **Order:** engines first (the 2026-08-12 ruling), then the monkey - both landed 2026-09-02 -
 then, re-ruled 2026-09-02 for the owner's eagerness to reach the art, art step 3, then the proofs

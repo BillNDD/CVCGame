@@ -46,7 +46,7 @@
    WHAT IT CANNOT PROVE: that the app looked right while it was battered. */
 import { spawn, execSync } from "node:child_process";
 import { readFileSync } from "node:fs";
-import { launchEngine } from "./engine.mjs";
+import { launchEngine, WAIT_MS } from "./engine.mjs";
 import { mulberry32 } from "../../tools/census-novelties.mjs";
 import { STORE_KEY, LEVELS } from "../../src/engine.js";
 
@@ -110,12 +110,12 @@ const seed = { version: 7, level: 2, preLevel: 0, prePerfectStreak: 0, sessionsC
 
 async function seedPage(page) {
   await page.goto(URL, { waitUntil: "load" });
-  await page.getByRole("button", { name: "Begin Session" }).waitFor({ timeout: 20000 });
+  await page.getByRole("button", { name: "Begin Session" }).waitFor({ timeout: WAIT_MS });
   for (let attempt = 0; attempt < 3; attempt++) {
     await page.waitForTimeout(400);
     await idb(page, "readwrite", JSON.stringify(seed));
     await page.reload({ waitUntil: "load" });
-    await page.getByRole("button", { name: "Begin Session" }).waitFor({ timeout: 20000 });
+    await page.getByRole("button", { name: "Begin Session" }).waitFor({ timeout: WAIT_MS });
     const got = await readSave(page);
     if (JSON.stringify(got.words) === JSON.stringify(words) && got.sessionsCompleted === seed.sessionsCompleted) return;
   }
@@ -240,7 +240,7 @@ for (const [pi, vp] of PROFILES.entries()) {
     await seedPage(page);
     const readOnlyShown = await page.evaluate(() => /Nothing is being saved/.test(document.body.innerText)).catch(() => true);
     await page.getByRole("button", { name: "Begin Session" }).click();
-    await page.locator(".wq-word").waitFor({ timeout: 20000 });
+    await page.locator(".wq-word").waitFor({ timeout: WAIT_MS });
     const base = await readSave(page);
     const b = page.getByRole("button", { name: "got it" });
     await b.focus(); await b.press("Enter");

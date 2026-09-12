@@ -40,6 +40,18 @@ export default defineConfig({
        the deflaking rule's line is "never widen a timeout WITHOUT
        MEASUREMENT", and the measurements are above. */
     testTimeout: 60000,
+    /* THE OTHER TWO LIMITS A GREEN RUN CAN EXCEED (2026-09-12, the beta-32
+       gauntlet on a machine shared with other agents at 78% CPU): vitest's
+       hookTimeout and teardownTimeout default to 10000, and a run that goes
+       past either exits non-zero with every test passed. G1 took 304 s that
+       morning where an unloaded run takes about 30, and one of G5's 77 mutant
+       runs ended without a test failure - the shape of a teardown that took
+       too long, scored by the runner as errored, which failed the gate. Same
+       rule as above: the wall clock measures the machine; a real hang still
+       fails at 60 s. The owner ruled the same day: set the willingness to wait
+       higher rather than spend another release run on a fake failure. */
+    hookTimeout: 60000,
+    teardownTimeout: 60000,
     /* The UX census is Playwright, not vitest, and lives in tests/census.
        Without this line vitest collects those .spec.mjs files, fails to parse
        them, and `npm run check` goes red for a reason that has nothing to do

@@ -46,6 +46,30 @@ function launchOptions(name) {
 
 export function engineLine(name, version) { return `browser: ${LABEL[name]}/${version}`; }
 
+/* HOW LONG A GATE IS WILLING TO WAIT for a page to load or an element to
+   appear: 180 s, where Playwright's default is 30. Set on every context the
+   harness hands out, so a11y, the monkey, the interface, the network and the
+   listening page all carry it without twenty call sites knowing. Measured
+   before it was widened (the rule in vitest.config.mjs): on 2026-09-12 the
+   beta-32 gauntlet ran on a machine shared with other agents at 78% CPU, and
+   the Firefox monkey timed out at its first goto while the Firefox
+   accessibility run stopped after eleven green checks - four fake failures in
+   one release run, none of them the game. A real hang still fails, three
+   minutes later. The owner ruled the same day: set the willingness to wait
+   higher. Explicit shorter waits in a gate override this on purpose. */
+export const WAIT_MS = 180000;
+function patient(browser) {
+  if (typeof browser.newContext !== "function") return browser;   // the self-test's fakes
+  const make = browser.newContext.bind(browser);
+  browser.newContext = async (...a) => {
+    const context = await make(...a);
+    context.setDefaultTimeout(WAIT_MS);
+    context.setDefaultNavigationTimeout(WAIT_MS);
+    return context;
+  };
+  return browser;
+}
+
 /* Launch the requested engine and print its evidence line. `launchers` is the
    injection the self-test uses to prove the refusal without uninstalling a
    browser; callers never pass it. */
@@ -65,7 +89,7 @@ export async function launchEngine({ env = process.env, launchers = playwright, 
     throw new Error(`asked for ${name}, launched ${actual} - an engine must never stand in for another`);
   }
   log(engineLine(name, browser.version()));
-  return { browser, engine: name };
+  return { browser: patient(browser), engine: name };
 }
 
 async function selfTest() {
