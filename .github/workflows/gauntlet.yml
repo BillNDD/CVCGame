@@ -22,7 +22,13 @@ jobs:
   gauntlet:
     runs-on: ubuntu-latest
     steps:
+      # THE WHOLE HISTORY, because G32 builds its baseline from the
+      # v1.0.0-beta.32 tag with git show (batch 0 of the refactor, 2026-09-12).
+      # A shallow checkout carries only the ref being built, and the harness
+      # refuses a clone without the tag rather than passing on nothing.
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: actions/setup-node@v4
         with:
           node-version: 22

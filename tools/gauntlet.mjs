@@ -93,6 +93,10 @@ const LANE_B = new Map([
      rewrites, and takes the engine from the extractor into a scratch file
      rather than from src/engine.js, which G5 rewrites beside it. */
   ["G31 shape", "node tools/shape.mjs && node tools/shape.mjs --self-test"],
+  /* G32 builds both engines it compares from the reference build into a
+     scratch directory, so the mutant G5 plants in src/engine.js beside it
+     is never what it reads. */
+  ["G32 differential", "node tools/differential.mjs && node tools/differential.mjs --self-test"],
 ]);
 /* The gates that may never ride the lane, by the dependency graph in
    docs/testing-gauntlet.md: everything that mutates a tracked file or the
@@ -654,6 +658,17 @@ step("G31 shape", LANE_B.get("G31 shape"), [
   { label: "controls", regex: /shape controls: (\d+) passed/, floorKey: "g31_controls" },
 ], {}, ["every ceiling lowered by one under an unchanged tree is refused, naming its key"]);
 
+/* G32 - the differential harness (batch 0 of the refactor, owner-ruled
+   2026-09-12): the tree's engine beside the beta-32 engine over the same
+   inputs, zero differences. The functions and cases are floors, so the
+   harness can only grow; the planted G5 refusal is required by name. */
+step("G32 differential", LANE_B.get("G32 differential"), [
+  { label: "functions", regex: /(\d+) functions driven/, floorKey: "g32_functions" },
+  { label: "cases", regex: /(\d+) cases/, floorKey: "g32_cases" },
+  { label: "differences", regex: /(\d+) differences/, max: 0 },
+  { label: "controls", regex: /differential controls: (\d+) passed/, floorKey: "g32_controls" },
+], {}, ["baseline v1.0.0-beta.32", "planted is refused, and the first difference names applyResult"]);
+
 /* Every gate that MUST have run. A gauntlet that skipped one — a step
    removed, a command renamed — has to fail rather than report a smaller,
    greener total. This is the closed list the release evidence is checked
@@ -668,7 +683,7 @@ const REQUIRED_GATES = [
   "G30 monkey", "G30 monkey (webkit)", "G30 monkey (firefox)", "G16 doc-truth",
   "G12 qa-procedure", "G13 voice-pack", "G13 voice-edges", "G20 effect-map", "G17 governing", "G23 file-map",
   "G24 s9-names", "G6 coverage-control", "G21 listening-page", "app build", "G14 art-budget",
-  "G31 shape",
+  "G31 shape", "G32 differential",
 ];
 const sh = (cmd) => { try { return execSync(cmd, { encoding: "utf8", stdio: "pipe" }).trim(); } catch { return null; } };
 

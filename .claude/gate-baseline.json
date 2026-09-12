@@ -122,6 +122,9 @@
  "g31_fn_over_80_lines_max": 13,
  "g31_depth_over_4_max": 6,
  "g31_dup_regions_max": 14,
- "g31_dead_exports_max": 102,
- "g31_controls": 12
+ "g31_dead_exports_max": 101,
+ "g31_controls": 12,
+ "g32_functions": 51,
+ "g32_cases": 16542,
+ "g32_controls": 9
 }

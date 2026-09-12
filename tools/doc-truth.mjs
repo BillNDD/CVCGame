@@ -118,6 +118,13 @@ const AGENT_TOOLS = [
     script: "check",
     command: "tools/shape.mjs --self-test",
   },
+  {
+    file: "tools/differential.mjs",
+    why: "G32: the tree's engine beside the beta-32 engine, over the same inputs",
+    docs: { "docs/testing-gauntlet.md": "gauntletDoc" },
+    script: "check",
+    command: "tools/differential.mjs --self-test",
+  },
 ];
 
 const real = {

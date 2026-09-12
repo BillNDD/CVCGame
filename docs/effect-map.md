@@ -8,7 +8,7 @@ Per-test rows carry the test's own sentence, which in this project IS the
 Given/When/Then effect. The requirement, oracle, platform, mutant family, evidence
 and known limits are declared per FILE, in the tool, where they stay true.
 
-Totals: 478 it() SITES across 22 files, plus 20 gates that are not test files.
+Totals: 478 it() SITES across 22 files, plus 21 gates that are not test files.
 
 A site inside a loop or a table runs many times, so Vitest executes MORE tests than these rows number. The rows count the places behaviour is asserted; the executed count is whatever the suite prints, and the gauntlet holds its floors.
 
@@ -800,4 +800,5 @@ A site inside a loop or a table runs many times, so Vitest executes MORE tests t
 | G24 | `tools/s9-names.mjs` | S9 enforced: no personal name in any tracked file, by content and by file name | The layered name lists in the tool | A name nobody listed is a name it cannot see. | S9 (source) |
 | E11 | `tools/blast-radius-mutants.mjs` | That the E11 lookup itself still finds what it claims to find | Planted faults in the lookup | Proves the lookup works, never that a change is right. | none |
 | G31 | `tools/shape.mjs` | The code's shape - complexity, nesting depth, function length, duplication and dead exports - at or under the ceilings measured on 2026-09-12 | ESLint's own counters and a token-window scan, against .claude/gate-baseline.json | Shape is not behaviour: a simple function can still be wrong, and the dead-export count is a floor, never a ceiling. | none |
+| G32 | `tools/differential.mjs` | E8 for the refactor: the engine the tree would ship gives the beta-32 engine's outputs on every table and every pure or seeded function, over the same inputs | The engine built from the v1.0.0-beta.32 tag, compared as canonical JSON | It compares the engine with itself as it was, never with what it should be: a fault beta 32 shipped is preserved exactly. | none |
 

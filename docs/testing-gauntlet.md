@@ -1,4 +1,4 @@
-# Testing gauntlet — gate specification (G1–G31)
+# Testing gauntlet — gate specification (G1–G32)
 
 **This document owns** the gates: what each one proves, what it cannot prove, and the floor
 or ceiling it holds in `.claude/gate-baseline.json`.
@@ -44,7 +44,7 @@ the owner raises one; a refactor that improves the shape lowers it to what it re
 | `g31_fn_over_80_lines_max` | 13 | functions longer than 80 lines |
 | `g31_depth_over_4_max` | 6 | blocks nested deeper than 4 |
 | `g31_dup_regions_max` | 14 | merged duplicated regions |
-| `g31_dead_exports_max` | 102 | exports no other file references |
+| `g31_dead_exports_max` | 101 | exports no other file references (102 at birth; see below) |
 
 A ceiling missing from the baseline is refused outright - `count > undefined` is false, the G27
 lesson. The measurement report those numbers came from counted the reference build's own
@@ -64,7 +64,11 @@ reported rather than skipped. Then the E6 direction on the real tree: today's ce
 problem, every ceiling lowered by one under an unchanged tree is refused naming its key (the
 gauntlet requires that line by name), a missing key is refused, and every area must have measured
 at least one function, so a scope that reads nothing cannot pass. Each detector was watched red
-against a broken variant of the gate before the control was written down.
+against a broken variant of the gate before the control was written down. The lowered-ceiling
+control also refuses SLACK: a ceiling above today's count is red, so an improvement lowers its
+ceiling in the same commit, mechanically. The first was G32's own header, which names a word
+that made one of the 102 "dead" exports referenced; the count became 101 and the ceiling with
+it - the word-level rule's noise, stated as its limit above, working in the gate's favour.
 
 **Report only, until batch 2.** Cognitive complexity is measured by `eslint.measure.mjs`, a
 config that loads the sonarjs plugin (a devDependency since this batch, owner-ruled) with its
@@ -75,6 +79,58 @@ its instrument.
 **What it cannot do.** It measures shape, never behaviour - a simple function can still be
 wrong, which is what G32 and the mutation gates are for. `tools/*.py` is measured by nothing.
 Under ten seconds on this machine, so it runs in `npm run check` and in the gauntlet's lane.
+
+## G32 - the differential harness: the engine beside the engine that shipped
+
+`node tools/differential.mjs`, with `--self-test` for its nine controls (floor `g32_controls`).
+Batch 0 of the refactor, owner-ruled 2026-09-12. The refactor promises E8 - nothing the game
+does changes - and this is the instrument that holds it: the engine the tree would ship is run
+beside the engine beta 32 shipped, over the same inputs, and any output that differs is red.
+
+**How the two engines are built, without a file in the tree.** The baseline is
+`git show v1.0.0-beta.32:reference/word-quest.jsx` into a scratch directory and
+`tools/extract-engine.mjs` run on it; the candidate is the tree's own reference build through
+the same extractor into the same scratch directory - never `src/engine.js`, which G5 rewrites
+beside this gate in the gauntlet's lane. The tag stays pinned for the whole refactor, so every
+batch is measured against what shipped before the first one and a drift cannot be smuggled
+through in steps. A clone without the tag is refused with `git fetch --tags` in the message;
+the release workflow's checkout fetches the whole history for that reason.
+
+**What is driven.** Every exported table, compared whole. Every exported function that is pure
+or seedable - 51 of them at birth, over 16,542 cases: the boxes (`applyResult` over every box,
+result and first-correct state), the schedulers (`buildSession`, `dueChunks`,
+`buildPreSession`), the promotions (`checkPromotion`, `checkPrePromotion`, `isSecure`,
+`ladderComplete`, `gardenState`, `workingOnWords`), the saves (`migrate` and `heal` over the
+version 2 to 7 fixtures the tests use and over hostile shapes), the chunker and the sounds over
+every bank word, the reveal plans, the sentences, the trays, the ladder, the markdown export and
+the zero-argument derivations. Outputs are compared as canonical JSON - keys sorted; NaN,
+undefined and functions spelled out; a throw recorded as the message it threw. Normalised
+fields: none. The first difference is printed with its function, its input and both outputs.
+Keys: `g32_functions` (51) and `g32_cases` (16542) are floors, so the harness can only grow;
+differences are capped at 0.
+
+**The generator and the clock are the harness's.** `mulberry32` is the census's generator, its
+ten lines copied rather than imported, because a tool imports no test. A function with a `rand`
+parameter is handed the generator; `buildSession`, `sessionSentences` and the tray builders
+reach for `Math.random` themselves and `buildMarkdown` stamps the day, so for the length of
+every call `Math.random` is the seeded generator and `Date` is pinned to one instant - the same
+seed and instant for both engines, both put back afterwards. A refactor that adds a second
+source of randomness or time shows up as a difference.
+
+**The controls (E5), nine.** The G5 table's first entry - the fast track's box 3 becoming 2 -
+planted into a copy of the candidate is refused, and the first difference names `applyResult`;
+a second plant, `SESSION_SIZE` 20 to 19, is refused naming the table; the tree's own reference
+against the baseline gives zero differences; one seed repeats a session exactly and another
+changes it; the clock holds still across two exports; both are put back after a call; a clone
+without the tag is refused; and the canonical form ignores key order, sees a moved number and
+spells out what JSON drops. The planted refusal was watched red before the harness was wired.
+
+**What it cannot do.** It compares the engine with itself as it was, never with what it should
+be: a fault beta 32 shipped is preserved exactly, which is the point of a refactor and the job of
+the tests to catch. Nothing that reaches the browser - speech, storage - is driven, and the
+garden's render hash is not an engine output (`tools/art-render.mjs` hashes the python renders
+pinned in `tools/art/provenance.json`), so there is nothing of it here. About nine seconds for
+the gate and twenty for its controls, so both run in `npm run check` and in the gauntlet's lane.
 
 ## G26 - the waiting room is internally honest
 
