@@ -15,6 +15,15 @@ This document follows the Microsoft Writing Style Guide.
 Version 6 adds the standalone progressive web app. The reference build does not change.
 The first app version is 1.0.0-beta.1. The app stays in beta until version 1.0 is ready.
 
+- Fixed in 1.0.0-beta.32: a reader who had moved past the first levels could be shown the
+  same two or three short letter pairs at the start of every session, such as "am", "us"
+  and "ox", instead of getting on to their words. The game forgot that they had been read
+  the moment the words began. It remembers now, so those pairs appear once, and the next
+  session goes straight to the level's words.
+- Fixed in 1.0.0-beta.32: on iPhone, when a word was sounded out, the letter tiles sometimes
+  did not light up in turn, and a plainer voice was heard instead of the recorded one. It
+  happened on words the phone had already heard once. The sound-out now waits for the
+  phone's audio to wake before it starts.
 - New in 1.0.0-beta.32: on a phone held sideways, the game now asks to be turned upright
   instead of showing a screen too short to read on. A picture shows what to do. A grown-up
   who needs to read sideways can press and hold "Read this way anyway", and the phone
