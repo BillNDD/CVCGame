@@ -43,9 +43,22 @@
    that the save was writable at all: under a timed-out boot every write is
    a silent no-op (F3) and an S1 line would pass over nothing measured.
 
-   WHAT IT CANNOT PROVE: that the app looked right while it was battered. */
+   WHAT IT CANNOT PROVE: that the app looked right while it was battered.
+
+   FAILURE EVIDENCE (batch 0 of the refactor, owner-ruled 2026-09-12). A red
+   monkey used to leave one line and a seed, and replaying it took a rebuild
+   and a browser. On the FIRST failure - a check that fails, a gesture that
+   throws, or the harness dying - and before any retry, five files land in
+   .gauntlet-evidence.d/monkey-<engine>-<seed>/ (gitignored): seed.txt, the
+   gesture log so far as gestures.json, the page's save as save.json, the
+   error with its stack as error.txt, and screenshot.png. A later run writes
+   BESIDE an existing folder (-2, -3, ...), never over it. Later failures in
+   the same run stay on the console; the folder holds the first one whole.
+   THE CONTROL (E5): MONKEY_FAIL_AT=<n> makes gesture n throw, and the folder
+   must then exist with all five files. */
 import { spawn, execSync } from "node:child_process";
-import { readFileSync } from "node:fs";
+import { readFileSync, existsSync, mkdirSync, writeFileSync } from "node:fs";
+import { join } from "node:path";
 import { launchEngine, WAIT_MS } from "./engine.mjs";
 import { mulberry32 } from "../../tools/census-novelties.mjs";
 import { STORE_KEY, LEVELS } from "../../src/engine.js";
@@ -55,9 +68,44 @@ const URL = `http://127.0.0.1:${PORT}/`;
 const SEED = Number(process.env.MONKEY_SEED || 20260901);
 const N = 300;                                   // pinned: the gauntlet requires "300 gestures" by name
 const HOLD_MS = 450;                             // S5's hold, the dwell that makes a drag an adult act
+const EVIDENCE_ROOT = ".gauntlet-evidence.d";
+const FAIL_AT = process.env.MONKEY_FAIL_AT === undefined ? null : Number(process.env.MONKEY_FAIL_AT);
+const gestures = [];                             // every gesture the storm has sent, for the evidence
+let livePage = null, evidenceDir = null;
+/* Beside, never over: the first free name under the root. */
+function evidenceFolder(root, engineName, seed, exists) {
+  const base = `${root}/monkey-${engineName}-${seed}`;
+  let dir = base;
+  for (let n = 2; exists(dir); n++) dir = `${base}-${n}`;
+  return dir;
+}
+{
+  const taken = new Set(["r/monkey-e-1", "r/monkey-e-1-2"]);
+  if (evidenceFolder("r", "e", 1, (d) => taken.has(d)) !== "r/monkey-e-1-3" || evidenceFolder("r", "e", 2, (d) => taken.has(d)) !== "r/monkey-e-2") {
+    console.error("control FAILED: a second run's evidence must land beside the first, never over it");
+    process.exit(1);
+  }
+  console.log("control OK: a second run's evidence lands beside the first, never over it");
+}
+async function writeEvidence(error) {
+  if (evidenceDir) return;                       // the FIRST failure only
+  evidenceDir = evidenceFolder(EVIDENCE_ROOT, engine, SEED, existsSync);
+  mkdirSync(evidenceDir, { recursive: true });
+  const put = (name, text) => writeFileSync(join(evidenceDir, name), text);
+  put("seed.txt", `MONKEY_SEED=${SEED}\nCENSUS_ENGINE=${engine}\ngestures sent before the failure: ${gestures.length} of ${N}\n`);
+  put("gestures.json", JSON.stringify(gestures, null, 1) + "\n");
+  let note = "";
+  let save = null;
+  try { save = livePage ? await readSave(livePage) : { unread: "no page was open" }; } catch (e) { save = { unreadable: String(e).slice(0, 200) }; }
+  put("save.json", JSON.stringify(save, null, 1) + "\n");
+  try { if (livePage) await livePage.screenshot({ path: join(evidenceDir, "screenshot.png") }); else note = "\n(no screenshot: no page was open)"; }
+  catch (e) { note = `\n(no screenshot: ${String(e).slice(0, 200)})`; }
+  put("error.txt", String((error && error.stack) || error) + note + "\n");
+  console.error(`evidence: ${evidenceDir}`);
+}
 let failures = 0, checks = 0;
 const ok = (name) => { checks += 1; console.log(`ok ${checks}: ${name}`); };
-const fail = (name, detail) => { failures += 1; console.error(`FAIL: ${name} — ${detail}`); };
+const fail = async (name, detail) => { failures += 1; console.error(`FAIL: ${name} — ${detail}`); await writeEvidence(new Error(`${name} — ${detail}`)); };
 
 if (!process.env.WQ_SKIP_BUILD) execSync("npm --prefix app run build", { stdio: "pipe" });
 /* Bound to 127.0.0.1 like every gate since 2026-09-01: left to vite the
@@ -158,18 +206,24 @@ async function storm(page, vw, vh, errors) {
   for (let i = 0; i < N; i += 1) {
     const kind = rnd();
     const x = Math.floor(rnd() * vw), y = Math.floor(rnd() * vh);
+    /* The draws stay in the order they have always been in, so a seed replays
+       the same storm; the log records what each draw became. */
+    const g = { i, x, y, kind: kind < 0.55 ? "tap" : kind < 0.70 ? "double" : kind < 0.85 ? "drag" : kind < 0.95 ? "key" : "triple" };
+    gestures.push(g);
     try {
-      if (kind < 0.55) await press(x, y, 1);
-      else if (kind < 0.70) await press(x, y, 2);
-      else if (kind < 0.85) {
+      if (FAIL_AT === i) throw new Error(`MONKEY_FAIL_AT=${i}: the planted gesture failure, the evidence control`);
+      if (g.kind === "tap") await press(x, y, 1);
+      else if (g.kind === "double") await press(x, y, 2);
+      else if (g.kind === "drag") {
         await page.mouse.move(x, y);
         const t0 = Date.now(); await page.mouse.down();
-        await page.mouse.move(Math.floor(rnd() * vw), Math.floor(rnd() * vh), { steps: 4 }); await page.mouse.up();
+        g.to = { x: Math.floor(rnd() * vw), y: Math.floor(rnd() * vh) };
+        await page.mouse.move(g.to.x, g.to.y, { steps: 4 }); await page.mouse.up();
         longestDwell = Math.max(longestDwell, Date.now() - t0);
       }
-      else if (kind < 0.95) await page.keyboard.press(["Tab", "Escape", "ArrowRight"][Math.floor(rnd() * 3)]);
+      else if (g.kind === "key") { g.key = ["Tab", "Escape", "ArrowRight"][Math.floor(rnd() * 3)]; await page.keyboard.press(g.key); }
       else await press(x, y, 3);
-    } catch (e) { harness.push(`gesture ${i} threw: ${String(e).slice(0, 120)}`); }
+    } catch (e) { harness.push(`gesture ${i} threw: ${String(e).slice(0, 120)}`); await writeEvidence(e); }
     if (i % 25 === 0) {
       screens.add(await page.evaluate(() => document.documentElement.getAttribute("data-wq-screen") || "(none)").catch(() => "(gone)"));
       await page.waitForTimeout(30);
@@ -192,9 +246,11 @@ async function settledSave(page) {
 }
 
 const PROFILES = [{ width: 390, height: 664 }, { width: 320, height: 568 }];
+try {
 for (const [pi, vp] of PROFILES.entries()) {
   const context = await browser.newContext();
   const page = await context.newPage();
+  livePage = page;
   const errors = [];
   page.on("pageerror", (e) => errors.push("pageerror: " + String(e).slice(0, 160)));
   page.on("console", (m) => { if (m.type() === "error") errors.push("console: " + m.text().slice(0, 160)); });
@@ -210,9 +266,9 @@ for (const [pi, vp] of PROFILES.entries()) {
   const label = `${vp.width}x${vp.height} on ${engine}, ${N} gestures, seed ${SEED}`;
 
   if (errors.length === 0) ok(`${label}: no page error and no console error`);
-  else fail(`${label}: the storm raised errors`, errors.slice(0, 3).join(" | "));
+  else await fail(`${label}: the storm raised errors`, errors.slice(0, 3).join(" | "));
   if (shell && screens.includes("session")) ok(`${label}: the storm reached the session and the shell is still on screen (screens met: ${screens.join(", ")})`);
-  else fail(`${label}: the storm never reached the session, or the app blanked`, JSON.stringify({ shell, screens }));
+  else await fail(`${label}: the storm never reached the session, or the app blanked`, JSON.stringify({ shell, screens }));
 
   /* An erase (the corner's two-tap Reset, an adult control by design) leaves
      nothing to compare, and a comparison of nothing must never print "held":
@@ -222,12 +278,12 @@ for (const [pi, vp] of PROFILES.entries()) {
   /* A long dwell matters only as the EXPLANATION of a changed result: a
      stalled harness that held 883 ms on nothing changed nothing, and that is
      S1 holding, not a verdict withheld (the second run). */
-  if (diffs.length && longestDwell >= HOLD_MS) fail(`${label}: INCONCLUSIVE - a result changed after a pointer dwelled ${longestDwell} ms, which is an adult hold`, `replay with MONKEY_SEED=${SEED}: ${diffs[0]}`);
-  else if (missing.length) fail(`${label}: INCONCLUSIVE - ${missing.length} of ${Object.keys(before.words).length} words are gone from the save (the corner's Reset, or a lost write)`, `replay with MONKEY_SEED=${SEED}`);
+  if (diffs.length && longestDwell >= HOLD_MS) await fail(`${label}: INCONCLUSIVE - a result changed after a pointer dwelled ${longestDwell} ms, which is an adult hold`, `replay with MONKEY_SEED=${SEED}: ${diffs[0]}`);
+  else if (missing.length) await fail(`${label}: INCONCLUSIVE - ${missing.length} of ${Object.keys(before.words).length} words are gone from the save (the corner's Reset, or a lost write)`, `replay with MONKEY_SEED=${SEED}`);
   else if (diffs.length === 0) ok(`${label}: S1 held - no result field of any word moved, no word appeared, none vanished (longest dwell ${longestDwell} ms)`);
-  else fail(`${label}: S1 broken - a random gesture changed a result`, diffs.slice(0, 5).join("; "));
+  else await fail(`${label}: S1 broken - a random gesture changed a result`, diffs.slice(0, 5).join("; "));
   if (after.sessionsCompleted === before.sessionsCompleted) ok(`${label}: the session count did not move (${before.sessionsCompleted})`);
-  else fail(`${label}: the session count moved`, `${before.sessionsCompleted} -> ${after.sessionsCompleted}`);
+  else await fail(`${label}: the session count moved`, `${before.sessionsCompleted} -> ${after.sessionsCompleted}`);
 
   /* NEGATIVE CONTROL (E5), on the first profile: the one adult act, and the
      same probe must see it - which also proves the save was writable. */
@@ -249,10 +305,17 @@ for (const [pi, vp] of PROFILES.entries()) {
     if (!readOnlyShown && seen.length > 0) console.log(`control OK: the S1 probe sees the app's own write after an adult keyboard grade (${seen[0]}), so the save was writable and the probe reads it`);
     else {
       const why = await page.evaluate(() => ({ screen: document.documentElement.getAttribute("data-wq-screen"), word: document.querySelector(".wq-word")?.textContent, tiles: document.querySelectorAll(".wq-tile").length, gotit: document.querySelector('[aria-label="got it"]')?.disabled })).catch(() => null);
-      fail("negative control broken", `readOnly=${readOnlyShown} diffs=${JSON.stringify(seen)} base=${Object.keys(base.words || {}).join(",")} now=${Object.keys((await readSave(page)).words || {}).join(",")} ${JSON.stringify(why)}`);
+      await fail("negative control broken", `readOnly=${readOnlyShown} diffs=${JSON.stringify(seen)} base=${Object.keys(base.words || {}).join(",")} now=${Object.keys((await readSave(page)).words || {}).join(",")} ${JSON.stringify(why)}`);
     }
   }
   await context.close();
+  livePage = null;
+}
+} catch (e) {
+  /* The harness died - a seed that never landed, a page that vanished: the
+     evidence is written before the exit path runs, so the folder says why. */
+  await writeEvidence(e);
+  throw e;
 }
 
 await browser.close();

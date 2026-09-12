@@ -194,6 +194,13 @@ hiding it. Sub-second over ~960 rows, so it runs in `npm run check`.
 - **Its sibling.** The census monkey (`tests/census/monkey.spec.mjs`) walks the control LIST by
   name - never a hold, never the corner - and judges what the app said. G30 is coordinates: it
   tests what a hand does off-target. Both stand; neither is a duplicate of the other.
+- **Failure evidence (batch 0 of the refactor, 2026-09-12).** On the FIRST failure - a check
+  that fails, a gesture that throws, or the harness dying - and before any retry, the gate
+  writes five files to `.gauntlet-evidence.d/monkey-<engine>-<seed>/` (gitignored): the seed,
+  the gesture log so far, the page's save, the error with its stack, and a screenshot. A later
+  run writes beside an existing folder, never over it, and the gauntlet requires that control
+  by name. The control for the evidence itself: `MONKEY_FAIL_AT=<n>` makes gesture n throw,
+  and the folder must then exist with all five files.
 - **What it cannot prove:** that the screen looked right while it was battered. The census's
   cells and the human checklist own that.
 
@@ -2153,7 +2160,9 @@ found it by remembering, which is the mechanism these gates exist to replace.
 - CI: `.github/workflows/gauntlet.yml` runs the same command when a release's `v*` tag is
   pushed, and on demand from the Actions tab. It does not run on ordinary pushes or on pull
   requests: the owner's 2026-08-02 cadence is the local `npm run check` between releases and
-  the full gauntlet at one.
+  the full gauntlet at one. Since 2026-09-12 a red remote run uploads its evidence file and
+  the monkey's failure folders as an artifact, on failure only, trimmed to 20 MB with the
+  newest files kept; the checkout fetches the whole history so G32 has its tag.
 - The gauntlet prints one line per gate: name, command, pass or fail, and the counts.
 - Bootstrap: the floor for a gate that is not built yet starts at 0. Raise it in the same
   commit that lands the gate. A landed gate never keeps a 0 floor.
@@ -2183,6 +2192,10 @@ found it by remembering, which is the mechanism these gates exist to replace.
   invalidates it — cut a fresh one.
 - The file also carries the residual risks no gate can close: device proof and spoken-word
   quality are human (G12, G13).
+- A FAILED run is written a second time as `.gauntlet-evidence.FAIL-<commit>.json`
+  (gitignored) beside the live file, so the next run's overwrite does not erase the record of
+  what went red (2026-09-12). PASS is the release's own evidence and INCOMPLETE names what did
+  not run; neither is kept twice, and the runner's control proves the name follows the status.
 
 ## G13b. Voice-pack speech edges
 

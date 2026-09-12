@@ -58,3 +58,33 @@ jobs:
         run: python3 -m pip install "av==18.1.0" "numpy==2.5.2"
       - name: Run the gauntlet
         run: npm run gauntlet
+      # FAILURE EVIDENCE OFF THE RUNNER (batch 0 of the refactor, 2026-09-12).
+      # A red remote run used to leave its log and nothing else; the evidence
+      # file and the monkey's failure folders (seed, gestures, save, error,
+      # screenshot) now ride out as an artifact, on failure only. The folder
+      # is trimmed to 20 MB first, newest files kept, so a storm of
+      # screenshots cannot fill the artifact store.
+      - name: Bound the failure evidence to 20 MB
+        if: failure()
+        run: |
+          node - <<'EOF'
+          const fs = require("node:fs"), path = require("node:path");
+          const root = ".gauntlet-evidence.d", CAP = 20 * 1024 * 1024;
+          if (!fs.existsSync(root)) process.exit(0);
+          const files = [];
+          (function walk(d) { for (const e of fs.readdirSync(d)) { const p = path.join(d, e); const s = fs.statSync(p); if (s.isDirectory()) walk(p); else files.push({ p, size: s.size, mtime: s.mtimeMs }); } })(root);
+          files.sort((a, b) => b.mtime - a.mtime);
+          let total = 0;
+          for (const f of files) { total += f.size; if (total > CAP) { fs.unlinkSync(f.p); console.log("dropped " + f.p + " (" + f.size + " bytes) to stay under 20 MB"); } }
+          console.log(files.length + " evidence files, " + Math.min(total, CAP) + " bytes kept");
+          EOF
+      - name: Keep the failure evidence
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: gauntlet-failure-evidence-${{ github.sha }}
+          path: |
+            .gauntlet-evidence.json
+            .gauntlet-evidence.d/
+          if-no-files-found: warn
+          retention-days: 30

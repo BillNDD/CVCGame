@@ -85,6 +85,10 @@ kokoro-env/
 script.json
 __pycache__/
 .gauntlet-evidence.json
+# a FAILED run's evidence, kept under its commit, and the monkey's failure
+# folders (seed, gestures, save, error, screenshot) - batch 0 of the refactor
+.gauntlet-evidence.FAIL-*.json
+.gauntlet-evidence.d/
 .cov-control/
 .claude/launch.json
 

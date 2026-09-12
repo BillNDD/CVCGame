@@ -39,6 +39,23 @@ export function canonicalEvidence(ev) {
     process.exit(1);
   }
 }
+/* A FAILED run's evidence is kept (batch 0 of the refactor, 2026-09-12). The
+   next run overwrites .gauntlet-evidence.json, and until now a red run's
+   record lived exactly as long as it took someone to try again. A FAIL is
+   written a second time as .gauntlet-evidence.FAIL-<commit>.json, gitignored,
+   beside the live file; PASS is the release's own evidence and INCOMPLETE
+   names what did not run, and neither is kept twice. The control proves the
+   name follows the status and nothing else earns one. */
+function failKeepName(status, commitShort) {
+  return status === "FAIL" && commitShort ? `.gauntlet-evidence.FAIL-${commitShort}.json` : null;
+}
+{
+  if (failKeepName("FAIL", "abc1234") !== ".gauntlet-evidence.FAIL-abc1234.json" || failKeepName("PASS", "abc1234") !== null
+      || failKeepName("INCOMPLETE", "abc1234") !== null || failKeepName("FAIL", null) !== null) {
+    console.error("control FAILED: a failed run's evidence must be kept under its commit, and nothing else kept");
+    process.exit(1);
+  }
+}
 /* `--canonical` prints the canonical form of the evidence on disk and
    exits - it never runs a gate and never takes the lock, so two evidence
    files can be compared while a gauntlet runs elsewhere. */
@@ -544,7 +561,8 @@ for (const [engine, label, suffix] of ENGINES) {
     { label: "checks", regex: /(\d+) checks passed/, floorKey: "g30_monkey_checks" + suffix },
     { label: "failed", regex: /(\d+) failed/, max: 0 },
   ], env, [line, "300 gestures", "S1 held", "the storm reached the session",
-    "control OK: the S1 probe sees the app's own write after an adult keyboard grade"]);
+    "control OK: the S1 probe sees the app's own write after an adult keyboard grade",
+    "control OK: a second run's evidence lands beside the first, never over it"]);
 }
 
 /* G21: the round page is how every listening verdict reaches this project. On
@@ -768,9 +786,11 @@ const report_ = {
   ],
 };
 writeFileSync(".gauntlet-evidence.json", JSON.stringify(report_, null, 2) + "\n");
+const kept = failKeepName(status, report_.commit_short);
+if (kept) writeFileSync(kept, JSON.stringify(report_, null, 2) + "\n");
 
 console.log("\n================ GAUNTLET ================");
 summary.forEach((l) => console.log(l));
 console.log(`\nGauntlet: ${summary.length} gates, ${failures} failed`);
-console.log(`Evidence: .gauntlet-evidence.json  (${status}, commit ${report_.commit_short}${report_.dirty ? " DIRTY" : ""}, payload ${payloadHash ? payloadHash.slice(0, 20) + "…" : "not built"})`);
+console.log(`Evidence: .gauntlet-evidence.json  (${status}, commit ${report_.commit_short}${report_.dirty ? " DIRTY" : ""}, payload ${payloadHash ? payloadHash.slice(0, 20) + "…" : "not built"})${kept ? `, kept as ${kept}` : ""}`);
 process.exit(failures ? 1 : 0);
