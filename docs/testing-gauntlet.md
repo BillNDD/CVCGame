@@ -1,4 +1,4 @@
-# Testing gauntlet — gate specification (G1–G27)
+# Testing gauntlet — gate specification (G1–G31)
 
 **This document owns** the gates: what each one proves, what it cannot prove, and the floor
 or ceiling it holds in `.claude/gate-baseline.json`.
@@ -10,6 +10,71 @@ every line of code. The gates are the contract. `npm run gauntlet` runs every au
 A change is complete only when the gauntlet is green.
 
 This document follows the Microsoft Writing Style Guide.
+
+## G31 - the shape gate: the code's shape, held where it stands today
+
+`node tools/shape.mjs`, with `--self-test` for its twelve controls (floor `g31_controls`) and
+`--list` for every function over a bar, by file. Batch 0 of the refactor, owner-ruled
+2026-09-12 ("I agree with all your seven"): before any code moves, an instrument that says what
+shape the code has and refuses the shape getting worse.
+
+**What it measures**, on `app/src`, the generated engine and `tools/*.mjs`:
+
+- per function: cyclomatic complexity, nesting depth and length in lines (blanks and comments
+  skipped), read from ESLint's own `complexity`, `max-depth` and `max-lines-per-function` rules
+  run in process with every threshold at zero, so the counter is the counter G6's ceiling uses;
+- per file: its length, reported only - G6 owns that ceiling;
+- duplication: every window of 40 tokens (comments dropped, each string one token) is hashed,
+  and identical windows in two or more places merge into a REGION. A group whose windows
+  overlap each other inside one file is a table of same-shaped rows with the strings stripped -
+  a periodic run - and is reported apart, never counted as a region;
+- dead exports: a name exported from `app/src`, `tools` or the engine's export list that no
+  other file under `app/src`, `tests`, `tools`, `reference` or the engine mentions as a whole
+  word. Most of these are called by their own file's self-test, so "dead" here means
+  "unreferenced outside its file", and a common name used anywhere counts as referenced: the
+  number is a floor on the dead exports, never a ceiling.
+
+**The ceilings**, each measured on 2026-09-12 at the beta-32 commit and each a `_max` (E6: only
+the owner raises one; a refactor that improves the shape lowers it to what it reached):
+
+| key | today | what it counts |
+|---|---:|---|
+| `g31_fn_over_10_max` | 93 | functions over complexity 10, all three areas |
+| `g31_fn_over_15_tools_max` | 34 | functions in `tools/*.mjs` over 15 - the ceiling the product code obeys and the tools do not |
+| `g31_fn_over_80_lines_max` | 13 | functions longer than 80 lines |
+| `g31_depth_over_4_max` | 6 | blocks nested deeper than 4 |
+| `g31_dup_regions_max` | 14 | merged duplicated regions |
+| `g31_dead_exports_max` | 102 | exports no other file references |
+
+A ceiling missing from the baseline is refused outright - `count > undefined` is false, the G27
+lesson. The measurement report those numbers came from counted the reference build's own
+component and the tests as well; this gate's scope is the code the app ships and the tools that
+guard it, and the values are the gate's own scope measured by the gate's own run.
+
+**How it reads the engine.** From the extractor into a scratch file, never from `src/engine.js`
+in the tree. The gate rides the gauntlet's second lane beside G5, and G5 rewrites `src/engine.js`
+with a mutant planted while leaving the reference untouched; the scratch extraction gives the
+same bytes on a clean tree and the right bytes on a mutated one.
+
+**The controls (E5), twelve.** Planted fixtures under `tools/fixtures/` measured as a tree of
+their own - a function of complexity 17, a function over 80 lines, a block at depth 5, one run of
+tokens in two files, one export nobody names beside two that are named - each counted exactly
+once; the fixtures against a zero baseline raise one problem per metric; a parse failure is
+reported rather than skipped. Then the E6 direction on the real tree: today's ceilings raise no
+problem, every ceiling lowered by one under an unchanged tree is refused naming its key (the
+gauntlet requires that line by name), a missing key is refused, and every area must have measured
+at least one function, so a scope that reads nothing cannot pass. Each detector was watched red
+against a broken variant of the gate before the control was written down.
+
+**Report only, until batch 2.** Cognitive complexity is measured by `eslint.measure.mjs`, a
+config that loads the sonarjs plugin (a devDependency since this batch, owner-ruled) with its
+one rule at "warn" and the threshold at zero; nothing in the check or the gauntlet reads that
+file. The plugin has no rule for the ABC size metric, so ABC is not measured; batch 2 decides
+its instrument.
+
+**What it cannot do.** It measures shape, never behaviour - a simple function can still be
+wrong, which is what G32 and the mutation gates are for. `tools/*.py` is measured by nothing.
+Under ten seconds on this machine, so it runs in `npm run check` and in the gauntlet's lane.
 
 ## G26 - the waiting room is internally honest
 

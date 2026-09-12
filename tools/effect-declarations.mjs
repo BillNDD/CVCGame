@@ -214,4 +214,5 @@ export const NON_TEST_GATES = [
   ["G23", "tools/file-map.mjs", "One fact, one owner file; every file declared; no orphan, no resurrected tombstone", "The declaration table in the tool", "A stale paragraph in fresh words is invisible to it (fault F3).", {}],
   ["G24", "tools/s9-names.mjs", "S9 enforced: no personal name in any tracked file, by content and by file name", "The layered name lists in the tool", "A name nobody listed is a name it cannot see.", { S9: "source" }],
   ["E11", "tools/blast-radius-mutants.mjs", "That the E11 lookup itself still finds what it claims to find", "Planted faults in the lookup", "Proves the lookup works, never that a change is right.", {}],
+  ["G31", "tools/shape.mjs", "The code's shape - complexity, nesting depth, function length, duplication and dead exports - at or under the ceilings measured on 2026-09-12", "ESLint's own counters and a token-window scan, against .claude/gate-baseline.json", "Shape is not behaviour: a simple function can still be wrong, and the dead-export count is a floor, never a ceiling.", {}],
 ];

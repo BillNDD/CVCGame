@@ -111,6 +111,13 @@ const AGENT_TOOLS = [
     script: null,
     command: null,
   },
+  {
+    file: "tools/shape.mjs",
+    why: "G31: the code's shape, held at or under the ceilings measured on 2026-09-12",
+    docs: { "docs/testing-gauntlet.md": "gauntletDoc" },
+    script: "check",
+    command: "tools/shape.mjs --self-test",
+  },
 ];
 
 const real = {

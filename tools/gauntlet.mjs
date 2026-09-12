@@ -89,6 +89,10 @@ const LANE_B = new Map([
   ["G23 file-map", "node tools/file-map.mjs --check && node tools/file-map.mjs --self-test"],
   ["G24 s9-names", "node tools/s9-names.mjs && node tools/s9-names.mjs --self-test"],
   ["G25 safety-cover", "node tools/safety-cover.mjs && node tools/safety-cover.mjs --self-test"],
+  /* G31 reads app/src and the tools, which nothing in the lane's window
+     rewrites, and takes the engine from the extractor into a scratch file
+     rather than from src/engine.js, which G5 rewrites beside it. */
+  ["G31 shape", "node tools/shape.mjs && node tools/shape.mjs --self-test"],
 ]);
 /* The gates that may never ride the lane, by the dependency graph in
    docs/testing-gauntlet.md: everything that mutates a tracked file or the
@@ -634,6 +638,22 @@ step("G25 safety-cover", LANE_B.get("G25 safety-cover"), [
   { label: "controls", regex: /safety-cover controls: (\d+) passed/, floorKey: "g25_controls" },
 ], {}, ["ok   a relabelled tag is caught, not just a deleted one"]);
 
+/* G31 - the shape gate (batch 0 of the refactor, owner-ruled 2026-09-12).
+   Six ceilings, each measured on the day the gate was born and each a
+   _max, so the code's shape can only hold or improve until the owner says
+   otherwise; the E6 control - a ceiling lowered under an unchanged tree is
+   refused - is required by name. */
+step("G31 shape", LANE_B.get("G31 shape"), [
+  { label: "fn_over_10", regex: /fn_over_10 = (\d+)/, maxKey: "g31_fn_over_10_max" },
+  { label: "fn_over_15_tools", regex: /fn_over_15_tools = (\d+)/, maxKey: "g31_fn_over_15_tools_max" },
+  { label: "fn_over_80_lines", regex: /fn_over_80_lines = (\d+)/, maxKey: "g31_fn_over_80_lines_max" },
+  { label: "depth_over_4", regex: /depth_over_4 = (\d+)/, maxKey: "g31_depth_over_4_max" },
+  { label: "dup_regions", regex: /dup_regions = (\d+)/, maxKey: "g31_dup_regions_max" },
+  { label: "dead_exports", regex: /dead_exports = (\d+)/, maxKey: "g31_dead_exports_max" },
+  { label: "problems", regex: /Shape gate: (\d+) problems/, max: 0 },
+  { label: "controls", regex: /shape controls: (\d+) passed/, floorKey: "g31_controls" },
+], {}, ["every ceiling lowered by one under an unchanged tree is refused, naming its key"]);
+
 /* Every gate that MUST have run. A gauntlet that skipped one — a step
    removed, a command renamed — has to fail rather than report a smaller,
    greener total. This is the closed list the release evidence is checked
@@ -648,6 +668,7 @@ const REQUIRED_GATES = [
   "G30 monkey", "G30 monkey (webkit)", "G30 monkey (firefox)", "G16 doc-truth",
   "G12 qa-procedure", "G13 voice-pack", "G13 voice-edges", "G20 effect-map", "G17 governing", "G23 file-map",
   "G24 s9-names", "G6 coverage-control", "G21 listening-page", "app build", "G14 art-budget",
+  "G31 shape",
 ];
 const sh = (cmd) => { try { return execSync(cmd, { encoding: "utf8", stdio: "pipe" }).trim(); } catch { return null; } };
 
