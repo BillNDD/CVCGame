@@ -649,6 +649,15 @@ every bound reads `LEVELS.length`, which is why adding a level needed no engine 
   never demonstrated. There are three outcomes — killed, survived, and ERRORED — and an
   errored mutant fails the gate rather than passing as a kill. G19 works the same way.
 - This gate exists. Add mutants for new invariants; re-point moved anchors; never delete one.
+- The pre-ladder family, 2026-09-12 (open fault S, closed; floor 77 to 85): eight mutants
+  over `checkPrePromotion` - the box-3 bar read as box 2, the box path lost, the second path
+  lost, the streak threshold 2 to 3, an imperfect session keeping the streak, a won rung
+  keeping it, the last rung never graduating, and a graduate put back on the ladder by two
+  perfect sessions. Two of them survived the suite as it stood and got the test they needed
+  in `tests/pre.test.js` (the box-2 bar and the graduate's guard). The streak cap inside the
+  function is deliberately not planted: every path from the capped write reaches the
+  promotion with no early return between, so a dropped cap is unobservable and would be a
+  planted survivor; heal's cap, already mutated, covers both streak keys.
 - Every mutant run carries `--bail 1` (P1 of the speed plan, 2026-08-22): a mutant is
   killed by ONE failing test, so the suite stops at the first. The "Tests N failed" row the
   runner reads still prints, the verdict is unchanged, and the pristine control still runs
@@ -1652,7 +1661,7 @@ what the ruling calls the README.
 ## G19. App mutation
 
 - Tool: `tools/app-mutants.mjs`. Command: `npm run test:app-mutants`. Requirement: 0
-  survivors. Keys: `g19_app_mutants` (20), `g19_survivors_max` (0). Two joined on 2026-09-02 for the late save read (open fault AZ): adopting after the visit has committed, and leaving home never committing. Three joined on
+  survivors. Keys: `g19_app_mutants` (25), `g19_survivors_max` (0). Two joined on 2026-09-02 for the late save read (open fault AZ): adopting after the visit has committed, and leaving home never committing. Three joined on
   2026-08-22 for the bug-report ring: a ring that never writes, a ring that keeps one entry,
   and a render boundary that shows the way home without recording the crash. Three more on
   2026-08-23 for the Glowseed, which had none at all until the art council's re-judgement
@@ -1660,6 +1669,13 @@ what the ruling calls the README.
   scaffold's last slot never reporting in, a win mid-scaffold leaving the object dark through
   the celebration, and the object ignoring a screen's request to stay quiet. Each was applied
   by hand and watched to fail its named test before it was written down.
+- The pre-ladder family, 2026-09-12 (open fault S, closed; floor 20 to 25): five mutants
+  over `usePre.js` - one attempt recording two results, the advance arming at once with sound
+  off, arming before the clips end, the first item never asking itself, and a grade never
+  reaching the save. The first and the third got the tests they needed in `tests/pre.test.js`
+  (two holds at once, and the arming against the clips' own length); the one-grade kill is
+  required by name. `nextPre`'s own arming guard is not planted: the control is disabled in
+  the page while the guard holds, so no test can reach the line.
 - G5 mutates the engine. Nothing mutated the half of the product the child actually
   touches, so the app's tests were known to PASS and not known to BITE. G19 breaks one
   rule at a time in the files the engine never sees: the grade-once rule (that nothing
@@ -2201,7 +2217,7 @@ other direction: the real pack, unchanged, must pass.
 
 ## G20. Effect map
 
-- Tool: `tools/effect-map.mjs`. Writes `docs/effect-map.md`. Keys: `g20_tests_mapped` (478).
+- Tool: `tools/effect-map.mjs`. Writes `docs/effect-map.md`. Keys: `g20_tests_mapped` (482).
 - One row per `it()` SITE — its file, suite, and the test's own sentence, which in this
   project IS the Given/When/Then effect, because tests are named as behaviour. A site inside
   a loop or a table runs many times, so the map's rows describe SITES and Vitest executes more tests than there are rows, because a site inside a loop runs many times;

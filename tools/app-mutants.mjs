@@ -27,6 +27,7 @@ const APP = "app/src/App.jsx";
 const HOLD = "app/src/components/HoldButton.jsx";
 const UPD = "app/src/updates.js";
 const BUILDIT = "app/src/screens/BuildItScreen.jsx";
+const USEPRE = "app/src/usePre.js";
 
 /* [name, file, from, to] — one narrow rule broken per mutant. */
 const MUTANTS = [
@@ -178,6 +179,27 @@ const MUTANTS = [
   ["the object ignores a screen's request to stay quiet", "app/src/components/Glowseed.jsx",
     'const look = muted ? "muted" : lit && !quiet ? "lit" : "idle";',
     'const look = muted ? "muted" : lit ? "lit" : "idle";'],
+  /* THE PRE-LADDER FAMILY (open fault S, closed 2026-09-12 in batch 0 of the
+     refactor): usePre.js had its tests and no planted fault. The one-grade
+     guard and the advance arming, as the fault named them, plus the arrival
+     prompt (fault AH) and the grade's save. Each was applied by hand and
+     watched to fail a named test in tests/pre.test.js before it was written
+     down; the first and the third needed a test written for them. nextPre's
+     own arming guard is NOT planted: the control is disabled in the page
+     while the guard holds, so no test can reach the line, and a mutant
+     nothing can kill is a planted survivor. */
+  ["one pre attempt records two results", USEPRE,
+    "if (preGradedRef.current === preQi) return;", "if (false) return;"],
+  ["the pre-level's Next arms at once with sound off", USEPRE,
+    "if (!s.settings.sound) { setTimeout(() => setPreAdvanceReady(true), ADVANCE_GUARD_MS); return; }",
+    "if (!s.settings.sound) { setPreAdvanceReady(true); return; }"],
+  ["the pre-level's Next arms before the clips end", USEPRE,
+    "(ms) => setTimeout(() => setPreAdvanceReady(true), Math.max(ms, ADVANCE_GUARD_MS)));",
+    "(ms) => setTimeout(() => setPreAdvanceReady(true), Math.min(ms, ADVANCE_GUARD_MS)));"],
+  ["the first pre item never asks itself", USEPRE,
+    "    unlockVoice();\n    playPromptFor(q[0]);", "    unlockVoice();"],
+  ["a pre grade never reaches the save", USEPRE,
+    "    setState(s); persist(s);\n    setPreGrade(result);", "    setState(s);\n    setPreGrade(result);"],
 ];
 
 /* The last failure this helper swallowed, so the pristine control can SAY

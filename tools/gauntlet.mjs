@@ -427,6 +427,9 @@ step("G19 app-mutants", "node tools/app-mutants.mjs", [
   "killed: the update check ignores the build stamp",
   "killed: the backup validator accepts an array",
   "killed: free play writes to the save",
+  /* The pre-ladder family (open fault S, closed 2026-09-12): the ladder's
+     grade-once rule, named so the family cannot be swapped away. */
+  "killed: one pre attempt records two results",
 ]);
 
 step("G6 coverage", "(the G1 run, with --coverage - parsed, not re-run)", [

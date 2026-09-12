@@ -173,6 +173,25 @@ const MUTANTS = [
   ["the ladder completes without its words being secure",
     "  return isSecure(words.filter(w => state.words && state.words[w] && state.words[w].box >= 3).length, words.length);",
     "  return true;"],
+  /* THE PRE-LADDER FAMILY (open fault S, closed 2026-09-12 in batch 0 of the
+     refactor). checkPrePromotion shipped with its tests and no planted fault,
+     so nothing proved those tests could fail. Each of these was applied by
+     hand and watched to fail a named test in tests/pre.test.js before it was
+     written down; two of the tests were written for the two that survived
+     the suite as it stood (the box-2 bar and the graduate's guard). The
+     streak CAP inside the function is deliberately absent: every path from
+     the capped write reaches the promotion with no early return between, so
+     a dropped cap is unobservable - an equivalent mutant is a planted
+     survivor. The cap that can be seen is heal's, mutated above ("heal streak
+     cap dropped"), and it covers both keys. */
+  ["a pre rung counts a box of 2 as secure", "const solid = cur.filter((k) => pre[k] && pre[k].box >= 3).length;", "const solid = cur.filter((k) => pre[k] && pre[k].box >= 2).length;"],
+  ["the pre ladder loses its box path", "if (!secure && !(session && state.prePerfectStreak >= 2)) return false;", "if (!(session && state.prePerfectStreak >= 2)) return false;"],
+  ["the pre ladder loses its second path", "if (!secure && !(session && state.prePerfectStreak >= 2)) return false;", "if (!secure) return false;"],
+  ["pre streak threshold 2 to 3", "if (!secure && !(session && state.prePerfectStreak >= 2)) return false;", "if (!secure && !(session && state.prePerfectStreak >= 3)) return false;"],
+  ["an imperfect pre-session keeps the streak", "if (session) state.prePerfectStreak = session.perfect ? Math.min(2, prior + 1) : 0;", "if (session) state.prePerfectStreak = session.perfect ? Math.min(2, prior + 1) : prior;"],
+  ["a won pre rung keeps its streak", "  state.prePerfectStreak = 0;\n  return true;", "  return true;"],
+  ["passing the last pre rung never graduates", "state.preLevel = state.preLevel >= PRE_LEVELS.length ? 0 : state.preLevel + 1;", "state.preLevel = state.preLevel + 1;"],
+  ["a graduate is put back on the ladder by two perfect sessions", "  if (!state.preLevel) return false;\n  const pre = state.pre || {};", "  const pre = state.pre || {};"],
 ];
 
 /* The last failure this helper swallowed, so the pristine control can SAY

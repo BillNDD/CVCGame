@@ -104,6 +104,27 @@ describe("winning a rung", () => {
     expect(s.preLevel).toBe(0);
     expect(checkPrePromotion(s)).toBe(false);   // off the ladder, nothing promotes
   });
+  it("a box of 2 is not secure on a rung: five at box 2 do not promote, five at box 3 do", () => {
+    /* The bar is box 3, the words' own - a first correct reading lands
+       there; box 2 is a word read right and then slipped. Five of six at box
+       2 is 83 percent of nothing secure. The control is the same five at box
+       3, so this cannot pass on a rung that promotes regardless. Written
+       for the G5 pre-ladder family (open fault S, closed 2026-09-12). */
+    const slipped = { ...newState(), preLevel: 1, pre: boxed(preItems(1).slice(0, 5), 2) };
+    expect(checkPrePromotion(slipped)).toBe(false); expect(slipped.preLevel).toBe(1);
+    const solid = { ...newState(), preLevel: 1, pre: boxed(preItems(1).slice(0, 5), 3) };
+    expect(checkPrePromotion(solid)).toBe(true); expect(solid.preLevel).toBe(2);
+  });
+  it("a graduate is never put back on the ladder, whatever the streak says", () => {
+    /* preLevel 0 is off the ladder for good. Two perfect sessions are the
+       second path to a RUNG, and a graduate has no rung: without the guard
+       the walk would seat a reader back at Pre 1 (0 + 1) after two perfect
+       sessions handed in as pre sessions. The same family as above. */
+    const graduate = { ...newState(), preLevel: 0, prePerfectStreak: 0, words: boxed(["cat"], 3) };
+    expect(checkPrePromotion(graduate, { perfect: true })).toBe(false);
+    expect(checkPrePromotion(graduate, { perfect: true })).toBe(false);
+    expect(graduate.preLevel).toBe(0);
+  });
 });
 
 describe("the chunk roster and its derived seats", () => {
@@ -237,6 +258,7 @@ vi.mock("../app/src/voicepacks.js", async (real) => {
   };
 });
 import { saveState as mockSave, loadState as mockLoad } from "../app/src/storage.js";
+import { playClips as mockPlay } from "../app/src/voicepacks.js";
 const { default: App } = await import("../app/src/App.jsx");
 const flush = async (ms = 0) => act(async () => { await vi.advanceTimersByTimeAsync(ms); });
 
@@ -319,6 +341,59 @@ describe("the ladder in the app", () => {
     const saved = mockSave.mock.calls.at(-1)[0];
     expect(saved.pre.s.correct).toBe(1);                  // the first letter, taught order
     expect(Object.keys(saved.words).length).toBe(0);
+  });
+  it("two holds at once record one pre result, not two", async () => {
+    /* One attempt, one result - the word session's grade-once rule
+       (adult-controls 24), on the ladder. Two adult controls can mature
+       together: the hold timer does not re-check disabled inside its own
+       callback, so the second hold's grade arrives after the first has
+       ended the attempt, and without the guard the letter is counted twice -
+       "got it" and "not yet" both, attempts 2 for one reading. Written for
+       the G19 pre-ladder family (open fault S, closed 2026-09-12). */
+    render(createElement(App));
+    await flush(0);
+    fireEvent.click(screen.getByLabelText("Begin Session"));
+    await flush(0);
+    fireEvent.pointerDown(screen.getByLabelText("got it"));
+    await flush(10);                              // the second finger lands
+    fireEvent.pointerDown(screen.getByLabelText("not yet"));
+    await flush(700);                             // both holds mature
+    const saved = mockSave.mock.calls.at(-1)[0];
+    expect(saved.pre.s.attempts).toBe(1);
+    expect(saved.pre.s.correct).toBe(1);
+    expect(saved.pre.s.wrong).toBe(0);
+  });
+  it("the pre-level's Next waits for the clips' own length, and never less than the guard", async () => {
+    /* The player reports the reveal's length through onScheduled, and the
+       control arms at that length or at the 400 ms guard, whichever is
+       longer - the rule a word takes (B17). Here the double reports 900 ms
+       for a praise plan and 100 ms for a retry plan: dead at 899 and live at
+       900; still dead at 399 and live at 400, because the guard is a floor.
+       The same family as above. */
+    played.length = 0;
+    const plain = mockPlay.getMockImplementation();
+    mockPlay.mockImplementation((plan, enabled, fallback, onScheduled) => {
+      played.push(plan.join(","));
+      if (onScheduled && /^(p|l):/.test(plan[0])) onScheduled(plan[0].startsWith("p:") ? 900 : 100, []);
+    });
+    try {
+      render(createElement(App));
+      await flush(0);
+      fireEvent.click(screen.getByLabelText("Begin Session"));
+      await flush(0);
+      fireEvent.keyDown(screen.getByLabelText("got it"), { key: "Enter" });   // a praise plan: 900 ms of clips
+      await flush(899);
+      expect(screen.getByText(/Next one/).disabled, "dead until the clips end").toBe(true);
+      await flush(1);
+      expect(screen.getByText(/Next one/).disabled, "live at 900 ms").toBe(false);
+      fireEvent.click(screen.getByText(/Next one/));
+      await flush(0);
+      fireEvent.keyDown(screen.getByLabelText("not yet"), { key: "Enter" });  // a retry plan: 100 ms of clips
+      await flush(399);
+      expect(screen.getByText(/Next one/).disabled, "the 400 ms guard is a floor").toBe(true);
+      await flush(1);
+      expect(screen.getByText(/Next one/).disabled, "live at 400 ms").toBe(false);
+    } finally { mockPlay.mockImplementation(plain); }
   });
   it("the grown-up's pre control jumps the ladder and Words leaves it", async () => {
     mockLoad.mockResolvedValueOnce({ ...newState(), preLevel: 0 });
