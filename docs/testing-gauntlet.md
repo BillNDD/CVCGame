@@ -719,11 +719,15 @@ every bound reads `LEVELS.length`, which is why adding a level needed no engine 
   `g6_file_lines_max`, `g6_dependency_cycles_max`.
   - Cyclomatic complexity per function: 15 or less, in `src/engine.js` and `app/src/**`. The
     counter is the ESLint `complexity` rule with its default counting.
-  - File length: 1200 lines or less for every source file. `reference/word-quest.jsx` is exempt.
+  - File length: 1400 lines or less for every source file, and 3000 for the generated engine
+    alone. `reference/word-quest.jsx` is exempt.
     That file must stay one file, so it can run as a chat artifact. The ceiling was 600 lines
-    until 2026-07-29, when the owner raised it to 900, and 900 until 2026-08-12, when the owner
-    raised it to 1200. It is still a ceiling: only the owner may move it, no change may raise
-    it, and a file near it should be split rather than allowed to grow.
+    until 2026-07-29, when the owner raised it to 900, 900 until 2026-08-12, when the owner
+    raised it to 1200, and 1200 until 2026-08-15, when the owner raised it to 1400; the engine's
+    own ceiling is AGENTS.md E6's record. This sentence said 1200 until 2026-09-12, four weeks
+    after the enforced number moved, which is fault F3's shape. It is still a ceiling: only the
+    owner may move it, no change may raise it, and a file near it should be split rather than
+    allowed to grow.
   - Dependency cycles in `app/src` and `src`: exactly 0. The checker must resolve the `@engine`
     alias, or the check is empty for those edges.
   - Tools: `eslint.config.mjs` at the root, `tools/dep-cycles.mjs` for cycles, and

@@ -603,7 +603,9 @@ lives only in a chat log is one this project loses.
   and the deploy's (`tools/release.mjs --self-test` and
   `tools/verify-published.mjs --self-test`, added 2026-08-23 after a sweep found that the
   refusals standing between a bad artefact and a child's device ran in no gate at all and
-  had never once executed), about half a minute. A red
+  had never once executed), about ten minutes on this machine (7 min 31 s before
+  the shape gate and the differential joined it; 9 min 31 s, 11 min 53 s and 9 min 44 s with
+  them, measured 2026-09-12). A red
   check blocks the change. The quality lint joined the check on 2026-08-12, owner-ruled, after the gap it left
   cost two defects in one day: a `font:` shorthand the quality controls have refused since
   2026-07-29 shipped a label at four times its intended size, and a file went over the
@@ -678,7 +680,7 @@ exclusions are recorded in SPEC section 12.
 ## Before you push
 
 - `npm run check` — the quality lint, the test suite, the sub-minute gates and the E11
-  lookup's own controls, about half a minute. A red check blocks the change (E7). The quality lint runs first, because it is the
+  lookup's own controls; E7 records what it costs. A red check blocks the change (E7). The quality lint runs first, because it is the
   cheapest thing here and it is the one that refuses a file over the complexity or length
   ceiling; it joined the check on 2026-08-12 after two defects reached a push in one day
   behind the gap it left. It needs Python and NumPy for the word-gate island control; that
