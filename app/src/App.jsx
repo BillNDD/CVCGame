@@ -424,7 +424,7 @@ export default function App() {
     startWords();
   }
   function startWords() {
-    const s = structuredClone(state);
+    const s = structuredClone(stateRef.current);
     const q = buildSession(s);
     setState(s); setQueue(q); setQi(0);
     setFirstResults({}); setOrder([]); setRetries({}); setSeenTwice({});

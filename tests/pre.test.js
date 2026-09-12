@@ -385,4 +385,46 @@ describe("the rider chunks - a graduate's session opens with what their level ha
     expect(screen.queryByText("What does it say?")).toBeNull();
     expect(screen.getByText(/Read this word/)).toBeTruthy();
   });
+  it("a rider's grade survives the words beginning, and the next session does not serve it again", async () => {
+    /* The owner, 2026-09-12, on a phone: jumped a reader to Level 57 from the
+       Grown-ups corner and was served the same two-letter chunks session after
+       session. A rider graded correct goes to box 3 and is not due for four
+       sessions, so a chunk that comes straight back had its grade LOST between
+       the grading and the words. It had: startWords cloned the RENDER's state,
+       the one Begin Session was pressed in, and the rider walk had graded and
+       saved in between - so the hand-over put the pre-rider state back and the
+       session's own save then wrote it to disk. Harmless for two weeks while
+       startWords ran in the same tick as the press; the rider hand-over
+       (2026-08-29) deferred it through a ref, and a function called later must
+       read the state the app holds THEN. Watched red first: pre came back {}. */
+    mockLoad.mockResolvedValueOnce({ ...newState(), preLevel: 0, level: 5, sessionsCompleted: 3,
+      settings: { ...newState().settings, sound: false } });
+    render(createElement(App));
+    await flush(0);
+    fireEvent.click(screen.getByLabelText("Begin Session"));
+    await flush(0);
+    expect(document.querySelector(".wq-word").textContent).toBe("am");
+    fireEvent.keyDown(screen.getByLabelText("got it"), { key: "Enter" });
+    await flush(400);
+    expect(mockSave.mock.calls.at(-1)[0].pre["c:am"].correct, "graded and saved").toBe(1);
+    fireEvent.click(screen.getByText(/Finish/));
+    await flush(0);
+    expect(screen.getByText(/Read this word/), "the words begin").toBeTruthy();
+    /* Leave at once. Discarding writes the state the app holds NOW (the Save
+       slot is disabled with nothing read), so the save shows whether the
+       rider's grade survived the hand-over. */
+    fireEvent.click(screen.getByLabelText("Leave session"));
+    fireEvent.click(screen.getByText("Discard and go home"));
+    await flush(0);
+    expect(screen.getByLabelText("Begin Session"), "home again").toBeTruthy();
+    const saved = mockSave.mock.calls.at(-1)[0];
+    expect(saved.pre["c:am"], "the rider's grade must still be there after the words began").toBeTruthy();
+    expect(saved.pre["c:am"].correct).toBe(1);
+    /* And the symptom itself: a chunk graded correct sits in box 3 and is not
+       due for sessions, so the next Begin must go straight to the words. */
+    fireEvent.click(screen.getByLabelText("Begin Session"));
+    await flush(0);
+    expect(screen.queryByText("What does it say?"), "am must not be served again").toBeNull();
+    expect(screen.getByText(/Read this word/)).toBeTruthy();
+  });
 });
