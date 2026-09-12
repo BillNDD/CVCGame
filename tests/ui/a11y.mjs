@@ -187,6 +187,15 @@ async function seedPastLadders(page) {
     sessionsCompleted: 0, perfectStreak: 0, words: {}, log: [], pre: {},
     settings: { sound: true, childName: "", lang: "en-US" } });
   await page.getByRole("button", { name: "Begin Session" }).waitFor();
+  /* WRITE, RELOAD, READ BACK, and only then trust it - the monkey's loop
+     (2026-09-12). This used to write once and reload. On Firefox the app's
+     own first save can land after the seed and overwrite it, so the walk
+     boots into Pre 1, grades a letter, and waits for a .wq-tile no letter
+     screen renders: the beta-32 gauntlet lost this gate on Firefox twice,
+     at two different checks, and the same run alone failed the same way
+     while Chromium and WebKit passed every step. A seed that never lands
+     throws, rather than measuring the wrong screen. */
+  for (let attempt = 0; attempt < 3; attempt++) {
   await page.waitForTimeout(400);
   await page.evaluate(([d, st, k, v]) => new Promise((res, rej) => {
     const rq = indexedDB.open(d, 1);
@@ -197,6 +206,16 @@ async function seedPastLadders(page) {
   }), [db, store, STORE_KEY, save]);
   await page.reload({ waitUntil: "load" });
   await page.getByRole("button", { name: "Begin Session" }).waitFor();
+  const got = await page.evaluate(([d, st, k]) => new Promise((res, rej) => {
+    const rq = indexedDB.open(d, 1);
+    rq.onsuccess = () => { const tx = rq.result.transaction(st, "readonly"); const g = tx.objectStore(st).get(k);
+      g.onsuccess = () => res(g.result || null); g.onerror = () => rej(g.error); };
+    rq.onerror = () => rej(rq.error);
+  }), [db, store, STORE_KEY]);
+  let landed = null; try { landed = JSON.parse(got || "null"); } catch { landed = null; }
+  if (landed && landed.preLevel === 0 && landed.level === 2) return;
+  }
+  throw new Error("the seed never landed: the app kept overwriting it");
 }
 
 const TRICKY_WORD = Object.keys(TRICKY).find((w) => WORD_LEVEL[w]);

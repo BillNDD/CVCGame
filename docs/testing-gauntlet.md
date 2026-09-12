@@ -207,6 +207,11 @@ Since 2026-09-12 every browser gate's pages carry a 180 s default for navigation
 (`WAIT_MS` in `tests/ui/engine.mjs`, set on each context the harness hands out), after the
 beta-32 gauntlet on a machine shared with other agents lost the Firefox monkey at its first
 page load and the Firefox accessibility run after eleven green checks. A real hang still fails.
+The second thing that run found was not the clock: G8 and G18 seeded their past-the-ladders save
+once and reloaded, and on Firefox the app's own first save could land after the seed and erase
+it, so the walk booted into Pre 1 and waited for a tile no letter screen renders. Both now
+write, reload, read the save back and retry up to three times, the loop G30 had carried since it
+shipped; a seed that never lands throws instead of measuring the wrong screen.
 `g12_qa_steps` up, a new `g12_human_steps_max` ceiling, `g20_tests_mapped`, and the census cell
 count. **Order:** engines first (the 2026-08-12 ruling), then the monkey - both landed 2026-09-02 -
 then, re-ruled 2026-09-02 for the owner's eagerness to reach the art, art step 3, then the proofs

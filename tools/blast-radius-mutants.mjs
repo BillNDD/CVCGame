@@ -169,8 +169,8 @@ const MUTANTS = [
   ["the nested guard is inverted, so the hook controls run only when nested",
     '  if (!ARGS.includes("--nested") && !bailed()) hookControls(ok);', '  if (ARGS.includes("--nested") && !bailed()) hookControls(ok);'],
   ["run() stops scrubbing, so every subprocess control inherits a hook's git",
-    "  const opt = { cwd: box, encoding: \"utf8\", env: cleanEnv(), timeout: 60000, stdio: [\"ignore\", \"pipe\", \"pipe\"] };",
-    "  const opt = { cwd: box, encoding: \"utf8\", timeout: 60000, stdio: [\"ignore\", \"pipe\", \"pipe\"] };",
+    "  const opt = { cwd: box, encoding: \"utf8\", env: cleanEnv(), timeout: RUN_MS, stdio: [\"ignore\", \"pipe\", \"pipe\"] };",
+    "  const opt = { cwd: box, encoding: \"utf8\", timeout: RUN_MS, stdio: [\"ignore\", \"pipe\", \"pipe\"] };",
     /* EQUIVALENT, and kept rather than deleted (E3). A grandchild that inherits
        GIT_DIR still builds its sandbox through git(), which scrubs, so nothing
        reaches the caller's repository and no control can tell the difference.

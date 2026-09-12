@@ -524,11 +524,18 @@ const linesOf = (rows, f) => (rows.find((r) => r.file === f)?.found || []).map((
 /* stderr is captured rather than inherited: a control that expects a refusal
    would otherwise print that refusal into the middle of the control list. The
    timeout is so a fault that loops fails a control instead of hanging a
-   release run with nothing to read. */
+   release run with nothing to read. Five minutes, from one (2026-09-12): on a
+   machine shared with other agents the beta-32 gauntlet ran this self-test
+   six times slower than at beta 31, one control went past 60 s under the
+   mutant that is EQUIVALENT by design, and the runner scored the mutant as
+   killed - so the equivalent count the gauntlet expects came up missing and
+   the gate failed twice. The same mutant passes all 97 controls here when
+   nothing else is running. A loop still fails, at five minutes. */
 let LAST_STATUS = 0;
+const RUN_MS = 300000;
 const run = (box, ...argv) => {
   /** @type {import("node:child_process").ExecFileSyncOptionsWithStringEncoding} */
-  const opt = { cwd: box, encoding: "utf8", env: cleanEnv(), timeout: 60000, stdio: ["ignore", "pipe", "pipe"] };
+  const opt = { cwd: box, encoding: "utf8", env: cleanEnv(), timeout: RUN_MS, stdio: ["ignore", "pipe", "pipe"] };
   try { LAST_STATUS = 0; return execFileSync(process.execPath, [TOOL, ...argv], opt); }
   catch (e) { LAST_STATUS = e.status ?? -1; return (e.stdout || "") + (e.stderr || ""); }
 };
