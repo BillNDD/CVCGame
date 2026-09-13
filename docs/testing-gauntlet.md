@@ -100,7 +100,7 @@ Under ten seconds on this machine, so it runs in `npm run check` and in the gaun
 
 Batch 1 of the refactor, owner-ruled 2026-09-12. Forty tools each carried their own copy of
 the same four mechanics; each copy could drift on its own, and three of them the shape gate
-counted as duplicated regions on the day it was born. The four helpers under `tools/lib` are
+counted as duplicated regions on the day it was born. The six helpers under `tools/lib` are
 the one copy each, and each ships its own `--self-test`, run in `npm run check` and again in
 the gauntlet ahead of G31, which requires one control of each by name:
 
@@ -128,7 +128,7 @@ the gauntlet ahead of G31, which requires one control of each by name:
 **The line that may not be crossed.** A helper carries mechanics only. The regexes, the
 thresholds, the sentences a gate checks for and the anchors it reads - the oracle - stay in
 the gate that owns them, so no two gates can share a judgement through the scaffold. The
-gate document's orphan rule (G16) names all four, so a helper dropped from the check goes red.
+gate document's orphan rule (G16) names all six, so a helper dropped from the check goes red.
 
 **Controls.** Each helper's own, watched red against a planted variant before the code was
 committed: the empty-list refusal removed, failures counted as passes, the missing-key throw
@@ -1054,8 +1054,11 @@ engine, never a hand-kept list.
 - `tools/voice-check.mjs` is the entry: it loads the pack, the lock, the word table and the keeper
   records, runs the rules in order and carries the controls; the rules themselves live under
   `tools/voice-check/`, one function per rule (batch 1 of the refactor, 2026-09-13 - `check` had
-  been one function of complexity 154 holding the whole gate): `inventory.mjs`, `recipe.mjs`,
-  `records.mjs`, `sentences.mjs`. Together they verify: every inventory id has a manifest entry and a file; no
+  been one function of complexity 154 holding the whole gate): `tools/voice-check/inventory.mjs`,
+  `tools/voice-check/recipe.mjs`, `tools/voice-check/records.mjs`, `tools/voice-check/sentences.mjs`.
+  The orphan rule (G16) names each by its full path, so a module the entry stops importing, or the
+  sentence here stops naming, goes red by the rule and not only by a crashed import. Together they
+  verify: every inventory id has a manifest entry and a file; no
   orphan clips; every declared duration is inside 400–8,000 ms (the shortest real clip is
   448 ms, so anything shorter is a truncation, and a WORD clip may not exceed 1,500 ms — the
   longest word in the pack runs 1,340 ms, and a word clip beyond that is carrying something
@@ -2102,7 +2105,9 @@ promised a fallback the code never performed; G12 counted the step and saw nothi
 - `tools/doc-truth.mjs` binds words to code. Since batch 1 of the refactor (2026-09-13) the file
   is the entry - the rule list in its order, the documents each rule is handed, the tools an agent
   is told to run, and the controls - and the rules live under `tools/doc-truth/`, one function per
-  rule: `safety.mjs`, `sentences.mjs`, `floors.mjs`, `refusals.mjs`, `ledgers.mjs`, `art.mjs` (`run`
+  rule: `tools/doc-truth/safety.mjs`, `tools/doc-truth/sentences.mjs`, `tools/doc-truth/floors.mjs`,
+  `tools/doc-truth/refusals.mjs`, `tools/doc-truth/ledgers.mjs`, `tools/doc-truth/art.mjs`, each named
+  by its full path so the orphan rule below holds them as it holds every other tool it maps (`run`
   had been one function of complexity 128 holding all fourteen). Five of its nine rules: every child-facing sentence
   quoted in SPEC section 8 exists verbatim in the app; every quoted sentence in the manual QA
   script exists verbatim in the app or the engine; the timings the documents name in words

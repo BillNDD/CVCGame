@@ -69,8 +69,10 @@ export function checkOrphans(d, tools) {
       if (!d[text].includes(t.file))
         found.push(`${doc} no longer names ${t.file} (${t.why}) — an agent reading only the governing documents would never run it`);
     }
+    /* `runBy` names what runs the tool when it is not an npm script: a gate's
+       entry, importing its rule module. */
     if (t.command && !d[t.wiredIn || "pkg"].includes(t.command))
-      found.push(`npm run ${t.script} no longer runs ${t.file} (${t.why}) — it can now rot without anything going red`);
+      found.push(`${t.runBy || `npm run ${t.script}`} no longer runs ${t.file} (${t.why}) — it can now rot without anything going red`);
   }
   return found;
 }

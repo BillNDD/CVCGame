@@ -110,7 +110,7 @@ const AGENT_TOOLS = [
     script: "check",
     command: "tools/differential.mjs --self-test",
   },
-  /* The tools' shared scaffold (batch 1 of the refactor, 2026-09-12): four
+  /* The tools' shared scaffold (batch 1 of the refactor, 2026-09-12): six
      helpers under tools/lib, mechanics only, each with its own controls. A
      helper forty tools lean on and nothing re-runs is the shape this rule
      exists for. */
@@ -120,6 +120,25 @@ const AGENT_TOOLS = [
     docs: { "docs/testing-gauntlet.md": "gauntletDoc" },
     script: "check",
     command: `tools/lib/${name}.mjs --self-test`,
+  })),
+  /* The rule modules of the two rewritten gates (batch 1, item 3; the review
+     seat's S1). Run by their entry's import, not by npm: `runBy` is the entry,
+     `wiredIn` its source in the bag, `command` the import specifier. A module
+     the entry stops importing, or the gate document stops naming, is an
+     orphan by this rule - not only a crashed import. */
+  ...["inventory", "recipe", "records", "sentences"].map((name) => ({
+    file: `tools/voice-check/${name}.mjs`,
+    why: "a rule module of the voice-pack gate, G13",
+    docs: { "docs/testing-gauntlet.md": "gauntletDoc" },
+    script: null, runBy: "tools/voice-check.mjs", wiredIn: "voiceCheckEntry",
+    command: `from "./voice-check/${name}.mjs"`,
+  })),
+  ...["safety", "sentences", "floors", "refusals", "ledgers", "art"].map((name) => ({
+    file: `tools/doc-truth/${name}.mjs`,
+    why: "a rule module of this gate, G16",
+    docs: { "docs/testing-gauntlet.md": "gauntletDoc" },
+    script: null, runBy: "tools/doc-truth.mjs", wiredIn: "docTruthEntry",
+    command: `from "./doc-truth/${name}.mjs"`,
   })),
   {
     file: "tests/ui/monkey.mjs",
@@ -157,6 +176,10 @@ export const real = {
   reference: readFileSync("reference/word-quest.jsx", "utf8"),
   ledger: readFileSync("tools/pending-words/pending-words.json", "utf8"),
   faults: readFileSync("docs/open-faults.md", "utf8"),
+  /* the two rewritten gates' own entries, for the orphan rule over their
+     rule modules: a module the entry stops importing is a module that rots */
+  voiceCheckEntry: readFileSync("tools/voice-check.mjs", "utf8"),
+  docTruthEntry: readFileSync("tools/doc-truth.mjs", "utf8"),
   tokens: C,
   /* the engine's own tables, so a rule module imports no engine of its own */
   levels: LEVELS,
@@ -218,6 +241,22 @@ if (RUN_AS_COMMAND && process.argv.includes("--self-test")) {
   seen.orphanLibCmd = run(libOrphanCmd).found.some((p) => p.includes("no longer runs tools/lib/selftest.mjs"));
   const libOrphanDoc = { ...real, gauntletDoc: real.gauntletDoc.split("tools/lib/proc.mjs").join("tools/lib/nothing.mjs") };
   seen.orphanLibDoc = run(libOrphanDoc).found.some((p) => p.startsWith("docs/testing-gauntlet.md no longer names tools/lib/proc.mjs"));
+  /* And against the rule modules of the two rewritten gates (the review seat's
+     S1, 2026-09-13): a module dropped from the gate document, and a module
+     dropped from its entry's import list - the F3 shape the rule exists for,
+     which an import crash is not the guard against. The needle a row looks
+     for is the whole import clause, and the plants below build it from two
+     pieces, because this file is its own entry: a literal typed here would
+     sit in the very text the rule reads, and the first draft of this control
+     passed in memory while a module dropped ON DISK went unreported. */
+  const moduleOrphanDoc = { ...real, gauntletDoc: real.gauntletDoc.split("tools/voice-check/recipe.mjs").join("tools/voice-check/nothing.mjs") };
+  seen.orphanModuleDoc = run(moduleOrphanDoc).found.some((p) => p.startsWith("docs/testing-gauntlet.md no longer names tools/voice-check/recipe.mjs"));
+  const recipeImport = 'from "./voice-check/' + 'recipe.mjs"';
+  const moduleOrphanImport = { ...real, voiceCheckEntry: real.voiceCheckEntry.split(recipeImport).join('from "./voice-check/nothing.mjs"') };
+  seen.orphanModuleImport = run(moduleOrphanImport).found.some((p) => p.startsWith("tools/voice-check.mjs no longer runs tools/voice-check/recipe.mjs"));
+  const artImport = 'from "./doc-truth/' + 'art.mjs"';
+  const moduleOrphanOwnImport = { ...real, docTruthEntry: real.docTruthEntry.split(artImport).join('from "./doc-truth/nothing.mjs"') };
+  seen.orphanModuleOwnImport = run(moduleOrphanOwnImport).found.some((p) => p.startsWith("tools/doc-truth.mjs no longer runs tools/doc-truth/art.mjs"));
 
   const specCorrupt = { ...real, spec: real.spec.replace(/^(\s{3}heading\s+)"[^"]+"$/m, '$1"A sentence the app never says."') };
   seen.spec = run(specCorrupt).found.some((p) => p.startsWith("SPEC sentence missing"));
@@ -402,6 +441,9 @@ if (RUN_AS_COMMAND && process.argv.includes("--self-test")) {
     ["a command that has stopped running that tool's controls is caught", seen.orphanCmd],
     ["the check dropping a batch-1 helper's controls is caught by the new name", seen.orphanLibCmd],
     ["the gate document dropping a batch-1 helper is caught by the new name", seen.orphanLibDoc],
+    ["the gate document dropping a rule module of the voice-pack gate is caught", seen.orphanModuleDoc],
+    ["the voice-pack gate's entry dropping one of its rule modules from its imports is caught", seen.orphanModuleImport],
+    ["this gate's own entry dropping one of its rule modules from its imports is caught", seen.orphanModuleOwnImport],
     ["a drifted token value is caught", seen.tokenDrift],
     ["a token the table names that C lacks is caught", seen.tokenStranger],
     ["a token C has that the table lacks is caught", seen.tokenMissing],
