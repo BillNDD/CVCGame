@@ -121,11 +121,11 @@
  "g31_fn_over_15_tools_max": 32,
  "g31_fn_over_80_lines_max": 11,
  "g31_depth_over_4_max": 6,
- "g31_dup_regions_max": 11,
+ "g31_dup_regions_max": 12,
  "g31_dead_exports_max": 101,
- "g31_controls": 13,
+ "g31_controls": 14,
  "g32_functions": 51,
  "g32_cases": 16542,
  "g32_controls": 12,
- "extractor_controls": 28
+ "extractor_controls": 29
 }

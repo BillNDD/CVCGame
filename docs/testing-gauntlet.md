@@ -13,7 +13,7 @@ This document follows the Microsoft Writing Style Guide.
 
 ## G31 - the shape gate: the code's shape, held where it stands today
 
-`node tools/shape.mjs`, with `--self-test` for its thirteen controls (floor `g31_controls`) and
+`node tools/shape.mjs`, with `--self-test` for its fourteen controls (floor `g31_controls`) and
 `--list` for every function over a bar, by file. Batch 0 of the refactor, owner-ruled
 2026-09-12 ("I agree with all your seven"): before any code moves, an instrument that says what
 shape the code has and refuses the shape getting worse.
@@ -46,8 +46,18 @@ the owner raises one; a refactor that improves the shape lowers it to what it re
 | `g31_fn_over_15_tools_max` | 32 | functions under `tools/` over 15 - the ceiling the product code obeys and the tools do not (34 at birth) |
 | `g31_fn_over_80_lines_max` | 11 | functions longer than 80 lines (13 at birth) |
 | `g31_depth_over_4_max` | 6 | blocks nested deeper than 4 |
-| `g31_dup_regions_max` | 11 | merged duplicated regions (14 at birth) |
+| `g31_dup_regions_max` | 12 | merged duplicated regions (14 at birth; corrected from 11 to 12 by the owner on 2026-09-13, see below) |
 | `g31_dead_exports_max` | 101 | exports no other file references (102 at birth; see below) |
+
+**The one ceiling that rose, and why it is a correction and not a loosening.** On 2026-09-13,
+before the engine's storage-block move, the refactor's engineer found the tokeniser reading a
+quote inside a regex literal - `/[.,!?;:"]/g` in `sentenceWords` - as the start of a string that
+ran on through the strings of every later line to the end of the file. That hid one region the
+gate's own definition counts: with a string stopped at its line's end, the tree held 12 regions
+where the gate had said 11, before a line of code moved. The owner ruled the ceiling to the true
+count - "go ahead with 12" - with the tokeniser fixed and a control proving a regex, then a
+comment, then a string table, tokenises exactly as the table alone. No code grew; the number
+became honest. Only the owner raises a ceiling (E6), and this is the record of that raise.
 
 The two that have fallen since birth fell in batch 1 (2026-09-13): the self-test scaffold's
 adoption removed three duplicated regions - the summary loop copied between `lock-guard`,
@@ -67,7 +77,7 @@ gate rides the gauntlet's second lane beside G5, and G5 rewrites the engine with
 while leaving the reference untouched; the scratch extraction gives the same bytes on a clean tree
 and the right bytes on a mutated one.
 
-**The controls (E5), thirteen.** Planted fixtures under `tools/fixtures/` measured as a tree of
+**The controls (E5), fourteen.** Planted fixtures under `tools/fixtures/` measured as a tree of
 their own - a function of complexity 17, a function over 80 lines, a block at depth 5, one run of
 tokens in two files, one export nobody names beside two that are named - each counted exactly
 once; the fixtures against a zero baseline raise one problem per metric; a parse failure is
@@ -2254,7 +2264,7 @@ found it by remembering, which is the mechanism these gates exist to replace.
 
 ## Aggregation
 
-- `npm run gauntlet` first runs the extractor's controls, floor `extractor_controls` (28), and
+- `npm run gauntlet` first runs the extractor's controls, floor `extractor_controls` (29), and
   then regenerates the engine. The extractor refuses a marker missing, doubled, unknown or out of
   order; code above the first marker or a marker inside a statement; an engine that does not
   parse; a name declared in two sections; a section using a name a later section declares; a

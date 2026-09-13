@@ -262,9 +262,13 @@ function notOurs(path) {
   return statSync(path).isDirectory() || !readFileSync(path, "utf8").startsWith(HEADER);
 }
 function guardTargets(index, dir) {
-  const inDir = existsSync(dir) && statSync(dir).isDirectory() ? readdirSync(dir).filter((e) => e.endsWith(".js")).map((e) => join(dir, e)) : [];
+  /* a modules' folder that exists as a file is refused too, never a stack trace (G-M3) */
+  if (existsSync(dir) && !statSync(dir).isDirectory()) refuse(`${dir} is a file where the engine's modules would go, so nothing is written; pass an index whose folder is the engine's own`);
+  const inDir = existsSync(dir) ? readdirSync(dir).filter((e) => e.endsWith(".js")).map((e) => join(dir, e)) : [];
   const foreign = [index, ...inDir].find(notOurs);
-  if (foreign) refuse(`${foreign} is not a file this extractor wrote - it has no GENERATED header - so the engine is neither written over it nor beside it; pass an index whose folder is the engine's own`);
+  /* the advice covers both causes (G-M2): someone else's folder, or a module of the
+     engine's own that lost its header to a killed write or a hand edit */
+  if (foreign) refuse(`${foreign} is not a file this extractor wrote - it has no GENERATED header - so the engine is neither written over it nor beside it; if it is a module in the engine's own folder, delete it and extract again, otherwise pass an index whose folder is the engine's own`);
 }
 function writeFiles(files) {
   const modules = files.slice(0, -1).map(([path]) => resolve(path));
@@ -434,6 +438,8 @@ async function treeControls(T, source) {
 /* The command pointed at a folder it did not make, both ways: an index named
    after a folder of someone else's .js files (tests.js and tests/), and an index
    path that is already someone else's file. Refused, named, nothing touched. */
+const refusedNaming = (r, needle) => r.status === 1 && has(r.out, needle);
+const stillReads = (path, text) => existsSync(path) && readFileSync(path, "utf8") === text;
 function foreignTargetControls(T, box) {
   const tests = join(box, "guard", "tests"), mine = join(tests, "a.test.js"), other = join(box, "guard", "other.js");
   mkdirSync(tests, { recursive: true });
@@ -442,10 +448,22 @@ function foreignTargetControls(T, box) {
   const ref = join(ROOT, REFERENCE);
   const folderRun = run(process.execPath, [fileURLToPath(import.meta.url), ref, join(box, "guard", "tests.js")]);
   const fileRun = run(process.execPath, [fileURLToPath(import.meta.url), ref, other]);
-  const untouched = existsSync(mine) && readFileSync(mine, "utf8") === "// a test nobody generated\n" && readFileSync(other, "utf8") === "// a file nobody generated\n";
+  const untouched = stillReads(mine, "// a test nobody generated\n") && stillReads(other, "// a file nobody generated\n");
   T("an index whose folder holds .js files the extractor did not write, or whose own path is someone else's file, is refused naming the file, and nothing is deleted or written - tests.js would otherwise have emptied tests/",
-    folderRun.status === 1 && has(folderRun.out, "a.test.js") && fileRun.status === 1 && has(fileRun.out, "other.js") && untouched
-    && !existsSync(join(tests, "content.js")) && !existsSync(join(box, "guard", "other")));
+    refusedNaming(folderRun, "a.test.js") && refusedNaming(fileRun, "other.js") && untouched && !existsSync(join(tests, "content.js")) && !existsSync(join(box, "guard", "other")));
+  oddShapeControls(T, box, ref);
+}
+/* An index path that is a folder (G-M1), and a modules' folder that already
+   exists as a file (G-M3): each refused by name, never a stack trace. */
+function oddShapeControls(T, box, ref) {
+  const asFolder = join(box, "guard", "folder.js"), asFile = join(box, "guard", "flat.js");
+  mkdirSync(asFolder, { recursive: true });
+  writeFileSync(join(box, "guard", "flat"), "not a folder\n");
+  const folderIndex = run(process.execPath, [fileURLToPath(import.meta.url), ref, asFolder]);
+  const fileFolder = run(process.execPath, [fileURLToPath(import.meta.url), ref, asFile]);
+  const quiet = !/\n\s+at .+[(:]\d+/.test(folderIndex.out + fileFolder.out);
+  T("an index path that is a folder, and a modules' folder that is a file, are refused by name, never a stack trace (G-M1, G-M3)",
+    refusedNaming(folderIndex, "folder.js") && refusedNaming(fileFolder, "is a file where the engine's modules would go") && quiet && !existsSync(join(box, "guard", "folder")) && !existsSync(asFile));
 }
 /* The clean clone's condition without a clone: a resolve hook that answers
    "eslint" the way a missing package does, loaded before the real command and

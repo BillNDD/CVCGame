@@ -162,11 +162,19 @@ function skipComment(src, st) {
   for (let k = st.i; k < stop; k++) if (src[k] === "\n") st.line++;
   st.i = stop;
 }
+/* A ' or " string never spans a line: it stops at a newline with no backslash
+   before it, which is left for the caller so the line count stays right. Without that, a quote
+   inside a regex literal - `/[.,!?;:"]/g` in sentenceWords - opened a false
+   string that read on through the strings of every later line to the end of
+   the file, and hid one duplicated region the gate's own definition counts
+   (the refactor's engineer, 2026-09-13, before the storage-block move). A
+   template literal still spans lines. */
 function readString(src, st, toks) {
   const q = src[st.i];
   toks.push({ t: "STR", line: st.line });
   st.i++;
   while (st.i < src.length && src[st.i] !== q) {
+    if (q !== "`" && src[st.i] === "\n") return;
     if (src[st.i] === "\\") st.i++;
     if (src[st.i] === "\n") st.line++;
     st.i++;
@@ -378,6 +386,13 @@ function fixtureControls(T) {
   T("a run of tokens planted in two files is one region, spanning both", m.counts.dup_regions === 1 && m.dup.regions[0].occ.map((o) => o.file).sort().join() === [fx("shape-dup-a.js"), fx("shape-dup-b.js")].join());
   T("a planted export nobody names is dead, and its two live neighbours are not", m.counts.dead_exports === 1 && m.dead.dead[0].name === "planted_dead_export" && m.dead.total === 3);
   T("no fixture failed to parse", m.fatal.length === 0);
+  /* A quote inside a regex literal, then a comment line, then a table of strings:
+     the table must tokenise exactly as it does alone, line numbers included. */
+  const table = 'const T = ["a", "b", "c"];\nconst U = ["d", "e"];\n';
+  const tail = (src) => tokenise(src).slice(-tokenise(table).length).map((k) => `${k.t}@${k.line}`).join(" ");
+  const regexFirst = 'const R = /[.,!?;:"]/g;\n' + table;
+  T("a quote inside a regex literal does not swallow the strings on the lines after it",
+    tail(regexFirst) === tail("\n" + table) && tokenise(regexFirst).filter((k) => k.t === "STR").length >= 5);
   const zero = Object.fromEntries(Object.values(KEYS).map((k) => [k, 0]));
   T("against a zero baseline the fixtures raise one problem per metric", judge(m.counts, zero).length === 6);
   T("a fixture in the tree fails the linter's parse and is reported, not skipped", parseMessages("x.js", [{ fatal: true, line: 1, message: "Parsing error: planted" }]).fatal.length === 1);
