@@ -12,6 +12,8 @@ node_modules/
 
 # ---- Generated code ----
 src/engine.js
+# the engine's modules, one per section of the reference (batch 2 of the refactor)
+src/engine/
 reference/.mutant.jsx
 
 # ---- Build output ----

@@ -123,6 +123,12 @@ function selfTest() {
   T("the real graph reaches into tools", Object.keys(real).some((f) => f.startsWith("tools/")));
   T("a real edge resolved in the tools: tools/shape.mjs imports tools/lib/selftest.mjs", (real["tools/shape.mjs"] || []).includes("tools/lib/selftest.mjs"));
   T("the @engine alias resolved: app/src/App.jsx imports src/engine.js", (real["app/src/App.jsx"] || []).includes("src/engine.js"));
+  /* The engine's modules (batch 2 of the refactor, 2026-09-13): the index's
+     re-exports are edges, and so are the imports the extractor writes
+     between sections - a walk that read the index alone would call a cycle
+     among the modules zero. */
+  T("the index's re-export is an edge: src/engine.js imports src/engine/sounds.js", (real["src/engine.js"] || []).includes("src/engine/sounds.js"));
+  T("an edge the extractor wrote between two engine modules resolved: src/engine/chunker.js imports src/engine/content.js", (real["src/engine/chunker.js"] || []).includes("src/engine/content.js"));
   return finish("dep-cycles", ok);
 }
 

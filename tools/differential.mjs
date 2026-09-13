@@ -6,15 +6,27 @@
  *
  * HOW THE TWO ENGINES ARE BUILT, without a file in the tree. The BASELINE is
  * `git show v1.0.0-beta.32:reference/word-quest.jsx` into a scratch directory
- * and tools/extract-engine.mjs run on it. The CANDIDATE is the tree's own
- * reference build through the same extractor into the same scratch directory
- * - never src/engine.js, which G5 rewrites beside this gate in the gauntlet's
- * lane. Both modules are imported and driven; the scratch directory is removed
- * on the way out. The tag is pinned here and stays pinned for the whole
- * refactor: every batch is measured against what shipped before the first
- * one, never against the batch before it, so a drift cannot be smuggled
- * through in steps. A clone without the tag (a shallow checkout) is refused
- * with the fetch command in the message, never quietly passed.
+ * and THE TAG'S OWN tools/extract-engine.mjs - `git show` of that too - run
+ * on it: since batch 2 of the refactor (2026-09-13) the tree's extractor
+ * reads section markers the beta-32 reference does not carry and emits one
+ * module per section, so the baseline is built by the extractor that built
+ * beta 32, and the baseline never shares code with the extractor under test.
+ * The CANDIDATE is the tree's own reference build through the tree's own
+ * extractor into the same scratch directory, imported through the index it
+ * writes - never src/engine.js, which G5 rewrites beside this gate in the
+ * gauntlet's lane. Both are imported and driven; the scratch directory is
+ * removed on the way out. The tag is pinned here and stays pinned for the
+ * whole refactor: every batch is measured against what shipped before the
+ * first one, never against the batch before it, so a drift cannot be
+ * smuggled through in steps. A clone without the tag (a shallow checkout)
+ * is refused with the fetch command in the message, never quietly passed.
+ *
+ * THE EXPORT LIST. The split exports every top-level declaration, so the
+ * candidate exports more names than the 100 the hand-typed list gave beta
+ * 32. Every name the baseline exports must be in the candidate - a missing
+ * one is a difference named "(the export list)" - and the names beyond the
+ * baseline's are counted in the summary line, never compared: they are the
+ * split's own, and nothing the game did.
  *
  * WHAT IS DRIVEN. Every export that is a table is compared whole. Every
  * export that is a pure function of its arguments is driven over the inputs
@@ -84,16 +96,20 @@ function mulberry32(seed) {
 }
 
 /* ------------------------------------------------------------- engines -- */
-function baselineSource(tag = BASELINE_TAG) {
-  const r = run("git", ["show", `${tag}:${REFERENCE}`]);
+function baselineFile(path, tag = BASELINE_TAG) {
+  const r = run("git", ["show", `${tag}:${path}`]);
   if (r.status === 0) return r.stdout;
   const why = String(r.stderr || r.error || "").trim().split("\n")[0].slice(0, 120);
   throw new Error(`the baseline tag ${tag} is not in this clone (${why}). A shallow checkout carries no tags: run git fetch --tags, or clone with the whole history.`);
 }
-async function buildEngine(source, box, name) {
+const baselineSource = (tag = BASELINE_TAG) => baselineFile(REFERENCE, tag);
+/* The extractor that built beta 32, from the tag: it carries the hand-typed
+   export list and reads no markers, and it is what builds the baseline. */
+const baselineExtractor = (tag = BASELINE_TAG) => baselineFile(EXTRACTOR, tag);
+async function buildEngine(source, box, name, extractor = EXTRACTOR) {
   const jsx = join(box, name + ".jsx"), out = join(box, name + "-engine.js");
   writeFileSync(jsx, source);
-  must(run(process.execPath, [EXTRACTOR, jsx, out]), "the extractor");
+  must(run(process.execPath, [extractor, jsx, out]), "the extractor");
   return import(pathToFileURL(out).href);
 }
 
@@ -319,9 +335,10 @@ function compare(B, C, list) {
     const b = canonical(call(B, fn, args, seed)), c = canonical(call(C, fn, args, seed));
     if (b !== c) differences.push({ fn, input: canonical(args), baseline: b, candidate: c });
   }
-  const exportsDiffer = canonical(Object.keys(B).sort()) !== canonical(Object.keys(C).sort());
-  if (exportsDiffer) differences.push({ fn: "(the export list)", input: "(the names each engine exports)", baseline: canonical(Object.keys(B).sort()), candidate: canonical(Object.keys(C).sort()) });
-  return { differences, functions: functions.size, cases: list.length, tables: tables.length };
+  const missing = Object.keys(B).filter((k) => !(k in C)).sort();
+  if (missing.length) differences.push({ fn: "(the export list)", input: "(every name the baseline exports must be in the candidate)", baseline: canonical(missing), candidate: "(absent)" });
+  const extra = Object.keys(C).filter((k) => !(k in B)).length;
+  return { differences, functions: functions.size, cases: list.length, tables: tables.length, extra };
 }
 const clip = (s, n = 500) => (s.length > n ? s.slice(0, n) + `... (${s.length - n} more)` : s);
 function printFirst(d) {
@@ -333,7 +350,9 @@ function printFirst(d) {
 
 function withEngines(candidateSource, fn) {
   return withScratch("differential-", async (box) => {
-    const B = await buildEngine(baselineSource(), box, "baseline");
+    const old = join(box, "baseline-extractor.mjs");
+    writeFileSync(old, baselineExtractor());
+    const B = await buildEngine(baselineSource(), box, "baseline", old);
     const C = await buildEngine(candidateSource, box, "candidate");
     return fn(B, C);
   });
@@ -353,6 +372,12 @@ function formControls(T) {
   let refused = null;
   try { baselineSource("v0.0.0-no-such-tag"); } catch (e) { refused = String(e.message); }
   T("a clone without the baseline tag is refused, naming git fetch", refused !== null && refused.includes("git fetch --tags"));
+  /* The baseline's builder is the tag's extractor, which still types its
+     export list by hand; the tree's does not. An extractor shared between
+     the two engines would be an oracle shared with the code it judges. */
+  const list = "const EXPORTS" + " = [";
+  T("the baseline is built by the tag's own extractor, which carries the hand-typed export list the tree's has lost",
+    baselineExtractor().includes(list) && !readFileSync(EXTRACTOR, "utf8").includes(list));
 }
 async function plantControls(T, source) {
   const plants = [
@@ -365,6 +390,14 @@ async function plantControls(T, source) {
     T(`a candidate with ${name} planted is refused, and the first difference names ${expectFn}`,
       r.differences.length > 0 && r.differences[0].fn === expectFn);
   }
+  /* A name the baseline exports and the candidate has lost. LANGS is the
+     plant because nothing under app/src, tests or tools imports it - the
+     tree's extractor refuses an extraction that drops an imported name
+     before this harness could see it - and the engine body never uses it. */
+  const lost = await withEngines(source.replace("const LANGS = [", "const LANGS2 = ["), (B, C) => compare(B, C, cases(B)));
+  const list = lost.differences.find((d) => d.fn === "(the export list)");
+  T("a candidate missing a name the baseline exports is refused, and the export-list difference names it",
+    !!list && list.baseline.includes("LANGS") && lost.differences.some((d) => d.fn === "LANGS"));
 }
 async function engineControls(T, source) {
   await withEngines(source, async (B, C) => {
@@ -393,7 +426,7 @@ if (RUN_AS_COMMAND) {
   const candidate = readFileSync(REFERENCE, "utf8");
   const baseline = baselineSource();
   const r = await withEngines(candidate, (B, C) => compare(B, C, cases(B)));
-  console.log(`Differential: baseline ${BASELINE_TAG} ${sha(baseline).slice(0, 12)}, candidate ${sha(candidate).slice(0, 12)}, ${r.tables} tables, ${r.functions} functions driven, ${r.cases} cases, ${r.differences.length} differences`);
+  console.log(`Differential: baseline ${BASELINE_TAG} ${sha(baseline).slice(0, 12)}, candidate ${sha(candidate).slice(0, 12)}, ${r.tables} tables, ${r.functions} functions driven, ${r.cases} cases, ${r.differences.length} differences; the candidate exports ${r.extra} names beyond the baseline's`);
   if (r.differences.length) {
     printFirst(r.differences[0]);
     const rest = [...new Set(r.differences.slice(1).map((d) => d.fn))];

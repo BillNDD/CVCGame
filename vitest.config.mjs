@@ -63,7 +63,11 @@ export default defineConfig({
     exclude: ["**/node_modules/**", "**/dist/**", "tests/census/**", "**/.stryker-tmp/**"],
     coverage: {
       provider: "v8",
-      include: ["src/engine.js", "app/src/**/*.{js,jsx}"],
+      /* The engine is src/engine/*.js since batch 2 of the refactor
+         (2026-09-13), one module per section of the reference, with
+         src/engine.js the index that re-exports them; the index carries no
+         logic and is measured with the rest. */
+      include: ["src/engine.js", "src/engine/**/*.js", "app/src/**/*.{js,jsx}"],
       /* ONE exclusion, deliberate and documented: main.jsx is entry wiring that
          runs on import, and the decision it used to hold now lives in
          swrefresh.js, which is measured. pronunciation.js was the second until
@@ -74,7 +78,7 @@ export default defineConfig({
       /* Floors sit at the measured truth on the day they were set, and rise
          from there (E6). They never fall. */
       thresholds: {
-        "src/engine.js": { lines: 95, branches: 90 },
+        "src/engine/**": { lines: 95, branches: 90 },   /* the same pair as g6_lines_min and g6_branches_min in .claude/gate-baseline.json, keyed on src/engine.js until the split of 2026-09-13; the gauntlet reads the src/engine row of the table */
         "app/src/**": { lines: 82, branches: 84 },   /* same numbers as g6_app_lines_min and g6_app_branches_min in .claude/gate-baseline.json, which the gauntlet gates on: two places, one pair of numbers */
       },
     },

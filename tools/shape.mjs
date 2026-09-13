@@ -38,12 +38,14 @@
  * existing (the G27 lesson).
  *
  * THE ENGINE IS MEASURED AS THE EXTRACTOR MAKES IT, from the reference build
- * into a temporary file, never from src/engine.js in the tree. This gate
- * rides the gauntlet's second lane beside G5, and G5 rewrites src/engine.js
- * with a mutant planted; the reference itself is never rewritten (G5 writes
- * reference/.mutant.jsx). Reading the extractor's own output from a scratch
- * path gives the same bytes on a clean tree and the right bytes on a
- * mutated one.
+ * into a temporary directory - the index and one module per section of the
+ * reference since batch 2 of the refactor (2026-09-13), reported under the
+ * names they carry in the tree - never from src/engine.js in the tree. This
+ * gate rides the gauntlet's second lane beside G5, and G5 rewrites the
+ * engine with a mutant planted; the reference itself is never rewritten (G5
+ * writes reference/.mutant.jsx). Reading the extractor's own output from a
+ * scratch path gives the same bytes on a clean tree and the right bytes on
+ * a mutated one.
  *
  * WHAT IT DOES NOT DO. It measures shape, never behaviour: a function can be
  * simple and wrong. Cognitive complexity is report-only until batch 2
@@ -302,19 +304,23 @@ function judge(counts, baseline) {
   return problems;
 }
 
-/* The engine, extracted into a scratch directory (see the header). */
+/* The engine, extracted into a scratch directory (see the header): the index
+   and the modules the extractor puts beside it, keyed by the names they
+   carry in the tree. */
 function extractedEngine() {
   return withScratch("shape-", (box) => {
-    const out = join(box, "engine.js");
-    must(run(process.execPath, [EXTRACTOR, REFERENCE, out]), "the extractor");
-    return readFileSync(out, "utf8");
+    const index = join(box, "engine.js");
+    must(run(process.execPath, [EXTRACTOR, REFERENCE, index]), "the extractor");
+    const files = { "src/engine.js": readFileSync(index, "utf8") };
+    for (const f of readdirSync(join(box, "engine"))) files["src/engine/" + f] = readFileSync(join(box, "engine", f), "utf8");
+    return files;
   });
 }
 const read = (files) => Object.fromEntries(files.map((f) => [f, readFileSync(f, "utf8")]));
 function realAreas() {
   return {
     "app/src": read(walk("app/src", [".js", ".jsx"])),
-    engine: { "src/engine.js": extractedEngine() },
+    engine: extractedEngine(),
     tools: read(walk("tools", [".mjs"])),
   };
 }

@@ -9,6 +9,7 @@ import { createRequire } from "node:module";
 import { createHash } from "node:crypto";
 import { payloadHash as hashPayload } from "./payload-hash.mjs";
 import { loadBaseline } from "./lib/baseline.mjs";
+import { SECTIONS } from "./extract-engine.mjs";
 
 /* THE CANONICAL FORM of an evidence file (P0 of the speed plan, 2026-08-21):
    everything a second run of the SAME bytes must reproduce, and nothing a
@@ -177,6 +178,23 @@ const ANSI = /\u001b\[[0-9;]*[A-Za-z]/g;
     process.exit(1);
   }
 }
+/* The engine's coverage row is the src/engine DIRECTORY since batch 2 of
+   the refactor (2026-09-13): the modules' aggregate, the same numbers
+   vitest's own threshold on src/engine/** holds. The index src/engine.js
+   sits under the src row as "engine.js" at 100/100, and the pattern that
+   read the engine's row until then would read THAT row now and call the
+   engine fully covered. The control plants both rows and requires the
+   directory's numbers. */
+const ENGINE_BRANCHES = /\n\s*src\/engine\s+\|\s*[\d.]+\s*\|\s*([\d.]+)/;
+const ENGINE_LINES = /\n\s*src\/engine\s+\|\s*[\d.]+\s*\|\s*[\d.]+\s*\|\s*[\d.]+\s*\|\s*([\d.]+)/;
+{
+  const table = "\n src               |     100 |      100 |     100 |     100 |\n  engine.js        |     100 |      100 |     100 |     100 |\n src/engine        |   99.92 |    94.33 |     100 |   99.91 |\n  chunker.js       |     100 |      100 |     100 |     100 |\n";
+  const b = table.match(ENGINE_BRANCHES), l = table.match(ENGINE_LINES);
+  if (!b || b[1] !== "94.33" || !l || l[1] !== "99.91") {
+    console.error("control FAILED: the engine coverage patterns must read the src/engine directory row, not the index's engine.js row");
+    process.exit(1);
+  }
+}
 
 /* A counter summed across files (a gated suite split at the file-length
    ceiling): every part must match, so a file that vanishes from the run can
@@ -308,7 +326,19 @@ function step(gate, command, counts = [], env = {}, required = [], opts = {}) {
   return out;
 }
 
-step("extract engine", "node tools/extract-engine.mjs");
+/* The extractor's own controls run ahead of the extraction (batch 2 of the
+   refactor, 2026-09-13): a reference with a marker missing, a section
+   reaching a name a later section declares, an import of a name no section
+   declares, or an output that moves between two runs is refused before any
+   gate reads the engine. The engine is one module per section of the
+   reference plus the index src/engine.js. */
+step("extract engine", "node tools/extract-engine.mjs --self-test && node tools/extract-engine.mjs", [
+  { label: "controls", regex: /extract-engine controls: (\d+) passed/, floorKey: "extractor_controls" },
+  { label: "modules", regex: /Wrote src\/engine\.js \((\d+) modules/, min: SECTIONS.length },
+], {}, [
+  "ok   a section using a name a later section declares is refused, naming both sections and the name",
+  "ok   the modules carry the engine's own text line for line: strip the header, the import lines and the export clause and the body comes back byte for byte",
+]);
 
 /* The derived source lists (owner-ruled 2026-08-17). It guards the three scans
    that had each lost the same files, so it runs where they run. */
@@ -455,8 +485,9 @@ step("G19 app-mutants", "node tools/app-mutants.mjs", [
 ]);
 
 step("G6 coverage", "(the G1 run, with --coverage - parsed, not re-run)", [
-  { label: "branches", regex: /engine\.js\s*\|\s*[\d.]+\s*\|\s*([\d.]+)/, floorKey: "g6_branches_min" },
-  { label: "lines", regex: /engine\.js\s*\|\s*[\d.]+\s*\|\s*[\d.]+\s*\|\s*[\d.]+\s*\|\s*([\d.]+)/, floorKey: "g6_lines_min" },
+  /* the src/engine directory row - see ENGINE_BRANCHES and its control */
+  { label: "branches", regex: ENGINE_BRANCHES, floorKey: "g6_branches_min" },
+  { label: "lines", regex: ENGINE_LINES, floorKey: "g6_lines_min" },
   { label: "app_branches", regex: /App\.jsx\s*\|\s*[\d.]+\s*\|\s*([\d.]+)/, floorKey: "g6_appjsx_branches_min" },
   { label: "app_lines", regex: /App\.jsx\s*\|\s*[\d.]+\s*\|\s*[\d.]+\s*\|\s*[\d.]+\s*\|\s*([\d.]+)/, floorKey: "g6_appjsx_lines_min" },
   /* The app-wide row. These two floors sat in the baseline reading as

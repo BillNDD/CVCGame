@@ -8,6 +8,7 @@
 import { readFileSync } from "node:fs";
 import { loadBaseline } from "./lib/baseline.mjs";
 import { run, must } from "./lib/proc.mjs";
+import { SECTIONS } from "./extract-engine.mjs";
 
 /* ESLint through node itself, never "npx": execFileSync takes no shell, so
    on Windows the npx.cmd shim cannot start at all - and the old wrapper read
@@ -46,7 +47,11 @@ const pin = (file, key, expectComplexity) => {
     process.exit(1);
   }
 };
+/* The engine is the index and one module per section since batch 2 of the
+   refactor (2026-09-13); every one of them is pinned, so a later config that
+   let one module out from under the engine's block cannot pass. */
 pin("src/engine.js", "g6_engine_file_lines_max", true);
+for (const s of SECTIONS) pin(`src/engine/${s}.js`, "g6_engine_file_lines_max", true);
 pin("app/src/App.jsx", "g6_file_lines_max", true);
 pin("tools/gauntlet.mjs", "g6_file_lines_max", false);
 

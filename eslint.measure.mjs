@@ -15,7 +15,7 @@
    tools. The reference build's own component is out, exactly as
    eslint.config.mjs leaves it out.
 
-   Run: node node_modules/eslint/bin/eslint.js --no-inline-config --config eslint.measure.mjs app/src src/engine.js tools
+   Run: node node_modules/eslint/bin/eslint.js --no-inline-config --config eslint.measure.mjs app/src src tools
         (add --format json to keep the numbers) */
 let sonarjs;
 try {
@@ -32,7 +32,7 @@ export default [
     ],
   },
   {
-    files: ["src/engine.js", "tools/**/*.mjs"],
+    files: ["src/engine.js", "src/engine/*.js", "tools/**/*.mjs"],
     languageOptions: { ecmaVersion: 2024, sourceType: "module" },
     plugins: { sonarjs },
     rules,

@@ -126,5 +126,6 @@
  "g31_controls": 13,
  "g32_functions": 51,
  "g32_cases": 16542,
- "g32_controls": 9
+ "g32_controls": 11,
+ "extractor_controls": 18
 }

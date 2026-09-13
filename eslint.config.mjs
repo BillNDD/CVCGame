@@ -27,7 +27,11 @@ export default [
     ],
   },
   {
-    files: ["src/engine.js"],
+    /* The generated engine: since batch 2 of the refactor (2026-09-13) one
+       module per section of the reference under src/engine/, and the index
+       src/engine.js that re-exports them - under the same roof, the index
+       exempt from nothing. */
+    files: ["src/engine.js", "src/engine/*.js"],
     languageOptions: {
       ecmaVersion: 2024,
       sourceType: "module",

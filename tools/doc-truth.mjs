@@ -38,6 +38,7 @@ import { checkFloors } from "./doc-truth/floors.mjs";
 import { checkRefusals } from "./doc-truth/refusals.mjs";
 import { unshipped, checkUnshipped, checkLevelTable, checkOrphans } from "./doc-truth/ledgers.mjs";
 import { checkTokens, checkStates } from "./doc-truth/art.mjs";
+import { SECTIONS } from "./extract-engine.mjs";
 
 const { C, LEVELS, NEVER_BUILD, chunkWord, WORD_TILES } = await import("../src/engine.js");
 /* A refused word is reachable from a TRAY only if a build ever deals its
@@ -50,8 +51,12 @@ const spellableLength = (w) => BUILD_SLOT_COUNTS.has(chunkWord(w).length);
    its screens and components, and the generated engine that owns the
    feedback text. DERIVED (owner-ruled 2026-08-17): every app source except
    the ones tools/app-sources.mjs excludes with a reason, plus the generated
-   engine. The hand-written list had lost three screens. */
-const SOURCES = [...sourcesFor("docs"), "src/engine.js"];
+   engine - since batch 2 of the refactor (2026-09-13) one module per section
+   of the reference, named by the extractor's own list, because the index
+   src/engine.js re-exports and carries no text. The hand-written list had
+   lost three screens. */
+const ENGINE_MODULES = SECTIONS.map((s) => `src/engine/${s}.js`);
+const SOURCES = [...sourcesFor("docs"), ...ENGINE_MODULES];
 /* The tools an agent is TOLD to run, and the sentences that tell them. A tool
    nobody is pointed at is a tool nobody runs: blast-radius was built on
    2026-08-13 to make E11's second step a command, and the owner asked the same
@@ -160,7 +165,6 @@ export const real = {
   qa: readFileSync("docs/qa-procedure.md", "utf8"),
   pack: readFileSync("app/public/voice/manifest.json", "utf8"),
   app: readFileSync("app/src/App.jsx", "utf8"),
-  engine: readFileSync("src/engine.js", "utf8"),
   hold: readFileSync("app/src/components/HoldButton.jsx", "utf8"),
   home: readFileSync("app/src/screens/HomeScreen.jsx", "utf8"),
   bankSize: LEVELS.flatMap((l) => l.words).length,
