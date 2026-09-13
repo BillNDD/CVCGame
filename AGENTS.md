@@ -544,22 +544,27 @@ lives only in a chat log is one this project loses.
   a new normal - the engine is one generated file carrying teaching content, a palette and
   a component, and the refactor that splits it is owed. Whoever opens this after that
   refactoring lands should bring the ceiling back down to what the split file actually
-  needs, and say so here. Said here, 2026-09-13, batch 2 of the refactor: the engine is
+  needs, and say so here. Said here, 2026-09-13, batch 2 of the refactor: the engine was
   eight generated modules under `src/engine/` and an index, one module per section
-  marker in the reference, and the ceiling is 1485 - the length of the largest module,
-  the sounds module, with no slack. It is not lower yet because the save healer and the
-  migrations reach forward: `migrate` itself reads `PRE_LEVELS`, `migrateV7` calls
-  `creditSeatedChunks`, and `recoverPreLevel` and `creditSeatedChunks` use `PRE_LEVELS`,
-  `CHUNK_ROSTER` and `chunkSeat`, declared some 1,300 lines below them. The extractor
+  marker in the reference, and the ceiling was 1485 - the length of the largest module,
+  the sounds module, with no slack. It was no lower because the save healer and the
+  migrations reached forward: `migrate` read `PRE_LEVELS`, `migrateV7` called
+  `creditSeatedChunks`, and `recoverPreLevel` and `creditSeatedChunks` used `PRE_LEVELS`,
+  `CHUNK_ROSTER` and `chunkSeat`, then declared some 1,300 lines below them. The extractor
   refuses a section that reaches a later one, and the split changed nothing in the
-  reference but comment lines, so every line from the save healer to `chunkSeat` shares one
+  reference but comment lines, so every line from the save healer to `chunkSeat` shared one
   module. This paragraph first said that moving `recoverPreLevel` and `creditSeatedChunks`
   below the roster would halve it; the refactor's engineer measured that move the same day
-  and the extractor still refuses it, because `migrate` and `migrateV7` still reach forward.
-  A move that does free the cuts, measured the same way, takes the file's whole storage
-  block, from its banner to `newState`, below `chunkSeat` as one piece: 259 lines moved,
-  thirteen sections, and the largest module near 473 lines before its comments. That moves
-  code in the reference, and whether to do it is the owner's.
+  and the extractor still refused it, because `migrate` and `migrateV7` still reached
+  forward. A move that does free the cuts, measured the same way, takes the file's whole
+  storage block, from its banner to `newState`, below `chunkSeat` as one piece. The owner
+  accepted it the same day and batch 2b made it: the block moved whole, proved line for line
+  (the reference without its section markers and the comment under each is the old one with
+  the block placed after `chunkSeat`), the engine became thirteen modules, and the ceiling
+  came down to 501 - the length of the largest module, the content module, with no slack.
+  This paragraph said the largest module would be near 473; the content module, which the
+  move does not touch, was already 501. It is the teaching tables, which no move of code
+  shortens, so it sets the number now.
   From here the ceiling follows the largest module down, never up. The general
   limit was raised from 600 to 900 on 2026-07-29, from 900 to
   1200 on 2026-08-12, and from 1200 to 1400 on 2026-08-15 ("Increase it to 1400 on my

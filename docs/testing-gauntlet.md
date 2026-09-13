@@ -149,7 +149,8 @@ as zero whatever it did, a scratch directory never removed, a child handed no ti
 
 ## G32 - the differential harness: the engine beside the engine that shipped
 
-`node tools/differential.mjs`, with `--self-test` for its controls, floor `g32_controls` (12).
+`node tools/differential.mjs`, then `node tools/differential.mjs --one-file`, with `--self-test`
+for its controls, floor `g32_controls` (14).
 Batch 0 of the refactor, owner-ruled 2026-09-12. The refactor promises E8 - nothing the game
 does changes - and this is the instrument that holds it: the engine the tree would ship is run
 beside the engine beta 32 shipped, over the same inputs, and any output that differs is red.
@@ -166,6 +167,13 @@ behaviour: the baseline must export the tag's hand-typed hundred names and the c
 batch is measured against what shipped before the first one and a drift cannot be smuggled
 through in steps. A clone without the tag is refused with `git fetch --tags` in the message;
 the release workflow's checkout fetches the whole history for that reason.
+
+**One file, as the chat artifact runs it** (batch 2b, 2026-09-13). The reference build runs as
+one file in a chat, and the tree ships it as thirteen modules; a move of code can break the one
+and not the other. With `--one-file` the candidate is the tree's reference built by the tag's
+extractor into one file, driven over the same inputs. It compares only the tag's 100 exports;
+the 32 names beyond them are reached through those 100. Both runs are in `npm run check` and the
+gauntlet, and the summary line of the second says `as ONE FILE through the tag's extractor`.
 
 **What is driven.** Every exported table, compared whole. Every exported function that is pure
 or seedable - 51 of them at birth, over 16,542 cases: the boxes (`applyResult` over every box,
@@ -188,20 +196,27 @@ every call `Math.random` is the seeded generator and `Date` is pinned to one ins
 seed and instant for both engines, both put back afterwards. A refactor that adds a second
 source of randomness or time shows up as a difference.
 
-**The controls (E5), nine.** The G5 table's first entry - the fast track's box 3 becoming 2 -
+**The controls (E5), fourteen.** The G5 table's first entry - the fast track's box 3 becoming 2 -
 planted into a copy of the candidate is refused, and the first difference names `applyResult`;
-a second plant, `SESSION_SIZE` 20 to 19, is refused naming the table; the tree's own reference
-against the baseline gives zero differences; one seed repeats a session exactly and another
-changes it; the clock holds still across two exports; both are put back after a call; a clone
-without the tag is refused; and the canonical form ignores key order, sees a moved number and
-spells out what JSON drops. The planted refusal was watched red before the harness was wired.
+a second plant, `SESSION_SIZE` 20 to 19, is refused naming the table; a candidate missing a
+name the baseline exports is refused naming it; the tree's own reference against the baseline
+gives zero differences; one seed repeats a session exactly and another changes it; the clock
+holds still across two exports; both are put back after a call; a clone without the tag is
+refused; the canonical form ignores key order and sees a moved number, and spells out what JSON
+drops; the baseline is built by the tag's own extractor, and by behaviour exports the tag's
+hundred names while the candidate exports more; built as one file, the tree's reference
+exports the tag's hundred and gives zero differences; and `PRE_RUNG_CHUNKS` planted above
+`PRE_LEVELS` is refused by the modules and by the one file, each naming the uninitialised
+`PRE_LEVELS`. The planted refusal was watched red before the harness was wired. (This paragraph
+said nine until 2026-09-13, three controls behind the harness it describes.)
 
 **What it cannot do.** It compares the engine with itself as it was, never with what it should
 be: a fault beta 32 shipped is preserved exactly, which is the point of a refactor and the job of
 the tests to catch. Nothing that reaches the browser - speech, storage - is driven, and the
 garden's render hash is not an engine output (`tools/art-render.mjs` hashes the python renders
 pinned in `tools/art/provenance.json`), so there is nothing of it here. About nine seconds for
-the gate and twenty for its controls, so both run in `npm run check` and in the gauntlet's lane.
+the gate, eleven for its one-file run and half a minute for its controls, so all three run in
+`npm run check` and in the gauntlet's lane.
 
 ## G26 - the waiting room is internally honest
 
@@ -801,11 +816,12 @@ every bound reads `LEVELS.length`, which is why adding a level needed no engine 
     and in `app/src/**`. The
     counter is the ESLint `complexity` rule with its default counting.
   - File length: 1400 lines or less for every source file, and `g6_engine_file_lines_max`
-    (1485) for each generated engine module under `src/engine/` and their index
-    `src/engine.js` - the length of the largest module, `src/engine/sounds.js`, with no
-    slack, brought down from 3000 on 2026-09-13 when batch 2 of the refactor split the
-    engine (AGENTS.md E6 records the raise, the repayment and why it is not lower yet); it
-    follows the largest module down from here and never up. `reference/word-quest.jsx` is exempt.
+    (501) for each generated engine module under `src/engine/` and their index
+    `src/engine.js` - the length of the largest module, `src/engine/content.js`, with no
+    slack. It came down from 3000 to 1485 on 2026-09-13 when batch 2 of the refactor split
+    the engine, and to 501 the same day when batch 2b moved the storage block below the
+    chunk roster and the engine became thirteen modules (AGENTS.md E6 records the raise and
+    the repayment); it follows the largest module down from here and never up. `reference/word-quest.jsx` is exempt.
     That file must stay one file, so it can run as a chat artifact. The ceiling was 600 lines
     until 2026-07-29, when the owner raised it to 900, 900 until 2026-08-12, when the owner
     raised it to 1200, and 1200 until 2026-08-15, when the owner raised it to 1400; the engine's

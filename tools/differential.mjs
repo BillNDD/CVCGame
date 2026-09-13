@@ -28,6 +28,13 @@
  * baseline's are counted in the summary line, never compared: they are the
  * split's own, and nothing the game did.
  *
+ * ONE FILE (--one-file, batch 2b of the refactor, 2026-09-13). The chat
+ * artifact runs the reference as one file, not as the thirteen modules, and a
+ * move of code can break the one and not the other. With --one-file the
+ * candidate is the tree's reference built by the TAG'S extractor into one
+ * file, so it exports only the tag's hand-typed 100 names; the other names
+ * are reached through those 100, and the same inputs drive both.
+ *
  * WHAT IS DRIVEN. Every export that is a table is compared whole. Every
  * export that is a pure function of its arguments is driven over the inputs
  * below: the boxes (applyResult over every box, result and first-correct
@@ -65,7 +72,7 @@
  * engine output - tools/art-render.mjs hashes the python renders pinned in
  * tools/art/provenance.json - so there is nothing of it to compare here.
  *
- * Run:      node tools/differential.mjs [--by-function]
+ * Run:      node tools/differential.mjs [--one-file] [--by-function]
  *           (--by-function adds one line per function driven: its cases and
  *           its differences)
  * Controls: node tools/differential.mjs --self-test
@@ -350,12 +357,12 @@ function printFirst(d) {
   console.log(`    candidate: ${clip(d.candidate)}`);
 }
 
-function withEngines(candidateSource, fn) {
+function withEngines(candidateSource, fn, oneFile = false) {
   return withScratch("differential-", async (box) => {
     const old = join(box, "baseline-extractor.mjs");
     writeFileSync(old, baselineExtractor());
     const B = await buildEngine(baselineSource(), box, "baseline", old);
-    const C = await buildEngine(candidateSource, box, "candidate");
+    const C = await buildEngine(candidateSource, box, "candidate", oneFile ? old : EXTRACTOR);
     return fn(B, C);
   });
 }
@@ -421,6 +428,21 @@ async function engineControls(T, source) {
     T("the generator and the clock are put back after a call", Math.random !== undefined && Date.now() > CLOCK && String(Math.random).includes("native code"));
   });
 }
+/* The one-file build: the tree's reference through the tag's extractor gives the
+   tag's 100 names and no difference, and a use before its declaration - the
+   fault a move of code risks - is refused by BOTH builds, by the loader's words. */
+async function oneFileControls(T, source) {
+  const r = await withEngines(source, (B, C) => ({ exported: Object.keys(C).length, ...compare(B, C, cases(B)) }), true)
+    .catch((e) => { T("the harness built the tree's reference as one file - " + firstLine(e), false); return { exported: 0, differences: [] }; });
+  T("built as one file by the tag's extractor, the build the chat artifact runs, the tree's reference exports the tag's 100 names and gives zero differences",
+    r.exported === 100 && r.differences.length === 0);
+  const line = source.split("\n").find((l) => l.startsWith("const PRE_RUNG_CHUNKS = new Set("));
+  const planted = line ? source.replace(line + "\n", "").replace("const PRE_LEVELS = [", line + "\nconst PRE_LEVELS = [") : source;
+  const said = [];
+  for (const oneFile of [false, true]) said.push(await withEngines(planted, () => "built with no throw", oneFile).catch(firstLine));
+  const both = !!line && said.every((s) => s.includes("Cannot access 'PRE_LEVELS' before initialization"));
+  T("PRE_RUNG_CHUNKS planted above PRE_LEVELS is refused by the modules and by the one file, each naming the uninitialised PRE_LEVELS" + (both ? "" : ` - the modules: ${said[0]}; the one file: ${said[1]}`), both);
+}
 async function selfTest() {
   const cases_ = [];
   const T = (label, pass) => cases_.push([label, pass]);
@@ -429,6 +451,7 @@ async function selfTest() {
   await plantControls(T, source);
   /* a build that fails inside the engine controls is a named failure, never a crash that hides every line above it */
   await engineControls(T, source).catch((e) => T("the engine controls ran to the end without a build failing - " + firstLine(e), false));
+  await oneFileControls(T, source);
   return finish("differential", cases_);
 }
 
@@ -436,14 +459,15 @@ const RUN_AS_COMMAND = import.meta.url === pathToFileURL(process.argv[1] || "").
 if (RUN_AS_COMMAND) {
   if (process.argv.includes("--self-test")) process.exit((await selfTest()) ? 1 : 0);
   const candidate = readFileSync(REFERENCE, "utf8");
+  const oneFile = process.argv.includes("--one-file");
   const baseline = baselineSource();
   const r = await withEngines(candidate, (B, C) => {
     const list = cases(B);
     const result = compare(B, C, list);
     result.driven = list.reduce((m, c) => m.set(c.fn, (m.get(c.fn) || 0) + 1), new Map());
     return result;
-  });
-  console.log(`Differential: baseline ${BASELINE_TAG} ${sha(baseline).slice(0, 12)}, candidate ${sha(candidate).slice(0, 12)}, ${r.tables} tables, ${r.functions} functions driven, ${r.cases} cases, ${r.differences.length} differences; the candidate exports ${r.extra} names beyond the baseline's`);
+  }, oneFile);
+  console.log(`Differential: baseline ${BASELINE_TAG} ${sha(baseline).slice(0, 12)}, candidate ${sha(candidate).slice(0, 12)}${oneFile ? " as ONE FILE through the tag's extractor" : ""}, ${r.tables} tables, ${r.functions} functions driven, ${r.cases} cases, ${r.differences.length} differences; the candidate exports ${r.extra} names beyond the baseline's`);
   if (process.argv.includes("--by-function")) {
     for (const [fn, n] of [...r.driven].sort((a, b) => a[0].localeCompare(b[0]))) {
       console.log(`  ${fn}: ${n} cases, ${r.differences.filter((d) => d.fn === fn).length} differences`);

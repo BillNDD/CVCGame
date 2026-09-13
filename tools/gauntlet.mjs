@@ -119,7 +119,7 @@ const LANE_B = new Map([
   /* G32 builds both engines it compares from the reference build into a
      scratch directory, so the mutant G5 plants in src/engine.js beside it
      is never what it reads. */
-  ["G32 differential", "node tools/differential.mjs && node tools/differential.mjs --self-test"],
+  ["G32 differential", "node tools/differential.mjs && node tools/differential.mjs --one-file && node tools/differential.mjs --self-test"],
 ]);
 /* The gates that may never ride the lane, by the dependency graph in
    docs/testing-gauntlet.md: everything that mutates a tracked file or the
@@ -738,7 +738,9 @@ step("G32 differential", LANE_B.get("G32 differential"), [
   { label: "cases", regex: /(\d+) cases/, floorKey: "g32_cases" },
   { label: "differences", regex: /(\d+) differences/, max: 0 },
   { label: "controls", regex: /differential controls: (\d+) passed/, floorKey: "g32_controls" },
-], {}, ["baseline v1.0.0-beta.32", "planted is refused, and the first difference names applyResult"]);
+], {}, ["baseline v1.0.0-beta.32", "planted is refused, and the first difference names applyResult",
+  "as ONE FILE through the tag's extractor",
+  "PRE_RUNG_CHUNKS planted above PRE_LEVELS is refused by the modules and by the one file"]);
 
 /* Every gate that MUST have run. A gauntlet that skipped one — a step
    removed, a command renamed — has to fail rather than report a smaller,

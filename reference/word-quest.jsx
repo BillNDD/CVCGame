@@ -873,7 +873,7 @@ function gardenState(state) {
 }
 
 /* @engine speech */
-/* speech: the browser's own voice for when a clip is missing, and the feedback text. */
+/* speech: the browser's own voice, the display forms and the feedback text. */
 /* ---------- speech ---------- */
 /* speak takes one sentence or a list of { text, rate } parts. Parts queue as
    separate utterances, so a clear pause separates the praise from the reveal
@@ -966,7 +966,7 @@ const feedbackSpeech = (r, w, praise = 0) =>
   : [{ text: "Let\u2019s try again.", rate: 0.9 }, { text: "The word is " + ttsSafeWord(w) + ".", rate: 0.9 }];
 
 /* @engine sounds */
-/* sounds: the voice-pack tables, the seams between clips and the sound-out. */
+/* sounds: the voice-pack tables, the seams, the sound-out and the magic-e rule. */
 /* ---------- voice packs (SPEC §5a) ---------- */
 const SEAM_MS = 700;   // the pause between clips in one utterance, so words never crush together
 /* The sound-out reveal has its own, shorter seam. The owner heard four
@@ -1681,7 +1681,7 @@ function soundIdsFor(word) {
   return tiles.map((g, i) => (bent[i] ? "d:" + bent[i] : base[i]));
 }
 /* @engine ladder */
-/* ladder: the heart words, the pre-level ladder and the sound inventory. */
+/* ladder: the heart words, the bank, its sound inventory and the pre-level ladder. */
 /* Every sound the bank's tiles can ask for, derived from the bank rather than
    listed by hand, so a new word can never outrun its sounds. */
 /* EVERY word the app has an opinion about, not every word in a level. The
