@@ -109,7 +109,11 @@ const LANE_B = new Map([
   /* G31 reads app/src and the tools, which nothing in the lane's window
      rewrites, and takes the engine from the extractor into a scratch file
      rather than from src/engine.js, which G5 rewrites beside it. */
-  ["G31 shape", "node tools/shape.mjs && node tools/shape.mjs --self-test"],
+  /* The tools' shared scaffold (batch 1) rides ahead of the gate that
+     measures it: four helpers, each with its own controls, required by name
+     below, so a helper's self-test is re-run at every release and not only
+     in the check. */
+  ["G31 shape", "node tools/lib/selftest.mjs --self-test && node tools/lib/baseline.mjs --self-test && node tools/lib/report.mjs --self-test && node tools/lib/proc.mjs --self-test && node tools/shape.mjs && node tools/shape.mjs --self-test"],
   /* G32 builds both engines it compares from the reference build into a
      scratch directory, so the mutant G5 plants in src/engine.js beside it
      is never what it reads. */
@@ -680,7 +684,13 @@ step("G31 shape", LANE_B.get("G31 shape"), [
   { label: "dead_exports", regex: /dead_exports = (\d+)/, maxKey: "g31_dead_exports_max" },
   { label: "problems", regex: /Shape gate: (\d+) problems/, max: 0 },
   { label: "controls", regex: /shape controls: (\d+) passed/, floorKey: "g31_controls" },
-], {}, ["every ceiling lowered by one under an unchanged tree is refused, naming its key", "a count under its ceiling is refused as slack, in its own line"]);
+], {}, ["every ceiling lowered by one under an unchanged tree is refused, naming its key", "a count under its ceiling is refused as slack, in its own line",
+  /* one control of each helper in tools/lib, by name (batch 1) */
+  "a self-test that ran zero controls is refused as a FAIL line naming E5",
+  "a ceiling missing from the baseline throws, naming the key - the G27 lesson",
+  "the verdict is the shape the gauntlet reads",
+  "a non-zero exit is returned, never thrown, with its output kept",
+  "a throw inside the function still removes the directory, and the throw is passed on"]);
 
 /* G32 - the differential harness (batch 0 of the refactor, owner-ruled
    2026-09-12): the tree's engine beside the beta-32 engine over the same

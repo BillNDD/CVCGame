@@ -125,6 +125,17 @@ const AGENT_TOOLS = [
     script: "check",
     command: "tools/differential.mjs --self-test",
   },
+  /* The tools' shared scaffold (batch 1 of the refactor, 2026-09-12): four
+     helpers under tools/lib, mechanics only, each with its own controls. A
+     helper forty tools lean on and nothing re-runs is the shape this rule
+     exists for. */
+  ...["selftest", "baseline", "report", "proc"].map((name) => ({
+    file: `tools/lib/${name}.mjs`,
+    why: `the tools' shared ${name} helper, and the controls that prove its mechanics`,
+    docs: { "docs/testing-gauntlet.md": "gauntletDoc" },
+    script: "check",
+    command: `tools/lib/${name}.mjs --self-test`,
+  })),
   {
     file: "tests/ui/monkey.mjs",
     why: "G30's evidence writer, driven against a stub page: five files, the first failure kept, the next run beside",

@@ -1,6 +1,8 @@
 /* THE SHAPE GATE (G31) - batch 0 of the refactor, owner-ruled 2026-09-12.
  *
- * WHAT IT MEASURES, on app/src, the generated engine and tools/*.mjs:
+ * WHAT IT MEASURES, on app/src, the generated engine and every .mjs under
+ * tools/ (the fixtures excepted; the subfolders joined the scope with tools/lib
+ * in batch 1, so a helper is measured from the day it is born):
  *   - per function: cyclomatic complexity, nesting depth, length in lines
  *     (blank and comment lines skipped) - all three read from ESLint's own
  *     rules (`complexity`, `max-depth`, `max-lines-per-function`) run in
@@ -54,13 +56,15 @@
  *           node tools/shape.mjs --list     (every function over a bar, by file)
  * Controls: node tools/shape.mjs --self-test
  */
-import { readFileSync, readdirSync, statSync, mkdtempSync, rmSync } from "node:fs";
+import { readFileSync, readdirSync, statSync } from "node:fs";
 import { join, relative, sep, resolve } from "node:path";
-import { tmpdir } from "node:os";
-import { execFileSync } from "node:child_process";
 import { createHash } from "node:crypto";
 import { pathToFileURL } from "node:url";
 import { Linter } from "eslint";
+import { finish } from "./lib/selftest.mjs";
+import { loadBaseline } from "./lib/baseline.mjs";
+import { printProblems, verdict } from "./lib/report.mjs";
+import { run, must, withScratch } from "./lib/proc.mjs";
 
 const WINDOW = 40;
 const KEYS = {
@@ -300,19 +304,18 @@ function judge(counts, baseline) {
 
 /* The engine, extracted into a scratch directory (see the header). */
 function extractedEngine() {
-  const box = mkdtempSync(join(tmpdir(), "shape-"));
-  const out = join(box, "engine.js");
-  execFileSync(process.execPath, [EXTRACTOR, REFERENCE, out], { stdio: "pipe" });
-  const text = readFileSync(out, "utf8");
-  rmSync(box, { recursive: true, force: true });
-  return text;
+  return withScratch("shape-", (box) => {
+    const out = join(box, "engine.js");
+    must(run(process.execPath, [EXTRACTOR, REFERENCE, out]), "the extractor");
+    return readFileSync(out, "utf8");
+  });
 }
 const read = (files) => Object.fromEntries(files.map((f) => [f, readFileSync(f, "utf8")]));
 function realAreas() {
   return {
     "app/src": read(walk("app/src", [".js", ".jsx"])),
     engine: { "src/engine.js": extractedEngine() },
-    tools: read(readdirSync("tools").filter((f) => f.endsWith(".mjs")).map((f) => "tools/" + f)),
+    tools: read(walk("tools", [".mjs"])),
   };
 }
 /* Where a reference to an export may live, beyond the measured files: the
@@ -355,10 +358,7 @@ function selfTest() {
   const T = (name, pass) => ok.push([name, pass]);
   fixtureControls(T);
   realTreeControls(T);
-  let failed = 0;
-  for (const [label, pass] of ok) { if (!pass) failed++; console.log((pass ? "ok   " : "FAIL ") + label); }
-  console.log(`\nshape controls: ${ok.length - failed} passed, ${failed} failed`);
-  return failed;
+  return finish("shape", ok);
 }
 function fixtureControls(T) {
   const fx = (f) => "tools/fixtures/" + f;
@@ -378,7 +378,7 @@ function fixtureControls(T) {
 /* The E6 direction on the real tree. */
 function realTreeControls(T) {
   const real = measure(realAreas(), realUniverse());
-  const baseline = JSON.parse(readFileSync(".claude/gate-baseline.json", "utf8"));
+  const baseline = loadBaseline().data;
   const today = judge(real.counts, baseline);
   T("the real tree at today's ceilings raises no problem" + (today.length ? ": " + today.join("; ") : ""), today.length === 0);
   /* Judged against a baseline pinned at today's counts, not the file's, so
@@ -399,14 +399,14 @@ function realTreeControls(T) {
 const RUN_AS_COMMAND = import.meta.url === pathToFileURL(process.argv[1] || "").href;
 if (RUN_AS_COMMAND) {
   if (process.argv.includes("--self-test")) process.exit(selfTest() ? 1 : 0);
-  const baseline = JSON.parse(readFileSync(".claude/gate-baseline.json", "utf8"));
+  const baseline = loadBaseline().data;
   const m = measure(realAreas(), realUniverse());
   report(m, baseline);
   if (process.argv.includes("--list")) list(m);
   const problems = judge(m.counts, baseline);
   for (const f of m.fatal) problems.push(`a file did not parse: ${f}`);
   for (const a of ["app/src", "engine", "tools"]) if (!m.functions.some((f) => f.area === a)) problems.push(`the ${a} area measured no function at all - the scope reads nothing`);
-  for (const p of problems) console.log("PROBLEM: " + p);
-  console.log(`Shape gate: ${problems.length} problems`);
+  printProblems(problems);
+  console.log(verdict("Shape gate", "", problems.length));
   process.exit(problems.length ? 1 : 0);
 }

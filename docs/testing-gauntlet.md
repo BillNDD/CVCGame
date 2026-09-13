@@ -18,7 +18,9 @@ This document follows the Microsoft Writing Style Guide.
 2026-09-12 ("I agree with all your seven"): before any code moves, an instrument that says what
 shape the code has and refuses the shape getting worse.
 
-**What it measures**, on `app/src`, the generated engine and `tools/*.mjs`:
+**What it measures**, on `app/src`, the generated engine and every `.mjs` under `tools/` (the
+fixtures excepted; the subfolders joined the scope in batch 1, so `tools/lib` and the rule
+modules of the rewritten gates are measured from the day they are born):
 
 - per function: cyclomatic complexity, nesting depth and length in lines (blanks and comments
   skipped), read from ESLint's own `complexity`, `max-depth` and `max-lines-per-function` rules
@@ -86,6 +88,39 @@ its instrument.
 **What it cannot do.** It measures shape, never behaviour - a simple function can still be
 wrong, which is what G32 and the mutation gates are for. `tools/*.py` is measured by nothing.
 Under ten seconds on this machine, so it runs in `npm run check` and in the gauntlet's lane.
+
+## The tools' shared scaffold - `tools/lib`, mechanics only
+
+Batch 1 of the refactor, owner-ruled 2026-09-12. Forty tools each carried their own copy of
+the same four mechanics; each copy could drift on its own, and three of them the shape gate
+counted as duplicated regions on the day it was born. The four helpers under `tools/lib` are
+the one copy each, and each ships its own `--self-test`, run in `npm run check` and again in
+the gauntlet ahead of G31, which requires one control of each by name:
+
+- `tools/lib/selftest.mjs` - `finish(tool, controls)`: the `ok   ` / `FAIL ` lines and the
+  `<tool> controls: N passed, M failed` summary the gauntlet reads. A self-test that ran zero
+  controls is refused as a FAIL line naming E5, never printed as "0 failed".
+- `tools/lib/baseline.mjs` - `loadBaseline()`: the one reader of `.claude/gate-baseline.json`,
+  returning the parsed object and a `floor(key)` / `ceiling(key)` pair that THROW on a
+  missing key, a value that is not a number, or a key asked for as the wrong kind - the G27
+  lesson, that `count > undefined` is false, closed once for every gate.
+- `tools/lib/report.mjs` - `printProblems(list)` and `verdict(gate, parts, count)`: the
+  `PROBLEM:` line and the one-line verdict whose `N problems` every gauntlet step parses.
+- `tools/lib/proc.mjs` - `run(cmd, args, { cwd, env, timeoutMs })`: a child always under a
+  timeout (ten minutes by default), both streams captured, returning `{ status, out }` and
+  never throwing on a non-zero exit; `must(result, what)` for the caller that cannot go on;
+  and `withScratch(prefix, fn)`: a temporary directory removed when the function returns,
+  throws or settles, on process exit and on a signal (the C2 lesson).
+
+**The line that may not be crossed.** A helper carries mechanics only. The regexes, the
+thresholds, the sentences a gate checks for and the anchors it reads - the oracle - stay in
+the gate that owns them, so no two gates can share a judgement through the scaffold. The
+gate document's orphan rule (G16) names all four, so a helper dropped from the check goes red.
+
+**Controls.** Each helper's own, watched red against a planted variant before the code was
+committed: the empty-list refusal removed, failures counted as passes, the missing-key throw
+removed, the kind check removed, a verdict that says "problem(s)", a child whose exit reads
+as zero whatever it did, a scratch directory never removed, a child handed no timeout.
 
 ## G32 - the differential harness: the engine beside the engine that shipped
 
