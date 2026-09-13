@@ -26,6 +26,8 @@
  *   - a forward reference: a section using a name a LATER section declares.
  *     The order of the sections is the order of the imports, so a cycle is
  *     impossible by construction - a forward reference is a cycle in waiting;
+ *   - a name DECLARED in two sections (a `var` twice): one binding in the
+ *     one file, two declarations the modules cannot load;
  *   - a section ASSIGNING to a name another section declares: the one-file
  *     reference runs it, and the modules throw, because an imported binding
  *     cannot be assigned (found by the refactor's engineer, 2026-09-13, with
@@ -93,7 +95,12 @@ const posix = (p) => relative(ROOT, resolve(p)).split(sep).join("/");
 const LINT_HELP = "run npm ci at the repository root first: the extractor reads the reference with ESLint's parser, and the app's own install does not carry it";
 async function loadLinter(importer = (spec) => import(spec)) {
   try { return { Linter: (await importer("eslint")).Linter, missing: null }; }
-  catch (e) { return { Linter: null, missing: new Refusal(`ESLint cannot be loaded - ${LINT_HELP} (${String(e && e.message).split("\n")[0]})`) }; }
+  catch (e) {
+    /* Only a missing package gets the install advice. A broken install is its
+       own fault, and advice to run npm ci would hide it: thrown as it is. */
+    if (!e || e.code !== "ERR_MODULE_NOT_FOUND") throw e;
+    return { Linter: null, missing: new Refusal(`ESLint cannot be loaded - ${LINT_HELP} (${String(e.message).split("\n")[0]})`) };
+  }
 }
 const lint = await loadLinter();
 let linter = null;
@@ -136,7 +143,7 @@ function parseBody(body) {
     const scope = ctx.sourceCode.scopeManager.globalScope.childScopes[0];
     read = {
       statements: node.body.map((s) => ({ line: s.loc.start.line, last: s.loc.end.line })),
-      bindings: scope.variables.map((v) => ({ name: v.name, line: v.defs[0].node.loc.start.line, uses: v.references.map((r) => ({ line: r.identifier.loc.start.line, write: r.isWrite() && !r.init })) })),
+      bindings: scope.variables.map((v) => ({ name: v.name, line: v.defs[0].node.loc.start.line, defs: v.defs.map((d) => d.node.loc.start.line), uses: v.references.map((r) => ({ line: r.identifier.loc.start.line, write: r.isWrite() && !r.init })) })),
     };
   } }) };
   const messages = linter.verify(body, [{
@@ -165,12 +172,17 @@ function placeStatements(statements, markers) {
    the order of the sections is the order of the imports. An ASSIGNMENT to a
    name another section declares is refused too: in the one file it runs, and
    in the modules it throws, since an imported binding cannot be assigned. A
-   declaration's own initialiser is not an assignment. */
+   declaration's own initialiser is not an assignment. A name declared in two
+   sections - a `var` twice - is refused: the one file shares one binding, and
+   two modules each declaring it would not load (the engineer's plant, accepted
+   by the first version, 2026-09-13). */
 function crossReferences(bindings, markers) {
   const declared = SECTIONS.map(() => []);
   const imports = SECTIONS.map(() => SECTIONS.map(() => new Set()));
   for (const b of bindings) {
     const home = sectionAt(markers, b.line);
+    const again = b.defs.find((line) => sectionAt(markers, line) !== home);
+    if (again !== undefined) refuse(`${b.name} is declared in ${SECTIONS[home]} (line ${b.line}) and again in ${SECTIONS[sectionAt(markers, again)]} (line ${again}) - the one file shares one binding, and the modules would not load`);
     declared[home].push(b.name);
     for (const use of b.uses) {
       const from = sectionAt(markers, use.line);
@@ -278,6 +290,7 @@ function checkImports(declared, uses) {
 
 /* -------------------------------------------------------------- controls -- */
 const marker = (name) => `/* @engine ${name} */`;
+const HIDE_ESLINT_HOOK = 'export async function resolve(spec, ctx, next) { if (spec === "eslint") throw Object.assign(new Error("Cannot find package eslint"), { code: "ERR_MODULE_NOT_FOUND" }); return next(spec, ctx); }\n';
 /* The refusal's own message, or null when the input is accepted. A throw
    that is not a refusal is the extractor's own fault, and comes back named
    as a crash so the control that met it fails BY NAME rather than the whole
@@ -307,6 +320,9 @@ function referenceControls(T, source) {
   const written = refused(source.replace(marker("palette"), "let zzqCount = 0;\n" + marker("palette")).replace(marker("chunker"), "function zzqBump() { zzqCount += 1; return zzqCount; }\n" + marker("chunker")));
   T("a section assigning to a name another section declares is refused, naming both sections and the name - the one file would run it and the modules would throw",
     has(written, "palette assigns to zzqCount") && has(written, "which content declares"));
+  const twice = refused(source.replace(marker("palette"), "var zzqV = 1;\n" + marker("palette")).replace(marker("chunker"), "var zzqV = 2;\n" + marker("chunker")));
+  T("a name declared in two sections is refused, naming both - the one file shares it and the modules would not load",
+    has(twice, "zzqV is declared in content") && has(twice, "again in palette"));
   T("an extraction whose output moves between two renders is refused, naming the file",
     has(refused(source, (plan, index) => render(plan, index).map(([p, t], i) => [p, i === 2 ? t + `// ${Math.random()}\n` : t])), "two extractions of the same reference differ at"));
   const uses = importedNames(IMPORT_ROOTS);
@@ -326,9 +342,12 @@ function referenceControls(T, source) {
    importer that fails the way a clean clone's does; a loader that rethrew
    comes back here as a plain error and fails this control by name. */
 async function lintControls(T) {
-  const help = await loadLinter(() => Promise.reject(new Error("Cannot find package 'eslint' imported from tools/extract-engine.mjs"))).catch((e) => ({ Linter: null, missing: e }));
+  const notFound = Object.assign(new Error("Cannot find package 'eslint' imported from tools/extract-engine.mjs"), { code: "ERR_MODULE_NOT_FOUND" });
+  const help = await loadLinter(() => Promise.reject(notFound)).catch((e) => ({ Linter: null, missing: e }));
   T("without ESLint installed the extractor refuses with what to do - run npm ci at the repository root - and never a stack trace",
     help.missing instanceof Refusal && has(help.missing.message, "run npm ci at the repository root") && help.Linter === null);
+  const broken = await loadLinter(() => Promise.reject(new Error("Unexpected token in the installed parser"))).then(() => "advised", (e) => (e instanceof Refusal ? "advised" : "thrown"));
+  T("a broken ESLint install is thrown as it is - only a missing package gets the install advice", broken === "thrown");
   const lost = refusedBy(() => importedNames([join(ROOT, "no-such-folder-zzq")]));
   T("an import-scan root that does not exist is refused, naming it, rather than checking nothing", has(lost, "the import scan cannot find no-such-folder-zzq"));
 }
@@ -369,7 +388,26 @@ async function treeControls(T, source) {
     const checked = /(\d+) engine imports checked/.exec(fromApp.out);
     T("run from app/ the way the app's predev and prebuild run it, the import scan still reads app/src, tests and tools from the repository root - more than 100 engine imports checked",
       fromApp.status === 0 && checked !== null && Number(checked[1]) > 100);
+    hiddenLintControls(T, box);
   });
+}
+/* The clean clone's condition without a clone: a resolve hook that answers
+   "eslint" the way a missing package does, loaded before the real command and
+   before a real importer of SECTIONS. The loader control above plants an
+   importer; this runs the files themselves, so a static import of eslint put
+   back at the top fails both lines (the engineer's A-S1: the loader control
+   alone stayed green with exactly that fault back). */
+function hiddenLintControls(T, box) {
+  const hooks = join(box, "hide-eslint-hooks.mjs"), register = join(box, "hide-eslint.mjs"), importer = join(box, "import-sections.mjs");
+  writeFileSync(hooks, HIDE_ESLINT_HOOK);
+  writeFileSync(register, `import { register } from "node:module";\nregister(${JSON.stringify(pathToFileURL(hooks).href)});\n`);
+  writeFileSync(importer, `import { SECTIONS } from ${JSON.stringify(import.meta.url)};\nconsole.log("sections " + SECTIONS.length);\n`);
+  const hide = ["--import", pathToFileURL(register).href];
+  const bare = run(process.execPath, [...hide, fileURLToPath(import.meta.url), "../reference/word-quest.jsx", join(box, "bare", "engine.js")], { cwd: join(ROOT, "app") });
+  T("with ESLint hidden, the app's own prebuild command refuses with what to do - run npm ci at the repository root - exit 1 and no stack trace",
+    bare.status === 1 && has(bare.out, "run npm ci at the repository root") && !/\n\s+at /.test(bare.out));
+  const loads = run(process.execPath, [...hide, importer], { cwd: ROOT });
+  T("with ESLint hidden, a tool importing SECTIONS from the extractor still loads", loads.status === 0 && has(loads.out, "sections 8"));
 }
 async function selfTest() {
   const ok = [];

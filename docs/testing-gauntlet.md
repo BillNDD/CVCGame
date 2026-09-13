@@ -2244,10 +2244,11 @@ found it by remembering, which is the mechanism these gates exist to replace.
 
 ## Aggregation
 
-- `npm run gauntlet` first runs the extractor's controls, floor `extractor_controls` (22), and
+- `npm run gauntlet` first runs the extractor's controls, floor `extractor_controls` (26), and
   then regenerates the engine. The extractor refuses a marker missing, doubled, unknown or out of
   order; code above the first marker or a marker inside a statement; an engine that does not
-  parse; a section using a name a later section declares; a section assigning to a name another
+  parse; a name declared in two sections; a section using a name a later section declares; a
+  section assigning to a name another
   section declares; a name `app/src`, `tests` or `tools` imports from the engine by a named or
   destructured import that no section declares (a namespace import is not read); an import-scan
   root it cannot find; and two extractions that differ by a byte. Its import scan reads from the

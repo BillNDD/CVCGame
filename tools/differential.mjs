@@ -379,13 +379,14 @@ function formControls(T) {
   T("the baseline is built by the tag's own extractor, which carries the hand-typed export list the tree's has lost",
     baselineExtractor().includes(list) && !readFileSync(EXTRACTOR, "utf8").includes(list));
 }
+const firstLine = (e) => String(e && e.message).split(String.fromCharCode(10))[0];
 async function plantControls(T, source) {
   /* The wiring, by behaviour and not by reading files: the tag's extractor
      types 100 names by hand and the tree's derives more, so a baseline built
      by the wrong extractor exports the wrong count. The string check above
      cannot see a withEngines that hands both engines the tree's extractor. */
   /* a build that fails comes back as a count of none, so a miswired harness fails this control BY NAME and not by a crash */
-  const counts = await withEngines(source, (B, C) => [Object.keys(B).length, Object.keys(C).length]).catch(() => [null, null]);
+  const counts = await withEngines(source, (B, C) => [Object.keys(B).length, Object.keys(C).length]).catch((e) => { T("the harness built both engines to count their exports - " + firstLine(e), false); return [null, null]; });
   T("the baseline engine really is the tag's build - it exports the tag's hand-typed 100 names - and the candidate built by the tree's extractor exports more",
     counts[0] === 100 && counts[1] > 100);
   const plants = [
@@ -394,7 +395,7 @@ async function plantControls(T, source) {
   ];
   for (const [name, from, to, expectFn] of plants) {
     if (!source.includes(from)) { T(`the plant "${name}" has an anchor in the candidate`, false); continue; }
-    const r = await withEngines(source.replace(from, to), (B, C) => compare(B, C, cases(B))).catch(() => ({ differences: [] }));
+    const r = await withEngines(source.replace(from, to), (B, C) => compare(B, C, cases(B))).catch((e) => { T(`the harness built both engines for the plant "${name}" - ${firstLine(e)}`, false); return { differences: [] }; });
     T(`a candidate with ${name} planted is refused, and the first difference names ${expectFn}`,
       r.differences.length > 0 && r.differences[0].fn === expectFn);
   }
@@ -402,7 +403,7 @@ async function plantControls(T, source) {
      plant because nothing under app/src, tests or tools imports it - the
      tree's extractor refuses an extraction that drops an imported name
      before this harness could see it - and the engine body never uses it. */
-  const lost = await withEngines(source.replace("const LANGS = [", "const LANGS2 = ["), (B, C) => compare(B, C, cases(B))).catch(() => ({ differences: [] }));
+  const lost = await withEngines(source.replace("const LANGS = [", "const LANGS2 = ["), (B, C) => compare(B, C, cases(B))).catch((e) => { T("the harness built both engines for the lost-export plant - " + firstLine(e), false); return { differences: [] }; });
   const list = lost.differences.find((d) => d.fn === "(the export list)");
   T("a candidate missing a name the baseline exports is refused, and the export-list difference names it",
     !!list && list.baseline.includes("LANGS") && lost.differences.some((d) => d.fn === "LANGS"));
@@ -425,7 +426,7 @@ async function selfTest() {
   formControls(T);
   await plantControls(T, source);
   /* a build that fails inside the engine controls is a named failure, never a crash that hides every line above it */
-  await engineControls(T, source).catch((e) => T("the engine controls ran to the end without a build failing - " + String(e && e.message).split(String.fromCharCode(10))[0], false));
+  await engineControls(T, source).catch((e) => T("the engine controls ran to the end without a build failing - " + firstLine(e), false));
   return finish("differential", cases_);
 }
 
