@@ -340,7 +340,7 @@ function referenceControls(T, source) {
     has(refused(source, (plan, index) => render(plan, index).map(([p, t], i) => [p, i === 2 ? t + `// ${Math.random()}\n` : t])), "two extractions of the same reference differ at"));
   const uses = importedNames(IMPORT_ROOTS);
   const declared = analyse(source).declared.flat();
-  T(`the real tree's imports of the engine are all declared - ${uses.length} names read across ${IMPORT_ROOTS.join(", ")}, ${new Set(uses.map((u) => u.name)).size} distinct - and the scan read more than 100`,
+  T(`the real tree's imports of the engine are all declared - ${uses.length} names read across ${IMPORT_ROOTS.map(posix).join(", ")}, ${new Set(uses.map((u) => u.name)).size} distinct - and the scan read more than 100`,
     uses.length > 100 && refusedBy(() => checkImports(declared, uses)) === null);
   withScratch("extract-engine-", (box) => {
     const spec = "../src/engine.js";
