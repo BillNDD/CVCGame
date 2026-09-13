@@ -5,6 +5,17 @@ import { useState, useEffect, useLayoutEffect, useRef, useMemo, useCallback } fr
    Three fixed zones · grown-up strip · AA contrast · no page scroll in session
    ============================================================ */
 
+/* @engine content */
+/* THE ENGINE SPLIT (batch 2 of the refactor, owner-ruled 2026-09-12: section
+   markers inside the one reference file, and the extractor emits modules from
+   them). Each `@engine` marker above opens one generated module under
+   src/engine/, named after it, and src/engine.js re-exports them all. A
+   section may use names declared in the sections above it - the extractor
+   writes those imports - and never a name declared below it, which the
+   extractor refuses. The markers are comments: this file still runs whole as
+   a chat artifact (E2), and nothing but comment lines changed for the split.
+   content: the levels, the sentences, the tricky words, the units and their
+   position rules, the intervals, the bands and the session constants. */
 /* THE 10-AND-10 CURRICULUM (owner-approved 2026-08-15 in four listening
    rounds; docs/settled.md holds the record). Levels 1-12 carry ten decodable
    words each, in the teaching order the owner read and approved; heart words
@@ -494,6 +505,8 @@ const ADVANCE_GUARD_MS = 400;   // P0-3
 const SPLASH_TIMEOUT_MS = 3000; // P2-6
 const STORE_KEY = "wordquest:progress:v2";
 
+/* @engine palette */
+/* palette: C, alpha and the language list. */
 /* P0-5 — every value below measured against its background at ≥4.5:1 */
 const C = {
   ink:     "#17356b",
@@ -602,6 +615,8 @@ const LANGS = [
   { code: "en-AU", label: "English (AU)" },
 ];
 
+/* @engine chunker */
+/* chunker: WORD_LEVEL, the per-word tile overrides and chunkWord (S8). */
 const WORD_LEVEL = {};
 LEVELS.forEach(L => L.words.forEach(w => { WORD_LEVEL[w] = L.n; }));
 
@@ -647,6 +662,9 @@ function chunkWord(word) {
 }
 const dashed = (w) => chunkWord(w).join("-");
 
+/* @engine session */
+/* session: the boxes, the session builder, the sentence draw, the promotions
+   and the garden state. */
 /* ---------- SRS ---------- */
 const freshWordState = () => ({ box: 0, attempts: 0, correct: 0, close: 0, wrong: 0, dueAt: 1, lastSession: 0 });
 
@@ -854,6 +872,8 @@ function gardenState(state) {
   return Math.floor((level - 1) / 10);
 }
 
+/* @engine storage */
+/* storage: the in-memory fallback and the load and save of the state. */
 /* ---------- storage ---------- */
 const mem = {};
 async function loadState() {
@@ -877,6 +897,15 @@ async function saveState(s) {
   try { if (typeof window !== "undefined" && window.storage) { await window.storage.set(STORE_KEY, b); return true; } } catch (e) {}
   return false;
 }
+/* @engine sounds */
+/* sounds: the save healer and the migrations, speech, the feedback text, the
+   sound tables and the sound-out, the heart words, the pre ladder, the bank,
+   the sentences and reveal plans, and the chunk roster with its seats. One
+   section, because migrate reaches forward to PRE_LEVELS, CHUNK_ROSTER and
+   chunkSeat (through recoverPreLevel and creditSeatedChunks): every line
+   between the healer and chunkSeat must share a module, and no body may
+   change for a cut. The next cut that shortens this module moves those two
+   functions below the roster, which needs the owner's leave. */
 /* F7 — guarantee the document shape. Valid JSON is not a valid save. */
 /* One healer for any box dictionary: words and pre-items carry the same
    shape, so they take the same repairs. */
@@ -2349,6 +2378,9 @@ function chunkSeat(chunk) {
   for (const l of LEVELS) if (l.words.some((w) => wordHoldsChunk(w, chunk))) return l.n;
   return null;
 }
+/* @engine trays */
+/* trays: the chunk seats and the due chunks, the sound tray, the build guard
+   and the build-it tray, the seams and the pack resolver. */
 function chunkSeats() {
   const out = {};
   for (const c of CHUNK_ROSTER) out[c] = chunkSeat(c);
@@ -2583,6 +2615,8 @@ function resolvePack(plan, has) {
   return null;
 }
 
+/* @engine export */
+/* export: the reading-log export. */
 /* ---------- export ---------- */
 function buildMarkdown(state) {
   const today = new Date().toISOString().slice(0, 10);
