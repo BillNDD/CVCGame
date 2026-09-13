@@ -65,6 +65,7 @@ import { join, resolve } from "node:path";
 import { pathToFileURL } from "node:url";
 import { TRICKY, WORD_SOUND, LEX_BENDS, chunkWord, soundIdFor, soundIdsFor } from "../src/engine.js";
 import { finish } from "./lib/selftest.mjs";
+import { loadBaseline } from "./lib/baseline.mjs";
 
 const EXTRACTOR = "tools/extract-engine.mjs";
 const BASELINE = ".claude/gate-baseline.json";
@@ -860,7 +861,7 @@ async function selfTest() {
   /* The ledger controls. A class with no ceiling is the fault where a ceiling
      silently stops existing; a finding class the ledger does not know is the
      fault this whole gate exists to catch. */
-  const base = JSON.parse(readFileSync(BASELINE, "utf8"));
+  const base = loadBaseline().data;
   T("every class has a ceiling in the baseline",
     !gate(clean.counts, base).problems.some((p) => p.includes("has no ceiling")));
   T("a class whose ceiling was deleted is refused",
@@ -898,7 +899,7 @@ if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) 
   else {
     const r = await rehearse(realInput());
     if (process.argv.includes("--check")) {
-      const { problems, nudges } = gate(r.counts, JSON.parse(readFileSync(BASELINE, "utf8")));
+      const { problems, nudges } = gate(r.counts, loadBaseline().data);
       for (const n of nudges) console.log("nudge: " + n);
       for (const p of problems) console.log("PROBLEM: " + p);
       console.log(`Conversion rehearsal: ${CLASSES.length} classes, ${Object.values(r.counts).reduce((a, b) => a + b, 0)} findings, ${problems.length} problems`);

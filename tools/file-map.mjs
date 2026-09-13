@@ -63,6 +63,7 @@ import { execSync } from "node:child_process";
 import { readFileSync, writeFileSync, existsSync } from "node:fs";
 import { GOVERNING } from "./check-governing.mjs";
 import { finish } from "./lib/selftest.mjs";
+import { loadBaseline } from "./lib/baseline.mjs";
 
 /* ---------------------------------------------------------------- facts --
    One entry per owned fact family: the owner file, and the phrase shapes no
@@ -305,7 +306,7 @@ export function orphans(tree, declared = DECLARED, ceiling = null, readBaseline 
   }
   let max = ceiling;
   if (max === null) {
-    const read = readBaseline || (() => JSON.parse(readFileSync(".claude/gate-baseline.json", "utf8")));
+    const read = readBaseline || (() => loadBaseline().data);
     try { max = read().filemap_history_max; } catch { max = undefined; }
   }
   if (typeof max !== "number") problems.push("filemap_history_max is absent from .claude/gate-baseline.json — the HISTORY ceiling cannot be enforced, which is a ceiling that stopped existing (E6)");

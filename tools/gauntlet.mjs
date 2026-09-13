@@ -8,6 +8,7 @@ import { readFileSync, writeFileSync, mkdirSync, rmdirSync, readdirSync, statSyn
 import { createRequire } from "node:module";
 import { createHash } from "node:crypto";
 import { payloadHash as hashPayload } from "./payload-hash.mjs";
+import { loadBaseline } from "./lib/baseline.mjs";
 
 /* THE CANONICAL FORM of an evidence file (P0 of the speed plan, 2026-08-21):
    everything a second run of the SAME bytes must reproduce, and nothing a
@@ -160,7 +161,7 @@ function startLane() {
   }));
 }
 
-const baseline = JSON.parse(readFileSync(".claude/gate-baseline.json", "utf8"));
+const baseline = loadBaseline().data;
 
 /* Vitest and friends color their output when the CI variable is set, and the
    color codes hide the counts from the regexes below (every count reads "?").

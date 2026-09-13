@@ -43,6 +43,7 @@ import { spawnSync } from "node:child_process";
 import { join } from "node:path";
 import { tmpdir } from "node:os";
 import { finish } from "./lib/selftest.mjs";
+import { loadBaseline } from "./lib/baseline.mjs";
 
 const REPORT = ".census/report.json";
 const BUNDLE = "app/dist";
@@ -54,9 +55,9 @@ const CONFIG = "playwright.config.mjs";
    still passed — a floor that moves with the thing it measures is not a floor.
    The self-test now asserts the baseline's values against literals (E4), so
    lowering one goes red here AND shows as a diff in an owner-visible file. */
-const BASE = JSON.parse(readFileSync(new URL("../.claude/gate-baseline.json", import.meta.url), "utf8"));
-const FLOOR = { controls: BASE.census_controls, cells: BASE.census_cells };
-const NOVELTY_FLOOR = { controls: BASE.census_novelty_controls, cells: BASE.census_novelty_cells };
+const BASE = loadBaseline();
+const FLOOR = { controls: BASE.floor("census_controls"), cells: BASE.floor("census_cells") };
+const NOVELTY_FLOOR = { controls: BASE.floor("census_novelty_controls"), cells: BASE.floor("census_novelty_cells") };
 const CONTROL_PROJECT = "controls";
 const NOVELTY_PROJECT = "novelties-once";
 const NOVELTY_SPECS = ["tests/census/novelties.spec.mjs", "tests/census/monkey.spec.mjs", "tests/census/novelties-once.spec.mjs"];

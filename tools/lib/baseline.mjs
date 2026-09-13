@@ -25,7 +25,7 @@ import { finish } from "./selftest.mjs";
 const BASELINE_PATH = ".claude/gate-baseline.json";
 
 /**
- * @param {Record<string, unknown>} data
+ * @param {Record<string, any>} data
  * @param {string} key
  * @param {"floor" | "ceiling"} kind
  */
@@ -46,7 +46,9 @@ function bound(data, key, kind) {
  * @param {(path: string, encoding: "utf8") => string} [read]
  */
 export function loadBaseline(read = readFileSync) {
-  /** @type {Record<string, unknown>} */
+  /* JSON.parse gives `any`, and the readers below are what a caller should
+     reach for; `data` stays for the gates that walk keys by name. */
+  /** @type {Record<string, any>} */
   const data = JSON.parse(read(BASELINE_PATH, "utf8"));
   return {
     data,

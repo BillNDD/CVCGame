@@ -37,8 +37,9 @@ import { readFileSync, existsSync, statSync, mkdtempSync, writeFileSync, rmSync,
 import { join } from "node:path";
 import { tmpdir } from "node:os";
 import { finish } from "./lib/selftest.mjs";
+import { loadBaseline } from "./lib/baseline.mjs";
 
-const BASELINE = JSON.parse(readFileSync(".claude/gate-baseline.json", "utf8"));
+const BASELINE = loadBaseline();
 const ART = "app/public/art";
 
 /* Tracked art files and their byte sizes - git's list, so an untracked stray
@@ -79,7 +80,7 @@ function compareCopies(artFiles) {
 
 function selfTest() {
   const ok = [];
-  const ceiling = BASELINE.art_bytes_max, pmax = BASELINE.precache_files_max;
+  const ceiling = BASELINE.ceiling("art_bytes_max"), pmax = BASELINE.ceiling("precache_files_max");
   ok.push(["the ceilings are the ruled numbers", ceiling === 12582912 && pmax === 1650]);
   ok.push(["the real tracked art is under the ceiling", judge({ artFiles: trackedArt(), ceiling, precacheMax: pmax }).problems.length === 0]);
   /* The planted 13 MB, in a scratch directory the ceiling is pointed at. */
@@ -120,7 +121,7 @@ if (process.argv.includes("--self-test")) process.exit(selfTest() ? 1 : 0);
 
 let art;
 try { art = trackedArt(); } catch (e) { console.log("PROBLEM: git could not list the tracked art: " + (e && e.message ? e.message.split("\n")[0] : e)); process.exit(1); }
-const facts = { artFiles: art, ceiling: BASELINE.art_bytes_max, precacheMax: BASELINE.precache_files_max };
+const facts = { artFiles: art, ceiling: BASELINE.ceiling("art_bytes_max"), precacheMax: BASELINE.ceiling("precache_files_max") };
 if (process.argv.includes("--dist")) {
   const list = existsSync("app/dist/sw.js") ? precacheList("app/dist/sw.js") : null;
   if (!list) { console.log("PROBLEM: no app/dist/sw.js with a precache list - build first"); process.exit(1); }

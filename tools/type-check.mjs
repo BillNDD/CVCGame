@@ -24,8 +24,9 @@ import { readFileSync, writeFileSync, mkdtempSync, rmSync } from "node:fs";
 import { join } from "node:path";
 import { tmpdir } from "node:os";
 import { finish } from "./lib/selftest.mjs";
+import { loadBaseline } from "./lib/baseline.mjs";
 
-const BASELINE = JSON.parse(readFileSync(".claude/gate-baseline.json", "utf8"));
+const BASELINE = loadBaseline();
 const TSC = "node_modules/typescript/bin/tsc";
 
 export function countErrors(output) {
@@ -54,7 +55,7 @@ function selfTest() {
   const planted = run(join(box, "jsconfig.json"));
   rmSync(box, { recursive: true, force: true });
   ok.push(["a call with its arguments shifted one place is refused", planted.errors >= 1]);
-  ok.push(["both ceilings are zero - a checker that allows findings is not checking", BASELINE.tsc_app_errors_max === 0 && BASELINE.tsc_tools_errors_max === 0]);
+  ok.push(["both ceilings are zero - a checker that allows findings is not checking", BASELINE.ceiling("tsc_app_errors_max") === 0 && BASELINE.ceiling("tsc_tools_errors_max") === 0]);
   return finish("type-check", ok);
 }
 
@@ -63,12 +64,12 @@ if (process.argv.includes("--self-test")) process.exit(selfTest() ? 1 : 0);
 const app = run("app/jsconfig.json");
 const tools = run("jsconfig.json");
 const problems = [];
-if (app.errors > BASELINE.tsc_app_errors_max) problems.push(`app: ${app.errors} type error(s), ceiling ${BASELINE.tsc_app_errors_max}`);
-if (tools.errors > BASELINE.tsc_tools_errors_max) problems.push(`tools: ${tools.errors} type error(s), ceiling ${BASELINE.tsc_tools_errors_max}`);
+if (app.errors > BASELINE.ceiling("tsc_app_errors_max")) problems.push(`app: ${app.errors} type error(s), ceiling ${BASELINE.ceiling("tsc_app_errors_max")}`);
+if (tools.errors > BASELINE.ceiling("tsc_tools_errors_max")) problems.push(`tools: ${tools.errors} type error(s), ceiling ${BASELINE.ceiling("tsc_tools_errors_max")}`);
 if (problems.length) {
   for (const p of problems) console.log("PROBLEM: " + p);
   console.log(app.out.split("\n").filter((l) => /error TS/.test(l)).join("\n"));
   console.log(tools.out.split("\n").filter((l) => /error TS/.test(l)).join("\n"));
 }
-console.log(`Type check: app ${app.errors} (max ${BASELINE.tsc_app_errors_max}), tools ${tools.errors} (max ${BASELINE.tsc_tools_errors_max}), ${problems.length} problems`);
+console.log(`Type check: app ${app.errors} (max ${BASELINE.ceiling("tsc_app_errors_max")}), tools ${tools.errors} (max ${BASELINE.ceiling("tsc_tools_errors_max")}), ${problems.length} problems`);
 process.exit(problems.length ? 1 : 0);

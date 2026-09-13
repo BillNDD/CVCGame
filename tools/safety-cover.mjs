@@ -47,10 +47,11 @@
 import { readFileSync, existsSync } from "node:fs";
 import { DECLARED, NON_TEST_GATES } from "./effect-declarations.mjs";
 import { finish } from "./lib/selftest.mjs";
+import { loadBaseline } from "./lib/baseline.mjs";
 
-const BASELINE = JSON.parse(readFileSync(".claude/gate-baseline.json", "utf8"));
+const BASELINE = loadBaseline();
 const KINDS = ["unit", "source", "observed"];
-const FLOORS = { rules: BASELINE.g25_rules, proofs: BASELINE.g25_proofs };
+const FLOORS = { rules: BASELINE.floor("g25_rules"), proofs: BASELINE.floor("g25_proofs") };
 
 /* The safety rules, read from the file that OWNS them. Never a list typed
    here: a list typed here would be a copy of CLAUDE.md's own safety facts,
@@ -144,12 +145,12 @@ function report() {
   if (un.length) console.log(`  no browser has ever observed (${un.length}): ${un.join(" ")}`);
 
   let bad = found.length;
-  if (src.length > BASELINE.g25_source_only_max) {
-    console.error(`  PROBLEM: ${src.length} rules are proved only by reading source, ceiling is ${BASELINE.g25_source_only_max}`);
+  if (src.length > BASELINE.ceiling("g25_source_only_max")) {
+    console.error(`  PROBLEM: ${src.length} rules are proved only by reading source, ceiling is ${BASELINE.ceiling("g25_source_only_max")}`);
     bad++;
   }
-  if (un.length > BASELINE.g25_unobserved_max) {
-    console.error(`  PROBLEM: ${un.length} rules have no observed proof, ceiling is ${BASELINE.g25_unobserved_max}`);
+  if (un.length > BASELINE.ceiling("g25_unobserved_max")) {
+    console.error(`  PROBLEM: ${un.length} rules have no observed proof, ceiling is ${BASELINE.ceiling("g25_unobserved_max")}`);
     bad++;
   }
   console.log(`Safety cover: ${rules.length} rules, ${pairs} declared proofs, ${bad} problems`);

@@ -7,6 +7,7 @@
       Both numbers come from the baseline file, never from this source. */
 import { execFileSync, execSync } from "node:child_process";
 import { readFileSync } from "node:fs";
+import { loadBaseline } from "./lib/baseline.mjs";
 
 const run = (cmd, args) => {
   try { execFileSync(cmd, args, { stdio: "pipe" }); return true; } catch { return false; }
@@ -27,7 +28,7 @@ if (!cycleCaught) {
   process.exit(1);
 }
 
-const baseline = JSON.parse(readFileSync(".claude/gate-baseline.json", "utf8"));
+const baseline = loadBaseline();
 /* Two ceilings since 2026-08-16 ("Increase the engine specific line max to
    2400"): the engine's own, and the general one every other file keeps. Both
    effective configs are pinned to the baseline, so loosening either scope
@@ -37,10 +38,10 @@ const pin = (file, key, expectComplexity) => {
   const complexity = cfg.rules?.complexity?.[1];
   const maxLinesOpt = cfg.rules?.["max-lines"]?.[1];
   const maxLines = typeof maxLinesOpt === "object" ? maxLinesOpt.max : maxLinesOpt;
-  if ((expectComplexity && complexity !== baseline.g6_complexity_max) || maxLines !== baseline[key]) {
+  if ((expectComplexity && complexity !== baseline.ceiling("g6_complexity_max")) || maxLines !== baseline.ceiling(key)) {
     console.error(`control FAILED: the live ESLint config for ${file} (complexity ${complexity}, ` +
       `max-lines ${maxLines}) does not match the baseline ceilings ` +
-      `(${baseline.g6_complexity_max}, ${baseline[key]})`);
+      `(${baseline.ceiling("g6_complexity_max")}, ${baseline.ceiling(key)})`);
     process.exit(1);
   }
 };

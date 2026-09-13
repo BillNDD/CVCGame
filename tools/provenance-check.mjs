@@ -19,9 +19,10 @@
 import { readFileSync } from "node:fs";
 import { C } from "../src/engine.js";
 import { finish } from "./lib/selftest.mjs";
+import { loadBaseline } from "./lib/baseline.mjs";
 
 const LEDGER = "tools/art/provenance.json";
-const BASELINE = JSON.parse(readFileSync(".claude/gate-baseline.json", "utf8"));
+const BASELINE = loadBaseline();
 const KINDS = new Set(["css", "raster", "svg"]);
 
 /* THE LOCK IS READ, NOT TRUSTED (the antagonist's after pass on step 1): a
@@ -128,7 +129,7 @@ export function glowseedDrift(lock, fromSources) {
   return out;
 }
 
-export function judge(ledger, tokens = C, ceiling = BASELINE.art_bytes_max, sources = null, seedSources = null) {
+export function judge(ledger, tokens = C, ceiling = BASELINE.ceiling("art_bytes_max"), sources = null, seedSources = null) {
   const problems = [];
   const shares = ledger.shares || {};
   const sum = Object.values(shares).reduce((n, v) => n + (Number.isInteger(v) ? v : NaN), 0);
@@ -223,5 +224,5 @@ const ledger = JSON.parse(readFileSync(LEDGER, "utf8"));
 const problems = judge(ledger);
 for (const p of problems) console.log("PROBLEM: " + p);
 const fams = Object.keys(ledger.families || {});
-console.log(`Provenance: ${fams.length} famil${fams.length === 1 ? "y" : "ies"} (${fams.join(", ")}), shares ${Object.values(ledger.shares).reduce((n, v) => n + v, 0)} of ${BASELINE.art_bytes_max}, ${problems.length} problems`);
+console.log(`Provenance: ${fams.length} famil${fams.length === 1 ? "y" : "ies"} (${fams.join(", ")}), shares ${Object.values(ledger.shares).reduce((n, v) => n + v, 0)} of ${BASELINE.ceiling("art_bytes_max")}, ${problems.length} problems`);
 process.exit(problems.length ? 1 : 0);

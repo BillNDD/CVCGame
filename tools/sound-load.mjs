@@ -34,6 +34,7 @@ import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 import { finish } from "./lib/selftest.mjs";
+import { loadBaseline } from "./lib/baseline.mjs";
 import { LEVELS, PRE_LEVELS, HEART, TRICKY, chunkWord, soundIdsFor,
          isChunkItem, chunkText, SENTENCES, sentenceWords } from "../src/engine.js";
 
@@ -251,7 +252,7 @@ function selfTest() {
      the engineering seat found all three of these new gates floorless on
      2026-09-01. The number lives in .claude/gate-baseline.json so raising it is
      an owner-visible diff like every other floor. */
-  const FLOOR = JSON.parse(readFileSync(".claude/gate-baseline.json", "utf8")).g28_controls;
+  const FLOOR = loadBaseline().floor("g28_controls");
   if (ran < FLOOR) {
     console.error(`  FAIL only ${ran} controls ran, floor is ${FLOOR} - a control has been removed`);
     return 1;

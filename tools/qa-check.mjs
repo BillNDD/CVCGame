@@ -5,6 +5,7 @@
    Expected line, and the checker must report it. */
 import { readFileSync } from "node:fs";
 import { finish } from "./lib/selftest.mjs";
+import { loadBaseline } from "./lib/baseline.mjs";
 
 const DOC = "docs/qa-procedure.md";
 
@@ -44,9 +45,9 @@ if (process.argv.includes("--self-test")) {
   process.exit(0);
 }
 
-const baseline = JSON.parse(readFileSync(".claude/gate-baseline.json", "utf8"));
+const baseline = loadBaseline();
 const { steps, problems } = check(readFileSync(DOC, "utf8"));
-const floor = Math.max(20, baseline.g12_qa_steps || 0);
+const floor = Math.max(20, baseline.floor("g12_qa_steps"));
 if (steps < floor) problems.push(`only ${steps} steps; the floor is ${floor}`);
 console.log(`QA procedure: ${steps} steps, ${problems.length} problems`);
 problems.forEach((p) => console.error("  PROBLEM: " + p));
