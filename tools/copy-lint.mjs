@@ -19,6 +19,7 @@ import { sourcesFor, staleExclusions } from "./app-sources.mjs";
 import { readFileSync } from "node:fs";
 import { execSync } from "node:child_process";
 import { LEVELS, TRICKY, feedbackParts, feedbackSpeech, newState, PRAISE, VOICE_SENTENCES } from "../src/engine.js";
+import { finish } from "./lib/selftest.mjs";
 
 const problems = [];
 const rule = (okay, name, detail) => {
@@ -284,12 +285,19 @@ if (process.argv.includes("--self-test")) {
   const sawRefusal = run(reworded).found.some((p) => p.startsWith("ladder refusal sentence"));
   const unquoted = { ...real, spec: real.spec.split("refused while the child is on the ladder and").join("refused when it cannot ask and") };
   const sawRefusalBlind = run(unquoted).found.some((p) => p.includes("checking nothing"));
-  if (sawLead && sawBanned && sawEmail && sawPraise && sawLetter && sawVoice && sawRefusal && sawRefusalBlind) {
-    console.log("self-test OK: a changed sentence, a banned word, a planted email, a reworded praise, a letter-name praise, a swapped voice stem, the ladder refusal reworded in the app, and SPEC losing the words the rule reads are all caught");
-    process.exit(0);
-  }
-  console.error("self-test FAILED: " + JSON.stringify({ sawLead, sawBanned, sawEmail, sawPraise, sawLetter, sawVoice, sawRefusal, sawRefusalBlind }));
-  process.exit(1);
+  const failed = finish("copy-lint", [
+    ["a changed feedback sentence is caught", sawLead],
+    ["a banned word in child copy is caught", sawBanned],
+    ["a planted email address is caught", sawEmail],
+    ["a reworded praise, and a banned word in praise, are caught", sawPraise],
+    ["a letter name in praise is caught", sawLetter],
+    ["a swapped voice stem is caught", sawVoice],
+    ["the ladder refusal reworded in the app is caught", sawRefusal],
+    ["SPEC losing the words the rule reads is caught as checking nothing", sawRefusalBlind],
+  ]);
+  if (failed) process.exit(1);
+  console.log("self-test OK: a changed sentence, a banned word, a planted email, a reworded praise, a letter-name praise, a swapped voice stem, the ladder refusal reworded in the app, and SPEC losing the words the rule reads are all caught");
+  process.exit(0);
 }
 
 const { found, rules: ruleCount, words } = run(real);

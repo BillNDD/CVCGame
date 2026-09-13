@@ -4,6 +4,7 @@
    Negative control: --self-test feeds a fixture with a step that has no
    Expected line, and the checker must report it. */
 import { readFileSync } from "node:fs";
+import { finish } from "./lib/selftest.mjs";
 
 const DOC = "docs/qa-procedure.md";
 
@@ -34,9 +35,13 @@ if (process.argv.includes("--self-test")) {
   /* Literal (E4): four well-formed steps plus two faults — the bare step 2
      and the lettered 3c, both missing Expected. A lettered step must be
      COUNTED and must be HELD to the same rule. */
-  if (r.steps === 5 && r.problems.length === 2) { console.log("self-test OK: the missing Expected line is reported, on bare and lettered steps alike, and a lettered step counts"); process.exit(0); }
-  console.error("self-test FAILED: " + JSON.stringify(r));
-  process.exit(1);
+  const failed = finish("qa-check", [
+    ["the missing Expected line is reported, on bare and lettered steps alike", r.problems.length === 2],
+    ["a lettered step counts", r.steps === 5],
+  ]);
+  if (failed) { console.error("self-test FAILED: " + JSON.stringify(r)); process.exit(1); }
+  console.log("self-test OK: the missing Expected line is reported, on bare and lettered steps alike, and a lettered step counts");
+  process.exit(0);
 }
 
 const baseline = JSON.parse(readFileSync(".claude/gate-baseline.json", "utf8"));

@@ -62,6 +62,7 @@
 import { execSync } from "node:child_process";
 import { readFileSync, writeFileSync, existsSync } from "node:fs";
 import { GOVERNING } from "./check-governing.mjs";
+import { finish } from "./lib/selftest.mjs";
 
 /* ---------------------------------------------------------------- facts --
    One entry per owned fact family: the owner file, and the phrase shapes no
@@ -547,10 +548,7 @@ function selfTest() {
   T("the committed map matches the table",
     existsSync("docs/file-map.md") && readFileSync("docs/file-map.md", "utf8") === render());
 
-  const failed = say.filter(([, p]) => !p).length;
-  for (const [n, p] of say) console.log((p ? "ok   " : "FAIL ") + n);
-  console.log(`\nfile-map controls: ${say.length - failed} passed, ${failed} failed`);
-  return failed ? 1 : 0;
+  return finish("file-map", say) ? 1 : 0;
 }
 
 /* ----------------------------------------------------------------- main -- */

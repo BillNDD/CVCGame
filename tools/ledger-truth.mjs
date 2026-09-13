@@ -35,6 +35,7 @@
  *   node tools/ledger-truth.mjs --self-test  prove each rule catches its fault
  */
 import { readFileSync } from "node:fs";
+import { finish } from "./lib/selftest.mjs";
 
 const SOURCES = [
   "SPEC.md", "CLAUDE.md", "AGENTS.md", "README.md", "CHANGELOG.md",
@@ -244,8 +245,8 @@ const packSounds = () =>
   Object.keys(JSON.parse(readFileSync("app/public/voice/manifest.json", "utf8"))).filter((k) => k.startsWith("d:"));
 
 if (process.argv.includes("--self-test")) {
-  let failed = 0;
-  const say = (ok, name) => { console.log((ok ? "ok   " : "FAIL ") + name); if (!ok) failed += 1; };
+  const said = [];
+  const say = (ok, name) => { said.push([name, ok]); };
   /* A fixture, not the shipped data: a control that can only run against
      today's tree is a control that passes for whatever reason it likes (E5). */
   /* The fixture names are REALISTIC sound names on purpose. The first draft
@@ -337,8 +338,7 @@ if (process.argv.includes("--self-test")) {
   say(named("d-a.mp3 does not ship", ["a"]).includes("a"),
     "short names control: written as a file, a short name IS a mention");
 
-  console.log(`\nledger-truth controls: ${33 - failed} passed, ${failed} failed`);
-  process.exit(failed ? 1 : 0);
+  process.exit(finish("ledger-truth", said) ? 1 : 0);
 }
 
 const problems = check(ledgers(), readAll(), packSounds());

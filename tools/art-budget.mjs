@@ -36,6 +36,7 @@ import { execFileSync } from "node:child_process";
 import { readFileSync, existsSync, statSync, mkdtempSync, writeFileSync, rmSync, mkdirSync } from "node:fs";
 import { join } from "node:path";
 import { tmpdir } from "node:os";
+import { finish } from "./lib/selftest.mjs";
 
 const BASELINE = JSON.parse(readFileSync(".claude/gate-baseline.json", "utf8"));
 const ART = "app/public/art";
@@ -112,10 +113,7 @@ function selfTest() {
     const ghost = compareCopies([{ file: "app/public/art/WQ_GHOST_v000.png", bytes: 1 }]);
     ok.push(["and refuses a source with no built copy", ghost[0].same === false && ghost[0].why === "missing from app/dist"]);
   }
-  for (const [name, pass] of ok) console.log((pass ? "ok   " : "FAIL ") + name);
-  const failed = ok.filter(([, p]) => !p).length;
-  console.log(`\nart-budget controls: ${ok.length - failed} passed, ${failed} failed`);
-  return failed;
+  return finish("art-budget", ok);
 }
 
 if (process.argv.includes("--self-test")) process.exit(selfTest() ? 1 : 0);

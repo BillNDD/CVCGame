@@ -17,6 +17,7 @@
  */
 import { readdirSync, statSync, existsSync } from "node:fs";
 import { join } from "node:path";
+import { finish } from "./lib/selftest.mjs";
 
 const ROOT = "app/src";
 const CODE = /\.(js|jsx)$/;
@@ -119,17 +120,11 @@ export function selfTest() {
      or that case proves nothing about the filter. */
   const stub = () => appSources();
   const stubPasses = !stub().includes("app/src/wq-css.js");
-  let bad = 0;
-  for (const [name, ok, why] of cases) {
-    console.log(`${ok ? "ok  " : "FAIL"} ${name} — ${why}`);
-    if (!ok) bad++;
-  }
-  console.log(stubPasses
-    ? "FAIL control: a stub that filters nothing still passed the exclusion case"
-    : "ok   control: a stub that filters nothing fails the exclusion case");
-  if (stubPasses) bad++;
-  console.log(`\napp-sources controls: ${cases.length + 1 - bad} passed, ${bad} failed`);
-  return bad ? 1 : 0;
+  const controls = cases.map(([name, ok, why]) => [`${name} — ${why}`, ok]);
+  controls.push([stubPasses
+    ? "control: a stub that filters nothing still passed the exclusion case"
+    : "control: a stub that filters nothing fails the exclusion case", !stubPasses]);
+  return finish("app-sources", controls) ? 1 : 0;
 }
 
 if (process.argv[1] && process.argv[1].endsWith("app-sources.mjs")) {

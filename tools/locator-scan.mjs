@@ -20,6 +20,7 @@
 import { readFileSync } from "node:fs";
 import { execFileSync } from "node:child_process";
 import { pathToFileURL } from "node:url";
+import { finish } from "./lib/selftest.mjs";
 
 const PICTOGRAPH = /[←-⇿⌀-⏿■-➿⬀-⯿\u{1F000}-\u{1FAFF}]/u;
 /* A locator call with a string argument, or a role query's name. The string
@@ -66,10 +67,7 @@ function selfTest() {
      Widening it found two live ones in tests/safety.test.js the same minute. */
   ok.push(["a regex text locator naming an emoji is caught", scan('expect(screen.getByText(/🎯 Level 1/)).toBeTruthy();').length === 1]);
   ok.push(["a regex role name carrying an emoji is caught", scan('page.getByRole("button", { name: /🎈 Free play/ })').length === 1]);
-  for (const [name, pass] of ok) console.log((pass ? "ok   " : "FAIL ") + name);
-  const failed = ok.filter(([, p]) => !p).length;
-  console.log(`\nlocator-scan controls: ${ok.length - failed} passed, ${failed} failed`);
-  return failed;
+  return finish("locator-scan", ok);
 }
 
 /* THE COMMAND HALF IS GUARDED (the release sweep, 2026-08-23). Without this,

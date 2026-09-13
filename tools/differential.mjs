@@ -62,6 +62,7 @@ import { join } from "node:path";
 import { tmpdir } from "node:os";
 import { pathToFileURL } from "node:url";
 import { createHash } from "node:crypto";
+import { finish } from "./lib/selftest.mjs";
 
 const BASELINE_TAG = "v1.0.0-beta.32";
 const REFERENCE = "reference/word-quest.jsx";
@@ -387,10 +388,7 @@ async function selfTest() {
   formControls(T);
   await plantControls(T, source);
   await engineControls(T, source);
-  let failed = 0;
-  for (const [label, pass] of cases_) { if (!pass) failed++; console.log((pass ? "ok   " : "FAIL ") + label); }
-  console.log(`\ndifferential controls: ${cases_.length - failed} passed, ${failed} failed`);
-  return failed;
+  return finish("differential", cases_);
 }
 
 const RUN_AS_COMMAND = import.meta.url === pathToFileURL(process.argv[1] || "").href;

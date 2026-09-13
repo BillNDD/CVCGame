@@ -16,6 +16,7 @@
         node tools/ladder-status.mjs --self-test */
 import { readFileSync } from "node:fs";
 import { pathToFileURL } from "node:url";
+import { finish } from "./lib/selftest.mjs";
 
 const LADDER = "tools/ladder";
 
@@ -89,10 +90,7 @@ if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) 
       [blind.placed === 14, blind.empty.length === 1, blind.thin.length === 1,
        blind.noSubject.join() === "4", blind.bare.join() === "3:ea",
        blind.billWords === 2].filter(Boolean).length === 0);
-    const failed = say.filter(([, p]) => !p).length;
-    for (const [n, p] of say) console.log((p ? "ok   " : "FAIL ") + n);
-    console.log(`\nladder-status controls: ${say.length - failed} passed, ${failed} failed`);
-    process.exit(failed ? 1 : 0);
+    process.exit(finish("ladder-status", say) ? 1 : 0);
   }
   const r = report(load());
   console.log(`Ladder: ${r.levels} levels, ${r.placed} words placed`);

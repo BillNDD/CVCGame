@@ -8,6 +8,7 @@
    Run: node tools/target-coverage.mjs            the tally and the gap, by family
         node tools/target-coverage.mjs --self-test  prove the counter counts */
 import { readFileSync } from "node:fs";
+import { finish } from "./lib/selftest.mjs";
 
 export function targetWords(read = readFileSync) {
   return read("tools/target-vocab.txt", "utf8").split("\n")
@@ -73,13 +74,7 @@ function selfTest() {
   checks.push(["a seated word is not debt", !debt.includes("seated")]);
   checks.push(["an unapproved word is not debt - it is a round's job first", !debt.includes("unheard")]);
   checks.push(["a sentence never counts", debt.length === 1]);
-  let failed = 0;
-  for (const [name, ok] of checks) {
-    console.log((ok ? "ok   " : "FAIL ") + name);
-    if (!ok) failed += 1;
-  }
-  console.log(`\ntarget-coverage controls: ${checks.length - failed} passed, ${failed} failed`);
-  return failed;
+  return finish("target-coverage", checks);
 }
 
 const main = async () => {

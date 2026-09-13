@@ -17,6 +17,7 @@
  */
 import { readFileSync } from "node:fs";
 import { LEVELS, TRICKY, HEART, WORD_LEVEL } from "../src/engine.js";
+import { finish } from "./lib/selftest.mjs";
 
 /* THE SHIPPED ROSTER COMES FROM THE ENGINE, and this file no longer keeps one
    of its own. It used to export a list of sixteen and treat every one of them
@@ -183,7 +184,6 @@ if (process.argv.includes("--self-test")) {
     ["You were red.", 15, false, "heart 'were' seats at 83 — a heart used before its seat is refused as untaught (the late-drift the retired seat-fence guarded)"],
     ["You were red.", 83, true, "control: the same heart sentence is fine at its seat, where 'were' is the level's own new word"],
   ];
-  let failed = 0;
   /* The waiting list's own control, and it runs FIRST because everything below
      levels against the roster it guards. Both directions: today's split must
      be honest, and a fixture where a waiting word has been seated must throw.
@@ -194,21 +194,18 @@ if (process.argv.includes("--self-test")) {
      list happens to hold — including nothing, which is what it holds today. */
   const caught = (() => { try { waitingIsHonest(["go", "cat"], ["go"]); return false; } catch { return true; } })();
   const clean = (() => { try { return waitingIsHonest(["cat"], ["go"]) === true; } catch { return false; } })();
-  console.log((honest ? "ok   " : "FAIL ") + `the waiting list names no word that is already seated (${HEART_WAITING.length} waiting)`);
-  console.log((caught ? "ok   " : "FAIL ") + "control: a fixture where a waiting word has been seated is caught");
-  console.log((clean ? "ok   " : "FAIL ") + "control: a fixture with no overlap passes");
-  if (!clean) failed += 1;
-  if (!honest) failed += 1;
-  if (!caught) failed += 1;
+  const controls = [
+    [`the waiting list names no word that is already seated (${HEART_WAITING.length} waiting)`, honest],
+    ["control: a fixture where a waiting word has been seated is caught", caught],
+    ["control: a fixture with no overlap passes", clean],
+  ];
   for (const [s, lvl, want, why] of cases) {
     const got = check(s, lvl).problems.length === 0;
     const ok = got === want;
-    console.log((ok ? "ok   " : "FAIL ") + `${want ? "passes" : "refused"}: ${why}`);
-    if (!ok) { failed += 1; console.log("       got: " + JSON.stringify(check(s, lvl).problems)); }
+    /* a failing case carries what the checker said, under its own line */
+    controls.push([`${want ? "passes" : "refused"}: ${why}` + (ok ? "" : "\n       got: " + JSON.stringify(check(s, lvl).problems)), ok]);
   }
-  const total = cases.length + 3;   // the sentence cases, plus the waiting list's three
-  console.log(`\ndecodable controls: ${total - failed} passed, ${failed} failed`);
-  process.exit(failed ? 1 : 0);
+  process.exit(finish("decodable", controls) ? 1 : 0);
 }
 
 const fileArg = process.argv.indexOf("--file");

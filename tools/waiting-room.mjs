@@ -60,6 +60,7 @@
  */
 import { createHash } from "node:crypto";
 import { readFileSync, readdirSync, existsSync } from "node:fs";
+import { finish } from "./lib/selftest.mjs";
 
 const DIR = "tools/pending-words";
 const LEDGER = `${DIR}/pending-words.json`;
@@ -284,24 +285,20 @@ if (process.argv.includes("--self-test")) {
       () => check(withRow((l) => { l["s:v3-l02-01"].verdict = "perfect"; }), files, bytes, sources), 0],
   ];
 
-  let failed = 0;
+  const controls = [];
   for (const [why, run, want] of cases) {
     const got = run();
     const ok = want === 0 ? got.length === 0 : got.length >= want;
-    if (!ok) failed += 1;
-    console.log(`${ok ? "ok   " : "FAIL "}${why}`);
-    if (!ok) console.log(`        expected ${want === 0 ? "no problems" : "a problem"}, got ${JSON.stringify(got)}`);
+    /* a failing case carries what it expected and got, under its own line */
+    controls.push([why + (ok ? "" : `\n        expected ${want === 0 ? "no problems" : "a problem"}, got ${JSON.stringify(got)}`), ok]);
   }
   /* THE CONTROL ON THE CONTROLS. An implementation that always returns [], and
      one that always returns a problem, must both fail this suite. Without this
      every row above can pass on a stub. */
   const anyPass = cases.some(([, , w]) => w === 0);
   const anyFail = cases.some(([, , w]) => w !== 0);
-  const meta = anyPass && anyFail;
-  console.log(`${meta ? "ok   " : "FAIL "}control: the suite holds both passing and refusing cases, so no stub satisfies it`);
-  if (!meta) failed += 1;
-  console.log(`\nwaiting-room controls: ${cases.length + 1 - failed} passed, ${failed} failed`);
-  process.exit(failed ? 1 : 0);
+  controls.push(["control: the suite holds both passing and refusing cases, so no stub satisfies it", anyPass && anyFail]);
+  process.exit(finish("waiting-room", controls) ? 1 : 0);
 }
 
 const { ledger, files, bytes, sources } = fromTree();

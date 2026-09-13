@@ -49,6 +49,7 @@
 import { execSync } from "node:child_process";
 import { readFileSync, existsSync } from "node:fs";
 import { createHash } from "node:crypto";
+import { finish } from "./lib/selftest.mjs";
 
 const LIST_PATH = "private/s9-names.txt";
 const CORPUS_MANIFEST = "tools/corpus/sources.json";
@@ -709,10 +710,7 @@ function selfTest() {
     scan({ "package-lock.json": "integrity: sha512-x" + common[0] + "q" }, common).length === 0
     && scan(Object.fromEntries(Object.entries({ "package-lock.json": "x" }).filter(([f]) => !MACHINERY.test(f))), common).length === 0);
 
-  const failed = say.filter(([, p]) => !p).length;
-  for (const [n, p] of say) console.log((p ? "ok   " : "FAIL ") + n);
-  console.log(`\ns9 controls: ${say.length - failed} passed, ${failed} failed`);
-  return failed ? 1 : 0;
+  return finish("s9", say) ? 1 : 0;
 }
 
 /* ----------------------------------------------------------------- main -- */

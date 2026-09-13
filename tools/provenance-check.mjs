@@ -18,6 +18,7 @@
  */
 import { readFileSync } from "node:fs";
 import { C } from "../src/engine.js";
+import { finish } from "./lib/selftest.mjs";
 
 const LEDGER = "tools/art/provenance.json";
 const BASELINE = JSON.parse(readFileSync(".claude/gate-baseline.json", "utf8"));
@@ -215,10 +216,7 @@ if (process.argv.includes("--self-test")) {
   ok.push(["a Glowseed row that does not declare its placeholder is refused", judge(noPlaceholder).some((p) => p.includes("must declare its placeholder"))]);
   const closedEmpty = JSON.parse(JSON.stringify(real)); closedEmpty.families.tiles.closed = "2026-08-22"; closedEmpty.families.tiles.checkpoints = []; closedEmpty.families.tiles.originality = null;
   ok.push(["a closed family with an empty checkpoints array or a null originality is refused", judge(closedEmpty).filter((p) => p.includes("closed without")).length === 2]);
-  for (const [name, pass] of ok) console.log((pass ? "ok   " : "FAIL ") + name);
-  const failed = ok.filter(([, p]) => !p).length;
-  console.log(`\nprovenance controls: ${ok.length - failed} passed, ${failed} failed`);
-  process.exit(failed ? 1 : 0);
+  process.exit(finish("provenance", ok) ? 1 : 0);
 }
 
 const ledger = JSON.parse(readFileSync(LEDGER, "utf8"));

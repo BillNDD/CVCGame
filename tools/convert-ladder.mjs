@@ -116,6 +116,7 @@ if (problems.length > 3) console.log(`  ... and ${problems.length - 3} more of t
 /* CSV parsing is imported from the rehearsal so the two tools cannot parse
    the same file two ways. */
 import { csvCells, spanOf } from "./conversion-rehearsal.mjs";
+import { finish } from "./lib/selftest.mjs";
 
 export function lexiconRows(csvText) {
   const lines = csvText.trim().split(/\r?\n/).slice(1);
@@ -280,10 +281,7 @@ async function selfTest() {
   } catch (e) { refused = String(e).includes("disagrees"); }
   T("a planted wrong lexicon row is refused before any byte is written", refused);
 
-  let fails = 0;
-  for (const [n, ok] of say) { console.log((ok ? "ok   " : "FAIL ") + n); if (!ok) fails++; }
-  console.log(`convert-ladder controls: ${say.length - fails} passed, ${fails} failed`);
-  process.exit(fails ? 1 : 0);
+  process.exit(finish("convert-ladder", say) ? 1 : 0);
 }
 if (IS_MAIN && process.argv.includes("--self-test")) await selfTest();
 

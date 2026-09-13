@@ -42,6 +42,7 @@ import { readFileSync, writeFileSync, existsSync, statSync, readdirSync, mkdtemp
 import { spawnSync } from "node:child_process";
 import { join } from "node:path";
 import { tmpdir } from "node:os";
+import { finish } from "./lib/selftest.mjs";
 
 const REPORT = ".census/report.json";
 const BUNDLE = "app/dist";
@@ -427,10 +428,7 @@ function selfTest() {
   ok.push(["judge() reads the real tree when nothing is injected, which is what a real run does",
     judge(good).problems.some((p) => p.includes("changed afterwards"))]);
 
-  for (const [name, pass] of ok) console.log((pass ? "ok   " : "FAIL ") + name);
-  const failed = ok.filter(([, p]) => !p).length;
-  console.log(`\ncensus-report controls: ${ok.length - failed} passed, ${failed} failed`);
-  return failed;
+  return finish("census-report", ok);
 }
 
 if (process.argv.includes("--self-test")) process.exit(selfTest() ? 1 : 0);

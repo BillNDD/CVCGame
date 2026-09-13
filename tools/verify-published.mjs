@@ -24,6 +24,7 @@
  */
 import { readFileSync } from "node:fs";
 import { pathToFileURL } from "node:url";
+import { finish } from "./lib/selftest.mjs";
 
 /* Are these the bytes the gauntlet measured? The evidence must say PASS, must
    carry a hash, and that hash must equal the one recomputed from the files that
@@ -85,10 +86,7 @@ function selfTest() {
     String(judgeLive(live, "deadbeefcafe", "")).includes("could not say which release")]);
   ok.push(["nothing served at all is refused", String(judgeLive(null, "deadbeefcafe", "v1.0.0-beta.27")).includes("reads as a version record")]);
 
-  for (const [name, pass] of ok) console.log((pass ? "ok   " : "FAIL ") + name);
-  const failed = ok.filter(([, p]) => !p).length;
-  console.log(`\nverify-published controls: ${ok.length - failed} passed, ${failed} failed`);
-  return failed;
+  return finish("verify-published", ok);
 }
 
 const RUN_AS_COMMAND = import.meta.url === pathToFileURL(process.argv[1] || "").href;

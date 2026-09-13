@@ -46,6 +46,7 @@
  *      node tools/safety-cover.mjs --self-test */
 import { readFileSync, existsSync } from "node:fs";
 import { DECLARED, NON_TEST_GATES } from "./effect-declarations.mjs";
+import { finish } from "./lib/selftest.mjs";
 
 const BASELINE = JSON.parse(readFileSync(".claude/gate-baseline.json", "utf8"));
 const KINDS = ["unit", "source", "observed"];
@@ -225,21 +226,12 @@ function selfTest() {
       "reading the closed list means a gate removed from the release is a gate this cannot count"],
   ];
 
-  let bad = 0;
-  for (const [name, ok, why] of cases) {
-    console.log(`${ok ? "ok  " : "FAIL"} ${name} — ${why}`);
-    if (!ok) bad++;
-  }
+  const controls = cases.map(([name, ok, why]) => [`${name} — ${why}`, ok]);
   const stubAnswers = planted(() => []).filter(([, ok]) => ok).length;
-  if (stubAnswers === 0) {
-    console.log("ok   control: a detector that always reports nothing answers 0 of the 6 planted cases");
-  } else {
-    console.log(`FAIL control: an always-empty stub still answers ${stubAnswers} planted cases, so those cases test nothing`);
-    bad++;
-  }
-  console.log(`
-safety-cover controls: ${cases.length + 1 - bad} passed, ${bad} failed`);
-  return bad ? 1 : 0;
+  controls.push([stubAnswers === 0
+    ? "control: a detector that always reports nothing answers 0 of the 6 planted cases"
+    : `control: an always-empty stub still answers ${stubAnswers} planted cases, so those cases test nothing`, stubAnswers === 0]);
+  return finish("safety-cover", controls) ? 1 : 0;
 }
 
 if (process.argv.includes("--self-test")) process.exit(selfTest());

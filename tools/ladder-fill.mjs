@@ -34,6 +34,7 @@
         node tools/ladder-fill.mjs --self-test  prove the checks catch their faults */
 import { readFileSync, writeFileSync } from "node:fs";
 import { pathToFileURL } from "node:url";
+import { finish } from "./lib/selftest.mjs";
 
 const LADDER_DIR = "tools/ladder";
 /* THE BAND, and where each number comes from.
@@ -1254,10 +1255,7 @@ function selfTest() {
   controlRuledSounds(say, df);
   controlSoundModel(say, df);
   controlFaults(say, controlChecks(say));
-  const failed = say.filter(([, p]) => !p).length;
-  for (const [n, p] of say) console.log((p ? "ok   " : "FAIL ") + n);
-  console.log(`\nladder-fill controls: ${say.length - failed} passed, ${failed} failed`);
-  return failed;
+  return finish("ladder-fill", say);
 }
 
 /* ------------------------------------------------------------------- main -- */

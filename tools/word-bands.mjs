@@ -35,6 +35,7 @@
  */
 import { readFileSync, readdirSync, writeFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
+import { finish } from "./lib/selftest.mjs";
 
 const CORPUS = "tools/corpus/";
 const REF = "reference/word-quest.jsx";
@@ -106,9 +107,8 @@ function bankWords() {
 }
 
 function selfTest() {
-  const fails = [];
-  let RANC = 0;
-  const T = (n, c) => { RANC += 1; if (!c) fails.push(n); };
+  const say = [];
+  const T = (n, c) => { say.push([n, c]); };
   const counts = new Map([["the", 100], ["cat", 50], ["ox", 3], ["gem", 1]]);
   const bank = ["the", "cat", "ox", "gem", "pigpen"];
   const b = bands(bank, counts);
@@ -138,7 +138,7 @@ function selfTest() {
       return big.common.length === 2 && big.middle.length === 0 && big.unranked.length === 5
         && big.rare.length === 3; })());
 
-  const ran = RANC;
+  const ran = say.length;
   /* THE CONTROL COUNT IS A FLOOR (E6). Without it a control can be deleted and
      the gate still prints "all caught" - the shape open fault C4 is about, and
      the engineering seat found all three of these new gates floorless on
@@ -149,11 +149,7 @@ function selfTest() {
     console.error(`  FAIL only ${ran} controls ran, floor is ${FLOOR} - a control has been removed`);
     return 1;
   }
-  for (const f of fails) console.error("  FAIL " + f);
-  console.log(fails.length === 0
-    ? "word-bands self-test: 10 controls, all caught"
-    : `word-bands self-test: ${fails.length} of 10 controls FAILED`);
-  return fails.length ? 1 : 0;
+  return finish("word-bands", say) ? 1 : 0;
 }
 
 if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {

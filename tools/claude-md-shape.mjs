@@ -28,6 +28,7 @@
 import { readFileSync } from "node:fs";
 import { execSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
+import { finish } from "./lib/selftest.mjs";
 
 export const ALLOWED_HEADINGS = [
   "## Where a new rule goes",
@@ -156,9 +157,8 @@ export function attributions(files) {
 
 function selfTest() {
   const real = readFileSync("CLAUDE.md", "utf8");
-  const fails = [];
-  let RANC = 0;
-  const T = (name, cond) => { RANC += 1; if (!cond) fails.push(name); };
+  const say = [];
+  const T = (name, cond) => { say.push([name, cond]); };
   const hits = (t, needle) => check(t).some((p) => p.includes(needle));
 
   T("the real CLAUDE.md passes - a control set that only goes red proves nothing",
@@ -216,7 +216,7 @@ function selfTest() {
   T("control: the real tree is clean, so the detector is not simply always red",
     A(trackedText()).length === 0);
 
-  const ran = RANC;
+  const ran = say.length;
   /* THE CONTROL COUNT IS A FLOOR (E6). Without it a control can be deleted and
      the gate still prints "all caught" - the shape open fault C4 is about, and
      the engineering seat found all three of these new gates floorless on
@@ -227,11 +227,7 @@ function selfTest() {
     console.error(`  FAIL only ${ran} controls ran, floor is ${FLOOR} - a control has been removed`);
     return 1;
   }
-  for (const f of fails) console.error("  FAIL " + f);
-  console.log(fails.length === 0
-    ? "claude-md-shape self-test: 21 controls, all caught"
-    : `claude-md-shape self-test: ${fails.length} of 21 controls FAILED`);
-  return fails.length ? 1 : 0;
+  return finish("claude-md-shape", say) ? 1 : 0;
 }
 
 /* Every tracked text file, read once. */

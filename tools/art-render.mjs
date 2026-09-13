@@ -29,6 +29,7 @@ import { createHash } from "node:crypto";
 import { readFileSync, writeFileSync, existsSync, mkdtempSync, rmSync } from "node:fs";
 import { join } from "node:path";
 import { tmpdir } from "node:os";
+import { finish } from "./lib/selftest.mjs";
 
 const LEDGER = "tools/art/provenance.json";
 const SOURCE = "tools/art/garden.py";
@@ -90,13 +91,7 @@ function selfTest() {
   /* The control that matters most: this file must be able to fail. A checker
      whose fixtures all pass is not a checker. */
   ok.push(["the empty case is not silently green", judge({ p: sha(a) }, { p: b }).length > 0]);
-  let failed = 0;
-  for (const [name, pass] of ok) {
-    if (!pass) failed += 1;
-    console.log(`${pass ? "ok  " : "FAIL"} ${name}`);
-  }
-  console.log(`\nart-render controls: ${ok.length - failed} passed, ${failed} failed`);
-  process.exit(failed ? 1 : 0);
+  process.exit(finish("art-render", ok) ? 1 : 0);
 }
 
 if (process.argv.includes("--self-test")) selfTest();

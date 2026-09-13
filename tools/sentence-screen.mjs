@@ -30,6 +30,7 @@
  *   node tools/sentence-screen.mjs --self-test  prove the checker catches
  */
 import { SENTENCES, REVEAL_LINES, REVEAL_LINE_TEXT, sentenceWords } from "../src/engine.js";
+import { finish } from "./lib/selftest.mjs";
 
 /* THE SHAPE. Adults, contact verbs, and the child as object.
 
@@ -319,32 +320,24 @@ if (process.argv.includes("--self-test")) {
     ["Tap, tap, tap!", false, "tap without it is innocent drumming and must survive"],
     ["We tap at it.", false, "tap and it apart: the euphemism is the adjacent pair, not the words"],
   ];
-  let failed = 0;
+  const controls = [];
   for (const [text, want, why] of cases) {
-    const got = shape(text) !== null;
-    const ok = got === want;
-    console.log((ok ? "ok   " : "FAIL ") + `${want ? "refused" : "passes "}: ${why}`);
-    if (!ok) failed += 1;
+    controls.push([`${want ? "refused" : "passes "}: ${why}`, (shape(text) !== null) === want]);
   }
   for (const [text, want, why] of phraseCases) {
-    const got = phrases(text) !== null;
-    const ok = got === want;
-    console.log((ok ? "ok   " : "FAIL ") + `${want ? "refused" : "passes "}: ${why}`);
-    if (!ok) failed += 1;
+    controls.push([`${want ? "refused" : "passes "}: ${why}`, (phrases(text) !== null) === want]);
   }
   /* The ledger's own controls, both directions. Without the second, "every
      sentence is screened" passes on an implementation that checks nothing. */
   const real = screen(shippedSentences());
-  console.log((real.length === 0 ? "ok   " : "FAIL ") + `every shipped sentence is screened and clean (${shippedSentences().length} of them)`);
-  if (real.length) { failed += 1; real.slice(0, 5).forEach((p) => console.log("       " + p)); }
+  controls.push([`every shipped sentence is screened and clean (${shippedSentences().length} of them)`
+    + real.slice(0, 5).map((p) => "\n       " + p).join(""), real.length === 0]);
   const planted = screen([...shippedSentences(), { id: "s:mode-planted", text: "The dog can run." }]);
   const caught = planted.some((p) => p.startsWith("never screened by a person: s:mode-planted"));
-  console.log((caught ? "ok   " : "FAIL ") + "control: a brand-new sentence nobody has read is refused");
-  if (!caught) failed += 1;
+  controls.push(["control: a brand-new sentence nobody has read is refused", caught]);
   const stale = screen(shippedSentences().slice(1));
   const sawStale = stale.some((p) => p.startsWith("screened but not shipped:"));
-  console.log((sawStale ? "ok   " : "FAIL ") + "control: a screened sentence the game no longer shows is reported");
-  if (!sawStale) failed += 1;
+  controls.push(["control: a screened sentence the game no longer shows is reported", sawStale]);
   /* The awaiting-seat exemption, both ways. A v3 id IN the read ledger ships
      without a "never screened" refusal; a v3 id NOT in it is refused exactly
      like any stranger. Without the second half, the ledger would be a blanket
@@ -354,26 +347,20 @@ if (process.argv.includes("--self-test")) {
      working; the plant is now an id no text will ever hold. */
   const seated = screen([...shippedSentences(), { id: "s:v3-l100-01", text: "Look how far you got, and look how fast you can read now." }]);
   const seatedOk = !seated.some((p) => p.includes("s:v3-l100-01"));
-  console.log((seatedOk ? "ok   " : "FAIL ") + "control: a v3 id the owner read ships without a never-screened refusal");
-  if (!seatedOk) failed += 1;
+  controls.push(["control: a v3 id the owner read ships without a never-screened refusal", seatedOk]);
   {
     const clearedText = "Dad ran to the hill. My brother did kick me."; // adult..kick..child, inside the adjacency window (re-pointed 2026-08-21 when the window landed)
     const hit = screen([{ id: "s:v3-l44-02", text: clearedText }]);
     const strange = screen([{ id: "s:v3-l00-98", text: clearedText }]);
     const clearedOk = !hit.some((p) => p.startsWith("refused by shape")) && strange.some((p) => p.startsWith("refused by shape"));
-    console.log((clearedOk ? "ok   " : "FAIL ") + "control: a shape clearance clears its own id and no stranger");
-    if (!clearedOk) failed += 1;
+    controls.push(["control: a shape clearance clears its own id and no stranger", clearedOk]);
     const phraseStillRuns = screen([{ id: "s:v3-l44-02", text: "I pat the cat." }]).some((p) => p.includes("banned phrase"));
-    console.log((phraseStillRuns ? "ok   " : "FAIL ") + "control: a clearance clears the SHAPE rule only - the banned phrases still refuse");
-    if (!phraseStillRuns) failed += 1;
+    controls.push(["control: a clearance clears the SHAPE rule only - the banned phrases still refuse", phraseStillRuns]);
   }
   const refused = screen([...shippedSentences(), { id: "s:v3-l00-99", text: "planted" }]);
   const refusedCaught = refused.some((p) => p.startsWith("never screened by a person: s:v3-l00-99"));
-  console.log((refusedCaught ? "ok   " : "FAIL ") + "control: a v3 id OUTSIDE the read ledger is refused - the exemption is a list, not a spelling");
-  if (!refusedCaught) failed += 1;
-  const total = cases.length + phraseCases.length + 7;
-  console.log(`\nsentence-screen controls: ${total - failed} passed, ${failed} failed`);
-  process.exit(failed ? 1 : 0);
+  controls.push(["control: a v3 id OUTSIDE the read ledger is refused - the exemption is a list, not a spelling", refusedCaught]);
+  process.exit(finish("sentence-screen", controls) ? 1 : 0);
 }
 
 if (process.argv.length === 2) {

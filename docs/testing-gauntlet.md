@@ -41,13 +41,16 @@ the owner raises one; a refactor that improves the shape lowers it to what it re
 
 | key | today | what it counts |
 |---|---:|---|
-| `g31_fn_over_10_max` | 93 | functions over complexity 10, all three areas |
+| `g31_fn_over_10_max` | 92 | functions over complexity 10, all three areas (93 at birth) |
 | `g31_fn_over_15_tools_max` | 34 | functions in `tools/*.mjs` over 15 - the ceiling the product code obeys and the tools do not |
 | `g31_fn_over_80_lines_max` | 13 | functions longer than 80 lines |
 | `g31_depth_over_4_max` | 6 | blocks nested deeper than 4 |
-| `g31_dup_regions_max` | 14 | merged duplicated regions |
+| `g31_dup_regions_max` | 11 | merged duplicated regions (14 at birth) |
 | `g31_dead_exports_max` | 101 | exports no other file references (102 at birth; see below) |
 
+The two that have fallen since birth fell in batch 1 (2026-09-13): the self-test scaffold's
+adoption removed three duplicated regions - the summary loop copied between `lock-guard`,
+`verify-published`, `release`, `file-map` and `s9-names` - and took one function under 10.
 A ceiling missing from the baseline is refused outright - `count > undefined` is false, the G27
 lesson. The measurement report those numbers came from counted the reference build's own
 component and the tests as well; this gate's scope is the code the app ships and the tools that

@@ -14,6 +14,7 @@
    Run: node tools/check-governing.mjs */
 import { execSync } from "node:child_process";
 import { readFileSync } from "node:fs";
+import { finish } from "./lib/selftest.mjs";
 
 /* The owned set: each file is the single owner of its facts (E10, and the
    review of 2026-08-02 that pointed every one of them at the word table). */
@@ -262,14 +263,23 @@ if (process.argv.includes("--self-test")) {
   const exempt = own(["docs/effect-map.md"]).length === 0;  // generated: its writer owns it
   const ignoresNonMd = own(["notes.txt"]).length === 0;
   const realDocs = ownership(tracked, (f) => readFileSync(f, "utf8"));
-  const ok = sawMd && sawJson && clean && sawStyle && sawHalf && sawBuried
-    && tookGood && exempt && ignoresNonMd && sawLog && notLog && realDocs.length === 0;
-  if (ok) {
-    console.log("self-test OK: a planted progress file and a stray status json are caught, a document that says only which style guide it follows is caught, half a header is caught, a header buried past the top is caught, a real header and a generated document both pass, a log declares itself and a document does not, and the real tree is accepted");
-    process.exit(0);
-  }
-  console.error("self-test FAILED: " + JSON.stringify({ sawMd, sawJson, clean, sawStyle, sawHalf, sawBuried, tookGood, exempt, ignoresNonMd, sawLog, notLog, realDocs }));
-  process.exit(1);
+  const failed = finish("check-governing", [
+    ["a planted progress file is caught", sawMd],
+    ["a stray status json is caught", sawJson],
+    ["the real tree holds no stray", clean],
+    ["a document that says only which style guide it follows is caught", sawStyle],
+    ["half a header is caught", sawHalf],
+    ["a header buried past the top is caught", sawBuried],
+    ["a real header passes", tookGood],
+    ["a generated document passes: its writer owns it", exempt],
+    ["a file that is not a document is not read for a header", ignoresNonMd],
+    ["a log declares itself", sawLog],
+    ["a document does not read as a log", notLog],
+    ["every real governing document carries its header", realDocs.length === 0],
+  ]);
+  if (failed) process.exit(1);
+  console.log("self-test OK: a planted progress file and a stray status json are caught, a document that says only which style guide it follows is caught, half a header is caught, a header buried past the top is caught, a real header and a generated document both pass, a log declares itself and a document does not, and the real tree is accepted");
+  process.exit(0);
 }
 
 const { governing, strays } = check(tracked);

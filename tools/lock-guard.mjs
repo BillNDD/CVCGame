@@ -21,6 +21,7 @@ import { existsSync, readFileSync, mkdirSync, writeFileSync, rmSync, mkdtempSync
 import { join } from "node:path";
 import { tmpdir } from "node:os";
 import { pathToFileURL } from "node:url";
+import { finish } from "./lib/selftest.mjs";
 
 export const LOCK = ".gauntlet.lock";
 
@@ -68,10 +69,7 @@ function selfTest() {
   ok.push(["only the exact token bypasses, so a stray value cannot open the hole", shouldTakeLock({ WQ_GAUNTLET_LOCK: "HELD" }) === true && shouldTakeLock({ WQ_GAUNTLET_LOCK: "1" }) === true]);
   ok.push(["a missing environment takes the lock", shouldTakeLock(undefined) === true]);
   rmSync(box, { recursive: true, force: true });
-  for (const [name, pass] of ok) console.log((pass ? "ok   " : "FAIL ") + name);
-  const failed = ok.filter(([, p]) => !p).length;
-  console.log(`\nlock-guard controls: ${ok.length - failed} passed, ${failed} failed`);
-  return failed;
+  return finish("lock-guard", ok);
 }
 
 /* THE COMMAND HALF IS GUARDED (2026-08-23). Without this, IMPORTING this file

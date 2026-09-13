@@ -64,6 +64,7 @@ import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import { pathToFileURL } from "node:url";
 import { TRICKY, WORD_SOUND, LEX_BENDS, chunkWord, soundIdFor, soundIdsFor } from "../src/engine.js";
+import { finish } from "./lib/selftest.mjs";
 
 const EXTRACTOR = "tools/extract-engine.mjs";
 const BASELINE = ".claude/gate-baseline.json";
@@ -884,10 +885,7 @@ async function selfTest() {
      never removed, so a suite that has shrunk is a suite somebody trimmed. */
   T(`the control count has not shrunk below ${base.g27_controls}`, say.length + 1 >= base.g27_controls);
 
-  const failed = say.filter(([, p]) => !p).length;
-  for (const [n, p] of say) console.log((p ? "ok   " : "FAIL ") + n);
-  console.log(`\nconversion-rehearsal controls: ${say.length - failed} passed, ${failed} failed`);
-  process.exit(failed ? 1 : 0);
+  process.exit(finish("conversion-rehearsal", say) ? 1 : 0);
 }
 
 /* ------------------------------------------------------------------- main --

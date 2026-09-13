@@ -44,6 +44,7 @@
 import { readdirSync, readFileSync, readlinkSync } from "node:fs";
 import { createServer } from "node:net";
 import { execFileSync } from "node:child_process";
+import { finish } from "./lib/selftest.mjs";
 
 /* Raised when the scan cannot establish the truth about a port. Its own class
    so a caller can never confuse it with "no listeners": that confusion is the
@@ -258,10 +259,7 @@ function selfTest() {
 
       server.close(() => {
         ok.push(["a closed port reports no holder", listenersOn(PORT).length === 0]);
-        for (const [name, pass] of ok) console.log((pass ? "ok   " : "FAIL ") + name);
-        const failed = ok.filter(([, p]) => !p).length;
-        console.log(`\nfree-port controls: ${ok.length - failed} passed, ${failed} failed`);
-        resolve(failed ? 1 : 0);
+        resolve(finish("free-port", ok) ? 1 : 0);
       });
     });
     server.on("error", () => { console.error("FAIL could not open a control port"); resolve(1); });

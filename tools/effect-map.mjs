@@ -23,6 +23,7 @@
 import { readFileSync, writeFileSync, readdirSync, existsSync } from "node:fs";
 
 import { DECLARED, NON_TEST_GATES } from "./effect-declarations.mjs";
+import { finish } from "./lib/selftest.mjs";
 
 const TEST_DIRS = ["tests", "tests/generated"];
 const files = [];
@@ -186,12 +187,18 @@ if (process.argv.includes("--self-test")) {
     escapedQuoteKept: readTestsFrom('describe("reveal", () => {\n  it("The tricky word \\"said\\" is read whole", () => {});\n});\n')
       .map((t) => t.suite + " / " + t.name).join() === 'reveal / The tricky word "said" is read whole',
   };
-  if (Object.values(checks).every(Boolean)) {
-    console.log("self-test OK: an undeclared test file is reported, a declaration for a vanished file is reported, a missed it() site is reported, a stale map is detected, a title with an apostrophe or an escaped quote is read whole, and the real tree is accepted");
-    process.exit(0);
-  }
-  console.error("self-test FAILED: " + JSON.stringify(checks));
-  process.exit(1);
+  const failed = finish("effect-map", [
+    ["an undeclared test file is reported", checks.undeclaredCaught],
+    ["a declaration for a vanished file is reported", checks.orphanCaught],
+    ["a missed it() site is reported", checks.shortfallCaught],
+    ["the real tree is accepted", checks.cleanAccepted],
+    ["a stale map is detected", checks.staleCaught],
+    ["a title with an apostrophe is read whole", checks.apostropheKept],
+    ["a title with an escaped quote is read whole", checks.escapedQuoteKept],
+  ]);
+  if (failed) process.exit(1);
+  console.log("self-test OK: an undeclared test file is reported, a declaration for a vanished file is reported, a missed it() site is reported, a stale map is detected, a title with an apostrophe or an escaped quote is read whole, and the real tree is accepted");
+  process.exit(0);
 }
 
 const text = render();

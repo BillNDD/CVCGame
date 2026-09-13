@@ -23,6 +23,7 @@ import { spawnSync } from "node:child_process";
 import { readFileSync, writeFileSync, mkdtempSync, rmSync } from "node:fs";
 import { join } from "node:path";
 import { tmpdir } from "node:os";
+import { finish } from "./lib/selftest.mjs";
 
 const BASELINE = JSON.parse(readFileSync(".claude/gate-baseline.json", "utf8"));
 const TSC = "node_modules/typescript/bin/tsc";
@@ -54,10 +55,7 @@ function selfTest() {
   rmSync(box, { recursive: true, force: true });
   ok.push(["a call with its arguments shifted one place is refused", planted.errors >= 1]);
   ok.push(["both ceilings are zero - a checker that allows findings is not checking", BASELINE.tsc_app_errors_max === 0 && BASELINE.tsc_tools_errors_max === 0]);
-  for (const [name, pass] of ok) console.log((pass ? "ok   " : "FAIL ") + name);
-  const failed = ok.filter(([, p]) => !p).length;
-  console.log(`\ntype-check controls: ${ok.length - failed} passed, ${failed} failed`);
-  return failed;
+  return finish("type-check", ok);
 }
 
 if (process.argv.includes("--self-test")) process.exit(selfTest() ? 1 : 0);

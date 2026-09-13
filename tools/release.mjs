@@ -35,6 +35,7 @@ import { join } from "node:path";
 import { tmpdir } from "node:os";
 import { pathToFileURL } from "node:url";
 import { payloadHash } from "./payload-hash.mjs";
+import { finish } from "./lib/selftest.mjs";
 
 const git = (...args) => execFileSync("git", args, { encoding: "utf8", stdio: ["ignore", "pipe", "pipe"] }).trim();
 
@@ -172,10 +173,7 @@ function selfTest() {
       ];
     } finally { rmSync(dir, { recursive: true, force: true }); }
   })());
-  for (const [name, pass] of ok) console.log((pass ? "ok   " : "FAIL ") + name);
-  const failed = ok.filter(([, p]) => !p).length;
-  console.log(`\nrelease controls: ${ok.length - failed} passed, ${failed} failed`);
-  return failed;
+  return finish("release", ok);
 }
 
 /* THE COMMAND HALF RUNS ONLY WHEN THIS FILE IS THE COMMAND (2026-08-23).

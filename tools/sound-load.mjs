@@ -33,6 +33,7 @@
 import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
+import { finish } from "./lib/selftest.mjs";
 import { LEVELS, PRE_LEVELS, HEART, TRICKY, chunkWord, soundIdsFor,
          isChunkItem, chunkText, SENTENCES, sentenceWords } from "../src/engine.js";
 
@@ -180,9 +181,8 @@ export function readLedger(path = LEDGER_PATH) {
    gate stays quiet. A detector nobody has seen catch anything is a comment. */
 function selfTest() {
   const ledger = readLedger();
-  const fails = [];
-  let RANC = 0;
-  const expect = (name, cond, got) => { RANC += 1; if (!cond) fails.push(`${name}: ${got}`); };
+  const say = [];
+  const expect = (name, cond, got) => { say.push([cond ? name : `${name}: ${got}`, cond]); };
   const hits = (r, needle) => r.problems.some((p) => p.includes(needle));
 
   /* 1. POSITIVE CONTROL. The shipped ladder and its ledger agree. */
@@ -245,7 +245,7 @@ function selfTest() {
   expect("catches a sentence needing an untaught sound",
     hits(audit({ ledger, sentences: badSentence }), "not yet taught"), "stayed quiet");
 
-  const ran = RANC;
+  const ran = say.length;
   /* THE CONTROL COUNT IS A FLOOR (E6). Without it a control can be deleted and
      the gate still prints "all caught" - the shape open fault C4 is about, and
      the engineering seat found all three of these new gates floorless on
@@ -256,11 +256,7 @@ function selfTest() {
     console.error(`  FAIL only ${ran} controls ran, floor is ${FLOOR} - a control has been removed`);
     return 1;
   }
-  for (const f of fails) console.error("  FAIL " + f);
-  console.log(fails.length === 0
-    ? "sound-load self-test: 12 controls, all caught"
-    : `sound-load self-test: ${fails.length} of 12 controls FAILED`);
-  return fails.length === 0 ? 0 : 1;
+  return finish("sound-load", say) ? 1 : 0;
 }
 
 const invoked = process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1];
