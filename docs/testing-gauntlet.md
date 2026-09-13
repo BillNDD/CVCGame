@@ -41,16 +41,18 @@ the owner raises one; a refactor that improves the shape lowers it to what it re
 
 | key | today | what it counts |
 |---|---:|---|
-| `g31_fn_over_10_max` | 92 | functions over complexity 10, all three areas (93 at birth) |
-| `g31_fn_over_15_tools_max` | 34 | functions in `tools/*.mjs` over 15 - the ceiling the product code obeys and the tools do not |
-| `g31_fn_over_80_lines_max` | 13 | functions longer than 80 lines |
+| `g31_fn_over_10_max` | 90 | functions over complexity 10, all three areas (93 at birth) |
+| `g31_fn_over_15_tools_max` | 33 | functions under `tools/` over 15 - the ceiling the product code obeys and the tools do not (34 at birth) |
+| `g31_fn_over_80_lines_max` | 12 | functions longer than 80 lines (13 at birth) |
 | `g31_depth_over_4_max` | 6 | blocks nested deeper than 4 |
 | `g31_dup_regions_max` | 11 | merged duplicated regions (14 at birth) |
 | `g31_dead_exports_max` | 101 | exports no other file references (102 at birth; see below) |
 
 The two that have fallen since birth fell in batch 1 (2026-09-13): the self-test scaffold's
 adoption removed three duplicated regions - the summary loop copied between `lock-guard`,
-`verify-published`, `release`, `file-map` and `s9-names` - and took one function under 10.
+`verify-published`, `release`, `file-map` and `s9-names` - and took one function under 10; the
+voice-pack gate's rewrite (G13, the same day) took `check` - complexity 154, 240 lines - out of all
+three function counts, so fn_over_10 fell to 90, fn_over_15_tools to 33 and fn_over_80_lines to 12.
 A ceiling missing from the baseline is refused outright - `count > undefined` is false, the G27
 lesson. The measurement report those numbers came from counted the reference build's own
 component and the tests as well; this gate's scope is the code the app ships and the tools that
@@ -1033,7 +1035,11 @@ The shipped default voice pack must cover the engine's whole clip inventory (SPE
 5a): one clip for every bank word and fixed sentence, from `voiceScript()` in the live
 engine, never a hand-kept list.
 
-- `tools/voice-check.mjs` verifies: every inventory id has a manifest entry and a file; no
+- `tools/voice-check.mjs` is the entry: it loads the pack, the lock, the word table and the keeper
+  records, runs the rules in order and carries the controls; the rules themselves live under
+  `tools/voice-check/`, one function per rule (batch 1 of the refactor, 2026-09-13 - `check` had
+  been one function of complexity 154 holding the whole gate): `inventory.mjs`, `recipe.mjs`,
+  `records.mjs`, `sentences.mjs`. Together they verify: every inventory id has a manifest entry and a file; no
   orphan clips; every declared duration is inside 400–8,000 ms (the shortest real clip is
   448 ms, so anything shorter is a truncation, and a WORD clip may not exceed 1,500 ms — the
   longest word in the pack runs 1,340 ms, and a word clip beyond that is carrying something

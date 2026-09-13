@@ -6,36 +6,37 @@
    The pack also carries the RECIPE that produced it, and this gate pins it.
    Audio quality is the one thing no automated check can judge, so what a
    machine can do instead is refuse a pack rendered with settings no person
-   ever heard. Every number below was set by a listener on 2026-07-27, first
-   after clips were found saying "at" for "cat" and "n" for "an", then after a
-   spot-check heard "hip-uh" for "hip" and a slurred sh in "dish".
+   ever heard.
+
+   THE RULES LIVE UNDER tools/voice-check/, one function per rule (batch 1 of
+   the refactor, 2026-09-13: check() was one function of complexity 154 and
+   240 lines, holding the whole gate). This file keeps the orchestration -
+   the order the rules run in and what each is handed - and the controls.
+     inventory.mjs   every clip present, edged, inside its band, on disk; no orphan
+     recipe.mjs      the approved tables against the recipe inside the pack
+     records.mjs     the keeper bytes, the word table and the lock file
+     sentences.mjs   two-letter words carried or pinned; ambiguous sentences settled
+
    Negative control: --self-test removes one word from a copy of the manifest,
    plants an orphan, alters the recipe, trims a word nobody heard, and puts the
    praise sentence containing "read" back to spelling; the detector must report
    all of them. */
-import { readFileSync, existsSync, statSync } from "node:fs";
-import { createHash } from "node:crypto";
+import { readFileSync, existsSync } from "node:fs";
 import { dirname, join } from "node:path";
-import { fileURLToPath } from "node:url";
+import { fileURLToPath, pathToFileURL } from "node:url";
 import { voiceScript } from "../src/engine.js";
-import { derive } from "./gen-voice-lock.mjs";
+import { finish } from "./lib/selftest.mjs";
+import { printProblems, verdict } from "./lib/report.mjs";
+import { checkInventory, checkOrphans } from "./voice-check/inventory.mjs";
+import { approvedTables, checkRecipe, checkGuards } from "./voice-check/recipe.mjs";
+import { checkKeeperBytes, checkCsv, checkLock } from "./voice-check/records.mjs";
+import { checkShortWords, checkAmbiguous } from "./voice-check/sentences.mjs";
 
 const RENDER_SRC = readFileSync("tools/render-voice-pack.py", "utf8");
 const LOCK = existsSync("tools/voice-lock.json")
   ? JSON.parse(readFileSync("tools/voice-lock.json", "utf8")) : null;
 const CSV_TEXT = existsSync("tools/voice-words.csv")
   ? readFileSync("tools/voice-words.csv", "utf8") : null;
-
-/* Order-independent deep equality, so two honest serialisations never differ. */
-const stable = (v) => Array.isArray(v) ? "[" + v.map(stable).join(",") + "]"
-  : v && typeof v === "object" ? "{" + Object.keys(v).sort().map((k) => JSON.stringify(k) + ":" + stable(v[k])).join(",") + "}"
-  : JSON.stringify(v);
-const pyDict = (name) => {
-  const m = RENDER_SRC.match(new RegExp("^" + name + " = \\{([\\s\\S]*?)^\\}", "m"));
-  const out = {};
-  if (m) for (const [, k, v] of m[1].matchAll(/"([^"]+)":\s*"([^"]+)"/g)) out[k] = v;
-  return out;
-};
 
 const DIR = "app/public/voice";
 /* The sentence-take ledger (tools/pending-words/pending-words.json): for every
@@ -52,382 +53,40 @@ const TREATMENTS = existsSync(TREAT_PATH)
   : {};
 /* the marker that tells a human the file is generated is not a word */
 for (const k of Object.keys(TREATMENTS)) if (k.startsWith("_")) delete TREATMENTS[k];
+const KEEPER_BYTES = JSON.parse(readFileSync("tools/keeper-bytes.json", "utf8"));
+for (const k of Object.keys(KEEPER_BYTES)) if (k.startsWith("_")) delete KEEPER_BYTES[k];
 
-function check(manifest, verifyFiles, lock = LOCK, csvText = CSV_TEXT, scriptOverride = null, ledgerOverride = null) {
-  const problems = [];
+/* The rules that need a recipe, in the order they have always run. */
+function recipeRules(r, script, manifest, lock, csvText, ledger) {
+  return [
+    ...checkRecipe(r, approvedTables(TREATMENTS)),
+    ...checkGuards(r, TREATMENTS),
+    ...checkCsv(csvText, script, TREATMENTS, KEEPER_BYTES),
+    ...checkLock(lock, r, KEEPER_BYTES, RENDER_SRC),
+    ...checkShortWords(script, r, KEEPER_BYTES),
+    ...checkAmbiguous(script, manifest, r, ledger, DIR),
+  ];
+}
+
+export function check(manifest, verifyFiles, lock = LOCK, csvText = CSV_TEXT, scriptOverride = null, ledgerOverride = null) {
   /* scriptOverride exists for the self-test alone: since the praise line
      containing "read" was replaced (2026-08-03), no real sentence carries a
      two-pronunciation word, so the replay of that fault must plant one. */
   const script = scriptOverride || voiceScript();
-  for (const clip of script) {
-    const m = manifest[clip.id];
-    if (!m) { problems.push(`missing clip: ${clip.id} ("${clip.text}")`); continue; }
-    /* Every clip declares where its own speech starts and ends, because the
-       sound-out seam is a gap between SOUNDS and not between files - see
-       tools/voice-edges.py, which measures those edges from the audio and
-       re-checks them. A clip with no edges cannot be placed in a sound-out at
-       all, so a pack that forgot to record them fails here rather than
-       playing a rhythm nobody approved. */
-    const edged = typeof m.lead === "number" && typeof m.tail === "number";
-    if (!edged) problems.push(`clip declares no speech edges: ${clip.id}`);
-    /* A SOUND clip is measured on its SPEECH, not its file: the shipped
-       sounds carry between 0 and 422 ms of their own silence, so a file
-       length says almost nothing about the sound inside it.
-
-       The band is 60 to 620 ms, and the two ends have different histories.
-       The ceiling is the one the owner's ear set across twenty-one listening
-       rounds and that tools/soundgate.py enforces on every candidate: a
-       spoken sound longer than 620 ms is a word or a carrier, not a sound.
-       The floor is NOT soundgate's 85 ms, because the two files measure
-       different things. soundgate cuts a candidate at its energy islands;
-       tools/voice-edges.py reads the silence at -45 dB below the clip's own
-       peak, and a plosive burst has a peak so far above its release that this
-       method reads it short. Measured that way the shipped, owner-approved
-       pack runs /k/ 70 ms, /p/ 80 ms, /b/ and /t/ 110 ms - the four unvoiced
-       plosives, and every other sound at 120 ms or more. A number invented in
-       a gate does not outrank a sound a listener has accepted (the same
-       reasoning is recorded at tools/soundgate.py:186), so the floor sits
-       below the shortest approved sound with room to spare. It still catches
-       what it exists to catch: a truncation leaves 20 to 40 ms, and soundgate's
-       85 ms band is untouched at the gate that judges candidates BEFORE they
-       are approved. This band is in every case TIGHTER than the 8000 ms these
-       clips would otherwise share with sentences. */
-    const speech = edged ? m.ms - m.lead - m.tail : m.ms;
-    if (clip.id.startsWith("d:")) {
-      if (typeof m.ms !== "number" || speech < 60 || speech > 620)
-        problems.push(`duration out of range: ${clip.id} at ${speech} ms of speech (limits 60-620)`);
-    } else {
-      /* A WORD clip has a word in it and nothing else. The longest word in the
-         pack runs 1318 ms with its silences, so 1500 is a generous ceiling and
-         a clip beyond it is carrying something that is not the word. This comes
-         from a real defect: an attempt to give six words the prosody of a
-         sentence shipped the whole sentence - "Here is the word cup." - at
-         1640 to 1800 ms, and no other check would have noticed. Sentences and
-         praise keep the wide ceiling. The floor of 400 ms is the one every
-         clip used to share: the shortest real word clip is 448 ms, so anything
-         under 400 is a truncation. Both ends are still measured on the whole
-         FILE, as they always have been - these clips are pinned and listened
-         to as files, and nothing about them has changed. */
-      /* The sentence ceiling was 8,000 ms in the one-breath world; the
-         2026-08-20 cutover shipped the owner's approved paragraphs, the
-         longest 33,264 ms (s:v3-l94-01). The ceiling is that take plus a
-         breath of margin - a clip past it is longer than anything an owner
-         ear has approved and goes back to a person. */
-      const ceiling = clip.id.startsWith("w:") ? 1500 : 34000;
-      if (typeof m.ms !== "number" || m.ms < 400 || m.ms > ceiling)
-        problems.push(`duration out of range: ${clip.id} at ${m.ms} ms (limit ${ceiling})`);
-    }
-    if (verifyFiles) {
-      const p = `${DIR}/${m.file}`;
-      if (!existsSync(p)) { problems.push(`missing file: ${p}`); continue; }
-      const size = statSync(p).size;
-      if (size < 1000) problems.push(`suspiciously small file: ${p}`);
-      /* The manifest must not lie about durations: at 96 kbps CBR the file
-         holds 12.3-12.9 bytes per millisecond (measured across the whole pack).
-         A fabricated ms or a truncated file lands outside 10-15. */
-      const ratio = size / Math.max(m.ms, 1);
-      if (ratio < 10 || ratio > 15) problems.push(`size does not match duration: ${clip.id} (${size} bytes for ${m.ms} ms)`);
-    }
-  }
-  /* The approved recipe, as literal values (rule E4). A pack rendered with
-     anything else has not been listened to. */
-  const APPROVED = {
-    voice: "af_heart", bitrate: 96, word_speed: 0.85, sentence_speed: 1,
-    lead_ms: 80, tail_ms: 300, fade_ms: 10,
-  };
-  /* Three words end with an extra syllable the synthesiser adds after a final
-     plosive, and one has a fricative that runs too long. The listener chose
-     how much to cut from each. A pack that trims a different amount, or trims
-     a word nobody listened to, has not been approved. */
-  let APPROVED_TRIM = { cub: 130, hip: 130, dish: 120 };
-  /* Two blind rounds, 2026-07-27 and 2026-07-28. Four words are spoken with a
-     full stop after them, because a word standing alone gets no sentence shape
-     and the voice never finishes its last consonant. One has what precedes its
-     first burst removed, and one has the low frequencies taken out of its first
-     70 ms so its s cannot read as a z. Each won a numbered, shuffled round in
-     which the build of the day was one of the candidates — and the same
-     treatment was REFUSED for the bank at large, because four of five words
-     already judged perfect came back worse.
-     This is NOT the carrier cut below: a full stop is appended to the word and
-     the whole utterance ships. "hop" left this list for that treatment when a
-     listener failed its full-stop rendering outright. */
-  const APPROVED_PERIOD = new Set(["cup", "had", "jug", "pop", "rub"]);
-  const APPROVED_ONSET = new Set(["ham", "tap"]);
-  const APPROVED_BRIGHT = { sip: 70, jam: 40 };
-  const APPROVED_LEAD_OVERRIDE = { am: 150, an: 150, had: 150 };
-  const APPROVED_WORD_SPEED_OVERRIDE = { hat: 0.82 };
-  const APPROVED_HEAD_TRIM = {};
-  /* Round 13 bank: hen stays energy-gap. Remediation hop moved to ASR+head_trim
-     (packs 2–3). Energy carriers and ASR pins merge from keepers-treatments.json. */
-  const APPROVED_CARRIER = {
-    hen: ["hen, hen.", 150, -30, 40],
-    /* man is NOT one of the 57 keepers. The handoff grades its own man
-       "marginal pass, accept if best of 6"; this clip was heard the same day
-       as "almost perfect" in round 14 and stands. 250 ms was tried in that
-       round and reaches into the carrier - "word man". */
-    man: ["Here is the word, man.", 150, -20, 20],
-  };
-  const APPROVED_ASR = {};
-  for (const [w, t] of Object.entries(TREATMENTS)) {
-    if (Math.abs((t.speed ?? 0.85) - 0.85) > 1e-9) APPROVED_WORD_SPEED_OVERRIDE[w] = t.speed;
-    if ((t.lead_ms ?? 80) !== 80) APPROVED_LEAD_OVERRIDE[w] = t.lead_ms;
-    if (t.period) APPROVED_PERIOD.add(w);
-    if (t.onset_trim) APPROVED_ONSET.add(w);
-    if ((t.bright_head_ms ?? 0) > 0) APPROVED_BRIGHT[w] = t.bright_head_ms;
-    if ((t.head_trim_ms ?? 0) > 0) APPROVED_HEAD_TRIM[w] = t.head_trim_ms;
-    /* and a treatment REMOVES what it does not ask for, so the gate and the
-       renderer read the pins the same way: sip's 70 ms brighten, tap's onset
-       trim and hip's 130 ms trim all predate these keepers. */
-    if (!t.period) APPROVED_PERIOD.delete(w);
-    if (!t.onset_trim) APPROVED_ONSET.delete(w);
-    if (!(t.bright_head_ms ?? 0)) delete APPROVED_BRIGHT[w];
-    if (!(t.head_trim_ms ?? 0)) delete APPROVED_HEAD_TRIM[w];
-    if ((t.trim_ms ?? 0) > 0) APPROVED_TRIM[w] = t.trim_ms;
-    else delete APPROVED_TRIM[w];
-    const mode = (t.carrier_cut_mode || "energy").toLowerCase();
-    const carrier = t.carrier;
-    if (carrier && (mode === "asr" || mode === "asr_pinned") && t.asr_start != null) {
-      APPROVED_ASR[w] = [String(carrier[0]).replaceAll("{w}", w), t.asr_start, t.asr_end];
-    } else if (carrier && mode === "energy") {
-      APPROVED_CARRIER[w] = [
-        String(carrier[0]).replaceAll("{w}", w),
-        carrier[1], carrier[2], carrier[3],
-      ];
-    }
-  }
-  const APPROVED_PERIOD_LIST = [...APPROVED_PERIOD].sort();
-  const APPROVED_ONSET_LIST = [...APPROVED_ONSET].sort();
-  /* Two keepers cannot be reproduced from their pins: sad and sat come from a
-     carrier family ("asr_carrier_1") whose sentence the handoff never records.
-     For those the approved BYTES are the source of truth, pinned here by hash,
-     so a routine re-render cannot silently replace audio a person accepted. */
-  const KEEPER_BYTES = JSON.parse(readFileSync("tools/keeper-bytes.json", "utf8"));
-  for (const k of Object.keys(KEEPER_BYTES)) if (k.startsWith("_")) delete KEEPER_BYTES[k];
-  if (verifyFiles) {
-    for (const [w, want] of Object.entries(KEEPER_BYTES)) {
-      const f = `${DIR}/w-${w}.mp3`;
-      if (!existsSync(f)) { problems.push(`keeper clip missing: ${f}`); continue; }
-      const got = createHash("sha256").update(readFileSync(f)).digest("hex");
-      if (got !== want) problems.push(`keeper ${w} is not the accepted audio (sha ${got.slice(0,12)}, approved ${want.slice(0,12)})`);
-    }
-  }
+  const problems = checkInventory(script, manifest, verifyFiles, DIR);
+  if (verifyFiles) problems.push(...checkKeeperBytes(KEEPER_BYTES, DIR));
   const r = manifest.__recipe;
   if (!r) problems.push("the pack declares no recipe: it cannot be shown to be the approved render");
-  else {
-    for (const [k, want] of Object.entries(APPROVED))
-      if (r[k] !== want) problems.push(`recipe ${k} is ${JSON.stringify(r[k])}, approved is ${JSON.stringify(want)}`);
-    const trim = r.trim_ms || {};
-    for (const [w, want] of Object.entries(APPROVED_TRIM))
-      if (trim[w] !== want) problems.push(`recipe trims ${w} by ${JSON.stringify(trim[w])} ms, approved is ${want} ms`);
-    for (const w of Object.keys(trim))
-      if (!(w in APPROVED_TRIM)) problems.push(`recipe trims a word nobody approved: ${w}`);
-    const list = (name, want, got) => {
-      const have = [...(got || [])].sort().join(" ");
-      if (have !== want.join(" ")) problems.push(`recipe ${name} is [${have}], approved is [${want.join(" ")}]`);
-    };
-    list("period_words", APPROVED_PERIOD_LIST, r.period_words);
-    list("onset_trim_words", APPROVED_ONSET_LIST, r.onset_trim_words);
-    const bright = r.bright_head_ms || {};
-    for (const [w, want] of Object.entries(APPROVED_BRIGHT))
-      if (bright[w] !== want) problems.push(`recipe brightens ${w} over ${JSON.stringify(bright[w])} ms, approved is ${want} ms`);
-    for (const w of Object.keys(bright))
-      if (!(w in APPROVED_BRIGHT)) problems.push(`recipe brightens a word nobody approved: ${w}`);
-    const leadOv = r.lead_override || {};
-    for (const [w, want] of Object.entries(APPROVED_LEAD_OVERRIDE))
-      if (leadOv[w] !== want) problems.push(`recipe lead_override ${w} is ${JSON.stringify(leadOv[w])}, approved is ${want}`);
-    for (const w of Object.keys(leadOv))
-      if (!(w in APPROVED_LEAD_OVERRIDE)) problems.push(`recipe lead_override for a word nobody approved: ${w}`);
-    const speedOv = r.word_speed_override || {};
-    for (const [w, want] of Object.entries(APPROVED_WORD_SPEED_OVERRIDE))
-      if (speedOv[w] !== want) problems.push(`recipe word_speed_override ${w} is ${JSON.stringify(speedOv[w])}, approved is ${want}`);
-    for (const w of Object.keys(speedOv))
-      if (!(w in APPROVED_WORD_SPEED_OVERRIDE)) problems.push(`recipe word_speed_override for a word nobody approved: ${w}`);
-    const headTrim = r.head_trim_ms || {};
-    for (const [w, want] of Object.entries(APPROVED_HEAD_TRIM))
-      if (headTrim[w] !== want) problems.push(`recipe head_trim ${w} is ${JSON.stringify(headTrim[w])}, approved is ${want}`);
-    for (const w of Object.keys(headTrim))
-      if (!(w in APPROVED_HEAD_TRIM)) problems.push(`recipe head_trim for a word nobody approved: ${w}`);
-    const carrier = r.carrier_cut || {};
-    for (const [w, want] of Object.entries(APPROVED_CARRIER)) {
-      const got = carrier[w];
-      if (JSON.stringify(got) !== JSON.stringify(want))
-        problems.push(`recipe cuts ${w} from ${JSON.stringify(got)}, approved is ${JSON.stringify(want)}`);
-    }
-    for (const w of Object.keys(carrier))
-      if (!(w in APPROVED_CARRIER)) problems.push(`recipe cuts a word out of a carrier nobody approved: ${w}`);
-    const asr = r.asr_pinned || {};
-    for (const [w, want] of Object.entries(APPROVED_ASR)) {
-      if (JSON.stringify(asr[w]) !== JSON.stringify(want))
-        problems.push(`recipe asr_pinned ${w} is ${JSON.stringify(asr[w])}, approved is ${JSON.stringify(want)}`);
-    }
-    for (const w of Object.keys(asr))
-      if (!(w in APPROVED_ASR)) problems.push(`recipe asr_pinned a word nobody approved: ${w}`);
-    /* The guard is part of the cut. [asr_start, asr_end] alone reproduces
-       nothing - learned by sweeping 31 accepted clips to byte identity - so a
-       pack that declares different guards, or none, was not rendered from the
-       accepted recipe. */
-    const guards = r.asr_guard_ms || {};
-    for (const [w, t] of Object.entries(TREATMENTS)) {
-      if (t.asr_guard_lead_ms == null) continue;
-      const want = [t.asr_guard_lead_ms, t.asr_guard_tail_ms];
-      if (JSON.stringify(guards[w]) !== JSON.stringify(want))
-        problems.push(`recipe asr guard for ${w} is ${JSON.stringify(guards[w])}, approved is ${JSON.stringify(want)}`);
-    }
-    for (const w of Object.keys(guards))
-      if (!(TREATMENTS[w] && TREATMENTS[w].asr_guard_lead_ms != null))
-        problems.push(`recipe declares an asr guard nobody approved: ${w}`);
-    /* The lock file (tools/voice-lock.json): the ONE document that states
-       every knob behind every locked word. It is only trustworthy if it
-       cannot drift from the pack, so every gated section is compared here. */
-    /* The word table (tools/voice-words.csv): the permanent repository a
-       person edits. Everything else derives from it, so the gate re-derives
-       and compares - a hand edit that skipped regeneration, a missing row, or
-       an unlocked word quietly tuned all fail here. */
-    if (!csvText) problems.push("tools/voice-words.csv is missing: the repository of record is gone");
-    else {
-      const d = derive(csvText);
-      problems.push(...d.problems);
-      const bank = new Set(script.filter((c) => c.id.startsWith("w:")).map((c) => c.id.slice(2)));
-      const rowWords = new Set(d.rows.map((x) => x.word));
-      for (const w of bank) if (!rowWords.has(w)) problems.push(`voice-words.csv has no row for bank word: ${w}`);
-      for (const w of rowWords) if (!bank.has(w)) problems.push(`voice-words.csv has a row for a word not in the bank: ${w}`);
-      if (stable(d.treatments) !== stable(TREATMENTS))
-        problems.push("keepers-treatments.json disagrees with voice-words.csv - regenerate: node tools/gen-voice-lock.mjs");
-      if (stable(d.pins) !== stable(KEEPER_BYTES))
-        problems.push("keeper-bytes.json disagrees with voice-words.csv - regenerate: node tools/gen-voice-lock.mjs");
-    }
-    if (!lock) problems.push("tools/voice-lock.json is missing: the locked words are not captured");
-    else {
-      if (stable(lock.recipe) !== stable(r))
-        problems.push("voice-lock recipe disagrees with the shipped pack - regenerate: node tools/gen-voice-lock.mjs");
-      if (stable(lock.byte_pins || {}) !== stable(KEEPER_BYTES))
-        problems.push("voice-lock byte pins disagree with tools/keeper-bytes.json");
-      const ph = lock.phoneme_strings || {};
-      if (stable(ph.words || {}) !== stable(pyDict("PHONEMES")))
-        problems.push("voice-lock phoneme strings disagree with the renderer");
-      if (stable(ph.sentences || {}) !== stable(pyDict("SENTENCE_PHONEMES")))
-        problems.push("voice-lock sentence phonemes disagree with the renderer");
-      const q = RENDER_SRC.match(/enc\.set_quality\((\d+)\)/);
-      if (!lock.encoder || lock.encoder.quality !== Number(q && q[1]))
-        problems.push("voice-lock encoder settings disagree with the renderer");
-      const treatedWords = new Set([
-        ...(r.phoneme_words || []), ...(r.period_words || []), ...(r.onset_trim_words || []),
-        ...Object.keys(r.trim_ms || {}), ...Object.keys(r.bright_head_ms || {}),
-        ...Object.keys(r.lead_override || {}), ...Object.keys(r.word_speed_override || {}),
-        ...Object.keys(r.head_trim_ms || {}), ...Object.keys(r.carrier_cut || {}),
-        ...Object.keys(r.asr_pinned || {}), ...Object.keys(KEEPER_BYTES),
-      ]);
-      for (const w of treatedWords)
-        if (!(lock.words && lock.words[w])) problems.push(`voice-lock is missing word: ${w}`);
-    }
-    /* Two-letter words are read wrongly from spelling. Every one of them must
-       be rendered from an approved pronunciation, cut out of an approved
-       carrier sentence (which never reads the bare spelling), or byte-pinned
-       to audio a person heard - a pinned clip is never re-rendered, and the
-       renderer hard-stops if it goes missing. The uplift pass (2026-08-07)
-       moved all twelve to carrier cuts or pins; a future two-letter word
-       with none of the three still trips this. */
-    const short = script.filter((c) => c.id.startsWith("w:") && c.id.length === 4).map((c) => c.id.slice(2));
-    const covered = new Set([...(r.phoneme_words || []),
-      ...Object.keys(r.carrier_cut || {}), ...Object.keys(r.asr_pinned || {}),
-      ...Object.keys(KEEPER_BYTES)]);
-    for (const w of short) if (!covered.has(w)) problems.push(`two-letter word rendered from spelling: ${w}`);
-    /* A sentence can teach the wrong sound too. "You read that word all by
-       yourself!" was spoken with "read" in the present tense, to a child who
-       had just read the word. Any sentence containing a word whose spelling
-       carries two pronunciations must be given as sounds, never left to the
-       synthesiser. The list of such words is read from the sentences
-       themselves, so a new sentence is covered from the moment it is added. */
-    const AMBIGUOUS = ["read", "live", "wind", "tear", "lead", "bow", "row", "close"];
-    /* Three proofs settle an ambiguous sentence, and a sentence with none of
-       them is refused. (1) It was rendered from explicit phonemes
-       (phoneme_sentences - how soundout-1 shipped). (2) The take ledger
-       records a `say` respelling: the voice was given the disambiguated text,
-       the child sees the true text, and the shipped bytes hash to what the
-       listener graded - the SAY/SHOW split of 2026-08-19, when the owner
-       refused three takes that said /riːd/ for a past-tense "read". The legal
-       respellings are typed here from that renderer's own table; a say that
-       leaves the ambiguous word unchanged proves nothing and is refused.
-       (3) The take is byte-pinned below: rendered before the say mechanism
-       existed, graded by the owner in a round held the same day he was
-       refusing wrong "read"s, and never re-rendered - the exact shape of
-       KEEPER_BYTES for words. Bytes that drift from a pin are refused. */
-    const HOMOGRAPH_SAY = { read: ["red", "reed"], live: ["liv", "lyve"], wind: ["wynd", "wind"],
-      tear: ["tair", "teer"], lead: ["led", "leed"], bow: ["boh", "bau"],
-      row: ["roh", "rau"], close: ["kloce", "kloze"] };
-    const HEARD_AMBIGUOUS = {
-      /* Present-tense "read", sentence batch 7, owner: perfect (2026-08-19).
-         The pin binds BYTES AND TEXT: the audio is /ri\u02D0d/, so if the shown
-         sentence ever drifts to a past-tense frame the same bytes become the
-         wrong reading - the axis the 2026-08-20 honesty audit named. */
-      "s:v3-l100-01": { sha: "d16b0dcd700f53f49f5f32a5a3b813984a2f5c2fa40211c0b572d22fbb6d77b2",
-        text: "Look how far you got, and look how fast you can read now." },
-    };
-    const bare = (w) => w.replace(/[.,!?:;'"]/g, "").toLowerCase();
-    /* Hardened by the 2026-08-20 honesty audit, which found two ways a say
-       could settle while proving nothing. The renderer's table lists "wind"
-       as its own legal respelling, so an identity say passed; now the say
-       token must DIFFER at every ambiguous position as well as being a
-       declared target. And a hyphenated token ("wind-up") tripped the
-       detector but slipped the whitespace tokenizer, settling vacuously;
-       both sides now split on hyphens too, keeping alignment. The row's own
-       round verdict is honoured: a take the listener refused settles
-       nothing, however right its say reads. */
-    const sayTokens = (s) => s.split(/[\s\u2013\u2014-]+/).filter(Boolean);
-    const saySettles = (row, text) => {
-      if (!row || typeof row.say !== "string") return false;
-      const v = String(row.verdict || "");
-      if (v !== "perfect" && !v.startsWith("accept")) return false;
-      const tw = sayTokens(text), sw = sayTokens(row.say);
-      if (tw.length !== sw.length) return false;
-      for (let i = 0; i < tw.length; i += 1) {
-        const w = bare(tw[i]);
-        if (!AMBIGUOUS.includes(w)) continue;
-        const s2 = bare(sw[i]);
-        if (s2 === w || !(HOMOGRAPH_SAY[w] || []).includes(s2)) return false;
-      }
-      return true;
-    };
-    const fileSha = (file) => {
-      const path = `${DIR}/${file}`;
-      return existsSync(path) ? createHash("sha256").update(readFileSync(path)).digest("hex") : null;
-    };
-    const ledger = ledgerOverride || SAY_LEDGER;
-    const spoken = new Set(r.phoneme_sentences || []);
-    for (const c of script) {
-      if (c.id.startsWith("w:")) continue;
-      const word = AMBIGUOUS.find((a) => new RegExp(`\\b${a}\\b`, "i").test(c.text));
-      if (!word) continue;
-      if (spoken.has(c.id)) continue;
-      if (HEARD_AMBIGUOUS[c.id]) {
-        const pin = HEARD_AMBIGUOUS[c.id];
-        const got = manifest[c.id] && fileSha(manifest[c.id].file);
-        if (got !== pin.sha)
-          problems.push(`pinned ambiguous take changed bytes: ${c.id} - the pin is the take the owner heard`);
-        if (c.text !== pin.text)
-          problems.push(`pinned ambiguous take's text drifted: ${c.id} - the audio no longer matches the sentence shown`);
-        continue;
-      }
-      const row = ledger[c.id];
-      if (saySettles(row, c.text)) {
-        const got = manifest[c.id] && fileSha(manifest[c.id].file);
-        if (got !== row.sha256)
-          problems.push(`ambiguous take's shipped bytes are not the bytes the listener heard: ${c.id}`);
-        continue;
-      }
-      problems.push(`sentence left to spelling though "${word}" has two pronunciations: ${c.id} ("${c.text}")`);
-    }
-  }
-
-  const ids = new Set(script.map((c) => c.id));
-  for (const id of Object.keys(manifest))
-    if (id !== "__recipe" && !ids.has(id)) problems.push(`orphan clip: ${id}`);
+  else problems.push(...recipeRules(r, script, manifest, lock, csvText, ledgerOverride || SAY_LEDGER));
+  problems.push(...checkOrphans(script, manifest));
   return { required: script.length, shipped: Object.keys(manifest).length - 1, problems };
 }
 
-const manifest = JSON.parse(readFileSync(`${DIR}/manifest.json`, "utf8"));
+/* The command half is guarded, so an import gets check() and runs nothing. */
+const RUN_AS_COMMAND = import.meta.url === pathToFileURL(process.argv[1] || "").href;
+const manifest = RUN_AS_COMMAND ? JSON.parse(readFileSync(`${DIR}/manifest.json`, "utf8")) : null;
 
-if (process.argv.includes("--self-test")) {
+if (RUN_AS_COMMAND && process.argv.includes("--self-test")) {
   const corrupted = { ...manifest, "x:orphan": { file: "x-orphan.mp3", ms: 900 } };
   delete corrupted["w:cat"];
   corrupted["w:sun"] = { ...manifest["w:sun"], ms: manifest["w:sun"].ms * 2 }; // a manifest that lies
@@ -591,15 +250,43 @@ if (process.argv.includes("--self-test")) {
   const noRecipe = { ...manifest };
   delete noRecipe.__recipe;
   const sawNoRecipe = check(noRecipe, false).problems.some((p) => p.startsWith("the pack declares no recipe"));
-  if (sawMissing && sawOrphan && sawLie && sawRecipe && sawSpelling && sawNoRecipe && sawTrim && sawReed && sawSayGap && sawSayDrift && sawSayIdent && sawSayHyphen && sawSayVeto && sawPinDrift && sawPinText && sawRound9 && sawCarrier && sawAsr && sawGuard && sawLock && sawCsv && sawWordy && sentenceOk && fatSound && thinSound && shortSoundOk && sawNoEdges) {
-    console.log("self-test OK: a removed word clip, a planted orphan, a lying duration, a drifted recipe, a two-letter word left to spelling, a pack with no recipe at all, a trim nobody heard, a sentence with 'read' left to spelling, a say row that settles nothing, an identity say behind the renderer's own table, a hyphenated homograph the tokenizer slipped, a say row the listener refused, an ambiguous take whose bytes are not the graded bytes, a pinned ambiguous take whose bytes or text drifted, a listening round's result quietly changed, an approved carrier/ASR cut re-cut at values nobody heard, a guard changed or granted with no round behind it, a lock file that drifts or loses a word, a word-table row lost or an unlocked word quietly tuned, a word clip long enough to hold a sentence, a sound clip long enough to hold a word or short enough to be a truncation, and a pack that forgot to record its speech edges are caught");
-    process.exit(0);
-  }
-  console.error("self-test FAILED: " + JSON.stringify({ sawMissing, sawOrphan, sawLie, sawRecipe, sawSpelling, sawNoRecipe, sawTrim, sawReed, sawSayGap, sawSayDrift, sawSayIdent, sawSayHyphen, sawSayVeto, sawPinDrift, sawPinText, sawRound9, sawCarrier, sawAsr, sawGuard, sawLock, sawCsv, sawWordy, sentenceOk, fatSound, thinSound, shortSoundOk, sawNoEdges }));
-  process.exit(1);
+  const failed = finish("voice-check", [
+    ["a removed word clip is caught", sawMissing],
+    ["a planted orphan is caught", sawOrphan],
+    ["a lying duration is caught", sawLie],
+    ["a drifted recipe is caught", sawRecipe],
+    ["a two-letter word left to spelling is caught", sawSpelling],
+    ["a pack with no recipe at all is caught", sawNoRecipe],
+    ["a trim nobody heard is caught", sawTrim],
+    ["a sentence with 'read' left to spelling is caught", sawReed],
+    ["a say row that settles nothing is caught", sawSayGap],
+    ["an identity say behind the renderer's own table is caught", sawSayIdent],
+    ["a hyphenated homograph the tokenizer slipped is caught", sawSayHyphen],
+    ["a say row the listener refused is caught", sawSayVeto],
+    ["an ambiguous take whose bytes are not the graded bytes is caught", sawSayDrift],
+    ["a pinned ambiguous take whose bytes drifted is caught", sawPinDrift],
+    ["a pinned ambiguous take whose text drifted is caught", sawPinText],
+    ["a listening round's result quietly changed is caught", sawRound9],
+    ["an approved carrier re-cut at values nobody heard is caught, and a carrier nobody approved", sawCarrier],
+    ["an approved ASR pin re-cut at values nobody heard is caught", sawAsr],
+    ["a guard changed or granted with no round behind it is caught", sawGuard],
+    ["a lock file that drifts or loses a word is caught", sawLock],
+    ["a word-table row lost or an unlocked word quietly tuned is caught", sawCsv],
+    ["a word clip long enough to hold a sentence is caught", sawWordy],
+    ["control: a sentence may be long", sentenceOk],
+    ["a sound clip long enough to hold a word is caught", fatSound],
+    ["a sound clip short enough to be a truncation is caught", thinSound],
+    ["control: a real approved sound shorter than any word passes, measured on its speech", shortSoundOk],
+    ["a pack that forgot to record its speech edges is caught", sawNoEdges],
+  ]);
+  if (failed) process.exit(1);
+  console.log("self-test OK: a removed word clip, a planted orphan, a lying duration, a drifted recipe, a two-letter word left to spelling, a pack with no recipe at all, a trim nobody heard, a sentence with 'read' left to spelling, a say row that settles nothing, an identity say behind the renderer's own table, a hyphenated homograph the tokenizer slipped, a say row the listener refused, an ambiguous take whose bytes are not the graded bytes, a pinned ambiguous take whose bytes or text drifted, a listening round's result quietly changed, an approved carrier/ASR cut re-cut at values nobody heard, a guard changed or granted with no round behind it, a lock file that drifts or loses a word, a word-table row lost or an unlocked word quietly tuned, a word clip long enough to hold a sentence, a sound clip long enough to hold a word or short enough to be a truncation, and a pack that forgot to record its speech edges are caught");
+  process.exit(0);
 }
 
-const { required, shipped, problems } = check(manifest, true);
-console.log(`Voice pack: ${required} clips required, ${shipped} shipped, ${problems.length} problems`);
-problems.forEach((p) => console.error("  PROBLEM: " + p));
-process.exit(problems.length ? 1 : 0);
+if (RUN_AS_COMMAND) {
+  const { required, shipped, problems } = check(manifest, true);
+  console.log(verdict("Voice pack", `${required} clips required, ${shipped} shipped`, problems.length));
+  printProblems(problems, { print: console.error });
+  process.exit(problems.length ? 1 : 0);
+}
