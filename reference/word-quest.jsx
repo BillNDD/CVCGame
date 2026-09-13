@@ -872,268 +872,8 @@ function gardenState(state) {
   return Math.floor((level - 1) / 10);
 }
 
-/* @engine storage */
-/* storage: the in-memory fallback and the load and save of the state. */
-/* ---------- storage ---------- */
-const mem = {};
-async function loadState() {
-  try {
-    if (typeof window !== "undefined" && window.storage) {
-      const r = await window.storage.get(STORE_KEY);
-      if (r && r.value) {
-        try { return JSON.parse(r.value); }
-        catch (e) {
-          // F1 — keep the damaged blob for recovery instead of overwriting it
-          try { await window.storage.set(STORE_KEY + ":corrupt", r.value); } catch (e2) {}
-          return { __corrupt: true };
-        }
-      }
-    }
-  } catch (e) {}
-  try { return mem[STORE_KEY] ? JSON.parse(mem[STORE_KEY]) : null; } catch (e) { return null; }
-}
-async function saveState(s) {
-  const b = JSON.stringify(s); mem[STORE_KEY] = b;
-  try { if (typeof window !== "undefined" && window.storage) { await window.storage.set(STORE_KEY, b); return true; } } catch (e) {}
-  return false;
-}
-/* @engine sounds */
-/* sounds: the save healer and the migrations, speech, the feedback text, the
-   sound tables and the sound-out, the heart words, the pre ladder, the bank,
-   the sentences and reveal plans, and the chunk roster with its seats. One
-   section, because migrate and recoverPreLevel read PRE_LEVELS and migrateV7
-   calls creditSeatedChunks, which uses CHUNK_ROSTER and chunkSeat: every line
-   between the healer and chunkSeat shares a module, and no body may change
-   for a cut. Moving recoverPreLevel and creditSeatedChunks alone frees nothing;
-   moving the storage block, banner to newState, below chunkSeat does. Owner's call. */
-/* F7 — guarantee the document shape. Valid JSON is not a valid save. */
-/* One healer for any box dictionary: words and pre-items carry the same
-   shape, so they take the same repairs. */
-function healBoxes(dict) {
-  for (const [w, ws] of Object.entries(dict)) {
-    if (!ws || typeof ws !== "object" || typeof ws.box !== "number" || !isFinite(ws.box)) { delete dict[w]; continue; }
-    ws.box = Math.min(5, Math.max(0, Math.round(ws.box)));
-    for (const k of ["attempts", "correct", "close", "wrong", "dueAt", "lastSession"])
-      if (typeof ws[k] !== "number" || !isFinite(ws[k])) ws[k] = 0;
-  }
-}
-function healWords(s) {
-  if (!s.words || typeof s.words !== "object" || Array.isArray(s.words)) s.words = {};
-  healBoxes(s.words);
-  if (!s.pre || typeof s.pre !== "object" || Array.isArray(s.pre)) s.pre = {};
-  /* THE GROWN-UP'S QUEUE (fault AU, owner-ruled 2026-08-31). Healed into
-     existence rather than migrated, the same way s.pre was: a migrateVN exists
-     to re-interpret a stored meaning that CHANGED, and a field defaulting to
-     empty changes none. A bump would also break two pinned version assertions
-     for no gain. The filter is load-bearing - a stale entry naming a word that
-     has left the bank would reach the session screen with no level, no clip and
-     no tiles - and the cap is the store's own bound, separate from the lane's. */
-  if (!Array.isArray(s.bringForward)) s.bringForward = [];
-  s.bringForward = s.bringForward.filter((w) => typeof w === "string" && WORD_LEVEL[w] !== undefined).slice(0, 10);
-  healBoxes(s.pre);
-  // a hostile or negative preLevel reads as absent; migrate recovers it
-  if (typeof s.preLevel !== "number" || !isFinite(s.preLevel) || s.preLevel < 0) delete s.preLevel;
-  else s.preLevel = Math.round(s.preLevel);
-}
-function healLog(s) {
-  if (!Array.isArray(s.log)) s.log = [];
-  // repair the rows too — a hostile log row must not crash migrate or the export
-  s.log = s.log.filter(r => r && typeof r === "object" && !Array.isArray(r));
-  for (const r of s.log) {
-    r.items = Array.isArray(r.items) ? r.items.filter(i => i && typeof i === "object") : [];
-    if (typeof r.level !== "number" || !isFinite(r.level)) r.level = 0;
-  }
-}
-function healSettings(s) {
-  if (!s.settings || typeof s.settings !== "object" || Array.isArray(s.settings)) s.settings = {};
-  const d = newState().settings;
-  for (const k of Object.keys(d)) if (s.settings[k] === undefined) s.settings[k] = d[k];
-  /* Types, not just presence. A hostile document once carried a NUMBER as the
-     child's name; it survived migrate and crashed the settings screen on the
-     first .trim(). Every setting is healed to the type the app expects. */
-  if (typeof s.settings.childName !== "string") s.settings.childName = String(s.settings.childName ?? "").slice(0, 20);
-  if (typeof s.settings.sound !== "boolean") s.settings.sound = d.sound;
-  if (typeof s.settings.lang !== "string" || !s.settings.lang) s.settings.lang = d.lang;
-}
-/* Both streaks take the same repair: absent, hostile or negative reads as
-   zero, anything real rounds and caps at two. */
-function healStreak(s, key) {
-  const v = s[key];
-  if (typeof v !== "number" || !isFinite(v) || v < 0) s[key] = 0;
-  else s[key] = Math.min(2, Math.round(v));
-}
-function heal(s) {
-  if (!s || typeof s !== "object") s = {};
-  healWords(s); healLog(s); healSettings(s);
-  if (typeof s.sessionsCompleted !== "number" || !isFinite(s.sessionsCompleted) || s.sessionsCompleted < 0) s.sessionsCompleted = 0;
-  healStreak(s, "perfectStreak"); healStreak(s, "prePerfectStreak");
-  // a non-numeric level reads as absent; a fractional one is rounded — migrate clamps the range
-  if (typeof s.level !== "number" || !isFinite(s.level)) delete s.level; else s.level = Math.round(s.level);
-  // a version that is not a number reads as absent — a hostile value must not crash the migration check
-  if (typeof s.version !== "number" || !isFinite(s.version)) delete s.version;
-  return s;
-}
-
-/* Save migrations, one block per version, each idempotent.
-   v3: version-2 saves shift up one level (the VC level inserted at 1).
-   v4: the 10-and-10 curriculum (owner-approved 2026-08-15) re-cut the levels,
-   so a stored index points at a different place than the one the child earned.
-   The owner's ruling for this exact case — decision 5 of the curriculum page —
-   was "compute the new level from the child's own words", and the boxes are
-   those words: the new level is the FIRST whose words are not yet secure,
-   judged by the same isSecure rule promotion uses. The boxes carry only one
-   of promotion's two paths, so the recompute is FLOORED by the stored level's
-   mapped position (the block below says why); a child secure everywhere lands
-   on the last level; a fresh save walks to Level 1 untouched. Log rows keep
-   their old level numbers: the log is a record of what happened, and the
-   number it recorded was true when it was written. */
-/* Save migrations, one function per version so each stays under the G6
-   complexity ceiling and reads alone. migrate() is the driver. */
-function migrateV3(s) {
-  if (!s.version || s.version < 3) {
-    s.level = (s.level || 1) + 1;
-    (s.log || []).forEach(r => { r.level += 1; });
-    s.version = 3;
-  }
-}
-function migrateV4(s) {
-  if (s.version >= 4) return;
-  let lvl = LEVELS.length;
-  for (let i = 0; i < LEVELS.length; i++) {
-    const ws = LEVELS[i].words;
-    if (!isSecure(ws.filter(w => s.words[w] && s.words[w].box >= 3).length, ws.length)) { lvl = i + 1; break; }
-  }
-  /* THE FLOOR: promotion has TWO paths — boxes, or two perfect sessions —
-     and a parent can set a level by hand. The box recompute alone sent
-     both kinds back to 1 (build reviewer, 2026-08-15). A migration never
-     seats a child below a level they held: the stored level maps to where
-     its OLD stage now begins (old 3, short i/o, at new 6; old 4 at 11;
-     old 5-11 whole as 14-20) and the child keeps whichever is higher. */
-  const OLD_TO_NEW = [1, 2, 6, 11, 14, 15, 16, 17, 18, 19, 20];
-  const stored = Math.min(Math.max(1, Math.round(s.level || 1)), OLD_TO_NEW.length);
-  s.level = Math.max(lvl, OLD_TO_NEW[stored - 1]);
-  /* open-faults J2: settings.mode carried "mic" in every save laid down
-     before the microphone was removed (owner safety ruling, 2026-08-11).
-     Nothing reads it; v4 is the door it leaves through. */
-  if (s.settings && s.settings.mode !== undefined) delete s.settings.mode;
-  s.version = 4;
-}
-function migrateV5(s) {
-  if (s.version >= 5) return;
-  /* v5, the pre-level ladder (owner-ruled 2026-08-15): a fresh save starts
-     at Pre 1. Reading history is ANY of: a graded word, a completed session,
-     a kept log row, or a level someone set above the start — each one proves
-     the ladder's skill or a grown-up's intent, and none of them may be
-     demoted into letter drills (the auditor asked what counts; this is the
-     answer, and the tests pin each arm). */
-  if (typeof s.preLevel !== "number")
-    s.preLevel = (Object.keys(s.words).length > 0 || s.sessionsCompleted > 0
-      || (s.log || []).length > 0 || (s.level || 1) > 1) ? 0 : 1;
-  s.version = 5;
-}
-/* A corrupted preLevel on an already-v5 save fails TOWARD teaching, never
-   past it (the auditor proved the old clamp graduated a mid-ladder child):
-   ladder evidence in the boxes lands at the first unsecure rung — the same
-   walk the v4 level recompute does — and only a save with no ladder marks
-   falls back to the history rule. */
-function recoverPreLevel(s) {
-  /* READER EVIDENCE FIRST (the auditor's last find): a child moved to words
-     by the grown-up's jump keeps their old ladder marks forever, and marks
-     checked first would demote that reader to sound drills. Words, log rows
-     and a raised level are things the ladder never writes, so they are the
-     reader's proof; sessionsCompleted is NOT among them, because the ladder
-     rides the same session clock. */
-  if (Object.keys(s.words).length > 0 || (s.log || []).length > 0 || (s.level || 1) > 1) return 0;
-  if (Object.keys(s.pre).length > 0) {
-    for (const p of PRE_LEVELS) {
-      const solid = p.items.filter((k) => s.pre[k] && s.pre[k].box >= 3).length;
-      if (!isSecure(solid, p.items.length)) return p.n;
-    }
-    return 0;   // every rung secure: a finished ladder is the one safe graduation
-  }
-  return s.sessionsCompleted > 0 ? 0 : 1;
-}
-/* v6, the 2026-08-20 cutover: the 21-level world became the 100-level
-   ladder, organised by SOUND rather than difficulty, so an old level number
-   has no faithful address in the new one - the old levels' words scatter
-   across the whole ladder (measured: old 5 spans new 2-77). The migration is
-   therefore the repo's own philosophy, twice over: the stored number stands
-   as a FLOOR (never seat a child below ground they held - v4's rule), and
-   the box recompute against the NEW ladder lifts a real reader to the first
-   rung their own graded words leave unsecure - the same walk v4's recompute
-   and the pre-ladder recovery both use. RULED 2026-08-21 on the cutover
-   morning page: "Recompute the seat from the child's own graded words."
-   The stored-number floor is gone - the first draft kept it, and the audit
-   measured the recompute inert behind it (a finished old save kept the
-   number 21 and skipped the 29 words the new ladder teaches below it).
-   Now the walk alone seats a reader who has graded anything: level 6 for a
-   finished beta.21 save (new level 6 seats cops and spots, which the old
-   bank never taught), lower for most, and their carried boxes promote the
-   known levels after one quick session each. A save with NO graded word
-   keeps its stored number, clamped - a number a grown-up set by hand is
-   the only evidence such a save holds. */
-function migrateV6(s) {
-  if (s.version >= 6) return;
-  let lvl = LEVELS.length;
-  for (let i = 0; i < LEVELS.length; i++) {
-    const ws = LEVELS[i].words;
-    if (!isSecure(ws.filter(w => s.words[w] && s.words[w].box >= 3).length, ws.length)) { lvl = i + 1; break; }
-  }
-  const graded = Object.values(s.words || {}).some(w => w && w.attempts > 0);
-  s.level = graded ? lvl : Math.min(s.level || 1, LEVELS.length);
-  s.version = 6;
-}
-/* v7, the chunk-ladder rebuild (owner-ruled 2026-08-24: "Place them based on
-   their already accepted mastery"). The rungs changed underneath a beta-28
-   child - the ear rung is gone and every rung now carries chunks - so an old
-   rung NUMBER means something different on the new ladder, which is fault
-   X's exact lesson (2026-08-21: "Recompute the seat from the child's own
-   graded words"). Every save still ON the ladder is re-seated by the same
-   box walk recovery uses: letter marks carry and lift the child past what
-   they hold, orphaned ear marks match no item and count for nothing, and
-   chunk boxes start empty because reading print is evidence no listening
-   mark can stand in for. A graduate (preLevel 0) is never touched. */
-function migrateV7(s) {
-  if (s.version >= 7) return;
-  if (typeof s.preLevel === "number" && s.preLevel > 0) s.preLevel = recoverPreLevel(s);
-  creditSeatedChunks(s);   /* fault AW - only a pre-ladder save reaches here */
-  s.version = 7;
-}
-
-/* THE CREDIT ITSELF, outside the version gate on purpose. Keying it to
-   `version < 7` missed the saves that already carry 7 - which is every save
-   written since the chunk ladder was built, including the owner's own test
-   device. The condition that is actually safe is about the DATA, not the
-   number: a child who is out of the pre-levels, past level 1, and has NOT ONE
-   chunk record cannot be a child working through the chunk ladder - there is no
-   route through it that leaves no trace. A child genuinely on the ladder has
-   records, and is untouched. */
-function creditSeatedChunks(s) {
-  if (s.preLevel !== 0 || (s.level || 1) <= 1) return;
-  s.pre = s.pre || {};
-  if (Object.keys(s.pre).some((k) => k.startsWith("c:"))) return;
-  for (const c of CHUNK_ROSTER) {
-    const seat = chunkSeat(c);
-    if (seat === null || seat <= 0 || seat > s.level) continue;
-    s.pre["c:" + c] = { box: 5, attempts: 0, correct: 0, close: 0, wrong: 0, dueAt: 1, lastSession: 0 };
-  }
-}
-function migrate(s) {
-  s = heal(s);
-  migrateV3(s); migrateV4(s); migrateV5(s); migrateV6(s);
-  if (typeof s.preLevel !== "number") s.preLevel = recoverPreLevel(s);
-  migrateV7(s);
-  s.level = Math.min(Math.max(1, s.level || 1), LEVELS.length);  // defensive clamp, always
-  s.preLevel = Math.min(Math.max(0, s.preLevel || 0), PRE_LEVELS.length);
-  return s;
-}
-
-const newState = () => ({
-  version: 7, level: 1, preLevel: 1, sessionsCompleted: 0, perfectStreak: 0, prePerfectStreak: 0,
-  settings: { sound: true, childName: "", lang: "en-US" },
-  words: {}, log: [], pre: {}, bringForward: [],
-});
-
+/* @engine speech */
+/* speech: the browser's own voice for when a clip is missing, and the feedback text. */
 /* ---------- speech ---------- */
 /* speak takes one sentence or a list of { text, rate } parts. Parts queue as
    separate utterances, so a clear pause separates the praise from the reveal
@@ -1225,6 +965,8 @@ const feedbackSpeech = (r, w, praise = 0) =>
   : r === "close" ? [{ text: "Good try!", rate: 0.9 }, { text: "The word is " + ttsSafeWord(w) + ".", rate: 0.9 }]
   : [{ text: "Let\u2019s try again.", rate: 0.9 }, { text: "The word is " + ttsSafeWord(w) + ".", rate: 0.9 }];
 
+/* @engine sounds */
+/* sounds: the voice-pack tables, the seams between clips and the sound-out. */
 /* ---------- voice packs (SPEC §5a) ---------- */
 const SEAM_MS = 700;   // the pause between clips in one utterance, so words never crush together
 /* The sound-out reveal has its own, shorter seam. The owner heard four
@@ -1631,6 +1373,8 @@ function magicE(tiles) {
     return { vowelAt: n - 2, silentAt: -1 };
   return null;
 }
+/* @engine bends */
+/* bends: the lexicon's per-word bends and the sounds a word's tiles ask for. */
 /* Lexicon bends, owner-ruled 2026-08-20: the conversion writer emits here
    every tile position where tools/lexicon.csv differs from pure rule output
    (defaults + the magic-e rule) - and ONLY those, so the rules keep doing
@@ -1936,6 +1680,8 @@ function soundIdsFor(word) {
   const base = ruleSoundsFor(tiles);
   return tiles.map((g, i) => (bent[i] ? "d:" + bent[i] : base[i]));
 }
+/* @engine ladder */
+/* ladder: the heart words, the pre-level ladder and the sound inventory. */
 /* Every sound the bank's tiles can ask for, derived from the bank rather than
    listed by hand, so a new word can never outrun its sounds. */
 /* EVERY word the app has an opinion about, not every word in a level. The
@@ -2090,6 +1836,8 @@ function soundInventory() {
   for (const w of bankWords()) for (const id of soundIdsFor(w)) if (id !== "d:silent") ids.add(id);
   return [...ids].sort();
 }
+/* @engine voice */
+/* voice: the spoken sentences, the reveal plans, the tile slots and Build-a-sound's letters. */
 const VOICE_SENTENCES = {
   "s:was": "The word was",
   "s:is": "The word is",
@@ -2311,6 +2059,8 @@ function preLetters(preLevel) {
   return PRE_LEVELS.filter((p) => p.n >= PRE_TRAY_FROM && p.n <= preLevel)
     .flatMap((p) => p.items).filter((it) => !isChunkItem(it));
 }
+/* @engine roster */
+/* roster: the chunk roster and the level each chunk is seated at. */
 /* ------------------------- the chunk roster --------------------------------
    Owner-ruled 2026-08-25 and 2026-08-29 (SPEC section 12 carries the design
    and the decision pages behind it): 26 VC word families plus 53 CV chunks, taught
@@ -2378,6 +2128,259 @@ function chunkSeat(chunk) {
   for (const l of LEVELS) if (l.words.some((w) => wordHoldsChunk(w, chunk))) return l.n;
   return null;
 }
+/* @engine storage */
+/* storage: the in-memory fallback, the load and save, the save healer, the migrations and newState. */
+/* ---------- storage ---------- */
+const mem = {};
+async function loadState() {
+  try {
+    if (typeof window !== "undefined" && window.storage) {
+      const r = await window.storage.get(STORE_KEY);
+      if (r && r.value) {
+        try { return JSON.parse(r.value); }
+        catch (e) {
+          // F1 — keep the damaged blob for recovery instead of overwriting it
+          try { await window.storage.set(STORE_KEY + ":corrupt", r.value); } catch (e2) {}
+          return { __corrupt: true };
+        }
+      }
+    }
+  } catch (e) {}
+  try { return mem[STORE_KEY] ? JSON.parse(mem[STORE_KEY]) : null; } catch (e) { return null; }
+}
+async function saveState(s) {
+  const b = JSON.stringify(s); mem[STORE_KEY] = b;
+  try { if (typeof window !== "undefined" && window.storage) { await window.storage.set(STORE_KEY, b); return true; } } catch (e) {}
+  return false;
+}
+/* F7 — guarantee the document shape. Valid JSON is not a valid save. */
+/* One healer for any box dictionary: words and pre-items carry the same
+   shape, so they take the same repairs. */
+function healBoxes(dict) {
+  for (const [w, ws] of Object.entries(dict)) {
+    if (!ws || typeof ws !== "object" || typeof ws.box !== "number" || !isFinite(ws.box)) { delete dict[w]; continue; }
+    ws.box = Math.min(5, Math.max(0, Math.round(ws.box)));
+    for (const k of ["attempts", "correct", "close", "wrong", "dueAt", "lastSession"])
+      if (typeof ws[k] !== "number" || !isFinite(ws[k])) ws[k] = 0;
+  }
+}
+function healWords(s) {
+  if (!s.words || typeof s.words !== "object" || Array.isArray(s.words)) s.words = {};
+  healBoxes(s.words);
+  if (!s.pre || typeof s.pre !== "object" || Array.isArray(s.pre)) s.pre = {};
+  /* THE GROWN-UP'S QUEUE (fault AU, owner-ruled 2026-08-31). Healed into
+     existence rather than migrated, the same way s.pre was: a migrateVN exists
+     to re-interpret a stored meaning that CHANGED, and a field defaulting to
+     empty changes none. A bump would also break two pinned version assertions
+     for no gain. The filter is load-bearing - a stale entry naming a word that
+     has left the bank would reach the session screen with no level, no clip and
+     no tiles - and the cap is the store's own bound, separate from the lane's. */
+  if (!Array.isArray(s.bringForward)) s.bringForward = [];
+  s.bringForward = s.bringForward.filter((w) => typeof w === "string" && WORD_LEVEL[w] !== undefined).slice(0, 10);
+  healBoxes(s.pre);
+  // a hostile or negative preLevel reads as absent; migrate recovers it
+  if (typeof s.preLevel !== "number" || !isFinite(s.preLevel) || s.preLevel < 0) delete s.preLevel;
+  else s.preLevel = Math.round(s.preLevel);
+}
+function healLog(s) {
+  if (!Array.isArray(s.log)) s.log = [];
+  // repair the rows too — a hostile log row must not crash migrate or the export
+  s.log = s.log.filter(r => r && typeof r === "object" && !Array.isArray(r));
+  for (const r of s.log) {
+    r.items = Array.isArray(r.items) ? r.items.filter(i => i && typeof i === "object") : [];
+    if (typeof r.level !== "number" || !isFinite(r.level)) r.level = 0;
+  }
+}
+function healSettings(s) {
+  if (!s.settings || typeof s.settings !== "object" || Array.isArray(s.settings)) s.settings = {};
+  const d = newState().settings;
+  for (const k of Object.keys(d)) if (s.settings[k] === undefined) s.settings[k] = d[k];
+  /* Types, not just presence. A hostile document once carried a NUMBER as the
+     child's name; it survived migrate and crashed the settings screen on the
+     first .trim(). Every setting is healed to the type the app expects. */
+  if (typeof s.settings.childName !== "string") s.settings.childName = String(s.settings.childName ?? "").slice(0, 20);
+  if (typeof s.settings.sound !== "boolean") s.settings.sound = d.sound;
+  if (typeof s.settings.lang !== "string" || !s.settings.lang) s.settings.lang = d.lang;
+}
+/* Both streaks take the same repair: absent, hostile or negative reads as
+   zero, anything real rounds and caps at two. */
+function healStreak(s, key) {
+  const v = s[key];
+  if (typeof v !== "number" || !isFinite(v) || v < 0) s[key] = 0;
+  else s[key] = Math.min(2, Math.round(v));
+}
+function heal(s) {
+  if (!s || typeof s !== "object") s = {};
+  healWords(s); healLog(s); healSettings(s);
+  if (typeof s.sessionsCompleted !== "number" || !isFinite(s.sessionsCompleted) || s.sessionsCompleted < 0) s.sessionsCompleted = 0;
+  healStreak(s, "perfectStreak"); healStreak(s, "prePerfectStreak");
+  // a non-numeric level reads as absent; a fractional one is rounded — migrate clamps the range
+  if (typeof s.level !== "number" || !isFinite(s.level)) delete s.level; else s.level = Math.round(s.level);
+  // a version that is not a number reads as absent — a hostile value must not crash the migration check
+  if (typeof s.version !== "number" || !isFinite(s.version)) delete s.version;
+  return s;
+}
+
+/* Save migrations, one block per version, each idempotent.
+   v3: version-2 saves shift up one level (the VC level inserted at 1).
+   v4: the 10-and-10 curriculum (owner-approved 2026-08-15) re-cut the levels,
+   so a stored index points at a different place than the one the child earned.
+   The owner's ruling for this exact case — decision 5 of the curriculum page —
+   was "compute the new level from the child's own words", and the boxes are
+   those words: the new level is the FIRST whose words are not yet secure,
+   judged by the same isSecure rule promotion uses. The boxes carry only one
+   of promotion's two paths, so the recompute is FLOORED by the stored level's
+   mapped position (the block below says why); a child secure everywhere lands
+   on the last level; a fresh save walks to Level 1 untouched. Log rows keep
+   their old level numbers: the log is a record of what happened, and the
+   number it recorded was true when it was written. */
+/* Save migrations, one function per version so each stays under the G6
+   complexity ceiling and reads alone. migrate() is the driver. */
+function migrateV3(s) {
+  if (!s.version || s.version < 3) {
+    s.level = (s.level || 1) + 1;
+    (s.log || []).forEach(r => { r.level += 1; });
+    s.version = 3;
+  }
+}
+function migrateV4(s) {
+  if (s.version >= 4) return;
+  let lvl = LEVELS.length;
+  for (let i = 0; i < LEVELS.length; i++) {
+    const ws = LEVELS[i].words;
+    if (!isSecure(ws.filter(w => s.words[w] && s.words[w].box >= 3).length, ws.length)) { lvl = i + 1; break; }
+  }
+  /* THE FLOOR: promotion has TWO paths — boxes, or two perfect sessions —
+     and a parent can set a level by hand. The box recompute alone sent
+     both kinds back to 1 (build reviewer, 2026-08-15). A migration never
+     seats a child below a level they held: the stored level maps to where
+     its OLD stage now begins (old 3, short i/o, at new 6; old 4 at 11;
+     old 5-11 whole as 14-20) and the child keeps whichever is higher. */
+  const OLD_TO_NEW = [1, 2, 6, 11, 14, 15, 16, 17, 18, 19, 20];
+  const stored = Math.min(Math.max(1, Math.round(s.level || 1)), OLD_TO_NEW.length);
+  s.level = Math.max(lvl, OLD_TO_NEW[stored - 1]);
+  /* open-faults J2: settings.mode carried "mic" in every save laid down
+     before the microphone was removed (owner safety ruling, 2026-08-11).
+     Nothing reads it; v4 is the door it leaves through. */
+  if (s.settings && s.settings.mode !== undefined) delete s.settings.mode;
+  s.version = 4;
+}
+function migrateV5(s) {
+  if (s.version >= 5) return;
+  /* v5, the pre-level ladder (owner-ruled 2026-08-15): a fresh save starts
+     at Pre 1. Reading history is ANY of: a graded word, a completed session,
+     a kept log row, or a level someone set above the start — each one proves
+     the ladder's skill or a grown-up's intent, and none of them may be
+     demoted into letter drills (the auditor asked what counts; this is the
+     answer, and the tests pin each arm). */
+  if (typeof s.preLevel !== "number")
+    s.preLevel = (Object.keys(s.words).length > 0 || s.sessionsCompleted > 0
+      || (s.log || []).length > 0 || (s.level || 1) > 1) ? 0 : 1;
+  s.version = 5;
+}
+/* A corrupted preLevel on an already-v5 save fails TOWARD teaching, never
+   past it (the auditor proved the old clamp graduated a mid-ladder child):
+   ladder evidence in the boxes lands at the first unsecure rung — the same
+   walk the v4 level recompute does — and only a save with no ladder marks
+   falls back to the history rule. */
+function recoverPreLevel(s) {
+  /* READER EVIDENCE FIRST (the auditor's last find): a child moved to words
+     by the grown-up's jump keeps their old ladder marks forever, and marks
+     checked first would demote that reader to sound drills. Words, log rows
+     and a raised level are things the ladder never writes, so they are the
+     reader's proof; sessionsCompleted is NOT among them, because the ladder
+     rides the same session clock. */
+  if (Object.keys(s.words).length > 0 || (s.log || []).length > 0 || (s.level || 1) > 1) return 0;
+  if (Object.keys(s.pre).length > 0) {
+    for (const p of PRE_LEVELS) {
+      const solid = p.items.filter((k) => s.pre[k] && s.pre[k].box >= 3).length;
+      if (!isSecure(solid, p.items.length)) return p.n;
+    }
+    return 0;   // every rung secure: a finished ladder is the one safe graduation
+  }
+  return s.sessionsCompleted > 0 ? 0 : 1;
+}
+/* v6, the 2026-08-20 cutover: the 21-level world became the 100-level
+   ladder, organised by SOUND rather than difficulty, so an old level number
+   has no faithful address in the new one - the old levels' words scatter
+   across the whole ladder (measured: old 5 spans new 2-77). The migration is
+   therefore the repo's own philosophy, twice over: the stored number stands
+   as a FLOOR (never seat a child below ground they held - v4's rule), and
+   the box recompute against the NEW ladder lifts a real reader to the first
+   rung their own graded words leave unsecure - the same walk v4's recompute
+   and the pre-ladder recovery both use. RULED 2026-08-21 on the cutover
+   morning page: "Recompute the seat from the child's own graded words."
+   The stored-number floor is gone - the first draft kept it, and the audit
+   measured the recompute inert behind it (a finished old save kept the
+   number 21 and skipped the 29 words the new ladder teaches below it).
+   Now the walk alone seats a reader who has graded anything: level 6 for a
+   finished beta.21 save (new level 6 seats cops and spots, which the old
+   bank never taught), lower for most, and their carried boxes promote the
+   known levels after one quick session each. A save with NO graded word
+   keeps its stored number, clamped - a number a grown-up set by hand is
+   the only evidence such a save holds. */
+function migrateV6(s) {
+  if (s.version >= 6) return;
+  let lvl = LEVELS.length;
+  for (let i = 0; i < LEVELS.length; i++) {
+    const ws = LEVELS[i].words;
+    if (!isSecure(ws.filter(w => s.words[w] && s.words[w].box >= 3).length, ws.length)) { lvl = i + 1; break; }
+  }
+  const graded = Object.values(s.words || {}).some(w => w && w.attempts > 0);
+  s.level = graded ? lvl : Math.min(s.level || 1, LEVELS.length);
+  s.version = 6;
+}
+/* v7, the chunk-ladder rebuild (owner-ruled 2026-08-24: "Place them based on
+   their already accepted mastery"). The rungs changed underneath a beta-28
+   child - the ear rung is gone and every rung now carries chunks - so an old
+   rung NUMBER means something different on the new ladder, which is fault
+   X's exact lesson (2026-08-21: "Recompute the seat from the child's own
+   graded words"). Every save still ON the ladder is re-seated by the same
+   box walk recovery uses: letter marks carry and lift the child past what
+   they hold, orphaned ear marks match no item and count for nothing, and
+   chunk boxes start empty because reading print is evidence no listening
+   mark can stand in for. A graduate (preLevel 0) is never touched. */
+function migrateV7(s) {
+  if (s.version >= 7) return;
+  if (typeof s.preLevel === "number" && s.preLevel > 0) s.preLevel = recoverPreLevel(s);
+  creditSeatedChunks(s);   /* fault AW - only a pre-ladder save reaches here */
+  s.version = 7;
+}
+
+/* THE CREDIT ITSELF, outside the version gate on purpose. Keying it to
+   `version < 7` missed the saves that already carry 7 - which is every save
+   written since the chunk ladder was built, including the owner's own test
+   device. The condition that is actually safe is about the DATA, not the
+   number: a child who is out of the pre-levels, past level 1, and has NOT ONE
+   chunk record cannot be a child working through the chunk ladder - there is no
+   route through it that leaves no trace. A child genuinely on the ladder has
+   records, and is untouched. */
+function creditSeatedChunks(s) {
+  if (s.preLevel !== 0 || (s.level || 1) <= 1) return;
+  s.pre = s.pre || {};
+  if (Object.keys(s.pre).some((k) => k.startsWith("c:"))) return;
+  for (const c of CHUNK_ROSTER) {
+    const seat = chunkSeat(c);
+    if (seat === null || seat <= 0 || seat > s.level) continue;
+    s.pre["c:" + c] = { box: 5, attempts: 0, correct: 0, close: 0, wrong: 0, dueAt: 1, lastSession: 0 };
+  }
+}
+function migrate(s) {
+  s = heal(s);
+  migrateV3(s); migrateV4(s); migrateV5(s); migrateV6(s);
+  if (typeof s.preLevel !== "number") s.preLevel = recoverPreLevel(s);
+  migrateV7(s);
+  s.level = Math.min(Math.max(1, s.level || 1), LEVELS.length);  // defensive clamp, always
+  s.preLevel = Math.min(Math.max(0, s.preLevel || 0), PRE_LEVELS.length);
+  return s;
+}
+
+const newState = () => ({
+  version: 7, level: 1, preLevel: 1, sessionsCompleted: 0, perfectStreak: 0, prePerfectStreak: 0,
+  settings: { sound: true, childName: "", lang: "en-US" },
+  words: {}, log: [], pre: {}, bringForward: [],
+});
+
 /* @engine trays */
 /* trays: the chunk seats and the due chunks, the sound tray, the build guard
    and the build-it tray, the seams and the pack resolver. */
