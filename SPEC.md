@@ -230,8 +230,11 @@ knows; what is new is running two consonants together without a vowel between. L
 Sounds treats this as a fluency step rather than a new phase, which is why these levels
 needed new words and no new sound. Built 2026-08-12 from words the owner approved by ear
 between 2026-08-07 and 2026-08-11; the clips shipped are the exact bytes of those rounds.
-"romp" was approved by ear and is NOT in the bank: the whole-bank appropriateness screen
-refused it for its adult tabloid meaning.
+"romp" was approved by ear and was first kept out of the bank: the whole-bank appropriateness
+screen of 2026-08-12 refused it for its adult tabloid meaning. The owner seated it on
+2026-08-16 (Level 19 then, Level 31 since the hundred-level cutover) without that refusal being
+withdrawn, and this sentence went on saying it was not in the bank until the pre-beta screen of
+2026-09-13 raised the contradiction; the owner ruled it FINE that day.
 
 Constants:
 
@@ -1573,6 +1576,22 @@ dated read — 91 on 2026-08-13, the next batch on the 2026-08-15 round pages, a
 Level 21's twelve on the 2026-08-16 Cats and Dogs pages (one of them written by the
 owner, which outranks a read) — and the mechanical screen (shape, banned pairings,
 ledger) runs green over all of them.
+
+**Re-screened 2026-09-13 before beta.33, over the whole bank and every sentence.** The bank
+counted **1,122 words** in 100 levels, beside the two pre-level rungs' 12 items and the
+67-chunk roster, and every list was read in full against this rule with this document's rulings
+in hand, not sampled. Verified by measurement: no word on the build guard, and no other refused
+word or book artifact, is in the bank or the roster; all 35 ruled-fine words stand and are not
+raised again. The bank is the one beta.32 shipped - the refactor's differential compares every
+table with beta.32's and finds no difference - and still the whole of it was read, because
+screening a list once is not screening the bank. The screen raised one word, and not for a new
+reason: **romp**, refused by the 2026-08-12 screen for its adult tabloid meaning and seated by
+the owner on 2026-08-16 without that refusal being withdrawn, while the Levels 10 and 11
+paragraph still said it was not in the bank. **Ruled FINE by the owner on 2026-09-13** - in chat,
+"Keep romp", with knob, pot and lay: a romp in the park is ordinary vocabulary whose adult sense
+needs adult knowledge to see. That paragraph now says so, and a later screen does not raise
+romp again. The sentence screen reads its 277 sentences at 0 problems, each with a person's
+dated read. Nothing else was raised.
 
 **The sentences are now inside this rule, and that is new.** All 88 shipped sentences and
 the three invitation lines were read one by one against the same test the words take:

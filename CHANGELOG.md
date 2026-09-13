@@ -15,6 +15,11 @@ This document follows the Microsoft Writing Style Guide.
 Version 6 adds the standalone progressive web app. The reference build does not change.
 The first app version is 1.0.0-beta.1. The app stays in beta until version 1.0 is ready.
 
+- Changed in 1.0.0-beta.33: nothing you can see or hear. The inside of the game was
+  reorganized so that a mistake is easier to find before it reaches you. Every word, sound,
+  screen and saved game works as it did in 1.0.0-beta.32, and the new version's answers
+  were checked against 1.0.0-beta.32's, case by case, before it was released.
+
 - Fixed in 1.0.0-beta.32: a reader who had moved past the first levels could be shown the
   same two or three short letter pairs at the start of every session, such as "am", "us"
   and "ox", instead of getting on to their words. The game forgot that they had been read
