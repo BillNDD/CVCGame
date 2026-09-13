@@ -448,6 +448,9 @@ if (RUN_AS_COMMAND) {
     for (const [fn, n] of [...r.driven].sort((a, b) => a[0].localeCompare(b[0]))) {
       console.log(`  ${fn}: ${n} cases, ${r.differences.filter((d) => d.fn === fn).length} differences`);
     }
+    /* the tables and the export list are compared too, under names no function carries */
+    console.log(`  (the ${r.tables} tables): ${r.differences.filter((d) => d.input === "(the exported table itself)").length} differences`);
+    console.log(`  (the export list): ${r.differences.filter((d) => d.fn === "(the export list)").length} differences`);
   }
   if (r.differences.length) {
     printFirst(r.differences[0]);

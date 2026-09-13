@@ -2254,16 +2254,17 @@ found it by remembering, which is the mechanism these gates exist to replace.
 
 ## Aggregation
 
-- `npm run gauntlet` first runs the extractor's controls, floor `extractor_controls` (27), and
+- `npm run gauntlet` first runs the extractor's controls, floor `extractor_controls` (28), and
   then regenerates the engine. The extractor refuses a marker missing, doubled, unknown or out of
   order; code above the first marker or a marker inside a statement; an engine that does not
   parse; a name declared in two sections; a section using a name a later section declares; a
   section assigning to a name another section declares; a name `app/src`, `tests` or `tools`
   imports from the engine by a named or destructured import that no section declares (a
   namespace import is not read); an import-scan root it cannot find; and two extractions that
-  differ by a byte. Its import scan reads from the repository root wherever it is run from;
-  without the root install it refuses with what to do; and writing the engine deletes any module
-  a renamed or removed section left behind. Every new script that needs the engine chains the
+  differ by a byte; and an index whose modules' folder, or whose own path, holds a `.js` file
+  without the GENERATED header. Its import scan reads from the repository root wherever it is
+  run from; without the root install it refuses with what to do; and writing the engine deletes
+  any module a renamed or removed section left behind, only where every `.js` carries the header. Every new script that needs the engine chains the
   extractor itself; the npm `pretest` hook covers `npm test` only.
 - It then runs, in order: G11, G1+G2+G9+G10+G14+G15 (one Vitest run), G3 regeneration check,
   G4, G5, G19 app mutation, G6 coverage and quality, build, G7, G8 and G18 network on each

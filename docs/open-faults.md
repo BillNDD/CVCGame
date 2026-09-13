@@ -3358,6 +3358,28 @@ what is true now.
   after commit, leaving home never commits, asking to write never commits); SPEC section 7 says
   it in its own words.
 
+## BE. A mutant run can count a failed extraction as a kill, and a locked file leaves a partial engine - found 2026-09-13 by the refactor's engineer
+
+- **Where:** `tools/mutants.mjs`, the loop that plants each G5 mutant, and the extractor's writer
+  in `tools/extract-engine.mjs`.
+- **What happens today.** The mutant runner scores any failed extraction as "killed (the mutated
+  build does not extract)". An extraction that fails for a reason that is not the mutant - a
+  module file held open on Windows without write sharing, which Windows reports as busy - is counted
+  as a kill the suite never earned. The runner also ignores the exit code of the extraction
+  that restores the clean engine at the end, so a lock at that moment would leave a mutated
+  engine in the tree with the gate green. And the writer does not write all or nothing: with
+  one module locked, the modules before it are rewritten and the rest are not. Measured on this
+  machine with Node 24.19.0: `sounds.js` held without sharing exits 1 with 5 of 9 files
+  rewritten; the index held exits 1 with all 8 modules rewritten; a module held while allowing
+  read and write, which most editors do, exits 0. The same was true of the single engine file
+  before batch 2 of the refactor; the split widens it to nine files.
+- **What a child or a grown-up experiences:** nothing. It needs a file lock during a gauntlet,
+  and nothing a family runs extracts the engine.
+- **Done means:** the runner counts a kill for a failed extraction only when the extractor
+  printed its own refusal (`extract-engine refuses`), fails the gate when the restoring
+  extraction fails, and the writer checks that every target can be opened for writing before it
+  writes any, each with a planted-lock control.
+
 ## BD. The remote gauntlet had one browser and the gates asked for three — found and closed 2026-09-03
 
 - **The beta 31 tag's run went red** on five gates, every one saying

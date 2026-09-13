@@ -12,7 +12,9 @@
  * top-level declaration it makes; src/engine.js is the index that re-exports
  * every section, so nothing that imports the engine changes. Writing the
  * engine also deletes any module a renamed or removed section left behind in
- * that folder, so a stale module can never be linted, counted or imported. The export
+ * that folder, so a stale module can never be linted, counted or imported -
+ * and it refuses to delete or write at all where a .js file it did not write
+ * (no GENERATED header) sits in that folder or at the index's own path. The export
  * surface is DERIVED from the declarations: the list of 100 names this file
  * used to type by hand - 8 of them imported by nobody - is gone. The clause
  * sits at the end rather than an `export` keyword on each declaration so the
@@ -248,8 +250,25 @@ function extract(source, index, renderer = render) {
    lint it, the src/engine coverage row would count it, and anything could import
    it though nothing makes it (the engineer's O3, 2026-09-13). Only .js files the
    extraction does not write, and only in that one folder. */
+/* THE FOLDER IS TRUSTED BY WHAT IS IN IT, NOT BY ITS NAME. The modules' folder
+   is named after the index, so `node tools/extract-engine.mjs reference tests.js`
+   pointed the deletion at tests/ and would have emptied it with exit 0, and
+   `app/src.js` would have overwritten app/src/storage.js (the engineer's E-S1,
+   2026-09-13, every delete and write logged instead of done). Every module and
+   index this extractor has ever written starts with HEADER, the same since before
+   batch 2; a file that does not is someone else's, and nothing is touched. */
+function notOurs(path) {
+  if (!existsSync(path)) return false;
+  return statSync(path).isDirectory() || !readFileSync(path, "utf8").startsWith(HEADER);
+}
+function guardTargets(index, dir) {
+  const inDir = existsSync(dir) && statSync(dir).isDirectory() ? readdirSync(dir).filter((e) => e.endsWith(".js")).map((e) => join(dir, e)) : [];
+  const foreign = [index, ...inDir].find(notOurs);
+  if (foreign) refuse(`${foreign} is not a file this extractor wrote - it has no GENERATED header - so the engine is neither written over it nor beside it; pass an index whose folder is the engine's own`);
+}
 function writeFiles(files) {
   const modules = files.slice(0, -1).map(([path]) => resolve(path));
+  guardTargets(resolve(files[files.length - 1][0]), dirname(modules[0]));
   const dir = dirname(modules[0]), keep = new Set(modules.map((path) => basename(path)));
   if (existsSync(dir)) for (const e of readdirSync(dir)) if (e.endsWith(".js") && !keep.has(e)) rmSync(join(dir, e));
   for (const [path, text] of files) { mkdirSync(dirname(resolve(path)), { recursive: true }); writeFileSync(resolve(path), text); }
@@ -385,7 +404,7 @@ async function treeControls(T, source) {
     const at = join(box, INDEX);
     writeFiles(files.map(([p, t]) => [join(box, p), t]));
     const folder = join(box, "src", "engine");
-    writeFileSync(join(folder, "zzqold.js"), "export const zzqOld = 1;\n");
+    writeFileSync(join(folder, "zzqold.js"), HEADER + "export const zzqOld = 1;\n");
     writeFileSync(join(folder, "notes.txt"), "not a module\n");
     writeFiles(files.map(([p, t]) => [join(box, p), t]));
     T("a module a renamed section left behind is deleted when the engine is written again; the eight stay, and a file that is not a module is left alone",
@@ -409,7 +428,24 @@ async function treeControls(T, source) {
     T("run from app/ the way the app's predev and prebuild run it, the import scan still reads app/src, tests and tools from the repository root - more than 100 engine imports checked",
       fromApp.status === 0 && checked !== null && Number(checked[1]) > 100);
     hiddenLintControls(T, box);
+    foreignTargetControls(T, box);
   });
+}
+/* The command pointed at a folder it did not make, both ways: an index named
+   after a folder of someone else's .js files (tests.js and tests/), and an index
+   path that is already someone else's file. Refused, named, nothing touched. */
+function foreignTargetControls(T, box) {
+  const tests = join(box, "guard", "tests"), mine = join(tests, "a.test.js"), other = join(box, "guard", "other.js");
+  mkdirSync(tests, { recursive: true });
+  writeFileSync(mine, "// a test nobody generated\n");
+  writeFileSync(other, "// a file nobody generated\n");
+  const ref = join(ROOT, REFERENCE);
+  const folderRun = run(process.execPath, [fileURLToPath(import.meta.url), ref, join(box, "guard", "tests.js")]);
+  const fileRun = run(process.execPath, [fileURLToPath(import.meta.url), ref, other]);
+  const untouched = existsSync(mine) && readFileSync(mine, "utf8") === "// a test nobody generated\n" && readFileSync(other, "utf8") === "// a file nobody generated\n";
+  T("an index whose folder holds .js files the extractor did not write, or whose own path is someone else's file, is refused naming the file, and nothing is deleted or written - tests.js would otherwise have emptied tests/",
+    folderRun.status === 1 && has(folderRun.out, "a.test.js") && fileRun.status === 1 && has(fileRun.out, "other.js") && untouched
+    && !existsSync(join(tests, "content.js")) && !existsSync(join(box, "guard", "other")));
 }
 /* The clean clone's condition without a clone: a resolve hook that answers
    "eslint" the way a missing package does, loaded before the real command and
