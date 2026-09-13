@@ -56,7 +56,7 @@
  *           ESLint's parser, which the app's own install does not carry.
  * Controls: node tools/extract-engine.mjs --self-test
  */
-import { readFileSync, writeFileSync, mkdirSync, readdirSync, statSync, existsSync } from "node:fs";
+import { readFileSync, writeFileSync, mkdirSync, readdirSync, statSync, existsSync, rmSync } from "node:fs";
 import { dirname, resolve, join, basename, extname, relative, sep } from "node:path";
 import { pathToFileURL, fileURLToPath } from "node:url";
 import { finish } from "./lib/selftest.mjs";
@@ -290,7 +290,10 @@ function checkImports(declared, uses) {
 
 /* -------------------------------------------------------------- controls -- */
 const marker = (name) => `/* @engine ${name} */`;
-const HIDE_ESLINT_HOOK = 'export async function resolve(spec, ctx, next) { if (spec === "eslint") throw Object.assign(new Error("Cannot find package eslint"), { code: "ERR_MODULE_NOT_FOUND" }); return next(spec, ctx); }\n';
+/* The hook answers "eslint" the way a missing package does and leaves a mark
+   that it did, so a control can tell a hook that hid ESLint from one that hid
+   nothing. */
+const hideEslintHook = (mark) => `import { writeFileSync } from "node:fs";\nexport async function resolve(spec, ctx, next) { if (spec === "eslint") { writeFileSync(${JSON.stringify(mark)}, "hidden"); throw Object.assign(new Error("Cannot find package eslint"), { code: "ERR_MODULE_NOT_FOUND" }); } return next(spec, ctx); }\n`;
 /* The refusal's own message, or null when the input is accepted. A throw
    that is not a refusal is the extractor's own fault, and comes back named
    as a crash so the control that met it fails BY NAME rather than the whole
@@ -398,16 +401,29 @@ async function treeControls(T, source) {
    back at the top fails both lines (the engineer's A-S1: the loader control
    alone stayed green with exactly that fault back). */
 function hiddenLintControls(T, box) {
-  const hooks = join(box, "hide-eslint-hooks.mjs"), register = join(box, "hide-eslint.mjs"), importer = join(box, "import-sections.mjs");
-  writeFileSync(hooks, HIDE_ESLINT_HOOK);
+  const hooks = join(box, "hide-eslint-hooks.mjs"), register = join(box, "hide-eslint.mjs"), importer = join(box, "import-sections.mjs"), mark = join(box, "eslint-hidden.mark");
+  writeFileSync(hooks, hideEslintHook(mark));
   writeFileSync(register, `import { register } from "node:module";\nregister(${JSON.stringify(pathToFileURL(hooks).href)});\n`);
   writeFileSync(importer, `import { SECTIONS } from ${JSON.stringify(import.meta.url)};\nconsole.log("sections " + SECTIONS.length);\n`);
   const hide = ["--import", pathToFileURL(register).href];
+  /* Each run must leave the hook's mark: a hook that hid nothing let the importer's
+     control pass whenever the extractor loaded at all (the engineer's C-M1,
+     reproduced with an inert hook). The mark is cleared before each run. */
+  rmSync(mark, { force: true });
   const bare = run(process.execPath, [...hide, fileURLToPath(import.meta.url), "../reference/word-quest.jsx", join(box, "bare", "engine.js")], { cwd: join(ROOT, "app") });
-  T("with ESLint hidden, the app's own prebuild command refuses with what to do - run npm ci at the repository root - exit 1 and no stack trace",
-    bare.status === 1 && has(bare.out, "run npm ci at the repository root") && !/\n\s+at /.test(bare.out));
+  const bareHid = existsSync(mark);
+  /* On a failure the line carries what the child printed: the hook's error code
+     crosses Node's hooks thread, confirmed on Node 24 and not on the gauntlet
+     workflow's Node 22, where a dropped code would turn this red for a reason worth
+     reading. No stack trace means no frame with a location, so a message that
+     merely starts a line with "at" is not taken for one. */
+  const said = (r, hid) => ` - exit ${r.status}, ${hid ? "the hook hid ESLint" : "the hook never hid ESLint"}, the child said: ${r.out.replace(/\s+/g, " ").slice(0, 200)}`;
+  const refusedWell = bareHid && bare.status === 1 && has(bare.out, "run npm ci at the repository root") && !/\n\s+at .+[(:]\d+/.test(bare.out);
+  T("with ESLint hidden, the app's own prebuild command refuses with what to do - run npm ci at the repository root - exit 1 and no stack trace" + (refusedWell ? "" : said(bare, bareHid)), refusedWell);
+  rmSync(mark, { force: true });
   const loads = run(process.execPath, [...hide, importer], { cwd: ROOT });
-  T("with ESLint hidden, a tool importing SECTIONS from the extractor still loads", loads.status === 0 && has(loads.out, "sections 8"));
+  const loaded = existsSync(mark) && loads.status === 0 && has(loads.out, "sections 8");
+  T("with ESLint hidden, a tool importing SECTIONS from the extractor still loads" + (loaded ? "" : said(loads, existsSync(mark))), loaded);
 }
 async function selfTest() {
   const ok = [];

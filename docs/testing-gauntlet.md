@@ -63,10 +63,11 @@ guard it, and the values are the gate's own scope measured by the gate's own run
 
 **How it reads the engine.** From the extractor into a scratch directory, the index and one
 module per section under the names they carry in the tree, never from the engine in the tree. The
-gate rides the gauntlet's second lane beside G5, and G5 rewrites the engine with a mutant planted while leaving the reference untouched; the scratch extraction gives the
-same bytes on a clean tree and the right bytes on a mutated one.
+gate rides the gauntlet's second lane beside G5, and G5 rewrites the engine with a mutant planted
+while leaving the reference untouched; the scratch extraction gives the same bytes on a clean tree
+and the right bytes on a mutated one.
 
-**The controls (E5), twelve.** Planted fixtures under `tools/fixtures/` measured as a tree of
+**The controls (E5), thirteen.** Planted fixtures under `tools/fixtures/` measured as a tree of
 their own - a function of complexity 17, a function over 80 lines, a block at depth 5, one run of
 tokens in two files, one export nobody names beside two that are named - each counted exactly
 once; the fixtures against a zero baseline raise one problem per metric; a parse failure is
@@ -2136,8 +2137,17 @@ promised a fallback the code never performed; G12 counted the step and saw nothi
   context compaction knows only what the governing documents say. A tool dropped from
   `AGENTS.md` by a later tidy-up has stopped existing for every agent after that, however
   green its own controls are; and a tool dropped from `npm run check` can go wrong and stay
-  green. `tools/blast-radius.mjs` and `tools/mutants.mjs` are covered today. The rule found a
-  real gap the moment it was written: `README.md` did not name the lookup at all.
+  green. The tools it covers are the rows of `AGENT_TOOLS` in `tools/doc-truth.mjs`, the
+  extractor among them since 2026-09-13. The rule found a real gap the moment it was written:
+  `README.md` did not name the lookup at all.
+- Inside the same rule, since 2026-09-13: a governing document that names an engine module by
+  path - `src/engine/<name>.js`, `./engine/<name>.js`, or `.mjs` - for a section the extractor
+  does not cut is refused. The section names come from the extractor, so no document lists them,
+  and a later split turns a stale path red. What it does not read, stated so nobody quotes it for
+  more: a module named in prose ("the sounds module"), and any file but `AGENTS.md`, `README.md`,
+  `SPEC.md` and this document. Dated history names a past module in words for that reason. A glob
+  over the modules is a pattern and is never refused, and neither a path in another folder that
+  ends in `engine/<name>.js` nor a `.json` or `.js.map` beside the modules is read.
 - Negative control: `--self-test` rewords a SPEC sentence, rewords a QA promise, changes a
   timing, changes the hold constant, leaves a stale speed in SPEC, takes the lookup's name out
   of `AGENTS.md`, and takes its controls out of `npm run check`; every detector must fire.
@@ -2248,8 +2258,8 @@ found it by remembering, which is the mechanism these gates exist to replace.
   then regenerates the engine. The extractor refuses a marker missing, doubled, unknown or out of
   order; code above the first marker or a marker inside a statement; an engine that does not
   parse; a name declared in two sections; a section using a name a later section declares; a
-  section assigning to a name another
-  section declares; a name `app/src`, `tests` or `tools` imports from the engine by a named or
+  section assigning to a name another section declares; a name `app/src`, `tests` or `tools`
+  imports from the engine by a named or
   destructured import that no section declares (a namespace import is not read); an import-scan
   root it cannot find; and two extractions that differ by a byte. Its import scan reads from the
   repository root wherever it is run from, and without the root install it refuses with what to

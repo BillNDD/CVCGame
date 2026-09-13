@@ -256,6 +256,13 @@ if (RUN_AS_COMMAND && process.argv.includes("--self-test")) {
      row are written that way, and naming them must never read as a stray. */
   const globs = { ...real, gauntletDoc: real.gauntletDoc + "\nThe rules cover `src/engine/" + "*.js` and coverage reads `src/engine/" + "**`.\n" };
   seen.engineModuleGlob = !run(globs).found.some((p) => p.includes("src/engine/*") || p.includes("no such section"));
+  /* The forms a stale name takes, and the paths that are not ours (the engineer's
+     G16-M2 and its pre-flight boundary, 2026-09-13). */
+  const forms = ["./engine/" + "nothing.js", "src/engine/" + "Nothing.js", "src/engine/" + "sounds.mjs"];
+  const formsFound = run({ ...real, gauntletDoc: real.gauntletDoc + "\n" + forms.map((f) => "`" + f + "`").join(" ") + "\n" }).found;
+  seen.engineModuleForms = forms.every((f) => formsFound.some((p) => p.includes(f) && p.includes("name a past module in words")));
+  const notOurs = run({ ...real, gauntletDoc: real.gauntletDoc + "\nSee `app/src/engine/" + "nothing.js`, `some-engine/" + "nothing.js`, `src/engine/" + "nothing.json` and `src/engine/" + "nothing.js.map`.\n" }).found;
+  seen.engineModuleNotOurs = !notOurs.some((p) => p.includes("nothing."));
   const cmdOrphan = { ...real, pkg: real.pkg.split("tools/blast-radius.mjs --self-test").join("true") };
   seen.orphanCmd = run(cmdOrphan).found.some((p) => p.includes("no longer runs tools/blast-radius.mjs"));
   /* And the same rule against the batch-1 helpers, by the new names: a helper
@@ -466,6 +473,8 @@ if (RUN_AS_COMMAND && process.argv.includes("--self-test")) {
     ["the gate document that has stopped naming the extractor is caught", seen.orphanExtractorDoc],
     ["a governing document naming an engine module the extractor does not cut is caught", seen.engineModuleName],
     ["a glob over the engine's modules is a pattern, not a module, and is never refused", seen.engineModuleGlob],
+    ["a stale engine module named as ./engine/x.js, with a capital, or as .mjs is caught", seen.engineModuleForms],
+    ["a path in another folder ending in engine/x.js, and a .json or .js.map beside the modules, is not read as the engine's", seen.engineModuleNotOurs],
     ["the check dropping a batch-1 helper's controls is caught by the new name", seen.orphanLibCmd],
     ["the gate document dropping a batch-1 helper is caught by the new name", seen.orphanLibDoc],
     ["the gate document dropping a rule module of the voice-pack gate is caught", seen.orphanModuleDoc],

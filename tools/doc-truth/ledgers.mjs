@@ -70,8 +70,11 @@ export function checkLevelTable(d) {
 export function checkEngineModuleNames(d, sections) {
   const found = [];
   for (const [doc, key] of [["AGENTS.md", "agents"], ["README.md", "readme"], ["SPEC.md", "spec"], ["docs/testing-gauntlet.md", "gauntletDoc"]]) {
-    for (const m of d[key].matchAll(/src\/engine\/([a-z]+)\.js/g)) {
-      if (!sections.includes(m[1])) found.push(`${doc} names ${m[0]}, and the extractor cuts no such section - a document describing a file that is not made`);
+    /* src/engine/<x>.js, ./engine/<x>.js, a capital, .mjs - never a path in
+       another folder that happens to end in engine/<x>.js, never a glob, never a
+       .json or .js.map beside the modules (the boundary after the extension). */
+    for (const m of d[key].matchAll(/(?<![\w/.-])(?:src\/|\.\/)?engine\/([A-Za-z0-9_-]+)\.(m?js)(?![\w.])/g)) {
+      if (!sections.includes(m[1]) || m[2] === "mjs") found.push(`${doc} names ${m[0]}, and the extractor cuts no such section - a document describing a file that is not made; name a past module in words, never by path`);
     }
   }
   return found;
