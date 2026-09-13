@@ -556,13 +556,16 @@ for (const [engine, label, suffix] of ENGINES) {
 
   /* G30, the monkey (QA build-out item 2): a hand's storm, S1 watched. The
      gesture count is required BY NAME so a shortened run cannot pass as the
-     real one, and the control line proves the probe saw the app's own write. */
-  step(engineName("G30 monkey", engine), "node tests/ui/monkey.mjs", [
+     real one, and the control line proves the probe saw the app's own write.
+     On Chromium the evidence writer's self-test runs first (the review seat's
+     M4, 2026-09-12): a stub page, no browser, its control line required. */
+  step(engineName("G30 monkey", engine), engine === "chromium" ? "node tests/ui/monkey.mjs --self-test && node tests/ui/monkey.mjs" : "node tests/ui/monkey.mjs", [
     { label: "checks", regex: /(\d+) checks passed/, floorKey: "g30_monkey_checks" + suffix },
     { label: "failed", regex: /(\d+) failed/, max: 0 },
   ], env, [line, "300 gestures", "S1 held", "the storm reached the session",
     "control OK: the S1 probe sees the app's own write after an adult keyboard grade",
-    "control OK: a second run's evidence lands beside the first, never over it"]);
+    "control OK: a second run's evidence lands beside the first, never over it",
+    ...(engine === "chromium" ? ["control OK: the evidence writer lands five files from a stub page, keeps the first failure, and lands the next run beside it"] : [])]);
 }
 
 /* G21: the round page is how every listening verdict reaches this project. On
@@ -677,7 +680,7 @@ step("G31 shape", LANE_B.get("G31 shape"), [
   { label: "dead_exports", regex: /dead_exports = (\d+)/, maxKey: "g31_dead_exports_max" },
   { label: "problems", regex: /Shape gate: (\d+) problems/, max: 0 },
   { label: "controls", regex: /shape controls: (\d+) passed/, floorKey: "g31_controls" },
-], {}, ["every ceiling lowered by one under an unchanged tree is refused, naming its key"]);
+], {}, ["every ceiling lowered by one under an unchanged tree is refused, naming its key", "a count under its ceiling is refused as slack, in its own line"]);
 
 /* G32 - the differential harness (batch 0 of the refactor, owner-ruled
    2026-09-12): the tree's engine beside the beta-32 engine over the same

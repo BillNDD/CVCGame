@@ -125,6 +125,13 @@ const AGENT_TOOLS = [
     script: "check",
     command: "tools/differential.mjs --self-test",
   },
+  {
+    file: "tests/ui/monkey.mjs",
+    why: "G30's evidence writer, driven against a stub page: five files, the first failure kept, the next run beside",
+    docs: { "docs/testing-gauntlet.md": "gauntletDoc" },
+    script: "check",
+    command: "tests/ui/monkey.mjs --self-test",
+  },
 ];
 
 const real = {

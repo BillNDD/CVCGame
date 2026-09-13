@@ -13,7 +13,7 @@ This document follows the Microsoft Writing Style Guide.
 
 ## G31 - the shape gate: the code's shape, held where it stands today
 
-`node tools/shape.mjs`, with `--self-test` for its twelve controls (floor `g31_controls`) and
+`node tools/shape.mjs`, with `--self-test` for its thirteen controls (floor `g31_controls`) and
 `--list` for every function over a bar, by file. Batch 0 of the refactor, owner-ruled
 2026-09-12 ("I agree with all your seven"): before any code moves, an instrument that says what
 shape the code has and refuses the shape getting worse.
@@ -64,11 +64,18 @@ reported rather than skipped. Then the E6 direction on the real tree: today's ce
 problem, every ceiling lowered by one under an unchanged tree is refused naming its key (the
 gauntlet requires that line by name), a missing key is refused, and every area must have measured
 at least one function, so a scope that reads nothing cannot pass. Each detector was watched red
-against a broken variant of the gate before the control was written down. The lowered-ceiling
-control also refuses SLACK: a ceiling above today's count is red, so an improvement lowers its
-ceiling in the same commit, mechanically. The first was G32's own header, which names a word
-that made one of the 102 "dead" exports referenced; the count became 101 and the ceiling with
-it - the word-level rule's noise, stated as its limit above, working in the gate's favour.
+against a broken variant of the gate before the control was written down. SLACK - a count
+under its ceiling - is refused by the gate itself, in its own line: "dead_exports = 100 is
+under its ceiling 101 - lower g31_dead_exports_max to 100 in this commit", so an improvement
+lowers its ceiling in the same commit, mechanically, and the line says which key and to what. A
+planted 100 under 101 proves that sentence verbatim in the self-test, and the gauntlet requires
+the control by name; the lowered-ceiling control is judged against a baseline pinned at today's
+counts, so slack can never make it print the E6 sentence for a cause that is not E6 (the
+review seat's finding M1, 2026-09-12: before this, slack went red only through that control,
+naming a lowered ceiling nobody had lowered). The first slack was G32's own header, which names
+a word that made one of the 102 "dead" exports referenced; the count became 101 and the
+ceiling with it - the word-level rule's noise, stated as its limit above, working in the gate's
+favour.
 
 **Report only, until batch 2.** Cognitive complexity is measured by `eslint.measure.mjs`, a
 config that loads the sonarjs plugin (a devDependency since this batch, owner-ruled) with its
@@ -201,6 +208,14 @@ hiding it. Sub-second over ~960 rows, so it runs in `npm run check`.
   run writes beside an existing folder, never over it, and the gauntlet requires that control
   by name. The control for the evidence itself: `MONKEY_FAIL_AT=<n>` makes gesture n throw,
   and the folder must then exist with all five files.
+- **The evidence writer's self-test (the review seat's M4, 2026-09-12).** `node tests/ui/monkey.mjs
+  --self-test` drives `writeEvidence` against a stub page - no build, no server, no browser -
+  under a temporary root: the first failure writes the five files into `monkey-<engine>-<seed>/`,
+  a later failure in the same run leaves them as written, the next run lands beside as `-2`, and
+  a page that can be neither read nor shot still leaves seed, gestures and error saying why. Its
+  control line is required by name in the Chromium `G30 monkey` step, whose command runs the
+  self-test before the storm, and it runs in `npm run check`. Watched red against a writer that
+  named the error file wrongly and against a folder rule that overwrote.
 - **What it cannot prove:** that the screen looked right while it was battered. The census's
   cells and the human checklist own that.
 

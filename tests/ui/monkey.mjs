@@ -55,10 +55,17 @@
    BESIDE an existing folder (-2, -3, ...), never over it. Later failures in
    the same run stay on the console; the folder holds the first one whole.
    THE CONTROL (E5): MONKEY_FAIL_AT=<n> makes gesture n throw, and the folder
-   must then exist with all five files. */
+   must then exist with all five files.
+   THE SELF-TEST (the review seat's M4, 2026-09-12): the five-file control ran
+   only by hand. `node tests/ui/monkey.mjs --self-test` drives writeEvidence
+   against a stub page - no build, no server, no browser - under a temporary
+   root, and proves the five files, the first failure kept whole, the next
+   run beside as -2, and a page that can be neither read nor shot. It runs
+   before the storm in the Chromium gauntlet step and in npm run check. */
 import { spawn, execSync } from "node:child_process";
-import { readFileSync, existsSync, mkdirSync, writeFileSync } from "node:fs";
+import { readFileSync, existsSync, mkdirSync, writeFileSync, mkdtempSync, rmSync, readdirSync } from "node:fs";
 import { join } from "node:path";
+import { tmpdir } from "node:os";
 import { launchEngine, WAIT_MS } from "./engine.mjs";
 import { mulberry32 } from "../../tools/census-novelties.mjs";
 import { STORE_KEY, LEVELS } from "../../src/engine.js";
@@ -70,8 +77,9 @@ const N = 300;                                   // pinned: the gauntlet require
 const HOLD_MS = 450;                             // S5's hold, the dwell that makes a drag an adult act
 const EVIDENCE_ROOT = ".gauntlet-evidence.d";
 const FAIL_AT = process.env.MONKEY_FAIL_AT === undefined ? null : Number(process.env.MONKEY_FAIL_AT);
+const SELF_TEST = process.argv.includes("--self-test");
 const gestures = [];                             // every gesture the storm has sent, for the evidence
-let livePage = null, evidenceDir = null;
+let livePage = null, evidenceDir = null, engine = "(no engine launched)";
 /* Beside, never over: the first free name under the root. */
 function evidenceFolder(root, engineName, seed, exists) {
   const base = `${root}/monkey-${engineName}-${seed}`;
@@ -87,9 +95,9 @@ function evidenceFolder(root, engineName, seed, exists) {
   }
   console.log("control OK: a second run's evidence lands beside the first, never over it");
 }
-async function writeEvidence(error) {
+async function writeEvidence(error, root = EVIDENCE_ROOT) {
   if (evidenceDir) return;                       // the FIRST failure only
-  evidenceDir = evidenceFolder(EVIDENCE_ROOT, engine, SEED, existsSync);
+  evidenceDir = evidenceFolder(root, engine, SEED, existsSync);
   mkdirSync(evidenceDir, { recursive: true });
   const put = (name, text) => writeFileSync(join(evidenceDir, name), text);
   put("seed.txt", `MONKEY_SEED=${SEED}\nCENSUS_ENGINE=${engine}\ngestures sent before the failure: ${gestures.length} of ${N}\n`);
@@ -107,25 +115,30 @@ let failures = 0, checks = 0;
 const ok = (name) => { checks += 1; console.log(`ok ${checks}: ${name}`); };
 const fail = async (name, detail) => { failures += 1; console.error(`FAIL: ${name} — ${detail}`); await writeEvidence(new Error(`${name} — ${detail}`)); };
 
-if (!process.env.WQ_SKIP_BUILD) execSync("npm --prefix app run build", { stdio: "pipe" });
-/* Bound to 127.0.0.1 like every gate since 2026-09-01: left to vite the
-   preview binds ::1 alone here and Firefox's cold load runs 8 to 15 s. */
-const server = spawn(process.execPath, ["node_modules/vite/bin/vite.js", "preview", "--host", "127.0.0.1", "--port", String(PORT), "--strictPort"], {
-  cwd: "app", stdio: "ignore", detached: true,
-});
-const stopServer = () => { try { process.platform === "win32" ? server.kill() : process.kill(-server.pid); } catch {} };
-let serverUp = false;
-for (let i = 0; i < 300 && !serverUp; i++) {
-  try { const r = await fetch(URL); if (r.ok) serverUp = true; } catch {}
-  if (!serverUp) await new Promise((r) => setTimeout(r, 200));
+/* The build, the server and the browser are the storm's; the self-test
+   needs none of them and skips the block whole. */
+let browser = null, stopServer = () => {};
+if (!SELF_TEST) {
+  if (!process.env.WQ_SKIP_BUILD) execSync("npm --prefix app run build", { stdio: "pipe" });
+  /* Bound to 127.0.0.1 like every gate since 2026-09-01: left to vite the
+     preview binds ::1 alone here and Firefox's cold load runs 8 to 15 s. */
+  const server = spawn(process.execPath, ["node_modules/vite/bin/vite.js", "preview", "--host", "127.0.0.1", "--port", String(PORT), "--strictPort"], {
+    cwd: "app", stdio: "ignore", detached: true,
+  });
+  stopServer = () => { try { process.platform === "win32" ? server.kill() : process.kill(-server.pid); } catch {} };
+  let serverUp = false;
+  for (let i = 0; i < 300 && !serverUp; i++) {
+    try { const r = await fetch(URL); if (r.ok) serverUp = true; } catch {}
+    if (!serverUp) await new Promise((r) => setTimeout(r, 200));
+  }
+  if (!serverUp) { stopServer(); throw new Error(`the preview server never answered on ${URL} within 60 s - nothing below was measured`); }
+  ({ browser, engine } = await launchEngine());
+  const shutdown = () => { try { browser.close(); } catch {} stopServer(); };
+  process.on("exit", shutdown);
+  for (const sig of ["SIGINT", "SIGTERM", "SIGHUP"]) process.on(sig, () => { shutdown(); process.exit(130); });
+  process.on("uncaughtException", (e) => { shutdown(); console.error(e); process.exit(1); });
+  process.on("unhandledRejection", (e) => { shutdown(); console.error(e); process.exit(1); });
 }
-if (!serverUp) { stopServer(); throw new Error(`the preview server never answered on ${URL} within 60 s - nothing below was measured`); }
-const { browser, engine } = await launchEngine();
-const shutdown = () => { try { browser.close(); } catch {} stopServer(); };
-process.on("exit", shutdown);
-for (const sig of ["SIGINT", "SIGTERM", "SIGHUP"]) process.on(sig, () => { shutdown(); process.exit(130); });
-process.on("uncaughtException", (e) => { shutdown(); console.error(e); process.exit(1); });
-process.on("unhandledRejection", (e) => { shutdown(); console.error(e); process.exit(1); });
 
 const storageSrc = readFileSync("app/src/storage.js", "utf8");
 const dbName = storageSrc.match(/DB_NAME = "([^"]+)"/)[1];
@@ -147,6 +160,48 @@ const idb = (page, mode, value) => page.evaluate(([db, store, key, v, m]) => new
   rq.onerror = () => reject(rq.error);
 }), [dbName, dbStore, STORE_KEY, value ?? null, mode]);
 const readSave = async (page) => JSON.parse(await idb(page, "readonly") || "{}");
+
+/* THE SELF-TEST: the evidence writer against a stub page whose evaluate hands
+   back a save and whose screenshot writes bytes, under a temporary root that
+   is removed after. Its summary line is worded so the gauntlet's
+   "<n> failed" reader never mistakes it for the storm's. */
+async function selfTest() {
+  const root = mkdtempSync(join(tmpdir(), "monkey-self-test-"));
+  const results = [];
+  const T = (name, pass) => results.push([name, pass]);
+  const PNG = Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]);
+  const stubSave = { version: 7, level: 2, words: { cat: { box: 3 } }, sessionsCompleted: 5 };
+  const stubPage = { evaluate: async () => JSON.stringify(stubSave), screenshot: async ({ path }) => writeFileSync(path, PNG) };
+  const text = (dir, name) => (existsSync(join(dir, name)) ? readFileSync(join(dir, name), "utf8") : null);   // null, so a missing file is a named FAIL, never a crash
+  try {
+    engine = "stub"; livePage = stubPage; evidenceDir = null; gestures.length = 0; gestures.push({ i: 0, x: 1, y: 2, kind: "tap" });
+    await writeEvidence(new Error("planted: the self-test's first failure"), root);
+    const first = join(root, `monkey-stub-${SEED}`);
+    const files = existsSync(first) ? readdirSync(first).sort() : [];
+    T("the first failure writes five files into monkey-<engine>-<seed>: error.txt, gestures.json, save.json, screenshot.png, seed.txt", files.join(",") === "error.txt,gestures.json,save.json,screenshot.png,seed.txt");
+    T("seed.txt names the seed, the engine and the gestures sent before the failure", files.length === 5 && new RegExp(`MONKEY_SEED=${SEED}\\nCENSUS_ENGINE=stub\\ngestures sent before the failure: 1 of ${N}`).test(text(first, "seed.txt") || ""));
+    T("gestures.json is the log so far", files.length === 5 && JSON.parse(text(first, "gestures.json") || "null")?.length === 1);
+    T("save.json is the page's own save, read through the probe", files.length === 5 && JSON.parse(text(first, "save.json") || "null")?.sessionsCompleted === 5);
+    T("screenshot.png holds what the page gave", existsSync(join(first, "screenshot.png")) && readFileSync(join(first, "screenshot.png")).equals(PNG));
+    T("error.txt carries the error and its stack", files.length === 5 && /planted: the self-test.s first failure\n\s+at /.test(text(first, "error.txt") || ""));
+    const kept = text(first, "error.txt");
+    await writeEvidence(new Error("a later failure in the same run"), root);
+    T("a later failure in the same run leaves the folder as the first one wrote it", kept !== null && text(first, "error.txt") === kept && !existsSync(`${first}-2`));
+    evidenceDir = null;                          // the next run
+    await writeEvidence(new Error("the next run's failure"), root);
+    T("the next run's evidence lands beside the first as -2, never over it", existsSync(`${first}-2`) && readdirSync(`${first}-2`).length === 5 && kept !== null && text(first, "error.txt") === kept);
+    evidenceDir = null; livePage = { evaluate: async () => { throw new Error("gone"); }, screenshot: async () => { throw new Error("no page"); } };
+    await writeEvidence(new Error("a failure with a dead page"), root);
+    const third = `${first}-3`;
+    T("a page that can be neither read nor shot still leaves seed, gestures and error, saying why", existsSync(third) && /unreadable/.test(text(third, "save.json") || "") && /no screenshot: /.test(text(third, "error.txt") || "") && !existsSync(join(third, "screenshot.png")));
+  } finally { rmSync(root, { recursive: true, force: true }); evidenceDir = null; livePage = null; gestures.length = 0; }
+  let broken = 0;
+  for (const [name, pass] of results) { if (!pass) broken++; console.log((pass ? "ok   " : "FAIL ") + name); }
+  if (!broken) console.log("control OK: the evidence writer lands five files from a stub page, keeps the first failure, and lands the next run beside it");
+  console.log(broken ? `\nmonkey self-test: ${broken} of ${results.length} controls FAILED` : `\nmonkey self-test: ${results.length} controls, all hold`);
+  return broken;
+}
+if (SELF_TEST) process.exit(await selfTest() ? 1 : 0);
 
 /* A graduated save with four words in the boxes: the storm lands on a word
    session, the corner, free play - every screen a child can reach - and the

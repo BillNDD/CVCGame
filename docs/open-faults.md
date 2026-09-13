@@ -2833,7 +2833,7 @@ what is true now.
   ("four tiles at Pre 2, six at Pre 3, eight at Pre 4, ten at Pre 5"); the reference build's
   own prose at `reference/word-quest.jsx:1819` and `:2074`;
   `tools/effect-declarations.mjs:169` ("its five rungs"); `docs/effect-map.md:432`; and
-  `docs/open-faults.md` itself, in fault S, which speaks of "a child at Pre 1 to Pre 4".
+  `docs/open-faults.md` itself, in fault W2, which speaks of "a child at Pre 1 to Pre 4".
 - **What is actually true.** `PRE_LEVELS` has three rungs — Little Ears, First Sounds
   (s a t p), New Sounds (i n). `tests/pre.test.js:22` pins exactly `[1, 2, 3]`. The engine,
   the reference build's code, and the tests all agree. **The code is right and the prose is

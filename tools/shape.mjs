@@ -283,12 +283,17 @@ function measure(areas, extraUniverse = {}) {
 }
 
 /* The verdict is pure so the E6 controls can drive it: a ceiling under
-   today's number is red, and a ceiling that is not in the baseline is red. */
+   today's number is red, a ceiling that is not in the baseline is red, and a
+   ceiling ABOVE today's number - slack - is red in its own line, which names
+   the key and the number to lower it to (the review seat's M1, 2026-09-12:
+   before this, slack went red only through the self-test's lowered-ceiling
+   control, whose sentence then named a cause that had not happened). */
 function judge(counts, baseline) {
   const problems = [];
   for (const [metric, key] of Object.entries(KEYS)) {
     if (typeof baseline[key] !== "number") problems.push(`${key} is missing from the baseline - a ceiling that does not exist cannot refuse anything`);
     else if (counts[metric] > baseline[key]) problems.push(`${metric} = ${counts[metric]} is over its ceiling ${key} = ${baseline[key]}`);
+    else if (counts[metric] < baseline[key]) problems.push(`${metric} = ${counts[metric]} is under its ceiling ${baseline[key]} - lower ${key} to ${counts[metric]} in this commit`);
   }
   return problems;
 }
@@ -311,7 +316,8 @@ function realAreas() {
   };
 }
 /* Where a reference to an export may live, beyond the measured files: the
-   tests, the reference build and the generated acceptance suite. */
+   tests - every directory under tests/ except those SKIP_DIRS names, so the
+   generated acceptance suite is NOT read - and the reference build. */
 function realUniverse() {
   return read([...walk("tests", [".js", ".mjs"]), REFERENCE]);
 }
@@ -341,7 +347,9 @@ function list(m) {
    Planted fixtures under tools/fixtures/, measured as a tree of their own:
    one function over each bar, one duplicated pair, one dead export beside
    one live one. Then the E6 direction on the REAL tree: every ceiling
-   lowered by one must refuse, and a missing key must refuse. */
+   lowered by one must refuse, a missing key must refuse, and slack - a
+   count under its ceiling - must refuse in a line that names the key and
+   the number, proved verbatim on a planted 100 under 101. */
 function selfTest() {
   const ok = [];
   const T = (name, pass) => ok.push([name, pass]);
@@ -371,9 +379,18 @@ function fixtureControls(T) {
 function realTreeControls(T) {
   const real = measure(realAreas(), realUniverse());
   const baseline = JSON.parse(readFileSync(".claude/gate-baseline.json", "utf8"));
-  T("the real tree at today's ceilings raises no problem", judge(real.counts, baseline).length === 0);
+  const today = judge(real.counts, baseline);
+  T("the real tree at today's ceilings raises no problem" + (today.length ? ": " + today.join("; ") : ""), today.length === 0);
+  /* Judged against a baseline pinned at today's counts, not the file's, so
+     slack in some other key can never make this line print for it. */
+  const pinned = Object.fromEntries(Object.entries(KEYS).map(([metric, key]) => [key, real.counts[metric]]));
   T("every ceiling lowered by one under an unchanged tree is refused, naming its key",
-    Object.entries(KEYS).every(([metric, key]) => { const p = judge(real.counts, { ...baseline, [key]: baseline[key] - 1 }); return p.length === 1 && p[0].includes(key); }));
+    Object.entries(KEYS).every(([metric, key]) => { const p = judge(real.counts, { ...pinned, [key]: real.counts[metric] - 1 }); return p.length === 1 && p[0].includes(key) && p[0].includes("over its ceiling"); }));
+  const slackCounts = Object.fromEntries(Object.keys(KEYS).map((metric) => [metric, metric === "dead_exports" ? 100 : 0]));
+  const slackBaseline = Object.fromEntries(Object.entries(KEYS).map(([metric, key]) => [key, metric === "dead_exports" ? 101 : 0]));
+  const slack = judge(slackCounts, slackBaseline);
+  T("a count under its ceiling is refused as slack, in its own line: a planted 100 under 101 says 'dead_exports = 100 is under its ceiling 101 - lower g31_dead_exports_max to 100 in this commit'",
+    slack.length === 1 && slack[0] === "dead_exports = 100 is under its ceiling 101 - lower g31_dead_exports_max to 100 in this commit");
   T("a ceiling missing from the baseline is refused", judge(real.counts, { ...baseline, g31_dup_regions_max: undefined }).some((p) => p.includes("missing")));
   T("every area measured at least one function - a scope that reads nothing cannot pass",
     ["app/src", "engine", "tools"].every((a) => real.functions.some((f) => f.area === a)));
