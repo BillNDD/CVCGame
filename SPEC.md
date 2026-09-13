@@ -836,8 +836,10 @@ The reference build runs in a chat host. A standalone build changes four items:
    back on. There is no cloud scoring in this app, and adding one is a new ruling, not a
    revival of this item.
 
-The repository has a test suite. Run `npm test`. The command first extracts the engine to
-`src/engine.js` with `tools/extract-engine.mjs`, then runs Vitest. `docs/testing-gauntlet.md` defines the full gate set. All
+The repository has a test suite. Run `npm test`. The command first runs `tools/extract-engine.mjs`,
+which cuts the engine out of the reference build at its section markers into one generated module
+per section under `src/engine/` and the index `src/engine.js` that re-exports them, then runs
+Vitest. `docs/testing-gauntlet.md` defines the full gate set. All
 values in the tests are literal values. A test never reads the constant that it checks.
 
 Tests (Vitest), minimum list:

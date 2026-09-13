@@ -48,17 +48,20 @@ screen.
 The standalone app is a progressive web app in `app/`. The app operates offline after the first
 load. To install the app, read `docs/install-windows.md` or `docs/install-ios.md`.
 
-The app is a beta build. Updates come regularly until version 1.0 is ready. The `main` branch is
-the live version. Each push to `main` publishes the app again.
+The app is a beta build. Updates come regularly until version 1.0 is ready. The published app
+changes only when a release is made; a push to `main` between releases does not reach a family's
+device.
 
-To start the app on your own computer:
+To start the app on your own computer, install the repository's tools first and then the app.
+The app builds its engine from the reference with a tool that needs the root install:
 
 ```
+npm ci
 npm --prefix app install
 npm --prefix app run dev
 ```
 
-To make a production build in `app/dist`:
+To make a production build in `app/dist`, after the same two installs:
 
 ```
 npm --prefix app run build
@@ -66,8 +69,9 @@ npm --prefix app run build
 
 The reference build is one React component: `reference/word-quest.jsx`. You can also use the
 component as an artifact in a chat host that supplies a `window.storage` API. The tool
-`tools/extract-engine.mjs` makes the shared engine module `src/engine.js` from the reference
-build. The app and the test suite both use the generated module.
+`tools/extract-engine.mjs` makes the shared engine from the reference build: one generated
+module per section of the reference under `src/engine/`, and the index `src/engine.js` that the
+app and the test suite import.
 
 To understand the build, read `SPEC.md`, section 8. The recorded voice is governed by
 `tools/voice-words.csv` — one row per word, every knob and verdict; see `docs/voice-pack.md`.
@@ -78,7 +82,7 @@ gates.
 
 ```
 app/          the Vite project (the progressive web app)
-src/          the generated engine module (do not edit)
+src/          the generated engine: the index and one module per section (do not edit)
 tests/        the test suite
 tools/        the extractor, the generators, and the gate runners
 icons/        the icon set

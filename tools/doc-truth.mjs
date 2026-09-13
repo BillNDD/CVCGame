@@ -36,7 +36,7 @@ import { checkS8, checkS9Count } from "./doc-truth/safety.mjs";
 import { checkSpecSentences, checkQaSentences, checkHold, checkRecipe, checkChooser } from "./doc-truth/sentences.mjs";
 import { checkFloors } from "./doc-truth/floors.mjs";
 import { checkRefusals } from "./doc-truth/refusals.mjs";
-import { unshipped, checkUnshipped, checkLevelTable, checkOrphans } from "./doc-truth/ledgers.mjs";
+import { unshipped, checkUnshipped, checkLevelTable, checkOrphans, checkEngineModuleNames } from "./doc-truth/ledgers.mjs";
 import { checkTokens, checkStates } from "./doc-truth/art.mjs";
 import { SECTIONS } from "./extract-engine.mjs";
 
@@ -72,6 +72,13 @@ const SOURCES = [...sourcesFor("docs"), ...ENGINE_MODULES];
    able to find these tools in, and tools/claude-md-shape.mjs is what keeps
    CLAUDE.md from quietly growing the rules back. */
 const AGENT_TOOLS = [
+  {
+    file: "tools/extract-engine.mjs",
+    why: "the extractor: the engine's modules and their index, cut from the reference build",
+    docs: { "AGENTS.md": "agents", "README.md": "readme", "docs/testing-gauntlet.md": "gauntletDoc" },
+    script: "check",
+    command: "tools/extract-engine.mjs --self-test",
+  },
   {
     file: "tools/blast-radius.mjs",
     why: "the E11 lookup: what does this change break",
@@ -199,7 +206,7 @@ const RULES = [
   checkSpecSentences, checkQaSentences, checkHold, checkRecipe, checkChooser,
   checkFloors,
   checkRefusals,
-  checkUnshipped, checkLevelTable, (d) => checkOrphans(d, AGENT_TOOLS),
+  checkUnshipped, checkLevelTable, (d) => [...checkOrphans(d, AGENT_TOOLS), ...checkEngineModuleNames(d, SECTIONS)],
   checkTokens, checkStates,
 ];
 export function run(d) {
@@ -237,6 +244,18 @@ if (RUN_AS_COMMAND && process.argv.includes("--self-test")) {
   seen.orphanDoc = run(docOrphan).found.some((p) => p.startsWith("AGENTS.md no longer names tools/blast-radius.mjs"));
   /* The second is quieter: the tool is still named, still recommended, and
      nothing runs its controls any more, so it can go wrong and stay green. */
+  /* The extractor, by the same rule, and the engine's module names inside it
+     (batch 2 of the refactor, the engineer's pre-flight, 2026-09-13). */
+  const extractorCmd = { ...real, pkg: real.pkg.split("tools/extract-engine.mjs --self-test").join("true") };
+  seen.orphanExtractorCmd = run(extractorCmd).found.some((p) => p.includes("no longer runs tools/extract-engine.mjs"));
+  const extractorDoc = { ...real, gauntletDoc: real.gauntletDoc.split("tools/extract-engine.mjs").join("tools/nothing-engine.mjs") };
+  seen.orphanExtractorDoc = run(extractorDoc).found.some((p) => p.startsWith("docs/testing-gauntlet.md no longer names tools/extract-engine.mjs"));
+  const strayModule = { ...real, gauntletDoc: real.gauntletDoc + "\nThe engine keeps its tables in `src/engine/" + "nothing.js`.\n" };
+  seen.engineModuleName = run(strayModule).found.some((p) => p.includes("src/engine/nothing.js") && p.includes("no such section"));
+  /* A glob is a path pattern, not a module: the eslint block and the coverage
+     row are written that way, and naming them must never read as a stray. */
+  const globs = { ...real, gauntletDoc: real.gauntletDoc + "\nThe rules cover `src/engine/" + "*.js` and coverage reads `src/engine/" + "**`.\n" };
+  seen.engineModuleGlob = !run(globs).found.some((p) => p.includes("src/engine/*") || p.includes("no such section"));
   const cmdOrphan = { ...real, pkg: real.pkg.split("tools/blast-radius.mjs --self-test").join("true") };
   seen.orphanCmd = run(cmdOrphan).found.some((p) => p.includes("no longer runs tools/blast-radius.mjs"));
   /* And the same rule against the batch-1 helpers, by the new names: a helper
@@ -443,6 +462,10 @@ if (RUN_AS_COMMAND && process.argv.includes("--self-test")) {
     ["a level row in the wrong order is caught", seen.tableOrder],
     ["a governing document that has stopped naming a tool agents are told to run is caught", seen.orphanDoc],
     ["a command that has stopped running that tool's controls is caught", seen.orphanCmd],
+    ["the check that has stopped running the extractor's controls is caught", seen.orphanExtractorCmd],
+    ["the gate document that has stopped naming the extractor is caught", seen.orphanExtractorDoc],
+    ["a governing document naming an engine module the extractor does not cut is caught", seen.engineModuleName],
+    ["a glob over the engine's modules is a pattern, not a module, and is never refused", seen.engineModuleGlob],
     ["the check dropping a batch-1 helper's controls is caught by the new name", seen.orphanLibCmd],
     ["the gate document dropping a batch-1 helper is caught by the new name", seen.orphanLibDoc],
     ["the gate document dropping a rule module of the voice-pack gate is caught", seen.orphanModuleDoc],

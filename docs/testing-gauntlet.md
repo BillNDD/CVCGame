@@ -30,9 +30,10 @@ modules of the rewritten gates are measured from the day they are born):
   and identical windows in two or more places merge into a REGION. A group whose windows
   overlap each other inside one file is a table of same-shaped rows with the strings stripped -
   a periodic run - and is reported apart, never counted as a region;
-- dead exports: a name exported from `app/src`, `tools` or the engine's export list that no
-  other file under `app/src`, `tests`, `tools`, `reference` or the engine mentions as a whole
-  word. Most of these are called by their own file's self-test, so "dead" here means
+- dead exports: a name exported from `app/src`, `tools` or an engine module that no other
+  file under `app/src`, `tests`, `tools`, `reference` or the engine mentions as a whole word. An
+  engine module's exports can never read as dead: the reference build, which is in the search,
+  declares every one. Most of these are called by their own file's self-test, so "dead" here means
   "unreferenced outside its file", and a common name used anywhere counts as referenced: the
   number is a floor on the dead exports, never a ceiling.
 
@@ -60,9 +61,9 @@ lesson. The measurement report those numbers came from counted the reference bui
 component and the tests as well; this gate's scope is the code the app ships and the tools that
 guard it, and the values are the gate's own scope measured by the gate's own run.
 
-**How it reads the engine.** From the extractor into a scratch file, never from `src/engine.js`
-in the tree. The gate rides the gauntlet's second lane beside G5, and G5 rewrites `src/engine.js`
-with a mutant planted while leaving the reference untouched; the scratch extraction gives the
+**How it reads the engine.** From the extractor into a scratch directory, the index and one
+module per section under the names they carry in the tree, never from the engine in the tree. The
+gate rides the gauntlet's second lane beside G5, and G5 rewrites the engine with a mutant planted while leaving the reference untouched; the scratch extraction gives the
 same bytes on a clean tree and the right bytes on a mutated one.
 
 **The controls (E5), twelve.** Planted fixtures under `tools/fixtures/` measured as a tree of
@@ -137,16 +138,20 @@ as zero whatever it did, a scratch directory never removed, a child handed no ti
 
 ## G32 - the differential harness: the engine beside the engine that shipped
 
-`node tools/differential.mjs`, with `--self-test` for its nine controls (floor `g32_controls`).
+`node tools/differential.mjs`, with `--self-test` for its controls, floor `g32_controls` (12).
 Batch 0 of the refactor, owner-ruled 2026-09-12. The refactor promises E8 - nothing the game
 does changes - and this is the instrument that holds it: the engine the tree would ship is run
 beside the engine beta 32 shipped, over the same inputs, and any output that differs is red.
 
 **How the two engines are built, without a file in the tree.** The baseline is
 `git show v1.0.0-beta.32:reference/word-quest.jsx` into a scratch directory and
-`tools/extract-engine.mjs` run on it; the candidate is the tree's own reference build through
-the same extractor into the same scratch directory - never `src/engine.js`, which G5 rewrites
-beside this gate in the gauntlet's lane. The tag stays pinned for the whole refactor, so every
+the extractor that built beta 32 (`git show` of `tools/extract-engine.mjs` at the same tag) run
+on it, so the baseline shares no code with the extractor under test; the candidate is the tree's
+own reference build through the tree's extractor into the same scratch directory, imported
+through the index it writes - never the engine in the tree, which G5 rewrites beside this gate in
+the gauntlet's lane. Every name the baseline exports must be in the candidate; the names beyond
+them are counted in the summary line and never compared. A control proves the wiring by
+behaviour: the baseline must export the tag's hand-typed hundred names and the candidate more. The tag stays pinned for the whole refactor, so every
 batch is measured against what shipped before the first one and a drift cannot be smuggled
 through in steps. A clone without the tag is refused with `git fetch --tags` in the message;
 the release workflow's checkout fetches the whole history for that reason.
@@ -517,7 +522,7 @@ conversion release. This gate moves that discovery forward by however long the r
 `SENTENCES`, are spliced out and replaced with the 100-level ladder
 (`tools/ladder/ladder-v4.json`, `tools/ladder/shape-v3.json`, and the banked texts in
 `tools/pending-words/pending-words.json`). The substituted reference goes through
-`tools/extract-engine.mjs` — the real extractor, run as itself — and the module it produces
+`tools/extract-engine.mjs` — the real extractor, run as itself — and the index it produces
 is imported. `app/src/App.jsx`'s truly-random block builder is sliced out at its own anchors
 and re-exported against that module. Then the real functions run over every level:
 `buildSession`, `trayPool`, `buildTray`, `chunkWord`, `soundIdFor`, `soundIdsFor`,
@@ -582,8 +587,8 @@ ten for its controls, so both run in `npm run check`.
 
 - This project uses constraint-based development. The gates prove behavior. Code review is
   secondary.
-- The gates test the engine (`src/engine.js`, generated from `reference/word-quest.jsx`) and the
-  standalone app (`app/`).
+- The gates test the engine (`src/engine.js` and the modules under `src/engine/` it re-exports,
+  all generated from `reference/word-quest.jsx`) and the standalone app (`app/`).
 - The gates never change game behavior, the word bank, the feedback text, or the layout.
 - The gates add no PWA work. G7 tests the offline capability that already exists; it does not
   build it.
@@ -599,8 +604,8 @@ ten for its controls, so both run in `npm run check`.
    floors: raise one when its count grows; never lower it. Keys that end in `_max` are
    ceilings: lower one when quality improves; never raise it.
 5. If a gate fails, fix the code. If the gate itself looks wrong, stop and tell the owner.
-6. Do not edit generated files by hand. This applies to `src/engine.js` and to every file in
-   `tests/generated/`.
+6. Do not edit generated files by hand. This applies to `src/engine.js`, to the modules under
+   `src/engine/`, and to every file in `tests/generated/`.
 
 
 ## When the gates run
@@ -735,7 +740,7 @@ every bound reads `LEVELS.length`, which is why adding a level needed no engine 
   green. Measured on the owner's machine, same tree, back to back: 34 min 18 s without
   bail, 7 min 6 s with it, 73 of 73 killed both times.
 - Run G4 and G5 one after the other, never at the same time. Each rewrites files the other
-  reads — G4 regenerates `tests/generated`, G5 regenerates `src/engine.js` — so a parallel run
+  reads — G4 regenerates `tests/generated`, G5 regenerates the engine — so a parallel run
   reports a broken environment instead of a result. The gauntlet runs every gate in sequence.
 
 ## G6. Coverage and quality metrics
@@ -743,8 +748,9 @@ every bound reads `LEVELS.length`, which is why adding a level needed no engine 
 - Tool: Vitest coverage (v8 provider). Command: `npm run test:coverage`. In the gauntlet the
   coverage numbers are read from G1's own run, which carries `--coverage` (P1, 2026-08-22):
   one full-suite run fewer, identical counts, both gates still named in the evidence.
-- Floors on `src/engine.js`: 95 percent lines, 90 percent branches. Coverage is a floor, not a
-  goal. Keys: `g6_lines_min`, `g6_branches_min`.
+- Floors on the engine's modules, read from the `src/engine` row of the coverage table (the
+  index `src/engine.js` sits in the `src` row and carries no code): 95 percent lines, 90 percent
+  branches. Coverage is a floor, not a goal. Keys: `g6_lines_min`, `g6_branches_min`.
 - Floors on `app/src/**`: 82 percent lines, 84 percent branches, enforced in BOTH places on the
   same pair of numbers — by Vitest itself through `vitest.config.mjs`, and by the gauntlet
   against `g6_app_lines_min` and `g6_app_branches_min`, read from the `app/src` row of the
@@ -780,7 +786,8 @@ every bound reads `LEVELS.length`, which is why adding a level needed no engine 
   are the teeth; this is the floor that shows where no test has ever looked.
 - Quality checks, command `npm run lint:quality`. Keys: `g6_complexity_max`,
   `g6_file_lines_max`, `g6_dependency_cycles_max`.
-  - Cyclomatic complexity per function: 15 or less, in `src/engine.js` and `app/src/**`. The
+  - Cyclomatic complexity per function: 15 or less, in the engine's modules under `src/engine/`
+    and in `app/src/**`. The
     counter is the ESLint `complexity` rule with its default counting.
   - File length: 1400 lines or less for every source file, and `g6_engine_file_lines_max`
     (1485) for each generated engine module under `src/engine/` and their index
@@ -2237,7 +2244,15 @@ found it by remembering, which is the mechanism these gates exist to replace.
 
 ## Aggregation
 
-- `npm run gauntlet` first regenerates `src/engine.js` with the extractor. Every new script
+- `npm run gauntlet` first runs the extractor's controls, floor `extractor_controls` (22), and
+  then regenerates the engine. The extractor refuses a marker missing, doubled, unknown or out of
+  order; code above the first marker or a marker inside a statement; an engine that does not
+  parse; a section using a name a later section declares; a section assigning to a name another
+  section declares; a name `app/src`, `tests` or `tools` imports from the engine by a named or
+  destructured import that no section declares (a namespace import is not read); an import-scan
+  root it cannot find; and two extractions that differ by a byte. Its import scan reads from the
+  repository root wherever it is run from, and without the root install it refuses with what to
+  do. Every new script
   that needs the engine chains the extractor itself; the npm `pretest` hook covers `npm test`
   only.
 - It then runs, in order: G11, G1+G2+G9+G10+G14+G15 (one Vitest run), G3 regeneration check,

@@ -901,11 +901,11 @@ async function saveState(s) {
 /* sounds: the save healer and the migrations, speech, the feedback text, the
    sound tables and the sound-out, the heart words, the pre ladder, the bank,
    the sentences and reveal plans, and the chunk roster with its seats. One
-   section, because migrate reaches forward to PRE_LEVELS, CHUNK_ROSTER and
-   chunkSeat (through recoverPreLevel and creditSeatedChunks): every line
-   between the healer and chunkSeat must share a module, and no body may
-   change for a cut. The next cut that shortens this module moves those two
-   functions below the roster, which needs the owner's leave. */
+   section, because migrate reads PRE_LEVELS, migrateV7 calls creditSeatedChunks,
+   and that and recoverPreLevel reach CHUNK_ROSTER and chunkSeat: every line
+   between the healer and chunkSeat shares a module, and no body may change
+   for a cut. Moving those two functions alone frees nothing; moving the file's
+   storage block, banner to newState, below chunkSeat does: the owner's call. */
 /* F7 — guarantee the document shape. Valid JSON is not a valid save. */
 /* One healer for any box dictionary: words and pre-items carry the same
    shape, so they take the same repairs. */

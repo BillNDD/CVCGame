@@ -62,6 +62,20 @@ export function checkLevelTable(d) {
    Both halves are checked, because a tool can be orphaned in two directions:
    the documents stop naming it, or the command stops running it and it rots
    unnoticed. `tools` is the entry's list of what an agent is told to run. */
+/* The engine's module names, inside the orphan rule: a governing document
+   that names src/engine/<x>.js for a section the extractor does not cut is
+   describing a file that is not made. The names come from the extractor's
+   SECTIONS, never from a list typed here, and no governing document lists
+   them all: they are generated and they move when a section does. */
+export function checkEngineModuleNames(d, sections) {
+  const found = [];
+  for (const [doc, key] of [["AGENTS.md", "agents"], ["README.md", "readme"], ["SPEC.md", "spec"], ["docs/testing-gauntlet.md", "gauntletDoc"]]) {
+    for (const m of d[key].matchAll(/src\/engine\/([a-z]+)\.js/g)) {
+      if (!sections.includes(m[1])) found.push(`${doc} names ${m[0]}, and the extractor cuts no such section - a document describing a file that is not made`);
+    }
+  }
+  return found;
+}
 export function checkOrphans(d, tools) {
   const found = [];
   for (const t of tools) {

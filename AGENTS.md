@@ -547,13 +547,19 @@ lives only in a chat log is one this project loses.
   needs, and say so here. Said here, 2026-09-13, batch 2 of the refactor: the engine is
   eight generated modules under `src/engine/` and an index, one module per section
   marker in the reference, and the ceiling is 1485 - the length of the largest module,
-  `src/engine/sounds.js`, with no slack. It is not lower yet because the heal and migrate
-  family reaches forward to the pre ladder and the chunk roster (`recoverPreLevel` and
-  `creditSeatedChunks` use `PRE_LEVELS`, `CHUNK_ROSTER` and `chunkSeat`, declared some
-  1,300 lines below them), the extractor refuses a section that reaches a later one, and
-  the split was allowed to change nothing in the reference but comment lines - so every
-  line from the save healer to `chunkSeat` shares one module. The cut that halves it moves
-  those two functions below the roster in the reference, which is the owner's to allow.
+  the sounds module, with no slack. It is not lower yet because the save healer and the
+  migrations reach forward: `migrate` itself reads `PRE_LEVELS`, `migrateV7` calls
+  `creditSeatedChunks`, and `recoverPreLevel` and `creditSeatedChunks` use `PRE_LEVELS`,
+  `CHUNK_ROSTER` and `chunkSeat`, declared some 1,300 lines below them. The extractor
+  refuses a section that reaches a later one, and the split changed nothing in the
+  reference but comment lines, so every line from the save healer to `chunkSeat` shares one
+  module. This paragraph first said that moving `recoverPreLevel` and `creditSeatedChunks`
+  below the roster would halve it; the refactor's engineer measured that move the same day
+  and the extractor still refuses it, because `migrate` and `migrateV7` still reach forward.
+  A move that does free the cuts, measured the same way, takes the file's whole storage
+  block, from its banner to `newState`, below `chunkSeat` as one piece: 259 lines moved,
+  thirteen sections, and the largest module near 473 lines before its comments. That moves
+  code in the reference, and whether to do it is the owner's.
   From here the ceiling follows the largest module down, never up. The general
   limit was raised from 600 to 900 on 2026-07-29, from 900 to
   1200 on 2026-08-12, and from 1200 to 1400 on 2026-08-15 ("Increase it to 1400 on my
@@ -699,8 +705,9 @@ exclusions are recorded in SPEC section 12.
   lands. Fix a red release gauntlet before anything else moves.
 - Raise the floors in `.claude/gate-baseline.json` when counts grow. Never
   lower one. Keys ending in `_max` are ceilings; never raise one (E6).
-- `src/engine.js` and `tests/generated/` are generated. Edit
-  `reference/word-quest.jsx` and run `node tools/extract-engine.mjs` (E1, E2).
+- `src/engine.js` and `tests/generated/` are generated (E1), and so is every module under
+  `src/engine/` that `src/engine.js` re-exports. Edit `reference/word-quest.jsx` and run
+  `node tools/extract-engine.mjs` (E2).
 - Every detector ships with a negative control that proves it catches its
   target fault (E5). Every assertion uses a literal expected value (E4).
 

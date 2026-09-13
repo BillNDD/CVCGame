@@ -17,9 +17,10 @@
  *     group whose windows overlap each other inside one file is a table of
  *     same-shaped rows once its strings are stripped - a PERIODIC run - and
  *     is counted apart, never as a region;
- *   - dead exports: a name exported from app/src or tools, or in the engine's
- *     export list, that no other file under app/src, tests, tools, reference
- *     or the engine mentions as a whole word. "Unreferenced outside its own
+ *   - dead exports: a name exported from app/src, tools or an engine module
+ *     that no other file under app/src, tests, tools, reference or the engine
+ *     mentions as a whole word (an engine export never reads as dead: the
+ *     reference, which is in the search, declares every one). "Unreferenced outside its own
  *     file" is not "unused": most are called by their own file's self-test.
  *     A common name used as any identifier elsewhere counts as referenced,
  *     so the count is a floor on the dead exports, never a ceiling.
