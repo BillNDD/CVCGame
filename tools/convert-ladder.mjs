@@ -113,9 +113,13 @@ for (const p of problems.slice(0, 3)) console.log("  BLOCKS --write: " + p);
 if (problems.length > 3) console.log(`  ... and ${problems.length - 3} more of the same`);
 
 /* ---- the lexicon deltas (the blueprint's Q1) -------------------------- */
-/* CSV parsing is imported from the rehearsal so the two tools cannot parse
-   the same file two ways. */
-import { csvCells, spanOf } from "./conversion-rehearsal.mjs";
+/* CSV parsing and the span finder are the scaffold's, so the converter and
+   the rehearsal cannot parse the same file two ways - and, since batch 1,
+   neither imports the other: the rehearsal takes seatWords from here, and
+   this file took csvCells and spanOf from the rehearsal, which was the
+   tools' one import cycle. */
+import { csvCells } from "./lib/csv.mjs";
+import { spanOf } from "./lib/splice.mjs";
 import { finish } from "./lib/selftest.mjs";
 import { run, must, withScratch } from "./lib/proc.mjs";
 

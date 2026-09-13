@@ -113,6 +113,12 @@ the gauntlet ahead of G31, which requires one control of each by name:
   lesson, that `count > undefined` is false, closed once for every gate.
 - `tools/lib/report.mjs` - `printProblems(list)` and `verdict(gate, parts, count)`: the
   `PROBLEM:` line and the one-line verdict whose `N problems` every gauntlet step parses.
+- `tools/lib/csv.mjs` - `csvCells(line)`: one CSV line into cells, quotes honoured; and
+  `tools/lib/splice.mjs` - `spanOf(src, open, close, label)`: the span between two anchors, or
+  a throw naming the literal. Both were the rehearsal's, imported by the converter while the
+  rehearsal imported the converter's seat merge back - the tools' one import cycle, and one
+  the cycle gate could not see (G6, below). Mechanics; which anchors and what a row must hold
+  stay with the caller.
 - `tools/lib/proc.mjs` - `run(cmd, args, { cwd, env, timeoutMs })`: a child always under a
   timeout (ten minutes by default), both streams captured, returning `{ status, out }` and
   never throwing on a non-zero exit; `must(result, what)` for the caller that cannot go on;
@@ -785,8 +791,16 @@ every bound reads `LEVELS.length`, which is why adding a level needed no engine 
     after the enforced number moved, which is fault F3's shape. It is still a ceiling: only the
     owner may move it, no change may raise it, and a file near it should be split rather than
     allowed to grow.
-  - Dependency cycles in `app/src` and `src`: exactly 0. The checker must resolve the `@engine`
-    alias, or the check is empty for those edges.
+  - Dependency cycles in `app/src`, `src` and `tools`: exactly 0. The checker must resolve the
+    `@engine` alias, or the check is empty for those edges. `tools` joined the scope in batch 1
+    of the refactor (2026-09-13), which found the tools' one cycle - `convert-ladder` and
+    `conversion-rehearsal` importing each other - and two faults in the checker itself, both
+    closed the same day with a control each: it had been VACUOUS ON WINDOWS since the move
+    (a resolved import was made cwd-relative by stripping a forward-slash prefix, which never
+    matched a backslash path, so every edge pointed at a name no node had and the walk stopped
+    one hop from every file), and an import list written over several lines - the app's own
+    import of the engine - was never an edge. The controls now plant a cycle ON DISK and ask for
+    a known edge in each area, so a walk that resolves nothing cannot pass.
   - Tools: `eslint.config.mjs` at the root, `tools/dep-cycles.mjs` for cycles, and
     `tools/quality-control.mjs` for the negative controls.
 

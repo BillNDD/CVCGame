@@ -114,7 +114,7 @@ const LANE_B = new Map([
      measures it: four helpers, each with its own controls, required by name
      below, so a helper's self-test is re-run at every release and not only
      in the check. */
-  ["G31 shape", "node tools/lib/selftest.mjs --self-test && node tools/lib/baseline.mjs --self-test && node tools/lib/report.mjs --self-test && node tools/lib/proc.mjs --self-test && node tools/shape.mjs && node tools/shape.mjs --self-test"],
+  ["G31 shape", "node tools/lib/selftest.mjs --self-test && node tools/lib/baseline.mjs --self-test && node tools/lib/report.mjs --self-test && node tools/lib/proc.mjs --self-test && node tools/lib/csv.mjs --self-test && node tools/lib/splice.mjs --self-test && node tools/shape.mjs && node tools/shape.mjs --self-test"],
   /* G32 builds both engines it compares from the reference build into a
      scratch directory, so the mutant G5 plants in src/engine.js beside it
      is never what it reads. */
@@ -691,7 +691,9 @@ step("G31 shape", LANE_B.get("G31 shape"), [
   "a ceiling missing from the baseline throws, naming the key - the G27 lesson",
   "the verdict is the shape the gauntlet reads",
   "a non-zero exit is returned, never thrown, with its output kept",
-  "a throw inside the function still removes the directory, and the throw is passed on"]);
+  "a throw inside the function still removes the directory, and the throw is passed on",
+  "a quoted cell keeps its comma",
+  "a missing opening anchor throws, naming the literal and the anchor"]);
 
 /* G32 - the differential harness (batch 0 of the refactor, owner-ruled
    2026-09-12): the tree's engine beside the beta-32 engine over the same

@@ -58,6 +58,8 @@
         node tools/conversion-rehearsal.mjs --check     the gate
         node tools/conversion-rehearsal.mjs --self-test its controls */
 import { seatWords } from "./convert-ladder.mjs";
+import { csvCells } from "./lib/csv.mjs";
+import { spanOf } from "./lib/splice.mjs";
 import { readFileSync, writeFileSync, mkdtempSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
@@ -199,15 +201,8 @@ export function sentencesFrom(pending) {
 
 /* --------------------------------------------------------- substitution --
    Splice, never rewrite. Each span is found by its opening line and the first
-   line-start terminator after it, and the splice is proved reversible before
-   it is used. */
-export function spanOf(src, open, close, label) {
-  const a = src.indexOf(open);
-  if (a < 0) throw new Error(`the reference has no ${label} literal to substitute (looked for ${JSON.stringify(open)})`);
-  const b = src.indexOf(close, a);
-  if (b < 0) throw new Error(`the reference's ${label} literal never ends (looked for ${JSON.stringify(close)})`);
-  return [a, b + close.length];
-}
+   line-start terminator after it (tools/lib/splice.mjs, shared with the
+   converter), and the splice is proved reversible before it is used. */
 
 export function substitute(referenceSrc, levels, sentences) {
   const [la, lb] = spanOf(referenceSrc, "const LEVELS = [", "\n];\n", "LEVELS");
@@ -347,25 +342,6 @@ function probeTrays(E, found, where) {
       for (const s of new Set(t.value.sounds)) if (where(s) === "nowhere") found.tray_no_clip.push(`${w}@${l.n} -> ${s}`);
     }
   }
-}
-
-/* One CSV line into cells, honouring double quotes - the note column holds
-   commas. Enough parser for this file and no more; a fixture proves it. */
-export function csvCells(line) {
-  const out = [];
-  let cur = "", q = false;
-  for (let i = 0; i < line.length; i++) {
-    const ch = line[i];
-    if (q) {
-      if (ch === '"' && line[i + 1] === '"') { cur += '"'; i++; }
-      else if (ch === '"') q = false;
-      else cur += ch;
-    } else if (ch === '"') q = true;
-    else if (ch === ",") { out.push(cur); cur = ""; }
-    else cur += ch;
-  }
-  out.push(cur);
-  return out;
 }
 
 /* THE LEXICON, owner-ruled 2026-08-20: one row per word that will ever be

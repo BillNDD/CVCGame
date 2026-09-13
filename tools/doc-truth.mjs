@@ -114,7 +114,7 @@ const AGENT_TOOLS = [
      helpers under tools/lib, mechanics only, each with its own controls. A
      helper forty tools lean on and nothing re-runs is the shape this rule
      exists for. */
-  ...["selftest", "baseline", "report", "proc"].map((name) => ({
+  ...["selftest", "baseline", "report", "proc", "csv", "splice"].map((name) => ({
     file: `tools/lib/${name}.mjs`,
     why: `the tools' shared ${name} helper, and the controls that prove its mechanics`,
     docs: { "docs/testing-gauntlet.md": "gauntletDoc" },
