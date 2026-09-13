@@ -334,7 +334,9 @@ function step(gate, command, counts = [], env = {}, required = [], opts = {}) {
    reference plus the index src/engine.js. */
 step("extract engine", "node tools/extract-engine.mjs --self-test && node tools/extract-engine.mjs", [
   { label: "controls", regex: /extract-engine controls: (\d+) passed/, floorKey: "extractor_controls" },
-  { label: "modules", regex: /Wrote src\/engine\.js \((\d+) modules/, min: SECTIONS.length },
+  /* A literal (E4): the extractor prints SECTIONS.length, so a minimum read from SECTIONS
+     was one constant judging itself and could never fail. Eight sections, 2026-09-13. */
+  { label: "modules", regex: /Wrote src\/engine\.js \((\d+) modules/, min: 8 },
 ], {}, [
   "ok   a section using a name a later section declares is refused, naming both sections and the name",
   "ok   the modules carry the engine's own text line for line: strip the header, the import lines and the export clause and the body comes back byte for byte",
