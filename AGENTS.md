@@ -544,7 +544,17 @@ lives only in a chat log is one this project loses.
   a new normal - the engine is one generated file carrying teaching content, a palette and
   a component, and the refactor that splits it is owed. Whoever opens this after that
   refactoring lands should bring the ceiling back down to what the split file actually
-  needs, and say so here. The general
+  needs, and say so here. Said here, 2026-09-13, batch 2 of the refactor: the engine is
+  eight generated modules under `src/engine/` and an index, one module per section
+  marker in the reference, and the ceiling is 1485 - the length of the largest module,
+  `src/engine/sounds.js`, with no slack. It is not lower yet because the heal and migrate
+  family reaches forward to the pre ladder and the chunk roster (`recoverPreLevel` and
+  `creditSeatedChunks` use `PRE_LEVELS`, `CHUNK_ROSTER` and `chunkSeat`, declared some
+  1,300 lines below them), the extractor refuses a section that reaches a later one, and
+  the split was allowed to change nothing in the reference but comment lines - so every
+  line from the save healer to `chunkSeat` shares one module. The cut that halves it moves
+  those two functions below the roster in the reference, which is the owner's to allow.
+  From here the ceiling follows the largest module down, never up. The general
   limit was raised from 600 to 900 on 2026-07-29, from 900 to
   1200 on 2026-08-12, and from 1200 to 1400 on 2026-08-15 ("Increase it to 1400 on my
   authority", when the pre-level ladder would not fit the generated engine); only the owner

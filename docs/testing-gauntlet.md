@@ -782,8 +782,12 @@ every bound reads `LEVELS.length`, which is why adding a level needed no engine 
   `g6_file_lines_max`, `g6_dependency_cycles_max`.
   - Cyclomatic complexity per function: 15 or less, in `src/engine.js` and `app/src/**`. The
     counter is the ESLint `complexity` rule with its default counting.
-  - File length: 1400 lines or less for every source file, and 3000 for the generated engine
-    alone. `reference/word-quest.jsx` is exempt.
+  - File length: 1400 lines or less for every source file, and `g6_engine_file_lines_max`
+    (1485) for each generated engine module under `src/engine/` and their index
+    `src/engine.js` - the length of the largest module, `src/engine/sounds.js`, with no
+    slack, brought down from 3000 on 2026-09-13 when batch 2 of the refactor split the
+    engine (AGENTS.md E6 records the raise, the repayment and why it is not lower yet); it
+    follows the largest module down from here and never up. `reference/word-quest.jsx` is exempt.
     That file must stay one file, so it can run as a chat artifact. The ceiling was 600 lines
     until 2026-07-29, when the owner raised it to 900, 900 until 2026-08-12, when the owner
     raised it to 1200, and 1200 until 2026-08-15, when the owner raised it to 1400; the engine's
