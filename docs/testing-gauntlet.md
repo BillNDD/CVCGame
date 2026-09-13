@@ -207,7 +207,8 @@ drops; the baseline is built by the tag's own extractor, and by behaviour export
 hundred names while the candidate exports more; built as one file, the tree's reference
 exports the tag's hundred and gives zero differences; and `PRE_RUNG_CHUNKS` planted above
 `PRE_LEVELS` is refused by the modules and by the one file, each naming the uninitialised
-`PRE_LEVELS`. The planted refusal was watched red before the harness was wired. (This paragraph
+`PRE_LEVELS` at its own build's file - `ladder.js` for the modules, the one file for the one
+file - so a harness that builds the same way twice cannot pass it. The planted refusal was watched red before the harness was wired. (This paragraph
 said nine until 2026-09-13, three controls behind the harness it describes.)
 
 **What it cannot do.** It compares the engine with itself as it was, never with what it should

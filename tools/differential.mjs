@@ -438,10 +438,15 @@ async function oneFileControls(T, source) {
     r.exported === 100 && r.differences.length === 0);
   const line = source.split("\n").find((l) => l.startsWith("const PRE_RUNG_CHUNKS = new Set("));
   const planted = line ? source.replace(line + "\n", "").replace("const PRE_LEVELS = [", line + "\nconst PRE_LEVELS = [") : source;
+  /* Each refusal keeps its stack, so the control knows WHICH build threw: a loop that
+     tried the modules twice passed it while the one file was never built (the engineer's
+     2b-M1, watched 2026-09-13). */
   const said = [];
-  for (const oneFile of [false, true]) said.push(await withEngines(planted, () => "built with no throw", oneFile).catch(firstLine));
-  const both = !!line && said.every((s) => s.includes("Cannot access 'PRE_LEVELS' before initialization"));
-  T("PRE_RUNG_CHUNKS planted above PRE_LEVELS is refused by the modules and by the one file, each naming the uninitialised PRE_LEVELS" + (both ? "" : ` - the modules: ${said[0]}; the one file: ${said[1]}`), both);
+  for (const oneFile of [false, true]) said.push(await withEngines(planted, () => "built with no throw", oneFile).catch((e) => String((e && e.stack) || e)));
+  const refusedIn = (s, file) => s.includes("Cannot access 'PRE_LEVELS' before initialization") && s.includes(file);
+  const where = (s) => (s.split("\n").find((l) => l.includes("candidate-engine")) || s.split("\n")[0]).trim();
+  const both = !!line && refusedIn(said[0], "/candidate-engine/ladder.js:") && refusedIn(said[1], "/candidate-engine.js:");
+  T("PRE_RUNG_CHUNKS planted above PRE_LEVELS is refused by the modules and by the one file, each naming the uninitialised PRE_LEVELS in its own build's file" + (both ? "" : ` - the modules: ${where(said[0])}; the one file: ${where(said[1])}`), both);
 }
 async function selfTest() {
   const cases_ = [];
