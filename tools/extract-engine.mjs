@@ -10,7 +10,9 @@
  * one `import` line for every section above it whose names it uses, the
  * section's text verbatim, and one `export { ... }` clause naming every
  * top-level declaration it makes; src/engine.js is the index that re-exports
- * every section, so nothing that imports the engine changes. The export
+ * every section, so nothing that imports the engine changes. Writing the
+ * engine also deletes any module a renamed or removed section left behind in
+ * that folder, so a stale module can never be linted, counted or imported. The export
  * surface is DERIVED from the declarations: the list of 100 names this file
  * used to type by hand - 8 of them imported by nobody - is gone. The clause
  * sits at the end rather than an `export` keyword on each declaration so the
@@ -241,7 +243,15 @@ function extract(source, index, renderer = render) {
   if (moved) refuse(`two extractions of the same reference differ at ${moved[0]}`);
   return a;
 }
+/* The modules' folder is the extractor's own: a module a renamed or removed
+   section left behind is deleted before the engine is written, or ESLint would
+   lint it, the src/engine coverage row would count it, and anything could import
+   it though nothing makes it (the engineer's O3, 2026-09-13). Only .js files the
+   extraction does not write, and only in that one folder. */
 function writeFiles(files) {
+  const modules = files.slice(0, -1).map(([path]) => resolve(path));
+  const dir = dirname(modules[0]), keep = new Set(modules.map((path) => basename(path)));
+  if (existsSync(dir)) for (const e of readdirSync(dir)) if (e.endsWith(".js") && !keep.has(e)) rmSync(join(dir, e));
   for (const [path, text] of files) { mkdirSync(dirname(resolve(path)), { recursive: true }); writeFileSync(resolve(path), text); }
 }
 
@@ -374,6 +384,13 @@ async function treeControls(T, source) {
   await withScratch("extract-engine-", async (box) => {
     const at = join(box, INDEX);
     writeFiles(files.map(([p, t]) => [join(box, p), t]));
+    const folder = join(box, "src", "engine");
+    writeFileSync(join(folder, "zzqold.js"), "export const zzqOld = 1;\n");
+    writeFileSync(join(folder, "notes.txt"), "not a module\n");
+    writeFiles(files.map(([p, t]) => [join(box, p), t]));
+    T("a module a renamed section left behind is deleted when the engine is written again; the eight stay, and a file that is not a module is left alone",
+      !existsSync(join(folder, "zzqold.js")) && existsSync(join(folder, "notes.txt")) && SECTIONS.every((s) => existsSync(join(folder, s + ".js"))));
+    rmSync(join(folder, "notes.txt"));
     /* a module that will not load fails this control by name, with the loader's own words */
     const engine = await import(pathToFileURL(at).href).catch((e) => ({ __failed: crashed(e) }));
     const names = Object.keys(engine).sort();

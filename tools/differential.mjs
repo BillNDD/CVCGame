@@ -65,7 +65,9 @@
  * engine output - tools/art-render.mjs hashes the python renders pinned in
  * tools/art/provenance.json - so there is nothing of it to compare here.
  *
- * Run:      node tools/differential.mjs
+ * Run:      node tools/differential.mjs [--by-function]
+ *           (--by-function adds one line per function driven: its cases and
+ *           its differences)
  * Controls: node tools/differential.mjs --self-test
  */
 import { writeFileSync, readFileSync } from "node:fs";
@@ -435,8 +437,18 @@ if (RUN_AS_COMMAND) {
   if (process.argv.includes("--self-test")) process.exit((await selfTest()) ? 1 : 0);
   const candidate = readFileSync(REFERENCE, "utf8");
   const baseline = baselineSource();
-  const r = await withEngines(candidate, (B, C) => compare(B, C, cases(B)));
+  const r = await withEngines(candidate, (B, C) => {
+    const list = cases(B);
+    const result = compare(B, C, list);
+    result.driven = list.reduce((m, c) => m.set(c.fn, (m.get(c.fn) || 0) + 1), new Map());
+    return result;
+  });
   console.log(`Differential: baseline ${BASELINE_TAG} ${sha(baseline).slice(0, 12)}, candidate ${sha(candidate).slice(0, 12)}, ${r.tables} tables, ${r.functions} functions driven, ${r.cases} cases, ${r.differences.length} differences; the candidate exports ${r.extra} names beyond the baseline's`);
+  if (process.argv.includes("--by-function")) {
+    for (const [fn, n] of [...r.driven].sort((a, b) => a[0].localeCompare(b[0]))) {
+      console.log(`  ${fn}: ${n} cases, ${r.differences.filter((d) => d.fn === fn).length} differences`);
+    }
+  }
   if (r.differences.length) {
     printFirst(r.differences[0]);
     const rest = [...new Set(r.differences.slice(1).map((d) => d.fn))];
