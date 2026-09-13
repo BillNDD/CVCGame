@@ -13,7 +13,8 @@
  *       `error`; `timedOut` is set when the clock did it. The try/catch around
  *       execFileSync that every runner used to carry, folded into the return.
  *   must(result, what)  the one-line refusal for a caller that cannot go on:
- *       the output when the exit was zero, a throw naming `what` otherwise.
+ *       the standard output when the exit was zero, a throw naming `what`
+ *       otherwise (the first line of what the child said, in the message).
  *   withScratch(prefix, fn)  a temporary directory handed to fn and removed
  *       when fn returns, when it throws, when its promise settles, on process
  *       exit and on a signal (the C2 lesson: files restored on every exit
@@ -90,7 +91,7 @@ function notSpawned(e) {
  * @param {string} what
  */
 export function must(result, what) {
-  if (result.status === 0) return result.out;
+  if (result.status === 0) return result.stdout;
   const why = result.error || `exit ${result.status}`;
   const first = result.out.trim().split("\n")[0] || "";
   throw new Error(`${what} failed (${why})${first ? ": " + first.slice(0, 200) : ""}`);
@@ -155,7 +156,12 @@ function runControls(T) {
   T("the default timeout is ten minutes, not none", DEFAULT_TIMEOUT_MS === 600000);
   const here = withScratch("proc-cwd-", (dir) => node("console.log(process.cwd() + '|' + process.env.WQ_PROC_PROBE)", { cwd: dir, env: { ...process.env, WQ_PROC_PROBE: "probe" } }).out.trim());
   T("cwd and env reach the child", here.endsWith("|probe") && here.length > "|probe".length);
-  T("must hands back the output on a zero exit", must(zero, "a probe").includes("hello"));
+  mustControls(T, zero, three);
+}
+/** @param {(name: string, pass: unknown) => void} T @param {RunResult} zero @param {RunResult} three */
+function mustControls(T, zero, three) {
+  const out = must(zero, "a probe");
+  T("must hands back the standard output on a zero exit, and only that", out.includes("hello") && !out.includes("aside"));
   T("must throws on a non-zero exit, naming what failed and the exit", refuses(() => must(three, "the probe child"), "the probe child failed (exit 3)"));
 }
 const refuses = (/** @type {() => void} */ fn, /** @type {string} */ needle) => { try { fn(); return false; } catch (e) { return String(e.message).includes(needle); } };

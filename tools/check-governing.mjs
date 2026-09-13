@@ -12,10 +12,10 @@
    Negative control: --self-test injects a planted PROGRESS.md and a stray
    status.json; the detector must report both and still accept the real tree.
    Run: node tools/check-governing.mjs */
-import { execSync } from "node:child_process";
 import { readFileSync } from "node:fs";
 import { finish } from "./lib/selftest.mjs";
 import { printProblems } from "./lib/report.mjs";
+import { run, must } from "./lib/proc.mjs";
 
 /* The owned set: each file is the single owner of its facts (E10, and the
    review of 2026-08-02 that pointed every one of them at the word table). */
@@ -235,7 +235,7 @@ export function ownership(files, read) {
    gate. */
 const isMain = process.argv[1] && process.argv[1].replace(/\\/g, "/").endsWith("tools/check-governing.mjs");
 if (isMain) {
-const tracked = execSync("git ls-files", { encoding: "utf8" }).split("\n").filter(Boolean);
+const tracked = must(run("git", ["ls-files"]), "git ls-files").split("\n").filter(Boolean);
 
 if (process.argv.includes("--self-test")) {
   const planted = check([...tracked, "PROGRESS.md", "docs/status.json"]);

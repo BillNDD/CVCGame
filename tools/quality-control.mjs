@@ -5,24 +5,25 @@
    3. The live ESLint config must carry exactly the baseline ceilings, so a
       loosened config cannot pass while the baseline claims something tighter.
       Both numbers come from the baseline file, never from this source. */
-import { execFileSync, execSync } from "node:child_process";
 import { readFileSync } from "node:fs";
 import { loadBaseline } from "./lib/baseline.mjs";
+import { run, must } from "./lib/proc.mjs";
 
-const run = (cmd, args) => {
-  try { execFileSync(cmd, args, { stdio: "pipe" }); return true; } catch { return false; }
-};
-
-const complexityCaught = !run("npx", [
-  "eslint", "--no-config-lookup", "--rule", '{"complexity":["error",15]}',
-  "tools/fixtures/complexity-over.js",
-]);
+/* ESLint through node itself, never "npx": execFileSync takes no shell, so
+   on Windows the npx.cmd shim cannot start at all - and the old wrapper read
+   "could not start" and "refused the fixture" as the same false, so this
+   control was green on Windows without ESLint ever running (found 2026-09-13,
+   batch 1). A refusal is an exit of 1 that names the rule; a spawn that
+   never started is a broken control, and says so. */
+const ESLINT = "node_modules/eslint/bin/eslint.js";
+const eslint = run(process.execPath, [ESLINT, "--no-config-lookup", "--rule", '{"complexity":["error",15]}', "tools/fixtures/complexity-over.js"]);
+const complexityCaught = eslint.status === 1 && eslint.out.includes("complexity");
 if (!complexityCaught) {
-  console.error("control FAILED: ESLint accepted the complexity-17 fixture");
+  console.error(`control FAILED: ESLint did not refuse the complexity-17 fixture (exit ${eslint.status}${eslint.error ? ", " + eslint.error : ""})`);
   process.exit(1);
 }
 
-const cycleCaught = run("node", ["tools/dep-cycles.mjs", "--self-test"]);
+const cycleCaught = run(process.execPath, ["tools/dep-cycles.mjs", "--self-test"]).status === 0;
 if (!cycleCaught) {
   console.error("control FAILED: the cycle detector missed its planted cycle");
   process.exit(1);
@@ -34,7 +35,7 @@ const baseline = loadBaseline();
    effective configs are pinned to the baseline, so loosening either scope
    cannot pass while the baseline claims something tighter. */
 const pin = (file, key, expectComplexity) => {
-  const cfg = JSON.parse(execSync(`npx eslint --print-config ${file}`, { encoding: "utf8" }));
+  const cfg = JSON.parse(must(run(process.execPath, [ESLINT, "--print-config", file]), "eslint --print-config"));
   const complexity = cfg.rules?.complexity?.[1];
   const maxLinesOpt = cfg.rules?.["max-lines"]?.[1];
   const maxLines = typeof maxLinesOpt === "object" ? maxLinesOpt.max : maxLinesOpt;
@@ -80,7 +81,7 @@ const DVH = /dvh\b/;   // no leading \b: in "11dvh" a digit precedes the d, so \
    after the stylesheet sweep - the reference's copy had moved to svh and the
    app's had not, which this control could not see while it read one file
    (the council's after pass on step 0, 2026-08-22). */
-const APP_SOURCES = execSync("git ls-files app/src", { encoding: "utf8" }).split(/\r?\n/).filter((f) => /\.(jsx?|mjs|css)$/.test(f));
+const APP_SOURCES = must(run("git", ["ls-files","app/src"]), "git ls-files").split(/\r?\n/).filter((f) => /\.(jsx?|mjs|css)$/.test(f));
 const stripped = (f) => readFileSync(f, "utf8").replace(/\/\*[\s\S]*?\*\//g, "").replace(/^\s*\/\/.*$/gm, "");
 /* The reference build too, outside the block that IS the palette: the
    corner's chips were still typed there after the app's had moved to C

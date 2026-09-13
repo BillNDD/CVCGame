@@ -43,6 +43,7 @@
 import { readFileSync, existsSync, readdirSync, statSync, writeFileSync, rmSync } from "node:fs";
 import { execSync } from "node:child_process";
 import { join } from "node:path";
+import { run, must } from "./lib/proc.mjs";
 
 /* The child-facing recogniser and its plumbing. Each term is here because a
    named thing in the product uses it; none is a guess at what a future author
@@ -85,7 +86,7 @@ const ALLOWED = {
    source file", and now that is what it reads. */
 const CODE = /\.(js|cjs|mjs|jsx|ts|tsx|html|json|webmanifest)$/;
 const trackedFiles = () =>
-  execSync("git ls-files -z", { encoding: "buffer" }).toString("utf8")
+  must(run("git", ["ls-files","-z"]), "git ls-files")
     .split("\0").filter((f) => f && CODE.test(f));
 /* This file names every term it hunts for, so it can never be its own subject. */
 const SELF = "tools/mic-absence.mjs";

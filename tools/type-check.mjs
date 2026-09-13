@@ -19,13 +19,12 @@
  *
  * Run: node tools/type-check.mjs        Controls: node tools/type-check.mjs --self-test
  */
-import { spawnSync } from "node:child_process";
-import { readFileSync, writeFileSync, mkdtempSync, rmSync } from "node:fs";
+import { writeFileSync } from "node:fs";
 import { join } from "node:path";
-import { tmpdir } from "node:os";
 import { finish } from "./lib/selftest.mjs";
 import { loadBaseline } from "./lib/baseline.mjs";
 import { printProblems, verdict } from "./lib/report.mjs";
+import { run as runProcess, withScratch } from "./lib/proc.mjs";
 
 const BASELINE = loadBaseline();
 const TSC = "node_modules/typescript/bin/tsc";
@@ -34,9 +33,8 @@ export function countErrors(output) {
   return (output.match(/error TS\d+/g) || []).length;
 }
 function run(config) {
-  const r = spawnSync(process.execPath, [TSC, "-p", config, "--pretty", "false"], { encoding: "utf8" });
-  const out = (r.stdout || "") + (r.stderr || "");
-  return { errors: countErrors(out), out };
+  const r = runProcess(process.execPath, [TSC, "-p", config, "--pretty", "false"]);
+  return { errors: countErrors(r.out), out: r.out };
 }
 
 function selfTest() {
@@ -47,14 +45,14 @@ function selfTest() {
      arguments shifted - the 2026-08-17 shape - under a config of its own, and
      the checker must count it. A checker that cannot see a planted fault is
      not checking. */
-  const box = mkdtempSync(join(tmpdir(), "type-check-"));
+  const planted = withScratch("type-check-", (box) => {
   writeFileSync(join(box, "planted.mjs"), 'function step(gate, command, counts) { return [gate, command, counts]; }\nstep("G24", ["a"], "node x", {});\n');
   writeFileSync(join(box, "jsconfig.json"), JSON.stringify({
     compilerOptions: { checkJs: true, allowJs: true, noEmit: true, target: "ES2022", module: "ESNext", strict: false, types: [] },
     include: ["planted.mjs"],
   }));
-  const planted = run(join(box, "jsconfig.json"));
-  rmSync(box, { recursive: true, force: true });
+  return run(join(box, "jsconfig.json"));
+  });
   ok.push(["a call with its arguments shifted one place is refused", planted.errors >= 1]);
   ok.push(["both ceilings are zero - a checker that allows findings is not checking", BASELINE.ceiling("tsc_app_errors_max") === 0 && BASELINE.ceiling("tsc_tools_errors_max") === 0]);
   return finish("type-check", ok);

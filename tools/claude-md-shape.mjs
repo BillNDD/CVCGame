@@ -26,11 +26,11 @@
  *   node tools/claude-md-shape.mjs --self-test  prove it catches (E5)
  */
 import { readFileSync } from "node:fs";
-import { execSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 import { finish } from "./lib/selftest.mjs";
 import { loadBaseline } from "./lib/baseline.mjs";
 import { printProblems, verdict } from "./lib/report.mjs";
+import { run, must } from "./lib/proc.mjs";
 
 export const ALLOWED_HEADINGS = [
   "## Where a new rule goes",
@@ -235,7 +235,7 @@ function selfTest() {
 /* Every tracked text file, read once. */
 function trackedText() {
   const files = {};
-  for (const f of execSync("git ls-files", { encoding: "utf8" }).split("\n").filter(Boolean)) {
+  for (const f of must(run("git", ["ls-files"]), "git ls-files").split("\n").filter(Boolean)) {
     if (!/\.(md|mjs|js|jsx|json|py|yml|yaml)$/.test(f)) continue;
     try { files[f] = readFileSync(f, "utf8"); } catch { /* unreadable, not this gate's business */ }
   }

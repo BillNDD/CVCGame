@@ -36,8 +36,9 @@ import { tmpdir } from "node:os";
 import { pathToFileURL } from "node:url";
 import { payloadHash } from "./payload-hash.mjs";
 import { finish } from "./lib/selftest.mjs";
+import { run, must, withScratch } from "./lib/proc.mjs";
 
-const git = (...args) => execFileSync("git", args, { encoding: "utf8", stdio: ["ignore", "pipe", "pipe"] }).trim();
+const git = (...args) => must(run("git", args), "git " + args[0]).trim();
 
 /* The family changelog's entry for one version: every bullet that names it,
    in the order written, as release notes. Empty when the version is absent. */
@@ -92,8 +93,7 @@ function gather({ build = true } = {}) {
   const version = JSON.parse(readFileSync("app/package.json", "utf8")).version;
   git("fetch", "-q", "origin", "main");
   const remoteMain = git("rev-parse", "origin/main");
-  let remoteIsAncestor = true;
-  try { execFileSync("git", ["merge-base", "--is-ancestor", remoteMain, head], { stdio: "ignore" }); } catch { remoteIsAncestor = false; }
+  const remoteIsAncestor = run("git", ["merge-base", "--is-ancestor", remoteMain, head]).status === 0;
   const remoteTags = git("ls-remote", "--tags", "origin");
   return {
     head, branch: git("branch", "--show-current"), porcelain: git("status", "--porcelain"),
@@ -153,9 +153,8 @@ function selfTest() {
      directory away hashes differently for no reason and the deploy refuses a
      correct build. It was measured by hand once. Here it is measured every
      check, on a planted tree rather than on a build. */
-  ok.push(...(() => {
-    const dir = mkdtempSync(join(tmpdir(), "wq-hash-"));
-    try {
+  ok.push(...withScratch("wq-hash-", (dir) => {
+    {
       const bytes = "<!doctype html><title>t</title>";
       for (const rel of ["app/dist", "dist"]) {
         mkdirSync(join(dir, rel), { recursive: true });
@@ -171,8 +170,8 @@ function selfTest() {
         ["the payload hash of the same tree is the same twice", atAppDist === again],
         ["the payload hash is tied to the path the bytes land at, so the tarball must extract to app/dist", atAppDist !== oneUp],
       ];
-    } finally { rmSync(dir, { recursive: true, force: true }); }
-  })());
+    }
+  }));
   return finish("release", ok);
 }
 

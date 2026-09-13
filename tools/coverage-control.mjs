@@ -27,9 +27,9 @@
    the fixtures can never be mistaken for product code or reach the real
    run's numbers. */
 import { writeFileSync, mkdirSync, rmSync } from "node:fs";
-import { execSync } from "node:child_process";
 import { join } from "node:path";
 import { printProblems, verdict } from "./lib/report.mjs";
+import { run } from "./lib/proc.mjs";
 
 const root = ".cov-control";
 rmSync(root, { recursive: true, force: true });
@@ -82,16 +82,10 @@ writeFileSync(join(root, "vitest.config.mjs"), `export default {
 };
 `);
 
-let out = "";
-try {
-  /* vitest through node itself, the mutant runners' own fix: a .bin shell
-     script is not executable under the Windows default shell. */
-  out = execSync(`"${process.execPath}" node_modules/vitest/vitest.mjs run --coverage --root ${root}`, {
-    stdio: "pipe", encoding: "utf8", env: { ...process.env, NO_COLOR: "1" },
-  });
-} catch (e) {
-  out = String(e.stdout || "") + String(e.stderr || "");
-}
+/* vitest through node itself, the mutant runners' own fix: a .bin shell
+   script is not executable under the Windows default shell. */
+let out = run(process.execPath, ["node_modules/vitest/vitest.mjs", "run", "--coverage", "--root", root],
+  { env: { ...process.env, NO_COLOR: "1" } }).out;
 out = out.replace(/\[[0-9;]*[A-Za-z]/g, "");
 
 /* A row is: name | % Stmts | % Branch | % Funcs | % Lines | uncovered */

@@ -59,12 +59,12 @@
    Run: node tools/file-map.mjs            (writes docs/file-map.md)
         node tools/file-map.mjs --check    (fails if map stale or rules broken)
         node tools/file-map.mjs --self-test */
-import { execSync } from "node:child_process";
 import { readFileSync, writeFileSync, existsSync } from "node:fs";
 import { GOVERNING } from "./check-governing.mjs";
 import { finish } from "./lib/selftest.mjs";
 import { loadBaseline } from "./lib/baseline.mjs";
 import { printProblems, verdict } from "./lib/report.mjs";
+import { run, must } from "./lib/proc.mjs";
 
 /* ---------------------------------------------------------------- facts --
    One entry per owned fact family: the owner file, and the phrase shapes no
@@ -249,7 +249,7 @@ const CODE_EXT = /\.(mjs|js|jsx|py|yml|yaml)$/;
 const isBinary = (f) => /\.(mp3|png|jpg|jpeg|ico|woff2?|ttf|gif|webp|onnx|bin)$/i.test(f);
 
 export function loadTree() {
-  const tracked = execSync("git ls-files", { encoding: "utf8" }).split("\n").filter(Boolean);
+  const tracked = must(run("git", ["ls-files"]), "git ls-files").split("\n").filter(Boolean);
   const text = {};
   for (const f of tracked) {
     if (isBinary(f)) continue;

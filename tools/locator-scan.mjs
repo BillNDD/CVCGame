@@ -18,9 +18,9 @@
  * Run: node tools/locator-scan.mjs            Controls: node tools/locator-scan.mjs --self-test
  */
 import { readFileSync } from "node:fs";
-import { execFileSync } from "node:child_process";
 import { pathToFileURL } from "node:url";
 import { finish } from "./lib/selftest.mjs";
+import { run, must } from "./lib/proc.mjs";
 
 const PICTOGRAPH = /[←-⇿⌀-⏿■-➿⬀-⯿\u{1F000}-\u{1FAFF}]/u;
 /* A locator call with a string argument, or a role query's name. The string
@@ -47,7 +47,7 @@ export function scan(text) {
 }
 
 function files() {
-  const out = execFileSync("git", ["ls-files", "-z", "--", "tests", "tools/ux-census.mjs", "tools/census-novelties.mjs"], { encoding: "utf8" });
+  const out = must(run("git", ["ls-files","-z","--","tests","tools/ux-census.mjs","tools/census-novelties.mjs"]), "git ls-files");
   return out.split("\0").filter((f) => /\.(m?js)$/.test(f) && !f.startsWith("tests/generated/"));
 }
 

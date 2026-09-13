@@ -17,10 +17,10 @@
    Run: npm run lint:copy */
 import { sourcesFor, staleExclusions } from "./app-sources.mjs";
 import { readFileSync } from "node:fs";
-import { execSync } from "node:child_process";
 import { LEVELS, TRICKY, feedbackParts, feedbackSpeech, newState, PRAISE, VOICE_SENTENCES } from "../src/engine.js";
 import { finish } from "./lib/selftest.mjs";
 import { printProblems, verdict } from "./lib/report.mjs";
+import { run as runProcess, must } from "./lib/proc.mjs";
 
 const problems = [];
 const rule = (okay, name, detail) => {
@@ -239,7 +239,7 @@ function run(d) {
 }
 
 function trackedTextFiles() {
-  const names = execSync("git ls-files", { encoding: "utf8" }).split("\n").filter(Boolean)
+  const names = must(runProcess("git", ["ls-files"]), "git ls-files").split("\n").filter(Boolean)
     .filter((f) => /\.(md|js|jsx|mjs|json|yml|html|css|webmanifest|feature|gitignore|gitattributes)$/.test(f) || !f.includes("."))
     // lockfiles carry npm package authors' public emails, not personal data
     .filter((f) => !f.endsWith("package-lock.json"));

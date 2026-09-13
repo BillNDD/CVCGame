@@ -46,11 +46,11 @@
 
    Run: node tools/s9-names.mjs               scan the tracked tree
         node tools/s9-names.mjs --self-test   prove the scanner catches its fault */
-import { execSync } from "node:child_process";
 import { readFileSync, existsSync } from "node:fs";
 import { createHash } from "node:crypto";
 import { finish } from "./lib/selftest.mjs";
 import { printProblems, verdict } from "./lib/report.mjs";
+import { run, must } from "./lib/proc.mjs";
 
 const LIST_PATH = "private/s9-names.txt";
 const CORPUS_MANIFEST = "tools/corpus/sources.json";
@@ -223,7 +223,7 @@ export function scan(tree, names, passage = null, corpus = [], art = null) {
 }
 
 export function loadTree() {
-  const tracked = execSync("git ls-files", { encoding: "utf8" }).split("\n").filter(Boolean);
+  const tracked = must(run("git", ["ls-files"]), "git ls-files").split("\n").filter(Boolean);
   const tree = {};
   for (const f of tracked) {
     if (isBinary(f)) continue;

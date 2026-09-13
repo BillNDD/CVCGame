@@ -32,13 +32,12 @@
  *      node tools/art-budget.mjs --dist     (plus the precache list and the copy check)
  *      node tools/art-budget.mjs --self-test
  */
-import { execFileSync } from "node:child_process";
-import { readFileSync, existsSync, statSync, mkdtempSync, writeFileSync, rmSync, mkdirSync } from "node:fs";
+import { readFileSync, existsSync, statSync, writeFileSync, mkdirSync } from "node:fs";
 import { join } from "node:path";
-import { tmpdir } from "node:os";
 import { finish } from "./lib/selftest.mjs";
 import { loadBaseline } from "./lib/baseline.mjs";
 import { printProblems, verdict } from "./lib/report.mjs";
+import { run, must, withScratch } from "./lib/proc.mjs";
 
 const BASELINE = loadBaseline();
 const ART = "app/public/art";
@@ -51,7 +50,7 @@ export function trackedArt(dir = ART) {
      tree with no art prints - a gate that measures nothing and says it
      passed (the council's after pass on step 0, 2026-08-22). A reader that
      cannot read throws, and the caller reports it as a problem. */
-  const names = execFileSync("git", ["ls-files", "-z", "--", dir], { encoding: "utf8" });
+  const names = must(run("git", ["ls-files", "-z", "--", dir]), "git ls-files");
   return names.split("\0").filter(Boolean).map((f) => ({ file: f, bytes: existsSync(f) ? statSync(f).size : 0 }));
 }
 
@@ -85,12 +84,12 @@ function selfTest() {
   ok.push(["the ceilings are the ruled numbers", ceiling === 12582912 && pmax === 1650]);
   ok.push(["the real tracked art is under the ceiling", judge({ artFiles: trackedArt(), ceiling, precacheMax: pmax }).problems.length === 0]);
   /* The planted 13 MB, in a scratch directory the ceiling is pointed at. */
-  const box = mkdtempSync(join(tmpdir(), "art-budget-"));
+  withScratch("art-budget-", (box) => {
   mkdirSync(join(box, "art"));
   writeFileSync(join(box, "art", "WQ_GARDEN_STATE00_WIDE_v001.png"), Buffer.alloc(13 * 1024 * 1024));
   const planted = [{ file: join(box, "art", "WQ_GARDEN_STATE00_WIDE_v001.png"), bytes: statSync(join(box, "art", "WQ_GARDEN_STATE00_WIDE_v001.png")).size }];
   ok.push(["13 MB of planted art is refused", judge({ artFiles: planted, ceiling, precacheMax: pmax }).problems.some((p) => p.includes("the ceiling is"))]);
-  rmSync(box, { recursive: true, force: true });
+  });
   ok.push(["a precache list one over the ceiling is refused", judge({ artFiles: [], ceiling, precacheCount: 1651, precacheMax: pmax }).problems.some((p) => p.includes("precaches 1651"))]);
   ok.push(["a precache list at the ceiling passes", judge({ artFiles: [], ceiling, precacheCount: 1650, precacheMax: pmax }).problems.length === 0]);
   ok.push(["a built file whose bytes differ from its source is refused",

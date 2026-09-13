@@ -38,12 +38,12 @@
  * on or hands over as literal text - so `npm run census` had never once
  * started on the owner's own machine (found 2026-08-22).
  */
-import { readFileSync, writeFileSync, existsSync, statSync, readdirSync, mkdtempSync, rmSync } from "node:fs";
+import { readFileSync, writeFileSync, existsSync, statSync, readdirSync, rmSync } from "node:fs";
 import { spawnSync } from "node:child_process";
 import { join } from "node:path";
-import { tmpdir } from "node:os";
 import { finish } from "./lib/selftest.mjs";
 import { loadBaseline } from "./lib/baseline.mjs";
+import { withScratch } from "./lib/proc.mjs";
 
 const REPORT = ".census/report.json";
 const BUNDLE = "app/dist";
@@ -416,12 +416,12 @@ function selfTest() {
   /* And that the walker can read them. Three of the roots are single FILES,
      and readdirSync throws on a file — the version that only walked
      directories would have watched nothing at all through those three. */
-  const tmp = mkdtempSync(join(tmpdir(), "census-control-"));
+  withScratch("census-control-", (tmp) => {
   writeFileSync(join(tmp, "a.txt"), "x");
   ok.push(["the staleness walker reads a directory root", newestSource([tmp]).newest > 0]);
   ok.push(["the staleness walker reads a single-FILE root, which three of the roots are",
     newestSource([join(tmp, "a.txt")]).newest > 0]);
-  rmSync(tmp, { recursive: true, force: true });
+  });
   /* And that judge() actually calls it. Every fixture passes `now` in, so the
      default argument — the only path the real run takes — is otherwise
      untested. The fixture is dated the year 2000; nothing in this repository

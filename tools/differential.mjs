@@ -56,13 +56,12 @@
  * Run:      node tools/differential.mjs
  * Controls: node tools/differential.mjs --self-test
  */
-import { execFileSync } from "node:child_process";
-import { mkdtempSync, writeFileSync, rmSync, readFileSync } from "node:fs";
+import { writeFileSync, readFileSync } from "node:fs";
 import { join } from "node:path";
-import { tmpdir } from "node:os";
 import { pathToFileURL } from "node:url";
 import { createHash } from "node:crypto";
 import { finish } from "./lib/selftest.mjs";
+import { run, must, withScratch } from "./lib/proc.mjs";
 
 const BASELINE_TAG = "v1.0.0-beta.32";
 const REFERENCE = "reference/word-quest.jsx";
@@ -86,17 +85,15 @@ function mulberry32(seed) {
 
 /* ------------------------------------------------------------- engines -- */
 function baselineSource(tag = BASELINE_TAG) {
-  try {
-    return execFileSync("git", ["show", `${tag}:${REFERENCE}`], { encoding: "utf8", maxBuffer: 64 * 1024 * 1024, stdio: ["ignore", "pipe", "pipe"] });
-  } catch (e) {
-    const why = String(e.stderr || e.message || e).trim().split("\n")[0].slice(0, 120);
-    throw new Error(`the baseline tag ${tag} is not in this clone (${why}). A shallow checkout carries no tags: run git fetch --tags, or clone with the whole history.`);
-  }
+  const r = run("git", ["show", `${tag}:${REFERENCE}`]);
+  if (r.status === 0) return r.stdout;
+  const why = String(r.stderr || r.error || "").trim().split("\n")[0].slice(0, 120);
+  throw new Error(`the baseline tag ${tag} is not in this clone (${why}). A shallow checkout carries no tags: run git fetch --tags, or clone with the whole history.`);
 }
 async function buildEngine(source, box, name) {
   const jsx = join(box, name + ".jsx"), out = join(box, name + "-engine.js");
   writeFileSync(jsx, source);
-  execFileSync(process.execPath, [EXTRACTOR, jsx, out], { stdio: "pipe" });
+  must(run(process.execPath, [EXTRACTOR, jsx, out]), "the extractor");
   return import(pathToFileURL(out).href);
 }
 
@@ -334,13 +331,12 @@ function printFirst(d) {
   console.log(`    candidate: ${clip(d.candidate)}`);
 }
 
-async function withEngines(candidateSource, fn) {
-  const box = mkdtempSync(join(tmpdir(), "differential-"));
-  try {
+function withEngines(candidateSource, fn) {
+  return withScratch("differential-", async (box) => {
     const B = await buildEngine(baselineSource(), box, "baseline");
     const C = await buildEngine(candidateSource, box, "candidate");
-    return await fn(B, C);
-  } finally { rmSync(box, { recursive: true, force: true }); }
+    return fn(B, C);
+  });
 }
 
 /* -------------------------------------------------------------- controls --

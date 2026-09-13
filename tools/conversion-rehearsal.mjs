@@ -57,9 +57,8 @@
    Run: node tools/conversion-rehearsal.mjs             the report
         node tools/conversion-rehearsal.mjs --check     the gate
         node tools/conversion-rehearsal.mjs --self-test its controls */
-import { execFileSync } from "node:child_process";
 import { seatWords } from "./convert-ladder.mjs";
-import { readFileSync, writeFileSync, mkdtempSync, rmSync } from "node:fs";
+import { readFileSync, writeFileSync, mkdtempSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import { pathToFileURL } from "node:url";
@@ -67,6 +66,7 @@ import { TRICKY, WORD_SOUND, LEX_BENDS, chunkWord, soundIdFor, soundIdsFor } fro
 import { finish } from "./lib/selftest.mjs";
 import { loadBaseline } from "./lib/baseline.mjs";
 import { printProblems, verdict } from "./lib/report.mjs";
+import { run, must, withScratch } from "./lib/proc.mjs";
 
 const EXTRACTOR = "tools/extract-engine.mjs";
 const BASELINE = ".claude/gate-baseline.json";
@@ -263,7 +263,7 @@ export async function loadSubstituted(input, dir) {
   /* `extractor` is a parameter with the real tool as its default, for the one
      control that cannot be planted in data: a generator that ignores the
      source it was handed. Every ordinary caller gets the real extractor. */
-  execFileSync(process.execPath, [resolve(input.extractor || EXTRACTOR), refPath, engPath], { stdio: "pipe" });
+  must(run(process.execPath, [resolve(input.extractor || EXTRACTOR), refPath, engPath]), "the extractor");
   const E = await import(pathToFileURL(engPath).href);
   assertSubstituted(E, input.levels);
   writeFileSync(appPath, randomBlockModule(input.appSrc, pathToFileURL(engPath).href));
@@ -490,9 +490,8 @@ function probeCopy(E, found, homeSrc) {
 /* --------------------------------------------------------- the rehearsal --
    Everything above, over every level, on injected inputs so the controls can
    plant a fault and watch this same function go red. */
-export async function rehearse(input) {
-  const dir = mkdtempSync(join(tmpdir(), "wq-rehearsal-"));
-  try {
+export function rehearse(input) {
+  return withScratch("wq-rehearsal-", async (dir) => {
     const { E, A } = await loadSubstituted(input, dir);
     const found = empty();
     const where = clipWhere(input.manifest, input.pending);
@@ -506,7 +505,7 @@ export async function rehearse(input) {
     probeCopy(E, found, input.homeSrc);
     const counts = Object.fromEntries(CLASSES.map((c) => [c.id, found[c.id].length]));
     return { found, counts, levels: E.LEVELS.length, bank: E.bankWords().length, seats: A.ALL_WORDS.length };
-  } finally { rmSync(dir, { recursive: true, force: true }); }
+  });
 }
 
 /* The heart words the shape hands a child by sight, and the earliest level

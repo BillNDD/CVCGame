@@ -17,11 +17,11 @@
  *
  * Run: node tools/lock-guard.mjs            Controls: node tools/lock-guard.mjs --self-test
  */
-import { existsSync, readFileSync, mkdirSync, writeFileSync, rmSync, mkdtempSync } from "node:fs";
+import { existsSync, readFileSync, mkdirSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
-import { tmpdir } from "node:os";
 import { pathToFileURL } from "node:url";
 import { finish } from "./lib/selftest.mjs";
+import { withScratch } from "./lib/proc.mjs";
 
 export const LOCK = ".gauntlet.lock";
 
@@ -56,19 +56,19 @@ function selfTest() {
   ok.push(["a lock refuses, and says so in words a person can act on", String(guard(true, "")).startsWith("REFUSED")]);
   ok.push(["a lock names its holder when the gauntlet wrote one", String(guard(true, "G5 source-mutants since 09:58")).includes("G5 source-mutants since 09:58")]);
   /* The real reader, on a planted lock directory with and without a holder. */
-  const box = mkdtempSync(join(tmpdir(), "lock-guard-"));
+  withScratch("lock-guard-", (box) => {
   const lock = join(box, LOCK);
   mkdirSync(lock);
   ok.push(["a planted lock directory with no holder still refuses", guard(existsSync(lock), holderOf(lock)) !== null]);
   writeFileSync(join(lock, "current"), "G19 app-mutants since 10:01\n");
   ok.push(["the holder is read from the lock", holderOf(lock) === "G19 app-mutants since 10:01"]);
+  });
   /* the bypass, both ways - the direction with no control until 2026-08-23 */
   ok.push(["a runner with no parent takes the lock itself", shouldTakeLock({}) === true]);
   ok.push(["a gauntlet child does not take it again", shouldTakeLock({ WQ_GAUNTLET_LOCK: "held" }) === false]);
   ok.push(["an empty value is not a bypass", shouldTakeLock({ WQ_GAUNTLET_LOCK: "" }) === true]);
   ok.push(["only the exact token bypasses, so a stray value cannot open the hole", shouldTakeLock({ WQ_GAUNTLET_LOCK: "HELD" }) === true && shouldTakeLock({ WQ_GAUNTLET_LOCK: "1" }) === true]);
   ok.push(["a missing environment takes the lock", shouldTakeLock(undefined) === true]);
-  rmSync(box, { recursive: true, force: true });
   return finish("lock-guard", ok);
 }
 

@@ -4,9 +4,9 @@
    under the Windows default shell the whole gate failed on the idiom, not on
    the truth (the first Windows gauntlet found it, 2026-08-15). Ten portable
    lines instead. */
-import { execFileSync } from "node:child_process";
+import { run, must } from "./lib/proc.mjs";
 
-const out = execFileSync("git", ["status", "--porcelain", "--", "tests/generated"], { encoding: "utf8" }).trim();
+const out = must(run("git", ["status","--porcelain","--","tests/generated"]), "git status").trim();
 if (out) {
   console.error("tests/generated is not clean against the commit:\n" + out);
   process.exit(1);

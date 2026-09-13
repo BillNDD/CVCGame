@@ -24,13 +24,12 @@
  *                                                 the owner has approved it)
  * Controls: node tools/art-render.mjs --self-test
  */
-import { execFileSync } from "node:child_process";
 import { createHash } from "node:crypto";
-import { readFileSync, writeFileSync, existsSync, mkdtempSync, rmSync } from "node:fs";
+import { readFileSync, writeFileSync, existsSync } from "node:fs";
 import { join } from "node:path";
-import { tmpdir } from "node:os";
 import { finish } from "./lib/selftest.mjs";
 import { printProblems, verdict } from "./lib/report.mjs";
+import { run, must, withScratch } from "./lib/proc.mjs";
 
 const LEDGER = "tools/art/provenance.json";
 const SOURCE = "tools/art/garden.py";
@@ -64,15 +63,12 @@ export function judge(pinned, rendered, sourceHash, sourceNow) {
 }
 
 function render(profile, python = "py") {
-  const box = mkdtempSync(join(tmpdir(), "wq-art-"));
-  const out = join(box, `${profile}.png`);
-  try {
-    execFileSync(python, ["-3.12", SOURCE, "--profile", profile, "--out", out],
-      { stdio: ["ignore", "pipe", "pipe"], env: { ...process.env, PYTHONDONTWRITEBYTECODE: "1" } });
+  return withScratch("wq-art-", (box) => {
+    const out = join(box, `${profile}.png`);
+    must(run(python, ["-3.12", SOURCE, "--profile", profile, "--out", out],
+      { env: { ...process.env, PYTHONDONTWRITEBYTECODE: "1" } }), "the python renderer");
     return readFileSync(out);
-  } finally {
-    rmSync(box, { recursive: true, force: true });
-  }
+  });
 }
 
 function selfTest() {

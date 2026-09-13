@@ -117,6 +117,7 @@ if (problems.length > 3) console.log(`  ... and ${problems.length - 3} more of t
    the same file two ways. */
 import { csvCells, spanOf } from "./conversion-rehearsal.mjs";
 import { finish } from "./lib/selftest.mjs";
+import { run, must, withScratch } from "./lib/proc.mjs";
 
 export function lexiconRows(csvText) {
   const lines = csvText.trim().split(/\r?\n/).slice(1);
@@ -200,14 +201,10 @@ export function spliceAll(src, lit) {
    REAL extractor, and the imported module must hold the ladder AND agree
    with every lexicon row - only then does a byte touch the reference. */
 export async function verifySpliced(spliced, rows, wantLevels) {
-  const { mkdtempSync, rmSync } = await import("node:fs");
-  const { tmpdir } = await import("node:os");
-  const { execFileSync } = await import("node:child_process");
-  const dir = mkdtempSync(path.join(tmpdir(), "wq-write-"));
-  try {
+  return withScratch("wq-write-", async (dir) => {
     const refPath = path.join(dir, "word-quest.jsx"), engPath = path.join(dir, "engine.js");
     writeFileSync(refPath, spliced);
-    execFileSync(process.execPath, [path.join(REPO, "tools/extract-engine.mjs"), refPath, engPath], { stdio: "pipe" });
+    must(run(process.execPath, [path.join(REPO, "tools/extract-engine.mjs"), refPath, engPath]), "the extractor");
     const E = await import(pathToFileURL(engPath).href);
     if (E.LEVELS.length !== wantLevels.length) throw new Error(`the spliced module holds ${E.LEVELS.length} levels, not ${wantLevels.length}`);
     for (let i = 0; i < wantLevels.length; i++)
@@ -223,7 +220,7 @@ export async function verifySpliced(spliced, rows, wantLevels) {
     }
     if (bad.length) throw new Error(`the spliced engine disagrees with ${bad.length} lexicon row(s):\n  ` + bad.slice(0, 5).join("\n  "));
     return { levels: E.LEVELS.length, bank: E.bankWords().length, sounds: E.soundInventory().length };
-  } finally { rmSync(dir, { recursive: true, force: true }); }
+  });
 }
 
 /* ---- --self-test (E5): every refusal proved able to refuse ------------- */
@@ -242,14 +239,10 @@ async function selfTest() {
     wordTiles: { laugh: ["l", "a", "ugh"] },
     lexBends: { laugh: { 2: "f" }, come: { 1: "z" } },
   });
-  {
-    const { mkdtempSync, rmSync } = await import("node:fs");
-    const { tmpdir } = await import("node:os");
-    const { execFileSync } = await import("node:child_process");
-    const dir = mkdtempSync(path.join(tmpdir(), "wq-selftest-"));
-    try {
+  await withScratch("wq-selftest-", async (dir) => {
+    {
       writeFileSync(path.join(dir, "r.jsx"), spliced);
-      execFileSync(process.execPath, [path.join(REPO, "tools/extract-engine.mjs"), path.join(dir, "r.jsx"), path.join(dir, "e.js")], { stdio: "pipe" });
+      must(run(process.execPath, [path.join(REPO, "tools/extract-engine.mjs"), path.join(dir, "r.jsx"), path.join(dir, "e.js")]), "the extractor");
       const S = await import(pathToFileURL(path.join(dir, "e.js")).href);
       T("a WORD_TILES row is honoured by the spliced engine's chunkWord",
         S.chunkWord("laugh").join("-") === "l-a-ugh");
@@ -257,8 +250,8 @@ async function selfTest() {
         S.soundIdsFor("laugh").join(" ") === "d:l d:short_a d:f");
       T("a hand WORD_SOUND row outranks a planted LEX_BENDS row",
         S.soundIdsFor("come")[1] === "d:short_u");
-    } finally { rmSync(dir, { recursive: true, force: true }); }
-  }
+    }
+  });
 
   /* 3: a hand-row / lexicon disagreement is REFUSED, never outvoted. */
   const conflict = lexiconDeltas([{ word: "come", tiles: ["c", "o", "m", "e"], sounds: ["k", "z", "m", "silent"] }], E);
@@ -293,10 +286,9 @@ if (IS_MAIN) writeFileSync(path.join(OUT, "draft-sentences.json"), JSON.stringif
 if (IS_MAIN && DRY) console.log(`Dry run: draft-levels.json and draft-sentences.json written to ${OUT}; the reference is untouched.`);
 
 if (IS_MAIN && !DRY) {
-  const { execFileSync } = await import("node:child_process");
   const REF = path.join(REPO, "reference/word-quest.jsx");
-  try { execFileSync("git", ["diff", "--quiet", "--", "reference/word-quest.jsx"], { cwd: REPO }); }
-  catch { problems.push("reference/word-quest.jsx has uncommitted changes; --write refuses so a revert stays clean"); }
+  if (run("git", ["diff", "--quiet", "--", "reference/word-quest.jsx"], { cwd: REPO }).status !== 0)
+    problems.push("reference/word-quest.jsx has uncommitted changes; --write refuses so a revert stays clean");
   const E = await import(pathToFileURL(path.join(REPO, "src/engine.js")).href);
   const rows = lexiconRows(readFileSync(path.join(REPO, "tools/lexicon.csv"), "utf8"));
   const seatSet = new Set(levels.flatMap((l) => l.words.map((w) => w.toLowerCase())));
@@ -315,7 +307,7 @@ if (IS_MAIN && !DRY) {
   if (spliced2 !== spliced) { console.log("REFUSED: a second splice is not idempotent"); process.exit(1); }
   const v = await verifySpliced(spliced, rows, levels);
   writeFileSync(REF, spliced);
-  execFileSync(process.execPath, [path.join(REPO, "tools/extract-engine.mjs")], { cwd: REPO, stdio: "pipe" });
+  must(run(process.execPath, [path.join(REPO, "tools/extract-engine.mjs")], { cwd: REPO }), "the extractor");
   console.log(`WROTE the reference: ${v.levels} levels, bank ${v.bank}, ${v.sounds} sounds; `
     + `${Object.keys(wordTiles).length} tile override(s), ${Object.keys(lexBends).length} bend row(s). `
     + "Now: the ship steps, then the hand literal re-derivation (E4).");
