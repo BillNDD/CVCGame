@@ -41,9 +41,9 @@ the owner raises one; a refactor that improves the shape lowers it to what it re
 
 | key | today | what it counts |
 |---|---:|---|
-| `g31_fn_over_10_max` | 90 | functions over complexity 10, all three areas (93 at birth) |
-| `g31_fn_over_15_tools_max` | 33 | functions under `tools/` over 15 - the ceiling the product code obeys and the tools do not (34 at birth) |
-| `g31_fn_over_80_lines_max` | 12 | functions longer than 80 lines (13 at birth) |
+| `g31_fn_over_10_max` | 89 | functions over complexity 10, all three areas (93 at birth) |
+| `g31_fn_over_15_tools_max` | 32 | functions under `tools/` over 15 - the ceiling the product code obeys and the tools do not (34 at birth) |
+| `g31_fn_over_80_lines_max` | 11 | functions longer than 80 lines (13 at birth) |
 | `g31_depth_over_4_max` | 6 | blocks nested deeper than 4 |
 | `g31_dup_regions_max` | 11 | merged duplicated regions (14 at birth) |
 | `g31_dead_exports_max` | 101 | exports no other file references (102 at birth; see below) |
@@ -52,7 +52,9 @@ The two that have fallen since birth fell in batch 1 (2026-09-13): the self-test
 adoption removed three duplicated regions - the summary loop copied between `lock-guard`,
 `verify-published`, `release`, `file-map` and `s9-names` - and took one function under 10; the
 voice-pack gate's rewrite (G13, the same day) took `check` - complexity 154, 240 lines - out of all
-three function counts, so fn_over_10 fell to 90, fn_over_15_tools to 33 and fn_over_80_lines to 12.
+three function counts, so fn_over_10 fell to 90, fn_over_15_tools to 33 and fn_over_80_lines to 12;
+the doc-truth gate's rewrite (G16, the same day) took `run` - complexity 128, 179 lines - out of the
+same three, to 89, 32 and 11.
 A ceiling missing from the baseline is refused outright - `count > undefined` is false, the G27
 lesson. The measurement report those numbers came from counted the reference build's own
 component and the tests as well; this gate's scope is the code the app ships and the tools that
@@ -2083,7 +2085,11 @@ and from a real browser driven through a whole session.
 A document that promises behaviour the code does not have is a defect. QA step 32 once
 promised a fallback the code never performed; G12 counted the step and saw nothing wrong.
 
-- `tools/doc-truth.mjs` binds words to code. Five of its nine rules: every child-facing sentence
+- `tools/doc-truth.mjs` binds words to code. Since batch 1 of the refactor (2026-09-13) the file
+  is the entry - the rule list in its order, the documents each rule is handed, the tools an agent
+  is told to run, and the controls - and the rules live under `tools/doc-truth/`, one function per
+  rule: `safety.mjs`, `sentences.mjs`, `floors.mjs`, `refusals.mjs`, `ledgers.mjs`, `art.mjs` (`run`
+  had been one function of complexity 128 holding all fourteen). Five of its nine rules: every child-facing sentence
   quoted in SPEC section 8 exists verbatim in the app; every quoted sentence in the manual QA
   script exists verbatim in the app or the engine; the timings the documents name in words
   match the constants (the 8-second watchdog, the 2-second grace, and the "about 10 seconds"
