@@ -18,7 +18,7 @@
    mutation testing happened at all. Anchors that move are reported as
    skipped and fail the gate — they are re-pointed, never deleted (E3). */
 import { readFileSync, writeFileSync } from "node:fs";
-import { execFileSync } from "node:child_process";
+import { run as runProcess } from "./lib/proc.mjs";
 import { mkdirSync, rmSync as rmLock } from "node:fs";
 import { join as joinLock } from "node:path";
 import { LOCK, holderOf, shouldTakeLock } from "./lock-guard.mjs";
@@ -210,8 +210,9 @@ const MUTANTS = [
    2026-08-21). */
 let lastRunOutput = "";
 const run = (cmd, args) => {
-  try { execFileSync(cmd, args, { stdio: "pipe" }); lastRunOutput = ""; return true; }
-  catch (e) { lastRunOutput = String(e.stdout || "") + String(e.stderr || ""); return false; }
+  const r = runProcess(cmd, args);
+  lastRunOutput = r.status === 0 ? "" : r.out;
+  return r.status === 0;
 };
 
 /* A mutant is KILLED only when a TEST FAILED. A non-zero exit alone is not
@@ -256,13 +257,14 @@ function runTests() {
        this runner reads, so the verdict is unchanged and only the time moves.
        The pristine control above runs WITHOUT bail: a clean suite has nothing
        to stop at, and that run must prove every file green. */
-    execFileSync(process.execPath, ["node_modules/vitest/vitest.mjs", "run", "--reporter=dot", "--bail", "1"],
-      { stdio: "pipe", encoding: "utf8", maxBuffer: 64 * 1024 * 1024,
-        env: { ...process.env, NO_COLOR: "1" } });
-    return { passed: true, failed: 0 };
+    const r = runProcess(process.execPath, ["node_modules/vitest/vitest.mjs", "run", "--reporter=dot", "--bail", "1"],
+      { env: { ...process.env, NO_COLOR: "1" } });
+    if (r.status === 0) return { passed: true, failed: 0 };
+    return { passed: false, failed: testsFailed(r.out.replace(ANSI, "")) };
   } catch (e) {
-    const out = (String(e.stdout || "") + String(e.stderr || "")).replace(ANSI, "");
-    return { passed: false, failed: testsFailed(out) };
+    /* runProcess never throws on an exit; this is the runner's own fault, and
+       an errored mutant, never a kill. */
+    return { passed: false, failed: 0, error: String(e && e.message ? e.message : e) };
   }
 }
 const originals = new Map();

@@ -9,7 +9,7 @@
    stale test must pass, which proves the gate can see a survivor.
    Run: npm run test:acceptance-mutants   Requirement: 0 survivors. */
 import { readFileSync, writeFileSync } from "node:fs";
-import { execFileSync } from "node:child_process";
+import { run as runProcess } from "./lib/proc.mjs";
 import { mkdirSync, rmSync as rmLock } from "node:fs";
 import { join as joinLock } from "node:path";
 import { LOCK, holderOf, shouldTakeLock } from "./lock-guard.mjs";
@@ -19,9 +19,7 @@ const TEST = "tests/generated/acceptance.test.js";
 const TIGHTEN = [/^at most /, /^no word is above /];
 const selfTest = process.argv.includes("--self-test");
 
-const run = (cmd, args) => {
-  try { execFileSync(cmd, args, { stdio: "pipe" }); return true; } catch { return false; }
-};
+const run = (cmd, args) => runProcess(cmd, args).status === 0;
 
 /* THE LOCK, AND THIS IS THE RUNNER THAT MOST NEEDED IT (the after pass,
    2026-08-23). The lock's founding comment names G4 first - "G4 mutates
