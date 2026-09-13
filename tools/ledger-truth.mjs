@@ -36,6 +36,7 @@
  */
 import { readFileSync } from "node:fs";
 import { finish } from "./lib/selftest.mjs";
+import { printProblems, verdict } from "./lib/report.mjs";
 
 const SOURCES = [
   "SPEC.md", "CLAUDE.md", "AGENTS.md", "README.md", "CHANGELOG.md",
@@ -342,7 +343,7 @@ if (process.argv.includes("--self-test")) {
 }
 
 const problems = check(ledgers(), readAll(), packSounds());
-problems.forEach((p) => console.log("  PROBLEM: " + p));
+printProblems(problems);
 const n = Object.keys(ledgers()).length;
-console.log(`Ledger truth: ${n} sounds, ${SOURCES.length} documents, ${problems.length} problems`);
+console.log(verdict("Ledger truth", `${n} sounds, ${SOURCES.length} documents`, problems.length));
 process.exit(problems.length ? 1 : 0);

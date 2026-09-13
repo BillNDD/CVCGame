@@ -24,6 +24,7 @@ import { readFileSync, writeFileSync, readdirSync, existsSync } from "node:fs";
 
 import { DECLARED, NON_TEST_GATES } from "./effect-declarations.mjs";
 import { finish } from "./lib/selftest.mjs";
+import { printProblems, verdict } from "./lib/report.mjs";
 
 const TEST_DIRS = ["tests", "tests/generated"];
 const files = [];
@@ -202,16 +203,18 @@ if (process.argv.includes("--self-test")) {
 }
 
 const text = render();
-let problems = 0;
-for (const f of undeclared) { console.error(`  PROBLEM: ${f} has no declaration in tools/effect-map.mjs`); problems++; }
-for (const f of orphanDeclarations) { console.error(`  PROBLEM: tools/effect-map.mjs declares ${f}, which is not a test file any more`); problems++; }
-for (const x of shortfall) { console.error(`  PROBLEM: ${x.file} has ${x.sites} it() sites but ${x.rows} rows - the parser missed ${x.sites - x.rows}`); problems++; }
+const problems = [
+  ...undeclared.map((f) => `${f} has no declaration in tools/effect-map.mjs`),
+  ...orphanDeclarations.map((f) => `tools/effect-map.mjs declares ${f}, which is not a test file any more`),
+  ...shortfall.map((x) => `${x.file} has ${x.sites} it() sites but ${x.rows} rows - the parser missed ${x.sites - x.rows}`),
+];
+printProblems(problems, { print: console.error });
 
 if (process.argv.includes("--check")) {
   const current = existsSync(OUT) ? readFileSync(OUT, "utf8") : "";
-  if (current !== text) { console.error("  PROBLEM: docs/effect-map.md is stale — run node tools/effect-map.mjs"); problems++; }
-  console.log(`Effect map: ${rows.length} tests over ${files.length} files, ${problems} problems`);
-  process.exit(problems ? 1 : 0);
+  if (current !== text) { problems.push("docs/effect-map.md is stale — run node tools/effect-map.mjs"); printProblems(problems.slice(-1), { print: console.error }); }
+  console.log(verdict("Effect map", `${rows.length} tests over ${files.length} files`, problems.length));
+  process.exit(problems.length ? 1 : 0);
 }
 
 writeFileSync(OUT, text);

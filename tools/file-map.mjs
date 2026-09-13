@@ -64,6 +64,7 @@ import { readFileSync, writeFileSync, existsSync } from "node:fs";
 import { GOVERNING } from "./check-governing.mjs";
 import { finish } from "./lib/selftest.mjs";
 import { loadBaseline } from "./lib/baseline.mjs";
+import { printProblems, verdict } from "./lib/report.mjs";
 
 /* ---------------------------------------------------------------- facts --
    One entry per owned fact family: the owner file, and the phrase shapes no
@@ -575,7 +576,7 @@ if (process.argv.includes("--check")) {
 } else {
   writeFileSync("docs/file-map.md", render());
 }
-problems.forEach((p) => console.error("  PROBLEM: " + p));
-console.log(`File map: ${DECLARED.length} declared, ${Object.keys(FACTS).length} owned facts, ${tree.tracked.length} tracked, ${problems.length} problems`);
+printProblems(problems, { print: console.error });
+console.log(verdict("File map", `${DECLARED.length} declared, ${Object.keys(FACTS).length} owned facts, ${tree.tracked.length} tracked`, problems.length));
 process.exit(problems.length ? 1 : 0);
 }

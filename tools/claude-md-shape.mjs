@@ -30,6 +30,7 @@ import { execSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 import { finish } from "./lib/selftest.mjs";
 import { loadBaseline } from "./lib/baseline.mjs";
+import { printProblems, verdict } from "./lib/report.mjs";
 
 export const ALLOWED_HEADINGS = [
   "## Where a new rule goes",
@@ -245,13 +246,13 @@ if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
   if (process.argv[2] === "--self-test") process.exit(selfTest());
   const files = trackedText();
   const problems = [...check(readFileSync("CLAUDE.md", "utf8")), ...attributions(files)];
-  for (const p of problems) console.error("  PROBLEM: " + p);
+  printProblems(problems, { print: console.error });
   if (problems.length) {
-    console.error(`\nCLAUDE.md shape: ${problems.length} problem(s).`);
+    console.error("\n" + verdict("CLAUDE.md shape", "", problems.length));
     console.error('CLAUDE.md owns the safety rules S1-S9 and nothing else. See "Where a new rule goes".');
     console.error("A rule that is not a safety rule belongs to AGENTS.md, and so does the sentence naming it.");
     process.exit(1);
   }
-  console.log(`CLAUDE.md shape: ${ALLOWED_HEADINGS.length} allowed sections, ${SAFETY_RULES.length} safety rules, `
-    + `${Object.keys(files).length} files scanned for stale credit, 0 problems`);
+  console.log(verdict("CLAUDE.md shape", `${ALLOWED_HEADINGS.length} allowed sections, ${SAFETY_RULES.length} safety rules, `
+    + `${Object.keys(files).length} files scanned for stale credit`, 0));
 }

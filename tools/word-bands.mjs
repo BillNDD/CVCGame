@@ -37,6 +37,7 @@ import { readFileSync, readdirSync, writeFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { finish } from "./lib/selftest.mjs";
 import { loadBaseline } from "./lib/baseline.mjs";
+import { printProblems } from "./lib/report.mjs";
 
 const CORPUS = "tools/corpus/";
 const REF = "reference/word-quest.jsx";
@@ -171,7 +172,7 @@ if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
     console.log("Now run: node tools/extract-engine.mjs");
   } else if (arg === "--check") {
     if (!ref.includes(block)) {
-      console.error("  PROBLEM: the bands in " + REF + " disagree with the corpus - run node tools/word-bands.mjs --write");
+      printProblems(["the bands in " + REF + " disagree with the corpus - run node tools/word-bands.mjs --write"], { print: console.error });
       process.exit(1);
     }
     console.log(`word-bands: ${b.common.length} common, ${b.middle.length + b.unranked.length} middle, ${b.rare.length} rare, in step with the corpus`);

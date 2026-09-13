@@ -30,6 +30,7 @@ import { readFileSync, writeFileSync, existsSync, mkdtempSync, rmSync } from "no
 import { join } from "node:path";
 import { tmpdir } from "node:os";
 import { finish } from "./lib/selftest.mjs";
+import { printProblems, verdict } from "./lib/report.mjs";
 
 const LEDGER = "tools/art/provenance.json";
 const SOURCE = "tools/art/garden.py";
@@ -124,6 +125,6 @@ if (process.argv.includes("--write")) {
 }
 
 const problems = judge(pinned, rendered, scene.sourceHash?.[SOURCE], sourceNow);
-for (const p of problems) console.log("PROBLEM: " + p);
-console.log(`Art render: ${profiles.length} profiles regenerated, ${problems.length} problems`);
+printProblems(problems);
+console.log(verdict("Art render", `${profiles.length} profiles regenerated`, problems.length));
 process.exit(problems.length ? 1 : 0);

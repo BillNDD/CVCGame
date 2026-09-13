@@ -66,6 +66,7 @@ import { pathToFileURL } from "node:url";
 import { TRICKY, WORD_SOUND, LEX_BENDS, chunkWord, soundIdFor, soundIdsFor } from "../src/engine.js";
 import { finish } from "./lib/selftest.mjs";
 import { loadBaseline } from "./lib/baseline.mjs";
+import { printProblems, verdict } from "./lib/report.mjs";
 
 const EXTRACTOR = "tools/extract-engine.mjs";
 const BASELINE = ".claude/gate-baseline.json";
@@ -901,8 +902,8 @@ if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) 
     if (process.argv.includes("--check")) {
       const { problems, nudges } = gate(r.counts, loadBaseline().data);
       for (const n of nudges) console.log("nudge: " + n);
-      for (const p of problems) console.log("PROBLEM: " + p);
-      console.log(`Conversion rehearsal: ${CLASSES.length} classes, ${Object.values(r.counts).reduce((a, b) => a + b, 0)} findings, ${problems.length} problems`);
+      printProblems(problems);
+      console.log(verdict("Conversion rehearsal", `${CLASSES.length} classes, ${Object.values(r.counts).reduce((a, b) => a + b, 0)} findings`, problems.length));
       process.exit(problems.length ? 1 : 0);
     } else print(r);
   }

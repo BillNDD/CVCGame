@@ -38,6 +38,7 @@ import { join } from "node:path";
 import { tmpdir } from "node:os";
 import { finish } from "./lib/selftest.mjs";
 import { loadBaseline } from "./lib/baseline.mjs";
+import { printProblems, verdict } from "./lib/report.mjs";
 
 const BASELINE = loadBaseline();
 const ART = "app/public/art";
@@ -129,7 +130,7 @@ if (process.argv.includes("--dist")) {
   facts.copies = compareCopies(art);
 }
 const { total, problems } = judge(facts);
-for (const p of problems) console.log("PROBLEM: " + p);
-console.log(`Art budget: ${art.length} tracked art files, ${total} bytes (max ${facts.ceiling})`
-  + (facts.precacheCount != null ? `, precache ${facts.precacheCount} files (max ${facts.precacheMax})` : "") + `, ${problems.length} problems`);
+printProblems(problems);
+console.log(verdict("Art budget", `${art.length} tracked art files, ${total} bytes (max ${facts.ceiling})`
+  + (facts.precacheCount != null ? `, precache ${facts.precacheCount} files (max ${facts.precacheMax})` : ""), problems.length));
 process.exit(problems.length ? 1 : 0);

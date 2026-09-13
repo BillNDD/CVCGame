@@ -16,6 +16,7 @@
 import { readFileSync, writeFileSync, existsSync } from "node:fs";
 import { execSync } from "node:child_process";
 import { pathToFileURL } from "node:url";
+import { printProblems } from "./lib/report.mjs";
 
 export const DEFAULTS = {
   voice: "af_heart", lang: "en-us", speed: 0.85, lead_ms: 80, tail_ms: 300,
@@ -95,7 +96,7 @@ if (isMain) {
   const csvText = readFileSync("tools/voice-words.csv", "utf8");
   const { rows, treatments, pins, words, problems } = derive(csvText);
   if (problems.length) {
-    problems.forEach((p) => console.error("PROBLEM: " + p));
+    printProblems(problems, { print: console.error });
     process.exit(1);
   }
   const RULE = "GENERATED from tools/voice-words.csv - do not edit by hand; edit the word's row and run: node tools/gen-voice-lock.mjs";

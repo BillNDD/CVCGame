@@ -61,6 +61,7 @@
 import { createHash } from "node:crypto";
 import { readFileSync, readdirSync, existsSync } from "node:fs";
 import { finish } from "./lib/selftest.mjs";
+import { printProblems, verdict } from "./lib/report.mjs";
 
 const DIR = "tools/pending-words";
 const LEDGER = `${DIR}/pending-words.json`;
@@ -304,6 +305,6 @@ if (process.argv.includes("--self-test")) {
 const { ledger, files, bytes, sources } = fromTree();
 const problems = check(ledger, files, bytes, sources);
 const rows = Object.keys(ledger).filter((k) => !k.startsWith("_")).length;
-for (const p of problems) console.log("  PROBLEM: " + p);
-console.log(`Waiting room: ${rows} rows, ${files.length} clips, ${problems.length} problems`);
+printProblems(problems);
+console.log(verdict("Waiting room", `${rows} rows, ${files.length} clips`, problems.length));
 process.exit(problems.length ? 1 : 0);

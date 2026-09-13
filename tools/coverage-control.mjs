@@ -29,6 +29,7 @@
 import { writeFileSync, mkdirSync, rmSync } from "node:fs";
 import { execSync } from "node:child_process";
 import { join } from "node:path";
+import { printProblems, verdict } from "./lib/report.mjs";
 
 const root = ".cov-control";
 rmSync(root, { recursive: true, force: true });
@@ -120,10 +121,10 @@ if (!/v8|istanbul/.test(out) && !full)
 
 rmSync(root, { recursive: true, force: true });
 
-problems.forEach((p) => console.error(`  PROBLEM: ${p}`));
+printProblems(problems, { print: console.error });
 if (full && partial && untested)
   console.log(`Coverage control: ${say("full", full)}, ${say("partial", partial)}, ${say("untested", untested)}`);
-console.log(`Coverage calibration: 3 fixtures, ${problems.length} problems`);
+console.log(verdict("Coverage calibration", "3 fixtures", problems.length));
 if (!problems.length)
   console.log("control OK: the meter reports 100 for a fully exercised file, less for an untaken branch, and 0 for a file no test touches");
 process.exit(problems.length ? 1 : 0);

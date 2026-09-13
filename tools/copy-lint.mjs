@@ -20,6 +20,7 @@ import { readFileSync } from "node:fs";
 import { execSync } from "node:child_process";
 import { LEVELS, TRICKY, feedbackParts, feedbackSpeech, newState, PRAISE, VOICE_SENTENCES } from "../src/engine.js";
 import { finish } from "./lib/selftest.mjs";
+import { printProblems, verdict } from "./lib/report.mjs";
 
 const problems = [];
 const rule = (okay, name, detail) => {
@@ -302,6 +303,6 @@ if (process.argv.includes("--self-test")) {
 
 const { found, rules: ruleCount, words } = run(real);
 rule(found.length === 0, "child-facing copy clean", found.join("; "));
-console.log(`Copy gate: ${ruleCount} rules over ${real.corpus.length} copy strings, ${real.tracked.length} tracked files, and ${words} words, ${problems.length} problems`);
-problems.forEach((p) => console.error("  PROBLEM: " + p));
+console.log(verdict("Copy gate", `${ruleCount} rules over ${real.corpus.length} copy strings, ${real.tracked.length} tracked files, and ${words} words`, problems.length));
+printProblems(problems, { print: console.error });
 process.exit(problems.length ? 1 : 0);

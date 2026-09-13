@@ -20,6 +20,7 @@ import { readFileSync } from "node:fs";
 import { C } from "../src/engine.js";
 import { finish } from "./lib/selftest.mjs";
 import { loadBaseline } from "./lib/baseline.mjs";
+import { printProblems, verdict } from "./lib/report.mjs";
 
 const LEDGER = "tools/art/provenance.json";
 const BASELINE = loadBaseline();
@@ -222,7 +223,7 @@ if (process.argv.includes("--self-test")) {
 
 const ledger = JSON.parse(readFileSync(LEDGER, "utf8"));
 const problems = judge(ledger);
-for (const p of problems) console.log("PROBLEM: " + p);
+printProblems(problems);
 const fams = Object.keys(ledger.families || {});
-console.log(`Provenance: ${fams.length} famil${fams.length === 1 ? "y" : "ies"} (${fams.join(", ")}), shares ${Object.values(ledger.shares).reduce((n, v) => n + v, 0)} of ${BASELINE.ceiling("art_bytes_max")}, ${problems.length} problems`);
+console.log(verdict("Provenance", `${fams.length} famil${fams.length === 1 ? "y" : "ies"} (${fams.join(", ")}), shares ${Object.values(ledger.shares).reduce((n, v) => n + v, 0)} of ${BASELINE.ceiling("art_bytes_max")}`, problems.length));
 process.exit(problems.length ? 1 : 0);

@@ -31,6 +31,7 @@
  */
 import { SENTENCES, REVEAL_LINES, REVEAL_LINE_TEXT, sentenceWords } from "../src/engine.js";
 import { finish } from "./lib/selftest.mjs";
+import { printProblems, verdict } from "./lib/report.mjs";
 
 /* THE SHAPE. Adults, contact verbs, and the child as object.
 
@@ -365,7 +366,7 @@ if (process.argv.includes("--self-test")) {
 
 if (process.argv.length === 2) {
   const problems = screen(shippedSentences());
-  problems.forEach((p) => console.log("  PROBLEM: " + p));
-  console.log(`Sentence screen: ${shippedSentences().length} sentences, screened ${SCREENED_ON}, 2026-08-15 and 2026-08-16, ${problems.length} problems`);
+  printProblems(problems);
+  console.log(verdict("Sentence screen", `${shippedSentences().length} sentences, screened ${SCREENED_ON}, 2026-08-15 and 2026-08-16`, problems.length));
   process.exit(problems.length ? 1 : 0);
 }

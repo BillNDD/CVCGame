@@ -50,6 +50,7 @@ import { execSync } from "node:child_process";
 import { readFileSync, existsSync } from "node:fs";
 import { createHash } from "node:crypto";
 import { finish } from "./lib/selftest.mjs";
+import { printProblems, verdict } from "./lib/report.mjs";
 
 const LIST_PATH = "private/s9-names.txt";
 const CORPUS_MANIFEST = "tools/corpus/sources.json";
@@ -742,9 +743,8 @@ if (isMain) {
   const hits = [...scan(scanTree, names), ...scan(scanTree, common, passage, corpus, art),
     ...strangers(tree, vocab, passage, corpus, art),
     ...pairs(tree, loadFirstUniverse(), surnames, languageOf(tree), corpus)];
-  problems.forEach((p) => console.error("  PROBLEM: " + p));
-  hits.forEach((h) => console.error("  PROBLEM: " + h));
-  console.log(`S9 names: ${names.length} names loaded, ${common.length} common names guarded, ${surnames.length} surnames paired, ${vocab.length} known tokens, ${Object.keys(passage.names).length} passage names scoped, ${Object.keys(art.urls).length} art sources scoped, ${Object.keys(tree).length} files scanned, ${problems.length + hits.length} problems`);
+  printProblems([...problems, ...hits], { print: console.error });
+  console.log(verdict("S9 names", `${names.length} names loaded, ${common.length} common names guarded, ${surnames.length} surnames paired, ${vocab.length} known tokens, ${Object.keys(passage.names).length} passage names scoped, ${Object.keys(art.urls).length} art sources scoped, ${Object.keys(tree).length} files scanned`, problems.length + hits.length));
   if (!names.length) console.log("  (no private/s9-names.txt and no S9_NAMES on this machine - structural controls only; the live scan runs where the owner keeps the list)");
   process.exit(problems.length + hits.length ? 1 : 0);
 }

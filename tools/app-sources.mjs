@@ -18,6 +18,7 @@
 import { readdirSync, statSync, existsSync } from "node:fs";
 import { join } from "node:path";
 import { finish } from "./lib/selftest.mjs";
+import { printProblems } from "./lib/report.mjs";
 
 const ROOT = "app/src";
 const CODE = /\.(js|jsx)$/;
@@ -132,6 +133,6 @@ if (process.argv[1] && process.argv[1].endsWith("app-sources.mjs")) {
   console.log(`app sources: ${appSources().length} files; copy scans ${sourcesFor("copy").length}, `
     + `network ${sourcesFor("network").length}, docs ${sourcesFor("docs").length}`);
   const stale = staleExclusions();
-  for (const s of stale) console.error(`  PROBLEM: ${s}`);
+  printProblems(stale, { print: console.error });
   process.exit(stale.length ? 1 : 0);
 }

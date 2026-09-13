@@ -6,6 +6,7 @@
 import { readFileSync } from "node:fs";
 import { finish } from "./lib/selftest.mjs";
 import { loadBaseline } from "./lib/baseline.mjs";
+import { printProblems, verdict } from "./lib/report.mjs";
 
 const DOC = "docs/qa-procedure.md";
 
@@ -49,6 +50,6 @@ const baseline = loadBaseline();
 const { steps, problems } = check(readFileSync(DOC, "utf8"));
 const floor = Math.max(20, baseline.floor("g12_qa_steps"));
 if (steps < floor) problems.push(`only ${steps} steps; the floor is ${floor}`);
-console.log(`QA procedure: ${steps} steps, ${problems.length} problems`);
-problems.forEach((p) => console.error("  PROBLEM: " + p));
+console.log(verdict("QA procedure", `${steps} steps`, problems.length));
+printProblems(problems, { print: console.error });
 process.exit(problems.length ? 1 : 0);

@@ -48,6 +48,7 @@ import { readFileSync, existsSync } from "node:fs";
 import { DECLARED, NON_TEST_GATES } from "./effect-declarations.mjs";
 import { finish } from "./lib/selftest.mjs";
 import { loadBaseline } from "./lib/baseline.mjs";
+import { printProblems, verdict } from "./lib/report.mjs";
 
 const BASELINE = loadBaseline();
 const KINDS = ["unit", "source", "observed"];
@@ -140,20 +141,16 @@ function report() {
     const by = mine.map((p) => `${p.where} (${p.kind}, ${p.gate})`).join("; ") || "NOTHING";
     console.log(`  ${r}: ${by}`);
   }
-  for (const f of found) console.error(`  PROBLEM: ${f}`);
+  printProblems(found, { print: console.error });
   if (src.length) console.log(`  source-only rules (${src.length}): ${src.join(" ")}`);
   if (un.length) console.log(`  no browser has ever observed (${un.length}): ${un.join(" ")}`);
 
-  let bad = found.length;
-  if (src.length > BASELINE.ceiling("g25_source_only_max")) {
-    console.error(`  PROBLEM: ${src.length} rules are proved only by reading source, ceiling is ${BASELINE.ceiling("g25_source_only_max")}`);
-    bad++;
-  }
-  if (un.length > BASELINE.ceiling("g25_unobserved_max")) {
-    console.error(`  PROBLEM: ${un.length} rules have no observed proof, ceiling is ${BASELINE.ceiling("g25_unobserved_max")}`);
-    bad++;
-  }
-  console.log(`Safety cover: ${rules.length} rules, ${pairs} declared proofs, ${bad} problems`);
+  const over = [];
+  if (src.length > BASELINE.ceiling("g25_source_only_max")) over.push(`${src.length} rules are proved only by reading source, ceiling is ${BASELINE.ceiling("g25_source_only_max")}`);
+  if (un.length > BASELINE.ceiling("g25_unobserved_max")) over.push(`${un.length} rules have no observed proof, ceiling is ${BASELINE.ceiling("g25_unobserved_max")}`);
+  printProblems(over, { print: console.error });
+  const bad = found.length + over.length;
+  console.log(verdict("Safety cover", `${rules.length} rules, ${pairs} declared proofs`, bad));
   return bad;
 }
 

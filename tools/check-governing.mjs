@@ -15,6 +15,7 @@
 import { execSync } from "node:child_process";
 import { readFileSync } from "node:fs";
 import { finish } from "./lib/selftest.mjs";
+import { printProblems } from "./lib/report.mjs";
 
 /* The owned set: each file is the single owner of its facts (E10, and the
    review of 2026-08-02 that pointed every one of them at the word table). */
@@ -283,10 +284,9 @@ if (process.argv.includes("--self-test")) {
 }
 
 const { governing, strays } = check(tracked);
-strays.forEach((f) => console.error(
-  `  PROBLEM: ${f} is not in the owned set - a new governing or status file needs the owner's approval (add it to tools/check-governing.mjs)`));
+printProblems(strays.map((f) => `${f} is not in the owned set - a new governing or status file needs the owner's approval (add it to tools/check-governing.mjs)`), { print: console.error });
 const unowned = ownership(tracked, (f) => readFileSync(f, "utf8"));
-unowned.forEach((m) => console.error(`  PROBLEM: ${m} — F1: one line "**This document owns** …" and one "**It does not own** …", in the first ${HEAD_LINES} lines`));
+printProblems(unowned.map((m) => `${m} — F1: one line "**This document owns** …" and one "**It does not own** …", in the first ${HEAD_LINES} lines`), { print: console.error });
 console.log(`Governing files: ${governing} governing files, ${strays.length} strays, ${unowned.length} without an ownership header, ${unowned.logs.length} declared as logs`);
 process.exit(strays.length + unowned.length ? 1 : 0);
 
