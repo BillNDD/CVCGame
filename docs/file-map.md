@@ -30,6 +30,8 @@ verbatim) are exempt; the exemptions are declared in the tool.
 | `AGENTS.md` | OWNER | the controller: what counts as finished work, the engineering rules E1-E11, the read order, the dependency rule, how to write to the owner, the shape of a round or decision page, and what is re-checked before a beta |
 | `CHANGELOG.md` | LOG | what shipped in each release, in a parent's words |
 | `CLAUDE.md` | OWNER | the child-facing safety rules S1-S9, and nothing else - AGENTS.md is the controller (owner-ruled 2026-08-31; G28b holds the shape) |
+| `HERMES.md` | OWNER | the Hermes project-lead handover record: who holds the lead, what was refused and ruled, and pointers to each fact's owner — no facts of its own (owner-approved 2026-09-15) |
+| `IDEA.md` | OWNER | the owner's founding product idea, in their own words — direction, not specification (owner-directed 2026-09-15) |
 | `README.md` | OWNER | the front door: what the game is, and pointers to every owner |
 | `SPEC.md` | OWNER | behaviour: the bank and levels, the engine, the screens, the feedback text, and the road ahead |
 | `.claude/gate-baseline.json` | DATA | every floor and ceiling the gates hold (E6) |

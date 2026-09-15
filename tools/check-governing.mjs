@@ -35,6 +35,10 @@ export const GOVERNING = [
   "AGENTS.md",
   "CHANGELOG.md",
   "CLAUDE.md",
+  /* Owner-approved 2026-09-15: the Hermes project-lead handover record — pointers to owners, no facts of its own. */
+  "HERMES.md",
+  /* Owner-directed 2026-09-15: the owner's founding product idea, in their own words. */
+  "IDEA.md",
   "README.md",
   "SPEC.md",
   ".claude/gate-baseline.json",

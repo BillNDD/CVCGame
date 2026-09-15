@@ -148,6 +148,8 @@ export const DECLARED = [
   { path: "AGENTS.md", kind: "OWNER", owns: "the controller: what counts as finished work, the engineering rules E1-E11, the read order, the dependency rule, how to write to the owner, the shape of a round or decision page, and what is re-checked before a beta" },
   { path: "CHANGELOG.md", kind: "LOG", owns: "what shipped in each release, in a parent's words" },
   { path: "CLAUDE.md", kind: "OWNER", owns: "the child-facing safety rules S1-S9, and nothing else - AGENTS.md is the controller (owner-ruled 2026-08-31; G28b holds the shape)" },
+  { path: "HERMES.md", kind: "OWNER", owns: "the Hermes project-lead handover record: who holds the lead, what was refused and ruled, and pointers to each fact's owner — no facts of its own (owner-approved 2026-09-15)" },
+  { path: "IDEA.md", kind: "OWNER", owns: "the owner's founding product idea, in their own words — direction, not specification (owner-directed 2026-09-15)" },
   { path: "README.md", kind: "OWNER", owns: "the front door: what the game is, and pointers to every owner" },
   { path: "SPEC.md", kind: "OWNER", owns: "behaviour: the bank and levels, the engine, the screens, the feedback text, and the road ahead" },
   { path: ".claude/gate-baseline.json", kind: "DATA", owns: "every floor and ceiling the gates hold (E6)" },
