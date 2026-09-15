@@ -1,15 +1,17 @@
 /* THE MEASUREMENT CONFIG - a report, never a gate.
    Batch 0 of the refactor, owner-ruled 2026-09-12 (ruling 4 of the plan the
    owner agreed to in full): cognitive complexity is MEASURED from this batch
-   and enforced by nothing before batch 2. So the sonarjs plugin is a
-   devDependency from today, its one rule here is set to "warn" with the
-   threshold at zero so every function reports its number, and nothing in
-   `npm run check` or the gauntlet reads this file. The shape gate
-   (tools/shape.mjs, G31) holds the ceilings that ARE enforced; this config
-   exists so the number batch 2 will set a ceiling on can be read today.
+   and enforced by nothing before batch 3. From batch 3 (owner-ruled
+   2026-09-15) the number is enforced by the shape gate (tools/shape.mjs,
+   G31) at its own ceiling; this config remains the standalone report, its
+   one rule here set to "warn" with the threshold at zero so every function
+   reports its number. The shape gate (tools/shape.mjs, G31) holds the
+   ceilings that ARE enforced; this config
+   existed so the number batch 3 set a ceiling on could be read.
 
    The sonarjs plugin carries no rule for the ABC size metric, so ABC is not
-   measured here; batch 2 decides its instrument.
+   measured here; batch 3 decided the instrument by enforcing the sonar
+   number in the shape gate.
 
    The scopes are the shape gate's: app/src, the generated engine and the
    tools. The reference build's own component is out, exactly as

@@ -706,7 +706,7 @@ step("G25 safety-cover", LANE_B.get("G25 safety-cover"), [
 ], {}, ["ok   a relabelled tag is caught, not just a deleted one"]);
 
 /* G31 - the shape gate (batch 0 of the refactor, owner-ruled 2026-09-12).
-   Six ceilings, each measured on the day the gate was born and each a
+   Seven ceilings, each measured when it was set and each a
    _max, so the code's shape can only hold or improve until the owner says
    otherwise; the E6 control - a ceiling lowered under an unchanged tree is
    refused - is required by name. */
@@ -717,6 +717,7 @@ step("G31 shape", LANE_B.get("G31 shape"), [
   { label: "depth_over_4", regex: /depth_over_4 = (\d+)/, maxKey: "g31_depth_over_4_max" },
   { label: "dup_regions", regex: /dup_regions = (\d+)/, maxKey: "g31_dup_regions_max" },
   { label: "dead_exports", regex: /dead_exports = (\d+)/, maxKey: "g31_dead_exports_max" },
+  { label: "cog_over_15", regex: /cog_over_15 = (\d+)/, maxKey: "g31_cog_over_15_max" },
   { label: "problems", regex: /Shape gate: (\d+) problems/, max: 0 },
   { label: "controls", regex: /shape controls: (\d+) passed/, floorKey: "g31_controls" },
 ], {}, ["every ceiling lowered by one under an unchanged tree is refused, naming its key", "a count under its ceiling is refused as slack, in its own line",

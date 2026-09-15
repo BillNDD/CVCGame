@@ -3,13 +3,14 @@
  * WHAT IT MEASURES, on app/src, the generated engine and every .mjs under
  * tools/ (the fixtures excepted; the subfolders joined the scope with tools/lib
  * in batch 1, so a helper is measured from the day it is born):
- *   - per function: cyclomatic complexity, nesting depth, length in lines
- *     (blank and comment lines skipped) - all three read from ESLint's own
- *     rules (`complexity`, `max-depth`, `max-lines-per-function`) run in
- *     process through the linter that node_modules/eslint already ships,
- *     with every threshold at zero so every function is reported. The
- *     counter is therefore the counter G6's ceiling uses, never a second
- *     opinion of what "complexity" means;
+ *   - per function: cyclomatic complexity, cognitive complexity, nesting
+ *     depth, length in lines (blank and comment lines skipped) - all four
+ *     read from ESLint's own rules (`complexity`,
+ *     `sonarjs/cognitive-complexity`, `max-depth`,
+ *     `max-lines-per-function`) run in process through the linter that
+ *     node_modules/eslint already ships, with every threshold at zero so
+ *     every function is reported. The counter is therefore the counter G6's
+ *     ceiling uses, never a second opinion of what "complexity" means;
  *   - per file: its length in lines (reported; G6 owns that ceiling);
  *   - duplication: every window of 40 tokens (comments dropped, each string
  *     one token, the rest identifiers, keywords and numbers) is hashed;
@@ -25,9 +26,11 @@
  *     A common name used as any identifier elsewhere counts as referenced,
  *     so the count is a floor on the dead exports, never a ceiling.
  *
- * THE CEILINGS, in .claude/gate-baseline.json, each at the value measured on
- * the day the gate was born and each a `_max` (E6: never raised):
+ * THE CEILINGS, in .claude/gate-baseline.json, each measured when it was set
+ * and each a `_max` (E6: never raised):
  *   g31_fn_over_10_max        functions with complexity over 10, all three areas
+ *   g31_cog_over_15_max       functions with cognitive complexity over 15,
+ *                             all three areas (batch 3, owner-ruled 2026-09-15)
  *   g31_fn_over_15_tools_max  functions in tools/*.mjs over 15 - the ceiling the
  *                             product code already obeys and the tools do not
  *   g31_fn_over_80_lines_max  functions longer than 80 lines, all three areas
@@ -49,9 +52,10 @@
  * a mutated one.
  *
  * WHAT IT DOES NOT DO. It measures shape, never behaviour: a function can be
- * simple and wrong. Cognitive complexity is report-only until batch 2
- * (ruling 4 of the plan) and lives in eslint.measure.mjs, the sonarjs
- * measurement config, at "warn". tools/*.py is measured by nothing here.
+ * simple and wrong. Cognitive complexity was report-only until batch 3
+ * (ruling 4 of the plan); since the batch-3 ceiling it is enforced here and
+ * eslint.measure.mjs remains the standalone report. tools/*.py is measured
+ * by nothing here.
  * The reference build's own component is not in scope: the app never
  * imports it and eslint.config.mjs exempts the file.
  *
@@ -64,6 +68,7 @@ import { join, relative, sep, resolve } from "node:path";
 import { createHash } from "node:crypto";
 import { pathToFileURL } from "node:url";
 import { Linter } from "eslint";
+import sonarjs from "eslint-plugin-sonarjs";
 import { finish } from "./lib/selftest.mjs";
 import { loadBaseline } from "./lib/baseline.mjs";
 import { printProblems, verdict } from "./lib/report.mjs";
@@ -72,6 +77,7 @@ import { run, must, withScratch } from "./lib/proc.mjs";
 const WINDOW = 40;
 const KEYS = {
   fn_over_10: "g31_fn_over_10_max",
+  cog_over_15: "g31_cog_over_15_max",
   fn_over_15_tools: "g31_fn_over_15_tools_max",
   fn_over_80_lines: "g31_fn_over_80_lines_max",
   depth_over_4: "g31_depth_over_4_max",
@@ -101,6 +107,7 @@ const RULES = {
   complexity: ["warn", 0],
   "max-depth": ["warn", 0],
   "max-lines-per-function": ["warn", { max: 0, skipBlankLines: true, skipComments: true }],
+  "sonarjs/cognitive-complexity": ["warn", 0],
 };
 const linter = new Linter({ configType: "flat" });
 /** @returns {import("eslint").Linter.Config[]} */
@@ -108,6 +115,7 @@ const configFor = (file) => [{
   files: ["**/*.js", "**/*.jsx", "**/*.mjs"],
   languageOptions: { ecmaVersion: 2024, sourceType: "module",
     parserOptions: file.endsWith(".jsx") ? { ecmaFeatures: { jsx: true } } : {} },
+  plugins: { sonarjs },
   rules: RULES,
 }];
 /** @type {Array<[string, RegExp, (x: RegExpExecArray) => Record<string, unknown>]>} */
@@ -115,7 +123,9 @@ const READERS = [
   ["complexity", /^(.*?) has a complexity of (\d+)\./, (x) => ({ name: x[1], complexity: Number(x[2]) })],
   ["max-lines-per-function", /^(.*?) has too many lines \((\d+)\)\./, (x) => ({ name: x[1], lines: Number(x[2]) })],
   ["max-depth", /nested too deeply \((\d+)\)/, (x) => ({ depth: Number(x[1]) })],
+  ["sonarjs/cognitive-complexity", /^Refactor this function to reduce its Cognitive Complexity from (\d+) to/, (x) => ({ cognitive: Number(x[1]) })],
 ];
+/** @returns {{ fatal?: unknown, line?: number, column?: number, name?: string, complexity?: number, lines?: number, depth?: number, cognitive?: number }} */
 function readMessage(m) {
   if (m.fatal || !m.ruleId) return { fatal: m.message, line: m.line };
   for (const [rule, re, make] of READERS) {
@@ -124,19 +134,26 @@ function readMessage(m) {
   }
   return null;
 }
-/* One function reports twice, once per rule, at the same position and in
-   either order; both land on one row keyed by that position. A function of
-   complexity 1 still reports at threshold zero, so every function has a row. */
+/* One function reports once per rule, at the same position and in any order.
+   Rows merge only where the anchors coincide: the complexity and max-lines
+   messages carry the function name, the sonar message never does, and sonar
+   anchors declarations at the name token while the core rules anchor at the
+   head - so a declaration makes two rows. A name comes from whichever
+   message on the row carries one; a declaration's cognitive row stands
+   nameless and --list prints it by location. A function of complexity 1
+   still reports at threshold zero, so every function has a row. */
 function parseMessages(file, messages) {
   const functions = new Map(), blocks = [], fatal = [];
   for (const r of messages.map(readMessage)) {
     if (!r) continue;
     if (r.fatal) { fatal.push(`${file}:${r.line} ${r.fatal}`); continue; }
     if (r.depth) { blocks.push({ file, line: r.line, depth: r.depth }); continue; }
-    const key = `${r.line}:${r.column}:${r.name}`;
-    const row = functions.get(key) || { file, line: r.line, name: r.name, complexity: null, lines: null };
+    const key = `${r.line}:${r.column}`;
+    const row = functions.get(key) || { file, line: r.line, name: r.name, complexity: null, lines: null, cognitive: null };
     if (r.complexity !== undefined) row.complexity = r.complexity;
     if (r.lines !== undefined) row.lines = r.lines;
+    if (r.cognitive !== undefined) row.cognitive = r.cognitive;
+    if (r.name !== undefined) row.name = r.name;
     functions.set(key, row);
   }
   return { functions: [...functions.values()], blocks, fatal };
@@ -288,6 +305,7 @@ function measure(areas, extraUniverse = {}) {
     files, functions, blocks, fatal, dup, dead,
     counts: {
       fn_over_10: functions.filter((f) => cx(f) > 10).length,
+      cog_over_15: functions.filter((f) => (f.cognitive ?? 0) > 15).length,
       fn_over_15_tools: functions.filter((f) => f.area === "tools" && cx(f) > 15).length,
       fn_over_80_lines: functions.filter((f) => (f.lines ?? 0) > 80).length,
       depth_over_4: blocks.filter((b) => b.depth > 4).length,
@@ -340,7 +358,7 @@ function realUniverse() {
   return read([...walk("tests", [".js", ".mjs"]), REFERENCE]);
 }
 
-const bar = (metric) => ({ fn_over_10: 10, fn_over_15_tools: 15, fn_over_80_lines: 80, depth_over_4: 4 })[metric];
+const bar = (metric) => ({ fn_over_10: 10, fn_over_15_tools: 15, fn_over_80_lines: 80, depth_over_4: 4, cog_over_15: 15 })[metric];
 function report(m, baseline) {
   const perArea = Object.entries(m.files).reduce((o, [, f]) => { o[f.area] = (o[f.area] || 0) + 1; return o; }, {});
   console.log(`Shape gate: ${Object.keys(KEYS).length} metrics over ${m.files.length} files (${Object.entries(perArea).map(([a, n]) => `${a} ${n}`).join(", ")}), ${m.functions.length} functions`);
@@ -355,6 +373,7 @@ function report(m, baseline) {
 function list(m) {
   const show = (title, rows, fmt) => { console.log(`\n${title} (${rows.length})`); for (const r of rows) console.log("  " + fmt(r)); };
   show("functions over complexity 10", m.functions.filter((f) => (f.complexity ?? 0) > 10).sort((a, b) => b.complexity - a.complexity), (f) => `${f.file}:${f.line} ${f.name} = ${f.complexity}`);
+  show("functions over cognitive complexity 15", m.functions.filter((f) => (f.cognitive ?? 0) > 15).sort((a, b) => (b.cognitive ?? 0) - (a.cognitive ?? 0)), (f) => `${f.file}:${f.line}${f.name === undefined ? "" : ` ${f.name}`} = ${f.cognitive}`);
   show("functions over 80 lines", m.functions.filter((f) => (f.lines ?? 0) > 80).sort((a, b) => b.lines - a.lines), (f) => `${f.file}:${f.line} ${f.name} = ${f.lines} lines`);
   show("blocks deeper than 4", m.blocks.filter((b) => b.depth > 4), (b) => `${b.file}:${b.line} depth ${b.depth}`);
   show("duplicated regions", [...m.dup.regions].sort((a, b) => b.len - a.len), (r) => `${r.len} tokens at ${r.occ.map((o) => `${o.file}:${o.line}`).join(", ")}`);
@@ -364,10 +383,12 @@ function list(m) {
 /* ---------------------------------------------------------- controls --
    Planted fixtures under tools/fixtures/, measured as a tree of their own:
    one function over each bar, one duplicated pair, one dead export beside
-   one live one. Then the E6 direction on the REAL tree: every ceiling
-   lowered by one must refuse, a missing key must refuse, and slack - a
-   count under its ceiling - must refuse in a line that names the key and
-   the number, proved verbatim on a planted 100 under 101. */
+   one live one. The cognitive bar has its own fixture and a pin on the
+   sonar message shape, which names no function. Then the E6 direction on
+   the REAL tree: every ceiling lowered by one must refuse, a missing key
+   must refuse, and slack - a count under its ceiling - must refuse in a
+   line that names the key and the number, proved verbatim on a planted 100
+   under 101. */
 function selfTest() {
   const ok = [];
   const T = (name, pass) => ok.push([name, pass]);
@@ -377,10 +398,14 @@ function selfTest() {
 }
 function fixtureControls(T) {
   const fx = (f) => "tools/fixtures/" + f;
-  const fixtures = read(["complexity-over.js", "shape-long.js", "shape-deep.js", "shape-dup-a.js", "shape-dup-b.js", "shape-dead.js"].map(fx));
+  const fixtures = read(["complexity-over.js", "shape-cog.js", "shape-long.js", "shape-deep.js", "shape-dup-a.js", "shape-dup-b.js", "shape-dead.js"].map(fx));
   const m = measure({ tools: fixtures });
   const over = (metric) => m.functions.filter((f) => (metric === "lines" ? f.lines : f.complexity) > bar(metric === "lines" ? "fn_over_80_lines" : "fn_over_10"));
   T("a planted function of complexity 17 is read as 17, over 10 and over 15", m.functions.some((f) => f.file === fx("complexity-over.js") && f.complexity === 17) && m.counts.fn_over_10 === 1 && m.counts.fn_over_15_tools === 1);
+  T("a planted function of cognitive complexity 16 is read as 16", m.functions.some((f) => f.file === fx("shape-cog.js") && f.cognitive === 16));
+  T("both planted over-15 functions are counted in the fixture tree", m.counts.cog_over_15 === 2);
+  T("they are complexity-over.js and shape-cog.js", m.functions.filter((f) => (f.cognitive ?? 0) > 15).map((f) => f.file).sort().join() === [fx("complexity-over.js"), fx("shape-cog.js")].join());
+  T("the reader pins the sonar message shape, which names no function", (readMessage({ ruleId: "sonarjs/cognitive-complexity", message: "Refactor this function to reduce its Cognitive Complexity from 16 to the 0 allowed.", line: 1, column: 1 }) || {}).cognitive === 16);
   T("a planted function over 80 lines is counted, and it is the only one", m.counts.fn_over_80_lines === 1 && over("lines")[0].file === fx("shape-long.js"));
   T("a planted block at depth 5 is counted, and it is the only one", m.counts.depth_over_4 === 1 && m.blocks.find((b) => b.depth > 4).file === fx("shape-deep.js"));
   T("a run of tokens planted in two files is one region, spanning both", m.counts.dup_regions === 1 && m.dup.regions[0].occ.map((o) => o.file).sort().join() === [fx("shape-dup-a.js"), fx("shape-dup-b.js")].join());
@@ -394,7 +419,7 @@ function fixtureControls(T) {
   T("a quote inside a regex literal does not swallow the strings on the lines after it",
     tail(regexFirst) === tail("\n" + table) && tokenise(regexFirst).filter((k) => k.t === "STR").length >= 5);
   const zero = Object.fromEntries(Object.values(KEYS).map((k) => [k, 0]));
-  T("against a zero baseline the fixtures raise one problem per metric", judge(m.counts, zero).length === 6);
+  T("against a zero baseline the fixtures raise one problem per metric", judge(m.counts, zero).length === 7);
   T("a fixture in the tree fails the linter's parse and is reported, not skipped", parseMessages("x.js", [{ fatal: true, line: 1, message: "Parsing error: planted" }]).fatal.length === 1);
 }
 /* The E6 direction on the real tree. */

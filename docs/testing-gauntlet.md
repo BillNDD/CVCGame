@@ -13,7 +13,7 @@ This document follows the Microsoft Writing Style Guide.
 
 ## G31 - the shape gate: the code's shape, held where it stands today
 
-`node tools/shape.mjs`, with `--self-test` for its fourteen controls (floor `g31_controls`) and
+`node tools/shape.mjs`, with `--self-test` for its eighteen controls (floor `g31_controls`) and
 `--list` for every function over a bar, by file. Batch 0 of the refactor, owner-ruled
 2026-09-12 ("I agree with all your seven"): before any code moves, an instrument that says what
 shape the code has and refuses the shape getting worse.
@@ -43,6 +43,7 @@ the owner raises one; a refactor that improves the shape lowers it to what it re
 | key | today | what it counts |
 |---|---:|---|
 | `g31_fn_over_10_max` | 89 | functions over complexity 10, all three areas (93 at birth) |
+| `g31_cog_over_15_max` | 42 | functions over cognitive complexity 15, all three areas (batch 3, owner-ruled 2026-09-15) |
 | `g31_fn_over_15_tools_max` | 32 | functions under `tools/` over 15 - the ceiling the product code obeys and the tools do not (34 at birth) |
 | `g31_fn_over_80_lines_max` | 11 | functions longer than 80 lines (13 at birth) |
 | `g31_depth_over_4_max` | 6 | blocks nested deeper than 4 |
@@ -98,11 +99,12 @@ a word that made one of the 102 "dead" exports referenced; the count became 101 
 ceiling with it - the word-level rule's noise, stated as its limit above, working in the gate's
 favour.
 
-**Report only, until batch 2.** Cognitive complexity is measured by `eslint.measure.mjs`, a
-config that loads the sonarjs plugin (a devDependency since this batch, owner-ruled) with its
-one rule at "warn" and the threshold at zero; nothing in the check or the gauntlet reads that
-file. The plugin has no rule for the ABC size metric, so ABC is not measured; batch 2 decides
-its instrument.
+**Report only, until batch 3.** Cognitive complexity was measured by `eslint.measure.mjs`, a
+config that loads the sonarjs plugin (a devDependency since batch 0, owner-ruled) with its
+one rule at "warn" and the threshold at zero; nothing in the check or the gauntlet read that
+file. The plugin has no rule for the ABC size metric, so ABC is not measured; batch 2 left
+the instrument decision open and batch 3 closed it by enforcing the sonar number in this
+gate, at a ceiling of its own.
 
 **What it cannot do.** It measures shape, never behaviour - a simple function can still be
 wrong, which is what G32 and the mutation gates are for. `tools/*.py` is measured by nothing.
@@ -2053,7 +2055,7 @@ happened to read the output.
   halves repository language is the tree talking, one stranger half is a person. The
   stated residue: someone named entirely in repository words is skipped here, exactly as
   each half already was by the single-word layers.
-- Keys: `g24_files` (365), `g24_controls` (47), `g24_vocab` (246), `g24_common` (888),
+- Keys: `g24_files` (366), `g24_controls` (47), `g24_vocab` (246), `g24_common` (888),
   `g24_common` moved 889 to 888 on 2026-08-19, owner-ruled on the `Hope` precedent of
   2026-08-16: **Joy** is an ordinary English word that is also a given name, and it
   appears in a listening round's carrier phrase. The alternative was rewording a record

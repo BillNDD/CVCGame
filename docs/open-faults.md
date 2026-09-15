@@ -1546,6 +1546,12 @@ the result goes wherever it belongs — `docs/settled.md` if a measurement close
 row if an ear did. **Trying one is never a substitute for the game work it was meant to
 serve, and nothing here may be counted as progress until it has been tried.**
 
+### G9. A visible silent-letter signpost in the sound-out — noted 2026-09-15, owner
+
+His words: the game shows tiles for each letter, but the e is silent, and when the voice reads through the word one letter at a time, it just skips from t to s and does not show in any way that e is silent other than skipping it over. The example: gates.
+
+What trying it means: a within-tile visual signal (a colour or a mark) for letters the sound-out does not voice, so the skip is shown rather than silent. Three constraints travel with it: S4 voices sounds and never letter names, so a spoken "the e is silent" is out and the signal must stay visual; S8 owns the tile units themselves, which do not change; and any new colour answers to the art bible first. An idea, not a debt.
+
 ### G8. A SPOKEN bent-sound signpost — noted 2026-08-15, owner: "shown now, spoken explored later"
 
 When J1's written notes shipped, the owner was offered a spoken layer — a rotating line
