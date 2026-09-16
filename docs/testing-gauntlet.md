@@ -47,7 +47,7 @@ the owner raises one; a refactor that improves the shape lowers it to what it re
 | `g31_fn_over_15_tools_max` | 32 | functions under `tools/` over 15 - the ceiling the product code obeys and the tools do not (34 at birth) |
 | `g31_fn_over_80_lines_max` | 11 | functions longer than 80 lines (13 at birth) |
 | `g31_depth_over_4_max` | 6 | blocks nested deeper than 4 |
-| `g31_dup_regions_max` | 11 | merged duplicated regions (14 at birth; 12 after the owner's 2026-09-13 correction, see below; 11 on 2026-09-15 when the runners' shared mechanics became tools/lib/runner.mjs) |
+| `g31_dup_regions_max` | 10 | merged duplicated regions (14 at birth; 12 after the owner's 2026-09-13 correction, see below; 11 on 2026-09-15 when the runners' shared mechanics became tools/lib/runner.mjs; 10 after the pristine-control report mechanics joined it) |
 | `g31_dead_exports_max` | 101 | exports no other file references (102 at birth; see below) |
 
 **The one ceiling that rose, and why it is a correction and not a loosening.** On 2026-09-13,
@@ -138,12 +138,15 @@ the gauntlet ahead of G31, which requires one control of each by name:
   never throwing on a non-zero exit; `must(result, what)` for the caller that cannot go on;
   and `withScratch(prefix, fn)`: a temporary directory removed when the function returns,
   throws or settles, on process exit and on a signal (the C2 lesson).
-- `tools/lib/runner.mjs` - `run`, `lastOutput`, `ANSI`, `testsFailed`, `runTests`: the mutant runners' shared run-and-read mechanics, extracted in batch 3 when the shape gate counted their twin spans as one region; the oracles stay in the gates.
+- `tools/lib/runner.mjs` - `run`, `lastOutput`, `ANSI`, `testsFailed`, `failureReport`, `runTests`: the mutant runners' shared run-and-read mechanics, extracted in batch 3 when the shape gate counted their twin spans as one region; the oracles stay in the gates.
 
 **The line that may not be crossed.** A helper carries mechanics only. The regexes, the
 thresholds, the sentences a gate checks for and the anchors it reads - the oracle - stay in
 the gate that owns them, so no two gates can share a judgement through the scaffold. The
 gate document's orphan rule (G16) names all seven, so a helper dropped from the check goes red.
+
+The pristine failure report follows the same boundary: `failureReport` returns the filtered
+failure lines and tail, while each gate keeps its own report sentences.
 
 **Controls.** Each helper's own, watched red against a planted variant before the code was
 committed: the empty-list refusal removed, failures counted as passes, the missing-key throw

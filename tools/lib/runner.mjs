@@ -2,9 +2,10 @@
  *
  * tools/mutants.mjs and tools/app-mutants.mjs ran the suite the same way:
  * record the output, strip the colour mask, read the row with the test
- * totals. Three copies of that span lived in the tree (one per gate plus
- * the inline guard each carried) and two had already drifted a byte apart
- * in the mask. The span lives here now and both gates import it.
+ * totals, and report a pristine failure. Three copies of that span lived in
+ * the tree (one per gate plus the inline guard each carried) and two had
+ * already drifted a byte apart in the mask. The span lives here now and both
+ * gates import it.
  *
  * MECHANICS ONLY. What a mutant is, which file it plants in, what counts as
  * killed, and the lock each gate takes are the gates' own. Nothing here
@@ -82,6 +83,14 @@ export function runTests() {
 }
 export function lastOutput() { return lastRunOutput; }
 
+export function failureReport(out) {
+  const lines = out.split(String.fromCharCode(10));
+  const report = [];
+  for (const l of lines) if (/(FAIL|×|✕|AssertionError|Error:)/.test(l)) report.push("  " + l.trim().slice(0, 200));
+  report.push("  ---- tail ----", lines.slice(-25).join(String.fromCharCode(10)));
+  return report.join(String.fromCharCode(10));
+}
+
 function selfTest() {
   const ok = [];
   const T = (name, pass) => ok.push([name, pass]);
@@ -89,6 +98,13 @@ function selfTest() {
   const real = "Test Files  1 failed (13)\n      Tests  3 failed | 327 passed (330)\n";
   T("the failure parser reads the Tests row, not Test Files", testsFailed(crashed) === 0);
   T("the parser counts three on the real shape", testsFailed(real) === 3);
+  const nl = String.fromCharCode(10);
+  const tail = Array.from({ length: 25 }, (_, i) => "tail " + i);
+  const sample = ["quiet", "FAIL first", "no match", "Error: second", "× chunker", "AssertionError: boom", ...tail].join(nl);
+  const expected = ["  FAIL first", "  Error: second", "  × chunker", "  AssertionError: boom", "  ---- tail ----", ...tail].join(nl);
+  T("the failure report keeps matching lines and the 25-line tail", failureReport(sample) === expected);
+  const long = "  FAIL " + "x".repeat(300);
+  T("the failure report trims a matching line to 200 characters", failureReport(long).split(nl)[0] === "  " + long.trim().slice(0, 200));
   T("the mask strips one escape sequence", ("a" + String.fromCharCode(27) + "[31mred").replace(ANSI, "") === "ared");
   return finish("runner", ok);
 }

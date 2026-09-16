@@ -728,7 +728,8 @@ step("G31 shape", LANE_B.get("G31 shape"), [
   "a non-zero exit is returned, never thrown, with its output kept",
   "a throw inside the function still removes the directory, and the throw is passed on",
   "a quoted cell keeps its comma",
-  "a missing opening anchor throws, naming the literal and the anchor", "the failure parser reads the Tests row, not Test Files"]);
+  "a missing opening anchor throws, naming the literal and the anchor", "the failure parser reads the Tests row, not Test Files",
+  "the failure report keeps matching lines and the 25-line tail"]);
 
 /* G32 - the differential harness (batch 0 of the refactor, owner-ruled
    2026-09-12): the tree's engine beside the beta-32 engine over the same

@@ -18,7 +18,7 @@
    mutation testing happened at all. Anchors that move are reported as
    skipped and fail the gate — they are re-pointed, never deleted (E3). */
 import { readFileSync, writeFileSync } from "node:fs";
-import { run, lastOutput, ANSI, testsFailed, runTests } from "./lib/runner.mjs";
+import { run, lastOutput, ANSI, testsFailed, failureReport, runTests } from "./lib/runner.mjs";
 import { mkdirSync, rmSync as rmLock } from "node:fs";
 import { join as joinLock } from "node:path";
 import { LOCK, holderOf, shouldTakeLock } from "./lock-guard.mjs";
@@ -271,9 +271,7 @@ if (!run(process.execPath, ["node_modules/vitest/vitest.mjs", "run", "--reporter
   console.error(failed > 0
     ? `Runner control FAILED: ${failed} test(s) fail on the pristine tree; mutation results would be meaningless.`
     : "Runner control ERRORED: the runner exited non-zero with NO failing test - the environment, not the suite. Re-run; if it repeats, it is a real fault.");
-  const lines = out.split(String.fromCharCode(10));
-  for (const l of lines) if (/(FAIL|×|✕|AssertionError|Error:)/.test(l)) console.error("  " + l.trim().slice(0, 200));
-  console.error("  ---- tail ----" + String.fromCharCode(10) + lines.slice(-25).join(String.fromCharCode(10)));
+  console.error(failureReport(out));
   process.exit(1);
 }
 
