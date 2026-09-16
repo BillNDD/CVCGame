@@ -47,7 +47,7 @@ the owner raises one; a refactor that improves the shape lowers it to what it re
 | `g31_fn_over_15_tools_max` | 32 | functions under `tools/` over 15 - the ceiling the product code obeys and the tools do not (34 at birth) |
 | `g31_fn_over_80_lines_max` | 11 | functions longer than 80 lines (13 at birth) |
 | `g31_depth_over_4_max` | 6 | blocks nested deeper than 4 |
-| `g31_dup_regions_max` | 10 | merged duplicated regions (14 at birth; 12 after the owner's 2026-09-13 correction, see below; 11 on 2026-09-15 when the runners' shared mechanics became tools/lib/runner.mjs; 10 after the pristine-control report mechanics joined it) |
+| `g31_dup_regions_max` | 8 | merged duplicated regions (14 at birth; 12 after the owner's 2026-09-13 correction, see below; 11 on 2026-09-15 when the runners' shared mechanics became tools/lib/runner.mjs; 10 after the pristine-control report mechanics joined it; 8 after the lock and anchor mechanics moved) |
 | `g31_dead_exports_max` | 101 | exports no other file references (102 at birth; see below) |
 
 **The one ceiling that rose, and why it is a correction and not a loosening.** On 2026-09-13,
@@ -138,7 +138,9 @@ the gauntlet ahead of G31, which requires one control of each by name:
   never throwing on a non-zero exit; `must(result, what)` for the caller that cannot go on;
   and `withScratch(prefix, fn)`: a temporary directory removed when the function returns,
   throws or settles, on process exit and on a signal (the C2 lesson).
-- `tools/lib/runner.mjs` - `run`, `lastOutput`, `ANSI`, `testsFailed`, `failureReport`, `runTests`: the mutant runners' shared run-and-read mechanics, extracted in batch 3 when the shape gate counted their twin spans as one region; the oracles stay in the gates.
+- `tools/lib/runner.mjs` - `run`, `lastOutput`, `ANSI`, `testsFailed`, `anchorLookup`, `failureReport`, `runTests`: the mutant runners' shared run-and-read mechanics, extracted in batch 3 when the shape gate counted their twin spans as one region; the oracles stay in the gates.
+
+The lock home stays outside `tools/lib`: `tools/lock-guard.mjs` owns the lock-taking and refusal mechanics, while each gate keeps its call-site words and `tools/lib/runner.mjs` remains run-and-read mechanics only.
 
 **The line that may not be crossed.** A helper carries mechanics only. The regexes, the
 thresholds, the sentences a gate checks for and the anchors it reads - the oracle - stay in
@@ -1523,7 +1525,8 @@ Enforced since 2026-08-22 (hardening decision 3, owner-ruled): `tools/lock-guard
 the first line of `npm run check` and the whole of the pre-commit hook in `tools/hooks/`
 (installed once with `git config core.hooksPath tools/hooks`). While `.gauntlet.lock`
 exists both refuse, naming the gate that holds the lock and since when - the gauntlet
-writes that into the lock as each step starts. Ten controls. G4 now restores its
+writes that into the lock directory as each step starts. Fourteen controls: four cover taking,
+refusing, releasing and bypassing a scratch lock. G4 now restores its
 planted mutants on every exit signal, as G19 already did. The paragraph below is why.
 
 **And the gauntlet is no longer the only thing that creates it** (2026-08-23). The three

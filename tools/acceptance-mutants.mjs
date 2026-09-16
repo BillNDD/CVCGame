@@ -10,9 +10,7 @@
    Run: npm run test:acceptance-mutants   Requirement: 0 survivors. */
 import { readFileSync, writeFileSync } from "node:fs";
 import { run as runProcess } from "./lib/proc.mjs";
-import { mkdirSync, rmSync as rmLock } from "node:fs";
-import { join as joinLock } from "node:path";
-import { LOCK, holderOf, shouldTakeLock } from "./lock-guard.mjs";
+import { takeLock } from "./lock-guard.mjs";
 
 const IR = "tests/generated/acceptance-ir.json";
 const TEST = "tests/generated/acceptance.test.js";
@@ -37,17 +35,7 @@ const run = (cmd, args) => runProcess(cmd, args).status === 0;
    own residual note). And the lock sits ABOVE the gherkin-parse call below,
    which rewrites that IR: those are pristine bytes, so nothing could be swept
    up, but the lock reads more honestly over everything that writes. */
-const LOCK_HELD_BY_PARENT = !shouldTakeLock(process.env);
-if (!LOCK_HELD_BY_PARENT) {
-  try {
-    mkdirSync(LOCK);
-    writeFileSync(joinLock(LOCK, "current"), "G4 acceptance-mutants since " + new Date().toISOString().slice(11, 16) + String.fromCharCode(10));
-  } catch {
-    console.error("Another run appears to hold " + LOCK + " - " + (holderOf(LOCK) || "no holder named") + ". Remove it if it is stale.");
-    process.exit(1);
-  }
-  process.on("exit", () => { try { rmLock(LOCK, { recursive: true, force: true }); } catch {} });
-}
+takeLock();
 
 run("node", ["tools/gherkin-parse.mjs"]); // fresh IR from the feature files
 const pristine = readFileSync(IR, "utf8");

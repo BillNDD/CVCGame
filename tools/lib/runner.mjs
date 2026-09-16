@@ -30,6 +30,13 @@ export const run = (cmd, args) => {
   return r.status === 0;
 };
 
+export function anchorLookup(rows, hasAnchor, describe, label, print) {
+  const moved = rows.filter((row) => !hasAnchor(row));
+  for (const row of moved) print("ANCHOR MOVED: " + describe(row));
+  print(`${rows.length} ${label}, ${moved.length} anchor(s) no longer in the source`);
+  return moved.length ? 1 : 0;
+}
+
 /* A mutant is KILLED only when a TEST FAILED. A non-zero exit alone is not
    proof: a mutant that breaks the parse, crashes the runner, or kills the
    environment exits non-zero too, and scoring that as a kill claims
@@ -100,8 +107,8 @@ function selfTest() {
   T("the parser counts three on the real shape", testsFailed(real) === 3);
   const nl = String.fromCharCode(10);
   const tail = Array.from({ length: 25 }, (_, i) => "tail " + i);
-  const sample = ["quiet", "FAIL first", "no match", "Error: second", "× chunker", "AssertionError: boom", ...tail].join(nl);
-  const expected = ["  FAIL first", "  Error: second", "  × chunker", "  AssertionError: boom", "  ---- tail ----", ...tail].join(nl);
+  const sample = ["quiet", "FAIL first", "no match", "Error: second", "× chunker", "✕ chunker", "AssertionError: boom", ...tail].join(nl);
+  const expected = ["  FAIL first", "  Error: second", "  × chunker", "  ✕ chunker", "  AssertionError: boom", "  ---- tail ----", ...tail].join(nl);
   T("the failure report keeps matching lines and the 25-line tail", failureReport(sample) === expected);
   const long = "  FAIL " + "x".repeat(300);
   T("the failure report trims a matching line to 200 characters", failureReport(long).split(nl)[0] === "  " + long.trim().slice(0, 200));

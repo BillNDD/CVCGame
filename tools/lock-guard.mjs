@@ -17,13 +17,13 @@
  *
  * Run: node tools/lock-guard.mjs            Controls: node tools/lock-guard.mjs --self-test
  */
-import { existsSync, readFileSync, mkdirSync, writeFileSync } from "node:fs";
-import { join } from "node:path";
+import { existsSync, readFileSync, mkdirSync, writeFileSync, rmSync } from "node:fs";
+import { basename, join } from "node:path";
 import { pathToFileURL } from "node:url";
 import { finish } from "./lib/selftest.mjs";
-import { withScratch } from "./lib/proc.mjs";
+import { run, withScratch } from "./lib/proc.mjs";
 
-export const LOCK = ".gauntlet.lock";
+const LOCK = ".gauntlet.lock";
 
 /* Pure: given whether the lock exists and what it says, the refusal or null. */
 export function guard(lockExists, holder) {
@@ -42,26 +42,82 @@ export function guard(lockExists, holder) {
    environment a direct run SILENTLY skips the lock and the hole is back with
    no signal at all. That direction had no control until the after pass asked
    for one (2026-08-23). Only the exact token bypasses. */
-export function shouldTakeLock(env) {
+function shouldTakeLock(env) {
   return (env && env.WQ_GAUNTLET_LOCK) !== "held";
 }
 
-export function holderOf(lockDir) {
+function holderOf(lockDir) {
   try { return readFileSync(join(lockDir, "current"), "utf8").trim(); } catch { return ""; }
+}
+
+function holderName() {
+  const tool = basename(process.argv[1] || "");
+  return ({
+    "acceptance-mutants.mjs": "G4 acceptance-mutants",
+    "app-mutants.mjs": "G19 app-mutants",
+    "mutants.mjs": "G5 source-mutants",
+  })[tool] || tool || "unknown run";
+}
+
+export function takeLock(dir = LOCK) {
+  if (!shouldTakeLock(process.env)) return;
+  try {
+    mkdirSync(dir);
+    writeFileSync(join(dir, "current"), holderName() + " since " + new Date().toISOString().slice(11, 16) + String.fromCharCode(10));
+  } catch {
+    console.error("Another run appears to hold " + dir + " - " + (holderOf(dir) || "no holder named") + ". Remove it if it is stale.");
+    process.exit(1);
+  }
+  process.on("exit", () => { try { rmSync(dir, { recursive: true, force: true }); } catch {} });
+  for (const sig of ["SIGINT", "SIGTERM", "SIGHUP"]) process.on(sig, () => setImmediate(() => process.exit(130)));
 }
 
 function selfTest() {
   const ok = [];
+  const probe = (box, lock, after, token) => {
+    const file = join(box, "probe.mjs");
+    writeFileSync(file, `import { takeLock } from ${JSON.stringify(import.meta.url)};\nimport { existsSync } from "node:fs";\ntakeLock(${JSON.stringify(lock)});\n${after}\n`);
+    return run(process.execPath, [file], { env: { ...process.env, WQ_GAUNTLET_LOCK: token } });
+  };
   ok.push(["no lock, no refusal", guard(false, "") === null]);
   ok.push(["a lock refuses, and says so in words a person can act on", String(guard(true, "")).startsWith("REFUSED")]);
   ok.push(["a lock names its holder when the gauntlet wrote one", String(guard(true, "G5 source-mutants since 09:58")).includes("G5 source-mutants since 09:58")]);
   /* The real reader, on a planted lock directory with and without a holder. */
   withScratch("lock-guard-", (box) => {
-  const lock = join(box, LOCK);
-  mkdirSync(lock);
-  ok.push(["a planted lock directory with no holder still refuses", guard(existsSync(lock), holderOf(lock)) !== null]);
-  writeFileSync(join(lock, "current"), "G19 app-mutants since 10:01\n");
-  ok.push(["the holder is read from the lock", holderOf(lock) === "G19 app-mutants since 10:01"]);
+    const lock = join(box, LOCK);
+    mkdirSync(lock);
+    ok.push(["a planted lock directory with no holder still refuses", guard(existsSync(lock), holderOf(lock)) !== null]);
+    writeFileSync(join(lock, "current"), "G19 app-mutants since 10:01\n");
+    ok.push(["the holder is read from the lock", holderOf(lock) === "G19 app-mutants since 10:01"]);
+  });
+  withScratch("lock-guard-", (box) => {
+    const lock = join(box, "taken");
+    const old = process.env.WQ_GAUNTLET_LOCK;
+    process.env.WQ_GAUNTLET_LOCK = "";
+    try {
+      takeLock(lock);
+      ok.push(["takeLock takes a scratch lock and writes its holder", existsSync(lock) && holderOf(lock).includes("since")]);
+    } finally {
+      if (old === undefined) delete process.env.WQ_GAUNTLET_LOCK;
+      else process.env.WQ_GAUNTLET_LOCK = old;
+    }
+  });
+  withScratch("lock-guard-", (box) => {
+    const lock = join(box, "planted");
+    mkdirSync(lock);
+    writeFileSync(join(lock, "current"), "planted holder\n");
+    const result = probe(box, lock, "", "");
+    ok.push(["takeLock refuses a planted lock and reports its holder", result.status === 1 && result.out.includes("planted holder")]);
+  });
+  withScratch("lock-guard-", (box) => {
+    const lock = join(box, "released");
+    const result = probe(box, lock, "process.exit(0);", "");
+    ok.push(["takeLock releases a scratch lock on process exit", result.status === 0 && !existsSync(lock)]);
+  });
+  withScratch("lock-guard-", (box) => {
+    const lock = join(box, "bypassed");
+    const result = probe(box, lock, "process.exit(existsSync(" + JSON.stringify(lock) + ") ? 1 : 0);", "held");
+    ok.push(["WQ_GAUNTLET_LOCK=held bypasses a scratch lock", result.status === 0 && !existsSync(lock)]);
   });
   /* the bypass, both ways - the direction with no control until 2026-08-23 */
   ok.push(["a runner with no parent takes the lock itself", shouldTakeLock({}) === true]);

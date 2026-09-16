@@ -3386,6 +3386,21 @@ what is true now.
   extraction fails, and the writer checks that every target can be opened for writing before it
   writes any, each with a planted-lock control.
 
+## BF. A dying G4 gate can leave a tracked mutant and a lock behind, and mask its own cause - found 2026-09-16 by the refactor's engineering seat
+
+- **Where:** `tools/acceptance-mutants.mjs`, the crash path around its restore-on-exit handling.
+- **What happens today.** When the gate dies mid-run (measured: `UNKNOWN: unknown error, open
+  'tests/generated/acceptance-ir.json'`, errno -4094, a Windows file lock on the write path the
+  leading suspect), the restore handler throws before printing the original cause, so the run
+  reports neither the lock nor the fault it died of. Left behind: a planted mutant in a tracked
+  file (`session 5` rewritten to `session 6` in the generated IR plus its regenerated test) and
+  a stale `.gauntlet.lock` refusing every later check and commit until removed by hand.
+- **What a child or a grown-up experiences:** nothing. It needs a gate run on a maintainer
+  machine, and nothing a family runs mutates the tree.
+- **Done means:** the crash path names its cause before it restores, restore failures are
+  reported rather than thrown through, and a planted-lock control proves the tree comes back
+  clean with no lock held.
+
 ## BD. The remote gauntlet had one browser and the gates asked for three — found and closed 2026-09-03
 
 - **The beta 31 tag's run went red** on five gates, every one saying

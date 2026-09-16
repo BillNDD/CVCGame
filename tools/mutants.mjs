@@ -2,11 +2,8 @@
    and runs the test suite. A mutant that survives means the suite cannot see that bug.
    Run: npm run test:mutants   Requirement: 0 survivors. */
 import { readFileSync, writeFileSync, copyFileSync, existsSync } from "node:fs";
-import { run, lastOutput, ANSI, testsFailed, failureReport, runTests } from "./lib/runner.mjs";
-
-import { mkdirSync, rmSync as rmLock } from "node:fs";
-import { join as joinLock } from "node:path";
-import { LOCK, holderOf, shouldTakeLock } from "./lock-guard.mjs";
+import { run, lastOutput, ANSI, testsFailed, failureReport, runTests, anchorLookup } from "./lib/runner.mjs";
+import { takeLock } from "./lock-guard.mjs";
 
 const REF = "reference/word-quest.jsx";
 const TMP = "reference/.mutant.jsx";
@@ -200,10 +197,7 @@ const MUTANTS = [
    minutes to learn a fact that takes milliseconds to check. Added 2026-08-12,
    when two anchors moved on the evening of a release. */
 if (process.argv.includes("--anchors")) {
-  const moved = MUTANTS.filter(([, from]) => !original.includes(from));
-  for (const [name] of moved) console.log("ANCHOR MOVED: " + name);
-  console.log(`${MUTANTS.length} mutants, ${moved.length} anchor(s) no longer in the source`);
-  process.exit(moved.length ? 1 : 0);
+  process.exit(anchorLookup(MUTANTS, ([, from]) => original.includes(from), ([name]) => name, "mutants", console.log));
 }
 
 /* THE LOCK IS TAKEN BY WHATEVER PLANTS MUTANTS (the release sweep,
@@ -223,22 +217,7 @@ if (process.argv.includes("--anchors")) {
    gauntlet's own child and fail the gate. The parent says so through the
    environment; a direct `npm run test:mutants` has no such parent and takes
    the lock itself. */
-const LOCK_HELD_BY_PARENT = !shouldTakeLock(process.env);
-if (!LOCK_HELD_BY_PARENT) {
-try {
-  mkdirSync(LOCK);
-  writeFileSync(joinLock(LOCK, "current"), "G5 source-mutants since " + new Date().toISOString().slice(11, 16) + String.fromCharCode(10));
-} catch {
-  console.error("Another run appears to hold " + LOCK + " - " + (holderOf(LOCK) || "no holder named") + ". Remove it if it is stale.");
-  process.exit(1);
-}
-process.on("exit", () => { try { rmLock(LOCK, { recursive: true, force: true }); } catch {} });
-  /* and on a signal, as G4 and G19 already do: default SIGINT/SIGTERM
-     termination does not run exit handlers on POSIX, so a Ctrl-C on a twelve
-     minute gate would leave the lock behind and refuse every later check and
-     commit until someone deleted it by hand (the after pass, 2026-08-23). */
-  for (const sig of ["SIGINT", "SIGTERM", "SIGHUP"]) process.on(sig, () => process.exit(130));
-}
+takeLock();
 
 const survivors = [], errored = [];
 let missing = 0;

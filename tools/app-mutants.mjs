@@ -18,10 +18,8 @@
    mutation testing happened at all. Anchors that move are reported as
    skipped and fail the gate — they are re-pointed, never deleted (E3). */
 import { readFileSync, writeFileSync } from "node:fs";
-import { run, lastOutput, ANSI, testsFailed, failureReport, runTests } from "./lib/runner.mjs";
-import { mkdirSync, rmSync as rmLock } from "node:fs";
-import { join as joinLock } from "node:path";
-import { LOCK, holderOf, shouldTakeLock } from "./lock-guard.mjs";
+import { run, lastOutput, ANSI, testsFailed, failureReport, runTests, anchorLookup } from "./lib/runner.mjs";
+import { takeLock } from "./lock-guard.mjs";
 
 const APP = "app/src/App.jsx";
 const HOLD = "app/src/components/HoldButton.jsx";
@@ -214,10 +212,7 @@ const restore = () => { for (const [f, src] of originals) writeFileSync(f, src);
    app/src/updates.js for the next commit to sweep up. A lookup that mutates
    is the fault E11 exists to prevent. */
 if (process.argv.includes("--anchors")) {
-  const moved = MUTANTS.filter(([, file, from]) => !originals.get(file).includes(from));
-  for (const [name, file] of moved) console.log("ANCHOR MOVED: " + name + " (" + file + ")");
-  console.log(`${MUTANTS.length} app mutants, ${moved.length} anchor(s) no longer in the source`);
-  process.exit(moved.length ? 1 : 0);
+  process.exit(anchorLookup(MUTANTS, ([, file, from]) => originals.get(file).includes(from), ([name, file]) => name + " (" + file + ")", "app mutants", console.log));
 }
 
 /* THE LOCK IS TAKEN BY WHATEVER PLANTS MUTANTS (the release sweep,
@@ -232,17 +227,7 @@ if (process.argv.includes("--anchors")) {
    gauntlet's own child and fail the gate. The parent says so through the
    environment; a direct `npm run test:mutants` has no such parent and takes
    the lock itself. */
-const LOCK_HELD_BY_PARENT = !shouldTakeLock(process.env);
-if (!LOCK_HELD_BY_PARENT) {
-try {
-  mkdirSync(LOCK);
-  writeFileSync(joinLock(LOCK, "current"), "G19 app-mutants since " + new Date().toISOString().slice(11, 16) + String.fromCharCode(10));
-} catch {
-  console.error("Another run appears to hold " + LOCK + " - " + (holderOf(LOCK) || "no holder named") + ". Remove it if it is stale.");
-  process.exit(1);
-}
-process.on("exit", () => { try { rmLock(LOCK, { recursive: true, force: true }); } catch {} });
-}
+takeLock();
 
 /* THIS TOOL EDITS TRACKED PRODUCTION FILES IN PLACE. If it dies between
    writing a mutant and restoring it - an exception, Ctrl-C, a killed
