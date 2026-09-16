@@ -2,7 +2,7 @@
    and runs the test suite. A mutant that survives means the suite cannot see that bug.
    Run: npm run test:mutants   Requirement: 0 survivors. */
 import { readFileSync, writeFileSync, copyFileSync, existsSync } from "node:fs";
-import { run as runProcess } from "./lib/proc.mjs";
+import { run, lastOutput, ANSI, testsFailed, runTests } from "./lib/runner.mjs";
 
 import { mkdirSync, rmSync as rmLock } from "node:fs";
 import { join as joinLock } from "node:path";
@@ -194,69 +194,6 @@ const MUTANTS = [
   ["a graduate is put back on the ladder by two perfect sessions", "  if (!state.preLevel) return false;\n  const pre = state.pre || {};", "  const pre = state.pre || {};"],
 ];
 
-/* The last failure this helper swallowed, so the pristine control can SAY
-   what went wrong instead of only that something did. Beta 25's gauntlet
-   spent a run on "the pristine suite does not pass" with no name attached,
-   and the suite passed three times in a row afterwards - a report that
-   cannot name the failure cannot be diagnosed (the owner's deflaking rule,
-   2026-08-21). */
-let lastRunOutput = "";
-const run = (cmd, args) => {
-  const r = runProcess(cmd, args);
-  lastRunOutput = r.status === 0 ? "" : r.out;
-  return r.status === 0;
-};
-
-/* A mutant is KILLED only when a TEST FAILED. A non-zero exit alone is not
-   proof: a mutant that crashes the runner or breaks the environment exits
-   non-zero too, and scoring that as a kill claims protection the suite never
-   demonstrated. Three outcomes — killed, survived, errored — and an error
-   fails the gate rather than passing as a kill. */
-const ANSI = /\[[0-9;]*[A-Za-z]/g;
-/* Read the TESTS row, not the TEST FILES row. Vitest prints both, file first:
-       Test Files  1 failed | 1 passed (2)
-             Tests  2 passed (2)
-   A file that throws at import fails as a FILE while zero tests fail, so a
-   loose /(\d+) failed/ read the file row and announced a crashed suite as a
-   kill - the exact false kill this distinction exists to prevent. Caught by
-   review, reproduced against vitest 2.1.9 on 2026-08-10. */
-const testsFailed = (out) => {
-  const m = out.match(/\bTests\s+(\d+) failed/);
-  return m ? Number(m[1]) : 0;
-};
-{
-  const crashed = "Test Files  1 failed | 1 passed (2)\n      Tests  2 passed (2)\n";
-  const real = "Test Files  1 failed (13)\n      Tests  3 failed | 327 passed (330)\n";
-  if (testsFailed(crashed) !== 0 || testsFailed(real) !== 3) {
-    console.error("control FAILED: the failure parser must read the Tests row, not Test Files");
-    process.exit(1);
-  }
-}
-
-function runTests() {
-  try {
-    /* Through Node's own binary, never "npx": execFileSync takes no shell, so
-       on Windows the npx.cmd shim cannot be resolved (and newer Node refuses
-       .cmd without a shell outright). Every mutant run then "failed", and the
-       pristine-suite control - doing exactly its job - refused the gate.
-       Found 2026-08-15, the fourth Windows-only gate fault of the move. */
-    /* --bail 1 (P1 of the speed plan, 2026-08-21): a mutant is killed by ONE
-       failing test, and the suite used to run all 380 to find it. vitest
-       stops at the first failure and still prints the "Tests N failed" row
-       this runner reads, so the verdict is unchanged and only the time moves.
-       The pristine control above runs WITHOUT bail: a clean suite has nothing
-       to stop at, and that run must prove every file green. */
-    const r = runProcess(process.execPath, ["node_modules/vitest/vitest.mjs", "run", "--reporter=dot", "--bail", "1"],
-      { env: { ...process.env, NO_COLOR: "1" } });
-    if (r.status === 0) return { passed: true, failed: 0 };
-    return { passed: false, failed: testsFailed(r.out.replace(ANSI, "")) };
-  } catch (e) {
-    /* runProcess never throws on an exit; this is the runner's own fault, and
-       an errored mutant, never a kill. */
-    return { passed: false, failed: 0, error: String(e && e.message ? e.message : e) };
-  }
-}
-
 /* --anchors: check every anchor against the source and print the ones that
    have moved, WITHOUT running a single test. A skipped mutant proves nothing,
    and finding out which one used to mean running the whole gate - twelve
@@ -319,7 +256,7 @@ if (!run(process.execPath, ["node_modules/vitest/vitest.mjs", "run", "--reporter
      killed, survived, ERRORED - and the control that guards it did not.
      Both still FAIL the gate, closed; they now fail by different names, and
      the failing lines are printed either way. */
-  const out = lastRunOutput.replace(ANSI, "");
+  const out = lastOutput().replace(ANSI, "");
   const failed = testsFailed(out);
   console.error(failed > 0
     ? `Runner control FAILED: ${failed} test(s) fail on the pristine tree; mutation results would be meaningless.`

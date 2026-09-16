@@ -47,7 +47,7 @@ the owner raises one; a refactor that improves the shape lowers it to what it re
 | `g31_fn_over_15_tools_max` | 32 | functions under `tools/` over 15 - the ceiling the product code obeys and the tools do not (34 at birth) |
 | `g31_fn_over_80_lines_max` | 11 | functions longer than 80 lines (13 at birth) |
 | `g31_depth_over_4_max` | 6 | blocks nested deeper than 4 |
-| `g31_dup_regions_max` | 12 | merged duplicated regions (14 at birth; corrected from 11 to 12 by the owner on 2026-09-13, see below) |
+| `g31_dup_regions_max` | 11 | merged duplicated regions (14 at birth; 12 after the owner's 2026-09-13 correction, see below; 11 on 2026-09-15 when the runners' shared mechanics became tools/lib/runner.mjs) |
 | `g31_dead_exports_max` | 101 | exports no other file references (102 at birth; see below) |
 
 **The one ceiling that rose, and why it is a correction and not a loosening.** On 2026-09-13,
@@ -114,7 +114,7 @@ Under ten seconds on this machine, so it runs in `npm run check` and in the gaun
 
 Batch 1 of the refactor, owner-ruled 2026-09-12. Forty tools each carried their own copy of
 the same four mechanics; each copy could drift on its own, and three of them the shape gate
-counted as duplicated regions on the day it was born. The six helpers under `tools/lib` are
+counted as duplicated regions on the day it was born. The seven helpers under `tools/lib` are
 the one copy each, and each ships its own `--self-test`, run in `npm run check` and again in
 the gauntlet ahead of G31, which requires one control of each by name:
 
@@ -138,11 +138,12 @@ the gauntlet ahead of G31, which requires one control of each by name:
   never throwing on a non-zero exit; `must(result, what)` for the caller that cannot go on;
   and `withScratch(prefix, fn)`: a temporary directory removed when the function returns,
   throws or settles, on process exit and on a signal (the C2 lesson).
+- `tools/lib/runner.mjs` - `run`, `lastOutput`, `ANSI`, `testsFailed`, `runTests`: the mutant runners' shared run-and-read mechanics, extracted in batch 3 when the shape gate counted their twin spans as one region; the oracles stay in the gates.
 
 **The line that may not be crossed.** A helper carries mechanics only. The regexes, the
 thresholds, the sentences a gate checks for and the anchors it reads - the oracle - stay in
 the gate that owns them, so no two gates can share a judgement through the scaffold. The
-gate document's orphan rule (G16) names all six, so a helper dropped from the check goes red.
+gate document's orphan rule (G16) names all seven, so a helper dropped from the check goes red.
 
 **Controls.** Each helper's own, watched red against a planted variant before the code was
 committed: the empty-list refusal removed, failures counted as passes, the missing-key throw
@@ -2055,7 +2056,7 @@ happened to read the output.
   halves repository language is the tree talking, one stranger half is a person. The
   stated residue: someone named entirely in repository words is skipped here, exactly as
   each half already was by the single-word layers.
-- Keys: `g24_files` (366), `g24_controls` (47), `g24_vocab` (246), `g24_common` (888),
+- Keys: `g24_files` (367), `g24_controls` (47), `g24_vocab` (246), `g24_common` (888),
   `g24_common` moved 889 to 888 on 2026-08-19, owner-ruled on the `Hope` precedent of
   2026-08-16: **Joy** is an ordinary English word that is also a given name, and it
   appears in a listening round's carrier phrase. The alternative was rewording a record

@@ -112,10 +112,10 @@ const LANE_B = new Map([
      rewrites, and takes the engine from the extractor into a scratch file
      rather than from src/engine.js, which G5 rewrites beside it. */
   /* The tools' shared scaffold (batch 1) rides ahead of the gate that
-     measures it: six helpers, each with its own controls, required by name
+     measures it: seven helpers, each with its own controls, required by name
      below, so a helper's self-test is re-run at every release and not only
      in the check. */
-  ["G31 shape", "node tools/lib/selftest.mjs --self-test && node tools/lib/baseline.mjs --self-test && node tools/lib/report.mjs --self-test && node tools/lib/proc.mjs --self-test && node tools/lib/csv.mjs --self-test && node tools/lib/splice.mjs --self-test && node tools/shape.mjs && node tools/shape.mjs --self-test"],
+  ["G31 shape", "node tools/lib/selftest.mjs --self-test && node tools/lib/baseline.mjs --self-test && node tools/lib/report.mjs --self-test && node tools/lib/proc.mjs --self-test && node tools/lib/csv.mjs --self-test && node tools/lib/splice.mjs --self-test && node tools/lib/runner.mjs --self-test && node tools/shape.mjs && node tools/shape.mjs --self-test"],
   /* G32 builds both engines it compares from the reference build into a
      scratch directory, so the mutant G5 plants in src/engine.js beside it
      is never what it reads. */
@@ -728,7 +728,7 @@ step("G31 shape", LANE_B.get("G31 shape"), [
   "a non-zero exit is returned, never thrown, with its output kept",
   "a throw inside the function still removes the directory, and the throw is passed on",
   "a quoted cell keeps its comma",
-  "a missing opening anchor throws, naming the literal and the anchor"]);
+  "a missing opening anchor throws, naming the literal and the anchor", "the failure parser reads the Tests row, not Test Files"]);
 
 /* G32 - the differential harness (batch 0 of the refactor, owner-ruled
    2026-09-12): the tree's engine beside the beta-32 engine over the same
