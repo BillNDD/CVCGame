@@ -52,7 +52,7 @@ export function outcomeReport(total, survivors, errored, missing) {
    protection the suite never demonstrated. Three outcomes, not two —
    killed, survived, and errored — and an error fails the gate rather than
    passing as a kill. */
-export const ANSI = new RegExp(String.fromCharCode(27) + "\\[[0-9;]*[A-Za-z]", "g");
+const ANSI = new RegExp(String.fromCharCode(27) + "\\[[0-9;]*[A-Za-z]", "g");
 /* Read the TESTS row, not the TEST FILES row. Vitest prints both, file first:
        Test Files  1 failed | 1 passed (2)
              Tests  2 passed (2)
@@ -62,7 +62,7 @@ export const ANSI = new RegExp(String.fromCharCode(27) + "\\[[0-9;]*[A-Za-z]", "
    prevent. Caught by review and reproduced against vitest 2.1.9 on
    2026-08-10. "Tests" plus whitespace cannot match "Test Files": there is no
    "s" after "Test" there. The control below pins both shapes. */
-export const testsFailed = (out) => {
+const testsFailed = (out) => {
   const m = out.match(/\bTests\s+(\d+) failed/);
   return m ? Number(m[1]) : 0;
 };
@@ -97,7 +97,14 @@ export function runTests() {
     return { passed: false, failed: 0, error: String(e && e.message ? e.message : e) };
   }
 }
-export function lastOutput() { return lastRunOutput; }
+function lastOutput() { return lastRunOutput; }
+
+export function runPristine() {
+  run("node", ["tools/extract-engine.mjs"]);
+  const passed = run(process.execPath, ["node_modules/vitest/vitest.mjs", "run", "--reporter=dot"]);
+  const out = passed ? "" : lastOutput().replace(ANSI, "");
+  return { passed, failed: testsFailed(out), out };
+}
 
 export function failureReport(out) {
   const lines = out.split(String.fromCharCode(10));

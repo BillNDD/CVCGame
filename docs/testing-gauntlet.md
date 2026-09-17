@@ -138,7 +138,7 @@ the gauntlet ahead of G31, which requires one control of each by name:
   never throwing on a non-zero exit; `must(result, what)` for the caller that cannot go on;
   and `withScratch(prefix, fn)`: a temporary directory removed when the function returns,
   throws or settles, on process exit and on a signal (the C2 lesson).
-- `tools/lib/runner.mjs` - `run`, `lastOutput`, `ANSI`, `testsFailed`, `anchorLookup`, `outcomeReport`, `failureReport`, `runTests`: the mutant runners' shared run-and-read-and-outcome-report mechanics, extracted in batch 3 when the shape gate counted their twin spans as one region; the oracles stay in the gates.
+- `tools/lib/runner.mjs` - `run`, `runPristine`, `anchorLookup`, `outcomeReport`, `runTests`, `failureReport`: the mutant runners' shared run-and-read-and-outcome-report mechanics, extracted in batch 3 when the shape gate counted their twin spans as one region; the oracles stay in the gates.
 
 The lock home stays outside `tools/lib`: `tools/lock-guard.mjs` owns the lock-taking and refusal mechanics, while each gate keeps its call-site words and `tools/lib/runner.mjs` remains run-and-read-and-outcome-report mechanics only.
 

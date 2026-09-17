@@ -2,7 +2,7 @@
    and runs the test suite. A mutant that survives means the suite cannot see that bug.
    Run: npm run test:mutants   Requirement: 0 survivors. */
 import { readFileSync, writeFileSync, copyFileSync, existsSync } from "node:fs";
-import { run, lastOutput, ANSI, testsFailed, failureReport, runTests, anchorLookup, outcomeReport } from "./lib/runner.mjs";
+import { run, runPristine, failureReport, runTests, anchorLookup, outcomeReport } from "./lib/runner.mjs";
 import { takeLock } from "./lock-guard.mjs";
 
 const REF = "reference/word-quest.jsx";
@@ -225,8 +225,8 @@ let missing = 0;
 /* Negative control for the runner itself: the pristine suite must PASS before
    any mutant runs. Without this, a broken environment (a crashing vitest)
    reads as "every mutant killed" while no mutation testing happened. */
-run("node", ["tools/extract-engine.mjs"]);
-if (!run(process.execPath, ["node_modules/vitest/vitest.mjs", "run", "--reporter=dot"])) {
+const pristine = runPristine();
+if (!pristine.passed) {
   /* TWO different failures, told apart (2026-08-21). A non-zero exit alone
      does not mean a test failed: the runner can crash, run out of a handle,
      or be starved of the machine, and calling that "the pristine suite does
@@ -235,8 +235,7 @@ if (!run(process.execPath, ["node_modules/vitest/vitest.mjs", "run", "--reporter
      killed, survived, ERRORED - and the control that guards it did not.
      Both still FAIL the gate, closed; they now fail by different names, and
      the failing lines are printed either way. */
-  const out = lastOutput().replace(ANSI, "");
-  const failed = testsFailed(out);
+  const { out, failed } = pristine;
   console.error(failed > 0
     ? `Runner control FAILED: ${failed} test(s) fail on the pristine tree; mutation results would be meaningless.`
     : "Runner control ERRORED: the runner exited non-zero with NO failing test - the environment, not the suite. Re-run; if it repeats, it is a real fault.");
