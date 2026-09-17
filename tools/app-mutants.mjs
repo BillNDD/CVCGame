@@ -18,7 +18,7 @@
    mutation testing happened at all. Anchors that move are reported as
    skipped and fail the gate — they are re-pointed, never deleted (E3). */
 import { readFileSync, writeFileSync } from "node:fs";
-import { run, lastOutput, ANSI, testsFailed, failureReport, runTests, anchorLookup } from "./lib/runner.mjs";
+import { run, lastOutput, ANSI, testsFailed, failureReport, runTests, anchorLookup, outcomeReport } from "./lib/runner.mjs";
 import { takeLock } from "./lock-guard.mjs";
 
 const APP = "app/src/App.jsx";
@@ -274,9 +274,7 @@ for (const [name, file, from, to] of MUTANTS) {
 }
 restore();
 
-const killed = MUTANTS.length - survivors.length - missing - errored.length;
-console.log(`\nApp mutation gate: ${MUTANTS.length} mutants, ${killed} killed, ${survivors.length} survived, ${errored.length} errored, ${missing} skipped`);
-survivors.forEach((s) => console.log("  SURVIVED: " + s));
-errored.forEach((s) => console.log("  ERRORED (the run died without a test failure, so nothing was proven): " + s));
-if (missing) console.log("  Anchors that moved must be re-pointed, not deleted.");
+const outcomes = outcomeReport(MUTANTS.length, survivors, errored, missing);
+console.log(`\nApp mutation gate: ${MUTANTS.length} mutants, ${outcomes.killed} killed, ${outcomes.survived} survived, ${outcomes.errored} errored, ${outcomes.skipped} skipped`);
+outcomes.lines.forEach((line) => console.log(line));
 process.exit(survivors.length || missing || errored.length ? 1 : 0);

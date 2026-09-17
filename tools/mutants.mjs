@@ -2,7 +2,7 @@
    and runs the test suite. A mutant that survives means the suite cannot see that bug.
    Run: npm run test:mutants   Requirement: 0 survivors. */
 import { readFileSync, writeFileSync, copyFileSync, existsSync } from "node:fs";
-import { run, lastOutput, ANSI, testsFailed, failureReport, runTests, anchorLookup } from "./lib/runner.mjs";
+import { run, lastOutput, ANSI, testsFailed, failureReport, runTests, anchorLookup, outcomeReport } from "./lib/runner.mjs";
 import { takeLock } from "./lock-guard.mjs";
 
 const REF = "reference/word-quest.jsx";
@@ -258,9 +258,7 @@ for (const [name, from, to] of MUTANTS) {
 run("node", ["tools/extract-engine.mjs"]);
 if (existsSync(TMP)) copyFileSync(REF, TMP);
 
-const killed = MUTANTS.length - survivors.length - missing - errored.length;
-console.log(`\nMutation gate: ${MUTANTS.length} mutants, ${killed} killed, ${survivors.length} survived, ${errored.length} errored, ${missing} skipped`);
-survivors.forEach(s => console.log("  SURVIVED: " + s));
-errored.forEach(s => console.log("  ERRORED (the run died without a test failure, so nothing was proven): " + s));
-if (missing) console.log("  Anchors that moved must be re-pointed, not deleted.");
+const outcomes = outcomeReport(MUTANTS.length, survivors, errored, missing);
+console.log(`\nMutation gate: ${MUTANTS.length} mutants, ${outcomes.killed} killed, ${outcomes.survived} survived, ${outcomes.errored} errored, ${outcomes.skipped} skipped`);
+outcomes.lines.forEach((line) => console.log(line));
 process.exit(survivors.length || missing || errored.length ? 1 : 0);

@@ -122,7 +122,7 @@
  "g31_fn_over_15_tools_max": 32,
  "g31_fn_over_80_lines_max": 11,
  "g31_depth_over_4_max": 6,
- "g31_dup_regions_max": 8,
+ "g31_dup_regions_max": 7,
  "g31_dead_exports_max": 101,
  "g31_controls": 18,
  "g32_functions": 51,

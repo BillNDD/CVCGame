@@ -37,6 +37,15 @@ export function anchorLookup(rows, hasAnchor, describe, label, print) {
   return moved.length ? 1 : 0;
 }
 
+export function outcomeReport(total, survivors, errored, missing) {
+  const killed = total - survivors.length - missing - errored.length;
+  const lines = [];
+  survivors.forEach((s) => lines.push("  SURVIVED: " + s));
+  errored.forEach((s) => lines.push("  ERRORED (the run died without a test failure, so nothing was proven): " + s));
+  if (missing) lines.push("  Anchors that moved must be re-pointed, not deleted.");
+  return { killed, survived: survivors.length, errored: errored.length, skipped: missing, lines };
+}
+
 /* A mutant is KILLED only when a TEST FAILED. A non-zero exit alone is not
    proof: a mutant that breaks the parse, crashes the runner, or kills the
    environment exits non-zero too, and scoring that as a kill claims
@@ -98,9 +107,24 @@ export function failureReport(out) {
   return report.join(String.fromCharCode(10));
 }
 
+function outcomeControls(T) {
+  const outcomeLines = outcomeReport(9, ["survivor"], ["errored"], 2);
+  T("the outcome report counts five killed", outcomeLines.killed === 5);
+  T("the outcome report counts one survived", outcomeLines.survived === 1);
+  T("the outcome report counts one errored", outcomeLines.errored === 1);
+  T("the outcome report counts two skipped", outcomeLines.skipped === 2);
+  T("the outcome report prints three detail lines", outcomeLines.lines.length === 3);
+  T("the outcome report prints a survivor line", outcomeLines.lines[0] === "  SURVIVED: survivor");
+  T("the outcome report prints an error line", outcomeLines.lines[1] === "  ERRORED (the run died without a test failure, so nothing was proven): errored");
+  T("the outcome report prints a moved-anchor line", outcomeLines.lines[2] === "  Anchors that moved must be re-pointed, not deleted.");
+  const cleanOutcomes = outcomeReport(4, [], [], 0);
+  T("the clean outcome report counts four killed", cleanOutcomes.killed === 4);
+  T("the clean outcome report has no detail lines", cleanOutcomes.lines.length === 0);
+}
 function selfTest() {
   const ok = [];
   const T = (name, pass) => ok.push([name, pass]);
+  outcomeControls(T);
   const crashed = "Test Files  1 failed | 1 passed (2)\n      Tests  2 passed (2)\n";
   const real = "Test Files  1 failed (13)\n      Tests  3 failed | 327 passed (330)\n";
   T("the failure parser reads the Tests row, not Test Files", testsFailed(crashed) === 0);
