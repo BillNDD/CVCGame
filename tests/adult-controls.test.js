@@ -41,7 +41,7 @@ afterEach(() => { cleanup(); vi.useRealTimers(); });
 describe("G10 safety — S5: every grown-up can give a result, and only a grown-up can", () => {
   const openSession = async () => {
     render(createElement(App));
-    await flush(0);
+    await flush(2001); // owner-ruled 2s minimum splash: post-splash behavior starts here.
     fireEvent.click(screen.getByLabelText("Begin Session"));
     await flush(0);
     return screen.getByLabelText("got it");
@@ -105,7 +105,7 @@ describe("G10 — P1-7: the keyboard keeps its place in the session", () => {
      for "Next word" again on every single word. */
   const gradeAndWait = async () => {
     render(createElement(App));
-    await flush(0);
+    await flush(2001); // owner-ruled 2s minimum splash: post-splash behavior starts here.
     fireEvent.click(screen.getByLabelText("Begin Session"));
     await flush(0);
     fireEvent.keyDown(screen.getByLabelText("got it"), { key: "Enter" });
@@ -126,7 +126,7 @@ describe("G10 — P1-7: the keyboard keeps its place in the session", () => {
 
   it("26 (control): a grown-up who moves focus during the wait keeps it", async () => {
     render(createElement(App));
-    await flush(0);
+    await flush(2001); // owner-ruled 2s minimum splash: post-splash behavior starts here.
     fireEvent.click(screen.getByLabelText("Begin Session"));
     await flush(0);
     fireEvent.keyDown(screen.getByLabelText("got it"), { key: "Enter" });
@@ -149,7 +149,7 @@ describe("G10 safety — S5: one attempt, one result", () => {
      which is the number the grown-up is asked to save on an early exit. */
   it("24: two controls held at once record one result, not two", async () => {
     render(createElement(App));
-    await flush(0);
+    await flush(2001); // owner-ruled 2s minimum splash: post-splash behavior starts here.
     fireEvent.click(screen.getByLabelText("Begin Session"));
     await flush(0);
     const yes = screen.getByLabelText("got it");
@@ -177,7 +177,7 @@ describe("G10 — the text a grown-up reads on the child's screen", () => {
   const openHome = async (state) => {
     mockLoad.mockResolvedValueOnce(state);
     render(createElement(App));
-    await flush(0);
+    await flush(2001); // owner-ruled 2s minimum splash: post-splash behavior starts here.
   };
 
   it("27: one completed session counts as '1 session', not '1 sessions'", async () => {

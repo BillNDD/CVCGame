@@ -24,7 +24,7 @@ import { createElement } from "react";
 import App from "../app/src/App.jsx";
 
 const flush = async (ms = 0) => act(async () => { await vi.advanceTimersByTimeAsync(ms); });
-const boot = async (ms = 0) => { render(createElement(App)); await flush(ms); };
+const boot = async (ms = 2001) => { render(createElement(App)); await flush(ms); }; // owner-ruled 2s minimum splash: boot waits past it.
 /* Since the pre-level ladder (2026-08-15) a FRESH install begins at Pre 1,
    so a fresh-boot fault test grades the ladder's first item — that IS the
    first thing a real fresh install grades. The adult strip is the same one. */
@@ -52,7 +52,7 @@ describe("G9 faults — the app boot", () => {
   beforeEach(() => vi.useFakeTimers());
   it("1: a damaged save reads as fresh, with the damage message, and stays writable", async () => {
     mockLoad.mockResolvedValue({ __corrupt: true });
-    await boot();
+    await boot(); // owner-ruled 2s minimum splash: this post-splash fault starts here.
     expect(screen.getByText(/Pre 1/)).toBeTruthy();   // fresh means the ladder now
     expect(screen.getByText("Saved progress was damaged. A copy was kept; starting fresh.")).toBeTruthy();
     // 1b — control for the zero-writes spy: a writable visit MUST record writes
@@ -161,7 +161,7 @@ describe("G9 faults — the app boot", () => {
       configurable: true,
       value: { cancel: () => { throw new Error("no voice"); }, speak: () => { throw new Error("no voice"); } },
     });
-    await boot();
+    await boot(); // owner-ruled 2s minimum splash: this post-splash fault starts here.
     await gradeFirstWord();
     expect(screen.getAllByText(/Great job!/).length).toBeGreaterThan(0);   // the exact pre feedback line, pinned
     delete window.speechSynthesis;
@@ -175,7 +175,7 @@ describe("G9 faults — the app boot", () => {
       words: { at: { box: 2, attempts: 3, correct: 2, close: 0, wrong: 1, dueAt: 1, lastSession: 999 } },
       log: [],
     });
-    await boot();
+    await boot(); // owner-ruled 2s minimum splash: this post-splash fault starts here.
     await gradeFirstWord();
     fireEvent.click(screen.getByRole("button", { name: "Leave session" }));
     fireEvent.click(screen.getByText("Save 1 as a short session"));
@@ -235,7 +235,7 @@ describe("G9 faults — an unreadable save, and backups that must look like one"
   it("2b: an unreadable save is never overwritten, and the visit stays read-only", async () => {
     mockLoad.mockResolvedValueOnce({ __unreadable: true });
     render(createElement(App));
-    await flush(0);
+    await flush(2001); // owner-ruled 2s minimum splash: this post-splash fault starts here.
     expect(screen.getByText(/Couldn’t read saved progress/)).toBeTruthy();
     expect(mockSave.mock.calls.length).toBe(0);          // the old save is left alone
     fireEvent.click(screen.getByLabelText("Begin Session"));
@@ -249,7 +249,7 @@ describe("G9 faults — an unreadable save, and backups that must look like one"
     /* Proves 2b tests the unreadable case specifically, not a dead spy. */
     mockLoad.mockResolvedValueOnce(null);
     render(createElement(App));
-    await flush(0);
+    await flush(2001); // owner-ruled 2s minimum splash: this post-splash fault starts here.
     expect(mockSave.mock.calls.length).toBeGreaterThan(0);
   });
 
@@ -258,7 +258,7 @@ describe("G9 faults — an unreadable save, and backups that must look like one"
        its wiring is an element id, and a typo there would leave a keyboard
        user a button that does nothing with every gate green (the re-judgement). */
     render(createElement(App));
-    await flush(0);
+    await flush(2001); // owner-ruled 2s minimum splash: this post-splash backup check starts here.
     fireEvent.click(screen.getByLabelText("Grown-ups corner"));
     await flush(0);
     const input = document.querySelector('input[type="file"]');
@@ -274,7 +274,7 @@ describe("G9 faults — an unreadable save, and backups that must look like one"
 
   const importFile = async (text) => {
     render(createElement(App));
-    await flush(0);
+    await flush(2001); // owner-ruled 2s minimum splash: this post-splash backup check starts here.
     fireEvent.click(screen.getByLabelText("Grown-ups corner"));
     await flush(0);
     const input = document.querySelector('input[type="file"]');
@@ -373,7 +373,7 @@ describe("G9 faults — the corner's own actions survive their edges", () => {
   afterEach(() => { vi.useRealTimers(); cleanup(); });
   const openCorner = async () => {
     mockLoad.mockResolvedValueOnce(seed());
-    await boot(0);
+    await boot(2001); // owner-ruled 2s minimum splash: this post-splash corner check starts here.
     fireEvent.click(screen.getByLabelText("Grown-ups corner"));
     await flush(0);
   };
@@ -421,7 +421,7 @@ describe("G9 faults — the corner's own actions survive their edges", () => {
        (2026-08-21): preLevel > 0 governs every session. A tapped word level
        now clears it, and the toast says so. */
     mockLoad.mockResolvedValueOnce({ ...seed(), preLevel: 3 });
-    await boot(0);
+    await boot(2001); // owner-ruled 2s minimum splash: this post-splash corner check starts here.
     fireEvent.click(screen.getByLabelText("Grown-ups corner"));
     await flush(0);
     fireEvent.click(screen.getByText("26"));
@@ -511,7 +511,7 @@ describe("G9 faults — the error ring records on the device and never sends", (
     record({ kind: "error", message: "ring-one", where: "A.js:1", screen: "home", version: "t" });
     record({ kind: "rejection", message: "second", where: "", screen: "session", version: "t" });
     mockLoad.mockResolvedValueOnce(seed());
-    await boot(0);
+    await boot(2001); // owner-ruled 2s minimum splash: this post-splash error-ring check starts here.
     fireEvent.click(screen.getByLabelText("Grown-ups corner"));
     await flush(0);
     expect(screen.getByText(/2 problems recorded on this device/)).toBeTruthy();

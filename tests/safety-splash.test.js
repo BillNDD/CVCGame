@@ -23,9 +23,17 @@ Object.defineProperty(window, "speechSynthesis", {
   value: { cancel: () => {}, speak: () => {} },
 });
 const { default: App } = await import("../app/src/App.jsx");
+const { loadState: mockLoad, saveState: mockSave } = await import("../app/src/storage.js");
 
 const flush = async (ms = 0) => act(async () => { await vi.advanceTimersByTimeAsync(ms); });
-beforeEach(() => { vi.useFakeTimers(); localStorage.clear(); });
+beforeEach(() => {
+  vi.useFakeTimers();
+  localStorage.clear();
+  mockLoad.mockReset();
+  mockLoad.mockResolvedValue(null);
+  mockSave.mockClear();
+  mockSave.mockImplementation(async () => true);
+});
 afterEach(() => { cleanup(); vi.useRealTimers(); });
 
 describe("G10 safety — S6: the splash update controls are adult holds", () => {
@@ -38,7 +46,7 @@ describe("G10 safety — S6: the splash update controls are adult holds", () => 
     const versionAsks = () => fetchSpy.mock.calls.filter(([url]) => url === "version.json").length;
     try {
       render(createElement(App));
-      await flush(0);
+      await flush(2001); // owner-ruled 2s minimum splash: post-splash behavior starts here.
       const btn = screen.getByLabelText("Check for updates");
       fireEvent.click(btn, { detail: 1 });               // the child's tap
       await flush(600);
@@ -69,7 +77,7 @@ describe("G10 safety — S6: the splash update controls are adult holds", () => 
     });
     try {
       render(createElement(App));
-      await flush(0);
+      await flush(2001); // owner-ruled 2s minimum splash: post-splash behavior starts here.
       expect(screen.queryByLabelText("Update now")).toBeNull();  // never offered unasked
       fireEvent.keyDown(screen.getByLabelText("Check for updates"), { key: "Enter" });
       await flush(0);
@@ -95,11 +103,54 @@ describe("G10 safety — S6: the splash update controls are adult holds", () => 
     vi.stubGlobal("fetch", fetchSpy);
     try {
       render(createElement(App));
-      await flush(0);
+      await flush(2001); // owner-ruled 2s minimum splash: post-splash behavior starts here.
       fireEvent.keyDown(screen.getByLabelText("Check for updates"), { key: "Enter" });
       await flush(0);
       screen.getByText("An update is ready — press and hold.");
       expect(screen.queryByLabelText("Update now")).not.toBeNull();
     } finally { vi.unstubAllGlobals(); }
+  });
+
+  it("52: the splash stays through 1999 ms, then leaves at 2001 ms", async () => {
+    render(createElement(App));
+    await flush(1999);
+    expect(screen.queryByLabelText("Begin Session")).toBeNull();
+    expect(document.querySelector('[data-wq-art="title-splash"]')).not.toBeNull();
+    await flush(2);
+    expect(screen.getByLabelText("Begin Session")).toBeTruthy();
+  });
+
+  it("53: a click on the splash div reaches home", async () => {
+    render(createElement(App));
+    await flush(0);
+    fireEvent.click(document.querySelector(".wq-center"));
+    await flush(0);
+    expect(screen.getByLabelText("Begin Session")).toBeTruthy();
+  });
+
+  it("54: a tap before the read lands leaves the app on the read", async () => {
+    let resolveRead;
+    mockLoad.mockImplementation(() => new Promise((resolve) => { resolveRead = resolve; }));
+    render(createElement(App));
+    await flush(0);
+    fireEvent.click(document.querySelector(".wq-center"));
+    await flush(2001);
+    expect(screen.queryByLabelText("Begin Session")).toBeNull();
+    resolveRead(null);
+    await flush(0);
+    expect(screen.getByLabelText("Begin Session")).toBeTruthy();
+  });
+
+  it("55: a splash tap before the read writes nothing", async () => {
+    let resolveRead;
+    mockLoad.mockImplementation(() => new Promise((resolve) => { resolveRead = resolve; }));
+    render(createElement(App));
+    await flush(0);
+    fireEvent.click(document.querySelector(".wq-center"));
+    await flush(2001);
+    expect(mockSave.mock.calls.length).toBe(0);
+    resolveRead({ __unreadable: true });
+    await flush(0);
+    expect(mockSave.mock.calls.length).toBe(0);
   });
 });

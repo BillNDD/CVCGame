@@ -34,6 +34,7 @@ import TurnPrompt from "./components/TurnPrompt.jsx";
 import { readLandscapeOk, writeLandscapeOk } from "./landscape.js";
 import usePreSession from "./usePre.js";
 
+const SPLASH_MIN_SHOW_MS = 2000, SPLASH_FIELD = "#" + [253, 253, 249].map((n) => n.toString(16).padStart(2, "0")).join("").toUpperCase();
 /* The microphone left three device-local markers behind on every install that
    ever ran a version carrying it: which mode an adult chose, whether
    permission was denied, and whether the one-time mode heal had been spent.
@@ -293,8 +294,9 @@ export default function App() {
   const advanceBackstop = useRef(null);
   const fillTrack = useRef(null);          // the fill's live segment {from, ms, t0}, so a re-arm continues it
   const advanceLive = useRef(true);        // the same fact, readable inside a handler
-  const stateRef = useRef(null);
-  stateRef.current = state;
+  const stateRef = useRef(null); stateRef.current = state;
+  const splashStartedAt = useRef(Date.now()), splashSkipped = useRef(false), splashPending = useRef(null);
+  const skipSplash = () => { splashSkipped.current = true; if (splashPending.current) splashPending.current(); };
 
   /* boot with timeout — P2-6 */
   /* THE VISIT COMMITS TO THE STATE ON SCREEN the moment anything depends on
@@ -314,15 +316,11 @@ export default function App() {
       if (s.settings.updateCheck === undefined) s.settings.updateCheck = true;
       setState(s); setNameDraft(s.settings.childName || "");
     };
-    const finish = (s) => {
-      if (!alive || shown) return; shown = true;
-      settle(s); setScreen("home");
-    };
-    const timer = setTimeout(() => {
-      setReadOnly(true);                       // F3 — never write over a save we could not read
-      finish(newState());
-      setToast("Couldn’t read saved progress. Nothing will be saved this visit.");
-    }, SPLASH_TIMEOUT_MS);
+    const finish = (s) => { if (!alive || shown) return; shown = true; settle(s); setScreen("home"); };
+    let splashTimer = 0;
+    const leaveSplash = (s) => { if (splashTimer) clearTimeout(splashTimer); splashTimer = 0; splashPending.current = null; finish(s); };
+    const finishAfterSplash = (s) => { if (splashSkipped.current) { leaveSplash(s); return; } const remaining = Math.max(0, SPLASH_MIN_SHOW_MS - (Date.now() - splashStartedAt.current)); if (!remaining) { leaveSplash(s); return; } splashPending.current = () => leaveSplash(s); splashTimer = setTimeout(() => leaveSplash(s), remaining); };
+    const timer = setTimeout(() => { setReadOnly(true); finish(newState()); setToast("Couldn’t read saved progress. Nothing will be saved this visit."); }, SPLASH_TIMEOUT_MS);
     /* THE LATE READ (AZ). The deadline decides what is SHOWN at three
        seconds, no longer what is WRITTEN for the visit. A read that lands
        after home is up is adopted silently - state, migration, the read-only
@@ -353,7 +351,7 @@ export default function App() {
          nothing, and leave the save on disk for the next attempt. */
       if (d && d.__unreadable) {
         setReadOnly(true);                     // exactly like a timed-out boot: play, never write
-        finish(newState());
+        finishAfterSplash(newState());
         setToast("Couldn’t read saved progress. Nothing will be saved this visit.");
         return;
       }
@@ -362,12 +360,12 @@ export default function App() {
         const before = d.version; s = migrate(d); changed = before !== s.version;
       }
       else s = newState();
-      finish(s);
+      finishAfterSplash(s);
       if (!d || changed) {
         setPersistent(await saveState(s));
       }
     })();
-    return () => { alive = false; clearTimeout(timer); };
+    return () => { alive = false; clearTimeout(timer); clearTimeout(splashTimer); splashPending.current = null; };
   }, []);
 
   useEffect(() => { if (!toast) return; const t = setTimeout(() => setToast(""), 3200); return () => clearTimeout(t); }, [toast]);
@@ -1321,8 +1319,10 @@ export default function App() {
      asking the owner to raise a ceiling for a routing table. */
   function renderScreen() {
     if (screen === "splash" || !state) {
-      return <Frame><div className="wq-center"><div className="wq-float" style={{ fontSize: 56 }}>🚀</div>
-        <p style={{ marginTop: 12, fontWeight: 800, color: C.ink }}>Loading Word Quest…</p></div></Frame>;
+      return <Frame><div className="wq-center" onClick={skipSplash} style={{ backgroundColor: SPLASH_FIELD }}>
+        <img className="wq-splash-art" data-wq-art="title-splash" src="art/WQ_TITLE_SPLASH_v001.png"
+          alt="Word Quest splash art" style={{ maxWidth: "100%", maxHeight: "100%", width: "auto", height: "auto", display: "block" }} />
+      </div></Frame>;
     }
 
     const L = LEVELS[state.level - 1];

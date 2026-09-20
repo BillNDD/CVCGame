@@ -10,6 +10,86 @@
     "effects-textures": 524288
   },
   "families": {
+    "app-icon-splash-title": {
+      "kind": "raster",
+      "opened": "2026-09-18",
+      "step": 8,
+      "subject": "owner-supplied Word Quest poster used for the splash and title art",
+      "source": [
+        "reference/word-quest.jsx",
+        "app/src/App.jsx"
+      ],
+      "sourceHash": {
+        "owner-supplied poster outside the repository": "a71e1ab68ac872752556844477dff09604f9850ee3da1d1d08ee643ae125b4c1"
+      },
+      "share": 1048576,
+      "spent": 1031686,
+      "files": [
+        "app/public/art/WQ_TITLE_SPLASH_v001.png"
+      ],
+      "master": "owner-supplied poster outside the repository",
+      "masterReason": "the tracked PNG is a mechanical downscale of the supplied poster, with no redraw",
+      "generated": {
+        "how": "mechanical proportional PNG downscale, optimized without changing the composition",
+        "dimensions": "896x896",
+        "field": "#FDFDF9",
+        "bytes": 1031686,
+        "sha256": "2e04e550616d330aa570e0a2432146e8769bc9c0298bbd29eb15cc8e4d818e4e"
+      },
+      "reference": [
+        {
+          "what": "the owner-supplied Word Quest poster",
+          "outsideTheRepository": true,
+          "bytes": 2425303,
+          "sha256": "a71e1ab68ac872752556844477dff09604f9850ee3da1d1d08ee643ae125b4c1",
+          "licence": "owner-supplied"
+        }
+      ],
+      "checkpoints": []
+    },
+    "icons": {
+      "kind": "raster",
+      "opened": "2026-09-18",
+      "step": 8,
+      "subject": "mechanical Word Quest icon derivatives from the splash poster",
+      "source": [
+        "reference/word-quest.jsx",
+        "app/src/App.jsx"
+      ],
+      "sourceHash": {
+        "owner-supplied poster outside the repository": "a71e1ab68ac872752556844477dff09604f9850ee3da1d1d08ee643ae125b4c1"
+      },
+      "share": 524288,
+      "spent": 376074,
+      "files": [
+        "icons/icon-192.png",
+        "icons/icon-512.png",
+        "icons/icon-maskable-192.png",
+        "icons/icon-maskable-512.png",
+        "icons/apple-touch-icon.png",
+        "icons/favicon-16.png",
+        "icons/favicon-32.png",
+        "icons/favicon.ico"
+      ],
+      "master": "owner-supplied poster outside the repository",
+      "masterReason": "all eight files are mechanical square downscales; maskable files carry centered safe-zone padding",
+      "generated": {
+        "how": "mechanical square downscales with indexed PNG optimization; favicon.ico carries 16, 24, 32, 48, 64, 128 and 256 sizes",
+        "maskableSafeZone": "80 percent centered square with the measured field as padding",
+        "bytes": 376074,
+        "sha256": {
+          "icons/icon-192.png": "e3f625012838780474bb046f7d379f8ac66e6b9d14869e67e939eac212209933",
+          "icons/icon-512.png": "e17f348f5b3d368c380112bc929d812d6dc106203bb0523b8c4c9ab506ba6875",
+          "icons/icon-maskable-192.png": "11ce9a94fbee9bc3c993ea8e817aa2810533e3c9e322305ef8bbb582929f4d76",
+          "icons/icon-maskable-512.png": "439c1a86873b296f0b4439d8107d913c86185e03fee02a836e2a91c59c9115d3",
+          "icons/apple-touch-icon.png": "a58f55fa743acc89f2eda8c568adcd87964ecd77ea9a3c007cbc9faf584402e6",
+          "icons/favicon-16.png": "1b155a86ef72b0c1e75171f4b900e658e3464473ec45c42a2b20456cbc53ae1b",
+          "icons/favicon-32.png": "479b8c3c7bc04a6d2556413a553ff3545e5a7fb426962baa5d4203d7feeb6d84",
+          "icons/favicon.ico": "91f9f9f1b714b4ed6d94e0b8d4999eb00b11e0535d75c7bdadd701ab5e79feed"
+        }
+      },
+      "checkpoints": []
+    },
     "tiles": {
       "kind": "css",
       "opened": "2026-08-22",

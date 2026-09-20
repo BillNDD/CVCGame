@@ -8,7 +8,7 @@ Per-test rows carry the test's own sentence, which in this project IS the
 Given/When/Then effect. The requirement, oracle, platform, mutant family, evidence
 and known limits are declared per FILE, in the tool, where they stay true.
 
-Totals: 482 it() SITES across 22 files, plus 21 gates that are not test files.
+Totals: 486 it() SITES across 22 files, plus 21 gates that are not test files.
 
 A site inside a loop or a table runs many times, so Vitest executes MORE tests than these rows number. The rows count the places behaviour is asserted; the executed count is whatever the suite prints, and the gauntlet holds its floors.
 
@@ -542,7 +542,7 @@ A site inside a loop or a table runs many times, so Vitest executes MORE tests t
 | 28 | fault AN - a reveal interrupted by leaving the app restarts whole on return | never replays into the next attempt - advancing clears the record (S2) |
 | 29 | fault AN - a reveal interrupted by leaving the app restarts whole on return | a finished reveal does not replay - live ends when the scheduled length elapses |
 
-## tests/safety-splash.test.js — 3 tests (G10)
+## tests/safety-splash.test.js — 7 tests (G10)
 
 - **Requirement protected:** Safety rules on the home screen's grown-up strip, split from safety.test.js at the file-length ceiling
 - **Independent oracle:** The exact SPEC sentences
@@ -557,6 +557,10 @@ A site inside a loop or a table runs many times, so Vitest executes MORE tests t
 | 1 | G10 safety — S6: the splash update controls are adult holds | 49: a child's tap asks nothing; the adult's activation asks once, the app's own host |
 | 2 | G10 safety — S6: the splash update controls are adult holds | 50: Update now appears only after a newer version answers, and only the adult hold sends the consent message |
 | 3 | G10 safety — S6: the splash update controls are adult holds | 51: a newer build of the same version is offered in plain words |
+| 4 | G10 safety — S6: the splash update controls are adult holds | 52: the splash stays through 1999 ms, then leaves at 2001 ms |
+| 5 | G10 safety — S6: the splash update controls are adult holds | 53: a click on the splash div reaches home |
+| 6 | G10 safety — S6: the splash update controls are adult holds | 54: a tap before the read lands leaves the app on the read |
+| 7 | G10 safety — S6: the splash update controls are adult holds | 55: a splash tap before the read writes nothing |
 
 ## tests/safety.test.js — 26 tests (G10)
 

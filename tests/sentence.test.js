@@ -106,7 +106,7 @@ const leaveBuild = async () => {
 
 const walkToSentence = async () => {
   render(createElement(App));
-  await flush(0);
+  await flush(2001); // owner-ruled 2s minimum splash: post-splash behavior starts here.
   fireEvent.click(screen.getByLabelText("Begin Session"));
   await flush(0);
   for (let i = 0; i < 5; i += 1) {
@@ -145,7 +145,7 @@ describe("the sentence reveal's clip plan", () => {
 describe("the sentence inside a session", () => {
   it("1: arrives after the fifth word, and only after a word is finished", async () => {
     render(createElement(App));
-    await flush(0);
+    await flush(2001); // owner-ruled 2s minimum splash: post-splash behavior starts here.
     fireEvent.click(screen.getByLabelText("Begin Session"));
     await flush(0);
     for (let i = 0; i < 4; i += 1) {
@@ -364,7 +364,7 @@ describe("the sentence inside a session", () => {
   const openSentenceFreePlay = async (level = 1) => {
     if (level !== 1) stored = { ...newState(), preLevel: 0, level };
     render(createElement(App));
-    await flush(0);
+    await flush(2001); // owner-ruled 2s minimum splash: post-splash behavior starts here.
     fireEvent.click(screen.getByLabelText("Free play"));
     await flush(0);
     fireEvent.click(screen.getByLabelText(`Level ${level} sentences`));   // the grid's left cell names the level
@@ -543,7 +543,7 @@ describe("the sentence inside a session", () => {
      session's length or which word the draw picked. */
   it("7b: a miss just before a sentence still earns the second look", async () => {
     render(createElement(App));
-    await flush(0);
+    await flush(2001); // owner-ruled 2s minimum splash: post-splash behavior starts here.
     fireEvent.click(screen.getByLabelText("Begin Session"));
     await flush(0);
     for (let i = 0; i < 4; i += 1) {
@@ -597,7 +597,7 @@ describe("the sentence inside a session", () => {
      does rather than something the retry does. */
   it("7c (control): a miss with no sentence in the way earns the same second look", async () => {
     render(createElement(App));
-    await flush(0);
+    await flush(2001); // owner-ruled 2s minimum splash: post-splash behavior starts here.
     fireEvent.click(screen.getByLabelText("Begin Session"));
     await flush(0);
     const dots = () => document.querySelectorAll(".wq-seg").length;
@@ -642,7 +642,7 @@ describe("the sentence inside a session", () => {
       pre: Object.fromEntries(["c:am", "c:us", "c:ox"].map((k) => [k,
         { box: 5, attempts: 4, correct: 4, close: 0, wrong: 0, dueAt: 99, lastSession: 0 }])) };
     render(createElement(App));
-    await flush(0);
+    await flush(2001); // owner-ruled 2s minimum splash: post-splash behavior starts here.
     fireEvent.click(screen.getByLabelText("Begin Session"));
     await flush(0);
     const seen = [];
@@ -692,7 +692,7 @@ describe("free play deals from data that can be empty", () => {
     window.addEventListener("error", catcher);
     try {
       render(createElement(App));
-      await flush(0);
+      await flush(2001); // owner-ruled 2s minimum splash: post-splash behavior starts here.
       fireEvent.click(screen.getByLabelText("Free play"));
       await flush(0);
       const row = screen.getByLabelText("Level 1 sentences");
@@ -739,7 +739,7 @@ describe("free play deals from data that can be empty", () => {
        the sentences check into the word path. Each cell is driven to its
        screen here. */
     render(createElement(App));
-    await flush(0);
+    await flush(2001); // owner-ruled 2s minimum splash: post-splash behavior starts here.
     fireEvent.click(screen.getByLabelText("Free play"));
     await flush(0);
     fireEvent.click(screen.getByLabelText("Any sentence"));
@@ -748,7 +748,7 @@ describe("free play deals from data that can be empty", () => {
     expect(screen.getByLabelText("random sentences")).toBeTruthy();   // the header's dice chip names the mode
     cleanup();
     render(createElement(App));
-    await flush(0);
+    await flush(2001); // owner-ruled 2s minimum splash: post-splash behavior starts here.
     fireEvent.click(screen.getByLabelText("Free play"));
     await flush(0);
     fireEvent.click(screen.getByLabelText("Build any word"));
@@ -759,7 +759,7 @@ describe("free play deals from data that can be empty", () => {
   it("14: the chooser drops the sentence row where there is nothing to serve — and keeps it where there is", async () => {
     noSentences = true;
     render(createElement(App));
-    await flush(0);
+    await flush(2001); // owner-ruled 2s minimum splash: post-splash behavior starts here.
     fireEvent.click(screen.getByLabelText("Free play"));
     await flush(0);
     expect(screen.queryByLabelText("Level 1 sentences")).toBeNull();
@@ -776,7 +776,7 @@ describe("free play deals from data that can be empty", () => {
        A hider that hides in every world hides nothing. */
     noSentences = false;
     render(createElement(App));
-    await flush(0);
+    await flush(2001); // owner-ruled 2s minimum splash: post-splash behavior starts here.
     fireEvent.click(screen.getByLabelText("Free play"));
     await flush(0);
     expect(screen.getByLabelText("Level 1 sentences")).toBeTruthy();

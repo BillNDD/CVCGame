@@ -280,7 +280,7 @@ describe("model: every free-play cell opens something, and every something can b
         stored = { ...newState(), level: save.level, preLevel: save.preLevel };
         stored.settings.sound = save.sound;
         render(createElement(App));
-        await flushAsync(0);
+        await flushAsync(2001); // owner-ruled 2s minimum splash: post-splash behavior starts here.
         expect(home()).toBe(true);
         fireEvent.click(screen.getByLabelText("Free play"));
         await flushAsync(0);
@@ -316,7 +316,7 @@ describe("model: every free-play cell opens something, and every something can b
     vi.useFakeTimers();
     stored = { ...newState(), level: 1, preLevel: 0 };
     render(createElement(App));
-    await flushAsync(0);
+    await flushAsync(2001); // owner-ruled 2s minimum splash: post-splash behavior starts here.
     fireEvent.click(screen.getByLabelText("Free play"));
     await flushAsync(0);
     const cell = cellsOnScreen().find((c) => /Any word/.test(c.textContent));

@@ -2653,6 +2653,9 @@ function buildMarkdown(state) {
 /* ============================================================ */
 
 export default function WordQuest() {
+  const SPLASH_MIN_SHOW_MS = 2000;
+  const SPLASH_FIELD = "#" + [253, 253, 249].map((n) => n.toString(16).padStart(2, "0")).join("").toUpperCase();
+
   const [screen, setScreen] = useState("splash");
   const [state, setState] = useState(null);
   const [persistent, setPersistent] = useState(true);
@@ -2682,6 +2685,14 @@ export default function WordQuest() {
   const stateRef = useRef(null);
   stateRef.current = state;
 
+  const splashStartedAt = useRef(Date.now());
+  const splashSkipped = useRef(false);
+  const splashPending = useRef(null);
+  const skipSplash = () => {
+    splashSkipped.current = true;
+    if (splashPending.current) splashPending.current();
+  };
+
   /* boot with timeout — P2-6 */
   useEffect(() => {
     let alive = true, settled = false;
@@ -2690,6 +2701,20 @@ export default function WordQuest() {
       if (!s.settings.lang) s.settings.lang = "en-US";
       if (s.settings.childName === undefined) s.settings.childName = "";
       setState(s); setNameDraft(s.settings.childName || ""); setScreen("home");
+    };
+    let splashTimer = 0;
+    const leaveSplash = (s) => {
+      if (splashTimer) clearTimeout(splashTimer);
+      splashTimer = 0;
+      splashPending.current = null;
+      finish(s);
+    };
+    const finishAfterSplash = (s) => {
+      if (splashSkipped.current) { leaveSplash(s); return; }
+      const remaining = Math.max(0, SPLASH_MIN_SHOW_MS - (Date.now() - splashStartedAt.current));
+      if (!remaining) { leaveSplash(s); return; }
+      splashPending.current = () => leaveSplash(s);
+      splashTimer = setTimeout(() => leaveSplash(s), remaining);
     };
     const timer = setTimeout(() => {
       setReadOnly(true);                       // F3 — never write over a save we could not read
@@ -2707,10 +2732,15 @@ export default function WordQuest() {
       if (d && d.__corrupt) { s = newState(); setToast("Saved progress was damaged. A copy was kept; starting fresh."); }
       else if (d) { const before = d.version; s = migrate(d); changed = before !== s.version; }
       else s = newState();
-      finish(s);
+      finishAfterSplash(s);
       if (!d || changed) setPersistent(await saveState(s));
     })();
-    return () => { alive = false; clearTimeout(timer); };
+    return () => {
+      alive = false;
+      clearTimeout(timer);
+      clearTimeout(splashTimer);
+      splashPending.current = null;
+    };
   }, []);
 
   useEffect(() => { if (!toast) return; const t = setTimeout(() => setToast(""), 3200); return () => clearTimeout(t); }, [toast]);
@@ -2840,8 +2870,10 @@ export default function WordQuest() {
   /* ============================ RENDER ============================ */
 
   if (screen === "splash" || !state) {
-    return <Frame><div className="wq-center"><div className="wq-float" style={{ fontSize: 56 }}>🚀</div>
-      <p style={{ marginTop: 12, fontWeight: 800, color: C.ink }}>Loading Word Quest…</p></div></Frame>;
+    return <Frame><div className="wq-center" onClick={skipSplash} style={{ backgroundColor: SPLASH_FIELD }}>
+      <img className="wq-splash-art" data-wq-art="title-splash" src="art/WQ_TITLE_SPLASH_v001.png"
+        alt="Word Quest splash art" style={{ maxWidth: "100%", maxHeight: "100%", width: "auto", height: "auto", display: "block" }} />
+    </div></Frame>;
   }
 
   const L = LEVELS[state.level - 1];

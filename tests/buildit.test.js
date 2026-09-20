@@ -667,7 +667,7 @@ describe("free play builds go on until Done", () => {
         played.length = 0;
         stored = { ...newState(), preLevel: 0, level };
         render(createElement(App));
-        await flush(0);
+        await flush(2001); // owner-ruled 2s minimum splash: post-splash behavior starts here.
         fireEvent.click(screen.getByLabelText("Free play"));
         await flush(0);
         fireEvent.click(screen.getByLabelText(`Build a level ${level} word`));
@@ -757,7 +757,7 @@ describe("free play builds go on until Done", () => {
     for (const w of ["is", "an", "at", "in", "it"]) early.words[w] = { box: 5, attempts: 4, correct: 4, close: 0, wrong: 0, dueAt: 99, lastSession: 1 };
     stored = early;
     render(createElement(App));
-    await flush(0);
+    await flush(2001); // owner-ruled 2s minimum splash: post-splash behavior starts here.
     fireEvent.click(screen.getByLabelText("Free play"));
     await flush(0);
     fireEvent.click(screen.getByLabelText("Build a level 75 word"));   // the cell names the level (2026-08-21)
@@ -779,7 +779,7 @@ describe("free play builds go on until Done", () => {
     const App = (await import("../app/src/App.jsx")).default;
     stored = { ...newState(), preLevel: 0, level: 1 };
     render(createElement(App));
-    await flush(0);
+    await flush(2001); // owner-ruled 2s minimum splash: post-splash behavior starts here.
     fireEvent.click(screen.getByLabelText("Free play"));
     await flush(0);
     fireEvent.click(screen.getByLabelText("Build any word"));
@@ -791,7 +791,7 @@ describe("free play builds go on until Done", () => {
     const App = (await import("../app/src/App.jsx")).default;
     stored = { ...newState(), preLevel: 2 };
     render(createElement(App));
-    await flush(0);
+    await flush(2001); // owner-ruled 2s minimum splash: post-splash behavior starts here.
     fireEvent.click(screen.getByLabelText("Free play"));
     await flush(0);
     fireEvent.click(screen.getByLabelText("Find a Pre 2 sound"));

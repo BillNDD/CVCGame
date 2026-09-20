@@ -69,23 +69,23 @@ export function offences(root = document) {
 
 /* THE APP BOOTS THROUGH A SPLASH, AND A TEST SHOULD WAIT FOR IT RATHER THAN
    ASSUME. App.jsx starts on screen "splash" and leaves it when its async boot
-   finishes, or when a SPLASH_TIMEOUT_MS fallback fires. A single flush(0)
-   advances no time and drains only the microtasks queued at that moment.
-   HONESTY ABOUT WHY THIS IS HERE: I first wrote it believing the splash was
-   the CAUSE of this file's intermittent failure. It was not. The council's
-   before pass reproduced the real mechanism on demand - test 1 exceeding the
-   5,000 ms default timeout under contention, aborted mid act(async), leaving
-   React's act scope depth non-zero so every later render in the file committed
-   nothing. The splash still on screen was a SYMPTOM of that, not its source;
-   the fix is the measured testTimeout in vitest.config.mjs.
+   finishes, or when a SPLASH_TIMEOUT_MS fallback fires. The owner-ruled splash
+   stays for at least 2000 ms (a tap skips it), so this post-splash walk advances
+   fake timers by 2001 ms rather than assuming immediate home.
+   HONESTY ABOUT WHY THIS IS HERE: an earlier intermittent failure was a test
+   1 timeout under contention, aborted mid act(async), leaving React's act
+   scope depth non-zero so every later render in the file committed nothing.
+   The splash was a symptom of that earlier timeout. The owner later ruled a
+   2s minimum splash (a tap skips it), so this walk now advances its fake clock
+   explicitly; that is timing setup, not a weakened assertion.
    This is kept because waiting for a condition beats assuming it, and because
    it FAILS LOUDLY with a sentence if the app never reaches home - where the
-   old code produced a TypeError five lines from its cause. It advances no
-   time, so it cannot fire the app's own fallback timer and change what is
-   being tested. */
+   old code produced a TypeError five lines from its cause. The 2001 ms advance
+   below is only the owner-ruled splash wait; assertions remain about the same
+   screens and controls. */
 const renderApp = async () => {
   render(createElement(App));
-  for (let i = 0; i < 20 && !screen.queryByLabelText("Begin Session"); i += 1) await flush(0);
+  await flush(2001);
   expect(screen.queryByLabelText("Begin Session"), "the app left its splash and reached home").toBeTruthy();
 };
 
@@ -95,7 +95,7 @@ describe("every control is named in plain words", () => {
   it("1: home, the chooser, the corner, a session and a build", async () => {
     vi.useFakeTimers();
     stored = { ...newState(), level: 3, preLevel: 0 };
-    await renderApp();
+    await renderApp(); // owner-ruled 2s minimum splash: this test starts after it.
     expect(offences(), "home").toEqual([]);
     fireEvent.click(screen.getByLabelText("Free play"));
     await flush(0);
@@ -128,7 +128,7 @@ describe("every control is named in plain words", () => {
     expect(offences(), "pre done").toEqual([]);
     cleanup();
     stored = { ...newState(), level: 1, preLevel: 1 };
-    await renderApp();
+    await renderApp(); // owner-ruled 2s minimum splash: this test starts after it.
     fireEvent.click(screen.getByLabelText("Begin Session"));
     await flush(0);
     expect(offences(), "pre session").toEqual([]);

@@ -496,6 +496,11 @@ app never says the word before the attempt.
 
 The screens are: home, session, done, and "Grown-ups corner".
 
+Splash. On startup, the app shows the Word Quest poster centered on an ivory `#FDFDF9` fill.
+It remains until the saved state has loaded and at least two seconds have elapsed. A tap skips
+the remaining wait when the state is ready, or leaves as soon as the state finishes loading. The
+three-second unreadable-save deadline remains separate from this minimum display time.
+
 A per-word adult note lived here, for the five words recognition could not judge. It was
 ruled to belong to microphone mode only and to be absent wherever the adult judges every
 word; on 2026-08-12 that became every word, and the note retired with the microphone.

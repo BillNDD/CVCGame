@@ -45,7 +45,7 @@ const graduated = () => ({ ...newState(), preLevel: 0 });
 const startWord = async () => {
   mockLoad.mockResolvedValueOnce(graduated());
   render(createElement(App));
-  await flush(0);
+  await flush(2001); // owner-ruled 2s minimum splash: post-splash session behavior starts here.
   fireEvent.click(screen.getByLabelText("Begin Session"));
   await flush(0);
   /* Entering is setup, not subject: nothing spoken on the way in may count as
@@ -451,7 +451,7 @@ describe("G10 — free play never touches the save", () => {
      "Level 1". */
   const enterFreePlay = async (choice = /🎯 Level/) => {
     render(createElement(App));
-    await flush(0);
+    await flush(2001); // owner-ruled 2s minimum splash: post-splash free-play behavior starts here.
     fireEvent.click(screen.getByLabelText("Free play"));
     await flush(0);
     fireEvent.click(screen.getByText(choice));
@@ -481,7 +481,7 @@ describe("G10 — free play never touches the save", () => {
 
   it("41 (control): the same grades in a real session DO reach the save", async () => {
     render(createElement(App));
-    await flush(0);
+    await flush(2001); // owner-ruled 2s minimum splash: this post-splash control starts here.
     fireEvent.click(screen.getByLabelText("Begin Session"));
     await flush(0);
     const before = mockSave.mock.calls.length;
@@ -518,7 +518,7 @@ describe("G10 — free play never touches the save", () => {
 
   it("44: a chooser stands between the tap and the game, and Back starts nothing", async () => {
     render(createElement(App));
-    await flush(0);
+    await flush(2001); // owner-ruled 2s minimum splash: this post-splash control starts here.
     const before = mockSave.mock.calls.length;
     fireEvent.click(screen.getByLabelText("Free play"));
     await flush(0);
@@ -703,7 +703,7 @@ describe("G10 safety — S6: the foreground check obeys the corner's switch", ()
     try {
       mockLoad.mockResolvedValueOnce(graduated());
       render(createElement(App));
-      await flush(0);
+      await flush(2001); // owner-ruled 2s minimum splash: this post-splash network check starts here.
       document.dispatchEvent(new Event("visibilitychange"));
       await flush(0);
       expect(update).toHaveBeenCalledTimes(1);            // on by default: the return asks once

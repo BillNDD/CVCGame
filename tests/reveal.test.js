@@ -113,7 +113,7 @@ const goHome = async () => {
 
 const gradeOneWord = async () => {
   render(createElement(App));
-  await flush(0);
+  await flush(2001); // owner-ruled 2s minimum splash: post-splash behavior starts here.
   fireEvent.click(screen.getByLabelText("Begin Session"));
   await flush(0);
   fireEvent.keyDown(screen.getByLabelText("got it"), { key: "Enter" });
@@ -158,7 +158,7 @@ const leaveBuild = async () => {
 
 const walkToLastSlot = async (expectedBreathers = 1) => {
   render(createElement(App));
-  await flush(0);
+  await flush(2001); // owner-ruled 2s minimum splash: post-splash behavior starts here.
   fireEvent.click(screen.getByLabelText("Begin Session"));
   await flush(0);
   let sentences = 0, breathers = 0;
@@ -264,7 +264,7 @@ describe("G10 — the child hears the word before the app lets them move on", ()
        refuses in the chooser's own voice, for the chooser's own reason. */
     stored = { ...newState(), settings: { ...newState().settings, sound: false } };   // a fresh save: Pre 1
     render(createElement(App));
-    await flush(0);
+    await flush(2001); // owner-ruled 2s minimum splash: post-splash behavior starts here.
     const begin = screen.getByLabelText("Begin Session");
     expect(begin.disabled).toBe(true);
     expect(screen.getByText(/The first steps need sound/)).toBeTruthy();
@@ -290,7 +290,7 @@ describe("G10 — the child hears the word before the app lets them move on", ()
     /* A letter item: the sound is the question, the letter shown not read. */
     stored = { ...newState(), settings: { ...newState().settings, sound: true } };
     render(createElement(App));
-    await flush(0);
+    await flush(2001); // owner-ruled 2s minimum splash: post-splash behavior starts here.
     fireEvent.click(screen.getByLabelText("Begin Session"));
     await flush(0);
     expect(screen.getByText("Say the sound"), "a letter item asks for the SOUND").toBeTruthy();
@@ -322,7 +322,7 @@ describe("G10 — the child hears the word before the app lets them move on", ()
        the council's re-judgement, 2026-08-23. */
     stored = { ...newState(), settings: { ...newState().settings, sound: false } };
     render(createElement(App));
-    await flush(0);
+    await flush(2001); // owner-ruled 2s minimum splash: post-splash behavior starts here.
     const begin = screen.getByLabelText("Begin Session");
     const id = begin.getAttribute("aria-describedby");
     expect(id, "the control names the reason it is refusing for").toBeTruthy();
@@ -338,7 +338,7 @@ describe("G10 — the child hears the word before the app lets them move on", ()
   it("15e: with sound ON the ladder deals as it always did, and its stage carries the Glowseed idle", async () => {
     stored = { ...newState() };   // a fresh save: Pre 1, sound on
     render(createElement(App));
-    await flush(0);
+    await flush(2001); // owner-ruled 2s minimum splash: post-splash behavior starts here.
     expect(screen.getByLabelText("Begin Session").disabled).toBe(false);
     fireEvent.click(screen.getByLabelText("Begin Session"));
     await flush(0);
@@ -603,7 +603,7 @@ describe("fault AN - a reveal interrupted by leaving the app restarts whole on r
     stored = { ...newState(), preLevel: 0, level: 1 };
     voiceMode = "pack";
     render(createElement(App));
-    await flush(0);
+    await flush(2001); // owner-ruled 2s minimum splash: post-splash behavior starts here.
     fireEvent.click(screen.getByLabelText("Begin Session"));
     await flush(0);
     spoke.length = 0;
@@ -620,7 +620,7 @@ describe("fault AN - a reveal interrupted by leaving the app restarts whole on r
     stored = { ...newState(), preLevel: 0, level: 1 };
     voiceMode = "quick";
     render(createElement(App));
-    await flush(0);
+    await flush(2001); // owner-ruled 2s minimum splash: post-splash behavior starts here.
     fireEvent.click(screen.getByLabelText("Begin Session"));
     await flush(0);
     fireEvent.keyDown(screen.getByLabelText("got it"), { key: "Enter" });
@@ -637,7 +637,7 @@ describe("fault AN - a reveal interrupted by leaving the app restarts whole on r
     stored = { ...newState(), preLevel: 0, level: 1 };
     voiceMode = "quick";                      // 150 ms reveal
     render(createElement(App));
-    await flush(0);
+    await flush(2001); // owner-ruled 2s minimum splash: post-splash behavior starts here.
     fireEvent.click(screen.getByLabelText("Begin Session"));
     await flush(0);
     fireEvent.keyDown(screen.getByLabelText("got it"), { key: "Enter" });

@@ -269,7 +269,7 @@ describe("the ladder in the app", () => {
   it("a fresh install boots to Pre 1 and Begin serves the first letter, sound first", async () => {
     played.length = 0;
     render(createElement(App));
-    await flush(0);
+    await flush(2001); // owner-ruled 2s minimum splash: post-splash behavior starts here.
     expect(screen.getByText(/Pre 1/)).toBeTruthy();
     fireEvent.click(screen.getByLabelText("Begin Session"));
     await flush(0);
@@ -292,7 +292,7 @@ describe("the ladder in the app", () => {
         { box: 2, attempts: 2, correct: 2, close: 0, wrong: 0, dueAt: 9, lastSession: 0 }])) });
     played.length = 0;
     render(createElement(App));
-    await flush(0);
+    await flush(2001); // owner-ruled 2s minimum splash: post-splash behavior starts here.
     fireEvent.click(screen.getByLabelText("Begin Session"));
     await flush(0);
     expect(screen.getByText("What does it say?")).toBeTruthy();
@@ -312,7 +312,7 @@ describe("the ladder in the app", () => {
         { box: 2, attempts: 2, correct: 2, close: 0, wrong: 0, dueAt: 9, lastSession: 0 }])) });
     played.length = 0;
     render(createElement(App));
-    await flush(0);
+    await flush(2001); // owner-ruled 2s minimum splash: post-splash behavior starts here.
     fireEvent.click(screen.getByLabelText("Begin Session"));
     await flush(0);
     fireEvent.keyDown(screen.getByLabelText("got it"), { key: "Enter" });
@@ -330,7 +330,7 @@ describe("the ladder in the app", () => {
   });
   it("only the adult's hold records a pre result, into state.pre alone (S1)", async () => {
     render(createElement(App));
-    await flush(0);
+    await flush(2001); // owner-ruled 2s minimum splash: post-splash behavior starts here.
     fireEvent.click(screen.getByLabelText("Begin Session"));
     await flush(0);
     const writes = mockSave.mock.calls.length;
@@ -351,7 +351,7 @@ describe("the ladder in the app", () => {
        "got it" and "not yet" both, attempts 2 for one reading. Written for
        the G19 pre-ladder family (open fault S, closed 2026-09-12). */
     render(createElement(App));
-    await flush(0);
+    await flush(2001); // owner-ruled 2s minimum splash: post-splash behavior starts here.
     fireEvent.click(screen.getByLabelText("Begin Session"));
     await flush(0);
     fireEvent.pointerDown(screen.getByLabelText("got it"));
@@ -378,7 +378,7 @@ describe("the ladder in the app", () => {
     });
     try {
       render(createElement(App));
-      await flush(0);
+      await flush(2001); // owner-ruled 2s minimum splash: post-splash behavior starts here.
       fireEvent.click(screen.getByLabelText("Begin Session"));
       await flush(0);
       fireEvent.keyDown(screen.getByLabelText("got it"), { key: "Enter" });   // a praise plan: 900 ms of clips
@@ -398,7 +398,7 @@ describe("the ladder in the app", () => {
   it("the grown-up's pre control jumps the ladder and Words leaves it", async () => {
     mockLoad.mockResolvedValueOnce({ ...newState(), preLevel: 0 });
     render(createElement(App));
-    await flush(0);
+    await flush(2001); // owner-ruled 2s minimum splash: post-splash behavior starts here.
     fireEvent.click(screen.getByLabelText("Grown-ups corner"));
     await flush(0);
     fireEvent.click(screen.getByText("P2"));
@@ -425,7 +425,7 @@ describe("the rider chunks - a graduate's session opens with what their level ha
       settings: { ...newState().settings, sound: false } });
     played.length = 0;
     render(createElement(App));
-    await flush(0);
+    await flush(2001); // owner-ruled 2s minimum splash: post-splash behavior starts here.
     fireEvent.click(screen.getByLabelText("Begin Session"));
     await flush(0);
     expect(screen.getByText("What does it say?")).toBeTruthy();
@@ -454,7 +454,7 @@ describe("the rider chunks - a graduate's session opens with what their level ha
   it("a graduate with nothing due goes straight to the words", async () => {
     mockLoad.mockResolvedValueOnce({ ...newState(), preLevel: 0, level: 1 });
     render(createElement(App));
-    await flush(0);
+    await flush(2001); // owner-ruled 2s minimum splash: post-splash behavior starts here.
     fireEvent.click(screen.getByLabelText("Begin Session"));
     await flush(0);
     expect(screen.queryByText("What does it say?")).toBeNull();
@@ -475,7 +475,7 @@ describe("the rider chunks - a graduate's session opens with what their level ha
     mockLoad.mockResolvedValueOnce({ ...newState(), preLevel: 0, level: 5, sessionsCompleted: 3,
       settings: { ...newState().settings, sound: false } });
     render(createElement(App));
-    await flush(0);
+    await flush(2001); // owner-ruled 2s minimum splash: post-splash behavior starts here.
     fireEvent.click(screen.getByLabelText("Begin Session"));
     await flush(0);
     expect(document.querySelector(".wq-word").textContent).toBe("am");
