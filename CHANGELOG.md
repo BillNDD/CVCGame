@@ -15,6 +15,10 @@ This document follows the Microsoft Writing Style Guide.
 Version 6 adds the standalone progressive web app. The reference build does not change.
 The first app version is 1.0.0-beta.1. The app stays in beta until version 1.0 is ready.
 
+- Fixed in 1.0.0-beta.34: when a grown-up set a brand-new player to a high level, such as
+  48 or 83, the first few sessions still opened with two or three short letter pairs to
+  sound out — "am", "us" and "ox" — before the level's words. Choosing a level now places
+  the player exactly there, and the words begin at once.
 - Changed in 1.0.0-beta.33: nothing you can see or hear. The inside of the game was
   reorganized so that a mistake is easier to find before it reaches you. Every word, sound,
   screen and saved game works as it did in 1.0.0-beta.32, and the new version's answers
