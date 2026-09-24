@@ -2851,7 +2851,11 @@ export default function WordQuest() {
   const mutate = (fn) => { const s = structuredClone(stateRef.current); fn(s); setState(s); persist(s); };
   const setSound = (on) => mutate(s => { s.settings.sound = on; });
   const setLang = (code) => mutate(s => { s.settings.lang = code; });
-  const jumpLevel = (n) => { mutate(s => { s.level = n; s.perfectStreak = 0; }); setToast("Level set to " + n + " " + LEVELS[n - 1].emoji); };
+  const jumpLevel = (n) => { mutate(s => { s.level = n; s.perfectStreak = 0;
+    /* The owner's level pick is placement evidence (2026-09-24): the seated
+       chunks are credited so a jumped reader meets their words at once
+       (fault AW's derivation; app/src/App.jsx carries the same call). */
+    creditSeatedChunks(s); }); setToast("Level set to " + n + " " + LEVELS[n - 1].emoji); };
   function commitName() {
     const clean = Array.from(nameDraft.trim()).slice(0, 20).join("");   // P7 — never bisect a surrogate pair
     mutate(s => { s.settings.childName = clean; });

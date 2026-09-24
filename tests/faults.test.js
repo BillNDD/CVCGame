@@ -431,6 +431,25 @@ describe("G9 faults — the corner's own actions survive their edges", () => {
     expect(saved.preLevel).toBe(0);
     expect(screen.getByText(/Level set to 26 .* sessions serve words/)).toBeTruthy();
   });
+  it("a fresh profile jumped to a level meets words, not chunk riders", async () => {
+    /* The owner on his own iPad, 2026-09-24: a new profile jumped to 48 or
+       83 was forced through chunk riders ("building blocks") first - the
+       unseen-chunk-meets-due rule in dueChunks fired on a profile that never
+       walked the ladder. The grown-up's level pick is placement evidence and
+       credits the seated chunks (fault AW's derivation), so the words begin
+       at once. A hand-placed graduate with no jump keeps the riders (the
+       pre.test.js rider walk is unchanged). */
+    mockLoad.mockResolvedValueOnce({ ...seed(), preLevel: 1, level: 1 });
+    await boot(2001);
+    fireEvent.click(screen.getByLabelText("Grown-ups corner"));
+    await flush(0);
+    fireEvent.click(screen.getByText("48"));
+    await flush(0);
+    const saved = mockSave.mock.calls.at(-1)[0];
+    expect(saved.level).toBe(48);
+    expect(saved.pre["c:am"], "the seated chunks are credited").toBeTruthy();
+    expect(saved.pre["c:am"].box).toBe(5);
+  });
   it("resets only through the second press, and the first can back out", async () => {
     await openCorner();
     fireEvent.click(screen.getByLabelText("Reset all progress"));

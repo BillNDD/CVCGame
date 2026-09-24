@@ -3,7 +3,7 @@ import { useState, useEffect, useRef, useMemo, useCallback } from "react";
    this app never re-implement it (work item W1). */
 import {
   LEVELS, PRE_LEVELS, SESSION_SIZE, PROMPT_CAP, ADVANCE_GUARD_MS, SPLASH_TIMEOUT_MS, dueChunks,
-  C, SEAM_MS, freshWordState, applyResult, buildSession, checkPromotion,
+  C, SEAM_MS, freshWordState, applyResult, buildSession, checkPromotion, creditSeatedChunks,
   migrate, newState, buildMarkdown, feedbackSpeech, PRAISE, speak, hush, buzz, ttsSafePraise, ttsSafeWord,
   sessionSentences, sentencePlan, sentenceClosePlan, revealWord, revealWordLongest,
   sentencesUpTo, shuffle, REVEAL_LINES, SENTENCE_PRAISE, sentenceLead,
@@ -1214,12 +1214,12 @@ export default function App() {
   const setSound = (on) => mutate(s => { s.settings.sound = on; });
   const setUpdateCheck = (on) => mutate(s => { s.settings.updateCheck = on; });
   /* Picking a WORD level steps the child off the pre-letter ladder as well:
-     the ladder wins over the level whenever preLevel > 0, so a grown-up who
-     tapped "26" while P3 was set was sent back to i and e (the owner, on his
-     own save, 2026-08-21). The toast says both things that changed. */
+     the ladder wins over the level whenever preLevel > 0 (owner 2026-08-21),
+     and the pick is placement evidence: it credits the seated chunks (fault
+     AW derivation), so no riders force a jumped reader (owner 2026-09-24). */
   const jumpLevel = (n) => {
     const wasPre = stateRef.current.preLevel > 0;
-    mutate(s => { s.level = n; s.perfectStreak = 0; s.preLevel = 0; s.prePerfectStreak = 0; });
+    mutate(s => { s.level = n; s.perfectStreak = 0; s.preLevel = 0; s.prePerfectStreak = 0; creditSeatedChunks(s); });
     setToast("Level set to " + n + " " + LEVELS[n - 1].emoji + (wasPre ? " · sessions serve words" : ""));
   };
   const jumpPreLevel = (n) => { mutate(s => { s.preLevel = n; s.prePerfectStreak = 0; }); setToast(n === 0 ? "Sessions serve words" : "Next session: Pre " + n); };
