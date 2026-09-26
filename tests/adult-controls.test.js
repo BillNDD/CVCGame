@@ -52,26 +52,28 @@ describe("G10 safety — S5: every grown-up can give a result, and only a grown-
     return [screen.getByLabelText("got it"), count];
   };
 
-  it("20: a screen reader's activation records the result", async () => {
+  it("20/21: a screen reader's activation records, but a stray touch and an early release record nothing", async () => {
+    /* Merged 2026-09-26 from test 20 and its control 21 (Tier B); every line kept. */
     const hold = await openSession();
     fireEvent.click(hold, { detail: 0 });         // VoiceOver's double-tap
     await flush(500);
     expect(screen.getByText(/Next word|Finish!/)).toBeTruthy();
-  });
-
-  it("21 (control): a stray touch, and a hold let go early, still record nothing", async () => {
-    const hold = await openSession();
-    fireEvent.click(hold, { detail: 1 });         // a finger or a mouse
+    /* 21 (control): the stage is reset the way beforeEach does. */
+    cleanup();
+    localStorage.clear();
+    const hold2 = await openSession();
+    fireEvent.click(hold2, { detail: 1 });         // a finger or a mouse
     await flush(500);
     expect(screen.queryByText(/Next word|Finish!/)).toBeNull();
-    fireEvent.pointerDown(hold);
+    fireEvent.pointerDown(hold2);
     await flush(200);                             // short of the 450 ms hold
-    fireEvent.pointerUp(hold);
+    fireEvent.pointerUp(hold2);
     await flush(500);
     expect(screen.queryByText(/Next word|Finish!/)).toBeNull();
   });
 
-  it("22: no gesture grades a word twice", async () => {
+  it("22/23: no gesture grades twice, and a disabled control answers to nothing", async () => {
+    /* Merged 2026-09-26 from test 22 and its control 23 (Tier B); every line kept. */
     const [btn, fired] = spied();
     fireEvent.pointerDown(btn);
     await flush(700);                             // past the 450 ms hold
@@ -85,15 +87,16 @@ describe("G10 safety — S5: every grown-up can give a result, and only a grown-
     await flush(1500);
     fireEvent.click(btn, { detail: 0 });
     expect(fired.n).toBe(3);
-  });
-
-  it("23 (control): a disabled control answers to nothing at all", async () => {
-    const [btn, fired] = spied({ disabled: true });
-    fireEvent.click(btn, { detail: 0 });
-    fireEvent.keyDown(btn, { key: "Enter" });
-    fireEvent.pointerDown(btn);
+    /* 23 (control): a disabled control answers to nothing at all.
+       The stage is reset the way beforeEach does. */
+    cleanup();
+    localStorage.clear();
+    const [btn2, fired2] = spied({ disabled: true });
+    fireEvent.click(btn2, { detail: 0 });
+    fireEvent.keyDown(btn2, { key: "Enter" });
+    fireEvent.pointerDown(btn2);
     await flush(700);
-    expect(fired.n).toBe(0);
+    expect(fired2.n).toBe(0);
   });
 });
 
@@ -114,7 +117,8 @@ describe("G10 — P1-7: the keyboard keeps its place in the session", () => {
     await flush(500);                                     // the reveal wait passes
   };
 
-  it("25: focus reaches the advance control the moment it comes alive", async () => {
+  it("25/26: focus reaches the live advance control, but a grown-up who moved focus keeps it", async () => {
+    /* Merged 2026-09-26 from test 25 and its control 26 (Tier B); every line kept. */
     await gradeAndWait();
     const advance = screen.getByText(/Next word|Finish!/);
     expect(advance.disabled).toBe(false);
@@ -122,9 +126,10 @@ describe("G10 — P1-7: the keyboard keeps its place in the session", () => {
     fireEvent.click(document.activeElement);               // what Enter does in a browser
     await flush(0);
     expect(screen.getByLabelText("got it").disabled).toBe(false);  // the next word is ready
-  });
-
-  it("26 (control): a grown-up who moves focus during the wait keeps it", async () => {
+    /* 26 (control): a grown-up who moves focus during the wait keeps it.
+       The stage is reset the way beforeEach does. */
+    cleanup();
+    localStorage.clear();
     render(createElement(App));
     await flush(2001); // owner-ruled 2s minimum splash: post-splash behavior starts here.
     fireEvent.click(screen.getByLabelText("Begin Session"));
@@ -180,13 +185,15 @@ describe("G10 — the text a grown-up reads on the child's screen", () => {
     await flush(2001); // owner-ruled 2s minimum splash: post-splash behavior starts here.
   };
 
-  it("27: one completed session counts as '1 session', not '1 sessions'", async () => {
+  it("27/28: one session counts as '1 session', two as '2 sessions'", async () => {
+    /* Merged 2026-09-26 from test 27 and its control 28 (Tier B); every line kept. */
     await openHome(saved({ sessionsCompleted: 1 }));
     expect(screen.getByText(/1 session$/)).toBeTruthy();
     expect(screen.queryByText(/1 sessions$/)).toBe(null);
-  });
-
-  it("28 (control): two sessions still count as '2 sessions'", async () => {
+    /* 28 (control): two sessions still count as '2 sessions'.
+       The stage is reset the way beforeEach does. */
+    cleanup();
+    localStorage.clear();
     await openHome(saved({ sessionsCompleted: 2 }));
     expect(screen.getByText(/2 sessions$/)).toBeTruthy();
     expect(screen.queryByText(/2 session$/)).toBe(null);

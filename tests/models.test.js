@@ -233,13 +233,10 @@ describe("model: Build-it and Find-the-sound never trap a child", () => {
      times that under a mutation sweep's instrumented build, which is where
      the default 5 s first timed test 4 out (2026-08-22). */
   const BUDGET = 90_000;
-  it("1: Build-it - 200 random tap sequences over the whole bank keep the screen on the model", () => {
+  it("1/2/3: 200 random tap sequences per tray keep the screen on the model, and a wrong-tile screen is refused", () => {
+    /* Merged 2026-09-26 from tests 1, 2 and their control 3 (Tier B); every line kept. */
     runModel(wordTray, 200);
-  }, BUDGET);
-  it("2: Find-the-sound - one slot, every sound stays pickable after a miss, Done always there", () => {
     runModel(soundTray, 200);
-  }, BUDGET);
-  it("3 (control): a screen that kept the wrong tile after a miss is refused by the model", () => {
     /* The model turned against beta 22's behaviour. A real screen is driven
        to one miss; the model is then told what beta 22 showed - the wrong
        tile still sitting in the slot, dimmed in the tray - and agree() must
@@ -254,7 +251,7 @@ describe("model: Build-it and Find-the-sound never trap a child", () => {
     expect(m.misses).toBe(1);
     const beta22 = { ...m, slots: [wrong] };
     expect(() => agree(beta22)).toThrow();
-  });
+  }, BUDGET);
 });
 
 // ------------------------------------------------------------ free-play chooser
@@ -272,7 +269,8 @@ describe("model: every free-play cell opens something, and every something can b
   const cellsOnScreen = () => [...document.querySelectorAll(".wq-cta")].filter((b) => /Level \d+|Any word|Any sentence|Build|Find a Pre/.test(b.textContent));
   const opened = () => screen.queryByText(/Grown-up: pick what to practise/) === null && !home();
 
-  it("4: on a random save, the grid shows the cells the rules say, each opens a screen, and each screen has a way home", async () => {
+  it("4/5: the grid shows the ruled cells with a way home, and a cell that opens nothing is refused", async () => {
+    /* Merged 2026-09-26 from test 4 and its control 5 (Tier B); every line kept. */
     const App = (await import("../app/src/App.jsx")).default;
     await fc.assert(fc.asyncProperty(saveArb, fc.nat({ max: 6 }), async (save, pick) => {
       vi.useFakeTimers();
@@ -308,11 +306,10 @@ describe("model: every free-play cell opens something, and every something can b
         expect(home(), `"${label}" did not come home`).toBe(true);
       } finally { cleanup(); vi.useRealTimers(); }
     }), { numRuns: 60 });
-  }, 90_000);
-  it("5 (control): a cell that opens nothing is refused", async () => {
-    /* Planted: a cell with its handler detached - the shape of beta 23's
-       dead cells. The model's "opened" check must say no. */
-    const App = (await import("../app/src/App.jsx")).default;
+    /* 5 (control): a cell that opens nothing is refused. Planted: a cell with
+       its handler detached - the shape of beta 23's dead cells. The model's
+       "opened" check must say no. The property above cleans up after every
+       run; the stage is re-entered fresh. */
     vi.useFakeTimers();
     stored = { ...newState(), level: 1, preLevel: 0 };
     render(createElement(App));
@@ -325,5 +322,5 @@ describe("model: every free-play cell opens something, and every something can b
     fireEvent.click(dead);
     await flushAsync(0);
     expect(opened()).toBe(false);
-  });
+  }, 90_000);
 });

@@ -110,7 +110,8 @@ describe("G10 safety — S1: only an adult can record a result", () => {
     expect(document.querySelector(".wq-word").textContent).toBe(word);  // still the same word
   });
 
-  it("2 (control): the adult's action DOES record, so test 1 can fail", async () => {
+  it("2/2a: the adult's action records - a correct and a wrong each record exactly one", async () => {
+    /* Merged 2026-09-26 from test 2 (control) and 2a (Tier B); every line kept. */
     const word = await startWord();
     await adultGrades("got it");
     expect(screen.getAllByText(/Great job! That is/).length).toBeGreaterThan(0);
@@ -121,15 +122,19 @@ describe("G10 safety — S1: only an adult can record a result", () => {
     expect(saved.correct).toBe(1);
     expect(saved.close).toBe(0);
     expect(saved.wrong).toBe(0);
-  });
-
-  it("2a: a wrong result also needs the adult, and records exactly one", async () => {
-    const word = await startWord();
+    /* 2a: a wrong result also needs the adult, and records exactly one.
+       The stage is reset the way beforeEach does, so the second half enters
+       exactly as its own test used to. */
+    cleanup();
+    mockSave.mockClear();
+    utterances.length = 0; rates.length = 0; cancels.n = 0;
+    localStorage.clear();
+    const word2 = await startWord();
     await adultGrades("not yet");
-    const saved = mockSave.mock.calls.at(-1)[0].words[word === "I" ? "i" : word];
-    expect(saved.wrong).toBe(1);
-    expect(saved.correct).toBe(0);
-    expect(saved.close).toBe(0);
+    const saved2 = mockSave.mock.calls.at(-1)[0].words[word2 === "I" ? "i" : word2];
+    expect(saved2.wrong).toBe(1);
+    expect(saved2.correct).toBe(0);
+    expect(saved2.close).toBe(0);
   });
 
   it("3: source tripwire — EVERY grade fires only from an adult hold control", () => {
@@ -153,7 +158,8 @@ describe("G10 safety — S1: only an adult can record a result", () => {
 });
 
 describe("G10 safety — S2: the word is never spoken before the attempt ends", () => {
-  it("4: nothing is spoken in the ready phase, and replay is inert", async () => {
+  it("4/4b: nothing spoken before the attempt ends, and advancing hushes any reveal", async () => {
+    /* Merged 2026-09-26 from test 4 and 4b (Tier B); every line kept. */
     const word = await startWord();
     /* Let the ready phase actually RUN before asking whether it spoke.
        startWord() clears the array on its way out, so asserting emptiness with
@@ -168,13 +174,16 @@ describe("G10 safety — S2: the word is never spoken before the attempt ends", 
     const app = readFileSync("app/src/App.jsx", "utf8");
     expect(app.includes('if (phase !== "feedback") return;')).toBe(true);
     expect('function replay() { speak(currentWord); }'.includes('if (phase !== "feedback") return;')).toBe(false);
-  });
-
-  /* These three used to enter through the child's record control and end the
-     attempt with a scripted transcript. Their subject was never the
-     microphone — it is S2, which survives in full — so they were rewritten to
-     enter and end through the adult's grade rather than deleted with the mode. */
-  it("4b: advancing to the next word silences any queued reveal", async () => {
+    /* 4b: these three used to enter through the child's record control and end
+       the attempt with a scripted transcript. Their subject was never the
+       microphone — it is S2, which survives in full — so they were rewritten to
+       enter and end through the adult's grade rather than deleted with the mode.
+       The stage is reset the way beforeEach does, so the second half enters
+       exactly as its own test used to. */
+    cleanup();
+    mockSave.mockClear();
+    utterances.length = 0; rates.length = 0; cancels.n = 0;
+    localStorage.clear();
     await startWord();
     const draw = vi.spyOn(Math, "random").mockReturnValue(0);
     try { await adultGrades("got it"); } finally { draw.mockRestore(); } // attempt ends; reveal is queued
@@ -185,8 +194,8 @@ describe("G10 safety — S2: the word is never spoken before the attempt ends", 
     expect(cancels.n).toBeGreaterThan(before);              // hush() ran on advance
     // source tripwire for the call site, with its fixture control: advancing
     // must silence system speech AND any clip chain (S2 for clips)
-    const app = readFileSync("app/src/App.jsx", "utf8");
-    expect(app.includes("function next() {\n    hush(); stopClips();")).toBe(true);
+    const app2 = readFileSync("app/src/App.jsx", "utf8");
+    expect(app2.includes("function next() {\n    hush(); stopClips();")).toBe(true);
     expect("function next() {\n    hush();".includes("stopClips();")).toBe(false);
   });
 

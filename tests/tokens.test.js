@@ -195,7 +195,8 @@ describe("the palette is pinned", () => {
     expect(contrast(C.gardenBark, C.tileEdge)).toBeLessThan(1.05);
   });
 
-  it("3: the bible's four structural edges, the empty slot's edge and the progress ring clear 3:1 on the surface each edges, at literal ratios", () => {
+  it("3/10: the structural edges clear 3:1, and the twelve tile blocks the stylesheets share agree character for character", () => {
+    /* Merged 2026-09-26 from tests 3 and 10 (Tier B); every line kept. */
     expect(contrast(C.tileEdge, C.tileFace)).toBeCloseTo(3.78, 2);
     expect(contrast(C.boundary, C.surfacePanel)).toBeCloseTo(4.68, 2);
     expect(contrast(C.cyanStructural, C.surfaceReading)).toBeCloseTo(7.51, 2);
@@ -216,6 +217,54 @@ describe("the palette is pinned", () => {
       [C.boundary, C.paper], [C.boundary, slotGround], [C.amber, C.sun]]) {
       expect(contrast(edge, face)).toBeGreaterThanOrEqual(3);
     }
+    /* 10: the twelve tile blocks the two stylesheet copies share agree
+       character for character (E2); a drift in a block's last line is refused
+       through the reader; the band literals are pinned. Compared here, by
+       block (NOT compared: @keyframes wqpop, the density rules and
+       .wq-sword-open - doc-truth rule 12 says the same by name). The reader
+       is brace-aware, since ${C.ink} carries a brace of its own. */
+    const css = readFileSync("app/src/wq-css.js", "utf8"), ref = readFileSync("reference/word-quest.jsx", "utf8");
+    const block = (src, start) => {
+      const i = src.indexOf(start); expect(i, start).toBeGreaterThan(-1);
+      let depth = 0, j = i;
+      for (; j < src.length; j++) { if (src[j] === "{") depth++; else if (src[j] === "}") { depth--; if (depth === 0) break; } }
+      return src.slice(i, j + 1);
+    };
+    const SHARED = [".wq-tile{", ".wq-tilebtn{", ".wq-tilebtn:active:not(:disabled){", ".wq-tilebtn.wq-used{", ".wq-tilebtn.wq-empty{", ".wq-tilebtn.wq-cue{", ".wq-tilebtn.wq-empty.wq-cue{", ".wq-tilebtn.wq-arr{", ".wq-tilebtn:focus-visible{", ".wq-ghost{", ".wq-slotrow{", ".wq-slotrow.wq-won{"];
+    for (const start of SHARED) expect(block(ref, start), start).toBe(block(css, start));
+    /* the control goes THROUGH the reader: one character changed in the last
+       line of a block of a copy of the reference source must be read as a
+       different block - a reader that stopped early would miss it */
+    const tileBlock = block(ref, ".wq-tile{");
+    const lastLine = tileBlock.slice(tileBlock.lastIndexOf("\n") + 1);
+    const driftedSrc = ref.replace(tileBlock, tileBlock.slice(0, tileBlock.lastIndexOf("\n") + 1) + lastLine.replace("--wqband:9px", "--wqband:8px"));
+    expect(block(driftedSrc, ".wq-tile{")).not.toBe(block(css, ".wq-tile{"));
+    /* the rim FIRST in every tile stack, so it closes all four sides and
+       the highlight sits inside it (the fourth judgement: a highlight-first
+       stack left the top row at 1.4:1 on the stops, and nothing pinned the
+       order); a swapped copy is refused through the same reader */
+    const RIM = "inset 0 0 0 1px ${C.tileEdge},inset 0 2px 0 ${C.tileHighlight}";
+    for (const [src, name] of [[css, "app"], [ref, "reference"]]) {
+      for (const start of [".wq-tile{", ".wq-tilebtn{"]) expect(block(src, start), name + " " + start).toContain("box-shadow:" + RIM);
+      expect(block(src, ".wq-tilebtn.wq-arr{"), name).toContain("${C.purpleStructural}," + RIM);
+    }
+    expect(block(css, "@keyframes wqpop{"), "the keyframes, after the band").toContain("${C.cyanElectric}," + RIM);
+    /* the pin is order-sensitive: the same two insets the other way round
+       do not satisfy it. A demonstration of what the pin reads, not a
+       detector control - a string pin has no fault to plant beyond its text. */
+    const swapped = block(css, ".wq-tile{").replace(RIM, "inset 0 2px 0 ${C.tileHighlight},inset 0 0 0 1px ${C.tileEdge}");
+    expect(swapped).not.toContain("box-shadow:" + RIM);
+    /* the band, pinned: ring 3 plus band 6 / 4 / 2 / 4 by density, the
+       owner's ruled numbers; toward either neighbour the band shows gap
+       minus ring (3 / 1 / 0 / 1) and the rest lies beneath the neighbour's
+       box, the live tile painting beneath its siblings */
+    expect(css).toContain(".wq-tile.wq-live{position:relative;z-index:-1}");
+    expect(css).toContain(".wq-slot-tiles{isolation:isolate}");
+    expect(block(css, ".wq-tile{")).toContain("--wqband:9px");
+    expect(block(ref, ".wq-tile{")).toContain("--wqband:9px");
+    expect(css).toContain("border-radius:9px;--wqband:7px");
+    expect(css).toContain("border-radius:7px;--wqband:5px");
+    expect(css).toContain("font-size:clamp(.85rem,4svh,1.1rem);--wqband:7px");
   });
 
   it("3b: every adult edge that read line now reads boundary, at literal ratios, with line kept as the control", () => {
@@ -277,7 +326,8 @@ describe("the palette is pinned", () => {
     expect(faults).toContain("CLOSED 2026-08-22");
   });
 
-  it("8: the ceramic tile family (art step 1) - every face, edge, ring and state at its literal ratio on the surface it sits on", () => {
+  it("8/9: the ceramic tile family at literal ratios, and the scaffold letter at .60 with .28 held below", () => {
+    /* Merged 2026-09-26 from tests 8 and 9 (Tier B); every line kept. */
     /* The contrast walker reads a background colour under text and nothing
        else: not a box-shadow rim, not an outline, not a disabled control.
        So every ratio the ceramic family relies on is pinned here (bible 9's
@@ -326,12 +376,11 @@ describe("the palette is pinned", () => {
     for (const [a, b] of [[C.tileEdge, C.tileFace], [C.cyanStructural, C.tileFace], [C.cyanStructural, C.slot], [C.boundary, C.slot], [C.tileEdge, C.slot], [C.purpleStructural, C.tileFace], [C.purpleStructural, C.slot], ...stops.map((s) => [C.tileEdge, s]), ...stops.map((s) => [C.purpleStructural, s])]) {
       expect(contrast(a, b)).toBeGreaterThanOrEqual(3);
     }
-  });
-
-  it("9: the scaffold letter at .60 clears 3:1 on the slot and on the old ground; .28 is held below as the withdrawn control", () => {
-    /* Owner-ruled 2026-08-22 on the ceramic-tiles page: the letter that fades
-       into its own slot after the second miss renders at opacity .60 - it
-       sat at .28 (1.65:1) beside the 2026-08-17 ruling, unruled. */
+    /* 9: the scaffold letter at .60 clears 3:1 on the slot and on the old
+       ground; .28 is held below as the withdrawn control. Owner-ruled
+       2026-08-22 on the ceramic-tiles page: the letter that fades into its
+       own slot after the second miss renders at opacity .60 - it sat at .28
+       (1.65:1) beside the 2026-08-17 ruling, unruled. */
     const ghost = mix(C.ink, 0.6, C.slot);
     expect(ghost).toBe("#6a7891");
     expect(contrast(ghost, C.slot)).toBeCloseTo(3.28, 2);
@@ -343,60 +392,6 @@ describe("the palette is pinned", () => {
     const css = readFileSync("app/src/wq-css.js", "utf8"), ref = readFileSync("reference/word-quest.jsx", "utf8");
     expect(css).toContain(".wq-ghost{opacity:.6}");
     expect(ref).toContain(".wq-ghost{opacity:.6}");
-  });
-
-  it("10: the twelve tile blocks the two stylesheet copies share agree character for character; a drift in a block's last line is refused through the reader; the band literals are pinned", () => {
-    /* E2: the reference build stays one file, and its stylesheet copy
-       carries the tile rules the app ships. Compared here, by block: .wq-tile,
-       .wq-tilebtn, its :active, .wq-used, .wq-empty, .wq-cue, .wq-empty.wq-cue,
-       .wq-arr, :focus-visible, .wq-ghost, .wq-slotrow and .wq-slotrow.wq-won.
-       NOT compared, because the reference has neither: @keyframes wqpop, the
-       density rules (wq-many, wq-crowd, the short stage) and .wq-sword-open -
-       doc-truth rule 12 says the same by name. The reader is brace-aware,
-       since ${C.ink} carries a brace of its own. */
-    const css = readFileSync("app/src/wq-css.js", "utf8"), ref = readFileSync("reference/word-quest.jsx", "utf8");
-    const block = (src, start) => {
-      const i = src.indexOf(start); expect(i, start).toBeGreaterThan(-1);
-      let depth = 0, j = i;
-      for (; j < src.length; j++) { if (src[j] === "{") depth++; else if (src[j] === "}") { depth--; if (depth === 0) break; } }
-      return src.slice(i, j + 1);
-    };
-    const SHARED = [".wq-tile{", ".wq-tilebtn{", ".wq-tilebtn:active:not(:disabled){", ".wq-tilebtn.wq-used{", ".wq-tilebtn.wq-empty{", ".wq-tilebtn.wq-cue{", ".wq-tilebtn.wq-empty.wq-cue{", ".wq-tilebtn.wq-arr{", ".wq-tilebtn:focus-visible{", ".wq-ghost{", ".wq-slotrow{", ".wq-slotrow.wq-won{"];
-    for (const start of SHARED) expect(block(ref, start), start).toBe(block(css, start));
-    /* the control goes THROUGH the reader: one character changed in the last
-       line of a block of a copy of the reference source must be read as a
-       different block - a reader that stopped early would miss it */
-    const tileBlock = block(ref, ".wq-tile{");
-    const lastLine = tileBlock.slice(tileBlock.lastIndexOf("\n") + 1);
-    const driftedSrc = ref.replace(tileBlock, tileBlock.slice(0, tileBlock.lastIndexOf("\n") + 1) + lastLine.replace("--wqband:9px", "--wqband:8px"));
-    expect(driftedSrc).not.toBe(ref);
-    expect(block(driftedSrc, ".wq-tile{")).not.toBe(block(css, ".wq-tile{"));
-    /* the rim FIRST in every tile stack, so it closes all four sides and
-       the highlight sits inside it (the fourth judgement: a highlight-first
-       stack left the top row at 1.4:1 on the stops, and nothing pinned the
-       order); a swapped copy is refused through the same reader */
-    const RIM = "inset 0 0 0 1px ${C.tileEdge},inset 0 2px 0 ${C.tileHighlight}";
-    for (const [src, name] of [[css, "app"], [ref, "reference"]]) {
-      for (const start of [".wq-tile{", ".wq-tilebtn{"]) expect(block(src, start), name + " " + start).toContain("box-shadow:" + RIM);
-      expect(block(src, ".wq-tilebtn.wq-arr{"), name).toContain("${C.purpleStructural}," + RIM);
-    }
-    expect(block(css, "@keyframes wqpop{"), "the keyframes, after the band").toContain("${C.cyanElectric}," + RIM);
-    /* the pin is order-sensitive: the same two insets the other way round
-       do not satisfy it. A demonstration of what the pin reads, not a
-       detector control - a string pin has no fault to plant beyond its text. */
-    const swapped = block(css, ".wq-tile{").replace(RIM, "inset 0 2px 0 ${C.tileHighlight},inset 0 0 0 1px ${C.tileEdge}");
-    expect(swapped).not.toContain("box-shadow:" + RIM);
-    /* the band, pinned: ring 3 plus band 6 / 4 / 2 / 4 by density, the
-       owner's ruled numbers; toward either neighbour the band shows gap
-       minus ring (3 / 1 / 0 / 1) and the rest lies beneath the neighbour's
-       box, the live tile painting beneath its siblings */
-    expect(css).toContain(".wq-tile.wq-live{position:relative;z-index:-1}");
-    expect(css).toContain(".wq-slot-tiles{isolation:isolate}");
-    expect(block(css, ".wq-tile{")).toContain("--wqband:9px");
-    expect(block(ref, ".wq-tile{")).toContain("--wqband:9px");
-    expect(css).toContain("border-radius:9px;--wqband:7px");
-    expect(css).toContain("border-radius:7px;--wqband:5px");
-    expect(css).toContain("font-size:clamp(.85rem,4svh,1.1rem);--wqband:7px");
   });
 
   it("4: teaching text clears 7:1 and the action blue 4.5:1, at literal ratios", () => {

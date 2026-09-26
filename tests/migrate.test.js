@@ -123,27 +123,21 @@ describe("a returning player is not sent back to the chunk ladder (fault AW)", (
     settings: { sound: true, childName: "", lang: "en-US" },
   });
 
-  it("credits a save written before the chunk ladder existed", () => {
-    /* Version 6 is what beta 28 shipped - checked in the tag. Every save a real
+  it("credits a pre-ladder save, keeps the ladder for graduates, and seats by level", () => {
+    /* Merged 2026-09-26 from four fault-AW tests (Tier B); every line kept.
+       Version 6 is what beta 28 shipped - checked in the tag. Every save a real
        child owns is 6 or lower, so this is the case that reaches every player
        on update. */
     expect(dueChunks(migrate(save(6, 77))).length).toBe(0);
     expect(dueChunks(migrate(save(5, 77))).length).toBe(0);
-  });
-
-  it("control: a graduate on a LADDER build still gets the ladder", () => {
     /* The control that killed the first fix. A level-5 graduate with no chunk
        records is indistinguishable in the data from a pre-ladder save - only the
        version separates them, and this is the child the ladder is for. */
     expect(dueChunks(migrate(save(7, 5))).length).toBeGreaterThan(0);
-  });
-
-  it("control: a child still ON level 1 is not credited out of the ladder", () => {
+    /* A child still ON level 1 is not credited out of the ladder. */
     const justOut = migrate(save(6, 1));
     expect(Object.keys(justOut.pre).filter((k) => k.startsWith("c:")).length).toBe(0);
-  });
-
-  it("credits only chunks at or below the level the child had reached", () => {
+    /* Only chunks at or below the level the child had reached. */
     const m = migrate(save(6, 3));
     const seats = Object.keys(m.pre).filter((k) => k.startsWith("c:"));
     expect(seats.length).toBeGreaterThan(0);

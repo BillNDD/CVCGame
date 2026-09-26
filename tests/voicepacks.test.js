@@ -126,17 +126,24 @@ describe("voice-pack clip engine", () => {
      the silence each one carries, so the whole schedule can be worked out by
      hand. p:0 ends its speech at 0.05 + 1 - 0.300 = 0.750; w:cat's speech
      must start at 1.250, so its FILE starts at 1.250 - 0.120 = 1.130. */
-  it("rings the tile after a silent one on its own tile, never one early (beta 22's fault)", async () => {
+  it("rings each tile on its own sound and places speech 500 ms apart (beta 22's fault)", async () => {
+    /* Merged 2026-09-26 from the silent-tile ring test and the 500 ms spacing test (Tier B); every line kept. */
     /* kicked: k, short i, k, SILENT e, d. Four clips, five tiles. The fourth
        ring must name tile 4 (the d), not tile 3 (the e) - which is what the
        owner's screenshots showed: the e ringed while /d/ played, the d dark. */
-    let tiles = null;
-    speakVoice("correct", "kicked", 0, true, fb, (m, t) => { tiles = t; });
+    let tiles1 = null;
+    speakVoice("correct", "kicked", 0, true, fb, (m, t) => { tiles1 = t; });
     await settle(); await settle(); await settle();
-    expect(tiles.map((t) => t.tile)).toEqual([0, 1, 2, 4]);
-    expect(tiles.length).toBe(4);
-  });
-  it("places speech 500 ms apart through the sound-out, whatever silence the files carry", async () => {
+    expect(tiles1.map((t) => t.tile)).toEqual([0, 1, 2, 4]);
+    expect(tiles1.length).toBe(4);
+    /* The spacing half: the stage is reset the way beforeEach does. */
+    scheduled.length = 0;
+    oscillators.length = 0;
+    fetchCalls.length = 0;
+    decodeFail = false;
+    fb.mockClear();
+    unlockVoice();
+    await initVoicePacks();
     let ms = null, tiles = null;
     speakVoice("correct", "cat", 0, true, fb, (m, t) => { ms = m; tiles = t; });
     await settle(); await settle();
@@ -492,25 +499,81 @@ describe("voice-pack clip engine", () => {
      ran in and the resume has not landed; an uncached plan yields real tasks and
      it has. Cached words lose their rings, uncached words keep them.
      These three controls were written and watched RED before the fix. */
-  it("B18: a fully cached word keeps its rings when the context wakes on a later task", async () => {
+  it("B18: a cached word survives a sleeping context - wakes late, never wakes, or is silenced mid-wait", async () => {
+    /* Merged 2026-09-26 from three B18 tests (Tier B); every line kept. The
+       120 ms magnitude test stays its own test: it proves the constant, not
+       the shape. */
     /* first pass fills the cache with every clip of the plan */
     speakVoice("correct", "cat", 0, true, fb, () => {});
     await settle(); await settle(); await settle();
     fb.mockClear();
     /* the context goes to sleep, as iOS does, and will wake a task later */
-    const ctx = contexts.at(-1);
-    ctx.state = "suspended";
-    ctx.resumeOn = "task";
-    let tiles = null;
-    speakVoice("correct", "cat", 0, true, fb, (m, t) => { tiles = t; });
+    const ctxA = contexts.at(-1);
+    ctxA.state = "suspended";
+    ctxA.resumeOn = "task";
+    let tilesA = null;
+    speakVoice("correct", "cat", 0, true, fb, (m, t) => { tilesA = t; });
     await settle(); await settle(); await settle();
     /* the rings are the fault, so the rings are what is asserted - literally */
     expect(fb).not.toHaveBeenCalled();
-    expect(tiles).toEqual([
+    expect(tilesA).toEqual([
       { tile: 0, at: 3360, ms: 100 },
       { tile: 1, at: 4760, ms: 120 },
       { tile: 2, at: 6080, ms: 100 },
     ]);
+    /* Second: a context that never wakes still falls back, and still says
+       why. The stage is reset the way beforeEach does. */
+    scheduled.length = 0;
+    oscillators.length = 0;
+    fetchCalls.length = 0;
+    decodeFail = false;
+    fb.mockClear();
+    unlockVoice();
+    await initVoicePacks();
+    speakVoice("correct", "cat", 0, true, fb, () => {});
+    await settle(); await settle(); await settle();
+    fb.mockClear();
+    const ctxB = contexts.at(-1);
+    ctxB.state = "suspended";
+    ctxB.resumeOn = "never";
+    /* settle() is a setTimeout(0), so the clock must keep advancing on its own
+       while the 250 ms wait is jumped by hand - the same pattern the lost-end
+       test above uses. Without the jump this control hangs on the timeout it
+       is here to prove. */
+    vi.useFakeTimers({ shouldAdvanceTime: true });
+    try {
+      speakVoice("correct", "cat", 0, true, fb, () => {});
+      await settle(); await settle();
+      await vi.advanceTimersByTimeAsync(300);
+      await settle(); await settle();
+      expect(fb, "a context that never wakes still hands over to system speech").toHaveBeenCalled();
+      expect(String(fb.mock.calls[0][0])).toContain("suspended");
+    } finally { vi.useRealTimers(); }
+    /* Third: an utterance silenced during the wait schedules nothing.
+       The stage is reset the way beforeEach does. */
+    scheduled.length = 0;
+    oscillators.length = 0;
+    fetchCalls.length = 0;
+    decodeFail = false;
+    fb.mockClear();
+    unlockVoice();
+    await initVoicePacks();
+    speakVoice("correct", "cat", 0, true, fb, () => {});
+    await settle(); await settle(); await settle();
+    scheduled.length = 0; fb.mockClear();
+    const ctxC = contexts.at(-1);
+    ctxC.state = "suspended";
+    ctxC.resumeOn = "task";
+    speakVoice("correct", "cat", 0, true, fb, () => {});
+    /* The interruption has to land INSIDE the resume wait, which means after
+       the cached clips have resolved (microtasks) and before the resume's own
+       task runs. A drain of microtasks only - never a setTimeout - puts us
+       exactly there; stopping earlier is caught by the check ABOVE the wait
+       and would prove nothing about the one below it. */
+    for (let i = 0; i < 4; i++) await Promise.resolve();
+    stopClips();                       // the next attempt begins mid-wait (S2)
+    for (let i = 0; i < 6; i++) await settle();
+    expect(scheduled.length, "a superseded utterance schedules nothing").toBe(0);
   });
   it("B18: the wait is long enough to matter - a context 120 ms late keeps its rings", async () => {
     /* THE CONSTANT IS THE FIX. Every other control proves the SHAPE of the
@@ -540,45 +603,6 @@ describe("voice-pack clip engine", () => {
         { tile: 2, at: 6080, ms: 100 },
       ]);
     } finally { vi.useRealTimers(); }
-  });
-  it("B18 (control): a context that never wakes still falls back, and still says why", async () => {
-    speakVoice("correct", "cat", 0, true, fb, () => {});
-    await settle(); await settle(); await settle();
-    fb.mockClear();
-    const ctx = contexts.at(-1);
-    ctx.state = "suspended";
-    ctx.resumeOn = "never";
-    /* settle() is a setTimeout(0), so the clock must keep advancing on its own
-       while the 250 ms wait is jumped by hand - the same pattern the lost-end
-       test above uses. Without the jump this control hangs on the timeout it
-       is here to prove. */
-    vi.useFakeTimers({ shouldAdvanceTime: true });
-    try {
-      speakVoice("correct", "cat", 0, true, fb, () => {});
-      await settle(); await settle();
-      await vi.advanceTimersByTimeAsync(300);
-      await settle(); await settle();
-      expect(fb, "a context that never wakes still hands over to system speech").toHaveBeenCalled();
-      expect(String(fb.mock.calls[0][0])).toContain("suspended");
-    } finally { vi.useRealTimers(); }
-  });
-  it("B18 (control): an utterance silenced during the wait schedules nothing", async () => {
-    speakVoice("correct", "cat", 0, true, fb, () => {});
-    await settle(); await settle(); await settle();
-    scheduled.length = 0; fb.mockClear();
-    const ctx = contexts.at(-1);
-    ctx.state = "suspended";
-    ctx.resumeOn = "task";
-    speakVoice("correct", "cat", 0, true, fb, () => {});
-    /* The interruption has to land INSIDE the resume wait, which means after
-       the cached clips have resolved (microtasks) and before the resume's own
-       task runs. A drain of microtasks only - never a setTimeout - puts us
-       exactly there; stopping earlier is caught by the check ABOVE the wait
-       and would prove nothing about the one below it. */
-    for (let i = 0; i < 4; i++) await Promise.resolve();
-    stopClips();                       // the next attempt begins mid-wait (S2)
-    for (let i = 0; i < 6; i++) await settle();
-    expect(scheduled.length, "a superseded utterance schedules nothing").toBe(0);
   });
   it("the audio-route repair survives with no caller, ready for the family recorder", () => {
     const src = readFileSync("app/src/voicepacks.js", "utf8");

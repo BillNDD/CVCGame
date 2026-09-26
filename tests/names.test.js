@@ -92,7 +92,8 @@ const renderApp = async () => {
 describe("every control is named in plain words", () => {
   afterEach(() => { vi.useRealTimers(); cleanup(); });
 
-  it("1: home, the chooser, the corner, a session and a build", async () => {
+  it("1/2/3: every screen is named in plain words, and the old names are refused", async () => {
+    /* Merged 2026-09-26 from tests 1, 2 and their control 3 (Tier B); every line kept. */
     vi.useFakeTimers();
     stored = { ...newState(), level: 3, preLevel: 0 };
     await renderApp(); // owner-ruled 2s minimum splash: this test starts after it.
@@ -115,9 +116,9 @@ describe("every control is named in plain words", () => {
     expect(offences(), "session, ready").toEqual([]);
     expect(screen.getByLabelText("got it")).toBeTruthy();          // the adult hold, by its plain name
     expect(screen.queryByLabelText(/hold/)).toBeNull();
-  });
-
-  it("2: the done screens, the pre-ladder's first rung, and the way home from a crash", async () => {
+    /* 2: the done screens, the pre-ladder's first rung, and the way home from
+       a crash. The app tour above left a render behind; the stage is reset. */
+    cleanup();
     vi.useFakeTimers();
     render(createElement(DoneScreen, { doneStats: { c: 3, k: 1, w: 0, acc: 75, promoted: false, level: 3 }, kid: "", onHome: () => {}, toast: "" }));
     expect(walked(), "the done screen rendered controls to judge").toBeGreaterThan(0);
@@ -146,9 +147,11 @@ describe("every control is named in plain words", () => {
     expect(offences(), "crash screen").toEqual([]);
     explode = false;
     quiet.mockRestore();
-  });
-
-  it("3 (control): a hold named the old way, a bare emoji button, and a label round an input are each refused", () => {
+    /* 3 (control): a hold named the old way, a bare emoji button, and a label
+       round an input are each refused. The tour above left renders behind;
+       the stage is reset. */
+    cleanup();
+    vi.useFakeTimers();
     const { container } = render(createElement(HoldButton, { onFire: () => {}, color: "#0f7a4f", label: "✓ got it" }));
     /* HoldButton now names itself plainly; the control plants the OLD name
        over it and a bare emoji button beside it.

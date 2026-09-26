@@ -81,7 +81,8 @@ describe("buildSession and the next level", () => {
     expect(buildSession(mk16(12)).filter(w => WORD_LEVEL[w] === 9).length).toBe(0);
     expect(buildSession(mk16(13)).filter(w => WORD_LEVEL[w] === 9).length).toBe(4);
   });
-  it("brings a graded next-level word back for review", () => {
+  it("brings a graded next-level word back for review, capped at 2 a session", () => {
+    /* Merged 2026-09-26 from two adjacent review-lane tests (Tier B); every line kept. */
     const s = newState(); s.sessionsCompleted = 6;
     LEVELS[0].words.forEach(w => { s.words[w] = { ...freshWordState(), box: 0, attempts: 2, dueAt: 1 }; });
     /* cat moved to Level 4 at the cutover; tin is Level 2's own. */
@@ -90,14 +91,11 @@ describe("buildSession and the next level", () => {
     const q = buildSession(s);
     expect(q).toContain("tin");
     expect(q.length).toBe(11);
-  });
-  it("caps above-level review at 2 words a session", () => {
-    const s = newState(); s.sessionsCompleted = 6;
-    LEVELS[0].words.forEach(w => { s.words[w] = { ...freshWordState(), box: 0, attempts: 2, dueAt: 1 }; });
+    /* The cap: five graded above-level words compete, two arrive. */
     LEVELS[1].words.slice(0, 5).forEach(w => { s.words[w] = { ...freshWordState(), box: 0, attempts: 1, dueAt: 1 }; });
-    const q = buildSession(s);
-    expect(q.filter(w => WORD_LEVEL[w] === 2).length).toBe(2);
-    expect(q.length).toBe(12);
+    const q2 = buildSession(s);
+    expect(q2.filter(w => WORD_LEVEL[w] === 2).length).toBe(2);
+    expect(q2.length).toBe(12);
   });
 });
 
@@ -148,13 +146,12 @@ describe("a grown-up can bring a word forward, and it writes nothing", () => {
      it rescues it, and if it does not, nothing else would have. */
   const LEFT_OUT = "it";
 
-  it("serves a word a grown-up chose - the one that would otherwise miss out", () => {
+  it("serves a chosen word that would otherwise miss out, and not when nobody chose it", () => {
+    /* Merged 2026-09-26 from the serve test and its not-served control (Tier B);
+       every line kept. Without the control, the serve test passes against a lane
+       that serves every stuck word - which is the very thing the aging term
+       stopped doing. */
     expect(buildSession(stuckSave(3, SIX, [LEFT_OUT]))).toContain(LEFT_OUT);
-  });
-
-  it("control: the SAME word is NOT served when nobody chose it", () => {
-    /* Without this, the test above passes against a lane that serves every
-       stuck word - which is the very thing the aging term stopped doing. */
     expect(buildSession(stuckSave(3, SIX, []))).not.toContain(LEFT_OUT);
   });
 
@@ -183,21 +180,17 @@ describe("a grown-up can bring a word forward, and it writes nothing", () => {
     expect(s2.bringForward.length).toBe(before);   // building spends nothing
   });
 
-  it("writes NOTHING about the child - not a box, not an attempt, not a count", () => {
-    /* S1. Asserted as a deep-equality snapshot rather than a source scan,
-       because what matters is that no value moved, not that no line looks
-       like it would. */
+  it("writes nothing, and the snapshot probe proves it would catch a write", () => {
+    /* Merged 2026-09-26 from the snapshot test and its probe control (Tier B);
+       every line kept. S1. Asserted as a deep-equality snapshot rather than a
+       source scan, because what matters is that no value moved, not that no
+       line looks like it would. A probe that cannot fail proves nothing: the
+       control plants the write the snapshot forbids and requires the same
+       comparison to reject it. */
     const s = stuckSave(3, SIX, [LEFT_OUT]);
     const before = structuredClone(s.words);
     buildSession(s);
     expect(s.words).toEqual(before);
-  });
-
-  it("control: that snapshot DOES catch a write, so it is not vacuously equal", () => {
-    /* A probe that cannot fail proves nothing. This plants the write the test
-       above forbids and requires the same comparison to reject it. */
-    const s = stuckSave(3, SIX, [LEFT_OUT]);
-    const before = structuredClone(s.words);
     applyResult(s.words[LEFT_OUT], "wrong", 31);
     expect(s.words).not.toEqual(before);
   });
@@ -258,16 +251,6 @@ describe("mastered words come back by band, not by lottery", () => {
       .toEqual({ common: true, rare: true });
   });
 
-  it("an empty band gives its slot away rather than wasting it", () => {
-    /* Only a rare word is mastered, on a session whose slots both call for
-       common. The slot must still be filled - a child with nothing in the
-       called-for band loses the word, not the review. */
-    const s = mastered(6, [RARE]);
-    s.sessionsCompleted = 23;   // 46 % 20 = 6 -> cycle slots 6 and 7, both common
-    const q = buildSession(s);
-    expect(q).toContain(RARE);
-  });
-
   it("the cycle is exactly 50/35/15 - ten common, seven middle, three rare in twenty slots", () => {
     /* The split is the owner's ruling, so it is asserted as a literal rather
        than measured by sampling. He chose it over a sharper 60/30/10 so that
@@ -295,6 +278,13 @@ describe("mastered words come back by band, not by lottery", () => {
     /* And the ruling itself, asserted where it cannot drift: the cycle is
        10/7/3 of twenty slots, which IS 50/35/15. */
     expect([0, 1, 2].map((b) => BAND_CYCLE.filter((x) => x === b).length)).toEqual([10, 7, 3]);
+    /* Fall-through, folded in 2026-09-26 (Tier B): only a rare word is
+       mastered, on a session whose slots both call for common. The slot must
+       still be filled - a child with nothing in the called-for band loses the
+       word, not the review. */
+    const fall = mastered(6, [RARE]);
+    fall.sessionsCompleted = 23;   // 46 % 20 = 6 -> cycle slots 6 and 7, both common
+    expect(buildSession(fall)).toContain(RARE);
   });
 });
 

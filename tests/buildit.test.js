@@ -484,8 +484,9 @@ describe("the ceramic tile states", () => {
     expect(seed().getAttribute("data-wq-glowseed"), "the celebration is speaking, so the object is lit").toBe("lit");
   });
 
-  it("27: the tray's sizes follow the phone, not the render that drew them - a rotation resizes the tiles with no tap in between", async () => {
-    /* The fault, measured on a real browser before the fix (2026-08-23): at
+  it("27/27b: the tray's sizes follow the phone - on rotation, and with no matchMedia at all", async () => {
+    /* Merged 2026-09-26 from test 27 and its control 27b (Tier B); every line kept.
+       The fault, measured on a real browser before the fix (2026-08-23): at
        740 px wide the tiles are 90 x 64, and after rotating to 320 they were
        STILL 90 x 64 - the compact build was read once at render and nothing
        was subscribed. Here the media query is driven directly, so the test
@@ -514,16 +515,22 @@ describe("the ceramic tile states", () => {
       expect(slotBox()).toContain("width:64px");
       expect(tray.answer.length).toBe(3);
     } finally { window.matchMedia = real; }
-  });
-  it("27b: with no matchMedia at all - jsdom, and any browser too old for it - the tray still sizes itself from the width", async () => {
-    const real = window.matchMedia;
+    /* 27b: with no matchMedia at all - jsdom, and any browser too old for it -
+       the tray still sizes itself from the width. The stage is reset the way
+       beforeEach does. */
+    cleanup();
+    localStorage.clear();
+    played.length = 0;
+    saves = [];
+    stored = { ...newState(), preLevel: 0 };
+    const real2 = window.matchMedia;
     delete window.matchMedia;
     try {
       mount("cat");
       const style = (slots()[0].getAttribute("style") || "").replace(/\s/g, "");
       expect(style, "jsdom reports 1024 px, so the full-size build").toContain("width:64px");
       expect(window.innerWidth).toBeGreaterThanOrEqual(360);
-    } finally { window.matchMedia = real; }
+    } finally { window.matchMedia = real2; }
   });
 
   it("24: a completed word wears one halo on the slot row round the assembled word, and every tray tile is disabled and used", async () => {

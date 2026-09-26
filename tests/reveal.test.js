@@ -185,7 +185,8 @@ beforeEach(() => { vi.useFakeTimers(); localStorage.clear(); voiceMode = "pack";
 afterEach(() => { cleanup(); vi.useRealTimers(); });
 
 describe("G10 — the child hears the word before the app lets them move on", () => {
-  it("1: with a recorded reveal, the advance control waits for the word", async () => {
+  it("1/2: the advance control waits - the full recorded reveal, or the short guard", async () => {
+    /* Merged 2026-09-26 from test 1 and its fallback control 2 (Tier B); every line kept. */
     await gradeOneWord();
     await flush(1000);
     expect(advance().disabled).toBe(true);          // the praise is still playing
@@ -193,9 +194,12 @@ describe("G10 — the child hears the word before the app lets them move on", ()
     expect(advance().disabled).toBe(true);          // "The word was" — the word is still to come
     await flush(REVEAL_MS - 4000 + 50);
     expect(advance().disabled).toBe(false);         // the word has been said
-  });
-
-  it("2 (control): with no recorded reveal, the short guard still applies", async () => {
+    /* 2 (control): with no recorded reveal, the short guard still applies.
+       The stage is reset the way beforeEach does. */
+    cleanup();
+    localStorage.clear();
+    voiceMode = "pack"; pendingScheduled = null;
+    stored = { ...newState(), preLevel: 0 };
     voiceMode = "fallback";                          // system speech: no length to wait for
     await gradeOneWord();
     expect(advance().disabled).toBe(true);
@@ -203,8 +207,9 @@ describe("G10 — the child hears the word before the app lets them move on", ()
     expect(advance().disabled).toBe(false);
   });
 
-  it("3 (control): a reveal that never reports still cannot trap the grown-up — the backstop", async () => {
-    /* REWRITTEN WITH B17'S FIX, 2026-08-15, and the old expectation is the
+  it("3/3b: a reveal that never reports cannot trap the grown-up - backstop, or sound-off guard", async () => {
+    /* Merged 2026-09-26 from test 3 (control) and 3b (Tier B); every line kept.
+       REWRITTEN WITH B17'S FIX, 2026-08-15, and the old expectation is the
        fault, recorded: this test used to demand the control alive at 450 ms
        on the neither-callback path — which is the starting gun by another
        name, arming before any length could be known. That gun is what sat
@@ -224,9 +229,11 @@ describe("G10 — the child hears the word before the app lets them move on", ()
     expect(advance().disabled).toBe(true);           // 10.15 s: the guard is sweeping
     await flush(300);
     expect(advance().disabled).toBe(false);          // 10.4 s: the wedged path releases
-  });
-
-  it("3b: with sound OFF there is no reveal to wait for, and the guard arms at once", async () => {
+    /* 3b: with sound OFF there is no reveal to wait for, and the guard arms
+       at once. The stage is reset the way beforeEach does. */
+    cleanup();
+    localStorage.clear();
+    voiceMode = "pack"; pendingScheduled = null;
     stored = { ...newState(), preLevel: 0, settings: { ...newState().settings, sound: false } };
     await gradeOneWord();
     expect(advance().disabled).toBe(true);
@@ -362,8 +369,9 @@ describe("G10 — the child hears the word before the app lets them move on", ()
     expect(document.querySelector(".wq-glowseed").getAttribute("data-wq-glowseed")).toBe("muted");
   });
 
-  it("14 (B17): a slow reveal never opens the mid-sound-out window", async () => {
-    /* The measured fault, replayed: clips take 900 ms to fetch and decode, so
+  it("14/14b (B17): a slow reveal never opens the mid-sound-out window, and the guard is a floor", async () => {
+    /* Merged 2026-09-26 from test 14 and 14b (Tier B); every line kept.
+       The measured fault, replayed: clips take 900 ms to fetch and decode, so
        the old 400 ms starting gun fired first and the control sat live in the
        middle of the sound-out until the real length "took it back". Now
        NOTHING arms before the length arrives: at +500 ms — inside what used
@@ -383,9 +391,12 @@ describe("G10 — the child hears the word before the app lets them move on", ()
     expect(advance().disabled).toBe(true);           // the word is still to come
     await flush(200);
     expect(advance().disabled).toBe(false);          // and only now is it over
-  });
-
-  it("14b: the guard is a FLOOR — a reveal shorter than 400 ms still waits 400", async () => {
+    /* 14b: the guard is a FLOOR — a reveal shorter than 400 ms still waits
+       400. The stage is reset the way beforeEach does. */
+    cleanup();
+    localStorage.clear();
+    voiceMode = "pack"; pendingScheduled = null;
+    stored = { ...newState(), preLevel: 0 };
     voiceMode = "quick";                             // the clips report 150 ms
     await gradeOneWord();
     await flush(350);

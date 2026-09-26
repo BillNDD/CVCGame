@@ -42,38 +42,15 @@ describe("Build-it tray", () => {
     }
   });
 
-  it("never offers a distractor that is one of the word's own tiles", () => {
+  it("never offers a distractor that copies or echoes the word's own tiles", () => {
+    /* Merged 2026-09-26 from the own-tile test and the same-sound test (Tier B); every line kept. */
     for (let i = 0; i < 20; i++) {
       const t = buildTray("ship", 21, held((i % 9) / 10, ((i + 3) % 9) / 10, 0.5));
       const extra = t.tiles.filter((c) => !t.answer.includes(c));
       expect(extra.length).toBe(2);
       expect(new Set(extra).size).toBe(2);
     }
-  });
-
-  /* The safety of the pool. Only four units are barred outright - the ones
-     with no ruled default sound, which alone can say nothing true. Everything
-     else is admitted and then guarded per word, because the danger is not a
-     grapheme that bends somewhere else; it is two tiles in ONE tray that say
-     the same thing. Owner-ruled 2026-08-17, after the first version banned
-     every vowel and still allowed ck beside cat. */
-  it("keeps units with no ruled default out of the pool", () => {
-    const pool = trayPool(21);
-    for (const unit of ["ai", "ou", "ey", "ere"]) expect(pool).not.toContain(unit);
-  });
-
-  it("keeps the vowels, so a child can be offered i against a", () => {
-    const pool = trayPool(21);
-    for (const v of ["a", "e", "i", "o", "u"]) expect(pool).toContain(v);
-    expect(pool).toContain("s");            // says /s/ alone; his bends it, his is not this word
-    expect(pool).toContain("th");
-    /* 34 at the converted level 21 - measured, re-typed; the six default-less
-       spellings and the one-use ugh are barred by NO_TRAY_UNITS, so the pool
-       can never deal a tile that plays nothing. */
-    expect(pool.length).toBe(34);
-  });
-
-  it("refuses a distractor that would sound exactly like one of the word's own tiles", () => {
+    /* A distractor that would SOUND exactly like one of the word's own tiles. */
     expect(trayClash("cat", "ck")).toBe(true);    // ck and cat's c both say /k/
     expect(trayClash("his", "z")).toBe(true);     // his bends s to /z/
     expect(trayClash("want", "o")).toBe(true);    // want bends a to short o
@@ -84,6 +61,25 @@ describe("Build-it tray", () => {
       for (const c of t.tiles.filter((x) => !t.answer.includes(x)))
         expect(trayClash("cat", c)).toBe(false);
     }
+  });
+
+  /* The safety of the pool. Only four units are barred outright - the ones
+     with no ruled default sound, which alone can say nothing true. Everything
+     else is admitted and then guarded per word, because the danger is not a
+     grapheme that bends somewhere else; it is two tiles in ONE tray that say
+     the same thing. Owner-ruled 2026-08-17, after the first version banned
+     every vowel and still allowed ck beside cat. */
+  it("bars the default-less units and keeps the vowels, 34 strong", () => {
+    /* Merged 2026-09-26 from the two trayPool(21) tests (Tier B); every line kept. */
+    const pool = trayPool(21);
+    for (const unit of ["ai", "ou", "ey", "ere"]) expect(pool).not.toContain(unit);
+    for (const v of ["a", "e", "i", "o", "u"]) expect(pool).toContain(v);
+    expect(pool).toContain("s");            // says /s/ alone; his bends it, his is not this word
+    expect(pool).toContain("th");
+    /* 34 at the converted level 21 - measured, re-typed; the six default-less
+       spellings and the one-use ugh are barred by NO_TRAY_UNITS, so the pool
+       can never deal a tile that plays nothing. */
+    expect(pool.length).toBe(34);
   });
 
   it("only draws graphemes a child at that level has met", () => {
@@ -98,17 +94,15 @@ describe("Build-it tray", () => {
      than only looking different: the SHAPE of a slot comes from the answer
      tile's letter count, and the help after two misses names the slot each
      sound belongs to, which needs the answer in position order. */
-  it("gives every answer tile in the order the word is built", () => {
+  it("gives every answer tile in build order, one tile per slot", () => {
+    /* Merged 2026-09-26 from the order test and the every-slot test (Tier B); every line kept. */
     expect(buildTray("ship", 2, held(0)).answer).toEqual(["sh", "i", "p"]);
     expect(buildTray("there", 19, held(0)).answer).toEqual(["th", "ere"]);
     expect(buildTray("black", 20, held(0)).answer).toEqual(["b", "l", "a", "ck"]);
-  });
-
-  /* The eleven words whose sounds repeat. The tray must offer a tile for EVERY
-     slot, counting duplicates: the screen once held a letter in each slot and
-     deduped by letter, so dad's second d could never be placed and the word
-     could not be built at all. Found by an independent review, 2026-08-17. */
-  it("offers a tile for every slot, even when a sound repeats", () => {
+    /* The eleven words whose sounds repeat. The tray must offer a tile for EVERY
+       slot, counting duplicates: the screen once held a letter in each slot and
+       deduped by letter, so dad's second d could never be placed and the word
+       could not be built at all. Found by an independent review, 2026-08-17. */
     for (const w of ["bib", "dad", "did", "mom", "nun", "pep", "pop", "pump", "pup", "tent", "tot"]) {
       const t = buildTray(w, 2, held(0.3));
       expect(t.answer.length).toBe(chunkWord(w).length);
