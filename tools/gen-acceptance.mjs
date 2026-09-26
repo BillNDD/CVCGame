@@ -3,7 +3,11 @@
    hand. Every example value from the IR is baked into the emitted code as a
    literal, so the acceptance-mutation gate (G4) can prove each value is read.
    Deterministic: stable ordering, LF endings, no timestamps, no absolute
-   paths. An unmatched step is a hard error, never a skip. */
+   paths. An unmatched step is a hard error, never a skip.
+   Maintenance constraint (review 2026-09-26): the shared beforeEach installs
+   fake timers for the WHOLE generated file, engine scenarios included. Engine
+   tests must never call Date or async timer APIs — they would see frozen time.
+   Pure algorithmic steps only. */
 import { readFileSync, writeFileSync } from "node:fs";
 
 const IR = "tests/generated/acceptance-ir.json";
@@ -222,9 +226,71 @@ const STEPS = [
     `expect(LONE.test(md)).toBe(false);`]],
 ];
 
+/* ---- App-DOM steps (E2E journeys, Wave 1+). Only used by features/app-*.feature.
+   Every regex here is namespaced away from the engine STEPS above ("the app boots",
+   "the grown-ups corner", "the hostile file", ...): the emitter tries STEPS_APP
+   first for app features, engine STEPS second, and an unmatched step is a hard
+   error either way. Values from the IR are baked as literals (G4 rule). The _wK /
+   _fileK suffixes come from a module-level counter incremented in emission order,
+   so output is deterministic. */
+let appSeq = 0, lastW = null;
+const STEPS_APP = [
+  [/^the app boots with a level (\d+) save$/, (m) => [
+    `mockLoad.mockResolvedValueOnce({ ...newState(), preLevel: 0, level: ${N(m[1])} });`,
+    `render(createElement(App));`,
+    `await flush(2001); // owner-ruled 2s minimum splash`]],
+  [/^the grown-ups corner is opened$/, () => [
+    `fireEvent.click(screen.getByLabelText("Grown-ups corner"));`,
+    `await flush(0);`,
+    `expect(document.querySelector('input[type="file"]')).toBeTruthy();`]],
+  [/^the hostile file (.+) is imported$/, (m) => {
+    const k = appSeq++; lastW = `_w${k}`;
+    return [
+      `const ${lastW} = mockSave.mock.calls.length;`,
+      `const _file${k} = new File([${S(m[1])}], "b.json", { type: "application/json" });`,
+      `Object.defineProperty(_file${k}, "text", { value: async () => ${S(m[1])} });`,
+      `await act(async () => { fireEvent.change(document.querySelector('input[type="file"]'), { target: { files: [_file${k}] } }); });`,
+      `await flush(0);`]; }],
+  [/^the app reports "([^"]*)"$/, (m) => [
+    `expect(screen.getByText(${S(m[1])})).toBeTruthy();`]],
+  [/^no new save leaves level (\d+)$/, (m) => [
+    `expect(mockSave.mock.calls.slice(${lastW}).some((c) => c[0].level !== ${N(m[1])})).toBe(false);`,
+    `expect(mockSave.mock.calls.at(-1)[0].level).toBe(${N(m[1])});`]],
+  [/^the save-shaped array is refused and the genuine one passes$/, () => [
+    `const _shaped = Object.assign([], { version: 3, level: 5, words: {}, settings: { mode: "parent" } });`,
+    `expect(isBackup(_shaped)).toBe(false);`,
+    `expect(isBackup({ version: 3, level: 5, words: {}, settings: { mode: "parent" } })).toBe(true);`]],
+  [/^the app restarts fresh$/, () => [
+    `cleanup(); mockSave.mockClear(); mockLoad.mockReset();`,
+    `mockSave.mockImplementation(async () => true);`]],
+  [/^a genuine level (\d+) backup is imported$/, (m) => {
+    const k = appSeq++;
+    return [
+      `const _gen${k} = JSON.stringify({ ...newState(), level: ${N(m[1])}, version: 4 });`,
+      `const _gfile${k} = new File([_gen${k}], "b.json", { type: "application/json" });`,
+      `Object.defineProperty(_gfile${k}, "text", { value: async () => _gen${k} });`,
+      `await act(async () => { fireEvent.change(document.querySelector('input[type="file"]'), { target: { files: [_gfile${k}] } }); });`,
+      `await flush(0);`]; }],
+  [/^the backup loads and the level is (\d+)$/, (m) => [
+    `expect(screen.getByText("Backup loaded.")).toBeTruthy();`,
+    `expect(mockSave.mock.calls.at(-1)[0].level).toBe(${N(m[1])});`]],
+  [/^the Load backup button is pressed from the keyboard$/, () => [
+    `const _input = document.querySelector('input[type="file"]');`,
+    `const _clicks = vi.spyOn(_input, "click").mockImplementation(() => {});`,
+    `const _button = screen.getByLabelText("Load backup file");`,
+    `expect(_button.tagName).toBe("BUTTON");`,
+    `fireEvent.keyDown(_button, { key: "Enter" });`,
+    `fireEvent.click(_button);`]],
+  [/^the picker opens exactly (\d+) time$/, (m) => [
+    `expect(_clicks).toHaveBeenCalledTimes(${N(m[1])});`]],
+  [/^the hidden input has aria-hidden "([^"]*)" and tab index (-?\d+)$/, (m) => [
+    `expect(_input.getAttribute("aria-hidden")).toBe(${S(m[1])});`,
+    `expect(_input.tabIndex).toBe(${m[2]});`]],
+];
+
 const ir = JSON.parse(readFileSync(IR, "utf8"));
-const emit = (text, where) => {
-  for (const [re, fn] of STEPS) {
+const emit = (text, where, table) => {
+  for (const [re, fn] of table) {
     const m = text.match(re);
     if (m) return fn(m);
   }
@@ -232,17 +298,44 @@ const emit = (text, where) => {
   process.exit(1);
 };
 
+const isAppFeature = (f) => f.file.startsWith("features/app-");
+const anyApp = ir.features.some(isAppFeature);
 const out = [];
 out.push(`/* GENERATED by tools/gen-acceptance.mjs from ${IR} — do not edit by hand. */`);
-out.push(`import { describe, it, expect } from "vitest";`);
+if (anyApp) out.push(`/* @vitest-environment jsdom */`);
+out.push(`import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";`);
 out.push(`import {`);
 out.push(`  LEVELS, WORD_LEVEL, TRICKY, chunkWord, dashed, freshWordState, applyResult,`);
 out.push(`  buildSession, checkPromotion, migrate, newState, buildMarkdown, feedbackParts,`);
 out.push(`} from "../../src/engine.js";`);
+if (anyApp) {
+  out.push(`import { render, screen, fireEvent, act, cleanup } from "@testing-library/react";`);
+  out.push(`import { createElement } from "react";`);
+  out.push(`import App, { isBackup } from "../../app/src/App.jsx";`);
+  out.push(`vi.mock("../../app/src/storage.js", () => ({`);
+  out.push(`  loadState: vi.fn(),`);
+  out.push(`  saveState: vi.fn(async () => true),`);
+  out.push(`}));`);
+  out.push(`import { loadState as mockLoad, saveState as mockSave } from "../../app/src/storage.js";`);
+  out.push(`const flush = async (ms = 0) => act(async () => { await vi.advanceTimersByTimeAsync(ms); });`);
+  out.push(`beforeEach(() => {`);
+  out.push(`  mockLoad.mockReset();`);
+  out.push(`  mockSave.mockClear();`);
+  out.push(`  mockSave.mockImplementation(async () => true);`);
+  out.push(`  vi.useFakeTimers();`);
+  out.push(`});`);
+  out.push(`afterEach(() => {`);
+  out.push(`  cleanup();`);
+  out.push(`  vi.useRealTimers();`);
+  out.push(`  vi.unstubAllGlobals();`);
+  out.push(`});`);
+}
 out.push(``);
 
 let scenarios = 0, tests = 0;
 for (const feature of ir.features) {
+  const app = isAppFeature(feature);
+  const table = app ? STEPS_APP.concat(STEPS) : STEPS;
   out.push(`describe(${S("Feature: " + feature.name)}, () => {`);
   for (const sc of feature.scenarios) {
     scenarios += 1;
@@ -252,12 +345,12 @@ for (const feature of ir.features) {
       const label = row
         ? `${sc.name} (${Object.entries(row).map(([k, v]) => k + "=" + v).join(", ")})`
         : sc.name;
-      out.push(`  it(${S(label)}, () => {`);
+      out.push(app ? `  it(${S(label)}, async () => {` : `  it(${S(label)}, () => {`);
       for (const step of sc.steps) {
         const text = row
           ? step.text.replace(/<([^>]+)>/g, (_, k) => row[k])
           : step.text;
-        for (const line of emit(text, `${feature.file}: ${sc.name}`)) out.push(`    ${line}`);
+        for (const line of emit(text, `${feature.file}: ${sc.name}`, table)) out.push(`    ${line}`);
       }
       out.push(`  });`);
     }

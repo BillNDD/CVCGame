@@ -256,95 +256,12 @@ describe("G9 faults — an unreadable save, and backups that must look like one"
     expect(mockSave.mock.calls.length).toBeGreaterThan(0);
   });
 
-  it("8: the Load backup file button opens the picker - one click on the file input, from the keyboard", async () => {
-    /* A named button that clicks a hidden input (the after pass on step 0);
-       its wiring is an element id, and a typo there would leave a keyboard
-       user a button that does nothing with every gate green (the re-judgement). */
-    render(createElement(App));
-    await flush(2001); // owner-ruled 2s minimum splash: this post-splash backup check starts here.
-    fireEvent.click(screen.getByLabelText("Grown-ups corner"));
-    await flush(0);
-    const input = document.querySelector('input[type="file"]');
-    const clicks = vi.spyOn(input, "click").mockImplementation(() => {});
-    const button = screen.getByLabelText("Load backup file");
-    expect(button.tagName).toBe("BUTTON");
-    fireEvent.keyDown(button, { key: "Enter" });
-    fireEvent.click(button);   // what Enter and Space do to a focused button
-    expect(clicks).toHaveBeenCalledTimes(1);
-    expect(input.getAttribute("aria-hidden")).toBe("true");
-    expect(input.tabIndex).toBe(-1);
-  });
-
-  const importFile = async (text) => {
-    render(createElement(App));
-    await flush(2001); // owner-ruled 2s minimum splash: this post-splash backup check starts here.
-    fireEvent.click(screen.getByLabelText("Grown-ups corner"));
-    await flush(0);
-    const input = document.querySelector('input[type="file"]');
-    const file = new File([text], "b.json", { type: "application/json" });
-    Object.defineProperty(file, "text", { value: async () => text });
-    await act(async () => { fireEvent.change(input, { target: { files: [file] } }); });
-    await flush(0);
-  };
-
-  /* The marker is a signal, not a password. A file carrying it and nothing
-     else used to be accepted, and the app reported "Backup loaded." while
-     replacing every word record, the log, the level and the child's name with
-     an empty state. Found by an audit of the running build, 2026-07-29. */
-  for (const [label, text] of [
-    ["an empty object", "{}"],
-    ["an array", "[]"],
-    ["a bare null", "null"],
-    ["unrelated JSON", '{"hello":"world"}'],
-    ["not JSON at all", "<html>"],
-    ["the marker and nothing else", '{"application":"word-quest-backup"}'],
-    ["the marker with a wrong-typed level", '{"application":"word-quest-backup","level":"seven","words":"oops","settings":null}'],
-    ["the marker with no words map", '{"application":"word-quest-backup","version":3,"level":5}'],
-    /* One clause at a time. Every case above is refused by SEVERAL of the
-       validator's clauses at once, so removing any single clause changed
-       nothing and the app-mutation gate reported three survivors on
-       2026-08-10. Each file below is a valid save in every respect but one,
-       so it can only be refused by the clause it targets. */
-    ["a save with no words map at all", '{"version":3,"level":5,"settings":{"mode":"parent"}}'],
-    ["a save whose words map is an array", '{"version":3,"level":5,"words":[],"settings":{"mode":"parent"}}'],
-    ["a save with no settings", '{"version":3,"level":5,"words":{}}'],
-    ["a save whose settings are an array", '{"version":3,"level":5,"words":{},"settings":[]}'],
-    ["a save whose level is missing", '{"version":3,"words":{},"settings":{"mode":"parent"}}'],
-    ["a save whose level is not finite", '{"version":3,"level":null,"words":{},"settings":{"mode":"parent"}}'],
-    ["an array carrying every field a save has", '[{"version":3,"level":5,"words":{},"settings":{}}]'],
-  ]) {
-    it(`7: ${label} is refused, and nothing is written`, async () => {
-      mockLoad.mockResolvedValueOnce({ ...newState(), preLevel: 0, level: 5 });
-      await importFile(text);
-      expect(screen.getByText("That file is not a Word Quest backup.")).toBeTruthy();
-      const wrote = mockSave.mock.calls.some((c) => c[0].level !== 5);
-      expect(wrote).toBe(false);                        // the real progress survives
-    });
-  }
-
-  /* The Array clause, tested where it can be reached. Through the file input
-     the clause is redundant — a JSON array carries no named properties, so
-     the level check refuses it first — but an array WITH properties is one
-     line of JavaScript, and the predicate is the thing that decides whether a
-     family's history is replaced. Tested directly so the guard is real rather
-     than assumed. */
-  it("7b/7a: a save-shaped ARRAY is not a backup - but a genuine one still restores", async () => {
-    /* Merged 2026-09-26 from test 7b and its control 7a (Tier C); every line kept. */
-    const { isBackup } = await import("../app/src/App.jsx");
-    const shaped = Object.assign([], { version: 3, level: 5, words: {}, settings: { mode: "parent" } });
-    expect(isBackup(shaped)).toBe(false);
-    expect(isBackup({ version: 3, level: 5, words: {}, settings: { mode: "parent" } })).toBe(true); // control
-    /* 7a (control): a genuine backup still restores.
-       A version 4 backup: its level is trusted (and clamped), where a pre-v4
-       one would recompute from the words — that path has its own tests.
-       The stage is reset the way a new test starts. */
-    cleanup(); mockSave.mockClear(); mockLoad.mockReset();
-    mockLoad.mockResolvedValueOnce({ ...newState(), preLevel: 0 });
-    const backup = JSON.stringify({ ...newState(), level: 4, version: 4 });
-    await importFile(backup);
-    expect(screen.getByText("Backup loaded.")).toBeTruthy();
-    expect(mockSave.mock.calls.at(-1)[0].level).toBe(4);
-  });
+  /* Retired 2026-09-26 into features/app-backup-refusals.feature (E4 journeys):
+     the picker wiring (test 8), the 15-file refusal battery, the save-shaped
+     array predicate and the genuine-restore control (7b/7a). Every retired
+     expect lives there (38 retired; journeys carry a superset: genuine-seed
+     stations, per-station newest-save-level reads, corner anchors); the
+     rationale comments moved with them. */
 });
 
 describe("G9 faults — wrong-shape JSON battery", () => {

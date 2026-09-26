@@ -1,6 +1,296 @@
 {
   "features": [
     {
+      "file": "features/app-backup-refusals.feature",
+      "name": "Hostile backup files are refused and nothing is written",
+      "scenarios": [
+        {
+          "name": "Eight hostile files knock and the level does not move",
+          "outline": false,
+          "steps": [
+            {
+              "kind": "Given",
+              "text": "the app boots with a level 5 save"
+            },
+            {
+              "kind": "Given",
+              "text": "the grown-ups corner is opened"
+            },
+            {
+              "kind": "Given",
+              "text": "a genuine level 5 backup is imported"
+            },
+            {
+              "kind": "Then",
+              "text": "the backup loads and the level is 5"
+            },
+            {
+              "kind": "When",
+              "text": "the hostile file {} is imported"
+            },
+            {
+              "kind": "Then",
+              "text": "the app reports \"That file is not a Word Quest backup.\""
+            },
+            {
+              "kind": "Then",
+              "text": "no new save leaves level 5"
+            },
+            {
+              "kind": "When",
+              "text": "the hostile file [] is imported"
+            },
+            {
+              "kind": "Then",
+              "text": "the app reports \"That file is not a Word Quest backup.\""
+            },
+            {
+              "kind": "Then",
+              "text": "no new save leaves level 5"
+            },
+            {
+              "kind": "When",
+              "text": "the hostile file null is imported"
+            },
+            {
+              "kind": "Then",
+              "text": "the app reports \"That file is not a Word Quest backup.\""
+            },
+            {
+              "kind": "Then",
+              "text": "no new save leaves level 5"
+            },
+            {
+              "kind": "When",
+              "text": "the hostile file {\"hello\":\"world\"} is imported"
+            },
+            {
+              "kind": "Then",
+              "text": "the app reports \"That file is not a Word Quest backup.\""
+            },
+            {
+              "kind": "Then",
+              "text": "no new save leaves level 5"
+            },
+            {
+              "kind": "When",
+              "text": "the hostile file <html> is imported"
+            },
+            {
+              "kind": "Then",
+              "text": "the app reports \"That file is not a Word Quest backup.\""
+            },
+            {
+              "kind": "Then",
+              "text": "no new save leaves level 5"
+            },
+            {
+              "kind": "When",
+              "text": "the hostile file {\"application\":\"word-quest-backup\"} is imported"
+            },
+            {
+              "kind": "Then",
+              "text": "the app reports \"That file is not a Word Quest backup.\""
+            },
+            {
+              "kind": "Then",
+              "text": "no new save leaves level 5"
+            },
+            {
+              "kind": "When",
+              "text": "the hostile file {\"application\":\"word-quest-backup\",\"level\":\"seven\",\"words\":\"oops\",\"settings\":null} is imported"
+            },
+            {
+              "kind": "Then",
+              "text": "the app reports \"That file is not a Word Quest backup.\""
+            },
+            {
+              "kind": "Then",
+              "text": "no new save leaves level 5"
+            },
+            {
+              "kind": "When",
+              "text": "the hostile file {\"application\":\"word-quest-backup\",\"version\":3,\"level\":5} is imported"
+            },
+            {
+              "kind": "Then",
+              "text": "the app reports \"That file is not a Word Quest backup.\""
+            },
+            {
+              "kind": "Then",
+              "text": "no new save leaves level 5"
+            }
+          ],
+          "examples": []
+        },
+        {
+          "name": "Seven one-clause hostile files knock and the level does not move",
+          "outline": false,
+          "steps": [
+            {
+              "kind": "Given",
+              "text": "the app boots with a level 5 save"
+            },
+            {
+              "kind": "Given",
+              "text": "the grown-ups corner is opened"
+            },
+            {
+              "kind": "Given",
+              "text": "a genuine level 5 backup is imported"
+            },
+            {
+              "kind": "Then",
+              "text": "the backup loads and the level is 5"
+            },
+            {
+              "kind": "When",
+              "text": "the hostile file {\"version\":3,\"level\":5,\"settings\":{\"mode\":\"parent\"}} is imported"
+            },
+            {
+              "kind": "Then",
+              "text": "the app reports \"That file is not a Word Quest backup.\""
+            },
+            {
+              "kind": "Then",
+              "text": "no new save leaves level 5"
+            },
+            {
+              "kind": "When",
+              "text": "the hostile file {\"version\":3,\"level\":5,\"words\":[],\"settings\":{\"mode\":\"parent\"}} is imported"
+            },
+            {
+              "kind": "Then",
+              "text": "the app reports \"That file is not a Word Quest backup.\""
+            },
+            {
+              "kind": "Then",
+              "text": "no new save leaves level 5"
+            },
+            {
+              "kind": "When",
+              "text": "the hostile file {\"version\":3,\"level\":5,\"words\":{}} is imported"
+            },
+            {
+              "kind": "Then",
+              "text": "the app reports \"That file is not a Word Quest backup.\""
+            },
+            {
+              "kind": "Then",
+              "text": "no new save leaves level 5"
+            },
+            {
+              "kind": "When",
+              "text": "the hostile file {\"version\":3,\"level\":5,\"words\":{},\"settings\":[]} is imported"
+            },
+            {
+              "kind": "Then",
+              "text": "the app reports \"That file is not a Word Quest backup.\""
+            },
+            {
+              "kind": "Then",
+              "text": "no new save leaves level 5"
+            },
+            {
+              "kind": "When",
+              "text": "the hostile file {\"version\":3,\"words\":{},\"settings\":{\"mode\":\"parent\"}} is imported"
+            },
+            {
+              "kind": "Then",
+              "text": "the app reports \"That file is not a Word Quest backup.\""
+            },
+            {
+              "kind": "Then",
+              "text": "no new save leaves level 5"
+            },
+            {
+              "kind": "When",
+              "text": "the hostile file {\"version\":3,\"level\":null,\"words\":{},\"settings\":{\"mode\":\"parent\"}} is imported"
+            },
+            {
+              "kind": "Then",
+              "text": "the app reports \"That file is not a Word Quest backup.\""
+            },
+            {
+              "kind": "Then",
+              "text": "no new save leaves level 5"
+            },
+            {
+              "kind": "When",
+              "text": "the hostile file [{\"version\":3,\"level\":5,\"words\":{},\"settings\":{}}] is imported"
+            },
+            {
+              "kind": "Then",
+              "text": "the app reports \"That file is not a Word Quest backup.\""
+            },
+            {
+              "kind": "Then",
+              "text": "no new save leaves level 5"
+            }
+          ],
+          "examples": []
+        },
+        {
+          "name": "A save-shaped array is refused directly but a genuine backup restores",
+          "outline": false,
+          "steps": [
+            {
+              "kind": "Then",
+              "text": "the save-shaped array is refused and the genuine one passes"
+            },
+            {
+              "kind": "When",
+              "text": "the app restarts fresh"
+            },
+            {
+              "kind": "When",
+              "text": "the app boots with a level 1 save"
+            },
+            {
+              "kind": "When",
+              "text": "the grown-ups corner is opened"
+            },
+            {
+              "kind": "When",
+              "text": "a genuine level 4 backup is imported"
+            },
+            {
+              "kind": "Then",
+              "text": "the backup loads and the level is 4"
+            }
+          ],
+          "examples": []
+        },
+        {
+          "name": "The Load backup button opens the picker from the keyboard",
+          "outline": false,
+          "steps": [
+            {
+              "kind": "Given",
+              "text": "the app boots with a level 1 save"
+            },
+            {
+              "kind": "Given",
+              "text": "the grown-ups corner is opened"
+            },
+            {
+              "kind": "When",
+              "text": "the Load backup button is pressed from the keyboard"
+            },
+            {
+              "kind": "Then",
+              "text": "the picker opens exactly 1 time"
+            },
+            {
+              "kind": "Then",
+              "text": "the hidden input has aria-hidden \"true\" and tab index -1"
+            }
+          ],
+          "examples": []
+        }
+      ]
+    },
+    {
       "file": "features/export.feature",
       "name": "The reading log export",
       "scenarios": [
