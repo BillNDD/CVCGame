@@ -8,7 +8,7 @@ Per-test rows carry the test's own sentence, which in this project IS the
 Given/When/Then effect. The requirement, oracle, platform, mutant family, evidence
 and known limits are declared per FILE, in the tool, where they stay true.
 
-Totals: 487 it() SITES across 22 files, plus 21 gates that are not test files.
+Totals: 477 it() SITES across 22 files, plus 21 gates that are not test files.
 
 A site inside a loop or a table runs many times, so Vitest executes MORE tests than these rows number. The rows count the places behaviour is asserted; the executed count is whatever the suite prints, and the gauntlet holds its floors.
 
@@ -136,7 +136,7 @@ A site inside a loop or a table runs many times, so Vitest executes MORE tests t
 | 13 | the extended code | gives the four single-taught spellings their level's own sound |
 | 14 | the extended code | reads no word out of bare punctuation |
 
-## tests/engine.test.js — 93 tests (G1)
+## tests/engine.test.js — 85 tests (G1)
 
 - **Requirement protected:** SPEC sections 3-4: the word bank, levels, chunking, the Leitner ladder, session shape and the reveal plan
 - **Independent oracle:** Literal expected values written from SPEC by hand (E4). Never the constant under test.
@@ -148,99 +148,91 @@ A site inside a loop or a table runs many times, so Vitest executes MORE tests t
 
 | # | Suite | Effect (the test's own sentence) |
 |---|---|---|
-| 1 | A stumble must not cost mastery (parent report, 2026-08-13) | a close then a correct lands on box 3, not box 2 |
-| 2 | A stumble must not cost mastery (parent report, 2026-08-13) | a wrong then a correct lands on box 3, not box 1 |
-| 3 | A stumble must not cost mastery (parent report, 2026-08-13) | the parent's own words: two correct readings after a stumble reach mastery |
-| 4 | A stumble must not cost mastery (parent report, 2026-08-13) | but the second correct still only steps one box, so the jump is not repeatable |
-| 5 | word bank | has 1,122 unique words across the hundred levels |
-| 6 | word bank | starts with the converted ladder's ten decodables, no hearts at Level 1 |
-| 7 | word bank | maps every word to its level |
-| 8 | word bank | flags the thirty-eight tricky words — the originals, the heart notes, i, seating pass two's four, the hybrid ruling's four, the magic-e rule's three, and fault AS's three sight words |
-| 9 | word bank | keeps every word inside what the tile row can hold: 8 tiles, 9 letters |
-| 10 | chunkWord and dashed | fuses every digraph |
-| 11 | chunkWord and dashed | splits VC and plain CVC words |
-| 12 | chunkWord and dashed | renders hyphenated feedback text |
-| 13 | chunkWord and dashed | round-trips any input |
-| 14 | applyResult | fast-tracks a first-sight correct to box 3 |
-| 15 | applyResult | increments a known word by exactly one box |
-| 16 | applyResult | caps the box at 5 |
-| 17 | applyResult | never lets close demote below 1 and never promotes |
-| 18 | applyResult | drops exactly two boxes on wrong, with a floor of 0 |
-| 19 | applyResult | counts one attempt per call and records the session |
-| 20 | applyResult | promotes at exactly 80 percent, not only above it |
-| 21 | applyResult | uses the published interval ladder |
-| 22 | checkPromotion | promotes at exactly 80 percent on a ten-word level |
-| 23 | checkPromotion | uses box 3 as the solid threshold, not box 2 |
-| 24 | checkPromotion | needs 8 of 10 on the starter level |
-| 25 | checkPromotion | never promotes past the last level |
-| 26 | checkPromotion | promotes after two perfect sessions; a partial session never moves the streak |
-| 27 | checkPromotion | an imperfect completed session resets the streak to zero |
-| 28 | checkPromotion | the streak never promotes past the last level, and never banks above 2 |
-| 29 | checkPromotion | a partial session with a miss also leaves the streak unchanged |
-| 30 | checkPromotion | a stored streak alone never promotes on a session-less check |
-| 31 | checkPromotion | a manual level change resets the streak (source tripwire) |
-| 32 | checkPromotion | heal repairs a hostile perfectStreak |
-| 33 | buildSession | serves the ten starter words and nothing else on a fresh install |
-| 34 | buildSession | targets 20 words on a full level |
-| 35 | buildSession | never repeats a word |
-| 36 | buildSession | caps lower-level reviews at 5 |
-| 37 | buildSession | adds at most 2 confidence words, and none before session 3 |
-| 38 | buildSession | opens every session with the most secure word |
-| 39 | buildSession | does not peek at the next level while fresh words remain |
-| 40 | buildSession | peeks once the level has been fully seen |
-| 41 | buildSession | never serves content more than one level ahead |
-| 42 | buildSession | publishes a prompt cap above the session size |
-| 43 | heal | gives an empty object a usable shape |
-| 44 | heal | repairs wrong types and clamps word data |
-| 45 | heal | lets a healed document build a session |
-| 46 | heal | drops hostile log rows and repairs their items and level |
-| 47 | heal | repairs a hostile version so the migration check cannot crash |
-| 48 | heal | repairs a hostile or fractional level so the engine cannot crash |
-| 49 | sentences | gives all hundred levels a list, and names no level that does not exist |
-| 50 | sentences | places every sentence where a child can actually read it |
-| 51 | sentences | places no sentence later than it needs to be |
-| 52 | sentences | gives every sentence a word the level teaches, for the reveal to sound out |
-| 53 | sentences | holds every text to one clip, and inside the longest approved read |
-| 54 | sentences | counts the words a child sees, not the punctuation a writer left |
-| 55 | sentences | ships three invitation lines, each with a clip and its own words |
-| 56 | buildMarkdown | reports the 1,122-word denominator and one hundred level rows |
-| 57 | buildMarkdown | counts a word as mastered only from box 4 |
-| 58 | buildMarkdown | keeps a grapheme-safe name intact in the header |
-| 59 | buildMarkdown | marks a partial session |
-| 60 | voice packs | inventories one clip per word, the fixed sentences, and every sound a tile can ask for |
-| 61 | voice packs | covers every grapheme the whole bank can produce |
-| 62 | voice packs | the plural s splits by voicing: dogs buzzes, cats hisses (Level 21's lesson) |
-| 63 | voice packs | bankWords covers every word the app names, not only the levels |
-| 64 | voice packs | ai and ou say what their levels teach, and the heart words still bend |
-| 65 | voice packs | gives every tricky word its true sounds, not its letters |
-| 66 | voice packs | sounds out every heart word the way the owner heard it |
-| 67 | voice packs | splits th into its two sounds, across every th word in the bank |
-| 68 | voice packs | plans the sound-out reveal on every outcome, at the literal 500 ms seam |
-| 69 | voice packs | knows a seam from a clip, and how long each one lasts |
-| 70 | voice packs | maps each tile sound to its own tile, in order |
-| 71 | voice packs | steps over a silent tile, so the ring after it lands on its own tile (beta 22's fault) |
-| 72 | voice packs | resolves one source per utterance: family, then default, then none |
-| 73 | speech helpers | says full words only, never letter names, and never stretches the reveal |
-| 74 | speech helpers | hands system speech the SOUND of “a”, never the letter's name |
-| 75 | speech helpers | stays silent when sound is off or no engine exists |
-| 76 | speech helpers | configures the utterance: rate 0.9, pitch 1.1, locale, cancel first |
-| 77 | speech helpers | pins the seventeen praise sentences, character for character |
-| 78 | speech helpers | selects the praise by index, and falls back to the first for a bad index |
-| 79 | speech helpers | queues reveal parts: one cancel, and both the lead and the word sentence at 0.9 |
-| 80 | speech helpers | survives a throwing speech service |
-| 81 | speech helpers | hush stops speech, and survives a missing engine |
-| 82 | speech helpers | vibrates only when the device can, and never throws |
-| 83 | reference storage adapter | reads nothing when no storage exists at all |
-| 84 | reference storage adapter | reads a saved document from the host storage |
-| 85 | reference storage adapter | keeps a copy of damaged data and reports it, even if the copy write fails |
-| 86 | reference storage adapter | saves to the host and answers from memory when the host disappears |
-| 87 | reference storage adapter | reports an unsaved visit when the host write fails |
-| 88 | reference storage adapter | falls back to memory when the host read throws |
-| 89 | G1 — the system voice is never given a word it says wrongly | 75: no praise line contains a word with two pronunciations |
-| 90 | G1 — the system voice is never given a word it says wrongly | 76: with no unsafe line listed, every praise index reaches the system voice unchanged |
-| 91 | G1 — the system voice is never given a word it says wrongly | 77: the clip plan carries the new line to the pack |
-| 92 | G1 — the system voice is never given a word it says wrongly | 78: the sentence praise roster is exactly the rows that never say "word", both halves pinned |
-| 93 | G1 — the system voice is never given a word it says wrongly | 79: the sentence lead is the grade's exact clip, and an off-roster index cannot praise with a word-line |
+| 1 | A stumble must not cost mastery (parent report, 2026-08-13) | the parent's own words: two correct readings after a stumble reach mastery |
+| 2 | word bank | has 1,122 unique words across the hundred levels |
+| 3 | word bank | starts with the converted ladder's ten decodables, no hearts at Level 1 |
+| 4 | word bank | maps every word to its level |
+| 5 | word bank | flags the thirty-eight tricky words — the originals, the heart notes, i, seating pass two's four, the hybrid ruling's four, the magic-e rule's three, and fault AS's three sight words |
+| 6 | word bank | keeps every word inside what the tile row can hold: 8 tiles, 9 letters |
+| 7 | chunkWord and dashed | fuses every digraph |
+| 8 | chunkWord and dashed | renders hyphenated feedback text |
+| 9 | applyResult | increments a known word by exactly one box |
+| 10 | applyResult | caps the box at 5 |
+| 11 | applyResult | never lets close demote below 1 and never promotes |
+| 12 | applyResult | drops exactly two boxes on wrong, with a floor of 0 |
+| 13 | applyResult | counts one attempt per call and records the session |
+| 14 | applyResult | promotes at exactly 80 percent, not only above it |
+| 15 | applyResult | uses the published interval ladder |
+| 16 | checkPromotion | promotes at exactly 80 percent on a ten-word level |
+| 17 | checkPromotion | uses box 3 as the solid threshold, not box 2 |
+| 18 | checkPromotion | needs 8 of 10 on the starter level |
+| 19 | checkPromotion | never promotes past the last level |
+| 20 | checkPromotion | promotes after two perfect sessions; a partial session never moves the streak |
+| 21 | checkPromotion | an imperfect completed session resets the streak to zero |
+| 22 | checkPromotion | the streak never promotes past the last level, and never banks above 2 |
+| 23 | checkPromotion | a partial session with a miss also leaves the streak unchanged |
+| 24 | checkPromotion | a stored streak alone never promotes on a session-less check |
+| 25 | checkPromotion | a manual level change resets the streak (source tripwire) |
+| 26 | checkPromotion | heal repairs a hostile perfectStreak |
+| 27 | buildSession | serves the ten starter words and nothing else on a fresh install |
+| 28 | buildSession | targets 20 words on a full level |
+| 29 | buildSession | caps lower-level reviews at 5 |
+| 30 | buildSession | adds at most 2 confidence words, and none before session 3 |
+| 31 | buildSession | does not peek at the next level while fresh words remain |
+| 32 | buildSession | peeks once the level has been fully seen |
+| 33 | buildSession | never serves content more than one level ahead |
+| 34 | buildSession | publishes a prompt cap above the session size |
+| 35 | heal | gives an empty object a usable shape |
+| 36 | heal | repairs wrong types and clamps word data |
+| 37 | heal | lets a healed document build a session |
+| 38 | heal | drops hostile log rows and repairs their items and level |
+| 39 | heal | repairs a hostile version so the migration check cannot crash |
+| 40 | heal | repairs a hostile or fractional level so the engine cannot crash |
+| 41 | sentences | gives all hundred levels a list, and names no level that does not exist |
+| 42 | sentences | places every sentence where a child can actually read it |
+| 43 | sentences | places no sentence later than it needs to be |
+| 44 | sentences | gives every sentence a word the level teaches, for the reveal to sound out |
+| 45 | sentences | holds every text to one clip, and inside the longest approved read |
+| 46 | sentences | counts the words a child sees, not the punctuation a writer left |
+| 47 | sentences | ships three invitation lines, each with a clip and its own words |
+| 48 | buildMarkdown | reports the 1,122-word denominator and one hundred level rows |
+| 49 | buildMarkdown | counts a word as mastered only from box 4 |
+| 50 | buildMarkdown | keeps a grapheme-safe name intact in the header |
+| 51 | buildMarkdown | marks a partial session |
+| 52 | voice packs | inventories one clip per word, the fixed sentences, and every sound a tile can ask for |
+| 53 | voice packs | covers every grapheme the whole bank can produce |
+| 54 | voice packs | the plural s splits by voicing: dogs buzzes, cats hisses (Level 21's lesson) |
+| 55 | voice packs | bankWords covers every word the app names, not only the levels |
+| 56 | voice packs | ai and ou say what their levels teach, and the heart words still bend |
+| 57 | voice packs | gives every tricky word its true sounds, not its letters |
+| 58 | voice packs | sounds out every heart word the way the owner heard it |
+| 59 | voice packs | splits th into its two sounds, across every th word in the bank |
+| 60 | voice packs | plans the sound-out reveal on every outcome, at the literal 500 ms seam |
+| 61 | voice packs | knows a seam from a clip, and how long each one lasts |
+| 62 | voice packs | maps each tile sound to its own tile, in order |
+| 63 | voice packs | steps over a silent tile, so the ring after it lands on its own tile (beta 22's fault) |
+| 64 | voice packs | resolves one source per utterance: family, then default, then none |
+| 65 | speech helpers | says full words only, never letter names, and never stretches the reveal |
+| 66 | speech helpers | hands system speech the SOUND of “a”, never the letter's name |
+| 67 | speech helpers | stays silent when sound is off or no engine exists |
+| 68 | speech helpers | configures the utterance: rate 0.9, pitch 1.1, locale, cancel first |
+| 69 | speech helpers | pins the seventeen praise sentences, character for character |
+| 70 | speech helpers | selects the praise by index, and falls back to the first for a bad index |
+| 71 | speech helpers | queues reveal parts: one cancel, and both the lead and the word sentence at 0.9 |
+| 72 | speech helpers | survives a throwing speech service |
+| 73 | speech helpers | hush stops speech, and survives a missing engine |
+| 74 | speech helpers | vibrates only when the device can, and never throws |
+| 75 | reference storage adapter | reads nothing when no storage exists at all |
+| 76 | reference storage adapter | reads a saved document from the host storage |
+| 77 | reference storage adapter | keeps a copy of damaged data and reports it, even if the copy write fails |
+| 78 | reference storage adapter | saves to the host and answers from memory when the host disappears |
+| 79 | reference storage adapter | reports an unsaved visit when the host write fails |
+| 80 | reference storage adapter | falls back to memory when the host read throws |
+| 81 | G1 — the system voice is never given a word it says wrongly | 75: no praise line contains a word with two pronunciations |
+| 82 | G1 — the system voice is never given a word it says wrongly | 76: with no unsafe line listed, every praise index reaches the system voice unchanged |
+| 83 | G1 — the system voice is never given a word it says wrongly | 77: the clip plan carries the new line to the pack |
+| 84 | G1 — the system voice is never given a word it says wrongly | 78: the sentence praise roster is exactly the rows that never say "word", both halves pinned |
+| 85 | G1 — the system voice is never given a word it says wrongly | 79: the sentence lead is the grade's exact clip, and an off-roster index cannot praise with a word-line |
 
 ## tests/faults.test.js — 29 tests (G9)
 
@@ -377,7 +369,7 @@ A site inside a loop or a table runs many times, so Vitest executes MORE tests t
 | 61 | Feature: Building a session | A word the child has already read comes back, whatever its level |
 | 62 | Feature: Building a session | Above-level review never takes over the session |
 
-## tests/migrate.test.js — 13 tests (G1)
+## tests/migrate.test.js — 11 tests (G1)
 
 - **Requirement protected:** SPEC saves rule: an old save migrates once, seats by the owner's 2026-08-21 recompute ruling, and heals before any use
 - **Independent oracle:** Literal expected values written from the ruling by hand (E4): the graduate walks to 6, a hand-set save keeps its number.
@@ -393,15 +385,13 @@ A site inside a loop or a table runs many times, so Vitest executes MORE tests t
 | 2 | migrate | leaves word data untouched |
 | 3 | migrate | seats an updating child by the ruled recompute, and a hand-set save by its number |
 | 4 | migrate | clamps an impossible level even on a save that needs no version work |
-| 5 | migrate | is idempotent |
-| 6 | migrate | recomputes any pre-v4 level from the words, and clamps a v4 one |
-| 7 | migrate | computes the migrated level at the same boundary promotion uses |
-| 8 | migrate | never seats a migrated child below the ground they held |
-| 9 | migrate | survives hostile documents |
-| 10 | a returning player is not sent back to the chunk ladder (fault AW) | credits a save written before the chunk ladder existed |
-| 11 | a returning player is not sent back to the chunk ladder (fault AW) | control: a graduate on a LADDER build still gets the ladder |
-| 12 | a returning player is not sent back to the chunk ladder (fault AW) | control: a child still ON level 1 is not credited out of the ladder |
-| 13 | a returning player is not sent back to the chunk ladder (fault AW) | credits only chunks at or below the level the child had reached |
+| 5 | migrate | recomputes any pre-v4 level from the words, and clamps a v4 one |
+| 6 | migrate | computes the migrated level at the same boundary promotion uses |
+| 7 | migrate | never seats a migrated child below the ground they held |
+| 8 | a returning player is not sent back to the chunk ladder (fault AW) | credits a save written before the chunk ladder existed |
+| 9 | a returning player is not sent back to the chunk ladder (fault AW) | control: a graduate on a LADDER build still gets the ladder |
+| 10 | a returning player is not sent back to the chunk ladder (fault AW) | control: a child still ON level 1 is not credited out of the ladder |
+| 11 | a returning player is not sent back to the chunk ladder (fault AW) | credits only chunks at or below the level the child had reached |
 
 ## tests/models.test.js — 5 tests (G10)
 

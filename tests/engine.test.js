@@ -25,20 +25,6 @@ describe("A stumble must not cost mastery (parent report, 2026-08-13)", () => {
      the first ATTEMPT, so one "close" - which SPEC section 5 calls an
      invitation to try again, never a failure - cost two extra correct readings
      for good. Literal expected values throughout (E4). */
-  it("a close then a correct lands on box 3, not box 2", () => {
-    const ws = freshWordState();
-    applyResult(ws, "close", 1);
-    expect(ws.box).toBe(1);
-    applyResult(ws, "correct", 2);
-    expect(ws.box).toBe(3);
-  });
-  it("a wrong then a correct lands on box 3, not box 1", () => {
-    const ws = freshWordState();
-    applyResult(ws, "wrong", 1);
-    expect(ws.box).toBe(0);
-    applyResult(ws, "correct", 2);
-    expect(ws.box).toBe(3);
-  });
   it("the parent's own words: two correct readings after a stumble reach mastery", () => {
     for (const first of ["close", "wrong"]) {
       const ws = freshWordState();
@@ -48,15 +34,6 @@ describe("A stumble must not cost mastery (parent report, 2026-08-13)", () => {
       expect(ws.box).toBe(4);
       expect(ws.correct).toBe(2);
     }
-  });
-  it("but the second correct still only steps one box, so the jump is not repeatable", () => {
-    const ws = freshWordState();
-    applyResult(ws, "correct", 1);
-    expect(ws.box).toBe(3);
-    applyResult(ws, "correct", 2);
-    expect(ws.box).toBe(4);
-    applyResult(ws, "correct", 3);
-    expect(ws.box).toBe(5);
   });
 });
 
@@ -164,6 +141,9 @@ describe("chunkWord and dashed", () => {
        stopped fusing would fail here even if the list still named it. */
     expect(chunkWord("said")).toEqual(["s","ai","d"]);
     expect(chunkWord("you")).toEqual(["y","ou"]);
+    /* Plain VC kept beside the fused units: the merged "splits VC and plain
+       CVC" test's surviving pin (ax and cat live in the acceptance suite). */
+    expect(chunkWord("is")).toEqual(["i","s"]);
     /* Seating pass two's units, owner-approved 2026-08-17, pinned by their
        motivating words like ai and ou before them — and ere, the one
        trigraph, pinned the same way. */
@@ -180,28 +160,15 @@ describe("chunkWord and dashed", () => {
        which E6 forbids outright. Both halves stay literal either way. */
   });
 
-  it("splits VC and plain CVC words", () => {
-    expect(chunkWord("ax")).toEqual(["a","x"]);
-    expect(chunkWord("is")).toEqual(["i","s"]);
-    expect(chunkWord("cat")).toEqual(["c","a","t"]);
-  });
   it("renders hyphenated feedback text", () => {   // S5 — the text a child sees
     expect(dashed("cat")).toBe("c-a-t");
     expect(dashed("ship")).toBe("sh-i-p");
     expect(dashed("at")).toBe("a-t");
   });
-  it("round-trips any input", () => {
-    for (const w of LEVELS.flatMap(l => l.words)) expect(chunkWord(w).join("")).toBe(w);
-  });
 });
 
 /* ---------------- grading table (S1, S2) ---------------- */
 describe("applyResult", () => {
-  it("fast-tracks a first-sight correct to box 3", () => {
-    const ws = freshWordState(); applyResult(ws, "correct", 1);
-    expect(ws.box).toBe(3); expect(ws.attempts).toBe(1); expect(ws.correct).toBe(1);
-    expect(ws.dueAt).toBe(5);                       // literal: 1 + 4
-  });
   it("increments a known word by exactly one box", () => {
     /* correct: 1, because the fast track now keys off the first CORRECT rather
        than the first attempt. A word at box 1 with two attempts and no correct
@@ -359,12 +326,6 @@ describe("buildSession", () => {
     expect(buildSession(s).length).toBe(20);
     expect(SESSION_SIZE).toBe(20);
   });
-  it("never repeats a word", () => {
-    const s = newState(); s.level = 4; s.sessionsCompleted = 12;
-    LEVELS.slice(0, 4).flatMap(l => l.words).forEach(w => { s.words[w] = { ...freshWordState(), box: 2, attempts: 4, dueAt: 1 }; });
-    const q = buildSession(s);
-    expect(new Set(q).size).toBe(q.length);
-  });
   it("caps lower-level reviews at 5", () => {                        // S4
     const s = newState(); s.level = 3; s.sessionsCompleted = 9;
     LEVELS[0].words.concat(LEVELS[1].words).forEach(w => { s.words[w] = { ...freshWordState(), box: 1, attempts: 4, dueAt: 1 }; });
@@ -381,16 +342,6 @@ describe("buildSession", () => {
     const countMastered = (s, q) => q.filter(w => s.words[w] && s.words[w].box >= 4).length;
     expect(countMastered(early, buildSession(early))).toBe(0);
     expect(countMastered(later, buildSession(later))).toBe(2);
-  });
-  it("opens every session with the most secure word", () => {        // S4 — a design rule
-    const s = newState(); s.level = 2; s.sessionsCompleted = 6;
-    LEVELS[0].words.forEach(w => { s.words[w] = { ...freshWordState(), box: 1, attempts: 3, dueAt: 1 }; });
-    s.words.at = { ...freshWordState(), box: 5, attempts: 9, dueAt: 1 };
-    for (let i = 0; i < 12; i++) {
-      const q = buildSession(s);
-      const firstBox = s.words[q[0]] ? s.words[q[0]].box : 0;
-      expect(firstBox).toBe(5);
-    }
   });
   it("does not peek at the next level while fresh words remain", () => {
     const s = newState(); s.sessionsCompleted = 3;

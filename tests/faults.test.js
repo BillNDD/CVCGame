@@ -346,7 +346,7 @@ describe("G9 faults — an unreadable save, and backups that must look like one"
 describe("G9 faults — wrong-shape JSON battery", () => {
   it("4: hostile shapes heal, and every engine function survives them", () => {
     const hostile = [
-      [], 7, "text", null, true,
+      [], 7, "text", null, undefined, true,
       { words: [] }, { words: 7 }, { log: {} }, { log: [null, 1, []] },
       { settings: 5 }, { level: "abc" }, { level: 99.9 }, { sessionsCompleted: -3 },
       { version: { toString: null } }, { version: "2", log: [{ items: null }] },
