@@ -446,16 +446,15 @@ describe("voice-pack clip engine", () => {
      leaves a media element alone, so a tablet on silent played nothing while
      appearing to work. The app declares a playback session before it ever
      sounds. */
-  it("declares a playback session before anything sounds, so the silent switch cannot mute the words", async () => {
+  it("declares a playback session before anything sounds - and with no microphone use the context is left alone", async () => {
+    /* Merged 2026-09-26 from the playback-session test and its no-mic control (Tier C); every line kept. */
     const session = {};
     Object.defineProperty(navigator, "audioSession", { configurable: true, get: () => session });
     try {
       unlockVoice();
       expect(session.type).toBe("playback");
     } finally { delete navigator.audioSession; }
-  });
-
-  it("(control): with no microphone use the context is left alone", async () => {
+    /* (control): with no microphone use the context is left alone. */
     const before = contexts.at(-1);
     speakVoice("correct", "cat", 0, true, fb);
     await settle(); await settle();

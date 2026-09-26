@@ -185,7 +185,7 @@ beforeEach(() => { vi.useFakeTimers(); localStorage.clear(); voiceMode = "pack";
 afterEach(() => { cleanup(); vi.useRealTimers(); });
 
 describe("G10 — the child hears the word before the app lets them move on", () => {
-  it("1/2: the advance control waits - the full recorded reveal, or the short guard", async () => {
+  it("1/2: the advance control waits for the full recorded reveal - and 400 ms when there is none", async () => {
     /* Merged 2026-09-26 from test 1 and its fallback control 2 (Tier B); every line kept. */
     await gradeOneWord();
     await flush(1000);
@@ -279,32 +279,6 @@ describe("G10 — the child hears the word before the app lets them move on", ()
     await flush(0);
     expect(screen.getByLabelText("Begin Session"), "a disabled control deals nothing").toBeTruthy();
   });
-  it("15h: the refusal is right because every rung still ASKS with a sound - derived from the items, never trusted", async () => {
-    /* Re-derived for the chunk ladder (the owner's 2026-08-24 ruling): the refusal
-       LIFTS for reading rungs and STAYS for any rung that asks with a sound.
-       A rung asks with a sound exactly when it carries a LETTER item, and
-       both mixed rungs do, so the blanket preLevel > 0 key remains a true
-       proxy - and this derivation is what keeps it one. A future all-chunk
-       rung fails here rather than a reading child being silently refused. */
-    for (const p of PRE_LEVELS) {
-      for (const item of p.items) {
-        const letter = item.length === 1 && !item.includes(":");
-        const chunk = /^c:[a-z]{2}$/.test(item);
-        expect(letter || chunk, `rung ${p.n} item "${item}" is neither a letter nor a chunk - decide whether it needs sound before the ladder refuses it`).toBe(true);
-      }
-      expect(p.items.some((it) => it.length === 1), `rung ${p.n} carries no letter item, so it is answerable in SILENCE - the blanket refusal must lift for it before this rung ships`).toBe(true);
-    }
-    /* A letter item: the sound is the question, the letter shown not read. */
-    stored = { ...newState(), settings: { ...newState().settings, sound: true } };
-    render(createElement(App));
-    await flush(2001); // owner-ruled 2s minimum splash: post-splash behavior starts here.
-    fireEvent.click(screen.getByLabelText("Begin Session"));
-    await flush(0);
-    expect(screen.getByText("Say the sound"), "a letter item asks for the SOUND").toBeTruthy();
-    expect(document.querySelector(".wq-word").textContent.length, "one glyph: the answer in print beside the question in sound").toBe(1);
-    expect(document.body.textContent.includes("Read this word"), "the word screens' instruction never leaks here").toBe(false);
-  });
-
   it("15g: with sound off AND a second look, the strip says both on one line", async () => {
     /* The joined line is the only behaviour its commit changed and nothing
        asserted it (the engineering seat's after pass, 2026-08-23): every
@@ -342,7 +316,8 @@ describe("G10 — the child hears the word before the app lets them move on", ()
     expect(reason.getAttribute("style")).toContain("color: rgb(69, 80, 115)");
   });
 
-  it("15e: with sound ON the ladder deals as it always did, and its stage carries the Glowseed idle", async () => {
+  it("15e/15h: with sound ON the ladder deals as always - and the refusal stays right because every rung still asks with a sound", async () => {
+    /* Merged 2026-09-26 from tests 15e and 15h (Tier C); every line kept. */
     stored = { ...newState() };   // a fresh save: Pre 1, sound on
     render(createElement(App));
     await flush(2001); // owner-ruled 2s minimum splash: post-splash behavior starts here.
@@ -354,6 +329,36 @@ describe("G10 — the child hears the word before the app lets them move on", ()
     expect(seed.getAttribute("data-wq-glowseed")).toBe("idle");
     expect(seed.closest("main.wq-stage")).not.toBeNull();
     expect(document.querySelector(".wq-mark").textContent).toBe(" ");
+    /* 15h: the refusal is right because every rung still ASKS with a sound -
+       derived from the items, never trusted.
+       Re-derived for the chunk ladder (the owner's 2026-08-24 ruling): the refusal
+       LIFTS for reading rungs and STAYS for any rung that asks with a sound.
+       A rung asks with a sound exactly when it carries a LETTER item, and
+       both mixed rungs do, so the blanket preLevel > 0 key remains a true
+       proxy - and this derivation is what keeps it one. A future all-chunk
+       rung fails here rather than a reading child being silently refused.
+       The stage is reset the way beforeEach does. */
+    cleanup();
+    localStorage.clear();
+    voiceMode = "pack"; pendingScheduled = null;
+    stored = { ...newState(), preLevel: 0 };
+    for (const p of PRE_LEVELS) {
+      for (const item of p.items) {
+        const letter = item.length === 1 && !item.includes(":");
+        const chunk = /^c:[a-z]{2}$/.test(item);
+        expect(letter || chunk, `rung ${p.n} item "${item}" is neither a letter nor a chunk - decide whether it needs sound before the ladder refuses it`).toBe(true);
+      }
+      expect(p.items.some((it) => it.length === 1), `rung ${p.n} carries no letter item, so it is answerable in SILENCE - the blanket refusal must lift for it before this rung ships`).toBe(true);
+    }
+    /* A letter item: the sound is the question, the letter shown not read. */
+    stored = { ...newState(), settings: { ...newState().settings, sound: true } };
+    render(createElement(App));
+    await flush(2001); // owner-ruled 2s minimum splash: post-splash behavior starts here.
+    fireEvent.click(screen.getByLabelText("Begin Session"));
+    await flush(0);
+    expect(screen.getByText("Say the sound"), "a letter item asks for the SOUND").toBeTruthy();
+    expect(document.querySelector(".wq-word").textContent.length, "one glyph: the answer in print beside the question in sound").toBe(1);
+    expect(document.body.textContent.includes("Read this word"), "the word screens' instruction never leaks here").toBe(false);
   });
   it("15c: with sound OFF the session takes no Build-it breather - the dead end the chooser already refuses", async () => {
     stored = { ...newState(), preLevel: 0, settings: { ...newState().settings, sound: false } };
@@ -464,7 +469,8 @@ describe("G10 — the child hears the word before the app lets them move on", ()
   /* The sound-out's teaching: each tile takes its ring as its OWN sound
      plays. A ring on the wrong tile, or at the wrong moment, attaches the
      sound to the wrong piece of the word, which is worse than no ring. */
-  it("9: each tile takes its ring as its own sound plays, for as long as that sound lasts", async () => {
+  it("9/10: each tile takes its ring as its own sound plays - and with no recorded reveal, no tile is ever ringed", async () => {
+    /* Merged 2026-09-26 from test 9 and its control 10 (Tier C); every line kept. */
     await gradeOneWord();
     const tiles = () => [...document.querySelectorAll(".wq-tile")];
     const word = document.querySelector(".wq-word").textContent;
@@ -486,15 +492,18 @@ describe("G10 — the child hears the word before the app lets them move on", ()
         .toEqual(tiles().map((_, j) => j === i));
       expect(tiles()[i].style.getPropertyValue("--wqpop")).toBe(TILE_MS[i % 4] + "ms");
     }
-  });
-
-  it("10 (control): with no recorded reveal, no tile is ever ringed", async () => {
+    /* 10 (control): with no recorded reveal, no tile is ever ringed.
+       The stage is reset the way beforeEach does. */
+    cleanup();
+    localStorage.clear();
+    voiceMode = "pack"; pendingScheduled = null;
+    stored = { ...newState(), preLevel: 0 };
     voiceMode = "fallback";
     await gradeOneWord();
-    const n = chunkWord(document.querySelector(".wq-word").textContent).length;
+    const n2 = chunkWord(document.querySelector(".wq-word").textContent).length;
     await flush(REVEAL_MS + 50);
     expect(document.querySelectorAll(".wq-tile.wq-pop").length).toBe(0);
-    expect(document.querySelectorAll(".wq-tile").length).toBe(n);   // the tiles are still shown
+    expect(document.querySelectorAll(".wq-tile").length).toBe(n2);   // the tiles are still shown
   });
 
   /* B7 — a fallback is correct behaviour and used to leave no trace anywhere.
@@ -505,7 +514,8 @@ describe("G10 — the child hears the word before the app lets them move on", ()
      must appear when a fallback has happened, and it must NOT appear when the
      recorded pack played, or the notice becomes noise a parent learns to
      ignore. */
-  it("10a: a fallback tells the grown-up, and says why", async () => {
+  it("10a/10b: a fallback tells the grown-up why - and with the recorded pack, nothing", async () => {
+    /* Merged 2026-09-26 from test 10a and its control 10b (Tier C); every line kept. */
     voiceMode = "fallback";
     await gradeOneWord();
     await flush(REVEAL_MS + 50);
@@ -515,10 +525,12 @@ describe("G10 — the child hears the word before the app lets them move on", ()
     await flush(0);
     expect(screen.getByText("The recorded voice")).toBeTruthy();
     expect(document.body.textContent).toContain(FALLBACK_REASON);
-  });
-
-  it("10b (control): with the recorded pack, the grown-up is told nothing", async () => {
-    voiceMode = "pack";
+    /* 10b (control): with the recorded pack, the grown-up is told nothing.
+       The stage is reset the way beforeEach does. */
+    cleanup();
+    localStorage.clear();
+    voiceMode = "pack"; pendingScheduled = null;
+    stored = { ...newState(), preLevel: 0 };
     await gradeOneWord();
     await flush(REVEAL_MS + 50);
     await goHome();
@@ -530,7 +542,8 @@ describe("G10 — the child hears the word before the app lets them move on", ()
   /* Replay silences the sound-out on its way in. The rings were scheduled
      against that sound, so they must go with it: without this the tiles kept
      lighting on a dead schedule while the child heard only the bare word. */
-  it("11: replay clears the rings it silenced", async () => {
+  it("11/12: silencing the sound-out clears its rings - on replay, and on finishing early", async () => {
+    /* Merged 2026-09-26 from tests 11 and 12 (Tier C); every line kept. */
     await gradeOneWord();
     await flush(tileAt(0));
     expect(document.querySelectorAll(".wq-tile.wq-pop").length).toBe(1);
@@ -539,11 +552,14 @@ describe("G10 — the child hears the word before the app lets them move on", ()
     expect(document.querySelectorAll(".wq-tile.wq-pop").length).toBe(0);
     await flush(REVEAL_MS);
     expect(document.querySelectorAll(".wq-tile.wq-pop").length).toBe(0);
-  });
-
-  /* A seven-second reveal playing on behind the exit dialog talks over the
-     grown-up while they read their options. */
-  it("12: asking to finish early stops the reveal and its rings", async () => {
+    /* 12: asking to finish early stops the reveal and its rings - a
+       seven-second reveal playing on behind the exit dialog talks over the
+       grown-up while they read their options.
+       The stage is reset the way beforeEach does. */
+    cleanup();
+    localStorage.clear();
+    voiceMode = "pack"; pendingScheduled = null;
+    stored = { ...newState(), preLevel: 0 };
     await gradeOneWord();
     await flush(tileAt(0));
     fireEvent.click(screen.getByLabelText("Leave session"));
@@ -610,7 +626,9 @@ describe("fault AN - a reveal interrupted by leaving the app restarts whole on r
     Object.defineProperty(document, "visibilityState", { configurable: true, get: () => state });
     document.dispatchEvent(new Event("visibilitychange"));
   });
-  it("replays the word reveal it was cut off from, and only that", async () => {
+  it("an interrupted reveal replays whole, but never into the next attempt and never after it finished", async () => {
+    /* Merged 2026-09-26 from the fault-AN replay test, the S2 control and the
+       finished-reveal control (Tier C); every line kept. */
     stored = { ...newState(), preLevel: 0, level: 1 };
     voiceMode = "pack";
     render(createElement(App));
@@ -626,8 +644,11 @@ describe("fault AN - a reveal interrupted by leaving the app restarts whole on r
     await vis("visible");
     expect(spoke.length, "coming back restarts the whole reveal").toBe(2);
     expect(spoke[1], "the SAME reveal - same outcome, same word").toBe(first);
-  });
-  it("never replays into the next attempt - advancing clears the record (S2)", async () => {
+    /* S2 control: advancing clears the record, so an advanced-past reveal
+       stays silent. The stage is reset the way beforeEach does. */
+    cleanup();
+    localStorage.clear();
+    voiceMode = "pack"; pendingScheduled = null;
     stored = { ...newState(), preLevel: 0, level: 1 };
     voiceMode = "quick";
     render(createElement(App));
@@ -643,8 +664,12 @@ describe("fault AN - a reveal interrupted by leaving the app restarts whole on r
     spoke.length = 0;
     await vis("visible");
     expect(spoke.length, "an advanced-past reveal stays silent").toBe(0);
-  });
-  it("a finished reveal does not replay - live ends when the scheduled length elapses", async () => {
+    /* Finished-reveal control: live ends when the scheduled length elapses,
+       so nothing was interrupted and nothing replays.
+       The stage is reset the way beforeEach does. */
+    cleanup();
+    localStorage.clear();
+    voiceMode = "pack"; pendingScheduled = null;
     stored = { ...newState(), preLevel: 0, level: 1 };
     voiceMode = "quick";                      // 150 ms reveal
     render(createElement(App));

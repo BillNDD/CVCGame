@@ -86,7 +86,8 @@ describe("the extended code", () => {
      live words, every one of them a wrong tile row and a wrong sound-out. The
      rules are the same ones tools/ladder-fill.mjs carries, so the two models
      of the code agree by construction rather than by luck. */
-  it("refuses a syllable-ending unit at the front of a word", () => {
+  it("refuses a unit where the spelling does not say that sound", () => {
+    /* Merged 2026-09-26 from the two position-rule tests (Tier C); every line kept. */
     expect(chunkWord("leg")).toEqual(["l","e","g"]);         // le is FINAL only
     expect(chunkWord("sled")).toEqual(["s","l","e","d"]);
     expect(chunkWord("get")).toEqual(["g","e","t"]);         // ge is FINAL only
@@ -99,8 +100,7 @@ describe("the extended code", () => {
     expect(chunkWord("table")).toEqual(["t","a","b","le"]);
     expect(chunkWord("cage")).toEqual(["c","a","ge"]);
     expect(chunkWord("castle")).toEqual(["c","a","s","tle"]);
-  });
-  it("refuses ti, tu and al where the spelling does not say that sound", () => {
+    /* ti, tu and al where the spelling does not say that sound. */
     expect(chunkWord("tin")).toEqual(["t","i","n"]);         // ti needs -on, -ous, -al, -ent, -en
     expect(chunkWord("tick")).toEqual(["t","i","ck"]);
     expect(chunkWord("tip")).toEqual(["t","i","p"]);
@@ -150,7 +150,9 @@ describe("the extended code", () => {
      never more — but "can only" is a claim, and this is the measurement. The
      histogram is a literal, so a word that re-tiles under a future roster
      change fails here and names itself by moving a bucket. */
-  it("no word in the bank re-tiles, and the row still caps at four", () => {
+  it("no word in the bank re-tiles, and the row still caps at eight", () => {
+    /* F4 (2026-09-26): the title said four while the clause asserted eight;
+       retitled, line kept - the 8-cap is also pinned at engine.test.js:126. */
     const by = {};
     for (const w of bankWords()) { const n = chunkWord(w).length; by[n] = (by[n] || 0) + 1; }
     /* The converted bank, 2026-08-20 - measured, re-typed. The four-tile cap
@@ -185,7 +187,8 @@ describe("the extended code", () => {
      Every expected value a literal (E4); measured over all 49 candidates in
      the ladder, hearts and bank, 45 read right by rule and the four
      exceptions carry bends, which outrank the rule tile by tile. */
-  it("sounds the magic e: the vowel says its name and the e says nothing", () => {
+  it("sounds the magic e and lets a bend outrank the rule", () => {
+    /* Merged 2026-09-26 from the magic-e test and the bend test (Tier C); every line kept. */
     expect(soundIdsFor("cake")).toEqual(["d:k", "d:long_a", "d:k", "d:silent"]);
     expect(soundIdsFor("time")).toEqual(["d:t", "d:long_i", "d:m", "d:silent"]);
     expect(soundIdsFor("home")).toEqual(["d:h", "d:long_o", "d:m", "d:silent"]);
@@ -198,10 +201,8 @@ describe("the extended code", () => {
     /* live is the owner's own example of the pattern - no bend, no note,
        read by the rule alone. */
     expect(soundIdsFor("live")).toEqual(["d:l", "d:long_i", "d:v"]);
-  });
-  it("lets a bend outrank the rule, which is how come, some, love and have stay honest", () => {
-    /* come's o bends to the u of up while its e STILL goes silent by rule -
-       the bend wins tile by tile, not word by word. */
+    /* The bend half: come's o bends to the u of up while its e STILL goes
+       silent by rule - the bend wins tile by tile, not word by word. */
     expect(soundIdsFor("come")).toEqual(["d:k", "d:short_u", "d:m", "d:silent"]);
     expect(soundIdsFor("some")).toEqual(["d:s", "d:short_u", "d:m", "d:silent"]);
     expect(soundIdsFor("love")).toEqual(["d:l", "d:short_u", "d:v"]);
@@ -216,8 +217,9 @@ describe("the extended code", () => {
     expect(soundIdsFor("lived")).toEqual(["d:l", "d:short_i", "d:v", "d:silent", "d:d"]);
     expect(soundIdsFor("table")).toEqual(["d:t", "d:long_a", "d:b", "d:l"]);
   });
-  it("does not fire where the shape is absent - the controls (E5)", () => {
-    /* Each word here has NO vowel-consonant-e run and NO lexicon bend, so a
+  it("does not fire where the shape is absent, and d:silent stays out of every audio path", () => {
+    /* Merged 2026-09-26 from the E5 controls test and the d:silent test (Tier C); every line kept.
+       Each word here has NO vowel-consonant-e run and NO lexicon bend, so a
        firing rule would be visible two ways: a long vowel where a short one
        belongs, or a d:silent tile where none exists. Every expected value is
        a literal with neither. */
@@ -228,9 +230,7 @@ describe("the extended code", () => {
     /* A vowel TEAM before the final tile is not a bare vowel: */
     expect(soundIdsFor("house")).toEqual(["d:h", "d:ow", "d:s"]);
     expect(soundIdsFor("see")).toEqual(["d:s", "d:long_e"]);
-  });
-  it("keeps d:silent out of every audio path while S8 keeps its slot", () => {
-    /* One tile, one sound - the slot survives (S8)... */
+    /* The d:silent half: one tile, one sound - the slot survives (S8)... */
     expect(soundIdsFor("come").length).toBe(chunkWord("come").length);
     /* ...and no audio consumer ever asks for it: not the inventory, and not
        the reveal plan, which steps over the silent tile with no seam. */
@@ -248,7 +248,8 @@ describe("the extended code", () => {
      honoured; WORD_SOUND outranking LEX_BENDS) is proved by the writer's own
      self-test, which splices a nonempty map through the real extractor - a
      const cannot be mutated here. */
-  it("carries the writer's two literals, filled at the cutover", () => {
+  it("carries the writer's literals and gives single-taught spellings their level's sound", () => {
+    /* Merged 2026-09-26 from the writer-literals test and the single-taught test (Tier C); every line kept. */
     /* Four tile overrides - three the phonics audit proved and laugh on the
        owner's one-use-ugh ruling - and 273 lexicon bend rows. Spot-pinned;
        the full agreement (every CSV row vs the real engine) is the writer's
@@ -263,11 +264,10 @@ describe("the extended code", () => {
     expect(Object.keys(LEX_BENDS).length).toBe(272);
     expect(LEX_BENDS.laugh).toEqual({ 2: "f" });
     expect(LEX_BENDS.machine).toEqual({ 2: "sh", 3: "long_e" });   // its short a IS the default - only the diffs emit
-  });
-  it("gives the four single-taught spellings their level's own sound", () => {
-    /* gh, gn, ough and ze are the only rowless graphemes the shape teaches
-       at exactly one level, so the lesson is the default (the owner's
-       levels-teach-the-default ruling). Literals, not reads (E4). */
+    /* The single-taught half: gh, gn, ough and ze are the only rowless
+       graphemes the shape teaches at exactly one level, so the lesson is the
+       default (the owner's levels-teach-the-default ruling). Literals, not
+       reads (E4). */
     expect(soundIdFor("gh")).toBe("d:f");
     expect(soundIdFor("gn")).toBe("d:n");
     expect(soundIdFor("ough")).toBe("d:aw");

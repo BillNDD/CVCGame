@@ -82,7 +82,8 @@ describe("G9 faults — the app boot", () => {
   /* The late save carries 9 sessions; a fresh state carries 0. The home
      card's count is what tells the two apart - the old assertion here looked
      for a level name that no longer exists and could never fail. */
-  it("3: a late read after the child has LEFT HOME is refused - not adopted, not written", async () => {
+  it("3/3f/3d/3e: a late read after anything happened is refused - on the ladder, in the corner, after a settings write, or unreadable", async () => {
+    /* Merged 2026-09-26 from tests 3, 3f, 3d and 3e (Tier C); every line kept. */
     lateSave(3500);
     await boot(3000);
     expect(screen.getByText(/Pre 1/)).toBeTruthy();          // fresh state rendered
@@ -94,18 +95,42 @@ describe("G9 faults — the app boot", () => {
     fireEvent.click(screen.getByLabelText("Home"));
     await flush(0);
     expect(screen.getByText(/0 sessions/)).toBeTruthy();     // the fresh state, not the 9-session save
-  });
-
-  it("3f: a late read after the grown-up opened the corner is refused, and says so", async () => {
+    /* 3f: a late read after the grown-up opened the corner is refused, and says so.
+       The stage is reset the way a new test starts: cleanup, cleared spies. */
+    cleanup(); mockSave.mockClear(); mockLoad.mockReset();
     lateSave(3500);
     await boot(3000);
     fireEvent.click(screen.getByLabelText("Grown-ups corner"));
     await flush(600);
     expect(screen.getByText("Saved progress found. Reload to continue it.")).toBeTruthy();
     expect(mockSave.mock.calls.length).toBe(0);
+    /* 3d: a late read after a settings change in the corner is refused - the corner is off home, and the write it asked for stays refused.
+       The stage is reset the way a new test starts. */
+    cleanup(); mockSave.mockClear(); mockLoad.mockReset();
+    lateSave(3500);
+    await boot(3000);
+    fireEvent.click(screen.getByLabelText("Grown-ups corner"));
+    await flush(0);
+    fireEvent.click(screen.getAllByLabelText("Off")[0]);      // the sound switch: a settings write, refused under read-only
+    await flush(0);
+    expect(mockSave.mock.calls.length).toBe(0);
+    await flush(600);
+    expect(screen.getByText("Saved progress found. Reload to continue it.")).toBeTruthy();
+    expect(mockSave.mock.calls.length).toBe(0);
+    /* 3e: a late UNREADABLE read adopts nothing and does not claim a save was found.
+       The stage is reset the way a new test starts. */
+    cleanup(); mockSave.mockClear(); mockLoad.mockReset();
+    lateSave(3500, { __unreadable: true });
+    await boot(3000);
+    await flush(600);
+    expect(screen.queryByText("Saved progress found. Reload to continue it.")).toBeNull();
+    expect(screen.getByText(/could not be read/)).toBeTruthy();   // still read-only, still said
+    await gradeFirstWord();
+    expect(mockSave.mock.calls.length).toBe(0);
   });
 
-  it("3b: a late read before anything has happened is adopted silently, and the visit saves", async () => {
+  it("3b/3c: a late read before anything happened is adopted - a save, or no save at all", async () => {
+    /* Merged 2026-09-26 from tests 3b and 3c (Tier C); every line kept. */
     lateSave(3500);
     await boot(3000);
     expect(screen.getByText(/Pre 1/)).toBeTruthy();          // the deadline still shows home
@@ -119,9 +144,9 @@ describe("G9 faults — the app boot", () => {
     await gradeFirstWord();
     expect(mockSave.mock.calls.length).toBeGreaterThan(0);   // and the visit is writable again
     expect(mockSave.mock.calls.at(-1)[0].level).toBe(5);     // writing the adopted save, not the fresh one
-  });
-
-  it("3c: a late 'no save at all' is adopted too, and a first-time child's visit saves", async () => {
+    /* 3c: a late 'no save at all' is adopted too, and a first-time child's visit saves.
+       The stage is reset the way a new test starts. */
+    cleanup(); mockSave.mockClear(); mockLoad.mockReset();
     lateSave(3500, null);
     await boot(3000);
     await flush(600);
@@ -129,29 +154,6 @@ describe("G9 faults — the app boot", () => {
     expect(mockSave.mock.calls.length).toBe(1);              // the fresh state is initialised, as an on-time read does
     await gradeFirstWord();
     expect(mockSave.mock.calls.length).toBeGreaterThan(1);
-  });
-
-  it("3d: a late read after a settings change in the corner is refused - the corner is off home, and the write it asked for stays refused", async () => {
-    lateSave(3500);
-    await boot(3000);
-    fireEvent.click(screen.getByLabelText("Grown-ups corner"));
-    await flush(0);
-    fireEvent.click(screen.getAllByLabelText("Off")[0]);      // the sound switch: a settings write, refused under read-only
-    await flush(0);
-    expect(mockSave.mock.calls.length).toBe(0);
-    await flush(600);
-    expect(screen.getByText("Saved progress found. Reload to continue it.")).toBeTruthy();
-    expect(mockSave.mock.calls.length).toBe(0);
-  });
-
-  it("3e: a late UNREADABLE read adopts nothing and does not claim a save was found", async () => {
-    lateSave(3500, { __unreadable: true });
-    await boot(3000);
-    await flush(600);
-    expect(screen.queryByText("Saved progress found. Reload to continue it.")).toBeNull();
-    expect(screen.getByText(/could not be read/)).toBeTruthy();   // still read-only, still said
-    await gradeFirstWord();
-    expect(mockSave.mock.calls.length).toBe(0);
   });
 
   it("5: a throwing speech service does not stop grading", async () => {
@@ -232,7 +234,9 @@ describe("G9 faults — an unreadable save, and backups that must look like one"
   beforeEach(() => vi.useFakeTimers());
   afterEach(() => { cleanup(); vi.useRealTimers(); });
 
-  it("2b: an unreadable save is never overwritten, and the visit stays read-only", async () => {
+  it("2b/2c: an unreadable save is never overwritten - while a genuinely absent one DOES initialise", async () => {
+    /* Merged 2026-09-26 from test 2b and its control 2c (Tier C); every line kept.
+       The control proves 2b tests the unreadable case specifically, not a dead spy. */
     mockLoad.mockResolvedValueOnce({ __unreadable: true });
     render(createElement(App));
     await flush(2001); // owner-ruled 2s minimum splash: this post-splash fault starts here.
@@ -243,10 +247,9 @@ describe("G9 faults — an unreadable save, and backups that must look like one"
     fireEvent.keyDown(screen.getByLabelText("got it"), { key: "Enter" });
     await flush(500);
     expect(mockSave.mock.calls.length).toBe(0);          // and playing writes nothing either
-  });
-
-  it("2c (control): a genuinely absent save DOES initialise and write", async () => {
-    /* Proves 2b tests the unreadable case specifically, not a dead spy. */
+    /* 2c (control): a genuinely absent save DOES initialise and write.
+       The stage is reset the way a new test starts. */
+    cleanup(); mockSave.mockClear(); mockLoad.mockReset();
     mockLoad.mockResolvedValueOnce(null);
     render(createElement(App));
     await flush(2001); // owner-ruled 2s minimum splash: this post-splash fault starts here.
@@ -325,17 +328,18 @@ describe("G9 faults — an unreadable save, and backups that must look like one"
      line of JavaScript, and the predicate is the thing that decides whether a
      family's history is replaced. Tested directly so the guard is real rather
      than assumed. */
-  it("7b: a save-shaped ARRAY is not a backup", async () => {
+  it("7b/7a: a save-shaped ARRAY is not a backup - but a genuine one still restores", async () => {
+    /* Merged 2026-09-26 from test 7b and its control 7a (Tier C); every line kept. */
     const { isBackup } = await import("../app/src/App.jsx");
     const shaped = Object.assign([], { version: 3, level: 5, words: {}, settings: { mode: "parent" } });
     expect(isBackup(shaped)).toBe(false);
     expect(isBackup({ version: 3, level: 5, words: {}, settings: { mode: "parent" } })).toBe(true); // control
-  });
-
-  it("7a (control): a genuine backup still restores", async () => {
+    /* 7a (control): a genuine backup still restores.
+       A version 4 backup: its level is trusted (and clamped), where a pre-v4
+       one would recompute from the words — that path has its own tests.
+       The stage is reset the way a new test starts. */
+    cleanup(); mockSave.mockClear(); mockLoad.mockReset();
     mockLoad.mockResolvedValueOnce({ ...newState(), preLevel: 0 });
-    /* A version 4 backup: its level is trusted (and clamped), where a pre-v4
-       one would recompute from the words — that path has its own tests. */
     const backup = JSON.stringify({ ...newState(), level: 4, version: 4 });
     await importFile(backup);
     expect(screen.getByText("Backup loaded.")).toBeTruthy();

@@ -18,13 +18,6 @@ describe("Build-it tray", () => {
   /* A held rand, so a shuffle can be checked rather than hoped at. */
   const held = (...xs) => { let i = 0; return () => xs[i++ % xs.length]; };
 
-  it("gives the word its true number of slots, never a padded one", () => {
-    expect(buildTray("ship", 2, held(0)).slots).toBe(3);
-    expect(buildTray("cat", 2, held(0)).slots).toBe(3);
-    expect(buildTray("black", 20, held(0)).slots).toBe(4);
-    expect(buildTray("a", 1, held(0)).slots).toBe(1);
-  });
-
   it("ramps the extra tiles: none, then one from Level 6, then two past 14", () => {
     expect(trayExtras(1)).toBe(0);
     expect(trayExtras(5)).toBe(0);
@@ -32,14 +25,6 @@ describe("Build-it tray", () => {
     expect(trayExtras(14)).toBe(1);
     expect(trayExtras(15)).toBe(2);
     expect(trayExtras(21)).toBe(2);
-  });
-
-  it("always offers every tile the answer needs", () => {
-    for (const [w, l] of [["ship", 2], ["ship", 8], ["black", 20], ["think", 19]]) {
-      const t = buildTray(w, l, held(0.1, 0.6, 0.3, 0.9));
-      for (const c of t.answer) expect(t.tiles).toContain(c);
-      expect(t.tiles.length).toBe(t.slots + trayExtras(l));
-    }
   });
 
   it("never offers a distractor that copies or echoes the word's own tiles", () => {
@@ -94,11 +79,23 @@ describe("Build-it tray", () => {
      than only looking different: the SHAPE of a slot comes from the answer
      tile's letter count, and the help after two misses names the slot each
      sound belongs to, which needs the answer in position order. */
-  it("gives every answer tile in build order, one tile per slot", () => {
-    /* Merged 2026-09-26 from the order test and the every-slot test (Tier B); every line kept. */
+  it("gives every answer tile in build order, one tile per slot, in the word's true number of slots", () => {
+    /* Merged 2026-09-26 from the order test, the every-slot test (Tier B) and
+       the slots + always-offers tests (Tier C); every line kept. */
     expect(buildTray("ship", 2, held(0)).answer).toEqual(["sh", "i", "p"]);
     expect(buildTray("there", 19, held(0)).answer).toEqual(["th", "ere"]);
     expect(buildTray("black", 20, held(0)).answer).toEqual(["b", "l", "a", "ck"]);
+    /* The word's true number of slots, never a padded one. */
+    expect(buildTray("ship", 2, held(0)).slots).toBe(3);
+    expect(buildTray("cat", 2, held(0)).slots).toBe(3);
+    expect(buildTray("black", 20, held(0)).slots).toBe(4);
+    expect(buildTray("a", 1, held(0)).slots).toBe(1);
+    /* Always offers every tile the answer needs. */
+    for (const [w, l] of [["ship", 2], ["ship", 8], ["black", 20], ["think", 19]]) {
+      const t = buildTray(w, l, held(0.1, 0.6, 0.3, 0.9));
+      for (const c of t.answer) expect(t.tiles).toContain(c);
+      expect(t.tiles.length).toBe(t.slots + trayExtras(l));
+    }
     /* The eleven words whose sounds repeat. The tray must offer a tile for EVERY
        slot, counting duplicates: the screen once held a letter in each slot and
        deduped by letter, so dad's second d could never be placed and the word

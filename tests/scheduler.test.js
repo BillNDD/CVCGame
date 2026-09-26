@@ -233,21 +233,20 @@ describe("mastered words come back by band, not by lottery", () => {
     }).toEqual({ common: true, middle: true, rare: true });
   });
 
-  it("session 1 of the cycle serves the common word and the middle one, not the rare", () => {
+  it("the cycle serves common and middle first, the rare word on its later turn - and the split is exactly 50/35/15", () => {
+    /* Merged 2026-09-26 from the session-1 test and its later-turn control (Tier C); every line kept. */
     const s = mastered(6, [COMMON, MIDDLE, RARE]);
     s.sessionsCompleted = 20;   // (20)*2 = 40, 40 % 20 = 0 -> cycle slots 0 and 1 = common, middle
     const q = buildSession(s);
     expect({ common: q.includes(COMMON), middle: q.includes(MIDDLE), rare: q.includes(RARE) })
       .toEqual({ common: true, middle: true, rare: false });
-  });
-
-  it("a later turn of the cycle DOES serve the rare word - the control that proves it is not simply excluded", () => {
-    /* Slot index 3 of the cycle is a rare slot. sessionsCompleted 21 -> 42 % 20 = 2,
-       so this session takes cycle slots 2 and 3 = common, rare. */
-    const s = mastered(6, [COMMON, MIDDLE, RARE]);
-    s.sessionsCompleted = 21;
-    const q = buildSession(s);
-    expect({ common: q.includes(COMMON), rare: q.includes(RARE) })
+    /* The later-turn control: slot index 3 of the cycle is a rare slot.
+       sessionsCompleted 21 -> 42 % 20 = 2, so this session takes cycle slots
+       2 and 3 = common, rare - proving the rare word is not simply excluded. */
+    const s2 = mastered(6, [COMMON, MIDDLE, RARE]);
+    s2.sessionsCompleted = 21;
+    const q2 = buildSession(s2);
+    expect({ common: q2.includes(COMMON), rare: q2.includes(RARE) })
       .toEqual({ common: true, rare: true });
   });
 
@@ -291,7 +290,8 @@ describe("mastered words come back by band, not by lottery", () => {
 describe("the review lane does not belong to the words a child cannot read", () => {
   const stuck = ["an", "ant", "as", "at", "in", "it"];   // six, for five slots
 
-  it("serves a long-overdue word ahead of the words the child keeps missing", () => {
+  it("serves a long-overdue word ahead of the words the child keeps missing - but a word only just overdue does NOT jump the queue", () => {
+    /* Merged 2026-09-26 from the long-overdue test and its just-overdue control (Tier C); every line kept. */
     const s = newState(); s.level = 3; s.sessionsCompleted = 30;
     stuck.forEach(w => { s.words[w] = { ...freshWordState(), box: 0, attempts: 4, wrong: 4, dueAt: 31 }; });
     /* read correctly long ago, and waited 20 sessions past its due date */
@@ -299,18 +299,16 @@ describe("the review lane does not belong to the words a child cannot read", () 
     const q = buildSession(s);
     expect(q).toContain("pin");
     expect(q.filter(w => stuck.includes(w)).length).toBe(4);
-  });
-
-  it("control: a word only just overdue does NOT jump the queue - box order still governs", () => {
-    /* The same state with one number changed: due at 29 instead of 11, so it is
-       2 sessions overdue rather than 20. Without this the test above would pass
-       against a rule that always favours box 3, which is not the rule. */
-    const s = newState(); s.level = 3; s.sessionsCompleted = 30;
-    stuck.forEach(w => { s.words[w] = { ...freshWordState(), box: 0, attempts: 4, wrong: 4, dueAt: 31 }; });
-    s.words.pin = { ...freshWordState(), box: 3, attempts: 1, correct: 1, dueAt: 29 };
-    const q = buildSession(s);
-    expect(q).not.toContain("pin");
-    expect(q.filter(w => stuck.includes(w)).length).toBe(5);
+    /* The control: the same state with one number changed: due at 29 instead
+       of 11, so it is 2 sessions overdue rather than 20. Without this the test
+       above would pass against a rule that always favours box 3, which is not
+       the rule. */
+    const s2 = newState(); s2.level = 3; s2.sessionsCompleted = 30;
+    stuck.forEach(w => { s2.words[w] = { ...freshWordState(), box: 0, attempts: 4, wrong: 4, dueAt: 31 }; });
+    s2.words.pin = { ...freshWordState(), box: 3, attempts: 1, correct: 1, dueAt: 29 };
+    const q2 = buildSession(s2);
+    expect(q2).not.toContain("pin");
+    expect(q2.filter(w => stuck.includes(w)).length).toBe(5);
   });
 
   it("holds over forty sessions: a word the child never gets is served 3 times, not 19", () => {

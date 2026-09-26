@@ -168,7 +168,8 @@ describe("the sentence inside a session", () => {
       .toBe(true);
   });
 
-  it("0: arrives SILENT with the child's turn first — prompt up, controls live, no way past but the mark", async () => {
+  it("0/0b/0c: arrives silent with the child's turn first, the mark decides only the praise, and one attempt is one result", async () => {
+    /* Merged 2026-09-26 from tests 0, 0b and 0c (Tier C); every line kept. */
     await walkToSentence();
     /* S2, extended from the word to the sentence: the app has spoken NOTHING.
        Every clip ever played would be in `played`, and there are none. */
@@ -188,12 +189,14 @@ describe("the sentence inside a session", () => {
        words are plain text — a child reading, not a child exploring. */
     expect(document.querySelectorAll("button.wq-sword").length).toBe(0);
     expect(tiles().length).toBe(0);
-  });
-
-  it("0b: the mark decides only what the app says — praise that never says \"word\", or the word-reveal leads", async () => {
-    /* Around EVERY mark: the save-call count may not move. The five word
+    /* 0b: the mark decides only what the app says — praise that never says
+       "word", or the word-reveal leads.
+       Around EVERY mark: the save-call count may not move. The five word
        grades of each walk legitimately persist — that is what a word's grade
-       is FOR — so the window measured is the mark alone. */
+       is FOR — so the window measured is the mark alone.
+       The stage is reset the way beforeEach does. */
+    cleanup(); localStorage.clear(); played = []; scheduled = null; noSentences = false;
+    stored = { ...newState(), preLevel: 0 };
     const unrecorded = async (label) => {
       const before = saveState.mock.calls.length;
       await markSentence(label);
@@ -228,9 +231,15 @@ describe("the sentence inside a session", () => {
     /* Every mark reaches the SAME reveal — a stuck child hears the sentence
        read to them, which is S3's invitation kept. */
     expect(/^s:v3-/.test(played[0][2])).toBe(true);
-  });
-
-  it("0c: one attempt, one result — a second mark in the same window changes nothing", async () => {
+    /* The closing-read timer from the last mark is flushed before the next
+       section's walk: left armed, it fires into that walk and its sentence
+       clip lands an extra entry in played — 0b's own warning, applied here. */
+    await flush(REVEAL_MS + 800);
+    /* 0c: one attempt, one result — a second mark in the same window changes
+       nothing.
+       The stage is reset the way beforeEach does. */
+    cleanup(); localStorage.clear(); played = []; scheduled = null; noSentences = false;
+    stored = { ...newState(), preLevel: 0 };
     await walkToSentence();
     await markSentence("got it");
     expect(played.length).toBe(1);
@@ -399,7 +408,8 @@ describe("the sentence inside a session", () => {
     expect(screen.getByLabelText("skip").disabled, "and the new one is an attempt again, so skip is dark").toBe(true);
   });
 
-  it("8 (free play): opens on a sentence IN THE ATTEMPT, counts sentences, and its advance names one", async () => {
+  it("8/9/9b (free play): opens on a sentence in the attempt, sounds out the longest word, by a pure rule", async () => {
+    /* Merged 2026-09-26 from tests 8, 9 and 9b (Tier C); every line kept. */
     await openSentenceFreePlay();
     expect(sentenceEl()).toBeTruthy();
     expect(document.querySelector(".wq-word")).toBeNull();
@@ -421,15 +431,16 @@ describe("the sentence inside a session", () => {
     await flush(0);
     expect(screen.getByText("1 sentence")).toBeTruthy();
     expect(sentenceEl()).toBeTruthy();
-  });
-
-  it("9 (free play): sounds out the LONGEST word, in tiles, and never the level's", async () => {
-    /* A Level 11 child, deliberately, and TEN sentences rather than one. The
+    /* 9: sounds out the LONGEST word, in tiles, and never the level's.
+       A Level 11 child, deliberately, and TEN sentences rather than one. The
        pool then holds all 88, of which only four are Level 11 — so most of the
        ten are sentences whose level teaches none of their words, where the
        session rule returns null and sounds out NOTHING. Ten draws without
        repeats from a pool of 88 cannot all be Level 11, so this is certain
-       rather than likely, and it is what kills the swap that survived before. */
+       rather than likely, and it is what kills the swap that survived before.
+       The stage is reset the way beforeEach does. */
+    cleanup(); localStorage.clear(); played = []; scheduled = null; noSentences = false;
+    stored = { ...newState(), preLevel: 0 };
     await openSentenceFreePlay(11);
     for (let i = 0; i < 10; i += 1) {
       await markSentence();                      // the attempt ends at the mark, here too
@@ -447,10 +458,8 @@ describe("the sentence inside a session", () => {
       fireEvent.click(advance());
       await flush(0);
     }
-  });
-
-  it("9b: the longest word is a pure rule, and it is not the first word", () => {
-    /* Literal (E4). Each of these is a sentence where "first word the level
+    /* 9b: the longest word is a pure rule, and it is not the first word.
+       Literal (E4). Each of these is a sentence where "first word the level
        teaches" and "longest word" give DIFFERENT answers, which is the whole
        reason the owner had to rule on it. */
     expect(revealWordLongest("The cat sat on the mat.")).toBe("cat");
@@ -541,7 +550,8 @@ describe("the sentence inside a session", () => {
      The proof is the session's own progress dots: one dot per queued word, so
      a queue that grew by one after the sentence IS the retry, whatever the
      session's length or which word the draw picked. */
-  it("7b: a miss just before a sentence still earns the second look", async () => {
+  it("7b/7c: a miss earns the second look - with a sentence in the way, or without", async () => {
+    /* Merged 2026-09-26 from test 7b and its control 7c (Tier C); every line kept. */
     render(createElement(App));
     await flush(2001); // owner-ruled 2s minimum splash: post-splash behavior starts here.
     fireEvent.click(screen.getByLabelText("Begin Session"));
@@ -590,19 +600,20 @@ describe("the sentence inside a session", () => {
     fireEvent.keyDown(screen.getByLabelText("got it"), { key: "Enter" });
     await flush(REVEAL_MS + 50);
     expect(document.querySelector(".wq-word").textContent).toBe(missed);   // still the retried word, in its reveal
-  });
-
-  /* The control for the test above: the SAME miss with no interruption also
-     grows the queue by one. Without it, "+1" could be something the sentence
-     does rather than something the retry does. */
-  it("7c (control): a miss with no sentence in the way earns the same second look", async () => {
+    /* 7c (control): a miss with no sentence in the way earns the same second
+       look - the SAME miss with no interruption also grows the queue by one.
+       Without it, "+1" could be something the sentence does rather than
+       something the retry does.
+       The stage is reset the way beforeEach does. */
+    cleanup(); localStorage.clear(); played = []; scheduled = null; noSentences = false;
+    stored = { ...newState(), preLevel: 0 };
     render(createElement(App));
     await flush(2001); // owner-ruled 2s minimum splash: post-splash behavior starts here.
     fireEvent.click(screen.getByLabelText("Begin Session"));
     await flush(0);
-    const dots = () => document.querySelectorAll(".wq-seg").length;
-    const before = dots();
-    const missed = document.querySelector(".wq-word").textContent;
+    const dotsC = () => document.querySelectorAll(".wq-seg").length;
+    const beforeC = dotsC();
+    const missedC = document.querySelector(".wq-word").textContent;
     fireEvent.keyDown(screen.getByLabelText("not yet"), { key: "Enter" });
     await flush(REVEAL_MS + 50);
     fireEvent.click(advance());
@@ -610,18 +621,18 @@ describe("the sentence inside a session", () => {
     expect(sentenceEl()).toBeNull();                     // no interruption on the first word
     /* Same split as 7b: the count holds (one dot per word, P0-2) and the
        second look is proven by meeting the word again. */
-    expect(dots()).toBe(before);
-    let met = false;
-    for (let hop = 0; hop < 8 && !met; hop += 1) {
+    expect(dotsC()).toBe(beforeC);
+    let metC = false;
+    for (let hop = 0; hop < 8 && !metC; hop += 1) {
       await leaveBuild();                                // D2 may hold a breather here
-      if (document.querySelector(".wq-word")?.textContent === missed) { met = true; break; }
+      if (document.querySelector(".wq-word")?.textContent === missedC) { metC = true; break; }
       fireEvent.keyDown(screen.getByLabelText("got it"), { key: "Enter" });
       await flush(REVEAL_MS + 50);
       fireEvent.click(advance());
       await flush(0);
       if (sentenceEl()) { await markSentence(); fireEvent.click(advance()); await flush(0); }
     }
-    expect(met).toBe(true);
+    expect(metC).toBe(true);
   });
 
   it("7: no sentence repeats inside one session", async () => {

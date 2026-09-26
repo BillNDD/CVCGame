@@ -87,7 +87,8 @@ describe("G10 safety — S1: only an adult can record a result", () => {
      non-match recording nothing. None of those questions exists now. What is
      left is a smaller claim about a smaller product, and the floor moves
      52 -> 28 to say so out loud. */
-  it("1: a whole session with no adult action records nothing", async () => {
+  it("1/2/2a: silence records nothing - while the adult's correct and wrong each record exactly one", async () => {
+    /* Merged 2026-09-26 from test 1, test 2 (control) and 2a (Tiers B+C); every line kept. */
     const word = await startWord();
     const writesAfterBoot = mockSave.mock.calls.length;  // the fresh-install boot write only
     /* What a child alone can reach in the ready phase is NOTHING — and that
@@ -108,17 +109,20 @@ describe("G10 safety — S1: only an adult can record a result", () => {
     expect(mockSave.mock.calls.length).toBe(writesAfterBoot);
     expect(document.querySelectorAll(".wq-tile").length).toBe(0);       // no feedback phase
     expect(document.querySelector(".wq-word").textContent).toBe(word);  // still the same word
-  });
-
-  it("2/2a: the adult's action records - a correct and a wrong each record exactly one", async () => {
-    /* Merged 2026-09-26 from test 2 (control) and 2a (Tier B); every line kept. */
-    const word = await startWord();
+    /* 2/2a: the adult's action records - a correct and a wrong each record exactly one.
+       The stage is reset the way beforeEach does, so the second half enters
+       exactly as its own test used to. */
+    cleanup();
+    mockSave.mockClear();
+    utterances.length = 0; rates.length = 0; cancels.n = 0;
+    localStorage.clear();
+    const wordB = await startWord();
     await adultGrades("got it");
     expect(screen.getAllByText(/Great job! That is/).length).toBeGreaterThan(0);
     /* The card shows the DISPLAY form ("I"); the save keys the bank form
        ("i") — the one word where they differ, and a random first draw of it
        made this lookup flake until the key was normalised. */
-    const saved = mockSave.mock.calls.at(-1)[0].words[word === "I" ? "i" : word];
+    const saved = mockSave.mock.calls.at(-1)[0].words[wordB === "I" ? "i" : wordB];
     expect(saved.correct).toBe(1);
     expect(saved.close).toBe(0);
     expect(saved.wrong).toBe(0);
@@ -247,7 +251,8 @@ describe("A2-002: the exit dialog never changes underneath a grown-up", () => {
      meant for "Keep reading" discarded the session instead. The reading came
      from the microphone, which is gone — but the promise is about the dialog,
      not about what changes the count, so it survives the mode that broke it. */
-  it("17: all three controls are present on the first word, and Save is reserved and inert", async () => {
+  it("17/19: on the first word all three controls are present with Save reserved - and 'Keep reading' returns to the same word recording nothing", async () => {
+    /* Merged 2026-09-26 from test 17 and its control 19 (Tier C); every line kept. */
     await startWord();
     fireEvent.click(screen.getByLabelText("Leave session"));
     await flush(0);
@@ -258,6 +263,21 @@ describe("A2-002: the exit dialog never changes underneath a grown-up", () => {
     expect(screen.getByText("Keep reading")).toBeTruthy();
     // the slot is RESERVED, not conditional: the control exists while inert
     expect(screen.queryAllByText(/Save .* as a short session/).length).toBe(0);
+    /* 19 (control): 'Keep reading' returns to the same word and records nothing.
+       The stage is reset the way beforeEach does. */
+    cleanup();
+    mockSave.mockClear();
+    utterances.length = 0; rates.length = 0; cancels.n = 0;
+    localStorage.clear();
+    const word = await startWord();
+    const writes = mockSave.mock.calls.length;
+    fireEvent.click(screen.getByLabelText("Leave session"));
+    await flush(0);
+    fireEvent.click(screen.getByText("Keep reading"));
+    await flush(0);
+    expect(document.querySelector(".wq-word").textContent).toBe(word);
+    expect(document.querySelectorAll(".wq-modal").length).toBe(0);
+    expect(mockSave.mock.calls.length).toBe(writes);
   });
 
   it("18: the dialog's geometry does not move once a word has been read", async () => {
@@ -274,18 +294,6 @@ describe("A2-002: the exit dialog never changes underneath a grown-up", () => {
     expect(controls[0].disabled).toBe(false);              // now live, same slot
     expect(controls[1].textContent).toBe("Discard and go home");
     expect(controls[2].textContent).toBe("Keep reading");
-  });
-
-  it("19 (control): 'Keep reading' returns to the same word and records nothing", async () => {
-    const word = await startWord();
-    const writes = mockSave.mock.calls.length;
-    fireEvent.click(screen.getByLabelText("Leave session"));
-    await flush(0);
-    fireEvent.click(screen.getByText("Keep reading"));
-    await flush(0);
-    expect(document.querySelector(".wq-word").textContent).toBe(word);
-    expect(document.querySelectorAll(".wq-modal").length).toBe(0);
-    expect(mockSave.mock.calls.length).toBe(writes);
   });
 });
 
@@ -332,7 +340,8 @@ describe("G10 safety — W4c: an update never reloads under a child", () => {
     expect(safe.reloads).toBe(1);
   });
 
-  it("17: a new version mid-session waits for the session to end, then refreshes once", async () => {
+  it("17/18: a new version mid-session waits for the session to end - and with no session running the refresh is immediate", async () => {
+    /* Merged 2026-09-26 from test 17 and its control 18 (Tier C); every line kept. */
     const sw = refreshDouble({ screen: "session" });
     sw.takeover();
     expect(sw.reloads).toBe(0);              // the child keeps playing
@@ -342,9 +351,7 @@ describe("G10 safety — W4c: an update never reloads under a child", () => {
     expect(sw.reloads).toBe(1);              // safe moment: the new code takes over
     sw.takeover();
     expect(sw.reloads).toBe(1);              // and only ever once
-  });
-
-  it("18 (control): with no session running the refresh is immediate, and a first install never reloads", () => {
+    /* 18 (control): with no session running the refresh is immediate, and a first install never reloads. */
     const idle = refreshDouble({ screen: "home" });
     idle.takeover();
     expect(idle.reloads).toBe(1);
@@ -473,7 +480,8 @@ describe("G10 — free play never touches the save", () => {
     await flush(0);
   };
 
-  it("40: rights, wrongs and leaving write nothing at all", async () => {
+  it("40/41: free-play grades write nothing at all - while the same grades in a real session DO", async () => {
+    /* Merged 2026-09-26 from test 40 and its control 41 (Tier C); every line kept. */
     await enterFreePlay();
     const before = mockSave.mock.calls.length;
     await gradeOne("got it");
@@ -486,17 +494,20 @@ describe("G10 — free play never touches the save", () => {
     /* straight home - no save/discard dialog, because there is nothing to save */
     expect(screen.getByLabelText("Begin Session")).toBeTruthy();
     expect(screen.queryByText("Finish early?")).toBeNull();
-  });
-
-  it("41 (control): the same grades in a real session DO reach the save", async () => {
+    /* 41 (control): the same grades in a real session DO reach the save.
+       The stage is reset the way beforeEach does. */
+    cleanup();
+    mockSave.mockClear();
+    utterances.length = 0; rates.length = 0; cancels.n = 0;
+    localStorage.clear();
     render(createElement(App));
     await flush(2001); // owner-ruled 2s minimum splash: this post-splash control starts here.
     fireEvent.click(screen.getByLabelText("Begin Session"));
     await flush(0);
-    const before = mockSave.mock.calls.length;
+    const before41 = mockSave.mock.calls.length;
     fireEvent.keyDown(screen.getByLabelText("got it"), { key: "Enter" });
     await flush(500);
-    expect(mockSave.mock.calls.length).toBeGreaterThan(before);
+    expect(mockSave.mock.calls.length).toBeGreaterThan(before41);
   });
 
   it("42: free play never says Finish and rolls into a new block", async () => {

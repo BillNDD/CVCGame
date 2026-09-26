@@ -527,27 +527,6 @@ describe("sentences", () => {
       expect(clip.text).toBe(s.text);
     }
   });
-
-  it("counts the words a child sees, not the punctuation a writer left", () => {
-    expect(sentenceWords("The cat sat on the mat.")).toEqual(["the", "cat", "sat", "on", "the", "mat"]);
-    expect(sentenceWords("Is it an ox?")).toEqual(["is", "it", "an", "ox"]);
-    expect(sentenceWords("Tag me!")).toEqual(["tag", "me"]);
-    /* An apostrophe survives: "can't" is not "can" and is not taught. */
-    expect(sentenceWords("The dog can't jump.")).toEqual(["the", "dog", "can't", "jump"]);
-  });
-
-  it("ships three invitation lines, each with a clip and its own words", () => {
-    expect(REVEAL_LINES).toEqual(["s:soundout-1", "s:soundout-2", "s:soundout-3"]);
-    const script = voiceScript();
-    for (const id of REVEAL_LINES) {
-      expect(typeof REVEAL_LINE_TEXT[id]).toBe("string");
-      expect(script.find((c) => c.id === id).text).toBe(REVEAL_LINE_TEXT[id]);
-    }
-    expect(new Set(REVEAL_LINES.map((id) => REVEAL_LINE_TEXT[id])).size).toBe(3);
-    /* S4: the invitation never says a letter name, and never reads the word
-       the child is about to sound out. */
-    for (const id of REVEAL_LINES) expect(REVEAL_LINE_TEXT[id]).toMatch(/^[A-Z][^]*[.!?]$/);
-  });
 });
 
 /* ---------------- export ---------------- */
@@ -574,11 +553,6 @@ describe("buildMarkdown", () => {
     const safe = newState(); safe.settings.childName = Array.from(raw).slice(0, 20).join("");
     expect(safe.settings.childName).toContain("\u{1F423}");
     expect(LONE.test(buildMarkdown(safe))).toBe(false);
-  });
-  it("marks a partial session", () => {
-    const s = newState();
-    s.log = [{ n: 1, date: "2026-07-25", level: 1, c: 5, k: 1, w: 0, acc: 83, items: [{ w: "at", r: "correct", retries: 0 }], partial: true }];
-    expect(buildMarkdown(s)).toContain("partial");
   });
 });
 
@@ -687,7 +661,10 @@ expect(script.length).toBe(1474);                       // 6 fixed + 17 praise +
      and no word clip, and its reveal alone would have dropped to system
      speech. The heart-word roster (SPEC section 12) is the next thing that
      will name words this way and must not be the thing that finds it. */
-  it("bankWords covers every word the app names, not only the levels", () => {
+  it("bankWords covers every word the app names - in levels, in sentences, in invitations - and a partial session still exports its mark", () => {
+    /* Folded 2026-09-26 (Tier C): the sentence-punctuation test, the
+       invitation-lines test (with its S4 pin) and the partial-session test
+       now run as sections below; every line kept. */
     const words = bankWords();
     /* Since the cutover every named word holds a level seat (are at 16,
        were at 83 - the old world named them only in WORD_SOUND), so the
@@ -724,6 +701,35 @@ expect(script.length).toBe(1474);                       // 6 fixed + 17 praise +
     const newWay = new Set([...oldWay, ...Object.keys(fixtureTricky)]);
     expect(oldWay.has("said")).toBe(false);                      // the fault
     expect(newWay.has("said")).toBe(true);                       // the fix
+    /* The punctuation half: the words the app names arrive inside sentences,
+       and the tokenizer must hand the bank the words, not the punctuation
+       (folded 2026-09-26, Tier C). */
+    expect(sentenceWords("The cat sat on the mat.")).toEqual(["the", "cat", "sat", "on", "the", "mat"]);
+    expect(sentenceWords("Is it an ox?")).toEqual(["is", "it", "an", "ox"]);
+    expect(sentenceWords("Tag me!")).toEqual(["tag", "me"]);
+    /* An apostrophe survives: "can't" is not "can" and is not taught. */
+    expect(sentenceWords("The dog can't jump.")).toEqual(["the", "dog", "can't", "jump"]);
+    /* The invitation half: three invitation lines, each with a clip and its
+       own words (folded 2026-09-26, Tier C). */
+    expect(REVEAL_LINES).toEqual(["s:soundout-1", "s:soundout-2", "s:soundout-3"]);
+    {
+    const script = voiceScript();
+    for (const id of REVEAL_LINES) {
+      expect(typeof REVEAL_LINE_TEXT[id]).toBe("string");
+      expect(script.find((c) => c.id === id).text).toBe(REVEAL_LINE_TEXT[id]);
+    }
+    }
+    expect(new Set(REVEAL_LINES.map((id) => REVEAL_LINE_TEXT[id])).size).toBe(3);
+    /* S4: the invitation never says a letter name, and never reads the word
+       the child is about to sound out. */
+    for (const id of REVEAL_LINES) expect(REVEAL_LINE_TEXT[id]).toMatch(/^[A-Z][^]*[.!?]$/);
+    /* The partial-session half: a partial session still exports its mark
+       (folded 2026-09-26, Tier C). */
+    {
+    const s = newState();
+    s.log = [{ n: 1, date: "2026-07-25", level: 1, c: 5, k: 1, w: 0, acc: 83, items: [{ w: "at", r: "correct", retries: 0 }], partial: true }];
+    expect(buildMarkdown(s)).toContain("partial");
+    }
   });
 
   /* The two units on the fallback with no ruled sound of their own. Every word

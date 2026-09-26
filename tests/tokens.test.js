@@ -37,23 +37,8 @@ export function mix(over, a, under) {
 }
 
 describe("the palette is pinned", () => {
-  it("1: the thirteen keys the game had before the bible keep their literal values", () => {
-    expect(C.ink).toBe("#17356b");
-    expect(C.ink2).toBe("#3e5aa6");
-    expect(C.muted).toBe("#5a6ba8");
-    expect(C.strip).toBe("#455073");
-    expect(C.action).toBe("#c9402f");
-    expect(C.green).toBe("#0f7a4f");
-    expect(C.amber).toBe("#8a5a00");
-    expect(C.amberInk).toBe("#6b4600");
-    expect(C.red).toBe("#c8342f");
-    expect(C.purple).toBe("#6b4bbf");
-    expect(C.sun).toBe("#ffd166");
-    expect(C.chip).toBe("#e8ecf7");
-    expect(C.line).toBe("#dfe5f3");
-  });
-
-  it("2: C holds exactly the keys the bible's table names - 13 of the game's, 28 of the bible's, 5 from the sweep, 1 from the tile step, 5 from the garden's reference image, 4 for the year its states walk, 4 the sprites drew before anything declared them, 3 festive", () => {
+  it("1/2/4: the palette keeps its literals, C holds exactly the bible's keys, and teaching text clears 7:1", () => {
+    /* Merged 2026-09-26 from tests 1, 2 and 4 (Tier C); every line kept. */
     expect(Object.keys(C).length).toBe(63);
     for (const [k, v] of Object.entries(C)) expect(v, k).toMatch(/^#[0-9a-f]{6}$/);
     /* The five the owner ruled on 2026-09-03, measured from his own reference
@@ -193,10 +178,29 @@ describe("the palette is pinned", () => {
        to dodge a collision that cannot occur would be inventing data. If a
        later step ever puts them on one surface, one of them moves. */
     expect(contrast(C.gardenBark, C.tileEdge)).toBeLessThan(1.05);
+    /* 1: the thirteen keys the game had before the bible keep their literal values. */
+    expect(C.ink).toBe("#17356b");
+    expect(C.ink2).toBe("#3e5aa6");
+    expect(C.muted).toBe("#5a6ba8");
+    expect(C.strip).toBe("#455073");
+    expect(C.action).toBe("#c9402f");
+    expect(C.green).toBe("#0f7a4f");
+    expect(C.amber).toBe("#8a5a00");
+    expect(C.amberInk).toBe("#6b4600");
+    expect(C.red).toBe("#c8342f");
+    expect(C.purple).toBe("#6b4bbf");
+    expect(C.sun).toBe("#ffd166");
+    expect(C.chip).toBe("#e8ecf7");
+    expect(C.line).toBe("#dfe5f3");
+    /* 4: teaching text clears 7:1 and the action blue 4.5:1, at literal ratios. */
+    expect(contrast(C.ink, C.surfaceReading)).toBeCloseTo(11.36, 2);
+    expect(contrast(C.actionBlue, C.paper)).toBeCloseTo(6.43, 2);
+    expect(contrast(C.ink, C.disabled)).toBeCloseTo(5.57, 2);
+    expect(contrast(C.ink, C.surfaceReading)).toBeGreaterThanOrEqual(7);
   });
 
-  it("3/10: the structural edges clear 3:1, and the twelve tile blocks the stylesheets share agree character for character", () => {
-    /* Merged 2026-09-26 from tests 3 and 10 (Tier B); every line kept. */
+  it("3/10/5/3b/3c: every edge clears 3:1 with its control below it, and the tile stylesheets agree", () => {
+    /* Merged 2026-09-26 from tests 3, 10, 5, 3b and 3c (Tiers B+C); every line kept. */
     expect(contrast(C.tileEdge, C.tileFace)).toBeCloseTo(3.78, 2);
     expect(contrast(C.boundary, C.surfacePanel)).toBeCloseTo(4.68, 2);
     expect(contrast(C.cyanStructural, C.surfaceReading)).toBeCloseTo(7.51, 2);
@@ -265,9 +269,18 @@ describe("the palette is pinned", () => {
     expect(css).toContain("border-radius:9px;--wqband:7px");
     expect(css).toContain("border-radius:7px;--wqband:5px");
     expect(css).toContain("font-size:clamp(.85rem,4svh,1.1rem);--wqband:7px");
-  });
-
-  it("3b: every adult edge that read line now reads boundary, at literal ratios, with line kept as the control", () => {
+    /* 5 (control): the one pair the bible admits below 3:1 measures below
+       it, the two withdrawn edges measure below it, and the arithmetic agrees
+       with WCAG's own anchors (folded 2026-09-26, Tier C). */
+    expect(contrast(C.disabled, C.surfacePanel)).toBeCloseTo(2.10, 2);
+    expect(contrast(C.disabled, C.surfacePanel)).toBeLessThan(3);
+    expect(contrast("#94a8c0", "#e0e4fd")).toBeCloseTo(1.94, 2);   // the empty slot's first edge, on its ground
+    expect(contrast("#e0ac2b", C.sun)).toBeCloseTo(1.44, 2);       // the progress ring's first edge, on sun
+    expect(contrast("#000000", "#ffffff")).toBe(21);
+    expect(contrast("#777777", "#ffffff")).toBeCloseTo(4.48, 2);   // the classic just-under-4.5 grey
+    /* 3b: every adult edge that read line now reads boundary, at literal
+       ratios, with line kept as the control (folded 2026-09-26, Tier C). */
+    {
     /* WHAT THIS TEST USED TO SAY, and why it changed. The third judgement of
        step 0 found the claim "every edge the game draws" false while `line` -
        the border of the corner's inputs and the strip's buttons, the "not yet"
@@ -306,9 +319,11 @@ describe("the palette is pinned", () => {
     expect(faults).toContain("`line`");
     expect(faults).toContain("1.26:1");
     expect(faults).toContain("CLOSED 2026-09-03");
-  });
-
-  it("3c: the open sentence word's ring is cyanStructural on the gradient, clearing 3:1 on every stop; the action red it replaced is held below as the control", () => {
+    }
+    /* 3c: the open sentence word's ring is cyanStructural on the gradient,
+       clearing 3:1 on every stop; the action red it replaced is held below as
+       the control (folded 2026-09-26, Tier C). */
+    {
     /* .wq-sword-open drew a 3 px action ring round the sentence word the
        child is on: 2.95, 2.88 and 3.15 on the gradient's stops (open-faults
        AB). Art step 1 moved it to cyanStructural - the same mark the sounding
@@ -321,9 +336,10 @@ describe("the palette is pinned", () => {
     expect(contrast(C.action, C.skyBlue)).toBeCloseTo(2.95, 2);       // the control: what it was
     expect(contrast(C.action, C.skyLavender)).toBeCloseTo(2.88, 2);
     expect(contrast(C.action, C.skyLavender)).toBeLessThan(3);
-    const faults = readFileSync("docs/open-faults.md", "utf8");
-    expect(faults).toContain("AB. The open sentence word's ring");
-    expect(faults).toContain("CLOSED 2026-08-22");
+    const faultsC = readFileSync("docs/open-faults.md", "utf8");
+    expect(faultsC).toContain("AB. The open sentence word's ring");
+    expect(faultsC).toContain("CLOSED 2026-08-22");
+    }
   });
 
   it("8/9: the ceramic tile family at literal ratios, and the scaffold letter at .60 with .28 held below", () => {
@@ -392,22 +408,6 @@ describe("the palette is pinned", () => {
     const css = readFileSync("app/src/wq-css.js", "utf8"), ref = readFileSync("reference/word-quest.jsx", "utf8");
     expect(css).toContain(".wq-ghost{opacity:.6}");
     expect(ref).toContain(".wq-ghost{opacity:.6}");
-  });
-
-  it("4: teaching text clears 7:1 and the action blue 4.5:1, at literal ratios", () => {
-    expect(contrast(C.ink, C.surfaceReading)).toBeCloseTo(11.36, 2);
-    expect(contrast(C.actionBlue, C.paper)).toBeCloseTo(6.43, 2);
-    expect(contrast(C.ink, C.disabled)).toBeCloseTo(5.57, 2);
-    expect(contrast(C.ink, C.surfaceReading)).toBeGreaterThanOrEqual(7);
-  });
-
-  it("5 (control): the one pair the bible admits below 3:1 measures below it, the two withdrawn edges measure below it, and the arithmetic agrees with WCAG's own anchors", () => {
-    expect(contrast(C.disabled, C.surfacePanel)).toBeCloseTo(2.10, 2);
-    expect(contrast(C.disabled, C.surfacePanel)).toBeLessThan(3);
-    expect(contrast("#94a8c0", "#e0e4fd")).toBeCloseTo(1.94, 2);   // the empty slot's first edge, on its ground
-    expect(contrast("#e0ac2b", C.sun)).toBeCloseTo(1.44, 2);       // the progress ring's first edge, on sun
-    expect(contrast("#000000", "#ffffff")).toBe(21);
-    expect(contrast("#777777", "#ffffff")).toBeCloseTo(4.48, 2);   // the classic just-under-4.5 grey
   });
 
   it("7: alpha() reproduces the literals it replaced, and the two theme colours the build cannot derive equal skyBlue", () => {

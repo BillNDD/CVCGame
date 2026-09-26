@@ -8,7 +8,7 @@ Per-test rows carry the test's own sentence, which in this project IS the
 Given/When/Then effect. The requirement, oracle, platform, mutant family, evidence
 and known limits are declared per FILE, in the tool, where they stay true.
 
-Totals: 447 it() SITES across 22 files, plus 21 gates that are not test files.
+Totals: 395 it() SITES across 22 files, plus 21 gates that are not test files.
 
 A site inside a loop or a table runs many times, so Vitest executes MORE tests than these rows number. The rows count the places behaviour is asserted; the executed count is whatever the suite prints, and the gauntlet holds its floors.
 
@@ -30,7 +30,7 @@ A site inside a loop or a table runs many times, so Vitest executes MORE tests t
 | 4 | G10 safety — S5: one attempt, one result | 24: two controls held at once record one result, not two |
 | 5 | G10 — the text a grown-up reads on the child's screen | 27/28: one session counts as '1 session', two as '2 sessions' |
 
-## tests/build-tray.test.js — 12 tests (G1)
+## tests/build-tray.test.js — 10 tests (G1)
 
 - **Requirement protected:** SPEC section 12's Build-it tray: what a tray may hold, and that no tray a child is dealt can be laid out as a build-guarded word at ANY build size
 - **Independent oracle:** Literal expected values and seeded sweeps written from SPEC by hand (E4): the guarded list is asserted by length and by member, and the sweeps assert zero hits over deals whose seed is fixed so a failure is reproducible.
@@ -42,20 +42,18 @@ A site inside a loop or a table runs many times, so Vitest executes MORE tests t
 
 | # | Suite | Effect (the test's own sentence) |
 |---|---|---|
-| 1 | Build-it tray | gives the word its true number of slots, never a padded one |
-| 2 | Build-it tray | ramps the extra tiles: none, then one from Level 6, then two past 14 |
-| 3 | Build-it tray | always offers every tile the answer needs |
-| 4 | Build-it tray | never offers a distractor that copies or echoes the word's own tiles |
-| 5 | Build-it tray | bars the default-less units and keeps the vowels, 34 strong |
-| 6 | Build-it tray | only draws graphemes a child at that level has met |
-| 7 | Build-it tray | gives every answer tile in build order, one tile per slot |
-| 8 | Build-it tray | refuses a distractor that would let a child spell a ruled-out word |
-| 9 | Build-it tray | never offers a word whose own tiles spell a ruled-out one |
-| 10 | Build-it tray | no dealt tray spells a forbidden word, however the distractors fall - the whole bank, many deals |
-| 11 | Build-it tray | a guarded word is unreachable at EVERY build size, not only the one its teaching split uses |
-| 12 | Build-it tray | is reproducible: the same rand builds the same tray |
+| 1 | Build-it tray | ramps the extra tiles: none, then one from Level 6, then two past 14 |
+| 2 | Build-it tray | never offers a distractor that copies or echoes the word's own tiles |
+| 3 | Build-it tray | bars the default-less units and keeps the vowels, 34 strong |
+| 4 | Build-it tray | only draws graphemes a child at that level has met |
+| 5 | Build-it tray | gives every answer tile in build order, one tile per slot, in the word's true number of slots |
+| 6 | Build-it tray | refuses a distractor that would let a child spell a ruled-out word |
+| 7 | Build-it tray | never offers a word whose own tiles spell a ruled-out one |
+| 8 | Build-it tray | no dealt tray spells a forbidden word, however the distractors fall - the whole bank, many deals |
+| 9 | Build-it tray | a guarded word is unreachable at EVERY build size, not only the one its teaching split uses |
+| 10 | Build-it tray | is reproducible: the same rand builds the same tray |
 
-## tests/buildit.test.js — 33 tests (G10)
+## tests/buildit.test.js — 27 tests (G10)
 
 - **Requirement protected:** SPEC section 12: Build-it writes nothing to the record, speaks the word before the tiles, and ends every attempt in success
 - **Independent oracle:** A source tripwire with fixture controls and a real-source mutation, plus a walked loop with a held tray
@@ -76,32 +74,26 @@ A site inside a loop or a table runs many times, so Vitest executes MORE tests t
 | 7 | Build-it's loop | 6: a word whose sound repeats can still be built |
 | 8 | Build-it's loop | 7: a miss says what the child actually built, and the tray is not locked |
 | 9 | Build-it's loop | 8: after the second miss, the letter is shown in its own slot |
-| 10 | the ceramic tile states | 20: a used tray tile keeps its letter, is a real disabled control, and is not dimmed |
-| 11 | the ceramic tile states | 21: a multi-letter tray tile is as wide as its slot - sh is 90 px where s is 64 |
-| 12 | the ceramic tile states | 22: after a miss the filled slots wear the arrangement ring while the built sounds play, and lose it when the tray is handed back |
-| 13 | the ceramic tile states | 23: the scaffold rings one slot at a time, in sound order, with the letter at .6 inside it |
-| 14 | the ceramic tile states | 26: the Glowseed stays idle through the scaffold's one-clip-per-slot plays, lights for a play after it, and wears the muted look when the screen is muted |
-| 15 | the ceramic tile states | 26b: a muted build (sound off) wears the muted look whatever plays |
-| 16 | the ceramic tile states | 26f: a miss landing inside the scaffold lifts the quiet, so the playback is never spoken over a dark object |
-| 17 | the ceramic tile states | 26e: the sound backstop cannot beat a real clip, so a slot's report always arrives first |
-| 18 | the ceramic tile states | 26c: the scaffold's quiet ends on the last slot's own report, never on a clock |
-| 19 | the ceramic tile states | 26d: a win during the scaffold lets the celebration light the object |
-| 20 | the ceramic tile states | 27/27b: the tray's sizes follow the phone - on rotation, and with no matchMedia at all |
-| 21 | the ceramic tile states | 24: a completed word wears one halo on the slot row round the assembled word, and every tray tile is disabled and used |
-| 22 | the ceramic tile states | 25: a win during the scaffold takes the cue ring off the slot it was on |
-| 23 | Build-a-sound, for a child still on the ladder | 9: below the ladder's first rung there is no tray, and a chunk is never a tile |
-| 24 | Build-a-sound, for a child still on the ladder | 10: the tray is exactly what the rung has taught, and grows with it |
-| 25 | Build-a-sound, for a child still on the ladder | 11: no tile is silent, and none is a letter the rung has not reached |
-| 26 | Build-a-sound, for a child still on the ladder | 12: finding the sound wins, and a wrong tile invites another try |
-| 27 | Build-a-sound, for a child still on the ladder | 13: a miss hands the tray back by itself - the wrong tile does not sit in the slot |
-| 28 | free play builds go on until Done | 19: a child at level 1 and at level 2 gets a build, not an error |
-| 29 | free play builds go on until Done | 18: every level's build window holds words, the first two included |
-| 30 | free play builds go on until Done | 17: a long word's celebration is never cut off - the turn ends when the sound does |
-| 31 | free play builds go on until Done | 15: 'Build a level word' deals the level's own word, mastery elsewhere notwithstanding |
-| 32 | free play builds go on until Done | 16: 'Build any word' opens a build at all |
-| 33 | free play builds go on until Done | 14: a found sound is followed by another sound, and Done goes home |
+| 10 | the ceramic tile states | 20/21: a used tray tile keeps its letter as a real disabled control, and a multi-letter tile is as wide as its slot |
+| 11 | the ceramic tile states | 22: after a miss the filled slots wear the arrangement ring while the built sounds play, and lose it when the tray is handed back |
+| 12 | the ceramic tile states | 23: the scaffold rings one slot at a time, in sound order, with the letter at .6 inside it |
+| 13 | the ceramic tile states | 26/26b: the Glowseed stays idle through the scaffold, lights after it, and wears the muted look when muted |
+| 14 | the ceramic tile states | 26f: a miss landing inside the scaffold lifts the quiet, so the playback is never spoken over a dark object |
+| 15 | the ceramic tile states | 26e: the sound backstop cannot beat a real clip, so a slot's report always arrives first |
+| 16 | the ceramic tile states | 26c: the scaffold's quiet ends on the last slot's own report, never on a clock |
+| 17 | the ceramic tile states | 26d: a win during the scaffold lets the celebration light the object |
+| 18 | the ceramic tile states | 27/27b: the tray's sizes follow the phone - 90x64 at 740 px, resized on rotation to 320, and still sized with no matchMedia at all |
+| 19 | the ceramic tile states | 24: a completed word wears one halo on the slot row round the assembled word, and every tray tile is disabled and used |
+| 20 | the ceramic tile states | 25: a win during the scaffold takes the cue ring off the slot it was on |
+| 21 | Build-a-sound, for a child still on the ladder | 9: below the ladder's first rung there is no tray, and a chunk is never a tile |
+| 22 | Build-a-sound, for a child still on the ladder | 10: the tray is exactly what the rung has taught, and grows with it |
+| 23 | Build-a-sound, for a child still on the ladder | 11: no tile is silent, and none is a letter the rung has not reached |
+| 24 | Build-a-sound, for a child still on the ladder | 12/13: finding the sound wins, and a miss hands the tray back by itself |
+| 25 | free play builds go on until Done | 19/18: a child at level 1 and at level 2 gets a build, and every level's window holds words |
+| 26 | free play builds go on until Done | 17: a long word's celebration is never cut off - the turn ends when the sound does |
+| 27 | free play builds go on until Done | 15/16/14: the free-play cells deal their own words, and a found sound is followed by another |
 
-## tests/chunker.test.js — 14 tests (G1)
+## tests/chunker.test.js — 10 tests (G1)
 
 - **Requirement protected:** SPEC sections 3-4 and safety rule S8: the seventy-two multi-letter units the chunker fuses, the position rules that keep a syllable ending off the front of a word, and the proof that widening the roster re-tiled nothing already shipped
 - **Independent oracle:** Literal rosters re-derived from tools/ladder/shape-v3.json's `new` fields, literal tilings written from what each spelling says, and a literal tile-count histogram over the whole bank (E4)
@@ -115,20 +107,16 @@ A site inside a loop or a table runs many times, so Vitest executes MORE tests t
 |---|---|---|
 | 1 | the extended code | holds the whole extended code, all three tiers pinned |
 | 2 | the extended code | fuses the vowel teams, the r-controlled units and the long tiers |
-| 3 | the extended code | refuses a syllable-ending unit at the front of a word |
-| 4 | the extended code | refuses ti, tu and al where the spelling does not say that sound |
-| 5 | the extended code | keeps the silent-letter pairs to the ends they belong to |
-| 6 | the extended code | no word in the bank re-tiles, and the row still caps at four |
-| 7 | the extended code | leaves a split vowel as letters, because a tile row must spell the word |
-| 8 | the extended code | sounds the magic e: the vowel says its name and the e says nothing |
-| 9 | the extended code | lets a bend outrank the rule, which is how come, some, love and have stay honest |
-| 10 | the extended code | does not fire where the shape is absent - the controls (E5) |
-| 11 | the extended code | keeps d:silent out of every audio path while S8 keeps its slot |
-| 12 | the extended code | carries the writer's two literals, filled at the cutover |
-| 13 | the extended code | gives the four single-taught spellings their level's own sound |
-| 14 | the extended code | reads no word out of bare punctuation |
+| 3 | the extended code | refuses a unit where the spelling does not say that sound |
+| 4 | the extended code | keeps the silent-letter pairs to the ends they belong to |
+| 5 | the extended code | no word in the bank re-tiles, and the row still caps at eight |
+| 6 | the extended code | leaves a split vowel as letters, because a tile row must spell the word |
+| 7 | the extended code | sounds the magic e and lets a bend outrank the rule |
+| 8 | the extended code | does not fire where the shape is absent, and d:silent stays out of every audio path |
+| 9 | the extended code | carries the writer's literals and gives single-taught spellings their level's sound |
+| 10 | the extended code | reads no word out of bare punctuation |
 
-## tests/engine.test.js — 85 tests (G1)
+## tests/engine.test.js — 82 tests (G1)
 
 - **Requirement protected:** SPEC sections 3-4: the word bank, levels, chunking, the Leitner ladder, session shape and the reveal plan
 - **Independent oracle:** Literal expected values written from SPEC by hand (E4). Never the constant under test.
@@ -185,48 +173,45 @@ A site inside a loop or a table runs many times, so Vitest executes MORE tests t
 | 43 | sentences | places no sentence later than it needs to be |
 | 44 | sentences | gives every sentence a word the level teaches, for the reveal to sound out |
 | 45 | sentences | holds every text to one clip, and inside the longest approved read |
-| 46 | sentences | counts the words a child sees, not the punctuation a writer left |
-| 47 | sentences | ships three invitation lines, each with a clip and its own words |
-| 48 | buildMarkdown | reports the 1,122-word denominator and one hundred level rows |
-| 49 | buildMarkdown | counts a word as mastered only from box 4 |
-| 50 | buildMarkdown | keeps a grapheme-safe name intact in the header |
-| 51 | buildMarkdown | marks a partial session |
-| 52 | voice packs | inventories one clip per word, the fixed sentences, and every sound a tile can ask for |
-| 53 | voice packs | covers every grapheme the whole bank can produce |
-| 54 | voice packs | the plural s splits by voicing: dogs buzzes, cats hisses (Level 21's lesson) |
-| 55 | voice packs | bankWords covers every word the app names, not only the levels |
-| 56 | voice packs | ai and ou say what their levels teach, and the heart words still bend |
-| 57 | voice packs | gives every tricky word its true sounds, not its letters |
-| 58 | voice packs | sounds out every heart word the way the owner heard it |
-| 59 | voice packs | splits th into its two sounds, across every th word in the bank |
-| 60 | voice packs | plans the sound-out reveal on every outcome, at the literal 500 ms seam |
-| 61 | voice packs | knows a seam from a clip, and how long each one lasts |
-| 62 | voice packs | maps each tile sound to its own tile, in order |
-| 63 | voice packs | steps over a silent tile, so the ring after it lands on its own tile (beta 22's fault) |
-| 64 | voice packs | resolves one source per utterance: family, then default, then none |
-| 65 | speech helpers | says full words only, never letter names, and never stretches the reveal |
-| 66 | speech helpers | hands system speech the SOUND of “a”, never the letter's name |
-| 67 | speech helpers | stays silent when sound is off or no engine exists |
-| 68 | speech helpers | configures the utterance: rate 0.9, pitch 1.1, locale, cancel first |
-| 69 | speech helpers | pins the seventeen praise sentences, character for character |
-| 70 | speech helpers | selects the praise by index, and falls back to the first for a bad index |
-| 71 | speech helpers | queues reveal parts: one cancel, and both the lead and the word sentence at 0.9 |
-| 72 | speech helpers | survives a throwing speech service |
-| 73 | speech helpers | hush stops speech, and survives a missing engine |
-| 74 | speech helpers | vibrates only when the device can, and never throws |
-| 75 | reference storage adapter | reads nothing when no storage exists at all |
-| 76 | reference storage adapter | reads a saved document from the host storage |
-| 77 | reference storage adapter | keeps a copy of damaged data and reports it, even if the copy write fails |
-| 78 | reference storage adapter | saves to the host and answers from memory when the host disappears |
-| 79 | reference storage adapter | reports an unsaved visit when the host write fails |
-| 80 | reference storage adapter | falls back to memory when the host read throws |
-| 81 | G1 — the system voice is never given a word it says wrongly | 75: no praise line contains a word with two pronunciations |
-| 82 | G1 — the system voice is never given a word it says wrongly | 76: with no unsafe line listed, every praise index reaches the system voice unchanged |
-| 83 | G1 — the system voice is never given a word it says wrongly | 77: the clip plan carries the new line to the pack |
-| 84 | G1 — the system voice is never given a word it says wrongly | 78: the sentence praise roster is exactly the rows that never say "word", both halves pinned |
-| 85 | G1 — the system voice is never given a word it says wrongly | 79: the sentence lead is the grade's exact clip, and an off-roster index cannot praise with a word-line |
+| 46 | buildMarkdown | reports the 1,122-word denominator and one hundred level rows |
+| 47 | buildMarkdown | counts a word as mastered only from box 4 |
+| 48 | buildMarkdown | keeps a grapheme-safe name intact in the header |
+| 49 | voice packs | inventories one clip per word, the fixed sentences, and every sound a tile can ask for |
+| 50 | voice packs | covers every grapheme the whole bank can produce |
+| 51 | voice packs | the plural s splits by voicing: dogs buzzes, cats hisses (Level 21's lesson) |
+| 52 | voice packs | bankWords covers every word the app names - in levels, in sentences, in invitations - and a partial session still exports its mark |
+| 53 | voice packs | ai and ou say what their levels teach, and the heart words still bend |
+| 54 | voice packs | gives every tricky word its true sounds, not its letters |
+| 55 | voice packs | sounds out every heart word the way the owner heard it |
+| 56 | voice packs | splits th into its two sounds, across every th word in the bank |
+| 57 | voice packs | plans the sound-out reveal on every outcome, at the literal 500 ms seam |
+| 58 | voice packs | knows a seam from a clip, and how long each one lasts |
+| 59 | voice packs | maps each tile sound to its own tile, in order |
+| 60 | voice packs | steps over a silent tile, so the ring after it lands on its own tile (beta 22's fault) |
+| 61 | voice packs | resolves one source per utterance: family, then default, then none |
+| 62 | speech helpers | says full words only, never letter names, and never stretches the reveal |
+| 63 | speech helpers | hands system speech the SOUND of “a”, never the letter's name |
+| 64 | speech helpers | stays silent when sound is off or no engine exists |
+| 65 | speech helpers | configures the utterance: rate 0.9, pitch 1.1, locale, cancel first |
+| 66 | speech helpers | pins the seventeen praise sentences, character for character |
+| 67 | speech helpers | selects the praise by index, and falls back to the first for a bad index |
+| 68 | speech helpers | queues reveal parts: one cancel, and both the lead and the word sentence at 0.9 |
+| 69 | speech helpers | survives a throwing speech service |
+| 70 | speech helpers | hush stops speech, and survives a missing engine |
+| 71 | speech helpers | vibrates only when the device can, and never throws |
+| 72 | reference storage adapter | reads nothing when no storage exists at all |
+| 73 | reference storage adapter | reads a saved document from the host storage |
+| 74 | reference storage adapter | keeps a copy of damaged data and reports it, even if the copy write fails |
+| 75 | reference storage adapter | saves to the host and answers from memory when the host disappears |
+| 76 | reference storage adapter | reports an unsaved visit when the host write fails |
+| 77 | reference storage adapter | falls back to memory when the host read throws |
+| 78 | G1 — the system voice is never given a word it says wrongly | 75: no praise line contains a word with two pronunciations |
+| 79 | G1 — the system voice is never given a word it says wrongly | 76: with no unsafe line listed, every praise index reaches the system voice unchanged |
+| 80 | G1 — the system voice is never given a word it says wrongly | 77: the clip plan carries the new line to the pack |
+| 81 | G1 — the system voice is never given a word it says wrongly | 78: the sentence praise roster is exactly the rows that never say "word", both halves pinned |
+| 82 | G1 — the system voice is never given a word it says wrongly | 79: the sentence lead is the grade's exact clip, and an off-roster index cannot praise with a word-line |
 
-## tests/faults.test.js — 29 tests (G9)
+## tests/faults.test.js — 23 tests (G9)
 
 - **Requirement protected:** SPEC section 7: damaged saves, silent storage, late data, hostile shapes, and backups that lie
 - **Independent oracle:** Stated expected outcomes per fault, each with a control proving the probe can see a write
@@ -240,35 +225,29 @@ A site inside a loop or a table runs many times, so Vitest executes MORE tests t
 |---|---|---|
 | 1 | G9 faults — the app boot | 1: a damaged save reads as fresh, with the damage message, and stays writable |
 | 2 | G9 faults — the app boot | 2: a storage timeout starts fresh, warns, and writes nothing for the visit |
-| 3 | G9 faults — the app boot | 3: a late read after the child has LEFT HOME is refused - not adopted, not written |
-| 4 | G9 faults — the app boot | 3f: a late read after the grown-up opened the corner is refused, and says so |
-| 5 | G9 faults — the app boot | 3b: a late read before anything has happened is adopted silently, and the visit saves |
-| 6 | G9 faults — the app boot | 3c: a late 'no save at all' is adopted too, and a first-time child's visit saves |
-| 7 | G9 faults — the app boot | 3d: a late read after a settings change in the corner is refused - the corner is off home, and the write it asked for stays refused |
-| 8 | G9 faults — the app boot | 3e: a late UNREADABLE read adopts nothing and does not claim a save was found |
-| 9 | G9 faults — the app boot | 5: a throwing speech service does not stop grading |
-| 10 | G9 faults — the app boot | 6: a backward clock cannot crash a session, and the log date stays ISO |
-| 11 | G9 faults — the real IndexedDB adapter | 1a: a non-JSON value is copied to :corrupt and reported, never repaired in place |
-| 12 | G9 faults — the real IndexedDB adapter | 2a: a broken storage backend reports SILENCE, not absence |
-| 13 | G9 faults — an unreadable save, and backups that must look like one | 2b: an unreadable save is never overwritten, and the visit stays read-only |
-| 14 | G9 faults — an unreadable save, and backups that must look like one | 2c (control): a genuinely absent save DOES initialise and write |
-| 15 | G9 faults — an unreadable save, and backups that must look like one | 8: the Load backup file button opens the picker - one click on the file input, from the keyboard |
-| 16 | G9 faults — an unreadable save, and backups that must look like one | 7: ${label} is refused, and nothing is written |
-| 17 | G9 faults — an unreadable save, and backups that must look like one | 7b: a save-shaped ARRAY is not a backup |
-| 18 | G9 faults — an unreadable save, and backups that must look like one | 7a (control): a genuine backup still restores |
-| 19 | G9 faults — wrong-shape JSON battery | 4: hostile shapes heal, and every engine function survives them |
-| 20 | G9 faults — the corner's own actions survive their edges | commits a trimmed, 20-glyph name without bisecting a surrogate pair |
-| 21 | G9 faults — the corner's own actions survive their edges | copies the log when the clipboard allows, and shows the box when it refuses |
-| 22 | G9 faults — the corner's own actions survive their edges | saves a backup through the blob path without a throw |
-| 23 | G9 faults — the corner's own actions survive their edges | jumping to a word level steps the child off the pre-ladder |
-| 24 | G9 faults — the corner's own actions survive their edges | a fresh profile jumped to a level meets words, not chunk riders |
-| 25 | G9 faults — the corner's own actions survive their edges | resets only through the second press, and the first can back out |
-| 26 | G9 faults — the error ring records on the device and never sends | scrubs every URL to its file name, caps the message, and keeps the last 20 |
-| 27 | G9 faults — the error ring records on the device and never sends | the browser's two catch-alls land in the ring with the screen name, and no origin |
-| 28 | G9 faults — the error ring records on the device and never sends | a render crash shows a way back to the start, not a blank page, and is recorded |
-| 29 | G9 faults — the error ring records on the device and never sends | the corner copies the report only on a grown-up's press, apart from the log, and can clear it |
+| 3 | G9 faults — the app boot | 3/3f/3d/3e: a late read after anything happened is refused - on the ladder, in the corner, after a settings write, or unreadable |
+| 4 | G9 faults — the app boot | 3b/3c: a late read before anything happened is adopted - a save, or no save at all |
+| 5 | G9 faults — the app boot | 5: a throwing speech service does not stop grading |
+| 6 | G9 faults — the app boot | 6: a backward clock cannot crash a session, and the log date stays ISO |
+| 7 | G9 faults — the real IndexedDB adapter | 1a: a non-JSON value is copied to :corrupt and reported, never repaired in place |
+| 8 | G9 faults — the real IndexedDB adapter | 2a: a broken storage backend reports SILENCE, not absence |
+| 9 | G9 faults — an unreadable save, and backups that must look like one | 2b/2c: an unreadable save is never overwritten - while a genuinely absent one DOES initialise |
+| 10 | G9 faults — an unreadable save, and backups that must look like one | 8: the Load backup file button opens the picker - one click on the file input, from the keyboard |
+| 11 | G9 faults — an unreadable save, and backups that must look like one | 7: ${label} is refused, and nothing is written |
+| 12 | G9 faults — an unreadable save, and backups that must look like one | 7b/7a: a save-shaped ARRAY is not a backup - but a genuine one still restores |
+| 13 | G9 faults — wrong-shape JSON battery | 4: hostile shapes heal, and every engine function survives them |
+| 14 | G9 faults — the corner's own actions survive their edges | commits a trimmed, 20-glyph name without bisecting a surrogate pair |
+| 15 | G9 faults — the corner's own actions survive their edges | copies the log when the clipboard allows, and shows the box when it refuses |
+| 16 | G9 faults — the corner's own actions survive their edges | saves a backup through the blob path without a throw |
+| 17 | G9 faults — the corner's own actions survive their edges | jumping to a word level steps the child off the pre-ladder |
+| 18 | G9 faults — the corner's own actions survive their edges | a fresh profile jumped to a level meets words, not chunk riders |
+| 19 | G9 faults — the corner's own actions survive their edges | resets only through the second press, and the first can back out |
+| 20 | G9 faults — the error ring records on the device and never sends | scrubs every URL to its file name, caps the message, and keeps the last 20 |
+| 21 | G9 faults — the error ring records on the device and never sends | the browser's two catch-alls land in the ring with the screen name, and no origin |
+| 22 | G9 faults — the error ring records on the device and never sends | a render crash shows a way back to the start, not a blank page, and is recorded |
+| 23 | G9 faults — the error ring records on the device and never sends | the corner copies the report only on a grown-up's press, apart from the log, and can clear it |
 
-## tests/garden.test.js — 5 tests (G1)
+## tests/garden.test.js — 3 tests (G1)
 
 - **Requirement protected:** SPEC section 7: the ladder is complete when level 100's words are secure by the promotion rule and only then; the garden state is the tenth of the levels completed, 10 when complete
 - **Independent oracle:** Literal expected values over hand-built saves at the measured word counts (level 100 holds 12 words, level 99 six)
@@ -280,11 +259,9 @@ A site inside a loop or a table runs many times, so Vitest executes MORE tests t
 
 | # | Suite | Effect (the test's own sentence) |
 |---|---|---|
-| 1 | the garden | 1: the state is the tenth of the levels completed - 0 through level 10, 1 at level 11, 9 through level 100 |
-| 2 | the garden | 2: the ladder is complete when level 100's words are secure, and then the garden is 10 |
-| 3 | the garden | 3: the two-perfect-sessions path promotes between levels and never ends the ladder |
-| 4 | the garden | 4: a secure level 99 is not the end of the ladder |
-| 5 | the garden | 5: a hostile or empty state reads as the start |
+| 1 | the garden | 1/2: the state is the tenth of the levels completed - and the ladder completes only when level 100's words are secure |
+| 2 | the garden | 3/4: the two-perfect-sessions path promotes between levels and never ends the ladder - and a secure 99 is not the end |
+| 3 | the garden | 5: a hostile or empty state reads as the start |
 
 ## tests/generated/acceptance.test.js — 62 tests (G3)
 
@@ -411,7 +388,7 @@ A site inside a loop or a table runs many times, so Vitest executes MORE tests t
 |---|---|---|
 | 1 | every control is named in plain words | 1/2/3: every screen is named in plain words, and the old names are refused |
 
-## tests/pre.test.js — 28 tests (G10)
+## tests/pre.test.js — 26 tests (G10)
 
 - **Requirement protected:** SPEC section 12: the chunk ladder - its two rungs of letters and chunks, sessions, promotions, and the place-by-mastery migration
 - **Independent oracle:** Literal rung rosters, literal boundary counts, and the shipped sound inventory
@@ -442,15 +419,13 @@ A site inside a loop or a table runs many times, so Vitest executes MORE tests t
 | 17 | migration and the fresh-saves-only ruling | a corrupted preLevel fails toward teaching, never past it |
 | 18 | migration and the fresh-saves-only ruling | keeps pre boxes and word boxes in separate rooms - and a chunk's key is its own room too |
 | 19 | the ladder in the app | a fresh install boots to Pre 1 and Begin serves the first letter, sound first |
-| 20 | the ladder in the app | a chunk arrives in SILENCE, printed, and its speaker plays the sounds apart - never the answer (S2) |
-| 21 | the ladder in the app | grading a chunk writes to its own prefixed key and the reveal blends at last |
-| 22 | the ladder in the app | only the adult's hold records a pre result, into state.pre alone (S1) |
-| 23 | the ladder in the app | two holds at once record one pre result, not two |
-| 24 | the ladder in the app | the pre-level's Next waits for the clips' own length, and never less than the guard |
-| 25 | the ladder in the app | the grown-up's pre control jumps the ladder and Words leaves it |
-| 26 | the rider chunks - a graduate's session opens with what their level has earned | a level-5 graduate meets c:am first, the clock never ticks, and the words follow |
-| 27 | the rider chunks - a graduate's session opens with what their level has earned | a graduate with nothing due goes straight to the words |
-| 28 | the rider chunks - a graduate's session opens with what their level has earned | a rider's grade survives the words beginning, and the next session does not serve it again |
+| 20 | the ladder in the app | a chunk arrives in SILENCE and grades to its own prefixed key, its speaker playing the sounds apart - never the answer (S2) |
+| 21 | the ladder in the app | only the adult's hold records a pre result - and two holds at once record one, not two (S1) |
+| 22 | the ladder in the app | the pre-level's Next waits for the clips' own length, and never less than the guard |
+| 23 | the ladder in the app | the grown-up's pre control jumps the ladder and Words leaves it |
+| 24 | the rider chunks - a graduate's session opens with what their level has earned | a level-5 graduate meets c:am first, the clock never ticks, and the words follow |
+| 25 | the rider chunks - a graduate's session opens with what their level has earned | a graduate with nothing due goes straight to the words |
+| 26 | the rider chunks - a graduate's session opens with what their level has earned | a rider's grade survives the words beginning, and the next session does not serve it again |
 
 ## tests/properties.test.js — 10 tests (G2)
 
@@ -475,7 +450,7 @@ A site inside a loop or a table runs many times, so Vitest executes MORE tests t
 | 9 | G2 properties | P9: the session opens with the most secure word |
 | 10 | G2 properties | P10: migrate is total and idempotent, and its output survives the engine |
 
-## tests/reveal.test.js — 26 tests (G10)
+## tests/reveal.test.js — 20 tests (G10)
 
 - **Requirement protected:** SPEC section 5: the reveal, its pauses, the skip, and silence before the attempt ends
 - **Independent oracle:** The literal clip plan and stated timings
@@ -487,32 +462,26 @@ A site inside a loop or a table runs many times, so Vitest executes MORE tests t
 
 | # | Suite | Effect (the test's own sentence) |
 |---|---|---|
-| 1 | G10 — the child hears the word before the app lets them move on | 1/2: the advance control waits - the full recorded reveal, or the short guard |
+| 1 | G10 — the child hears the word before the app lets them move on | 1/2: the advance control waits for the full recorded reveal - and 400 ms when there is none |
 | 2 | G10 — the child hears the word before the app lets them move on | 3/3b: a reveal that never reports cannot trap the grown-up - backstop, or sound-off guard |
 | 3 | G10 — the child hears the word before the app lets them move on | 15: the Glowseed is in the stage, hidden from assistive technology, idle on the attempt, lit and darkened by the lifecycle's own events |
 | 4 | G10 — the child hears the word before the app lets them move on | 15d: with sound OFF a child on the ladder is never dealt a session they cannot answer - the control refuses and says why |
-| 5 | G10 — the child hears the word before the app lets them move on | 15h: the refusal is right because every rung still ASKS with a sound - derived from the items, never trusted |
-| 6 | G10 — the child hears the word before the app lets them move on | 15g: with sound off AND a second look, the strip says both on one line |
-| 7 | G10 — the child hears the word before the app lets them move on | 15f: the refusal's reason is reachable from the control it explains, and dark enough to read on the sky |
-| 8 | G10 — the child hears the word before the app lets them move on | 15e: with sound ON the ladder deals as it always did, and its stage carries the Glowseed idle |
-| 9 | G10 — the child hears the word before the app lets them move on | 15c: with sound OFF the session takes no Build-it breather - the dead end the chooser already refuses |
-| 10 | G10 — the child hears the word before the app lets them move on | 15b: with sound OFF the replay control is disabled, the Glowseed is muted and the marker line tells the parent |
-| 11 | G10 — the child hears the word before the app lets them move on | 14/14b (B17): a slow reveal never opens the mid-sound-out window, and the guard is a floor |
-| 12 | G10 — the child hears the word before the app lets them move on | 5: a miss on the last word says "Next word", and the second look follows |
-| 13 | G10 — the child hears the word before the app lets them move on | 6 (pair): a correct last word says "Finish!", and the press ends the session |
-| 14 | G10 — the child hears the word before the app lets them move on | 7: a tap on the grown-up skip does nothing — the reveal keeps its wait |
-| 15 | G10 — the child hears the word before the app lets them move on | 8: the adult's skip advances early and silences the reveal at once |
-| 16 | G10 — the child hears the word before the app lets them move on | 9: each tile takes its ring as its own sound plays, for as long as that sound lasts |
-| 17 | G10 — the child hears the word before the app lets them move on | 10 (control): with no recorded reveal, no tile is ever ringed |
-| 18 | G10 — the child hears the word before the app lets them move on | 10a: a fallback tells the grown-up, and says why |
-| 19 | G10 — the child hears the word before the app lets them move on | 10b (control): with the recorded pack, the grown-up is told nothing |
-| 20 | G10 — the child hears the word before the app lets them move on | 11: replay clears the rings it silenced |
-| 21 | G10 — the child hears the word before the app lets them move on | 12: asking to finish early stops the reveal and its rings |
-| 22 | G10 — the child hears the word before the app lets them move on | 13: a length arriving after the backstop takes the control back, and the fill never runs backwards |
-| 23 | G10 — the child hears the word before the app lets them move on | 4: the wait carries a fill for exactly as long as the reveal |
-| 24 | fault AN - a reveal interrupted by leaving the app restarts whole on return | replays the word reveal it was cut off from, and only that |
-| 25 | fault AN - a reveal interrupted by leaving the app restarts whole on return | never replays into the next attempt - advancing clears the record (S2) |
-| 26 | fault AN - a reveal interrupted by leaving the app restarts whole on return | a finished reveal does not replay - live ends when the scheduled length elapses |
+| 5 | G10 — the child hears the word before the app lets them move on | 15g: with sound off AND a second look, the strip says both on one line |
+| 6 | G10 — the child hears the word before the app lets them move on | 15f: the refusal's reason is reachable from the control it explains, and dark enough to read on the sky |
+| 7 | G10 — the child hears the word before the app lets them move on | 15e/15h: with sound ON the ladder deals as always - and the refusal stays right because every rung still asks with a sound |
+| 8 | G10 — the child hears the word before the app lets them move on | 15c: with sound OFF the session takes no Build-it breather - the dead end the chooser already refuses |
+| 9 | G10 — the child hears the word before the app lets them move on | 15b: with sound OFF the replay control is disabled, the Glowseed is muted and the marker line tells the parent |
+| 10 | G10 — the child hears the word before the app lets them move on | 14/14b (B17): a slow reveal never opens the mid-sound-out window, and the guard is a floor |
+| 11 | G10 — the child hears the word before the app lets them move on | 5: a miss on the last word says "Next word", and the second look follows |
+| 12 | G10 — the child hears the word before the app lets them move on | 6 (pair): a correct last word says "Finish!", and the press ends the session |
+| 13 | G10 — the child hears the word before the app lets them move on | 7: a tap on the grown-up skip does nothing — the reveal keeps its wait |
+| 14 | G10 — the child hears the word before the app lets them move on | 8: the adult's skip advances early and silences the reveal at once |
+| 15 | G10 — the child hears the word before the app lets them move on | 9/10: each tile takes its ring as its own sound plays - and with no recorded reveal, no tile is ever ringed |
+| 16 | G10 — the child hears the word before the app lets them move on | 10a/10b: a fallback tells the grown-up why - and with the recorded pack, nothing |
+| 17 | G10 — the child hears the word before the app lets them move on | 11/12: silencing the sound-out clears its rings - on replay, and on finishing early |
+| 18 | G10 — the child hears the word before the app lets them move on | 13: a length arriving after the backstop takes the control back, and the fill never runs backwards |
+| 19 | G10 — the child hears the word before the app lets them move on | 4: the wait carries a fill for exactly as long as the reveal |
+| 20 | fault AN - a reveal interrupted by leaving the app restarts whole on return | an interrupted reveal replays whole, but never into the next attempt and never after it finished |
 
 ## tests/safety-splash.test.js — 7 tests (G10)
 
@@ -534,7 +503,7 @@ A site inside a loop or a table runs many times, so Vitest executes MORE tests t
 | 6 | G10 safety — S6: the splash update controls are adult holds | 54: a tap before the read lands leaves the app on the read |
 | 7 | G10 safety — S6: the splash update controls are adult holds | 55: a splash tap before the read writes nothing |
 
-## tests/safety.test.js — 24 tests (G10)
+## tests/safety.test.js — 20 tests (G10)
 
 - **Requirement protected:** Safety rules S1-S7: the app never records a miss by itself, never speaks the word early, and never reaches the network
 - **Independent oracle:** The exact SPEC sentences and literal control sizes
@@ -546,32 +515,28 @@ A site inside a loop or a table runs many times, so Vitest executes MORE tests t
 
 | # | Suite | Effect (the test's own sentence) |
 |---|---|---|
-| 1 | G10 safety — S1: only an adult can record a result | 1: a whole session with no adult action records nothing |
-| 2 | G10 safety — S1: only an adult can record a result | 2/2a: the adult's action records - a correct and a wrong each record exactly one |
-| 3 | G10 safety — S1: only an adult can record a result | 3: source tripwire — EVERY grade fires only from an adult hold control |
-| 4 | G10 safety — S2: the word is never spoken before the attempt ends | 4/4b: nothing spoken before the attempt ends, and advancing hushes any reveal |
-| 5 | G10 safety — S2: the word is never spoken before the attempt ends | 5 (control): after the attempt, speech says the full word and replay works |
-| 6 | A2-002: the exit dialog never changes underneath a grown-up | 17: all three controls are present on the first word, and Save is reserved and inert |
-| 7 | A2-002: the exit dialog never changes underneath a grown-up | 18: the dialog's geometry does not move once a word has been read |
-| 8 | A2-002: the exit dialog never changes underneath a grown-up | 19 (control): 'Keep reading' returns to the same word and records nothing |
-| 9 | G10 safety — W4c: an update never reloads under a child | 17b: the pre-ladder, a build, and both Finish screens are live sessions too |
-| 10 | G10 safety — W4c: an update never reloads under a child | 17: a new version mid-session waits for the session to end, then refreshes once |
-| 11 | G10 safety — W4c: an update never reloads under a child | 18 (control): with no session running the refresh is immediate, and a first install never reloads |
-| 12 | G10 safety — S4: no letter name ever reaches speech | 19: the note is never spoken — letter names must not reach speech |
-| 13 | G10 safety — S6 and S7: no network, big controls | 6: no app source makes a network call |
-| 14 | G10 safety — S6 and S7: no network, big controls | 7: the stylesheet keeps child controls at 56 px and adult controls at 44 px |
-| 15 | G10 safety — S6 and S7: no network, big controls | 8: no `font:` shorthand ends in inherit, which would void the declaration |
-| 16 | G10 — free play never touches the save | 40: rights, wrongs and leaving write nothing at all |
-| 17 | G10 — free play never touches the save | 41 (control): the same grades in a real session DO reach the save |
-| 18 | G10 — free play never touches the save | 42: free play never says Finish and rolls into a new block |
-| 19 | G10 — free play never touches the save | 43: the header says FREE PLAY with a count-up, never x of 20 |
-| 20 | G10 — free play never touches the save | 44: a chooser stands between the tap and the game, and Back starts nothing |
-| 21 | G10 — free play never touches the save | 45: truly random draws from the whole bank, not the child's level |
-| 22 | G10 — free play never touches the save | 46: random play writes nothing and says what it is |
-| 23 | G10 — free play never touches the save | 47: a spent random block rolls into a fresh draw that never repeats the boundary word |
-| 24 | G10 safety — S6: the foreground check obeys the corner's switch | 48: the check asks on a return to the foreground, and Off silences it at once |
+| 1 | G10 safety — S1: only an adult can record a result | 1/2/2a: silence records nothing - while the adult's correct and wrong each record exactly one |
+| 2 | G10 safety — S1: only an adult can record a result | 3: source tripwire — EVERY grade fires only from an adult hold control |
+| 3 | G10 safety — S2: the word is never spoken before the attempt ends | 4/4b: nothing spoken before the attempt ends, and advancing hushes any reveal |
+| 4 | G10 safety — S2: the word is never spoken before the attempt ends | 5 (control): after the attempt, speech says the full word and replay works |
+| 5 | A2-002: the exit dialog never changes underneath a grown-up | 17/19: on the first word all three controls are present with Save reserved - and 'Keep reading' returns to the same word recording nothing |
+| 6 | A2-002: the exit dialog never changes underneath a grown-up | 18: the dialog's geometry does not move once a word has been read |
+| 7 | G10 safety — W4c: an update never reloads under a child | 17b: the pre-ladder, a build, and both Finish screens are live sessions too |
+| 8 | G10 safety — W4c: an update never reloads under a child | 17/18: a new version mid-session waits for the session to end - and with no session running the refresh is immediate |
+| 9 | G10 safety — S4: no letter name ever reaches speech | 19: the note is never spoken — letter names must not reach speech |
+| 10 | G10 safety — S6 and S7: no network, big controls | 6: no app source makes a network call |
+| 11 | G10 safety — S6 and S7: no network, big controls | 7: the stylesheet keeps child controls at 56 px and adult controls at 44 px |
+| 12 | G10 safety — S6 and S7: no network, big controls | 8: no `font:` shorthand ends in inherit, which would void the declaration |
+| 13 | G10 — free play never touches the save | 40/41: free-play grades write nothing at all - while the same grades in a real session DO |
+| 14 | G10 — free play never touches the save | 42: free play never says Finish and rolls into a new block |
+| 15 | G10 — free play never touches the save | 43: the header says FREE PLAY with a count-up, never x of 20 |
+| 16 | G10 — free play never touches the save | 44: a chooser stands between the tap and the game, and Back starts nothing |
+| 17 | G10 — free play never touches the save | 45: truly random draws from the whole bank, not the child's level |
+| 18 | G10 — free play never touches the save | 46: random play writes nothing and says what it is |
+| 19 | G10 — free play never touches the save | 47: a spent random block rolls into a fresh draw that never repeats the boundary word |
+| 20 | G10 safety — S6: the foreground check obeys the corner's switch | 48: the check asks on a return to the foreground, and Off silences it at once |
 
-## tests/scheduler.test.js — 17 tests (G1)
+## tests/scheduler.test.js — 15 tests (G1)
 
 - **Requirement protected:** SPEC section 4: promotion and the level rules of the session builder
 - **Independent oracle:** Hand-computed queues from stated states
@@ -594,14 +559,12 @@ A site inside a loop or a table runs many times, so Vitest executes MORE tests t
 | 9 | a grown-up can bring a word forward, and it writes nothing | writes nothing, and the snapshot probe proves it would catch a write |
 | 10 | a grown-up can bring a word forward, and it writes nothing | a stale word that has left the bank is dropped, not handed to the session |
 | 11 | mastered words come back by band, not by lottery | the three words this suite leans on are in the bands it says they are |
-| 12 | mastered words come back by band, not by lottery | session 1 of the cycle serves the common word and the middle one, not the rare |
-| 13 | mastered words come back by band, not by lottery | a later turn of the cycle DOES serve the rare word - the control that proves it is not simply excluded |
-| 14 | mastered words come back by band, not by lottery | the cycle is exactly 50/35/15 - ten common, seven middle, three rare in twenty slots |
-| 15 | the review lane does not belong to the words a child cannot read | serves a long-overdue word ahead of the words the child keeps missing |
-| 16 | the review lane does not belong to the words a child cannot read | control: a word only just overdue does NOT jump the queue - box order still governs |
-| 17 | the review lane does not belong to the words a child cannot read | holds over forty sessions: a word the child never gets is served 3 times, not 19 |
+| 12 | mastered words come back by band, not by lottery | the cycle serves common and middle first, the rare word on its later turn - and the split is exactly 50/35/15 |
+| 13 | mastered words come back by band, not by lottery | the cycle is exactly 50/35/15 - ten common, seven middle, three rare in twenty slots |
+| 14 | the review lane does not belong to the words a child cannot read | serves a long-overdue word ahead of the words the child keeps missing - but a word only just overdue does NOT jump the queue |
+| 15 | the review lane does not belong to the words a child cannot read | holds over forty sessions: a word the child never gets is served 3 times, not 19 |
 
-## tests/sentence.test.js — 24 tests (G10)
+## tests/sentence.test.js — 19 tests (G10)
 
 - **Requirement protected:** SPEC section 12 points 2 to 6: where a sentence falls in a session, what it plays, what a tap does, and what ends it
 - **Independent oracle:** The literal clip plan and the level's own word lists
@@ -615,28 +578,23 @@ A site inside a loop or a table runs many times, so Vitest executes MORE tests t
 |---|---|---|
 | 1 | the sentence reveal's clip plan | sounds the open word out seam by seam, every id literal (E4) |
 | 2 | the sentence inside a session | 1: arrives after the fifth word, and only after a word is finished |
-| 3 | the sentence inside a session | 0: arrives SILENT with the child's turn first — prompt up, controls live, no way past but the mark |
-| 4 | the sentence inside a session | 0b: the mark decides only what the app says — praise that never says "word", or the word-reveal leads |
-| 5 | the sentence inside a session | 0c: one attempt, one result — a second mark in the same window changes nothing |
-| 6 | the sentence inside a session | 2: the mark starts the reveal: the whole sentence, the invitation, then the level's word |
-| 7 | the sentence inside a session | 3: a tapped word shows its pieces and says NOTHING |
-| 8 | the sentence inside a session | 4: exactly one word is ever open, and tapping the open one closes it |
-| 9 | the sentence inside a session | 5: the sentence reads again to close, and a tap interrupts that read |
-| 10 | the sentence inside a session | 6: after the mark the grown-up ends it, nothing has to finish first, and no result is recorded |
-| 11 | the sentence inside a session | skip is live in a sentence's REVEAL, dark in its attempt, and ends the sentence cleanly |
-| 12 | the sentence inside a session | 8 (free play): opens on a sentence IN THE ATTEMPT, counts sentences, and its advance names one |
-| 13 | the sentence inside a session | 9 (free play): sounds out the LONGEST word, in tiles, and never the level's |
-| 14 | the sentence inside a session | 9b: the longest word is a pure rule, and it is not the first word |
-| 15 | the sentence inside a session | 10 (free play): the controls are live for the SENTENCE, and no mark records anything |
-| 16 | the sentence inside a session | 11 (free play): never runs out — the pool is dealt again from the top |
-| 17 | the sentence inside a session | 12: the open word's bent-sound note shows in the reveal — and only there |
-| 18 | the sentence inside a session | 7b: a miss just before a sentence still earns the second look |
-| 19 | the sentence inside a session | 7c (control): a miss with no sentence in the way earns the same second look |
-| 20 | the sentence inside a session | 7: no sentence repeats inside one session |
-| 21 | free play deals from data that can be empty | 13: an empty pool turns the tap back rather than breaking the app |
-| 22 | free play deals from data that can be empty | 16: a repeated word opens at ONE position - the tapped one |
-| 23 | free play deals from data that can be empty | 15: the grid's right column works - Any sentence opens a sentence, Build any word opens a build |
-| 24 | free play deals from data that can be empty | 14: the chooser drops the sentence row where there is nothing to serve — and keeps it where there is |
+| 3 | the sentence inside a session | 0/0b/0c: arrives silent with the child's turn first, the mark decides only the praise, and one attempt is one result |
+| 4 | the sentence inside a session | 2: the mark starts the reveal: the whole sentence, the invitation, then the level's word |
+| 5 | the sentence inside a session | 3: a tapped word shows its pieces and says NOTHING |
+| 6 | the sentence inside a session | 4: exactly one word is ever open, and tapping the open one closes it |
+| 7 | the sentence inside a session | 5: the sentence reads again to close, and a tap interrupts that read |
+| 8 | the sentence inside a session | 6: after the mark the grown-up ends it, nothing has to finish first, and no result is recorded |
+| 9 | the sentence inside a session | skip is live in a sentence's REVEAL, dark in its attempt, and ends the sentence cleanly |
+| 10 | the sentence inside a session | 8/9/9b (free play): opens on a sentence in the attempt, sounds out the longest word, by a pure rule |
+| 11 | the sentence inside a session | 10 (free play): the controls are live for the SENTENCE, and no mark records anything |
+| 12 | the sentence inside a session | 11 (free play): never runs out — the pool is dealt again from the top |
+| 13 | the sentence inside a session | 12: the open word's bent-sound note shows in the reveal — and only there |
+| 14 | the sentence inside a session | 7b/7c: a miss earns the second look - with a sentence in the way, or without |
+| 15 | the sentence inside a session | 7: no sentence repeats inside one session |
+| 16 | free play deals from data that can be empty | 13: an empty pool turns the tap back rather than breaking the app |
+| 17 | free play deals from data that can be empty | 16: a repeated word opens at ONE position - the tapped one |
+| 18 | free play deals from data that can be empty | 15: the grid's right column works - Any sentence opens a sentence, Build any word opens a build |
+| 19 | free play deals from data that can be empty | 14: the chooser drops the sentence row where there is nothing to serve — and keeps it where there is |
 
 ## tests/serviceworker.test.js — 5 tests (G14)
 
@@ -656,7 +614,7 @@ A site inside a loop or a table runs many times, so Vitest executes MORE tests t
 | 4 | G14 — the service worker answers for the app, and only for the app | 4 (control): a clip request is still served from the cache, and a miss goes to the network |
 | 5 | G14 — the service worker answers for the app, and only for the app | 5 (control): the version check is never intercepted, so it always sees the live host |
 
-## tests/tokens.test.js — 11 tests (G1)
+## tests/tokens.test.js — 6 tests (G1)
 
 - **Requirement protected:** SPEC section 9 and the art bible's 9.3: C is the one statement of the palette; the thirteen original keys keep their literal values; the bible's four structural edges, the empty slot's edge and the progress ring clear 3:1 on the surface each edges, while line (1.26, 1.07) and the open sentence word's action ring on the gradient (2.95, 2.88, 3.15) are held BELOW the rule and carried in open-faults AA and AB for the steps that darken them; alpha() reproduces the literals it replaced; the two theme colours equal skyBlue; every C.<key> read exists
 - **Independent oracle:** Literal hex pins for the thirteen original keys, the key count, and this file's own WCAG relative-luminance arithmetic at literal expected ratios (3.78, 4.68, 7.51, 6.39, 4.77, 3.79 on a ground derived from the tokens, 4.11, 11.36, 6.43, 5.57; below the rule 1.26, 1.07, 2.95, 2.88), with three controls held below 3:1 (the admitted fill 2.10 and the two withdrawn edges 1.94, 1.44) and WCAG's own anchors (21, 4.48); the garden's thirteen pinned as literals too - the reference image's five on gardenShade (2.06, 7.71, 3.31, 5.69) and the eight of 2026-09-03 on two grounds each (4.87, 2.35, 10.37, 11.22, 11.23, 2.59, 8.96, 3.01 on gardenShade; 3.34, 6.93, 1.57, 1.45, 1.45, 6.27, 1.82, 5.40 on surfaceReading), with bible 8.3 enforced as a loop holding all eight under the teaching word's own measured 11.36 rather than under a literal, and one declared place-exception (gardenFrost against gardenRay below 1.05, the second in the palette after gardenBark against tileEdge)
@@ -668,19 +626,14 @@ A site inside a loop or a table runs many times, so Vitest executes MORE tests t
 
 | # | Suite | Effect (the test's own sentence) |
 |---|---|---|
-| 1 | the palette is pinned | 1: the thirteen keys the game had before the bible keep their literal values |
-| 2 | the palette is pinned | 2: C holds exactly the keys the bible's table names - 13 of the game's, 28 of the bible's, 5 from the sweep, 1 from the tile step, 5 from the garden's reference image, 4 for the year its states walk, 4 the sprites drew before anything declared them, 3 festive |
-| 3 | the palette is pinned | 3/10: the structural edges clear 3:1, and the twelve tile blocks the stylesheets share agree character for character |
-| 4 | the palette is pinned | 3b: every adult edge that read line now reads boundary, at literal ratios, with line kept as the control |
-| 5 | the palette is pinned | 3c: the open sentence word's ring is cyanStructural on the gradient, clearing 3:1 on every stop; the action red it replaced is held below as the control |
-| 6 | the palette is pinned | 8/9: the ceramic tile family at literal ratios, and the scaffold letter at .60 with .28 held below |
-| 7 | the palette is pinned | 4: teaching text clears 7:1 and the action blue 4.5:1, at literal ratios |
-| 8 | the palette is pinned | 5 (control): the one pair the bible admits below 3:1 measures below it, the two withdrawn edges measure below it, and the arithmetic agrees with WCAG's own anchors |
-| 9 | the palette is pinned | 7: alpha() reproduces the literals it replaced, and the two theme colours the build cannot derive equal skyBlue |
-| 10 | the palette is pinned | 6: every C.<key> an app source or the reference reads is a key C has, and a planted one is refused |
-| 11 | the palette is pinned | 13: the Glowseed's lit state is carried by its rim's value step, not its core; the lit rim clears 3:1 on every sky stop; the idle rim is declared decorative below it; the light outside the rim is never the boundary |
+| 1 | the palette is pinned | 1/2/4: the palette keeps its literals, C holds exactly the bible's keys, and teaching text clears 7:1 |
+| 2 | the palette is pinned | 3/10/5/3b/3c: every edge clears 3:1 with its control below it, and the tile stylesheets agree |
+| 3 | the palette is pinned | 8/9: the ceramic tile family at literal ratios, and the scaffold letter at .60 with .28 held below |
+| 4 | the palette is pinned | 7: alpha() reproduces the literals it replaced, and the two theme colours the build cannot derive equal skyBlue |
+| 5 | the palette is pinned | 6: every C.<key> an app source or the reference reads is a key C has, and a planted one is refused |
+| 6 | the palette is pinned | 13: the Glowseed's lit state is carried by its rim's value step, not its core; the lit rim clears 3:1 on every sky stop; the idle rim is declared decorative below it; the light outside the rim is never the boundary |
 
-## tests/updates.test.js — 18 tests (G14)
+## tests/updates.test.js — 14 tests (G14)
 
 - **Requirement protected:** SPEC section 7a: the version and build comparison, and what a newer version may do
 - **Independent oracle:** Literal version and build strings
@@ -692,26 +645,22 @@ A site inside a loop or a table runs many times, so Vitest executes MORE tests t
 
 | # | Suite | Effect (the test's own sentence) |
 |---|---|---|
-| 1 | checkForUpdate | reports current when version and build both match, bypassing every cache |
-| 2 | checkForUpdate | reports available when the host is newer |
-| 3 | checkForUpdate | a fix between named versions is an update too: same version, different build |
-| 4 | checkForUpdate | a host without a stamp can only speak to the version (legacy self-hosts) |
-| 5 | checkForUpdate | reports offline when the request fails, and error on a bad answer |
-| 6 | applyUpdate | activates a waiting worker with the consent message, and resolves on takeover |
-| 7 | applyUpdate | resolves false when nothing is waiting |
-| 8 | applyUpdate | resolves false without a registration |
-| 9 | applyUpdate | cleans up after itself: takeover removes the controllerchange listener |
-| 10 | applyUpdate | an installing worker that reaches waiting gets the consent message, once |
-| 11 | applyUpdate | a statechange after the timeout answers can never activate the worker |
-| 12 | installForegroundCheck (SPEC section 7a — S6's second call) | a return to the foreground with the switch on asks for a newer worker |
-| 13 | installForegroundCheck (SPEC section 7a — S6's second call) | Off means zero requests, and the switch is read at the event, not at install |
-| 14 | installForegroundCheck (SPEC section 7a — S6's second call) | going to the background never asks |
-| 15 | installForegroundCheck (SPEC section 7a — S6's second call) | survives a missing registration and a failing update, and the remover removes |
-| 16 | update-system tripwires (source, with controls) | the service worker never activates itself: no skipWaiting at install, consent message only |
-| 17 | update-system tripwires (source, with controls) | the version check bypasses the service worker and the precache |
-| 18 | update-system tripwires (source, with controls) | the update module can never touch saved progress |
+| 1 | checkForUpdate | reports current, available, and same-version-different-build honestly, bypassing every cache |
+| 2 | checkForUpdate | a host without a stamp speaks only to the version - and a failed or bad answer reports offline or error |
+| 3 | applyUpdate | activates a waiting worker with the consent message, and resolves on takeover |
+| 4 | applyUpdate | resolves false when nothing is waiting, and without a registration |
+| 5 | applyUpdate | cleans up after itself: takeover removes the controllerchange listener |
+| 6 | applyUpdate | an installing worker that reaches waiting gets the consent message, once |
+| 7 | applyUpdate | a statechange after the timeout answers can never activate the worker |
+| 8 | installForegroundCheck (SPEC section 7a — S6's second call) | a return to the foreground with the switch on asks for a newer worker |
+| 9 | installForegroundCheck (SPEC section 7a — S6's second call) | Off means zero requests, and the switch is read at the event, not at install |
+| 10 | installForegroundCheck (SPEC section 7a — S6's second call) | going to the background never asks |
+| 11 | installForegroundCheck (SPEC section 7a — S6's second call) | survives a missing registration and a failing update, and the remover removes |
+| 12 | update-system tripwires (source, with controls) | the service worker never activates itself: no skipWaiting at install, consent message only |
+| 13 | update-system tripwires (source, with controls) | the version check bypasses the service worker and the precache |
+| 14 | update-system tripwires (source, with controls) | the update module can never touch saved progress |
 
-## tests/voicepacks.test.js — 21 tests (G13)
+## tests/voicepacks.test.js — 20 tests (G13)
 
 - **Requirement protected:** The voice pack's engine-side contract - every word has a clip and every clip a recipe - AND the player's own lifecycle: an utterance is silenced when the next attempt begins (S2), a source that cannot play hands over to system speech and says why, and the sound-out's rings land on the right tiles even when the audio player wakes late (B18)
 - **Independent oracle:** tools/voice-words.csv for the clips, the human-edited source of truth; for the lifecycle, a fake AudioContext whose resume() settles synchronously, on a later task, after 120 ms, or never - one shape per fault
@@ -738,12 +687,11 @@ A site inside a loop or a table runs many times, so Vitest executes MORE tests t
 | 13 | voice-pack clip engine | a stored family clip carries its measurements, and an undecodable one carries none |
 | 14 | voice-pack clip engine | prefers a complete family pack: family clips come from the device, not from fetch |
 | 15 | voice-pack clip engine | takes the audio session back from the microphone before the next reveal |
-| 16 | voice-pack clip engine | declares a playback session before anything sounds, so the silent switch cannot mute the words |
-| 17 | voice-pack clip engine | (control): with no microphone use the context is left alone |
-| 18 | voice-pack clip engine | App.jsx wires the packs at every speech site (source tripwire with control) |
-| 19 | voice-pack clip engine | B18: a cached word survives a sleeping context - wakes late, never wakes, or is silenced mid-wait |
-| 20 | voice-pack clip engine | B18: the wait is long enough to matter - a context 120 ms late keeps its rings |
-| 21 | voice-pack clip engine | the audio-route repair survives with no caller, ready for the family recorder |
+| 16 | voice-pack clip engine | declares a playback session before anything sounds - and with no microphone use the context is left alone |
+| 17 | voice-pack clip engine | App.jsx wires the packs at every speech site (source tripwire with control) |
+| 18 | voice-pack clip engine | B18: a cached word survives a sleeping context - wakes late, never wakes, or is silenced mid-wait |
+| 19 | voice-pack clip engine | B18: the wait is long enough to matter - a context 120 ms late keeps its rings |
+| 20 | voice-pack clip engine | the audio-route repair survives with no caller, ready for the family recorder |
 
 ## Gates that are not test files
 

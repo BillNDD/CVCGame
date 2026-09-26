@@ -252,7 +252,8 @@ describe("Build-it's loop", () => {
    ceramic-tiles page). Each state is a class the stylesheet paints; what a
    screen reader hears does not change. */
 describe("the ceramic tile states", () => {
-  it("20: a used tray tile keeps its letter, is a real disabled control, and is not dimmed", async () => {
+  it("20/21: a used tray tile keeps its letter as a real disabled control, and a multi-letter tile is as wide as its slot", async () => {
+    /* Merged 2026-09-26 from tests 20 and 21 (Tier C); every line kept. */
     const tray = mount("cat", 8);
     const first = tileFor(tray.answer[0])[0];
     fireEvent.click(first);
@@ -263,16 +264,15 @@ describe("the ceramic tile states", () => {
     /* the slot that took it is a filled ceramic slot, named the same as before */
     expect(screen.getByLabelText("Take back " + tray.answer[0]).classList.contains("wq-empty")).toBe(false);
     expect(screen.getAllByLabelText("Empty space").every((b) => b.classList.contains("wq-empty") && b.disabled)).toBe(true);
-  });
-
-  it("21: a multi-letter tray tile is as wide as its slot - sh is 90 px where s is 64", () => {
-    const tray = mount("ship", 8);
+    cleanup(); played.length = 0;
+    /* sh is 90 px where s is 64. */
+    const tray2 = mount("ship", 8);
     const sh = tileFor("sh")[0], i = tileFor("i")[0];
     expect(sh.style.width).toBe("90px");
     expect(i.style.width).toBe("64px");
     expect(sh.style.height).toBe("64px");
     expect(screen.getByLabelText("Tile sh")).toBe(sh);
-    expect(tray.answer[0]).toBe("sh");
+    expect(tray2.answer[0]).toBe("sh");
   });
 
   it("22: after a miss the filled slots wear the arrangement ring while the built sounds play, and lose it when the tray is handed back", async () => {
@@ -325,7 +325,8 @@ describe("the ceramic tile states", () => {
     expect(document.querySelectorAll(".wq-ghost").length).toBe(0);
   });
 
-  it("26: the Glowseed stays idle through the scaffold's one-clip-per-slot plays, lights for a play after it, and wears the muted look when the screen is muted", async () => {
+  it("26/26b: the Glowseed stays idle through the scaffold, lights after it, and wears the muted look when muted", async () => {
+    /* Merged 2026-09-26 from tests 26 and 26b (Tier C); every line kept. */
     /* art step 2, the owner's page ruling 2 (a): the scaffold's sounds would
        blink the object once per 900 ms slot - the repeated pulse bible 7
        forbids - so the stage asks it to stay quiet until the last ghost
@@ -356,14 +357,14 @@ describe("the ceramic tile states", () => {
     await act(async () => { emitAudio({ state: "end", token: 5 }); });
     expect(seed().getAttribute("data-wq-glowseed")).toBe("idle");
     expect(seed().getAttribute("aria-hidden")).toBe("true");
-  });
-  it("26b: a muted build (sound off) wears the muted look whatever plays", async () => {
-    const tray = trayFor("cat", 2);
-    render(createElement(BuildItScreen, { tray, playWord: () => {}, playSounds: () => {}, soundIdsOf: (w) => chunkWord(w).map((c) => "d:" + c), onDone: () => {}, onExit: () => {}, muted: true }));
-    const seed = document.querySelector(".wq-glowseed");
-    expect(seed.getAttribute("data-wq-glowseed")).toBe("muted");
+    cleanup(); played.length = 0; saves = []; stored = { ...newState(), preLevel: 0 };
+    /* 26b: a muted build (sound off) wears the muted look whatever plays. */
+    const trayB = trayFor("cat", 2);
+    render(createElement(BuildItScreen, { tray: trayB, playWord: () => {}, playSounds: () => {}, soundIdsOf: (w) => chunkWord(w).map((c) => "d:" + c), onDone: () => {}, onExit: () => {}, muted: true }));
+    const seedB = document.querySelector(".wq-glowseed");
+    expect(seedB.getAttribute("data-wq-glowseed")).toBe("muted");
     await act(async () => { emitAudio({ state: "start", token: 9, ms: 300 }); });
-    expect(seed.getAttribute("data-wq-glowseed")).toBe("muted");
+    expect(seedB.getAttribute("data-wq-glowseed")).toBe("muted");
   });
 
   it("26f: a miss landing inside the scaffold lifts the quiet, so the playback is never spoken over a dark object", async () => {
@@ -484,7 +485,7 @@ describe("the ceramic tile states", () => {
     expect(seed().getAttribute("data-wq-glowseed"), "the celebration is speaking, so the object is lit").toBe("lit");
   });
 
-  it("27/27b: the tray's sizes follow the phone - on rotation, and with no matchMedia at all", async () => {
+  it("27/27b: the tray's sizes follow the phone - 90x64 at 740 px, resized on rotation to 320, and still sized with no matchMedia at all", async () => {
     /* Merged 2026-09-26 from test 27 and its control 27b (Tier B); every line kept.
        The fault, measured on a real browser before the fix (2026-08-23): at
        740 px wide the tiles are 90 x 64, and after rotating to 320 they were
@@ -607,7 +608,8 @@ describe("Build-a-sound, for a child still on the ladder", () => {
     expect(shipped.has("d:zzz")).toBe(false);
   });
 
-  it("12: finding the sound wins, and a wrong tile invites another try", async () => {
+  it("12/13: finding the sound wins, and a miss hands the tray back by itself", async () => {
+    /* Merged 2026-09-26 from tests 12 and 13 (Tier C); every line kept. */
     const tray = buildSoundTray(2, () => 0.3);
     render(createElement(BuildItScreen, {
       tray,
@@ -626,27 +628,26 @@ describe("Build-a-sound, for a child still on the ladder", () => {
     fireEvent.click(tiles().find((b) => b.textContent === tray.target));
     await flush(50);
     expect(screen.getByText(/You found it/)).toBeTruthy();
-  });
-  it("13: a miss hands the tray back by itself - the wrong tile does not sit in the slot", async () => {
+    cleanup(); played.length = 0; saves = []; stored = { ...newState(), preLevel: 0 };
     /* The owner, 2026-08-21: "once you pick a sound, if you make a wrong
        choice, there is no way to choose a different sound." Beta 22 left the
        wrong tile in the single slot and the only way on was a tap nothing
        explained. After the miss is heard, the slot is empty again with no
        tap at all, and the next tile goes straight in. */
-    const tray = buildSoundTray(2, () => 0.3);
+    const tray13 = buildSoundTray(2, () => 0.3);
     render(createElement(BuildItScreen, {
-      tray,
+      tray: tray13,
       playWord: (w, then) => { played.push("word:" + w); if (then) then(); },
       playSounds: (ids, then) => { played.push("sounds:" + ids.join(",")); if (then) then(); },
       soundIdsOf: (w) => chunkWord(w).map((c) => "d:" + c),
       onDone: () => {}, onExit: () => {},
     }));
-    const wrong = tiles().find((b) => b.textContent !== tray.target);
-    fireEvent.click(wrong);
+    const wrong13 = tiles().find((b) => b.textContent !== tray13.target);
+    fireEvent.click(wrong13);
     await flush(50);
     expect(screen.getByText(/different sound/)).toBeTruthy();
     expect(slots()[0].textContent).toBe("");                  // handed back, untouched
-    fireEvent.click(tiles().find((b) => b.textContent === tray.target));   // straight in
+    fireEvent.click(tiles().find((b) => b.textContent === tray13.target));   // straight in
     await flush(50);
     expect(screen.getByText(/You found it/)).toBeTruthy();
   });
@@ -658,7 +659,8 @@ describe("free play builds go on until Done", () => {
      the next one, and only the Done control leaves. Driven through the real
      App on a pre-ladder save, tiles tried in order until the right one -
      misses are unlimited and the slot clears itself (test 13). */
-  it("19: a child at level 1 and at level 2 gets a build, not an error", async () => {
+  it("19/18: a child at level 1 and at level 2 gets a build, and every level's window holds words", async () => {
+    /* Merged 2026-09-26 from tests 19 and 18 (Tier C); every line kept. */
     /* The owner's worry, answered by driving it rather than by reasoning
        (2026-08-21): "present level and two below" has no two below at levels
        1 and 2. Nothing throws - the window clamps to level 1 - and a word
@@ -690,27 +692,25 @@ describe("free play builds go on until Done", () => {
         cleanup();
       }
     }
-  });
-
-  it("18: every level's build window holds words, the first two included", () => {
-    /* The owner's question when the window landed (2026-08-21): levels 1 and
-       2 have no two levels below them. The window clamps at 1, and this
-       proves the clamp leaves words on the shelf - for EVERY level, not just
-       those two. The constant is read from the app rather than re-typed, so
-       widening or narrowing the window brings its own arithmetic here. */
-    const src = readFileSync("app/src/App.jsx", "utf8");
-    const W = Number(/const BUILD_WINDOW = (\d+);/.exec(src)[1]);
-    expect(W).toBe(3);
-    const { LEVELS, buildable } = engine;
-    const windowOf = (L) => LEVELS.slice(Math.max(1, L - (W - 1)) - 1, L).flatMap((l) => l.words).filter(buildable);
-    const counts = LEVELS.map((l) => windowOf(l.n).length);
-    expect(Math.min(...counts)).toBe(4);            // level 45, the thinnest shelf in the bank
-    expect(counts.filter((n) => n === 0).length).toBe(0);
+    /* The 18 half: the owner's question when the window landed (2026-08-21):
+       levels 1 and 2 have no two levels below them. The window clamps at 1,
+       and this proves the clamp leaves words on the shelf - for EVERY level,
+       not just those two. The constant is read from the app rather than
+       re-typed, so widening or narrowing the window brings its own arithmetic
+       here. */
+    const src18 = readFileSync("app/src/App.jsx", "utf8");
+    const W18 = Number(/const BUILD_WINDOW = (\d+);/.exec(src18)[1]);
+    expect(W18).toBe(3);
+    const { LEVELS: LV, buildable: buildable18 } = engine;
+    const windowOf18 = (L) => LV.slice(Math.max(1, L - (W18 - 1)) - 1, L).flatMap((l) => l.words).filter(buildable18);
+    const counts18 = LV.map((l) => windowOf18(l.n).length);
+    expect(Math.min(...counts18)).toBe(4);            // level 45, the thinnest shelf in the bank
+    expect(counts18.filter((n) => n === 0).length).toBe(0);
     /* The two levels the question was about, measured: level 1 stands on its
        own ten words, level 2 on twenty. */
-    expect(windowOf(1).length).toBe(10);
-    expect(windowOf(2).length).toBe(20);
-    expect(windowOf(1).every((w) => LEVELS[0].words.includes(w))).toBe(true);
+    expect(windowOf18(1).length).toBe(10);
+    expect(windowOf18(2).length).toBe(20);
+    expect(windowOf18(1).every((w) => LV[0].words.includes(w))).toBe(true);
   });
 
   it("17: a long word's celebration is never cut off - the turn ends when the sound does", async () => {
@@ -754,7 +754,8 @@ describe("free play builds go on until Done", () => {
     expect(ended).toBe(1);
   });
 
-  it("15: 'Build a level word' deals the level's own word, mastery elsewhere notwithstanding", async () => {
+  it("15/16/14: the free-play cells deal their own words, and a found sound is followed by another", async () => {
+    /* Merged 2026-09-26 from tests 15, 16 and 14 (Tier C); every line kept. */
     /* The owner at level 75 was handed "is" and "an" (2026-08-21): the old
        row served mastered words from any level first. The cell promises the
        level, so the word spoken is one of level 75's, even with early words
@@ -779,11 +780,9 @@ describe("free play builds go on until Done", () => {
     const window = [73, 74, 75].flatMap((n) => LEVELS[n - 1].words);
     expect(window.includes(spoken.slice(5))).toBe(true);
     expect(["is", "an", "at", "in", "it"].includes(spoken.slice(5))).toBe(false);
-  });
-  it("16: 'Build any word' opens a build at all", async () => {
+    cleanup(); played.length = 0; saves = []; stored = { ...newState(), preLevel: 0 };
     /* Dead on the owner's phone in beta 23: the cell's draw called a bank
        lookup the app had never imported. */
-    const App = (await import("../app/src/App.jsx")).default;
     stored = { ...newState(), preLevel: 0, level: 1 };
     render(createElement(App));
     await flush(2001); // owner-ruled 2s minimum splash: post-splash behavior starts here.
@@ -793,10 +792,7 @@ describe("free play builds go on until Done", () => {
     await flush(0);
     expect(screen.getByText(/Build a word/)).toBeTruthy();
     expect(played.find((x) => x.startsWith("word:"))).toBeTruthy();
-  });
-  it("14: a found sound is followed by another sound, and Done goes home", async () => {
-    const App = (await import("../app/src/App.jsx")).default;
-    stored = { ...newState(), preLevel: 2 };
+    cleanup(); played.length = 0; saves = []; stored = { ...newState(), preLevel: 2 };
     render(createElement(App));
     await flush(2001); // owner-ruled 2s minimum splash: post-splash behavior starts here.
     fireEvent.click(screen.getByLabelText("Free play"));
@@ -804,6 +800,7 @@ describe("free play builds go on until Done", () => {
     fireEvent.click(screen.getByLabelText("Find a Pre 2 sound"));
     await flush(0);
     expect(screen.getByText(/Find the sound/)).toBeTruthy();
+    {
     const findIt = async () => {
       const n = tiles().length;
       for (let i = 0; i < n; i += 1) {
@@ -814,6 +811,7 @@ describe("free play builds go on until Done", () => {
       return false;
     };
     expect(await findIt()).toBe(true);
+    }
     /* The win must STAY won while it is being celebrated: the scaffolds
        queued by the misses on the way (900 ms out, one per miss past the
        second) may not stamp over it. Re-derived 2026-08-21 when the turn

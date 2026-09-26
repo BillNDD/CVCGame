@@ -19,22 +19,22 @@ const at = (level, secureCount = 0) => {
 };
 
 describe("the garden", () => {
-  it("1: the state is the tenth of the levels completed - 0 through level 10, 1 at level 11, 9 through level 100", () => {
+  it("1/2: the state is the tenth of the levels completed - and the ladder completes only when level 100's words are secure", () => {
+    /* Merged 2026-09-26 from tests 1 and 2 (Tier C); every line kept. */
     expect(gardenState(at(1))).toBe(0);
     expect(gardenState(at(10))).toBe(0);
     expect(gardenState(at(11))).toBe(1);
     expect(gardenState(at(50))).toBe(4);
     expect(gardenState(at(91))).toBe(9);
     expect(gardenState(at(100))).toBe(9);
-  });
-  it("2: the ladder is complete when level 100's words are secure, and then the garden is 10", () => {
+    /* The ladder is complete when level 100's words are secure, and then the garden is 10. */
     expect(LEVELS.length).toBe(100);
     expect(LEVELS[99].words.length).toBe(12);
     expect(ladderComplete(at(100, 9))).toBe(false);     // 9 of 12 is 75%, under the 80% rule
     expect(ladderComplete(at(100, 10))).toBe(true);     // 10 of 12 is 83%
     expect(gardenState(at(100, 10))).toBe(10);
   });
-  it("3: the two-perfect-sessions path promotes between levels and never ends the ladder", () => {
+  it("3/4: the two-perfect-sessions path promotes between levels and never ends the ladder - and a secure 99 is not the end", () => {
     /* SPEC section 7. The engineering chair's finding: without this line,
        ladderComplete would be a third promotion rule. At level 100 with the
        streak at 2 and the words NOT secure, neither the promotion nor the
@@ -51,8 +51,7 @@ describe("the garden", () => {
     t.perfectStreak = 1;
     expect(checkPromotion(t, { perfect: true, partial: false })).toBe(true);
     expect(t.level).toBe(100);
-  });
-  it("4: a secure level 99 is not the end of the ladder", () => {
+    /* 4: a secure level 99 is not the end of the ladder. */
     expect(ladderComplete(at(99, 6))).toBe(false);
     expect(gardenState(at(99, 6))).toBe(9);
   });

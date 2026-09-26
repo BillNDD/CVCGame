@@ -282,7 +282,8 @@ describe("the ladder in the app", () => {
     expect(word.textContent).toBe("s");
     expect(document.body.textContent.includes("Read this word")).toBe(false);
   });
-  it("a chunk arrives in SILENCE, printed, and its speaker plays the sounds apart - never the answer (S2)", async () => {
+  it("a chunk arrives in SILENCE and grades to its own prefixed key, its speaker playing the sounds apart - never the answer (S2)", async () => {
+    /* Merged 2026-09-26 from the chunk-arrival test and the chunk-grading test (Tier C); every line kept. */
     /* Letters with attempts leave the chunks as the only fresh items, so the
        queue leads with c:at. The screen must print "at" and play NOTHING:
        speaking the chunk on arrival hands a reading child the answer, which
@@ -305,8 +306,9 @@ describe("the ladder in the app", () => {
     expect(played.length).toBe(1);
     expect(played[0]).toBe("d:short_a,seam2,d:t");
     expect(played[0].includes("w:at"), "the speaker never says the answer").toBe(false);
-  });
-  it("grading a chunk writes to its own prefixed key and the reveal blends at last", async () => {
+    /* Grading the chunk writes to its own prefixed key and the reveal blends at last.
+       The stage is reset the way beforeEach does. */
+    cleanup(); mockSave.mockClear(); mockLoad.mockReset(); mockLoad.mockResolvedValue(null); localStorage.clear();
     mockLoad.mockResolvedValueOnce({ ...newState(),
       pre: Object.fromEntries(["s", "a", "t", "p"].map((k) => [k,
         { box: 2, attempts: 2, correct: 2, close: 0, wrong: 0, dueAt: 9, lastSession: 0 }])) });
@@ -328,7 +330,8 @@ describe("the ladder in the app", () => {
     expect(feedback.includes("d:short_a,seam2,d:t")).toBe(true);
     expect(feedback.endsWith("w:at")).toBe(true);
   });
-  it("only the adult's hold records a pre result, into state.pre alone (S1)", async () => {
+  it("only the adult's hold records a pre result - and two holds at once record one, not two (S1)", async () => {
+    /* Merged 2026-09-26 from the single-hold test and the two-holds test (Tier C); every line kept. */
     render(createElement(App));
     await flush(2001); // owner-ruled 2s minimum splash: post-splash behavior starts here.
     fireEvent.click(screen.getByLabelText("Begin Session"));
@@ -341,15 +344,16 @@ describe("the ladder in the app", () => {
     const saved = mockSave.mock.calls.at(-1)[0];
     expect(saved.pre.s.correct).toBe(1);                  // the first letter, taught order
     expect(Object.keys(saved.words).length).toBe(0);
-  });
-  it("two holds at once record one pre result, not two", async () => {
-    /* One attempt, one result - the word session's grade-once rule
+    /* Two holds at once record one pre result, not two.
+       One attempt, one result - the word session's grade-once rule
        (adult-controls 24), on the ladder. Two adult controls can mature
        together: the hold timer does not re-check disabled inside its own
        callback, so the second hold's grade arrives after the first has
        ended the attempt, and without the guard the letter is counted twice -
        "got it" and "not yet" both, attempts 2 for one reading. Written for
-       the G19 pre-ladder family (open fault S, closed 2026-09-12). */
+       the G19 pre-ladder family (open fault S, closed 2026-09-12).
+       The stage is reset the way beforeEach does. */
+    cleanup(); mockSave.mockClear(); mockLoad.mockReset(); mockLoad.mockResolvedValue(null); localStorage.clear();
     render(createElement(App));
     await flush(2001); // owner-ruled 2s minimum splash: post-splash behavior starts here.
     fireEvent.click(screen.getByLabelText("Begin Session"));
@@ -358,10 +362,10 @@ describe("the ladder in the app", () => {
     await flush(10);                              // the second finger lands
     fireEvent.pointerDown(screen.getByLabelText("not yet"));
     await flush(700);                             // both holds mature
-    const saved = mockSave.mock.calls.at(-1)[0];
-    expect(saved.pre.s.attempts).toBe(1);
-    expect(saved.pre.s.correct).toBe(1);
-    expect(saved.pre.s.wrong).toBe(0);
+    const saved2 = mockSave.mock.calls.at(-1)[0];
+    expect(saved2.pre.s.attempts).toBe(1);
+    expect(saved2.pre.s.correct).toBe(1);
+    expect(saved2.pre.s.wrong).toBe(0);
   });
   it("the pre-level's Next waits for the clips' own length, and never less than the guard", async () => {
     /* The player reports the reveal's length through onScheduled, and the

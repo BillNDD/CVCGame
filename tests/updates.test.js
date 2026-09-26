@@ -14,29 +14,28 @@ vi.stubGlobal("fetch", fetchMock);
 beforeEach(() => fetchMock.mockReset());
 
 describe("checkForUpdate", () => {
-  it("reports current when version and build both match, bypassing every cache", async () => {
+  it("reports current, available, and same-version-different-build honestly, bypassing every cache", async () => {
+    /* Merged 2026-09-26 from the current/available/same-build tests (Tier C); every line kept. */
     fetchMock.mockResolvedValue({ ok: true, json: async () => ({ version: "1.0.0", build: "abc1234" }) });
     expect(await checkForUpdate("1.0.0", "abc1234")).toEqual({ state: "current", latest: "1.0.0", latestBuild: "abc1234" });
     expect(fetchMock).toHaveBeenCalledWith("version.json", { cache: "no-store" });
-  });
-  it("reports available when the host is newer", async () => {
+    /* available when the host is newer. */
     fetchMock.mockResolvedValue({ ok: true, json: async () => ({ version: "1.0.1", build: "abc1234" }) });
     expect(await checkForUpdate("1.0.0", "abc1234")).toEqual({ state: "available", latest: "1.0.1", latestBuild: "abc1234" });
-  });
-  it("a fix between named versions is an update too: same version, different build", async () => {
-    /* The blind spot this stamp exists for (owner-approved 2026-08-07): the
+    /* A fix between named versions is an update too: same version, different build.
+       The blind spot this stamp exists for (owner-approved 2026-08-07): the
        check answered "You have the latest version." while a newer build of
        the same beta sat on the host. */
     fetchMock.mockResolvedValue({ ok: true, json: async () => ({ version: "1.0.0", build: "def5678" }) });
     expect(await checkForUpdate("1.0.0", "abc1234")).toEqual({ state: "available", latest: "1.0.0", latestBuild: "def5678" });
   });
-  it("a host without a stamp can only speak to the version (legacy self-hosts)", async () => {
+  it("a host without a stamp speaks only to the version - and a failed or bad answer reports offline or error", async () => {
+    /* Merged 2026-09-26 from the legacy-host test and the offline/error test (Tier C); every line kept. */
     fetchMock.mockResolvedValue({ ok: true, json: async () => ({ version: "1.0.0" }) });
     expect((await checkForUpdate("1.0.0", "abc1234")).state).toBe("current");
     fetchMock.mockResolvedValue({ ok: true, json: async () => ({ version: "1.0.1" }) });
     expect((await checkForUpdate("1.0.0", "abc1234")).state).toBe("available");
-  });
-  it("reports offline when the request fails, and error on a bad answer", async () => {
+    /* offline when the request fails, error on a bad answer. */
     fetchMock.mockRejectedValue(new Error("no network"));
     expect((await checkForUpdate("1.0.0", "abc1234")).state).toBe("offline");
     fetchMock.mockResolvedValue({ ok: false });
@@ -76,11 +75,10 @@ describe("applyUpdate", () => {
     sw.fireControllerChange();
     expect(await p).toBe(true);
   });
-  it("resolves false when nothing is waiting", async () => {
+  it("resolves false when nothing is waiting, and without a registration", async () => {
+    /* Merged 2026-09-26 from the two resolves-false tests (Tier C); every line kept. */
     swDouble({ update: async () => {}, waiting: null, installing: null });
     expect(await applyUpdate()).toBe(false);
-  });
-  it("resolves false without a registration", async () => {
     swDouble(null);
     expect(await applyUpdate()).toBe(false);
   });
