@@ -384,7 +384,9 @@ const suiteOut = step("G1+G2+G9+G10 tests", "npx vitest run --coverage", [
   { label: "garden", regex: /garden\.test\.js\s+\((\d+) tests\)/, floorKey: "g1_garden_tests" },
   { label: "tokens", regex: /tokens\.test\.js\s+\((\d+) tests\)/, floorKey: "g1_token_tests" },
   { label: "names", regex: /names\.test\.js\s+\((\d+) tests\)/, floorKey: "g10_name_tests" },
-  { label: "adult_controls", regex: /adult-controls\.test\.js\s+\((\d+) tests\)/, floorKey: "g10_adult_control_tests" },
+  /* adult-controls.test.js retired 2026-09-26 into E7 journeys
+     (features/app-attempt-result.feature); its S1/S5 proofs moved to the
+     generated acceptance entry, and the count floor retired with the file. */
   { label: "reveal", regex: /reveal\.test\.js\s+\((\d+) tests\)/, floorKey: "g10_reveal_tests" },
   { label: "sentence", regex: /sentence\.test\.js\s+\((\d+) tests\)/, floorKey: "g10_sentence_tests" },
   { label: "acceptance", regex: /acceptance\.test\.js\s+\((\d+) tests\)/, floorKey: "g3_generated_tests" },

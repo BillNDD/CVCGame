@@ -1,6 +1,218 @@
 {
   "features": [
     {
+      "file": "features/app-attempt-result.feature",
+      "name": "One attempt records one result, whatever the hands do",
+      "scenarios": [
+        {
+          "name": "One attempt records one result, whatever the hands do",
+          "outline": false,
+          "steps": [
+            {
+              "kind": "Given",
+              "text": "the app boots with a level 1 save"
+            },
+            {
+              "kind": "Given",
+              "text": "the session opens on its first word"
+            },
+            {
+              "kind": "When",
+              "text": "the screen reader activates it"
+            },
+            {
+              "kind": "Then",
+              "text": "the advance control appears"
+            },
+            {
+              "kind": "When",
+              "text": "the app restarts fresh"
+            },
+            {
+              "kind": "When",
+              "text": "the app boots with a level 1 save"
+            },
+            {
+              "kind": "When",
+              "text": "the session opens on its first word"
+            },
+            {
+              "kind": "When",
+              "text": "a stray touch lands on it"
+            },
+            {
+              "kind": "Then",
+              "text": "the advance control stays absent"
+            },
+            {
+              "kind": "When",
+              "text": "an early release lets go of it"
+            },
+            {
+              "kind": "Then",
+              "text": "the advance control stays absent"
+            },
+            {
+              "kind": "When",
+              "text": "the app restarts fresh"
+            },
+            {
+              "kind": "When",
+              "text": "a lone hold button is rendered"
+            },
+            {
+              "kind": "When",
+              "text": "a full hold fires it once"
+            },
+            {
+              "kind": "Then",
+              "text": "it fired 1 time"
+            },
+            {
+              "kind": "When",
+              "text": "Enter plus its click fires it again"
+            },
+            {
+              "kind": "Then",
+              "text": "it fired 2 times"
+            },
+            {
+              "kind": "When",
+              "text": "past the guard window a real second activation counts"
+            },
+            {
+              "kind": "Then",
+              "text": "it fired 3 times"
+            },
+            {
+              "kind": "When",
+              "text": "the app restarts fresh"
+            },
+            {
+              "kind": "When",
+              "text": "a lone disabled hold button is rendered"
+            },
+            {
+              "kind": "When",
+              "text": "nothing at all fires the disabled one"
+            },
+            {
+              "kind": "Then",
+              "text": "it fired 0 times"
+            },
+            {
+              "kind": "When",
+              "text": "the app restarts fresh"
+            },
+            {
+              "kind": "When",
+              "text": "the app boots with a level 1 save"
+            },
+            {
+              "kind": "When",
+              "text": "the session opens on its first word"
+            },
+            {
+              "kind": "When",
+              "text": "both result controls are held at once"
+            },
+            {
+              "kind": "Then",
+              "text": "the early exit counts \"1 word has been read\""
+            }
+          ],
+          "examples": []
+        },
+        {
+          "name": "The session keeps the grown-up's place and counts honestly",
+          "outline": false,
+          "steps": [
+            {
+              "kind": "Given",
+              "text": "the app boots with a level 1 save"
+            },
+            {
+              "kind": "Given",
+              "text": "the session opens on its first word"
+            },
+            {
+              "kind": "When",
+              "text": "the grown-up marks it with Enter"
+            },
+            {
+              "kind": "Then",
+              "text": "focus falls to the page body"
+            },
+            {
+              "kind": "When",
+              "text": "the reveal wait passes"
+            },
+            {
+              "kind": "Then",
+              "text": "the live advance control holds focus"
+            },
+            {
+              "kind": "When",
+              "text": "activating the focused control readies the next word"
+            },
+            {
+              "kind": "Then",
+              "text": "the advance control stays absent"
+            },
+            {
+              "kind": "When",
+              "text": "the app restarts fresh"
+            },
+            {
+              "kind": "When",
+              "text": "the app boots with a level 1 save"
+            },
+            {
+              "kind": "When",
+              "text": "the session opens on its first word"
+            },
+            {
+              "kind": "When",
+              "text": "the grown-up marks it with Enter"
+            },
+            {
+              "kind": "When",
+              "text": "the grown-up moves focus away mid-wait"
+            },
+            {
+              "kind": "Then",
+              "text": "the control comes alive but their choice stands"
+            },
+            {
+              "kind": "When",
+              "text": "the app restarts fresh"
+            },
+            {
+              "kind": "When",
+              "text": "home opens with 1 session completed"
+            },
+            {
+              "kind": "Then",
+              "text": "one session counts singular"
+            },
+            {
+              "kind": "When",
+              "text": "the app restarts fresh"
+            },
+            {
+              "kind": "When",
+              "text": "home opens with 2 sessions completed"
+            },
+            {
+              "kind": "Then",
+              "text": "two sessions count plural"
+            }
+          ],
+          "examples": []
+        }
+      ]
+    },
+    {
       "file": "features/app-backup-refusals.feature",
       "name": "Hostile backup files are refused and nothing is written",
       "scenarios": [

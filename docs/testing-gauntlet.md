@@ -272,7 +272,9 @@ hiding it. Sub-second over ~960 rows, so it runs in `npm run check`.
   action, a focused result control grades on Enter directly, and the app moves focus to the
   advance control after every reveal - so a storm pressing Enter would grade and finish a
   session lawfully, and a gate that called that an S1 breach would be muted on its first false
-  red. The keyboard grade is proved by `tests/adult-controls.test.js` and exercised by G18. A
+  red. The keyboard grade is proved by the E7 journeys
+  (features/app-attempt-result.feature, formerly `tests/adult-controls.test.js`,
+  retired 2026-09-26) and exercised by G18. A
   pointer that dwells 450 ms inside a hold control is a real hold whatever opened it: every
   pointer gesture's dwell is measured, and a CHANGED RESULT after a dwell at or past the hold
   length is INCONCLUSIVE with its seed rather than a verdict - a long dwell that changed
@@ -948,14 +950,14 @@ every bound reads `LEVELS.length`, which is why adding a level needed no engine 
 
 ## G10. Safety gates
 
-- Location: `tests/safety.test.js`, `tests/adult-controls.test.js`,
+- Location: `tests/safety.test.js`,
   and Playwright checks inside `npm run test:ui`.
 - Each rule in `CLAUDE.md` becomes at least one failing-by-default test. Keys:
   `g10_safety_tests` (safety.test.js alone since 2026-09-26, when the summed
   `safety-splash.test.js` retired into E6 journeys; before that the SUM of both
   files, so a test
   cannot vanish from either file; the gauntlet's summed counter refuses a missing file
-  outright) and `g10_adult_control_tests`. The safety floor reads 19 (29 before the 2026-09-26 E6 retirement), and its history is
+  outright) and `g10_adult_control_tests` (retired with its file 2026-09-26; the E7 journeys carry its proofs). The safety floor reads 19 (29 before the 2026-09-26 E6 retirement), and its history is
   a lesson: on 2026-08-17 three raises (37, 38, 42) landed on this key while the tests
   they counted went to `chunker.test.js` and `buildit.test.js` - files that had NO
   counter - and the same day's stray step arguments kept the gauntlet from ever running
@@ -1038,8 +1040,9 @@ every bound reads `LEVELS.length`, which is why adding a level needed no engine 
   (the safety file had reached the file-length ceiling); the file was retired
   2026-09-26 into E6 journeys (features/app-splash-update.feature), which prove a
   child's tap never reaches the network and only the adult hold applies an update.
-- S5 has its own file because the safety file reached the file-length ceiling, 600 lines at the
-  time (G6). It holds one
+- S5 had its own file from the G6 file-length ceiling (600 lines at the time);
+  the file retired 2026-09-26 into E7 journeys
+  (features/app-attempt-result.feature), which hold one
   subject: a result reaches the save only through a deliberate adult act, and every grown-up
   has a way to perform one — a 450 ms hold, a keypress, or an activation from assistive
   technology, which the control could not see at all until an audit found it. One act records
@@ -1997,7 +2000,7 @@ a person can say the rule is the right rule. A proof nobody declared is invisibl
 which is why every number here is a floor rather than an equality.
 
 - Tool: `tools/safety-cover.mjs`. Command: `node tools/safety-cover.mjs && node tools/safety-cover.mjs --self-test`.
-- Keys: `g25_rules (9)`, `g25_proofs (34)`, `g25_controls (12)`, `g25_source_only_max (1)`, `g25_unobserved_max (5)` - S1 gained an observed proof with G30 the monkey on 2026-09-02, so the unobserved ceiling came down by one.
+- Keys: `g25_rules (9)`, `g25_proofs (33)`, `g25_controls (12)`, `g25_source_only_max (1)`, `g25_unobserved_max (5)` - S1 gained an observed proof with G30 the monkey on 2026-09-02, so the unobserved ceiling came down by one. The adult-controls file retired into E7 journeys 2026-09-26, consolidating its S1/S5 pairs into the generated entry (34 to 33 with every rule still proved).
 - Controls: twelve, and the important one is that the six planted faults run through a
   parameterised detector, so the same cases can be put to a stub that always reports
   nothing. It must answer none of them. Two controls in this repository once passed with
@@ -2386,7 +2389,7 @@ other direction: the real pack, unchanged, must pass.
 
 ## G20. Effect map
 
-- Tool: `tools/effect-map.mjs`. Writes `docs/effect-map.md`. Keys: `g20_tests_mapped` (390).
+- Tool: `tools/effect-map.mjs`. Writes `docs/effect-map.md`. Keys: `g20_tests_mapped` (387).
 - One row per `it()` SITE — its file, suite, and the test's own sentence, which in this
   project IS the Given/When/Then effect, because tests are named as behaviour. A site inside
   a loop or a table runs many times, so the map's rows describe SITES and Vitest executes more tests than there are rows, because a site inside a loop runs many times;

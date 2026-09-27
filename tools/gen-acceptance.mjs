@@ -7,7 +7,11 @@
    Maintenance constraint (review 2026-09-26): the shared beforeEach installs
    fake timers for the WHOLE generated file, engine scenarios included. Engine
    tests must never call Date or async timer APIs — they would see frozen time.
-   Pure algorithmic steps only. */
+   Pure algorithmic steps only.
+   Journey convention (E7 2026-09-26): the boot verb renders the App once;
+   following verbs never render again until `the app restarts fresh` (cleanup
+   plus a fresh boot). Setup verbs that repeat in one journey redeclare with
+   `var`, never `const`. */
 import { readFileSync, writeFileSync } from "node:fs";
 
 const IR = "tests/generated/acceptance-ir.json";
@@ -438,6 +442,89 @@ const STEPS_APP = [
     `await flush(0);`,
     `fireEvent.click(screen.getByText("Off"));`,
     `await flush(0);`]],
+  [/^the session opens on its first word$/, () => [
+    `fireEvent.click(screen.getByLabelText("Begin Session"));`,
+    `await flush(0);`]],
+  [/^the grown-up marks it with Enter$/, () => [
+    `fireEvent.keyDown(screen.getByLabelText("got it"), { key: "Enter" });`,
+    `await flush(0);`]],
+  [/^the advance control appears$/, () => [
+    `expect(screen.getByText(/Next word|Finish!/)).toBeTruthy();`]],
+  [/^the advance control stays absent$/, () => [
+    `expect(screen.queryByText(/Next word|Finish!/)).toBeNull();`]],
+  [/^the screen reader activates it$/, () => [
+    `fireEvent.click(screen.getByLabelText("got it"), { detail: 0 });`,
+    `await flush(500);`]],
+  [/^a stray touch lands on it$/, () => [
+    `fireEvent.click(screen.getByLabelText("got it"), { detail: 1 });`,
+    `await flush(500);`]],
+  [/^an early release lets go of it$/, () => [
+    `fireEvent.pointerDown(screen.getByLabelText("got it"));`,
+    `await flush(200);`,
+    `fireEvent.pointerUp(screen.getByLabelText("got it"));`,
+    `await flush(500);`]],
+  [/^a lone hold button is rendered$/, () => [
+    `var _fired = { n: 0 };`,
+    `render(createElement(HoldButton, { onFire: () => { _fired.n += 1; }, color: "#0f7a4f", label: "✓ got it" }));`]],
+  [/^a lone disabled hold button is rendered$/, () => [
+    `var _fired = { n: 0 };`,
+    `render(createElement(HoldButton, { onFire: () => { _fired.n += 1; }, color: "#0f7a4f", label: "✓ got it", disabled: true }));`]],
+  [/^a full hold fires it once$/, () => [
+    `fireEvent.pointerDown(screen.getByLabelText("got it"));`,
+    `await flush(700);`,
+    `fireEvent.pointerUp(screen.getByLabelText("got it"));`,
+    `fireEvent.click(screen.getByLabelText("got it"), { detail: 0 });`]],
+  [/^it fired (\d+) times?$/, (m) => [
+    `expect(_fired.n).toBe(${N(m[1])});`]],
+  [/^Enter plus its click fires it again$/, () => [
+    `fireEvent.keyDown(screen.getByLabelText("got it"), { key: "Enter" });`,
+    `fireEvent.click(screen.getByLabelText("got it"), { detail: 0 });`]],
+  [/^past the guard window a real second activation counts$/, () => [
+    `await flush(1500);`,
+    `fireEvent.click(screen.getByLabelText("got it"), { detail: 0 });`]],
+  [/^nothing at all fires the disabled one$/, () => [
+    `fireEvent.click(screen.getByLabelText("got it"), { detail: 0 });`,
+    `fireEvent.keyDown(screen.getByLabelText("got it"), { key: "Enter" });`,
+    `fireEvent.pointerDown(screen.getByLabelText("got it"));`,
+    `await flush(700);`]],
+  [/^both result controls are held at once$/, () => [
+    `fireEvent.pointerDown(screen.getByLabelText("got it"));`,
+    `await flush(10);`,
+    `fireEvent.pointerDown(screen.getByLabelText("not yet"));`,
+    `await flush(700);`]],
+  [/^the early exit counts "([^"]*)"$/, (m) => [
+    `fireEvent.click(screen.getByLabelText("Leave session"));`,
+    `await flush(0);`,
+    `expect(screen.getByText(new RegExp(${S(m[1])}))).toBeTruthy();`]],
+  [/^focus falls to the page body$/, () => [
+    `expect(document.activeElement).toBe(document.body);`]],
+  [/^the reveal wait passes$/, () => [
+    `await flush(500);`]],
+  [/^the live advance control holds focus$/, () => [
+    `const _adv = screen.getByText(/Next word|Finish!/);`,
+    `expect(_adv.disabled).toBe(false);`,
+    `expect(document.activeElement).toBe(_adv);`]],
+  [/^activating the focused control readies the next word$/, () => [
+    `fireEvent.click(document.activeElement);`,
+    `await flush(0);`,
+    `expect(screen.getByLabelText("got it").disabled).toBe(false);`]],
+  [/^the grown-up moves focus away mid-wait$/, () => [
+    `await flush(100);`,
+    `screen.getByLabelText("Leave session").focus();`,
+    `await flush(500);`]],
+  [/^the control comes alive but their choice stands$/, () => [
+    `expect(screen.getByText(/Next word|Finish!/).disabled).toBe(false);`,
+    `expect(document.activeElement).toBe(screen.getByLabelText("Leave session"));`]],
+  [/^home opens with (\d+) sessions? completed$/, (m) => [
+    `mockLoad.mockResolvedValueOnce({ version: 3, level: 1, sessionsCompleted: ${N(m[1])}, perfectStreak: 0, settings: { mode: "mic", sound: true, childName: "", lang: "en-US" }, words: {}, log: [] });`,
+    `render(createElement(App));`,
+    `await flush(2001);`]],
+  [/^one session counts singular$/, () => [
+    `expect(screen.getByText(/1 session$/)).toBeTruthy();`,
+    `expect(screen.queryByText(/1 sessions$/)).toBe(null);`]],
+  [/^two sessions count plural$/, () => [
+    `expect(screen.getByText(/2 sessions$/)).toBeTruthy();`,
+    `expect(screen.queryByText(/2 session$/)).toBe(null);`]],
 ];
 
 const ir = JSON.parse(readFileSync(IR, "utf8"));
@@ -452,6 +539,7 @@ const emit = (text, where, table) => {
 
 const isAppFeature = (f) => f.file.startsWith("features/app-");
 const anyApp = ir.features.some(isAppFeature);
+const anyHold = JSON.stringify(ir).includes("hold button");
 const out = [];
 out.push(`/* GENERATED by tools/gen-acceptance.mjs from ${IR} — do not edit by hand. */`);
 if (anyApp) out.push(`/* @vitest-environment jsdom */`);
@@ -469,6 +557,7 @@ if (anyApp) {
   out.push(`  saveState: vi.fn(async () => true),`);
   out.push(`}));`);
   out.push(`import { loadState as mockLoad, saveState as mockSave } from "../../app/src/storage.js";`);
+  if (anyHold) out.push(`import HoldButton from "../../app/src/components/HoldButton.jsx";`);
   out.push(`const flush = async (ms = 0) => act(async () => { await vi.advanceTimersByTimeAsync(ms); });`);
   out.push(`beforeEach(() => {`);
   out.push(`  mockLoad.mockReset();`);

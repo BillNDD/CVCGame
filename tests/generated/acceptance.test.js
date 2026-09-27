@@ -13,6 +13,7 @@ vi.mock("../../app/src/storage.js", () => ({
   saveState: vi.fn(async () => true),
 }));
 import { loadState as mockLoad, saveState as mockSave } from "../../app/src/storage.js";
+import HoldButton from "../../app/src/components/HoldButton.jsx";
 const flush = async (ms = 0) => act(async () => { await vi.advanceTimersByTimeAsync(ms); });
 beforeEach(() => {
   mockLoad.mockReset();
@@ -26,6 +27,118 @@ afterEach(() => {
   vi.useRealTimers();
   localStorage.clear();
   vi.unstubAllGlobals();
+});
+
+describe("Feature: One attempt records one result, whatever the hands do", () => {
+  it("One attempt records one result, whatever the hands do", async () => {
+    mockLoad.mockResolvedValueOnce({ ...newState(), preLevel: 0, level: 1 });
+    render(createElement(App));
+    await flush(2001); // owner-ruled 2s minimum splash
+    fireEvent.click(screen.getByLabelText("Begin Session"));
+    await flush(0);
+    fireEvent.click(screen.getByLabelText("got it"), { detail: 0 });
+    await flush(500);
+    expect(screen.getByText(/Next word|Finish!/)).toBeTruthy();
+    cleanup(); mockSave.mockClear(); mockLoad.mockReset();
+    mockSave.mockImplementation(async () => true);
+    mockLoad.mockResolvedValueOnce({ ...newState(), preLevel: 0, level: 1 });
+    render(createElement(App));
+    await flush(2001); // owner-ruled 2s minimum splash
+    fireEvent.click(screen.getByLabelText("Begin Session"));
+    await flush(0);
+    fireEvent.click(screen.getByLabelText("got it"), { detail: 1 });
+    await flush(500);
+    expect(screen.queryByText(/Next word|Finish!/)).toBeNull();
+    fireEvent.pointerDown(screen.getByLabelText("got it"));
+    await flush(200);
+    fireEvent.pointerUp(screen.getByLabelText("got it"));
+    await flush(500);
+    expect(screen.queryByText(/Next word|Finish!/)).toBeNull();
+    cleanup(); mockSave.mockClear(); mockLoad.mockReset();
+    mockSave.mockImplementation(async () => true);
+    var _fired = { n: 0 };
+    render(createElement(HoldButton, { onFire: () => { _fired.n += 1; }, color: "#0f7a4f", label: "✓ got it" }));
+    fireEvent.pointerDown(screen.getByLabelText("got it"));
+    await flush(700);
+    fireEvent.pointerUp(screen.getByLabelText("got it"));
+    fireEvent.click(screen.getByLabelText("got it"), { detail: 0 });
+    expect(_fired.n).toBe(1);
+    fireEvent.keyDown(screen.getByLabelText("got it"), { key: "Enter" });
+    fireEvent.click(screen.getByLabelText("got it"), { detail: 0 });
+    expect(_fired.n).toBe(2);
+    await flush(1500);
+    fireEvent.click(screen.getByLabelText("got it"), { detail: 0 });
+    expect(_fired.n).toBe(3);
+    cleanup(); mockSave.mockClear(); mockLoad.mockReset();
+    mockSave.mockImplementation(async () => true);
+    var _fired = { n: 0 };
+    render(createElement(HoldButton, { onFire: () => { _fired.n += 1; }, color: "#0f7a4f", label: "✓ got it", disabled: true }));
+    fireEvent.click(screen.getByLabelText("got it"), { detail: 0 });
+    fireEvent.keyDown(screen.getByLabelText("got it"), { key: "Enter" });
+    fireEvent.pointerDown(screen.getByLabelText("got it"));
+    await flush(700);
+    expect(_fired.n).toBe(0);
+    cleanup(); mockSave.mockClear(); mockLoad.mockReset();
+    mockSave.mockImplementation(async () => true);
+    mockLoad.mockResolvedValueOnce({ ...newState(), preLevel: 0, level: 1 });
+    render(createElement(App));
+    await flush(2001); // owner-ruled 2s minimum splash
+    fireEvent.click(screen.getByLabelText("Begin Session"));
+    await flush(0);
+    fireEvent.pointerDown(screen.getByLabelText("got it"));
+    await flush(10);
+    fireEvent.pointerDown(screen.getByLabelText("not yet"));
+    await flush(700);
+    fireEvent.click(screen.getByLabelText("Leave session"));
+    await flush(0);
+    expect(screen.getByText(new RegExp("1 word has been read"))).toBeTruthy();
+  });
+  it("The session keeps the grown-up's place and counts honestly", async () => {
+    mockLoad.mockResolvedValueOnce({ ...newState(), preLevel: 0, level: 1 });
+    render(createElement(App));
+    await flush(2001); // owner-ruled 2s minimum splash
+    fireEvent.click(screen.getByLabelText("Begin Session"));
+    await flush(0);
+    fireEvent.keyDown(screen.getByLabelText("got it"), { key: "Enter" });
+    await flush(0);
+    expect(document.activeElement).toBe(document.body);
+    await flush(500);
+    const _adv = screen.getByText(/Next word|Finish!/);
+    expect(_adv.disabled).toBe(false);
+    expect(document.activeElement).toBe(_adv);
+    fireEvent.click(document.activeElement);
+    await flush(0);
+    expect(screen.getByLabelText("got it").disabled).toBe(false);
+    expect(screen.queryByText(/Next word|Finish!/)).toBeNull();
+    cleanup(); mockSave.mockClear(); mockLoad.mockReset();
+    mockSave.mockImplementation(async () => true);
+    mockLoad.mockResolvedValueOnce({ ...newState(), preLevel: 0, level: 1 });
+    render(createElement(App));
+    await flush(2001); // owner-ruled 2s minimum splash
+    fireEvent.click(screen.getByLabelText("Begin Session"));
+    await flush(0);
+    fireEvent.keyDown(screen.getByLabelText("got it"), { key: "Enter" });
+    await flush(0);
+    await flush(100);
+    screen.getByLabelText("Leave session").focus();
+    await flush(500);
+    expect(screen.getByText(/Next word|Finish!/).disabled).toBe(false);
+    expect(document.activeElement).toBe(screen.getByLabelText("Leave session"));
+    cleanup(); mockSave.mockClear(); mockLoad.mockReset();
+    mockSave.mockImplementation(async () => true);
+    mockLoad.mockResolvedValueOnce({ version: 3, level: 1, sessionsCompleted: 1, perfectStreak: 0, settings: { mode: "mic", sound: true, childName: "", lang: "en-US" }, words: {}, log: [] });
+    render(createElement(App));
+    await flush(2001);
+    expect(screen.getByText(/1 session$/)).toBeTruthy();
+    expect(screen.queryByText(/1 sessions$/)).toBe(null);
+    cleanup(); mockSave.mockClear(); mockLoad.mockReset();
+    mockSave.mockImplementation(async () => true);
+    mockLoad.mockResolvedValueOnce({ version: 3, level: 1, sessionsCompleted: 2, perfectStreak: 0, settings: { mode: "mic", sound: true, childName: "", lang: "en-US" }, words: {}, log: [] });
+    render(createElement(App));
+    await flush(2001);
+    expect(screen.getByText(/2 sessions$/)).toBeTruthy();
+    expect(screen.queryByText(/2 session$/)).toBe(null);
+  });
 });
 
 describe("Feature: Hostile backup files are refused and nothing is written", () => {
