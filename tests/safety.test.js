@@ -708,34 +708,7 @@ describe("G10 — free play never touches the save", () => {
 /* S6's second network call (SPEC section 7a), owner-approved 2026-08-03 on
    two conditions: plain words in the corner, and an Off that means ZERO
    requests. The test drives the real app, not the module. */
-/* The splash update controls (SPEC section 7a) live in
-   tests/safety-splash.test.js — split out at the G6 file-length ceiling, the
-   same door S5's file left by. The gauntlet sums both files into the one
-   safety floor. */
-
-describe("G10 safety — S6: the foreground check obeys the corner's switch", () => {
-  it("48: the check asks on a return to the foreground, and Off silences it at once", async () => {
-    const update = vi.fn(async () => {});
-    Object.defineProperty(navigator, "serviceWorker", {
-      configurable: true,
-      value: { getRegistration: async () => ({ update }) },
-    });
-    try {
-      mockLoad.mockResolvedValueOnce(graduated());
-      render(createElement(App));
-      await flush(2001); // owner-ruled 2s minimum splash: this post-splash network check starts here.
-      document.dispatchEvent(new Event("visibilitychange"));
-      await flush(0);
-      expect(update).toHaveBeenCalledTimes(1);            // on by default: the return asks once
-      fireEvent.click(screen.getByLabelText("Grown-ups corner"));
-      await flush(0);
-      fireEvent.click(screen.getByText("Off"));           // the update switch: the only bare "Off"
-      await flush(0);
-      document.dispatchEvent(new Event("visibilitychange"));
-      await flush(0);
-      expect(update).toHaveBeenCalledTimes(1);            // off means zero further requests
-    } finally {
-      delete navigator.serviceWorker;
-    }
-  });
-});
+/* The splash update controls (SPEC section 7a) were retired 2026-09-26 into
+   E6 journeys (features/app-splash-update.feature), with safety 48 (the
+   foreground check obeys the corner's switch) as E6d. Both expects live
+   there; the switch comment ("the only bare Off") moved with them. */

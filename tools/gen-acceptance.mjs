@@ -286,6 +286,158 @@ const STEPS_APP = [
   [/^the hidden input has aria-hidden "([^"]*)" and tab index (-?\d+)$/, (m) => [
     `expect(_input.getAttribute("aria-hidden")).toBe(${S(m[1])});`,
     `expect(_input.tabIndex).toBe(${m[2]});`]],
+  [/^the app boots with a fresh seed$/, () => [
+    `mockLoad.mockResolvedValueOnce({ version: 6, level: 1, preLevel: 0, prePerfectStreak: 0, sessionsCompleted: 0, perfectStreak: 0, words: {}, log: [], pre: {}, settings: { sound: true, childName: "", lang: "en-US" } });`,
+    `render(createElement(App));`,
+    `await flush(2001); // owner-ruled 2s minimum splash`]],
+  [/^the child's name is entered as "([^"]*)"$/, (m) => [
+    `const _nameInput = document.getElementById("wq-name");`,
+    `fireEvent.change(_nameInput, { target: { value: ${S(m[1])} } });`,
+    `fireEvent.blur(_nameInput);`,
+    `await flush(0);`]],
+  [/^the committed name has (\d+) glyphs and no cut surrogate$/, (m) => [
+    `const _committed = mockSave.mock.calls.at(-1)[0].settings.childName;`,
+    `expect(Array.from(_committed).length).toBe(${N(m[1])});`,
+    `expect(_committed.endsWith("\\uFFFD")).toBe(false);`]],
+  [/^the clipboard allows copying$/, () => [
+    `Object.assign(navigator, { clipboard: { writeText: vi.fn(async () => undefined) } });`]],
+  [/^the clipboard refuses copying$/, () => [
+    `navigator.clipboard.writeText = vi.fn(async () => { throw new Error("denied"); });`]],
+  [/^the log copy reports "([^"]*)"$/, (m) => [
+    `fireEvent.click(screen.getByLabelText("Copy log (Markdown)"));`,
+    `await flush(0);`,
+    `expect(screen.getByText(${S(m[1])})).toBeTruthy();`]],
+  [/^the fallback box contains "([^"]*)"$/, (m) => [
+    `fireEvent.click(screen.getByLabelText("Copy log (Markdown)"));`,
+    `await flush(0);`,
+    `expect(document.querySelector("textarea.wq-input").value).toContain(${S(m[1])});`]],
+  [/^the backup is saved through the blob path$/, () => [
+    `let _made = null;`,
+    `URL.createObjectURL = vi.fn((blob) => { _made = blob; return "blob:wq-test"; });`,
+    `URL.revokeObjectURL = vi.fn();`,
+    `fireEvent.click(screen.getByLabelText("Save backup file"));`,
+    `await flush(1200);`]],
+  [/^one URL is made and revoked carrying '(.+)'$/, (m) => [
+    `expect(screen.getByText("Backup file saved.")).toBeTruthy();`,
+    `expect(URL.createObjectURL).toHaveBeenCalledTimes(1);`,
+    `expect(URL.revokeObjectURL).toHaveBeenCalledWith("blob:wq-test");`,
+    `expect(await _made.text()).toContain(${S(m[1])});`]],
+  [/^the device records "([^"]*)" and "([^"]*)"$/, (m) => [
+    `const _errMod = await import("../../app/src/errors.js");`,
+    `_errMod.record({ kind: "error", message: ${S(m[1])}, where: "A.js:1", screen: "home", version: "t" });`,
+    `_errMod.record({ kind: "rejection", message: ${S(m[2])}, where: "", screen: "session", version: "t" });`]],
+  [/^the corner reports "([^"]*)"$/, (m) => [
+    `expect(screen.getByText(new RegExp(${S(m[1])}))).toBeTruthy();`]],
+  [/^the log copy carries no error text$/, () => [
+    `const _written = [];`,
+    `Object.assign(navigator, { clipboard: { writeText: vi.fn(async (t) => { _written.push(t); }) } });`,
+    `fireEvent.click(screen.getByLabelText("Copy log (Markdown)"));`,
+    `await flush(0);`,
+    `expect(_written[0]).not.toContain("bug report");`,
+    `expect(_written[0]).not.toContain("ring-one");`]],
+  [/^the bug report heads "([^"]*)" and promises "([^"]*)"$/, (m) => [
+    `fireEvent.click(screen.getByLabelText("Copy bug report"));`,
+    `await flush(0);`,
+    `expect(_written[1]).toContain(${S(m[1])});`,
+    `expect(_written[1]).toContain(${S(m[2])});`]],
+  [/^the bug report lists "([^"]*)" and "([^"]*)" and "([^"]*)"$/, (m) => [
+    `expect(_written[1]).toContain(${S(m[1])});`,
+    `expect(_written[1]).toContain(${S(m[2])});`,
+    `expect(_written[1]).toContain(${S(m[3])});`]],
+  [/^the first report item precedes the second$/, () => [
+    `expect(_written[1].indexOf("1. ")).toBeLessThan(_written[1].indexOf("2. "));`]],
+  [/^the ring is cleared to "([^"]*)"$/, (m) => [
+    `fireEvent.click(screen.getByText("Clear"));`,
+    `await flush(0);`,
+    `expect(screen.getByText(new RegExp(${S(m[1])}))).toBeTruthy();`,
+    `expect(screen.getByLabelText("Copy bug report").disabled).toBe(true);`]],
+  [/^a crashing build screen renders "([^"]*)"$/, (m) => [
+    `const _quiet = vi.spyOn(console, "error").mockImplementation(() => {});`,
+    `const _eb = await import("../../app/src/components/ErrorBoundary.jsx");`,
+    `let _explode = true;`,
+    `function _throwingChild() { if (_explode) throw new Error(${S(m[1])}); return createElement("p", null, "alive again"); }`,
+    `render(createElement(_eb.default, { screen: () => "build", version: "t" }, createElement(_throwingChild)));`]],
+  [/^the way back reads "([^"]*)" for "([^"]*)" and returns to "([^"]*)"$/, (m) => [
+    `const _back = screen.getByLabelText(${S(m[1])});`,
+    `expect(_back.className).toContain("wq-cta");`,
+    `const _readErr = await import("../../app/src/errors.js");`,
+    `expect(_readErr.readErrors().map((e) => [e.kind, e.screen, e.message])).toEqual([["render", "build", ${S(m[2])}]]);`,
+    `_explode = false;`,
+    `fireEvent.click(_back);`,
+    `expect(screen.getByText(${S(m[3])})).toBeTruthy();`,
+    `_quiet.mockRestore();`]],
+  [/^the splash boots$/, () => [
+    `render(createElement(App));`]],
+  [/^(\d+) ms pass$/, (m) => [
+    `await flush(${N(m[1])});`]],
+  [/^Begin is hidden and the title art shows$/, () => [
+    `expect(screen.queryByLabelText("Begin Session")).toBeNull();`,
+    `expect(document.querySelector('[data-wq-art="title-splash"]')).not.toBeNull();`]],
+  [/^Begin is shown$/, () => [
+    `expect(screen.getByLabelText("Begin Session")).toBeTruthy();`]],
+  [/^the splash is tapped$/, () => [
+    `fireEvent.click(document.querySelector(".wq-center"));`,
+    `await flush(0);`]],
+  [/^the storage read hangs$/, () => [
+    `var _resolveRead;`,
+    `mockLoad.mockImplementation(() => new Promise((resolve) => { _resolveRead = resolve; }));`]],
+  [/^the hung read resolves empty$/, () => [
+    `_resolveRead(null);`,
+    `await flush(0);`]],
+  [/^the hung read resolves unreadable$/, () => [
+    `_resolveRead({ __unreadable: true });`,
+    `await flush(0);`]],
+  [/^no save is written$/, () => [
+    `expect(mockSave.mock.calls.length).toBe(0);`]],
+  [/^the update host answers version "([^"]*)" build "([^"]*)"$/, (m) => [
+    `var _fetchSpy = vi.fn(async () => ({ ok: true, json: async () => ({ version: ${S(m[1])}, build: ${S(m[2])} }) }));`,
+    `vi.stubGlobal("fetch", _fetchSpy);`]],
+  [/^the update host answers version "([^"]*)" with no build$/, (m) => [
+    `var _fetchSpy = vi.fn(async () => ({ ok: true, json: async () => ({ version: ${S(m[1])} }) }));`,
+    `vi.stubGlobal("fetch", _fetchSpy);`]],
+  [/^the service worker waits for consent$/, () => [
+    `const _posted = [];`,
+    `Object.defineProperty(navigator, "serviceWorker", { configurable: true, value: { addEventListener: () => {}, removeEventListener: () => {}, getRegistration: async () => ({ update: async () => {}, waiting: { postMessage: (mm) => _posted.push(mm) }, installing: null }) } });`]],
+  [/^the service worker only updates$/, () => [
+    `const _update = vi.fn(async () => {});`,
+    `Object.defineProperty(navigator, "serviceWorker", { configurable: true, value: { getRegistration: async () => ({ update: _update }) } });`]],
+  [/^the check key is pressed$/, () => [
+    `fireEvent.keyDown(screen.getByLabelText("Check for updates"), { key: "Enter" });`,
+    `await flush(0);`]],
+  [/^the version was asked (\d+) times?$/, (m) => [
+    `expect(_fetchSpy.mock.calls.filter(([url]) => url === "version.json").length).toBe(${N(m[1])});`]],
+  [/^the request bypasses every cache$/, () => [
+    `expect(_fetchSpy).toHaveBeenCalledWith("version.json", { cache: "no-store" });`]],
+  [/^Update now is absent$/, () => [
+    `expect(screen.queryByLabelText("Update now")).toBeNull();`]],
+  [/^Update now is offered$/, () => [
+    `expect(screen.queryByLabelText("Update now")).not.toBeNull();`]],
+  [/^the child's tap on Update now sends nothing$/, () => [
+    `fireEvent.click(screen.getByLabelText("Update now"), { detail: 1 });`,
+    `await flush(600);`,
+    `expect(_posted).toEqual([]);`]],
+  [/^the adult hold sends "([^"]*)"$/, (m) => [
+    `fireEvent.keyDown(screen.getByLabelText("Update now"), { key: "Enter" });`,
+    `await flush(0);`,
+    `expect(_posted).toEqual([${S(m[1])}]);`]],
+  [/^the child's tap and short press ask nothing$/, () => [
+    `const _btn = screen.getByLabelText("Check for updates");`,
+    `fireEvent.click(_btn, { detail: 1 });`,
+    `await flush(600);`,
+    `fireEvent.pointerDown(_btn);`,
+    `await flush(300);`,
+    `fireEvent.pointerUp(_btn);`,
+    `await flush(600);`]],
+  [/^the foreground returns$/, () => [
+    `document.dispatchEvent(new Event("visibilitychange"));`,
+    `await flush(0);`]],
+  [/^the worker updated (\d+) times?$/, (m) => [
+    `expect(_update).toHaveBeenCalledTimes(${N(m[1])});`]],
+  [/^the update switch is set Off$/, () => [
+    `fireEvent.click(screen.getByLabelText("Grown-ups corner"));`,
+    `await flush(0);`,
+    `fireEvent.click(screen.getByText("Off"));`,
+    `await flush(0);`]],
 ];
 
 const ir = JSON.parse(readFileSync(IR, "utf8"));
@@ -322,11 +474,13 @@ if (anyApp) {
   out.push(`  mockLoad.mockReset();`);
   out.push(`  mockSave.mockClear();`);
   out.push(`  mockSave.mockImplementation(async () => true);`);
+  out.push(`  localStorage.clear(); // ring journeys must not leak wq-errors across boots`);
   out.push(`  vi.useFakeTimers();`);
   out.push(`});`);
   out.push(`afterEach(() => {`);
   out.push(`  cleanup();`);
   out.push(`  vi.useRealTimers();`);
+  out.push(`  localStorage.clear();`);
   out.push(`  vi.unstubAllGlobals();`);
   out.push(`});`);
 }

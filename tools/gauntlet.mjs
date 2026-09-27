@@ -365,11 +365,10 @@ const suiteOut = step("G1+G2+G9+G10 tests", "npx vitest run --coverage", [
   { label: "scheduler", regex: /scheduler\.test\.js\s+\((\d+) tests\)/, floorKey: "g1_scheduler_tests" },
   { label: "properties", regex: /properties\.test\.js\s+\((\d+) tests\)/, floorKey: "g2_properties" },
   { label: "faults", regex: /faults\.test\.js\s+\((\d+) tests\)/, floorKey: "g9_fault_tests" },
-  /* safety.test.js reached the G6 file-length ceiling and split; the floor
-     covers the SUM, so no test can vanish from either file. The first regex
-     must not also match the second file's name — "safety-splash" does not
-     contain the literal "safety.test.js". */
-  { label: "safety", regexes: [/safety\.test\.js\s+\((\d+) tests\)/, /safety-splash\.test\.js\s+\((\d+) tests\)/], floorKey: "g10_safety_tests" },
+  /* safety-splash.test.js was retired 2026-09-26 into E6 journeys
+     (features/app-splash-update.feature); the floor covers safety.test.js
+     alone now. The journeys carry every retired expect (G4-proven). */
+  { label: "safety", regexes: [/safety\.test\.js\s+\((\d+) tests\)/], floorKey: "g10_safety_tests" },
   /* The three files that had NO counter until 2026-08-21, and the fault that
      found them: on 2026-08-17 three floor raises landed on g10_safety_tests
      while the tests they meant to count went to chunker and buildit - and

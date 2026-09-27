@@ -8,7 +8,7 @@ Per-test rows carry the test's own sentence, which in this project IS the
 Given/When/Then effect. The requirement, oracle, platform, mutant family, evidence
 and known limits are declared per FILE, in the tool, where they stay true.
 
-Totals: 395 it() SITES across 22 files, plus 21 gates that are not test files.
+Totals: 390 it() SITES across 21 files, plus 21 gates that are not test files.
 
 A site inside a loop or a table runs many times, so Vitest executes MORE tests than these rows number. The rows count the places behaviour is asserted; the executed count is whatever the suite prints, and the gauntlet holds its floors.
 
@@ -211,7 +211,7 @@ A site inside a loop or a table runs many times, so Vitest executes MORE tests t
 | 81 | G1 — the system voice is never given a word it says wrongly | 78: the sentence praise roster is exactly the rows that never say "word", both halves pinned |
 | 82 | G1 — the system voice is never given a word it says wrongly | 79: the sentence lead is the grade's exact clip, and an off-roster index cannot praise with a word-line |
 
-## tests/faults.test.js — 20 tests (G9)
+## tests/faults.test.js — 15 tests (G9)
 
 - **Requirement protected:** SPEC section 7: damaged saves, silent storage, late data, hostile shapes, and backups that lie
 - **Independent oracle:** Stated expected outcomes per fault, each with a control proving the probe can see a write
@@ -233,16 +233,11 @@ A site inside a loop or a table runs many times, so Vitest executes MORE tests t
 | 8 | G9 faults — the real IndexedDB adapter | 2a: a broken storage backend reports SILENCE, not absence |
 | 9 | G9 faults — an unreadable save, and backups that must look like one | 2b/2c: an unreadable save is never overwritten - while a genuinely absent one DOES initialise |
 | 10 | G9 faults — wrong-shape JSON battery | 4: hostile shapes heal, and every engine function survives them |
-| 11 | G9 faults — the corner's own actions survive their edges | commits a trimmed, 20-glyph name without bisecting a surrogate pair |
-| 12 | G9 faults — the corner's own actions survive their edges | copies the log when the clipboard allows, and shows the box when it refuses |
-| 13 | G9 faults — the corner's own actions survive their edges | saves a backup through the blob path without a throw |
-| 14 | G9 faults — the corner's own actions survive their edges | jumping to a word level steps the child off the pre-ladder |
-| 15 | G9 faults — the corner's own actions survive their edges | a fresh profile jumped to a level meets words, not chunk riders |
-| 16 | G9 faults — the corner's own actions survive their edges | resets only through the second press, and the first can back out |
-| 17 | G9 faults — the error ring records on the device and never sends | scrubs every URL to its file name, caps the message, and keeps the last 20 |
-| 18 | G9 faults — the error ring records on the device and never sends | the browser's two catch-alls land in the ring with the screen name, and no origin |
-| 19 | G9 faults — the error ring records on the device and never sends | a render crash shows a way back to the start, not a blank page, and is recorded |
-| 20 | G9 faults — the error ring records on the device and never sends | the corner copies the report only on a grown-up's press, apart from the log, and can clear it |
+| 11 | G9 faults — the corner's own actions survive their edges | jumping to a word level steps the child off the pre-ladder |
+| 12 | G9 faults — the corner's own actions survive their edges | a fresh profile jumped to a level meets words, not chunk riders |
+| 13 | G9 faults — the corner's own actions survive their edges | resets only through the second press, and the first can back out |
+| 14 | G9 faults — the error ring records on the device and never sends | scrubs every URL to its file name, caps the message, and keeps the last 20 |
+| 15 | G9 faults — the error ring records on the device and never sends | the browser's two catch-alls land in the ring with the screen name, and no origin |
 
 ## tests/garden.test.js — 3 tests (G1)
 
@@ -260,7 +255,7 @@ A site inside a loop or a table runs many times, so Vitest executes MORE tests t
 | 2 | the garden | 3/4: the two-perfect-sessions path promotes between levels and never ends the ladder - and a secure 99 is not the end |
 | 3 | the garden | 5: a hostile or empty state reads as the start |
 
-## tests/generated/acceptance.test.js — 65 tests (G3)
+## tests/generated/acceptance.test.js — 73 tests (G3)
 
 - **Requirement protected:** The Gherkin scenarios in features/*.feature, in the owner's own domain language
 - **Independent oracle:** The feature files, which the owner approves before any pipeline work
@@ -268,75 +263,83 @@ A site inside a loop or a table runs many times, so Vitest executes MORE tests t
 - **Mutant family:** G4 mutates each expected value in the IR; a scenario that still passes is not reading it
 - **Evidence produced:** Vitest counts (floor g3_generated_tests) plus a regeneration diff
 - **Known limits — what these tests do NOT prove:** Only covers behaviour someone thought to write a scenario for.
-- **Safety rules proved here:** none
+- **Safety rules proved here:** S5 (unit), S6 (unit)
 
 | # | Suite | Effect (the test's own sentence) |
 |---|---|---|
-| 1 | Feature: Hostile backup files are refused and nothing is written | Fifteen hostile files knock and the level does not move |
-| 2 | Feature: Hostile backup files are refused and nothing is written | A save-shaped array is refused directly but a genuine backup restores |
-| 3 | Feature: Hostile backup files are refused and nothing is written | The Load backup button opens the picker from the keyboard |
-| 4 | Feature: The reading log export | Box 3 does not count as mastered |
-| 5 | Feature: The reading log export | Box 4 counts as mastered |
-| 6 | Feature: The reading log export | A short session is marked |
-| 7 | Feature: The reading log export | A name with an emoji at the limit stays whole |
-| 8 | Feature: Grading a reading attempt | A new word read correctly at first sight moves fast |
-| 9 | Feature: Grading a reading attempt | A known word read correctly moves up one box |
-| 10 | Feature: Grading a reading attempt | A word at the top box stays at the top |
-| 11 | Feature: Grading a reading attempt | A close attempt lifts a word out of the bottom box |
-| 12 | Feature: Grading a reading attempt | A close attempt never demotes a strong word |
-| 13 | Feature: Grading a reading attempt | A miss drops the word two boxes |
-| 14 | Feature: Grading a reading attempt | A miss never drops below the bottom box |
-| 15 | Feature: Grading a reading attempt | The review ladder by box (box=0, due=101) |
-| 16 | Feature: Grading a reading attempt | The review ladder by box (box=1, due=101) |
-| 17 | Feature: Grading a reading attempt | The review ladder by box (box=2, due=102) |
-| 18 | Feature: Grading a reading attempt | The review ladder by box (box=3, due=104) |
-| 19 | Feature: Grading a reading attempt | The review ladder by box (box=4, due=107) |
-| 20 | Feature: Grading a reading attempt | The review ladder by box (box=5, due=112) |
-| 21 | Feature: Sound units and feedback text | A word splits into sound units (word=cat, tiles=c,a,t, dashed=c-a-t) |
-| 22 | Feature: Sound units and feedback text | A word splits into sound units (word=ship, tiles=sh,i,p, dashed=sh-i-p) |
-| 23 | Feature: Sound units and feedback text | A word splits into sound units (word=duck, tiles=d,u,ck, dashed=d-u-ck) |
-| 24 | Feature: Sound units and feedback text | A word splits into sound units (word=sing, tiles=s,i,ng, dashed=s-i-ng) |
-| 25 | Feature: Sound units and feedback text | A word splits into sound units (word=when, tiles=wh,e,n, dashed=wh-e-n) |
-| 26 | Feature: Sound units and feedback text | A word splits into sound units (word=this, tiles=th,i,s, dashed=th-i-s) |
-| 27 | Feature: Sound units and feedback text | A word splits into sound units (word=ax, tiles=a,x, dashed=a-x) |
-| 28 | Feature: Sound units and feedback text | Feedback for a correct reading |
-| 29 | Feature: Sound units and feedback text | Feedback for a close reading |
-| 30 | Feature: Sound units and feedback text | Feedback for a missed reading |
-| 31 | Feature: Sound units and feedback text | The tricky word "was" carries its note |
-| 32 | Feature: Sound units and feedback text | The tricky word "is" carries its note |
-| 33 | Feature: Level promotion | Exactly 80 percent promotes |
-| 34 | Feature: Level promotion | Just under 80 percent does not promote |
-| 35 | Feature: Level promotion | Box 2 words are not solid |
-| 36 | Feature: Level promotion | The starter level needs 8 of its 10 words |
-| 37 | Feature: Level promotion | Seven of the starter level's 10 words is not enough |
-| 38 | Feature: Level promotion | The last level has no promotion |
-| 39 | Feature: Level promotion | Two perfect sessions in a row promote |
-| 40 | Feature: Level promotion | One perfect session is not enough |
-| 41 | Feature: Level promotion | An imperfect session resets the streak |
-| 42 | Feature: Level promotion | A session stopped early leaves the streak unchanged |
-| 43 | Feature: Level promotion | A session stopped early with a miss also leaves the streak unchanged |
-| 44 | Feature: Level promotion | A box promotion on a perfect session still resets the streak |
-| 45 | Feature: Level promotion | A stored streak alone never promotes without a completed session |
-| 46 | Feature: Saved data survives anything | A version 2 save seats where its own graded words put it |
-| 47 | Feature: Saved data survives anything | An old save lands where the child's words put it |
-| 48 | Feature: Saved data survives anything | Migration runs only once |
-| 49 | Feature: Saved data survives anything | A hostile level heals to the start |
-| 50 | Feature: Saved data survives anything | An out-of-range level clamps to the top |
-| 51 | Feature: Saved data survives anything | An out-of-range box clamps |
-| 52 | Feature: Saved data survives anything | A broken log row is dropped |
-| 53 | Feature: Building a session | The first session serves the whole starter level |
-| 54 | Feature: Building a session | A full level fills the target |
-| 55 | Feature: Building a session | Overdue reviews from lower levels are capped |
-| 56 | Feature: Building a session | No mastered words return before the third session |
-| 57 | Feature: Building a session | At most two mastered words return for confidence |
-| 58 | Feature: Building a session | The session opens with the most secure word |
-| 59 | Feature: Building a session | No peeking while fresh words remain |
-| 60 | Feature: Building a session | Peeking starts when the level is fully seen |
-| 61 | Feature: Building a session | A level seen but not learned keeps the next level closed |
-| 62 | Feature: Building a session | The next level opens at 8 of the 10 words read correctly |
-| 63 | Feature: Building a session | Seven of the 10 words does not open the next level |
-| 64 | Feature: Building a session | A word the child has already read comes back, whatever its level |
-| 65 | Feature: Building a session | Above-level review never takes over the session |
+| 1 | Feature: Hostile backup files are refused and nothing is written | Eight hostile files knock and the level does not move |
+| 2 | Feature: Hostile backup files are refused and nothing is written | Seven one-clause hostile files knock and the level does not move |
+| 3 | Feature: Hostile backup files are refused and nothing is written | A save-shaped array is refused directly but a genuine backup restores |
+| 4 | Feature: Hostile backup files are refused and nothing is written | The Load backup button opens the picker from the keyboard |
+| 5 | Feature: The corner handles data without breaking it | Names commit whole, logs copy both ways, backups save |
+| 6 | Feature: The corner handles data without breaking it | The ring reports on press, apart from the log, and clears |
+| 7 | Feature: The corner handles data without breaking it | A render crash shows a way back, not a blank page |
+| 8 | Feature: The splash waits and the update check asks only of a grown-up | The splash waits its 2 seconds and lets a tap through |
+| 9 | Feature: The splash waits and the update check asks only of a grown-up | A tap before the read lands leaves the app on the read and writes nothing |
+| 10 | Feature: The splash waits and the update check asks only of a grown-up | The version check never leaves on a child's tap |
+| 11 | Feature: The splash waits and the update check asks only of a grown-up | The foreground asks once and Off silences it |
+| 12 | Feature: The reading log export | Box 3 does not count as mastered |
+| 13 | Feature: The reading log export | Box 4 counts as mastered |
+| 14 | Feature: The reading log export | A short session is marked |
+| 15 | Feature: The reading log export | A name with an emoji at the limit stays whole |
+| 16 | Feature: Grading a reading attempt | A new word read correctly at first sight moves fast |
+| 17 | Feature: Grading a reading attempt | A known word read correctly moves up one box |
+| 18 | Feature: Grading a reading attempt | A word at the top box stays at the top |
+| 19 | Feature: Grading a reading attempt | A close attempt lifts a word out of the bottom box |
+| 20 | Feature: Grading a reading attempt | A close attempt never demotes a strong word |
+| 21 | Feature: Grading a reading attempt | A miss drops the word two boxes |
+| 22 | Feature: Grading a reading attempt | A miss never drops below the bottom box |
+| 23 | Feature: Grading a reading attempt | The review ladder by box (box=0, due=101) |
+| 24 | Feature: Grading a reading attempt | The review ladder by box (box=1, due=101) |
+| 25 | Feature: Grading a reading attempt | The review ladder by box (box=2, due=102) |
+| 26 | Feature: Grading a reading attempt | The review ladder by box (box=3, due=104) |
+| 27 | Feature: Grading a reading attempt | The review ladder by box (box=4, due=107) |
+| 28 | Feature: Grading a reading attempt | The review ladder by box (box=5, due=112) |
+| 29 | Feature: Sound units and feedback text | A word splits into sound units (word=cat, tiles=c,a,t, dashed=c-a-t) |
+| 30 | Feature: Sound units and feedback text | A word splits into sound units (word=ship, tiles=sh,i,p, dashed=sh-i-p) |
+| 31 | Feature: Sound units and feedback text | A word splits into sound units (word=duck, tiles=d,u,ck, dashed=d-u-ck) |
+| 32 | Feature: Sound units and feedback text | A word splits into sound units (word=sing, tiles=s,i,ng, dashed=s-i-ng) |
+| 33 | Feature: Sound units and feedback text | A word splits into sound units (word=when, tiles=wh,e,n, dashed=wh-e-n) |
+| 34 | Feature: Sound units and feedback text | A word splits into sound units (word=this, tiles=th,i,s, dashed=th-i-s) |
+| 35 | Feature: Sound units and feedback text | A word splits into sound units (word=ax, tiles=a,x, dashed=a-x) |
+| 36 | Feature: Sound units and feedback text | Feedback for a correct reading |
+| 37 | Feature: Sound units and feedback text | Feedback for a close reading |
+| 38 | Feature: Sound units and feedback text | Feedback for a missed reading |
+| 39 | Feature: Sound units and feedback text | The tricky word "was" carries its note |
+| 40 | Feature: Sound units and feedback text | The tricky word "is" carries its note |
+| 41 | Feature: Level promotion | Exactly 80 percent promotes |
+| 42 | Feature: Level promotion | Just under 80 percent does not promote |
+| 43 | Feature: Level promotion | Box 2 words are not solid |
+| 44 | Feature: Level promotion | The starter level needs 8 of its 10 words |
+| 45 | Feature: Level promotion | Seven of the starter level's 10 words is not enough |
+| 46 | Feature: Level promotion | The last level has no promotion |
+| 47 | Feature: Level promotion | Two perfect sessions in a row promote |
+| 48 | Feature: Level promotion | One perfect session is not enough |
+| 49 | Feature: Level promotion | An imperfect session resets the streak |
+| 50 | Feature: Level promotion | A session stopped early leaves the streak unchanged |
+| 51 | Feature: Level promotion | A session stopped early with a miss also leaves the streak unchanged |
+| 52 | Feature: Level promotion | A box promotion on a perfect session still resets the streak |
+| 53 | Feature: Level promotion | A stored streak alone never promotes without a completed session |
+| 54 | Feature: Saved data survives anything | A version 2 save seats where its own graded words put it |
+| 55 | Feature: Saved data survives anything | An old save lands where the child's words put it |
+| 56 | Feature: Saved data survives anything | Migration runs only once |
+| 57 | Feature: Saved data survives anything | A hostile level heals to the start |
+| 58 | Feature: Saved data survives anything | An out-of-range level clamps to the top |
+| 59 | Feature: Saved data survives anything | An out-of-range box clamps |
+| 60 | Feature: Saved data survives anything | A broken log row is dropped |
+| 61 | Feature: Building a session | The first session serves the whole starter level |
+| 62 | Feature: Building a session | A full level fills the target |
+| 63 | Feature: Building a session | Overdue reviews from lower levels are capped |
+| 64 | Feature: Building a session | No mastered words return before the third session |
+| 65 | Feature: Building a session | At most two mastered words return for confidence |
+| 66 | Feature: Building a session | The session opens with the most secure word |
+| 67 | Feature: Building a session | No peeking while fresh words remain |
+| 68 | Feature: Building a session | Peeking starts when the level is fully seen |
+| 69 | Feature: Building a session | A level seen but not learned keeps the next level closed |
+| 70 | Feature: Building a session | The next level opens at 8 of the 10 words read correctly |
+| 71 | Feature: Building a session | Seven of the 10 words does not open the next level |
+| 72 | Feature: Building a session | A word the child has already read comes back, whatever its level |
+| 73 | Feature: Building a session | Above-level review never takes over the session |
 
 ## tests/migrate.test.js — 8 tests (G1)
 
@@ -483,33 +486,13 @@ A site inside a loop or a table runs many times, so Vitest executes MORE tests t
 | 19 | G10 — the child hears the word before the app lets them move on | 4: the wait carries a fill for exactly as long as the reveal |
 | 20 | fault AN - a reveal interrupted by leaving the app restarts whole on return | an interrupted reveal replays whole, but never into the next attempt and never after it finished |
 
-## tests/safety-splash.test.js — 7 tests (G10)
-
-- **Requirement protected:** Safety rules on the home screen's grown-up strip, split from safety.test.js at the file-length ceiling
-- **Independent oracle:** The exact SPEC sentences
-- **Platform:** node/jsdom
-- **Mutant family:** G19 update-comparison family
-- **Evidence produced:** Counted into the summed floor g10_safety_tests, so neither file can quietly empty
-- **Known limits — what these tests do NOT prove:** Same as safety.test.js: source and stylesheet claims are pre-filters.
-- **Safety rules proved here:** S5 (unit), S6 (source)
-
-| # | Suite | Effect (the test's own sentence) |
-|---|---|---|
-| 1 | G10 safety — S6: the splash update controls are adult holds | 49: a child's tap asks nothing; the adult's activation asks once, the app's own host |
-| 2 | G10 safety — S6: the splash update controls are adult holds | 50: Update now appears only after a newer version answers, and only the adult hold sends the consent message |
-| 3 | G10 safety — S6: the splash update controls are adult holds | 51: a newer build of the same version is offered in plain words |
-| 4 | G10 safety — S6: the splash update controls are adult holds | 52: the splash stays through 1999 ms, then leaves at 2001 ms |
-| 5 | G10 safety — S6: the splash update controls are adult holds | 53: a click on the splash div reaches home |
-| 6 | G10 safety — S6: the splash update controls are adult holds | 54: a tap before the read lands leaves the app on the read |
-| 7 | G10 safety — S6: the splash update controls are adult holds | 55: a splash tap before the read writes nothing |
-
-## tests/safety.test.js — 20 tests (G10)
+## tests/safety.test.js — 19 tests (G10)
 
 - **Requirement protected:** Safety rules S1-S7: the app never records a miss by itself, never speaks the word early, and never reaches the network
 - **Independent oracle:** The exact SPEC sentences and literal control sizes
 - **Platform:** node/jsdom
 - **Mutant family:** G19 transcript, hold and free-play families
-- **Evidence produced:** Vitest counts (summed floor g10_safety_tests)
+- **Evidence produced:** Vitest counts (floor g10_safety_tests; the summed splash file retired into E6 journeys 2026-09-26)
 - **Known limits — what these tests do NOT prove:** The S6 network scan reads SOURCE — G18 watches the browser. The S7 size check reads the STYLESHEET — G7 measures rendered geometry. Both are pre-filters here, not proof.
 - **Safety rules proved here:** S1 (unit), S2 (unit), S4 (unit), S6 (source), S7 (source)
 
@@ -534,7 +517,6 @@ A site inside a loop or a table runs many times, so Vitest executes MORE tests t
 | 17 | G10 — free play never touches the save | 45: truly random draws from the whole bank, not the child's level |
 | 18 | G10 — free play never touches the save | 46: random play writes nothing and says what it is |
 | 19 | G10 — free play never touches the save | 47: a spent random block rolls into a fresh draw that never repeats the boundary word |
-| 20 | G10 safety — S6: the foreground check obeys the corner's switch | 48: the check asks on a return to the foreground, and Off silences it at once |
 
 ## tests/scheduler.test.js — 15 tests (G1)
 

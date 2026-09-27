@@ -291,6 +291,395 @@
       ]
     },
     {
+      "file": "features/app-corner-data.feature",
+      "name": "The corner handles data without breaking it",
+      "scenarios": [
+        {
+          "name": "Names commit whole, logs copy both ways, backups save",
+          "outline": false,
+          "steps": [
+            {
+              "kind": "Given",
+              "text": "the app boots with a fresh seed"
+            },
+            {
+              "kind": "Given",
+              "text": "the grown-ups corner is opened"
+            },
+            {
+              "kind": "When",
+              "text": "the child's name is entered as \"  🧑‍🚀🧑‍🚀🧑‍🚀🧑‍🚀🧑‍🚀🧑‍🚀🧑‍🚀🧑‍🚀🧑‍🚀🧑‍🚀🧑‍🚀🧑‍🚀🧑‍🚀🧑‍🚀🧑‍🚀🧑‍🚀🧑‍🚀🧑‍🚀🧑‍🚀🧑‍🚀🧑‍🚀  \""
+            },
+            {
+              "kind": "Then",
+              "text": "the committed name has 20 glyphs and no cut surrogate"
+            },
+            {
+              "kind": "When",
+              "text": "the clipboard allows copying"
+            },
+            {
+              "kind": "Then",
+              "text": "the log copy reports \"Log copied ✓\""
+            },
+            {
+              "kind": "When",
+              "text": "the clipboard refuses copying"
+            },
+            {
+              "kind": "Then",
+              "text": "the fallback box contains \"0/1122\""
+            },
+            {
+              "kind": "When",
+              "text": "the backup is saved through the blob path"
+            },
+            {
+              "kind": "Then",
+              "text": "one URL is made and revoked carrying '\"application\": \"word-quest-backup\"'"
+            }
+          ],
+          "examples": []
+        },
+        {
+          "name": "The ring reports on press, apart from the log, and clears",
+          "outline": false,
+          "steps": [
+            {
+              "kind": "Given",
+              "text": "the device records \"ring-one\" and \"second\""
+            },
+            {
+              "kind": "Given",
+              "text": "the app boots with a fresh seed"
+            },
+            {
+              "kind": "Given",
+              "text": "the grown-ups corner is opened"
+            },
+            {
+              "kind": "Then",
+              "text": "the corner reports \"2 problems recorded on this device.\""
+            },
+            {
+              "kind": "Then",
+              "text": "the log copy carries no error text"
+            },
+            {
+              "kind": "Then",
+              "text": "the bug report heads \"# Word Quest bug report\" and promises \"Nothing in this report was sent anywhere\""
+            },
+            {
+              "kind": "Then",
+              "text": "the bug report lists \"home · error: ring-one\" and \"at A.js:1\" and \"session · rejection: second\""
+            },
+            {
+              "kind": "Then",
+              "text": "the first report item precedes the second"
+            },
+            {
+              "kind": "When",
+              "text": "the ring is cleared to \"No problems recorded on this device.\""
+            }
+          ],
+          "examples": []
+        },
+        {
+          "name": "A render crash shows a way back, not a blank page",
+          "outline": false,
+          "steps": [
+            {
+              "kind": "When",
+              "text": "a crashing build screen renders \"render boom\""
+            },
+            {
+              "kind": "Then",
+              "text": "the way back reads \"Back to the start\" for \"render boom\" and returns to \"alive again\""
+            }
+          ],
+          "examples": []
+        }
+      ]
+    },
+    {
+      "file": "features/app-splash-update.feature",
+      "name": "The splash waits and the update check asks only of a grown-up",
+      "scenarios": [
+        {
+          "name": "The splash waits its 2 seconds and lets a tap through",
+          "outline": false,
+          "steps": [
+            {
+              "kind": "When",
+              "text": "the splash boots"
+            },
+            {
+              "kind": "When",
+              "text": "1999 ms pass"
+            },
+            {
+              "kind": "Then",
+              "text": "Begin is hidden and the title art shows"
+            },
+            {
+              "kind": "When",
+              "text": "2 ms pass"
+            },
+            {
+              "kind": "Then",
+              "text": "Begin is shown"
+            },
+            {
+              "kind": "When",
+              "text": "the app restarts fresh"
+            },
+            {
+              "kind": "When",
+              "text": "the splash boots"
+            },
+            {
+              "kind": "When",
+              "text": "0 ms pass"
+            },
+            {
+              "kind": "When",
+              "text": "the splash is tapped"
+            },
+            {
+              "kind": "Then",
+              "text": "Begin is shown"
+            }
+          ],
+          "examples": []
+        },
+        {
+          "name": "A tap before the read lands leaves the app on the read and writes nothing",
+          "outline": false,
+          "steps": [
+            {
+              "kind": "When",
+              "text": "the storage read hangs"
+            },
+            {
+              "kind": "When",
+              "text": "the splash boots"
+            },
+            {
+              "kind": "When",
+              "text": "0 ms pass"
+            },
+            {
+              "kind": "When",
+              "text": "the splash is tapped"
+            },
+            {
+              "kind": "When",
+              "text": "2001 ms pass"
+            },
+            {
+              "kind": "Then",
+              "text": "Begin is hidden and the title art shows"
+            },
+            {
+              "kind": "When",
+              "text": "the hung read resolves empty"
+            },
+            {
+              "kind": "Then",
+              "text": "Begin is shown"
+            },
+            {
+              "kind": "When",
+              "text": "the app restarts fresh"
+            },
+            {
+              "kind": "When",
+              "text": "the storage read hangs"
+            },
+            {
+              "kind": "When",
+              "text": "the splash boots"
+            },
+            {
+              "kind": "When",
+              "text": "0 ms pass"
+            },
+            {
+              "kind": "When",
+              "text": "the splash is tapped"
+            },
+            {
+              "kind": "When",
+              "text": "2001 ms pass"
+            },
+            {
+              "kind": "Then",
+              "text": "no save is written"
+            },
+            {
+              "kind": "When",
+              "text": "the hung read resolves unreadable"
+            },
+            {
+              "kind": "Then",
+              "text": "no save is written"
+            }
+          ],
+          "examples": []
+        },
+        {
+          "name": "The version check never leaves on a child's tap",
+          "outline": false,
+          "steps": [
+            {
+              "kind": "When",
+              "text": "the update host answers version \"0.0.0-test\" build \"test-build\""
+            },
+            {
+              "kind": "When",
+              "text": "the splash boots"
+            },
+            {
+              "kind": "When",
+              "text": "2001 ms pass"
+            },
+            {
+              "kind": "When",
+              "text": "the child's tap and short press ask nothing"
+            },
+            {
+              "kind": "Then",
+              "text": "the version was asked 0 times"
+            },
+            {
+              "kind": "When",
+              "text": "the check key is pressed"
+            },
+            {
+              "kind": "Then",
+              "text": "the version was asked 1 time"
+            },
+            {
+              "kind": "Then",
+              "text": "the request bypasses every cache"
+            },
+            {
+              "kind": "Then",
+              "text": "the app reports \"You have the latest version.\""
+            },
+            {
+              "kind": "Then",
+              "text": "Update now is absent"
+            },
+            {
+              "kind": "When",
+              "text": "the app restarts fresh"
+            },
+            {
+              "kind": "When",
+              "text": "the update host answers version \"9.9.9\" with no build"
+            },
+            {
+              "kind": "When",
+              "text": "the service worker waits for consent"
+            },
+            {
+              "kind": "When",
+              "text": "the splash boots"
+            },
+            {
+              "kind": "When",
+              "text": "2001 ms pass"
+            },
+            {
+              "kind": "Then",
+              "text": "Update now is absent"
+            },
+            {
+              "kind": "When",
+              "text": "the check key is pressed"
+            },
+            {
+              "kind": "Then",
+              "text": "the app reports \"Version 9.9.9 is ready — press and hold.\""
+            },
+            {
+              "kind": "Then",
+              "text": "the child's tap on Update now sends nothing"
+            },
+            {
+              "kind": "Then",
+              "text": "the adult hold sends \"wq-activate\""
+            },
+            {
+              "kind": "When",
+              "text": "the app restarts fresh"
+            },
+            {
+              "kind": "When",
+              "text": "the update host answers version \"0.0.0-test\" build \"newer-build\""
+            },
+            {
+              "kind": "When",
+              "text": "the splash boots"
+            },
+            {
+              "kind": "When",
+              "text": "2001 ms pass"
+            },
+            {
+              "kind": "When",
+              "text": "the check key is pressed"
+            },
+            {
+              "kind": "Then",
+              "text": "the app reports \"An update is ready — press and hold.\""
+            },
+            {
+              "kind": "Then",
+              "text": "Update now is offered"
+            }
+          ],
+          "examples": []
+        },
+        {
+          "name": "The foreground asks once and Off silences it",
+          "outline": false,
+          "steps": [
+            {
+              "kind": "Given",
+              "text": "the service worker only updates"
+            },
+            {
+              "kind": "Given",
+              "text": "the app boots with a level 1 save"
+            },
+            {
+              "kind": "When",
+              "text": "the foreground returns"
+            },
+            {
+              "kind": "Then",
+              "text": "the worker updated 1 time"
+            },
+            {
+              "kind": "When",
+              "text": "the update switch is set Off"
+            },
+            {
+              "kind": "When",
+              "text": "the foreground returns"
+            },
+            {
+              "kind": "Then",
+              "text": "the worker updated 1 time"
+            }
+          ],
+          "examples": []
+        }
+      ]
+    },
+    {
       "file": "features/export.feature",
       "name": "The reading log export",
       "scenarios": [

@@ -298,45 +298,11 @@ describe("G9 faults — the corner's own actions survive their edges", () => {
     fireEvent.click(screen.getByLabelText("Grown-ups corner"));
     await flush(0);
   };
-  it("commits a trimmed, 20-glyph name without bisecting a surrogate pair", async () => {
-    await openCorner();
-    const input = document.getElementById("wq-name");
-    /* 21 astronaut emoji: a byte-wise slice(0, 20) would cut one in half. */
-    fireEvent.change(input, { target: { value: "  " + "🧑‍🚀".repeat(21) + "  " } });
-    fireEvent.blur(input);
-    await flush(0);
-    const committed = mockSave.mock.calls.at(-1)[0].settings.childName;
-    expect(Array.from(committed).length).toBe(20);
-    expect(committed.endsWith("�")).toBe(false);
-  });
-  it("copies the log when the clipboard allows, and shows the box when it refuses", async () => {
-    await openCorner();
-    Object.assign(navigator, { clipboard: { writeText: vi.fn(async () => undefined) } });
-    fireEvent.click(screen.getByLabelText("Copy log (Markdown)"));
-    await flush(0);
-    expect(screen.getByText(/Log copied/)).toBeTruthy();
-    navigator.clipboard.writeText = vi.fn(async () => { throw new Error("denied"); });
-    fireEvent.click(screen.getByLabelText("Copy log (Markdown)"));
-    await flush(0);
-    /* The fallback the owner met on his own phone the same morning: the
-       markdown lands in a select-all box instead of vanishing. */
-    expect(document.querySelector("textarea.wq-input").value).toContain("0/1122");
-  });
-  it("saves a backup through the blob path without a throw", async () => {
-    await openCorner();
-    /* jsdom has no object URLs; the stubs stand in for the browser and the
-       assertions hold the CONTRACT: one URL made, one revoked, the download
-       carries the marker the import path will demand back. */
-    let made = null;
-    URL.createObjectURL = vi.fn((blob) => { made = blob; return "blob:wq-test"; });
-    URL.revokeObjectURL = vi.fn();
-    fireEvent.click(screen.getByLabelText("Save backup file"));
-    await flush(1200);
-    expect(screen.getByText("Backup file saved.")).toBeTruthy();
-    expect(URL.createObjectURL).toHaveBeenCalledTimes(1);
-    expect(URL.revokeObjectURL).toHaveBeenCalledWith("blob:wq-test");
-    expect(await made.text()).toContain('"application": "word-quest-backup"');
-  });
+  /* Retired 2026-09-26 into features/app-corner-data.feature (E5 journeys):
+     the name commit, the clipboard allow+refuse pair, the blob-path backup
+     (E5a); the ring copy-apart/clear (E5b); the render-crash way back (E5c).
+     22 expects retired; journeys carry 23 (plus a corner-input anchor).
+     The rationale comments moved with them. */
   it("jumping to a word level steps the child off the pre-ladder", async () => {
     /* The owner set P3, then tapped level 26, and the ladder kept winning
        (2026-08-21): preLevel > 0 governs every session. A tapped word level
@@ -430,50 +396,6 @@ describe("G9 faults — the error ring records on the device and never sends", (
     expect(JSON.stringify(list)).not.toMatch(/https?:/);
   });
 
-  it("a render crash shows a way back to the start, not a blank page, and is recorded", async () => {
-    const { default: ErrorBoundary } = await import("../app/src/components/ErrorBoundary.jsx");
-    const { readErrors } = await import("../app/src/errors.js");
-    let explode = true;
-    function throwingChild() { if (explode) throw new Error("render boom"); return createElement("p", null, "alive again"); }
-    const quiet = vi.spyOn(console, "error").mockImplementation(() => {});
-    render(createElement(ErrorBoundary, { screen: () => "build", version: "t" }, createElement(throwingChild)));
-    const back = screen.getByLabelText("Back to the start");
-    expect(back.className).toContain("wq-cta");                       // a child's control, 56 px by class (S7)
-    expect(readErrors().map((e) => [e.kind, e.screen, e.message])).toEqual([["render", "build", "render boom"]]);
-    explode = false;
-    fireEvent.click(back);
-    expect(screen.getByText("alive again")).toBeTruthy();
-    quiet.mockRestore();
-  });
-
-  it("the corner copies the report only on a grown-up's press, apart from the log, and can clear it", async () => {
-    const { record } = await import("../app/src/errors.js");
-    record({ kind: "error", message: "ring-one", where: "A.js:1", screen: "home", version: "t" });
-    record({ kind: "rejection", message: "second", where: "", screen: "session", version: "t" });
-    mockLoad.mockResolvedValueOnce(seed());
-    await boot(2001); // owner-ruled 2s minimum splash: this post-splash error-ring check starts here.
-    fireEvent.click(screen.getByLabelText("Grown-ups corner"));
-    await flush(0);
-    expect(screen.getByText(/2 problems recorded on this device/)).toBeTruthy();
-    const written = [];
-    Object.assign(navigator, { clipboard: { writeText: vi.fn(async (t) => { written.push(t); }) } });
-    /* The session log is its own copy and carries none of it: a family that
-       shares the log for any other reason shares no error text. */
-    fireEvent.click(screen.getByLabelText("Copy log (Markdown)"));
-    await flush(0);
-    expect(written[0]).not.toContain("bug report");
-    expect(written[0]).not.toContain("ring-one");
-    fireEvent.click(screen.getByLabelText("Copy bug report"));
-    await flush(0);
-    expect(written[1]).toContain("# Word Quest bug report");
-    expect(written[1]).toContain("Nothing in this report was sent anywhere");
-    expect(written[1]).toContain("1. ");
-    expect(written[1]).toContain("home · error: ring-one");
-    expect(written[1]).toContain("at A.js:1");
-    expect(written[1]).toContain("session · rejection: second");
-    fireEvent.click(screen.getByText("Clear"));
-    await flush(0);
-    expect(screen.getByText(/No problems recorded on this device/)).toBeTruthy();
-    expect(screen.getByLabelText("Copy bug report").disabled).toBe(true);
-  });
+  /* Retired with the E5 journeys above: the render-crash way back and the
+     ring copy-apart/clear live in features/app-corner-data.feature. */
 });

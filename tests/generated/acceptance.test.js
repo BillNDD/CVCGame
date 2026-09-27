@@ -18,11 +18,13 @@ beforeEach(() => {
   mockLoad.mockReset();
   mockSave.mockClear();
   mockSave.mockImplementation(async () => true);
+  localStorage.clear(); // ring journeys must not leak wq-errors across boots
   vi.useFakeTimers();
 });
 afterEach(() => {
   cleanup();
   vi.useRealTimers();
+  localStorage.clear();
   vi.unstubAllGlobals();
 });
 
@@ -213,6 +215,196 @@ describe("Feature: Hostile backup files are refused and nothing is written", () 
     expect(_clicks).toHaveBeenCalledTimes(1);
     expect(_input.getAttribute("aria-hidden")).toBe("true");
     expect(_input.tabIndex).toBe(-1);
+  });
+});
+
+describe("Feature: The corner handles data without breaking it", () => {
+  it("Names commit whole, logs copy both ways, backups save", async () => {
+    mockLoad.mockResolvedValueOnce({ version: 6, level: 1, preLevel: 0, prePerfectStreak: 0, sessionsCompleted: 0, perfectStreak: 0, words: {}, log: [], pre: {}, settings: { sound: true, childName: "", lang: "en-US" } });
+    render(createElement(App));
+    await flush(2001); // owner-ruled 2s minimum splash
+    fireEvent.click(screen.getByLabelText("Grown-ups corner"));
+    await flush(0);
+    expect(document.querySelector('input[type="file"]')).toBeTruthy();
+    const _nameInput = document.getElementById("wq-name");
+    fireEvent.change(_nameInput, { target: { value: "  🧑‍🚀🧑‍🚀🧑‍🚀🧑‍🚀🧑‍🚀🧑‍🚀🧑‍🚀🧑‍🚀🧑‍🚀🧑‍🚀🧑‍🚀🧑‍🚀🧑‍🚀🧑‍🚀🧑‍🚀🧑‍🚀🧑‍🚀🧑‍🚀🧑‍🚀🧑‍🚀🧑‍🚀  " } });
+    fireEvent.blur(_nameInput);
+    await flush(0);
+    const _committed = mockSave.mock.calls.at(-1)[0].settings.childName;
+    expect(Array.from(_committed).length).toBe(20);
+    expect(_committed.endsWith("\uFFFD")).toBe(false);
+    Object.assign(navigator, { clipboard: { writeText: vi.fn(async () => undefined) } });
+    fireEvent.click(screen.getByLabelText("Copy log (Markdown)"));
+    await flush(0);
+    expect(screen.getByText("Log copied ✓")).toBeTruthy();
+    navigator.clipboard.writeText = vi.fn(async () => { throw new Error("denied"); });
+    fireEvent.click(screen.getByLabelText("Copy log (Markdown)"));
+    await flush(0);
+    expect(document.querySelector("textarea.wq-input").value).toContain("0/1122");
+    let _made = null;
+    URL.createObjectURL = vi.fn((blob) => { _made = blob; return "blob:wq-test"; });
+    URL.revokeObjectURL = vi.fn();
+    fireEvent.click(screen.getByLabelText("Save backup file"));
+    await flush(1200);
+    expect(screen.getByText("Backup file saved.")).toBeTruthy();
+    expect(URL.createObjectURL).toHaveBeenCalledTimes(1);
+    expect(URL.revokeObjectURL).toHaveBeenCalledWith("blob:wq-test");
+    expect(await _made.text()).toContain("\"application\": \"word-quest-backup\"");
+  });
+  it("The ring reports on press, apart from the log, and clears", async () => {
+    const _errMod = await import("../../app/src/errors.js");
+    _errMod.record({ kind: "error", message: "ring-one", where: "A.js:1", screen: "home", version: "t" });
+    _errMod.record({ kind: "rejection", message: "second", where: "", screen: "session", version: "t" });
+    mockLoad.mockResolvedValueOnce({ version: 6, level: 1, preLevel: 0, prePerfectStreak: 0, sessionsCompleted: 0, perfectStreak: 0, words: {}, log: [], pre: {}, settings: { sound: true, childName: "", lang: "en-US" } });
+    render(createElement(App));
+    await flush(2001); // owner-ruled 2s minimum splash
+    fireEvent.click(screen.getByLabelText("Grown-ups corner"));
+    await flush(0);
+    expect(document.querySelector('input[type="file"]')).toBeTruthy();
+    expect(screen.getByText(new RegExp("2 problems recorded on this device."))).toBeTruthy();
+    const _written = [];
+    Object.assign(navigator, { clipboard: { writeText: vi.fn(async (t) => { _written.push(t); }) } });
+    fireEvent.click(screen.getByLabelText("Copy log (Markdown)"));
+    await flush(0);
+    expect(_written[0]).not.toContain("bug report");
+    expect(_written[0]).not.toContain("ring-one");
+    fireEvent.click(screen.getByLabelText("Copy bug report"));
+    await flush(0);
+    expect(_written[1]).toContain("# Word Quest bug report");
+    expect(_written[1]).toContain("Nothing in this report was sent anywhere");
+    expect(_written[1]).toContain("home · error: ring-one");
+    expect(_written[1]).toContain("at A.js:1");
+    expect(_written[1]).toContain("session · rejection: second");
+    expect(_written[1].indexOf("1. ")).toBeLessThan(_written[1].indexOf("2. "));
+    fireEvent.click(screen.getByText("Clear"));
+    await flush(0);
+    expect(screen.getByText(new RegExp("No problems recorded on this device."))).toBeTruthy();
+    expect(screen.getByLabelText("Copy bug report").disabled).toBe(true);
+  });
+  it("A render crash shows a way back, not a blank page", async () => {
+    const _quiet = vi.spyOn(console, "error").mockImplementation(() => {});
+    const _eb = await import("../../app/src/components/ErrorBoundary.jsx");
+    let _explode = true;
+    function _throwingChild() { if (_explode) throw new Error("render boom"); return createElement("p", null, "alive again"); }
+    render(createElement(_eb.default, { screen: () => "build", version: "t" }, createElement(_throwingChild)));
+    const _back = screen.getByLabelText("Back to the start");
+    expect(_back.className).toContain("wq-cta");
+    const _readErr = await import("../../app/src/errors.js");
+    expect(_readErr.readErrors().map((e) => [e.kind, e.screen, e.message])).toEqual([["render", "build", "render boom"]]);
+    _explode = false;
+    fireEvent.click(_back);
+    expect(screen.getByText("alive again")).toBeTruthy();
+    _quiet.mockRestore();
+  });
+});
+
+describe("Feature: The splash waits and the update check asks only of a grown-up", () => {
+  it("The splash waits its 2 seconds and lets a tap through", async () => {
+    render(createElement(App));
+    await flush(1999);
+    expect(screen.queryByLabelText("Begin Session")).toBeNull();
+    expect(document.querySelector('[data-wq-art="title-splash"]')).not.toBeNull();
+    await flush(2);
+    expect(screen.getByLabelText("Begin Session")).toBeTruthy();
+    cleanup(); mockSave.mockClear(); mockLoad.mockReset();
+    mockSave.mockImplementation(async () => true);
+    render(createElement(App));
+    await flush(0);
+    fireEvent.click(document.querySelector(".wq-center"));
+    await flush(0);
+    expect(screen.getByLabelText("Begin Session")).toBeTruthy();
+  });
+  it("A tap before the read lands leaves the app on the read and writes nothing", async () => {
+    var _resolveRead;
+    mockLoad.mockImplementation(() => new Promise((resolve) => { _resolveRead = resolve; }));
+    render(createElement(App));
+    await flush(0);
+    fireEvent.click(document.querySelector(".wq-center"));
+    await flush(0);
+    await flush(2001);
+    expect(screen.queryByLabelText("Begin Session")).toBeNull();
+    expect(document.querySelector('[data-wq-art="title-splash"]')).not.toBeNull();
+    _resolveRead(null);
+    await flush(0);
+    expect(screen.getByLabelText("Begin Session")).toBeTruthy();
+    cleanup(); mockSave.mockClear(); mockLoad.mockReset();
+    mockSave.mockImplementation(async () => true);
+    var _resolveRead;
+    mockLoad.mockImplementation(() => new Promise((resolve) => { _resolveRead = resolve; }));
+    render(createElement(App));
+    await flush(0);
+    fireEvent.click(document.querySelector(".wq-center"));
+    await flush(0);
+    await flush(2001);
+    expect(mockSave.mock.calls.length).toBe(0);
+    _resolveRead({ __unreadable: true });
+    await flush(0);
+    expect(mockSave.mock.calls.length).toBe(0);
+  });
+  it("The version check never leaves on a child's tap", async () => {
+    var _fetchSpy = vi.fn(async () => ({ ok: true, json: async () => ({ version: "0.0.0-test", build: "test-build" }) }));
+    vi.stubGlobal("fetch", _fetchSpy);
+    render(createElement(App));
+    await flush(2001);
+    const _btn = screen.getByLabelText("Check for updates");
+    fireEvent.click(_btn, { detail: 1 });
+    await flush(600);
+    fireEvent.pointerDown(_btn);
+    await flush(300);
+    fireEvent.pointerUp(_btn);
+    await flush(600);
+    expect(_fetchSpy.mock.calls.filter(([url]) => url === "version.json").length).toBe(0);
+    fireEvent.keyDown(screen.getByLabelText("Check for updates"), { key: "Enter" });
+    await flush(0);
+    expect(_fetchSpy.mock.calls.filter(([url]) => url === "version.json").length).toBe(1);
+    expect(_fetchSpy).toHaveBeenCalledWith("version.json", { cache: "no-store" });
+    expect(screen.getByText("You have the latest version.")).toBeTruthy();
+    expect(screen.queryByLabelText("Update now")).toBeNull();
+    cleanup(); mockSave.mockClear(); mockLoad.mockReset();
+    mockSave.mockImplementation(async () => true);
+    var _fetchSpy = vi.fn(async () => ({ ok: true, json: async () => ({ version: "9.9.9" }) }));
+    vi.stubGlobal("fetch", _fetchSpy);
+    const _posted = [];
+    Object.defineProperty(navigator, "serviceWorker", { configurable: true, value: { addEventListener: () => {}, removeEventListener: () => {}, getRegistration: async () => ({ update: async () => {}, waiting: { postMessage: (mm) => _posted.push(mm) }, installing: null }) } });
+    render(createElement(App));
+    await flush(2001);
+    expect(screen.queryByLabelText("Update now")).toBeNull();
+    fireEvent.keyDown(screen.getByLabelText("Check for updates"), { key: "Enter" });
+    await flush(0);
+    expect(screen.getByText("Version 9.9.9 is ready — press and hold.")).toBeTruthy();
+    fireEvent.click(screen.getByLabelText("Update now"), { detail: 1 });
+    await flush(600);
+    expect(_posted).toEqual([]);
+    fireEvent.keyDown(screen.getByLabelText("Update now"), { key: "Enter" });
+    await flush(0);
+    expect(_posted).toEqual(["wq-activate"]);
+    cleanup(); mockSave.mockClear(); mockLoad.mockReset();
+    mockSave.mockImplementation(async () => true);
+    var _fetchSpy = vi.fn(async () => ({ ok: true, json: async () => ({ version: "0.0.0-test", build: "newer-build" }) }));
+    vi.stubGlobal("fetch", _fetchSpy);
+    render(createElement(App));
+    await flush(2001);
+    fireEvent.keyDown(screen.getByLabelText("Check for updates"), { key: "Enter" });
+    await flush(0);
+    expect(screen.getByText("An update is ready — press and hold.")).toBeTruthy();
+    expect(screen.queryByLabelText("Update now")).not.toBeNull();
+  });
+  it("The foreground asks once and Off silences it", async () => {
+    const _update = vi.fn(async () => {});
+    Object.defineProperty(navigator, "serviceWorker", { configurable: true, value: { getRegistration: async () => ({ update: _update }) } });
+    mockLoad.mockResolvedValueOnce({ ...newState(), preLevel: 0, level: 1 });
+    render(createElement(App));
+    await flush(2001); // owner-ruled 2s minimum splash
+    document.dispatchEvent(new Event("visibilitychange"));
+    await flush(0);
+    expect(_update).toHaveBeenCalledTimes(1);
+    fireEvent.click(screen.getByLabelText("Grown-ups corner"));
+    await flush(0);
+    fireEvent.click(screen.getByText("Off"));
+    await flush(0);
+    document.dispatchEvent(new Event("visibilitychange"));
+    await flush(0);
+    expect(_update).toHaveBeenCalledTimes(1);
   });
 });
 

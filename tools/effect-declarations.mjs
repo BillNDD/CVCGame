@@ -92,16 +92,8 @@ export const DECLARED = {
     gate: "G10", requirement: "Safety rules S1-S7: the app never records a miss by itself, never speaks the word early, and never reaches the network",
     oracle: "The exact SPEC sentences and literal control sizes",
     platform: "node/jsdom", mutants: "G19 transcript, hold and free-play families",
-    evidence: "Vitest counts (summed floor g10_safety_tests)",
+    evidence: "Vitest counts (floor g10_safety_tests; the summed splash file retired into E6 journeys 2026-09-26)",
     limits: "The S6 network scan reads SOURCE — G18 watches the browser. The S7 size check reads the STYLESHEET — G7 measures rendered geometry. Both are pre-filters here, not proof.",
-  },
-  "tests/safety-splash.test.js": {
-    safety: { S5: "unit", S6: "source" },
-    gate: "G10", requirement: "Safety rules on the home screen's grown-up strip, split from safety.test.js at the file-length ceiling",
-    oracle: "The exact SPEC sentences", platform: "node/jsdom",
-    mutants: "G19 update-comparison family",
-    evidence: "Counted into the summed floor g10_safety_tests, so neither file can quietly empty",
-    limits: "Same as safety.test.js: source and stylesheet claims are pre-filters.",
   },
   "tests/adult-controls.test.js": {
     safety: { S1: "unit", S5: "unit" },

@@ -948,12 +948,14 @@ every bound reads `LEVELS.length`, which is why adding a level needed no engine 
 
 ## G10. Safety gates
 
-- Location: `tests/safety.test.js`, `tests/safety-splash.test.js`, `tests/adult-controls.test.js`,
+- Location: `tests/safety.test.js`, `tests/adult-controls.test.js`,
   and Playwright checks inside `npm run test:ui`.
 - Each rule in `CLAUDE.md` becomes at least one failing-by-default test. Keys:
-  `g10_safety_tests` (the SUM of `safety.test.js` and `safety-splash.test.js`, so a test
+  `g10_safety_tests` (safety.test.js alone since 2026-09-26, when the summed
+  `safety-splash.test.js` retired into E6 journeys; before that the SUM of both
+  files, so a test
   cannot vanish from either file; the gauntlet's summed counter refuses a missing file
-  outright) and `g10_adult_control_tests`. The safety floor reads 29, and its history is
+  outright) and `g10_adult_control_tests`. The safety floor reads 19 (29 before the 2026-09-26 E6 retirement), and its history is
   a lesson: on 2026-08-17 three raises (37, 38, 42) landed on this key while the tests
   they counted went to `chunker.test.js` and `buildit.test.js` - files that had NO
   counter - and the same day's stray step arguments kept the gauntlet from ever running
@@ -967,7 +969,7 @@ every bound reads `LEVELS.length`, which is why adding a level needed no engine 
   the crash screen - is named in plain words: an aria-label with no pictograph, no symbol,
   no "(hold)", containing its visible words; a button with no aria-label carries no
   pictograph in its text. A planted old-style hold name and a bare emoji button are
-  refused. Key: `g10_name_tests` (3). Its companion in the check is
+  refused. Key: `g10_name_tests` (1). Its companion in the check is
   `tools/locator-scan.mjs`: every test and census tool is read and any locator whose string
   names a pictograph is refused (9 controls), so the coming icon swap cannot break a locator
   it never knew about. What a screen reader hears changed with this step (bible 15.2):
@@ -977,7 +979,7 @@ every bound reads `LEVELS.length`, which is why adding a level needed no engine 
   section 7 states — the ladder complete only when level 100's words are secure, the
   garden state the tenth of the levels completed — at literal values over the measured word
   counts, including the line that the two-perfect-sessions path never ends the ladder. Key:
-  `g1_garden_tests` (5). G5 gained "the ladder completes without its words being secure"
+  `g1_garden_tests` (3). G5 gained "the ladder completes without its words being secure"
   (73 to 74).
 - `tests/tokens.test.js` (art project step 0b as the council amended it, built after the
   after pass on step 0 found it missing, 2026-08-22): the thirteen keys the game had before
@@ -1010,7 +1012,7 @@ every bound reads `LEVELS.length`, which is why adding a level needed no engine 
   slot, owner-ruled) with .28 (1.65) as the withdrawn control, and the app's and the
   reference's tile rules compared character for character with a planted drift; test 3c
   now holds the open sentence word's cyan ring at 4.73 / 4.61 / 5.05 (open-faults AB
-  closed) with the action figures as its control. Key: `g1_token_tests` (13). Its companion in the check is the quality control that
+  closed) with the action figures as its control. Key: `g1_token_tests` (6). Its companion in the check is the quality control that
   refuses a hex, rgb(), rgba() or hsl() literal in any app source (`.js`, `.jsx`, `.mjs`,
   `.css`) and in the reference outside its `C` block, with fixtures for each and for the
   `alpha()` helper it must not catch: the after pass found fourteen hex literals in the
@@ -1031,10 +1033,10 @@ every bound reads `LEVELS.length`, which is why adding a level needed no engine 
   cell is opened and left. Each run must reach a win, a miss, the help, the end and the
   exit, or it fails as vacuous - and it did, on its first run: 200 sequences of random
   taps reached zero wins, which is why the command set carries a "solve" and a "build it
-  wrong" a real child would make. Key: `g10_model_tests` (5).
-- The splash update controls (SPEC section 7a) have their own file because the safety file
-  reached the file-length ceiling, 900 lines at the time, on 2026-08-07:
-  `safety-splash.test.js` proves a
+  wrong" a real child would make. Key: `g10_model_tests` (2).
+- The splash update controls (SPEC section 7a) had their own file from 2026-08-07
+  (the safety file had reached the file-length ceiling); the file was retired
+  2026-09-26 into E6 journeys (features/app-splash-update.feature), which prove a
   child's tap never reaches the network and only the adult hold applies an update.
 - S5 has its own file because the safety file reached the file-length ceiling, 600 lines at the
   time (G6). It holds one
@@ -1735,7 +1737,7 @@ some other config, is refused rather than read. The floors it enforces are
 like every other floor. The gauntlet still does not call the census, and that stays
 deliberate: a flaky cell must inform a release, never block one.
 
-- Baseline floors: `g13_clips` (760) and `g13_engine_tests` (24).
+- Baseline floors: `g13_clips` (760) and `g13_engine_tests` (20).
 - Three of those 23 are B18's, and each was watched RED before the fix went in: a fully
   cached word keeps its rings when the audio player wakes a task later (red against the
   unfixed player, which judged it asleep in the same instant it asked it to wake); a
@@ -2095,7 +2097,7 @@ version it has already replaced (SPEC section 7a).
   with the app's `index.html`, whose assets are addressed relative to the page.
 - Negative control: each tripwire is asserted against a fixture carrying the fault, and
   removing the scope check makes the navigation tests fail.
-- Baseline floors: `g14_update_tests` (18) and `g14_worker_tests` (5).
+- Baseline floors: `g14_update_tests` (14) and `g14_worker_tests` (5).
 
 ## G15. RETIRED 2026-08-12 — recognizer contract
 
@@ -2384,7 +2386,7 @@ other direction: the real pack, unchanged, must pass.
 
 ## G20. Effect map
 
-- Tool: `tools/effect-map.mjs`. Writes `docs/effect-map.md`. Keys: `g20_tests_mapped` (482).
+- Tool: `tools/effect-map.mjs`. Writes `docs/effect-map.md`. Keys: `g20_tests_mapped` (390).
 - One row per `it()` SITE — its file, suite, and the test's own sentence, which in this
   project IS the Given/When/Then effect, because tests are named as behaviour. A site inside
   a loop or a table runs many times, so the map's rows describe SITES and Vitest executes more tests than there are rows, because a site inside a loop runs many times;
