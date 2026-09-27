@@ -957,7 +957,7 @@ every bound reads `LEVELS.length`, which is why adding a level needed no engine 
   `safety-splash.test.js` retired into E6 journeys; before that the SUM of both
   files, so a test
   cannot vanish from either file; the gauntlet's summed counter refuses a missing file
-  outright) and `g10_adult_control_tests` (retired with its file 2026-09-26; the E7 journeys carry its proofs). The safety floor reads 19 (29 before the 2026-09-26 E6 retirement), and its history is
+  outright) and `g10_adult_control_tests` (retired with its file 2026-09-26; the E7 journeys carry its proofs). The safety floor reads 14 (29 before the 2026-09-26 E6 retirement, 19 before the 2026-09-27 E2b retirement of the free-play walks 42/43/45/46/47; 44 restored same day after a range-delete caught it), and its history is
   a lesson: on 2026-08-17 three raises (37, 38, 42) landed on this key while the tests
   they counted went to `chunker.test.js` and `buildit.test.js` - files that had NO
   counter - and the same day's stray step arguments kept the gauntlet from ever running
@@ -2389,7 +2389,7 @@ other direction: the real pack, unchanged, must pass.
 
 ## G20. Effect map
 
-- Tool: `tools/effect-map.mjs`. Writes `docs/effect-map.md`. Keys: `g20_tests_mapped` (387).
+- Tool: `tools/effect-map.mjs`. Writes `docs/effect-map.md`. Keys: `g20_tests_mapped` (385).
 - One row per `it()` SITE — its file, suite, and the test's own sentence, which in this
   project IS the Given/When/Then effect, because tests are named as behaviour. A site inside
   a loop or a table runs many times, so the map's rows describe SITES and Vitest executes more tests than there are rows, because a site inside a loop runs many times;

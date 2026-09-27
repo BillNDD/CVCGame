@@ -614,6 +614,201 @@
       ]
     },
     {
+      "file": "features/app-free-play.feature",
+      "name": "Free play plays forever and writes nothing",
+      "scenarios": [
+        {
+          "name": "The header counts and the block rolls over without ending",
+          "outline": false,
+          "steps": [
+            {
+              "kind": "Given",
+              "text": "free play is entered through \"🎯 Level\""
+            },
+            {
+              "kind": "Then",
+              "text": "the header counts \"FREE PLAY\""
+            },
+            {
+              "kind": "Then",
+              "text": "the header counts \"0 words\""
+            },
+            {
+              "kind": "When",
+              "text": "a free-play word is graded \"got it\""
+            },
+            {
+              "kind": "Then",
+              "text": "the header counts \"1 word\""
+            },
+            {
+              "kind": "Then",
+              "text": "no block total is shown"
+            },
+            {
+              "kind": "When",
+              "text": "a free-play word is graded \"got it\""
+            },
+            {
+              "kind": "When",
+              "text": "a free-play word is graded \"got it\""
+            },
+            {
+              "kind": "When",
+              "text": "a free-play word is graded \"got it\""
+            },
+            {
+              "kind": "When",
+              "text": "a free-play word is graded \"got it\""
+            },
+            {
+              "kind": "When",
+              "text": "a free-play word is graded \"got it\""
+            },
+            {
+              "kind": "When",
+              "text": "a free-play word is graded \"got it\""
+            },
+            {
+              "kind": "When",
+              "text": "a free-play word is graded \"got it\""
+            },
+            {
+              "kind": "When",
+              "text": "a free-play word is graded \"got it\""
+            },
+            {
+              "kind": "When",
+              "text": "a free-play word is graded \"got it\""
+            },
+            {
+              "kind": "When",
+              "text": "a free-play word is graded \"got it\""
+            },
+            {
+              "kind": "When",
+              "text": "the last word is graded \"got it\""
+            },
+            {
+              "kind": "Then",
+              "text": "the last slot still says Next word"
+            },
+            {
+              "kind": "When",
+              "text": "the block rolls into a new one"
+            },
+            {
+              "kind": "Then",
+              "text": "the header counts \"12 words\""
+            }
+          ],
+          "examples": []
+        },
+        {
+          "name": "Truly random draws come from the whole bank",
+          "outline": false,
+          "steps": [
+            {
+              "kind": "Given",
+              "text": "random is pinned high"
+            },
+            {
+              "kind": "Given",
+              "text": "free play is entered through \"🎲 Any word\""
+            },
+            {
+              "kind": "Then",
+              "text": "the served word is \"teacher\""
+            },
+            {
+              "kind": "When",
+              "text": "the app restarts fresh"
+            },
+            {
+              "kind": "When",
+              "text": "free play is entered through \"🎯 Level\""
+            },
+            {
+              "kind": "Then",
+              "text": "the served word is one of Level 1"
+            }
+          ],
+          "examples": []
+        },
+        {
+          "name": "Random play writes nothing and the boundary renews",
+          "outline": false,
+          "steps": [
+            {
+              "kind": "Given",
+              "text": "random is pinned high"
+            },
+            {
+              "kind": "Given",
+              "text": "free play is entered through \"🎲 Any word\""
+            },
+            {
+              "kind": "Then",
+              "text": "the header counts \"FREE PLAY\""
+            },
+            {
+              "kind": "Then",
+              "text": "the dice chip names the mode"
+            },
+            {
+              "kind": "When",
+              "text": "a save window opens"
+            },
+            {
+              "kind": "When",
+              "text": "the pinned block is walked collecting every word"
+            },
+            {
+              "kind": "Then",
+              "text": "the block opens on \"teacher\" and closes on \"mouthful\" with no repeats"
+            },
+            {
+              "kind": "When",
+              "text": "random is pinned to the boundary"
+            },
+            {
+              "kind": "When",
+              "text": "a free-play word is graded \"got it\""
+            },
+            {
+              "kind": "Then",
+              "text": "the header counts \"20 words\""
+            },
+            {
+              "kind": "Then",
+              "text": "the served word is \"ancient\""
+            },
+            {
+              "kind": "When",
+              "text": "a free-play word is graded \"got it\""
+            },
+            {
+              "kind": "Then",
+              "text": "the served word is \"motion\""
+            },
+            {
+              "kind": "Then",
+              "text": "no save was written in the window"
+            },
+            {
+              "kind": "When",
+              "text": "free play is left straight home"
+            },
+            {
+              "kind": "Then",
+              "text": "no save was written in the window"
+            }
+          ],
+          "examples": []
+        }
+      ]
+    },
+    {
       "file": "features/app-splash-update.feature",
       "name": "The splash waits and the update check asks only of a grown-up",
       "scenarios": [

@@ -510,31 +510,15 @@ describe("G10 — free play never touches the save", () => {
     expect(mockSave.mock.calls.length).toBeGreaterThan(before41);
   });
 
-  it("42: free play never says Finish and rolls into a new block", async () => {
-    await enterFreePlay();
-    /* a fresh save on Level 1 builds a 12-word block; walk it to the end */
-    for (let i = 0; i < 11; i++) await gradeOne("got it");
-    fireEvent.keyDown(screen.getByLabelText("got it"), { key: "Enter" });
-    await flush(500);
-    /* the last slot of the block still says Next word - free play has no end */
-    expect(screen.getByLabelText("Next word")).toBeTruthy();
-    expect(screen.queryByText(/Finish!/)).toBeNull();
-    fireEvent.click(screen.getByLabelText("Next word"));
-    await flush(0);
-    /* a new block began seamlessly: still in the session, no Done screen */
-    expect(document.querySelector(".wq-word")).toBeTruthy();
-    expect(screen.queryByText(/Great reading today/)).toBeNull();
-    expect(screen.getByText("12 words")).toBeTruthy();
-  });
-
-  it("43: the header says FREE PLAY with a count-up, never x of 20", async () => {
-    await enterFreePlay();
-    expect(screen.getByText("FREE PLAY")).toBeTruthy();
-    expect(screen.getByText("0 words")).toBeTruthy();
-    await gradeOne("got it");
-    expect(screen.getByText("1 word")).toBeTruthy();
-    expect(screen.queryByText(/\/12|\/20/)).toBeNull();
-  });
+  /* The free-play walks (42, 43, 45, 46, 47) were retired 2026-09-27 into E2b
+     journeys (features/app-free-play.feature: 24 expects for 24 retired).
+     43 rides 42's 12-grade walk (header stations at grades 0-1, rollover at
+     grade 12); 46 rides 47's pinned 20-block walk (header/no-write stations
+     first, boundary at the end, leave-home last); 45 keeps its pinned draw
+     and its level-door control. The 0.9999999/0.955 pins and their
+     re-derivation rule moved verbatim into the feature. Sentence 11 stays
+     unit (sentences door, own walk); 40/41 (free-play-grades-write-nothing
+     control) and 44 (chooser) stay below. */
 
   it("44: a chooser stands between the tap and the game, and Back starts nothing", async () => {
     render(createElement(App));
@@ -557,152 +541,6 @@ describe("G10 — free play never touches the save", () => {
     expect(mockSave.mock.calls.length).toBe(before);
   });
 
-  it("45: truly random draws from the whole bank, not the child's level", async () => {
-    /* Math.random pinned high makes every draw take the end of the pool, so
-       the first word served is the bank's LAST word - "teacher", the tail of
-       Level 100 since the 2026-08-20 cutover (index 1122 of 1123). A fresh
-       Level 1 save can never see it in a session or in
-       level free play: buildSession serves Level 1 plus review only. The
-       expected word is a literal on purpose (E4); if the bank ever gains a
-       new last word, this is the line to update. */
-    const spy = vi.spyOn(Math, "random").mockReturnValue(0.9999999);
-    try {
-      await enterFreePlay("🎲 Any word");
-      expect(document.querySelector(".wq-word").textContent).toBe("teacher");
-      /* control: the SAME pin through the level door serves a Level 1 word -
-         the pin alone cannot conjure "ping"; only the random door can. */
-      cleanup();
-      await enterFreePlay();
-      expect(["at", "an", "am", "ax", "in", "it", "if", "is", "on", "ox", "up", "us"])
-        .toContain(document.querySelector(".wq-word").textContent);
-    } finally { spy.mockRestore(); }
-  });
-
-  it("46: random play writes nothing and says what it is", async () => {
-    await enterFreePlay("🎲 Any word");
-    expect(screen.getByText("FREE PLAY")).toBeTruthy();
-    /* the dice chip: the level chip would claim a level this mode is not serving */
-    expect(screen.getByLabelText(/random (words|sentences)/)).toBeTruthy();
-    expect(screen.queryByText(/\bLevel 1\b/)).toBeNull();
-    const before = mockSave.mock.calls.length;
-    await gradeOne("got it");
-    await gradeOne("not yet");
-    expect(mockSave.mock.calls.length).toBe(before);
-    fireEvent.click(screen.getByLabelText("Leave session"));
-    await flush(0);
-    expect(mockSave.mock.calls.length).toBe(before);
-    expect(screen.getByLabelText("Begin Session")).toBeTruthy();
-    expect(screen.queryByText("Finish early?")).toBeNull();
-  });
-
-  it("47: a spent random block rolls into a fresh draw that never repeats the boundary word", async () => {
-    /* Pinned at the top of the pool, the first block is the bank's last 20
-       words in reverse - "teacher" first, "mouthful" twentieth - with no repeats, since
-       a repeat inside a block would collide with its own first result and be
-       graded as a retry.
-
-       At the boundary the pin moves to 0.955, and that number is chosen, not
-       inherited. The discriminating structure at the 446-word bank (the
-       SEVENTH move — "i" joined with the 10-and-10 curriculum, and every
-       number here was SIMULATED against the real function, per the history
-       below): floor(0.955 x 446) = 425 is "grin", so an UNGUARDED draw over
-       the whole bank would open on "grin". Both literals below come from
-       running the algorithm:
-         - the guard drops "plan" from the pool, so 445 words are left and
-           floor(0.955 x 445) = 424 opens the block on "grab" — not "grin",
-           which is what an unguarded draw would serve, and not "plan";
-         - "plan" is then pushed to the BACK of the refilled pool (444 left
-           after the first splice, plus "plan" = 445 again), so the second
-           draw's floor(0.955 x 445) = 424 of THAT pool is "grin". Without
-           the push-back the pool would sit at 444 and the draw would land
-           elsewhere, so this line is what proves the word returns to the
-           game rather than leaving it. All literals (E4), for the 446-word
-           bank.
-
-       RE-DERIVED SIX TIMES NOW, and the last three are the lesson.
-       The bank went 432 -> 436 when four heart words joined, 436 -> 438 with
-       "my" and "of", and 438 -> 439 when "a" shipped. The first two were
-       written down. The third was not: the commit that added "a" claimed in
-       its own message to have "re-derived for 439", and every number in this
-       paragraph stayed at 438 — a stale derivation inside the sentence that
-       exists to prevent stale derivations, one bullet below an invocation of
-       the cup lesson. An auditor found it.
-
-       The FOURTH move was never written down either. Removing "gob" took the
-       bank 439 -> 438, and this paragraph kept saying 439. So the warning
-       below was written, the fault it warns about happened again on the very
-       next move of the bank, and nothing went red — because 0.955 sits inside
-       the true window either way.
-
-       The FIFTH and SIXTH moves were both computed rather than reasoned about,
-       which is what this paragraph asks for: 438 -> 440 when "we" and "me"
-       were seated, and 440 -> 445 when the other five open syllables followed.
-       The SEVENTH (445 -> 446, the word "i") was simulated the same way: at
-       446 the guarded pool sits at 445 both times — splice one out, push
-       "plan" back — so both draws index 424, giving "grab" then "grin",
-       while the unguarded whole-bank draw lands on "grin" first. The guard
-       and the coincidence word are one index apart, which is exactly the
-       discrimination this pin exists for.
-
-       The EIGHTH move (446 -> 461: Level 21's fourteen plurals and romp into
-       Level 19, 2026-08-16) was simulated against the real algorithm again.
-       The boundary word is now "swim" (the tail-20 block is the six last
-       Twin Drums words plus all fourteen plurals). Unguarded,
-       floor(0.955 x 461) = 440 is "swam"; guarded, floor(0.955 x 460) = 439
-       is "stop", and the refilled pool's same index is "swam" — guard and
-       coincidence one index apart once more, so 0.955 still discriminates
-       and keeps its seat.
-
-       The NINTH move (461 -> 469: the first seating pass, "seat 8 of 8",
-       2026-08-16) was simulated the same way. black and skip joined Twin
-       Drums' tail, so the boundary word is now "trim" and the tail-20 block
-       is four Twin Drums words, black, skip, and the fourteen plurals.
-       Unguarded, floor(0.955 x 469) = 447 is "swim"; guarded,
-       floor(0.955 x 468) = 446 is "swam", and the refilled pool's same
-       index is "swim" — the guard and the coincidence stay one index
-       apart, and 0.955 keeps its seat a ninth time.
-
-       The TENTH move (469 -> 476: seating pass two, "seat 7 of 7",
-       2026-08-17) was simulated again. from joined Twin Drums' tail, so
-       the boundary word became "trip". Unguarded, floor(0.955 x 476) =
-       454 was "trap"; guarded, floor(0.955 x 475) = 453 was "swim" - one
-       index apart, tenth seat kept.
-
-       The ELEVENTH move is the 2026-08-20 CUTOVER (476 -> 1,123,
-       recomputed after put's late seat at level 75 - the first typing of
-       this paragraph said 1,122 and the fidelity audit caught it, this
-       block's own rule broken inside the block that states it): the
-       boundary word is "mouthful", the twentieth from the converted
-       bank's tail (index 1103). Unguarded, floor(0.955 x 1123) = 1072 is
-       "motion"; guarded, floor(0.955 x 1122) = 1071 is "ancient", and
-       the refilled pool's index 1071 is "motion" - one index apart,
-       eleventh seat kept. All three recomputed from the converted
-       ALL_WORDS by simulation, as this block's own rule demands.
-
-       That the assertions never failed is the danger, not the comfort:
-       nothing goes red while the reasoning quietly stops matching the code.
-       Recompute all three numbers every time the bank moves, run them, and
-       never take the previous paragraph's word for it. */
-    const spy = vi.spyOn(Math, "random").mockReturnValue(0.9999999);
-    try {
-      await enterFreePlay("🎲 Any word");
-      const seen = [];
-      for (let i = 0; i < 19; i++) {
-        seen.push(document.querySelector(".wq-word").textContent);
-        await gradeOne("got it");
-      }
-      seen.push(document.querySelector(".wq-word").textContent);
-      expect(seen[0]).toBe("teacher");
-      expect(seen[19]).toBe("mouthful");
-      expect(new Set(seen).size).toBe(20);
-      spy.mockReturnValue(0.955);
-      await gradeOne("got it");
-      expect(screen.getByText("20 words")).toBeTruthy();
-      expect(document.querySelector(".wq-word").textContent).toBe("ancient");
-      await gradeOne("got it");
-      expect(document.querySelector(".wq-word").textContent).toBe("motion");
-    } finally { spy.mockRestore(); }
-  });
 });
 
 /* S6's second network call (SPEC section 7a), owner-approved 2026-08-03 on

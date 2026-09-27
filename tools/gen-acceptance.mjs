@@ -11,7 +11,11 @@
    Journey convention (E7 2026-09-26): the boot verb renders the App once;
    following verbs never render again until `the app restarts fresh` (cleanup
    plus a fresh boot). Setup verbs that repeat in one journey redeclare with
-   `var`, never `const`. */
+   `var`, never `const`.
+   The generated header defines NO speech stub: a dead no-op speechSynthesis
+   is WORSE than none (the app waits on an utterance-end that never fires and
+   the free-play advance never arms — E2b probe 2026-09-27). Speech-asserting
+   unit tests keep their own recording stubs and stay unit. */
 import { readFileSync, writeFileSync } from "node:fs";
 
 const IR = "tests/generated/acceptance-ir.json";
@@ -525,6 +529,68 @@ const STEPS_APP = [
   [/^two sessions count plural$/, () => [
     `expect(screen.getByText(/2 sessions$/)).toBeTruthy();`,
     `expect(screen.queryByText(/2 session$/)).toBe(null);`]],
+  [/^free play is entered through "([^"]*)"$/, (m) => [
+    `mockLoad.mockResolvedValueOnce({ ...newState(), preLevel: 0, level: 1 });`,
+    `render(createElement(App));`,
+    `await flush(2001);`,
+    `fireEvent.click(screen.getByLabelText("Free play"));`,
+    `await flush(0);`,
+    `fireEvent.click(screen.getByText(new RegExp(${S(m[1])})));`,
+    `await flush(0);`]],
+  [/^the header counts "([^"]*)"$/, (m) => [
+    `expect(screen.getByText(${S(m[1])})).toBeTruthy();`]],
+  [/^no block total is shown$/, () => [
+    `expect(screen.queryByText(/\\/12|\\/20/)).toBeNull();`]],
+  [/^a free-play word is graded "([^"]*)"$/, (m) => [
+    `fireEvent.keyDown(screen.getByLabelText(${S(m[1])}), { key: "Enter" });`,
+    `await flush(500);`,
+    `fireEvent.click(screen.getByText(/Next word/));`,
+    `await flush(0);`]],
+  [/^the last word is graded "([^"]*)"$/, (m) => [
+    `fireEvent.keyDown(screen.getByLabelText(${S(m[1])}), { key: "Enter" });`,
+    `await flush(500);`]],
+  [/^the last slot still says Next word$/, () => [
+    `expect(screen.getByLabelText("Next word")).toBeTruthy();`,
+    `expect(screen.queryByText(/Finish!/)).toBeNull();`]],
+  [/^the block rolls into a new one$/, () => [
+    `fireEvent.click(screen.getByLabelText("Next word"));`,
+    `await flush(0);`,
+    `expect(document.querySelector(".wq-word")).toBeTruthy();`,
+    `expect(screen.queryByText(/Great reading today/)).toBeNull();`]],
+  [/^random is pinned high$/, () => [
+    `vi.spyOn(Math, "random").mockReturnValue(0.9999999);`]],
+  [/^random is pinned to the boundary$/, () => [
+    `vi.spyOn(Math, "random").mockReturnValue(0.955);`]],
+  [/^the served word is "([^"]*)"$/, (m) => [
+    `expect(document.querySelector(".wq-word").textContent).toBe(${S(m[1])});`]],
+  [/^the served word is one of Level 1$/, () => [
+    `expect(["at", "an", "am", "ax", "in", "it", "if", "is", "on", "ox", "up", "us"]).toContain(document.querySelector(".wq-word").textContent);`]],
+  [/^the dice chip names the mode$/, () => [
+    `expect(screen.getByLabelText(/random (words|sentences)/)).toBeTruthy();`,
+    `expect(screen.queryByText(/\\bLevel 1\\b/)).toBeNull();`]],
+  [/^a save window opens$/, () => [
+    `var _savesBefore = mockSave.mock.calls.length;`]],
+  [/^no save was written in the window$/, () => [
+    `expect(mockSave.mock.calls.length).toBe(_savesBefore);`]],
+  [/^the pinned block is walked collecting every word$/, () => [
+    `var _seen = [];`,
+    `for (let _i = 0; _i < 19; _i += 1) {`,
+    `  _seen.push(document.querySelector(".wq-word").textContent);`,
+    `  fireEvent.keyDown(screen.getByLabelText("got it"), { key: "Enter" });`,
+    `  await flush(500);`,
+    `  fireEvent.click(screen.getByText(/Next word/));`,
+    `  await flush(0);`,
+    `}`,
+    `_seen.push(document.querySelector(".wq-word").textContent);`]],
+  [/^the block opens on "([^"]*)" and closes on "([^"]*)" with no repeats$/, (m) => [
+    `expect(_seen[0]).toBe(${S(m[1])});`,
+    `expect(_seen[19]).toBe(${S(m[2])});`,
+    `expect(new Set(_seen).size).toBe(20);`]],
+  [/^free play is left straight home$/, () => [
+    `fireEvent.click(screen.getByLabelText("Leave session"));`,
+    `await flush(0);`,
+    `expect(screen.getByLabelText("Begin Session")).toBeTruthy();`,
+    `expect(screen.queryByText("Finish early?")).toBeNull();`]],
 ];
 
 const ir = JSON.parse(readFileSync(IR, "utf8"));
@@ -571,6 +637,7 @@ if (anyApp) {
   out.push(`  vi.useRealTimers();`);
   out.push(`  localStorage.clear();`);
   out.push(`  vi.unstubAllGlobals();`);
+  out.push(`  vi.restoreAllMocks(); // pinned-random spies must not leak into engine scenarios`);
   out.push(`});`);
 }
 out.push(``);
