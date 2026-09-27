@@ -2432,3 +2432,39 @@ other direction: the real pack, unchanged, must pass.
   That is G13 and the owner's ear. This gate only promises that what the ear decides
   survives the trip back.
 - Run: `npm run test:listening`.
+
+## De-bloat ledger (2026-09-25 to 2026-09-27)
+
+- Standing rules for this exercise only. E3 (never delete a test) and E6
+  (never lower a floor) were WAIVED by the owner 2026-09-25; everywhere else
+  they stand. The acceptance `.feature` suite is the third hard gate beside
+  coverage and mutants: it stays green every batch. A test is deleted or
+  merged only if it owns no unique line/branch, kills no mutant, and pins no
+  ruling or fault. Every wave holds statements exact, mutants 85/85, G4 100%,
+  independent review, and a full `npm run check`.
+- The 15% rule (owner 2026-09-27): E2E replaces unit tests ONLY at >=15% TIME
+  savings, measured in boots before/after. Count-only conversions are dead.
+  E6/E7 shipped before the rule and are grandfathered, not precedent.
+- The plan lives at `D:/CVCGame-tmp/E2E-JOURNEYS-proposal.md` (v2, adjudicated);
+  per-wave evidence (diffs, trial logs, reviewer verdicts) in the Hermes
+  scratch dir. Converted journeys retire into `features/app-*.feature`;
+  the generator is `tools/gen-acceptance.mjs`, the gate `tools/acceptance-mutants.mjs`.
+
+| Wave | Change | Unit count | Parity / gates |
+|---|---|---|---|
+| Baseline (`601eff1`, beta 34) | — | 501 / 22 files, accept 62, G4 100 sites | statements 5984/6094, G5 85/85 |
+| Batch 1 (`3fcd085`) | Tier A: 10 clean deletes + migrate F1 fix | 491 (−10) | cov ±0/−2, G5 85/85, qwen CONFIRM |
+| Tier B (`4d517b8`) | 25 test+control merges, every assert kept | 461 (−30) | cov ±0/−5, G5 85/85, qwen CONFIRM |
+| Tier C (`a0cb70f`) | 52 test+control merges (F4 title fix) | 409 (−52, −18.4%) | cov ±0/−8, G5 85/85, qwen CONFIRM |
+| Wave 1a E4 (`74b10aa`) | 17 backup-refusal boots → 4 journeys | 395, accept 66, G4 138 | 38↔38 parity (grown to 41), G5 85/85, qwen CONFIRM |
+| Wave 1b E5+E6 (`df56a49`) | corner-data 5→3 + splash file deleted 8→4 | 390 (−22.2%), accept 73, G4 167 | G5 85/85, qwen CONFIRM, check green |
+| Wave 2a E7 (`61586fb`) | adult-controls file retired 5→2 (grandfathered) | 387, accept 75, G4 173 | 19⊇18 parity, G5 85/85, qwen GO (one REFUSE overruled by machine count) |
+| Wave 2b E2b (`64be71e`) | free-play walks 42/43/45/46/47 → 3 journeys, 6→4 boots (−33%) | 385 (−23.2%), accept 78, G4 189 | 24↔24 parity, G5 85/85, qwen GO; 44 range-deleted by accident, restored byte-identical |
+- Ruled OUT under the 15% rule (stay unit, merged and pinned): E1 (reveal),
+  E3 (sentence), E8 (pre rider trio), E2a (sentences-chooser), E9 (buildit
+  clock, direct renders), J19/J25 (owner calls). E2b was the only qualifier.
+- Generator law (learned in the waves, enforced in code comments): one boot
+  per journey; `var` discipline; no speech stub in the header (a dead no-op
+  stub breaks the free-play advance — E2b probe); 40-assert split rule;
+  genuine-restore-first defeats vacuous checks; ordering asserts defeat
+  sibling-satisfying mutants.
