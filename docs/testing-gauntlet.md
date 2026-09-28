@@ -2467,4 +2467,21 @@ other direction: the real pack, unchanged, must pass.
   per journey; `var` discipline; no speech stub in the header (a dead no-op
   stub breaks the free-play advance — E2b probe); 40-assert split rule;
   genuine-restore-first defeats vacuous checks; ordering asserts defeat
-  sibling-satisfying mutants.
+  sibling-satisfying mutants; Math.random SEEDED per journey (LCG reset in
+  beforeEach, E2b's own pins override within their journey) — buildSession
+  shuffles with raw Math.random and takes no rand param, so unpinned exact-
+  count asserts were luck-of-the-stream.
+## Perf wave (2026-09-28, `cc82080` + `310c551`)
+- chunkSeat memoized (reference roster section; src/engine is gitignored —
+  never edit there, the extractor wipes it): properties 46.9s→2.5s. Full
+  suite wall 59.5s→37.2s. G5 85/85 on the memoized tree.
+- build-tray sweeps hoisted (spellSets memo per word|slots, multiset
+  inclusion): file 42.1s→19.7s, same bank/seeds/deals/assertions. Qwen
+  CONFIRM + Flash CONFIRM (60k-trial differential fuzz, 0 mismatches).
+- Flash caught a no-op pin (buildSession takes one param — extra arg
+  ignored); replaced with hook seeding, Flash CONFIRM (LCG verified
+  numerically, E2b composition executed). Drill cold; G5 85/85; check green.
+- Contention rule: suite flakes appear only when a heavy job shares the CPU
+  (all reds coincided with parallel agents; 30+ greens idle). One job on the
+  machine during gates. Repo requires Node 24 (Hermes tools' Node 26 breaks
+  jsdom localStorage); bg node jobs die headless — PTY background works.
