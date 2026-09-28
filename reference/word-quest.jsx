@@ -2123,9 +2123,19 @@ function wordHoldsChunk(word, chunk) {
    reads a word containing it", 2026-08-25) folded into one walk, because
    the first holding word IS the deadline. */
 const PRE_RUNG_CHUNKS = new Set(PRE_LEVELS.flatMap((p) => p.items).filter(isChunkItem).map(chunkText));
+/* MEMOIZED 2026-09-27 (P10 probe: creditSeatedChunks called chunkSeat once
+   per roster chunk (67; 6 hit the pre-rung short-circuit, 61 walk the ladder)
+   per migrate, each walk re-scanning up to 100 levels × wordHoldsChunk
+   at ~0.5 ms — ~33 ms per migrate on hostile saves, ~41 s per 1000-run P10.
+   The seat is a pure function of static data (roster × ladder), so one Map
+   fills on first use and every later call is a hit. App and tray callers
+   share the same cache. */
+const seatCache = new Map();
 function chunkSeat(chunk) {
   if (PRE_RUNG_CHUNKS.has(chunk)) return 0;
-  for (const l of LEVELS) if (l.words.some((w) => wordHoldsChunk(w, chunk))) return l.n;
+  if (seatCache.has(chunk)) return seatCache.get(chunk);
+  for (const l of LEVELS) if (l.words.some((w) => wordHoldsChunk(w, chunk))) { seatCache.set(chunk, l.n); return l.n; }
+  seatCache.set(chunk, null);
   return null;
 }
 /* @engine storage */
