@@ -15,7 +15,10 @@ vi.mock("../../app/src/storage.js", () => ({
 import { loadState as mockLoad, saveState as mockSave } from "../../app/src/storage.js";
 import HoldButton from "../../app/src/components/HoldButton.jsx";
 const flush = async (ms = 0) => act(async () => { await vi.advanceTimersByTimeAsync(ms); });
+let _rs = 20260928; // SEEDED 2026-09-28: buildSession shuffles with raw Math.random, so exact-count asserts were luck-of-the-stream. Every journey restarts this LCG in beforeEach (E2b's own pins override within their journey); restoreAllMocks in afterEach removes the spy.
 beforeEach(() => {
+  _rs = 20260928;
+  vi.spyOn(Math, "random").mockImplementation(() => (_rs = (_rs * 1103515245 + 12345) % 2147483648) / 2147483648);
   mockLoad.mockReset();
   mockSave.mockClear();
   mockSave.mockImplementation(async () => true);
@@ -1000,7 +1003,7 @@ describe("Feature: Saved data survives anything", () => {
 describe("Feature: Building a session", () => {
   it("The first session serves the whole starter level", () => {
     const s = newState();
-    const q = buildSession(s);
+    const q = buildSession(s); // determinism comes from the seeded Math.random in the file hooks: buildSession takes no rand param, so an arg here would be a no-op
     expect(q.length).toBe(10);
     expect(q.every((w) => WORD_LEVEL[w] === 1)).toBe(true);
     expect(new Set(q).size).toBe(q.length);
@@ -1008,7 +1011,7 @@ describe("Feature: Building a session", () => {
   it("A full level fills the target", () => {
     const s = newState(); s.level = 22;
     LEVELS[0].words.forEach((w) => { s.words[w] = { ...freshWordState(), box: 5, attempts: 3, dueAt: 99 }; });
-    const q = buildSession(s);
+    const q = buildSession(s); // determinism comes from the seeded Math.random in the file hooks: buildSession takes no rand param, so an arg here would be a no-op
     expect(q.length).toBe(20);
     expect(new Set(q).size).toBe(q.length);
   });
@@ -1017,42 +1020,42 @@ describe("Feature: Building a session", () => {
     const lower = LEVELS.slice(0, 3 - 1).flatMap((l) => l.words);
     expect(lower.length).toBe(20);
     lower.forEach((w) => { s.words[w] = { ...freshWordState(), box: 1, attempts: 4, dueAt: 1 }; });
-    const q = buildSession(s);
+    const q = buildSession(s); // determinism comes from the seeded Math.random in the file hooks: buildSession takes no rand param, so an arg here would be a no-op
     expect(q.filter((w) => WORD_LEVEL[w] < s.level).length).toBeLessThanOrEqual(5);
   });
   it("No mastered words return before the third session", () => {
     const s = newState(); s.level = 3;
     LEVELS.slice(0, 3 - 1).flatMap((l) => l.words).forEach((w) => { s.words[w] = { ...freshWordState(), box: 5, attempts: 6, dueAt: 999 }; });
     s.sessionsCompleted = 1;
-    const q = buildSession(s);
+    const q = buildSession(s); // determinism comes from the seeded Math.random in the file hooks: buildSession takes no rand param, so an arg here would be a no-op
     expect(q.filter((w) => s.words[w] && s.words[w].box >= 4).length).toBe(0);
   });
   it("At most two mastered words return for confidence", () => {
     const s = newState(); s.level = 3;
     LEVELS.slice(0, 3 - 1).flatMap((l) => l.words).forEach((w) => { s.words[w] = { ...freshWordState(), box: 5, attempts: 6, dueAt: 999 }; });
     s.sessionsCompleted = 5;
-    const q = buildSession(s);
+    const q = buildSession(s); // determinism comes from the seeded Math.random in the file hooks: buildSession takes no rand param, so an arg here would be a no-op
     expect(q.filter((w) => s.words[w] && s.words[w].box >= 4).length).toBe(2);
   });
   it("The session opens with the most secure word", () => {
     const s = newState(); s.level = 2; s.sessionsCompleted = 6;
     LEVELS[0].words.forEach((w) => { s.words[w] = { ...freshWordState(), box: 1, attempts: 3, dueAt: 1 }; });
     s.words["at"] = { ...freshWordState(), box: 5, attempts: 9, dueAt: 1 };
-    const q = buildSession(s);
+    const q = buildSession(s); // determinism comes from the seeded Math.random in the file hooks: buildSession takes no rand param, so an arg here would be a no-op
     expect(q[0]).toBe("at");
   });
   it("No peeking while fresh words remain", () => {
     const s = newState(); s.sessionsCompleted = 3;
     expect(LEVELS[0].words.length).toBe(10);
     LEVELS[0].words.slice(0, 9).forEach((w) => { s.words[w] = { ...freshWordState(), box: 5, attempts: 4, dueAt: 99 }; });
-    const q = buildSession(s);
+    const q = buildSession(s); // determinism comes from the seeded Math.random in the file hooks: buildSession takes no rand param, so an arg here would be a no-op
     expect(q.every((w) => WORD_LEVEL[w] === 1)).toBe(true);
   });
   it("Peeking starts when the level is fully seen", () => {
     const s = newState(); s.sessionsCompleted = 3;
     expect(LEVELS[0].words.length).toBe(10);
     LEVELS[0].words.forEach((w) => { s.words[w] = { ...freshWordState(), box: 5, attempts: 4, dueAt: 99 }; });
-    const q = buildSession(s);
+    const q = buildSession(s); // determinism comes from the seeded Math.random in the file hooks: buildSession takes no rand param, so an arg here would be a no-op
     expect(q.some((w) => WORD_LEVEL[w] === 2)).toBe(true);
     expect(q.every((w) => WORD_LEVEL[w] <= 2)).toBe(true);
   });
@@ -1060,7 +1063,7 @@ describe("Feature: Building a session", () => {
     const s = newState(); s.sessionsCompleted = 3;
     expect(LEVELS[0].words.length).toBe(10);
     LEVELS[0].words.forEach((w) => { s.words[w] = { ...freshWordState(), box: 0, attempts: 2, dueAt: 1 }; });
-    const q = buildSession(s);
+    const q = buildSession(s); // determinism comes from the seeded Math.random in the file hooks: buildSession takes no rand param, so an arg here would be a no-op
     expect(q.length).toBe(10);
     expect(q.every((w) => WORD_LEVEL[w] === 1)).toBe(true);
   });
@@ -1069,7 +1072,7 @@ describe("Feature: Building a session", () => {
     expect(LEVELS[0].words.length).toBe(10);
     LEVELS[0].words.forEach((w) => { s.words[w] = { ...freshWordState(), box: 0, attempts: 2, dueAt: 1 }; });
     LEVELS[0].words.slice(0, 8).forEach((w) => { s.words[w] = { ...freshWordState(), box: 3, attempts: 2, dueAt: 1 }; });
-    const q = buildSession(s);
+    const q = buildSession(s); // determinism comes from the seeded Math.random in the file hooks: buildSession takes no rand param, so an arg here would be a no-op
     expect(q.some((w) => WORD_LEVEL[w] === 2)).toBe(true);
     expect(q.length).toBe(20);
   });
@@ -1078,7 +1081,7 @@ describe("Feature: Building a session", () => {
     expect(LEVELS[0].words.length).toBe(10);
     LEVELS[0].words.forEach((w) => { s.words[w] = { ...freshWordState(), box: 0, attempts: 2, dueAt: 1 }; });
     LEVELS[0].words.slice(0, 7).forEach((w) => { s.words[w] = { ...freshWordState(), box: 3, attempts: 2, dueAt: 1 }; });
-    const q = buildSession(s);
+    const q = buildSession(s); // determinism comes from the seeded Math.random in the file hooks: buildSession takes no rand param, so an arg here would be a no-op
     expect(q.every((w) => WORD_LEVEL[w] === 1)).toBe(true);
     expect(q.length).toBe(10);
   });
@@ -1088,7 +1091,7 @@ describe("Feature: Building a session", () => {
     LEVELS[0].words.forEach((w) => { s.words[w] = { ...freshWordState(), box: 0, attempts: 2, dueAt: 1 }; });
     expect(WORD_LEVEL["tin"]).toBe(2);
     s.words["tin"] = { ...freshWordState(), box: 0, attempts: 1, dueAt: 1 };
-    const q = buildSession(s);
+    const q = buildSession(s); // determinism comes from the seeded Math.random in the file hooks: buildSession takes no rand param, so an arg here would be a no-op
     expect(q).toContain("tin");
     expect(q.length).toBe(11);
   });
@@ -1097,7 +1100,7 @@ describe("Feature: Building a session", () => {
     expect(LEVELS[0].words.length).toBe(10);
     LEVELS[0].words.forEach((w) => { s.words[w] = { ...freshWordState(), box: 0, attempts: 2, dueAt: 1 }; });
     LEVELS[1].words.slice(0, 5).forEach((w) => { s.words[w] = { ...freshWordState(), box: 0, attempts: 1, dueAt: 1 }; });
-    const q = buildSession(s);
+    const q = buildSession(s); // determinism comes from the seeded Math.random in the file hooks: buildSession takes no rand param, so an arg here would be a no-op
     expect(q.filter((w) => WORD_LEVEL[w] > s.level).length).toBe(2);
     expect(q.length).toBe(12);
   });

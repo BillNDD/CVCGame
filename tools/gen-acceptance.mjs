@@ -119,7 +119,7 @@ const STEPS = [
   [/^(\d+) Level 2 words were read wrong in earlier sessions$/, (m) => [
     `LEVELS[1].words.slice(0, ${N(m[1])}).forEach((w) => { s.words[w] = { ...freshWordState(), box: 0, attempts: 1, dueAt: 1 }; });`]],
   [/^a session is built$/, () => [
-    `const q = buildSession(s);`]],
+    `const q = buildSession(s); // determinism comes from the seeded Math.random in the file hooks: buildSession takes no rand param, so an arg here would be a no-op`]],
   [/^it has exactly (\d+) words$/, (m) => [
     `expect(q.length).toBe(${N(m[1])});`]],
   [/^every word is a Level (\d+) word$/, (m) => [
@@ -625,7 +625,10 @@ if (anyApp) {
   out.push(`import { loadState as mockLoad, saveState as mockSave } from "../../app/src/storage.js";`);
   if (anyHold) out.push(`import HoldButton from "../../app/src/components/HoldButton.jsx";`);
   out.push(`const flush = async (ms = 0) => act(async () => { await vi.advanceTimersByTimeAsync(ms); });`);
+  out.push(`let _rs = 20260928; // SEEDED 2026-09-28: buildSession shuffles with raw Math.random, so exact-count asserts were luck-of-the-stream. Every journey restarts this LCG in beforeEach (E2b's own pins override within their journey); restoreAllMocks in afterEach removes the spy.`);
   out.push(`beforeEach(() => {`);
+  out.push(`  _rs = 20260928;`);
+  out.push(`  vi.spyOn(Math, "random").mockImplementation(() => (_rs = (_rs * 1103515245 + 12345) % 2147483648) / 2147483648);`);
   out.push(`  mockLoad.mockReset();`);
   out.push(`  mockSave.mockClear();`);
   out.push(`  mockSave.mockImplementation(async () => true);`);

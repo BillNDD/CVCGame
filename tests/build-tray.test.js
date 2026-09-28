@@ -14,6 +14,44 @@ import {
 /* ---------------- Build-it: the tray (SPEC section 12) ----------------
    Owner-ruled 2026-08-17. Practice-only: nothing here writes to a record, and
    these tests exist to keep the tray honest, not to grade anything. */
+/* Split-sets, hoisted 2026-09-28: the sweep below calls spells() once per
+   (dealt tray, forbidden word) — 100k+ calls that each re-walked the splits
+   of the forbidden word. A forbidden word's splits depend only on (word,
+   slots), so enumerate each split ONCE as a multiset of required tiles and
+   answer every tray by multiset inclusion. Identical verdicts: the old walk
+   succeeded exactly when some split's pieces were all present as unused
+   tiles, which is what inclusion checks. Same deals, same seed, same
+   assertions — less re-walking. */
+const splitCache = new Map();
+function spellSets(word, slots) {
+  const key = word + "|" + slots;
+  if (splitCache.has(key)) return splitCache.get(key);
+  const sets = [];
+  const walk = (pos, used, parts) => {
+    if (pos === word.length) { if (used === slots) sets.push(parts.slice().sort().join("\u0000")); return; }
+    if (used === slots) return;
+    for (let n = 1; pos + n <= word.length; n += 1) {
+      parts.push(word.slice(pos, pos + n));
+      walk(pos + n, used + 1, parts);
+      parts.pop();
+    }
+  };
+  walk(0, 0, []);
+  const out = [...new Set(sets)];
+  splitCache.set(key, out);
+  return out;
+}
+function spellsFromSets(tiles, word, slots) {
+  const counts = new Map();
+  for (const t of tiles) counts.set(t, (counts.get(t) || 0) + 1);
+  return spellSets(word, slots).some((set) => {
+    const need = new Map();
+    for (const p of set.split("\u0000")) need.set(p, (need.get(p) || 0) + 1);
+    for (const [p, n] of need) if ((counts.get(p) || 0) < n) return false;
+    return true;
+  });
+}
+
 describe("Build-it tray", () => {
   /* A held rand, so a shuffle can be checked rather than hoped at. */
   const held = (...xs) => { let i = 0; return () => xs[i++ % xs.length]; };
@@ -192,23 +230,7 @@ describe("Build-it tray", () => {
        because both faults were invisible to every example anyone had written. */
     const bank = [...new Set(LEVELS.flatMap((l) => l.words))].filter(buildable);
     const levelOf = (w) => LEVELS.findIndex((l) => l.words.includes(w)) + 1;
-    const spells = (tiles, word, slots) => {
-      const left = tiles.slice();
-      const walk = (pos, used) => {
-        if (pos === word.length) return used === slots;
-        if (used === slots) return false;
-        for (let n = 1; pos + n <= word.length; n += 1) {
-          const i = left.indexOf(word.slice(pos, pos + n));
-          if (i < 0) continue;
-          const tile = left.splice(i, 1)[0];
-          const ok = walk(pos + n, used + 1);
-          left.splice(i, 0, tile);
-          if (ok) return true;
-        }
-        return false;
-      };
-      return walk(0, 0);
-    };
+    /* spells() lives at file scope as spellsFromSets (hoisted split-sets). */
     /* a seeded rand, so a failure is reproducible and a held rand still ends */
     let seed = 20260823;
     const rand = () => { seed = (seed * 1103515245 + 12345) % 2147483648; return seed / 2147483648; };
@@ -221,7 +243,7 @@ describe("Build-it tray", () => {
         const tray = buildTray(w, lv, rand);
         deals += 1;
         if (tray.tiles.length - slots < wanted(lv)) shortfalls += 1;
-        for (const f of NEVER_BUILD) if (spells(tray.tiles, f, slots)) bad.push(w + " -> " + f + " [" + tray.tiles.join(",") + "]");
+        for (const f of NEVER_BUILD) if (spellsFromSets(tray.tiles, f, slots)) bad.push(w + " -> " + f + " [" + tray.tiles.join(",") + "]");
       }
     }
     expect(deals).toBeGreaterThan(6000);
@@ -246,23 +268,7 @@ describe("Build-it tray", () => {
     expect(chunkWord("gifts").length).toBe(5);
     const at = [["sunset", 20, "hustle"], ["gifts", 32, "fight"], ["tigers", 72, "fight"]];
     for (const [w, lv] of at) expect(LEVELS[lv - 1].words, `${w} is level ${lv}`).toContain(w);
-    const spells = (tiles, word, slots) => {
-      const left = tiles.slice();
-      const walk = (pos, used) => {
-        if (pos === word.length) return used === slots;
-        if (used === slots) return false;
-        for (let n = 1; pos + n <= word.length; n += 1) {
-          const i = left.indexOf(word.slice(pos, pos + n));
-          if (i < 0) continue;
-          const tile = left.splice(i, 1)[0];
-          const ok = walk(pos + n, used + 1);
-          left.splice(i, 0, tile);
-          if (ok) return true;
-        }
-        return false;
-      };
-      return walk(0, 0);
-    };
+    /* spells() lives at file scope as spellsFromSets (hoisted split-sets). */
     let seed = 20260824;
     const rand = () => { seed = (seed * 1103515245 + 12345) % 2147483648; return seed / 2147483648; };
     const bad = [];
@@ -270,7 +276,7 @@ describe("Build-it tray", () => {
       const slots = chunkWord(w).length;
       for (let i = 0; i < 400; i += 1) {
         const tray = buildTray(w, lv, rand);
-        if (spells(tray.tiles, forbidden, slots)) bad.push(w + " -> " + forbidden + " [" + tray.tiles.join(",") + "]");
+        if (spellsFromSets(tray.tiles, forbidden, slots)) bad.push(w + " -> " + forbidden + " [" + tray.tiles.join(",") + "]");
       }
     }
     expect(bad.slice(0, 3), bad.length + " of 1,200 deals lay out a guarded word").toEqual([]);
