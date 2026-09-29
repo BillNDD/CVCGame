@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { C } from "@engine";
+import QuietChunk from "../components/QuietChunk.jsx";
 import Frame from "../components/Frame.jsx";
 import Zone from "../components/Zone.jsx";
 
@@ -315,7 +316,7 @@ export default function BuildItScreen({ tray, playSounds, playWord, onDone, onEx
               <button key={i} onClick={() => lift(i)} disabled={tile === null || won} aria-label={tile !== null ? "Take back " + at(tile) : "Empty space"}
                 className={"wq-tilebtn" + (tile === null ? " wq-empty" : "") + (ghost === i && tile === null ? " wq-cue" : "") + (arr && tile !== null ? " wq-arr" : "")}
                 style={{ width: slotWidth(small, tray.answer[i]), height: box(small) }}>
-                {at(tile) || (ghost === i ? <span className="wq-ghost">{tray.answer[i]}</span> : "")}
+                {tile !== null ? <QuietChunk g={at(tile)} /> : (ghost === i ? <span className="wq-ghost">{tray.answer[i]}</span> : "")}
               </button>
             ))}
             </span>
@@ -327,7 +328,7 @@ export default function BuildItScreen({ tray, playSounds, playWord, onDone, onEx
           <div style={{ display: "flex", gap: gap(small), justifyContent: "center", flexWrap: "wrap", marginTop: small ? 10 : 14 }}>
             {tray.tiles.map((tile, i) => (
               <button key={tile + "-" + i} onClick={() => place(i)} disabled={slots.includes(i) || won} aria-label={"Tile " + tile}
-                className={"wq-tilebtn" + (slots.includes(i) || won ? " wq-used" : "")} style={tileStyle(tile)}>{tile}</button>
+                className={"wq-tilebtn" + (slots.includes(i) || won ? " wq-used" : "")} style={tileStyle(tile)}><QuietChunk g={tile} /></button>
             ))}
           </div>
         </div>

@@ -1686,19 +1686,37 @@ function soundIdsFor(word) {
    (chunking, sounds, slots, S8 untouched); only the paint splits. A tile
    whose sound is d:silent has every letter quiet (magic-e e, -ed e,
    could-l). Inside sounding tiles, the dead letters by tile text: b in mb,
-   k in kn, w in wr, gh in igh, t in tle, e in le, l in al. Tile text, never
-   a word list, so new bank words inherit it. Deliberately NOT covered: the
-   l in folk/yolk (its own tile and it SOUNDS d:l today — quiet-marking it
-   needs a sound change, out of scope) and wh (a taught unit like th).
-   Taught single-sound digraphs (th/sh/ch/ck/ng/qu/ph/aw/ow) are untouched. */
+   k in kn, w in wr, gh in igh, e in le (every le tile — the e is always
+   silent, so the rule generalizes beyond the smile/mile gaps that found it),
+   l in al, g in gn. t AND e in tle — but ONLY when the tile before is s
+   (bustle/castle/nestle/rustle/thistle/whistle/wrestle): title/gentle/turtle
+   sound their t, so a bare tile-text rule would mis-mark the next -tle word
+   the bank adopts. Tile text, never a word list, so new bank words inherit
+   it. Deliberately NOT covered: the l in folk/yolk (its own tile and it
+   SOUNDS d:l today — quiet-marking it needs a sound change, out of scope);
+   wh (a taught unit like th — and tile text cannot split which from who,
+   whose /h/ words keep an unmarked wh: documented hole, none in the bank).
+   Taught single-sound digraphs (th/sh/ch/ck/ng/qu/ph/aw/ow) are untouched —
+   ph excluded names dolphin/orchestra as the gap words set aside. */
 const QUIET_IN_TILE = {
-  mb: [1], kn: [0], wr: [0], igh: [1, 2], tle: [0], le: [1], al: [1],
+  mb: [1], kn: [0], wr: [0], igh: [1, 2], le: [1], al: [1], gn: [0],
 };
+/* The word-free half: dead letters by tile text alone, for surfaces that
+   show a tile without its word (Build-it trays and slots). tle marks [0, 1]
+   here — every tle chunk a tray can deal comes from bank -stle words, whose
+   t is silent; title-family words are not level words so their tle never
+   reaches a tray. Single letters are never marked without a word. */
+function quietInTile(g) {
+  if (g === "tle") return [0, 1];
+  const q = QUIET_IN_TILE[g];
+  return q ? [...q] : [];
+}
 function quietLetters(word) {
   const tiles = chunkWord(word);
   const ids = soundIdsFor(word);
   return tiles.map((g, i) => {
     if (ids[i] === "d:silent") return g.split("").map((_, k) => k);
+    if (g === "tle") return tiles[i - 1] === "s" ? [0, 1] : [];
     const q = QUIET_IN_TILE[g];
     return q ? q.filter((k) => k < g.length) : [];
   });

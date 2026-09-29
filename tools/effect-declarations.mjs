@@ -114,7 +114,7 @@ export const DECLARED = {
     safety: {},
     gate: "G10", requirement: "Owner ruling 2026-09-28 (quiet-tiles brief, option B): only the silent letter wears the quiet span, never the tile together",
     oracle: "Literal expected quiet-letter indices per word, written from the chunker by hand (E4), plus rendered spans and a stylesheet tripwire",
-    platform: "node/jsdom", mutants: "G5 quiet-letters family (dead-letter tables, d:silent branch)",
+    platform: "node/jsdom", mutants: "G5 quiet-letters family (dead-letter tables, d:silent branch, tle scope guard)",
     evidence: "Vitest counts (summed floor g10_safety_tests)",
     limits: "Proves which letters render quiet and that the span reads C.disabled; it does not decide WHICH letters are silent — that is the brief's enumeration and the owner's ruling.",
   },

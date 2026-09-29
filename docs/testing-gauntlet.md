@@ -2389,7 +2389,7 @@ other direction: the real pack, unchanged, must pass.
 
 ## G20. Effect map
 
-- Tool: `tools/effect-map.mjs`. Writes `docs/effect-map.md`. Keys: `g20_tests_mapped` (398), raised 2026-09-28 for the 13 quiet-tiles tests.
+- Tool: `tools/effect-map.mjs`. Writes `docs/effect-map.md`. Keys: `g20_tests_mapped` (403), raised 2026-09-28 for the 13 quiet-tiles tests and 2026-09-29 for 5 more (MiMo corrections).
 - One row per `it()` SITE — its file, suite, and the test's own sentence, which in this
   project IS the Given/When/Then effect, because tests are named as behaviour. A site inside
   a loop or a table runs many times, so the map's rows describe SITES and Vitest executes more tests than there are rows, because a site inside a loop runs many times;
@@ -2486,16 +2486,20 @@ other direction: the real pack, unchanged, must pass.
   machine during gates. Repo requires Node 24 (Hermes tools' Node 26 breaks
   jsdom localStorage); bg node jobs die headless — PTY background works.
 ## Quiet tiles (2026-09-28, owner-picked option B, letter-level ruling)
-- Jev scored all 1122 bank words (45×25 Nouls, 0.7 bar): engine's 79 vs
-  Jev — 21 real gaps (kn/wr/mb/l/gh/t/ph + dropped magic-e), 56 judgment
-  calls (kept), Jev noise discarded. Owner ruling: only the silent LETTER
-  wears quiet, never the tile together (climb's b, not mb).
+- Jev scored all 1122 bank words (45×25 Nouls, 0.7 bar): 23 raw gaps;
+  set aside: coat/draw/throw (digraph noise), dolphin/orchestra (ph taught).
+  18 gaps closed. 56 engine words score below 0.7 (17 in the 0.4–0.7 band).
+  Owner ruling: only the silent LETTER wears quiet, never the tile together
+  (climb's b, not mb).
 - `quietLetters(word)` in reference bends section (tile text, never a word
-  list) + QuietChunk spans + `.wq-quiet-letter` (C.disabled, full ink,
-  5.57:1). No chunk/sound/slot change; no new C key. folk/yolk l + wh
-  deliberately excluded (documented in code).
-- 13 tests; G5 88/88 (3 new mutants, all killed); qwen + Flash CONFIRM
-  (Flash notes fixed: phone-ph assertion, dead imports, brief class name).
+  list) + `quietInTile(g)` word-free half for Build-it + QuietChunk spans +
+  `.wq-quiet-letter` (C.disabled, full ink, 5.57:1, width-neutral margin).
+  No chunk/sound/slot change; no new C key. folk/yolk l + wh deliberately
+  excluded (documented in code); gn added (future-proofing, no bank word).
+- 18 tests; G5 89/89 (4 quiet mutants, all killed); qwen + Flash CONFIRM.
+- MiMo red-team BREAK (7 findings, all fixed): tle scoped to prev-s
+  (title/gentle/turtle), tle marks t+e, BuildIt painted, evidence numbers
+  restated, folk test reworded, span width neutralized.
 - Floors rule: annotations on quoted floors sit OUTSIDE the `(n)` — the
   floors reader needs `)` right after digits, or the floor goes invisible
   to rule and plant alike (same class as the 2026-08-23 blind spot).
