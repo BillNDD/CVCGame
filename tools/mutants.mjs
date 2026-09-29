@@ -170,7 +170,9 @@ const MUTANTS = [
   ["quiet letters lose mb from the table", 'mb: [1], kn: [0], wr: [0], igh: [1, 2], le: [1], al: [1], gn: [0],', 'kn: [0], wr: [0], igh: [1, 2], le: [1], al: [1], gn: [0],'],
   ["quiet letters shift igh to the wrong letters", 'igh: [1, 2],', 'igh: [0, 1],'],
   /* MiMo F1: the tle scope guard must break the paint the same way. */
-  ["quiet letters lose their tle scope guard", 'if (g === "tle") return tiles[i - 1] === "s" ? [0, 1] : [];', 'if (g === "tle") return [0, 1];'],
+  ["quiet letters lose their tle scope guard", 'if (g === "tle") return tiles[i - 1] === "s" ? [0, 2] : [];', 'if (g === "tle") return [0, 2];'],
+  /* writer second pass: the tle indices themselves — [0, 1] paints the sounding l. */
+  ["quiet letters mark tle's sounding l", 'if (g === "tle") return [0, 2];', 'if (g === "tle") return [0, 1];'],
   /* The garden (art project step 0e, 2026-08-22): the ladder completes only
      when the last level's words are secure. A mutant that completes it
      regardless lights the sanctuary on arrival at level 100. */

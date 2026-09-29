@@ -12,6 +12,7 @@ export default function QuietChunk({ word = null, g, i = 0 }) {
     q.includes(k) ? (
       <span key={k} className="wq-quiet-letter">
         {ch}
+        <span className="wq-sr-only">(quiet)</span>
       </span>
     ) : (
       <span key={k}>{ch}</span>

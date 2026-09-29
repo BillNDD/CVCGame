@@ -330,6 +330,9 @@ const CSS = VARS + `
    ignore wears the disabled face behind it, full-ink glyph (5.57:1 on the
    span). The tile stays ceramic — it still makes a sound. */
 .wq-quiet-letter{background:${C.disabled};border-radius:4px;padding:0 2px;margin:0 -2px}
+/* Screen-reader equivalent of the quiet paint (second-pass red-team 2026-09-29):
+   "(quiet)" after each quiet letter. No tokens — invisible, no paint. */
+.wq-sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
 /* The sound-out pop (owner-ruled 2026-08-04, shape chosen 2026-08-11 from four
    treatments heard against the real audio). A tile takes a hard outline for as
    long as its own sound plays, then drops it — no movement, no flash, no

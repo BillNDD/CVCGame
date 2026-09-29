@@ -246,6 +246,24 @@ describe("Build-it's loop", () => {
     /* the ghost is the answer's own letter, in the slot it belongs to */
     expect(slots()[0].textContent).toBe(tray.answer[0]);
   });
+
+  it("8b: the scaffold ghost paints quiet letters too (writer second pass)", async () => {
+    const tray = mount("knock", 89);
+    const plain = (b) => b.textContent.replace(/\(quiet\)/g, "");
+    const wrong = tiles().find((b) => !tray.answer.includes(plain(b)));
+    for (let go = 0; go < 2; go += 1) {
+      fireEvent.click(wrong);
+      for (const t of tray.answer.slice(0, 2)) fireEvent.click(tiles().find((b) => plain(b) === t));
+      await flush(60);
+      if (go === 0) slots().forEach((s) => fireEvent.click(s));
+    }
+    await flush(1000);
+    expect(screen.getByText(/Watch where each sound goes/)).toBeTruthy();
+    /* slot 0 ghosts kn with only the k quiet */
+    const ghost = slots()[0].querySelectorAll(".wq-quiet-letter");
+    expect(ghost.length).toBe(1);
+    expect(slots()[0].textContent).toBe("k(quiet)n");
+  });
 });
 
 /* THE CERAMIC STATES (art step 1, bible 11, owner-ruled 2026-08-22 on the

@@ -2389,7 +2389,7 @@ other direction: the real pack, unchanged, must pass.
 
 ## G20. Effect map
 
-- Tool: `tools/effect-map.mjs`. Writes `docs/effect-map.md`. Keys: `g20_tests_mapped` (403), raised 2026-09-28 for the 13 quiet-tiles tests and 2026-09-29 for 5 more (MiMo corrections).
+- Tool: `tools/effect-map.mjs`. Writes `docs/effect-map.md`. Keys: `g20_tests_mapped` (405), raised 2026-09-28 for the 13 quiet-tiles tests, 2026-09-29 for 5 more (MiMo corrections) and 2 more (writer second pass: sr-only, scaffold ghost).
 - One row per `it()` SITE — its file, suite, and the test's own sentence, which in this
   project IS the Given/When/Then effect, because tests are named as behaviour. A site inside
   a loop or a table runs many times, so the map's rows describe SITES and Vitest executes more tests than there are rows, because a site inside a loop runs many times;

@@ -316,7 +316,7 @@ export default function BuildItScreen({ tray, playSounds, playWord, onDone, onEx
               <button key={i} onClick={() => lift(i)} disabled={tile === null || won} aria-label={tile !== null ? "Take back " + at(tile) : "Empty space"}
                 className={"wq-tilebtn" + (tile === null ? " wq-empty" : "") + (ghost === i && tile === null ? " wq-cue" : "") + (arr && tile !== null ? " wq-arr" : "")}
                 style={{ width: slotWidth(small, tray.answer[i]), height: box(small) }}>
-                {tile !== null ? <QuietChunk g={at(tile)} /> : (ghost === i ? <span className="wq-ghost">{tray.answer[i]}</span> : "")}
+                {tile !== null ? <QuietChunk g={at(tile)} /> : (ghost === i ? <span className="wq-ghost"><QuietChunk g={tray.answer[i]} /></span> : "")}
               </button>
             ))}
             </span>

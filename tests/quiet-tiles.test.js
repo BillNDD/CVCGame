@@ -27,8 +27,8 @@ describe("quietLetters marks only the silent letter", () => {
   it("night: only the gh", () => {
     expect(quietLetters("night")[1]).toEqual([1, 2]);
   });
-  it("whistle: t AND e in tle (prev tile s)", () => {
-    expect(quietLetters("whistle")[3]).toEqual([0, 1]);
+  it("whistle: t AND e in tle (prev tile s) — indices [0, 2], the l sounds", () => {
+    expect(quietLetters("whistle")[3]).toEqual([0, 2]);
   });
   it("title, gentle, turtle: sounded t, no mark (MiMo F1)", () => {
     expect(quietLetters("title")).toEqual([[], [], []]);
@@ -67,7 +67,7 @@ describe("quietInTile marks context-free dead letters", () => {
   it("table tiles mark without a word", () => {
     expect(quietInTile("mb")).toEqual([1]);
     expect(quietInTile("kn")).toEqual([0]);
-    expect(quietInTile("tle")).toEqual([0, 1]);
+    expect(quietInTile("tle")).toEqual([0, 2]);
     expect(quietInTile("gn")).toEqual([0]);
   });
   it("single letters and sounding tiles mark nothing", () => {
@@ -83,7 +83,7 @@ describe("QuietChunk splits only the paint", () => {
     render(createElement(QuietChunk, { word: "climb", g: "mb", i: 3 }));
     const q = document.querySelectorAll(".wq-quiet-letter");
     expect(q.length).toBe(1);
-    expect(q[0].textContent).toBe("b");
+    expect(q[0].textContent).toBe("b(quiet)");
   });
   it("a tile with no quiet letters renders bare text", () => {
     const { container } = render(createElement(QuietChunk, { word: "climb", g: "c", i: 0 }));
@@ -92,8 +92,12 @@ describe("QuietChunk splits only the paint", () => {
   });
   it("without a word, tile text alone decides (Build-it trays)", () => {
     const { container } = render(createElement(QuietChunk, { g: "kn" }));
-    expect(container.querySelector(".wq-quiet-letter").textContent).toBe("k");
-    expect(container.textContent).toBe("kn");
+    expect(container.querySelector(".wq-quiet-letter").textContent).toBe("k(quiet)");
+    expect(container.textContent).toBe("k(quiet)n");
+  });
+  it("the quiet span carries its screen-reader equivalent (writer second pass)", () => {
+    const { container } = render(createElement(QuietChunk, { word: "climb", g: "mb", i: 3 }));
+    expect(container.querySelector(".wq-sr-only").textContent).toBe("(quiet)");
   });
 });
 

@@ -8,7 +8,7 @@ Per-test rows carry the test's own sentence, which in this project IS the
 Given/When/Then effect. The requirement, oracle, platform, mutant family, evidence
 and known limits are declared per FILE, in the tool, where they stay true.
 
-Totals: 403 it() SITES across 21 files, plus 21 gates that are not test files.
+Totals: 405 it() SITES across 21 files, plus 21 gates that are not test files.
 
 A site inside a loop or a table runs many times, so Vitest executes MORE tests than these rows number. The rows count the places behaviour is asserted; the executed count is whatever the suite prints, and the gauntlet holds its floors.
 
@@ -35,7 +35,7 @@ A site inside a loop or a table runs many times, so Vitest executes MORE tests t
 | 9 | Build-it tray | a guarded word is unreachable at EVERY build size, not only the one its teaching split uses |
 | 10 | Build-it tray | is reproducible: the same rand builds the same tray |
 
-## tests/buildit.test.js — 27 tests (G10)
+## tests/buildit.test.js — 28 tests (G10)
 
 - **Requirement protected:** SPEC section 12: Build-it writes nothing to the record, speaks the word before the tiles, and ends every attempt in success
 - **Independent oracle:** A source tripwire with fixture controls and a real-source mutation, plus a walked loop with a held tray
@@ -56,24 +56,25 @@ A site inside a loop or a table runs many times, so Vitest executes MORE tests t
 | 7 | Build-it's loop | 6: a word whose sound repeats can still be built |
 | 8 | Build-it's loop | 7: a miss says what the child actually built, and the tray is not locked |
 | 9 | Build-it's loop | 8: after the second miss, the letter is shown in its own slot |
-| 10 | the ceramic tile states | 20/21: a used tray tile keeps its letter as a real disabled control, and a multi-letter tile is as wide as its slot |
-| 11 | the ceramic tile states | 22: after a miss the filled slots wear the arrangement ring while the built sounds play, and lose it when the tray is handed back |
-| 12 | the ceramic tile states | 23: the scaffold rings one slot at a time, in sound order, with the letter at .6 inside it |
-| 13 | the ceramic tile states | 26/26b: the Glowseed stays idle through the scaffold, lights after it, and wears the muted look when muted |
-| 14 | the ceramic tile states | 26f: a miss landing inside the scaffold lifts the quiet, so the playback is never spoken over a dark object |
-| 15 | the ceramic tile states | 26e: the sound backstop cannot beat a real clip, so a slot's report always arrives first |
-| 16 | the ceramic tile states | 26c: the scaffold's quiet ends on the last slot's own report, never on a clock |
-| 17 | the ceramic tile states | 26d: a win during the scaffold lets the celebration light the object |
-| 18 | the ceramic tile states | 27/27b: the tray's sizes follow the phone - 90x64 at 740 px, resized on rotation to 320, and still sized with no matchMedia at all |
-| 19 | the ceramic tile states | 24: a completed word wears one halo on the slot row round the assembled word, and every tray tile is disabled and used |
-| 20 | the ceramic tile states | 25: a win during the scaffold takes the cue ring off the slot it was on |
-| 21 | Build-a-sound, for a child still on the ladder | 9: below the ladder's first rung there is no tray, and a chunk is never a tile |
-| 22 | Build-a-sound, for a child still on the ladder | 10: the tray is exactly what the rung has taught, and grows with it |
-| 23 | Build-a-sound, for a child still on the ladder | 11: no tile is silent, and none is a letter the rung has not reached |
-| 24 | Build-a-sound, for a child still on the ladder | 12/13: finding the sound wins, and a miss hands the tray back by itself |
-| 25 | free play builds go on until Done | 19/18: a child at level 1 and at level 2 gets a build, and every level's window holds words |
-| 26 | free play builds go on until Done | 17: a long word's celebration is never cut off - the turn ends when the sound does |
-| 27 | free play builds go on until Done | 15/16/14: the free-play cells deal their own words, and a found sound is followed by another |
+| 10 | Build-it's loop | 8b: the scaffold ghost paints quiet letters too (writer second pass) |
+| 11 | the ceramic tile states | 20/21: a used tray tile keeps its letter as a real disabled control, and a multi-letter tile is as wide as its slot |
+| 12 | the ceramic tile states | 22: after a miss the filled slots wear the arrangement ring while the built sounds play, and lose it when the tray is handed back |
+| 13 | the ceramic tile states | 23: the scaffold rings one slot at a time, in sound order, with the letter at .6 inside it |
+| 14 | the ceramic tile states | 26/26b: the Glowseed stays idle through the scaffold, lights after it, and wears the muted look when muted |
+| 15 | the ceramic tile states | 26f: a miss landing inside the scaffold lifts the quiet, so the playback is never spoken over a dark object |
+| 16 | the ceramic tile states | 26e: the sound backstop cannot beat a real clip, so a slot's report always arrives first |
+| 17 | the ceramic tile states | 26c: the scaffold's quiet ends on the last slot's own report, never on a clock |
+| 18 | the ceramic tile states | 26d: a win during the scaffold lets the celebration light the object |
+| 19 | the ceramic tile states | 27/27b: the tray's sizes follow the phone - 90x64 at 740 px, resized on rotation to 320, and still sized with no matchMedia at all |
+| 20 | the ceramic tile states | 24: a completed word wears one halo on the slot row round the assembled word, and every tray tile is disabled and used |
+| 21 | the ceramic tile states | 25: a win during the scaffold takes the cue ring off the slot it was on |
+| 22 | Build-a-sound, for a child still on the ladder | 9: below the ladder's first rung there is no tray, and a chunk is never a tile |
+| 23 | Build-a-sound, for a child still on the ladder | 10: the tray is exactly what the rung has taught, and grows with it |
+| 24 | Build-a-sound, for a child still on the ladder | 11: no tile is silent, and none is a letter the rung has not reached |
+| 25 | Build-a-sound, for a child still on the ladder | 12/13: finding the sound wins, and a miss hands the tray back by itself |
+| 26 | free play builds go on until Done | 19/18: a child at level 1 and at level 2 gets a build, and every level's window holds words |
+| 27 | free play builds go on until Done | 17: a long word's celebration is never cut off - the turn ends when the sound does |
+| 28 | free play builds go on until Done | 15/16/14: the free-play cells deal their own words, and a found sound is followed by another |
 
 ## tests/chunker.test.js — 10 tests (G1)
 
@@ -440,12 +441,12 @@ A site inside a loop or a table runs many times, so Vitest executes MORE tests t
 | 9 | G2 properties | P9: the session opens with the most secure word |
 | 10 | G2 properties | P10: migrate is total and idempotent, and its output survives the engine |
 
-## tests/quiet-tiles.test.js — 18 tests (G10)
+## tests/quiet-tiles.test.js — 19 tests (G10)
 
 - **Requirement protected:** Owner ruling 2026-09-28 (quiet-tiles brief, option B): only the silent letter wears the quiet span, never the tile together
 - **Independent oracle:** Literal expected quiet-letter indices per word, written from the chunker by hand (E4), plus rendered spans and a stylesheet tripwire
 - **Platform:** node/jsdom
-- **Mutant family:** G5 quiet-letters family (dead-letter tables, d:silent branch, tle scope guard)
+- **Mutant family:** G5 quiet-letters family (dead-letter tables, d:silent branch, tle scope guard, tle index)
 - **Evidence produced:** Vitest counts (summed floor g10_safety_tests)
 - **Known limits — what these tests do NOT prove:** Proves which letters render quiet and that the span reads C.disabled; it does not decide WHICH letters are silent — that is the brief's enumeration and the owner's ruling.
 - **Safety rules proved here:** none
@@ -456,7 +457,7 @@ A site inside a loop or a table runs many times, so Vitest executes MORE tests t
 | 2 | quietLetters marks only the silent letter | knock: only the k |
 | 3 | quietLetters marks only the silent letter | wreck: only the w |
 | 4 | quietLetters marks only the silent letter | night: only the gh |
-| 5 | quietLetters marks only the silent letter | whistle: t AND e in tle (prev tile s) |
+| 5 | quietLetters marks only the silent letter | whistle: t AND e in tle (prev tile s) — indices [0, 2], the l sounds |
 | 6 | quietLetters marks only the silent letter | title, gentle, turtle: sounded t, no mark (MiMo F1) |
 | 7 | quietLetters marks only the silent letter | gnat: only the g in gn |
 | 8 | quietLetters marks only the silent letter | smile: only the e in le |
@@ -469,7 +470,8 @@ A site inside a loop or a table runs many times, so Vitest executes MORE tests t
 | 15 | QuietChunk splits only the paint | climb's b wears the span, its m does not |
 | 16 | QuietChunk splits only the paint | a tile with no quiet letters renders bare text |
 | 17 | QuietChunk splits only the paint | without a word, tile text alone decides (Build-it trays) |
-| 18 | quiet spans are token-bound | the stylesheet draws the quiet span from C.disabled |
+| 18 | QuietChunk splits only the paint | the quiet span carries its screen-reader equivalent (writer second pass) |
+| 19 | quiet spans are token-bound | the stylesheet draws the quiet span from C.disabled |
 
 ## tests/reveal.test.js — 20 tests (G10)
 

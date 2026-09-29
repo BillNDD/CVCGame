@@ -1688,7 +1688,9 @@ function soundIdsFor(word) {
    could-l). Inside sounding tiles, the dead letters by tile text: b in mb,
    k in kn, w in wr, gh in igh, e in le (every le tile — the e is always
    silent, so the rule generalizes beyond the smile/mile gaps that found it),
-   l in al, g in gn. t AND e in tle — but ONLY when the tile before is s
+   l in al, g in gn. t AND e in tle — indices [0, 2], never [0, 1]: the l
+   sounds (tle speaks d:l), so marking [0, 1] would paint the sounding
+   letter — and ONLY when the tile before is s
    (bustle/castle/nestle/rustle/thistle/whistle/wrestle): title/gentle/turtle
    sound their t, so a bare tile-text rule would mis-mark the next -tle word
    the bank adopts. Tile text, never a word list, so new bank words inherit
@@ -1707,7 +1709,7 @@ const QUIET_IN_TILE = {
    t is silent; title-family words are not level words so their tle never
    reaches a tray. Single letters are never marked without a word. */
 function quietInTile(g) {
-  if (g === "tle") return [0, 1];
+  if (g === "tle") return [0, 2];
   const q = QUIET_IN_TILE[g];
   return q ? [...q] : [];
 }
@@ -1716,7 +1718,7 @@ function quietLetters(word) {
   const ids = soundIdsFor(word);
   return tiles.map((g, i) => {
     if (ids[i] === "d:silent") return g.split("").map((_, k) => k);
-    if (g === "tle") return tiles[i - 1] === "s" ? [0, 1] : [];
+    if (g === "tle") return tiles[i - 1] === "s" ? [0, 2] : [];
     const q = QUIET_IN_TILE[g];
     return q ? q.filter((k) => k < g.length) : [];
   });
