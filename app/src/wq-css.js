@@ -326,6 +326,10 @@ const CSS = VARS + `
   font-size:clamp(1.1rem,3.2svh,1.6rem);font-weight:700;
   box-shadow:inset 0 0 0 1px ${C.tileEdge},inset 0 2px 0 ${C.tileHighlight},inset 0 -2px 0 ${alpha(C.tileEdge, .35)},0 1px 2px ${alpha(C.ink, .22)},0 1px 0 ${alpha(C.tileEdge, .5)};
   --wqband:9px}
+/* A quiet letter (owner-ruled 2026-09-28, option B): the letter a child must
+   ignore wears the disabled face behind it, full-ink glyph (5.57:1 on the
+   span). The tile stays ceramic — it still makes a sound. */
+.wq-quiet-letter{background:${C.disabled};border-radius:4px;padding:0 2px}
 /* The sound-out pop (owner-ruled 2026-08-04, shape chosen 2026-08-11 from four
    treatments heard against the real audio). A tile takes a hard outline for as
    long as its own sound plays, then drops it — no movement, no flash, no

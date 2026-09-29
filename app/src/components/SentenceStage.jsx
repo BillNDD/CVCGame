@@ -1,4 +1,5 @@
-import { C, chunkWord, displayChunk, sentenceWords, TRICKY } from "@engine";
+import { C, chunkWord, sentenceWords, TRICKY } from "@engine";
+import QuietChunk from "./QuietChunk.jsx";
 
 /* THE SENTENCE REVEAL (SPEC section 12 point 6, approved 2026-08-13 from a
    working prototype). The owner was shown four designs on 2026-08-11, chose
@@ -82,7 +83,7 @@ export default function SentenceStage({ sentence, openWord, openAt, pops = [], o
              word is built" without claiming to say it. */
           <span key={i + ":" + (pops[i]?.n || 0)}
             className={"wq-display wq-tile" + (pops[i]?.ms > 0 ? " wq-pop" : "") + (pops[i]?.live ? " wq-live" : "")}
-            style={pops[i]?.ms > 0 ? { "--wqpop": pops[i].ms + "ms" } : undefined}>{displayChunk(openWord, g)}</span>
+            style={pops[i]?.ms > 0 ? { "--wqpop": pops[i].ms + "ms" } : undefined}><QuietChunk word={openWord} g={g} i={i} /></span>
         ))}
       </div>
       {/* The bent-sound note, for whichever word is OPEN (open-faults J1,

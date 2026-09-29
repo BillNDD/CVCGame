@@ -1680,6 +1680,29 @@ function soundIdsFor(word) {
   const base = ruleSoundsFor(tiles);
   return tiles.map((g, i) => (bent[i] ? "d:" + bent[i] : base[i]));
 }
+/* QUIET LETTERS, owner-ruled 2026-09-28 (quiet-tiles brief, option B): which
+   letters of each tile a child must ignore. NEVER the whole tile (in climb
+   only the b is silent, not mb together) — the tile stays one tile
+   (chunking, sounds, slots, S8 untouched); only the paint splits. A tile
+   whose sound is d:silent has every letter quiet (magic-e e, -ed e,
+   could-l). Inside sounding tiles, the dead letters by tile text: b in mb,
+   k in kn, w in wr, gh in igh, t in tle, e in le, l in al. Tile text, never
+   a word list, so new bank words inherit it. Deliberately NOT covered: the
+   l in folk/yolk (its own tile and it SOUNDS d:l today — quiet-marking it
+   needs a sound change, out of scope) and wh (a taught unit like th).
+   Taught single-sound digraphs (th/sh/ch/ck/ng/qu/ph/aw/ow) are untouched. */
+const QUIET_IN_TILE = {
+  mb: [1], kn: [0], wr: [0], igh: [1, 2], tle: [0], le: [1], al: [1],
+};
+function quietLetters(word) {
+  const tiles = chunkWord(word);
+  const ids = soundIdsFor(word);
+  return tiles.map((g, i) => {
+    if (ids[i] === "d:silent") return g.split("").map((_, k) => k);
+    const q = QUIET_IN_TILE[g];
+    return q ? q.filter((k) => k < g.length) : [];
+  });
+}
 /* @engine ladder */
 /* ladder: the heart words, the bank, its sound inventory and the pre-level ladder. */
 /* Every sound the bank's tiles can ask for, derived from the bank rather than

@@ -8,7 +8,7 @@ Per-test rows carry the test's own sentence, which in this project IS the
 Given/When/Then effect. The requirement, oracle, platform, mutant family, evidence
 and known limits are declared per FILE, in the tool, where they stay true.
 
-Totals: 385 it() SITES across 20 files, plus 21 gates that are not test files.
+Totals: 398 it() SITES across 21 files, plus 21 gates that are not test files.
 
 A site inside a loop or a table runs many times, so Vitest executes MORE tests than these rows number. The rows count the places behaviour is asserted; the executed count is whatever the suite prints, and the gauntlet holds its floors.
 
@@ -439,6 +439,32 @@ A site inside a loop or a table runs many times, so Vitest executes MORE tests t
 | 8 | G2 properties | P8: never more than one level ahead; new next-level words only when the level is seen and learned; reviews capped at 2 |
 | 9 | G2 properties | P9: the session opens with the most secure word |
 | 10 | G2 properties | P10: migrate is total and idempotent, and its output survives the engine |
+
+## tests/quiet-tiles.test.js — 13 tests (G10)
+
+- **Requirement protected:** Owner ruling 2026-09-28 (quiet-tiles brief, option B): only the silent letter wears the quiet span, never the tile together
+- **Independent oracle:** Literal expected quiet-letter indices per word, written from the chunker by hand (E4), plus rendered spans and a stylesheet tripwire
+- **Platform:** node/jsdom
+- **Mutant family:** G5 quiet-letters family (dead-letter tables, d:silent branch)
+- **Evidence produced:** Vitest counts (summed floor g10_safety_tests)
+- **Known limits — what these tests do NOT prove:** Proves which letters render quiet and that the span reads C.disabled; it does not decide WHICH letters are silent — that is the brief's enumeration and the owner's ruling.
+- **Safety rules proved here:** none
+
+| # | Suite | Effect (the test's own sentence) |
+|---|---|---|
+| 1 | quietLetters marks only the silent letter | climb: only the b, not mb together |
+| 2 | quietLetters marks only the silent letter | knock: only the k |
+| 3 | quietLetters marks only the silent letter | wreck: only the w |
+| 4 | quietLetters marks only the silent letter | night: only the gh |
+| 5 | quietLetters marks only the silent letter | whistle: only the t in tle |
+| 6 | quietLetters marks only the silent letter | smile: only the e in le |
+| 7 | quietLetters marks only the silent letter | walk: only the l in al |
+| 8 | quietLetters marks only the silent letter | cake: the whole magic-e tile (letter = tile) |
+| 9 | quietLetters marks only the silent letter | could: the whole silent-l tile |
+| 10 | quietLetters marks only the silent letter | these, phone's ph, coat, folk: nothing quiet |
+| 11 | QuietChunk splits only the paint | climb's b wears the span, its m does not |
+| 12 | QuietChunk splits only the paint | a tile with no quiet letters renders bare text |
+| 13 | quiet spans are token-bound | the stylesheet draws the quiet span from C.disabled |
 
 ## tests/reveal.test.js — 20 tests (G10)
 

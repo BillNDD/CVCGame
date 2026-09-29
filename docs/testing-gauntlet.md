@@ -2389,7 +2389,7 @@ other direction: the real pack, unchanged, must pass.
 
 ## G20. Effect map
 
-- Tool: `tools/effect-map.mjs`. Writes `docs/effect-map.md`. Keys: `g20_tests_mapped` (385).
+- Tool: `tools/effect-map.mjs`. Writes `docs/effect-map.md`. Keys: `g20_tests_mapped` (398), raised 2026-09-28 for the 13 quiet-tiles tests.
 - One row per `it()` SITE — its file, suite, and the test's own sentence, which in this
   project IS the Given/When/Then effect, because tests are named as behaviour. A site inside
   a loop or a table runs many times, so the map's rows describe SITES and Vitest executes more tests than there are rows, because a site inside a loop runs many times;
@@ -2471,7 +2471,7 @@ other direction: the real pack, unchanged, must pass.
   beforeEach, E2b's own pins override within their journey) — buildSession
   shuffles with raw Math.random and takes no rand param, so unpinned exact-
   count asserts were luck-of-the-stream.
-## Perf wave (2026-09-28, `cc82080` + `310c551`)
+## Performance wave (2026-09-28, `cc82080` + `310c551`)
 - chunkSeat memoized (reference roster section; src/engine is gitignored —
   never edit there, the extractor wipes it): properties 46.9s→2.5s. Full
   suite wall 59.5s→37.2s. G5 85/85 on the memoized tree.
@@ -2485,3 +2485,17 @@ other direction: the real pack, unchanged, must pass.
   (all reds coincided with parallel agents; 30+ greens idle). One job on the
   machine during gates. Repo requires Node 24 (Hermes tools' Node 26 breaks
   jsdom localStorage); bg node jobs die headless — PTY background works.
+## Quiet tiles (2026-09-28, owner-picked option B, letter-level ruling)
+- Jev scored all 1122 bank words (45×25 Nouls, 0.7 bar): engine's 79 vs
+  Jev — 21 real gaps (kn/wr/mb/l/gh/t/ph + dropped magic-e), 56 judgment
+  calls (kept), Jev noise discarded. Owner ruling: only the silent LETTER
+  wears quiet, never the tile together (climb's b, not mb).
+- `quietLetters(word)` in reference bends section (tile text, never a word
+  list) + QuietChunk spans + `.wq-quiet-letter` (C.disabled, full ink,
+  5.57:1). No chunk/sound/slot change; no new C key. folk/yolk l + wh
+  deliberately excluded (documented in code).
+- 13 tests; G5 88/88 (3 new mutants, all killed); qwen + Flash CONFIRM
+  (Flash notes fixed: phone-ph assertion, dead imports, brief class name).
+- Floors rule: annotations on quoted floors sit OUTSIDE the `(n)` — the
+  floors reader needs `)` right after digits, or the floor goes invisible
+  to rule and plant alike (same class as the 2026-08-23 blind spot).

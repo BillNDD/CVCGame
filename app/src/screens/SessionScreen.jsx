@@ -1,8 +1,9 @@
 import { useRef } from "react";
-import { C, TRICKY, chunkWord, displayWord, displayChunk, feedbackParts } from "@engine";
+import { C, TRICKY, chunkWord, displayWord, feedbackParts } from "@engine";
 import Frame from "../components/Frame.jsx";
 import Zone from "../components/Zone.jsx";
 import Toast from "../components/Toast.jsx";
+import QuietChunk from "../components/QuietChunk.jsx";
 import Modal from "../components/Modal.jsx";
 import ProgressBar from "../components/ProgressBar.jsx";
 import HoldButton from "../components/HoldButton.jsx";
@@ -65,7 +66,7 @@ function SessionStage({ state, currentWord, phase, fb, liveRef, pops = [] }) {
                  sound. */
               <span key={i + ":" + (pops[i]?.n || 0)}
                 className={"wq-display wq-tile" + (pops[i]?.ms > 0 ? " wq-pop" : "") + (pops[i]?.live ? " wq-live" : "")}
-                style={pops[i]?.ms > 0 ? { "--wqpop": pops[i].ms + "ms" } : undefined}>{displayChunk(currentWord, g)}</span>
+                style={pops[i]?.ms > 0 ? { "--wqpop": pops[i].ms + "ms" } : undefined}><QuietChunk word={currentWord} g={g} i={i} /></span>
             ))}
           </div>
 

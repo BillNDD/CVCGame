@@ -110,6 +110,14 @@ export const DECLARED = {
     mutants: "G19 sentence family", evidence: "Vitest counts (floor g10_sentence_tests)",
     limits: "Proves the ORDER the app asks for, never how the sentence sounds — that is a listening round (G13), and the owner has already graded every clip it plays.",
   },
+  "tests/quiet-tiles.test.js": {
+    safety: {},
+    gate: "G10", requirement: "Owner ruling 2026-09-28 (quiet-tiles brief, option B): only the silent letter wears the quiet span, never the tile together",
+    oracle: "Literal expected quiet-letter indices per word, written from the chunker by hand (E4), plus rendered spans and a stylesheet tripwire",
+    platform: "node/jsdom", mutants: "G5 quiet-letters family (dead-letter tables, d:silent branch)",
+    evidence: "Vitest counts (summed floor g10_safety_tests)",
+    limits: "Proves which letters render quiet and that the span reads C.disabled; it does not decide WHICH letters are silent — that is the brief's enumeration and the owner's ruling.",
+  },
   "tests/buildit.test.js": {
     safety: { S1: "unit", S2: "unit", S4: "unit" },
     gate: "G10", requirement: "SPEC section 12: Build-it writes nothing to the record, speaks the word before the tiles, and ends every attempt in success",
